@@ -1,0 +1,330 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            <form id="soform">
+				<span>交易时间</span>
+            	<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+            	<select name="ac_type">
+                    <option value="">=账户=</option>
+                	{html_options options=$uaccount_type}
+                </select>
+                余额<input name="beginSurplus" class="mini-textbox" value="{$beginSurplus}" style="width:80px;" />~<input name="endSurplus" class="mini-textbox" value="{$endSurplus}" style="width:80px;" />       
+            	<select name="key_type">
+                    <option value="user_id">用户ID</option>
+                    <option value="mobile">手机号</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a><span id="searchMsg"></span>
+            </form>
+            </td>
+            <td style="float:right;">
+                <a class="mini-button" iconCls="icon-add" onclick="sendInfo();">发送短信</a>
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/user/account/init?action=grid&do={$doact}" multiSelect="true"
+        showFilterRow="true" idField="id"  contextMenu="#gridMenu" 
+        >
+        <div property="columns">    
+          <div name="action" width="80" headerAlign="center" align="right" renderer="onLoadHandle">操作{$doact}</div>
+          <div type="checkcolumn"></div>
+          <div field="user_id" width="60" headerAlign="center" allowSort="true" align="center" renderer="onLoadUinfo">用户ID</div>
+          <div field="ac_name" width="60" headerAlign="center" allowSort="true" align="center">类型</div>
+          <div header="资金状况" headerAlign="center">
+              <div property="columns">
+                  <div field="surplus" width="50" align="right" headerAlign="center" allowSort="true">余额</div>
+                  <div field="all_in" width="50" align="right" headerAlign="center" allowSort="true">收入</div>
+                  <div field="all_out" width="50" align="right" headerAlign="center" allowSort="true">支出</div>
+                  <div field="profit" width="50" align="right" headerAlign="center" allowSort="true">盈亏</div>
+              </div>
+          </div>      
+          <div field="last_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">最后日期</div>
+        </div>
+    </div>
+  <ul id="gridMenu" class="mini-contextmenu" style="border:1px solid #909aa6;" onbeforeopen="onBeforeOpen">              
+      <li name="edit" iconCls="icon-date" onclick="inchargeOpen">银行卡充值</li>
+      <li name="edit" iconCls="icon-date" onclick="rewardOpen">推荐奖励</li>
+      <li name="edit" iconCls="icon-date" onclick="innerOpen">内帐调账</li>
+      <li name="transefer" iconCls="icon-date" onclick="transferOpen">用户间余额转出</li>
+  </ul>
+</div>
+
+<div id="inchargeInfo" class="mini-window" title="内帐调值" style="width:350px;" 
+    showModal="true" allowResize="true" allowDrag="true"
+    >
+    <div id="inchargeForm" class="form" >
+        <table style="width:100%;">
+        	<input class="mini-hidden" name="user_id"/>
+            <tr>
+                <td style="width:70px;">用户ID：</td>
+                <td id="ac_nameArea"></td>
+            </tr>
+            <tr class="inchargeArea">
+                <td style="width:70px;">交易类型：</td>
+                <td id="account_noArea"><input name="chk_ltype" class="mini-combobox" data='[{"id":9,"name":"内调"},{"id":1,"name":"充值"},{"id":7,"name":"奖励"}]' textField="name" valueField="id" style="width:60px;" required="true"/></td>
+            </tr>
+            <tr class="inchargeArea">
+                <td style="width:70px;">内部账户：</td>
+                <td id="account_noArea"><input name="chk_iaccount" class="mini-combobox" data='{$iaccount_type}' textField="name" valueField="id" style="width:120px;" required="true"/></td>
+            </tr>
+            <tr>
+                <td id="txtAmount">调账金额：</td>
+                <td><input name="chk_amount" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney"/>（正数为充值，负数为减值）</td>
+            </tr>
+            <tr>
+                <td id="txtDesc">调账理由：</td>
+                <td><textarea name="chk_desc" class="mini-textarea" emptyText=""  required="true"></textarea></td>
+            </tr>
+          <tr>
+              <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+                 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:inchargeSubmit()">确认调账</a>
+              </td>                
+          </tr>
+        </table>
+    </div>
+</div>
+<div id="transferInfo" class="mini-window" title="现金转出" style="width:300px;" 
+    showModal="true" allowResize="true" allowDrag="true"
+    >
+    <div id="transferForm" class="form" >
+        <table style="width:100%;">
+        	<input class="mini-hidden" name="trans_outerid"/>
+            <tr>
+                <td style="width:70px;">用户ID：</td>
+                <td id="trans_nameArea"></td>
+            </tr>
+            <tr>
+                <td style="width:70px;">转入账户：</td>
+                <td><input name="trans_innerid" class="mini-buttonedit" onbuttonclick="usrChoose" allowInput="false" required="true"/></td>
+            </tr>
+            <tr>
+                <td>转出金额：</td>
+                <td><input name="trans_amount" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidTransfer"/></td>
+            </tr>
+            <tr>
+                <td>转出理由：</td>
+                <td><textarea name="trans_desc" class="mini-textarea" emptyText=""  required="true"></textarea></td>
+            </tr>
+          <tr>
+              <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+                 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:transferSubmit()">确认转出</a>
+              </td>                
+          </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+//追加查看按钮
+function onLoadHandle(e) {
+	var record = e.record, s='';
+	if(parseFloat(record.all_in)>0 || parseFloat(record.all_out)<0){
+		s += '<a href="javascript:view()">流水</a> ';
+	}
+	return s;
+}
+
+//查看流水:打开新窗口
+function view(){
+	var row = grid.getSelected();
+	mini.open({
+		url: "/user/account/logs?user_id="+row.user_id+"&ac_type="+row.ac_type,
+		showMaxButton:true,
+		title: "查看账户流水", width: 980
+	});		
+}
+
+//充值
+var form = new mini.Form("#inchargeForm");
+var inchargeInfo = mini.get("inchargeInfo");
+//单独充值
+function inchargeOpen() {
+	var row = grid.getSelected();
+	if (row) {
+		mini.getbyName('user_id').setValue(row.user_id);	
+		$("#ac_nameArea").html("["+row.user_id+"]账户可用余额"+(parseFloat(row.surplus)+parseFloat(row.profit)));
+		mini.getbyName('chk_iaccount').setValue('9'); //银行卡内帐
+		mini.getbyName('chk_ltype').setValue('1');  //充值
+		mini.getbyName('chk_amount').setValue('');
+		mini.getbyName('chk_desc').setValue('');
+		$("#txtAmount").text('充值金额');
+		$("#txtDesc").text('充值描述');
+		$(".inchargeArea").hide();
+		inchargeInfo.show();
+	}
+}
+//奖励
+function rewardOpen() {
+	var row = grid.getSelected();
+	if (row) {
+		mini.getbyName('user_id').setValue(row.user_id);	
+		$("#ac_nameArea").html("["+row.user_id+"]账户可用余额"+(parseFloat(row.surplus)+parseFloat(row.profit)));
+		mini.getbyName('chk_iaccount').setValue('11'); //奖励内帐
+		mini.getbyName('chk_ltype').setValue('7');  //奖励
+		mini.getbyName('chk_amount').setValue('');
+		mini.getbyName('chk_desc').setValue('');
+		$("#txtAmount").text('奖励金额');
+		$("#txtDesc").text('奖励描述');
+		$(".inchargeArea").hide();
+		inchargeInfo.show();
+	}
+}
+
+//内部调账
+function innerOpen() {
+	var row = grid.getSelected();
+	if (row) {
+		mini.getbyName('user_id').setValue(row.user_id);	
+		$("#ac_nameArea").html("["+row.user_id+"]账户可用余额"+(parseFloat(row.surplus)+parseFloat(row.profit)));;
+		mini.getbyName('chk_iaccount').setValue('');
+		mini.getbyName('chk_ltype').setValue('');
+		mini.getbyName('chk_amount').setValue('');
+		mini.getbyName('chk_desc').setValue('');
+		$("#txtAmount").text('调账金额');
+		$("#txtDesc").text('调账理由');
+		$(".inchargeArea").show();
+		inchargeInfo.show();
+	}
+}
+//充值提交金额
+function inchargeSubmit() {
+	form.validate();
+	if (form.isValid() == false) return;
+	
+	var o = form.getData();
+	
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			inchargeInfo.hide(); 
+		}
+	}
+	
+	var method='innerAmount';
+	if(o.chk_ltype==1) method='inchargeAmount';
+	else if(o.chk_ltype==7) method='rewardAmount';
+	
+	utils.ajax('/user/account/'+method,{data:json},callback,"POST","json");
+}
+
+//发送短信
+function sendInfo() {
+    var rows = grid.getSelecteds(),_ids=new Array();
+	var _ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids.push(parseInt(rows[i].user_id));
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定给这些用户发送短信？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+	  			if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/account/sendMsg',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+
+//右键菜单判断
+function onBeforeOpen(e) {
+	var menu = e.sender;
+	var row = grid.getSelected();
+	if (!row || row.ac_name!='现金') {
+		e.cancel = true;
+		//阻止浏览器默认右键菜单
+		e.htmlEvent.preventDefault();
+		return;
+	}
+	var transeferItem = mini.getbyName("transefer", menu);
+    transeferItem.show();
+    if (parseInt(row.surplus)+parseInt(row.profit)<1) {
+        transeferItem.hide();
+    }
+}
+function usrChoose(e){
+	btn=this;
+    mini.open({
+		url: "/user/user/soso",
+		title: "选择账号",
+		width: 960,
+		height: 450,
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				if (data) {
+					btn.setValue(data.user_id);
+					btn.setText(data.mobile);
+				}
+			}
+		}
+	});         
+}
+
+//转出
+var transForm = new mini.Form("#transferForm");
+var transferInfo = mini.get("transferInfo");
+var transAmount=0;
+function transferOpen() {
+	var row = grid.getSelected();
+	if (row) {
+		mini.getbyName('trans_outerid').setValue(row.user_id);	
+		transAmount=row.surplus;
+		$("#trans_nameArea").html("["+row.user_id+"]账户可用余额"+(parseFloat(row.surplus)+parseFloat(row.profit)));
+		transferInfo.show();
+	}
+}
+//转出提交金额
+function transferSubmit() {
+	transForm.validate();
+	if (transForm.isValid() == false) return;
+	
+	var o = transForm.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			transferInfo.hide(); 
+		}
+	}
+	utils.ajax('/user/account/transferAmount',{data:json},callback,"POST","json");
+}
+function onValidTransfer(e){
+   onValidMoney(e);
+   e.isValid = false;
+   if (parseInt(e.value)<=transAmount) {
+		e.isValid = true;
+   }
+}
+</script>

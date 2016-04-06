@@ -1,0 +1,71 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            <form id="soform">
+            	<select name="is_user">
+                    <option value="1">全部</option>
+                    <option value="2">会员</option>
+                    <option value="3">非会员</option>
+                </select>
+                <select name="key_type">
+                    <option value="mobile">手机号</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span></form>
+            </td>
+            <td style="float:right;"></td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/user/eventmobile/init?action=grid&do={$doact}{if $isSecurity eq '1'}&isSecurity={$isSecurity}{/if}" idField="user_id" 
+        {if $doact neq 'search'} allowCellSelect="true" allowCellEdit="true" multiSelect="true"{/if}
+        >
+        <div property="columns">    
+            {if $doact neq 'search'}<div type="checkcolumn"></div>{/if}
+			<div name="action" width="80" headerAlign="center" align="right" renderer="onLoadHandle">操作</div>
+            <div field="user_id" width="20" headerAlign="center">用户ID</div>
+            <div field="mobile" width="120" headerAlign="center">手机</div>
+            <div field="user_ip" width="120" headerAlign="center">用户IP</div>
+            <div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">提交时间</div>
+        </div>
+    </div>
+</div>
+{if $doact eq 'search'}
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+        <a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+        <span style="display:inline-block;width:25px;"></span>
+        <a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+{/if}
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+//追加查看按钮
+function onLoadHandle(e) {
+	var record = e.record, s='';
+	
+	if(String(record.utype)=='经纪人'){
+		s += '<a href="javascript:viewOwnUsers(2)">查看下线</a> ';
+	}
+	return s;
+}
+
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onKeyEnter(e) {
+	search();
+}
+
+</script>

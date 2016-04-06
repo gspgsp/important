@@ -1,0 +1,58 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            	<form id="soform">
+            	<select name="trade_type">
+                	<option value="">交易类型</option>
+                    {html_options options=$trade_type}
+                </select>       
+            	<select name="ac_type">
+                	<option value="">账户类型</option>
+                    {html_options options=$uaccount_type}
+                </select>       
+				<span>交易时间</span>
+            	<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+            	<select name="key_type">
+                    <option value="trade_desc">交易描述</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="AccountLogs" class="mini-datagrid" style="width:100%;height:100%;" 
+            url="/user/account/logs?action=grid&user_id={$user_id}&ac_type={$ac_type}"  idField="id"
+            sizeList="[10,20,50,100]" pageSize="20"
+   >
+    <div property="columns">
+      <div type="indexcolumn" headerAlign="center">序号</div>
+      <div field="log_sn" width="60" headerAlign="center" renderer="onLoadLogSn">交易号</div>
+      <div field="trade_type" width="50" align="center" headerAlign="center">交易类型</div>
+      <div header="资金变动" headerAlign="center">
+          <div property="columns">
+          	  <div field="amount" width="50" align="right" headerAlign="center">交易金额</div>
+          	  <div field="surplus" width="50" align="right" headerAlign="center">账户余额</div>
+          	  <div field="profit" width="30" align="right" headerAlign="center">收益</div>
+          </div>
+      </div>      
+      <div field="ac_name" width="50" align="center" headerAlign="center">账户类型</div>
+      <div field="input_time" width="80" align="center" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss">交易日期</div>
+      <div field="trade_desc" width="150" headerAlign="center" dateFormat="yyyy-MM-dd">交易描述</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("AccountLogs");
+grid.load();
+grid.sortBy("input_time", "desc");
+</script>
+<!--加载共用的js-->
+{include file="public/js.html"}

@@ -1,0 +1,65 @@
+{layout file="public:mini_layout"}
+<style>
+ul,li{padding:0 0 5px 0; margin:0;list-style:none;}
+ul input[type="text"]{width:50px;}
+ul label{width:60px; display:inline-block; font-weight:bold;} 
+</style>
+<form id="formInfo">
+<div id="infoForm" class="form" style="width:450px; margin:0 auto;">
+        <input class="mini-hidden" name="id" value="{$info.id}"/>
+            <div style="padding:5px;">
+              <table style="width:100%;">
+                <tr>
+                  <td style="width:70px;">栏位名称：</td>
+                  <td><input name="name" class="mini-textbox" value="{$info.name}" required="true" style="width:300px;"/></td>
+                </tr>
+                <tr>
+                  <td>关联模块：</td>
+                  <td><ul>
+                  		<li><label><input type="checkbox" name="col[info]" value="1" {if $info.content.info}checked="checked"{/if}>信息</label> 数量<input name="num[info]" type="text" value="{$info.content.info.num}"/> 
+         宽度<input name="width[info]" type="text" value="{$info.content.info.width}"/>px 
+         高度<input name="height[info]" type="text" value="{$info.content.info.height}"/>px</li>
+         				<li><label><input type="checkbox" name="col[self]" value="1" {if $info.content.self}checked="checked"{/if}>自定义</label> 数量<input name="num[self]" type="text" value="{$info.content.self.num}"/> 
+         宽度<input name="width[self]" type="text" value="{$info.content.self.width}"/>px 
+         高度<input name="height[self]" type="text" value="{$info.content.self.height}"/>px</li>
+                  	  </ul>
+					</td>
+                </tr>
+              </table>
+</div>
+        <div style="text-align:center;padding:10px;">
+           <a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+            <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>
+            <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+        </div> 
+</div>
+</form>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+function submitForm(){
+  form.validate();
+  if(form.isValid() == false) return;
+  
+  $("#returnMsg").text('');
+  form.loading("数据提交中，请稍后......");
+  $.post('/system/blockPosition/submit',$("#formInfo").serialize(),function(data){
+	  form.unmask();
+	  $("#returnMsg").text(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }else{
+		  return false;
+	  }
+  },'json');
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

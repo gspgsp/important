@@ -1,0 +1,40 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>安全设置</h4>
+  <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <th>注册设置: </th>
+          <td>
+            <p>图像验证码：
+              <label><input type="radio" name="reg[vcode]" value="1" {if $reg.vcode}checked="checked"{/if}/>启用</label> 
+              <label><input type="radio" name="reg[vcode]" value="0" {if empty($reg.vcode)} checked="checked"{/if}/>禁用</label>
+            </p>
+            <p>每日IP限制：<input name="reg[ip_limit]" value="{$reg.ip_limit}" class="mini-textbox" style="width:50px;"/></p>
+            <p>每日手机号码限制：<input name="reg[mobile_limit]" value="{$reg.mobile_limit}" class="mini-textbox" style="width:50px;"/></p>
+            <p>表单令牌：<select name="reg[tkhas]"><option value="0" {if $reg.tkhas eq 0}selected{/if}> 无 </option><option value="1" {if $reg.tkhas eq 1}selected{/if}> 有 </option></select> 名称：<input name="reg[tkname]" value="{$reg.tkname}" class="mini-textbox" style="width:100px;"/></p>
+          </td>
+        </tr>
+        <tr>
+          <th>后台登录短信验证码: </th>
+          <td>
+              <label><input type="radio" name="cp[login_mcode]" value="1" {if $cp.login_mcode}checked="checked"{/if}/>启用</label> 
+              <label><input type="radio" name="cp[login_mcode]" value="0" {if empty($cp.login_mcode)} checked="checked"{/if}/>禁用</label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

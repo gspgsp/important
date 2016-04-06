@@ -1,0 +1,86 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>APP设置</h4>
+  <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <th>极光推送:  </th>
+          <td>
+            <table>
+              <tr><td width="60">key：</td><td><input name="jpush[key]" value="{$jpush.key}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>secret：</td><td><input name="jpush[secret]" value="{$jpush.secret}" class="mini-textbox" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th>推送环境:  </th>
+          <td>
+            <label><input type="radio" name="jpush[apns_production]" value="true" {if empty($jpush.apns_production) || $jpush.apns_production == "true"}checked="checked"{/if}/>生产</label> 
+            <label><input type="radio" name="jpush[apns_production]" value="false" {if $jpush.apns_production === 'false'} checked="checked"{/if}/>测试</label>
+          </td>
+        </tr>
+        <tr>
+          <th>投资页提示: </th>
+          <td>
+            <table>
+              <tr>
+                <td width="70">图标：</td>
+                <td id="icon_previewer">
+                  <input name="itemtips[icon]" type="hidden" value="{$itemtips.icon}" />
+                  <input id="upicon" type="file" name="upicon" onchange="uploadLogo(this);" style="width:68px;" /><br />
+                </td>
+              </tr>
+              <tr><td>文字：</td><td><input name="itemtips[text]" value="{$itemtips.text}" class="mini-textbox" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+mini.parse();
+
+function uploadLogo(obj) {
+  var $obj=$(obj);
+  var $input=$obj.prev('input:hidden');
+  $.ajaxFileUpload({
+    url:'/system/sysUpload/images?type=block',
+      secureuri:false,
+      fileElementId:$obj.attr('id'),
+      dataType: 'json',
+      success: function (data, status) {
+        if(data.err=='0'){
+          $input.val(data.msg);
+          previewLogo();
+        }
+      },
+      error: function (data, status, e){
+        alert(e);
+      }
+    }
+  );
+  return false;
+}
+
+function previewLogo(){
+  $('#logo_previewer,#icon_previewer').each(function(){
+    var $previewer = $(this);
+    var src = $previewer.children('input:hidden').val();
+    if(src)
+      $previewer.children('img').remove().end()
+                .append($('<img />',{src: '__UPLOAD__/'+src, css: {maxHeight:'50px'}}));
+  });
+}
+previewLogo();
+</script>

@@ -1,0 +1,124 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+                <a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
+                <a class="mini-button" iconCls="icon-edit" plain="true" onclick="edit()">编辑</a>
+                <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+            </td>
+            <td style="float:right;">
+            <form id="soform">
+            	<form id="soform">
+            	<select name="type" id="soType">
+                	<option value="">任务类型</option>
+                    {html_options options=$type}
+                </select>
+            	<select name="status" id="soStatus">
+                	<option value="">状态</option>
+                    <option value="2">可用</option>
+                    <option value="1">禁用</option>
+                </select>
+            	<select name="key_type">
+                    <option value="title">任务名</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
+            url="/system/chanelTask/init?action=grid&uid={$uid}"  idField="id" multiSelect="true"
+            sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick"
+   >
+    <div property="columns">
+      <div type="checkcolumn"></div>
+      <div name="action" width="30" headerAlign="center" align="right" renderer="onLoadHandle">操作</div>
+      <div field="title" width="80" align="center" headerAlign="center">任务名</div>
+      <div field="status" width="60" align="center" headerAlign="center" renderer="onLoadStatus">状态</div>
+      <div field="type" width="60" align="center" headerAlign="center" renderer="onLoadType">类型</div>
+      <div field="start_time" width="80" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">开始时间</div>
+      <div field="end_time" width="80" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">截止时间</div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+//追加查看按钮
+function onLoadHandle(e) {
+	var record = e.record, s='';
+	s += ' <a href="javascript:edit()">查看</a>';
+	return s;
+}
+function onRowDblClick(e) {
+	edit();
+}
+function edit() {
+	var row = grid.getSelected();
+	if (row) {
+		taskInfo(row.id)
+	}
+}
+function add() {
+	taskInfo(0)
+}
+
+//删除数据
+function removeRow() {
+    var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+	  			if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/system/chanelTask/remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+
+
+//查看编辑卡片信息
+function taskInfo(id){
+	mini.open({
+		url: "/system/chanelTask/info?id="+id,
+		showMaxButton:true,
+		title: '任务详情', width: 850, height:650,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});		
+}
+
+//查看类型
+function onLoadType(e) {
+	var record = e.record.type; //record.id
+	return $("#soType").find("option[value="+record+"]").text();
+}
+//查看状态
+function onLoadStatus(e) {
+	var record = e.record.status; //record.id
+	return $("#soStatus").find("option[value="+(parseInt(record)+1)+"]").text();
+}
+</script>
+{include file="admin/account/js.html"}

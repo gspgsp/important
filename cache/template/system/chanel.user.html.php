@@ -1,0 +1,196 @@
+__layout|public:mini_layout|layout__
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+             <a class="mini-button" iconCls="icon-add" onclick="add()" plain="true">新增</a>
+             <a class="mini-button" iconCls="icon-edit" onclick="edit()" plain="true">编辑</a>
+            </td>
+            <td style="float:right">
+            	<form id="soform">
+            	<select name="key_type">
+                    <option value="username">用户名</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
+            url="/system/chanelUser/init?action=grid&do=<?php echo $this->_var['doact']; ?>"  idField="uid"
+            sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick"
+   >
+    <div property="columns">
+      <div type="indexcolumn" headerAlign="center">序号</div>
+      <?php if ($this->_var['doact'] != 'search'): ?><div name="action" width="80" headerAlign="center" align="right" renderer="onLoadHandle">操作</div><?php endif; ?>
+	  <div field="username" width="100" align="center" headerAlign="center">用户名</div>
+      <div field="status" width="50" align="center" headerAlign="center" renderer="onLoadStatus">状态</div>
+      <div field="user_id" width="50" align="center" headerAlign="center" renderer="onLoadUinfo" allowSort="true" >用户ID</div>
+      <div field="reg_time" width="80" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">注册时间</div>
+      <div field="last_login" width="80" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">最后登录</div>
+      <div field="login_times" width="50" headerAlign="center" align="center">登录</div>
+      <div field="if_invest" width="50" align="center" headerAlign="center" renderer="onLoadInvest">查看投资</div>
+      <div field="user_ip" width="80" headerAlign="center">用户IP</div>
+    </div>
+  </div>
+</div>
+<?php if ($this->_var['doact'] == 'search'): ?>
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+        <a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+        <span style="display:inline-block;width:25px;"></span>
+        <a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+<?php endif; ?>
+
+<div id="admInfo" class="mini-window" title="设置渠道账户" style="width:250px;" 
+    showModal="true" allowResize="true" allowDrag="true"
+    >
+    <div id="addForm" class="form" >
+        <table style="width:100%;">
+        	<input class="mini-hidden" name="uid"/>
+            <tr>
+                <td style="width:70px;">用户名：</td>
+                <td><input name="username" class="mini-textbox" style="width:80px" required="true"/></td>
+            </tr>
+            <tr>
+                <td style="width:70px;">密码：</td>
+                <td><input name="password" class="mini-textbox" style="width:80px"/></td>
+            </tr>
+            <tr>
+                <td>账户状态：</td>
+                <td><input name="status" class="mini-combobox" data='[{"id":0,"name":"禁用"},{"id":1,"name":"正常"}]' textField="name" valueField="id" style="width:90px;" required="true"/>
+</td>
+            </tr>
+            <tr>
+                <td>查询投资：</td>
+                <td><input name="if_invest" class="mini-combobox" data='[{"id":0,"name":"禁止"},{"id":1,"name":"允许"}]' textField="name" valueField="id" style="width:90px;" required="true"/>
+</td>
+            </tr>
+          <tr>
+              <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+                 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+              </td>                
+          </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+//追加查看按钮
+function onLoadHandle(e) {
+	var record = e.record, s='';
+	if(parseFloat(record.user_id)>0){
+		s += '<a href="javascript:chanel(2)">媒体</a> ';
+	}
+	s += ' <a href="javascript:chanel(1)">渠道</a>';
+	return s;
+}
+
+//查看编辑用户信息
+function chanel(type){
+	var row = grid.getSelected();
+	if (row) {
+		var url='',title='';
+		if(type==1){ //查看渠道
+			url="/system/chanel/init?uid="+row.uid;
+			title='查看用户渠道';
+		}else{
+			url="/system/chanelSite/init?uid="+row.uid;
+			title='查看用户媒体';
+		}
+		var width=900,height=500;
+		mini.open({
+			url: url,
+			showMaxButton:true,
+			title: title, width: width, height:height
+			
+		});	
+	}
+}
+
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function add() {
+	form.clear();
+	admInfo.show();
+}
+function onRowDblClick(e) {
+	<?php if ($this->_var['doact'] != 'search'): ?>
+	form.clear();
+	edit();
+	<?php else: ?>
+	onComfirm();
+	<?php endif; ?>
+}
+function edit() {
+	var row = grid.getSelected();
+	if (row) {
+		mini.getbyName('uid').setValue(row.uid);	
+		mini.getbyName('username').setValue(row.username);
+		mini.getbyName('status').setValue(row.status);
+		mini.getbyName('if_invest').setValue(row.if_invest);
+		admInfo.show();
+	}
+}
+
+//提交数据
+function submitForm() {
+	form.validate();
+	if (form.isValid() == false) return;
+	
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			admInfo.hide(); 
+		}
+	}
+	utils.ajax('/system/chanelUser/ajaxSave',{data:json},callback,"POST","json");
+}
+
+function onLoadStatus(e){
+	var record = e.record; //record.id
+	if(record.status=='1'){
+		return '正常';	
+	}
+	return '禁用';
+}
+function onLoadInvest(e){
+	var record = e.record; //record.id
+	if(record.if_invest=='1'){
+		return '允许';	
+	}
+	return '禁止';
+}
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onComfirm() {
+	CloseWindow("ok");
+}
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>
+<?php echo $this->fetch('admin/account/js.html'); ?>

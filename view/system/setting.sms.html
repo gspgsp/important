@@ -1,0 +1,76 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>短信设置</h4>
+  <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <th>主接口: </th>
+          <td>
+            <select name="main[channel]" class="mini-combobox" value="{$main.channel|default:0}"><option value="0">选择短信接口</option>{html_options options=$sms_channels}</select>
+          </td>
+        </tr>
+        <tr>
+          <th>主接口账号: </th>
+          <td>
+            <input name="main[account]" value="{$main.account}" class="mini-textbox" style="width:200px" />
+          </td>
+        </tr>
+        <tr>
+          <th>主接口密码: </th>
+          <td>
+            <input name="main[password]" value="{$main.password}" class="mini-password" style="width:200px" />
+          </td>
+        </tr>
+        <tr>
+          <th>主接口签名: </th>
+          <td>
+            <input name="main[sign]" value="{$main.sign}" class="mini-textbox" style="width:200px" />
+          </td>
+        </tr>
+        <tr>
+          <th>备用接口: </th>
+          <td>
+            <select name="backup[channel]" class="mini-combobox" value="{$backup.channel|default:0}"><option value="0">选择短信接口</option>{html_options options=$sms_channels}</select>
+          </td>
+        </tr>
+        <tr>
+          <th>备用接口账号: </th>
+          <td>
+            <input name="backup[account]" value="{$backup.account}" class="mini-textbox" style="width:200px" />
+          </td>
+        </tr>
+        <tr>
+          <th>备用接口密码: </th>
+          <td>
+            <input name="backup[password]" value="{$backup.password}" class="mini-password" style="width:200px" />
+          </td>
+        </tr>
+        <tr>
+          <th>备用接口签名: </th>
+          <td>
+            <input name="backup[sign]" value="{$backup.sign}" class="mini-textbox" style="width:200px" />
+          </td>
+        </tr>
+        <tr>
+          <th>白名单号码: </th>
+          <td>
+            <input name="white_list" value="{$white_list}" class="mini-textarea" style="height:100px;width:200px;" />
+            <span class="inline_note">白名单中的号码不发送短信</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

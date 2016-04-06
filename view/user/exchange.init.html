@@ -1,0 +1,45 @@
+{layout file="public:main_layout"}
+<style>
+.tblform .part td a{cursor:pointer; color:#F00;}
+.tblform .part td a.recover{color:#6C3}
+</style>
+<div class="tblform" style="margin:5px;">
+  <h4>测试白名单</h4>
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <thead>
+        <tr>
+          <th style="width:50px;">UID</th>
+          <td style="width:120px;">姓名</td>
+          <td style="width:120px;">原号码</td>
+          <td style="width:120px;">切换后</td>
+          <td>操作</td>
+        </tr>
+      </thead>
+      <tbody>
+      	{foreach from=$list key=k item=w}
+        <tr>
+          <th>{$k}</th>
+          <td>{$w.name}</td>
+          <td>{$w.mobile}</td>
+          <td class="new">{$w.new}</td>
+          <td uid="{$k}">{if $w.same}<a class="test">切换测试</a>{else}<a class="recover">恢复正常</a>{/if}</td>
+        </tr>
+        {/foreach}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+$(".tblform a").live('click',function(){
+	var $obj=$(this).parents('td'),uid=$obj.attr('uid'),type=$(this).attr('class');
+	$.post('/user/exchange/done',{user_id:uid,action:type},function(data){
+		if(type=='test'){
+			$obj.html('<a class="recover">恢复正常</a>');
+		}else{
+			$obj.html('<a class="test">切换测试</a>');
+		}	
+		$obj.siblings('.new').html(data.msg);
+	},"json");
+});
+</script>

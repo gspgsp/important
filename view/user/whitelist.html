@@ -1,0 +1,92 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            <form id="soform">
+            	<select name="key_type">
+                    <option value="mobile">手机号</option>
+                    <option value="user_id">会员ID</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>  
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                 <span id="searchMsg"></span>
+               </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/user/whitelist/init?action=grid" idField="user_id" 
+        multiSelect="true" allowCellEdit="true" allowCellSelect="true" contextMenu="#gridMenu">
+        <div property="columns">    
+            <div type="checkcolumn"></div>
+			<div name="user_id" width="50" headerAlign="center" renderer="onLoadUinfo">用户ID</div>
+            <div field="mobile" width="60" headerAlign="center">手机</div>
+            <div field="real_name" width="60" headerAlign="center">姓名</div>
+            <div field="input_time" width="90" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">设置时间</div>
+            <div field="operator" width="50" headerAlign="center" allowSort="true" align="center">操作员</div>
+        </div>
+    </div>
+    <ul id="gridMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">              
+        <li name="onRemove" iconCls="icon-add" onclick="onRemove">删除提现白名单</li>  
+    </ul>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onKeyEnter(e) {
+	search();
+}
+</script>
+
+<script type="text/javascript">
+function onBeforeOpen(e) {
+	var grid = mini.get("gridCell");
+	var menu = e.sender;
+		
+	var row = grid.getSelected();
+	var rowIndex = grid.indexOf(row);            
+	if (!row) {
+		e.cancel = true;
+		//阻止浏览器默认右键菜单
+		e.htmlEvent.preventDefault();
+		return;
+	}
+
+}
+
+function onRemove(e) {
+	var row = grid.getSelected();
+	if (row) {
+		var ids=row.user_id;
+		if(ids=='') return;
+		
+		mini.confirm("确定把此用户删除提现白名单？", "提示",	function(action){
+				if(action!='ok') return;
+				var callback=function(data){
+					if(data.err!='0'){
+						alert(data.msg)
+						return false;
+					}else{
+						alert(data.msg)
+						grid.reload();
+					}
+				}
+				utils.ajax('/user/whitelist/delete',{ids:ids},callback,"POST","json");
+			}
+		);
+	}   
+}
+</script>

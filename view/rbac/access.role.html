@@ -1,0 +1,51 @@
+{layout file="public:mini_layout"}
+<div id="treeForm" class="form" style="padding:5px;">
+	<div style="padding-bottom:5px;">
+        <a class="mini-button" iconCls="icon-save" onclick="save()">【保存】</a>
+        <span class="separator" style="padding-right:5px;"></span>             
+        <a class="mini-button" iconCls="icon-undo" onclick="setCheckedNodes()">恢复</a>
+    </div>
+    <input type="hidden" name="admin_id" value="{$admin_id}" id="admin_id"/>
+    <ul id="cellList" class="mini-tree" style="padding:5px;" 
+            showTreeIcon="false" textField="text" idField="id" parentField="pid" resultAsTree="false"
+            showCheckBox="true"  expandOnLoad=0 
+            checkRecursive="false" autoCheckParent="false"
+            >
+    </ul>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("cellList");
+var data={$data}; //数据对象
+var oNodes='{$nodes}'; //原始值
+grid.loadList(data, "id", "pid");
+setCheckedNodes();
+//恢复默认值
+function setCheckedNodes() {
+    grid.setValue(oNodes);
+}
+function save() {
+  var ids = grid.getValue(),admin_id=$("#admin_id").val();
+  if(oNodes==ids){
+	  CloseWindow("save");
+	  return;
+  }
+  
+  grid.loading("数据提交中，请稍后......");
+
+  var callback=function(data){
+	  grid.unmask();
+	  if(data.err!='0'){
+		  alert(data.msg)
+		  return false;
+	  }else{
+         CloseWindow("save");
+	  }
+  }
+  utils.ajax('/rbac/access/saveRole?id='+admin_id,{roles:ids},callback,"POST","json");
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+</script>

@@ -1,0 +1,32 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>模块设置</h4>
+  <form method="post" action="/system/setting/model?action=submit" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+      	{foreach from=$model key=k item=v}
+        	{assign var=img value=$imgs[$k]}
+        <tr>
+          <th>{$v}: </th>
+          <td>
+          	  <p><label>统一图:</label> 宽度 <input class="mini-textbox" name="{$k}[img][w]" value="{$img.img.w}" style="width:60px" vtype="int;range:10,1000"/>px, 高度 <input class="mini-textbox" name="{$k}[img][h]" value="{$img.img.h}" style="width:60px" vtype="int;range:10,1000"/>px</p>
+          	  <p><label>缩略图:</label> 宽度 <input class="mini-textbox" name="{$k}[thumb][w]" value="{$img.thumb.w}" style="width:60px" vtype="int;range:10,1000"/>px, 高度 <input class="mini-textbox" name="{$k}[thumb][h]" value="{$img.thumb.w}" style="width:60px" vtype="int;range:10,1000"/>px</p>
+          	  <p><label>迷你图:</label> 宽度 <input class="mini-textbox" name="{$k}[mini][w]" value="{$img.mini.w}" style="width:60px" vtype="int;range:10,1000"/>px, 高度 <input class="mini-textbox" name="{$k}[mini][h]" value="{$img.mini.w}" style="width:60px" vtype="int;range:10,1000"/>px</p>
+</td>
+        </tr>
+        {/foreach}
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

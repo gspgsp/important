@@ -1,0 +1,20 @@
+﻿<script type="text/javascript">
+//加载：追加按钮
+function onLoadLogSn(e) {
+	var record = e.record; //record.id
+	var s = '<a href="javascript:viewLog()">'+record.log_sn+'</a> ';
+	return s;
+}
+
+function viewLog(){
+	var row = grid.getSelected();
+	viewTradeInfo(row.log_sn);
+}
+
+function viewTradeInfo(log_sn){
+	mini.open({
+		url: "/account/trade/info?log="+log_sn,
+		title: "查看交易详情", width: 730
+	});		
+}
+</script>

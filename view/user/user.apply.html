@@ -1,0 +1,61 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+  <div id="basicForm" class="form">
+    <input class="mini-hidden" name="user_id" value="{$user.user_id}"/>
+    <table border="0" cellpadding="1" cellspacing="2">
+      <tr>
+        <td style="width:80px;">手机：</td>
+        <td style="width:210px;">{$user.mobile}</td>
+      </tr>
+      <tr>
+        <td>姓名：</td>
+        <td>{$user.info.real_name}</td>
+      </tr>
+      <tr>
+        <td>状态：</td>
+        <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' value="{$user.status}"  required="true" textfield="name" valuefield="id"/></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td >&nbsp;</td>
+        <td><a class="mini-button" iconCls="icon-ok" onclick="submitBasic">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#basicForm");
+function submitBasic(){
+  form.validate();
+  if(form.isValid() == false) return;
+  
+  //提交数据
+  var o = form.getData();
+  var json = mini.encode(o);
+  $("#returnMsg").text('');
+  form.loading("数据提交中，请稍后......");
+  $.post('/user/user/editSubmit?base=yes',{data:json},function(data){
+	  form.unmask();
+	  $("#returnMsg").text(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }else{
+		  return false;
+	  }
+  },'json');
+}
+
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script> 
