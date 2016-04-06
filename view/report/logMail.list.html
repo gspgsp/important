@@ -1,0 +1,55 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+  <table style="width:100%;">
+    <tr>
+      <td style="white-space:nowrap;"><form id="soform">
+          <span>发送时间</span>
+          <input name="startTime" class="mini-datepicker" style="width:100px;"/>
+          -
+          <input name="endTime" class="mini-datepicker" style="width:100px;"/>
+          <select name="status" id="soStatus">
+            <option value="">=状态=</option>
+            
+              {html_options options=$status}
+          
+          </select>
+          <select name="stype" id="soType">
+            <option value="">=类型=</option>
+            
+              {html_options options=$stype}
+          
+          </select>
+          <select name="key_type">
+            <option value="email">邮件地址</option>
+            <option value="user_id">会员ID</option>
+            <option value="subject">标题</option>
+          </select>
+          <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+          <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a> <span id="searchMsg"></span>
+        </form></td>
+    </tr>
+  </table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/report/logMail/init?action=grid"
+        showFilterRow="true" idField="id"
+        >
+    <div property="columns">
+      <div field="id" width="5%" headerAlign="center" align="center">ID</div>
+      <div field="stype" width="10%" headerAlign="center" allowSort="true" align="center">发送类型</div>
+      <div field="user_id" width="5%" headerAlign="center" allowSort="true" align="center" renderer="onLoadUinfo">用户ID</div>
+      <div field="user_name" width="10%" headerAlign="center">用户名称</div>
+      <div field="email" width="15%" headerAlign="center">收件地址</div>
+      <div field="subject" width="35%" headerAlign="center">邮件标题</div>
+      <div field="input_time" width="20%" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">发送时间</div>
+      <div field="status" width="10%" headerAlign="center" align="center">发送状态</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+</script> 

@@ -1,0 +1,105 @@
+{layout file="public:mini_layout"}
+<form id="infoForm" class="form" method="POST">
+<input type="hidden" name="user_ids" />
+	<div style="margin:50px;">
+		<table style="width:100%;">
+			<tr>
+				<td style="text-align:right;">发送帐号</td>
+				<td>
+					<input name="all_users" id="all_users" class="mini-checkbox" text="所有账号" value="1" trueValue="1" falseValue="0" />
+					 / 
+					<input name="users" class="mini-buttonedit" enabled="false" text="选择账号" onbuttonclick="usrChoose" allowInput="false" id="users" />
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">选择通道</td>
+				<td>
+            	<select name="channel" class="mini-radiobuttonlist" value="{$default_channel}">
+                	{html_options options=$channels}
+                </select> 
+				</td>
+			</tr>	
+			<tr>
+				<td style="text-align:right;">发送时间</td>
+				<td colspan="3">    
+					<input name="send_time" class="mini-datepicker" style="width:155px;" showTime="true" value="" format="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">短信内容</td>
+				<td colspan="3">    
+					<input name="sms" class="mini-textarea" style="width:350px;" required="true" value="" maxlength="200" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="text-align:center;padding:10px;">
+		<a class="mini-button" iconCls="icon-ok" onclick="submitForm" style="width:60px;margin-right:20px;">确定</a>
+		<a class="mini-button" iconCls="icon-cancel" onclick="onCancel" style="width:60px;">取消</a>
+	</div> 
+</form>
+<script>
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+mini.get("all_users").on("click",function(){
+	var ok = mini.get("all_users").value == 0;
+	mini.get("users").set({"enabled":ok,'required':ok});
+});
+
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	form.loading("数据提交中，请稍后......");
+	$.post(window.location.href,$.extend({},$("#infoForm").serializeObject(),$("#infoForm").data()),function(data){
+	  form.unmask();
+	  mini.alert(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }
+	},'json');
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+function usrChoose(e){
+	var btn = this;
+    mini.open({
+		url: "/account/coins/users?allow_select_all=00",
+		title: "选择账号",
+		width: 960,
+		height: 450,
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				if (data) {
+					btn.setValue(data.length);
+					btn.setText("已选择"+data.length+"个账号");
+					
+					var user_ids = [];
+					for(var i=0;i<data.length;i++){
+						user_ids.push(data[i]["user_id"]);
+					}
+					$("#infoForm input[name=user_ids]").val(user_ids.join(","));
+					$("#infoForm").removeData();
+				}
+			}else if(action == "all"){
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetDataAll();
+				if (data) {
+					btn.setValue(data["count"]);
+					btn.setText("已选择"+data["count"]+"个账号");
+					$("#infoForm").data(data["user_filter"]);
+				}
+			}
+		}
+	});         
+}
+</script>

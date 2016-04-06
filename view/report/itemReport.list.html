@@ -1,0 +1,80 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            	<form id="soform" action="/report/itemReport/init?action=grid">
+				<span>年份</span>
+            	<select name="year" id="year">
+                	<option value="">选择</option>
+                    {html_options options=$yearList}
+                </select>
+                <span>报表类型</span>
+            	<select name="ctype" id="ctype">
+                	<option value="">选择</option>
+                    <option value="1">周报</option>
+                    <option value="2">月报</option>
+                    <option value="3">季度报</option>
+                    <option value="4">年报</option>
+                </select>
+                <a class="mini-button" iconCls="icon-search" onClick="search()">查询</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/report/itemReport/init?action=grid"
+        showFilterRow="true" idField="id"
+        >
+    <div property="columns">
+      <div field="year" width="60" headerAlign="center" align="right" allowSort="true" >年份</div>
+      <div field="mark" width="60" headerAlign="center" align="right" allowSort="true" >周/月/季度/年</div>
+	  <div header="项目投资金额" headerAlign="center">
+		  <div property="columns">
+			  <div field="invest_7day_sum" width="50" headerAlign="center" allowSort="true" align="center">7天</div>
+			  <div field="invest_30day_sum" width="55" headerAlign="center" allowSort="true" align="center">30天</div>
+			  <div field="invest_90day_sum" width="55" headerAlign="center" allowSort="true" align="center">90天</div>
+              <div field="invest_180day_sum" width="55" headerAlign="center" allowSort="true" align="center">180天</div>
+		  </div>
+	  </div>
+	  <div header="投资" headerAlign="center">
+		  <div property="columns">
+			  <div field="invest_count" width="50" headerAlign="center" allowSort="true" align="center">笔数</div>
+			  <div field="invest_user" width="50" headerAlign="center" allowSort="true" align="center">人数</div>
+              <div field="invest_sum" width="50" headerAlign="center" allowSort="true" align="center">金额</div>
+		  </div>
+	  </div>      
+	  <div header="新增注册用户" headerAlign="center">
+		  <div property="columns">
+			  <div field="register" width="60" headerAlign="center" allowSort="true" align="center">会员数</div>
+			  <div field="first_investuser" width="60" headerAlign="center" allowSort="true" align="center">首次投资人次</div>
+              <div field="first_investsum" width="60" headerAlign="center" allowSort="true" align="center">首次投资金额</div>
+		  </div>
+	  </div>   
+	  <div header="所有用户首次投资" headerAlign="center">
+		  <div property="columns">
+              <div field="firstall_investuser" width="60" headerAlign="center" allowSort="true" align="center">首次投资人次</div>
+	  		  <div field="firstall_investsum" width="60" headerAlign="center" allowSort="true" align="center">首次投资金额</div>             
+		  </div>
+	  </div>
+      <div field="all_register" width="60" headerAlign="center" allowSort="true" align="center">注册用户总数</div>
+      <div field="all_investuser" width="60" headerAlign="center" allowSort="true" align="center">投资用户总数</div>
+      <div field="single_investuser" width="60" headerAlign="center" allowSort="true" align="center">单次投资用户</div>
+      <div field="many_investuser" width="60" headerAlign="center" allowSort="true" align="center">重复投资用户</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+search();
+
+//下载
+function down() {
+	$("#soform").submit();
+}
+</script>

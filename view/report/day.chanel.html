@@ -1,0 +1,87 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            	<form id="soform">
+				<span>统计时间</span>
+            	<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$_yesterday}"> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;" value="{$_today}"/>
+            	<select name="key_type">
+                    <option value="chanelname">渠道代码</option>
+                    <option value="username">渠道用户</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+            <td style="float:right;">
+                <a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
+            </td>
+        </tr>
+    </table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
+            url="/report/index/chanel?action=grid"  sizeList="[10,20,50,100]" pageSize="20" showFilterRow="true" allowCellSelect="true" allowCellEdit="true"
+   >
+    <div property="columns">
+      <div field="day_id" width="80" align="center" headerAlign="center" allowSort="true">时间</div>
+      <div field="chanel_id" width="80" align="center" headerAlign="center" allowSort="true">渠道</div>
+      <div header="记录数据" headerAlign="center">
+          <div property="columns">
+          	  <div field="n_pv" width="50" align="center" headerAlign="center" allowSort="true">PV</div>
+          	  <div field="n_uv" width="50" align="center" headerAlign="center" allowSort="true">UV</div>
+          	  <div field="n_reg" width="50" align="center" headerAlign="center" allowSort="true">注册</div>
+          	  <div field="n_reg_ratio" width="50" align="center" headerAlign="center">注册率%</div>
+          	  <div field="n_name" width="50" align="center" headerAlign="center" allowSort="true">实名数</div>
+          	  <div field="n_invest" width="50" align="center" headerAlign="center" allowSort="true">投资数</div>
+          	  <div field="amt_invest" width="50" align="center" headerAlign="center" allowSort="true">投资额</div>
+          </div>
+      </div>      
+      <!--div header="确认数据" headerAlign="center">
+          <div property="columns">
+          	  <div field="n_pv_r" width="50" align="center" headerAlign="center" allowSort="true">PV
+              	<input property="editor" class="mini-spinner" style="width:50px;" maxValue="99000000"/>
+              </div>
+          	  <div field="n_uv_r" width="50" align="center" headerAlign="center" allowSort="true">UV
+              	<input property="editor" class="mini-spinner" style="width:50px;" maxValue="99000000"/>
+              </div>
+          	  <div field="n_reg_r" width="50" align="center" headerAlign="center" allowSort="true">注册
+              	<input property="editor" class="mini-spinner" style="width:50px;" maxValue="99000000"/>
+              </div>
+              <div field="is_confirm" width="60" align="center" headerAlign="center" allowSort="true" type="comboboxcolumn">确认
+                  <input property="editor" class="mini-combobox" style="width:100%;" data="isConfirm"/>
+              </div>
+          </div>
+      </div-->      
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+search();
+
+var isConfirm = [{id:0, text: '否' }, { id: 1, text: '是'}];
+
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		grid.unmask();
+		if(data.err=='0'){
+			grid.reload();
+		}else{
+			alert(data.msg)
+			return false;
+		}
+	}
+	utils.ajax('/report/index/chanelSave',{data:json},callback,"POST","json");
+}
+</script>

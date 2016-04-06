@@ -1,0 +1,25 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0; background:#FFF;">
+  <table style="width:100%;">
+    <tr>
+      <td style="white-space:nowrap;"><form id="report1" method="post" action="/report/export/expDown">
+          <p style="margin:0; padding:0 0 8px 0;"><strong>幸福基金领取报表（用户手机、客服ID、注册日期、是否投资、是否领取）：</strong></p> 注册日期<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$_yesterday}"/>
+          -
+          <input name="endTime" class="mini-datepicker" style="width:100px;" value="{$_today}"/>
+          <a class="mini-button" iconCls="icon-download" onclick="document.getElementById('report1').submit();">导出数据</a> 
+        </form></td>
+    </tr>
+  </table>
+</div>
+<div class="mini-toolbar" style="margin:3px 3px 0; background:#FFF;">
+  <table style="width:100%;">
+    <tr>
+      <td style="white-space:nowrap;"><form id="report2" method="post" action="/report/export/investDown">
+          <p style="margin:0; padding:0 0 8px 0;"><strong>用户投资表（用户ID,手机号,登录次数,最近登录,注册时间,姓名,余额,投资笔数,投资金额,红包）：</strong></p> 注册日期<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$_yesterday}"/>
+          -
+          <input name="endTime" class="mini-datepicker" style="width:100px;" value="{$_today}"/>
+          <a class="mini-button" iconCls="icon-download" onclick="document.getElementById('report2').submit();">导出数据</a> 
+        </form></td>
+    </tr>
+  </table>
+</div>

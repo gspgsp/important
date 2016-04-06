@@ -1,0 +1,24 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+  <table style="width:100%;">
+    <tr>
+      <td style="white-space:nowrap;"><form id="soform" method="post" action="/report/user/userTimeInvest">
+          <input name="startTime" class="mini-datepicker" style="width:100px;" value="{$starTime}"/>
+          -
+          <input name="endTime" class="mini-datepicker" style="width:100px;" value="{$endTime}"/><button type="submit">查询</button>
+          快速查看：<a href="?range=yesterday">昨天</a>&nbsp;&nbsp;&nbsp; <a href="?range=beforeYesterday">前天</a>&nbsp;&nbsp;&nbsp; <a href="?range=week">最近一周</a>&nbsp;&nbsp;&nbsp;<a href="?range=month">最近一个月</a>&nbsp;&nbsp;&nbsp;<a href="?range=halfyear">最近六个月</a> <span id="searchMsg"></span>
+        </form></td>
+    </tr>
+  </table>
+</div>
+
+<div style="margin:3px;border:1px solid #333"">
+<div style="margin:1px;border:1px solid #ccc">
+<table width="100%">
+  <tr>
+    <td>&nbsp;</td>
+    <td>在当前时间注册会员{$user.reg_user}人，共投资用户{$user.invest_user}人</td>
+  </tr>
+</table>
+</div>
+</div>

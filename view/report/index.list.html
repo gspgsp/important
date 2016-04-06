@@ -1,0 +1,77 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            	<form id="soform" action="/report/index/download">
+				<span>统计时间</span>
+            	<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$_first}"> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;" value="{$_today}"/>
+                <a class="mini-button" iconCls="icon-search" onClick="search()">查询</a>
+                <a class="mini-button" iconCls="icon-download" onClick="down()">下载</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/report/index/init?action=grid"
+        showFilterRow="true" idField="id"
+        >
+    <div property="columns">
+      <div field="day_id" width="60" headerAlign="center" align="right" allowSort="true" >日期</div>
+      <div field="register" width="60" headerAlign="center" allowSort="true" align="center">注册数</div>
+	  <div header="充值" headerAlign="center">
+		  <div property="columns">
+			  <div field="recharge_count" width="50" headerAlign="center" allowSort="true" align="center">笔数</div>
+			  <div field="recharge_sum" width="55" headerAlign="center" allowSort="true" align="center">金额</div>
+			  <div field="recharge_fee" width="55" headerAlign="center" allowSort="true" align="center">手续费</div>
+		  </div>
+	  </div>
+	  <div header="提现" headerAlign="center">
+		  <div property="columns">
+			  <div field="draw_count" width="50" headerAlign="center" allowSort="true" align="center">笔数</div>
+			  <div field="draw_sum" width="50" headerAlign="center" allowSort="true" align="center">总额</div>
+			  <div field="draw_fee" width="50" headerAlign="center" allowSort="true" align="center">手续费</div>
+		  </div>
+	  </div>      
+	  <div header="投资" headerAlign="center">
+		  <div property="columns">
+			  <div field="invest_user" width="60" headerAlign="center" allowSort="true" align="center">会员数</div>
+			  <div field="invest_count" width="60" headerAlign="center" allowSort="true" align="center">笔数</div>
+			  <div field="invest_sum" width="60" headerAlign="center" allowSort="true" align="center">金额</div>
+		  </div>
+	  </div>   
+	  <div header="借款" headerAlign="center">
+		  <div property="columns">
+			  <div field="deal_count" width="60" headerAlign="center" allowSort="true" align="center">成交数</div>
+			  <div field="deal_sum" width="60" headerAlign="center" allowSort="true" align="center">成交额</div>
+	  		  <div field="deal_fee" width="60" headerAlign="center" allowSort="true" align="center">手续费</div>
+		  </div>
+	  </div>
+	  <div header="还款" headerAlign="center">
+		  <div property="columns">
+			  <div field="refund_count" width="45" headerAlign="center" allowSort="true" align="center">笔数</div>
+			  <div field="refund_sum" width="45" headerAlign="center" allowSort="true" align="center">总额</div>
+			  <div field="refund_profit" width="60" headerAlign="center" allowSort="true" align="center">利率</div>
+			  <div field="refund_assure" width="60" headerAlign="center" allowSort="true" align="center">担保费</div>
+	  		  <div field="refund_convey" width="60" headerAlign="center" allowSort="true" align="center">出让</div>
+			  <div field="refund_fee" width="60" headerAlign="center" allowSort="true" align="center">收入</div>
+		  </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+search();
+
+//下载
+function down() {
+	$("#soform").submit();
+}
+</script>
