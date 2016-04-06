@@ -1,0 +1,2610 @@
+.left-side-account {
+    float: left;
+    height: auto;
+}
+
+.main-account {
+overflow:hidden;
+}
+
+.noticeQuestion_horizontal_wrap {
+    margin-top: 40px;
+}
+
+.asterisk {
+    margin-right: 3px;
+    color: #e6551d;
+}
+
+/*account state*/
+.account-state {
+    margin-bottom: 7px;
+    *margin-bottom: 0px;
+}
+
+.account-state .li {
+    float: left;
+}
+
+.account-state .li a {
+    color: #333333;
+}
+
+.account-state .li a .digit {
+    color: #2438cd;
+}
+
+.account-state .member-type {
+    margin: 2px 20px 0 0;
+}
+
+.account-state .hi-user {
+    font-size: 16px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: none;
+    margin-bottom: 10px;
+}
+
+.account-state .message {
+    margin-top: 2px;
+}
+
+.account-state .last-login {
+    color: #999;
+    float: right;
+    margin-top: 2px;
+}
+
+/*security level*/
+.security-level {
+    background-color: #F5F5F5;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.security-level .li {
+    float: left;
+}
+
+.security-level .progress-bg {
+    background: url("../images/progressBar.png") no-repeat scroll 0 0 transparent;
+    height: 12px;
+    margin: 15px 0 0 10px;
+    width: 200px;
+}
+
+.security-level .progress-bg .progress-state {
+    background: url("../images/progressBar.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 11px;
+}
+
+.security-level .progress-bg .progress-state.low {
+    background-position: 0 -20px;
+}
+
+.security-level .progress-bg .progress-state.mideum {
+    background-position: 0 -38px;
+}
+
+.security-level .progress-bg .progress-state.high {
+    background-position: 0 -55px;
+}
+
+.security-level .auth-state {
+    margin-left: 15px;
+}
+
+.security-level .auth-state a {
+    vertical-align: middle;
+}
+
+.security-level .auth-state.done a {
+    color: #333333;
+}
+
+.security-level .auth-state.undone a {
+    color: #E6551D;
+}
+
+.security-level .auth-state.undone a .icon {
+    margin-right: 5px;
+}
+
+.main-account .link-amount {
+    color: #333;
+}
+
+.main-account .link-amount .amount {
+    color: #2438cd;
+}
+
+/*feed back fixed panel*/
+.feedback-fixed {
+    position: fixed;
+    right: -250px;
+    z-index: 300;
+}
+
+.feedback-fixed .feedback-panel {
+    background: url("../images/feedback_btn.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    float: left;
+    height: 117px;
+    width: 43px;
+}
+
+.feedback-fixed .feedback-content {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #423981 -moz-use-text-color #423981 #423981;
+    border-image: none;
+    border-style: solid none solid solid;
+    border-width: 1px medium 1px 1px;
+    box-shadow: 0 1px 3px #DDDDDD;
+    float: left;
+    height: 115px;
+    width: 248px;
+}
+
+.feedback-fixed .form-horizontal .input-wrap {
+    margin: 10px 10px 5px;
+}
+
+.feedback-fixed .form-horizontal .input-wrap .textareas {
+    height: 50px;
+    width: 215px;
+}
+
+.feedback-operation .li.remain-wrap {
+    float: left;
+    margin: 5px 0 0 20px;
+}
+
+.feedback-operation .li.sub-btn {
+    float: right;
+    margin-right: 10px;
+}
+
+.feedback-operation .remain-words {
+    color: #E6551D;
+}
+
+/*receivables calendar panel*/
+.receivables-calendar {
+    background: url("../images/receivables_calendar_bg.png") no-repeat scroll 0 bottom transparent;
+    margin-bottom: 1px;
+    min-height: 100px;
+    padding-bottom: 4px;
+}
+
+.receivables-calendar .ui-corner-all {
+    border-radius: 0 0 0 0;
+    padding: 0;
+}
+
+.receivables-calendar .ui-datepicker table {
+    margin: 0;
+}
+
+.receivables-calendar .ui-datepicker table tr:first-child td {
+    background: url("../images/receivables_calendar_thbg.png") repeat-x scroll 0 0 transparent;
+}
+
+.receivables-calendar .ui-datepicker {
+    width: 258px;
+}
+
+.receivables-calendar .ui-widget-content {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #DFDFDF;
+}
+
+.receivables-calendar .ui-state-default {
+    background: none repeat scroll 0 0 transparent;
+}
+
+.receivables-calendar .ui-datepicker td {
+    padding: 0;
+}
+
+.receivables-calendar .ui-datepicker td span, .receivables-calendar .ui-datepicker td a {
+    border-color: #DFDFDF;
+    border-style: solid;
+    border-width: 1px;
+    margin: 1px;
+    padding: 3px 6px;
+    text-align: center;
+}
+
+.receivables-calendar .ui-datepicker td a.ui-state-active {
+    background: none repeat scroll 0 0 #EBEBEB;
+    border-left: 1px solid #CDCDCD;
+    border-top: 1px solid #DEDEDE;
+    color: #3F3731;
+}
+
+.receivables-calendar td .ui-state-hover {
+    color: #4D4398;
+}
+
+.receivables-calendar .ui-datepicker th {
+    background: none repeat scroll 0 0 #A8A8A8;
+    color: #FFFFFF;
+    font-weight: normal;
+    padding: 0.4em 0.3em;
+}
+
+.receivables-calendar .ui-widget-header {
+    background: none repeat scroll 0 0 #F5F5F5;
+    border: medium none;
+    color: #1D2088;
+}
+
+.receivables-calendar .ui-icon {
+    height: 11px;
+    width: 7px;
+}
+
+.receivables-calendar .ui-datepicker .ui-datepicker-prev, .receivables-calendar .ui-datepicker .ui-datepicker-next {
+    height: 11px;
+    top: 8px;
+    width: 7px;
+}
+
+.receivables-calendar .ui-datepicker .ui-datepicker-next {
+    right: 20px;
+}
+
+.receivables-calendar .ui-datepicker .ui-datepicker-prev {
+    left: 20px;
+}
+
+.receivables-calendar .ui-widget-header .ui-icon {
+    background: url("../images/calendar-icon.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+}
+
+.receivables-calendar .ui-widget-header .ui-icon-circle-triangle-e {
+    background-position: -7px 0;
+}
+
+.receivables-calendar .ui-widget-header .ui-icon-circle-triangle-w {
+    background-position: 0 0;
+}
+
+.receivables-calendar .ui-widget-header .ui-state-hover .ui-icon-circle-triangle-e {
+    background-position: -7px -11px;
+}
+
+.receivables-calendar .ui-widget-header .ui-state-hover .ui-icon-circle-triangle-w {
+    background-position: 0 -11px;
+}
+
+.receivables-calendar .ui-widget-header .ui-state-hover, .receivables-calendar .ui-widget-header .ui-state-focus {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+}
+
+.receivables-calendar .ui-datepicker td a.ui-state-execute {
+    background: url("../images/execute_date_bg.png") no-repeat scroll center center transparent;
+    border: 1px solid #DFDFDF;
+}
+
+.receivables-calendar .ui-datepicker-collection {
+    color: #666666;
+    padding: 0 10px 0 0;
+}
+
+.receivables-calendar .ui-state-disabled {
+    opacity: 1;
+}
+
+.receivables-calendar .ui-state-disabled span {
+    color: #C9C9C9;
+}
+
+.receivablesInfo {
+    background: none repeat scroll 0 0 #FEF3CD;
+    border: 1px solid #FAB418;
+    height: 36px;
+    margin-bottom: 10px;
+    padding: 5px 0 0 12px;
+    width: 246px;
+}
+
+.ui-widget-header a.current-month {
+    color: #2438CD;
+}
+
+.ui-widget-header .ui-state-disabled {
+    display: none;
+}
+
+/*main content*/
+.main-account .main-content {
+    float: left;
+    min-height: 600px;
+}
+
+.main-content .section-head {
+    background-color: #F2F1FF;
+    font-weight: bold;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 10px;
+}
+
+.financial-channel .section-head,
+.invest-channel .section-head {
+    background-color: #fff;
+}
+
+.main-content .section-head .state-name {
+    float: left;
+    font-size: 16px;
+    color: #1d2088;
+}
+
+.main-content .section-head .comment {
+    color: #999;
+    font-weight: normal;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 370px;
+}
+
+.main-content .section-head .operation {
+    float: right;
+    font-weight: normal;
+    margin-right: 20px;
+}
+
+.main-content .section-content {
+    position: relative;
+    margin: 0 20px;
+    width: 500px;
+    background-color: #fff;
+}
+
+.main-content .section-content-top {
+    height: 44px;
+    line-height: 44px;
+    border-bottom: 1px dotted #d9d9d9;
+}
+
+.section-content-top .title {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.section-content-top .content {
+    display: inline-block;
+    width: 395px;
+}
+
+.section-content-top .content .cashWrap {
+    float: left;
+}
+
+.section-content-top .content .extra-info {
+    float: right;
+}
+
+.section-content-top .content .cashWrap .cashData {
+    color: #e6551d;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.main-content .section-info {
+    width: 340px;
+    table-layout: fixed;
+}
+
+.main-content .section-info .bottomDotted td {
+    border-bottom: 1px dotted #d9d9d9;
+    padding-bottom: 10px;
+}
+
+.main-content .section-info td {
+    vertical-align: top;
+    padding: 4px 0;
+    line-height: 150%;
+}
+
+.main-content .section-info tr.last-child td {
+    padding-bottom: 10px;
+}
+
+.main-content .totalAsset {
+    margin-left: 40px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.section-content-top .title,
+.main-content .section-info .title {
+    width: 100px;
+}
+
+.section-content-top .title,
+.main-content .section-info .title {
+    text-align: right;
+    font-weight: bold;
+}
+
+.main-content .section-info .title.holdingProject {
+    font-weight: normal;
+    color: #666;
+    text-align: left;
+    padding: 0 0 0 10px;
+}
+
+.main-content .section-info .title.holdingProject div {
+    margin-top: 10px;
+}
+
+.main-content .section-info .content {
+    font-weight: bold;
+}
+
+.main-content .section-info .content .cashWrap {
+    margin-right: 10px;
+}
+
+.main-content .section-info tr.first-child td {
+    padding-top: 10px;
+}
+
+.main-content .section-info .usableCash {
+    color: #e6551d;
+    font-size: 14px;
+}
+
+.main-content .section-info .content .extra-info {
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.main-content .section-info .content .extra-info .vertical-line {
+    color: #A8A9D9;
+    font-weight: bold;
+    padding: 0 8px;
+    vertical-align: top;
+}
+
+.main-content .totle-asset {
+    border: 1px solid #ccccff;
+    margin-bottom: 10px;
+}
+
+.main-content .totle-debt {
+    border: 1px solid #ccccff;
+    margin-bottom: 10px;
+}
+
+.main-content .totle-debt .totalAsset {
+    border-bottom: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 0 5px 10px;
+    text-align: left;
+}
+
+.main-content .section-tips {
+    text-align: center;
+    padding: 10px 0;
+}
+
+/*invest-channel*/
+.main-content .financial-channel,
+.main-content .invest-channel {
+    border: 1px solid #ccccff;
+    margin-bottom: 10px;
+}
+
+.invest-channel .product-head {
+    background-color: #dce3fc;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 10px;
+    border-style: solid;
+    border-color: #ccf;
+    border-width: 1px 0 1px 0;
+    text-align: left;
+}
+
+.invest-channel .product-logo {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0;
+    background-image: url(../images/icon_account.png);
+    background-repeat: no-repeat;
+}
+
+.product-logo.anyidai {
+    width: 92px;
+    height: 17px;
+    background-position: 0 -80px;
+}
+
+.product-logo.anyedai {
+    width: 92px;
+    height: 17px;
+    background-position: -103px -80px;
+}
+
+.product-logo.fuyingrs {
+    width: 68px;
+    height: 17px;
+    background-position: -206px -80px;
+}
+
+.product-logo.caifuhui {
+    width: 58px;
+    height: 17px;
+    background-position: -285px -81px;
+}
+
+.product-logo.lc_project {
+    width: 66px;
+    height: 17px;
+    background-position: -136px -113px;
+}
+
+.product-logo.lc_zhr_project {
+    width: 95px;
+    height: 17px;
+    background-position: -219px -113px;
+}
+
+.product-logo.jinyingtong {
+    width: 63px;
+    height: 17px;
+    background-position: -3px -114px;
+}
+
+.product-logo.caihong {
+    width: 42px;
+    height: 17px;
+    background-position: -80px -114px;
+}
+
+.linkMore {
+    font-size: 12px;
+    float: right;
+    margin-right: 20px;
+}
+
+.invest-channel .first-child {
+    width: 140px;
+    text-align: left;
+}
+
+.invest-channel .cash-style {
+    width: 98px;
+}
+
+.invest-channel .income-way-data {
+    width: 110px;
+}
+
+.invest-channel .last-child {
+    width: 80px;
+}
+
+.limit {
+    overflow: hidden;
+    padding: 0 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*main content financial channel*/
+.main-content .info-table {
+    border: medium none;
+    table-layout: fixed;
+    text-align: center;
+    width: 100%;
+}
+
+.main-content .info-table .info-head {
+    background-color: #dce3fc;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #ccccff;
+    height: 38px;
+}
+
+.main-content .info-table .project-id {
+    width: 130px;
+}
+
+.main-content .info-table .invest-amount {
+    width: 120px;
+}
+
+.main-content .info-table .deadline {
+    width: 40px;
+}
+
+.main-content .info-table .annualised-rate {
+    width: 80px;
+}
+
+.main-content .info-table .income-way {
+    width: 90px;
+}
+
+.main-content .info-table .info-row {
+    /*border-top: 1px solid #CECECE;*/
+    height: 47px;
+}
+
+.main-content .info-table tr:hover .info-row {
+    background-color: #f2f1ff;
+}
+
+.main-content .info-table tr:first-child .info-row {
+    border-top: medium none;
+}
+
+.main-content .info-table .project-name {
+    display: inline-block;
+    width: 100px;
+    overflow: hidden;
+    padding: 0 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.main-content .info-table .cash-style {
+    padding-right: 10px;
+    text-align: right;
+}
+
+/*switch-panel*/
+.info-pie-wrap {
+    overflow: hidden;
+    position: relative;
+    min-height: 170px;
+}
+
+.canvas-doughnut {
+    position: absolute;
+    top: 0;
+    left: 540px;
+    width: 280px;
+    height: 170px;
+}
+
+.main-content .info-pie-wrap .section-info {
+    float: none;
+    position: relative;
+}
+
+.switch-panel {
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: 0;
+    padding: 10px;
+    font-size: 12px;
+    line-height: 14px;
+    cursor: pointer;
+}
+
+.switch-panel .icon_account {
+    width: 26px;
+    height: 26px;
+}
+
+.switch-panel.to-pie .icon_account {
+    background-position: -209px 0;
+}
+
+.switch-panel.to-text .icon_account {
+    background-position: -162px 0;
+}
+
+.switch-panel .text {
+    display: block;
+    margin: 5px 0 0 7px;
+    width: 1em;
+    vertical-align: middle;
+}
+
+.switch-panel .text:hover {
+    text-decoration: none;
+}
+
+/*switch-panel*/
+
+/*main content right side*/
+.right-side-account {
+    float: left;
+    margin-left: 20px;
+}
+
+/*compenent*/
+.cash-orange {
+    color: #E6551D;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cash-green {
+    color: #106F00;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cash-normal {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tip-dotted,
+.tip-dotted-invest {
+    border-bottom: 1px dotted #333333;
+    cursor: pointer;
+    padding-bottom: 2px;
+}
+
+.tip-dotted-invest .mouseTips {
+    color: #333;
+}
+
+.no-project {
+    border-top: 1px solid #DCE3FC;
+    padding: 10px;
+    text-align: center;
+    color: #999;
+    font-weight: bold;
+}
+
+.no-project .tips {
+    padding-left: 5px;
+}
+
+.progress-bg-integrity {
+    display: inline-block;
+    margin-left: 10px;
+    width: 200px;
+    height: 11px;
+    border: 1px solid #666;
+    text-align: left;
+    background-color: #fff;
+    vertical-align: middle;
+}
+
+.progress-state-integrity {
+    display: block;
+    width: 0;
+    height: 100%;
+    background-color: #8bb3e4;
+    font-size: 0;
+    line-height: 0;
+    content: "";
+}
+
+.btn-dropdown-group {
+    display: inline-block;
+    *display: inline;
+}
+
+.btn-dropdown-group .btn-dropdown {
+    padding: 3px 12px 3px 20px;
+}
+
+.btn-dropdown-group .caret {
+    border-color: #fff transparent;
+    border-style: solid;
+    border-width: 4px 4px 0;
+    content: "";
+    display: inline-block;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    width: 0;
+}
+
+.dropdown-menu {
+    background-clip: padding-box;
+    background-color: #FFFFFF;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #E6E6E6 #E6E6E6 #A6A6A6;
+    border-radius: 0 0 4px 4px;
+    display: none;
+    font-size: 12px;
+    line-height: 180%;
+    list-style: none outside none;
+    text-align: center;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 20;
+}
+
+.btn-dropdown-group.open .btn-dropdown {
+    border-radius: 5px 5px 0 0;
+}
+
+.btn-dropdown-group.open .dropdown-menu {
+    display: block;
+}
+
+/*invest home
+invest-wrap*/
+.invest-option-wrap {
+    margin-bottom: 10px;
+    border: 1px solid #ccf;
+    background-color: #f5f5ff;
+}
+
+.invest-option-wrap .separateLine {
+    border-bottom: 1px solid #fff;
+    height: 1px;
+    font-size: 0;
+    background-color: #e5eaee;
+    width: 99%;
+    margin: 0 auto;
+}
+
+.invest-option-wrap .invest-type,
+.invest-option-wrap .invest-period {
+    padding: 8px 0;
+}
+
+.invest-option-wrap .li {
+    float: left;
+    margin: 0 10px;
+    padding: 5px 15px;
+}
+
+.invest-option-wrap .li:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.invest-option-wrap .li.first-child {
+    font-size: 14px;
+    padding: 0;
+    margin: 4px 0 0 20px;
+}
+
+.invest-option-wrap .li.first-child:hover {
+    text-decoration: none;
+    cursor: default;
+}
+
+.invest-option-wrap .li.selected {
+    background-color: #4d4398;
+    color: #fff;
+    cursor: default;
+}
+
+.invest-option-wrap .li.selected:hover {
+    text-decoration: none;
+}
+
+.invest-wrap .updateTime {
+    color: #999;
+    text-align: right;
+    padding: 13px 20px;
+}
+
+.invest-wrap .freshData {
+    margin-left: 25px;
+}
+
+.invest-wrap .block-head {
+    height: 28px;
+    line-height: 28px;
+    background-color: #dce3fc;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #ccccff;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #323590;
+}
+
+.invest-wrap .block-content {
+    padding: 5px 50px;
+}
+
+.invest-wrap .block-content .item-wrap {
+    padding: 8px 0;
+}
+
+.invest-wrap .block-content .item-wrap .li.totle {
+    font-size: 14px;
+    color: #333;
+    margin-top: 0;
+}
+
+.invest-wrap .block-content .item-wrap .li {
+    font-size: 12px;
+    color: #666;
+    margin-right: 20px;
+    float: left;
+    margin-top: 2px;
+}
+
+.invest-wrap .block-content .item-wrap.mideum .li.totle {
+    margin-top: 0;
+    float: none;
+}
+
+.invest-wrap .block-content .item-wrap.mideum .li {
+    margin-top: 8px;
+}
+
+.invest-wrap .btn_stateTip {
+    display: inline-block;
+    height: auto;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.tab-wrap-account {
+    position: relative;
+    z-index: 1;
+}
+
+.tab-wrap-account .tab {
+    float: left;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    padding: 0 20px;
+    min-width: 40px;
+    border: 1px solid #ccccff;
+    border-radius: 3px 3px 0 0;
+    margin: 0 5px -1px 0;
+    cursor: pointer;
+    font-size: 16px;
+    color: #1d2088;
+    font-weight: bold;
+    background-color: #f5f5ff;
+}
+
+.tab-wrap-account .tab.current {
+    cursor: default;
+    color: #666;
+    border-bottom-color: #fff;
+    background: #fff;
+}
+
+.tab-content-wrap-account {
+    border: 1px solid #d8d8d8;
+    margin-bottom: 20px;
+}
+
+.tab-content-wrap-account2 {
+    border-left: 1px solid #d8d8d8;
+	border-right: 1px solid #d8d8d8;
+	border-bottom: 1px solid #d8d8d8;
+    margin-bottom: 20px;
+}
+
+a.sort {
+    display: inline-block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+a.sort:hover {
+    /*background-color: #F5F5FF;*/
+    text-shadow: 1px 1px 10px #fff;
+    color: #666;
+}
+
+.icon-sort {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(../images/icon_account.png);
+    background-position: -84px -5px;
+    background-repeat: no-repeat;
+    font-size: 0;
+    width: 7px;
+    height: 11px;
+    margin-left: 2px;
+}
+
+.icon-sort.active {
+    background-position: -91px -5px;
+}
+
+.icon-sort.up {
+    background-position: -106px -5px;
+}
+
+.icon-sort.up.active {
+    background-position: -99px -5px;
+}
+
+.icon-detail {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(../images/icon_account.png);
+    background-position: -30px -3px;
+    background-repeat: no-repeat;
+    font-size: 0;
+    width: 15px;
+    height: 12px;
+}
+
+.icon-detail:hover{
+    text-decoration: none;
+}
+
+.icon-detail.disabled {
+    background-position: -55px -3px;
+    cursor: default;
+}
+
+.transferName-ayid {
+    width: 95px;
+}
+
+.operation-panel {
+    padding: 10px 20px;
+}
+
+.operation-panel .li {
+    float: left;
+    margin-right: 10px;
+}
+
+.operation-panel .li.last-child {
+    margin-right: 0;
+}
+
+.operation-panel .li.common-option {
+    margin-top: 10px;
+}
+
+.operation-panel .li .input {
+    vertical-align: middle;
+}
+
+.operation-panel .li.common-option a {
+    margin-left: 25px;
+}
+
+.operation-panel .li.common-option a:first-child {
+    margin-left: 0;
+}
+
+.operation-panel .li .form_select_label {
+    float: left;
+    margin: 10px 5px 0 0;
+}
+
+.operation-panel .form_select {
+    width: 120px;
+    display: inline-block;
+    vertical-align: middle;
+    float: left;
+}
+
+.operation-panel .form_select.ullh div {
+    width: 120px;
+}
+
+.operation-panel .form_select.ullh div a {
+    background-position: 100px -88px;
+}
+
+.operation-panel .vertical {
+    float: none;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.operation-panel .comments {
+    font-size: 12px;
+    color: #999;
+}
+
+.invest-wrap .summarise {
+    padding: 15px 0 15px 20px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.invest-wrap .list-table thead .cashName {
+    width: 112px;
+}
+
+.list-table {
+    table-layout: fixed;
+    width: 100%;
+    text-align: center;
+}
+
+.list-table thead th {
+    height: 38px;
+    border-style: solid;
+    border-width: 1px 0 1px 0;
+    border-color: #ddd;
+    background-color: #f8f8f8;
+    zoom:1;
+}
+
+.list-table thead .time {
+    width: 150px;
+}
+
+.list-table thead .cashName {
+    text-align: right;
+    padding-right: 20px;
+    width: 100px;
+}
+
+.list-table thead .productName {
+    width: 220px;
+}
+
+.list-table thead .dateName {
+    width: 70px;
+}
+
+.list-table thead .LJBName {
+    width: 72px;
+}
+
+.list-table .productNameData {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.product-name {
+    display: inline-block;
+    width: 170px;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+    vertical-align: middle;
+}
+
+.list-table tbody .even td {
+    background-color: #f5f5ff;
+}
+
+.list-table tbody td {
+    height: 40px;
+	padding:0 10px;
+}
+
+.list-table tbody .cashData {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.tFooter {
+    height: 39px;
+    line-height: 39px;
+}
+
+.tFooter .download-wrap {
+    width: 120px;
+    height: 100%;
+    float: left;
+    margin-left: 15px;
+}
+
+.tFooter .download-wrap .downloadLink {
+    margin-left: 5px;
+}
+
+.tFooter .ui_complex_pagination {
+    width: 600px;
+    height: 100%;
+    float: left;
+}
+
+.tFooter .pagination-info {
+    float: left;
+    color: #999;
+}
+
+/*table-ayid*/
+.table-ayid thead .productName {
+    width: 140px;
+}
+
+.table-ayid .product-name {
+    width: 90px;
+}
+
+.table-ayid thead .cashName {
+    padding-right: 0;
+}
+
+.table-ayid tbody .cashData {
+    padding-right: 10px;
+}
+
+.table-ayid .icon-tip {
+    font-weight: normal;
+    text-align: left;
+}
+
+.table-ayid .icon-tip a {
+    display: block;
+    text-align: right;
+}
+
+.table-ayid .openState {
+    display: none;
+}
+
+.table-ayid tfoot td {
+    text-align: right;
+    padding: 10px;
+    border-top: 1px solid #CCCCFF;
+}
+
+.table-ayid .openAll {
+    margin-right: 20px;
+}
+
+.table-comments {
+    color: #999;
+    font-size: 12px;
+    margin-top: -10px;
+    text-align: right;
+}
+
+/*table-jyt*/
+.table-jyt  thead .productName,
+.table-jyt .product-name {
+    width: 140px;
+}
+
+.table-jyt  thead .dateName {
+    width: 90px;
+}
+
+.cashName-jyt {
+    width: 105px;
+}
+
+.transferName-jyt {
+    width: 115px;
+}
+
+/*pop-jyt*/
+
+.pop-jyt-undo .titleName {
+    width: 100px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.pop-jyt-undo p {
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+/*future-fund-wrap*/
+.future-fund-wrap .summarise {
+    border-bottom: 1px solid #ccf;
+    padding: 15px 20px;
+    position: relative;
+}
+
+.future-fund-wrap .summarise .title {
+    color: #1D2088;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.future-fund-wrap .summarise .linkMore {
+    margin: 5px 20px 0 0;
+}
+
+.future-fund-wrap .summarise .linkMore:first-child {
+    margin-right: 0;
+}
+
+.future-fund-wrap thead .productName,
+.future-fund-wrap .product-name {
+    width: 200px;
+}
+
+.future-fund-wrap thead .time {
+    width: 120px;
+}
+
+.future-fund-wrap thead .cashName {
+    width: 110px;
+}
+
+.future-fund-wrap .cash-orange {
+    font-size: 14px;
+}
+
+/*fund Wrap*/
+.fund-wrap .summarise {
+    border-bottom: 1px solid #ccf;
+    font-size: 14px;
+    padding: 15px 20px;
+    position: relative;
+}
+
+.fund-wrap .summarise-fund {
+    float: left;
+}
+
+.fund-wrap .summarise-fund .fund-balance {
+    margin-bottom: 5px;
+}
+
+.fund-wrap .summarise-operate {
+    float: right;
+    margin-top: 10px;
+}
+
+.fund-wrap .summarise-operate .linkMore {
+    float: none;
+    margin-right: 50px;
+}
+
+.fund-wrap .summarise .other-cash {
+    margin-right: 20px;
+    font-size: 12px;
+    color: #999;
+}
+
+.fund-wrap .summarise .operation-btn-wrap .btns {
+    margin: 0 5px;
+}
+
+.fund-wrap .list-table .commentName,
+.fund-wrap .list-table .commentData {
+    width: 230px;
+    color: #999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fund-wrap .list-table .commentData {
+    text-align: left;
+}
+
+.fund-recharge-wrap .optionPanel,
+.fund-withdrawal-wrap .optionPanel {
+    font-size: 14px;
+    padding: 10px 20px;
+    line-height: 35px;
+    height: 35px;
+}
+
+.fund-recharge-wrap .optionPanel .option-state,
+.fund-recharge-wrap .optionPanel .option-term,
+.fund-recharge-wrap .optionPanel .form_select.ullh,
+.fund-withdrawal-wrap .optionPanel .option-state,
+.fund-withdrawal-wrap .optionPanel .option-term,
+.fund-withdrawal-wrap .optionPanel .form_select.ullh {
+    float: left;
+}
+
+.fund-recharge-wrap .optionPanel .form_checkbox,
+.fund-withdrawal-wrap .optionPanel .form_checkbox {
+    margin-right: 20px;
+}
+
+.fund-recharge-wrap .optionPanel .option-term,
+.fund-withdrawal-wrap .optionPanel .option-term {
+    margin-left: 68px;
+}
+
+.fund-recharge-wrap .optionPanel .form_select.ullh,
+.fund-withdrawal-wrap .optionPanel .form_select.ullh {
+    margin-right: 10px;
+}
+
+.fund-recharge-wrap .form_select.ullh.normal div,
+.fund-withdrawal-wrap .form_select.ullh.normal div {
+    width: 134px;
+}
+
+.fund-recharge-wrap .form_select.ullh.normal div a,
+.fund-withdrawal-wrap .form_select.ullh.normal div a {
+    background-position: 112px -88px;
+}
+
+.fund-recharge-wrap .list-table .processId {
+    color: #999;
+    width: 102px;
+}
+
+.fund-recharge-wrap .list-table .processTime {
+    width: 112px;
+}
+
+.fund-recharge-wrap .list-table .rechargeCash {
+    width: 73px;
+}
+
+.fund-recharge-wrap .list-table .rechargeFee {
+    width: 43px;
+}
+
+.fund-recharge-wrap .list-table .actualCash {
+    width: 85px;
+}
+
+.fund-recharge-wrap .list-table .rechargeWay {
+    width: 66px;
+}
+
+.fund-recharge-wrap .list-table .rechargeState {
+    width: 52px;
+}
+
+.fund-recharge-wrap .list-table .document {
+    width: 95px;
+}
+
+.fund-recharge-wrap .list-table .comment {
+    width: 140px;
+    color: #999;
+}
+
+.fund-recharge-wrap .cashAlign {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.fund-withdrawal-wrap .list-table .processTime {
+    width: 116px;
+}
+
+.fund-withdrawal-wrap .list-table .actualCash {
+    width: 120px;
+}
+
+.fund-withdrawal-wrap .list-table .bankName {
+    width: 100px;
+}
+
+.fund-withdrawal-wrap .list-table .withdrawalState {
+    width: 60px;
+}
+
+.fund-withdrawal-wrap .list-table .comment {
+    width: auto;
+    color: #999;
+}
+
+.fund-withdrawal.prompting_com {
+    float: left;
+    margin: 20px 0 0 140px;
+}
+
+/*
+    invest-detail-wrap
+    invest-apply-wrap
+*/
+.invest-detail-wrap .list-table thead th,
+.invest-apply-wrap .list-table thead th,
+.loan-refund-wrap .list-table thead th,
+.loan-apply-wrap .list-table thead th,
+.loan-history-wrap .list-table thead th {
+    border-top: 0;
+}
+
+.invest-apply-wrap .product-name,
+.loan-apply-wrap .product-name {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.invest-detail-wrap .product-name a,
+.invest-apply-wrap .product-name a,
+.loan-refund-wrap .product-name a,
+.loan-apply-wrap .product-name a {
+    color: #333;
+}
+
+.invest-detail-wrap .list-table tbody .cashData,
+.invest-apply-wrap .list-table tbody .cashData,
+.loan-refund-wrap .list-table tbody .cashData,
+.loan-apply-wrap .list-table tbody .cashData {
+    width: 200px;
+}
+
+.invest-detail-wrap .list-table .btn_stateTip,
+.loan-refund-wrap .list-table .btn_stateTip,
+.loan-history-wrap .list-table .btn_stateTip {
+    display: inline-block;
+    height: auto;
+    padding: 0 0 0 10px;
+}
+
+.invest-apply-wrap .no-project,
+.loan-refund-wrap .no-project,
+.loan-apply-wrap .no-project,
+.loan-history-wrap .no-project {
+    border-top: 0;
+}
+
+/*loan-refund-wrap*/
+.loan-refund-wrap .product-name,
+.loan-history-wrap .product-name {
+    width: 165px;
+}
+
+/*
+    loan-apply-wrap
+*/
+.loan-apply-wrap .list-table thead .productName {
+    width: 200px;
+}
+
+.loan-apply-wrap .product-name {
+    width: 200px;
+    padding-left: 10px;
+}
+
+.loan-apply-wrap .list-table thead .time {
+    width: 120px;
+}
+
+.loan-apply-wrap .list-table thead .cashName {
+    padding-right: 0;
+}
+
+.loan-apply-wrap .list-table thead .cashName.loan {
+    width: 110px;
+}
+
+.loan-apply-wrap .list-table thead .cashName.refund {
+    width: 120px;
+}
+
+.loan-apply-wrap .list-table tbody .cashData {
+    padding-right: 10px;
+}
+
+/*lucoinWrap*/
+.lucoin-wrap .list-table td {
+    padding: 0 10px;
+    height: 60px;
+}
+.lucoin-wrap .list-table .lucoinIdData {
+    padding:0 0 0 15px;
+    text-align: left;
+    white-space: nowrap;
+}
+.lucoin-wrap .list-table .lucoinRuleData {
+    padding:0 5px;
+    text-align: left;
+    white-space: nowrap;
+}
+.lucoin-wrap .lucoinIdData .limitWidth {
+    height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:125px;
+}
+.lucoin-wrap .lucoinNameData .limitWidth2 {
+    height: 34px;
+    overflow: hidden;
+    text-align: left;
+}
+.lucoin-wrap .lucoinRuleData .limitWidth {
+    height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:175px;
+}
+.lucoin-wrap .list-table .cashData {
+    color:#f15500;
+    padding: 0 15px 0 5px;
+}
+.lucoin-wrap .list-table .deductible a {
+    display: block;
+    width:105px;
+    white-space:nowrap;
+    text-align: left;
+    height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.lucoin-wrap .list-table .lucoinStateData {
+    color:#999;
+}
+
+/*ECR5333*/
+.lucoin-wrap .tip {
+    height: 46px;
+    line-height: 46px;
+    padding-left: 20px;
+}
+.lucoin-wrap .tab-content-wrap-account {
+    overflow: hidden;
+    margin-top:-1px;
+    z-index: 1;
+    display: none;
+}
+.lucoin-wrap .tab {
+    height:36px;
+    position: relative;
+    z-index: 2;
+}
+.lucoin-wrap .tab a {
+    display: inline-block;
+    zoom:1;
+    font-size: 18px;
+    line-height: 34px;
+    text-align: center;
+    padding:0 30px;
+    color:#231a8a;
+    background: #f5f5ff;
+    border:1px solid #ccf;
+    border-radius: 3px 3px 0 0;
+    text-decoration: none;
+}
+.lucoin-wrap .tab .on, .lucoin-wrap .tab a:hover {
+    background: #fff;
+    border-color:#ccf #ccf #fff #ccf;
+    color:#666;
+}
+.lucoin-wrap .tab .activate_lucoin {
+    float:right;
+    padding:15px 10px 0 0;
+    line-height: 100%;
+    font-size: 12px;
+    color:#231a8a;
+    cursor:pointer;
+}
+.lucoin-wrap .tab .activate_lucoin:hover {
+    text-decoration: underline;
+}
+.lucoin-wrap .show {
+    display: block;
+}
+
+/*bankcard-wrap*/
+.bankcard-wrap {
+}
+
+.bankcard-wrap .main-content {
+    border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+}
+
+.bankcard-wrap .main-content .title {
+    margin: 10px 0 10px 20px;
+}
+
+.bankcard-wrap .list-table .bank-name {
+    width: 150px;
+}
+
+.bankcard-wrap .list-table td {
+    height: 50px;
+}
+
+.bankcard-wrap .list-table tbody td {
+    border-bottom: 1px solid #ddd;
+}
+
+.bankcard-wrap .list-table .operation-cash {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.bankcard-wrap .main-content.unAuth {
+    width: 536px;
+    border: 2px solid #f00;
+    background-color: #FBEEE8;
+    height: 70px;
+    font-size: 14px;
+    color: #f00;
+}
+
+.bankcard-wrap .main-content.unAuth .tips {
+    margin: 12px;
+}
+
+.bankcard-wrap .main-content.unAuth .icon {
+    margin-right: 5px;
+}
+
+.bankcard-wrap .linkChange {
+    margin-left: 10px;
+}
+
+/*my-info-wrap*/
+.my-info-wrap .list-table {
+    table-layout: auto;
+}
+
+.my-info-wrap .list-table thead th {
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #ccf;
+    background-color: #f5f5f5;
+    height: 40px;
+}
+
+.my-info-wrap .list-table tbody td {
+    height: 49px;
+}
+
+.my-info-wrap .td-title {
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px;
+	width: 105px;
+}
+
+.my-info-wrap .td-comment {
+    text-align: left;
+    color: #999;
+}
+
+.my-info-wrap .td-content {
+    width: 180px;
+    text-align: left;
+    padding-left: 20px;
+    line-height: 1.5em;
+}
+
+.my-info-wrap .td-state {
+    width: 65px;
+    text-align: left;
+    padding-left: 8px;
+    background-color: #f5f8ff;
+}
+
+.my-info-wrap .td-state .icon {
+    margin: 0 5px;
+}
+
+.my-info-wrap .td-state.no-auth,
+.my-info-wrap .td-state.fail-auth{
+    color: #e6551d;
+}
+
+.my-info-wrap .td-state .exclamationCircleIcon {
+    margin: -1px 5px 0 0;
+}
+
+.my-info-wrap .info-state {
+    height: 40px;
+    line-height: 40px;
+}
+
+.my-info-wrap .info-state .title {
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.my-info-wrap .info-state .state {
+    float: right;
+}
+
+.my-info-wrap .info-state .name {
+    float: right;
+    margin-right: 40px;
+}
+
+.my-info-wrap .list-table .caption {
+    text-align: left;
+    padding-left: 15px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.my-info-wrap .td-comment {
+    width: 288px;
+    padding-right: 20px;
+}
+
+.my-info-wrap .td-operate {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.my-info-wrap .security-info {
+    margin-top: 10px;
+}
+
+/*my-message-wrap*/
+.my-message-wrap .head-content {
+    height: 45px;
+    line-height: 45px;
+    padding-left: 20px;
+    border-bottom: 1px solid #ccf;
+}
+
+.my-message-wrap .head-content .title {
+    display: inline;
+    font-size: 16px;
+    color: #1d2088;
+}
+
+.my-message-wrap .operation-panel {
+    height: 38px;
+    line-height: 38px;
+    padding: 0 20px;
+}
+
+.my-message-wrap .operation-panel .li.last-child {
+    text-align: right;
+    float: right;
+}
+
+.my-message-wrap .list-table {
+    table-layout: auto;
+}
+
+.my-message-wrap .list-table thead .origin {
+    width: 180px;
+}
+
+.my-message-wrap .list-table thead .content,
+.my-message-wrap .list-table .contentData {
+    width: 480px;
+}
+
+.my-message-wrap .list-table .contentData {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left
+}
+
+.my-message-wrap .list-table .readState {
+    color: #666;
+    width: 135px;
+    text-align: left;
+}
+
+.my-message-wrap .list-table .contentData {
+    display: inline-block;
+    font-size: 14px;
+    color: #666;
+}
+
+.my-message-wrap .list-table .contentData a {
+    color: #666;
+    font-size: 12px;
+}
+
+.my-message-wrap .list-table .contentData a .msg-title {
+    color: #666;
+}
+
+.my-message-wrap .list-table .unRead .readState {
+    font-weight: bold;
+    color: #333;
+}
+
+.my-message-wrap .list-table .unRead .contentData a .msg-title {
+    color: #3a4acf;
+}
+
+.my-message-wrap .list-table .form_checkbox {
+    margin-left: 20px;
+}
+
+/*.my-message-detail*/
+.my-message-wrap .link-back {
+    float: right;
+    margin: 8px 30px 0 0;
+}
+
+.my-message-wrap .message-title {
+    font-size: 14px;
+}
+
+.my-message-wrap .message-content {
+    padding: 30px;
+    line-height: 180%;
+    text-align: left;
+}
+
+.my-message-wrap .operation-panel .li.origin {
+    margin-left: 40px;
+}
+
+.my-message-wrap .tFooter {
+    text-align: center;
+}
+
+/*.integral-wrap*/
+.integral-wrap .operation-panel li:first-child {
+    font-size: 14px;
+}
+
+.integral-wrap .available-integral {
+    display: inline-block;
+    width: 150px;
+    color: #e6551d;
+    font-weight: bold;
+}
+
+.integral-wrap .list-table .integralName {
+    width: 120px;
+}
+
+.integral-wrap .list-table .integralData {
+    text-align: right;
+    padding-right: 30px;
+}
+
+.integral-wrap .list-table .comments {
+    width: 400px;
+}
+
+.integral-wrap .list-table .commentsData {
+    text-align: left;
+    padding-left: 20px;
+}
+
+/*
+load_refund*/
+.list_wrap .titleWrap {
+    background: url(../images/account_title_bg.jpg) repeat-x 0 0;;
+    height: 31px;
+    line-height: 31px;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-color: #eee;
+}
+
+.list_wrap .titleWrap .titleInfo {
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+.loan_refund_detail td,
+.loan_history_detail td {
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.loan_refund_detail .ui_grid_account tr.title,
+.loan_history_detail .ui_grid_account tr.title {
+    border: #CECECE solid 1px;
+    border-top: #9F9F9F solid 1px;
+}
+
+.loan_refund_detail .ui_grid_account th,
+.loan_history_detail .ui_grid_account th {
+    height: 38px;
+}
+
+.loan_refund_detail .ui_grid_account tbody tr,
+.loan_history_detail .ui_grid_account tbody tr {
+    height: 50px;
+    background-color: #fff;
+    width: 100%;
+    border: none;
+}
+
+.loan_refund_detail .projectName,
+.loan_history_detail .projectName {
+    width: 160px;
+}
+
+.loan_refund_detail .agreements,
+.loan_refund_detail .refundDetail,
+.loan_history_detail .agreements,
+.loan_history_detail .refundDetail {
+    margin-top: 20px;
+}
+
+.agreements .titleWrap,
+.refundDetail .titleWrap {
+    height: 32px;
+    line-height: 32px;
+    background: #F5F5F5;
+    padding: 0 10px 0 15px;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+}
+
+.loan_apply td.projectName_data,
+.loan_history td.projectName_data,
+.loan_refund_detail .projectName_data,
+.loan_history_detail .projectName_data {
+    text-align: left;
+    padding: 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.loan_refund_detail .refundDate,
+.loan_refund_detail .refundDate_data,
+.loan_history_detail .collectionDate,
+.loan_history_detail .refundDate_data {
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.loan_refund_detail .loanPrincipal,
+.loan_refund_detail .unpaidPrincipal,
+.loan_history_detail .loanPrincipal {
+    width: 120px;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.loan_refund_detail .loanPrincipal_data,
+.loan_history_detail .loanPrincipal_data {
+    text-align: right;
+    padding-right: 28px;
+    color: #e6551d;
+}
+
+.loan_refund_detail .unpaidPrincipal_data {
+    text-align: right;
+    padding-right: 28px;
+}
+
+.loan_refund_detail .expectReimbAmount,
+.loan_history_detail .expectReimbAmount {
+    width: 120px;
+    text-align: right;
+}
+
+.loan_refund_detail .expectReimbAmount_data,
+.loan_history_detail .expectReimbAmount_data {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.loan_refund_detail .agreements .content,
+.loan_history_detail .agreements .content {
+    border-bottom: 1px solid #e4e4e4;
+    height: 40px;
+    line-height: 40px;
+}
+
+.refundDetail .content {
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.loan_refund_detail .agreements .content li,
+.loan_history_detail .agreements .content li {
+    float: left;
+    padding-left: 90px;
+}
+
+.refundDetail .content li {
+    float: left;
+    width: 237px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.refundDetail .titleWrap .title {
+    float: left;
+}
+
+.loan_refund_detail .refundDetail .titleWrap .comment {
+    float: left;
+    font-weight: normal;
+    font-size: 12px;
+    color: #999;
+}
+
+.loan_refund_detail .refundDetail .titleWrap .btns {
+    float: right;
+    margin-top: 3px;
+}
+
+.refundDetail .content li .item {
+    display: inline-block;
+    font-weight: bold;
+    text-align: right;
+    width: 150px;
+}
+
+.loan_refund_detail .refundTip {
+    height: 40px;
+    line-height: 40px;
+}
+
+.loan_refund_periods,
+.loan_history_periods {
+    margin-top: 20px;
+}
+
+.loan_refund_periods tbody td,
+.loan_history_periods tbody td {
+    background: url(../images/td_border_bg_12.jpg) repeat-x 0 bottom #f5f5f5;
+    border: none;
+}
+
+.loan_refund_periods tbody tr.current td,
+.loan_history_periods tbody tr.current td {
+    background-position: 0 -2px;
+}
+
+.loan_refund_periods .period {
+    width: 80px;
+}
+
+.loan_refund_periods .lateChargeOwed {
+    width: 120px;
+}
+
+.loan_refund_periods .depositOwed {
+    width: 110px;
+}
+
+.loan_refund_periods .operation {
+    width: 80px;
+}
+
+.loan_refund_periods .totleAmountOwed_data,
+.loan_refund_periods .principalOwed_data,
+.loan_refund_periods .interestOwed_data,
+.loan_history_periods .totleAmountOwed_data,
+.loan_history_periods .principalOwed_data,
+.loan_history_periods .interestOwed_data {
+    text-align: right;
+    padding-right: 18px;
+}
+
+.loan_history_periods .totleAmountOwed_data {
+    color: #e6551d;
+}
+
+.loan_refund_periods .lateChargeOwed_data,
+.loan_refund_periods .depositOwed_data,
+.loan_history_periods .lateChargeOwed_data,
+.loan_history_periods .depositOwed_data {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.loan_refund_periods .totleAmountOwed_data {
+    color: #e6551d;
+}
+
+.com_table_prompt {
+    border: 2px solid #bfbfbf;
+    /*padding: 12px;*/
+    border-radius: 5px;
+    position: relative;
+}
+
+.com_table_prompt .arrow {
+    width: 19px;
+    height: 11px;
+    background: url(../images/com_table_icon.png) no-repeat 0 0;
+    position: absolute;
+    /*top: -11px;*/
+    margin-top: -11px;
+    left: 14px;
+}
+
+.loan_refund_periods .com_table_prompt,
+.loan_history_periods .com_table_prompt {
+    padding: 0;
+    width: 730px;
+    margin-left: 14px;
+}
+
+.loan_history_periods .com_table_prompt {
+    margin-left: 32px;
+}
+
+.com_table_prompt .detailTable {
+    width: 100%;
+    text-align: center;
+}
+
+.com_table_prompt table.detailTable tr {
+    height: auto;
+}
+
+.com_table_prompt .detailTable .thead th {
+    background-color: #fbeaac;
+    height: 30px;
+    line-height: 30px;
+}
+
+.com_table_prompt .detailTable .tbody td {
+    height: 30px;
+    line-height: 30px;
+    border: none;
+    border-top: 1px solid #e4e4e4;
+    background-color: #fff;
+    background-image: none;
+}
+
+.com_table_prompt .cashStyle {
+    text-align: right;
+    padding-right: 35px;
+}
+
+.loan_refund_periods .adjustRate,
+.loan_history_periods .adjustRate {
+    border-bottom: 1px dashed #f00;
+    display: block;
+    color: #f00;
+    width: 48px;
+    margin: 0 auto;
+}
+
+.loan_refund_periods .adjustRate:hover,
+.loan_history_periods .adjustRate:hover {
+    cursor: pointer;
+}
+
+.loan_refund_periods .periodDetail .td,
+.loan_history_periods .periodDetail .td {
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+.loan_refund_detail .getHelp,
+.loan_history_detail .getHelp {
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 20px;
+}
+
+.invest-detail-wrap .operation-panel {
+    background-color: #fff;
+}
+
+.invest-detail-wrap .operation-panel .comments {
+    margin: 10px 0 0 0;
+    float: right;
+}
+
+.invest-detail-wrap .operation-panel .operate-state {
+    clear: both;
+    width: 100%;
+    margin-top: 10px;
+    border-top: 1px dotted #c1c1c1;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.invest-detail-wrap .list-table thead .cashName {
+    width: 110px;
+}
+
+.invest-detail-wrap .list-table thead .time {
+    width: 120px;
+}
+
+.invest-home-wrap .tab-content-wrap-account {
+    margin-bottom: 10px;
+}
+
+.invest-home-wrap .info-state {
+    height: 40px;
+}
+
+.invest-home-wrap .info-state .title {
+    color: #1D2088;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.invest-home-wrap .info-state .updateTime {
+    float: right;
+    color: #999;
+}
+
+.invest-home-wrap .info-state .freshData {
+    float: right;
+    margin-left: 20px;
+}
+
+.invest-home-wrap .blockHead {
+    height: 40px;
+    line-height: 40px;
+    background-color: #f5f8ff;
+    color: #999;
+    font-size: 14px;
+    padding-left: 20px;
+    border-bottom: 1px solid #ccf;
+}
+
+.invest-home-wrap .blockContent .li {
+    border-top: 1px solid #f5f5f5;
+    padding: 10px 0;
+    position: relative;
+}
+
+.invest-home-wrap .blockContent .li:first-child {
+    border-top: none;
+}
+
+.invest-home-wrap .blockContent .li .linkMore {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 0;
+    float: none;
+}
+
+.invest-home-wrap .blockContent .li .item {
+    display: inline-block;
+    line-height: 160%;
+}
+
+.invest-home-wrap .blockContent .li .item.title {
+    width: 160px;
+    text-align: right;
+}
+
+.invest-home-wrap .blockContent .li .item.data {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.invest-home-wrap .blockContent .li .item .icon-detail {
+    margin-left: 8px;
+}
+
+.invest-home-wrap .blockContent .li p.item.comments {
+    margin-left: 160px;
+}
+
+.invest-home-wrap .blockContent .li .item.comments {
+    color: #999;
+    margin-left: 20px;
+}
+
+.push10 {
+    margin-right: 10px;
+}
+
+.push20 {
+    margin-right: 20px;
+}
+
+.push40 {
+    margin-right: 40px;
+}
+
+.pop-lucoin-guid{
+    background: url(../images/lucoin-guid.png) no-repeat 0 0;
+    width: 469px;
+    height: 329px;
+}
+
+.pop-lucoin-guid a{
+    display: block;
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-top: 16px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.pop-lucoin-guid .linkMore{
+    display: block;
+    width: 130px;
+    height: 40px;
+    margin: 283px 142px 0 0;
+}
+
+/*activation lufax coin pop panel --- begin*/
+.lufaxCoin-content .active-code{
+    color: #999;
+    margin: 0 5px;
+}
+
+.lufaxCoin-content .table-rules{
+    margin: 20px 0 0 20px;
+}
+.lufaxCoin-content .table-rules td{
+    padding-bottom: 10px;
+}
+.lufaxCoin-content .table-rules .table-name{
+    text-align: right;
+    vertical-align: top;
+}
+.lufaxCoin-content .table-rules .table-value{
+    color: #999;
+    padding-left: 20px;
+}
+
+.lufaxCoin-content .LC-limited{
+    margin-top: 15px;
+    background-color: #f3f3f3;
+    padding: 8px 20px;
+}
+/*activation lufax coin pop panel --- end*/
+
+
+
+/*my-loan*/
+.my_loan_list li {
+    border:1px solid #ccf;
+    margin-bottom:20px;
+}
+.my_loan_list .apply_num {
+    background-color:#dce3fc;
+    height:38px;
+    font-weight: bold;
+    line-height: 38px;
+    padding-left:30px;
+    border-bottom: 1px solid #ccf;
+}
+.my_loan_list table {
+    width:100%;
+}
+.my_loan_list table th, .my_loan_list table td {
+    padding:10px 0;
+    text-align: center;
+}
+.my_loan_list table th {
+    background-color: #f5f5ff;
+    font-weight: normal;
+}
+.my_loan_list table .time {
+    width:140px;
+}
+.my_loan_list table .loan, .my_loan_list table .repay, .my_loan_list .right {
+    width:140px;
+    text-align: right;
+    padding-right:20px;
+}
+.my_loan_list table .rate {
+    width:110px;
+
+}
+.my_loan_list table .month {
+    width:110px;
+}
+
+.state-panel {
+    border: 1px solid #ffbb77;
+    background-color: #fdfaea;
+    padding: 20px 0;
+    margin-bottom:20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+
+/*my-message-wrap*/
+.my-message-wrap .head-content {
+    height: 45px;
+    line-height: 45px;
+    padding-left: 20px;
+    border-bottom: 1px solid #ccf;
+}
+
+.my-message-wrap .head-content .title {
+    display: inline;
+    font-size: 16px;
+    color: #1d2088;
+}
+
+.my-message-wrap .operation-panel {
+    height: 38px;
+    line-height: 38px;
+    padding: 0 20px;
+}
+
+.my-message-wrap .operation-panel .li.last-child {
+    text-align: right;
+    float: right;
+}
+
+.my-message-wrap .list-table {
+    table-layout: auto;
+}
+
+.my-message-wrap .list-table thead .origin {
+    width: 180px;
+}
+
+.my-message-wrap .list-table thead .content,
+.my-message-wrap .list-table .contentData {
+    width: 480px;
+}
+
+.my-message-wrap .list-table .contentData {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left
+}
+
+.my-message-wrap .list-table .readState {
+    color: #666;
+    width: 100px;
+    text-align: left;
+}
+
+.my-message-wrap .list-table .contentData {
+    display: inline-block;
+    font-size: 14px;
+    color: #666;
+}
+
+.my-message-wrap .list-table .contentData a {
+    color: #666;
+    font-size: 12px;
+}
+
+.my-message-wrap .list-table .contentData a .msg-title {
+    color: #666;
+}
+
+.my-message-wrap .list-table .unRead .readState {
+    font-weight: bold;
+    color: #333;
+}
+
+.my-message-wrap .list-table .unRead .contentData a .msg-title {
+    color: #3a4acf;
+}
+
+.my-message-wrap .list-table .form_checkbox {
+    margin-left: 20px;
+}
+
+/*.my-message-detail*/
+.my-message-wrap .link-back {
+    float: right;
+    margin: 8px 30px 0 0;
+}
+
+.my-message-wrap .message-title {
+    font-size: 14px;
+}
+
+.my-message-wrap .message-content {
+    padding: 30px;
+    line-height: 180%;
+    text-align: left;
+}
+
+.my-message-wrap .operation-panel .li.origin {
+    margin-left: 40px;
+}
+
+.my-message-wrap .tFooter {
+    text-align: center;
+}
