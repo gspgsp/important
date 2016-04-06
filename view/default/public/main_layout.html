@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>{if $seo.title}{$seo.title}{else}{if $title}{$title}-{/if}{$sys.site_title}{/if}</title>
+  <meta name="keywords" content="{$seo.keywords|default:$sys.site_keywords}" />
+  <meta name="description" content="{$seo.description|default:$sys.site_desc}" />
+  {if $sys.site_icon}<link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />{/if}
+  <link rel="stylesheet" href="__CSS__/index.css" />
+  <link rel="stylesheet" href="__CSS__/public.css" />
+  <link rel="stylesheet" href="__CSS__/extra.css" />
+  <script src="__JS__/jquery/jquery.js" type="text/javascript"></script>
+  <script src="__JS__/common.js" type="text/javascript"></script>
+  {$sys.stats_sem}
+</head>
+<body>
+<!--header start-->
+<div class="head-wrap">
+
+  <div class="top">
+    <div class="in">
+      <ul class="login-status clearfix">
+        {if $user_id}
+        <li>您好，<a href="/my" class="cookie-name"><span class="f_orange">{$user_name}</span></a></li>
+        <span class="link-split"><!-- 分隔线 --></span>
+        <li><a href="/my/line/msgs">站内信(<span {if $unread_msgs_count}class="f_red"{/if}>{$unread_msgs_count}</span>)</a> </li>
+        <span class="link-split"><!-- 分隔线 --></span>
+        <li style="position:relative" id="top-my-account"><i class="icon_account"></i><a href="/my/account">我的账户</a>
+          <div class="pop">
+            <a href="/my/cash">资金记录</a>
+            <a href="/my/investment">我的投资</a>
+            <a href="/my/recomment/result">我的好友</a>
+            <a href="/my/bank">银行卡管理</a>
+          </div>
+        </li>
+        <span class="link-split"><!-- 分隔线 --></span>
+        <li><a href="/user/logout" class="cookie-login">[退出登录]</a> </li>
+        {else}
+        <li><a href="/user/login" class="cookie-login">立即登录</a></li><span class="link-split"><!-- 分隔线 --></span>
+        <li> <a href="/user/register" class="cookie-register">快速注册</a> </li>
+        {/if}
+      </ul>
+      <ul class="media-link clearfix">
+        {if $sys.wweibo.link or $sys.weixin.qrcode}
+        <span style="color:#fff; float:left">关注我们：</span>
+        {if $sys.weibo.link}
+        <li><a href="{$sys.weibo.link}" target="_blank"><i class="icon-weibo"></i>官方微博</a></li>
+        <span class="link-split"><!-- 分隔线 --></span>
+        {/if}
+        {if $sys.weixin.qrcode}
+        <li class="weixin"> <a href="#weixin"><i class="icon-weixin"></i>微信</a>
+          <p> <b></b> <img src="__UPLOAD__/{$sys.weixin.qrcode}" /> </p>
+        </li>
+        {/if}
+        {/if}
+      </ul>
+      <ul class="top-account" style="margin-right:20px">
+        <li><i class="icon_mobile"></i><a href="/mobile">手机上{$sys.site_name}</a></li>
+        <span class="link-split"><!-- 分隔线 --></span>
+        <li><i class="icon_help"></i><a href="/help">帮助中心</a></li>
+        <span class="link-split"><!-- 分隔线 --></span>
+      </ul>
+    </div>
+  </div>
+
+  <div class="head-body-wrap">
+    <div class="head-body">
+      <div class="logo"><a href="/"><img src="__UPLOAD__/{$sys.site_logo}" /></a></div>
+      <ul class="main-nav clearfix">
+        <li><a class="m_nav {if $menu eq 'home'}selected{/if}" href="/">首页</a></li>
+        <li class="invest">
+          <a class="m_nav {if $menu eq 'invest'}selected{/if}" href="/list/invest">我要理财</a>
+        </li>
+        <li><a class="m_nav {if $menu eq 'loan'}selected{/if}" href="/loan/apply">我要借款</a></li>
+        <li><a class="m_nav {if $menu eq 'experts'}transfer{/if}" href="/list/transfer">债权转让</a></li>
+        <li><a class="m_nav {if $menu eq 'safe'}selected{/if}" href="/safe">安全保障</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!--header end-->
+{__CONTENT__}
+<!--foot start-->
+<div class="foot-wrap clear">
+  <div class="foot-body">
+    {if $friendlinks}
+    <div class="friend_link">
+      <h4 class="tit">友情链接</h4>
+      <ul>
+        {foreach from=$friendlinks item=v}
+        <li>
+          <a class="gray" target="_blank" href="{$v.url}">{$v.title}</a>
+        </li>
+        {/foreach}
+      </ul>
+    </div>
+    <div class="clearfix"></div>
+    {/if}
+    <div class="foot-info"> <i class="icon-about-ssr"></i>
+      <dl class="about-ssr-list">
+        <dt><a href="/about">关于我们</a></dt>
+        {foreach from=$infos_about item=v}
+        <dd><a href="/about/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
+        {/foreach}
+      </dl>
+    </div>
+    <div class="foot-info"> <i class="icon-help-center"></i>
+      <dl class="help-center-list">
+        <dt><a href="/help">帮助中心</a></dt>
+        {foreach from=$infos_help item=v}
+        <dd><a href="/help/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
+        {/foreach}
+      </dl>
+    </div>
+    <div class="foot-info"> <i class="icon-safe-ssr"></i>
+      <dl class="safe-ssr-list">
+        <dt><a href="/safe">安全保障</a></dt>
+        {foreach from=$infos_safe item=v}
+        <dd><a href="/safe/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
+        {/foreach}
+      </dl>
+    </div>
+    <div class="foot-info"> <i class="icon-qualification"></i>
+      <dl class="safe-ssr-list">
+        <dt><a href="/contact">联系我们</a></dt>
+        {foreach from=$infos_contact item=v}
+        <dd><a href="/contact/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
+        {/foreach}
+      </dl>
+    </div>
+    <div class="copyright-info">
+      <p class="copyright">
+        <span style="font-size:20px;color:#fff;line-height:1.5;">服务热线：{$sys.service_phone}</span>
+      </p><div class="ht10"></div>
+      人工服务时间：{$sys.service_time}<br>
+      {if $sys.company_name}版权所有 © {$sys.company_name}<br>{/if}
+      {$sys.icp_number|nl2br}<br>
+    </div>
+  </div>
+</div>
+
+<div class="top_question"><div class="totop hover" id="toTop"><div class="totop-icon-con"><span class="totop-icon totop-icon-hover">&nbsp;</span></div><span class="text">顶部</span></div></div>
+<!--foot end-->
+<script type="text/javascript">
+$(document).ready(function() {
+    var ScrolltoTop = $("#toTop");
+    $(ScrolltoTop).hide();
+    $(window).scroll(function() {
+        if ($(window).scrollTop() == "0") {
+            $(ScrolltoTop).fadeOut("slow")
+        } else {
+            $(ScrolltoTop).fadeIn("slow")
+        }
+    });
+    $(ScrolltoTop).click(function() {
+        $('html, body').animate({
+            scrollTop: 0
+        },
+        700)
+    })
+});
+</script>
+{if $sys.stats_code}<div class="hidden">{$sys.stats_code}</div>{/if}
+</body>
+</html>
