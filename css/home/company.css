@@ -1,0 +1,30 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input{ margin:0; padding:0; border:0;}
+ul,ol,li{ list-style:none;}
+body{ font-family:"宋体"; font-size:12px; color:#666;}
+
+.flt{ float:left;}
+.frt{ float:right;}
+
+.company-wrap{ width:1200px; height:auto; overflow:hidden; margin:0 auto; margin-top:20px;}
+.company-wrap h3{ font-family:"微软雅黑"; font-size:18px; font-weight:normal; color:#ff7200; text-indent:14px; height:39px; line-height:39px; background:#f2f2f2; border-bottom:1px solid #d9d9d9;}
+.company-wrap .left{ width:810px; height:auto; overflow:hidden; float:left;}
+.company-wrap .right{ width:370px; height:auto; overflow:hidden; float:right;}
+.company-wrap .product ul{ margin:24px 0 0 15px;}
+.company-wrap .product ul li{ width:253px; height:177px; overflow:hidden; float:left; margin-right:10px; cursor:pointer;}
+.company-wrap .info ul{ width:341px; line-height:26px; margin:15px 0 0 16px;}
+.company-wrap .info ul li{ text-align:right; background:url(../img/iconInfo.jpg) no-repeat left center; padding:0 0 0 21px;}
+.company-wrap .info ul li a{ float:left; text-decoration:none; color:#666;}
+.company-wrap .info ul li:hover{ background:url(../img/iconInfoHover.jpg) no-repeat left center;}
+.company-wrap .info ul li:hover a{ text-decoration:underline; color:#ff7200;}
+.company-wrap .about{ width:810px; height:239px; overflow:hidden; background:#f2f2f2;}
+.company-wrap .about img{ float:left; margin:19px 26px 0 20px;}
+.company-wrap .about p{ width:384px; height:auto; overflow:hidden; text-indent:22px; line-height:26px; float:left; margin:10px 0 0 0;}
+.company-wrap .contact ul{ line-height:26px; margin:15px 0 0 14px;}
+.company-wrap .contact ul li span{ margin:0 12px;}
+.my-mask{ overflow: hidden; padding: 20px; line-height: 25px; text-indent: 25px;}
+
+#demo{ overflow:hidden; width: 810px; height:177px; overflow: hidden; margin-left:10px; }
+#indemo { float: left; width: 800%;}
+#demo1 { float: left;}
+#demo2 { float: left;}
+
