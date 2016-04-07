@@ -1,166 +1,283 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>{if $seo.title}{$seo.title}{else}{if $title}{$title}-{/if}{$sys.site_title}{/if}</title>
-  <meta name="keywords" content="{$seo.keywords|default:$sys.site_keywords}" />
-  <meta name="description" content="{$seo.description|default:$sys.site_desc}" />
-  {if $sys.site_icon}<link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />{/if}
-  <link rel="stylesheet" href="__CSS__/index.css" />
-  <link rel="stylesheet" href="__CSS__/public.css" />
-  <link rel="stylesheet" href="__CSS__/extra.css" />
-  <script src="__JS__/jquery/jquery.js" type="text/javascript"></script>
-  <script src="__JS__/common.js" type="text/javascript"></script>
-  {$sys.stats_sem}
-</head>
-<body>
-<!--header start-->
-<div class="head-wrap">
+	<title>市场点评</title>
+	<meta name="keywords" content="市场点评" />
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="description" content="市场点评" />
+	<link href="__CSS__/home/master.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/home/company.css">
+	<style type="text/css">
+		.top-banner{ width: 100%; height: 80px; overflow:hidden;}
+		.top-banner .banner1{ width: 100%; height: 80px; background:url(__IMG__/image/banner1.jpg) center
+			top;}
+			.top-banner .banner2{ width: 100%; height: 80px; background:url(__IMG__/image/banner2.jpg) center
+				top;}
+				.top-banner a{ display: block; width: 100%; height: 80px;}
+			</style>
 
-  <div class="top">
-    <div class="in">
-      <ul class="login-status clearfix">
-        {if $user_id}
-        <li>您好，<a href="/my" class="cookie-name"><span class="f_orange">{$user_name}</span></a></li>
-        <span class="link-split"><!-- 分隔线 --></span>
-        <li><a href="/my/line/msgs">站内信(<span {if $unread_msgs_count}class="f_red"{/if}>{$unread_msgs_count}</span>)</a> </li>
-        <span class="link-split"><!-- 分隔线 --></span>
-        <li style="position:relative" id="top-my-account"><i class="icon_account"></i><a href="/my/account">我的账户</a>
-          <div class="pop">
-            <a href="/my/cash">资金记录</a>
-            <a href="/my/investment">我的投资</a>
-            <a href="/my/recomment/result">我的好友</a>
-            <a href="/my/bank">银行卡管理</a>
-          </div>
-        </li>
-        <span class="link-split"><!-- 分隔线 --></span>
-        <li><a href="/user/logout" class="cookie-login">[退出登录]</a> </li>
-        {else}
-        <li><a href="/user/login" class="cookie-login">立即登录</a></li><span class="link-split"><!-- 分隔线 --></span>
-        <li> <a href="/user/register" class="cookie-register">快速注册</a> </li>
-        {/if}
-      </ul>
-      <ul class="media-link clearfix">
-        {if $sys.wweibo.link or $sys.weixin.qrcode}
-        <span style="color:#fff; float:left">关注我们：</span>
-        {if $sys.weibo.link}
-        <li><a href="{$sys.weibo.link}" target="_blank"><i class="icon-weibo"></i>官方微博</a></li>
-        <span class="link-split"><!-- 分隔线 --></span>
-        {/if}
-        {if $sys.weixin.qrcode}
-        <li class="weixin"> <a href="#weixin"><i class="icon-weixin"></i>微信</a>
-          <p> <b></b> <img src="__UPLOAD__/{$sys.weixin.qrcode}" /> </p>
-        </li>
-        {/if}
-        {/if}
-      </ul>
-      <ul class="top-account" style="margin-right:20px">
-        <li><i class="icon_mobile"></i><a href="/mobile">手机上{$sys.site_name}</a></li>
-        <span class="link-split"><!-- 分隔线 --></span>
-        <li><i class="icon_help"></i><a href="/help">帮助中心</a></li>
-        <span class="link-split"><!-- 分隔线 --></span>
-      </ul>
-    </div>
-  </div>
+			<script src="themes/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+			<script src="themes/js/common.js" type="text/javascript"></script>
+			<script src="themes/js/layer/layer.js" type="text/javascript"></script>
+			<script src="themes/suliao/js/jquery.tab.js" type="text/javascript"></script>
+			<script src="themes/suliao/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+			<script src="themes/suliao/js/flowplayer-3.2.4.min.js" type="text/javascript"></script>
+			<script type="text/javascript">
+				$(function () {
+//顶部banner切换
+var topBanner = $(".top-banner");
+setInterval(function(){
+	topBanner.find(".banner1").toggle();
+},3000);
+$(".nav_xialab").hide();
+$(".erjixialabg li:last").css("border-bottom", "none");
+var to = undefined;
+$(".nav_a a, .nav_xialab").mouseover(function () {
+	clearTimeout(to);
+	$(".nav_xialab").slideDown(100);
+}).mouseleave(function () {
+	to = setTimeout(function () { $(".nav_xialab").slideUp(100); }, 200);
+});
+$(".nav_xialab > ul > li").each(function () {
+	$(this).hover(function () {
+		$(this).addClass("baisebeijieng").find(".erjixialabg").stop().show();
+	}, function () {
+		$(this).removeClass("baisebeijieng").find(".erjixialabg").stop().hide();
+	});
+});
+$(".gangqinge, .gangqinge_hs").slide({ mainCell: ".gangqinge_a ul", titCell: ".gangqinge_b ul", titOnClassName: "ahover", autoPlay: true, autoPage: "<li>&nbsp;</li>" });
+$(".gongaoimg").slide({ mainCell: ".xingonggao ul", autoPage: true, scroll: 6, vis: 6, nextCell: ".gongaoimg_title li:eq(0) a", prevCell: ".gongaoimg_title li:eq(1) a", effect: "top", autoPlay: true });
+//返回顶部
+$(".yijainfankui li:last").click(function () {
+	$("html,body").animate({ "scrollTop": 0 }, 200);
+	return false;
+})
+$(".hydnegliu").mouseover(function () {
+	$(".shuxbxiaegf").show();
+});
+$(".shuxbxiaegf").mouseleave(function () {
+	$(this).hide();
+});
 
-  <div class="head-body-wrap">
-    <div class="head-body">
-      <div class="logo"><a href="/"><img src="__UPLOAD__/{$sys.site_logo}" /></a></div>
-      <ul class="main-nav clearfix">
-        <li><a class="m_nav {if $menu eq 'home'}selected{/if}" href="/">首页</a></li>
-        <li class="invest">
-          <a class="m_nav {if $menu eq 'invest'}selected{/if}" href="/list/invest">我要理财</a>
-        </li>
-        <li><a class="m_nav {if $menu eq 'loan'}selected{/if}" href="/loan/apply">我要借款</a></li>
-        <li><a class="m_nav {if $menu eq 'experts'}transfer{/if}" href="/list/transfer">债权转让</a></li>
-        <li><a class="m_nav {if $menu eq 'safe'}selected{/if}" href="/safe">安全保障</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-<!--header end-->
-{__CONTENT__}
-<!--foot start-->
-<div class="foot-wrap clear">
-  <div class="foot-body">
-    {if $friendlinks}
-    <div class="friend_link">
-      <h4 class="tit">友情链接</h4>
-      <ul>
-        {foreach from=$friendlinks item=v}
-        <li>
-          <a class="gray" target="_blank" href="{$v.url}">{$v.title}</a>
-        </li>
-        {/foreach}
-      </ul>
-    </div>
-    <div class="clearfix"></div>
-    {/if}
-    <div class="foot-info"> <i class="icon-about-ssr"></i>
-      <dl class="about-ssr-list">
-        <dt><a href="/about">关于我们</a></dt>
-        {foreach from=$infos_about item=v}
-        <dd><a href="/about/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
-        {/foreach}
-      </dl>
-    </div>
-    <div class="foot-info"> <i class="icon-help-center"></i>
-      <dl class="help-center-list">
-        <dt><a href="/help">帮助中心</a></dt>
-        {foreach from=$infos_help item=v}
-        <dd><a href="/help/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
-        {/foreach}
-      </dl>
-    </div>
-    <div class="foot-info"> <i class="icon-safe-ssr"></i>
-      <dl class="safe-ssr-list">
-        <dt><a href="/safe">安全保障</a></dt>
-        {foreach from=$infos_safe item=v}
-        <dd><a href="/safe/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
-        {/foreach}
-      </dl>
-    </div>
-    <div class="foot-info"> <i class="icon-qualification"></i>
-      <dl class="safe-ssr-list">
-        <dt><a href="/contact">联系我们</a></dt>
-        {foreach from=$infos_contact item=v}
-        <dd><a href="/contact/{$v.sn|default:$v.id}.html">{$v.title}</a></dd>
-        {/foreach}
-      </dl>
-    </div>
-    <div class="copyright-info">
-      <p class="copyright">
-        <span style="font-size:20px;color:#fff;line-height:1.5;">服务热线：{$sys.service_phone}</span>
-      </p><div class="ht10"></div>
-      人工服务时间：{$sys.service_time}<br>
-      {if $sys.company_name}版权所有 © {$sys.company_name}<br>{/if}
-      {$sys.icp_number|nl2br}<br>
-    </div>
-  </div>
-</div>
+/* 二级展开代码开始 */
+$(".nav_xialab > ul > li").css({ display: "block" }).mouseover(function () { $(this).find(".erjixialabg").show(); }).mouseleave(function () {
+	$(this).find(".erjixialabg").hide();
+});
+/* 二级展开代码结束 */
 
-<div class="top_question"><div class="totop hover" id="toTop"><div class="totop-icon-con"><span class="totop-icon totop-icon-hover">&nbsp;</span></div><span class="text">顶部</span></div></div>
-<!--foot end-->
-<script type="text/javascript">
-$(document).ready(function() {
-    var ScrolltoTop = $("#toTop");
-    $(ScrolltoTop).hide();
-    $(window).scroll(function() {
-        if ($(window).scrollTop() == "0") {
-            $(ScrolltoTop).fadeOut("slow")
-        } else {
-            $(ScrolltoTop).fadeIn("slow")
-        }
-    });
-    $(ScrolltoTop).click(function() {
-        $('html, body').animate({
-            scrollTop: 0
-        },
-        700)
-    })
+
+$(".xialalbiao ul").hide().find("li a").click(function () {
+	$(this).closest(".xialalbiao").find("p").text($(this).text());
+	$(this).closest("ul").hide();
+	return false;
+});
+$(".xialalbiao").hover(function () { $(".xialalbiao ul").show(); },
+	function () { $(".xialalbiao ul").hide(); });
 });
 </script>
-{if $sys.stats_code}<div class="hidden">{$sys.stats_code}</div>{/if}
+</head>
+<body>
+	<!--top-banner begin-->
+	<div class="top-banner">
+		<div class="banner1"><a href="http://wodesuliao.cn/zhuanti/z0318"></a></div>
+		<div class="banner2"><a href="http://wodesuliao.cn/article/show.html?id=1991"></a></div>
+	</div>
+	<!-- top-banner end -->
+	<div class="div1"></div>
+	<div class="top">
+		<div class="topk">
+			<p class="topa"><span style="color:#ff7200"> 您好，欢迎光临我的塑料网！</span>
+				<span class="wenzibianse">
+					<a href="javascript:;" onclick="Addme()">收藏本站</a>
+					&nbsp;|&nbsp;<a target="_blank" href="http://weibo.com/u/5664121161">官方微博</a>
+				</span> 
+
+			</p>
+			<p class="topb">
+				<span>
+					<a href="Login/index/dqurl/aHR0cDovL3d3dy53b2Rlc3VsaWFvLmNuL0FydGljbGUvcGxpc3QvY2lkLzI%3D" style="color:#ff7200;display:inline-block;height:40px;border-left:1px solid #e2e2e2;padding-left:15px;padding-right:15px;">登录</a>
+					<a href="Register" style="color:#339933;height:40px;display:inline-block;border-left:1px solid #e2e2e2;padding-left:15px;border-right:1px solid #e2e2e2;padding-right:15px;">免费注册</a>
+				</span>&nbsp;&nbsp;
+				<a href="pointshop">积分商城</a> - 
+				<a href="page/show.html?cid=15">常见问题</a> - 
+				<a href="page/show.html?cid=11">联系我们</a> -
+				<a href="page/show.html?cid=9">意见反馈</a> - 
+				<a href="english">ENGLISH</a>
+			</p>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="nylogo">
+		<div class="nylogoeg">
+			<div class="logo" style="padding-top: 25px;">
+				<a href=""><img src="themes/suliao/images/logo.jpg" height="58" /></a>
+			</div>
+			<script type="text/javascript">
+				function searchForm(){
+					var searchkey = $("#searchkey").text();
+					$('#stype').val(searchkey);
+					var keywords = $.trim($('#keywords').val());
+					if(keywords==""){
+						ll('请输入搜索关键字！',2);
+						$('#keywords').focus();
+						return false;
+					}
+				}
+			</script>
+			<div class="sosuokuna_xg">
+				<form name="form" class="registerform" action="Search" onsubmit="return searchForm();" method="get">
+					<input type="submit" class="anniu_xiug" value="" />
+					<input type="hidden" id="stype" name="stype" />
+					<input name="keywords" id="keywords" type="text" class="wenbenyu_xg"
+					placeholder="请输入品种、牌号、厂家名称进行搜索"
+					/>
+					<div class="xialalbiao">
+						<p id="searchkey">现货</p>
+						<ul>
+							<li><a style="cursor: pointer;">现货</a></li>
+							<li><a style="cursor: pointer;">船货</a></li>
+							<li><a style="cursor: pointer;">采购</a></li>
+						</ul>
+					</div> 
+					<div style="float:left;margin-top:2px;"></div>
+				</form>
+			</div>
+			<div class="kefu" style="float:left;padding-top: 35px;margin-left:40px;"><img src="themes/suliao/images/kefu.jpg"></div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="fnavbg">
+		<div class="navbg">
+			<div class="nav">
+				<div class="nav_a"><a></a></div>
+				<div class="caidan">
+					<ul>
+						<li><a  href="">首页</a></li>
+						<li><a  href="Opus/index/?t=1">现货资源</a></li>
+						<li><a  href="Opus/index/?t=2">船货资源</a></li>
+						<li style="width:90px;" ><a  href="Resource/index/?type=1">资源库</a>
+						</li>
+						<li><a  href="Buy/index/?type=1">采购信息</a></li>
+						<li><a  href="physical_form">物性表</a></li>
+						<li><a  href="Gyl/index">供应链金融</a></li>
+						<li><a class="hover" href="Article/plist/cid/2">资讯</a></li>
+						<li class="hot">
+							<a  href="Dkh/index">大户报价区</a>
+							<span></span>
+						</li>
+					</ul>
+				</div>
+				<div class="wangzhi"><a href="page/mdownload"></a></div>
+			</div>
+		</div>
+	</div>
+
+
+	{__CONTENT__}
+	
+	<div class="fotbg">
+		<ul>
+			<li>
+				<p class="fotnavti">我要买塑料</p>
+				<p><a href="page/show.html?cid=18">如何委托交易</a></p>
+				<p><a href="page/show.html?cid=19">如何自己找货</a></p>
+				<p><a href="page/show.html?cid=20">如何查看采购单状态</a></p>
+			</li>
+			<li>
+				<p class="fotnavti">我要卖塑料</p>
+				<p><a href="page/show.html?cid=21">如何发布报价单</a></p>
+				<p><a href="page/show.html?cid=30">如何批量发布报价</a></p>
+				<p><a href="page/show.html?cid=23">如何报价采购信息</a></p>
+			</li>
+			<li>
+				<p class="fotnavti">常见问题</p>
+				<p><a href="page/show.html?cid=15">注册流程</a></p>
+				<p><a href="page/show.html?cid=16">无法登录/忘记密码</a></p>
+				<p><a href="page/show.html?cid=17">修改账户信息</a></p>
+				<p class="jf-expla"><a href="page/show.html?cid=32">积分商城使用说明</a><span>HOT</span></p>
+			</li>
+			<li>
+				<p class="fotnavti">关于我们</p>
+				<p><a href="Page/show/cid/8">公司简介</a></p>
+				<p><a href="Page/show/cid/9">意见反馈</a></p>
+				<p><a href="Page/show/cid/10">法律声明</a></p>
+				<p><a href="Page/show/cid/11">联系我们</a></p>
+			</li>
+			<li style="border-right: none;">
+				<p class="fotnavti">我要买塑料</p>
+				<p><a>网址：www.wodesuliao.cn</a></p>
+				<p><a>邮箱：info@wodesuliao.cn</a></p>
+				<p><a>客服热线：400-6129-965</a></p> 
+				<p><a>联系电话：021-61672432</a></p>
+			</li>
+			<div class="clear"></div>
+		</ul>
+		<p class="banquanxx">&copy; 2015 版权所有 我的塑料网&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备10036109号</a></p>
+	</div>
+	<!-- WPA Button Begin -->
+	<!--<script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODAxNDc0M18zMzMyMDFfNDAwMDY3NzYxMV8"></script>-->
+	<!-- WPA Button End -->
+	<script charset="utf-8" src="http://wpa.b.qq.com/cgi/wpa.php"></script>
+	<!--zt-contact begin-->
+	<div class="zt-contact">
+		<ul>
+			<li class="opt">
+				<div id="BizQQWPA">
+					<div class="zt-slide bg-gray">在线咨询</div>
+					<div class="zt-mouseover icon-qq bg-gray"></div>
+				</div>
+			</li>
+			<li>
+				<div class="ewm bg-gray"><img src="themes/suliao/images/zt-wx-ewm.jpg" width="200" height="200"></div>
+				<div class="icon-ewm icon-wx bg-gray"></div>
+			</li>
+			<li>
+				<div class="ewm bg-gray"><img src="themes/suliao/images/zt-ios-ewm.png" width="200" height="200"></div>
+				<div class="icon-ewm icon-ios bg-gray"></div>
+			</li>
+			<li class="opt">
+				<a href="page/show.html?cid=9">
+					<div class="zt-slide bg-gray">意见反馈</div>
+					<div class="zt-mouseover icon-suggest bg-gray"></div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!--zt-contact end-->
+	<script type="text/javascript">
+		$(function(){
+			var ztContact = $(".zt-contact");
+			ztContact.find(".opt").bind("mouseover",function(){
+				$(this).find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
+				$(this).find(".zt-mouseover").removeClass("bg-gray").addClass("bg-orge");
+				$(this).find(".zt-slide").stop().animate({
+					"left":"0px"
+				});
+			});
+			ztContact.find(".opt").bind("mouseleave",function(){
+
+				$(this).find(".zt-slide").removeClass("bg-orge").addClass("bg-gray");
+				$(this).find(".zt-mouseover").removeClass("bg-orge").addClass("bg-gray");
+				$(this).find(".zt-slide").stop().animate({
+					"left":"60px"
+				});
+			});
+
+			ztContact.find(".icon-ewm").bind("mouseover",function(){ 
+				$(this).prev(".ewm").show();
+				$(this).removeClass("bg-gray").addClass("bg-orge");
+			});
+
+			ztContact.find(".icon-ewm").bind("mouseleave",function(){
+				$(this).prev(".ewm").hide();
+				$(this).removeClass("bg-orge").addClass("bg-gray");
+			});
+		});
+
+		var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256169007'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1256169007%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+
+		BizQQWPA.addCustom({aty: '0', a: '0', nameAccount: 4000677611, selector: 'BizQQWPA'});
+	</script>
 </body>
 </html>

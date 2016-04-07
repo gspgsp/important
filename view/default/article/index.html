@@ -1,0 +1,65 @@
+﻿{layout file="public:main_layout"}
+{include file="public:mbx"}
+<div class="yabbg">
+		<div class="yab">
+			<div class="yabl">
+				<div class="yabla">
+					{foreach from=$cate item=value key=key}
+					<a href="/article/index/init/cid/{$value.cate_id}" class="ahover" {if $key == 4 }style="margin-right: 0;"{/if}>市场点评</a>
+					{/foreach}
+				</div>
+
+				<div class="diany_lbe_lb">
+					<ul>
+						{foreach from=$list.data item=value}
+						<li>
+							<p class="dianyriqieg">{$value.input_time|date:Y-m-d H:i}<span class="dianyriqieg_lbr"><a href="/article/index/info/id/{$value.id}">{$value.title}</a></span></p>
+							<p class="lbzhenweiieg">&nbsp;<a href="/article/index/info/id/{$value.id}">[详情]</a></p>
+						</li>
+						{/foreach}
+					</ul>
+					<div class="clear"></div>
+				</div>
+
+				<div id="page">
+					{$page}
+				</div>
+
+				<div class="clear"></div>
+			</div>
+			<div class="yabr">
+				<div class="yabra" style="margin-top:0;">
+					<div class="yabrat"> <span class="yabratl">最新<font style="color:#ee4822;">现货资源</font></span> <span class="yabratr"><a href="Opus/index/?t=1">+更多</a></span> </div>
+					<div class="yabrab">
+						<dl>
+							<dd>
+								<p class="yabraba">PP&nbsp;&nbsp;K8050</p>
+								<p class="yabrabb">台湾台化&nbsp;&nbsp;32吨 </p>
+								<p class="yabrabc">￥13200</p>
+							</dd>
+							<dt><a href="Opus/index/?t=1&cid=4570&cj=台湾台化&ph=K8050" target="_blank">查看</a></dt>
+							<div class="clear"></div>
+						</dl>
+					</div>
+					<div class="clear"> </div>
+				</div>
+				<div class="yabra">
+					<div class="yabrat"> <span class="yabratl">最新<font style="color:#ee4822;">期货资源</font></span> <span class="yabratr"><a href="Opus/index/?t=2">+更多</a></span> </div>
+					<div class="yabrab">
+						<dl>
+							<dd>
+								<p class="yabraba">HDPE&nbsp;&nbsp;6888</p>
+								<p class="yabrabb">科威特EQUATE&nbsp;&nbsp;20吨 </p>
+								<p class="yabrabc">￥9200</p>
+							</dd>
+							<dt><a href="Opus/index/?t=1&cid=4567&cj=科威特EQUATE&ph=6888" target="_blank">查看</a></dt>
+							<div class="clear"></div>
+						</dl>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
