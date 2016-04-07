@@ -43,6 +43,7 @@ class contentAction extends adminBaseAction {
 		}elseif($action=='remove'){ //删除
 			$this->_remove();exit;
 		}elseif($action=='save'){ //编辑行内数据
+			$action=sget('action','s');
 			$this->_save();exit;
 		}elseif($action=='chkUnique'){ //检查重复
 			$this->_chkUnique();exit;
@@ -101,7 +102,7 @@ class contentAction extends adminBaseAction {
 			}
 		}
 
-		$list=$this->db->select('id,title,sn,update_time,status,sort_order'.$_field)
+		$list=$this->db->select('id,title,sn,update_time,status,sort_order,hot'.$_field)
 					->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
@@ -221,11 +222,11 @@ class contentAction extends adminBaseAction {
 		if(empty($data)){
 			$this->error('操作数据为空');
 		}
-		
 		foreach($data as $k=>$v){
 			$_data=array(
 				'title'=>$v['title'],		 
-				'status'=>(int)$v['status'],		 
+				'status'=>(int)$v['status'],
+				'hot'=>(int)$v['hot'],			 
 				'sort_order'=>(int)$v['sort_order'],
 				'update_time'=>CORE_TIME,
 				'admin_name'=>$_SESSION['name'],
