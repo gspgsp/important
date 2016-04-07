@@ -5,7 +5,7 @@
 			<div class="yabl">
 				<div class="yabla">
 					{foreach from=$cate item=value key=key}
-					<a href="/article/index/init/cid/{$value.cate_id}" class="ahover" {if $key == 4 }style="margin-right: 0;"{/if}>市场点评</a>
+					<a href="/article/index/init/cid/{$value.cate_id}" class="ahover" {if $key == 4 }style="margin-right: 0;"{/if}>{$value.cate_name}</a>
 					{/foreach}
 				</div>
 
