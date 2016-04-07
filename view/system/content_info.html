@@ -4,6 +4,7 @@
 td.dt{width:80px; text-align:right; font-weight:bold;}
 #errMsg{ display:none; border:3px solid #F00; padding:5px; background:#FFC;}
 td a.add,td a.del{cursor:pointer; color:#36F;}
+.hidden {display:none;}
 </style>
 <form id="infoForm">
 	<input type="hidden" name="id" value="{$info.id}"/>
@@ -16,17 +17,20 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 					<td rowspan="4" width="150"> <span style="display:none;" id="picLoading">loading...</span>
 					  <div id="picDisplay" style="border:1px solid #efefef; padding:1px; height:80px; width:80px; text-align:center; vertical-align:middle;">{if $info.img}<img src="__UPLOAD__/{$info.img}">{/if}</div></td>
 				</tr>
-				<tr >
+
+				<tr>
+					<td class="dt">热门</td>
+					<td>
+					 <input name="info[hot]" id="hot" onvaluechanged="hotEvent()" class="mini-combobox" valueField="id" textField="name" value="{$info.hot}" data='[{"id":"0","name":"否"},{"id":"1","name":"是"}]' required="true"/>
+					</td>
+				</tr>
+
+				<tr id="img" class="hidden">
 					<td class="dt">图片</td>
 					<td><input id="img_url"  name="info[img]" class="mini-textbox" value="{$info.img}" style="width:300px"/>
 					<input id="upfileId" type="file" name="upFile" onChange="fileUpload();"></td>
 				</tr>
-				<tr>
-					<td class="dt">热门</td>
-					<td>
-					 <input name="info[hot]" class="mini-combobox" valueField="id" textField="name" value="{$info.hot}" data='[{"id":"0","name":"否"},{"id":"1","name":"是"}]' required="true"/>
-					</td>
-				</tr>
+
 				<tr>
 					<td class="dt">编号</td>
 					<td><input id="sn_code"  name="info[sn]" class="mini-textbox" value="{$info.sn}" style="width:150px" onvaluechanged="onCheckSn"/>（不可重复：a-Z0-9+-._）</td>
@@ -85,6 +89,17 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 <script type="text/javascript">
 mini.parse();
 var form = new mini.Form("#infoForm");
+
+function hotEvent(){
+	var val = mini.get('hot').getValue();
+	if(val == 1){
+		$("#img").removeClass('hidden');
+	}else{
+		$("#img").addClass('hidden');
+		mini.get('img_url').setValue('');
+	}
+
+}
 
 function submitForm(){
   form.validate();
