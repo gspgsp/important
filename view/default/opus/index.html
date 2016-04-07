@@ -1,0 +1,226 @@
+{layout file="public:main_layout"}
+{include file="public:mbx"}
+<script type="text/javascript">
+	$(function () {
+		// $(".zhankaiaahover4571 a").text("展开").click(function(){
+		// 	var zhankai = $(this).text() == "收起";
+		// 	$(this).text(zhankai ? "展开":"收起");
+		// 	var css = !zhankai ? { "overflow": "hidden", "height": "auto" } : { "overflow": "hidden", "height": "auto" }
+		// 	var bg = 'rgba(0, 0, 0, 0) url("__IMG__/home/sanjiaowe' + (zhankai ? '' : 'b') + '.png") no-repeat scroll 43px center';
+		// 	$(".zhankaiaahover4571").attr({ "style": 'background:' + bg });
+		// 	$(this).closest("a").css(css);
+		// 	if(!zhankai){
+		// 		$("#rmdq4571").hide();
+		// 		$(".zhankaiimg4571").show();
+		// 	}else{
+		// 		$("#rmdq4571").show();
+		// 		$(".zhankaiimg4571").hide();
+		// 	}
+		// });
+		$(".opencase").click(function(){
+			var zhankai = $(this).text() == "收起";
+			$(this).text(zhankai ? "展开":"收起");
+			var bg = 'rgba(0, 0, 0, 0) url("__IMG__/home/sanjiaowe' + (zhankai ? '' : 'b') + '.png") no-repeat scroll 43px center';
+			$(this).parent('.zahankaishouqaahover').attr({ "style": 'background:' + bg });
+			if(zhankai){
+				$(this).parents('.items').find('.rmdq').show();
+				$(this).parents('.items').find('.zhankaiimg').hide();
+			}else{
+				$(this).parents('.items').find('.rmdq').hide();
+				$(this).parents('.items').find('.zhankaiimg').show();
+			}
+
+
+
+		})
+	});
+</script>
+<div class="ny_bg">
+
+	<div class="inmain">
+		<div class="qihuoziuy">
+			<div class="fenlwiaengeg">
+				<div class="sewefaiufwineg">
+					<div class="quanbuimg">
+						<dl>
+							<dd><a href="/Opus/index/?t=1">全部</a></dd>
+							<dt></dt>
+						</dl>
+						<p>
+							<img src="__IMG__/home/sanjiao.jpg" width="5" height="6">
+						</p>
+						<dl>
+							<dd>地区：<span class="wenzibiansewz">上海</span></dd>
+							<dt><a href=""><img src="__IMG__/home/cha.jpg" width="8" height="8"></a></dt>
+						</dl>
+						<p>
+							<img src="__IMG__/home/sanjiao.jpg" width="5" height="6">
+						</p>
+						<dl>
+							<dd>厂家：<span class="wenzibiansewz">东莞三星道达尔</span></dd>
+							<dt><a href=""><img src="__IMG__/home/cha.jpg" width="8" height="8"></a></dt>
+						</dl>
+						<div class="clear"></div>
+					</div>
+
+					<div class="pageSort_xg">
+						<ul>
+							<li class="items">
+								<p>热门地区</p>
+								<div class="rmdq" style="display:block;">
+									<a class="ahover" href="">上海</a>
+								</div>
+								<div class="zhankaiimg" style="display:none;">
+									<dl>
+										<dd>华南：</dd>
+										<dt>
+											<a href="">广东</a>
+											<a href="">广东</a>
+											<a href="">广东</a>
+										</dt>
+									</dl>
+
+									<dl>
+										<dd>华东：</dd>
+										<dt>
+											<a href="">广东</a>
+										</dt>
+									</dl>
+									<dl>
+										<dd>华中：</dd>
+										<dt>
+											<a href="">广东</a>
+										</dt>
+									</dl>
+									<dl>
+										<dd>华北：</dd>
+										<dt>
+											<a href="">广东</a>
+										</dt>
+									</dl>
+									<dl>
+										<dd>西北：</dd>
+										<dt>
+											<a href="">广东</a>
+										</dt>
+									</dl>
+									<dl>
+										<dd>西南：</dd>
+										<dt>
+											<a href="">广东</a>
+										</dt>
+									</dl>
+								</div>
+								<div class="zahankaishouq">
+									<div class="zahankaishouqaahover"><a class="opencase" href="javascript:;">展开</a></div>
+								</div>
+							</li>
+							<li class="items" style="float:left">
+								<p>PVC</p>
+								<div class="rmdq" style="display:block;">
+									<a href="">上海氯碱</a>
+								</div>
+								<div class="zahankaishouq">
+									<div class="zahankaishouqaahover"><a class="opencase" href="javascript:;">展开</a></div>
+								</div>
+								<div class="zhankaiimg" id="zhankaiimg" style="display:none;">
+									<dl>
+										<dd>厂家：</dd>
+										<dt>
+											<a href="">上海氯碱</a>
+										</dt>
+									</dl>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+					<form id="ddbForm" method="get" action="/Opus/index">
+						<div class="pingzhong" style="margin-top:185px;border:0px;">
+							<p class="pingzhong_p" style="width:60px;">类别：</p>
+							<input name="pz" value="PVC" type="text" class="piongzhoinpe">
+							<p class="pingzhong_p">牌号：</p>
+							<input name="ph" value="" type="text" class="piongzhoinpe">
+							<p class="pingzhong_p">厂家：</p>
+							<input name="cj" value="东莞三星道达尔" type="text" class="piongzhoinpe">
+							<p class="pingzhong_p">公司：</p>
+							<input name="company" value="" type="text" class="piongzhoinpe">
+							<p class="pingzhong_p">加工级别：</p>
+							<input name="jg" value="" type="text" class="piongzhoinpe">
+							<input type="hidden" name="t" value="1">
+							<input type="hidden" name="address" value="1">
+							<input type="hidden" name="order" value="">
+							<input type="hidden" name="bprice" value="">
+							<input type="hidden" name="eprice" value="">
+							<input type="hidden" name="qx" value="">
+							<input type="submit" class="pingzanniu" value="搜索">
+							<div class="clear"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="qihuozihuewng">
+			<div class="qihuozihuewng_ti">
+				<p style=" width:158px; padding-left:22px;">现货资源共<span class="wenzibianse">2</span>条</p>
+				<p style=" width:58px;">排序：</p>
+				<div class="quedinweirgn">
+					<a href="">默认</a>
+				</div>
+				<div class="quedinweirgnb">
+					<a href="">价格倒序
+					</a>
+				</div>
+				<p style=" width:76px; padding-left:32px;">价格范围：</p>
+				<input name="bprice" id="bprice" value="" type="text" class="jiagefanweiweg">
+				<p style="width:20px; text-align:center;">-</p>
+				<input name="eprice" id="eprice" value="" type="text" class="jiagefanweiweg">
+				<div class="quedinweirgn" style="margin-left:10px;"><a href="javascript:;" onclick="goprice()">确定</a></div>
+				<p style=" width:76px; padding-left:32px;">有效时间：</p>
+				<select name="qx" id="qx" class="daoweieig" onchange="goqx()">
+					<option selected="selected" value="">请选择</option>
+					<option value="五天内">五天内</option>
+				</select>
+			</div>
+
+			<div class="qihuotaioshui">
+				<div class="xianhuozix_bg">
+					<ul>
+						<li style=" font-size:14px; font-weight:bold;">
+							<p class="b_xianhuozixa">类别</p>
+							<p class="b_xianhuozixb">牌号</p>
+							<p class="b_xianhuozixc">厂家</p>
+							<p class="b_xianhuozixd">数量（吨）</p>
+							<p class="b_xianhuozixe">价格（元/吨）</p>
+							<p class="b_xianhuozixf">交货地</p>
+							<p class="b_xianhuozixgbb">公司</p>
+							<p class="b_xianhuozixh">更新时间</p>
+							<p class="b_xianhuozixh">操作</p>
+						</li>
+						<li id="opus70433">
+							<a>
+								<p class="b_xianhuozixa">PVC</p>
+								<p class="b_xianhuozixb">POM M90-44</p>
+								<p class="b_xianhuozixc">日本宝理</p>
+								<p class="b_xianhuozixd">50</p>
+								<p class="b_xianhuozixe">¥ <span class="wenzibianse">13400</span> </p>
+								<p class="b_xianhuozixf">上海</p>
+								<div class="b_xianhuozixgege"><p class="b_xianhuozixg">
+									<span style="height:auto;background-color:#fff;cursor: pointer;" onclick="window.location.href='/Index/company/t/1/id/275712.html'">上海开景塑胶有限公司</span>
+								</p></div>
+								<p class="b_xianhuozixh">03-30 18:43:35</p>
+								<p class="b_xianhuozixh_an">
+									<span style="cursor: pointer;" onclick="window.location.href='/Index/addbuybyid?id=70433'">委托洽谈</span>
+								</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="page">
+			<span>2 条记录 1/1 页</span>  <a class="disabled">上一页</a>    <a class="disabled">下一页</a>
+		</div>
+	</div>
+</div>

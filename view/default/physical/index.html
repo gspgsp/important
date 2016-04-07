@@ -1,0 +1,48 @@
+{layout file="public:main_layout"}
+{insert_css files="home/physical.css"}
+<script type="text/javascript">
+
+</script>
+<div class="content">
+	<div class="logo2">
+		<img src="__IMG__/home/physical_form_logo.jpg">
+		<h1>物性表大全</h1>
+	</div>
+	<div class="search-container">
+		<form id="search-form" method="get" action="/PhysicalForm/listView">
+			<input type="text" autocomplete="off" name="keyword" value="输入物性,品名或制造商 如PA-757K">
+		</form>
+		<button class="btn">搜索</button>
+		<div class="suggest" style="display: none;">
+			<ul>
+
+			</ul>
+		</div>
+	</div>
+	<div class="tag-container">
+		<div class="left">
+			<img src="__IMG__/home/physical.jpg">
+		</div>
+		<div class="right">
+			<div class="hot-word"><h1>热搜词</h1></div>
+			<ul>
+				<li><a href="/PhysicalForm/listView?keyword=1002YB">1002YB</a><span>HOT</span></li>
+				<li><a href="/PhysicalForm/listView?keyword=2100TN00">2100TN00</a><span>HOT</span></li>
+				<li><a href="/PhysicalForm/listView?keyword=2426H">2426H</a><span>HOT</span></li>
+				<li><a href="/PhysicalForm/listView?keyword=2420H">2420H</a></li>
+				<li><a href="/PhysicalForm/listView?keyword=2102TX00">2102TX00</a><span>HOT</span></li>
+				<li><a href="/PhysicalForm/listView?keyword=2119">2119</a></li>
+				<li><a href="/PhysicalForm/listView?keyword=TR131">TR131</a></li>
+			</ul>
+			<ul style="left:202px;">
+				<li><a href="/PhysicalForm/listView?keyword=7000F">7000F</a><span>HOT</span></li>
+				<li><a href="/PhysicalForm/listView?keyword=2426H">2426H</a><span>HOT</span></li>
+				<li><a href="/PhysicalForm/listView?keyword=2100TN00">2100TN00</a></li>
+				<li><a href="/PhysicalForm/listView?keyword=5502BN">5502BN</a></li>
+				<li><a href="/PhysicalForm/listView?keyword=52518">52518</a></li>
+				<li><a href="/PhysicalForm/listView?keyword=9001">9001</a></li>
+				<li><a href="/PhysicalForm/listView?keyword=FB6001">FB6001</a></li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * 前端控制器 
+ * 前端控制器
  */
 class homeBaseAction extends action {
 	protected $ssid=NULL;
@@ -10,12 +10,12 @@ class homeBaseAction extends action {
 
 	public function __construct() {
 		parent::__construct();
-		
+
 		if(!is_robot()){ //非机器人访问
 			startHomeSession();
 			$this->user_id=$_SESSION['userid'];
 			setReferer($this->user_id);
-			
+
 			if(empty($this->user_id)){ //检查令牌
 				$token=cookie::get(C('SESSION_TOKEN'));
 				if(strlen($token)>30){
@@ -33,7 +33,7 @@ class homeBaseAction extends action {
 
 				$this->unread_msgs_count = M('system:sysMsg')->countUnread($this->user_id);
 			}
-			
+
 			//是否需要HTTPs跳转
 			if(C('HTTPS_ON')){
 				if(!isset($_SERVER['HTTPS'])){ //所有都不必须要跳、或指定模块跳转
@@ -50,7 +50,7 @@ class homeBaseAction extends action {
 			}
 			$this->_uv();
 		}
-		
+
 		//系统信息:赋值模板
 		$this->assign('user_id', $this->user_id);
 		$this->sys = M('system:setting')->getSetting();
@@ -74,7 +74,7 @@ class homeBaseAction extends action {
 			}
 		}
 	}
-	
+
 	/*
 	 * 检查会员是否登录
 	 * @access protected
@@ -83,11 +83,11 @@ class homeBaseAction extends action {
 	protected function chkLogin(){
 		if($this->user_id<1){
 			$_SESSION['gurl']=__SELF__;
-			$this->forward('/user/login');	
+			$this->forward('/user/login');
 		}
 		return true;
 	}
-	
+
 	/*
 	 * 访问不存在的方法
 	 * @access protected
@@ -98,11 +98,11 @@ class homeBaseAction extends action {
 		$this->error('您访问的页面不存在','/');
 		exit;
 	}
-	
+
 	//获取机器UV
 	protected function _uv(){
 		$_from=sget('from','s');
-		$_cfrom=cookie::get('_from');	
+		$_cfrom=cookie::get('_from');
 		if(!empty($_from) && empty($_cfrom)){
 			cookie::set('_from',$_from);
 			$_cfrom=$_from;
@@ -110,13 +110,13 @@ class homeBaseAction extends action {
 		if($_cfrom=='andriod'){
 			$this->assign('andriod','y');
 		}
-		
+
 		$uv=getUV();
 		if(empty($uv)){
 			cookie::set('_uv',genUV(),180*86400);
 		}
 		return $uv;
 	}
-	
+
 }
 ?>

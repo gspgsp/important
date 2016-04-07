@@ -1,0 +1,223 @@
+{layout file="public:main_layout"}
+{include file="public:mbx"}
+{insert_css files="home/style.css"}
+<script type="text/javascript">
+$('.radioclass').click(function(event) {
+	$(this).attr({'checked': 'checked'});
+	$(this).parents('.rad').siblings().find('.radioclass').removeAttr('checked');
+	$(this).siblings('span').addClass('on').parent('div').addClass('cr');
+	$(this).parents('.rad').siblings('div').removeClass('cr').find('span').removeClass('on');
+	var i = $(this).parents('.rad').index();
+	if(i==0){
+		$('.con').attr('placeholder','请填写真实资源，写清楚，公司名称，你的名字，联系方式，和货物以及数量');
+	}else{
+		$('.con').attr('placeholder','填写你的求购内容让别人方便给你报价');
+	}
+});
+//需求出入框
+$('.con').focus(function(){
+	c = $('.con').attr('placeholder');
+	$(this).attr('placeholder','')
+})
+$('.con').blur(function(){
+	$(this).attr('placeholder',c)
+})
+
+</script>
+
+<div class="yabbg">
+	<div class="yab">
+		<div class="yabl">
+			<div class="rmain resource">
+				<div class="rel">
+					<form name="validateForm1" action="" class="addform" method="post">
+						<!--release begin-->
+						<div class="release">
+							<div class="type">
+								<!--left begin-->
+								<div class="left">
+									<div class="rad cr"> <span class="pay_list_c1 on"></span><input type="radio" name="typ" value="1" checked="checked" class="radioclass"> 我有货，我要卖</div>
+									<div class="rad"><span class="pay_list_c1"></span><input type="radio" name="typ" value="0" class="radioclass"> 我求购，我要买</div>
+								</div>
+								<!--left end-->
+								<!--slogan begin-->
+								<div class="slogan"><img src="__IMG__/home/reSlogan.png" width="359" height="16"></div>
+								<!--slogan end-->
+							</div>
+							<!--cont begin-->
+							<div class="cont">
+								<textarea name="need" class="con" placeholder="请填写真实资源，写清楚：公司名称、你的名字、联系方式、货物以及数量"></textarea>
+							</div>
+							<!--cont end-->
+							<!--release-btn begin-->
+							<div class="release-btn">
+								<input type="submit" name="button" id="button" value="立即发布">
+								<input type="hidden" name="dqurl" value="">
+							</div>
+							<!--release-btn end-->
+						</div>
+						<!--release end-->
+					</form>
+
+					<!--search begin-->
+					<div class="search">
+						<!--search-inner begin-->
+						<div class="search-inner">
+							<!--left begin-->
+							<div class="left">
+								<span>
+									<a href="">全部<b>709775</b></a>
+								</span>
+								<span>
+									<a class="hover" href="">求购<b>98852</b></a>
+								</span>
+								<span>
+									<a href="">供应<b>610923</b></a>
+								</span>
+							</div>
+							<!--left end-->
+							<form action="" method="post" id="searfm">
+								<input type="text" name="keyword" id="txt1" value="" placeholder="在709775条资源中搜索你需要的...">
+								<a href="javascript:;" id="sear" onclick="gosear()"></a>
+								<a href="javascript:;" id="refresh" onclick="myrefresh()">刷新</a>
+							</form>
+						</div>
+						<!--search-inner end-->
+					</div>
+					<!--search end-->
+					<div class="list">
+						<div class="lists">
+							<div class="listl">
+								<img width="88" height="88" src="http://q2.qlogo.cn/headimg_dl?bs=qq&amp;dst_uin=756847927&amp;src_uin=*&amp;fid=*&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" alt="用户头像">
+								<!-- <p style="color:#ef4923">【求购】</p> -->
+							</div>
+							<div class="listr">
+								<p class="title">
+										<span class="name">万亿兴辰李</span>
+									<span>
+										<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=756847927&amp;site=qq&amp;menu=yes"><img src="http://wpa.qq.com/pa?p=2:756847927:41" border="0" alt="点击咨询" title="点击咨询"></a>
+									</span>
+									<span class="qq"><a href="javascript:void(0)">QQ:756847927</a></span>
+									<span></span><span class="time">7分钟前</span>
+								</p>
+								<pre style="min-height:50px;overflow:hidden;">求购PC ABS 防火灰白色水口,15150270796</pre>
+								<p></p>
+							</div>
+							<div style="clear:both;"></div>
+						</div>
+
+						<!--page begin-->
+						<div class="page"><span>98852 条记录 1/12357 页</span> <a class="disabled">首页</a> <a class="disabled">上一页</a> <span class="current">1</span><a href="/resource/index/type/2/lang/zh-CN/p/2">2</a><a href="/resource/index/type/2/lang/zh-CN/p/3">3</a><a href="/resource/index/type/2/lang/zh-CN/p/4">4</a><a href="/resource/index/type/2/lang/zh-CN/p/5">5</a>    <a href="/resource/index/type/2/lang/zh-CN/p/2">下一页</a>    <a href="/resource/index/type/2/lang/zh-CN/p/12357">尾页</a> </div>
+						<!--page end-->
+					</div>
+				</div>
+				<div class="rer">
+					<div class="first">
+						<div class="no-login">
+							<h2>您还没登录</h2>
+							<p>登录后才可以发布现货和求购信息</p>
+							<div class="info">
+								<a class="log" href="/Register">注册</a>
+								<a class="reg" href="/login/auth/type/qq"><span>QQ</span>登录</a>
+							</div>
+						</div>
+					</div>
+					<!--task begin-->
+					<h3 class="re-title">每日任务</h3>
+					<div class="task">
+						<ul>
+							<li>
+								<div class="num"><img src="__IMG__/home/re1.png" width="53" height="65"></div>
+								<div class="desc">
+									<h4>发布一条资源</h4>
+									<p>+100 积分</p>
+								</div>
+								<div class="status no">未完成</div>
+							</li>
+							<li>
+								<div class="num"><img src="__IMG__/home/re2.png" width="53" height="65"></div>
+								<div class="desc">
+									<h4>每日签到</h4>
+									<p>+50 积分</p>
+								</div>
+								<div class="status no">未完成</div>
+							</li>
+							<li class="last">
+								<div class="num"><img src="__IMG__/home/re3.png" width="53" height="65"></div>
+								<div class="desc">
+									<h4>搜索一条资源</h4>
+									<p>+50 积分</p>
+								</div>
+								<div class="status no">未完成</div>
+							</li>
+						</ul>
+					</div>
+					<!--task end-->
+					<!--ad begin-->
+					<div class="ad ad1">
+						<div class="desc">
+							<h4>资源库改版</h4>
+							<p>每日签到、发布资源得积分</p>
+						</div>
+						<img src="__IMG__/home/reAdIcon1.png" width="54" height="54">
+					</div>
+					<!--ad end-->
+					<!--ad begin-->
+					<div class="ad ad2">
+						<div class="desc">
+							<h4>积分有啥用</h4>
+							<p>积分可在积分商城兑换礼品</p>
+						</div>
+						<img src="__IMG__/home/reAdIcon2.png" width="58" height="58">
+					</div>
+					<!--ad end-->
+					<h3 class="re-title">可能感兴趣的</h3>
+					<div class="lis">
+						<!--left begin-->
+						<div class="left">
+							<p>LDPE / 15803阿赛 / 阿赛</p>
+							<p>24.75 上海</p>
+						</div>
+						<!--left end-->
+						<!--right begin-->
+						<div class="right">
+							<p>￥<span>9450</span></p>
+							<div class="interest-btn"><a href="/index/addbuybyid/id/74362">去看看</a></div>
+						</div>
+						<!--right end-->
+					</div>
+
+
+					<!--slider begin-->
+					<div class="slider">
+						<!--wrapper begin-->
+						<div class="wrapper">
+							<!--focus begin-->
+							<div id="focus">
+								<ul style="left: -298px; width: 1192px;">
+									<li>
+										<div class="goods-pic"><img src="/Public/Attachment/Images/2016/03/11/56e262d8439ad.png" width="63" height="129"></div>
+										<p class="goods-name">朴美家纺全棉床上用品四件套纯棉床单被罩双人床品4件套</p>
+										<p class="goods-jifen"><span>19800</span>分</p>
+										<div class="goods-btn"><a href="/pointshop/detail/index/id/3">去积分商城兑换</a></div>
+									</li>
+								</ul>
+								<div class="btnBg" style="opacity: 0.5;"></div>
+								<div class="btn">
+									<span class=""></span>
+									<span class="on"></span>
+									<span class=""></span>
+								</div>
+							</div>
+							<!--focus end-->
+						</div>
+						<!-- wrapper end -->
+					</div>
+					<!--slider end-->
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

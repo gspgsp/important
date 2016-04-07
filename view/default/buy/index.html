@@ -1,0 +1,167 @@
+{layout file="public:main_layout"}
+{include file="public:mbx"}
+
+<script>
+	function gonghuo(id){
+		$("#gonghuoBox").show();
+	}
+	function closeBox(){
+		$("#gonghuoBox").hide();
+	}
+
+	function checkForm111(){
+		var phtext = $.trim($('#phtext').val());
+		var numtext = $.trim($('#numtext').val());
+		var pricetext = $.trim($('#pricetext').val());
+		var jhtext = $.trim($('#jhtext').val());
+		if(phtext==""){
+			ll('请输入您要采购的牌号！',2);
+			$('#phtext').focus();
+			return false;
+		}
+		if(numtext==""){
+			ll('请输入您要采购的数量！',2);
+			$('#numtext').focus();
+			return false;
+		}
+		if(pricetext==""){
+			ll('请输入您要采购的价格！',2);
+			$('#pricetext').focus();
+			return false;
+		}
+	}
+</script>
+
+<div class="gerentc" id="gonghuoBox" style="position:fixed; left:50%;top:50%; margin:-206px 0 0 -301px;display: none;">
+	<div class="grtct"><span class="grtctl">我要<font style="color:#ee4822;">供货</font></span>
+		<span class="grtctr">
+			<a href="javascript:closeBox();">
+				<img src="__IMG__/home/grx.jpg" width="24" height="24" id="">
+			</a>
+			<div class="clear"></div>
+		</span>
+		<div class="clear"></div>
+	</div>
+	<p class="grtca"><font style="color:#ee4822;">采购内容：</font>LLDPE 伊朗国家石化 21HN  200吨 9550元 广东</p>
+
+	<form name="form" class="sellform" action="/User/dosell" onsubmit="return checkForm222();" method="post"> 
+		<div class="ydbb" style="margin-top:30px;height:auto">
+			<ul>
+				<li style="margin-top:10px;padding-right: 29px;">
+					<p class="ydbba" style="color:red">牌&nbsp;&nbsp;&nbsp;&nbsp;号：</p>
+					<input type="text" name="phtext" id="phtext2" value="" style="width:150px;" class="ydbbb">
+				</li>
+				<li style="margin-top:10px;margin-left:20px;padding-right: 0px;">
+					<p class="ydbba" style="color:red">数&nbsp;&nbsp;&nbsp;&nbsp;量：</p>
+					<input type="text" name="numtext" id="numtext2" value="" style="width:150px;" class="ydbbb"><span class="ydbba">&nbsp;&nbsp;吨</span>
+				</li>
+				<li style="margin-top:10px;padding:0px;">
+					<p class="ydbba" style="color:red">价&nbsp;&nbsp;&nbsp;&nbsp;格：</p>
+					<input type="text" name="pricetext" id="pricetext2" value="" style="width:150px;" class="ydbbb"><span class="ydbba">&nbsp;&nbsp;元/吨</span>
+				</li>
+
+				<li style="margin-top:10px;">
+					<p class="ydbba">交货地：</p>
+					<input type="text" name="jhtext" id="jhtext" value="" style="width:150px;" class="ydbbb">
+				</li>
+				<li style="margin-top:10px;">
+					<p class="ydbba">备&nbsp;&nbsp;&nbsp;&nbsp;注：</p>
+					<textarea name="beizhu" class="hello" style="width:415px;height:100px;float:left;margin:0px;"></textarea>
+				</li>
+				<div class="clear"></div>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<p class="grtcd" style="margin-top:100px;padding-left:65px;padding-right:40px;">
+			<span class="grtcdl">不合理报价会被系统自动屏蔽</span>
+			<input type="hidden" value="9914" name="id">
+			<input type="submit" value="提交报价" class="grtcdr">
+		</p>
+	</form>
+</div>
+
+<div class="ny_bg">
+	<div class="inmain">
+		<div class="inmain_lefnt">
+			<div class="inmain_lefnt_a">
+				<form id="ddbForm" method="get" action="/Buy/index">
+					<p class="pingzhong_pgg">品种</p>
+					<input name="pz" value="" type="text" class="piongzhoinpe_bg">
+					<p class="pingzhong_pgg">牌号</p>
+					<input name="ph" value="" type="text" class="piongzhoinpe_bg">
+					<p class="pingzhong_pgg">厂家</p>
+					<input name="cj" value="" type="text" class="piongzhoinpe_bg">
+					<p class="pingzhong_pgg">交货地</p>
+					<input name="address" value="" type="text" class="piongzhoinpe_bg">
+					<input type="submit" class="pingzanniu_bb" value="查询">
+					<div class="clear"></div>
+				</form>
+			</div>
+
+			<div class="inmain_lefnt_b">
+				<div class="cpmingchengliebiao">
+					<div class="cpmingchengliebiao_a">
+						<dl>
+							<dt>
+								<p class="cplbbiati">2420D LDPE 100吨
+								<span class="cplbbiati_span">发布于 2016-04-07 10:41</span>
+								</p>
+								<p class="cplbbiati_b">价格：<span class="wenzibiansslle">
+									￥9700</span>元<br>
+									交货地：绍兴<br>
+									跟进交易员：&nbsp;
+								</p>
+								<p class="qqwineg">
+									<a href="tencent://Message/?Uin=&amp;websiteName=q-zone.qq.com&amp;Menu=yes">
+										<img src="__IMG__/home/qq.jpg" width="27" height="20">
+									</a>
+								</p>
+							</dt>
+						</dl>
+						<div class="clear"></div>
+					</div>
+					<div class="sppingchengb_jg">
+						<p class="jiagshuzibj">正在洽谈...</p>
+						<p class="jiagshuzi"><a href="javascript:;" onclick="gonghuo(9914)">我要供货</a></p>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div class="weioghjeg">
+
+		<div class="kuaisudenglu_ny">
+			<p class="wefwergrgf"><img src="__IMG__/home/buzhoeg.jpg" width="227" height="49"></p>
+			<form id="addbuyForm" onsubmit="return checkForm111();" method="post" action="/Index/doaddbuy/status/1">
+				<p style="font-size:14px;padding-left:20px;padding-top:5px; color:red;">牌&nbsp;&nbsp;&nbsp;&nbsp;号：
+					<input type="text" style="line-height:25px;width:140px;border-bottom:1px #ccc solid;" name="phtext" id="phtext">
+				</p>
+				<p style="font-size:14px;padding-left:20px;padding-top:5px; color:red;">数&nbsp;&nbsp;&nbsp;&nbsp;量：
+					<input type="text" style="line-height:25px;width:140px;border-bottom:1px #ccc solid;" name="numtext" id="numtext">吨
+				</p>
+				<p style="font-size:14px;padding-left:20px;padding-top:5px; color:red;">价&nbsp;&nbsp;&nbsp;&nbsp;格：
+					<input type="text" style="line-height:25px;width:140px;border-bottom:1px #ccc solid;" name="pricetext" id="pricetext">元
+				</p>
+				<p style="font-size:14px;padding-left:20px;padding-top:5px;">交货地：
+					<input type="text" style="line-height:25px;width:140px;border-bottom:1px #ccc solid;" name="jhtext" id="jhtext">
+				</p>
+				<p class="kuaisudenglupc_ny"> <a href="javascript:;" onclick="$('#addbuyForm').submit()">免费委托发布</a></p>
+			</form>
+		</div>
+
+	<div class="zuijnmchjeg">
+		<p>最近成交</p>
+		<ul>
+			<li>53分钟前  匿名   成功以9200.0元/吨<br>
+			采购了<span class="xianhuozixf_xiao">HDPE  伊朗国家石化  9450F</span>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="page">
+	<span>9173 条记录 1/918 页</span> <a class="disabled">首页</a> <a class="disabled">上一页</a> <span class="current">1</span><a href="/buy/index/type/1/lang/zh-CN/p/2">2</a><a href="/buy/index/type/1/lang/zh-CN/p/3">3</a><a href="/buy/index/type/1/lang/zh-CN/p/4">4</a><a href="/buy/index/type/1/lang/zh-CN/p/5">5</a>    <a href="/buy/index/type/1/lang/zh-CN/p/2">下一页</a>    <a href="/buy/index/type/1/lang/zh-CN/p/918">尾页</a>   </div>
+</div>
