@@ -32,5 +32,11 @@ class infoModel extends model{
 		}
 		return array();
 	}
+
+
+	public function getInfoById($id)
+	{
+		return $this->where("id=$id")->getRow();
+	}
 }
 ?>
