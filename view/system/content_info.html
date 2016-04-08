@@ -25,7 +25,7 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 					</td>
 				</tr>
 
-				<tr id="img" class="hidden">
+				<tr id="img" {if $info.hot == 0 }class="hidden"{/if}>
 					<td class="dt">图片</td>
 					<td><input id="img_url"  name="info[img]" class="mini-textbox" value="{$info.img}" style="width:300px"/>
 					<input id="upfileId" type="file" name="upFile" onChange="fileUpload();"></td>
@@ -105,7 +105,9 @@ function submitForm(){
   form.validate();
   if(form.isValid() == false) return;
   form.loading("数据提交中，请稍后......");
-  $.post('/system/content/{$action}?action=submit',$("#infoForm").serialize(),function(data){
+  $.post('/system/content/{$action}?action=submit',
+  	$("#infoForm").serialize(),
+  	function(data){
 	  form.unmask();
 	  $("#returnMsg").text(data.msg);
 	  if(data.err=='0'){
