@@ -1,0 +1,116 @@
+{layout file="public:main_layout"}
+{insert_css files="home/physical.css"}
+<style type="text/css">
+	.content{width:943px; margin:0px auto;}
+	.head{  height:35px; border:1px solid #e4e4e4;border-top:none; border-left:none; border-right:none;}
+	.head .nav ul{ list-style:none;}
+	.head .nav ul li{ float:left; margin-left:23px;}
+	.head .nav ul li a{ display:block; line-height:35px; text-decoration:none; color:#666666;}
+	.head .nav ul li .cur{ border-bottom:2px solid #FF7200; height:34px;}
+	.bar {height:86px; border-bottom:1px solid #e4e4e4;padding-top: 40px;}
+	.bar img{ position:absolute; left:12px; top:24px;}
+	.bar h1{font-weight:100; font-size:16px; color:#000; left:66px; top:36px; position:absolute;}
+	.content p{padding-left:12px;padding-top:15px;color:#666666;}
+	.content p span{ color:#FF7200;}
+	.content p a{ text-align: right;}
+	.content table{  border-left:1px solid #d7d7d7;}
+	.content table tr{ height: 52px;}
+	.content table tr th{ background:#FF7200; color:#ffffff; text-align:center; font-weight:100; height:30px; line-height:30px; text-align:center; border-right:1px solid #ffffff;border-top:1px solid #d7d7d7;}
+	.content table tr td{ text-align:center; border-right:1px solid #d7d7d7; border-bottom:1px solid #d7d7d7; height:30px; position:relative;height:43px;}
+	.content table tr td a{ color:#FF7200; }
+	.content table tr td .link{}
+	.table-title{ margin-top:14px;}
+	.empty { margin-left:24px; padding-top:15px;}
+	.empty p{ font-size:18px;color:#666666;}
+	.empty .p1 span{ color:#FF7200; font-size:18px;}
+	.empty .p2{ margin-top:12px;}
+	.empty .p2 a{ font-size:18px; color:#FF7200; padding-left:5px; padding-right:5px;}
+	.empty .p3{ margin-top:24px; }
+	.empty .p3 a{color:#FF7200; font-size:18px;} 
+	.page{ margin-left:16px; margin-top:16px;}
+	.page a{color:#FF7200; font-size:14px;}
+</style>
+<div class="content">
+	<div class="bar">
+		<div class="search-container">
+			<form id="search-form" method="get" action="/PhysicalForm/listView">
+				<input type="text" autocomplete="off" id="keyword" name="keyword" value="{$keyword}">
+			</form>
+			<button class="btn">搜索</button>
+			<div class="suggest" style="display: none;">
+				<ul id="search_list">
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<p>以下为<span>{$keyword}</span>的搜索结果 <a href="/page/show.html?cid=9" target="_blank" style=" color:red; float:right;margin-right:10px;font-size:14px;">我要纠错</a></p>
+		<table border="0" cellspacing="0" cellpadding="0" class="table-title" style="background: rgb(251, 251, 251);">
+			<tbody>
+				<tr>
+					<th width="175px">大类/牌号</th>
+					<th width="87px;">生产企业</th>
+					<th width="275px;">改料用途</th>
+					<th width="87px;">规格级别</th>
+					<th width="87px;">外观级别</th>
+					<th width="157px;">备注说明</th>
+					<th width="65px;">打印</th>
+				</tr>
+			</tbody>
+		</table>
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tbody>
+				{foreach from=$list item=v}
+				<tr>
+					<td width="175" class="">{$v.type} / {$v.name}</td>
+					<td width="87">{$v.company}</td>
+					<td width="275">伸展薄膜、生产袋、垃圾袋</td>
+					<td width="87">其它 薄膜 其它</td>
+					<td width="87"></td>
+					<td width="157">高光泽度</td>
+					<td width="65"><a href="/physical/index/content/id/{$v.lid}.html">预览/打印</a></td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+	<div class="page">
+		{$pages}
+	</div>
+	<div style="height:20px;"></div>
+</div>
+
+<script type="text/javascript">
+	String.prototype.trim=function(){
+		return this.replace(/(^\s*)|(\s*$)/g, "");
+	}
+	var timer;
+	$('#keyword').keyup(function(){
+		clearTimeout(timer);
+		_that = $(this);
+		var keyword = _that.val().trim();
+		if(keyword != ''){
+			timer = setTimeout(function(){
+				$.get('/physical/index/get_search_list', {keyword:keyword}, function(data){
+					if(data.length){
+						var html = "";
+						$(data).each(function (k, v){
+							var url = v.type +' '+ v.name +' '+ v.company;
+							html +='<a target="_blank" href="/physical/index/search?keyword='+url+' "><li><span class="t1">'+v.type+' / '+v.name+'</span><span class="t2">'+v.company+'</span><span class="t3"></span></li></a>';
+						})
+						$('.suggest').show();
+						$("#search_list").html(html);
+					}else{
+						$('.suggest').hide();
+						$("#search_list").html('');
+					}
+				}, 'json')
+			}, 300)
+		}else{
+			$('.suggest').hide();
+			$("#search_list").html('');
+
+		}
+
+	})
+</script>

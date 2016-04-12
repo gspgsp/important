@@ -1,7 +1,6 @@
 {layout file="public:main_layout"}
 {insert_css files="home/physical.css"}
 <script type="text/javascript">
-
 </script>
 <div class="content">
 	<div class="logo2">
@@ -10,12 +9,11 @@
 	</div>
 	<div class="search-container">
 		<form id="search-form" method="get" action="/PhysicalForm/listView">
-			<input type="text" autocomplete="off" name="keyword" value="输入物性,品名或制造商 如PA-757K">
+			<input type="text" autocomplete="off" id="keyword" name="keyword" value="">
 		</form>
 		<button class="btn">搜索</button>
 		<div class="suggest" style="display: none;">
-			<ul>
-
+			<ul id="search_list">
 			</ul>
 		</div>
 	</div>
@@ -46,3 +44,38 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	String.prototype.trim=function(){
+		return this.replace(/(^\s*)|(\s*$)/g, "");
+	}
+	var timer;
+	$('#keyword').keyup(function(){
+		clearTimeout(timer);
+		_that = $(this);
+		var keyword = _that.val().trim();
+		if(keyword != ''){
+			timer = setTimeout(function(){
+				$.get('/physical/index/get_search_list', {keyword:keyword}, function(data){
+					if(data.length){
+						var html = "";
+						$(data).each(function (k, v){
+							var url = v.type +' '+ v.name +' '+ v.company;
+							html +='<a target="_blank" href="/physical/index/search?keyword='+url+' "><li><span class="t1">'+v.type+' / '+v.name+'</span><span class="t2">'+v.company+'</span><span class="t3"></span></li></a>';
+						})
+						$('.suggest').show();
+						$("#search_list").html(html);
+					}else{
+						$('.suggest').hide();
+						$("#search_list").html('');
+					}
+				}, 'json')
+			}, 300)
+		}else{
+			$('.suggest').hide();
+			$("#search_list").html('');
+
+		}
+
+	})
+</script>
