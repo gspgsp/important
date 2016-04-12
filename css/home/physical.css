@@ -21,3 +21,54 @@
 .suggest ul li .t1{ font-size:14px; color:#333333;}
 .suggest ul li .t2{ font-size:14px; margin-left:8px; color:#666666;}
 .suggest ul li .t3{ font-size:14px; margin-left:8px; color:#999999;}
+
+.main{
+	width:951px;
+	margin: 20px auto;
+	background: #fff;
+}
+#main .name{
+	height:57px;
+	border:1px solid #ddd;
+	text-indent: 12px;
+}
+#main .name .left{ width:38%; float:left; border-right:1px solid #ddd; height:57px; font-size:14px; line-height:57px; font-weight:bold; }
+#main .name .center{ width:30%; float:left; border-right:1px solid #ddd; height:57px; font-size:14px; line-height:57px; font-weight:bold;}
+#main .name .right{ width:30%; float:left; height:57px; font-size:14px; line-height:57px; font-weight:bold;}
+#main .title{
+	height:57px;
+	/*border-bottom:1px solid #ddd;*/
+	width:950px;
+	color: #F60;
+	border-right:1px solid #ddd;
+	font-weight:bold;
+	line-height:57px;
+}
+#main .title h3{
+	font-size:16px;
+	font-weight: bold;
+	/*background-image:url(/themes/suliao/images/WxbSpirit.png);*/
+	background-repeat: no-repeat;
+	border-left: 1px solid #ddd;
+	text-indent: 12px;
+
+}
+
+#main .title.title1 h3{
+	/*background-position: 0 -57px; */
+}
+#main .title.title2 h3{
+	/*background-position: 0 0; */
+}
+#main table{
+	width:100%;
+	border-collapse:collapse;border-spacing:0;
+}
+#main table tr td{
+	color: #333;
+	border:1px solid #ddd;
+	height:30px;
+	text-indent: 12px;
+}
+#print_box .btn{ width:100px; height:32px; display:block; background:#FF7200; color:#ffffff; text-decoration:none; text-align:center; line-height:25px; margin: 25px auto; line-height:32px;  font-size: 16px;}
+
