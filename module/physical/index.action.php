@@ -6,7 +6,6 @@ class indexAction extends homeBaseAction{
 
 	public function __init()
 	{
-		echo 1;
 		$this->physicalModel = M('physical:physical');
 	}
 	public function init()
