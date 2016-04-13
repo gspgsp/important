@@ -1,0 +1,189 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="addRow()" plain="true" tooltip="增加">增加</a>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+				<span class="separator"></span>             
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="type" id="soStatus">
+					<option value="">=信息类型=</option>
+					<option value="1">求购</option>
+					<option value="2">现货</option>
+					{if $doact neq 'search'}<option value="10">未知</option>{/if}
+				</select>
+				<select name="status">
+					<option value="">=发布状态=</option>
+					<option value="1">发布</option>
+					<option value="2">审核通过</option>
+					<option value="3">审核未通过</option>
+				</select>
+				<select name="elite">
+					<option value="">=是否推荐=</option>
+					<option value="1">否</option>
+					<option value="2">是</option>
+				</select>
+				<select name="key_type">
+					<option value="content">信息内容</option>
+					{if $doact neq 'search'}
+					<option value="user_nick">用户昵称</option>
+					<option value="user_qq">用户QQ号</option>
+					<option value="qq_qunname">QQ群名称</option>
+					<option value="qq_qunnum">QQ群号</option>
+					<option value="qq_qunmingpian">QQ群名片</option>
+					{else}
+					<option value="realname">真实姓名</option>
+					<option value="company">公司名称</option>
+					{/if}	
+				</select>       
+						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+						<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/operator/source/init?action=grid&do={$doact}"
+		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
+			{if $doact eq 'search'}
+			<div field="uid" width="35" headerAlign="center" align="center" allowSort="true">UID
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			{/if}
+			<div field="type" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">信息类型
+				<input property="editor" class="mini-combobox" style="width:100%;" data="mstype" />     
+			</div>
+			<div field="content" width="120" headerAlign="center">内容                        
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			{if $doact neq 'search'}
+			<div field="user_nick" width="80" headerAlign="center">用户昵称
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>                
+			<div field="user_qq" width="60" headerAlign="center" allowSort="true" align="center">QQ号码
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="qq_qunname" width="80" headerAlign="center">QQ群名
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>                
+			<div field="qq_qunnum" width="60" headerAlign="center" allowSort="true" align="center">QQ群号
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="qq_qunmingpian" width="60" headerAlign="center" allowSort="true" align="center">群名片
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div> 
+			<div field="qq_image" width="50" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">头像
+			</div>
+			{else}
+			<div field="company" width="60" headerAlign="center" allowSort="true" align="center">公司
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div> 
+			<div field="realname" width="60" headerAlign="center" allowSort="true" align="center">真实姓名
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div> 
+			{/if}
+			<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
+				<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />     
+			</div>
+			<div field="elite" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">推荐
+				<input property="editor" class="mini-combobox" style="width:100%;" data="elite" />     
+			</div>
+			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
+			{if $doact eq 'search'}
+			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新</div>
+			{/if}
+			<div field="admin_name" width="40" headerAlign="center" align="center">操作人</div>
+			
+		</div>
+	</div>
+</div>
+<div id="picShow" style="display:none; background-color: #A4C6D5; border:1px solid #333333; padding:5px;"></div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+var dStatus=[{ id: 0, text: '发布' }, { id: 1, text: '审核通过'}, { id: 2, text: '审核不通过'}];
+var elite=[{ id: 1, text: '是' }, { id: 0, text: '否'}];
+var mstype = [{ id: 1, text: '现货' }, { id: 0, text: '求购'}, { id: 9, text: '未知'}];
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//删除数据
+function removeRow() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/operator/source/{$action}?action=remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+//查看头像
+function onLoadShowPic(e) {
+	var record = e.record, uimg =record.qq_image, s='';
+	if(uimg != null){
+		return s += '<a href="javascript:;" onmouseover="showPic(\''+uimg+'\',this)" onmouseout="hidePic()">看头像</a>';	
+	}
+	return s;
+}
+function showPic(url,obj){
+	var width = $(window).innerWidth();
+	var left = $(obj).offset().left;
+	var top = $(obj).offset().top;
+	$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="100px" src="'+url+'" />');
+}
+function hidePic(){
+	$('#picShow').hide();
+}
+//新增一条行记录
+function addRow() {          
+	var newRow = {name: "source"};
+	grid.addRow(newRow, 0);
+	grid.beginEditCell(newRow, "source");
+}
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/operator/source/{$action}?action=save',{data:json},callback,"POST","json");
+}
+</script>
