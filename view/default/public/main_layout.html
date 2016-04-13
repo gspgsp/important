@@ -15,62 +15,62 @@
 	</style>
 	<script src="__JS__/home/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="__JS__/home/common.js" type="text/javascript"></script>
-	<script src="__JS__/home/layer/layer.js" type="text/javascript"></script>
+	<script src="__JS__/home/layer.js" type="text/javascript"></script>
 	<script src="__JS__/home/jquery.tab.js" type="text/javascript"></script>
 	<script src="__JS__/home/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
 	<script src="__JS__/home/flowplayer-3.2.4.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-				$(function () {
-//顶部banner切换
-var topBanner = $(".top-banner");
-setInterval(function(){
-	topBanner.find(".banner1").toggle();
-},3000);
-$(".nav_xialab").hide();
-$(".erjixialabg li:last").css("border-bottom", "none");
-var to = undefined;
-$(".nav_a a, .nav_xialab").mouseover(function () {
-	clearTimeout(to);
-	$(".nav_xialab").slideDown(100);
-}).mouseleave(function () {
-	to = setTimeout(function () { $(".nav_xialab").slideUp(100); }, 200);
-});
-$(".nav_xialab > ul > li").each(function () {
-	$(this).hover(function () {
-		$(this).addClass("baisebeijieng").find(".erjixialabg").stop().show();
-	}, function () {
-		$(this).removeClass("baisebeijieng").find(".erjixialabg").stop().hide();
-	});
-});
-$(".gangqinge, .gangqinge_hs").slide({ mainCell: ".gangqinge_a ul", titCell: ".gangqinge_b ul", titOnClassName: "ahover", autoPlay: true, autoPage: "<li>&nbsp;</li>" });
-$(".gongaoimg").slide({ mainCell: ".xingonggao ul", autoPage: true, scroll: 6, vis: 6, nextCell: ".gongaoimg_title li:eq(0) a", prevCell: ".gongaoimg_title li:eq(1) a", effect: "top", autoPlay: true });
-//返回顶部
-$(".yijainfankui li:last").click(function () {
-	$("html,body").animate({ "scrollTop": 0 }, 200);
-	return false;
-})
-$(".hydnegliu").mouseover(function () {
-	$(".shuxbxiaegf").show();
-});
-$(".shuxbxiaegf").mouseleave(function () {
-	$(this).hide();
-});
+// $(function () {
+// //顶部banner切换
+// var topBanner = $(".top-banner");
+// setInterval(function(){
+// 	topBanner.find(".banner1").toggle();
+// },3000);
+// $(".nav_xialab").hide();
+// $(".erjixialabg li:last").css("border-bottom", "none");
+// var to = undefined;
+// $(".nav_a a, .nav_xialab").mouseover(function () {
+// 	clearTimeout(to);
+// 	$(".nav_xialab").slideDown(100);
+// }).mouseleave(function () {
+// 	to = setTimeout(function () { $(".nav_xialab").slideUp(100); }, 200);
+// });
+// $(".nav_xialab > ul > li").each(function () {
+// 	$(this).hover(function () {
+// 		$(this).addClass("baisebeijieng").find(".erjixialabg").stop().show();
+// 	}, function () {
+// 		$(this).removeClass("baisebeijieng").find(".erjixialabg").stop().hide();
+// 	});
+// });
+// $(".gangqinge, .gangqinge_hs").slide({ mainCell: ".gangqinge_a ul", titCell: ".gangqinge_b ul", titOnClassName: "ahover", autoPlay: true, autoPage: "<li>&nbsp;</li>" });
+// $(".gongaoimg").slide({ mainCell: ".xingonggao ul", autoPage: true, scroll: 6, vis: 6, nextCell: ".gongaoimg_title li:eq(0) a", prevCell: ".gongaoimg_title li:eq(1) a", effect: "top", autoPlay: true });
+// //返回顶部
+// $(".yijainfankui li:last").click(function () {
+// 	$("html,body").animate({ "scrollTop": 0 }, 200);
+// 	return false;
+// })
+// $(".hydnegliu").mouseover(function () {
+// 	$(".shuxbxiaegf").show();
+// });
+// $(".shuxbxiaegf").mouseleave(function () {
+// 	$(this).hide();
+// });
 
-/* 二级展开代码开始 */
-$(".nav_xialab > ul > li").css({ display: "block" }).mouseover(function () { $(this).find(".erjixialabg").show(); }).mouseleave(function () {
-	$(this).find(".erjixialabg").hide();
-});
-/* 二级展开代码结束 */
+// /* 二级展开代码开始 */
+// $(".nav_xialab > ul > li").css({ display: "block" }).mouseover(function () { $(this).find(".erjixialabg").show(); }).mouseleave(function () {
+// 	$(this).find(".erjixialabg").hide();
+// });
+// /* 二级展开代码结束 */
 
 
-$(".xialalbiao ul").hide().find("li a").click(function () {
-	$(this).closest(".xialalbiao").find("p").text($(this).text());
-	$(this).closest("ul").hide();
-	return false;
-});
-$(".xialalbiao").hover(function () { $(".xialalbiao ul").show(); },
-	function () { $(".xialalbiao ul").hide(); });
-});
+// $(".xialalbiao ul").hide().find("li a").click(function () {
+// 	$(this).closest(".xialalbiao").find("p").text($(this).text());
+// 	$(this).closest("ul").hide();
+// 	return false;
+// });
+// $(".xialalbiao").hover(function () { $(".xialalbiao ul").show(); },
+// 	function () { $(".xialalbiao ul").hide(); });
+// });
 </script>
 </head>
 <body>

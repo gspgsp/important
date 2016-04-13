@@ -44,38 +44,4 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	String.prototype.trim=function(){
-		return this.replace(/(^\s*)|(\s*$)/g, "");
-	}
-	var timer;
-	$('#keyword').keyup(function(){
-		clearTimeout(timer);
-		_that = $(this);
-		var keyword = _that.val().trim();
-		if(keyword != ''){
-			timer = setTimeout(function(){
-				$.get('/physical/index/get_search_list', {keyword:keyword}, function(data){
-					if(data.length){
-						var html = "";
-						$(data).each(function (k, v){
-							var url = v.type +' '+ v.name +' '+ v.company;
-							html +='<a target="_blank" href="/physical/index/search?keyword='+url+' "><li><span class="t1">'+v.type+' / '+v.name+'</span><span class="t2">'+v.company+'</span><span class="t3"></span></li></a>';
-						})
-						$('.suggest').show();
-						$("#search_list").html(html);
-					}else{
-						$('.suggest').hide();
-						$("#search_list").html('');
-					}
-				}, 'json')
-			}, 300)
-		}else{
-			$('.suggest').hide();
-			$("#search_list").html('');
-
-		}
-
-	})
-</script>
+{insert_js files="home/physical.js"}
