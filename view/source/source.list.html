@@ -83,6 +83,8 @@
 			<div field="qq_qunmingpian" width="60" headerAlign="center" allowSort="true" align="center">群名片
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div> 
+			<div field="qq_image" width="50" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">头像
+			</div>
 			{else}
 			<div field="company" width="60" headerAlign="center" allowSort="true" align="center">公司
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
@@ -100,11 +102,13 @@
 			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
 			{if $doact eq 'search'}
 			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新</div>
-			<div field="admin_name" width="40" headerAlign="center" align="center">操作人</div>
 			{/if}
+			<div field="admin_name" width="40" headerAlign="center" align="center">操作人</div>
+			
 		</div>
 	</div>
 </div>
+<div id="picShow" style="display:none; background-color: #A4C6D5; border:1px solid #333333; padding:5px;"></div>
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell");
@@ -143,7 +147,24 @@ function removeRow() {
 		}
 	);
 }
-
+//查看头像
+function onLoadShowPic(e) {
+	var record = e.record, uimg =record.qq_image, s='';
+	if(uimg != null){
+		return s += '<a href="javascript:;" onmouseover="showPic(\''+uimg+'\',this)" onmouseout="hidePic()">看头像</a>';	
+	}
+	return s;
+}
+function showPic(url,obj){
+	var width = $(window).innerWidth();
+	var left = $(obj).offset().left;
+	var top = $(obj).offset().top;
+	$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="100px" src="'+url+'" />');
+}
+function hidePic(){
+	$('#picShow').hide();
+}
+//新增一条行记录
 function addRow() {          
 	var newRow = {name: "source"};
 	grid.addRow(newRow, 0);
