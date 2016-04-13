@@ -6,10 +6,8 @@ class sourceAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
 		$this->db=M('public:common')->model('resourcelib');
-		$this->status=L('user_status');
 		$this->doact = sget('do','s');
 	}
-
 	/**
 	 * 会员列表
 	 * @access public 
@@ -25,8 +23,6 @@ class sourceAction extends adminBaseAction {
 			$this->_submit();exit;
 		}elseif($action=='save'){ //获取列表
 			$this->_save();exit;
-		}elseif($action=='info'){ //获取列表
-			$this->_info();exit;
 		}
 		$this->assign('page_title','资源库列表');
 		$this->display('source.list.html');
