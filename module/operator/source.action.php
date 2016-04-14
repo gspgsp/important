@@ -128,7 +128,7 @@ class sourceAction extends adminBaseAction {
 				'admin_name'=>$_SESSION['name'],
 			);
 			if(isset($v['_state']) && $v['_state']=='added'){
-				$res=$this->db->add($_data+array(
+				$sql[]=$this->db->addSql($_data+array(
 					'input_time'=>CORE_TIME,
 					'company'=>$v['company'],
 					'realname'=>$v['realname'],
@@ -140,7 +140,7 @@ class sourceAction extends adminBaseAction {
 			
 		}
 		$result=$this->db->commitTrans($sql);
-		if($result || $res){
+		if($result){
 			$this->success('操作成功');
 		}else{
 			$this->error('数据处理失败');

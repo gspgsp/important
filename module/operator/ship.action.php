@@ -5,6 +5,7 @@
 class shipAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
+		//物流价格
 		$this->db=M('public:common')->model('ship_price');
 	}
 	/**
@@ -108,7 +109,7 @@ class shipAction extends adminBaseAction {
 				'admin_name'=>$_SESSION['name'],
 			);
 			if(isset($v['_state']) && $v['_state']=='added'){
-				$res=$this->db->add($_data+array(
+				$sql[]=$this->db->addSql($_data+array(
 					'input_time'=>CORE_TIME,
 				));
 			}else{
@@ -117,7 +118,65 @@ class shipAction extends adminBaseAction {
 			
 		}
 		$result=$this->db->commitTrans($sql);
-		if($result || $res){
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
+	}
+
+	//物理订单
+	public function order(){
+		$action=sget('action','s');
+		if($action=='grid'){
+			$db=M('public:common')->model('ship_collect');
+			$page = sget("pageIndex",'i',0); //页码
+			$size = sget("pageSize",'i',20); //每页数
+			$sortField = sget("sortField",'s','input_time'); //排序字段
+			$sortOrder = sget("sortOrder",'s','desc'); //排序
+			//搜索条件
+			$where=" 1 ";
+			//筛选时间
+			$sTime = sget("sTime",'s','input_time'); //搜索时间类型
+			$where.=getTimeFilter($sTime); //时间筛选
+			//状态
+			$status=sget('status',0);
+			if($status>0){
+				$where.=' and status='.($status-1);	
+			}
+			// //关键词搜索
+			$key_type=sget('key_type','s','starting');
+			$keyword=sget('keyword','s');
+			if(!empty($keyword)){
+				if($key_type=='starting' || $key_type=='ending'){
+					$where.=" and `$key_type` like '%$keyword%' ";
+				}else{
+					$where.=" and `$key_type`='$keyword' ";
+				}
+			}
+			$list=$db->where($where)
+					->page($page+1,$size)
+					->order("$sortField $sortOrder")
+					->getPage();
+			foreach($list['data'] as $k=>$v){
+				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+				$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			}
+			$result=array('total'=>$list['count'],'data'=>$list['data']);
+			$this->json_output($result);
+		}
+		$this->assign('page_title','物流订单列表');
+		$this->display('ship_collect.list.html');
+	}
+	//订单作废
+	public function cancel(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$result=M('public:common')->model('ship_collect')->where("id in ($ids)")->update(array('status'=>2,'update_time'=>CORE_TIME,'admin_name'=>$_SESSION['name'],));
+		if($result){
 			$this->success('操作成功');
 		}else{
 			$this->error('数据处理失败');

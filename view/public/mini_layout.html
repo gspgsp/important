@@ -36,6 +36,11 @@ function viewUinfo(user_id){
 		width: 900, height:650
 	});		
 }
+//获取状态
+function onLoadStatus(e) {
+	var record = parseInt(e.record.status)+1; //record.id
+	return $("#soStatus").find("option[value="+record+"]").text();
+}
 </script>
 </body>
 </html>
