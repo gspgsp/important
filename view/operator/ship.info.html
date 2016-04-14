@@ -1,0 +1,80 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+#infoForm{margin:0px auto; padding:6px; }
+td.dt{width:80px; text-align:right; font-weight:bold;}
+#errMsg{ display:none; border:3px solid #F00; padding:5px; background:#FFC;}
+td a.add,td a.del{cursor:pointer; color:#36F;}
+.c{text-align:center;}
+</style>
+<form id="infoForm" class="form">
+	<input type="hidden" name="id" value="{$info.id}"/>
+	<div title="订单处理">
+		<table width="100%" id="form_view">
+			<tr>
+			<td class="c">物流公司：</td>
+			<td>
+			{if $info.express}{$ship_company.$info.express}{else}
+			<input name="info[express]" class="mini-combobox" valueField="id" textField="name" value="{$info.express}" data='{:setMiniConfig|$ship_company}' required="true" />
+			{/if}
+			</td>
+			</tr>
+			<tr>
+			<td class="c">实际价格：</td>
+			<td>{if $info.real_price neq 0}{$info.real_price}{else}
+				<input class="mini-textbox" name="info[real_price]"  value="{$info.real_price}"/>
+			{/if}</td>
+			</tr>
+			<tr>
+			<td class="c">货物信息：</td>
+			<td>{if $info.goods_info}{$info.goods_info}{else}
+				<input class="mini-textbox" name="info[goods_info]"  value="{$info.goods_info}"/>{/if}</td>
+			</tr>
+			<tr>
+			<td class="c">车号信息：</td>
+			<td>{if $info.car_info}{$info.car_info}{else}
+				<input class="mini-textbox" name="info[car_info]"  value="{$info.car_info}"/>{/if}</td>
+			</tr>          
+			<tr>
+			<td class="c">备注信息：</td>
+			<td>{if $info.remark}{$info.remark}{else}
+				<textarea style="width:125px; height:95px;" class="mini-textarea" emptyText="请输入备注" name="info[remark]"  value="{$info.remark}"></textarea>{/if}</td>
+			</tr>
+		</table>
+	</div>
+	{if $info.status neq 1}
+	<div style="text-align:center;padding:10px;">
+		<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+		<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>
+		<span id="errMsg" style="padding-left:5px; color:#F00;"></span>
+	</div>
+	{/if} 
+</form>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	form.loading("数据提交中，请稍后......");
+	$.post('/operator/ship/submit',$("#infoForm").serialize(),function(data){
+			form.unmask();
+			$("#errMsg").text(data.msg);
+			if(data.err=='0'){
+				CloseWindow("save");
+			}else{		
+				alert(data.msg)
+				return false;
+			}
+	},'json');
+}
+function onComfirm() {
+	CloseWindow("ok");
+}
+function CloseWindow(action) {            
+		if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+		else window.close();            
+}
+function onCancel(e) {
+		CloseWindow("cancel");
+}
+</script> 

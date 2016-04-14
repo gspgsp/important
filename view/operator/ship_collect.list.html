@@ -1,0 +1,156 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>
+				<a class="mini-button" iconCls="icon-cut" plain="true" onclick="cancel()">作废</a>
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="sTime">
+				    	<option value="input_time">订单时间</option>
+				    	<option value="update_time">处理时间</option>
+				</select>       
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				<select name="status" id="soStatus">
+					<option value="">=状态=</option>
+					<option value="1">未处理</option>
+					<option value="2">已处理</option>
+					<option value="3">作废</option>
+				</select>
+				<select name="key_type">
+					<option value="">==请选择==</option>
+					<option value="starting">发货地</option>
+					<option value="ending">卸货地</option>
+					<option value="price">预计价格</option>
+					<option value="real_price">实际价格</option>
+				</select>       
+						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/operator/ship/order?action=grid" showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="starting" width="90" headerAlign="center" align="center">发货地</div>
+			<div field="ending" width="80" headerAlign="center" align="center">卸货地</div>
+			<div field="weight" width="80" headerAlign="center" allowSort="true" align="center">货物重量</div>                
+			<div field="price" width="60" headerAlign="center" allowSort="true" align="center">预计价格</div>
+			<div field="real_price" width="80" headerAlign="center" allowSort="true" align="center">实际价格</div>
+			<div field="status" width="80" headerAlign="center" allowSort="true" align="center" renderer="onLoadStatus">处理状态</div> 
+			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">订单时间</div>
+			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">最后处理时间</div>
+			<div field="admin_name" width="50" headerAlign="center" align="center">操作人</div>
+			<div name="action"  width="50" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>
+			
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+//追加操作按钮
+function onLoadHandle(e) {
+	var record = e.record, state = record.status, s='',tag='';
+	if(state!=2){
+		tag = state==0 ? '处理' : '查看';
+		s += '<a href="javascript:view()">'+tag+'</a> ';
+	}
+	return s;
+}
+//处理订单:打开新窗口
+function view(){
+	var row = grid.getSelected();
+	mini.open({
+		url: "/operator/ship/info?id="+row.id,
+		showMaxButton:true,
+		title: "处理物流订单", width: 250, height: 290,
+		ondestroy: function (action) {
+			grid.reload();
+		}
+	});		
+}
+
+//删除数据
+function removeRow() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/operator/ship/init?action=remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+//作废订单数据
+function cancel() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定作废订单？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/operator/ship/cancel',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/operator/ship/init?action=save',{data:json},callback,"POST","json");
+}
+</script>
