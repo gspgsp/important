@@ -129,7 +129,6 @@ class shipAction extends adminBaseAction {
 	public function order(){
 		$action=sget('action','s');
 		if($action=='grid'){
-			$db=M('public:common')->model('ship_collect');
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
 			$sortField = sget("sortField",'s','input_time'); //排序字段
@@ -154,7 +153,7 @@ class shipAction extends adminBaseAction {
 					$where.=" and `$key_type`='$keyword' ";
 				}
 			}
-			$list=$db->where($where)
+			$list=$this->db->model('ship_collect')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
@@ -175,12 +174,56 @@ class shipAction extends adminBaseAction {
 		if(empty($ids)){
 			$this->error('操作有误');	
 		}
-		$result=M('public:common')->model('ship_collect')->where("id in ($ids)")->update(array('status'=>2,'update_time'=>CORE_TIME,'admin_name'=>$_SESSION['name'],));
+		//判断传参是否有已处理订单
+		$arr = explode(',',$ids);
+		if($arr){
+			foreach ($arr as $k => $v) {
+				if(M('operator:ship_collect')->getColById($v,'status')==1){
+					$this->error("已经处理的订单不能作废");
+				}else{
+					continue;
+				}
+			}
+		};
+		$result=$this->db->model('ship_collect')->where("id in ($ids)")->update(array('status'=>2,'update_time'=>CORE_TIME,'admin_name'=>$_SESSION['name'],));
 		if($result){
 			$this->success('操作成功');
 		}else{
 			$this->error('数据处理失败');
 		}
 	}
-	
+
+	/**
+	 * 获取处理订单
+	 * @access private 
+	 * @return html
+	 */
+	public function info(){
+		$this->is_ajax=true;
+		$id=sget('id','i');
+		if($id>0){
+			$info=$this->db->model('ship_collect')->wherePk($id)->getRow();
+		}
+		//分配物流公司
+		$this->assign('info',$info);
+		$this->assign('ship_company',L('ship_company'));
+		$this->assign('page_title','处理物流订单');
+		$this->display('ship.info.html');
+	}
+	/**
+	 * 提交订单详细信息
+	 */
+	public function submit(){
+		$id=sget('id','i',0); //ID
+		$_info=sget('info','a');
+		if(empty($_info)){
+			$this->error('操作有误');	
+		}
+		$_info['admin_name']=$_SESSION['name'];
+		$_info['update_time']=CORE_TIME;
+		$_info['status']=1;
+		$_data=saddslashes($_info);
+		$this->db->model('ship_collect')->wherePk($id)->update($_data);
+		$this->success('操作成功');
+	}
 }
