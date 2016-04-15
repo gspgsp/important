@@ -22,7 +22,7 @@ class indexAction extends homeBaseAction{
 			$sphinx->SetServer('localhost',9312);
 			$sphinx->SetMatchMode(SPH_MATCH_ALL);
 			$sphinx->setLimits(0,10,10);
-			$result = $sphinx->query('*'."$keyword".'*','*');
+			$result = $sphinx->query('*'."$keyword".'*','physical');
 			$lids = array_keys($result['matches']);
 			$list = $this->physicalModel->get_search_list($lids);
 			json_output($list);
@@ -41,7 +41,7 @@ class indexAction extends homeBaseAction{
 			$sphinx->SetServer('localhost',9312);
 			$sphinx->SetMatchMode(SPH_MATCH_ALL);
 			$sphinx->setLimits(abs($p-1)*$pageSize	,$pageSize,1000);
-			$result = $sphinx->query('*'."$keyword".'*','*');
+			$result = $sphinx->query('*'."$keyword".'*','physical');
 			$lids = array_keys($result['matches']);
 			$list = $this->physicalModel->get_search_list($lids);
 			$this->pages = pages($result['total'], $p, $pageSize);

@@ -6,7 +6,7 @@ class homeBaseAction extends action {
 	protected $ssid=NULL;
 	protected $user_id=0;
 	protected $token='';
-	protected $debug = FALSE;
+	protected $debug = false;
 
 	public function __construct() {
 		parent::__construct();
