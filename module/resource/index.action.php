@@ -4,7 +4,7 @@ class indexAction extends homeBaseAction{
 	protected $sourceModel;
 	public function __init()
 	{
-		$this->sourceModel = M('source:resourcelib');
+		$this->sourceModel = M('resourcelib:resourcelib');
 	}
 
 	public function init()
