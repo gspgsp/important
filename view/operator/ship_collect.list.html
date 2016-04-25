@@ -110,7 +110,7 @@ function removeRow() {
 					grid.reload();
 				}
 			}
-			utils.ajax('/operator/ship/init?action=remove&do=collect',{ids:ids},callback,"POST","json");
+			utils.ajax('/operator/ship/init?action=remove',{ids:ids},callback,"POST","json");
 		}
 	);
 }

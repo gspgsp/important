@@ -73,7 +73,6 @@ class shipAction extends adminBaseAction {
 		if(empty($ids)){
 			$this->error('操作有误');	
 		}
-		$result = sget('do','s','')=='collect' ?  $this->db->model('ship_collect')->where("id in ($ids)")->delete() : $this->db->where("id in ($ids)")->delete();
 		$result=$this->db->where("id in ($ids)")->delete();
 		if($result){
 			$this->success('操作成功');
@@ -193,6 +192,7 @@ class shipAction extends adminBaseAction {
 			$this->error('数据处理失败');
 		}
 	}
+
 	/**
 	 * 获取处理订单
 	 * @access private 
