@@ -10,6 +10,8 @@ class indexAction extends homeBaseAction{
 	}
 	public function init()
 	{
+		$sphinx = new SphinxClient();
+		p($sphinx);
 		$this->display('index.html');
 	}
 
