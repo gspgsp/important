@@ -1,124 +1,87 @@
 {layout file="public:mini_layout"}
 <div class="mini-toolbar" style="margin:3px 3px 0;">
-    <table style="width:100%;">
-        <tr>
-            <td style="white-space:nowrap;">
-             <a class="mini-button" iconCls="icon-add" onclick="add()" plain="true">新增</a>
-             <a class="mini-button" iconCls="icon-edit" onclick="edit()" plain="true">编辑</a>
-             <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
-            </td>
-            <td style="float:right">
-            	<form id="soform">
-            	<select name="key_type">
-                    <option value="mnum">手机号</option>
-                    <option value="mcode">区号</option>
-                    <option value="mtype">类型</option>
-                </select>       
-                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
-                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-                <span id="searchMsg"></span>
-                </form>
-            </td>
-        </tr>
-    </table>           
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				{if $parent.id}
+				【{$parent.zh_cn}】<a class="mini-button" iconCls="icon-upload" plain="true" href="/system/libCountry/init?pid={$parent.pid}">返回上级</a>
+				<span class="separator"></span>
+				{/if}         
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="addRow()">新增</a>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+				<span class="separator"></span>             
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>    
+			</td>
+		</tr>
+	</table>           
 </div>
+
 <div class="mini-fit" style="padding:1px 3px 3px;">
-  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
-            url="/system/libMobile/init?action=grid"  idField="id"
-            sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick" multiSelect="true"
-   >
-    <div property="columns">
-      <div type="checkcolumn"></div>
-      <div field="mnum" width="100" allowsort="true" align="center" headerAlign="center">手机号</div>
-      <div field="mcode" width="80" align="center" headerAlign="center">区号</div>
-      <div field="marea" width="100" align="center" headerAlign="center">城市</div>
-      <div field="mtype" width="120" headerAlign="center">类型</div>
-      <div field="mok" width="80" align="center" headerAlign="center">来源</div>
-    </div>
-  </div>
-</div>
-<div id="frmInfo" class="mini-window" title="设置手机号" style="width:300px;" 
-    showModal="true" allowResize="true" allowDrag="true"
-    >
-    <div id="addForm" class="form" >
-        <table style="width:100%;">
-        	<input class="mini-hidden" name="id"/>
-            <tr>
-                <td style="width:70px;">手机号：</td>
-                <td><input name="mnum" class="mini-textbox" style="width:80px" required="true"/></td>
-            </tr>
-            <tr>
-                <td style="width:70px;">区号：</td>
-                <td><input name="mcode" class="mini-textbox" style="width:80px" required="true"/></td>
-            </tr>
-            <tr>
-                <td style="width:70px;">城市：</td>
-                <td><input name="marea" class="mini-textbox" style="width:80px" required="true"/></td>
-            </tr>
-            <tr>
-                <td style="width:70px;">类型：</td>
-                <td><input name="mtype" class="mini-textbox" style="width:120px"/></td>
-            </tr>
-          <tr>
-              <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
-                 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
-              </td>                
-          </tr>
-        </table>
-    </div>
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  pageSize=10000
+		url="/system/libCountry/init?action=grid&pid={$pid}" onrowdblclick="switchChild" showFooter=false
+		showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div name="action" width="40" headerAlign="center" renderer="onLoadHandle">操作</div>
+			<div field="zh_cn" width="120" headerAlign="center">国家名称                        
+				<input property="editor" class="mini-textbox" style="width:100%;" vtype="english"/>
+			</div>                
+			<div field="code" width="80" headerAlign="center" allowSort="true">国家代码号
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>      
+			<div field="en_us" width="80" headerAlign="center">英文名
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			 <div field="en_short" width="80" headerAlign="center">简称
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell");
 grid.load();
 
-var frmInfo = mini.get("frmInfo");
-var form = new mini.Form("#addForm");
-function add() {
-	form.clear();
-	frmInfo.show();
+//查看下一级
+function onLoadHandle(e) {
+	var record = e.record; //record.id
+	if(record.id==0) return '-';
+	return '<a href="/system/libCountry/init?pid='+record.id+'">下级</a> ';
 }
-function onRowDblClick(e) {
-	form.clear();
-	edit();
+
+//增加一行
+function addRow() {  
+	var newRow = {zh_cn:"",code:"",en_us:"",en_short:""};
+	newRow.id = 0;
+	newRow.pid =  "{$pid}";
+	grid.addRow(newRow,0);
 }
-function edit() {
-	var row = grid.getSelected();
-	if (row) {
-		mini.getbyName('id').setValue(row.id);	
-		mini.getbyName('mnum').setValue(row.mnum);
-		mini.getbyName('mcode').setValue(row.mcode);
-		mini.getbyName('marea').setValue(row.marea);
-		mini.getbyName('mtype').setValue(row.mtype);
-		frmInfo.show();
+
+//保存数据
+function saveData() {
+	data = grid.getChanges();
+	if(data.length<1){
+		return;
 	}
-}
-
-//提交数据
-function submitForm() {
-	form.validate();
-	if (form.isValid() == false) return;
-	
-	var o = form.getData();
-	grid.loading("数据提交中，请稍后......");
-	var json = mini.encode(o);
-
+	var json = mini.encode(data);
+	grid.loading("保存中，请稍后......");
 	var callback=function(data){
+		grid.unmask();
 		if(data.err!='0'){
-			grid.unmask();
 			alert(data.msg);
 			return false;
 		}else{
 			grid.reload();
-			frmInfo.hide(); 
 		}
 	}
-	utils.ajax('/system/libMobile/ajaxSave',{data:json},callback,"POST","json");
+	utils.ajax('/system/libCountry/save',{data:json},callback,"POST","json");
 }
 
 //删除数据
 function removeRow() {
-    var rows = grid.getSelecteds(),_ids=new Array();
+	var rows = grid.getSelecteds(),_ids=new Array();
 	if(rows.length<1) return;
 	for(var i=0;i<rows.length;i++){
 		var _id=parseInt(rows[i].id);
@@ -140,7 +103,7 @@ function removeRow() {
 					grid.reload();
 				}
 			}
-			utils.ajax('/system/libMobile/remove',{ids:ids},callback,"POST","json");
+			utils.ajax('/system/libCountry/remove',{ids:ids},callback,"POST","json");
 		}
 	);
 }
