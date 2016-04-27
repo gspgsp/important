@@ -191,7 +191,7 @@ class passAction extends action {
 		//$authcy =  md5($_SERVER["HTTP_USER_AGENT"].$uinfo['password'].'isAdmin');
 		//$atime = 86400 * 7; //记住密码
 		//cookie::set('admincy', desEncrypt($uinfo['admin_id']."|".$authcy), $atime);
-		
+		$_SESSION['depart']=$uinfo['depart'];
 		$_SESSION['adminid']=$uinfo['admin_id'];
 		$_SESSION['name']=$uinfo['username'];
 		$_SESSION['call_no']=$uinfo['call_no'];

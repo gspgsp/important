@@ -38,6 +38,7 @@ class admAction extends adminBaseAction {
 			
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['last_login']=$v['last_login']>1000 ? date("Y-m-d H:i:s",$v['last_login']) : '-';
+				$list['data'][$k]['status'] = L('adm_status')[$v['status']];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
