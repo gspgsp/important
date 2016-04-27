@@ -37,7 +37,6 @@ class libCountryAction extends adminBaseAction {
 
 		if($pid>0){
 			$parent=$this->db->getPk($pid);
-			//$parent['next']=$parent['level_id']+1;
 		}else{
 			$parent=array('pid'=>0,'next'=>0);
 		}
