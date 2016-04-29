@@ -131,7 +131,7 @@ class customerContactModel extends model{
 			$result = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->update($info+$data);
 		}else if($info['ctype']==3 && $info['info_user_id']>0 && $info['c_id']>0){
 			//更新公司信息和联系人
-			$result = ($this->model('customer_contact')->where("user_id = ".$info['info_user_id'])->update($info+$data) && $this->model('customer')->where("c_id = ".$info['c_id'])->update($info_ext+$data));
+			$result = ($this->model('customer_contact')->where("user_id = ".$info['info_user_id'])->update($info_ext+$data) && $this->model('customer')->where("c_id = ".$info['c_id'])->update($info+$data));
 		}else{
 			// 添加客户和联系人
 			$result = $info['ctype']==1 ? $this->model('customer_contact')->add($info+$_data) : ($this->model('customer_contact')->add($info_ext+$_data) && $this->model('customer')->add($info+$_data+array('contact_id'=>$this->getLastID())));
