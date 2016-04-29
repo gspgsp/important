@@ -7,7 +7,9 @@
 	<table border="0" cellpadding="1" cellspacing="2">
 	  <tr>
 		  <td>归属公司：</td>
-		  <td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  style="width:170px" id="usrId"/></td>
+		  <td>
+			<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  style="width:170px" id="usrId"/>
+		  </td>
 		  <td ></td>
 		  <td></td>
 	  </tr>
@@ -56,6 +58,8 @@
 
 <script type="text/javascript">
 mini.parse();
+// var cid = mini.get("#usrId").getValue();
+// $("#usrId").setValue(cid);
 var form = new mini.Form("#infoForm");
 
 function submitForm(){
@@ -93,6 +97,28 @@ function onValidMobile(e){
 		e.isValid = false;
 	 }
    }
+}
+
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+				}
+			}
+		}
+	});         
 }
 
 </script>
