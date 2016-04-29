@@ -25,7 +25,8 @@ class customerModel extends model{
 	 * 更具字段取出对应的值
 	 */
 	public function getColByName($value=0,$col='c_name',$condition='c_id'){
-		return $this->model('customer')->select("$col")->where("$condition='$value'")->getOne();
+		$result =  $this->model('customer')->select("$col")->where("$condition='$value'")->getOne();
+		return empty($result) ? '-' : $result;
 	}
 	
 	
