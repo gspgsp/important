@@ -1,283 +1,211 @@
 {layout file="public:mini_layout"}
-<div style="width:690px; padding:5px;">
-<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
-  <div title="基本信息">
-    <div id="basicForm" class="form">
-      <input class="mini-hidden" name="user_id" value="{$user.user_id}"/>
-      <table border="0" cellpadding="1" cellspacing="2">
-        <tr>
-          <td style="width:80px;">手机：</td>
-          <td style="width:210px;">{$user.mobile}</td>
-          <td colspan="2" rowspan="4" align="center" >{if $user.info.himg}<img src="__UPLOAD__/{$user.info.himg}" width="80">{else}-{/if}</td>
-        </tr>
-        <tr>
-          <td>用户身份：</td>
-          <td>{$utype.$user.info.utype}</td>
-        </tr>
-        <tr>
-          <td>邮件：</td>
-          <td>{$user.email}</td>
-        </tr>
-        <tr>
-          <td>状态：</td>
-          <td>{$status.$user.status}</td>
-        </tr>
-        <tr>
-          <td >最后登录：</td>
-          <td>{if $user.last_login gt 1000}{$user.last_login|date:Y-m-d H:i:s}{else}{/if}（{$user.visit_count}次）</td>
-          <td width="80">注册时间：</td>
-          <td width="210">{$user.info.reg_time|date:Y-m-d H:i:s}@{$user.info.reg_ip}</td>
-        </tr>
-        <tr>
-          <td >姓名：</td>
-          <td>{$user.info.real_name}</td>
-          <td>{$idcard_type.$user.info.id_type}：</td>
-          <td>{$user.info.id_card}</td>
-        </tr>
-        <tr>
-          <td >性别：</td>
-          <td>{if $user.info.sex eq '1'}男{elseif $user.info.sex eq '2'}女{/if}</td>
-          <td>生日：</td>
-          <td>{if $user.info.birthday neq '0000-00-00'}{$user.info.birthday}{/if}
-            <!--<input class="mini-datepicker" name="birthday" style="width:100px;" value="{if $user.info.birthday neq '0000-00-00'}{$user.info.birthday}{/if}"/>--></td>
-        </tr>
-        <tr>
-          <td >邮箱认证：</td>
-          <td>{if $user.info.chk_email}是{else}-{/if}</td>
-          <td>银行认证：</td>
-          <td>{if $user.info.chk_bank}是{else}-{/if}</td>
-        </tr>
-        <tr>
-          <td >风险评估：</td>
-          <td>{$chk_risk.$user.info.chk_risk}</td>
-          <td>安全问题：</td>
-          <td>{if $user.info.chk_safe}是{else}-{/if}</td>
-        </tr>
-        <tr>
-          <td >用户来源：</td>
-          <td>{$user_chanel.$user.chanel}</td>
-          <td>注册来源：</td>
-          <td>{$user.info.ref}</td>
-        </tr>
-        <tr>
-          <td >推荐人：</td>
-          <td>{if $user.info.ref_uid}{$user.info.ref_uid}{/if}</td>
-          <td>公司名称：</td>
-          <td>{$user.infoExt.company_name}</td>
-        </tr>
-		<tr>
-          <td >法人：</td>
-          <td>{$user.infoExt.legal_person}</td>
-          <td>法人身份证：</td>
-          <td>{$user.infoExt.id_card}</td>
-        </tr>
-		<tr>
-          <td >联系人：</td>
-          <td>{$user.infoExt.contacts}</td>
-          <td>联系人电话：</td>
-          <td>{$user.infoExt.contacts_phone}</td>
-        </tr>
-		<tr>
-          <td >公司地址：</td>
-          <td>{$user.infoExt.address}</td>
-          <td>邮编：</td>
-          <td>{$user.infoExt.zip}</td>
-        </tr>
-		<tr>
-          <td >电话：</td>
-          <td>{$user.infoExt.c_phone}</td>
-          <td></td>
-          <td></td>
-        </tr>
-		<tr>
-          <td >是否担保人：</td>
-          <td>{if $user.info.is_security eq '0'}否{elseif $user.info.is_security eq '1'}是{/if}&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td >&nbsp;</td>
-          <td colspan="3">
-            <span id="returnMsg" style="padding-left:5px; color:#F00;"></span></td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div title="企业资质">
-    <div id="basicForm" class="form">
-      <input class="mini-hidden" name="user_id" value="{$user.user_id}"/>
-	  {if $userAtt.1 neq '' || $userAtt.2 neq '' || $userAtt.3 neq '' || $userAtt.4 neq '' || $userAtt.5 neq ''}
-      <table width="100%">
-        {if $userAtt.1 neq ''}
-		<tr>
-          <td width="20%">法人身份证：</td>
-          <td width="80%"><a href="__UPLOAD__/{$userAtt.1.url}">下载</a>&nbsp;</td>
-        </tr>
-		{/if}
-		{if $userAtt.2 neq ''}
-        <tr>
-          <td>营业执照：</td>
-          <td>            <a href="__UPLOAD__/{$userAtt.2.url}">下载</a>&nbsp;</td>
-        </tr>
-		{/if}
-		{if $userAtt.3 neq ''}
-        <tr>
-          <td>机构代码证：</td>
-          <td>            <a href="__UPLOAD__/{$userAtt.3.url}">下载</a>&nbsp;</td>
-        </tr>
-		{/if}
-		{if $userAtt.4 neq ''}
-        <tr>
-          <td>税务凳记证：</td>
-          <td>            <a href="__UPLOAD__/{$userAtt.4.url}">下载</a>&nbsp;</td>
-        </tr>
-		{/if}
-        {if $userAtt.6 neq ''}
-        <tr>
-          <td>开户许可证：</td>
-          <td>            <a href="__UPLOAD__/{$userAtt.6.url}">下载</a>&nbsp;</td>
-        </tr>
-		{/if}
-		{if $userAtt.5 neq ''}
-        <tr>
-          <td>其他：</td>
-          <td>            <a href="__UPLOAD__/{$userAtt.5.url}">下载</a>&nbsp;</td>
-        </tr>
-		{/if}
-        
-      </table>
-	  {else}
-	  <table width="100%">
-        <tr>
-          <td><span style="color:#FF0000">&nbsp;该用户没有任何资质！</span></td>
-        </tr>
-      </table>
-	  {/if}
-    </div>
-  </div>
-  <div title="会员账户">
-    <table border="0" cellpadding="1" cellspacing="2">
-      <tr>
-        <td colspan="4"><h3 style="padding:0; margin:0;">财务账户</h3></td>
-      </tr>
-      <tr>
-        <td style="width:80px;">总资产：</td>
-        <td style="width:210px;">{$user.account.capital}</td>
-        <td style="width:80px;">信用等级：</td>
-        <td style="width:210px;">{$user.account.credit_level}</td>
-      </tr>
-      <tr>
-        <td style="width:80px;">总积分：</td>
-        <td style="width:210px;">{$user.account.points}</td>
-        <td style="width:80px;">累计逾期：</td>
-        <td style="width:210px;">{$user.account.over_times}</td>
-      </tr>
-    </table>
-    <div id="accountGrid" class="mini-datagrid" style="width: auto;height:340px;" idField="ac_type"  url="/user/account/init?action=grid&user_id={$user.user_id}" sizeList="[10,20,50,100]" pageSize="20">
-      <div property="columns">
-        <div field="ac_type" width="50" align="center" headerAlign="center" renderer="onLoadAccountLog">账户类型</div>
-        <div header="账户状况" headerAlign="center">
-          <div property="columns">
-            <div field="surplus" width="50" headerAlign="center" align="right">余额</div>
-            <div field="profit" width="50" headerAlign="center" align="right">冻结/盈亏</div>
-            <div field="all_in" width="50" headerAlign="center" align="right">总收入</div>
-            <div field="all_out" width="50" headerAlign="center" align="right">总支出</div>
-          </div>
+<div style="padding:5px;">
+  <div id="infoForm" class="form">
+    <div class="mini-tabs" activeIndex="0" plain="false">
+      <div title="基本信息">
+        <input class="mini-hidden" name="ctype" value="{$ctype}"/>
+        <input class="mini-hidden" name="c_id" value="{$user.c_id}"/>
+        <input class="mini-hidden" name="info_user_id" value="{$info_ext.user_id}"/>
+        <table width="100%">
+          <caption><strong>基本信息</strong></caption>
+          <tr>
+            <td>客户名称：</td>
+            <td>
+              <input name="c_name" class="mini-textbox" style="width:250px;" maxlength="11" required="true" value="{$user.c_name}"/>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>法人姓名：</td>
+            <td><input name="legal_person" class="mini-textbox" style="width:70px;" maxlength="6" required="true" value="{$user.legal_person}"/></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>法人身份证：</td>
+            <td><input name="legal_idcard" class="mini-textbox" style="width:250px;" onvalidation="onIDCardsValidation" required="true" value="{$user.legal_idcard}"/></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>身份证照片：</td>
+            <td colspan="3">
+              <input id="img_url5"  name="legal_idcard_pic" class="mini-textbox" value="{$user.legal_idcard_pic}" style="width:200px"/>
+              <input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);">
+            </td>
+          </tr>
+          <tr>
+            <td>所需牌号：</td>
+            <td><input name="need_product" class="mini-textbox" style="width:250px;" required="true" value="{$user.need_product}"/></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>所在省市</td>
+            <td><input name="company_province" id="place_1_0" style="width:80px;" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('place')" data='{:setMiniConfig|$regionList}' value="{$user.company_province}" showNullItem="true"/>
+              <input name="company_city" id="place_2_0" url="{if $user.company_province neq ''}/user/user/getRegion?pid={$user.company_province}{/if}" value="{$user.company_city}" class="mini-combobox" style="width:80px;" textField="name" valueField="id" />            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>邮政编码：</td>
+            <td>
+              <input name="zip" class="mini-textbox" value="{$user.zip}" style="width:100px;" maxlength="6" required="true" vtype="zip"/>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>成立日期：</td>
+            <td><input  class="mini-datepicker"  name="fund_date" required="true" value="{$user.fund_date}"/>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>注册资本：</td>
+            <td>
+              <input name="registered_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.registered_capital|default:}"/>
+            万
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>公司地址：</td>
+            <td><input name="address" class="mini-textbox" style="width:250px;" required="true" value="{$user.address}"/></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <table>
+          <caption><strong>扩展信息</strong></caption>
+          <tr>
+            <td>客户类型：</td>
+            <td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}' required="true" textfield="name" valuefield="id"/></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>客户级别：</td>
+            <td><input name="level" class="mini-combobox" style="width:150px;" value="{$user.level}" data='{:setMiniConfig|$level}' required="true" textfield="name" valuefield="id"/></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>客户渠道：</td>
+            <td><input name="chanel" class="mini-combobox" style="width:150px;" value="{$user.chanel}" data='{:setMiniConfig|$chanel}' required="true" textfield="name" valuefield="id"/></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>营业执照号：</td>
+            <td><input class="mini-textbox" style="width:250px;" name="business_licence" value="{$user.business_licence}"/>
+            </td>
+            <td>执照照片：</td>
+            <td>
+              <input id="img_url1"  name="business_licence_pic" class="mini-textbox" value="{$user.business_licence_pic}" style="width:70px"/>
+              <input id="upfileId1" type="file" name="upFile" onChange="fileUpload(1);">
+            </td>
+          </tr>
+          <tr>
+            <td>组织代码：</td>
+            <td><input class="mini-textbox" style="width:250px;" name="organization_code" value="{$user.organization_code}"/>
+            </td>
+            <td>组织图片：</td>
+            <td>
+              <input id="img_url2"  name="organization_pic" class="mini-textbox" value="{$user.organization_pic}" style="width:70px"/>
+              <input id="upfileId2" type="file" name="upFile" onChange="fileUpload(2);">
+            </td>
+          </tr>
+          <tr>
+            <td>税务登记码：</td>
+            <td><input class="mini-textbox" style="width:250px;" name="tax_registration" value="{$user.tax_registration}"/>
+            </td>
+            <td>税务图片：</td>
+            <td>
+              <input id="img_url3"  name="tax_registration_pic" class="mini-textbox" value="{$user.tax_registration_pic}" style="width:70px"/>
+              <input id="upfileId3" type="file" name="upFile" onChange="fileUpload(3);">
+            </td>
+          </tr>
+          <tr>
+            <td>信用等级：</td>
+            <td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' required="true" textfield="name" valuefield="id" value="{$user.credit_level}"/>
+            </td>
+            <td>附件地址：</td>  
+            <td>
+              <input id="img_url0"  name="file_url" class="mini-textbox" value="{$user.file_url}" style="width:70px"/>
+              <input id="upfileId0" type="file" name="upFile" onChange="fileUpload(0);">
+            </td>
+          </tr>
+          <tr>
+            <td>状态：</td>
+            <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' textfield="name" valuefield="id" value="{$user.status|default:1}"/></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+      </div>
+      <div title="联系人基本信息">
+        <div style="height:385px">
+          <table border="0" cellpadding="1" cellspacing="2">
+                <tr>
+                  <td >姓名：</td>
+                  <td><input name="info_name" class="mini-textbox" style="width:150px;" required="true" vtype="rangeLength:2,30" value="{$info_ext.name}" /></td>
+                  <td>性别：</td>
+                  <td><input class="mini-combobox" name="info_sex" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{$info_ext.sex}"/></td>
+                </tr>
+                <tr>
+                  <td style="width:80px;">手机：</td>
+                  <td style="width:210px;"><input name="info_mobile" class="mini-textbox" maxlength="11" value="{$info_ext.mobile}" style="width:150px;" required="true" onvalidation="onValidMobile"/></td>
+                  <td>电话：</td>
+                  <td><input name="info_tel" class="mini-textbox" style="width:150px;" required="true"  value="{$info_ext.tel}" vtype="rangeLength:6,14"/></td>
+                </tr>
+                <tr>
+                  <td style="width:80px;">QQ号：</td>
+                  <td style="width:210px;"><input name="info_qq" class="mini-textbox" maxlength="12" value="{$info_ext.qq}" style="width:150px;"/></td>
+                  <td>传真：</td>
+                  <td><input name="info_fax" class="mini-textbox" style="width:150px;" value="{$info_ext.fax}" required="true" vtype="rangeLength:6,14"/></td>
+                </tr>
+                <tr>
+                  <td>邮件：</td>
+                  <td><input name="info_email" class="mini-textbox" style="width:150px;"  value="{$info_ext.email}" required="true" vtype="email"/></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>备注：</td>
+                  <td colspan="3">
+                    <input name="info_remark" class="mini-textarea" value="{$info_ext.remark}" style="width:403px; height:50px;"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td>状态：</td>
+                  <td><input class="mini-combobox" name="info_status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$info_ext.status}"/></td>
+                </tr>
+              </table>
         </div>
-        <div field="last_time" width="80" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">最后时间</div>
       </div>
+    </div><input name="utype" class="mini-textbox" style="display:none" value="3" vtype="utype"/>
+    <div align="center" style="margin-top:10px;">
+      <a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+      <a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
     </div>
   </div>
-  <div title="投资项目">
-    <div id="investGrid" class="mini-datagrid" style="width:auto;height:340px;" idField="ac_type"  url="/item/udeal/init?action=grid&user_id={$user.user_id}" sizeList="[10,20,50,100]" pageSize="20">
-      <div property="columns">
-        <div type="indexcolumn" headerAlign="center">序号</div>
-        <div field="item_id" width="50" headerAlign="center" align="center">项目ID</div>
-        <div field="principal" width="50" align="right" headerAlign="center">申购本金</div>
-        <div field="interest" width="50" align="right" headerAlign="center">预期利率</div>
-        <div field="act_principal" width="50" align="right" headerAlign="center">执行本金</div>
-        <div field="act_interest" width="50" align="right" headerAlign="center">执行利率</div>
-        <div field="ratio" width="50" align="right" headerAlign="center">占率%</div>
-        <div field="bid_fee" width="50" align="right" headerAlign="center">竞价费</div>
-        <div field="status" width="50" align="center" headerAlign="center" renderer="onLoadStatus">状态</div>
-        <div field="value_date" width="80" headerAlign="center" dateFormat="yyyy-MM-dd" align="center">起息日</div>
-      </div>
-    </div>
-  </div>
-  <div title="银行列表">
-    <div id="bankGrid" class="mini-datagrid" style="width:auto;height:340px;" idField="ac_type"  url="/user/bank/init?action=grid&user_id={$user.user_id}" sizeList="[10,20,50,100]" pageSize="20">
-      <div property="columns">
-        <div field="bank_id" width="20" headerAlign="center" align="right">序号</div>
-        <div field="ac_name" width="60" headerAlign="center" allowSort="true" align="center">开户名</div>
-        <div field="bank_name" width="60" headerAlign="center" allowSort="true" align="center">开户行</div>
-        <div field="bank_region" width="60" headerAlign="center" allowSort="true" align="center">开户地址</div>
-        <div field="chk_status" width="60" headerAlign="center" allowSort="true" align="center">银行卡认证状态</div>
-        <div field="last_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">添加日期</div>
-      </div>
-    </div>
-  </div>
-  
-  <div title="信用等级">
-    <form id="infoForm" class="form">
-      <input type="hidden" name="info[user_id]" value="{$user.user_id}"/>
-	  <input type="hidden" name="info[old_credit_level]" value="{$user.account.credit_level}"/>
-	<table>
-	    <tr>
-          <td class="dt">用户信用等级</td>
-          <td><input id="astatus" name="info[credit_level]" class="mini-combobox" valueField="id" textField="name" value="{$user.account.credit_level}" data='{:setMiniConfig|$credit_level}' required="true" onvaluechanged="accessApply"/></td>
-        </tr>
-		<tr>
-          <td class="dt">审批备注</td>
-          <td><textarea id="comments" name="info[comments]" style="width:360px; height:80px;">{$user.apply_info.comments}</textarea></td>
-        </tr>
-	</table>
-	<div style="text-align:center;padding:10px;"> {if !$info.status}<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>{/if} <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
-	</form>
-  </div>
-  
 </div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
 <script type="text/javascript">
 mini.parse();
+var form = new mini.Form("#infoForm");
 
-var accountGrid = mini.get("accountGrid"),investGrid=mini.get("investGrid"),bankGrid=mini.get("bankGrid"),creditGrid=mini.get("creditGrid");
-accountGrid.sortBy("ac_type", "asc");
-function changeTab(e){
-	var tab=e.tab;
-	if(tab.title=='会员账户'){
-		var data=accountGrid.getData();
-		if(data.length<1){
-			accountGrid.load();
-		}
-	}else if(tab.title=='投资项目'){
-		var data=investGrid.getData();
-		if(data.length<1){
-			investGrid.load();
-		}
-	}else if(tab.title=='银行列表'){
-		var data=bankGrid.getData();
-		if(data.length<1){
-			bankGrid.load();
-		}
-	}
-}
-function onLoadAccountLog(e){
-	var record = e.record; //record.id
-	return '<a href="javascript:viewAccountLog();" title="查看账户流水">'+record.ac_name+'</a>';
-}
-//查看编辑卡片信息
-function viewAccountLog(){
-	var row = accountGrid.getSelected(),user_id=row.user_id,ac_type=row.ac_type;
-	url="/user/account/logs?user_id="+user_id+"&ac_type="+ac_type;
-	mini.open({
-		url: url,
-		showMaxButton:true,
-		title: "查看账户流水", width: 850, height:550
-	});		
-}
-
-
-var form = new mini.Form("#basicForm");
-function submitBasic(){
+function submitForm(){
   form.validate();
   if(form.isValid() == false) return;
   
@@ -286,39 +214,84 @@ function submitBasic(){
   var json = mini.encode(o);
   $("#returnMsg").text('');
   form.loading("数据提交中，请稍后......");
-  $.post('/user/user/editSubmit',{data:json},function(data){
-	  form.unmask();
-	  $("#returnMsg").text(data.msg);
-	  if(data.err=='0'){
-		  CloseWindow("save");
-	  }else{
-		  return false;
-	  }
-  },'json');
-}
-
-
-function submitForm(){
-  form.validate();
-  if(form.isValid() == false) return;
-  form.loading("数据提交中，请稍后......");
-  $.post('/user/user/creditsubmit',$("#infoForm").serialize(),function(data){
-	  form.unmask();
-	  $("#returnMsg").text(data.msg);
-	  if(data.err=='0'){
-		  CloseWindow("save");
-	  }else{
-		  return false;
-	  }
+  {if $user.user_id eq ''}
+  var urlstr = '/user/customer/addSubmit';
+  {else}
+  var urlstr = '/user/customer/editSubmit';
+  {/if}
+  $.post(urlstr,{data:json},function(data){
+    form.unmask();
+    $("#returnMsg").text(data.msg);
+    if(data.err=='0'){
+      CloseWindow("save");
+    }else{
+      return false;
+    }
   },'json');
 }
 
 function CloseWindow(action) {            
-	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();            
 }
 function onCancel(e) {
-	CloseWindow("cancel");
+  CloseWindow("cancel");
 }
 
+function onValidMobile(e){
+   if (e.isValid) {
+     if(!utils.isMobile(e.value)){
+       e.errorText = "错误的手机号";
+        e.isValid = false;
+     }
+   }
+}
+function onValidZip(e){
+   if (e.isValid) {
+     if(!utils.isZip(e.value)){
+       e.errorText = "错误的邮编";
+        e.isValid = false;
+     }
+   }
+}
+//验证身份证
+function onIDCardsValidation(e) {
+           if (e.isValid) {
+               var pattern = /\d*/;
+               if (e.value.length < 15 || e.value.length > 18 || pattern.test(e.value) == false) {
+                   e.errorText = "必须输入15~18位数字";
+                   e.isValid = false;
+               }
+           }
+       }
+function setReg(name,val){
+  var deptCombo = mini.get(name+"_1_0");
+  var positionCombo = mini.get(name+"_2_0");
+  onDeptChanged(deptCombo,positionCombo,val);
+}
+function onDeptChanged(deptCombo,positionCombo,val) {
+  var id = deptCombo.getValue();
+
+  positionCombo.setValue("");
+  var url = "/user/user/getRegion?pid=" + id
+  positionCombo.setUrl(url);
+}
+function fileUpload(id) {
+  $.ajaxFileUpload({
+    url:'/system/sysUpload/images?model={$action}',
+      secureuri:false,
+      fileElementId:'upfileId'+id,
+      dataType: 'json',
+      success: function (data, status) {
+        if(data.err=='0'){
+          mini.get("img_url"+id).setValue(data.msg);
+        }
+      },
+      error: function (data, status, e){
+        $("#picResult").html(e);
+      }
+    }
+  )
+  return false;
+}
 </script>

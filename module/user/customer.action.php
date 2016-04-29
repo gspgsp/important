@@ -7,12 +7,6 @@ class customerAction extends adminBaseAction {
 		$this->debug = false;
 		$this->db=M('public:common')->model('customer');
 		$this->doact = sget('do','s');
-		$this->status=L('user_status');
-		$this->utype=L('user_type');
-		//登录渠道:1web,2app,3wap,4微信
-		$this->assign('user_chanel',L('user_chanel'));
-		$this->assign('user_tag',L('user_tag'));
-		$this->assign('user_tag_config',setMiniConfig(L('user_tag')));
 	}
 
 	/**
@@ -25,6 +19,9 @@ class customerAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('status',L('contact_status'));// 联系人用户状态
+		$this->assign('type',L('company_type'));//工厂类型
+		$this->assign('level',L('company_level'));//客户级别
 		$this->assign('page_title','会员列表');
 		$this->display('customer.list.html');
 	}
@@ -43,21 +40,6 @@ class customerAction extends adminBaseAction {
 		$this->display('user.so.html');
 	}
 
-	
-	/**
-	 * 密码锁定会员列表
-	 * @access public 
-	 * @return html
-	 */
-	public function lockUserList(){
-		$action=sget('action','s');
-		if($action=='grid'){ //获取列表
-			$this->_grid();exit;
-		}
-		$this->assign('page_title','密码锁定会员列表');
-		$this->display('lockuser.list.html');
-	}
-	
 	/**
 	 * Ajax获取列表内容
 	 * @access private 
@@ -66,98 +48,61 @@ class customerAction extends adminBaseAction {
 	private function _grid(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
-		$sortField = sget("sortField",'s','u.user_id'); //排序字段
+		$sortField = sget("sortField",'s','c_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		
 		$where=" 1 ";
-		$sTime = sget("sTime",'s','last_login'); //搜索时间类型
+		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
 		$status = sget("status",'s',''); //状态
-
-		if($status!='') $where.=" and u.status='$status' ";	
-
-		$beginCount = sget("beginCount",'i',0); //推荐人数
-		$endCount = sget("endCount",'i',0); //推荐人数
-		if($endCount>0 && $beginCount>$endCount){
-			$beginCount = 0;
-		}
-		if($beginCount>0){
-			$where.=" and i.ref_count>='$beginCount' ";
-		}
-		if($endCount>0){
-			$where.=" and i.ref_count<='$endCount' ";
-		}
-
-		$utype = sget("utype",'i',0); //状态
-		if($utype>0) $where.=" and utype='$utype' ";	
-
-		$user_tag = sget("user_tag",'i',0); //用户标签
-		if($user_tag>0) $where.=" and user_tag='$user_tag' ";	
-
-		$chanel = sget("chanel",'i',0); //注册渠道
-		if($chanel>0) $where.=" and u.chanel='$chanel' ";	
-
-		$isSecurity = sget("isSecurity",'i');
-		if($isSecurity) $where.=" and is_security='$isSecurity' ";
-		
-		//密码锁定用户
-		$lock = sget("lock",'i',0);
-		if($lock>0) $where.=" and u.login_fail_count=5 ";
-		
-		//关键词
-		$key_type=sget('key_type','s','user_id');
+		if($status!='') $where.=" and status='$status' ";	
+		// 关键词
+		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='chanel_name'){
-				$chanel_id=$this->db->model('chanel')->select('chanel_id')->where("name='$keyword'")->getOne();
-				if(empty($chanel_id)) $chanel_id=-1;
-				$where.=" and i.chanel_id='$chanel_id' ";	
-			}elseif($key_type=='invite_code'){
-				$invite_code = operationAlphaID($keyword);
-				$where.=" and u.user_id='$invite_code' ";
-			}elseif($key_type=='real_name'){
-				$where.=" and i.real_name like '%$keyword%' ";
-			}else{			
+			if($key_type=='legal_person' || $key_type=='c_name'){
+				$where.=" and $key_type like '%$keyword%' ";
+			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
 		}
 		
-		$list=$this->db->select('u.user_id,u.mobile,u.last_login,u.visit_count,u.status,u.login_fail_count,i.real_name,i.utype,i.reg_time,i.ref_count,i.reg_ip,i.user_tag')
-					->from('user u')->join('user_info i','u.user_id=i.user_id')
-					->where($where)
-					->page($page+1,$size)
-					->order("$sortField $sortOrder")
-					->getPage();
+		$list=$this->db
+		            ->where($where)
+			->page($page+1,$size)
+			->order("$sortField $sortOrder")
+			->getPage();
 		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['status']=$this->status[$v['status']];
-			//企业用户取出公司名称
-			if($list['data'][$k]['utype']==2){
-				$list_c = $this->db->select('name')
-					->from('user_info_extagent')
-					->where("user_id ='".$list['data'][$k]['user_id']."'")
-					->getRow();
-				$list['data'][$k]['name'] = $list_c['name'];
-			}else if($list['data'][$k]['utype']==3){
-				$list_c = $this->db->select('company_name')
-					->from('user_info_extcompany')
-					->where("user_id ='".$list['data'][$k]['user_id']."'")
-					->getRow();
-				$list['data'][$k]['name'] = $list_c['company_name'];
-			}else{
-				$list['data'][$k]['name'] = $v['real_name'];
-			}
-			//用户专属邀请码
-			$list['data'][$k]['inviteCode']=operationAlphaID($v['user_id'],true);
-			$list['data'][$k]['utype']=$this->utype[$v['utype']];
-			$list['data'][$k]['last_login']=$v['last_login']>1000 ? date("y-m-d H:i",$v['last_login']) : '-';
-			$list['data'][$k]['reg_time']=$v['reg_time']>1000 ? date("y-m-d H:i",$v['reg_time']) : '-';
-			$list['data'][$k]['login_status']=$v['login_fail_count']==5 ? '锁定4小时': '-';
-			
+		 	$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
+			$list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
+			$list['data'][$k]['level']=L('company_level')[$v['level']];
+			$list['data'][$k]['depart']=C('depart')[$v['depart']];
+			$list['data'][$k]['type']=L('company_type')[$v['type']];
+			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("y-m-d H:i",$v['input_time']) : '-';
+			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
 	}
-	
+	/**
+	 * 批量设置客户状态
+	 * @access public 
+	 * @return html
+	 */
+	public function saveTags(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)){
+			$this->error('错误的操作');
+		}
+		foreach($data as $v){
+			$update=array(
+				'status'=>$v['status'],			  
+			);
+			$this->db->wherePk($v['c_id'])->update($update);
+		}
+		$this->success('操作成功');
+	}
 	/**
 	 * 显示用户资质上传页
 	 * @access public 
@@ -338,10 +283,8 @@ class customerAction extends adminBaseAction {
      */
 	public function info(){
 		$user_id=sget('id','i');
-		$cType=sget('ctype','i');
+		$cType=sget('ctype','i'); //用户类型
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
-		$this->assign('agentList',arrayKeyValues($this->getAgentData(),'user_id','mobile'));//取出经纪人信息
-		$this->assign('user_verify',L('user_verify'));//用户认证项目
 		$this->assign('sex',L('sex'));// 性别
 		$this->assign('status',L('contact_status'));// 联系人用户状态
 		$this->assign('ctype',$cType);//人员类型
@@ -359,7 +302,6 @@ class customerAction extends adminBaseAction {
 			}		
 			exit;
 		}
-
 		$user=$this->db->model('user')->getPk($user_id);
 		if(empty($user)){
 			$this->error('错误的用户信息');	
@@ -507,95 +449,29 @@ class customerAction extends adminBaseAction {
      * @access public
      */
 	public function edit(){
-		$this->idcard_type=L('idcard_type'); //证件类型
-		$this->chk_risk=L('chk_risk'); //风险评估
-		$user_id=sget('id','i');
-		
-		if($user_id<1){
-			$this->assign('page_title','新增联系人');
-			$this->display('contact.add.html');
-			exit;
+		$c_id=sget('id','i');
+		$utype=sget('ctype','i',0);
+		$info=$this->db->model('customer')->getPk($c_id);//查询公司信息
+		if($info['origin']){
+			$areaArr = explode('|', $info['origin']);
+			$info['company_province'] = $areaArr[1];
+			$info['company_city']=$areaArr[0];
 		}
-		
-		$user=$this->db->model('user')->getPk($user_id);
-		if(empty($user)){
-			$this->error('错误的用户信息');	
-		}
-		$user['info']=$this->db->model('user_info')->getPk($user_id);
-		if($user['info']['id_card']){
-			$user['info']['id_card']=M('system:sysIdCard')->decrypt($user['info']['id_card']);	
-		}
-		
-		$this->eco_type = L('eco_type');
-		$this->assign('is_security',L('is_security'));//是否为担保人
-		$this->assign('user_chanel',L('user_chanel'));//登录渠道:1web,2app,3wap,4微信
-
-		$user['infoExt']=$this->db->model('user_info_ext')->where("user_id='{$user_id}'")->getRow();
-		if($user['infoExt']['origin']){
-			$origin = explode("|", $user['infoExt']['origin']);
-			$user['infoExt']['origin_province']=$origin[0];
-			$user['infoExt']['origin_city']=$origin[1];
-		}
-		if($user['infoExt']['domicile_place']){
-			$domicile_place = explode("|", $user['infoExt']['domicile_place']);
-			$user['infoExt']['domicile_place_province']=$domicile_place[0];
-			$user['infoExt']['domicile_place_city']=$domicile_place[1];
-		}
-		if($user['infoExt']['area']){
-			$area = explode("|", $user['infoExt']['area']);
-			$user['infoExt']['province']=$area[0];
-			$user['infoExt']['city']=$area[1];
-		}
-
-		if($user['info']['utype']==2){//经纪人
-			$user['infoExt']['agent'] = M('user:userInfo')->getUserInfoExt($user_id,'agent');			
-		}elseif($user['info']['utype']==3){//筹资机构
-			$user['infoExt'] = array_merge($user['infoExt'], M('user:userInfo')->getUserInfoExt($user_id,'company'));
-		}
-		//用户认证附件信息
-		$userAtt = M('user:userAtt')->getUserAtt($user_id);
-		foreach($userAtt as $key=>$val){
-			$att_id = unserialize($val['att_id']);
-			$att_arr = array();
-			foreach($att_id as $k=>$v){
-				if($v){
-					$att_data = M('system:attachment')->getAttById($v);
-					$att_arr[$k]=array('att_id'=>$v,'url'=>$att_data['file_url']);
-				}	
-			}
-			$userAtt[$val['atype']]['att_list'] = $att_arr;
-		}
-		$this->assign('userAtt',$userAtt);
-
-		//财务信息
-		$user['account']=$this->db->model('uaccount')->getPk($user_id);
-		$this->assign('user',$user);
-		//直属亲戚 -关系
-		$this->assign('immediateRelation',L('immediate_relation'));
-		//同事 -关系
-		$this->assign('colleagueRelation',L('colleague_relation'));
-		$this->assign('classmateRelation',L('classmate_relation'));
+		if(empty($info)) $this->error('错误的公司信息');
+		// 根据公司查询联系人信息
+		$info_ext = $this->db->model('customer_contact')->getPk($info['contact_id']);
+		$this->assign('info_ext',$info_ext); //分陪l联系人信息
+		$this->assign('ctype',3);
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
-		$this->assign('company_category',L('company_category'));//公司类别
-		$this->assign('company_industry',L('company_industry'));//公司行业
-		$this->assign('company_scale',L('company_scale'));//公司规模
-		$this->assign('company_palce',L('company_palce'));//公司场所
-		$this->assign('user_verify',L('user_verify'));//用户认证项目
-
-		$this->assign('education',L('education'));//最高学历
-		$this->assign('occupation',L('occupation'));//职业状况
-		$this->assign('marital',L('marital'));//婚姻状况
-		$this->assign('children',L('children'));//有无子女
-		$this->assign('mortgage_situation',L('mortgage_situation'));//房贷情况
-		$this->assign('truck_situation',L('truck_situation'));//车贷情况
-		$this->assign('work_years',L('work_years'));//工作年限
-		$this->assign('mloan_amount',L('mloan_amount'));//月收入
-		$this->assign('live_long',L('live_long'));//居住时长
-		$this->assign('entrance',array_combine(range(1900,date('Y')), range(1900,date('Y'))));//入学年份
-	
-		$this->assign('page_title','会员详细信息');
-		$this->display('user.edit.html');
-    }
+		$this->assign('type',L('company_type'));//工厂类型
+		$this->assign('level',L('company_level'));//客户类别
+		$this->assign('chanel',L('company_chanel'));//客户渠道
+		$this->assign('credit_level',L('credit_level'));//信用等级
+		$this->assign('sex',L('sex'));// 性别
+		$this->assign('status',L('contact_status'));// 联系人用户状态
+		$this->assign('user',$info); //分陪公司信息
+		$this->display('company.info.html');
+   	}
 	
 	/**
 	 * 获取地区列表
@@ -769,7 +645,7 @@ class customerAction extends adminBaseAction {
 	}
 	
 	/**
-	 * 新增筹资机构
+	 * 新增公司及其联系人信息
 	 * @access public 
 	 * @return html
 	 */
@@ -1157,27 +1033,6 @@ class customerAction extends adminBaseAction {
 		$exist=$this->db->model('user')->select('user_id')->where("$name='$value'")->getOne();
 		return $exist>0 ? true : false;
 	}
-	
-	/**
-	 * 批量设置用户标签
-	 * @access public 
-	 * @return html
-	 */
-	public function saveTags(){
-		$this->is_ajax=true; //指定为Ajax输出
-		$data = sdata(); //获取UI传递的参数
-		if(empty($data)){
-			$this->error('错误的操作');
-		}
-		foreach($data as $v){
-			$update=array(
-				'user_tag'=>$v['user_tag'],			  
-			);
-			$this->db->model('user_info')->wherePk($v['user_id'])->update($update);
-		}
-		$this->success('操作成功');
-	}
-	
 	/**
 	 * 设置用户客户经理
 	 * @access public 

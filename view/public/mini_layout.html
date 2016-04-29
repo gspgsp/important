@@ -41,6 +41,11 @@ function onLoadStatus(e) {
 	var record = parseInt(e.record.status)+1; //record.id
 	return $("#soStatus").find("option[value="+record+"]").text();
 }
+//原生状态
+function LoadStatus(e) {
+	var record = e.record.status; //record.id
+	return $("#soStatus").find("option[value="+record+"]").text();
+}
 </script>
 </body>
 </html>

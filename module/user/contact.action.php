@@ -6,6 +6,7 @@ class contactAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
 		$this->db=M('public:common')->model('customer_contact');
+		$this->assign('status',L('contact_status'));// 联系人用户状态
 	}
 	/**
 	 * 联系人列表
@@ -56,6 +57,9 @@ class contactAction extends adminBaseAction {
 					->order("$sortField $sortOrder")
 					->getPage();
 		foreach($list['data'] as $k=>$v){
+			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
+			$list['data'][$k]['depart']=C('depart')[$v['depart']];
+			$list['data'][$k]['sex']=L('sex')[$v['sex']];
 			$list['data'][$k]['c_id']= M('user:customer')->getColByName($v['c_id']);
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
@@ -74,6 +78,15 @@ class contactAction extends adminBaseAction {
 		if(empty($ids)){
 			$this->error('操作有误');	
 		}
+		$data = explode(',',$ids);
+		if(is_array($data)){
+			foreach ($data as $k => $v) {
+				$res = M('user:customer')->getColByName($v,"c_id","contact_id");
+				if($res>0){
+					$this->error('主联系人不能删除');
+				}
+			}
+		}
 		$result=$this->db->where("user_id in ($ids)")->delete();
 		if($result){
 			$this->success('操作成功');
@@ -82,35 +95,6 @@ class contactAction extends adminBaseAction {
 		}
 	}
 	
-	/**
-	 * 编辑已存在的数据
-	 * @access public 
-	 * @return html
-	 */
-	public function submit(){
-		$this->is_ajax=true; //指定为Ajax输出
-		$user_id=sget('user_id','i',0);
-		$data = sdata(); //获取UI传递的参数
-		$utype = $data['ctype'];
-		if($utype==1){
-			//验证联系人信息
-			$para=array(
-				'moblie'=>$data['moblie'],
-				'email'=>$data['moblie'],
-				'qq'=>$data['moblie'],
-			);
-		}
-
-		$result=M("user:customerContact")->customerUpdate($param,$data,$user_id);
-		if($result['err']>0){
-			$this->error($result['msg']);
-		}
-		$this->success('操作成功');
-
-	}
-
-
-
 	public function info(){
 		$this->is_ajax=true;
 		$user_id=sget('id','i');
@@ -119,7 +103,7 @@ class contactAction extends adminBaseAction {
 		}
 		//联系人详情
 		$this->assign('info',$info);
-		$this->assign('status',L('status'));
+		$this->assign('status',L('contact_status'));
 		$this->assign('sex',L('sex'));
 		$this->assign('page_title','联系人列表');
 		$this->display('contact.edit.html');
