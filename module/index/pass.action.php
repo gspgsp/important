@@ -194,6 +194,7 @@ class passAction extends action {
 		$_SESSION['depart']=$uinfo['depart'];
 		$_SESSION['adminid']=$uinfo['admin_id'];
 		$_SESSION['name']=$uinfo['username'];
+		$_SESSION['username']=$uinfo['name'];
 		$_SESSION['call_no']=$uinfo['call_no'];
 		$_SESSION['call_pwd']=$uinfo['call_pwd'];
 		$_SESSION['is_super']=$uinfo['is_super'];
