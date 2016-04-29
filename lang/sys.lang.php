@@ -46,14 +46,17 @@ return array(
 		'reset_passwd'=>'重置用户密码',
 		'reset_paypasswd'=>'重置用户交易密码',
 	),
-	'is_security'=>array(
-		0=>'否',
-		1=>'是',
-	),
 	//后台管理员用户状态
 	'adm_status'=>array(
 		0=>'禁用',
 		1=>'正常',
 	),
+	//公司联系人状态
+	'contact_status'=>array(
+		1=>'正常',
+		2=>'冻结',
+		3=>'关闭',
+	),
+	
 );
 ?>
