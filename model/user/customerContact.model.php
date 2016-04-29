@@ -64,6 +64,28 @@ class customerContactModel extends model{
 					return array('err'=>1,'msg'=>'法人身份证号码已存在');
 				}
 			}
+			//电话
+			if(!empty($param['info_mobile'])){
+				if(!is_mobile($param['mobile'])){
+					return array('err'=>1,'msg'=>'您的手机号码格式不正确');
+				}	
+				if(!$this->usrUnique('mobile',$param['mobile'])){
+					return array('err'=>1,'msg'=>'手机号已存在');
+				}
+			}
+			//email检查
+			if(!empty($param['info_email'])){
+				if(!is_email($param['email'])){
+					return array('err'=>1,'msg'=>'email格式不正确');
+				}	
+				if(!$this->usrUnique('email',$param['email'])){
+					return array('err'=>1,'msg'=>'email已存在');
+				}
+			}
+			//qq检查
+			if(strlen($param['info_qq'])>16){
+				return array('err'=>1,'msg'=>'QQ号码长度错误');
+			}
 		}
 		// 开始添加数据
 		$result = $info['ctype']==1 ? $this->model('customer_contact')->add($info+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],'depart'=>$_SESSION['depart'],'customer_manager'=>$_SESSION['adminid'])) : $this->model('customer')->add($info+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],'depart'=>$_SESSION['depart'],'customer_manager'=>$_SESSION['adminid']));
