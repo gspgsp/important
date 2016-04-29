@@ -20,6 +20,13 @@ class customerModel extends model{
 		$exist=$this->model('customer')->select('c_id')->where($where)->getOne();
 		return $exist>0 ? false : true;
 	}
+
+	/**
+	 * 更具字段取出对应的值
+	 */
+	public function getColByName($value=0,$col='c_name',$condition='c_id'){
+		return $this->model('customer')->select("$col")->where("$condition='$value'")->getOne();
+	}
 	
 	
 }
