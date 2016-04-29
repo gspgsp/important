@@ -32,8 +32,8 @@ class customerContactModel extends model{
 				return array('err'=>1,'msg'=>'QQ号码长度错误');
 			}
 		}else{    //开始验证添加的企业（公司名字)
-			if(empty($param['info_mobile']) || empty($param['info_email']) || ){
-
+			if(empty($param['info_mobile'])){
+				return array('err'=>1,'msg'=>'联系人电话不能为空');
 			}
 			if(!empty($param['c_name'])){
 				if(!M('user:customer')->curUnique('c_name',$param['c_name'])){
@@ -92,6 +92,22 @@ class customerContactModel extends model{
 					return array('err'=>1,'msg'=>'qq号码已存在');
 				}
 			}
+			// 组合区域
+			$info['origin'] = $info['company_province'].'|'.$info['company_city'];
+			//公司联系人信息
+			$info_ext = array(
+				'name'=>$info['info_name'],
+				'sex'=>$info['info_sex'],
+				'mobile'=>$info['info_mobile'],
+				'qq'=>$info['info_qq'],
+				'fax'=>$info['info_fax'],
+				'tel'=>$info['info_tel'],
+				'email'=>$info['info_email'],
+				'remark'=>$info['info_remark'],
+				'status'=>$info['info_status'],
+				'is_default'=>1,
+
+			); 
 		}
 		$_data = array(
 			'input_time'=>CORE_TIME,
@@ -99,20 +115,8 @@ class customerContactModel extends model{
 			'depart'=>$_SESSION['depart'],
 			'customer_manager'=>$_SESSION['adminid']
 		);
-		$info_ext = array(
-			'name'=>$info['info_name'],
-			'sex'=>$info['info_sex'],
-			'mobile'=>$info['info_mobile'],
-			'qq'=>$info['info_qq'],
-			'fax'=>$info['info_fax'],
-			'tel'=>$info['info_tel'],
-			'email'=>$info['info_email'],
-			'remark'=>$info['info_remark'],
-			'status'=>$info['info_status'],
-
-		); 
 		// 开始添加数据
-		$result = $info['ctype']==1 ? $this->model('customer_contact')->add($info+$_data) : ($this->model('customer')->add($info+$_data) && $this->model('customer_contact')->add($info_ext+$_data));
+		$result = $info['ctype']==1 ? $this->model('customer_contact')->add($info+$_data) : ($this->model('customer_contact')->add($info_ext+$_data) && $this->model('customer')->add($info+$_data+array('contact_id'=>$this->getLastID())));
 		if($result>0){
 			return array('err'=>0,'msg'=>'添加成功');
 		}
