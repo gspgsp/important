@@ -28,6 +28,16 @@ class customerModel extends model{
 		$result =  $this->model('customer')->select("$col")->where("$condition='$value'")->getOne();
 		return empty($result) ? '-' : $result;
 	}
+	/**
+	 * 根据联系人id 取出所有的所属公司信息
+	 */
+	public function getInfoByUid($uid=0){
+		$info=$this->model('customer_contact')->wherePk($uid)->getRow();
+		if($info){
+			$result =  $this->model('customer')->select("*")->where("c_id=$info[c_id]")->getRow();
+		}
+		return empty($result) ? '-' : $result;
+	}
 	
 	
 }

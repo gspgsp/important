@@ -26,6 +26,7 @@ class regionModel extends model{
 			$cache->set($cache_key,$data,7200);
 		}
 		return $data;
+
 	}
 	
 	/*
@@ -38,6 +39,11 @@ class regionModel extends model{
 	public function get_regions($pid = 0){
 		return $this->select('id,name')->where('pid='.$pid)->getAll();
 	}
-	
+	/**
+	 * 获取全部的信息
+	 */
+	public function get_reg(){
+		return $this->select('id,name')->getAll();
+	}
 }
 ?>
