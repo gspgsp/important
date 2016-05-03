@@ -1,0 +1,146 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            <form id="soform">
+            	<select name="key_type">
+                    <option value="">==字段==</option>
+                    <option value="mobile">手机号</option>
+                    <option value="real_name">真实姓名</option>
+                    <option value="c_name">所属公司</option>
+                </select>
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+                <select name="key_status">
+                    <option value="">==状态==</option>
+                    {foreach from=$user_status item=v key=k}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+               </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/user/users/init?action=grid" onrowdblclick="onRowDblClick" contextMenu="#gridMenu" headerContextMenu="#headerMenu">
+        <div property="columns">    
+			<div field="user_id" width="20" align="center" headerAlign="center">ID</div>
+            <div field="mobile" width="30" align="center" headerAlign="center">手机（账号）</div>
+            <div field="real_name" width="20" align="center" headerAlign="center">真实姓名</div>
+            <div field="c_name" width="20" align="center" headerAlign="center">所属公司</div>
+            <div field="company_type" width="20" align="center" headerAlign="center">企业类型</div>
+            <div field="telephone" width="30" align="center" headerAlign="center">电话</div>
+            <div field="qq" width="30" align="center" headerAlign="center">QQ</div>
+            <div field="reg_time" width="30" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">注册时间</div>
+            <div field="last_login" width="30" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">登录时间</div>
+            <div field="status" width="20" align="center" headerAlign="center">状态</div>
+            <div field="remark" width="40" align="center" headerAlign="center">备注</div>
+            <div name="action" width="50" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">操作</div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改状态弹窗 -->
+<div id="editWindow" class="mini-window" title="审核状态" style="width:350px;" 
+    showModal="true" allowResize="true" allowDrag="true"
+    >
+    <div id="editform" class="form" >
+        <input class="mini-hidden" name="id"/>
+        <table style="width:100%;">
+            <tr>
+                <td>
+                    <label for="textbox1$text">状态：</label>
+                </td>
+                <td>
+                    <input id="user_status" class="mini-combobox" style="width:150px;" textField="name" valueField="id" data='{:setMiniConfig|$user_status}' name="status" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="textarea1$text">备注：</label>
+                </td>
+                <td>
+                    <input id="textarea1" name="remark" class="mini-textarea" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="6">
+                    <input id="user_id" value="" name="uid" class="mini-hidden"/>
+                    <a class="mini-button" href="javascript:updateStatus()">保存</a>
+                    <a class="mini-button" href="javascript:cancelStatus()">取消</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!-- 修改状态弹窗 end -->
+
+<script type="text/javascript">
+mini.parse();
+var editWindow = mini.get("editWindow");
+var grid = mini.get("gridCell");
+grid.load();
+
+function onActionRenderer(e){
+    var record = e.record;
+    var uid = record.user_id;
+    var s='<a href="javascript:editStatus(\''+uid+'\')">审核状态</a> ';
+    return s;
+}
+
+function editStatus(uid){
+    var combobox=mini.get("user_status");
+    var textarea1=mini.get("textarea1");
+    var user_id=mini.get("user_id");
+    $.get('/user/users/get_user_status',{uid:uid},function (data){
+        combobox.setValue(data.status);
+        textarea1.setValue(data.remark);
+        user_id.setValue(data.user_id);
+        editWindow.show();
+    },'json');
+}
+
+function updateStatus(){
+    if(confirm('确定要修改吗？')){
+        grid.loading('修改中...');
+        var form = new mini.Form("#editform");
+        var data = form.getData(true, false);
+        var json = mini.encode(data);
+        $.post('/user/users/updateStatus',{data:json},function (data){
+            editWindow.hide();
+            grid.reload();
+        })
+    }
+}
+
+function cancelStatus(){
+    editWindow.hide();
+}
+function search() {
+    grid.load($("#soform").serializeObject(),function(e){
+        $("#searchMsg").html(e.msg);
+    });
+}
+
+function onRowDblClick(e){
+    var row = grid.getSelected();
+    if(row){
+        var width=740,height=700,title='用户信息';
+        urlStr="/user/users/details?uid="+row.user_id;
+        mini.open({
+            url: urlStr,
+            title: title, width: width, height:height,
+            ondestroy: function (action) {
+                grid.reload();
+            }
+        }); 
+    }
+
+}
+
+
+</script>

@@ -239,10 +239,6 @@ class customerAction extends adminBaseAction {
 		$this->success('操作成功');
 	}
 	
-
-	
-
-	
 	//检查唯一性
 	private function _chkUnique($name='mobile',$value=''){
 		$exist=$this->db->model('user')->select('user_id')->where("$name='$value'")->getOne();
