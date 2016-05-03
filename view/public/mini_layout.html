@@ -36,6 +36,27 @@ function viewUinfo(user_id){
 		width: 900, height:650
 	});		
 }
+
+//查看企业相关信息
+function viewCinfo(c_id){
+	mini.open({
+		url: "/user/customer/info?id="+c_id,
+		showMaxButton:true,
+		title: "查看企业用户相关信息", 
+		width: 800, height:650
+	});		
+}
+
+//查看企业联系人相关信息
+function viewContactInfo(c_id){
+	mini.open({
+		url: "/user/contact/viewInfo?id="+c_id,
+		showMaxButton:true,
+		title: "查看联系人用户相关信息", 
+		width: 550, height:480
+	});		
+}
+
 //获取状态
 function onLoadStatus(e) {
 	var record = parseInt(e.record.status)+1; //record.id

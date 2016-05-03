@@ -50,7 +50,7 @@
 		>
 		<div property="columns">    
 			<div type="checkcolumn"></div>
-			{if $doact neq 'search'}<div field="c_id" width="25" headerAlign="center"  align="center">ID</div>{/if}
+			{if $doact neq 'search'}<div field="c_id" width="25" headerAlign="center"  align="center" renderer="onLoadHandle">CID</div>{/if}
 			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center">客户名字</div>
 			<div field="chanel" width="40" headerAlign="center" align="center">渠道</div>
 			<div field="type" width="30" headerAlign="center" align="center">客户类型</div>
@@ -93,6 +93,13 @@ function onRowDblClick(e) {
 	onEdit();
 }
 
+//编辑联系人
+function onLoadHandle(e) {
+	var record = e.record,uid=record.c_id, s='';
+	s += '<a href="javascript:viewCinfo('+uid+')">'+uid+'</a> ';
+
+	return s;
+}
 //查看编辑用户信息
 function add(id,ctype){
 	if(ctype==1){
@@ -161,4 +168,14 @@ function onEdit(e) {
 		});	
 	}             
 }
+//选择框根据传入值选择
+top['win']=window;
+function setDvalue(a){
+	console.log(a);
+   var row=grid.findRow(function(row){
+     if(row.c_id==a) return true;
+   })
+   grid.select(row);
+}
+
 </script>

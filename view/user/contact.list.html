@@ -41,7 +41,7 @@
 		>
 		<div property="columns">    
 			<div type="checkcolumn"></div>
-			<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">ID</div>
+			<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
 			<div field="name" width="50" headerAlign="center" align="center">联系人</div>
 			<div field="c_id" width="80" headerAlign="center" align="center">公司</div>
 			<div field="sex" width="60" headerAlign="center"  align="center">性别</div>
@@ -89,7 +89,7 @@ function removeRow() {
 			if(action!='ok') return;
 			var callback=function(data){
 				if(data.err!='0'){
-					alert(data.msg)
+					alert(data.msg);
 					return false;
 				}else{
 					grid.reload();
@@ -119,7 +119,7 @@ function add(id,ctype){
 //编辑联系人
 function onLoadHandle(e) {
 	var record = e.record,uid=record.user_id, s='';
-	s += '<a href="javascript:editContact('+uid+')">'+uid+'</a> ';
+	s += '<a href="javascript:viewContactInfo('+uid+')">'+uid+'</a> ';
 
 	return s;
 }

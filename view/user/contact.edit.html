@@ -8,7 +8,7 @@
 	  <tr>
 		  <td>归属公司：</td>
 		  <td>
-			<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  style="width:170px" id="usrId"/>
+			<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:170px" id="usrId"/>
 		  </td>
 		  <td ></td>
 		  <td></td>
@@ -107,6 +107,10 @@ function usrChoose(e){
 		title: "选择公司",
 		width: 1200,
 		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
 		ondestroy: function (action) {
 			if (action == "ok") {
 				var iframe = this.getIFrameEl();

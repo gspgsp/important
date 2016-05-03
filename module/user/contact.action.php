@@ -35,6 +35,8 @@ class contactAction extends adminBaseAction {
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
 		$where=" 1 ";
+		$c_id=sget('c_id','i',0);
+		if($c_id !=0)  $where.=" and `c_id` =".$c_id;
 		//筛选状态
 		$status=sget('status','i',0);
 		if($status !=0)  $where.=" and `status` =".$status;
@@ -100,13 +102,47 @@ class contactAction extends adminBaseAction {
 		$user_id=sget('id','i');
 		if($user_id>0){
 			$info=$this->db->wherePk($user_id)->getRow();
+			if($info['c_id']>0) $c_name = M('user:customer')->getColByName("$info[c_id],c_name"); // 根据公司id查询公司名字
 		}
 		//联系人详情
+		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);
 		$this->assign('status',L('contact_status'));
 		$this->assign('sex',L('sex'));
 		$this->assign('page_title','联系人列表');
 		$this->display('contact.edit.html');
+
+	}
+
+	public function viewInfo(){
+		$this->is_ajax=true;
+		$user_id=sget('id','i');
+		if($user_id>0){
+			$info=$this->db->wherePk($user_id)->getRow();
+			$c_info = M('user:customer')->getInfoByUid("$user_id"); // 根据公司id查询公司名字
+			if($c_info['origin']){
+				$areaArr = explode('|', $c_info['origin']);
+				$c_info['company_province'] = $areaArr[1];
+				$c_info['company_city']=$areaArr[0];
+			}
+		}
+		$c_info['file_url1'] = FILE_URL.'/upload/'.$c_info['file_url'];
+		$c_info['business_licence_pic1'] = FILE_URL.'/upload/'.$c_info['business_licence_pic'];
+		$c_info['organization_pic1'] = FILE_URL.'/upload/'.$c_info['organization_pic'];
+		$c_info['tax_registration_pic1'] = FILE_URL.'/upload/'.$c_info['tax_registration_pic'];
+		$c_info['legal_idcard_pic1'] = FILE_URL.'/upload/'.$c_info['legal_idcard_pic'];
+		//联系人详情
+		$this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
+		$this->assign('type',L('company_type'));//工厂类型
+		$this->assign('level',L('company_level'));//客户类别
+		$this->assign('chanel',L('company_chanel'));//客户渠道
+		$this->assign('credit_level',L('credit_level'));//信用等级
+		$this->assign('c_info',$c_info);
+		$this->assign('info',$info);
+		$this->assign('status',L('contact_status'));
+		$this->assign('sex',L('sex'));
+		$this->assign('page_title','联系人列表');
+		$this->display('contact.viewInfo.html');
 
 	}
 
