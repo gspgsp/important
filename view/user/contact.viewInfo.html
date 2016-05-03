@@ -1,0 +1,148 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
+	<div title="基本信息">
+		<table border="0" cellpadding="1" cellspacing="2">
+		  <tr>
+			  <td>归属公司：</td>
+			  <td>
+				{$c_info.c_name}
+			  </td>
+			  <td ></td>
+			  <td></td>
+		  </tr>
+		  <tr>
+			<td >姓名：</td>
+			<td>{$info.name}</td>
+			<td>性别：</td>
+			<td>{$sex.$info.sex}</td>
+		  </tr>
+		  <tr>
+			<td style="width:80px;">手机：</td>
+			<td style="width:210px;">{$info.mobile}</td>
+			<td>电话：</td>
+			<td>{$info.tel}</td>
+		  </tr>
+		  <tr>
+			<td style="width:80px;">QQ号：</td>
+			<td style="width:210px;">{$info.qq}</td>
+			<td>传真：</td>
+			<td>{$info.fax}</td>
+		  </tr>
+		  <tr>
+			<td>邮件：</td>
+			<td>{$info.email}</td>
+			<td></td>
+			<td></td>
+		  </tr>
+		  <tr>
+			<td>备注：</td>
+			<td colspan="3">
+			{$info.remark}
+			</td>
+		  </tr>
+		  <tr>
+			<td>状态：</td>
+			<td>{$status.$info.status}</td>
+		  </tr>
+		</table>
+		</div>
+		
+		<div title="详细资料">
+			<div style="height:385px">
+				<table width="100%">
+					<caption><strong>基本信息</strong></caption>
+					<tr>
+						<td>客户名称：</td>
+						<td>
+							{$c_info.c_name}
+						</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>法人身份证：</td>
+						<td>{$c_info.legal_idcard}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>所需牌号：</td>
+						<td>{$c_info.need_product}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>邮政编码：</td>
+						<td>
+							{$c_info.zip}
+						</td>
+						<td>信用等级：</td>
+						<td>{$credit_level.$c_info.credit_level}</td>
+					</tr>
+					<tr>
+						<td>成立日期：</td>
+						<td>{$c_info.fund_date}
+						</td>
+						<td>注册资本：</td>
+						<td>
+							{$c_info.registered_capital}
+						万
+						</td>
+					</tr>
+					<tr>
+						<td>所在省市</td>
+						<td>{$regionList.$c_info.company_province},{$regionList.$c_info.company_city}</td>
+						<td>公司地址：</td>
+						<td>{$c_info.address}</td>
+					</tr>
+					<tr>
+						<td>客户类型：</td>
+						<td>{$type.$c_info.type}</td>
+						<td>客户级别：</td>
+						<td>{$level.$c_info.level}</td>
+					</tr>
+					<tr>
+						<td>客户渠道：</td>
+						<td>{$chanel.$c_info.chanel}</td>
+						<td>状态：</td>
+						<td>{$status.$c_info.status}</td>
+					</tr>
+					<tr>
+						<td>附件地址：</td>	
+						<td>{if $c_info.file_url}<a href="{$c_info.file_url1}">查看</a> {else}--{/if}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+				</table>
+				<table width="100%">
+					<caption><strong>扩展信息</strong></caption>
+					<tr>
+						<td>营业执照号：</td>
+						<td>{$c_info.business_licence}</td>
+						<td>执照照片：</td>
+						<td>{if $c_info.business_licence_pic}<a href="{$c_info.business_licence_pic1}">查看</a> {else}--{/if}</td>
+					</tr>
+					<tr>
+						<td>组织代码：</td>
+						<td>{$c_info.organization_code}</td>
+						<td>组织图片：</td>
+						<td>{if $c_info.organization_pic}<a href="{$c_info.organization_pic1}">查看</a> {else}--{/if}</td>
+					</tr>
+					<tr>
+						<td>税务登记码：</td>
+						<td>{$c_info.tax_registration}</td>
+						<td>税务图片：</td>
+						<td>{if $c_info.tax_registration_pic}<a href="{$c_info.tax_registration_pic1}">查看</a> {else}--{/if}</td>
+					</tr>
+					<tr>
+						<td>法人姓名：</td>
+						<td>{$c_info.legal_person}</td>
+						<td>身份证照片：</td>
+						<td>{if $c_info.legal_idcard_pic}<a href="{$c_info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>	
+					</tr>
+				</table>
+			</div>
+		</div>	
+</div>
+</div>
