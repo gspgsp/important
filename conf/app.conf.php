@@ -4,7 +4,7 @@
 */
 return array(
 	//默认设定
-	'DEFAULT_M'        => 'home',  //默认模块名称
+	'DEFAULT_M'        => 'article',  //默认模块名称
 	'DEFAULT_C'        => 'index',  //默认控制器
 	'DEFAULT_A'        => 'init',   //默认操作	
 	'HTTPS_ON'        => false,   //https是否开启	
