@@ -2,7 +2,7 @@
 /**
  * 产品信息管理
  */
-class indexAction extends adminBaseAction {
+class productAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
 		load::L('sys'); //加载语言相
@@ -14,7 +14,7 @@ class indexAction extends adminBaseAction {
 	 * @access public 
 	 * @return html
 	 */
-	public function index(){
+	public function init(){
 		$action=sget('action','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
@@ -26,7 +26,7 @@ class indexAction extends adminBaseAction {
 			$this->_save();exit;
 		}
 		$this->assign('page_title','资源库列表');
-		$this->display('index.html');
+		$this->display('product.list.html');
 	}
 	/**
 	 * Ajax获取列表内容
