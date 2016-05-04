@@ -5,9 +5,8 @@
 class productAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
-		load::L('sys'); //加载语言相
 		//产品信息表
-		$this->db=M('public:common')->model('t_product');
+		$this->db=M('public:common')->model('product');
 	}
 	/**
 	 * 会员列表
