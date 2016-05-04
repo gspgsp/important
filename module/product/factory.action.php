@@ -13,7 +13,7 @@ class factoryAction extends adminBaseAction
 		if($action=='grid'){
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
-			$sortField = sget("sortField",'s','input_time'); //排序字段
+			$sortField = sget("sortField",'s','fid'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			//搜索条件
 			$where=" 1 ";
@@ -123,7 +123,6 @@ class factoryAction extends adminBaseAction
 					'f_name'=>$v['f_name'],
 					'update_time'=>CORE_TIME,
 					'update_admin'=>$_SESSION['name'],
-					'status'=>(int)$v['status'],
 					'remark'=>$v['remark'],
 				);
 				$sql[]=$this->db->wherePk($_id)->updateSql(saddslashes($update));

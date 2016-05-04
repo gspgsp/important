@@ -1,103 +1,103 @@
 {layout file="public:mini_layout"}
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 <style>table p{padding:0; margin:0; padding-top:3px;}</style>
-    <table style="width:100%;">
-        <tr>
-            <td style="white-space:nowrap;">
-            <form id="soform">
-            	<select name="sTime">
-                	<option value="reg_time">注册时间</option>
-                	<option value="last_login">登录时间</option>
-                </select>       
-            	<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
-            	<input name="endTime" class="mini-datepicker" style="width:100px;"/>
-            	<select name="status" id="soStatus">
-                	<option value="" selected="selected">状态</option>
-                    <!--{html_options options=$status}-->
-                    <option value="0">待审核</option>
-                    <option value="1">正常</option>
-                    <option value="2">冻结</option>
-                    <option value="3">关闭</option>
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+			<form id="soform">
+				<select name="sTime">
+					<option value="reg_time">注册时间</option>
+					<option value="last_login">登录时间</option>
+				</select>       
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				<select name="status" id="soStatus">
+					<option value="" selected="selected">状态</option>
+					<!--{html_options options=$status}-->
+					<option value="0">待审核</option>
+					<option value="1">正常</option>
+					<option value="2">冻结</option>
+					<option value="3">关闭</option>
 
-                </select>
-            	<select name="key_type">
-                    <option value="mobile">手机号</option>
-                    <option value="real_name">姓名</option>
-                    <option value="u.user_id" selected="selected">会员ID</option>
-                    <option value="email">Email</option>
-                    <option value="chanel_name">渠道名</option>
-                    <option value="reg_ip">IP</option>
-                    <option value="invite_code">邀请码</option>
-                </select>       
-                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>  
-                <p>
-                用户标签
-            	<select name="user_tag" id="soTag">
-                    {html_options options=$user_tag}
-                </select>
-            	<select name="chanel" id="soChanel">
-                	<option value="">注册渠道</option>
-                    {html_options options=$user_chanel}
-                </select>
-            	<select name="utype" id="soUtype">
-                	<option value="">类型</option>
-                    {html_options options=$utype}
-                </select>
-                推荐数
-                <input name="beginCount" class="mini-textbox" style="width:50px;" />~~<input name="endCount" class="mini-textbox" style="width:50px;" />
-                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-                 <span id="searchMsg"></span>
-                </p>
-               </form>
-            </td>
-            {if $doact neq 'search'}
-            <td style="float:right;">
-                <a class="mini-button" iconCls="icon-add" onclick="add(0,1)">个人</a> <a class="mini-button" iconCls="icon-add" onclick="add(0,3)">企业</a>
-                <p>
-                <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">设置标签</a> </p>
-            </td>
-            {/if}
-        </tr>
-    </table>           
+				</select>
+				<select name="key_type">
+					<option value="mobile">手机号</option>
+					<option value="real_name">姓名</option>
+					<option value="u.user_id" selected="selected">会员ID</option>
+					<option value="email">Email</option>
+					<option value="chanel_name">渠道名</option>
+					<option value="reg_ip">IP</option>
+					<option value="invite_code">邀请码</option>
+				</select>       
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>  
+				<p>
+				用户标签
+				<select name="user_tag" id="soTag">
+					{html_options options=$user_tag}
+				</select>
+				<select name="chanel" id="soChanel">
+					<option value="">注册渠道</option>
+					{html_options options=$user_chanel}
+				</select>
+				<select name="utype" id="soUtype">
+					<option value="">类型</option>
+					{html_options options=$utype}
+				</select>
+				推荐数
+				<input name="beginCount" class="mini-textbox" style="width:50px;" />~~<input name="endCount" class="mini-textbox" style="width:50px;" />
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				 <span id="searchMsg"></span>
+				</p>
+			   </form>
+			</td>
+			{if $doact neq 'search'}
+			<td style="float:right;">
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">个人</a> <a class="mini-button" iconCls="icon-add" onclick="add(0,3)">企业</a>
+				<p>
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">设置标签</a> </p>
+			</td>
+			{/if}
+		</tr>
+	</table>           
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-        url="/user/user/init?action=grid&do={$doact}{if $isSecurity eq '1'}&isSecurity={$isSecurity}{/if}" idField="user_id"  onrowdblclick="onRowDblClick"
-        multiSelect="true" {if $doact neq 'search'}allowCellEdit="true" allowCellSelect="true"{/if} contextMenu="#gridMenu"  headerContextMenu="#headerMenu"
-        >
-        <div property="columns">    
-            <div type="checkcolumn"></div>
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/user/user/init?action=grid&do={$doact}{if $isSecurity eq '1'}&isSecurity={$isSecurity}{/if}" idField="user_id"  onrowdblclick="onRowDblClick"
+		multiSelect="true" {if $doact neq 'search'}allowCellEdit="true" allowCellSelect="true"{/if} contextMenu="#gridMenu"  headerContextMenu="#headerMenu"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
 			{if $doact neq 'search'}<div name="user_id" width="50" headerAlign="center" renderer="onLoadHandle">ID</div>{/if}
-            <div field="mobile" width="60" headerAlign="center">手机</div>
-            <div field="ref_count" width="40" headerAlign="center" allowSort="true" align="center" renderer="onLoadRec">推荐数</div>
-            <div field="inviteCode" width="30" headerAlign="center">邀请码</div>
-            <div field="name" width="80" headerAlign="center">名称</div>
-            <div field="status" width="40" headerAlign="center" align="center">状态</div>
-            <div field="user_tag" width="40" headerAlign="center" allowSort="true" type="comboboxcolumn" align="center">标签                        
-            	<input property="editor" class="mini-combobox" style="width:100%;" data="user_tag" textField="name"/>      
-            </div>    
-            <div field="reg_time" width="90" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">注册</div>
-            <div field="last_login" width="90" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">登录</div>
-            <div field="reg_ip" width="80" headerAlign="center" align="center" allowSort="true">IP</div>
-            <div field="visit_count" width="50" headerAlign="center" allowSort="true" align="center">登录次数</div>
-        </div>
-    </div>
-    <ul id="gridMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">              
-	    <li name="edit" iconCls="icon-edit" onclick="onEdit">修改用户</li>
-        <li name="modifyPasswd" iconCls="icon-edit" onclick="modifyPasswd">重置密码</li>
-        <li name="modifyPayPasswd" iconCls="icon-edit" onclick="modifyPayPasswd">重置交易密码</li>
-        <li name="applyUser" iconCls="icon-edit" onclick="applyUser">修改用户状态</li>
-        <li name="addWhiteList" iconCls="icon-add" onclick="addWhiteList();">添加到提现白名单</li>
-        <li name="addRfWhiteList" iconCls="icon-add" onclick="addRfWhiteList();">添加到推荐白名单</li>
-        <li name="setCustomerManager" iconCls="icon-add" onclick="setCustomerManager">设置客户经理</li> 
-        <li name="editRf" iconCls="icon-edit" onclick="editRfUser">修改用户推荐人</li> 
-    </ul>
+			<div field="mobile" width="60" headerAlign="center">手机</div>
+			<div field="ref_count" width="40" headerAlign="center" allowSort="true" align="center" renderer="onLoadRec">推荐数</div>
+			<div field="inviteCode" width="30" headerAlign="center">邀请码</div>
+			<div field="name" width="80" headerAlign="center">名称</div>
+			<div field="status" width="40" headerAlign="center" align="center">状态</div>
+			<div field="user_tag" width="40" headerAlign="center" allowSort="true" type="comboboxcolumn" align="center">标签                        
+				<input property="editor" class="mini-combobox" style="width:100%;" data="user_tag" textField="name"/>      
+			</div>    
+			<div field="reg_time" width="90" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">注册</div>
+			<div field="last_login" width="90" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">登录</div>
+			<div field="reg_ip" width="80" headerAlign="center" align="center" allowSort="true">IP</div>
+			<div field="visit_count" width="50" headerAlign="center" allowSort="true" align="center">登录次数</div>
+		</div>
+	</div>
+	<ul id="gridMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">              
+		<li name="edit" iconCls="icon-edit" onclick="onEdit">修改用户</li>
+		<li name="modifyPasswd" iconCls="icon-edit" onclick="modifyPasswd">重置密码</li>
+		<li name="modifyPayPasswd" iconCls="icon-edit" onclick="modifyPayPasswd">重置交易密码</li>
+		<li name="applyUser" iconCls="icon-edit" onclick="applyUser">修改用户状态</li>
+		<li name="addWhiteList" iconCls="icon-add" onclick="addWhiteList();">添加到提现白名单</li>
+		<li name="addRfWhiteList" iconCls="icon-add" onclick="addRfWhiteList();">添加到推荐白名单</li>
+		<li name="setCustomerManager" iconCls="icon-add" onclick="setCustomerManager">设置客户经理</li> 
+		<li name="editRf" iconCls="icon-edit" onclick="editRfUser">修改用户推荐人</li> 
+	</ul>
 </div>
 {if $doact eq 'search'}
 <div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
-        <a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
-        <span style="display:inline-block;width:25px;"></span>
-        <a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+		<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+		<span style="display:inline-block;width:25px;"></span>
+		<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
 </div>
 {/if}
 
@@ -357,7 +357,7 @@ function setCustomerManager(e) {
 			}
 		}
 	});	
-	             
+				 
 }
 
 function addWhiteList() {

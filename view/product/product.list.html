@@ -12,7 +12,7 @@
 				牌号
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:140px;" onenter="onKeyEnter"/>
 				产品类别
-				<select name="product_type">
+				<select name="process_type">
 					<option value="">==全部==</option>
 					<option value="0">HDPE</option>
 					<option value="1">LDPE</option>
@@ -23,7 +23,7 @@
 
 				产品状态
 				<select name="status" id="soStatus">
-					<option value="-1">=状态=</option>
+					<option value="">=状态=</option>
 					<option value="0">上架</option>
 					<option value="1">下架</option>
 				</select>
@@ -43,9 +43,6 @@
 			<div type="checkcolumn"></div>
 			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">商品ID</div>
 			<div field="cate_name" width="90" headerAlign="center" align="center">产品分类                      
-				<!-- <input property="editor" class="mini-textbox" style="width:100%;"/> -->
-			</div>
-			<div field="kind_id" width="80" headerAlign="center" align="center">分类ID                        
 			</div>
 			<div field="p_name" width="80" headerAlign="center" allowSort="true" align="center">产品名称
 			</div>                
@@ -57,14 +54,11 @@
 			</div> 
 			<div field="product_class" width="80" headerAlign="center" allowSort="true" align="center">加工级别
 			</div> 
-			<div field="unit" width="80" headerAlign="center" allowSort="true" align="center">单位
+			<div field="unit" width="40" headerAlign="center" allowSort="true" align="center">单位
 			</div>
 			<div field="package" width="80" headerAlign="center" allowSort="true" align="center">包装
 			</div>
 			<div field="status" width="80" headerAlign="center" allowSort="true" align="center">产品状态
-				<input property="editor" class="mini-textbox" style="width:100%;"/>
-			</div>
-			<div field="groupno" width="80" headerAlign="center" allowSort="true" align="center">组织代码
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
 			<div field="remark" width="80" headerAlign="center" allowSort="true" align="center">备注
