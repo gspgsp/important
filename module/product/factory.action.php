@@ -17,6 +17,9 @@ class factoryAction extends adminBaseAction
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			//搜索条件
 			$where=" 1 ";
+			//状态
+			$status = sget("status",'s','');
+			if($status!='') $where.=" and `status` = '$status' ";
 			//关键词
 			 $keyword=sget('keyword','s');
 			if(!empty($keyword)){
@@ -34,6 +37,7 @@ class factoryAction extends adminBaseAction
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
 		}
+		$this->assign('status',L('factory_status'));
 		$this->assign('factory_status',L('factory_status')); //厂家状态
 		$this->assign('page_title','厂家管理');
 		$this->display('factory.list.html');
@@ -68,7 +72,7 @@ class factoryAction extends adminBaseAction
 		$this->is_ajax=true; //指定为Ajax输出
 		$changeid = sget('changeid','i'); //传递的参数
 		$tag = sget('tag','s');
-		$data['status']= $tag=='正常' ? 0 : 1;
+		$data['status']= $tag=='正常' ? 1 : 2;
 		$data['update_time'] = CORE_TIME;
 		$data['update_admin'] = $_SESSION['name'];
 		$res = $this->db->wherePk($changeid)->update($data);

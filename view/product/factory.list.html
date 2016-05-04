@@ -10,9 +10,12 @@
 				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
 			</td>
 			<td style="float:right;">
-
 			  <form id="soform">
-			  <span>厂家名称</span>
+			  	<select name="status" id="soStatus">
+			  		<option value="" selected="selected">=状态=</option>
+			  		{html_options options=$status}
+			  	</select>
+			  	<span>厂家名称</span>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 				<span id="searchMsg"></span>
