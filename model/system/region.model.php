@@ -45,5 +45,18 @@ class regionModel extends model{
 	public function get_reg(){
 		return $this->select('id,name')->getAll();
 	}
+	/**
+	 * 根据id值获取name的值
+	 */
+	public function get_name($id = 0){
+		if(is_array($id)){
+			foreach ($id as $k => $v) {
+				$link = $k==count($id)-1 ? '': '|';
+				$result .= $this->select('name')->where("`id` = $v")->getOne().$link;
+			}
+			return $result;
+		}
+		return $this->select('name')->where("`id` = $id")->getOne();
+	}
 }
 ?>
