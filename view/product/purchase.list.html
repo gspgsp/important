@@ -1,0 +1,96 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="addRow()" plain="true" tooltip="增加">增加</a>
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="excelData()">excel导入</a> 
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="sTime">
+					<option value="input_time">创建时间</option>
+				</select>       
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<select name="product_type">
+					<option value="">==品种==</option>
+					{html_options options=$product_type}
+				</select>
+				<select name="period">
+					<option value="">=周期=</option>
+					{html_options options=$period}
+				</select>
+				<select name="status" id="soStatus">
+					<option value="">=状态=</option>
+					{html_options options=$status}
+				</select>
+				<select name="key_type">
+					<option value="f_name">厂家</option>
+					<option value="number">数量</option>
+					<option value="unit_price">价格</option>
+				</select> 
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/product/purchase/init?action=grid"
+		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="cate_id" width="30" headerAlign="center" align="center" allowSort="true">品种</div>
+			<div field="model" width="40" headerAlign="center" align="center">牌号</div>
+			<div field="f_id" width="80" headerAlign="center" allowSort="true" align="center">厂家</div>                
+			<div field="process_type" width="50" headerAlign="center" allowSort="true" align="center">加工级别</div>
+			<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量【吨】</div>
+			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">预期价格</div>
+			<div field="origin" width="50" headerAlign="center" allowSort="true" align="center">交货地</div>
+			<div field="period" width="50" headerAlign="center" allowSort="true" align="center">周期</div>
+			<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
+			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
+			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
+			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+
+
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/operator/ship/init?action=save',{data:json},callback,"POST","json");
+}
+</script>
