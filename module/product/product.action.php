@@ -41,25 +41,21 @@ class productAction extends adminBaseAction {
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
 		$where=" 1 ";
-		//信息类型
-		$prince_type=sget('prince_type','s','');
-		if($prince_type != ''){
-			$prince_s=sget('prince_s','i',0);
-			$prince_e=sget('prince_e','i',0);
-			$where.=" and `$prince_type` between $prince_s and $prince_e ";
-		}
-		//关键词搜索
-		$keyword=sget('keyword','s');
+		//产品分类
 		$product_type=sget('product_type','s');
+		if(!empty($product_type)) $where.=" and `product_type` = '$product_type' ";
+		//状态
 		$status =sget('status','s');
+		if(!empty($status)) $where.=" and `status` = '$status' ";
+		//关键词
+		$key_type=sget('key_type','s','p_name');
+		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			$where.=" and `model` like '%$keyword%' ";
-		}
-		if(!empty($product_type)){
-			$where.=" and `product_type` = '$product_type' ";
-		}
-		if(!empty($status)){
-			$where.=" and `status` = '$status' ";
+			if($key_type=='f_name' ||  $key_type=='p_name'){
+				$where.=" and $key_type like '%$keyword%' ";
+			}else{
+				$where.=" and $key_type = '$keyword' ";
+			}
 		}
 		$list=$this->db->where($where)
 					->page($page+1,$size)
@@ -68,6 +64,9 @@ class productAction extends adminBaseAction {
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$list['data'][$k]['product_type'] = L('product_type')[$v['product_type']]; 
+			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
+			$list['data'][$k]['f_name'] = M('product:factory')->getFnameById($v['f_id']);
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -79,32 +78,13 @@ class productAction extends adminBaseAction {
 	public function ajaxSave(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$action = sget('action','s');
-		$data = sdata(); //传递的参数
-		if(empty($data)){
-			$this->error('错误的请求');
-		}
 		$id=$data['id'];
-		$data = array(
-			'p_name'=>$data['p_name'],
-			'product_type'=>$data['product_type'],
-			'model'=>$data['model'],
-			'p_name'=>$data['p_name'],
-			'f_id'=>$data['f_id'],
-			'f_name'=>$data['f_name'],
-			'process_type'=>$data['process_type'],
-			'unit'=>$data['unit'],
-			'package'=>$data['package'],
-			'status'=>$data['status'],
-			'remark'=> $data['remark'],
-			'input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],
-		);
+		$data = sdata(); //传递的参数
+		if(empty($data)) $this->error('错误的请求');
 		if($action =='edit'){
-			$data['update_time']=CORE_TIME;
-			$data['update_admin']=$_SESSION['name'];
-			$result = $this->db->where("id=$id")->update($data);
+			$result = $this->db->where("id=$id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
 		}else{
-			$result = $this->db->add($data);
+			$result = $this->db->add($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['name'],));
 		}
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
@@ -176,12 +156,9 @@ class productAction extends adminBaseAction {
 	//ajax获取状态，改变保存
 	public function changeSave(){
 		$this->is_ajax=true; //指定为Ajax输出
-		$changeid = sget('changeid','i'); //传递的参数
-		$tag = sget('tag','s');
-		$data['status']= $tag==L('product_status')[1] ? 1:2;
-		$data['update_time'] = CORE_TIME;
-		$data['update_admin'] = $_SESSION['name'];
-		$res = $this->db->wherePk($changeid)->update($data);
+		$changeid =  sget('changeid','i',0);
+		$status = $this->db->select('status')->wherePk($changeid)->getOne() == 1 ? 2 : 1;
+		$res = $this->db->wherePk($changeid)->update(array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],'status'=>$status,));
 		//showtrace();
 		if($res){
 			$cache=cache::startMemcache();
