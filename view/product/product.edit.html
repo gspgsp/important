@@ -25,7 +25,9 @@
 			</tr>
 			<tr>
 				<td>厂家编号:</td>
-				<td><input name="f_id" class="mini-textbox" style="width:90px" required="true"/ value="{$data.f_id}"></td>
+				<td>
+					<input name="f_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$data.f_id}" allowInput="false"  text="{$data.f_name}"  style="width:170px" id="usrId"/>
+				</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
@@ -35,11 +37,6 @@
 				</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td >单位:</td>
-				<td><input name="unit" class="mini-combobox" data='{:setMiniConfig|$unit}' value="{$data.unit}" textField="name" valueField="id" style="width:90px;" required="true"/>
-				</td>
 			</tr>
 			<tr>
 				<td >状态：</td>
@@ -85,5 +82,31 @@ function CloseWindow(action) {
 }
 function onCancel(e) {
   CloseWindow("cancel");
+}
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "product/factory/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.fid);
+					btn.setText(data.f_name);
+					$("#"+btn.id+"\\$value").val(data.fid);
+				}
+			}
+		}
+	});
 }
 </script>

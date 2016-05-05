@@ -51,7 +51,7 @@ class productAction extends adminBaseAction {
 		$key_type=sget('key_type','s','p_name');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='f_name' ||  $key_type=='p_name'){
+			if($key_type=='f_name' ||  $key_type=='p_name' || $key_type=='remark'){
 				$where.=" and $key_type like '%$keyword%' ";
 			}else{
 				$where.=" and $key_type = '$keyword' ";
@@ -78,8 +78,8 @@ class productAction extends adminBaseAction {
 	public function ajaxSave(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$action = sget('action','s');
-		$id=$data['id'];
 		$data = sdata(); //传递的参数
+		$id = $data['id'];
 		if(empty($data)) $this->error('错误的请求');
 		if($action =='edit'){
 			$result = $this->db->where("id=$id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
@@ -115,6 +115,7 @@ class productAction extends adminBaseAction {
 	public function edit(){
 		$product_id=sget('id','i');
 		$data = $this->db->where('id='.$product_id)->getRow();
+		$data['f_name'] = M('product:factory')->getFnameById($data['f_id']);
 		$this->assign('data',$data);
 		$this->display('product.edit.html');
     }

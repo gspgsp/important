@@ -9,7 +9,7 @@
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
 				<span class="separator"></span> 
-				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="excelData()">excel导入</a> 
+				<a class="mini-button" iconCls="icon-upload" onclick="manualCheck();">Excel导入</a>
 			</td>
 			<td style="float:right;">
 			<form id="soform">
@@ -24,7 +24,7 @@
 				<select name="key_type">
 					<option value="p_name">产品名称</option>
 					<option value="model">牌号</option>
-					<option value="f_name">厂家名称</option>
+					<option value="remark">备注</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -38,25 +38,24 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="id" width="45" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
 			<div field="p_name" width="80" headerAlign="center" allowSort="true" align="center">产品名称</div>
-			<div field="product_type" width="90" headerAlign="center" align="center">产品分类</div>
+			<div field="product_type" width="40" headerAlign="center" align="center">产品分类</div>
 			<div field="model" width="60" headerAlign="center" allowSort="true" align="center">牌号</div>
 			<div field="f_name" width="80" headerAlign="center" allowSort="true" align="center">厂家名称</div> 
-			<div field="process_type" width="80" headerAlign="center" allowSort="true" align="center">加工级别</div> 
-			<div field="status" width="80" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
-			<div field="remark" width="80" headerAlign="center" allowSort="true" align="center">备注
+			<div field="process_type" width="40" headerAlign="center" allowSort="true" align="center">加工级别</div> 
+			<div field="status" width="40" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
+			<div field="remark" width="240" headerAlign="center" allowSort="true" align="center">备注
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
 			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
 			<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
 			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新</div>
 			<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
-			 <div name="action" width="120" headerAlign="center" align="center" renderer="onLoadHandle" cellStyle="padding:0;">操作</div>
+			 <div name="action" width="30" headerAlign="center" align="center" renderer="onLoadHandle" cellStyle="padding:0;">操作</div>
 		</div>
 	</div>
 </div>
-
 <div id="admInfo" class="mini-window" title="增加产品信息" style="width:300px;" 
 	showModal="true" allowResize="true" allowDrag="true"
 	>
@@ -268,6 +267,6 @@ function usrChoose(e){
 				}
 			}
 		}
-	});         
+	});
 }
 </script>

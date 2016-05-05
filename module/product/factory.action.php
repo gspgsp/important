@@ -10,6 +10,7 @@ class factoryAction extends adminBaseAction
 	public function init(){
 		//获取列表数据
 		$action=sget('action');
+		$doact=sget('do','s');
 		if($action=='grid'){
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
@@ -37,6 +38,7 @@ class factoryAction extends adminBaseAction
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
 		}
+		$this->assign('doact',$doact);
 		$this->assign('status',L('factory_status'));
 		$this->assign('factory_status',L('factory_status')); //厂家状态
 		$this->assign('page_title','厂家管理');
