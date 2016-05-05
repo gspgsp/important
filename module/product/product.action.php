@@ -160,7 +160,6 @@ class productAction extends adminBaseAction {
 		$changeid =  sget('changeid','i',0);
 		$status = $this->db->select('status')->wherePk($changeid)->getOne() == 1 ? 2 : 1;
 		$res = $this->db->wherePk($changeid)->update(array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],'status'=>$status,));
-		//showtrace();
 		if($res){
 			$cache=cache::startMemcache();
 			$cache->delete('product');
@@ -171,9 +170,6 @@ class productAction extends adminBaseAction {
 	}
 
 	//批量导入数据
-	/**
-	 * 手动对账
-	 */
 	public function manualCheck(){
 		$this->is_ajax = true;
 		E('PHPExcel',APP_LIB.'extend');
