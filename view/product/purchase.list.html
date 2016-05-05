@@ -9,12 +9,10 @@
 			</td>
 			<td style="float:right;">
 			<form id="soform">
-				<select name="sTime">
-					<option value="input_time">创建时间</option>
-				</select>       
+				创建时间   
 				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;
 				<select name="product_type">
 					<option value="">==品种==</option>
 					{html_options options=$product_type}
@@ -59,6 +57,7 @@
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
 			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
+			<div field="status" width="30" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
 		</div>
 	</div>
 </div>

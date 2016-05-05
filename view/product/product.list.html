@@ -13,51 +13,38 @@
 			</td>
 			<td style="float:right;">
 			<form id="soform">
-				牌号
-				<input name="keyword" class="mini-textbox" emptyText="" style="width:140px;" onenter="onKeyEnter"/>
-				产品分类
 				<select name="product_type">
-			  		<option value="" selected="selected">=类别=</option>
-			  		{html_options options=$product_type}
-			  	</select>
-
-				产品状态
-				<select name="status">
-			  		<option value="" selected="selected">=状态=</option>
-			  		{html_options options=$product_status}
-			  	</select>
+					<option value="" selected="selected">=类别=</option>
+					{html_options options=$product_type}
+				</select>
+				<select name="status" id="soStatus">
+					<option value="" selected="selected">=状态=</option>
+					{html_options options=$product_status}
+				</select>
+				<select name="key_type">
+					<option value="p_name">产品名称</option>
+					<option value="model">牌号</option>
+					<option value="f_name">厂家名称</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 				<span id="searchMsg"></span></form>
 			</td>
 		</tr>
 	</table>
 </div>
-
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/product/init?action=grid"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="id" width="45" headerAlign="center" align="center" allowSort="true">ID</div>
-			<div field="p_name" width="80" headerAlign="center" allowSort="true" align="center">产品名称
-			</div>
-			<div field="product_type" width="90" headerAlign="center" align="center">产品分类
-			</div>
-			<div field="model" width="60" headerAlign="center" allowSort="true" align="center">牌号
-			</div>
-			<div field="f_id" width="80" headerAlign="center" allowSort="true" align="center">厂家编号
-			</div>
-			<div field="f_name" width="80" headerAlign="center" allowSort="true" align="center">厂家名称
-			</div> 
-			<div field="process_type" width="80" headerAlign="center" allowSort="true" align="center">加工级别
-			</div> 
-			<div field="unit" width="40" headerAlign="center" allowSort="true" align="center">单位
-			</div>
-			<div field="package" width="80" headerAlign="center" allowSort="true" align="center">包装
-			</div>
-			<div field="status" width="80" headerAlign="center" allowSort="true" align="center">状态
-			</div>
-
+			<div field="p_name" width="80" headerAlign="center" allowSort="true" align="center">产品名称</div>
+			<div field="product_type" width="90" headerAlign="center" align="center">产品分类</div>
+			<div field="model" width="60" headerAlign="center" allowSort="true" align="center">牌号</div>
+			<div field="f_name" width="80" headerAlign="center" allowSort="true" align="center">厂家名称</div> 
+			<div field="process_type" width="80" headerAlign="center" allowSort="true" align="center">加工级别</div> 
+			<div field="status" width="80" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
 			<div field="remark" width="80" headerAlign="center" allowSort="true" align="center">备注
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
@@ -90,27 +77,22 @@
 				<td><input name="model" class="mini-textbox" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
-				<td>厂家编号</td>
-				<td><input name="f_id" class="mini-textbox" style="width:200px" required="true"/></td>
-			</tr>
-			<tr>
 				<td>厂家名称</td>
-				<td><input name="f_name" class="mini-textbox" style="width:200px" required="true"/></td>
+				<td>
+					<input name="f_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="f_id"  value="" allowInput="false"  style="width:170px" id="usrId"/>
+				</td>
 			</tr>
 			<tr>
 				<td>加工级别</td>
 				<td><input name="process_type" class="mini-combobox" data='{:setMiniConfig|$process_type}' textField="name" valueField="id" style="width:90px;" required="true"/>
-                </td>
+				</td>
 			</tr>
 			<tr>
 				<td>单位</td>
 				<td><input name="unit" class="mini-combobox" data='{:setMiniConfig|$unit}' textField="name" valueField="id" style="width:90px;" required="true"/>
 				</td>
 			</tr>
-			<tr>
-				<td>包装</td>
-				<td><input name="package" class="mini-textbox" style="width:200px" required="true"/></td>
-			</tr>
+
 			<tr>
 				<td>状态：</td>
 				<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$product_status}' textField="name" valueField="id" style="width:90px;" required="true"/>
@@ -202,8 +184,8 @@ function onRowDblClick(e) {
 function onEdit(e) {
 	var row = grid.getSelected();
 	if (row) {
-		var width=700,height=250,title='产品信息';
-		urlStr="/product/product/edit?id="+row.id+"&product_type="+row.product_type+"&process_type="+row.process_type+"&unit="+row.unit+"&status="+row.status;
+		var width=350,height=370,title='产品信息';
+		urlStr="/product/product/edit?id="+row.id;
 		mini.open({
 			url: urlStr,
 			title: title,
@@ -238,16 +220,18 @@ function saveData() {
 //追加操作按钮
 function onLoadHandle(e) {
   var record = e.record, state = record.status, s='',tag='',changeid = record.id;
-	tag = state== '1' ? '{$product_status[2]}' : '{$product_status[1]}';
-	s += '<a href="javascript:changeState('+changeid+',\''+tag+'\')">'+tag+'</a> ';
+	if(state==1){
+		s += "<a href='javascript:changeState("+changeid+")'>下架</a>";
+	}else{
+		s +="<a href='javascript:changeState("+changeid+")'>上架</a>";
+	}
   return s;
 }
-function changeState(changeid,tag)
-{
-		$.ajax({
+function changeState(changeid,status){
+	$.ajax({
 			type:"post",
 			url:"/product/product/changeSave",
-			data:{changeid:changeid,tag:tag},
+			data:{changeid:changeid},
 			dataType:"json",
 			success:function(data){
 				if(data.err=='0'){
@@ -258,5 +242,32 @@ function changeState(changeid,tag)
 				}
 			}
 		})
+}
+
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "product/factory/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.fid);
+					btn.setText(data.f_name);
+					$("#"+btn.id+"\\$value").val(data.fid);
+				}
+			}
+		}
+	});         
 }
 </script>
