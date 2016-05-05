@@ -169,4 +169,57 @@ class productAction extends adminBaseAction {
 			$this->error('操作失败');
 		}
 	}
+
+	//批量导入数据
+	/**
+	 * 手动对账
+	 */
+	public function manualCheck(){
+		$this->is_ajax = true;
+		E('PHPExcel',APP_LIB.'extend');
+		if(empty($_FILES['check_file']) || $_FILES['check_file']['error']) $this->error('文件上传失败！');
+		$result = array();
+		try {
+			$objPHPExcel = PHPExcel_IOFactory::load($_FILES['check_file']['tmp_name']);
+			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+			if(empty($sheetData)) $this->error('上传文件不正确，请重新上传');
+			if(count(array_shift($sheetData)) !== 14) throw new Exception('Excel表数据格式不匹配');
+			foreach($sheetData as $row){
+				if(empty($row['B']) || !is_numeric($row['B'])) continue;//如果第二列（商户订单号）为空或者不是数字则不检查该行
+				if($row['I']=="手续费") continue;
+				
+				$order = $this->db->where("sn='{$row['H']}' and trade_date='{$row['A']}'")->getRow();
+				//showTrace();
+				if(!empty($order)){//本地存在该交易流水号
+					$result[$row['H']] = '本地存在该交易流水号【'.$row['H']."】";
+					continue;
+				}
+				//
+				$userData = $this->_ordercheck($row['F'],$row['D'],$row['G']);
+				//写数据到表中ss_user_banktransfer
+				$_infoData = array(
+					'trade_date'=>$row['A'],
+					'account'=>$row['B'],
+					'lend_sum'=>$row['C'],
+					'loan_sum'=>$row['D'],
+					'balance'=>$row['E'],
+					'other_account'=>$row['F'],
+					'other_name'=>$row['G'],
+					'sn'=>$row['H'],
+					'abstract'=>$row['I'],
+					'purpose'=>$row['J'],
+					'operator'=>$_SESSION['name'],
+					'user_id'=>$userData['user_id'],
+					'log_sn'=>$userData['log_sn'],
+					'input_time'=>CORE_TIME,
+				);
+				$this->db->model('user_banktransfer')->add($_infoData);
+			}
+			
+		} catch (Exception $e) {
+			$this->error($e->getMessage());
+		}
+
+		$this->json_output(array('err'=>0,'result'=>$result?:false));
+	}
 }

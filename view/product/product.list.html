@@ -269,4 +269,54 @@ function usrChoose(e){
 		}
 	});
 }
+
+function manualCheck(){
+	mini.showMessageBox({
+		title: "批量导入",
+		buttons: ["ok", "cancel"],
+		html: '<p style="margin-left:50px;">\
+				<label><strong>选择Excel文件</strong> <br /><input type="file" name="check_file" id="manual_check_file" />\
+			  </p>',
+		callback: function (action) {
+			if(action=='ok'){
+				var messageid = mini.loading("正在处理...", "处理中");
+				$.ajaxFileUpload({
+					url:'/product/product/manualCheck',
+					fileElementId:"manual_check_file",
+					dataType: 'json',
+					success: function (data, status) {
+						if(data.err) mini.alert(data.msg);
+						else{
+							var iconCls = 'mini-messagebox-info',html = "批量导入处理成功。",title="处理成功",width=200;
+							if(data.result){
+								width=350;
+								title="处理完成，有异常";
+								iconCls = 'mini-messagebox-warning';
+								html = '批量导入处理完成，异常订单如下：<br /><div style="height:250px;overflow:scroll;">';
+								$.each(data.result,function(k,v){
+									html += k+" "+v+"<br />";
+								});
+								html+="</div>";
+							}
+							mini.showMessageBox({
+								showHeader: false,
+								width: width,
+								title: title,
+								buttons: ["ok"],
+								html: html,
+								iconCls: iconCls
+							});
+						}
+						mini.hideMessageBox(messageid);
+					},
+					error: function (data, status, e){
+						mini.hideMessageBox(messageid);
+						alert(e);
+					}
+				});
+			}
+		}
+	});
+}
+
 </script>
