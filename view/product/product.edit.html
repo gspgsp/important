@@ -1,0 +1,81 @@
+{layout file="public:mini_layout"}
+<div style="width:690px; padding:5px;">
+	<!-- <div class="mini-tabs" activeIndex="0" plain="false" class="form" id="editForm"> -->
+	  <div title="基本信息" class="form" id="editForm">
+
+		<table width="100%" border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td style="width:80px;">产品名称:</td>
+				<td><input name="p_name" class="mini-textbox" style="width:150px" required="true"/ value="{$data.p_name}"></td>
+				<td>产品分类:</td>
+				<td><input name="product_type" class="mini-combobox" data='{:setMiniConfig|$product_type}' value="{$data.product_type}" textField="name" valueField="id" style="width:90px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>牌号:</td>
+				<td><input name="model" class="mini-textbox" style="width:150px" required="true"/ value="{$data.model}"></td>
+				<td>厂家编号:</td>
+				<td><input name="f_id" class="mini-textbox" style="width:90px" required="true"/ value="{$data.f_id}"></td>
+			</tr>
+			<tr>
+				<td >厂家名称:</td>
+				<td><input name="f_name" class="mini-textbox" style="width:150px" required="true"/ value="{$data.f_name}"></td>
+				<td >加工级别:</td>
+				<td><input name="process_type" class="mini-combobox" data='{:setMiniConfig|$process_type}' value="{$data.process_type}" textField="name" valueField="id" style="width:90px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td >单位:</td>
+				<td><input name="unit" class="mini-combobox" data='{:setMiniConfig|$unit}' value="{$data.unit}" textField="name" valueField="id" style="width:90px;" required="true"/>
+				</td>
+				<td>包装:</td>
+				<td><input name="package" class="mini-textbox" style="width:200px" required="true"/ value="{$data.package}"></td>
+			</tr>
+			<tr>
+				<td >状态：</td>
+				<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$product_status}' value="{$data.status}" textField="name" valueField="id" style="width:90px;" required="true"/>
+				</td>
+				<td>备注:</td>
+				<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$data.remark}"></td>
+			</tr>
+			<tr>
+				<td style="text-align:center;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确认</a>
+				<input class="mini-hidden" name="id" value="{$data.id}"/>
+				</td>
+				<td style="text-align:center;padding-top:5px;padding-right:100px;" colspan="2">
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>
+				<input class="mini-hidden" name="id" value="{$data.id}"/>
+				</td>
+			</tr>
+		</table>
+	<!--   </div> -->
+</div>
+
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+mini.parse();
+//增加后提交数据(保存)
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	var o = form.getData();
+	var json = mini.encode(o);
+	var callback=function(data){
+	if(data.err!='0'){
+	alert(data.msg);
+	return false;
+	}else{
+	CloseWindow('save');
+	}
+	}
+  utils.ajax('/product/product/ajaxSave?action=edit',{data:json},callback,"POST","json");
+}
+
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+</script>
