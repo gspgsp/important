@@ -58,5 +58,11 @@ class regionModel extends model{
 		}
 		return $this->select('name')->where("`id` = $id")->getOne();
 	}
+	/**
+	 * 根据区域一级id获得所属的华南华东信息
+	 */
+	 public function get_area($id = 0){
+	 	return $this->select('area')->where('id='.$id)->getOne();
+	 }
 }
 ?>
