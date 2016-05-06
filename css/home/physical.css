@@ -68,7 +68,11 @@
 	color: #333;
 	border:1px solid #ddd;
 	height:30px;
+	width: 24%;
 	text-indent: 12px;
+	padding: 5px;
+}
+#main table tr td.w1{
+	width: 24%;
 }
 #print_box .btn{ width:100px; height:32px; display:block; background:#FF7200; color:#ffffff; text-decoration:none; text-align:center; line-height:25px; margin: 25px auto; line-height:32px;  font-size: 16px;}
-

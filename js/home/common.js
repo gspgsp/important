@@ -17,7 +17,22 @@ function getOs()
         return "Gecko";  
    }  
      
-}  
+}
+
+String.prototype.trim=function(){
+  return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+function loginbox(type){
+  $.layer({
+      type: 2,
+      border: [0],
+      title: false,
+      fix:true,
+      iframe: {src : "/user/login/loginbox?type="+type},
+      area: ['360px', '340px']
+  });
+}
 
 function guanzhu(gid){  
         $.ajax({ 

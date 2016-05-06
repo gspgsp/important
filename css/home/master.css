@@ -1,6 +1,6 @@
 ﻿@charset "utf-8";
 /* CSS Document */
-body{ font-family: "Microsoft YaHei" ! important; font-size:12px; color:#444; text-align:left; line-height:22px;min-width:1280px; padding:0; margin:0}
+body{ font-family: "Microsoft YaHei" ! important; font-size:12px; color:#444; text-align:left; line-height:22px;min-width:1280px; background:url(../../images/home/mainbg.jpg) center bottom repeat-x; padding:0; margin:0}
 form,img,ul,li,p,dl,dt,dd,span,p{border:0;margin:0;padding:0;}
 h1,h2,h3,h4{font-size:12px;font-weight:100;margin:0;padding:0;}
 li,dl{list-style-type:none; }
@@ -25,7 +25,10 @@ a:hover{ text-decoration:none; color:#ee4822;}
 .topk{ width:1200px; line-height:40px; height:40px;  margin:0 auto;}
 .topa{ width:500px; float:left;font-size: 12px;}
 .topb{ float:right; text-align:right;font-size: 12px;}
-
+.account{color:#ff7200;display:inline-block;height:40px;padding-left:8px;padding-right:5px;font-size: 13px;}
+.loginout{color:#339933;height:40px;display:inline-block;border-left:1px solid #e2e2e2;padding-left:8px;border-right:1px solid #e2e2e2;padding-right:8px;}
+.loginin{color:#ff7200;display:inline-block;height:40px;border-left:1px solid #e2e2e2;padding-left:15px;padding-right:15px;}
+.register{color:#339933;height:40px;display:inline-block;border-left:1px solid #e2e2e2;padding-left:15px;border-right:1px solid #e2e2e2;padding-right:15px;}
 
 .nylogoeg{ width:1200px; margin:0 auto; height:112px;margin-left:auto ; margin-right:auto;text-align: center;	}
 .nylogo{ width:100%; margin:0 auto; background-color:#f5f5f5; }
@@ -51,23 +54,25 @@ a:hover{ text-decoration:none; color:#ee4822;}
 .dlannzclia{ float:right; float:right; margin-left:20px; display:block;}
 .dlannzc a{ display:block;}
 /*菜单导航*/
-.fnavbg{ height:40px; width:100%; margin:0 auto; line-height:40px; background-color:#f5f5f5}
-.navbg{ height:40px; width:1200px; margin:0 auto; line-height:40px; background-color:#ff7200}
+.fnavbg{ height:42px; width:100%; margin:0 auto; /* line-height:40px; */ background-color:#f5f5f5;}
+.navbg{ height:40px; width:1200px; margin:0 auto; line-height:40px; /* background-color:#ff7200; */border-bottom:2px solid #fc6621;}
 .nav{ line-height:40px; height:40px; position:relative; width:1200px; margin:0 auto;}
 .nav_a{ float:left; font-weight:bold; background:url(../../images/home/nav_bg.jpg) 0 0 no-repeat; width:228px; height:40px;  font-size:14px; color:#FFF; padding-left:7px;}
 .nav_a a{ color:#FFF; width:194px; height:40px; display:block;}
 .gonggao{ width:259px; height:399px; border-bottom:#dddddd 1px solid;border-right:#dddddd 1px solid; float:right}
 .bannerxia{ position:relative;}
 .nav_xiala{ width:204px; background:url(../../images/home/navng.png) 0 0 repeat-y; height:400px; position:absolute; left:0; top:40px; }
-.caidan{ width:806px; float: left;}
-.caidan li{ float:left; width:82px; font-size:14px; text-align:center;  height:40px; line-height:40px;}
+.caidan{ width:860px; float: left;}
+.caidan li{ float:left; /* width:78px; */ margin:0 35px 0 0; font-size:16px; text-align:center;  height:40px; line-height:40px;}
 .caidan li.hot{ position:relative;}
 .caidan li span{position:absolute; width:36px; height:24px; background:url(../../images/home/hot.gif); right:0; top:-10px;  }
-.caidan a{ display:block; color:#FFF;}
-.caidan a:hover{ background:url(../../images/home/navbbg.jpg) center center no-repeat;}
-.caidan .hover{ background:url(../../images/home/navbbg.jpg) center center no-repeat;}
-.wangzhi{ float:right; width:157px;height:40px; text-align:center; color:#FFF;font-size:0px;}
-.wangzhi a{ width:157px;height:40px;color:#FFF;float:right;display:block;background:url(../../images/home/downcl.jpg) center center no-repeat;}
+.caidan a{ display:block; color:#333;}
+.caidan a:hover{ color:#fc6621; background:url(../../images/home/navHoverBg.png) center bottom no-repeat;}
+.caidan .hover{ color:#fc6621; background:url(../../images/home/navHoverBg.png) center bottom no-repeat; }
+/* .wangzhi{ float:right; width:157px;height:40px; text-align:center; color:#FFF;font-size:0px;}
+.wangzhi a{ width:157px;height:40px;color:#FFF;float:right;display:block;background:url(../../images/home/downcl.jpg) center center no-repeat;} */
+.nav .download{ font-size:14px; font-weight:bold; width:105px; height:24px;}
+.nav .download a{ display:block; color:#fff; width:78px; height:24px; line-height:24px; margin: 5px 0 0 0; padding:0 0 0 27px; background:#fc6621 url(../../images/home/download.png) no-repeat 3px center;}
 /*-*/
 
 .suliaocai{ position:relative; width:1200px; margin:0 auto; height:373px}
@@ -464,29 +469,51 @@ width:257px;
 .jiagefanweiweg{ width:92px; height:26px; float:left; background-color:#FFF; border:#dddddd 1px solid; margin-top:15px; padding:0 3px}
 .daoweieig{ width:98px; height:26px; background-color:#ffffff; border:#dddddd 1px solid; margin-top:15px;}
 
-.xianhuozix_bg{ line-height:36px; padding-top:6px;}
-.xianhuozix_bg li{ text-align:center; width:1158px; margin:0 auto; height:60px; line-height:60px; display:block;}
+.xianhuozix_bg li{ text-align:center; height:39px; line-height:39px; overflow: hidden; display:block; border-top: 1px solid #d6d7dc;}
+.xianhuozix_bg li.title{ color:#333; font-size:14px; background: #f3e7bd; height: 39px; overflow: hidden; line-height: 39px;}
 .xianhuozix_bg li p{ float:left; display:block;}
-.xianhuozix_bg a{ color:#444; display:block;}
-.xianhuozix_bg a:hover{ background-color:#f7f7f7; height:60px;}
+.xianhuozix_bg a{ color:#666; display:block;}
+.xianhuozix_bg a:hover{ background:#fffee1; height:39px;}
 
 
-.b_xianhuozixa{ width:91px;}
+.b_xianhuozixa{ width:91px; overflow: hidden;}
 .b_xianhuozixb{ width:101px;height:60px; overflow:hidden;}
 .b_xianhuozixc{ width:151px;height:60px; overflow:hidden;}
-.b_xianhuozixd{ width:91px; height:60px; overflow:hidden;}
-.b_xianhuozixe{ width:141px;height:60px; overflow:hidden;}
+.b_xianhuozixd{ width:106px; height:60px; overflow:hidden;}
+.b_xianhuozixe{ width:126px;height:60px; overflow:hidden;}
 .b_xianhuozixf{ width:102px;height:60px; overflow:hidden;}
 .b_xianhuozixg{ width:266px; background:url(../../images/home/sanjiaoe.png) 240px 26px no-repeat; position:absolute; }
 .b_xianhuozixgbb{ width:266px;}
 .b_xianhuozixh{ width:102px;}
+.b_xianhuozixi{ width: 48px;}
+
+.mall-offter.xianhuozix_bg li.title p{ background:url(../../images/home/spirit0421.png) no-repeat; }
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixa{ background-position: 12px -46px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixb{ background-position: 13px -85px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixc{ background-position: 43px -124px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixd{ background-position: 0 -163px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixe{ background-position: 0 -202px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixf{ background-position: 9px -241px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixgbb{ background-position: 100px -280px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixy{ background-position: 5px -319px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixz{ background-position: 20px -358px;}
+.mall-offter.xianhuozix_bg li.title p.b_xianhuozixi{ background: none; }
+.mall-offter.xianhuozix_bg li{ overflow: visible; }
+.mall-offter.xianhuozix_bg li p{ height: 39px;}
+
+.mall-offter .b_xianhuozixi span{ display: block; width: 23px; height: 23px;  background:url(../../images/home/spirit0421.png); margin:9px 0 0 12px;}
+.mall-offter .b_xianhuozixi span.xian{ background-position: 0 0;}
+.mall-offter .b_xianhuozixi span.qi{ background-position: 0 -23px;}
 
 .b_xianhuozixd_a{ width:115px; }
 .b_xianhuozixh_a{ width:76px;}
-.b_xianhuozixgege{ float:left; position:relative;width:266px; display:block; height:60px;}
+.b_xianhuozixgege{ float:left; position:relative;width:266px; display:block; height:39px; cursor: pointer;}
+.mall-offter.xianhuozix_bg .b_xianhuozixgege .detail{ width: 328px; height: 98px; overflow: hidden; text-align: left; text-indent: 19px; background: #fff; border:1px solid #fc6621; position: absolute; top: -30px; display: none; z-index: 999;}
+.mall-offter.xianhuozix_bg .b_xianhuozixgege .detail h5{ font-size: 14px; color: #fc6621; }
+.mall-offter.xianhuozix_bg .b_xianhuozixgege .detail p{ height: auto; line-height: 24px; }
+.mall-offter.xianhuozix_bg .b_xianhuozixgege:hover .detail{ display: block; }
 
-
-.b_xianhuozixh_an{ width:102px; height:60px; color:#FFF; background:url(../../images/home/aniuwieng.jpg) center center no-repeat; text-align:center;}
+.b_xianhuozixh_an{ width:102px; height:39px; line-height: 39px; color:#FFF; background:url(../../images/home/aniuwieng.jpg) center center no-repeat; text-align:center;}
 .b_xianhuozixh_an a{ color:#FFF;}
 .b_xianhuozixh_an a:hover{ color:#FFF;}
 
@@ -1238,22 +1265,7 @@ width:257px;
 .myzixun table.add-table input.add{ color: #fff; width: 80px; height: 30px; line-height: 30px; background: #3498db; cursor: pointer;}
 
 
-/*zt-contact begin*/
-.zt-contact{ position:fixed; right: 0; top: 50%; margin-top: -140px;}
-.zt-contact li{ width: 100px; height: 40px; margin: 0 0 10px 0; cursor: pointer; position: relative;}
-.zt-contact li div{ float: left;}
-.zt-contact li .icon-qq{ background: url(../../images/home/zt-qq.png) no-repeat center; }
-.zt-contact li .ewm{ width: 200px; height: 200px; overflow: hidden; position: absolute; left:-140px; top: -10px; display: none;}
-.zt-contact li .icon-wx {background: url(../../images/home/zt-wx.png) no-repeat center;}
-.zt-contact li .icon-ios {background: url(../../images/home/zt-ios.png) no-repeat center;}
-.zt-contact li .icon-suggest {background: url(../../images/home/zt-suggest.png) no-repeat center;}
-.zt-contact li .suggest { color:#fff; width: 40px; height: 40px; position:absolute; top: 0; left: 60px;}
-.zt-contact li .zt-slide { color: #fff; width: 60px; height: 40px; line-height:40px; text-align:center; position: absolute; top: 0; right: -20px;}
-.zt-contact li .zt-mouseover{ width:40px; height: 40px; position: absolute; top: 0; right: 0;}
-.zt-contact li .icon-ewm{ width: 40px; height: 40px;  position: absolute; top: 0; right: 0;}
-.zt-contact li .bg-gray{ background-color: #bbb;}
-.zt-contact li .bg-orge{ background-color: #ff7200;}
-/*zt-contact end*/
+
 
 /*供应链金融 开始*/
 a{ text-decoration:none;}

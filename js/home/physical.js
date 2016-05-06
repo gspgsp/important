@@ -1,7 +1,11 @@
 $(function(){
+
 	String.prototype.trim=function(){
 		return this.replace(/(^\s*)|(\s*$)/g, "");
 	}
+
+	
+
 	$('#keyword').keyup(function(){
 		loadsearch();
 	});
@@ -50,3 +54,13 @@ function selectSearch(){
 	$('.suggest').hide();
 	$("#search_list").html('');
 }
+function searched(){
+	var keyword = $('#keyword').val().trim();
+	if(keyword == ''){
+		alert('请输入要搜索的关键字');
+		return false;
+	}
+	return true;
+}
+
+
