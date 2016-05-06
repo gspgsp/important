@@ -5,9 +5,13 @@ class productModel extends model{
 		parent::__construct(C('db_default'), 'product');
 	}
 	//根据牌号和厂家id获取商品id
-	public function getFnameById($model='',$fid=0){
-		$result = $this->select('id')->where("model = '$model' and f_id='$fid'")->getOne();
-		return empty($result) ? 0 : $result;
+	public function getFnameById($model='',$fid=0,$id=0){
+		$where = "model=$model and f_id=$fid";
+		if($id){
+			$where .= " and id !='$id'";
+		}
+		$result = $this->select('id')->where($where)->getOne();
+		return $result>0 ? false : true;
 	}
 	//根据牌号和厂家id创建一条新记录并返回id
 	public function insertProduct($data=array()){
