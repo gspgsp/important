@@ -5,6 +5,12 @@
 		<input class="mini-hidden" name="user_id" value="{$info.user_id}"/>
 		<table border="0" cellpadding="1" cellspacing="2">
 			<tr>
+					<td>客户：</td>
+					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" allowInput="false"  style="width:170px" id="usrId"/></td>
+					<td ></td>
+					<td></td>
+			</tr>
+			<tr>
 					<td>厂家：</td>
 					<td><input name="f_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="f_id"  value="" allowInput="false"  style="width:170px" id="usrId"/ required="true"></td>
 					<td ></td>
@@ -36,7 +42,7 @@
 			</tr>
 			<tr>
 				<td style="width:80px;">数量：</td>
-				<td style="width:210px;"><input name="number" class="mini-textbox" maxlength="12" value="" style="width:150px;"/>&nbsp;&nbsp;吨</td>
+				<td style="width:210px;"><input name="number" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/>&nbsp;&nbsp;吨</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
@@ -125,12 +131,12 @@ function onDeptChanged(deptCombo,positionCombo,val) {
 	var url = "/user/user/getRegion?pid=" + id
 	positionCombo.setUrl(url);
 }
-//强制选择归属公司
+//强制选择厂家
 function usrChoose(e){
 	var btn = this;
 		mini.open({
 		url: "product/factory/init?do=search",
-		title: "选择公司",
+		title: "选择厂家",
 		width: 1200,
 		height: 550,
 		onload: function () {
@@ -150,5 +156,32 @@ function usrChoose(e){
 			}
 		}
 	});
+}
+
+//强制选择归属公司
+function cstChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+					$("#"+btn.id+"\\$value").val(data.c_id);
+				}
+			}
+		}
+	});         
 }
 </script>

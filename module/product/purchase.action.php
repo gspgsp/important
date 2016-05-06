@@ -126,16 +126,15 @@ class purchaseAction extends adminBaseAction {
 		}
 		foreach($data as $k=>$v){
 			$_data=array(
-				'cities'=>$v['cities'],
 				'update_time'=>CORE_TIME,
-				'admin_name'=>$_SESSION['name'],
+				'update_admin'=>$_SESSION['name'],
 			);
 			if(isset($v['_state']) && $v['_state']=='added'){
 				$sql[]=$this->db->addSql($_data+array(
 					'input_time'=>CORE_TIME,
 				));
 			}else{
-				$sql[]=$this->db->wherePk($v['id'])->updateSql(array('status'=>$v['status']));
+				$sql[]=$this->db->wherePk($v['id'])->updateSql(array('status'=>$v['status'])+$_data);
 			}
 			
 		}
@@ -189,20 +188,27 @@ class purchaseAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		$utype = $data['ctype'];
-		//组合区域
-		$data['origin']= $data['company_province'].'|'.$data['company_city'];
-		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);
+		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
+		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
+		$model = trim($data['model']);
+		//公共数据
+		$_data = array(
+			'input_time'=>CORE_TIME,
+			'input_admin'=>$_SESSION['name'],
+		);
+		if($data['f_id']>0  && (!empty($model))){
+			$p_id = M('product:product')->getPidByModel($data['model'],$data['f_id']);
+			$data['p_id']  = $p_id>0 ? $p_id : M('product:product')->insertProduct(array('status'=>3,)+$data+$_data);
+		} else{
+			$this->error('牌号或者厂家不能为空');
+		}
+		//货物类型
+		if($utype==1) $data['cargo_type'] = 2;
+		if($this->db->add($data+$_data)){
+			$this->success('操作成功');
+		}
+		$this->error('添加失败');
 		
-		if($utype==1){
-
-		}else{
-
-		}
-		$result=$this->db->add($data);
-		if($result['err']>0){
-			$this->error($result['msg']);
-		}
-		$this->success('操作成功');
 	}
 	/**
 	 * 根据厂家id获取厂家名称
