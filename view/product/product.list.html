@@ -215,7 +215,7 @@ function remove() {
 //双击弹出
 function onRowDblClick(e) {
 	var record = e.record, status=record.status;
-	if(status == 1 && status == 2 ){
+	if(status == 1 || status == 2 ){
 		onEdit();
 	}
 }
