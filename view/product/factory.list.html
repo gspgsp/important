@@ -203,9 +203,11 @@ function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
 	else window.close();
 }
+//确定并获取数据
 function onComfirm() {
 	CloseWindow("ok");
 }
+//取消
 function onCancel() {
 	CloseWindow("cancel");
 }
