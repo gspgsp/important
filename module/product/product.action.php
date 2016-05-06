@@ -5,6 +5,8 @@
 class productAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
+		$this->doact = sget('do','s');
+		$this->ischecked = sget('ischecked','s');
 		//产品信息表
 		$this->db=M('public:common')->model('product');
 		//产品分类语言包
@@ -15,6 +17,8 @@ class productAction extends adminBaseAction {
 		$this->assign('unit',L('unit'));
 		//加工级别
 		$this->assign('process_type',L('process_level'));
+		//产品新增状态
+		$this->assign('pass_status',array('1'=>'上架','2'=>'下架'));
 	}
 	/**
 	 *
@@ -23,10 +27,21 @@ class productAction extends adminBaseAction {
 	 */
 	public function init(){
 		$action=sget('action','s');
+		$action=sget('action','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('ischecked',$this->ischecked );
 		$this->assign('page_title','产品信息列表');
+		$this->display('product.list.html');
+	}
+
+	/**
+	 * 产品审核
+	 */
+	public function check(){
+		$this->assign('doact','check');
+		$this->assign('page_title','产品审核列表');
 		$this->display('product.list.html');
 	}
 	/**
@@ -39,8 +54,8 @@ class productAction extends adminBaseAction {
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
-		//搜索条件
-		$where=" 1 ";
+		//筛选显示类别
+		$this->doact=='check' ? $where.= '  `status` in (3,4)' : $where.=' `status` in (1,2)';
 		//产品分类
 		$product_type=sget('product_type','s');
 		if(!empty($product_type)) $where.=" and `product_type` = '$product_type' ";
@@ -61,6 +76,7 @@ class productAction extends adminBaseAction {
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
+		//showTrace();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
@@ -84,10 +100,10 @@ class productAction extends adminBaseAction {
 		//牌号去空格转换小写
 		$data['model']=strtolower(trim($data['model']));
 		if($action =='edit'){
-			if(!M('product:product')->getFnameById($data['model'],$data['f_id'],$id)) $this->error('相关产品已存在');
+			if(M('product:product')->getPidByModel($data['model'],$data['f_id'],$id)) $this->error('相关产品已存在');
 			$result = $this->db->where("id=$id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
 		}else{
-			if(!M('product:product')->getFnameById($data['model'],$data['f_id'])) $this->error('相关产品已存在');
+			if(M('product:product')->getPidByModel($data['model'],$data['f_id'])) $this->error('相关产品已存在');
 			
 			$result = $this->db->add($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['name'],));
 		}
@@ -142,18 +158,12 @@ class productAction extends adminBaseAction {
 				$update=array(
 					'update_time'=>CORE_TIME,
 					'update_admin'=>$_SESSION['name'],
-					'remark'=>$v['remark'],
+					'status'=>$v['status'],
 				);
-				$sql[]=$this->db->wherePk($_id)->updateSql(saddslashes($update));
+				$result=$this->db->wherePk($_id)->update($update);
 			}
 		}
-		if(empty($sql)){
-			$this->error('操作数据为空');
-		}
-		$result=$this->db->commitTrans($sql);
 		if($result){
-			$cache=cache::startMemcache();
-			$cache->delete('product');
 			$this->success('操作成功');
 		}else{
 			$this->error('数据处理失败');
@@ -163,7 +173,9 @@ class productAction extends adminBaseAction {
 	public function changeSave(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$changeid =  sget('changeid','i',0);
-		$status = $this->db->select('status')->wherePk($changeid)->getOne() == 1 ? 2 : 1;
+		$check_status =  sget('status','i',0);
+		$status = $this->db->select('status')->wherePk($changeid)->getOne() == 1  ? 2 : 1;
+		if($check_status == 3)   $status=1;
 		$res = $this->db->wherePk($changeid)->update(array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],'status'=>$status,));
 		if($res){
 			$cache=cache::startMemcache();
@@ -229,5 +241,29 @@ class productAction extends adminBaseAction {
 		$this->json_output(array('err'=>0,'result'=>$result?:false));
 	}
 
+	/**
+	 * 产品更换
+	 */
+	public function replaceProduct(){
+		$this->is_ajax=true; //指定为Ajax输出		
+		$data = sdata(); //传递的参数
+		$o_pid = sget('o_pid','s'); //未通过审核的产品ID
+		$check_pid = $data['id'] ; //已审核的产品ID
+		if(empty($o_pid) && empty($n_pid)) $this->error('错误的请求');
+		$update=array(
+				'update_time'=>CORE_TIME,
+				'update_admin'=>$_SESSION['name'],
+				'status'=>4,
+				);
+		$result=$this->db->wherePk($o_pid)->update($update);
+		$update2=array(
+				'update_time'=>CORE_TIME,
+				'update_admin'=>$_SESSION['name'],
+				'p_id'=>$check_pid,
+				);
+		$replace=$this->db->model('purchase')->where("`p_id` = $o_pid")->update($update2);
+		if(!$result || !$replace) $this->error('操作失败');
+		$this->success('操作成功');
+	}
 
 }

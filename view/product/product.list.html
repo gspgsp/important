@@ -2,25 +2,32 @@
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
+		{if $ischecked neq 'checked' }
 			<td style="white-space:nowrap;">
+			{if $doact neq 'check'}
 				<a class="mini-button" iconCls="icon-addnew" plain="true" onclick="add()">新增</a>
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
-				<span class="separator"></span>
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
 				<span class="separator"></span> 
 				<a class="mini-button" iconCls="icon-upload" onclick="inputExcel();">Excel导入</a>
+			{/if}	
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
+
 			</td>
+		{/if}
 			<td style="float:right;">
 			<form id="soform">
 				<select name="product_type">
 					<option value="" selected="selected">=类别=</option>
 					{html_options options=$product_type}
 				</select>
+				{if $doact neq 'check'}
 				<select name="status" id="soStatus">
 					<option value="" selected="selected">=状态=</option>
-					{html_options options=$product_status}
+					{html_options options=$pass_status}
 				</select>
+				{/if}
 				<select name="key_type">
 					<option value="model">牌号</option>
 					<option value="remark">备注</option>
@@ -33,7 +40,7 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/product/init?action=grid"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/product/init?action=grid&do={$doact}&ischecked={$ischecked}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
@@ -43,12 +50,18 @@
 			<div field="f_name" width="80" headerAlign="center" allowSort="true" align="center">厂家名称</div> 
 			<div field="process_type" width="40" headerAlign="center" allowSort="true" align="center">加工级别</div> 
 			<div field="status" width="40" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
-			<div field="remark" width="240" headerAlign="center" allowSort="true" align="center">备注</div>
+			<div field="remark" width="200" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
 			<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
 			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新</div>
 			<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
-			 <div name="action" width="30" headerAlign="center" align="center" renderer="onLoadHandle" cellStyle="padding:0;">操作</div>
+			 {if $doact neq 'check'}
+			 <div name="action" width="80" headerAlign="center" align="center" renderer="onLoadHandle" cellStyle="padding:0;">操作</div>
+			 {else}
+			<div name="action" width="80" headerAlign="center" align="center" renderer="checkLoadHandle" cellStyle="padding:0;">审核</div>
+			 {/if}
+
+			
 		</div>
 	</div>
 </div>
@@ -86,7 +99,7 @@
 
 			<tr>
 				<td>状态：</td>
-				<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$product_status}' textField="name" valueField="id" style="width:90px;" required="true"/>
+				<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$pass_status}' textField="name" valueField="id" style="width:90px;" required="true"/>
 				</td>
 			</tr>
 			<tr>
@@ -101,6 +114,36 @@
 		</table>
 	</div>
 </div>
+<div id="checkInfo" class="mini-window" title="增加产品信息" style="width:300px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			<tr>
+				<td>更换已审核的产品</td>
+				<td>
+					<input name="id" class="mini-buttonedit" onbuttonclick="checkedProduct" valueField="id"  value="" allowInput="false"  style="width:170px" id="id"/>
+					<input id="p_id" class="mini-hidden" value="">
+				</td>
+
+			</tr>
+
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitPro()">保存</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{if $ischecked eq 'checked'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+{/if}
 <script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
 <script type="text/javascript">
 mini.parse();
@@ -171,8 +214,14 @@ function remove() {
 }
 //双击弹出
 function onRowDblClick(e) {
-	onEdit();
+	var record = e.record, status=record.status;
+	if(status == 1 && status == 2 ){
+		onEdit();
+	}
 }
+
+
+
 function onEdit(e) {
 	var row = grid.getSelected();
 	if (row) {
@@ -219,22 +268,130 @@ function onLoadHandle(e) {
 	}
   return s;
 }
+
+//切换上下架
 function changeState(changeid,status){
 	$.ajax({
-			type:"post",
-			url:"/product/product/changeSave",
-			data:{changeid:changeid},
-			dataType:"json",
-			success:function(data){
-				if(data.err=='0'){
-				  grid.reload();
-				}else{
-				  alert(data.msg)
-				  return false;
+		type:"post",
+		url:"/product/product/changeSave",
+		data:{changeid:changeid},
+		dataType:"json",
+		success:function(data){
+			if(data.err=='0'){
+			  grid.reload();
+			}else{
+			  alert(data.msg)
+			  return false;
+			}
+		}
+	})
+}
+
+//审核操作
+function checkLoadHandle(e){
+	 var record = e.record, status = record.status,s='',pid = record.id;
+	 if(status==4){
+	 	 s += "<span>未通过</span>";	
+	 }else{
+	 	 s += "<a href='javascript:checkState("+pid+","+status+")'>通过</a>|"+"<a href='javascript:replaceProduct("+pid+")'>更换</a>";	
+	 }
+
+	 return s;
+}
+//审核通过
+function checkState(pid,status){
+	mini.confirm("确定通过吗？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/product/changeSave',{changeid:pid,status:status},callback,"POST","json");
+});
+}
+
+//审核不通过
+//弹出更换产品表单
+var proInfo = mini.get("checkInfo");
+var form = new mini.Form("#replaceForm");
+function replaceProduct(pid) {
+mini.get(p_id).setValue(pid)
+	proInfo.show();
+}
+//弹出已审核的产品列表
+function checkedProduct(){
+		var btn = this;
+		mini.open({
+		url: "product/product/init?ischecked=checked",
+		title: "产品替换",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.model);
+					$("#"+btn.id+"\\$value").val(data.id);
 				}
 			}
-		})
+		}
+	});
 }
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+
+//提交更换后的产品
+function submitPro() {
+var pid = mini.get(p_id).getValue();
+	form.validate();
+
+	if (form.isValid() == false) return;
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			proInfo.hide();
+		}
+	}
+	utils.ajax('/product/product/replaceProduct',{data:json,o_pid:pid},callback,"POST","json");
+}
+
+
+
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+
+
 
 //强制选择归属公司
 function usrChoose(e){
