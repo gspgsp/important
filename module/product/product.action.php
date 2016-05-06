@@ -51,7 +51,7 @@ class productAction extends adminBaseAction {
 		$key_type=sget('key_type','s','p_name');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='f_name' ||  $key_type=='p_name' || $key_type=='remark'){
+			if($key_type=='f_name' ||  $key_type=='remark'){
 				$where.=" and $key_type like '%$keyword%' ";
 			}else{
 				$where.=" and $key_type = '$keyword' ";
@@ -81,9 +81,14 @@ class productAction extends adminBaseAction {
 		$data = sdata(); //传递的参数
 		$id = $data['id'];
 		if(empty($data)) $this->error('错误的请求');
+		//牌号去空格转换小写
+		$data['model']=strtolower(trim($data['model']));
 		if($action =='edit'){
+			if(!M('product:product')->getFnameById($data['model'],$data['f_id'],$id)) $this->error('相关产品已存在');
 			$result = $this->db->where("id=$id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
 		}else{
+			if(!M('product:product')->getFnameById($data['model'],$data['f_id'])) $this->error('相关产品已存在');
+			
 			$result = $this->db->add($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['name'],));
 		}
 		if(!$result) $this->error('操作失败');
@@ -169,53 +174,60 @@ class productAction extends adminBaseAction {
 		}
 	}
 
-	//批量导入数据
-	public function manualCheck(){
+
+	/**
+	 * Excel导入
+	 */
+	public function inputExcel(){
 		$this->is_ajax = true;
 		E('PHPExcel',APP_LIB.'extend');
+
 		if(empty($_FILES['check_file']) || $_FILES['check_file']['error']) $this->error('文件上传失败！');
+
 		$result = array();
 		try {
 			$objPHPExcel = PHPExcel_IOFactory::load($_FILES['check_file']['tmp_name']);
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			if(empty($sheetData)) $this->error('上传文件不正确，请重新上传');
-			if(count(array_shift($sheetData)) !== 14) throw new Exception('Excel表数据格式不匹配');
+			if(count(array_shift($sheetData)) !== 8) throw new Exception('Excel表数据格式不匹配');
 			foreach($sheetData as $row){
-				if(empty($row['B']) || !is_numeric($row['B'])) continue;//如果第二列（商户订单号）为空或者不是数字则不检查该行
-				if($row['I']=="手续费") continue;
-				
-				$order = $this->db->where("sn='{$row['H']}' and trade_date='{$row['A']}'")->getRow();
+				if(empty($row['B'])  || empty($row['C']) || empty($row['D']) || !is_numeric($row['D']) || empty($row['E']) || !is_numeric($row['E']) || empty($row['F']) || !is_numeric($row['F']) ||empty($row['G']) || !is_numeric($row['G'])) continue;//如果为空或者不是数字则不检查该行
+				//检查SKU唯一性
+				$order = $this->db->where("f_id='{$row['D']}' and `model`='{$row['C']}'")->getRow();
 				//showTrace();
 				if(!empty($order)){//本地存在该交易流水号
-					$result[$row['H']] = '本地存在该交易流水号【'.$row['H']."】";
+					$result[$row['A']] = '第【'.$row['A']."】行,该产品本地已存在";
 					continue;
 				}
-				//
-				$userData = $this->_ordercheck($row['F'],$row['D'],$row['G']);
-				//写数据到表中ss_user_banktransfer
+				//检验厂家是否存在
+				$existFactory = $this->db->model('factory')->getPk($row['D']);
+				if(empty($order)){
+					$result[$row['A']] = '第【'.$row['A']."】行,该产品对应的厂家不存在";
+					continue;
+				}
+
+				//写数据到表中p2p_product
 				$_infoData = array(
-					'trade_date'=>$row['A'],
-					'account'=>$row['B'],
-					'lend_sum'=>$row['C'],
-					'loan_sum'=>$row['D'],
-					'balance'=>$row['E'],
-					'other_account'=>$row['F'],
-					'other_name'=>$row['G'],
-					'sn'=>$row['H'],
-					'abstract'=>$row['I'],
-					'purpose'=>$row['J'],
-					'operator'=>$_SESSION['name'],
-					'user_id'=>$userData['user_id'],
-					'log_sn'=>$userData['log_sn'],
+					'p_name'=>$row['B'],
+					'model'=>$row['C'],
+					'f_id'=>$row['D'],
+					'product_type'=>$row['E'],
+					'process_type'=>$row['F'],
+					'status'=>$row['G'],
+					'remark'=>$row['H'],
 					'input_time'=>CORE_TIME,
+					'input_admin'=>$_SESSION['name'],
 				);
-				$this->db->model('user_banktransfer')->add($_infoData);
+				//p($_infoData);
+				$this->db->model('product')->add($_infoData);
 			}
 			
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
-
+		//p($result);
 		$this->json_output(array('err'=>0,'result'=>$result?:false));
 	}
+
+
 }

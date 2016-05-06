@@ -22,7 +22,6 @@
 					{html_options options=$product_status}
 				</select>
 				<select name="key_type">
-					<option value="p_name">产品名称</option>
 					<option value="model">牌号</option>
 					<option value="remark">备注</option>
 				</select>
@@ -39,15 +38,12 @@
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
-			<div field="p_name" width="80" headerAlign="center" allowSort="true" align="center">产品名称</div>
-			<div field="product_type" width="40" headerAlign="center" align="center">产品分类</div>
+			<div field="product_type" width="60" headerAlign="center" align="center">产品分类</div>
 			<div field="model" width="60" headerAlign="center" allowSort="true" align="center">牌号</div>
 			<div field="f_name" width="80" headerAlign="center" allowSort="true" align="center">厂家名称</div> 
 			<div field="process_type" width="40" headerAlign="center" allowSort="true" align="center">加工级别</div> 
 			<div field="status" width="40" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
-			<div field="remark" width="240" headerAlign="center" allowSort="true" align="center">备注
-				<input property="editor" class="mini-textbox" style="width:100%;"/>
-			</div>
+			<div field="remark" width="240" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
 			<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
 			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新</div>
@@ -62,10 +58,6 @@
 	<div id="addForm" class="form" >
 		<table style="width:100%;">
 			<input class="mini-hidden" name="id"/>
-			<tr>
-				<td style="width:60px;">产品名称</td>
-				<td><input name="p_name" class="mini-textbox" style="width:200px" required="true"/></td>
-			</tr>
 			<tr>
 				<td>产品分类</td>
 				<td><input name="product_type" class="mini-combobox" data='{:setMiniConfig|$product_type}' textField="name" valueField="id" style="width:90px;" required="true"/>
@@ -127,12 +119,12 @@ function onKeyEnter(e) {
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
 function add() {
-  form.clear();
-  admInfo.show();
+	form.clear();
+	admInfo.show();
 }
 //增加后提交数据(保存)
 function submitForm() {
-  form.validate();
+	form.validate();
   if (form.isValid() == false) return;
   var o = form.getData();
   grid.loading("数据提交中，请稍后......");
