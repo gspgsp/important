@@ -1,0 +1,99 @@
+<div class="fotbg">
+	<ul>
+		<li>
+			<p class="fotnavti">我要买塑料</p>
+			<p><a href="page/show.html?cid=18">如何委托交易</a></p>
+			<p><a href="page/show.html?cid=19">如何自己找货</a></p>
+			<p><a href="page/show.html?cid=20">如何查看采购单状态</a></p>
+		</li>
+		<li>
+			<p class="fotnavti">我要卖塑料</p>
+			<p><a href="page/show.html?cid=21">如何发布报价单</a></p>
+			<p><a href="page/show.html?cid=30">如何批量发布报价</a></p>
+			<p><a href="page/show.html?cid=23">如何报价采购信息</a></p>
+		</li>
+		<li>
+			<p class="fotnavti">常见问题</p>
+			<p><a href="page/show.html?cid=15">注册流程</a></p>
+			<p><a href="page/show.html?cid=16">无法登录/忘记密码</a></p>
+			<p><a href="page/show.html?cid=17">修改账户信息</a></p>
+			<p class="jf-expla"><a href="page/show.html?cid=32">积分商城使用说明</a><span>HOT</span></p>
+		</li>
+		<li>
+			<p class="fotnavti">关于我们</p>
+			<p><a href="Page/show/cid/8">公司简介</a></p>
+			<p><a href="Page/show/cid/9">意见反馈</a></p>
+			<p><a href="Page/show/cid/10">法律声明</a></p>
+			<p><a href="Page/show/cid/11">联系我们</a></p>
+		</li>
+		<li style="border-right: none;">
+			<p class="fotnavti">我要买塑料</p>
+			<p><a>网址：www.wodesuliao.cn</a></p>
+			<p><a>邮箱：info@wodesuliao.cn</a></p>
+			<p><a>客服热线：400-6129-965</a></p> 
+			<p><a>联系电话：021-61672432</a></p>
+		</li>
+		<div class="clear"></div>
+	</ul>
+	<p class="banquanxx">&copy; 2015 版权所有 我的塑料网&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备10036109号</a></p>
+</div>
+<script charset="utf-8" src="http://wpa.b.qq.com/cgi/wpa.php"></script>
+<div class="zt-contact">
+	<ul>
+		<li class="opt">
+			<div id="BizQQWPA">
+				<div class="zt-slide bg-gray">在线咨询</div>
+				<div class="zt-mouseover icon-qq bg-gray"></div>
+			</div>
+		</li>
+		<li>
+			<div class="ewm bg-gray"><img src="__IMG__/home/zt-wx-ewm.jpg" width="200" height="200"></div>
+			<div class="icon-ewm icon-wx bg-gray"></div>
+		</li>
+		<li>
+			<div class="ewm bg-gray"><img src="__IMG__/home/zt-ios-ewm.png" width="200" height="200"></div>
+			<div class="icon-ewm icon-ios bg-gray"></div>
+		</li>
+		<li class="opt">
+			<a href="page/show.html?cid=9">
+				<div class="zt-slide bg-gray">意见反馈</div>
+				<div class="zt-mouseover icon-suggest bg-gray"></div>
+			</a>
+		</li>
+	</ul>
+</div>
+<!--zt-contact end-->
+<script type="text/javascript">
+	$(function(){
+		var ztContact = $(".zt-contact");
+		ztContact.find(".opt").bind("mouseover",function(){
+			$(this).find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
+			$(this).find(".zt-mouseover").removeClass("bg-gray").addClass("bg-orge");
+			$(this).find(".zt-slide").stop().animate({
+				"left":"0px"
+			});
+		});
+		ztContact.find(".opt").bind("mouseleave",function(){
+
+			$(this).find(".zt-slide").removeClass("bg-orge").addClass("bg-gray");
+			$(this).find(".zt-mouseover").removeClass("bg-orge").addClass("bg-gray");
+			$(this).find(".zt-slide").stop().animate({
+				"left":"60px"
+			});
+		});
+
+		ztContact.find(".icon-ewm").bind("mouseover",function(){ 
+			$(this).prev(".ewm").show();
+			$(this).removeClass("bg-gray").addClass("bg-orge");
+		});
+
+		ztContact.find(".icon-ewm").bind("mouseleave",function(){
+			$(this).prev(".ewm").hide();
+			$(this).removeClass("bg-orge").addClass("bg-gray");
+		});
+	});
+
+	var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256169007'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1256169007%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+
+	BizQQWPA.addCustom({aty: '0', a: '0', nameAccount: 4000677611, selector: 'BizQQWPA'});
+</script>

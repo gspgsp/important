@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>积分商城-我的塑料网</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/home/pointshop.css"/>
+<link rel="stylesheet" type="text/css" href="__CSS__/home/common.css"/>
+
+<style type="text/css">
+    
+</style>
+</head>
+
+<body>
+{include file="pointshop:header"}
+
+<!--jifen begin-->
+<div class="jifen w1200">
+	<!--left begin-->
+    <div class="left flt">
+    	<div class="title">
+            {if $smarty.session.userid > 0 }
+        	<span>您好，{$smarty.session.uinfo.real_name}</span>
+            <a href="/user/logout">退出</a>
+            {else}
+            <span>请登录</span>
+            {/if}
+        </div>
+        <h3>我的积分</h3>
+        {if $smarty.session.userid > 0 }
+        <p id="points">{$smarty.session.uinfo.points}</p>
+        <div class="record"><a href="">积分兑换记录</a></div>
+        {else}
+        <div class="no-login"><a href="javascript:loginbox('pointshop')">登录</a>后显示积分</div>
+        {/if}
+        <div class="ad"><img src="__IMG__/home/pointshop/ad.jpg" width="135" height="25"/></div>
+    </div>
+    <!--left end-->
+    <!--banner begin-->
+    <div class="banner flt">
+        <div class="wrapper">
+            <div id="focus">
+                <ul>
+                    <li>
+                        <div style="left:0; top:0; width:698px; height:270px;"><img src="__IMG__/home/pointshop/banner.jpg" width="698" height="270"/></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--banner end-->
+    <!--right begin-->
+    <div class="right frt">
+    	<!--title begin-->
+        <div class="title">
+        	<h3>每日签到领积分，不领白不领</h3>
+            <ul>
+                {foreach from=$signDay item=value key=key}
+                <li class="{if $value == 1}already{/if} {if $key == $today}on{/if}">
+                    {if $key==1}周一{elseif $key==2}周二{elseif $key==3}周三{elseif $key==4}周四{elseif $key==5}周五{/if}
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+        <!--title end-->
+        {if $smarty.session.userid > 0 }
+        <div class="sign-on {if $signDay[$today] == 1}off{else}on{/if} "></div>
+        {else}
+        <a href=""><div class="sign-on no-login"></div></a>
+        {/if}
+        <h4>每日签到得积分，连续一周签到积分翻倍</h4>
+    </div>
+    <!--right end-->
+</div>
+<!--jifen end-->
+<!--propagate begin-->
+<div class="propagate">
+	<dl>
+    	<img src="__IMG__/home/pointshop/propagate1.png" width="70" height="70"/>
+        <dt>小积分大用处</dt>
+        <dd>我的塑料网采购货物送积分可换礼品</dd>
+    </dl>
+    <dl>
+    	<img src="__IMG__/home/pointshop/propagate2.png" width="70" height="70"/>
+        <dt>买货得积分</dt>
+        <dd>与我的塑料网成交后自动累计积分，买的多送的多</dd>
+    </dl>
+    <dl>
+    	<img src="__IMG__/home/pointshop/propagate3.png" width="70" height="70"/>
+        <dt>天天领积分</dt>
+        <dd>每天轻松点一下连续签到积分翻倍</dd>
+    </dl>
+    <dl>
+    	<img src="__IMG__/home/pointshop/propagate4.png" width="70" height="70"/>
+        <dt>积分兑换全免费</dt>
+        <dd>积分商城积分兑换的商品不但免费还免运费奥</dd>
+    </dl>
+</div>
+<!--propagate end-->
+<!--classify begin-->
+<div class="classify w1200">
+	<!--left begin-->
+	<div class="left flt">
+    	<h3>全部礼品分类</h3>
+        <p>CATEGORY</p>
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+    	<ul>
+        	<a href="/pointshop?cate=0"><li class="clafy-1"><span>全部</span></li></a>
+            <a href="/pointshop?cate=1"><li class="clafy-2"><span>家居</span></li></a>
+            <a href="/pointshop?cate=2"><li class="clafy-3"><span>数码</span></li></a>
+        </ul>
+    </div>
+    <!--right end-->
+</div>
+<!--classify end-->
+<!--choice-result begin-->
+<div class="choice-result">
+	<ul class="left flt">
+    	<li {if $order=='sort'}class="hover"{/if}><a href="/pointshop?order=sort&cate={$cate}">默认</a>|</li>
+        <li {if $order=='points'}class="hover"{/if}><a href="/pointshop?order=points&cate={$cate}">积分从低到高</a>|</li>
+    </ul>
+</div>
+<!--choice-result end-->
+<!--result begin-->
+<div class="result w1200">
+	<ul>
+        {foreach from=$list['data'] item=value}
+    	<li>
+        	<a href=""><img src="__IMG__/{$value.thumb}" width="196" height="194"/></a>
+            <h4>{$value.name}</h4>
+            <div class="opt">
+            	<p><span>{$value.points}</span>积分</p>
+                {if $smarty.session.userid > 0}
+
+                {if $smarty.session.uinfo.points >= $value.points}
+                <div class="btn orderin" gid="{$value.id}"><a href="javascript:;">立即兑换</a></div>
+                {else}
+                <div class="btn disabled">积分不足</div>
+                {/if}
+                {else}
+                <div class="btn disabled"><a href="javascript:loginbox('pointshop')">请登录</a></div>
+                {/if}
+            </div>
+        </li>
+        {/foreach}
+    </ul>
+</div>
+<!--result end-->
+<!--page begin-->
+<div class="page">
+    {$pages}
+</div>
+<!--page end-->
+{include file="pointshop:layer"}
+{include file="pointshop:js"}
+{include file="public:footer"}
+</body>
+
+</html>

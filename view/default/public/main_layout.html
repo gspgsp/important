@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta name="description" content="" />
 	<link href="__CSS__/home/master.css" rel="stylesheet" type="text/css" />
+	<link href="__CSS__/home/common.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="__CSS__/home/company.css">
 	<style type="text/css">
 		.top-banner{ width: 100%; height: 80px; overflow:hidden;}
@@ -13,64 +14,13 @@
 		.top-banner .banner2{ width: 100%; height: 80px; background:url(__IMG__/image/banner2.jpg) center top;}
 		.top-banner a{ display: block; width: 100%; height: 80px;}
 	</style>
-	<script src="__JS__/home/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="__JS__/home/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script src="__JS__/home/common.js" type="text/javascript"></script>
-	<script src="__JS__/home/layer.js" type="text/javascript"></script>
-	<script src="__JS__/home/jquery.tab.js" type="text/javascript"></script>
-	<script src="__JS__/home/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
-	<script src="__JS__/home/flowplayer-3.2.4.min.js" type="text/javascript"></script>
+	<script src="__JS__/home/layer.min.js" type="text/javascript"></script>
+	<!-- // <script src="__JS__/home/jquery.tab.js" type="text/javascript"></script> -->
+	<!-- // <script src="__JS__/home/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script> -->
+	<!-- // <script src="__JS__/home/flowplayer-3.2.4.min.js" type="text/javascript"></script> -->
 	<script type="text/javascript">
-// $(function () {
-// //顶部banner切换
-// var topBanner = $(".top-banner");
-// setInterval(function(){
-// 	topBanner.find(".banner1").toggle();
-// },3000);
-// $(".nav_xialab").hide();
-// $(".erjixialabg li:last").css("border-bottom", "none");
-// var to = undefined;
-// $(".nav_a a, .nav_xialab").mouseover(function () {
-// 	clearTimeout(to);
-// 	$(".nav_xialab").slideDown(100);
-// }).mouseleave(function () {
-// 	to = setTimeout(function () { $(".nav_xialab").slideUp(100); }, 200);
-// });
-// $(".nav_xialab > ul > li").each(function () {
-// 	$(this).hover(function () {
-// 		$(this).addClass("baisebeijieng").find(".erjixialabg").stop().show();
-// 	}, function () {
-// 		$(this).removeClass("baisebeijieng").find(".erjixialabg").stop().hide();
-// 	});
-// });
-// $(".gangqinge, .gangqinge_hs").slide({ mainCell: ".gangqinge_a ul", titCell: ".gangqinge_b ul", titOnClassName: "ahover", autoPlay: true, autoPage: "<li>&nbsp;</li>" });
-// $(".gongaoimg").slide({ mainCell: ".xingonggao ul", autoPage: true, scroll: 6, vis: 6, nextCell: ".gongaoimg_title li:eq(0) a", prevCell: ".gongaoimg_title li:eq(1) a", effect: "top", autoPlay: true });
-// //返回顶部
-// $(".yijainfankui li:last").click(function () {
-// 	$("html,body").animate({ "scrollTop": 0 }, 200);
-// 	return false;
-// })
-// $(".hydnegliu").mouseover(function () {
-// 	$(".shuxbxiaegf").show();
-// });
-// $(".shuxbxiaegf").mouseleave(function () {
-// 	$(this).hide();
-// });
-
-// /* 二级展开代码开始 */
-// $(".nav_xialab > ul > li").css({ display: "block" }).mouseover(function () { $(this).find(".erjixialabg").show(); }).mouseleave(function () {
-// 	$(this).find(".erjixialabg").hide();
-// });
-// /* 二级展开代码结束 */
-
-
-// $(".xialalbiao ul").hide().find("li a").click(function () {
-// 	$(this).closest(".xialalbiao").find("p").text($(this).text());
-// 	$(this).closest("ul").hide();
-// 	return false;
-// });
-// $(".xialalbiao").hover(function () { $(".xialalbiao ul").show(); },
-// 	function () { $(".xialalbiao ul").hide(); });
-// });
 </script>
 </head>
 <body>
@@ -92,10 +42,14 @@
 			</p>
 			<p class="topb">
 				<span>
-					<a href="Login/index/dqurl/aHR0cDovL3d3dy53b2Rlc3VsaWFvLmNuL0FydGljbGUvcGxpc3QvY2lkLzI%3D" style="color:#ff7200;display:inline-block;height:40px;border-left:1px solid #e2e2e2;padding-left:15px;padding-right:15px;">登录</a>
-					<a href="Register" style="color:#339933;height:40px;display:inline-block;border-left:1px solid #e2e2e2;padding-left:15px;border-right:1px solid #e2e2e2;padding-right:15px;">免费注册</a>
+					{if $smarty.session.userid > 0 }
+					<a href="/user" class="account ">{$smarty.session.uinfo.real_name} 我的账户</a>
+					<a href="/user/logout" class="loginout">退出登录</a>
+					{else}
+					<a href="/user/login">登录</a>
+					<a href="/register">免费注册</a>
+					{/if}
 				</span>&nbsp;&nbsp;
-				<a href="pointshop">积分商城</a> - 
 				<a href="page/show.html?cid=15">常见问题</a> - 
 				<a href="page/show.html?cid=11">联系我们</a> -
 				<a href="page/show.html?cid=9">意见反馈</a> - 
@@ -145,136 +99,36 @@
 		</div>
 	</div>
 	<div class="fnavbg">
-		<div class="navbg">
-			<div class="nav">
-				<div class="nav_a"><a></a></div>
-				<div class="caidan">
-					<ul>
-						<li><a  href="/">首页</a></li>
-						<li><a  href="Opus/index/?t=1">现货资源</a></li>
-						<li><a  href="Opus/index/?t=2">船货资源</a></li>
-						<li style="width:90px;" ><a href="/resource">资源库</a>
-						</li>
-						<li><a  href="Buy/index/?type=1">采购信息</a></li>
-						<li><a  href="/physical">物性表</a></li>
-						<li><a  href="Gyl/index">供应链金融</a></li>
-						<li><a class="hover" href="/article">资讯</a></li>
-						<li class="hot">
-							<a  href="Dkh/index">大户报价区</a>
-							<span></span>
-						</li>
-					</ul>
-				</div>
-				<div class="wangzhi"><a href="page/mdownload"></a></div>
-			</div>
-		</div>
-	</div>
+	    <div class="navbg">
+	        <div class="nav">
+	            <div class="nav_a"><a></a></div>
+	            <div class="caidan">
+	                <ul>
+	                  <li><a href="#">商城报价</a></li>
+	                  <li>
+	                      <a href="#">大户报价</a>
+	                  </li>
+	                  <li><a href="#">采购单</a></li>
+	                  <li>
+	                    <a class="hover" href="/resource">资源库</a>
+	                  </li>
+	                  <li><a href="/ship">物流专区</a></li>
+	                  <li><a href="/gyl">供应链金融</a></li>
+	                  <li><a href="/physical">物性表</a></li>
+	                  <li>
+	                    <a href="/article">塑料头条</a>
+	                  </li>
+	                  <li><a href="/pointshop">积分商城</a></li>
+	                </ul>
+	            </div>
+	            <div class="download frt"><a href="/page/mdownload">手机客户端</a></div>
+	        </div>
+	    </div>
+	    </div>
 
 
 	{__CONTENT__}
 
-	<div class="fotbg">
-		<ul>
-			<li>
-				<p class="fotnavti">我要买塑料</p>
-				<p><a href="page/show.html?cid=18">如何委托交易</a></p>
-				<p><a href="page/show.html?cid=19">如何自己找货</a></p>
-				<p><a href="page/show.html?cid=20">如何查看采购单状态</a></p>
-			</li>
-			<li>
-				<p class="fotnavti">我要卖塑料</p>
-				<p><a href="page/show.html?cid=21">如何发布报价单</a></p>
-				<p><a href="page/show.html?cid=30">如何批量发布报价</a></p>
-				<p><a href="page/show.html?cid=23">如何报价采购信息</a></p>
-			</li>
-			<li>
-				<p class="fotnavti">常见问题</p>
-				<p><a href="page/show.html?cid=15">注册流程</a></p>
-				<p><a href="page/show.html?cid=16">无法登录/忘记密码</a></p>
-				<p><a href="page/show.html?cid=17">修改账户信息</a></p>
-				<p class="jf-expla"><a href="page/show.html?cid=32">积分商城使用说明</a><span>HOT</span></p>
-			</li>
-			<li>
-				<p class="fotnavti">关于我们</p>
-				<p><a href="Page/show/cid/8">公司简介</a></p>
-				<p><a href="Page/show/cid/9">意见反馈</a></p>
-				<p><a href="Page/show/cid/10">法律声明</a></p>
-				<p><a href="Page/show/cid/11">联系我们</a></p>
-			</li>
-			<li style="border-right: none;">
-				<p class="fotnavti">我要买塑料</p>
-				<p><a>网址：www.wodesuliao.cn</a></p>
-				<p><a>邮箱：info@wodesuliao.cn</a></p>
-				<p><a>客服热线：400-6129-965</a></p> 
-				<p><a>联系电话：021-61672432</a></p>
-			</li>
-			<div class="clear"></div>
-		</ul>
-		<p class="banquanxx">&copy; 2015 版权所有 我的塑料网&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备10036109号</a></p>
-	</div>
-	<!-- WPA Button Begin -->
-	<!--<script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODAxNDc0M18zMzMyMDFfNDAwMDY3NzYxMV8"></script>-->
-	<!-- WPA Button End -->
-	<script charset="utf-8" src="http://wpa.b.qq.com/cgi/wpa.php"></script>
-	<!--zt-contact begin-->
-	<div class="zt-contact">
-		<ul>
-			<li class="opt">
-				<div id="BizQQWPA">
-					<div class="zt-slide bg-gray">在线咨询</div>
-					<div class="zt-mouseover icon-qq bg-gray"></div>
-				</div>
-			</li>
-			<li>
-				<div class="ewm bg-gray"><img src="__IMG__/home/zt-wx-ewm.jpg" width="200" height="200"></div>
-				<div class="icon-ewm icon-wx bg-gray"></div>
-			</li>
-			<li>
-				<div class="ewm bg-gray"><img src="__IMG__/home/zt-ios-ewm.png" width="200" height="200"></div>
-				<div class="icon-ewm icon-ios bg-gray"></div>
-			</li>
-			<li class="opt">
-				<a href="page/show.html?cid=9">
-					<div class="zt-slide bg-gray">意见反馈</div>
-					<div class="zt-mouseover icon-suggest bg-gray"></div>
-				</a>
-			</li>
-		</ul>
-	</div>
-	<!--zt-contact end-->
-	<script type="text/javascript">
-		$(function(){
-			var ztContact = $(".zt-contact");
-			ztContact.find(".opt").bind("mouseover",function(){
-				$(this).find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
-				$(this).find(".zt-mouseover").removeClass("bg-gray").addClass("bg-orge");
-				$(this).find(".zt-slide").stop().animate({
-					"left":"0px"
-				});
-			});
-			ztContact.find(".opt").bind("mouseleave",function(){
-
-				$(this).find(".zt-slide").removeClass("bg-orge").addClass("bg-gray");
-				$(this).find(".zt-mouseover").removeClass("bg-orge").addClass("bg-gray");
-				$(this).find(".zt-slide").stop().animate({
-					"left":"60px"
-				});
-			});
-
-			ztContact.find(".icon-ewm").bind("mouseover",function(){ 
-				$(this).prev(".ewm").show();
-				$(this).removeClass("bg-gray").addClass("bg-orge");
-			});
-
-			ztContact.find(".icon-ewm").bind("mouseleave",function(){
-				$(this).prev(".ewm").hide();
-				$(this).removeClass("bg-orge").addClass("bg-gray");
-			});
-		});
-
-		var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256169007'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1256169007%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
-
-		BizQQWPA.addCustom({aty: '0', a: '0', nameAccount: 4000677611, selector: 'BizQQWPA'});
-	</script>
+	{include file="public:footer"}
 </body>
 </html>

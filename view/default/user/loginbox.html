@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录</title>
+<style type="text/css">
+*{ margin:0; padding:0;}
+a{ text-decoration:none;}
+input{ font-family:"微软雅黑"; border:none; outline:medium;}
+body{ font-family:"微软雅黑"; font-size:14px; color:#666;}
+
+.layer-login{ width:360px; height:340px; overflow:hidden;}
+.layer-login h3{ font-weight:normal; text-align:center; font-size:18px; margin:20px 0 0 0;}
+.layer-login .login-error{ color:#F60; height:15px; line-height:15px; margin:5px 0 10px 35px;}
+.layer-login .login-tr{ width:290px; height:40px; line-height:40px; margin:0 auto; margin-bottom:10px;}
+.layer-login .login-tr .login-val{ width:288px; height:36px;}
+.layer-login .login-tr .login-val.border-dark{ border:1px solid #ddd;}
+.layer-login .login-tr .login-val.border-bright{ border:1px solid #AAA;}
+.layer-login .login-tr .login-val input{ color:#444; width:216px; height:14px; padding:11px 0 11px 10px;}
+.layer-login .login-tr .login-auto{ float:left; margin:0 0 0 60px;}
+.layer-login .login-tr .login-auto input{ margin:0 3px 0 0;}
+.layer-login .login-tr .login-auto input,.layer-login .login-tr .login-auto label{ cursor:pointer;}
+.layer-login .login-tr .login-forget{ float:right;}
+.layer-login a{ color:#555;}
+.layer-login a:hover{ color:#3598db;}
+.layer-login .login-btn{ width:290px; height:40px; overflow:hidden; margin:0 auto;}
+.layer-login .login-btn:hover input{ background:#168ad9;}
+.layer-login .login-btn input{ color:#fff; font-size:16px; display:block; width:290px; height:40px; border-radius:3px; overflow:hidden; background:#3598db;  cursor:pointer;}
+.layer-login .login-other{ font-family:Arial,"微软雅黑"; width:290px; height:40px; line-height:40px; text-align:center; overflow:hidden;  margin:0 auto; margin-top:25px; text-align:right;}
+.layer-login .login-other a{ margin:0 10px;}
+.inp{width: 270px; border:1px solid #ddd;padding: 10px;}
+.requires{border:1px solid red;}
+</style>
+</head>
+
+<body>
+<div class="layer-login">
+	<h3>会员登录</h3>
+    <div class="login-error">&nbsp;</div>
+    <form name="" action="" method="post">
+        <!--login-tr begin-->
+        <div class="login-tr user">
+            <input type="text" class="inp" name="username" placeholder="账号"/>
+        </div>
+        <!--login-tr end-->
+        <!--login-tr begin-->
+        <div class="login-tr pwd">
+            <input type="password" class="inp" name="password" placeholder="密码"/>
+        </div>
+        <!--login-tr end-->
+        <!--login-tr begin-->
+        <div class="login-tr">
+            <div class="login-auto"><input type="checkbox" id="auto" name="remember" value="1" checked="checked"/><label for="auto">2周内自动登录</label></div>
+            <div class="login-forget"><a href="javascript:;" onclick="findpwd()">忘记密码？</a></div>
+        </div>
+        <!--login-tr end-->
+         <!--login-btn begin-->
+        <div class="login-btn">
+            <input type="button"  onclick="doLogin()" class="anwieheege" value="立即登录" />
+        </div>
+        <input type="hidden" name="isboxlogin" value="1" />
+    </form>
+    <!--login-btn end-->
+    <!--login-btn begin-->
+    <div class="login-other"><a href="javascript:;" onclick="loginqq()">使用QQ账号登录</a>|<a href="javascript:;" onclick="register()">注册新账号</a></div>
+    <!--login-btn end-->
+</div>
+</body>
+<script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
+<script>
+var tips=$(".login-error");
+function doLogin(){
+    var username=$("input[name='username']").val().trim();
+    var password=$("input[name='password']").val().trim();
+    var remember=$("input[name='remember']:checked").val();
+    var type="{$type}";
+    var is_mobile=/^1[0-9]{10}$/;
+    if(username==''){
+        errMsg('请输入账号');
+        return false;
+    }
+    if(password==''){
+        errMsg('请输入密码');
+        return false;
+    }
+    if(!is_mobile.test(username)){
+        errMsg('账号或密码错误');
+        return false;
+    }
+    if(password.trim() < 6){
+        errMsg('账号或密码错误');
+        return false;
+    }
+    $.post('/user/login/dolongin',{username:username,password:password,remember:remember},function (data){
+        if(data.err>0){
+            errMsg(data.msg);
+        }else{
+            window.parent.location = "/"+type;
+        }
+    },'json');
+    errMsg('');
+    return false;
+}
+function errMsg(msg){
+    tips.html(msg);
+}
+$('input').focus(function(){
+    errMsg('');
+})
+</script>
+</html>

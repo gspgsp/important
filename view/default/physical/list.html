@@ -33,10 +33,10 @@
 <div class="content">
 	<div class="bar">
 		<div class="search-container">
-			<form id="search-form" method="get" action="/PhysicalForm/listView">
+			<form id="search-form" method="get" onSubmit="return searched()" action="/physical/index/search">
 				<input type="text" autocomplete="off" id="keyword" name="keyword" value="{$keyword}">
+				<button type="submit" class="btn">搜索</button>
 			</form>
-			<button class="btn">搜索</button>
 			<div class="suggest" style="display: none;">
 				<ul id="search_list">
 				</ul>
@@ -64,10 +64,10 @@
 				<tr>
 					<td width="175" class="">{$v.type} / {$v.name}</td>
 					<td width="87">{$v.company}</td>
-					<td width="275">伸展薄膜、生产袋、垃圾袋</td>
-					<td width="87">其它 薄膜 其它</td>
-					<td width="87"></td>
-					<td width="157">高光泽度</td>
+					<td width="275">{$v.purpose}</td>
+					<td width="87">{$v.standard}</td>
+					<td width="87">{$v.color}</td>
+					<td width="157">{$v.remark}</td>
 					<td width="65"><a href="/physical/index/content/id/{$v.lid}.html">预览/打印</a></td>
 				</tr>
 				{/foreach}

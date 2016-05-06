@@ -1,8 +1,6 @@
 {layout file="public:main_layout"}
 {include file="public:mbx"}
 {insert_css files="home/style.css"}
-
-
 <div class="yabbg">
 	<div class="yab">
 		<div class="yabl">
@@ -71,7 +69,7 @@
 							</div>
 							<div class="listr">
 								<p class="title">
-										<span class="name">{$v.user_nick}</span>
+										<span class="name">{if $v.user_nick==''}{$v.realname}{else}{$v.user_nick}{/if}</span>
 									<span>
 										<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v.user_qq}&amp;site=qq&amp;menu=yes"><img src="http://wpa.qq.com/pa?p=2:{$v.user_qq}:41" border="0" alt="点击咨询" title="点击咨询"></a>
 									</span>
@@ -94,14 +92,35 @@
 				</div>
 				<div class="rer">
 					<div class="first">
+						{if $smarty.session.userid>0}
+						<div class="already-login">
+							<h2>我的积分</h2>
+							<div class="amount">
+								<p style="color: #923b00;">855</p>
+							</div>
+							<!--sign-up begin-->
+							<div class="sign-up ">
+								<p style="color:#fff;" onclick="qiandao()">签到领积分</p>
+								<div class="tip">
+									成功领取<span>50</span>积分
+									<img src="/themes/suliao/images/resource/reTipSanJiao.png" width="9" height="7">
+								</div>
+							</div>
+							<!--sign-up end-->
+							<!--sign-up-already begin-->
+							<div class="sign-up-already no">已签到</div>
+							<!--sign-up-already end-->
+						</div>
+						{else}
 						<div class="no-login">
 							<h2>您还没登录</h2>
 							<p>登录后才可以发布现货和求购信息</p>
 							<div class="info">
 								<a class="log" href="/Register">注册</a>
-								<a class="reg" href="/login/auth/type/qq"><span>QQ</span>登录</a>
+								<a class="reg" href="javascript:loginbox('resource')"><span></span>登录</a>
 							</div>
 						</div>
+						{/if}
 					</div>
 					<!--task begin-->
 					<h3 class="re-title">每日任务</h3>
@@ -224,20 +243,29 @@ $('.con').focus(function(){
 $('.con').blur(function(){
 	$(this).attr('placeholder',c)
 })
-String.prototype.trim=function(){
-	return this.replace(/(^\s*)|(\s*$)/g, "");
-}
+
 $(".addform").submit(function(){
 	var content = $('.con').val().trim();
+	var type=$('input[name="typ"]:checked').val();
 	if(content == ''){
 		alert('请填写发布内容');
 		return false;
 	}
-	$.post('/resource/index/release', {content:content}, function (data){
-		
-	})
-	
+	$.post('/resource/index/release', {content:content,type:type}, function (data){
+		if(data.err>0){
+			if(data.err==1){
+				loginbox('resource');
+			}else{
+				alert(data.msg);
+			}
+		}else{
+			alert('发布成功');
+			window.location.reload();
+		}
+	},'json')
 	return false;
 })
+
+
 
 </script>

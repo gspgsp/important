@@ -1,35 +1,111 @@
-{layout file="public:main_layout"}
-{insert_css files='regist.css'}
-{insert_js files='jquery/utils.js,passport.js'}
-<div class="login-page">
-    <div class="login-theme">
-    <a class="theme-href" href="#" target="_blank"></a>    </div>
-    <div class="login-bg">
-        <div class="login-panel">
-        <div style="padding:20px 30px">
-          <div class="tit">登录{$sys.site_name}</div>
-          <div id="errMsg" class="err" style="display:none"></div><!-- 错误提示 -->
-            <div class="login-form clfix">
-                <form action="/user/login" method="post" id="loginForm">
-                <ul>
-                  <li>
-                  <i class="input-icon mobile username">&nbsp;</i>
-                    <input class="ltext shadow-input" name="userName" placeholder="输入您的手机号码" type="text" maxlength="11"></li>
-                    <li>
-                    <i class="input-icon password">&nbsp;</i>
-                    <input class="ltext shadow-input" name="passWord" placeholder="输入您的登录密码" type="password" maxlength="20"></li>
-                    <li class="check-opt autologin">
-                        <label for="rememberLoginName"><input checked="checked" class="lcheck" id="rememberLoginName" name="rememberLoginName" type="checkbox">记住用户名</label>
-                    </li>
-                    <li class="clfix"><button type="submit" class="reg-btn" id="btnLoginSmt">{if $bind}绑&nbsp;&nbsp;&nbsp;&nbsp;定{else}登&nbsp;&nbsp;&nbsp;&nbsp;录{/if}</button><a href="/user/find" class="regist-entry">忘记密码？</a><a href="/user/register" class="regist-entry">注册新用户</a></li>
-                    <input type="hidden" value="{$gurl|escape:html}" id="gurl">
-                    </li>
-                </ul>
-                </form>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>登录,我的塑料网</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="__CSS__/home/master.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script src="/themes/suliao/js/iepng.js" type="text/javascript"></script>
+<script type="text/javascript">
+EvPNG.fix('div, ul, img, li, input, a, a:hover, p, span, dl, dd, dt, hover, a:visited,'); 
+</script>
+<![endif]-->
+<script src="__JS__/home/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="__JS__/home/common.js" type="text/javascript"></script>
+<script src="__JS__/home/layer.js" type="text/javascript"></script>
+<script src="__JS__/home/jquery.form.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div style="text-align:center;">    
+        <div class="nylogoeg">
+            <div class="logo" style="padding-top:18px;"> 
+                <a href="/"><img src="__IMG__/home/index_03.jpg" width="221" height="54" /></a>
             </div>
+            <div class="dibuerwjiefweg">
+                <a href="#">常见问题</a> - 
+                <a href="#">联系我们</a> -
+                <a href="#">意见反馈</a>
             </div>
-            <div class="ht10"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="dengluzj">
+            <div class="login">
+                <div class="fr form">
+                    <div class="loginh1">
+                        <div class="loginh1pp">会员<span class="wenzibianse">登录</span></div>
+                        <a href="/register">注册新的账号</a>
+                        <div class="clear"></div>
+                    </div>
+                    <form id="loginForm" onSubmit="return doLogin();" class="loginform" action="" method="post"> 
+                        <ul>
+                            <li>
+                                <p>账号：</p>
+                                <input type="text" name="username" class="input1" />
+                            </li>
+                            <li>
+                                <p>密码：</p>
+                                <input type="password" name="password" class="input1" />
+                            </li>
+                            <li style=" height:38px; font-size:12px; line-height:38px;">
+                                <div class="fl hahah">
+                                    <input name="remember" type="checkbox" checked value="on" class="fuxuanswewnekge hahah" />
+                                    <div class="zhiwdiewnegerf">
+                                        <span id="lainz">2周内自动登录</span> 
+                                        <a href="/login/findpwd" style="color:#444; text-align:right; float:right;" >忘记密码？</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li style="width:252px;">
+                                <div class="fl">
+                                    <input type="submit" class="anwieheege" value="" />
+                                </div>
+                                <span id="tips" style="color:red;"></span>
+                            </li>
+                        </ul>
+                    </form>
+                    <div class="qqweiboxl">
+                        <a href="/login/auth/type/qq">
+                            <img src="__IMG__/home/siyongqq.jpg" width="360" height="50" />
+                        </a>
+                    </div>
+                </div>
+
+                <span class="clear_f"></span>
+                <div class="clear"></div>
+            </div>
         </div>
     </div>
-</div>
-<script type="text/javascript">ssrong.passport.login();</script>
+    {include file="public:footer"}
+<script type="text/javascript">
+    var tips=$("#tips");
+    function doLogin(){
+        var username=$("input[name='username']").val().trim();
+        var password=$("input[name='password']").val().trim();
+        var remember=$("input[name='remember']:checked").val();
+        var is_mobile=/^1[0-9]{10}$/;
+        if(!is_mobile.test(username)){
+            errMsg('账号或密码错误');
+            return false;
+        }
+        if(password.trim() < 6){
+            errMsg('账号或密码错误');
+            return false;
+        }
+        $.post('/user/login/dolongin',{username:username,password:password,remember:remember},function (data){
+            if(data.err>0){
+                errMsg(data.msg);
+            }else{
+                alert('登录成功');
+            }
+        },'json');
+        errMsg('');
+        return false;
+    }
+    function errMsg(msg){
+        tips.html(msg);
+    }
+</script>
+</body>
+</html>

@@ -40,8 +40,22 @@ class indexAction extends homeBaseAction{
 	{
 		if($_POST)
 		{
+			$this->is_ajax=true;
+			if($this->user_id <= 0) json_output(array('err'=>1,'msg'=>'未登录'));
 			$content = trim(sget('content', 's', ''));
-
+			$type=sget('type','i',0);
+			if($content=='') json_output(array('err'=>2,'msg'=>'请输入要发布的内容'));
+			$uinfo=$_SESSION['uinfo'];
+			$_data=array(
+				'uid'=>$this->user_id,
+				'type'=>$type,
+				'content'=>$content,
+				'input_time'=>CORE_TIME,
+				'realname'=>$uinfo['real_name'],
+				'user_qq'=>$uinfo['qq'],
+				);
+			$this->sourceModel->add($_data);
+			json_output(array('err'=>0,'msg'=>'发布成功'));
 		}
 	}
 }
