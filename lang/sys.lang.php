@@ -120,6 +120,8 @@ return array(
 	'product_status'=>array(
 		1=>'上架',
 		2=>'下架',
+		3=>'待审核',
+		4=>'审核不通过',
 	),
 	//采购信息审核状态
 	'purchase_status'=>array(
