@@ -50,9 +50,7 @@ class passportModel extends model{
 		}
 
 		$where='';
-		if(is_email($username)) {
-			$where="email='$username'";
-		}elseif(is_mobile($username)) {
+		if(is_mobile($username)) {
 			$where="mobile='$username'";
 		}else{
 			$this->_loginError(0,$username,1,$password,$chanel);
@@ -71,8 +69,9 @@ class passportModel extends model{
 			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
 		}
 
-		//密文
-		$npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']); 
+		//密文 暂时不使用密码盐
+		// $npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
+		$npassword=md5($password);
 		if($uinfo['password']!==$npassword){
 			$this->_loginError($uinfo['user_id'],$username,3,$password,$chanel);
 
@@ -242,7 +241,7 @@ class passportModel extends model{
 		}
 		
 		//用户头像等信息
-		$uinfo=$this->model('user_info')->select('utype,sex,himg,real_name,id_card,chk_email,chk_idcard,ref_count,chk_bank,chk_risk,chk_safe,has_paywd')->wherePk($user_id)->getRow();
+		$uinfo=$this->model('user_info')->wherePk($user_id)->getRow();
 		
 		//将数据写入cookie
 		$token=$this->encrypt($user_id,$user['password']);
@@ -258,12 +257,6 @@ class passportModel extends model{
 							'last_ip'=>$user['last_ip'],
 							'invite_code'=>operationAlphaID($user_id,true),
 						) + (array)$uinfo;
-
-		//绑定账户
-		if(isset($_SESSION['waiting4bind'])){
-			M('user:bind')->add($_SESSION['waiting4bind'] + array('user_id'=>$user_id,'input_time'=>CORE_TIME));
-			unset($_SESSION['waiting4bind']);
-		}
 
 		return true;
 	}

@@ -7,7 +7,7 @@ class physicalModel extends model{
 
 	public function get_search_list($lids){
 		$lids = implode(',', $lids);
-		return $this->where("lid in ($lids)")->select('lid,type,name,company')->getAll();
+		return $this->where("lid in ($lids)")->select('lid,type,name,company,purpose,standard,color,remark')->getAll();
 	}
 }
 

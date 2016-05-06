@@ -20,7 +20,7 @@ class resourcelibModel extends model{
 		$ids = $this->select('id')->where($where)->order('input_time desc')->limit("$pages, $pageSize")->getCol();
 		$ids = implode(',', $ids);
 		$where = "id in ($ids)";
-		return $this->where($where)->getAll();
+		return $this->where($where)->order('input_time desc')->getAll();
 	}
 
 
