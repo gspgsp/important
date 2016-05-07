@@ -17,8 +17,10 @@ class productAction extends adminBaseAction {
 		$this->assign('unit',L('unit'));
 		//加工级别
 		$this->assign('process_type',L('process_level'));
-		//产品新增状态
+		//产品已审核状态
 		$this->assign('pass_status',array('1'=>'上架','2'=>'下架'));
+		//产品未审核状态
+		$this->assign('wait_status',array('3'=>'待审核','4'=>'审核不通过'));
 	}
 	/**
 	 *

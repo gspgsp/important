@@ -22,12 +22,16 @@
 					<option value="" selected="selected">=类别=</option>
 					{html_options options=$product_type}
 				</select>
-				{if $doact neq 'check'}
+				
 				<select name="status" id="soStatus">
 					<option value="" selected="selected">=状态=</option>
+					{if $doact neq 'check'}
 					{html_options options=$pass_status}
+					{else}
+					{html_options options=$wait_status}
+					{/if}
 				</select>
-				{/if}
+				
 				<select name="key_type">
 					<option value="model">牌号</option>
 					<option value="remark">备注</option>
