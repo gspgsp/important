@@ -9,7 +9,7 @@
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
 				<span class="separator"></span> 
-				<a class="mini-button" iconCls="icon-upload" onclick="inputExcel();">Excel导入</a>
+				<a class="mini-button" iconCls="icon-upgrade" onclick="inputExcel();">Excel导入</a>
 			{/if}	
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
@@ -291,9 +291,9 @@ function changeState(changeid,status){
 function checkLoadHandle(e){
 	 var record = e.record, status = record.status,s='',pid = record.id;
 	 if(status==4){
-	 	 s += "<span>未通过</span>";	
+		 s += "<span>未通过</span>";	
 	 }else{
-	 	 s += "<a href='javascript:checkState("+pid+","+status+")'>通过</a>|"+"<a href='javascript:replaceProduct("+pid+")'>更换</a>";	
+		 s += "<a href='javascript:checkState("+pid+","+status+")'>通过</a>|"+"<a href='javascript:replaceProduct("+pid+")'>更换</a>";	
 	 }
 
 	 return s;
