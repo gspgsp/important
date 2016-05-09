@@ -9,5 +9,8 @@ class purchaseModel extends model{
 		$result=$this->select("$col")->where('p_id='.$pid)->getOne();
 		return $result>0 ? $result : 0;
 	}
+	public function getInfoById($id=0){
+		return $this->where("`id` = '$id'")->getRow();
+	}
 
 }

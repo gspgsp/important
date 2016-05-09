@@ -22,5 +22,9 @@ class productModel extends model{
 		$result=$this->select("$col")->where('f_id='.$fid)->getOne();
 		return $result>0 ? $result : 0;
 	}
+	//根据商品id获取商品的厂家名字
+	public function getFnameByPid($pid=0){
+		return $this->select("f.f_name, p.*")->from('product p')->join('factory f','f.fid=p.f_id')->where('p.id='.$pid)->getRow();
+	}
 
 }
