@@ -40,7 +40,7 @@
 
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-		url="/product/purchase/init?action=grid&do={$slt}"
+		url="/product/purchase/init?action=grid&do={$slt}" onrowdblclick="onRowDblClick"
 		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
 		>
 		<div property="columns">    
@@ -75,6 +75,16 @@ search();
 function onKeyEnter(e) {
 	search();
 }
+
+function onRowDblClick(e) {
+	var record = e.record,id=record.id;
+	{if $slt neq 'slt'}
+		add(id,2);
+	{else}
+		add(id,1);
+	{/if}
+}
+
 //查看编辑用户信息
 function add(id,ctype){
 	var width=330,height=400;

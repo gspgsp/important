@@ -158,10 +158,21 @@ class purchaseAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$id=sget('id','i');
 		if($id>0){
-			$info=$this->db->model('ship_collect')->wherePk($id)->getRow();
+			$info=$this->db->wherePk($id)->getRow();
+			$p_info  = $this->db->model('product')->wherePk($info['p_id'])->getRow();
+			$info = array_merge($p_info,$info);
+			if($info['origin']){
+				$areaArr = explode('|', $info['origin']);
+				$info['company_province'] = $areaArr[0];
+				$info['company_city']=$areaArr[1];
+			}
+			$c_name = M('user:customer')->getColByName($info['c_id']); //客户名称
+			$f_name = M('product:product')->getFnameByPid($info['p_id']); //厂家名称
+			$this->assign('data',$info);
+			$this->assign('c_name',$c_name);
+			$this->assign('f_name',$f_name);
 		}
-		//分配物流公司
-		$this->assign('info',$info);
+		$this->assign('id',$id);
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
 		$this->assign('page_title','手动添加采购信息');
 		$this->display('purchase.add.html');
@@ -191,6 +202,7 @@ class purchaseAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		$id =  $data['id'];
 		$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
 		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
@@ -200,17 +212,23 @@ class purchaseAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 		);
-		if($data['f_id']>0  && (!empty($model))){
-			$p_id = M('product:product')->getPidByModel($data['model'],$data['f_id']);
-			$data['p_id']  = $p_id>0 ? $p_id : M('product:product')->insertProduct(array('status'=>3,)+$data+$_data);
-			$data['customer_manager'] = $_SESSION['adminid'];
-		} else{
-			$this->error('牌号或者厂家不能为空');
+		if($id <= 0){
+			if($data['f_id']>0  && (!empty($model))){
+				$p_id = M('product:product')->getPidByModel($data['model'],$data['f_id']);
+				$data['p_id']  = $p_id>0 ? $p_id : M('product:product')->insertProduct(array('status'=>3,)+$data+$_data);
+				$data['customer_manager'] = $_SESSION['adminid'];
+			} else{
+				$this->error('牌号或者厂家不能为空');
+			}
 		}
 		//货物类型
 		if($utype==1) $data['cargo_type'] = 2;
-		if($this->db->add($data+$_data)){
-			$this->success('操作成功');
+		//数据添加操作
+		if($data['id']>0){
+			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],)))  $this->success('操作成功');
+		
+		}else{
+			if($this->db->add($data+$_data)) $this->success('操作成功');	
 		}
 		$this->error('添加失败');
 		

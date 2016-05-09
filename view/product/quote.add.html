@@ -10,6 +10,7 @@
 					<td ></td>
 					<td></td>
 			</tr>
+			{if $id lte 0}
 			<tr>
 					<td>厂家：</td>
 					<td><input name="f_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="f_id"  value="{$f_name.f_id}" allowInput="false"  style="width:170px" id="usrId"/ required="true" text="{$f_name.f_name}"></td>
@@ -34,6 +35,8 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
+			{/if}
+
 			<tr>
 				<td style="width:80px;">可否议价：</td>
 				<td style="width:210px;"><input name="bargain" class="mini-combobox" data='{:setMiniConfig|$bargain}' textField="name" valueField="id" style="width:170px;" required="true" value="{$data.bargain}"/></td>

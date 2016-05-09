@@ -162,7 +162,7 @@ class quoteAction extends adminBaseAction {
 		if($id>0){
 			$info=$this->db->wherePk($id)->getRow();
 			$p_info  = $this->db->model('product')->wherePk($info['p_id'])->getRow();
-			$info = array_merge($info,$p_info);
+			$info = array_merge($p_info,$info);
 			if($info['origin']){
 				$areaArr = explode('|', $info['origin']);
 				$info['company_province'] = $areaArr[0];
@@ -226,13 +226,14 @@ class quoteAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 		);
-
-		if($data['f_id']>0  && (!empty($model))){
-			$p_id = M('product:product')->getPidByModel($data['model'],$data['f_id']);
-			$data['p_id']  = $p_id>0 ? $p_id : M('product:product')->insertProduct(array('status'=>3,)+$data+$_data);
-			$data['customer_manager'] = $_SESSION['adminid'];
-		} else{
-			$this->error('牌号或者厂家不能为空');
+		if($id <= 0){
+			if($data['f_id']>0  && (!empty($model))){
+				$p_id = M('product:product')->getPidByModel($data['model'],$data['f_id']);
+				$data['p_id']  = $p_id>0 ? $p_id : M('product:product')->insertProduct(array('status'=>3,)+$data+$_data);
+				$data['customer_manager'] = $_SESSION['adminid'];
+			} else{
+				$this->error('牌号或者厂家不能为空');
+			}
 		}
 		//货物类型
 		if($utype==1) $data['cargo_type'] = 2;
