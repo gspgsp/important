@@ -209,6 +209,24 @@ function remove() {
 	var callback=function(data){
 	if(data.err=='0'){
 		grid.reload();
+			if(data.result){
+				width=300;
+				title="操作完成";
+				iconCls = 'mini-messagebox-warning';
+				html = '以下产品存在订单无法删除,ID：<br /><div style="height:100px;overflow:scroll;">';
+				$.each(data.result,function(k,v){
+					html += k+" <br />";
+				});
+				html+="</div>";
+			}
+			mini.showMessageBox({
+				showHeader: false,
+				width: width,
+				title: title,
+				buttons: ["ok"],
+				html: html,
+				iconCls: iconCls
+			});
 	}else{
 		alert(data.msg)
 		return false;
@@ -220,9 +238,8 @@ function remove() {
 //双击弹出
 function onRowDblClick(e) {
 	var record = e.record, status=record.status;
-	if(status == 1 || status == 2 ){
-		onEdit();
-	}
+	onEdit();
+
 }
 
 

@@ -121,8 +121,17 @@ class productAction extends adminBaseAction {
 		$ids=sget('ids','s');
 		if(empty($ids)){
 			$this->error('操作有误');
+		}	
+		$ids=explode(',', $ids);
+		foreach ($ids as $k => $v) {
+			if(M('product:purchase')->getColById($v)){
+				$list[$v]=M('product:purchase')->getColById($v);
+			}else{
+				$result=$this->db->where("id = ($v)")->delete();
+				continue;
+			}
 		}
-		$result=$this->db->where("id in ($ids)")->delete();
+		if($list) $this->json_output(array('err'=>0,'result'=>$list));
 		if($result){
 			$cache=cache::startMemcache();
 			$cache->delete('product');
@@ -239,7 +248,6 @@ class productAction extends adminBaseAction {
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
-		//p($result);
 		$this->json_output(array('err'=>0,'result'=>$result?:false));
 	}
 

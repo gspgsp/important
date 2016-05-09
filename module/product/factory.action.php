@@ -97,7 +97,16 @@ class factoryAction extends adminBaseAction
 		if(empty($ids)){
 			$this->error('操作有误');
 		}
-		$result=$this->db->where("fid in ($ids)")->delete();
+		$ids=explode(',', $ids);
+		foreach ($ids as $k => $v) {
+			if(M('product:product')->getColById($v)){
+				$list[$v]=M('product:product')->getColById($v);
+			}else{
+				$result=$this->db->where("fid = ($v)")->delete();
+				continue;
+			}
+		}
+		if($list) $this->json_output(array('err'=>0,'result'=>$list));
 		if($result){
 			$cache=cache::startMemcache();
 			$cache->delete('factory');

@@ -141,6 +141,25 @@ function remove() {
 	var callback=function(data){
 	if(data.err=='0'){
 		grid.reload();
+		if(data.result){
+			width=300;
+			title="操作完成";
+			iconCls = 'mini-messagebox-warning';
+			html = '以下厂家存在产品无法删除,ID：<br /><div style="height:100px;overflow:scroll;">';
+			$.each(data.result,function(k,v){
+				html += k+" <br />";
+			});
+			html+="</div>";
+		}
+		mini.showMessageBox({
+			showHeader: false,
+			width: width,
+			title: title,
+			buttons: ["ok"],
+			html: html,
+			iconCls: iconCls
+		});
+
 	}else{
 		alert(data.msg)
 		return false;
