@@ -17,5 +17,10 @@ class productModel extends model{
 		if($this->add($data)) return $this->getLastID();
 		$this->error('数据添加失败');
 	}
+	//根据pid获取指定的字段值
+	public function getColById($fid=0,$col='id'){
+		$result=$this->select("$col")->where('f_id='.$fid)->getOne();
+		return $result>0 ? $result : 0;
+	}
 
 }
