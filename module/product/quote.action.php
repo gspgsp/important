@@ -26,8 +26,8 @@ class quoteAction extends adminBaseAction {
 			$this->_grid();exit;
 		}elseif($action=='remove'){ //获取列表
 			$this->_remove();exit;
-		}elseif($action=='submit'){ //获取列表
-			$this->_submit();exit;
+		}elseif($action=='republish'){ //从新发布
+			$this->_republish();exit;
 		}elseif($action=='save'){ //获取列表
 			$this->_save();exit;
 		}elseif($action=='info'){ //获取列表
@@ -133,6 +133,7 @@ class quoteAction extends adminBaseAction {
 			$_data=array(
 				'update_time'=>CORE_TIME,
 				'update_admin'=>$_SESSION['name'],
+				'chk_time'=>CORE_TIME,
 			);
 			if(isset($v['_state']) && $v['_state']=='added'){
 				$sql[]=$this->db->addSql($_data+array(
@@ -159,28 +160,50 @@ class quoteAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$id=sget('id','i');
 		if($id>0){
-			$info=$this->db->model('ship_collect')->wherePk($id)->getRow();
+			$info=$this->db->wherePk($id)->getRow();
+			$p_info  = $this->db->model('product')->wherePk($info['p_id'])->getRow();
+			$info = array_merge($info,$p_info);
+			if($info['origin']){
+				$areaArr = explode('|', $info['origin']);
+				$info['company_province'] = $areaArr[0];
+				$info['company_city']=$areaArr[1];
+			}
+			$c_name = M('user:customer')->getColByName($info['c_id']); //客户名称
+			$f_name = M('product:product')->getFnameByPid($info['p_id']); //厂家名称
+			$this->assign('data',$info);
+			$this->assign('c_name',$c_name);
+			$this->assign('f_name',$f_name);
 		}
-		//分配物流公司
-		$this->assign('info',$info);
-		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
+		$this->assign('id',$id);
+		$this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
 		$this->assign('page_title','手动添加采购信息');
 		$this->display('quote.add.html');
 	}
 	/**
 	 * 提交订单详细信息
 	 */
-	public function submit(){
-		$id=sget('id','i',0); //ID
-		$_info=sget('info','a');
-		if(empty($_info)){
+	public function _republish(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)){
 			$this->error('操作有误');	
 		}
-		$_info['admin_name']=$_SESSION['name'];
-		$_info['update_time']=CORE_TIME;
-		$_info['status']=1;
-		$_data=saddslashes($_info);
-		$this->db->model('ship_collect')->wherePk($id)->update($_data);
+		$_data = array(
+			'input_admin' => $_SESSION['name'],
+			'input_time' => CORE_TIME,
+		);
+		foreach ($data as $k => $v) {
+			$info = M('product:purchase')->getInfoById($v['id']);
+			unset($info['id']);
+			unset($info['input_time']);
+			unset($info['input_admin']);
+			unset($info['update_time']);
+			unset($info['update_admin']);
+			unset($info['status']);
+			$info['number'] = $v['number'];
+			$info['unit_price'] = $v['unit_price'];
+			$this->db->add($info+$_data);
+		}
 		$this->success('操作成功');
 	}
 
@@ -192,6 +215,7 @@ class quoteAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		$id =  $data['id'];
 		$data['type'] = 2;
 		$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
@@ -202,6 +226,7 @@ class quoteAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 		);
+
 		if($data['f_id']>0  && (!empty($model))){
 			$p_id = M('product:product')->getPidByModel($data['model'],$data['f_id']);
 			$data['p_id']  = $p_id>0 ? $p_id : M('product:product')->insertProduct(array('status'=>3,)+$data+$_data);
@@ -211,11 +236,14 @@ class quoteAction extends adminBaseAction {
 		}
 		//货物类型
 		if($utype==1) $data['cargo_type'] = 2;
-		if($this->db->add($data+$_data)){
-			$this->success('操作成功');
+		//数据添加操作
+		if($data['id']>0){
+			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],)))  $this->success('操作成功');
+	
+		}else{
+			if($this->db->add($data+$_data)) $this->success('操作成功');	
 		}
-		$this->error('添加失败');
-		
+		$this->error('添加失败');	
 	}
 	/**
 	 * 根据厂家id获取厂家名称

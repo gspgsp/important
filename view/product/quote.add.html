@@ -2,23 +2,23 @@
 <div style="padding:10px;">
 	<div id="infoForm" class="form">
 		<input class="mini-hidden" name="ctype" value="{$ctype}"/>
-		<input class="mini-hidden" name="user_id" value="{$info.user_id}"/>
+		<input class="mini-hidden" name="id" value="{$id}"/>
 		<table border="0" cellpadding="1" cellspacing="2">
 			<tr>
 					<td>客户：</td>
-					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" allowInput="false"  style="width:170px" id="usrId"/></td>
+					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" text="{$c_name}" allowInput="false"  style="width:170px" id="usrId"/></td>
 					<td ></td>
 					<td></td>
 			</tr>
 			<tr>
 					<td>厂家：</td>
-					<td><input name="f_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="f_id"  value="" allowInput="false"  style="width:170px" id="usrId"/ required="true"></td>
+					<td><input name="f_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="f_id"  value="{$f_name.f_id}" allowInput="false"  style="width:170px" id="usrId"/ required="true" text="{$f_name.f_name}"></td>
 					<td ></td>
 					<td></td>
 			</tr>
 			<tr>
 				<td >牌号：</td>
-				<td><input name="model" class="mini-textbox" value="{$data.process_type}" style="width:170px;" required="true"/></td>
+				<td><input name="model" class="mini-textbox" value="{$data.model}" style="width:170px;" required="true"/></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
@@ -30,38 +30,38 @@
 			</tr>
 			<tr>
 				<td>产品分类：</td>
-				<td><input name="product_type" class="mini-combobox" data='{:setMiniConfig|$product_type}' textField="name" valueField="id" style="width:170px;" required="true"/></td>
+				<td><input name="product_type" class="mini-combobox" data='{:setMiniConfig|$product_type}' textField="name" valueField="id" style="width:170px;" required="true" value="{$data.product_type}"/></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td style="width:80px;">可否议价：</td>
-				<td style="width:210px;"><input name="bargain" class="mini-combobox" data='{:setMiniConfig|$bargain}' textField="name" valueField="id" style="width:170px;" required="true"/></td>
+				<td style="width:210px;"><input name="bargain" class="mini-combobox" data='{:setMiniConfig|$bargain}' textField="name" valueField="id" style="width:170px;" required="true" value="{$data.bargain}"/></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td style="width:80px;">是否VIP：</td>
-				<td style="width:210px;"><input name="is_vip" class="mini-combobox" data='{:setMiniConfig|$is_vip}' textField="name" valueField="id" style="width:170px;" required="true"/></td>
+				<td style="width:210px;"><input name="is_vip" class="mini-combobox" data='{:setMiniConfig|$is_vip}' textField="name" valueField="id" style="width:170px;" value="{$data.is_vip}" required="true"/></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td style="width:80px;">数量：</td>
-				<td style="width:210px;"><input name="number" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/>&nbsp;&nbsp;吨</td>
+				<td style="width:210px;"><input name="number" class="mini-textbox" maxlength="12" value="{$data.number}" style="width:150px;" required="true"/>&nbsp;&nbsp;吨</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td style="width:80px;">采购价格：</td>
-				<td><input name="unit_price" class="mini-textbox" style="width:150px;" required="true" />&nbsp;&nbsp;元</td>
+				<td><input name="unit_price" class="mini-textbox" style="width:150px;" required="true" value="{$data.unit_price}" />&nbsp;&nbsp;元</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td>货源地：</td>
-				<td><input name="company_province" id="c_1_0" style="width:80px;" required="true" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.infoExt.company_province}" showNullItem="true"/>
-					<input name="company_city" id="c_2_0" required="true" class="mini-combobox" url="{if $user.infoExt.company_province}/user/user/getRegion?pid={$user.infoExt.company_province}{/if}" value="{$user.infoExt.company_city}" style="width:80px;" textField="name" valueField="id" />
+				<td><input name="company_province" id="c_1_0" style="width:80px;" required="true" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$data.company_province}" showNullItem="true"/>
+					<input name="company_city" id="c_2_0" required="true" class="mini-combobox" url="{if $data.company_province}/user/user/getRegion?pid={$data.company_province}{/if}" value="{$data.company_city}" style="width:80px;" textField="name" valueField="id" />
 				</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
@@ -69,18 +69,18 @@
 			<tr>
 				<td>仓库所在地：</td>
 				<td colspan="3">
-					<input name="store_house" class="mini-textarea" style="width:180px; height:50px;"/>
+					<input name="store_house" class="mini-textarea" value="{$data.store_house}" style="width:180px; height:50px;"/>
 				</td>
 			</tr>
 			<tr>
 				<td>备注：</td>
 				<td colspan="3">
-					<input name="remark" class="mini-textarea" style="width:180px; height:50px;"/>
+					<input name="remark" class="mini-textarea" value="{$data.remark}" style="width:180px; height:50px;"/>
 				</td>
 			</tr>
 			<tr>
 				<td>状态：</td>
-				<td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="1"/></td>
+				<td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$data.status}"/></td>
 			</tr>
 		</table>
 		<div align="center" style="margin-top:10px;">
