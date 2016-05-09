@@ -32,21 +32,41 @@ class purchaseAction extends adminBaseAction {
 		}elseif($action=='info'){ //获取列表
 			$this->_info();exit;
 		}
+		$this->assign('slt','slt');
+		$this->assign('ctype','1');
+		$this->assign('page_title','采购报价列表');
+		$this->display('purchase.list.html');
+	}
+	/**
+	 *现货采购
+	 */
+	public function cargo(){
+		$action=sget('action','s');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('ctype','2');
 		$this->assign('page_title','采购报价列表');
 		$this->display('purchase.list.html');
 	}
 	/**
 	 * Ajax获取列表内容
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	private function _grid(){
+		$slt = sget("do",'s','');
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','p.input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1  ";
+		$where=" 1  and p.`type` = 1 ";   //1 采购
+		if($slt){
+			$where .=" and p.`cargo_type` = 2 "; //期货采购
+		}else{
+			$where .=" and p.`cargo_type` = 1 "; //现货采购
+		}
 		$sTime = sget("sTime",'s','p.input_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
 		// 状态
@@ -94,24 +114,7 @@ class purchaseAction extends adminBaseAction {
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}	
-	/**
-	 * Ajax删除节点s
-	 * @access private 
-	 */
-	private function _remove(){
-		$this->is_ajax=true; //指定为Ajax输出
-		$ids=sget('ids','s');
-		if(empty($ids)){
-			$this->error('操作有误');	
-		}
-		$result=$this->db->where("id in ($ids)")->delete();
-		if($result){
-			$this->success('操作成功');
-		}else{
-			$this->error('数据处理失败');
-		}
-	}
-	
+
 	/**
 	 * 编辑已存在的数据
 	 * @access public 
