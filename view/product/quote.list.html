@@ -1,0 +1,115 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,{$ctype})" plain="true" tooltip="增加">增加</a>
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="excelData()">excel导入</a> 
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				创建时间   
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				&nbsp;&nbsp;&nbsp;
+				<select name="product_type">
+					<option value="">==品种==</option>
+					{html_options options=$product_type}
+				</select>
+				<select name="bargain">
+					<option value="">=议价=</option>
+					{html_options options=$bargain}
+				</select>
+				<select name="status" id="soStatus">
+					<option value="">=状态=</option>
+					{html_options options=$status}
+				</select>
+				<select name="key_type">
+					<option value="f_name">厂家</option>
+					<option value="number">数量</option>
+					<option value="unit_price">价格</option>
+				</select> 
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/product/quote/init?action=grid&do={$slt}"
+		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="c_id" width="50" headerAlign="center" align="center" allowSort="true">客户名称</div>
+			<div field="product_type" width="30" headerAlign="center" align="center" allowSort="true">品种</div>
+			<div field="model" width="40" headerAlign="center" align="center">牌号</div>
+			<div field="f_id" width="80" headerAlign="center" allowSort="true" align="center">厂家</div>                
+			<div field="process_type" width="40" headerAlign="center" allowSort="true" align="center">加工级别</div>
+			<div field="number" width="40" headerAlign="center" allowSort="true" align="center">数量【吨】</div>
+			<div field="unit_price" width="40" headerAlign="center" allowSort="true" align="center">价格(元/吨)</div>
+			<div field="origin" width="50" headerAlign="center" allowSort="true" align="center">省份</div>
+			<div field="bargain" width="35" headerAlign="center" allowSort="true" align="center">是否实价</div>
+			<div field="store_house" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
+			<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
+			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
+			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
+			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
+			<div field="status" width="30" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态
+				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' />
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//查看编辑用户信息
+function add(id,ctype){
+	var width=330,height=500;
+		if(ctype==1){
+			title='新增期货采购';
+		}else{
+			title ='新增现货采购';
+		}
+	mini.open({
+		url: "/product/quote/init?action=info&id="+id+"&ctype="+ctype,
+		showMaxButton:true,
+		title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/product/quote/init?action=save',{data:json},callback,"POST","json");
+}
+</script>
