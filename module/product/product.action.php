@@ -19,6 +19,8 @@ class productAction extends adminBaseAction {
 		$this->assign('process_type',L('process_level'));
 		//产品已审核状态
 		$this->assign('pass_status',array('1'=>'上架','2'=>'下架'));
+		//待审核的状态编辑
+		$this->assign('edit_status',array('1'=>'上架','2'=>'下架','3'=>'待审核'));
 		//产品未审核状态
 		$this->assign('wait_status',array('3'=>'待审核','4'=>'审核不通过'));
 	}
@@ -149,6 +151,7 @@ class productAction extends adminBaseAction {
 		$data = $this->db->where('id='.$product_id)->getRow();
 		$data['f_name'] = M('product:factory')->getFnameById($data['f_id']);
 		$this->assign('data',$data);
+		$this->assign('doact','check');
 		$this->display('product.edit.html');
     }
     /**
