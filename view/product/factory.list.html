@@ -145,11 +145,11 @@ function remove() {
 			width=300;
 			title="操作完成";
 			iconCls = 'mini-messagebox-warning';
-			html = '以下厂家存在产品无法删除,ID：<br /><div style="height:100px;">';
+			html = '以下厂家存在产品无法删除,【ID】：';
 			$.each(data.result,function(k,v){
-				html += k+" <br />";
+				html += k+" &nbsp;";
 			});
-			html+="</div>";
+			html+="";
 		}
 		mini.showMessageBox({
 			showHeader: false,
