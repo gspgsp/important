@@ -2,7 +2,7 @@
 /**
  * 产品报价与采购管理
  */
-class purchaseAction extends adminBaseAction {
+class quoteAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
 		//产品信息表
@@ -10,7 +10,8 @@ class purchaseAction extends adminBaseAction {
 		$this->assign('product_type',L('product_type'));//产品分类语言包
 		$this->assign('product_status',L('product_status'));//产品状态
 		$this->assign('process_type',L('process_level'));//加工级别
-		$this->assign('period',L('period'));//交货周期
+		$this->assign('is_vip',L('is_vip'));//是否是vip的报价
+		$this->assign('bargain',L('bargain'));//是否可以议价
 		$this->assign('status',L('purchase_status'));//采购状态
 		$this->assign('ctype',sget('ctype'));//采购状态
 	}
@@ -34,8 +35,8 @@ class purchaseAction extends adminBaseAction {
 		}
 		$this->assign('slt','slt');
 		$this->assign('ctype','1');
-		$this->assign('page_title','采购报价列表');
-		$this->display('purchase.list.html');
+		$this->assign('page_title','报价列表');
+		$this->display('quote.list.html');
 	}
 	/**
 	 *现货采购
@@ -46,8 +47,8 @@ class purchaseAction extends adminBaseAction {
 			$this->_grid();exit;
 		}
 		$this->assign('ctype','2');
-		$this->assign('page_title','采购报价列表');
-		$this->display('purchase.list.html');
+		$this->assign('page_title','报价列表');
+		$this->display('quote.list.html');
 	}
 	/**
 	 * Ajax获取列表内容
@@ -61,7 +62,7 @@ class purchaseAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','p.input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1  and p.`type` = 1 ";   //1 采购
+		$where=" 1  and p.`type` = 2 ";   //1 采购 2报价
 		if($slt){
 			$where .=" and p.`cargo_type` = 2 "; //期货采购
 		}else{
@@ -76,10 +77,10 @@ class purchaseAction extends adminBaseAction {
 		$product_type = sget('product_type','s','');
 		if($product_type!='') $where.=" and pd.product_type = '$product_type' ";
 		//周期
-		$period = sget('period','s','');
-		if($period!='') $where.=" and p.period = '$period' ";
+		$bargain = sget('bargain','s','');
+		if($bargain!='') $where.=" and p.bargain = '$bargain' ";
 		//关键词搜索
-		$key_type=sget('key_type','s','p.period');
+		$key_type=sget('key_type','s','p.bargain');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
 			if($key_type == 'f_name'){
@@ -102,8 +103,9 @@ class purchaseAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['product_type'] = L('product_type')[$v['product_type']];
 			$list['data'][$k]['f_id'] = $this->_getFactoryName($v['f_id']);
+			$list['data'][$k]['c_id'] = M('user:customer')->getColByName($v['c_id']);
 			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
-			$list['data'][$k]['period'] = L('period')[$v['period']];
+			$list['data'][$k]['bargain'] = L('bargain')[$v['bargain']];
 			if($v['origin']){
 				$areaArr = explode('|', $v['origin']);
 				$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
@@ -130,7 +132,6 @@ class purchaseAction extends adminBaseAction {
 		foreach($data as $k=>$v){
 			$_data=array(
 				'update_time'=>CORE_TIME,
-				'chk_time'=>CORE_TIME,
 				'update_admin'=>$_SESSION['name'],
 			);
 			if(isset($v['_state']) && $v['_state']=='added'){
@@ -164,7 +165,7 @@ class purchaseAction extends adminBaseAction {
 		$this->assign('info',$info);
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
 		$this->assign('page_title','手动添加采购信息');
-		$this->display('purchase.add.html');
+		$this->display('quote.add.html');
 	}
 	/**
 	 * 提交订单详细信息
@@ -191,6 +192,7 @@ class purchaseAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		$data['type'] = 2;
 		$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
 		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
