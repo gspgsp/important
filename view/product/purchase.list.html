@@ -3,7 +3,7 @@
 	<table style="width:100%;">
 		<tr>
 			<td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)" plain="true" tooltip="增加">增加</a>
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,{$ctype})" plain="true" tooltip="增加">增加</a>
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
 				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="excelData()">excel导入</a> 
 			</td>
@@ -40,7 +40,7 @@
 
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-		url="/product/purchase/init?action=grid"
+		url="/product/purchase/init?action=grid&do={$slt}"
 		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
 		>
 		<div property="columns">    
