@@ -71,5 +71,11 @@ return array(
 	'unit'=>array(
 		1=>'吨',
 		),
+	//业务员跟进客户方式1 座机、2手机、3QQ,
+	'follow_up_way'=>array(
+		1=>'座机',
+		2=>'手机',
+		3=>'QQ',
+	),
 );
 ?>
