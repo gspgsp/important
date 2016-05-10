@@ -240,4 +240,55 @@ class purchaseAction extends adminBaseAction {
 		$result  = $this->db->model('factory')->select('f_name')->where("`fid` = $id")->getOne();
 		return empty($result) ? '-' : $result;
 	}
+
+
+
+	/**
+	 * Excel导入
+	 */
+	public function inputExcel(){
+		$this->is_ajax = true;
+		E('PHPExcel',APP_LIB.'extend');
+
+		if(empty($_FILES['check_file']) || $_FILES['check_file']['error']) $this->error('文件上传失败！');
+
+		$result = array();
+		try {
+			$objPHPExcel = PHPExcel_IOFactory::load($_FILES['check_file']['tmp_name']);
+			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+			if(empty($sheetData)) $this->error('上传文件不正确，请重新上传');
+			if(count(array_shift($sheetData)) !== 14) throw new Exception('Excel表数据格式不匹配');
+			foreach($sheetData as $row){
+				if(empty($row['B'])  || empty($row['B']) || empty($row['C']) || !is_numeric($row['C']) || empty($row['D']) ||  empty($row['E']) || !is_numeric($row['E']) || empty($row['F']) || !is_numeric($row['F']) || empty($row['G']) || !is_numeric($row['G']) || empty($row['H']) || !is_numeric($row['H']) || empty($row['I']) || !is_numeric($row['I']) || empty($row['J'])  || empty($row['K'])  || empty($row['L']) || !is_numeric($row['L']) || empty($row['M']) || !is_numeric($row['M']) ) continue;//如果为空或者不是数字则不检查该行
+
+				//写数据到表中p2p_product
+				$_infoData = array(
+					'c_id'=>$row['B'],
+					'f_id'=>$row['C'],
+					'model'=>$row['D'],
+					'process_type'=>$row['E'],
+					'product_type' => $row['F'],
+					'period'=>$row['G'],
+					'number'=>$row['H'],
+					'unit_price'=>$row['I'],
+					'origin'=>$row['J'],
+					'remark'=>$row['K'],
+					'status'=>$row['L'],
+					'area' =>M('system:region')->get_area(explode('|', $row['J'])[0]),
+					'p_id' =>M('product:product')->getPidByModel($row['D'],$row['C']),
+					'cargo_type'=>$row['M'],
+					'type'=>$row['N'],
+					'input_time'=>CORE_TIME,
+					'input_admin'=>$_SESSION['name'],
+				);
+				// p($_infoData);die;
+				$_infoData['p_id']  = $_infoData['p_id']>0 ?$_infoData['p_id'] : M('product:product')->insertProduct(array('status'=>3,)+$_infoData);
+				$this->db->add($_infoData);
+			}
+			
+		} catch (Exception $e) {
+			$this->error($e->getMessage());
+		}
+		$this->json_output(array('err'=>0,'result'=>$result?:false));
+	}
 }
