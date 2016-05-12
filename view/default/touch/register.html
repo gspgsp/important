@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>用户注册</title>
+	<script src="__JS__/home/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="__JS__/home/common.js" type="text/javascript"></script>
+	<script src="__JS__/home/layer.js" type="text/javascript"></script>
+	<script src="__JS__/home/jquery.form.js" type="text/javascript"></script>
+</head>
+<body>
+	<form id="registerForm" onSubmit="return register()" class="registerForm">
+	<ul>
+		<li>
+			<p>账号：</p>
+			<input type="text" name="username" class="input1" />
+		</li>
+		<li>
+			<p>密码：</p>
+			<input type="password" name="password" class="input1" />
+		</li>
+		<li>
+			<span class="ybblba">短信验证码：</span>
+			<input type="text" name="code" id="code" class="ybblbd" />
+			<span class="ybblbe">
+			<input type="button" onclick="sendmsg()" id="sendphone" class="ybblbf" value="免费获取短信验证码" />
+			</span>
+	    </li>
+			<input type="submit" class="anwieheege" value="注册" onclick="" />
+			<span id="tips" style="color:red;"></span>
+		</li>
+	</ul>
+
+	</form>
+</body>
+</html>
+<script type="text/javascript">
+//注册事件
+function register(){
+        var username=$("input[name='username']").val().trim();
+        var password=$("input[name='password']").val().trim();
+        $.post('/touch/register/register',{'username':username,'password':password},function (data){
+            if(!data.err==0){
+                alert(data.msg);
+            }else{
+                alert('注册成功');
+            }
+        },'json');
+        return false;
+    }
+//短信验证码
+function sendmsg(){
+            var username=$("input[name='username']").val().trim();
+            var password=$("input[name='password']").val().trim();
+              if(username){
+	                $.ajax({
+	                    type: 'POST',
+	                    url: "/touch/register/sendmsg",
+	                    data: {'mobile':username,'password':password},
+	                    dataType:'text',
+	                    success:function(data){
+	                    	if(data.err!=0){
+				                alert(data.msg);
+				            }else{
+				                alert('短信验证成功');
+				            }
+	                    },
+
+	                });
+            	}
+        }
+</script>
