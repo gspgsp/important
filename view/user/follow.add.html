@@ -1,0 +1,127 @@
+{layout file="public:mini_layout"}
+<div id="admInfo" title="新增客户跟进" style="width:300px; padding:5px;" showModal="true" allowResize="true" allowDrag="true">
+  <div id="addForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			{if $cid eq 0}
+			<tr>
+				<td>客户名称</td>
+				<td><input name="c_name" class="mini-buttonedit" onbuttonclick="usrChoose" textField="c_name" valueField="c_id"  value="setValue" allowInput="false"  style="width:90px" id="usrId"/></td>
+			</tr>
+			<tr>
+				<td>联系人</td>
+				<td><input id="name" name="name" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
+			</tr>
+			{else}
+			<tr>
+				<td>客户名称</td>				
+				<td><input name="c_name"  class="mini-textbox"  value="{$c_name}" allowInput="false" enabled="false" style="width:90px"/></td>
+				<td style="display: none"><input name="cid"  class="mini-textbox" value="{$cid}" allowInput="false"enabled="false"/></td>
+			</tr>
+			<tr>
+				<td>联系人</td>
+				<td><input name="name" class="mini-combobox" textField="name" valueField="id" data='{:setMiniConfig|$arr}'
+				  style="width:90px;" required="true"/></td>				
+			</tr>
+			{/if}
+			<tr>
+				<td>跟进方式</td>
+				<td><input name="follow_up_way" class="mini-combobox" data='{:setMiniConfig|$follow_up_way}' textField="name" valueField="id" style="width:90px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>跟进时间</td>
+				<td><input name="follow_time" class="mini-datepicker" style="width:170px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
+			</tr>
+			<tr>
+				<td>下次跟进时间</td>
+				<td><input name="next_follow_time" class="mini-datepicker" style="width:170px;" format="yyyy-MM-dd" showTime="true" /></td>
+			</tr>
+			<tr>
+				<td>跟进内容</td>
+				<td><input name="remark" class="mini-textarea" style="width:170px;" required="true"/></td>
+			</tr>
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+			<br>
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+
+//增加后提交数据(保存)
+function submitForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+var o = form.getData();
+var json = mini.encode(o);
+form.loading("数据提交中，请稍后......");
+var callback=function(data){
+		if(data.err!='0'){
+		form.unmask();
+		alert(data.msg);
+		return false;
+	}else{
+		form.reload;
+		CloseWindow("ok");
+	}
+  }
+  utils.ajax('/user/follow/ajaxSave',{data:json},callback,"POST","json");
+}
+
+function GetData() {
+	var row = form.getSelected();
+	return row;
+}
+
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+	var cname = mini.get("name");
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+					cname.load('/user/follow/get_contact_list?c_id='+data.c_id);
+				}
+			}
+		}
+	});
+}
+
+
+</script>

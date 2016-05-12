@@ -63,8 +63,9 @@
 			<div field="customer_manager" width="40" headerAlign="center"  align="center">交易员</div>
 			<div field="depart" width="50" headerAlign="center"  align="center">部门</div>
 			<div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
-				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' />     
+				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' /> 
 			</div>
+			<div field="" width="25" headerAlign="center"  align="center" renderer="onLoadFllow">跟进</div>
 		</div>
 	</div>
 </div>
@@ -97,9 +98,25 @@ function onRowDblClick(e) {
 function onLoadHandle(e) {
 	var record = e.record,uid=record.c_id, s='';
 	s += '<a href="javascript:viewCinfo('+uid+')">'+uid+'</a> ';
-
 	return s;
 }
+
+//跟进客户
+function onLoadFllow(e) {
+	var record = e.record,uid=record.c_id, s='';
+	s += '<a href="javascript:viewFinfo('+uid+')">'+'跟进'+'</a> ';
+	return s;
+}
+//打开跟进客户信息页面
+function viewFinfo(c_id){
+	mini.open({
+		url: "/user/follow/info?id="+c_id,
+		showMaxButton:true,
+		title: "新增客户跟进", 
+		width: 300, height:320
+	});
+}
+
 //查看编辑用户信息
 function add(id,ctype){
 	if(ctype==1){
