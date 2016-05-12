@@ -39,5 +39,11 @@ class customerModel extends model{
 		return empty($result) ? '-' : $result;
 	}
 	
-	
+	/**
+	 * 根据模糊联系人 搜索出所有的公司信息
+	 */
+	public function getInfoByCname($condition='c_id',$c_name,$keyword){
+		$result =  $this->model('customer')->select("$condition")->where("$c_name like '%$keyword%'")->getAll();
+		return empty($result) ? '-' : $result;
+	}
 }

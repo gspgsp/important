@@ -157,4 +157,18 @@ class customerContactModel extends model{
 		$exist=$this->model('customer_contact')->select('user_id')->where($where)->getOne();
 		return $exist>0 ? false : true;
 	}
+
+	/*
+	 * 根据客户ID查出联系人
+	 */
+	public function getListByCid($cid){
+		return $this->where("c_id=$cid")->select('user_id,name')->getAll();
+	}
+
+	/*
+	 * 根据联系人ID查出联系人信息
+	 */
+	public function getListByUserid($user_id){
+		return $this->where("user_id=$user_id")->getRow();
+	}
 }
