@@ -9,7 +9,7 @@ class infosModel extends model
 	}
 	//获取对应的文章
 	public function getCateList($cid,$page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
-		$_key='article_list';
+		$_key='article_list'.$cid;
 		$cache=cache::startMemcache();
 		$data=$cache->get($_key);
 		if(empty($data)){
@@ -17,8 +17,8 @@ class infosModel extends model
 			->page($page+1,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
-		$cache->set($_key,$data,86400);//加入缓存
+		$cache->set($_key,$list,86400);//加入缓存
 		}
-		return $list;
+		return $data;
 	}
 }
