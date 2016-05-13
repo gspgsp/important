@@ -1,26 +1,21 @@
 {layout file="public:mini_layout"}
-<div id="admInfo" title="新增客户跟进" style="width:300px; padding:5px;" showModal="true" allowResize="true" allowDrag="true">
+<div id="admInfo" title="新增客户跟进" style="padding:5px;" showModal="true" allowResize="true" allowDrag="true">
   <div id="addForm" class="form" >
 		<table style="width:100%;">
-			<input class="mini-hidden" name="id"/>
-			{if $cid eq 0}
+		<input class="mini-hidden" name="cid"  value="{$c_id}"/>
+			{if $c_id eq 0}
 			<tr>
 				<td>客户名称</td>
-				<td><input name="c_name" class="mini-buttonedit" onbuttonclick="usrChoose" textField="c_name" valueField="c_id"  value="setValue" allowInput="false"  style="width:90px" id="usrId"/></td>
+				<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" textField="c_name" valueField="c_id"  value="setValue" allowInput="false"  style="width:90px" id="usrId"/></td>
 			</tr>
 			<tr>
 				<td>联系人</td>
-				<td><input id="name" name="name" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
+				<td><input id="name" name="user_id" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
 			</tr>
 			{else}
 			<tr>
-				<td>客户名称</td>				
-				<td><input name="c_name"  class="mini-textbox"  value="{$c_name}" allowInput="false" enabled="false" style="width:90px"/></td>
-				<td style="display: none"><input name="cid"  class="mini-textbox" value="{$cid}" allowInput="false"enabled="false"/></td>
-			</tr>
-			<tr>
 				<td>联系人</td>
-				<td><input name="name" class="mini-combobox" textField="name" valueField="id" data='{:setMiniConfig|$arr}'
+				<td><input name="user_id" class="mini-combobox" textField="name" valueField="id" data='{:setMiniConfig|$arr}'
 				  style="width:90px;" required="true"/></td>				
 			</tr>
 			{/if}
@@ -38,11 +33,10 @@
 			</tr>
 			<tr>
 				<td>跟进内容</td>
-				<td><input name="remark" class="mini-textarea" style="width:170px;" required="true"/></td>
+				<td><input name="remark" class="mini-textarea" style="width:170px; height:100px;" required="true"/></td>
 			</tr>
 			<tr>
-			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
-			<br>
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
 				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
 				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
 				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
@@ -65,16 +59,17 @@ function submitForm() {
 	var o = form.getData();
 	var json = mini.encode(o);
 	form.loading("数据提交中，请稍后......");
-	var callback=function(data){
-			if(data.err!='0'){
-			form.unmask();
-			alert(data.msg);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/user/follow/ajaxSave',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
 			return false;
-			}else{
-				CloseWindow("save");
-			}
 		}
-  utils.ajax('/user/follow/ajaxSave',{data:json},callback,"POST","json");
+	},'json');
 }
 
 function GetData() {
@@ -82,16 +77,11 @@ function GetData() {
 	return row;
 }
 
-function CloseWindow(action) {
+function CloseWindow(action) {            
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();
+	else window.close();            
 }
-//确定并获取数据
-function onComfirm() {
-	CloseWindow("ok");
-}
-//取消
-function onCancel() {
+function onCancel(e) {
 	CloseWindow("cancel");
 }
 

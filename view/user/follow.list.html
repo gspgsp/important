@@ -27,16 +27,14 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="c_name" width="60" headerAlign="center" align="center">客户名称</div>
-			<div field="name" width="60" headerAlign="center" allowSort="true" align="center">联系人</div>
-			<div field="remark" width="80" headerAlign="center" allowSort="true" align="center">跟进内容</div> 
-			<div field="follow_up_way" width="60" headerAlign="center" allowSort="true" align="center">跟进方式</div> 
-			<div field="follow_time" width="65" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">跟进时间</div>
-			<div field="next_follow_time" width="65" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">下次跟进时间</div>
-			<div field="input_admin" width="65" headerAlign="center" allowSort="true" align="center" >添加人</div>
-			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">添加时间</div>
-			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
-			<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
+			<div field="c_name" width="40" headerAlign="center" align="center">客户名称</div>
+			<div field="name" width="30" headerAlign="center" allowSort="true" align="center">联系人</div>
+			<div field="remark" width="160" headerAlign="center" allowSort="true" align="center">跟进内容</div> 
+			<div field="follow_up_way" width="30" headerAlign="center" allowSort="true" align="center">跟进方式</div> 
+			<div field="follow_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">跟进时间</div>
+			<div field="next_follow_time" width="45" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">下次跟进时间</div>
+			<div field="input_admin" width="55" headerAlign="center" allowSort="true" align="center" >添加人</div>
+			<div field="input_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">添加时间</div>
 			
 		</div>
 	</div>
@@ -58,11 +56,17 @@ function onKeyEnter(e) {
 }
 
 function add(){
+	var width=300, height=320;
+	title="新增客户跟进";
 	mini.open({
 		url: "/user/follow/info",
 		showMaxButton:true,
-		title: "新增客户跟进", 
-		width: 300, height:320
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
 	});		
 }
 

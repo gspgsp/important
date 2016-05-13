@@ -4,10 +4,8 @@
  */
 class followAction extends adminBaseAction {
 	public function __init(){
-		//客户跟进信息表
-		$this->db=M('public:common')->model('follow_up');
-		//跟进方式语言包
-		$this->assign('follow_up_way',L('follow_up_way'));	
+		$this->db=M('public:common')->model('follow_up');//客户跟进信息表
+		$this->assign('follow_up_way',L('follow_up_way'));//跟进方式语言包
 	}
 	/**
 	 *
@@ -25,14 +23,11 @@ class followAction extends adminBaseAction {
 
 	public function info(){
 		$id=sget('id','i');
-		$c_name =M('user:customer')->getColByName($value=$id,$col='c_name',$condition='c_id');
-		$mes   =M('user:customerContact')->getListByCid($id);
-		foreach ($mes as $key => $value) {
-					$arr[$value[user_id]]=$value[name];
-				}
-		$this->assign('arr',$arr);
-		$this->assign('c_name',$c_name);
-		$this->assign('cid',$id);
+			if($id>0){
+				$contracts = arrayKeyValues(M('user:customerContact')->getListByCid($id),'user_id','name');
+				$this->assign('arr',$contracts);
+			}
+		$this->assign('c_id',$id);
 		$this->display('follow.add.html');
 	}
 
@@ -53,12 +48,9 @@ class followAction extends adminBaseAction {
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
 			if($key_type == 'c_name'){
-				$c_id =M('user:customer')->getInfoByCname($condition='c_id',$key_type,$keyword);
-				foreach ($c_id as $key => $value) {
-					$arr[]=$value[c_id];
-				}
-				$arr=implode(',',$arr);
-				$where.=" and `c_id` in ({$arr})";
+				$c_id =M('user:customer')->getInfoByCname($key_type,$keyword);
+				$str=implode(',',$c_id);
+				$where.=" and `c_id` in ($str)";
 			}else{
 				$where.=" and $key_type like '%$keyword%'";
 			}
@@ -73,7 +65,8 @@ class followAction extends adminBaseAction {
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['follow_up_way'] = L('follow_up_way')[$v['follow_up_way']]; 
-			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($value=$list['data'][$k]['c_id'],$col='c_name',$condition='c_id');
+			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
+			$list['data'][$k]['name'] = M('user:customerContact')->getColByName($v['user_id']);
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -85,25 +78,12 @@ class followAction extends adminBaseAction {
 	public function ajaxSave(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$action = sget('action','s');
-		$arr = sdata(); //传递的参数
-		if(empty($arr)) $this->error('错误的请求');
-		//根据联系人id查出联系人信息
-		$m=M('user:customerContact')->getListByUserid($arr['name']);
-		$data=array(
-    		'user_id'=>$arr['name'],
-    		'name'=>$m['name'],
-    		'customer_manager'=>$_SESSION['adminid'],
-    		'follow_time'=>strtotime($arr['follow_time']),
-    		'follow_up_way'=>$arr['follow_up_way'],
-    		'remark'=>$arr['remark'],
-    		'next_follow_time'=>strtotime($arr['next_follow_time']),
-    		);
-		if(empty($arr[cid])){
-			$data=($data+array('c_id'=>$arr['c_name'],));
-		}else{
-			$data=($data+array('c_id'=>$arr[cid],));
-		}
-		$result = $this->db->add($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username'],));
+		$data = sdata(); //传递的参数
+		if(empty($data)) $this->error('错误的请求');
+    		$data['follow_time']=strtotime($data['follow_time']);
+    		$data['next_follow_time']=strtotime($data['next_follow_time']);
+		if($data['cid'] > 0) $data=(array('c_id'=>$data['cid'],)+$data);
+		$result = $this->db->add($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['name'],'customer_manager'=>$_SESSION['adminid'],));
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
@@ -128,10 +108,7 @@ class followAction extends adminBaseAction {
 		if(empty($ids)){
 			$this->error('操作有误');
 		}
-		$ids=explode(',', $ids);
-		foreach ($ids as $k => $v) {
-			$result=$this->db->where("id = ($v)")->delete();
-		}
+		$result=$this->db->where("id in ($ids)")->delete();
 		if($result){
 			$cache=cache::startMemcache();
 			$cache->delete('follow_up_way');
