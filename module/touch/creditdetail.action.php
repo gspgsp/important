@@ -1,0 +1,21 @@
+<?php
+/**
+*积分明细
+*/
+class creditdetailAction extends homeBaseAction
+{
+	public function __init() {
+		$this->debug = false;
+		$this->db=M('public:common')->model('points_bill');
+    }
+    //返回积分明细
+    public function get_creditdetail(){
+    	//获取用户
+		$uid=sget('uid','i',0);
+		$result = array();
+		if($uid>0){
+			$result = M('touch:creditdetail')->getCreditDetail($uid);
+		}
+		$this->json_output($result);
+	}
+}
