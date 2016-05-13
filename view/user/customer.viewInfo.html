@@ -116,18 +116,37 @@
 				</div>
 			</div>
 		</div>
+
+		<div title="跟进列表">
+			<div id="gridCell" class="mini-datagrid" style="width:auto;height:420px;" url="/user/follow/init?action=grid&c_id={$c_id}"  idField="id"
+			sizeList="[10,20,50,100]" pageSize="20">
+				<div property="columns">
+					<div field="name" width="30" headerAlign="center" allowSort="true" align="center">联系人</div>
+					<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">跟进内容</div> 
+					<div field="follow_up_way" width="30" headerAlign="center" allowSort="true" align="center">跟进方式</div> 
+					<div field="follow_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">跟进时间</div>
+				</div>
+			</div>
+		</div>
 </div>
 </div>
 <script type="text/javascript">
 	mini.parse();
 	var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
 	var investGrid=mini.get("investGrid");
+	var gridCell  =mini.get("gridCell");
 	function changeTab(e){
 		var tab=e.tab;
 		if(tab.title=='联系人列表'){
 			var data=investGrid.getData();
 			if(data.length<1){
 				investGrid.load();
+			}
+		}
+		if(tab.title=='跟进列表'){
+			var data=gridCell.getData();
+			if(data.length<1){
+				gridCell.load();
 			}
 		}
 	}

@@ -43,6 +43,9 @@ class followAction extends adminBaseAction {
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选显示类别
 		$where=" 1 ";
+
+		$c_id=sget('c_id','i',0);
+		if($c_id !=0)  $where.=" and `c_id` =".$c_id;
 		//关键词
 		$key_type=sget('key_type','s','c_name');
 		$keyword=sget('keyword','s');
