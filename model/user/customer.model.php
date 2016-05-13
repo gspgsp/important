@@ -36,14 +36,14 @@ class customerModel extends model{
 		if($info){
 			$result =  $this->model('customer')->select("*")->where("c_id=$info[c_id]")->getRow();
 		}
-		return empty($result) ? '-' : $result;
+		return empty($result) ? array() : $result;
 	}
 	
 	/**
 	 * 根据模糊联系人 搜索出所有的公司信息
 	 */
-	public function getInfoByCname($condition='c_id',$c_name,$keyword){
-		$result =  $this->model('customer')->select("$condition")->where("$c_name like '%$keyword%'")->getAll();
-		return empty($result) ? '-' : $result;
+	public function getInfoByCname($c_name,$keyword,$condition='c_id'){
+		$result =  $this->model('customer')->select("$condition")->where("$c_name like '%$keyword%'")->getCol();
+		return empty($result) ? array() : $result;
 	}
 }

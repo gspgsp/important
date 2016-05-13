@@ -171,4 +171,11 @@ class customerContactModel extends model{
 	public function getListByUserid($user_id){
 		return $this->where("user_id=$user_id")->getRow();
 	}
+	/**
+	 * 更具字段取出对应的值
+	 */
+	public function getColByName($value=0,$col='name',$condition='user_id'){
+		$result =  $this->select("$col")->where("$condition='$value'")->getOne();
+		return empty($result) ? '-' : $result;
+	}
 }
