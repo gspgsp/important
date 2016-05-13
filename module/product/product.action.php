@@ -31,7 +31,6 @@ class productAction extends adminBaseAction {
 	 */
 	public function init(){
 		$action=sget('action','s');
-		$action=sget('action','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
@@ -128,9 +127,10 @@ class productAction extends adminBaseAction {
 		foreach ($ids as $k => $v) {
 			if(M('product:purchase')->getColById($v)){
 				$list[$v]=M('product:purchase')->getColById($v);
+				continue;
 			}else{
 				$result=$this->db->where("id = ($v)")->delete();
-				continue;
+				
 			}
 		}
 		if($list) $this->json_output(array('err'=>0,'result'=>$list));

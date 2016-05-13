@@ -1,0 +1,141 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">	
+		<div title="订单详细信息">
+			<div style="height:385px">
+				<table width="100%">
+					<caption><strong>基本信息</strong></caption>
+					<tr>
+						<td>订单名称：</td>
+						<td>
+							{$info.order_name}
+						</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>订单编号：</td>
+						<td>{$info.order_sn}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>订单来源：</td>
+						<td>{$order_source.$info.order_source}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>客户名称：</td>
+						<td>{$info.c_id}</td>
+						<td>签订日期：</td>
+						<td>{$info.sign_time}</td>
+					</tr>
+					<tr>
+						<td>总金额：</td>
+						<td>{$info.total_price}</td>
+						<td>付款方式：</td>
+						<td>{$pay_method.$info.pay_method}</td>
+					</tr>
+					<tr>
+						<td>签约地点 : </td>
+						<td>{$info.sign_place}</td>
+						<td>提货地址：</td>
+						<td>{$info.pickup_location}</td>
+					</tr>
+					<tr>
+						<td>送货地点：</td>
+						<td>{$info.delivery_location}</td>
+						<td>货款结算方式：</td>
+						<td>{$info.payment_way}</td>
+					</tr>
+					<tr>
+						<td>运输方式：</td>
+						<td>{$transport_type.$info.transport_type}</td>
+						<td>开票状态：</td>
+						<td>{$invoice_status.$info.invoice_status}</td>
+					</tr>
+					<tr>
+						<td>运费：</td>  
+						<td>{$info.freight_price}</td>
+						<td>业务模式 : </td>
+						<td>{$business_model.$info.business_model}</td>
+					</tr>
+					<tr>
+						<td>提货日期：</td>  
+						<td>{$info.pickup_time}</td>
+						<td>送货日期 : </td>
+						<td>{$info.delivery_time}</td>
+					</tr>
+					<tr>
+						<td>付款日期：</td>  
+						<td>{$info.payment_time}</td>
+						<td>财务记录 : </td>
+						<td>{$financial_records.$info.financial_records}</td>
+					</tr>
+					<tr>
+						<td>审核状态：</td>  
+						<td>{$order_status.$info.order_status}</td>
+						<td>发货状态 : </td>
+						<td>{$goods_status.$info.goods_status}</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+		<div title="详情列表">
+			<div id="investGrid" class="mini-datagrid" style="width:auto;height:420px;" idField="id"  url="/product/orderDetail/init?action=grid&oid={$o_id}" sizeList="[10,20,50,100]" pageSize="20">
+				<div property="columns">
+					<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+					<div field="order_name" width="90" headerAlign="center" align="center">订单名</div>
+					<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+					<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>                
+					<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+					<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
+					<div field="store_house" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
+					<div field="supplier_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
+					<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
+					<div field="in_storage_status" width="80" headerAlign="center" allowSort="true" align="center">入库状态</div>
+					<div field="sales_type" width="80" headerAlign="center" allowSort="true" align="center">销售类型</div>
+					<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
+					<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
+					<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
+					<div field="update_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
+					<div field="update_admin" width="45" headerAlign="center" align="center">更新人</div>
+
+				</div>
+			</div>
+		</div>
+</div>
+</div>
+<script type="text/javascript">
+	mini.parse();
+	var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
+	var investGrid=mini.get("investGrid");
+	function changeTab(e){
+		var tab=e.tab;
+		if(tab.title=='详情列表'){
+			var data=investGrid.getData();
+			if(data.length<1){
+				investGrid.load();
+			}
+		}
+	}
+	//追加操作按钮
+	function onLoadHandle(e) {
+		var record = e.record,s='',id = record.id;
+		s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
+		return s;
+	}
+	//查看明细相关信息
+	function viewOrdInfo(id){
+		mini.open({
+			url: "/product/orderDetail/info?id="+id,
+			showMaxButton:true,
+			title: "查看明细相关信息", 
+			width: 700, height:450
+		});		
+	}
+
+
+</script>
