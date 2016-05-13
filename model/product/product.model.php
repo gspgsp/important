@@ -17,14 +17,30 @@ class productModel extends model{
 		if($this->add($data)) return $this->getLastID();
 		$this->error('数据添加失败');
 	}
-	//根据pid获取指定的字段值
+	//根据fid获取指定的字段值
 	public function getColById($fid=0,$col='id'){
 		$result=$this->select("$col")->where('f_id='.$fid)->getOne();
 		return $result>0 ? $result : 0;
 	}
+	//根据pid获取指定的字段值
+	public function getModelById($pid=0,$col='model'){
+		$result=$this->select("$col")->where('id='.$pid)->getOne();
+		return $result != '' ? $result : '-';
+	}
 	//根据商品id获取商品的厂家名字
 	public function getFnameByPid($pid=0){
 		return $this->select("f.f_name, p.*")->from('product p')->join('factory f','f.fid=p.f_id')->where('p.id='.$pid)->getRow();
+	}
+	/**
+	 * 模糊查询牌号匹配的明细
+	 */
+	public function getpidByPname($value=''){
+		$arr=$this->select('id')->where("model like '%".$value."%'")->getAll();
+		foreach ($arr as $key => $v) {
+			$ids[]=$v['id'];
+		}
+		$data = implode(',',$ids);
+		return empty($data)? false : $data;
 	}
 
 }
