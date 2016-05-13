@@ -62,19 +62,18 @@ function submitForm() {
 	form.validate();
   	if (form.isValid() == false) return;
 	//提交数据
-var o = form.getData();
-var json = mini.encode(o);
-form.loading("数据提交中，请稍后......");
-var callback=function(data){
-		if(data.err!='0'){
-		form.unmask();
-		alert(data.msg);
-		return false;
-	}else{
-		form.reload;
-		CloseWindow("ok");
-	}
-  }
+	var o = form.getData();
+	var json = mini.encode(o);
+	form.loading("数据提交中，请稍后......");
+	var callback=function(data){
+			if(data.err!='0'){
+			form.unmask();
+			alert(data.msg);
+			return false;
+			}else{
+				CloseWindow("save");
+			}
+		}
   utils.ajax('/user/follow/ajaxSave',{data:json},callback,"POST","json");
 }
 
