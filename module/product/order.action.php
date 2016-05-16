@@ -179,7 +179,6 @@ class orderAction extends adminBaseAction {
 					'update_time'=>CORE_TIME,
 					'update_admin'=>$_SESSION['name'],
 				);	
-				p($up_data);
 				$result = $this->db->where('o_id='.$o_id)->update($up_data);
 				$this->success('操作成功');
 			}else{
