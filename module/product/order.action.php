@@ -138,29 +138,58 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		p($data);
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
 		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
-		$_data = array(
-			'total_price'=>M("product:order")->getOrdNum($data['o_id'],1), //计算总金额			
-			'update_time'=>CORE_TIME,
-			'update_admin'=>$_SESSION['name'],
-		);	
+		foreach ($data as $k=> $v) {
+			if( preg_match('/\d/',$k) ){
+				preg_match_all('/\d/',$k,$matches);
+				$detail[$matches[0][0]][substr($k,0,strlen($k)-1)]=$v;
+			}else{
+				$data[$k]=$v;
+			}
+		}
+		if($data['o_id']>0){ //编辑
+			$up_data = array(
+				'total_price'=>M("product:order")->getOrdNum($data['o_id'],1), //计算总金额			
+				'update_time'=>CORE_TIME,
+				'update_admin'=>$_SESSION['name'],
+			);	
+			$result = $this->db->where('o_id='.$data['o_id'])->update($data+$up_data);
+		}else{ //新增
+			$this->startTrans(); //开启事务
+			$add_data=array(
+				'input_time'=>CORE_TIME,
+				'input_admin'=>$_SESSION['name'],
+			);
+			$this->db->add($data+$add_data);
+			$o_id=$this->db->getLastID(); //订单ID
+			if(!empty($detail)){
+				for($i=1;$i<=count($detail);$i++){
+					$detail[$i]['o_id']=$o_id;
+					$detail[$i]['purchase_order_no']=genOrderSn();;
+					$this->db->model('order_detail')->add($detail[$i]+$add_data);
+				}
+			}
+			if($this->db->commit()){
+				$up_data = array(
+					'total_price'=>M("product:order")->getOrdNum($o_id,1), //计算总金额			
+					'update_time'=>CORE_TIME,
+					'update_admin'=>$_SESSION['name'],
+				);	
+				p($up_data);
+				$result = $this->db->where('o_id='.$o_id)->update($up_data);
+				$this->success('操作成功');
+			}else{
+				$this->db->rollback();
+				$this->error($result['msg']);
+			}
 
-		if($data['o_id']>0){
-			$result = $this->db->where('o_id='.$data['o_id'])->update($data+$_data);
-		}else{
-			$data['input_time']=CORE_TIME;
-			$data['input_admin']=$_SESSION['name'];
-			$result = $this->db->add($data+$_data);
 		}
-		if($result['err']>0){
-			$this->error($result['msg']);
-		}
-		$this->success('操作成功');
+
+	
 	}
 	/**
 	 * Ajax删除
