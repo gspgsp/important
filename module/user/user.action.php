@@ -124,7 +124,7 @@ class userAction extends adminBaseAction {
 			}
 		}
 		
-		$list=$this->db->select('u.user_id,u.mobile,u.last_login,u.visit_count,u.status,u.login_fail_count,i.real_name,i.utype,i.reg_time,i.ref_count,i.reg_ip,i.user_tag')
+		$list=$this->db->select('u.user_id,u.mobile,u.last_login,u.visit_count,u.status,u.login_fail_count,i.real_name,i.reg_time,i.reg_ip')
 					->from('user u')->join('user_info i','u.user_id=i.user_id')
 					->where($where)
 					->page($page+1,$size)
