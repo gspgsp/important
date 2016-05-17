@@ -43,7 +43,8 @@ class admAction extends adminBaseAction {
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
 		}
-		
+		$lock = sget('lock','s');
+		$this->assign('lock',$lock);
 		$this->depart=C('depart'); //所属部门
 		$this->depart_json=setMiniConfig($this->depart);
 		$this->assign('page_title','管理员列表');

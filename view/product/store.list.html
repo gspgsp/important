@@ -130,6 +130,26 @@ function onLoadHandle(e) {
 	s += '<a href="javascript:lockAdmin('+store_id+')">'+tag+'</a>'+'<br><a href="javascript:lookAdmin('+store_id+')">'+tag2+'</a>';
   return s;
 }
+
+function lookAdmin(store_id) {
+		var sid = store_id;
+		var btn = this;
+		mini.open({
+		url: "/product/store/info?sid="+sid,
+		title: "查看业务员",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+				if(action=='save'){ //重新加载
+					grid.reload();
+				}
+			}
+	});
+}
+
 //弹出锁定人选择
 var proInfo = mini.get("lockInfo");
 var lform = new mini.Form("#lockForm");

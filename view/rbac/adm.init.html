@@ -27,10 +27,10 @@
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
 						url="/rbac/adm/init?action=grid"  idField="admin_id" {if $doact neq 'search'}multiSelect="true" allowCellEdit="true" allowCellSelect="true"{/if}
-						sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick"
-	 >
+						sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick">
 		<div property="columns">
 			<div type="checkcolumn"></div>
+			{if $lock neq 'lockadmin'}
 			<div field="admin_id" width="30" align="center" headerAlign="center">ID</div>
 			<div name="action" width="40" headerAlign="center" renderer="onLoadHandle">操作</div>
 			<div field="username" width="80" align="center" headerAlign="center">用户名</div>
@@ -42,6 +42,12 @@
 			<div field="login_times" width="50" headerAlign="center" align="center">登录</div>
 			<div field="is_super" width="50" align="center" headerAlign="center" renderer="onLoadSuper">超管</div>
 			<div field="user_ip" width="80" headerAlign="center">用户IP</div>
+			{else}
+			<div field="username" width="80" align="center" headerAlign="center">用户名</div>
+			<div field="name" width="70" align="center" headerAlign="center">姓名</div>
+			<div field="mobile" width="70" align="center" headerAlign="center">手机号</div>
+			<div field="depart" width="50" align="center" headerAlign="center" renderer="onLoadDepart">部门</div>
+			{/if}
 		</div>
 	</div>
 </div>

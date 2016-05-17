@@ -44,37 +44,32 @@ class storeAction extends adminBaseAction
 	 * @return html
 	 */
 	public function info(){
+		//获取列表数据
+		$store_id = sget('sid','i');
+		if(empty($store_id)){
+			$this->error('错误的操作');
+		}
 		$action=sget('action');
 		if($action=='grid'){
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
-			$sortField = sget("sortField",'s','admin_id'); //排序字段
-			$sortOrder = sget("sortOrder",'s','asc'); //排序
-			$where='1';
+			$sortField = sget("sortField",'s','input_time'); //排序字段
+			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			
-			//关键词
-			$key_type=sget('key_type','s','username');
-			$keyword=sget('keyword','s');
-			if(!empty($keyword)){
-				$where.=" and $key_type='$keyword' ";	
-			}
-			
-			$list=$this->db->where($where)
-						->page($page+1,$size)
-						->order("$sortField $sortOrder")
-						->getPage();
-			
+			$list=$this->db->select("sa.*,ad.name, ad.mobile, ad.username")
+					->from('store_admin sa')->join('admin ad','ad.admin_id = sa.admin_id')
+					->where("`store_id`=".$store_id)
+					->page($page+1,$size)
+					->order("$sortField $sortOrder")
+					->getPage();
 			foreach($list['data'] as $k=>$v){
-				$list['data'][$k]['last_login']=$v['last_login']>1000 ? date("Y-m-d H:i:s",$v['last_login']) : '-';
-				$list['data'][$k]['status'] = L('adm_status')[$v['status']];
+				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+				$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			}
-			$result=array('total'=>$list['count'],'data'=>$list['data']);
+			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
 		}
-		$lock = sget('lock','s');
-		$this->assign('lock',$lock);
-		$this->depart=C('depart'); //所属部门
-		$this->depart_json=setMiniConfig($this->depart);
+		$this->assign('sid',$store_id);
 		$this->assign('page_title','管理员列表');
 		$this->display('storeAdmin.list.html');
 	}
