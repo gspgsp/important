@@ -208,7 +208,7 @@ return array(
 		2=>'先销后采',
 	),
 	//出库状态
-	'out_storage_statue'=>array(
+	'storage_type'=>array(
 		1=>'销售出库',
 		2=>'直接出库',
 	),
