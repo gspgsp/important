@@ -8,6 +8,9 @@ class mypurchaseAction extends homeBaseAction
 		$this->debug = false;
 		$this->db = M('public:common')->model('purchase');
     }
+    public function init(){
+        $this->display('purchase');
+    }
     //返回求购信息
     public function get_purchase(){
     	//获取求购信息的id

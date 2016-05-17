@@ -8,6 +8,9 @@ class creditRecordAction extends homeBaseAction
 		$this->debug = false;
 		$this->db=M('public:common')->model('points_order');
     }
+    public function init(){
+    	$this->display('record');
+    }
     //返回积分明细
     public function get_creditRecord(){
     	//获取用户

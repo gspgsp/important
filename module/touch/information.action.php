@@ -1,6 +1,6 @@
 <?php
 /**
-*塑料头条控制器
+*塑料资讯控制器
 */
 class informationAction extends homeBaseAction
 {
@@ -8,6 +8,9 @@ class informationAction extends homeBaseAction
 	public function __init() {
 		$this->debug = false;
 		$this->db=M('public:common')->model('info');
+    }
+    public function init(){
+    	$this->display('information');
     }
     //返回资源的内容
     public function get_items(){

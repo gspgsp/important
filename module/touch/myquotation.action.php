@@ -9,6 +9,9 @@ class myquotationAction extends homeBaseAction
 		$this->db = M('public:common')->model('purchase');
         $this->assign('pass_status',array('1'=>'上架','2'=>'下架'));
     }
+    public function init(){
+        $this->display('quotation');
+    }
     //返回报价信息/更新数据
     public function get_myquotation(){
     	//获取求购信息的c_id
@@ -21,7 +24,7 @@ class myquotationAction extends homeBaseAction
     }
     //上架，下架切换
     public function changestate(){
-        $s_id = sget('select_id','i',0);
+        $s_id = sget('p_id','i',0);
         if($s_id>0){
             $result = M('touch:myquotation')->changeProductState($s_id);
         }
