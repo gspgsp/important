@@ -86,6 +86,11 @@ class storeAction extends adminBaseAction
 		if(empty($data)){
 			$this->error('错误的请求');
 		}
+		$name=M('product:store')->curUnique('store_name','$data[store_name]');
+		$tel=M('product:store')->curUnique('store_tel','$data[store_tel]');
+		if ($name || $tel) {
+			$this->error('信息重复');
+		}
 		$data = $data+array(
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
