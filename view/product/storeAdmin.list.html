@@ -4,7 +4,6 @@
   <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" url="/product/store/info?action=grid&id={$sid}&sid={$sid}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 	<div property="columns">
-		<div type="checkcolumn"></div>
 			<div field="admin_id" width="30" align="center" headerAlign="center">管理员ID</div>
 			<div field="username" width="80" align="center" headerAlign="center">用户名</div>
 			<div field="name" width="70" align="center" headerAlign="center">姓名</div>
@@ -30,52 +29,4 @@ function onKeyEnter(e) {
   search();
 }
 
-//追加操作按钮
-function onLoadHandle(e) {
-  var record = e.record, s='',tag='',tag2='',store_id = record.id;
-	tag ='绑定业务员';tag2='查看业务员';
-	s += '<a href="javascript:lockAdmin('+store_id+')">'+tag+'</a>'+'<br><a href="javascript:lookAdmin('+store_id+')">'+tag2+'</a>';
-  return s;
-}
-
-function lookAdmin(store_id) {
-		var btn = this;
-		mini.open({
-		url: "/product/store/info?id=store_id",
-		title: "查看业务员",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
-		ondestroy: function (action) {
-				if(action=='save'){ //重新加载
-					grid.reload();
-				}
-			}
-	});
-}
-
-function GetData() {
-	var row = grid.getSelected();
-	return row;
-}
-
-//筛选数据
-function CloseWindow(action) {
-	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();
-}
-//确定并获取数据
-function onComfirm() {
-	CloseWindow("ok");
-}
-//取消
-function onCancel() {
-	CloseWindow("cancel");
-}
-function GetData() {
-	var row = grid.getSelected();
-	return row;
-}
 </script>
