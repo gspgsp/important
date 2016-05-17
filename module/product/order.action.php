@@ -169,7 +169,7 @@ class orderAction extends adminBaseAction {
 			if(!empty($detail)){
 				for($i=1;$i<=count($detail);$i++){
 					$detail[$i]['o_id']=$o_id;
-					$detail[$i]['purchase_order_no']=genOrderSn();;
+					$detail[$i]['purchase_order_no']=genOrderSn();
 					$this->db->model('order_detail')->add($detail[$i]+$add_data);
 				}
 			}

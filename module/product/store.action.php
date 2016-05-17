@@ -36,9 +36,9 @@ class storeAction extends adminBaseAction
 		}
 		$this->assign('page_title','仓库管理');
 		$this->display('store.list.html');
-   	}
+	}
 
-   	/**
+	/**
 	 * 所有管理员
 	 * @access public 
 	 * @return html
@@ -132,10 +132,10 @@ class storeAction extends adminBaseAction
 			$_id=$v['id'];
 			if($_id>0){
 				$update=array(
-		            'store_name'   => $v['store_name'],
-		            'store_tel'    =>$v['store_tel'],
-		            'store_address'=>$v['store_address'],
-		            'remark'       =>$v['remark'],
+					'store_name'   => $v['store_name'],
+					'store_tel'    =>$v['store_tel'],
+					'store_address'=>$v['store_address'],
+					'remark'       =>$v['remark'],
 					'update_time'  =>CORE_TIME,
 					'update_admin' =>$_SESSION['name'],
 				);
