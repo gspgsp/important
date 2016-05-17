@@ -2,11 +2,13 @@
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
+			{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
 			</td>
+			{/if}
 			<td style="float:right;">
 			<form id="soform">
 				<select name="sTime">
@@ -43,7 +45,7 @@
 
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-		url="/product/orderDetail/init?action=grid" onrowdblclick="onRowDblClick"
+		url="/product/orderDetail/init?action=grid&oid={$oid}" onrowdblclick="onRowDblClick"
 		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
 		>
 		<div property="columns">    
@@ -68,6 +70,13 @@
 		</div>
 	</div>
 </div>
+	{if $doact eq 'search'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+	{/if}
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell");
@@ -157,5 +166,34 @@ function remove() {
 	}
 	utils.ajax('/product/orderDetail/remove',{ids:ids},callback,"POST","json");
   });
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+	//多选
+	//  var rows = grid.getSelecteds(),_ids=new Array(); 
+	// if(rows.length<1) return;
+	// for(var i=0;i<rows.length;i++){
+	// 	var _id=parseInt(rows[i].id);
+	// 	if(_id<1){
+	// 		grid.removeRow(rows[i],false);
+	// 	}else{
+	// 		_ids.push(_id);
+	// 	}
+ // 	}
+	// var ids=_ids.join(',');
+	// return ids;
+}
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
 }
 </script>

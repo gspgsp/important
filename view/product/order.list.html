@@ -118,6 +118,7 @@ function onLoadDetail(e){
 	s += '<a href="javascript:addOpusDetail('+oid+')">'+'追加'+'</a>|<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
 	return s;
 }
+//追加
 function addOpusDetail(oid){
 	mini.open({
 		url: "/product/orderDetail/info?o_id="+oid,
@@ -130,11 +131,12 @@ function addOpusDetail(oid){
 		}
 	});
 }
+//发货弹窗
 function outStorage(oid){
 	mini.open({
 		url:"/product/outStorage/info?o_id="+oid,
 		showMaxButton:true,
-		title:'发货记录新增',width:600,height:450,
+		title:'发货记录新增',width:580,height:450,
 		ondestroy: function(action){
 			if(action=='save'){ //重新加载
 				grid.reload();

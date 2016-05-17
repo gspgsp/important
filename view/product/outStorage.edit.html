@@ -1,0 +1,202 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	  <div title="新增出库管理" class="form" id="editForm">
+		<input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
+		<input class="mini-hidden" name="storage_no" value="{$storage_no}"/>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>交货信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td>出库名称:</td>
+					<td><input name="storage_subject" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.storage_subject}"/>
+					</td>
+					<td>出库单号</td>
+					<td>{$storage_no}</td>
+				</tr>
+				<tr>
+					<td>出库明细:</td>
+					<td><input name="detail_id" class="mini-buttonedit" onbuttonclick="detailChoose" value="{$data.detail_id}" allowInput="false"  text="{$data.detail_id}"  style="width:120px" id="usrId"/></td>
+					<td>状态</td>
+					<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$out_storage_status}' value="{$data.out_storage_status|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/></td>
+				</tr>
+				<tr>
+					<td>关联客户:</td>
+					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cusChoose" value="{$data.c_id}" allowInput="false"  text="{$data.c_name}"  style="width:120px" id="usrId"/></td>
+					<td>出库时间</td>
+					<td><input  class="mini-datepicker"  name="storage_date"  required="false" value="{$info.storage_date}"/></td>
+				</tr>
+				<tr>
+					<td>仓库:</td>
+					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
+					<td>出库种类:</td>
+					<td><input name="storage_type" class="mini-combobox" data='{:setMiniConfig|$storage_type}' value="{$data.storage_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
+					</td>	
+				</tr>
+				<tr>
+					<td>库位</td>
+					<td><input name="location_name" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.location_name}"/></td>
+					<td>数量</td>
+					<td><input name="number" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.number}"/></td>
+				</tr>
+				</table>
+			</fieldset>
+			<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+				<legend>物流信息</legend>
+				<table width="100%" border="0" cellpadding="1" cellspacing="2">
+					<tr>
+						<td>物流公司:</td>
+						<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:250px;" required="false"/></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>备注:</td>
+						<td><input name="remark" class="mini-textarea" style="width:250px" required="false"/ value="{$data.remark}"></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>出库人</td>
+						<td><input name="store_aid" class="mini-buttonedit" onbuttonclick="admChoose" value="{$data.store_aid}" allowInput="false"  text="{$data.store_aid}"  style="width:250px" id="usrId"/></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>		
+				</table>
+			</fieldset>	
+	</div>
+</div>
+			<div align="center" style="margin-top:10px;">
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</div>
+<script type="text/javascript">
+mini.parse();
+//增加后提交数据(保存)
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/outStorage/addSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+//选择明细
+function detailChoose(e){
+	var oid=mini.get(o_id).getValue();
+	var btn = this;
+		mini.open({
+		url: "/product/orderDetail/init?do=search&oid="+oid,
+		title: "选择明细",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				// alert(data);
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.id);
+				}
+			}
+		}
+	});
+}
+//强制选择归属公司
+function cusChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+				}
+			}
+		}
+	});
+}
+//选择仓库
+function stoChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/product/store/init?do=search",
+		title: "选择仓库",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+				}
+			}
+		}
+	});
+}
+//选择交易员
+function admChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/rbac/adm/init?do=search",
+		title: "选择交易员",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+				}
+			}
+		}
+	});
+}
+</script>

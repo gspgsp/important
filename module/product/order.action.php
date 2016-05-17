@@ -159,7 +159,7 @@ class orderAction extends adminBaseAction {
 			);	
 			$result = $this->db->where('o_id='.$data['o_id'])->update($data+$up_data);
 		}else{ //新增
-			$this->startTrans(); //开启事务
+			$this->db->startTrans(); //开启事务
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],

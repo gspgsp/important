@@ -18,10 +18,13 @@ class orderDetailAction extends adminBaseAction {
 	 * @return html
 	 */
 	public function init(){
+		$doact=sget('do','s');
 		$action=sget('action','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('doact',$doact);
+		$this->assign('oid',sget('oid','i',0));
 		$this->assign('page_title','订单管理列表');
 		$this->display('orderDetail.list.html');
 	}
