@@ -9,6 +9,7 @@ class storeAction extends adminBaseAction
 	}
 	public function init(){
 		//获取列表数据
+		$doact=sget('do','s');
 		$action=sget('action');
 		if($action=='grid'){
 			$page = sget("pageIndex",'i',0); //页码
@@ -34,6 +35,7 @@ class storeAction extends adminBaseAction
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
 		}
+		$this->assign('doact',$doact);
 		$this->assign('page_title','仓库管理');
 		$this->display('store.list.html');
 	}
