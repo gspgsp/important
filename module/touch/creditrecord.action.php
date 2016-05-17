@@ -2,7 +2,7 @@
 /**
 *兑换记录(兑换订单)
 */
-class creditRecordAction extends homeBaseAction
+class creditrecordAction extends homeBaseAction
 {
 	public function __init() {
 		$this->debug = false;
