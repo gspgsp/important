@@ -105,6 +105,10 @@ class storeAction extends adminBaseAction
 		if(empty($ids)){
 			$this->error('操作有误');
 		}
+		$admin=sget('remove','s');//非空是删除管理员，来自storeadmin.list.html
+		if(!empty($admin)){
+			$result=$this->db->model('store_admin')->where("id in ($ids)")->delete();
+		}
 		$result=$this->db->where("id in ($ids)")->delete();
 		if($result){
 			$cache=cache::startMemcache();
