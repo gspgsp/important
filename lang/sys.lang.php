@@ -202,6 +202,11 @@ return array(
 		2=>'部分入库',
 		3=>'全部入库',
 	),
+	//出库状态
+	'out_storage_status'=>array(
+		1=>'待出库',
+		2=>'已出库',
+	),
 	//销售类型
 	'sales_type'=>array(
 		1=>'先采后销',
