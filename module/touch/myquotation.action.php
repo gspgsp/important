@@ -10,7 +10,7 @@ class myquotationAction extends homeBaseAction
         $this->assign('pass_status',array('1'=>'上架','2'=>'下架'));
     }
     public function init(){
-        $this->display('quotation');
+        $this->display('myquotation');
     }
     //返回报价信息/更新数据
     public function get_myquotation(){

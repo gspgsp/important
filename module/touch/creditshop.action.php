@@ -9,7 +9,7 @@ class creditshopAction extends homeBaseAction
 		$this->db=M('public:common')->model('points_bill');
     }
     public function init(){
-    	$this->display('shop');
+    	$this->display('creditshop');
     }
     //返回积分明细
     public function get_creditshop(){

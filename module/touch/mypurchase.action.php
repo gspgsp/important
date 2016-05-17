@@ -9,7 +9,7 @@ class mypurchaseAction extends homeBaseAction
 		$this->db = M('public:common')->model('purchase');
     }
     public function init(){
-        $this->display('purchase');
+        $this->display('mypurchase');
     }
     //返回求购信息
     public function get_purchase(){
