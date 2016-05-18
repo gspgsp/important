@@ -210,6 +210,15 @@ class customerContactModel extends model{
 			->getRow();
 	}
 
+	/*
+	 * 生成加密密码
+	 * @param string $password 明文密码
+	 * @return string 密文密码
+	 */
+	public function genPassword($string=''){
+		return md5('rs.'.$string.'.sr');
+	}
+
 
 	
 }
