@@ -10,7 +10,7 @@ class store_adminModel extends model{
 		return $this->where("`store_id` = $store_id and  `admin_id`=$admin_id")->select('id')->getAll();
 	}
 	/**
-	 * 根据ID取指定值
+	 * 根据仓库ID取出库人姓名
 	 */
 	public function getColByid($sid=0){
 		return $this->select("a.admin_id,a.name")->from('store_admin s')->join('admin a','a.admin_id=s.admin_id')->where('s.store_id='.$sid)->getAll();
