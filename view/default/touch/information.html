@@ -4,47 +4,79 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>我的塑料网-咨询</title>
-    <link href="css/normalize.css" rel="stylesheet">
-    <link href="css/app.css" rel="stylesheet">
+    <link href="__CSS__/wx/normalize.css" rel="stylesheet">
+    <link href="__CSS__/wx/layer.css" rel="stylesheet">
+    <link href="__CSS__/wx/app.css" rel="stylesheet">
+    <script src="__JS__/wx/jquery-2.2.3.min.js" type="text/javascript"></script>
+    <script src="__JS__/wx/layer.js" type="text/javascript"></script>
+    <script>
+        $(function () {
+            var infoLi="";
+
+            function stampToDate(date) {
+                var newDate=new Date();
+                newDate.setTime(date*1000);
+                return newDate.toLocaleString();
+            }
+
+            function infoInit(paramsPid){
+                $.ajax({
+                    type:"post",
+                    url:"/touch/information/get_items",
+                    data:{
+                        pid:paramsPid
+                    },
+                    dataType:'json',
+                    beforeSend:function () {
+                        layer.open({
+                            content: '加载中…'
+                        });
+                    },
+                    success:function (res) {
+                        layer.closeAll();
+                        res.data.forEach(function (v,i) {
+                            infoLi +="<li><div class='articleLi'>" +
+                                    "<h3>"+v.title+"</h3><img src='__IMG__/wx/defaultImg.jpg'>" +
+                                    "<p>"+v.content+"</p></div>" +
+                                    "<p class='time'>"+ stampToDate(v.input_time) +"</p></li>";
+                        });
+                        $("#articleLi").html(infoLi);
+                        console.log(">>>",infoLi);
+                    },
+                    error:function (res) {
+                        layer.open({
+                            content: '系统错误',
+                            time:2
+                        });
+                    }
+                });
+            }
+            infoInit(29);
+            $("#nav span").on("click",function () {
+                var pid=$(this).data("pid");
+                infoLi="";
+                console.log(pid);
+                $(this).addClass("on").siblings("span").removeClass("on");
+                infoInit(pid);
+            });
+
+        })
+    </script>
 </head>
 <body>
 	<nav id="nav">
-        <span class="on">市场点评</span>
-        <span>行业热点</span>
-        <span>企业调价</span>
-        <span>装置动态</span>
-        <span>塑料期货</span>
+        <span data-pid="29" class="on">市场点评</span>
+        <span data-pid="30">行业热点</span>
+        <span data-pid="31">企业调价</span>
+        <span data-pid="32">装置动态</span>
+        <span data-pid="33">塑料期货</span>
     </nav>
     <div id="articleWrap">
-        <ul>
-            <li>
-                <div class="articleLi">
-                <h3>5月4日PVC日评：连绵阴雨 初现晚晴</h3>
-                <img src="img/defaultImg.jpg">
-                <p>今日国内PVC市场持稳观望，交投平淡。期货市场企稳，商家信心略有恢复。现货市场报价稳定，波动有限，部分小幅让利成交。下午</p>
-                </div>
-                <p class="time">2016-05-04 14:32</p>
-            </li>
-            <li>
-                <div class="articleLi">
-                    <h3>5月4日PVC日评：连绵阴雨 初现晚晴</h3>
-                    <img src="img/defaultImg.jpg">
-                    <p>今日国内PVC市场持稳观望，交投平淡。期货市场企稳，商家信心略有恢复。现货市场报价稳定，波动有限，部分小幅让利成交。下午</p>
-                </div>
-                <p class="time">2016-05-04 14:32</p>
-            </li>
-            <li>
-                <div class="articleLi">
-                    <h3>5月4日PVC日评：连绵阴雨 初现晚晴</h3>
-                    <img src="img/defaultImg.jpg">
-                    <p>今日国内PVC市场持稳观望，交投平淡。期货市场企稳，商家信心略有恢复。现货市场报价稳定，波动有限，部分小幅让利成交。下午</p>
-                </div>
-                <p class="time">2016-05-04 14:32</p>
-            </li>
+        <ul id="articleLi">
         </ul>
     </div>
     <div id="backTop">
-        <img src="img/topArrow.png">
+        <img src="__IMG__/wx/topArrow.png">
     </div>
 </body>
 </html>

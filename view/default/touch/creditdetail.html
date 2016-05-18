@@ -4,8 +4,26 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link href="css/normalize.css" rel="stylesheet">
-    <link href="css/app.css" rel="stylesheet">
+    <link href="__CSS__/wx/normalize.css" rel="stylesheet">
+    <link href="__CSS__/wx/layer.css" rel="stylesheet">
+    <link href="__CSS__/wx/app.css" rel="stylesheet">
+    <script src="__JS__/wx/jquery-2.2.3.min.js" type="text/javascript"></script>
+    <script src="__JS__/wx/layer.js" type="text/javascript"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                type:"get",
+                url:"/touch/creditdetail/get_creditdetail",
+                dataType:'json',
+                success:function (res) {
+                    console.log(">>>",res.data);
+                },
+                error:function (res) {
+                    console.log(">>>",res.data);
+                }
+            })
+        })
+    </script>
 </head>
 <body>
 <div class="creditDeatil">
