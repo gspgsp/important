@@ -16,8 +16,9 @@ class informationAction extends homeBaseAction
     //详情页面
     public function detailInfo(){
     	$id = sget('id','i',0);
-        $content = $this->db->model('info')->select('content')->where('id='.$id)->getOne();
-    	$this->assign('content',$content);
+        $content = $this->db->model('info')->select('title,content')->where('id='.$id)->getRow();
+        $this->assign('title',$content['title']);
+    	$this->assign('content',$content['content']);
     	$this->display('detailinfo');
     }
     //返回资源的内容
