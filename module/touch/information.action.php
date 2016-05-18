@@ -14,7 +14,7 @@ class informationAction extends homeBaseAction
     	$this->display('information');
     }
     //详情页面
-    public function detainInfo(){
+    public function detailInfo(){
     	$id = sget('id','i',0);
     	$this->assign('id',$id);
     	$this->display('detailinfo');
