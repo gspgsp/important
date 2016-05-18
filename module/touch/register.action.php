@@ -6,7 +6,7 @@ class registerAction extends homeBaseAction
 {
 	public function __init() {
 		$this->debug = false;
-		$this->db=M('public:common')->model('user');
+		$this->db=M('public:common')->model('customer_contact');
     }
 	public function init()
 	{
@@ -31,12 +31,12 @@ class registerAction extends homeBaseAction
 		//验证手机
 		$mobile=sget('mobile','s');
 		if(!is_mobile($mobile)){
-				$this->error(L('weregister_check')['input_username_error']);
+				$this->error('您的手机号码格式不正确');
 			}
 		//密码检查
 		$password=sget('password','s');
 		if(strlen($password)<8){
-			$this->error(L('weregister_check')['input_password_error']);
+			$this->error('密码长度应为(8-20位)');
 		}
 		//系统短信模型
 		$sms=M('system:sysSMS');
