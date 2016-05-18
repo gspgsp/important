@@ -9,8 +9,13 @@ class informationAction extends homeBaseAction
 		$this->debug = false;
 		$this->db=M('public:common')->model('info');
     }
+    //资讯页面
     public function init(){
     	$this->display('information');
+    }
+    //详情页面
+    public function detainInfo(){
+    	$this->display('detailinfo');
     }
     //返回资源的内容
     public function get_items(){
