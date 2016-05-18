@@ -5,7 +5,7 @@
 class registerModel extends model
 {
 	public function __construct() {
-		parent::__construct(C('db_default'), 'user');
+		parent::__construct(C('db_default'), 'customer_contact');
 	}
 	/*
 	 * 用户注册
@@ -38,7 +38,7 @@ class registerModel extends model
 			$user['visit_count']=1;
 		}
 		//加入数据库
-		$result=$this->model('user')->add($user);
+		$result=$this->model('customer_contact')->add($user);
 		if(empty($result)){
 			return array('err'=>1,'msg'=>'数据操作失败:'.$this->getDBError());
 		}else{
@@ -82,7 +82,7 @@ class registerModel extends model
 		if($user_id){
 			$where .= " and user_id !='$user_id'";
 		}
-		$exist=$this->model('user')->select('user_id')->where($where)->getOne();
+		$exist=$this->model('customer_contact')->select('user_id')->where($where)->getOne();
 		return $exist>0 ? false : true;
 	}
 	/*
@@ -126,7 +126,7 @@ class registerModel extends model
 			return array('err'=>1,'msg'=>'验证码不正确，请重新输入!');
 		}
 		//手机号匹配用户信息
-		$info = $this->model('user')->where('mobile='.$username)->getRow();
+		$info = $this->model('customer_contact')->where('mobile='.$username)->getRow();
 		if(empty($info)){
 			$this->_loginError(0, $username, 2, '没有该用户信息，请注册!', 4);
 			return array('err'=>1,'msg'=>'没有该用户信息，请注册!');
@@ -146,7 +146,7 @@ class registerModel extends model
 					$_data['login_unlock_time'] = CORE_TIME + 14400;
 					$msg = '已输错3次密码，账号将锁定4小时';
 				}
-				$this->model('user')->where('user_id='.$info['user_id'])->update($_data);
+				$this->model('customer_contact')->where('user_id='.$info['user_id'])->update($_data);
 				$this->_loginError($info['user_id'], $username, 4, $msg, 4);
 				return array('err'=>1,'msg'=>$msg);
 			}
@@ -157,7 +157,7 @@ class registerModel extends model
 	 */
 	private function _getLoginPassword($param=array()){
 		//获取对应用户的额密码盐
-			$salt = $this->model('user')->select('salt')->where('mobile='.$param['mobile'])->getOne();
+			$salt = $this->model('customer_contact')->select('salt')->where('mobile='.$param['mobile'])->getOne();
 			return $this->_genPassword($param['password'].$salt);
 	}
 	/**
