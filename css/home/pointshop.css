@@ -50,7 +50,7 @@ a{ text-decoration:none;}
 .jifen .left .ad{ width:135px; height:25px; overflow:hidden; position:absolute; bottom:22px; right:22px;}
 .jifen .banner{ width:698px; height:270px; overflow:hidden; border:1px solid #e1e1e1;}
 .jifen .right{ width:238px; height:270px; overflow:hidden; border:1px solid #e1e1e1;}
-.jifen .right .title{ height:70px; background:#fafafa; border-bottom:1px solid #e1e1e1; position:relative; margin:0 0 17px 0;}
+.jifen .right .title{ line-height: 5px; height:70px; background:#fafafa; border-bottom:1px solid #e1e1e1; position:relative; margin:0 0 17px 0;}
 .jifen .right .title h3{ font-size:14px; text-align:center; margin:12px 0 0 0;}
 .jifen .right .title ul{ width:220px; height:42px; border-right:1px solid #e1e1e1; position:absolute; left:8px; bottom:1px;}
 .jifen .right .title li{ float:left; width:43px; height:42px; line-height:30px; text-align:center; overflow:hidden; border-left:1px solid #e1e1e1;border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; cursor:pointer; position:relative;}
@@ -220,3 +220,4 @@ a{ text-decoration:none;}
 /*detail end*/
 .fotbg a{ color:#444; }
 .banquanxx{ text-align:center; border-top:#e3e3e3 1px solid; line-height:48px; margin-top:30px;}
+.title{font-size: 12px;}
