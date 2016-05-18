@@ -20,9 +20,9 @@ class storeModel extends model{
 		return $exist>0 ? false : true;
 	}
 	/**
-	 * 根据ID取指定值
+	 * 通过仓库id取仓库名
 	 */
-	public function getColByid($id=0,$col=''){
-
+	public function getStoreNameBySid($id=0){
+		return $this->select('store_name')->where("id='$id'")->getOne();
 	}
 }
