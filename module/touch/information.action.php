@@ -15,9 +15,7 @@ class informationAction extends homeBaseAction
     }
     //详情页面
     public function detainInfo(){
-    	$cate_id = sget('cate_id','i',0);
     	$id = sget('id','i',0);
-    	$this->assign('cate_id',$cate_id);
     	$this->assign('id',$id);
     	$this->display('detailinfo');
     }
