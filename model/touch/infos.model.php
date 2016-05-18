@@ -11,9 +11,10 @@ class infosModel extends model
 	public function getCateList($cid,$page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
 		$_key='article_list'.$cid;
 		$cache=cache::startMemcache();
+		//$cache->delete($_key);
 		$data=$cache->get($_key);
 		if(empty($data)){
-			$list = $this->model('info')->select('id,title,img,cate_id,content,description,input_time,update_time')->where('cate_id='.$cid)
+			$list = $this->model('info')->select('id,title,img,cate_id,content,input_time,update_time')->where('cate_id='.$cid)
 			->page($page+1,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
@@ -21,4 +22,5 @@ class infosModel extends model
 		}
 		return $data;
 	}
+
 }
