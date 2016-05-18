@@ -120,7 +120,7 @@ class passportModel extends model{
 			'login_unlock_time'=>0,
 			'last_ip'=>get_ip()
 		);
-		$this->model('user')->wherePk($user['user_id'])->update($_data);
+		$this->model('customer_contact')->wherePk($user['user_id'])->update($_data);
 
 		$_login=array(
 			'user_id'=>$user['user_id'],
