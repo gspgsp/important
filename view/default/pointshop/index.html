@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>积分商城-我的塑料网</title>
-<link rel="stylesheet" type="text/css" href="__CSS__/home/pointshop.css"/>
 <link rel="stylesheet" type="text/css" href="__CSS__/home/common.css"/>
+<link rel="stylesheet" type="text/css" href="__CSS__/home/pointshop.css"/>
 
 <style type="text/css">
     
@@ -28,7 +28,7 @@
         </div>
         <h3>我的积分</h3>
         {if $smarty.session.userid > 0 }
-        <p id="points">{$smarty.session.uinfo.points}</p>
+        <p id="points">{$userInfo.points}</p>
         <div class="record"><a href="">积分兑换记录</a></div>
         {else}
         <div class="no-login"><a href="javascript:loginbox('pointshop')">登录</a>后显示积分</div>
@@ -135,7 +135,7 @@
             	<p><span>{$value.points}</span>积分</p>
                 {if $smarty.session.userid > 0}
 
-                {if $smarty.session.uinfo.points >= $value.points}
+                {if $userInfo.points >= $value.points}
                 <div class="btn orderin" gid="{$value.id}"><a href="javascript:;">立即兑换</a></div>
                 {else}
                 <div class="btn disabled">积分不足</div>

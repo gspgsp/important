@@ -1,0 +1,257 @@
+{layout file="public:main_layout"}
+{insert_css files='home/maillOffer.css'}
+
+{include file="public:crumb"}
+<style type="text/css">
+    .mall-offer .filter-other li .filter-sel a.current{color:#fff; background:#fc6621; border-radius:3px;}
+</style>
+
+<!-- {insert_js files='/home/touch/socialUtils.js'} -->
+<div class="mall-offer w1220">
+	<!--left begin-->
+    <div class="left">
+    	<!--filter-wrap begin-->
+        <div class="filter-wrap link3">
+            <!-- <div class="filter-already">
+            	<a href="javascript:;">全部</a>
+            </div> -->
+                <ul id="screen" class="filter-other">
+                    <li>
+                        <div class="filter-name">品种</div>
+                        <div class="filter-sel">
+                            <a class="m{if !$smarty.get.type} current{/if}" data-key="type" data-val="" href="javascript:;">全部</a>
+                            {foreach from=$product_type item=value key=key}
+                            <a class="m{if $smarty.get.type==$key} current{/if}" data-key="type" data-val="{$key}"  href="javascript:;">{$value}</a>
+                            {/foreach}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="filter-name">应用</div>
+                        <!--filter-sel begin-->
+                        <div class="filter-sel">
+                            <a class="m{if !$smarty.get.process} current{/if}" data-key="process" data-val="" href="javascript:;">全部</a>
+                            {foreach from=$processList item=value key=key}
+                            <a class="m{if $smarty.get.process==$key} current{/if}" data-key="process" data-val="{$key}" href="javascript:;">{$value}</a>
+                            {/foreach}
+                        </div>
+                        <!--filter-sel end-->
+                    </li>
+                    <!--area begin-->
+                    <li class="area">
+                        <div class="filter-name">地区</div>
+                        <!--filter-sel begin-->
+                        <div class="filter-sel">
+                            <!--area1 begin-->
+                            <div class="area1">
+                                <a class="m{if !$smarty.get.ct} current{/if}" data-key="ct" data-val="" href="javascript:;">全部</a>
+                                {foreach from=$provinces item=value key=key}
+                                {if $key<=17 }
+                                <a class="m{if $smarty.get.ct==$value.id} current{/if}" data-key="ct" data-val="{$value.id}" href="javascript:;">{$value.name}</a>
+                                {/if}
+                                {/foreach}
+                            </div>
+                            <!--area1 end-->
+                            <!--area2 begin-->
+                            <div class="area2 hide">
+                                {foreach from=$area item=value key=key}
+                                <p>
+                                    <span>{$value.name}：</span>
+                                    {foreach from=$value.arr item=v}
+                                    <a class="m" href="javascript:;" data-key="ct" data-val="{$v.id}">{$v.name}</a>
+                                    {/foreach}
+                                </p>
+                                {/foreach}
+                            </div>
+                            <!--area2 end-->
+                        </div>
+                        <!--filter-sel end-->
+                        <!--filter-more begin-->
+                        <div class="filter-more">展开</div>
+                        <!--filter-more end-->
+                    </li>
+                    <!--area end-->
+                    <!--factory begin-->
+                    <li class="factory">
+                        <div class="filter-name">厂家</div>
+                         <!--filter-sel begin-->
+                        <div class="filter-sel limit-height">
+                            <a class="m{if !$smarty.get.fa} current{/if}" data-key="fa" data-val="" href="javascript:;">全部</a>
+                            {foreach from=$factoryList item=value}
+                            <a class="m{if $smarty.get.fa==$value.fid} current{/if}" data-key="fa" data-val="{$value.fid}" href="javascript:;">{$value.f_name}</a>
+                            {/foreach}
+                        </div>
+                        <!--filter-sel end-->
+                         <!--filter-more begin-->
+                        <div class="filter-more">展开</div>
+                        <!--filter-more end-->
+                    </li>
+                    <!--factory end-->
+                </ul>
+                <div class="search">
+                <form method="get" action="/offers" id="searchForm">
+                    <span>牌号：</span><input type="text" name="key_model" value="{$key_model}" class="import"/>
+                    <span>公司名称：</span><input type="text" name="key_name" value="{$key_name}" class="import"/>
+                    <input type="checkbox" class="check" id="check1"/><label for="check1">商城自营</label>
+                    <input type="checkbox" class="check" id="check2"/><label for="check2">商城联营</label>
+                    <input type="checkbox" class="check" {if $cargotype==1 }checked{/if} name="cargo_type" value="1" id="check3"/><label for="check3">现货</label>
+                    <input type="checkbox" class="check" {if $cargotype==2 }checked{/if} name="cargo_type" value="2" id="check4"/><label for="check4">期货</label>
+                    <span>报价周期：</span>
+                    <select name="cycle">
+                        <option value="">不限</option>
+                        {foreach from=$period item=value key=key}
+                        <option {if $cycle==$key}selected{/if} value="{$key}">{$value}</option>
+                        {/foreach}
+                    </select>
+                    <button>搜索</button>
+                    <input type="hidden" name="type" id="type" value="{$type}">
+                    <input type="hidden" name="process" id="process" value="{$process}">
+                    <input type="hidden" name="ct" id="ct" value="{$ct}">
+                    <input type="hidden" name="fa" id="fa" value="{$fa}">
+                </form>
+                </div>
+            
+        </div>
+        <ul class="result">
+        	<li class="result-title">
+            	<div class="brand">品牌</div>
+                <div class="grade">牌号</div>
+                <div class="xian-qi">现期</div>
+                <div class="factory">厂家</div>
+                <div class="amount">数量</div>
+                <div class="price">价格</div>
+                <div class="change">涨跌</div>
+                <div class="address">交货地</div>
+                <div class="company">公司</div>
+                <div class="time">更新时间</div>
+                <div class="opt">操作</div>
+            </li>
+            {foreach from=$list item=value}
+            <li class="result-con">
+            	<div class="brand">{$value.product_type}</div>
+                <div class="grade">{$value.model}</div>
+                <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
+                <div class="factory">{$value.f_name}</div>
+                <div class="amount">{$value.number}</div>
+                <div class="price"><i>￥</i><span>{$value.unit_price}</span><b>实价</b></div>
+                <div class="change tie"><b></b><span>100</span></div>
+                <div class="address">{$value.cityname}</div>
+                <div class="company">
+                	<span>{$value.customer.c_name}</span>
+                    <div class="company-detail">
+                        <h5>{$value.customer.c_name}</h5>
+                        <p>{$value.customer.name} {$value.customer.mobile}</p>
+                        <p>联系我时，请说是在我的塑料网看到的，谢谢！</p>
+                    </div>
+                    <b></b>
+                </div>
+                <div class="time">{$value.input_time|date:m-d H:i:s}</div>
+                <div class="opt"><a href="/offers/talk?id={$value.id}">委托洽谈</a></div>
+            </li>
+            {/foreach}
+        </ul>
+        <div class="page">
+            {$pages}
+        </div>
+        <!--result end-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right">
+    	<h3>商城自营已选购产品列表</h3>
+        <ul class="cart">
+            <li>
+                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
+                <p><span>13吨</span><span>9300</span><span>上海外高桥</span></p>
+                <div class="pin"></div>
+                <div class="close"></div>
+            </li>
+            <li>
+                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
+                <p><span>23吨</span><span>9300</span><span>上海外高桥</span></p>
+                <div class="pin"></div>
+                <div class="close"></div>
+            </li>
+            <li>
+                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
+                <p><span>33吨</span><span>9300</span><span>上海外高桥</span></p>
+                <div class="pin"></div>
+                <div class="close"></div>
+            </li>
+            <li>
+                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
+                <p><span>43吨</span><span>9300</span><span>上海外高桥</span></p>
+                <div class="pin"></div>
+                <div class="close"></div>
+            </li>
+            <li>
+                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
+                <p><span>33吨</span><span>9300</span><span>上海外高桥</span></p>
+                <div class="pin"></div>
+                <div class="close"></div>
+            </li>
+        </ul>
+        <p class="total">总计：47，931，000元</p>
+        <a href="javascript:;" class="order">下单</a>
+        <div class="tips">
+            <h4>友情提示：</h4>
+            大宗商品价格及库存即时变化，
+            为了确保您的选购，请尽快下
+            单！
+        </div>
+    </div>
+    <!--right end-->
+</div>
+<script type="text/javascript">
+	$(function(){
+
+
+        //点击地区和品种列表提交表单
+        $("#screen").find(".m").on("click",function()
+        {
+          $("#"+$(this).data("key")).val($(this).data("val"));
+          $("#searchForm").submit();
+        });
+
+       
+
+
+
+		//展开收起地区
+		var area = $(".area"),
+			area1 = area.find(".area1"),
+			area2 = area.find(".area2");
+		area.find(".filter-more").bind("click",function(){
+			if(area1.hasClass("hide")){
+				$(this).html("展开");
+				area1.removeClass("hide");
+				area2.addClass("hide");
+			}
+			else{
+				$(this).html("收起");
+				area1.addClass("hide");
+				area2.removeClass("hide");
+			}
+		});
+		
+		//展开收起厂家
+		var factory = $(".factory"),
+			filterSel = factory.find(".filter-sel");
+		factory.find(".filter-more").bind("click",function(){
+			if(filterSel.hasClass("limit-height")){
+				$(this).html("收起");
+				filterSel.removeClass("limit-height");
+			}
+			else{
+				$(this).html("展开");
+				filterSel.addClass("limit-height");
+			}
+		});
+		
+		//删除已选购的产品
+		var closeProduct = $(".cart li .close");
+		closeProduct.bind("click",function(){
+			$(this).parent().remove();
+		});
+		
+	});
+</script>

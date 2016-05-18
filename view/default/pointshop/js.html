@@ -16,12 +16,14 @@ $(function(){
 
 	$(".sign-on.on").bind("click",function(){
         var _this = $(this);
-        $.post('', function (data){
+        $.post('/pointshop/index/signon', function (data){
             if(data.status == 1){
                 layer.alert('签到成功, 本次签到获得'+ data.points +'积分。', -1)
                 $("#points").html((parseInt($("#points").html()) + data.points));
                 _this.removeClass("on").addClass("off");
                 check.append(str);
+            }else{
+                layer.alert(data.msg, -1)
             }
         }, 'json');
 

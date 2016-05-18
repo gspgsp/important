@@ -10,12 +10,10 @@ class homeBaseAction extends action {
 
 	public function __construct() {
 		parent::__construct();
-
 		if(!is_robot()){ //非机器人访问
 			startHomeSession();
 			$this->user_id=$_SESSION['userid'];
 			setReferer($this->user_id);
-
 			if(empty($this->user_id)){ //检查令牌
 				$token=cookie::get(C('SESSION_TOKEN'));
 				if(strlen($token)>30){

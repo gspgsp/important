@@ -9,6 +9,10 @@ class indexAction extends homeBaseAction{
 
 	public function init()
 	{
+		if($userInfo=M('user:customerContact')->getUserInfoByid($this->user_id))
+		{
+		    $this->assign('userInfo',$userInfo);
+		}
 		$this->count1 = $this->sourceModel->select('count(*)')->where("type=1")->getRow()['count(*)'];
 		$this->count2 = $this->sourceModel->select('count(*)')->where("type=0")->getRow()['count(*)'];
 		$this->countall = $this->count1 + $this->count2;

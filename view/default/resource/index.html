@@ -1,7 +1,6 @@
 {layout file="public:main_layout"}
-{include file="public:mbx"}
-{insert_css files="home/style.css"}
-<div class="yabbg">
+{insert_css files='home/style.css'}
+<div class="yabbg" style="width:1200px;margin: 0px auto;">
 	<div class="yab">
 		<div class="yabl">
 			<div class="rmain resource">
@@ -96,7 +95,7 @@
 						<div class="already-login">
 							<h2>我的积分</h2>
 							<div class="amount">
-								<p style="color: #923b00;">855</p>
+								<p style="color: #923b00;">{$userInfo.points}</p>
 							</div>
 							<!--sign-up begin-->
 							<div class="sign-up ">

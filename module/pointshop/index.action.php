@@ -16,6 +16,16 @@ class indexAction extends homeBaseAction{
 	public function init()
 	{
 
+        if($userInfo=M('user:customerContact')->getUserInfoByid($this->user_id))
+        {
+            $this->assign('userInfo',$userInfo);
+        }
+        if( $singData = $this->pointsSingModel->where("uid={$this->user_id}")->getRow() ){
+            if( $singData['sing_time'] > $this->weekStart ){
+                $this->signDay = json_decode($singData['sing_status'], true);
+            }
+        }
+
 		$p=sget('page','i',1);
 		$size=10;
 		$where='1';
@@ -28,6 +38,7 @@ class indexAction extends homeBaseAction{
 			$orderBy="$order asc";
 		}
 		$list=$this->pointsGoodsModel->where($where)->order($orderBy)->page($p,$size)->getPage();
+
 		$this->pages = pages($list['count'], $p, $size);
 		$this->assign('list', $list);
 		$this->assign('order', $order);
@@ -48,6 +59,70 @@ class indexAction extends homeBaseAction{
 		}
 	}
 
+	// 签到
+	public function signon(){
+		
+		$this->is_ajax(true);
+        if( $this->user_id>0 ){
+            // 周末不支持签到
+            if( $this->today == 0 || $this->today == 6 ){
+                exit(json_encode(array('status'=> 0, 'msg' => '周一到周五可以签到')));
+            }
+            // 随机积分
+            $points = 50;
+            if( $data = $this->pointsSingModel->where("uid={$this->user_id}")->getRow() ){
+                //最后签到时间小于今天的凌晨时间戳可以签到
+                if( $data['sing_time'] < strtotime(date('Y-m-d', time())) ){
+                    //最后签到时间小于本周开始时间 重置本周签到状态
+                    if( $data['sing_time'] < $this->weekStart ){
+                        $statusData = $this->signDay;
+                    }else{
+                        $statusData = json_decode($data['sing_status'], true);
+                    }
+                    $statusData[$this->today] = 1;
+                    $data['sing_status'] = json_encode($statusData);
+                    $data['sing_time'] = time();
+
+                    // 增加积分
+                    if( array_sum($statusData) ==5 ){
+                        $points = intval($points)*2;
+                    }
+                    $billModel=M('points:pointsBill');
+                    $billModel->startTrans();
+                    try {
+                        if( !$this->pointsSingModel->where("uid={$this->user_id}")->update($data) ) throw new Exception('系统错误。code:201');
+                        if( !$billModel->addPoints($points, $this->user_id, 1) ) throw new Exception('系统错误。code:202');
+                    } catch (Exception $e) {
+                        $billModel->rollback();
+                        exit(json_encode(array('status' => 0, 'msg' => $e->getMessage())));
+                    }
+                    $billModel->commit();
+                    exit(json_encode( array('status' => 1, 'msg' => '签到成功', 'points' => $points)) );
+                }else{
+                    exit(json_encode(array('status'=> 0, 'msg' => '今天已经签到过了')));
+                }
+            }else{
+            	
+                $this->signDay[$this->today] = 1;
+                $data = array('uid' => $this->user_id, 'sing_status' => json_encode($this->signDay), 'sing_time' => time());
+                $billModel=M('points:pointsBill');
+                $billModel->startTrans();
+                try {
+                    if( !$this->pointsSingModel->add($data) ) throw new Exception('系统错误。code:201');
+                    if( !$billModel->addPoints($points, $this->user_id, 1) ) throw new Exception('系统错误。code:202');
+                } catch (Exception $e) {
+                    $billModel->rollback();
+                    exit(json_encode(array('status' => 0, 'msg' => $e->getMessage())));
+                }
+                $billModel->commit();
+                exit(json_encode(array('status' => 1, 'msg' => '签到成功', 'points' => $points)));
+            }
+
+        }else{
+            exit(json_encode(array('status' => 0, 'msg' => '签到失败')));
+        }
+	}
+
 	public function addorder()
 	{
 		if($_POST){
@@ -59,7 +134,7 @@ class indexAction extends homeBaseAction{
 			}
 			if($data['code']!='123') $this->error('验证码错误');
 			if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
-			$uinfo=M('public:common')->model('user_info')->where("user_id=$this->user_id")->getRow();
+			$uinfo=M('public:common')->model('customerContact')->where("user_id=$this->user_id")->getRow();
             $gid=sget('gid','i',0);
             if(!$goods=$this->pointsGoodsModel->getPk($gid)) $this->error('您兑换的商品已下架');
             if($goods['status']==2) $this->error('您兑换的商品已下架');

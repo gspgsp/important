@@ -1,0 +1,221 @@
+{layout file="public:main_layout"}
+{insert_css files='home/purchaseOrder.css'}
+
+{include file="public:crumb"}
+<style type="text/css">
+    .purchase-order .filter-other li .filter-sel a.current{color:#fff; background:#fc6621; border-radius:3px;}
+</style>
+
+<div class="purchase-order w1220">
+    <div class="left flt">
+        <div class="filter-wrap link3">
+            <ul id="screen" class="filter-other">
+            	<li>
+                	<div class="filter-name">品种</div>
+                    <div class="filter-sel">
+                        <a class="m{if !$smarty.get.type} current{/if}" data-key="type" data-val="" href="javascript:;">全部</a>
+                    	{foreach from=$product_type item=value key=key}
+                        <a class="m{if $smarty.get.type==$key} current{/if}" data-key="type" data-val="{$key}"  href="javascript:;">{$value}</a>
+                    	{/foreach}
+                    </div>
+                </li>
+                <li class="area">
+                	<div class="filter-name">地区</div>
+                    <div class="filter-sel">
+                        <div class="area1">
+                        	<a class="m{if !$smarty.get.ct} current{/if}" data-key="ct" data-val="" href="javascript:;">全部</a>
+                    		{foreach from=$provinces item=value key=key}
+                    		{if $key < 18 }
+                            <a class="m{if $smarty.get.ct==$value.id} current{/if}" data-key="ct" data-val="{$value.id}" href="javascript:;">{$value.name}</a>
+                            {/if}
+                    		{/foreach}
+                        </div>
+                        <div class="area2 hide">
+                    		{foreach from=$area item=value key=key}
+                        	<p>
+                            	<span>{$value.name}：</span>
+                    			{foreach from=$value.arr item=v}
+                                <a class="m{if $smarty.get.ct==$v.id} current{/if}" data-key="ct" data-val="{$v.id}" href="javascript:;">{$v.name}</a>
+                    			{/foreach}
+                            </p>
+                    		{/foreach}
+                        </div>
+                    </div>
+                    <div class="filter-more">展开</div>
+                </li>
+            </ul>
+            <form id="searchForm" action="/purchase" method="get">
+            <div class="search">
+            	<span>牌号：</span><input type="text" name="key_model" value="{$key_model}" class="import"/>
+                <span>厂家：</span><input type="text" name="key_fa" value="{$key_fa}" class="import"/>
+                <input type="checkbox" class="check" {if $cargotype==1 }checked{/if} name="cargo_type" value="1" id="check3"/><label for="check3">现货</label>
+                <input type="checkbox" class="check" {if $cargotype==2 }checked{/if} name="cargo_type" value="2" id="check4"/><label for="check4">期货</label>
+                <!-- <span>采购日期：</span>
+                <select>
+                	<option value="">不限</option>
+                	{foreach from=$period item=value key=key}
+                	<option value="{$key}">{$value}</option>
+                	{/foreach}
+                </select> -->
+                <span>状态：</span>
+                <select name="status">
+                	<option value="">不限</option>
+                	<option {if $status==2 }selected{/if} value="2">洽谈中</option>
+                    <option {if $status==3 }selected{/if} value="3">交易完成</option>
+                </select>
+                <input type="submit" class="submit" value="搜索"/>
+                <input type="hidden" name="type" id="type" value="{$type}">
+                <input type="hidden" name="ct" id="ct" value="{$ct}">
+            </div>
+            </form>
+        </div>
+        <div class="require color3">
+        	<h3>采购需求列表</h3>
+            <div class="require-wrap">
+                <ul class="require-list">
+                	{foreach from=$list item=value}
+                    <li>
+                        <div class="left">
+                        	{if $value.status==2}
+                            <p>洽谈中...</p>
+                            <a href="/purchase/talk?id={$value.id}" class="yes">我要供货</a>
+                            {else}
+                            <p>交易完成</p>
+                            <a href="javascript:;" class="no">交易完成</a>
+                            {/if}
+                        </div>
+                        <div class="right">
+                            <div class="require-top">
+                                <span>{$value.product_type}</span>  
+                                <span>{$value.f_name}</span>  
+                                <span>{$value.model}</span>  
+                                <span>{$value.number}吨</span>  
+                                <span>交货地：{$value.cityname}</span>
+                                {if $value.cargo_type==1}
+                                <span class="xian-qi xian">现</span>
+                                {else}
+                                <span class="xian-qi qi">期</span>
+                                {/if}
+                            </div>
+                            <div class="price"><b>预期价格</b><span>¥{$value.unit_price}</span></div>
+                            <div class="other color9">
+                                <p class="time">{$value.customer.name} 发布于 {$value.input_time|date:Y-m-d H:i}</p>
+                                <p class="linkman">跟进交易员：{$value.customer.adname} {$value.customer.admobile}</p>
+                                <!-- <p class="qq"><a href="javascript:;"><img src="__IMG__/home/purchaseOrderQQ.jpg" width="27" height="20"/></a></p> -->
+                            </div>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+                <div class="page">
+                    {$pages}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--right begin-->
+    <div class="right frt">
+    	<!--release-wrap begin-->
+        <div class="release-wrap">
+        	<img src="__IMG__/home/tradeLc.png" width="230" height="69"/>
+            <!--release begin-->
+            <div class="release">
+            	<form name="" method="post" action="">
+                	<div class="release-tr">
+                    	<div class="release-name">牌<span></span>号：</div>
+                        <div class="release-val"><input type="text" maxlength="15"/></div>
+                    </div>
+                    <div class="release-tr">
+                        <div class="release-name">交货地：</div>
+                        <div class="release-val"><input type="text" maxlength="15"/></div>
+                    </div>
+                    <div class="release-tr">
+                        <div class="release-name">数<span></span>量：</div>
+                        <div class="release-val"><input type="text" maxlength="15"/><span>吨</span></div>
+                    </div>
+                     <div class="release-tr">
+                        <div class="release-name">价<span></span>格：</div>
+                        <div class="release-val"><input type="text" maxlength="15"/><span>元</span></div>
+                    </div>
+                    <input type="submit" class="submit" value="免费委托发布"/>
+                </form>
+            </div>
+            <!--release end-->
+        </div>
+        <!--release-wrap end-->
+        <!--recent-deal begin-->
+        <div class="recent-deal">
+        	<h4>最近成交</h4>
+            <ul>
+            	<li>
+                	<p>2小时前 匿名 成功以9350元/吨</p>
+					<p>采购了<span>HDPE 伊朗国家石化 700F</span></p>
+                </li>
+                <li>
+                	<p>2小时前 匿名 成功以9350元/吨</p>
+					<p>采购了<span>HDPE 伊朗国家石化 700F</span></p>
+                </li>
+                <li>
+                	<p>2小时前 匿名 成功以9350元/吨</p>
+					<p>采购了<span>HDPE 伊朗国家石化 700F</span></p>
+                </li>
+                <li>
+                	<p>2小时前 匿名 成功以9350元/吨</p>
+					<p>采购了<span>HDPE 伊朗国家石化 700F</span></p>
+                </li>
+                <li>
+                	<p>2小时前 匿名 成功以9350元/吨</p>
+					<p>采购了<span>HDPE 伊朗国家石化 700F</span></p>
+                </li>
+                <li>
+                	<p>2小时前 匿名 成功以9350元/吨</p>
+					<p>采购了<span>HDPE 伊朗国家石化 700F</span></p>
+                </li>
+                <li>
+                	<p>2小时前 匿名 成功以9350元/吨</p>
+					<p>采购了<span>HDPE 伊朗国家石化 700F</span></p>
+                </li>
+            </ul>
+        </div>
+        <!--recent-deal end-->
+    </div>
+    <!--right end-->
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+	//点击地区和品种列表提交表单
+	$("#screen").find(".m").on("click",function()
+	{
+	  $("#"+$(this).data("key")).val($(this).data("val"));
+	  $("#searchForm").submit();
+	});
+
+	// 单选
+	$("input[name='cargo_type']").click(function(){
+		if(!$(this).is(':checked')){
+			$(this).attr('checked',false);
+		}else{
+			$("input[name='cargo_type']").attr('checked',false);
+			$(this).attr('checked',true);
+		}
+	})
+	//展开收起地区
+	var area = $(".area"),
+		area1 = area.find(".area1"),
+		area2 = area.find(".area2");
+	area.find(".filter-more").bind("click",function(){
+		if(area1.hasClass("hide")){
+			$(this).html("展开");
+			area1.removeClass("hide");
+			area2.addClass("hide");
+		}
+		else{
+			$(this).html("收起");
+			area1.addClass("hide");
+			area2.removeClass("hide");
+		}
+	});
+});
+</script>

@@ -29,7 +29,7 @@ class loginAction extends homeBaseAction{
 			}else{
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
-				$this->success('登录成功');	
+				$this->success('登录成功');
 			}
 			$this->forward('/');exit;
 		}
