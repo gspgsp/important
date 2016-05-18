@@ -16,7 +16,7 @@ class storeModel extends model{
 		if($id){
 			$where .= " and id !='$id'";
 		}
-		$exist=$this->model('customer')->select('id')->where($where)->getOne();
+		$exist=$this->model('store')->select('id')->where($where)->getOne();
 		return $exist>0 ? false : true;
 	}
 	/**
