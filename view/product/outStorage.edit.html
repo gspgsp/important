@@ -57,7 +57,7 @@
 					</tr>
 					<tr>
 						<td>出库人</td>
-						<td><input name="store_aid" class="mini-buttonedit" onbuttonclick="admChoose" value="{$data.store_aid}" allowInput="false"  text="{$data.store_aid}"  style="width:250px" id="usrId"/></td>
+						<td><input id="name" name="admin_id" class="mini-combobox" textField="name" valueField="admin_id"  style="width:90px;" required="true"/></td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>		
@@ -153,6 +153,7 @@ function cusChoose(e){
 //选择仓库
 function stoChoose(e){
 	var btn = this;
+	var aname = mini.get("name");
 		mini.open({
 		url: "/product/store/init?do=search",
 		title: "选择仓库",
@@ -169,6 +170,7 @@ function stoChoose(e){
 				if (data) {
 					btn.setValue(data.id);
 					btn.setText(data.store_name);
+					aname.load('/product/outStorage/get_store_aid?sid='+data.id);
 				}
 			}
 		}

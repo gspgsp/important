@@ -23,8 +23,9 @@ class outStorageAction extends adminBaseAction {
 		$this->assign('storage_no',$storage_no);
 		$this->display('outStorage.edit.html');
 	}
-
-	//异步保存
+	/**
+	 * 异步保存
+	 */
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
@@ -44,9 +45,17 @@ class outStorageAction extends adminBaseAction {
 			$this->success('操作成功');
 		}else{
 			$this->error('数据处理失败');
-		}
-		
-
+		}		
 	}
-
+	/**
+	 * 获取联系人信息
+	 * @access public
+	 */
+	function get_store_aid(){
+		$this->is_ajax=true;
+		$s_id=sget('sid','i');
+		$admin_list=M('product:store_admin')->getColByid($s_id);
+		$this->json_output($admin_list);
+	}
+	
 }
