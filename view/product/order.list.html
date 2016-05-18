@@ -136,7 +136,7 @@ function outStorage(oid){
 	mini.open({
 		url:"/product/outStorage/info?o_id="+oid,
 		showMaxButton:true,
-		title:'发货记录新增',width:580,height:450,
+		title:'发货记录新增',width:750,height:530,
 		ondestroy: function(action){
 			if(action=='save'){ //重新加载
 				grid.reload();

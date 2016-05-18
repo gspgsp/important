@@ -1,24 +1,49 @@
 {layout file="public:mini_layout"}
-<div style="padding:5px;">
-	  <div title="新增出库管理" class="form" id="editForm">
-		<input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
-		<input class="mini-hidden" name="storage_no" value="{$storage_no}"/>
+<input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
+<input class="mini-hidden" name="storage_no" value="{$storage_no}"/>
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+			</td>
+		</tr>
+	</table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
+		<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="id" width="100" allowSort="true">流水id</div>           
+		<div field="detail_id" width="120" headerAlign="center" allowSort="true" renderer="onLoadHandle">订单明细</div>
+		<div field="number" width="100"   allowSort="true">数量
+			<input property="editor" class="mini-textbox" style="width:100%;"/>
+		</div>
+		<div field="store_name" width="100" allowSort="true">仓库</div>
+		<div field="location_name" width="100" allowSort="true">库位</div>
+		<div field="input_time" width="100" allowSort="true" dateFormat="yyyy-MM-dd">创建时间</div>
+		</div>
+</div>
+<div title="新增出库管理" class="form" id="editForm">
+		<input class="mini-hidden" id="o_id" name="o_id" value="{$o_id}"/>
+		<input class="mini-hidden" name="doyet" value="{$doyet}" />
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
-			<legend>交货信息</legend>
+
+			<legend>出库信息</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+			{if $doyet eq doyet}
 				<tr>
 					<td>出库名称:</td>
-					<td><input name="storage_subject" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.storage_subject}"/>
+					<td><input name="storage_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$storage_subject}"  textField="name" valueField="id"/>
 					</td>
 					<td>出库单号</td>
 					<td>{$storage_no}</td>
 				</tr>
-				<tr>
-					<td>出库明细:</td>
-					<td><input name="detail_id" class="mini-buttonedit" onbuttonclick="detailChoose" value="{$data.detail_id}" allowInput="false"  text="{$data.detail_id}"  style="width:120px" id="usrId"/></td>
-					<td>状态</td>
-					<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$out_storage_status}' value="{$data.out_storage_status|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/></td>
-				</tr>
+
 				<tr>
 					<td>关联客户:</td>
 					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cusChoose" value="{$data.c_id}" allowInput="false"  text="{$data.c_name}"  style="width:120px" id="usrId"/></td>
@@ -26,52 +51,107 @@
 					<td><input  class="mini-datepicker"  name="storage_date"  required="false" value="{$info.storage_date}"/></td>
 				</tr>
 				<tr>
-					<td>仓库:</td>
-					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
+
 					<td>出库种类:</td>
 					<td><input name="storage_type" class="mini-combobox" data='{:setMiniConfig|$storage_type}' value="{$data.storage_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
 					</td>	
+					<td>物流公司:</td>
+					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>
+					
+					
+				</tr>
+				<tr>
+					<td>备注:</td>
+					<td><input name="remark" class="mini-textarea" style="width:120px" required="false"/ value="{$data.remark}"></td>
+				</tr>
+			{else}
+				<tr>
+					<td>出库名称:</td>
+					<td>{$out_info.storage_subject}
+					</td>
+					<td>出库单号</td>
+					<td>{$out_info.storage_no}</td>
+				</tr>
+
+				<tr>
+					<td>关联客户:</td>
+					<td>{$out_info.c_name}</td>
+					<td>出库时间</td>
+					<td>{$out_info.storage_date}</td>
+				</tr>
+				<tr>
+
+					<td>出库种类:</td>
+					<td>{$storage_type.$out_info.storage_type}</td>
+					<td>物流公司:</td>
+					<td>{$ship_company.$out_info.ship_id}</td>
+				</tr>
+				<tr>					
+					<td>备注:</td>
+					<td>{$out_info.remark}</td>
+				</tr>	
+			{/if}	
+			</table>
+			
+		</fieldset>
+
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>出库明细</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td>订单明细:</td>
+					<td><input name="detail_id" class="mini-buttonedit" onbuttonclick="detailChoose" value="{$data.detail_id}" allowInput="false"  text="{$data.detail_id}"  style="width:120px" id="usrId"/></td>
+					<td>仓库:</td>
+					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
 				</tr>
 				<tr>
 					<td>库位</td>
 					<td><input name="location_name" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.location_name}"/></td>
+					<td>出库人</td>
+					<td><input id="name" name="admin_id" class="mini-combobox" textField="name" valueField="admin_id"  style="width:120px;" required="true"/></td>
+				</tr>
+				<tr>
 					<td>数量</td>
 					<td><input name="number" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.number}"/></td>
 				</tr>
-				</table>
-			</fieldset>
-			<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
-				<legend>物流信息</legend>
-				<table width="100%" border="0" cellpadding="1" cellspacing="2">
-					<tr>
-						<td>物流公司:</td>
-						<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:250px;" required="false"/></td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>备注:</td>
-						<td><input name="remark" class="mini-textarea" style="width:250px" required="false"/ value="{$data.remark}"></td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>出库人</td>
-						<td><input id="name" name="admin_id" class="mini-combobox" textField="name" valueField="admin_id"  style="width:90px;" required="true"/></td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>		
-				</table>
-			</fieldset>	
+	
+			</table>	
+		</fieldset>
 	</div>
 </div>
 			<div align="center" style="margin-top:10px;">
-				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">保存</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
+	
 <script type="text/javascript">
 mini.parse();
-//增加后提交数据(保存)
+//搜索或刷新
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//追加操作按钮
+function onLoadHandle(e) {
+	var record = e.record,s='',id = record.detail_id,model = record.model ;
+	s += '<a href="javascript:viewOrdInfo('+id+')">'+model+'</a> ';
+	return s;
+}
+//查看明细相关信息
+function viewOrdInfo(id){
+	mini.open({
+		url: "/product/orderDetail/info?id="+id,
+		showMaxButton:true,
+		title: "查看明细相关信息", 
+		width: 700, height:450
+	});		
+}
 function submitForm() {
 	var form = new mini.Form("#editForm");
 	form.validate();
@@ -86,7 +166,8 @@ function submitForm() {
 		form.unmask();
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
-			CloseWindow("save");
+			window.location.reload();
+			// CloseWindow("save");
 		}else{
 			return false;
 		}
@@ -200,5 +281,48 @@ function admChoose(e){
 			}
 		}
 	});
+}
+//删除
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+		for(var i=0;i<rows.length;i++){
+	var _id=parseInt(rows[i].id);
+	if(_id<1){
+		grid.removeRow(rows[i],false);
+	}else{
+		_ids.push(_id);
+	}
+  }
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/outStorage/remove',{ids:ids},callback,"POST","json");
+  });
+}
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
 }
 </script>
