@@ -6,7 +6,7 @@ class findpwdAction extends homeBaseAction
 {
 	public function __init() {
 		$this->debug = false;
-		$this->db=M('public:common')->model('user');
+		$this->db=M('public:common')->model('customer_contact');
     }
     public function init()
 	{
