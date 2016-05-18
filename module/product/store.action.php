@@ -86,11 +86,8 @@ class storeAction extends adminBaseAction
 		if(empty($data)){
 			$this->error('错误的请求');
 		}
-		$name=M('product:store')->curUnique('store_name','$data[store_name]');
-		$tel=M('product:store')->curUnique('store_tel','$data[store_tel]');
-		if ($name || $tel) {
-			$this->error('信息重复');
-		}
+		if(!M('product:store')->curUnique('store_name',$data['store_name'])) $this->error('仓库名重复');
+		if(!M('product:store')->curUnique('store_tel',$data['store_tel'])) $this->error('仓库电话重复');
 		$data = $data+array(
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
@@ -138,6 +135,15 @@ class storeAction extends adminBaseAction
 		if(empty($data)){
 			$this->error('错误的操作');
 		}
+		if(!empty($data['store_name'])){
+		$name =M('product:store')->curUnique('store_name',$data['store_name'],$data[id]);
+			if (!$name)	$this->error('仓库名重复');
+		}
+		if(!empty($data['store_tel'])){
+		$tel =M('product:store')->curUnique('store_tel',$data['store_tel'],$data[id]);
+			if (!$tel)	$this->error('仓库电话重复');
+		}
+		
 		$sql=array();
 		foreach($data as $v){
 			$_id=$v['id'];
