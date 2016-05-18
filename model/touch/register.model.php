@@ -63,7 +63,7 @@ class registerModel extends model
 				$user['password']=$this->_genPassword($param['password'].$user['salt']);
 			}
 			//更新数据库
-			$result=$this->model('user')->where('mobile='.$param['mobile'])->update($user);
+			$result=$this->model('customer_contact')->where('mobile='.$param['mobile'])->update($user);
 			if(empty($result)){
 				return array('err'=>1,'msg'=>'数据操作失败:'.$this->getDBError());
 			}else{
