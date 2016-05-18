@@ -21,7 +21,7 @@ class loginAction extends homeBaseAction
 		$loginresult = M('touch:register')->login($username, $password, $vcode);
 		if($loginresult['err']!=0) $this->error($loginresult['msg']);
 		//保存登陆成功的日志
-		$info = $this->db->model('user')->where('mobile='.$username)->getRow();
+		$info = $this->db->model('customer_contact')->where('mobile='.$username)->getRow();
 		M('user:passport')->loginSuccess($info['user_id'],$chanel=4);
 		$this->success('登录成功');
 
