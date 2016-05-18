@@ -5,7 +5,7 @@
 class passportModel extends model{
 	private static $MUID=9865479876; //最大UID
 	public function __construct() {
-		parent::__construct(C('db_default'), 'user');
+		parent::__construct(C('db_default'), 'customer_contact');
 	}
 	
 	/*
@@ -15,7 +15,7 @@ class passportModel extends model{
      * @return bool
 	 */
 	public function chkUnique($name='mobile',$value=''){
-		$exist=$this->model('user')->select('user_id')->where("$name='$value'")->getOne();
+		$exist=$this->model('customer_contact')->select('user_id')->where("$name='$value'")->getOne();
 		return $exist>0 ? true : false;
 	}
 	
@@ -58,7 +58,7 @@ class passportModel extends model{
 		}
 		
 		//查找数据库		
-		$uinfo=$this->model('user')->where($where)->getRow();
+		$uinfo=$this->model('customer_contact')->where($where)->getRow();
 		if(empty($uinfo)){
 			$this->_loginError(0,$username,2,$password,$chanel);
 			return array('err'=>2,'msg'=>'错误的账号');
@@ -83,10 +83,10 @@ class passportModel extends model{
 				$_data['login_unlock_time'] = CORE_TIME + 14400;
 				$msg = '已输错5次密码，账号将锁定4小时';
 			}
-			$this->model('user')->wherePk($uinfo['user_id'])->update($_data);
+			$this->model('customer_contact')->wherePk($uinfo['user_id'])->update($_data);
 			return array('err'=>3,'msg'=>$msg);
 		}
-		
+
 		//状态:1正常,2冻结,3关闭
 		if(in_array($uinfo['status'],array(2,3))){
 			return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服');
@@ -193,7 +193,7 @@ class passportModel extends model{
      * @return user_id
 	 */
 	public function getToken($user_id=0){
-		$password=$this->model('user')->select('password')->wherePk($user['user_id'])->getOne();
+		$password=$this->model('customer_contact')->select('password')->wherePk($user['user_id'])->getOne();
 		return $this->encrypt($user_id,$password);
 	}
 
@@ -211,7 +211,7 @@ class passportModel extends model{
 		if(isset($user['user_id'])){ //检查用户
 			$user_id=$user['user_id'];
 			//检查token的正确性
-			$uinfo=$this->model('user')->wherePk($user_id)->getRow();
+			$uinfo=$this->model('customer_contact')->wherePk($user_id)->getRow();
 			if(substr($uinfo['password'],20,8)==$user['password']){ //验证通过，重新登录
 				$this->_loginSuccess($uinfo);
 				return (int)$user['user_id'];
@@ -234,15 +234,14 @@ class passportModel extends model{
 			cookie::set(C('SESSION_TOKEN'), '');
 			return true;
 		}
-		
+
 		//获取用户信息
 		if(empty($user)){
-			$user=$this->model('user')->wherePk($user_id)->getRow();
+			$user=$this->model('customer_contact')->wherePk($user_id)->getRow();
 		}
 		
 		//用户头像等信息
-		$uinfo=$this->model('user_info')->wherePk($user_id)->getRow();
-		
+		$uinfo=$this->model('contact_info')->wherePk($user_id)->getRow();
 		//将数据写入cookie
 		$token=$this->encrypt($user_id,$user['password']);
 		//cookie::set(C('SESSION_TOKEN'), $token); //C('SESSION_TTL')
@@ -250,7 +249,10 @@ class passportModel extends model{
 		//写入session
 		$_SESSION['userid']=$user_id;
 		$_SESSION['uinfo']=array(
-							'mobile'=>$user['mobile'],		 
+							'name'=>$user['name'],	
+							'c_id'=>$user['c_id'],	 
+							'qq'=>$user['qq'],	 
+							'mobile'=>$user['mobile'],	 
 							'email'=>$user['email'],
 							'status'=>$user['status'],
 							'last_login'=>$user['last_login'],

@@ -13,4 +13,17 @@ class purchaseModel extends model{
 		return $this->where("`id` = '$id'")->getRow();
 	}
 
+	/**
+	 * 获取报价单关联信息
+	 */
+	public function getPurchaseById($id=0){
+		return $this->from('purchase pur')
+				->join('product pro','pur.p_id=pro.id')
+				->join('factory fa','pro.f_id=fa.fid')
+				->join('lib_region reg','pur.provinces=reg.id')
+				->where("pur.id={$id}")
+				->select('pur.id,pur.user_id,pur.type,pur.cargo_type,pur.unit_price,pur.number,pur.store_house,pro.model,pro.product_type,fa.f_name,reg.name as city')
+				->getRow();
+	}
+
 }

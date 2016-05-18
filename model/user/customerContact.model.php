@@ -178,4 +178,38 @@ class customerContactModel extends model{
 		$result =  $this->select("$col")->where("$condition='$value'")->getOne();
 		return empty($result) ? '-' : $result;
 	}
+
+	/**
+	 * 根据user_id 获取用户关联信息信息
+	 */
+	public function getContactByuserid($user_id=0)
+	{
+		if(is_array($user_id)){
+			$where="con.user_id in (".implode(',',$user_id).")";
+		}else{
+			$where="con.user_id={$user_id}";
+		}
+		$model=$this->from('customer_contact con')
+			->join('customer cus','con.c_id=cus.c_id')
+			->join('admin ad','con.customer_manager=ad.admin_id')
+			->where($where)
+			->select('con.user_id,con.name,con.mobile,cus.c_name,ad.name as adname,ad.mobile as admobile');
+		if(is_array($user_id)){
+			return $model->getAll();
+		}else{
+			return $model->getRow();
+		}
+	}
+
+
+	public function getUserInfoByid($user_id)
+	{
+		return $this->from('customer_contact con')
+			->join('contact_info info','con.user_id=info.user_id')
+			->where("con.user_id={$user_id}")
+			->getRow();
+	}
+
+
+	
 }
