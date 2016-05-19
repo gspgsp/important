@@ -1,6 +1,5 @@
 body{ background: #f1f1f1;}
 
-
 #nav{ width: 100%; height: 40px; line-height: 40px; color: #333333; font-size: 13px; display: -webkit-box;}
 #nav span{ -webkit-box-flex: 1.0; box-sizing: border-box; box-flex:1.0; text-align: center; display: block; height: 40px; line-height: 40px; border: 1px solid #d6d7dc; border-right: none;}
 #nav span:last-of-type{ border-right: 1px solid #d6d7dc;}
@@ -9,22 +8,27 @@ body{ background: #f1f1f1;}
 #articleWrap ul{ margin: 0; padding: 0; list-style: none;}
 #articleWrap ul li{ border: 1px solid #d6d7dc; margin-bottom: 10px; background: #ffffff; box-sizing: border-box;}
 #articleWrap .articleLi{ padding: 10px;}
+#articleWrap .articleLi p{ width: 100%; height: 15px; overflow: hidden;}
 #articleWrap h3{ font-size: 17px; color: #323232; margin: 0; width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 #articleWrap p{ font-size: 13px; color: #646464; margin: 0;}
 #articleWrap img{ width: 100%; margin: 10px 0;}
 #articleWrap .time{ text-align: right; border-top: 1px solid #e1e1e1; color: #909090; padding: 0 10px; font-size: 11px; height: 40px; line-height: 40px;}
 #backTop{ width: 50px; border-radius: 5px; height: 50px; background: rgba(255,102,0,0.5); position: fixed; right: 12px; bottom: 65px;}
 #backTop img{ width: 50px; height: 50px;}
+#articleContent{ padding: 10px 12px;}
+#articleContent h3{ margin: 0 0 10px 0; padding: 0; font-weight: normal; font-size: 16px;}
+#articleContent h4{ margin: 0 0 10px 0; border-bottom: 1px solid #c8c7cc; padding: 0 0 10px 0; font-weight: normal; font-size: 12px; color: #cccccc;}
+#content{ font-size: 13px; color: #666666;}
 
 
 .personalBg{ width: 100%; height: 115px; position: relative; margin-bottom: 100px; background: -webkit-linear-gradient(#ff6600, #ff9853);}
 .personal{ width: 100%; height: 45px; padding: 0 15px; box-sizing: border-box; font-size: 17px; color: #323232; margin-bottom: 15px; line-height: 45px; border: 1px solid #d6d7dc; border-left: none; border-right: none; background: #ffffff;}
 .personal span{ float: right;}
 .personal img{ width: 17px; height: 17px; float: left; margin: 14px 10px 0 0;}
+.personal a{ display: block; text-decoration: none; color: #323232;}
 .avator{ width: 100px; height: 100px; border-radius: 50%; border: 5px solid #f1f1f1; position: absolute; top: 60px; left: 50%; margin-left: -50px;}
 .avator img{ width: 100px; height: 100px; border-radius: 50%;}
 .avator p{ margin: 8px 0 0 0; text-align: center;}
-
 
 .registerWrap{ padding: 10px 17px;}
 .registerBox{ width: 100%; height: 63px; position: relative; line-height: 63px; border-bottom: 1px solid #bfbfbf;}
@@ -34,7 +38,7 @@ body{ background: #f1f1f1;}
 .registerBtn{ width: 100%; font-size: 17px; margin: 40px 0 0 0; background: #ff6600; border-radius: 5px; color: #ffffff; text-align: center; height: 43px; line-height: 43px;}
 .validCode{ position: absolute; top: 17px; right: 0; font-size: 13px; text-align: center; width: 100px; height: 30px; line-height: 30px; border-radius: 13px; background: #267bd3;color: #ffffff;}
 .loginLink a{ font-size: 13px; margin: 10px 0 0 0; color: #267bd3; text-decoration: none;}
-
+#vcodeImg{ width: 74px; height: 30px; position: absolute; right: 0; top: 5px;}
 
 .shopHeader{ width: 100%; height: 65px; margin: 0 0 10px 0; position: relative; background: #ffffff; border-bottom: 1px solid #d6d7dc;}
 .myCredit{ float: left; margin: 8px 0 0 10px; font-weight: normal;}
@@ -80,7 +84,6 @@ body{ background: #f1f1f1;}
 .creditTable{width: auto; height: 95px; display: table; margin: 0 0 0 105px;}
 .creditTr{ display: table-cell; color: #323232; vertical-align: middle; height: 95px;}
 
-
 .myPurchase{ width: 100%; height: 50px; box-sizing: border-box; padding: 10px 0 0 0; background: #ff6600; position: relative;}
 .purchaseInput{ border: 1px solid #ffffff; border-radius: 3px; width: auto; margin: 0 90px 0 22px; height: 28px;}
 #query{ width: 15px; height: 15px; position: relative; top: 3px; left: 9px;}
@@ -94,21 +97,21 @@ body{ background: #f1f1f1;}
 .purchaseList li p:last-of-type{ color: #909090;}
 .purchaseList span{ float: right;}
 .orange{ color: #ff6600; font-size: 13px;}
-.chooseType{ position: absolute; color: #ffffff; padding: 0 5px 0 0; font-size: 12px; line-height: 22px; text-align: center; width: 60px; height: 22px; top: 13px; right: 14px; background: url("../img/arrow.png") no-repeat; background-position: 50px; background-size: 7px 12px; border: 1px solid #ffffff; border-radius: 2px;}
+.chooseType{ position: absolute; color: #ffffff; padding: 0 5px 0 0; font-size: 12px; line-height: 22px; text-align: center; width: 60px; height: 22px; top: 13px; right: 14px; background: url("../../images/wx/arrow.png") no-repeat; background-position: 50px; background-size: 7px 12px; border: 1px solid #ffffff; border-radius: 2px;}
 #offerFooter{ width: 100%; height: 40px; line-height: 40px; padding-left: 45px; font-size: 13px; color: #ff6600; position: fixed; bottom: 0; left:0; background: #f1f1f1; border-top: 1px solid #d6d7dc;}
 .offerNumInput,.offerTxtInput,.offerTxtInput2,.offerTxtInput3{ border: 1px solid #d6d7dc; border-radius: 2px; text-align: center;}
-.offerNumInput{ width: 40px;}
+.offerNumInput{ width: 60px;}
 .offerTxtInput{ width: 100px;}
 .offerTxtInput2{ width: 50px;}
-.offerTxtInput3{ width: 70px;}
+.offerTxtInput3{ width: 120px;}
 .offerTxtInput2,.offerTxtInput3{ color: #909090;}
 .offerStatus{ width: 100%; border-top: 1px solid #e1e1e1;}
 .offerStatus span{ float: left; box-sizing: border-box; color: #323232; width: 50%; font-size: 13px; line-height: 40px; height: 40px; text-align: center;}
 .offerStatus span:first-of-type{ border-right: 1px solid #e1e1e1;}
 .purchaseStatus{ width: 18px; height: 18px; position: relative; top: 4px; left: -9px; display: inline-block;}
-.purchaseStatus.buy{ background: url("../img/buy.png") no-repeat; background-size: 18px 18px;}
-.purchaseStatus.sold{ background: url("../img/sold.png") no-repeat; background-size: 18px 18px;}
-.purchaseStatus.update{ background: url("../img/update.png") no-repeat; background-size: 18px 18px;}
+.purchaseStatus.buy{ background: url("../../images/wx/buy.png") no-repeat; background-size: 18px 18px;}
+.purchaseStatus.sold{ background: url("../../images/wx/sold.png") no-repeat; background-size: 18px 18px;}
+.purchaseStatus.update{ background: url("../../images/wx/update.png") no-repeat; background-size: 18px 18px;}
 .productQuery,.offerNumInput,.offerTxtInput,.offerTxtInput2,.offerTxtInput3:focus{ outline: none;}
 
 .regular-checkbox {
