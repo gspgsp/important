@@ -25,4 +25,16 @@ class storeModel extends model{
 	public function getStoreNameBySid($id=0){
 		return $this->select('store_name')->where("id='$id'")->getOne();
 	}
+
+	/**
+	 * 模糊查询仓库名匹配的id
+	 */
+	public function getSidBySname($value=''){
+		$arr=$this->select('id')->where("store_name like '%".$value."%'")->getAll();
+		foreach ($arr as $key => $v) {
+			$ids[]=$v['id'];
+		}
+		$data = implode(',',$ids);
+		return empty($data)? false : $data;
+	}
 }
