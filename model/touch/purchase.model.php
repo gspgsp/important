@@ -24,12 +24,12 @@ class purchaseModel extends model
 		foreach ($data as $value1) {
 			$product = $this->model('product')->select('model,f_id')->where('id='.$value1['p_id'])->getRow();
 			$f_name = $this->model('factory')->select('f_name')->where('fid='.$product['f_id'])->getRow();
-			$pdata[] =$product['model'];
-			$pdata[] =$value1['unit_price'];
-			$pdata[] =$f_name['f_name'];
-			$pdata[] =$value1['number'];
-			$pdata[] =$value1['store_house'];
-			$pdata[] =$value1['input_time'];
+			$pdata['model'] =$product['model'];
+			$pdata['unit_price'] =$value1['unit_price'];
+			$pdata['f_name'] =$f_name['f_name'];
+			$pdata['number'] =$value1['number'];
+			$pdata['store_house'] =$value1['store_house'];
+			$pdata['input_time'] =$value1['input_time'];
 			$result[] = $pdata;
 			unset($pdata);
 		}
