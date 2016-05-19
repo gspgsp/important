@@ -34,13 +34,7 @@ class pointsBillModel extends Model{
 	}
 	//获取用户总的积分
 	public function getUerPoints($uid){
-		$_key='points'.$uid;
-		$cache=cache::startMemcache();
-		$data=$cache->get($_key);
-		if(empty($data)){
-			$list = $this->model('user_info')->select('points')->where('user_id='.$uid)->getOne();
-			$cache->set($_key,$list,86400);//加入缓存
-	}
-	return $data;
+		$list = $this->model('contact_info')->select('points')->where('user_id='.$uid)->getOne();
+		return $list;
 }
 }
