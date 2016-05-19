@@ -20,7 +20,7 @@ class creditshopAction extends homeBaseAction
 			$points = M('points:pointsBill')->getUerPoints($uid);
 			$result = M('touch:creditshop')->getCreditShop($uid);
 		}
-		$this->json_output(array($points,$result));
+		$this->json_output(array('points'=>$points,'shop'=>$result));
 
 	}
 }
