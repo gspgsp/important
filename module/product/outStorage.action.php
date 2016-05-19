@@ -36,13 +36,13 @@ class outStorageAction extends adminBaseAction {
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
-
 			$this->json_output($result);
 		}
 		$out_info=$this->db->where("o_id = '$o_id'")->getRow();
 		if(!$out_info) {
 			$this->assign('doyet','doyet');
 		}
+		$this->db->where("")
 		$out_info['storage_date']=date("Y-m-d",$out_info['storage_date']);
 		$out_info['c_name']=M("user:customer")->getColByName($out_info['c_id']); //获取客户名称
 		$out_info['admin_name']=M("product:outStorage")->getNameBySid($out_info['store_aid']); //获得出库人姓名
@@ -65,21 +65,20 @@ class outStorageAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 			'customer_manager'=>$_SESSION['adminid'],
-			'p_id'=>M("product:orderDetail")->getColByDetId($data['detail_id']),
+			'p_id'=>M("product:saleLog")->getColByDetId($data['detail_id']),
 			'type'=>1,
 		);
-		
+		$this->db->startTrans(); //开启事务
 		$diff_num=M("product:outStorage")->checkNum($data['detail_id'],$data['number']); //订单和出库数量比较
 		if(!$diff_num) $this->error('数量有误');
-
 		if($data['doyet'] == 'doyet') $result=$this->db->add($data+$_data);		
 		$storage_log=$this->db->model('storage_log')->add($data+$_data);
-		
-		if($result && $storage_log){
-			$this->success('操作成功');
-		}else{
-			$this->error('数据处理失败');
-		}		
+		if($this->db->commit()){
+				$this->success('操作成功');
+			}else{
+				$this->db->rollback();
+				$this->error('数据处理失败');
+			}	
 	}
 	/**
 	 * 获取联系人信息
@@ -124,7 +123,6 @@ class outStorageAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		$sql=array();
-		p($data);
 		if(empty($data)){
 			$this->error('操作数据为空');
 		}

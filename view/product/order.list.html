@@ -121,7 +121,7 @@ function onLoadDetail(e){
 //追加
 function addOpusDetail(oid){
 	mini.open({
-		url: "/product/orderDetail/info?o_id="+oid,
+		url: "/product/saleLog/info?o_id="+oid,
 		showMaxButton:true,
 		title: '订单明细', width: 600, height:500,
 		ondestroy: function (action) {
@@ -136,7 +136,7 @@ function outStorage(oid){
 	mini.open({
 		url:"/product/outStorage/info?o_id="+oid,
 		showMaxButton:true,
-		title:'发货记录新增',width:750,height:530,
+		title:'发货记录新增',width:850,height:600,
 		ondestroy: function(action){
 			if(action=='save'){ //重新加载
 				grid.reload();

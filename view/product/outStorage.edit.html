@@ -19,13 +19,13 @@
 		<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="id" width="100" allowSort="true">流水id</div>           
-		<div field="detail_id" width="120" headerAlign="center" allowSort="true" renderer="onLoadHandle">订单明细</div>
+		<div field="model" width="100" allowSort="true">牌号</div>     
 		<div field="number" width="100"   allowSort="true">数量
-			<input property="editor" class="mini-textbox" style="width:100%;"/>
 		</div>
 		<div field="store_name" width="100" allowSort="true">仓库</div>
 		<div field="location_name" width="100" allowSort="true">库位</div>
 		<div field="input_time" width="100" allowSort="true" dateFormat="yyyy-MM-dd">创建时间</div>
+		<div field="detail_id" width="120" headerAlign="center" allowSort="true" renderer="onLoadHandle">明细</div>
 		</div>
 </div>
 <div title="新增出库管理" class="form" id="editForm">
@@ -63,6 +63,8 @@
 				<tr>
 					<td>备注:</td>
 					<td><input name="remark" class="mini-textarea" style="width:120px" required="false"/ value="{$data.remark}"></td>
+					<td>仓库</td><td></td>
+					<td>出库人</td><td></td>
 				</tr>
 			{else}
 				<tr>
@@ -140,13 +142,13 @@ function onKeyEnter(e) {
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',id = record.detail_id,model = record.model ;
-	s += '<a href="javascript:viewOrdInfo('+id+')">'+model+'</a> ';
+	s += '<a href="javascript:viewOrdInfo('+id+')">'+'订单明细'+'</a> ';
 	return s;
 }
 //查看明细相关信息
 function viewOrdInfo(id){
 	mini.open({
-		url: "/product/orderDetail/info?id="+id,
+		url: "/product/saleLog/info?id="+id,
 		showMaxButton:true,
 		title: "查看明细相关信息", 
 		width: 700, height:450
@@ -186,7 +188,7 @@ function detailChoose(e){
 	var oid=mini.get(o_id).getValue();
 	var btn = this;
 		mini.open({
-		url: "/product/orderDetail/init?do=search&oid="+oid,
+		url: "/product/saleLog/init?do=search&oid="+oid,
 		title: "选择明细",
 		width: 1200,
 		height: 550,
