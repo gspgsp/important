@@ -11,11 +11,23 @@ class personalcenterModel extends model
 	public function getUserName($user_id){
 		$_key='user_name'.$user_id;
 		$cache=cache::startMemcache();
-		//s$cache->delete($_key);
+		//$cache->delete($_key);
 		$data = $cache->get($_key);
 		if(empty($data)){
 			$user_name = $this->model('customer_contact')->select('mobile')->where('user_id='.$user_id)->getOne();
 			$cache->set($_key,$user_name,86400);//加入缓存
+		}
+		$data = $cache->get($_key);
+		return $data;
+	}
+	public function getUserThumb($user_id){
+		$_key='user_thumb'.$user_id;
+		$cache=cache::startMemcache();
+		//$cache->delete($_key);
+		$data = $cache->get($_key);
+		if(empty($data)){
+			$thumb = $this->model('contact_info')->select('thumb')->where('user_id='.$user_id)->getOne();
+			$cache->set($_key,$thumb,86400);//加入缓存
 		}
 		$data = $cache->get($_key);
 		return $data;
