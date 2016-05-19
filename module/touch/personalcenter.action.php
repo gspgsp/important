@@ -15,8 +15,9 @@ class personalcenterAction extends homeBaseAction
         $user_id = $_SESSION['uid'];
         $name = M('touch:personalcenter')->getUserName($user_id);
         $purchaseCount = count(M('touch:purchase')->getPurchase($user_id));
+        $points = M('points:pointsBill')->getUerPoints($user_id);
         if($name){
-            $this->json_output(array('name'=>$name,'qcount'=>$purchaseCount,'pcount'=>$purchaseCount));
+            $this->json_output(array('name'=>$name,'qcount'=>$purchaseCount,'pcount'=>$purchaseCount,'points'=>$points));
         }else{
             $this->json_output(array('err'=>1,'msg'=>'没有该用户!'));
         }
