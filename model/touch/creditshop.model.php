@@ -18,6 +18,7 @@ class creditshopModel extends model
 			$list = $this->model('points_goods')->select('id,cate_id,thumb,image,name,points')->getAll();
 		$cache->set($_key,$list,86400);//加入缓存
 		}
+		$data=$cache->get($_key);
 		$index = mt_rand(0,count($data)-1);
 		if($index>count($data)-4){
 			$recommand = array_slice($data,0,4);
