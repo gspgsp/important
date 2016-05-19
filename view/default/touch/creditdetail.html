@@ -11,15 +11,82 @@
     <script src="__JS__/wx/layer.js" type="text/javascript"></script>
     <script>
         $(function () {
+            var arr1P="";
+            var arr2P="";
+
+            function stampToDate(date) {
+                var newDate=new Date();
+                newDate.setTime(date*1000);
+                return newDate.toLocaleString();
+            }
+            
+            function typeName(type) {
+                if(type==1){
+                    return '签到';
+                }else if(type==2){
+                    return '登录';
+                }else if(type==3){
+                    return '发布报价';
+                }else if(type==4){
+                    return '订单取消积分返还';
+                }else if(type==5){
+                    return '兑换礼品';
+                }else if(type==6){
+                    return '发布采购';
+                }else if(type==7){
+                    return '注册完善信息送';
+                }else if(type==8){
+                    return 'app注册';
+                }else if(type==9){
+                    return '资源库发布';
+                }else if(type==10){
+                    return '资源库搜索';
+                }
+            }
+
             $.ajax({
                 type:"get",
                 url:"/touch/creditdetail/get_creditdetail",
                 dataType:'json',
+                beforeSend:function () {
+                    layer.open({
+                        content: '加载中…'
+                    });
+                },
                 success:function (res) {
-                    console.log(">>>",res.data);
+                    var arr1=[];
+                    var arr2=[];
+                    layer.closeAll();
+                    console.log(">>>",res);
+                    $("#points").html(res.points);
+                    if(res.err==1){
+                        window.location.href="/touch/login";
+                    }else{
+                        res.detail.forEach(function (v,i,a) {
+                           if(v.type==5){
+                               arr2.push(a[i]);
+                           }else{
+                               arr1.push(a[i]);
+                           }
+                        });
+                        arr1.forEach(function (v,i,a) {
+                            arr1P+="<p>" +
+                                    "<span class='creditSignTime'>"+stampToDate(v.addtime)+"</span>" +
+                                    "<br>"+ typeName(v.type) +"<span class='creditIntegral'>+"+v.points+"</span>" +
+                                    "</p>";
+                        });
+                        arr2.forEach(function (v,i,a) {
+                            arr2P+="<p>" +
+                                    "<span class='creditSignTime'>"+stampToDate(v.addtime)+"</span>" +
+                                    "<br>"+ typeName(v.type) +"<span class='creditIntegral2'>"+v.points+"</span>" +
+                                    "</p>";
+                        });
+                        $(".creditSign").html(arr1P);
+                        $(".creditSign2").html(arr2P);
+                    }
                 },
                 error:function (res) {
-                    console.log(">>>",res.data);
+                    console.log(">>>",res);
                 }
             })
         })
@@ -28,7 +95,7 @@
 <body>
 <div class="creditDeatil">
     <h3 class="creditDeatilHead">
-        <span>123456</span>&nbsp;积分
+        <span id="points"></span>&nbsp;积分
     </h3>
     <div class="creditDeatilNav">
         <span>签到</span>
@@ -38,34 +105,7 @@
 <div class="creditDeatilTitle">
     积分收支明细
 </div>
-<div class="creditSign">
-    <p>
-        <span class="creditSignTime">2016-05-05  13 : 51 : 26</span><br>签到积分
-        <span class="creditIntegral">+50</span>
-    </p>
-    <p>
-        <span class="creditSignTime">2016-05-05  13 : 51 : 26</span><br>签到积分
-        <span class="creditIntegral">+50</span>
-    </p>
-    <p>
-        <span class="creditSignTime">2016-05-05  13 : 51 : 26</span><br>签到积分
-        <span class="creditIntegral">+50</span>
-    </p>
-</div>
-
-<div class="creditSign2">
-    <p>
-        <span class="creditSignTime">2016-05-05  13 : 51 : 26</span><br>兑换：移动30元充值卡
-        <span class="creditIntegral2">-3500</span>
-    </p>
-    <p>
-        <span class="creditSignTime">2016-05-05  13 : 51 : 26</span><br>兑换：移动30元充值卡
-        <span class="creditIntegral2">-3500</span>
-    </p>
-    <p>
-        <span class="creditSignTime">2016-05-05  13 : 51 : 26</span><br>兑换：移动30元充值卡
-        <span class="creditIntegral2">-3500</span>
-    </p>
-</div>
+<div class="creditSign"></div>
+<div class="creditSign2"></div>
 </body>
 </html>

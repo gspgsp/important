@@ -16,17 +16,36 @@
 				var password=$("#password").val();
 				$.ajax({
 					type:"post",
-					url:"/touch/register/init",
+					url:"/touch/register/register",
 					data:{
 						username:username,
 						password:password
 					},
 					dataType:'json',
+					beforeSend:function () {
+						layer.open({
+							content: '加载中…'
+						});
+					},
 					success:function (res) {
-						console.log(">>>",res.data);
+						layer.closeAll();
+						if(res.err==0){
+							layer.open({
+								content: res.msg,
+								time:2
+							});
+						}else{
+							layer.open({
+								content: res.msg,
+								time:2
+							});
+						}
 					},
 					error:function (res) {
-
+						layer.open({
+							content: '系统错误',
+							time:2
+						});
 					}
 				})
 			});
@@ -41,7 +60,7 @@
 	</div>
 	<div class="registerBox">
 		<img src="__IMG__/wx/pwd.jpg">
-		<input id="password" class="registerInput" maxlength="6" type="password" placeholder="请输入密码">
+		<input id="password" class="registerInput" maxlength="20" type="password" placeholder="请输入密码">
 	</div>
 	<div class="registerBox">
 		<input class="registerInput" maxlength="6" type="tel" placeholder="请输入6位验证码">

@@ -12,6 +12,14 @@
     <script>
         $(function () {
             var infoLi="";
+            
+            function imgSrc(img) {
+                if(img){
+                    return img;
+                }else{
+                    return '__IMG__/wx/defaultImg.jpg';
+                }
+            }
 
             function stampToDate(date) {
                 var newDate=new Date();
@@ -24,7 +32,8 @@
                     type:"post",
                     url:"/touch/information/get_items",
                     data:{
-                        pid:paramsPid
+                        pid:paramsPid,
+                        page:3
                     },
                     dataType:'json',
                     beforeSend:function () {
@@ -35,13 +44,16 @@
                     success:function (res) {
                         layer.closeAll();
                         res.data.forEach(function (v,i) {
-                            infoLi +="<li><div class='articleLi'>" +
-                                    "<h3>"+v.title+"</h3><img src='__IMG__/wx/defaultImg.jpg'>" +
+                            infoLi +="<li data-id='"+v.id+"'><div class='articleLi'>" +
+                                    "<h3>"+v.title+"</h3><img src='"+ imgSrc(v.img) +"'>" +
                                     "<p>"+v.content+"</p></div>" +
                                     "<p class='time'>"+ stampToDate(v.input_time) +"</p></li>";
                         });
                         $("#articleLi").html(infoLi);
-                        console.log(">>>",infoLi);
+                        $("#articleLi li").on("click",function () {
+                            var id=$(this).data("id");
+                            window.location.href='/touch/information/detailInfo?id='+id;
+                        });
                     },
                     error:function (res) {
                         layer.open({
@@ -52,6 +64,7 @@
                 });
             }
             infoInit(29);
+
             $("#nav span").on("click",function () {
                 var pid=$(this).data("pid");
                 infoLi="";

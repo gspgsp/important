@@ -9,24 +9,76 @@
 	<link href="__CSS__/wx/app.css" rel="stylesheet">
 	<script src="__JS__/wx/jquery-2.2.3.min.js" type="text/javascript"></script>
 	<script src="__JS__/wx/layer.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function () {
+			$("#vcodeImg").on("click",function () {
+				$("#vcodeImg").attr('src','/api/vcode/init?name='+$("#vcodeImg").attr('name')+'&t='+Math.random());
+			});
+			$("#vcodeImg").attr('src','/api/vcode/init?name='+$("#vcodeImg").attr('name')+'&t='+Math.random());
+
+			$(".registerBtn").on("click",function () {
+				var username=$("#username").val();
+				var password=$("#password").val();
+				var regcode=$("#regcode").val();
+				$.ajax({
+					type:"post",
+					url:"/touch/login/doLogin",
+					data:{
+						'username':username,
+						'password':password,
+						'regcode':regcode
+					},
+					dataType:'json',
+					beforeSend:function () {
+						layer.open({
+							content: '加载中…'
+						});
+					},
+					success:function (res) {
+						layer.closeAll();
+						if(res.err==0){
+							layer.open({
+								content: res.msg,
+								time:2
+							});
+							window.location.href="/touch/personalcenter";
+						}else{
+							layer.open({
+								content: res.msg,
+								time:2
+							});
+						}
+					},
+					error:function (res) {
+						layer.open({
+							content: '系统错误',
+							time:2
+						});
+					}
+				})
+			});
+		})
+	</script>
+
 </head>
 <body>
 <div class="registerWrap">
 	<div class="registerBox">
 		<img src="__IMG__/wx/username.jpg">
-		<input class="registerInput" maxlength="11" type="tel" placeholder="请输入手机号码">
+		<input id="username" class="registerInput" maxlength="11" type="tel" placeholder="请输入手机号码">
 	</div>
 	<div class="registerBox">
 		<img src="__IMG__/wx/pwd.jpg">
-		<input class="registerInput" maxlength="6" type="password" placeholder="请输入密码">
+		<input id="password" class="registerInput" maxlength="20" type="password" placeholder="请输入密码">
 	</div>
 	<div class="registerBox">
-		<input class="registerInput" maxlength="4" type="tel" placeholder="请输入图形验证码">
+		<input id="regcode"  class="registerInput" maxlength="4" type="text" placeholder="请输入图形验证码">
+		<img id="vcodeImg" name="regcode">
 	</div>
 	<div class="registerBtn">登录</div>
 	<div class="loginLink">
-		<a href="#" style="float: left;">注册</a>
-		<a href="#" style="float: right;">忘记密码?</a>
+		<a href="/touch/register" style="float: left;">注册</a>
+		<a href="/touch/findpwd" style="float: right;">忘记密码?</a>
 	</div>
 </div>
 </body>
