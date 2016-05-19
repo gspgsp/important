@@ -14,6 +14,10 @@ class mypurchaseAction extends homeBaseAction
     //返回求购信息
     public function get_purchase(){
     	//获取求购信息的id
+        if(!$_SESSION['uid'])
+            {
+                $this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
+            }
         $user_id = $_SESSION['uid'];
     	$result = array();
     	if($user_id>0){

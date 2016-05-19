@@ -12,6 +12,10 @@ class personalcenterAction extends homeBaseAction
     	$this->display('personalcenter');
     }
     public function getPersonalCenter(){
+        if(!$_SESSION['uid'])
+            {
+                $this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
+            }
         $user_id = $_SESSION['uid'];
         $thumb = M('touch:personalcenter')->getUserThumb($user_id);
         $name = M('touch:personalcenter')->getUserName($user_id);
