@@ -37,7 +37,7 @@ class indexAction extends homeBaseAction{
 
 
 		//产品类型
-		$product_type=L('product_type');	
+		$product_type=L('product_type');
 		$this->assign('product_type',$product_type);
 		//报价周期
 		$this->period=L('period');
