@@ -8,7 +8,7 @@ class outStorageModel extends model{
 	 * 判断数量是否正确
 	 */
 	public function checkNum($id=0,$o_number=0){
-		$number=$this->model('order_detail')->select('number')->where("id='$id'")->getOne();
+		$number=$this->model('sale_log')->select('number')->where("id='$id'")->getOne();
 		return $result = $number-$o_number<0? false : $number-$o_number;
 	}
 	/**

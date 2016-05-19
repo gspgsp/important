@@ -9,7 +9,7 @@ class orderModel extends model{
 	 * 获取订单总数
 	 */
 	public function getOrdNum($oid,$type){
-		$result=$this->model('order_detail')->where('o_id ='.$oid)->getAll();
+		$result=$this->model('sale_log')->where('o_id ='.$oid)->getAll();
 		$count=0;
 		//总数求和
 		for($i=0;$i<count($result);$i++){
@@ -55,7 +55,7 @@ class orderModel extends model{
 	 * 根据id查订单明细表的值
 	 */
 	public function getODidByOid($o_id=0,$col='id'){
-		$result=$this->model('order_detail')->select("$col")->where("o_id='$o_id'")->getOne();
+		$result=$this->model('sale_log')->select("$col")->where("o_id='$o_id'")->getOne();
 		return empty($result) ? false : $result;
 	}
 }
