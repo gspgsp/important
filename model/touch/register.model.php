@@ -116,6 +116,7 @@ class registerModel extends model
 	 *用户登录信息验证
 	 */
 	public function login($username, $password, $vcode){
+
 		//用户名或密码是否为空
 		if(empty($username) || empty($password)){
 			return array('err'=>1,'msg'=>'用户名或密码不能为空!');

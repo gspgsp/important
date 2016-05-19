@@ -17,6 +17,7 @@ class creditdetailModel extends model
 			$list = $this->model('points_bill')->select('id,points,type,addtime')->where('uid='.$uid)->getPage();
 		$cache->set($_key,$list['data'],86400);//加入缓存
 		}
+		$data=$cache->get($_key);
 		return $data;
 	}
 }

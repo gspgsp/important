@@ -11,7 +11,7 @@ class purchaseModel extends model
 		$pdata = array();
 		$result = array();
 
-		$_key='credit_detail'.$user_id;
+		$_key='purchase'.$user_id;
 		$cache=cache::startMemcache();
 		//$cache->delete($_key);
 		$data=$cache->get($_key);
