@@ -1,0 +1,139 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>	
+			<td style="float:right;">
+			  <form id="soform">				
+				<select name="key_type">
+					<option value="s_name">仓库名字</option>
+					<option value="f_name">厂家名字</option>
+					<option value="model">牌号</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span>
+			  </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/storeProduct/init?action=grid"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	<div property="columns">
+		<div field="id" width="30" headerAlign="center" align="center" align="center">ID</div>
+		<div field="store_name" width="90" headerAlign="center" align="center">仓库名字</div>
+		<div field="f_name" width="90" headerAlign="center" align="center">厂家名字</div>
+		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+		<div field="number" width="90" headerAlign="center" align="center">货品数量</div>
+		<div field="lock_number" width="90" headerAlign="center" align="center">锁定数量</div>
+		<div field="input_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >添加时间</div>
+		<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
+		<div field="update_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+		<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
+		<div name="action"  width="50" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>
+	</div>
+  </div>
+ </div>
+ 
+	
+<div id="admInfo" class="mini-window" title="调整库存信息" style="width:300px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="addForm" class="form" >
+		<table style="width:100%;">
+			<tr>
+				<td style="width:60px;">货品数量：</td>
+				<td><input name="number" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td>调整备注：</td>
+				<td><input name="remark" class="mini-textarea" style="width:200px;"/></td>
+			</tr>
+			</tr>
+		</table>
+	</div>
+	<div align="center" style="margin-top:10px;">
+	  <a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+	  <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+	  <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+	</div>
+</div>
+{if $doact eq 'search'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+{/if}
+
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+//追加操作按钮
+function onLoadHandle(e) {
+  var record = e.record, s='',spid = record.id;
+	s += '<a href="javascript:changestore('+spid+')">调整</a>';
+  return s;
+}
+
+//弹出增加form表单
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function changestore(spid) {
+	form.clear();
+	admInfo.show();
+}
+
+//增加后提交数据(保存)
+function submitForm() {
+	form.validate();
+	if (form.isValid() == false) return;
+  
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+	if(data.err!='0'){
+	  grid.unmask();
+	  alert(data.msg);
+	  return false;
+	}else{
+	  grid.reload();
+	  admInfo.hide();
+	}
+  }
+  utils.ajax('/product/storeProduct/ajaxSave',{data:json},callback,"POST","json");
+}
+
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>
