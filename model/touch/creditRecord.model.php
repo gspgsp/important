@@ -9,18 +9,10 @@ class creditRecordModel extends model
 	}
 	//获取对应用户兑换订单
 	public function getCreditRecord($uid){
-		$_key='credit_order'.$uid;
-		$cache=cache::startMemcache();
-		//$cache->delete($_key);
-		$data=$cache->get($_key);
-		$tData = array();
-		$pushData = array();
-		if(empty($data)){
-			$list = $this->model('points_order')->select('order_id,create_time,status,update_time,usepoints,uid,goods_id')->where('uid='.$uid)->getPage();
-			$cache->set($_key,$list['data'],86400);//加入缓存
-		}
+
+		$list = $this->model('points_order')->select('order_id,create_time,status,update_time,usepoints,uid,goods_id')->where('uid='.$uid)->getPage();
 		//取出对应的goods
-		foreach ($data as $value2) {
+		foreach ($list['data'] as $value2) {
 			$goods = $this->model('points_goods')->select('thumb,name')->where('id='.$value2['goods_id'])->getRow();
 			$tData['order_id'] = $value2['order_id'];
 			$tData['create_time'] = $value2['create_time'];

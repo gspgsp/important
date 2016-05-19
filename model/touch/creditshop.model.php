@@ -10,16 +10,9 @@ class creditshopModel extends model
 	}
 	//返回商品推荐
     public function getCreditShop($uid){
-		$_key='credit_shop'.$uid;
-		$cache=cache::startMemcache();
-		//$cache->delete($_key);
-		$data=$cache->get($_key);
-		if(empty($data)){
-			$list = $this->model('points_goods')->select('id,cate_id,thumb,image,name,points')->getAll();
-		$cache->set($_key,$list,86400);//加入缓存
-		}
-		$data=$cache->get($_key);
-		$index = mt_rand(0,count($data)-1);
+
+		$list = $this->model('points_goods')->select('id,cate_id,thumb,image,name,points')->getAll();
+		$index = mt_rand(0,count($list)-1);
 		if($index>count($data)-4){
 			$recommand = array_slice($data,0,4);
 		}else{
