@@ -14,7 +14,7 @@ class mypurchaseAction extends homeBaseAction
     //返回求购信息
     public function get_purchase(){
     	//获取求购信息的id
-    	$user_id = sget('user_id','i',0);
+        $user_id = $_SESSION['uid'];
     	$result = array();
     	if($user_id>0){
     		$result = M('touch:purchase')->getPurchase($user_id);

@@ -7,7 +7,7 @@ class myquotationAction extends homeBaseAction
 	public function __init() {
 		$this->debug = false;
 		$this->db = M('public:common')->model('purchase');
-        $this->assign('pass_status',array('1'=>'上架','2'=>'下架'));
+        // $this->assign('pass_status',array('1'=>'上架','2'=>'下架'));
     }
     public function init(){
         $this->display('myquotation');
@@ -15,7 +15,7 @@ class myquotationAction extends homeBaseAction
     //返回报价信息/更新数据
     public function get_myquotation(){
     	//获取求购信息的user_id
-    	$user_id = sget('user_id','i',0);
+        $user_id = $_SESSION['uid'];
         $result = array();
         if($user_id>0){
             $result = M('touch:purchase')->getPurchase($user_id);

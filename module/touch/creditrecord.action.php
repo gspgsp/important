@@ -14,7 +14,7 @@ class creditrecordAction extends homeBaseAction
     //返回积分明细
     public function get_creditRecord(){
     	//获取用户
-		$uid=sget('uid','i',0);
+		$uid = $_SESSION['uid'];
 		$result = array();
 		if($uid>0){
 			$result = M('touch:creditRecord')->getCreditRecord($uid);

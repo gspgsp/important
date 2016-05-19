@@ -14,12 +14,12 @@ class creditdetailAction extends homeBaseAction
     //返回积分明细
     public function get_creditdetail(){
     	//获取用户
-		$uid=sget('uid','i',0);
+		$uid = $_SESSION['uid'];
 		$result = array();
 		if($uid>0){
 			$points = M('points:pointsBill')->getUerPoints($uid);
 			$result = M('touch:creditdetail')->getCreditDetail($uid);
 		}
-		$this->json_output(array($points,$result));
+		$this->json_output(array('points'=>$points,'detail'=>$result));
 	}
 }
