@@ -22,6 +22,11 @@
 				</select>
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+				<select name="order_type" id="soStatus">
+					<option value="" selected="selected">全部订单</option>
+					<option value="2">采购订单</option>
+					<option value="1">销售订单</option>
+				</select>
 				<select name="order_source">
 					<option value="" selected="selected">来源</option>
 					{html_options options=$order_source}
@@ -59,13 +64,14 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/order/init?action=grid&do={$doact}"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/order/init?action=grid&do={$doact}&type={$order_type}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="o_id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">OID</div>
 			<div field="order_name" width="55" headerAlign="center" align="center" allowSort="true">订单名称</div>
 			<div field="order_sn" width="45" headerAlign="center" align="center" allowSort="true">订单号</div>
+			<div field="order_type" width="45" headerAlign="center" align="center" allowSort="true"  renderer="LoadOrderType">类型</div>
 			<div field="order_source" width="35" headerAlign="center" align="center" allowSort="true">来源</div>
 			<div field="c_name" width="60" headerAlign="center" align="center" allowSort="true">客户名称</div>
 			<div field="sign_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">签订时间</div>
@@ -106,6 +112,10 @@ function onKeyEnter(e) {
 	search();
 }
 
+function LoadOrderType(e) {
+	var record = e.record.order_type; 
+	return $("#soStatus").find("option[value="+record+"]").text();
+}
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',oid = record.o_id;
@@ -114,14 +124,31 @@ function onLoadHandle(e) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id;
-	s += '<a href="javascript:addOpusDetail('+oid+')">'+'追加'+'</a>|<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type;
+	if(order_type=='1'){
+		s += '<a href="javascript:addSaleLog('+oid+')">'+'追加'+'</a>|<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
+	}else{
+		s += '<a href="javascript:addPurchaseLog('+oid+')">'+'追加'+'</a>|<a href="javascript:inStorage('+oid+')">'+'入库'+'</a>';
+	}
 	return s;
 }
-//追加
-function addOpusDetail(oid){
+//追加销售明细
+function addSaleLog(oid){
 	mini.open({
 		url: "/product/saleLog/info?o_id="+oid,
+		showMaxButton:true,
+		title: '订单明细', width: 600, height:500,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//追加采购明细
+function addPurchaseLog(oid){
+	mini.open({
+		url: "/product/purchaseLog/info?o_id="+oid,
 		showMaxButton:true,
 		title: '订单明细', width: 600, height:500,
 		ondestroy: function (action) {
@@ -142,6 +169,19 @@ function outStorage(oid){
 				grid.reload();
 			}
 		}
+	});
+}
+//入库弹窗
+function inStorage(oid){
+	mini.open({
+	url:"/product/inStorage/info?o_id="+oid,
+	showMaxButton:true,
+	title:'入库记录新增',width:850,height:600,
+	ondestroy: function(action){
+		if(action=='save'){ //重新加载
+			grid.reload();
+		}
+	}
 	});
 }
 //查看订单相关信息

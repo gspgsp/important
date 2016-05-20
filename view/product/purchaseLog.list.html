@@ -22,17 +22,17 @@
 					{html_options options=$invoice_status}
 				</select>
 				<select name="out_storage_status">
-					<option value="">出库状态</option>
-					{html_options options=$out_storage_status}
+					<option value="">入库状态</option>
+					{html_options options=$in_storage_status}
 				</select>
-				<select name="sales_type">
-					<option value="">销售类型</option>
-					{html_options options=$sales_type}
+				<select name="purchases_type">
+					<option value="">采购类型</option>
+					{html_options options=$purchase_type}
 				</select>
 				<select name="key_type">
 					<option value="o_id">订单名称</option>
 					<option value="p_id">牌号</option>
-					<option value="supplier_name">供应商</option>
+					<option value="c_id">供应商</option>
 					<option value="remark">备注</option>
 				</select> 
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
@@ -45,7 +45,7 @@
 
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-		url="/product/saleLog/init?action=grid&oid={$oid}" onrowdblclick="onRowDblClick"
+		url="/product/purchaseLog/init?action=grid&oid={$oid}" onrowdblclick="onRowDblClick"
 		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
 		>
 		<div property="columns">    
@@ -53,14 +53,14 @@
 			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
 			<div field="order_name" width="90" headerAlign="center" align="center">订单名</div>
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-			<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量【吨】</div>   
-			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+			<div field="number" width="80" headerAlign="center" allowSort="true" align="center">进货数量</div>
+			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价【吨】</div>
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
 			<div field="c_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 			<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
-			<div field="out_storage_status" width="80" headerAlign="center" allowSort="true" align="center">出库状态</div>
-			<div field="sales_type" width="80" headerAlign="center" allowSort="true" align="center">销售类型</div>
+			<div field="in_storage_status" width="80" headerAlign="center" allowSort="true" align="center">入库状态</div>
+			<div field="purchase_type" width="80" headerAlign="center" allowSort="true" align="center">采购类型</div>
 			<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
@@ -98,7 +98,7 @@ function onLoadHandle(e) {
 //查看明细相关信息
 function viewOrdInfo(id){
 	mini.open({
-		url: "/product/saleLog/info?id="+id,
+		url: "/product/purchaseLog/info?id="+id,
 		showMaxButton:true,
 		title: "查看明细相关信息", 
 		width: 700, height:450
@@ -107,9 +107,9 @@ function viewOrdInfo(id){
 //新增明细
 function add(){
 	mini.open({
-		url: "/product/saleLog/info",
+		url: "/product/purchaseLog/info",
 		showMaxButton:true,
-		title: '销售明细新增', width: 600, height:400,
+		title: '采购明细新增', width: 600, height:400,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -126,7 +126,7 @@ function onEdit(e) {
 	var row = grid.getSelected();
 	if (row) {
 		var width=740,height=400,title='产品信息';
-		urlStr="/product/saleLog/info?type=edit&id="+row.id;
+		urlStr="/product/purchaseLog/info?type=edit&id="+row.id;
 		mini.open({
 			url: urlStr,
 			title: title,
@@ -164,7 +164,7 @@ function remove() {
 		return false;
 	}
 	}
-	utils.ajax('/product/saleLog/remove',{ids:ids},callback,"POST","json");
+	utils.ajax('/product/purchaseLog/remove',{ids:ids},callback,"POST","json");
   });
 }
 function GetData() {

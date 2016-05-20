@@ -1,14 +1,14 @@
 <?php 
 /**
- * 出库详情管理
+ * 入库详情管理
  */
-class outStorageAction extends adminBaseAction {
+class inStorageAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
-		$this->db=M('public:common')->model('out_storage');
+		$this->db=M('public:common')->model('in_storage');
 		$this->assign('ship_company',L('ship_company')); //物流公司
-		$this->assign('out_type',L('out_type')); //出库类型
-		$this->assign('out_storage_status',L('out_storage_status')); //出库状态
+		$this->assign('in_type',L('in_type')); //入库类型
+		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
 
 	}
 	/**
@@ -21,11 +21,11 @@ class outStorageAction extends adminBaseAction {
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		$o_id=sget('o_id','i',0);
 		if( $o_id<1 ) $this->error('错误的出库信息');
-		$out_no=genOrderSn();//出库单号
+		$in_storage_no=genOrderSn();//入库单号
 		$action=sget('action','s','aa');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;
-			$list=$this->db->model('out_log')->where($where)
+			$list=$this->db->model('in_log')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
@@ -37,17 +37,17 @@ class outStorageAction extends adminBaseAction {
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
 		}
-		$out_info=$this->db->where("o_id = '$o_id'")->getRow();
-		if(!$out_info) {
+		$in_info=$this->db->where("o_id = '$o_id'")->getRow();
+		if(!$in_info) {
 			$this->assign('doyet','doyet');
 		}
-		$out_info['out_date']=date("Y-m-d",$out_info['out_date']);
-		$out_info['c_name']=M("user:customer")->getColByName($out_info['c_id']); //获取客户名称
-		$out_info['admin_name']=M("product:outStorage")->getNameBySid($out_info['store_aid']); //获得出库人姓名
-		$this->assign('out_info',$out_info);
+		$in_info['storage_date']=date("Y-m-d",$in_info['storage_date']);
+		$in_info['c_name']=M("user:customer")->getColByName($in_info['c_id']); //获取客户名称
+		$in_info['admin_name']=M("product:inStorage")->getNameBySid($in_info['store_aid']); //获得出库人姓名
+		$this->assign('in_info',$in_info);
 		$this->assign('o_id',$o_id);
-		$this->assign('out_no',$out_no);
-		$this->display('outStorage.edit.html');
+		$this->assign('in_storage_no',$in_storage_no);
+		$this->display('inStorage.edit.html');
 	}
 	/**
 	 * 异步保存
@@ -55,22 +55,20 @@ class outStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-		p($data);die;
 		if(empty($data)) $this->error('操作有误');	
-		$data['out_date']=strtotime($data['out_date']);
+		$data['in_date']=strtotime($data['in_date']);
 		$_data=array(
-			'out_no'=>genOrderSn(), //出库单号
+			'in_storage_no'=>genOrderSn(), //出库单号
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
-			'customer_manager'=>$_SESSION['adminid'],
-			'p_id'=>M("product:saleLog")->getColByDetId($data['sale_id']),
-			'type'=>1,
+			'p_id'=>M("product:purchaseLog")->getColByDetId($data['purchase_id']),
 		);
+		p($data);
 		$this->db->startTrans(); //开启事务
-		$diff_num=M("product:outStorage")->checkNum($data['sale_id'],$data['number']); //订单和出库数量比较
+		$diff_num=M("product:inStorage")->checkNum($data['detail_id'],$data['number']); //订单和出库数量比较
 		if(!$diff_num) $this->error('数量有误');
 		if($data['doyet'] == 'doyet') $result=$this->db->add($data+$_data);		
-		$out_log=$this->db->model('out_log')->add($data+$_data);
+		$in_log=$this->db->model('in_log')->add($data+$_data);
 		if($this->db->commit()){
 				$this->success('操作成功');
 			}else{
@@ -101,7 +99,7 @@ class outStorageAction extends adminBaseAction {
 		$data = explode(',',$ids);
 		if(is_array($data)){
 			foreach ($data as $k => $v) {
-				$result=$this->db->model('out_log')->where("id in ($ids)")->delete();
+				$result=$this->db->model('in_log')->where("id in ($ids)")->delete();
 			}
 		}
 		if($result){
@@ -120,6 +118,7 @@ class outStorageAction extends adminBaseAction {
 	public function save(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		p($data);
 		$sql=array();
 		if(empty($data)){
 			$this->error('操作数据为空');
@@ -128,9 +127,9 @@ class outStorageAction extends adminBaseAction {
 			$_data=array(
 				'number'=>$v['number'],		 
 			);
-			$diff_num=M("product:outStorage")->checkNum($v['sale_id'],$v['number']); //订单和出库数量比较
+			$diff_num=M("product:inStorage")->checkNum($v['detail_id'],$v['number']); //订单和出库数量比较
 			if(!$diff_num) $this->error('数量有误');
-			$result=$this->db->model('out_log')->wherePk($v['id'])->update($_data);
+			$result=$this->db->model('in_log')->wherePk($v['id'])->update($_data);
 		}
 		if($result){
 			$this->success('操作成功');

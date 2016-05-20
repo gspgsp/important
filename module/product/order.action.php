@@ -17,7 +17,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
-		$this->assign('sales_type',L('sales_type')); //销售类型
+		$this->assign('order_type',L('order_type')); //销售类型
 	}
 	/**
 	 *
@@ -27,9 +27,11 @@ class orderAction extends adminBaseAction {
 	public function init(){
 		$doact=sget('do','s');
 		$action=sget('action','s');
+		$order_type=sget('order_type','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('order_type',$order_type);
 		$this->assign('doact',$doact);
 		$this->assign('page_title','订单管理列表');
 		$this->display('order.list.html');
@@ -48,6 +50,9 @@ class orderAction extends adminBaseAction {
 		//筛选
 		$where.= 1;
 		//筛选状态
+		if(sget('type','i',0) !=0) $order_type=sget('type','i',0);//订单类型
+		if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
+		if($order_type !=0)  $where.=" and `order_type` =".$order_type;
 		$order_source=sget('order_source','i',0);//订单来源
 		if($order_source !=0)  $where.=" and `order_source` =".$order_source;
 		$pay_method=sget('pay_method','i',0);//付款方式
@@ -79,19 +84,18 @@ class orderAction extends adminBaseAction {
 				->order("$sortField $sortOrder")
 				->getPage();
 		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);
-			// $list['data'][$k]['numbers']=M("product:order")->getOrdNum($list['data'][$k]['o_id']);
+			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);//根据cid取客户名
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
-			$list['data'][$k]['order_source'] = L('order_source')[$v['order_source']]; 
-			$list['data'][$k]['pay_method'] = L('pay_method')[$v['pay_method']];
-			$list['data'][$k]['transport_type'] = L('transport_type')[$v['transport_type']];
-			$list['data'][$k]['business_model'] = L('business_model')[$v['business_model']];
-			$list['data'][$k]['financial_records'] = L('financial_records')[$v['financial_records']];
-			$list['data'][$k]['order_status'] = L('order_status')[$v['order_status']];
-			$list['data'][$k]['goods_status'] = L('goods_status')[$v['goods_status']];
-			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']];
+			$list['data'][$k]['order_source']=L('order_source')[$v['order_source']]; 
+			$list['data'][$k]['pay_method'] =L('pay_method')[$v['pay_method']];
+			$list['data'][$k]['transport_type']=L('transport_type')[$v['transport_type']];
+			$list['data'][$k]['business_model']=L('business_model')[$v['business_model']];
+			$list['data'][$k]['financial_records']=L('financial_records')[$v['financial_records']];
+			$list['data'][$k]['order_status']=L('order_status')[$v['order_status']];
+			$list['data'][$k]['goods_status']=L('goods_status')[$v['goods_status']];
+			$list['data'][$k]['invoice_status']=L('invoice_status')[$v['invoice_status']];
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -127,6 +131,10 @@ class orderAction extends adminBaseAction {
 			$this->display('order.edit.html');
 			exit;
 		}	
+		$order_type = $info['order_type'] == 1? 'saleLog' : 'purchaseLog';
+
+
+		$this->assign('order_type',$order_type);
 		$this->assign('o_id',$o_id);
 		$this->display('order.viewInfo.html');
 	}

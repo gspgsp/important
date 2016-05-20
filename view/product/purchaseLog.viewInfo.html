@@ -4,10 +4,10 @@
 		<div title="订单详细信息">
 			<div style="height:385px">
 				<table width="100%">
-					<caption><strong>明细详情</strong></caption>
+					<caption><strong>采购明细</strong></caption>
 					<tr>
-						<td>销售单号：</td>
-						<td>{$info.sale_order_no}</td>
+						<td>采购单号：</td>
+						<td>{$info.purchase_order_no}</td>
 						<td>订单名称：</td>
 						<td>{$order_name}</td>
 					</tr>
@@ -38,35 +38,32 @@
 					<tr>
 						<td>总价 : </td>
 						<td>{$info.count}</td>
-						<td>批次号 :</td>
-						<td>{$info.lot_num}</td>
+
 					</tr>
 					<tr>
 						<td>仓库：</td>
 						<td>{$info.store_name}</td>
-						<td>出库人:</td>
-						<td>{$info.admin_name}</td>
-					</tr>
-					<tr>
-						<td>供应商：</td>
-						<td>{$info.supplier_name}</td>
 						<td>开票状态：</td>
 						<td>{$invoice_status.$info.invoice_status}</td>
 					</tr>
 					<tr>
-						<td>采购已付：</td>  
-						<td>{$info.pay_money}</td>
-						<td>出库状态 : </td>
-						<td>{$out_storage_status.$info.out_storage_status}</td>
+						<td>供应商：</td>
+						<td>{$info.c_name}</td>
+						<td>入库状态 : </td>
+						<td>{$in_storage_status.$info.in_storage_status}</td>
+						
 					</tr>
 					<tr>
-						<td>销售类型：</td>  
-						<td>{$sales_type.$info.sales_type}</td>
+						<td>采购已付：</td>  
+						<td>{$info.pay_money}</td>
+						<td>采购类型：</td>  
+						<td>{$purchase_type.$info.purchase_type}</td>
+						
+					</tr>
+					<tr>			
 						<td>备注 : </td>
 						<td>{$info.remark}</td>
 					</tr>
-
-
 				</table>
 
 			</div>

@@ -1,16 +1,16 @@
 <?php 
 /**
- * 销售订单详情管理
+ * 采购订单详情管理
  */
-class saleLogAction extends adminBaseAction {
+class purchaseLogAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
-		$this->db=M('public:common')->model('sale_log');
+		$this->db=M('public:common')->model('purchase_log');
 		$this->doact = sget('do','s');
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
-		$this->assign('out_storage_status',L('out_storage_status')); //出库状态
-		$this->assign('sales_type',L('sales_type')); //销售类型
+		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
+		$this->assign('purchase_type',L('purchase_type')); //采购类型
 	}
 	/**
 	 *
@@ -26,7 +26,7 @@ class saleLogAction extends adminBaseAction {
 		$this->assign('doact',$doact);
 		$this->assign('oid',sget('oid','i',0));
 		$this->assign('page_title','订单管理列表');
-		$this->display('saleLog.list.html');
+		$this->display('purchaseLog.list.html');
 	}
 	/**
 	 * Ajax获取列表内容
@@ -49,8 +49,8 @@ class saleLogAction extends adminBaseAction {
 		$out_storage_status=sget('out_storage_status','i',0);
 		if($out_storage_status != 0) $where.=" and `out_storage_status` =".$out_storage_status;
 		//销售类型
-		$sales_type=sget('sales_type','i',0);
-		if($sales_type != 0) $where.=" and `sales_type` =".$sales_type;
+		$purchase_type=sget('purchase_type','i',0);
+		if($purchase_type != 0) $where.=" and `purchase_type` =".$purchase_type;
 		//筛选时间
 		$sTime=sget('sTime','s','input_time');
 		$where.=getTimeFilter($sTime);
@@ -62,6 +62,9 @@ class saleLogAction extends adminBaseAction {
 			$where.=" and `$key_type` in ($keyword) ";
 		}elseif(!empty($keyword) && $key_type=='p_id' ){
 			$keyword=M('product:product')->getpidByPname($keyword);
+			$where.=" and `$key_type` in ($keyword) ";
+		}elseif(!empty($keyword) && $key_type=='c_id' ){
+			$keyword=M('user:customer')->getcidByCname($keyword);
 			$where.=" and `$key_type` in ($keyword) ";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
@@ -79,8 +82,8 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
 			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
-			$list['data'][$k]['out_storage_status'] = L('out_storage_status')[$v['out_storage_status']];
-			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
+			$list['data'][$k]['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
+			$list['data'][$k]['purchase_type'] = L('purchase_type')[$v['purchase_type']];
 		}
 		$this->assign('doact',$doact);
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -101,9 +104,9 @@ class saleLogAction extends adminBaseAction {
 				$order_name=M("product:order")->getColByName($o_id);
 				$this->assign('order_name',$order_name);
 			}
-			$sale_order_no=genOrderSn();
-			$this->assign('sale_order_no',$sale_order_no);
-			$this->display('saleLog.edit.html');
+			$purchase_order_no=genOrderSn();
+			$this->assign('purchase_order_no',$purchase_order_no);
+			$this->display('purchaseLog.edit.html');
 			exit;
 		}
 
@@ -119,21 +122,21 @@ class saleLogAction extends adminBaseAction {
 		$info['c_name']=M("user:customer")->getColByName($info['c_id']);//根据cid取客户名
 		//根据pid取厂家名
 		$info['store_name']=M("product:store")->getStoreNameBySid($info['store_id']); //根据仓库id取其名
-		$info['admin_name']=M("product:outStorage")->getNameBySid($info['store_aid']); //获得出库人姓名
+		$info['admin_name']=M("product:outStorage")->getNameBySid($info['store_aid']); //获得入库人姓名
 		$admin_list = $this->db->model('store_admin')->select("a.admin_id,a.name")->from('store_admin s')->join('admin a','a.admin_id=s.admin_id')->getAll();
-		$this->assign('admin_list',arrayKeyValues($admin_list,'admin_id','name'));//分配仓库对应的交易员
+		$this->assign('admin_list',arrayKeyValues($admin_list,'admin_id','name'));//
 		$this->assign('process_type',L('process_level'));//加工级别
-		$this->assign('sales_type',L('sales_type'));//加工级别
+		$this->assign('purchase_type',L('purchase_type'));//加工级别
 		$this->assign('product_type',L('product_type'));//产品类型
 		$this->assign('order_name',$order_name);
 		$this->assign('model',$model);
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('type',$type);//分配订单id信息
 		if($type =="edit"){
-			$this->display('saleLog.edit.html');
+			$this->display('purchaseLog.edit.html');
 			exit;
 		}
-		$this->display('saleLog.viewInfo.html');
+		$this->display('purchaseLog.viewInfo.html');
 	}
 	/**
 	 * 新增及修改订单
@@ -183,14 +186,4 @@ class saleLogAction extends adminBaseAction {
 		}
 	}
 
-	/**
-	 * 获取联系人信息
-	 * @access public
-	 */
-	function get_store_aid(){
-		$this->is_ajax=true;
-		$s_id=sget('sid','i');
-		$admin_list=M('product:store_admin')->getColByid($s_id);
-		$this->json_output($admin_list);
-	}
 }

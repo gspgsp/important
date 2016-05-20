@@ -1,11 +1,12 @@
 {layout file="public:mini_layout"}
 <input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
-<input class="mini-hidden" name="out_no" value="{$out_no}"/>
+<input class="mini-hidden" name="in_storage_no" value="{$in_storage_no}"/>
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
 			</td>
@@ -13,7 +14,7 @@
 	</table>           
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/inStorage/info?action=grid&o_id={$o_id}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 		<div property="columns">
 		<div type="checkcolumn"></div>
@@ -24,38 +25,36 @@
 		<div field="store_name" width="100" allowSort="true">仓库</div>
 		<div field="location_name" width="100" allowSort="true">库位</div>
 		<div field="input_time" width="100" allowSort="true" dateFormat="yyyy-MM-dd">创建时间</div>
-		<div field="sale_id" width="120" headerAlign="center" allowSort="true" renderer="onLoadHandle">明细</div>
+		<div field="purchase_id" width="120" headerAlign="center" allowSort="true" renderer="onLoadHandle">明细</div>
 		</div>
 </div>
-<div title="新增出库管理" class="form" id="editForm">
+<div title="新增入库管理" class="form" id="editForm">
 		<input class="mini-hidden" id="o_id" name="o_id" value="{$o_id}"/>
 		<input class="mini-hidden" name="doyet" value="{$doyet}" />
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
 
-			<legend>出库信息</legend>
+			<legend>入库信息</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 			{if $doyet eq doyet}
 				<tr>
-					<td>出库名称:</td>
-					<td><input name="sale_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$sale_subject}"  textField="name" valueField="id"/>
+					<td>入库名称:</td>
+					<td><input name="storage_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$storage_subject}"  textField="name" valueField="id"/>
 					</td>
-					<td>出库单号</td>
-					<td>{$out_no}</td>
+					<td>入库单号</td>
+					<td>{$in_storage_no}</td>
 				</tr>
 
 				<tr>
 					<td>关联客户:</td>
 					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cusChoose" value="{$data.c_id}" allowInput="false"  text="{$data.c_name}"  style="width:120px" id="usrId"/></td>
-					<td>出库时间</td>
-					<td><input  class="mini-datepicker"  name="out_date"  required="false" value="{$info.out_date}"/></td>
+					<td>入库时间</td>
+					<td><input  class="mini-datepicker"  name="in_date"  required="false" value="{$info.in_date}"/></td>
 				</tr>
 				<tr>
 
-					<td>出库种类:</td>
-					<td><input name="out_type" class="mini-combobox" data='{:setMiniConfig|$out_type}' value="{$data.out_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
-					</td>	
-					<td>物流公司:</td>
-					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>				
+					<td>入库类型:</td>
+					<td><input name="in_type" class="mini-combobox" data='{:setMiniConfig|$in_type}' value="{$data.in_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
+					</td>					
 				</tr>
 				<tr>
 					<td>备注:</td>
@@ -64,23 +63,23 @@
 				</tr>
 			{else}
 				<tr>
-					<td>出库名称:</td>
-					<td>{$out_info.sale_subject}
+					<td>入库名称:</td>
+					<td>{$in_info.storage_subject}
 					</td>
-					<td>出库单号</td>
-					<td>{$out_info.out_no}</td>
+					<td>入库单号</td>
+					<td>{$in_info.in_storage_no}</td>
 				</tr>
 
 				<tr>
 					<td>关联客户:</td>
-					<td>{$out_info.c_name}</td>
-					<td>出库时间</td>
-					<td>{$out_info.out_date}</td>
+					<td>{$in_info.c_name}</td>
+					<td>入库时间</td>
+					<td>{$in_info.storage_date}</td>
 				</tr>
 				<tr>
 
-					<td>出库种类:</td>
-					<td>{$out_type.$out_info.out_type}</td>
+					<td>入库种类:</td>
+					<td>{$storage_type.$in_info.storage_type}</td>
 					<td>物流公司:</td>
 					<td>{$ship_company.$out_info.ship_id}</td>
 				</tr>
@@ -94,23 +93,19 @@
 		</fieldset>
 
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
-			<legend>出库明细</legend>
+			<legend>入库明细</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 				<tr>
-					<td>订单明细:</td>
-					<td><input name="sale_id" class="mini-buttonedit" onbuttonclick="detailChoose" value="{$data.sale_id}" allowInput="false"  text="{$data.sale_id}"  style="width:120px" id="usrId"/></td>
-					<td>仓库:</td>
+					<td>采购明细:</td>
+					<td><input name="purchase_id" class="mini-buttonedit" onbuttonclick="purLogChoose" value="{$data.purchase_id}" allowInput="false"  text="{$data.purchase_id}"  style="width:120px" id="usrId"/></td>
+					<td>选择仓库:</td>
 					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
 				</tr>
 				<tr>
-					<td>库位</td>
-					<td><input name="location_name" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.location_name}"/></td>
-					<td>出库人</td>
+					<td>批次</td>
+					<td><input name="number" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.number}"/></td>	
+					<td>入库人</td>
 					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
-				</tr>
-				<tr>
-					<td>数量</td>
-					<td><input name="number" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.number}"/></td>
 				</tr>
 	
 			</table>	
@@ -118,7 +113,7 @@
 	</div>
 </div>
 			<div align="center" style="margin-top:10px;">
-				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">保存</a>
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">入库</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
 	
@@ -137,7 +132,7 @@ function onKeyEnter(e) {
 }
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',id = record.sale_id,model = record.model ;
+	var record = e.record,s='',id = record.purchase_id,model = record.model ;
 	s += '<a href="javascript:viewOrdInfo('+id+')">'+'订单明细'+'</a> ';
 	return s;
 }
@@ -180,11 +175,11 @@ function onCancel(e) {
   CloseWindow("cancel");
 }
 //选择明细
-function detailChoose(e){
+function purLogChoose(e){
 	var oid=mini.get(o_id).getValue();
 	var btn = this;
 		mini.open({
-		url: "/product/saleLog/init?do=search&oid="+oid,
+		url: "/product/purchaseLog/init?do=search&oid="+oid,
 		title: "选择明细",
 		width: 1200,
 		height: 550,
@@ -304,7 +299,7 @@ function remove() {
 		return false;
 	}
 	}
-	utils.ajax('/product/outStorage/remove',{ids:ids},callback,"POST","json");
+	utils.ajax('/product/inStorage/remove',{ids:ids},callback,"POST","json");
   });
 }
 //行内编辑后保存数据
@@ -321,6 +316,6 @@ function saveData() {
 			grid.reload();
 		}
 	}
-	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
+	utils.ajax('/product/inStorage/save',{data:json},callback,"POST","json");
 }
 </script>
