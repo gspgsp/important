@@ -39,8 +39,9 @@ class myquotationAction extends homeBaseAction
     //单个更新报价单
     public function refreshCell(){
         $id = sget('id','i',0);
-        $qdata = sget('qdata','a');
-        $result = M('touch:myquotation')->refreshCell($id, $qdata);
+        $data = sget('qdata','a');
+        $p_id = sget('pid','i',0);
+        $result = M('touch:myquotation')->refreshCell($id, $data, $p_id);
         $this->json_output($result);
     }
     //批量更新报价单
