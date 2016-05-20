@@ -19,8 +19,19 @@ class myquotationModel extends model
 		}
 	}
 	//单个更新报价单
-	public function refreshCell($id, $qdata){
+	public function refreshCell($id, $data, $p_id){
 		if(!empty($id)){
+			$fdata = array();
+			$qdata = array();
+			foreach ($data as $key => $value) {
+				if($key == 'f_name'){
+					$fdata['f_name'] = $value;
+				}else{
+					$qdata[$key] = $value;
+				}
+			}
+			$f_id = $this->model('product')->select('f_id')->where('id='.$p_id)->getOne();
+			$this->model('factory')->where('fid='.$f_id)->update($fdata);
 			$result = $this->model('purchase')->where('id='.$id)->update($qdata);
 		}
 		if($result){
