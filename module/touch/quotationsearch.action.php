@@ -28,7 +28,7 @@ class quotationsearchAction extends homeBaseAction
         }
         //1,上架2,下架
         $type = sget('type','s');
-        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type={$keyValue}) and pur.user_id={$uid}";
+        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$uid}";
         if($type == '1'){
     		$where.=" and pur.shelve_type=1";
     		$data = $this->db->from('purchase pur')
@@ -36,6 +36,8 @@ class quotationsearchAction extends homeBaseAction
 	        ->join('factory fa','pro.f_id=fa.fid')
 	        ->where($where)
 	        ->getAll();
+            p($data);
+            die;
 	        $resultData = $this->_reverseData($data);
 	        $this->json_output($resultData);
         }elseif ($type == '2') {
@@ -48,6 +50,7 @@ class quotationsearchAction extends homeBaseAction
 	        $resultData = $this->_reverseData($data);
 	        $this->json_output($resultData);
         }else{
+            p($where);
 	        $data = $this->db->from('purchase pur')
 	        ->join('product pro','pur.p_id=pro.id')
 	        ->join('factory fa','pro.f_id=fa.fid')
