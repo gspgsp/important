@@ -8,7 +8,7 @@ class indexAction extends homeBaseAction{
 	}
 	public function init()
 	{
-		$where="type=1 and pur.status in (2,3,4)";
+		$where="type=1 and shelve_type=1 and pur.status in (2,3,4)";
 
 		if($type=sget('type','i',0)){
 			$this->assign('type',$type);
@@ -53,18 +53,9 @@ class indexAction extends homeBaseAction{
 		ksort($area);
 		$this->assign('area',$area);
 
-		$p=sget('page','i',1);
+		$page=sget('page','i',1);
 		$pageSize=10;
-		$list=$this->db->from('purchase pur')
-			->join('product pro','pur.p_id=pro.id')
-			->join('factory fa','pro.f_id=fa.fid')
-			->join('lib_region reg','pur.provinces=reg.id')
-			->where($where)
-			->order('input_time desc')
-			->page($p,$pageSize)
-			->select('pur.id,pur.user_id,pur.unit_price,pur.c_id,pur.number,pur.provinces,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,reg.name as cityname')
-			->getPage();
-
+		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
 		$this->pages = pages($list['count'], $p, $pageSize);
 		foreach ($list['data'] as $key => $value) {
 			$uids[]=$value['user_id'];

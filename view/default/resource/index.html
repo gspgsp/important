@@ -97,18 +97,13 @@
 							<div class="amount">
 								<p style="color: #923b00;">{$userInfo.points}</p>
 							</div>
-							<!--sign-up begin-->
+							{if $is_sign}
+							<div class="sign-up-already">已签到</div>
+							{else}
 							<div class="sign-up ">
 								<p style="color:#fff;" onclick="qiandao()">签到领积分</p>
-								<div class="tip">
-									成功领取<span>50</span>积分
-									<img src="/themes/suliao/images/resource/reTipSanJiao.png" width="9" height="7">
-								</div>
 							</div>
-							<!--sign-up end-->
-							<!--sign-up-already begin-->
-							<div class="sign-up-already no">已签到</div>
-							<!--sign-up-already end-->
+							{/if}
 						</div>
 						{else}
 						<div class="no-login">
@@ -131,7 +126,11 @@
 									<h4>发布一条资源</h4>
 									<p>+100 积分</p>
 								</div>
+								{if $is_pup}
+								<div class="status yes">已完成</div>
+								{else}
 								<div class="status no">未完成</div>
+								{/if}
 							</li>
 							<li>
 								<div class="num"><img src="__IMG__/home/re2.png" width="53" height="65"></div>
@@ -139,7 +138,11 @@
 									<h4>每日签到</h4>
 									<p>+50 积分</p>
 								</div>
+								{if $is_sign}
+								<div class="status yes">已完成</div>
+								{else}
 								<div class="status no">未完成</div>
+								{/if}
 							</li>
 							<li class="last">
 								<div class="num"><img src="__IMG__/home/re3.png" width="53" height="65"></div>
@@ -147,7 +150,11 @@
 									<h4>搜索一条资源</h4>
 									<p>+50 积分</p>
 								</div>
+								{if $is_search}
+								<div class="status yes">已完成</div>
+								{else}
 								<div class="status no">未完成</div>
+								{/if}
 							</li>
 						</ul>
 					</div>
@@ -264,6 +271,19 @@ $(".addform").submit(function(){
 	},'json')
 	return false;
 })
+
+function qiandao(){
+    $.post('/pointshop/index/signon', function (data){
+            if(data.status == 1){
+                alert(data.msg);
+            }else{
+                alert(data.msg);
+            }
+            window.location.reload();
+
+    },'json');
+
+}
 
 
 

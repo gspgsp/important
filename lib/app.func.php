@@ -76,4 +76,9 @@ function format_money($amount,$show_symbol=FALSE){
 function desDecrypt_IOS($data){
 	return rtrim(desDecrypt(bin2hex(base64_decode($data))),'');
 }
+
+function witchType($id=1){
+	$product_type=L('product_type');
+	return $product_type[$id];
+}
 ?>

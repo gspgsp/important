@@ -1,0 +1,1249 @@
+{layout file="public:main_layout"}
+{insert_css files='home/track.css'}
+<script type="text/javascript">
+    var oil1 = {:json_encode|$oil1};
+    var oil2 = {:json_encode|$oil2};
+    var quotation = {:json_encode|$quotation};
+    
+</script>
+
+<!--banner begin-->
+<div class="banner">
+    <!--bannerSlidePlayer begin-->
+    <div id="bannerSlidePlayer" class="main_visual">
+        <ul class="main_image clearfix">
+            <li class="element">
+                <a href="http://wodesuliao.cn/article/show.html?id=3606">
+                    <img src="__IMG__/home/banner7.jpg" alt="扫描二维码，红包翻翻翻">
+                </a>
+            </li>
+            <li class="element">
+                <a href="http://wodesuliao.cn/article/show.html?id=3375">
+                    <img src="__IMG__/home/banner6.jpg" alt="开奖啦">
+                </a>
+            </li>
+            <li class="element">
+                <a href="/dkh">
+                    <img src="__IMG__/home/banner1.jpg" alt="大客户报价区">
+                </a>
+            </li>
+            <li class="element">
+                <a href="/ship">
+                    <img src="__IMG__/home/banner2.jpg" alt="中晨物流">
+                </a>
+            </li>
+        </ul>
+        <div class="flicking_con"></div>
+        <a href="javascript:void(0);" id="btn_prev" class="hidden"></a>
+        <a href="javascript:void(0);" id="btn_next" class="hidden"></a>
+    </div>
+    <!--bannerSlidePlayer begin-->
+     <!--banner-menu begin-->
+        <div class="banner-menu">
+            <!--left begin-->
+            <div class="left flt">
+                <ul>
+                    <li id="tab1" onmouseover="setTab('tab',1,6)"  class="hover"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>供应信息</li>
+                    <li id="tab2" onmouseover="setTab('tab',2,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>求购信息</li>
+                    <li id="tab3" onmouseover="setTab('tab',3,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>中晨物流</li>
+                    <li id="tab4" onmouseover="setTab('tab',4,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>供应链金融</li>
+                    <li id="tab5" onmouseover="setTab('tab',5,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>我要求购</li>
+                    <li id="tab6" onmouseover="setTab('tab',6,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>用户登录</li>
+                </ul>
+            </div>
+            <!--left end-->
+            <!--right begin-->
+            <div class="right frt">
+                <!--con-tab-1 begin-->
+                <div id="con-tab-1">
+                    <!--search begin-->
+                    <div class="search">
+                        <form method="get" action="/Search">
+                            <input type="text" name="keywords" placeholder="请输入牌号、厂家等搜索关键词" class="serch-ipt"/>
+                            <input type="hidden" name="stype" value="现货" />
+                            <input type="submit" class="search-smt" value=""/>
+                        </form>
+                    </div>
+                    <!--search end-->
+                    <!--variety begin-->
+                    <ul class="variety">
+                        <li class="variety1"><b></b><span><a href="/opus/index?pz=HDPE">高密度聚乙烯 HDPE</a></span></li>
+                        <li class="variety2 cancel-margin"><b></b><span><a href="/opus/index?pz=LDPE">低密度聚乙烯 LDPE</a></span></li>
+                        <li class="variety3"><b></b><span><a href="/opus/index?pz=LLDPE">线性聚乙烯 LLDPE</a></span></li>
+                        <li class="variety4 cancel-margin"><b></b><span><a href="/opus/index?pz=PP">聚丙烯 PP</a></span></li>
+                        <li class="variety5"><b></b><span><a href="/opus/index?pz=PVC">聚氯乙烯 PVC</a></span></li>
+                        <li class="variety6 cancel-margin"><b></b><span><a href="/opus/index">其他</a></span></li>
+                    </ul>
+                    <!--variety end-->
+                    <!--use begin-->
+                    <ul class="use other">
+                        {foreach from=$process_level item=value key=key}
+                        {if $key<=7}
+                        <li><a href="">{$value}</a></li>
+                        {/if}
+                        {/foreach}
+                        <a href="/opus"><li class="menu-more"></li></a>
+                    </ul>
+                    <!--use end-->
+                    <!--region begin-->
+                    <ul class="region other">
+                        {foreach from=$area item=value key=key}
+                        {if $key <=6}
+                        <li><a href="{$value.id}">{$value.name}</a></li>
+                        {/if}
+                        {/foreach}
+                        <a href="/opus"><li class="menu-more"></li></a>
+                    </ul>
+                    <!--region end-->
+                </div>
+                <!--con-tab-1 end-->
+                <!--con-tab-2 begin-->
+                <div id="con-tab-2" style="display:none;" class="color3">
+                    <!--search begin-->
+                    <div class="search">
+                        <form name="" method="get" action="/Search">
+                            <input type="text" placeholder="请输入牌号、厂家等搜索关键词" name="keywords" class="serch-ipt"/>
+                            <input type="hidden" name="stype" value="采购" />
+                            <input type="submit" class="search-smt" value=""/>
+                        </form>
+                    </div>
+                    <!--search end-->
+                    <h3>牌号新采购</h3>
+                    <ul>
+                        {foreach from=$newPur item=value}
+                        <li>{:witchType|$value.product_type} {$value.model} {$value.f_name} {:floatval|$value.number}吨 {$value.cityname} {$value.input_time|date:Y-m-d}</li>
+                        {/foreach}
+                    </ul>
+                    <p><a href="/Buy/index/type/1">更多求购》</a></p>
+                </div>
+                <!--con-tab-2 end-->
+                <!--con-tab-3 begin-->
+                <div id="con-tab-3" style="display:none;">
+                    <!--transport begin-->
+                    <div class="transport">
+                        <form name="" method="post" action="">
+                            <ul class="search-inner">
+                                <!--addr-from begin-->
+                                <li class="input addr addr-from">
+                                    <input type="text" placeholder="选择装点..."/>
+                                    <div class="sub-from">
+                                        <div class="arrow"></div>
+                                        <ul>
+                                            <li><b></b><span>上海宝山区</span></li>
+                                            <li><b></b><span>上海外高桥保税仓库</span></li>
+                                            <li><b></b><span>上海洋山地区</span></li>
+                                            <li><b></b><span>上海金山区</span></li>
+                                            <li><b></b><span>上海奉贤区</span></li>
+                                        </ul>
+                                    </div>
+                                    <!--error-msg begin-->
+                                    <div class="error-msg">
+                                        <div class="arrow"></div>
+                                        <p>请先选择装点</p>
+                                    </div>
+                                    <!--error-msg end-->
+                                </li>
+                                <!--addr-from end-->
+                                <!--addr-to begin-->
+                                <li class="input addr addr-to">
+                                    <input type="text" placeholder="选择卸点..."/>
+                                     <!--sub-to begin-->
+                                    <div class="sub-to">
+                                        <div class="arrow"></div>
+                                        <!--sub-to-con begin-->
+                                        <div class="sub-to-con">
+                                            <!--xl begin-->
+                                            <div class="xl">
+                                                 <!--xl-tr begin-->
+                                                 <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one"><b>A</b><span data-index="0">安庆</span></div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>Q</b>
+                                                            <span data-index="1">衢州</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                                <!--xl-tr begin-->
+                                                <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one"><b>B</b><span data-index="2">蚌埠</span></div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>S</b>
+                                                            <span data-index="3">上海</span>
+                                                            <span data-index="4">绍兴</span>
+                                                            <span data-index="5">苏州</span>
+                                                            <span data-index="6">宿迁</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                                <!--xl-tr begin-->
+                                                <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>C</b>
+                                                            <span data-index="7">常州</span>
+                                                            <span data-index="8">滁州</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>T</b>
+                                                            <span data-index="9">台州</span>
+                                                            <span data-index="10">泰州</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                                <!--xl-tr begin-->
+                                                <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>H</b>
+                                                            <span data-index="11">杭州</span>
+                                                            <span data-index="12">湖州</span>
+                                                            <span data-index="13">淮安</span>
+                                                            <span data-index="14">合肥</span>
+                                                            <span data-index="15">黄山</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>W</b>
+                                                            <span data-index="16">温州</span>
+                                                            <span data-index="17">无锡</span>
+                                                            <span data-index="18">芜湖</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                                <!--xl-tr begin-->
+                                                <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>J</b>
+                                                            <span data-index="19">嘉兴</span>
+                                                            <span data-index="20">金华</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>X</b>
+                                                            <span data-index="21">徐州</span>
+                                                            <span data-index="22">宣城</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                                <!--xl-tr begin-->
+                                                <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>L</b>
+                                                            <span data-index="23">连云港</span>
+                                                            <span data-index="24">六安</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>Y</b>
+                                                            <span data-index="25">盐城</span>
+                                                            <span data-index="26">扬州</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                                <!--xl-tr begin-->
+                                                <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>M</b>
+                                                            <span data-index="27">马鞍山</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>Z</b>
+                                                            <span data-index="28">镇江</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                                <!--xl-tr begin-->
+                                                <div class="xl-tr">
+                                                    <!--xl-td begin-->
+                                                    <div class="xl-td">
+                                                        <div class="one">
+                                                            <b>N</b>
+                                                            <span data-index="29">宁波</span>
+                                                            <span data-index="30">南京</span>
+                                                            <span data-index="31">南通</span>
+                                                        </div>
+                                                        <div class="two"></div>
+                                                    </div>
+                                                    <!--xl-td end-->
+                                                </div>
+                                                <!--xl-tr end-->
+                                            </div>
+                                            <!--xl end-->
+                                        </div>
+                                        <!--sub-to-con end-->
+                                    </div>
+                                    <!--sub-to end-->
+                                </li>
+                                <!--addr-to end-->
+                                <!--num begin-->
+                                <li class="input num">
+                                    <input type="text" placeholder="输入吨数" onkeyup="setCon(this)"/>
+                                    <!--error-msg begin-->
+                                    <div class="error-msg">
+                                        <div class="arrow"></div>
+                                        <p></p>
+                                    </div>
+                                    <!--error-msg end-->
+                                </li>
+                                <!--num end-->
+                                <li class="btn">查运价</li>
+                            </ul>
+                        </form>
+                    </div>
+                    <!--transport end-->
+                    <!--trans-other begin-->
+                    <ul class="trans-other">
+                        <li class="other1"><div></div><p>安全交易</p></li>
+                        <li class="other2"><div></div><p>合作物流</p></li>
+                        <li class="other3"><div></div><p>最低价格</p></li>
+                        <li class="other4"><div></div><p>真人找车</p></li>
+                    </ul>
+                    <!--trans-other end-->
+                    <!--trans-result begin-->
+                    <div class="trans-result">
+                        <h4>运价查询结果</h4>
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="name">装点</td>
+                                <td class="from">上海外高桥保税仓库</td>
+                            </tr>
+                            <tr>
+                                <td class="name">卸点</td>
+                                <td class="to">衢州|龙游县</td>
+                            </tr>
+                            <tr>
+                                <td class="name">吨数</td>
+                                <td class="weight">12</td>
+                            </tr>
+                            <tr>
+                                <td class="name">预计运费</td>
+                                <td class="trans-price"><b>￥<span class="price"></span></b>（该报价含<span>开票费</span>和<span>上车费</span>）</td>
+                            </tr>
+                            <tr align="center">
+                                <td colspan="2">
+                                    <div class="order-car-btn"><a style="color:#fff;" href="/ship">我要订车</a></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--trans-result end-->
+                </div>
+                <!--con-tab-3 end-->
+                <!--con-tab-4 begin-->
+                <div id="con-tab-4" style="display:none;">
+                    <!--menu-spy-chn begin-->
+                    <div class="menu-spy-chn">
+                        <!--business1 begin-->
+                        <div class="business business1">
+                            <h4>针对<span>仓单融资</span>业务</h4>
+                            <ul>
+                                <li class="item1"><p><b></b></p><span>最高预付<i>80%</i>货款</span></li>
+                                <li class="item2"><p><b></b></p><span>按天计算月息低至<i>1%</i></span></li>
+                                <li class="item3"><p><b></b></p><span><i>48</i>小时内货款到账</span></li>
+                            </ul>
+                        </div>
+                        <!--business1 end-->
+                        <!--business1 begin-->
+                        <div class="business business2">
+                            <h4>针对<span>订单融资</span>业务</h4>
+                            <ul>
+                                <li class="item1"><p><b></b></p><span>无需<i>抵押</i> 无需<i>担保</i></span></li>
+                                <li class="item2"><p><b></b></p><span>订单货物<i>先行</i>提取</span></li>
+                                <li class="item3"><p><b></b></p><span>按天计算收费低至<i>8元/吨</i></span></li>
+                            </ul>
+                        </div>
+                        <!--business1 end-->
+                    </div>
+                    <!--menu-spy-chn end-->
+                    <div class="apply"><a href="/gyl">立即申请</a></div>
+                </div>
+                <!--con-tab-4 end-->
+                <!--con-tab-5 begin-->
+                <div id="con-tab-5" style="display:none;">
+                    <h3>快速发布采购</h3>
+                    <p class="how color3">委托发货>>选择保价>>交易完成</p>
+                    <p class="msg"></p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <form name="" method="post" action="/Index/doaddbuy/status/1">
+                            <tr>
+                                <td class="name">牌号</td>
+                                <td><input type="text" name="phtext" class="input border-gray grade" maxlength="15" /></td>
+                            </tr>
+                            <tr class="num">
+                                <td class="name">数量</td>
+                                <td><input type="text" name="numtext" class="input border-gray amount" onkeyup="setCon(this)"/>吨</td>
+                            </tr>
+                            <tr class="num">
+                                <td class="name">意向价格</td>
+                                <td><input type="text" name="pricetext" class="input border-gray price" onkeyup="setCon(this)"/>元</td>
+                            </tr>
+                            <tr>
+                                <td class="name">交货地</td>
+                                <td><input type="text" name="jhtext" class="input border-gray place" maxlength="40" /></td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="name">联系人</td>
+                                <td><input type="text" name="" class="input border-gray linkman"/></td>
+                            </tr>
+                            <tr>
+                                <td class="name">电话</td>
+                                <td><input type="text" class="input border-gray tel"/></td>
+                            </tr> -->
+                            <tr>
+                                <td colspan="2">
+                                    <input type="button" value="免费委托发布" class="submit"/>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+                <!--con-tab-5 end-->
+                <!--con-tab-6 begin-->
+                <div id="con-tab-6" style="display:none;">
+                <if condition="$_SESSION['webUserId'] neq ''">
+                {if $smarty.session.userid > 0}
+                    <h2 style="margin: 141px auto;text-align: center;">已登录，<a href="/user/logout" style="color:#fc6621;">退出登录</a>。</h3>
+                {else}
+                    <!--login-title begin-->
+                    <div class="login-title">
+                        <h3>登录我的塑料网</h3>
+                        <span>还没有账号？<a href="/Register">30秒注册</a></span>
+                    </div>
+                    <!--login-title end-->
+                    <p class="msg"></p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <form name="" method="post" action="">
+                            <tr>
+                                <td>
+                                    <div class="login-wrap">
+                                        <div class="login-icon"><img src="__IMG__/home/iconLog1.png" width="17" height="17"/></div>
+                                        <div class="login-input"><input type="text" name="username" class="user" value="" placeholder="请输入账号"/></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="login-wrap pwd">
+                                        <div class="login-icon"><img src="__IMG__/home/iconLog2.png" width="14" height="17"/></div>
+                                        <div class="login-input"><input type="password" name="password" class="pwd" placeholder="请输入密码"/></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="forget link3">
+                                <td><a href="/login/findpwd">忘记密码？</a></td>
+                            </tr>
+                            <tr>
+                                <td><input type="submit" value="登录" class="submit"/></td>
+                            </tr>
+                            <tr class="other link3">
+                                <td>
+                                    <div class="qq">
+                                        <a href="/login/auth/type/qq">QQ登录</a>
+                                    </div>
+                                    <!-- <div class="blog"><a href="javascript:;">微博登录</a></div> -->
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                {/if}
+                </div>
+                <!--con-tab-6 end-->
+            </div>
+            <!--right end-->
+        </div>
+        <!--banner-menu end-->
+</div>
+<!--banner end-->
+<!--price-dynamic begin-->
+<div class="price-dynamic w1220">
+	<!--left begin-->
+    <div class="left flt">
+    	<div class="title">调价动态</div>
+        <!--slider begin-->
+        <!--slider begin-->
+        <div class="slider">
+            <div class="track example-1">
+                <!--inner begin-->
+                <div class="inner">
+                    <!--view-port begin-->
+                    <div class="view-port">
+                        <!--slider-container begin-->
+                        <div class="slider-container"  id="example-1">
+                            {foreach from=$readjust item=value}
+                            <div class="item {if $value.type==1}up{else}down{/if}">
+                                <h3><span>{$value.cj}</span>{$value.ph}</h3>
+                                <div class="data">
+                                    <div class="data-lt"><span></span>{$value.price}</div>
+                                    <div class="data-rt">
+                                        <p>{if $value.type==1}+{else}-{/if}{$value.num}</p>
+                                        <p>{$value.rate}%</p>
+                                    </div>
+                                </div>
+                                <p class="time"><span>{$value.time|date:m月d日}</span>{$value.time|date:H:i}</p>
+                            </div>
+                            {/foreach}
+                        </div>
+                        <!--slider-container begin-->
+                  </div>
+                  <!--view-port begin-->
+                </div>
+                <!--inner end-->
+                <!--pagination begin-->
+                <div class="pagination">
+                    <a href="#" class="prev disabled"></a>
+                    <a href="#" class="next disabled"></a>
+                </div>
+                <!--pagination end-->
+            </div>
+        </div>
+        <!---slider end-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+    	<div class="title">
+        	<ul>
+                {foreach from=$product_type item=value key=key}
+                <li id="taba{$key}" onmouseover="setTab('taba',{$key},5)" {if $key==1}class="hover"{/if}><span>{$value}</span><b></b>/</li> 
+                {/foreach}
+            </ul>
+        </div>
+        <!--taba begin-->
+        <div class="taba">
+            <div class="taba-con" id="con-taba-1"></div>
+            <div class="taba-con" id="con-taba-2"></div>
+            <div class="taba-con" id="con-taba-3"></div>
+            <div class="taba-con" id="con-taba-4"></div>
+            <div class="taba-con" id="con-taba-5"></div>
+        </div>
+        <!--taba end-->
+    </div>
+    <!--right end-->
+</div>
+<!--price-dynamic end-->
+<!--index begin-->
+<div class="index w1220">
+	<!--left begin-->
+    <div class="left flt">
+    	<div class="title">原油指数</div>
+        <!--oil-index begin-->
+        <div class="oil-index">
+        	<!--oil-blt begin-->
+            <div class="oil-k oil-blt">
+            	<!--oil-k-title begin-->
+                <div class="oil-k-title">
+                	<h3>布油</h3>
+                    <span class="data">{$oil2[last][price]}</span>
+                    <span class="time"><b>{$oil2[last][input_time]|date:m月d日}</b>{$oil2[last][input_time]|date:H:i}</span>
+                </div>
+                <!--oil-k-title end-->
+                <!--<img src="__IMG__/home/kLine.jpg" width="320" height="182"/>-->
+                <!--oil-blt-con begin-->
+                <div class="oil-con" id="oil-blt-con"></div>
+                <!--oil-blt-con end-->
+            </div>
+            <!--oil-blt begin-->
+            <!--oil-wti begin-->
+            <div class="oil-k oil-wti">
+            	<!--oil-k-title begin-->
+                <div class="oil-k-title">
+                	<h3>WTI</h3>
+                    <span class="data">{$oil1[last][price]}</span>
+                    <span class="time"><b>{$oil1[last][input_time]|date:m月d日}</b>{$oil1[last][input_time]|date:H:i}</span>
+                </div>
+                <!--oil-k-title end-->
+                <!--oil-blt-con begin-->
+                <div class="oil-con" id="oil-wti-con"></div>
+                <!--oil-blt-con end-->
+            </div>
+            <!--oil-wti end-->
+        </div>
+        <!--oil-index end-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+    	<div class="title">网站指数</div>
+        <!--web-index begin-->
+        <ul class="web-index">
+        	<li>
+            	<dl class="web-index-lt flt web-index-person">
+                	<dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">昨日服务人数</p>
+                        <p class="num"><span>{$server.population}</span>人</p>
+                    </dd>
+                </dl>
+                <dl class="web-index-rt flt web-index-deal">
+                	<dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">昨日成交</p>
+                        <p class="num"><span>{$server.deal}</span>笔</p>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+            	<dl class="web-index-lt flt web-index-supply">
+                	<dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">供应总量</p>
+                        <p class="num"><span>{$server.supplyAll}</span>吨</p>
+                    </dd>
+                </dl>
+                <dl class="web-index-rt flt web-index-demand">
+                	<dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">需求总量</p>
+                        <p class="num"><span>{$server.demandAll}</span>吨</p>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+            	<dl class="web-index-total">
+                	<dt class="icon"></dt>
+                    <dd>
+                    	<p class="explain">交易总额</p>
+                        <p class="num"><span>{$server.dealyAll|number_format}</span>元</p>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+        <!--web-index end-->
+    </div>
+    <!--right end-->
+</div>
+<!--index end-->
+<!--floor1 begin-->
+<div class="floor floor1 w1220">
+	<!--floor-title begin-->
+    <div class="floor-title">1F 供求信息<p>即时抢货</p></div>
+    <!--floor-title end-->
+    <!--supply-demand begin-->
+    <div class="supply-demand info">
+    	<!--left begin-->
+        <div class="left flt">
+        	<!--info-title begin-->
+        	<ul class="info-title color3">
+            	<li class="breed">品种</li>
+                <li class="grade">牌号</li>
+                <li class="factory">厂家</li>
+                <li class="amount">数量（吨）</li>
+                <li class="price">价格（元 / 吨）</li>
+                <li class="place">交货地</li>
+                <li class="time">时间</li>
+                <li class="opt">操作</li>
+            </ul>
+            <!--info-title end-->
+            <!--info-con begin-->
+            <ul class="info-con color6">
+                {foreach from=$purBuy item=value}
+                {if $value.type==2}
+            	<li class="supply">
+                	<div class="breed"><span></span>{:witchType|$value.product_type}</div>
+                    <div class="grade">{$value.model}</div>
+                    <div class="factory">{$value.f_name}</div>
+                    <div class="amount">{:floatval|$value.number}</div>
+                    <div class="price">￥{:floatval|$value.unit_price}</div>
+                    <div class="place">{$value.cityname}</div>
+                    <div class="time">{$value.input_time|date:H:i}</div>
+                    <div class="opt"><a href="">查看</a></div>
+                </li>
+                {else}
+                <li class="demand">
+                    <div class="breed"><span></span>{:witchType|$value.product_type}</div>
+                    <div class="grade">{$value.model}</div>
+                    <div class="factory">{$value.f_name}</div>
+                    <div class="amount">{:floatval|$value.number}</div>
+                    <div class="price">￥{:floatval|$value.unit_price}</div>
+                    <div class="place">{$value.cityname}</div>
+                    <div class="time">{$value.input_time|date:H:i}</div>
+                    <div class="opt"><a href="">供货</a></div>
+                </li>
+                {/if}
+                {/foreach}
+            </ul>
+            <!--info-con end-->
+            <div class="more"><a href="/opus/index/t/1"></a></div>
+        </div>
+        <!--left end-->
+        <!--right begin-->
+   	  	<div class="right frt">
+       		<ul>
+                {foreach from=$grabList item=value}
+            	<li>
+                    <div class="rob-lt">
+                    	<div class="rob-person">
+                        	<div class="nickname">
+                            	<p><img src="{$value.qq_image}" width="40" height="40"/></p>
+                                {if $value.user_nick==''}{$value.realname}{else}{$value.user_nick}{/if}
+                            </div>
+                            <div class="qq"><span class="qq_img"></span>{$value.user_qq}</div>
+                        </div>
+                      <div class="rob-info">{$value.content|mb_substr=0,60,'utf-8'}</div>
+                  	</div>
+                    <a href="javascript:rush();"><div class="rob-rt frt"><p>{$value.input_time|date:H:i}</p></div></a>
+                </li>
+                {/foreach}
+          	</ul>
+            <div class="more"><a href="/Resource/index/type/1"></a></div>
+        </div>
+    </div>
+    <!--supply-demand end-->
+</div>
+<!--floor1 end-->
+<!--floor2 begin-->
+<div class="floor floor2 w1220">
+	<!--floor-title begin-->
+    <div class="floor-title">2F 大户报价</div>
+    <!--floor-title end-->
+     <!--large-bid begin-->
+    <div class="large-bid info">
+    	<!--left begin-->
+        <div class="left flt">
+        	<!--info-title begin-->
+        	<ul class="info-title color3">
+            	<li class="breed">品种</li>
+                <li class="grade">牌号</li>
+                <li class="factory">厂家</li>
+                <li class="amount">数量（吨）</li>
+                <li class="price">价格（元 / 吨）</li>
+                <li class="change">涨跌</li>
+                <li class="place">交货地</li>
+                <li class="time">时间</li>
+                <li class="opt">操作</li>
+            </ul>
+            <!--info-title end-->
+            <!--info-con begin-->
+            <ul class="info-con color6">
+                <foreach name="offerList" item="value">
+            	<li>
+                	<div class="breed">{$value.pzname}</div>
+                    <div class="grade">{$value.phname}</div>
+                    <div class="factory">{$value.cjname}</div>
+                    <div class="amount">{$value.num}</div>
+                    <div class="price">￥{$value.price}</div>
+                    <div class="change up down tie"><span></span>123</div>
+                    <div class="place">{$value.address}</div>
+                    <div class="time">2016</div>
+                    <div class="opt"><a href="/dkh">查看</a></div>
+                </li>
+                </foreach>
+            </ul>
+            <!--info-con end-->
+        </div>
+        <!--left end-->
+        <!--right begin-->
+   	 	<div class="right frt">
+       		<ul>
+                <foreach name="bigClient" item="value">
+            	<li><a href="/dkh/cache?khid={$value.id}" title="{$value.gsname}"><span></span><img src="{$value.logo}" width="73" height="38"/></a></li>
+                </foreach>
+          	</ul>
+            <div class="more"><a href="/dkh"></a></div>
+        </div>
+        <!--right end-->
+    </div>
+    <!--large-bid end-->
+</div>
+<!--floor2 end-->
+<!--floor3 begin-->
+<div class="floor floor3 w1220">
+	<!--floor-title begin-->
+    <div class="floor-title">3F 中晨物流<p><a href="/ship">承运商入驻></a></p></div>
+    <!--floor-title end-->
+    <!--ship begin-->
+    <div class="ship info">
+    	<!--left begin-->
+        <div class="left flt">
+        	<h2>优质<span>线路推荐</span></h2>
+            <!--rount begin-->
+        	<ul class="rount">
+                {foreach from=$shipList item=value}
+                <li>
+                    <h3 class="color6">{$value.start}</h3>
+                    <p>{$value.cities}-{$value.end}</p>
+                    <p>货物重量：{$value.weight}吨</p>
+                    <p>运费：{$value.price}元</p>
+                </li>
+                {/foreach}
+            </ul> 
+            <!--rount end-->
+            <h2>物流<span>优势</span></h2>
+            <!--advantage begin-->
+            <ul class="advantage">
+            	<li>价格透明</li>
+                <li>运货快</li>
+                <li>可视化</li>
+                <li>服务好</li>
+                <li>车队多</li>
+            </ul>
+            <!--advantage end-->
+        </div>
+        <!--left end-->
+        <!--right begin-->
+        <div class="right frt"><img src="__IMG__/home/ship.jpg" width="398" height="332"/></div>
+        <!--right end-->
+    </div>
+    <!--ship end-->
+</div>
+<!--floor3 end-->
+<!--floor4 begin-->
+<div class="floor floor4 w1220">
+	<!--floor-title begin-->
+    <div class="floor-title">4F 供应链金融<p><a href="/gyl">供应链金融></a></p></div>
+    <!--floor-title end-->
+    <!--supply-chain begin-->
+    <div class="supply-chain info">
+    	<!--left begin-->
+        <div class="left flt">
+        	<h2>针对<span>仓单融资</span>业务</h2>
+            <ul class="business business1">
+            	<li class="item1"><p><b></b></p><span>最高预付<i>80%</i>货款</span></li>
+                <li class="item2"><p><b></b></p><span>按天计算月息低至<i>1%</i></span></li>
+                <li class="item3"><p><b></b></p><span><i>48</i>小时内货款到账</span></li>
+            </ul>
+            <h2>针对<span>订单融资</span>业务</h2>
+            <ul class="business business2">
+            	<li class="item1"><p><b></b></p><span>无需<i>抵押</i> 无需<i>担保</i></span></li>
+                <li class="item2"><p><b></b></p><span>订单货物<i>先行</i>提取</span></li>
+                <li class="item3"><p><b></b></p><span>按天收费低至<i>8</i>元/吨</span></li>
+            </ul>
+            <h2>供应链金融<span>优势</span></h2>
+            <ul class="advantage">
+            	<li>仓单/订单融资</li>
+                <li>仓单/订单融资</li>
+                <li>仓单/订单融资</li>
+                <li>仓单/订单融资</li>
+            </ul>
+        </div>
+        <!--left begin-->
+        <!--right begin-->
+        <div class="right frt"><img src="__IMG__/home/slyChain.jpg" width="398" height="397"/></div>
+        <!--right begin-->
+    </div>
+    <!--supply-chain end-->
+</div>
+<div class="floor floor5 w1220">
+    <div class="floor-title">5F 塑料头条<p><a href="/article/plist/cid/2">更多></a></p></div>
+    <div class="headline">
+        <div class="left flt">
+            <div class="headline-title color6">
+                <foreach name="articleList" item="value" key="key">
+                {foreach from=$articleList item=value key=key}
+            	<h3 id="tabb{$key}" onmouseover="setTab('tabb',{$key},5)" {if $key==1}class="hover"{/if} >{$value.cate_name}</h3>
+                {/foreach}
+                </foreach>
+            </div>
+            <div class="headline-con link6 color9">
+                {foreach from=$articleList item=value key=key}
+            	<div id="con-tabb-{$key}" {if $key!=1}style="display:none;"{/if} >
+                    {foreach from=$value.list item=vv key=kk}
+                    <div class="headline-list {if $kk !=0 }last{/if} ">
+                        <ul>
+                            {foreach from=$vv item=v key=k}
+                            <li><a href="">{$v.title|mb_substr=0,20, 'utf-8'}</a>{$v.input_time|date:m-d}</li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    {/foreach}
+                </div>
+                {/foreach}
+            </div>
+        </div>
+        <div class="right frt"><img src="__IMG__/home/headline.jpg" width="400" height="243"/></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="__JS__/home/tab.js"></script>
+<script type="text/javascript" src="__JS__/home/dist/echarts.js"></script>
+<script type="text/javascript" src="__JS__/home/chart.mine.js"></script>
+<script type="text/javascript" src="__JS__/home/address.js"></script>
+<script type="text/javascript" src="__JS__/home/jquery.silver_track.js"></script>
+<script type="text/javascript" src="__JS__/home/jquery.silver_track.navigator.js"></script>
+<script type="text/javascript" src="__JS__/home/uc-resource-pack.js"></script>
+<script type="text/javascript" src="__JS__/home/jquery.touchSlider.js"></script>
+<script type="text/javascript" src="__JS__/home/home.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	$(".go-top").bind("click",function(){
+		$('html,body').animate({'scrollTop':0},300,function(){
+			$(".go-top").hide();
+		});
+	});
+
+	if($(window).scrollTop()<200){
+			$(".go-top").hide();
+		}
+
+	$(window).bind("scroll",function(){
+		if($(window).scrollTop()>=200){
+			$(".go-top").show();
+		}
+	});
+
+	//发布采购
+	var buy = $("#con-tab-5"),
+	    grade = buy.find(".grade"),
+		amount = buy.find(".amount"),
+		price = buy.find(".price"),
+		place = buy.find(".place"),
+		linkman = buy.find(".linkman"),
+		tel = buy.find(".tel");
+	buy.find(".submit").bind("click",function(){
+		msg = buy.find(".msg");
+		if(grade.val()==""){
+			msg.html("请输入牌号！");
+			grade.focus();
+			return;
+		}
+		if(amount.val()==""){
+			msg.html("请输入数量！");
+			amount.focus();
+			return;
+		}
+        else if(amount.val()>2000){
+            msg.html("数量不应超过2000吨！");
+            amount.focus();
+            return;
+        }
+		if(price.val()==""){
+			msg.html("请输入价格！");
+			price.focus();
+			return;
+		}
+        else if(price.val()>20000){
+            msg.html("价格不应超过20000！");
+            price.focus();
+            return;
+        }
+		if(place.val()==""){
+			msg.html("请输入交货地！");
+			place.focus();
+			return;
+		}
+        var _user = $('#_user').val();
+        if(_user==''){
+            $.layer({
+                type: 2,
+                border: [0],
+                title: false,
+                fix:true,
+                iframe: {src : "/login/loginbox?type=new"},
+                area: ['360px', '340px']
+            });
+            return;
+        }
+		msg.html("");
+		buy.find("form").submit();
+	});
+
+
+	//登录验证
+	var loginSubmit = $("#con-tab-6"),
+	    user = loginSubmit.find("input.user"),
+		pwd = loginSubmit.find("input.pwd");
+	loginSubmit.find(".submit").bind("click",function(){
+		msg = loginSubmit.find(".msg");
+		if(user.val()==""){
+			msg.html("请输入手机号或者邮箱！");
+			user.focus();
+			return;
+		}
+		if(pwd.val()==""){
+			msg.html("请输入密码！");
+			pwd.focus();
+			return;
+		}
+		msg.html("");
+		loginSubmit.find("form").submit();
+	});
+
+
+    var addrFrom = $("#con-tab-3 .transport .addr-from"),
+
+        addrFromInput = addrFrom.find("input"),
+
+        subFrom = addrFromInput.next(".sub-from"),
+
+        addToInput = $("#con-tab-3 .transport .addr-to input"),
+
+        subTo = $("#con-tab-3 .transport .sub-to"),
+
+        num = $("#con-tab-3 .transport .num"),
+
+        numInput = num.find("input"),
+
+        transOther = $("#con-tab-3 .trans-other"),
+
+        transResult = $("#con-tab-3 .trans-result");
+
+    addrFromInput.bind("focus",function(){
+
+        subFrom.show();
+        if(subTo.is(":visible")) subTo.hide();
+
+        //如果错误提示是显示的,则隐藏掉 
+
+        if(addrFrom.find(".error-msg").is(":visible")) addrFrom.find(".error-msg").hide();
+
+    });
+
+    subFrom.find("li").bind("click",function(){
+
+        addrFromInput.val($(this).find("span").html());
+
+        subFrom.hide();
+
+        if(addToInput.val()=="") subTo.show();
+
+    })
+
+    //打开选择卸点中二级地址
+    addToInput.bind("focus",function(){
+
+        subTo.show();
+
+        if(subFrom.is(":visible")) subFrom.hide();
+    });
+
+    $(".sub-to-con .xl-tr .xl-td:nth-child(2n) .two").css({"left":"-161px"});
+    $("#con-tab-3 .transport .sub-to .xl-tr .one span").bind("click",function(){
+
+        var str = "",selAddr = "", tempAddr = $(this).html();
+        var index = ($(this).attr("data-index"));
+
+        $("#con-tab-3 .transport .sub-to .xl-tr .one").find("span").removeClass("hover");
+        $(".one").removeClass("z-index-up");
+        $(".two").hide();
+        $(this).addClass("hover").parent().addClass("z-index-up").next(".two").show();
+
+        //显示数据
+        for(var i=1;i<address[index].length;i++){
+            str+="<span>"+address[index][i]+"</span>";
+        }
+        $(this).closest(".xl-tr").find(".two").html(str);
+
+        //点击某一个具体的地址
+        $(this).closest(".xl-tr").find(".two span").bind("click",function(){
+            selAddr = tempAddr +'|'+ $(this).html();
+            addToInput.val(selAddr);
+            subTo.hide();
+            subTo.find(".two").hide();
+            subTo.find(".one").find("span").removeClass("hover");
+            if(addrFromInput.val()=="") subFrom.show();
+        });
+    });
+
+    //点击差运价
+    $("#con-tab-3 .transport .btn").bind("click",function(){
+
+        //判断是否选择了装点
+
+        if(addrFromInput.val()==""){
+
+            addrFrom.find(".error-msg").show()
+
+            return;
+
+        }
+
+        //判断是否输入了吨数
+
+        if(numInput.val()==""){
+
+            num.find(".error-msg p").html("输入吨数");
+
+            num.find(".error-msg").show();
+
+            return;
+
+        }
+
+        else if(numInput.val()<5){
+
+            num.find(".error-msg p").html("吨数>=5");
+
+            num.find(".error-msg").show();
+
+            return;
+
+        }
+
+        else{
+            //异步获取价格信息
+            var form =addrFromInput.val();
+            var to = addToInput.val().split('|')[1];
+            var pr = addToInput.val().split('|')[0];
+            var weight = numInput.val();
+            $.ajax({
+                url: "/ship/index/get_price",
+                type : 'post',
+                dataType : 'json',
+                data : {s : form, e : to, w : weight, p : pr},
+                success:function(data){
+                    if(data.err==0){
+                        num.find(".error-msg").hide();
+                        transOther.hide();
+                        transResult.find('.from').html(form);
+                        transResult.find('.to').html(pr+'|'+to);
+                        transResult.find('.weight').html(weight);
+                        transResult.find('.price').html(data.msg);
+                        transResult.show();
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            })
+        }
+    });
+
+    var ztContact = $(".zt-contact");
+        ztContact.find(".opt").bind("mouseover",function(){
+            $(this).find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
+            $(this).find(".zt-mouseover").removeClass("bg-gray").addClass("bg-orge");
+            $(this).find(".zt-slide").stop().animate({
+                "left":"0px"
+            });
+        });
+        ztContact.find(".opt").bind("mouseleave",function(){
+            
+            $(this).find(".zt-slide").removeClass("bg-orge").addClass("bg-gray");
+            $(this).find(".zt-mouseover").removeClass("bg-orge").addClass("bg-gray");
+            $(this).find(".zt-slide").stop().animate({
+                "left":"60px"
+            });
+        });
+        
+        ztContact.find(".icon-ewm").bind("mouseover",function(){ 
+            $(this).prev(".ewm").show();
+            $(this).removeClass("bg-gray").addClass("bg-orge");
+        });
+        
+        ztContact.find(".icon-ewm").bind("mouseleave",function(){
+            $(this).prev(".ewm").hide();
+            $(this).removeClass("bg-orge").addClass("bg-gray");
+        });
+
+
+        // alert(cc({$server.dealyAll}));
+});
+
+function setCon(myThis){
+
+     myThis.value = myThis.value.replace(/[^\d.]/g,""); 
+}
+
+function rush(){
+    var _user = $("#_user").val();
+    if(_user == ''){
+        $.layer({
+            type: 2,
+            border: [0],
+            title: false,
+            fix:true,
+            iframe: {src : "/login/loginbox?type=new"},
+            area: ['360px', '340px']
+        });
+        return;
+    }else{
+        window.location.href='/resource';
+    }
+}
+
+//调价动态
+var track = $(".slider-container").silverTrack({
+    perPage:5
+});
+var parent = track.container.parents(".track");
+ 
+// 左右箭头
+track.install(new SilverTrack.Plugins.Navigator({
+  prev: $("a.prev", parent),
+  next: $("a.next", parent)
+}));
+
+track.start();
+
+function Addme(title, url) {
+  url = document.URL;  //你自己的主页地址
+  title = "我的塑料网";  //你自己的主页名称
+  try {
+      window.external.addFavorite(url, title);
+  }
+catch (e) {
+     try {
+       window.sidebar.addPanel(title, url, "");
+    }
+     catch (e) {
+         alert("抱歉，您所使用的浏览器无法完成此操作。nn加入收藏失败，请使用Ctrl+D进行添加");
+     }
+  }
+}
+
+</script>

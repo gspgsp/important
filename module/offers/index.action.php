@@ -10,7 +10,7 @@ class indexAction extends homeBaseAction{
 	{
 		$cityWhere='pid=1';
 		$factoryWhere=1;
-		$where="type=2";
+		$where="type=1 and shelve_type=1 and pur.status in (2,3,4)";
 
 		if($type=sget('type','i',0)){
 			$this->assign('type',$type);

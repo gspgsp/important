@@ -9,10 +9,18 @@ class indexAction extends homeBaseAction{
 
 	public function init()
 	{
+		//用户信息
 		if($userInfo=M('user:customerContact')->getUserInfoByid($this->user_id))
 		{
 		    $this->assign('userInfo',$userInfo);
 		}
+		//积分任务完成状态
+		$billModel=M('points:pointsBill');
+		$today=strtotime(date('Y-m-d',time()));
+		$this->is_sign=$billModel->where("uid={$this->user_id} and type=1 and addtime>{$today}")->getRow();
+		$this->is_pup=$billModel->where("uid={$this->user_id} and type=9 and addtime>{$today}")->getRow();
+		$this->is_search=$billModel->where("uid={$this->user_id} and type=10 and addtime>{$today}")->getRow();
+
 		$this->count1 = $this->sourceModel->select('count(*)')->where("type=1")->getRow()['count(*)'];
 		$this->count2 = $this->sourceModel->select('count(*)')->where("type=0")->getRow()['count(*)'];
 		$this->countall = $this->count1 + $this->count2;
@@ -20,6 +28,9 @@ class indexAction extends homeBaseAction{
 		$pageSize = 10;
 		$keyword = trim(sget('keyword', 's', ''));
 		if($keyword){
+			if(!$this->is_search){
+				$billModel->addPoints(50,$this->user_id,10);
+			}
 			$sphinx = new SphinxClient;
 			$sphinx->SetServer('localhost',9312);
 			$sphinx->SetMatchMode(SPH_MATCH_ALL);
@@ -55,10 +66,16 @@ class indexAction extends homeBaseAction{
 				'type'=>$type,
 				'content'=>$content,
 				'input_time'=>CORE_TIME,
-				'realname'=>$uinfo['real_name'],
+				'realname'=>$uinfo['name'],
 				'user_qq'=>$uinfo['qq'],
 				);
 			$this->sourceModel->add($_data);
+			$billModel=M('points:pointsBill');
+			$today=strtotime(date('Y-m-d',time()));
+			$is_pup=$billModel->where("uid={$this->user_id} and type=9 and addtime>$today")->getRow();
+			if(!$is_pup){
+				$billModel->addPoints(100,$this->user_id,9);
+			}
 			json_output(array('err'=>0,'msg'=>'发布成功'));
 		}
 	}
