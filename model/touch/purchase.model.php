@@ -16,6 +16,7 @@ class purchaseModel extends model
 			$product = $this->model('product')->select('model,f_id')->where('id='.$value1['p_id'])->getRow();
 			$f_name = $this->model('factory')->select('f_name')->where('fid='.$product['f_id'])->getRow();
 			$pdata['id'] =$value1['id'];
+			$pdata['p_id'] =$value1['p_id'];
 			$pdata['model'] =$product['model'];
 			$pdata['unit_price'] =$value1['unit_price'];
 			$pdata['f_name'] =$f_name['f_name'];
