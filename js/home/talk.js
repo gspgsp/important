@@ -21,12 +21,15 @@ function submitFrom(){
             flag=false;
         }
     });
-    if(!flag) return;
+    if(!flag){
+        alert('必填信息不完整')
+        return false;
+    }
     $.post('/purchase/talk/addorder',data,function(data){
         if(data.err==0){
             alert(data.msg);
         }else{
             alert(data.msg);
-        }
+        }   
     },'json');
 }
