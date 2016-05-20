@@ -2,7 +2,7 @@
 /**
 *条件搜索信息
 */
-class quotationsearchAction extends homeBaseAction
+class purchasesearchAction extends homeBaseAction
 {
 
 	public function __init() {
