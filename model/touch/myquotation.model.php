@@ -5,12 +5,12 @@
 class myquotationModel extends model
 {
 	public function __construct() {
-		parent::__construct(C('db_default'), 'product');
+		parent::__construct(C('db_default'), 'purchase');
 	}
-	public function changeProductState($p_id){
-		$product = $this->model('product')->where('id='.$p_id)->getRow();
-		$data['status']= $product['status'] == 1 ? 2 : 1;
-		$result = $this->model('product')->where('id='.$p_id)->update($data);
+	public function changeProductState($id){
+		$purchase = $this->model('purchase')->where('id='.$id)->getRow();
+		$data['shelve_type']= $purchase['shelve_type'] == 1 ? 2 : 1;
+		$result = $this->model('purchase')->where('id='.$id)->update($data);
 		if($result){
 			return true;
 		}else{
