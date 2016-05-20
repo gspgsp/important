@@ -21,7 +21,6 @@ class myquotationModel extends model
 	//单个更新报价单
 	public function refreshCell($id, $data, $p_id){
 		if(!empty($id)){
-			$this->startTrans();
 			$fdata = array();
 			$qdata = array();
 			foreach ($data as $key => $value) {
@@ -31,17 +30,12 @@ class myquotationModel extends model
 					$qdata[$key] = $value;
 				}
 			}
-			$f_id = $this->model('product')->select('f_id')->where('id='.$p_id)->getOne();
-			$this->model('factory')->where('fid='.$f_id)->update($fdata);
-			if($this->commit()){
-				$result = $this->model('purchase')->where('id='.$id)->update($qdata);
-				if($result){
-						return array('err'=>0,'msg'=>'更新成功');
-					}
+			$result = $this->model('purchase')->where('id='.$id)->update($qdata);
+			if($result){
+				return array('err'=>0,'msg'=>'更新成功');
 			}else{
 				return array('err'=>1,'msg'=>'更新失败');
 			}
-
 		}
 
 	}
