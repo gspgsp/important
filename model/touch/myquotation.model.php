@@ -17,4 +17,8 @@ class myquotationModel extends model
 			return false;
 		}
 	}
+	//单个更新报价单
+	public function refreshCell($id, $qdata){
+		$this->model('purchase')->where('id='.$id)->update($qdata);
+	}
 }
