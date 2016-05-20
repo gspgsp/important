@@ -1,0 +1,77 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">	
+		<div title="订单详细信息">
+			<div style="height:385px">
+				<table width="100%">
+					<caption><strong>明细详情</strong></caption>
+					<tr>
+						<td>销售单号：</td>
+						<td>{$info.sale_order_no}</td>
+						<td>订单名称：</td>
+						<td>{$order_name}</td>
+					</tr>
+					<tr>
+						<td>牌号：</td>
+						<td>{$info.p_info.model}</td>
+						<td>订单编号：</td>
+						<td>{$info.order_sn}</td>
+					</tr>
+					<tr>
+						<td>交易员：</td>  
+						<td>{$info.input_admin}</td>
+						<td>厂家;</td>
+						<td>{$info.p_info.f_name}</td>
+					</tr>
+					<tr>
+						<td>产品类型：</td>
+						<td>{$product_type.$info.p_info.product_type}</td>
+						<td>加工级别：</td>
+						<td>{$process_type.$info.p_info.process_type}</td>
+					</tr>
+					<tr>
+						<td>数量：</td>
+						<td>{$info.number}</td>
+						<td>单价</td>
+						<td>{$info.unit_price}</td>
+					</tr>
+					<tr>
+						<td>总价 : </td>
+						<td>{$info.count}</td>
+						<td>批次号 :</td>
+						<td>{$info.lot_num}</td>
+					</tr>
+					<tr>
+						<td>仓库：</td>
+						<td>{$info.store_house}</td>
+						<td>库位：</td>
+						<td>{$info.location}</td>
+					</tr>
+					<tr>
+						<td>供应商：</td>
+						<td>{$info.supplier_name}</td>
+						<td>开票状态：</td>
+						<td>{$invoice_status.$info.invoice_status}</td>
+					</tr>
+					<tr>
+						<td>采购已付：</td>  
+						<td>{$info.pay_money}</td>
+						<td>入库状态 : </td>
+						<td>{$in_storage_status.$info.in_storage_status}</td>
+					</tr>
+					<tr>
+						<td>销售类型：</td>  
+						<td>{$sales_type.$info.sales_type}</td>
+						<td>备注 : </td>
+						<td>{$info.remark}</td>
+					</tr>
+
+
+				</table>
+
+			</div>
+		</div>
+</div>
+</div>
+<script type="text/javascript">
+</script>
