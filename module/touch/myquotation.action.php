@@ -12,7 +12,7 @@ class myquotationAction extends homeBaseAction
     public function init(){
         $this->display('myquotation');
     }
-    //返回报价信息/更新数据
+    //返回报价信息
     public function get_myquotation(){
     	//获取求购信息的user_id
         if(!$_SESSION['uid'])
@@ -28,9 +28,10 @@ class myquotationAction extends homeBaseAction
     }
     //上架，下架切换
     public function changestate(){
-        $p_id = sget('p_id','i',0);
-        if($p_id>0){
-            $result = M('touch:myquotation')->changeProductState($p_id);
+        //当前求购的id
+        $id = sget('id','i',0);
+        if($id>0){
+            $result = M('touch:myquotation')->changeProductState($id);
         }
         if($result){
             $this->json_output(array('err'=>0,'msg'=>'切换成功'));

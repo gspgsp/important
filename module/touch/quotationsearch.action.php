@@ -2,7 +2,7 @@
 /**
 *条件搜索信息
 */
-class searchAction extends homeBaseAction
+class quotationsearchAction extends homeBaseAction
 {
 
 	public function __init() {
@@ -62,6 +62,7 @@ class searchAction extends homeBaseAction
     private function _reverseData($data){
     	//遍历data
 	        foreach ($data as $value) {
+                $temp['id'] = $value['id'];
 	        	$temp['model'] = $value['model'];
 	        	$temp['unit_price'] = $value['unit_price'];
 	        	$temp['f_name'] = $value['f_name'];
@@ -77,7 +78,7 @@ class searchAction extends homeBaseAction
     //获取当前类型的键
     private function _getProKey($p_types,$keywords){
     	foreach ($p_types as $key => $value) {
-    		if($value == $keywords)
+    		if($value == strtoupper($keywords))
     			return $key;
     	}
     }
