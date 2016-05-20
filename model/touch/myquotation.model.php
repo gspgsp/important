@@ -30,8 +30,9 @@ class myquotationModel extends model
 					$qdata[$key] = $value;
 				}
 			}
-			$f_id = $this->model('product')->select('f_id')->where('id='.$p_id)->getOne();
-			$this->model('factory')->where('fid='.$f_id)->update($fdata);
+			$product = $this->model('product')->where('id='.$p_id)->getRow();
+			$this->model('factory')->where('fid='.$$product['f_id'])->update($fdata);
+			
 			$result = $this->model('purchase')->where('id='.$id)->update($qdata);
 		}
 		if($result){
