@@ -31,18 +31,16 @@ class quotationsearchAction extends homeBaseAction
         $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$uid}";
         if($type == '1'){
     		$where.=" and pur.shelve_type=1";
-    		$data = $this->db->from('purchase pur')
+    		$data = $this->db->select('pur.id,pro.model,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
 	        ->join('product pro','pur.p_id=pro.id')
 	        ->join('factory fa','pro.f_id=fa.fid')
 	        ->where($where)
 	        ->getAll();
-            p($data);
-            die;
 	        $resultData = $this->_reverseData($data);
 	        $this->json_output($resultData);
         }elseif ($type == '2') {
     		$where.=" and pur.shelve_type=2";
-    		$data = $this->db->from('purchase pur')
+    		$data = $this->db->select('pur.id,pro.model,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
 	        ->join('product pro','pur.p_id=pro.id')
 	        ->join('factory fa','pro.f_id=fa.fid')
 	        ->where($where)
@@ -50,8 +48,7 @@ class quotationsearchAction extends homeBaseAction
 	        $resultData = $this->_reverseData($data);
 	        $this->json_output($resultData);
         }else{
-            p($where);
-	        $data = $this->db->from('purchase pur')
+	        $data = $this->db->select('pur.id,pro.model,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
 	        ->join('product pro','pur.p_id=pro.id')
 	        ->join('factory fa','pro.f_id=fa.fid')
 	        ->where($where)
