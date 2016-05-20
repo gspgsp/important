@@ -13,18 +13,20 @@ class myquotationModel extends model
 		$data['shelve_type']= $purchase['shelve_type'] == 1 ? 2 : 1;
 		$result = $this->model('purchase')->where('id='.$id)->update($data);
 		if($result){
-			return true;
+			return array('err'=>0,'msg'=>'切换成功');
 		}else{
-			return false;
+			return array('err'=>1,'msg'=>'切换失败');
 		}
 	}
 	//单个更新报价单
 	public function refreshCell($id, $qdata){
-		$result = $this->model('purchase')->where('id='.$id)->update($qdata);
+		if(!empty($id)){
+			$result = $this->model('purchase')->where('id='.$id)->update($qdata);
+		}
 		if($result){
-			return true;
+			return array('err'=>0,'msg'=>'更新成功');
 		}else{
-			return false;
+			return array('err'=>1,'msg'=>'更新失败');
 		}
 	}
 	//批量更新报价单
