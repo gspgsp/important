@@ -75,19 +75,16 @@ class storeproductAction extends adminBaseAction
 		if(empty($data)){
 			$this->error('错误的请求');
 		}
-		$id = sget('spid','i');
-		p($data);
-		p($id);die;
-		if(!M('product:store')->curUnique('store_name',$data['store_name'])) $this->error('仓库名重复');
-		if(!M('product:store')->curUnique('store_tel',$data['store_tel'])) $this->error('仓库电话重复');
+		$id = $data['spid'];
 		$data = $data+array(
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
-		$result = $this->db->add($data);
+
+		$result = $this->db->where(" `id`=$id")->update($data);
 		if(!$result) $this->error('操作失败');
 		$cache=cache::startMemcache();
-		$cache->delete('store');
+		$cache->delete('storep');
 		$this->success('操作成功');
 	}
 

@@ -42,6 +42,7 @@
 	>
 	<div id="addForm" class="form" >
 		<table style="width:100%;">
+			<input id="spid"class="mini-hidden" name="spid"/>
 			<tr>
 				<td style="width:60px;">货品数量：</td>
 				<td><input name="number" class="mini-textbox" style="width:200px" required="true"/></td>
@@ -93,6 +94,7 @@ var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
 function changestore(spid) {
 	form.clear();
+	mini.get("spid").setValue(spid);
 	admInfo.show();
 }
 
@@ -102,9 +104,14 @@ function submitForm() {
 	if (form.isValid() == false) return;
   
 	var o = form.getData();
+	var num = $("input[name='number']").val();
+	var s = /^[0-9]*$/;
+	if(!s.test(num)){
+	alert("请输入正确的数值！");
+	return false;
+	}
 	grid.loading("数据提交中，请稍后......");
 	var json = mini.encode(o);
-
 	var callback=function(data){
 	if(data.err!='0'){
 	  grid.unmask();
