@@ -38,5 +38,26 @@ class infoModel extends model{
 	{
 		return $this->where("id=$id")->getRow();
 	}
+
+
+	/**
+	 * 获取首页新闻 存入cache
+	 */
+	public function get_index_article()
+	{
+		$cache=cache::startMemcache();
+		$keys = 'article_index';
+		if( $articleList = $cache->get($keys) ) return $articleList;
+		$temp = M('system:cate')->where("pid=23")->select('cate_id,cate_name')->getAll();
+		foreach ($temp as $key => $value) {
+			$articleList[$key+1]=$value;
+			$articleList[$key+1]['list'] = $this->where("cate_id={$value['cate_id']}")->order('input_time desc')->select('id, cate_id, title, input_time')->limit(10)->getAll();
+			$articleList[$key+1]['list'] = array_chunk($articleList[$key+1]['list'], 5);
+		}
+		$cache->set($keys, $articleList);
+		return $articleList;
+	}
+
+
 }
 ?>

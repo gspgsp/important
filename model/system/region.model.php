@@ -64,5 +64,20 @@ class regionModel extends model{
 	 public function get_area($id = 0){
 	 	return $this->select('area')->where('id='.$id)->getOne();
 	 }
+
+	 /**
+	  * 获取所有省份信息，保存在cache中
+	  */
+	 public function getProvinceCache(){
+	 	$key="Province";
+		$cache = cache::startMemcache();
+		$data = $cache->get($key);
+		if(!$data){
+			$data=$this->where("pid=1")->order("sort desc")->getAll();
+		}
+		$cache->set($key,$data);
+		return $data;
+
+	 }
 }
 ?>

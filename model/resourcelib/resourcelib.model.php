@@ -29,5 +29,7 @@ class resourcelibModel extends model{
 		$ids = implode(',' ,$ids);
 		return $this->where("id in ($ids)")->getAll();
 	}
+
+	
 	
 }
