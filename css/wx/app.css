@@ -97,7 +97,9 @@ body{ background: #f1f1f1;}
 .purchaseList li p:last-of-type{ color: #909090;}
 .purchaseList span{ float: right;}
 .orange{ color: #ff6600; font-size: 13px;}
-.chooseType{ position: absolute; color: #ffffff; padding: 0 5px 0 0; font-size: 12px; line-height: 22px; text-align: center; width: 60px; height: 22px; top: 13px; right: 14px; background: url("../../images/wx/arrow.png") no-repeat; background-position: 50px; background-size: 7px 12px; border: 1px solid #ffffff; border-radius: 2px;}
+.chooseType{ position: absolute; color: #ffffff; padding: 0 5px 0 0; font-size: 12px; line-height: 22px; text-align: center; width: 60px; height: 22px; top: 13px; right: 14px; background: url("../../images/wx/arrow.png") no-repeat; background-position: 55px; background-size: 7px 12px; border: 1px solid #ffffff; border-radius: 2px;}
+.chooseType2{ position: absolute; background: none; z-index: 10; opacity: 0; font-size: 12px; line-height: 22px; text-align: center; width: 67px; height: 22px; top: 13px; right: 14px;}
+.chooseType2:focus{ outline: none;}
 #offerFooter{ width: 100%; height: 40px; line-height: 40px; padding-left: 45px; font-size: 13px; color: #ff6600; position: fixed; bottom: 0; left:0; background: #f1f1f1; border-top: 1px solid #d6d7dc;}
 .offerNumInput,.offerTxtInput,.offerTxtInput2,.offerTxtInput3{ border: 1px solid #d6d7dc; border-radius: 2px; text-align: center;}
 .offerNumInput{ width: 60px;}
