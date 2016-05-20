@@ -13,7 +13,12 @@ class store_adminModel extends model{
 	 * 根据仓库ID取出库人姓名
 	 */
 	public function getColByid($sid=0){
-		return $this->select("a.admin_id,a.name")->from('store_admin s')->join('admin a','a.admin_id=s.admin_id')->where('s.store_id='.$sid)->getAll();
+		$result= $this->select("a.admin_id,a.name")->from('store_admin s')->join('admin a','a.admin_id=s.admin_id')->where('s.store_id='.$sid)->getAll();
 
+	foreach ($result as $k => $v) {
+		$list[$k]['id']=$result[$k]['admin_id'];
+		$list[$k]['name']=$result[$k]['name'];
+	}
+		return $list;
 	}
 }

@@ -46,4 +46,16 @@ class customerModel extends model{
 		$result =  $this->model('customer')->select("$condition")->where("$c_name like '%$keyword%'")->getCol();
 		return empty($result) ? array() : $result;
 	}
+
+	/**
+	 * 模糊查询牌号匹配的明细
+	 */
+	public function getcidByCname($value=''){
+		$arr=$this->select('c_id')->where("c_name like '%".$value."%'")->getAll();
+		foreach ($arr as $key => $v) {
+			$ids[]=$v['c_id'];
+		}
+		$data = implode(',',$ids);
+		return empty($data)? false : $data;
+	}
 }

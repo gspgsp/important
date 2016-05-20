@@ -36,10 +36,12 @@ class productModel extends model{
 	 */
 	public function getpidByPname($value=''){
 		$arr=$this->select('id')->where("model like '%".$value."%'")->getAll();
+		p($arr);
 		foreach ($arr as $key => $v) {
 			$ids[]=$v['id'];
 		}
 		$data = implode(',',$ids);
+
 		return empty($data)? false : $data;
 	}
 
