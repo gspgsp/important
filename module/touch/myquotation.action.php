@@ -35,12 +35,12 @@ class myquotationAction extends homeBaseAction
         }
         $this->json_output($result);
     }
-    
+
     //单个更新报价单
     public function refreshCell(){
         $id = sget('id','i',0);
         $qdata = sget('qdata','a');
-        $result = $this->M('touch:myquotation')->refreshCell($id, $qdata);
+        $result = M('touch:myquotation')->refreshCell($id, $qdata);
         $this->json_output($result);
     }
     //批量更新报价单
