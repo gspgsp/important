@@ -27,7 +27,7 @@ class quotationsearchAction extends homeBaseAction
         	$keyValue = $this->_getProKey($p_types,$keywords);
         }
         //1.待审核  2.审核通过  3.洽谈中  4.交易成功   5.无效 6:过期
-        $type = sget('type','s');
+        $type = sget('status','s');
         $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type={$keyValue}) and pur.user_id={$uid}";
         if($type == '1'){
     		$where.=" and pur.status=1";
