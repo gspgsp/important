@@ -217,10 +217,15 @@ return array(
 		1=>'销售采购',
 		2=>'备货采购',
 	),
-	//出库状态
-	'storage_type'=>array(
+	//出库类型
+	'out_type'=>array(
 		1=>'销售出库',
 		2=>'直接出库',
+	),
+	//入库类型
+	'in_type'=>array(
+		1=>'采购入库',
+		2=>'直接入库',
 	),
 	//订单类型
 	'order_type'=>array(
