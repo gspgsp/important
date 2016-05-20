@@ -33,11 +33,7 @@ class myquotationAction extends homeBaseAction
         if($id>0){
             $result = M('touch:myquotation')->changeProductState($id);
         }
-        if($result){
-            $this->json_output(array('err'=>0,'msg'=>'切换成功'));
-        }else{
-            $this->json_output(array('err'=>1,'msg'=>'切换失败'));
-        }
+        $this->json_output($result);
     }
     
     //单个更新报价单
@@ -45,11 +41,7 @@ class myquotationAction extends homeBaseAction
         $id = sget('id','i',0);
         $qdata = sget('qdata','a');
         $result = $this->M('touch:myquotation')->refreshCell($id, $qdata);
-        if($result){
-            $this->json_output(array('err'=>0,'msg'=>'更新成功'));
-        }else{
-            $this->json_output(array('err'=>1,'msg'=>'更新失败'));
-        }
+        $this->json_output($result);
     }
     //批量更新报价单
     public function refreshMulCell(){
@@ -61,5 +53,5 @@ class myquotationAction extends homeBaseAction
         $result = $this->M('touch:myquotation')->refreshMulCell($ids, $up, $down, $del);
         $this->json_output($result);
     }
-    
+
 }
