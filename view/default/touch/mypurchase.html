@@ -18,6 +18,11 @@
 				newDate.setTime(date*1000);
 				return newDate.toLocaleDateString();
 			}
+			
+			$(".chooseType2").on("change",function () {
+				var chooseValue=$(this).find("option:selected").text();
+				$(".chooseType").text(chooseValue);
+			});
 
 			$.ajax({
 				type:"get",
@@ -60,9 +65,17 @@
 		<img id="query" src="__IMG__/wx/query.png">
 		<input class="productQuery" type="text" placeholder="请输入产品分类、牌号、厂家">
 	</div>
+	<select class="chooseType2">
+		<option value ="">全部</option>
+		<option value ="1">待审核</option>
+		<option value="2">审核通过</option>
+		<option value="3">洽谈中</option>
+		<option value="4">交易成功</option>
+		<option value="5">无效</option>
+		<option value="6">过期</option>
+	</select>
 	<div class="chooseType">全部</div>
 </div>
-<ul class="purchaseList">
-</ul>
+<ul class="purchaseList"></ul>
 </body>
 </html>

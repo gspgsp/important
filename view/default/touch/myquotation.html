@@ -41,15 +41,9 @@
 									"<span class='orange'>￥<input class='offerNumInput' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
 									"<p><input class='offerTxtInput' type='text' value='"+v.f_name+"'>" +
 									"<span class='orange'><input class='offerNumInput' type='tel' value='"+v.number+"'>吨</span></p>" +
-									"<p><input class='offerTxtInput3' type='text' value='"+v.store_house+"'><span>"+v.input_time+"</span>" +
+									"<p><input class='offerTxtInput3' type='text' value='"+v.store_house+"'><span>"+ stampToDate2(v.input_time) +"</span>" +
 									"</p></div><div class='offerStatus'><span><i class='purchaseStatus buy'></i>上架</span>" +
 									"<span><i class='purchaseStatus update'></i>更新</span></div></li>";
-
-//									"<li><div class='purchaseWrap'>" +
-//									"<h3>"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
-//									"<p>"+ v.f_name +"<span>"+ v.number +"吨</span></p>" +
-//									"<p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
-//									"</div></li>";
 						});
 						$(".purchaseList").html(quotationLi);
 					}
