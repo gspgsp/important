@@ -33,7 +33,7 @@ class myquotationAction extends homeBaseAction
         $result = $this->M('touch:myquotation')->refreshCell($id, $qdata);
         if($result){
             $this->json_output(array('err'=>0,'msg'=>'更新成功'));
-        }esle{
+        }else{
             $this->json_output(array('err'=>1,'msg'=>'更新失败'));
         }
     }
