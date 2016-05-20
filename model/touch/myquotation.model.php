@@ -19,6 +19,15 @@ class myquotationModel extends model
 	}
 	//单个更新报价单
 	public function refreshCell($id, $qdata){
-		$this->model('purchase')->where('id='.$id)->update($qdata);
+		$result = $this->model('purchase')->where('id='.$id)->update($qdata);
+		if($result){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	//批量更新报价单
+	public function refreshMulCell($ids, $up, $down, $del){
+
 	}
 }
