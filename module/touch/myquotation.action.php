@@ -26,6 +26,21 @@ class myquotationAction extends homeBaseAction
         }
         $this->json_output($result);
     }
+    //单个更新报价单
+    public function refreshCell(){
+        $id = sget('id','i',0);
+        $qdata = sget('qdata','a');
+        $result = $this->M('touch:myquotation')->refreshCell($id, $qdata);
+        if($result){
+            $this->json_output(array('err'=>0,'msg'=>'更新成功'));
+        }esle{
+            $this->json_output(array('err'=>1,'msg'=>'更新失败'));
+        }
+    }
+    //批量更新报价单
+    public function refreshMulCell(){
+
+    }
     //上架，下架切换
     public function changestate(){
         //当前求购的id
