@@ -77,12 +77,11 @@ class indexAction extends homeBaseAction{
 			
 		// );
 		//调价动态
-		
 		$cache=cache:: startCacheFile();
-
 		$readjust=$cache->get('readjust');
 		$readjust=$this->setReadjust($readjust);
 		$this->assign('readjust', $readjust);
+		
 		//行情信息
 		$this->quotation = M('info:market')->get_quotation_index();
 		//原油指数

@@ -58,28 +58,27 @@
                 <div id="con-tab-1">
                     <!--search begin-->
                     <div class="search">
-                        <form method="get" action="/Search">
+                        <form method="get" action="/offers">
                             <input type="text" name="keywords" placeholder="请输入牌号、厂家等搜索关键词" class="serch-ipt"/>
-                            <input type="hidden" name="stype" value="现货" />
                             <input type="submit" class="search-smt" value=""/>
                         </form>
                     </div>
                     <!--search end-->
                     <!--variety begin-->
                     <ul class="variety">
-                        <li class="variety1"><b></b><span><a href="/opus/index?pz=HDPE">高密度聚乙烯 HDPE</a></span></li>
-                        <li class="variety2 cancel-margin"><b></b><span><a href="/opus/index?pz=LDPE">低密度聚乙烯 LDPE</a></span></li>
-                        <li class="variety3"><b></b><span><a href="/opus/index?pz=LLDPE">线性聚乙烯 LLDPE</a></span></li>
-                        <li class="variety4 cancel-margin"><b></b><span><a href="/opus/index?pz=PP">聚丙烯 PP</a></span></li>
-                        <li class="variety5"><b></b><span><a href="/opus/index?pz=PVC">聚氯乙烯 PVC</a></span></li>
-                        <li class="variety6 cancel-margin"><b></b><span><a href="/opus/index">其他</a></span></li>
+                        <li class="variety1"><b></b><span><a href="/offers?type=1">高密度聚乙烯 HDPE</a></span></li>
+                        <li class="variety2 cancel-margin"><b></b><span><a href="/offers?type=2">低密度聚乙烯 LDPE</a></span></li>
+                        <li class="variety3"><b></b><span><a href="/offers?type=3">线性聚乙烯 LLDPE</a></span></li>
+                        <li class="variety4 cancel-margin"><b></b><span><a href="/offers?type=4">聚丙烯 PP</a></span></li>
+                        <li class="variety5"><b></b><span><a href="/offers?type=5">聚氯乙烯 PVC</a></span></li>
+                        <li class="variety6 cancel-margin"><b></b><span><a href="/offers">其他</a></span></li>
                     </ul>
                     <!--variety end-->
                     <!--use begin-->
                     <ul class="use other">
                         {foreach from=$process_level item=value key=key}
                         {if $key<=7}
-                        <li><a href="">{$value}</a></li>
+                        <li><a href="/offers?process={$key}">{$value}</a></li>
                         {/if}
                         {/foreach}
                         <a href="/opus"><li class="menu-more"></li></a>
@@ -89,7 +88,7 @@
                     <ul class="region other">
                         {foreach from=$area item=value key=key}
                         {if $key <=6}
-                        <li><a href="{$value.id}">{$value.name}</a></li>
+                        <li><a href="/offers?ct={$value.id}">{$value.name}</a></li>
                         {/if}
                         {/foreach}
                         <a href="/opus"><li class="menu-more"></li></a>
@@ -101,9 +100,8 @@
                 <div id="con-tab-2" style="display:none;" class="color3">
                     <!--search begin-->
                     <div class="search">
-                        <form name="" method="get" action="/Search">
+                        <form name="" method="get" action="/purchase">
                             <input type="text" placeholder="请输入牌号、厂家等搜索关键词" name="keywords" class="serch-ipt"/>
-                            <input type="hidden" name="stype" value="采购" />
                             <input type="submit" class="search-smt" value=""/>
                         </form>
                     </div>
@@ -114,7 +112,7 @@
                         <li>{:witchType|$value.product_type} {$value.model} {$value.f_name} {:floatval|$value.number}吨 {$value.cityname} {$value.input_time|date:Y-m-d}</li>
                         {/foreach}
                     </ul>
-                    <p><a href="/Buy/index/type/1">更多求购》</a></p>
+                    <p><a href="/purchase">更多求购》</a></p>
                 </div>
                 <!--con-tab-2 end-->
                 <!--con-tab-3 begin-->
@@ -477,12 +475,12 @@
                     <!--login-title end-->
                     <p class="msg"></p>
                     <table border="0" cellpadding="0" cellspacing="0">
-                        <form name="" method="post" action="">
+                        <form name="" id="loginForm" method="post" action="">
                             <tr>
                                 <td>
                                     <div class="login-wrap">
                                         <div class="login-icon"><img src="__IMG__/home/iconLog1.png" width="17" height="17"/></div>
-                                        <div class="login-input"><input type="text" name="username" class="user" value="" placeholder="请输入账号"/></div>
+                                        <div class="login-input"><input type="text" name="username" id="user" class="user" value="" placeholder="请输入账号"/></div>
                                     </div>
                                 </td>
                             </tr>
@@ -490,7 +488,7 @@
                                 <td>
                                     <div class="login-wrap pwd">
                                         <div class="login-icon"><img src="__IMG__/home/iconLog2.png" width="14" height="17"/></div>
-                                        <div class="login-input"><input type="password" name="password" class="pwd" placeholder="请输入密码"/></div>
+                                        <div class="login-input"><input type="password" name="password" id="pwd" class="pwd" placeholder="请输入密码"/></div>
                                     </div>
                                 </td>
                             </tr>
@@ -750,7 +748,7 @@
                 </li>
                 {/foreach}
           	</ul>
-            <div class="more"><a href="/Resource/index/type/1"></a></div>
+            <div class="more"><a href="/resource"></a></div>
         </div>
     </div>
     <!--supply-demand end-->
@@ -1003,26 +1001,50 @@ $(function(){
 		buy.find("form").submit();
 	});
 
-
 	//登录验证
-	var loginSubmit = $("#con-tab-6"),
-	    user = loginSubmit.find("input.user"),
-		pwd = loginSubmit.find("input.pwd");
-	loginSubmit.find(".submit").bind("click",function(){
-		msg = loginSubmit.find(".msg");
-		if(user.val()==""){
-			msg.html("请输入手机号或者邮箱！");
-			user.focus();
-			return;
-		}
-		if(pwd.val()==""){
-			msg.html("请输入密码！");
-			pwd.focus();
-			return;
-		}
-		msg.html("");
-		loginSubmit.find("form").submit();
-	});
+    $("#loginForm").submit(function(){
+        var username=$("#user").val();
+        var password=$("#pwd").val();
+        msg = $('.msg');
+        if(username==""){
+            msg.html("请输入手机号或者邮箱！");
+            return false;
+        }
+        if(password==""){
+            msg.html("请输入密码！");
+            return false;
+        }
+        $.post('/user/login/dolongin',{username:username,password:password},function (data){
+            if(data.err>0){
+                msg.html(data.msg);
+            }else{
+                alert('登录成功');
+                window.location.reload();
+            }
+        },'json');
+        return false;
+    })
+    $(".login-wrap input").focus(function(){
+        $('.msg').html('');
+    })
+	// var loginSubmit = $("#con-tab-6"),
+	//     user = loginSubmit.find("input.user"),
+	// 	pwd = loginSubmit.find("input.pwd");
+	//     loginSubmit.find(".submit").bind("click",function(){
+	// 	msg = loginSubmit.find(".msg");
+	// 	if(user.val()==""){
+	// 		msg.html("请输入手机号或者邮箱！");
+	// 		user.focus();
+	// 		return;
+	// 	}
+	// 	if(pwd.val()==""){
+	// 		msg.html("请输入密码！");
+	// 		pwd.focus();
+	// 		return;
+	// 	}
+	// 	msg.html("");
+	// 	loginSubmit.find("form").submit();
+	// });
 
 
     var addrFrom = $("#con-tab-3 .transport .addr-from"),

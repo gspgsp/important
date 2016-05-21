@@ -1,13 +1,16 @@
 ﻿{layout file="public:main_layout"}
-
-<div class="yabbg">
-	<div class="yab">
-		<div class="yabl">
-			<div class="yabla"> 
-				<a href="/article/plist.html?cid=2" class="ahover">市场点评</a><a href="/article/plist.html?cid=3">行业热点</a><a href="/article/plist.html?cid=4">企业调价</a><a href="/article/plist.html?cid=5">装置动态</a><a href="/article/plist.html?cid=6" style="margin-right:0px;">塑料期货</a>         </div>
+{insert_css files='home/master.css'}
+	<div class="yabbg">
+		<div class="yab">
+			<div class="yabl">
+				<div class="yabla"> 
+					{foreach from=$cate item=value key=key}
+					<a href="/article?cid={$value.cate_id}" {if $cid==$value[cate_id]}class="ahover"{/if} {if $key==4}style="margin-right:0px;"{/if} >{$value.cate_name}</a>
+					{/foreach}
+				</div>
 				<div class="yablb" style="margin-top:6px;">
-					<div class="zixunbiaotimgcg"> 4月6日PE日评：涨跌互现  刚需为主 </div>
-					<div class="zxiun_faburiqi">发布日期：2016-04-06    作者：本站原创</div>
+					<div class="zixunbiaotimgcg"> {$data.title} </div>
+					<div class="zxiun_faburiqi">发布日期：{$data.input_time|date:Y-m-d}    作者：本站原创</div>
 					<div class="zousiengweg_wz">
 						{$data.content}
 					</div>
@@ -28,17 +31,18 @@
 					</div>
 				</div>
 
-				<div class="yabld">
-					<div class="yabldt">免责声明 </div>
-					<p> 1、我的塑料网发布此信息目的在于传播更多信息，与本网站立场无关。<br>
-						2、我的塑料网不保证该信息（包括但不限于文字、数据及图表）全部或者部分内容的准确性、真实性、完整性、有效性、 及时性、原创性等。<br>
-						3、相关信息并未经过本网站证实，不对您构成任何投资建议，据此操作，风险自担。<br>
-						4、如有侵权请直接与作者联系或书面发函至本公司转达、处理。 </p>
+					<div class="yabld">
+						<div class="yabldt">免责声明 </div>
+						<p> 1、我的塑料网发布此信息目的在于传播更多信息，与本网站立场无关。<br>
+							2、我的塑料网不保证该信息（包括但不限于文字、数据及图表）全部或者部分内容的准确性、真实性、完整性、有效性、 及时性、原创性等。<br>
+							3、相关信息并未经过本网站证实，不对您构成任何投资建议，据此操作，风险自担。<br>
+							4、如有侵权请直接与作者联系或书面发函至本公司转达、处理。 </p>
 						<div class="clear"></div>
 					</div>
 					<div class="clear"></div>
-				</div>
-
-				<div class="clear"></div>
 			</div>
+			{include file="article:right"}
+			<div class="clear"></div>
 		</div>
+	</div>
+

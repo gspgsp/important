@@ -10,6 +10,10 @@ class indexAction extends homeBaseAction{
 	{
 		$where="type=1 and shelve_type=1 and pur.status in (2,3,4)";
 
+		if($keywords=sget('keywords','s','')){
+			$where.=" and (pro.model like '%{$keywords}%' or fa.f_name like '%{$keywords}%')";
+		}
+
 		if($type=sget('type','i',0)){
 			$this->assign('type',$type);
 			$where.=" and pro.product_type=$type";
