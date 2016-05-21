@@ -34,7 +34,7 @@ class purchaseModel extends model{
 			->where($where)
 			->order('input_time desc')
 			->page($page,$pageSize)
-			->select('pur.id,pur.user_id,pur.unit_price,pur.c_id,pur.number,pur.provinces,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,reg.name as cityname')
+			->select('pur.id,pur.user_id,pur.shelve_type,pur.unit_price,pur.c_id,pur.number,pur.provinces,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,reg.name as cityname')
 			->getPage();
 	}
 
