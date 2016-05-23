@@ -21,7 +21,7 @@ class pointsBillModel extends Model{
 		}
 	}
 
-	// 减少积分 type 来源 5 积分兑换 
+	// 增加积分 type 来源 5 积分兑换 
 	public function addPoints($num=0, $uid=0, $type=0){
 		$user = M('public:common')->model('contact_info');
 		if( $info=$user->where("user_id=$uid")->getRow() ){
