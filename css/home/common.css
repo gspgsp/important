@@ -299,9 +299,9 @@ a{ text-decoration:none;}
 .info .info-title{ font-size:14px; width:100%; height:38px; line-height:38px; background:#f3e7bd; overflow:hidden;}
 .info .info-title li{ float:left; text-align:center; background:url(../../images/home/icons.png) no-repeat;}
 .info .info-title li.amount,.info .info-title li.price,.info .info-title li.place{ text-align: right; }
-.info .breed{ width:65px; margin:0 0 0 9px;}
-.info .grade{ width:112px;}
-.info .factory{ width:167px;}
+.info .breed{ width:75px; margin:0 0 0 9px;}
+.info .grade{ width:132px;}
+.info .factory{ width:197px;}
 .info .amount{ width:88px;}
 .info .price{ width:115px;}
 .info .place{ width:60px;}
