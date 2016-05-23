@@ -5,6 +5,7 @@
 class purchaseAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
+		$this->doact = sget('doact','s');
 		//产品信息表
 		$this->db=M('public:common')->model('purchase');
 		$this->assign('product_type',L('product_type'));//产品分类语言包
@@ -32,6 +33,7 @@ class purchaseAction extends adminBaseAction {
 		}elseif($action=='info'){ //获取列表
 			$this->_info();exit;
 		}
+		$this->assign('doact',$this->doact);
 		$this->assign('slt','slt');
 		$this->assign('ctype','1');
 		$this->assign('page_title','采购报价列表');
@@ -62,10 +64,12 @@ class purchaseAction extends adminBaseAction {
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
 		$where=" 1  and p.`type` = 1 ";   //1 采购
-		if($slt){
-			$where .=" and p.`cargo_type` = 2 "; //期货采购
-		}else{
-			$where .=" and p.`cargo_type` = 1 "; //现货采购
+		if($this->doact != 'search'){
+			if($slt){
+				$where .=" and p.`cargo_type` = 2 "; //期货采购
+			}else{
+				$where .=" and p.`cargo_type` = 1 "; //现货采购
+			}
 		}
 		$sTime = sget("sTime",'s','p.input_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选

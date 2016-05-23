@@ -13,6 +13,7 @@ class quoteAction extends adminBaseAction {
 		$this->assign('is_vip',L('is_vip'));//是否是vip的报价
 		$this->assign('bargain',L('bargain'));//是否可以议价
 		$this->assign('status',L('purchase_status'));//采购状态
+		$this->assign('ischecked',sget('doact','s',''));
 		$this->assign('ctype',sget('ctype'));//采购状态
 	}
 	/**
