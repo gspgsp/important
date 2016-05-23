@@ -26,4 +26,7 @@ class creditdetailAction extends homeBaseAction
 		}
 		$this->json_output(array('points'=>$points,'detail'=>$result));
 	}
+	//签到
+	
+	//兑换
 }
