@@ -1,0 +1,195 @@
+{layout file="public:mini_layout"}
+<div style="padding:10px;">
+	<div id="infoForm" class="form">
+		<input class="mini-hidden" name="ctype" value="{$ctype}"/>
+		<input class="mini-hidden" name="id" value="{$id}"/>
+		<table border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td>采购客户：</td>
+				{if $id > 0}
+				<td>
+					{$c_name}
+				</td>
+				{else}
+				<td>
+					<input name="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" allowInput="false"  style="width:170px" id="usrId"/>
+				</td>
+				{/if}
+				<td ></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>联系人</td>
+				{if $id > 0}
+					<td>{$username}</td>
+				{else}
+				<td>
+					<input name="user_id" id="name" value="{$data.user_id}" class="mini-combobox" textField="name" valueField="user_id"   style="width:170px;" required="true"  />
+				</td>
+				{/if}
+				<td ></td>
+				<td></td>		
+			</tr>
+			<tr>
+				<td>销售订单：</td>
+				<td><input name="p_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="f_id"  value="{$data.p_id}" allowInput="false"  style="width:170px" id="usrId"/ required="true"  text="{$data.p_id}"></td>
+				<td ></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td >数量：</td>
+				<td><input name="number" class="mini-textbox" value="{$data.number}" style="width:170px;" required="true"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+
+			<tr>
+				<td >采购价格：</td>
+				<td><input name="price" class="mini-textbox" value="{$data.price}" style="width:170px;" required="true"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>交货日期：</td>
+				<td><input name="delivery_date" class="mini-datepicker"  value="{$data.delivery_date|date:Y-m-d H:i:s}" style="width:170px;"style="width:170px;" required="true"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>有效日期：</td>
+				<td><input name="expiry_date" class="mini-datepicker"  value="{$data.expiry_date|date:Y-m-d H:i:s}" style="width:170px;"style="width:170px;" required="true"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>交货方式：</td>
+				<td>
+					<input class="mini-combobox" name="ship_type" style="width:100px;" data='{:setMiniConfig|$ship_type}' required="true" textField="name" valueField="id" value="{$data.ship_type}"/>
+				</td>
+			</tr>
+			<tr>
+				<td>备注：</td>
+				<td colspan="3">
+					<input name="remark" class="mini-textarea" value="{$data.remark}" style="width:180px; height:50px;"/>
+				</td>
+			</tr>
+			<tr>
+				<td>状态：</td>
+				<td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$data.status}"/></td>
+			</tr>
+		</table>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/product/buySale/addSubmit',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+function onValidMobile(e){
+	 if (e.isValid) {
+		 if(!utils.isMobile(e.value)){
+			 e.errorText = "错误的手机号";
+				e.isValid = false;
+		 }
+	 }
+}
+//获取地区的信息
+function setReg(name,val){
+	var deptCombo = mini.get(name+"_1_0");
+	var positionCombo = mini.get(name+"_2_0");
+	onDeptChanged(deptCombo,positionCombo,val);
+}
+function onDeptChanged(deptCombo,positionCombo,val) {
+	var id = deptCombo.getValue();
+
+	positionCombo.setValue("");
+	var url = "/user/user/getRegion?pid=" + id
+	positionCombo.setUrl(url);
+}
+//强制选择保价单
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/product/quote/init?doact=search",
+		title: "选择销售单",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.id);
+					$("#"+btn.id+"\\$value").val(data.fid);
+				}
+			}
+		}
+	});
+}
+
+//强制选择归属公司
+function cstChoose(e){
+		var btn = this;
+		var cname = mini.get("name");
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+					cname.load('/user/follow/get_contact_list?c_id='+data.c_id);
+				}
+			}
+		}
+	});         
+}
+</script>

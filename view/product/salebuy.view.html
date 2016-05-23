@@ -1,0 +1,169 @@
+{layout file="public:mini_layout"}
+<div title="报价订单审核" class="form" id="editForm">
+		<input class="mini-hidden" name="id" value="{$id}"/>
+		<input class="mini-hidden" name="p_id" value="{$info.p_id}"/>
+		<input class="mini-hidden" name="status" value="{$info.status}"/>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>订单基本信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td style="width:60px;">报价编号:</td>
+					<td style="width:360px;">{$info.sn}</td>
+					<td style="width:60px;">&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>卖家名称：</td>
+					<td>{$info.salecinfo.c_name}</td>
+					<td>交易员：</td>
+					<td>{$info.saleminfo.name}</td>
+				</tr>
+				<tr>
+
+					<td>买家名称：</td>
+					<td>{$info.buycinfo.c_name}</td>
+					<td>交易员：</td>
+					<td>{$info.buyminfo.name}</td>
+				</tr>
+				<tr>
+					<td>交货地址：</td>
+					<td>{$info.porigin}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>					
+					<td>采购备注:</td>
+					<td colspan="3">{$info.premark}</td>
+				</tr>	
+			</table>
+			
+		</fieldset>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>商品基本信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td style="width:100px;">产品:</td>
+					<td style="width:360px;">{$product_type.$info.product.product_type}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>牌号：</td>
+					<td>{$info.product.model}</td>
+					<td>厂家：</td>
+					<td>{$info.product.f_name}</td>
+				</tr>
+				<tr>
+					<td>期现货：</td>
+					<td>{if $info.pcargo_type eq 1}现货{else}期货{/if}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>运输方式：</td>
+					<td>{$ship_type.$info.ship_type}</td>
+					<td>交货周期【采】：</td>
+					<td>{$period.$info.pperiod}</td>
+				</tr>
+				<tr>
+					<td>交货日期【报】：</td>
+					<td>{$info.delivery_date|date:Y-m-d H:i:s}</td>
+					<td>报价有效期：</td>
+					<td>{$info.expiry_date|date:Y-m-d H:i:s}</td>
+				</tr>
+				<tr>
+					<td>创建日期【报】：</td>
+					<td>{$info.input_time|date:Y-m-d H:i:s}</td>
+					<td>创建日期【采】：</td>
+					<td>{$info.pinput_time|date:Y-m-d H:i:s}</td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">采购数量：</font></td>
+					<td><font style="color:blue;">{$info.pnumber}</font></td>
+					<td><font style="color:red;">采购价格：</font></td>
+					<td><font style="color:blue;">{$info.punit_price}</font></td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">报价数量：</font></td>
+					<td><font style="color:blue;">{$info.number}</font></td>
+					<td><font style="color:red;">报价价格：</font></td>
+					<td><font style="color:blue;">{$info.price}</font></td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">审核状态【采】：</font></td>
+					<td><font style="color:blue;">{$status.$info.pstatus}</font></td>
+					<td><font style="color:red;">审核状态【报】：</font></td>
+					<td><font style="color:blue;">{$status.$info.status}</font></td>
+				</tr>
+				<tr>					
+					<td>报价备注:</td>
+					<td colspan="3">{$info.remark}</td>
+				</tr>	
+			</table>
+			
+		</fieldset>
+
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>供应商列表：</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<div class="" style="padding:1px 3px 3px;">
+					<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/saleBuy/init?action=grid&id={$pid}"  idField="id"
+						sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
+							<div property="columns">
+							<div field="model" width="60" headerAlign="center" align="center">牌号 / 厂家</div>            
+							<div field="pcid" width="50" headerAlign="center" allowSort="true" align="center">卖方客户</div>
+							<div field="sbn" width="50" headerAlign="center" allowSort="true" align="center">单价[卖]数量</div>
+							<div field="c_id" width="50" headerAlign="center" allowSort="true" align="center">买方客户</div>
+							<div field="ship_type" width="30" headerAlign="center"  align="center">交货方式</div>
+							<div field="delivery_date" width="50" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd" align="center">卖方交货日</div>
+							</div>
+					</div>
+				</div>
+			</table>	
+		</fieldset>
+	</div>
+</div>
+	
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/saleBuy/chkSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			window.location.reload();
+			// CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+</script>

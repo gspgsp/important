@@ -1,0 +1,206 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="status" id="soStatus">
+					<option value="">=状态=</option>
+					{html_options options=$status}
+				</select>
+				<select name="key_type">
+					<option value="sb.sn">报价编号</option>
+					<option value="saleid">卖家客户</option>
+					<option value="buyid">买家客户</option>
+				</select> 
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/salebuy/init?action=grid&id={$id}"  idField="id"
+		sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
+			<div property="columns">
+			<div type="checkcolumn" width="10"></div>
+			<div field="model" width="60" headerAlign="center" align="center">牌号 / 厂家</div>            
+			<div field="pcid" width="50" headerAlign="center" allowSort="true" align="center">卖方客户</div>
+			<div field="sbn" width="50" headerAlign="center" allowSort="true" align="center">单价[卖]数量</div>
+			<div field="c_id" width="50" headerAlign="center" allowSort="true" align="center">买方客户</div>
+			<div field="ship_type" width="30" headerAlign="center"  align="center">交货方式</div>
+			<div field="delivery_date" width="50" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd" align="center">卖方交货日</div>
+			</div>
+	</div>
+</div>
+<div title="报价订单审核" class="form" id="editForm">
+		<input class="mini-hidden" name="id" value="{$id}"/>
+		<input class="mini-hidden" name="p_id" value="{$info.p_id}"/>
+		<input class="mini-hidden" name="status" value="{$info.status}"/>
+		<input class="mini-hidden" name="originarea" value="{$info.originarea}"/>
+		<input class="mini-hidden" name="store_house" value="{$info.store_house}"/>
+		<input class="mini-hidden" name="pc_id" value="{$info.c_id}"/>   
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>采购基本信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+
+					<td>买家名称：</td>
+					<td>{$info.buycinfo.c_name}</td>
+					<td>交易员：</td>
+					<td>{$info.cminfo.name}</td>
+				</tr>
+				<tr>
+					<td>交货地址：</td>
+					<td>{$info.origin}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>					
+					<td>采购备注:</td>
+					<td colspan="3">{$info.remark}</td>
+				</tr>	
+			</table>
+			
+		</fieldset>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>商品基本信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td style="width:100px;">产品:</td>
+					<td style="width:360px;">{$product_type.$info.product_type}</td>
+					<td>加工级别：</td>
+					<td>{$process_type.$info.process_type}</td>
+				</tr>
+				<tr>
+					<td>牌号：</td>
+					<td>{$info.model}</td>
+					<td>厂家：</td>
+					<td>{$info.f_name}</td>
+				</tr>
+				<tr>
+					<td>期现货：</td>
+					<td>{if $info.cargo_type eq 1}现货{else}期货{/if}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>供货商数目：</td>
+					<td>{$info.supply_count}</td>
+					<td>交货周期【采】：</td>
+					<td>{$period.$info.period}</td>
+				</tr>
+				<tr>
+					<td>审核时间【采】：</td>
+					<td>{$info.chk_time|date:Y-m-d H:i:s}</td>
+					<td>创建时间【采】：</td>
+					<td>{$info.input_time|date:Y-m-d H:i:s}</td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">采购数量：</font></td>
+					<td><font style="color:blue;">{$info.number}</font></td>
+					<td><font style="color:red;">采购价格：</font></td>
+					<td><font style="color:blue;">{$info.unit_price}</font></td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">采购状态：</font></td>
+					<td><font style="color:blue;">{$product_status.$info.shelve_type}</font></td>
+					<td><font style="color:red;">审核状态【采】：</font></td>
+					<td><font style="color:blue;">{$status.$info.status}</font></td>
+				</tr>
+				<tr>					
+					<td>商品备注:</td>
+					<td colspan="3">{$info.pdremark}</td>
+				</tr>	
+			</table>
+			
+		</fieldset>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>审核部分：</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td>成交价：</td>
+					<td><input name="m_price" class="mini-textbox"  value="" required="true" style="width:150px"/></td>
+					<td>供应商：</td>
+					<td><input name="m_supplier" id="supplier" value="" textField="text" valueField="id" class="mini-textbox"   allowInput="false" emptyText="请从供应商中选择" required="true" style="width:150px"/></td>
+				</tr>
+				<tr>
+					<td>付款方式：</td>
+					<td>
+						<input name="pay_method" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/>
+					</td>
+				</tr>
+				<tr>
+					<td>送货日期：</td>
+					<td><input name="delivery_time" class="mini-datepicker" style="width:150px;"   required="true"/></td>
+				</tr>
+				<tr>
+					<td>提货日期：</td>
+					<td><input name="pickup_time" class="mini-datepicker" style="width:150px;"   required="true"/></td>
+				</tr>
+				<tr>
+					<td>提货方式：</td>
+					<td><input name="m_transport" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$m_transport}'  required="true" textfield="name" valuefield="id"/></td>
+				</tr>
+				<tr>
+					<td>备注：</td>
+					<td colspan="3">
+						<input name="m_remark" class="mini-textarea" value="{$data.remark}" style="width:510px; height:100px;"/>
+					</td>
+				</tr>
+			</table>	
+		</fieldset>
+	</div>
+
+			<div align="center" style="margin-top:10px;margin-bottom:10px;">
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">提交审核</a>
+				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</div>
+	
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/saleBuy/chkSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+			window.location.reload();
+		}else{
+			return false;
+		}
+	},'json');
+}
+function setsupport(e){
+	var record = e.record, pid=record.id;
+	var t = mini.get("supplier");            
+	t.setValue(pid);
+}
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+</script>
