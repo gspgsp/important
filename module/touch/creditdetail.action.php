@@ -17,6 +17,7 @@ class creditdetailAction extends homeBaseAction
     	if($_SESSION['uid']<0)
                $this->error('请求超时,请重新登录!');
         $uid = $_SESSION['uid'];
+        var_dump($uid);
 		$result = array();
 		if($uid>0){
 			$points = M('points:pointsBill')->getUerPoints($uid);
@@ -24,7 +25,4 @@ class creditdetailAction extends homeBaseAction
 		}
 		$this->json_output(array('points'=>$points,'detail'=>$result));
 	}
-	//签到
-	
-	//兑换
 }
