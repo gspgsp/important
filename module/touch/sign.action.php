@@ -3,7 +3,6 @@
 *签到/兑换控制器
 */
 class signAction extends homeBaseAction{
-{
 	protected $pointsSingModel,$signDay,$today,$weekStart;
 
 	public function __init(){
