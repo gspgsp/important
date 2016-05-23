@@ -20,7 +20,7 @@ class loginAction extends homeBaseAction
 		$vcode=sget('regcode','s');
 		$loginresult = M('touch:register')->login($username, $password, $vcode);
 		if($loginresult['err']!=0) $this->error($loginresult['msg']);
-		// //保存登陆成功的日志
+		//保存登陆成功的日志
 		$info = $this->db->model('customer_contact')->where('mobile='.$username)->getRow();
 		M('user:passport')->loginSuccess($info['user_id'],$chanel=4);
 		//保存用户的id
