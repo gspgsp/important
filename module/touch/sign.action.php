@@ -1,6 +1,6 @@
 <?php
 /**
-*签到控制器
+*签到/兑换控制器
 */
 class signAction extends homeBaseAction{
 {
@@ -14,7 +14,7 @@ class signAction extends homeBaseAction{
         $this->weekStart = strtotime(date('Y-m-d',(time()-((date('w')==0?7:date('w'))-1)*24*3600)));
 	}
 	// 签到
-	public function signon(){
+	public function signOn(){
 
 		$this->is_ajax = true;
 		if(!$_SESSION['uid'])
@@ -79,4 +79,54 @@ class signAction extends homeBaseAction{
             exit(json_encode(array('status' => 0, 'msg' => '签到失败')));
         }
 	}
+    //兑换
+    public function addOrder()
+    {
+        if($_POST){
+            $this->is_ajax=true;
+            if(!$_SESSION['uid'])
+               $this->error('请求超时,请重新登录!');
+            $uid = $_SESSION['uid'];
+            $data=saddslashes($_POST);
+            foreach ($data as $key => $value) {
+                if(empty($value)) $this->error('信息不完整');
+            }
+
+            if($data['code']!='123') $this->error('验证码错误');
+
+            if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
+
+            $uinfo=M('public:common')->model('customerContact')->where("user_id=$uid")->getRow();
+            $gid=sget('gid','i',0);
+            if(!$goods=$this->pointsGoodsModel->getPk($gid)) $this->error('您兑换的商品已下架');
+            if($goods['status']==2) $this->error('您兑换的商品已下架');
+            if($goods['num']<=0) $this->error('您兑换的商品库存不足');
+            if($uinfo['points']<$goods['points']) $this->error('您的积分不足');
+
+            $model = M('points:pointsOrder');
+            $billModel=M('points:pointsBill');
+            $_orderData = array(
+                'status' => 1,
+                'create_time'   => CORE_TIME,
+                'order_id'      => $this->buildOrderId(),
+                'goods_id'      => $goods['id'],
+                'receiver'      => $data['receiver'],
+                'phone'         => $data['phone'],
+                'address'       => $data['address'],
+                'uid'           => $uid,
+                'usepoints'     => $goods['points'],
+            );
+            //开启事物
+            $model->startTrans();
+            try {
+                if(!$model->add($_orderData)) throw new Exception('系统错误，无法兑换。code:101');
+                if(!$billModel->decPoints($goods['points'], $uid, 5)) throw new Exception('系统错误，无法兑换。code:102');
+            } catch (Exception $e) {
+                $model->rollback();
+                $this->error($e->getMessage());
+            }
+            //事物提交
+            $model->commit();
+        }
+    }
 }
