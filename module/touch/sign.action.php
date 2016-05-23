@@ -16,11 +16,9 @@ class signAction extends homeBaseAction{
 	public function signOn(){
 
 		$this->is_ajax = true;
-		if(!$_SESSION['uid'])
-			{
-				$this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
-			}
-		$uid = $_SESSION['uid'];
+		if($_SESSION['uid']<0)
+               $this->error('请求超时,请重新登录!');
+            $uid = $_SESSION['uid'];
         if($uid>0){
             // 周末不支持签到
             if( $this->today == 0 || $this->today == 6 ){
@@ -83,7 +81,7 @@ class signAction extends homeBaseAction{
     {
         if($_POST){
             $this->is_ajax=true;
-            if(!$_SESSION['uid'])
+            if($_SESSION['uid']<0)
                $this->error('请求超时,请重新登录!');
             $uid = $_SESSION['uid'];
             $data=saddslashes($_POST);
