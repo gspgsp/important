@@ -63,8 +63,11 @@ class inStorageAction extends adminBaseAction {
 			'number'=>$p_info['number'],
 			'p_id'=>$p_info['p_id'],
 			's_id'=>$data['store_id'],
+			'store_aid'=>$data['store_aid']
+			'unit_price'=>$p_info['unit_price'],
+			'unit'=>$p_info['unit'],
+			'price_type'=>$p_info['price_type'],
 		);
-		$number = $p_info['number'];
 		$this->db->startTrans(); //开启事务
 		try {
 			if($data['doyet'] == 'doyet'){
@@ -72,7 +75,7 @@ class inStorageAction extends adminBaseAction {
 			}
 			if( !$this->db->model('in_log')->add($data+$_data) ) throw new Exception('系统错误。code:202'); //采购单入到库存流水
 			if( $this->db->model('store_product')->where(" s_id = ".$data['store_id'])->getRow() ){
-				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->update( "number=number+'$number'" ) ) throw new Exception('系统错误。code:203'); //修改仓库表产品数量
+				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->update( "number=number+". $p_info['number'] ) ) throw new Exception('系统错误。code:203'); //修改仓库表产品数量
 			}else{
 				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->add($data+$_data) ) throw new Exception('系统错误。code:204');
 			}

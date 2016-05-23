@@ -1,0 +1,143 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	  <div title="仓库明细" class="form" id="editForm">
+		<input class="mini-hidden" name="id" value="{$info.id}"/>
+		<table width="100%" border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td>仓库:</td>
+				<td>
+					<input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$info.store_id}" allowInput="false"  text="{$info.store_name}"  style="width:110px" id="usrId"/>
+				</td>
+				<td>入库人:</td>
+				<td>{$info.admin_name}</td>
+			</tr>
+			<tr>
+				<td>产品牌号：</td>
+				<td>
+					<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false"  text="{$info.model}"  style="width:110px" id="usrId"/>
+				</td>
+				<td>批次:</td>
+				<td><input name="lot_num" class="mini-textbox" style="width:110px" required="true" value="{$info.lot_num}"></td>
+			</tr>
+
+			<tr>
+				<td>采购价:</td>
+				<td><input name="unit_price" class="mini-textbox" style="width:110px" required="true" value="{$info.unit_price}"></td>
+				<td>进货数量:</td>
+				<td><input name="number" class="mini-textbox" style="width:110px" required="true" value="{$info.number}"></td>
+
+			</tr>
+			<tr>
+				<td>剩余数量:</td>
+				<td><input name="remainder" class="mini-textbox" style="width:110px" required="true" value="{$info.remainder}"></td>
+				<td>锁定数量</td>
+				<td><input name="lock_number" class="mini-textbox" style="width:110px" required="true" value="{$info.lock_number}"></td>
+			</tr>
+			</table>
+			</div>
+			<div align="center" style="margin-top:10px;">
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//增加后提交数据(保存)
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	var o = form.getData();
+	var json = mini.encode(o);
+	var callback=function(data){
+	if(data.err!='0'){
+	alert(data.msg);
+	return false;
+	}else{
+	CloseWindow('save');
+	}
+	}
+  utils.ajax('/product/storeDetail/ajaxSave?action=edit',{data:json},callback,"POST","json");
+}
+
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "product/factory/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.fid);
+					btn.setText(data.f_name);
+					$("#"+btn.id+"\\$value").val(data.fid);
+				}
+			}
+		}
+	});
+}
+//选择仓库
+function stoChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/product/store/init?do=search",
+		title: "选择仓库",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.store_name);
+				}
+			}
+		}
+	});
+}
+//强制选择归属产品
+function proChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/product/product/init?ischecked=checked",
+		title: "选择产品",
+		width: 1250,
+		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.model);
+				}
+			}
+		}
+	});         
+}
+</script>
