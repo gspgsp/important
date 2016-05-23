@@ -88,7 +88,21 @@
                 error:function (res) {
                     console.log(">>>",res);
                 }
-            })
+            });
+
+            $(".sign").on("click",function () {
+                $.ajax({
+                    type:"get",
+                    url:"/touch/sign/signOn",
+                    dataType:'json',
+                    success:function (res) {
+                        console.log(res);
+                    },
+                    error:function () {
+
+                    }
+                });
+            });
         })
     </script>
 </head>
@@ -98,8 +112,10 @@
         <span id="points"></span>&nbsp;积分
     </h3>
     <div class="creditDeatilNav">
-        <span>签到</span>
-        <span>兑换</span>
+        <span class="sign">签到</span>
+        <span>
+            <a href="/touch/creditshop">兑换</a>
+        </span>
     </div>
 </div>
 <div class="creditDeatilTitle">

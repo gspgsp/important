@@ -29,13 +29,17 @@
 						$("#credit").html(res.points);
 						console.log(">>>",res);
 						layer.closeAll();
-						res.shop.forEach(function (v,i,a) {
-							creditshopLi+="<li><div style='width:100%; text-align:center'>" +
-									"<img src='"+ v.thumb +"'></div>" +
-									"<h3>"+ v.name +"</h3>" +
-									"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
-						});
-						$(".shopUl").html(creditshopLi);
+						if(!res.shop){
+							$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
+						}else{
+							res.shop.forEach(function (v,i,a) {
+								creditshopLi+="<li><div style='width:100%; text-align:center'>" +
+										"<img src='"+ v.thumb +"'></div>" +
+										"<h3>"+ v.name +"</h3>" +
+										"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
+							});
+							$(".shopUl").html(creditshopLi);
+						}
 					}
 				},
 				error:function (res) {

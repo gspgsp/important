@@ -23,6 +23,52 @@
 				var chooseValue=$(this).find("option:selected").text();
 				$(".chooseType").text(chooseValue);
 			});
+			
+			$("#query").on("click",function () {
+				if(!$(".productQuery").val()){
+					layer.open({
+						content: '请输入要搜索的内容',
+						time:2
+					});
+				}else{
+				$.ajax({
+					type:"post",
+					url:"/touch/purchasesearch/doSearch",
+					dataType:'json',
+					data:{
+						keywords:$(".productQuery").val(),
+						status:$(".chooseType2").val()
+					},
+					beforeSend:function () {
+						layer.open({
+							content: '加载中…'
+						});
+					},
+					success:function (res) {
+						layer.closeAll();
+						console.log(">>>",res);
+						if(!res){
+							$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+						}else if(res.err==1){
+							window.location.href="/touch/login";
+						}else{
+							purchaseLi="";
+							res.forEach(function (v,i) {
+								purchaseLi+="<li><div class='purchaseWrap'>" +
+										"<h3>"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+										"<p>"+ v.f_name +"<span>"+ v.number +"吨</span></p>" +
+										"<p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+										"</div></li>";
+							});
+							$(".purchaseList").html(purchaseLi);
+						}
+					},
+					error:function () {
+						
+					}
+				});
+				}
+			});
 
 			$.ajax({
 				type:"get",
@@ -62,8 +108,8 @@
 <body>
 <div class="myPurchase">
 	<div class="purchaseInput">
-		<img id="query" src="__IMG__/wx/query.png">
 		<input class="productQuery" type="text" placeholder="请输入产品分类、牌号、厂家">
+		<img id="query" src="__IMG__/wx/query.png">
 	</div>
 	<select class="chooseType2">
 		<option value ="">全部</option>
