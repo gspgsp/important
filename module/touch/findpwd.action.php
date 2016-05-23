@@ -14,15 +14,17 @@ class findpwdAction extends homeBaseAction
 	}
 	//ajax密码重置
 	public function findpwd(){
-		$this->is_ajax=true;
-		$username=sget('username','s');
-		$password=sget('password','s');
-		$result = M('touch:register')->findpwd(array('mobile'=>$username,'password'=>$password));
-		if($result['err']){
-			$this->error($result['msg']);
-		}else{
-			$this->success('密码重置成功');
-		}
+        if($_POST){
+            $this->is_ajax=true;
+            $data = saddslashes($_POST);
+            if($data['vcode']!='123') $this->error('验证码错误');
+            $result = M('touch:register')->findpwd(array('mobile'=>$data['username'],'password'=>$data['password']));
+            if($result['err']){
+                $this->error($result['msg']);
+            }else{
+                $this->success('密码重置成功');
+            }
+        }
 	}
 	//ajax获取短信验证码
     public function sendmsg(){

@@ -93,7 +93,7 @@ class signAction extends homeBaseAction{
 
             if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
 
-            $uinfo=M('public:common')->model('customerContact')->where("user_id=$uid")->getRow();
+            $uinfo=M('public:common')->model('customer_contact')->where("user_id=$uid")->getRow();
             $gid=sget('gid','i',0);
             if(!$goods=$this->pointsGoodsModel->getPk($gid)) $this->error('您兑换的商品已下架');
             if($goods['status']==2) $this->error('您兑换的商品已下架');

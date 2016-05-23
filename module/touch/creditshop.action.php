@@ -27,4 +27,14 @@ class creditshopAction extends homeBaseAction
 		$this->json_output(array('points'=>$points,'shop'=>$result));
 
 	}
+    //商品详情页
+    public function shopDetail(){
+        $this->display('shopdetail');
+    }
+    //点击返回商品详情
+    public function get_shopDetail(){
+        $gid = sget('gid','i',0);
+        $result = M('touch:creditshop')->getShopDetail($gid);
+        $this->json_output($result);
+    }
 }

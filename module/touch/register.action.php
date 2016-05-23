@@ -18,6 +18,8 @@ class registerAction extends homeBaseAction
 			$this->is_ajax=true;
 			$username=sget('username','s');
 			$password=sget('password','s');
+			$vcode = sget('vcode','i');
+			if($vcode!='123') $this->error('验证码错误');
 			$result = M('touch:register')->register(array('mobile'=>$username,'password'=>$password));
 			if($result['err']){
 				$this->error($result['msg']);
