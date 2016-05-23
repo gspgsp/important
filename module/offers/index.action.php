@@ -10,7 +10,7 @@ class indexAction extends homeBaseAction{
 	{
 		$cityWhere='pid=1';
 		$factoryWhere=1;
-		$where="type=1 and shelve_type=1 and pur.status in (2,3,4)";
+		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
 
 		if($keywords=sget('keywords','s','')){
 			$where.=" and (pro.model like '%{$keywords}%' or fa.f_name like '%{$keywords}%')";
@@ -107,17 +107,10 @@ class indexAction extends homeBaseAction{
 		$factoryList=$this->db->model('factory')->where($factoryWhere)->limit(28)->getAll();
 		$this->assign('factoryList',$factoryList);
 
-		$p=sget('page','i',1);
+		$page=sget('page','i',1);
 		$pageSize=10;
 
-		$list=$this->db->from('purchase pur')
-			->join('product pro','pur.p_id=pro.id')
-			->join('factory fa','pro.f_id=fa.fid')
-			->join('lib_region reg','pur.provinces=reg.id')
-			->where($where)
-			->page($p,$pageSize)
-			->select('pur.id,pur.unit_price,pur.c_id,pur.user_id,pur.number,pur.provinces,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,reg.name as cityname')
-			->getPage();
+		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
 
 		$this->pages = pages($list['count'], $p, $pageSize);
 		$list=$list['data'];
@@ -137,8 +130,7 @@ class indexAction extends homeBaseAction{
 			$list[$key]['number']=floatval($value['number']);
 			$list[$key]['unit_price']=floatval($value['unit_price']);
 		}
-		// p($list);
-		// showTrace();
+		
 		$this->assign('list',$list);
 		$this->display('index');
 	}

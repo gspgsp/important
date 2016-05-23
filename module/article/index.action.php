@@ -4,8 +4,7 @@ class IndexAction extends homeBaseAction{
 	protected $db;
 	public function __init(){
 		//资讯分类
-		$cate=M('system:cate')->where("pid=23")->select('cate_id,cate_name')->getAll();
-		$this->assign('cate',$cate);
+		$this->cate=M('system:cate')->where("pid=23")->select('cate_id,cate_name')->getAll();
 		
 		//最新现货资源
 		$purchase=M('product:purchase');
@@ -17,7 +16,7 @@ class IndexAction extends homeBaseAction{
 	public function init()
 	{
 		//资讯id
-		if(!$cate_id=sget('cid','i',0)) $cate_id=$cate[0]['cate_id'];
+		if(!$cate_id=sget('cid','i',0)) $cate_id=$this->cate[0]['cate_id'];
 		//分页
 		$page=sget('page','i',1);
 		$page_size=10;

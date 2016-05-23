@@ -11,7 +11,6 @@ class indexAction extends homeBaseAction{
         $this->signDay = array('1'=>0, '2'=>0, '3'=>0, '4'=>0, '5'=>0, );
         $this->today = date('w');
         // 每周开始时间
-        $this->user_id = 3;
         $this->weekStart = strtotime(date('Y-m-d',(time()-((date('w')==0?7:date('w'))-1)*24*3600)));
 	}
 	public function init()

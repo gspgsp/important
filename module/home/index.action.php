@@ -17,7 +17,7 @@ class indexAction extends homeBaseAction{
 		$this->newPur=M('product:purchase')->getPurPage("type=1 and shelve_type=1 and pur.status in (2,3,4)",1,5)['data'];
 
 		//供求信息
-		$this->purBuy=M('product:purchase')->getPurPage("shelve_type=1 and pur.status in (2,3,4)")['data'];
+		$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4)")['data'];
 		//即时抢货
 		$grabList=$this->db->model('resourcelib')->select('content,user_qq,user_nick,qq_image,input_time,realname')->limit(3)->order("input_time desc")->getAll();
 		if($this->user_id<=0){
@@ -26,58 +26,59 @@ class indexAction extends homeBaseAction{
 			}
 		}
 		$this->assign('grabList',$grabList);
-		// $arr=array(
-		// 	array(
-		// 		'name'=>'埃克森 LLDPE 102W',
-		// 		'price'=>'111',
-		// 		'type'=>2,
-		// 		'num'=>'50',
-		// 		'time'=>time()
+		$arr=array(
+			array(
+				'name'=>'埃克森 LLDPE 102W',
+				'price'=>'111',
+				'type'=>2,
+				'num'=>'50',
+				'time'=>time()
 
-		// 	),
-		// 	array(
-		// 		'name'=>'埃克森 LLDPE 102W',
-		// 		'price'=>'222',
-		// 		'type'=>2,
-		// 		'num'=>'50',
-		// 		'time'=>time()
+			),
+			array(
+				'name'=>'埃克森 LLDPE 102W',
+				'price'=>'222',
+				'type'=>2,
+				'num'=>'50',
+				'time'=>time()
 
-		// 	),
-		// 	array(
-		// 		'name'=>'埃克森 LLDPE 102W',
-		// 		'price'=>'333',
-		// 		'type'=>1,
-		// 		'num'=>'50',
-		// 		'time'=>time()
+			),
+			array(
+				'name'=>'埃克森 LLDPE 102W',
+				'price'=>'333',
+				'type'=>1,
+				'num'=>'50',
+				'time'=>time()
 
-		// 	),
-		// 	array(
-		// 		'name'=>'埃克森 LLDPE 102W',
-		// 		'price'=>'333',
-		// 		'type'=>1,
-		// 		'num'=>'50',
-		// 		'time'=>time()
+			),
+			array(
+				'name'=>'埃克森 LLDPE 102W',
+				'price'=>'333',
+				'type'=>1,
+				'num'=>'50',
+				'time'=>time()
 
-		// 	),
-		// 	array(
-		// 		'name'=>'埃克森 LLDPE 102W',
-		// 		'price'=>'333',
-		// 		'type'=>1,
-		// 		'num'=>'50',
-		// 		'time'=>time()
+			),
+			array(
+				'name'=>'埃克森 LLDPE 102W',
+				'price'=>'333',
+				'type'=>1,
+				'num'=>'50',
+				'time'=>time()
 
-		// 	),
-		// 	array(
-		// 		'name'=>'埃克森 LLDPE 102W',
-		// 		'price'=>'333',
-		// 		'type'=>1,
-		// 		'num'=>'50',
-		// 		'time'=>time()
-		// 	),
+			),
+			array(
+				'name'=>'埃克森 LLDPE 102W',
+				'price'=>'333',
+				'type'=>1,
+				'num'=>'50',
+				'time'=>time()
+			),
 			
-		// );
+		);
 		//调价动态
 		$cache=cache:: startCacheFile();
+		$cache->set('readjust',$arr);
 		$readjust=$cache->get('readjust');
 		$readjust=$this->setReadjust($readjust);
 		$this->assign('readjust', $readjust);
@@ -87,6 +88,10 @@ class indexAction extends homeBaseAction{
 		//原油指数
 		$this->oil1=M('info:oilPrice')->get_index('WTI');
 		$this->oil2=M('info:oilPrice')->get_index('布伦特油');
+
+		//2F 大客户报价
+		$this->bigClient=$this->db->model('big_client')->limit(12)->getAll();
+		$this->bigOffers=M('product:bigOffers')->getOfferList("1","of.input_time desc",1,5)['data'];
 
 		//3F中晨物流 12小时缓存 S 方法
 		$this->shipList = M('operator:ship_price')->get_index_ship(3);

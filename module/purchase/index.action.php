@@ -8,8 +8,9 @@ class indexAction extends homeBaseAction{
 	}
 	public function init()
 	{
-		$where="type=1 and shelve_type=1 and pur.status in (2,3,4)";
+		$where="pur.type=1 and pur.shelve_type=1 and pur.status in (2,3,4)";
 
+		//筛选条件
 		if($keywords=sget('keywords','s','')){
 			$where.=" and (pro.model like '%{$keywords}%' or fa.f_name like '%{$keywords}%')";
 		}

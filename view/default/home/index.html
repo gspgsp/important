@@ -770,7 +770,6 @@
                 <li class="factory">厂家</li>
                 <li class="amount">数量（吨）</li>
                 <li class="price">价格（元 / 吨）</li>
-                <li class="change">涨跌</li>
                 <li class="place">交货地</li>
                 <li class="time">时间</li>
                 <li class="opt">操作</li>
@@ -778,19 +777,18 @@
             <!--info-title end-->
             <!--info-con begin-->
             <ul class="info-con color6">
-                <foreach name="offerList" item="value">
+                {foreach from=$bigOffers item=value}
             	<li>
-                	<div class="breed">{$value.pzname}</div>
-                    <div class="grade">{$value.phname}</div>
-                    <div class="factory">{$value.cjname}</div>
+                	<div class="breed">{$value.type}</div>
+                    <div class="grade">{$value.model}</div>
+                    <div class="factory">{$value.factory}</div>
                     <div class="amount">{$value.num}</div>
                     <div class="price">￥{$value.price}</div>
-                    <div class="change up down tie"><span></span>123</div>
                     <div class="place">{$value.address}</div>
-                    <div class="time">2016</div>
-                    <div class="opt"><a href="/dkh">查看</a></div>
+                    <div class="time">{$value.input_time|date:H:i}</div>
+                    <div class="opt"><a href="/client?type={$value.type}&model={$value.model}">查看</a></div>
                 </li>
-                </foreach>
+                {/foreach}
             </ul>
             <!--info-con end-->
         </div>
@@ -798,9 +796,9 @@
         <!--right begin-->
    	 	<div class="right frt">
        		<ul>
-                <foreach name="bigClient" item="value">
-            	<li><a href="/dkh/cache?khid={$value.id}" title="{$value.gsname}"><span></span><img src="{$value.logo}" width="73" height="38"/></a></li>
-                </foreach>
+                {foreach from=$bigClient item=value}
+            	<li><a href="/client?cid={$value.id}" title="{$value.gsname}"><span></span><img src="{$value.logo}" width="73" height="38"/></a></li>
+                {/foreach}
           	</ul>
             <div class="more"><a href="/dkh"></a></div>
         </div>
