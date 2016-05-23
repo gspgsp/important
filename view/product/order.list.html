@@ -150,7 +150,7 @@ function addPurchaseLog(oid){
 	mini.open({
 		url: "/product/purchaseLog/info?o_id="+oid,
 		showMaxButton:true,
-		title: '订单明细', width: 600, height:500,
+		title: '订单明细', width: 600, height:350,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();

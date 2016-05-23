@@ -7,12 +7,11 @@ class inStorageAction extends adminBaseAction {
 		$this->debug = false;
 		$this->db=M('public:common')->model('in_storage');
 		$this->assign('ship_company',L('ship_company')); //物流公司
-		$this->assign('in_type',L('in_type')); //入库类型
-		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
+		$this->assign('in_type',L('in_type')); //入库状态
 
 	}
 	/**
-	 * 新增发货记录
+	 * 新增入库记录
 	 */
 	public function info(){
 		$page = sget("pageIndex",'i',0); //页码
@@ -56,36 +55,37 @@ class inStorageAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
 		if(empty($data)) $this->error('操作有误');	
-		$data['in_date']=strtotime($data['in_date']);
+		$p_info=M("product:purchaseLog")->getColByDetId($data['purchase_id'],'*');
 		$_data=array(
 			'in_storage_no'=>genOrderSn(), //出库单号
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
-			'p_id'=>M("product:purchaseLog")->getColByDetId($data['purchase_id']),
+			'number'=>$p_info['number'],
+			'p_id'=>$p_info['p_id'],
+			's_id'=>$data['store_id'],
 		);
-		p($data);
+		$number = $p_info['number'];
 		$this->db->startTrans(); //开启事务
-		$diff_num=M("product:inStorage")->checkNum($data['detail_id'],$data['number']); //订单和出库数量比较
-		if(!$diff_num) $this->error('数量有误');
-		if($data['doyet'] == 'doyet') $result=$this->db->add($data+$_data);		
-		$in_log=$this->db->model('in_log')->add($data+$_data);
-		if($this->db->commit()){
-				$this->success('操作成功');
+		try {
+			if($data['doyet'] == 'doyet'){
+				if( !$result=$this->db->add($data+$_data) ) throw new Exception('系统错误。code:201'); //新增入库单
+			}
+			if( !$this->db->model('in_log')->add($data+$_data) ) throw new Exception('系统错误。code:202'); //采购单入到库存流水
+			if( $this->db->model('store_product')->where(" s_id = ".$data['store_id'])->getRow() ){
+				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->update( "number=number+'$number'" ) ) throw new Exception('系统错误。code:203'); //修改仓库表产品数量
 			}else{
-				$this->db->rollback();
-				$this->error('数据处理失败');
-			}	
+				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->add($data+$_data) ) throw new Exception('系统错误。code:204');
+			}
+			if(!$this->db->model('purchase_log')->where(" id = ".$data['purchase_id'])->update( "in_storage_status=2" ) ) throw new Exception('系统错误。code:205'); //更改采购明细入库状态
+
+		} catch (Exception $e) {
+			$this->db->rollback();
+			$this->error($e->getMessage());
+		}
+		$this->db->commit();
+		$this->success('操作成功');	
 	}
-	/**
-	 * 获取联系人信息
-	 * @access public
-	 */
-	function get_store_aid(){
-		$this->is_ajax=true;
-		$s_id=sget('sid','i');
-		$admin_list=M('product:store_admin')->getColByid($s_id);
-		$this->json_output($admin_list);
-	}
+
 	/**
 	 * Ajax删除流水
 	 * @access private 

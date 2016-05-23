@@ -159,7 +159,7 @@ function submitForm() {
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
-	var urlstr = '/product/inStorage/addSubmit';
+	var urlstr = '/product/outStorage/addSubmit';
 	$.post(urlstr,{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);

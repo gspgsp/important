@@ -43,30 +43,12 @@
 					<tr>
 						<td>价格单位 : </td>
 						<td><input name="price_type" class="mini-combobox" style="width:100px;" value="{$info.price_type}" data='{:setMiniConfig|$price_type}' required="true" textfield="name" valuefield="id"/></td>
-					</tr>
-
-					<tr>
-						<td>仓库:</td>
-						<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$info.store_id}" allowInput="false"  text="{$info.store_name}"  style="width:120px" id="usrId"/></td>
-						<td>库位 : </td>
-						<td><input  class="mini-textbox"  name="location" required="true" value="{$info.location}"/>
-						</td>
-					</tr>
-					<tr>
-						<td>入库人</td>
-						<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
-						<td>入库状态 : </td>
-						<td><input name="in_storage_status" class="mini-combobox" style="width:150px;" value="{$info.in_storage_status}" data='{:setMiniConfig|$in_storage_status}' required="true" textfield="name" valuefield="id"/></td>
+						<td>采购类型</td>
+						<td><input name="purchase_type" class="mini-combobox" style="width:150px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}' required="true" textfield="name" valuefield="id"/></td>
 					</tr>
 					<tr>
 						<td>供应商：</td>
 						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:120px" id="usrId"/></td>
-						<td>开票状态 : </td>
-						<td><input name="invoice_status" class="mini-combobox" style="width:150px;" value="{$info.invoice_status}" data='{:setMiniConfig|$invoice_status}' required="true" textfield="name" valuefield="id"/></td>
-					</tr>
-					<tr>
-						<td>采购类型</td>
-						<td><input name="purchase_type" class="mini-combobox" style="width:150px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}' required="true" textfield="name" valuefield="id"/></td>
 						<td>备注:</td>
 						<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$info.remark}"></td>
 

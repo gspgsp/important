@@ -20,9 +20,11 @@ class purchaseLogAction extends adminBaseAction {
 	public function init(){
 		$doact=sget('do','s');
 		$action=sget('action','s');
+		$in_status=sget('in_status','i');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('in_status',$in_status);
 		$this->assign('doact',$doact);
 		$this->assign('oid',sget('oid','i',0));
 		$this->assign('page_title','订单管理列表');
@@ -42,6 +44,8 @@ class purchaseLogAction extends adminBaseAction {
 		$where.= 1;
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
+		$in_storage_status=sget('in_status','i',0); //入库时选择未入库的订单
+		if($in_storage_status != 0) $where.=" and `in_storage_status` =1";
 		//开票状态
 		$invoice_status=sget('invoice_status','i',0);
 		if($invoice_status != 0) $where.=" and `invoice_status` =".$invoice_status;
@@ -148,6 +152,8 @@ class purchaseLogAction extends adminBaseAction {
 		$data = sdata(); //获取UI传递的参数
 		if(empty($data)) $this->error('错误的请求');	
 		$_data = array(		
+			'in_storage_status'=>1,//追加未入库状态
+			'invoice_status'=>1,//未开票
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);	
