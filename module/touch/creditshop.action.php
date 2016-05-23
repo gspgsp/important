@@ -14,8 +14,10 @@ class creditshopAction extends homeBaseAction
     //返回积分明细
     public function get_creditshop(){
     	//获取用户
-    	if($_SESSION['uid']<0)
-               $this->error('请求超时,请重新登录!');
+    	if(!$_SESSION['uid'])
+            {
+                $this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
+            }
         $uid = $_SESSION['uid'];
 		$result = array();
 		if($uid>0){
