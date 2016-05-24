@@ -58,4 +58,26 @@ class customerModel extends model{
 		$data = implode(',',$ids);
 		return empty($data)? false : $data;
 	}
+
+	/**
+	 * 根据联系人id 取出该联系人和对应公司的信息
+	 */
+	public function getAinfoByUid($uid=0){
+		if($uid>0){
+			$result = $this->select('cc.*,c.c_name')->from('customer_contact  cc')->leftjoin('customer c','cc.c_id=c.c_id')->where("cc.c_id = $uid")->getRow();
+		}
+		return empty($result) ? array() : $result;
+	}
+	/**
+	 * 根据客户id获取客户的所有信息
+	 * @Author   cuiyinming
+	 * @DateTime 2016-05-20T11:06:38+0800
+	 * @return   [type]                   [description]
+		*/
+	public function getCinfoById($cid = 0){
+		if($cid>0){
+			$result = $this->model('customer')->where("c_id = $cid")->getRow();
+		}
+		return empty($result) ? array() : $result;
+	}
 }
