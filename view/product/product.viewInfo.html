@@ -1,0 +1,39 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+
+		<div title="产品详细信息">
+			<div style="height:100%; width=100%">
+				<table width="100%">
+					<caption><strong>产品明细</strong></caption>
+					<tr>
+						<td>牌号：</td>
+						<td>{$info.model}</td>
+					</tr>
+					<tr>
+						<td>厂家：</td>
+						<td>{$info.f_name}</td>
+					</tr>
+					<tr>
+						<td>分类 : </td>
+						<td>{$product_type.$info.product_type}</td>
+					</tr>
+					<tr>
+						<td>加工级别：</td>
+						<td>{$process_type.$info.process_type}</td>
+					</tr>
+					<tr>
+						<td>单位：</td>  
+						<td>{$unit.$info.unit}</td>
+					</tr>
+					<tr>
+						<td>包装;</td>
+						<td>{$info.package}</td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+
+</div>
+<script type="text/javascript">
+</script>

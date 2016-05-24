@@ -94,7 +94,6 @@ class saleLogAction extends adminBaseAction {
 		$id=sget('id','i',0);
 		$type=sget('type','s');
 		$o_id=sget('o_id','i',0);
-		
 		if($id<1){
 			if($o_id>0){
 				$this->assign('o_id',$o_id);
@@ -106,7 +105,6 @@ class saleLogAction extends adminBaseAction {
 			$this->display('saleLog.edit.html');
 			exit;
 		}
-
 		$info=$this->db->getPk($id); //查询订单信息
 		if(empty($info)){
 			$this->error('错误的订单信息');	
@@ -143,22 +141,28 @@ class saleLogAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		$data['number'] = $data['require_number'];
+		$data['input_time'] = CORE_TIME;
+		$data['input_admin'] = $_SESSION['name'];
 		if(empty($data)) $this->error('错误的请求');	
 		$_data = array(		
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
-		);	
-		if($data['id']>0){
-			$result = $this->db->where('id='.$data['id'])->update($data+$_data);
-		}else{
-			$data['input_time']=CORE_TIME;
-			$data['input_admin']=$_SESSION['name'];
-			$result = $this->db->add($data+$_data);
+		);
+		$_inlog = array(
+			'remainder'=>$data['remainder']-$data['require_number'],
+			'lock_number'=>$data['require_number'],
+		);
+		try {
+			if( !$this->db->add($data) ) throw new Exception("新增订单明细失败!");
+			if( !$this->db->model('in_log')->where('id = '.$data['inlog_id'])->update($_data+$_inlog) ) throw new Exception("同步操作库存失败!");
+			if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'])->update('number=number-'.$data['require_number']) )  throw new Exception("产品货品表更新失败!");
+		} catch (Exception $e) {
+			$this->db->rollback();
+			$this->error($e->getMessage());
 		}
-		if($result['err']>0){
-			$this->error($result['msg']);
-		}
-		$this->success('操作成功');
+		$this->db->commit();
+		$this->success('操作成功');	
 	}
 	/**
 	 * Ajax删除

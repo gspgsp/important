@@ -10,49 +10,21 @@
 			<td style="float:right;">
 			<form id="soform">
 				<select name="sTime">
-					<option value="input_time">创建时间</option>
+					<option value="input_time">入库时间</option>
 					<option value="update_time">更新时间</option>
-					<option value="sign_time">签订日期</option>
-					<option value="pickup_time">提货日期</option>
-					<option value="delivery_time">送货日期</option>
-					<option value="payment_time">付款日期</option>
-
 				</select>
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
-				<select name="order_type" id="soStatus">
-					<option value="" selected="selected">全部订单</option>
-					<option value="2">采购订单</option>
-					<option value="1">销售订单</option>
-				</select>
-				<select name="order_source">
-					<option value="" selected="selected">来源</option>
-					{html_options options=$order_source}
-				</select>
-				<select name="pay_method" >
-					<option value="" selected="selected">付款</option>
-					{html_options options=$pay_method}
-				</select>
-				<select name="transport_type" >
-					<option value="" selected="selected">运输</option>
-					{html_options options=$transport_type}
-				</select>
-				<select name="business_model" >
-					<option value="" selected="selected">业务</option>
-					{html_options options=$business_model}
-				</select>
-				<select name="order_status" >
-					<option value="" selected="selected">审核</option>
-					{html_options options=$order_status}
-				</select>
-				<select name="goods_status" >
-					<option value="" selected="selected">发货</option>
-					{html_options options=$goods_status}
+				<select name="remainder">
+					<option value="" selected="selected">全部明细</option>
+					<option value="1">有库存</option>
 				</select>
 				<select name="key_type">
-					<option value="order_sn">订单号</option>
-					<option value="order_name">订单名称</option>
-					<option value="c_id">客户名称</option>
+					<option value="store_id">仓库</option>
+					<option value="store_aid">入库人</option>
+					<option value="p_id">牌号</option>
+					<option value="lot_num">批次</option>
+					<option value="unit_price">采购价</option>	
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -66,22 +38,20 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
-			<div field="store_name" width="60" headerAlign="center" align="center" allowSort="true">仓库</div>
-			<div field="admin_name" width="60" headerAlign="center" align="center" allowSort="true">入库人</div>
-			<div field="purchase_id" width="45" headerAlign="center" align="center" allowSort="true">订单号</div>
-			<div field="in_storage_no" width="45" headerAlign="center" align="center" allowSort="true" >入库单号</div>
-			<div field="model" width="35" headerAlign="center" align="center" allowSort="true">牌号</div>
+			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+			<div field="store_name" width="45" headerAlign="center" align="center" allowSort="true">仓库</div>
+			<div field="admin_name" width="30" headerAlign="center" align="center" allowSort="true">入库人</div>
+			<div field="purchase_id" width="60" headerAlign="center" align="center" allowSort="true">订单ID</div>
+			<div field="in_storage_no" width="80" headerAlign="center" align="center" allowSort="true" >入库单号</div>
+			<div field="model" width="75" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
 			<div field="lot_num" width="60" headerAlign="center" align="center" allowSort="true">批次</div>
 			<div field="unit_price" width="60" headerAlign="center" align="center" allowSort="true">采购价</div>
-			<div field="number" width="60" headerAlign="center" align="center" allowSort="true">进货数量</div>
-			<div field="remainder" width="60" headerAlign="center" align="center" allowSort="true">剩余数量</div>
-			<div field="lock_number" width="60" headerAlign="center" align="center" allowSort="true">锁定数量</div>
-			<div field="lock_number" width="60" headerAlign="center" align="center" allowSort="true">需求数量</div>
+			<div field="number" width="40" headerAlign="center" align="center" allowSort="true">进货数量</div>
+			<div field="remainder" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
+			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
 			<div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">入库时间</div>
 			<div field="update_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">最后操作时间</div>
 			<div field="update_admin" width="45" headerAlign="center" align="center">操作者</div>
-			 <div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 		</div>
 	</div>
 </div></div>
@@ -106,78 +76,11 @@ search();
 function onKeyEnter(e) {
 	search();
 }
-
-function LoadOrderType(e) {
-	var record = e.record.order_type; 
-	return $("#soStatus").find("option[value="+record+"]").text();
-}
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',oid = record.o_id;
-	s += '<a href="javascript:viewOrdInfo('+oid+')">'+oid+'</a> ';
+	var record = e.record,s='',id = record.id;
+	s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
 	return s;
-}
-//新增产品详情
-function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type;
-	if(order_type=='1'){
-		s += '<a href="javascript:addSaleLog('+oid+')">'+'追加'+'</a>|<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
-	}else{
-		s += '<a href="javascript:addPurchaseLog('+oid+')">'+'追加'+'</a>|<a href="javascript:inStorage('+oid+')">'+'入库'+'</a>';
-	}
-	return s;
-}
-//追加销售明细
-function addSaleLog(oid){
-	mini.open({
-		url: "/product/saleLog/info?o_id="+oid,
-		showMaxButton:true,
-		title: '订单明细', width: 600, height:500,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
-}
-//追加采购明细
-function addPurchaseLog(oid){
-	mini.open({
-		url: "/product/purchaseLog/info?o_id="+oid,
-		showMaxButton:true,
-		title: '订单明细', width: 600, height:350,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
-}
-//发货弹窗
-function outStorage(oid){
-	mini.open({
-		url:"/product/outStorage/info?o_id="+oid,
-		showMaxButton:true,
-		title:'发货记录新增',width:850,height:600,
-		ondestroy: function(action){
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
-}
-//入库弹窗
-function inStorage(oid){
-	mini.open({
-	url:"/product/inStorage/info?o_id="+oid,
-	showMaxButton:true,
-	title:'入库记录新增',width:850,height:600,
-	ondestroy: function(action){
-		if(action=='save'){ //重新加载
-			grid.reload();
-		}
-	}
-	});
 }
 //查看订单相关信息
 function viewOrdInfo(oid){
@@ -188,26 +91,27 @@ function viewOrdInfo(oid){
 		width: 800, height:450
 	});		
 }
-
-//新增订单
-function add(){
+//追加查看产品按钮
+function onLoadProduct(e){
+	var record = e.record,s='',p_id = record.p_id,model=record.model;
+	s += '<a href="javascript:viewProInfo('+p_id+')">'+model+'</a> ';
+	return s;
+}
+//查看产品相关信息
+function viewProInfo(pid){
 	mini.open({
-		url: "/product/storeDetail/info",
+		url: "/product/product/info?pid="+pid,
 		showMaxButton:true,
-		title: '新增订单', width: 740, 
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});	
+		title: "产品相关信息", 
+		width: 250, height:250
+	});		
 }
 //删除
 function remove() {
 	var rows = grid.getSelecteds(),_ids=new Array();
 	if(rows.length<1) return;
 		for(var i=0;i<rows.length;i++){
-	var _id=parseInt(rows[i].o_id);
+	var _id=parseInt(rows[i].id);
 	if(_id<1){
 		grid.removeRow(rows[i],false);
 	}else{
@@ -226,7 +130,7 @@ function remove() {
 		return false;
 	}
 	}
-	utils.ajax('/product/order/remove',{ids:ids},callback,"POST","json");
+	utils.ajax('/product/storeDetail/remove',{ids:ids},callback,"POST","json");
   });
 }
 //双击弹出
@@ -271,34 +175,4 @@ function onComfirm() {
 function onCancel() {
 	CloseWindow("cancel");
 }
-
-
-
-//强制选择归属公司
-function usrChoose(e){
-	var btn = this;
-		mini.open({
-		url: "product/factory/init?do=search",
-		title: "选择公司",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-			iframe.contentWindow.SetData();
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.fid);
-					btn.setText(data.f_name);
-					$("#"+btn.id+"\\$value").val(data.fid);
-				}
-			}
-		}
-	});
-}
-
 </script>

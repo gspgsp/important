@@ -61,9 +61,10 @@ class inStorageAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 			'number'=>$p_info['number'],
+			'remainder'=>$p_info['number'],
 			'p_id'=>$p_info['p_id'],
 			's_id'=>$data['store_id'],
-			'store_aid'=>$data['store_aid']
+			'store_aid'=>$data['store_aid'],
 			'unit_price'=>$p_info['unit_price'],
 			'unit'=>$p_info['unit'],
 			'price_type'=>$p_info['price_type'],

@@ -37,35 +37,28 @@ class storeDetailAction extends adminBaseAction {
 		//筛选
 		$where.= 1;
 		// //筛选状态
-		// if(sget('type','i',0) !=0) $order_type=sget('type','i',0);//订单类型
-		// if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
-		// if($order_type !=0)  $where.=" and `order_type` =".$order_type;
-		// $order_source=sget('order_source','i',0);//订单来源
-		// if($order_source !=0)  $where.=" and `order_source` =".$order_source;
-		// $pay_method=sget('pay_method','i',0);//付款方式
-		// if($pay_method !=0)  $where.=" and `pay_method` =".$pay_method;
-		// $transport_type=sget('transport_type','i',0);//运输方式
-		// if($transport_type !=0)  $where.=" and `transport_type` =".$transport_type;
-		// $business_model=sget('business_model','i',0);//业务模式
-		// if($business_model !=0)  $where.=" and `business_model` =".$business_model;
-		// $order_status=sget('order_status','i',0);//订单审核
-		// if($order_status !=0)  $where.=" and `order_status` =".$order_status;
-		// $goods_status=sget('goods_status','i',0);//发货状态
-		// if($goods_status !=0)  $where.=" and `order_source` =".$goods_status;
+		if(sget('number_status','i',0) !=0) {
+			$number_status=sget('remainder','i',0);//有剩余数量可用
+			$where.=" and `remainder` > 0";
+		}
 		//筛选时间
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
 		//关键词搜索
-		$key_type=sget('key_type','s','order_sn');
+		$key_type=sget('key_type','s','store_id');
 		$keyword=sget('keyword','s');
-		// if(!empty($keyword) && $key_type=='order_name'  ){
-		// 	$where.=" and `$key_type`  like '%$keyword%' ";
-		// }elseif(!empty($keyword) && $key_type=='c_id'){
-		// 	$keyword=M('product:order')->getOidByCname($keyword);
-		// 	$where.=" and `$key_type` in ('$keyword') ";
-		// }elseif(!empty($keyword)){
-		// 	$where.=" and `$key_type`  = '$keyword' ";
-		// }
+		if(!empty($keyword) && $key_type=='store_id'  ){
+			$keyword=M('product:store')->getSidBySname($keyword);
+			$where.=" and `$key_type` in ('$keyword') ";
+		}elseif(!empty($keyword) && $key_type=='store_aid'){
+			$keyword=M('product:store_admin')->getSaidByName($keyword);
+			$where.=" and `$key_type` in ('$keyword') ";
+		}elseif(!empty($keyword) && $key_type=='p_id' ){
+			$keyword=M('product:product')->getpidByPname($keyword);
+			$where.=" and `$key_type` in ($keyword) ";
+		}elseif(!empty($keyword)){
+			$where.=" and `$key_type`  like '%$keyword%' ";
+		}
 		$list=$this->db->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
@@ -78,9 +71,6 @@ class storeDetailAction extends adminBaseAction {
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($list['data'][$k]['store_id']); //获取仓库名
 			$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']);//获取牌号
 			$list['data'][$k]['admin_name']=M("product:inStorage")->getNameBySid($list['data'][$k]['store_aid']); //获得入库人姓名
-
-
-
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -123,13 +113,15 @@ class storeDetailAction extends adminBaseAction {
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
+		$remainder = $this->db->select('remainder')->wherePk($data['id'])->getOne();
+		$subtract = abs($number-$data['remainder']); //与修改后相减
+
+		$update =  $number > $data['remainder'] ? "number=number-$subtract" : "number=number+$subtract";
+		// p($update);
 		$this->db->startTrans(); //开启事务
 		try {
-			$number = $this->db->select('number')->wherePk($data['id'])->getOne();
-			$subtract = $number-$data['number']);
-			if( !$this->db->model('store_product')->where(' id = '.$data['store_id'])->update("number=number + '$subtract'")) throw new Exception ('仓库货品表更新失败');
 			if( !$this->db->update($data+$_data) ) throw new Exception ('仓库明细更新失败');
-
+			if( !$this->db->model('store_product')->where(' s_id = '.$data['store_id'])->update($update)) throw new Exception ('仓库货品表更新失败');
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
@@ -151,11 +143,7 @@ class storeDetailAction extends adminBaseAction {
 		$data = explode(',',$ids);
 		if(is_array($data)){
 			foreach ($data as $k => $v) {
-				if(M('product:order')->getODidByOid($v)){
-					continue;
-				}else{
-					$result=$this->db->where("o_id = ($v)")->delete();
-				}
+				$result=$this->db->where("id in ($ids)")->delete();
 			}
 		}
 		if($result){

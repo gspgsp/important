@@ -80,7 +80,6 @@ class purchaseLogAction extends adminBaseAction {
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);//根据cid取客户名
 			$list['data'][$k]['order_name']=M("product:order")->getColByName($list['data'][$k]['o_id']);
-			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($list['data'][$k]['store_id']); 
 			$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']);
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';

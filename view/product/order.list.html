@@ -137,7 +137,7 @@ function addSaleLog(oid){
 	mini.open({
 		url: "/product/saleLog/info?o_id="+oid,
 		showMaxButton:true,
-		title: '订单明细', width: 600, height:500,
+		title: '订单明细', width: 750, height:530,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();

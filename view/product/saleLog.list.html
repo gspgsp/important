@@ -57,7 +57,6 @@
 			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
-			<div field="c_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 			<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
 			<div field="out_storage_status" width="80" headerAlign="center" allowSort="true" align="center">出库状态</div>
 			<div field="sales_type" width="80" headerAlign="center" allowSort="true" align="center">销售类型</div>
@@ -109,7 +108,7 @@ function add(){
 	mini.open({
 		url: "/product/saleLog/info",
 		showMaxButton:true,
-		title: '销售明细新增', width: 600, height:400,
+		title: '新增销售订单', width: 750, height:530,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -125,7 +124,7 @@ function onRowDblClick(e) {
 function onEdit(e) {
 	var row = grid.getSelected();
 	if (row) {
-		var width=740,height=400,title='产品信息';
+		var width=750,height=530,title='修改销售订单';
 		urlStr="/product/saleLog/info?type=edit&id="+row.id;
 		mini.open({
 			url: urlStr,

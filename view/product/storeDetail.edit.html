@@ -2,6 +2,8 @@
 <div style="padding:5px;">
 	  <div title="仓库明细" class="form" id="editForm">
 		<input class="mini-hidden" name="id" value="{$info.id}"/>
+		<input class="mini-hidden" name="number" value="{$info.number}"/>
+
 		<table width="100%" border="0" cellpadding="1" cellspacing="2">
 			<tr>
 				<td>仓库:</td>
@@ -24,14 +26,14 @@
 				<td>采购价:</td>
 				<td><input name="unit_price" class="mini-textbox" style="width:110px" required="true" value="{$info.unit_price}"></td>
 				<td>进货数量:</td>
-				<td><input name="number" class="mini-textbox" style="width:110px" required="true" value="{$info.number}"></td>
+				<td>{$info.number}</td>
 
 			</tr>
 			<tr>
 				<td>剩余数量:</td>
 				<td><input name="remainder" class="mini-textbox" style="width:110px" required="true" value="{$info.remainder}"></td>
 				<td>锁定数量</td>
-				<td><input name="lock_number" class="mini-textbox" style="width:110px" required="true" value="{$info.lock_number}"></td>
+				<td><input name="lock_number" class="mini-textbox" style="width:110px" required="true" value="{$info.lock_number}" onvalidation="onValidation"></td>
 			</tr>
 			</table>
 			</div>
@@ -64,6 +66,9 @@ function CloseWindow(action) {
 }
 function onCancel(e) {
   CloseWindow("cancel");
+}
+function onValidation(){
+	alert(11);
 }
 //强制选择归属公司
 function usrChoose(e){

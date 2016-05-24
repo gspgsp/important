@@ -1,96 +1,120 @@
 {layout file="public:mini_layout"}
-<div style="padding:5px;">
-	<div id="infoForm" class="form">
-	<input class="mini-hidden" name="id" value="{$info.id}"/>
-	<input class="mini-hidden" name="sale_order_no" value="{$sale_order_no}"/>
-	<input class="mini-hidden" name="o_id" value="{$o_id}"/>
-		<div class="mini-tabs" activeIndex="0" plain="false">
-			<div title="基本信息">
-				<table width="100%">
-					<caption><strong>销售明细</strong></caption>
-					<tr>
-						<td>销售编号 : </td>
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="key_type">
+					<option value="store_id">仓库</option>
+					<option value="p_id">牌号</option>
+					<option value="lot_num">批次</option>
+					<option value="unit_price">采购价</option>	
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/storeDetail/init?action=grid&do={$doact}"  idField="id"
+		sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+			<div field="store_name" width="50" headerAlign="center" align="center" allowSort="true">仓库</div>
+			<div field="purchase_id" width="45" headerAlign="center" align="center" allowSort="true">订单号</div>
+			<div field="model" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
+			<div field="lot_num" width="35" headerAlign="center" align="center" allowSort="true">批次</div>
+			<div field="unit_price" width="40" headerAlign="center" align="center" allowSort="true">采购价</div>
+			<div field="number" width="40" headerAlign="center" align="center" allowSort="true">进货数量</div>
+			<div field="remainder" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
+			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
+		</div>
+	</div>
+</div>
+<div title="订单明细" class="form" id="editForm">
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>库存产品选择</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td>牌号 : </td>
+					<td><input name="model" id="model" value="{$model}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  emptyText="请从库存中选择" required="true" style="width:150px"/>
+					</td>
+					<td>仓库：</td>
+					<td><input name="store_name" id="store" value="{$info.store_name}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
+					</td>				
+				</tr>
+				<tr>
+					<td>批次：</td>
+					<td><input name="lot_num" id="lot" value="{$info.lot_num}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
+					</td>
+					<td>采购价 : </td>
+					<td><input name="unit_price" id="u_price" value="{$info.unit_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
+					</td>
+				</tr>
+				<tr>
+					<td>需求数量 : </td>
+					<td><input name="require_number" id="require_number" value="{$info.number}" textField="text" valueField="id" class="mini-textbox"  onvaluechanged="onValidation"  required="true" style="width:150px"/><span id="returnError" style="padding-left:5px; color:#F00;"></span>
+					</td>
+					<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
+					<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
+					<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
+					<input class="mini-hidden" id="inlog_id" name="inlog_id" value=""/>
+					<input class="mini-hidden"  name="{$sale_order_no}" value=""/>
+				</tr>
+			</table>	
+		</fieldset>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>订单明细</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td>销售编号 : </td>
 						{if $type neq 'edit'}
 						<td>{$sale_order_no}</td>
 						{else}
 						<td>{$info.sale_order_no}</td>
 						{/if}
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>订单名称：</td>
-						<td>
-						{if $o_id gt 0}
-							{$order_name}
-						{else}
-							<input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:170px" id="usrId"/>
-						{/if}
-						</td>
-						<td>产品牌号：</td>
-						<td>
-							<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false"  text="{$model}"  style="width:170px" id="usrId"/>
-						</td>
-					</tr>
-					<tr>
-						<td>数量 : </td>
-						<td><input name="number" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.number}"/>
-						</td>
-						<td>单价 ：</td>
-						<td><input name="unit_price" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.unit_price}"/>
-						</td>
-					</tr>
-					<tr>
-						<td>价格单位 : </td>
-						<td><input name="price_type" class="mini-combobox" style="width:100px;" value="{$info.price_type}" data='{:setMiniConfig|$price_type}' required="true" textfield="name" valuefield="id"/></td>
-						<td>批次号 : </td>
-						<td><input name="lot_num" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.lot_num}"/>
-						</td>
-					</tr>
-
-					<tr>
-						<td>仓库:</td>
-						<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$info.store_id}" allowInput="false"  text="{$info.store_name}"  style="width:120px" id="usrId"/></td>
-						<td>库位 : </td>
-						<td><input  class="mini-textbox"  name="location" required="true" value="{$info.location}"/>
-						</td>
-					</tr>
-					<tr>
-						<td>出库人</td>
-						<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
-						<td>出库状态 : </td>
-						<td><input name="out_storage_status" class="mini-combobox" style="width:150px;" value="{$info.out_storage_status}" data='{:setMiniConfig|$out_storage_status}' required="true" textfield="name" valuefield="id"/></td>
-					</tr>
-					<tr>
-						<td>供应商：</td>
-						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:120px" id="usrId"/></td>
-						<td>开票状态 : </td>
-						<td><input name="invoice_status" class="mini-combobox" style="width:150px;" value="{$info.invoice_status}" data='{:setMiniConfig|$invoice_status}' required="true" textfield="name" valuefield="id"/></td>
-					</tr>
-					<tr>
-						<td>销售类型</td>
-						<td><input name="sales_type" class="mini-combobox" style="width:150px;" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}' required="true" textfield="name" valuefield="id"/></td>
-						<td>备注:</td>
-						<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$info.remark}"></td>
-
-					</tr>
-				</table>
-			</div>
-			</div>
-		</div><input name="utype" class="mini-textbox" style="display:none" value="3" vtype="utype"/>
-		<div align="center" style="margin-top:10px;">
-			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
-			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
-		</div>
+					<td>订单名称：</td>
+					<td>
+					{if $o_id gt 0}
+						{$order_name}
+					{else}
+						<input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:170px" id="usrId"/>
+					{/if}
+					</td>
+					
+				</tr>
+				<tr>
+					<td>销售类型</td>
+					<td><input name="sales_type" class="mini-combobox" style="width:150px;" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}' required="true" textfield="name" valuefield="id"/></td>
+					<td>备注:</td>
+					<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$info.remark}"></td>
+				</tr>
+			</table>	
+		</fieldset>
 	</div>
-</div>
-<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
-<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+
+			<div align="center" style="margin-top:10px;margin-bottom:10px;">
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">提交</a>
+				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</div>
+	
 <script type="text/javascript">
 mini.parse();
-var form = new mini.Form("#infoForm");
-var cid = mini.get("#usrId").getValue();
-function submitForm(){
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+function submitForm() {
+	var form = new mini.Form("#editForm");
 	form.validate();
 	if(form.isValid() == false) return;
 	//提交数据
@@ -104,17 +128,61 @@ function submitForm(){
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
 			CloseWindow("save");
+			window.location.reload();
 		}else{
 			return false;
 		}
 	},'json');
 }
-function CloseWindow(action) {            
-	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+//追加查看产品按钮
+function onLoadProduct(e){
+	var record = e.record,s='',p_id = record.p_id,model=record.model;
+	s += '<a href="javascript:viewProInfo('+p_id+')">'+model+'</a> ';
+	return s;
 }
-function onCancel(e) {
-	CloseWindow("cancel");
+//查看产品相关信息
+function viewProInfo(pid){
+	mini.open({
+		url: "/product/product/info?pid="+pid,
+		showMaxButton:true,
+		title: "产品相关信息", 
+		width: 250, height:250
+	});		
+}
+function setsupport(e){
+	"{if $type eq 'edit'}"
+	return false;
+	"{/if}"
+	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id;
+	var p = mini.get("model");  
+	var s = mini.get("store");
+	var l = mini.get("lot");
+	var u = mini.get("u_price");
+	var hidden_remainder = mini.get("hidden_remainder");
+	var m_p_id = mini.get("m_p_id");
+	var m_store_id = mini.get("m_store_id");
+	var inlog_id = mini.get("inlog_id");
+
+	p.setValue(model);
+	s.setValue(store);
+	l.setValue(lot);
+	u.setValue(unit_price);
+	hidden_remainder.setValue(remainder);
+	m_p_id.setValue(p_id);
+	m_store_id.setValue(store_id);
+	inlog_id.setValue(id);
+}
+function onValidation(e) {
+	var hidden_remainder = mini.get("hidden_remainder");
+	var require_number = mini.get("require_number");
+	var remainder = hidden_remainder.getValue();
+	var r_number = require_number.getValue();
+	if(parseInt(remainder)<parseInt(r_number)){
+		$("#returnError").text('超出现有库存!');
+	}else{
+		$("#returnError").text('');
+
+	}
 }
 //强制选择归属订单
 function ordChoose(e){
@@ -141,81 +209,11 @@ function ordChoose(e){
 		}
 	});         
 }
-//强制选择归属产品
-function proChoose(e){
-	var btn = this;
-		mini.open({
-		url: "/product/product/init?ischecked=checked",
-		title: "选择产品",
-		width: 1250,
-		height: 550,
-		onload: function () {
-			var data=e.sender.getValue();
-			top['win'].setDvalue(data);  //去调用子页面的方法。
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.id);
-					btn.setText(data.model);
-				}
-			}
-		}
-	});
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
 }
-//选择仓库
-function stoChoose(e){
-	var btn = this;
-	var aname = mini.get("name");
-		mini.open({
-		url: "/product/store/init?do=search",
-		title: "选择仓库",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.id);
-					btn.setText(data.store_name);
-					aname.load('/product/saleLog/get_store_aid?sid='+data.id);
-				}
-			}
-		}
-	});
-}
-//强制选择归属供应商
-function usrChoose(e){
-	var btn = this;
-		mini.open({
-		url: "/user/customer/init?do=search",
-		title: "选择公司",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-			iframe.contentWindow.SetData();
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.c_id);
-					btn.setText(data.c_name);
-					$("#"+btn.id+"\\$value").val(data.c_id);
-				}
-			}
-		}
-	});         
+function onCancel(e) {
+  CloseWindow("cancel");
 }
 </script>

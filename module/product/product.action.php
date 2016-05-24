@@ -91,6 +91,19 @@ class productAction extends adminBaseAction {
 		$this->json_output($result);
 	}
 	/**
+	 * 产品信息
+	 */
+	public function info(){
+		$pid=sget('pid','i',0);
+		$info=$this->db->getPk($pid); //查询产品信息
+		if(empty($info)){
+			$this->error('错误的产品信息');	
+		}
+		$info['f_name']=M('product:factory')->getFnameById($info['f_id']);
+		$this->assign('info',$info);
+		$this->display('product.viewInfo.html');
+	}
+	/**
 	 * 保存(新/编辑)产品信息
 	 * @access public
 	 */
