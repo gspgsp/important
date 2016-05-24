@@ -21,4 +21,15 @@ class store_adminModel extends model{
 	}
 		return $list;
 	}
+	/**
+	 * 根据出库人姓名取id
+	 */
+	public function getSaidByName($value=''){
+		$arr=$this->model('admin')->select('admin_id')->where("name like '%".$value."%'")->getAll();
+		foreach ($arr as $key => $v) {
+			$ids[]=$v['admin_id'];
+		}
+		$data = implode(',',$ids);
+		return empty($data)? false : $data;
+	}
 }
