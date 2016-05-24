@@ -15,9 +15,14 @@ class informationAction extends homeBaseAction
     }
     //详情页面
     public function detailInfo(){
-    	$id = sget('id','i',0);
-        $content = $this->db->model('info')->select('title,content')->where('id='.$id)->getRow();
-        $this->json_output($content);
+        $this->display('detailInfo');
+    }
+
+    public function getArticleInfo(){
+        $id=sget('id','i',0);
+        $data=$this->db->model('info')->where("id=$id")->getRow();
+        $this->json_output($data);
+
     }
     //返回资源的内容
     public function get_items(){

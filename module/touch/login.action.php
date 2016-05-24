@@ -10,6 +10,7 @@ class loginAction extends homeBaseAction
     }
     public function init()
 	{
+	    
 		$this->display('login');
 	}
 	//用户登录验证

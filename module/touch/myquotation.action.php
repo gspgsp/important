@@ -51,7 +51,7 @@ class myquotationAction extends homeBaseAction
         $up = sget('up','i');
         $down = sget('down','i');
         $del = sget('del','i');
-        $result = $this->M('touch:myquotation')->refreshMulCell($ids, $up, $down, $del);
+        $result = M('touch:myquotation')->refreshMulCell($ids, $up, $down, $del);
         $this->json_output($result);
     }
 
