@@ -3,10 +3,11 @@
 *签到/兑换控制器
 */
 class signAction extends homeBaseAction{
-	protected $pointsSingModel,$signDay,$today,$weekStart;
+	protected $pointsSingModel,$pointsGoodsModel,$signDay,$today,$weekStart;
 
 	public function __init(){
 		$this->pointsSingModel = M('points:pointsSign');
+        $this->pointsGoodsModel = M('points:pointsGoods');
         $this->signDay = array('1'=>0, '2'=>0, '3'=>0, '4'=>0, '5'=>0, );
         $this->today = date('w');
         //每周签到开始的时间
@@ -94,8 +95,8 @@ class signAction extends homeBaseAction{
             if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
 
             $uinfo=M('public:common')->model('customer_contact')->where("user_id=$uid")->getRow();
-            $gid=sget('gid','i',0);
-            if(!$goods=$this->pointsGoodsModel->getPk($gid)) $this->error('您兑换的商品已下架');
+            $id=sget('gid','i',0);
+            if(!$goods=$this->pointsGoodsModel->getPk($id)) $this->error('您兑换的商品已下架');
             if($goods['status']==2) $this->error('您兑换的商品已下架');
             if($goods['num']<=0) $this->error('您兑换的商品库存不足');
             if($uinfo['points']<$goods['points']) $this->error('您的积分不足');
