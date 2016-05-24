@@ -96,10 +96,17 @@
                     url:"/touch/sign/signOn",
                     dataType:'json',
                     success:function (res) {
-                        console.log(res);
-                    },
-                    error:function () {
+                        layer.open({
+                            content: res.msg,
+                            time:2
+                        });
 
+                    },
+                    error:function (res) {
+                        layer.open({
+                            content: '系统错误',
+                            time:2
+                        });
                     }
                 });
             });

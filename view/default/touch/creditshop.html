@@ -33,19 +33,49 @@
 							$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
 						}else{
 							res.shop.forEach(function (v,i,a) {
-								creditshopLi+="<li><div style='width:100%; text-align:center'>" +
+								creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
 										"<img src='"+ v.thumb +"'></div>" +
 										"<h3>"+ v.name +"</h3>" +
 										"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
 							});
 							$(".shopUl").html(creditshopLi);
+							$(".shopUl li").on("click",function () {
+								var id=$(this).data("id");
+								window.location.href='/touch/creditshop/shopDetail?id='+id;
+							});
 						}
 					}
 				},
 				error:function (res) {
-
+					layer.open({
+						content: '系统错误',
+						time:2
+					});
 				}
 			});
+
+			$(".creditBtn").on("click",function () {
+				$.ajax({
+					type:"get",
+					url:"/touch/sign/signOn",
+					dataType:'json',
+					success:function (res) {
+						layer.open({
+							content: res.msg,
+							time:2
+						});
+
+					},
+					error:function (res) {
+						layer.open({
+							content: '系统错误',
+							time:2
+						});
+					}
+				});
+			});
+
+
 		});
 	</script>
 </head>
