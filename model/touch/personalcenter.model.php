@@ -21,15 +21,7 @@ class personalcenterModel extends model
 		return $data;
 	}
 	public function getUserThumb($user_id){
-		$_key='user_thumb'.$user_id;
-		$cache=cache::startMemcache();
-		//$cache->delete($_key);
-		$data = $cache->get($_key);
-		if(empty($data)){
 			$thumb = $this->model('contact_info')->select('thumb')->where('user_id='.$user_id)->getOne();
-			$cache->set($_key,$thumb,86400);//加入缓存
-		}
-		$data = $cache->get($_key);
-		return $data;
+		return $thumb;
 	}
 }
