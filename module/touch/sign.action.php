@@ -96,7 +96,7 @@ class signAction extends homeBaseAction{
 
             $uinfo=M('public:common')->model('customer_contact')->where("user_id=$uid")->getRow();
             $id=sget('gid','i',0);
-            if(!$goods=$this->pointsGoodsModel->getProduct($id)) $this->error('没有找到您要兑换的商品');
+            if(!$goods=$this->pointsGoodsModel->getPk($id)) $this->error('没有找到您要兑换的');
             if($goods['status']==2) $this->error('您兑换的商品已下架');
             if($goods['num']<=0) $this->error('您兑换的商品库存不足');
             if($uinfo['points']<$goods['points']) $this->error('您的积分不足');
@@ -125,6 +125,7 @@ class signAction extends homeBaseAction{
             }
             //事物提交
             $model->commit();
+            $this->success('兑换成功');
         }
     }
 }
