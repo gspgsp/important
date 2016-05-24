@@ -80,7 +80,7 @@
                     type:"post",
                     url:"/touch/sign/addOrder",
                     data:{
-                        pid:proId,
+                        gid:proId,
                         receiver:receiver,
                         phone:phone,
                         address:address,
@@ -94,11 +94,22 @@
                     },
                     success:function (res) {
                         layer.closeAll();
-                        layer.open({
-                            content: res.msg,
-                            btn: ['确定'],
-                            style: 'width:300px'
-                        });
+                        if(res.err==0){
+                            layer.open({
+                                content: res.msg,
+                                btn: ['确定'],
+                                style: 'width:300px',
+                                yes:function () {
+                                    window.location.reload();
+                                }
+                            });
+                        }else{
+                            layer.open({
+                                content: res.msg,
+                                btn: ['确定'],
+                                style: 'width:300px'
+                            });
+                        }
                         console.log(">>>",res);
                     },
                     error:function (res) {
