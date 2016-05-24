@@ -5,14 +5,13 @@ class purchaseModel extends model{
 		parent::__construct(C('db_default'), 'purchase');
 	}
 	//根据pid获取指定的字段值
-	public function getColById($pid=0,$col='id'){
-		$result=$this->select("$col")->where('p_id='.$pid)->getOne();
+	public function getColById($pid=0,$col='id',$value = 'p_id'){
+		$result=$this->select("$col")->where("$value =".$pid)->getOne();
 		return $result>0 ? $result : 0;
 	}
 	public function getInfoById($id=0){
 		return $this->where("`id` = '$id'")->getRow();
 	}
-
 	/**
 	 * 获取报价单关联信息
 	 */
@@ -24,6 +23,12 @@ class purchaseModel extends model{
 			->where("pur.id={$id}")
 			->select('pur.id,pur.user_id,pur.type,pur.cargo_type,pur.unit_price,pur.number,pur.store_house,pro.model,pro.product_type,fa.f_name,reg.name as city')
 			->getRow();
+	}
+	/**
+	 * 获取交易订单的所有信息
+	 */
+	public function getPurchaseInfo($id=0){
+		return $this->select('p.*,pd.model, pd.f_id as pdf_id, pd.product_type, pd.process_type, pd.status as pdstatus, pd.remark as pdremark, f.f_name')->from('purchase p')->leftjoin('product pd','p.p_id=pd.id')->leftjoin('factory f','f.fid = pd.f_id')->where("p.id = $id")->getRow();
 	}
 
 	public function getPurPage($where=1,$page=1,$pageSize=10){
