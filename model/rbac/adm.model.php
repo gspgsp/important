@@ -27,6 +27,17 @@ class admModel extends model{
 	public function getUserByCol($admin_id=0,$col='name') {
 		return $this->model('admin')->select("$col")->where("admin_id = ".$admin_id)->getOne();
 	}
+	/*
+	 * 取得当前用户的所有信息
+	 * @access public
+	 * @param int $admin_id 用户ID
+	 * @return array
+	 */
+	public function getUserInfoById($admin_id=0) {
+		//获取所有非超管
+		$nodes=$this->where("admin_id = $admin_id ")->getRow();
+		return $nodes;
+	}
 
 }
 ?>
