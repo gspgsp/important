@@ -79,5 +79,15 @@ class regionModel extends model{
 		return $data;
 
 	 }
+
+
+	  /*
+	  *根据传入的的区域信息返回中文信息
+	  */
+	  public function get_chinese_area($area = '0|0'){
+	 	 $areaArr = explode('|', $area);
+	 	 return $this->get_name($areaArr[0]).'|'.$this->get_name($areaArr[1]);
+	  }
+
 }
 ?>
