@@ -13,6 +13,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('business_model',L('business_model')); //业务模式
 		$this->assign('financial_records',L('financial_records')); //财务记录
 		$this->assign('order_status',L('order_status')); //订单审核
+		$this->assign('transport_status',L('transport_status')); //物流审核
 		$this->assign('goods_status',L('goods_status')); //发货状态
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('price_type',L('price_type')); //价格单位
@@ -63,6 +64,8 @@ class orderAction extends adminBaseAction {
 		if($business_model !=0)  $where.=" and `business_model` =".$business_model;
 		$order_status=sget('order_status','i',0);//订单审核
 		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
+		$transport_status=sget('transport_status','i',0);//物流审核
+		if($transport_status !=0)  $where.=" and `transport_status` =".$transport_status;
 		$goods_status=sget('goods_status','i',0);//发货状态
 		if($goods_status !=0)  $where.=" and `order_source` =".$goods_status;
 		//筛选时间
@@ -93,7 +96,8 @@ class orderAction extends adminBaseAction {
 			$list['data'][$k]['transport_type']=L('transport_type')[$v['transport_type']];
 			$list['data'][$k]['business_model']=L('business_model')[$v['business_model']];
 			$list['data'][$k]['financial_records']=L('financial_records')[$v['financial_records']];
-			$list['data'][$k]['order_status']=L('order_status')[$v['order_status']];
+			// $list['data'][$k]['order_status']=L('order_status')[$v['order_status']];
+			// $list['data'][$k]['transport_status']=L('transport_status')[$v['transport_status']];
 			$list['data'][$k]['goods_status']=L('goods_status')[$v['goods_status']];
 			$list['data'][$k]['invoice_status']=L('invoice_status')[$v['invoice_status']];
 		}
@@ -166,6 +170,11 @@ class orderAction extends adminBaseAction {
 				'update_admin'=>$_SESSION['name'],
 			);	
 			$result = $this->db->where('o_id='.$data['o_id'])->update($data+$up_data);
+			if($result){
+				$this->success('操作成功');
+			}else{
+				$this->error('更新失败');
+			}
 		}else{ //新增
 			$this->db->startTrans(); //开启事务
 			$add_data=array(
@@ -197,6 +206,34 @@ class orderAction extends adminBaseAction {
 		}
 
 	
+	}
+	    /**
+	 * 保存行内编辑工厂数据
+	 * @access public
+	 * @return html
+	 */
+	public function save(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data) && empty($data['o_id'])){
+			$this->error('错误的操作');
+		}
+		$sql=array();
+		foreach($data as $k=>$v){
+			$_data=array(
+				'update_time'=>CORE_TIME,
+				'update_admin'=>$_SESSION['name'],
+			);
+			$sql[]=$this->db->wherePk($v['o_id'])->updateSql(array('order_status'=>$v['order_status'],'transport_status'=>$v['transport_status'])+$_data);
+		
+			
+		}
+		$result=$this->db->commitTrans($sql);
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
 	}
 	/**
 	 * Ajax删除
