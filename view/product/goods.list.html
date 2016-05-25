@@ -1,4 +1,7 @@
 {layout file="public:mini_layout"}
+<style>
+	#addForm td{width:50px;}
+</style>
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
@@ -38,35 +41,26 @@
 			<div field="cate_id" width="30" headerAlign="center" allowSort="true" align="center">商品分类
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$goods_category}' />
 			</div>
-			<div field="name" width="80" headerAlign="center">商品名称
+			<div field="name" width="80" headerAlign="center" align="center">商品名称
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
 			<div field="price" width="60" headerAlign="center" allowSort="true" align="center">进价
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
-			<div field="points" width="80" headerAlign="center">所需积分
+			<div field="points" width="60" headerAlign="center" align="center">所需积分
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>                
 			<div field="receive_num" width="60" headerAlign="center" allowSort="true" align="center">总兑换数
 			</div>
-			<div field="num" width="80" headerAlign="center">库存
+			<div field="num" width="80" headerAlign="center" align="center">库存
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>        
-
-			<div field="thumb" width="50" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">预览图
-			</div>
-			<div field="image" width="120" headerAlign="center">详情图                        
-			</div>
-			
+			<div field="thumb" width="100" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">预览图
+			</div>			
 			<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
 				<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />     
 			</div>
-			
 			<div field="create_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
-		
-			
-			<div field="admin_name" width="40" headerAlign="center" align="center">操作人</div>
-			
 		</div>
 	</div>
 </div>
@@ -80,11 +74,11 @@
 			<input class="mini-hidden" name="id"/>
 			<tr>
 				<td>商品名称</td>
-				<td><input name="name" class="mini-textbox" style="width:200px;" required="true"/></td>
+				<td><input name="name" class="mini-textbox" style="width:170px;" required="true"/></td>
 			</tr>
 			<tr>
 				<td>商品编号</td>
-				<td><input name="goods_id" class="mini-textbox" style="width:200px" required="true"/></td>
+				<td><input name="goods_id" class="mini-textbox" style="width:170px" required="true"/></td>
 			</tr>
 			<tr>
 				<td>商品分类</td>
@@ -93,7 +87,7 @@
 			</tr>
 			<tr>
 				<td>进价</td>
-				<td><input name="price" class="mini-textbox" style="width:200px" required="true"/></td>
+				<td><input name="price" class="mini-textbox" style="width:170px" required="true"/></td>
 			</tr>
 			<tr>
 				<td>所需积分</td>
@@ -106,24 +100,26 @@
 				</td>
 			</tr>
 			<tr>
-				<td>预览图</td>
-				<td><input class="mini-htmlfile" name="thumb"  id="file1" style="width:200px;"/></td>
-			</tr>
-			<tr>
-				<td>详情图</td>
-				<td><input class="mini-htmlfile" name="image"  id="file1" style="width:200px;"/></td>
-			</tr>
-			<tr>
-				<td>状态：</td>
-				<td><select name="status" id="soStatus">
-					<option value="1">上架</option>
-					<option value="2">下架</option>
-				</select>
+				<td>身份证照片</td>
+				<td>
+					<input id="img_url1"  name="thumb" class="mini-textbox" value="" style="width:120px"/>
+					<input id="upfileId1" type="file" name="upFile" style="width:105px" onChange="fileUpload(1);">
 				</td>
 			</tr>
 			<tr>
+				<td>详情图</td>
+				<td>
+					<input id="img_url2"  name="image" class="mini-textbox" value="" style="width:120px"/>
+					<input id="upfileId2" type="file" name="upFile" style="width:105px" onChange="fileUpload(2);">
+				</td>
+			</tr>
+			<tr>
+				<td>状态</td>
+				<td><input class="mini-combobox" name="status" style="width:90px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="1"/></td>
+			</tr>
+			<tr>
 				<td>排序</td>
-				<td><input name="sort" class="mini-textbox" style="width:200px" required="true"/></td>
+				<td><input name="sort" class="mini-textbox" style="width:170px" required="true"/></td>
 			</tr>
 			<tr>
 			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
@@ -133,6 +129,9 @@
 		</table>
 	</div>
 </div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell");
@@ -216,18 +215,35 @@ function submitForm() {
   utils.ajax('/product/goods/{$action}?action=save&do=add',{data:json},callback,"POST","json");
 }
 
-
-
-
-
-
-
+function fileUpload(id) {
+	$.ajaxFileUpload({
+		url:'/system/sysUpload/images?model=',
+			secureuri:false,
+			fileElementId:'upfileId'+id,
+			dataType:'json',
+			success: function (data) {
+				if(data.err=='0'){
+					mini.get("img_url"+id).setValue(data.msg);
+				}
+			},
+			error: function (data, status, e){
+				$("#picResult").html(e);
+			}
+		}
+	)
+	return false;
+}
 
 //查看头像
 function onLoadShowPic(e) {
-	var record = e.record, uimg =record.qq_image, s='';
-	if(uimg != null){
-		return s += '<a href="javascript:;" onmouseover="showPic(\''+uimg+'\',this)" onmouseout="hidePic()">看头像</a>';	
+	var record = e.record, thumb=record.thumb, image=record.image, s='';
+	if(thumb != null){
+		 reg=/^http.*?$/;  
+        if(!reg.test(thumb)){  
+            return s += '<img width="100px" height="100px" src="__UPLOAD__/'+thumb+'" onmouseenter="showPic(\''+image+'\',this)" onmouseout="hidePic()" />';
+        }else{
+			return s += '<img width="100px" height="100px" src="'+thumb+'" onmouseover="showPic(\''+image+'\',this)" onmouseout="hidePic()" />';
+		}
 	}
 	return s;
 }
@@ -235,16 +251,16 @@ function showPic(url,obj){
 	var width = $(window).innerWidth();
 	var left = $(obj).offset().left;
 	var top = $(obj).offset().top;
-	$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="100px" src="'+url+'" />');
+	reg=/^http.*?$/;  
+        if(!reg.test(url)){
+			$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="150px" src="__UPLOAD__/'+url+'" />');
+		}else{
+			$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="250px" src="'+url+'" />');
+		}
 }
 function hidePic(){
 	$('#picShow').hide();
 }
-//新增一条行记录
-function addRow() {          
-	var newRow = {name: "source"};
-	grid.addRow(newRow, 0);
-	grid.beginEditCell(newRow, "source");
-}
+
 
 </script>

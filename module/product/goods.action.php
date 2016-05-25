@@ -8,6 +8,7 @@ class goodsAction extends adminBaseAction {
 		$this->db=M('public:common')->model('points_goods');
 		$this->doact = sget('do','s');
 		$this->assign('goods_category',L('goods_category')); //商品分类
+		$this->assign('status',array(1=>'上架',2=>'下架'));
 
 	}
 	/**
@@ -21,8 +22,6 @@ class goodsAction extends adminBaseAction {
 			$this->_grid();exit;
 		}elseif($action=='remove'){ //删除列表数据
 			$this->_remove();exit;
-		}elseif($action=='ajaxSave'){ //获取列表
-			$this->_ajaxSave();exit;
 		}elseif($action=='save'){ //获取列表
 			$this->_save();exit;
 		}
@@ -30,11 +29,7 @@ class goodsAction extends adminBaseAction {
 		$this->display('goods.list.html');
 	}
 
-	public function ulist(){
-		$this->assign('doact','search');
-		$this->assign('page_title','资源库会员发布信息列表');
-		$this->display('source.list.html');
-	}
+
 	/**
 	 * Ajax获取列表内容
 	 * @access private 
