@@ -105,14 +105,26 @@ function onRowDblClick(e) {
 }
 
 function viewhander(e){
-	var record = e.record,id=record.id, status=record.status, s='';
-	s += '<a href="javascript:viewPinfo('+id+')">查看</a>';
-	if(status == 1){
-		s +='&nbsp;|&nbsp;<a href="javascript:chkOrder('+id+')">审核 </a>';
+	var record = e.record,id=record.id, status=record.status, count=record.supply_count, s='';
+	if(count>0){
+		s = '<a href="javascript:viewPinfo('+id+')">采购列表</a>';
 	}
 	return s;
 }
 
+
+function viewPinfo(id){
+	mini.open({
+		url:"/product/buySale/init?purid="+id,
+		showMaxButton:true,
+		title:'采购单列表查看',width:1050,height:630,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
 //查看编辑用户信息
 function add(id,ctype){
 	var width=330,height=500;

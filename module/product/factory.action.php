@@ -38,7 +38,7 @@ class factoryAction extends adminBaseAction
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
 		}
-		
+		$this->assign('doact',$doact);
 		$this->assign('status',L('factory_status'));
 		$this->assign('factory_status',L('factory_status')); //厂家状态
 		$this->assign('page_title','厂家管理');
