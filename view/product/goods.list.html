@@ -18,7 +18,7 @@
 					<option value="1">上架</option>
 					<option value="2">下架</option>
 				</select>
-				<select name="cate_id">
+				<select id="cate_id" name="cate_id">
 					<option value="" selected="selected">=商品分类=</option>
 					{html_options options=$goods_category}
 				</select>
@@ -38,10 +38,10 @@
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
-			<div field="cate_id" width="30" headerAlign="center" allowSort="true" align="center">商品分类
-				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$goods_category}' />
+			<div field="cate_id" renderer="setCate" width="30" headerAlign="center" allowSort="true" align="center">商品分类
+				<input property="editor" name="cate_id" class="mini-combobox" data='{:setMiniConfig|$goods_category}' textField="name" valueField="id" style="width:90px;" required="true"/>
 			</div>
-			<div field="name" width="80" headerAlign="center" align="center">商品名称
+			<div field="name" width="200" headerAlign="center" align="center">商品名称
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
 			<div field="price" width="60" headerAlign="center" allowSort="true" align="center">进价
@@ -55,12 +55,12 @@
 			<div field="num" width="80" headerAlign="center" align="center">库存
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>        
-			<div field="thumb" width="100" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">预览图
+			<div field="thumb" width="80" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">预览图片
 			</div>			
 			<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
 				<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />     
 			</div>
-			<div field="create_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
+			<div field="create_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
 		</div>
 	</div>
 </div>
@@ -145,6 +145,11 @@ function search() {
 search();
 function onKeyEnter(e) {
 	search();
+}
+//设置分类
+function setCate(e){
+	var record = parseInt(e.record.cate_id); //record.id
+	return $("#cate_id").find("option[value="+record+"]").text();
 }
 //删除数据
 function removeRow() {
@@ -236,14 +241,9 @@ function fileUpload(id) {
 
 //查看头像
 function onLoadShowPic(e) {
-	var record = e.record, thumb=record.thumb, image=record.image, s='';
+	var record = e.record, thumb=record.thumb, s='';
 	if(thumb != null){
-		 reg=/^http.*?$/;  
-        if(!reg.test(thumb)){  
-            return s += '<img width="100px" height="100px" src="__UPLOAD__/'+thumb+'" onmouseenter="showPic(\''+image+'\',this)" onmouseout="hidePic()" />';
-        }else{
-			return s += '<img width="100px" height="100px" src="'+thumb+'" onmouseover="showPic(\''+image+'\',this)" onmouseout="hidePic()" />';
-		}
+        return s += '<a href="javascript:;" onmouseenter="showPic(\''+thumb+'\',this)" onmouseout="hidePic()" />查看</a>';
 	}
 	return s;
 }
@@ -255,7 +255,7 @@ function showPic(url,obj){
         if(!reg.test(url)){
 			$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="150px" src="__UPLOAD__/'+url+'" />');
 		}else{
-			$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="250px" src="'+url+'" />');
+			$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="150px" src="'+url+'" />');
 		}
 }
 function hidePic(){
