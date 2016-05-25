@@ -178,6 +178,12 @@ return array(
 	'order_status'=>array(
 		1=>'待审核',
 		2=>'已审核',
+		3=>'已取消',
+	),
+	//订单审核
+	'transport_status'=>array(
+		1=>'待审核',
+		2=>'已审核',
 		3=>'已关闭',
 	),
 	//发货状态
