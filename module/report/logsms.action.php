@@ -177,7 +177,7 @@ class logsmsAction extends adminBaseAction {
 			$sms = spost('sms','s','');
 			$send_time = spost('send_time','s','');
 
-			$m = $this->db->model('user')->select('user_id,mobile');
+			$m = $this->db->model('customer_contact')->select('user_id,mobile');
 			if(spost('all_users','i',0)){
 				$users = $m->getAll();
 			}elseif($user_ids=spost('user_ids','s')){
