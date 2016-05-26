@@ -7,7 +7,7 @@ class inStorageAction extends adminBaseAction {
 		$this->debug = false;
 		$this->db=M('public:common')->model('in_storage');
 		$this->assign('ship_company',L('ship_company')); //物流公司
-		$this->assign('in_type',L('in_type')); //入库状态
+		$this->assign('purchase_type',L('purchase_type')); //状态
 
 	}
 	/**
@@ -29,14 +29,14 @@ class inStorageAction extends adminBaseAction {
 					->order("$sortField $sortOrder")
 					->getPage();
 			foreach($list['data'] as $k=>$v){
-				$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']); //获取客户名称
-				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($list['data'][$k]['store_id']); //获取仓库名
+				$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']); //获取牌号名称
+				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
 		}
-		$in_info=$this->db->where("o_id = '$o_id'")->getRow();
+		$in_info=$this->db->model('in_storage')->where("o_id = '$o_id'")->getRow();
 		if(!$in_info) {
 			$this->assign('doyet','doyet');
 		}
@@ -54,7 +54,6 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-		p($data);
 		if(empty($data)) $this->error('操作有误');	
 		$p_info=M("product:purchaseLog")->getColByDetId($data['purchase_id'],'*');
 		$_data=array(
@@ -69,6 +68,7 @@ class inStorageAction extends adminBaseAction {
 			'unit_price'=>$p_info['unit_price'],
 			'unit'=>$p_info['unit'],
 			'price_type'=>$p_info['price_type'],
+			'purchase_type'=>$p_info['purchase_type'],
 		);
 		$this->db->startTrans(); //开启事务
 		try {

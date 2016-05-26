@@ -151,8 +151,6 @@ class purchaseLogAction extends adminBaseAction {
 		$data = sdata(); //获取UI传递的参数
 		if(empty($data)) $this->error('错误的请求');	
 		$_data = array(		
-			'in_storage_status'=>1,//追加未入库状态
-			'invoice_status'=>1,//未开票
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);	
@@ -161,7 +159,7 @@ class purchaseLogAction extends adminBaseAction {
 		}else{
 			$data['input_time']=CORE_TIME;
 			$data['input_admin']=$_SESSION['name'];
-			$result = $this->db->add($data+$_data);
+			$result = $this->db->add($data);
 		}
 		if($result['err']>0){
 			$this->error($result['msg']);

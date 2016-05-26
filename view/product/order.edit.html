@@ -79,24 +79,30 @@
 						</td>
 						<td>业务模式 : </td>
 						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}'  required="true" textfield="name" valuefield="id"/></td>
-						
 					</tr>
 					<tr>
 						<td>开票状态 : </td>
 						<td><input name="invoice_status" class="mini-combobox" style="width:125px;" value="{$info.invoice_status}" data='{:setMiniConfig|$invoice_status}'  required="true" textfield="name" valuefield="id"/></td>
-						<td>货款结算方式 : </td>
-						<td><input name="payment_way" class="mini-textbox" style="width:125px;"  required="true" value="{$info.payment_way}"/></td>
+						<td>来源 : </td>
+						<td><input name="order_source" class="mini-combobox" style="width:125px;" value="{$info.order_source}" data='{:setMiniConfig|$order_source}'  required="true" textfield="name" valuefield="id"/></td>
 					</tr>
 				</table>
 					</div>
-				</fieldset>				
+				</fieldset>
+			{if $otype eq 'addopus'}
+				<fieldset style="width:700px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+					<legend>新增明细</legend>
+					<div id="editForm2" style="padding:5px; ">
+					</div>
+				</fieldset>
+			{/if}	
 			</div>
 		</div>	
 		</div>
 </div>
 		<div align="center" style="margin-top:10px;">
 		{if $otype eq 'addopus'}
-			<!-- <a class="mini-button" iconcls="icon-ok" onclick="addord">明细</a> -->
+			<a class="mini-button" iconCls="icon-add" onclick="addDetil()">明细</a>
 		{/if}
 			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
 			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
@@ -210,11 +216,67 @@ function proChoose(e){
 	});         
 }
 var i = 1;
-function addord(){
-	
-	var str='<fieldset style="width:700px;border:solid 1px #aaa;margin-top:8px;position:relative;"><legend>明细信息</legend><div id="editForm1" style="padding:5px;"><table width="100%"></td><td>产品牌号：</td><td><input name="p_id'+i+'" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false" text="{$model}"  style="width:170px" id="usrId"/></td></tr><tr><td>数量 : </td><td><input name="number'+i+'" class="mini-textbox" style="width:100px;" maxlength="8"  required="true" value="{$info.number}"/></td><td>单价 ：</td><td><input name="unit_price'+i+'" class="mini-textbox" style="width:100px;" maxlength="8"  required="true" value="{$info.unit_price}"/></td></tr><tr><td>价格单位 : </td><td><input name="price_type'+i+'" class="mini-combobox" style="width:100px;" value="{$info.price_type}" data={:setMiniConfig|$price_type}  required="true" textfield="name" valuefield="id"/></td><td>批次号 : </td><td><input name="lot_num'+i+'" class="mini-textbox" style="width:100px;" maxlength="8"  required="true" value="{$info.lot_num}"/></td><tr><td>仓库：</td><td><input  class="mini-textbox"  name="store_house'+i+'"  required="true" value="{$info.store_house}"/></td><td>库位 : </td><td><input  class="mini-textbox"  name="location'+i+'"  required="true" value="{$info.location}"/></td></tr><tr><td>供应商：</td><td><input  class="mini-textbox"  name="supplier_name'+i+'"  required="true" value="{$info.supplier_name}"/></td><td>开票状态 : </td><td><input name="invoice_status'+i+'" class="mini-combobox" style="width:150px;" value="{$info.invoice_status}" data={:setMiniConfig|$invoice_status}  required="true" textfield="name" valuefield="id"/></td></tr><tr><td>入库状态 : </td><td><input name="in_storage_status'+i+'" class="mini-combobox" style="width:150px;" value="{$info.in_storage_status}" data={:setMiniConfig|$in_storage_status}  required="true" textfield="name" valuefield="id"/></td><td>销售类型</td><td><input name="sales_type'+i+'" class="mini-combobox" style="width:150px;" value="{$info.sales_type}" data={:setMiniConfig|$sales_type}  required="true" textfield="name" valuefield="id"/></td></tr><tr><td>备注:</td><td><input name="remark'+i+'" class="mini-textarea" style="width:200px"  required="true"/ value="{$info.remark}"></td><td>&nbsp;</td><td>&nbsp;</td></tr></table></div></fieldset>';
-	$('#infoForm').append(str);
-	i++;
-	mini.parse();
+function addDetil(){
+	var btn = this;
+	mini.open({
+		url: "/product/saleLog/info?choose=1",
+		title: "新增明细",
+		width: 750,
+		height: 530,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					var str1 = '<table><tr>';
+					var str2 = '';
+					var str3 ='';
+					var count = 0;
+					for(var s in data){
+						if( s =='model' || s =='store_name' || s =='lot_num' || s =='unit_price' || s=='require_number' || s=='remark' ){
+							switch(s){
+								case  'model':
+									str1+='<td>牌号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									 break;
+								case 'store_name':
+									str1+='<td>仓库 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'lot_num':
+									str1+='<td>批次 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'unit_price':
+									str1+='<td>单价 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'require_number':
+									str1+='<td>数量 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'remark':
+									str1+='<td>备注 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								default:
+							}
+						}		
+						count =parseInt(data['require_number']) * parseInt(data['unit_price']);
+			
+						str2+='<input class="mini-hidden"  name="'+s+i+'" value="'+data[s]+'"/>'
+
+					}
+					str1+='<td>总价 :</td><td>'+count+'</td>';
+					str1+='</table>';
+					str3 = '<input class="mini-hidden"  name="count'+i+'" value="'+count+'"/>';
+					$('#editForm2').append(str1);
+					$('#editForm2').append(str2);
+					$('#editForm2').append(str3);
+					mini.parse();
+				}
+			}
+		}
+	});
 }
 </script>

@@ -143,21 +143,22 @@ class storeDetailAction extends adminBaseAction {
 			$this->error('操作有误');	
 		}
 		$list = $this->db->select('p_id,remainder')->where("p_id in ($ids)")->getAll();
-		p($list);
-		
+		// p($list);
 		try {	
 			if( $this->db->model('sale_log')->where("inlog_id in ($inlog)")->getAll() )  throw new Exception("存在相关销售订单无法删除!");
 			if( !$this->db->model('in_log')->where("p_id in ($ids)")->delete() ) throw new Exception("删除库存明细失败");
 
 			foreach ($list as $k => $v) {
 				if( $this->db->model('store_product')->where('p_id = '.$v['p_id'])->update('number=number-'.$v['remainder']) ) throw new Exception("仓库货品表数量关联失败");
-				;
 			}		
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
-		 $this->db->commit();
+		// $this->db->model('store_product')->where('p_id = '.$v['p_id'])->update('number=number-'.$v['remainder']) ;
+		// 	showTrace();
+			
+		$this->db->commit();
 		$this->success('操作成功');
 	}
 }

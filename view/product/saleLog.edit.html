@@ -62,7 +62,7 @@
 					<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
 					<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
 					<input class="mini-hidden" id="inlog_id" name="inlog_id" value=""/>
-					<input class="mini-hidden"  name="{$sale_order_no}" value=""/>
+					<input class="mini-hidden"  name="sale_order_no" value="{$sale_order_no}"/>
 				</tr>
 			</table>	
 		</fieldset>
@@ -95,11 +95,19 @@
 			</table>	
 		</fieldset>
 	</div>
-
+		{if $choose eq 1}
+			<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+				<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+				<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+			</div>
+		{else}
 			<div align="center" style="margin-top:10px;margin-bottom:10px;">
 				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">提交</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
+		{/if}
+			
 	
 <script type="text/javascript">
 mini.parse();
@@ -213,7 +221,19 @@ function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
   else window.close();
 }
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
 function onCancel(e) {
   CloseWindow("cancel");
+}
+function GetData() {
+	var form = new mini.Form("#editForm");
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	return json;
 }
 </script>

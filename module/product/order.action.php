@@ -176,36 +176,30 @@ class orderAction extends adminBaseAction {
 				$this->error('更新失败');
 			}
 		}else{ //新增
-			$this->db->startTrans(); //开启事务
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 			);
-			$this->db->add($data+$add_data);
-			$o_id=$this->db->getLastID(); //订单ID
-			if(!empty($detail)){
-				for($i=1;$i<=count($detail);$i++){
-					$detail[$i]['o_id']=$o_id;
-					$detail[$i]['purchase_order_no']=genOrderSn();
-					$this->db->model('sale_log')->add($detail[$i]+$add_data);
+			try {	
+				$this->db->add($data+$add_data);
+				$o_id=$this->db->getLastID(); //订单ID
+				if( !$o_id ) throw new Exception("新增订单失败");
+				if(!empty($detail)){
+					for($i=1;$i<=count($detail);$i++){
+						$detail[$i]['o_id']=$o_id;
+						$detail[$i]['purchase_order_no']=genOrderSn();
+						if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
+						$count+=$detail[$i]['count'];
+					}
 				}
-			}
-			if($this->db->commit()){
-				$up_data = array(
-					'total_price'=>M("product:order")->getOrdNum($o_id,1), //计算总金额			
-					'update_time'=>CORE_TIME,
-					'update_admin'=>$_SESSION['name'],
-				);	
-				$result = $this->db->where('o_id='.$o_id)->update($up_data);
-				$this->success('操作成功');
-			}else{
+				if( !$this->db->model('order')->wherePk($o_id)->update('total_price='.$count) ) throw new Exception("总金额统计是吧");	
+			} catch (Exception $e) {
 				$this->db->rollback();
-				$this->error($result['msg']);
+				$this->error($e->getMessage());
 			}
-
+			$this->db->commit();
+			$this->success();
 		}
-
-	
 	}
 	    /**
 	 * 保存行内编辑工厂数据
@@ -218,18 +212,15 @@ class orderAction extends adminBaseAction {
 		if(empty($data) && empty($data['o_id'])){
 			$this->error('错误的操作');
 		}
-		$sql=array();
+		$_data=array(
+			'update_time'=>CORE_TIME,
+			'update_admin'=>$_SESSION['name'],
+		);
 		foreach($data as $k=>$v){
-			$_data=array(
-				'update_time'=>CORE_TIME,
-				'update_admin'=>$_SESSION['name'],
-			);
-
 			try {
-				if($v['order_status'] == 3 || $v['transport_status'] == 3 && $v['order_type'] == 1){ //类型是销售订单,并且审核不通过返还库存锁定数量
+				if( ($v['order_status'] == 3 || $v['transport_status'] == 3) && $v['order_type'] == 1){ //类型是销售订单,并且审核不通过返还库存锁定数量
 					$product_num=$this->db->model('sale_log')->select('store_id,number')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取所有订单明细的产品锁定数量
-					if(  !$product_num  ) throw new Exception("获取订单相关明细失败");
-
+					if(  !$product_num  ) throw new Exception("此订单没有相关明细");
 					foreach ($product_num as $key => $value) { //循环对订单中每条明细操作
 
 						if(  !$this->db->model('in_log')->where('store_id = '.$value['store_id'])->update(' `remainder` = `remainder`+ '.$value['number'].'  `, lock_number` = `lock_number`- '.$value['number'])  ) throw new Exception("库存明细数量解锁失败");//把订单中锁定的数量返还库存明细
@@ -237,8 +228,7 @@ class orderAction extends adminBaseAction {
 						if(  !$this->db->model('store_product')->where('s_id = '.$value['store_id'])->update('  `number` = `number`+  '.$value['number'])  ) throw new Exception("仓库产品表总数量返还失败"); //仓库产品表数量返还
 					}
 				}
-				
-				if(!$this->db->update($data+$_data) ) throw new Exception("审核状态更新失败");
+				if( !$this->db->model('order')->update($v+$_data) ) throw new Exception("审核状态更新失败!!!");
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());

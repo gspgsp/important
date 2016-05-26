@@ -94,6 +94,7 @@ class saleLogAction extends adminBaseAction {
 		$id=sget('id','i',0);
 		$type=sget('type','s');
 		$o_id=sget('o_id','i',0);
+		$choose=sget('choose','i');
 		if($id<1){
 			if($o_id>0){
 				$this->assign('o_id',$o_id);
@@ -101,6 +102,7 @@ class saleLogAction extends adminBaseAction {
 				$this->assign('order_name',$order_name);
 			}
 			$sale_order_no=genOrderSn();
+			$this->assign('choose',$choose);
 			$this->assign('sale_order_no',$sale_order_no);
 			$this->display('saleLog.edit.html');
 			exit;

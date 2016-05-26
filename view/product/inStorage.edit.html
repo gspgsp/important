@@ -45,7 +45,7 @@
 
 				<tr>
 					<td>入库类型:</td>
-					<td><input name="in_type" class="mini-combobox" data='{:setMiniConfig|$in_type}' value="{$data.in_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
+					<td><input name="purchase_type" class="mini-combobox" data='{:setMiniConfig|$purchase_type}' value="{$data.purchase_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
 					</td>	
 					<td>物流公司:</td>
 					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>			
@@ -65,17 +65,14 @@
 				</tr>
 
 				<tr>
-					<td>关联客户:</td>
-					<td>{$in_info.c_name}</td>
-					<td>入库类型</td>
-					<td>{$in_type.$in_info.in_type}</td>
-				</tr>
-				<tr>		
 					<td>物流公司:</td>
 					<td>{$ship_company.$in_info.ship_id}</td>
-					
+					<td>入库类型</td>
+					<td>{$purchase_type.$in_info.purchase_type}</td>
+				</tr>
+				<tr>		
 					<td>备注:</td>
-					<td>{$out_info.remark}</td>
+					<td>{$in_info.remark}</td>
 				</tr>	
 			{/if}	
 			</table>
@@ -106,6 +103,8 @@
 				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">入库</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
+	
+			
 	
 <script type="text/javascript">
 mini.parse();
@@ -160,6 +159,10 @@ function submitForm() {
 function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
   else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
 }
 function onCancel(e) {
   CloseWindow("cancel");
@@ -268,4 +271,5 @@ function remove() {
 		utils.ajax('/product/inStorage/remove',{ids:ids},callback,"POST","json");
 	});
 }
+
 </script>
