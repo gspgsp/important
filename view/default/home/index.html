@@ -902,7 +902,7 @@
                     <div class="headline-list {if $kk !=0 }last{/if} ">
                         <ul>
                             {foreach from=$vv item=v key=k}
-                            <li><a href="">{$v.title|mb_substr=0,20, 'utf-8'}</a>{$v.input_time|date:m-d}</li>
+                            <li><a href="/article/index/info/id/{$v.id}">{$v.title|mb_substr=0,20, 'utf-8'}</a>{$v.input_time|date:m-d}</li>
                             {/foreach}
                         </ul>
                     </div>

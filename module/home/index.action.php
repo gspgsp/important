@@ -98,8 +98,6 @@ class indexAction extends homeBaseAction{
 
 		//新闻资讯
 		$this->articleList = M('system:info')->get_index_article();
-
-
 		$this->display('index.html');
 	}
 

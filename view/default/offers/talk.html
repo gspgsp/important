@@ -7,24 +7,24 @@
 <!--buy-wrap begin-->
 <div class="buy-wrap talk">
 	<!--buy-process begin-->
-    <div class="buy-process">
+    <!-- <div class="buy-process">
     	<ul>
         	<li class="one"><p>1</p><span>委托洽谈<br/>通过网页、电话或QQ发布采购需求给我们</span></li>
             <li class="two"><p>2</p><span>选择资源<br/>我们为您选择货物，您来选择最合适的资源</span></li>
             <li class="three"><p>3</p><span>完成交易<br/>敲定合作方，完成货物，货物交收</span></li>
         </ul>
         <div class="line"></div>
-    </div>
+    </div> -->
     <!--buy-process end-->
     <!--buy-info begin-->
     <form id="talkForm" onSubmit="return false;" method="post" action="">
         <div class="buy-info">
             <div class="buy-title">
-                <span>我的交易员：{$data.adname}  {$data.admobile}</span>
+                <span>交易员：{$data.adname}  {$data.admobile}</span>
             </div>
             <table>
             	<tr>
-                	<td width="100">客户名称：</td>
+                	<td width="100">公司名称：</td>
                     <td width="408">{$data.c_name}</td>
                     <td width="100">联<i></i>系<i></i>人：</td>
                     <td width="408">{$data.name}</td>
@@ -32,7 +32,7 @@
                 <tr>
                 	<td>联系电话：</td>
                     <td>{$data.mobile}</td>
-                    <td>采购类型：</td>
+                    <td>现货/期货：</td>
                     <td>
                         {if $data.cargo_type==1}
                         现货

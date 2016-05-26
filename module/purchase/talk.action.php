@@ -27,11 +27,14 @@ class talkAction extends homeBaseAction{
 			$this->is_ajax=true;
 			$data=$_POST;
 			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']) $this->error('信息填写不完整');
+			$p_id=$data['p_id'];
+			$data['p_id']=$p_id;
 			$data['delivery_date']=strtotime($data['delivery_date']);
 			$data['input_time']=CORE_TIME;
 			$data['user_id']=$this->user_id;
 			$data['sn']=genOrderSn();
 			$this->db->model('sale_buy')->add($data);
+			$this->db->model('purchase')->where("id=$p_id")->update("supply_count=supply_count+1");
 			$this->success('提交成功');
 		}else{
 			$this->error('请求错误');
