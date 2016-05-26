@@ -28,6 +28,7 @@ function submitFrom(){
     $.post('/purchase/talk/addorder',data,function(data){
         if(data.err==0){
             alert(data.msg);
+            window.history.back();
         }else{
             alert(data.msg);
         }   
