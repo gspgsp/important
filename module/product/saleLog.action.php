@@ -149,8 +149,8 @@ class saleLogAction extends adminBaseAction {
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
-		$_inlog = array(
-			'remainder'=>$data['remainder']-$data['require_number'],
+		$_inlog = array( //把需求的数量 关联到锁定数量
+			'remainder'=>$data['remainder']-$data['require_number'], 
 			'lock_number'=>$data['require_number'],
 		);
 		try {

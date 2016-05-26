@@ -3,8 +3,7 @@
 	<div id="infoForm" class="form">
 	<input class="mini-hidden" name="id" value="{$info.id}"/>
 	<input class="mini-hidden" name="purchase_order_no" value="{$purchase_order_no}"/>
-	<input class="mini-hidden" name="o_id" value="{$o_id}"/>
-		<div class="mini-tabs" activeIndex="0" plain="false">
+	<input class="mini-hidden" name="o_id" value="{$o_id}"/>		
 			<div title="基本信息">
 				<table width="100%">
 					<caption><strong>采购明细</strong></caption>
@@ -24,12 +23,12 @@
 						{if $o_id gt 0}
 							{$order_name}
 						{else}
-							<input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:170px" id="usrId"/>
+							<input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:100px" id="usrId"/>
 						{/if}
 						</td>
 						<td>产品牌号：</td>
 						<td>
-							<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false"  text="{$model}"  style="width:170px" id="usrId"/>
+							<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false"  text="{$model}"  style="width:100px" id="usrId"/>
 						</td>
 					</tr>
 					<tr>
@@ -44,17 +43,16 @@
 						<td>价格单位 : </td>
 						<td><input name="price_type" class="mini-combobox" style="width:100px;" value="{$info.price_type}" data='{:setMiniConfig|$price_type}' required="true" textfield="name" valuefield="id"/></td>
 						<td>采购类型</td>
-						<td><input name="purchase_type" class="mini-combobox" style="width:150px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}' required="true" textfield="name" valuefield="id"/></td>
+						<td><input name="purchase_type" class="mini-combobox" style="width:100px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}' required="true" textfield="name" valuefield="id"/></td>
 					</tr>
 					<tr>
 						<td>供应商：</td>
-						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:120px" id="usrId"/></td>
+						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:100px" id="usrId"/></td>
 						<td>备注:</td>
-						<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$info.remark}"></td>
+						<td><input name="remark" class="mini-textarea" style="width:100px" required="true"/ value="{$info.remark}"></td>
 
 					</tr>
 				</table>
-			</div>
 			</div>
 		</div><input name="utype" class="mini-textbox" style="display:none" value="3" vtype="utype"/>
 		<div align="center" style="margin-top:10px;">

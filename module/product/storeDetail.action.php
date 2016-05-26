@@ -137,19 +137,27 @@ class storeDetailAction extends adminBaseAction {
 	public function remove(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
+		$inlog=sget('inlog','s');
+		$remainders=sget('remainders','i');
 		if(empty($ids)){
 			$this->error('操作有误');	
 		}
-		$data = explode(',',$ids);
-		if(is_array($data)){
-			foreach ($data as $k => $v) {
-				$result=$this->db->where("id in ($ids)")->delete();
-			}
+		$list = $this->db->select('p_id,remainder')->where("p_id in ($ids)")->getAll();
+		p($list);
+		
+		try {	
+			if( $this->db->model('sale_log')->where("inlog_id in ($inlog)")->getAll() )  throw new Exception("存在相关销售订单无法删除!");
+			if( !$this->db->model('in_log')->where("p_id in ($ids)")->delete() ) throw new Exception("删除库存明细失败");
+
+			foreach ($list as $k => $v) {
+				if( $this->db->model('store_product')->where('p_id = '.$v['p_id'])->update('number=number-'.$v['remainder']) ) throw new Exception("仓库货品表数量关联失败");
+				;
+			}		
+		} catch (Exception $e) {
+			$this->db->rollback();
+			$this->error($e->getMessage());
 		}
-		if($result){
-			$this->success('操作成功');
-		}else{
-			$this->error('订单有相关明细存在');
-		}
+		 $this->db->commit();
+		$this->success('操作成功');
 	}
 }

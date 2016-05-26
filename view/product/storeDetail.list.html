@@ -108,17 +108,20 @@ function viewProInfo(pid){
 }
 //删除
 function remove() {
-	var rows = grid.getSelecteds(),_ids=new Array();
+	var rows = grid.getSelecteds(),_ids=new Array(),inlog_ids=new Array();
 	if(rows.length<1) return;
-		for(var i=0;i<rows.length;i++){
-	var _id=parseInt(rows[i].id);
+	for(var i=0;i<rows.length;i++){
+		var _id=parseInt(rows[i].p_id);
+		var _idlog=parseInt(rows[i].id);
 	if(_id<1){
 		grid.removeRow(rows[i],false);
 	}else{
 		_ids.push(_id);
+		inlog_ids.push(_idlog);
 	}
-  }
+ 	}
 	var ids=_ids.join(',');
+	var inlog=inlog_ids.join(',');
 	if(ids=='') return;
 	mini.confirm("确定删除？", "提示", function(action){
 	if(action!='ok') return;
@@ -130,7 +133,7 @@ function remove() {
 		return false;
 	}
 	}
-	utils.ajax('/product/storeDetail/remove',{ids:ids},callback,"POST","json");
+	utils.ajax('/product/storeDetail/remove',{ids:ids,inlog:inlog},callback,"POST","json");
   });
 }
 //双击弹出

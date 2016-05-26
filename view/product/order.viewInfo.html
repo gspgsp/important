@@ -84,6 +84,16 @@
 			</div>
 		</div>
 		<div title="详情列表">
+			<div class="mini-toolbar" style="margin:3px 3px 0;">
+				<select name="order_status" id="soStatus2">
+					<option value="" selected="selected"  >订单</option>
+					{html_options options=$order_status}
+				</select>
+				<select name="transport_status" id="soStatus3">
+					<option value="" selected="selected" >物流</option>
+					{html_options options=$transport_status}
+				</select>
+			</div>
 			<div id="investGrid" class="mini-datagrid" style="width:auto;height:420px;" idField="id"  url="/product/{$order_type}/init?action=grid&oid={$o_id}" sizeList="[10,20,50,100]" pageSize="20">
 				<div property="columns">
 
@@ -94,7 +104,6 @@
 					<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 					<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
 					<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
-					<div field="c_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 					<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
 
 					{if $order_type neq 'saleLog'}
@@ -111,6 +120,12 @@
 					<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
 					<div field="update_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
 					<div field="update_admin" width="45" headerAlign="center" align="center">更新人</div>
+					<div field="order_status" width="60" headerAlign="center" allowSort="true" align="center" renderer="onOrderStatus">订单审核
+				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$order_status}' />
+					</div>
+					<div field="transport_status" width="60" headerAlign="center" allowSort="true" align="center" renderer="onTransportStatus">物流审核
+				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$transport_status}' />
+					</div>
 
 				</div>
 			</div>
@@ -119,6 +134,7 @@
 </div>
 <script type="text/javascript">
 	mini.parse();
+
 	var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
 	var investGrid=mini.get("investGrid");
 	function changeTab(e){

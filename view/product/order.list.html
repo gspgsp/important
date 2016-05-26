@@ -86,13 +86,14 @@
 			<div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">交易员</div>
 			<div field="update_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+			<div field="update_admin" width="45" headerAlign="center" align="center">修改者</div>
 			<div field="order_status" width="30" headerAlign="center" allowSort="true" align="center" renderer="onOrderStatus">订单审核
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$order_status}' />
 			</div>
 			<div field="transport_status" width="30" headerAlign="center" allowSort="true" align="center" renderer="onTransportStatus">物流审核
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$transport_status}' />
 			</div>
-			<div field="update_admin" width="45" headerAlign="center" align="center">修改者</div>
+			
 			 <div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div
 		</div>
 	</div>
@@ -168,7 +169,7 @@ function addPurchaseLog(oid){
 	mini.open({
 		url: "/product/purchaseLog/info?o_id="+oid,
 		showMaxButton:true,
-		title: '订单明细', width: 600, height:350,
+		title: '订单明细', width: 450, height:270,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();

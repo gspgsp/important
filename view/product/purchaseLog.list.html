@@ -51,20 +51,19 @@
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
-			<div field="order_name" width="90" headerAlign="center" align="center">订单名</div>
-			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-			<div field="number" width="80" headerAlign="center" allowSort="true" align="center">进货数量</div>
+			<div field="order_name" width="70" headerAlign="center" align="center">订单名</div>
+			<div field="model" width="70" headerAlign="center" align="center">牌号</div>
+			<div field="number" width="50" headerAlign="center" allowSort="true" align="center">进货数量</div>
 			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价【吨】</div>
 			<div field="c_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 			<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
 			<div field="in_storage_status" width="80" headerAlign="center" allowSort="true" align="center">入库状态</div>
 			<div field="purchase_type" width="80" headerAlign="center" allowSort="true" align="center">采购类型</div>
-			<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
+			<div field="remark" width="100" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
 			<div field="update_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
 			<div field="update_admin" width="45" headerAlign="center" align="center">更新人</div>
-
 		</div>
 	</div>
 </div>
@@ -107,7 +106,7 @@ function add(){
 	mini.open({
 		url: "/product/purchaseLog/info",
 		showMaxButton:true,
-		title: '采购明细新增', width: 600, height:400,
+		title: '采购明细新增', width: 450, height:270,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();

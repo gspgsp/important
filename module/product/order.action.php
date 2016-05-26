@@ -86,20 +86,20 @@ class orderAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);//根据cid取客户名
-			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
-			$list['data'][$k]['order_source']=L('order_source')[$v['order_source']]; 
-			$list['data'][$k]['pay_method'] =L('pay_method')[$v['pay_method']];
-			$list['data'][$k]['transport_type']=L('transport_type')[$v['transport_type']];
-			$list['data'][$k]['business_model']=L('business_model')[$v['business_model']];
-			$list['data'][$k]['financial_records']=L('financial_records')[$v['financial_records']];
+		foreach($list['data'] as &$v){
+			$v['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
+			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
+			$v['order_source']=L('order_source')[$v['order_source']]; 
+			$v['pay_method'] =L('pay_method')[$v['pay_method']];
+			$v['transport_type']=L('transport_type')[$v['transport_type']];
+			$v['business_model']=L('business_model')[$v['business_model']];
+			$v['financial_records']=L('financial_records')[$v['financial_records']];
 			// $list['data'][$k]['order_status']=L('order_status')[$v['order_status']];
 			// $list['data'][$k]['transport_status']=L('transport_status')[$v['transport_status']];
-			$list['data'][$k]['goods_status']=L('goods_status')[$v['goods_status']];
-			$list['data'][$k]['invoice_status']=L('invoice_status')[$v['invoice_status']];
+			$v['goods_status']=L('goods_status')[$v['goods_status']];
+			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -224,15 +224,28 @@ class orderAction extends adminBaseAction {
 				'update_time'=>CORE_TIME,
 				'update_admin'=>$_SESSION['name'],
 			);
-			$sql[]=$this->db->wherePk($v['o_id'])->updateSql(array('order_status'=>$v['order_status'],'transport_status'=>$v['transport_status'])+$_data);
-		
+
+			try {
+				if($v['order_status'] == 3 || $v['transport_status'] == 3 && $v['order_type'] == 1){ //类型是销售订单,并且审核不通过返还库存锁定数量
+					$product_num=$this->db->model('sale_log')->select('store_id,number')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取所有订单明细的产品锁定数量
+					if(  !$product_num  ) throw new Exception("获取订单相关明细失败");
+
+					foreach ($product_num as $key => $value) { //循环对订单中每条明细操作
+
+						if(  !$this->db->model('in_log')->where('store_id = '.$value['store_id'])->update(' `remainder` = `remainder`+ '.$value['number'].'  `, lock_number` = `lock_number`- '.$value['number'])  ) throw new Exception("库存明细数量解锁失败");//把订单中锁定的数量返还库存明细
+
+						if(  !$this->db->model('store_product')->where('s_id = '.$value['store_id'])->update('  `number` = `number`+  '.$value['number'])  ) throw new Exception("仓库产品表总数量返还失败"); //仓库产品表数量返还
+					}
+				}
+				
+				if(!$this->db->update($data+$_data) ) throw new Exception("审核状态更新失败");
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
 			
-		}
-		$result=$this->db->commitTrans($sql);
-		if($result){
+			$this->db->commit();
 			$this->success('操作成功');
-		}else{
-			$this->error('数据处理失败');
 		}
 	}
 	/**

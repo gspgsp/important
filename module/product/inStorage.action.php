@@ -54,6 +54,7 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
+		p($data);
 		if(empty($data)) $this->error('操作有误');	
 		$p_info=M("product:purchaseLog")->getColByDetId($data['purchase_id'],'*');
 		$_data=array(

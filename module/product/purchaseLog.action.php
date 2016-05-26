@@ -77,16 +77,16 @@ class purchaseLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);//根据cid取客户名
-			$list['data'][$k]['order_name']=M("product:order")->getColByName($list['data'][$k]['o_id']);
-			$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']);
-			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
-			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
-			$list['data'][$k]['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
-			$list['data'][$k]['purchase_type'] = L('purchase_type')[$v['purchase_type']];
+		foreach($list['data'] as &$v){						
+			$v['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
+			$v['order_name']=M("product:order")->getColByName($v['o_id']);
+			$v['model']=M("product:product")->getModelById($v['p_id']);
+			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
+			$v['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
+			$v['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
+			$v['purchase_type'] = L('purchase_type')[$v['purchase_type']];
 		}
 		$this->assign('doact',$doact);
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
