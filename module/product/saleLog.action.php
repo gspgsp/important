@@ -95,6 +95,8 @@ class saleLogAction extends adminBaseAction {
 		$type=sget('type','s');
 		$o_id=sget('o_id','i',0);
 		$choose=sget('choose','i');
+		$require_num=sget('require_num','i',0);
+		$this->assign('require_num',$require_num);
 		if($id<1){
 			if($o_id>0){
 				$this->assign('o_id',$o_id);

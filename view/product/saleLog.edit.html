@@ -18,7 +18,7 @@
 	</table>
 </div>
 <div class="" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/storeDetail/init?action=grid&do={$doact}"  idField="id"
+	<div id="gridCell2" class="mini-datagrid" style="width:100%;height:150px;" url="/product/storeDetail/init?action=grid&do={$doact}"  idField="id"
 		sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
@@ -29,7 +29,7 @@
 			<div field="lot_num" width="35" headerAlign="center" align="center" allowSort="true">批次</div>
 			<div field="unit_price" width="40" headerAlign="center" align="center" allowSort="true">采购价</div>
 			<div field="number" width="40" headerAlign="center" align="center" allowSort="true">进货数量</div>
-			<div field="remainder" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
+			<div field="remainder" id="xx" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
 			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
 		</div>
 	</div>
@@ -61,6 +61,7 @@
 					<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
 					<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
 					<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
+					<input class="mini-hidden" id="m_lock_number" name="lock_number" value=""/>
 					<input class="mini-hidden" id="inlog_id" name="inlog_id" value=""/>
 					<input class="mini-hidden"  name="sale_order_no" value="{$sale_order_no}"/>
 				</tr>
@@ -70,21 +71,25 @@
 			<legend>订单明细</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 				<tr>
+
 					<td>销售编号 : </td>
 						{if $type neq 'edit'}
 						<td>{$sale_order_no}</td>
 						{else}
 						<td>{$info.sale_order_no}</td>
 						{/if}
+				{if $choose neq 1}
 					<td>订单名称：</td>
 					<td>
 					{if $o_id gt 0}
 						{$order_name}
 					{else}
+					
 						<input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:170px" id="usrId"/>
 					{/if}
-					</td>
 					
+					</td>
+				{/if}
 				</tr>
 				<tr>
 					<td>销售类型</td>
@@ -111,20 +116,34 @@
 	
 <script type="text/javascript">
 mini.parse();
-var grid = mini.get("gridCell");
+var grid = mini.get("gridCell2");
 function search() {
 	grid.load($("#soform").serializeObject(),function(e){
 		$("#searchMsg").html(e.msg);
 	});
+
 }
 search();
+
+
+setTimeout("changenum()",1000);
+function changenum(){
+	"{if $require_num neq 0}"
+	var nums = document.getElementById('mini-5$0$8');
+	var nums2 = document.getElementById('mini-5$0$9');
+	nums.innerHTML-={$require_num};
+	var nums3 = parseInt(nums2.innerHTML);
+	nums2.innerHTML=nums3+{$require_num};
+	// alert(nums.innerHTML);
+	"{/if}"
+};	
 function onKeyEnter(e) {
 	search();
 }
 function submitForm() {
 	var form = new mini.Form("#editForm");
 	form.validate();
-	if(form.isValid() == false) return;
+	// if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);
@@ -161,7 +180,7 @@ function setsupport(e){
 	"{if $type eq 'edit'}"
 	return false;
 	"{/if}"
-	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id;
+	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number;
 	var p = mini.get("model");  
 	var s = mini.get("store");
 	var l = mini.get("lot");
@@ -170,6 +189,7 @@ function setsupport(e){
 	var m_p_id = mini.get("m_p_id");
 	var m_store_id = mini.get("m_store_id");
 	var inlog_id = mini.get("inlog_id");
+	var lock_numbe = mini.get("m_lock_number");
 
 	p.setValue(model);
 	s.setValue(store);
@@ -179,6 +199,7 @@ function setsupport(e){
 	m_p_id.setValue(p_id);
 	m_store_id.setValue(store_id);
 	inlog_id.setValue(id);
+	lock_numbe.setValue(locknum);
 }
 function onValidation(e) {
 	var hidden_remainder = mini.get("hidden_remainder");
@@ -188,6 +209,12 @@ function onValidation(e) {
 	if(parseInt(remainder)<parseInt(r_number)){
 		$("#returnError").text('超出现有库存!');
 	}else{
+		var v = document.getElementById('mini-5$0$8');
+		var x = document.getElementById('mini-5$0$9');
+		var c = parseInt(v.innerHTML)-parseInt(r_number);
+		var z = parseInt(x.innerHTML)+parseInt(r_number);
+		x.innerHTML=z;
+		v.innerHTML=c;
 		$("#returnError").text('');
 
 	}
@@ -223,6 +250,10 @@ function CloseWindow(action) {
 }
 //确定并获取数据
 function onComfirm() {
+	var form = new mini.Form("#editForm");
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
 	CloseWindow("ok");
 }
 function onCancel(e) {

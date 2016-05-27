@@ -155,6 +155,7 @@ class orderAction extends adminBaseAction {
 		$data['pickup_time']=strtotime($data['pickup_time']);
 		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
+		$data['order_source'] = 2; //订单默认来源ERP
 		foreach ($data as $k=> $v) {
 			if( preg_match('/\d/',$k) ){
 				preg_match_all('/\d/',$k,$matches);
@@ -176,27 +177,30 @@ class orderAction extends adminBaseAction {
 				$this->error('更新失败');
 			}
 		}else{ //新增
+			$this->db->startTrans(); //开启事务
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 			);
 			try {	
-				$this->db->add($data+$add_data);
-				$o_id=$this->db->getLastID(); //订单ID
+				if( !$this->db->model('order')->add($data+$add_data) ) throw new Exception("新增订单失败");//新增订单
+				$o_id=$this->db->getLastID(); //获取新增订单ID
 				if( !$o_id ) throw new Exception("新增订单失败");
-				if(!empty($detail)){
+				if(!empty($detail)){ 
 					for($i=1;$i<=count($detail);$i++){
 						$detail[$i]['o_id']=$o_id;
 						$detail[$i]['purchase_order_no']=genOrderSn();
+						$detail[$i]['number']=$detail[$i]['require_number'];
 						if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
-						$count+=$detail[$i]['count'];
+						if( !$this->db->model('in_log')->where('id = '.$detail[$i]['inlog_id'])->update(' remainder = remainder - '.$detail[$i]['require_number'].' , lock_number = lock_number + '.$detail[$i]['require_number']) ) throw new Exception("同步操作库存失败!");
+						if( !$this->db->model('store_product')->where('s_id = '.$detail[$i]['store_id'])->update('number=number-'.$detail[$i]['require_number']) )  throw new Exception("产品货品表更新失败!");
 					}
-				}
-				if( !$this->db->model('order')->wherePk($o_id)->update('total_price='.$count) ) throw new Exception("总金额统计是吧");	
+				}	
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());
 			}
+			// showtrace();
 			$this->db->commit();
 			$this->success();
 		}
@@ -216,6 +220,7 @@ class orderAction extends adminBaseAction {
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
+		$this->db->startTrans(); //开启事务
 		foreach($data as $k=>$v){
 			try {
 				if( ($v['order_status'] == 3 || $v['transport_status'] == 3) && $v['order_type'] == 1){ //类型是销售订单,并且审核不通过返还库存锁定数量
@@ -223,13 +228,16 @@ class orderAction extends adminBaseAction {
 					if(  !$product_num  ) throw new Exception("此订单没有相关明细");
 					foreach ($product_num as $key => $value) { //循环对订单中每条明细操作
 
-						if(  !$this->db->model('in_log')->where('store_id = '.$value['store_id'])->update(' `remainder` = `remainder`+ '.$value['number'].'  `, lock_number` = `lock_number`- '.$value['number'])  ) throw new Exception("库存明细数量解锁失败");//把订单中锁定的数量返还库存明细
+						if(  !$this->db->model('in_log')->where('store_id = '.$value['store_id'])->update(' remainder = remainder+ '.$value['number'].'  , lock_number = lock_number- '.$value['number'])  ) throw new Exception("库存明细数量解锁失败");//把订单中锁定的数量返还库存明细
 
-						if(  !$this->db->model('store_product')->where('s_id = '.$value['store_id'])->update('  `number` = `number`+  '.$value['number'])  ) throw new Exception("仓库产品表总数量返还失败"); //仓库产品表数量返还
+						if(  !$this->db->model('store_product')->where('s_id = '.$value['store_id'])->update('  number = number+  '.$value['number'])  ) throw new Exception("仓库产品表总数量返还失败"); //仓库产品表数量返还
 					}
+					if( !$this->db->model('order')->where('o_id ='.$v['o_id'])->update($v+$_data) ) throw new Exception("审核状态更新失败!!!");
+					if( !$this->db->model('sale_log')->where('o_id ='.$v['o_id'])->update($_data+array('order_status'=>$v['order_status'],'transport_status'=>$v['transport_status'] )) ) throw new Exception("明细审核状态更新失败!!!");
 				}
-				if( !$this->db->model('order')->update($v+$_data) ) throw new Exception("审核状态更新失败!!!");
+				
 			} catch (Exception $e) {
+				// showtrace();
 				$this->db->rollback();
 				$this->error($e->getMessage());
 			}
@@ -238,30 +246,30 @@ class orderAction extends adminBaseAction {
 			$this->success('操作成功');
 		}
 	}
-	/**
-	 * Ajax删除
-	 * @access private 
-	 */
-	public function remove(){
-		$this->is_ajax=true; //指定为Ajax输出
-		$ids=sget('ids','s');
-		if(empty($ids)){
-			$this->error('操作有误');	
-		}
-		$data = explode(',',$ids);
-		if(is_array($data)){
-			foreach ($data as $k => $v) {
-				if(M('product:order')->getODidByOid($v)){
-					continue;
-				}else{
-					$result=$this->db->where("o_id = ($v)")->delete();
-				}
-			}
-		}
-		if($result){
-			$this->success('操作成功');
-		}else{
-			$this->error('订单有相关明细存在');
-		}
-	}
+	// /**
+	//  * Ajax删除
+	//  * @access private 
+	//  */
+	// public function remove(){
+	// 	$this->is_ajax=true; //指定为Ajax输出
+	// 	$ids=sget('ids','s');
+	// 	if(empty($ids)){
+	// 		$this->error('操作有误');	
+	// 	}
+	// 	$data = explode(',',$ids);
+	// 	if(is_array($data)){
+	// 		foreach ($data as $k => $v) {
+	// 			if(M('product:order')->getODidByOid($v)){
+	// 				continue;
+	// 			}else{
+	// 				$result=$this->db->where("o_id = ($v)")->delete();
+	// 			}
+	// 		}
+	// 	}
+	// 	if($result){
+	// 		$this->success('操作成功');
+	// 	}else{
+	// 		$this->error('订单有相关明细存在');
+	// 	}
+	// }
 }

@@ -26,7 +26,7 @@
 					</tr>
 					<tr>
 						<td>订单类型：</td>
-						<td><input name="order_type" class="mini-combobox" style="width:125px;" value="{$info.order_type}" data='{:setMiniConfig|$order_type}'  required="true" textfield="name" valuefield="id"/></td>
+						<td><input name="order_type" class="mini-combobox" style="width:125px;" value="{$info.order_type}" data='{:setMiniConfig|$order_type}'  onvaluechanged="changordertype" required="true" textfield="name" valuefield="id"/></td>
 						<td>客户名称：</td>
 						<td>
 							<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
@@ -80,12 +80,8 @@
 						<td>业务模式 : </td>
 						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}'  required="true" textfield="name" valuefield="id"/></td>
 					</tr>
-					<tr>
-						<td>开票状态 : </td>
-						<td><input name="invoice_status" class="mini-combobox" style="width:125px;" value="{$info.invoice_status}" data='{:setMiniConfig|$invoice_status}'  required="true" textfield="name" valuefield="id"/></td>
-						<td>来源 : </td>
-						<td><input name="order_source" class="mini-combobox" style="width:125px;" value="{$info.order_source}" data='{:setMiniConfig|$order_source}'  required="true" textfield="name" valuefield="id"/></td>
-					</tr>
+					<input class="mini-hidden"  id="require_number" name="require_number" value="0"/>
+					<input class="mini-hidden"  id="total_price" name="total_price" value="0"/>
 				</table>
 					</div>
 				</fieldset>
@@ -115,8 +111,8 @@ mini.parse();
 var form = new mini.Form("#infoForm");
 var cid = mini.get("#usrId").getValue();
 function submitForm(){
-	form.validate();
-	if(form.isValid() == false) return;
+	// form.validate();
+	// if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);
@@ -132,6 +128,9 @@ function submitForm(){
 			return false;
 		}
 	},'json');
+}
+function changordertype(){
+	alert(11);
 }
 function CloseWindow(action) {            
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
@@ -215,11 +214,13 @@ function proChoose(e){
 		}
 	});         
 }
-var i = 1;
+var i = 0;
+var count = 0;
 function addDetil(){
+	var require_num  = parseInt(mini.get("require_number").getValue());
 	var btn = this;
 	mini.open({
-		url: "/product/saleLog/info?choose=1",
+		url: "/product/saleLog/info?choose=1&require_num="+require_num,
 		title: "新增明细",
 		width: 750,
 		height: 530,
@@ -236,8 +237,8 @@ function addDetil(){
 				if (data) {
 					var str1 = '<table><tr>';
 					var str2 = '';
-					var str3 ='';
-					var count = 0;
+					var str3 = '';
+					var oncecount= 0;
 					for(var s in data){
 						if( s =='model' || s =='store_name' || s =='lot_num' || s =='unit_price' || s=='require_number' || s=='remark' ){
 							switch(s){
@@ -262,14 +263,19 @@ function addDetil(){
 								default:
 							}
 						}		
-						count =parseInt(data['require_number']) * parseInt(data['unit_price']);
-			
-						str2+='<input class="mini-hidden"  name="'+s+i+'" value="'+data[s]+'"/>'
-
+						
+						
+						str2+='<input class="mini-hidden"  name="'+s+i+'" value="'+data[s]+'"/>';
+						
 					}
-					str1+='<td>总价 :</td><td>'+count+'</td>';
-					str1+='</table>';
-					str3 = '<input class="mini-hidden"  name="count'+i+'" value="'+count+'"/>';
+					oncecount =parseInt(data['require_number']) * parseInt(data['unit_price']);//单比总金额
+					count +=parseInt(data['require_number']) * parseInt(data['unit_price']);//全部总金额
+					mini.get("total_price").setValue(count); //累计计算总金额
+					//叠加添加多次明细的数量 
+					var require_number  = parseInt(mini.get("require_number").getValue());
+					var count_num = require_number+parseInt(data.require_number);
+					mini.get("require_number").setValue(count_num);
+					str1+='<td>总价 :</td><td>'+oncecount+'</td></table>';
 					$('#editForm2').append(str1);
 					$('#editForm2').append(str2);
 					$('#editForm2').append(str3);
@@ -278,5 +284,6 @@ function addDetil(){
 			}
 		}
 	});
+	i++;
 }
 </script>
