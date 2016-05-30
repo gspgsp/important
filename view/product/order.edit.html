@@ -98,7 +98,7 @@
 </div>
 		<div align="center" style="margin-top:10px;">
 		{if $otype eq 'addopus'}
-			<a class="mini-button" iconCls="icon-add" onclick="addDetil()">明细</a>
+			<a class="mini-button" iconCls="icon-add"  id="addSaleType" >明细</a>
 		{/if}
 			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
 			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
@@ -129,8 +129,13 @@ function submitForm(){
 		}
 	},'json');
 }
-function changordertype(){
-	alert(11);
+function changordertype(e){
+	var val = e.value;
+	var addSaleType = mini.get("addSaleType");
+	val ==1 ? addSaleType.on("click",addSaleDetil).un("click",addPurDetil) :addSaleType.on("click",addPurDetil).un("click",addSaleDetil) ; 
+		
+
+
 }
 function CloseWindow(action) {            
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
@@ -214,14 +219,15 @@ function proChoose(e){
 		}
 	});         
 }
-var i = 0;
+//追加销售明细
+var k = 0;
 var count = 0;
-function addDetil(){
+function addSaleDetil(){
 	var require_num  = parseInt(mini.get("require_number").getValue());
 	var btn = this;
 	mini.open({
 		url: "/product/saleLog/info?choose=1&require_num="+require_num,
-		title: "新增明细",
+		title: "新增销售明细",
 		width: 750,
 		height: 530,
 		onload: function () {
@@ -263,9 +269,7 @@ function addDetil(){
 								default:
 							}
 						}		
-						
-						
-						str2+='<input class="mini-hidden"  name="'+s+i+'" value="'+data[s]+'"/>';
+						str2+='<input class="mini-hidden"  name="'+s+k+'" value="'+data[s]+'"/>';
 						
 					}
 					oncecount =parseInt(data['require_number']) * parseInt(data['unit_price']);//单比总金额
@@ -284,6 +288,65 @@ function addDetil(){
 			}
 		}
 	});
-	i++;
+	k++;
+}
+//追加采购明细
+var j = 0;
+function addPurDetil(){
+	var btn = this;
+	mini.open({
+		url: "/product/purchaseLog/info?&choose=1",
+		title: "新增采购明细",
+		width: 450,
+		height: 270,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					var str1 = '<table><tr>';
+					var str2 = '';
+					var str3 = '';
+					for(var s in data){
+						if( s =='number' || s =='unit_price' || s =='model' || s =='supplier' || s=='purchase_order_no' || s=='remark'){
+							switch(s){
+								case  'model':
+									str1+='<td>牌号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									 break;
+								case 'purchase_order_no':
+									str1+='<td>采购单号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'supplier':
+									str1+='<td>供应商 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'unit_price':
+									str1+='<td>单价 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'number':
+									str1+='<td>数量 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'remark':
+									str1+='<td>备注 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								default:
+							}
+						}		
+						str2+='<input class="mini-hidden"  name="'+s+j+'" value="'+data[s]+'"/>';
+					}
+					$('#editForm2').append(str1);
+					$('#editForm2').append(str2);
+					$('#editForm2').append(str3);
+					mini.parse();
+				}
+			}
+		}
+	});
+	j++;
 }
 </script>

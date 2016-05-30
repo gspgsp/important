@@ -3,7 +3,9 @@
 	<div id="infoForm" class="form">
 	<input class="mini-hidden" name="id" value="{$info.id}"/>
 	<input class="mini-hidden" name="purchase_order_no" value="{$purchase_order_no}"/>
+	{if $choose neq 1}
 	<input class="mini-hidden" name="o_id" value="{$o_id}"/>		
+	{/if}
 			<div title="基本信息">
 				<table width="100%">
 					<caption><strong>采购明细</strong></caption>
@@ -18,6 +20,7 @@
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
+					{if $choose neq 1}
 						<td>订单名称：</td>
 						<td>
 						{if $o_id gt 0}
@@ -26,6 +29,7 @@
 							<input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:100px" id="usrId"/>
 						{/if}
 						</td>
+					{/if}
 						<td>产品牌号：</td>
 						<td>
 							<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false"  text="{$model}"  style="width:100px" id="usrId"/>
@@ -40,24 +44,33 @@
 						</td>
 					</tr>
 					<tr>
-						<td>价格单位 : </td>
-						<td><input name="price_type" class="mini-combobox" style="width:100px;" value="{$info.price_type}" data='{:setMiniConfig|$price_type}' required="true" textfield="name" valuefield="id"/></td>
 						<td>采购类型</td>
 						<td><input name="purchase_type" class="mini-combobox" style="width:100px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}' required="true" textfield="name" valuefield="id"/></td>
-					</tr>
-					<tr>
 						<td>供应商：</td>
 						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:100px" id="usrId"/></td>
+					</tr>
+					<tr>						
 						<td>备注:</td>
 						<td><input name="remark" class="mini-textarea" style="width:100px" required="true"/ value="{$info.remark}"></td>
 
 					</tr>
+					<input class="mini-hidden" id="hidden_model" name="model" value=""/>
+					<input class="mini-hidden" id="hidden_supplier" name="supplier" value=""/>
 				</table>
 			</div>
 		</div><input name="utype" class="mini-textbox" style="display:none" value="3" vtype="utype"/>
 		<div align="center" style="margin-top:10px;">
+		{if $choose eq 1}
+			<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+				<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+				<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+			</div>
+		{else}
 			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
 			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		{/if}
+			
 		</div>
 	</div>
 </div>
@@ -86,6 +99,13 @@ function submitForm(){
 		}
 	},'json');
 }
+//确定并获取数据
+function onComfirm() {
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	CloseWindow("ok");
+}
 function CloseWindow(action) {            
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
 	else window.close();            
@@ -93,6 +113,7 @@ function CloseWindow(action) {
 function onCancel(e) {
 	CloseWindow("cancel");
 }
+
 //强制选择归属订单
 function ordChoose(e){
 	var btn = this;
@@ -121,6 +142,7 @@ function ordChoose(e){
 //强制选择归属产品
 function proChoose(e){
 	var btn = this;
+	var model = mini.get('hidden_model');
 		mini.open({
 		url: "/product/product/init?ischecked=checked",
 		title: "选择产品",
@@ -138,41 +160,17 @@ function proChoose(e){
 				if (data) {
 					btn.setValue(data.id);
 					btn.setText(data.model);
+					model.setValue(data.model)
 				}
 			}
 		}
 	});         
 }
-//选择仓库
-function stoChoose(e){
-	var btn = this;
-	var aname = mini.get("name");
-		mini.open({
-		url: "/product/store/init?do=search",
-		title: "选择仓库",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.id);
-					btn.setText(data.store_name);
-					aname.load('/product/saleLog/get_store_aid?sid='+data.id);
-				}
-			}
-		}
-	});
-}
 
 //强制选择归属供应商
 function usrChoose(e){
 	var btn = this;
+	var hidden_supplier = mini.get('hidden_supplier');
 		mini.open({
 		url: "/user/customer/init?do=search",
 		title: "选择公司",
@@ -190,10 +188,18 @@ function usrChoose(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
+					hidden_supplier.setValue(data.c_name);
 					$("#"+btn.id+"\\$value").val(data.c_id);
 				}
 			}
 		}
 	});         
+}
+function GetData() {
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	return json;
 }
 </script>

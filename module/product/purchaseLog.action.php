@@ -100,7 +100,7 @@ class purchaseLogAction extends adminBaseAction {
 		$id=sget('id','i',0);
 		$type=sget('type','s');
 		$o_id=sget('o_id','i',0);
-		
+		$choose=sget('choose','i');
 		if($id<1){
 			if($o_id>0){
 				$this->assign('o_id',$o_id);
@@ -108,6 +108,7 @@ class purchaseLogAction extends adminBaseAction {
 				$this->assign('order_name',$order_name);
 			}
 			$purchase_order_no=genOrderSn();
+			$this->assign('choose',$choose);
 			$this->assign('purchase_order_no',$purchase_order_no);
 			$this->display('purchaseLog.edit.html');
 			exit;

@@ -150,6 +150,7 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		// p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
@@ -189,18 +190,24 @@ class orderAction extends adminBaseAction {
 				if(!empty($detail)){ 
 					for($i=1;$i<=count($detail);$i++){
 						$detail[$i]['o_id']=$o_id;
-						$detail[$i]['purchase_order_no']=genOrderSn();
+						$detail[$i]['sale_order_no']=genOrderSn();
 						$detail[$i]['number']=$detail[$i]['require_number'];
 						if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
-						if( !$this->db->model('in_log')->where('id = '.$detail[$i]['inlog_id'])->update(' remainder = remainder - '.$detail[$i]['require_number'].' , lock_number = lock_number + '.$detail[$i]['require_number']) ) throw new Exception("同步操作库存失败!");
-						if( !$this->db->model('store_product')->where('s_id = '.$detail[$i]['store_id'])->update('number=number-'.$detail[$i]['require_number']) )  throw new Exception("产品货品表更新失败!");
+						if($data['order_type']==1 ){ //销售明细
+							if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
+							if( !$this->db->model('in_log')->where('id = '.$detail[$i]['inlog_id'])->update(' remainder = remainder - '.$detail[$i]['require_number'].' , lock_number = lock_number + '.$detail[$i]['require_number']) ) throw new Exception("同步操作库存失败!");
+							if( !$this->db->model('store_product')->where('s_id = '.$detail[$i]['store_id'])->update('number=number-'.$detail[$i]['require_number']) )  throw new Exception("产品货品表更新失败!");
+						}else{
+							if( !$this->db->model('purchase_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
+						}
+	
 					}
 				}	
 			} catch (Exception $e) {
+				showtrace();
 				$this->db->rollback();
 				$this->error($e->getMessage());
 			}
-			// showtrace();
 			$this->db->commit();
 			$this->success();
 		}
