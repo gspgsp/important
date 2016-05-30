@@ -101,6 +101,7 @@ class orderAction extends adminBaseAction {
 			$v['goods_status']=L('goods_status')[$v['goods_status']];
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 		}
+		
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
@@ -191,20 +192,17 @@ class orderAction extends adminBaseAction {
 					for($i=1;$i<=count($detail);$i++){
 						$detail[$i]['o_id']=$o_id;
 						$detail[$i]['sale_order_no']=genOrderSn();
-						$detail[$i]['number']=$detail[$i]['require_number'];
-						if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
 						if($data['order_type']==1 ){ //销售明细
+							$detail[$i]['number']=$detail[$i]['require_number'];
 							if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
 							if( !$this->db->model('in_log')->where('id = '.$detail[$i]['inlog_id'])->update(' remainder = remainder - '.$detail[$i]['require_number'].' , lock_number = lock_number + '.$detail[$i]['require_number']) ) throw new Exception("同步操作库存失败!");
 							if( !$this->db->model('store_product')->where('s_id = '.$detail[$i]['store_id'])->update('number=number-'.$detail[$i]['require_number']) )  throw new Exception("产品货品表更新失败!");
 						}else{
 							if( !$this->db->model('purchase_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
 						}
-	
 					}
 				}	
 			} catch (Exception $e) {
-				showtrace();
 				$this->db->rollback();
 				$this->error($e->getMessage());
 			}
@@ -220,7 +218,7 @@ class orderAction extends adminBaseAction {
 	public function save(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		if(empty($data) && empty($data['o_id'])){
+		if(empty($data)){
 			$this->error('错误的操作');
 		}
 		$_data=array(
@@ -229,22 +227,30 @@ class orderAction extends adminBaseAction {
 		);
 		$this->db->startTrans(); //开启事务
 		foreach($data as $k=>$v){
+			if($v['o_id']<0)  $this->error('错误的操作');
+			$status_lsit=$this->db->model('order')->select('order_status,transport_status,order_type')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取选择订单的状态
+			foreach ($status_lsit as $j => $val) { //判断数据库中的状态
+				$table = ($val['order_type'] == 1 ? 'sale_log' : 'purchase_log' );
+				if($val['order_status']==3 || $val['transport_status']==3) $this->error('已取消的订单无法操作');
+
+			}
 			try {
 				if( ($v['order_status'] == 3 || $v['transport_status'] == 3) && $v['order_type'] == 1){ //类型是销售订单,并且审核不通过返还库存锁定数量
 					$product_num=$this->db->model('sale_log')->select('store_id,number')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取所有订单明细的产品锁定数量
 					if(  !$product_num  ) throw new Exception("此订单没有相关明细");
+					p($product_num);
 					foreach ($product_num as $key => $value) { //循环对订单中每条明细操作
 
 						if(  !$this->db->model('in_log')->where('store_id = '.$value['store_id'])->update(' remainder = remainder+ '.$value['number'].'  , lock_number = lock_number- '.$value['number'])  ) throw new Exception("库存明细数量解锁失败");//把订单中锁定的数量返还库存明细
 
 						if(  !$this->db->model('store_product')->where('s_id = '.$value['store_id'])->update('  number = number+  '.$value['number'])  ) throw new Exception("仓库产品表总数量返还失败"); //仓库产品表数量返还
-					}
-					if( !$this->db->model('order')->where('o_id ='.$v['o_id'])->update($v+$_data) ) throw new Exception("审核状态更新失败!!!");
-					if( !$this->db->model('sale_log')->where('o_id ='.$v['o_id'])->update($_data+array('order_status'=>$v['order_status'],'transport_status'=>$v['transport_status'] )) ) throw new Exception("明细审核状态更新失败!!!");
+					}	
 				}
+				if( !$this->db->model($table)->where('o_id ='.$v['o_id'])->update($_data+array('order_status'=>$v['order_status'],'transport_status'=>$v['transport_status'] )) ) throw new Exception("明细审核状态更新失败!!!");
+				if( !$this->db->model('order')->where('o_id ='.$v['o_id'])->update($v+$_data) ) throw new Exception("审核状态更新失败!!!");
 				
 			} catch (Exception $e) {
-				// showtrace();
+				showtrace();
 				$this->db->rollback();
 				$this->error($e->getMessage());
 			}
