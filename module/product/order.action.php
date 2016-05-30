@@ -238,7 +238,6 @@ class orderAction extends adminBaseAction {
 				if( ($v['order_status'] == 3 || $v['transport_status'] == 3) && $v['order_type'] == 1){ //类型是销售订单,并且审核不通过返还库存锁定数量
 					$product_num=$this->db->model('sale_log')->select('store_id,number')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取所有订单明细的产品锁定数量
 					if(  !$product_num  ) throw new Exception("此订单没有相关明细");
-					p($product_num);
 					foreach ($product_num as $key => $value) { //循环对订单中每条明细操作
 
 						if(  !$this->db->model('in_log')->where('store_id = '.$value['store_id'])->update(' remainder = remainder+ '.$value['number'].'  , lock_number = lock_number- '.$value['number'])  ) throw new Exception("库存明细数量解锁失败");//把订单中锁定的数量返还库存明细

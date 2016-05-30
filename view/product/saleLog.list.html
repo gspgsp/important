@@ -65,6 +65,7 @@
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
 			<div field="update_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
 			<div field="update_admin" width="45" headerAlign="center" align="center">更新人</div>
+			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onPurOrd">操作</div>
 		</div>
 	</div>
 </div>
@@ -89,9 +90,32 @@ function onKeyEnter(e) {
 }
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',id = record.id;
-	s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
+	var record = e.record,s='',id= record.id;
+	
+		s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
 	return s;
+	
+	
+}
+//追加采购
+function onPurOrd(e){
+	var record = e.record,s='',id = record.id,number = record.number;
+	if(number==0){
+	s += '<a href="javascript:addPurOrd('+id+')">'+'追加采购单'+'</a> ';
+	return s;
+	}
+}
+function addPurOrd(id){
+	mini.open({
+		url: "/product/purchaseLog/info?sale_id="+id,
+		showMaxButton:true,
+		title: '采购明细新增', width: 550, height:530,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
 }
 //查看明细相关信息
 function viewOrdInfo(id){

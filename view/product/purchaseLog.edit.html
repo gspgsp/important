@@ -3,12 +3,84 @@
 	<div id="infoForm" class="form">
 	<input class="mini-hidden" name="id" value="{$info.id}"/>
 	<input class="mini-hidden" name="purchase_order_no" value="{$purchase_order_no}"/>
+	<input class="mini-hidden" name="sale_id" value="{$sale_id}"/>
+	<input class="mini-hidden" name="order_sn" value="{$order_sn}"/>
 	{if $choose neq 1}
 	<input class="mini-hidden" name="o_id" value="{$o_id}"/>		
 	{/if}
-			<div title="基本信息">
+	{if $sale_id neq 0}
+			<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>采购订单</legend>
 				<table width="100%">
-					<caption><strong>采购明细</strong></caption>
+					<tr>
+						<td>订单编号 : </td>
+						<td>{$order_sn}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>订单名称：</td>
+						<td><input name="order_name" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.order_name}"/>
+						</td>
+						<td>客户名称：</td>
+						<td>
+							<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
+						</td>
+						
+					</tr>
+					<tr>
+						<td>签订日期：</td>
+						<td><input  class="mini-datepicker"  name="sign_time"  required="true" value="{$info.sign_time}"/>
+						</td>
+						<td>签订地点 : </td>
+						<td><input name="sign_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.sign_place}"/>
+						</td>
+						
+					</tr>
+					<tr>
+						<td>财务记录 ：</td>
+						<td><input name="financial_records" class="mini-combobox" style="width:125px;" value="{$info.financial_records}" data='{:setMiniConfig|$financial_records}'  required="true" textfield="name" valuefield="id"/></td>
+						<td>运输方式 : </td>
+						<td><input name="transport_type" class="mini-combobox" style="width:125px;" value="{$info.transport_type}" data='{:setMiniConfig|$transport_type}'  required="true" textfield="name" valuefield="id"/></td>
+						
+					</tr>
+					<tr>
+						<td>运费 : </td>
+						<td><input name="freight_price" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.freight_price}"/>
+						</td>
+						<td>提货日期：</td>
+						<td><input  class="mini-datepicker"  name="pickup_time"  required="true" value="{$info.pickup_time}"/>
+						</td>
+					</tr>	
+					<tr>
+						<td>送货日期：</td>
+						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
+						</td>
+						<td>提货地点：</td>
+						<td><input name="pickup_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickup_location}"/></td>
+						
+					</tr>
+					<tr>
+						<td>送货地点：</td>
+						<td><input name="delivery_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.delivery_location}"/></td>
+						<td>付款方式 : </td>
+						<td><input name="pay_method" class="mini-combobox" style="width:125px;" value="{$info.pay_method}" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/></td>
+						
+					</tr>
+					<tr>
+						<td>付款日期：</td>
+						<td>
+						<input  class="mini-datepicker"  name="payment_time"  required="true" value="{$info.payment_time}"/>
+						</td>
+						<td>业务模式 : </td>
+						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}'  required="true" textfield="name" valuefield="id"/></td>
+					</tr>
+				</table>
+			</fieldset>
+		{/if}
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>采购明细</legend>
+				<table width="100%">
 					<tr>
 						<td>采购编号 : </td>
 						{if $type neq 'edit'}
@@ -16,11 +88,12 @@
 						{else}
 						<td>{$info.purchase_order_no}</td>
 						{/if}
+
+					{if ($choose neq 1) && ($sale_id eq 0)}
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-					{if $choose neq 1}
 						<td>订单名称：</td>
 						<td>
 						{if $o_id gt 0}
@@ -57,6 +130,9 @@
 					<input class="mini-hidden" id="hidden_model" name="model" value=""/>
 					<input class="mini-hidden" id="hidden_supplier" name="supplier" value=""/>
 				</table>
+		</fieldset>
+
+
 			</div>
 		</div><input name="utype" class="mini-textbox" style="display:none" value="3" vtype="utype"/>
 		<div align="center" style="margin-top:10px;">

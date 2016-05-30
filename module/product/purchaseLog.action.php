@@ -11,6 +11,20 @@ class purchaseLogAction extends adminBaseAction {
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
 		$this->assign('purchase_type',L('purchase_type')); //采购类型
+
+		//订单语言包
+		$this->assign('order_source',L('order_source')); //订单来源
+		$this->assign('pay_method',L('pay_method')); //付款方式
+		$this->assign('transport_type',L('transport_type')); //运输方式
+		$this->assign('business_model',L('business_model')); //业务模式
+		$this->assign('financial_records',L('financial_records')); //财务记录
+		$this->assign('order_status',L('order_status')); //订单审核
+		$this->assign('transport_status',L('transport_status')); //物流审核
+		$this->assign('goods_status',L('goods_status')); //发货状态
+		$this->assign('invoice_status',L('invoice_status')); //开票状态
+		$this->assign('price_type',L('price_type')); //价格单位
+		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
+		$this->assign('order_type',L('order_type')); //销售类型
 	}
 	/**
 	 *
@@ -101,13 +115,17 @@ class purchaseLogAction extends adminBaseAction {
 		$type=sget('type','s');
 		$o_id=sget('o_id','i',0);
 		$choose=sget('choose','i');
+		$sale_id=sget('sale_id','i',0);
 		if($id<1){
 			if($o_id>0){
 				$this->assign('o_id',$o_id);
 				$order_name=M("product:order")->getColByName($o_id);
 				$this->assign('order_name',$order_name);
 			}
+			$order_sn=genOrderSn();
+			$this->assign('order_sn',$order_sn);
 			$purchase_order_no=genOrderSn();
+			$this->assign('sale_id',$sale_id);
 			$this->assign('choose',$choose);
 			$this->assign('purchase_order_no',$purchase_order_no);
 			$this->display('purchaseLog.edit.html');
@@ -150,6 +168,7 @@ class purchaseLogAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		// p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
 		$_data = array(		
 			'update_time'=>CORE_TIME,
@@ -160,7 +179,24 @@ class purchaseLogAction extends adminBaseAction {
 		}else{
 			$data['input_time']=CORE_TIME;
 			$data['input_admin']=$_SESSION['name'];
-			$result = $this->db->add($data);
+			$data['order_source']=2;//来源2:erp
+			if($data['sale_id'] ==''){
+				$result = $this->db->add($data);
+			}else{
+				$this->db->startTrans(); //开启事务
+				try {
+					if( !$this->db->model('order')->add($data) )  throw new Exception("新增订单失败");//新增订单
+					$o_id=$this->db->getLastID(); //获取新增订单ID
+					$data['o_id']=$o_id;
+					if( !$this->db->model('purchase_log')->add($data) )  throw new Exception("新增采购明细失败");
+				} catch (Exception $e) {
+					$this->db->rollback();
+					$this->error($e->getMessage());					
+				}
+				$this->db->commit();
+				$this->success();
+			}
+
 		}
 		if($result['err']>0){
 			$this->error($result['msg']);

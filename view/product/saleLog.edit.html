@@ -19,7 +19,7 @@
 </div>
 <div class="" style="padding:1px 3px 3px;">
 	<div id="gridCell2" class="mini-datagrid" style="width:100%;height:150px;" url="/product/storeDetail/init?action=grid&do={$doact}"  idField="id"
-		sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
+		sizeList="[10,20,50,100]" pageSize="20" multiSelect="false"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
@@ -30,7 +30,7 @@
 			<div field="unit_price" width="40" headerAlign="center" align="center" allowSort="true">采购价</div>
 			<div field="number" width="40" headerAlign="center" align="center" allowSort="true">进货数量</div>
 			<div field="remainder" id="xx" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
-			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
+			<!-- <div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div> -->
 		</div>
 	</div>
 </div>
@@ -55,8 +55,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td>需求数量 : </td>
-					<td><input name="require_number" id="require_number" value="{$info.number}" textField="text" valueField="id" class="mini-textbox"  onvaluechanged="onValidation"  required="true" style="width:150px"/><span id="returnError" style="padding-left:5px; color:#F00;"></span>
+					<td >需求数量 : </td>
+					<td id="num"><input name="require_number" id="require_number" value="{$info.number}" textField="text" valueField="id" class="mini-textbox"  onvaluechanged="onValidation"  required="true" style="width:150px"/><span id="returnError" style="padding-left:5px; color:#F00;"></span>
 					</td>
 					<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
 					<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
@@ -124,19 +124,17 @@ function search() {
 
 }
 search();
-
-
-setTimeout("changenum()",1000);
-function changenum(){
-	"{if $require_num neq 0}"
-	var nums = document.getElementById('mini-5$0$8');
-	var nums2 = document.getElementById('mini-5$0$9');
-	nums.innerHTML-={$require_num};
-	var nums3 = parseInt(nums2.innerHTML);
-	nums2.innerHTML=nums3+{$require_num};
-	// alert(nums.innerHTML);
-	"{/if}"
-};	
+// setTimeout("changenum()",1000);
+// function changenum(){
+// 	"{if $require_num neq 0}"
+// 	var nums = document.getElementById('mini-5$0$8');
+// 	var nums2 = document.getElementById('mini-5$0$9');
+// 	nums.innerHTML-={$require_num};
+// 	var nums3 = parseInt(nums2.innerHTML);
+// 	nums2.innerHTML=nums3+{$require_num};
+// 	// alert(nums.innerHTML);
+// 	"{/if}"
+// };	
 function onKeyEnter(e) {
 	search();
 }
@@ -207,17 +205,24 @@ function onValidation(e) {
 	var remainder = hidden_remainder.getValue();
 	var r_number = require_number.getValue();
 	if(parseInt(remainder)<parseInt(r_number)){
-		$("#returnError").text('超出现有库存!');
-	}else{
-		var v = document.getElementById('mini-5$0$8');
-		var x = document.getElementById('mini-5$0$9');
-		var c = parseInt(v.innerHTML)-parseInt(r_number);
-		var z = parseInt(x.innerHTML)+parseInt(r_number);
-		x.innerHTML=z;
-		v.innerHTML=c;
-		$("#returnError").text('');
-
+		require_number.setValue('0');
+		$("#returnError").text('超出现有库存!保持数量为0,稍后需新增采购单');
+		mini.parse();
 	}
+}
+//新增明细
+function addPur(){
+	mini.open({
+		url: "/product/purchaseLog/info",
+		showMaxButton:true,
+		title: '采购明细新增', width: 450, height:270,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+
 }
 //强制选择归属订单
 function ordChoose(e){
