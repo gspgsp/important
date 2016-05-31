@@ -137,8 +137,7 @@ class orderAction extends adminBaseAction {
 			exit;
 		}	
 		$order_type = $info['order_type'] == 1? 'saleLog' : 'purchaseLog';
-
-
+		
 		$this->assign('order_type',$order_type);
 		$this->assign('o_id',$o_id);
 		$this->display('order.viewInfo.html');
@@ -190,43 +189,7 @@ class orderAction extends adminBaseAction {
 			$this->display('collection.add.html');
 		}
 		
-		
-		//$this->display('collection.add.html');
 	}
-	// /**
-	// * 新增开票信息
-	// * @access public
-	// */
-	// public function addInvoice(){
-	// 	$this->assign('bile_type',L('bile_type'));//票据类型
-	// 	$o_id=sget('o_id','i',0);
-	// 	$type=sget('order_type','s');
-	// 	$invoice=sget('invoice','i');
-	// 	if(empty($o_id)) $this->error('信息错误');
-	// 	$data 		= M('product:order')->getAllByName($value=$o_id,$condition='o_id');
-	// 	$c_name 	= M('user:customer')->getColByName($data[0][c_id]);//获取公司名
-	// 	$user_name  = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
-	// 	$username   = $user_name[username];
-	// 	//获取最后一条收付款信息		
-	// 	$res = M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
-	// 	if($res){
-	// 		$hasbilling_price = ($res[0]['total_price']-$res[0]['unbilling_price']);
-	// 		$this->assign('hasbilling_price',$hasbilling_price);
-	// 		$this->assign('unbilling_price',$res[0]['unbilling_price']);
-	// 	}
-	// 	if (empty($username)) {
-	// 		$this->assign('input_admin',$data[0][input_admin]);
-	// 	}else{
-	// 		$this->assign('input_admin',$username);
-	// 	}
-	// 	$this->assign('c_name',$c_name);
-	// 	$this->assign('c_id',$data[0][c_id]);
-	// 	$this->assign('type',$type);
-	// 	$this->assign('o_id',$o_id);
-	// 	$this->assign('price',$data[0]['total_price']);
-	// 	$this->assign('order_sn',$data[0][order_sn]);
-	// 	$this->display('billing.add.html');
-	// }
 
 	/**
 	* 保存付款收款开票信息

@@ -1,6 +1,6 @@
 <?php
 /**
-*收付款管理控制器
+*开票管理控制器
 */
 class billingAction extends adminBaseAction
 {
