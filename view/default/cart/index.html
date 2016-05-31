@@ -1,5 +1,7 @@
 {layout file="public:main_layout"}
 {insert_css files='home/maillOffer.css'}
+{insert_js files='home/laydate/laydate.js'}
+
 
     
 <div class="buy-wrap">
@@ -22,9 +24,9 @@
                 </tr>
                 <tr>
                     <td>提货日期：</td>
-                    <td><input name="pickup_time" type="text"/></td>
+                    <td><input name="pickup_time" id="date1" type="text"/></td>
                     <td>送货日期：</td>
-                    <td><input name="delivery_time" type="text"/></td>
+                    <td><input name="delivery_time" id="date2" type="text"/></td>
                 </tr>
                 <tr>
                     <td>提货地点：</td>
@@ -88,5 +90,13 @@ function set_cart(sid,that){
 }
 $(function(){	
     load_cart();
+    laydate({
+        elem: '#date1',
+        event: 'focus' 
+    });
+    laydate({
+        elem: '#date2',
+        event: 'focus' 
+    });
 });
 </script>
