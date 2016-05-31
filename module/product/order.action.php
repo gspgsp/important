@@ -223,37 +223,55 @@ class orderAction extends adminBaseAction {
 		$silling = sget('do','i');
 		if($silling == 1){
 			//判断开票状态
-			if(empty($data['unbilling_price'])){
-				$m = ($data['total_price']-$data['billing_price']);
+			// if(empty($data['unbilling_price'])){
+			// 	$m = ($data['total_price']-$data['billing_price']);
+			// 	if($m>0){
+			// 		$data['unbilling_price'] = $m;
+			// 		$data['invoice_status'] = 2;
+			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');
+			// 	}
+			// 	if($m==0){
+			// 		$data['unbilling_price'] = $m;
+			// 		$data['invoice_status'] = 3;
+			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
+			// 	}
+			// 	if($m<0){
+			// 		$this->error("数据错误");
+			// 	}
+			// }else{
+			// 	$n = ($data['unbilling_price']-$data['billing_price']);
+			// 	if($n>0){
+			// 		$data['unbilling_price']   = $n;
+			// 		$data['invoice_status'] = 2;
+			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');	
+			// 	}
+			// 	if($n==0){
+			// 		$data['unbilling_price'] = 0;
+			// 		$data['invoice_status'] = 3;
+			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
+			// 	}
+			// 	if($n<0){
+			// 		$this->error("数据错误");
+			// 	}
+			// }
+
+			empty($data['unbilling_price'])?$m = ($data['total_price']-$data['billing_price']):$m = ($data['unbilling_price']-$data['billing_price']);
 				if($m>0){
 					$data['unbilling_price'] = $m;
 					$data['invoice_status'] = 2;
 					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');
 				}
 				if($m==0){
-					$data['unbilling_price'] = $m;
+					$data['unbilling_price'] = 0;
 					$data['invoice_status'] = 3;
 					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
 				}
 				if($m<0){
 					$this->error("数据错误");
 				}
-			}else{
-				$n = ($data['unbilling_price']-$data['billing_price']);
-				if($n>0){
-					$data['unbilling_price']   = $n;
-					$data['invoice_status'] = 2;
-					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');	
-				}
-				if($n==0){
-					$data['unbilling_price'] = 0;
-					$data['invoice_status'] = 3;
-					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
-				}
-				if($n<0){
-					$this->error("数据错误");
-				}
-			}
+			
+p($data);die;
+
 			//判断制作开票号
 			$date=date("YmdHis");
 			if ($data['billing_type']==1) {
