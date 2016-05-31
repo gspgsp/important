@@ -31,6 +31,11 @@ class productModel extends model{
 	public function getFnameByPid($pid=0){
 		return $this->select("f.f_name, p.*")->from('product p')->join('factory f','f.fid=p.f_id')->where('p.id='.$pid)->getRow();
 	}
+	//根据商品id获取厂家|牌号
+	public function getModelFnameById($pid = 0){
+		$result = $this->select("f.f_name, p.*")->from('product p')->join('factory f','f.fid=p.f_id')->where('p.id='.$pid)->getRow();
+		return $result['f_name']."|".$result['model'];
+	}
 	/**
 	 * 模糊查询牌号匹配的明细
 	 */
@@ -40,7 +45,6 @@ class productModel extends model{
 			$ids[]=$v['id'];
 		}
 		$data = implode(',',$ids);
-
 		return empty($data)? false : $data;
 	}
 
