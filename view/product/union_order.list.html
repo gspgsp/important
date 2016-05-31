@@ -63,7 +63,6 @@
 			<div field="total_price" width="50" headerAlign="center" align="center" allowSort="true">总金额</div>
 			<div field="sign_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd">签订时间</div>
 			<div field="pay_method" width="45" headerAlign="center" align="center" allowSort="true">付款方式</div>
-			<div field="freight_price" width="45" headerAlign="center" align="center" allowSort="true">运费</div>
 			<div field="order_status" width="35" headerAlign="center" align="center" allowSort="true">审核</div>
 			<div field="goods_status" width="35" headerAlign="center" align="center" allowSort="true">发货</div>
 			<div field="invoice_status" width="35" headerAlign="center" align="center" allowSort="true">开票</div>
@@ -71,18 +70,55 @@
 			<div field="input_admin" width="45" headerAlign="center" align="center">交易员</div>
 			<div field="update_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 			<div field="update_admin" width="45" headerAlign="center" align="center">修改者</div>
-			 <div name="action" width="40" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div
+			 <div name="action" width="40" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 		</div>
 	</div>
-</div></div>
-	{if $doact eq 'search'}
-	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
-			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
-			<span style="display:inline-block;width:25px;"></span>
-			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+<div id="admInfo" class="mini-window" title="发货" style="width:300px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="addForm" class="form" >
+		<table style="width:100%;">
+			<input id="id" class="mini-hidden" name="id"/>
+			<tr>
+				<td>物流公司:</td>
+				<td><input name="ship_name" class="mini-textbox" style="width:200px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>发货方式:</td>
+				<td><input name="goods_status" class="mini-combobox" data='{:setMiniConfig|$goods_status}' textField="name" valueField="id"  style="width:200px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>送货时间:</td>
+				<td><input name="delivery_time" class="mini-datepicker" style="width:200px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>运费价格:</td>
+				<td><input name="freight_price" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td>备&nbsp;&nbsp;注:</td>
+				<td><input name="ship_remark" class="mini-textarea" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+			<td style="text-align:center;padding-top:5px;" colspan="2">
+				<a class="mini-button" style="width:60px;" onClick="submitForm()">确定</a>
+				<span style="display:inline-block;width:25px;"></span>
+				<a class="mini-button" style="width:60px;" onClick="hide()">取消</a>
+			</td>
+			</tr>
+		</table>
 	</div>
-	{/if}
-
+</div>
+{if $doact eq 'search'}
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+	<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+	<span style="display:inline-block;width:25px;"></span>
+	<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+{/if}
 <script type="text/javascript">
 mini.parse();
 //搜索或刷新
@@ -113,80 +149,58 @@ function onLoadHandle(e) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type;
-	if(order_type=='1'){
-		s += '<a href="javascript:addSaleLog('+oid+')">'+'追加'+'</a>|<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
-	}else{
-		s += '<a href="javascript:addPurchaseLog('+oid+')">'+'追加'+'</a>|<a href="javascript:inStorage('+oid+')">'+'入库'+'</a>';
-	}
+	var record = e.record,s='',oid = record.id;
+		s += '<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
 	return s;
 }
-//追加销售明细
-function addSaleLog(oid){
-	mini.open({
-		url: "/product/saleLog/info?o_id="+oid,
-		showMaxButton:true,
-		title: '订单明细', width: 750, height:530,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
+
+//弹出发货form表单
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function outStorage(id) {
+	form.clear();
+	mini.get("id").setValue(id);
+	admInfo.show();
 }
-//追加采购明细
-function addPurchaseLog(oid){
-	mini.open({
-		url: "/product/purchaseLog/info?o_id="+oid,
-		showMaxButton:true,
-		title: '订单明细', width: 600, height:350,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
+function hide() {
+	form.clear();
+	admInfo.hide();
 }
-//发货弹窗
-function outStorage(oid){
-	mini.open({
-		url:"/product/outStorage/info?o_id="+oid,
-		showMaxButton:true,
-		title:'发货记录新增',width:850,height:600,
-		ondestroy: function(action){
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
-}
-//入库弹窗
-function inStorage(oid){
-	mini.open({
-	url:"/product/inStorage/info?o_id="+oid,
-	showMaxButton:true,
-	title:'入库记录新增',width:850,height:600,
-	ondestroy: function(action){
-		if(action=='save'){ //重新加载
-			grid.reload();
-		}
+//提交发货数据(保存)
+function submitForm() {
+	form.validate();
+  if (form.isValid() == false) return;
+  var o = form.getData();
+  grid.loading("数据提交中，请稍后......");
+  var json = mini.encode(o);
+
+  var callback=function(data){
+	if(data.err!='0'){
+	  grid.unmask();
+	  alert(data.msg);
+	  return false;
+	}else{
+	  grid.reload();
+	  admInfo.hide();
 	}
-	});
+  }
+  utils.ajax('/product/unionOrder/shipSave',{data:json},callback,"POST","json");
 }
+
 //查看订单相关信息
 function viewOrdInfo(oid){
 	mini.open({
-		url: "/product/order/info?oid="+oid,
+		url: "/product/unionOrder/info?oid="+oid,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
-		width: 800, height:450
+		width: 800, height:480
 	});		
 }
 
 //新增订单
 function add(){
 	mini.open({
-		url: "/product/order/info",
+		url: "/product/unionOrder/info",
 		showMaxButton:true,
 		title: '新增订单', width: 740, 
 		ondestroy: function (action) {
@@ -201,7 +215,7 @@ function remove() {
 	var rows = grid.getSelecteds(),_ids=new Array();
 	if(rows.length<1) return;
 		for(var i=0;i<rows.length;i++){
-	var _id=parseInt(rows[i].o_id);
+	var _id=parseInt(rows[i].id);
 	if(_id<1){
 		grid.removeRow(rows[i],false);
 	}else{
@@ -220,7 +234,7 @@ function remove() {
 		return false;
 	}
 	}
-	utils.ajax('/product/order/remove',{ids:ids},callback,"POST","json");
+	utils.ajax('/product/unionOrder/remove',{ids:ids},callback,"POST","json");
   });
 }
 //双击弹出
