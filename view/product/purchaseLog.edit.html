@@ -90,8 +90,6 @@
 						{/if}
 
 					{if ($choose neq 1) && ($sale_id eq 0)}
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td>订单名称：</td>
@@ -103,22 +101,28 @@
 						{/if}
 						</td>
 					{/if}
+					</tr>
+					<tr>
 						<td>产品牌号：</td>
 						<td>
 							<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false"  text="{$model}"  style="width:100px" id="usrId"/>
 						</td>
 					</tr>
 					<tr>
-						<td>数量 : </td>
+						<td><font style="color:blue;">数量 : </font></td>
 						<td><input name="number" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.number}"/>
 						</td>
-						<td>单价 ：</td>
+					</tr>
+					<tr>
+						<td><font style="color:blue;">单价 ：</font></td>
 						<td><input name="unit_price" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.unit_price}"/>
 						</td>
 					</tr>
 					<tr>
 						<td>采购类型</td>
 						<td><input name="purchase_type" class="mini-combobox" style="width:100px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}' required="true" textfield="name" valuefield="id"/></td>
+					</tr>
+					<tr>
 						<td>供应商：</td>
 						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:100px" id="usrId"/></td>
 					</tr>

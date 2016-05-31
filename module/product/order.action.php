@@ -151,13 +151,13 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		// p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
 		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['order_source'] = 2; //订单默认来源ERP
+		// p($data);die;
 		foreach ($data as $k=> $v) {
 			if( preg_match('/\d/',$k) ){
 				preg_match_all('/\d/',$k,$matches);
@@ -246,7 +246,7 @@ class orderAction extends adminBaseAction {
 					}	
 				}
 				if( !$this->db->model($table)->where('o_id ='.$v['o_id'])->update($_data+array('order_status'=>$v['order_status'],'transport_status'=>$v['transport_status'] )) ) throw new Exception("明细审核状态更新失败!!!");
-				if( !$this->db->model('order')->where('o_id ='.$v['o_id'])->update($v+$_data) ) throw new Exception("审核状态更新失败!!!");
+				if( !$this->db->model('order')->where('o_id ='.$v['o_id'])->update($_data+array('order_status'=>$v['order_status'],'transport_status'=>$v['transport_status'] )) ) throw new Exception("审核状态更新失败!!!");
 				
 			} catch (Exception $e) {
 				$this->db->rollback();

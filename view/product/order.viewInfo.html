@@ -2,7 +2,7 @@
 <div style="padding:5px;">
 <div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">	
 		<div title="订单详细信息">
-			<div style="height:385px">
+			<div style="height:100%">
 				<table width="100%">
 					<caption><strong>基本信息</strong></caption>
 					<tr>
@@ -10,32 +10,27 @@
 						<td>
 							{$info.order_name}
 						</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
 						<td>订单编号：</td>
-						<td>{$info.order_sn}</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td>{$info.order_sn}</td>			
 					</tr>
 					<tr>
 						<td>订单来源：</td>
 						<td>{$order_source.$info.order_source}</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td>付款方式：</td>
+						<td>{$pay_method.$info.pay_method}</td>
 					</tr>
 					<tr>
 						<td>客户名称：</td>
 						<td>{$info.c_id}</td>
-						<td>签订日期：</td>
-						<td>{$info.sign_time}</td>
+						<td><font style="color:red;">销售审核：</font></td>
+						<td><font style="color:blue;">{$order_status.$info.order_status}</font></td>
 					</tr>
 					<tr>
-						<td>总金额：</td>
-						<td>{$info.total_price}</td>
-						<td>付款方式：</td>
-						<td>{$pay_method.$info.pay_method}</td>
+						<td><font style="color:red;">总金额：</font></td>
+						<td><font style="color:blue;">{$info.total_price}</font></td>
+						<td><font style="color:red;">物流审核：</font></td>  
+						<td><font style="color:blue;">{$transport_status.$info.transport_status}</font></td>
+						
 					</tr>
 					<tr>
 						<td>签约地点 : </td>
@@ -64,8 +59,8 @@
 					<tr>
 						<td>提货日期：</td>  
 						<td>{$info.pickup_time}</td>
-						<td>送货日期 : </td>
-						<td>{$info.delivery_time}</td>
+						<td>签订日期：</td>
+						<td>{$info.sign_time}</td>
 					</tr>
 					<tr>
 						<td>付款日期：</td>  
@@ -74,8 +69,9 @@
 						<td>{$financial_records.$info.financial_records}</td>
 					</tr>
 					<tr>
-						<td>审核状态：</td>  
-						<td>{$order_status.$info.order_status}</td>
+						
+						<td>送货日期 : </td>
+						<td>{$info.delivery_time}</td>
 						<td>发货状态 : </td>
 						<td>{$goods_status.$info.goods_status}</td>
 					</tr>
@@ -94,7 +90,7 @@
 					{html_options options=$transport_status}
 				</select>
 			</div>
-			<div id="investGrid" class="mini-datagrid" style="width:auto;height:420px;" idField="id"  url="/product/{$order_type}/init?action=grid&oid={$o_id}" sizeList="[10,20,50,100]" pageSize="20">
+			<div id="investGrid" class="mini-datagrid" style="width:auto;height:300px;" idField="id"  url="/product/{$order_type}/init?action=grid&oid={$o_id}" sizeList="[10,20,50,100]" pageSize="20">
 				<div property="columns">
 
 					<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>

@@ -145,16 +145,15 @@ function onLoadHandle(e) {
 //新增产品详情
 function onLoadDetail(e){
 	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status;
-	alert(transport_status);
-	if(order_type=='1'){	
+	if(order_type=='1'){	//销售
 		 s += '<a href="javascript:addSaleLog('+oid+')">追加</a>';
-		if(order_status ==3 || transport_status ==3) return;
-		if(order_status ==2 && transport_status==2){
+		if(order_status =='3' || transport_status =='3') return;
+		if(order_status =='2' && transport_status=='2'){
 			s+='|<a href="javascript:outStorage('+oid+')">发货</a>';
 		}
-	}else{
+	}else{   //采购
 		s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>';
-		if(order_status !=3 || transport_status !=3)  return;
+		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status ==2 && transport_status==2){
 			s+='|<a href="javascript:inStorage('+oid+')">入库</a>';
 		}
@@ -166,7 +165,7 @@ function addSaleLog(oid){
 	mini.open({
 		url: "/product/saleLog/info?o_id="+oid,
 		showMaxButton:true,
-		title: '订单明细', width: 750, height:530,
+		title: '订单明细', width: 750, height:550,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -179,7 +178,7 @@ function addPurchaseLog(oid){
 	mini.open({
 		url: "/product/purchaseLog/info?o_id="+oid,
 		showMaxButton:true,
-		title: '订单明细', width: 450, height:270,
+		title: '订单明细', width: 280, height:380,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -219,7 +218,7 @@ function viewOrdInfo(oid){
 		url: "/product/order/info?oid="+oid,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
-		width: 800, height:450
+		width: 800, height:430
 	});		
 }
 //行内编辑后保存数据

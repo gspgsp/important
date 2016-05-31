@@ -1,8 +1,7 @@
 {layout file="public:mini_layout"}
 <div style="padding:5px;">
-<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">	
 		<div title="订单详细信息">
-			<div style="height:385px">
+			<div style="height:100%">
 				<table width="100%">
 					<caption><strong>采购明细</strong></caption>
 					<tr>
@@ -38,11 +37,6 @@
 					<tr>
 						<td>总价 : </td>
 						<td>{$info.count}</td>
-
-					</tr>
-					<tr>
-						<td>仓库：</td>
-						<td>{$info.store_name}</td>
 						<td>开票状态：</td>
 						<td>{$invoice_status.$info.invoice_status}</td>
 					</tr>
@@ -68,7 +62,6 @@
 
 			</div>
 		</div>
-</div>
 </div>
 <script type="text/javascript">
 </script>

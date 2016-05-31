@@ -339,6 +339,8 @@ function addPurDetil(){
 						}		
 						str2+='<input class="mini-hidden"  name="'+s+j+'" value="'+data[s]+'"/>';
 					}
+					count +=parseInt(data['number']) * parseInt(data['unit_price']);//全部总金额
+					mini.get("total_price").setValue(count); //累计计算总金额
 					$('#editForm2').append(str1);
 					$('#editForm2').append(str2);
 					$('#editForm2').append(str3);
