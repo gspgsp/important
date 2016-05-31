@@ -1,0 +1,115 @@
+.user-wrap{ margin-bottom:30px;}
+.user-wrap .left{ width:172px; height:1581px; overflow:hidden; background:#fcf4f0;}
+.user-wrap .left h2{ font-size:20px; color:#333; height:50px; line-height:50px; margin:0 0 0 6px; padding:0 0 0 27px; background:url(../img/order.png) no-repeat;}
+.user-wrap .left h2.msg{ background-position:0 -88px; margin-top:14px;}
+.user-wrap .left h2.order{ background-position:0 -138px;}
+.user-wrap .left h2.supply{ background-position:0 -188px;}
+.user-wrap .left h2.buy{ background-position:0 -238px;}
+.user-wrap .left h2.finance{ background-position:0 -288px;}
+.user-wrap .left h2.follow{ background-position:0 -338px;}
+.user-wrap .left h2.website{ background-position:0 -388px;}
+.user-wrap .left h2.set{ background-position:0 -438px;}
+.user-wrap .left ul{ font-size:16px; margin:0 0 0 34px; line-height:46px;}
+.user-wrap .left ul li a{ color:#646464;}
+.user-wrap .left ul li a:hover,.user-wrap .left ul li.hover a{ color:#fc6621;}
+.user-wrap .right{ width:1046px; height:auto; overflow:hidden; border:1px solid #d6d7dc;}
+.user-wrap .right h3{ font-size:18px; color:#333; text-indent:23px; height:58px; line-height:58px; border-bottom:1px solid #d6d7dc; margin:0 0 25px 0;}
+/*.user-wrap .right .tab{ width:1046px; height:67px; overflow:hidden;}
+.user-wrap .right .tab ul{ height:60px; margin:0 0 0 23px; border-left:1px solid #d6d7dc;}
+.user-wrap .right .tab ul li{ font-size:16px; width:199px; height:58px; line-height:58px; text-align:center; border-top:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-right:1px solid #d6d7dc; float:left; cursor:pointer;}
+.user-wrap .right .tab li.hover{ height:60px; border-bottom:none; border-top:none; background:#fc6621; color:#fff;}*/
+
+.user-wrap .right .filter{ margin:0 0 0 23px;}
+.user-wrap .right .filter .filter-top{ height:44px; line-height:44px; margin:0 0 18px 0; overflow:hidden;}
+.user-wrap .right .filter .filter-top .query{ width:400px; height:44px; margin:0 49px 0 0; overflow:hidden;}
+.user-wrap .right .filter .filter-top .query input.import{ font-size:14px; width:288px; height:14px; padding:14px 0 14px 9px;border-left:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-top:1px solid #d6d7dc;}
+.user-wrap .right .filter .filter-top .query input.submit{ font-size:14px; width:102px; height:44px; background:#267bd3; color:#fff; cursor:pointer;}
+.user-wrap .right .filter .filter-top .other{ color:#fc6621; font-size:16px; padding:0 127px 0 0; background:url(../img/order.png) no-repeat right 0; cursor:pointer;}
+.user-wrap .right .filter .filter-top .other.show{ background-position:127px 0;}
+.user-wrap .right .filter .filter-top .other.hide{ background-position:127px -44px;}
+.user-wrap .right .filter .filter-bot.hide{ display:none;}
+.user-wrap .right .filter .filter-bot table tr{ height:46px;}
+.user-wrap .right .filter .filter-bot select{ color:#666; height:26px;}
+.user-wrap .right .filter .filter-bot input{ width:150px; height:14px; padding:5px 0 5px 10px; border:1px solid #d6d7dc;}
+.user-wrap .right .filter .filter-bot .trade-date input{ width:120px; float:left;}
+.user-wrap .right .filter .filter-bot .trade-date span{ float:left; color:#bcbcbc; line-height:24px; margin:0 8px;}
+
+.user-wrap .right .result-title{ width:1000px; height:38px; line-height:38px; background:#f3e7bd; border-bottom:2px solid #fc6621; margin:18px 0 0 23px; overflow:hidden;}
+.user-wrap .right .result-title li{ float:left; border-right:1px solid #f3e7bd;}
+.user-wrap .right .result-con{ width:1000px; margin:0 0 20px 23px;}
+.user-wrap .right .result-top{ width:1000px; height:38px; line-height:38px; background:#f2f2f2;}
+.user-wrap .right .result-top input{ float:left; margin:12px 9px 0 20px;}
+.user-wrap .right .result-top span{ margin:0 30px 0 0;}
+.user-wrap .right .result-bot{ width:998px; height:98px; overflow:hidden; border:1px solid #e6e7ea;}
+.user-wrap .right .result-bot li{ height:98px; line-height:98px; float:left; border-right:1px solid #d6d7dc;}
+.user-wrap .right .result li{ text-align:center;}
+.user-wrap .right .result li.contract,.user-wrap .right .result li.trader{ width:69px;}
+.user-wrap .right .result li.total{ width:66px;}
+.user-wrap .right .result li.amount{ width:78px;}
+.user-wrap .right .result li.already{ width:55px;}
+.user-wrap .right .result li.payable{ width:71px;}
+.user-wrap .right .result li.pay{ width:94px;}
+.user-wrap .right .result li.transport{ width:94px;}
+.user-wrap .right .result li.freight{ width:59px;}
+.user-wrap .right .result li.status{ width:54px;}
+.user-wrap .right .result li.fk-status{ width:70px;}
+.user-wrap .right .result li.fh-status{ width:71px;}
+.user-wrap .right .result li.kp-status{ width:71px;}
+.user-wrap .right .result li.remark{ width:71px;}
+.user-wrap .right .result li.opt{ width:60px; border-right:none;}
+.user-wrap .right .result li.opt a{ color:#267bd3; display:block;}
+.user-wrap .right .result li.opt a:hover{ text-decoration:underline;}
+.user-wrap .right .result-con li.pay{ line-height:20px; padding:16px 0 0 0;}
+.user-wrap .right .result-con li.transport,.user-wrap .right .result-con li.remark,.user-wrap .right .result-con li.opt,.user-wrap .right .result-con li.buyer,.user-wrap .right .result-con li.seller{ line-height:20px; padding:30px 0 0 0;}
+.user-wrap .right .result li.buyer{ width:96px;}
+.user-wrap .right .result li.seller{ width:94px;}
+.user-wrap .right .result li.checkout{ width:94px;}
+.user-wrap .right .result li.tpt-fht{ width:94px;}
+.user-wrap .right .result li.sly-chn{ width:66px;}
+.user-wrap .right .all-opt{ width:1000px; height:38px; line-height:38px; margin:0 0 0 23px; overflow:hidden;}
+.user-wrap .right .all-opt input{ float:left; margin:13px 11px 0 20px;}
+.user-wrap .right .all-opt label{ cursor:pointer; margin:0 71px 0 0;}
+.user-wrap .right .all-opt a{ color:#323232; border:1px solid #d6d7dc; padding:6px 7px;}
+.user-wrap .right .page{ color:#323232; height:28px; line-height:28px; overflow:hidden; margin:0 12px 50px 0;}
+.user-wrap .right .page li{ font-size:14px; float:left; margin:0 10px 0 0;}
+.user-wrap .right .page li a{ color:#323232;}
+.user-wrap .right .page li.blue{ background:#267bd3; border-radius:2px; padding:0 7px; color:#fff;}
+.user-wrap .right .page li.blue a{ color:#fff; display:block;}
+.user-wrap .right .page li input{ width:42px; height:14px; padding:6px 0 6px 10px; margin:0 5px; border:1px solid #d6d7dc;}
+.user-wrap .right input.dr{ font-size:16px; display:block; width:120px; height:44px; background:#267bd3; border-radius:2px; margin:60px auto; color:#fff; cursor:pointer;}
+
+.user-wrap .right .result-bot.msg-list.msg-close{ height:38px; overflow:hidden;}
+.user-wrap .right .result-bot.msg-list.msg-open{ height:110px; overflow:hidden; background:#f3ebce;}
+.user-wrap .right .result-bot.msg-list li{ line-height:38px; border-right:none; text-align:center;}
+.user-wrap .right .result-bot.msg-list li.sys-msg{ width:184px; margin:0 0 0 65px;}
+.user-wrap .right .result-bot.msg-list li.con{ width:500px; text-align:left; position:relative;}
+.user-wrap .right .result-bot.msg-list li.con p{ width:475px; line-height:23px; margin:9px 0 0 0; float:left;}
+.user-wrap .right .result-bot.msg-list li.con span{ color:#267bd3; cursor:pointer; position:absolute; right:0; top:0;}
+.user-wrap .right .result-bot.msg-list li.is-read{ width:154px; margin:0 0 0 17px;}
+.user-wrap .right .result-bot.msg-list li.already a{ color:#267bd3;}
+
+.user-wrap .right .user-title{ width:1000px; height:44px; line-height:44px; overflow:hidden; border-bottom:1px solid; margin:0 0 0 23px;}
+.user-wrap .right .user-title h2{ font-size:18px; float:left;}
+.user-wrap .right .user-title span{ font-size:16px; float:right;}
+.user-wrap .right .user-title.basic{ border-bottom-color:#267bd3;}
+.user-wrap .right .user-title.basic h2{ color:#267bd3;}
+.user-wrap .right .user-title.basic span{ color:#fc6621;}
+.user-wrap .right .user-title.pro{ border-bottom-color:#45ae73;}
+.user-wrap .right .user-title.pro h2{ color:#45ae73;}
+.user-wrap .right .user-title.pro span{ color:#fc6621;}
+
+.user-wrap .right .basic-info{ font-size:16px; margin:20px 0 0 63px;}
+.user-wrap .right .basic-info tr{ height:46px;}
+.user-wrap .right .basic-info .customer{ color:#e64748;}
+.user-wrap .right .basic-info input{ width:228px; height:14px; overflow:hidden; padding:5px 0 5px 10px; border:1px solid #d6d7dc;}
+.user-wrap .right .basic-info select{ width:240px; height:24px; border:1px solid #d6d7dc;}
+.user-wrap .right .basic-info textarea{ width:310px; height:84px; padding:10px; border:1px solid #d6d7dc;}
+.user-wrap .right .pro-detail table{ font-size:14px; border-collapse:collapse; margin:0 auto; margin-top:20px;}
+.user-wrap .right .pro-detail table th{ font-weight:normal; background:#f3e7bd;}
+.user-wrap .right .pro-detail table td,.user-wrap .right .pro-detail table th{ text-align:center; height:38px; border:1px solid #666;}
+.user-wrap .right .pro-detail ul{ height:auto; overflow:hidden; font-size:16px; margin:29px 0 0 60px;}
+.user-wrap .right .pro-detail ul li{ height:46px; line-height:46px; float:left;}
+.user-wrap .right .pro-detail ul li div{ float:left;}
+.user-wrap .right .pro-detail ul li .pro-table-name{ width:83px; text-align:right; margin-right:25px;}
+.user-wrap .right .pro-detail ul li .pro-table-val{ width:248px; text-align:left;}
+.user-wrap .right .close{ color:#fff; font-size:16px; display:block; width:120px; height:44px; background:#267bd3; border-radius:2px; margin:50px auto; clear:both; cursor:pointer;}
