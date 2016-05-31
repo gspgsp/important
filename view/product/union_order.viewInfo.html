@@ -1,0 +1,118 @@
+{layout file="public:mini_layout"}
+<div style="width:99%; margin:5px;">
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">	
+		<div title="订单详细信息">
+			<div style="height:385px;">
+				<table width="100%">
+					<caption><strong>基本信息</strong></caption>
+					<tr>
+						<td style="width:70px;">订单名称：</td>
+						<td>
+							{$info.order_name}
+						</td>
+						<td style="width:70px;">&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>订单编号：</td>
+						<td>{$info.order_sn}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>订单来源：</td>
+						<td>{$order_source.$info.order_source}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>卖家名称：</td>
+						<td>{$info.sale_id}</td>
+						<td>买家名称：</td>
+						<td>{$info.buy_id}</td>
+					</tr>
+					<tr>
+						<td>成交价格：</td>
+						<td>{$info.deal_price}</td>
+						<td>签订日期：</td>
+						<td>{$info.sign_time}</td>
+					</tr>
+					<tr>
+						<td>总金额：</td>
+						<td>{$info.total_price}</td>
+						<td>付款方式：</td>
+						<td>{$pay_method.$info.pay_method}</td>
+					</tr>
+					<tr>
+						<td>签约地点 : </td>
+						<td>{$info.sign_place}</td>
+						<td>提货地址：</td>
+						<td>{$info.pickup_location}</td>
+					</tr>
+					<tr>
+						<td>送货地点：</td>
+						<td>{$info.delivery_location}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>运输方式：</td>
+						<td>{$transport_type.$info.transport_type}</td>
+						<td>开票状态：</td>
+						<td>{$invoice_status.$info.invoice_status}</td>
+					</tr>
+					<tr>
+						<td>运费：</td>  
+						<td>{$info.freight_price}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>提货日期：</td>  
+						<td>{$info.pickup_time}</td>
+						<td>送货日期 : </td>
+						<td>{$info.delivery_time}</td>
+					</tr>
+					<tr>
+						<td>付款日期：</td>  
+						<td>{$info.payment_time}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>审核状态：</td>  
+						<td>{$order_status.$info.order_status}</td>
+						<td>发货状态 : </td>
+						<td>{$goods_status.$info.goods_status}</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+		<div title="货品详情">
+			<div id="investGrid" class="mini-datagrid" style="width:760px;height:400px;"  idField="id"  url="/product/unionOrderDetail/init?action=grid&oid={$o_id}" sizeList="[10,20,50,100]" pageSize="20">
+				<div property="columns">
+					<div field="model" width="90" headerAlign="center" align="center">厂家/牌号</div>
+					<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>                
+					<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+					<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	mini.parse();
+	var investGrid=mini.get("investGrid");
+	function changeTab(e){
+		var tab=e.tab;
+		if(tab.title=='货品详情'){
+			var data=investGrid.getData();
+			if(data.length<1){
+				investGrid.load();
+			}
+		}
+	}
+
+
+</script>
