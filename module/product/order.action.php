@@ -19,6 +19,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
 		$this->assign('order_type',L('order_type')); //销售类型
+		$this->assign('company_account',L('company_account')); //交易公司账户
 	}
 	/**
 	 *
@@ -143,6 +144,183 @@ class orderAction extends adminBaseAction {
 		$this->assign('o_id',$o_id);
 		$this->display('order.viewInfo.html');
 	}
+
+	/**
+	* 付款收款信息
+	* @access public
+	*/
+	public function transactionInfo(){
+		$o_id=sget('o_id','i',0);
+		$type=sget('order_type','s');
+		if(empty($o_id)){
+			$this->error('信息错误');	
+		}
+
+		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
+		$c_name    = M('user:customer')->getColByName($data[0][c_id]);//获取公司名
+		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
+		$username  = $user_name[username];
+		//获取最后一条收付款信息		
+		$res = M('product:collection')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+		if($res){
+			$this->assign('total_price',$res[0]['total_price']);
+			$this->assign('uncollected_price',$res[0]['uncollected_price']);
+		}
+		if (empty($username)) {
+			$this->assign('input_admin',$data[0][input_admin]);
+		}else{
+			$this->assign('input_admin',$username);
+		}
+		$this->assign('c_name',$c_name);
+		$this->assign('c_id',$data[0][c_id]);
+		$this->assign('type',$type);
+		$this->assign('o_id',$o_id);
+		$this->assign('price',$data[0][total_price]);
+		$this->assign('order_sn',$data[0][order_sn]);
+		$this->display('collection.add.html');
+	}
+	/**
+	* 新增开票信息
+	* @access public
+	*/
+	public function addInvoice(){
+		$this->assign('bile_type',L('bile_type'));//票据类型
+		$o_id=sget('o_id','i',0);
+		$type=sget('order_type','s');
+		if(empty($o_id)){
+			$this->error('信息错误');	
+		}
+		$data 		= M('product:order')->getAllByName($value=$o_id,$condition='o_id');
+		$c_name 	= M('user:customer')->getColByName($data[0][c_id]);//获取公司名
+		$user_name  = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
+		$username   = $user_name[username];
+		//获取最后一条收付款信息		
+		$res = M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+		if($res){
+			$hasbilling_price = ($res[0]['total_price']-$res[0]['unbilling_price']);
+			$this->assign('hasbilling_price',$hasbilling_price);
+			$this->assign('unbilling_price',$res[0]['unbilling_price']);
+		}
+		if (empty($username)) {
+			$this->assign('input_admin',$data[0][input_admin]);
+		}else{
+			$this->assign('input_admin',$username);
+		}
+		$this->assign('c_name',$c_name);
+		$this->assign('c_id',$data[0][c_id]);
+		$this->assign('type',$type);
+		$this->assign('o_id',$o_id);
+		$this->assign('price',$data[0]['total_price']);
+		$this->assign('order_sn',$data[0][order_sn]);
+		$this->display('billing.add.html');
+	}
+
+	/**
+	* 保存付款收款信息
+	* @access public
+	*/
+	public function ajaxSave(){
+		$data    = sdata();
+		$silling = sget('do','i');
+		if($silling == 1){
+			//判断开票状态
+		//p($data);die;
+			if(empty($data['unbilling_price'])){
+				$m = ($data['total_price']-$data['billing_price']);
+				if($m>0){
+					$data['unbilling_price'] = $m;
+					$data['invoice_status'] = 2;
+					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');
+				}
+				if($m==0){
+					$data['unbilling_price'] = $m;
+					$data['invoice_status'] = 3;
+					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
+				}
+				if($m<0){
+					$this->error("数据错误");
+				}
+			}else{
+				$n = ($data['unbilling_price']-$data['billing_price']);
+				if($n>0){
+					$data['unbilling_price']   = $n;
+					$data['invoice_status'] = 2;
+					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');	
+				}
+				if($n==0){
+					$data['uncollected_price'] = 0;
+					$data['invoice_status'] = 3;
+					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
+				}
+				if($n<0){
+					$this->error("数据错误");
+				}
+			}
+			//判断制作开票号
+			$date=date("YmdHis");
+			if ($data['billing_type']==1) {
+				$data['billing_sn']= 'sk'.substr($date,0,8).str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
+			}else{
+				$data['billing_sn']= 'pk'.substr($date,0,8).str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
+			}
+			$data['payment_time']=strtotime($data['payment_time']);
+			
+			$this->db->startTrans();//开启事务
+			try {
+				if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+
+
+
+		}else{
+			//保存收付款相关信息	
+			if(empty($data['uncollected_price'])){
+				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
+				$m = $data['total_price']-$data['collected_price'];
+				if($m>0){
+					$data['uncollected_price'] = $m;
+					$data['collection_status'] = 2;
+				}
+				if($m==0){
+					$data['uncollected_price'] = 0;
+					$data['collection_status'] = 3;
+				}
+				if($m<0){
+					$this->error("数据错误");
+				}
+			}else{
+				$n = $data['uncollected_price']-$data['collected_price'];
+				if($n>0){
+					$data['uncollected_price'] -= $data['collected_price'];
+					$data['collection_status'] = 2;
+				}
+				if($n==0){
+					$data['uncollected_price'] = 0;
+					$data['collection_status'] = 3;
+				}
+				if($n<0){
+					$this->error("数据错误");
+				}
+			}
+			
+			$data['payment_time']=strtotime($data['payment_time']);
+			$this->db->startTrans();//开启事务
+			try {
+				if(!$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'],'update_admin'=>$_SESSION['name'],'invoice_status'=>1)) ) throw new Exception("付款失败");
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+		}
+		$this->db->commit();
+		$this->success('操作成功');
+
+	}
+
+
 	/**
 	 * 新增及修改订单
 	 * @access public 
