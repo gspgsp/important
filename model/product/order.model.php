@@ -58,4 +58,13 @@ class orderModel extends model{
 		$result=$this->model('sale_log')->select("$col")->where("o_id='$o_id'")->getOne();
 		return empty($result) ? false : $result;
 	}
+
+	/**
+	 * 根据字段取出该表所有的值
+	 */
+	public function getAllByName($value=0,$condition='o_id'){
+		$result =  $this->select("*")->where("$condition='$value'")->getAll();
+		return empty($result) ? '-' : $result;
+	}
+	
 }
