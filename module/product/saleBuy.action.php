@@ -184,7 +184,6 @@ class saleBuyAction extends adminBaseAction {
 		$pid=sget('id','i'); //报价ID
 		// 根据采购id获得报价id
 		$id = M('product:purchase')->getColById($pid,'last_buy_sale','id'); //获得报价表的ID
-		p($pid);
 		$info=M('product:salebuy')->getSalebuyInfo($id);
 		if(empty($info)) $this->error('错误的数据请求');
 		$info['saleminfo'] =M('rbac:adm')->getUserInfoById($info['customer_manager']); //卖交易员信息

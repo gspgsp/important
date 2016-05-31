@@ -54,6 +54,10 @@ class unionOrderAction extends adminBaseAction {
 		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
 		$goods_status=sget('goods_status','i',0);//发货状态
 		if($goods_status !=0)  $where.=" and `order_source` =".$goods_status;
+		$pay_method=sget('pay_method','i',0);//付款方式
+		if($pay_method !=0) $where .= " and `pay_method` = $pay_method ";
+		$transport_type =sget('transport_type','i',0);
+		if($transport_type != 0) $where .= " and `transport_type` = $transport_type";
 		//筛选时间
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
@@ -98,24 +102,23 @@ class unionOrderAction extends adminBaseAction {
 			$order_sn=genOrderSn();
 			$this->assign('order_sn',$order_sn);
 			$this->assign('otype','addopus');
-			$this->display('order.edit.html');
+			$this->display('union_order.edit.html');
 			exit;
 		}
 		$info=$this->db->getPk($o_id); //查询订单信息
 		if(empty($info)){
 			$this->error('错误的订单信息');	
 		}
-		if($info['c_id']>0) $c_name = M('user:customer')->getColByName("$info[c_id],c_name");
-		$info['sign_time']=date("Y-m-d",$info['sign_time']);
-		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
-		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
-		$info['payment_time']=date("Y-m-d",$info['payment_time']);
-		$this->assign('c_name',$c_name);
+		if($info['sale_id']>0) $info['sale_id'] = M('user:customer')->getColByName("$info[sale_id],c_name");
+		if($info['buy_id']>0) $info['buy_id'] = M('user:customer')->getColByName("$info[buy_id],c_name");
+		$info['sign_time']= $info['sign_time'] > 1000 ? date("Y-m-d",$info['sign_time']) : '-';
+		$info['pickup_time']= $info['pickup_time'] > 1000 ? date("Y-m-d",$info['pickup_time']) : '-';
+		$info['delivery_time']= $info['delivery_time'] > 1000 ? date("Y-m-d",$info['delivery_time']) : '-';
+		$info['payment_time']= $info['payment_time'] > 1000 ? date("Y-m-d",$info['payment_time']) : '-';
 		$this->assign('type',$type);
-		$info['total_price']=M("product:order")->getOrdNum($info['o_id'],1);
 		$this->assign('info',$info);//分配订单信息
 		if($type=="edit"){
-			$this->display('order.edit.html');
+			$this->display('union_order.edit.html');
 			exit;
 		}	
 		$order_type = $info['order_type'] == 1? 'saleLog' : 'purchaseLog';
@@ -123,67 +126,7 @@ class unionOrderAction extends adminBaseAction {
 
 		$this->assign('order_type',$order_type);
 		$this->assign('o_id',$o_id);
-		$this->display('order.viewInfo.html');
-	}
-	/**
-	 * 新增及修改订单
-	 * @access public 
-	 * @return html
-	 */
-	public function addSubmit() {
-		$this->is_ajax=true; //指定为Ajax输出
-		$data = sdata(); //获取UI传递的参数
-		if(empty($data)) $this->error('错误的请求');	
-		$data['sign_time']=strtotime($data['sign_time']);
-		$data['pickup_time']=strtotime($data['pickup_time']);
-		$data['delivery_time']=strtotime($data['delivery_time']);
-		$data['payment_time']=strtotime($data['payment_time']);
-		foreach ($data as $k=> $v) {
-			if( preg_match('/\d/',$k) ){
-				preg_match_all('/\d/',$k,$matches);
-				$detail[$matches[0][0]][substr($k,0,strlen($k)-1)]=$v;
-			}else{
-				$data[$k]=$v;
-			}
-		}
-		if($data['o_id']>0){ //编辑
-			$up_data = array(
-				'total_price'=>M("product:order")->getOrdNum($data['o_id'],1), //计算总金额			
-				'update_time'=>CORE_TIME,
-				'update_admin'=>$_SESSION['name'],
-			);	
-			$result = $this->db->where('o_id='.$data['o_id'])->update($data+$up_data);
-		}else{ //新增
-			$this->db->startTrans(); //开启事务
-			$add_data=array(
-				'input_time'=>CORE_TIME,
-				'input_admin'=>$_SESSION['name'],
-			);
-			$this->db->add($data+$add_data);
-			$o_id=$this->db->getLastID(); //订单ID
-			if(!empty($detail)){
-				for($i=1;$i<=count($detail);$i++){
-					$detail[$i]['o_id']=$o_id;
-					$detail[$i]['purchase_order_no']=genOrderSn();
-					$this->db->model('sale_log')->add($detail[$i]+$add_data);
-				}
-			}
-			if($this->db->commit()){
-				$up_data = array(
-					'total_price'=>M("product:order")->getOrdNum($o_id,1), //计算总金额			
-					'update_time'=>CORE_TIME,
-					'update_admin'=>$_SESSION['name'],
-				);	
-				$result = $this->db->where('o_id='.$o_id)->update($up_data);
-				$this->success('操作成功');
-			}else{
-				$this->db->rollback();
-				$this->error($result['msg']);
-			}
-
-		}
-
-	
+		$this->display('union_order.viewInfo.html');
 	}
 	/**
 	 * Ajax删除
@@ -198,11 +141,14 @@ class unionOrderAction extends adminBaseAction {
 		$data = explode(',',$ids);
 		if(is_array($data)){
 			foreach ($data as $k => $v) {
-				if(M('product:order')->getODidByOid($v)){
+				$result = $this->db->model('union_order_detail')->where("o_id = $v")->getRow();
+				if(!empty($result)){
+					$this->error('该订单存在订单明细，请先删除订单明细！');
 					continue;
 				}else{
-					$result=$this->db->where("o_id = ($v)")->delete();
+					$result=$this->db->mode('union_order')->where("id = ($v)")->delete();
 				}
+				
 			}
 		}
 		if($result){
@@ -210,5 +156,18 @@ class unionOrderAction extends adminBaseAction {
 		}else{
 			$this->error('订单有相关明细存在');
 		}
+	}
+	/**
+	 * 保存发货信息
+	 */
+	public function shipSave(){
+	$this->is_ajax = true;
+	$data = sdata();
+	$id = $data['id'];
+	if(empty($id)) $this->error('操作有误！');
+	$data['delivery_time'] = strtotime($data['delivery_time']);
+	$result = $this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
+	if($result) $this->success('操作成功！');
+	$this->error('操作失败');
 	}
 }
