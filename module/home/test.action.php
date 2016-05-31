@@ -38,4 +38,8 @@ class testAction extends homeBaseAction{
 			}
 		}
 	}
+
+	public function test(){
+		
+	}
 }
