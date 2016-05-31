@@ -215,7 +215,7 @@ class orderAction extends adminBaseAction {
 				$this->error("数据错误");
 			}
 
-			//判断制作开票号
+			//判断生成开票号
 			$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 			$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
 			$data['payment_time']=strtotime($data['payment_time']);
