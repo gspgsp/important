@@ -146,20 +146,60 @@ function onLoadHandle(e) {
 function onLoadDetail(e){
 	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status;
 	if(order_type=='1'){	//销售
-		 s += '<a href="javascript:addSaleLog('+oid+')">追加</a>';
+		if(order_status =='1' || transport_status =='1'){ //待审核时的操作
+			s += '<a href="javascript:addSaleLog('+oid+')">追加</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
+		} 
 		if(order_status =='3' || transport_status =='3') return;
 		if(order_status =='2' && transport_status=='2'){
-			s+='|<a href="javascript:outStorage('+oid+')">发货</a>';
+			s+='<a href="javascript:outStorage('+oid+')">发货</a>|<a href="javascript:transaction('+oid+','+order_type+')">'+'付款'+'</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		}
 	}else{   //采购
-		s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>';
+		if(order_status =='1' || transport_status =='1'){ //待审核时的操作
+			s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
+		}		
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status ==2 && transport_status==2){
-			s+='|<a href="javascript:inStorage('+oid+')">入库</a>';
+			s+='<a href="javascript:inStorage('+oid+')">入库</a>|<a href="javascript:transaction('+oid+','+order_type+')">'+'付款'+'</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		}
 	}
 	return s;
 }
+//付款收款
+function transaction(oid,order_type){
+	var width=400, height=420,type=order_type;
+	if(type=='1'){
+		title="新增收款记录";
+	}else{
+		title="新增付款记录";
+	}
+	mini.open({
+		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});		
+}
+
+//开票
+function addInvoice(oid,order_type){
+	var width=500, height=580,type=order_type;
+		title="新增开票";
+	mini.open({
+		url: "/product/order/addInvoice?o_id="+oid+"&order_type="+type,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});		
+}
+
 //追加销售明细
 function addSaleLog(oid){
 	mini.open({
@@ -244,7 +284,7 @@ function add(){
 	mini.open({
 		url: "/product/order/info",
 		showMaxButton:true,
-		title: '新增订单', width: 740, height: 450, 
+		title: '新增订单', width: 780, height: 450, 
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();

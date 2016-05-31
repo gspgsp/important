@@ -131,7 +131,6 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$this->assign('c_name',$c_name);
 		$this->assign('type',$type);
-		$info['total_price']=M("product:order")->getOrdNum($info['o_id'],1);
 		$this->assign('info',$info);//分配订单信息
 		if($type=="edit"){
 			$this->display('order.edit.html');
