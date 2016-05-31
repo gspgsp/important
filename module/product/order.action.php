@@ -223,7 +223,6 @@ class orderAction extends adminBaseAction {
 		$silling = sget('do','i');
 		if($silling == 1){
 			//判断开票状态
-		//p($data);die;
 			if(empty($data['unbilling_price'])){
 				$m = ($data['total_price']-$data['billing_price']);
 				if($m>0){
@@ -247,7 +246,7 @@ class orderAction extends adminBaseAction {
 					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');	
 				}
 				if($n==0){
-					$data['uncollected_price'] = 0;
+					$data['unbilling_price'] = 0;
 					$data['invoice_status'] = 3;
 					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
 				}
