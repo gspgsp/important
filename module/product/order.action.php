@@ -215,70 +215,32 @@ class orderAction extends adminBaseAction {
 	}
 
 	/**
-	* 保存付款收款信息
+	* 保存付款收款开票信息
 	* @access public
 	*/
 	public function ajaxSave(){
 		$data    = sdata();
 		$silling = sget('do','i');
 		if($silling == 1){
-			//判断开票状态
-			// if(empty($data['unbilling_price'])){
-			// 	$m = ($data['total_price']-$data['billing_price']);
-			// 	if($m>0){
-			// 		$data['unbilling_price'] = $m;
-			// 		$data['invoice_status'] = 2;
-			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');
-			// 	}
-			// 	if($m==0){
-			// 		$data['unbilling_price'] = $m;
-			// 		$data['invoice_status'] = 3;
-			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
-			// 	}
-			// 	if($m<0){
-			// 		$this->error("数据错误");
-			// 	}
-			// }else{
-			// 	$n = ($data['unbilling_price']-$data['billing_price']);
-			// 	if($n>0){
-			// 		$data['unbilling_price']   = $n;
-			// 		$data['invoice_status'] = 2;
-			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');	
-			// 	}
-			// 	if($n==0){
-			// 		$data['unbilling_price'] = 0;
-			// 		$data['invoice_status'] = 3;
-			// 		$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
-			// 	}
-			// 	if($n<0){
-			// 		$this->error("数据错误");
-			// 	}
-			// }
-
+			//保存开票信息
 			empty($data['unbilling_price'])?$m = ($data['total_price']-$data['billing_price']):$m = ($data['unbilling_price']-$data['billing_price']);
-				if($m>0){
-					$data['unbilling_price'] = $m;
-					$data['invoice_status'] = 2;
-					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');
-				}
-				if($m==0){
-					$data['unbilling_price'] = 0;
-					$data['invoice_status'] = 3;
-					$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
-				}
-				if($m<0){
-					$this->error("数据错误");
-				}
-			
-p($data);die;
+			if($m>0){
+				$data['unbilling_price'] = $m;
+				$data['invoice_status'] = 2;
+				$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2');
+			}
+			if($m==0){
+				$data['unbilling_price'] = 0;
+				$data['invoice_status'] = 3;
+				$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3');
+			}
+			if($m<0){
+				$this->error("数据错误");
+			}
 
 			//判断制作开票号
-			$date=date("YmdHis");
-			if ($data['billing_type']==1) {
-				$data['billing_sn']= 'sk'.substr($date,0,8).str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
-			}else{
-				$data['billing_sn']= 'pk'.substr($date,0,8).str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
-			}
+			$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
+			$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
 			$data['payment_time']=strtotime($data['payment_time']);
 			
 			$this->db->startTrans();//开启事务
@@ -289,37 +251,25 @@ p($data);die;
 				$this->error($e->getMessage());
 			}
 
-
-
 		}else{
 			//保存收付款相关信息	
 			if(empty($data['uncollected_price'])){
 				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
 				$m = $data['total_price']-$data['collected_price'];
-				if($m>0){
-					$data['uncollected_price'] = $m;
-					$data['collection_status'] = 2;
-				}
-				if($m==0){
-					$data['uncollected_price'] = 0;
-					$data['collection_status'] = 3;
-				}
-				if($m<0){
-					$this->error("数据错误");
-				}
 			}else{
-				$n = $data['uncollected_price']-$data['collected_price'];
-				if($n>0){
-					$data['uncollected_price'] -= $data['collected_price'];
-					$data['collection_status'] = 2;
-				}
-				if($n==0){
-					$data['uncollected_price'] = 0;
-					$data['collection_status'] = 3;
-				}
-				if($n<0){
-					$this->error("数据错误");
-				}
+				$m = $data['uncollected_price']-$data['collected_price'];
+			}
+				
+			if($m>0){
+				$data['uncollected_price'] = $m;
+				$data['collection_status'] = 2;
+			}
+			if($m==0){
+				$data['uncollected_price'] = 0;
+				$data['collection_status'] = 3;
+			}
+			if($m<0){
+				$this->error("数据错误");
 			}
 			
 			$data['payment_time']=strtotime($data['payment_time']);
