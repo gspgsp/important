@@ -183,6 +183,7 @@ class orderAction extends adminBaseAction {
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
+				'admin_id'=>['adminid'],
 			);
 			try {	
 				if( !$this->db->model('order')->add($data+$add_data) ) throw new Exception("新增订单失败");//新增订单
@@ -239,7 +240,6 @@ class orderAction extends adminBaseAction {
 					$product_num=$this->db->model('sale_log')->select('store_id,number')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取所有订单明细的产品锁定数量
 					if(  !$product_num  ) throw new Exception("此订单没有相关明细");
 					foreach ($product_num as $key => $value) { //循环对订单中每条明细操作
-
 						if(  !$this->db->model('in_log')->where('store_id = '.$value['store_id'])->update(' remainder = remainder+ '.$value['number'].'  , lock_number = lock_number- '.$value['number'])  ) throw new Exception("库存明细数量解锁失败");//把订单中锁定的数量返还库存明细
 
 						if(  !$this->db->model('store_product')->where('s_id = '.$value['store_id'])->update('  number = number+  '.$value['number'])  ) throw new Exception("仓库产品表总数量返还失败"); //仓库产品表数量返还
@@ -249,11 +249,9 @@ class orderAction extends adminBaseAction {
 				if( !$this->db->model('order')->where('o_id ='.$v['o_id'])->update($v+$_data) ) throw new Exception("审核状态更新失败!!!");
 				
 			} catch (Exception $e) {
-				showtrace();
 				$this->db->rollback();
 				$this->error($e->getMessage());
 			}
-			
 			$this->db->commit();
 			$this->success('操作成功');
 		}

@@ -22,7 +22,7 @@ class outStorageAction extends adminBaseAction {
 		$o_id=sget('o_id','i',0);
 		if( $o_id<1 ) $this->error('错误的出库信息');
 		$out_no=genOrderSn();//出库单号
-		$action=sget('action','s','aa');
+		$action=sget('action','s');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;
 			$list=$this->db->model('out_log')->where($where)
@@ -41,9 +41,11 @@ class outStorageAction extends adminBaseAction {
 		if(!$out_info) {
 			$this->assign('doyet','doyet');
 		}
+		$c_id = $this->db->model('order')->select('c_id')->where("o_id = '$o_id'")->getOne();
 		$out_info['out_date']=date("Y-m-d",$out_info['out_date']);
 		$out_info['c_name']=M("user:customer")->getColByName($out_info['c_id']); //获取客户名称
 		$out_info['admin_name']=M("product:outStorage")->getNameBySid($out_info['store_aid']); //获得出库人姓名
+		$this->assign('c_id',$c_id);
 		$this->assign('out_info',$out_info);
 		$this->assign('o_id',$o_id);
 		$this->assign('out_no',$out_no);
@@ -62,6 +64,7 @@ class outStorageAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 			'customer_manager'=>$_SESSION['adminid'],
+			'out_date'=>CORE_TIME,
 			'p_id'=>M("product:saleLog")->getColByDetId($data['sale_id']),
 			'type'=>1,
 		);

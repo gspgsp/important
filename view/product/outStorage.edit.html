@@ -1,5 +1,6 @@
 {layout file="public:mini_layout"}
 <input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
+<input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/>
 <input class="mini-hidden" name="out_no" value="{$out_no}"/>
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
@@ -44,24 +45,17 @@
 				</tr>
 
 				<tr>
-					<td>关联客户:</td>
-					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cusChoose" value="{$data.c_id}" allowInput="false"  text="{$data.c_name}"  style="width:120px" id="usrId"/></td>
-					<td>出库时间</td>
-					<td><input  class="mini-datepicker"  name="out_date"  required="false" value="{$info.out_date}"/></td>
-				</tr>
-				<tr>
-
 					<td>出库种类:</td>
 					<td><input name="out_type" class="mini-combobox" data='{:setMiniConfig|$out_type}' value="{$data.out_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
-					</td>	
+					</td>
 					<td>物流公司:</td>
-					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>				
+					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>
 				</tr>
 				<tr>
 					<td>备注:</td>
 					<td><input name="remark" class="mini-textarea" style="width:120px" required="false"/ value="{$data.remark}"></td>
-
 				</tr>
+
 			{else}
 				<tr>
 					<td>出库名称:</td>

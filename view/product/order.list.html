@@ -85,13 +85,13 @@
 			<div field="financial_records" width="45" headerAlign="center" align="center" allowSort="true">财务记录</div>
 			<div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">交易员</div>
-			<div field="update_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
-			<div field="update_admin" width="45" headerAlign="center" align="center">修改者</div>
-			<div field="order_status" width="30" headerAlign="center" allowSort="true" align="center" renderer="onOrderStatus">订单审核
+			<!-- <div field="update_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div> -->
+			<!-- <div field="update_admin" width="45" headerAlign="center" align="center">修改者</div> -->
+			<div field="order_status" width="60" headerAlign="center" allowSort="true" align="center" renderer="onOrderStatus">订单审核
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$order_status}' />
 			</div>
 
-			<div field="transport_status" width="30" headerAlign="center" allowSort="true" align="center" renderer="onTransportStatus">物流审核
+			<div field="transport_status" width="60" headerAlign="center" allowSort="true" align="center" renderer="onTransportStatus">物流审核
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$transport_status}' />
 			</div>
 			
@@ -144,11 +144,20 @@ function onLoadHandle(e) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type;
-	if(order_type=='1'){
-		s += '<a href="javascript:addSaleLog('+oid+')">'+'追加'+'</a>|<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status;
+	alert(transport_status);
+	if(order_type=='1'){	
+		 s += '<a href="javascript:addSaleLog('+oid+')">追加</a>';
+		if(order_status ==3 || transport_status ==3) return;
+		if(order_status ==2 && transport_status==2){
+			s+='|<a href="javascript:outStorage('+oid+')">发货</a>';
+		}
 	}else{
-		s += '<a href="javascript:addPurchaseLog('+oid+')">'+'追加'+'</a>|<a href="javascript:inStorage('+oid+')">'+'入库'+'</a>';
+		s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>';
+		if(order_status !=3 || transport_status !=3)  return;
+		if(order_status ==2 && transport_status==2){
+			s+='|<a href="javascript:inStorage('+oid+')">入库</a>';
+		}
 	}
 	return s;
 }

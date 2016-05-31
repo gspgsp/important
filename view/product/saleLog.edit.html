@@ -51,12 +51,16 @@
 					<td><input name="lot_num" id="lot" value="{$info.lot_num}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>
 					<td>采购价 : </td>
-					<td><input name="unit_price" id="u_price" value="{$info.unit_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
+					<td><input name="purchase_price" id="p_price" value="{$info.purchase_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>
 				</tr>
 				<tr>
 					<td >需求数量 : </td>
 					<td id="num"><input name="require_number" id="require_number" value="{$info.number}" textField="text" valueField="id" class="mini-textbox"  onvaluechanged="onValidation"  required="true" style="width:150px"/><span id="returnError" style="padding-left:5px; color:#F00;"></span>
+					</td>
+					<td>销售价 : </td>>
+					<td>
+					<input name="unit_price" id="u_price" value="{$info.unit_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="true"  required="true" style="width:150px"/>	
 					</td>
 					<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
 					<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
@@ -182,7 +186,7 @@ function setsupport(e){
 	var p = mini.get("model");  
 	var s = mini.get("store");
 	var l = mini.get("lot");
-	var u = mini.get("u_price");
+	var p_price = mini.get("p_price");
 	var hidden_remainder = mini.get("hidden_remainder");
 	var m_p_id = mini.get("m_p_id");
 	var m_store_id = mini.get("m_store_id");
@@ -192,7 +196,7 @@ function setsupport(e){
 	p.setValue(model);
 	s.setValue(store);
 	l.setValue(lot);
-	u.setValue(unit_price);
+	p_price.setValue(unit_price); //仓库的采购价
 	hidden_remainder.setValue(remainder);
 	m_p_id.setValue(p_id);
 	m_store_id.setValue(store_id);
