@@ -97,7 +97,7 @@ EvPNG.fix('div, ul, img, li, input, a, a:hover, p, span, dl, dd, dt, hover, a:vi
             if(data.err>0){
                 errMsg(data.msg);
             }else{
-                alert('登录成功');
+                window.location.href="/user";
             }
         },'json');
         errMsg('');

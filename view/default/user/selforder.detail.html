@@ -1,0 +1,103 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    <!--left begin-->
+    {include file="public:user_left"}
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+    	<h3>个人中心-订单明细</h3>
+       	<div class="user-title basic">
+        	<h2>基本信息</h2>
+            <span>交易员：{$order.name} {$order.mobile}</span>
+        </div>
+        <!--basic-info begin-->
+        <div class="basic-info">
+        	<table border="1">
+              <tr>
+                <td>订单名称：</td>
+                <td width="340">{$order.order_name}</td>
+                <td>订单编号：</td>
+                <td width="340">{$order.order_sn}</td>
+              </tr>
+              <tr>
+                <td>签订日期：</td>
+                <td>{$order.sign_time|date:Y-m-d H:i}</td>
+                <td>签约地点：</td>
+                <td>{$order.sign_place}</td>
+              </tr>
+              <tr>
+                <td>总金额：</td>
+                <td>{$order.total_price}</td>
+                <td>运费：</td>
+                <td>{$order.freight_price}</td>
+              </tr>
+              <tr>
+                <td>运输方式：</td>
+                <td>
+                	{:setOption|transport_type,$order.transport_type}
+                </td>
+                <td>送货日期：</td>
+                <td>{if $order.delivery_time}{$order.delivery_time|date:Y-m-d H:i}{/if}</td>
+              </tr>
+              <tr>
+                <td>提货日期：</td>
+                <td>{if $order.pickup_time}{$order.pickup_time|date:Y-m-d H:i}{/if}</td>
+                <td>送货地点：</td>
+                <td>{$order.delivery_location}</td>
+              </tr>
+              <tr>
+                <td>提货地点：</td>
+                <td>{$order.pickup_location}</td>
+                <td>付款日期：</td>
+                <td>{if $order.payment_time}{$order.payment_time|date:Y-m-d H:i}{/if}</td>
+              </tr>
+              <tr>
+                <td>付款方式：</td>
+                <td>
+                	{:setOption|pay_method,$order.pay_method}
+                </td>
+                <td>货款结算方式：</td>
+                <td>{$order.payment_way}</td>
+              </tr>
+            </table>
+        </div>
+        <!--basic-info end-->
+        <div class="user-title pro">
+        	<h2>产品明细</h2>
+            <span>总价：{$order.total_price}元 </span>
+        </div>
+        <!--pro-detail begin-->
+        <div class="pro-detail">
+        	<table border="1">
+              <tr>
+                <th width="109">产品名称</th>
+                <th width="99">牌号</th>
+                <th width="118">产地</th>
+                <th width="120">数量（吨）</th>
+                <th width="129">单价（元／吨）</th>
+                <th width="130">金额(元)</th>
+                <th width="130">&nbsp;</th>
+                <th width="148">&nbsp;</th>
+              </tr>
+              {foreach from=$sale_log item=value}
+              <tr>
+                <td>{:setOption|product_type,$value.product_type}</td>
+                <td>{$value.model}</td>
+                <td>{$value.f_name}</td>
+                <td>{$value.number}</td>
+                <td>{$value.unit_price}</td>
+                <td>{$value.totalPrice}</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              {/foreach}
+            </table>
+        </div>
+        <!--pro-detail end-->
+        <a href="/user/selforder" class="close">返回</a>
+    </div>
+    <!--right end-->
+</div>	

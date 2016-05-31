@@ -1,0 +1,152 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    {include file="public:user_left"}
+	<div class="right frt">
+		<h3>个人中心-消息列表</h3>
+	    <!--filter begin-->
+	    <div class="filter">
+	    	<!--filter-top begin-->
+	        <!--filter-top end-->
+	        <!--filter-bot begin-->
+	        <form id="filterForm" method="get" action="">
+	        	<div class="filter-bot">
+	        		<table border="1">
+	        	      <tr>
+	        	        <td>状态：</td>
+	        	        <td>
+	        	        	<select name="status">
+	        	            	<option value="">全部</option>
+	        	            	{foreach from=$msg_status item=value key=key}
+	        	                <option {if $key==$is_read}selected{/if} value="{$key}">{$value}</option>
+	        	                {/foreach}
+	        	            </select>
+	        	        </td>
+	        	        <td>类型：</td>
+	        	        <td>
+	        	        	<select name="type">
+	        	            	<option value="">全部</option>
+	        	            	{foreach from=$msg_type item=value key=key}
+	        	                <option {if $key==$type}selected{/if} value="{$key}">{$value}</option>
+	        	                {/foreach}
+	        	            </select>
+	        	        </td>
+	        	      </tr>
+	        	    </table>
+	        	</div>
+	        </form>
+	        <!--filter-bot end-->
+	    </div>
+	    <!--filter end-->
+	    <!--result-title begin-->
+	    <ul class="result result-title color3">
+	        <li>类型</li>
+	        <li>内容</li>
+	        <li>已读/未读</li>
+	        <li>操作</li>
+	    </ul>
+	    <!--result-title end-->
+	    <!--all-opt begin-->
+	    <div class="all-opt">
+	    	<input type="checkbox" id="all"/>
+	    	<label for="all">全选</label>
+	        <a href="javascript:readAll();">批量标记为已读</a>
+	    </div>
+	    <!--all-opt end-->
+	 	{foreach from=$list.data item=value}
+	    <div class="result-con">
+	    	<!--result-top begin-->
+	        <div class="result-top">
+	        	<input class="checkb" name="eidCheck" mid="{$value.id}" type="checkbox"/>
+	        	<span>发送时间：{$value.input_time|date:Y-m-d H:i}</span>
+	        </div>
+	        <!--result-top end-->
+	        <!--result-bot begin-->
+	        <div class="result-bot msg-list msg-close">
+	        	<ul>
+	            	<li class="sys-msg">{:setOption|msg_type,$value.type}</li>
+	                <li class="con">
+	                	<p>{$value.msg}</p>
+	                    <span>展开</span>
+	                </li>
+	                <li class="is-read">{:setOption|msg_status,$value.is_read}</li>
+	                {if $value.is_read==1}
+	                <li class="already"><a onClick="readMsg({$value.id},this)" href="javascript:;">标为已读</a></li>
+	                {/if}
+	            </ul>
+	        </div>
+	        <!--result-bot end-->
+	    </div>
+	    {/foreach}
+	    <div class="page frt">
+	    	{$pages}
+	    </div>
+	    <!--page end-->
+	</div>
+</div>
+
+<script>
+function readMsg(id,that){
+	$.post('/user/msg/readMsg',{id:id},function(data){
+		if(data.err==0){
+			$(that).parents('.result-con').find('.is-read').html('已读');
+			$(that).parent().remove();
+		}
+	},'json');
+}
+
+function readAll(){
+	var mid=[];
+	var chObj=$(".checkb");
+	chObj.each(function(k,v){
+		if($(this).is(':checked')){
+			mid.push($(v).attr('mid'));
+		}
+	});
+	if(!mid.length){
+		alert('请勾选要操作的信息');
+		return;
+	}
+	$.post('/user/msg/readAll',{ids:mid},function(data){
+		if(data.err==0){
+			$(chObj).each(function(k,v){
+				if($(this).is(':checked')){
+					$(this).parents('.result-con').find('.is-read').html('已读');
+					$(this).parents('.result-con').find('.already').remove();
+				}
+			});
+			alert('操作成功');
+		}
+	},'json');
+}
+$(function(){
+	var form=$("#filterForm");
+	$("#filterForm select").change(function(){
+		form.submit();
+	});
+
+	$("#all").change(function(){
+		if($(this).is(':checked')){
+			$('.checkb').attr('checked',true);
+		}else{
+			$('.checkb').attr('checked',false);
+		}
+	})
+
+	//展开系统消息
+	var msgSpan = $(".result-bot.msg-list.msg-close").find("span");
+	msgSpan.bind("click",function(){
+		var msgList = $(this).closest(".msg-list");
+		if(msgList.hasClass("msg-close")){
+			$(this).html("收起").closest(".msg-list").removeClass("msg-close").addClass("msg-open");
+		}
+		else if(msgList.hasClass("msg-open")){
+			$(this).html("展开").closest(".msg-list").removeClass("msg-open").addClass("msg-close");
+		}
+	});
+	
+});
+</script>

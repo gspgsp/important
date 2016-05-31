@@ -91,8 +91,8 @@
                 <form method="get" action="/offers" id="searchForm">
                     <span>牌号：</span><input type="text" name="key_model" value="{$key_model}" class="import"/>
                     <span>公司名称：</span><input type="text" name="key_name" value="{$key_name}" class="import"/>
-                    <input type="checkbox" class="check" id="check1"/><label for="check1">商城自营</label>
-                    <input type="checkbox" class="check" id="check2"/><label for="check2">商城联营</label>
+                    <input type="checkbox" class="check" {if $union==1 }checked{/if} name="union" value="1" id="check1"/><label for="check1">商城自营</label>
+                    <input type="checkbox" class="check" {if $union==2 }checked{/if} name="union" value="2" id="check2"/><label for="check2">商城联营</label>
                     <input type="checkbox" class="check" {if $cargotype==1 }checked{/if} name="cargo_type" value="1" id="check3"/><label for="check3">现货</label>
                     <input type="checkbox" class="check" {if $cargotype==2 }checked{/if} name="cargo_type" value="2" id="check4"/><label for="check4">期货</label>
                     <span>报价周期：</span>
@@ -119,21 +119,23 @@
                 <div class="factory">厂家</div>
                 <div class="amount">数量</div>
                 <div class="price">价格</div>
-                <div class="change">涨跌</div>
+                <!-- <div class="change">涨跌</div> -->
                 <div class="address">交货地</div>
                 <div class="company">公司</div>
                 <div class="time">更新时间</div>
                 <div class="opt">操作</div>
             </li>
             {foreach from=$list item=value}
+            {if $value.is_union==0}
+            <!-- 联营 -->
             <li class="result-con">
-            	<div class="brand">{$value.product_type}</div>
+            	<div class="brand">{:witchType|$value.product_type}</div>
                 <div class="grade">{$value.model}</div>
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
-                <div class="amount">{$value.number}</div>
-                <div class="price"><i>￥</i><span>{$value.unit_price}</span><b>实价</b></div>
-                <div class="change tie"><b></b><span>100</span></div>
+                <div class="amount">{:floatval|$value.number}</div>
+                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span><b>实价</b></div>
+                <!-- <div class="change tie"><b></b><span>100</span></div> -->
                 <div class="address">{$value.cityname}</div>
                 <div class="company">
                 	<span>{$value.customer.c_name}</span>
@@ -147,6 +149,30 @@
                 <div class="time">{$value.input_time|date:m-d H:i:s}</div>
                 <div class="opt"><a href="/offers/talk?id={$value.id}">委托洽谈</a></div>
             </li>
+            {else}
+            <!-- 自营 -->
+            <li class="result-con">
+                <div class="brand">{:witchType|$value.product_type}</div>
+                <div class="grade">{$value.model}</div>
+                <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
+                <div class="factory">{$value.f_name}</div>
+                <div class="amount">{:floatval|$value.number}</div>
+                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span><b>实价</b></div>
+                <!-- <div class="change tie"><b></b><span>100</span></div> -->
+                <div class="address">{$value.cityname}</div>
+                <div class="company">
+                    <span>{$value.customer.c_name}</span>
+                    <div class="company-detail">
+                        <h5>{$value.customer.c_name}</h5>
+                        <p>{$value.customer.name} {$value.customer.mobile}</p>
+                        <p>联系我时，请说是在我的塑料网看到的，谢谢！</p>
+                    </div>
+                    <b></b>
+                </div>
+                <div class="time">{$value.input_time|date:m-d H:i:s}</div>
+                <div class="opt"><a href="javascript:selectCart({$value.id})">选购</a></div>
+            </li>
+            {/if}
             {/foreach}
         </ul>
         <div class="page">
@@ -158,40 +184,18 @@
     <!--right begin-->
     <div class="right">
     	<h3>商城自营已选购产品列表</h3>
-        <ul class="cart">
+        <ul class="cart" id="cart">
+            {foreach from=$cartList item=value key=key}
             <li>
-                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
-                <p><span>13吨</span><span>9300</span><span>上海外高桥</span></p>
+                <p><span>{$value.options.product_type}</span><span>{$value.options.model}</span><span>{$value.options.f_name}</span></p>
+                <p><span>{$value.options.unit_price}</span><span>{$value.options.city}</span></p>
                 <div class="pin"></div>
-                <div class="close"></div>
+                <div class="close" onClick="delCart('{$key}',this)"></div>
             </li>
-            <li>
-                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
-                <p><span>23吨</span><span>9300</span><span>上海外高桥</span></p>
-                <div class="pin"></div>
-                <div class="close"></div>
-            </li>
-            <li>
-                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
-                <p><span>33吨</span><span>9300</span><span>上海外高桥</span></p>
-                <div class="pin"></div>
-                <div class="close"></div>
-            </li>
-            <li>
-                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
-                <p><span>43吨</span><span>9300</span><span>上海外高桥</span></p>
-                <div class="pin"></div>
-                <div class="close"></div>
-            </li>
-            <li>
-                <p><span>HDPE</span><span>7000F</span><span>伊朗</span></p>
-                <p><span>33吨</span><span>9300</span><span>上海外高桥</span></p>
-                <div class="pin"></div>
-                <div class="close"></div>
-            </li>
+            {/foreach}
+
         </ul>
-        <p class="total">总计：47，931，000元</p>
-        <a href="javascript:;" class="order">下单</a>
+        <a href="/cart" class="order">下单</a>
         <div class="tips">
             <h4>友情提示：</h4>
             大宗商品价格及库存即时变化，
@@ -212,7 +216,25 @@
           $("#searchForm").submit();
         });
 
-       
+
+        // 单选
+        $("input[name='cargo_type']").click(function(){
+            if(!$(this).is(':checked')){
+                $(this).attr('checked',false);
+            }else{
+                $("input[name='cargo_type']").attr('checked',false);
+                $(this).attr('checked',true);
+            }
+        });
+
+        $("input[name='union']").click(function(){
+            if(!$(this).is(':checked')){
+                $(this).attr('checked',false);
+            }else{
+                $("input[name='union']").attr('checked',false);
+                $(this).attr('checked',true);
+            }
+        });
 
 
 
@@ -248,10 +270,30 @@
 		});
 		
 		//删除已选购的产品
-		var closeProduct = $(".cart li .close");
-		closeProduct.bind("click",function(){
-			$(this).parent().remove();
-		});
+		// var closeProduct = $(".cart li .close");
+		// closeProduct.bind("click",function(){
+		// 	$(this).parent().remove();
+		// });
 		
 	});
+    // 选购
+    function selectCart(id){
+        $.post('/offers/index/addCart',{id,id},function(data){
+            if(data.err==0){
+                var html='<li><p><span>'+data.msg.product_type+'</span><span>'+data.msg.model+'</span><span>'+data.msg.f_name+'</span></p><p><span>'+data.msg.unit_price+'</span><span>'+data.msg.city+'</span></p><div class="pin"></div><div class="close" onClick="delCart('+data.msg.id+',this)"></div></li>';
+                $("#cart").append(html);
+            }else{
+                alert(data.msg);
+                return;
+            }
+        },'json');
+    }
+
+    function delCart(id,that){
+        $.post('/offers/index/delCart',{id,id},function(data){
+            if(data.err==0){
+                $(that).parent().remove();
+            }
+        },'json');
+    }
 </script>

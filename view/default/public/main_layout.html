@@ -22,7 +22,7 @@
         <!--top-rt begin-->
         <ul class="top-rt frt">
             {if $smarty.session.userid > 0 }
-            <li><a href="javascript:;">{$smarty.session.uinfo.name} 个人中心</a></li>
+            <li><a href="/user">{$smarty.session.uinfo.name} 个人中心</a></li>
             <li class="login"><a href="/user/logout">退出登录</a></li>
             {else}
             <li class="login"><a href="/user/login">您好，请登录</a></li>

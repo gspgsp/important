@@ -1,0 +1,92 @@
+{layout file="public:main_layout"}
+{insert_css files='home/maillOffer.css'}
+
+    
+<div class="buy-wrap">
+    <form id="cartFrom" method="post" action="/cart/index/addOrder">
+    	<!--order-confirm begin-->
+        <div class="order-confirm">
+            <table border="1">
+                <tr>
+                    <td>订单名称：</td>
+                    <td><input name="order_name" type="text"/></td>
+                    <td>配送方式：</td>
+                    <td>
+                    <select name="transport_type">
+                        <option value="">请选择</option>
+                        {foreach from=$transport_type item=value key=key}
+                        <option value="{$key}">{$value}</option>
+                        {/foreach}
+                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>提货日期：</td>
+                    <td><input name="pickup_time" type="text"/></td>
+                    <td>送货日期：</td>
+                    <td><input name="delivery_time" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>提货地点：</td>
+                    <td><input name="pickup_location" type="text"/></td>
+                    <td>送货地点：</td>
+                    <td><input name="delivery_location" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>付款方式：</td>
+                    <td>
+                        <select name="pay_method">
+                            <option value="">请选择</option>
+                            {foreach from=$pay_method item=value key=key}
+                            <option value="{$key}">{$value}</option>
+                            {/foreach}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--order-confirm end-->
+        <!--detail begin-->
+        <div class="detail" id="load-cart" data-url="/cart/index/loadCart">
+            
+        </div>
+        <!--detail end-->
+        <!--buy-btn begin-->
+        <div class="buy-btn">
+        	<button>确认下单</button>
+            <button>取消</button>
+        </div>
+    </form>
+    <!--buy-btn end-->
+</div>
+
+<script>
+function delCart(id,that){
+    $.post('/offers/index/delCart',{id,id},function(data){
+        if(data.err==0){
+            $(that).parents('tr').remove();
+        }
+    },'json');
+}
+function load_cart(){
+    if($('#load-cart').size() > 0){
+        $('#load-cart').load($('#load-cart').attr('data-url'));
+    }
+    
+}
+
+function set_cart(sid,that){
+    var num=parseInt($(that).val());
+    if(!num){
+        $(that).val(1);
+        return;
+    }
+    $.post('/cart/index/setCart',{sid:sid,num:num},function(data){
+
+        load_cart();
+    });
+}
+$(function(){	
+    load_cart();
+});
+</script>

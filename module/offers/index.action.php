@@ -2,12 +2,20 @@
 class indexAction extends homeBaseAction{
 
 	protected $db;
+	protected $cartKey;
 	public function __init(){
+		E('Cart',APP_LIB.'extend');
+		$this->cartKey="cartList";
 		$this->db=M('public:common');
 	}
 
 	public function init()
 	{
+		//购物车
+		// $this->cartList=isset($_SESSION[$this->cartKey]) ? $_SESSION[$this->cartKey] : array();
+		$this->cartList=Cart::getGoods();
+		// p($this->cartList);
+
 		$cityWhere='pid=1';
 		$factoryWhere=1;
 		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
@@ -71,6 +79,14 @@ class indexAction extends homeBaseAction{
 			$this->assign('cargotype',$cargo_type);
 			$where.=" and pur.cargo_type=$cargo_type";
 		}
+		if($union=sget('union','i',0)){
+			$this->assign('union',$union);
+			if($union==1){
+				$where.=" and pur.is_union=1";
+			}else{
+				$where.=" and pur.is_union=0";
+			}
+		}
 		//筛选条件结束
 
 		//报价周期
@@ -115,7 +131,9 @@ class indexAction extends homeBaseAction{
 		$this->pages = pages($list['count'], $p, $pageSize);
 		$list=$list['data'];
 		foreach ($list as $key => $value) {
-			$uids[]=$value['user_id'];
+			if($value['is_union']==0){
+				$uids[]=$value['user_id'];
+			}
 		}
 		$uids=array_unique($uids);
 		//获取用户信息
@@ -125,13 +143,70 @@ class indexAction extends homeBaseAction{
 		}
 
 		foreach ($list as $key => $value) {
-			$list[$key]['customer']=$customerTemp[$value['user_id']];
-			$list[$key]['product_type']=$product_type[$value['product_type']];
-			$list[$key]['number']=floatval($value['number']);
-			$list[$key]['unit_price']=floatval($value['unit_price']);
+			if($value['is_union']==0){
+				$list[$key]['customer']=$customerTemp[$value['user_id']];
+			}else{
+				$list[$key]['customer']=$this->db->from('purchase pur')
+					->join('admin ad','pur.customer_manager=ad.admin_id')
+					->select('ad.name,ad.mobile')
+					->getRow()+array('c_name'=>'商城自营');
+			}
 		}
-		
 		$this->assign('list',$list);
 		$this->display('index');
 	}
+
+	//添加购物车
+	public function addCart()
+	{
+		if($_POST)
+		{
+			$this->is_ajax=true;
+			$id=sget('id','i',0);
+			$goods=Cart::getGoods();
+			if(count($goods)>=5) $this->error('最多只能选购5个商品');
+			foreach ($goods as $key => $value) {
+				if($value['id']==$id) $this->error('该商品已选购');
+			}
+			if(!$data=M('product:purchase')->getPurchaseInfo($id)) $this->error('信息错误');
+			// 获取产品类型
+			$data['product_type']=witchType($data['product_type']);
+			//获取发货地区信息
+			$data['city']=$this->db->model('lib_region')->where("id={$data['provinces']}")->select('name')->getOne();
+			$this->addCol($data);
+			$this->success($data);
+						
+		}
+	}
+
+	//移除购物车
+	public function delCart()
+	{
+		if($_POST)
+		{
+			$this->is_ajax=true;
+			$sid=sget('id','s','');
+			Cart::del($sid);
+			$this->success('删除成功');
+		}
+	}
+
+	protected function addCol($data){
+		$arr=array(
+			'id'=>$data['id'],
+			'name'=>$data['model'],
+			'num'=>1,
+			'price'=>$data['unit_price'],
+			'options'=>array(
+				'p_id'=>$data['p_id'],
+				'product_type'=>$data['product_type'],
+				'model'=>$data['model'],
+				'f_name'=>$data['f_name'],
+				'unit_price'=>$data['unit_price'],
+				'city'=>$data['city'],
+			),
+		);
+		Cart::add($arr);
+	}
+
 }

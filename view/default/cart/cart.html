@@ -1,0 +1,30 @@
+<div class="buy-title">
+    <h2>产品明细</h2>
+    <span>总价：<i class="total">{$totalPrice}</i>元 <b class="sum">总数量：<em>{$totalNums}</em>吨</b></span>
+</div>
+<table>
+	<tr>
+        <th>产品名称</th>
+        <th>牌号</th>
+        <th>厂家</th>
+        <th>交货地</th>
+        <th>数量</th>
+        <th>单位</th>
+        <th>单价</th>
+        <th width="200">金额</th>
+        <th width="100">操作</th>
+    </tr>
+    {foreach from=$cartList item=value key=key}
+    <tr>
+        <td>{$value.options.product_type}</td>
+        <td>{$value.options.model}</td>
+        <td>{$value.options.f_name}</td>
+        <td>{$value.options.city}</td>
+        <td class="amount"><input type="text" onChange="set_cart('{$key}',this)" value="{$value.num}"></td>
+        <td>吨</td>
+        <td class="d-price"><span>{$value.options.unit_price}</span>元</td>
+        <td class="money">{$value.total}</td>
+        <td class="opt"><a href="javascript:;" onClick="delCart('{$key}',this)">删除</a></td>
+    </tr>
+    {/foreach}
+</table>

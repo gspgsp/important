@@ -81,4 +81,9 @@ function witchType($id=1){
 	$product_type=L('product_type');
 	return $product_type[$id];
 }
+
+function setOption($type='',$id=1){
+	$data=L($type);
+	return $data[$id];
+}
 ?>
