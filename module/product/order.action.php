@@ -307,7 +307,7 @@ class orderAction extends adminBaseAction {
 			$data['payment_time']=strtotime($data['payment_time']);
 			$this->db->startTrans();//开启事务
 			try {
-				if(!$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'],'update_admin'=>$_SESSION['name'],'invoice_status'=>1)) ) throw new Exception("付款失败");
+				if(!$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'],'invoice_status'=>1)) ) throw new Exception("付款失败");
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());
