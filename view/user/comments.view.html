@@ -1,0 +1,44 @@
+{layout file="public:mini_layout"}
+
+<div id="basicForm" class="form"  style="padding:5px;">
+<table width="100%" cellpadding="1" bgcolor="#CCCCCC">
+  <tr>
+    <td bgcolor="#FFFFFF">用户ID：</td>
+    <td bgcolor="#FFFFFF">{$user.user_id}&nbsp;</td>
+    <td bgcolor="#FFFFFF">项目ID：</td>
+    <td bgcolor="#FFFFFF">{$user.item_id}&nbsp;</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">评价等级：</td>
+    <td bgcolor="#FFFFFF">{$user.score}&nbsp;</td>
+    <td bgcolor="#FFFFFF">用户手机号码：</td>
+    <td bgcolor="#FFFFFF">{$user.mobile}&nbsp;</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">留言内容：</td>
+    <td colspan="3" bgcolor="#FFFFFF"><label for="textarea"></label>
+      <textarea name="textarea" id="textarea" cols="45" rows="5" readonly="readonly">{$user.content}</textarea></td>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">留言时间：</td>
+    <td bgcolor="#FFFFFF">{$user.input_time|date:Y-m-d H:i:s}&nbsp;</td>
+    <td bgcolor="#FFFFFF">用户IP：</td>
+    <td bgcolor="#FFFFFF">{$user.user_ip}&nbsp;</td>
+  </tr>
+</table>
+    
+    <div style="text-align:center;padding:10px;"> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script>
