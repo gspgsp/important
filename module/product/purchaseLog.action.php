@@ -180,7 +180,7 @@ class purchaseLogAction extends adminBaseAction {
 			$data['input_time']=CORE_TIME;
 			$data['input_admin']=$_SESSION['name'];
 			$data['order_source']=2;//来源2:erp
-			if($data['sale_id'] ==''){
+			if($data['sale_id'] ==0){
 				$result = $this->db->add($data);
 			}else{
 				$this->db->startTrans(); //开启事务

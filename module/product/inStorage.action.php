@@ -72,14 +72,14 @@ class inStorageAction extends adminBaseAction {
 		);
 		$this->db->startTrans(); //开启事务
 		try {
-			if($data['doyet'] == 'doyet'){
+			if($data['doyet'] == 'doyet'){ //存在入库单
 				if( !$result=$this->db->add($data+$_data) ) throw new Exception('系统错误。code:201'); //新增入库单
 			}
 			if( !$this->db->model('in_log')->add($data+$_data) ) throw new Exception('系统错误。code:202'); //采购单入到库存流水
 			if( $this->db->model('store_product')->where(" s_id = ".$data['store_id'])->getRow() ){
 				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->update( "number=number+". $p_info['number'] ) ) throw new Exception('系统错误。code:203'); //修改仓库表产品数量
 			}else{
-				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->add($data+$_data) ) throw new Exception('系统错误。code:204');
+				if( !$this->db->model('store_product')->add($data+$_data) ) throw new Exception('系统错误。code:204');
 			}
 			if(!$this->db->model('purchase_log')->where(" id = ".$data['purchase_id'])->update( "in_storage_status=2" ) ) throw new Exception('系统错误。code:205'); //更改采购明细入库状态
 
