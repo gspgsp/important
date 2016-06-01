@@ -34,7 +34,7 @@ class contactAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1 ";
+		$where=" chanel = 5 ";
 		$c_id=sget('c_id','i',0);
 		if($c_id !=0)  $where.=" and `c_id` =".$c_id;
 		//筛选状态

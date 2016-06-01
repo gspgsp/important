@@ -273,7 +273,8 @@ function saveData() {
 	if(data.err=='0'){
 	  grid.reload();
 	}else{
-	  alert(data.msg)
+	  alert(data.msg);
+	  grid.reload();
 	  return false;
 	}
   }

@@ -351,16 +351,17 @@ class orderAction extends adminBaseAction {
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
-		$this->db->startTrans(); //开启事务
+		
 		foreach($data as $k=>$v){
 			if($v['o_id']<0)  $this->error('错误的操作');
 			$status_lsit=$this->db->model('order')->select('order_status,transport_status,order_type')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取选择订单的状态
+		
+		$this->db->startTrans(); //开启事务	
+			try {
 			foreach ($status_lsit as $j => $val) { //判断数据库中的状态
 				$table = ($val['order_type'] == 1 ? 'sale_log' : 'purchase_log' );
 				if($val['order_status']==3 || $val['transport_status']==3) $this->error('已取消的订单无法操作');
-
 			}
-			try {
 				if( ($v['order_status'] == 3 || $v['transport_status'] == 3) && $v['order_type'] == 1){ //类型是销售订单,并且审核不通过返还库存锁定数量
 					$product_num=$this->db->model('sale_log')->select('store_id,number')->where( 'o_id ='.$v['o_id'] )->getAll(); //获取所有订单明细的产品锁定数量
 					if(  !$product_num  ) throw new Exception("此订单没有相关明细");
