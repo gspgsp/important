@@ -20,6 +20,10 @@ class orderAction extends adminBaseAction {
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
 		$this->assign('order_type',L('order_type')); //销售类型
 		$this->assign('company_account',L('company_account')); //交易公司账户
+		$this->assign('ordertype',L('order_type'));  			//订单类型
+		$this->assign('collection_status',array(1=>'待收付款',2=>'部分收付款',3=>'已完成'));  //订单收付款状态
+		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
+		$this->assign('billing_type',L('billing_type'));    	//开票类型
 	}
 	/**
 	 *
