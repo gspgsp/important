@@ -16,14 +16,14 @@ class oilPriceModel extends Model{
 	 */
 	public function get_index($type)
 	{
-		$t = $type == 'WTI' ? 'w' : 'b';
+		$t = $type == 0 ? 'w' : 'b';
 		$keys = "oli_". $t;
 		$cache = cache::startMemcache();
 		$arr=$cache->get($keys);
 		if($arr) return $arr;
 		$arr = array();
 		$temp = array();
-		$data =$this->where("type='{$type}'")->order('input_time desc')->limit(9)->getAll();
+		$data =$this->where("type=$type")->order('input_time desc')->limit(9)->getAll();
 		$arr['last'] = $data[0];
 		krsort($data);
 		foreach ($data as $key => $value) {
