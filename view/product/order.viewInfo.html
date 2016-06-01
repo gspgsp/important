@@ -133,22 +133,8 @@
 	<div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>	
-			<!-- {if $doact neq 'search'}
-			<td style="white-space:nowrap;">
-				 <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">充红</a>
-				<span class="separator"></span>
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
-			</td>
-			{/if} -->
 			<td style="float:right;">
-			    <form id="soform">
-			    收款日期
-				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
-				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
-				<select name="order_type" id="order_type">
-					<option value="" selected="selected">=订单类型=</option>
-					{html_options options=$ordertype}
-				</select>
+			    <form id="soform1">				
 				<select name="pay_method" id="pay_method">
 					<option value="" selected="selected">=付款方式=</option>
 					{html_options options=$pay_method}
@@ -161,13 +147,8 @@
 					<option value="" selected="selected">=开票状态=</option>
 					{html_options options=$invoice_status}
 				</select>
-				<select name="company_account" id="company_account">
-					<option value="" selected="selected">=交易公司账户=</option>
-					{html_options options=$company_account}
-				</select>
-				<input name="keyword" class="mini-textbox" emptyText="请输入订单号" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-				<span id="searchMsg"></span>
+				<span id="searchMsg1"></span>
 			  </form>
 			</td>
 		</tr>
@@ -182,23 +163,10 @@
 		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
 		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未收款金额</div>
 		<div field="title" width="30" headerAlign="center" align="center" align="center">交易主题</div>
-		<div field="order_type" renderer="setOrd" width="30" headerAlign="center" align="center" >订单类型</div>
-		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>
 		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">收付款方式</div>
-		<!-- <div field="accessory" width="45" headerAlign="center" align="center" align="center">附件</div> -->		
 		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">订单收付款状态</div>
 		<div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div>
-		<div field="remark" width="150" headerAlign="center" >备注
-			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
-		</div>
 		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >收付款日期</div>
-
-		<!-- <div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
-		<div field="input_admin" width="30" headerAlign="center" align="center">创建者</div>
-		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
-		<div field="update_admin" width="30" headerAlign="center" align="center">修改者</div> -->
-		
-		
 	</div>
   </div>
  </div>
@@ -209,18 +177,8 @@
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>	
-			<!-- <td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
-			</td> -->
-			<td style="float:left;width:700px">
-			    <form id="soform">
-			    开票日期
-				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
-				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
-				<select name="billing_type" id="billing_type">
-					<option value="" selected="selected">=开票类型=</option>
-					{html_options options=$billing_type}
-				</select>
+			<td style="float:right;">
+			    <form id="soform2">
 				<select name="bile_type" id="bile_type">
 					<option value="" selected="selected">=票据类型=</option>
 					{html_options options=$bile_type}
@@ -236,7 +194,7 @@
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-				<span id="searchMsg"></span>
+				<span id="searchMsg2"></span>
 			  </form>
 			</td>
 		</tr>
@@ -255,24 +213,9 @@
 		<div field="tax_price" width="40" headerAlign="center" align="center" align="center">税额</div>
 		<div field="rise" width="40" headerAlign="center" align="center" align="center">抬头</div>
 		<div field="title" width="30" headerAlign="center" align="center" align="center">合同主题</div>
-		<div field="billing_type" renderer="setBil" width="40" headerAlign="center" align="center" >开票类型</div>
-		<!-- <div field="accessory" width="45" headerAlign="center" align="center" align="center">附件</div> -->		
 		<div field="bile_type" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center">票据类型</div>
 		<div field="invoice_status" renderer="setInv" width="40" headerAlign="center" align="center" allowSort="true">订单开票状态</div>
-		<div field="paying_info" width="90" headerAlign="center" >付款信息
-			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
-		</div>
-		<div field="receipt_info" width="90" headerAlign="center" >收款信息
-			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
-		</div>
-		<div field="remark" width="100" headerAlign="center" >备注
-			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
-		</div>
 		<div field="payment_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >开票日期</div>
-		<!-- <div field="input_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
-		<div field="input_admin" width="30" headerAlign="center" align="center">创建者</div>
-		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
-		<div field="update_admin" width="30" headerAlign="center" align="center">修改者</div> -->
 		
 	</div>
   </div>
@@ -290,6 +233,20 @@
 	var investGrid=mini.get("investGrid");
 	var gridCell=mini.get("gridCell");
 	var billingCell=mini.get("billingCell");
+	function search() {
+		gridCell.load($("#soform1").serializeObject(),function(e){
+			$("#searchMsg1").html(e.msg);
+		  });
+		billingCell.load($("#soform2").serializeObject(),function(e){
+			$("#searchMsg2").html(e.msg);
+		  });
+		
+	}
+	search();
+	function onKeyEnter(e) {
+	  search();
+	}
+
 	function changeTab(e){
 		var tab=e.tab;
 		if(tab.title=='详情列表'){
@@ -327,10 +284,7 @@
 		});		
 	}
 	//设置收付款状态
-	function setOrd(e){
-		var ord= e.record.order_type;
-		return $("#order_type").find("option[value="+ord+"]").text();
-	}
+
 	function setInv(e){
 		var inv= e.record.invoice_status;
 		return $("#invoice_status").find("option[value="+inv+"]").text();
@@ -343,14 +297,7 @@
 		var pay= e.record.pay_method;
 		return $("#pay_method").find("option[value="+pay+"]").text();
 	}
-	function setCom(e){
-		var com = e.record.account;
-		return $("#company_account").find("option[value="+com+"]").text();
-	}
-	function setBil(e){
-	var col = e.record.billing_type;
-	return $("#billing_type").find("option[value="+col+"]").text();
-	}
+
 	function setBile(e){
 		var pay= e.record.bile_type;
 		return $("#bile_type").find("option[value="+pay+"]").text();
