@@ -165,13 +165,26 @@ class userAction extends adminBaseAction {
 		if($user_id < 1) $this->error('操作有误');
 		$data = array(
 			'user_id'=>$user_id,
-			''
+			'action_type'=>'unlock_user',
+			'old_value'=>'锁定',
+			'new_value'=>'解锁',
+			'ip'=>get_ip(),
+			'success'=>1,
+			'input_time'=>CORE_TIME,
+			'remark'=>'管理员解锁用户',
+			'operator'=>$_SESSION['name'],
 		);
+		$this->db->startTrans();//开启事务
 		try {
 			if( !$this->db->where('user_id = '.$user_id)->update(array('login_unlock_time'=>0)) ) throw new Exception("解锁失败");
+			if( !$this->db->model('apply_log')->add($data) ) throw new Exception("审批日志更新失败");
 			
-			} catch (Exception $e) {
-				
-			}	
+		} catch (Exception $e) {
+			$this->db->rollback();
+			$this->error($e->getMessage());
+		}	
+		$this->db->commit();
+		$this->success('操作成功');
+
 	}
 }
