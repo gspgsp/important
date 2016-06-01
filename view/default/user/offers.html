@@ -1,0 +1,376 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='home/tab.js'}
+
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    <!--left begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-报价发布</h3>
+        <ul class="tabe">
+        	<li id="tabe1" onmouseover="setTab('tabe',1,2)" class="hover" style="border-left:1px solid #e6e7ea;"><p>现货新增</p><span></span></li>
+            <li id="tabe2" onmouseover="setTab('tabe',2,2)"><p>期货新增</p><span></span></li>
+        </ul>
+        <!--con-tabe-1 begin-->
+        <div id="con-tabe-1" class="con-tabe">
+        	<!--opt begin-->
+            <div class="opt">
+                <ul>
+                    <li class="add-quote-1">添加报价</li>
+                    <li>Excel批量导入报价</li>
+                </ul>
+            </div>
+            <!--opt end-->
+        	<table class="table1">
+            	<tr>
+                	<th>品种</th>
+                    <th>牌号</th>
+                    <th>厂家</th>
+                    <th>加工级别</th>
+                    <th>数量（吨）</th>
+                    <th>价格（元／吨）</th>
+                    <th>是否实价</th>
+                    <th>省份</th>
+                    <th>仓库</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                	<td>
+                    	<select>
+                        	<option>HDPE</option>
+                            <option>HDPE</option>
+                            <option>HDPE</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="LL1002KW"/></td>
+                    <td><input type="text" value="中国石化"/></td>
+                    <td>重包</td>
+                    <td><input type="text" value="33"/></td>
+                    <td><input type="text" value="9300"/></td>
+                    <td>
+                    	<select>
+                        	<option>是</option>
+                            <option>否</option>
+                        </select>
+                    </td>
+                    <td>
+                    	<select>
+                        	<option>浙江</option>
+                            <option>浙江</option>
+                            <option>浙江</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="宁波2号库"/></td>
+                    <td></td>
+                    <td class="del"><span>删除</span></td>
+                </tr>
+                 <tr>
+                	<td>
+                    	<select>
+                        	<option>HDPE</option>
+                            <option>HDPE</option>
+                            <option>HDPE</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="LL1002KW"/></td>
+                    <td><input type="text" value="中国石化"/></td>
+                    <td>重包</td>
+                    <td><input type="text" value="33"/></td>
+                    <td><input type="text" value="9300"/></td>
+                    <td>
+                    	<select>
+                        	<option>是</option>
+                            <option>否</option>
+                        </select>
+                    </td>
+                    <td>
+                    	<select>
+                        	<option>浙江</option>
+                            <option>浙江</option>
+                            <option>浙江</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="宁波2号库"/></td>
+                    <td></td>
+                    <td class="del"><span>删除</span></td>
+                </tr>
+                 <tr>
+                	<td>
+                    	<select>
+                        	<option>HDPE</option>
+                            <option>HDPE</option>
+                            <option>HDPE</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="LL1002KW"/></td>
+                    <td><input type="text" value="中国石化"/></td>
+                    <td>重包</td>
+                    <td><input type="text" value="33"/></td>
+                    <td><input type="text" value="9300"/></td>
+                    <td>
+                    	<select>
+                        	<option>是</option>
+                            <option>否</option>
+                        </select>
+                    </td>
+                    <td>
+                    	<select>
+                        	<option>浙江</option>
+                            <option>浙江</option>
+                            <option>浙江</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="宁波2号库"/></td>
+                    <td></td>
+                    <td class="del"><span>删除</span></td>
+                </tr>
+            </table>
+            <div class="btn">
+            	<input type="submit" value="发布" class="release"/>
+                <input type="button" value="取消" class="cancel"/>
+            </div>
+        </div>
+        <!--con-tabe-1 end-->
+        <!--con-tabe-2 begin-->
+        <div id="con-tabe-2" class="con-tabe" style="display:none;">
+        	<!--opt begin-->
+            <div class="opt">
+                <ul>
+                    <li class="add-quote-2">添加报价</a></li>
+                    <li>Excel批量导入报价</li>
+                </ul>
+            </div>
+            <!--opt end-->
+        	<table class="table2">
+            	<tr>
+                	<th>品种</th>
+                    <th>牌号</th>
+                    <th>厂家</th>
+                    <th>加工级别</th>
+                    <th>数量（吨）</th>
+                    <th>价格（元／吨）</th>
+                    <th>是否实价</th>
+                    <th>省份</th>
+                    <th>仓库</th>
+                    <th>交货日期</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                	<td>
+                    	<select>
+                        	<option>HDPE</option>
+                            <option>HDPE</option>
+                            <option>HDPE</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="LL1002KW"/></td>
+                    <td><input type="text" value="中国石化"/></td>
+                    <td>重包</td>
+                    <td><input type="text" value="33"/></td>
+                    <td><input type="text" value="9300"/></td>
+                    <td>
+                    	<select>
+                        	<option>是</option>
+                            <option>否</option>
+                        </select>
+                    </td>
+                    <td>
+                    	<select>
+                        	<option>浙江</option>
+                            <option>浙江</option>
+                            <option>浙江</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="宁波2号库"/></td>
+                    <td>
+                    	<select>
+                        	<option>10天以内</option>
+                            <option>10-20天</option>
+                            <option>20-30天</option>
+                            <option>30天以上</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td class="del"><span>删除</span></td>
+                </tr>
+                <tr>
+                	<td>
+                    	<select>
+                        	<option>HDPE</option>
+                            <option>HDPE</option>
+                            <option>HDPE</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="LL1002KW"/></td>
+                    <td><input type="text" value="中国石化"/></td>
+                    <td>重包</td>
+                    <td><input type="text" value="33"/></td>
+                    <td><input type="text" value="9300"/></td>
+                    <td>
+                    	<select>
+                        	<option>是</option>
+                            <option>否</option>
+                        </select>
+                    </td>
+                    <td>
+                    	<select>
+                        	<option>浙江</option>
+                            <option>浙江</option>
+                            <option>浙江</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="宁波2号库"/></td>
+                    <td>
+                    	<select>
+                        	<option>10天以内</option>
+                            <option>10-20天</option>
+                            <option>20-30天</option>
+                            <option>30天以上</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td class="del"><span>删除</span></td>
+                </tr>
+               <tr>
+                	<td>
+                    	<select>
+                        	<option>HDPE</option>
+                            <option>HDPE</option>
+                            <option>HDPE</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="LL1002KW"/></td>
+                    <td><input type="text" value="中国石化"/></td>
+                    <td>重包</td>
+                    <td><input type="text" value="33"/></td>
+                    <td><input type="text" value="9300"/></td>
+                    <td>
+                    	<select>
+                        	<option>是</option>
+                            <option>否</option>
+                        </select>
+                    </td>
+                    <td>
+                    	<select>
+                        	<option>浙江</option>
+                            <option>浙江</option>
+                            <option>浙江</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="宁波2号库"/></td>
+                    <td>
+                    	<select>
+                        	<option>10天以内</option>
+                            <option>10-20天</option>
+                            <option>20-30天</option>
+                            <option>30天以上</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td class="del"><span>删除</span></td>
+                </tr>
+            </table>
+             <div class="btn">
+            	<input type="submit" value="发布" class="release"/>
+                <input type="button" value="取消" class="cancel"/>
+            </div>
+        </div>
+        <!--con-tabe-2 end-->
+    </div>
+</div>
+
+<script>
+$(function(){
+	//添加报价1
+	var addQuote1 = $(".add-quote-1"),
+	    table1 = $(".table1"),
+	    str1 =  '<tr>'+
+                	'<td>'+
+                    	'<select>'+
+                        	'<option>HDPE</option>'+
+                            '<option>HDPE</option>'+
+                            '<option>HDPE</option>'+
+                        '</select>'+
+                    '</td>'+
+                    '<td><input type="text" value="LL1002KW"/></td>'+
+                    '<td><input type="text" value="中国石化"/></td>'+
+                    '<td>重包</td>'+
+                    '<td><input type="text" value="33"/></td>'+
+                    '<td><input type="text" value="9300"/></td>'+
+                    '<td>'+
+                    	'<select>'+
+                        	'<option>是</option>'+
+                            '<option>否</option>'+
+                        '</select>'+
+                    '</td>'+
+                    '<td>'+
+                    	'<select>'+
+                        	'<option>浙江</option>'+
+                            '<option>浙江</option>'+
+                            '<option>浙江</option>'+
+                        '</select>'+
+                    '</td>'+
+                    '<td><input type="text" value="宁波2号库"/></td>'+
+                    '<td></td>'+
+                    '<td class="del"><span>删除</span></td>'+
+                '</tr>;'
+	addQuote1.bind("click",function(){
+		if(table1.find("tr").length<=10) table1.append(str1);
+	});
+	
+	//添加报价2
+	var addQuote2 = $(".add-quote-2"),
+		table2 = $(".table2"),
+	    str2 =  '<tr>'+
+                	'<td>'+
+                    	'<select>'+
+                        	'<option>HDPE</option>'+
+                            '<option>HDPE</option>'+
+                            '<option>HDPE</option>'+
+                        '</select>'+
+                    '</td>'+
+                    '<td><input type="text" value="LL1002KW"/></td>'+
+                    '<td><input type="text" value="中国石化"/></td>'+
+                    '<td>重包</td>'+
+                    '<td><input type="text" value="33"/></td>'+
+                    '<td><input type="text" value="9300"/></td>'+
+                    '<td>'+
+                    	'<select>'+
+                        	'<option>是</option>'+
+                            '<option>否</option>'+
+                        '</select>'+
+                    '</td>'+
+                    '<td>'+
+                    	'<select>'+
+                        	'<option>浙江</option>'+
+                            '<option>浙江</option>'+
+                            '<option>浙江</option>'+
+                        '</select>'+
+                    '</td>'+
+                    '<td><input type="text" value="宁波2号库"/></td>'+
+                    '<td>'+
+                    	'<select>'+
+                        	'<option>10天以内</option>'+
+                            '<option>10-20天</option>'+
+                            '<option>20-30天</option>'+
+                            '<option>30天以上</option>'+
+                        '</select>'+
+                    '</td>'+
+                    '<td></td>'+
+                    '<td class="del"><span>删除</span></td>'+
+                '</tr>';
+	addQuote2.bind("click",function(){
+		if(table2.find("tr").length<=10) table2.append(str2);
+	});
+	
+	//删除报价
+	var delQuote = $(".del span");
+    delQuote.live("click",function(){
+		$(this).closest("tr").remove();
+	});
+});
+</script>

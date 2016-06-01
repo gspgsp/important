@@ -86,8 +86,8 @@ class indexAction extends homeBaseAction{
 		//行情信息
 		$this->quotation = M('info:market')->get_quotation_index();
 		//原油指数
-		$this->oil1=M('info:oilPrice')->get_index('WTI');
-		$this->oil2=M('info:oilPrice')->get_index('布伦特油');
+		$this->oil1=M('info:oilPrice')->get_index('0');
+		$this->oil2=M('info:oilPrice')->get_index('1');
 
 		//2F 大客户报价
 		$this->bigClient=$this->db->model('big_client')->limit(12)->getAll();
