@@ -3,7 +3,7 @@
 /**
  * 自营商城订单
  */
-class selfOrderAction extends homeBaseAction{
+class selforderAction extends homeBaseAction{
 
 	protected $db;
 	public function __init(){
