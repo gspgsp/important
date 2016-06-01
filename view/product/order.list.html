@@ -151,7 +151,7 @@ function onLoadDetail(e){
 		} 
 		if(order_status =='3' || transport_status =='3') return;
 		if(order_status =='2' && transport_status=='2'){
-			s+='<a href="javascript:outStorage('+oid+')">发货</a>|<a href="javascript:transaction('+oid+','+order_type+')">'+'付款'+'</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
+			s+='<a href="javascript:outStorage('+oid+')">发货</a>|<a href="javascript:transaction('+oid+','+order_type+')">'+'收款'+'</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		}
 	}else{   //采购
 		if(order_status =='1' || transport_status =='1'){ //待审核时的操作
