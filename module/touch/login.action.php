@@ -23,7 +23,7 @@ class loginAction extends homeBaseAction
 		if($loginresult['err']!=0) $this->error($loginresult['msg']);
 		//保存登陆成功的日志
 		$info = $this->db->model('customer_contact')->where('mobile='.$username)->getRow();
-		M('user:passport')->loginSuccess($info['user_id'],$chanel=4);
+		M('user:passport')->loginSuccess($info['user_id'],$chanel=3);
 		//保存用户的id
 		$_SESSION['uid'] = $info['user_id'];
 		$this->success('登录成功');
