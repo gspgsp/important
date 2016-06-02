@@ -166,6 +166,13 @@ class customerContactModel extends model{
 	}
 
 	/*
+	 * 根据模糊联系人查出客户ID
+	 */
+	public function getCidByName($name){
+		return $this->where("name like '%$name%'")->select('user_id')->getCol();
+	}
+
+	/*
 	 * 根据联系人ID查出联系人信息
 	 */
 	public function getListByUserid($user_id){

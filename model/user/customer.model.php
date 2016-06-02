@@ -40,7 +40,7 @@ class customerModel extends model{
 	}
 	
 	/**
-	 * 根据模糊联系人 搜索出所有的公司信息
+	 * 根据模糊客户名称 搜索出对应得字段信息
 	 */
 	public function getInfoByCname($c_name,$keyword,$condition='c_id'){
 		$result =  $this->model('customer')->select("$condition")->where("$c_name like '%$keyword%'")->getCol();
