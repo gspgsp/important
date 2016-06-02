@@ -177,6 +177,7 @@ class purchaseAction extends adminBaseAction {
 			$this->assign('f_name',$f_name);
 		}
 		$this->assign('id',$id);
+
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
 		$this->assign('page_title','手动添加采购信息');
 		$this->display('purchase.add.html');
