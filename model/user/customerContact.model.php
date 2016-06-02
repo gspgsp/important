@@ -113,7 +113,6 @@ class customerContactModel extends model{
 				'remark'=>$info['info_remark'],
 				'status'=>$info['info_status'],
 				'is_default'=>1,
-
 			); 
 		}
 		$_data = array(
@@ -134,7 +133,22 @@ class customerContactModel extends model{
 			$result = ($this->model('customer_contact')->where("user_id = ".$info['info_user_id'])->update($info_ext+$data) && $this->model('customer')->where("c_id = ".$info['c_id'])->update($info+$data));
 		}else{
 			// 添加客户和联系人
-			$result = $info['ctype']==1 ? $this->model('customer_contact')->add($info+$_data) : ($this->model('customer_contact')->add($info_ext+$_data) && $this->model('customer')->add($info+$_data+array('contact_id'=>$this->getLastID())));
+			if($info['ctype']==1){
+				$result =  $this->model('customer_contact')->add($info+$_data+array('chanel'=>5,));
+			}else{
+				$this->startTrans();
+					$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>5,));
+					$contact_id = $this->getLastID();
+					$this->model('customer')->add($info+$_data+array('contact_id'=>$contact_id,));
+					$customer_id = $this->getLastID();
+					$this->model('customer_contact')->where("user_id=$contact_id")->update(array('c_id'=>$customer_id,));
+				if($this->commit()){
+					return array('err'=>0,'msg'=>'添加成功');
+				}else{
+					$this->rollback();
+					return array('err'=>1,'msg'=>'数据添加失败');
+				};
+			} 
 		}
 		
 		if($result>0){
