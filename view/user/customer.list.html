@@ -14,6 +14,10 @@
 					{html_options options=$status}
 				</select>
 				{/if}
+				<select name="identification" id="soidentification">
+					<option value="" selected="selected">=认证=</option>
+					{html_options options=$identification}
+				</select>
 				<select name="level" id="soLevel">
 					<option value="" selected="selected">=客户级别=</option>
 					{html_options options=$level}
@@ -43,9 +47,8 @@
 			{if $isPublic neq '1'}
 				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a> 
 				<a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a> 
-			{else}
-				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a>
 			{/if}
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a>
 			 </p>
 			</td>
 			{/if}
@@ -72,8 +75,13 @@
 			<div field="customer_manager" width="40" headerAlign="center"  align="center">交易员</div>
 			<div field="depart" width="30" headerAlign="center"  align="center">部门</div>
 			{if $isPublic eq '1'}
+			<div field="identification" width="40" headerAlign="center" align="center" renderer="identificationStatus">认证</div>
 			<div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' /> 
+			</div>
+			{else}
+			<div field="identification" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">认证
+				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$identification}' /> 
 			</div>
 			{/if}
 			<div field="" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
@@ -124,7 +132,10 @@ function search() {
 function onKeyEnter(e) {
 	search();
 }
-
+function identificationStatus(e) {
+	var record = e.record.identification; //record.id
+	return $("#soidentification").find("option[value="+record+"]").text();
+}
 function onRowDblClick(e) {
 	onEdit();
 }
@@ -150,10 +161,15 @@ function onLoadHandle(e) {
 
 //跟进客户
 function onLoadFllow(e) {
-	var record = e.record,cid=record.c_id, status=record.status,s='';
-	if(status == 2){
-		s += '<a href="javascript:allotO('+cid+')">分配</a>|<a href="javascript:viewFinfo('+cid+')">跟进</a>';
+	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager;
+	if(status == 2 && customer_manager ==''){
+		s += '<a href="javascript:allotO('+cid+')">分配</a>';
+	}else{
+		if(customer_manager !=''){
+			s += '<a href="javascript:viewFinfo('+cid+')">跟进</a>';
+		}
 	}
+
 	return s;
 }
 //打开跟进客户信息页面

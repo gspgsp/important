@@ -8,6 +8,7 @@ class customerAction extends adminBaseAction {
 		$this->assign('status',L('status'));// 联系人用户状态
 		$this->assign('type',L('company_type'));//工厂类型
 		$this->assign('level',L('company_level'));//客户级别
+		$this->assign('identification',L('identification'));//客户级别
 		$this->db=M('public:common')->model('customer');
 		$this->doact = sget('do','s');
 		$this->public = sget('isPublic','i',0);
@@ -71,6 +72,8 @@ class customerAction extends adminBaseAction {
 		if($type!='') $where.=" and type='$type' ";//type 客户类型	
 		$level = sget("level",'s',''); //状态
 		if($level!='') $where.=" and level='$level' ";//level 客户级别
+		$identification = sget("identification",'s',''); //认证
+		if($identification!='') $where.=" and identification='$identification' ";	
 		// 关键词
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
@@ -92,6 +95,7 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
 			$list['data'][$k]['level']=L('company_level')[$v['level']];
 			$list['data'][$k]['depart']=C('depart')[$v['depart']];
+			// $list['data'][$k]['identification']=L('identification')[$v['identification']];//认证
 			$list['data'][$k]['type']=L('company_type')[$v['type']];
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("y-m-d H:i",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
@@ -113,7 +117,8 @@ class customerAction extends adminBaseAction {
 		}
 		foreach($data as $v){
 			$update=array(
-				'status'=>$v['status'],			  
+				'status'=>$v['status'],
+				'identification'=>$v['identification'],
 			);
 			$this->db->wherePk($v['c_id'])->update($update);
 		}

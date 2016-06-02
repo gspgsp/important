@@ -49,8 +49,8 @@ class contactAction extends adminBaseAction {
 		if(!empty($keyword) && $key_type=='name' ){
 			$where.=" and `$key_type`  like '%$keyword%' ";
 		}elseif(!empty($keyword) && $key_type=='c_id'){
-			$keyword=M('user:customer')->getColByName($keyword,$key_type,'c_name');
-			$where.=" and `$key_type`  = '$keyword' ";
+			$keyword=M('user:customer')->getLikeCidByCname($keyword);
+			$where.=" and `$key_type`  in ('$keyword') ";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
