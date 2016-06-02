@@ -8,10 +8,12 @@
 				添加时间    
 				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				{if $isPublic eq '1'}
 				<select name="status" id="soStatus">
 					<option value="" selected="selected">=状态=</option>
 					{html_options options=$status}
 				</select>
+				{/if}
 				<select name="level" id="soLevel">
 					<option value="" selected="selected">=客户级别=</option>
 					{html_options options=$level}
@@ -36,8 +38,15 @@
 			   </form>
 			</td>
 			{if $doact neq 'search'}
+			
 			<td style="float:right;">
-				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a> <a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a> <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a> </p>
+			{if $isPublic neq '1'}
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a> 
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a> 
+			{else}
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a>
+			{/if}
+			 </p>
 			</td>
 			{/if}
 		</tr>
@@ -45,7 +54,7 @@
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-		url="/user/customer/init?action=grid&do={$doact}{if $isSecurity eq '1'}&isSecurity={$isSecurity}{/if}" idField="user_id"  onrowdblclick="onRowDblClick"
+		url="/user/customer/init?action=grid&do={$doact}&isPublic={$isPublic}{if $isSecurity eq '1'}&isSecurity={$isSecurity}{/if}" idField="user_id"  onrowdblclick="onRowDblClick"
 		multiSelect="true" {if $doact neq 'search'}allowCellEdit="true" allowCellSelect="true"{/if}
 		>
 		<div property="columns">    
@@ -61,12 +70,38 @@
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">添加时间</div>
 			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">更新时间</div>
 			<div field="customer_manager" width="40" headerAlign="center"  align="center">交易员</div>
-			<div field="depart" width="50" headerAlign="center"  align="center">部门</div>
+			<div field="depart" width="30" headerAlign="center"  align="center">部门</div>
+			{if $isPublic eq '1'}
 			<div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' /> 
 			</div>
-			<div field="" width="25" headerAlign="center"  align="center" renderer="onLoadFllow">跟进</div>
+			{/if}
+			<div field="" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
+
 		</div>
+	</div>
+</div>
+<div id="allotInfo" class="mini-window" title="分配" style="width:200px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			<tr>
+				<td>分配管理员:</td>
+				<td>
+					<input name="id" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="" allowInput="false"  style="width:100px" id="id"/>
+					<input id="c_id" class="mini-hidden" value="">
+				</td>
+
+			</tr>
+
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitAllot()">保存</a>
+			</td>
+			</tr>
+		</table>
 	</div>
 </div>
 {if $doact eq 'search'}
@@ -93,7 +128,19 @@ function onKeyEnter(e) {
 function onRowDblClick(e) {
 	onEdit();
 }
-
+//分配客户
+function allotView(e){
+	 var record = e.record,s='', cid = record.c_id;
+	
+	 return s;
+}
+//分配客户
+var allotInfo = mini.get("allotInfo");
+var form = new mini.Form("#replaceForm");
+function allotO(cid) {
+mini.get(c_id).setValue(cid)
+	allotInfo.show();
+}
 //编辑联系人
 function onLoadHandle(e) {
 	var record = e.record,uid=record.c_id, s='';
@@ -103,8 +150,10 @@ function onLoadHandle(e) {
 
 //跟进客户
 function onLoadFllow(e) {
-	var record = e.record,uid=record.c_id, s='';
-	s += '<a href="javascript:viewFinfo('+uid+')">'+'跟进'+'</a> ';
+	var record = e.record,cid=record.c_id, status=record.status,s='';
+	if(status == 2){
+		s += '<a href="javascript:allotO('+cid+')">分配</a>|<a href="javascript:viewFinfo('+cid+')">跟进</a>';
+	}
 	return s;
 }
 //打开跟进客户信息页面
@@ -184,6 +233,52 @@ function onEdit(e) {
 			}
 		});	
 	}             
+}
+//分配管理员列表
+function allotCustomer(){
+		var btn = this;
+		mini.open({
+		url: "rbac/adm/init?isPublic=1&do=search",
+		title: "分配客户",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+					// $("#"+btn.id+"\\$value").val(data.name);
+				}
+			}
+		}
+	});
+}
+//提交分配
+function submitAllot(){
+	var cid = mini.get(c_id).getValue();
+	form.validate();
+	if (form.isValid() == false) return;
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			allotInfo.hide();
+		}
+	}
+	utils.ajax('/user/customer/allotCustomer',{data:json,cid:cid},callback,"POST","json");
 }
 //选择框根据传入值选择
 top['win']=window;

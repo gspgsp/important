@@ -111,8 +111,8 @@ mini.parse();
 var form = new mini.Form("#infoForm");
 var cid = mini.get("#usrId").getValue();
 function submitForm(){
-	// form.validate();
-	// if(form.isValid() == false) return;
+	form.validate();
+	if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);

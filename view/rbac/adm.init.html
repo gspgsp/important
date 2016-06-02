@@ -26,7 +26,7 @@
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
-						url="/rbac/adm/init?action=grid"  idField="admin_id" {if $doact neq 'search'}multiSelect="true" allowCellEdit="true" allowCellSelect="true"{/if}
+						url="/rbac/adm/init?action=grid{if $isPublic eq '1'}&isPublic={$isPublic}{/if}"  idField="admin_id" {if $doact neq 'search' && $isPublic neq '1'} multiSelect="true" allowCellEdit="true" allowCellSelect="true"{/if}
 						sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick">
 		<div property="columns">
 			<div type="checkcolumn"></div>
@@ -51,7 +51,7 @@
 		</div>
 	</div>
 </div>
-{if $doact eq 'search'}
+{if $doact eq 'search' || $isPublic eq '1' }
 <div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
 				<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
 				<span style="display:inline-block;width:25px;"></span>

@@ -8,6 +8,8 @@ class admAction extends adminBaseAction {
 		$this->action = sget('action','');
 		$this->db=M('rbac:adm');
 		$this->doact = sget('do','s');
+		$this->public = sget('isPublic','i',0);
+
 	}
 	
 	/**
@@ -23,7 +25,7 @@ class admAction extends adminBaseAction {
 			$sortField = sget("sortField",'s','admin_id'); //排序字段
 			$sortOrder = sget("sortOrder",'s','asc'); //排序
 			$where='1';
-			
+			if( $this->public == 1) $where.= ' and `admin_id` != 1 ';
 			//关键词
 			$key_type=sget('key_type','s','username');
 			$keyword=sget('keyword','s');
@@ -44,6 +46,7 @@ class admAction extends adminBaseAction {
 			$this->json_output($result);
 		}
 		$lock = sget('lock','s');
+		$this->assign('isPublic',1);
 		$this->assign('lock',$lock);
 		$this->depart=C('depart'); //所属部门
 		$this->depart_json=setMiniConfig($this->depart);

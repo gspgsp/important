@@ -45,7 +45,7 @@ class userAction extends adminBaseAction {
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
 		$where=" chanel != 5 ";
-		$this->doact=='search' ? $where.= ' and `login_unlock_time` > 0 ' : $where.=' and `login_unlock_time` = 0';
+		$where.= $this->doact=='search' ?  ' and `login_unlock_time` > 0 ' : ' and `login_unlock_time` = 0';
 		$c_id=sget('c_id','i',0);
 		if($c_id !=0)  $where.=" and `c_id` =".$c_id;
 		//筛选状态

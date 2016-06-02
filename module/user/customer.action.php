@@ -5,8 +5,12 @@
 class customerAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
+		$this->assign('status',L('status'));// 联系人用户状态
+		$this->assign('type',L('company_type'));//工厂类型
+		$this->assign('level',L('company_level'));//客户级别
 		$this->db=M('public:common')->model('customer');
 		$this->doact = sget('do','s');
+		$this->public = sget('isPublic','i',0);
 	}
 
 	/**
@@ -19,10 +23,18 @@ class customerAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$this->assign('status',L('contact_status'));// 联系人用户状态
-		$this->assign('type',L('company_type'));//工厂类型
-		$this->assign('level',L('company_level'));//客户级别
 		$this->assign('page_title','会员列表');
+		$this->display('customer.list.html');
+	}
+	/**
+	 * 公海客户列表
+	 */
+	public function publicCustomer(){
+		$action=sget('action','s');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('isPublic',1);//公海客户标识
 		$this->display('customer.list.html');
 	}
 
@@ -50,8 +62,7 @@ class customerAction extends adminBaseAction {
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','c_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
-		
-		$where=" 1 ";
+		$where = $this->public == 0 ? ' `customer_manager` != 0 ' : ' `customer_manager` = 0 ';
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
 		$status = sget("status",'s',''); //状态
@@ -81,6 +92,7 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("y-m-d H:i",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
 		}
+		$this->assign('isPublic',$this->public);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
 	}
@@ -238,7 +250,21 @@ class customerAction extends adminBaseAction {
 		}
 		$this->success('操作成功');
 	}
-	
+
+	//分配公海客户
+	function allotCustomer(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		$c_id = sget('cid','i',0); //未通过审核的产品ID
+		if($c_id<1) $this->error('错误的分配信息');
+		$_data=array(
+			'input_time'=>CORE_TIME,
+			'input_admin'=>$_SESSION['name'],
+		);
+		$result = $this->db->where(" c_id = '$c_id'")->update($_data+array('customer_manager'=>$data['id']));	
+		if(!$result) $this->error('操作失败');
+		$this->success('操作成功');
+	}
 	//检查唯一性
 	private function _chkUnique($name='mobile',$value=''){
 		$exist=$this->db->model('user')->select('user_id')->where("$name='$value'")->getOne();
