@@ -65,6 +65,8 @@ return array(
 		2=>'已审核',
 		3=>'不通过',
 		4=>'已作废',
+		5=>'待认证',
+		6=>'已认证',
 	),
 	//产品分类
 	'product_type'=>array(
@@ -270,6 +272,16 @@ return array(
 		5=>'天天',
 		6=>'宅急送',
 	),
+	//关注状态
+	'attention_status'=>array(
+		1=>'关注中',
+		2=>'已取消',
+		),
+	//操作
+	'operate'=>array(
+		1=>'取消关注',
+		2=>'重新关注',
+		),
 
 	//商品分类
 	'goods_category'=>array(
