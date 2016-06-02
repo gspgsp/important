@@ -198,18 +198,21 @@ function onCancel(e) {
 function ordChoose(e){
 	var btn = this;
 		mini.open({
-		url: "/product/order/init?do=search&order_type=2",
+		url: "/product/order/init?do=search&order_type=1",
 		title: "选择订单",
 		width: 1250,
 		height: 550,
 		onload: function () {
-			var data=e.sender.getValue();
+			var grid = e.sender;
+			var data=grid.getValue();
 			top['win'].setDvalue(data);  //去调用子页面的方法。
+			// var iframe = this.getIFrameEl();
+			// iframe.contentWindow.SetData(data);
 		},
 		ondestroy: function (action) {
 			if (action == "ok") {
 				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
+				var data = iframe.contentWindow.GetData();//父窗口向子窗口传值
 				data = mini.clone(data);    //必须
 				if (data) {
 					btn.setValue(data.o_id);
@@ -217,7 +220,7 @@ function ordChoose(e){
 				}
 			}
 		}
-	});         
+	});
 }
 //强制选择归属产品
 function proChoose(e){
