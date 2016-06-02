@@ -40,6 +40,8 @@ class testAction extends homeBaseAction{
 	}
 
 	public function test(){
-		
+		$arr = 'a:19:{s:12:"rotatedAngle";N;s:4:"name";a:1:{i:0;s:9:"兰家川";}s:5:"title";a:1:{i:0;s:21:"华东区咨询总监";}s:3:"tel";a:1:{i:0;s:11:"02164752227";}s:6:"mobile";a:1:{i:0;s:11:"13816100037";}s:3:"fax";a:0:{}s:5:"email";a:1:{i:0;s:17:"lanjc@esa20do.com";}s:4:"comp";a:1:{i:0;s:30:"信息科技股份有限公司";}s:4:"dept";a:0:{}s:6:"degree";a:0:{}s:4:"addr";a:1:{i:0;s:47:"上海市衞[区宏润国际花园2号楼501室";}s:4:"post";a:0:{}s:4:"mbox";a:0:{}s:4:"htel";a:0:{}s:3:"web";a:2:{i:0;s:22:"http://www.esa2000.com";i:1;s:22:"http://www.esaysign.cn";}s:2:"im";a:0:{}s:8:"numOther";a:0:{}s:5:"other";a:1:{i:0;s:15:"北京支证通";}s:6:"extTel";a:0:{}}';
+		$arr = unserialize($arr);
+		p($arr);
 	}
 }
