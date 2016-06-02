@@ -36,6 +36,7 @@ class registerModel extends model
 			$user['last_ip']=get_ip();
 			$user['last_login']=CORE_TIME;
 			$user['visit_count']=1;
+			$user['chanel']=3;
 		}
 		//加入数据库
 		$result=$this->model('customer_contact')->add($user);
@@ -123,20 +124,20 @@ class registerModel extends model
         }
         //检查验证码
 		if(!chkVcode('regcode',$vcode)){
-			$this->_loginError(0, $username, 1, '验证码不正确，请重新输入!', 4);
+			$this->_loginError(0, $username, 1, '验证码不正确，请重新输入!', 3);
 			return array('err'=>1,'msg'=>'验证码不正确，请重新输入!');
 		}
 		//手机号匹配用户信息
 		$info = $this->model('customer_contact')->where('mobile='.$username)->getRow();
 		if(empty($info)){
-			$this->_loginError(0, $username, 2, '没有该用户信息，请注册!', 4);
+			$this->_loginError(0, $username, 2, '没有该用户信息，请注册!', 3);
 			return array('err'=>1,'msg'=>'没有该用户信息，请注册!');
 		}else{
 			$password = $this->_getLoginPassword(array('mobile'=>$username,'password'=>$password));//检查密码是否正确
 			if($password != trim($info['password'])){
 				//判断账号是否锁定
 				if($info['login_unlock_time'] > CORE_TIME){
-					$this->_loginError($info['user_id'], $username, 3, '您的账号已被锁定，请稍候再试!', 4);
+					$this->_loginError($info['user_id'], $username, 3, '您的账号已被锁定，请稍候再试!', 3);
 					return array('err'=>1,'msg'=>'您的账号已被锁定，请稍候再试');
 				}
 				//记录密码输入的次数
@@ -148,7 +149,7 @@ class registerModel extends model
 					$msg = '已输错3次密码，账号将锁定4小时';
 				}
 				$this->model('customer_contact')->where('user_id='.$info['user_id'])->update($_data);
-				$this->_loginError($info['user_id'], $username, 4, $msg, 4);
+				$this->_loginError($info['user_id'], $username, 4, $msg, 3);
 				return array('err'=>1,'msg'=>$msg);
 			}
 		}
@@ -164,7 +165,7 @@ class registerModel extends model
 	/**
 	 *用户登录错误日志
 	 */
-	private function _loginError($user_id=0,$mobile='',$err_code=1,$remark='',$chanel=1){
+	private function _loginError($user_id=0,$mobile='',$err_code=1,$remark='',$chanel=3){
 		$_login=array(
 			'user_id'=>$user_id,
 			'mobile'=>$mobile,
