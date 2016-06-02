@@ -66,7 +66,11 @@ class customerAction extends adminBaseAction {
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
 		$status = sget("status",'s',''); //状态
-		if($status!='') $where.=" and status='$status' ";	
+		if($status!='') $where.=" and status='$status' ";
+		$type = sget("type",'s',''); //状态
+		if($type!='') $where.=" and type='$type' ";//type 客户类型	
+		$level = sget("level",'s',''); //状态
+		if($level!='') $where.=" and level='$level' ";//level 客户级别
 		// 关键词
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
