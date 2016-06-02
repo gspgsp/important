@@ -226,6 +226,30 @@ class customerContactModel extends model{
 		return md5('rs.'.$string.'.sr');
 	}
 
-
-	
+	/**
+	 *用户修改个人信息验证规则
+	 */
+	public function checkEditInfo($contact=array()){
+			//固定电话
+			if(!empty($contact['tel'])){
+				if(!is_tel($contact['tel'])){
+					return array('err'=>1,'msg'=>'您的固定电话格式不正确');
+				}
+			}
+			//email检查
+			if(!empty($contact['email'])){
+				if(!is_email($contact['email'])){
+					return array('err'=>1,'msg'=>'email格式不正确');
+				}
+			}
+			//qq检查
+			if(!empty($contact['qq'])){
+				if(strlen($contact['qq'])>16) return  array('err'=>1,'msg'=>'QQ号码长度错误');
+			}
+	}
+	//固定电话验证规则
+	private function is_tel($str){
+	    $pattern = "/^(0(10|21|22|23|[1-9][0-9]{4})(-|))?[1-9]{7,8}$/";
+		return preg_match($pattern,$str);
+	}
 }
