@@ -187,4 +187,22 @@ class userAction extends adminBaseAction {
 		$this->success('操作成功');
 
 	}
+	/**
+	 * 获取地区列表
+	 * @access public 
+	 * @return html
+	 */
+	public function getRegion($pid=0){
+		//地区列表			
+		$regList = M('system:region')->get_allRegions();
+		//print_r($regList);
+		$list = array();
+		$pid = sget('pid','i');
+		foreach($regList as $k=>$v){
+			if($v['pid']==$pid){
+				$list[]=array('id'=> $v['id'],'name' => $v['name']);
+			}
+		}
+		$this->json_output($list);
+	}
 }
