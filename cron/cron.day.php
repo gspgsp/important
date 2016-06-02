@@ -3,7 +3,7 @@
  * 每天凌晨的计划任务
  * Create: Andy@2013-02-16
  */
-#*/1 0 * * * /usr/bin/php
+#59 23 * * * * /usr/bin/php
  
 require_once 'config.php';
 
@@ -34,7 +34,7 @@ class cronDay{
 	 * @access public 
 	 */
 	public function start(){
-		for($i=1,$i<7,$i++){
+		for($i=1;$i<7;$i++){
 			$this->get_plastic_price($i);
 		}
 		$this->get_oil_price();
