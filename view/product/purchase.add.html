@@ -129,7 +129,6 @@ function setReg(name,val){
 }
 function onDeptChanged(deptCombo,positionCombo,val) {
 	var id = deptCombo.getValue();
-
 	positionCombo.setValue("");
 	var url = "/user/user/getRegion?pid=" + id
 	positionCombo.setUrl(url);
