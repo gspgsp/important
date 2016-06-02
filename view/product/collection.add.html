@@ -6,6 +6,7 @@
 		<input class="mini-hidden" name="order_sn"  value="{$order_sn}"/>
 		<input class="mini-hidden" name="uncollected_price"  value="{$uncollected_price}"/>
 		<input class="mini-hidden" name="c_id"  value="{$c_id}"/>
+		<input class="mini-hidden" name="o_id"  value="{$o_id}"/>
 
 			<tr>
 				{if $type =='1'}
@@ -27,10 +28,10 @@
 				{/if}
 				<td><input name="payment_time" class="mini-datepicker" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>销售合同</td>
 				<td><input name="o_id" class="mini-textbox" maxlength="12" value="{$o_id}" style="width:150px;"allowInput="false"/></td>				
-			</tr>
+			</tr> -->
 			{if $total_price}
 			<tr>
 				<td>合同金额</td>

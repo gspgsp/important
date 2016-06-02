@@ -54,10 +54,15 @@ class followAction extends adminBaseAction {
 				$c_id =M('user:customer')->getInfoByCname($key_type,$keyword);
 				$str=implode(',',$c_id);
 				$where.=" and `c_id` in ($str)";
+			}elseif($key_type == 'name'){
+				$user_id =M('user:customerContact')->getCidByName($keyword);
+				$str=implode(',',$user_id);
+				$where.=" and `user_id` in ($str)";
 			}else{
 				$where.=" and $key_type like '%$keyword%'";
 			}
 		}
+
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
