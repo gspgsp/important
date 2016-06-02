@@ -70,6 +70,7 @@ class saleLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
+
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);//根据cid取客户名
 			$list['data'][$k]['order_name']=M("product:order")->getColByName($list['data'][$k]['o_id']);
