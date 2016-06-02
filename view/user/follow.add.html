@@ -1,8 +1,8 @@
 {layout file="public:mini_layout"}
 <div id="admInfo" title="新增客户跟进" style="padding:5px;" showModal="true" allowResize="true" allowDrag="true">
   <div id="addForm" class="form" >
+  		<input class="mini-hidden" name="cid"  value="{$c_id}"/>
 		<table style="width:100%;">
-		<input class="mini-hidden" name="cid"  value="{$c_id}"/>
 			{if $c_id eq 0}
 			<tr>
 				<td>客户名称</td>
