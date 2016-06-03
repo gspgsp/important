@@ -58,7 +58,7 @@ class passportModel extends model{
 		}
 		
 		//查找数据库		
-		$uinfo=$this->model('customer_contact')->where($where)->getRow();
+		$uinfo=$this->where($where)->getRow();
 		if(empty($uinfo)){
 			$this->_loginError(0,$username,2,$password,$chanel);
 			return array('err'=>2,'msg'=>'错误的账号');
@@ -68,10 +68,9 @@ class passportModel extends model{
 		if($uinfo['login_unlock_time'] > CORE_TIME){
 			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
 		}
-
-		//密文 暂时不使用密码盐
-		// $npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
-		$npassword=md5($password);
+		//密文 
+		$npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
+		
 		if($uinfo['password']!==$npassword){
 			$this->_loginError($uinfo['user_id'],$username,3,$password,$chanel);
 
@@ -83,7 +82,7 @@ class passportModel extends model{
 				$_data['login_unlock_time'] = CORE_TIME + 14400;
 				$msg = '已输错5次密码，账号将锁定4小时';
 			}
-			$this->model('customer_contact')->wherePk($uinfo['user_id'])->update($_data);
+			$this->wherePk($uinfo['user_id'])->update($_data);
 			return array('err'=>3,'msg'=>$msg);
 		}
 

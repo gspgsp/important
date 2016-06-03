@@ -211,8 +211,8 @@ class customerContactModel extends model{
 			$where="con.user_id={$user_id}";
 		}
 		$model=$this->from('customer_contact con')
-			->join('customer cus','con.c_id=cus.c_id')
-			->join('admin ad','con.customer_manager=ad.admin_id')
+			->leftjoin('customer cus','con.c_id=cus.c_id')
+			->leftjoin('admin ad','con.customer_manager=ad.admin_id')
 			->where($where)
 			->select('con.user_id,con.name,con.mobile,cus.c_name,ad.name as adname,ad.mobile as admobile');
 		if(is_array($user_id)){

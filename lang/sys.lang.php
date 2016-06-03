@@ -314,6 +314,13 @@ return array(
 		1=>'中晨',
 		2=>'梓晨',
 	),
+
+	//报价上架下状态
+	'shelve_type'=>array(
+		'1'=>'上架',
+		'2'=>'下架',
+	),
+
 	//管理员审批日志
 	'operation_type'=>array(
 		'recharge'=>'充值',
@@ -341,5 +348,6 @@ return array(
 		'reset_passwd'=>'重置用户密码',
 		'reset_paypasswd'=>'重置用户交易密码',
 	),
+
 
 );

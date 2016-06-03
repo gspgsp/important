@@ -4,7 +4,7 @@
  */
 class sysUserModel extends model{
 	public function __construct() {
-		parent::__construct(C('db_default'), 'user');
+		parent::__construct(C('db_default'), 'customer_contact');
 	}
 	
 	/*
@@ -293,201 +293,19 @@ class sysUserModel extends model{
 		if($user_id){
 			$where .= " and user_id !='$user_id'";
 		}
-		$exist=$this->model('user')->select('user_id')->where($where)->getOne();
+		$exist=$this->model('customer_contact')->select('user_id')->where($where)->getOne();
 		return $exist>0 ? false : true;
 	}
 
-	/*
-	 * 检查用户身份唯一性
-	 * @param int $id_type 身份类型:1身份2机构号
-	 * @param string $value 检查值
-     * @return bool（true唯一）
-	 */
-	public function idUnique($id_type=1,$value='',$user_id=0){
-		$where = "id_type='$id_type' and id_card='$value'";
-		if($user_id){
-			$where .= " and user_id !='$user_id'";
-		}
-		$exist=$this->model('user_info')->select('user_id')->where($where)->getOne();
-		return $exist>0 ? false : true;
-	}
 
-	/**
-	 * 更新用户邮箱
-	 * @param int $user_id 
-	 * @param string $email 
-	 */	
-	public function setUserEmail($user_id,$email){
-		$this->where('user_id='.intval($user_id))->update(compact('email'));
-	}
 
-	/**
-	 * 发送激活邮件
-	 * @param  int $user_id 用户ID
-	 * @return bool
-	 */
-	public function sendVerifyEmail($user_id,$email=''){
-		F('encode');
-		load::L('mail');
-		
-		if(is_array($user_id)){ //新注册时
-			$user = $user_id;
-			$user_id = $user['user_id'];
-			$user_name = $user['mobile'];
-		}else{ //登录后
-			$user = $this->getPk($user_id);
-			if(empty($user)) return false;
-			
-			//取用户名
-			$user_info = $this->model('user_info')->getPk($user_id);
-			$user_name = empty($user_info['real_name']) ? $user['mobile'] : $user_info['real_name'];
-			
-			//更新了邮箱：设置为认证中
-			if($user['email'] != $email){
-				$this->model('user')->wherePk($user_id)->update(array('email'=>$email));
 
-				if($user['email'])//修改邮箱，写日志
-					M('user:userLog')->addLog($user_id,'email_modify',$user['email'],$email);
-			}
-			$this->model('user_info')->wherePk($user_id)->update(array('chk_email'=>1));
-		}
-		$email = $email ? $email : $user['email'];
 
-		$verify_key = encrypt(implode('|',array($user_id,'email'=>$email,strtotime('+12 hours'))));
-		$verify_url = APP_URL.'/my/profile/email-verify?'.http_build_query(array('email'=>$email,'key'=>$verify_key));
-		$mail_body = str_replace(array('{NAME}','{VERIFY_URL}'),array($user_name,$verify_url),L('mail_verify_email_body'));
-		
-		return M('system:sysMail')->send($user_id,$email,L('mail_verify_email_subject'),$mail_body,$user_name);
-	}
 	
-	/**
-	 * 银行卡认证通过
-	 * @param  int $user_id 用户ID
-	 * @param  float $amount 认证金额
-	 * @param  string $desc 银行卡号
-	 * @return bool
-	 */
-	public function bankVerify($user_id=0,$amount=0,$desc='',$cardNo=''){
-		//开始处理付款事务
-		$this->startTrans();
-		
-		if($amount>0){
-			$trade_type=1; //交易类型:1充值2提现3投资4转让5还款6担保
-			$db=M('system:sysAccount')->setTrade($trade_type);
-			$log_sn=$db->getLogSn(true);
-			
-			if(empty($desc)){
-				$desc='银行卡认证';	
-			}
-		
-			//总交易流水+101=用户+100手续费+1
-			$account_id=9; //支付对应内帐
-			$db->_trade($user_id,$trade_type,$amount,$desc,'',$account_id);
-	
-			//支付方式对应内帐-101
-			if($account_id>0){
-				$db->_iaccount($account_id,$trade_type,-$amount,$desc);
-			}
-	
-			//用户账户+100
-			$db->_uaccount($user_id,1,$trade_type,$amount,$desc);
-			
-			//用户总资产+100
-			$data=array(
-				'capital'=>"+=".$amount,		
-			);
-			$this->model('uaccount')->where('user_id='.$user_id)->update($data);
-		}
-		
-		//银行卡是否认证过
-		$chk_bank=$this->model('user_info')->select('chk_bank')->where('user_id='.$user_id)->getOne();
-		if($chk_bank<2){
-			$datau = array('chk_bank'=>2);
-			$this->model('user_info')->where('user_id='.$user_id)->update($datau);
-		}
-		
-		if($this->commit()){
-			$msg = sprintf(L('msg_template.bank_verify_success'),$cardNo,$amount);
-			M('system:sysMsg')->sendMsg($user_id,$msg);
-			
-			$msg = sprintf(L('sms_template.bank_verify_success'),$cardNo,$amount);
-			$uinfo=$this->model('user')->select('mobile')->wherePk($user_id)->getRow();
-			M('system:sysSMS')->send($user_id,$uinfo['mobile'],$msg,5);
-			return true;
-		}else{
-			$this->rollback();
-			return false;	
-		}
-	}
 
-	/*
-	 * 设置用户新密码
-     * @access public
-	 * @param int $user_id 用户ID
-	 * @param string $new 新密码
-	 * @param string $old 老密码(输入时需要检验)
-     * @return array(err,msg)
-	 */
-	public function setNewPasswd($user_id=0,$new='',$old=''){
-		if(!empty($old)){ //需校验老密码
-			$uinfo=$this->model('user')->select('password,salt')->wherePk($user_id)->getRow();
-			
-			$password=$this->genPassword($old.$uinfo['salt']);
-			if($password!=$uinfo['password']){
-				return array('err'=>1,'msg'=>'原密码不正确');	
-			}			
-		}
-		
-		//更新密码
-		$salt = randstr(6);
-		$newpassword = $this->genPassword($new.$salt);
-		
-		$data=array(
-			'password'=>$newpassword,		
-			'salt'=>$salt,		
-		);
-		$result=$this->model('user')->wherePk($user_id)->update($data);
-		if($result){
-			return array('err'=>0,'msg'=>'密码更新成功');	
-		}
-		return array('err'=>1,'msg'=>'数据操作失败');	
-	}
 
-	/*
-	 * 设置用户交易密码
-     * @access public
-	 * @param int $user_id 用户ID
-	 * @param string $new 新密码
-	 * @param string $old 老密码(输入时需要检验)
-     * @return array(err,msg)
-	 */
-	public function setPayPasswd($user_id=0,$new='',$old=''){
-		if(!empty($old)){ //需校验老密码
-			$uinfo=$this->model('uaccount')->select('pay_passwd,salt')->wherePk($user_id)->getRow();
-			
-			$password=$this->genPassword($old.$uinfo['salt']);
-			if($password!=$uinfo['pay_passwd']){
-				return array('err'=>1,'msg'=>'原密码不正确');	
-			}			
-		}
-		
-		//更新密码
-		$salt = randstr(6);
-		$newpassword = $this->genPassword($new.$salt);
-		
-		$data=array(
-			'pay_passwd'=>$newpassword,		
-			'salt'=>$salt,		
-		);
-		
-		//已设置交易密码
-		$this->model('user_info')->wherePk($user_id)->update(array('has_paywd'=>1));
-		
-		$result=$this->model('uaccount')->wherePk($user_id)->update($data);
-		if($result){
-			return array('err'=>0,'msg'=>'交易密码更新成功');	
-		}
-		return array('err'=>1,'msg'=>'数据操作失败');	
-	}
+	
+
+	
 }
 ?>
