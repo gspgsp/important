@@ -81,11 +81,7 @@ var getLength = function(str, shortUrl) {
 };
 
 function ll(str,type,isloaction,url){
-    layer.msg(str, {
-            shade: [0.8, '#393D49'],
-            icon: type,
-            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-    }, function(){
+    layer.msg(str,2,type,function(){
       if(isloaction){
         window.location.reload();
       }

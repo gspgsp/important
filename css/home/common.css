@@ -482,7 +482,7 @@ a{ text-decoration:none;}
 .page li{ float:left; width:24px; height:24px; text-align:center; border:1px solid #0e050a; margin:0 10px 0 0;}
 .page li a{ color:#010101; display:block;}
 .page li.on{ background:#a9aaab;}*/
-.page {width:1200px; margin:20px auto; padding:6px 0 0 3px; text-align:center; font-family:Arial; font-size:14px;}
+.page { margin:20px auto; padding:6px 0 0 3px; text-align:center; font-family:Arial; font-size:14px;}
 .page a { background-color:#fff; border:1px solid #D0D0D0; color:#bbbbbb; text-decoration:none;   padding:5px 11px;-moz-border-radius: 3px; -webkit-border-radius:3px; border-radius:3;}
 .page span.current {  background-color:#eb5934; border:1px solid #eb5934; color:#FFFFFF; font-weight:700; margin-right:2px;  padding:5px 11px;-moz-border-radius: 3px; -webkit-border-radius:3px; border-radius:3; }
 .page span.disabled {  background-color:#eb5934; border:1px solid #eb5934; color:#fff; margin-right:2px; padding:5px 11px; -moz-border-radius: 3px; -webkit-border-radius:3px; border-radius:3;}
