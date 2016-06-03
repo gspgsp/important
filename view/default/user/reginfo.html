@@ -1,0 +1,192 @@
+{layout file="public:main_layout"}
+{insert_css files='home/master.css'}
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
+
+<div class="ybbbg">
+	<div class="ybbt">
+		<dl>
+			<dd>
+				<img src="/themes/suliao/images/zuce1.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>注册账号</a></dt>
+		</dl>
+		<dl>
+			<dd>
+				<img src="/themes/suliao/images/zuce2.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>填写注册信息</a></dt>
+		</dl>
+		<dl>
+			<dd>
+				<img src="/themes/suliao/images/zuce3.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>注册完成</a></dt>
+		</dl>
+		<div class="clear"></div>
+	</div>
+	<div class="ycb">
+	    <div class="ycbl">
+			<div class="ycblt">
+				<span class="ybbltl">填写<font style="color:#ee4822;">注册信息</font></span><span class="ybbltr">以下信息全部为必填，请您妥善填写</span>
+				<div class="clear"></div>
+			</div>
+			<div class="ycblb">
+				<form name="validateForm1" class="registerform" action="" method="post">  
+					<label>
+						<span class="ycblba">密码：</span>
+						<input type="password" name="password" datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">设置登录密码!</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">确认密码：</span>
+						<input type="password" name="password2" datatype="*" recheck="password" nullmsg="请再输入一次密码！" errormsg="您两次输入的账号密码不一致！" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请请再输入一次密码！</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">真实姓名：</span>
+						<input type="text" name="name" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请填写您的真实姓名</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">QQ：</span>
+						<input type="text" name="qq" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请填写您的QQ号</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">公司所在地：</span>
+						<select id="s_province" class="ycblbd" onChange="getarea(this)" name="s_province" >
+							<option value="">请选择</option>
+							{foreach from=$area item=value key=key}
+							<option value="{$value.id}">{$value.name}</option>
+							{/foreach}
+						</select>&nbsp;&nbsp;
+						<select id="s_city" class="ycblbd" onChange="getarea(this)" name="s_city" class="suoziawiewfe">
+							<option value="">请选择</option>
+						</select>&nbsp;&nbsp;
+						<select id="s_county" class="ycblbd" name="s_county" class="suoziawiewfe">
+							<option value="">请选择</option>
+						</select>
+						<span class="ycblbj Validform_checktip">请选择公司所在地区</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">已存在公司：</span>
+						<select id="companyed" class="ycblbd" name="companyed" onchange="" >
+						<option>暂未匹配到数据</option>
+						</select>&nbsp;&nbsp;
+						<span class="ycblbj Validform_checktip">您可以选择该地区下已存在的公司</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">公司名称：</span>
+						<input type="text" id="company" name="c_name" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">填写所属公司名称</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">主营品种：</span>
+						<input type="text" id="hangye" name="need_product" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请填写公司主营品种</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">公司简介：</span>
+						<textarea name="com_intro" id="intro" class="yjb" style="height:100px;width:335px"></textarea>
+					</label>
+					<br/>
+					<br/>
+					<span class="ycblba">企业类型：</span>
+					{foreach from=$type item=value key=key}
+					<input type="radio" {if $key==1}checked{/if} id="radio1" value="{$key}" name="type" class="radio">{$value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					{/foreach}
+					<span class="ycblbj">&nbsp;</span>
+					<div class="clear"></div>
+					<input type="submit" class="ycblbi" value="注册完成" />
+				</form>
+			</div>
+	    	<div class="clear"> </div>
+	    </div>
+		<div class="ycbr">
+			<div class="ycbra">
+			注册<font style="color:#3398da">提示！</font>
+			</div>
+			<div class="ycbrb">
+			请妥善填写注册信息，注册完成并通过审核后某些信息可以在会员中心进行更改。
+			</div>
+			<p class="ybbre">全国免费服务热线：<font style="color:#ee4822;">400-6129-965</font><br />
+			客服时间：9:00-17:00</p>
+			<div class="clear"></div>
+		</div>
+	    <div class="clear"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$(".registerform").Validform({
+		tiptype:function(msg,o,cssctl){
+			if(!o.obj.is("form")){
+				var objtip=o.obj.siblings(".Validform_checktip");
+				cssctl(objtip,o.type);
+				objtip.text(msg);
+			}
+		}
+	});
+
+	$("#s_county").change(function(){
+		var cid=$(this).val();
+		
+	})
+})
+
+function getarea(that){
+	var pid=$(that).val();
+	$.get('/api/region',{region_id:pid},function(data){
+		if(data.length){
+			console.log(data);
+			var html='<option value="">请选择</option>';
+			$(data).each(function(k,v){
+				html+='<option value="'+v.id+'">'+v.name+'</option>';
+			});
+			$(that).nextAll('select').html('<option value="">请选择</option>');
+			$(that).next('select').html(html);
+		}else{
+			$(that).nextAll('select').html('<option value="">请选择</option>');
+		}
+	},'json');
+}
+  function checkcompany(){
+      var company = $("#companyed").val(); 
+      if(company){
+            $.ajax({ 
+              type: 'POST', 
+              url: "", 
+              data: {company:company},
+              dataType:'json', 
+              beforeSend:function(){ 
+
+              }, 
+              success:function(json){ 
+                    $("#company").val(json.company);
+                    $("#intro").val(json.intro);
+                    $("#hangye").val(json.hangye);
+                    m = parseInt(json.membertype)-1;
+                    $("input[name=membertype]:eq("+m+")").attr("checked",'checked');
+              }, 
+              error:function(){ 
+                  // alert("数据加载失败"); 
+              } 
+          }); 
+      }else{
+            $("#company").val('');
+            $("#intro").val('');
+            $("#hangye").val('');
+      }
+      
+  }
+</script>

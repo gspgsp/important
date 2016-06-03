@@ -88,7 +88,6 @@ class indexAction extends homeBaseAction{
 			}
 		}
 		//筛选条件结束
-
 		//报价周期
 		$period=L('period');
 		$this->assign('period',$period);

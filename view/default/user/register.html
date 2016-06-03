@@ -1,108 +1,172 @@
 {layout file="public:main_layout"}
-{insert_css files='public_new.css'}
-{insert_js files='jquery/jquery.validtip.js,passport.js?1104'}
-<div style="width:950px; margin:0 auto">
-<div class="ht20"></div>
+{insert_css files='home/master.css'}
 
-  <div class="tit_box border_b">
-	<h3 class="f18 fbold" style="float:left">用户注册</h3>
-    <span style="float:left; margin:3px 0 0 20px; color:#000">注册完成即可获得 <span class="c_orange">20元</span> 红包奖励，可作为现金投资</span>
-	</div>   
-	<div class="ht20"></div>
-	<div class="RegForm">
-        <form method="post" action="/user/register/submit" class="regform" id="regform" autocomplete="off">
-        {if $ftoken}<input type="hidden" name="{$ftoken.name}" value="{$ftoken.value}">{/if}
-            <div class="notice-box">
-            	<div id="notice">
-					<i class="IconBasic Info"></i><span>请填写真实信息完成注册，开启您的投资之旅！</span>
-				</div>
+<div class="ybbbg">
+	<div class="ybbt">
+		<dl>
+			<dd>
+				<img src="/themes/suliao/images/zuce1.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>注册账号</a></dt>
+		</dl>
+		<dl>
+			<dd>
+				<img src="/themes/suliao/images/zuce2.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>填写注册信息</a></dt>
+		</dl>
+		<dl>
+			<dd>
+				<img src="/themes/suliao/images/zuce3.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>注册完成</a></dt>
+		</dl>
+		<div class="clear"></div>
+	</div>
+	<div class="ybb">
+	    <div class="ybbl">
+			<div class="ybblt"> 
+				<span class="ybbltl">注册
+					<font style="color:#ee4822;">新的账号</font>
+				</span>
+				<span class="ybbltr">
+				请填写手机号作为账号使用，并保持您的手机畅通
+				</span>
+				<div class="clear"></div>
 			</div>
-			<ul>
-			    <li>
-					<div class="pure-box">
-						<i class="InputIcon mobile">&nbsp;</i>
-						<input type="text" id="regInputMobile" name="mobile" tiprule="mobile" tipdef="请输入您的手机号码" tipnull="请输入您的手机号码" tiperr="您输入的手机号码格式不正确！" tipajax="/user/register/chkmobile" class="rtext" maxlength="11" tabindex="1" />
-		                <i class="IconBasicSuccessSingle" style="display:none;"></i>
-					</div>
-				</li>
-				{if $reg_vcode}
-                <li>
-					<div class="pure-box">
-					<i class="InputIcon validate">&nbsp;</i>
-						<input class="rtext" maxlength="4" id="regInputVcode" style="width:120px;" type="text" name="regcode" tipdef="请输入图形验证码" tiperr="请输入正确的验证码" tiprule="*4" tipajax="/api/vcode/chkVcode" tabindex="2" />
-					</div>
-					<div class="IdentifyingCode"><img src="/api/vcode?name=regcode" width="74" height="31" id="vcodeImg" class="vImgchange" name="regcode" /></div>
-					<a href="javascript:;" class="vImgchange ChangeCode auth">看不清？换一张</a>
-				</li>
-                {/if}   
-				  <li>
-					<div class="pure-box">
-					  <i class="InputIcon validate">&nbsp;</i>
-						<input class="rtext" maxlength="6" id="mobileVcode" style="width:120px" autocomplete="off" type="text" name="regmcode" tiprule="*6-20" tiperr="请输入手机动态码" tipdef="请输入手机动态码" tabindex="4" />
-                      <button class="MessageCodeGray" disabled="disabled" type="button" style="width:160px; float:left; margin-left:12px;" id="sendRegSms" tabindex="3">发送手机动态码</button>
-				    </div>
-				  </li>
-                  <li>
-					<div class="pure-box">
-					  <i class="InputIcon password">&nbsp;</i>
-					  <input type="password" autocomplete="off" name="loginpass" id="reg_password" tiprule="passwd" placeholder="请设置登录密码" tipnull="请填写密码" tiperr="密码最少8个字符，不得超过20个字符" plugin="passwordStrength" class="rtext" tabindex="5" />
-				    </div>
-			    </li>
-				<li class="li-pw-strength">
-					<div class="pure-box">
-						<div class="f_left f12">密码强度：</div>
-						<div class="strength-box low mid high">
-							<b class="strength-step">
-								<b class="step-1"></b>
-								<b class="step-2"></b>
-								<b class="step-3"></b>
-                            </b>
-                        </div>
-					</div>
-				</li>
-				<li>
-					<div class="pure-box">
-					<i class="InputIcon password">&nbsp;</i>
-					<input class="rtext" maxlength="16" type="password" autocomplete="off" name="verifypass" id="reg_repassword" recheck="loginpass" tiprule="*6-18" placeholder="请再次输入登录密码" tipnull="请输入确认密码" tiperr="密码与确认密码不一致" tabindex="6" />
-					</div>
-				</li>     
-				<li>
-					<div class="pure-box">
-					<i class="InputIcon invite">&nbsp;</i>
-						<input type="text" id="invite_code" name="invite_code" style="width:120px" maxlength="10" class="rtext"{if $invite_code eq ''} tipdef="邀请码"{/if} value="{$invite_code}" tabindex="7" /> 
-                        <span class="ChangeCode">（非必填项，区分大小写）</span>
-                        <i class="dot_tip" style="margin-top:10px;">
-                <div class="topop"></div>
-                <div class="pop">1、通过邀请码邀请好友加入{$sys.site_name，将获得30元红包奖励（好友完成注册时，获得10元；好友完成一笔投资后将再获得20元），同时好友本人在完成注册后，也会获得20元奖励。<br />2、网站上带有&nbsp;<i class="icon_prize" title="此项目在完成投资后，推荐人将获得一定比例的现金奖励！"></i>的项目满标后两个工作日内，邀请人还将获得好友投资金额一定比例的现金奖励。</div>
-              </i>
-					</div>
-				</li>
-				<li>
-					<div class="pure-box">
-					<label><input checked="checked" class="vm" type="checkbox" tiprule="check" tiperr="请阅读并接受《用户协议》"  value="1" /> 我已经阅读并接受</label><a href="/agreement/register" target="_blank">《用户协议》</a>
-                  </div>
-				</li>  
-				<div class="ht5"></div>
-				<li class="li-btn">
-				    <button class="ui-button-red" style="width:160px; float:left" type="submit" id="btnRegSubmit" tabindex="8">确认</button>
-				  <div style="float:left; margin:10px 0 0 24px; font-size:12px">已有账号？</span><a class="auth" href="/user/login">直接登录</a></div>
-				</li>
-				<div class="ht15"></div>
-				<div class="notice-box">
-					<div><i class="IconBasic Safe"></i><span>您的信息已使用SSL加密技术，数据传输安全</span></div>
-				</div> 
-				<div class="ht15"></div>
-			</ul>
-        </form>
-    </div>
-            
-    <div class="RegRight">
-    	<div class="RegPic01"></div>
-    </div>
+			<div class="ybblb">
+				<form name="validateForm1" class="registerform" onsubmit="return checkForm();" action="/user/register/reg" method="post">  
+					<label>
+						<span class="ybblba">手机号：</span>
+						<input type="text" name="phone" id="phone" class="ybblbb" />
+					<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ybblba">验证码：</span>
+						<input type="text" name="regcode" id="imgcode" class="ybblbb" />
+						<img width="70" height="38" src="/api/vcode?name=regcode" onclick="this.src=this.src+'&t='+Math.random()" alt="看不清，点击刷新" title="看不清，点击刷新" style="cursor:pointer;float:left;" id="verifyImage" />
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ybblba">短信验证码：</span>
+						<input type="text" name="code" id="code" class="ybblbd" />
+						<span class="ybblbe">
+							<input type="button" onclick="sendphonecode()" id="sendphone" class="ybblbf" value="免费获取短信验证码" />
+						</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<input name="xieyi" type="checkbox" id="xieyi" checked  value="1" class="ybblbh" />
+						<span class="ybblbg">已阅读《我的塑料网用户服务协议》</span>
+					</label>
+					<input type="submit" class="ybblbi" value="同意协议并继续" />
+				</form>
+			</div>
+	    	<div class="clear"></div>
+	    </div>
+		<div class="ybbr">
+			<div class="ybbra">
+			已有<font style="color:#3398da">我的塑料网账号？</font>
+			</div>
+			<div class="ybbrb">
+			登录我的塑料网，可以免费上传报价单，查看行业采购需求，更可免费享受我们提供的撮合交易服务。
+			</div>
+			<p class="ybbrc"><a href="/user/login">立即登录</a></p>
+			<p class="ybbrd">
+				<img src="/themes/suliao/images/qq.png" width="20" height="22" /><a href="">使用QQ账号登录</a>
+				<div class="clear"></div>
+			</p>
+			<p class="ybbre">全国免费服务热线：<font style="color:#ee4822;">400-6129-965</font><br />
+			客服时间：9:00-17:00</p>
+			<div class="clear"></div>
+		</div>
+	    <div class="clear"></div>
+	</div>
 </div>
+
 <script type="text/javascript">
-ssrong.passport.register();
-{if $reg_vcode}
-ssrong.passport.vcode();
-{/if}
+var wait=1;
+function time(o) {
+	var o =  document.getElementById(o)
+	if (wait == 0) {
+		// $('#sendphone').removeAttr("onclick");
+		$('#sendphone').attr("onclick","sendphonecode()"); 
+		$("#sendphone").val("免费获取验证码");
+		wait = 1;
+	} else {
+		$('#sendphone').removeAttr("onclick");
+		$("#sendphone").val("重新发送(" + wait + ")");
+		wait--;
+		setTimeout(function() {
+			time(o)
+		}, 1000)
+	}
+}
+
+function sendphonecode(){  
+	var e = $("#phone").val();
+	regcode = $("#imgcode").val();
+	if(!regcode){
+		ll("请先填写正确的图片验证码！",2)
+		return false;
+	}  
+	if(e){
+		time('sendphone');  
+		$.ajax({ 
+			type: 'POST', 
+			url: "/user/register/sendmsg", 
+			data: {'mobile':e,'regcode':regcode}, 
+			dataType:'json', 
+		beforeSend:function(){ 
+			// $("#sendphone").val("正在发送...");//显示加载动画 
+		}, 
+		success:function(data){ 
+			if(data.err==0 ){
+				ll("发送成功！",1)
+				// $("#sendphone").val("发送成功");//显示加载动画 
+				$('#sendphone').removeAttr("onclick");
+			}else if(data.err > 0){
+				ll(data.msg,2)
+				// $("#sendphone").val("再次发送");//显示加载动画 
+			}else{
+				ll("发送失败！",2)
+				$('#sendphone').removeAttr("onclick");
+				// $("#sendphone").val("发送失败");//显示加载动画 
+			}
+		}, 
+		error:function(){ 
+			alert("数据加载失败"); 
+		} 
+		}); 
+	}else{
+			ll("请填写手机号码！",2)
+	}
+}
+
+function checkForm(){
+	var phone = $.trim($('#phone').val());
+	var imgcode = $.trim($('#imgcode').val());
+	var code = $.trim($('#code').val());
+	var xieyi = $("input[name='xieyi']").is(':checked');
+	if(phone==""){
+		ll('手机号不能为空！',2)
+		$('#phone').focus();
+		return false;
+	}
+	if(imgcode==""){
+		ll('验证码不能为空！',2)
+		$('#imgcode').focus();
+		return false;
+	}
+	if(code==""){
+		ll('短信验证码不能为空！',2)
+		$('#code').focus();
+		return false;
+	}
+	if(xieyi==false){
+		ll('请阅读用户服务协议！',2)
+		$('#xieyi').focus();
+		return false;
+	}
+}     
 </script>

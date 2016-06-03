@@ -1,0 +1,178 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_css files='home/jquery.page.css'}
+{insert_js files='home/tab.js'}
+{insert_js files='home/jquery.page.js'}
+<style type="text/css">
+	.requires{border:1px solid red !important;}
+	.w20{width:25px !important;}
+</style>
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-采购管理</h3>
+         <!--filter begin-->
+        <div class="filter">
+        	<form id="filterForm">
+				<!--filter-top begin-->
+				<div class="filter-top">
+					<!--query begin-->
+				    <div class="query flt">
+				    	<input type="text" name="keyword" placeholder="牌号，厂家" class="import flt"/>
+				        <input type="submit" value="订单查询" class="submit flt"/>
+				        <input type="hidden" id="page" name="page" value="1">
+				    </div>
+				    <!--query end-->
+				    <div class="other hide flt">订单筛选条件</div>
+				</div>
+				<!--filter-top end-->
+				<!--filter-bot begin-->
+				<div class="filter-bot hide">
+					<table border="1">
+				        <tr>
+				            <td>品种：</td>
+				            <td>
+				            	<select name="product_type">
+				                	<option value="">全部</option>
+				                	{foreach from=$product_type item=value key=key}
+									<option value="{$key}">{$value}</option>
+									{/foreach}
+				                </select>
+				            </td>
+							<td>状态：</td>
+							<td>
+								<select name="shelve_type">
+									<option value="">全部</option>
+									{foreach from=$shelve_type item=value key=key}
+									<option value="{$key}">{$value}</option>
+									{/foreach}
+								</select>
+							</td>
+							<td>现货期货：</td>
+							<td>
+								<select name="cargo_type">
+									<option value="">全部</option>
+									{foreach from=$cargo_type item=value key=key}
+									<option value="{$key}">{$value}</option>
+									{/foreach}
+							    </select>
+							</td>
+				        </tr>
+				    </table>
+				</div>
+				<!--filter-bot end-->
+        	</form>
+        	
+        </div>
+        <!--filter end-->
+        <!--con-tabe-1 begin-->
+        <div id="con-tabe-1" class="con-tabe">
+        	<!--opt begin-->
+            <div class="opt">
+                <ul>
+                    <li id="reshelf">重新上架</li>
+                    <li id="offshelf">下架</li>
+                </ul>
+            </div>
+            <!--opt end-->
+            <form id="listForm">
+            	<div id="table_box">
+            	
+            	</div>
+            </form>
+        </div>
+        <!--con-tabe-1 end-->
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(function(){
+	//下架
+	$("#offshelf").click(function(){
+		var mid=[];
+		var chObj=$(".checkb");
+		chObj.each(function(k,v){
+			if($(this).is(':checked')){
+				mid.push($(v).val());
+			}
+		});
+		if(!mid.length){
+			alert('请勾选要操作的信息');
+			return;
+		}
+		console.log(mid);
+		$.post('/user/mypurchase/offshelf',{ids:mid},function(data){
+			if(data.err==0){
+				filterForm.submit();
+				alert(data.msg);
+			}
+		},'json');
+	});
+	var listForm=$("#listForm");
+
+	$("#reshelf").click(function(){
+		var mid=[];
+		var chObj=$(".checkb");
+		chObj.each(function(k,v){
+			if($(this).is(':checked')){
+				mid.push($(v).val());
+			}
+		});
+		if(!mid.length){
+			alert('请勾选要操作的信息');
+			return;
+		}
+		var data=listForm.serialize();
+		console.log(data);
+		$.post('/user/mypurchase/reshelf',data,function(data){
+			if(data.err==0){
+				filterForm.submit();
+				alert(data.msg);
+			}else{
+				window.location.reload();
+			}
+		},'json');
+	});
+
+	
+	$("#table_box").load('/user/mypurchase/tables');
+	var filterForm=$("#filterForm");
+	filterForm.on('submit',function(){
+		var data=filterForm.serialize();
+		$("#table_box").load('/user/mypurchase/tables',data);
+		return false;
+	});
+
+	filterForm.find('select').change(function(){
+		filterForm.submit();
+	});
+
+	// listForm.
+
+
+	$("#all2").live('change',function(){
+		if($(this).is(':checked')){
+			$('.checkb').attr('checked',true);
+		}else{
+			$('.checkb').attr('checked',false);
+		}
+	});
+
+	var other = $(".filter .other"),
+		filterBot = $(".filter .filter-bot");
+	other.bind("click",function(){
+		if($(this).hasClass("show")){
+			$(this).removeClass("show").addClass("hide");
+			filterBot.addClass("hide");
+		}
+		else{
+			$(this).removeClass("hide").addClass("show");
+			filterBot.removeClass("hide");
+		}
+	});
+})
+</script>
+

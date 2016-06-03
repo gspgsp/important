@@ -15,9 +15,11 @@ class talkAction extends homeBaseAction{
 		if($data['type']!=2) $this->forward('/offers');
 
 		$contact=M('user:customerContact')->getContactByuserid($data['user_id']);
+		if(!$contact) $contact=array();
 		//产品类型
 		$product_type=L('product_type');
 		$data['product_type']=$product_type[$data['product_type']];
+
 		$data=$data+$contact;
 		$this->assign('data',$data);
 		$this->display('talk.html');

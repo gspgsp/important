@@ -15,8 +15,8 @@
     </ul>
     <h2 class="buy">我的求购</h2>
     <ul>
-        <li><a href="javascript:;">求购发布</a></li>
-        <li><a href="javascript:;">求购管理</a></li>
+        <li {if $act=='mypurchase'}class="hover"{/if}><a href="/user/mypurchase">求购发布</a></li>
+        <li {if $act=='lists'}class="hover"{/if}><a href="/user/mypurchase/lists">求购管理</a></li>
     </ul>
     <h2 class="finance">财务中心</h2>
     <ul>

@@ -78,6 +78,7 @@ class indexAction extends homeBaseAction{
 			$list[$key]['unit_price']=floatval($value['unit_price']);
 		}
 
+
 		$this->assign('list',$list);
 		$this->display('index');
 	}
