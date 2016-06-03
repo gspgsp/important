@@ -186,14 +186,15 @@ class customerAction extends adminBaseAction {
 		$info=$this->db->model('customer')->getPk($c_id);//查询公司信息
 		if($info['origin']){
 			$areaArr = explode('|', $info['origin']);
-			$info['company_province'] = $areaArr[1];
-			$info['company_city']=$areaArr[0];
+			$info['company_province'] = $areaArr[0];
+			$info['company_city']=$areaArr[1];
 		}
 		if(empty($info)) $this->error('错误的公司信息');
 		// 根据公司查询联系人信息
 		$info_ext = $this->db->model('customer_contact')->getPk($info['contact_id']);
 		$this->assign('info_ext',$info_ext); //分陪l联系人信息
 		$this->assign('ctype',3);
+		// p(arrayKeyValues(M('system:region')->get_regions(1),'id','name'));
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
 		$this->assign('type',L('company_type'));//工厂类型
 		$this->assign('level',L('company_level'));//客户类别
@@ -201,6 +202,7 @@ class customerAction extends adminBaseAction {
 		$this->assign('credit_level',L('credit_level'));//信用等级
 		$this->assign('sex',L('sex'));// 性别
 		$this->assign('status',L('contact_status'));// 联系人用户状态
+		// p($info);die;
 		$this->assign('user',$info); //分陪公司信息
 		$this->display('company.info.html');
    	}
