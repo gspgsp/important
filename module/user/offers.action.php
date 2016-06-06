@@ -32,7 +32,7 @@ class offersAction extends homeBaseAction{
 	}
 
 
-//报价发布
+    //报价发布
 	public function pub()
 	{
 
@@ -47,9 +47,8 @@ class offersAction extends homeBaseAction{
 			$model=$this->db->from('product p')
 				->join('factory f','p.f_id=f.fid');
 			$data=saddslashes($data);
-
 			foreach ($data as $key => $value) {
-
+				p($data);die;
 				//是否已有该产品
 				$where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
 				$pid=$model->where($where)->select('p.id')->getOne();
