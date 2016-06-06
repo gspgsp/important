@@ -48,7 +48,6 @@ class offersAction extends homeBaseAction{
 				->join('factory f','p.f_id=f.fid');
 			$data=saddslashes($data);
 			foreach ($data as $key => $value) {
-				p($data);die;
 				//是否已有该产品
 				$where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
 				$pid=$model->where($where)->select('p.id')->getOne();
