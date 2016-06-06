@@ -21,9 +21,10 @@
 	        	        	<select name="status">
 	        	            	<option value="">全部</option>
 	        	            	{foreach from=$msg_status item=value key=key}
+
 	        	                <option {if $key==$is_read}selected{/if} value="{$key}">{$value}</option>
 	        	                {/foreach}
-	        	            </select>
+							</select>
 	        	        </td>
 	        	        <td>类型：</td>
 	        	        <td>
