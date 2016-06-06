@@ -10,7 +10,7 @@
 <div class="user-wrap w1220">
     {include file="public:user_left"}
     <div class="right frt">
-    	<h3>个人中心-求购发布</h3>
+    	<h3>个人中心-{$name}</h3>
         <ul class="tabe">
         	<li id="tabe1" onmouseover="setTab('tabe',1,2)" class="hover" style="border-left:1px solid #e6e7ea;"><p>现货</p><span></span></li>
             <li id="tabe2" onmouseover="setTab('tabe',2,2)"><p>期货</p><span></span></li>
@@ -20,8 +20,10 @@
         	<form class="purchaseForm">
 	            <div class="opt">
 	                <ul>
-	                    <li class="add-quote-1">添加报价</li>
+	                    <li class="add-quote-1">添加</li>
+	                    {if $type==2}
 	                    <li>Excel批量导入报价</li>
+	                    {/if}
 	                </ul>
 	            </div>
 
@@ -48,7 +50,14 @@
 	                    </td>
 	                    <td><input type="text" class="required" name="data[0][model]" value=""/></td>
 	                    <td><input type="text" class="required" name="data[0][f_name]" value=""/></td>
-	                    <td>重包</td>
+	                    <td>
+							<select class="required" class="required" name="data[0][process_level]">
+								<option value="">请选择</option>
+								{foreach from=$process_level item=value key=key}
+								<option value="{$key}">{$value}</option>
+								{/foreach}
+							</select>
+	                    </td>
 	                    <td><input type="text" class="required" name="data[0][number]" value=""/></td>
 	                    <td><input type="text" class="required" name="data[0][price]" value=""/></td>
 	                    <td>
@@ -71,7 +80,8 @@
 	            </table>
 	            <div class="btn">
 	            	<input type="hidden" name="cargo_type" value="1">
-	            	<input type="submit" value="求购发布" class="release"/>
+	            	<input type="hidden" name="type" value="{$type}">
+	            	<input type="submit" value="发布" class="release"/>
 	            </div>
         	</form>
 
@@ -83,8 +93,10 @@
         	<form class="purchaseForm">
 	            <div class="opt">
 	                <ul>
-	                    <li class="add-quote-2">添加报价</a></li>
+	                    <li class="add-quote-2">添加</a></li>
+	                    {if $type==2}
 	                    <li>Excel批量导入报价</li>
+	                    {/if}
 	                </ul>
 	            </div>
 	            <!--opt end-->
@@ -112,7 +124,14 @@
 	            	    </td>
 	            	    <td><input type="text" class="required" name="data[0][model]" value=""/></td>
 	            	    <td><input type="text" class="required" name="data[0][f_name]" value=""/></td>
-	            	    <td>重包</td>
+	            	    <td>
+							<select class="required" class="required" name="data[0][process_level]">
+								<option value="">请选择</option>
+								{foreach from=$process_level item=value key=key}
+								<option value="{$key}">{$value}</option>
+								{/foreach}
+							</select>
+	            	    </td>
 	            	    <td><input type="text" class="required" name="data[0][number]" value=""/></td>
 	            	    <td><input type="text" class="required" name="data[0][price]" value=""/></td>
 	            	    <td>
@@ -142,7 +161,8 @@
 	            </table>
 	             <div class="btn">
 		            <input type="hidden" name="cargo_type" value="2">
-	            	<input type="submit" value="求购发布" class="release"/>
+	            	<input type="hidden" name="type" value="{$type}">
+	            	<input type="submit" value="发布" class="release"/>
 	            </div>
         	</form>
         </div>
@@ -161,7 +181,14 @@
 	    </td>
 	    <td><input type="text" class="required" name="data[<%=data%>][model]" value=""/></td>
 	    <td><input type="text" class="required" name="data[<%=data%>][f_name]" value=""/></td>
-	    <td>重包</td>
+	    <td>
+			<select class="required" class="required" name="data[<%=data%>][process_level]">
+				<option value="">请选择</option>
+				{foreach from=$process_level item=value key=key}
+				<option value="{$key}">{$value}</option>
+				{/foreach}
+			</select>
+	    </td>
 	    <td><input type="text" class="required" name="data[<%=data%>][number]" value=""/></td>
 	    <td><input type="text" class="required" name="data[<%=data%>][price]" value=""/></td>
 	    <td>

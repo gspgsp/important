@@ -21,7 +21,7 @@
     	<td>{:setOption|product_type,$value.product_type}</td>
         <td>{$value.model}</td>
         <td>{$value.f_name}</td>
-        <td>重包</td>
+        <td>{:setOption|process_level,$value.process_type}</td>
         <td><input type="text" name="data[{$value.id}][num]" value="{:floatval|$value.number}"/></td>
         <td><input type="text" name="data[{$value.id}][price]" value="{:floatval|$value.unit_price}"/></td>
         <td>{:setOption|bargain,$value.bargain}</td>

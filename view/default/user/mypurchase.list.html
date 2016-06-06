@@ -12,7 +12,7 @@
 <div class="user-wrap w1220">
     {include file="public:user_left"}
     <div class="right frt">
-    	<h3>个人中心-采购管理</h3>
+    	<h3>个人中心-{$name}</h3>
          <!--filter begin-->
         <div class="filter">
         	<form id="filterForm">
@@ -23,6 +23,7 @@
 				    	<input type="text" name="keyword" placeholder="牌号，厂家" class="import flt"/>
 				        <input type="submit" value="订单查询" class="submit flt"/>
 				        <input type="hidden" id="page" name="page" value="1">
+				        <input type="hidden" id="" name="type" value="{$type}">
 				    </div>
 				    <!--query end-->
 				    <div class="other hide flt">订单筛选条件</div>
@@ -138,7 +139,7 @@ $(function(){
 	});
 
 	
-	$("#table_box").load('/user/mypurchase/tables');
+	$("#table_box").load('/user/mypurchase/tables',{type:"{$type}"});
 	var filterForm=$("#filterForm");
 	filterForm.on('submit',function(){
 		var data=filterForm.serialize();

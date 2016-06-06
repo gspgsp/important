@@ -14,28 +14,33 @@ class mypurchaseAction extends homeBaseAction{
 	public function init()
 	{
 		$this->act='mypurchase';
+		$this->name="求购发布";
+		$this->type=1;
+		
 		$this->product_type=L('product_type');//产品类型
 		$this->period=L('period');//期货周期
-		$this->area=M('system:region')->get_regions(1);
+		$this->process_level=L('process_level');//加工级别
+		$this->area=M('system:region')->get_regions(1);//地区
 		$this->display('mypurchase');
 	}
 
 	// 我的采购列表
 	public function lists()
 	{
-		$this->act="lists";
+		$this->act="purchaselist";
+		$this->type=1;
+		$this->name="采购管理";
 		$this->product_type=L('product_type');//产品类型
 		$this->shelve_type=L('shelve_type');//上下架状态
 		$this->cargo_type=L('cargo_type');//现货期货
-
-
 		
 		$this->display('mypurchase.list');
 	}
 
 	public function tables()
 	{
-		$where="pur.user_id=$this->user_id and type=1";
+		$type=sget('type','i',1);
+		$where="pur.user_id=$this->user_id and type=$type";
 
 		if($keyword=sget('keyword','s','')){
 			$where.=" and (pro.model='{$keyword}' or fa.f_name='{$keyword}')";
@@ -56,8 +61,7 @@ class mypurchaseAction extends homeBaseAction{
 		// p($list);
 		$this->assign('list',$list);
 		$this->assign('page',$page);
-		$this->assign('count',$list['count']/$size);
-
+		$this->assign('count',ceil($list['count']/$size));
 		$this->display('mypurchase.table');
 	}
 
@@ -83,14 +87,29 @@ class mypurchaseAction extends homeBaseAction{
 		{
 			$model=$this->db->model('purchase');
 			foreach ($data as $key => $value) {
-				$_data=array(
-					'input_time'=>CORE_TIME,
-					'update_time'=>CORE_TIME,
-					'shelve_type'=>1,
-					'number'=>$value['num'],
-					'unit_price'=>$value['price'],
-				);
-				$model->where("user_id=$this->user_id and id=$key")->update($_data);
+				// if($value['on']){
+				// 	$_data=array(
+				// 		'input_time'=>CORE_TIME,
+				// 		'update_time'=>CORE_TIME,
+				// 		'shelve_type'=>1,
+				// 		'number'=>$value['num'],
+				// 		'unit_price'=>$value['price'],
+				// 	);
+				// 	$model->where("user_id=$this->user_id and id=$key")->update($_data);
+				// }
+				if($value['on']){
+					$_data=$model->getPk($value['on']);
+					unset($_data['id']);
+					$_data['supply_count']=0;
+					$_data['last_buy_sale']=0;
+					$_data['input_time']=CORE_TIME;
+					$_data['update_time']=CORE_TIME;
+					$_data['shelve_type']=1;
+					$_data['number']=$value['num'];
+					$_data['unit_price']=$value['price'];
+					$_data['status']=1;
+					$model->add($_data);
+				}
 			}
 			$this->success('操作成功');
 		}else{
@@ -104,7 +123,8 @@ class mypurchaseAction extends homeBaseAction{
 		if($data=$_POST['data'])
 		{
 			$this->is_ajax=true;
-			$cargo_type=sget('cargo_type','i',1);
+			$cargo_type=sget('cargo_type','i',1);//现货、期货
+			$type=sget('type','i',1);//采购、报价
 			$pur_model=M('product:purchase');
 			$fac_model=M('product:factory');
 			$pro_model=M('product:product');
@@ -119,19 +139,18 @@ class mypurchaseAction extends homeBaseAction{
 
 				$_data=array(
 					'user_id'=>$this->user_id,//用户id
-					'c_id'=>49,//客户id
+					'c_id'=>$_SESSION['uinfo']['c_id'],//客户id
 					'number'=>$value['number'],//吨数
 					'unit_price'=>$value['price'],//单价
 					'provinces'=>$value['provinces'],//省份id
 					'store_house'=>$value['store_house'],//仓库
 					'cargo_type'=>$cargo_type,//现货期货
 					'period'=>$value['period'],//期货周期
-					'type'=>1,//采购
+					'type'=>$type,//采购、报价
 					'input_time'=>CORE_TIME,//创建时间
 				);
 				if($pid){
 					//已有产品直接添加采购信息
-					// TR210T 上海金菲 1
 					$_data['p_id']=$pid;//产品id
 					$pur_model->add($_data);
 				}else{
@@ -152,6 +171,7 @@ class mypurchaseAction extends homeBaseAction{
 						$_product=array(
 							'model'=>$value['model'],//牌号
 							'product_type'=>$value['product_type'],//产品类型
+							'process_type'=>$value['process_type'],//加工级别
 							'f_id'=>$f_id,//厂家id
 							'input_time'=>CORE_TIME,//创建时间
 							'status'=>3,//审核状态
