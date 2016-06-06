@@ -1,0 +1,193 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='home/tab.js'}
+{insert_js files='home/jquery.ajaxupload.js'}
+
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-账户信息</h3>
+        <!--set1 begin-->
+        <div class="set1 color3">
+        	<!--tabx begin-->
+            <ul class="tabx">
+            <li id="tabx1" onmouseover="setTab('tabx',1,2)" class="hover" style="border-left:1px solid #e6e7ea;"><p>个人信息</p><span></span></li>
+            <li id="tabx2" onmouseover="setTab('tabx',2,2)"><p>公司信息</p><span></span></li>
+            </ul>
+            <!--tabx end-->
+            <!--con-tabx-1 begin-->
+            <div id="con-tabx-1" class="con-tabx">
+            	<form id="infoForm">
+					<!--lt-rt begin-->
+					<div class="lt-rt">
+					    <!--lt begin-->
+					    <div class="lt flt">
+					        <table>
+					            <tr>
+					                <td class="name">我的登录名：</td>
+					                <td class="val">{$user_info.mobile}</td>
+					            </tr>
+					            <tr>
+					                <td class="name">我的姓名：</td>
+					                <td class="val"><input type="text" value="{$user_info.name}" name="name" class="import"/></td>
+					            </tr>
+					            <tr>
+					                <td class="name">我的头像：</td>
+					                <td class="val">
+					                    <!--portrait-wrap begin-->
+					                    <div class="portrait-wrap">
+					                        <div class="portrait flt">
+					                        	{if $user_info.thumb}
+					                        	<img src="__UPLOAD__/{$user_info.thumb}" id="head" width="80" height="80"/>
+					                        	{else}
+					                        	<img src="__IMG__/home/portrait1.jpg" id="head" width="80" height="80"/>
+					                        	{/if}
+					                        </div>
+					                        <div class="upload frt">
+					                            <img src="__IMG__/home/portraitUpload.png" width="59" height="68"/>
+					                            <input id="permitP_btn" type="file"/>
+					                            <input type="hidden" id="url" name="thumb" value="">
+					                        </div>
+					                    </div>
+					                    <!--portrait-wrap end-->
+					                </td>
+					            </tr>
+					            <!-- <tr>
+					                <td class="name">我的等级：</td>
+					                <td class="val">普通会员</td>
+					            </tr> -->
+					            <tr>
+					                <td class="name">我的积分：</td>
+					                <td class="val">{$user_info.points}</td>
+					            </tr>
+					            <tr>
+					                <td class="name">我的业务员：</td>
+					                <td class="val">{$user_info.ad_name}</td>
+					            </tr>
+					            <tr>
+					                <td class="name">联系电话：</td>
+					                <td class="val"><input type="text" name="tel" value="{$user_info.tel}" class="import"/></td>
+					            </tr>
+					            <tr>
+					                <td class="name">邮箱：</td>
+					                <td class="val"><input type="text" name="email" value="{$user_info.email}" class="import"/></td>
+					            </tr>
+					            <tr>
+					                <td class="name">传真：</td>
+					                <td class="val"><input type="text" name="fax" value="{$user_info.fax}" class="import"/></td>
+					            </tr>
+					        </table>
+					    </div>
+					    <!--lt end-->
+					    <!--rt begin-->
+					   <!--  <div class="rt frt">
+					        <ul>
+					            <li class="bind1"><p></p><span>绑定QQ账号</span></li>
+					            <li class="bind2"><p></p><span>绑定微信账号</span></li>
+					        </ul>
+					    </div> -->
+					    <!--rt end-->
+					</div>
+					<!--lt-rt end-->
+					<div class="opt">
+					    <!-- <input type="button" value="修改" class="btn1"/> -->
+					    <input type="submit" value="保存" class="btn1"/>
+					    <!-- <input type="button" value="取消" class="btn2"/> -->
+					</div>
+            	</form>
+            </div>
+            <!--con-tabx-1 end-->
+            <!--con-tabx-2 begin-->
+            <div id="con-tabx-2" class="con-tabx" style="display:none;">
+            	<table>
+                	<tr>
+                    	<td class="name">公司名称：</td>
+                        <td><input type="text" class="import import1" value="上海中晨电子商务股份有限公司"/></td>
+                    </tr>
+                    <tr>
+                    	<td class="name">所需牌号：</td>
+                        <td><input type="text" class="import import2" value="13262252939"/></td>
+                    </tr>
+                    <tr>
+                    	<td class="name">公司地址：</td>
+                        <td>
+                        	<select>
+                        		<option>请选择</option>
+                        	</select>
+                        	<select>
+                        		<option>请选择</option>
+                        	</select>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td class="name">详细地址：</td>
+                        <td><input type="text" class="import import3" value="上海虹口区欧阳路568号庐迅大厦17楼"/></td>
+                    </tr>
+                    <tr>
+                    	<td class="name">邮编：</td>
+                        <td><input type="text" class="import import3" value="上海虹口区欧阳路568号庐迅大厦17楼"/></td>
+                    </tr>
+                    <tr>
+                    	<td class="name">公司介绍：</td>
+                        <td><input type="text" class="import import3" value="上海虹口区欧阳路568号庐迅大厦17楼"/></td>
+                    </tr>
+                </table>
+                <div class="opt">
+                    <input type="button" value="修改" class="btn1"/>
+                    <input type="submit" value="保存" class="btn1"/>
+                    <input type="button" value="取消" class="btn2"/>
+                </div>
+            </div>
+            <!--con-tabx-2 end-->
+        </div>
+        <!--set1 end--> 
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	new AjaxUpload('#permitP_btn', {
+	    action: '/public/sysUpload/images?model=1',
+	    name: 'image',
+	    onSubmit: function(file, suffix) {
+	    	// 'gif','jpg','jpeg','png','swf'
+	        var patrn = /^(gif|jpg|jpeg|png)$/i;
+	        if (!patrn.test(suffix)) {
+	            alert('不支持上传 *.' + suffix + '格式的文件。');
+	            return false;
+	        }
+	    },
+	    onComplete: function(file, response) {
+	        var result = jQuery.parseJSON(response);
+	        if(result.err == 0) {
+	            $('#url').val(result.msg);
+	            $("#head").attr('src',"__UPLOAD__/"+result.msg);
+	        } else {
+	            alert(result.msg);
+	        }
+	    }
+	});
+	$("#infoForm").bind('submit', function(){
+		var name=$("#infoForm input[name='name']").val().trim();
+		if(name.length==0){
+			alert('姓名不能为空');
+			return false;
+		}
+		var data=$(this).serialize();
+		$.post('/user/myset/edit_info',data,function (data){
+			if(data.err==0){
+				alert('修改成功');
+			}else{
+				alert(data.msg);
+				window.location.reload();
+			}
+		},'json');
+		return false;
+	});
+
+
+
+})
+</script>
