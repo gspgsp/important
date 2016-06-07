@@ -49,7 +49,7 @@
 				{else}
 				<td>付款金额</td>
 				{/if}
-				<td><input name="collected_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
+				<td><input name="collected_price" maxlength="12" value="" style="width:150px;" required="true" id="collected_price" onblur="check()"/></td>
 			</tr>
 			<tr>
 				<td>交易员</td>
@@ -90,6 +90,14 @@ mini.parse();
 //搜索或刷新
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
+//过滤收付款金额为0或为负的情况
+function check(){
+	var price=document.getElementById("collected_price").value;
+	if(price <= 0){
+		alert("请输入正确的数值");
+	}
+	
+}
 
 //增加后提交数据(保存)
 function submitForm() {
