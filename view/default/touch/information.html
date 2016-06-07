@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -64,6 +64,10 @@
                 });
             }
             infoInit(29);
+            
+            $("#backTop").on("click",function () {
+                $('body').animate({ scrollTop: 0 },300);
+            });
 
             $("#nav span").on("click",function () {
                 var pid=$(this).data("pid");
