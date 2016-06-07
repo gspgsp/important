@@ -60,6 +60,7 @@ class offersAction extends homeBaseAction{
 					'unit_price'=>$value['price'],//单价
 					'provinces'=>$value['provinces'],//省份id
 					'store_house'=>$value['store_house'],//仓库
+					'bargain'=>$value['bargain'],//是否实价
 					'cargo_type'=>$cargo_type,//现货期货
 					'period'=>$value['period'],//期货周期
 					'type'=>2,//采购
@@ -161,14 +162,27 @@ class offersAction extends homeBaseAction{
 		{
 			$model=$this->db->model('purchase');
 			foreach ($data as $key => $value) {
-				$_data=array(
-					'input_time'=>CORE_TIME,
-					'update_time'=>CORE_TIME,
-					'shelve_type'=>1,
-					'number'=>$value['num'],
-					'unit_price'=>$value['price'],
-				);
-				$model->where("user_id=$this->user_id and id=$key")->update($_data);
+//				$_data=array(
+//					'input_time'=>CORE_TIME,
+//					'update_time'=>CORE_TIME,
+//					'shelve_type'=>1,
+//					'number'=>$value['num'],
+//					'unit_price'=>$value['price'],
+//				);
+//				$model->where("user_id=$this->user_id and id=$key")->update($_data);
+				if($value['on']){
+					$_data=$model->getPk($value['on']);
+					unset($_data['id']);
+					$_data['supply_count']=0;
+					$_data['last_buy_sale']=0;
+					$_data['input_time']=CORE_TIME;
+					$_data['update_time']=CORE_TIME;
+					$_data['shelve_type']=1;
+					$_data['number']=$value['num'];
+					$_data['unit_price']=$value['price'];
+					$_data['status']=1;
+					$model->add($_data);
+				}
 			}
 			$this->success('操作成功');
 		}else{
