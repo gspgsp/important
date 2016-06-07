@@ -19,15 +19,26 @@ class billingAction extends adminBaseAction
 	public function init(){
 		//获取列表数据
 		$action=sget('action');
-		$doact=sget('do','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$this->assign('doact',$doact);
-		$this->assign('page_title','开票明细');
-		$this->display('billing.list.html');
+		$this->assign('page_title','销售开票明细');
+		$this->display('billing.init.list.html');
 	}
-
+	/**
+	 *
+	 * @access public
+	 * @return html
+	 */
+	public function itin(){
+		//获取列表数据
+		$action=sget('action');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('page_title','采购开票明细');
+		$this->display('billing.itin.list.html');
+	}
 	/**
 	 * Ajax获取列表内容
 	 * @access private 
@@ -39,13 +50,16 @@ class billingAction extends adminBaseAction
 		$sortField = sget("sortField",'s','id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1 ";
+		$type = sget('type','s');
+		if ($type =="init") {
+			$where=" `billing_type`= 1 ";
+		}else{
+			$where=" `billing_type`= 2 ";
+		}
+		
 		//交易日期
 		$sTime = sget("sTime",'s','payment_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
-		//开票类型
-		$billing_type = sget("billing_type",'s','');
-		if($billing_type!='') $where.=" and `billing_type` = '$billing_type' ";
 		//票据类型
 		$bile_type = sget("bile_type",'s','');
 		if($bile_type!='') $where.=" and `bile_type` = '$bile_type' ";
@@ -58,7 +72,6 @@ class billingAction extends adminBaseAction
 		if(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
-
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")

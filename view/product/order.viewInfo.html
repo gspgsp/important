@@ -128,19 +128,22 @@
 		</div>
 
 
-
-	<div title="收付款列表">
+	{if $type eq 1}
+	<div title="收款列表">
+	{else}
+	<div title="付款列表">
+	{/if}
 	<div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>	
 			<td style="float:right;">
 			    <form id="soform1">				
 				<select name="pay_method" id="pay_method">
-					<option value="" selected="selected">=付款方式=</option>
+					<option value="" selected="selected">=交易方式=</option>
 					{html_options options=$pay_method}
 				</select>
 				<select name="collection_status" id="collection_status">
-					<option value="" selected="selected">=收付款状态=</option>
+					<option value="" selected="selected">=交易状态=</option>
 					{html_options options=$collection_status}
 				</select>
 				<select name="invoice_status" id="invoice_status">
@@ -155,8 +158,8 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:3px;">
-  <div id="gridCell" class="mini-datagrid" style="width:auto;height:300px;" url="/product/collection/init?action=grid&oid={$o_id}"  idField="id"
-	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+  <div id="gridCell" class="mini-datagrid" style="width:auto;height:300px;" 
+  {if $type eq 1} url="/product/collection/init?action=grid&oid={$o_id}"{else}url="/product/collection/itin?action=grid&oid={$o_id}"{/if}  idField="id"	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="order_sn" width="80" headerAlign="center" align="center" align="center">订单号</div>
@@ -173,7 +176,11 @@
 </div>
 
 
-<div title="开票列表">
+{if $type eq 1}
+<div title="销售开票列表">
+{else}
+<div title="采购开票列表">
+{/if}
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>	
@@ -201,8 +208,7 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:3px;">
-  <div id="billingCell" class="mini-datagrid" style="width:auto;height:300px;" url="/product/billing/init?action=grid&oid={$o_id}"  idField="id"
-	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+  <div id="billingCell" class="mini-datagrid" style="width:auto;height:300px;" 	{if $type eq 1}url="/product/billing/init?action=grid&oid={$o_id}"{else}url="/product/billing/itin?action=grid&oid={$o_id}"{/if} idField="id" sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="invoice_sn" width="70" headerAlign="center" align="center" align="center">发票号</div>

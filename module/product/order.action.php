@@ -151,7 +151,7 @@ class orderAction extends adminBaseAction {
 	}
 
 	/**
-	* 付款收款信息
+	* 付款收款开票信息
 	* @access public
 	*/
 	public function transactionInfo(){
@@ -207,7 +207,7 @@ class orderAction extends adminBaseAction {
 		$silling = sget('do','i');
 		if($silling == 1){
 			//保存开票信息
-			empty($data['unbilling_price'])?$m = ($data['total_price']-$data['billing_price']):$m = ($data['unbilling_price']-$data['billing_price']);
+			!empty($data['unbilling_price'])?$m = ($data['unbilling_price']-$data['billing_price']):$m = ($data['total_price']-$data['billing_price']);
 			if($m>0){
 				$data['unbilling_price'] = $m;
 				$data['invoice_status'] = 2;

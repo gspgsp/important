@@ -21,13 +21,26 @@ class collectionAction extends adminBaseAction
 	public function init(){
 		//获取列表数据
 		$action=sget('action');
-		$doact=sget('do','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$this->assign('doact',$doact);
-		$this->assign('page_title','收付款明细');
-		$this->display('collection.list.html');
+		$this->assign('page_title','销售收款明细');
+		$this->display('collection.init.list.html');
+	}
+
+	/**
+	 *
+	 * @access public
+	 * @return html
+	 */
+	public function itin(){
+		//获取列表数据
+		$action=sget('action');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('page_title','采购付款明细');
+		$this->display('collection.itin.list.html');
 	}
 
 		/**
@@ -41,15 +54,17 @@ class collectionAction extends adminBaseAction
 		$sortField = sget("sortField",'s','id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1 ";
+		$type = sget('type','i');//1销售,2采购
+		if ($type == 1) {
+			$where=" `order_type`=1 ";
+		}else{
+			$where=" `order_type`=2 ";
+		}
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
 		//交易日期
 		$sTime = sget("sTime",'s','payment_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
-		//订单类型
-		$order_type = sget("order_type",'s','');
-		if($order_type!='') $where.=" and `order_type` = '$order_type' ";
 		//交易方式
 		$pay_method = sget("pay_method",'s','');
 		if($pay_method!='') $where.=" and `pay_method` = '$pay_method' ";
@@ -73,6 +88,7 @@ class collectionAction extends adminBaseAction
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['payment_time']=$v['payment_time']>1000 ? date("Y-m-d H:i:s",$v['payment_time']) : '-';
+			$list['data'][$k]['price']=$v['total_price']-$v['uncollected_price'];
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);	
