@@ -60,7 +60,7 @@ class accessAction extends adminBaseAction {
 					$data=array_merge($data,$_data);
 				}
 			}
-		}	
+		}
 		
 		$this->assign('data',json_encode($data));
 		
