@@ -50,13 +50,16 @@ class billingAction extends adminBaseAction
 		$sortField = sget("sortField",'s','id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$type = sget('type','s');
-		if ($type =="init") {
-			$where=" `billing_type`= 1 ";
-		}else{
-			$where=" `billing_type`= 2 ";
+		$where = 1;
+		$type = sget('type','i');
+		if ($type == 1) {
+			$where .=" and `billing_type`= 1 ";
+		}elseif($type ==2){
+			$where .=" and `billing_type`= 2 ";
 		}
-		
+		//tap项的传值搜索
+		$oid = sget('oid','i',0);
+		if($oid!=0) $where.=" and `o_id` = '$oid' ";
 		//交易日期
 		$sTime = sget("sTime",'s','payment_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选

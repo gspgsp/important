@@ -54,10 +54,11 @@ class collectionAction extends adminBaseAction
 		$sortField = sget("sortField",'s','id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
+		$where = 1;
 		$type = sget('type','i');//1销售,2采购
 		if ($type == 1) {
 			$where=" `order_type`=1 ";
-		}else{
+		}elseif($type ==2){
 			$where=" `order_type`=2 ";
 		}
 		$o_id=sget('oid','i',0);
