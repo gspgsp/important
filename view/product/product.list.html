@@ -97,14 +97,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td>单位</td>
-				<td><input name="unit" class="mini-combobox" data='{:setMiniConfig|$unit}' textField="name" valueField="id" style="width:90px;" required="true"/>
-				</td>
-			</tr>
-
-			<tr>
 				<td>状态：</td>
-				<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$pass_status}' textField="name" valueField="id" style="width:90px;" required="true"/>
+				<td><input name="status" class="mini-combobox" data='{:setMiniConfig|$pass_status}' textField="name" valueField="id" style="width:90px;" value="1" required="true"/>
 				</td>
 			</tr>
 			<tr>
@@ -172,12 +166,12 @@ function add() {
 }
 //增加后提交数据(保存)
 function submitForm() {
-	form.validate();
-  if (form.isValid() == false) return;
-  var o = form.getData();
+var form2 = new mini.Form("#admInfo");
+form2.validate();
+  if (form2.isValid() == false) return;
+  var o = form2.getData();
   grid.loading("数据提交中，请稍后......");
   var json = mini.encode(o);
-
   var callback=function(data){
 	if(data.err!='0'){
 	  grid.unmask();

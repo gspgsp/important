@@ -2,7 +2,6 @@
 <div style="padding:5px;">
 	<div id="infoForm" class="form">
 	<input class="mini-hidden" name="id" value="{$info.id}"/>
-	<input class="mini-hidden" name="purchase_order_no" value="{$purchase_order_no}"/>
 	<input class="mini-hidden" name="sale_id" value="{$sale_id}"/>
 	<input class="mini-hidden" name="order_sn" value="{$order_sn}"/>
 	{if $choose neq 1}
@@ -81,16 +80,7 @@
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
 			<legend>采购明细</legend>
 				<table width="100%">
-					<tr>
-						<td>采购编号 : </td>
-						{if $type neq 'edit'}
-						<td>{$purchase_order_no}</td>
-						{else}
-						<td>{$info.purchase_order_no}</td>
-						{/if}
-
 					{if ($choose neq 1) && ($sale_id eq 0)}
-					</tr>
 					<tr>
 						<td>订单名称：</td>
 						<td>
@@ -117,10 +107,6 @@
 						<td><font style="color:blue;">单价 ：</font></td>
 						<td><input name="unit_price" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.unit_price}"/>
 						</td>
-					</tr>
-					<tr>
-						<td>采购类型</td>
-						<td><input name="purchase_type" class="mini-combobox" style="width:100px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}' required="true" textfield="name" valuefield="id"/></td>
 					</tr>
 					<tr>
 						<td>供应商：</td>

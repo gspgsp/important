@@ -2,30 +2,18 @@
 <input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
 <input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/>
 <input class="mini-hidden" name="out_no" value="{$out_no}"/>
-<div class="mini-toolbar" style="margin:3px 3px 0;">
-	<table style="width:100%;">
-		<tr>
-			<td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
-				<span class="separator"></span>
-				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
-			</td>
-		</tr>
-	</table>           
-</div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}" idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 		<div property="columns">
-		<div type="checkcolumn"></div>
-		<div field="id" width="100" allowSort="true">流水id</div>           
-		<div field="model" width="100" allowSort="true">牌号</div>     
-		<div field="number" width="100"   allowSort="true">数量
-		</div>
-		<div field="store_name" width="100" allowSort="true">仓库</div>
-		<div field="location_name" width="100" allowSort="true">库位</div>
-		<div field="input_time" width="100" allowSort="true" dateFormat="yyyy-MM-dd">创建时间</div>
-		<div field="sale_id" width="120" headerAlign="center" allowSort="true" renderer="onLoadHandle">明细</div>
+			<div type="checkcolumn"></div>
+			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+			<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
+			<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数
+				<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
+			</div>   
 		</div>
 </div>
 <div title="新增出库管理" class="form" id="editForm">
@@ -106,11 +94,9 @@
 					<td>数量</td>
 					<td><input name="number" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.number}"/></td>
 				</tr>
-	
 			</table>	
 		</fieldset>
 	</div>
-</div>
 			<div align="center" style="margin-top:10px;">
 				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">保存</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
@@ -131,8 +117,8 @@ function onKeyEnter(e) {
 }
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',id = record.sale_id,model = record.model ;
-	s += '<a href="javascript:viewOrdInfo('+id+')">'+'订单明细'+'</a> ';
+	var record = e.record,s='',id = record.id,model = record.model ;
+	s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
 	return s;
 }
 //查看明细相关信息
@@ -146,10 +132,11 @@ function viewOrdInfo(id){
 }
 function submitForm() {
 	var form = new mini.Form("#editForm");
-	form.validate();
-	if(form.isValid() == false) return;
+	// form.validate();
+	// if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
+	$.extend(o, ourarr); 
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
@@ -165,6 +152,7 @@ function submitForm() {
 		}
 	},'json');
 }
+
 
 function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
@@ -316,5 +304,17 @@ function saveData() {
 		}
 	}
 	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
+}
+var ourarr ={};
+
+function onValidation(){
+	var out_number = parseInt(this.getValue());
+	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
+	if(out_number>parseInt(rows[0].number)){
+		alert('不能大于订单数量,请重新输入!');
+		this.setValue('0');
+	 	return false;
+	}
+	ourarr[ rows[0].id  ]= out_number;
 }
 </script>

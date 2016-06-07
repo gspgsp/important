@@ -6,7 +6,7 @@
 	<input class="mini-hidden" name="order_sn" value="{$order_sn}"/>
 	<div  style="padding:5px; " >
 
-				<fieldset style="width:700px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
 					<legend>订单信息</legend>
 					<div id="editForm1" style="padding:5px; ">
 
@@ -24,9 +24,22 @@
 						{/if}
 						
 					</tr>
+					{if $order_type neq '2' && $type neq 'edit'}
 					<tr>
-						<td>订单类型：</td>
-						<td><input name="order_type" class="mini-combobox" style="width:125px;" value="{$info.order_type}" data='{:setMiniConfig|$order_type}'  onvaluechanged="changordertype" required="true" textfield="name" valuefield="id"/></td>
+						<td>是否销库存：</td>
+						<td>
+							 <input name="" class="mini-radiobuttonlist" onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
+						</td>
+						<td>销售类型：</td>
+						<td><input name="sales_type" class="mini-combobox" style="width:125px;" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}'   required="true" textfield="name" valuefield="id"/></td>
+					</tr>
+					<tr>
+					{else}
+					<tr>
+						<td>采购类型：</td>
+						<td><input name="purchase_type" class="mini-combobox" style="width:125px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}'   required="true" textfield="name" valuefield="id"/></td>
+					{/if}
+						
 						<td>客户名称：</td>
 						<td>
 							<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
@@ -82,12 +95,13 @@
 					</tr>
 					<input class="mini-hidden"  id="require_number" name="require_number" value="0"/>
 					<input class="mini-hidden"  id="total_price" name="total_price" value="0"/>
+					<input class="mini-hidden"  id="o_type" name="order_type" value="{$order_type}"/>
 				</table>
 					</div>
 				</fieldset>
 			{if $otype eq 'addopus'}
-				<fieldset style="width:700px;border:solid 1px #aaa;margin-top:8px;position:relative;">
-					<legend>新增明细</legend>
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+					<legend>订单明细</legend>
 					<div id="editForm2" style="padding:5px; ">
 					</div>
 				</fieldset>
@@ -98,7 +112,12 @@
 </div>
 		<div align="center" style="margin-top:10px;">
 		{if $otype eq 'addopus'}
-			<a class="mini-button" iconCls="icon-add"  id="addSaleType" >明细</a>
+			{if $order_type neq '2'}
+			<a class="mini-button" iconCls="icon-add"  id="addSaleType" >销售明细</a>
+			{else}
+			<a class="mini-button" iconCls="icon-add"  onclick="addPurDetil" >采购明细</a>
+
+			{/if}
 		{/if}
 			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
 			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
@@ -111,8 +130,8 @@ mini.parse();
 var form = new mini.Form("#infoForm");
 var cid = mini.get("#usrId").getValue();
 function submitForm(){
-	form.validate();
-	if(form.isValid() == false) return;
+	// form.validate();
+	// if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);
@@ -132,10 +151,8 @@ function submitForm(){
 function changordertype(e){
 	var val = e.value;
 	var addSaleType = mini.get("addSaleType");
-	val ==1 ? addSaleType.on("click",addSaleDetil).un("click",addPurDetil) :addSaleType.on("click",addPurDetil).un("click",addSaleDetil) ; 
-		
-
-
+	//1为销库存
+	val ==1 ? addSaleType.on("click",consumeStoreDetil).un("click",saleDetil) : addSaleType.on("click",saleDetil).un("click",consumeStoreDetil) ; 
 }
 function CloseWindow(action) {            
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
@@ -219,10 +236,10 @@ function proChoose(e){
 		}
 	});         
 }
-//追加销售明细
+//追加销售明细(销库存)
 var k = 0;
 var count = 0;
-function addSaleDetil(){
+function consumeStoreDetil(){
 	var require_num  = parseInt(mini.get("require_number").getValue());
 	var btn = this;
 	mini.open({
@@ -290,15 +307,15 @@ function addSaleDetil(){
 	});
 	k++;
 }
-//追加采购明细
+//追加销售明细(不销库存)
 var j = 0;
-function addPurDetil(){
+function saleDetil(){
 	var btn = this;
 	mini.open({
-		url: "/product/purchaseLog/info?&choose=1",
+		url: "/product/saleLog/info?&choose=1&nostore=1",
 		title: "新增采购明细",
-		width: 330,
-		height: 420,
+		width: 250,
+		height: 250,
 		onload: function () {
 			var data=e.sender.getValue();
 			top['win'].setDvalue(data);  //去调用子页面的方法。
@@ -339,8 +356,14 @@ function addPurDetil(){
 						}		
 						str2+='<input class="mini-hidden"  name="'+s+j+'" value="'+data[s]+'"/>';
 					}
-					count +=parseInt(data['number']) * parseInt(data['unit_price']);//全部总金额
+					oncecount =parseInt(data['require_number']) * parseInt(data['unit_price']);//单比总金额
+					count +=parseInt(data['require_number']) * parseInt(data['unit_price']);//全部总金额
 					mini.get("total_price").setValue(count); //累计计算总金额
+					//叠加添加多次明细的数量 
+					var require_number  = parseInt(mini.get("require_number").getValue());
+					var count_num = require_number+parseInt(data.require_number);
+					mini.get("require_number").setValue(count_num);
+					str1+='<td>总价 :</td><td>'+oncecount+'</td></table>';
 					$('#editForm2').append(str1);
 					$('#editForm2').append(str2);
 					$('#editForm2').append(str3);
@@ -350,5 +373,61 @@ function addPurDetil(){
 		}
 	});
 	j++;
+}
+
+//追加采购明细
+var y = 0;
+function addPurDetil(){
+	var btn = this;
+	mini.open({
+		url: "/product/purchaseLog/info?&choose=1",
+		title: "新增采购明细",
+		width: 330,
+		height: 320,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					var str1 = '<table><tr>';
+					var str2 = '';
+					for(var s in data){
+						if( s =='number' || s =='unit_price' || s =='model' || s =='supplier' ||  s=='remark'){
+							switch(s){
+								case  'model':
+									str1+='<td>牌号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									 break;
+								case  'supplier':
+									str1+='<td>供应商 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'unit_price':
+									str1+='<td>单价 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'number':
+									str1+='<td>数量 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'remark':
+									str1+='<td>备注 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+							}
+						}		
+						str2+='<input class="mini-hidden"  name="'+s+y+'" value="'+data[s]+'"/>';
+					}
+					count +=parseInt(data['number']) * parseInt(data['unit_price']);//全部总金额
+					mini.get("total_price").setValue(count); //累计计算总金额
+					$('#editForm2').append(str1);
+					$('#editForm2').append(str2);
+					mini.parse();
+				}
+			}
+		}
+	});
+	y++;
 }
 </script>

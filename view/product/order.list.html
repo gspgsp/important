@@ -4,7 +4,9 @@
 		<tr>
 		{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="addSale()">销售</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="addPur()">采购</a>
 				<!-- <span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
 				<span class="separator"></span>
@@ -280,12 +282,25 @@ function saveData() {
   }
   utils.ajax('/product/order/save',{data:json},callback,"POST","json");
 }
-//新增订单
-function add(){
+//新增销售订单
+function addSale(){
 	mini.open({
-		url: "/product/order/info",
+		url: "/product/order/info?order_type=1",
 		showMaxButton:true,
-		title: '新增订单', width: 780, height: 450, 
+		title: '新增销售订单', width: 780, height: 450, 
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+//新增采购订单
+function addPur(){
+	mini.open({
+		url: "/product/order/info?order_type=2",
+		showMaxButton:true,
+		title: '新增采购订单', width: 840, height: 450, 
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();

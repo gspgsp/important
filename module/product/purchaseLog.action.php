@@ -10,7 +10,6 @@ class purchaseLogAction extends adminBaseAction {
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
-		$this->assign('purchase_type',L('purchase_type')); //采购类型
 
 		//订单语言包
 		$this->assign('order_source',L('order_source')); //订单来源
@@ -66,9 +65,6 @@ class purchaseLogAction extends adminBaseAction {
 		//入库状态
 		$out_storage_status=sget('out_storage_status','i',0);
 		if($out_storage_status != 0) $where.=" and `out_storage_status` =".$out_storage_status;
-		//销售类型
-		$purchase_type=sget('purchase_type','i',0);
-		if($purchase_type != 0) $where.=" and `purchase_type` =".$purchase_type;
 		//筛选时间
 		$sTime=sget('sTime','s','input_time');
 		$where.=getTimeFilter($sTime);
@@ -124,10 +120,8 @@ class purchaseLogAction extends adminBaseAction {
 			}
 			$order_sn=genOrderSn();
 			$this->assign('order_sn',$order_sn);
-			$purchase_order_no=genOrderSn();
 			$this->assign('sale_id',$sale_id);
 			$this->assign('choose',$choose);
-			$this->assign('purchase_order_no',$purchase_order_no);
 			$this->display('purchaseLog.edit.html');
 			exit;
 		}

@@ -83,8 +83,7 @@ class customerAction extends adminBaseAction {
 			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
-		}
-		
+		}	
 		$list=$this->db
 		            ->where($where)
 			->page($page+1,$size)

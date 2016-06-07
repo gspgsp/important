@@ -29,7 +29,9 @@
 			<div field="lot_num" width="35" headerAlign="center" align="center" allowSort="true">批次</div>
 			<div field="unit_price" width="40"  headerAlign="center" align="center" allowSort="true">采购价</div>
 			<div field="number" width="40" headerAlign="center" align="center" allowSort="true">进货数量</div>
-			<div field="remainder" id="xx" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
+			<div field="remainder" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
+			<div field="controlled_number" width="40" headerAlign="center" align="center" allowSort="true">可用数量</div>
+			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
 		</div>
 	</div>
 </div>
@@ -38,68 +40,45 @@
 			<legend>库存产品选择</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 				<tr>
+					<td>订单名称：</td>
+					<td><input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:100px" id="usrId"/>
+					</td>
 					<td>牌号 : </td>
 					<td><input name="model" id="model" value="{$model}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  emptyText="请从库存中选择" required="true" style="width:150px"/>
 					</td>
-					<td>仓库：</td>
-					<td><input name="store_name" id="store" value="{$info.store_name}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
-					</td>				
+								
 				</tr>
 				<tr>
+					<td>仓库：</td>
+					<td><input name="store_name" id="store" value="{$info.store_name}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
+					</td>	
 					<td>批次：</td>
 					<td><input name="lot_num" id="lot" value="{$info.lot_num}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>
+					
+				</tr>
+				<tr>
 					<td>采购价 : </td>
 					<td><input name="purchase_price" id="p_price" value="{$info.purchase_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>
-				</tr>
-				<tr>
 					<td><font style="color:blue;">需求数量 : </font></td>
 					<td id="num"><input name="require_number" id="require_number" value="{$info.number}" textField="text" valueField="id" class="mini-textbox"  onvaluechanged="onValidation"  required="true" style="width:150px"/><span id="returnError" style="padding-left:5px; color:#F00;"></span>
 					</td>
+					
+				</tr>
+				<tr>
 					<td><font style="color:blue;">销售价 : </font></td>
 					<td>
 					<input name="unit_price" id="u_price" value="{$info.unit_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="true"  required="true" style="width:150px"/>	
 					</td>
-					<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
-					<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
-					<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
-					<input class="mini-hidden" id="m_lock_number" name="lock_number" value=""/>
-					<input class="mini-hidden" id="inlog_id" name="inlog_id" value=""/>
-					<input class="mini-hidden"  name="sale_order_no" value="{$sale_order_no}"/>
-				</tr>
-			</table>	
-		</fieldset>
-		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
-			<legend>订单明细</legend>
-			<table width="100%" border="0" cellpadding="1" cellspacing="2">
-				<tr>
-
-					<td>销售编号 : </td>
-						{if $type neq 'edit'}
-						<td>{$sale_order_no}</td>
-						{else}
-						<td>{$info.sale_order_no}</td>
-						{/if}
-				{if $choose neq 1}
-					<td>订单名称：</td>
-					<td>
-					{if $o_id gt 0}
-						{$order_name}
-					{else}
-					
-						<input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:170px" id="usrId"/>
-					{/if}
-					
-					</td>
-				{/if}
-				</tr>
-				<tr>
-					<td>销售类型</td>
-					<td><input name="sales_type" class="mini-combobox" style="width:150px;" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}' required="true" textfield="name" valuefield="id"/></td>
-					<td>备注:</td>
+					<td>备注 : </td>
 					<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$info.remark}"></td>
 				</tr>
+				<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
+				<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
+				<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
+				<input class="mini-hidden" id="m_lock_number" name="lock_number" value=""/>
+				<input class="mini-hidden" id="inlog_id" name="inlog_id" value=""/>
 			</table>	
 		</fieldset>
 	</div>
@@ -126,18 +105,7 @@ function search() {
 	});
 
 }
-search();
-// setTimeout("changenum()",1000);
-// function changenum(){
-// 	"{if $require_num neq 0}"
-// 	var nums = document.getElementById('mini-5$0$8');
-// 	var nums2 = document.getElementById('mini-5$0$9');
-// 	nums.innerHTML-={$require_num};
-// 	var nums3 = parseInt(nums2.innerHTML);
-// 	nums2.innerHTML=nums3+{$require_num};
-// 	// alert(nums.innerHTML);
-// 	"{/if}"
-// };	
+search();	
 function onKeyEnter(e) {
 	search();
 }
@@ -156,7 +124,7 @@ function submitForm() {
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
 			CloseWindow("save");
-			window.location.reload();
+			// window.location.reload();
 		}else{
 			return false;
 		}
@@ -209,7 +177,7 @@ function onValidation(e) {
 	var r_number = require_number.getValue();
 	if(parseInt(remainder)<parseInt(r_number)){
 		require_number.setValue('0');
-		$("#returnError").text('超出现有库存!保持数量为0,稍后需新增采购单');
+		$("#returnError").text('超出现有库存!');
 		mini.parse();
 	}
 }

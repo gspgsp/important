@@ -18,9 +18,10 @@ class orderAction extends adminBaseAction {
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
-		$this->assign('order_type',L('order_type')); //销售类型
+		$this->assign('order_type',L('order_type')); //订单类型：
 		$this->assign('company_account',L('company_account')); //交易公司账户
-		$this->assign('ordertype',L('order_type'));  			//订单类型
+		$this->assign('sales_type',L('sales_type')); //销售类型
+		$this->assign('purchase_type',L('purchase_type')); //采购类型
 		$this->assign('collection_status',array(1=>'待收付款',2=>'部分收付款',3=>'已完成'));  //订单收付款状态
 		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
 		$this->assign('billing_type',L('billing_type'));    	//开票类型
@@ -117,10 +118,12 @@ class orderAction extends adminBaseAction {
 	public function info(){
 		$o_id=sget('oid','i',0);
 		$type=sget('type','s');
+		$order_type=sget('order_type','i',0);
 		if($o_id<1){
 			$order_sn=genOrderSn();
 			$this->assign('order_sn',$order_sn);
-			$this->assign('otype','addopus');
+			$this->assign('otype','addopus'); //新增订单关联前台显示
+			$this->assign('order_type',$order_type);
 			$this->display('order.edit.html');
 			exit;
 		}
@@ -128,7 +131,7 @@ class orderAction extends adminBaseAction {
 		if(empty($info)){
 			$this->error('错误的订单信息');	
 		}
-		if($info['c_id']>0) $c_name = M('user:customer')->getColByName("$info[c_id],c_name");
+		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
 		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
@@ -282,7 +285,6 @@ class orderAction extends adminBaseAction {
 		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['order_source'] = 2; //订单默认来源ERP
-		// p($data);die;
 		foreach ($data as $k=> $v) {
 			if( preg_match('/\d/',$k) ){
 				preg_match_all('/\d/',$k,$matches);
@@ -292,8 +294,7 @@ class orderAction extends adminBaseAction {
 			}
 		}
 		if($data['o_id']>0){ //编辑
-			$up_data = array(
-				'total_price'=>M("product:order")->getOrdNum($data['o_id'],1), //计算总金额			
+			$up_data = array(			
 				'update_time'=>CORE_TIME,
 				'update_admin'=>$_SESSION['name'],
 			);	
@@ -321,8 +322,10 @@ class orderAction extends adminBaseAction {
 						if($data['order_type']==1 ){ //销售明细
 							$detail[$i]['number']=$detail[$i]['require_number'];
 							if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
-							if( !$this->db->model('in_log')->where('id = '.$detail[$i]['inlog_id'])->update(' remainder = remainder - '.$detail[$i]['require_number'].' , lock_number = lock_number + '.$detail[$i]['require_number']) ) throw new Exception("同步操作库存失败!");
-							if( !$this->db->model('store_product')->where('s_id = '.$detail[$i]['store_id'])->update('number=number-'.$detail[$i]['require_number']) )  throw new Exception("产品货品表更新失败!");
+							if(count($detail[$i])>10){ //如果数组长度大于6说明是消耗库存的订单
+								if( !$this->db->model('in_log')->where('id = '.$detail[$i]['inlog_id'])->update(' controlled_number = controlled_number - '.$detail[$i]['require_number'].' , lock_number = lock_number + '.$detail[$i]['require_number']) ) throw new Exception("同步操作库存失败!");
+							}
+							
 						}else{
 							if( !$this->db->model('purchase_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
 						}

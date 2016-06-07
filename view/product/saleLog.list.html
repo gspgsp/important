@@ -5,8 +5,8 @@
 			{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
-				<span class="separator"></span>
-				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+				<!-- <span class="separator"></span>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
 			</td>
 			{/if}
 			<td style="float:right;">
@@ -24,10 +24,6 @@
 				<select name="out_storage_status">
 					<option value="">出库状态</option>
 					{html_options options=$out_storage_status}
-				</select>
-				<select name="sales_type">
-					<option value="">销售类型</option>
-					{html_options options=$sales_type}
 				</select>
 				<select name="key_type">
 					<option value="o_id">订单名称</option>
@@ -59,7 +55,6 @@
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
 			<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
 			<div field="out_storage_status" width="80" headerAlign="center" allowSort="true" align="center">出库状态</div>
-			<div field="sales_type" width="80" headerAlign="center" allowSort="true" align="center">销售类型</div>
 			<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
@@ -99,8 +94,8 @@ function onLoadHandle(e) {
 }
 //追加采购
 function onPurOrd(e){
-	var record = e.record,s='',id = record.id,number = record.number;
-	if(number==0){
+	var record = e.record,s='',id = record.id,store_id = record.store_id;
+	if(store_id==0){
 	s += '<a href="javascript:addPurOrd('+id+')">'+'追加采购单'+'</a> ';
 	return s;
 	}
@@ -139,11 +134,11 @@ function add(){
 		}
 	});	
 }
-//双击弹出
-function onRowDblClick(e) {
-	var record = e.record, status=record.status;
-	onEdit();
-}
+// //双击弹出
+// function onRowDblClick(e) {
+// 	var record = e.record, status=record.status;
+// 	onEdit();
+// }
 function onEdit(e) {
 	var row = grid.getSelected();
 	if (row) {

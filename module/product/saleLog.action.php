@@ -10,7 +10,6 @@ class saleLogAction extends adminBaseAction {
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('out_storage_status',L('out_storage_status')); //出库状态
-		$this->assign('sales_type',L('sales_type')); //销售类型
 	}
 	/**
 	 *
@@ -95,18 +94,21 @@ class saleLogAction extends adminBaseAction {
 		$id=sget('id','i',0);
 		$type=sget('type','s');
 		$o_id=sget('o_id','i',0);
-		$choose=sget('choose','i');
+		$choose=sget('choose','i',0);
+		$nostore=sget('nostore','i',0); //不销库存
 		$require_num=sget('require_num','i',0);
 		$this->assign('require_num',$require_num);
 		if($id<1){
+			$this->assign('choose',$choose);
 			if($o_id>0){
 				$this->assign('o_id',$o_id);
 				$order_name=M("product:order")->getColByName($o_id);
 				$this->assign('order_name',$order_name);
 			}
-			$sale_order_no=genOrderSn();
-			$this->assign('choose',$choose);
-			$this->assign('sale_order_no',$sale_order_no);
+			if($nostore>0){ //表示不消耗库存的明细新增
+				$this->display('saleLogWithPur.edit.html');
+				exit;
+			}
 			$this->display('saleLog.edit.html');
 			exit;
 		}
@@ -150,19 +152,18 @@ class saleLogAction extends adminBaseAction {
 		$data['input_time'] = CORE_TIME;
 		$data['input_admin'] = $_SESSION['name'];
 		if(empty($data)) $this->error('错误的请求');	
-		$_data = array(		
-			'update_time'=>CORE_TIME,
-			'update_admin'=>$_SESSION['name'],
+		$up_data = array(			
+				'update_time'=>CORE_TIME,
+				'update_admin'=>$_SESSION['name'],
 		);
-		$_inlog = array( //把需求的数量 关联到锁定数量
-			'remainder'=>$data['remainder']-$data['require_number'], 
-			'lock_number'=>$data['require_number'],
-		);
+		$time_price=$data['number']*$data['unit_price'];
+		$this->db->startTrans();//开启事务
 		try {
 			if( !$this->db->add($data) ) throw new Exception("新增订单明细失败!");
-			if( !$this->db->model('in_log')->where('id = '.$data['inlog_id'])->update($_data+$_inlog) ) throw new Exception("同步操作库存失败!");
-			if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'])->update('number=number-'.$data['require_number']) )  throw new Exception("产品货品表更新失败!");
+			if( !$this->db->model('in_log')->where('id = '.$data['inlog_id'])->update(' controlled_number = controlled_number - '.$data['require_number'].' , lock_number = lock_number + '.$data['require_number'].' , update_time='.CORE_TIME.' , update_admin = '.$_SESSION['name']) ) throw new Exception("同步操作库存失败!");
+			if( !$this->db->model('order')->where('o_id = '.$data['o_id'])->update('total_price = total_price +'.$time_price) ) throw new Exception("订单总金额更新失败!");
 		} catch (Exception $e) {
+			showtrace();
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}

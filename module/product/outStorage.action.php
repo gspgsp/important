@@ -25,14 +25,12 @@ class outStorageAction extends adminBaseAction {
 		$action=sget('action','s');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;
-			$list=$this->db->model('out_log')->where($where)
+			$list=$this->db->model('sale_log')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
-			foreach($list['data'] as $k=>$v){
-				$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']); //获取客户名称
-				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($list['data'][$k]['store_id']); //获取仓库名
-				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			foreach($list['data'] as $k=>&$v){
+				$v['model']=M("product:product")->getModelById($v['p_id']); //获取客户名称
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -47,8 +45,8 @@ class outStorageAction extends adminBaseAction {
 		$out_info['admin_name']=M("product:outStorage")->getNameBySid($out_info['store_aid']); //获得出库人姓名
 		$this->assign('c_id',$c_id);
 		$this->assign('out_info',$out_info);
-		$this->assign('o_id',$o_id);
 		$this->assign('out_no',$out_no);
+		$this->assign('o_id',$o_id);
 		$this->display('outStorage.edit.html');
 	}
 	/**
@@ -57,6 +55,7 @@ class outStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
+		p($data);die;
 		if(empty($data)) $this->error('操作有误');	
 		$data['out_date']=strtotime($data['out_date']);
 		$_data=array(
@@ -73,6 +72,7 @@ class outStorageAction extends adminBaseAction {
 		if(!$diff_num) $this->error('数量有误');
 		if($data['doyet'] == 'doyet') $result=$this->db->add($data+$_data);		
 		$out_log=$this->db->model('out_log')->add($data+$_data);
+		$this->db->model('sale_log')->where("id = ".$data['sale_id'])->update(" number = number - ".$diff_num);
 		if($this->db->commit()){
 				$this->success('操作成功');
 			}else{

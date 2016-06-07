@@ -5,8 +5,8 @@
 			{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
-				<span class="separator"></span>
-				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+				<!-- <span class="separator"></span>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
 			</td>
 			{/if}
 			<td style="float:right;">
@@ -24,10 +24,6 @@
 				<select name="in_storage_status">
 					<option value="">入库状态</option>
 					{html_options options=$in_storage_status}
-				</select>
-				<select name="purchases_type">
-					<option value="">采购类型</option>
-					{html_options options=$purchase_type}
 				</select>
 				<select name="key_type">
 					<option value="o_id">订单名称</option>
@@ -58,7 +54,6 @@
 			<div field="c_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 			<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
 			<div field="in_storage_status" width="80" headerAlign="center" allowSort="true" align="center">入库状态</div>
-			<div field="purchase_type" width="80" headerAlign="center" allowSort="true" align="center">采购类型</div>
 			<div field="remark" width="100" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
@@ -114,29 +109,29 @@ function add(){
 		}
 	});	
 }
-//双击弹出
-function onRowDblClick(e) {
-	var record = e.record, status=record.status;
-	onEdit();
-}
-function onEdit(e) {
-	var row = grid.getSelected();
-	if (row) {
-		var width=740,height=400,title='产品信息';
-		urlStr="/product/purchaseLog/info?type=edit&id="+row.id;
-		mini.open({
-			url: urlStr,
-			title: title,
-			width: width,
-			height:height,
-			ondestroy: function (action) {
-				if(action=='save'){ //重新加载
-					grid.reload();
-				}
-			}
-		});
-	}
-}
+// //双击弹出
+// function onRowDblClick(e) {
+// 	var record = e.record, status=record.status;
+// 	onEdit();
+// }
+// function onEdit(e) {
+// 	var row = grid.getSelected();
+// 	if (row) {
+// 		var width=740,height=400,title='产品信息';
+// 		urlStr="/product/purchaseLog/info?type=edit&id="+row.id;
+// 		mini.open({
+// 			url: urlStr,
+// 			title: title,
+// 			width: width,
+// 			height:height,
+// 			ondestroy: function (action) {
+// 				if(action=='save'){ //重新加载
+// 					grid.reload();
+// 				}
+// 			}
+// 		});
+// 	}
+// }
 //删除
 function remove() {
 	var rows = grid.getSelecteds(),_ids=new Array();

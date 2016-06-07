@@ -60,8 +60,9 @@ class inStorageAction extends adminBaseAction {
 			'in_storage_no'=>genOrderSn(), //出库单号
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
-			'number'=>$p_info['number'],
-			'remainder'=>$p_info['number'],
+			'number'=>$p_info['number'], //入库数量
+			'remainder'=>$p_info['number'], //剩余数量
+			'controlled_number'=>$p_info['number'], //可用数量
 			'p_id'=>$p_info['p_id'],
 			's_id'=>$data['store_id'],
 			'store_aid'=>$data['store_aid'],
@@ -123,7 +124,6 @@ class inStorageAction extends adminBaseAction {
 	public function save(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		p($data);
 		$sql=array();
 		if(empty($data)){
 			$this->error('操作数据为空');
