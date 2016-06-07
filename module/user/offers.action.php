@@ -28,7 +28,7 @@ class offersAction extends homeBaseAction{
 		$this->shelve_type=L('shelve_type');//上下架状态
 		$this->cargo_type=L('cargo_type');//现货期货
 
-		$this->display('offers.list');
+		$this->display('mypurchase.list');
 	}
 
 
