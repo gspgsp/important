@@ -1,0 +1,81 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
+
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-修改密码</h3>
+        <!--set4 begin-->
+        <div class="set4 color3">
+          	<form class="psForm">
+				<table>
+					<tr>
+						<td class="name">旧密码：</td>
+						<td>
+							<input type="password" name="old" datatype="*6-16" nullmsg="请输入旧密码！" errormsg="密码范围在6~16位之间" vlaue="" class="import"/>
+							<span class="Validform_checktip"></span>
+						</td>
+
+					</tr>
+					<tr>
+						<td class="name">新密码：</td>
+						<td>
+							<input type="password" name="new" datatype="*6-16" nullmsg="请输入新密码！" errormsg="密码范围在6~16位之间" vlaue="" class="import"/>
+							<span class="Validform_checktip"></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="name">确认新密码：</td>
+						<td>
+							<input type="password" name="renew" datatype="*6-16" recheck="new" nullmsg="请输入确认密码！" errormsg="您两次输入的账号密码不一致！" vlaue="" class="import"/>
+							<span class="Validform_checktip"></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><input type="submit" value="保存" class="submit"/></td>
+					</tr>
+				</table>
+            </form>
+        </div>
+        <!--set4 end--> 
+    </div>
+</div>
+
+<script type="text/javascript">
+	
+$(function(){
+	var valid=$(".psForm").Validform({
+		tiptype:function(msg,o,cssctl){
+			if(!o.obj.is("form")){
+				var objtip=o.obj.siblings(".Validform_checktip");
+				cssctl(objtip,o.type);
+				objtip.text(msg);
+			}
+		}
+	});
+
+	$(".psForm").submit(function(){
+		if(valid.check()){
+			var data=$(this).serialize();
+			$.post('/user/changepass',data,function (data){
+				if(data.err==0){
+					alert('修改成功');
+				}else{
+					alert(data.msg);
+				}
+			},'json');
+		}
+		return false;
+	});
+
+
+})
+
+
+	
+	
+</script>

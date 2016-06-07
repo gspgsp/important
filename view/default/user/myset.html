@@ -2,6 +2,9 @@
 {insert_css files='home/user.css'}
 {insert_js files='home/tab.js'}
 {insert_js files='home/jquery.ajaxupload.js'}
+<style type="text/css">
+	.requires{border:1px solid red !important;}
+</style>
 
 
 <div class="buy-crumb w1220">首页-个人中心</div>
@@ -101,44 +104,51 @@
             <!--con-tabx-1 end-->
             <!--con-tabx-2 begin-->
             <div id="con-tabx-2" class="con-tabx" style="display:none;">
-            	<table>
-                	<tr>
-                    	<td class="name">公司名称：</td>
-                        <td><input type="text" class="import import1" value="上海中晨电子商务股份有限公司"/></td>
-                    </tr>
-                    <tr>
-                    	<td class="name">所需牌号：</td>
-                        <td><input type="text" class="import import2" value="13262252939"/></td>
-                    </tr>
-                    <tr>
-                    	<td class="name">公司地址：</td>
-                        <td>
-                        	<select>
-                        		<option>请选择</option>
-                        	</select>
-                        	<select>
-                        		<option>请选择</option>
-                        	</select>
-                        </td>
-                    </tr>
-                    <tr>
-                    	<td class="name">详细地址：</td>
-                        <td><input type="text" class="import import3" value="上海虹口区欧阳路568号庐迅大厦17楼"/></td>
-                    </tr>
-                    <tr>
-                    	<td class="name">邮编：</td>
-                        <td><input type="text" class="import import3" value="上海虹口区欧阳路568号庐迅大厦17楼"/></td>
-                    </tr>
-                    <tr>
-                    	<td class="name">公司介绍：</td>
-                        <td><input type="text" class="import import3" value="上海虹口区欧阳路568号庐迅大厦17楼"/></td>
-                    </tr>
-                </table>
-                <div class="opt">
-                    <input type="button" value="修改" class="btn1"/>
-                    <input type="submit" value="保存" class="btn1"/>
-                    <input type="button" value="取消" class="btn2"/>
-                </div>
+            	<form id="companyForm">
+	            	<table>
+	                	<tr>
+
+	                    	<td class="name">公司名称：</td>
+	                        <td><input type="text" name="c_name" class="import import1 required" value="{$customer.c_name}"/></td>
+	                    </tr>
+	                    <tr>
+	                    	<td class="name">所需牌号：</td>
+	                        <td><input type="text" name="need_product" class="import import2 required" value="{$customer.need_product}"/></td>
+	                    </tr>
+	                    <tr>
+	                    	<td class="name">公司地址：</td>
+	                        <td>
+	                        	<select name="origin[]" onChange="getarea(this)" class="required">
+	                        		<option value="">请选择</option>
+	                        		{foreach from=$area item=value}
+	                        		<option {if $value.id==$origin[0]}selected{/if} value="{$value.id}">{$value.name}</option>
+	                        		{/foreach}
+	                        	</select>
+	                        	<select name="origin[]" class="required">
+	                        		<option value="">请选择</option>
+	                        		{foreach from=$city item=value}
+	                        		<option {if $value.id==$origin[1]}selected{/if} value="{$value.id}">{$value.name}</option>
+	                        		{/foreach}
+	                        	</select>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                    	<td class="name">详细地址：</td>
+	                        <td><input type="text" name="address" class="import import3 required" value="{$customer.address}"/></td>
+	                    </tr>
+	                    <tr>
+	                    	<td class="name">邮编：</td>
+	                        <td><input type="text" name="zip" class="import import3" value="{$customer.zip}"/></td>
+	                    </tr>
+	                    <tr>
+	                    	<td class="name">公司介绍：</td>
+	                        <td><input type="text" name="com_intro" class="import import3" value="{$customer.com_intro}"/></td>
+	                    </tr>
+	                </table>
+	                <div class="opt">
+	                    <input type="submit" value="保存" class="btn1"/>
+	                </div>
+                </form>
             </div>
             <!--con-tabx-2 end-->
         </div>
@@ -147,6 +157,22 @@
 </div>
 
 <script type="text/javascript">
+function getarea(that){
+	var pid=$(that).val();
+	$.get('/api/region',{region_id:pid},function(data){
+		if(data.length){
+			console.log(data);
+			var html='<option value="">请选择</option>';
+			$(data).each(function(k,v){
+				html+='<option value="'+v.id+'">'+v.name+'</option>';
+			});
+			$(that).nextAll('select').html('<option value="">请选择</option>');
+			$(that).next('select').html(html);
+		}else{
+			$(that).nextAll('select').html('<option value="">请选择</option>');
+		}
+	},'json');
+}
 $(function(){
 	new AjaxUpload('#permitP_btn', {
 	    action: '/public/sysUpload/images?model=1',
@@ -187,7 +213,29 @@ $(function(){
 		return false;
 	});
 
-
+	$("#companyForm").submit(function(){
+		var flag=true;
+		$(this).find('.required').each(function(k,v){
+			if($(this).val().trim().length==0){
+				$(this).addClass('requires');
+				flag=false;
+				return false;
+			}
+		});
+		if(!flag) return false;
+		var data=$(this).serialize();
+		$.post('/user/myset/edit_company',data,function (data){
+			if(data.err==0){
+				alert('修改成功');
+			}else{
+				alert(data.msg);
+			}
+		},'json');
+		return false;
+	});
+	$("form input,select").live('focus',function(){
+		$(this).removeClass('requires');
+	});
 
 })
 </script>
