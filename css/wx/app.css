@@ -13,7 +13,7 @@ body{ background: #f1f1f1;}
 #articleWrap p{ font-size: 13px; color: #646464; margin: 0;}
 #articleWrap img{ width: 100%; margin: 10px 0;}
 #articleWrap .time{ text-align: right; border-top: 1px solid #e1e1e1; color: #909090; padding: 0 10px; font-size: 11px; height: 40px; line-height: 40px;}
-#backTop{ width: 50px; border-radius: 5px; height: 50px; background: rgba(255,102,0,0.5); position: fixed; right: 12px; bottom: 65px;}
+#backTop{ width: 50px; border-radius: 5px; height: 50px; z-index: 10; background: rgba(255,102,0,0.5); position: fixed; right: 12px; bottom: 65px;}
 #backTop img{ width: 50px; height: 50px;}
 #articleContent{ padding: 10px 12px;}
 #articleContent h3{ margin: 0 0 10px 0; padding: 0; font-weight: normal; font-size: 16px;}
@@ -36,7 +36,8 @@ body{ background: #f1f1f1;}
 .registerInput{ font-size: 17px; margin: -2px 0 0 10px; color: #bbbbbb; background: none; border: none;}
 .registerInput:focus{ outline: none;}
 .registerBtn{ width: 100%; font-size: 17px; margin: 40px 0 0 0; background: #ff6600; border-radius: 5px; color: #ffffff; text-align: center; height: 43px; line-height: 43px;}
-.validCode{ position: absolute; top: 17px; right: 0; font-size: 13px; text-align: center; width: 100px; height: 30px; line-height: 30px; border-radius: 13px; background: #267bd3;color: #ffffff;}
+.validCode{ position: absolute; border: none; top: 17px; right: 0; font-size: 13px; text-align: center; width: 100px; height: 30px; line-height: 30px; border-radius: 13px; background: #267bd3;color: #ffffff;}
+.validCode:focus{ outline: none;}
 .loginLink a{ font-size: 13px; margin: 10px 0 0 0; color: #267bd3; text-decoration: none;}
 #vcodeImg{ width: 74px; height: 30px; position: absolute; right: 0; top: 5px;}
 
