@@ -104,6 +104,7 @@ class mysetAction extends homeBaseAction{
 			$model=M('user:userAddress');
 			$this->is_ajax=true;
 			$data=$_POST;
+			
 			$_data=array(
 				'user_id'=>$this->user_id,                     //用户id
 				'invoice_header'=>trim($data['header']),       //发票抬头
@@ -135,7 +136,7 @@ class mysetAction extends homeBaseAction{
 			if($type>0){
 				$mes='';
 			}else{
-				$m=$model->where('id='.$where['id'])->delete();
+				$mes=$model->where('id='.$where['id'])->delete();
 
 			}
 		}
