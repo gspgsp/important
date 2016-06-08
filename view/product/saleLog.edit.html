@@ -40,37 +40,35 @@
 			<legend>库存产品选择</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 				<tr>
-					<td>订单名称：</td>
-					<td><input name="o_id" class="mini-buttonedit" onbuttonclick="ordChoose" value="{$info.o_id}" allowInput="false"  text="{$order_name}"  style="width:100px" id="usrId"/>
-					</td>
 					<td>牌号 : </td>
 					<td><input name="model" id="model" value="{$model}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  emptyText="请从库存中选择" required="true" style="width:150px"/>
 					</td>
-								
-				</tr>
-				<tr>
 					<td>仓库：</td>
 					<td><input name="store_name" id="store" value="{$info.store_name}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>	
+								
+				</tr>
+				<tr>	
 					<td>批次：</td>
 					<td><input name="lot_num" id="lot" value="{$info.lot_num}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>
-					
-				</tr>
-				<tr>
 					<td>采购价 : </td>
 					<td><input name="purchase_price" id="p_price" value="{$info.purchase_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>
-					<td><font style="color:blue;">需求数量 : </font></td>
-					<td id="num"><input name="require_number" id="require_number" value="{$info.number}" textField="text" valueField="id" class="mini-textbox"  onvaluechanged="onValidation"  required="true" style="width:150px"/><span id="returnError" style="padding-left:5px; color:#F00;"></span>
-					</td>
 					
 				</tr>
 				<tr>
+					<td><font style="color:blue;">需求数量 : </font></td>
+					<td id="num"><input name="require_number" id="require_number" value="{$info.number}" textField="text" valueField="id" class="mini-textbox"  onvaluechanged="onValidation"  required="true" style="width:150px"/><span id="returnError" style="padding-left:5px; color:#F00;"></span>
+					</td>
 					<td><font style="color:blue;">销售价 : </font></td>
 					<td>
 					<input name="unit_price" id="u_price" value="{$info.unit_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="true"  required="true" style="width:150px"/>	
 					</td>
+					
+				</tr>
+				<tr>
+					
 					<td>备注 : </td>
 					<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$info.remark}"></td>
 				</tr>

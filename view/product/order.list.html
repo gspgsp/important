@@ -4,12 +4,15 @@
 		<tr>
 		{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
+			{if $order_type eq 1}
 				<a class="mini-button" iconCls="icon-add" plain="true" onclick="addSale()">销售</a>
 				<span class="separator"></span>
+			{else}
 				<a class="mini-button" iconCls="icon-add" plain="true" onclick="addPur()">采购</a>
 				<!-- <span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
 				<span class="separator"></span>
+			{/if}
 				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
 			</td>
 		{/if}
@@ -26,11 +29,11 @@
 				</select>
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
-				<select name="order_type" id="soStatus">
+<!-- 				<select name="order_type" id="soStatus">
 					<option value="" selected="selected">全部订单</option>
 					<option value="2">采购订单</option>
 					<option value="1">销售订单</option>
-				</select>
+				</select> -->
 				<select name="order_source">
 					<option value="" selected="selected">来源</option>
 					{html_options options=$order_source}
@@ -75,7 +78,7 @@
 			<div field="o_id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">OID</div>
 			<div field="order_name" width="55" headerAlign="center" align="center" allowSort="true">订单名称</div>
 			<div field="order_sn" width="45" headerAlign="center" align="center" allowSort="true">订单号</div>
-			<div field="order_type" width="45" headerAlign="center" align="center" allowSort="true"  renderer="LoadOrderType">类型</div>
+			<div field="order_type" width="45" headerAlign="center" align="center" allowSort="true">类型</div>
 			<div field="order_source" width="35" headerAlign="center" align="center" allowSort="true">来源</div>
 			<div field="c_name" width="60" headerAlign="center" align="center" allowSort="true">客户名称</div>
 			<div field="sign_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">签订时间</div>
@@ -147,7 +150,7 @@ function onLoadHandle(e) {
 //新增产品详情
 function onLoadDetail(e){
 	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status;
-	if(order_type=='1'){	//销售
+	if(order_type=='销售订单'){	//销售
 		if(order_status =='1' || transport_status =='1'){ //待审核时的操作
 			s += '<a href="javascript:addSaleLog('+oid+')">追加</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		} 
@@ -160,7 +163,7 @@ function onLoadDetail(e){
 			s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		}		
 		if(order_status =='3' || transport_status =='3')  return;
-		if(order_status ==2 && transport_status==2){
+		if(order_status =='2' && transport_status=='2'){
 			s+='<a href="javascript:inStorage('+oid+')">入库</a>|<a href="javascript:transaction('+oid+','+order_type+')">'+'付款'+'</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		}
 	}
@@ -233,7 +236,7 @@ function outStorage(oid){
 	mini.open({
 		url:"/product/outStorage/info?o_id="+oid,
 		showMaxButton:true,
-		title:'发货记录新增',width:850,height:600,
+		title:'发货记录新增',width:850,height:380,
 		ondestroy: function(action){
 			if(action=='save'){ //重新加载
 				grid.reload();

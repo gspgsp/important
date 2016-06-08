@@ -38,7 +38,25 @@ class orderAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$this->assign('order_type',$order_type);
+		$this->assign('order_type',1);
+		$this->assign('doact',$doact);
+		$this->assign('page_title','订单管理列表');
+		$this->display('order.list.html');
+	}
+
+	/**
+	 * @access public
+	 * @return html
+	 * 默认是采购订单
+	 **/
+	public function purchase(){
+		$doact=sget('do','s');
+		$action=sget('action','s');
+		$order_type=sget('order_type','s');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('order_type',2);
 		$this->assign('doact',$doact);
 		$this->assign('page_title','订单管理列表');
 		$this->display('order.list.html');
@@ -102,8 +120,7 @@ class orderAction extends adminBaseAction {
 			$v['transport_type']=L('transport_type')[$v['transport_type']];
 			$v['business_model']=L('business_model')[$v['business_model']];
 			$v['financial_records']=L('financial_records')[$v['financial_records']];
-			// $list['data'][$k]['order_status']=L('order_status')[$v['order_status']];
-			// $list['data'][$k]['transport_status']=L('transport_status')[$v['transport_status']];
+			$v['order_type']=L('order_type')[$v['order_type']];
 			$v['goods_status']=L('goods_status')[$v['goods_status']];
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 		}
@@ -337,11 +354,11 @@ class orderAction extends adminBaseAction {
 						if($data['order_type']==1 ){ //销售明细
 							$detail[$i]['number']=$detail[$i]['require_number'];
 							if( !$this->db->model('sale_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
-							if(count($detail[$i])>10){ //如果数组长度大于6说明是消耗库存的订单
+							if($detail[$i]['store_id']>0){ //如果数组长度大于6说明是消耗库存的订单
 								if( !$this->db->model('in_log')->where('id = '.$detail[$i]['inlog_id'])->update(' controlled_number = controlled_number - '.$detail[$i]['require_number'].' , lock_number = lock_number + '.$detail[$i]['require_number']) ) throw new Exception("同步操作库存失败!");
-							}
-							
-						}else{
+							}		
+						}else{ //采购明细
+
 							if( !$this->db->model('purchase_log')->add($detail[$i]+$add_data) ) throw new Exception("新增明细失败");
 						}
 					}

@@ -2,20 +2,7 @@
 <input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
 <input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/>
 <input class="mini-hidden" name="out_no" value="{$out_no}"/>
-<div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}" idField="id"
-	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
-		<div property="columns">
-			<div type="checkcolumn"></div>
-			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
-			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
-			<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
-			<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数
-				<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
-			</div>   
-		</div>
-</div>
+
 <div title="新增出库管理" class="form" id="editForm">
 		<input class="mini-hidden" id="o_id" name="o_id" value="{$o_id}"/>
 		<input class="mini-hidden" name="doyet" value="{$doyet}" />
@@ -74,29 +61,21 @@
 			</table>
 			
 		</fieldset>
-
-		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
-			<legend>出库明细</legend>
-			<table width="100%" border="0" cellpadding="1" cellspacing="2">
-				<tr>
-					<td>订单明细:</td>
-					<td><input name="sale_id" class="mini-buttonedit" onbuttonclick="detailChoose" value="{$data.sale_id}" allowInput="false"  text="{$data.sale_id}"  style="width:120px" id="usrId"/></td>
-					<td>仓库:</td>
-					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
-				</tr>
-				<tr>
-					<td>库位</td>
-					<td><input name="location_name" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.location_name}"/></td>
-					<td>出库人</td>
-					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
-				</tr>
-				<tr>
-					<td>数量</td>
-					<td><input name="number" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.number}"/></td>
-				</tr>
-			</table>	
-		</fieldset>
 	</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}" idField="id"
+sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
+		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数
+			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
+		</div>   
+	</div>
+</div>
 			<div align="center" style="margin-top:10px;">
 				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">保存</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
@@ -306,7 +285,6 @@ function saveData() {
 	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
 }
 var ourarr ={};
-
 function onValidation(){
 	var out_number = parseInt(this.getValue());
 	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();

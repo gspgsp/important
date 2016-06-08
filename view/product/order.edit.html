@@ -5,13 +5,10 @@
 	<input class="mini-hidden" name="o_id" value="{$info.o_id}"/>
 	<input class="mini-hidden" name="order_sn" value="{$order_sn}"/>
 	<div  style="padding:5px; " >
-
-				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
-					<legend>订单信息</legend>
-					<div id="editForm1" style="padding:5px; ">
-
-
-				<table width="100%" >
+		<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>订单信息</legend>
+			<div id="editForm1" style="padding:5px; ">
+				<table id="table1" width="100%" >
 					<tr>
 						<td>订单名称：</td>
 						<td><input name="order_name" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.order_name}"/>
@@ -38,8 +35,8 @@
 					<tr>
 						<td>采购类型：</td>
 						<td><input name="purchase_type" class="mini-combobox" style="width:125px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}'   required="true" textfield="name" valuefield="id"/></td>
-					{/if}
-						
+					
+					{/if}	
 						<td>客户名称：</td>
 						<td>
 							<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
@@ -100,11 +97,11 @@
 					</div>
 				</fieldset>
 			{if $otype eq 'addopus'}
-				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
-					<legend>订单明细 <span class="close">关闭弹窗</span></legend>
-					<div id="editForm2" style="padding:5px; ">
-						<div class="detail">
-						    <table style=" width: 790px;">
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="consumeStore">
+					<legend>销库存订单</legend>
+					<div id="editForm2" style="padding:5px;" >
+					<div class="detail">
+						<table style=" width: 790px;">
 						        <tr>
 						            <th>牌号</th>
 						            <th>仓库</th>
@@ -121,10 +118,57 @@
 						        <span class="total-amount">合计数量：<input type="text" value="0"/></span>
 						    </div>
 						    <!--total end-->
-						</div>
+					</div>
 					</div>
 				</fieldset>
-			{/if}	
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="sale">
+					<legend>销售订单</legend>
+					<div id="editForm3" style="padding:5px;" >
+					<div class="detail">
+						<table style=" width: 790px;">
+						        <tr>
+						            <th>牌号</th>
+						            <th>售价</th>
+						            <th>数量</th>
+							<th>总价</th>
+						            <th>操作</th>
+						        </tr>
+						    </table>
+						    <!--total begin-->
+						    <div class="total">
+						        <span class="total-money">合计金额小写：<input type="text" value="0"/></span>
+						        <span class="total-amount">合计数量：<input type="text" value="0"/></span>
+						    </div>
+						    <!--total end-->
+					</div>
+					</div>
+				</fieldset>
+			{/if}
+			{if $order_type eq 2}
+			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;" id="purchase">
+					<legend>采购订单</legend>
+					<div id="editForm3" style="padding:5px;" >
+					<div class="detail">
+						<table style=" width: 790px;">
+						        <tr>
+						            <th>牌号</th>
+						            <th>客户</th>
+						            <th>售价</th>
+						            <th>数量</th>
+							<th>总价</th>
+						            <th>操作</th>
+						        </tr>
+						    </table>
+						    <!--total begin-->
+						    <div class="total">
+						        <span class="total-money">合计金额小写：<input type="text" value="0"/></span>
+						        <span class="total-amount">合计数量：<input type="text" value="0"/></span>
+						    </div>
+						    <!--total end-->
+					</div>
+					</div>
+			</fieldset>
+			{/if}
 			</div>
 		</div>	
 		</div>
@@ -171,7 +215,15 @@ function changordertype(e){
 	var val = e.value;
 	var addSaleType = mini.get("addSaleType");
 	//1为销库存
-	val ==1 ? addSaleType.on("click",consumeStoreDetil).un("click",saleDetil) : addSaleType.on("click",saleDetil).un("click",consumeStoreDetil) ; 
+	if(val == 1){
+		addSaleType.on("click",consumeStoreDetil).un("click",saleDetil);
+		$("#sale").hide();
+		$("#consumeStore").show();
+	}else{
+		addSaleType.on("click",saleDetil).un("click",consumeStoreDetil); 
+		$("#consumeStore").hide();
+		$("#sale").show();
+	}
 }
 function CloseWindow(action) {            
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
@@ -256,7 +308,7 @@ function proChoose(e){
 	});         
 }
 //追加销售明细(销库存)
-var k = 0; //计数器
+var k = 0;
 var count = 0;
 function consumeStoreDetil(){
 	var require_num  = parseInt(mini.get("require_number").getValue());
@@ -276,57 +328,90 @@ function consumeStoreDetil(){
 				var data = iframe.contentWindow.GetData();
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
-				alert(data);
-				var time_price = parseInt(data.unit_price)*parseInt(data.require_number);
-				addTr(data.model,data.store_name,data.lot_num,data.unit_price,data.require_number,time_price,data.p_id,data.store_id,data.remainder,data.lock_number,data.inlog_id,data.remark,k);
+				if (data) {
+					var time_price = parseInt(data.unit_price)*parseInt(data.require_number);
+					var st = '<tr>'+
+						'<td>'+data.model+'</td>'+
+						'<td>'+data.store_name+'</td>'+
+						'<td >'+data.lot_num+'</td>'+
+						'<td>'+data.unit_price+'</td>'+
+						'<td class="amount">'+data.require_number+'</td>'+
+						'<td class="money">'+time_price+'</td>'+
+						'<td class="opt"><span>删除</span></td>'+
+						'<td style="border:none;">'+
+						'<input class="mini-hidden" name="p_id'+k+'" value="'+data.p_id+'"/>'+
+						'<input class="mini-hidden" name="store_id'+k+'" value="'+data.store_id+'"/>'+
+						'<input class="mini-hidden" name="lot_num'+k+'" value="'+data.lot_num+'"/>'+
+						'<input class="mini-hidden" name="unit_price'+k+'" value="'+data.unit_price+'"/>'+
+						'<input  class="mini-hidden" name="require_number'+k+'" value="'+data.require_number+'"/>'+
+						'<input class="mini-hidden" name="remark'+k+'" value="'+data.remark+'"/>'+
+						'<input class="mini-hidden" name="inlog_id'+k+'" value="'+data.inlog_id+'"/>'+
+						'</td>'+
+					'</tr>';
+					detailTable.append(st);
+					mini.parse();
+					//计算总金额与总数量
+					var totalMoney = $(".total-money input");
+						totalMoney.val(parseInt(totalMoney.val())+parseInt(time_price));
+					var totalAmount = $(".total-amount input");
+						totalAmount.val(parseInt(totalAmount.val())+parseInt(data.require_number));
+					var total_price = mini.get('total_price').getValue();
+					mini.get('total_price').setValue(totalMoney.val()); //每次取出总价加上单笔明细的价格
+				}
 			}
 		}
 	});
 	k++;
 }
 //追加销售明细(不销库存)
-// var j = 0;
-// function saleDetil(){
-// 	var btn = this;
-// 	mini.open({
-// 		url: "/product/saleLog/info?&choose=1&nostore=1",
-// 		title: "新增采购明细",
-// 		width: 250,
-// 		height: 250,
-// 		onload: function () {
-// 			var data=e.sender.getValue();
-// 			top['win'].setDvalue(data);  //去调用子页面的方法。
-// 		},
-// 		ondestroy: function (action) {
-// 			if (action == "ok") {
-// 				var iframe = this.getIFrameEl();
-// 				var data = iframe.contentWindow.GetData();
-// 				data = mini.clone(data);    //必须
-// 				data = eval("(" + data + ")");
-// 				if (data) {
-// 					alert(data);
-// 					for( s in data ){
-// 						alert(s +'-'+ data[s]);
-// 					}
-// 					// addTr(data.);
-// 					oncecount =parseInt(data['require_number']) * parseInt(data['unit_price']);//单比总金额
-// 					count +=parseInt(data['require_number']) * parseInt(data['unit_price']);//全部总金额
-// 					mini.get("total_price").setValue(count); //累计计算总金额
-// 					//叠加添加多次明细的数量 
-// 					var require_number  = parseInt(mini.get("require_number").getValue());
-// 					var count_num = require_number+parseInt(data.require_number);
-// 					mini.get("require_number").setValue(count_num);
-// 					str1+='<td>总价 :</td><td>'+oncecount+'</td></table>';
-// 					$('#editForm2').append(str1);
-// 					$('#editForm2').append(str2);
-// 					$('#editForm2').append(str3);
-// 					mini.parse();
-// 				}
-// 			}
-// 		}
-// 	});
-// 	j++;
-// }
+var j = 0;
+function saleDetil(){
+	var btn = this;
+	mini.open({
+		url: "/product/saleLog/info?&choose=1&nostore=1",
+		title: "新增采购明细",
+		width: 250,
+		height: 250,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					var time_price = parseInt(data.unit_price)*parseInt(data.require_number);
+					var st = '<tr>'+
+						'<td>'+data.model+'</td>'+
+						'<td>'+data.unit_price+'</td>'+
+						'<td class="amount">'+data.require_number+'</td>'+
+						'<td class="money">'+time_price+'</td>'+
+						'<td class="opt"><span>删除</span></td>'+
+						'<td style="border:none;">'+
+						'<input class="mini-hidden" name="p_id'+j +'" value="'+data.p_id+'"/>'+
+						'<input class="mini-hidden" name="unit_price'+j +'" value="'+data.unit_price+'"/>'+
+						'<input  class="mini-hidden" name="require_number'+j +'" value="'+data.require_number+'"/>'+
+						'<input class="mini-hidden" name="remark'+j +'" value="'+data.remark+'"/>'+
+						'</td>'+
+					'</tr>';
+					detailTable.append(st);
+					mini.parse();
+					//计算总金额与总数量
+					var totalMoney = $(".total-money input");
+						totalMoney.val(parseInt(totalMoney.val())+parseInt(time_price));
+					var totalAmount = $(".total-amount input");
+						totalAmount.val(parseInt(totalAmount.val())+parseInt(data.require_number));
+					var total_price = mini.get('total_price').getValue();
+					mini.get('total_price').setValue(totalMoney.val()); //每次取出总价加上单笔明细的价格
+				}
+			}
+		}
+	});
+	j++;
+}
 
 //追加采购明细
 var y = 0;
@@ -348,35 +433,32 @@ function addPurDetil(){
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
 				if (data) {
-					var str1 = '<table><tr>';
-					var str2 = '';
-					for(var s in data){
-						if( s =='number' || s =='unit_price' || s =='model' || s =='supplier' ||  s=='remark'){
-							switch(s){
-								case  'model':
-									str1+='<td>牌号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
-									 break;
-								case  'supplier':
-									str1+='<td>供应商 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
-									break;
-								case 'unit_price':
-									str1+='<td>单价 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
-									break;
-								case 'number':
-									str1+='<td>数量 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
-									break;
-								case  'remark':
-									str1+='<td>备注 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
-									break;
-							}
-						}		
-						str2+='<input class="mini-hidden"  name="'+s+y+'" value="'+data[s]+'"/>';
-					}
-					count +=parseInt(data['number']) * parseInt(data['unit_price']);//全部总金额
-					mini.get("total_price").setValue(count); //累计计算总金额
-					$('#editForm2').append(str1);
-					$('#editForm2').append(str2);
+					var time_price = parseInt(data.unit_price)*parseInt(data.number);
+					var st = '<tr>'+
+						'<td>'+data.model+'</td>'+
+						'<td>'+data.supplier+'</td>'+
+						'<td>'+data.unit_price+'</td>'+
+						'<td class="amount">'+data.number+'</td>'+
+						'<td class="money">'+time_price+'</td>'+
+						'<td class="opt"><span>删除</span></td>'+
+						'<td style="border:none;">'+
+						'<input class="mini-hidden" name="p_id'+y+'" value="'+data.p_id+'"/>'+
+						'<input class="mini-hidden" name="c_id'+y+'" value="'+data.c_id+'"/>'+
+						'<input class="mini-hidden" name="unit_price'+y+'" value="'+data.unit_price+'"/>'+
+						'<input  class="mini-hidden" name="number'+y+'" value="'+data.number+'"/>'+
+						'<input class="mini-hidden" name="remark'+y+'" value="'+data.remark+'"/>'+
+						'</td>'+
+					'</tr>';
+					detailTable.append(st);
 					mini.parse();
+					//计算总金额与总数量
+					var totalMoney = $(".total-money input");
+						totalMoney.val(parseInt(totalMoney.val())+parseInt(time_price));
+					var totalAmount = $(".total-amount input");
+						totalAmount.val(parseInt(totalAmount.val())+parseInt(data.number));
+					var total_price = mini.get('total_price').getValue();
+					mini.get('total_price').setValue(totalMoney.val()); //每次取出总价加上单笔明细的价格
+
 				}
 			}
 		}
@@ -385,70 +467,19 @@ function addPurDetil(){
 }
 
 
-	var detailTable = $(".detail table"),
-		str = "";	
-	//关闭弹窗
-	$(".close").bind("click",function(){
-		var proName = $("#pro-name").val(),
-			grade = $("#grade").val(),
-			place = $("#place").val(),
-			amount = $("#amount").val(),
-			unitName = $("#unit").val(),
-			price = $("#place").val(),
-			money = $("#money").val(),
-			stock = $("#stock").val(),
-			bindStock = $("#bind-stock").val();
-			addTr(proName,grade,place,amount,unitName,price,money,stock,bindStock);
-			
-		//计算总金额与总数量
-		var totalMoney = $(".total-money input");
-			totalMoney.val(parseInt(totalMoney.val())+parseInt(money));
-		var totalAmount = $(".total-amount input");
-			totalAmount.val(parseInt(totalAmount.val())+parseInt(amount));
-			
-			
-			
-	});
-	
+	var detailTable = $(".detail table");		
 	//删除某一条数据
-	detailTable.find(".opt span").live("click",function(){ 
-		var thisTr = $(this).closest("tr");
+	$(".detail table").find(".opt span").live("click",function(){ 
+		var thisTr = $(this).closest("tr"),
+		      index = thisTr.index();
 		thisTr.remove();
-		
 		//计算总金额与总数量
 		var totalMoney = $(".total-money input");
 			totalMoney.val(parseInt(totalMoney.val())-parseInt(thisTr.find(".money").html()));
 		var totalAmount = $(".total-amount input");
 			totalAmount.val(parseInt(totalAmount.val())-parseInt(thisTr.find(".amount").html()));
-		
+		mini.get('total_price').setValue(totalMoney.val());
 	});
 	
-	function addTr(model,store_name,lot_num,unit_price,require_number,time_price,p_id,store_id,remainder,lock_number,inlog_id,remark,k){
-		str = '<tr>'+
-				'<td>'+model+'</td>'+
-				'<td>'+store_name+'</td>'+
-				'<td >'+lot_num+'</td>'+
-				'<td class="money">'+unit_price+'</td>'+
-				'<td class="amount">'+require_number+'</td>'+
-				'<td >'+time_price+'</td>'+
-				'<td class="opt"><span>删除</span></td>'+
-				'<input   name="p_id'+k+'" value="'+p_id+'"/>'+
-				'<input   name="store_id'+k+'" value="'+store_id+'"/>'+
-				'<input   name="lot_num'+k+'" value="'+lot_num+'"/>'+
-				'<input  name="unit_price'+k+'" value="'+unit_price+'"/>'+
-				'<input  name="require_number'+k+'" value="'+require_number+'"/>'+
-				'<input   name="remark'+k+'" value="'+remark+'"/>'+
-
-			'</tr>';
-		detailTable.append(str);
-		mini.parse();
-		//计算总金额与总数量
-		var totalMoney = $(".total-money input");
-			totalMoney.val(parseInt(totalMoney.val())+parseInt(time_price));
-		var totalAmount = $(".total-amount input");
-			totalAmount.val(parseInt(totalAmount.val())+parseInt(require_number));
-		var total_price = mini.get('total_price').getValue();
-		mini.get('total_price').setValue(total_price+time_price); //每次取出总价加上单笔明细的价格
-	}
 
 </script>
