@@ -94,7 +94,7 @@
 	</div>
 </div>
 <fieldset style="width:480px;border:solid 1px #aaa;position:relative;">
-        <legend>公司详细信息</legend>
+        <legend>公司开票资料</legend>
         <div id="editForm1" style="padding:5px;">
             <input class="mini-hidden" name="id"/>
             <table style="width:100%;">
@@ -129,7 +129,12 @@
 			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
+			<div field="sum" width="50" headerAlign="center" allowSort="true" align="center" id="sum">小计</div>
 		</div>
+
+	</div>
+	<div>
+		<span style="float:right">合计{$sum}</span>
 	</div>
 </fieldset>
 <script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
@@ -149,6 +154,7 @@ search();
 function onKeyEnter(e) {
 	search();
 }
+
 //增加后提交数据(保存)
 function submitForm(billing) {
 	form.validate();

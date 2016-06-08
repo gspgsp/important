@@ -38,7 +38,7 @@ class purchaseLogAction extends adminBaseAction {
 			$this->_grid();exit;
 		}
 		$type = sget('type','i',0);
-		if ($type != 0) {
+		if ($type == 1) {
 			$this->display('billing.add.html');
 		}else{
 			$this->assign('in_status',$in_status);
@@ -92,6 +92,7 @@ class purchaseLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
+		$tot=0;
 		foreach($list['data'] as &$v){						
 			$v['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['order_name']=M("product:order")->getColByName($v['o_id']);
@@ -102,7 +103,13 @@ class purchaseLogAction extends adminBaseAction {
 			$v['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
 			$v['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
 			$v['purchase_type'] = L('purchase_type')[$v['purchase_type']];
+			$v['sum'] = $v['unit_price']*$v['number'];
+			//p($v['sum']);
+			$tot=$tot+$v['sum'];
 		}
+		$to='mn';
+		$this->assign('to',$to);
+		$this->assign('tot',$tot);
 		$this->assign('doact',$doact);
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);

@@ -23,7 +23,7 @@ class saleLogAction extends adminBaseAction {
 			$this->_grid();exit;
 		}
 		$type = sget('type','i',0);
-		if ($type != 0) {
+		if ($type == 1) {
 			$this->display('billing.add.html');
 		}else{
 			$this->assign('doact',$doact);
@@ -74,7 +74,7 @@ class saleLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-
+		$tot=0;
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);//根据cid取客户名
 			$list['data'][$k]['order_name']=M("product:order")->getColByName($list['data'][$k]['o_id']);
@@ -86,7 +86,13 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
 			$list['data'][$k]['out_storage_status'] = L('out_storage_status')[$v['out_storage_status']];
 			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
+			$list['data'][$k]['sum'] = $list['data'][$k]['unit_price']*$list['data'][$k]['number'];
+			//p($list['data']['sum']);
+			$tot +=$list['data']['sum'];
 		}
+		$to="mn";
+		$this->assign('to',$to);
+		$this->assign('tot',$tot);
 		$this->assign('doact',$doact);
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);

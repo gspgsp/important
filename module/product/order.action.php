@@ -157,6 +157,14 @@ class orderAction extends adminBaseAction {
 	public function transactionInfo(){
 		$o_id=sget('o_id','i',0);
 		$type=sget('order_type','s');
+
+		if($type==1){
+			$sum=$this->db->model('sale_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
+		}else{
+			$sum=$this->db->model('purchase_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
+		}
+		$this->assign('sum',$sum);
+		
 		$invoice=sget('invoice','i');
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
