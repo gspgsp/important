@@ -37,11 +37,16 @@ class purchaseLogAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$this->assign('in_status',$in_status);
-		$this->assign('doact',$doact);
-		$this->assign('oid',sget('oid','i',0));
-		$this->assign('page_title','订单管理列表');
-		$this->display('purchaseLog.list.html');
+		$type = sget('type','i',0);
+		if ($type != 0) {
+			$this->display('billing.add.html');
+		}else{
+			$this->assign('in_status',$in_status);
+			$this->assign('doact',$doact);
+			$this->assign('oid',sget('oid','i',0));
+			$this->assign('page_title','订单管理列表');
+			$this->display('purchaseLog.list.html');
+		}
 	}
 	/**
 	 * Ajax获取列表内容

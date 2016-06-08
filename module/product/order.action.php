@@ -161,6 +161,7 @@ class orderAction extends adminBaseAction {
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
 		$c_name    = M('user:customer')->getColByName($data[0][c_id]);//获取公司名
+		$c_info    = M('user:customer')->getCinfoById($data[0][c_id]);//获取公司所有信息
 		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
 		$username  = $user_name[username];
 
@@ -175,8 +176,14 @@ class orderAction extends adminBaseAction {
 		$this->assign('o_id',$o_id);
 		$this->assign('price',$data[0]['total_price']);
 		$this->assign('order_sn',$data[0][order_sn]);
-		if($invoice==1){
-			//获取最后一条开票信息
+		if($invoice==1){//获取最后一条开票信息
+			//发送开票公司信息
+			$this->assign('Tax_Id',$c_info['Tax_Id']);
+			$this->assign('Invoice_Address',$c_info['Invoice_Address']);
+			$this->assign('Invoice_Tel',$c_info['Invoice_Tel']);
+			$this->assign('Invoice_Bank',$c_info['Invoice_Bank']);
+			$this->assign('Invoice_Account',$c_info['Invoice_Account']);
+
 			$this->assign('bile_type',L('bile_type'));//票据类型
 			$res = M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
 			if($res){

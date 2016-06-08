@@ -188,7 +188,7 @@ function transaction(oid,order_type){
 
 //开票
 function addInvoice(oid,order_type){
-	var width=500, height=580,type=order_type,invoice='1';
+	var width=520, height=680,type=order_type,invoice='1';
 		title="新增开票";
 	mini.open({
 		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice,
