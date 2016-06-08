@@ -41,7 +41,7 @@
     <ul>
         <li {if $act=='myset'}class="hover"{/if}><a href="/user/myset">账户信息</a></li>
         <li><a href="javascript:;">资质认证</a></li>
-        <li><a href="javascript:;">收货地址</a></li>
+        <li {if $act=='editAddress'}class="hover"{/if}><a href="/user/myset/editAddress">收货地址</a></li>
         <li><a href="javascript:;">账户绑定</a></li>
         <li {if $act=='changepass'}class="hover"{/if}><a href="/user/changepass">修改密码</a></li>
     </ul>

@@ -1,0 +1,207 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+<style type="text/css">
+.xubox_setwin .xubox_close0{ right:-70px!important;}
+</style>
+
+<!--header end-->
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--left begin-->
+    {include file="public:user_left"}
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+        <h3>个人中心-收货地址</h3>
+        <!--set1 begin-->
+        <div class="set1 color3">
+            <!--kp begin-->
+            <div class="kp">
+                <div class="kp-add"><span>添加</span></div>
+                <ul>
+                    {foreach from=$data item=value key=key}
+                    <li class="data" id="{$value.id}">
+                        <!--kp-lt begin-->
+                        <div class="kp-lt flt">
+                            <p>发票抬头：{$value.invoice_header}</p>
+                            <p>发票快递地址：{$value.invoice_address}</p>
+                            <p>收票人:{$value.name}</p>
+                            <p>电话:{$value.mobile}</p>
+                        </div>
+                        <!--kp-lt end-->
+                        <!--kp-rt begin-->
+                        <div class="kp-rt frt">
+                            <p class="mo-data">{if $value.type eq 1} 默认地址
+                                          {elseif $value.type eq 0}
+                                <a class="{$value.id}">设为默认</a>{/if}</p>
+                            <p class="delete">删除</p>
+                        </div>
+                        <!--kp-rt end-->
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            <!--kp end-->
+        </div>
+        <!--set1 end-->
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->
+<!--footer begin-->
+
+<!--footer end-->
+<!--layer begin-->
+<div class="layer">
+	<h3>添加新地址</h3>
+    <p class="error-msg"></p>
+	<table>
+    	<form name="formid" method="post" action="" id="formid">
+            <tr>
+                <td class="name">发票抬头：</td>
+                <td><input type="text" class="tt import"/></td>
+            </tr>
+            <tr>
+                <td class="name">发票快递地址：</td>
+                <td><input type="text" class="address import"/></td>
+            </tr>
+            <tr>
+                <td class="name">收票人：</td>
+                <td><input type="text" class="per-tel1 import"/></td>
+            </tr>
+            <tr>
+                <td class="name">电话：</td>
+                <td><input type="text" class="per-tel2 import"/></td>
+            </tr>
+            <tr>
+            	<td colspan="2" align="center">
+                	<input type="button" value="确定" class="btn submit"/>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+<!--layer end-->
+
+
+<script>
+$(function(){
+
+   //修改默认地址设置
+    $('.mo-data a').click(function(){
+        var aa=$(this).attr('class');
+        $.ajax({
+            url:'/user/myset/update',
+            type:'get',
+            data:{id: aa},
+            cache:false,
+            dataType:'json',
+            success:function($data){
+                if($data){
+                    alert('设置成功');
+                    window.location.reload();
+                }
+            }
+        })
+    })
+
+    //删除地址
+    $('.delete').click(function(){
+        var ids=$(this).parents('li').attr('id');
+        $.ajax({
+            url:"/user/myset/delete",
+            type:'get',
+            data:{ id:ids},
+            cache:false,
+            dataType:'json',
+            success:function($data){
+                if($data==''){
+                    alert('默认地址不能删除');
+                    window.location.reload();
+                }
+                if($data){
+                    alert('删除成功');
+                    window.location.reload();
+                }
+            }
+        })
+    })
+
+
+	var tt = $(".import.tt"),
+		address = $(".import.address"),
+		perTel1 = $(".per-tel1.import"),
+        perTel2 = $(".per-tel2.import"),
+		errorMsg = $(".error-msg"),
+		str = "";
+		
+	$(".kp-add").bind("click",function(){
+		$.layer({
+			type: 1,
+			title: false,
+			border: [0],
+			page: {dom : '.layer'},
+			close:function(){
+				tt.val("");
+				address.val("");
+				perTel1.val("");
+                perTel2.val("");
+				errorMsg.html("");
+			}
+		});
+	});
+
+    //添加地址信息
+	$(".btn.submit").bind("click",function(){
+		if(tt.val()==""){
+			valid("发票抬头不能为空",tt);
+		}
+		else if(address.val()==""){
+			valid("地址不能为空",address);
+		}
+		else if(perTel1.val()==""){
+			valid("收票人不能为空",perTel1);
+		}
+        else if(perTel2.val()==""){
+            valid("电话不能为空",perTel2);
+        }
+        else if(isNaN( perTel2.val())){
+            valid('电话号码必须为数字',perTel2);
+        }
+		else{
+			//errorMsg.html("");
+            $.ajax({
+                url:"/user/myset/addAddress",
+                type:'post',
+                data:{ header:tt.val(),
+                      address:address.val(),
+                       name:perTel1.val(),
+                      mobile:perTel2.val()
+                },
+                cache:false,
+                dataType:'json',
+                success:function($data){
+                    if($data){
+                        alert('添加成功');
+                        window.location.reload();
+                    }
+                }
+            })
+
+		}
+	});
+	
+	function valid(str,elem){
+	    var errorMsg = $(".error-msg");
+		errorMsg.html(str);
+		elem.focus();
+		return false;
+	}
+
+
+
+
+});
+</script>
+</html>

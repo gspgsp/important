@@ -56,6 +56,8 @@ class mysetAction extends homeBaseAction{
 		}
 	}
 
+
+
 	public function edit_company()
 	{
 		if($_POST){
@@ -77,6 +79,99 @@ class mysetAction extends homeBaseAction{
 			$this->success('操作成功');
 		}
 	}
+
+
+
+	/**
+	 * 收货地址列表
+	 *
+	 */
+	public function editAddress(){
+		$this->act='editAddress';
+		$user_id=$this->user_id;
+		$model=M('user:userAddress');
+		$data=$model->where('user_id='.$user_id)->select('*')->getAll();
+		$this->assign('data',$data);
+		$this->display('setaddress');
+	}
+
+	/**
+	 * ajax 接受添加地址信息
+	 *
+	 */
+	public function addAddress(){
+		if($_POST){
+			$model=M('user:userAddress');
+			$this->is_ajax=true;
+			$data=$_POST;
+			$_data=array(
+				'user_id'=>$this->user_id,                     //用户id
+				'invoice_header'=>trim($data['header']),       //发票抬头
+				'invoice_address'=>trim($data['address']),     //发票收件地址
+				'name'=>trim($data['name']),                   //收件人名字
+				'mobile'=>trim($data['mobile']),               //收件人电话
+				'type'=>trim($data['type'])?:0                 //是否为默认地址
+			);
+			$info=$model->add($_data);
+			if($info){
+				$lastid=$model->getLastID();
+			}
+		}
+		$this->json_output($lastid);
+
+	}
+
+	/**
+	 * 根据user_id 删除用户地址信息
+	 *
+     */
+	public function delete(){
+		if($_GET){
+			$this->is_ajax=true;
+			$model=M('user:userAddress');
+			$where['id']=$_GET['id'];
+
+			$type=$model->where('id='.$where['id'])->select('type')->getOne();
+			if($type>0){
+				$mes='';
+			}else{
+				$m=$model->where('id='.$where['id'])->delete();
+
+			}
+		}
+	    $this->json_output($mes);
+
+	}
+
+	/**
+	 * 修改设置默认地址
+	 *
+     */
+	public function update(){
+
+		if($_GET){
+			$this->is_ajax=true;
+			$model=M('user:userAddress');
+			if($id=trim(sget('id','s',''))){
+				//查询数据库中有无默认设置
+				$info=$model->where("user_id=$this->user_id and id=$id")->select('id')->getRow();
+
+				if($info){
+					$model->where("user_id=$this->user_id")->update(array("type"=>0));
+					$model->where("user_id=$this->user_id and id=$id")->update(array("type"=>1));
+				}
+				$this->json_output('操作成功');
+			}
+
+		}
+
+
+	}
+
+
+
+
+
 
 
 }
