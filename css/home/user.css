@@ -1,6 +1,6 @@
 .user-wrap{ margin-bottom:30px;}
 .user-wrap .left{ width:172px; height:1581px; overflow:hidden; background:#fcf4f0;}
-.user-wrap .left h2{ font-size:20px; color:#333; height:50px; line-height:50px; margin:0 0 0 6px; padding:0 0 0 27px; background:url(../../images/home/order.png) no-repeat;}
+.user-wrap .left h2{ font-size:20px; color:#333; height:50px; line-height:50px; margin:0 0 0 6px; padding:0 0 0 27px; background:url(../img/order.png) no-repeat;}
 .user-wrap .left h2.msg{ background-position:0 -88px; margin-top:14px;}
 .user-wrap .left h2.order{ background-position:0 -138px;}
 .user-wrap .left h2.supply{ background-position:0 -188px;}
@@ -14,7 +14,7 @@
 .user-wrap .left ul li a:hover,.user-wrap .left ul li.hover a{ color:#fc6621;}
 .user-wrap .right{ width:1046px; height:auto; overflow:hidden; border:1px solid #d6d7dc;}
 .user-wrap .right h3{ font-size:18px; color:#333; text-indent:23px; height:58px; line-height:58px; border-bottom:1px solid #d6d7dc; margin:0 0 25px 0; position:relative;}
-.user-wrap .right h3 a{ font-size:14px; color:#267bd3; position:absolute; right:23px; top:0; background:url(../../images/home/finance.png) no-repeat 0 -315px;} 
+.user-wrap .right h3 a{ font-size:14px; color:#267bd3; position:absolute; right:23px; top:0; background:url(../img/finance.png) no-repeat 0 -315px;} 
 /*.user-wrap .right .tab{ width:1046px; height:67px; overflow:hidden;}
 .user-wrap .right .tab ul{ height:60px; margin:0 0 0 23px; border-left:1px solid #d6d7dc;}
 .user-wrap .right .tab ul li{ font-size:16px; width:199px; height:58px; line-height:58px; text-align:center; border-top:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-right:1px solid #d6d7dc; float:left; cursor:pointer;}
@@ -25,7 +25,7 @@
 .user-wrap .right .filter .filter-top .query{ width:400px; height:44px; margin:0 49px 0 0; overflow:hidden;}
 .user-wrap .right .filter .filter-top .query input.import{ font-size:14px; width:288px; height:14px; padding:14px 0 14px 9px;border-left:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-top:1px solid #d6d7dc;}
 .user-wrap .right .filter .filter-top .query input.submit{ font-size:14px; width:102px; height:44px; background:#267bd3; color:#fff; cursor:pointer;}
-.user-wrap .right .filter .filter-top .other{ color:#fc6621; font-size:16px; padding:0 127px 0 0; background:url(../../images/home/order.png) no-repeat right 0; cursor:pointer;}
+.user-wrap .right .filter .filter-top .other{ color:#fc6621; font-size:16px; padding:0 127px 0 0; background:url(../img/order.png) no-repeat right 0; cursor:pointer;}
 .user-wrap .right .filter .filter-top .other.show{ background-position:127px 0;}
 .user-wrap .right .filter .filter-top .other.hide{ background-position:127px -44px;}
 .user-wrap .right .filter .filter-bot.hide{ display:none;}
@@ -120,7 +120,7 @@
 .tabe li,.tabx li{ width:200px; height:61px; line-height:61px; float:left; text-align:center; border-top:1px solid #e6e7ea; border-bottom:1px solid #e6e7ea; border-right:1px solid #e6e7ea; cursor:pointer;}
 .tabe li.hover,.tabx li.hover{ overflow:visible; color:#fff; border-bottom-color:#fc6621; border-top-color:#fc6621;}
 .tabe li.hover p,.tabx li.hover p{ background:#fc6621;}
-.tabe li.hover span,.tabx li.hover span{ display:block; width:200px; height:8px; background: url(../../images/home/supplyHover.png) no-repeat center top;}
+.tabe li.hover span,.tabx li.hover span{ display:block; width:200px; height:8px; background: url(../img/supplyHover.png) no-repeat center top;}
 .user-wrap .right .con-tabe table{ width:1000px; border-collapse:collapse; margin-left:23px; clear:both;}
 .user-wrap .right .con-tabe table th{ background:#f3e7bd; font-weight:normal;}
 .user-wrap .right .con-tabe table th,.user-wrap .right .con-tabe table td{ height:38px; border:1px solid #646464; text-align:center;}
@@ -138,7 +138,7 @@
 
 /*财务中心开始*/
 .user-wrap .right .finance-lc-pic{ width:1000px; height:44px; overflow:hidden; margin:0 0 0 23px;}
-.finance-lc1{ font-size:16px; width:272px; height:245px; text-align:center; background:url(../../images/home/finance1.jpg) no-repeat left center; padding:0 0 0 308px; margin:127px 0 127px 131px;}
+.finance-lc1{ font-size:16px; width:272px; height:245px; text-align:center; background:url(../img/finance1.jpg) no-repeat left center; padding:0 0 0 308px; margin:127px 0 127px 131px;}
 .finance-lc1 p{ padding:60px 0 68px 0;}
 .finance-lc1 input{ font-size:16px; color:#fff; width:164px; height:48px; background:#267bd3; color:#fff; cursor:pointer;}
 .finance-lc2{ font-size:14px;}
@@ -175,7 +175,7 @@
 .finance-lc4 .filter-ticket input.query{ display:block; width:100px; height:32px; line-height:32px; margin:0; background:#267bd3; border-radius:2px; color:#fff; float:left; cursor:pointer;}
 .finance-lc4 .filter-ticket label{ line-height:32px; margin:0 60px 0 0; float:left;}
 .finance-lc4 .ticket-list{ height:auto; overflow:hidden; margin:50px 0 0 43px;}
-.finance-lc4 .ticket-list li{ width:225px; height:315px; overflow:hidden; margin:0 20px 20px 0; background:#f5f5f5 url(../../images/home/finance.png) no-repeat; float:left;}
+.finance-lc4 .ticket-list li{ width:225px; height:315px; overflow:hidden; margin:0 20px 20px 0; background:#f5f5f5 url(../img/finance.png) no-repeat; float:left;}
 .finance-lc4 .ticket-list li.will-overdue{ background-position:0 0;}
 .finance-lc4 .ticket-list li.used{ background-position:-225px 0;}
 .finance-lc4 .ticket-list li.overdue{ background-position:-450px 0;}
@@ -198,14 +198,14 @@
 .finance-lc4 .ticket-list .used .ticket-bot{ margin:35px 0 0 20px; line-height:20px;}
 .finance-lc4 .ticket-list .overdue .ticket-bot{ text-align:center; margin:55px 0 0 0;}
 .finance-lc4 .ticket-list .overdue .ticket-bot span,.finance-lc4 .ticket-list .used .ticket-bot span{ color:#969696;}
-.user-wrap .right .finance-lc4 .page,.user-wrap .right .finance-lc5 .page,.user-wrap .right .finance-lc6 .page,.user-wrap .right .focus1 .page{ margin:50px 0 50px 300px;}
-.user-wrap .right .finance-lc4 .page .finance-more,.user-wrap .right .finance-lc5 .page .finance-more,.user-wrap .right .finance-lc6 .page .finance-more,.user-wrap .right .focus1 .page .finance-more{ margin:0 24px 0 0;}
-.user-wrap .right .finance-lc4 .page .finance-more a,.user-wrap .right .finance-lc5 .page .finance-more a,.user-wrap .right .finance-lc6 .page .finance-more a,.user-wrap .right .focus1 .page .finance-more a{ color:#267bd3;}
+.user-wrap .right .page{ margin:50px 0 50px 300px;}
+.user-wrap .right .finance-more{ margin:0 24px 0 0;}
+.user-wrap .right .page .finance-more a{ color:#267bd3;}
 .finance-lc5 .jifen{ height:114px; overflow:hidden; margin:0 0 40px 43px;}
-.finance-lc5 .jifen .jifen-lt{ font-size:16px; width:436px; height:114px; background:url(../../images/home/jifenBg.png) no-repeat right bottom;}
+.finance-lc5 .jifen .jifen-lt{ font-size:16px; width:436px; height:114px; background:url(../img/jifenBg.png) no-repeat right bottom;}
 .finance-lc5 .jifen .jifen-lt .portrait{ width:100px; height:100px; overflow:hidden; position:relative;}
 .finance-lc5 .jifen .jifen-lt .portrait img{ position:absolute; left:0; top:0; z-index:100;}
-.finance-lc5 .jifen .jifen-lt .portrait .mask{ width:100px; height:100px; background:url(../../images/home/portraitMask.png) no-repeat; position:absolute; left:0; top:0; z-index:101;}
+.finance-lc5 .jifen .jifen-lt .portrait .mask{ width:100px; height:100px; background:url(../img/portraitMask.png) no-repeat; position:absolute; left:0; top:0; z-index:101;}
 .finance-lc5 .jifen .jifen-lt p{ margin:31px 0 0 20px;}
 .finance-lc5 .jifen .jifen-lt p span{ font-size:30px; color:#fc6621;}
 .finance-lc5 .jifen .jifen-rt{ width:260px; height:24px; line-height:24px; margin:31px 47px 0 0;}
@@ -245,9 +245,9 @@
 .focus1 .grade{ width:146px;}
 .focus1 .place{ width:249px;}
 .focus1 .status{ width:137px;}
-.focus1 .opt{ width:109px;}
-.focus1 .opt.on a{ color:#267bd3;}
-.focus1 .opt.off a{ color:#f00;}
+.focus1 .opt,.focus1 .opt-con{ width:109px;}
+.focus1 .opt-con a.on{ color:#267bd3;}
+.focus1 .opt-con a.off{ color:#f00;}
 .focus1 .business{ width:246px;}
 .focus1 .linkman{ width:185px;}
 .focus1 .tel{ width:86px;}
@@ -262,7 +262,7 @@
 .site1 .com-info-wrap .com-info span{ margin:0 15px;}
 .site1 .com-info-wrap .com-opt input{ display:inline-block; width:86px; height:36px; line-height:36px; overflow:hidden; margin:0 10px 0 0; background:#fc6621; border-radius:2px; color:#fff; cursor:pointer;}
 .site1 .com-profile{ font-size:14px; line-height:22px; width:960px; height:auto; overflow:hidden; border-top:1px solid #d6d7dc; margin:0 0 30px 43px;}
-.site1 .com-profile h4{ height:54px; line-height:54px; background:url(../../images/home/company.png) no-repeat left center; padding:0 0 0 27px;}
+.site1 .com-profile h4{ height:54px; line-height:54px; background:url(../img/company.png) no-repeat left center; padding:0 0 0 27px;}
 .site1 .com-profile p{ margin:0 0 0 27px;}
 .site .site-add{ height:35px; margin:0 0 15px 0;}
 .site .site-add span{ font-size:14px; width:100px; height:35px; line-height:35px; text-align:center; color:#fff; background:#267bd3; border-radius:2px; float:right; margin:0 23px 0 0; cursor:pointer;}
@@ -272,10 +272,12 @@
 .site li.pro-name{ width:255px;}
 .site li.pro-explain{ width:270px;}
 .site li.status{ width:165px;}
-.site li.opt{ width:109px;}
+.site li.opt,.site li.opt-con{ width:109px;}
 .site li.info-cfy{ width:95px;}
 .site li.info-tit{ width:117px;}
 .site li.info-detail{ width:264px; margin:0 0 0 20px;}
+.site li.opt-con a.on{ color:#267bd3;}
+.site li.opt-con a.off{ color:#f00;}
 .site .site-con li.pro-pic,.site .site-con li.info-pic{ margin-top:19px;}
 .site .site-con li.pro-explain{ text-align:left; line-height:20px; margin:20px 0 0 0;}
 .site .site-con li.info-tit{ line-height:20px; margin:50px 0 0 0;}
@@ -304,7 +306,7 @@
 #con-tabx-1 .lt .val{ color:#969696;}
 #con-tabx-1 .rt{ width:248px; margin:44px 0 0 0;}
 #con-tabx-1 .rt li{ color:#267bd3; width:96px; float:left; text-align:center; cursor:pointer;}
-#con-tabx-1 .rt li p{ width:65px; height:65px; background:url(../../images/home/finance.png) no-repeat; margin:0 auto; margin-bottom:17px;}
+#con-tabx-1 .rt li p{ width:65px; height:65px; background:url(../img/finance.png) no-repeat; margin:0 auto; margin-bottom:17px;}
 #con-tabx-1 .rt li.bind1{ margin-right:56px;}
 #con-tabx-1 .rt li.bind1 p{ background-position:0 -373px;}
 #con-tabx-1 .rt li.bind2 p{ background-position:-65px -373px;}
@@ -332,4 +334,13 @@
 .set4 table{ font-size:16px; width:505px; margin:30px auto;}
 .set4 table tr{ height:70px;}
 .set4 table .name{ text-align:right;}
+.layer{ font-size:14px; width:400px; height:300px; overflow:hidden; background:#fff; display:none;}
+.layer h3{ text-align:center; margin:25px 0 10px 0;}
+.layer .error-msg{ height:20px; line-height:20px; color:#f00; margin:0 0 0 75px;}
+.layer table{ width:318px; margin:0 auto;}
+.layer .name{ width:100px; text-align:right;}
+.layer tr{ height:45px;}
+.layer input.import{ width:200px; height:10px; padding:7px 0 15px 10px; border:1px solid #d6d7dc;}
+.layer input.btn{ font-size:14px; width:100px; height:35px; line-height:35px; color:#fff; border-radius:2px; cursor:pointer;}
+.layer input.submit{ background:#fc6621;}
 /*账户设置结束*/
