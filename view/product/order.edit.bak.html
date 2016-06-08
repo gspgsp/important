@@ -1,5 +1,5 @@
 {layout file="public:mini_layout"}
-<link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
+
 <div style="padding:5px; " >
 	<div id="infoForm" class="form">
 	<input class="mini-hidden" name="o_id" value="{$info.o_id}"/>
@@ -101,27 +101,8 @@
 				</fieldset>
 			{if $otype eq 'addopus'}
 				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
-					<legend>订单明细 <span class="close">关闭弹窗</span></legend>
+					<legend>订单明细</legend>
 					<div id="editForm2" style="padding:5px; ">
-						<div class="detail">
-						    <table style=" width: 790px;">
-						        <tr>
-						            <th>牌号</th>
-						            <th>仓库</th>
-						            <th>批次</th>
-						            <th>售价</th>
-						            <th>数量</th>
-						            <th>总价</th>
-						            <th>操作</th>
-						        </tr>
-						    </table>
-						    <!--total begin-->
-						    <div class="total">
-						        <span class="total-money">合计金额小写：<input type="text" value="0"/></span>
-						        <span class="total-amount">合计数量：<input type="text" value="0"/></span>
-						    </div>
-						    <!--total end-->
-						</div>
 					</div>
 				</fieldset>
 			{/if}	
@@ -256,7 +237,7 @@ function proChoose(e){
 	});         
 }
 //追加销售明细(销库存)
-var k = 0; //计数器
+var k = 0;
 var count = 0;
 function consumeStoreDetil(){
 	var require_num  = parseInt(mini.get("require_number").getValue());
@@ -276,57 +257,123 @@ function consumeStoreDetil(){
 				var data = iframe.contentWindow.GetData();
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
-				alert(data);
-				var time_price = parseInt(data.unit_price)*parseInt(data.require_number);
-				addTr(data.model,data.store_name,data.lot_num,data.unit_price,data.require_number,time_price,data.p_id,data.store_id,data.remainder,data.lock_number,data.inlog_id,data.remark,k);
+				if (data) {
+					var str1 = '<table><tr>';
+					var str2 = '';
+					var str3 = '';
+					var oncecount= 0;
+					for(var s in data){
+						if( s =='model' || s =='store_name' || s =='lot_num' || s =='unit_price' || s=='require_number' || s=='remark' ){
+							switch(s){
+								case  'model':
+									str1+='<td>牌号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									 break;
+								case 'store_name':
+									str1+='<td>仓库 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'lot_num':
+									str1+='<td>批次 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'unit_price':
+									str1+='<td>单价 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'require_number':
+									str1+='<td>数量 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'remark':
+									str1+='<td>备注 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								default:
+							}
+						}		
+						str2+='<input class="mini-hidden"  name="'+s+k+'" value="'+data[s]+'"/>';
+						
+					}
+					oncecount =parseInt(data['require_number']) * parseInt(data['unit_price']);//单比总金额
+					count +=parseInt(data['require_number']) * parseInt(data['unit_price']);//全部总金额
+					mini.get("total_price").setValue(count); //累计计算总金额
+					//叠加添加多次明细的数量 
+					var require_number  = parseInt(mini.get("require_number").getValue());
+					var count_num = require_number+parseInt(data.require_number);
+					mini.get("require_number").setValue(count_num);
+					str1+='<td>总价 :</td><td>'+oncecount+'</td></table>';
+					$('#editForm2').append(str1);
+					$('#editForm2').append(str2);
+					$('#editForm2').append(str3);
+					mini.parse();
+				}
 			}
 		}
 	});
 	k++;
 }
 //追加销售明细(不销库存)
-// var j = 0;
-// function saleDetil(){
-// 	var btn = this;
-// 	mini.open({
-// 		url: "/product/saleLog/info?&choose=1&nostore=1",
-// 		title: "新增采购明细",
-// 		width: 250,
-// 		height: 250,
-// 		onload: function () {
-// 			var data=e.sender.getValue();
-// 			top['win'].setDvalue(data);  //去调用子页面的方法。
-// 		},
-// 		ondestroy: function (action) {
-// 			if (action == "ok") {
-// 				var iframe = this.getIFrameEl();
-// 				var data = iframe.contentWindow.GetData();
-// 				data = mini.clone(data);    //必须
-// 				data = eval("(" + data + ")");
-// 				if (data) {
-// 					alert(data);
-// 					for( s in data ){
-// 						alert(s +'-'+ data[s]);
-// 					}
-// 					// addTr(data.);
-// 					oncecount =parseInt(data['require_number']) * parseInt(data['unit_price']);//单比总金额
-// 					count +=parseInt(data['require_number']) * parseInt(data['unit_price']);//全部总金额
-// 					mini.get("total_price").setValue(count); //累计计算总金额
-// 					//叠加添加多次明细的数量 
-// 					var require_number  = parseInt(mini.get("require_number").getValue());
-// 					var count_num = require_number+parseInt(data.require_number);
-// 					mini.get("require_number").setValue(count_num);
-// 					str1+='<td>总价 :</td><td>'+oncecount+'</td></table>';
-// 					$('#editForm2').append(str1);
-// 					$('#editForm2').append(str2);
-// 					$('#editForm2').append(str3);
-// 					mini.parse();
-// 				}
-// 			}
-// 		}
-// 	});
-// 	j++;
-// }
+var j = 0;
+function saleDetil(){
+	var btn = this;
+	mini.open({
+		url: "/product/saleLog/info?&choose=1&nostore=1",
+		title: "新增采购明细",
+		width: 250,
+		height: 250,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					var str1 = '<table><tr>';
+					var str2 = '';
+					var str3 = '';
+					for(var s in data){
+						if( s =='number' || s =='unit_price' || s =='model' || s =='supplier' || s=='purchase_order_no' || s=='remark'){
+							switch(s){
+								case  'model':
+									str1+='<td>牌号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									 break;
+								case 'purchase_order_no':
+									str1+='<td>采购单号 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'supplier':
+									str1+='<td>供应商 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'unit_price':
+									str1+='<td>单价 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case 'number':
+									str1+='<td>数量 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								case  'remark':
+									str1+='<td>备注 :</td><td>'+data[s]+'</td><td>&nbsp;</td>';
+									break;
+								default:
+							}
+						}		
+						str2+='<input class="mini-hidden"  name="'+s+j+'" value="'+data[s]+'"/>';
+					}
+					oncecount =parseInt(data['require_number']) * parseInt(data['unit_price']);//单比总金额
+					count +=parseInt(data['require_number']) * parseInt(data['unit_price']);//全部总金额
+					mini.get("total_price").setValue(count); //累计计算总金额
+					//叠加添加多次明细的数量 
+					var require_number  = parseInt(mini.get("require_number").getValue());
+					var count_num = require_number+parseInt(data.require_number);
+					mini.get("require_number").setValue(count_num);
+					str1+='<td>总价 :</td><td>'+oncecount+'</td></table>';
+					$('#editForm2').append(str1);
+					$('#editForm2').append(str2);
+					$('#editForm2').append(str3);
+					mini.parse();
+				}
+			}
+		}
+	});
+	j++;
+}
 
 //追加采购明细
 var y = 0;
@@ -383,72 +430,4 @@ function addPurDetil(){
 	});
 	y++;
 }
-
-
-	var detailTable = $(".detail table"),
-		str = "";	
-	//关闭弹窗
-	$(".close").bind("click",function(){
-		var proName = $("#pro-name").val(),
-			grade = $("#grade").val(),
-			place = $("#place").val(),
-			amount = $("#amount").val(),
-			unitName = $("#unit").val(),
-			price = $("#place").val(),
-			money = $("#money").val(),
-			stock = $("#stock").val(),
-			bindStock = $("#bind-stock").val();
-			addTr(proName,grade,place,amount,unitName,price,money,stock,bindStock);
-			
-		//计算总金额与总数量
-		var totalMoney = $(".total-money input");
-			totalMoney.val(parseInt(totalMoney.val())+parseInt(money));
-		var totalAmount = $(".total-amount input");
-			totalAmount.val(parseInt(totalAmount.val())+parseInt(amount));
-			
-			
-			
-	});
-	
-	//删除某一条数据
-	detailTable.find(".opt span").live("click",function(){ 
-		var thisTr = $(this).closest("tr");
-		thisTr.remove();
-		
-		//计算总金额与总数量
-		var totalMoney = $(".total-money input");
-			totalMoney.val(parseInt(totalMoney.val())-parseInt(thisTr.find(".money").html()));
-		var totalAmount = $(".total-amount input");
-			totalAmount.val(parseInt(totalAmount.val())-parseInt(thisTr.find(".amount").html()));
-		
-	});
-	
-	function addTr(model,store_name,lot_num,unit_price,require_number,time_price,p_id,store_id,remainder,lock_number,inlog_id,remark,k){
-		str = '<tr>'+
-				'<td>'+model+'</td>'+
-				'<td>'+store_name+'</td>'+
-				'<td >'+lot_num+'</td>'+
-				'<td class="money">'+unit_price+'</td>'+
-				'<td class="amount">'+require_number+'</td>'+
-				'<td >'+time_price+'</td>'+
-				'<td class="opt"><span>删除</span></td>'+
-				'<input   name="p_id'+k+'" value="'+p_id+'"/>'+
-				'<input   name="store_id'+k+'" value="'+store_id+'"/>'+
-				'<input   name="lot_num'+k+'" value="'+lot_num+'"/>'+
-				'<input  name="unit_price'+k+'" value="'+unit_price+'"/>'+
-				'<input  name="require_number'+k+'" value="'+require_number+'"/>'+
-				'<input   name="remark'+k+'" value="'+remark+'"/>'+
-
-			'</tr>';
-		detailTable.append(str);
-		mini.parse();
-		//计算总金额与总数量
-		var totalMoney = $(".total-money input");
-			totalMoney.val(parseInt(totalMoney.val())+parseInt(time_price));
-		var totalAmount = $(".total-amount input");
-			totalAmount.val(parseInt(totalAmount.val())+parseInt(require_number));
-		var total_price = mini.get('total_price').getValue();
-		mini.get('total_price').setValue(total_price+time_price); //每次取出总价加上单笔明细的价格
-	}
-
 </script>
