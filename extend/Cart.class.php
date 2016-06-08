@@ -71,6 +71,7 @@ final class Cart
         }
 
         self::save($goods);
+        return $sid;
     }
 
     static private function save($goods)
