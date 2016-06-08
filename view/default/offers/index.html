@@ -134,7 +134,7 @@
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
                 <div class="amount">{:floatval|$value.number}</div>
-                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span><b>实价</b></div>
+                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span><b>{if $value.bargain==1}议价{else}实价{/if}</b></div>
                 <!-- <div class="change tie"><b></b><span>100</span></div> -->
                 <div class="address">{$value.cityname}</div>
                 <div class="company">
@@ -147,7 +147,7 @@
                     <b></b>
                 </div>
                 <div class="time">{$value.input_time|date:m-d H:i:s}</div>
-                <div class="opt"><a href="/offers/talk?id={$value.id}">委托洽谈</a></div>
+                <div class="opt"><a href="javascript:doTalk({$value.id});">委托洽谈</a></div>
             </li>
             {else}
             <!-- 自营 -->
@@ -157,7 +157,7 @@
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
                 <div class="amount">{:floatval|$value.number}</div>
-                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span><b>实价</b></div>
+                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span><b>{if $value.bargain==1}议价{else}实价{/if}</b></div>
                 <!-- <div class="change tie"><b></b><span>100</span></div> -->
                 <div class="address">{$value.cityname}</div>
                 <div class="company">
@@ -195,7 +195,7 @@
             {/foreach}
 
         </ul>
-        <a href="/cart" class="order">下单</a>
+        <a href="javascript:doCart();" class="order">下单</a>
         <div class="tips">
             <h4>友情提示：</h4>
             大宗商品价格及库存即时变化，
@@ -206,8 +206,33 @@
     <!--right end-->
 </div>
 <script type="text/javascript">
-	$(function(){
+    function doTalk(id)
+    {
+        var user=$("#user_name").html();
+        if(!user){
+            loginbox('offers');
+            return;
+        }
+        window.location.href="/offers/talk?id="+id;
+    }
 
+    function doCart()
+    {
+        var size=$("#cart li").size();
+        if(!size){
+            alert('请先选购商品');
+            return;
+        }
+        var user=$("#user_name").html();
+        if(!user){
+            loginbox('offers');
+            return;
+        }
+        window.location.href="/cart";
+    }
+
+
+	$(function(){
 
         //点击地区和品种列表提交表单
         $("#screen").find(".m").on("click",function()

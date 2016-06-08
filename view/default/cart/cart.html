@@ -2,7 +2,7 @@
     <h2>产品明细</h2>
     <span>总价：<i class="total">{$totalPrice}</i>元 <b class="sum">总数量：<em>{$totalNums}</em>吨</b></span>
 </div>
-<table>
+<table id="cart">
 	<tr>
         <th>产品名称</th>
         <th>牌号</th>
@@ -15,7 +15,7 @@
         <th width="100">操作</th>
     </tr>
     {foreach from=$cartList item=value key=key}
-    <tr>
+    <tr class="details">
         <td>{$value.options.product_type}</td>
         <td>{$value.options.model}</td>
         <td>{$value.options.f_name}</td>

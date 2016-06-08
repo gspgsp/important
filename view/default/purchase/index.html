@@ -78,7 +78,7 @@
                         <div class="left">
                         	{if $value.status==2}
                             <p>洽谈中...</p>
-                            <a href="/purchase/talk?id={$value.id}" class="yes">我要供货</a>
+                            <a href="javascript:doTalk({$value.id});" class="yes">我要供货</a>
                             {else}
                             <p>交易完成</p>
                             <a href="javascript:;" class="no">交易完成</a>
@@ -184,7 +184,17 @@
 
 
 <script type="text/javascript">
+function doTalk(id)
+{
+    var user=$("#user_name").html();
+    if(!user){
+        loginbox('purchase');
+        return;
+    }
+    window.location.href="/purchase/talk?id="+id;
+}
 $(function(){
+
 	//点击地区和品种列表提交表单
 	$("#screen").find(".m").on("click",function()
 	{

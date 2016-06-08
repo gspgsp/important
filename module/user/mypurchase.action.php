@@ -146,6 +146,7 @@ class mypurchaseAction extends homeBaseAction{
 					'store_house'=>$value['store_house'],//仓库
 					'cargo_type'=>$cargo_type,//现货期货
 					'period'=>$value['period'],//期货周期
+					'bargain'=>$value['bargain'],//是否实价
 					'type'=>$type,//采购、报价
 					'input_time'=>CORE_TIME,//创建时间
 				);

@@ -14,7 +14,7 @@
                     <td><input name="order_name" type="text"/></td>
                     <td>配送方式：</td>
                     <td>
-                    <select name="transport_type">
+                    <select name="transport_type" class="required">
                         <option value="">请选择</option>
                         {foreach from=$transport_type item=value key=key}
                         <option value="{$key}">{$value}</option>
@@ -37,7 +37,7 @@
                 <tr>
                     <td>付款方式：</td>
                     <td>
-                        <select name="pay_method">
+                        <select name="pay_method" class="required">
                             <option value="">请选择</option>
                             {foreach from=$pay_method item=value key=key}
                             <option value="{$key}">{$value}</option>
@@ -56,7 +56,7 @@
         <!--buy-btn begin-->
         <div class="buy-btn">
         	<button>确认下单</button>
-            <button>取消</button>
+            <a href="/offers">返回</a>
         </div>
     </form>
     <!--buy-btn end-->
@@ -67,6 +67,9 @@ function delCart(id,that){
     $.post('/offers/index/delCart',{id,id},function(data){
         if(data.err==0){
             $(that).parents('tr').remove();
+            if($("#cart .details").size()==0){
+                window.location.href="/offers";
+            }
         }
     },'json');
 }
@@ -88,7 +91,7 @@ function set_cart(sid,that){
         load_cart();
     });
 }
-$(function(){	
+$(function(){
     load_cart();
     laydate({
         elem: '#date1',
@@ -98,5 +101,11 @@ $(function(){
         elem: '#date2',
         event: 'focus' 
     });
+
+
+    // $("#cartFrom").submit(function(){
+
+    //     return false;
+    // });
 });
 </script>

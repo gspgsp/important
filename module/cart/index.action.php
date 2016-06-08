@@ -12,6 +12,7 @@ class indexAction extends homeBaseAction{
 	public function init()
 	{
 		if($this->user_id<=0) $this->forward('/user/login');
+		if(empty($this->cartList=Cart::getGoods())) $this->forward('/offers');
 		$this->pay_method=L('pay_method');
 		$this->transport_type=L('transport_type');
 		$this->display('index');

@@ -16,6 +16,7 @@ class loginAction extends homeBaseAction{
 			$this->is_ajax=true;
 			$username=sget('username','s');
 			$password=sget('password','s');
+
 			if(strlen($username)<10 || !is_mobile($username)){
 				$this->error('账号或密码错误');
 			}elseif(strlen($password)<6){
