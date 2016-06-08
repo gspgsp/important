@@ -40,6 +40,7 @@ class mypurchaseAction extends homeBaseAction{
 	public function tables()
 	{
 		$type=sget('type','i',1);
+		$this->assign('type',$type);
 		$where="pur.user_id=$this->user_id and type=$type";
 
 		if($keyword=sget('keyword','s','')){

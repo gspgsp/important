@@ -305,7 +305,7 @@
     function selectCart(id){
         $.post('/offers/index/addCart',{id,id},function(data){
             if(data.err==0){
-                var html='<li><p><span>'+data.msg.product_type+'</span><span>'+data.msg.model+'</span><span>'+data.msg.f_name+'</span></p><p><span>'+data.msg.unit_price+'</span><span>'+data.msg.city+'</span></p><div class="pin"></div><div class="close" onClick="delCart('+data.msg.id+',this)"></div></li>';
+                var html='<li><p><span>'+data.msg.product_type+'</span><span>'+data.msg.model+'</span><span>'+data.msg.f_name+'</span></p><p><span>'+data.msg.unit_price+'</span><span>'+data.msg.city+'</span></p><div class="pin"></div><div class="close" onClick="delCart(\''+data.msg.sid+'\',this)"></div></li>';
                 $("#cart").append(html);
             }else{
                 alert(data.msg);

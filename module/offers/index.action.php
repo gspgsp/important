@@ -1,4 +1,4 @@
-<?php
+	<?php
 class indexAction extends homeBaseAction{
 
 	protected $db;
@@ -172,7 +172,8 @@ class indexAction extends homeBaseAction{
 			$data['product_type']=witchType($data['product_type']);
 			//获取发货地区信息
 			$data['city']=$this->db->model('lib_region')->where("id={$data['provinces']}")->select('name')->getOne();
-			$this->addCol($data);
+			$sid=$this->addCol($data);
+			$data['sid']=$sid;
 			$this->success($data);
 						
 		}
@@ -205,7 +206,7 @@ class indexAction extends homeBaseAction{
 				'city'=>$data['city'],
 			),
 		);
-		Cart::add($arr);
+		return Cart::add($arr);
 	}
 
 }
