@@ -28,7 +28,7 @@
 							 <input name="" class="mini-radiobuttonlist" onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
 						</td>
 						<td>销售类型：</td>
-						<td><input name="sales_type" class="mini-combobox" style="width:125px;" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}'   required="true" textfield="name" valuefield="id"/></td>
+						<td><input name="sales_type" class="mini-combobox" style="width:125px;" id="sales_type" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}'   required="true" textfield="name" valuefield="id"/></td>
 					</tr>
 					<tr>
 					{else}
@@ -37,10 +37,24 @@
 						<td><input name="purchase_type" class="mini-combobox" style="width:125px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}'   required="true" textfield="name" valuefield="id"/></td>
 					
 					{/if}	
-						<td>客户名称：</td>
+						<td><font style="color:blue;">运输方式 : </font></td>
 						<td>
-							<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
+						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;" onvaluechanged="changtransport" required="false"/>
+						</td>	
+					</tr>
+					<tr id="send">
+						<td><font style="color:blue;">送货日期：</font></td>
+						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
 						</td>
+						<td><font style="color:blue;">送货地点：</font></td>
+						<td><input name="delivery_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.delivery_location}"/></td>
+					</tr>
+					<tr id="get" style="display:none;">
+						<td><font style="color:blue;">提货日期：</font></td>
+						<td><input  class="mini-datepicker"  name="pickup_time"  required="true" value="{$info.pickup_time}"/>
+						</td>
+						<td><font style="color:blue;">提货地点：</font></td>
+						<td><input name="pickup_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickup_location}"/></td>
 						
 					</tr>
 					<tr>
@@ -50,38 +64,24 @@
 						<td>签订地点 : </td>
 						<td><input name="sign_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.sign_place}"/>
 						</td>
-						
 					</tr>
 					<tr>
 						<td>财务记录 ：</td>
 						<td><input name="financial_records" class="mini-combobox" style="width:125px;" value="{$info.financial_records}" data='{:setMiniConfig|$financial_records}'  required="true" textfield="name" valuefield="id"/></td>
-						<td>运输方式 : </td>
-						<td><input name="transport_type" class="mini-combobox" style="width:125px;" value="{$info.transport_type}" data='{:setMiniConfig|$transport_type}'  required="true" textfield="name" valuefield="id"/></td>
+						<td>客户名称：</td>
+						<td>
+							<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
+						</td>
 						
 					</tr>
 					<tr>
 						<td>运费 : </td>
 						<td><input name="freight_price" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.freight_price}"/>
 						</td>
-						<td>提货日期：</td>
-						<td><input  class="mini-datepicker"  name="pickup_time"  required="true" value="{$info.pickup_time}"/>
-						</td>
-					</tr>	
-					<tr>
-						<td>送货日期：</td>
-						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
-						</td>
-						<td>提货地点：</td>
-						<td><input name="pickup_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickup_location}"/></td>
-						
-					</tr>
-					<tr>
-						<td>送货地点：</td>
-						<td><input name="delivery_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.delivery_location}"/></td>
 						<td>付款方式 : </td>
 						<td><input name="pay_method" class="mini-combobox" style="width:125px;" value="{$info.pay_method}" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/></td>
 						
-					</tr>
+					</tr>	
 					<tr>
 						<td>付款日期：</td>
 						<td>
@@ -211,18 +211,32 @@ function submitForm(){
 		}
 	},'json');
 }
+//单选显示不同明细方式
 function changordertype(e){
 	var val = e.value;
 	var addSaleType = mini.get("addSaleType");
+	var sales_type= mini.get("sales_type");
 	//1为销库存
 	if(val == 1){
 		addSaleType.on("click",consumeStoreDetil).un("click",saleDetil);
+		sales_type.setValue('1');
 		$("#sale").hide();
 		$("#consumeStore").show();
 	}else{
 		addSaleType.on("click",saleDetil).un("click",consumeStoreDetil); 
+		sales_type.setValue('2');
 		$("#consumeStore").hide();
 		$("#sale").show();
+	}
+}
+function changtransport(e){
+	var val = e.value;
+	if(val == 1){
+		$("#get").hide();
+		$("#send").show();
+	}else{
+		$("#send").hide();
+		$("#get").show();
 	}
 }
 function CloseWindow(action) {            
@@ -236,7 +250,7 @@ function onCancel(e) {
 function usrChoose(e){
 	var btn = this;
 		mini.open({
-		url: "/user/customer/init?do=search",
+		url: "/user/customer/init?do=search&input_admin={$input_admin}",
 		title: "选择公司",
 		width: 1200,
 		height: 550,
@@ -330,7 +344,7 @@ function consumeStoreDetil(){
 				data = eval("(" + data + ")");
 				if (data) {
 					var time_price = parseInt(data.unit_price)*parseInt(data.require_number);
-					var st = '<tr>'+
+					var st = '<tr data-index="'+k+'">'+
 						'<td>'+data.model+'</td>'+
 						'<td>'+data.store_name+'</td>'+
 						'<td >'+data.lot_num+'</td>'+
@@ -384,7 +398,7 @@ function saleDetil(){
 				data = eval("(" + data + ")");
 				if (data) {
 					var time_price = parseInt(data.unit_price)*parseInt(data.require_number);
-					var st = '<tr>'+
+					var st = '<tr data-index="'+j+'">'+
 						'<td>'+data.model+'</td>'+
 						'<td>'+data.unit_price+'</td>'+
 						'<td class="amount">'+data.require_number+'</td>'+
@@ -434,9 +448,9 @@ function addPurDetil(){
 				data = eval("(" + data + ")");
 				if (data) {
 					var time_price = parseInt(data.unit_price)*parseInt(data.number);
-					var st = '<tr>'+
+					var st = '<tr data-index="'+y+'">'+
 						'<td>'+data.model+'</td>'+
-						'<td>'+data.supplier+'</td>'+
+						'<td>'+data.f_name+'</td>'+
 						'<td>'+data.unit_price+'</td>'+
 						'<td class="amount">'+data.number+'</td>'+
 						'<td class="money">'+time_price+'</td>'+
@@ -465,14 +479,16 @@ function addPurDetil(){
 	});
 	y++;
 }
-
-
 	var detailTable = $(".detail table");		
 	//删除某一条数据
 	$(".detail table").find(".opt span").live("click",function(){ 
 		var thisTr = $(this).closest("tr"),
 		      index = thisTr.index();
 		thisTr.remove();
+		//追加属性
+		var str = '<input class="mini-hidden" type="hidden" name="isDel'+thisTr.attr("data-index")+'" value="1">';
+		$(this).parent().next().append(str);
+		mini.parse();
 		//计算总金额与总数量
 		var totalMoney = $(".total-money input");
 			totalMoney.val(parseInt(totalMoney.val())-parseInt(thisTr.find(".money").html()));

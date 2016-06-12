@@ -67,7 +67,7 @@ class orderAction extends adminBaseAction {
 	 * @access private 
 	 * @return html
 	 */
-	private function _grid(){
+	public function _grid(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','input_time'); //排序字段
@@ -137,7 +137,12 @@ class orderAction extends adminBaseAction {
 		$type=sget('type','s');
 		$order_type=sget('order_type','i',0);
 		if($o_id<1){
-			$order_sn=genOrderSn();
+			if($order_type  == 1){
+				$order_sn='SO'.genOrderSn();
+			}else{
+				$order_sn='PO'.genOrderSn();
+			}
+			$this->assign('input_admin',$_SESSION['name']);
 			$this->assign('order_sn',$order_sn);
 			$this->assign('otype','addopus'); //新增订单关联前台显示
 			$this->assign('order_type',$order_type);
@@ -174,7 +179,6 @@ class orderAction extends adminBaseAction {
 	public function transactionInfo(){
 		$o_id=sget('o_id','i',0);
 		$type=sget('order_type','s');
-
 		if($type==1){
 			$sum=$this->db->model('sale_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
 		}else{
@@ -311,6 +315,7 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);

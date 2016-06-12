@@ -107,17 +107,17 @@
 						<td><input name="unit_price" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.unit_price}"/>
 						</td>
 					</tr>
-					<tr>
+<!-- 					<tr>
 						<td>供应商：</td>
 						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:100px" id="usrId"/></td>
-					</tr>
+					</tr> -->
 					<tr>						
 						<td>备注:</td>
-						<td><input name="remark" class="mini-textarea" style="width:100px" required="true"/ value="{$info.remark}"></td>
+						<td><input name="remark" class="mini-textarea" style="width:100px" required="false"/ value="{$info.remark}"></td>
 
 					</tr>
 					<input class="mini-hidden" id="hidden_model" name="model" value=""/>
-					<input class="mini-hidden" id="hidden_supplier" name="supplier" value=""/>
+					<input class="mini-hidden" id="f_name" name="f_name" value=""/>
 				</table>
 		</fieldset>
 
@@ -211,6 +211,8 @@ function ordChoose(e){
 function proChoose(e){
 	var btn = this;
 	var model = mini.get('hidden_model');
+	var f_name = mini.get('f_name');
+
 		mini.open({
 		url: "/product/product/init?ischecked=checked",
 		title: "选择产品",
@@ -228,7 +230,8 @@ function proChoose(e){
 				if (data) {
 					btn.setValue(data.id);
 					btn.setText(data.model);
-					model.setValue(data.model)
+					model.setValue(data.model);
+					f_name.setValue(data.f_name);
 				}
 			}
 		}

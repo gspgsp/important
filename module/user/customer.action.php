@@ -58,7 +58,7 @@ class customerAction extends adminBaseAction {
 	 * @access private 
 	 * @return html
 	 */
-	private function _grid(){
+	public function _grid(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','c_id'); //排序字段
