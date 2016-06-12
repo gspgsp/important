@@ -7,12 +7,12 @@ class uploadAction extends action {
 	private $cfg=array(); //上传配置
 	private $handle=NULL; //操作句柄
 	public function __construct(){
-		$this->uptype=C('upload_type');
+		$this->uptype=C('upload_type');//local
 		$this->cfg=C('upload_'.$this->uptype);
 		$_class='upload'.ucfirst($this->uptype);
 		$this->handle=new $_class;
 	}
-	
+
 	/*
 	 * 上传图片控制器
      * @access public
@@ -22,10 +22,7 @@ class uploadAction extends action {
 	*/
 	public function upload($self_path=''){
 		if(empty($_FILES)) return false;
-		
 		$handle = $this->handle;
-
-	
 		//补全路径（带后缀）
 		if(!empty($self_path) && substr($self_path,-1)!='/'){
 			$self_path = $self_path.'/';
@@ -58,11 +55,10 @@ class uploadAction extends action {
 		$data['err'] = $error;
 		//$data['file'] = $result[0]['savename'];
 		$data['file'] = $result;
-		return $data;
+		$this->json_output($data);
+		//return $data;
 	}
-	
-	
-	
+
 	/*
 	 * 删除图片
      * @access public
