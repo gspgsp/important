@@ -83,7 +83,11 @@ class customerAction extends adminBaseAction {
 			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
-		}	
+		}
+		//筛选自己的客户
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$where .= " and `customer_manager` =  {$_SESSION['adminid']} ";
+		}
 		$list=$this->db
 		            ->where($where)
 			->page($page+1,$size)
