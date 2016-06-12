@@ -150,7 +150,8 @@ function onLoadHandle(e) {
 //新增产品详情
 function onLoadDetail(e){
 	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status;
-	if(order_type=='销售订单'){	//销售
+	order_type = (order_type=='销售订单' ? '1' : '2');
+	if(order_type=='1'){	//销售
 		if(order_status =='1' || transport_status =='1'){ //待审核时的操作
 			s += '<a href="javascript:addSaleLog('+oid+')">追加</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		} 
@@ -259,6 +260,7 @@ function inStorage(oid){
 }
 //查看订单相关信息
 function viewOrdInfo(oid,o_type){
+	alert(1);
 	mini.open({
 		url: "/product/order/info?oid="+oid+'&type='+o_type,
 		showMaxButton:true,

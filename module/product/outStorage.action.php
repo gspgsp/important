@@ -84,6 +84,7 @@ class outStorageAction extends adminBaseAction {
 			foreach ($_out as $k => $v) {
 				if( !$this->db->model('sale_log')->where(' id = '.$v['id'])->update(' number = number - '.$v['number']) ) throw new Exception("明细更新失败");	//在明细中减去出库的数量
 				$sale_detail = $this->db->model('sale_log')->where(' id = '.$v['id'])->getRow();
+				
 				$sub_price+=$sale_detail['unit_price']*$v['number'];
 				$out_detail=array(
 					'o_id'=>$data['o_id'],
