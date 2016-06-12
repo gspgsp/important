@@ -121,6 +121,7 @@ class mypurchaseAction extends homeBaseAction{
 	//采购发布
 	public function pub()
 	{
+
 		if($data=$_POST['data'])
 		{
 			$this->is_ajax=true;
@@ -173,7 +174,7 @@ class mypurchaseAction extends homeBaseAction{
 						$_product=array(
 							'model'=>$value['model'],//牌号
 							'product_type'=>$value['product_type'],//产品类型
-							'process_type'=>$value['process_type'],//加工级别
+							'process_type'=>$value['process_level'],//加工级别
 							'f_id'=>$f_id,//厂家id
 							'input_time'=>CORE_TIME,//创建时间
 							'status'=>3,//审核状态
