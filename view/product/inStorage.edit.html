@@ -1,38 +1,14 @@
 {layout file="public:mini_layout"}
 <input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
-<input class="mini-hidden" name="in_storage_no" value="{$in_storage_no}"/>
-<div class="mini-toolbar" style="margin:3px 3px 0;">
-	<table style="width:100%;">
-		<tr>
-			<td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+<input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/>
+<input class="mini-hidden" name="out_no" value="{$out_no}"/>
 
-				<span class="separator"></span>
-				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
-			</td>
-		</tr>
-	</table>           
-</div>
-<div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/inStorage/info?action=grid&o_id={$o_id}"  idField="id"
-	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
-		<div property="columns">
-		<div type="checkcolumn"></div>
-		<div field="id" width="100" allowSort="true">流水id</div>           
-		<div field="model" width="100" allowSort="true">牌号</div>     
-		<div field="number" width="100"   allowSort="true">数量
-		</div>
-		<div field="store_name" width="100" allowSort="true">仓库</div>
-		<div field="input_time" width="120" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">入库时间</div>
-		<div field="purchase_id" width="50" headerAlign="center" allowSort="true" renderer="onLoadHandle">明细</div>
-		</div>
-	</div>
-<div title="新增入库管理" class="form" id="editForm">
+<div title="新增出库管理" class="form" id="editForm">
 		<input class="mini-hidden" id="o_id" name="o_id" value="{$o_id}"/>
 		<input class="mini-hidden" name="doyet" value="{$doyet}" />
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
 
-			<legend>入库信息</legend>
+			<legend>出库信息</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 			{if $doyet eq doyet}
 				<tr>
@@ -77,33 +53,25 @@
 			</table>
 			
 		</fieldset>
-
-		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
-			<legend>入库明细</legend>
-			<table width="100%" border="0" cellpadding="1" cellspacing="2">
-				<tr>
-					<td>采购明细:</td>
-					<td><input name="purchase_id" class="mini-buttonedit" onbuttonclick="purLogChoose" value="{$data.purchase_id}" allowInput="false"  text="{$data.purchase_id}"  style="width:120px" id="usrId"/></td>
-					<td>选择仓库:</td>
-					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
-				</tr>
-				<tr>
-					<td>批次</td>
-					<td><input name="lot_num" class="mini-textbox" style="width:120px;" maxlength="8"  required="false" value="{$info.number}"/></td>	
-					<td>入库人</td>
-					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="false"/></td>
-				</tr>
-	
-			</table>	
-		</fieldset>
 	</div>
-
+<div class="mini-fit" style="padding:1px 3px 3px;">
+<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}" idField="id"
+sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
+		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数
+			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
+		</div>   
+	</div>
+</div>
 			<div align="center" style="margin-top:10px;">
-				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">入库</a>
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">保存</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
-	
-			
 	
 <script type="text/javascript">
 mini.parse();
@@ -120,15 +88,14 @@ function onKeyEnter(e) {
 }
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',id = record.purchase_id ;
-	s += '<a href="javascript:viewPurInfo('+id+')">'+'订单明细'+'</a> ';
+	var record = e.record,s='',id = record.id,model = record.model ;
+	s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
 	return s;
 }
-
 //查看明细相关信息
-function viewPurInfo(id){
+function viewOrdInfo(id){
 	mini.open({
-		url: "/product/purchaseLog/info?id="+id,
+		url: "/product/saleLog/info?id="+id,
 		showMaxButton:true,
 		title: "查看明细相关信息", 
 		width: 700, height:450
@@ -136,45 +103,44 @@ function viewPurInfo(id){
 }
 function submitForm() {
 	var form = new mini.Form("#editForm");
-	form.validate();
-	if(form.isValid() == false) return;
+	// form.validate();
+	// if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
+	$.extend(o, ourarr); 
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
-	var urlstr = '/product/inStorage/addSubmit';
+	var urlstr = '/product/outStorage/addSubmit';
 	$.post(urlstr,{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
 			window.location.reload();
+			// CloseWindow("save");
 		}else{
 			return false;
 		}
 	},'json');
 }
 
+
 function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
   else window.close();
-}
-//确定并获取数据
-function onComfirm() {
-	CloseWindow("ok");
 }
 function onCancel(e) {
   CloseWindow("cancel");
 }
 //选择明细
-function purLogChoose(e){
+function detailChoose(e){
 	var oid=mini.get(o_id).getValue();
 	var btn = this;
 		mini.open({
-		url: "/product/purchaseLog/init?do=search&in_status=1&oid="+oid,
+		url: "/product/saleLog/init?do=search&oid="+oid,
 		title: "选择明细",
 		width: 1200,
-		height: 500,
+		height: 550,
 		onload: function () {
 			var iframe = this.getIFrameEl();
 		},
@@ -187,6 +153,30 @@ function purLogChoose(e){
 				if (data) {
 					btn.setValue(data.id);
 					btn.setText(data.id);
+				}
+			}
+		}
+	});
+}
+//强制选择归属公司
+function cusChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
 				}
 			}
 		}
@@ -247,28 +237,54 @@ function admChoose(e){
 function remove() {
 	var rows = grid.getSelecteds(),_ids=new Array();
 	if(rows.length<1) return;
-	for(var i=0;i<rows.length;i++){
-		var _id=parseInt(rows[i].id);
-		if(_id<1){
-			grid.removeRow(rows[i],false);
-		}else{
-			_ids.push(_id);
-		}
+		for(var i=0;i<rows.length;i++){
+	var _id=parseInt(rows[i].id);
+	if(_id<1){
+		grid.removeRow(rows[i],false);
+	}else{
+		_ids.push(_id);
 	}
+  }
 	var ids=_ids.join(',');
 	if(ids=='') return;
 	mini.confirm("确定删除？", "提示", function(action){
-		if(action!='ok') return;
-		var callback=function(data){
-			if(data.err=='0'){
-				grid.reload();
-			}else{
-				alert(data.msg)
-				return false;
-			}
-		}
-		utils.ajax('/product/inStorage/remove',{ids:ids},callback,"POST","json");
-	});
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/outStorage/remove',{ids:ids},callback,"POST","json");
+  });
 }
-
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
+}
+var ourarr ={};
+function onValidation(){
+	var out_number = parseInt(this.getValue());
+	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
+	if(out_number>parseInt(rows[0].number)){
+		alert('不能大于订单数量,请重新输入!');
+		this.setValue('0');
+	 	return false;
+	}
+	ourarr[ rows[0].id  ]= out_number;
+}
 </script>
