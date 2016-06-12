@@ -177,11 +177,18 @@ function checkedMer(e){
 		ondestroy: function (action) {
 			if (action == "ok") {
 				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.admin_id);
-					btn.setText(data.name);
+				var datas = iframe.contentWindow.grid.getSelecteds();
+				var _ids=new Array(),_name=new Array();
+				datas = mini.clone(datas);    //必须
+				if(datas.length<1) return;
+				for(var i=0;i<datas.length;i++){
+					_ids[i]=parseInt(datas[i].admin_id);
+					_name[i]=datas[i].name;
+				}
+				var ids=_ids.join(','),names=_name.join(',');
+				if (ids) {
+					btn.setValue(ids);
+					btn.setText(names);
 				}
 			}
 		}
@@ -203,7 +210,6 @@ var sid = mini.get(s_id).getValue();
 	var o = lform.getData();
 	grid.loading("数据提交中，请稍后......");
 	var json = mini.encode(o);
-
 	var callback=function(data){
 		if(data.err!='0'){
 			grid.unmask();
@@ -310,8 +316,5 @@ function onComfirm() {
 function onCancel() {
 	CloseWindow("cancel");
 }
-function GetData() {
-	var row = grid.getSelected();
-	return row;
-}
+
 </script>

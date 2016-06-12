@@ -181,16 +181,24 @@ class storeAction extends adminBaseAction
 		$this->is_ajax=true; //指定为Ajax输出		
 		$data = sdata(); //传递的参数
 		if(empty($data)) $this->error('错误的请求');
-
-		$id=M('product:store_admin')->replaceByStoreId($data[admin_id],$data[store_id]);
-		if($id) $this->error('此业务员已经绑定');
-
+		$arr=explode(',', $data['admin_id']);
 		$update=array(
-				'input_time'=>CORE_TIME,
-				'input_admin'=>$_SESSION['name'],
-				);
-		$result =$this->db->model('store_admin')->add($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],));
-		if(!$result) $this->error('操作失败');
+			'input_time'=>CORE_TIME,
+			'input_admin'=>$_SESSION['name'],
+		);		
+
+		$this->db->startTrans();//开启事务
+			try {
+				foreach ($arr as $v) {
+					if( M('product:store_admin')->replaceByStoreId($v,$data[store_id]) )throw new Exception("此业务员已经绑定");
+					if( !$this->db->model('store_admin')->add($update+array('admin_id'=>$v,'store_id'=>$data['store_id'])) )throw new Exception("业务员绑定失败");
+				}		
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+
+		$this->db->commit();
 		$this->success('操作成功');
 	}
 
