@@ -1,0 +1,63 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<script>
+    $(function(){
+        $("#chg").bind('click',function(){
+            window.location.href="/user/myHomeWeb/editUserInfo";
+        });
+        $("#en_my").bind('click',function(){
+            window.location.href="/user/myHomeWeb/clickMyWeb";
+        });
+    });
+</script>
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-我的门户网站</h3>
+        <!--site1 begin-->
+        <div class="site1 color3">
+        	<!--com-info-wrap begin-->
+            <div class="com-info-wrap">
+            	<div class="com-pic flt"><img src="__IMG__/home/compic.jpg" width="300" height="200"/></div>
+                <!--com-info begin-->
+                <ul class="com-info flt">
+                	<li>企业名称：{$data.c_name}</li>
+                    <li>企业地址：{$data.address}</li>
+                    {if $data.type eq 1}
+                    <li>企业类型：工厂</li>
+                    {elseif $data.type eq 2}
+                    <li>企业类型：贸易</li>
+                    {elseif $data.type eq 3}
+                    <li>企业类型：工贸一体</li>
+                    {/if}
+                    <!-- <li>企业类型：私营企业</li> -->
+                    <li>联<b></b>系<b></b>人：{$contact.name}</li>
+                    <li>联系电话：{$contact.tel}</li>
+                    <li>传<span></span>真：{$contact.fax}</li>
+                    <li>手<span></span>机：{$contact.mobile}</li>
+                </ul>
+                <!--com-info end-->
+                <!--com-opt begin-->
+                <div class="com-opt frt">
+                	<input type="button" value="我的网站" id="en_my" />
+                    <input type="button" value="修改" id="chg" />
+                </div>
+                <!--com-opt end-->
+            </div>
+            <!--com-info-wrap end-->
+        	<!--com-profile begin-->
+            <div class="com-profile">
+            	<h4>公司介绍</h4>
+                {$data.com_intro}
+            </div>
+            <!--com-profile end-->
+        </div>
+        <!--site1 end--> 
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->

@@ -1,0 +1,108 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<script>
+    $(function(){
+        var a="{$data.com_intro}";
+        $("#companyIntro").html(a);
+        //提交时保存
+        $("#btnCl").bind('click',function(){
+            var mobile = $("#mobile").val();
+            var c_name = $("#c_name").val();
+            var image = $("#image").attr("src");
+            var name = $("#name").val();
+            var tel = $("#tel").val();
+            var address = $("#address").val();
+            var email = $("#email").val();
+            var qq = $("#qq").val();
+            var fax = $("#fax").val();
+            var companyIntro = $("#companyIntro").val();
+            var classify = $("input[name='classify']:checked").val();
+            $.ajax({
+                type:"post",
+                url:"/user/myHomeWeb/saveChange",
+                data:{'mobile':mobile,'c_name':c_name,'image':image,'name':name,'tel':tel,'address':address,'email':email,'qq':qq,'fax':fax,'companyIntro':companyIntro,'classify':classify},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0){
+                    window.location.href="/user/myHomeWeb/getMyWeb";
+                    }
+                }
+            });
+        });
+    });
+</script>
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-修改账户信息</h3>
+        <!--site1-1 begin-->
+        <div class="site1-1 color3">
+        	<table>
+            	<form name="" onSubmit="return false;" method="post" action="">
+                    <tr>
+                        <td class="name">账户（手机）：</td>
+                        <td width="350"><input type="text" class="import" value="{$contact.mobile}" id="mobile" /></td>
+                        <td class="name">公司名称：</td>
+                        <td width="350"><input type="text" class="import" value="{$data.c_name}" id="c_name"/></td>
+                    </tr>
+                    <tr>
+                        <td class="name" rowspan="2">公司头像：</td>
+                        <td rowspan="2">
+                        	 <!--portrait-wrap begin-->
+                            <div class="portrait-wrap">
+                                <div class="portrait flt"><img src="__IMG__/home/portrait1.jpg" width="80" height="80" id="image" /></div>
+                                <div class="upload frt">
+                                    <img src="__IMG__/home/portraitUpload1.png" width="146" height="68"/>
+                                    <input type="file"/>
+                                </div>
+                            </div>
+                            <!--portrait-wrap end-->
+                        </td>
+                        <td class="name">姓名：</td>
+                        <td><input type="text" class="import" value="{$contact.name}" id="name" /></td>
+                    </tr>
+                    <tr>
+                        <td class="name">固话：</td>
+                        <td><input type="text" class="import" value="{$contact.tel}" id="tel" /></td>
+                    </tr>
+                    <tr>
+                        <td class="name">公司地址：</td>
+                        <td><input type="text" class="import" value="{$data.address}" id="address" /></td>
+                        <td class="name">电子邮箱：</td>
+                        <td><input type="text" class="import" value="{$contact.email}" id="email" /></td>
+                    </tr>
+                    <tr>
+                        <td class="name">QQ号码：</td>
+                        <td><input type="text" class="import" value="{$contact.qq}" id="qq" /></td>
+                        <td class="name">传真：</td>
+                        <td><input type="text" class="import" value="{$contact.fax}" id="fax" /></td>
+                    </tr>
+                    <tr>
+                        <td class="name">公司简介：</td>
+                        <td colspan="3">
+                            <textarea id="companyIntro"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="name">企业类型：</td>
+                        <td colspan="3" class="classifys">
+                            <input type="radio" name="classify" id="classify1" checked="checked" value="1"/><label for="classify1">工厂</label>
+                            <input type="radio" name="classify" id="classify2" value="2"/><label for="classify2">贸易</label>
+                            <input type="radio" name="classify" id="classify3" value="3"/><label for="classify3">工贸一体</label>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td colspan="4" align="center"><input type="submit" value="确认修改" class="btn" id="btnCl" /></td>
+                    </tr>
+                </form>
+            </table>
+        </div>
+        <!--site1-1 end--> 
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->

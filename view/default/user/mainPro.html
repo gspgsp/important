@@ -1,0 +1,222 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.css"/>
+<link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.ext.css"/>
+<style type="text/css">
+.xubox_setwin .xubox_close0{ right:-70px!important;}
+</style>
+<script type="text/javascript">
+    $(function(){
+        var productArr=[];
+        $(".del").on("click",function(){
+            var pid=$(this).val();
+            $.ajax({
+            type:"post",
+            url:"/user/mainProduct/changeFocusState",
+            data:{'pId':pid},
+            dataType:'json',
+            success:function(res){
+                if(res.err==0)
+                window.location.href="/user/mainProduct/getMainProduct";
+            }
+            });
+        });
+        //全选
+        $("#all").click(function(){
+                            if(this.checked){
+                                $(".purchaseList").prop("checked", true);
+                                productArr=[];
+                                $(".regular-checkbox2").each(function () {
+                                    productArr.push($(this).data("id"));
+                                    console.log(productArr);
+                                });
+                            }else{
+                                $(".purchaseList").prop("checked", false);
+                                productArr=[];
+                                console.log(productArr);
+                            }
+                        });
+        //单选
+        $(".regular-checkbox2").on("click",function () {
+                            var pId=$(this).data("id");
+                            if(this.checked){
+                                productArr.push(pId);
+                                console.log(productArr);
+                            }else{
+                                $("#all").prop("checked",false);
+                                productArr.splice($.inArray(pId,productArr),1);
+                                console.log(productArr);
+                            }
+                        });
+        //批量关注
+        $("#ml").bind('click',function(){
+            $.ajax({
+                type:"post",
+                url:"/user/mainProduct/mulLook",
+                data:{'ids':productArr},
+                dataType:'json',
+                success:function(res){
+                    window.location.href="/user/mainProduct/getMainProduct";
+                }
+            });
+        });
+        //批量取消
+        $("#mq").bind('click',function(){
+            $.ajax({
+                type:"post",
+                url:"/user/mainProduct/mulQuit",
+                data:{'ids':productArr},
+                dataType:'json',
+                success:function(res){
+                    window.location.href="/user/mainProduct/getMainProduct";
+                }
+            });
+        });
+        //添加新的关注商家
+        var pro_img = $(".import.pro_img"),
+        pro_name = $(".import.pro_name"),
+        pro_inf = $(".import.pro_inf"),
+        errorMsg = $(".error-msg"),
+        str = "";
+
+        $(".site-add").bind("click",function(){
+            $.layer({
+                type: 1,
+                title: false,
+                border: [0],
+                page: {dom : '.layer'},
+                close:function(){
+                    pro_img.val("");
+                    pro_name.val("");
+                    pro_inf.val("");
+                    errorMsg.html("");
+                }
+            });
+        });
+
+        $(".btn.submit").bind("click",function(){
+            if(pro_img.val()==""){
+                valid("请输入产品图片",pro_img);
+            }
+            else if(pro_name.val()==""){
+                valid("请输入产品名称",pro_name);
+            }
+            else if(pro_inf.val()==""){
+                valid("请输入产品说明",pro_inf);
+            }
+            else{
+                $.ajax({
+                    type:"post",
+                    url:"/user/mainProduct/addMainProduct",
+                    data:{'pro_img':pro_img.val(),'pro_name':pro_name.val(),'pro_inf':pro_inf.val()},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.err==0)
+                        window.location.href="/user/mainProduct/getMainProduct";
+                    }
+                });
+                 //errorMsg.html("");
+            }
+        });
+
+        function valid(str,elem){
+            var errorMsg = $(".error-msg");
+            errorMsg.html(str);
+            elem.focus();
+            return false;
+        }
+    });
+</script>
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-主营产品</h3>
+        <!--site2 begin-->
+        <div class="site site2 color3">
+        	<div class="site-add"><span>添加</span></div>
+        	<!--site-title begin-->
+            <ul class="site-title">
+            	<li class="pro-pic">产品图片</li>
+                <li class="pro-name">产品名称</li>
+                <li class="pro-explain">产品说明</li>
+                <li class="status">状态</li>
+                <li class="opt">操作</li>
+            </ul>
+            <!--site-title end-->
+            <!--all-opt begin-->
+            <div class="all-opt">
+                <input type="checkbox" id="all"/>
+                <label for="all">全选</label>
+                <a id="ml" href="javascript:;">批量发布</a>
+                <a id="mq" href="javascript:;">批量取消</a>
+            </div>
+            <!--all-opt end-->
+            <!--site-con begin-->
+            {foreach from=$detail item=value}
+            <div class="site-con">
+            	<!--site-con-top begin-->
+                <div class="site-con-top">
+                	<input type="checkbox" class="purchaseList regular-checkbox2" data-id="{$value.id}"/>
+                    <span>添加时间：{$value.input_time}</span>
+                </div>
+                <!--site-con-top end-->
+                <!--site-con-bot begin-->
+                <div class="site-con-bot">
+                    <ul>
+                        <li class="pro-pic"><img src="__IMG__/home/proPic1.jpg" width="150" height="100"/></li>
+                        <li class="pro-name">{$value.name}</li>
+                        <li class="pro-explain">{$value.desc}</li>
+                        <li class="status">{$value.status}</li>
+                        <button class="del" value="{$value.id}">{$value.operate}</button>
+                    </ul>
+                </div>
+                <!--site-con-bot end-->
+            </div>
+            {/foreach}
+            <!--site-con end-->
+        </div>
+        <!--site2 end--> 
+    </div>
+    <!--right end-->
+    <div>&nbsp;</div>
+    <div class="page" style="text-align: center;">
+                <ul style="display: inline-block;">
+                    <li>{$pages}</li>
+                </ul>
+    </div>
+</div>
+<!--user-wrap end-->
+<!--layer begin-->
+<div class="layer">
+    <h3>添加新主营产品</h3>
+    <p class="error-msg"></p>
+    <table>
+        <form name="" method="post" action="">
+            <tr>
+                <td class="name">产品图片：</td>
+                <td>
+                    <input type="file" class="pro_img import"></input>
+                </td>
+            </tr>
+            <tr>
+                <td class="name">产品名称：</td>
+                <td><input type="text" class="pro_name import"/></td>
+            </tr>
+            <tr>
+                <td class="name">产品说明：</td>
+                 <td><textarea style="width:212px; height:34px;border:solid 1px #d6d7dc;" class="pro_inf import"></textarea> </td>
+                <!-- <td><input type="text" class="pro_inf import"/></td> -->
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" value="确定" class="btn submit"/>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+<!--layer end-->

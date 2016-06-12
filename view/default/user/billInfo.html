@@ -1,0 +1,171 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.css"/>
+<link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.ext.css"/>
+<style type="text/css">
+.xubox_setwin .xubox_close0{ right:-70px!important;}
+</style>
+<script>
+    $(function(){
+        //删除请求
+        $(".del").bind('click',function(){
+            var billId =$(this).val();
+            $.ajax({
+                type:"post",
+                url:"/user/billInformation/deleteOneBill",
+                data:{'bId':billId},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0)
+                    window.location.href="/user/billInformation/billInfo";
+                }
+            });
+        });
+        //是否设为默认
+        $(".setSt").bind('click',function(){
+            var billSt =$(this).val();
+            $.ajax({
+                type:"post",
+                url:"/user/billInformation/IsSetDefault",
+                data:{'bSt':billSt},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0)
+                    window.location.href="/user/billInformation/billInfo";
+                }
+            });
+        });
+        //添加新的发票
+        var tt = $(".import.tt"),
+        address = $(".import.address"),
+        perTel = $(".per-tel.import"),
+        errorMsg = $(".error-msg"),
+        str = "";
+
+        $(".kp-add").bind("click",function(){
+            $.layer({
+                type: 1,
+                title: false,
+                border: [0],
+                page: {dom : '.layer'},
+                close:function(){
+                    tt.val("");
+                    address.val("");
+                    perTel.val("");
+                    errorMsg.html("");
+                }
+            });
+        });
+
+        $(".btn.submit").bind("click",function(){
+            if(tt.val()==""){
+                valid("请输入发票抬头",tt);
+            }
+            else if(address.val()==""){
+                valid("请输入地址",address);
+            }
+            else if(perTel.val()==""){
+                valid("收票人/电话",perTel);
+            }
+            else{
+                $.ajax({
+                    type:"post",
+                    url:"/user/billInformation/addNewBill",
+                    data:{'tt':tt.val(),'address':address.val(),'perTel':perTel.val()},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.err==0)
+                        window.location.href="/user/billInformation/billInfo";
+                    }
+                });
+                 //errorMsg.html("");
+            }
+        });
+
+        function valid(str,elem){
+            var errorMsg = $(".error-msg");
+            errorMsg.html(str);
+            elem.focus();
+            return false;
+        }
+
+});
+</script>
+
+<!--header end-->
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-开票资料</h3>
+        <!--finance-lc6 begin-->
+        <div class="finance-lc6 color3">
+        	<!--kp begin-->
+            <div class="kp">
+            	<div class="kp-add"><span>添加</span></div>
+            	<ul>
+                    {foreach from=$detail item=value}
+                    <li>
+                        <!--kp-lt begin-->
+                        <div class="kp-lt flt">
+                            <p>发票抬头：{$value.invoice_name}</p>
+                            <p>发票快递地址：{$value.invoice_address}</p>
+                            <p>收票人/电话：{$value.invoice_receive}/{$value.invoice_recieve_tel}</p>
+                        </div>
+                        <!--kp-lt end-->
+                        <!--kp-rt begin-->
+                        <div class="kp-rt frt">
+                            <p><button class="setSt" value="{$value.invoice_default}">{$value.invoice_default}</button></p>
+                            <p><button class="del"  value="{$value.id}">删除</button></p>
+                        </div>
+                        <!--kp-rt end-->
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            <!--kp end-->
+            <!--page begin-->
+            <div class="page">
+                <ul class="flt">
+                    <li align="center">{$pages}</li>
+                </ul>
+            </div>
+            <!--page end-->
+        </div>
+        <!--finance-lc6 end-->
+
+    </div>
+    <!--right end-->
+
+</div>
+<!--user-wrap end-->
+<!--layer begin-->
+<div class="layer">
+    <h3>添加新地址</h3>
+    <p class="error-msg"></p>
+    <table>
+        <form name="" method="post" action="">
+            <tr>
+                <td class="name">发票抬头：</td>
+                <td><input type="text" class="tt import"/></td>
+            </tr>
+            <tr>
+                <td class="name">发票快递地址：</td>
+                <td><input type="text" class="address import"/></td>
+            </tr>
+            <tr>
+                <td class="name">收票人/电话：</td>
+                <td><input type="text" class="per-tel import"/></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" value="确定" class="btn submit"/>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+<!--layer end-->

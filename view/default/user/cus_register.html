@@ -1,0 +1,127 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='jquery/jquery.upload.js'}
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+    <!--right begin-->
+<div class="user-wrap w1220">
+
+     {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-资金管理</h3>
+        <!--finance-lc-pic begin-->
+        <div class="finance-lc-pic"><img src="__IMG__/home/financeLc2.jpg" width="1000" height="44"/></div>
+        <!--finance-lc-pic end-->
+        <!--finance-lc2 begin-->
+        <div class="finance-lc2 color3">
+        	<h4>资质认证请填写以下内容，并上传证件照片</h4>
+            <form name="" action="" onSubmit="return false;" method="post">
+            	<table border="1">
+                  <tr>
+                    <td>企业法人姓名<span>*</span>：</td>
+                    <td><input type="text" class="import" name="legal_person" id="legal_person" /></td>
+                    <td width="242">&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>企业法人身份证号<span>*</span>：</td>
+                    <td><input type="text" class="import" name="legal_idcard" id="legal_idcard" /></td>
+                    <td>企业法人身份证照片上传：</td>
+                    <td><input type="file" id="file1" name="file1" value="" id="legal_idcard_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="legal_idcard_pic" /></td>
+                    <!-- <td><input type="hidden" id="idcard" name="idcard" value=""/></td> -->
+                  </tr>
+                  <tr>
+                    <td>营业执照号<span>*</span>：</td>
+                    <td><input type="text" class="import" name="business_licence" id="business_licence" /></td>
+                    <td>营业执照副本照片上传：</td>
+                    <td><input type="file" id="file2" name="file2" value="" id="business_licence_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="business_licence_pic" /></td>
+                    <!-- <td><input type="hidden" id="licence" name="licence" value=""/></td> -->
+                  </tr>
+                  <tr>
+                    <td>税务登记号：</td>
+                    <td><input type="text" class="import" name="tax_registration" id="tax_registration" /></td>
+                    <td>税务登记证照片上传：</td>
+                    <td><input type="file" id="file3" name="file3" value="" id="tax_registration_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="tax_registration_pic" /></td>
+                   <!--  <td><input type="hidden" id="registration" name="registration" value=""/></td> -->
+                  </tr>
+                  <tr>
+                    <td>组织机构代码证号：</td>
+                    <td><input type="text" class="import" name="grounp_no" id="grounp_no" /></td>
+                    <td>组织机构代码证照片上传：</td>
+                    <td><input type="file" id="file4" name="file4" value="" id="organization_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="organization_pic" /></td>
+                   <!--  <td><input type="hidden" id="no" name="no" value=""/></td> -->
+                  </tr>
+                  <tr>
+                  	<td colspan="4" class="opt">
+                    	<input type="submit" value="提交审核" id="btnCl" />
+                        <input type="button" value="返回上一步" id="reBk" />
+                    </td>
+                  </tr>
+                </table>
+            </form>
+        </div>
+        <!--finance-lc2 end-->
+
+    </div>
+</div>
+    <!--right end-->
+<!--user-wrap end-->
+<script type="text/javascript">
+    $(function(){
+        $('.button').on("click",function (){
+            FileUpload($('.button').parent('td').prev().attr('id'));
+        });
+    })
+    function FileUpload(idValue) {
+            $.ajaxFileUpload
+            (
+                {
+                    url: '/public/upload/upload', //用于文件上传的服务器端请求地址
+                    secureuri: false, //是否需要安全协议，一般设置为false
+                    fileElementId: idValue, //文件上传域的ID
+                    dataType: 'json', //返回值类型 一般设置为json
+                    success: function (data, status)  //服务器成功响应处理函数
+                    {
+                        $(this).attr("value", data.file[0].savename);
+                    },
+                    error: function (data, status, e)//服务器响应失败处理函数
+                    {
+                        alert(e);
+                    }
+                }
+            );
+            return false;
+        }
+    //提交
+    $("#btnCl").bind('click',function(){
+            var legal_person = $("#legal_person").val();
+            var legal_idcard = $("#legal_idcard").val();
+            var legal_idcard_pic = $("#legal_idcard_pic").val();
+            var business_licence = $("#business_licence").val();
+            var business_licence_pic = $("#business_licence_pic").val();
+            var tax_registration = $("#tax_registration").val();
+            var tax_registration_pic = $("#tax_registration_pic").val();
+            var grounp_no = $("#grounp_no").val();
+            var organization_pic = $("#organization_pic").val();
+            $.ajax({
+                type:"post",
+                url:"/user/fundManager/certificate",
+                data:{'legal_person':legal_person,'legal_idcard':legal_idcard,'legal_idcard_pic':legal_idcard_pic,'business_licence':business_licence,'business_licence_pic':business_licence_pic,'tax_registration':tax_registration,'tax_registration_pic':tax_registration_pic,'grounp_no':grounp_no,'organization_pic':organization_pic},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0){
+                    window.location.href="/user/fundManager/fundManager";
+                    }
+                }
+            });
+        });
+    //返回上一步
+    $("#reBk").bind('click',function(){
+        window.location.href="/user/fundManager/getBackLast";
+    });
+</script>

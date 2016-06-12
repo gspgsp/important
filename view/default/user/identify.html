@@ -1,0 +1,30 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--left begin-->
+    {include file="public:user_left"}
+    <!--right begin-->
+    <div class="right frt">
+    	<h3>个人中心-资金管理</h3>
+        <!--finance-lc-pic begin-->
+        <div class="finance-lc-pic"><img src="__IMG__/home/financeLc1.jpg" width="1000" height="44"/></div>
+        <!--finance-lc-pic end-->
+        <!--finance-lc1 begin-->
+        <div class="finance-lc1 color3">
+            <p>您还未申请相关资质，可申请审核资质</p>
+            <input type="button" value="马上申请" onClick="resign()" />
+        </div>
+        <!--finance-lc1 end-->
+
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->
+<script type="text/javascript">
+function resign(){
+  window.location.href="/user/fundManager/cusRegister"
+}
+</script>

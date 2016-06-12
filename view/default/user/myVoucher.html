@@ -1,0 +1,131 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-我的抵用券<a href="javascript:;">抵用券使用规则</a></h3>
+        <!--finance-lc4 begin-->
+        <div class="finance-lc4 color3">
+        	<!--filter-ticket begin-->
+            <div class="filter-ticket">
+            	<input type="checkbox" id="all" name="filter" value="5" /><label for="all">全部</label>
+            	<input type="radio" id="filter1" name="filter" value="1" /><label for="filter1">即将过期</label>
+                <input type="radio" id="filter2" name="filter" value="2" /><label for="filter2">有效</label>
+                <input type="radio" id="filter3" name="filter" value="3" /><label for="filter3">已过期</label>
+                <input type="radio" id="filter4" name="filter" value="4" /><label for="filter4">已使用</label>
+                <input type="button" class="query" value="查询" onclick="checkInfo()" />
+            </div>
+            <!--filter-ticket end-->
+            <!--ticket-list begin-->
+            <ul class="ticket-list">
+                {foreach from=$data item=value}
+                        {if $value.state eq 4}
+                        <li class="used">
+                            <!--ticket-top begin-->
+                            <div class="ticket-top">
+                                <p class="money">{$value.price}</p>
+                                <p class="tips">【消费满{$value.use_price}元可用】</p>
+                                <p class="time">{$value.start_time}_{$value.end_time}</p>
+                            </div>
+                            <!--ticket-top end-->
+                            <!--ticket-cen begin-->
+                            <div class="ticket-cen">
+                                <p class="num">券编号：<span>{$value.voucher_bill}</span></p>
+                                <p>品类限制：<span>限购{$value.use_limit}</span></p>
+                            </div>
+                            <!--ticket-cen end-->
+                            <!--ticket-bot begin-->
+                            <div class="ticket-bot">
+                                <p>订单号：<span>12345678890</span></p>
+                                <p>使用时间：<span>{$value.use_time}</span></p>
+                            </div>
+                            <!--ticket-bot end-->
+                        </li>
+                        {elseif $value.state eq 1}
+                        <li class="will-overdue">
+                            <!--ticket-top begin-->
+                            <div class="ticket-top">
+                                <p class="money">{$value.price}</p>
+                                <p class="tips">【消费满{$value.use_price}元可用】</p>
+                                <p class="time">{$value.start_time}_{$value.end_time}</p>
+                            </div>
+                            <!--ticket-top end-->
+                            <!--ticket-cen begin-->
+                            <div class="ticket-cen">
+                                <p class="num">券编号：<span>{$value.voucher_bill}</span></p>
+                                <p>品类限制：<span>限购{$value.use_limit}</span></p>
+                            </div>
+                            <!--ticket-cen end-->
+                            <!--ticket-bot begin-->
+                            <div class="ticket-bot"><a href="javascript:;">立即使用</a></div>
+                            <!--ticket-bot end-->
+                        </li>
+                        {elseif $value.state eq 2}
+                        <li class="effective">
+                            <!--ticket-top begin-->
+                            <div class="ticket-top">
+                                <p class="money">{$value.price}</p>
+                                <p class="tips">【消费满{$value.use_price}元可用】</p>
+                                <p class="time">{$value.start_time}_{$value.end_time}</p>
+                            </div>
+                            <!--ticket-top end-->
+                            <!--ticket-cen begin-->
+                            <div class="ticket-cen">
+                                <p class="num">券编号：<span>{$value.voucher_bill}</span></p>
+                                <p>品类限制：<span>限购{$value.use_limit}</span></p>
+                            </div>
+                            <!--ticket-cen end-->
+                            <!--ticket-bot begin-->
+                            <div class="ticket-bot"><a href="javascript:;">立即使用</a></div>
+                            <!--ticket-bot end-->
+                        </li>
+                        {elseif $value.state eq 3}
+                            <li class="overdue">
+                                <!--ticket-top begin-->
+                                <div class="ticket-top">
+                                    <p class="money">{$value.price}</p>
+                                    <p class="tips">【消费满{$value.use_price}元可用】</p>
+                                    <p class="time">{$value.start_time}_{$value.end_time}</p>
+                                </div>
+                                <!--ticket-top end-->
+                                <!--ticket-cen begin-->
+                                <div class="ticket-cen">
+                                    <p class="num">券编号：<span>{$value.voucher_bill}</span></p>
+                                    <p>品类限制：<span>限购{$value.use_limit}</span></p>
+                                </div>
+                                <!--ticket-cen end-->
+                                <!--ticket-bot begin-->
+                                <div class="ticket-bot">过期时间：<span>{$value.die_time}</span></div>
+                                <!--ticket-bot end-->
+                            </li>
+                        {/if}
+                {/foreach}
+            </ul>
+            <!--ticket-list end-->
+            <!--page begin-->
+            <div class="page">
+                <ul class="flt">
+                    <li>{$pages}</li>
+                    <!-- <li class="blue"><a href="javascript:;">GO</a></li> -->
+                </ul>
+                <!-- <p class="finance-more frt"><a href="javascript:;">更多》</a></p> -->
+            </div>
+            <!--page end-->
+        </div>
+        <!--finance-lc4 end-->
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->
+
+<script type="text/javascript">
+        function checkInfo(){
+            var id = $("input[name='filter']:checked").val();
+            var page = 1;
+            window.location.href = "/user/myVoucher/queryMyVoucher?id="+id+"&page="+page;
+        }
+</script>

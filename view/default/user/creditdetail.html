@@ -1,0 +1,107 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+<script>
+    $(function(){
+        //查询操作
+        $("#btn2").bind('click',function(){
+            var optionVal = $("option[name='Del']:selected").val();
+            window.location.href="/user/myPoints/getCheckInfo?opVal="+optionVal;
+            // $.ajax({
+            //     type:"post",
+            //     url:"/user/myPoints/getCheckInfo",
+            //     dataType:'json',
+            //     data:{'opVal':optionVal,'page':1},
+            //     success:function(res){
+                    
+            //     }
+            // });
+        });
+    });
+</script>
+<div class="buy-crumb w1220">首页-个人中心</div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-我的积分-积分明细</h3>
+        <!--finance-lc5 begin-->
+        <div class="finance-lc5 color3">
+        	<!--jifen begin-->
+            <div class="jifen">
+            	<!--jifen-lt begin-->
+                <div class="jifen-lt flt">
+                	<!--portrait begin-->
+                	<div class="portrait flt">
+                    	<img src="{$thumb}" width="100" height="100"/>
+                    	<div class="mask"></div>
+                    </div>
+                    <!--portrait end-->
+                    <!--total begin-->
+                    <p class="flt">我的积分：<span>{$points}</span>积分</p>
+                    <!--total end-->
+                </div>
+                <!--jifen-lt end-->
+                <!--jifen-rt begin-->
+                <div class="jifen-rt frt">
+                	<span>类 型：</span>
+                	<select>
+                    	<option name="Del" value="3">全部</option>
+                        <option name="Del" value="1">积分收入明细</option>
+                        <option name="Del" value="2">积分支出明细</option>
+                    </select>
+                    <input type="button" value="查询" id="btn2"/>
+                </div>
+                <!--jifen-rt end-->
+            </div>
+            <!--jifen end-->
+        	<!--detail begin-->
+            <div class="detail income">
+            	<h4>积分收入明细</h4>
+                <ul>
+                    {foreach from=$detail item=value}
+                    {if $value.type neq '兑换礼品'}
+                    <li>
+                        <div class="detail-lt flt">
+                            <p>{$value.addtime}</p>
+                            <h5>{$value.type}</h5>
+                        </div>
+                        <div class="detail-rt frt">+{$value.points}</div>
+                    </li>
+                    {/if}
+                    {/foreach}
+                </ul>
+            </div>
+            <!--detail end-->
+            <!--detail begin-->
+            <div class="detail pay">
+            	<h4>积分支出明细</h4>
+                <ul>
+                    {foreach from=$detail item=value}
+                    {if $value.type eq '兑换礼品'}
+                	<li>
+                    	<div class="detail-lt flt">
+                        	<p>{$value.addtime}</p>
+                            <h5>{$value.type}：奥克斯（AUX）电热水壶</h5>
+                        </div>
+                        <div class="detail-rt frt">{$value.points}</div>
+                    </li>
+                    {/if}
+                    {/foreach}
+                </ul>
+            </div>
+            <!--detail end-->
+            <!--page begin-->
+            <div>&nbsp;</div>
+            <div class="page" style="text-align: center;">
+                        <ul style="display: inline-block;">
+                            <li>{$pages}</li>
+                        </ul>
+            </div>
+            <!--page end-->
+        </div>
+        <!--finance-lc5 end-->
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->
