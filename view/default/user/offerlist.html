@@ -1,0 +1,84 @@
+<style type="text/css">
+    a.but{
+        font-size: 14px;
+        float: left;
+        min-width: 56px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        background: #267bd3;
+        color: #fff;
+        display: block;
+        padding: 0 17px;
+        margin: 0 0 0 20px;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+    .but_box{
+        overflow: hidden;
+        width: 500px;
+        margin: 10px auto;
+    }
+    .but_box .inpu_box{
+        width: 188px;
+        float: left;
+        font-size: 16px;
+    }
+    .but_box .inpu{
+        width: 104px;
+        height: 30px;
+        border: 1px solid #dfdfdf;
+        text-indent: 12px;
+    }
+</style>
+<table style="margin: 0;" class="table1">
+	<tr>
+    	<th class="all"></th>
+    	<th>供应商名称</th>
+        <th>报价（元/吨）</th>
+        <th>数量（吨）</th>
+        <th>提货地点</th>
+        <th>交货日</th>
+        <th>提货方式</th>
+        <th>备注</th>
+    </tr>
+    {foreach from=$list item=value}
+    <tr>
+    	<td><input style="width:15px;" name="xd" value="{$value.id}" type="radio"></td>
+        <td>{$value.c_name}</td>
+        <td>{$value.price}</td>
+        <td>{$value.number}</td>
+        <td>{$value.number}</td>
+        <td>{$value.delivery_date|date:Y-m-d}</td>
+        <td>{:setOption|ship_type,$value.ship_type}</td>
+        <td>{$value.remark}</td>
+    </tr>
+    {/foreach}
+</table>
+<div class="but_box">
+    <div class="inpu_box">
+        成交价：
+        <input type="text" class="inpu" name="price">
+    </div>
+    <a class="but" id="xd" href="javasript:;">选定</a>
+    <a class="but" href="javasript:;">关闭</a>
+</div>
+
+<script type="text/javascript">
+    $("#xd").click(function(){
+        var id=$("input[name='xd']:checked").attr('value');
+        if(!id){
+            alert('请选择要选定的报价');
+            return;
+        }
+        var inpObj=$("input[name='price']");
+        var price=inpObj.val();
+        if(!parseFloat(price)){
+            alert('请输入成交价格');
+            return;
+        }
+        $.post('/user/mypurchase/selected',{id:id,price:price},function(data){
+            
+        },'json');
+    })
+</script>

@@ -40,21 +40,22 @@
 <div id="Pagination" class="pages"></div>
 
 <div id="offersList" style="display: none;">
-    <h1>dsadsdsadsa</h1>
 </div>
 
 <script type="text/javascript">
+
+    $.layer({
+        type: 1,
+        border: [0], //去掉默认边框
+        area: ['1000px','500px'],
+        page: {dom: '#offersList'},
+        success: function(layero){
+            // var loading=layer.load('加载中');
+            $("#offersList").load('/user/mypurchase/get_offers',{id:212});
+        }
+    });
     function selectOffer(id){
-        $.layer({
-            type: 1,
-            border: [0], //去掉默认边框
-            area: ['1000px','500px'],
-            page: {dom: '#offersList'},
-            success: function(layero){
-                var loading=layer.load('加载中');
-                
-            }
-        });
+        
     }
     $("#Pagination").createPage({
         pageCount:{$count},

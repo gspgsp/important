@@ -193,4 +193,65 @@ class mypurchaseAction extends homeBaseAction{
 			$this->success('提交成功');
 		}
 	}
+
+
+	// 获得我的洽谈、报价列表
+	public function get_offers()
+	{
+		if($_POST){
+			$id=sget('id','i',0);
+			$list=$this->db->from('purchase pur')
+				->join('sale_buy sb','pur.id=sb.p_id')
+				->join('customer cus','sb.c_id=cus.c_id')
+				->where("sb.p_id=$id")
+				->select('sb.id,sb.number,sb.price,sb.delivery_date,sb.ship_type,sb.input_time,sb.remark,cus.c_name')
+				->getAll();
+			$this->assign('list',$list);
+			$this->display('offerlist');
+		}
+	}
+
+	// 选定报价
+	public function selected()
+	{
+		if($_POST)
+		{
+			$this->is_ajax=true;
+			$model=$this->db->model('sale_buy');
+			$id=sget('id','i',0);//sale_buy的报价id
+			$price=sget('price');//成交价格
+
+			if( !$data=$model->where("id=$id")->getRow() ) $this->error('信息不存在');//根据id信息未找到
+			$purModel=M('product:purchase');
+			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');//报价表与用户不匹配
+			// if($purData['last_buy_sale']) $this->error('不能重复选定');
+			$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id));
+			p($purData);
+			p($data);
+			$orderModel=M('product:unionOrder');
+			$orderSn=genOrderSn();
+			$orderData=array();
+			$orderData['order_name']="联营订单";
+			$orderData['order_sn']=$orderSn;
+			$orderData['order_source']=1;
+			$orderData['sale_id']=$purData['user_id'];//卖家客户
+			$orderData['buy_id']=$data['user_id'];//买家客户
+			$orderData['p_sale_id']=$id;//sale_buy的报价id
+			$orderData['sign_time']=CORE_TIME;
+			$orderData['deal_price']=$price;//成交价格
+			$orderData['total_price']=$price*$data['number'];//总金额
+			$orderData['customer_manager']=$purData['customer_manager'];//交易员
+			$orderData['pickup_location']=$data['pickup_location'];//提货地点
+			$orderData['delivery_location']=$data['delivery_location'];//送货地点
+			$orderData['transport_type']=$purDate['ship_type'];//运输方式
+			$orderData['deal_price']=$price;//成交价格
+
+
+
+
+			p($orderData);
+		}
+	}
+
+
 }
