@@ -53,7 +53,7 @@
 			</tr>
 			<tr>
 				<td>抬头</td>
-				<td><input name="rise" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
+				<td><input name="rise" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			
 			<tr>
@@ -100,19 +100,19 @@
             <table style="width:100%;">
                 <tr>
                     <td style="width:100px;">纳税人识别号</td>
-                    <td style="width:150px;"><input name="Tax_Id" class="mini-textbox" value="{$Tax_Id}"allowInput="false"/></td>
+                    <td style="width:150px;"><input name="tax_id" class="mini-textbox" value="{$tax_id}"allowInput="false"/></td>
                     <td style="width:80px;">开票地址</td>
-                    <td style="width:150px;"><input name="Invoice_Address" class="mini-textbox" value="{$Invoice_Address}"allowInput="false"/></td>
+                    <td style="width:150px;"><input name="invoice_address" class="mini-textbox" value="{$invoice_address}"allowInput="false"/></td>
                 </tr>
                 <tr>
                     <td>开票银行</td>
-                    <td style="width:150px;"><input name="Invoice_Bank" class="mini-textbox" value="{$Invoice_Bank}"allowInput="false"/></td>
+                    <td style="width:150px;"><input name="invoice_bank" class="mini-textbox" value="{$invoice_bank}"allowInput="false"/></td>
                     <td>开票帐号</td>
-                    <td style="width:150px;"><input name="Invoice_Account" class="mini-textbox" value="{$Invoice_Account}"allowInput="false"/></td> 
+                    <td style="width:150px;"><input name="invoice_account" class="mini-textbox" value="{$invoice_account}"allowInput="false"/></td> 
                 </tr>
                 <tr>
                 	<td style="width:80px;">开票电话</td>
-                    <td style="width:150px;"><input name="Invoice_Tel" class="mini-textbox" value="{$Invoice_Tel}"allowInput="false"/></td> 
+                    <td style="width:150px;"><input name="invoice_tel" class="mini-textbox" value="{$invoice_tel}"allowInput="false"/></td> 
                 </tr>
             </table>
         </div>
@@ -125,7 +125,7 @@
 		<div property="columns">
 			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div>
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-			<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量</div>      
+			<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量</div>     
 			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>

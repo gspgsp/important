@@ -207,11 +207,11 @@ class orderAction extends adminBaseAction {
 		$this->assign('order_sn',$data[0][order_sn]);
 		if($invoice==1){//获取最后一条开票信息
 			//发送开票公司信息
-			$this->assign('Tax_Id',$c_info['Tax_Id']);
-			$this->assign('Invoice_Address',$c_info['Invoice_Address']);
-			$this->assign('Invoice_Tel',$c_info['Invoice_Tel']);
-			$this->assign('Invoice_Bank',$c_info['Invoice_Bank']);
-			$this->assign('Invoice_Account',$c_info['Invoice_Account']);
+			$this->assign('tax_id',$c_info['tax_id']);
+			$this->assign('invoice_address',$c_info['invoice_address']);
+			$this->assign('invoice_tel',$c_info['invoice_tel']);
+			$this->assign('invoice_bank',$c_info['invoice_bank']);
+			$this->assign('invoice_account',$c_info['invoice_account']);
 
 			$this->assign('bile_type',L('bile_type'));//票据类型
 			$res = M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);

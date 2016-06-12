@@ -75,7 +75,7 @@ class collectionAction extends adminBaseAction
 		//开票状态
 		$invoice_status = sget("invoice_status",'s','');
 		if($invoice_status!='') $where.=" and `invoice_status` = '$invoice_status' ";
-		//开票状态
+		//收付款状态
 		$company_account = sget("company_account",'s','');
 		if($company_account!='') $where.=" and `account` = '$company_account' ";
 		//关键词
