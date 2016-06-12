@@ -21,9 +21,9 @@
 	            <div class="opt">
 	                <ul>
 	                    <li class="add-quote-1">添加</li>
-	                    <!--{if $type==2}-->
-	                    <!--<li>Excel批量导入报价</li>-->
-	                    <!--{/if}-->
+	                    {if $type==2}
+	                    <li>Excel批量导入报价</li>
+	                    {/if}
 	                </ul>
 	            </div>
 
@@ -58,8 +58,8 @@
 								{/foreach}
 							</select>
 	                    </td>
-	                    <td><input type="text" class="required" name="data[0][number]" value=""/></td>
-	                    <td><input type="text" class="required" name="data[0][price]" value=""/></td>
+	                    <td><input type="text"  class="required" name="data[0][number]" value=""/></td>
+	                    <td><input type="text"  class="required" name="data[0][price]" value=""/></td>
 	                    <td>
 	                    	<select name="data[0][bargain]">
 	                        	<option value="1">否</option>
@@ -94,9 +94,9 @@
 	            <div class="opt">
 	                <ul>
 	                    <li class="add-quote-2">添加</a></li>
-	                    <!--{if $type==2}-->
-	                    <!--<li>Excel批量导入报价</li>-->
-	                    <!--{/if}-->
+	                    {if $type==2}
+	                    <li>Excel批量导入报价</li>
+	                    {/if}
 	                </ul>
 	            </div>
 	            <!--opt end-->
