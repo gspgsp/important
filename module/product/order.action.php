@@ -272,7 +272,7 @@ class orderAction extends adminBaseAction {
 			}
 
 		}else{
-			//保存收付款相关信息	
+			//保存收付款相关信息
 			if(empty($data['uncollected_price'])){
 				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
 				$m = $data['total_price']-$data['collected_price'];
@@ -283,10 +283,12 @@ class orderAction extends adminBaseAction {
 			if($m>0){
 				$data['uncollected_price'] = $m;
 				$data['collection_status'] = 2;
+				$this->db->model('order')->where('o_id='.$data['o_id'])->update('collection_status=2');
 			}
 			if($m==0){
 				$data['uncollected_price'] = 0;
 				$data['collection_status'] = 3;
+				$this->db->model('order')->where('o_id='.$data['o_id'])->update('collection_status=3');
 			}
 			if($m<0){
 				$this->error("数据错误");
