@@ -17,7 +17,7 @@ class storeAction extends adminBaseAction
 			$sortField = sget("sortField",'s','input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			//搜索条件
-			$where=" 1 ";
+			$where="off = 0";
 			//关键词
 			$key_type=sget('key_type','s','store_name');
 			$keyword=sget('keyword','s');
@@ -60,7 +60,7 @@ class storeAction extends adminBaseAction
 			
 			$list=$this->db->select("sa.*,ad.name, ad.mobile, ad.username")
 					->from('store_admin sa')->join('admin ad','ad.admin_id = sa.admin_id')
-					->where("`store_id`=".$store_id)
+					->where("`store_id`=".$store_id.' and'."`off`=0")
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
@@ -111,10 +111,10 @@ class storeAction extends adminBaseAction
 		}
 		$admin=sget('remove','s');//如果非空代表是删除管理员，来自storeadmin.list.html
 		if(!empty($admin)){
-			$result=$this->db->model('store_admin')->where("id in ($ids)")->delete();
+			$result=$this->db->model('store_admin')->where("id in ($ids)")->update('off=1');
 		}
-		$result=$this->db->where("id in ($ids)")->delete();
-		$result2=$this->db->model('store_admin')->where("store_id in ($ids)")->delete();//删除仓库，关联删除绑定联系人
+		$result=$this->db->where("id in ($ids)")->update('off=1');
+		$result2=$this->db->model('store_admin')->where("store_id in ($ids)")->update('off=1');//删除仓库，关联删除绑定联系人
 		if($result && $result2){
 			$cache=cache::startMemcache();
 			$cache->delete('store');
