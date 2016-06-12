@@ -144,6 +144,7 @@ function LoadOrderType(e) {
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',oid = record.o_id,o_type = record.order_type;
+	o_type = (o_type=='销售订单' ? '1' : '2');
 	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
 	return s;
 }
@@ -260,7 +261,6 @@ function inStorage(oid){
 }
 //查看订单相关信息
 function viewOrdInfo(oid,o_type){
-	alert(1);
 	mini.open({
 		url: "/product/order/info?oid="+oid+'&type='+o_type,
 		showMaxButton:true,
