@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.ext.css"/>
 <style type="text/css">
 .xubox_setwin .xubox_close0{ right:-70px!important;}
+.layer{}
 </style>
 <script>
     $(function(){
@@ -36,50 +37,47 @@
                 }
             });
         });
-        //添加新的发票
-        var tt = $(".import.tt"),
-        address = $(".import.address"),
-        perTel = $(".per-tel.import"),
+        //修改发票信息
+        var c_name = $(".import.c_name"),
+        tax_id = $(".import.tax_id"),
+        invoice_address = $(".import.invoice_address"),
+        invoice_tel = $(".import.invoice_tel"),
+        invoice_bank = $(".import.invoice_bank"),
+        invoice_account = $(".import.invoice_account"),
         errorMsg = $(".error-msg"),
         str = "";
 
         $(".kp-add").bind("click",function(){
-            $.layer({
+                $.layer({
                 type: 1,
                 title: false,
                 border: [0],
                 page: {dom : '.layer'},
                 close:function(){
-                    tt.val("");
-                    address.val("");
-                    perTel.val("");
+                    // tax_id.val("");
+                    // invoice_address.val("");
+                    // invoice_tel.val("");
+                    // invoice_bank.val("");
+                    // invoice_account.val("");
                     errorMsg.html("");
                 }
             });
         });
 
         $(".btn.submit").bind("click",function(){
-            if(tt.val()==""){
-                valid("请输入发票抬头",tt);
-            }
-            else if(address.val()==""){
-                valid("请输入地址",address);
-            }
-            else if(perTel.val()==""){
-                valid("收票人/电话",perTel);
-            }
-            else{
+            if(tax_id.val().length != 18){
+                valid("请输入18位的识别号",tax_id);
+            }else{
                 $.ajax({
                     type:"post",
-                    url:"/user/billInformation/addNewBill",
-                    data:{'tt':tt.val(),'address':address.val(),'perTel':perTel.val()},
+                    url:"/user/billInformation/changeBill",
+                    data:{'tax_id':tax_id.val(),'invoice_address':invoice_address.val(),'invoice_tel':invoice_tel.val(),'invoice_bank':invoice_bank.val(),'invoice_account':invoice_account.val()},
                     dataType:'json',
                     success:function(res){
                         if(res.err==0)
                         window.location.href="/user/billInformation/billInfo";
                     }
                 });
-                 //errorMsg.html("");
             }
         });
 
@@ -105,38 +103,25 @@
         <div class="finance-lc6 color3">
         	<!--kp begin-->
             <div class="kp">
-            	<div class="kp-add"><span>添加</span></div>
+            	<div class="kp-add"><span>修改</span></div>
             	<ul>
-                    {foreach from=$detail item=value}
                     <li>
                         <!--kp-lt begin-->
                         <div class="kp-lt flt">
-                            <p>发票抬头：{$value.invoice_name}</p>
-                            <p>发票快递地址：{$value.invoice_address}</p>
-                            <p>收票人/电话：{$value.invoice_receive}/{$value.invoice_recieve_tel}</p>
+                            <p>公司名称：{$detail.c_name}</p>
+                            <p>纳税人识别号：{$detail.tax_id}</p>
+                            <p>地址：{$detail.invoice_address}</p>
+                            <p>电话：{$detail.invoice_tel}</p>
+                            <p>开户银行：{$detail.invoice_bank}</p>
+                            <p>账号：{$detail.invoice_account}</p>
                         </div>
                         <!--kp-lt end-->
-                        <!--kp-rt begin-->
-                        <div class="kp-rt frt">
-                            <p><button class="setSt" value="{$value.invoice_default}">{$value.invoice_default}</button></p>
-                            <p><button class="del"  value="{$value.id}">删除</button></p>
-                        </div>
-                        <!--kp-rt end-->
                     </li>
-                    {/foreach}
                 </ul>
             </div>
             <!--kp end-->
-            <!--page begin-->
-            <div class="page">
-                <ul class="flt">
-                    <li align="center">{$pages}</li>
-                </ul>
-            </div>
-            <!--page end-->
         </div>
         <!--finance-lc6 end-->
-
     </div>
     <!--right end-->
 
@@ -144,21 +129,33 @@
 <!--user-wrap end-->
 <!--layer begin-->
 <div class="layer">
-    <h3>添加新地址</h3>
+    <h3>开票资料修改</h3>
     <p class="error-msg"></p>
     <table>
         <form name="" method="post" action="">
             <tr>
-                <td class="name">发票抬头：</td>
-                <td><input type="text" class="tt import"/></td>
+                <td class="name">公司名称：</td>
+                <td><input type="text" class="c_name import" value="{$detail.c_name}" readOnly="true" disabled="true" /></td>
             </tr>
             <tr>
-                <td class="name">发票快递地址：</td>
-                <td><input type="text" class="address import"/></td>
+                <td class="name">纳税人识别号：</td>
+                <td><input type="text" class="tax_id import" value="{$detail.tax_id}" /></td>
             </tr>
             <tr>
-                <td class="name">收票人/电话：</td>
-                <td><input type="text" class="per-tel import"/></td>
+                <td class="name">地址：</td>
+                <td><input type="text" class="invoice_address import" value="{$detail.invoice_address}" /></td>
+            </tr>
+            <tr>
+                <td class="name">电话：</td>
+                <td><input type="text" class="invoice_tel import" value="{$detail.invoice_tel}" /></td>
+            </tr>
+            <tr>
+                <td class="name">开户银行：</td>
+                <td><input type="text" class="invoice_bank import" value="{$detail.invoice_bank}" /></td>
+            </tr>
+            <tr>
+                <td class="name">账号：</td>
+                <td><input type="text" class="invoice_account import" value="{$detail.invoice_account}" /></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
