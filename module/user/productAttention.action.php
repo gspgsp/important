@@ -8,7 +8,7 @@ class productAttentionAction extends homeBaseAction
 		$this->db = M('public:common')->model('concerned_product');
 	}
 	//关注产品
-	public function proAttentionvalue(){
+	public function proAttentionValue(){
 		$page=sget('page','i',1);
 		$size=2;
 		$model = 'concerned_product';
@@ -76,26 +76,34 @@ class productAttentionAction extends homeBaseAction
 		$data['status'] = $data['status']==1 ? 2 : 1;
 		$data['operate'] = $data['status']==1 ? 1 : 2;
 		if($this->db->where('id='.$pid)->update($data))
-			$this->json_output(array('err'=>0,'msg'=>'关注改变成功'));
+			$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>$data['status']));
 	}
 	//批量关注
 	public function mulLook(){
 		$ids = sget('ids','a');
+		$newData = array();
 		foreach ($ids as $key => $value) {
-			$data = $this->db->select('status,operate')->where('id='.$value)->getRow();
+			$data = $this->db->select('id,status,operate')->where('id='.$value)->getRow();
 			$data['status'] = 1;
 			$data['operate'] = 1;
 			$this->db->where('id='.$value)->update($data);
+			$newData[] = $data;
 		}
+		//$this->json_output($newData);
+		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>1,'newData'=>$newData));
 	}
 	//批量取消
 	public function mulQuit(){
 		$ids = sget('ids','a');
+		$newData = array();
 		foreach ($ids as $key => $value) {
-			$data = $this->db->select('status,operate')->where('id='.$value)->getRow();
+			$data = $this->db->select('id,status,operate')->where('id='.$value)->getRow();
 			$data['status'] = 2;
 			$data['operate'] = 2;
 			$this->db->where('id='.$value)->update($data);
+			$newData[] = $data;
 		}
+		//$this->json_output($newData);
+		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>2,'newData'=>$newData));
 	}
 }
