@@ -250,6 +250,7 @@ class passportModel extends model{
 		$_SESSION['uinfo']=array(
 							'name'=>$user['name'],	
 							'c_id'=>$user['c_id'],	 
+							'customer_manager'=>$user['customer_manager'],	 
 							'qq'=>$user['qq'],	 
 							'mobile'=>$user['mobile'],	 
 							'email'=>$user['email'],
