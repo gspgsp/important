@@ -7,7 +7,7 @@
             window.location.href="/user/myHomeWeb/editUserInfo";
         });
         $("#en_my").bind('click',function(){
-            window.location.href="/user/myHomeWeb/clickMyWeb";
+            window.location.href="/user/myHomeWeb/clickMyWeb?id="+"{$smarty.session.uinfo.c_id}";
         });
     });
 </script>
