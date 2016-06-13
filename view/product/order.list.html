@@ -81,7 +81,7 @@
 			<div field="order_type" width="45" headerAlign="center" align="center" allowSort="true">类型</div>
 			<div field="order_source" width="35" headerAlign="center" align="center" allowSort="true">来源</div>
 			<div field="c_name" width="60" headerAlign="center" align="center" allowSort="true">客户名称</div>
-			<div field="sign_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">签订时间</div>
+			<div field="in_storage_status" width="45" headerAlign="center" align="center" allowSort="true">入库状态</div>
 			<div field="total_price" width="45" headerAlign="center" align="center" allowSort="true">总金额</div>
 			<div field="pay_method" width="45" headerAlign="center" align="center" allowSort="true">付款方式</div>
 			<div field="freight_price" width="45" headerAlign="center" align="center" allowSort="true">运费</div>
@@ -289,7 +289,7 @@ function inStorage(oid){
 	mini.open({
 	url:"/product/inStorage/info?o_id="+oid,
 	showMaxButton:true,
-	title:'入库记录新增',width:850,height:600,
+	title:'入库记录新增',width:850,height:450,
 	ondestroy: function(action){
 		if(action=='save'){ //重新加载
 			grid.reload();

@@ -66,8 +66,8 @@ class storeDetailAction extends adminBaseAction {
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['price_type']=L('price_type')[$v['price_type']];
-			$list['data'][$k]['unit']=L('unit')[$v['unit']];	
+			// $list['data'][$k]['price_type']=L('price_type')[$v['price_type']];
+			// $list['data'][$k]['unit']=L('unit')[$v['unit']];	
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($list['data'][$k]['store_id']); //获取仓库名
 			$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']);//获取牌号
 			$list['data'][$k]['admin_name']=M("product:inStorage")->getNameBySid($list['data'][$k]['store_aid']); //获得入库人姓名

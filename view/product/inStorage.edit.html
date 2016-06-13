@@ -1,22 +1,18 @@
 {layout file="public:mini_layout"}
-<input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
-<input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/>
-<input class="mini-hidden" name="out_no" value="{$out_no}"/>
-
 <div title="新增出库管理" class="form" id="editForm">
-		<input class="mini-hidden" id="o_id" name="o_id" value="{$o_id}"/>
-		<input class="mini-hidden" name="doyet" value="{$doyet}" />
+<input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
+<!-- <input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/> -->
+<input class="mini-hidden" name="doyet" value="{$doyet}" />
+<input class="mini-hidden" name="store_id" value="{$store_id}" />	
+<input class="mini-hidden" name="store_aid" value="{$store_aid}" />	
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
-
 			<legend>出库信息</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
-			{if $doyet eq doyet}
+			{if $doyet neq doyet}
 				<tr>
 					<td>入库名称:</td>
 					<td><input name="purchase_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$storage_subject}"  textField="name" valueField="id"/>
 					</td>
-					<td>入库单号</td>
-					<td>{$in_storage_no}</td>
 				</tr>
 				<tr>
 					<td>入库类型:</td>
@@ -24,6 +20,12 @@
 					</td>	
 					<td>物流公司:</td>
 					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>			
+				</tr>
+				<tr>
+					<td>选择仓库:</td>
+					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
+					<td>入库人</td>
+					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="false"/></td>
 				</tr>
 				<tr>
 					<td>备注:</td>
@@ -35,10 +37,9 @@
 					<td>入库名称:</td>
 					<td>{$in_info.purchase_subject}
 					</td>
-					<td>入库单号</td>
-					<td>{$in_info.in_storage_no}</td>
+<!-- 					<td>入库单号</td>
+					<td>{$in_info.in_storage_no}</td> -->
 				</tr>
-
 				<tr>
 					<td>物流公司:</td>
 					<td>{$ship_company.$in_info.ship_id}</td>
@@ -55,21 +56,22 @@
 		</fieldset>
 	</div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}" idField="id"
+<div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/inStorage/info?action=grid&o_id={$o_id}" idField="id"
 sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
-		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+		<div field="model" width="70" headerAlign="center" align="center">牌号</div>
+		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价【吨】</div>
+		<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
-		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数
-			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
+		<div field="lot_num" width="80" headerAlign="center" allowSort="true" align="center">批次号
+			<input property="editor" class="mini-textbox"   style="width:100%;" minWidth="100" />
 		</div>   
 	</div>
 </div>
 			<div align="center" style="margin-top:10px;">
-				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">保存</a>
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">入库</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
 	
@@ -95,7 +97,7 @@ function onLoadHandle(e) {
 //查看明细相关信息
 function viewOrdInfo(id){
 	mini.open({
-		url: "/product/saleLog/info?id="+id,
+		url: "/product/purchaseLog/info?id="+id,
 		showMaxButton:true,
 		title: "查看明细相关信息", 
 		width: 700, height:450
@@ -103,15 +105,14 @@ function viewOrdInfo(id){
 }
 function submitForm() {
 	var form = new mini.Form("#editForm");
-	// form.validate();
-	// if(form.isValid() == false) return;
+	var rows = grid.getSelecteds();
 	//提交数据
 	var o = form.getData();
-	$.extend(o, ourarr); 
+	$.extend(o, {list:rows}); 
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
-	var urlstr = '/product/outStorage/addSubmit';
+	var urlstr = '/product/inStorage/addSubmit';
 	$.post(urlstr,{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
@@ -132,56 +133,8 @@ function CloseWindow(action) {
 function onCancel(e) {
   CloseWindow("cancel");
 }
-//选择明细
-function detailChoose(e){
-	var oid=mini.get(o_id).getValue();
-	var btn = this;
-		mini.open({
-		url: "/product/saleLog/init?do=search&oid="+oid,
-		title: "选择明细",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				// alert(data);
-				if (data) {
-					btn.setValue(data.id);
-					btn.setText(data.id);
-				}
-			}
-		}
-	});
-}
-//强制选择归属公司
-function cusChoose(e){
-	var btn = this;
-		mini.open({
-		url: "/user/customer/init?do=search",
-		title: "选择公司",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.c_id);
-					btn.setText(data.c_name);
-				}
-			}
-		}
-	});
-}
+
+
 //选择仓库
 function stoChoose(e){
 	var btn = this;
@@ -276,15 +229,5 @@ function saveData() {
 	}
 	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
 }
-var ourarr ={};
-function onValidation(){
-	var out_number = parseInt(this.getValue());
-	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
-	if(out_number>parseInt(rows[0].number)){
-		alert('不能大于订单数量,请重新输入!');
-		this.setValue('0');
-	 	return false;
-	}
-	ourarr[ rows[0].id  ]= out_number;
-}
+
 </script>

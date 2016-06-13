@@ -93,8 +93,9 @@ class purchaseLogAction extends adminBaseAction {
 				->order("$sortField $sortOrder")
 				->getPage();
 		$tot=0;
-		foreach($list['data'] as &$v){						
-			$v['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
+		foreach($list['data'] as &$v){		
+			$pinfo=M("product:product")->getFnameByPid($v['p_id']);				
+			$v['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$v['order_name']=M("product:order")->getColByName($v['o_id']);
 			$v['model']=M("product:product")->getModelById($v['p_id']);
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
@@ -104,7 +105,6 @@ class purchaseLogAction extends adminBaseAction {
 			$v['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
 			$v['purchase_type'] = L('purchase_type')[$v['purchase_type']];
 			$v['sum'] = $v['unit_price']*$v['number'];
-			//p($v['sum']);
 			$tot=$tot+$v['sum'];
 		}
 		$to='mn';

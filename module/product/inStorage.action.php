@@ -21,23 +21,29 @@ class inStorageAction extends adminBaseAction {
 		$o_id=sget('o_id','i',0);
 		if( $o_id<1 ) $this->error('错误的出库信息');
 		$in_storage_no=genOrderSn();//入库单号
-		$action=sget('action','s','aa');
+		$action=sget('action','s');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;
-			$list=$this->db->model('in_log')->where($where)
+			$where .= " and `in_storage_status` = 1";
+			$list=$this->db->model('purchase_log')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
 			foreach($list['data'] as $k=>$v){
+				$pinfo=M("product:product")->getFnameByPid($v['p_id']);				
+				$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
 				$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']); //获取牌号名称
 				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+				$list['data'][$k]['in_number']=$v['number'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
 		}
 		$in_info=$this->db->model('in_storage')->where("o_id = '$o_id'")->getRow();
-		if(!$in_info) {
+		if($in_info) {
+			$this->assign('store_aid',$in_info['store_aid']);
+			$this->assign('store_id',$in_info['store_id']);
 			$this->assign('doyet','doyet');
 		}
 		$in_info['storage_date']=date("Y-m-d",$in_info['storage_date']);
@@ -54,35 +60,44 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-		if(empty($data)) $this->error('操作有误');	
-		$p_info=M("product:purchaseLog")->getColByDetId($data['purchase_id'],'*');
-		$_data=array(
-			'in_storage_no'=>genOrderSn(), //出库单号
-			'input_time'=>CORE_TIME,
+		if(empty($data)) $this->error('操作有误');
+		$basic_info= array(
 			'input_admin'=>$_SESSION['name'],
-			'number'=>$p_info['number'], //入库数量
-			'remainder'=>$p_info['number'], //剩余数量
-			'controlled_number'=>$p_info['number'], //可用数量
-			'p_id'=>$p_info['p_id'],
-			's_id'=>$data['store_id'],
-			'store_aid'=>$data['store_aid'],
-			'unit_price'=>$p_info['unit_price'],
-			'unit'=>$p_info['unit'],
-			'price_type'=>$p_info['price_type'],
-			'purchase_type'=>$p_info['purchase_type'],
+			'input_time'=>CORE_TIME,
 		);
 		$this->db->startTrans(); //开启事务
 		try {
-			if($data['doyet'] == 'doyet'){ //存在入库单
-				if( !$result=$this->db->add($data+$_data) ) throw new Exception('系统错误。code:201'); //新增入库单
+			if($data['doyet'] != 'doyet'){
+				if( !$this->db->model('in_storage')->add($data+$basic_info) ) throw new Exception("新增入库失败!");	
+			} 
+			foreach ($data['list'] as $k => $v) {
+				$_data['o_id']=$v['o_id'];
+				$_data['purchase_id']=$v['id'];
+				$_data['p_id']=$v['p_id'];
+				$_data['store_id']=$data['store_id'];
+				$_data['store_aid']=$data['store_aid'];
+				$_data['lot_num']=$v['lot_num'];
+				$_data['unit_price']=$v['unit_price'];
+				$_data['number']=$v['number'];
+				$_data['remainder']=$v['number'];
+				$_data['controlled_number']=$v['number'];
+
+				if( !$this->db->model('in_log')->add($_data+$basic_info) ) throw new Exception("新增入库明细失败!");
+				$input_store['s_id']=$data['store_id'];
+				$input_store['p_id']=$v['p_id'];
+				$input_store['number']=$v['number'];
+				$input_store['remainder']=$v['number'];
+				if( !$this->db->model('store_product')->add($input_store+$basic_info) ) throw new Exception("新增仓库货品失败!");
+				if( !$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('in_storage_status = 3') ) throw new Exception("更新采购明细失败！");
+
 			}
-			if( !$this->db->model('in_log')->add($data+$_data) ) throw new Exception('系统错误。code:202'); //采购单入到库存流水
-			if( $this->db->model('store_product')->where(" s_id = ".$data['store_id'])->getRow() ){
-				if( !$this->db->model('store_product')->where(" s_id = ".$data['store_id'])->update( "number=number+". $p_info['number'] ) ) throw new Exception('系统错误。code:203'); //修改仓库表产品数量
+
+			$check = $this->db->model('purchase_log')->select('id')->where(' in_storage_status = 1 and o_id = '.$data['o_id'] )->getOne();
+			if($check<1){
+				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update('in_storage_status = 3') ) throw new Exception("订单入库更新失败1！");
 			}else{
-				if( !$this->db->model('store_product')->add($data+$_data) ) throw new Exception('系统错误。code:204');
+				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update('in_storage_status = 2') ) throw new Exception("订单入库更新失败2！");
 			}
-			if(!$this->db->model('purchase_log')->where(" id = ".$data['purchase_id'])->update( "in_storage_status=2" ) ) throw new Exception('系统错误。code:205'); //更改采购明细入库状态
 
 		} catch (Exception $e) {
 			$this->db->rollback();
