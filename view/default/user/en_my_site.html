@@ -133,8 +133,7 @@
         <div id="con-taba-1">
             <div class="product-show">
                 <ul>
-                    {foreach from=$products key=k item=value}
-                    {if $value.type eq 1}
+                    {foreach from=$kindPro['product1'] key=k item=value}
                     <li>
                         <img src="{$value.image}" width="253" height="177"/>
                         <div class="product-text">
@@ -142,7 +141,6 @@
                             <div class="desc">{$value.infos}</div>
                         </div>
                     </li>
-                    {/if}
                     {/foreach}
                 </ul>
             </div>
@@ -152,8 +150,7 @@
         <div id="con-taba-2">
             <div class="product-show">
                 <ul>
-                    {foreach from=$products key=k item=value}
-                    {if $value.type eq 2}
+                    {foreach from=$kindPro['product2'] key=k item=value}
                     <li>
                         <img src="{$value.image}" width="253" height="177"/>
                         <div class="product-text">
@@ -161,7 +158,6 @@
                             <div class="desc">{$value.infos}</div>
                         </div>
                     </li>
-                    {/if}
                     {/foreach}
                 </ul>
             </div>
@@ -171,8 +167,7 @@
         <div id="con-taba-3">
             <div class="product-show">
                 <ul>
-                    {foreach from=$products key=k item=value}
-                    {if $value.type eq 3}
+                    {foreach from=$kindPro['product3'] key=k item=value}
                     <li>
                         <img src="{$value.image}" width="253" height="177"/>
                         <div class="product-text">
@@ -180,7 +175,6 @@
                             <div class="desc">{$value.infos}</div>
                         </div>
                     </li>
-                    {/if}
                     {/foreach}
                 </ul>
             </div>
