@@ -14,9 +14,11 @@ class myHomeWebAction extends homeBaseAction
         $this->assign('data',$data);
         $this->assign('contact',$contact);
         $this->display('my_web');
-		}
+	}
 	//点击进入我的网站
 	public function clickMyWeb(){
+		//客户id
+		$c_id = sget('id','i');
 		//关于我们
 		$data = $this->_aboutUs();
 		//最新资讯
@@ -33,19 +35,12 @@ class myHomeWebAction extends homeBaseAction
 		$this->assign('info',$articles['info']);
 		$this->assign('products',$products);
 		$this->assign('contact',$contact);
-		// $t = new smarty;
-		// $t->assign('data',$data);
-		// $t->assign('page',$page);
-		// $t->assign('size',$size);
-		// $t->assign('info',$articles['info']);
-		// $t->assign('products',$products);
-		// $t->assign('contact',$contact);
-		// $t->display('en_my_site.html');
-		//$content = $t->fetch('en_my_site.html');
-		//file_put_contents($id . '.html', $content);
-		// p($content);
-		// die;
+		ob_end_clean();//清空缓冲区
+        ob_start();//开启缓存
 		$this->display('en_my_site');
+		$data = ob_get_contents();
+		file_put_contents('./company/'.$c_id.'.html',$data);
+
 	}
 	//修改个人信息
 	public function editUserInfo(){
