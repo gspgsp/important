@@ -40,6 +40,7 @@ class myHomeWebAction extends homeBaseAction
 		$this->display('en_my_site');
 		$data = ob_get_contents();
 		file_put_contents('./company/'.$c_id.'.html',$data);
+		//ob_end_clean();//清空缓冲区
 
 	}
 	//修改个人信息
