@@ -9,16 +9,26 @@
 <script type="text/javascript">
     $(function(){
         var productArr=[];
+        //操作
         $(".del").on("click",function(){
             var pid=$(this).val();
+            var _this=$(this);
+            console.log(pid);
             $.ajax({
             type:"post",
             url:"/user/mainProduct/changeFocusState",
             data:{'pId':pid},
             dataType:'json',
             success:function(res){
-                if(res.err==0)
-                window.location.href="/user/mainProduct/getMainProduct";
+                if(res.err==0){
+                    if(res.status == 1){
+                        _this.text("取消发布");
+                        _this.parents('ul').find('li.status').text('已发布');
+                    }else if(res.status == 2){
+                        _this.text("重新发布");
+                        _this.parents('ul').find('li.status').text('未发布');
+                    }
+                }
             }
             });
         });
@@ -57,7 +67,16 @@
                 data:{'ids':productArr},
                 dataType:'json',
                 success:function(res){
-                    window.location.href="/user/mainProduct/getMainProduct";
+                    if(res.err==0){
+                        if(res.status == 1){
+                            $(res.newData).each(function(k,v){
+                                if($(".del").val() == v.id){
+                                    $(".del").text("取消发布");
+                                    $(".del").parents('ul').find('li.status').text('已发布');
+                                }
+                            });
+                        }
+                    }
                 }
             });
         });
@@ -69,7 +88,16 @@
                 data:{'ids':productArr},
                 dataType:'json',
                 success:function(res){
-                    window.location.href="/user/mainProduct/getMainProduct";
+                    if(res.err==0){
+                        if(res.status == 2){
+                            $(res.newData).each(function(k,v){
+                                if($(".del").val() == v.id){
+                                    $(".del").text("重新发布");
+                                    $(".del").parents('ul').find('li.status').text('未发布');
+                                }
+                            });
+                        }
+                    }
                 }
             });
         });
@@ -169,7 +197,7 @@
                     <ul>
                         <li class="pro-pic"><img src="__IMG__/home/proPic1.jpg" width="150" height="100"/></li>
                         <li class="pro-name">{$value.name}</li>
-                        <li class="pro-explain">{$value.desc}</li>
+                        <li class="pro-explain">{$value.infos}</li>
                         <li class="status">{$value.status}</li>
                         <button class="del" value="{$value.id}">{$value.operate}</button>
                     </ul>

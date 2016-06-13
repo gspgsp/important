@@ -9,16 +9,26 @@
 <script type="text/javascript">
     $(function(){
         var productArr=[];
+        //操作
         $(".del").on("click",function(){
             var pid=$(this).val();
+            var _this=$(this);
+            console.log(pid);
             $.ajax({
             type:"post",
             url:"/user/myArticle/changeFocusState",
             data:{'pId':pid},
             dataType:'json',
             success:function(res){
-                if(res.err==0)
-                window.location.href="/user/myArticle/getMyArticle";
+                if(res.err==0){
+                    if(res.status == 1){
+                        _this.text("取消发布");
+                        _this.parents('ul').find('li.status').text('已发布');
+                    }else if(res.status == 2){
+                        _this.text("重新发布");
+                        _this.parents('ul').find('li.status').text('未发布');
+                    }
+                }
             }
             });
         });
@@ -51,25 +61,47 @@
                         });
         //批量关注
         $("#ml").bind('click',function(){
+            // console.log(">>>",productArr);
+            // alert(1);
             $.ajax({
                 type:"post",
                 url:"/user/myArticle/mulLook",
                 data:{'ids':productArr},
                 dataType:'json',
                 success:function(res){
-                    window.location.href="/user/myArticle/getMyArticle";
+                    if(res.err==0){
+                        if(res.status == 1){
+                            $(res.newData).each(function(k,v){
+                                if($(".del").val() == v.id){
+                                    $(".del").text("取消发布");
+                                    $(".del").parents('ul').find('li.status').text('已发布');
+                                }
+                            });
+                        }
+                    }
                 }
             });
         });
         //批量取消
         $("#mq").bind('click',function(){
+            console.log(">>>",productArr);
+            alert(1);
             $.ajax({
                 type:"post",
                 url:"/user/myArticle/mulQuit",
                 data:{'ids':productArr},
                 dataType:'json',
                 success:function(res){
-                    window.location.href="/user/myArticle/getMyArticle";
+                    if(res.err==0){
+                        if(res.status == 2){
+                            $(res.newData).each(function(k,v){
+                                if($(".del").val() == v.id){
+                                    $(".del").text("重新发布");
+                                    $(".del").parents('ul').find('li.status').text('未发布');
+                                }
+                            });
+                        }
+                    }
                 }
             });
         });
