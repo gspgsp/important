@@ -31,27 +31,32 @@ class mainProductAction extends homeBaseAction
 		$data['status'] = $data['status']==1 ? 2 : 1;
 		$data['operate'] = $data['status']==1 ? 1 : 2;
 		if($this->db->where('id='.$pid)->update($data))
-			$this->json_output(array('err'=>0,'msg'=>'关注改变成功'));
+			$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>$data['status']));
 	}
 	//批量发布
 	public function mulLook(){
 		$ids = sget('ids','a');
+		$newData = array();
 		foreach ($ids as $key => $value) {
-			$data = $this->db->select('status,operate')->where('id='.$value)->getRow();
+			$data = $this->db->select('id,status,operate')->where('id='.$value)->getRow();
 			$data['status'] = 1;
 			$data['operate'] = 1;
 			$this->db->where('id='.$value)->update($data);
+			$newData[] = $data;
 		}
+		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>1,'newData'=>$newData));
 	}
 	//批量取消
 	public function mulQuit(){
 		$ids = sget('ids','a');
 		foreach ($ids as $key => $value) {
-			$data = $this->db->select('status,operate')->where('id='.$value)->getRow();
+			$data = $this->db->select('id,status,operate')->where('id='.$value)->getRow();
 			$data['status'] = 2;
 			$data['operate'] = 2;
 			$this->db->where('id='.$value)->update($data);
+			$newData[] = $data;
 		}
+		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>2,'newData'=>$newData));
 	}
 	//添加主营产品
 	public function addMainProduct(){
@@ -60,14 +65,15 @@ class mainProductAction extends homeBaseAction
 			$product['cid'] = $this->user_id;
 			$product['image'] = $_POST['pro_img'];
 			$product['name'] = $_POST['pro_name'];
-			$product['desc'] = $_POST['pro_inf'];
+			$product['infos'] = $_POST['pro_inf'];
 			$product['type']=1;
 			$product['status'] = 1;
 			$product['operate'] = 1;
 			$product['input_time'] = CORE_TIME;
 			$product['update_time'] = CORE_TIME;
-			if(!$this->db->model('cop_product')->add($product)) $this->error('添加资讯失败');
-			$this->success('添加资讯成功');
+			if(!$this->db->model('cop_product')->add($product))
+				$this->error('添加资讯失败');
+			 $this->success('添加资讯成功');
 		}
 	}
 }
