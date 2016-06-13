@@ -20,17 +20,31 @@ class myHomeWebAction extends homeBaseAction
 		//关于我们
 		$data = $this->_aboutUs();
 		//最新资讯
-		$info = $this->_newInfo();
+		$page=1;
+		$size=10;
+		$articles = $this->_newInfo($page, $size);
 		//产品展示
 		$products = $this->_showProduct();
 		//联系我们
 		$contact = $this->_linkUs($data);
-
 		$this->assign('data',$data);
-		$this->assign('info',$info);
+		$this->assign('page',$page);
+		$this->assign('size',$size);
+		$this->assign('info',$articles['info']);
 		$this->assign('products',$products);
 		$this->assign('contact',$contact);
-		// $this->assign('user_id',$this->user_id);
+		// $t = new smarty;
+		// $t->assign('data',$data);
+		// $t->assign('page',$page);
+		// $t->assign('size',$size);
+		// $t->assign('info',$articles['info']);
+		// $t->assign('products',$products);
+		// $t->assign('contact',$contact);
+		// $t->display('en_my_site.html');
+		//$content = $t->fetch('en_my_site.html');
+		//file_put_contents($id . '.html', $content);
+		// p($content);
+		// die;
 		$this->display('en_my_site');
 	}
 	//修改个人信息
@@ -94,16 +108,29 @@ class myHomeWebAction extends homeBaseAction
 		return $contact;
 	}
 	//最新资讯
-	private function _newInfo(){
-		if(!$info=$this->db->model('cop_article')->where('cid='.$this->user_id)->order('input_time desc')->getAll()) $this->error('没有最新资讯');
-		foreach ($info as $key => $value) {
-			$info[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+	private function _newInfo($page, $size){
+		if(!$info=$this->db->model('cop_article')->where('cid='.$this->user_id)->page($page,$size)->order('input_time desc')->getPage()) $this->error('没有最新资讯');
+		foreach ($info['data'] as $key => $value) {
+			$info['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
 		}
-		return $info;
+		return array('info'=>$info['data']);
 	}
 	//产品展示
 	private function _showProduct(){
 		if(!$products=$this->db->model('cop_product')->where('cid='.$this->user_id)->order('input_time desc')->getAll()) $this->error('没有产品资料');
 		return $products;
+	}
+	//获取资讯详情
+	public function getArticleDetail(){
+		$id = sget('id','i');
+		if($data = $this->db->model('cop_article')->where('id='.$id)->getRow())
+			$this->json_output(array('err'=>0,'msg'=>'找到相关资讯','data'=>$data));
+	}
+	//获取更多资讯详情
+	public function getMoreArticleDetail(){
+		$page = sget('page','i');
+		$size = sget('size','i');
+		$articles = $this->_newInfo($page, $size);
+		$this->json_output(array('err'=>0,'msg'=>'加载更多成功','info'=>$articles['info']));
 	}
 }
