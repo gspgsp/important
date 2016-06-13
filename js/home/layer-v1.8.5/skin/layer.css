@@ -59,8 +59,8 @@
 .xubox_setwin .xubox_maxmin:hover{background-position:-29px -206px;}
 
 /*设置关闭按钮*/
-.xubox_setwin .xubox_close0{ width:79px; height:77px; background:none; cursor:pointer; top:0; right:55px;}
-.xubox_setwin .xubox_close0:hover{background-position:0 -10px;}
+.xubox_setwin .xubox_close0{ width:21px; height:21px; background-position:-6px -230px; cursor:pointer; top:10px; right:55px;}
+.xubox_setwin .xubox_close0:hover{background-position:-29px -230px;}
 /*.xubox_setwin .xubox_close1{position:absolute; right:-28px; top:-28px; width:30px; height:30px;  margin-left:0; background-position:-60px -195px; *right:-18px; _right:-15px; _top:-23px; _width:14px; _height:14px; _background-position:-31px -7px;}
 .xubox_setwin .xubox_close1:hover{ background-position:-91px -195px; _background-position:-51px -7px;}*/
 
