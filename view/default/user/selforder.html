@@ -104,7 +104,6 @@
             <li class="transport">运输方式</li>
             <li class="freight">运费</li>
             <li class="status">状态</li>
-            <li class="fk-status">付款状态</li>
             <li class="fh-status">发货状态</li>
             <li class="kp-status">开票状态</li>
             <li class="remark">备注</li>
@@ -143,12 +142,11 @@
                     <li class="freight">{$value.freight_price}</li>
                     <li class="status">{:setOption|order_status,$value.order_status}</li>
                     <li class="fk-status">{:setOption|order_status,$value.order_status}</li>
-                    <li class="fh-status">{:setOption|goods_status,$value.goods_status}</li>
                     <li class="kp-status">{:setOption|invoice_status,$value.invoice_status}</li>
                     <li class="remark">{$value.remark}</li>
                     <li class="opt">
                     	<a href="/user/selforder/detail/id/{$value.o_id}">查看</a>
-                        <a href="javascript:;">取消</a>
+                        <!-- <a href="javascript:;">取消</a> -->
                     </li>
                 </ul>
             </div>

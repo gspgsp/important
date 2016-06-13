@@ -44,15 +44,19 @@ class registerAction extends homeBaseAction{
 
 	public function reginfo()
 	{
-		// if(!$_SESSION['check_reg_ok']) $this->forward('/user/register');
+		if(!$_SESSION['check_reg_ok']) $this->forward('/user/register');
 		if($_POST)
 		{
+			$this->is_ajax=true;
+
 			$mobile=$_SESSION['mobile'];
-			// $mobile=13554911555;
+			// $mobile=13554911557;
 			if(!$this->_chkmobile($mobile)) $this->error($this->err);
 			
 			$password=sget('password','s');
 			$repass=sget('password2','s');
+
+			$origin=sget('origin');//省市
 			if(!$this->_chkpass($password,$repass)) $this->error($this->err);
 			if(!sget('name','s')) $this->error('请输入姓名');
 			if(!sget('qq','s')) $this->error('请输入qq号码');
@@ -71,6 +75,7 @@ class registerAction extends homeBaseAction{
 						'need_product'=>sget('need_product','s'),
 						'com_intro'=>sget('com_intro','s'),
 						'chanel'=>1,
+						'origin'=>implode('|',$origin),
 					);
 					if(!$cus_model->add($_customer)) throw new Exception("系统错误 reg:101");
 					$c_id=$cus_model->getLastID();
@@ -87,8 +92,6 @@ class registerAction extends homeBaseAction{
 					'is_default'=>$is_default,
 					'password'=>$user_model->genPassword($password.$salt),
 				);
-				p($password);
-				p($_user);
 				if(!$user_model->add($_user)) throw new Exception("系统错误 reg:102");
 				$user_id=$user_model->getLastID();
 				$_info=array(
@@ -109,7 +112,7 @@ class registerAction extends homeBaseAction{
 			$user_model->commit();
 			$_SESSION['mobile']=null;
 			$_SESSION['check_reg_ok']=null;
-			$this->success('注册成功');
+			$this->success('注册成功','/user/login');
 		}else{
 			//地区
 			$this->area=$this->db->model('lib_region')->where("pid=1")->getAll();
@@ -203,4 +206,21 @@ class registerAction extends homeBaseAction{
 		$sms->send(0,$mobile,$msg,1);
 		$this->success('发送成功');
 	}
+
+
+	// 获取已存在的客户
+	public function get_company()
+	{
+		if($_GET)
+		{
+			$pid=sget('pid','i',0);
+			$cid=sget('cid','i',0);
+			$origin=implode('|',array($pid,$cid));
+			// p($origin);
+			$model=$this->db->model('customer');
+			$list=$model->where("origin='{$origin}'")->select('c_id,c_name,need_product,com_intro,type')->getAll();
+			json_output($list);
+		}
+	}
+
 }

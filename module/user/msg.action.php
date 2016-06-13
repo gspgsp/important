@@ -2,7 +2,7 @@
 /**
  * 站内信消息列表
  */
-class msgAction extends homeBaseAction{
+class msgAction extends userBaseAction{
 
 	protected $db;
 	public function __init()

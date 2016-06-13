@@ -2,7 +2,7 @@
 /**
  * 账户设置
  */
-class mysetAction extends homeBaseAction{
+class mysetAction extends userBaseAction{
 
 	protected $db;
 	public function __init()

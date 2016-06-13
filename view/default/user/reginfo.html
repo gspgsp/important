@@ -59,25 +59,25 @@
 					</label>
 					<label>
 						<span class="ycblba">公司所在地：</span>
-						<select id="s_province" class="ycblbd" onChange="getarea(this)" name="s_province" >
+						<select id="s_province" datatype="*" class="ycblbd" onChange="getarea(this)" name="origin[]" >
 							<option value="">请选择</option>
 							{foreach from=$area item=value key=key}
 							<option value="{$value.id}">{$value.name}</option>
 							{/foreach}
 						</select>&nbsp;&nbsp;
-						<select id="s_city" class="ycblbd" onChange="getarea(this)" name="s_city" class="suoziawiewfe">
+						<select id="s_city" datatype="*" class="ycblbd" onChange="getarea(this)" name="origin[]" class="suoziawiewfe">
 							<option value="">请选择</option>
 						</select>&nbsp;&nbsp;
-						<select id="s_county" class="ycblbd" name="s_county" class="suoziawiewfe">
+						<!-- <select id="s_county" class="ycblbd" name="s_county" class="suoziawiewfe">
 							<option value="">请选择</option>
-						</select>
+						</select> -->
 						<span class="ycblbj Validform_checktip">请选择公司所在地区</span>
 						<div class="clear"></div>
 					</label>
 					<label>
 						<span class="ycblba">已存在公司：</span>
-						<select id="companyed" class="ycblbd" name="companyed" onchange="" >
-						<option>暂未匹配到数据</option>
+						<select id="companyed" class="ycblbd" name="companyed" >
+							<option>暂未匹配到数据</option>
 						</select>&nbsp;&nbsp;
 						<span class="ycblbj Validform_checktip">您可以选择该地区下已存在的公司</span>
 						<div class="clear"></div>
@@ -102,7 +102,7 @@
 					<br/>
 					<span class="ycblba">企业类型：</span>
 					{foreach from=$type item=value key=key}
-					<input type="radio" {if $key==1}checked{/if} id="radio1" value="{$key}" name="type" class="radio">{$value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" {if $key==1}checked{/if} id="" value="{$key}" name="type" class="radio">{$value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					{/foreach}
 					<span class="ycblbj">&nbsp;</span>
 					<div class="clear"></div>
@@ -127,8 +127,9 @@
 </div>
 
 <script type="text/javascript">
+var companyData;
 $(function(){
-	$(".registerform").Validform({
+	var demo=$(".registerform").Validform({
 		tiptype:function(msg,o,cssctl){
 			if(!o.obj.is("form")){
 				var objtip=o.obj.siblings(".Validform_checktip");
@@ -138,17 +139,58 @@ $(function(){
 		}
 	});
 
-	$("#s_county").change(function(){
+	$(".registerform").submit(function(){
+		if(!demo.check()) return false;
+		var data=$('.registerform').serialize();
+		$.post('/user/register/reginfo',data,function(data){
+			if(data.err==0){
+				alert('注册成功');
+				window.location.href="/user/login";
+			}else{
+				alert(data.msg);
+			}
+		},'json');
+		return false;
+	})
+
+	$("#s_city").change(function(){
 		var cid=$(this).val();
-		
+		var pid=$("#s_province").val();
+		$.get('/user/register/get_company',{pid:pid,cid:cid},function (data){
+			if(data.length>0){
+				companyData=data;
+				var html='<option value="">请选择</option>';
+				$(data).each(function(k,v){
+					html+='<option value="'+k+'">'+v.c_name+'</option>';
+				});
+				$("#companyed").html(html);
+			}
+		},'json');
+
+	})
+	$("#companyed").change(function(){
+		var index=$(this).val();
+		if(index!=''){
+			$("#company").val(companyData[index].c_name);
+			$("#hangye").val(companyData[index].need_product);
+			$("#intro").val(companyData[index].com_intro);
+			$("input[name='type'][value="+companyData[index].type+"]").attr('checked','checked');
+		}else{
+			$("#company").val('');
+			$("#hangye").val('');
+			$("#intro").val('');
+			$("input[name='type']").eq(0).attr('checked','checked');
+		}
 	})
 })
+
+
+
 
 function getarea(that){
 	var pid=$(that).val();
 	$.get('/api/region',{region_id:pid},function(data){
 		if(data.length){
-			console.log(data);
 			var html='<option value="">请选择</option>';
 			$(data).each(function(k,v){
 				html+='<option value="'+v.id+'">'+v.name+'</option>';

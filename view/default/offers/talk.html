@@ -1,11 +1,12 @@
 {layout file="public:main_layout"}
 {insert_css files='home/mailloffer.css'}
-{insert_js files='home/talk.js'}
 {insert_js files='home/laydate/laydate.js'}
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
 
 
 <!--header end-->
-<div class="buy-crumb w1220">首页-商城报价-委托洽谈</div>
+<div class="buy-crumb w1220">首页-商城报价-{$title}</div>
 <!--buy-wrap begin-->
 <div class="buy-wrap talk">
 	<!--buy-process begin-->
@@ -59,14 +60,29 @@
                 <tr>
                 	<td>牌<b></b>号：</td>
                     <td>{$data.model}</td>
-                    <td>交货日期<span class="red">*</span>：</td>
-                    <td><input type="text" id="date1" class="req" name="delivery_date"/></td>
+                    <td>运输方式<span class="red">*</span>：</td>
+                    <td>
+                        <select datatype="*" name="ship_type" class="req">
+                            <option value="">请选择</option>
+                            {foreach from=$ship_type item=value key=key}
+                            <option value="{$key}">{$value}</option>
+                            {/foreach}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>配送日期<span class="red">*</span>：</td>
+                    <td><input type="text" id="date1" datatype="*" class="req" name="delivery_date"/></td>
+                    <td>配送地点<span class="red">*</span>：</td>
+                    <td>
+                        <input type="text" datatype="*" class="req" name="delivery_place"/>
+                    </td>
                 </tr>
                 <tr>
                 	<td>数<b></b>量<span class="red">*</span>：</td>
-                    <td><input type="text" class="req" name="number"/>吨</td>
+                    <td><input type="text" class="req" datatype="*" value="{$data.number}" name="number"/>吨</td>
                     <td>预期价格<span class="red">*</span>：</td>
-                    <td><input type="text" class="req" name="price"/>元／吨</td>
+                    <td><input type="text" class="req" datatype="*" value="{$data.unit_price}" name="price"/>元／吨</td>
                 </tr>
             </table>
         </div>
@@ -90,4 +106,27 @@ $(function(){
         event: 'focus' 
     });
 })
+
+var demo=$("#talkForm").Validform({
+    tiptype:function(msg,o,cssctl){
+        if(!o.obj.is("form")){
+            var objtip=o.obj.siblings(".Validform_checktip");
+            cssctl(objtip,o.type);
+            objtip.text(msg);
+        }
+    }
+});
+
+function submitFrom(){
+    if(!demo.check()) return false;
+    var data=$("#talkForm").serialize();
+    $.post('/purchase/talk/addorder',data,function(data){
+        if(data.err==0){
+            alert(data.msg);
+            window.history.back();
+        }else{
+            alert(data.msg);
+        }   
+    },'json');
+}
 </script>

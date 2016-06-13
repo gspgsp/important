@@ -44,18 +44,22 @@
 
 <script type="text/javascript">
 
-    $.layer({
-        type: 1,
-        border: [0], //去掉默认边框
-        area: ['1000px','500px'],
-        page: {dom: '#offersList'},
-        success: function(layero){
-            // var loading=layer.load('加载中');
-            $("#offersList").load('/user/mypurchase/get_offers',{id:212});
-        }
-    });
+    var btn;
     function selectOffer(id){
-        
+        btn = $.layer({
+            type: 1,
+            border: [0], //去掉默认边框
+            title: '选定',
+            area: ['1000px','500px'],
+            page: {dom: '#offersList'},
+            success: function(layero){
+                $("#offersList").html('');
+                var loading=layer.load('加载中');
+                $("#offersList").load('/user/mypurchase/get_offers',{id:id},function(){
+                    layer.close(loading);
+                });
+            }
+        });
     }
     $("#Pagination").createPage({
         pageCount:{$count},

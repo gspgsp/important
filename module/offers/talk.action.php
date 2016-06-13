@@ -12,10 +12,13 @@ class talkAction extends homeBaseAction{
 
 		$id=sget('id','i',0);
 		$data=M('product:purchase')->getPurchaseById($id);
-		if($data['type']!=2) $this->forward('/offers');
+		$this->title=$data['type']==1?'我要供货':'委托洽谈'; 
 
 		$contact=M('user:customerContact')->getContactByuserid($data['user_id']);
 		if(!$contact) $contact=array();
+
+		//运输方式
+		$this->ship_type=L('ship_type');
 		//产品类型
 		$product_type=L('product_type');
 		$data['product_type']=$product_type[$data['product_type']];
@@ -29,11 +32,15 @@ class talkAction extends homeBaseAction{
 	{
 		if($_POST){
 			$this->is_ajax=true;
-			$data=$_POST;
-			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']) $this->error('信息填写不完整');
+			$data=saddslashes($_POST);
+			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']||!$data['delivery_place']||!$data['ship_type']) $this->error('信息填写不完整');
 			$p_id=$data['p_id'];
-			$data['p_id']=$p_id;
+			$data['p_id']=$p_id;//报价id
+			$data['c_id']=$_SESSION['uinfo']['c_id'];//客户id
+			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//交易员id
 			$data['delivery_date']=strtotime($data['delivery_date']);
+			$data['delivery_place']=$data['delivery_place'];
+			$data['ship_type']=$data['ship_type'];
 			$data['input_time']=CORE_TIME;
 			$data['user_id']=$this->user_id;
 			$data['sn']=genOrderSn();

@@ -1,11 +1,12 @@
 {layout file="public:main_layout"}
 {insert_css files='home/maillOffer.css'}
 {insert_js files='home/laydate/laydate.js'}
-
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
 
     
 <div class="buy-wrap">
-    <form id="cartFrom" method="post" action="/cart/index/addOrder">
+    <form id="cartFrom" method="" action="">
     	<!--order-confirm begin-->
         <div class="order-confirm">
             <table border="1">
@@ -14,7 +15,7 @@
                     <td><input name="order_name" type="text"/></td>
                     <td>配送方式：</td>
                     <td>
-                    <select name="transport_type" class="required">
+                    <select datatype="*" name="transport_type" class="required">
                         <option value="">请选择</option>
                         {foreach from=$transport_type item=value key=key}
                         <option value="{$key}">{$value}</option>
@@ -23,21 +24,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>提货日期：</td>
-                    <td><input name="pickup_time" id="date1" type="text"/></td>
-                    <td>送货日期：</td>
-                    <td><input name="delivery_time" id="date2" type="text"/></td>
+                    <td>配送日期：</td>
+                    <td><input datatype="*" name="pickup_time" id="date1" type="text"/></td>
+                    <td>配送地点：</td>
+                    <td><input datatype="*" name="pickup_location" type="text"/></td>
+                   <!--  <td>送货日期：</td>
+                    <td><input name="delivery_time" id="date2" type="text"/></td> -->
                 </tr>
                 <tr>
-                    <td>提货地点：</td>
-                    <td><input name="pickup_location" type="text"/></td>
-                    <td>送货地点：</td>
-                    <td><input name="delivery_location" type="text"/></td>
+                    
+                    <!-- <td>送货地点：</td>
+                    <td><input name="delivery_location" type="text"/></td> -->
                 </tr>
                 <tr>
                     <td>付款方式：</td>
                     <td>
-                        <select name="pay_method" class="required">
+                        <select datatype="*" name="pay_method" class="required">
                             <option value="">请选择</option>
                             {foreach from=$pay_method item=value key=key}
                             <option value="{$key}">{$value}</option>
@@ -55,7 +57,7 @@
         <!--detail end-->
         <!--buy-btn begin-->
         <div class="buy-btn">
-        	<button>确认下单</button>
+        	<button type="submit">确认下单</button>
             <a href="/offers">返回</a>
         </div>
     </form>
@@ -91,6 +93,31 @@ function set_cart(sid,that){
         load_cart();
     });
 }
+
+var demo=$("#cartFrom").Validform({
+    tiptype:function(msg,o,cssctl){
+        if(!o.obj.is("form")){
+            var objtip=o.obj.siblings(".Validform_checktip");
+            cssctl(objtip,o.type);
+            objtip.text(msg);
+        }
+    }
+});
+
+$("#cartFrom").submit(function(){
+    if(!demo.check()) return false;
+    var data=$("#cartFrom").serialize();
+    $.post('/cart/index/addorder',data,function(data){
+        if(data.err==0){
+            alert(data.msg);
+            window.location.href="/user/selforder";
+        }else{
+            alert(data.msg);
+        }   
+    },'json');
+    return false;
+});
+
 $(function(){
     load_cart();
     laydate({
@@ -102,10 +129,6 @@ $(function(){
         event: 'focus' 
     });
 
-
-    // $("#cartFrom").submit(function(){
-
-    //     return false;
-    // });
+    
 });
 </script>

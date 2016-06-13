@@ -3,7 +3,7 @@
 /**
  * 自营商城订单
  */
-class selforderAction extends homeBaseAction{
+class selforderAction extends userBaseAction{
 
 	protected $db;
 	public function __init(){
@@ -52,6 +52,7 @@ class selforderAction extends homeBaseAction{
 			->select('o_id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,goods_status,invoice_status,input_time')
 			->where($where)
 			->page($page,$size)
+			->order('input_time desc')
 			->getPage();
 
 		$this->pages = pages($orderList['count'], $page, $size);

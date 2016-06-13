@@ -37,18 +37,24 @@
     	<th>供应商名称</th>
         <th>报价（元/吨）</th>
         <th>数量（吨）</th>
-        <th>提货地点</th>
-        <th>交货日</th>
-        <th>提货方式</th>
+        <th>配送地点</th>
+        <th>配送日期</th>
+        <th>配送方式</th>
         <th>备注</th>
     </tr>
     {foreach from=$list item=value}
     <tr>
-    	<td><input style="width:15px;" name="xd" value="{$value.id}" type="radio"></td>
+    	<td>
+            {if $value.last_buy_sale}
+            已选定
+            {else}
+            <input style="width:15px;" name="xd" value="{$value.id}" type="radio">
+            {/if}
+        </td>
         <td>{$value.c_name}</td>
         <td>{$value.price}</td>
         <td>{$value.number}</td>
-        <td>{$value.number}</td>
+        <td>{$value.delivery_place}</td>
         <td>{$value.delivery_date|date:Y-m-d}</td>
         <td>{:setOption|ship_type,$value.ship_type}</td>
         <td>{$value.remark}</td>
@@ -61,10 +67,14 @@
         <input type="text" class="inpu" name="price">
     </div>
     <a class="but" id="xd" href="javasript:;">选定</a>
-    <a class="but" href="javasript:;">关闭</a>
+    <a class="but" id="closeBtn" href="javasript:;">关闭</a>
 </div>
 
 <script type="text/javascript">
+    $("#closeBtn").live('click',function(){
+        layer.close(btn);
+    })
+
     $("#xd").click(function(){
         var id=$("input[name='xd']:checked").attr('value');
         if(!id){
@@ -78,7 +88,12 @@
             return;
         }
         $.post('/user/mypurchase/selected',{id:id,price:price},function(data){
-            
+            if(data.err==0){
+                alert('选定成功');
+                window.location.reload();
+            }else{
+                alert(data.msg);
+            }
         },'json');
     })
 </script>

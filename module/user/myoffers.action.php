@@ -2,7 +2,7 @@
 /**
  * 报价发布--黎贤
  */
-class myoffersAction extends homeBaseAction{
+class myoffersAction extends userBaseAction{
 
 	protected $db;
 	public function __init()

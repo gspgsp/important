@@ -2,7 +2,7 @@
 /**
  * 修改密码--黎贤
  */
-class changepassAction extends homeBaseAction{
+class changepassAction extends userBaseAction{
 
 
 	public function init()
