@@ -184,7 +184,7 @@ function onLoadDetail(e){
 				s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
 			}
 			if (c_status =='3' && i_status =='全部开票') {
-				s+='|<a href="javascript:onEdit('+oid+','+order_type+')">查看</a>';
+				s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
 			}
 			// s+='<a href="javascript:outStorage('+oid+')">发货</a>|<a href="javascript:transaction('+oid+','+order_type+')">'+'收款'+'</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		}
@@ -202,7 +202,7 @@ function onLoadDetail(e){
 				s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
 			}
 			if (c_status =='3' && i_status =='全部开票') {
-				s+='|<a href="javascript:onEdit('+oid+','+order_type+')">查看</a>';
+				s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
 			}
 			// s+='<a href="javascript:inStorage('+oid+')">入库</a>|<a href="javascript:transaction('+oid+','+order_type+')">'+'付款'+'</a>|<a href="javascript:addInvoice('+oid+','+order_type+')">'+'开票'+'</a>';
 		}
