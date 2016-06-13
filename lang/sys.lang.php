@@ -210,7 +210,8 @@ return array(
 	//入库状态
 	'in_storage_status'=>array(
 		1=>'待入库',
-		2=>'已入库',
+		2=>'部分入库',
+		3=>'已入库',
 	),
 	//出库状态
 	'out_storage_status'=>array(
