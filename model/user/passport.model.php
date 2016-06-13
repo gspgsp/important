@@ -68,6 +68,10 @@ class passportModel extends model{
 		if($uinfo['login_unlock_time'] > CORE_TIME){
 			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
 		}
+		//判断是否分配交易员
+		if(!$uinfo['customer_manager']) return array('err'=>6,'msg'=>'您的账号正在等待分配交易员');
+
+
 		//密文 
 		$npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
 		
