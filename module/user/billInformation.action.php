@@ -4,27 +4,31 @@
 */
 class billInformationAction extends homeBaseAction
 {
+	private $cus_ct;
 	public function __init(){
-		$this->db = M('public:common')->model('invoice_account');
+		$this->db = M('public:common')->model('customer');
+		$this->cus_ct = M('user:customerContact')->getListByUserid($this->user_id);
 	}
 	//开票详情页
 	public function billInfo(){
 		$this->is_ajax = true;
 		if($this->user_id<0) $this->error('账户错误');
-		$page=sget('page','i',1);
-		$size=2;
-		//分页获取对应用户开票详情
-		$list = $this->db->select('id,invoice_name,invoice_address,invoice_receive,invoice_recieve_tel,invoice_default')->where('user_id='.$this->user_id)
-			->page($page,$size)
-			->order("input_time desc")
-			->getPage();
-		foreach ($list['data'] as $key => $value) {
-			$list['data'][$key]['invoice_default'] = L('is_invoice_default')[$value['invoice_default']];
-		}
-		$pages = pages($list['count'], $page, $size);
-		$this->assign('detail',$list['data']);
-		$this->assign('pages',$pages);
+		$data = $this->db->select('c_id,c_name,tax_id,invoice_address,invoice_tel,invoice_bank,invoice_account')->where('c_id='.$this->cus_ct['c_id'])->getRow();
+		$this->assign('detail',$data);
 		$this->display('billInfo');
+	}
+	//修改开票信息
+	public function changeBill(){
+		$this->is_ajax = true;
+		$data = array();
+		if($_POST){
+			$data['tax_id'] = $_POST['tax_id'];
+			$data['invoice_address'] = $_POST['invoice_address'];
+			$data['invoice_tel'] = $_POST['invoice_tel'];
+			$data['invoice_bank'] = $_POST['invoice_bank'];
+			$data['invoice_account'] = $_POST['invoice_account'];
+			if($this->db->where('c_id='.$this->cus_ct['c_id'])->update($data)) $this->json_output(array('err'=>0,'msg'=>'更新成功'));
+		}
 	}
 	//删除某个开票
 	public function deleteOneBill(){
