@@ -17,6 +17,7 @@ return array(
 		'/^(index|ajax)(\/\w+)$/' => 'home/$1$2',
 		'/^(android|ios|wp|weixin)\/(\w+)\/(\w+)$/' => 'app/$2/$3?chanel=$1',
 		'/^(\w+\/\w+\/)(\w+)\-(\w+)/' => '$1$2$3',
+		'/^company\/([0-9]+)$/'=>'user/myHomeWeb/clickMyWeb?id=$1',
 	),
 
 	//子(泛)域名路由规则
