@@ -126,7 +126,7 @@ class mypurchaseAction extends userBaseAction{
 		{
 			$this->is_ajax=true;
 			$cargo_type=sget('cargo_type','i',1);//现货、期货
-			$type=sget('type','i',1);//采购、报价
+			$type=sget('type','i',1);//采购1、报价2
 			$pur_model=M('product:purchase');
 			$fac_model=M('product:factory');
 			$pro_model=M('product:product');
@@ -151,6 +151,7 @@ class mypurchaseAction extends userBaseAction{
 					'period'=>$value['period'],//期货周期
 					'bargain'=>$value['bargain'],//是否实价
 					'type'=>$type,//采购、报价
+					'status'=>$type==1?1:2,//状态，报价不需要审核，采购需要审核
 					'input_time'=>CORE_TIME,//创建时间
 				);
 				if($pid){

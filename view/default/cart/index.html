@@ -83,7 +83,7 @@ function load_cart(){
 }
 
 function set_cart(sid,that){
-    var num=parseInt($(that).val());
+    var num=parseFloat($(that).val());
     if(!num){
         $(that).val(1);
         return;

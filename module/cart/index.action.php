@@ -32,7 +32,7 @@ class indexAction extends homeBaseAction{
 		if($_POST)
 		{
 			$sid=sget('sid','s','');
-			$num=sget('num','i',0);
+			$num=round(sget('num'),2);
 			Cart::update(array('sid'=>$sid,'num'=>$num));
 			$this->success('修改成功');
 		}
