@@ -127,7 +127,7 @@ function submitForm() {
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
 			window.location.reload();
-			// CloseWindow("save");
+			CloseWindow("save");
 		}else{
 			return false;
 		}

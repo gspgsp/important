@@ -213,8 +213,8 @@ gridCell=mini.get('gridCell3');
 noStockData=[]; 
 "{/if}"
 function submitForm(){
-	// form.validate();
-	// if(form.isValid() == false) return;
+	form.validate();
+	if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
 	var datas=gridCell.getData();

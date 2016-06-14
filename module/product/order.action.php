@@ -122,7 +122,7 @@ class orderAction extends adminBaseAction {
 			$v['business_model']=L('business_model')[$v['business_model']];
 			$v['financial_records']=L('financial_records')[$v['financial_records']];
 			$v['order_type']=L('order_type')[$v['order_type']];
-			$v['goods_status']=L('goods_status')[$v['goods_status']];
+			$v['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
 		}
