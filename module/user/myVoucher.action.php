@@ -39,6 +39,8 @@ class myVoucherAction extends homeBaseAction
 			if($state == 3){
 				$die_time = M('user:myVoucher')->getDieTime($value['id']);
 				$list['data'][$key]['die_time'] = M('user:myVoucher')->getDieTime($value['id'])>1000 ? date("Y-m-d",M('user:myVoucher')->getDieTime($value['id'])):'-';
+			}elseif ($state == 4) {
+				$list['data'][$key]['use_time'] = $value['use_time']>1000 ? date("Y-m-d",$value['use_time']):'-';
 			}
 		}
 		$pages = pages($list['count'], $page, $page_size);
