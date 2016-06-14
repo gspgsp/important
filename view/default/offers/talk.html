@@ -120,7 +120,7 @@ var demo=$("#talkForm").Validform({
 function submitFrom(){
     if(!demo.check()) return false;
     var data=$("#talkForm").serialize();
-    $.post('/purchase/talk/addorder',data,function(data){
+    $.post('/offers/talk/addorder',data,function(data){
         if(data.err==0){
             alert(data.msg);
             window.history.back();
