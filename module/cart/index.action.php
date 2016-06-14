@@ -1,6 +1,7 @@
 <?php
 class indexAction extends homeBaseAction{
 
+
 	protected $db;
 	public function __init()
 	{
@@ -12,9 +13,11 @@ class indexAction extends homeBaseAction{
 	public function init()
 	{
 		if($this->user_id<=0) $this->forward('/user/login');
-		if(empty($this->cartList=Cart::getGoods())) $this->forward('/offers');
+		$cartList=Cart::getGoods();
+		if(empty($cartList)) $this->forward('/offers');
 		$this->pay_method=L('pay_method');
 		$this->transport_type=L('transport_type');
+		$this->assign('cartList',$cartList);
 		$this->display('index');
 	}
 

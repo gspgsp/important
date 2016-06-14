@@ -6,7 +6,7 @@
     <h2 class="order">订单中心</h2>
     <ul>
         <li {if $act=='selforder'}class="hover"{/if}><a href="/user/selforder">自营商城订单</a></li>
-        <li><a href="javascript:;">联营商城订单</a></li>
+        <li {if $act=='unionorder'}class="hover"{/if}><a href="/user/unionorder">联营商城订单</a></li>
     </ul>
     <h2 class="supply">我的供应</h2>
     <ul>
@@ -40,9 +40,7 @@
     <h2 class="set">账户设置</h2>
     <ul>
         <li {if $act=='myset'}class="hover"{/if}><a href="/user/myset">账户信息</a></li>
-        <li><a href="javascript:;">资质认证</a></li>
         <li {if $act=='editAddress'}class="hover"{/if}><a href="/user/myset/editAddress">收货地址</a></li>
-        <li><a href="javascript:;">账户绑定</a></li>
         <li {if $act=='changepass'}class="hover"{/if}><a href="/user/changepass">修改密码</a></li>
     </ul>
 </div>

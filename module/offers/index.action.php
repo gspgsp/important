@@ -12,9 +12,7 @@ class indexAction extends homeBaseAction{
 	public function init()
 	{
 		//购物车
-		// $this->cartList=isset($_SESSION[$this->cartKey]) ? $_SESSION[$this->cartKey] : array();
 		$this->cartList=Cart::getGoods();
-		// p($this->cartList);
 
 		$cityWhere='pid=1';
 		$factoryWhere=1;
