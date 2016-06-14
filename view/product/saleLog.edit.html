@@ -50,7 +50,7 @@
 				</tr>
 				<tr>	
 					<td>批次：</td>
-					<td><input name="lot_num" id="lot" value="{$info.lot_num}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
+					<td><input name="lot_num" id="lot" value="{$info.lot_num}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  style="width:150px"/>
 					</td>
 					<td>采购价 : </td>
 					<td><input name="purchase_price" id="p_price" value="{$info.purchase_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
@@ -70,13 +70,16 @@
 				<tr>
 					
 					<td>备注 : </td>
-					<td><input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$info.remark}"></td>
+					<td><input name="remark" class="mini-textarea" style="width:200px"  value="{$info.remark}"></td>
 				</tr>
+				<input class="mini-hidden" name="o_id" value="{$o_id}"/>
 				<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
 				<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
 				<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
 				<input class="mini-hidden" id="m_lock_number" name="lock_number" value=""/>
 				<input class="mini-hidden" id="inlog_id" name="inlog_id" value=""/>
+				<input class="mini-hidden" id="controlled_number" name="controlled_number" value=""/>
+
 			</table>	
 		</fieldset>
 	</div>
@@ -147,35 +150,30 @@ function setsupport(e){
 	"{if $type eq 'edit'}"
 	return false;
 	"{/if}"
-	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number;
-	var p = mini.get("model");  
-	var s = mini.get("store");
-	var l = mini.get("lot");
-	var p_price = mini.get("p_price");
-	var hidden_remainder = mini.get("hidden_remainder");
-	var m_p_id = mini.get("m_p_id");
-	var m_store_id = mini.get("m_store_id");
-	var inlog_id = mini.get("inlog_id");
-	var lock_numbe = mini.get("m_lock_number");
+	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number;
+	mini.get("model").setValue(model);
+	mini.get("store").setValue(store);
+	mini.get("lot").setValue(lot);
+	mini.get("p_price").setValue(unit_price); //仓库的采购价
+	mini.get("hidden_remainder").setValue(remainder);
+	mini.get("m_p_id").setValue(p_id);
+	mini.get("m_store_id").setValue(store_id);
+	mini.get("inlog_id").setValue(id);
+	mini.get("m_lock_number").setValue(locknum);
+	mini.get("controlled_number").setValue(controlled_number);
 
-	p.setValue(model);
-	s.setValue(store);
-	l.setValue(lot);
-	p_price.setValue(unit_price); //仓库的采购价
-	hidden_remainder.setValue(remainder);
-	m_p_id.setValue(p_id);
-	m_store_id.setValue(store_id);
-	inlog_id.setValue(id);
-	lock_numbe.setValue(locknum);
 }
 function onValidation(e) {
-	var hidden_remainder = mini.get("hidden_remainder");
+	var controlled_number = mini.get("controlled_number");
 	var require_number = mini.get("require_number");
-	var remainder = hidden_remainder.getValue();
-	var r_number = require_number.getValue();
-	if(parseInt(remainder)<parseInt(r_number)){
+	var controlled = controlled_number.getValue();
+	var require = require_number.getValue();
+	if(parseInt(controlled)<parseInt(require)){
 		require_number.setValue('0');
 		$("#returnError").text('超出现有库存!');
+		mini.parse();
+	}else{
+		$("#returnError").text('');
 		mini.parse();
 	}
 }

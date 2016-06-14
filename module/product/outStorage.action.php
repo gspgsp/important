@@ -31,6 +31,7 @@ class outStorageAction extends adminBaseAction {
 					->getPage();
 			foreach($list['data'] as $k=>&$v){
 				$v['model']=M("product:product")->getModelById($v['p_id']); //获取客户名称
+				$v['out_number']=$v['number'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -55,70 +56,30 @@ class outStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-		$i=0;
-		foreach ($data as $k=> $v) {
-			if( preg_match('/\d/',$k) ){ //筛选明细id 和 发出的数量
-				preg_match_all('/([0-9]+)/',$k,$matches);
-				$_out[$i]['id']=$matches[0][0];
-				$_out[$i]['number']=$v;
-				$totle_out+=$v;
-				$i++;
-			}else{
-				$data[$k]=$v;
-			}
-		}
-		if(empty($data)) $this->error('操作有误');	
-		$_data=array(
-			'c_id'=>$this->db->model('order')->select('c_id')->where('o_id = '.$data['o_id'])->getOne(),
-			'out_no'=>genOrderSn(), //出库单号
-			'input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],
-			'customer_manager'=>$_SESSION['adminid'],
-			'out_date'=>CORE_TIME,
-			'number'=>$totle_out,
+		$add_data=array(
+				'input_time'=>CORE_TIME,
+				'input_admin'=>$_SESSION['name'],
 		);
 		$this->db->startTrans(); //开启事务
 		try {
-			if( !$this->db->model('out_storage')->add($data+$_data) ) throw new Exception("新增出库单失败");
-			$out_id=$this->db->getLastID(); //获取新增出库单ID
-			foreach ($_out as $k => $v) {
-				if( !$this->db->model('sale_log')->where(' id = '.$v['id'])->update(' number = number - '.$v['number']) ) throw new Exception("明细更新失败");	//在明细中减去出库的数量
-				$sale_detail = $this->db->model('sale_log')->where(' id = '.$v['id'])->getRow();
-				
-				$sub_price+=$sale_detail['unit_price']*$v['number'];
-				$out_detail=array(
-					'o_id'=>$data['o_id'],
-					'out_id'=>$out_id,
-					'detail_id'=>$v['id'],
-					'number'=>$v['number'],
-					'store_id'=>$sale_detail['store_id'],
-					'store_aid'=>$sale_detail['store_aid'],
-					'p_id'=>$sale_detail['p_id'],
-				);
-				if( !$this->db->model('out_log')->add($out_detail+$_data) ) throw new Exception("新增出库明细失败");
+			if( !$this->db->model('out_storage')->add($data) ) throw new Exception("新增出库单失败");	
+			$out_id=$this->db->getLastID(); //获取新增出库单ID	
+			foreach ($data['log'] as $k => $v) {
+				$log[$k]=$v;
+				$log[$k]['out_id']=$out_id;
+				$log[$k]['detail_id']=$v['id']; //订单明细
+				$log[$k]['number']=$v['out_number'];	 //发货数量
+				if( !$this->db->model('out_log')->add($log[$k]+$add_data) ) throw new Exception("出库明细新增失败");
+				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update('out_number = out_number +'.$v['out_number'].' , out_storage_status=3') ) throw new Exception("更新订单明细失败");		
+				if( !$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update('remainder = remainder-'.$v['out_number'].' , lock_number = lock_number - '.$v['out_number']) ) throw new Exception("库存更新失败");
+				if( !$this->db->model('store_product')->where('p_id = '.$v['p_id'].' and s_id = '.$v['store_id'])->update('remainder = remainder-'.$v['out_number']) ) throw new Exception("仓库货品更新失败");
 			}
-			if( !$this->db->model('order')->where('o_id = '.$data['o_id'])->update('total_price = total_price -'.$sub_price) )  throw new Exception("订单总金额更新失败");
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
 		$this->db->commit();
 		$this->success('操作成功');
-
-
-
-
-		// $diff_num=M("product:outStorage")->checkNum($data['sale_id'],$data['number']); //订单和出库数量比较
-		// if(!$diff_num) $this->error('数量有误');
-		// if($data['doyet'] == 'doyet') $result=$this->db->add($data+$_data);		
-		// $out_log=$this->db->model('out_log')->add($data+$_data);
-		// $this->db->model('sale_log')->where("id = ".$data['sale_id'])->update(" number = number - ".$diff_num);
-		// if($this->db->commit()){
-		// 		$this->success('操作成功');
-		// 	}else{
-		// 		$this->db->rollback();
-		// 		$this->error('数据处理失败');
-		// 	}	
 	}
 	/**
 	 * 获取联系人信息

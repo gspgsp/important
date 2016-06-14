@@ -168,11 +168,11 @@ class saleLogAction extends adminBaseAction {
 				'update_time'=>CORE_TIME,
 				'update_admin'=>$_SESSION['name'],
 		);
-		$time_price=$data['number']*$data['unit_price'];
+		$time_price=$data['require_number']*$data['unit_price'];
 		$this->db->startTrans();//开启事务
 		try {
-			if( !$this->db->add($data) ) throw new Exception("新增订单明细失败!");
-			if( !$this->db->model('in_log')->where('id = '.$data['inlog_id'])->update(' controlled_number = controlled_number - '.$data['require_number'].' , lock_number = lock_number + '.$data['require_number'].' , update_time='.CORE_TIME.' , update_admin = '.$_SESSION['name']) ) throw new Exception("同步操作库存失败!");
+			if( !$this->db->model('sale_log')->add($data) ) throw new Exception("新增订单明细失败!");
+			if( !$this->db->model('in_log')->where('id = '.$data['inlog_id'])->update(' controlled_number = controlled_number - '.$data['require_number'].' , lock_number = lock_number + '.$data['require_number'].' , update_time='.CORE_TIME.' , `update_admin` =" '.$_SESSION['name'].'" ') ) throw new Exception("同步操作库存失败!");
 			if( !$this->db->model('order')->where('o_id = '.$data['o_id'])->update('total_price = total_price +'.$time_price) ) throw new Exception("订单总金额更新失败!");
 		} catch (Exception $e) {
 			showtrace();

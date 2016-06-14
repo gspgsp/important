@@ -60,10 +60,12 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
+		// p($data);die;
 		if(empty($data)) $this->error('操作有误');
 		$basic_info= array(
 			'input_admin'=>$_SESSION['name'],
 			'input_time'=>CORE_TIME,
+			'customer_manager'=>$_SESSION['adminid'],
 		);
 		$this->db->startTrans(); //开启事务
 		try {
@@ -87,7 +89,13 @@ class inStorageAction extends adminBaseAction {
 				$input_store['p_id']=$v['p_id'];
 				$input_store['number']=$v['number'];
 				$input_store['remainder']=$v['number'];
-				if( !$this->db->model('store_product')->add($input_store+$basic_info) ) throw new Exception("新增仓库货品失败!");
+
+				if( $this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->getOne() ){
+					if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->update('number=number+'.$v['number']) ) throw new Exception("新增仓库货品更新失败");
+					
+				}else{
+					if( !$this->db->model('store_product')->add($input_store+$basic_info) ) throw new Exception("新增仓库货品失败!");
+				}
 				if( !$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('in_storage_status = 3') ) throw new Exception("更新采购明细失败！");
 
 			}
@@ -103,6 +111,7 @@ class inStorageAction extends adminBaseAction {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+
 		$this->db->commit();
 		$this->success('操作成功');	
 	}

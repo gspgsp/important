@@ -101,17 +101,21 @@
 					<legend>销库存订单</legend>
 					<div id="editForm2" style="padding:5px;" >
 					<div class="detail">
-						<table style=" width: 790px;">
-						        <tr>
-						            <th>牌号</th>
-						            <th>仓库</th>
-						            <th>批次</th>
-						            <th>售价</th>
-						            <th>数量</th>
-						            <th>总价</th>
-						            <th>操作</th>
-						        </tr>
-						    </table>
+						    	<div id="gridCell1" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">    
+								<div field="model" width="120" headerAlign="center">牌号 </div>                
+								<div field="store_name" width="80" headerAlign="center" allowSort="true">仓库</div>
+								<div field="lot_num" width="80" headerAlign="center" >批次</div>
+								<div field="unit_price" width="80" headerAlign="center" >售价
+									<input property="editor" class="mini-textbox" style="width:100%;"/>
+								</div>
+								<div field="require_number" width="80" headerAlign="center" >数量
+									<input property="editor" class="mini-textbox" style="width:100%;"/>
+								</div>
+								<div field="time_price" width="80" headerAlign="center" >总价</div>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+							</div>
+						</div>
 						    <!--total begin-->
 						    <div class="total">
 						        <span class="total-money">合计金额小写：<input type="text" value="0"/></span>
@@ -125,25 +129,16 @@
 					<legend>销售订单</legend>
 					<div id="editForm3" style="padding:5px;" >
 					<div class="detail">
-						<div id="gridCell" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+						<div id="gridCell2" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns">    
-								<div field="model" width="120" headerAlign="center">牌号                       
-									<input property="editor" class="mini-textbox" style="width:100%;" vtype="english"/>
-								</div>                
-								<div field="unit_price" width="80" headerAlign="center" allowSort="true">价格
+								<div field="model" width="120" headerAlign="center">牌号</div>                
+								<div field="unit_price" width="80" headerAlign="center" >价格
 									<input property="editor" class="mini-textbox" style="width:100%;"/>
 								</div>
-								<div field="require_number" width="80" headerAlign="center" allowSort="true">数量
+								<div field="require_number" width="80" headerAlign="center" >数量
 									<input property="editor" class="mini-textbox" style="width:100%;"/>
 								</div>
-								<div field="time_price" width="80" headerAlign="center" allowSort="true">总金额
-								</div>
-								<div field="p_id" visible="false" width="80" headerAlign="center" allowSort="true">p_id
-									<input property="editor" class="mini-textbox" style="width:100%;"/>
-								</div>
-								<div field="totle_price" visible="false" width="80" headerAlign="center" allowSort="true">总金额
-									<input property="editor" class="mini-textbox" style="width:100%;"/>
-								</div>
+								<div field="time_price" width="80" headerAlign="center" >总金额</div>
 								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 							</div>
 						</div>
@@ -162,16 +157,20 @@
 					<legend>采购订单</legend>
 					<div id="editForm3" style="padding:5px;" >
 					<div class="detail">
-						<table style=" width: 790px;">
-						        <tr>
-						            <th>牌号</th>
-						            <th>客户</th>
-						            <th>售价</th>
-						            <th>数量</th>
-							<th>总价</th>
-						            <th>操作</th>
-						        </tr>
-						    </table>
+						<div id="gridCell3" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">    
+								<div field="model" width="120" headerAlign="center">牌号</div>        
+								<div field="f_name" width="120" headerAlign="center">客户</div>         
+								<div field="unit_price" width="80" headerAlign="center" >售价
+									<input property="editor" class="mini-textbox" style="width:100%;"/>
+								</div>
+								<div field="number" width="80" headerAlign="center" >数量
+									<input property="editor" class="mini-textbox" style="width:100%;"/>
+								</div>
+								<div field="time_price" width="80" headerAlign="center" >总金额</div>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+							</div>
+						</div>
 						    <!--total begin-->
 						    <div class="total">
 						        <span class="total-money">合计金额：<input type="text" value="0"/></span>
@@ -204,15 +203,15 @@
 <script type="text/javascript">
 mini.parse();
 var form = new mini.Form("#infoForm");
-var gridCell=mini.get('gridCell');
-
-
-var noStockData=[];//不消库存明细
-var totalCount={num:0,price:0};
+var noStockData;
+var totalCounts={num:0,price:0};
 var t_price=0;
 var cid = mini.get("#usrId").getValue();
-
-
+var gridCell ;
+"{if $order_type eq 2}"
+gridCell=mini.get('gridCell3');
+noStockData=[]; 
+"{/if}"
 function submitForm(){
 	// form.validate();
 	// if(form.isValid() == false) return;
@@ -220,6 +219,8 @@ function submitForm(){
 	var o = form.getData();
 	var datas=gridCell.getData();
 	$.extend(o, {detail:datas}); 
+	$.extend(o, totalCounts); 
+	console.log(o);
 	var json = mini.encode(o);
 
 	$("#returnMsg").text('');
@@ -240,13 +241,16 @@ function changordertype(e){
 	var val = e.value;
 	var addSaleType = mini.get("addSaleType");
 	var sales_type= mini.get("sales_type");
+	noStockData=[]; //切换订单类型时清空
 	//1为销库存
 	if(val == 1){
+		gridCell=mini.get('gridCell1');
 		addSaleType.on("click",consumeStoreDetil).un("click",saleDetil);
 		sales_type.setValue('1');
 		$("#sale").hide();
 		$("#consumeStore").show();
 	}else{
+		gridCell=mini.get('gridCell2');
 		addSaleType.on("click",saleDetil).un("click",consumeStoreDetil); 
 		sales_type.setValue('2');
 		$("#consumeStore").hide();
@@ -256,13 +260,13 @@ function changordertype(e){
 
 function onLoadDetail(e){
 	var index=e.record._index;
-	s='<a href="javascript:delDetail('+index+',noStockData)">删除</a>';
+	s='<a href="javascript:delDetail('+index+')">删除</a>';
 	return s;
 }
-function delDetail(index,data){
-	data.splice(index,1);
-	gridCell.setData(data);
-	totalCounts(data);
+function delDetail(index){
+	noStockData.splice(index,1);
+	gridCell.setData(noStockData);
+	totalCounts(noStockData);
 }
 
 function changtransport(e){
@@ -358,8 +362,6 @@ function proChoose(e){
 	});         
 }
 //追加销售明细(销库存)
-var k = 0;
-var count = 0;
 function consumeStoreDetil(){
 	var require_num  = parseInt(mini.get("require_number").getValue());
 	var btn = this;
@@ -379,52 +381,36 @@ function consumeStoreDetil(){
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
 				if (data) {
-					var time_price = parseInt(data.unit_price)*parseInt(data.require_number);
-					var st = '<tr data-index="'+k+'">'+
-						'<td>'+data.model+'</td>'+
-						'<td>'+data.store_name+'</td>'+
-						'<td >'+data.lot_num+'</td>'+
-						'<td>'+data.unit_price+'</td>'+
-						'<td class="amount">'+data.require_number+'</td>'+
-						'<td class="money">'+time_price+'</td>'+
-						'<td class="opt"><span>删除</span></td>'+
-						'<td style="border:none;">'+
-						'<input class="mini-hidden" name="p_id'+k+'" value="'+data.p_id+'"/>'+
-						'<input class="mini-hidden" name="store_id'+k+'" value="'+data.store_id+'"/>'+
-						'<input class="mini-hidden" name="lot_num'+k+'" value="'+data.lot_num+'"/>'+
-						'<input class="mini-hidden" name="unit_price'+k+'" value="'+data.unit_price+'"/>'+
-						'<input  class="mini-hidden" name="require_number'+k+'" value="'+data.require_number+'"/>'+
-						'<input class="mini-hidden" name="remark'+k+'" value="'+data.remark+'"/>'+
-						'<input class="mini-hidden" name="inlog_id'+k+'" value="'+data.inlog_id+'"/>'+
-						'</td>'+
-					'</tr>';
-					detailTable.append(st);
-					mini.parse();
-					//计算总金额与总数量
-					var totalMoney = $(".total-money input");
-						totalMoney.val(parseInt(totalMoney.val())+parseInt(time_price));
-					var totalAmount = $(".total-amount input");
-						totalAmount.val(parseInt(totalAmount.val())+parseInt(data.require_number));
-					var total_price = mini.get('total_price').getValue();
-					mini.get('total_price').setValue(totalMoney.val()); //每次取出总价加上单笔明细的价格
+					obj={};
+					obj.store_name=data.store_name;
+					obj.model=data.model;
+					obj.p_id=data.p_id;
+					obj.store_id=data.store_id;
+					obj.lot_num=data.lot_num;
+					obj.unit_price=data.unit_price;
+					obj.require_number=data.require_number;
+					obj.remark=data.remark;
+					obj.inlog_id=data.inlog_id;
+					obj.time_price=obj.unit_price*obj.require_number;
+					noStockData.push(obj);
+					gridCell.setData(noStockData);
+					totalCount(noStockData);
 				}
 			}
 		}
 	});
-	k++;
 }
-function totalCounts(noStockData){
-	totalCount={num:0,price:0};
+function totalCount(noStockData){
+	totalCounts={num:0,price:0};
 	for (var i = 0; i < noStockData.length; i++) {
-		totalCount.num=parseFloat(totalCount.num)+parseFloat(noStockData[i].require_number);
-		totalCount.price=parseFloat(totalCount.price)+parseFloat(noStockData[i].time_price);
+		totalCounts.num=parseFloat(totalCounts.num)+parseFloat(noStockData[i].require_number);
+		totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
 	};
-	$(".total-money").find('input').val(totalCount.price);
-	$(".total-amount").find('input').val(totalCount.num);
+	$(".total-money").find('input').val(totalCounts.price);
+	$(".total-amount").find('input').val(totalCounts.num);
 }
 
 //追加销售明细(不销库存)
-var j = 0;
 function saleDetil(){
 	var btn = this;
 	mini.open({
@@ -442,7 +428,6 @@ function saleDetil(){
 				var data = iframe.contentWindow.GetData();
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
-
 				if (data) {
 					obj={};
 					obj.model=data.model;
@@ -451,11 +436,9 @@ function saleDetil(){
 					obj.unit_price=data.unit_price;
 					obj.require_number=data.require_number;
 					obj.time_price=obj.unit_price*obj.require_number;
-					t_price+=obj.time_price;
-					$('#total-money').val(t_price);
 					noStockData.push(obj);
 					gridCell.setData(noStockData);
-					totalCounts(noStockData);
+					totalCount(noStockData);
 					
 				}
 			}
@@ -463,13 +446,7 @@ function saleDetil(){
 	});
 }
 
-
-
-
-
-
 //追加采购明细
-var y = 0;
 function addPurDetil(){
 	var btn = this;
 	mini.open({
@@ -488,55 +465,24 @@ function addPurDetil(){
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
 				if (data) {
-					var time_price = parseInt(data.unit_price)*parseInt(data.number);
-					var st = '<tr data-index="'+y+'">'+
-						'<td>'+data.model+'</td>'+
-						'<td>'+data.f_name+'</td>'+
-						'<td>'+data.unit_price+'</td>'+
-						'<td class="amount">'+data.number+'</td>'+
-						'<td class="money">'+time_price+'</td>'+
-						'<td class="opt"><span>删除</span></td>'+
-						'<td style="border:none;">'+
-						'<input class="mini-hidden" name="p_id'+y+'" value="'+data.p_id+'"/>'+
-						'<input class="mini-hidden" name="c_id'+y+'" value="'+data.c_id+'"/>'+
-						'<input class="mini-hidden" name="unit_price'+y+'" value="'+data.unit_price+'"/>'+
-						'<input  class="mini-hidden" name="number'+y+'" value="'+data.number+'"/>'+
-						'<input class="mini-hidden" name="remark'+y+'" value="'+data.remark+'"/>'+
-						'</td>'+
-					'</tr>';
-					detailTable.append(st);
-					mini.parse();
-					//计算总金额与总数量
-					var totalMoney = $(".total-money input");
-						totalMoney.val(parseInt(totalMoney.val())+parseInt(time_price));
-					var totalAmount = $(".total-amount input");
-						totalAmount.val(parseInt(totalAmount.val())+parseInt(data.number));
-					var total_price = mini.get('total_price').getValue();
-					mini.get('total_price').setValue(totalMoney.val()); //每次取出总价加上单笔明细的价格
-
+					obj={};
+					obj.model=data.model;
+					obj.f_name=data.f_name;
+					obj.unit_price=data.unit_price;
+					obj.number=data.number;
+					obj.p_id=data.p_id;
+					obj.c_id=data.c_id;
+					obj.remark=data.remark;
+					obj.require_number=data.number;
+					obj.time_price=obj.unit_price*obj.require_number;
+					noStockData.push(obj);
+					gridCell.setData(noStockData);
+					totalCount(noStockData);
 				}
 			}
 		}
 	});
-	y++;
 }
-var detailTable = $(".detail table");		
-//删除某一条数据
-$(".detail table").find(".opt span").live("click",function(){ 
-	var thisTr = $(this).closest("tr"),
-	      index = thisTr.index();
-	thisTr.remove();
-	//追加属性
-	var str = '<input class="mini-hidden" type="hidden" name="isDel'+thisTr.attr("data-index")+'" value="1">';
-	$(this).parent().next().append(str);
-	mini.parse();
-	//计算总金额与总数量
-	var totalMoney = $(".total-money input");
-		totalMoney.val(parseInt(totalMoney.val())-parseInt(thisTr.find(".money").html()));
-	var totalAmount = $(".total-amount input");
-		totalAmount.val(parseInt(totalAmount.val())-parseInt(thisTr.find(".amount").html()));
-	mini.get('total_price').setValue(totalMoney.val());
-});
-	
 
+	
 </script>

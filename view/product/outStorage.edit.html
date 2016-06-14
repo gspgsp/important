@@ -72,7 +72,7 @@ sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRow
 		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
 		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数
-			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
+<!-- 			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" /> -->
 		</div>   
 	</div>
 </div>
@@ -83,6 +83,7 @@ sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRow
 	
 <script type="text/javascript">
 mini.parse();
+var rows ;
 //搜索或刷新
 var grid = mini.get("gridCell");
 function search() {
@@ -111,11 +112,12 @@ function viewOrdInfo(id){
 }
 function submitForm() {
 	var form = new mini.Form("#editForm");
+	rows = grid.getSelecteds()
 	// form.validate();
 	// if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
-	$.extend(o, ourarr); 
+	$.extend(o, {log:rows}); 
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
@@ -284,15 +286,13 @@ function saveData() {
 	}
 	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
 }
-var ourarr ={};
-function onValidation(){
-	var out_number = parseInt(this.getValue());
-	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
-	if(out_number>parseInt(rows[0].number)){
-		alert('不能大于订单数量,请重新输入!');
-		this.setValue('0');
-	 	return false;
-	}
-	ourarr[ rows[0].id  ]= out_number;
-}
+// function onValidation(){
+// 	var out_number = parseInt(this.getValue());
+// 	rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
+// 	if(out_number>parseInt(rows[0].number)){
+// 		alert('不能大于订单数量,请重新输入!');
+// 		this.setValue('0');
+// 	 	return false;
+// 	}
+// }
 </script>

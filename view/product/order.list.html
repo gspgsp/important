@@ -13,7 +13,7 @@
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
 				<span class="separator"></span>
 			{/if}
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
+				<!-- <a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> -->
 			</td>
 		{/if}
 			<td style="float:right;">
@@ -79,7 +79,7 @@
 			<div field="order_name" width="55" headerAlign="center" align="center" allowSort="true">订单名称</div>
 			<div field="order_sn" width="45" headerAlign="center" align="center" allowSort="true">订单号</div>
 			<div field="order_type" width="45" headerAlign="center" align="center" allowSort="true">类型</div>
-			<div field="order_source" width="35" headerAlign="center" align="center" allowSort="true">来源</div>
+			<div field="order_source" width="25" headerAlign="center" align="center" allowSort="true">来源</div>
 			<div field="c_name" width="60" headerAlign="center" align="center" allowSort="true">客户名称</div>
 			<div field="in_storage_status" width="45" headerAlign="center" align="center" allowSort="true">入库状态</div>
 			<div field="total_price" width="45" headerAlign="center" align="center" allowSort="true">总金额</div>
@@ -88,22 +88,64 @@
 			<div field="goods_status" width="45" headerAlign="center" align="center" allowSort="true">发货状态</div>
 			<div field="invoice_status" width="45" headerAlign="center" align="center" allowSort="true">开票状态</div>
 			<div field="financial_records" width="45" headerAlign="center" align="center" allowSort="true">财务记录</div>
+			<div field="type_status" width="70" headerAlign="center" align="center" allowSort="true">销售|物流</div>
 			<div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">交易员</div>
 			<!-- <div field="update_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div> -->
 			<!-- <div field="update_admin" width="45" headerAlign="center" align="center">修改者</div> -->
-			<div field="order_status" width="60" headerAlign="center" allowSort="true" align="center" renderer="onOrderStatus">订单审核
+<!-- 			<div field="order_status" width="60" headerAlign="center" allowSort="true" align="center" renderer="onOrderStatus">订单审核
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$order_status}' />
 			</div>
 
 			<div field="transport_status" width="60" headerAlign="center" allowSort="true" align="center" renderer="onTransportStatus">物流审核
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$transport_status}' />
-			</div>
-			
-			 <div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+			</div> -->
+			 <div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="oncheckDetail">审核</div>
+			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 		</div>
 	</div>
-</div></div>
+</div>
+<div id="ordercheck" class="mini-window" title="订单审核" style="width:300px;" showModal="true" allowResize="true" allowDrag="true">
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<tr>
+				<td>
+					<input name="order_status" class="mini-radiobuttonlist"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
+					<input name="o_id"  class="mini-hidden" id="o_id1" value="">
+					<input name="s_or_p"  class="mini-hidden" id="s_or_p" value="">
+
+				</td>
+
+			</tr>
+
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitcheck('ordercheck')">提交</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div id="transportcheck" class="mini-window" title="物流审核" style="width:300px;" showModal="true" allowResize="true" allowDrag="true">
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<tr>
+				<td>
+					<input name="transport_status" class="mini-radiobuttonlist"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
+					<input name="o_id"  class="mini-hidden" id="o_id2" value="">
+
+				</td>
+
+			</tr>
+
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitcheck('transportcheck')">提交</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
 	{if $doact eq 'search'}
 	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
 			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
@@ -148,15 +190,76 @@ function onLoadHandle(e) {
 	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
 	return s;
 }
+//审核
+function oncheckDetail(e){
+	var record = e.record,s='',oid = record.o_id,order_status=record.order_status,transport_status=record.transport_status,order_type = record.order_type;
+	if(order_status =='3' || transport_status =='3'){
+		s +='已取消';
+	}else if(order_status =='2' && transport_status =='2'){
+		s +='审核通过';
+	}else{
+		order_type = (order_type=='销售订单' ? '1' : '2');
+		if(order_type=='1'){	//销售
+			if(order_status != '2') s += '<a href="javascript:orderSaCheck('+oid+')">销售审核 </a>';
+			if(transport_status != '2') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
+		}else{
+			if(order_status != '2') s += '<a href="javascript:orderPuCheck('+oid+')">采购审核 </a>';
+			if(transport_status != '2') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
+		}
+	}
+
+	return s;
+}
+//销售审核
+var ordInfo = mini.get("ordercheck");
+function orderSaCheck(oid){
+	mini.get('o_id1').setValue(oid);
+	ordInfo.show();
+}
+//采购审核
+function orderPuCheck(oid){
+	mini.get('o_id1').setValue(oid);
+	mini.get('s_or_p').setValue(1);
+	ordInfo.show();
+}
+//物流审核
+var tranInfo = mini.get("transportcheck");
+function transportCheck(oid){
+	mini.get('o_id2').setValue(oid);
+	tranInfo.show();
+}
+//提交审核结果
+function submitcheck(type) {
+	var form1 = new mini.Form(type);
+	form1.validate();
+	if (form1.isValid() == false) return;
+	var o = form1.getData();
+	console.log(o);
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			ordInfo.hide();
+			tranInfo.hide();
+		}
+	}
+	var str = '/product/order/'+type;
+	utils.ajax(str,{data:json},callback,"POST","json");
+}
 //新增产品详情
 function onLoadDetail(e){
 	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status;
 	order_type = (order_type=='销售订单' ? '1' : '2');
-
 	if(order_type=='1'){	//销售
-		if(order_status =='1' || transport_status =='1'){ //待审核时的操作
-			s += '<a href="javascript:addSaleLog('+oid+')">追加</a>';
-		} 
+		// if(order_status =='1' || transport_status =='1'){ //待审核时的操作
+		// 	s += '<a href="javascript:addSaleLog('+oid+')">追加</a>';
+		// } 
 		if(order_status =='3' || transport_status =='3') return;
 		if(order_status =='2' && transport_status=='2'){
 			s+='<a href="javascript:outStorage('+oid+')">发货</a>';
@@ -172,9 +275,9 @@ function onLoadDetail(e){
 
 		}
 	}else{   //采购
-		if(order_status =='1' || transport_status =='1'){ //待审核时的操作
-			s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>';
-		}		
+		// if(order_status =='1' || transport_status =='1'){ //待审核时的操作
+		// 	s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>';
+		// }		
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
 			s+='<a href="javascript:inStorage('+oid+')">入库</a>';
