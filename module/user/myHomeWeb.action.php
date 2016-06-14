@@ -27,13 +27,17 @@ class myHomeWebAction extends homeBaseAction
 		$articles = $this->_newInfo($page, $size);
 		//产品展示
 		$products = $this->_showProduct();
+		//产品分类展示
+		$kindPro = $this->_showKindProduct();
 		//联系我们
 		$contact = $this->_linkUs($data);
+
 		$this->assign('data',$data);
 		$this->assign('page',$page);
 		$this->assign('size',$size);
 		$this->assign('info',$articles['info']);
 		$this->assign('products',$products);
+		$this->assign('kindPro',$kindPro);
 		$this->assign('contact',$contact);
 		ob_end_clean();//清空缓冲区
         ob_start();//开启缓存
@@ -128,5 +132,17 @@ class myHomeWebAction extends homeBaseAction
 		$size = sget('size','i');
 		$articles = $this->_newInfo($page, $size);
 		$this->json_output(array('err'=>0,'msg'=>'加载更多成功','info'=>$articles['info']));
+	}
+	//产品分类展示
+	private function _showKindProduct(){
+		$product1=$this->_getKindProduct(1);
+		$product2=$this->_getKindProduct(2);
+		$product3=$this->_getKindProduct(3);
+		return array('product1'=>$product1,'product2'=>$product2,'product3'=>$product3);
+	}
+	//产品分类展示(封装)
+	private function _getKindProduct($type){
+		$product = $this->db->model('cop_product')->where("cid=$this->user_id and type=$type")->order('input_time desc')->limit('0,3')->getAll();
+		return $product;
 	}
 }
