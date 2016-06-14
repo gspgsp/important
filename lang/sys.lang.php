@@ -216,7 +216,8 @@ return array(
 	//出库状态
 	'out_storage_status'=>array(
 		1=>'待出库',
-		2=>'已出库',
+		2=>'部分出库'
+		3=>'已出库',
 	),
 	//销售类型
 	'sales_type'=>array(
