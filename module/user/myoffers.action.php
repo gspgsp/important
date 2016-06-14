@@ -36,4 +36,30 @@ class myoffersAction extends userBaseAction{
 	}
 
 
+	/**
+	 * 批量导入报价excel表页面
+	 *
+     */
+	public function offers_excels(){
+
+		$this->assign('type',$_GET['type']);
+		$this->display('offers_excels');
+	}
+
+	/**
+	 * 处理excel文件
+	 *
+	 *
+     */
+	public function doExcel(){
+
+		$dir=dirname(__FILE__);
+		p($_FILES['excel']);
+		if(!empty($_FILES['excel']['tmp_name'])){
+
+		}
+
+	}
+
+
 }
