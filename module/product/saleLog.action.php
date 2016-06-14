@@ -22,6 +22,7 @@ class saleLogAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		//显示新增开票信息页面
 		$type = sget('type','i',0);
 		if ($type == 1) {
 			$this->display('billing.add.html');

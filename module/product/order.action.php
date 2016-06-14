@@ -180,6 +180,8 @@ class orderAction extends adminBaseAction {
 	public function transactionInfo(){
 		$o_id=sget('o_id','i',0);
 		$type=sget('order_type','s');
+
+		//获取开票总金额
 		if($type==1){
 			$sum=$this->db->model('sale_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
 		}else{
@@ -187,7 +189,6 @@ class orderAction extends adminBaseAction {
 		}
 		$this->assign('sum',$sum);
 		
-		$invoice=sget('invoice','i');
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
 		$c_name    = M('user:customer')->getColByName($data[0][c_id]);//获取公司名
@@ -206,6 +207,9 @@ class orderAction extends adminBaseAction {
 		$this->assign('o_id',$o_id);
 		$this->assign('price',$data[0]['total_price']);
 		$this->assign('order_sn',$data[0][order_sn]);
+
+		//获取是开票还是收付款
+		$invoice=sget('invoice','i');
 		if($invoice==1){//获取最后一条开票信息
 			//发送开票公司信息
 			$this->assign('tax_id',$c_info['tax_id']);
