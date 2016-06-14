@@ -69,7 +69,8 @@ class passportModel extends model{
 			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
 		}
 		//判断是否分配交易员
-		if(!$uinfo['customer_manager']) return array('err'=>6,'msg'=>'您的账号正在等待分配交易员');
+		$cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager')->getOne();
+		if(!$cinfo) return array('err'=>6,'msg'=>'正在等待分配交易员，请稍候再试');
 
 
 		//密文 
@@ -245,16 +246,18 @@ class passportModel extends model{
 		
 		//用户头像等信息
 		$uinfo=$this->model('contact_info')->wherePk($user_id)->getRow();
+		//用户对应公司的信息
+		$cinfo=$this->model('customer')->where("c_id={$user['c_id']}")->select('c_id,c_name,customer_manager')->getRow();
 		//将数据写入cookie
 		$token=$this->encrypt($user_id,$user['password']);
 		//cookie::set(C('SESSION_TOKEN'), $token); //C('SESSION_TTL')
-		
 		//写入session
 		$_SESSION['userid']=$user_id;
 		$_SESSION['uinfo']=array(
 							'name'=>$user['name'],	
 							'c_id'=>$user['c_id'],	 
-							'customer_manager'=>$user['customer_manager'],	 
+							'c_name'=>$cinfo['c_name'],	 
+							'customer_manager'=>$cinfo['customer_manager'],	 
 							'qq'=>$user['qq'],	 
 							'mobile'=>$user['mobile'],	 
 							'email'=>$user['email'],
