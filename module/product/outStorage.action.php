@@ -25,6 +25,7 @@ class outStorageAction extends adminBaseAction {
 		$action=sget('action','s');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;
+			$where .= " and out_storage_status = 3";
 			$list=$this->db->model('sale_log')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
