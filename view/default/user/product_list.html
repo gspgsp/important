@@ -69,11 +69,13 @@
                 success:function(res){
                     if(res.err==0){
                         if(res.status == 1){
-                            $(res.newData).each(function(k,v){
-                                if($(".del").val() == v.id){
-                                    $(".del").text("取消关注");
-                                    $(".del").parents('ul').find('li.status').text('关注中');
+                            $(res.newData).each(function(resk,resv){
+                                $(".del").each(function(k,v){
+                                    if($(this).val() == resv.id){
+                                    $(this).text("取消关注");
+                                    $(this).parents('ul').find('li.status').text('关注中');
                                 }
+                                });
                             });
                         }
                     }
@@ -90,11 +92,13 @@
                 success:function(res){
                     if(res.err==0){
                         if(res.status == 2){
-                            $(res.newData).each(function(k,v){
-                                if($(".del").val() == v.id){
-                                    $(".del").text("重新关注");
-                                    $(".del").parents('ul').find('li.status').text('已取消');
+                            $(res.newData).each(function(resk,resv){
+                                $(".del").each(function(k,v){
+                                    if($(this).val() == resv.id){
+                                    $(this).text("重新关注");
+                                    $(this).parents('ul').find('li.status').text('已取消');
                                 }
+                                });
                             });
                         }
                     }

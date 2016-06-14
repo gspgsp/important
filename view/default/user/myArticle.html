@@ -61,8 +61,6 @@
                         });
         //批量关注
         $("#ml").bind('click',function(){
-            // console.log(">>>",productArr);
-            // alert(1);
             $.ajax({
                 type:"post",
                 url:"/user/myArticle/mulLook",
@@ -71,11 +69,13 @@
                 success:function(res){
                     if(res.err==0){
                         if(res.status == 1){
-                            $(res.newData).each(function(k,v){
-                                if($(".del").val() == v.id){
-                                    $(".del").text("取消发布");
-                                    $(".del").parents('ul').find('li.status').text('已发布');
+                            $(res.newData).each(function(resk,resv){
+                                $(".del").each(function(k,v){
+                                    if($(this).val() == resv.id){
+                                    $(this).text("取消发布");
+                                    $(this).parents('ul').find('li.status').text('已发布');
                                 }
+                                });
                             });
                         }
                     }
@@ -84,8 +84,6 @@
         });
         //批量取消
         $("#mq").bind('click',function(){
-            console.log(">>>",productArr);
-            alert(1);
             $.ajax({
                 type:"post",
                 url:"/user/myArticle/mulQuit",
@@ -94,11 +92,13 @@
                 success:function(res){
                     if(res.err==0){
                         if(res.status == 2){
-                            $(res.newData).each(function(k,v){
-                                if($(".del").val() == v.id){
-                                    $(".del").text("重新发布");
-                                    $(".del").parents('ul').find('li.status').text('未发布');
+                            $(res.newData).each(function(resk,resv){
+                                $(".del").each(function(k,v){
+                                    if($(this).val() == resv.id){
+                                    $(this).text("重新发布");
+                                    $(this).parents('ul').find('li.status').text('未发布');
                                 }
+                                });
                             });
                         }
                     }
