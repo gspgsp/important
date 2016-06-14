@@ -81,11 +81,15 @@
 			<div field="order_type" width="45" headerAlign="center" align="center" allowSort="true">类型</div>
 			<div field="order_source" width="25" headerAlign="center" align="center" allowSort="true">来源</div>
 			<div field="c_name" width="60" headerAlign="center" align="center" allowSort="true">客户名称</div>
+			{if $order_type eq 2}
 			<div field="in_storage_status" width="45" headerAlign="center" align="center" allowSort="true">入库状态</div>
+			{/if}
 			<div field="total_price" width="45" headerAlign="center" align="center" allowSort="true">总金额</div>
 			<div field="pay_method" width="45" headerAlign="center" align="center" allowSort="true">付款方式</div>
 			<div field="freight_price" width="45" headerAlign="center" align="center" allowSort="true">运费</div>
+			{if $order_type eq 1}
 			<div field="out_storage_status" width="45" headerAlign="center" align="center" allowSort="true">出库状态</div>
+			{/if}
 			<div field="invoice_status" width="45" headerAlign="center" align="center" allowSort="true">开票状态</div>
 			<div field="financial_records" width="45" headerAlign="center" align="center" allowSort="true">财务记录</div>
 			<div field="type_status" width="70" headerAlign="center" align="center" allowSort="true">销售|物流</div>
