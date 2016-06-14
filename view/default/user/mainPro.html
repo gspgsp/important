@@ -201,9 +201,11 @@
                     <ul>
                         <li class="pro-pic"><img src="__IMG__/home/proPic1.jpg" width="150" height="100"/></li>
                         <li class="pro-name">{$value.name}</li>
-                        <li class="pro-explain">{$value.infos}</li>
+                        <li class="pro-explain">{$value.infos|truncate:100:"",'utf-8'}</li>
                         <li class="status">{$value.status}</li>
-                        <button class="del" value="{$value.id}">{$value.operate}</button>
+                        <li>
+                            <button class="del" value="{$value.id}">{$value.operate}</button>
+                        </li>
                     </ul>
                 </div>
                 <!--site-con-bot end-->

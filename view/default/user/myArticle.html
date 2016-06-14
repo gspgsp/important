@@ -208,9 +208,11 @@
                         <li class="info-pic"><img src="__IMG__/home/infoPic1.jpg" width="150" height="100"/></li>
                         <li class="info-cfy">{$value.type}</li>
                         <li class="info-tit">{$value.title}</li>
-                        <li class="info-detail">{$value.content}</li>
+                        <li class="info-detail">{$value.content|truncate:100:"",'utf-8'}</li>
                         <li class="status">{$value.status}</li>
-                        <button class="del" value="{$value.id}">{$value.operate}</button>
+                        <li>
+                            <button class="del" value="{$value.id}">{$value.operate}</button>
+                        </li>
                     </ul>
                 </div>
                 <!--site-con-bot end-->
