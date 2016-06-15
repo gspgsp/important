@@ -143,7 +143,7 @@ $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // 设置头信息
 // 第一个array 设置头部颜色(logo)
-$pdf->SetHeaderData('/1.jpg', 33, '','', array(0,33,43), array(0,64,128));
+$pdf->SetHeaderData('1.jpg', 33, '','', array(0,33,43), array(0,64,128));
 //设置尾信息
 $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
