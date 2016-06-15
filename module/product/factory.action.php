@@ -152,4 +152,13 @@ class factoryAction extends adminBaseAction
 		}
 	}
 
+	/**
+	 * 根据牌号异步获取厂家名称
+	 */
+	public function getfaclist(){
+		$this->is_ajax=true;
+		$model=sget('model','s');
+		$getfaclist=M('product:product')->getFacByModel($model);
+		$this->json_output($getfaclist);
+	}
 }

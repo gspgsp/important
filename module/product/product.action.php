@@ -291,5 +291,14 @@ class productAction extends adminBaseAction {
 		if(!$result || !$replace) $this->error('操作失败');
 		$this->success('操作成功');
 	}
-
+	/**
+	 * 根据牌号和厂家id获取唯一的商品信息
+	 */
+	public function getPinfo(){
+		$this->is_ajax = true;
+		$model = sget('model','s');
+		$fid = sget('fid','i',0);
+		$data = $this->db->model('product')->where("`f_id` = '$fid' and `model` = '$model'")->getRow();
+		$this->json_output($data);
+	}
 }
