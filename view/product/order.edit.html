@@ -159,13 +159,11 @@
 					<div class="detail">
 						<div id="gridCell3" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns">    
-								<div field="model" width="120" headerAlign="center">牌号</div>        
-								<div field="f_name" width="120" headerAlign="center">客户</div>         
+								<div field="model" width="120"  headerAlign="center">牌号</div>        
+								<div field="f_name" width="120" headerAlign="center">厂家</div>         
 								<div field="unit_price" width="80" headerAlign="center" >售价
-									<input property="editor" class="mini-textbox" style="width:100%;"/>
 								</div>
 								<div field="number" width="80" headerAlign="center" >数量
-									<input property="editor" class="mini-textbox" style="width:100%;"/>
 								</div>
 								<div field="time_price" width="80" headerAlign="center" >总金额</div>
 								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
@@ -212,6 +210,12 @@ var gridCell ;
 gridCell=mini.get('gridCell3');
 noStockData=[]; 
 "{/if}"
+"{if $detail neq ''}"
+var detail = {$detail};
+gridCell.setData(detail);
+totalCount(detail);
+"{/if}"
+console.log(detail);
 function submitForm(){
 	form.validate();
 	if(form.isValid() == false) return;

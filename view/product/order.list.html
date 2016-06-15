@@ -108,6 +108,8 @@
 					<input name="order_status" class="mini-radiobuttonlist"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
 					<input name="o_id"  class="mini-hidden" id="o_id1" value="">
 					<input name="s_or_p"  class="mini-hidden" id="s_or_p" value="">
+					<input name="sales_type"  class="mini-hidden" id="sales_type" value="">
+
 
 				</td>
 
@@ -179,15 +181,15 @@ function LoadOrderType(e) {
 	return $("#soStatus").find("option[value="+record+"]").text();
 }
 //追加操作按钮
-function onLoadHandle(e) {
-	var record = e.record,s='',oid = record.o_id,o_type = record.order_type;
-	o_type = (o_type=='销售订单' ? '1' : '2');
-	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
-	return s;
-}
+// function onLoadHandle(e) {
+// 	var record = e.record,s='',oid = record.o_id,o_type = record.order_type;
+// 	o_type = (o_type=='销售订单' ? '1' : '2');
+// 	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
+// 	return s;
+// }
 //审核
 function oncheckDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_status=record.order_status,transport_status=record.transport_status,order_type = record.order_type;
+	var record = e.record,s='',oid = record.o_id,order_status=record.order_status,transport_status=record.transport_status,order_type = record.order_type,sales_type = record.sales_type;
 	if(order_status =='3' || transport_status =='3'){
 		s +='已取消';
 	}else if(order_status =='2' && transport_status =='2'){
@@ -195,7 +197,7 @@ function oncheckDetail(e){
 	}else{
 		order_type = (order_type=='销售订单' ? '1' : '2');
 		if(order_type=='1'){	//销售
-			if(order_status != '2') s += '<a href="javascript:orderSaCheck('+oid+')">销售审核 </a>';
+			if(order_status != '2') s += '<a href="javascript:orderSaCheck('+oid+','+sales_type+')">销售审核 </a>';
 			if(transport_status != '2') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
 		}else{
 			if(order_status != '2') s += '<a href="javascript:orderPuCheck('+oid+')">采购审核 </a>';
@@ -207,14 +209,15 @@ function oncheckDetail(e){
 }
 //销售审核
 var ordInfo = mini.get("ordercheck");
-function orderSaCheck(oid){
+function orderSaCheck(oid,sales_type){
 	mini.get('o_id1').setValue(oid);
+	mini.get('sales_type').setValue(sales_type);
 	ordInfo.show();
 }
 //采购审核
 function orderPuCheck(oid){
 	mini.get('o_id1').setValue(oid);
-	mini.get('s_or_p').setValue(1);
+	mini.get('s_or_p').setValue(1); //销售or采购
 	ordInfo.show();
 }
 //物流审核
@@ -229,7 +232,6 @@ function submitcheck(type) {
 	form1.validate();
 	if (form1.isValid() == false) return;
 	var o = form1.getData();
-	console.log(o);
 	grid.loading("数据提交中，请稍后......");
 	var json = mini.encode(o);
 
@@ -249,26 +251,31 @@ function submitcheck(type) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status;
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type;
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
 		// if(order_status =='1' || transport_status =='1'){ //待审核时的操作
 		// 	s += '<a href="javascript:addSaleLog('+oid+')">追加</a>';
 		// } 
 		if(order_status =='3' || transport_status =='3') return;
-		if(order_status =='2' && transport_status=='2'){
-			s+='<a href="javascript:outStorage('+oid+')">发货</a>';
-			if (c_status !='3') {
-				s+='|<a href="javascript:transaction('+oid+','+order_type+')">收款</a>';
+			if(order_status =='2' && transport_status=='2'){
+				if(sales_type == '1'){ //销采后销
+					s+='<a href="javascript:outStorage('+oid+')">发货</a>';
+					if (c_status !='3') {
+						s+='|<a href="javascript:transaction('+oid+','+order_type+')">收款</a>';
+					}
+					if (i_status !='全部开票') {
+						s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
+					}
+					if (c_status =='3' && i_status =='全部开票') {
+						s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
+					}
+				}else{ //先销后采->下采购单虚拟入库->发货
+					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
+				}	
 			}
-			if (i_status !='全部开票') {
-				s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
-			}
-			if (c_status =='3' && i_status =='全部开票') {
-				s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
-			}
+		
 
-		}
 	}else{   //采购
 		// if(order_status =='1' || transport_status =='1'){ //待审核时的操作
 		// 	s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>';
@@ -325,33 +332,48 @@ function addInvoice(oid,order_type){
 		}
 	});		
 }
+//先销后采 生成采购单
+function changePurchase(o_id){
+	var width=845, height=650;
+	title="生成采购订单";
+	mini.open({
+		url: "/product/order/changePurchase?o_id="+o_id,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
 
-//追加销售明细
-function addSaleLog(oid){
-	mini.open({
-		url: "/product/saleLog/info?o_id="+oid,
-		showMaxButton:true,
-		title: '订单明细', width: 750, height:550,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
-}
-//追加采购明细
-function addPurchaseLog(oid){
-	mini.open({
-		url: "/product/purchaseLog/info?o_id="+oid,
-		showMaxButton:true,
-		title: '订单明细', width: 280, height:380,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
-}
+// //追加销售明细
+// function addSaleLog(oid){
+// 	mini.open({
+// 		url: "/product/saleLog/info?o_id="+oid,
+// 		showMaxButton:true,
+// 		title: '订单明细', width: 750, height:550,
+// 		ondestroy: function (action) {
+// 			if(action=='save'){ //重新加载
+// 				grid.reload();
+// 			}
+// 		}
+// 	});
+// }
+// //追加采购明细
+// function addPurchaseLog(oid){
+// 	mini.open({
+// 		url: "/product/purchaseLog/info?o_id="+oid,
+// 		showMaxButton:true,
+// 		title: '订单明细', width: 280, height:380,
+// 		ondestroy: function (action) {
+// 			if(action=='save'){ //重新加载
+// 				grid.reload();
+// 			}
+// 		}
+// 	});
+// }
 //发货弹窗
 function outStorage(oid){
 	mini.open({

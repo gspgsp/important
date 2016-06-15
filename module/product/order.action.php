@@ -136,15 +136,15 @@ class orderAction extends adminBaseAction {
 	*/
 	public function info(){
 		$o_id=sget('oid','i',0);
-		$type=sget('type','s');
-		$order_type=sget('order_type','i',0);
+		$change_id=sget('change_id',i,0); //接收不销库存的o_id 用于生成采购
+		$order_type=sget('order_type','i',0); //用于区分销售还是采购
 		if($o_id<1){
 			if($order_type  == 1){
 				$order_sn='SO'.genOrderSn();
 			}else{
 				$order_sn='PO'.genOrderSn();
 			}
-			$this->assign('input_admin',$_SESSION['name']);
+			$this->assign('input_admin',$_SESSION['name']); //用于把
 			$this->assign('order_sn',$order_sn);
 			$this->assign('otype','addopus'); //新增订单关联前台显示
 			$this->assign('order_type',$order_type);
@@ -152,9 +152,7 @@ class orderAction extends adminBaseAction {
 			exit;
 		}
 		$info=$this->db->getPk($o_id); //查询订单信息
-		if(empty($info)){
-			$this->error('错误的订单信息');	
-		}
+		if(empty($info)) $this->error('错误的订单信息');	
 		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
@@ -163,15 +161,40 @@ class orderAction extends adminBaseAction {
 		$this->assign('c_name',$c_name);
 		$this->assign('type',$type);
 		$this->assign('info',$info);//分配订单信息
-		if($type=="edit"){
-			$this->display('order.edit.html');
-			exit;
-		}	
 		$order_type = $info['order_type'] == 1? 'saleLog' : 'purchaseLog';
-		
 		$this->assign('order_type',$order_type);
 		$this->assign('o_id',$o_id);
 		$this->display('order.viewInfo.html');
+	}
+
+	/**
+	 * 销售订单生成采购(先销后采)
+	 */
+	public function changePurchase(){
+		$o_id=sget('o_id','i',0);
+		if($o_id<1) $this->error('信息错误');
+		$order_sn='PO'.genOrderSn();
+		$info=$this->db->model('order')->getPk($o_id); //查询订单信息
+		$detailinfo=$this->db->model('sale_log')->where('o_id = '.$o_id)->getAll();
+		foreach ($detailinfo as &$value) {
+			$value['model']=M("product:product")->getModelById($value['p_id']);
+			$pinfo=M("product:product")->getFnameByPid($value['p_id']);				
+			$value['f_name']=$pinfo['f_name'];//根据cid取客户名
+			$value['time_price']=$value['number']*$value['unit_price'];
+			$value['require_number']=$value['number'];
+		}
+		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
+		$info['purchase_type']=1;
+		$info['sign_time']=date("Y-m-d",$info['sign_time']);
+		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
+		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
+		$info['payment_time']=date("Y-m-d",$info['payment_time']);
+		$this->assign('info',$info);//分配订单信息
+		$this->assign('detail',json_encode($detailinfo));//明细数据
+		$this->assign('order_sn',$order_sn);
+		$this->assign('c_name',$c_name);
+		$this->assign('order_type','2');
+		$this->display('order.edit.html');
 	}
 
 	/**
@@ -242,7 +265,6 @@ class orderAction extends adminBaseAction {
 
 	/**
 	* 保存付款收款开票信息
-	* @access public
 	*/
 	public function ajaxSave(){
 		$data    = sdata();
@@ -313,13 +335,14 @@ class orderAction extends adminBaseAction {
 		$this->success('操作成功');
 	}
 	/**
-	 * 新增及修改订单
+	 * 新增销售采购订单
 	 * @access public 
 	 * @return html
 	 */
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		p($data);die();
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
@@ -327,7 +350,7 @@ class orderAction extends adminBaseAction {
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['total_price']=$data['price'];
 		$data['order_source'] = 2; //订单默认来源ERP
-		if($data['o_id']>0){ //编辑
+		if($data['o_id']>0){ //o_id代表关联的销售订单
 			$up_data = array(			
 				'update_time'=>CORE_TIME,
 				'update_admin'=>$_SESSION['name'],
@@ -387,21 +410,31 @@ class orderAction extends adminBaseAction {
 		);
 		$this->db->startTrans(); //开启事务	
 		try {
-			//销售审核通过即锁库存 2:通过  ,  3:不通过
-			if($data['order_status'] == '2'){
-				if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");
-				if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
-				$detail = $this->db->model('sale_log')->select('inlog_id,number')->where(' o_id = '.$data['o_id'])->getAll();
-				foreach ($detail as $k => $v) {
-					if( !$this->db->model('in_log')->where(' id = '.$v['inlog_id'])->update(' controlled_number = controlled_number - '.$v['number'].' , lock_number = lock_number+'.$v['number']) ) throw new Exception("锁定库存失败!");
+			if($data['s_or_p'] == '1'){
+				if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");	
+				if( !$this->db->model('purchase_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
+			}else{
+				//销售审核通过即锁库存 2:通过  ,  3:不通过
+				if($data['order_status'] == '2'){
+					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");
+					if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
+					if( $data['sales_type'] != '2' ){ //如果销库存则循环锁定产品库存
+						$detail = $this->db->model('sale_log')->select('inlog_id,number')->where(' o_id = '.$data['o_id'])->getAll();
+						foreach ($detail as $k => $v) {
+						if( !$this->db->model('in_log')->where(' id = '.$v['inlog_id'])->update(' controlled_number = controlled_number - '.$v['number'].' , lock_number = lock_number+'.$v['number']) ) throw new Exception("锁定库存失败!");
+						}
+					}
+
+				}else if($data['order_status'] == '3'){
+					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");				
 				}
-			}else if($data['order_status'] == '3'){
-				if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");				
-			}	
+			}
+	
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+		// showtrace();
 		$this->db->commit();
 		$this->success('操作成功');
 	}
