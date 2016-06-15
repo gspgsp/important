@@ -22,7 +22,7 @@
 				    <div class="query flt">
 				    	<input type="text" name="keyword" placeholder="牌号，厂家" class="import flt"/>
 				        <input type="submit" value="订单查询" class="submit flt"/>
-				        <input type="hidden" id="page" name="page" value="1">
+				        <input type="hidden" id="page" name="page" value="{$page}">
 				        <input type="hidden" id="" name="type" value="{$type}">
 				    </div>
 				    <!--query end-->
@@ -89,7 +89,7 @@
 </div>
 
 <script type="text/javascript">
-
+var pid="{$id}";
 $(function(){
 	//下架
 	$("#offshelf").click(function(){
@@ -138,8 +138,7 @@ $(function(){
 		},'json');
 	});
 
-	
-	$("#table_box").load('/user/mypurchase/tables',{type:"{$type}"});
+	$("#table_box").load('/user/mypurchase/tables',{type:"{$type}",page:"{$page}"});
 	var filterForm=$("#filterForm");
 	filterForm.on('submit',function(){
 		var data=filterForm.serialize();

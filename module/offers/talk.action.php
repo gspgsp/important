@@ -8,6 +8,8 @@ class talkAction extends homeBaseAction{
 	}
 	public function init()
 	{
+
+
 		if($this->user_id<=0) $this->forward('/user/login');
 
 		$id=sget('id','i',0);
@@ -31,10 +33,16 @@ class talkAction extends homeBaseAction{
 	public function addorder()
 	{
 		if($_POST){
+			
 			$this->is_ajax=true;
 			$data=saddslashes($_POST);
 			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']||!$data['delivery_place']||!$data['ship_type']) $this->error('信息填写不完整');
 			$p_id=$data['p_id'];
+
+			$model=M('product:purchase');
+			$purData=$model->getPurchaseById($p_id);
+			if( !$purData ) $this->error('请求错误,信息不存在');
+
 			$data['p_id']=$p_id;//报价id
 			$data['c_id']=$_SESSION['uinfo']['c_id'];//客户id
 			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//交易员id
@@ -45,7 +53,13 @@ class talkAction extends homeBaseAction{
 			$data['user_id']=$this->user_id;
 			$data['sn']=genOrderSn();
 			$this->db->model('sale_buy')->add($data);
-			$this->db->model('purchase')->where("id=$p_id")->update("supply_count=supply_count+1");
+			$model->where("id=$p_id")->update("supply_count=supply_count+1");
+
+			// //发送站内信
+			$name=$purData['type']==1?'采购':'报价';
+			$msg=L('msg_template.offers');
+			$msg=sprintf($msg,$name,$purData['id'],$purData['model'],$purData['unit_price'],$_SESSION['uinfo']['name'],$purData['id']);
+			M("system:sysMsg")->sendMsg($purData['user_id'],$msg,2);
 			$this->success('提交成功');
 		}else{
 			$this->error('请求错误');

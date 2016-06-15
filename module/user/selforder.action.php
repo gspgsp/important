@@ -49,7 +49,7 @@ class selforderAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$orderList=M('product:order')
-			->select('o_id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,goods_status,invoice_status,input_time')
+			->select('o_id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark')
 			->where($where)
 			->page($page,$size)
 			->order('input_time desc')
@@ -75,18 +75,15 @@ class selforderAction extends userBaseAction{
 			->select('o.*,ad.name,ad.mobile')
 			->where("o_id=$id and user_id={$this->user_id}")
 			->getRow();
-
 		$sale_log=$this->db->from('sale_log s')
 			->leftjoin('product p','s.p_id=p.id')
 			->leftjoin('factory f','p.f_id=f.fid')
 			->select('s.id,s.number,s.unit_price,p.model,p.product_type,f.f_name')
 			->where("o_id={$order['o_id']}")
 			->getAll();
-		// p($order);
 		foreach ($sale_log as $key => &$value) {
 			$value['totalPrice']=$value['number']*$value['unit_price'];
 		}
-		// p($sale_log);
 
 		$this->assign('sale_log',$sale_log);
 		$this->assign('order',$order);

@@ -61,6 +61,9 @@
             }
         });
     }
+    if(pid!=0){
+        selectOffer(pid);
+    }
     $("#Pagination").createPage({
         pageCount:{$count},
         current:{$page},

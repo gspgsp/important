@@ -170,7 +170,7 @@
                     <b></b>
                 </div>
                 <div class="time">{$value.input_time|date:m-d H:i:s}</div>
-                <div class="opt"><a href="javascript:selectCart({$value.id})">选购</a></div>
+                <div class="opt"><a onClick="select_cart({$value.id});" href="javascript:;">选购</a></div>
             </li>
             {/if}
             {/foreach}
@@ -206,6 +206,7 @@
     <!--right end-->
 </div>
 <script type="text/javascript">
+    
     function doTalk(id)
     {
         var user=$("#user_name").html();
@@ -302,8 +303,8 @@
 		
 	});
     // 选购
-    function selectCart(id){
-        $.post('/offers/index/addCart',{id,id},function(data){
+    function select_cart(id){
+        $.post('/offers/index/addCart',{id:id},function(data){
             if(data.err==0){
                 var html='<li><p><span>'+data.msg.product_type+'</span><span>'+data.msg.model+'</span><span>'+data.msg.f_name+'</span></p><p><span>'+data.msg.unit_price+'</span><span>'+data.msg.city+'</span></p><div class="pin"></div><div class="close" onClick="delCart(\''+data.msg.sid+'\',this)"></div></li>';
                 $("#cart").append(html);
@@ -313,9 +314,10 @@
             }
         },'json');
     }
+    
 
     function delCart(id,that){
-        $.post('/offers/index/delCart',{id,id},function(data){
+        $.post('/offers/index/delCart',{id:id},function(data){
             if(data.err==0){
                 $(that).parent().remove();
             }

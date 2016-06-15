@@ -29,6 +29,18 @@ class myoffersAction extends userBaseAction{
 		$this->act="offerlist";
 		$this->type=2;
 		$this->name="报价管理";
+		$id=sget('id','i',0);
+		$size=2;
+		// $count=$this->db->model('purchase')->where("user_id=$this->user_id")->select('count(*) as co')->getOne();
+
+		$this->db->query('set @mytemp = 0');
+		$result=$this->db->query("select nu from (select (@mytemp:=@mytemp+1) as nu,id from p2p_purchase where user_id=$this->user_id and type=$this->type order by input_time desc) as A where A.id=$id");
+		$row=mysql_fetch_assoc($result);
+		$this->page=ceil($row['nu']/$size);
+
+		if(empty($row)) $id=0;
+
+		$this->assign('id',$id);
 		$this->product_type=L('product_type');//产品类型
 		$this->shelve_type=L('shelve_type');//上下架状态
 		$this->cargo_type=L('cargo_type');//现货期货

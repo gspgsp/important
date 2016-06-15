@@ -17,7 +17,11 @@ class indexAction extends homeBaseAction{
 		if(empty($cartList)) $this->forward('/offers');
 		$this->pay_method=L('pay_method');
 		$this->transport_type=L('transport_type');
-		$this->assign('cartList',$cartList);
+		$customer_manager=$this->db->model('admin')
+			->where("admin_id={$_SESSION['uinfo']['customer_manager']}")
+			->select('admin_id,name,mobile')
+			->getRow();
+		$this->assign('customer_manager',$customer_manager);
 		$this->display('index');
 	}
 
@@ -57,7 +61,7 @@ class indexAction extends homeBaseAction{
 			$data['order_source']=1;	//订单来源 1网站
 			$data['c_id']=$contact['c_id'];
 			$data['user_id']=$this->user_id;	//用户id
-			$data['admin_id']=$contact['customer_manager'];
+			$data['admin_id']=$_SESSION['uinfo']['customer_manager'];//交易员id
 			$data['sign_time']=CORE_TIME;	//签订日期
 			$data['total_price']=Cart::getTotalPrice();	//总金额
 			$data['pickup_time']=strtotime($data['pickup_time']);	//提货日期
