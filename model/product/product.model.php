@@ -47,5 +47,14 @@ class productModel extends model{
 		$data = implode(',',$ids);
 		return empty($data)? false : $data;
 	}
+	/**
+	 *模糊匹配牌号对应的厂家（分表查）
+	 */
+	public function getFacByModel($model = ''){
+		$fid=$this->select('f_id')->where("model = '$model'")->getCol();
+		$fid = implode(',', $fid);
+		$arr = $this->model('factory')->select("fid,f_name")->where("fid in ($fid)")->getAll();
+		return $arr;
+	}
 
 }
