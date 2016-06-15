@@ -74,7 +74,7 @@ class rbacModel extends model{
 					foreach($v1['child'] as $k2=>$v2){ //2级
 						foreach($v2['child'] as $k3=>$v3){  //3级
 							//非首页模型+在权限中 // 
-							if(!strstr($v3['url'],'/index/index') && !in_array($v3['role'],$access)){ //不再允许权限中：放弃
+							if(!strstr($v3['url'],'/index/index') && !array_key_exists(strtolower($v3['role']),$access)){ //不再允许权限中：放弃
 								unset($menu[$k1]['child'][$k2]['child'][$k3]);
 							}
 						}
