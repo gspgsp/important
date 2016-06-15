@@ -70,7 +70,7 @@ header('content-type:text/html;charset=utf-8');
  * Deafult image logo used be the default Header() method.
  * Please set here your own logo or an empty string to disable it.
  */
-//define ('PDF_HEADER_LOGO', '');
+define ('PDF_HEADER_LOGO', '');
 
 /**
  * Header logo image width in user units.
@@ -156,7 +156,7 @@ define ('PDF_MARGIN_RIGHT', 15);
 /**
  * Default main font name.
  */
- define (‘PDF_FONT_NAME_MAIN’, ’stsongstdlight’);
+ define ('PDF_FONT_NAME_MAIN', 'stsongstdlight');
 
 /**
  * Default main font size.
@@ -166,7 +166,7 @@ define ('PDF_FONT_SIZE_MAIN', 10);
 /**
  * Default data font name.
  */
-define (‘PDF_FONT_NAME_DATA’, ’stsongstdlight’);
+define ('PDF_FONT_NAME_DATA', 'stsongstdlight');
 
 /**
  * Default data font size.
