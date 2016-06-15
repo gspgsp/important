@@ -1,4 +1,5 @@
 <?php
+header('content-type:text/html;charset=utf-8');
 //============================================================+
 // File name   : tcpdf_config.php
 // Begin       : 2004-06-11
@@ -74,7 +75,7 @@
 /**
  * Header logo image width in user units.
  */
-//define ('PDF_HEADER_LOGO_WIDTH', 0);
+define ('PDF_HEADER_LOGO_WIDTH', 33);
 
 /**
  * Cache directory for temporary files (full path).
@@ -104,17 +105,18 @@ define ('PDF_CREATOR', 'TCPDF');
 /**
  * Document author.
  */
-define ('PDF_AUTHOR', 'TCPDF');
+define ('PDF_AUTHOR', '中晨电商');
 
 /**
  * Header title.
  */
-define ('PDF_HEADER_TITLE', 'TCPDF Example');
+define ('PDF_HEADER_TITLE', '我的塑料网');
 
 /**
  * Header description string.
+ * 显示头信息下的链接
  */
-define ('PDF_HEADER_STRING', "by Nicola Asuni - Tecnick.com\nwww.tcpdf.org");
+define ('PDF_HEADER_STRING', "www.online.com");
 
 /**
  * Document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch].
@@ -154,7 +156,7 @@ define ('PDF_MARGIN_RIGHT', 15);
 /**
  * Default main font name.
  */
-define ('PDF_FONT_NAME_MAIN', 'helvetica');
+ define (‘PDF_FONT_NAME_MAIN’, ’stsongstdlight’);
 
 /**
  * Default main font size.
@@ -164,7 +166,7 @@ define ('PDF_FONT_SIZE_MAIN', 10);
 /**
  * Default data font name.
  */
-define ('PDF_FONT_NAME_DATA', 'helvetica');
+define (‘PDF_FONT_NAME_DATA’, ’stsongstdlight’);
 
 /**
  * Default data font size.
@@ -173,6 +175,7 @@ define ('PDF_FONT_SIZE_DATA', 8);
 
 /**
  * Default monospaced font name.
+ * 设置默认等宽
  */
 define ('PDF_FONT_MONOSPACED', 'courier');
 
