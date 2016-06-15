@@ -1,0 +1,120 @@
+{layout file="public:mini_layout"}
+<div id="admInfo" title="新增个人绩效考核" style="padding:5px;" showModal="true" allowResize="true" allowDrag="true">
+  <div id="addForm" class="form" >
+  	<!-- 	<input class="mini-hidden" name="cid"  value="{$c_id}"/> -->
+		<table style="width:100%;">
+			<tr>
+				<td>选择业务员：</td>
+				<td>
+				<input name="admin_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="" allowInput="false"  text=""  style="width:90px" id="usrId"/>
+				</td>
+		    </tr>
+			<tr>
+				<td>计划日期： </td>
+				<td><input name="date" class="mini-datepicker" required="true" value="" style="width:90px"/>
+				</td>
+			</tr>
+			<tr>
+				<td>销售金额(元)</td>
+				<td><input name="sales" class="mini-textbox" textField="sale" valueField="c_id" style="width:90px" required="true"/></td>
+			</tr>
+			<tr>
+				<td>采购金额(元)</td>
+				<td><input name="buys" class="mini-textbox" textField="buy" valueField="user_id"  style="width:90px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>成交老客户数量</td>
+				<td><input name="old_user" class="mini-textbox" textField="name" valueField="id" style="width:90px;" required="true"/></td>				
+			</tr>
+			<tr>
+				<td>成交新客户数量</td>
+				<td><input name="new_user" class="mini-textbox" textField="name" valueField="id" style="width:90px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>每日电话量</td>
+				<td><input name="day_call" class="mini-textbox" style="width:90px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>每月电话总量</td>
+				<td><input name="month_call" class="mini-textbox" style="width:90px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>合计利润</td>
+				<td><input name="profit" class="mini-textbox" style="width:90px;" required="true"/></td>
+			</tr>
+			<tr>
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+
+//增加后提交数据(保存)
+function submitForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	form.loading("数据提交中，请稍后......");
+	$("#returnMsg").text('');
+	$.post('/user/report/ajaxSave',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/rbac/adm/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+				}
+			}
+		}
+	});         
+}
+function GetData() {
+	var row = form.getSelected();
+	return row;
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+
+</script>
