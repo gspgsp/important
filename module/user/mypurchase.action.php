@@ -249,40 +249,40 @@ class mypurchaseAction extends userBaseAction{
 			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');//报价表与用户不匹配
 			if($purData['last_buy_sale']) $this->error('不能重复选定');
 			$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id));
-			// $orderModel=M('product:unionOrder');
-			// $orderSn=genOrderSn();
-			// $orderData=array();
-			// $orderData['order_name']="联营订单";
-			// $orderData['order_sn']=$orderSn;
-			// $orderData['order_source']=1;
-			// $orderData['sale_id']=$purData['c_id'];//卖家客户
-			// $orderData['buy_id']=$data['c_id'];//买家客户
-			// $orderData['slae_user_id']=$purData['user_id'];//卖家客户
-			// $orderData['buy_user_id']=$data['user_id'];//买家客户
-			// $orderData['p_sale_id']=$id;//sale_buy的报价id
-			// $orderData['sign_time']=CORE_TIME;
-			// $orderData['deal_price']=$price;//成交价格
-			// $orderData['total_price']=$price*$data['number'];//总金额
-			// $orderData['customer_manager']=$purData['customer_manager'];//交易员
-			// $orderData['pickup_location']=$data['delivery_place'];//提货地点
-			// $orderData['delivery_location']=$data['delivery_place'];//送货地点
-			// $orderData['transport_type']=$data['ship_type'];//运输方式
-			// $orderData['deal_price']=$price;//成交价格
-			// $orderData['pickup_time']=$data['delivery_date'];//提货时间
-			// $orderData['delivery_time']=$data['delivery_date'];//送货时间
-			// $orderData['input_time']=CORE_TIME;//成交价格
-			// $orderModel->add($orderData);
-			// $o_id=$orderModel->getLastID();
+			$orderModel=M('product:unionOrder');
+			$orderSn=genOrderSn();
+			$orderData=array();
+			$orderData['order_name']="联营订单";
+			$orderData['order_sn']=$orderSn;
+			$orderData['order_source']=1;
+			$orderData['sale_id']=$purData['c_id'];//卖家客户
+			$orderData['buy_id']=$data['c_id'];//买家客户
+			$orderData['slae_user_id']=$purData['user_id'];//卖家客户
+			$orderData['buy_user_id']=$data['user_id'];//买家客户
+			$orderData['p_sale_id']=$id;//sale_buy的报价id
+			$orderData['sign_time']=CORE_TIME;
+			$orderData['deal_price']=$price;//成交价格
+			$orderData['total_price']=$price*$data['number'];//总金额
+			$orderData['customer_manager']=$purData['customer_manager'];//交易员
+			$orderData['pickup_location']=$data['delivery_place'];//提货地点
+			$orderData['delivery_location']=$data['delivery_place'];//送货地点
+			$orderData['transport_type']=$data['ship_type'];//运输方式
+			$orderData['deal_price']=$price;//成交价格
+			$orderData['pickup_time']=$data['delivery_date'];//提货时间
+			$orderData['delivery_time']=$data['delivery_date'];//送货时间
+			$orderData['input_time']=CORE_TIME;//成交价格
+			$orderModel->add($orderData);
+			$o_id=$orderModel->getLastID();
 
-			// $orderDetail=M('product:unionOrderDetail');
-			// $detail_data=array(
-			// 	'o_id'=>$o_id,
-			// 	'p_id'=>$purData['p_id'],
-			// 	'number'=>$data['number'],
-			// 	'unit_price'=>$price,
-			// 	'input_time'=>CORE_TIME,
-			// );
-			// $orderDetail->add($detail_data);
+			$orderDetail=M('product:unionOrderDetail');
+			$detail_data=array(
+				'o_id'=>$o_id,
+				'p_id'=>$purData['p_id'],
+				'number'=>$data['number'],
+				'unit_price'=>$price,
+				'input_time'=>CORE_TIME,
+			);
+			$orderDetail->add($detail_data);
 			// $purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('status'=>))
 			$this->success('操作成功');
 
