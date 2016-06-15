@@ -217,6 +217,7 @@ class quoteAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		$id =  $data['id'];
+		$data['give_time'] = isset($data['give_time']) ? strtotime($data['give_time']) :  0;
 		$data['type'] = 2;
 		$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
