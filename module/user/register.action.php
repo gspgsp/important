@@ -112,7 +112,8 @@ class registerAction extends homeBaseAction{
 			$user_model->commit();
 			$_SESSION['mobile']=null;
 			$_SESSION['check_reg_ok']=null;
-			M('system:sysMsg')->sendMsg($user_id,'您已注册成功，欢迎来到我的塑料网！',1);
+			$msg=L("msg_template.register");
+			M('system:sysMsg')->sendMsg($user_id,$msg,1);
 			$this->success('注册成功');
 		}else{
 			//地区

@@ -31,6 +31,16 @@ class mypurchaseAction extends userBaseAction{
 		$this->type=1;
 		$this->name="采购管理";
 
+		if($id=$_SESSION['msg_pid']){
+			$_SESSION['msg_pid']=null;
+			$size=2;
+			$this->db->query('set @mytemp = 0');
+			$result=$this->db->query("select nu from (select (@mytemp:=@mytemp+1) as nu,id from p2p_purchase where user_id=$this->user_id and type=$this->type order by input_time desc) as A where A.id=$id");
+			$row=mysql_fetch_assoc($result);
+			$this->page=ceil($row['nu']/$size);
+			if(empty($row)) $id=0;
+			$this->assign('id',$id);
+		}
 		
 		$this->product_type=L('product_type');//产品类型
 		$this->shelve_type=L('shelve_type');//上下架状态
@@ -283,6 +293,7 @@ class mypurchaseAction extends userBaseAction{
 				'input_time'=>CORE_TIME,
 			);
 			$orderDetail->add($detail_data);
+
 			// $purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('status'=>))
 			$this->success('操作成功');
 

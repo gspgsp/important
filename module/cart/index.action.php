@@ -75,7 +75,11 @@ class indexAction extends homeBaseAction{
 			try {
 				if(!$model->add($data)) throw new Exception("系统错误。 cart:101");
 				$o_id=$model->getLastID();
+				$modelName='';
+				$priceName='';
 				foreach ($goods as $key => $value) {
+					$modelName.=$value['name'].",";
+					$priceName.=$value['price'].",";
 					$sale_log=array(
 						'o_id'=>$o_id,
 						'p_id'=>$value['options']['p_id'],
@@ -91,6 +95,10 @@ class indexAction extends homeBaseAction{
 			}
 			$model->commit();
 			Cart::delAll(); //删除购物车所有商品
+			$msg=L('msg_template.order');
+			$msg=sprintf($msg,trim($modelName,','),trim($priceName,','),$o_id);
+			M("system:sysMsg")->sendMsg($this->user_id,$msg,4);
+
 			$this->success('提交成功');
 		}
 	}

@@ -57,9 +57,10 @@ class talkAction extends homeBaseAction{
 
 			// //发送站内信
 			$name=$purData['type']==1?'采购':'报价';
+			$msgType=$purData['type']==1?2:3;
 			$msg=L('msg_template.offers');
-			$msg=sprintf($msg,$name,$purData['id'],$purData['model'],$purData['unit_price'],$_SESSION['uinfo']['name'],$purData['id']);
-			M("system:sysMsg")->sendMsg($purData['user_id'],$msg,2);
+			$msg=sprintf($msg,$name,$purData['id'],$purData['model'],$purData['unit_price'],$_SESSION['uinfo']['name'],$purData['id'],$purData['type']);
+			M("system:sysMsg")->sendMsg($purData['user_id'],$msg,$msgType);
 			$this->success('提交成功');
 		}else{
 			$this->error('请求错误');
