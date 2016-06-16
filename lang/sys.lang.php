@@ -355,7 +355,18 @@ return array(
 		'reset_passwd'=>'重置用户密码',
 		'reset_paypasswd'=>'重置用户交易密码',
 	),
-
+	//订单付款状态
+	'payment_status'=>array(
+		'1'=>'待付款',
+		'2'=>'部分付款',
+		'3'=>'已完成',
+	),
+	//订单收款状态
+	'gatheringt_status'=>array(
+		'1'=>'待收款',
+		'2'=>'部分收款',
+		'3'=>'已完成',
+	),
 
    //下载pdf模板
 	'htmls'=>array(
