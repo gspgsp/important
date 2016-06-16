@@ -395,7 +395,7 @@ return array(
 	<p><span>八、付款方式:</span>&nbsp;&nbsp;<span>%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>付款日期:</span>&nbsp;&nbsp;<span>%s</span></p>
 	<p><span>九、贷款结算方式:</span>&nbsp;&nbsp;<span>%s</span><p>
 	<p><span>十、其它约定:</span>&nbsp;&nbsp;<span>1.需方付清全款后，供方开给需方17%%的增值税发票</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;2.需方于合同签订当日下午16:30前盖章回传有效</span><p>
-	<p><span>十一、违约责任:除了不可抗拒因素外(自然灾害，战争等)合同其它违约事项遵照《中华人民共和国合同法》承担违<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;约责任。双方任何一方违反合同的任一条款，均视为违约。违约方需向对方支付本<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;合同日千分之八的违约金。</span><p>
+	<p><span>十一、违约责任:除了不可抗拒因素外(自然灾害，战争等)合同其它违约事项遵照《中华人民共和国合同法》承担违约责任。双方任何一方违反合同的任一条款，均视为违约。违约方需向对方支付本合同日千分之八的违约金。</span><p>
 	<p><span>十二、本合同未尽事项，经双方友好协商作出补充规定的，补充规定与本合同具有同等的法律效力。</span><p>
 	<p><span>十三、本合同如以传真方式确认，传真件与正本合同具有同等的法律效力。</span><p>
 	<p><span>十四、甲、乙双方合同执行过程中产生纠纷，双方应本着友好合作的原则，协商解决，协商不成的，任何一方可依<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;据有关法律向人民法院起诉。</span><p>
