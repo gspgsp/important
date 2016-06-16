@@ -6,6 +6,7 @@ class reportAction extends adminBaseAction {
 	protected $db;
 	public function __init(){
 		$this->db=M('public:common')->model('report_user');//客户跟进信息表
+		$this->assign('depart',C('depart'));//所属部门
 	}
 	/**
 	 *
@@ -35,37 +36,60 @@ class reportAction extends adminBaseAction {
 		//筛选显示类别
 		$where=" 1 ";
 
-		$c_id=sget('c_id','i',0);
-		if($c_id !=0)  $where.=" and `c_id` =".$c_id;
+		// $c_id=sget('c_id','i',0);
+		// if($c_id !=0)  $where.=" and `c_id` =".$c_id;
+
+		// 特殊时间搜索
+		$status = sget("status",'s','');
+		if($status=='this_week') {
+			$start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1,date("Y"))) );
+			$end  =strtotime( date("Y-m-d H:i:s",mktime(23,59,59,date("m"),date("d")-date("w")+7,date("Y"))) );
+		}
+		if($status=='last_week') {
+			$start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1-7,date("Y"))) );
+			$end  =strtotime( date("Y-m-d H:i:s",mktime(23,59,59,date("m"),date("d")-date("w")+7-7,date("Y"))) );
+		}
+		if($status=='this_month') {
+			$start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),1,date("Y"))) );
+			$end  =strtotime( date("Y-m-d H:i:s",mktime(23,59,59,date("m"),date("t"),date("Y"))) );
+		}
+		if($status=='last_month') {
+			$start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m")-1,1,date("Y"))) );
+			$end  =strtotime( date("Y-m-d H:i:s",mktime(23,59,59,date("m") ,0,date("Y"))) );
+		}
+		if (!empty($start)) {
+			$where.=" and report_date >=".$start.' and report_date <='.$end;
+		}else{
+			//自定义时间搜索
+			$sTime = sget("sTime",'s','report_date'); //搜索时间类型
+			$where.= getTimeFilter($sTime); //时间筛选
+		}
+
+		//所属部门搜索
+		$depart=sget('depart','s','');
+		if (!empty($depart)) {
+			$ids = M('rbac:adm')->getIdByDepart("$depart");
+			$str=implode(',',$ids);
+			$where.=" and `admin_id` in ($str)";
+		}
+		
 		//关键词
-		$key_type=sget('key_type','s','c_name');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type == 'c_name'){
-				$c_id =M('user:customer')->getInfoByCname($key_type,$keyword);
-				$str=implode(',',$c_id);
-				$where.=" and `c_id` in ($str)";
-			}elseif($key_type == 'name'){
-				$user_id =M('user:customerContact')->getCidByName($keyword);
-				$str=implode(',',$user_id);
-				$where.=" and `user_id` in ($str)";
-			}else{
-				$where.=" and $key_type like '%$keyword%'";
-			}
+			$ids = M('rbac:adm')->getIdByName("$keyword");
+			$str=implode(',',$ids);
+			$where.=" and `admin_id` in ($str)";
 		}
 
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
-		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['follow_time']=$v['follow_time']>1000 ? date("Y-m-d H:i:s",$v['follow_time']) : '-';
-			$list['data'][$k]['next_follow_time']=$v['next_follow_time']>1000 ? date("Y-m-d H:i:s",$v['next_follow_time']) : '-';
-			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['follow_up_way'] = L('follow_up_way')[$v['follow_up_way']]; 
-			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
-			$list['data'][$k]['name'] = M('user:customerContact')->getColByName($v['user_id']);
+
+		foreach($list['data'] as &$v){
+			$v['report_date']=$v['report_date']>1000 ? date("Y-m-d",$v['follow_time']) : '-';
+			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);

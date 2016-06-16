@@ -1,0 +1,219 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>	
+			{if $doact neq 'search'}
+			<td style="white-space:nowrap;">
+				<!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">充红</a>
+				<span class="separator"></span>-->
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
+			</td>
+			{/if}
+			<td style="float:right;">
+			    <form id="soform">
+			    交易日期
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				<select name="pay_method" id="pay_method">
+					<option value="" selected="selected">=交易方式=</option>
+					{html_options options=$pay_method}
+				</select>
+				<select name="collection_status" id="collection_status">
+					<option value="" selected="selected">=订单交易状态=</option>
+					{html_options options=$collection_status}
+				</select>
+				<select name="invoice_status" id="invoice_status">
+					<option value="" selected="selected">=开票状态=</option>
+					{html_options options=$invoice_status}
+				</select>
+				<select name="company_account" id="company_account">
+					<option value="" selected="selected">=交易公司账户=</option>
+					{html_options options=$company_account}
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入订单号" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span>
+			  </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"{if $type eq '1'}url="/product/collection/init?action=grid&type={$type}"{else}url="/product/collection/itin?action=grid&type={$type}"{/if}  idField="fid"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="o_id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单ID</div>
+		<div field="order_sn" width="80" headerAlign="center" align="center" align="center">订单号</div>
+		<div field="c_name" width="40" headerAlign="center" align="center" align="center">公司名</div>
+		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
+		{if $type eq '1'}
+		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">本次收款金额</div>
+		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未收款金额</div>
+		<div field="title" width="30" headerAlign="center" align="center" align="center">收款主题</div>
+		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">收款方式</div>
+		{else}
+		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">本次付款金额</div>
+		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未付款金额</div>
+		<div field="title" width="30" headerAlign="center" align="center" align="center">付款主题</div>
+		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">付款方式</div>
+		{/if}
+		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>		
+		<div field="accessory" width="45" headerAlign="center" align="center" align="center">附件</div>
+		
+		{if $type eq '1'}
+		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">采购订单收款状态</div>
+		{else}
+		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">采购订单付款状态</div>
+		{/if}
+		
+		<div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div>
+		<div field="remark" width="150" headerAlign="center" >*备注
+			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
+		</div>
+		
+		{if $type eq '1'}
+		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >收款日期</div>
+		{else}
+		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >付款日期</div>
+		{/if}
+		
+
+		<!-- <div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
+		<div field="input_admin" width="30" headerAlign="center" align="center">创建者</div> -->
+		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+		<div action='do' width="40"  renderer="viewhander" align="center">操作</div>
+		
+	</div>
+  </div>
+ </div>
+ <div></div>
+{if $doact eq 'search'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+{/if}
+
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+//追加操作按钮
+function onLoadHandle(e) {
+	var record = e.record,s='',oid = record.o_id;
+	s += '<a href="javascript:viewOrdInfo('+oid+')">'+oid+'</a> ';
+	return s;
+}
+//追加操作，红充按钮
+function viewhander(e){
+	var record = e.record,id=record.id, status=record.status, s='';
+	s += '<a href="javascript:viewPinfo('+id+')">红充</a>';
+	return s;
+}
+
+//红充操作
+function viewPinfo(id){
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+		for(var i=0;i<rows.length;i++){
+	var _id=parseInt(rows[i].id);
+	if(_id<1){
+		grid.removeRow(rows[i],false);
+	}else{
+		_ids.push(_id);
+	}
+  }
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/collection/remove',{ids:ids},callback,"POST","json");
+  });
+
+}
+
+
+//查看订单相关信息
+function viewOrdInfo(oid){
+	mini.open({
+		url: "/product/order/info?oid="+oid,
+		showMaxButton:true,
+		title: "查看订单相关信息", 
+		width: 800, height:430
+	});		
+}
+
+//设置状态
+function setInv(e){
+	var inv= e.record.invoice_status;
+	return $("#invoice_status").find("option[value="+inv+"]").text();
+}
+function setCol(e){
+	var col = e.record.collection_status;
+	return $("#collection_status").find("option[value="+col+"]").text();
+}
+function setPay(e){
+	var pay= e.record.pay_method;
+	return $("#pay_method").find("option[value="+pay+"]").text();
+}
+function setCom(e){
+	var com = e.record.account;
+	return $("#company_account").find("option[value="+com+"]").text();
+}
+
+//行内编辑后保存数据
+function saveData() {
+  var data = grid.getChanges();
+  var json = mini.encode(data);
+  if(json.length<10) return false;
+  
+  grid.loading("保存中，请稍后......");
+  var callback=function(data){
+	grid.unmask();
+	if(data.err=='0'){
+	  grid.reload();
+	}else{
+	  alert(data.msg)
+	  return false;
+	}
+  }
+  utils.ajax('/product/collection/save',{data:json},callback,"POST","json");
+}
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>

@@ -24,6 +24,7 @@ class collectionAction extends adminBaseAction
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('type','1');
 		$this->assign('page_title','销售收款明细');
 		$this->display('collection.init.list.html');
 	}
@@ -39,6 +40,7 @@ class collectionAction extends adminBaseAction
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('type','2');
 		$this->assign('page_title','采购付款明细');
 		$this->display('collection.itin.list.html');
 	}

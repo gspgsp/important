@@ -9,11 +9,24 @@
 			</td>
 			<td style="float:right;">
 			<form id="soform">
-				<select name="key_type">
-					<option value="c_name">客户名称</option>
-					<option value="name">联系人</option>
-					<option value="input_admin">添加人</option>
-				</select> 
+				起止时间
+            	<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+
+            	<select name="status" id="soStatus">
+                	<option value="" selected="selected">特定时间</option>
+                    <option value="this_week">本周</option>
+                    <option value="last_week">上周</option>
+                    <option value="this_month">本月</option>
+                    <option value="last_month">本月</option>
+                </select>
+
+				<select name="depart">
+                    <option value="">=所属部门=</option>
+                	{html_options options=$depart}
+                </select>
+
+				管理员名字
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 				<span id="searchMsg"></span></form>

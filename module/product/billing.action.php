@@ -22,8 +22,9 @@ class billingAction extends adminBaseAction
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('type','1');
 		$this->assign('page_title','销售开票明细');
-		$this->display('billing.init.list.html');
+		$this->display('billing.list.html');
 	}
 	/**
 	 *
@@ -36,8 +37,9 @@ class billingAction extends adminBaseAction
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('type','2');
 		$this->assign('page_title','采购开票明细');
-		$this->display('billing.itin.list.html');
+		$this->display('billing.list.html');
 	}
 	/**
 	 * Ajax获取列表内容
