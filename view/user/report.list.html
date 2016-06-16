@@ -39,8 +39,8 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="id" width="40" headerAlign="center" align="center">管理员名字</div>
-			<div field="" width="40" headerAlign="center" align="center" value="{$bumenenenenenene}">所属部门</div>
+			<div field="name" width="40" headerAlign="center" align="center">管理员名字</div>
+			<div field="depart" width="40" headerAlign="center" align="center">所属部门</div>
 			<div field="sales" width="40" headerAlign="center" align="center">*销售额
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
@@ -62,7 +62,7 @@
 			<div field="profit" width="40" headerAlign="center"  align="center">*合计利润
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
-			<div field="date" width="40" headerAlign="center" allowSort="true" align="center">考核月份
+			<div field="report_date" width="40" headerAlign="center" allowSort="true" align="center">考核月份
 				<!-- <input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/> -->
 			</div>
 			<div field="update_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">修改时间</div>

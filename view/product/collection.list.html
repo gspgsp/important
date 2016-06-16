@@ -116,7 +116,8 @@ function onLoadHandle(e) {
 }
 //追加操作，退款按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id,o_sn=record.order_sn, s='';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id,o_sn=record.order_sn,c_status=record.collection_status, s='';
+	if(c_status != '4')
 	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+id+','+o_sn+')">退款</a>';
 	return s;
 }

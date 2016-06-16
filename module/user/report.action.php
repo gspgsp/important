@@ -85,11 +85,13 @@ class reportAction extends adminBaseAction {
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
-
 		foreach($list['data'] as &$v){
-			$v['report_date']=$v['report_date']>1000 ? date("Y-m-d",$v['follow_time']) : '-';
+			$v['report_date']=$v['report_date']>1000 ? date("Y-m",$v['report_date']) : '-';
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$message = M('rbac:adm')->getUserInfoById($admin_id=$v['admin_id']);
+			$v['depart']=C('depart')[$message['depart']];
+			$v['name']  =$message['name'];
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -113,10 +115,9 @@ class reportAction extends adminBaseAction {
 		$action = sget('action','s');
 		$data = sdata(); //传递的参数
 		if(empty($data)) $this->error('错误的请求');
-			$data['admin_id']=$_SESSION['adminid'];
     		$data['input_time']=CORE_TIME;
     		$data['input_admin']=$_SESSION['name'];
-    		$data['report_date']= strtotime($data['date']);
+    		$data['report_date']= strtotime($data['report_date']);
 		$result = $this->db->add($data);
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
