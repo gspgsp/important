@@ -374,7 +374,6 @@ return array(
 	     }
 	     .secend{
 	     	border:1px solid black;
-
 	     }
 	</style>
 	<h1>销售合同书(%s)</h1>
