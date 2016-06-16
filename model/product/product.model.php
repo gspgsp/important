@@ -56,5 +56,9 @@ class productModel extends model{
 		$arr = $this->model('factory')->select("fid,f_name")->where("fid in ($fid)")->getAll();
 		return $arr;
 	}
+	//根据商品id获取商品的厂家名字
+	public function getFnameByid($pid=0){
+		return $this->select("f.f_name")->from('product p')->join('factory f','f.fid=p.f_id')->where('p.id='.$pid)->getOne();
+	}
 
 }
