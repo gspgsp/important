@@ -5,7 +5,8 @@
 			$this->db=M('public:common');
 		}
 	public function pdf(){
-		if($_GET){
+		$this->act='pdf';
+		if($_GET['oid']){
 			$oid=trim($_GET['oid']);
 				$orderLists=$this->db->from('order as o')
 					->leftjoin('customer as c','c.c_id=o.c_id')
@@ -18,15 +19,21 @@
 		}
 	        	$orderList=!empty($orderLists)?$orderLists:false;
 	        	$detiles=!empty($detiless)?$detiless:false;
+		        //提货日期
+				$pickup_time=!empty($orderLists['pickup_time'])?date('Y年m月d日',$orderLists['pickup_time']):'-';
+		        //签约时间
+				$sign_time=!empty($orderLists['sign_time'])?date('Y-m-d',$orderLists['sign_time']):'-';
+				//付款时间
+				$payment_time=!empty($orderLists['payment_time'])?date('Y-m-d',$orderList['payment_time']):'-';
 		foreach($detiles as $k => $v){
 			$detail_info .= '<tr >
-				<td  width=\"120\" align=\"center\">'.L('product_type')[$v['product_type']].'</td>
-				<td  width=\"140\" align=\"center\">'.$v['model'].'</td>
-				<td  width=\"80\"  align=\"center\">'.$v['f_name'].'</td>
-				<td  width=\"80\"  align=\"center\">吨</td>
-				<td  width=\"80\" align=\"center\">'.$v['number'].'</td>
-				<td  width=\"80\"  align=\"center\">'.$v['unit_price'].'</td>
-				<td  width=\"80\"  align=\"center\">'.$v['number']*$v['unit_price'].'</td>
+				<td  width="120" align="center">'.L('product_type')[$v['product_type']].'</td>
+				<td  width="140" align="center">'.$v['model'].'</td>
+				<td  width="80"  align="center">'.$v['f_name'].'</td>
+				<td  width="80"  align="center">吨</td>
+				<td  width="80"  align="center">'.$v['number'].'</td>
+				<td  width="80"  align="center">'.$v['unit_price'].'</td>
+				<td  width="80"  align="center">'.$v['number']*$v['unit_price'].'</td>
 		 	</tr >';
 		}
 		E('TCPdf',APP_LIB.'extend');
@@ -48,47 +55,47 @@
 		$pdf->AddPage();
 		$total=$this->cny($orderList['total_price']);
 		$table1='<tr >
-			<td  width=\"120\" align=\"center\"><b>产品名称</b></td>
-			<td   width=\"140\" align=\"center\" ><b>规格/规格</b></td>
-			<td   width=\"80\" align=\"center\"><b>产地</b></td>
-			<td  width=\"80\" align=\"center\"> <b>单位</b></td>
-			<td  width=\"80\" align=\"center\"><b>数量</b></td>
-			<td  width=\"80\" align=\"center\"><b>单价</b></td>
-			<td width=\"80\" align=\"center\"><b>金额</b></td>
+			<td  width="120" align="center"><b>产品名称</b></td>
+			<td  width="140" align="center" ><b>规格/规格</b></td>
+			<td  width="80"  align="center"><b>产地</b></td>
+			<td  width="80"  align="center"> <b>单位</b></td>
+			<td  width="80"  align="center"><b>数量</b></td>
+			<td  width="80"  align="center"><b>单价</b></td>
+			<td  width="80"  align="center"><b>金额</b></td>
 			</tr>' .$detail_info. '<tr >
-			<td  width=\"120\"  align=\"center\">合计</td>
-			<td  width=\"120\" colspan="6">'.$orderList['total_price'].'</td>
+			<td  width="120"  align="center">合计</td>
+			<td  width="540" colspan="6">'.$orderList['total_price'].'</td>
 			</tr>
 			<tr >
-			<td  width=\"120\" align=\"center\">合计人民币(大写)</td>
-			<td  width=\"120\" colspan="6">'.$total.'整</td>
+			<td  width="120" align="center">合计人民币(大写)</td>
+			<td  width="540" colspan="6" text-align="left">'.$total.'整</td>
 			</tr>';
 		$table2='<tr >
-			<td  width=\"70\" align=\"center\">甲方(签章):</td>
-			<td  width=\"70\" align=\"center\">'.上海梓晨实业有限公司.'</td>
-			<td  width=\"70\" align=\"center\">乙方(签章):</td>
-			<td  width=\"70\" align=\"center\">'.$orderList['c_name'].'</td>
+			<td  width="140" align="center">甲方(签章):</td>
+			<td  width="140" align="center">'.上海梓晨实业有限公司.'</td>
+			<td  width="140" align="center">乙方(签章):</td>
+			<td  width="200" align="center">'.$orderList['c_name'].'</td>
 		</tr>
 		<tr >
-			<td  width=\"70\" align=\"center\">法人:</td>
-			<td  width=\"70\" align=\"center\">'.李铁道.'</td>
-			<td  width=\"70\" align=\"center\">法人:</td>
-			<td  width=\"70\" align=\"center\"></td>
+			<td  width="140" align="center">法人:</td>
+			<td  width="140" align="center">'.李铁道.'</td>
+			<td  width="140" align="center">法人:</td>
+			<td  width="140" align="center"></td>
 		</tr>
 		<tr >
-			<td  width=\"70\"align=\"center\">经办人:</td>
-			<td  width=\"70\" align=\"center\"></td>
-			<td  width=\"70\" align=\"center\">经办人:</td>
-			<td  width=\"70\"align=\"center\"></td>
+			<td  width="140"align="center">经办人:</td>
+			<td  width="140" align="center"></td>
+			<td  width="140" align="center">经办人:</td>
+			<td  width="140"align="center"></td>
 		</tr >
 		<tr>
-			<td  width=\"70\" align=\"center\">传真:</td>
-			<td  width=\"70\" align=\"center\">010-123456789</td>
-			<td  width=\"70\" align=\"center\">传真:</td>
-			  <td  width=\"70\" align=\"center\">020-98765432</td>
+			<td  width="140" align="center">传真:</td>
+			<td  width="140" align="center">010-123456789</td>
+			<td  width="140" align="center">传真:</td>
+			<td  width="140" align="center">020-98765432</td>
 		 </tr>';
 		$location=!empty($orderList['pickup_location'])?$orderList['pickup_location']:$orderList['delivery_location'];
-		$str = sprintf(L('htmls.html'),'上海梓晨实业有限公司',$orderList['order_sn'],$orderList['c_name'],$orderList['sign_place'],date('Y-m-d',$orderList['sign_time']),$table1,$location,date('Y年m月d日',$orderList['pickup_time']),(L('transport_type')[$orderList['transport_type']]),(L('pay_method')[$orderList['pay_method']]),date('Y-m-d',$orderList['payment_time']),'提前付清全款',$table2);
+		$str = sprintf(L('htmls.html'),(L('transport_type')[$orderList['transport_type']]),'上海梓晨实业有限公司',$orderList['order_sn'],$orderList['c_name'],$orderList['sign_place'],$sign_time,$table1,$location,$pickup_time,(L('transport_type')[$orderList['transport_type']]),(L('pay_method')[$orderList['pay_method']]),$payment_time,'提前付清全款',$table2);
 		//echo $str;
 		$pdf->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
 		// 输出pdf
