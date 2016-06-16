@@ -9,7 +9,7 @@ class personalCenterAction extends homeBaseAction
     }
     //进入个人中心
     public function init(){
-    	$this->display('pcenter');
+    	$this->display('me_logged');
     }
     //获取个人中心首页数据
     public function getPersonalCenter(){
@@ -32,7 +32,7 @@ class personalCenterAction extends homeBaseAction
     }
     //进入我的报价单
     public function enMyQuotation(){
-        $this->display('myquotation');
+        $this->display('me_quotation');
     }
     //获取我的报价单
     public function myQuotation(){
@@ -42,7 +42,7 @@ class personalCenterAction extends homeBaseAction
     }
     //进入我的采购
     public function enMyPurchase(){
-        $this->display('mypurchase');
+        $this->display('me_purchase');
     }
     //获取我的采购
     public function myPurchase(){
@@ -52,16 +52,26 @@ class personalCenterAction extends homeBaseAction
     }
     //进入我的关注
     public function enMyAttention(){
-        $this->display('myattention');
+        $this->display('me_attention');
     }
     //获取我的关注
     public function MyAttention(){
         $products = M('myapp:personalCenter')->getMyAttention($this->user_id);
         $this->json_output(array('err'=>0,'data'=>$products));
     }
+    //添加我的关注
+    public function addMyAttention(){
+        $this->display('me_attentionadd');
+    }
+    //....
+    //管理我的关注
+    public function manageMyAttention(){
+        $this->display('me_attentionmanage');
+    }
+    //...
     //进入我的积分
     public function enMyPoints(){
-        $this->display('mypoints');
+        $this->display('me_creditdetail');
     }
     //获取我的积分
     public function getMyPoints(){
@@ -73,7 +83,7 @@ class personalCenterAction extends homeBaseAction
     }
     //进入我的物流
     public function enMyTrans(){
-        $this->display('mytrans');
+        $this->display('me_logistics');
     }
     //获取我的物流
     public function getMyTrans(){
@@ -91,7 +101,7 @@ class personalCenterAction extends homeBaseAction
     }
     //进入我的意见反馈
     public function enMyFeedBack(){
-        $this->display('myfeedback');
+        $this->display('me_opinion');
     }
     //获取我的意见反馈
     public function getMyFeedBack(){
@@ -308,7 +318,7 @@ class personalCenterAction extends homeBaseAction
     }
     //积分明细
     public function creditDetail(){
-        $this->display('creditdetail');
+        $this->display('me_mycredit');
     }
     //返回积分明细
     public function get_creditdetail(){
@@ -321,7 +331,7 @@ class personalCenterAction extends homeBaseAction
     //签到、兑换路径:/myapp/sign
     //兑换记录
     public function creditRecord(){
-        $this->display('creditrecord');
+        $this->display('me_creditrecord');
     }
     //返回兑换记录
     public function get_creditRecord(){
@@ -332,7 +342,7 @@ class personalCenterAction extends homeBaseAction
     }
     //商品详情页
     public function shopDetail(){
-        $this->display('shopdetail');
+        $this->display('me_shopdetail');
     }
     //点击返回商品详情
     public function get_shopDetail(){
