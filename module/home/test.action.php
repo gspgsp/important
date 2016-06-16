@@ -15,7 +15,7 @@
 					->leftjoin('product as p','p.id=s.p_id')
 					->leftjoin('factory as f','p.f_id=f.fid')
 					->select('s.o_id,s.number,s.unit_price,p.model,p.product_type,f.f_name')
-					->where('o_id='.$oid)->getAll();
+					->where('s.o_id='.$oid)->getAll();
 		}
 	        	$orderList=!empty($orderLists)?$orderLists:false;
 	        	$detiles=!empty($detiless)?$detiless:false;
