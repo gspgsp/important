@@ -102,7 +102,7 @@ class selforderAction extends userBaseAction{
 			$oid=trim($_GET['oid']);
 			$orderList=$this->db->from('order as o')
 				->leftjoin('customer as c','c.c_id=o.c_id')
-				->select('o.order_sn,o.total_price,o.pay_method,o.pickup_location,o.sign_time,o.sign_place,o.payment_time,o.pickup_time,c.c_name')->where('o_id='.$oid)->getRow();
+				->select('o.order_sn,o.total_price,o.pay_method,o.pickup_location,o.delivery_location,o.sign_time,o.sign_place,o.transport_type,o.payment_time,o.pickup_time,c.c_name')->where('o_id='.$oid)->getRow();
 			$detiles=$this->db->from('sale_log as s')
 				->leftjoin('product as p','p.id=s.p_id')
 				->leftjoin('factory as f','p.f_id=f.fid')
@@ -272,8 +272,9 @@ class selforderAction extends userBaseAction{
 				  <td  width=\"70\" align=\"center\">传真:</td>
 				  <td  width=\"70\" align=\"center\">020-98765432</td>
 			 </tr>';
+	$location=!empty($orderList['pickup_location'])?$orderList['pickup_location']:$orderList['delivery_location'];
 
-	$str = sprintf(L('htmls.html'),'上海梓晨实业有限公司',$orderList['order_sn'],$orderList['c_name'],$orderList['sign_place'],date('Y-m-d',$orderList['sign_time']),$table1,$orderList['pickup_location'],date('Y年m月d日',$orderList['pickup_time']),(L('pay_method')[$orderList['pay_method']]),date('Y-m-d',$orderList['payment_time']),'提前付清全款',$table2);
+	$str = sprintf(L('htmls.html'),'上海梓晨实业有限公司',$orderList['order_sn'],$orderList['c_name'],$orderList['sign_place'],date('Y-m-d',$orderList['sign_time']),$table1,$location,date('Y年m月d日',$orderList['pickup_time']),(L('transport_type')[$orderList['transport_type']]),(L('pay_method')[$orderList['pay_method']]),date('Y-m-d',$orderList['payment_time']),'提前付清全款',$table2);
 	//echo $str;
 	$pdf->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
 
