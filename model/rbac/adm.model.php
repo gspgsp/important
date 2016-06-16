@@ -39,5 +39,28 @@ class admModel extends model{
 		return $nodes;
 	}
 
+	/*
+	 * 根据所属部门，查出所有管理员id
+	 * @access public
+	 * @param int $depart 所属部门
+	 * @return array
+	 */
+	public function getIdByDepart($depart) {
+		//获取所有非超管
+		$nodes=$this->model('admin')->select('admin_id')->where("depart = $depart ")->getCol();
+		return $nodes;
+	}
+
+	/*
+	 * 根据管理员姓名，模糊查出所有管理员id
+	 * @access public
+	 * @param int $name 管理员姓名
+	 * @return array
+	 */
+	public function getIdByName($name) {
+		//获取所有非超管
+		$nodes=$this->model('admin')->select('admin_id')->where("name like '%$name%' ")->getCol();
+		return $nodes;
+	}
 }
 ?>
