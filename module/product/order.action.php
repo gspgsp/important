@@ -343,7 +343,7 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		p($data);die;
+		// p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
 		$data['join_id']=$data['o_id'];
 		$data['sign_time']=strtotime($data['sign_time']);
