@@ -100,16 +100,20 @@ class selforderAction extends userBaseAction{
 		$this->act='pdf';
 		if($_GET){
 			$oid=trim($_GET['oid']);
-			$orderList=$this->db->from('order as o')
+			$orderLists=$this->db->from('order as o')
 				->leftjoin('customer as c','c.c_id=o.c_id')
 				->select('o.order_sn,o.total_price,o.pay_method,o.pickup_location,o.delivery_location,o.sign_time,o.sign_place,o.transport_type,o.payment_time,o.pickup_time,c.c_name')->where('o_id='.$oid)->getRow();
-			$detiles=$this->db->from('sale_log as s')
+			$detiless=$this->db->from('sale_log as s')
 				->leftjoin('product as p','p.id=s.p_id')
 				->leftjoin('factory as f','p.f_id=f.fid')
 				->select('s.o_id,s.number,s.unit_price,p.model,p.product_type,f.f_name')
 				->where('o_id='.$oid)->getAll();
 			//showTrace();
 		}
+
+        $orderList=!empty($orderLists)?$orderLists:false;
+        $detiles=!empty($detiless)?$detiless:false;
+
 
 //p($detiles);
 		foreach($detiles as $k => $v){
