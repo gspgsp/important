@@ -68,7 +68,7 @@ class outStorageAction extends adminBaseAction {
 			$out_id=$this->db->getLastID(); //获取新增出库单ID	
 			foreach ($data['log'] as $k => $v) {
 				$log[$k]=$v;
-				$log[$k]['out_time']=out_time;
+				$log[$k]['out_time']=$out_time;
 				$log[$k]['out_id']=$out_id;
 				$log[$k]['detail_id']=$v['id']; //订单明细
 				$log[$k]['number']=$v['out_number'];	 //发货数量
