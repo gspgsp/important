@@ -189,8 +189,8 @@ $("#cartFrom").submit(function(){
     var data=$("#cartFrom").serialize();
     $.post('/cart/index/addorder',data,function(data){
         if(data.err==0){
-            
-            window.location.href="/cart/index/msg";
+            alert(data.msg);
+            window.location.href="/user/selforder";
         }else{
             alert(data.msg);
         }   
