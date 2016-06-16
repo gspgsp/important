@@ -1,4 +1,4 @@
-{layout file="public:mini_layout"}
+ {layout file="public:mini_layout"}
 <link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
 <div style="padding:5px; " >
 	<div id="infoForm" class="form">
@@ -18,8 +18,7 @@
 						<td>{$order_sn}</td>
 						{else}
 						<td>{$info.order_sn}</td>
-						{/if}
-						
+						{/if}			
 					</tr>
 					{if $order_type neq '2' && $type neq 'edit'}
 					<tr>
@@ -70,7 +69,7 @@
 						<td><input name="financial_records" class="mini-combobox" style="width:125px;" value="{$info.financial_records}" data='{:setMiniConfig|$financial_records}'  required="true" textfield="name" valuefield="id"/></td>
 						<td>客户名称：</td>
 						<td>
-							<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
+							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
 						</td>
 						
 					</tr>
@@ -98,12 +97,12 @@
 				</fieldset>
 			{if $otype eq 'addopus'}
 				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="consumeStore">
-					<legend>销库存订单</legend>
+					<legend>销库存销售明细</legend>
 					<div id="editForm2" style="padding:5px;" >
 					<div class="detail">
 						    	<div id="gridCell1" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns">    
-								<div field="model" width="120" headerAlign="center">牌号 </div>                
+								<div field="model" width="100" headerAlign="center">牌号 </div>                
 								<div field="store_name" width="80" headerAlign="center" allowSort="true">仓库</div>
 								<div field="lot_num" width="80" headerAlign="center" >批次</div>
 								<div field="unit_price" width="80" headerAlign="center" >售价
@@ -126,12 +125,12 @@
 					</div>
 				</fieldset>
 				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="sale">
-					<legend>销售订单</legend>
+					<legend>销售明细</legend>
 					<div id="editForm3" style="padding:5px;" >
 					<div class="detail">
 						<div id="gridCell2" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns">    
-								<div field="model" width="120" headerAlign="center">牌号</div>                
+								<div field="model" width="100" headerAlign="center">牌号</div>                
 								<div field="unit_price" width="80" headerAlign="center" >价格
 									<input property="editor" class="mini-textbox" style="width:100%;"/>
 								</div>
@@ -154,12 +153,12 @@
 			{/if}
 			{if $order_type eq 2}
 			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;" id="purchase">
-					<legend>采购订单</legend>
+					<legend>采购明细</legend>
 					<div id="editForm3" style="padding:5px;" >
 					<div class="detail">
 						<div id="gridCell3" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns">    
-								<div field="model" width="120"  headerAlign="center">牌号</div>        
+								<div field="model" width="100"  headerAlign="center">牌号</div>        
 								<div field="f_name" width="120" headerAlign="center">厂家</div>         
 								<div field="unit_price" width="80" headerAlign="center" >售价
 								</div>
@@ -486,7 +485,5 @@ function addPurDetil(){
 			}
 		}
 	});
-}
-
-	
+}	
 </script>

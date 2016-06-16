@@ -35,11 +35,13 @@ class storeDetailAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
-		$where.= 1;
+		$isAddSale=sget("isAddSale",'i',0); //虚拟入库的库存屏蔽
+		$where.= $isAddSale==1? " `join_id` = 0" : "1"  ;//虚拟入库的库存屏蔽
 		// //筛选状态
-		if(sget('number_status','i',0) !=0) {
-			$number_status=sget('remainder','i',0);//有剩余数量可用
-			$where.=" and `remainder` > 0";
+		if(sget('remainder','i') == 1) {
+			$where.=" and `remainder` > 0 and  `join_id` = 0";
+		}elseif(sget('remainder','i') == 2){ //join_id 代表关联了销售订单id  (虚拟入库的库存)
+			$where.=" and `join_id` > 0";   
 		}
 		//筛选时间
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型

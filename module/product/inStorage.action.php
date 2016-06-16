@@ -8,7 +8,6 @@ class inStorageAction extends adminBaseAction {
 		$this->db=M('public:common')->model('in_storage');
 		$this->assign('ship_company',L('ship_company')); //物流公司
 		$this->assign('purchase_type',L('purchase_type')); //状态
-
 	}
 	/**
 	 * 新增入库记录
@@ -19,6 +18,7 @@ class inStorageAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		$o_id=sget('o_id','i',0);
+		$join_id=sget('join_id','i',0);
 		if( $o_id<1 ) $this->error('错误的出库信息');
 		$in_storage_no=genOrderSn();//入库单号
 		$action=sget('action','s');
@@ -41,7 +41,7 @@ class inStorageAction extends adminBaseAction {
 			$this->json_output($result);
 		}
 		$in_info=$this->db->model('in_storage')->where("o_id = '$o_id'")->getRow();
-		if($in_info) {
+		if($in_info) { //查询是否存在入库头数据
 			$this->assign('store_aid',$in_info['store_aid']);
 			$this->assign('store_id',$in_info['store_id']);
 			$this->assign('doyet','doyet');
@@ -50,17 +50,17 @@ class inStorageAction extends adminBaseAction {
 		$in_info['c_name']=M("user:customer")->getColByName($in_info['c_id']); //获取客户名称
 		$in_info['admin_name']=M("product:inStorage")->getNameBySid($in_info['store_aid']); //获得出库人姓名
 		$this->assign('in_info',$in_info);
+		$this->assign('join_id',$join_id);
 		$this->assign('o_id',$o_id);
 		$this->assign('in_storage_no',$in_storage_no);
 		$this->display('inStorage.edit.html');
 	}
 	/**
-	 * 异步保存
+	 * 采购入库
 	 */
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-		// p($data);die;
 		if(empty($data)) $this->error('操作有误');
 		$basic_info= array(
 			'input_admin'=>$_SESSION['name'],
@@ -70,7 +70,7 @@ class inStorageAction extends adminBaseAction {
 		$this->db->startTrans(); //开启事务
 		try {
 			if($data['doyet'] != 'doyet'){
-				if( !$this->db->model('in_storage')->add($data+$basic_info) ) throw new Exception("新增入库失败!");	
+				if( !$this->db->model('in_storage')->add($data+$basic_info) ) throw new Exception("新增入库失败!");
 			} 
 			foreach ($data['list'] as $k => $v) {
 				$_data['o_id']=$v['o_id'];
@@ -83,7 +83,7 @@ class inStorageAction extends adminBaseAction {
 				$_data['number']=$v['number'];
 				$_data['remainder']=$v['number'];
 				$_data['controlled_number']=$v['number'];
-
+				$_data['join_id']=$data['join_id'];
 				if( !$this->db->model('in_log')->add($_data+$basic_info) ) throw new Exception("新增入库明细失败!");
 				$input_store['s_id']=$data['store_id'];
 				$input_store['p_id']=$v['p_id'];
@@ -106,12 +106,10 @@ class inStorageAction extends adminBaseAction {
 			}else{
 				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update('in_storage_status = 2') ) throw new Exception("订单入库更新失败2！");
 			}
-
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
-
 		$this->db->commit();
 		$this->success('操作成功');	
 	}

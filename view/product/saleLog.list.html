@@ -60,7 +60,7 @@
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
 			<div field="update_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
 			<div field="update_admin" width="45" headerAlign="center" align="center">更新人</div>
-			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onPurOrd">操作</div>
+<!-- 			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onPurOrd">操作</div> -->
 		</div>
 	</div>
 </div>
@@ -93,13 +93,13 @@ function onLoadHandle(e) {
 	
 }
 //追加采购
-function onPurOrd(e){
-	var record = e.record,s='',id = record.id,store_id = record.store_id;
-	if(store_id==0){
-	s += '<a href="javascript:addPurOrd('+id+')">'+'追加采购单'+'</a> ';
-	return s;
-	}
-}
+// function onPurOrd(e){
+// 	var record = e.record,s='',id = record.id,store_id = record.store_id;
+// 	if(store_id==0){
+// 	s += '<a href="javascript:addPurOrd('+id+')">'+'追加采购单'+'</a> ';
+// 	return s;
+// 	}
+// }
 function addPurOrd(id){
 	mini.open({
 		url: "/product/purchaseLog/info?sale_id="+id,

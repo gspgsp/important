@@ -111,7 +111,7 @@ class saleLogAction extends adminBaseAction {
 		$require_num=sget('require_num','i',0);
 		$this->assign('require_num',$require_num);
 		if($id<1){
-			$this->assign('choose',$choose);
+			$this->assign('choose',$choose); //用于miniopen 弹窗的销毁按钮
 			if($o_id>0){
 				$this->assign('o_id',$o_id);
 				$order_name=M("product:order")->getColByName($o_id);

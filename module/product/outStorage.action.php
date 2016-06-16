@@ -9,7 +9,6 @@ class outStorageAction extends adminBaseAction {
 		$this->assign('ship_company',L('ship_company')); //物流公司
 		$this->assign('out_type',L('out_type')); //出库类型
 		$this->assign('out_storage_status',L('out_storage_status')); //出库状态
-
 	}
 	/**
 	 * 新增发货记录
@@ -63,14 +62,17 @@ class outStorageAction extends adminBaseAction {
 				'input_admin'=>$_SESSION['name'],
 		);
 		$this->db->startTrans(); //开启事务
+		$out_time = $this->db->model('order')->select('delivery_time')->where(' o_id ='.$data['o_id'])->getOne();
 		try {
 			if( !$this->db->model('out_storage')->add($data) ) throw new Exception("新增出库单失败");	
 			$out_id=$this->db->getLastID(); //获取新增出库单ID	
 			foreach ($data['log'] as $k => $v) {
 				$log[$k]=$v;
+				$log[$k]['out_time']=out_time;
 				$log[$k]['out_id']=$out_id;
 				$log[$k]['detail_id']=$v['id']; //订单明细
 				$log[$k]['number']=$v['out_number'];	 //发货数量
+				unset($log[$k]['id']);
 				if( !$this->db->model('out_log')->add($log[$k]+$add_data) ) throw new Exception("出库明细新增失败");
 				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update('out_number = out_number +'.$v['out_number'].' , out_storage_status=3') ) throw new Exception("更新订单明细失败");		
 				if( !$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update('remainder = remainder-'.$v['out_number'].' , lock_number = lock_number - '.$v['out_number']) ) throw new Exception("库存更新失败");
