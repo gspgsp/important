@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>我的塑料网-个人中心</title>
+    <link href="__CSS__/wx/normalize.css" rel="stylesheet">
+    <script type="text/javascript" src="__JS__/wx/vue.js"></script>
+    <script type="text/javascript" src="__JS__/wx/vue-router.js"></script>
+    <script type="text/javascript" src="__JS__/wx/vue-resource.js"></script>
+</head>
+<body>
+<div id="app">
+    <a v-link="{ path: '/table' }">Go to table</a>
+    <a v-link="{ path: '/table2' }">Go to table2</a>
+    <router-view></router-view>
+</div>
+<script type="text/javascript">
+    var Error=Vue.extend({
+        template:"<p>this is error page</p>"
+    });
+
+    var Table2=Vue.extend({
+        template:"<table><tr v-for='book in books'>" +
+        "<td>{{book.id}}</td>" +
+        "<td>{{book.author}}</td>" +
+        "</tr></table>",
+        ready:function () {
+            this.$http({url:'json/book3.json',method:'GET'}).then(function(res){
+                this.$set('books', res.data);
+            },function (res) {
+
+            });
+        }
+    });
+
+    var ErrorPage=Vue.extend({
+        template:"<p>error!!!</p>"
+    });
+
+    var Index=Vue.extend({
+        template:"<p>this is index!!!</p>"
+    });
+
+    var Table=Vue.extend({
+        template:"<table><tr v-for='book in books'>" +
+        "<td>{{book.id}}</td>" +
+        "<td>{{book.name}}</td>" +
+        "<td>{{book.author}}</td>" +
+        "<td>{{book.price}}</td>" +
+        "</tr></table>",
+        ready: function() {
+            this.$http({url:'json/book.json',method:'GET'}).then(function(res){
+                this.$set('books', res.data);
+            },function (res) {
+
+            });
+        },
+        data: function () {
+            return {
+                books:""
+            }
+        }
+    });
+
+    var App = Vue.extend({});
+    var router = new VueRouter();
+    router.map({
+        '/':{
+            component: Index
+        },
+        '/table': {
+            component: Table
+        },
+        '/table2': {
+            component: Table2
+        },
+        '*':{
+            component:ErrorPage
+        }
+    });
+    router.start(App, '#app');
+</script>
+
+</body>
+</html>

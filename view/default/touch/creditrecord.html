@@ -54,18 +54,22 @@
 					}else{
 						console.log(">>>",res);
 						layer.closeAll();
-						res.forEach(function (v,i,a) {
-							creditRecord+="<div class='creditRecord'>" +
-									"<h3>兑换单号："+ v.order_id +"<br>兑换时间："+ stampToDate2(v.create_time) +"" +
-									"<span>"+ statusName(v.status) +"</span></h3><div class='creditInfo'>" +
-									"<div class='creditImg'><img src='"+ v.thumb +"'></div>" +
-									"<div class='creditTable'>" +
-									"<div class='creditTr'>"+ v.name +"</div>" +
-									"</div></div><h4>更新时间:"+ stampToDate(v.update_time) +"" +
-									"<span style='float:right;line-height:35px;'>兑换使用积分：<i>"+ v.usepoints +"</i>积分</span>" +
-									"</h4></div>";
-						});
-						$("#creditWrap").html(creditRecord);
+						if(res.length!=0){
+							res.forEach(function (v,i,a) {
+								creditRecord+="<div class='creditRecord'>" +
+										"<h3>兑换单号："+ v.order_id +"<br>兑换时间："+ stampToDate2(v.create_time) +"" +
+										"<span>"+ statusName(v.status) +"</span></h3><div class='creditInfo'>" +
+										"<div class='creditImg'><img src='"+ v.thumb +"'></div>" +
+										"<div class='creditTable'>" +
+										"<div class='creditTr'>"+ v.name +"</div>" +
+										"</div></div><h4>更新时间:"+ stampToDate(v.update_time) +"" +
+										"<span style='float:right;line-height:35px;'>兑换使用积分：<i>"+ v.usepoints +"</i>积分</span>" +
+										"</h4></div>";
+							});
+							$("#creditWrap").html(creditRecord);
+						}else{
+							$("#creditWrap").html("<div class='noRecord'>暂无兑换记录</div>");
+						}
 					}
 				},
 				error:function (res) {
