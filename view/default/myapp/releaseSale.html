@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+	<body>
+		<header id="classifyHeader">
+			<a class="back" href="#"></a>
+			发布报价
+		</header>
+		<div class="releaseSale">
+			<h3><img width="15" src="img/releaseSaleIcon.png">请选择类别</h3>
+			<p>
+				<span>品种:</span>
+					<select style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option>请选择</option>
+						<option>HDPE</option>
+						<option>LDPE</option>
+						<option>LLDPE</option>
+						<option>PP</option>
+						<option>PVC</option>
+					</select>
+			</p>
+			<p>
+				牌号:&nbsp;<input type="text" placeholder="输入后模糊匹配" />
+			</p>
+			<p>
+				厂家:&nbsp;<input type="text" placeholder="输入后模糊匹配" />
+			</p>
+			<p>
+				<span>加工级别:</span>
+					<select style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option>请选择</option>
+						<option>HDPE</option>
+						<option>LDPE</option>
+						<option>LLDPE</option>
+						<option>PP</option>
+						<option>PVC</option>
+					</select>
+			</p>
+		</div>	
+				<div class="releaseSale">
+			<h3><img width="15" src="img/releaseSaleIcon.png">其他货物信息</h3>
+			<p>
+				数量:&nbsp;<input style="width: 75px;" type="text" />&nbsp;吨
+			</p>
+			<p>
+				价格:&nbsp;<input style="width: 75px;" type="text" />&nbsp;元/吨
+			</p>
+			<p>
+				<span>地区:</span>
+					<select style="float: left; width: 70px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option>请选择</option>
+						<option>HDPE</option>
+						<option>LDPE</option>
+						<option>LLDPE</option>
+						<option>PP</option>
+						<option>PVC</option>
+					</select>
+
+			</p>
+			<p>
+				仓库:&nbsp;<input type="text" />
+			</p>
+		</div>	
+		<div class="releaseSale">
+			<h3><img width="15" src="img/releaseSaleIcon.png">请选择有效期</h3>
+			<p>
+				<span>期限:</span>
+					<select style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option>请选择</option>
+						<option>五天内</option>
+					</select>
+			</p>
+		</div>
+		<div class="releaseSaleBtn">
+			<input type="button" value="立即发布" />
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+		</script>
+
+	</body>
+
+</html>

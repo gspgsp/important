@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+
+	<body style="padding-bottom: 50px;">
+		<header id="meHeader">
+			<a class="back" href="#"></a>
+			商品详情
+		</header>
+		<div class="proDetail">
+			<img id="thumbImg" src="img/temp6.jpg">
+			<h3 class="proTitle"><span id="name">小米（MI）小米新款移动电源/充电宝10000mAh</span><span id="proPoints"></span>积分</h3>
+			<div class="proChoose">
+				<span class="on">商品详情</span>
+				<span>退换货规定</span>
+			</div>
+		</div>
+		<div class="proContent proPic">
+			<img id="proImg" src="img/temp7.jpg">
+		</div>
+		<div class="proContent proTxt" style="display: none;">
+			<p>兑换商品若出现以下情况，我的塑料网允许退换货：</p>
+			<p>1）商品本身有质量问题，影响使用</p>
+			<p>2）兑换的商品在运输过程中出现损毁</p>
+			<p>用户可在签收后7日内拨打我的塑料网客服热线400-6129-965，</p>
+			<p>申请退换货，退回时，请务必将原包装、内附赠品及说明书和相关文件一并寄回。</p>
+			<br>
+			<p>若出现以下情况，我的塑料网有权不予进行商品退换货：</p>
+			<p>1)非我的塑料网积分商城的兑换商品</p>
+			<p>2)不正常使用商品造成的质量问题</p>
+			<p>3)超过我的塑料网积分商城承诺的7天退换货有效时间</p>
+			<p>4)将商品存储、暴露在不适宜环境中造成的损坏</p>
+			<p>5)因未经授权的修理、改动、不正确的安装造成损坏</p>
+			<p>6)不可抗力导致礼品损坏</p>
+			<p>7)商品的正常磨损</p>
+			<p>8)在退换货之前未与我的塑料网客服取得联系，进行过退换货登记</p>
+			<p>9)退回商品包装或其他附属物不完整或有毁损</p>
+			<br>
+			<p>注：商品图片及文字仅供参考，具体以实物为准。</p>
+		</div>
+		<div class="proExchange">立即兑换</div>
+		<div class="proLayer" style="display: none;">
+			<h3>温馨提示</h3>
+			<p>此次兑换将使用<span id="proPoints2"></span>积分，确定兑换码？</p>
+			<p style="text-align: center">
+				<button class="cancel">取消</button>
+				<button class="confirm">确定</button>
+			</p>
+		</div>
+		<div class="proInput" style="display: block;">
+			<p><span>收件人:</span><input id="receiver" class="proText" type="text"></p>
+			<p><span>联系电话:</span><input id="phone" class="proText" type="number"></p>
+			<p><span>联系地址:</span><input id="address" class="proText" type="text"></p>
+			<p><span>验证码:</span><input id="code" class="proText2" type="number"></p>
+			<p style="text-align: center">
+				<input type="button" class="cancel2" value="取消">
+				<input type="button" class="confirm2" style="background: #ff5000" value="确定">
+			</p>
+		</div>
+		<div class="layer"></div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+		</script>
+
+	</body>
+
+</html>

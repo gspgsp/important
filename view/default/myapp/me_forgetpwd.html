@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+
+	<body style="padding-bottom: 55px;">
+		<header id="meHeader">
+			<a class="back" href="#"></a>
+			登录
+			<a class="right" href="#">注册</a>
+		</header>
+		<h3 class="meTitle">欢迎来到我的塑料网</h3>
+		<div class="registerWrap">
+			<div class="registerBox">
+				<input id="username" class="registerInput" maxlength="11" type="tel" placeholder="请输入手机号码">
+			</div>
+			<div class="registerBox">
+				<input id="regcode" class="registerInput" maxlength="4" type="tel" placeholder="请输入6位验证码">
+				<button class="validCode">获取验证码</button>
+			</div>
+		</div>
+		<div style="margin: 0 20px;">
+			<div class="registerBtn">找回</div>
+		</div>
+
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+		</script>
+
+	</body>
+
+</html>

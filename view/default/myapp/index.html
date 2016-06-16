@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+	<body style="padding: 0 0 50px 0;">
+		<header id="header">
+			<a class="headerMenu" href="#"></a>
+			<div class="appSearch">
+				<input type="text" placeholder="请输入产品分类、牌号" />
+				<a class="appQuery" href="#"></a>
+			</div>
+			<a class="headerService" href="tel:10086"></a>
+		</header>
+		<div id="slider" class="mui-slider">
+			<div class="mui-slider-group mui-slider-loop">
+				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+						<img src="img/temp2.jpg">
+					</a>
+				</div>
+				<!-- 第一张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="img/temp.jpg">
+					</a>
+				</div>
+				<!-- 第二张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="img/temp2.jpg">
+					</a>
+				</div>
+				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+						<img src="img/temp.jpg">
+					</a>
+				</div>
+			</div>
+			<div class="mui-slider-indicator">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+			</div>
+		</div>
+		<div class="appInfo">
+			<span class="appInfoOn">今日头条</span>
+			<span>原油价格</span>
+			<div class="mui-clearfix"></div>
+			<div id="appInfo" style=" display: none;">
+				<ul>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+				</ul>
+			<a class="appMore" href="#">更多</a>
+			</div>
+			<div id="appInfo2">
+				<ul>
+					<li><a href="#">Nymex WTI</a><i class="red">+0.04↑</i><b>38.32</b></li>
+					<li><a href="#">ICE Brent</a><i class="red">+0.04↑</i><b>39.26</b></li>
+					<li><a href="#">乙烯(CFR东北亚)</a><i class="blue">0</i><b>1205.50</b></li>
+					<li><a href="#">乙烯(CFR东北亚)</a><i class="blue">0</i><b>1160.50</b></li>
+					<li><a href="#">丙烯(FOB韩国)</a><i class="green">-0.04↓</i><b>650.50</b></li>
+				</ul>
+			<a class="appMore" href="#">更多</a>
+			</div>
+		</div>
+		<div class="appConcern">
+			<ul>
+				<li>7000F 伊朗 <strong>10小时前</strong><b class="green">-100↓</b><i>9000/T</i></li>
+				<li>7000F 伊朗 <strong>10小时前</strong><b class="red">+100↑</b><i>9000/T</i></li>
+				<li>7000F 伊朗 <strong>10小时前</strong><b class="green">-100↓</b><i>9000/T</i></li>
+				<li>7000F 伊朗 <strong>10小时前</strong><b class="red">+100↑</b><i>9000/T</i></li>
+				<li>7000F 伊朗 <strong>10小时前</strong><b class="green">-100↓</b><i>9000/T</i></li>
+			</ul>
+			<span><a href="#">...查看更多</a></span>
+			<span><a href="#">+添加关注</a></span>
+		</div>
+		<div class="appOperate">
+			<ul>
+				<li>
+					<div class="appOperateWrap">
+						<img width="22" src="img/icon.png"><br>
+						发布报价
+					</div>
+				</li>
+				<li>
+					<div class="appOperateWrap">
+						<img width="22" src="img/icon2.png"><br>
+						委托采购
+					</div>
+				</li>
+				<li>
+					<div class="appOperateWrap">
+						<img width="22" src="img/icon3.png"><br>
+						供求
+					</div>
+				</li>
+				<li>
+					<div class="appOperateWrap">
+						<img width="22" src="img/icon4.png"><br>
+						资源库
+					</div>
+				</li>
+			</ul>
+		</div>
+		<footer id="footer">
+			<ul>
+				<li><a href="#"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="#"><i class="foot2"></i><br>物性表</a></li>
+				<li><a class="footerOn" href="#"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="#"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="#"><i class="foot5"></i><br>我</a></li>
+			</ul>
+		</footer>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			var slider = mui("#slider");
+			slider.slider({
+						interval: 3000
+					});
+		</script>
+
+	</body>
+
+</html>

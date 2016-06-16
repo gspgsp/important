@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+
+	<body>
+		<header id="supplyDemandHeader">
+			<a class="back" href="#"></a>
+			<div class="supplyDemandChange">
+				<span class="on">现货管理</span>
+				<span>期货管理</span>
+			</div>
+		</header>
+		<div class="myPurchase">
+			<div class="purchaseInput2">
+				<input class="productQuery" type="text" placeholder="请输入产品分类、牌号、厂家">
+				<img id="query" src="img/query.png">
+			</div>
+			<select class="chooseType2">
+				<option value ="">全部</option>
+				<option value ="1">待审核</option>
+				<option value="2">审核通过</option>
+				<option value="3">洽谈中</option>
+				<option value="4">交易成功</option>
+				<option value="5">无效</option>
+				<option value="6">过期</option>
+			</select>
+			<div class="chooseType">全部</div>
+		</div>
+		<ul class="purchaseList">
+			<li>
+				<div class='purchaseWrap3'>
+					<input type='checkbox' id='"+ v.id +"' class='regular-checkbox'>
+					<label for='"+ v.id +"'></label>
+					<h3>373MC<span class='orange'>￥<input style="width: 60px;" class='offerNumInput unit_price' type='text' value='9300'>/吨</span></h3>
+					<p><input style="width: 100px;" class='offerTxtInput f_name' type='text' value='伊朗国家石化'>
+						<span class='orange'><input style="width: 60px;" class='offerNumInput number' type='text' value='99'>吨</span></p>
+					<p><input style="width: 120px;" class='offerTxtInput3 store_house' type='text' value='深圳'><span>2016-05-04</span>
+					</p>
+				</div>
+				<div class='offerStatus'>
+					<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus sold'></i>上架</span>
+					<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span>
+				</div>
+			</li>
+			<li>
+				<div class='purchaseWrap3'>
+					<input type='checkbox' id='"+ v.id +"' class='regular-checkbox'>
+					<label for='"+ v.id +"'></label>
+					<h3>373MC<span class='orange'>￥<input style="width: 60px;" class='offerNumInput unit_price' type='text' value='9300'>/吨</span></h3>
+					<p><input style="width: 100px;" class='offerTxtInput f_name' type='text' value='伊朗国家石化'>
+						<span class='orange'><input style="width: 60px;" class='offerNumInput number' type='text' value='99'>吨</span></p>
+					<p><input style="width: 120px;" class='offerTxtInput3 store_house' type='text' value='深圳'><span>2016-05-04</span>
+					</p>
+				</div>
+				<div class='offerStatus'>
+					<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus sold'></i>上架</span>
+					<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span>
+				</div>
+			</li>
+
+		</ul>
+		<footer id="offerFooter">
+			<input type="checkbox" id="all" class="regular-checkbox">
+			<label for="all" style=" top: 10px; left: 15px;"></label> 全选/反选
+			<span class="chooseStatus on">上架</span>
+			<span class="chooseStatus">下架</span>
+			<span class="chooseStatus">删除</span>
+			<span class="batchUpdate">批量更新</span>
+		</footer>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+		</script>
+
+	</body>
+
+</html>

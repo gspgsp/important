@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+				.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: #ff5000;
+			}
+			
+			.mui-checkbox input[type=checkbox]:before,
+			.mui-radio input[type=radio]:before {
+				font-family: Muiicons;
+				font-size: 21px;
+				font-weight: 400;
+				line-height: 1;
+				text-decoration: none;
+				color: #B2B2B2;
+				border-radius: 0;
+				background: 0 0;
+				-webkit-font-smoothing: antialiased;
+		</style>
+	</head>
+
+	<body>
+		<header id="searchHeader">
+			<a class="back" href="#"></a>
+			<div class="searchSearch">
+				<input type="text" placeholder="在资源中搜索你想要的" />
+				<a class="appQuery2" href="#"></a>
+			</div>
+			<span class="appWrite"></span>
+		</header>
+		<div class="appResourceWrap">
+			<div class="appResourceChoose">
+				<span class="on">全部</span>
+				<span>求购</span>
+				<span>供应</span>
+			</div>
+		</div>
+		<ul class="appResourceUl">
+			<li>
+				<div class="appResourceAvator">
+					<img src="img/avator.png">
+				</div>
+				<div class="appRecourceTxt">
+					<h3>上海拜力得 许建昭<span>1分钟前</span></h3>
+					<p>求天津、青岛低压膜7000F黑字、EX5、9450F、5604、5110、F00952、TR144、688 许建昭 电话：18357876879</p>
+				</div>
+			</li>
+			<li>
+				<div class="appResourceAvator">
+					<img src="img/avator.png">
+				</div>
+				<div class="appRecourceTxt">
+					<h3>上海拜力得 许建昭<span>1分钟前</span></h3>
+					<p>求天津、青岛低压膜7000F黑字、EX5、9450F、5604、5110、F00952、TR144、688 许建昭 电话：18357876879</p>
+				</div>
+			</li>
+			<li>
+				<div class="appResourceAvator">
+					<img src="img/avator.png">
+				</div>
+				<div class="appRecourceTxt">
+					<h3>上海拜力得 许建昭<span>1分钟前</span></h3>
+					<p>求天津、青岛低压膜7000F黑字、EX5、9450F、5604、5110、F00952、TR144、688 许建昭 电话：18357876879</p>
+				</div>
+			</li>
+		</ul>
+		<div class="appResourceText">
+			<div class="mui-input-row mui-checkbox mui-left" style="position: absolute; top: 0; left: -11px;">
+				<label style=" font-size: 14px; padding: 7px 0 0 50px">我有货，我要卖</label>
+				<input name="checkbox" checked="checked" value="Item 1" type="checkbox">
+			</div>
+			<div class="mui-input-row mui-checkbox mui-left" style="position: absolute; top: 0; left: 135px;">
+				<label style=" font-size: 14px; padding: 7px 0 0 50px">我求购，我要买</label>
+				<input name="checkbox" value="Item 1" type="checkbox">
+			</div>
+			<textarea class="appResourceInput" placeholder="请填写真实资源，写清楚公司名称，你的名字，联系方式，货物和数量"></textarea>
+			<div class="appResourceBtn">
+				<a class="cancel" href="#">取消</a>
+				<a class="release" href="#">立即发布</a>
+			</div>
+		</div>
+		<footer id="footer">
+			<ul>
+				<li><a href="#"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="#"><i class="foot2"></i><br>物性表</a></li>
+				<li><a class="footerOn" href="#"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="#"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="#"><i class="foot5"></i><br>我</a></li>
+			</ul>
+		</footer>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+		</script>
+
+	</body>
+
+</html>

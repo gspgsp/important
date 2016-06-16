@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+
+	<body>
+		<header id="meHeader">
+			<a class="back" href="#"></a>
+			添加关注
+		</header>
+		<div class="meAttentionSearch">
+			<div class="appSearch" style="margin: 0 40px;">
+				<input type="text" placeholder="请输入产品分类、牌号" />
+				<a class="appQuery" href="#"></a>
+			</div>
+		</div>
+		<ul class="meAttention4">
+			<li><div class="meAttention4Box"><span>品种</span><select><option>HDPE</option></select></div></li>
+			<li><div class="meAttention4Box"><span>牌号</span><select><option>HDPE</option></select></div></li>
+			<li><div class="meAttention4Box"><span>厂家</span><select><option>HDPE</option></select></div></li>
+		</ul>
+		<div class="meAttentionBtn">
+			<input type="button" value="确定" />
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+		</script>
+
+	</body>
+
+</html>
