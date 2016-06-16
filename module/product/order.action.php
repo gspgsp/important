@@ -224,6 +224,7 @@ class orderAction extends adminBaseAction {
 		}else{
 			$this->assign('input_admin',$username);
 		}
+		$this->assign('order_name',$data[0][order_name]);
 		$this->assign('c_name',$c_name);
 		$this->assign('c_id',$data[0][c_id]);
 		$this->assign('type',$type);
