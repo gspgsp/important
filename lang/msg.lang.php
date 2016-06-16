@@ -6,11 +6,13 @@ $sys = M('system:setting')->getsetting();
 return array(
 	//站内信模板
 	'msg_template'=>array(
-		//项目申请：通过审核
-		// 'item_apply_success'=>'尊敬的用户，您的融资申请已经通过审核，融资金额：%01.2f元，签约年化利率：%01.2f%%，借款期限：%s%s。',
-		// 'verify_apply_failure'=>'您的%s认证已经被驳回，失败原因：%s。',
-		'offers'=>"您的%s：%s（牌号：%s，价格：%s）被 %s 用户采购，<a href='/user/myoffers/lists?id=%s'>查看详情</a>"
-
+		//注册成功
+		'register'=>"您已注册成功，欢迎来到我的塑料网！",
+		//有报价信息
+		'offers'=>"您的%s：%s（牌号：%s，价格：%s）被 %s 用户采购，<a href='/user/myoffers/msgToList?id=%s&type=%s'>查看详情</a>",
+		//下自营订单
+		'order'=>"您已选购：牌号：%s 价格：%s ，生成自营订单，交易员审核后，将会生成正式订单，<a href='/user/selforder/detail/id/%s'>查看详情</a>",
+		
 	),
 
 	//短信模板
