@@ -306,4 +306,38 @@ class personalCenterAction extends homeBaseAction
         $result = M('myapp:personalCenter')->mulDelMyAttention($ids);
         $this->json_output($result);
     }
+    //积分明细
+    public function creditDetail(){
+        $this->display('creditdetail');
+    }
+    //返回积分明细
+    public function get_creditdetail(){
+        if($this->user_id>0){
+            $points = M('points:pointsBill')->getUerPoints($this->user_id);
+            $result = M('touch:creditdetail')->getCreditDetail($this->user_id);
+        }
+        $this->json_output(array('points'=>$points,'detail'=>$result));
+    }
+    //签到、兑换路径:/myapp/sign
+    //兑换记录
+    public function creditRecord(){
+        $this->display('creditrecord');
+    }
+    //返回兑换记录
+    public function get_creditRecord(){
+        if($this->user_id>0){
+            $result = M('touch:creditRecord')->getCreditRecord($this->user_id);
+        }
+        $this->json_output($result);
+    }
+    //商品详情页
+    public function shopDetail(){
+        $this->display('shopdetail');
+    }
+    //点击返回商品详情
+    public function get_shopDetail(){
+        $gid = sget('gid','i',0);
+        $result = M('touch:creditshop')->getShopDetail($gid);
+        $this->json_output($result);
+    }
 }
