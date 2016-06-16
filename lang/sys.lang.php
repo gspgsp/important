@@ -376,7 +376,7 @@ return array(
 
 	     }
 	</style>
-	<h1>销售合同书(自提)</h1>
+	<h1>销售合同书</h1>
 	<p><span>供方(甲方):&nbsp;%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>合同编号:&nbsp;%s</span></p>
 	<p><span>需方(乙方):&nbsp;%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>签约地点:&nbsp;%s</span></p>
 	<p><span>签约时间:&nbsp;%s</span></p>
@@ -389,7 +389,7 @@ return array(
 	<p><span>二、质量标准要求:</span>&nbsp;&nbsp;<span>以生产厂家该牌号质量标准为准</span><p>
 	<p><span>三、提货地点:</span>&nbsp;&nbsp;<span>%s</span><p>
 	<p><span>四、提货时间:</span>&nbsp;&nbsp;<span>%s</span><p>
-	<p><span>五、运输方式:</span>&nbsp;&nbsp;<span>需方自提，费用自理</span><p>
+	<p><span>五、运输方式:</span>&nbsp;&nbsp;<span>%s</span><p>
 	<p><span>六、包装标准:</span>&nbsp;&nbsp;<span>按生产企业的包装标准为准</span><p>
 	<p><span>七、验收标准方式:</span>&nbsp;&nbsp;<span>按第一、第二条款验收期限:自到货之日期三天内验收，需方若有异议须在到货
 		之日起三天内，以书面形式向供方提出，否则，视为验收合格。合理损耗为总量的千分之三，凡在合理损耗范围内短缺，供方不负责赔偿。</span><p>
