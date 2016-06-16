@@ -1,0 +1,493 @@
+/* 首页 */
+#header{ width: 100%; height: 45px; line-height: 45px; padding: 7px 0 0 0; background: #ff5000; position: relative;}
+.headerMenu{ position: absolute; top: 10px; left: 10px; width: 22px; height: 22px; background: url(../img/appMenu.png) no-repeat; background-size: 100% 100%;}
+.headerService{ position: absolute; top: 10px; right: 13px; width: 20px; height: 28px; background: url(../img/appService.png) no-repeat; background-size: 100% 100%;}
+.appSearch{ margin: 0 65px; border: 1px solid #FFFFFF; padding: 0 0 0 10px; position: relative; border-radius: 2px; height: 30px;}
+.appSearch input[type=text]{ width: 100%; float: left; height: 28px; line-height: 28px; margin: 0; padding: 0; border: none; background: none; color: #FFFFFF; font-size: 14px;}
+.appSearch input::-webkit-input-placeholder{ color: #FFFFFF;}
+.appQuery{ position: absolute; right: 2px; top: 2px; width: 22px; height: 22px; background: url(../img/appQuery.png) no-repeat; background-size: 100% 100%;}
+
+.appInfo{ width: 100%; background: #FFFFFF; overflow: hidden; border-top: 1px solid #d9d9d9; border-bottom: 1px solid #d9d9d9;}
+.appInfo span{ width: 50%; height: 40px; border-bottom: 1px solid #D9D9D9; line-height: 40px; color: #323232; font-size: 15px; text-align: center; box-sizing: border-box; float: left;}
+.appInfo span:first-of-type{ border-right: 1px solid #D9D9D9;}
+.appInfo span.appInfoOn{ color: #ff5000;}
+
+#appInfo{ font-size: 15px;}
+#appInfo ul{ margin: 0; padding: 0; list-style: none;}
+#appInfo ul li{ width: 100%; height: 40px; line-height: 40px; border-bottom: 1px solid #efefef; box-sizing: border-box; padding: 0 12px;}
+#appInfo a{ color: #323232;}
+#appInfo b{ float: right; font-size: 11px; color: #969696; font-weight: normal;}
+#appInfo2 { font-size: 15px;}
+#appInfo2 ul{ margin: 0; padding: 0; list-style: none;}
+#appInfo2 ul li{ width: 100%; height: 40px; line-height: 40px; border-bottom: 1px solid #efefef; box-sizing: border-box; padding: 0 6px 0 12px;}
+#appInfo2 a{ color: #323232;}
+#appInfo2 b{ float: right; font-size: 12px; color: #646464; font-weight: normal;}
+#appInfo2 i{ width: 45px; text-align: center; float: right; font-size: 10px; font-style: normal;}
+#appInfo2 i.red{ color: #e64748;}
+#appInfo2 i.blue{ color: #267bd3;}
+#appInfo2 i.green{ color: #00b400;}
+.appMore{ width: 100%; display: block; height: 40px; line-height: 40px; text-align: right; color: #646464; padding: 0 12px;}
+
+.appConcern{ font-size: 15px; overflow: hidden; background: #FFFFFF; margin: 10px 0 0 0; border-top: 1px solid #d9d9d9; border-bottom: 1px solid #D9D9D9;}
+.appConcern ul{ margin: 0; padding: 0; list-style: none;}
+.appConcern ul li{ color: #323232; padding: 0 12px; height: 40px; line-height: 40px; border-bottom: 1px solid #e7e7e7;}
+
+.appConcern i{ color: #ff5000; font-style: normal; float: right; margin: 0 0 0 8px;}
+.appConcern b{ font-weight: normal; font-size: 11px; float: right; margin: 0 0 0 8px;}
+.appConcern b.green{ color: #00b400;}
+.appConcern b.red{ color: #e64748;}
+.appConcern strong{ color: #969696; font-weight: normal; font-size: 11px; float: right; margin: 0 0 0 8px;}
+.appConcern span{ width: 50%; height: 40px; line-height: 40px; float: left; text-align: center;}
+.appConcern span:first-of-type{ border-right: 1px solid #d9d9d9;}
+.appConcern span a{ color: #ff5000;}
+
+.appOperate{ width: 100%; overflow: hidden;}
+.appOperate ul{ list-style: none; margin: 0; padding: 0;}
+.appOperate ul li{ width: 25%; height: 90px; margin: 30px 0 0 0; float: left; text-align: center;}
+.appOperateWrap{ width: 60px; height: 60px; display: inline-block; font-size: 12px; line-height: 15px; padding: 10px 0 0 0; background: #FFFFFF; border-radius: 3px; border: 1px solid #D9D9D9;}
+
+#footer{ width: 100%; height: 50px; position: fixed; left: 0; font-size: 12px; bottom: 0; background: #f9f9f9; border-top: 1px solid #e1e1e1; border-bottom: 1px solid #e1e1e1;}
+#footer ul{ list-style: none; margin: 0; padding: 0;}
+#footer ul li{ width: 20%; height: 50px; line-height: 15px; padding: 5px 0 0 0; float: left; text-align: center;}
+#footer i{ width: 22px; height: 22px; display: inline-block;}
+#footer a{ color: #323232;}
+#footer a.footerOn{ color: #ff5000;}
+
+#footer i.foot{ background:url(../img/foot.png) no-repeat; background-size: 100% 100%;}
+#footer i.foot2{ background:url(../img/foot2.png) no-repeat; background-size: 100% 100%;}
+#footer i.foot3{ background:url(../img/foot3.png) no-repeat; background-size: 100% 100%;}
+#footer i.foot4{ background:url(../img/foot4.png) no-repeat; background-size: 100% 100%;}
+#footer i.foot5{ background:url(../img/foot5.png) no-repeat; background-size: 100% 100%;}
+
+#footer a.footerOn i.foot{ background:url(../img/foot_on.png) no-repeat; background-size: 100% 100%;}
+#footer a.footerOn i.foot2{ background:url(../img/foot2_on.png) no-repeat; background-size: 100% 100%;}
+#footer a.footerOn i.foot3{ background:url(../img/foot3_on.png) no-repeat; background-size: 100% 100%;}
+#footer a.footerOn i.foot4{ background:url(../img/foot4_on.png) no-repeat; background-size: 100% 100%;}
+#footer a.footerOn i.foot5{ background:url(../img/foot5_on.png) no-repeat; background-size: 100% 100%;}
+
+/* 搜索 */
+#searchHeader{ width: 100%; height: 45px; line-height: 45px; padding: 7px 0 0 0; background: #f9f9f9; position: relative;}
+.back{ position: absolute; top: 12px; left: 10px; width: 22px; height: 22px; background: url(../img/back.png) no-repeat; background-size: 100% 100%;}
+.searchSearch{ margin: 0 50px; padding: 0 0 0 10px; position: relative; background: #cbcbcb; border-radius: 3px; height: 30px;}
+.searchSearch input[type=text]{ width: 100%; float: left; height: 30px; line-height: 30px; margin: 0; padding: 0; border: none; background: none; color: #FFFFFF; font-size: 14px;}
+.searchSearch input::-webkit-input-placeholder{ color: #969696;}
+.appQuery2{ position: absolute; right: 2px; top: 4px; width: 22px; height: 22px; background: url(../img/appQuery2.png) no-repeat; background-size: 100% 100%;}
+#searchOrigin{ padding: 20px 30px;}
+#searchOrigin h3{ font-size: 15px; color: #323232; margin: 0; font-weight: normal; margin: 0 0 10px 0;}
+#searchOrigin p{ overflow: hidden; padding: 0 10px;}
+#searchOrigin span{ background: #FFFFFF; border-radius: 5px; margin: 0 10px 5px 0; float: left; border: 1px solid #d6d7dc; padding: 3px 10px;}
+.supplyDemandStatus2{ width: 100%; overflow: hidden; border-top: 1px solid #d9d9d9; background: #FFFFFF; font-size: 15px; color: #969696; border-bottom: 1px solid #d9d9d9;}
+.supplyDemandStatus2 span{ width: 33.33333333%;  border-right: 1px solid #D9D9D9; height: 40px; line-height: 40px; float: left; text-align: center;}
+.supplyDemandStatus2 span:last-of-type{ border-right: none;}
+.supplyDemandStatus2 span.on{ color: #ff5000;}
+.supplyDemandStatus2 select{ margin: 0; padding: 8px 15px;}
+
+
+
+/* 物性表 */
+#wxbWrap{ padding: 20px 0;}
+#searchHeader .right { position: absolute; top: 0; right: 12px; color: #FF5000;}
+#wxbWrap h3{ font-size: 15px; position: relative; color: #323232; padding: 0 50px; font-weight: normal; margin: 0 0 10px 0;}
+#wxbWrap h3 img{ position: absolute; width: 15px; top: -3px;}
+#wxbWrap p{ overflow: hidden; padding: 10px 50px 5px 50px; background: #FFFFFF; border: 1px solid #D9D9D9; border-left: none; border-right: none;}
+#wxbWrap span{ background: #f5f5f5; border-radius: 5px; color: #646464; margin: 0 10px 5px 0; float: left; border: 1px solid #d6d7dc; padding: 3px 10px;}
+.wxbUl{ margin: 0; padding: 0; list-style: none;}
+.wxbUl li{ width: 100%; padding: 0 10px; height: 90px; background: #FFFFFF; margin: 10px 0 0 0; border: 1px solid #D9D9D9; border-left: none; border-right: none;}
+.wxbUl li p{ font-size: 12px; line-height: 20px; color: #646464; margin: 0;}
+.wxbUl li p.wxbTitle{ font-size: 15px; margin: 5px 0 0 0; color: #323232;}
+.wxbUl li p.wxbTitle span{ float: right; font-size: 12px; color: #646464;}
+.wxbUl li p.wxbTitle2{ overflow: hidden; margin: 5px 0 0 0;}
+.wxbUl li p.wxbTitle2 span{ float: left; font-size: 12px; margin: 0 10px 0 0; padding: 0 10px; color: #FF5000; border: 1px solid #FF5000; border-radius: 2px;}
+.wxbDetailTitle{ background: #FFFFFF; height: 40px; line-height: 40px; font-weight: normal; padding: 0 10px; margin: 0; font-size: 15px; border: 1px solid #D9D9D9; border-left: none; border-right: none;}
+.wxbDetailWrap{ background: #FFFFFF; border-top: 1px solid #D9D9D9; margin: 10px 0 0 0;}
+.wxbHead{ width: 100%; height: 40px; font-size: 15px; color: #FF5000; font-weight: normal; margin: 0; padding: 0 10px; line-height: 40px;}
+.wxbHead2{ width: 100%; height: 30px; font-size: 12px; color: #323232; font-weight: normal; margin: 0; padding: 0 10px; line-height: 30px;}
+.wxbTb{ width: 100%; text-align: center; font-size: 12px;}
+.wxbTb td{ border: 1px solid #D9D9D9; color: #646464; height: 30px;}
+.wxbLink{ width: 100%; background: #FFFFFF; overflow: hidden; margin: 10px 0 0 0; border: 1px solid #D9D9D9; border-left: none; border-right: none;}
+.wxbLink a{ width: 50%; float: left; height: 35px; font-size: 15px; color: #FF5000; line-height: 35px; text-align: center;}
+.wxbLink a:first-of-type{ border-right: 1px solid #D9D9D9;}
+
+
+/* 分类 */
+#classifyHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; border-bottom: 1px solid #b2b2b2; position: relative;}
+.classifyWrap{}
+.classifyWrap h3{ font-size: 15px; width: 100%; font-weight: normal; height: 35px; margin: 0; line-height: 35px; color: #ff5000; padding: 0 10px;}
+.classifyWrap p{ border-top: 1px solid #D9D9D9; overflow: hidden; padding: 10px 20px 0 20px; border-bottom: 1px solid #D9D9D9; background: #FFFFFF;}
+.classifyWrap span{ background: #f5f5f5; font-size: 12px; color: #646464; border-radius: 5px; margin: 0 10px 10px 0; float: left; border: 1px solid #d6d7dc; padding: 3px 10px;}
+.classifyWrap span.on{ color: #FFFFFF; background: #ff5000; border: 1px solid #ff5000;}
+.classifyEnter{ width: 60px; height: 27px; font-size: 12px; color: #FFFFFF; border-radius: 5px; line-height: 27px; display: inline-block; background: #ff5000; text-align: center;}
+
+.classifyUl{}
+.classifyUl ul{ list-style: none; margin: 0; padding: 0;}
+.classifyUl ul li{ width: 100%; height: 90px; position: relative; padding: 17px 10px 0 10px; font-size: 15px; color: #323232; margin: 10px 0 0 0; background: #FFFFFF; border-top: 1px solid #D9D9D9; border-bottom: 1px solid #D9D9D9;}
+.classifyUl ul li p{ color: #323232; margin-bottom: 5px;}
+.classifyUl ul li img{ position: relative; top: 6px;}
+.classifyUl ul li img.classifyBack{ width: 22px; position: absolute; right: 10px; top: 35px;}
+
+
+/* 发布报价 */
+.releaseSale{ width: 100%; height: 100px; margin-bottom: 10px; padding: 0 15px; background: #FFFFFF; border-top: 1px solid #d9d9d9; border-bottom: 1px solid #d9d9d9;}
+.releaseSale h3{ font-size: 15px; color: #323232; font-weight: normal; margin: 8px 0 10px 0;}
+.releaseSale img{ float: left; margin: 0 5px 0 0;}
+.releaseSale p{ width: 50%; margin: 0 0 10px 0; padding: 0 0 0 10px; float: left; font-size: 12px; color: #323232;}
+.releaseSale span{ float: left;}
+.releaseSale select{ }
+.releaseSale input[type=text]{ width: 100px; border-radius: 0; height: 22px; line-height: 22px; margin: 0; padding: 0 5px; font-size: 12px; color: #BBBBBB;}
+.releaseSaleBtn{ text-align: center; padding-top: 30px;}
+.releaseSaleBtn input[type=button]{ width: 125px; height: 40px; background: #267bd3; border: none; border-radius: 2px; color: #FFFFFF; border-bottom: 2px solid #1c5a9c;}
+
+
+/* 委托采购 */
+.purchaseWrap{ margin: 10px; background: #FFFFFF; width: auto; height: auto; padding: 20px;}
+.purchaseWrap h3{ color: #ff5000; font-size: 15px; margin: 0 0 20px 0; text-align: center; font-weight: normal;}
+.purchaseWrap img{ width: 100%;}
+.purchaseInput{ width: auto; height: 35px; border: 1px solid #cbcbcb; margin: 15px 0 0 0;}
+.purchaseInput span{ float: left; width: 20%; font-size: 15px; line-height: 33px;background: #cbcbcb; text-align: center; color: #323232;}
+.purchaseInput input[type=text]{ float: left; height: 33px; padding: 0 0 0 10px; line-height: 33px; margin: 0; font-size: 12px; width: 80%; border: none;}
+.purchaseWrap h4{ font-size: 12px; color: #646464; margin: 20px 0 0 0; text-align: center; font-weight: normal;}
+.purchaseBtn{ margin: 20px 0 0 0; text-align: center;}
+.purchaseBtn input[type=button]{ width: 150px; height: 40px; font-size: 15px; border: none; background: #fc6621; border-radius: 2px; color: #FFFFFF;}
+
+
+/* 供求 */
+#supplyDemandHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative; padding: 6px 0 0 0;}
+.appMenu{ position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; background: url(../img/appMenu2.png) no-repeat; background-size: 100% 100%;}
+.supplyDemandChange{ width: auto; height: 32px; margin: 0 50px; border: 1px solid #ff5000; border-radius: 2px;}
+.supplyDemandChange span{ width: 50%; float: left; background: #ff5000; color: #FFFFFF; font-size: 15px; box-sizing: border-box; height: 30px; line-height: 30px; text-align: center;}
+.supplyDemandChange span:first-of-type{ border-right: 1px solid #ff5000;}
+.supplyDemandChange span.on{ background: #FFFFFF; color: #ff5000;}
+.supplyDemandStatus{ width: 100%; overflow: hidden; border-top: 1px solid #d9d9d9; background: #FFFFFF; font-size: 15px; color: #969696; border-bottom: 1px solid #d9d9d9;}
+.supplyDemandStatus span{ width: 50%; height: 40px; line-height: 40px; float: left; text-align: center;}
+.supplyDemandStatus span:first-of-type{ border-right: 1px solid #D9D9D9;}
+.supplyDemandStatus span.on{ color: #ff5000;}
+.supplyDemandUl{}
+.supplyDemandBtn{ width: 75px; height: 75px; text-align: center; line-height: 75px; font-size: 15px; border: none; box-shadow: 1px 3px 1px #226ebe; position: fixed; right: 10px; bottom: 75px; color: #FFFFFF; background: #267bd3; border-radius: 50%;}
+.supplyDemandUl ul{ list-style: none; margin: 0; padding: 0; background: #FFFFFF;}
+.supplyDemandUl li{ width: 100%; overflow: hidden; height: auto; border-bottom: 1px solid #E7E7E7;}
+.supplyDemandName{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
+.supplyDemandSales{ float: right; font-size: 12px; width: 85px; margin: 6px 10px 0 0; text-align: center; color: #646464;}
+.supplyDemandSales span{ color: #FF5000;}
+.supplyDemandStore{ float: right; margin: 6px 10px 0 0;}
+.icon{ width: 22px; height: 22px; float: left;}
+.icon.iconDown{ background: url(../img/supplyDemandDown.png) no-repeat; background-size: 100% 100%;}
+.icon.iconUp{ background: url(../img/supplyDemandUp.png) no-repeat; background-size: 100% 100%;}
+.icon.iconStore{ background: url(../img/supplyDemandStore.png) no-repeat; background-size: 100% 100%;}
+.icon.iconStore.iconStoreOn{ background: url(../img/supplyDemandStoreOn.png) no-repeat; background-size: 100% 100%;}
+
+.supplyDemandTb{ width: 100%; font-size: 12px; color: #323232;}
+.supplyDemandTb th{ font-weight: normal; height: 35px; text-align: center; border: 1px solid #e7e7e7;}
+.supplyDemandTb td{ text-align: center; height: 45px; line-height: 20px; border: 1px solid #e7e7e7; border-bottom: none;}
+.supplyDemandTb tr td:first-of-type{ color: #646464;}
+.supplyDemandTb a{ text-decoration: underline;}
+.supplyDemandTb a.blue{ color: #267bd3;}
+.supplyDemandTb a.red{ color: #e64748;}
+
+.supplyDemandTradeTb{ width: 100%; font-size: 12px; color: #646464; background: #FFFFFF; margin: 0 0 10px 0;}
+.supplyDemandTradeTb td{ text-align: center; border: 1px solid #D9D9D9; height: 40px;}
+ .supplyDemandTradeTb tr td:first-of-type{ color: #323232;}
+
+/* 大客户专区 */
+#bigCustomerHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
+.bigCustomerName{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
+.bigCustomerName a{ color: #323232;}
+.bigCustomerMenu{ width: 100%; height: 300px; overflow-y: scroll; background: #efeff4; border-bottom: 1px solid #d9d9d9; position: absolute; top: 87px; left: 0;}
+.bigCustomerMenuTitle{ width: 100%; height: 35px; line-height: 35px; color: #ff5000; font-weight: normal; font-size: 15px; margin: 0; padding: 0 12px;}
+.bigCustomerMenuTitle span{ float: right; font-size: 12px;}
+.bigCustomerMenu p{ border-top: 1px solid #D9D9D9; height: 90px; overflow: hidden; margin: 0; padding: 10px 20px 0 20px; border-bottom: 1px solid #D9D9D9; background: #FFFFFF;}
+.bigCustomerMenu p span{background: #f5f5f5; font-size: 12px; color: #646464; border-radius: 5px; margin: 0 10px 10px 0; float: left; border: 1px solid #d6d7dc; padding: 3px 10px;}
+.bigCustomerMenu p span.on { color: #FFFFFF; background: #ff5000; border: 1px solid #ff5000;}
+.bigCustomerDetail{ padding: 0 10px; background: #FFFFFF; margin-bottom: 10px; border: 1px solid #D9D9D9; border-left: none; border-right: none;}
+.bigCustomerDetail h3{ width: 100%; height: 40px; line-height: 40px; border-bottom: 1px solid #E7E7E7; margin: 0; font-weight: normal; color: #323232; font-size: 15px;}
+.bigCustomerDetail h3 img{ width: 22px; float: left; margin: 8px 7px 0 7px;}
+.bigCustomer3{ width: 15px; position: relative; top: 3px; left: 5px;}
+.bigCustomerDetailUl{ list-style: none; margin: 0; padding: 0;}
+.bigCustomerDetailUl li{ width: 100%; height: 27px; line-height: 27px; padding: 0 10px; font-size: 12px; color: #646464;}
+.bigCustomerDetailUl span{ float: left; width: 60px; margin: 0 10px 0 0; text-align: right;}
+.bigCustomerDetailBtn{ text-align: center; padding: 20px 0;}
+.bigCustomerDetailBtn input[type=button]{ width: 100px; height: 40px; font-size: 15px; border: none; border-bottom: 2px solid #1d5ea3; background: #267bd3; border-radius: 2px; color: #FFFFFF;}
+.bigCustomerDetailTxt{ width: 100%; overflow: hidden; background: #FFFFFF; border-bottom: 1px solid #D9D9D9;}
+.bigCustomerDetailTxt span{ width: 33.333333%; height: 35px; float: left; line-height: 35px; text-align: center; color: #646464; font-size: 12px;}
+.bigCustomerDetailTxt img{ position: relative; top: 4px;}
+.icon2{ width: 22px; height: 22px; float: right; margin: 5px 0 0 0;}
+.icon2.iconDown{ background: url(../img/supplyDemandDown.png) no-repeat; background-size: 100% 100%;}
+.icon2.iconUp{ background: url(../img/supplyDemandUp.png) no-repeat; background-size: 100% 100%;}
+
+
+/* 我 */
+#meHeader{ width: 100%; height: 45px; border-bottom: 1px solid #B2B2B2; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
+#meHeader .left{ position: absolute; left: 12px; color: #FF5000;}
+#meHeader .right{ position: absolute; right: 12px; color: #FF5000;}
+.meWrap{ width: 100%; height: 75px; background: -webkit-linear-gradient(#ff6600, #ff9853); position: relative;}
+.meAvator{ width: 100px; height: 100px; border-radius: 50%; border: 5px solid #efeff4; position: absolute; top: 20px; left: 50%; margin: 0 0 0 -50px;}
+.meAvator img{ width: 90px; height: 90px; border-radius: 50%;}
+.meRegLogin{ width: 140px; height: 32px; display: block; margin: 55px auto 0 auto; line-height: 32px; text-align: center; font-size: 15px; background: #ff6600; border-radius: 5px; color: #FFFFFF;}
+.meUl{ background: #FFFFFF; list-style: none; margin: 20px 0 0 0; padding: 0 10px; border-bottom: 1px solid #E7E7E7; border-top: 1px solid #E7E7E7;}
+.meUl li{ width: 100%; height: 45px; font-size: 15px; color: #323232; line-height: 45px; border-bottom: 1px solid #E7E7E7;}
+.meUl li:last-of-type{ border-bottom: none;}
+.meUl li a{ color: #323232;}
+.meUl li img{ width: 22px; float: left; margin: 12px 15px 0 0;}
+.meUl li span{ float: right; font-size: 12px; color: #646464;}
+.meName{ width: 250px; height: 32px; margin: 55px auto 0 auto; line-height: 32px; text-align: center; font-size: 15px;color: #323232;}
+
+.meUl2{ background: #FFFFFF; list-style: none; margin: 10px 0 0 0; padding: 0 10px; border-bottom: 1px solid #E7E7E7; border-top: 1px solid #E7E7E7;}
+.meUl2 li{ width: 100%; height: 45px; font-size: 15px; color: #323232; line-height: 45px; border-bottom: 1px solid #E7E7E7;}
+.meUl2 li:last-of-type{ border-bottom: none;}
+.meUl2 li a{ color: #323232; display: block;}
+.meUl2 li img{ width: 22px; float: right; margin: 12px 0 0 0;}
+.meUl2 li span{ float: right; font-size: 12px; color: #969696;}
+.me_quit{ display: block; margin: 10px 0 0 0; font-size: 12px; width: 100%; height: 45px; line-height: 45px; border-bottom: 1px solid #D9D9D9; border-top: 1px solid #D9D9D9; color: #FF0000; text-align: center; background: #FFFFFF;}
+.me_enter{ display: block; margin: 20px 35px 0 35px; border-radius: 3px; font-size: 15px; height: 32px; line-height: 32px; color: #FFFFFF; text-align: center; background: #ff5000;}
+.meSetInput{ width: 100%; height: 45px; line-height: 45px; font-size: 15px; color: #323232; border-bottom: 1px solid #D9D9D9; border-top: 1px solid #D9D9D9; line-height: 45px; background: #FFFFFF; padding: 0 10px; margin: 10px 0 0 0;}
+.meSetInput span{ float: left;}
+.meSetInput input[type=text],.meSetInput input[type=tel],.meSetInput input[type=email]{ margin: 0; padding: 0; float: left; width: 220px; border: none; height: 43px; margin: 0 0 0 30px; line-height: 45px; font-size: 12px;}
+.meSetInput select{ margin: 0; padding: 0; float: left; width: 100px; border: none; height: 43px; margin: 0 0 0 30px; line-height: 45px; font-size: 12px;}
+.meTitle{ width: 100%; margin: 65px 0 0 0; text-align: center; font-size: 30px; color: #FF0000; font-weight: normal;}
+.registerWrap{ border: 1px solid #bebebe; margin: 45px 20px 20px 20px; border-radius: 5px;}
+.registerBox{ width: 100%; height: 55px; position: relative; line-height: 55px; border-bottom: 1px solid #bfbfbf;}
+.registerBox:last-of-type{ border-bottom: none;}
+.registerBox img{ width: 40px; height: 40px; float: left; margin: 7px 0 0 10px;}
+.registerBox input[type=tel],.registerBox input[type=password],.registerBox input[type=text]{ font-size: 17px; margin: -2px 0 0 10px; width: auto; padding: 0; color: #bbbbbb; background: none; border: none;}
+.registerInput:focus{ outline: none;}
+.registerBtn{ width: 100%; font-size: 17px; margin: 40px 0 0 0; background: #ff6600; border-radius: 5px; color: #ffffff; text-align: center; height: 43px; line-height: 43px;}
+.validCode{ position: absolute; border: none; top: 13px; right: 5px; padding: 0; font-size: 13px; text-align: center; width: 100px; height: 30px; line-height: 30px; border-radius: 13px; background: #267bd3;color: #ffffff;}
+.validCode:focus{ outline: none;}
+.loginLink a{ font-size: 13px; margin: 10px 0 0 0; color: #267bd3; text-decoration: none;}
+#vcodeImg{ width: 74px; height: 30px; position: absolute; right: 0; top: 5px;}
+
+
+/* 资讯 */
+#infoHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
+#nav{ width: 100%; height: 40px; background: #FFFFFF; line-height: 40px; color: #333333; font-size: 13px; display: -webkit-box;}
+#nav span{ -webkit-box-flex: 1.0; box-sizing: border-box; box-flex:1.0; text-align: center; display: block; height: 40px; line-height: 40px; border: 1px solid #d6d7dc; border-right: none;}
+#nav span:last-of-type{ border-right: 1px solid #d6d7dc;}
+#nav span.on{ color: #ffffff; background:#ff6600;}
+
+#articleWrap{ padding: 10px 12px;}
+#articleWrap ul{ margin: 0; padding: 0; list-style: none;}
+#articleWrap ul li{ border: 1px solid #d6d7dc; margin-bottom: 10px; background: #ffffff; box-sizing: border-box;}
+#articleWrap .articleLi{ padding: 10px;}
+#articleWrap .articleLi p{ width: 100%; height: 15px; line-height: 15px; overflow: hidden;}
+#articleWrap h3{ font-size: 17px; color: #323232; margin: 0; width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+#articleWrap p{ font-size: 13px; color: #646464; margin: 0;}
+#articleWrap img{ width: 100%; margin: 10px 0;}
+#articleWrap .time{ text-align: right; border-top: 1px solid #e1e1e1; color: #909090; padding: 0 10px; font-size: 11px; height: 40px; line-height: 40px;}
+
+#infoOil{ list-style: none; margin: 0; padding: 0;}
+#infoOil li{ width: 100%; font-size: 15px; border-bottom: 1px solid #E7E7E7; height: 40px; line-height: 40px; color: #646464; padding: 0 10px; background: #FFFFFF;}
+#infoOil b{ float: right; font-size: 12px; color: #646464; font-weight: normal;}
+#infoOil i{ width: 45px; text-align: center; float: right; font-size: 10px; font-style: normal;}
+#infoOil i.red{ color: #e64748;}
+#infoOil i.blue{ color: #267bd3;}
+#infoOil i.green{ color: #00b400;}
+
+.infoDetailBg{ background: #FFFFFF;}
+.infoDetailTitle{ font-size: 12px; color: #969696; font-weight: normal; margin: 0 0 10px 0;}
+.infoDetailTitle2{ font-size: 15px; color: #323232; font-weight: normal; margin: 0 0 10px 0;}
+.infoDetailTitle3{ font-size: 12px; color: #969696; font-weight: normal; margin: 0 0 10px 0;}
+.infoDetailWrap{ padding: 10px;}
+#infoDetailContent{ font-size: 12px; color: #646464;}
+
+/* 意见反馈 */
+.meOpinion{ padding: 10px 35px;}
+.meOpinion h3{ font-size: 15px; margin-bottom: 10px; color: #323232; font-weight: normal;}
+.meOpinionChange{ width: 100%;}
+.meOpinionChange span{ display: inline-block; width: auto; padding: 0 10px; border-radius: 3px; height: 30px; font-size: 12px; background: #FFFFFF; text-align: center; line-height: 30px; color: #646464;}
+.meOpinionChange span.on{ color: #FFFFFF; background: #FF5000;}
+.meOpinion textarea{ font-size: 12px; height: 140px; color: #BBBBBB; padding: 10px; border: none; margin: 10px 0 0 0;}
+.me_opinionEnter{ display: block; margin: 20px 0 0 0; border-radius: 3px; font-size: 15px; height: 32px; line-height: 32px; color: #FFFFFF; text-align: center; background: #ff5000;}
+.meOpinionInput input[type=tel]{ padding: 0 0 0 5px; float: left; width: 100%; border: none; height: 33px; margin: 0; line-height: 35px; font-size: 12px;}
+.meOpinionInput{ width: 100%; height: 35px; line-height: 35px; font-size: 15px; color: #323232; line-height: 45px; margin: 10px 0 0 0;}
+.meOpinionInput span{ float: left; width: 25%; padding: 0 3px 0 0; font-size: 13px; box-sizing: border-box; text-align: right; line-height: 35px;}
+.meOpinionPhone{ width: 100%; display: block; margin: 20px 0 0 0; color: #FF5000; font-size: 12px; text-align: center; height: 43px; line-height: 40px; border: 1px solid #FF5000; border-radius: 3px;}
+.meOpinionPic{ position: relative; width: 25px; top: 7px; right: 7px;}
+
+
+/* 中晨物流 */
+.meLogistics{ background: #FFFFFF; padding: 5px 0; border-bottom: 1px solid #D9D9D9;}
+.meLogistics p{ width: 100%; height: 25px; line-height: 25px; color: #323232; font-size: 12px; padding: 0 10px; margin: 0;}
+.meLogistics span{ color: #646464; margin: 0 0 0 15px;}
+.meLogistics span.on{ color: #e64748;}
+.meLogisticsBtn{ width: 100%; height: 45px; font-size: 12px; border: 1px solid #d9d9d9; border-left: none; border-right: none; margin: 10px 0 0 0; line-height: 45px; background: #FFFFFF; color: #FF5000; text-align: center;}
+.meLogisticsInfo{ width: 100%; background: #FFFFFF; border: 1px solid #d9d9d9; border-left: none; border-right: none;}
+.meLogisticsUl{ margin: 0; padding: 0; list-style: none; position: relative; overflow: hidden;}
+.meLogisticsUl .line{ width: 2px;height: 100%; background: #969696; position: absolute; left: 35px;}
+.meLogisticsUl li{ width: auto; height: 40px; line-height: 15px; position: relative; border-bottom: 1px solid #E7E7E7; padding: 5px 0 0 0; margin: 0 0 0 70px; font-size: 12px; color: #646464;}
+.meLogisticsUl li:last-of-type{ border-bottom: none;}
+.meLogisticsUl li.on{ color: #00b400;}
+.meLogisticsUl li.on i{ background: #00b400;}
+.meLogisticsUl i{ width: 10px; height: 10px; border-radius: 50%; top: 15px; left: -39px; background: #969696; position: absolute;}
+
+/* 我的积分 */
+.meCreditBanner{ width: 100%;}
+.meCreditBanner img{ width: 100%; display: block;}
+.shopHeader{ width: 100%; height: 65px; margin: 0 0 10px 0; position: relative; background: #ffffff; border-bottom: 1px solid #d6d7dc;}
+.myCredit{ float: left; margin: 8px 0 0 10px; font-weight: normal;}
+.myCredit span{ color: #ff6600; font-size: 24px;}
+.myCredit a{ font-size: 13px; color: #267bd3;}
+.creditBtn{ position: absolute; right: 12px; top: 15px; color: #ffffff; font-size: 15px; text-align: center; line-height: 32px; width: 90px; height: 32px; background: #ffb502; border-radius: 5px; border-bottom: 2px solid #ff9102;}
+.shopClassify{ width: 100%; height: 90px; padding-top: 10px; box-sizing: border-box; background: #ffffff; border: 1px solid #d6d7dc; border-left: none; border-right: none;}
+.shopClassify span{ width: 33.33333%; font-size: 17px; color: #323232; text-align: center; float: left;}
+.shopClassify img{ width: 50px; height: 50px;}
+.shopRecommand{ width: auto; height: 40px; line-height: 40px;  padding: 0 20px; font-size: 17px; color: #267bd2;}
+.shopUl{ margin: 0 0 30px 0; border-top: 1px solid #d6d7dc; overflow: hidden; padding: 0; list-style: none;}
+.shopUl li{ width: 50%; background: #ffffff; padding: 10px; float: left; box-sizing: border-box; border-bottom: 1px solid #d6d7dc;}
+.shopUl li:nth-of-type(odd){ border-right: 1px solid #d6d7dc;}
+.shopUl li:nth-of-type(even){ border-right: 1px solid #ffffff;}
+.shopUl li img{ width: 100%; max-width: 165px;}
+.shopUl li h3{ width: 100%; height: 28px; margin: 5px 0 0 0; color: #323232; font-size: 12px; font-weight: normal; overflow: hidden;}
+.shopUl li p{ margin: 10px 0 0 0; font-size: 11px;}
+.shopUl li span{ font-size:17px; color: #ff6600;}
+.noRecord{ text-align: center; font-size: 22px; color: #969696; line-height: 160px;}
+
+.creditDeatil{ width: 100%; padding: 0 12px; box-sizing: border-box; height: 115px; background: -webkit-linear-gradient(#ff6600, #ff9853);}
+.creditDeatilHead{ width: 100%; height: 75px; margin: 0; border-bottom: 1px solid #ffffff; line-height: 75px; font-size: 17px; color: #ffffff;}
+.creditDeatilHead span{ font-size: 30px;}
+.creditDeatilNav span{ width: 50%; height: 40px; box-sizing: border-box; line-height: 40px; float: left; color: #ffffff; font-size: 17px; text-align: center;}
+.creditDeatilNav span:first-of-type{ border-right: 1px solid #ffffff;}
+.creditDeatilNav span a{ color: #ffffff; text-decoration: none;}
+.creditDeatilTitle{ width: 100%; box-sizing: border-box; padding: 0 22px; height: 40px; line-height: 40px; color: #45ae73;}
+.creditSign,.creditSign2{ background: #ffffff; border: 1px solid #d6d7dc; border-left: none; border-right: none; box-sizing: border-box; padding: 0 12px;}
+.creditSign2{ margin: 10px 0 0 0;}
+.creditSign p,.creditSign2 p{ font-size: 17px; padding-bottom: 3px; position: relative; border-top: 1px solid #e1e1e1; line-height: 22px; color: #323232; margin: 0;}
+.creditSign p:first-of-type,.creditSign2 p:first-of-type{ border-top: none;}
+.creditSignTime{ font-size: 13px; color: #646464;}
+.creditIntegral{ position: absolute; color: #45ae73; top: 13px; right: 0;}
+.creditIntegral2{ position: absolute; color: #ff0000; top: 13px; right: 0;}
+
+.creditRecord{ background: #ffffff; margin: 0 0 10px 0; border: 1px solid #d6d7dc; border-left: none; border-right: none;}
+.creditRecord h3{ font-size: 13px; padding: 5px 13px; color: #646464; position:relative; margin: 0; font-weight: normal;}
+.creditRecord h4{ width: 100%; box-sizing: border-box; height: 40px; position:relative; line-height: 40px; padding: 0 13px; font-size: 13px; color: #646464; margin: 0; font-weight: normal;}
+.creditRecord h3 span{ position: absolute; right: 13px; top: 13px;}
+.creditRecord i{ font-size: 17px; color: #ff6600; font-style: normal;}
+.creditInfo{ overflow: hidden; padding: 10px 12px; border: 1px solid #e1e1e1; border-left: none; border-right: none;}
+.creditImg{ width: 95px; height: 95px; float: left;}
+.creditInfo img{ width: 95px; height: 95px; float: left;}
+.creditInfo p{ float: left; margin: 0;}
+.creditTable{width: auto; height: 95px; display: table; margin: 0 0 0 105px;}
+.creditTr{ display: table-cell; color: #323232; vertical-align: middle; height: 95px;}
+
+.proDetail{ width: 100%;}
+.proDetail img{ width: 100%; display: block;}
+.proTitle{ margin: 0; width: 100%; height: auto; border: 1px solid #d9d9d9; border-left: none; border-right: none; background: #ffffff; font-weight: normal; font-size: 15px; box-sizing: border-box; padding: 10px 20px; color: #323232;}
+.proChoose{ background: #ffffff; overflow: hidden; text-align: center; border-bottom: 1px solid #d9d9d9;}
+.proChoose span{ width: 50%; height: 45px; box-sizing: border-box; line-height: 45px; float: left; font-size: 15px;}
+.proChoose span:first-of-type{ border-right: 1px solid #d9d9d9;}
+.proChoose span.on{ color:#ff5000;}
+.proTxt{ font-size: 12px; color: #646464; padding: 15px;}
+.proTxt p{ margin: 0;}
+.proPic{ width: 100%;}
+.proPic img{ width: 100%;}
+#proPoints{ font-size: 20px; color: #ff5000;}
+.proExchange{ width: 100%; height: 50px; line-height: 50px; font-size: 15px; text-align: center; color: #ffffff; background: #fd6720; position: fixed; bottom: 0; left: 0;}
+
+.proLayer{ width: 200px; height: 135px; display: none; z-index: 10; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -68px 0 0 -100px;}
+.proLayer h3{ font-size: 15px; height: 28px; margin: 0; border-bottom: 1px solid #d9d9d9; line-height: 28px; text-align: center; color: #323232; font-weight: normal;}
+.proLayer p{ padding: 10px 15px; font-size: 13px; color: #646464; margin: 0;}
+.proLayer button{ width: 56px; height: 22px; border: none; font-size: 12px; border-radius: 2px; color: #ffffff;}
+.proLayer button.confirm{ background: #ff5000;}
+.layer{ width: 100%; height: 100%; -display: none; position: fixed; top: 0; left: 0; background-color:rgba(0,0,0,.5);}
+
+.proInput{ width: 210px; height: 160px; display: none; box-sizing: border-box; padding: 10px; z-index: 10; font-size: 11px; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -80px 0 0 -105px;}
+.proInput p{ margin: 0 0 7px 0;}
+.proInput span{ float: left; width: 55px; line-height: 20px; font-size: 12px;}
+.proInput input[type=text],.proInput input[type=number]{ width: 130px; height: 20px; border-radius: 0; margin: 0; box-sizing: border-box; padding: 0 5px; line-height: 20px; border: 1px solid #d9d9d9;}
+.proText2{ width: 65px;}
+.proText:focus{ outline: none;}
+.proInput input[type=button]{ width: 56px; height: 22px; padding: 0; border: none; background: #999999; font-size: 12px; border-radius: 2px; color: #ffffff;}
+.proInput input[type=button]:focus{ outline: none;}
+
+
+/* 我的采购 报价 供货 */
+.myPurchase{ width: 100%; height: 50px; box-sizing: border-box; padding: 10px 0 0 0; background: #ff6600; position: relative;}
+.purchaseInput2{ border: 1px solid #ffffff; border-radius: 3px; width: auto; margin: 0 90px 0 22px; height: 28px;}
+#query{ width: 15px; height: 15px; position: relative; float: right;  margin: 5px 5px 0 0;}
+.purchaseInput2 input[type=text]{ width: 180px; margin: 0; height: 28px; padding: 0 0 0 4px; background: none; border: none; font-size: 13px; color: #ffffff;}
+.purchaseInput2 input[type=text]::-webkit-input-placeholder{ color: #FFFFFF;}
+.purchaseList{ padding: 0; margin: 0; list-style: none;}
+.purchaseList li{ width: 100%; overflow: hidden; box-sizing: border-box; padding: 10px 0 0 0; margin: 10px 0 0 0; border: 1px solid #d6d7dc; background: #ffffff;}
+.purchaseList li:last-of-type{ margin-bottom: 50px;}
+.purchaseWrap2{ padding: 0 15px; position: relative;}
+.purchaseWrap3{ padding: 0 15px 0 50px; position: relative;}
+.purchaseList li h3{ margin: 0; font-weight: normal; font-size: 12px; color: #646464;}
+.purchaseList li p{ color: #323232; font-size: 13px; margin: 10px 0;}
+.purchaseList li p:last-of-type{ color: #909090;}
+.purchaseList li.noData{ height: 90px; text-align: center; line-height: 70px;}
+.purchaseList span{ float: right;}
+.orange{ color: #ff6600; font-size: 13px;}
+.chooseType{ position: absolute; color: #ffffff; padding: 0 5px 0 0; font-size: 12px; line-height: 22px; text-align: center; width: 65px; height: 22px; top: 13px; right: 14px; background:url(../img/arrow.png) no-repeat; background-position: 55px; background-size: 7px 12px; border: 1px solid #ffffff; border-radius: 2px;}
+.chooseType2{ position: absolute; background: none; z-index: 10; opacity: 0; font-size: 12px; line-height: 22px; text-align: center; width: 67px; height: 22px; top: 13px; right: 14px;}
+.chooseType2:focus{ outline: none;}
+#offerFooter{ width: 100%; height: 40px; line-height: 40px; padding-left: 45px; font-size: 13px; color: #ff6600; position: fixed; bottom: 0; left:0; background: #f1f1f1; border-top: 1px solid #d6d7dc;}
+.purchaseWrap3 input[type=text]{ border: 1px solid #d6d7dc; height: 19px; line-height: 19px; font-size: 12px; border-radius: 2px; text-align: center; margin: 0; padding: 0;}
+.offerNumInput{ width: 60px;}
+.offerTxtInput{ width: 100px;}
+.offerTxtInput2{ width: 50px;}
+.offerTxtInput3{ width: 120px;}
+.offerTxtInput2,.offerTxtInput3{ color: #909090;}
+.offerStatus{ width: 100%; border-top: 1px solid #e1e1e1;}
+.offerStatus span{ float: left; box-sizing: border-box; color: #323232; width: 50%; font-size: 13px; line-height: 40px; height: 40px; text-align: center;}
+.offerStatus span:first-of-type{ border-right: 1px solid #e1e1e1;}
+.purchaseStatus{ width: 18px; height: 18px; position: relative; top: 4px; left: -9px; display: inline-block;}
+.purchaseStatus.buy{ background:url(../img/buy.png) no-repeat; background-size: 18px 18px;}
+.purchaseStatus.sold{ background: url(../img/sold.png) no-repeat; background-size: 18px 18px;}
+.purchaseStatus.update{ background: url(../img/update.png) no-repeat; background-size: 18px 18px;}
+.productQuery,.offerNumInput,.offerTxtInput,.offerTxtInput2,.offerTxtInput3:focus{ outline: none;}
+
+.regular-checkbox { opacity: 0; position: absolute; top: 34px; left: 19px; z-index: 20;}
+#all{ position: absolute; top: 14px; left: 19px; z-index: 20;}
+.regular-checkbox + label { background: #ffffff; padding: 9px; border: 1px solid #d6d7dc; border-radius: 3px; display: inline-block; position: absolute; left: 15px; top: 30px;}
+.regular-checkbox:checked + label { background: #ff6600; border: 1px solid #ff6600; color: #ffffff;}
+.regular-checkbox:checked + label:after { content: '\2714'; font-size: 14px; position: absolute; top: 0; left: 3px; color: #ffffff;}
+#all:checked + label:after { content: '\2714'; font-size: 14px; position: absolute; top: -10px; left: 3px; color: #ffffff;}
+.batchUpdate{ width: 75px; height: 23px; position: absolute; right: 5px; top: 7px; line-height: 23px; text-align: center; background: #267bd3; border-radius: 2px; color: #ffffff; font-size: 11px;}
+.chooseStatus{ border: 1px solid #ff6600; padding: 3px 5px; border-radius: 3px;}
+.chooseStatus.on{ background: #ff6600; color: #ffffff;}
+
+/* 我的关注 */
+.meAttention,.meAttention2,.meAttention3{ list-style: none; margin: 0; padding: 0;}
+.meAttention li{ width: 100%; height: 45px; position: relative; border-bottom: 1px solid #D9D9D9; line-height: 45px; background: #FFFFFF; padding: 0 10px; font-size: 15px; color: #323232;}
+.meAttention2 li{ width: 100%; height: 45px; position: relative; border-bottom: 1px solid #D9D9D9; line-height: 45px; background: #FFFFFF; padding: 0 10px 0 40px; font-size: 15px; color: #323232;}
+.meAttention3 li{ width: 100%; height: 55px; line-height: 20px; position: relative; border-bottom: 1px solid #D9D9D9; background: #FFFFFF; padding: 5px 10px 0 10px; font-size: 15px; color: #323232;}
+.meAttention3 li span{ font-size: 12px; color: #646464;}
+.meAttention span,.meAttention2 span{ float: right; margin: 0 5px 0 0;}
+.meAttention span.red,.meAttention2 span.red{ color: #e64748; font-size: 12px;}
+.meAttention span.orange,.meAttention2 span.orange{ color: #FF5000;}
+.meAttention span.green,.meAttention2 span.green{ color: #00b400; font-size: 12px;}
+.meAttention span.grey,.meAttention2 span.grey{ color: #969696; font-size: 12px;}
+.meAttentionAll{ width: 100%; height: 45px; position: relative; padding: 0 0 0 40px; font-size: 15px; line-height: 45px; background: #FFFFFF; border-bottom: 1px solid #D9D9D9;}
+.meAttentionDel{ float: right; width: 50px; height: 22px; margin: 10px 10px 0 0; line-height: 22px; border-radius: 2px; font-size: 12px; text-align: center; background: #FF5000; color: #FFFFFF;}
+.meAdd{ width: 50px; height: 22px; margin: -10px 0 0 0; font-style: normal; font-size: 12px; float: right; background: #FF5000; color: #FFFFFF; line-height: 22px; text-align: center; border-radius: 2px;}
+.meAttentionSearch{ width: 100%; height: 65px; padding: 17px 0 0 0; background: #FF5000;}
+
+.meAttention4{ margin: 0; padding: 0; list-style: none;}
+.meAttention4 li{ width: 100%; height: auto; text-align: center; overflow: hidden; margin: 20px 0 0 0;}
+.meAttention4 li span{ float: left; background: #FF5000; color: #FFFFFF; font-size: 17px; text-align: center; width: 60px; height: 41px; line-height: 41px;}
+.meAttention4 select{ width: 200px; background: #FFFFFF; margin: 0 0 0 5px;}
+.meAttention4Box{ display: inline-block;}
+.meAttentionBtn{ text-align: center; margin: 35px 0 0 0;}
+.meAttentionBtn input[type=button]{ width: 125px; height: 35px; line-height: 35px; background: #FF5000; color: #FFFFFF; border: none; padding: 0;}
+
+
+/* 资源库 */
+.appWrite{ position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; background: url(../img/appWrite.png) no-repeat; background-size: 100% 100%;}
+.appResourceWrap{ overflow: hidden; background: #FFFFFF;}
+.appResourceChoose{ border-top: 1px solid #D9D9D9; border-bottom: 1px solid #D9D9D9; overflow: hidden;}
+.appResourceChoose span{ width: 33.333333%; float: left; height: 40px; text-align: center; color: #969696; line-height: 40px; border-right: 1px solid #D9D9D9;}
+.appResourceChoose span.on{ color: #FF5000;}
+.appResourceChoose span:last-of-type{ border-right: none;}
+
+.appResourceUl{ margin: 0; padding: 0; list-style: none; background: #FFFFFF;}
+.appResourceUl li{ width: 100%; min-height: 90px; padding: 10px 10px 0 10px; position: relative; border-bottom: 1px solid #D9D9D9;}
+.appResourceAvator{ width: 70px; position: absolute;}
+.appResourceAvator img{ width: 70px; height: 70px;}
+.appRecourceTxt{ margin: 0 0 0 85px;}
+.appResourceUl h3{ font-weight: normal; margin: 0 0 5px 0; font-size: 15px; color: #323232;}
+.appResourceUl p{ font-size: 12px; line-height: 15px; padding: 0 0 5px 0; color: #646464;}
+.appResourceUl span{ float: right; color: #FF5000; font-size: 12px;}
+.appResourceText{ width: 100%; top: 45px; padding: 0 10px; height: 200px; border: 1px solid #E1E1E1; background: #fefcfc; position: absolute;}
+.appResourceInput{ width: 100%; height: 90px; background: #FFFFFF; font-size: 12px; padding: 5px; margin: 35px 0 0 0; line-height: 15px; border: 1px solid #D9D9D9; border-radius: 3px;}
+.appResourceBtn{ width: 100%; text-align: center; margin: 15px 0 0 0;}
+.appResourceBtn a{ width: 75px; height: 30px; line-height: 30px; font-size: 14px; border-radius: 3px; display: inline-block;}
+.appResourceBtn a.cancel{ background: #c6c6c6; color: #000000; border-bottom: 2px solid #8c8c8c;}
+.appResourceBtn a.release{ background: #267bd3; color: #FFFFFF; border-bottom: 2px solid #1b5796;}
