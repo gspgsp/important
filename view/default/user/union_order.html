@@ -95,9 +95,10 @@
         <!--filter end-->
         <!--result-title begin-->
         <ul class="result result-title color3">
+            <li class="total">订单类型</li>
+            <li class="already">公司</li>
             <li class="total">总量(吨)</li>
             <li class="amount">总金额(元)</li>
-            <li class="already">已收款</li>
             <li class="payable">应付款</li>
             <li class="pay">付款方式</li>
             <li class="transport">运输方式</li>
@@ -131,9 +132,10 @@
             <!--result-bot begin-->
             <div class="result result-bot">
             	<ul>
+                    <li class="total">{:setOption|order_type,$value.type}</li>
+                    <li class="already">{$value.c_name}</li>
                     <li class="total">{$value.totalNum}</li>
                     <li class="amount">{$value.total_price}</li>
-                    <li class="already">0.00</li>
                     <li class="payable">{$value.total_price}</li>
                     <li class="pay">{:setOption|pay_method,$value.pay_method}</li>
                     <li class="transport">{:setOption|transport_type,$value.transport_type}</li>
@@ -143,7 +145,7 @@
                     <li class="kp-status">{:setOption|invoice_status,$value.invoice_status}</li>
                     <li class="remark">{$value.remark}</li>
                     <li class="opt">
-                    	<a href="/user/selforder/detail/id/{$value.o_id}">查看</a>
+                    	<a href="/user/unionorder/detail/id/{$value.o_id}">查看</a>
                         <!-- <a href="javascript:;">取消</a> -->
                     </li>
                 </ul>
