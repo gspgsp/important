@@ -64,11 +64,11 @@
 			<td  width="80"  align="center"><b>金额</b></td>
 			</tr>' .$detail_info. '<tr >
 			<td  width="120"  align="center">合计</td>
-			<td  width="540" colspan="6">'.$orderList['total_price'].'</td>
+			<td  width="540" colspan="6" align="left">'.$orderList['total_price'].'</td>
 			</tr>
 			<tr >
 			<td  width="120" align="center">合计人民币(大写)</td>
-			<td  width="540" colspan="6" text-align="left">'.$total.'整</td>
+			<td  width="540" colspan="6" align="left">'.$total.'整</td>
 			</tr>';
 		$table2='<tr >
 			<td  width="140" align="center">甲方(签章):</td>
