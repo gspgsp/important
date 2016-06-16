@@ -378,7 +378,7 @@ return array(
 	</style>
 	<h1>销售合同书(自提)</h1>
 	<p><span>供方(甲方):&nbsp;%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>合同编号:&nbsp;%s</span></p>
-	<p><span>需方(乙方):&nbsp;%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>签约地点:&nbsp;%s</span></p>
+	<p><span>需方(乙方):&nbsp;%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>签约地点:&nbsp;%s</span></p>
 	<p><span>签约时间:&nbsp;%s</span></p>
 	<p>甲、乙双方经协商，就以下产品的购销等有关事宜，签订本合同</p>
 	<span>一、产品名称、型号(规格)、产地、数量、单价、金额:</span><br/>
