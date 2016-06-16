@@ -11,7 +11,7 @@ return array(
 
 	//函数库文件
     'func' => array(
-		APP_LIB.'func/lib.func.php',
+		APP_LIB.'func/lib.func.php',   
     ),
 
 	//配置文件
