@@ -489,3 +489,13 @@ a{ text-decoration:none;}
 .page a:hover, .pagination a:active { background-color:#eb5934; border:1px solid #eb5934; color:#FFFFFF;  padding:5px 11px;-moz-border-radius: 3px; -webkit-border-radius:3px; border-radius:3;}
 .page a:hover { background-color:#eb5934; border:1px solid #eb5934;  padding:5px 11px;-moz-border-radius: 3px; -webkit-border-radius:3px; border-radius:3;}
 /*page end*/
+
+/*success begin*/
+.success{ width:1218px; height:865px; text-align:center; overflow:hidden; border:1px solid #d6d7dc; margin:0 auto; margin-bottom:45px;}
+.success .look{ width:126px; height:126px; overflow:hidden; margin:0 auto; margin-top:71px; margin-bottom:63px;}
+.success .serve{ font-size:20px; margin:0 0 31px 0;}
+.success .tips{ color:#323232; font-size:14px; margin:0 0 38px 0;}
+.success span{ color:#fe0303;}
+.success .opt{ width:336px; height:38px; line-height:38px; margin:0 auto;}
+.success .opt a{ font-size:14px; color:#fff; display:block; width:152px; height:38px; text-align:center; background:#267bd3; border-radius:4px;}
+/*success end*/
