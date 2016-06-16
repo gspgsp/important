@@ -294,7 +294,10 @@ class mypurchaseAction extends userBaseAction{
 			);
 			$orderDetail->add($detail_data);
 
-			// $purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('status'=>))
+			$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
+			$msg="您的供货：%s，%s 已经被选中并生成联营订单，交易员审核后，将会生成正式订单，<a href='/user/unionorder'>查看详情</a>";
+			$msg=sprintf($msg,$modelName,$price);
+			M("system:sysMsg")->sendMsg($data['user_id'],$msg,5);//联营订单站内信
 			$this->success('操作成功');
 
 		}

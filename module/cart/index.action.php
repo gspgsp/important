@@ -98,9 +98,23 @@ class indexAction extends homeBaseAction{
 			$msg=L('msg_template.order');
 			$msg=sprintf($msg,trim($modelName,','),trim($priceName,','),$o_id);
 			M("system:sysMsg")->sendMsg($this->user_id,$msg,4);
-
+			$_SESSION['order_success']=true;
 			$this->success('提交成功');
 		}
+	}
+
+
+	public function msg()
+	{
+		if(!$_SESSION['order_success'] || $this->user_id<=0) $this->forward('/');
+		$_SESSION['order_success']=null;
+		
+		$customer_manager=$this->db->model('admin')
+			->where("admin_id={$_SESSION['uinfo']['customer_manager']}")
+			->select('admin_id,name,mobile')
+			->getRow();
+		$this->assign('customer_manager',$customer_manager);
+		$this->display('success');
 	}
 
 }

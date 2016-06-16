@@ -16,7 +16,7 @@ class unionorderAction extends userBaseAction{
 		$this->invoice_status=L('invoice_status');
 		$this->order_status=L('order_status');
 
-		$where="(slae_user_id=$this->user_id or buy_user_id=$this->user_id)";
+		$where="buy_user_id=$this->user_id";
 
 		//订单筛选
 		// if($orderSn=sget('sn','s','')){
@@ -45,21 +45,29 @@ class unionorderAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$orderList=M('product:unionOrder')
-			// ->select('o_id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,goods_status,invoice_status,input_time')
+			->select('id,type,order_name,order_sn,slae_user_id,buy_user_id,sale_id,buy_id,deal_price,total_price,pay_method,customer_manager,transport_type,freight_price,input_time,order_status,goods_status,invoice_status')
+			// ->select('id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,goods_status,invoice_status,input_time')
 			->where($where)
 			->page($page,$size)
-			// ->order('input_time desc')
+			->order('input_time desc')
 			->getPage();
-
 
 		// p($orderList);
 
 		// $this->pages = pages($orderList['count'], $page, $size);
 
-		// foreach ($orderList['data'] as &$value) {
-		// 	$value['totalNum']=$this->db->model('sale_log')->where("o_id={$value['o_id']}")->select("sum(number)")->getOne();
-		// }
-		// $this->assign('orderList',$orderList);
+		foreach ($orderList['data'] as &$value) {
+			$value['totalNum']=$this->db->model('union_order_detail')->where("o_id={$value['id']}")->select("sum(number)")->getOne();
+			$value['c_name']=$this->db->model('customer')->where("c_id={$value['sale_id']}")->select('c_name')->getOne();
+		}
+
+
+		$this->assign('orderList',$orderList);
 		$this->display('union_order');
+	}
+
+	public function detail()
+	{
+		
 	}
 }
