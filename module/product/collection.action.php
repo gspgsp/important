@@ -10,7 +10,7 @@ class collectionAction extends adminBaseAction
 		$this->assign('invoice_status',L('invoice_status'));    //开票状态
 		$this->assign('company_account',L('company_account'));  //交易公司账户order_type
 		$this->assign('ordertype',L('order_type'));  			//订单类型
-		$this->assign('collection_status',array(1=>'待收付款',2=>'部分收付款',3=>'已完成'));  //订单收付款状态
+		// $this->assign('collection_status',array(1=>'待收付款',2=>'部分收付款',3=>'已完成',4=>'已退款'));  //订单收付款状态
 	}
 
 	/**
@@ -25,6 +25,7 @@ class collectionAction extends adminBaseAction
 			$this->_grid();exit;
 		}
 		$this->assign('type','1');
+		$this->assign('collection_status',array(1=>'待收款',2=>'部分收款',3=>'已完成',4=>'收款取消'));  //订单收款状态
 		$this->assign('page_title','销售收款明细');
 		$this->display('collection.list.html');
 	}
@@ -41,6 +42,7 @@ class collectionAction extends adminBaseAction
 			$this->_grid();exit;
 		}
 		$this->assign('type','2');
+		$this->assign('collection_status',array(1=>'待付款',2=>'部分付款',3=>'已完成',4=>'付款取消'));  //订单付款状态
 		$this->assign('page_title','采购付款明细');
 		$this->display('collection.list.html');
 	}
@@ -102,8 +104,34 @@ class collectionAction extends adminBaseAction
 	 * 充红
 	 * @access private 
 	 */
-	public function remove(){
-		
+	public function changeRed(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('错误的操作');
+		$arr = M('product:collection')->getLastInfo($name='o_id',$value=$data['oid']);
+		$arr2 = array(
+			'id'=>'',
+			'order_name'=>'退款',
+			'order_sn'=>'更正'.$data['o_sn'],
+			'collected_price'=>'0',
+			'uncollected_price'=>$arr[0]['uncollected_price']+$data['c_price'],
+			'refund_amount'=>$data['c_price'],
+			'update_time'=>CORE_TIME,
+			'update_admin'=>$_SESSION['name'],
+			);		
+            //退款可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
+ 		$update=array_merge($arr[0],$arr2);
+		$this->db->startTrans();//开启事务
+			try {
+				if(!$this->db->model('collection')->add($update) )throw new Exception("新增退款失败");
+				if(!$this->db->model('collection')->wherePK($data['id'])->update( array('collection_status'=>4)) )throw new Exception("修改退款状态失败");		
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+		$this->db->commit();
+		$this->success('操作成功');
+
 	}
 	/**
 	 * 保存行内编辑数据
