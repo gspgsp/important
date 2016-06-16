@@ -178,12 +178,13 @@ class orderAction extends adminBaseAction {
 		$detailinfo=$this->db->model('sale_log')->where('o_id = '.$o_id)->getAll();
 		foreach ($detailinfo as &$value) {
 			$value['model']=M("product:product")->getModelById($value['p_id']);
-			$pinfo=M("product:product")->getFnameByPid($value['p_id']);				
+			$pinfo=M("product:product")->getFnameByPid($value['p_id']);
 			$value['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$value['time_price']=$value['number']*$value['unit_price'];
 			$value['require_number']=$value['number'];
 		}
 		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
+		$info['order_name']='';
 		$info['purchase_type']=1;
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
@@ -342,26 +343,28 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		p($data);die();
+		p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
+		$data['join_id']=$data['o_id'];
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
 		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['total_price']=$data['price'];
 		$data['order_source'] = 2; //订单默认来源ERP
-		if($data['o_id']>0){ //o_id代表关联的销售订单
-			$up_data = array(			
-				'update_time'=>CORE_TIME,
-				'update_admin'=>$_SESSION['name'],
-			);	
-			$result = $this->db->where('o_id='.$data['o_id'])->update($data+$up_data);
-			if($result){
-				$this->success('操作成功');
-			}else{
-				$this->error('更新失败');
-			}
-		}else{ //新增
+		// if($data['o_id']>0){ //o_id代表关联的销售订单
+		// 	$up_data = array(			
+		// 		'update_time'=>CORE_TIME,
+		// 		'update_admin'=>$_SESSION['name'],
+		// 	);	
+		// 	$result = $this->db->where('o_id='.$data['o_id'])->update($data+$up_data);
+		// 	if($result){
+		// 		$this->success('操作成功');
+		// 	}else{
+		// 		$this->error('更新失败');
+		// 	}
+		// }else{ 
+		//新增
 			$this->db->startTrans(); //开启事务
 			$add_data=array(
 				'input_time'=>CORE_TIME,
@@ -391,7 +394,7 @@ class orderAction extends adminBaseAction {
 			}
 			$this->db->commit();
 			$this->success();
-		}
+		//}
 	}
 	/**
 	 * 销售审核

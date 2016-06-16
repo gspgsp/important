@@ -25,7 +25,7 @@ class outStorageAction extends adminBaseAction {
 		$action=sget('action','s');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;
-			$where .= " and out_storage_status = 3";
+			$where .= " and out_storage_status != 3";
 			$list=$this->db->model('sale_log')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
@@ -34,6 +34,7 @@ class outStorageAction extends adminBaseAction {
 				$v['model']=M("product:product")->getModelById($v['p_id']); //获取客户名称
 				$v['out_number']=$v['number'];
 			}
+
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
 		}
