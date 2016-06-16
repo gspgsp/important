@@ -19,4 +19,20 @@ class collectionModel extends model{
 		}
 		return empty($ids)?false:$exist;
 	}
+	/*
+	 * 获取本次操作以后会受影响的id
+	 * @param string $name 检查类型
+	 * @param string $value 检查值
+	 */
+	public function getDiffId($name='o_id',$value='',$id=''){
+		$where = "$name='$value'";
+		$ids = $this->model('collection')->select ('id')->where($where)->getCol();
+		$arr=array();
+		foreach ($ids as $v) {
+			if ($v>$id) {
+				$arr[]=$v;
+			}
+		}
+		return empty($arr)?false:$arr;
+	}
 }
