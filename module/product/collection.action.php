@@ -26,7 +26,7 @@ class collectionAction extends adminBaseAction
 		}
 		$this->assign('type','1');
 		$this->assign('page_title','销售收款明细');
-		$this->display('collection.init.list.html');
+		$this->display('collection.list.html');
 	}
 
 	/**
@@ -42,7 +42,7 @@ class collectionAction extends adminBaseAction
 		}
 		$this->assign('type','2');
 		$this->assign('page_title','采购付款明细');
-		$this->display('collection.itin.list.html');
+		$this->display('collection.list.html');
 	}
 
 		/**
