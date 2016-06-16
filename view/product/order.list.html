@@ -105,7 +105,7 @@
 		<table style="width:100%;">
 			<tr>
 				<td>
-					<input name="order_status" class="mini-radiobuttonlist"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
+					<input name="order_status" class="mini-radiobuttonlist" textfield="text" value="2"  valuefield="id"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
 					<input name="o_id"  class="mini-hidden" id="o_id1" value="">
 					<input name="s_or_p"  class="mini-hidden" id="s_or_p" value="">
 					<input name="sales_type"  class="mini-hidden" id="sales_type" value="">
@@ -128,7 +128,7 @@
 		<table style="width:100%;">
 			<tr>
 				<td>
-					<input name="transport_status" class="mini-radiobuttonlist"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
+					<input name="transport_status" class="mini-radiobuttonlist"  textfield="text" value="2"  valuefield="id"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
 					<input name="o_id"  class="mini-hidden" id="o_id2" value="">
 
 				</td>
@@ -197,10 +197,10 @@ function oncheckDetail(e){
 	}else{
 		order_type = (order_type=='销售订单' ? '1' : '2');
 		if(order_type=='1'){	//销售
-			if(order_status != '2') s += '<a href="javascript:orderSaCheck('+oid+','+sales_type+')">销售审核 </a>';
+			if(order_status != '2') s += '<a href="javascript:orderSaCheck('+oid+','+sales_type+')">销售审核</a>&nbsp;&nbsp;';
 			if(transport_status != '2') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
 		}else{
-			if(order_status != '2') s += '<a href="javascript:orderPuCheck('+oid+')">采购审核 </a>';
+			if(order_status != '2') s += '<a href="javascript:orderPuCheck('+oid+')">采购审核</a>&nbsp;&nbsp;';
 			if(transport_status != '2') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
 		}
 	}
@@ -260,7 +260,8 @@ function onLoadDetail(e){
 		if(order_status =='3' || transport_status =='3') return;
 			if(order_status =='2' && transport_status=='2'){
 				if(sales_type == '1'){ //销采后销
-					s+='<a href="javascript:outStorage('+oid+')">发货</a>';
+					s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;';
+					s+='<a href="javascript:salecompact('+oid+')">合同(销)</a>';
 					if (c_status !='3') {
 						s+='|<a href="javascript:transaction('+oid+','+order_type+')">收款</a>';
 					}
@@ -270,6 +271,7 @@ function onLoadDetail(e){
 					if (c_status =='3' && i_status =='全部开票') {
 						s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
 					}
+
 				}else{ //先销后采->下采购单虚拟入库->发货
 					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
 				}	
@@ -282,7 +284,8 @@ function onLoadDetail(e){
 		// }		
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
-			s+='<a href="javascript:inStorage('+oid+')">入库</a>';
+			s+='<a href="javascript:inStorage('+oid+')">入库</a>&nbsp;';
+			s+='<a href="javascript:purchasecompact('+oid+')">合同(采)</a>';
 			if (c_status !='3') {
 				s+='|<a href="javascript:transaction('+oid+','+order_type+')">付款</a>';
 			}
