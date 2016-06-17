@@ -6,7 +6,7 @@
 class loginAction extends homeBaseAction{
 	public function init()
 	{
-		$this->display('login');
+		$this->display('me_login');
 	}
 
 	public function longin()

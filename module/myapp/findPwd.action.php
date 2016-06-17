@@ -10,7 +10,7 @@ class findPwdAction extends homeBaseAction{
 	}
 	public function init()
 	{
-		$this->display('find_pwd');
+		$this->display('me_forgetpwd');
 	}
 	public function finfMyPwd(){
 		if($_POST){
