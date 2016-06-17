@@ -69,8 +69,12 @@ class passportModel extends model{
 			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
 		}
 		//判断是否分配交易员
-		$cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager')->getOne();
-		if(!$cinfo) return array('err'=>6,'msg'=>'正在等待分配交易员，请稍候再试');
+		$cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager,status')->getRow();
+
+		if($cinfo['status']==1) return array('err'=>7,'msg'=>'账号等待审核中，请稍候再试');
+		if($cinfo['status']==3) return array('err'=>8,'msg'=>'账号审核未通过，请联系客服');
+
+		if(!$cinfo['customer_manager']) return array('err'=>6,'msg'=>'正在等待分配交易员，请稍候再试');
 
 
 		//密文 
