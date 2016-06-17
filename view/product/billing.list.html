@@ -93,14 +93,15 @@ function onKeyEnter(e) {
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',oid = record.o_id;
-	s += '<a href="javascript:viewOrdInfo('+oid+')">'+oid+'</a> ';
+	var type={$type};
+	s += '<a href="javascript:viewOrdInfo('+oid+','+type+')">'+oid+'</a> ';
 	return s;
 }
 
 //查看订单相关信息
-function viewOrdInfo(oid){
+function viewOrdInfo(oid,type){
 	mini.open({
-		url: "/product/order/info?oid="+oid,
+		url: "/product/order/info?oid="+oid+'&type='+type,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
 		width: 800, height:430
