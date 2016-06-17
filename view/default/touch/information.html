@@ -42,6 +42,7 @@
                         });
                     },
                     success:function (res) {
+                        console.log(res);
                         layer.closeAll();
                         res.data.forEach(function (v,i) {
                             infoLi +="<li data-id='"+v.id+"'><div class='articleLi'>" +

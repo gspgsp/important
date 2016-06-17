@@ -5,31 +5,32 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/app.css" />
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
-
 	<body style="padding-bottom: 55px;">
 		<header id="meHeader">
 			<a class="back" href="#"></a>
 			登录
-			<a class="right" href="#">注册</a>
+			<a class="right" href="/myapp/register/">注册</a>
 		</header>
 		<h3 class="meTitle">欢迎来到我的塑料网</h3>
 		<div class="registerWrap">
 			<div class="registerBox">
-				<img src="img/username.jpg">
+				<img src="__MYAPP__/img/username.jpg">
 				<input id="username" class="registerInput" maxlength="11" type="tel" placeholder="请输入手机号码">
 			</div>
 			<div class="registerBox">
-				<img src="img/pwd.jpg">
+				<img src="__MYAPP__/img/pwd.jpg">
 				<input id="password" class="registerInput" maxlength="20" type="password" placeholder="请输入密码">
 			</div>
-			<div class="registerBox">
-				<input id="regcode" class="registerInput" maxlength="4" type="text" placeholder="请输入图形验证码">
-				<img id="vcodeImg" name="regcode">
-			</div>
+			<!--<div class="registerBox">-->
+				<!--<input id="regcode" class="registerInput" maxlength="4" type="text" placeholder="请输入图形验证码">-->
+				<!--<img id="vcodeImg" name="regcode">-->
+			<!--</div>-->
 		</div>
 		<div style="margin: 0 20px;">
 		<div class="registerBtn">登录</div>
@@ -41,6 +42,29 @@
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				$(".registerBtn").on("click",function () {
+					var mobile=$("#username").val();
+					var password=$("#password").val();
+					commonAjax(
+							"post",
+							"/myapp/login/login",
+							{mobile:mobile,password:password}
+					).then(function (res) {
+						console.log(">>>",res);
+						if(res.err==0){
+							mui.alert('',res.msg,function(){
+
+							});
+						}else if(res.err==1){
+							mui.alert('',res.msg,function(){});
+						}
+					},function(res){
+
+					});
+
+				});
+			})
 		</script>
 
 	</body>
