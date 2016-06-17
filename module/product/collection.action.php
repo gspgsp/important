@@ -9,7 +9,7 @@ class collectionAction extends adminBaseAction
 		$this->assign('pay_method',L('pay_method'));		 	//付款方式
 		$this->assign('invoice_status',L('invoice_status'));    //开票状态
 		$this->assign('company_account',L('company_account'));  //交易公司账户order_type
-		$this->assign('ordertype',L('order_type'));  			//订单类型
+		// $this->assign('ordertype',L('order_type'));  			//订单类型
 
 	}
 
@@ -42,7 +42,8 @@ class collectionAction extends adminBaseAction
 			$this->_grid();exit;
 		}
 		$this->assign('type','2');
-		$this->assign('collection_status',L('payment_status'));  //订单付款状态
+
+		$this->assign('ordertype',L('payment_status'));  //订单付款状态
 		$this->assign('page_title','采购付款明细');
 		$this->display('collection.list.html');
 	}

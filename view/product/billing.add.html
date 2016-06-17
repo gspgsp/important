@@ -8,11 +8,7 @@
 		<input class="mini-hidden" name="c_id"  value="{$c_id}"/>
 		<input class="mini-hidden" name="unbilling_price"  value="{$unbilling_price}"/>
 			<tr>
-				{if $type =='1'}
-				<td>销售订单发票号</td>
-				{else}
-				<td>采购订单发票号</td>
-				{/if}
+				<td>发票号</td>
 				<td><input name="invoice_sn" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
 			<tr>
@@ -20,11 +16,7 @@
 				<td><input name="" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;"allowInput="false"/></td>
 			</tr>
 			<tr>
-				{if $type =='1'}
-				<td>销售订单开票日期</td>
-				{else}
-				<td>采购订单开票日期</td>
-				{/if}
+				<td>开票日期</td>
 				<td><input name="payment_time" class="mini-datepicker" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
 			<tr>

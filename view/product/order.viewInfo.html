@@ -108,7 +108,6 @@
 					<div field="out_storage_status" width="80" headerAlign="center" allowSort="true" align="center">出库状态</div>
 					{/if}
 
-
 					<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
 					<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 					<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
@@ -140,9 +139,9 @@
 					<option value="" selected="selected">=交易方式=</option>
 					{html_options options=$pay_method}
 				</select>
-				<select name="collection_status" id="collection_status">
-					<option value="" selected="selected">=交易状态=</option>
-					{html_options options=$collection_status}
+				<select name="ordertype" id="collection_status">
+					<option value="" selected="selected">={if $type eq '1'}收款状态{else}付款状态{/if}=</option>
+					{html_options options=$ordertype}
 				</select>
 				<select name="invoice_status" id="invoice_status">
 					<option value="" selected="selected">=开票状态=</option>
@@ -162,10 +161,11 @@
 		<div type="checkcolumn"></div>
 		<div field="order_sn" width="80" headerAlign="center" align="center" align="center">订单号</div>
 		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
+		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">收款金额</div>
 		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未收款金额</div>
 		<div field="title" width="30" headerAlign="center" align="center" align="center">交易主题</div>
 		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">收付款方式</div>
-		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">订单收付款状态</div>
+		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">{if $type eq '1'}收款状态{else}付款状态{/if}</div>
 		<div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div>
 		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >收付款日期</div>
 	</div>
@@ -259,7 +259,7 @@
 				investGrid.load();
 			}
 		}
-		if(tab.title=='收款列表' || tab.title=='付款列表'){
+		if(tab.title==('收款列表' || '付款列表')){
 			var data=gridCell.getData();
 			if(data.length<1){
 				gridCell.load();

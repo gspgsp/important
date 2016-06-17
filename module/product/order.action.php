@@ -123,7 +123,6 @@ class orderAction extends adminBaseAction {
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
 		}
-		
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
