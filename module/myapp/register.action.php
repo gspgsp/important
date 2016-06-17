@@ -42,6 +42,11 @@ class registerAction extends homeBaseAction{
 		}
 
 	}
+	//进入补全信息页
+	public function enReginfo()
+	{
+		$this->display('me_completeinfo');
+	}
 	//信息补全页面
 	public function reginfo()
 	{
