@@ -273,20 +273,17 @@ class orderAction extends adminBaseAction {
 		if($silling == 1){
 			//保存开票信息		
 				!empty($data['unbilling_price'])?$m = ($data['unbilling_price']-$data['billing_price']):$m = ($data['total_price']-$data['billing_price']);
-
 			$this->db->startTrans();//开启事务	
-			try {	
+			try {
 				if($m>0){
 					$data['unbilling_price'] = $m;
 					$data['invoice_status'] = 2;
-					if( !$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=2') )throw new Exception("跟新订单开票状态失败1");
-					if( !$this->db->model('collection')->where('o_id='.$data['o_id'])->update('invoice_status=2') )throw new Exception("跟新交易开票状态失败1");
+					if( !$sss=$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('invoice_status'=>2,'update_time'=>CORE_TIME)) )throw new Exception("跟新订单开票状态失败1");				
 				}
 				if($m==0){
 					$data['unbilling_price'] = 0;
 					$data['invoice_status'] = 3;
-					if( !$this->db->model('order')->where('o_id='.$data['o_id'])->update('invoice_status=3') )throw new Exception("跟新订单开票状态失败2");
-					if( !$this->db->model('collection')->where('o_id='.$data['o_id'])->update('invoice_status=3') )throw new Exception("跟新交易开票状态失败2");
+					if( !$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('invoice_status'=>3,'update_time'=>CORE_TIME)) )throw new Exception("跟新订单开票状态失败2");
 				}
 				if($m<0){
 					$this->error("数据错误");
@@ -300,7 +297,7 @@ class orderAction extends adminBaseAction {
 				if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");
 			} catch (Exception $e) {
 				$this->db->rollback();
-				$this->error($e->getMessage());
+				$this->error('保存失败：'.$this->db->getDbError());
 			}
 
 		}else{
@@ -314,26 +311,26 @@ class orderAction extends adminBaseAction {
 
 			$this->db->startTrans();//开启事务
 			try {
+
 				if($m>0){
 					$data['uncollected_price'] = $m;
 					$data['collection_status'] = 2;
-					if(! $this->db->model('order')->where('o_id='.$data['o_id'])->update('collection_status=2') )throw new Exception("跟新订单交易状态失败1");
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败1");
 				}
+				
 				if($m==0){
 					$data['uncollected_price'] = 0;
 					$data['collection_status'] = 3;
-					if(! $this->db->model('order')->where('o_id='.$data['o_id'])->update('collection_status=3') )throw new Exception("跟新订单交易状态失败2");
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败2");
 				}
 				if($m<0){
 					$this->error("数据错误");
 				}
-				
 				$data['payment_time']=strtotime($data['payment_time']);
-
-				if(!$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'],'invoice_status'=>1)) ) throw new Exception("付款失败");
+				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 			} catch (Exception $e) {
 				$this->db->rollback();
-				$this->error($e->getMessage());
+				$this->error('保存失败：'.$this->db->getDbError());
 			}
 		}
 		$this->db->commit();
