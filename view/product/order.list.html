@@ -29,11 +29,6 @@
 				</select>
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
-<!-- 				<select name="order_type" id="soStatus">
-					<option value="" selected="selected">全部订单</option>
-					<option value="2">采购订单</option>
-					<option value="1">销售订单</option>
-				</select> -->
 				<select name="order_source">
 					<option value="" selected="selected">来源</option>
 					{html_options options=$order_source}
@@ -110,12 +105,9 @@
 					<input name="o_id"  class="mini-hidden" id="o_id1" value="">
 					<input name="s_or_p"  class="mini-hidden" id="s_or_p" value="">
 					<input name="sales_type"  class="mini-hidden" id="sales_type" value="">
-
-
 				</td>
 
 			</tr>
-
 			<tr>
 			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitcheck('ordercheck')">提交</a>
@@ -133,7 +125,6 @@
 					<input name="o_id"  class="mini-hidden" id="o_id2" value="">
 
 				</td>
-
 			</tr>
 
 			<tr>
@@ -273,7 +264,7 @@ function onLoadDetail(e){
 						s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
 					}
 
-				}else{ //先销后采->下采购单虚拟入库->发货
+				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
 					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
 				}	
 			}

@@ -21,7 +21,7 @@
 					</tr>
 					<tr>
 						<td>客户名称：</td>
-						<td>{$info.c_id}</td>
+						<td>{$c_name}</td>
 						<td><font style="color:red;">销售审核：</font></td>
 						<td><font style="color:blue;">{$order_status.$info.order_status}</font></td>
 					</tr>
@@ -35,15 +35,11 @@
 					<tr>
 						<td>签约地点 : </td>
 						<td>{$info.sign_place}</td>
-						<td>提货地址：</td>
-						<td>{$info.pickup_location}</td>
+						<td>签订日期：</td>
+						<td>{$info.sign_time}</td>
+						
 					</tr>
-					<tr>
-						<td>送货地点：</td>
-						<td>{$info.delivery_location}</td>
-						<td>货款结算方式：</td>
-						<td>{$info.payment_way}</td>
-					</tr>
+
 					<tr>
 						<td>运输方式：</td>
 						<td>{$transport_type.$info.transport_type}</td>
@@ -56,26 +52,39 @@
 						<td>业务模式 : </td>
 						<td>{$business_model.$info.business_model}</td>
 					</tr>
+					{if $info.transport_type eq 2}
 					<tr>
 						<td>提货日期：</td>  
 						<td>{$info.pickup_time}</td>
-						<td>签订日期：</td>
-						<td>{$info.sign_time}</td>
+						<td>提货地址：</td>
+						<td>{$info.pickup_location}</td>
 					</tr>
+					{else}
+					<tr>
+						<td>送货地点：</td>
+						<td>{$info.delivery_location}</td>
+						<td>送货日期 : </td>
+						<td>{$info.delivery_time}</td>
+						
+					</tr>
+					{/if}
 					<tr>
 						<td>付款日期：</td>  
 						<td>{$info.payment_time}</td>
 						<td>财务记录 : </td>
 						<td>{$financial_records.$info.financial_records}</td>
 					</tr>
+					{if $order_type eq '1'}
 					<tr>
-						
-						<td>送货日期 : </td>
-						<td>{$info.delivery_time}</td>
-						<td>发货状态 : </td>
-						<td>{$goods_status.$info.goods_status}</td>
+						<td>出库状态 : </td>
+						<td>{$out_storage_status.$info.out_storage_status}</td>
 					</tr>
-
+					{else}
+										<tr>
+						<td>入库状态 : </td>
+						<td>{$in_storage_status.$info.in_storage_status}</td>
+					</tr>
+					{/if}
 				</table>
 			</div>
 		</div>

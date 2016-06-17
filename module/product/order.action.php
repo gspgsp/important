@@ -14,7 +14,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('financial_records',L('financial_records')); //财务记录
 		$this->assign('order_status',L('order_status')); //订单审核
 		$this->assign('transport_status',L('transport_status')); //物流审核
-		$this->assign('goods_status',L('goods_status')); //发货状态
+		$this->assign('out_storage_status',L('out_storage_status')); //发货状态
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
@@ -185,7 +185,7 @@ class orderAction extends adminBaseAction {
 		$info['c_id']=0;
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
-		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
+		$info['delivery_time']=date("Y-m-d",time());  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('detail',json_encode($detailinfo));//明细数据
@@ -451,7 +451,8 @@ class orderAction extends adminBaseAction {
 			'update_admin'=>$_SESSION['name'],
 		);
 		try {
-			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");		
+			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");	
+			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update('is_join_check = 1') ) throw new Exception("关联的销售订单更新失败");
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());

@@ -38,9 +38,7 @@ class storeDetailAction extends adminBaseAction {
 		$isAddSale=sget("isAddSale",'i',0); //虚拟入库的库存屏蔽
 		$where.= $isAddSale==1? " `join_id` = 0" : "1"  ;//虚拟入库的库存屏蔽
 		// //筛选状态
-		if(sget('remainder','i') == 1) {
-			$where.=" and `remainder` > 0 and  `join_id` = 0";
-		}elseif(sget('remainder','i') == 2){ //join_id 代表关联了销售订单id  (虚拟入库的库存)
+   		if(sget('remainder','i') ==2 ){ //join_id 代表关联了销售订单id  (虚拟入库的库存)
 			$where.=" and `join_id` > 0";   
 		}
 		//筛选时间
@@ -74,6 +72,7 @@ class storeDetailAction extends adminBaseAction {
 			$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']);//获取牌号
 			$list['data'][$k]['admin_name']=M("product:inStorage")->getNameBySid($list['data'][$k]['store_aid']); //获得入库人姓名
 		}
+		// showtrace();
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}

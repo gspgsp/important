@@ -20,7 +20,7 @@ class inStorageAction extends adminBaseAction {
 		$o_id=sget('o_id','i',0);
 		$join_id=sget('join_id','i',0);
 		if( $o_id<1 ) $this->error('错误的出库信息');
-		$in_storage_no=genOrderSn();//入库单号
+		$in_storage_no='RK'.genOrderSn();//入库单号
 		$action=sget('action','s');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;

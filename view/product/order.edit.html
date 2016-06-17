@@ -156,11 +156,12 @@
 					<legend>采购明细</legend>
 					<div id="editForm3" style="padding:5px;" >
 					<div class="detail">
-						<div id="gridCell3" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+						<div id="gridCell3" showModified="false" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns">    
 								<div field="model" width="100"  headerAlign="center">牌号</div>        
 								<div field="f_name" width="120" headerAlign="center">厂家</div>         
 								<div field="unit_price" width="80" headerAlign="center" >售价
+									<input id="change_price" property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 								</div>
 								<div field="number" width="80" headerAlign="center" >数量
 								</div>
@@ -210,11 +211,10 @@ gridCell=mini.get('gridCell3');
 noStockData=[]; 
 "{/if}"
 "{if $detail neq ''}"
-var detail = {$detail};
-gridCell.setData(detail);
-totalCount(detail);
+var noStockData = {$detail};
+gridCell.setData(noStockData);
+totalCount(noStockData);
 "{/if}"
-console.log(detail);
 function submitForm(){
 	form.validate();
 	if(form.isValid() == false) return;
@@ -223,7 +223,6 @@ function submitForm(){
 	var datas=gridCell.getData();
 	$.extend(o, {detail:datas}); 
 	$.extend(o, totalCounts); 
-	console.log(o);
 	var json = mini.encode(o);
 
 	$("#returnMsg").text('');
@@ -269,7 +268,7 @@ function onLoadDetail(e){
 function delDetail(index){
 	noStockData.splice(index,1);
 	gridCell.setData(noStockData);
-	totalCounts(noStockData);
+	totalCount(noStockData);
 }
 
 function changtransport(e){
@@ -405,6 +404,7 @@ function consumeStoreDetil(){
 }
 function totalCount(noStockData){
 	totalCounts={num:0,price:0};
+	
 	for (var i = 0; i < noStockData.length; i++) {
 		totalCounts.num=parseFloat(totalCounts.num)+parseFloat(noStockData[i].require_number);
 		totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
@@ -486,4 +486,11 @@ function addPurDetil(){
 		}
 	});
 }	
+
+function onValidation(e){
+	unit_price=mini.get('change_price').getValue();
+	index=e.sender.ownerRowID;
+	noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);
+	totalCount(noStockData);
+}
 </script>
