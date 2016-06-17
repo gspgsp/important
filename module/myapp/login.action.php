@@ -17,9 +17,9 @@ class loginAction extends homeBaseAction{
 			$password=sget('password','s');
 
 			if(strlen($username)<10 || !is_mobile($username)){
-				$this->error('账号或密码错误');
+				$this->error('手机号错误');
 			}elseif(strlen($password)<6){
-				$this->error('账号或密码错误');
+				$this->error('密码错误');
 			}
 			$chanel=2; //app渠道
 			$result=M('user:passport')->login($username,$password,$chanel);
