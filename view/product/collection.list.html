@@ -18,10 +18,17 @@
 					<option value="" selected="selected">=交易方式=</option>
 					{html_options options=$pay_method}
 				</select>
+				
 				<select name="collection_status" id="collection_status">
-					<option value="" selected="selected">=订单交易状态=</option>
-					{html_options options=$collection_status}
+					{if $type eq '1'}
+						<option value="" selected="selected">=订单收款状态=</option>
+						{html_options options=$ordertype}
+					{else}
+						<option value="" selected="selected">=订单付款状态=</option>
+						{html_options options=$collection_status}
+					{/if}
 				</select>
+				
 				<select name="invoice_status" id="invoice_status">
 					<option value="" selected="selected">=开票状态=</option>
 					{html_options options=$invoice_status}
@@ -47,36 +54,25 @@
 		<div field="order_sn" width="80" headerAlign="center" align="center" align="center">订单号</div>
 		<div field="c_name" width="40" headerAlign="center" align="center" align="center">公司名</div>
 		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
-		{if $type eq '1'}
-		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">本次收款金额</div>
-		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未收款金额</div>
-		<div field="title" width="30" headerAlign="center" align="center" align="center">收款主题</div>
-		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">收款方式</div>
-		{else}
-		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">本次付款金额</div>
-		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未付款金额</div>
-		<div field="title" width="30" headerAlign="center" align="center" align="center">付款主题</div>
-		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">付款方式</div>
-		{/if}
+
+		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">{if $type eq '1'}本次收款金额{else}本次付款金额{/if}</div>
+		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">{if $type eq '1'}未收款金额{else}未付款金额{/if}</div>
+		<div field="title" width="30" headerAlign="center" align="center" align="center">{if $type eq '1'}收款主题{else}付款主题{/if}</div>
+		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">{if $type eq '1'}收款方式{else}付款方式{/if}</div>
+
 		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>		
 		<div field="accessory" width="45" headerAlign="center" align="center" align="center">附件</div>
 		
-		{if $type eq '1'}
-		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">销售订单收款状态</div>
-		{else}
-		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">采购订单付款状态</div>
-		{/if}
 		
+		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">{if $type eq '1'}销售订单收款状态{else}采购订单付款状态{/if}</div>
+
 		<div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div>
 		<div field="remark" width="150" headerAlign="center" >*备注
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
 		
-		{if $type eq '1'}
-		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >收款日期</div>
-		{else}
-		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >付款日期</div>
-		{/if}
+		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >{if $type eq '1'}收款日期{else}付款日期{/if}</div>
+
 		<!-- <div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 		<div field="input_admin" width="30" headerAlign="center" align="center">创建者</div> -->
 		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
@@ -116,14 +112,15 @@ function onLoadHandle(e) {
 }
 //追加操作，退款按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id,o_sn=record.order_sn,c_status=record.collection_status, s='';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id, o_sn=record.order_sn,c_status=record.collection_status, s='';
 	if(c_status != '4')
-	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+id+','+o_sn+')">退款</a>';
+	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+id+',\''+o_sn+'\')">退款</a>';
 	return s;
 }
 
 //红充操作
 function viewPinfo(oid,c_price,id,o_sn){
+	var o_sn = o_sn;
 	var data = {oid:oid,c_price:c_price,id:id,o_sn:o_sn};
 	var json = mini.encode(data);
 	mini.confirm("确定交易取消？", "提示", function(action){

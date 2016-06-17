@@ -325,6 +325,7 @@ function addInvoice(oid,order_type){
 	var width=520, height=680,type=order_type,invoice='1';
 		title="新增开票";
 	mini.open({
+		//有invoice表示是开票
 		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice,
 		showMaxButton:true,
 		 title: title, width: width, height:height,

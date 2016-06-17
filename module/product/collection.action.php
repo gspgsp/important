@@ -10,7 +10,7 @@ class collectionAction extends adminBaseAction
 		$this->assign('invoice_status',L('invoice_status'));    //开票状态
 		$this->assign('company_account',L('company_account'));  //交易公司账户order_type
 		$this->assign('ordertype',L('order_type'));  			//订单类型
-		// $this->assign('collection_status',array(1=>'待收付款',2=>'部分收付款',3=>'已完成',4=>'已退款'));  //订单收付款状态
+
 	}
 
 	/**
@@ -25,7 +25,7 @@ class collectionAction extends adminBaseAction
 			$this->_grid();exit;
 		}
 		$this->assign('type','1');
-		$this->assign('collection_status',array(1=>'待收款',2=>'部分收款',3=>'已完成',4=>'收款取消'));  //订单收款状态
+		$this->assign('ordertype',L('gatheringt_status'));    //订单收款状态
 		$this->assign('page_title','销售收款明细');
 		$this->display('collection.list.html');
 	}
@@ -42,7 +42,7 @@ class collectionAction extends adminBaseAction
 			$this->_grid();exit;
 		}
 		$this->assign('type','2');
-		$this->assign('collection_status',array(1=>'待付款',2=>'部分付款',3=>'已完成',4=>'付款取消'));  //订单付款状态
+		$this->assign('collection_status',L('payment_status'));  //订单付款状态
 		$this->assign('page_title','采购付款明细');
 		$this->display('collection.list.html');
 	}
@@ -55,7 +55,7 @@ class collectionAction extends adminBaseAction
 	private function _grid(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
-		$sortField = sget("sortField",'s','id'); //排序字段
+		$sortField = sget("sortField",'s','o_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
 		$where = 1;
