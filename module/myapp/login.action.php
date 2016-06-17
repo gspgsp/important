@@ -9,7 +9,7 @@ class loginAction extends homeBaseAction{
 		$this->display('me_login');
 	}
 
-	public function longin()
+	public function login()
 	{
 		if(isset($_REQUEST['username'])){
 			$this->is_ajax=true;
