@@ -28,18 +28,26 @@ class registerAction extends homeBaseAction{
 		}
 		$user_model=M('system:sysUser');
 		$salt=randstr(6);
-		$_user=array(
-					'mobile'=>$mobile,
-					'input_time'=>CORE_TIME,
-					'salt'=>$salt,
-					'password'=>$user_model->genPassword($password.$salt),
-				);
-		if($user_model->add($_user)){
-			$_SESSION['user_id'] = $user_model->getLastID();
-			$_SESSION['check_reg_ok']=true;
-			$this->success('注册成功');
-			//$this->display('me_completeinfo');
-		}
+		$passwordSalt = $user_model->genPassword($password.$salt);
+		// $_user=array(
+		// 			'mobile'=>$mobile,
+		// 			'input_time'=>CORE_TIME,
+		// 			'salt'=>$salt,
+		// 			'password'=>$user_model->genPassword($password.$salt),
+		// 		);
+		// if($user_model->add($_user)){
+		// 	//$_SESSION['user_id'] = $user_model->getLastID();
+		// 	$_SESSION['check_reg_ok']=true;
+		// 	$_SESSION['mobile']=$mobile;
+		// 	$_SESSION['password']=$passwordSalt;
+		// 	$this->success('注册成功');
+		// 	//$this->display('me_completeinfo');
+		// }
+		$_SESSION['check_reg_ok']=true;
+		$_SESSION['mobile']=$mobile;
+		$_SESSION['password']=$passwordSalt;
+		$_SESSION['salt']=$salt;
+		$this->success('注册成功');
 
 	}
 	//进入补全信息页
@@ -74,21 +82,25 @@ class registerAction extends homeBaseAction{
 				}
 				$is_default=empty($customer)?1:0;
 				$_user=array(
+					'mobile'=>$_SESSION['mobile'],
+					'salt'=>$_SESSION['salt'],
+					'password'=>$_SESSION['password'],
 					'name'=>sget('name','s'),
 					'qq'=>sget('qq','s'),
 					'c_id'=>$c_id,
 					'is_default'=>$is_default,
 				);
-				if(!$user_model->where('user_id='.$_SESSION['user_id'])->update($_user)) throw new Exception("系统错误 reg:102");
+				if(!$user_model->add($_user)) throw new Exception("系统错误 reg:102");
+				$user_id=$user_model->getLastID();
 				$_info=array(
-					'user_id'=>$_SESSION['user_id'],
+					'user_id'=>$user_id,
 					'reg_ip'=>get_ip(),
 					'reg_time'=>CORE_TIME,
 					'reg_chanel'=>2,
 				);
 				if(!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
 				if(!$customer){
-					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=".$_SESSION['user_id'])) throw new Exception("系统错误 reg:104");
+					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=".$user_id)) throw new Exception("系统错误 reg:104");
 				}
 			} catch (Exception $e) {
 				$user_model->rollback();
@@ -96,6 +108,8 @@ class registerAction extends homeBaseAction{
 			}
 			$user_model->commit();
 			$_SESSION['mobile']=null;
+			$_SESSION['password']=null;
+			$_SESSION['salt']=null;
 			$_SESSION['check_reg_ok']=null;
 			$this->success('完善成功');//完善成功后跳转到个人中心
 		}
