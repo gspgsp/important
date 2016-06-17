@@ -58,6 +58,44 @@
 
 					});
 				});
+
+
+				//短信验证码
+				function sendMsg() {
+					var times=60;
+					var username=$("#username").val();
+					var password=$("#password").val();
+					commonAjax(
+							"post",
+							"/myapp/register/sendmsg",
+							{'mobile':username,'password':password}
+					).then(function (res) {
+						console.log(">>>",res);
+						if(res.err!=0){
+						}else{
+							var countStart=setInterval(function(){
+								$(".validCode").text(times--+'秒后重发');
+								$(".validCode").attr("disabled",true);
+								if(times<0){
+									clearInterval(countStart);
+									$(".validCode").text("获取验证码");
+									$(".validCode").attr("disabled",false);
+								}
+							},1000);
+						}
+					},function(res){
+
+					});
+				}
+
+				$(".validCode").on("click",function () {
+					if($("#username").val()){
+						sendMsg();
+					}else{
+						mui.alert('','请先输入手机号码',function(){});
+					}
+				});
+
 			});
 		</script>
 

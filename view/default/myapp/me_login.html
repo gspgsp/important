@@ -49,7 +49,7 @@
 					commonAjax(
 							"post",
 							"/myapp/login/login",
-							{mobile:mobile,password:password}
+							{username:mobile,password:password}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
