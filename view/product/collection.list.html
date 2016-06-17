@@ -21,7 +21,7 @@
 				
 				<select name="collection_status" id="collection_status">
 					<option value="" selected="selected">={if $type eq '1'}订单收款状态{else}订单付款状态{/if}=</option>
-						{html_options options=$ordertype}
+						{html_options options=$collection_status}
 				</select>
 				
 				<select name="invoice_status" id="invoice_status">

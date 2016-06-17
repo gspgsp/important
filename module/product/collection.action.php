@@ -25,7 +25,7 @@ class collectionAction extends adminBaseAction
 			$this->_grid();exit;
 		}
 		$this->assign('type','1');
-		$this->assign('ordertype',L('gatheringt_status'));    //订单收款状态
+		$this->assign('collection_status',L('gatheringt_status'));    //订单收款状态
 		$this->assign('page_title','销售收款明细');
 		$this->display('collection.list.html');
 	}
@@ -43,7 +43,7 @@ class collectionAction extends adminBaseAction
 		}
 		$this->assign('type','2');
 
-		$this->assign('ordertype',L('payment_status'));  //订单付款状态
+		$this->assign('collection_status',L('payment_status'));  //订单付款状态
 		$this->assign('page_title','采购付款明细');
 		$this->display('collection.list.html');
 	}
