@@ -74,13 +74,13 @@
 						<td>财务记录 : </td>
 						<td>{$financial_records.$info.financial_records}</td>
 					</tr>
-					{if $order_type eq '1'}
+					{if $order_type eq 'saleLog'}
 					<tr>
 						<td>出库状态 : </td>
 						<td>{$out_storage_status.$info.out_storage_status}</td>
 					</tr>
 					{else}
-										<tr>
+					<tr>
 						<td>入库状态 : </td>
 						<td>{$in_storage_status.$info.in_storage_status}</td>
 					</tr>
