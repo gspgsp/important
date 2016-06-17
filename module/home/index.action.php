@@ -7,6 +7,11 @@ class indexAction extends homeBaseAction{
 	}
 	public function init()
 	{
+
+		// p($this->sys);
+		//轮播图
+		$this->banners=M('system:block')->getBlock(1,10);
+
 		//产品应用
 		$this->process_level=L('process_level');
 		//产品分类

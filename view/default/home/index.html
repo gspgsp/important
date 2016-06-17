@@ -12,12 +12,14 @@
     <!--bannerSlidePlayer begin-->
     <div id="bannerSlidePlayer" class="main_visual">
         <ul class="main_image clearfix">
+            {foreach from=$banners item=value}
             <li class="element">
-                <a href="http://wodesuliao.cn/article/show.html?id=3606">
-                    <img src="__IMG__/home/banner7.jpg" alt="扫描二维码，红包翻翻翻">
+                <a href="{$value.url}">
+                    <img src="__UPLOAD__/{$value.img}" alt="{$value.title}">
                 </a>
             </li>
-            <li class="element">
+            {/foreach}
+            <!-- <li class="element">
                 <a href="http://wodesuliao.cn/article/show.html?id=3375">
                     <img src="__IMG__/home/banner6.jpg" alt="开奖啦">
                 </a>
@@ -31,7 +33,7 @@
                 <a href="/ship">
                     <img src="__IMG__/home/banner2.jpg" alt="中晨物流">
                 </a>
-            </li>
+            </li> -->
         </ul>
         <div class="flicking_con"></div>
         <a href="javascript:void(0);" id="btn_prev" class="hidden"></a>

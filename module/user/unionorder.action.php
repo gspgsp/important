@@ -68,6 +68,28 @@ class unionorderAction extends userBaseAction{
 
 	public function detail()
 	{
-		
+		$id=sget('id','i',0);
+
+		$order=$this->db->from('union_order o')
+			->join('admin ad','o.customer_manager=ad.admin_id')
+			->select('o.*,ad.name,ad.mobile')
+			->where("o.id=$id and buy_user_id={$this->user_id}")
+			->getRow();
+		$order['c_name']=$this->db->model('customer')->where("c_id={$order['sale_id']}")->select('c_name')->getOne();
+
+		$sale_log=$this->db->from('union_order_detail s')
+			->leftjoin('product p','s.p_id=p.id')
+			->leftjoin('factory f','p.f_id=f.fid')
+			->select('s.id,s.number,s.unit_price,p.model,p.product_type,f.f_name')
+			->where("o_id={$order['id']}")
+			->getAll();
+
+		foreach ($sale_log as $key => &$value) {
+			$value['totalPrice']=$value['number']*$value['unit_price'];
+		}
+
+		$this->assign('order',$order);
+		$this->assign('sale_log',$sale_log);
+		$this->display('union_order.detail');
 	}
 }
