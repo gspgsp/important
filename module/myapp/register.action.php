@@ -50,7 +50,7 @@ class registerAction extends homeBaseAction{
 	//信息补全页面
 	public function reginfo()
 	{
-		if(!$_SESSION['check_reg_ok']) $this->forward('/myapp/register');
+		// if(!$_SESSION['check_reg_ok']) $this->forward('/myapp/register');
 		if($_POST)
 		{
 			$this->is_ajax=true;
