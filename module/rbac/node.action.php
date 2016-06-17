@@ -220,5 +220,50 @@ class nodeAction extends adminBaseAction {
 		}
 		return '';
 	}
+
+	/**
+	 * 展示审核流程
+	 */
+	public function admChk(){
+		$data=  L("chk_node");
+		$this->assign('data',json_encode($data));
+		//查询已经存在的节点
+		$id = sget('id','i',0);
+		$this->assign('id',$id);
+		$this->assign('page_title','审核流程');
+		$this->display('chk.tree.html');
+	}
+	/**
+	 * 提交保存审核流程
+	 */
+	public function saveChk(){
+		$node_id = sget('id','i',0);//节点
+		$chk_flows =sget('nodes','s');   // 权限流id
+		$adm_id = sget('adm_id','i',0);//管理员名字
+		// 先删除对应管理员的权限流
+		$this->db->model('adm_chk')->where("`adm_id` = $adm_id")->delete();
+		$chk_flows = explode(',', $chk_flows);
+		$data = array(
+			'adm_id'=>$adm_id,
+			'node_id'=>$node_id,
+			'input_time'=>CORE_TIME,
+			);
+		if($chk_flows){
+			foreach ($chk_flows as $v) {
+				$data['node_flow'] = $v;
+				$this->db->model('adm_chk')->add($data);
+			}
+		}
+		$this->success('修改成功');
+		
+	}
+	//获取已有用户的节点
+	public function geiadmnodes(){
+		$this->is_ajax = true;
+		$adm = sget('adm','i',0);
+		$nodes = $this->db->model('adm_chk')->select('node_flow')->where("adm_id = $adm")->getCol();
+		$out = implode(',',$nodes);
+		$this->json_output($out);
+	}
 }
 ?>

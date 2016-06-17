@@ -84,5 +84,23 @@ return array(
 		2=>'商业发票',
 		3=>'服务业发票',
 		),
+	'chk_node'=>array(
+		array(
+			'id'=>1,
+			'text'=>"一级流程"
+			,),
+		array(
+			'id'=>2,
+			'text'=>"二级流程",
+			),
+		array(
+			'id'=>3,
+			'text'=>"三级流程",
+			),
+		array(
+			'id'=>4,
+			'text'=>"四级流程",
+			),
+		),
 );
 ?>

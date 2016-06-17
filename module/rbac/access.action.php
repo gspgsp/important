@@ -61,7 +61,6 @@ class accessAction extends adminBaseAction {
 				}
 			}
 		}
-		
 		$this->assign('data',json_encode($data));
 		
 		$this->assign('page_title','角色权限管理');

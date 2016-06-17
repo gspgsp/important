@@ -21,7 +21,9 @@
                         <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
                         <a class="mini-button" iconCls="icon-node" plain="true" onclick="switchChild()" id="iconSwitch">【查看】子级</a>
                         <span class="separator"></span>             
-                        <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>    
+                        <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>
+                          <span class="separator"></span>
+                          <a class="mini-button" iconCls="icon-add" plain="true" onclick="addChk()">新增该节点审核流</a>    
                     </td>
                     <td style="float:right;">
                         <a class="mini-button" iconCls="icon-reload" plain="true" onclick="updateAccess()">更新栏目权限</a>    
@@ -147,6 +149,24 @@ function addRow() {
 		obj.addRow(newRow,0);
 	}
 }
+
+//增加一行
+function addChk() {
+	var rows = pGrid.getSelecteds();  
+	if(rows.length>1){
+		alert('审核流程每次只能选择一个节点进行设置');
+		return false;
+	}else{
+		mini.open({
+			url: '/rbac/node/admChk?id='+rows[0].id,
+			showMaxButton:true,
+			title: "设置节点审核流程", width: 215, height:210
+		});
+	}
+	
+}
+
+
 //保存数据
 function saveData() {
 	var data=null,obj=null;
