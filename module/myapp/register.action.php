@@ -11,11 +11,12 @@ class registerAction extends homeBaseAction{
 	}
 	public function init()
 	{
-		$this->display('register');
+		$this->display('me_reg');
 	}
 
 	public function register()
 	{
+		$this->is_ajax = true;
 		$mobile=sget('mobile','s');
 		if(!$this->_chkmobile($mobile)) $this->error($this->err);
 		$password=sget('password','s');
@@ -36,7 +37,8 @@ class registerAction extends homeBaseAction{
 		if($user_model->add($_user)){
 			$_SESSION['user_id'] = $user_model->getLastID();
 			$_SESSION['check_reg_ok']=true;
-			$this->display('reginfo');
+			$this->success('注册成功');
+			//$this->display('me_completeinfo');
 		}
 
 	}
@@ -90,7 +92,7 @@ class registerAction extends homeBaseAction{
 			$user_model->commit();
 			$_SESSION['mobile']=null;
 			$_SESSION['check_reg_ok']=null;
-			$this->success('注册成功');//注册成功后跳转到个人中心
+			$this->success('完善成功');//完善成功后跳转到个人中心
 		}
 	}
 
