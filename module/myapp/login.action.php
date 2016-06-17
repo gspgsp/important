@@ -11,7 +11,7 @@ class loginAction extends homeBaseAction{
 
 	public function login()
 	{
-		if(isset($_REQUEST['username'])){
+		if($_POST){
 			$this->is_ajax=true;
 			$username=sget('username','s');
 			$password=sget('password','s');
