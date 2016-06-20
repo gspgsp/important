@@ -17,8 +17,8 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<0) $this->error('账户错误');
         $type1 = sget('type1','i');//$type1 1采购
         $type2 = sget('type2','i');//$type1 2报价
-        $thumb = M('touch:personalAppCenter')->getUserThumb($this->user_id);
-        $name = M('touch:personalAppCenter')->getUserName($this->user_id);
+        $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
+        $name = M('touch:personalcenter')->getUserName($this->user_id);
         $qCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type1);
         $pCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type2);
         $proAttCount = M('myapp:personalAppCenter')->getMyAttentionCount($this->user_id);
