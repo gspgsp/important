@@ -36,6 +36,8 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的报价单
     public function myQuotation(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $cargo_type = sget('cargo_type','i',1);
         if(!$data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$cargo_type)) $this->json_output(array('err'=>1,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
@@ -46,6 +48,8 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的采购
     public function myPurchase(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $cargo_type = sget('cargo_type','i',1);
         if(!$data = M('myapp:personalAppCenter')->getMyPurchase($this->user_id,$cargo_type)) $this->json_output(array('err'=>1,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
@@ -56,6 +60,8 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的关注
     public function MyAttention(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $products = M('myapp:personalAppCenter')->getMyAttention($this->user_id);
         $this->json_output(array('err'=>0,'data'=>$products));
     }
@@ -65,10 +71,10 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的积分
     public function getMyPoints(){
-        if($this->user_id>0){
-            $points = M('points:pointsBill')->getUerPoints($this->user_id);
-            $result = M('touch:creditshop')->getCreditShop();
-        }
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $points = M('points:pointsBill')->getUerPoints($this->user_id);
+        $result = M('touch:creditshop')->getCreditShop();
         $this->json_output(array('points'=>$points,'shop'=>$result));
     }
     //进入我的物流
@@ -77,6 +83,8 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的物流
     public function getMyTrans(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         //$this->db->model('')
     }
     //进入我的设置
@@ -85,7 +93,11 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的设置
     public function getMySet(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $set = M('user:customerContact')->getUserInfoByid($this->user_id);
+        $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
+        $set['cus_mana'] = $cus_mana;
         $set['c_name'] = M('user:customer')->getCinfoById($set['c_id']);
         $this->json_output(array('err'=>0,'data'=>$set));
     }
@@ -95,6 +107,8 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的意见反馈
     public function getMyFeedBack(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         //
     }
     /**
@@ -103,6 +117,7 @@ class personalCenterAction extends homeBaseAction
     //报价搜索
     public function doQuoSearch(){
         $this->is_ajax=true;
+        if($this->user_id<0) $this->error('账户错误');
         //搜素关键字
         $keywords = sget('keywords','s');
         //存取数值
@@ -168,6 +183,8 @@ class personalCenterAction extends homeBaseAction
     }
     //单个上架，下架切换
     public function changestate(){
+        $this->is_ajax=true;
+        if($this->user_id<0) $this->error('账户错误');
         //当前求购的id
         $id = sget('id','i',0);
         if($id>0){
@@ -177,6 +194,8 @@ class personalCenterAction extends homeBaseAction
     }
     //单个更新报价单
     public function refreshCell(){
+        $this->is_ajax=true;
+        if($this->user_id<0) $this->error('账户错误');
         $id = sget('id','i',0);
         $data = sget('qdata','a');
         $p_id = sget('pid','i',0);
@@ -185,6 +204,8 @@ class personalCenterAction extends homeBaseAction
     }
     //批量更新报价单
     public function refreshMulCell(){
+        $this->is_ajax=true;
+        if($this->user_id<0) $this->error('账户错误');
         //取出所有的id
         $ids = sget('ids','a');
         $up = sget('up','i');
@@ -196,6 +217,7 @@ class personalCenterAction extends homeBaseAction
     //求购搜索
     public function doPurSearch(){
         $this->is_ajax=true;
+        if($this->user_id<0) $this->error('账户错误');
         //搜素关键字
         $keywords = sget('keywords','s');
         //存取数值
@@ -306,6 +328,7 @@ class personalCenterAction extends homeBaseAction
     //保存添加新的我的关注(产品)
     public function addProAttention(){
         $this->is_ajax=true; //指定为Ajax输出
+        if($this->user_id<0) $this->error('账户错误');
         // $dataP = sdata(); //传递的参数:产品类别/产品牌号/产地
         if(empty($_POST)){
             $this->error('请添加关注产品信息');
@@ -345,6 +368,7 @@ class personalCenterAction extends homeBaseAction
     //我的关注全选/不选删除
     public function delMyAttention(){
         $this->is_ajax=true;
+        if($this->user_id<0) $this->error('账户错误');
         $ids = sget('ids','a');
         $result = M('myapp:personalAppCenter')->mulDelMyAttention($ids);
         $this->json_output($result);
@@ -355,10 +379,10 @@ class personalCenterAction extends homeBaseAction
     }
     //返回积分明细
     public function get_creditdetail(){
-        if($this->user_id>0){
-            $points = M('points:pointsBill')->getUerPoints($this->user_id);
-            $result = M('touch:creditdetail')->getCreditDetail($this->user_id);
-        }
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $points = M('points:pointsBill')->getUerPoints($this->user_id);
+        $result = M('touch:creditdetail')->getCreditDetail($this->user_id);
         $this->json_output(array('points'=>$points,'detail'=>$result));
     }
     //签到、兑换路径:/myapp/sign
@@ -368,9 +392,9 @@ class personalCenterAction extends homeBaseAction
     }
     //返回兑换记录
     public function get_creditRecord(){
-        if($this->user_id>0){
-            $result = M('touch:creditRecord')->getCreditRecord($this->user_id);
-        }
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $result = M('touch:creditRecord')->getCreditRecord($this->user_id);
         $this->json_output($result);
     }
     //商品详情页
@@ -379,6 +403,8 @@ class personalCenterAction extends homeBaseAction
     }
     //点击返回商品详情
     public function get_shopDetail(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $gid = sget('gid','i',0);
         $result = M('touch:creditshop')->getShopDetail($gid);
         $this->json_output($result);
@@ -392,6 +418,8 @@ class personalCenterAction extends homeBaseAction
     }
     //保存姓名
     public function saveName(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $name = sget('name','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
@@ -406,6 +434,8 @@ class personalCenterAction extends homeBaseAction
     }
     //保存公司
     public function saveCompany(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $c_name = sget('c_name','s');
         $result = M('user:customer')->getCompanyByName($c_name);//不存在则返回空数组
         $_user=array(
@@ -421,6 +451,8 @@ class personalCenterAction extends homeBaseAction
     }
     //保存我的交易员
     public function saveTrader(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $customer_manager = sget('cus_manager','i');//交易员下标
         $_user=array(
                     'update_time'=>CORE_TIME,
@@ -435,6 +467,8 @@ class personalCenterAction extends homeBaseAction
     }
     //保存密码修改
     public function savePassword(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $password = sget('password','s');
         $salt=randstr(6);
         $user_model=M('system:sysUser');
@@ -452,6 +486,8 @@ class personalCenterAction extends homeBaseAction
     }
     //保存邮箱
     public function saveEmail(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $email = sget('email','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
@@ -466,6 +502,8 @@ class personalCenterAction extends homeBaseAction
     }
     //保存QQ
     public function saveQq(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $qq = sget('qq','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
@@ -481,9 +519,9 @@ class personalCenterAction extends homeBaseAction
     }
     //退出登录
     public function logOut(){
-        if($this->user_id>0){
-            M('user:passport')->setSession();
-        }
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        M('user:passport')->setSession();
         $this->json_output(array('err'=>0,'msg'=>'退出成功'));
     }
 
