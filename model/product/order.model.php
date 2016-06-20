@@ -37,6 +37,14 @@ class orderModel extends model{
 	/**
 	 * 根据id查订单明细表的值
 	 */
+	public function getColByOid($o_id=0,$col='id'){
+		$result=$this->select("$col")->where("o_id='$o_id'")->getOne();
+		return empty($result) ? false : $result;
+	}
+
+	/**
+	 * 根据id查订单明细表的值
+	 */
 	public function getODidByOid($o_id=0,$col='id'){
 		$result=$this->model('sale_log')->select("$col")->where("o_id='$o_id'")->getOne();
 		return empty($result) ? false : $result;
