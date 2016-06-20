@@ -37,9 +37,9 @@ class personalCenterAction extends homeBaseAction
     //获取我的报价单
     public function myQuotation(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $cargo_type = sget('cargo_type','i',1);
-        if(!$data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
+        if(!$data = M('myapp:personalAppCenter')->getMyQuotation(47,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
     }
     //进入我的采购

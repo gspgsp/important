@@ -184,6 +184,7 @@ class mainPageAction extends homeBaseAction
     public function getCheckDelegate(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
+        $otype = sget('otype','i');
         if()
     }
 
