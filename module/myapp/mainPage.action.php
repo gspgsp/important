@@ -166,5 +166,25 @@ class mainPageAction extends homeBaseAction
         $this->json_output(array('err'=>0,'sdata'=>$cdata));
     }
     //搜索结果的操作
+    public function getOperateRes(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        if(!$opres = M('myapp:mainPage')->getOperateRes()) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'opres'=>$opres));
+    }
+    //进入查看
+    public function enCheckForm(){
+        $this->display('');
+    }
+    //进入委托
+    public function enDelegateForm(){
+        $this->display('');
+    }
+    //搜索结果的操作，查看/委托
+    public function getCheckDelegate(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        if()
+    }
 
 }
