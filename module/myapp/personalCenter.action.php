@@ -514,7 +514,7 @@ class personalCenterAction extends homeBaseAction
     }
     //保存个人设置
     private function _saveSetData($_user){
-        if(!$this->db->model('customer_contact')->where('user_id=$this->user_id')->update($_user)) $this->json_output(array('err'=>1,'msg'=>'修改失败'));
+        if(!$this->db->model('customer_contact')->where('user_id='.$this->user_id)->update($_user)) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
         $this->json_output(array('err'=>0,'msg'=>'修改成功'));
     }
     //退出登录
