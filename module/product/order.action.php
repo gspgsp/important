@@ -122,6 +122,7 @@ class orderAction extends adminBaseAction {
 			$v['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
+			$v['chknode'] = $chknode = $this->_accessChk($this->db->model('order')->select('nodechk')->where("`o_id` ={$v['o_id']} ")->getOne());
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
