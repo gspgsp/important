@@ -120,6 +120,7 @@ class collectionAction extends adminBaseAction
 			'refund_amount'=>$data['c_price'],
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
+			'collection_status'=>2,
 			);		
             //退款可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
  		$update=array_merge($arr[0],$arr2);
