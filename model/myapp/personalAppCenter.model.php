@@ -2,7 +2,7 @@
 /**
 *个人中心模型-app
 */
-class personalCenterModel extends model
+class personalAppCenterModel extends model
 {
 	public function __construct() {
 		parent::__construct(C('db_default'), 'purchase');
