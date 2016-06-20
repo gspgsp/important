@@ -122,7 +122,7 @@ class orderAction extends adminBaseAction {
 			$v['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
-			$v['chknode'] = $chknode = $this->_accessChk($this->db->model('order')->select('nodechk')->where("`o_id` ={$v['o_id']} ")->getOne());
+			$v['node_flow'] = $this->_accessChk($this->db->model('order')->select('node_flow')->where("`o_id` ={$v['o_id']} ")->getOne());
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -422,27 +422,30 @@ class orderAction extends adminBaseAction {
 				if( !$re2=$this->db->model('purchase_log')->where(' o_id = '.$data['o_id'])->update(array('order_status'=>2)+$_data) ) throw new Exception("订单明细审核状态更新失败");
 			}else{
 				//销售审核通过即锁库存 2:通过  ,  3:不通过
+				//检查来源
+				$order_source  = $this->db->model('order')->select('order_source')->where(' o_id = '.$data['o_id'])->getCol();
 				if($data['order_status'] == '2'){
-					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");
+					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2 , node_flow=node_flow+1 ') ) throw new Exception("订单审核失败");
 					if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
-					if( $data['sales_type'] != '2' ){ //如果销库存则循环锁定产品库存
-						$detail = $this->db->model('sale_log')->select('inlog_id,number')->where(' o_id = '.$data['o_id'])->getAll();
-						foreach ($detail as $k => $v) {
-						if( !$this->db->model('in_log')->where(' id = '.$v['inlog_id'])->update(' controlled_number = controlled_number - '.$v['number'].' , lock_number = lock_number+'.$v['number']) ) throw new Exception("锁定库存失败!");
+					if($order_source == 2){
+						if( $data['sales_type'] != '2' ){ //如果销库存则循环锁定产品库存
+							$detail = $this->db->model('sale_log')->select('inlog_id,number')->where(' o_id = '.$data['o_id'])->getAll();
+							foreach ($detail as $k => $v) {
+							if( !$this->db->model('in_log')->where(' id = '.$v['inlog_id'])->update(' controlled_number = controlled_number - '.$v['number'].' , lock_number = lock_number+'.$v['number']) ) throw new Exception("锁定库存失败!");
+							}
 						}
 					}
+
 				}else if($data['order_status'] == '3'){
 					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");				
 				}
 			}
 	
 		} catch (Exception $e) {
-
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
 		$this->db->commit();
-
 		$this->success('操作成功');
 	}
 	
