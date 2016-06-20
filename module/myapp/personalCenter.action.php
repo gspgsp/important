@@ -17,13 +17,13 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<0) $this->error('账户错误');
         $type1 = sget('type1','i');//$type1 1采购
         $type2 = sget('type2','i');//$type1 2报价
-        $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
-        $name = M('touch:personalcenter')->getUserName($this->user_id);
-        $qCount = M('myapp:personalCenter')->getMyQuotationCount($this->user_id,$type1);
-        $pCount = M('myapp:personalCenter')->getMyQuotationCount($this->user_id,$type2);
-        $proAttCount = M('myapp:personalCenter')->getMyAttentionCount($this->user_id);
+        $thumb = M('touch:personalAppCenter')->getUserThumb($this->user_id);
+        $name = M('touch:personalAppCenter')->getUserName($this->user_id);
+        $qCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type1);
+        $pCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type2);
+        $proAttCount = M('myapp:personalAppCenter')->getMyAttentionCount($this->user_id);
         $points = M('points:pointsBill')->getUerPoints($this->user_id);
-        $cus_mana = M('myapp:personalCenter')->getMyCusManager($this->user_id);//交易员姓名
+        $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
         if($name){
             $this->json_output(array('thumb'=>$thumb,'name'=>$name,'qcount'=>$qCount,'pcount'=>$pCount,'proattcount'=>$proAttCount,'points'=>$points,'cus_mana'=>$cus_mana));
         }else{
@@ -37,7 +37,7 @@ class personalCenterAction extends homeBaseAction
     //获取我的报价单
     public function myQuotation(){
         $cargo_type = sget('cargo_type','i',1);
-        if(!$data = M('myapp:personalCenter')->getMyQuotation($this->user_id,$cargo_type)) $this->json_output(array('err'=>1,'msg'=>'没有相关的数据!'));
+        if(!$data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$cargo_type)) $this->json_output(array('err'=>1,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
     }
     //进入我的采购
@@ -47,7 +47,7 @@ class personalCenterAction extends homeBaseAction
     //获取我的采购
     public function myPurchase(){
         $cargo_type = sget('cargo_type','i',1);
-        if(!$data = M('myapp:personalCenter')->getMyPurchase($this->user_id,$cargo_type)) $this->json_output(array('err'=>1,'msg'=>'没有相关的数据!'));
+        if(!$data = M('myapp:personalAppCenter')->getMyPurchase($this->user_id,$cargo_type)) $this->json_output(array('err'=>1,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
     }
     //进入我的关注
@@ -56,7 +56,7 @@ class personalCenterAction extends homeBaseAction
     }
     //获取我的关注
     public function MyAttention(){
-        $products = M('myapp:personalCenter')->getMyAttention($this->user_id);
+        $products = M('myapp:personalAppCenter')->getMyAttention($this->user_id);
         $this->json_output(array('err'=>0,'data'=>$products));
     }
     //进入我的积分
@@ -346,7 +346,7 @@ class personalCenterAction extends homeBaseAction
     public function delMyAttention(){
         $this->is_ajax=true;
         $ids = sget('ids','a');
-        $result = M('myapp:personalCenter')->mulDelMyAttention($ids);
+        $result = M('myapp:personalAppCenter')->mulDelMyAttention($ids);
         $this->json_output($result);
     }
     //积分明细
