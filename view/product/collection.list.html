@@ -111,7 +111,7 @@ function onLoadHandle(e) {
 
 //追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id, o_sn=record.order_sn,c_status=record.collection_status,access=record.accessory, s='';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id, o_sn=record.order_sn,c_status=record.collection_status, s='';
 	if(c_status != '4' && c_price != 0)
 	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+id+',\''+o_sn+'\')">退款</a>';
 	return s;
@@ -120,7 +120,7 @@ function viewhander(e){
 function down(e){
 	var record = e.record, accessory =  record.accessory, s = '';
 	if(accessory != ''){
-		return '<a href="'+accessory+'">下载</a>'
+		return '<a href="'+accessory+'">下载</a>';
 	}
 	return s;
 

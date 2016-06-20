@@ -9,8 +9,6 @@ class collectionAction extends adminBaseAction
 		$this->assign('pay_method',L('pay_method'));		 	//付款方式
 		$this->assign('invoice_status',L('invoice_status'));    //开票状态
 		$this->assign('company_account',L('company_account'));  //交易公司账户order_type
-		// $this->assign('ordertype',L('order_type'));  			//订单类型
-
 	}
 
 	/**
@@ -96,6 +94,7 @@ class collectionAction extends adminBaseAction
 			$list['data'][$k]['payment_time']=$v['payment_time']>1000 ? date("Y-m-d H:i:s",$v['payment_time']) : '-';
 			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
 			$list['data'][$k]['invoice_status']=M('product:order')->getColByName($value=$v['o_id'],$col='invoice_status',$condition='o_id');
+			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
 
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
