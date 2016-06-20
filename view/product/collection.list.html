@@ -56,7 +56,7 @@
 		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">{if $type eq '1'}收款方式{else}付款方式{/if}</div>
 
 		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>		
-		<div field="accessory" width="45" headerAlign="center" align="center" align="center">附件</div>
+		<div field="accessory" width="45" headerAlign="center" align="center" allowSort="true" renderer="downLoadHand">附件</div>
 		
 		
 		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">{if $type eq '1'}销售订单收款状态{else}采购订单付款状态{/if}</div>
@@ -99,18 +99,36 @@ function onKeyEnter(e) {
   search();
 }
 
-//追加操作按钮
+//追加订单id的操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',oid = record.o_id;
 	var type={$type};
 	s += '<a href="javascript:viewOrdInfo('+oid+','+type+')">'+oid+'</a> ';
 	return s;
 }
-//追加操作，退款按钮
+
+//下载操作
+function downloadAdjunct(oid,id,access){
+	var data = {oid:oid,accessory:access,id:id};
+	var json = mini.encode(data);
+	$.post('/product/collection/downloadAdjunct',{data:json},function (data){
+        if(data.err=='0'){
+			grid.reload();
+		}else{
+			alert(data.msg)
+			return false;
+		}
+    },'json');
+
+}
+
+//追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id, o_sn=record.order_sn,c_status=record.collection_status, s='';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id, o_sn=record.order_sn,c_status=record.collection_status,access=record.accessory, s='';
 	if(c_status != '4' && c_price != 0)
 	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+id+',\''+o_sn+'\')">退款</a>';
+	if(access != '')
+	s += '<a href="javascript:downloadAdjunct('+oid+','+id+',\''+access+'\')">|下载</a>';
 	return s;
 }
 
