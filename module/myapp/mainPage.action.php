@@ -174,18 +174,19 @@ class mainPageAction extends homeBaseAction
     }
     //进入查看
     public function enCheckForm(){
-        $this->display('');
+        $this->display('supplyDemand_detail');
     }
     //进入委托
     public function enDelegateForm(){
-        $this->display('');
+        $this->display('supplyDemand_trade');
     }
     //搜索结果的操作，查看/委托
     public function getCheckDelegate(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
-        $otype = sget('otype','i');
-        if()
+        $otype = sget('otype','i');//1查看,2委托
+        if(!$chDeRes=M('myapp:mainPage')->getCheckDelegate($otype)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
+        $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
     }
 
 }

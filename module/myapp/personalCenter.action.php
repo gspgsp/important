@@ -121,6 +121,8 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         //搜素关键字
         $keywords = sget('keywords','s');
+        //1现货/2期货
+        $cargo_type = sget('cargo_type','i');
         //存取数值
         $temp = array();
         $result = array();
@@ -132,9 +134,9 @@ class personalCenterAction extends homeBaseAction
         if(in_array($keywords, $p_types)){
             $keyValue = $this->_getProKey($p_types,$keywords);
         }
-        //1,上架2,下架
+        //1,上架2,下架,其他,全部
         $type = sget('type','s');
-        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id}";
+        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id} and pur.cargo_type={$cargo_type}";
         if($type == '1'){
             $where.=" and pur.shelve_type=1";
             $data = $this->db->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
@@ -221,6 +223,8 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         //搜素关键字
         $keywords = sget('keywords','s');
+        //1现货/2期货
+        $cargo_type = sget('cargo_type','i');
         //存取数值
         $temp = array();
         $result = array();
@@ -234,7 +238,7 @@ class personalCenterAction extends homeBaseAction
         }
         //1.待审核  2.审核通过  3.洽谈中  4.交易成功   5.无效 6:过期
         $type = sget('status','s');
-        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id}";
+        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id} and pur.cargo_type={$cargo_type}";
         if($type == '1'){
             $where.=" and pur.status=1";
             $data = $this->db->from('purchase pur')
