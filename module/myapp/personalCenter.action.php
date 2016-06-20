@@ -438,7 +438,7 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<0) $this->error('账户错误');
         $c_name = sget('c_name','s');
         $c_id = M('user:customerContact')->getListByUserid($this->user_id)['c_id'];
-        if($this->db->model('customer')->where('c_id='.$c_id)->update(array('c_name'=>$c_name))) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
+        if(!$this->db->model('customer')->where('c_id='.$c_id)->update(array('c_name'=>$c_name))) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
         $this->json_output(array('err'=>0,'msg'=>'修改成功'));
     }
     //进入我的交易员
