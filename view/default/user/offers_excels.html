@@ -1,18 +1,27 @@
 {layout file="public:main_layout"}
 {insert_css files='home/user.css'}
 {insert_js files='home/jquery.ajaxupload.js'}
-
+<style type="text/css">
+	.mb_btn{
+		display: inline-block;
+		padding: 5px;
+		background: #fc6621;
+		color: #fff;
+		margin-left: 50px;
+	}
+</style>
 
 <div class="buy-crumb w1220">首页-个人中心</div>
 <div class="user-wrap w1220">
     {include file="public:user_left"}
         <div class="right frt">
     		<h3>报价单导入</h3>
+    		<a class="mb_btn" href="__IMG__/wk/sampleopus.xls">模板下载</a>
 
             <div id="con-tabx-1" class="con-tabx">
             	<form id="infoForm">
 					<div class="lt-rt">
-					    <div class="lt flt" style="width:400px;">
+					    <div class="lt flt" style="width:450px;">
 					        <table>
 					            <tr>
 					                <td class="val">
@@ -20,6 +29,8 @@
 					                	<input type="text" value="" id="fileName" name="fileName" class="import"/>
 					                	<input type="hidden" value="" id="saveName" name="saveName" class="import"/>
 					                	<input type="button" style="padding:7px;cursor:pointer;height:30px;" id="fileBtn" value="选择文件" class=" ">
+					                	
+
 					                </td>
 					            </tr>
 					        </table>
