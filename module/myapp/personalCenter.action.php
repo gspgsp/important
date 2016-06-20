@@ -98,7 +98,7 @@ class personalCenterAction extends homeBaseAction
         $set = M('user:customerContact')->getUserInfoByid($this->user_id);
         $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
         $set['cus_mana'] = $cus_mana;
-        $set['c_name'] = M('user:customer')->getCinfoById($set['c_id']);
+        $set['c_name'] = M('user:customer')->getCinfoById($set['c_id'])['c_name'];//公司名称
         $this->json_output(array('err'=>0,'data'=>$set));
     }
     //进入我的意见反馈
@@ -437,13 +437,9 @@ class personalCenterAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
         $c_name = sget('c_name','s');
-        $result = M('user:customer')->getCompanyByName($c_name);//不存在则返回空数组
-        $_user=array(
-                    'update_time'=>CORE_TIME,
-                    'update_admin'=>$_SESSION['name'],
-                    'c_id'=>$result['c_id'],
-                );
-        $this->_saveSetData($_user);
+        $c_id = M('user:customerContact')->getListByUserid($this->user_id)['c_id'];
+        if($this->db->model('customer')->where('c_id='.$c_id)->update(array('c_name'=>$c_name))) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
+        $this->json_output(array('err'=>0,'msg'=>'修改成功'));
     }
     //进入我的交易员
     public function enTrader(){
