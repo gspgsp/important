@@ -423,7 +423,7 @@ class orderAction extends adminBaseAction {
 			}else{
 				//销售审核通过即锁库存 2:通过  ,  3:不通过
 				//检查来源
-				$order_source  = $this->db->model('order')->select('order_source')->where(' o_id = '.$data['o_id'])->getCol();
+				$order_source  = $this->db->model('order')->select('order_source')->where(' o_id = '.$data['o_id'])->getOne();
 				if($data['order_status'] == '2'){
 					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2 , node_flow=node_flow+1 ') ) throw new Exception("订单审核失败");
 					if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
