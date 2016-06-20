@@ -18,7 +18,7 @@ class personalAppCenterModel extends model
 	//获取我的交易员
 	public function getMyCusManager($user_id){
 		$admin_id = $this->model('customer_contact')->select('customer_manager')->where('user_id=$user_id')->getOne();
-		$cus_m = $this->model('admin')->select('name')>where('admin_id=$admin_id')->getOne();
+		$cus_m = $this->model('admin')->select('name')->where('admin_id=$admin_id')->getOne();
 		return $cus_m;
 	}
 	//获取我的报价单(1现货/2期货)
