@@ -354,7 +354,6 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-				p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
 		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
 		unset($data['o_id']);
