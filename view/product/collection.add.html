@@ -39,13 +39,14 @@
 				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$price}" style="width:150px;" allowInput="false" required="true"/></td>
 			</tr>
 			{/if}
-			{if $uncollected_price eq ''}{else}
+			{if $uncollected_price eq ''}
 			<tr>
-				{if $type =='1'}
-				<td>未收款金额</td>
-				{else}
-				<td>未付款金额</td>
-				{/if}
+				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
+				<td><input  class="mini-textbox" maxlength="12" value="{$price}" style="width:150px;" allowInput="false"/></td>
+			</tr>
+			{else}
+			<tr>
+				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
 				<td><input  class="mini-textbox" maxlength="12" value="{$uncollected_price}" style="width:150px;" allowInput="false"/></td>
 			</tr>
 			{/if}

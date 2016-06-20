@@ -179,14 +179,11 @@ class collectionAction extends adminBaseAction
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		if(empty($data)) $this->error('错误的操作');
-		
-		$uptype=C('upload_type');
-		$cfg=C('upload_'.$uptype);
 
 		header("Content-type:text/html;charset=utf-8");
 		//用以解决中文不能显示出来的问题
 		$file_name=iconv("utf-8","gb2312",$data['accessory']);//16/06/16/57629c0249c65.doc
-		$file_sub_path=$cfg['path']; //D:\xampp\htdocs\svnonline\branches\cp/../static/upload/
+		$file_sub_path=FILE_URL.'/upload/'; //static.svnonline.com/upload/
 
 		$file_path=$file_sub_path.$file_name;
 		//首先要判断给定的文件存在与否

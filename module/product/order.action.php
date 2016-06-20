@@ -255,8 +255,8 @@ class orderAction extends adminBaseAction {
 			//获取最后一条开票信息
 			$res = M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
 			if($res){
-				$hasbilling_price = ($res[0]['total_price']-$res[0]['unbilling_price']);
-				$this->assign('hasbilling_price',$hasbilling_price);
+				//$hasbilling_price = ($res[0]['total_price']-$res[0]['unbilling_price']);
+				//$this->assign('hasbilling_price',$hasbilling_price);
 				$this->assign('unbilling_price',$res[0]['unbilling_price']);
 			}
 			$this->display('billing.add.html');
