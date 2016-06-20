@@ -30,7 +30,19 @@ class rbacModel extends model{
 			}
 		}
         return true;
-    }
+    }	
+    	/**
+    	 * j检查用户当前的审核流程
+    	 * @Author   cuiyinming
+    	 * @DateTime 2016-06-20T09:53:43+0800
+    	 * @return   [type]                   [description]
+    	 */
+    	public function checkChk($admin_id){
+    		$accessId='/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A;
+    		$nodeid=$this->model('adm_node')->select('id')->where("status=1 and ntype=1 and `level`>2 and `name` = '$accessId'")->order('pid asc,sort_order asc')->getOne();
+    		// 查询当前用户的具有的该节点的权限流
+    		return $this->select('node_flow')->model('adm_chk')->where("`adm_id`= $admin_id and `node_id` = $nodeid")->getCol();
+    	}
 	
 	/*
 	 * 取得当前用户的所有权限列表
