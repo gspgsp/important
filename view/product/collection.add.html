@@ -39,6 +39,7 @@
 				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$price}" style="width:150px;" allowInput="false" required="true"/></td>
 			</tr>
 			{/if}
+			{if $uncollected_price eq ''}{else}
 			<tr>
 				{if $type =='1'}
 				<td>未收款金额</td>
@@ -47,6 +48,7 @@
 				{/if}
 				<td><input  class="mini-textbox" maxlength="12" value="{$uncollected_price}" style="width:150px;" allowInput="false"/></td>
 			</tr>
+			{/if}
 			<tr>
 				{if $type =='1'}
 				<td>*收款金额</td>

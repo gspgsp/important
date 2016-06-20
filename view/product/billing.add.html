@@ -35,10 +35,12 @@
 				<td>票据金额</td>
 				<td><input name="billing_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
+			{if $hasbilling_price eq ''}{else}
 			<tr>
 				<td>已开票金额</td>
 				<td><input name="hasbilling_price" class="mini-textbox" maxlength="12" value="{$hasbilling_price}" style="width:150px;" allowInput="false"/></td>
 			</tr>
+			{/if}
 			<tr>
 				<td>税额</td>
 				<td><input name="tax_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
