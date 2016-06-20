@@ -1,0 +1,120 @@
+{layout file="public:mini_layout"}
+<div id="treeForm" class="form" style="padding:5px;">
+			<tr>
+				<td>选择业务员：</td>
+				<td>
+				<input name="adm_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="" required ="true"  allowInput="false"  text=""  style="width:100px" id="usrId"/>
+				</td>
+		    </tr>
+		<input type="hidden" name="node_id" value="{$id}" id="node_id"/>
+		<ul id="cellList" class="mini-tree" style="padding:5px;" 
+						showTreeIcon="false" textField="text" idField="id" parentField="pid" resultAsTree="false"
+						showCheckBox="true"  expandOnLoad=0 
+						checkRecursive="true" autoCheckParent="false"
+						>
+		</ul>
+		<div style="margin:0 auto;width:150px;">
+					<a class="mini-button" style="width:60px;" onClick="save()">确定</a>
+					<span style="display:inline-block;width:15px;"></span>
+					<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>            
+		</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("cellList");
+var data={$data}; //数据对象
+var oNodes=''; //原始值
+grid.loadList(data, "id", "pid");
+setCheckedNodes();
+//恢复默认值
+function setCheckedNodes() {
+    grid.setValue(oNodes);
+}
+function save() {
+	var ids = grid.getValue(),node_id=$("#node_id").val();
+	var adm_id= mini.get("usrId").getValue();
+	if(adm_id==''){
+		alert('请选择管理员,然后再提交');
+		return;
+	}
+	if(oNodes==ids){
+		CloseWindow("save");
+		return;
+	}
+	
+	grid.loading("数据提交中，请稍后......");
+
+	var callback=function(data){
+		grid.unmask();
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+				 CloseWindow("save");
+		}
+	}
+	utils.ajax('/rbac/node/saveChk?id='+node_id+"&adm_id="+adm_id,{nodes:ids},callback,"POST","json");
+}
+
+// 删除审核流
+function del() {
+	var ids = grid.getValue(),node_id=$("#node_id").val();
+	var adm_id= mini.get("usrId").getValue();
+	if(adm_id==''){
+		alert('请选择管理员,然后再提交');
+		return;
+	}
+	if(oNodes==ids){
+		CloseWindow("save");
+		return;
+	}
+	
+	grid.loading("数据提交中，请稍后......");
+
+	var callback=function(data){
+		grid.unmask();
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+				 CloseWindow("save");
+		}
+	}
+	utils.ajax('/rbac/node/delChk?id='+node_id+"&adm_id="+adm_id,{nodes:ids},callback,"POST","json");
+}
+
+//强制选择管理员
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/rbac/adm/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+					var oNodes = mini.getData('/rbac/node/geiadmnodes?adm='+data.admin_id);
+					grid.setValue(oNodes);
+				}
+			}
+		}
+	});         
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+</script>
