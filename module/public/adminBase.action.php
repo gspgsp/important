@@ -80,7 +80,8 @@ class adminBaseAction extends action {
 		$this->db->model('log_admin')->add($data);
 	}
 	//获取当前用户的审核流
-	protected function  _accessChk($flow_id = 4){
+	protected function  _accessChk($flow_id = 0){
+		$flow_id +=1;
 		if($_SESSION['is_super']>0){ //超级管理员不检查
 			return true;
 		}
