@@ -563,7 +563,7 @@ class orderAction extends adminBaseAction {
 		//echo $str;
 		$pdf->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
 		// 输出pdf
-		$pdf->Output('zcds.pdf', 'I');
+		$pdf->Output("{$orderLists['order_sn']}.pdf", 'I');
 		}
 		/**
 		 * 人民币转文字
