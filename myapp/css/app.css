@@ -240,7 +240,7 @@
 .me_enter{ display: block; margin: 20px 35px 0 35px; border-radius: 3px; font-size: 15px; height: 32px; line-height: 32px; color: #FFFFFF; text-align: center; background: #ff5000;}
 .meSetInput{ width: 100%; height: 45px; line-height: 45px; font-size: 15px; color: #323232; border-bottom: 1px solid #D9D9D9; border-top: 1px solid #D9D9D9; line-height: 45px; background: #FFFFFF; padding: 0 10px; margin: 10px 0 0 0;}
 .meSetInput span{ float: left;}
-.meSetInput input[type=text],.meSetInput input[type=tel],.meSetInput input[type=email]{ margin: 0; padding: 0; float: left; width: 220px; border: none; height: 43px; margin: 0 0 0 30px; line-height: 45px; font-size: 12px;}
+.meSetInput input[type=text],.meSetInput input[type=tel],.meSetInput input[type=email],.meSetInput input[type=password]{ margin: 0; padding: 0; float: left; width: 220px; border: none; height: 43px; margin: 0 0 0 30px; line-height: 45px; font-size: 12px;}
 .meSetInput select{ margin: 0; padding: 0; float: left; width: 100px; border: none; height: 43px; margin: 0 0 0 30px; line-height: 45px; font-size: 12px;}
 .meTitle{ width: 100%; margin: 65px 0 0 0; text-align: center; font-size: 30px; color: #FF0000; font-weight: normal;}
 .registerWrap{ border: 1px solid #bebebe; margin: 45px 20px 20px 20px; border-radius: 5px;}
