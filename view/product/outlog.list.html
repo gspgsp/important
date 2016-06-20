@@ -17,7 +17,8 @@
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
 				<select name="status" id="soStatus">
 					<option value="" selected="selected">==状态==</option>
-					{html_options options=$out_storage_status}
+					<option value="1">待出库</option>
+					<option value="3">已出库</option>
 				</select>
 				<select name="key_type">
 					<option value="store_id">仓库</option>
@@ -43,7 +44,7 @@
 			<div field="admin_name" width="25" headerAlign="center" align="center" >出库人</div>
 			<div field="model" width="55" headerAlign="center" align="center" renderer="onLoadProduct">牌号</div>
 			<div field="fname" width="65" headerAlign="center" aligen="center" >厂家</div>
-			<div field="status" width="30" headerAlign="center" align="center" renderer="LoadStatus">出库状态</div>
+			<div field="out_storage_status" width="30" headerAlign="center" align="center" >出库状态</div>
 			<div field="number" width="25" headerAlign="center" align="center" allowSort="true">出库数量</div>
 			<div field="sales_type" width="40" headerAlign="center" align="center" >销售类型</div>
 			<div field="input_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">操作时间</div>

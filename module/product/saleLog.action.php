@@ -132,6 +132,8 @@ class saleLogAction extends adminBaseAction {
 		if($info['p_id']>0) $model = M('product:product')->getModelById("$info[p_id]");
 		if($type !="edit") $info['p_info']=M('product:product')->getFnameByPid($info['p_id']); 
 		if($type !="edit") $info['order_sn']=M('product:order')->getColByName($info['o_id'],'order_sn'); //根据pid取厂家名
+		if($type !="edit") $info['sales_type']=M('product:order')->getColByName($info['o_id'],'sales_type'); //根据pid取厂家名
+		
 		$info['count']=$info['number']*$info['unit_price'];
 		$info['c_name']=M("user:customer")->getColByName($info['c_id']);//根据cid取客户名
 		//根据pid取厂家名

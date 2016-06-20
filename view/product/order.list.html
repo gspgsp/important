@@ -20,7 +20,7 @@
 			<form id="soform">
 				<select name="sTime">
 					<option value="input_time">创建时间</option>
-					<option value="update_time">更新时间</option>
+					<option value="update_tim出e">更新时间</option>
 					<option value="sign_time">签订日期</option>
 					<option value="pickup_time">提货日期</option>
 					<option value="delivery_time">送货日期</option>
@@ -243,7 +243,7 @@ function submitcheck(type) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id;
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status;
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
 		// if(order_status =='1' || transport_status =='1'){ //待审核时的操作
@@ -252,17 +252,24 @@ function onLoadDetail(e){
 		if(order_status =='3' || transport_status =='3') return;
 			if(order_status =='2' && transport_status=='2'){
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
-					s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;';
-					s+='<a href="javascript:salecompact('+oid+')">合同(销)</a>';
-					if (c_status !='3') {
+					if(join_id != '0' && is_join_in == '0'){ //
+						return;
+					}else{
+						if( out_storage_status != '3'){
+							s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;';
+						}
+						s+='<a href="javascript:salecompact('+oid+')">合同(销)</a>';
+						if (c_status !='3') {
 						s+='|<a href="javascript:transaction('+oid+','+order_type+')">收款</a>';
+						}
+						if (i_status !='全部开票') {
+							s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
+						}
+						if (c_status =='3' && i_status =='全部开票') {
+							s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
+						}
 					}
-					if (i_status !='全部开票') {
-						s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
-					}
-					if (c_status =='3' && i_status =='全部开票') {
-						s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
-					}
+
 
 				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
 					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';

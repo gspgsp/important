@@ -5,21 +5,22 @@
 				<table width="100%">
 					<caption><strong>采购明细</strong></caption>
 					<tr>
-						<td>采购单号：</td>
-						<td>{$info.purchase_order_no}</td>
 						<td>订单名称：</td>
 						<td>{$order_name}</td>
+						<td>采购单号：</td>
+						<td>{$info.order_sn}</td>
 					</tr>
 					<tr>
 						<td>牌号：</td>
 						<td>{$info.p_info.model}</td>
-						<td>订单编号：</td>
-						<td>{$info.order_sn}</td>
+						<td>入库状态 : </td>
+						<td>{$in_storage_status.$info.in_storage_status}</td>
+						
 					</tr>
 					<tr>
 						<td>交易员：</td>  
 						<td>{$info.input_admin}</td>
-						<td>厂家;</td>
+						<td>供应商：</td>
 						<td>{$info.p_info.f_name}</td>
 					</tr>
 					<tr>
@@ -39,13 +40,6 @@
 						<td>{$info.count}</td>
 						<td>开票状态：</td>
 						<td>{$invoice_status.$info.invoice_status}</td>
-					</tr>
-					<tr>
-						<td>供应商：</td>
-						<td>{$info.c_name}</td>
-						<td>入库状态 : </td>
-						<td>{$in_storage_status.$info.in_storage_status}</td>
-						
 					</tr>
 					<tr>
 						<td>采购已付：</td>  

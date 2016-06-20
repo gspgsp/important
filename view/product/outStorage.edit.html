@@ -1,9 +1,7 @@
 {layout file="public:mini_layout"}
-<input class="mini-hidden"  id="o_id" name="o_id" value="{$o_id}"/>
-<input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/>
-<input class="mini-hidden" name="out_no" value="{$out_no}"/>
-
 <div title="新增出库管理" class="form" id="editForm">
+		<input class="mini-hidden" name="out_no" value="{$out_no}"/>
+		<input class="mini-hidden"  id="c_id" name="c_id" value="{$c_id}"/>
 		<input class="mini-hidden" id="o_id" name="o_id" value="{$o_id}"/>
 		<input class="mini-hidden" name="doyet" value="{$doyet}" />
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
@@ -69,6 +67,7 @@ sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRow
 		<div type="checkcolumn"></div>
 		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
 		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+		<div field="store_name" width="90" headerAlign="center" align="center">仓库</div>
 		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
 		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数

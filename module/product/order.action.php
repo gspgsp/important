@@ -356,7 +356,6 @@ class orderAction extends adminBaseAction {
 		if(empty($data)) $this->error('错误的请求');	
 		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
 		unset($data['o_id']);
-		// p($data);die;
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
 		$data['delivery_time']=strtotime($data['delivery_time']);
@@ -381,6 +380,7 @@ class orderAction extends adminBaseAction {
 					foreach ($data['detail'] as $k => $v) {
 						$detail[$k]=$v;
 						$detail[$k]['o_id']=$o_id;
+						$detial[$k]['order_sn']=$data['order_sn'];
 						if($data['order_type'] == 1){//销售明细
 							$detail[$k]['number']=$v['require_number'];
 							if( !$this->db->model('sale_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");		
@@ -395,7 +395,7 @@ class orderAction extends adminBaseAction {
 			}
 			$this->db->commit();
 			$this->success();
-		//}
+
 	}
 	/**
 	 * 销售审核
@@ -462,7 +462,7 @@ class orderAction extends adminBaseAction {
 		);
 		try {
 			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");	
-			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update('is_join_check = 1') ) throw new Exception("关联的销售订单更新失败");
+			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update('is_join_in = 1') ) throw new Exception("关联的销售订单更新失败");
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());

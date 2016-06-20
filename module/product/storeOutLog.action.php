@@ -19,9 +19,6 @@ class storeOutLogAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$out_storage_status = L('out_storage_status');
-		unset($out_storage_status[2]);
-		$this->assign('out_storage_status',$out_storage_status);
 		$this->assign('doact',$doact);
 		$this->assign('page_title','订单仓库出库明细');
 		$this->display('outlog.list.html');
@@ -69,6 +66,7 @@ class storeOutLogAction extends adminBaseAction {
 			$list['data'][$k]['admin_name']=M("product:inStorage")->getNameBySid($v['store_aid']); //获得入库人姓名
 			$list['data'][$k]['sales_type']=L('sales_type')[M("product:order")->getColByName($v['o_id'],'sales_type')];//出库流水
 			$list['data'][$k]['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//订单id
+			$list['data'][$k]['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
