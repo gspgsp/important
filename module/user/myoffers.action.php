@@ -2,6 +2,7 @@
 /**
  * 报价发布--黎贤
  */
+header('content-type:text/html;charset:utf-8');
 class myoffersAction extends userBaseAction{
 
 	protected $db;
@@ -66,21 +67,6 @@ class myoffersAction extends userBaseAction{
 
 		$this->assign('type',$_GET['type']);
 		$this->display('offers_excels');
-	}
-
-	/**
-	 * 处理excel文件
-	 *
-	 *
-     */
-	public function doExcel(){
-
-		$dir=dirname(__FILE__);
-		p($_FILES['excel']);
-		if(!empty($_FILES['excel']['tmp_name'])){
-
-		}
-
 	}
 
 
