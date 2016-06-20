@@ -1,0 +1,76 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='home/jquery.ajaxupload.js'}
+
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    {include file="public:user_left"}
+        <div class="right frt">
+    		<h3>报价单导入</h3>
+
+            <div id="con-tabx-1" class="con-tabx">
+            	<form id="infoForm">
+					<div class="lt-rt">
+					    <div class="lt flt" style="width:400px;">
+					        <table>
+					            <tr>
+					                <td class="val">
+					                	文件上传：
+					                	<input type="text" value="" id="fileName" name="fileName" class="import"/>
+					                	<input type="hidden" value="" id="saveName" name="saveName" class="import"/>
+					                	<input type="button" style="padding:7px;cursor:pointer;height:30px;" id="fileBtn" value="选择文件" class=" ">
+					                </td>
+					            </tr>
+					        </table>
+					    </div>
+					</div>
+					<div class="opt">
+					    <input type="submit" value="上传" class="btn1"/>
+					</div>
+            	</form>
+			</div>
+    	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	new AjaxUpload('#fileBtn', {
+	    action: '/public/sysUpload/upload',
+	    name: 'file',
+	    onSubmit: function(file, suffix) {
+	        var patrn = /^(xls|xlsx)$/i;
+	        if (!patrn.test(suffix)) {
+	            alert('不支持上传 *.' + suffix + '格式的文件。');
+	            return false;
+	        }
+	    },
+	    onComplete: function(file, response) {
+	        var result = jQuery.parseJSON(response);
+	        if(!result.err) {
+	            $("#fileName").val(result.file[0].name);
+	            $("#saveName").val(result.file[0].savename);
+	        } else {
+	            alert(result.err);
+	        }
+	    }
+	});
+
+	$("#infoForm").submit(function(){
+		var saveName=$("#saveName").val().trim();
+		if(saveName.length==0){
+			alert('请选择要上传的文件');
+			return false;
+		}
+		$.post('/user/myoffers/doExcel',{saveName:saveName},function (data){
+			if(data.err==0){
+				alert('导入成功');
+				window.location.reload();
+			}else{
+				alert(data.msg);
+			}
+		},'json');
+		return false;
+	});
+})
+</script>

@@ -8,7 +8,7 @@ class indexAction extends homeBaseAction{
 	public function init()
 	{
 
-		// p($this->sys);
+		
 		//轮播图
 		$this->banners=M('system:block')->getBlock(1,10);
 

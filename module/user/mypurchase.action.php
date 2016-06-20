@@ -33,7 +33,7 @@ class mypurchaseAction extends userBaseAction{
 
 		if($id=$_SESSION['msg_pid']){
 			$_SESSION['msg_pid']=null;
-			$size=2;
+			$size=10;
 			$this->db->query('set @mytemp = 0');
 			$result=$this->db->query("select nu from (select (@mytemp:=@mytemp+1) as nu,id from p2p_purchase where user_id=$this->user_id and type=$this->type order by input_time desc) as A where A.id=$id");
 			$row=mysql_fetch_assoc($result);
@@ -68,7 +68,7 @@ class mypurchaseAction extends userBaseAction{
 		}
 
 		$page=sget('page','i',1);
-		$size=2;
+		$size=10;
 		$list=M('product:purchase')->getPurPage($where,$page,$size);
 		// p($list);
 		$this->assign('list',$list);
@@ -99,16 +99,7 @@ class mypurchaseAction extends userBaseAction{
 		{
 			$model=$this->db->model('purchase');
 			foreach ($data as $key => $value) {
-				// if($value['on']){
-				// 	$_data=array(
-				// 		'input_time'=>CORE_TIME,
-				// 		'update_time'=>CORE_TIME,
-				// 		'shelve_type'=>1,
-				// 		'number'=>$value['num'],
-				// 		'unit_price'=>$value['price'],
-				// 	);
-				// 	$model->where("user_id=$this->user_id and id=$key")->update($_data);
-				// }
+		
 				if($value['on']){
 					$_data=$model->getPk($value['on']);
 					unset($_data['id']);
@@ -271,6 +262,7 @@ class mypurchaseAction extends userBaseAction{
 			$orderData['buy_user_id']=$data['user_id'];//买家客户
 			$orderData['p_sale_id']=$id;//sale_buy的报价id
 			$orderData['sign_time']=CORE_TIME;
+			$orderData['sign_place']='网站签约';
 			$orderData['deal_price']=$price;//成交价格
 			$orderData['total_price']=$price*$data['number'];//总金额
 			$orderData['customer_manager']=$purData['customer_manager'];//交易员
@@ -295,8 +287,8 @@ class mypurchaseAction extends userBaseAction{
 			$orderDetail->add($detail_data);
 
 			$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
-			$msg="您的供货：%s，%s 已经被选中并生成联营订单，交易员审核后，将会生成正式订单，<a href='/user/unionorder'>查看详情</a>";
-			$msg=sprintf($msg,$modelName,$price);
+			$msg=L('msg_template.union_order');
+			$msg=sprintf($msg,$modelName,$price,$o_id);
 			M("system:sysMsg")->sendMsg($data['user_id'],$msg,5);//联营订单站内信
 			$this->success('操作成功');
 

@@ -44,7 +44,7 @@ class uploadAction extends action {
 			}
 		}else{	//本地上传
 			$handle->savePath=$this->cfg['path'].$self_path; //上传绝对目录
-			$handle->allowExts = array('jpg', 'gif', 'zip', 'jpeg','pdf','doc','rar','docx');//上传类型
+			$handle->allowExts = array('jpg', 'gif', 'zip', 'jpeg','pdf','doc','rar','docx','xls','xlsx');//上传类型
 			if($handle->upload()){
 				$result=$handle->getUploadFileInfo();
 				$result=$this->formatPath($result,$self_path);

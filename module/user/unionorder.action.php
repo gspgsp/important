@@ -52,9 +52,8 @@ class unionorderAction extends userBaseAction{
 			->order('input_time desc')
 			->getPage();
 
-		// p($orderList);
 
-		// $this->pages = pages($orderList['count'], $page, $size);
+		$this->pages = pages($orderList['count'], $page, $size);
 
 		foreach ($orderList['data'] as &$value) {
 			$value['totalNum']=$this->db->model('union_order_detail')->where("o_id={$value['id']}")->select("sum(number)")->getOne();
