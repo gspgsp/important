@@ -53,10 +53,11 @@ class selforderAction extends userBaseAction{
 			->leftjoin('sale_log as s','o.order_sn=s.o_id')
 			->leftjoin('product as p ','s.p_id=p.id')
 			->leftjoin('factory as f','p.f_id=f.fid')
+			->where($where)
 			->page($page,$size)
 			->order('input_time desc')
 			->getPage();
-		//p($orderList);die;
+		  // p($orderList);die;
 
 		$this->pages = pages($orderList['count'], $page, $size);
 
