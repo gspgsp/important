@@ -284,7 +284,7 @@ function onLoadDetail(e){
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
 			s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;';
-			s+='<a href="javascript:purchasecompact('+oid+')">合同(采)</a>';
+			s+='<a href="javascript:salecompact('+oid+')">合同(采)</a>';
 			if (c_status !='3') {
 				s+='|<a href="javascript:transaction('+oid+','+order_type+')">付款</a>';
 			}
@@ -553,6 +553,23 @@ function usrChoose(e){
 			}
 		}
 	});
+}
+
+
+//生成pdf文件
+function salecompact(o_id){
+	var width=845, height=650;
+	title="生成合同";
+	mini.open({
+		url: "/product/order/pdf?oid="+o_id,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
 }
 
 </script>
