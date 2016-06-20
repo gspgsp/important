@@ -48,9 +48,7 @@
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
-							mui.alert('',res.msg,function(){
-
-							});
+							window.location.href="/myapp/register/enReginfo";
 						}else if(res.err==1){
 							mui.alert('',res.msg,function(){});
 						}
@@ -71,8 +69,8 @@
 							{'mobile':username,'password':password}
 					).then(function (res) {
 						console.log(">>>",res);
-						if(res.err!=0){
-						}else{
+						if(res.err==0){
+							mui.alert('',res.msg,function(){});
 							var countStart=setInterval(function(){
 								$(".validCode").text(times--+'秒后重发');
 								$(".validCode").attr("disabled",true);
@@ -82,6 +80,8 @@
 									$(".validCode").attr("disabled",false);
 								}
 							},1000);
+						}else if(res.err==1){
+
 						}
 					},function(res){
 
