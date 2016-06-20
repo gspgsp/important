@@ -155,5 +155,16 @@ class mainPageAction extends homeBaseAction
         if(!$sdata=M('myapp:mainPage')->getSortedData($stype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'排序查找失败'));
         $this->json_output(array('err'=>0,'sdata'=>$sdata));
     }
+    //按报价或求购信息筛选
+    public function getResByQuOPu(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $ctype = sget('ctype','i',1);//1采购 2报价
+        $page = sget('page','i','1');
+        $size = sget('size','i',8);
+        if(!$cdata=M('myapp:mainPage')->getCheckeddData($ctype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'筛选查找失败');
+        $this->json_output(array('err'=>0,'sdata'=>$cdata));
+    }
+    //搜索结果的操作
 
 }

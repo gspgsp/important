@@ -99,6 +99,7 @@ class personalCenterAction extends homeBaseAction
         $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
         $set['cus_mana'] = $cus_mana;
         $set['c_name'] = M('user:customer')->getCinfoById($set['c_id'])['c_name'];//公司名称
+        if(!$set) $this->json_output(array('err'=>2,'msg'=>'没有相关的设置信息'));
         $this->json_output(array('err'=>0,'data'=>$set));
     }
     //进入我的意见反馈
@@ -466,6 +467,7 @@ class personalCenterAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
         $password = sget('password','s');
+        $oldpassword = sget('oldpassword','s');
         $salt=randstr(6);
         $user_model=M('system:sysUser');
         $_user=array(
