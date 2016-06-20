@@ -8,7 +8,6 @@ class nodeAction extends adminBaseAction {
 		$this->action = sget('action','');
 		$this->db=M('rbac:node');
 	}
-	
 	/**
 	 * 节点列表
 	 * @access public 
