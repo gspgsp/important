@@ -6,32 +6,70 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 	<body>
 		<header id="meHeader">
-			<a class="back" href="#"></a>
+			<a class="back" href="javascript:window.history.back();"></a>
 			设置
 		</header>
 		<ul class="meUl2">
-			<li><a href="#">姓名<img src="__MYAPP__/img/classifyBack.png"><span>张飞扬</span></a></li>
-			<li><a href="#">公司<img src="__MYAPP__/img/classifyBack.png"><span>上海中晨电子商务股份有限公司</span></a></li>
-			<li><a href="#">我的交易员<img src="__MYAPP__/img/classifyBack.png"><span>轻舞飞扬</span></a></li>
+			<li><a href="/myapp/personalCenter/enName">姓名<img src="__MYAPP__/img/classifyBack.png"><span id="name"></span></a></li>
+			<li><a href="/myapp/personalCenter/enCompany">公司<img src="__MYAPP__/img/classifyBack.png"><span id="address"></span></a></li>
 		</ul>
 		<ul class="meUl2">
-			<li><a href="#">修改密码<img src="__MYAPP__/img/classifyBack.png"></a></li>
-			<li><a href="#">电子邮箱<img src="__MYAPP__/img/classifyBack.png"><span>zhanmoon@163.com</span></a></li>
-			<li><a href="#">QQ号码<img src="__MYAPP__/img/classifyBack.png"><span>263119794</span></a></li>
+			<li><a href="/myapp/personalCenter/enPassword">修改密码<img src="__MYAPP__/img/classifyBack.png"></a></li>
+			<li><a href="/myapp/personalCenter/enEmail">电子邮箱<img src="__MYAPP__/img/classifyBack.png"><span id="email"></span></a></li>
+			<li><a href="/myapp/personalCenter/enQq">QQ号码<img src="__MYAPP__/img/classifyBack.png"><span id="qq"></span></a></li>
 		</ul>
 		<ul class="meUl2">
 			<li>当前版本<span>1.10</span></li>
 		</ul>
-		<a class="me_quit" href="#">退出登录</a>
+		<a class="me_quit" href="javascript:;">退出登录</a>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				commonAjax(
+						"post",
+						"/myapp/personalCenter/getMySet"
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						$("#name").text(res.data.name);
+						$("#email").text(res.data.email);
+						$("#qq").text(res.data.qq);
+						$("#address").text(res.data.c_name);
+					}
+				},function () {
+
+				});
+
+				$(".me_quit").on("click",function () {
+					commonAjax(
+							"post",
+							"/myapp/personalCenter/logOut"
+					).then(function (res) {
+						console.log(res);
+						if(res.err==0){
+							mui.alert('',res.msg,function(){
+								window.location.href="/myapp/mainPage/enMainPage";
+							});
+						}else{
+							window.location.href="/myapp/login";
+						}
+					},function () {
+
+					});
+				});
+			})
+
 		</script>
 
 	</body>

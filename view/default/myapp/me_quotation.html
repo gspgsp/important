@@ -6,13 +6,15 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 
 	<body>
 		<header id="supplyDemandHeader">
-			<a class="back" href="#"></a>
+			<a class="back" href="javascript:window.history.back();"></a>
 			<div class="supplyDemandChange">
 				<span class="on">现货管理</span>
 				<span>期货管理</span>
@@ -79,6 +81,23 @@
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				commonAjax(
+						"post",
+						"/myapp/personalCenter/myQuotation",
+						{cargo_type:1}
+				).then(function (res) {
+					console.log(res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						
+					}
+				},function () {
+
+				});
+			})
+
 		</script>
 
 	</body>
