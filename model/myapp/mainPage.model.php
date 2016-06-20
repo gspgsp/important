@@ -33,7 +33,7 @@ class mainPageModel extends model
         }
 		$where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}')";
 
-            $data = $this->db->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
+            $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
@@ -52,19 +52,44 @@ class mainPageModel extends model
     //获取排序后的数据
     public function getSortedData($stype,$page=1,$size=8){
     	if($stype == 1){
-    		$sortField = '';
+    		$sortField = 'unit_price';
     		$sortOrder = 'desc';
     	}elseif ($stype == 2) {
-    		# code...
+    		$sortField = 'unit_price';
+    		$sortOrder = 'asc';
     	}elseif ($stype == 3) {
-    		# code...
+    		$sortField = 'input_time';
+    		$sortOrder = 'desc';
     	}
-    	$data = $this->db->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
+    	$data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->page($page,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
 			return $data;
+    }
+    //获取筛选后的数据
+    public function getCheckeddData($ctype,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
+    	$where="pur.type='{$ctype}'";
+    	$data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
+            ->join('product pro','pur.p_id=pro.id')
+            ->join('factory fa','pro.f_id=fa.fid')
+            ->page($page,$size)
+            ->where($where)
+			->order("$sortField $sortOrder")
+			->getPage();
+			return $data;
+    }
+    //搜索结果列表的操作按钮，下三角
+    public function getOperateRes(){
+    	$opres = $this->model('purchase')->select('id,p_id,user_id,c_id,number,unit_price,provinces')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
+    	foreach ($opres as $key => $value) {
+    		$opres[$key]['provinces'] = $this->model('purchase')->select('name')->where('id='.$opres[$key]['provinces'])->getOne();
+    	}
+    	return $opres;
+    }
+    public function getCheckDelegate(){
+    	
     }
 }
