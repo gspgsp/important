@@ -150,7 +150,7 @@ class registerModel extends model
 				}
 				$this->model('customer_contact')->where('user_id='.$info['user_id'])->update($_data);
 				$this->_loginError($info['user_id'], $username, 4, $msg, 3);
-				return array('err'=>1,'msg'=>$msg);
+				return array('err'=>1,'msg'=>$msg,'user'=>$info);
 			}
 		}
 	}
