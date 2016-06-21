@@ -91,7 +91,7 @@ class passportModel extends model{
 				$_data['login_unlock_time'] = CORE_TIME + 14400;
 				$msg = '已输错5次密码，账号将锁定4小时';
 			}
-			$this->wherePk($uinfo['user_id'])->update($_data);
+			$this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($_data);
 			return array('err'=>3,'msg'=>$msg);
 		}
 
