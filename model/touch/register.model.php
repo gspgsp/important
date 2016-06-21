@@ -142,11 +142,11 @@ class registerModel extends model
 				}
 				//记录密码输入的次数
 				$_data = array();
-				$_data['login_fail_count'] = $info['login_fail_count'] >= 3 ? 1 : $info['login_fail_count']+1;
-				$msg = '密码不正确，连续输错3次将被锁定';
-				if($_data['login_fail_count'] == 3){
+				$_data['login_fail_count'] = $info['login_fail_count'] >= 5 ? 1 : $info['login_fail_count']+1;
+				$msg = '密码不正确，连续输错5次将被锁定';
+				if($_data['login_fail_count'] == 5){
 					$_data['login_unlock_time'] = CORE_TIME + 14400;
-					$msg = '已输错3次密码，账号将锁定4小时';
+					$msg = '已输错5次密码，账号将锁定4小时';
 				}
 				$this->model('customer_contact')->where('user_id='.$info['user_id'])->update($_data);
 				$this->_loginError($info['user_id'], $username, 4, $msg, 3);
