@@ -275,7 +275,9 @@ class customerAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 		);
-		$result = $this->db->where(" c_id = '$c_id'")->update($_data+array('customer_manager'=>$data['id']));	
+		// 查询下分配的管理员所属的部门
+		$depart = M('rbac:adm')->getUserByCol($data['id'],'depart');
+		$result = $this->db->where(" c_id = '$c_id'")->update($_data+array('customer_manager'=>$data['id'],'depart'=>$depart,));	
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
