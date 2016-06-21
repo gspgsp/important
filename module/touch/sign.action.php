@@ -85,8 +85,11 @@ class signAction extends homeBaseAction{
             foreach ($data as $key => $value) {
                 if(empty($value)) $this->error('信息不完整');
             }
-
-            if($data['code']!='123') $this->error('验证码错误');
+            $vcode=$data['regcode'];
+            //检查验证码
+            if(!chkVcode('regcode',$vcode)){
+                return array('err'=>2,'msg'=>'验证码不正确，请重新输入!');
+            }
 
             if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
 
