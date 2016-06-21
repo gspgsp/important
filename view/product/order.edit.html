@@ -29,7 +29,6 @@
 						<td>销售类型：</td>
 						<td><input name="sales_type" class="mini-combobox" style="width:125px;" id="sales_type" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}'   required="true" textfield="name" valuefield="id"/></td>
 					</tr>
-					<tr>
 					{else}
 					<tr>
 						<td>采购类型：</td>
@@ -40,6 +39,9 @@
 						<td>
 						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;" onvaluechanged="changtransport" required="false"/>
 						</td>	
+						<td>结算方式：</td>
+						<td><input name="payment_way" class="mini-textbox" style="width:125px;" maxlength="8" value="{$info.payment_way}"/>
+						
 					</tr>
 					<tr id="send">
 						<td><font style="color:blue;">送货日期：</font></td>
@@ -385,6 +387,7 @@ function consumeStoreDetil(){
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
 				if (data) {
+					console.log(data);
 					obj={};
 					obj.store_name=data.store_name;
 					obj.model=data.model;
@@ -399,6 +402,7 @@ function consumeStoreDetil(){
 					obj.time_price=obj.unit_price*obj.require_number;
 					console.log(noStockData);
 					for(var i =0;i<noStockData.length;i++){ //遍历所有明细的采购ID是否相同 目前只允许销一个采购id的 产品库存
+						console.log(noStockData[i]);
 						if(noStockData[i].o_id != obj.o_id){
 							alert('目前支持销同一采购单的产品！');
 							return;

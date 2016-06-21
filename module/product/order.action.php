@@ -135,7 +135,6 @@ class orderAction extends adminBaseAction {
 		$o_id=sget('oid','i',0);
 		$change_id=sget('change_id',i,0); //接收不销库存的o_id 用于生成采购
 		$order_type=sget('order_type','i',0); //用于区分销售还是采购
-		$type= sget('type','i',0);
 		$o_type = sget('o_type','i',0);//用于双击弹出查看时，区分销售还是采购
 		if($o_id<1){
 			if($order_type  == 1){
@@ -166,7 +165,6 @@ class orderAction extends adminBaseAction {
 			$this->assign('collection_status',L('payment_status'));//订单付款状态
 		}
 		$this->assign('type',$o_type);
-
 		$order_type = $info['order_type'] == 1? 'saleLog' : 'purchaseLog';
 		$this->assign('order_type',$order_type);
 		$this->assign('o_id',$o_id);
@@ -174,6 +172,24 @@ class orderAction extends adminBaseAction {
 		
 		$this->display('order.viewInfo.html');
 	}
+	/**
+	 * 修改
+	 */
+	public function editOrder(){
+		$o_id=sget('o_id','i',0);
+		$info=$this->db->getPk($o_id); //查询订单信息
+		if(empty($info)) $this->error('错误的订单信息');	
+		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
+		$info['sign_time']=date("Y-m-d",$info['sign_time']);
+		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
+		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
+		$info['payment_time']=date("Y-m-d",$info['payment_time']);
+		$this->assign('c_name',$c_name);
+		$this->assign('info',$info);//分配订单信息
+		$this->display('order.edit.html');
+
+	}
+
 
 	/**
 	 * 销售订单生成采购(先销后采)
