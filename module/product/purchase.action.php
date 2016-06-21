@@ -112,7 +112,9 @@ class purchaseAction extends adminBaseAction {
 				$areaArr = explode('|', $v['origin']);
 				$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
 			}
-
+			if($v['provinces']>0){
+				$list['data'][$k]['provinces'] = M('system:region')->get_name($v['provinces']);
+			}
 		}
 
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -167,7 +169,11 @@ class purchaseAction extends adminBaseAction {
 			$info = array_merge($p_info,$info);
 			if($info['origin']){
 				$areaArr = explode('|', $info['origin']);
-				$info['company_province'] = $areaArr[0];
+				if($info['provinces']>0){
+					$info['company_province'] = $info['provinces'];
+				}else{
+					$info['company_province'] = $areaArr[0];
+				}
 				$info['company_city']=$areaArr[1];
 			}
 			$c_name = M('user:customer')->getColByName($info['c_id']); //客户名称
@@ -194,6 +200,7 @@ class purchaseAction extends adminBaseAction {
 		$_info['admin_name']=$_SESSION['name'];
 		$_info['update_time']=CORE_TIME;
 		$_info['status']=1;
+		$_info['provinces'] = $_info['company_province'];
 		$_data=saddslashes($_info);
 		$this->db->model('ship_collect')->wherePk($id)->update($_data);
 		$this->success('操作成功');
@@ -210,6 +217,7 @@ class purchaseAction extends adminBaseAction {
 		$id =  $data['id'];
 		$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
+		$data['provinces'] =  $data['company_province'];
 		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
 		$model = trim($data['model']);
 		//公共数据

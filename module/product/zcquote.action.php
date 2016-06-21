@@ -102,6 +102,9 @@ class zcquoteAction extends adminBaseAction {
 				$areaArr = explode('|', $v['origin']);
 				$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
 			}
+			if($v['provinces']>0){
+				$list['data'][$k]['provinces'] = M('system:region')->get_name($v['provinces']);
+			}
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -153,11 +156,16 @@ class zcquoteAction extends adminBaseAction {
 			$info=$this->db->wherePk($id)->getRow();
 			$p_info  = $this->db->model('product')->wherePk($info['p_id'])->getRow();
 			$info = array_merge($p_info,$info);
-			if($info['origin']){
+			if($info['origin']){   //原省市的逻辑不要了
 				$areaArr = explode('|', $info['origin']);
-				$info['company_province'] = $areaArr[0];
+				if($info['provinces']>0){
+					$info['company_province'] = $info['provinces'];
+				}else{
+					$info['company_province'] = $areaArr[0];
+				}
 				$info['company_city']=$areaArr[1];
 			}
+			$info['company_province'] = $areaArr[0];
 			$f_name = M('product:product')->getFnameByPid($info['p_id']); //厂家名称
 			$this->assign('data',$info);
 			$this->assign('c_name',$c_name);
