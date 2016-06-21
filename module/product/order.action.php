@@ -136,6 +136,7 @@ class orderAction extends adminBaseAction {
 		$change_id=sget('change_id',i,0); //接收不销库存的o_id 用于生成采购
 		$order_type=sget('order_type','i',0); //用于区分销售还是采购
 		$type= sget('type','i',0);
+		$o_type = sget('o_type','i',0);//用于双击弹出查看时，区分销售还是采购
 		if($o_id<1){
 			if($order_type  == 1){
 				$order_sn='SO'.genOrderSn();
@@ -159,12 +160,12 @@ class orderAction extends adminBaseAction {
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 
-		if($type ==1){
+		if($o_type ==1){
 			$this->assign('collection_status',L('gatheringt_status'));//订单收款状态
 		}else{
 			$this->assign('collection_status',L('payment_status'));//订单付款状态
 		}
-		$this->assign('type',$type);
+		$this->assign('type',$o_type);
 
 		$order_type = $info['order_type'] == 1? 'saleLog' : 'purchaseLog';
 		$this->assign('order_type',$order_type);

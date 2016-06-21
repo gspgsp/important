@@ -405,7 +405,7 @@ function inStorage(oid,join_id){
 //查看订单相关信息
 function viewOrdInfo(oid,o_type){
 	mini.open({
-		url: "/product/order/info?oid="+oid+'&type='+o_type,
+		url: "/product/order/info?oid="+oid+'&o_type='+o_type,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
 		width: 800, height:430
@@ -487,15 +487,17 @@ function addPur(){
 function onRowDblClick(e) {
 	{if $doact neq 'search'}
 	var record = e.record, status=record.status;
-	onEdit();
+	onEdit(e);
 	{/if}
 }
 
 function onEdit(e) {
+	record = e.record,order_type = record.order_type;
+	o_type = (order_type=='销售订单' ? '1' : '2');
 	var row = grid.getSelected();
 	if (row) {
 		var width=740,height=400,title='产品信息';
-		urlStr="/product/order/info?type=edit&oid="+row.o_id;
+		urlStr="/product/order/info?type=edit&oid="+row.o_id+"&o_type="+o_type;
 		mini.open({
 			url: urlStr,
 			title: title,
