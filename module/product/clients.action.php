@@ -7,7 +7,7 @@ class clientsAction extends adminBaseAction
 	protected $offerModel;
 	public function __init(){
 		$this->db=M('public:common')->model('big_client');
-		$this->offerModel=M('public:common')->model('big_offers');
+		// $this->offerModel=M('public:common')->model('big_offers');
 	}
 
 	public function init(){
@@ -21,7 +21,6 @@ class clientsAction extends adminBaseAction
 
 			$list=$this->db->where($where)
 				->page($page+1,$size)
-				->order("lasttime desc")
 				->getPage();
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['lasttime']=$v['lasttime']>1000 ? date("Y-m-d H:i:s",$v['lasttime']) : '-';
