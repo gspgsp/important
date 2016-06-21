@@ -225,18 +225,21 @@ class orderAction extends adminBaseAction {
 		
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
-		$c_name    = M('user:customer')->getColByName($data[0][c_id]);//获取公司名
+		//$c_name    = M('user:customer')->getColByName($data[0][c_id]);//获取公司名
 		$c_info    = M('user:customer')->getCinfoById($data[0][c_id]);//获取公司所有信息
 		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
 		$username  = $user_name[username];
-
+		
+		//订单中没有业务员id就传input_admin过去
 		if (empty($username)) {
 			$this->assign('input_admin',$data[0][input_admin]);
 		}else{
 			$this->assign('input_admin',$username);
 		}
+		//传递表头信息
+		$this->assign('p_method',$data[0][pay_method]);
 		$this->assign('order_name',$data[0][order_name]);
-		$this->assign('c_name',$c_name);
+		$this->assign('c_name',$c_info[c_name]);
 		$this->assign('c_id',$data[0][c_id]);
 		$this->assign('type',$type);
 		$this->assign('o_id',$o_id);
@@ -254,11 +257,9 @@ class orderAction extends adminBaseAction {
 			$this->assign('invoice_account',$c_info['invoice_account']);
 
 			$this->assign('bile_type',L('bile_type'));//票据类型
+
 			//获取最后一条开票信息
-			$res = M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
-			if($res){
-				//$hasbilling_price = ($res[0]['total_price']-$res[0]['unbilling_price']);
-				//$this->assign('hasbilling_price',$hasbilling_price);
+			if(M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id])){
 				$this->assign('unbilling_price',$res[0]['unbilling_price']);
 			}
 			$this->display('billing.add.html');
