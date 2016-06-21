@@ -30,7 +30,8 @@ class inStorageAction extends adminBaseAction {
 					->order("$sortField $sortOrder")
 					->getPage();
 			foreach($list['data'] as $k=>$v){
-				$pinfo=M("product:product")->getFnameByPid($v['p_id']);				
+				$pinfo=M("product:product")->getFnameByPid($v['p_id']);
+				$list['data'][$k]['order_sn']=M("product:order")->getColByOid($o_id,'order_sn');			
 				$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
 				$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']); //获取牌号名称
 				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
@@ -46,11 +47,13 @@ class inStorageAction extends adminBaseAction {
 			$this->assign('store_id',$in_info['store_id']);
 			$this->assign('doyet','doyet');
 		}
+		$order_info = $this->db->select('order_name,purchase_type')->model('order')->where(' o_id = '.$o_id)->getRow();
 		$in_info['storage_date']=date("Y-m-d",$in_info['storage_date']);
 		$in_info['c_name']=M("user:customer")->getColByName($in_info['c_id']); //获取客户名称
 		$in_info['admin_name']=M("product:inStorage")->getNameBySid($in_info['store_aid']); //获得出库人姓名
-		$this->assign('in_info',$in_info);
-		$this->assign('join_id',$join_id);
+		$this->assign('order_info',$order_info );//采购订单带到入库的信息
+		$this->assign('in_info',$in_info);//入库明细
+		$this->assign('join_id',$join_id);//关联的销售订单id
 		$this->assign('o_id',$o_id);
 		$this->assign('in_storage_no',$in_storage_no);
 		$this->display('inStorage.edit.html');

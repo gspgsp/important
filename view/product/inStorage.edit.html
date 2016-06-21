@@ -12,12 +12,12 @@
 			{if $doyet neq doyet}
 				<tr>
 					<td>入库名称:</td>
-					<td><input name="purchase_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$storage_subject}"  textField="name" valueField="id"/>
+					<td><input name="purchase_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$order_info.order_name}"  textField="name" valueField="id"/>
 					</td>
 				</tr>
 				<tr>
 					<td>入库类型:</td>
-					<td><input name="purchase_type" class="mini-combobox" data='{:setMiniConfig|$purchase_type}' value="{$data.purchase_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
+					<td><input name="purchase_type" class="mini-combobox" data='{:setMiniConfig|$purchase_type}' value="{$order_info.purchase_type}" textField="name" valueField="id" style="width:120px;" required="false"/>
 					</td>	
 					<td>物流公司:</td>
 					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>			
@@ -61,11 +61,11 @@
 sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 	<div property="columns">
 		<div type="checkcolumn"></div>
-		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
-		<div field="model" width="70" headerAlign="center" align="center">牌号</div>
+		<div field="order_sn" width="100" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">采购单号</div>
+		<div field="model" width="50" headerAlign="center" align="center">牌号</div>
+		<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div>
 		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价【吨】</div>
-		<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
-		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
+		<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量</div>
 		<div field="lot_num" width="80" headerAlign="center" allowSort="true" align="center">批次号
 			<input property="editor" class="mini-textbox"   style="width:100%;" minWidth="100" />
 		</div>   
@@ -91,8 +91,8 @@ function onKeyEnter(e) {
 }
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',id = record.id,model = record.model ;
-	s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
+	var record = e.record,s='',id = record.id,model = record.model,order_sn=record.order_sn ;
+	s += '<a href="javascript:viewOrdInfo('+id+')">'+order_sn+'</a> ';
 	return s;
 }
 //查看明细相关信息
@@ -119,7 +119,7 @@ function submitForm() {
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
 			window.location.reload();
-			// CloseWindow("save");
+			CloseWindow("save");
 		}else{
 			return false;
 		}

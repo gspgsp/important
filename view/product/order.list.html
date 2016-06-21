@@ -70,9 +70,9 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="o_id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">OID</div>
-			<div field="order_name" width="55" headerAlign="center" align="center" allowSort="true">订单名称</div>
+			<!-- <div field="o_id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">OID</div> -->
 			<div field="order_sn" width="45" headerAlign="center" align="center" allowSort="true">订单号</div>
+			<div field="order_name" width="55" headerAlign="center" align="center" allowSort="true">订单名称</div>
 			<!-- <div field="order_type" width="45" headerAlign="center" align="center" allowSort="true">类型</div> -->
 			<div field="order_source" width="25" headerAlign="center" align="center" allowSort="true">来源</div>
 			<div field="c_name" width="60" headerAlign="center" align="center" allowSort="true">客户名称</div>
@@ -87,7 +87,7 @@
 			{/if}
 			<div field="payments_status" width="45" headerAlign="center" align="center" allowSort="true">{if $order_type eq 1}收款{else}付款{/if}状态</div>
 			<div field="invoice_status" width="45" headerAlign="center" align="center" allowSort="true">开票状态</div>
-			<div field="financial_records" width="45" headerAlign="center" align="center" allowSort="true">财务记录</div>
+			<!-- <div field="financial_records" width="45" headerAlign="center" align="center" allowSort="true">财务记录</div> -->
 			<div field="type_status" width="70" headerAlign="center" align="center" allowSort="true">{if $order_type eq 1}销售{else}采购{/if}|物流</div>
 			<div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">交易员</div>
@@ -172,13 +172,6 @@ function LoadOrderType(e) {
 	var record = e.record.order_type; 
 	return $("#soStatus").find("option[value="+record+"]").text();
 }
-//追加操作按钮
-// function onLoadHandle(e) {
-// 	var record = e.record,s='',oid = record.o_id,o_type = record.order_type;
-// 	o_type = (o_type=='销售订单' ? '1' : '2');
-// 	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
-// 	return s;
-// }
 //审核
 function oncheckDetail(e){
 	var record = e.record,s='',oid = record.o_id,order_status=record.order_status,transport_status=record.transport_status,order_type = record.order_type,sales_type = record.sales_type,node_flow = record.node_flow;
@@ -243,19 +236,16 @@ function submitcheck(type) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status;
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status;
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
-		// if(order_status =='1' || transport_status =='1'){ //待审核时的操作
-		// 	s += '<a href="javascript:addSaleLog('+oid+')">追加</a>';
-		// } 
 		if(order_status =='3' || transport_status =='3') return;
 			if(order_status =='2' && transport_status=='2'){
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
 					if(join_id != '0' && is_join_in == '0'){ //
 						return;
 					}else{
-						if( out_storage_status != '3'){
+						if( out_storage_status != '3'){ //没有全部发货时可见发货按钮
 							s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;';
 						}
 						s+='<a href="javascript:salecompact('+oid+')">合同(销)</a>';
@@ -269,21 +259,16 @@ function onLoadDetail(e){
 							s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
 						}
 					}
-
-
 				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
 					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
 				}	
 			}
-		
-
-	}else{   //采购
-		// if(order_status =='1' || transport_status =='1'){ //待审核时的操作
-		// 	s += '<a href="javascript:addPurchaseLog('+oid+')">追加</a>';
-		// }		
+	}else{   //采购	
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
-			s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;';
+			if(in_storage_status != '已入库'){ //没有全部入库时可见入库按钮
+				s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;';
+			}
 			s+='<a href="javascript:salecompact('+oid+')">合同(采)</a>';
 			if (c_status !='3') {
 				s+='|<a href="javascript:transaction('+oid+','+order_type+')">付款</a>';
