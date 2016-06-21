@@ -49,10 +49,10 @@ class selforderAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$orderList=M('product:order')
-			->select('o_id,concat(p.model,f.f_name,"-") as model_name,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark')
-			->leftjoin('sale_log as s','o.order_sn=s.o_id')
-			->leftjoin('product as p ','s.p_id=p.id')
-			->leftjoin('factory as f','p.f_id=f.fid')
+			->select('o_id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark')
+//			->leftjoin('sale_log as s','o.order_sn=s.o_id')
+//			->leftjoin('product as p ','s.p_id=p.id')
+//			->leftjoin('factory as f','p.f_id=f.fid')
 			->where($where)
 			->page($page,$size)
 			->order('input_time desc')
