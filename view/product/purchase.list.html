@@ -97,9 +97,9 @@ function onRowDblClick(e) {
 }
 
 function viewhander(e){
-	var record = e.record,id=record.id, status=record.status, s='';
+	var record = e.record,id=record.id, status=record.supply_count, s='';
 	s += '<a href="javascript:viewPinfo('+id+')">查看</a>';
-	if(status == 1){
+	if(status > 0){
 		s +='&nbsp;|&nbsp;<a href="javascript:chkOrder('+id+')">审核 </a>';
 	}
 	return s;
