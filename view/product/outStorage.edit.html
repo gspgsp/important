@@ -62,9 +62,9 @@
 	</div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 <div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}" idField="id"
-sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
-	<div property="columns">
-		<div type="checkcolumn"></div>
+sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  selectOnLoad="true" onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
+	<div property="columns" >
+		<div type="checkcolumn" ></div>
 		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
 		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
 		<div field="store_name" width="90" headerAlign="center" align="center">仓库</div>
