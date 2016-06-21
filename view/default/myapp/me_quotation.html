@@ -37,37 +37,6 @@
 			<div class="chooseType">全部</div>
 		</div>
 		<ul class="purchaseList">
-			<li>
-				<div class='purchaseWrap3'>
-					<input type='checkbox' id='"+ v.id +"' class='regular-checkbox'>
-					<label for='"+ v.id +"'></label>
-					<h3>373MC<span class='orange'>￥<input style="width: 60px;" class='offerNumInput unit_price' type='text' value='9300'>/吨</span></h3>
-					<p><input style="width: 100px;" class='offerTxtInput f_name' type='text' value='伊朗国家石化'>
-						<span class='orange'><input style="width: 60px;" class='offerNumInput number' type='text' value='99'>吨</span></p>
-					<p><input style="width: 120px;" class='offerTxtInput3 store_house' type='text' value='深圳'><span>2016-05-04</span>
-					</p>
-				</div>
-				<div class='offerStatus'>
-					<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus sold'></i>上架</span>
-					<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span>
-				</div>
-			</li>
-			<li>
-				<div class='purchaseWrap3'>
-					<input type='checkbox' id='"+ v.id +"' class='regular-checkbox'>
-					<label for='"+ v.id +"'></label>
-					<h3>373MC<span class='orange'>￥<input style="width: 60px;" class='offerNumInput unit_price' type='text' value='9300'>/吨</span></h3>
-					<p><input style="width: 100px;" class='offerTxtInput f_name' type='text' value='伊朗国家石化'>
-						<span class='orange'><input style="width: 60px;" class='offerNumInput number' type='text' value='99'>吨</span></p>
-					<p><input style="width: 120px;" class='offerTxtInput3 store_house' type='text' value='深圳'><span>2016-05-04</span>
-					</p>
-				</div>
-				<div class='offerStatus'>
-					<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus sold'></i>上架</span>
-					<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span>
-				</div>
-			</li>
-
 		</ul>
 		<footer id="offerFooter">
 			<input type="checkbox" id="all" class="regular-checkbox">
@@ -82,16 +51,59 @@
 				swipeBack: true //启用右滑关闭功能
 			});
 			$(function () {
+				var quotationLi="";
+				var cargoType=1;
 				commonAjax(
 						"post",
 						"/myapp/personalCenter/myQuotation",
-						{cargo_type:1}
+						{cargo_type:cargoType}
 				).then(function (res) {
 					console.log(res);
 					if(res.err==1){
 						window.location.href="/myapp/login";
+					}else if(res.err==2){
+
 					}else{
-						
+						res.data.forEach(function (v,i) {
+							quotationLi+="<li><div class='purchaseWrap3'>" +
+									"<input type='checkbox' data-id='"+ v.id +"' id='"+ v.id +"' class='regular-checkbox regular-checkbox2'>" +
+									"<label for='"+ v.id +"'></label><h3>"+ v.model +"" +
+									"<span class='orange'>￥<input style='width:60px;' class='offerNumInput unit_price' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
+									"<p><input style='width:100px;' class='offerTxtInput f_name' type='text' readonly value='"+v.f_name+"'>" +
+									"<span class='orange'><input style='width: 60px;' class='offerNumInput number' type='text' value='"+v.number+"'>吨</span></p>" +
+									"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' value='"+v.store_house+"'><span>"+ stampToDate2(v.input_time) +"</span>" +
+									"</p></div><div class='offerStatus'>" +
+									"<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus "+ shelve(v.shelve_type) +"'></i>"+ shelve2(v.shelve_type) +"</span>" +
+									"<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span></div></li>";
+						});
+						$(".purchaseList").html(quotationLi);
+						$(".supplyDemandChange span").on("click",function () {
+							$(this).addClass("on").siblings("span").removeClass("on");
+							cargoType=$(this).index()+1;
+							quotationLi="";
+							commonAjax(
+									"post",
+									"/myapp/personalCenter/myQuotation",
+									{cargo_type:cargoType}
+							).then(function (res) {
+								res.data.forEach(function (v,i) {
+									quotationLi+="<li><div class='purchaseWrap3'>" +
+											"<input type='checkbox' data-id='"+ v.id +"' id='"+ v.id +"' class='regular-checkbox regular-checkbox2'>" +
+											"<label for='"+ v.id +"'></label><h3>"+ v.model +"" +
+											"<span class='orange'>￥<input style='width:60px;' class='offerNumInput unit_price' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
+											"<p><input style='width:100px;' class='offerTxtInput f_name' type='text' readonly value='"+v.f_name+"'>" +
+											"<span class='orange'><input style='width: 60px;' class='offerNumInput number' type='text' value='"+v.number+"'>吨</span></p>" +
+											"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' value='"+v.store_house+"'><span>"+ stampToDate2(v.input_time) +"</span>" +
+											"</p></div><div class='offerStatus'>" +
+											"<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus "+ shelve(v.shelve_type) +"'></i>"+ shelve2(v.shelve_type) +"</span>" +
+											"<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span></div></li>";
+								});
+								$(".purchaseList").html(quotationLi);
+							},function () {
+
+							})
+						});
+
 					}
 				},function () {
 
