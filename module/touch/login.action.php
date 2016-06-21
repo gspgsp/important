@@ -25,7 +25,7 @@ class loginAction extends homeBaseAction
 		$info = $this->db->model('customer_contact')->where('mobile='.$username)->getRow();
 		M('user:passport')->loginSuccess($info['user_id'],$chanel=3);
 		//保存用户的id
-		M('user:passport')->setSession($loginresult['user']['user_id'],$loginresult['user']);
+		M('user:passport')->setSession($info['user_id'],$info);
 				unset($_SESSION['gurl']);
 				$this->success('登录成功');
 	}

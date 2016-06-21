@@ -21,7 +21,7 @@ class personalcenterAction extends homeBaseAction
         if($name){
             $this->json_output(array('thumb'=>$thumb,'name'=>$name,'qcount'=>$purchaseCount,'pcount'=>$purchaseCount,'points'=>$points));
         }else{
-            $this->json_output(array('err'=>1,'msg'=>'没有该用户!'));
+            $this->json_output(array('err'=>2,'msg'=>'没有该用户!'));
         }
 
     }
