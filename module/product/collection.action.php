@@ -83,7 +83,10 @@ class collectionAction extends adminBaseAction
 		if($company_account!='') $where.=" and `account` = '$company_account' ";
 		//关键词
 		$keyword=sget('keyword','s');
-		if($keyword!='') $where.=" and `order_sn` = '$keyword' ";
+		if($keyword!=''){
+			$newword = "更正".$keyword;
+			$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
+		}
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")

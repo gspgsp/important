@@ -240,7 +240,7 @@ function submitcheck(type) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status;
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus;
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
 		if(order_status =='3' || transport_status =='3') return;
@@ -250,18 +250,20 @@ function onLoadDetail(e){
 						return;
 					}else{
 						if( out_storage_status != '3'){ //没有全部发货时可见发货按钮
-							s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;';
+							s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;|';
 						}
-						s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+						
 						if (c_status !='3') {
-						s+='|<a href="javascript:transaction('+oid+','+order_type+')">收款</a>';
+						s+='<a href="javascript:transaction('+oid+','+order_type+')">收款</a>&nbsp;|';
 						}
-						if (i_status !='全部开票') {
-							s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
+						if (i_status !='全部开票' && newstatus != '3') {
+							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|';
 						}
 						if (c_status =='3' && i_status =='全部开票') {
-							s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
+							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|';
 						}
+						s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+
 					}
 				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
 					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
@@ -271,18 +273,20 @@ function onLoadDetail(e){
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
 			if(in_storage_status != '已入库'){ //没有全部入库时可见入库按钮
-				s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;';
+				s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;|';
 			}
-			s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+			
 			if (c_status !='3') {
-				s+='|<a href="javascript:transaction('+oid+','+order_type+')">付款</a>';
+				s+='<a href="javascript:transaction('+oid+','+order_type+')">付款</a>&nbsp;|';
 			}
-			if (i_status !='全部开票') {
-				s+='|<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
+			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库') {
+				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|';
 			}
 			if (c_status =='3' && i_status =='全部开票') {
-				s+='|<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
+				s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|';
 			}
+			s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+
 		}
 	}
 	return s;

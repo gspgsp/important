@@ -106,6 +106,7 @@ class orderAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
+
 		foreach($list['data'] as &$v){
 			$v['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
@@ -123,6 +124,14 @@ class orderAction extends adminBaseAction {
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
 			$v['node_flow'] = $this->_accessChk($this->db->model('order')->select('node_flow')->where("`o_id` ={$v['o_id']} ")->getOne());
+
+			//获取采购订单开票状态
+			if(!empty($v['store_o_id'])){
+				$v['newstatus'] = M("product:order")->getColByName($value=$v['store_o_id'],$col='invoice_status',$condition='o_id');
+			}
+			if(!empty($v['join_id'])){
+				$v['newstatus'] = M("product:order")->getColByName($value=$v['join_id'],$col='invoice_status',$condition='o_id');
+			}
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
