@@ -26,6 +26,11 @@ class admAction extends adminBaseAction {
 			$sortOrder = sget("sortOrder",'s','asc'); //排序
 			$where='1';
 			if( $this->public == 1) $where.= ' and `admin_id` != 1 ';
+			//部门搜索
+			$depart = sget('depart','i','');
+			if(!empty($depart)){
+				$where.=" and `depart`='$depart' ";	
+			}
 			//关键词
 			$key_type=sget('key_type','s','username');
 			$keyword=sget('keyword','s');

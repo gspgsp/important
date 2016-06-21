@@ -111,9 +111,9 @@ function onLoadHandle(e) {
 
 //追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,id=record.id, o_sn=record.order_sn,c_status=record.collection_status, s='';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status, s='';
 	if(c_status != '4' && c_price != 0)
-	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+id+',\''+o_sn+'\')">退款</a>';
+	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+total_price+',\''+o_sn+'\')">退款</a>';
 	return s;
 }
 
@@ -127,9 +127,9 @@ function down(e){
 }
 
 //红充操作
-function viewPinfo(oid,c_price,id,o_sn){
+function viewPinfo(oid,c_price,total_price,o_sn){
 	var o_sn = o_sn;
-	var data = {oid:oid,c_price:c_price,id:id,o_sn:o_sn};
+	var data = {oid:oid,c_price:c_price,total_price:total_price,o_sn:o_sn};
 	var json = mini.encode(data);
 	mini.confirm("确定交易取消？", "提示", function(action){
 	if(action!='ok') return;
