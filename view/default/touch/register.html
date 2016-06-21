@@ -59,12 +59,14 @@
 			$(".registerBtn").on("click",function () {
 				var username=$("#username").val();
 				var password=$("#password").val();
+				var vcode=$("#vcode").val();
 				$.ajax({
 					type:"post",
 					url:"/touch/register/register",
 					data:{
 						username:username,
-						password:password
+						password:password,
+						vcode:vcode
 					},
 					dataType:'json',
 					beforeSend:function () {
@@ -93,11 +95,6 @@
 						});
 					}
 				});
-
-				$(".validCode").on("click",function () {
-
-				})
-
 			});
 		})
 	</script>
@@ -113,7 +110,7 @@
 		<input id="password" class="registerInput" maxlength="20" type="password" placeholder="请输入密码">
 	</div>
 	<div class="registerBox">
-		<input class="registerInput" maxlength="6" type="tel" placeholder="请输入6位验证码">
+		<input id="vcode" class="registerInput" maxlength="6" type="tel" placeholder="请输入6位验证码">
 		<button class="validCode">获取验证码</button>
 	</div>
 	<div class="registerBtn">注册</div>

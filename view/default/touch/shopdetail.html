@@ -7,6 +7,9 @@
     <link href="__CSS__/wx/normalize.css" rel="stylesheet">
     <link href="__CSS__/wx/layer.css" rel="stylesheet">
     <link href="__CSS__/wx/app.css" rel="stylesheet">
+    <style>
+        #vcodeImg2{}
+    </style>
     <script src="__JS__/wx/jquery-2.2.3.min.js" type="text/javascript"></script>
     <script src="__JS__/wx/layer.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -19,6 +22,11 @@
             }
 
             var proId=getUrlParam("id");
+
+            $("#vcodeImg").on("click",function () {
+                $("#vcodeImg").attr('src','/api/vcode/init?name='+$("#vcodeImg").attr('name')+'&t='+Math.random());
+            });
+            $("#vcodeImg").attr('src','/api/vcode/init?name='+$("#vcodeImg").attr('name')+'&t='+Math.random());
 
             $.ajax({
                 type:"post",
@@ -182,9 +190,12 @@
 </div>
 <div class="proInput">
     <p><span>收件人:</span><input id="receiver" class="proText" type="text"></p>
-    <p><span>联系电话:</span><input id="phone" class="proText" type="number"></p>
+    <p><span>联系电话:</span><input id="phone" class="proText" type="tel"></p>
     <p><span>联系地址:</span><input id="address" class="proText" type="text"></p>
-    <p><span>验证码:</span><input id="code" class="proText2" type="number"></p>
+    <p style="position: relative;">
+        <span>验证码:</span><input id="code" class="proText2" type="text" placeholder="请输入图形验证码">
+        <img id="vcodeImg2" name="regcode">
+    </p>
     <p style="text-align: center">
         <button class="cancel2">取消</button>
         <button class="confirm2">确定</button>

@@ -64,7 +64,9 @@
 							content: res.msg,
 							time:2
 						});
-
+						setTimeout(function () {
+							window.location.reload();
+						},2000)
 					},
 					error:function (res) {
 						layer.open({
