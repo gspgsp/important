@@ -18,7 +18,7 @@
 				var password=$("#password").val();
 				$.ajax({
 					type: 'POST',
-					url: "/touch/findpwd/sendmsg",
+					url: "/touch/register/sendmsg",
 					data: {'mobile':username,'password':password},
 					dataType:'json',
 					success:function(res){
@@ -81,6 +81,7 @@
 								content: res.msg,
 								time:2
 							});
+							window.location.href="/touch/login";
 						}else{
 							layer.open({
 								content: res.msg,
