@@ -33,4 +33,11 @@ class creditshopAction extends homeBaseAction
         $result = M('touch:creditshop')->getShopDetail($gid);
         $this->json_output($result);
     }
+    //商品兑换获取用户数据
+    public function getUserProduct(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        if(!$userInfo = M('user:customerContact')->getListByUserid($this->user_id)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'userInfo'=>$userInfo));
+    }
 }
