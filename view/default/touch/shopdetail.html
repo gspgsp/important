@@ -82,7 +82,7 @@
                 var receiver=$("#receiver").val();
                 var phone=$("#phone").val();
                 var address=$("#address").val();
-                var code=123;
+                var regcode=$("#code").val();
 
                 $.ajax({
                     type:"post",
@@ -92,7 +92,7 @@
                         receiver:receiver,
                         phone:phone,
                         address:address,
-                        code:code
+                        regcode:regcode
                     },
                     dataType:'json',
                     beforeSend:function () {
@@ -142,6 +142,18 @@
             $(".proExchange").on("click",function () {
                 $(".proLayer").show();
                 $(".layer").show();
+                $.ajax({
+                    type:"post",
+                    url:"/touch/creditshop/getUserProduct",
+                    dataType:'json',
+                    success:function (res) {
+                        $("#receiver").val(res.userInfo.name);
+                        $("#phone").val(res.userInfo.mobile);
+                    },
+                    error:function () {
+                        
+                    }
+                });
             });
 
         })
