@@ -1,0 +1,270 @@
+ {layout file="public:mini_layout"}
+<link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
+<div style="padding:5px; " >
+	<div id="infoForm" class="form">
+	<input class="mini-hidden" name="o_id" value="{$info.o_id}"/>
+	<div  style="padding:5px; " >
+		<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>订单信息</legend>
+			<div id="editForm1" style="padding:5px; ">
+				<table id="table1" width="100%" >
+					<tr>
+						<td>订单名称：</td>
+						<td><input name="order_name" allowInput="false" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.order_name}"/>
+						</td>
+						<td>订单编号 : </td>
+						<td>{$info.order_sn}</td>		
+					</tr>
+
+					<tr>
+					{if $order_type eq '1' }
+					
+						<td>销售类型：</td>
+						<td>{$info.sales_type}</td>
+					{else}	
+						<td>采购类型：</td>
+						<td>{$info.purchase_type}</td>
+					{/if}	
+						<td>结算方式：</td>
+						<td><input name="payment_way" class="mini-textbox" style="width:125px;" maxlength="8" value="{$info.payment_way}"/>
+					</tr>
+					<tr>
+						<td><font style="color:blue;">运输方式 : </font></td>
+						<td>
+						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;"   onvaluechanged="changtransport" required="false"/>
+						</td>	
+					</tr>
+
+					<tr id="send">
+						<td><font style="color:blue;">送货日期：</font></td>
+						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
+						</td>
+						<td><font style="color:blue;">送货地点：</font></td>
+						<td><input name="delivery_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.delivery_location}"/></td>
+					</tr>
+					<tr id="get" style="display:none;">
+						<td><font style="color:blue;">提货日期：</font></td>
+						<td><input  class="mini-datepicker"  name="pickup_time"  required="true" value="{$info.pickup_time}"/>
+						</td>
+						<td><font style="color:blue;">提货地点：</font></td>
+						<td><input name="pickup_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickup_location}"/></td>
+						
+					</tr>
+					<tr>
+						<td>签订日期：</td>
+						<td><input  class="mini-datepicker"  name="sign_time"  required="true" value="{$info.sign_time}"/>
+						</td>
+						<td>签订地点 : </td>
+						<td><input name="sign_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.sign_place}"/>
+						</td>
+					</tr>
+					<tr>
+						<td>财务记录 ：</td>
+						<td><input name="financial_records" class="mini-combobox" style="width:125px;" value="{$info.financial_records}" data='{:setMiniConfig|$financial_records}'  required="true" textfield="name" valuefield="id"/></td>
+						<td>客户名称：</td>
+						<td>
+							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:125px;" id="usrId"/>
+						</td>
+						
+					</tr>
+					<tr>
+						<td>运费 : </td>
+						<td><input name="freight_price" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.freight_price}"/>
+						</td>
+						<td>付款方式 : </td>
+						<td><input name="pay_method" class="mini-combobox" style="width:125px;" value="{$info.pay_method}" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/></td>
+						
+					</tr>	
+					<tr>
+						<td>付款日期：</td>
+						<td>
+						<input  class="mini-datepicker"  name="payment_time"  required="true" value="{$info.payment_time}"/>
+						</td>
+						<td>业务模式 : </td>
+						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}'  required="true" textfield="name" valuefield="id"/></td>
+					</tr>
+					<input class="mini-hidden"  id="require_number" name="require_number" value="0"/>
+					<input class="mini-hidden"  id="total_price" name="total_price" value="0"/>
+					<input class="mini-hidden"  id="o_type" name="order_type" value="{$order_type}"/>
+				</table>
+					</div>
+				</fieldset>
+			{if $order_type eq '1'}
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;" id="consumeStore">
+					<legend>销库存销售明细</legend>
+					<div id="editForm1" style="padding:5px;" >
+					<div class="detail">
+						    	<div id="gridCell1" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">    
+								<div field="model" width="100" headerAlign="center">牌号 </div>                
+								<div field="store_name" width="80" headerAlign="center" allowSort="true">仓库</div>
+								<div field="lot_num" width="80" headerAlign="center" >批次</div>
+								<div field="unit_price" width="80" headerAlign="center" >售价
+									<input  id="change_price" property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;"/>
+								</div>
+								<div field="require_number" width="80" headerAlign="center" >数量
+								</div>
+								<div field="time_price" width="80" headerAlign="center" >总价</div>
+								<!-- <div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div> -->
+							</div>
+						</div>
+						<!--total begin-->
+						<div class="total">
+						<span class="total-money">合计金额小写：<input type="text" value="0"/></span>
+						<span class="total-amount">合计数量：<input type="text" value="0"/></span>
+						</div>
+						<!--total end-->
+					</div>
+					</div>
+				</fieldset>
+			{/if}
+			{if $order_type eq '2'}
+			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;" id="purchase">
+					<legend>采购明细</legend>
+					<div id="editForm3" style="padding:5px;" >
+					<div class="detail">
+						<div id="gridCell2" showModified="false" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">    
+								<div field="model" width="100"  headerAlign="center">牌号</div>        
+								<div field="f_name" width="120" headerAlign="center">厂家</div>         
+								<div field="unit_price" width="80" headerAlign="center" >售价
+									<input id="change_price" property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
+								</div>
+								<div field="number" width="80" headerAlign="center" >数量
+								</div>
+								<div field="time_price" width="80" headerAlign="center" >总金额</div>
+								
+								<!-- <div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div> -->
+								
+							</div>
+						</div>
+						    <!--total begin-->
+						    <div class="total">
+						        <span class="total-money">合计金额：<input type="text" value="0"/></span>
+						        <span class="total-amount">合计数量：<input type="text" value="0"/></span>
+						    </div>
+						    <!--total end-->
+					</div>
+					</div>
+			</fieldset>
+			{/if}
+			</div>
+		</div>	
+		</div>
+</div>
+		<div align="center" style="margin-top:10px;">
+		{if $otype eq 'addopus'}
+			{if $order_type neq '2'}
+			<a class="mini-button" iconCls="icon-add"  id="addSaleType" >销售明细</a>
+			{else}
+			<a class="mini-button" iconCls="icon-add"  onclick="addPurDetil" >采购明细</a>
+
+			{/if}
+		{/if}
+			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+var noStockData;
+var totalCounts={num:0,price:0};
+"{if $order_type eq 1}"
+gridCell=mini.get('gridCell1');
+noStockData=[]; 
+var noStockData = {$detail};
+gridCell.setData(noStockData);
+totalCount(noStockData);
+"{else}"
+gridCell=mini.get('gridCell2');
+noStockData=[]; 
+var noStockData = {$detail};
+gridCell.setData(noStockData);
+totalCount(noStockData);
+"{/if}"
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var datas=gridCell.getData();
+	o.store_o_id=datas[0].o_id; //把明细的库存采购id赋给 o的一维数组方便后台处理
+	$.extend(o, {detail:datas}); 
+	$.extend(o, totalCounts); 
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/order/editOrderSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function changtransport(e){
+	var val = e.value;
+	if(val == 1){
+		$("#get").hide();
+		$("#send").show();
+	}else{
+		$("#send").hide();
+		$("#get").show();
+	}
+}
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customer/init?do=search&input_admin={$input_admin}",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+				}
+			}
+		}
+	});         
+}
+function totalCount(noStockData){
+	totalCounts={num:0,price:0};
+	for (var i = 0; i < noStockData.length; i++) {
+		totalCounts.num=parseFloat(totalCounts.num)+parseFloat(noStockData[i].require_number);
+		totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
+	};
+	$(".total-money").find('input').val(totalCounts.price);
+	$(".total-amount").find('input').val(totalCounts.num);
+}
+
+function onValidation(e){
+	var unit_price=mini.get('change_price').getValue();
+	index=e.sender.ownerRowID;
+	noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);
+	totalCount(noStockData);
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>
