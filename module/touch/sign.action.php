@@ -151,4 +151,8 @@ class signAction extends homeBaseAction{
         $sms->send(0,$mobile,$msg,1);
         $this->success('发送成功');
     }
+    //生产订单号
+    protected function buildOrderId(){
+        return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    }
 }
