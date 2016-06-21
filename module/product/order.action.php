@@ -426,6 +426,7 @@ class orderAction extends adminBaseAction {
 				$order_source  = $this->db->model('order')->select('order_source')->where(' o_id = '.$data['o_id'])->getOne();
 				if($data['order_status'] == '2'){
 					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2 , node_flow=node_flow+1 ') ) throw new Exception("订单审核失败");
+					// showtrace();
 					if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
 					if($order_source == 2){
 						if( $data['sales_type'] != '2' ){ //如果销库存则循环锁定产品库存
@@ -442,9 +443,12 @@ class orderAction extends adminBaseAction {
 			}
 	
 		} catch (Exception $e) {
+			// showtrace();
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+			// showtrace();
+
 		$this->db->commit();
 		$this->success('操作成功');
 	}
