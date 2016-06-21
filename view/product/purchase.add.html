@@ -38,7 +38,7 @@
 			{/if}
 			<tr>
 				<td style="width:80px;">交货周期：</td>
-				<td style="width:210px;"><input name="period" class="mini-combobox" data='{:setMiniConfig|$period}' textField="name" valueField="id" style="width:170px;" value = "{$data.period}" required="true"/></td>
+				<td style="width:210px;"><input name="period" class="mini-combobox" data='{:setMiniConfig|$period}' textField="name" valueField="id" style="width:170px;" value = "{$data.period|default:1}" required="true"/></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
@@ -69,8 +69,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>状态：</td>
-				<td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$data.status|default:1}"/></td>
+				<td><input class="mini-hidden" name="status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$data.status|default:2}"/></td>
 			</tr>
 		</table>
 		<div align="center" style="margin-top:10px;">
