@@ -17,7 +17,10 @@ class findpwdAction extends homeBaseAction
         if($_POST){
             $this->is_ajax=true;
             $data = saddslashes($_POST);
-            if($data['vcode']!='123') $this->error('验证码错误');
+            $resVcode=M('system:sysSMS')->chkDynamicCode($data['username'],$data['vcode']);
+            if($resVcode['err']>0){
+                $this->error($resVcode['msg']);
+            }
             $result = M('touch:register')->findpwd(array('mobile'=>$data['username'],'password'=>$data['password']));
             if($result['err']){
                 $this->error($result['msg']);

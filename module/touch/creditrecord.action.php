@@ -14,15 +14,10 @@ class creditrecordAction extends homeBaseAction
     //返回积分明细
     public function get_creditRecord(){
     	//获取用户
-    	if(!$_SESSION['uid'])
-            {
-                $this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
-            }
-        $uid = $_SESSION['uid'];
+    	$this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
 		$result = array();
-		if($uid>0){
-			$result = M('touch:creditRecord')->getCreditRecord($uid);
-		}
+		$result = M('touch:creditRecord')->getCreditRecord($this->user_id);
 		$this->json_output($result);
 	}
 }

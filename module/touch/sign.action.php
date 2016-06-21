@@ -17,17 +17,15 @@ class signAction extends homeBaseAction{
 	public function signOn(){
 
 		$this->is_ajax = true;
-		if($_SESSION['uid']<0)
-               $this->error('请求超时,请重新登录!');
-        $uid = $_SESSION['uid'];
-        if($uid>0){
+        if($this->user_id<=0) $this->error('账户错误');
+        if($this->user_id>0){
             // 周末不支持签到
             if( $this->today == 0 || $this->today == 6 ){
                 exit(json_encode(array('status'=> 0, 'msg' => '周一到周五可以签到')));
             }
             // 随机积分
             $points = 50;
-            if($data = $this->pointsSingModel->where('uid='.$uid)->getRow()){
+            if($data = $this->pointsSingModel->where('uid='.$this->user_id)->getRow()){
                 //最后签到时间小于今天的凌晨时间戳可以签到,每天一次
                 if( $data['sing_time'] < strtotime(date('Y-m-d', time())) ){
                     //上周最后签到时间小于本周开始时间 重置本周签到状态
@@ -46,8 +44,8 @@ class signAction extends homeBaseAction{
                     $billModel=M('points:pointsBill');
                     $billModel->startTrans();
                     try {
-                        if(!$this->pointsSingModel->where('uid='.$uid)->update($data)) throw new Exception('系统错误。code:201');
-                        if(!$billModel->addPoints($points, $uid, 1)) throw new Exception('系统错误。code:202');
+                        if(!$this->pointsSingModel->where('uid='.$this->user_id)->update($data)) throw new Exception('系统错误。code:201');
+                        if(!$billModel->addPoints($points, $this->user_id, 1)) throw new Exception('系统错误。code:202');
                     } catch (Exception $e) {
                         $billModel->rollback();
                         exit(json_encode(array('status' => 0, 'msg' => $e->getMessage())));
@@ -59,12 +57,12 @@ class signAction extends homeBaseAction{
                 }
             }else{
                 $this->signDay[$this->today] = 1;
-                $data = array('uid' =>$uid, 'sing_status' => json_encode($this->signDay), 'sing_time' => time());
+                $data = array('uid' =>$this->user_id, 'sing_status' => json_encode($this->signDay), 'sing_time' => time());
                 $billModel=M('points:pointsBill');
                 $billModel->startTrans();
                 try {
                     if(!$this->pointsSingModel->add($data)) throw new Exception('系统错误。code:201');
-                    if(!$billModel->addPoints($points, $uid, 1)) throw new Exception('系统错误。code:202');
+                    if(!$billModel->addPoints($points, $this->user_id, 1)) throw new Exception('系统错误。code:202');
                 } catch (Exception $e) {
                     $billModel->rollback();
                     exit(json_encode(array('status' => 0, 'msg' => $e->getMessage())));
@@ -82,9 +80,7 @@ class signAction extends homeBaseAction{
     {
         if($_POST){
             $this->is_ajax=true;
-            if($_SESSION['uid']<0)
-               $this->error('请求超时,请重新登录!');
-            $uid = $_SESSION['uid'];
+            if($this->user_id<=0) $this->error('账户错误');
             $data=saddslashes($_POST);
             foreach ($data as $key => $value) {
                 if(empty($value)) $this->error('信息不完整');
@@ -94,7 +90,7 @@ class signAction extends homeBaseAction{
 
             if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
 
-            $uinfo=M('public:common')->model('contact_info')->where("user_id=$uid")->getRow();
+            $uinfo=M('public:common')->model('contact_info')->where("user_id=$this->user_id")->getRow();
             $id=sget('gid','i',0);
             if(!$goods=$this->pointsGoodsModel->getPk($id)) $this->error('没有找到您要兑换的');
             if($goods['status']==2) $this->error('您兑换的商品已下架');
@@ -111,14 +107,14 @@ class signAction extends homeBaseAction{
                 'receiver'      => $data['receiver'],
                 'phone'         => $data['phone'],
                 'address'       => $data['address'],
-                'uid'           => $uid,
+                'uid'           => $this->user_id,
                 'usepoints'     => $goods['points'],
             );
             //开启事物
             $model->startTrans();
             try {
                 if(!$model->add($_orderData)) throw new Exception('系统错误，无法兑换。code:101');
-                if(!$billModel->decPoints($goods['points'], $uid, 5)) throw new Exception('系统错误，无法兑换。code:102');
+                if(!$billModel->decPoints($goods['points'], $this->user_id, 5)) throw new Exception('系统错误，无法兑换。code:102');
             } catch (Exception $e) {
                 $model->rollback();
                 $this->error($e->getMessage());

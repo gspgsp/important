@@ -15,15 +15,10 @@ class myquotationAction extends homeBaseAction
     //返回报价信息
     public function get_myquotation(){
         //获取求购信息的user_id
-        if(!$_SESSION['uid'])
-            {
-                $this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
-            }
-        $user_id = $_SESSION['uid'];
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
         $result = array();
-        if($user_id>0){
-            $result = M('touch:purchase')->getPurchase($user_id);
-        }
+        $result = M('touch:purchase')->getPurchase($this->user_id);
         $this->json_output($result);
     }
     //单个上架，下架切换

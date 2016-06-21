@@ -19,7 +19,10 @@ class registerAction extends homeBaseAction
 			$username=sget('username','s');
 			$password=sget('password','s');
 			$vcode = sget('vcode','i');
-			if($vcode!='123') $this->error('验证码错误');
+			$resVcode=M('system:sysSMS')->chkDynamicCode($username,$vcode);
+			if($resVcode['err']>0){
+				$this->error($resVcode['msg']);
+			}
 			$result = M('touch:register')->register(array('mobile'=>$username,'password'=>$password));
 			if($result['err']){
 				$this->error($result['msg']);

@@ -12,7 +12,8 @@ class purchasesearchAction extends homeBaseAction
     //开始搜索
     public function doSearch(){
     	//当前用户的id
-    	$uid = $_SESSION['uid'];
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
     	//搜素关键字
         $keywords = sget('keywords','s');
         //存取数值
@@ -28,7 +29,7 @@ class purchasesearchAction extends homeBaseAction
         }
         //1.待审核  2.审核通过  3.洽谈中  4.交易成功   5.无效 6:过期
         $type = sget('status','s');
-        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$uid}";
+        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id}";
         if($type == '1'){
     		$where.=" and pur.status=1";
     		$data = $this->db->from('purchase pur')

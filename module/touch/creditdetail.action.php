@@ -14,16 +14,11 @@ class creditdetailAction extends homeBaseAction
     //返回积分明细
     public function get_creditdetail(){
     	//获取用户
-    	if(!$_SESSION['uid'])
-            {
-                $this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
-            }
-        $uid = $_SESSION['uid'];
+    	$this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
 		$result = array();
-		if($uid>0){
-			$points = M('points:pointsBill')->getUerPoints($uid);
-			$result = M('touch:creditdetail')->getCreditDetail($uid);
-		}
+		$points = M('points:pointsBill')->getUerPoints($this->user_id);
+		$result = M('touch:creditdetail')->getCreditDetail($this->user_id);
 		$this->json_output(array('points'=>$points,'detail'=>$result));
 	}
 
