@@ -45,5 +45,16 @@ class cateModel extends model{
 		}
 		return $this->select('cate_id id,cate_name name,pid')->where($where)->order('sort_order')->getAll();
 	}
+
+
+	public function getCateBySpell($spell=''){
+		$cate_id=$this->where("spell='{$spell}'")->select('cate_id')->getOne();
+		return $this->getCateByPid($cate_id);
+
+	}
+
+	public function getCateByPid($cate_id){
+		return $this->where("pid=$cate_id")->order('sort_order')->getAll();
+	}
 }
 ?>
