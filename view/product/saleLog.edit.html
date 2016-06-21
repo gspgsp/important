@@ -22,9 +22,8 @@
 		sizeList="[10,20,50,100]" pageSize="20" multiSelect="false"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="id" width="35" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
 			<div field="store_name" width="50" headerAlign="center" align="center" allowSort="true">仓库</div>
-			<div field="purchase_id" width="45" headerAlign="center" align="center" allowSort="true">订单号</div>
+			<div field="order_sn" width="45" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
 			<div field="model" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
 			<div field="lot_num" width="35" headerAlign="center" align="center" allowSort="true">批次</div>
 			<div field="unit_price" width="40"  headerAlign="center" align="center" allowSort="true">采购价</div>
@@ -32,6 +31,7 @@
 			<div field="remainder" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
 			<div field="controlled_number" width="40" headerAlign="center" align="center" allowSort="true">可用数量</div>
 			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
+			<div field="admin_name" width="45" headerAlign="center" align="center">管理员</div>
 		</div>
 	</div>
 </div>
@@ -72,7 +72,7 @@
 					<td>备注 : </td>
 					<td><input name="remark" class="mini-textarea" style="width:200px"  value="{$info.remark}"></td>
 				</tr>
-				<input class="mini-hidden" name="o_id" value="{$o_id}"/>
+				<input class="mini-hidden" id="m_o_id" name="o_id" value=""/>
 				<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
 				<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
 				<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
@@ -131,6 +131,21 @@ function submitForm() {
 		}
 	},'json');
 }
+//追加操作按钮
+function onLoadHandle(e) {
+	var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn;
+	s += '<a href="javascript:viewOrdInfo('+o_id+')">'+order_sn+'</a> ';
+	return s;
+}
+//查看订单相关信息
+function viewOrdInfo(oid){
+	mini.open({
+		url: "/product/order/info?oid="+oid,
+		showMaxButton:true,
+		title: "查看订单相关信息", 
+		width: 800, height:450
+	});		
+}
 //追加查看产品按钮
 function onLoadProduct(e){
 	var record = e.record,s='',p_id = record.p_id,model=record.model;
@@ -150,7 +165,7 @@ function setsupport(e){
 	"{if $type eq 'edit'}"
 	return false;
 	"{/if}"
-	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number;
+	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number,o_id = record.o_id;
 	mini.get("model").setValue(model);
 	mini.get("store").setValue(store);
 	mini.get("lot").setValue(lot);
@@ -158,6 +173,7 @@ function setsupport(e){
 	mini.get("hidden_remainder").setValue(remainder);
 	mini.get("m_p_id").setValue(p_id);
 	mini.get("m_store_id").setValue(store_id);
+	mini.get("m_o_id").setValue(p_id);
 	mini.get("inlog_id").setValue(id);
 	mini.get("m_lock_number").setValue(locknum);
 	mini.get("controlled_number").setValue(controlled_number);

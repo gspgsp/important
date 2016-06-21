@@ -223,10 +223,10 @@ function submitForm(){
 	//提交数据
 	var o = form.getData();
 	var datas=gridCell.getData();
+	o.store_o_id=datas[0].o_id; //把明细的库存采购id赋给 o的一维数组方便后台处理
 	$.extend(o, {detail:datas}); 
 	$.extend(o, totalCounts); 
 	var json = mini.encode(o);
-
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
 	var urlstr = '/product/order/addSubmit';
@@ -389,6 +389,7 @@ function consumeStoreDetil(){
 					obj.store_name=data.store_name;
 					obj.model=data.model;
 					obj.p_id=data.p_id;
+					obj.o_id=data.o_id;
 					obj.store_id=data.store_id;
 					obj.lot_num=data.lot_num;
 					obj.unit_price=data.unit_price;
@@ -396,6 +397,13 @@ function consumeStoreDetil(){
 					obj.remark=data.remark;
 					obj.inlog_id=data.inlog_id;
 					obj.time_price=obj.unit_price*obj.require_number;
+					console.log(noStockData);
+					for(var i =0;i<noStockData.length;i++){ //遍历所有明细的采购ID是否相同 目前只允许销一个采购id的 产品库存
+						if(noStockData[i].o_id != obj.o_id){
+							alert('目前支持销同一采购单的产品！');
+							return;
+						}		
+					}		
 					noStockData.push(obj);
 					gridCell.setData(noStockData);
 					totalCount(noStockData);
