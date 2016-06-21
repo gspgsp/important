@@ -182,21 +182,73 @@ class orderAction extends adminBaseAction {
 		$this->display('order.viewInfo.html');
 	}
 	/**
-	 * 修改
+	 * 修改订单显示界面
 	 */
 	public function editOrder(){
 		$o_id=sget('o_id','i',0);
-		$info=$this->db->getPk($o_id); //查询订单信息
-		if(empty($info)) $this->error('错误的订单信息');	
-		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
+		$order_type= sget('order_type','i',0)==1 ? 'sale_log' : 'purchase_log' ;
+		if($o_id<1) $this->error('信息错误');
+		$info=$this->db->model('order')->getPk($o_id); //查询订单信息
+		$detailinfo=$this->db->model($order_type)->where('o_id = '.$o_id)->getAll();
+		foreach ($detailinfo as &$value) {
+			$value['model']=M("product:product")->getModelById($value['p_id']);
+			$pinfo=M("product:product")->getFnameByPid($value['p_id']);
+			$value['f_name']=$pinfo['f_name'];//根据cid取客户名
+			$value['store_name']=M("product:store")->getStoreNameBySid($value['store_id']); 
+			$value['time_price']=$value['number']*$value['unit_price'];
+			$value['require_number']=$value['number'];
+		}
+
+		if($info['c_id']>0) $info['c_name'] = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
-		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
+		$info['delivery_time']=date("Y-m-d",time());  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
-		$this->assign('c_name',$c_name);
+		$info['sales_type']=L('sales_type')[$info['sales_type']];
+		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
 		$this->assign('info',$info);//分配订单信息
-		$this->display('order.edit.html');
-
+		$this->assign('detail',json_encode($detailinfo));//明细数据
+		$this->assign('order_sn',$order_sn);
+		$this->assign('order_type',sget('order_type','i'));
+		$this->display('order.update.html');
+	}
+	/**
+	 * 修改订单操作
+	 */
+	public function editOrderSubmit(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		// p($data);
+		if(empty($data)) $this->error('错误的请求');	
+		$data['sign_time']=strtotime($data['sign_time']);
+		$data['pickup_time']=strtotime($data['pickup_time']);
+		$data['delivery_time']=strtotime($data['delivery_time']);
+		$data['payment_time']=strtotime($data['payment_time']);
+		$data['total_price']=$data['price'];
+		$data['total_num']=$data['num'];
+			$this->db->startTrans(); //开启事务
+			$update_data=array(
+				'update_time'=>CORE_TIME,
+				'update_admin'=>$_SESSION['name'],
+			);
+			try {	
+				if( !$this->db->model('order')->where('o_id = '.$data['o_id'])->update($data+$update_data) ) throw new Exception("更新订单失败");//更新订单
+				if(!empty($data['detail'])){ 
+					foreach ($data['detail'] as $k => $v) {
+						$detail[$k]['unit_price']=$v['unit_price'];
+						if($data['order_type'] == 1){//销售明细
+							if( !$this->db->model('sale_log')->where('o_id = '.$data['o_id'])->update($detail[$k]+$update_data) ) throw new Exception("更新明细失败");		
+						}else{//采购明细
+							if( !$this->db->model('purchase_log')->where('o_id = '.$data['o_id'])->update($detail[$k]+$update_data) ) throw new Exception("更新明细失败");
+						}
+					}
+				}	
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+			$this->db->commit();
+			$this->success();		
 	}
 
 
@@ -221,7 +273,7 @@ class orderAction extends adminBaseAction {
 		$info['purchase_type']=1;
 		$info['c_id']=0;
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
-		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
+		$info['pickup_time']=date("Y-m-d",time());
 		$info['delivery_time']=date("Y-m-d",time());  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$this->assign('info',$info);//分配订单信息
@@ -396,7 +448,7 @@ class orderAction extends adminBaseAction {
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
-				'admin_id'=>['adminid'],
+				'admin_id'=>$_SESSION['adminid'],
 			);
 			try {	
 				if( !$this->db->model('order')->add($data+$add_data) ) throw new Exception("新增订单失败");//新增订单

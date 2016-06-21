@@ -107,6 +107,7 @@ class saleLogAction extends adminBaseAction {
 		$type=sget('type','s');
 		$o_id=sget('o_id','i',0);
 		$choose=sget('choose','i',0);
+		$nostore=sget('nostore','i',0); //不销库存
 		$require_num=sget('require_num','i',0);
 		$this->assign('require_num',$require_num);
 		if($id<1){
@@ -116,9 +117,14 @@ class saleLogAction extends adminBaseAction {
 				$order_name=M("product:order")->getColByName($o_id);
 				$this->assign('order_name',$order_name);
 			}
+			if($nostore>0){ //表示不消耗库存的明细新增
+				$this->display('saleLogWithPur.edit.html');
+				exit;
+			}
 			$this->display('saleLog.edit.html');
 			exit;
 		}
+
 		$info=$this->db->getPk($id); //查询订单信息
 		if(empty($info)){
 			$this->error('错误的订单信息');	

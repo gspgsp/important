@@ -18,7 +18,7 @@
 						<td>{$order_sn}</td>
 						{else}
 						<td>{$info.order_sn}</td>
-						{/if}			
+						{/if}				
 					</tr>
 					{if $order_type neq '2' && $type neq 'edit'}
 					<tr>
@@ -39,9 +39,6 @@
 						<td>
 						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;" onvaluechanged="changtransport" required="false"/>
 						</td>	
-						<td>结算方式：</td>
-						<td><input name="payment_way" class="mini-textbox" style="width:125px;" maxlength="8" value="{$info.payment_way}"/>
-						
 					</tr>
 					<tr id="send">
 						<td><font style="color:blue;">送货日期：</font></td>
@@ -90,6 +87,10 @@
 						</td>
 						<td>业务模式 : </td>
 						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}'  required="true" textfield="name" valuefield="id"/></td>
+					</tr>
+					<tr>
+						<td>结算方式：</td>
+						<td><input name="payment_way" class="mini-textbox" style="width:125px;" maxlength="8" value="{$info.payment_way}"/>
 					</tr>
 					<input class="mini-hidden"  id="require_number" name="require_number" value="0"/>
 					<input class="mini-hidden"  id="total_price" name="total_price" value="0"/>
@@ -416,7 +417,7 @@ function consumeStoreDetil(){
 		}
 	});
 }
-function totalCount(noStockData){
+function totalCount(noStockData){ //计算总价
 	totalCounts={num:0,price:0};
 	
 	for (var i = 0; i < noStockData.length; i++) {
@@ -501,7 +502,7 @@ function addPurDetil(){
 	});
 }	
 
-function onValidation(e){
+function onValidation(e){ 
 	unit_price=mini.get('change_price').getValue();
 	index=e.sender.ownerRowID;
 	noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);

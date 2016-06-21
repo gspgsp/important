@@ -247,9 +247,10 @@ function onLoadDetail(e){
 			if(order_status =='2' && transport_status=='2'){
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
 					if(join_id != '0' && is_join_in == '0'){ //
-						return;
+						s +='采购单审核中..';
+						return s;
 					}else{
-						if( out_storage_status != '3'){ //没有全部发货时可见发货按钮
+						if( out_storage_status != '已出库'){ //没有全部发货时可见发货按钮
 							s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;|&nbsp;';
 						}
 						
@@ -478,19 +479,17 @@ function addPur(){
 // }
 //双击弹出
 function onRowDblClick(e) {
-	alert(11);
-	var record = e.record, status=record.status;
-	onEdit();
-
+	var record = e.record, status=record.status,order_status=record.order_status,transport_status=record.transport_status;
+	console.log(record);
+	if(order_status=='1' && transport_status=='1'){ //未审核的允许编辑
+		onEdit(e.row);
+	}
 }
-
-function onEdit(e) {
-	// record = e.record,order_type = record.order_type;
-	o_type = (order_type=='销售订单' ? '1' : '2');
-	var row = grid.getSelected();
-	if (row) {
-		var width=740,height=400,title='产品信息';
-		urlStr="/product/order/editOrder?o_id="+row.o_id+"&o_type="+o_type;
+function onEdit(obj) {
+	order_type = (obj.order_type=='销售订单' ? '1' : '2');
+	if (obj) {
+		var width=845,height=650,title='产品信息';
+		urlStr="/product/order/editOrder?o_id="+obj.o_id+"&order_type="+order_type;
 		mini.open({
 			url: urlStr,
 			title: title,
