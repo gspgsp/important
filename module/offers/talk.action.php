@@ -21,6 +21,8 @@ class talkAction extends homeBaseAction{
 
 		//运输方式
 		$this->ship_type=L('ship_type');
+		//配送地点
+		$this->area=M('system:region')->get_regions(1);
 		//产品类型
 		$product_type=L('product_type');
 		$data['product_type']=$product_type[$data['product_type']];

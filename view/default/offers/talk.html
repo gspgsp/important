@@ -75,7 +75,12 @@
                     <td><input type="text" id="date1" datatype="*" class="req" name="delivery_date"/></td>
                     <td>配送地点<span class="red">*</span>：</td>
                     <td>
-                        <input type="text" datatype="*" class="req" name="delivery_place"/>
+                        <select datatype="*" name="delivery_place" class="req">
+                            <option value="">请选择</option>
+                            {foreach from=$area item=value key=key}
+                            <option value="{$value.id}">{$value.name}</option>
+                            {/foreach}
+                        </select>
                     </td>
                 </tr>
                 <tr>

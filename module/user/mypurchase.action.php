@@ -210,8 +210,9 @@ class mypurchaseAction extends userBaseAction{
 			$list=$this->db->from('purchase pur')
 				->join('sale_buy sb','pur.id=sb.p_id')
 				->join('customer cus','sb.c_id=cus.c_id')
+				->leftjoin('lib_region r','sb.delivery_place=r.id')
 				->where("sb.p_id=$id")
-				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name')
+				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place')
 				->getAll();
 			$this->assign('list',$list);
 			$this->display('offerlist');
