@@ -57,7 +57,7 @@ class indexAction extends homeBaseAction{
 			$contact=$this->db->model('customer_contact')->where("user_id=$this->user_id")->getRow();
 			$data['order_sn']=$orderSn;
 			$data['order_type']=1;	//销售类型
-			// $data['sign_place']='网站签约';	//签约地点
+			$data['sign_place']='网站签约';	//签约地点
 			$data['order_source']=1;	//订单来源 1网站
 			$data['c_id']=$contact['c_id'];
 			$data['user_id']=$this->user_id;	//用户id

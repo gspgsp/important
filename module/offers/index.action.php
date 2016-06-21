@@ -121,7 +121,7 @@ class indexAction extends homeBaseAction{
 		$this->assign('factoryList',$factoryList);
 
 		$page=sget('page','i',1);
-		$pageSize=10;
+		$pageSize=20;//分页
 
 		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
 

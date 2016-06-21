@@ -99,9 +99,12 @@ class mypurchaseAction extends userBaseAction{
 		{
 			$model=$this->db->model('purchase');
 			foreach ($data as $key => $value) {
-		
+
+
 				if($value['on']){
 					$_data=$model->getPk($value['on']);
+					$status=$value['type']==1?1:2;//报价直接审核通过，采购需要后台审核
+
 					unset($_data['id']);
 					$_data['supply_count']=0;
 					$_data['last_buy_sale']=0;
@@ -110,7 +113,7 @@ class mypurchaseAction extends userBaseAction{
 					$_data['shelve_type']=1;
 					$_data['number']=$value['num'];
 					$_data['unit_price']=$value['price'];
-					$_data['status']=1;
+					$_data['status']=$status;
 					$model->add($_data);
 				}
 			}

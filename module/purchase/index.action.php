@@ -59,7 +59,7 @@ class indexAction extends homeBaseAction{
 		$this->assign('area',$area);
 
 		$page=sget('page','i',1);
-		$pageSize=10;
+		$pageSize=20;//分页数
 		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
 		$this->pages = pages($list['count'], $p, $pageSize);
 		foreach ($list['data'] as $key => $value) {
