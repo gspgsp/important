@@ -17,7 +17,7 @@ class creditRecordModel extends model
 			$tData['order_id'] = $value2['order_id'];
 			$tData['create_time'] = $value2['create_time'];
 			$tData['status'] = $value2['status'];
-			$tData['update_time'] = $value2['update_time'];
+			$tData['update_time'] = CORE_TIME;
 			$tData['usepoints'] = $value2['usepoints'];
 			$tData['uid'] = $value2['uid'];
 			$tData['thumb'] = $goods['thumb'];
