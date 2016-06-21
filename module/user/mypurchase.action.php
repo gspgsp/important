@@ -290,6 +290,10 @@ class mypurchaseAction extends userBaseAction{
 			);
 			$orderDetail->add($detail_data);
 
+			$model->where("p_id={$data['p_id']}")->update(array('status'=>8,'update_time'=>CORE_TIME));//更新其他报价为未选中
+			$model->where("id=$id")->update(array('status'=>3,'update_time'=>CORE_TIME));//更新选中状态
+
+
 			$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
 			$msg=L('msg_template.union_order');
 			$msg=sprintf($msg,$modelName,$price,$o_id);
