@@ -149,6 +149,7 @@ class indexAction extends homeBaseAction{
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}
+		// p($list);
 		$this->assign('list',$list);
 		$this->display('index');
 	}

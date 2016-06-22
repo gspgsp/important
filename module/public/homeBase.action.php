@@ -60,10 +60,9 @@ class homeBaseAction extends action {
 		$this->view->cache_dir .= $theme_path;
 
 		//底部分类信息
-		$this->infos_about = M('system:info')->getListByCateSpell('about');
-		$this->infos_contact = M('system:info')->getListByCateSpell('contact');
-		$this->infos_safe = M('system:info')->getListByCateSpell('safe');
-		$this->infos_help = M('system:info')->getListByParentCateSpell('help',0,4);
+		
+		$this->footer=M('system:info')->getFooterCate();
+
 
 		if(strstr($_GET['a'],'&gclid')){ //google推广链接的问题
 			$action=$_GET['a']=substr($_GET['a'],0,strpos($_GET['a'],'&'));

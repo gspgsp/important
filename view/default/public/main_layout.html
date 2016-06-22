@@ -15,8 +15,8 @@
         <!--top-lt begin-->
         <ul class="top-lt flt">
             <li>欢迎光临我的塑料网！</li>
-            <li class="collect"><a href="javascript:;">收藏本站</a></li>
-            <li class="blog"><a href="javascript:;">官方微博</a></li>
+            <li class="collect"><a href="javascript:Addme();">收藏本站</a></li>
+            <li class="blog"><a target="_blank" href="http://weibo.com/u/5664121161">官方微博</a></li>
         </ul>
         <!--top-lt end-->
         <!--top-rt begin-->
@@ -29,10 +29,10 @@
             <li><a href="/user/register">免费注册</a></li>
             {/if}
             <!-- <li class="app"><a href="javascript:;">手机网站</a></li> -->
-            <li><a href="javascript:;">常见问题</a></li>
-            <li><a href="javascript:;">联系我们</a></li>
-            <li><a href="javascript:;">意见反馈</a></li>
-            <li class="lang"><a href="javascript:;">中文</a> | <a href="javascript:;">EN</a></li>
+            <li><a href="/page">常见问题</a></li>
+            <li><a href="/page?id=16">联系我们</a></li>
+            <li><a href="/page?id=17">意见反馈</a></li>
+            <li class="lang"><a href="/">中文</a> | <!-- <a href="javascript:;">EN</a></li> -->
         </ul>
         <!--top-rt end-->
     </div>
@@ -66,31 +66,14 @@
         <!--left begin-->
         <div class="left link3 flt">
             <ul>
+                {foreach from=$footer item=value}
                 <li>
-                    <h4>我要买塑料</h4>
-                    <p><a href="javascript:;">如何委托交易</a></p>
-                    <p><a href="javascript:;">如何自己找贷</a></p>
-                    <p><a href="javascript:;">如何查看采购单状态</a></p>
+                    <h4>{$value.cate_name}</h4>
+                    {foreach from=$value.son item=v}
+                    <p><a href="/page?id={$v.id}">{$v.title}</a></p>
+                    {/foreach}
                 </li>
-                <li>
-                    <h4>我要卖塑料</h4>
-                    <p><a href="javascript:;">如何发布报价单</a></p>
-                    <p><a href="javascript:;">如何批量发布报价</a></p>
-                    <p><a href="javascript:;">如何报价采购信息</a></p>
-                </li>
-                <li>
-                    <h4>常见问题</h4>
-                    <p><a href="javascript:;">注册流程</a></p>
-                    <p><a href="javascript:;">无法登录／忘记密码</a></p>
-                    <p><a href="javascript:;">修改账户信息</a></p>
-                </li>
-                <li>
-                    <h4>关于我们</h4>
-                    <p><a href="javascript:;">公司简介</a></p>
-                    <p><a href="javascript:;">意见反馈</a></p>
-                    <p><a href="javascript:;">法律声明</a></p>
-                    <p><a href="javascript:;">联系我们</a></p>
-                </li>
+                {/foreach}
             </ul>
             <p class="copyright color3">2015 版权所有 我的塑料网 沪icp 备 10036109号</p>
         </div>

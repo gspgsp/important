@@ -132,7 +132,7 @@
             <li class="result-con">
             	<div class="brand">{:witchType|$value.product_type}</div>
                 <div class="grade">{$value.model}</div>
-                <div class="level">&nbsp;</div>
+                <div class="level">{:setOption|process_level,$value.process_type}</div>
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
                 <div class="amount">{:floatval|$value.number}</div>
@@ -156,7 +156,7 @@
             <li class="result-con">
                 <div class="brand">{:witchType|$value.product_type}</div>
                 <div class="grade">{$value.model}</div>
-                <div class="level">&nbsp;</div>
+                <div class="level">{:setOption|process_level,$value.process_type}</div>
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
                 <div class="amount">{:floatval|$value.number}</div>
