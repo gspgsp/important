@@ -36,61 +36,104 @@
 			</select>
 			<div class="chooseType">全部</div>
 		</div>
-		<ul class="purchaseList">
-			<li>
-				<div class='purchaseWrap2'>
-					<h3>订单编号:201605173456789<span class='orange'>￥9300/T</span></h3>
-					<p>LDPE|2102TX00|伊朗石化<span>99吨</span></p>
-					<p>上海 宝山仓库<span>2016-05-04</span></p>
-				</div>
-			</li>
-			<li>
-				<div class='purchaseWrap2'>
-					<h3>订单编号:201605173456789<span class='orange'>￥9300/T</span></h3>
-					<p>LDPE|2102TX00|伊朗石化<span>99吨</span></p>
-					<p>上海 宝山仓库<span>2016-05-04</span></p>
-				</div>
-			</li>
-			<li>
-				<div class='purchaseWrap2'>
-					<h3>订单编号:201605173456789<span class='orange'>￥9300/T</span></h3>
-					<p>LDPE|2102TX00|伊朗石化<span>99吨</span></p>
-					<p>上海 宝山仓库<span>2016-05-04</span></p>
-				</div>
-			</li>
-		</ul>
+		<ul class="purchaseList"></ul>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
 			$(function () {
 				var purchaseLi="";
+				var cargoType=1;
+
+				$(".chooseType2").on("change",function () {
+					var chooseValue=$(this).find("option:selected").text();
+					$(".chooseType").text(chooseValue);
+				});
+
 				commonAjax(
 						"post",
 						"/myapp/personalCenter/myPurchase",
-						{type:1,cargo_type:1}
+						{cargo_type:cargoType}
 				).then(function (res) {
 					if(res.err==1){
-						window.location.href="/touch/login";
-					}else if(res.err=2){
+						window.location.href="/myapp/login";
+					}else if(res.err==2){
 						$(".purchaseList").html("<li class='noData'>暂无数据</li>");
 					}else{
-						res.reverse().forEach(function (v,i) {
+						res.data.reverse().forEach(function (v,i) {
 							purchaseLi+="<li><div class='purchaseWrap2'>" +
-									"<h3>订单编号:201605173456789<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
-									"<p>LDPE|2102TX00|伊朗石化<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
-									"</div></li>";
-
-							purchaseLi+="<li><div class='purchaseWrap2'>" +
-									"<h3>"+ v.product_type +"|"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
-									"<p>"+ v.f_name +"<span>"+ v.number +"吨</span></p>" +
-									"<p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+									"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+									"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
 									"</div></li>";
 						});
 						$(".purchaseList").html(purchaseLi);
+
+						$(".supplyDemandChange span").on("click",function () {
+							$(this).addClass("on").siblings("span").removeClass("on");
+							cargoType=$(this).index()+1;
+							purchaseLi="";
+							commonAjax(
+									"post",
+									"/myapp/personalCenter/myPurchase",
+									{cargo_type:cargoType}
+							).then(function (res) {
+								if(res.err==1){
+									window.location.href="/myapp/login";
+								}else if(res.err==2){
+									$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+								}else{
+									res.data.forEach(function (v,i) {
+										purchaseLi+="<li><div class='purchaseWrap2'>" +
+												"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+												"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+												"</div></li>";
+									});
+									$(".purchaseList").html(purchaseLi);
+
+								}
+							},function () {
+
+							});
+
+						});
 					}
 				},function () {
 
+				});
+
+				//搜索
+				$("#query").on("click",function () {
+					if(!$(".productQuery").val()){
+						mui.alert('','请输入要搜索的内容',function(){});
+					}else{
+						commonAjax(
+								"post",
+								"/myapp/personalCenter/doPurSearch",
+								{
+									keywords:$(".productQuery").val().toLocaleUpperCase(),
+									type:$(".chooseType2").val(),
+									cargo_type:cargoType
+								}
+						).then(function (res) {
+							if(res.err==1){
+								console.log(res);
+								window.location.href="/myapp/login";
+							}else if(res.err==2){
+								$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+							}else{
+								purchaseLi="";
+								res.resultData.forEach(function (v,i) {
+									purchaseLi+="<li><div class='purchaseWrap2'>" +
+											"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+											"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+											"</div></li>";
+								});
+								$(".purchaseList").html(purchaseLi);
+							}
+						},function () {
+
+						});
+					}
 				});
 
 			})
