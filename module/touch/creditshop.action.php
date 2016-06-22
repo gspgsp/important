@@ -16,9 +16,10 @@ class creditshopAction extends homeBaseAction
     	//获取用户
     	$this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
+        $gtype = sget('gtype','i');
 		$result = array();
 		$points = M('points:pointsBill')->getUerPoints($this->user_id);
-		$result = M('touch:creditshop')->getCreditShop();
+		$result = M('touch:creditshop')->getCreditShop($gtype);
 
 		$this->json_output(array('points'=>$points,'shop'=>$result));
 
