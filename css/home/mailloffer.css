@@ -106,7 +106,7 @@
 .buy-wrap.talk .buy-process li{ width:305px; margin:0 88px 0 0;}
 .buy-wrap.talk .buy-process li.three{ margin-right:0;}
 
-.buy-wrap .buy-title{ font-size:14px; width:1140px; height:31px; border-bottom:1px solid; margin:0 auto;}
+.buy-wrap .buy-title{ font-size:14px; width:1140px; height:40px; line-height: 40px; border-bottom:1px solid; margin:0 auto;}
 .buy-wrap .buy-title h2{ font-size:14px; float:left;}
 .buy-wrap .buy-title span{ color:#fc6621; float:right;}
 .buy-wrap .buy-title span i{ font-style:normal;}
@@ -115,9 +115,9 @@
 .buy-wrap .buy-info{ margin-bottom:10px;}
 .buy-wrap .buy-info .buy-title{ border-bottom-color:#ccc;}
 .buy-wrap .buy-info .buy-title h2{ font-size: 14px; font-weight: bold;}
-.buy-wrap .buy-info table{ font-size:16px; margin:15px 0 0 40px;}
-.buy-wrap .buy-info table tr{ height:20px;}
-.buy-wrap .buy-info table select{ color:#323232; font-size:16px; border:1px solid #d9d9d9; height:28px; line-height:28px; padding:0 0 0 10px;}
+.buy-wrap .buy-info table{ margin:15px 0 0 40px;}
+.buy-wrap .buy-info table tr{ height:40px;}
+.buy-wrap .buy-info table select{ color:#323232; border:1px solid #d9d9d9; width: 100px; height:24px; line-height:24px;}
 .buy-wrap .buy-info table b{ margin:0 15px;}
 .buy-wrap .buy-info table i{ margin:0 4px;}
 .buy-wrap .buy-info .sly-chn{ font-size:14px; color:#323232; width:1140px; height:auto; overflow:hidden; margin:0 auto; margin-top:30px;}
