@@ -27,7 +27,7 @@ class personalCenterAction extends homeBaseAction
         if($name){
             $this->json_output(array('thumb'=>$thumb,'name'=>$name,'qcount'=>$qCount,'pcount'=>$pCount,'proattcount'=>$proAttCount,'points'=>$points,'cus_mana'=>$cus_mana));
         }else{
-            $this->json_output(array('err'=>2,'msg'=>'没有该用户!'));
+            $this->json_output(array('err'=>2,'msg'=>'没有相关数据!'));
         }
     }
     //进入我的报价单
