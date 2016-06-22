@@ -32,6 +32,7 @@ class myquotationModel extends model
 				}
 			}
 			$pur = $this->model('purchase')->where('id='.$id)->getRow();
+			if($data['number'] == $pur['number'] && $data['unit_price'] == $pur['unit_price']) return array('err'=>2,'msg'=>'没有更新的数据');
 
 			$qdata['p_id'] = $pur['p_id'];
 			$qdata['user_id'] = $pur['user_id'];
