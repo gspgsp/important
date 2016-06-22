@@ -55,7 +55,7 @@
 							purchaseLi="";
 							res.forEach(function (v,i) {
 								purchaseLi+="<li><div class='purchaseWrap'>" +
-										"<h3>"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+										"<h3>"+ v.product_type +"|"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
 										"<p>"+ v.f_name +"<span>"+ v.number +"吨</span></p>" +
 										"<p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
 										"</div></li>";
@@ -71,8 +71,9 @@
 			});
 
 			$.ajax({
-				type:"get",
+				type:"post",
 				url:"/touch/mypurchase/get_purchase",
+				data:{type:1},
 				dataType:'json',
 				beforeSend:function () {
 					layer.open({
@@ -88,9 +89,9 @@
 						window.location.href="/touch/login";
 					}else{
 						layer.closeAll();
-						res.forEach(function (v,i) {
+						res.reverse().forEach(function (v,i) {
 							purchaseLi+="<li><div class='purchaseWrap'>" +
-									"<h3>"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+									"<h3>"+ v.product_type +"|"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
 									"<p>"+ v.f_name +"<span>"+ v.number +"吨</span></p>" +
 									"<p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
 									"</div></li>";

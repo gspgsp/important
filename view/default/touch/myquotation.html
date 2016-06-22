@@ -46,8 +46,9 @@
 			}
 
 			$.ajax({
-				type:"get",
+				type:"post",
 				url:"/touch/myquotation/get_myquotation",
+				data:{type:2},
 				dataType:'json',
 				beforeSend:function () {
 					layer.open({
@@ -60,10 +61,10 @@
 						window.location.href="/touch/login";
 					}else{
 						layer.closeAll();
-						res.forEach(function (v,i) {
+						res.reverse().forEach(function (v,i) {
 							quotationLi+="<li><div class='purchaseWrap'>" +
 									"<input type='checkbox' data-id='"+ v.id +"' id='"+ v.id +"' class='regular-checkbox regular-checkbox2'>" +
-									"<label for='"+ v.id +"'></label><h3>"+ v.model +"" +
+									"<label for='"+ v.id +"'></label><h3>"+ v.product_type +"|"+ v.model +"" +
 									"<span class='orange'>￥<input class='offerNumInput unit_price' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
 									"<p><input class='offerTxtInput f_name' type='text' readonly value='"+v.f_name+"'>" +
 									"<span class='orange'><input class='offerNumInput number' type='tel' value='"+v.number+"'>吨</span></p>" +
@@ -260,7 +261,7 @@
 								res.forEach(function (v,i) {
 									quotationLi+="<li><div class='purchaseWrap'>" +
 											"<input type='checkbox' id='"+ v.id +"' class='regular-checkbox'>" +
-											"<label for='"+ v.id +"'></label><h3>"+ v.model +"" +
+											"<label for='"+ v.id +"'></label><h3>"+ v.product_type +"|"+ v.model +"" +
 											"<span class='orange'>￥<input class='offerNumInput unit_price' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
 											"<p><input class='offerTxtInput f_name' type='text' value='"+v.f_name+"'>" +
 											"<span class='orange'><input class='offerNumInput number' type='tel' value='"+v.number+"'>吨</span></p>" +
