@@ -208,7 +208,9 @@ class mainPageModel extends model
             //数据处理
             foreach ($data as $key => $value) {
                 $data[$key]['product_type'] = L('product_type')[$data['product_type']];
+                $data[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
             }
+        return $data;
     }
     //获取当前类型的键
     private function _getProKey($p_types,$keywords){
