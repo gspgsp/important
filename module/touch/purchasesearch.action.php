@@ -31,7 +31,7 @@ class purchasesearchAction extends homeBaseAction
         $type = sget('status','s');
         $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id}";
         if($type == '1'){
-    		$where.=" and pur.status=1";
+    		$where.=" and pur.status=1 and type=1";
     		$data = $this->db->from('purchase pur')
 	        ->join('product pro','pur.p_id=pro.id')
 	        ->join('factory fa','pro.f_id=fa.fid')
@@ -40,7 +40,7 @@ class purchasesearchAction extends homeBaseAction
 	        $resultData = $this->_reverseData($data);
 	        $this->json_output($resultData);
         }elseif ($type == '2') {
-    		$where.=" and pur.status=2";
+    		$where.=" and pur.status=2 and type=1";
     		$data = $this->db->from('purchase pur')
 	        ->join('product pro','pur.p_id=pro.id')
 	        ->join('factory fa','pro.f_id=fa.fid')
@@ -49,7 +49,7 @@ class purchasesearchAction extends homeBaseAction
 	        $resultData = $this->_reverseData($data);
 	        $this->json_output($resultData);
         }elseif ($type == '3') {
-            $where.=" and pur.status=3";
+            $where.=" and pur.status=3 and type=1";
             $data = $this->db->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
@@ -58,7 +58,7 @@ class purchasesearchAction extends homeBaseAction
             $resultData = $this->_reverseData($data);
             $this->json_output($resultData);
         }elseif ($type == '4') {
-            $where.=" and pur.status=4";
+            $where.=" and pur.status=4 and type=1";
             $data = $this->db->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
@@ -67,7 +67,7 @@ class purchasesearchAction extends homeBaseAction
             $resultData = $this->_reverseData($data);
             $this->json_output($resultData);
         }elseif ($type == '5') {
-            $where.=" and pur.status=5";
+            $where.=" and pur.status=5 and type=1";
             $data = $this->db->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
@@ -76,7 +76,7 @@ class purchasesearchAction extends homeBaseAction
             $resultData = $this->_reverseData($data);
             $this->json_output($resultData);
         }elseif ($type == '6') {
-            $where.=" and pur.status=6";
+            $where.=" and pur.status=6 and type=1";
             $data = $this->db->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
@@ -85,6 +85,7 @@ class purchasesearchAction extends homeBaseAction
             $resultData = $this->_reverseData($data);
             $this->json_output($resultData);
         }else{
+            $where.=" and type=1";
 	        $data = $this->db->from('purchase pur')
 	        ->join('product pro','pur.p_id=pro.id')
 	        ->join('factory fa','pro.f_id=fa.fid')

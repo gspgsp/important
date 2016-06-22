@@ -16,8 +16,9 @@ class mypurchaseAction extends homeBaseAction
     	//获取求购信息的id
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
+        $type = sget('type','i');//1采购 2报价
     	$result = array();
-		$result = M('touch:purchase')->getPurchase($this->user_id);
+		$result = M('touch:purchase')->getPurchase($this->user_id,$type);
     	$this->json_output($result);
     }
 }
