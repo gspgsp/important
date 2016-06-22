@@ -159,8 +159,8 @@
 					<legend>采购明细</legend>
 					<div id="editForm3" style="padding:5px;" >
 					<div class="detail">
-						<div id="gridCell3" showModified="false" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
-							<div property="columns">    
+						<div id="gridCell3" showModified="false" class="mini-datagrid" style="width:100%;height:100px" showFooter="false" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns" >    
 								<div field="model" width="100"  headerAlign="center">牌号</div>        
 								<div field="f_name" width="120" headerAlign="center">厂家</div>         
 								<div field="unit_price" width="80" headerAlign="center" >售价
@@ -226,7 +226,7 @@ function submitForm(){
 	//提交数据
 	var o = form.getData();
 	var datas=gridCell.getData();
-	o.store_o_id=datas[0].o_id; //把明细的库存采购id赋给 o的一维数组方便后台处理
+	o.store_o_id=datas[0].o_id; //把明细所销的库存产品的采购id赋给 o的一维数组方便后台处理
 	$.extend(o, {detail:datas}); 
 	$.extend(o, totalCounts); 
 	var json = mini.encode(o);

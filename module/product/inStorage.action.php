@@ -64,6 +64,7 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
+		p($data);die;
 		if(empty($data)) $this->error('操作有误');
 		$basic_info = array(
 			'input_admin'=>$_SESSION['name'],

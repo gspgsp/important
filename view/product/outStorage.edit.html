@@ -62,7 +62,7 @@
 	</div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 <div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/outStorage/info?action=grid&o_id={$o_id}" idField="id"
-sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  selectOnLoad="true" onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
+sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  selectOnLoad="true" onrowdblclick="onRowDblClick" showFilterRow="true"  allowCellEdit="true" >
 	<div property="columns" >
 		<div type="checkcolumn" ></div>
 		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
@@ -85,6 +85,11 @@ mini.parse();
 var rows ;
 //搜索或刷新
 var grid = mini.get("gridCell");
+grid.on("load",function(){ //默认全选
+	for(var i =0;i<grid.totalCount;i++){
+		grid.select(i);
+	}
+});
 function search() {
 	grid.load($("#soform").serializeObject(),function(e){
 		$("#searchMsg").html(e.msg);

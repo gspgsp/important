@@ -433,15 +433,16 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		// p($data);die;
 		if(empty($data)) $this->error('错误的请求');	
 		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
-		unset($data['o_id']);
+		unset($data['o_id']); //避免和后面的add 订单冲突
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
 		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
-		$data['total_price']=$data['price'];
-		$data['total_num']=$data['num'];
+		$data['total_price']=$data['price']; //前台计算的所有明细总价
+		$data['total_num']=$data['num']; //所有明细总数
 		$data['order_source'] = 2; //订单默认来源ERP
 		//新增
 			$this->db->startTrans(); //开启事务
@@ -451,6 +452,7 @@ class orderAction extends adminBaseAction {
 				'admin_id'=>$_SESSION['adminid'],
 			);
 			try {	
+				if($data['join_id']>0) unset($data['store_o_id']); //不销库存的订单 不存在此字段
 				if( !$this->db->model('order')->add($data+$add_data) ) throw new Exception("新增订单失败");//新增订单
 				$o_id=$this->db->getLastID(); //获取新增订单ID
 				if($data['join_id']>0){  //反向把新增的采购订单id 保存在所关联的销售订单中
