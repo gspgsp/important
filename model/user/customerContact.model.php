@@ -213,8 +213,9 @@ class customerContactModel extends model{
 		$model=$this->from('customer_contact con')
 			->leftjoin('customer cus','con.c_id=cus.c_id')
 			->leftjoin('admin ad','cus.customer_manager=ad.admin_id')
+			->leftjoin('contact_info info','con.user_id=info.user_id')
 			->where($where)
-			->select('con.user_id,con.name,con.mobile,cus.c_name,ad.name as adname,ad.mobile as admobile');
+			->select('con.user_id,con.name,con.mobile,cus.c_name,ad.name as adname,ad.mobile as admobile,info.points');
 		if(is_array($user_id)){
 			return $model->getAll();
 		}else{
@@ -229,6 +230,10 @@ class customerContactModel extends model{
 			->join('contact_info info','con.user_id=info.user_id')
 			->where("con.user_id={$user_id}")
 			->getRow();
+	}
+
+	public function getInfoById($user_id){
+		return $this->model('contact_info')->where("user_id=$user_id")->getRow();
 	}
 
 	/*
