@@ -254,15 +254,18 @@ function onLoadDetail(e){
 							s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;|&nbsp;';
 						}
 						
-						if (c_status !='3') {
+						if (c_status !='3' && out_storage_status == '已出库') {
 						s+='<a href="javascript:transaction('+oid+','+order_type+')">收款</a>&nbsp;|&nbsp;';
 						}
-						if (i_status !='全部开票' && newstatus != '3') {
+						if (i_status !='全部开票' && newstatus == '3' && c_status =='3') {
 							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|&nbsp;';
 						}
 						if (c_status =='3' && i_status =='全部开票') {
 							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
 						}
+						// if (newstatus != '3' && c_status =='3') {
+						// 	s +='采购未开票..';
+						// }
 						s+='<a href="javascript:salecompact('+oid+')">合同</a>';
 
 					}
@@ -277,7 +280,7 @@ function onLoadDetail(e){
 				s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;|&nbsp;';
 			}
 			
-			if (c_status !='3') {
+			if (c_status !='3' && in_storage_status == '已入库') {
 				s+='<a href="javascript:transaction('+oid+','+order_type+')">付款</a>&nbsp;|&nbsp;';
 			}
 			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库') {

@@ -38,26 +38,26 @@
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
-			<div field="cate_id" renderer="setCate" width="30" headerAlign="center" allowSort="true" align="center">商品分类
+			<div field="cate_id" renderer="setCate" width="30" headerAlign="center" allowSort="true" align="center"><span style="color:red">*</span>商品分类
 				<input property="editor" name="cate_id" class="mini-combobox" data='{:setMiniConfig|$goods_category}' textField="name" valueField="id" style="width:90px;" required="true"/>
 			</div>
-			<div field="name" width="200" headerAlign="center" align="center">商品名称
+			<div field="name" width="200" headerAlign="center" align="center"><span style="color:red">*</span>商品名称
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
-			<div field="price" width="60" headerAlign="center" allowSort="true" align="center">进价
+			<div field="price" width="60" headerAlign="center" allowSort="true" align="center"><span style="color:red">*</span>进价
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>
-			<div field="points" width="60" headerAlign="center" align="center">所需积分
+			<div field="points" width="60" headerAlign="center" align="center"><span style="color:red">*</span>所需积分
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>                
 			<div field="receive_num" width="60" headerAlign="center" allowSort="true" align="center">总兑换数
 			</div>
-			<div field="num" width="80" headerAlign="center" align="center">库存
+			<div field="num" width="80" headerAlign="center" align="center"><span style="color:red">*</span>库存
 				<input property="editor" class="mini-textbox" style="width:100%;"/>
 			</div>        
 			<div field="thumb" width="80" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">预览图片
 			</div>			
-			<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
+			<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center"><span style="color:red">*</span>状态
 				<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />     
 			</div>
 			<div field="create_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
@@ -73,29 +73,29 @@
 		<table style="width:100%;">
 			<input class="mini-hidden" name="id"/>
 			<tr>
-				<td>商品名称</td>
+				<td><span style="color:red">*</span>商品名称</td>
 				<td><input name="name" class="mini-textbox" style="width:170px;" required="true"/></td>
 			</tr>
 			<tr>
-				<td>商品编号</td>
+				<td><span style="color:red">*</span>商品编号</td>
 				<td><input name="goods_id" class="mini-textbox" style="width:170px" required="true"/></td>
 			</tr>
 			<tr>
-				<td>商品分类</td>
+				<td><span style="color:red">*</span>商品分类</td>
 				<td><input name="cate_id" class="mini-combobox" data='{:setMiniConfig|$goods_category}' textField="name" valueField="id" style="width:90px;" required="true"/>
 				</td>
 			</tr>
 			<tr>
-				<td>进价</td>
+				<td><span style="color:red">*</span>进价</td>
 				<td><input name="price" class="mini-textbox" style="width:170px" required="true"/></td>
 			</tr>
 			<tr>
-				<td>所需积分</td>
+				<td><span style="color:red">*</span>所需积分</td>
 				<td><input name="points" class="mini-textbox" required="true" style="width:170px"/>
 				</td>
 			</tr>
 			<tr>
-				<td>库存量</td>
+				<td><span style="color:red">*</span>库存量</td>
 				<td><input name="num" class="mini-textbox" required="true" style="width:170px"/>
 				</td>
 			</tr>
@@ -114,11 +114,11 @@
 				</td>
 			</tr>
 			<tr>
-				<td>状态</td>
-				<td><input class="mini-combobox" name="status" style="width:90px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="1"/></td>
+				<td><span style="color:red">*</span>状态</td>
+				<td><input class="mini-combobox" name="status" style="width:90px;" value="1" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id"/></td>
 			</tr>
 			<tr>
-				<td>排序</td>
+				<td><span style="color:red">*</span>排序</td>
 				<td><input name="sort" class="mini-textbox" style="width:170px" required="true"/></td>
 			</tr>
 			<tr>
