@@ -1,6 +1,6 @@
 .user-wrap{ margin-bottom:30px;}
-.user-wrap .left{ width:172px; height:1581px; overflow:hidden; background:#fcf4f0;}
-.user-wrap .left h2{ font-size:20px; color:#333; height:50px; line-height:50px; margin:0 0 0 6px; padding:0 0 0 27px; background:url(../img/order.png) no-repeat;}
+.user-wrap .left{ width:172px; height:890px; overflow:hidden; background:#fcf4f0;}
+.user-wrap .left h2{ font-size:12px; font-weight: bold; color:#333; height:28px; line-height:28px; margin:0 0 0 6px; padding:0 0 0 27px; background:url(../img/order.png) no-repeat;}
 .user-wrap .left h2.msg{ background-position:0 -88px; margin-top:14px;}
 .user-wrap .left h2.order{ background-position:0 -138px;}
 .user-wrap .left h2.supply{ background-position:0 -188px;}
@@ -9,11 +9,12 @@
 .user-wrap .left h2.follow{ background-position:0 -338px;}
 .user-wrap .left h2.website{ background-position:0 -388px;}
 .user-wrap .left h2.set{ background-position:0 -438px;}
-.user-wrap .left ul{ font-size:16px; margin:0 0 0 34px; line-height:46px;}
-.user-wrap .left ul li a{ color:#646464;}
+.user-wrap .left ul{ font-size:12px; margin:0 0 15px 44px; line-height:24px;}
+.user-wrap .left ul li{ width: 138px; height: 24px; background:url(../../../static/images/home/img/leftMenu.png); }
+.user-wrap .left ul li a{ color:#777;}
 .user-wrap .left ul li a:hover,.user-wrap .left ul li.hover a{ color:#fc6621;}
 .user-wrap .right{ width:1046px; height:auto; overflow:hidden; border:1px solid #d6d7dc;}
-.user-wrap .right h3{ font-size:18px; color:#333; text-indent:23px; height:58px; line-height:58px; border-bottom:1px solid #d6d7dc; margin:0 0 25px 0; position:relative;}
+.user-wrap .right h3{ font-size:12px; font-weight: bold; color:#333; text-indent:23px; height:48px; line-height:48px; border-bottom:1px solid #d6d7dc; margin:0 0 25px 0; position:relative;}
 .user-wrap .right h3 a{ font-size:14px; color:#267bd3; position:absolute; right:23px; top:0; background:url(../img/finance.png) no-repeat 0 -315px;} 
 /*.user-wrap .right .tab{ width:1046px; height:67px; overflow:hidden;}
 .user-wrap .right .tab ul{ height:60px; margin:0 0 0 23px; border-left:1px solid #d6d7dc;}
@@ -30,7 +31,7 @@
 .user-wrap .right .filter .filter-top .other.hide{ background-position:127px -44px;}
 .user-wrap .right .filter .filter-bot.hide{ display:none;}
 .user-wrap .right .filter .filter-bot table tr{ height:46px;}
-.user-wrap .right .filter .filter-bot select{ color:#666; height:26px;}
+.user-wrap .right .filter .filter-bot select{ color:#666; height:24px; border:1px solid #d6d7dc; margin:0 10px 0 0;}
 .user-wrap .right .filter .filter-bot input{ width:150px; height:14px; padding:5px 0 5px 10px; border:1px solid #d6d7dc;}
 .user-wrap .right .filter .filter-bot .trade-date input{ width:120px; float:left;}
 .user-wrap .right .filter .filter-bot .trade-date span{ float:left; color:#bcbcbc; line-height:24px; margin:0 8px;}
@@ -68,8 +69,8 @@
 .user-wrap .right .result li.tpt-fht{ width:94px;}
 .user-wrap .right .result li.sly-chn{ width:66px;}
 .user-wrap .right .all-opt{ width:1000px; height:38px; line-height:38px; margin:0 0 0 23px; overflow:hidden;}
-.user-wrap .right .all-opt input{ float:left; margin:13px 11px 0 20px;}
-.user-wrap .right .all-opt label{ cursor:pointer; margin:0 71px 0 0;}
+.user-wrap .right .all-opt input{ float:left; margin:13px 5px 0 20px;}
+.user-wrap .right .all-opt label{ cursor:pointer; margin:0 14px 0 0;}
 .user-wrap .right .all-opt a{ color:#323232; border:1px solid #d6d7dc; padding:6px 7px;}
 .user-wrap .right .page{ color:#323232; height:28px; line-height:28px; overflow:hidden; margin:0 12px 50px 0;}
 .user-wrap .right .page li{ font-size:14px; float:left; margin:0 10px 0 0;}
@@ -79,57 +80,58 @@
 .user-wrap .right .page li input{ width:42px; height:14px; padding:6px 0 6px 10px; margin:0 5px; border:1px solid #d6d7dc;}
 .user-wrap .right input.dr{ font-size:16px; display:block; width:120px; height:44px; background:#267bd3; border-radius:2px; margin:60px auto; color:#fff; cursor:pointer;}
 
+.user-wrap .right .result-title.msg-list li.con{ text-align: center; }
 .user-wrap .right .result-bot.msg-list.msg-close{ height:38px; overflow:hidden;}
 .user-wrap .right .result-bot.msg-list.msg-open{ height:110px; overflow:hidden; background:#f3ebce;}
-.user-wrap .right .result-bot.msg-list li{ line-height:38px; border-right:none; text-align:center;}
-.user-wrap .right .result-bot.msg-list li.sys-msg{ width:184px; margin:0 0 0 65px;}
-.user-wrap .right .result-bot.msg-list li.con{ width:500px; text-align:left; position:relative;}
+.user-wrap .right .msg-list li{ line-height:38px; border-right:none; text-align:center;}
+.user-wrap .right .msg-list li.sys-msg{ width:184px;}
+.user-wrap .right .msg-list li.con{ width:500px; text-align:left; position:relative;}
 .user-wrap .right .result-bot.msg-list li.con p{ width:475px; line-height:23px; margin:9px 0 0 0; float:left;}
 .user-wrap .right .result-bot.msg-list li.con span{ color:#267bd3; cursor:pointer; position:absolute; right:0; top:0;}
-.user-wrap .right .result-bot.msg-list li.is-read{ width:154px; margin:0 0 0 17px;}
+.user-wrap .right .msg-list li.is-read{ width:154px; margin:0 0 0 17px;}
 .user-wrap .right .result-bot.msg-list li.already a{ color:#267bd3;}
 
 .user-wrap .right .user-title{ width:1000px; height:44px; line-height:44px; overflow:hidden; border-bottom:1px solid; margin:0 0 0 23px;}
 .user-wrap .right .user-title h2{ font-size:18px; float:left;}
 .user-wrap .right .user-title span{ font-size:16px; float:right;}
-.user-wrap .right .user-title.basic{ border-bottom-color:#267bd3;}
-.user-wrap .right .user-title.basic h2{ color:#267bd3;}
-.user-wrap .right .user-title.basic span{ color:#fc6621;}
-.user-wrap .right .user-title.pro{ border-bottom-color:#45ae73;}
-.user-wrap .right .user-title.pro h2{ color:#45ae73;}
-.user-wrap .right .user-title.pro span{ color:#fc6621;}
+.user-wrap .right .user-title.basic{ border-bottom-color:#ccc;}
+.user-wrap .right .user-title.basic h2,.user-wrap .right .user-title.pro h2{ font-size: 14px; font-weight: bold;}
+.user-wrap .right .user-title.basic span,.user-wrap .right .user-title.pro span{ font-size: 14px; color:#fc6621;}
+.user-wrap .right .user-title.pro{ border-bottom-color:#ccc;}
 
-.user-wrap .right .basic-info{ font-size:16px; margin:20px 0 0 63px;}
-.user-wrap .right .basic-info tr{ height:46px;}
+.user-wrap .right .basic-info{ margin:20px 0 20px 23px;}
+.user-wrap .right .basic-info tr{ height:40px;}
 .user-wrap .right .basic-info .customer{ color:#e64748;}
 .user-wrap .right .basic-info input{ width:228px; height:14px; overflow:hidden; padding:5px 0 5px 10px; border:1px solid #d6d7dc;}
 .user-wrap .right .basic-info select{ width:240px; height:24px; border:1px solid #d6d7dc;}
 .user-wrap .right .basic-info textarea{ width:310px; height:84px; padding:10px; border:1px solid #d6d7dc;}
-.user-wrap .right .pro-detail table{ font-size:14px; border-collapse:collapse; margin:0 auto; margin-top:20px;}
-.user-wrap .right .pro-detail table th{ font-weight:normal; background:#f3e7bd;}
-.user-wrap .right .pro-detail table td,.user-wrap .right .pro-detail table th{ text-align:center; height:38px; border:1px solid #666;}
+.user-wrap .right .pro-detail table{ border-collapse:collapse; margin:0 auto; margin-top:20px;}
+.user-wrap .right .pro-detail table th{ font-weight:normal; background:#f5f5f5;}
+.user-wrap .right .pro-detail table td,.user-wrap .right .pro-detail table th{ text-align:center; height:40px; border:1px solid #ccc;}
 .user-wrap .right .pro-detail ul{ height:auto; overflow:hidden; font-size:16px; margin:29px 0 0 60px;}
 .user-wrap .right .pro-detail ul li{ height:46px; line-height:46px; float:left;}
 .user-wrap .right .pro-detail ul li div{ float:left;}
 .user-wrap .right .pro-detail ul li .pro-table-name{ width:83px; text-align:right; margin-right:25px;}
 .user-wrap .right .pro-detail ul li .pro-table-val{ width:248px; text-align:left;}
-.user-wrap .right .close{ color:#fff; font-size:16px; display:block; width:120px; height:44px; background:#267bd3; border-radius:2px; margin:50px auto; clear:both; cursor:pointer;}
+.user-wrap .right .close{ color:#fff; font-size:16px; display:block; width:120px; height:44px; line-height: 44px; text-align: center; background:#267bd3; border-radius:2px; margin:50px auto; clear:both; cursor:pointer;}
 
 /*我的供应开始*/
-.tabe,.tabx{ width:403px; height:69px; overflow:hidden; margin:0 auto; margin-bottom:54px; font-size:16px;}
-.tabe li,.tabx li{ width:200px; height:61px; line-height:61px; float:left; text-align:center; border-top:1px solid #e6e7ea; border-bottom:1px solid #e6e7ea; border-right:1px solid #e6e7ea; cursor:pointer;}
-.tabe li.hover,.tabx li.hover{ overflow:visible; color:#fff; border-bottom-color:#fc6621; border-top-color:#fc6621;}
-.tabe li.hover p,.tabx li.hover p{ background:#fc6621;}
+.tabe,.tabx{ width:403px; height:30px; overflow:hidden; margin:0 0 10px 23px; font-size:14px;}
+.tabe li,.tabx li{ width:60px; height:16px; float:left; text-align: center; cursor:pointer;}
+.tabe li p{ width: 50px; margin:0 0 0 5px; padding: 0 0 8px 0; font-weight:bold;}
+.tabe li.hover,.tabx li.hover{ overflow:visible; color:#fc6621;}
+.tabe li.hover p,.tabx li.hover p{ border-bottom: 2px solid #fc6621; }
 .tabe li.hover span,.tabx li.hover span{ display:block; width:200px; height:8px; background: url(../img/supplyHover.png) no-repeat center top;}
 .user-wrap .right .con-tabe table{ width:1000px; border-collapse:collapse; margin-left:23px; clear:both;}
-.user-wrap .right .con-tabe table th{ background:#f3e7bd; font-weight:normal;}
-.user-wrap .right .con-tabe table th,.user-wrap .right .con-tabe table td{ height:38px; border:1px solid #646464; text-align:center;}
+.user-wrap .right .con-tabe table th{ background:#f5f5f5; font-weight:normal;}
+.user-wrap .right .con-tabe table th,.user-wrap .right .con-tabe table td{ height:38px; border:1px solid #ccc; text-align:center;}
 .user-wrap .right .con-tabe table input{ width:90px; height:14px; padding:5px 0 5px 10px; border:1px solid #ccc;}
 .user-wrap .right .con-tabe table .del span{ cursor:pointer;}
 .user-wrap .right .con-tabe .opt{ height:32px; overflow:hidden; margin:0 22px 10px 0; float:right;}
 .user-wrap .right .con-tabe .opt li{ font-size:14px; float:left; min-width:56px; height:32px; line-height:32px; text-align:center; background:#267bd3; color:#fff; display:block; padding:0 17px; margin:0 0 0 20px; border-radius:2px; cursor:pointer;}
+.user-wrap .right .con-tabe .opt li a{ color:#fff;}
 .user-wrap .right .con-tabe .btn{ height:44px; overflow:hidden; margin:40px 0 40px 410px;}
-.user-wrap .right .con-tabe .btn input{ width:100px; height:44px; border-radius:2px; color:#fff; cursor:pointer;}
+.user-wrap .right .con-tabe .btn input{ width:90px; height:32px; border-radius:2px; color:#fff; cursor:pointer;}
 .user-wrap .right .con-tabe .btn input.release{ background:#fc6621; margin:0 20px 0 0;}
 .user-wrap .right .con-tabe .btn input.cancel{ background:#6d6c6c;}
 #con-tabe-1 .table1 .all input{ width:20px;}
