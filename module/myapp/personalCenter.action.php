@@ -172,7 +172,7 @@ class personalCenterAction extends homeBaseAction
                 $temp['id'] = $value['id'];
                 $temp['p_id'] = $value['p_id'];
                 $temp['model'] = $value['model'];
-                $temp['product_type'] = $value['product_type'];
+                $temp['product_type'] = L('product_type')[$value['product_type']];
                 $temp['unit_price'] = $value['unit_price'];
                 $temp['f_name'] = $value['f_name'];
                 $temp['number'] = $value['number'];
@@ -308,7 +308,7 @@ class personalCenterAction extends homeBaseAction
         //遍历data
             foreach ($data as $value) {
                 $temp['model'] = $value['model'];
-                $temp['product_type'] = $value['product_type'];
+                $temp['product_type'] = L('product_type')[$value['product_type']];
                 $temp['unit_price'] = $value['unit_price'];
                 $temp['f_name'] = $value['f_name'];
                 $temp['number'] = $value['number'];
