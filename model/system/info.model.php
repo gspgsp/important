@@ -58,6 +58,15 @@ class infoModel extends model{
 		return $articleList;
 	}
 
+	//底部文章
+	public function getFooterCate(){
+		$cate=M('system:cate')->getCateBySpell('help');
+		foreach ($cate as $key => $value) {
+			$cate[$key]['son']=$this->getListByCate($value['cate_id']);
+		}
+		return $cate;
+	}
+
 
 }
 ?>
