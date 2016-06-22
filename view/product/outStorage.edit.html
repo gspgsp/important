@@ -10,19 +10,19 @@
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 			{if $doyet eq doyet}
 				<tr>
-					<td>出库名称:</td>
-					<td><input name="sale_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$sale_subject}"  textField="name" valueField="id"/>
+					<td>出库名称<font style="color:red;"> * </font></td>
+					<td><input name="sale_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="true" value="{$sale_subject}"  textField="name" valueField="id"/>
 					</td>
 					<td>出库单号</td>
 					<td>{$out_no}</td>
 				</tr>
 
 				<tr>
-					<td>出库种类:</td>
-					<td><input name="out_type" class="mini-combobox" data='{:setMiniConfig|$out_type}' value="{$data.out_type|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/>
+					<td>出库种类<font style="color:red;"> * </font></td>
+					<td><input name="out_type" class="mini-combobox" data='{:setMiniConfig|$out_type}' value="{$data.out_type|default:1}" textField="name" valueField="id" style="width:120px;" required="true"/>
 					</td>
-					<td>物流公司:</td>
-					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>
+					<td>物流公司<font style="color:red;"> * </font></td>
+					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="true"/></td>
 				</tr>
 				<tr>
 					<td>备注:</td>
@@ -76,7 +76,7 @@ sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  selectOnLoad="true" 
 	</div>
 </div>
 			<div align="center" style="margin-top:10px;">
-				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">保存</a>
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">发货</a>
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
 	
@@ -117,8 +117,8 @@ function viewOrdInfo(id){
 function submitForm() {
 	var form = new mini.Form("#editForm");
 	rows = grid.getSelecteds()
-	// form.validate();
-	// if(form.isValid() == false) return;
+	form.validate();
+	if(form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
 	$.extend(o, {log:rows}); 

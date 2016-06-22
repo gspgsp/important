@@ -46,7 +46,7 @@
 		>
 		<div property="columns">    
 			<div type="checkcolumn"></div>
-			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+			<div field="order_sn" width="120" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
 			<div field="order_name" width="90" headerAlign="center" align="center">订单名</div>
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
 			<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量【吨】</div>   
@@ -55,11 +55,11 @@
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
 			<!-- <div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div> -->
 			<div field="out_storage_status" width="80" headerAlign="center" allowSort="true" align="center">出库状态</div>
-			<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div>
+<!-- 			<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">备注</div> -->
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
-			<div field="update_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
-			<div field="update_admin" width="45" headerAlign="center" align="center">更新人</div>
+<!-- 			<div field="update_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
+			<div field="update_admin" width="45" headerAlign="center" align="center">更新人</div> -->
 <!-- 			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onPurOrd">操作</div> -->
 		</div>
 	</div>
@@ -85,21 +85,11 @@ function onKeyEnter(e) {
 }
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',id= record.id;
+	var record = e.record,s='',id= record.id,order_sn=record.order_sn;
 	
-		s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
-	return s;
-	
-	
+		s += '<a href="javascript:viewOrdInfo('+id+')">'+order_sn+'</a> ';
+	return s;	
 }
-//追加采购
-// function onPurOrd(e){
-// 	var record = e.record,s='',id = record.id,store_id = record.store_id;
-// 	if(store_id==0){
-// 	s += '<a href="javascript:addPurOrd('+id+')">'+'追加采购单'+'</a> ';
-// 	return s;
-// 	}
-// }
 function addPurOrd(id){
 	mini.open({
 		url: "/product/purchaseLog/info?sale_id="+id,
@@ -134,11 +124,6 @@ function add(){
 		}
 	});	
 }
-// //双击弹出
-// function onRowDblClick(e) {
-// 	var record = e.record, status=record.status;
-// 	onEdit();
-// }
 function onEdit(e) {
 	var row = grid.getSelected();
 	if (row) {
@@ -156,33 +141,6 @@ function onEdit(e) {
 			}
 		});
 	}
-}
-//删除
-function remove() {
-	var rows = grid.getSelecteds(),_ids=new Array();
-	if(rows.length<1) return;
-		for(var i=0;i<rows.length;i++){
-	var _id=parseInt(rows[i].id);
-	if(_id<1){
-		grid.removeRow(rows[i],false);
-	}else{
-		_ids.push(_id);
-	}
-  }
-	var ids=_ids.join(',');
-	if(ids=='') return;
-	mini.confirm("确定删除？", "提示", function(action){
-	if(action!='ok') return;
-	var callback=function(data){
-	if(data.err=='0'){
-		grid.reload();
-	}else{
-		alert(data.msg)
-		return false;
-	}
-	}
-	utils.ajax('/product/saleLog/remove',{ids:ids},callback,"POST","json");
-  });
 }
 function GetData() {
 	var row = grid.getSelected();

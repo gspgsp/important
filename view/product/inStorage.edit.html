@@ -11,22 +11,22 @@
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 			{if $doyet neq doyet}
 				<tr>
-					<td>入库名称:</td>
-					<td><input name="purchase_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="false" value="{$order_info.order_name}"  textField="name" valueField="id"/>
+					<td>入库名称<font style="color:red;"> * </font></td>
+					<td><input name="purchase_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="true" value="{$order_info.order_name}"  textField="name" valueField="id"/>
 					</td>
 				</tr>
 				<tr>
-					<td>入库类型:</td>
-					<td><input name="purchase_type" class="mini-combobox" data='{:setMiniConfig|$purchase_type}' value="{$order_info.purchase_type}" textField="name" valueField="id" style="width:120px;" required="false"/>
+					<td>入库类型<font style="color:red;"> * </font></td>
+					<td><input name="purchase_type" class="mini-combobox" data='{:setMiniConfig|$purchase_type}' value="{$order_info.purchase_type}" textField="name" valueField="id" style="width:120px;" required="true"/>
 					</td>	
-					<td>物流公司:</td>
-					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="false"/></td>			
+					<td>物流公司<font style="color:red;"> * </font></td>
+					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="true"/></td>			
 				</tr>
 				<tr>
-					<td>选择仓库:</td>
-					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId"/></td>
-					<td>入库人</td>
-					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="false"/></td>
+					<td>选择仓库<font style="color:red;"> * </font></td>
+					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId" required="true"/></td>
+					<td>入库人<font style="color:red;"> * </font></td>
+					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
 				</tr>
 				<tr>
 					<td>备注:</td>
@@ -58,7 +58,7 @@
 	</div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 <div id="gridCell" class="mini-datagrid" style="width:100%;height:150px;" url="/product/inStorage/info?action=grid&o_id={$o_id}" idField="id"
-sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"   selectOnLoad="true"  onrowdblclick="onRowDblClick" showFilterRow="true"  allowCellEdit="true" >
+sizeList="[10,20,50,100]" pageSize="20" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true" >
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="order_sn" width="100" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">采购单号</div>
@@ -67,7 +67,7 @@ sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"   selectOnLoad="true"
 		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价【吨】</div>
 		<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量</div>
 		<div field="lot_num" width="80" headerAlign="center" allowSort="true" align="center">批次号
-			<input property="editor" class="mini-textbox"   style="width:100%;" minWidth="100" />
+			<input property="editor" class="mini-textbox"  style="width:100%;" minWidth="100" />
 		</div>   
 	</div>
 </div>
@@ -112,6 +112,8 @@ function viewOrdInfo(id){
 }
 function submitForm() {
 	var form = new mini.Form("#editForm");
+	form.validate();
+	if(form.isValid() == false) return;
 	var rows = grid.getSelecteds();
 	//提交数据
 	var o = form.getData();

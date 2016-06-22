@@ -5,15 +5,12 @@
 		{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
 			{if $order_type eq 1}
-				<a class="mini-button" iconCls="icon-add" plain="true" onclick="addSale()">销售</a>
-				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-add" onclick="addSale()">销售</a>
 			{else}
-				<a class="mini-button" iconCls="icon-add" plain="true" onclick="addPur()">采购</a>
+				<a class="mini-button" iconCls="icon-add" onclick="addPur()">采购</a>
 				<!-- <span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
-				<span class="separator"></span>
 			{/if}
-				<!-- <a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> -->
 			</td>
 		{/if}
 			<td style="float:right;">

@@ -5,18 +5,18 @@
 		<table width="100%" border="0" cellpadding="1" cellspacing="2">
 			<input class="mini-hidden" id="hidden_model" name="model" value=""/>
 			<tr>
-				<td>产品牌号：</td>
+				<td>产品<font style="color:red;"> * </font></td>
 
 				<td>
-					<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false"  text="{$model}"  style="width:100px" id="usrId"/>
+					<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false" required="true" text="{$model}"  style="width:100px" id="usrId"/>
 				</td>
 			</tr>
 			<tr>
-				<td>售价:</td>
+				<td>售价<font style="color:red;"> * </font></td>
 				<td><input name="unit_price" class="mini-textbox" style="width:100px" required="true" value=""></td>
 			</tr>
 			<tr>
-				<td>数量:</td>
+				<td>数量<font style="color:red;"> * </font></td>
 				<td><input name="require_number" class="mini-textbox" style="width:100px" required="true" value=""></td>
 			</tr>
 			<tr>

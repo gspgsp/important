@@ -77,18 +77,18 @@ class saleLogAction extends adminBaseAction {
 				->getPage();
 		$tot=0;
 		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['c_name']=M("user:customer")->getColByName($list['data'][$k]['c_id']);//根据cid取客户名
-			$list['data'][$k]['order_name']=M("product:order")->getColByName($list['data'][$k]['o_id']);
-			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($list['data'][$k]['store_id']); 
-			$list['data'][$k]['model']=M("product:product")->getModelById($list['data'][$k]['p_id']);
+			$list['data'][$k]['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
+			$list['data'][$k]['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
+			$list['data'][$k]['order_name']=M("product:order")->getColByName($v['o_id']);
+			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); 
+			$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']);
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
 			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
 			$list['data'][$k]['out_storage_status'] = L('out_storage_status')[$v['out_storage_status']];
 			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
-			$list['data'][$k]['sum'] = $list['data'][$k]['unit_price']*$list['data'][$k]['number'];
-			//p($list['data']['sum']);
+			$list['data'][$k]['sum'] = $v['unit_price']*$v['number'];
 			$tot +=$list['data']['sum'];
 		}
 		$to="mn";
