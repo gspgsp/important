@@ -12,17 +12,17 @@
         <!--right begin-->
         <ul class="right frt">
         {if $smarty.session.userid > 0 }
-            <a href="" class="mycount">{$smarty.session.uinfo.name} 我的账户</a>
+            <a href="/user/" class="mycount">{$smarty.session.uinfo.name} 我的账户</a>
             <a href="/user/logout" class="loginout">退出登录</a>
         {else}
         	<li class="login"><a href="/user/login">登录</a></li>
-            <li class="register"><a href="">注册</a></li>
+            <li class="register"><a href="/user/register">注册</a></li>
         {/if}
             <li class="last" style=" width:240px;">
-            	<a href="/page/show.html?cid=15">常见问题</a> -
-                <a href="/page/show.html?cid=11">联系我们</a> -
-                <a href="/page/show.html?cid=9">意见反馈</a> -
-                <a href="/english">ENGLISH</a>
+            	<a href="/page">常见问题</a> -
+                <a href="/page?id=16">联系我们</a> -
+                <a href="/page?id=17">意见反馈</a> 
+                <!-- <a href="/english">ENGLISH</a> -->
             </li>
         </ul>
         <!--right end-->

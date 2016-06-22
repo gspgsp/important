@@ -1,5 +1,5 @@
 <?php
-class indexAction extends homeBaseAction{
+class indexAction extends userBaseAction{
 
 
 	public function init()

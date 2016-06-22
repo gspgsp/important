@@ -1,35 +1,18 @@
 <div class="fotbg">
 	<ul>
+		{foreach from=$footer item=value}
 		<li>
-			<p class="fotnavti">我要买塑料</p>
-			<p><a href="page/show.html?cid=18">如何委托交易</a></p>
-			<p><a href="page/show.html?cid=19">如何自己找货</a></p>
-			<p><a href="page/show.html?cid=20">如何查看采购单状态</a></p>
+		    <p class="fotnavti">{$value.cate_name}</p>
+		    {foreach from=$value.son item=v}
+		    <p><a href="/page?id={$v.id}">{$v.title}</a></p>
+		    {/foreach}
 		</li>
-		<li>
-			<p class="fotnavti">我要卖塑料</p>
-			<p><a href="page/show.html?cid=21">如何发布报价单</a></p>
-			<p><a href="page/show.html?cid=30">如何批量发布报价</a></p>
-			<p><a href="page/show.html?cid=23">如何报价采购信息</a></p>
-		</li>
-		<li>
-			<p class="fotnavti">常见问题</p>
-			<p><a href="page/show.html?cid=15">注册流程</a></p>
-			<p><a href="page/show.html?cid=16">无法登录/忘记密码</a></p>
-			<p><a href="page/show.html?cid=17">修改账户信息</a></p>
-			<p class="jf-expla"><a href="page/show.html?cid=32">积分商城使用说明</a><span>HOT</span></p>
-		</li>
-		<li>
-			<p class="fotnavti">关于我们</p>
-			<p><a href="Page/show/cid/8">公司简介</a></p>
-			<p><a href="Page/show/cid/9">意见反馈</a></p>
-			<p><a href="Page/show/cid/10">法律声明</a></p>
-			<p><a href="Page/show/cid/11">联系我们</a></p>
-		</li>
+		{/foreach}
+		
 		<li style="border-right: none;">
 			<p class="fotnavti">我要买塑料</p>
-			<p><a>网址：www.wodesuliao.cn</a></p>
-			<p><a>邮箱：info@wodesuliao.cn</a></p>
+			<p><a>网址：www.myplas.com</a></p>
+			<p><a>邮箱：info@myplas.com</a></p>
 			<p><a>客服热线：400-6129-965</a></p> 
 			<p><a>联系电话：021-61672432</a></p>
 		</li>
@@ -55,7 +38,7 @@
 			<div class="icon-ewm icon-ios bg-gray"></div>
 		</li>
 		<li class="opt">
-			<a href="page/show.html?cid=9">
+			<a href="/page?id=17">
 				<div class="zt-slide bg-gray">意见反馈</div>
 				<div class="zt-mouseover icon-suggest bg-gray"></div>
 			</a>

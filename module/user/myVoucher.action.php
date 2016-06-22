@@ -2,7 +2,7 @@
 /**
 *财务中心-我的抵用券
 */
-class myVoucherAction extends homeBaseAction
+class myVoucherAction extends userBaseAction
 {
 	public function __init(){
 		$this->db = M('public:common')->model('coupon');

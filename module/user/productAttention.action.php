@@ -2,7 +2,7 @@
 /**
  *个人中心-关注产品
  */
-class productAttentionAction extends homeBaseAction
+class productAttentionAction extends userBaseAction
 {
 	public function __init(){
 		$this->db = M('public:common')->model('concerned_product');

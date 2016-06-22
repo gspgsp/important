@@ -2,7 +2,7 @@
 /**
 *财务中心-开票资料
 */
-class billInformationAction extends homeBaseAction
+class billInformationAction extends userBaseAction
 {
 	private $cus_ct;
 	public function __init(){

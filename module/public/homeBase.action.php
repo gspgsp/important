@@ -25,8 +25,11 @@ class homeBaseAction extends action {
 			}
 
 			if($this->user_id){
-				$uinfo = M('user:userInfo')->getUserInfo($this->user_id);
+				// 用户拓展信息
+				$uinfo = M('user:customerContact')->getInfoById($this->user_id);
+				//用户信息
 				$this->uinfo = $_SESSION['uinfo'] = array_merge((array)$_SESSION['uinfo'],$uinfo);
+
 				$this->user_name = empty($_SESSION['uinfo']['real_name']) ? substr_replace($_SESSION['uinfo']['mobile'],'****',3,4) : $_SESSION['uinfo']['real_name'];
 
 				$this->unread_msgs_count = M('system:sysMsg')->countUnread($this->user_id);

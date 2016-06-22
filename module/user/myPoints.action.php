@@ -2,7 +2,7 @@
 /**
 *财务中心-我的积分
 */
-class myPointsAction extends homeBaseAction
+class myPointsAction extends userBaseAction
 {
 	public function __init() {
 		$this->debug = false;

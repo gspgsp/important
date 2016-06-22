@@ -2,7 +2,7 @@
 /**
 *个人中心-主营产品
 */
-class mainProductAction extends homeBaseAction
+class mainProductAction extends userBaseAction
 {
 	public function __init(){
 		$this->db = M('public:common')->model('cop_product');

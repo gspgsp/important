@@ -2,7 +2,7 @@
 /**
  *个人中心-我的资讯
  */
-class myArticleAction extends homeBaseAction
+class myArticleAction extends userBaseAction
 {
 	public function __init(){
 		$this->db = M('public:common')->model('cop_article');

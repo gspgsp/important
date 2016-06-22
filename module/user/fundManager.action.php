@@ -2,7 +2,7 @@
 /**
 *财务中心-资金管理
 */
-class fundManagerAction extends homeBaseAction
+class fundManagerAction extends userBaseAction
 {
 	public function __init(){
 		$this->db = M('public:common')->model('customer');

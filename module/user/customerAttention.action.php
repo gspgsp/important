@@ -2,7 +2,7 @@
 /**
 *个人中心-关注商家
 */
-class customerAttentionAction extends homeBaseAction
+class customerAttentionAction extends userBaseAction
 {
 
 	public function __init(){

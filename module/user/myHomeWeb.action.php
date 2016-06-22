@@ -2,7 +2,7 @@
 /**
 *个人中心-我的门户网站
 */
-class myHomeWebAction extends homeBaseAction
+class myHomeWebAction extends userBaseAction
 {
 	public function __init(){
 		$this->db = M('public:common')->model('customer');

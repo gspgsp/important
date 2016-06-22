@@ -181,30 +181,40 @@ class indexAction extends homeBaseAction{
 		return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 	}
 
-        /**
-         * 发送手机验证码
-         * @access public
-         * @return html
-         */
-        public function sendmsg(){
-            $this->is_ajax=true;
-            //验证手机，邮箱，验证码
-            $mobile=sget('phone','s');
-            if(!is_mobile($mobile)){
-                $this->error('手机号码不正确');
-            }
-
-            $sms=M('system:sysSMS');
-            
-            //请求动态码
-            $result=$sms->genDynamicCode($mobile);
-            if($result['err']>0){ //请求错误
-                $this->error($result['msg']);
-            }
-            
-            $msg=$result['msg']; //短信内容
-            //发送手机动态码
-            $sms->send(0,$mobile,$msg,2);
-            $this->success('发送成功');
+    /**
+     * 发送手机验证码
+     * @access public
+     * @return html
+     */
+    public function sendmsg(){
+        $this->is_ajax=true;
+        //验证手机，邮箱，验证码
+        $mobile=sget('phone','s');
+        if(!is_mobile($mobile)){
+            $this->error('手机号码不正确');
         }
+
+        $sms=M('system:sysSMS');
+        
+        //请求动态码
+        $result=$sms->genDynamicCode($mobile);
+        if($result['err']>0){ //请求错误
+            $this->error($result['msg']);
+        }
+        
+        $msg=$result['msg']; //短信内容
+        //发送手机动态码
+        $sms->send(0,$mobile,$msg,2);
+        $this->success('发送成功');
+    }
+
+    public function item(){
+        $id=sget('id','i',0);
+        if( $data =  $this->pointsGoodsModel->wherePk($id)->getRow() ){
+            $this->assign('data', $data);
+            $this->display('item');
+        }
+        
+    }
+
 }
