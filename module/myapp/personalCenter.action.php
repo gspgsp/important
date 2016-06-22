@@ -147,7 +147,7 @@ class personalCenterAction extends homeBaseAction
             // $resultData = $this->_reverseData($data);
             // $this->json_output($resultData);
             if(!$resultData = $this->_reverseData($data))
-            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果');
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
             $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }elseif ($type == '2') {
             $where.=" and pur.shelve_type=2";
@@ -159,7 +159,7 @@ class personalCenterAction extends homeBaseAction
             // $resultData = $this->_reverseData($data);
             // $this->json_output($resultData);
             if(!$resultData = $this->_reverseData($data))
-            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果');
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
             $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }else{
             $data = $this->db->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
@@ -170,7 +170,7 @@ class personalCenterAction extends homeBaseAction
             // $resultData = $this->_reverseData($data);
             // $this->json_output($resultData);
             if(!$resultData = $this->_reverseData($data))
-            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果');
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
             $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }
     }
