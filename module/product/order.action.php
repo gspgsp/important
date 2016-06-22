@@ -269,7 +269,7 @@ class orderAction extends adminBaseAction {
 		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['order_name']='';
 		$info['purchase_type']=1;
-		$info['c_id']='';
+		$info['c_id']='' ;
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",time());
 		$info['delivery_time']=date("Y-m-d",time());  //转换时默认发货时间为当前时间
@@ -548,7 +548,7 @@ class orderAction extends adminBaseAction {
 		);
 		try {
 			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");	
-			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update('is_join_in = 1') ) throw new Exception("关联的销售订单更新失败");
+			// if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update('is_join_in = 1') ) throw new Exception("关联的销售订单更新失败");
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());

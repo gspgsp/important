@@ -79,6 +79,9 @@ class inStorageAction extends adminBaseAction {
 			if($data['doyet'] != 'doyet'){
 				if( !$this->db->model('in_storage')->add($data+$basic_info) ) throw new Exception("新增入库失败!");
 			} 
+			if($data['join_id']>0){
+				if( !$this->db->model('order')->where(' o_id = '.$data['join_id'])->update('is_join_in = 1') ) throw new Exception("销售订单中采购入库状态更新失败");
+			}
 			foreach ($data['list'] as $k => $v) {
 				$_data['o_id']=$v['o_id'];
 				$_data['purchase_id']=$v['id'];
@@ -124,6 +127,8 @@ class inStorageAction extends adminBaseAction {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+		// showtrace();
+		// die;
 		$this->db->commit();
 		$this->success('操作成功');	
 	}
