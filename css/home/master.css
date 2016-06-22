@@ -746,7 +746,7 @@ width:257px;
 .yemain {width:1200px; height:auto; margin:0 auto;}
 .yemainl {width:240px; height:auto; float:left;}
 .yemainr {width:940px; height:auto; float:right;}
-.yemainla {padding:0 19px; height:583px; border:solid 1px #ddd; background:#fff;}
+.yemainla {padding:0 19px;  border:solid 1px #ddd; background:#fff;}
 .yemainra {padding:0 30px 63px 30px; height:auto; border:solid 1px #ddd; background:#fff;}
 .yemainlat {font-size:18px; height:49px; line-height:49px; padding-left:3px; border-bottom:solid 1px #ddd; font-weight:bold; color:#666;}
 .yemainlab li {width:200px; height:49px; border-bottom:solid 1px #ddd;}
