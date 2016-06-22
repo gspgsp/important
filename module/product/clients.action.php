@@ -107,4 +107,21 @@ class clientsAction extends adminBaseAction
 
 		$this->display('clients.offers.list.html');
 	}
+
+	public function doExcel(){
+		$this->is_ajax=true;
+		$data=sdata();
+		if(empty($data)){
+			$this->error('错误的请求');
+		}
+		$savePath=C('upload_local.path');//文件保存路径
+		$path=$savePath.$data['url'];//文件路径
+		if(!is_file($path)) $this->error('文件不存在');
+		E('PHPExcel',APP_LIB.'extend');//引入phpexcel类
+
+		$objPHPExcel = PHPExcel_IOFactory::load($path);
+		$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+		if(empty($sheetData)) $this->error('上传文件不正确，请重新上传');
+		p($sheetData);
+	}
 }

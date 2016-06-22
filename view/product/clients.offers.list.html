@@ -4,7 +4,7 @@
 		<tr>	
 			{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">excel导入</a>
 				<span class="separator"></span>
 			</td>
 			{/if}
@@ -56,43 +56,21 @@
   </div>
  </div>
 
-<div id="admInfo" class="mini-window" title="新增大客户" style="width:500px;" 
+<div id="admInfo" class="mini-window" title="excel导入" style="width:500px;" 
  	showModal="true" allowResize="true" allowDrag="true"
  	>
  	<div id="addForm" class="form" >
  		<table style="width:100%;">
- 			<input class="mini-textbox" name="id" value="">
  			<tr>
- 				<td style="width:100px;">厂家名称：</td>
- 				<td><input name="gsname" class="mini-textbox" style="width:200px" required="true"/></td>
- 			</tr>
- 			<tr>
- 				<td style="width:100px;">厂家电话：</td>
- 				<td><input name="cjphone" class="mini-textbox" style="width:200px" required="true"/></td>
- 			</tr>
- 			<tr>
- 				<td>厂家LOGO：</td>
+ 				<td>excel文件：</td>
  				<td colspan="3">
- 					<input id="img_url5"  name="logo" class="mini-textbox" value="" style="width:200px"/>
+ 					<input id="img_url5" required="true" name="url" class="mini-textbox" value="" style="width:200px"/>
  					<input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);" style="width:68px;">
  				</td>
  			</tr>
  			<tr>
- 				<td style="width:100px;">所属业务员：</td>
- 				<td><input name="lxr" class="mini-textbox" style="width:200px" required="true"/></td>
- 			</tr>
- 			<tr>
- 				<td style="width:100px;">业务员手机：</td>
- 				<td><input name="phone" class="mini-textbox" style="width:200px" required="true"/></td>
- 			</tr>
- 			<tr>
- 				<td style="width:100px;">业务员QQ：</td>
- 				<td><input name="qq" class="mini-textbox" style="width:200px" required="true"/></td>
- 			</tr>
- 		
- 			<tr>
  			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
- 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+ 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">上传</a>
  			</td>
  			</tr>
  		</table>
@@ -161,18 +139,18 @@ function submitForm() {
 	  admInfo.hide(); 
 	}
   }
-  utils.ajax('/product/clients/ajaxSave',{data:json},callback,"POST","json");
+  utils.ajax('/product/clients/doExcel',{data:json},callback,"POST","json");
 }
 
 function fileUpload(id) {
 	$.ajaxFileUpload({
-		url:'/system/sysUpload/images?model={$action}',
+		url:'/system/sysUpload/upload',
 			secureuri:false,
 			fileElementId:'upfileId'+id,
 			dataType: 'json',
 			success: function (data, status) {
-				if(data.err=='0'){
-					mini.get("img_url"+id).setValue(data.msg);
+				if(data.error=='0'){
+					mini.get("img_url"+id).setValue(data.url);
 				}
 			},
 			error: function (data, status, e){
