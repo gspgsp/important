@@ -48,7 +48,7 @@ a:hover{ text-decoration:none; color:#ee4822;}
 .diawnjeiuenhg dd{ float:right; padding-top:3px;}
 .diawnjeiuenhg dt{ float:right;  padding-left:15px; width:140px;}
 .wdikwjoiejgwoieg{ font-size:20px; color:#ff3333; font-weight:bold;}
-.logo{ float:left; padding-top:15px;}
+.logo{ float:left;}
 
 .dlannzc{ float:right; padding-top:25px; position:relative;}
 .dlannzclia{ float:right; float:right; margin-left:20px; display:block;}
@@ -1086,7 +1086,7 @@ width:257px;
 .sxjxierwseg_b{ font-size:14px; color:#FFF;} 
 
 .dengluzj{ padding-top:30px; padding-bottom:30px; background:url(../../images/home/dengluimbg.jpg) center center no-repeat #fe593d}
-.login{width:960px; margin:0 auto;}
+.login{margin:0 auto;}
 .login .form{width:360px;  height:400px; overflow:hidden; background-color:#FFF;margin-left: 700px\9;}
 .loginh1{ text-align:right; color:#444; line-height:90px;padding-right: 30px; }
 .loginh1pp {   font-size:22px; float:left; padding-left:30px; }
