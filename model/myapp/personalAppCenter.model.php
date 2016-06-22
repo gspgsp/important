@@ -51,7 +51,7 @@ class personalAppCenterModel extends model
 		$pdata = array();
 		$result = array();
 
-		$purchase = $this->model('purchase')->select('id,unit_price,number,supply_count,store_house,input_time,p_id,user_id,status')->where('user_id=$user_id and cargo_type=$cargo_type and type=1')->getAll();
+		$purchase = $this->model('purchase')->select('id,unit_price,number,supply_count,store_house,input_time,p_id,user_id,status')->where("user_id=$user_id and cargo_type=$cargo_type and type=1")->getAll();
 		foreach ($purchase as $value1) {
 			$product = $this->model('product')->select('model,f_id,product_type')->where('id='.$value1['p_id'])->getRow();
 			$f_name = $this->model('factory')->select('f_name')->where('fid='.$product['f_id'])->getRow();
