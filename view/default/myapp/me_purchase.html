@@ -6,6 +6,8 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
@@ -61,6 +63,36 @@
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				var purchaseLi="";
+				commonAjax(
+						"post",
+						"/myapp/personalCenter/myPurchase",
+						{type:1,cargo_type:1}
+				).then(function (res) {
+					if(res.err==1){
+						window.location.href="/touch/login";
+					}else{
+						res.reverse().forEach(function (v,i) {
+
+							purchaseLi+="<li><div class='purchaseWrap2'>" +
+									"<h3>订单编号:201605173456789<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+									"<p>LDPE|2102TX00|伊朗石化<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+									"</div></li>";
+
+							purchaseLi+="<li><div class='purchaseWrap2'>" +
+									"<h3>"+ v.product_type +"|"+ v.model +"<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+									"<p>"+ v.f_name +"<span>"+ v.number +"吨</span></p>" +
+									"<p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+									"</div></li>";
+						});
+						$(".purchaseList").html(purchaseLi);
+					}
+				},function () {
+
+				});
+
+			})
 		</script>
 
 	</body>

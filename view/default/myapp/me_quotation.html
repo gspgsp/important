@@ -317,14 +317,16 @@
 					}else{
 						commonAjax(
 								"post",
-								"/touch/quotationsearch/doSearch",
+								"/myapp/quotationsearch/doSearch",
 								{
 									keywords:$(".productQuery").val(),
-									type:$(".chooseType2").val()
+									type:$(".chooseType2").val(),
+									cargo_type:1
 								}
 						).then(function (res) {
 							if(res.err==1){
-								window.location.href="/touch/login";
+								console.log(res);
+								//window.location.href="/myapp/login";
 							}else{
 								quotationLi="";
 								res.forEach(function (v,i) {
