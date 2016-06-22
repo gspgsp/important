@@ -72,9 +72,10 @@
 				).then(function (res) {
 					if(res.err==1){
 						window.location.href="/touch/login";
+					}else if(res.err=2){
+						$(".purchaseList").html("<li class='noData'>暂无数据</li>");
 					}else{
 						res.reverse().forEach(function (v,i) {
-
 							purchaseLi+="<li><div class='purchaseWrap2'>" +
 									"<h3>订单编号:201605173456789<span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
 									"<p>LDPE|2102TX00|伊朗石化<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
