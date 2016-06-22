@@ -219,4 +219,12 @@ class mainPageModel extends model
                 return $key;
         }
     }
+    //大户报价数据
+    public function getLargeBidData($page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
+        $data = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
+            ->join('big_client bic','bio.cid=bic.id')
+            ->page($page,$size)
+            ->order("$sortField $sortOrder")
+            ->getPage();
+    }
 }
