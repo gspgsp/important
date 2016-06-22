@@ -247,4 +247,14 @@ class mainPageAction extends homeBaseAction
     }
     //点击查看更多,直接调用到enMyAttention()-myAttention()
     //点击添加关注,直接调用到addMyAttention()-addProAttention()
+    //进入大户报价专区
+    public function enLargeBid(){
+        $this->display('bigCustomer');
+    }
+    //获取大户报价数据
+    public function getLargeBid(){
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        M('myapp:mainPage')->getLargeBidData($page,$size);
+    }
 }
