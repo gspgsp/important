@@ -101,6 +101,7 @@ class purchasesearchAction extends homeBaseAction
     	//遍历data
 	        foreach ($data as $value) {
 	        	$temp['model'] = $value['model'];
+                $temp['product_type'] = L('product_type')[$value['product_type']];
 	        	$temp['unit_price'] = $value['unit_price'];
 	        	$temp['f_name'] = $value['f_name'];
 	        	$temp['number'] = $value['number'];
