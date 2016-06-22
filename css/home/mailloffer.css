@@ -42,7 +42,7 @@
 .mall-offer .result li.result-con .price{ color:#fc6621;}
 .mall-offer .result li.result-con .price i{ font-style:normal; float:left;}
 .mall-offer .result li.result-con .price span{ float:left;}
-.mall-offer .result li.result-con .price b{ color:#fff; font-weight:normal;display:block; width:44px; height:22px; line-height:17px; text-align:left; text-indent:7px; float:left; background:url(../../images/home/mallOfferSpirit.png) no-repeat 0 -49px; margin:9px 0 0 5px;}
+.mall-offer .result li.result-con .price b{ color:#fff; font-weight:normal;display:block; width:44px; height:22px; line-height:17px; text-align:left; text-indent:7px; position:absolute; right:0; background:url(../../images/home/mallOfferSpirit.png) no-repeat 0 -49px; margin:9px 0 0 5px;}
 .mall-offer .result li.result-con .change b{ display:block; width:12px; height:12px; background:url(../../images/home/mallOfferSpirit.png) no-repeat; float:left; margin:14px 6px 0 0;}
 .mall-offer .result li.result-con .change.up{ color:#fc6621;}
 .mall-offer .result li.result-con .change.up b{ background-position:0 -71px;}
@@ -65,7 +65,7 @@
 .mall-offer .result li .xian-qi{ width:30px; overflow:hidden; background:none;}
 .mall-offer .result li .factory{ width:121px; overflow:hidden;}
 .mall-offer .result li .amount{ width:56px; overflow:hidden;}
-.mall-offer .result li .price{ width:96px; overflow:hidden;}
+.mall-offer .result li .price{ width:96px; overflow:hidden; position:relative;}
 .mall-offer .result li .change{ width:52px; overflow:hidden;}
 .mall-offer .result li .address{ width:72px; overflow:hidden;}
 .mall-offer .result li .company{ width:196px;}
