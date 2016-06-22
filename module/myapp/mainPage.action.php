@@ -245,4 +245,6 @@ class mainPageAction extends homeBaseAction
         if(empty($products)) $this->json_output(array('err'=>2,'msg'=>'获取我的关注失败');
         $this->json_output(array('err'=>0,'products'=>$products));
     }
+    //点击查看更多,直接调用到enMyAttention()-myAttention()
+    //点击添加关注,直接调用到addMyAttention()-addProAttention()
 }

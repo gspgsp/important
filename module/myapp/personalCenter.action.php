@@ -199,7 +199,7 @@ class personalCenterAction extends homeBaseAction
     public function changestate(){
         $this->is_ajax=true;
         if($this->user_id<=0) $this->error('账户错误');
-        //当前求购的id
+        //当前报价的id
         $id = sget('id','i',0);
         if($id>0){
             $result = M('touch:myquotation')->changeProductState($id);
@@ -257,8 +257,11 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reversePurData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reversePurData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reversePurData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }elseif ($type == '2') {
             $where.=" and pur.status=2";
             $data = $this->db->from('purchase pur')
@@ -266,8 +269,11 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reversePurData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reversePurData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reversePurData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }elseif ($type == '3') {
             $where.=" and pur.status=3";
             $data = $this->db->from('purchase pur')
@@ -275,8 +281,11 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reversePurData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reversePurData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reversePurData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }elseif ($type == '4') {
             $where.=" and pur.status=4";
             $data = $this->db->from('purchase pur')
@@ -284,8 +293,11 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reversePurData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reversePurData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reversePurData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }elseif ($type == '5') {
             $where.=" and pur.status=5";
             $data = $this->db->from('purchase pur')
@@ -293,8 +305,11 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reversePurData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reversePurData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reversePurData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }elseif ($type == '6') {
             $where.=" and pur.status=6";
             $data = $this->db->from('purchase pur')
@@ -302,16 +317,22 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reversePurData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reversePurData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reversePurData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }else{
             $data = $this->db->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reversePurData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reversePurData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reversePurData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果'));
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }
     }
     //转换数据
