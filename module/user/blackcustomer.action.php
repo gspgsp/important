@@ -2,7 +2,7 @@
 /**
  * 客户信息管理
  */
-class customerAction extends adminBaseAction {
+class blackcustomerAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
 		$this->assign('status',L('status'));// 联系人用户状态
@@ -24,34 +24,10 @@ class customerAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$this->assign('page_title','会员列表');
-		$this->display('customer.list.html');
-	}
-	/**
-	 * 公海客户列表
-	 */
-	public function publicCustomer(){
-		$action=sget('action','s');
-		if($action=='grid'){ //获取列表
-			$this->_grid();exit;
-		}
-		$this->assign('isPublic',1);//公海客户标识
-		$this->display('customer.list.html');
+		$this->assign('page_title','黑名单列表');
+		$this->display('blackcustomer.list.html');
 	}
 
-	/**
-	 * 会员搜索
-	 * @access public 
-	 * @return html
-	 */
-	public function soso(){
-		$action=sget('action','s');
-		if($action=='grid'){ //获取列表
-			$this->_grid();exit;
-		}
-		$this->assign('page_title','会员搜索');
-		$this->display('user.so.html');
-	}
 
 	/**
 	 * Ajax获取列表内容
@@ -63,8 +39,8 @@ class customerAction extends adminBaseAction {
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','c_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
-		$where = '`status` != 9';
-		$where .= $this->public == 0 ? ' and `customer_manager` != 0 ' : ' and `customer_manager` = 0 ';
+
+		$where = '`status` = 9';
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
 		$status = sget("status",'s',''); //状态
