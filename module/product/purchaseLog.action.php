@@ -24,6 +24,8 @@ class purchaseLogAction extends adminBaseAction {
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
 		$this->assign('order_type',L('order_type')); //销售类型
+		$this->assign('product_type',L('product_type'));//产品类型
+		$this->assign('process_type',L('process_level'));//加工级别
 	}
 	/**
 	 *
@@ -94,8 +96,9 @@ class purchaseLogAction extends adminBaseAction {
 				->getPage();
 		$tot=0;
 		foreach($list['data'] as &$v){		
-			$pinfo=M("product:product")->getFnameByPid($v['p_id']);				
+			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
 			$v['f_name']=$pinfo['f_name'];//根据cid取客户名
+			$v['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
 			$v['order_name']=M("product:order")->getColByName($v['o_id']);
 			$v['model']=M("product:product")->getModelById($v['p_id']);
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
@@ -142,10 +145,11 @@ class purchaseLogAction extends adminBaseAction {
 		if(empty($info)){
 			$this->error('错误的订单信息');	
 		}
-		if($info['o_id']>0) $order_name = M('product:order')->getColByName("$info[o_id]");
-		if($info['p_id']>0) $model = M('product:product')->getModelById("$info[p_id]");
+		if($info['o_id']>0) $order_name = M('product:order')->getColByName($info['o_id']);
+		if($info['p_id']>0) $model = M('product:product')->getModelById($info['p_id']);
 		if($type !="edit") $info['p_info']=M('product:product')->getFnameByPid($info['p_id']); 
-		if($type !="edit") $info['order_sn']=M('product:order')->getColByName($info['o_id'],'order_sn'); //根据pid取厂家名
+		if($type !="edit") $info['order_sn']=M('product:order')->getColByName($info['o_id'],'order_sn'); 
+		if($type !="edit") $info['purchase_type']=M('product:order')->getColByName($info['o_id'],'purchase_type');
 		$info['count']=$info['number']*$info['unit_price'];
 		$info['c_name']=M("user:customer")->getColByName($info['c_id']);//根据cid取客户名
 		//根据pid取厂家名
@@ -153,9 +157,6 @@ class purchaseLogAction extends adminBaseAction {
 		$info['admin_name']=M("product:outStorage")->getNameBySid($info['store_aid']); //获得入库人姓名
 		$admin_list = $this->db->model('store_admin')->select("a.admin_id,a.name")->from('store_admin s')->join('admin a','a.admin_id=s.admin_id')->getAll();
 		$this->assign('admin_list',arrayKeyValues($admin_list,'admin_id','name'));//
-		$this->assign('process_type',L('process_level'));//加工级别
-		$this->assign('purchase_type',L('purchase_type'));//加工级别
-		$this->assign('product_type',L('product_type'));//产品类型
 		$this->assign('order_name',$order_name);
 		$this->assign('model',$model);
 		$this->assign('info',$info);//分配订单信息

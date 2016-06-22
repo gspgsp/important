@@ -167,7 +167,6 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
-
 		if($o_type ==1){
 			$this->assign('collection_status',L('gatheringt_status'));//订单收款状态
 		}else{
@@ -251,7 +250,6 @@ class orderAction extends adminBaseAction {
 			$this->success();		
 	}
 
-
 	/**
 	 * 销售订单生成采购(先销后采)
 	 */
@@ -271,7 +269,7 @@ class orderAction extends adminBaseAction {
 		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['order_name']='';
 		$info['purchase_type']=1;
-		$info['c_id']=0;
+		$info['c_id']='';
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",time());
 		$info['delivery_time']=date("Y-m-d",time());  //转换时默认发货时间为当前时间

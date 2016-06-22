@@ -35,6 +35,7 @@ class storeAction extends adminBaseAction
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
 		}
+		$this->assign('choose',sget('choose','s'));
 		$this->assign('doact',$doact);
 		$this->assign('page_title','仓库管理');
 		$this->display('store.list.html');

@@ -66,7 +66,7 @@ sizeList="[10,20,50,100]" pageSize="20" allowCellSelect="true" allowCellEdit="tr
 		<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div>
 		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价【吨】</div>
 		<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量</div>
-		<div field="lot_num" width="80" headerAlign="center" allowSort="true" align="center">批次号
+		<div field="lot_num" width="80" headerAlign="center" allowSort="true" align="center">批次号<font  style="color:red;">*</font>
 			<input property="editor" class="mini-textbox"  style="width:100%;" minWidth="100" />
 		</div>   
 	</div>
@@ -149,7 +149,7 @@ function stoChoose(e){
 	var btn = this;
 	var aname = mini.get("name");
 		mini.open({
-		url: "/product/store/init?do=search",
+		url: "/product/store/init?do=search&choose=1",
 		title: "选择仓库",
 		width: 1200,
 		height: 550,

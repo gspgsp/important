@@ -24,6 +24,7 @@ class customerAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$this->assign('choose',sget('choose','s')); //单选传参
 		$this->assign('page_title','会员列表');
 		$this->display('customer.list.html');
 	}
