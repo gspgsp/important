@@ -144,8 +144,11 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reverseData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reverseData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reverseData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果');
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }elseif ($type == '2') {
             $where.=" and pur.shelve_type=2";
             $data = $this->db->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
@@ -153,16 +156,22 @@ class personalCenterAction extends homeBaseAction
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reverseData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reverseData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reverseData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果');
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }else{
             $data = $this->db->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->getAll();
-            $resultData = $this->_reverseData($data);
-            $this->json_output($resultData);
+            // $resultData = $this->_reverseData($data);
+            // $this->json_output($resultData);
+            if(!$resultData = $this->_reverseData($data))
+            $this->json_output(array('err'=>2,'msg'=>'没有相关搜索结果');
+            $this->json_output(array('err'=>0,'resultData'=>$resultData));
         }
     }
     //转换数据
