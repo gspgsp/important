@@ -22,9 +22,9 @@
 			</tr>
 			<tr>
 				{if $type =='1'}
-				<td><span style="color:red">*</span>收款日期</td>
+				<td>收款日期<span style="color:red">*</span></td>
 				{else}
-				<td><span style="color:red">*</span>付款日期</td>
+				<td>付款日期<span style="color:red">*</span></td>
 				{/if}
 				<td><input name="payment_time" class="mini-datepicker" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
@@ -52,9 +52,9 @@
 			{/if}
 			<tr>
 				{if $type =='1'}
-				<td><span style="color:red">*</span>收款金额</td>
+				<td>收款金额<span style="color:red">*</span></td>
 				{else}
-				<td><span style="color:red">*</span>付款金额</td>
+				<td>付款金额<span style="color:red">*</span></td>
 				{/if}
 				<td><input name="collected_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
@@ -63,11 +63,11 @@
 				<td><input name="input_admin" class="mini-textbox" maxlength="12" value="{$input_admin}" style="width:150px;"allowInput="false"/></td>
 			</tr>
 			<tr>
-				<td><span style="color:red">*</span>交易方式</td>
+				<td>交易方式<span style="color:red">*</span></td>
 				<td><input name="pay_method" class="mini-combobox" data='{:setMiniConfig|$pay_method}' textField="name" value="{$p_method}"valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
 			<tr>
-				<td><span style="color:red">*</span>交易账户</td>
+				<td>交易账户<span style="color:red">*</span></td>
 				<td><input name="account" class="mini-combobox" data='{:setMiniConfig|$company_account}' textField="name" valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
 			<tr>

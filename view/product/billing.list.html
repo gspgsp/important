@@ -53,13 +53,13 @@
 
 		<div field="invoice_status" renderer="setInv" width="40" headerAlign="center" align="center" allowSort="true">{if $type eq '1'}销售开票状态{else}采购开票状态{/if}</div>
 		
-		<div field="paying_info" width="90" headerAlign="center" ><span style="color:red">*</span>付款信息
+		<div field="paying_info" width="90" headerAlign="center" >付款信息<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
-		<div field="receipt_info" width="90" headerAlign="center" ><span style="color:red">*</span>收款信息
+		<div field="receipt_info" width="90" headerAlign="center" >收款信息<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
-		<div field="remark" width="100" headerAlign="center" ><span style="color:red">*</span>备注
+		<div field="remark" width="100" headerAlign="center" >备注<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
 		<div field="payment_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >开票日期</div>

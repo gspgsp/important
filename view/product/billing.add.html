@@ -8,7 +8,7 @@
 		<input class="mini-hidden" name="c_id"  value="{$c_id}"/>
 		<!-- <input class="mini-hidden" name="unbilling_price"  value="{$unbilling_price}"/> -->
 			<tr>
-				<td><span style="color:red">*</span>发票号</td>
+				<td>发票号<span style="color:red">*</span></td>
 				<td><input name="invoice_sn" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
 			<tr>
@@ -16,7 +16,7 @@
 				<td><input name="" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;"allowInput="false"/></td>
 			</tr>
 			<tr>
-				<td><span style="color:red">*</span>开票日期</td>
+				<td>开票日期<span style="color:red">*</span></td>
 				<td><input name="payment_time" class="mini-datepicker" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
 			<tr>
@@ -45,12 +45,12 @@
 			{/if}
 
 			<tr>
-				<td><span style="color:red">*</span>票据金额</td>
+				<td>票据金额<span style="color:red">*</span></td>
 				<td><input name="billing_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
 			
 			<tr>
-				<td><span style="color:red">*</span>税额</td>
+				<td>税额<span style="color:red">*</span></td>
 				<td><input name="tax_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
 			<tr>
@@ -63,7 +63,7 @@
 				<td><input name="input_admin" class="mini-textbox" maxlength="12" value="{$input_admin}" style="width:150px;"allowInput="false"/></td>
 			</tr>
 			<tr>
-				<td><span style="color:red">*</span>票据类型</td>
+				<td>票据类型<span style="color:red">*</span></td>
 				<td><input name="bile_type" class="mini-combobox" data='{:setMiniConfig|$bile_type}' textField="name" valueField="id" style="width:150px;" required="true"/></td>
 			</tr>
 			<tr>
