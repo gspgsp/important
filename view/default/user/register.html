@@ -5,19 +5,19 @@
 	<div class="ybbt">
 		<dl>
 			<dd>
-				<img src="/themes/suliao/images/zuce1.jpg" width="60" height="60" />
+				<img src="__IMG__/home/zuce1.jpg" width="60" height="60" />
 			</dd>
 			<dt><a>注册账号</a></dt>
 		</dl>
 		<dl>
 			<dd>
-				<img src="/themes/suliao/images/zuce2.jpg" width="60" height="60" />
+				<img src="__IMG__/home/zuce2.jpg" width="60" height="60" />
 			</dd>
 			<dt><a>填写注册信息</a></dt>
 		</dl>
 		<dl>
 			<dd>
-				<img src="/themes/suliao/images/zuce3.jpg" width="60" height="60" />
+				<img src="__IMG__/home/zuce3.jpg" width="60" height="60" />
 			</dd>
 			<dt><a>注册完成</a></dt>
 		</dl>
@@ -73,7 +73,7 @@
 			</div>
 			<p class="ybbrc"><a href="/user/login">立即登录</a></p>
 			<p class="ybbrd">
-				<img src="/themes/suliao/images/qq.png" width="20" height="22" /><a href="">使用QQ账号登录</a>
+				<img src="__IMG__/home/qq.png" width="20" height="22" /><a href="">使用QQ账号登录</a>
 				<div class="clear"></div>
 			</p>
 			<p class="ybbre">全国免费服务热线：<font style="color:#ee4822;">400-6129-965</font><br />
@@ -85,14 +85,14 @@
 </div>
 
 <script type="text/javascript">
-var wait=1;
+var wait=60;
 function time(o) {
 	var o =  document.getElementById(o)
 	if (wait == 0) {
 		// $('#sendphone').removeAttr("onclick");
 		$('#sendphone').attr("onclick","sendphonecode()"); 
 		$("#sendphone").val("免费获取验证码");
-		wait = 1;
+		wait = 60;
 	} else {
 		$('#sendphone').removeAttr("onclick");
 		$("#sendphone").val("重新发送(" + wait + ")");
