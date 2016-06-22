@@ -334,7 +334,8 @@ class orderAction extends adminBaseAction {
 			$this->assign('bile_type',L('bile_type'));//票据类型
 
 			//获取最后一条开票信息
-			if(M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id])){
+			$res=M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+			if($res){
 				$this->assign('unbilling_price',$res[0]['unbilling_price']);
 			}
 			$this->display('billing.add.html');
