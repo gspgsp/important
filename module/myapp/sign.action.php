@@ -17,6 +17,7 @@ class signAction extends homeBaseAction{
 	public function signOn(){
 
 		$this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
         if($this->user_id>0){
             // 周末不支持签到
             if( $this->today == 0 || $this->today == 6 ){
