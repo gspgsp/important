@@ -691,6 +691,7 @@
         	<ul class="info-title color3">
             	<li class="breed">品种</li>
                 <li class="grade">牌号</li>
+                <li class="level">加工级别</li>
                 <li class="factory">厂家</li>
                 <li class="amount">数量（吨）</li>
                 <li class="price">价格（元 / 吨）</li>
@@ -706,6 +707,7 @@
             	<li class="supply">
                 	<div class="breed"><span></span>{:witchType|$value.product_type}</div>
                     <div class="grade">{$value.model}</div>
+                    <div class="level">&nbsp;</div>
                     <div class="factory">{$value.f_name}</div>
                     <div class="amount">{:floatval|$value.number}</div>
                     <div class="price">￥{:floatval|$value.unit_price}</div>
@@ -717,6 +719,7 @@
                 <li class="demand">
                     <div class="breed"><span></span>{:witchType|$value.product_type}</div>
                     <div class="grade">{$value.model}</div>
+                    <div class="level">&nbsp;</div>
                     <div class="factory">{$value.f_name}</div>
                     <div class="amount">{:floatval|$value.number}</div>
                     <div class="price">￥{:floatval|$value.unit_price}</div>
@@ -769,6 +772,7 @@
         	<ul class="info-title color3">
             	<li class="breed">品种</li>
                 <li class="grade">牌号</li>
+                <li class="level">加工级别</li>
                 <li class="factory">厂家</li>
                 <li class="amount">数量（吨）</li>
                 <li class="price">价格（元 / 吨）</li>
@@ -783,6 +787,7 @@
             	<li>
                 	<div class="breed">{$value.type}</div>
                     <div class="grade">{$value.model}</div>
+                    <div class="level">加工级别</div>
                     <div class="factory">{$value.factory}</div>
                     <div class="amount">{$value.num}</div>
                     <div class="price">￥{$value.price}</div>
