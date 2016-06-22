@@ -9,8 +9,15 @@ class creditshopModel extends model
 		parent::__construct(C('db_default'), 'points_goods');
 	}
 	//返回商品推荐
-	public function getCreditShop(){
-		$list = $this->model('points_goods')->select('id,cate_id,thumb,image,name,points')->getAll();
+	public function getCreditShop($gtype){
+		//1=>'家居',2=>'数码',空，全部
+		if($gtype == 1){
+			$list = $this->model('points_goods')->where('cate_id='.$gtype)->select('id,cate_id,thumb,image,name,points')->getAll();
+		}elseif ($gtype == 2) {
+			$list = $this->model('points_goods')->where('cate_id='.$gtype)->select('id,cate_id,thumb,image,name,points')->getAll();
+		}else{
+			$list = $this->model('points_goods')->select('id,cate_id,thumb,image,name,points')->getAll();
+		}
 		$index = mt_rand(0,count($list)-1);
 		if($index>count($list)-4){
 			$recommand = array_slice($list,0,4);
