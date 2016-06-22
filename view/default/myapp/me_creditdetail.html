@@ -39,37 +39,60 @@
     		</span>
 		</div>
 		<div class="shopRecommand">商品推荐</div>
-		<ul class="shopUl">
-			<li>
-				<div style='width:100%; text-align:center'>
-				<img src='__MYAPP__/img/temp4.jpg'></div>
-				<h3>30元手机充值卡</h3>
-				<p><span>3500</span>&nbsp;积分</p>
-			</li>
-			<li>
-				<div style='width:100%; text-align:center'>
-				<img src='__MYAPP__/img/temp4.jpg'></div>
-				<h3>30元手机充值卡</h3>
-				<p><span>3500</span>&nbsp;积分</p>
-			</li>
-			<li>
-				<div style='width:100%; text-align:center'>
-				<img src='__MYAPP__/img/temp4.jpg'></div>
-				<h3>30元手机充值卡</h3>
-				<p><span>3500</span>&nbsp;积分</p>
-			</li>
-			<li>
-				<div style='width:100%; text-align:center'>
-				<img src='__MYAPP__/img/temp4.jpg'></div>
-				<h3>30元手机充值卡</h3>
-				<p><span>3500</span>&nbsp;积分</p>
-			</li>
-
-		</ul>
+		<ul class="shopUl"></ul>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				var creditshopLi="";
+				commonAjax(
+						"post",
+						"/myapp/personalCenter/getMyPoints"
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						$("#credit").html(res.points);
+						if(!res.shop){
+							$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
+						}else{
+							res.shop.forEach(function (v,i,a) {
+								creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
+										"<img src='"+ v.thumb +"'></div>" +
+										"<h3>"+ v.name +"</h3>" +
+										"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
+							});
+							$(".shopUl").html(creditshopLi);
+							$(".shopUl li").on("click",function () {
+								var id=$(this).data("id");
+								window.location.href='/touch/creditshop/shopDetail?id='+id;
+							});
+						}
+					}
+				},function () {
+
+				});
+
+				$(".creditBtn").on("click",function () {
+					commonAjax(
+							"get",
+							"/myapp/sign/signOn"
+					).then(function (res) {
+						if(res.err==1){
+							window.location.href="/myapp/login";
+						}else {
+							mui.alert('',res.msg,function(){
+								window.location.reload();
+							});
+						}
+					},function () {
+
+					});
+				});
+
+			})
 		</script>
 
 	</body>
