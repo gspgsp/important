@@ -23,6 +23,7 @@ class myquotationModel extends model
 		if(!empty($id)){
 			$fdata = array();
 			$qdata = array();
+			//$data实际上只有两条数据
 			foreach ($data as $key => $value) {
 				if($key == 'f_name'){
 					$fdata['f_name'] = $value;
@@ -30,7 +31,40 @@ class myquotationModel extends model
 					$qdata[$key] = $value;
 				}
 			}
-			$result = $this->model('purchase')->where('id='.$id)->update($qdata);
+			$pur = $this->model('purchase')->where('id='.$id)->getRow();
+
+			$qdata['p_id'] = $pur['p_id'];
+			$qdata['user_id'] = $pur['user_id'];
+			$qdata['c_id'] = $pur['c_id'];
+			$qdata['unit'] = $pur['unit'];
+			$qdata['price_type'] = $pur['price_type'];
+			$qdata['package'] = $pur['package'];
+			$qdata['area'] = $pur['area'];
+			$qdata['provinces'] = $pur['provinces'];
+			$qdata['supply_count'] = $pur['supply_count'];
+			$qdata['origin'] = $pur['origin'];
+			$qdata['store_house'] = $pur['store_house'];
+			$qdata['cargo_type'] = $pur['cargo_type'];
+			$qdata['period'] = $pur['period'];
+			$qdata['content'] = $pur['content'];
+			$qdata['customer_manager'] = $pur['customer_manager'];
+			$qdata['status'] = $pur['status'];
+			$qdata['give_time'] = $pur['give_time'];
+			$qdata['chk_time'] = $pur['chk_time'];
+			$qdata['is_erp'] = $pur['is_erp'];
+			$qdata['remark'] = $pur['remark'];
+			$qdata['group_no'] = $pur['group_no'];
+			$qdata['is_vip'] = $pur['is_vip'];
+			$qdata['bargain'] = $pur['bargain'];
+			$qdata['input_time'] = $pur['input_time'];
+			$qdata['input_admin'] = $pur['input_admin'];
+			$qdata['update_time'] = CORE_TIME;
+			$qdata['update_admin'] = $pur['update_admin'];
+			$qdata['type'] = $pur['type'];
+			$qdata['shelve_type'] = $pur['shelve_type'];
+			$qdata['last_buy_sale'] = $pur['last_buy_sale'];
+			$qdata['is_union'] = $pur['is_union'];
+			$result = $this->model('purchase')->add($qdata);
 			if($result){
 				return array('err'=>0,'msg'=>'更新成功');
 			}else{
