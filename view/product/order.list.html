@@ -256,10 +256,11 @@ function onLoadDetail(e){
 						if (c_status =='3' && i_status =='全部开票') {
 							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
 						}
-						// if (newstatus != '3' && c_status =='3') {
-						// 	s +='采购未开票..';
-						// }
 						s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+
+						if (newstatus != '3' && c_status =='3') {
+							s +='(采购未开票..)';
+						}
 
 					}
 				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
