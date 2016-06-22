@@ -16,10 +16,11 @@ class personalcenterAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
         $name = M('touch:personalcenter')->getUserName($this->user_id);
-        $purchaseCount = count(M('touch:purchase')->getPurchase($this->user_id));
+        $quotationCount = count(M('touch:purchase')->getPurchase($this->user_id,2));
+        $purchaseCount = count(M('touch:purchase')->getPurchase($this->user_id,1));
         $points = M('points:pointsBill')->getUerPoints($this->user_id);
         if($name){
-            $this->json_output(array('thumb'=>$thumb,'name'=>$name,'qcount'=>$purchaseCount,'pcount'=>$purchaseCount,'points'=>$points));
+            $this->json_output(array('thumb'=>$thumb,'name'=>$name,'qcount'=>$quotationCount,'pcount'=>$purchaseCount,'points'=>$points));
         }else{
             $this->json_output(array('err'=>2,'msg'=>'没有该用户!'));
         }
