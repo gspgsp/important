@@ -33,7 +33,7 @@ class personalAppCenterModel extends model
 			$pdata['id'] =$value1['id'];
 			$pdata['p_id'] =$value1['p_id'];
 			$pdata['model'] =$product['model'];
-			$pdata['product_type'] =$product['product_type'];
+			$pdata['product_type'] =L('product_type')[$product['product_type']];
 			$pdata['unit_price'] =$value1['unit_price'];
 			$pdata['f_name'] =$f_name['f_name'];
 			$pdata['number'] =$value1['number'];
@@ -58,7 +58,7 @@ class personalAppCenterModel extends model
 			$pdata['id'] =$value1['id'];
 			$pdata['p_id'] =$value1['p_id'];
 			$pdata['model'] =$product['model'];
-			$pdata['product_type'] =$product['product_type'];
+			$pdata['product_type'] =L('product_type')[$product['product_type']];;
 			$pdata['unit_price'] =$value1['unit_price'];
 			$pdata['f_name'] =$f_name['f_name'];
 			$pdata['number'] =$value1['number'];
