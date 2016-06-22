@@ -319,14 +319,14 @@
 								"post",
 								"/myapp/personalCenter/doQuoSearch",
 								{
-									keywords:$(".productQuery").val(),
+									keywords:$(".productQuery").val().toLocaleUpperCase(),
 									type:$(".chooseType2").val(),
-									cargo_type:1
+									cargo_type:cargoType
 								}
 						).then(function (res) {
 							if(res.err==1){
 								console.log(res);
-								//window.location.href="/myapp/login";
+								window.location.href="/myapp/login";
 							}else{
 								quotationLi="";
 								res.forEach(function (v,i) {
