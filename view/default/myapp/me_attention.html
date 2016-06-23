@@ -18,17 +18,32 @@
 			我的关注
 			<a class="right" href="/myapp/personalCenter/manageMyAttention">管理</a>
 		</header>
-		<ul class="meAttention">
-			<li>7000F 伊朗 <span class="grey">10小时前</span><span class="green">-100↓</span><span class="orange">9000/T</span></li>
-			<li>7000F 伊朗 <span class="grey">10小时前</span><span class="red">+100↑</span><span class="orange">9000/T</span></li>
-			<li>7000F 伊朗 <span class="grey">10小时前</span><span class="green">-100↓</span><span class="orange">9000/T</span></li>
-			<li>7000F 伊朗 <span class="grey">10小时前</span><span class="green">-100↓</span><span class="orange">9000/T</span></li>
-			<li>7000F 伊朗 <span class="grey">10小时前</span><span class="green">-100↓</span><span class="orange">9000/T</span></li>
-		</ul>
+		<ul class="meAttention"></ul>
+		<a class="me_enter" href="/myapp/personalCenter/addMyAttention">添加关注</a>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				var attentionLi="";
+				commonAjax(
+						"post",
+						"/myapp/personalCenter/myAttention"
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+					res.data.forEach(function (v,i,a) {
+						attentionLi+="<li>"+ v.model +" "+ v.factory_name +"<span class='grey'>"+ mToH(v.time_al) +"小时前</span><span class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</span>" +
+								"<span class='orange'>"+ v.unit_price +"/T</span></li>"
+					});
+					$(".meAttention").html(attentionLi);
+					}
+				},function () {
+
+				});
+			})
 		</script>
 
 	</body>

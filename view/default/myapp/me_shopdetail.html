@@ -61,7 +61,10 @@
 			<p><span>收件人:</span><input id="receiver" class="proText" type="text"></p>
 			<p><span>联系电话:</span><input id="phone" class="proText" type="number"></p>
 			<p><span>联系地址:</span><input id="address" class="proText" type="text"></p>
-			<p><span>验证码:</span><input id="code" class="proText2" type="number"></p>
+			<p style="position: relative;">
+				<span>验证码:</span><input id="code" style="font-size: 12px; width: 60px;" class="proText2" type="text" placeholder="验证码">
+				<button class="validCode" style="width: 72px; border-radius: 0; height: 22px; right: 0; line-height: 22px; position: absolute; top: -1px;">获取验证码</button>
+			</p>
 			<p style="text-align: center">
 				<input type="button" class="cancel2" value="取消">
 				<input type="button" class="confirm2" style="background: #ff5000;" value="确定">
@@ -93,6 +96,14 @@
 
 				});
 
+				$(".validCode").on("click",function () {
+					if($("#phone").val()){
+						sendMsg();
+					}else{
+						mui.alert("","请先输入手机号码",function () {});
+					}
+				});
+
 				$(".proChoose span").on("click",function () {
 					var index=$(this).index();
 					$(this).addClass("on").siblings("span").removeClass("on");
@@ -112,6 +123,40 @@
 				$(".confirm").on("click",function () {
 					$(".proLayer").hide();
 					$(".proInput").show();
+				});
+
+				$(".confirm2").on("click",function () {
+					var receiver=$("#receiver").val();
+					var phone=$("#phone").val();
+					var address=$("#address").val();
+					var vcode=$("#code").val();
+
+					commonAjax(
+							"post",
+							"/touch/sign/addOrder",
+							{gid:gid,receiver:receiver,phone:phone,address:address,vcode:vcode}
+					).then(function (res) {
+						if(res.err==0){
+							mui.alert("",res.msg,function () {
+								window.location.href="/myapp/personalCenter/enMyPoints";
+							});
+						}else{
+							if(res.msg=="请求超时,请重新登录!"){
+								mui.alert("",res.msg,function () {
+									window.location.href="/myapp/login";
+								});
+							}
+							mui.alert("",res.msg,function () {
+								window.location.href="/myapp/login";
+							});
+						}
+						console.log(">>>",res);
+
+					},function () {
+						mui.alert("","系统错误",function () {
+							window.location.href="/myapp/login";
+						});
+					});
 				});
 
 				$(".proExchange").on("click",function () {
