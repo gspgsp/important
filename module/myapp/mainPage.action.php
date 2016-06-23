@@ -386,4 +386,30 @@ class mainPageAction extends homeBaseAction
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败');
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
     }
+    //进入资讯页
+    public function enArticle(){
+        $this->display('info');
+    }
+    //获取资讯页
+    public function getArticleInfo(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $pid=sget('pid','i',0);
+        $page = sget('page','i',0);
+        $size = sget('size','i',20);
+        if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败');
+        $this->json_output(array('err'=>0,'articleInfo'=>$articleInfo['data']));
+    }
+    //进入资讯详情页
+    public function enArticleDetail(){
+        $this->display('info_detail');
+    }
+    //获取资讯详情页
+    public function getArticleDetail(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $id=sget('id','i',0);
+        if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败');
+        $this->json_output(array('err'=>0,'articleDetail'=>$articleDetail));
+    }
 }

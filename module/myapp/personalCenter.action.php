@@ -377,9 +377,9 @@ class personalCenterAction extends homeBaseAction
     //牌号->厂家联动
     public function getFactoryByMod(){
         $this->is_ajax=true; //指定为Ajax输出
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $model = sget('model','s');
-        $facId = $this->db->model('product')->select('f_id')->where('model='.$model)->order('input_time desc')->limit('0,20')->getAll();
+        $facId = $this->db->model('product')->select('f_id')->where("model='{$model}'")->order('input_time desc')->limit('0,20')->getAll();
         $factorys = array();
         foreach ($facId as $key => $value) {
             $f_name = $this->db->model('factory')->select('f_name')->where('fid='.$value['f_id'])->getOne();
