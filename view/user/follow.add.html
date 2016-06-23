@@ -5,34 +5,34 @@
 		<table style="width:100%;">
 			{if $c_id eq 0}
 			<tr>
-				<td>客户名称</td>
+				<td>客户名称<span style="color:red">*</span></td>
 				<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" textField="c_name" valueField="c_id"  value="setValue" allowInput="false"  style="width:90px" id="usrId"/></td>
 			</tr>
 			<tr>
-				<td>联系人</td>
+				<td>联系人<span style="color:red">*</span></td>
 				<td><input id="name" name="user_id" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
 			</tr>
 			{else}
 			<tr>
-				<td>联系人</td>
+				<td>联系人<span style="color:red">*</span></td>
 				<td><input name="user_id" class="mini-combobox" textField="name" valueField="id" data='{:setMiniConfig|$arr}'
 				  style="width:90px;" required="true"/></td>				
 			</tr>
 			{/if}
 			<tr>
-				<td>跟进方式</td>
-				<td><input name="follow_up_way" class="mini-combobox" data='{:setMiniConfig|$follow_up_way}' textField="name" valueField="id" style="width:90px;" required="true"/></td>
+				<td>跟进方式<span style="color:red">*</span></td>
+				<td><input name="follow_up_way" class="mini-combobox" data='{:setMiniConfig|$follow_up_way}' textField="name" value="2" valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
 			<tr>
-				<td>跟进时间</td>
-				<td><input name="follow_time" class="mini-datepicker" style="width:170px;" format="yyyy-MM-dd HH:mm" showTime="true" required="true"/></td>
+				<td>跟进时间<span style="color:red">*</span></td>
+				<td><input name="follow_time" class="mini-datepicker" value="{$now}"style="width:170px;" format="yyyy-MM-dd HH:mm" showTime="true" required="true"/></td>
 			</tr>
 			<tr>
-				<td>下次跟进时间</td>
-				<td><input name="next_follow_time" class="mini-datepicker" style="width:170px;" format="yyyy-MM-dd HH:mm" showTime="true" /></td>
+				<td>下次跟进时间<span style="color:red">*</span></td>
+				<td><input name="next_follow_time" class="mini-datepicker" style="width:170px;" format="yyyy-MM-dd HH:mm" showTime="true" required="true"/></td>
 			</tr>
 			<tr>
-				<td>跟进内容</td>
+				<td>跟进内容<span style="color:red">*</span></td>
 				<td><input name="remark" class="mini-textarea" style="width:170px; height:100px;" required="true"/></td>
 			</tr>
 			<tr>

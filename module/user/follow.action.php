@@ -27,6 +27,9 @@ class followAction extends adminBaseAction {
 				$contracts = arrayKeyValues(M('user:customerContact')->getListByCid($id),'user_id','name');
 				$this->assign('arr',$contracts);
 			}
+		//用于miniui显示当前默认时间
+		
+		$this->assign('now',date('Y-m-d H:i:s'));
 		$this->assign('c_id',$id);
 		$this->display('follow.add.html');
 	}
