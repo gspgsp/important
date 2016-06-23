@@ -220,11 +220,73 @@ class mainPageModel extends model
         }
     }
     //大户报价数据
-    public function getLargeBidData($page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
-        $data = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
-            ->join('big_client bic','bio.cid=bic.id')
+    public function getLargeBidData($otype,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
+        if($otype==1){
+            $sortField = 'price';
+            $sortOrder='asc';
+        }elseif ($otype==2) {
+            $sortField = 'price';
+            $sortOrder='desc';
+        }elseif ($otype==3) {
+            $sortField='input_time';
+            $sortOrder='desc';
+        }
+        $largrBid = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
             ->page($page,$size)
             ->order("$sortField $sortOrder")
             ->getPage();
+            foreach ($largrBid['data'] as $key => $value) {
+                $largrBid['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+            }
+        return $largrBid;
+    }
+    //大户报价下三角数据
+    public function getLargeBidRes($id){
+        $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
+        $newBig = array();
+        $data = $this->model('big_offers')->where("model=$bigOff['model'] and factory=$bigOff['factory']")->order('input_time desc')->limit('0,2')->getAll();
+        foreach ($data as $key => $value) {
+            $bigCli = $this->model('big_client')->where('id='.$value['cid'])->select('gsname,phone')->getRow();
+            $newBig[$key]['gsname'] = $bigCli['gsname'];
+            $newBig[$key]['phone'] = $bigCli['phone'];
+            $newBig[$key]['price'] = $value['price'];
+            $newBig[$key]['num'] = $value['num'];
+            $newBig[$key]['address'] = $value['address'];
+            unset($bigCli);
+        }
+        return $newBig;
+    }
+    //获取筛选条件
+    public function getLargeChoseData(){
+        $company = $this->model('big_client')->select('gsname')->order('lasttime desc')->limit('0,20')->getAll();
+        $factory = $this->model('big_offers')->select('factory')->order('input_time desc')->limit('0,30')->getAll();
+        $address = $this->model('big_offers')->select('address')->order('input_time desc')->limit('0,30')->getAll();
+        $choseData = array(
+            'company'=>$company,
+            'factory'=>$factory,
+            'address'=>$address,
+            );
+        return $choseData;
+    }
+    //获取大客户点击确定筛选结果
+    public function getLargeChoseRes($company,$factory,$address,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
+        $where = "1";
+        if(!empty($company)){
+            $where .= " and bic.company=$company";//应用的下标值
+        }elseif (!empty($factory)) {
+            $where .= " and bio.factory=$factory";
+        }elseif (!empty($address)) {
+            $where .= " and bio.address=$address";
+        }
+        $choseRes = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
+            ->join('big_client bic','bio.cid=bic.id')
+            ->page($page,$size)
+            ->where($where)
+            ->order("$sortField $sortOrder")
+            ->getPage();
+        foreach ($choseRes['data'] as $key => $value) {
+            $choseRes['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+        }
+        return $choseRes;
     }
 }
