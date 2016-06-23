@@ -89,7 +89,7 @@ class collectionAction extends adminBaseAction
 		}
 		$list=$this->db->where($where)
 					->page($page+1,$size)
-					->order("$sortField $sortOrder")
+					->order("$sortField $sortOrder".', payment_time DESC')
 					->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
