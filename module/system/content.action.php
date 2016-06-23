@@ -12,6 +12,10 @@ class contentAction extends adminBaseAction {
 		$this->doact = sget('do','s');
 		$this->db=M('public:common');
 		$this->assign('action',ROUTE_A); //当前方法
+
+		$cache=cache::startMemcache();
+		$cache->delete('article_index');//清除首页资讯缓存
+
 	}
 	
 	/**
