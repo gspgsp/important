@@ -20,11 +20,7 @@
 				<td><input name="payment_time" class="mini-datepicker" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
 			<tr>
-				{if $type =='1'}
-				<td>销售合同主题</td>
-				{else}
-				<td>采购合同主题</td>
-				{/if}
+				<td>{if $type =='1'}销售合同主题{else}采购合同主题{/if}</td>				
 				<td><input name="title" class="mini-textbox" maxlength="12" value="{$order_name}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
@@ -32,21 +28,15 @@
 				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$price}" style="width:150px;" allowInput="false"/></td>
 			</tr>
 			
-			{if $unbilling_price eq ''}
+			
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="" class="mini-textbox" maxlength="12" value="{$price}" style="width:150px;" allowInput="false"/></td>
+				<td><input name="" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" allowInput="false"/></td>
 			</tr>
-			{else}
-			<tr>
-				<td>未开票金额</td>
-				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$unbilling_price}" style="width:150px;" allowInput="false"/></td>
-			</tr>
-			{/if}
 
 			<tr>
 				<td>票据金额<span style="color:red">*</span></td>
-				<td><input name="billing_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
+				<td><input name="billing_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" required="true"/></td>
 			</tr>
 			
 			<tr>

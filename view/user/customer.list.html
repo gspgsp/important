@@ -96,7 +96,7 @@
 		<table style="width:100%;">
 			<input class="mini-hidden" name="id"/>
 			<tr>
-				<td>分配管理员:</td>
+				<td>分配交易员:</td>
 				<td>
 					<input name="id" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="" allowInput="false"  style="width:100px" id="id"/>
 					<input id="c_id" class="mini-hidden" value="">
@@ -152,6 +152,7 @@ function allotO(cid) {
 mini.get(c_id).setValue(cid)
 	allotInfo.show();
 }
+
 //编辑联系人
 function onLoadHandle(e) {
 	var record = e.record,uid=record.c_id, s='';
@@ -166,7 +167,7 @@ function onLoadFllow(e) {
 		s += '<a href="javascript:allotO('+cid+')">分配</a>';
 	}else{
 		if(customer_manager !=''){
-			s += '<a href="javascript:viewFinfo('+cid+')">跟进</a>';
+			s += '<a href="javascript:viewFinfo('+cid+')">跟进</a>&nbsp;|&nbsp;<a href="javascript:allotO('+cid+')">更改交易员</a>';
 		}
 	}
 
