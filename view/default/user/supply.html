@@ -1,10 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='home/tab2.js'}
 
-</body>
-</html>
+
+<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="user-wrap w1220">
+    {include file="public:user_left"}
+	<div class="right frt">
+		<h3>个人中心-我的供货</h3>
+		<ul class="taby">
+        	<li id="taby1" onclick="setTab('taby',1,4)" class="hover"><p>全部</p><span></span></li>
+            <li id="taby2" onclick="setTab('taby',2,4)"><p>待确认</p><span></span></li>
+            <li id="taby3" onclick="setTab('taby',3,4)"><p>已成交</p><span></span></li>
+            <li id="taby4" onclick="setTab('taby',4,4)" style="border-right:none;"><p>未成交</p><span></span></li>
+        </ul>
+        <!--con-taby begin-->
+        <div class="con-taby">
+        	<!--filter begin-->
+        	<div class="filter">
+        		<form id="filterForm" method="get" action="">
+        			<!--filter-top begin-->
+	    		    <div class="filter-top">
+	    		    	<!--query begin-->
+	    		        <div class="query flt">
+	    		        	<input type="text" name="sn" placeholder="请输入订单编号" class="import flt"/>
+	    		            <input type="submit" value="订单查询" class="submit flt"/>
+	    		        </div>
+	    		        <!--query end-->
+	    		    </div>
+	    		    <!--filter-top begin-->
+		    		<table>
+		    			<tr>
+		    				<th>买方</th>
+		    				<th>品种</th>
+		    				<th>牌号</th>
+		    				<th>厂家</th>
+		    				<th>加工级别</th>
+		    				<th>数量（吨）</th>
+		    				<th>价格（元/吨）</th>
+		    				<th>实价</th>
+		    				<th>仓库</th>
+		    				<th>省份</th>
+		    				<th>现期货</th>
+		    				<th>交货日期</th>
+		    				<th>状态</th>
+		    				<th>更新时间</th>
+		    				<th>备注</th>
+		    				<th>操作</th>
+		    			</tr>
+		    			<tr>
+		    				<td>宁波武胜材料有限公司</td>
+		    				<td>HDPE</td>
+		    				<td>7000F</td>
+		    				<td>中国石化</td>
+		    				<td>重包</td>
+		    				<td>30</td>
+		    				<td>9000</td>
+		    				<td>是</td>
+		    				<td>宁波1号库</td>
+		    				<td>浙江</td>
+		    				<td>现货</td>
+		    				<td>2016-05-29</td>
+		    				<td>待确认</td>
+		    				<td>2016-04-29 9：36</td>
+		    				<td></td>
+		    				<td></td>
+		    			</tr>
+		    			<tr>
+		    				<td>宁波武胜材料有限公司</td>
+		    				<td>HDPE</td>
+		    				<td>7000F</td>
+		    				<td>中国石化</td>
+		    				<td>重包</td>
+		    				<td>30</td>
+		    				<td>9000</td>
+		    				<td>是</td>
+		    				<td>宁波1号库</td>
+		    				<td>浙江</td>
+		    				<td>现货</td>
+		    				<td>2016-05-29</td>
+		    				<td>已成交</td>
+		    				<td>2016-04-29 9：36</td>
+		    				<td></td>
+		    				<td class="opt"><a href="javascript:;">查看订单</a></td>
+		    			</tr>
+		    			<tr>
+		    				<td>宁波武胜材料有限公司</td>
+		    				<td>HDPE</td>
+		    				<td>7000F</td>
+		    				<td>中国石化</td>
+		    				<td>重包</td>
+		    				<td>30</td>
+		    				<td>9000</td>
+		    				<td>是</td>
+		    				<td>宁波1号库</td>
+		    				<td>浙江</td>
+		    				<td>现货</td>
+		    				<td>2016-05-29</td>
+		    				<td>待确认</td>
+		    				<td>2016-04-29 9：36</td>
+		    				<td></td>
+		    				<td></td>
+		    			</tr>
+		    			<tr>
+		    				<td>宁波武胜材料有限公司</td>
+		    				<td>HDPE</td>
+		    				<td>7000F</td>
+		    				<td>中国石化</td>
+		    				<td>重包</td>
+		    				<td>30</td>
+		    				<td>9000</td>
+		    				<td>是</td>
+		    				<td>宁波1号库</td>
+		    				<td>浙江</td>
+		    				<td>现货</td>
+		    				<td>2016-05-29</td>
+		    				<td>待确认</td>
+		    				<td>2016-04-29 9：36</td>
+		    				<td></td>
+		    				<td></td>
+		    			</tr>
+		    		</table>
+        		</form>
+        	</div>
+        	<!--filter end-->
+        </div>
+        <!--con-taby end-->
+	</div>
+</div>
