@@ -156,6 +156,11 @@ class myoffersAction extends userBaseAction{
 			$this->success('导入成功');
 		}
 	}
+	public function supply(){
+		$this->act='supply';
+
+		$this->display('supply');
+	}
 
 
 }

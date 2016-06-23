@@ -12,14 +12,14 @@
     <ul>
         <li {if $act=='myoffers'}class="hover"{/if}><a href="/user/myoffers">报价发布</a></li>
         <li {if $act=='offerlist'}class="hover"{/if}><a href="/user/myoffers/lists">报价管理</a></li>
-        <li><a href="javascript:;">我的供货</a></li>
+        <li {if $act=='supply'}class="hover"{/if}><a href="/usser/myoffers/supply">我的供货</a></li>
 
     </ul>
     <h2 class="buy">我的求购</h2>
     <ul>
         <li {if $act=='mypurchase'}class="hover"{/if}><a href="/user/mypurchase">求购发布</a></li>
         <li {if $act=='purchaselist'}class="hover"{/if}><a href="/user/mypurchase/lists">求购管理</a></li>
-        <li><a href="javascript:;">我的购货</a></li>
+        <li  {if $act=='wantBuy'}class="hover"{/if}><a href="/user/mypurchase/wantBuy">我的购货</a></li>
     </ul>
     <h2 class="finance">财务中心</h2>
     <ul>

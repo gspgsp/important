@@ -302,6 +302,11 @@ class mypurchaseAction extends userBaseAction{
 
 		}
 	}
+	public function wantBuy(){
+		$this->act='wantBuy';
+		$this->display('wantbuy');
+	}
+
 
 
 }
