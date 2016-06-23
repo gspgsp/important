@@ -292,7 +292,7 @@ class mainPageAction extends homeBaseAction
         $company = sget('company','s');
         $factory = sget('factory','s');
         $address = sget('address','s');
-        if(!$choseRes = M('myapp:mainPage')->getLargeChoseRes($company,$factory,$address,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选筛选结果');
+        if(!$choseRes = M('myapp:mainPage')->getLargeChoseRes($company,$factory,$address,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选筛选结果失败');
         $this->json_output(array('err'=>0,'choseRes'=>$choseRes));
     }
     /**
@@ -369,10 +369,20 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
         $keywords = sget('keywords','s');
-        M('myapp:mainPage')->getPhysicalResData($keywords);
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        if(!$phyData = M('myapp:mainPage')->getPhysicalResData($keywords,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取物性表搜索页失败');
+        $this->json_output(array('err'=>0,'phyData'=>$phyData['data']));
     }
     //进入物性表搜索详情页
-    
+    public function enPhysicalDetail(){
+         $this->display('wxb_detail');
+    }
     //获取物性表搜索页详情数据
-    
+    public function getPhysicalDetail(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $lid = sget('lid','i');
+        M('myapp:mainPage')->getPhysicalDetailData($lid);
+    }
 }
