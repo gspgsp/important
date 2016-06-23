@@ -247,14 +247,69 @@ class mainPageAction extends homeBaseAction
     }
     //点击查看更多,直接调用到enMyAttention()-myAttention()
     //点击添加关注,直接调用到addMyAttention()-addProAttention()
+    /**
+     *大户报价
+     */
     //进入大户报价专区
     public function enLargeBid(){
         $this->display('bigCustomer');
     }
-    //获取大户报价数据
+    //获取大户报价数据,包括:默认，价格排序
     public function getLargeBid(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $otype = sget('otype','i',3);//3,默认(时间)，1，价格升序 2，价格降序
         $page = sget('page','i',1);
-        $size = sget('size','i',10);
-        M('myapp:mainPage')->getLargeBidData($page,$size);
+        $size = sget('size','i',8);
+        if(!$largrBid = M('myapp:mainPage')->getLargeBidData($otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户报价数据失败');
+        $this->json_output(array('err'=>0,'largrBid'=>$largrBid['data']));
     }
+    //获得大户报价下三角数据
+    public function getLargeBidRes(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $id = sget('id','i');
+        if(!$newBig = M('myapp:mainPage')->getLargeBidRes($id)) $this->json_output(array('err'=>2,'msg'=>'获取大户相关数据失败');
+        $this->json_output(array('err'=>0,'newBig'=>$newBig));
+    }
+    //进入筛选页
+    public function enLargeChose(){
+        $this->display('');
+    }
+    //获取筛选条件:公司，厂家，交货地
+    public function getLargeChose(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        if(!$choseData = M('myapp:mainPage')->getLargeChoseData()) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选条件失败');
+        $this->json_output(array('err'=>0,'choseData'=>$choseData));
+    }
+    //获取大客户点击确定筛选结果
+    public function getLargeChoseRes(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $page = sget('page','i',1);
+        $size = sget('size','i',8);
+        $company = sget('company','s');
+        $factory = sget('factory','s');
+        $address = sget('address','s');
+        if(!$choseRes = M('myapp:mainPage')->getLargeChoseRes($company,$factory,$address,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选筛选结果');
+        $this->json_output(array('err'=>0,'choseRes'=>$choseRes));
+    }
+    /**
+     *物性表
+     */
+    //进入物性表
+    public function enPhysical(){
+        $this->display('wxb');
+    }
+    //获取物性表搜索页
+    
+    //进入物性表搜索结果页
+    
+    //获取物性表搜索页结果数据
+    
+    //进入物性表搜索详情页
+    
+    //获取物性表搜索页详情数据
+    
 }
