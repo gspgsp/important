@@ -116,15 +116,18 @@
 .user-wrap .right .close{ color:#fff; font-size:16px; display:block; width:120px; height:44px; line-height: 44px; text-align: center; background:#267bd3; border-radius:2px; margin:50px auto; clear:both; cursor:pointer;}
 
 /*我的供应开始*/
-.tabe,.tabx{ width:403px; height:30px; overflow:hidden; margin:0 0 10px 23px; font-size:14px;}
-.tabe li,.tabx li{ width:60px; height:16px; float:left; text-align: center; cursor:pointer;}
-.tabe li p{ width: 50px; margin:0 0 0 5px; padding: 0 0 8px 0; font-weight:bold;}
-.tabe li.hover,.tabx li.hover{ overflow:visible; color:#fc6621;}
-.tabe li.hover p,.tabx li.hover p{ border-bottom: 2px solid #fc6621; }
-.tabe li.hover span,.tabx li.hover span{ display:block; width:200px; height:8px; background: url(../img/supplyHover.png) no-repeat center top;}
-.user-wrap .right .con-tabe table{ width:1000px; border-collapse:collapse; margin-left:23px; clear:both;}
-.user-wrap .right .con-tabe table th{ background:#f5f5f5; font-weight:normal;}
-.user-wrap .right .con-tabe table th,.user-wrap .right .con-tabe table td{ height:38px; border:1px solid #ccc; text-align:center;}
+.tabe,.tabx,.taby{ width:403px; height:30px; overflow:hidden; margin:0 0 10px 23px; font-size:14px;}
+.tabe li,.tabx li,.taby li{ width:60px; height:16px; float:left; text-align: center;border-right:1px solid #ccc; cursor:pointer;}
+.tabe li p,.taby li p{ width: 50px; margin:0 0 0 5px; padding: 0 0 8px 0; font-weight:bold;}
+.tabe li.hover,.tabx li.hover,.taby li.hover{ overflow:visible; color:#fc6621;}
+.tabe li.hover p,.tabx li.hover p,.taby li.hover p{ border-bottom: 2px solid #fc6621; }
+.tabe li.hover span,.tabx li.hover span,.taby li.hover span{ display:block; width:200px; height:8px; background: url(../img/supplyHover.png) no-repeat center top;}
+.user-wrap .right .con-tabe table,.user-wrap .right .con-taby table{ width:1000px; border-collapse:collapse; clear:both;}
+.user-wrap .right .con-taby table{ margin-bottom: 23px; }
+.user-wrap .right .con-taby table .opt a{ color:#267bd3; }
+.user-wrap .right .con-tabe table{ margin-left:23px;}
+.user-wrap .right .con-tabe table th,.user-wrap .right .con-taby table th{ background:#f5f5f5; font-weight:normal;}
+.user-wrap .right .con-tabe table th,.user-wrap .right .con-tabe table td,.user-wrap .right .con-taby table th,.user-wrap .right .con-taby table td{ height:38px; border:1px solid #ccc; text-align:center;}
 .user-wrap .right .con-tabe table input{ width:90px; height:14px; padding:5px 0 5px 10px; border:1px solid #ccc;}
 .user-wrap .right .con-tabe table .del span{ cursor:pointer;}
 .user-wrap .right .con-tabe .opt{ height:32px; overflow:hidden; margin:0 22px 10px 0; float:right;}
