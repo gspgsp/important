@@ -419,4 +419,16 @@ return array(
 	<table>
 '
 	),
+
+	//调价动态涨跌状态
+	'dynamic_status'=>array(
+		1=>'涨',
+		2=>'跌',
+		3=>'平',
+	),
+	//原油类型
+	'oil_type'=>array(
+		0=>'WTI',
+		1=>'布油',
+	),
 );

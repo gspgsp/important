@@ -1,12 +1,16 @@
 <?php
 /**
- * 原油价格 -黎贤
+ * 原油指数
  */
-
-class oilPriceModel extends Model{
-
+class oilPriceModel extends model{
 	public function __construct() {
 		parent::__construct(C('db_default'), 'oil_price');
+	}
+
+	public function delCache(){
+		$cache = cache::startMemcache();
+		$cache->delete('oil_w');
+		$cache->delete('oil_b');
 	}
 
 	/**
@@ -17,7 +21,7 @@ class oilPriceModel extends Model{
 	public function get_index($type)
 	{
 		$t = $type == 0 ? 'w' : 'b';
-		$keys = "oli_". $t;
+		$keys = "oil_". $t;
 		$cache = cache::startMemcache();
 		$arr=$cache->get($keys);
 		if($arr) return $arr;
@@ -38,4 +42,5 @@ class oilPriceModel extends Model{
 		$cache->set($keys,$arr);
 		return $arr;
 	}
+
 }
