@@ -70,7 +70,6 @@ class mypurchaseAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$list=M('product:purchase')->getPurPage($where,$page,$size);
-		// p($list);
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));
@@ -253,7 +252,7 @@ class mypurchaseAction extends userBaseAction{
 			$purModel=M('product:purchase');
 			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');//报价表与用户不匹配
 			if($purData['last_buy_sale']) $this->error('不能重复选定');
-			$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id));
+			$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'status'=>3));
 			$orderModel=M('product:unionOrder');
 			$orderSn=genOrderSn();
 			$orderData=array();

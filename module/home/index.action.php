@@ -31,69 +31,18 @@ class indexAction extends homeBaseAction{
 			}
 		}
 		$this->assign('grabList',$grabList);
-		$arr=array(
-			array(
-				'name'=>'埃克森 LLDPE 102W',
-				'price'=>'111',
-				'type'=>2,
-				'num'=>'50',
-				'time'=>time()
-
-			),
-			array(
-				'name'=>'埃克森 LLDPE 102W',
-				'price'=>'222',
-				'type'=>2,
-				'num'=>'50',
-				'time'=>time()
-
-			),
-			array(
-				'name'=>'埃克森 LLDPE 102W',
-				'price'=>'333',
-				'type'=>1,
-				'num'=>'50',
-				'time'=>time()
-
-			),
-			array(
-				'name'=>'埃克森 LLDPE 102W',
-				'price'=>'333',
-				'type'=>1,
-				'num'=>'50',
-				'time'=>time()
-
-			),
-			array(
-				'name'=>'埃克森 LLDPE 102W',
-				'price'=>'333',
-				'type'=>1,
-				'num'=>'50',
-				'time'=>time()
-
-			),
-			array(
-				'name'=>'埃克森 LLDPE 102W',
-				'price'=>'333',
-				'type'=>1,
-				'num'=>'50',
-				'time'=>time()
-			),
-			
-		);
+		
+		$readjust=M('operator:dynamic')->getList();
 		//调价动态
-		$cache=cache:: startCacheFile();
-		$cache->set('readjust',$arr);
-		$readjust=$cache->get('readjust');
 		$readjust=$this->setReadjust($readjust);
 		$this->assign('readjust', $readjust);
 		
 		//行情信息
-		$this->quotation = M('info:market')->get_quotation_index();
-		//原油指数
-		$this->oil1=M('info:oilPrice')->get_index('0');
-		$this->oil2=M('info:oilPrice')->get_index('1');
+		$this->quotation = M('operator:market')->get_quotation_index();
 
+		//原油指数
+		$this->oil1=M('operator:oilPrice')->get_index('0');
+		$this->oil2=M('operator:oilPrice')->get_index('1');
 		//2F 大客户报价
 		$this->bigClient=$this->db->model('big_client')->limit(12)->getAll();
 		$this->bigOffers=M('product:bigOffers')->getOfferList("1","of.input_time desc",1,5)['data'];
