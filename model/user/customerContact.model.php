@@ -190,7 +190,7 @@ class customerContactModel extends model{
 	 * 根据联系人ID查出联系人信息
 	 */
 	public function getListByUserid($user_id){
-		return $this->where("user_id=$user_id")->getRow();
+		return $this->model('customer_contact')->where("user_id=$user_id")->getRow();
 	}
 	/**
 	 * 更具字段取出对应的值
