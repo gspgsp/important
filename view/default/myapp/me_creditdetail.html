@@ -23,18 +23,18 @@
 		<div class="shopHeader">
 			<img style=" float: left; margin: 10px 0 0 22px;" width="24" src="__MYAPP__/img/myCredit.png">
 			<h3 class="myCredit">我的积分 <span id="credit"></span><br>
-				<a href="#">积分明细</a>&nbsp;<a href="/touch/creditrecord">兑换记录</a>
+				<a href="/myapp/personalCenter/creditDetail">积分明细</a>&nbsp;<a href="/myapp/personalCenter/creditRecord">兑换记录</a>
 			</h3>
 			<div class="creditBtn">签到</div>
 		</div>
 		<div class="shopClassify">
-			<span>
+			<span data-gtype="">
         		<img src="__MYAPP__/img/credit_classify.png"><br>全部
     		</span>
-			<span>
+			<span data-gtype="1">
         		<img src="__MYAPP__/img/credit_classify2.png"><br>家居
     		</span>
-			<span>
+			<span data-gtype="2">
         		<img src="__MYAPP__/img/credit_classify3.png"><br>数码
     		</span>
 		</div>
@@ -46,9 +46,11 @@
 			});
 			$(function () {
 				var creditshopLi="";
+				var gtype="";
 				commonAjax(
 						"post",
-						"/myapp/personalCenter/getMyPoints"
+						"/myapp/personalCenter/getMyPoints",
+						{gtype:gtype}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
@@ -67,12 +69,46 @@
 							$(".shopUl").html(creditshopLi);
 							$(".shopUl li").on("click",function () {
 								var id=$(this).data("id");
-								window.location.href='/touch/creditshop/shopDetail?id='+id;
+								window.location.href='/myapp/personalCenter/shopDetail?id='+id;
 							});
 						}
 					}
 				},function () {
 
+				});
+
+				$(".shopClassify span").on("click",function () {
+					gtype=$(this).data("gtype");
+					creditshopLi="";
+					commonAjax(
+							"post",
+							"/myapp/personalCenter/getMyPoints",
+							{gtype:gtype}
+					).then(function (res) {
+						console.log(">>>",res);
+						if(res.err==1){
+							window.location.href="/myapp/login";
+						}else{
+							$("#credit").html(res.points);
+							if(!res.shop){
+								$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
+							}else{
+								res.shop.forEach(function (v,i,a) {
+									creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
+											"<img src='"+ v.thumb +"'></div>" +
+											"<h3>"+ v.name +"</h3>" +
+											"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
+								});
+								$(".shopUl").html(creditshopLi);
+								$(".shopUl li").on("click",function () {
+									var id=$(this).data("id");
+									window.location.href='/myapp/personalCenter/shopDetail?id='+id;
+								});
+							}
+						}
+					},function () {
+
+					});
 				});
 
 				$(".creditBtn").on("click",function () {

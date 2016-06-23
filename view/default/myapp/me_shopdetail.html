@@ -6,6 +6,8 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
@@ -16,15 +18,15 @@
 			商品详情
 		</header>
 		<div class="proDetail">
-			<img id="thumbImg" src="__MYAPP__/img/temp6.jpg">
-			<h3 class="proTitle"><span id="name">小米（MI）小米新款移动电源/充电宝10000mAh</span><span id="proPoints"></span>积分</h3>
+			<img id="thumbImg">
+			<h3 class="proTitle"><span id="name"></span><span id="proPoints"></span>积分</h3>
 			<div class="proChoose">
 				<span class="on">商品详情</span>
 				<span>退换货规定</span>
 			</div>
 		</div>
 		<div class="proContent proPic">
-			<img id="proImg" src="__MYAPP__/img/temp7.jpg">
+			<img id="proImg">
 		</div>
 		<div class="proContent proTxt" style="display: none;">
 			<p>兑换商品若出现以下情况，我的塑料网允许退换货：</p>
@@ -51,24 +53,89 @@
 			<h3>温馨提示</h3>
 			<p>此次兑换将使用<span id="proPoints2"></span>积分，确定兑换码？</p>
 			<p style="text-align: center">
-				<button class="cancel">取消</button>
-				<button class="confirm">确定</button>
+				<button class="cancel" style="padding: 0; background: #999999;">取消</button>
+				<button class="confirm" style="padding: 0;">确定</button>
 			</p>
 		</div>
-		<div class="proInput" style="display: block;">
+		<div class="proInput">
 			<p><span>收件人:</span><input id="receiver" class="proText" type="text"></p>
 			<p><span>联系电话:</span><input id="phone" class="proText" type="number"></p>
 			<p><span>联系地址:</span><input id="address" class="proText" type="text"></p>
 			<p><span>验证码:</span><input id="code" class="proText2" type="number"></p>
 			<p style="text-align: center">
 				<input type="button" class="cancel2" value="取消">
-				<input type="button" class="confirm2" style="background: #ff5000" value="确定">
+				<input type="button" class="confirm2" style="background: #ff5000;" value="确定">
 			</p>
 		</div>
 		<div class="layer"></div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
+			});
+
+			$(function () {
+				var gid=getUrlParam("id");
+				commonAjax(
+						"post",
+						"/myapp/personalCenter/get_shopDetail",
+						{gid:gid}
+				).then(function (res) {
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+					$("#thumbImg").attr("src",res.thumb);
+					$("#proImg").attr("src",res.image);
+					$("#name").text(res.name);
+					$("#proPoints").text(res.points);
+					$("#proPoints2").text(res.points);
+					}
+				},function () {
+
+				});
+
+				$(".proChoose span").on("click",function () {
+					var index=$(this).index();
+					$(this).addClass("on").siblings("span").removeClass("on");
+					$(".proContent").eq(index).show().siblings(".proContent").hide();
+				});
+
+				$(".cancel").on("click",function () {
+					$(".proLayer").hide();
+					$(".layer").hide();
+				});
+
+				$(".cancel2").on("click",function () {
+					$(".proInput").hide();
+					$(".layer").hide();
+				});
+
+				$(".confirm").on("click",function () {
+					$(".proLayer").hide();
+					$(".proInput").show();
+				});
+
+				$(".proExchange").on("click",function () {
+					$(".proLayer").show();
+					$(".layer").show();
+					$.ajax({
+						type:"post",
+						url:"/touch/creditshop/getUserProduct",
+						dataType:'json',
+						success:function (res) {
+							if(res.err==1){
+								window.location.href="/mypp/login";
+							}else {
+								$("#receiver").val(res.userInfo.name);
+								$("#phone").val(res.userInfo.mobile);
+							}
+						},
+						error:function () {
+
+						}
+					});
+				});
+
+
 			});
 		</script>
 

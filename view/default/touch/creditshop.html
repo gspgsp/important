@@ -13,9 +13,11 @@
 		$(function () {
 
 			var creditshopLi="";
+			var gtype="";
 			$.ajax({
-				type:"get",
+				type:"post",
 				url:"/touch/creditshop/get_creditshop",
+				data:{gtype:gtype},
 				dataType:'json',
 				beforeSend:function () {
 					layer.open({
@@ -52,6 +54,51 @@
 						time:2
 					});
 				}
+			});
+			
+			$(".shopClassify span").on("click",function () {
+				gtype=$(this).data("gtype");
+				$.ajax({
+					type:"post",
+					url:"/touch/creditshop/get_creditshop",
+					data:{gtype:gtype},
+					dataType:'json',
+					beforeSend:function () {
+						layer.open({
+							content: '加载中…'
+						});
+					},
+					success:function (res) {
+						if(res.err==1){
+							window.location.href="/touch/login";
+						}else{
+							$("#credit").html(res.points);
+							console.log(">>>",res);
+							layer.closeAll();
+							if(!res.shop){
+								$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
+							}else{
+								res.shop.forEach(function (v,i,a) {
+									creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
+											"<img src='"+ v.thumb +"'></div>" +
+											"<h3>"+ v.name +"</h3>" +
+											"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
+								});
+								$(".shopUl").html(creditshopLi);
+								$(".shopUl li").on("click",function () {
+									var id=$(this).data("id");
+									window.location.href='/touch/creditshop/shopDetail?id='+id;
+								});
+							}
+						}
+					},
+					error:function (res) {
+						layer.open({
+							content: '系统错误',
+							time:2
+						});
+					}
+				});
 			});
 
 			$(".creditBtn").on("click",function () {
@@ -90,13 +137,13 @@
 	<div class="creditBtn">签到</div>
 </div>
 <div class="shopClassify">
-    <span>
+    <span data-gtype="">
         <img src="__IMG__/wx/classify.png"><br>全部
     </span>
-    <span>
+    <span data-gtype="1">
         <img src="__IMG__/wx/classify2.png"><br>家居
     </span>
-    <span>
+    <span data-gtype="2">
         <img src="__IMG__/wx/classify3.png"><br>数码
     </span>
 </div>
