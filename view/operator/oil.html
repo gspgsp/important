@@ -1,0 +1,133 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>	
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="add()">新增</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-save" onclick="saveTags()">保存更改</a>
+				<span class="separator"></span>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="mini-fit" style="padding:3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/operator/oilPrice/init?action=grid"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="type" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">原油类型
+				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$oil_type}' /> 
+			</div>
+			<div field="price" width="90" headerAlign="center" align="center">价格
+				<input property="editor" class="mini-textbox" style="width:100%;" minWidth="100" />
+			</div>
+			
+			<div field="ups_downs" width="90" headerAlign="center" align="center">涨跌幅度
+				<input property="editor" class="mini-textbox" style="width:100%;" minWidth="100" />
+			</div>
+			<div field="input_time" width="90" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+			<div name="action"  width="50" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>
+		</div>
+	</div>
+</div>
+
+<div id="admInfo" class="mini-window" title="新增大客户" style="width:500px;" 
+ 	showModal="true" allowResize="true" allowDrag="true"
+ 	>
+ 	<div id="addForm" class="form" >
+ 		<table style="width:100%;">
+ 			<input class="mini-hidden" name="id" value="">
+ 			<tr>
+ 				<td style="width:100px;">原油类型：</td>
+ 				<td>
+ 					<input name="type" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$oil_type}' required="true" textfield="name" valuefield="id"/>
+ 				</td>
+ 			</tr>
+ 			<tr>
+ 				<td style="width:100px;">价格：</td>
+ 				<td><input name="price" required="true" class="mini-textbox" style="width:200px"/></td>
+ 			</tr>
+ 			
+ 			<tr>
+ 				<td style="width:100px;">涨跌幅度：</td>
+ 				<td><input name="ups_downs" required="true" class="mini-textbox" style="width:200px"/></td>
+ 			</tr>
+ 			<tr>
+	 			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+	 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+	 			</td>
+ 			</tr>
+ 		</table>
+ 	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+function onLoadHandle(e){
+	var record = e.record,id=record.id;
+	var s='<a href="javascript:del('+id+');">删除</a>';
+	return s;
+}
+
+function del(id){
+	if(!confirm('确定要删除吗？')) return;
+	$.post('/operator/oilPrice/del',{id:id},function (data){
+		if(data.err==0){
+			grid.reload();
+		}
+	},'json');
+}
+
+//弹出增加form表单
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function add() {
+  form.clear();
+  admInfo.show();
+}
+
+//增加后提交数据(保存)
+function submitForm() {
+  form.validate();
+  if (form.isValid() == false) return;
+  
+  var o = form.getData();
+  grid.loading("数据提交中，请稍后......");
+  var json = mini.encode(o);
+
+  var callback=function(data){
+	if(data.err!='0'){
+	  grid.unmask();
+	  alert(data.msg);
+	  return false;
+	}else{
+	  grid.reload();
+	  admInfo.hide(); 
+	}
+  }
+  utils.ajax('/operator/oilPrice/ajaxSave',{data:json},callback,"POST","json");
+}
+
+//行内编辑后保存数据
+function saveTags() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+
+		if(data.err>0){
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/operator/oilPrice/saveTags',{data:json},callback,"POST","json");
+}
+
+</script>

@@ -57,10 +57,10 @@ class clientsAction extends adminBaseAction
 		}
 		$id=$data['id'];
 		unset($data['id']);
+		$data['lasttime']=CORE_TIME;
 		if(!$id){
 			$result = $this->db->add($data);
 		}else{
-			$data['lasttime']=CORE_TIME;
 			$result = $this->db->wherePk($id)->update($data);
 		}
 		if(!$result) $this->error('操作失败');
