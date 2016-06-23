@@ -289,4 +289,8 @@ class mainPageModel extends model
         }
         return $choseRes;
     }
+    //获取物性表搜索页结果数据
+    public function getPhysicalResData(){
+        
+    }
 }
