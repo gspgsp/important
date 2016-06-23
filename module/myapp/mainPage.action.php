@@ -300,14 +300,77 @@ class mainPageAction extends homeBaseAction
      */
     //进入物性表
     public function enPhysical(){
+        //cookie保存输入框的关键字
+        $_cfrom=sget('keyWords','s');//将搜索的关键字传入
+        $history = array();
+        if(!empty($_cfrom))
+        array_push($history, $_cfrom);
+        /* 去除重复记录 */
+        $rows = array();
+        foreach ($history as $v)
+        {
+            if(in_array($v, $rows))
+            {
+                continue;
+            }
+            $rows[] = $v;
+        }
+
+        /* 如果记录数量多余5则去除后面的元素 */
+        if (count($rows) > 5)
+        {
+            $newRows = array_slice($rows, 0, 5);
+            $keyWords = serialize($newRows);
+            cookie::set('_keyWords',$keyWords,time()+1800);
+        }
         $this->display('wxb');
     }
     //获取物性表搜索页
-    
+    public function getPhysical(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        //历史搜索结果
+        $hisData = $this->_history();
+        //热门搜索结果
+        $phyHotData = $this->_physicalHot();
+        $this->json_output(array('err'=>0,'hisData'=>$hisData,'phyHotData'=>$phyHotData));
+    }
+    //物性表的热词搜索
+    private function _physicalHot(){
+        $_key='hotWords';
+        $cache=cache::startMemcache();
+        $data=$cache->get($_key);
+        if(empty($data)){
+            $param = array(
+                'mo1'=>'1002YB',
+                'mo2'=>'7000F',
+                'mo3'=>'2100TN00',
+                'mo4'=>'2426H',
+                'mo5'=>'2420H',
+                'mo6'=>'5502BN',
+                'mo7'=>'2102TX00',
+                'mo8'=>'52518',
+                'mo9'=>'2119',
+                'mo10'=>'9001',
+                'mo11'=>'TR131',
+                'mo12'=>'FB6001',
+                );
+            $cache->set($_key,$param,0); //加入缓存
+            $data = $param;
+        }
+        return $data;
+    }
     //进入物性表搜索结果页
-    
+    public function enPhysicalRes(){
+        $this->display('wxb_search');
+    }
     //获取物性表搜索页结果数据
-    
+    public function getPhysicalRes(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $keywords = sget('keywords','s');
+        M('myapp:mainPage')->getPhysicalResData($keywords);
+    }
     //进入物性表搜索详情页
     
     //获取物性表搜索页详情数据
