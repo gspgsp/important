@@ -51,14 +51,16 @@ mini.parse();
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
 
-//增加后提交数据(保存)
+//增加客户跟进后提交数据(保存)
 function submitForm() {
 	form.validate();
   	if (form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
+	var f_time = Date.parse(new Date(o.follow_time));
+	var n_time = Date.parse(new Date(o.next_follow_time));
+	if (n_time<f_time) {alert("跟进时间不正确");return;};
 	var json = mini.encode(o);
-	form.loading("数据提交中，请稍后......");
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
 	$.post('/user/follow/ajaxSave',{data:json},function(data){
