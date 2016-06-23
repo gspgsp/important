@@ -367,9 +367,9 @@ class personalCenterAction extends homeBaseAction
     //品种->牌号联动
     public function getModelByCla(){
         $this->is_ajax=true; //指定为Ajax输出
-        if($this->user_id<=0) $this->error('账户错误');
-        $type = sget('type','i');//12345
-        $models = $this->model('product')->where('product_type='.$type)->select('model')->order('input_time desc')->limit('0,20')->getAll();
+        //if($this->user_id<=0) $this->error('账户错误');
+        $kid = sget('kid','i');//12345
+        $models = $this->db->model('product')->select('model')->where('product_type='.$kid)->order('input_time desc')->limit('0,20')->getAll();
         if(!$models)
             $this->json_output(array('err'=>2,'msg'=>'没有相关牌号结果'));
             $this->json_output(array('err'=>0,'models'=>$models));
@@ -379,10 +379,10 @@ class personalCenterAction extends homeBaseAction
         $this->is_ajax=true; //指定为Ajax输出
         if($this->user_id<=0) $this->error('账户错误');
         $model = sget('model','s');
-        $facId = $this->model('product')->select('f_id')->where('model='.$model)->order('input_time desc')->limit('0,20')->getAll();
+        $facId = $this->db->model('product')->select('f_id')->where('model='.$model)->order('input_time desc')->limit('0,20')->getAll();
         $factorys = array();
         foreach ($facId as $key => $value) {
-            $f_name = $this->model('factory')->select('f_name')->where('fid='.$value['f_id'])->getOne();
+            $f_name = $this->db->model('factory')->select('f_name')->where('fid='.$value['f_id'])->getOne();
             $factorys[$key] = $f_name;
         }
         if(!$factorys)
