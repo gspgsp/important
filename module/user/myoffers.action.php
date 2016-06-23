@@ -158,11 +158,12 @@ class myoffersAction extends userBaseAction{
 	}
 
 	/**
-	 * 
+	 * 我的供货
 	 *
      */
 	public function supply(){
 		$this->act='supply';
+
 
 		$this->display('supply');
 	}

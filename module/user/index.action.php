@@ -4,6 +4,8 @@ class indexAction extends userBaseAction{
 
 	public function init()
 	{
-		$this->forward('/user/msg');
+		$this->act='index';
+
+		$this->display('index');
 	}
 }
