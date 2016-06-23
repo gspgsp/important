@@ -22,6 +22,38 @@ function getUrlParam(name) {
     if (r!=null) return unescape(r[2]); return null; //返回参数值
 }
 
+function sendMsg() {
+    var times=60;
+    var username=$("#phone").val();
+    $.ajax({
+        type: 'POST',
+        url: "/touch/sign/sendmsg",
+        data: {'mobile':username},
+        dataType:'json',
+        success:function(res){
+            if(res.err!=0){
+                layer.open({
+                    content: res.msg,
+                    time:2
+                });
+            }else{
+                var countStart=setInterval(function(){
+                    $(".validCode").text(times--+'秒后重发');
+                    $(".validCode").attr("disabled",true);
+                    if(times<0){
+                        clearInterval(countStart);
+                        $(".validCode").text("获取验证码");
+                        $(".validCode").attr("disabled",false);
+                    }
+                },1000);
+            }
+        },
+        error:function () {
+
+        }
+    });
+}
+
 
 function statusName(status) {
     if(status==1){
@@ -65,6 +97,24 @@ function stampToDate2(date) {
     var newDate=new Date();
     newDate.setTime(date*1000);
     return newDate.toLocaleDateString();
+}
+
+function mToH(time) {
+    if(time>14400){
+        return '4';
+    }else{
+        return parseInt(time/3600);
+    }
+}
+
+function priceCompare(price) {
+    if(price>0){
+        return 'red';
+    }else if(price==0){
+        return 'orange';
+    }else if(price<0){
+        return 'green';
+    }
 }
 
 function shelve(type) {
