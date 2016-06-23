@@ -335,7 +335,7 @@
 .shopUl li:nth-of-type(odd){ border-right: 1px solid #d6d7dc;}
 .shopUl li:nth-of-type(even){ border-right: 1px solid #ffffff;}
 .shopUl li img{ width: 100%; max-width: 165px;}
-.shopUl li h3{ width: 100%; height: 28px; margin: 5px 0 0 0; color: #323232; font-size: 12px; font-weight: normal; overflow: hidden;}
+.shopUl li h3{ width: 100%; height: 28px; line-height: 15px; margin: 5px 0 0 0; color: #323232; font-size: 12px; font-weight: normal; overflow: hidden;}
 .shopUl li p{ margin: 10px 0 0 0; font-size: 11px;}
 .shopUl li span{ font-size:17px; color: #ff6600;}
 .noRecord{ text-align: center; font-size: 22px; color: #969696; line-height: 160px;}
@@ -386,7 +386,7 @@
 .proLayer p{ padding: 10px 15px; font-size: 13px; color: #646464; margin: 0;}
 .proLayer button{ width: 56px; height: 22px; border: none; font-size: 12px; border-radius: 2px; color: #ffffff;}
 .proLayer button.confirm{ background: #ff5000;}
-.layer{ width: 100%; height: 100%; -display: none; position: fixed; top: 0; left: 0; background-color:rgba(0,0,0,.5);}
+.layer{ width: 100%; height: 100%; display: none; position: fixed; top: 0; left: 0; background-color:rgba(0,0,0,.5);}
 
 .proInput{ width: 210px; height: 160px; display: none; box-sizing: border-box; padding: 10px; z-index: 10; font-size: 11px; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -80px 0 0 -105px;}
 .proInput p{ margin: 0 0 7px 0;}
