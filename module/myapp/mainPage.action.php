@@ -23,12 +23,12 @@ class mainPageAction extends homeBaseAction
     public function enTodayInfos(){
     	$this->display('info');
     }
-    //点击获取更多今日资讯
+    //点击获取今日资讯
     public function getMoreInfos(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
     	$pid=sget('pid','i',29);
-		$page = sget('page','i',0);
+		$page = sget('page','i',1);
 		$size = sget('size','i',10);
 		if(!$infos = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>0,'infos'=>$infos['data']));
 		$this->json_output(array('err'=>2,'msg'=>'没有更多相关资讯'));
@@ -432,10 +432,10 @@ class mainPageAction extends homeBaseAction
     }
     //进入供求(公海的报价和求购)
     public function enSupply(){
-
+        $this->display('supplyDemand');
     }
     //获取供求(公海的报价和求购)
     public function getSupply(){
-        
+
     }
 }
