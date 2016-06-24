@@ -159,11 +159,11 @@ class mainPageAction extends homeBaseAction
     //按报价或求购信息筛选
     public function getResByQuOPu(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        //if($this->user_id<0) $this->error('账户错误');
         $ctype = sget('ctype','i',1);//1采购 2报价
-        $page = sget('page','i','1');
+        $page = sget('page','i',1);
         $size = sget('size','i',8);
-        if(!$cdata=M('myapp:mainPage')->getCheckeddData($ctype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'筛选查找失败');
+        if(!$cdata=M('myapp:mainPage')->getCheckeddData($ctype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'筛选查找失败'));
         $this->json_output(array('err'=>0,'sdata'=>$cdata['data']));
     }
     //搜索结果的操作,下三角
@@ -200,7 +200,7 @@ class mainPageAction extends homeBaseAction
     public function getProductType(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
-        if(!$ptypes = M('myapp:mainPage')->getProductTypes()) $this->json_output(array('err'=>2,'msg'=>'获取分类失败');
+        if(!$ptypes = M('myapp:mainPage')->getProductTypes()) $this->json_output(array('err'=>2,'msg'=>'获取分类失败'));
         $this->json_output(array('err'=>0,'ptypes'=>$ptypes));
     }
     //点击进入分类详情页
@@ -212,7 +212,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
         $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5
-        if(!$typeData = M('myapp:mainPage')->getProductTypeData($protype)) $this->json_output(array('err'=>2,'msg'=>'获取分类关键字失败');
+        if(!$typeData = M('myapp:mainPage')->getProductTypeData($protype)) $this->json_output(array('err'=>2,'msg'=>'获取分类关键字失败'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
     }
     //进入三个关键字出结果
@@ -242,7 +242,7 @@ class mainPageAction extends homeBaseAction
             $products[$key]['floor_up'] = $palph;
             $products[$key]['time_al'] = $talph;
         }
-        if(empty($products)) $this->json_output(array('err'=>2,'msg'=>'获取我的关注失败');
+        if(empty($products)) $this->json_output(array('err'=>2,'msg'=>'获取我的关注失败'));
         $this->json_output(array('err'=>0,'products'=>$products));
     }
     //点击查看更多,直接调用到enMyAttention()-myAttention()
@@ -261,7 +261,7 @@ class mainPageAction extends homeBaseAction
         $otype = sget('otype','i',3);//3,默认(时间)，1，价格升序 2，价格降序
         $page = sget('page','i',1);
         $size = sget('size','i',8);
-        if(!$largrBid = M('myapp:mainPage')->getLargeBidData($otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户报价数据失败');
+        if(!$largrBid = M('myapp:mainPage')->getLargeBidData($otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户报价数据失败'));
         $this->json_output(array('err'=>0,'largrBid'=>$largrBid['data']));
     }
     //获得大户报价下三角数据
@@ -269,7 +269,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
         $id = sget('id','i');
-        if(!$newBig = M('myapp:mainPage')->getLargeBidRes($id)) $this->json_output(array('err'=>2,'msg'=>'获取大户相关数据失败');
+        if(!$newBig = M('myapp:mainPage')->getLargeBidRes($id)) $this->json_output(array('err'=>2,'msg'=>'获取大户相关数据失败'));
         $this->json_output(array('err'=>0,'newBig'=>$newBig));
     }
     //进入筛选页
@@ -280,7 +280,7 @@ class mainPageAction extends homeBaseAction
     public function getLargeChose(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
-        if(!$choseData = M('myapp:mainPage')->getLargeChoseData()) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选条件失败');
+        if(!$choseData = M('myapp:mainPage')->getLargeChoseData()) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选条件失败'));
         $this->json_output(array('err'=>0,'choseData'=>$choseData));
     }
     //获取大客户点击确定筛选结果
@@ -292,7 +292,7 @@ class mainPageAction extends homeBaseAction
         $company = sget('company','s');
         $factory = sget('factory','s');
         $address = sget('address','s');
-        if(!$choseRes = M('myapp:mainPage')->getLargeChoseRes($company,$factory,$address,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选筛选结果失败');
+        if(!$choseRes = M('myapp:mainPage')->getLargeChoseRes($company,$factory,$address,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选筛选结果失败'));
         $this->json_output(array('err'=>0,'choseRes'=>$choseRes));
     }
     /**
@@ -371,7 +371,7 @@ class mainPageAction extends homeBaseAction
         $keywords = sget('keywords','s');
         $page = sget('page','i',1);
         $size = sget('size','i',10);
-        if(!$phyData = M('myapp:mainPage')->getPhysicalResData($keywords,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取物性表搜索页失败');
+        if(!$phyData = M('myapp:mainPage')->getPhysicalResData($keywords,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取物性表搜索页失败'));
         $this->json_output(array('err'=>0,'phyData'=>$phyData['data']));
     }
     //进入物性表搜索详情页
@@ -383,7 +383,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
         $lid = sget('lid','i');
-        if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败');
+        if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
     }
     //进入资讯页
@@ -397,7 +397,7 @@ class mainPageAction extends homeBaseAction
         $pid=sget('pid','i',0);
         $page = sget('page','i',0);
         $size = sget('size','i',20);
-        if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败');
+        if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
         $this->json_output(array('err'=>0,'articleInfo'=>$articleInfo['data']));
     }
     //进入资讯详情页
@@ -409,7 +409,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
         $id=sget('id','i',0);
-        if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败');
+        if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $this->json_output(array('err'=>0,'articleDetail'=>$articleDetail));
     }
     //进入发布报价
@@ -424,13 +424,18 @@ class mainPageAction extends homeBaseAction
         $model = sget('model','s');
         $process_level =  $this->db->model('product')->select('process_type')->where('model='.$model)->limit('0,1')->getRow();
         if($process_level){
-            $this->json_output(array('err'=>0,'process_level'=>$process_level);
+            $this->json_output(array('err'=>0,'process_level'=>$process_level));
         }else{
             $this->json_output(array('err'=>2,'msg'=>'所填牌号没有加工级别,请选择'));
         }
 
     }
     //进入供求(公海的报价和求购)
-    public function en
+    public function enSupply(){
+
+    }
     //获取供求(公海的报价和求购)
+    public function getSupply(){
+        
+    }
 }
