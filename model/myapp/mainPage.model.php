@@ -11,9 +11,9 @@ class mainPageModel extends model
 	//获取今日头条、调价动态
 	public function getInfos($type){
 		if($type == 1){
-			return $this->model('info')->order('input_time desc')->limit('0,5')->getAll();
+			return $this->model('info')->select('id,title,input_time')->where("cate_id in (29,30,31,32,33)")->order('input_time desc')->limit('0,5')->getAll();
 		}elseif($type == 2){
-			return $this->model('part_shihua')->order('input_time desc')->limit('0,5')->getAll();
+			return $this->model('oil_price')->order('input_time desc')->limit('0,5')->getAll();
 		}
 	}
 	//获取所有的调价动态
@@ -34,7 +34,7 @@ class mainPageModel extends model
         if(in_array($keywords, $p_types)){
         	$keyValue = $this->_getProKey($p_types,$keywords);
         }
-		$where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}')";
+		$where="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}'";
 
             $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
@@ -316,13 +316,24 @@ class mainPageModel extends model
     }
     //获取资源库数据
     public function getResourceData($type,$page=1,$size=10){
-        if($type=1){
+        if($type==1){
             $resData = $this->model('resourcelib')->where('type=0')->page($page,$size)->order('input_time desc')->getPage();
-        }elseif ($type=2) {
+        }elseif ($type==2) {
             $resData = $this->model('resourcelib')->where('type=1')->page($page,$size)->order('input_time desc')->getPage();
         }else{
             $resData = $this->model('resourcelib')->page($page,$size)->order('input_time desc')->getPage();
         }
         return $resData;
+    }
+    //获取资源库搜索数据
+    public function getResSearchData($keywords,$type,$page,$size){
+        $where = "fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%'";
+        if($type==1){
+            $this->model('resourcelib')->where()
+        }elseif ($type==2) {
+            $this->model('resourcelib')->
+        }else{
+            $this->model('resourcelib')->
+        }
     }
 }
