@@ -317,11 +317,11 @@ class mainPageModel extends model
     //获取资源库数据
     public function getResourceData($type,$page=1,$size=10){
         if($type=1){
-            $resData = $this->model('resourcelib')->where('type=0')->page($page,$size)-> ->order('input_time desc')->getPage();
+            $resData = $this->model('resourcelib')->where('type=0')->page($page,$size)->order('input_time desc')->getPage();
         }elseif ($type=2) {
-            $resData = $this->model('resourcelib')->where('type=1')->page($page,$size)-> ->order('input_time desc')->getPage();
+            $resData = $this->model('resourcelib')->where('type=1')->page($page,$size)->order('input_time desc')->getPage();
         }else{
-            $resData = $this->model('resourcelib')->page($page,$size)-> ->order('input_time desc')->getPage();
+            $resData = $this->model('resourcelib')->page($page,$size)->order('input_time desc')->getPage();
         }
         return $resData;
     }
