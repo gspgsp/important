@@ -490,7 +490,7 @@ class mainPageAction extends homeBaseAction
         $expiry_date = sget('expiry_date','i');
         $status = sget('status','i');
         $remark = sget('remark','i');
-        $price = sget('price','i');
+        $input_time = CORE_TIME;
         $price = sget('price','i');
     }
 }
