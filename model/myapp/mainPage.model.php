@@ -327,13 +327,16 @@ class mainPageModel extends model
     }
     //获取资源库搜索数据
     public function getResSearchData($keywords,$type,$page,$size){
-        $where = "fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%'";
+        $where = " realname like '%{$keywords}%' or company like '%{$keywords}%' or content like '%{$keywords}%' ";
         if($type==1){
-            $this->model('resourcelib')->where()
+            $where.=" and type=0 ";
+            $searchData = $this->model('resourcelib')->where($where)->page($page,$size)->order('input_time desc')->getPage();
         }elseif ($type==2) {
-            $this->model('resourcelib')->
+            $where.=" and type=1 ";
+            $searchData = $this->model('resourcelib')->where($where)->page($page,$size)->order('input_time desc')->getPage();
         }else{
-            $this->model('resourcelib')->
+            $searchData = $this->model('resourcelib')->where($where)->page($page,$size)->order('input_time desc')->getPage();
         }
+        return $searchData;
     }
 }
