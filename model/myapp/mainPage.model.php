@@ -290,7 +290,16 @@ class mainPageModel extends model
         return $choseRes;
     }
     //获取物性表搜索页结果数据
-    public function getPhysicalResData($keywords){
-        $this->model('physical')->where('')
+    public function getPhysicalResData($keywords,$page=1,$size=10){
+        $phyData = $this->model('physical')
+                ->where(" name like '%$keywords%' or company like '%$keywords%' ")
+                ->page($page,$size)
+                ->order('input_time desc')
+                ->getPage();
+                return $phyData;
+    }
+    //获取物性表搜索页详情数据
+    public function getPhysicalDetailData($lid){
+        return $this->model('physical')->where('lid='.$lid)->getRow();
     }
 }
