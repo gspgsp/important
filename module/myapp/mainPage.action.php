@@ -469,6 +469,7 @@ class mainPageAction extends homeBaseAction
         $page = sget('page','i',1);
         $size = sget('size','i',10);
         $keywords = sget('keywords','s');
-        M('myapp:mainPage')->getResSearchData($keywords,$type,$page,$size);
+        if(!$searchData = M('myapp:mainPage')->getResSearchData($keywords,$type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'searchData'=>$searchData['data']));
     }
 }
