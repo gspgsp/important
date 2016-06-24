@@ -8,7 +8,7 @@ class mainPageModel extends model
 	public function __construct() {
 		parent::__construct(C('db_default'), 'info');
 	}
-	//获取今日头条、调价动态
+	//获取今日头条、原油价格
 	public function getInfos($type){
 		if($type == 1){
 			return $this->model('info')->select('id,title,input_time')->where("cate_id in (29,30,31,32,33)")->order('input_time desc')->limit('0,5')->getAll();
@@ -92,7 +92,9 @@ class mainPageModel extends model
     public function getOperateRes($p_id){
     	$opres = $this->model('purchase')->where('p_id='.$p_id)->select('id,p_id,user_id,c_id,number,unit_price,provinces,input_time')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
     	foreach ($opres as $key => $value) {
-    		$opres[$key]['provinces'] = $this->model('lib_region')->select('name')->where('id='.$opres[$key]['provinces'])->getOne();
+    		$opres[$key]['provinces'] = $this->model('lib_region')->select('name')->where('id='.$value['provinces'])->getOne();
+            $opres[$key]['company'] = $this->model('customer')->select('c_name')->where('c_id='.$value['c_id'])->getOne();
+            $opres[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d H:i:s",$value['input_time']):'-';
     	}
     	return $opres;
     }
@@ -116,7 +118,8 @@ class mainPageModel extends model
 			$chDeRes['number'] = $data['number'];
 			$chDeRes['f_name'] = $data['f_name'];
 			$chDeRes['store_house'] = $data['store_house'];
-			$chDeRes['provinces'] = $this->model('lib_region')->select('name')->where('id='.$data['provinces'])->getOne();//交货地
+			$chDeRes['provinces'] = $this->model('lib_region')->select('name')->where('id='.$data['provinces'])->getOne();//交货地,汉字型
+            $chDeRes['delivery_place'] = $data['provinces'];//交货地,数字型
 			$chDeRes['c_name'] = M('user:customer')->getCinfoById($data['c_id'])['c_name'];//公司名
 			$chDeRes['input_time'] = $data['input_time'] >1000 ? date("Y-m-d",$data['input_time']):'-';//发布时间
 			$chDeRes['delivertime'] = $data['cargo_type'] ==1 ? '现货':'期货';//交货时间
@@ -132,7 +135,8 @@ class mainPageModel extends model
 			$chDeRes['number'] = $data['number'];
 			$chDeRes['f_name'] = $data['f_name'];
 			$chDeRes['store_house'] = $data['store_house'];
-			$chDeRes['provinces'] = $this->model('lib_region')->select('name')->where('id='.$data['provinces'])->getOne();//交货地
+			$chDeRes['provinces'] = $this->model('lib_region')->select('name')->where('id='.$data['provinces'])->getOne();//交货地,汉字型
+            $chDeRes['delivery_place'] = $data['provinces'];//交货地,数字型
 			$chDeRes['delivertime'] = $data['cargo_type'] ==1 ? '现货':'期货';//采购方式
 			//我的信息
 			$chDeRes['con_name'] = $contact['name'];
