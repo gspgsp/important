@@ -42,7 +42,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
     	$id=sget('id','i',0);
-        if(!$detInf=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>1,'msg'=>'没有该条资讯详情'));
+        if(!$detInf=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'没有该条资讯详情'));
         $this->json_output(array('err'=>0,'detInf'=>$detInf));
     }
     //进入调价动态
@@ -459,5 +459,16 @@ class mainPageAction extends homeBaseAction
         $size = sget('size','i',10);
         if(!$resData = M('myapp:mainPage')->getResourceData($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'resData'=>$resData['data']));
+    }
+    //发布资源库的方法和pc相同/resource/index/release
+    //获取资源库搜索数据
+    public function getResSearch(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        $keywords = sget('keywords','s');
+        M('myapp:mainPage')->getResSearchData($keywords,$type,$page,$size);
     }
 }
