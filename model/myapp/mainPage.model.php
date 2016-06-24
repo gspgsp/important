@@ -43,12 +43,12 @@ class mainPageModel extends model
 			return $data;
 	}
 	//获取当前类型的键
-    private function _getProKey($p_types,$keywords){
-    	foreach ($p_types as $key => $value) {
-    		if($value == strtoupper($keywords))
-    			return $key;
-    	}
-    }
+    // private function _getProKey($p_types,$keywords){
+    // 	foreach ($p_types as $key => $value) {
+    // 		if($value == strtoupper($keywords))
+    // 			return $key;
+    // 	}
+    // }
     //获取排序后的数据
     public function getSortedData($stype,$page=1,$size=8){
     	if($stype == 1){
@@ -244,7 +244,7 @@ class mainPageModel extends model
     public function getLargeBidRes($id){
         $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
         $newBig = array();
-        $data = $this->model('big_offers')->where("model=$bigOff['model'] and factory=$bigOff['factory']")->order('input_time desc')->limit('0,2')->getAll();
+        $data = $this->model('big_offers')->where("model='{$bigOff['model']}' and factory='{$bigOff['factory']}'")->order('input_time desc')->limit('0,2')->getAll();
         foreach ($data as $key => $value) {
             $bigCli = $this->model('big_client')->where('id='.$value['cid'])->select('gsname,phone')->getRow();
             $newBig[$key]['gsname'] = $bigCli['gsname'];
