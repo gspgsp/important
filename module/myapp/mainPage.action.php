@@ -15,7 +15,7 @@ class mainPageAction extends homeBaseAction
     public function getMainPage(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
-    	$type = sget('type','i',1);//type为1:今日头条,2:调价动态
+    	$type = sget('type','i',1);//type为1:今日头条,2:原油价格
     	if($infos = M('myapp:mainPage')->getInfos($type)) $this->json_output(array('err'=>0,'infos'=>$infos));
     	$this->json_output(array('err'=>2,'msg'=>'没有相关资讯'));
     }
@@ -85,22 +85,22 @@ class mainPageAction extends homeBaseAction
 		$data=$cache->get($_key);
 		if(empty($data)){
 			$param = array(
-				'ki1'=>'HDPE',
-				'ki2'=>'LDPE',
-				'ki3'=>'LLDPE',
-				'ki4'=>'PP',
-				'ki5'=>'PVC',
-				'mo1'=>'C100V',
-				'mo2'=>'E2059',
-				'mo3'=>'K221',
-				'mo4'=>'MP7151',
-				'mo5'=>'P70F',
-				'mo6'=>'S3160',
-				'fa1'=>'上海金菲',
-				'fa2'=>'上海石化',
-				'fa3'=>'中石化青岛',
-				'fa4'=>'中石油广西',
-				'fa5'=>'沙特APPC',
+				'HDPE',
+				'LDPE',
+				'LLDPE',
+				'PP',
+				'PVC',
+				'C100V',
+				'E2059',
+				'K221',
+				'MP7151',
+				'P70F',
+				'S3160',
+				'上海金菲',
+				'上海石化',
+				'中石化青岛',
+				'中石油广西',
+				'沙特APPC',
 				);
 			$cache->set($_key,$param,0); //加入缓存
 			$data = $param;
@@ -446,7 +446,7 @@ class mainPageAction extends homeBaseAction
 
     }
     //供求中的查看和委托和搜索结果页中的方法相同
-    //供求中的求购信息下三角-我要供货
+    //供求中的求购信息下三角-我要供货和搜索结果页中的委托界面方法相同
     //进入资源库
     public function enResource(){
         $this->display('appResource');
@@ -472,5 +472,25 @@ class mainPageAction extends homeBaseAction
         $keywords = sget('keywords','s');
         if(!$searchData = M('myapp:mainPage')->getResSearchData($keywords,$type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'searchData'=>$searchData['data']));
+    }
+    //点击委托洽谈保存提交数据
+    public function savaComission(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $p_id = sget('p_id','i');
+        $sn = 12222222;
+        $user_id = $this->user_id;
+        $c_id = sget('c_id','i');
+        $number = sget('number','i');
+        $price = sget('price','f');
+        $delivery_place = sget('delivery_place','i');
+        $delivery_date = sget('delivery_date','i');//?????
+        $customer_manager = sget('customer_manager','i');
+        $ship_type = sget('ship_type','i');
+        $expiry_date = sget('expiry_date','i');
+        $status = sget('status','i');
+        $remark = sget('remark','i');
+        $price = sget('price','i');
+        $price = sget('price','i');
     }
 }
