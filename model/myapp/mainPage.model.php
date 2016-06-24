@@ -18,7 +18,7 @@ class mainPageModel extends model
 	}
 	//获取所有的调价动态
 	public function getAllPriceFloor($page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
-		$list = $this->model('part_shihua')
+		$list = $this->model('oil_price')
 			->page($page,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
@@ -301,5 +301,14 @@ class mainPageModel extends model
     //获取物性表搜索页详情数据
     public function getPhysicalDetailData($lid){
         return $this->model('physical')->where('lid='.$lid)->getRow();
+    }
+    //获取供求(公海的报价和求购) 1求(采)购 2报价
+    public function getPublicQuoPur($type,$page=1,$size=10){
+        $pubQuoPur = $this->model('purchase')
+                    ->where('type='.$type)
+                    ->page($page,$size)
+                    ->order('input_time desc')
+                    ->getPage();
+                    return $pubQuoPur;
     }
 }
