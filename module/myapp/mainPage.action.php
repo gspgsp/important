@@ -82,6 +82,7 @@ class mainPageAction extends homeBaseAction
     private function _hotSearch(){
     	$_key='hotWords';
 		$cache=cache::startMemcache();
+        $cache->delete($_key);
 		$data=$cache->get($_key);
 		if(empty($data)){
 			$param = array(
@@ -491,6 +492,6 @@ class mainPageAction extends homeBaseAction
         $status = sget('status','i');
         $remark = sget('remark','i');
         $input_time = CORE_TIME;
-        $price = sget('price','i');
+        $chk_time = sget('chk_time','i');
     }
 }
