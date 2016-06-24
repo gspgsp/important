@@ -23,7 +23,7 @@ class mainPageModel extends model
 			->order("$sortField $sortOrder")
 			->getPage();
             foreach ($list['data'] as $key => $value) {
-                $list['data'][$key]['type'] = $value['type'] == 1? 'WTI':'BRENT';
+                $list['data'][$key]['type'] = $value['type'] == 0? 'WTI':'BRENT';
             }
 		return $list;
 	}
@@ -317,11 +317,12 @@ class mainPageModel extends model
     //获取资源库数据
     public function getResourceData($type,$page=1,$size=10){
         if($type=1){
-
+            $resData = $this->model('resourcelib')->where('type=0')->page($page,$size)-> ->order('input_time desc')->getPage();
         }elseif ($type=2) {
-            # code...
+            $resData = $this->model('resourcelib')->where('type=1')->page($page,$size)-> ->order('input_time desc')->getPage();
         }else{
-
+            $resData = $this->model('resourcelib')->page($page,$size)-> ->order('input_time desc')->getPage();
         }
+        return $resData;
     }
 }
