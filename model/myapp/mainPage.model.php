@@ -13,7 +13,11 @@ class mainPageModel extends model
 		if($type == 1){
 			return $this->model('info')->select('id,title,input_time')->where("cate_id in (29,30,31,32,33)")->order('input_time desc')->limit('0,5')->getAll();
 		}elseif($type == 2){
-			return $this->model('oil_price')->order('input_time desc')->limit('0,5')->getAll();
+            $oils = $this->model('oil_price')->order('input_time desc')->limit('0,5')->getAll();
+            foreach ($oils as $key => $value) {
+                $oils[$key]['type'] = $value['type']==0 ?'WTI':'BRENT';
+            }
+			return $oils;
 		}
 	}
 	//获取所有的调价动态
@@ -86,7 +90,7 @@ class mainPageModel extends model
     }
     //搜索结果列表的操作按钮，下三角
     public function getOperateRes($p_id){
-    	$opres = $this->model('purchase')->where('p_id='.$p_id)->select('id,p_id,user_id,c_id,number,unit_price,provinces')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
+    	$opres = $this->model('purchase')->where('p_id='.$p_id)->select('id,p_id,user_id,c_id,number,unit_price,provinces,input_time')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
     	foreach ($opres as $key => $value) {
     		$opres[$key]['provinces'] = $this->model('lib_region')->select('name')->where('id='.$opres[$key]['provinces'])->getOne();
     	}
