@@ -438,8 +438,26 @@ class mainPageAction extends homeBaseAction
     public function getSupply(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
-        $type1 = sget('type1','i',1);//1求(采)购
-        $type2 = sget('type1','i',2);//2报价
-        $pubQuo = M('myapp:mainPage')->getPublicQuoPur();
+        $type = sget('type','i',2);//1求(采)购 2报价(供应)
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        if(!$pubQuoPur = M('myapp:mainPage')->getPublicQuoPur($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'pubQuoPur'=>$pubQuoPur['data']));
+
+    }
+    //供求中的查看和委托和搜索结果页中的方法相同
+    //进入资源库
+    public function enResource(){
+        $this->display('appResource');
+    }
+    //获取资源库数据
+    public function getResource(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        if(!$resData = M('myapp:mainPage')->getResourceData($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'resData'=>$resData['data']));
     }
 }
