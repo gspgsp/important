@@ -412,4 +412,25 @@ class mainPageAction extends homeBaseAction
         if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败');
         $this->json_output(array('err'=>0,'articleDetail'=>$articleDetail));
     }
+    //进入发布报价
+    public function enReleaseSale(){
+        $this->display('releaseSale');
+    }
+    //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub
+    //判断发布报价时候牌号是否存在，存在直接却，不存在自己选择一个
+    public function checkReleaseModel(){
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $model = sget('model','s');
+        $process_level =  $this->db->model('product')->select('process_type')->where('model='.$model)->limit('0,1')->getRow();
+        if($process_level){
+            $this->json_output(array('err'=>0,'process_level'=>$process_level);
+        }else{
+            $this->json_output(array('err'=>2,'msg'=>'所填牌号没有加工级别,请选择'));
+        }
+
+    }
+    //进入供求(公海的报价和求购)
+    public function en
+    //获取供求(公海的报价和求购)
 }
