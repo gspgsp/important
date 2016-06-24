@@ -30,4 +30,33 @@ class salebuyModel extends model{
 		$result = $this->select("sum(number) as total")->where("`status` = $status and `p_id` = $p_id")->getOne();
 		return $result>0 ? $result : 0;
 	}
+
+	/**
+	 * 根据条件获取我的供货
+	 * @param int $where
+	 * @param int $page
+	 * @param int $pageSize
+     */
+	public function getPurPage($where, $page, $pageSize){
+
+		return $this->from('sale_buy as s')
+
+			->join('purchase as pur','pur.id=s.p_id')
+			->join('customer as c','pur.c_id=c.c_id')
+			->join('product as p','pur.p_id=p.id')
+			->join('factory as f','p.f_id=f.fid')
+			->join('lib_region reg','s.delivery_place=reg.id')
+			->leftjoin('union_order as u','u.p_sale_id=s.id')
+			->where($where)
+			->order('s.update_time desc')
+			->page($page,$pageSize)
+			->select('s.id,s.number,s.price,p.model,f.f_name,s.delivery_date,s.status,p.product_type,p.process_type,c.c_name,u.id as oid,pur.cargo_type,reg.name as city')
+//			->select('c.`c_name`,p.`product_type`,p.`model`,f.`f_name`,p.`process_type`,
+//s.`number`,s.`price`,pur.`store_house`,reg.`name`,pur.`cargo_type`,s.`delivery_date`,
+//s.status,s.`update_time`,s.`remark`,u.id as oid')
+			->getPage();
+
+
+	}
+
 }
