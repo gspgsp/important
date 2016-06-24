@@ -446,6 +446,7 @@ class mainPageAction extends homeBaseAction
 
     }
     //供求中的查看和委托和搜索结果页中的方法相同
+    //供求中的求购信息下三角-我要供货
     //进入资源库
     public function enResource(){
         $this->display('appResource');
