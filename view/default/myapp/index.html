@@ -122,6 +122,9 @@
 						interval: 3000
 					});
 			$(function () {
+				$(".appSearch").on("click",function () {
+					window.location.href="/myapp/mainPage/enMainSearch";
+				});
 				
 				$(".appInfo span").on("click",function () {
 					var index=$(this).index();
