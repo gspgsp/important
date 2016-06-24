@@ -394,9 +394,9 @@ class mainPageAction extends homeBaseAction
     public function getArticleInfo(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
-        $pid=sget('pid','i',0);
-        $page = sget('page','i',0);
-        $size = sget('size','i',20);
+        $pid=sget('pid','i',29);
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
         if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
         $this->json_output(array('err'=>0,'articleInfo'=>$articleInfo['data']));
     }
@@ -436,6 +436,10 @@ class mainPageAction extends homeBaseAction
     }
     //获取供求(公海的报价和求购)
     public function getSupply(){
-
+        $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
+        $type1 = sget('type1','i',1);//1求(采)购
+        $type2 = sget('type1','i',2);//2报价
+        $pubQuo = M('myapp:mainPage')->getPublicQuoPur();
     }
 }
