@@ -319,7 +319,7 @@ return array(
 	//交易公司账户
 	'company_account'=>array(
 		1=>'中晨',
-		2=>'梓晨',
+		2=>'梓辰',
 	),
 
 	//报价上架下状态
