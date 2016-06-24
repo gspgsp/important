@@ -22,6 +22,9 @@ class mainPageModel extends model
 			->page($page,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
+            foreach ($list['data'] as $key => $value) {
+                $list['data'][$key]['type'] = $value['type'] == 1? 'WTI':'BRENT';
+            }
 		return $list;
 	}
 	//获取搜索结果数据(4种方式)
@@ -310,5 +313,15 @@ class mainPageModel extends model
                     ->order('input_time desc')
                     ->getPage();
                     return $pubQuoPur;
+    }
+    //获取资源库数据
+    public function getResourceData($type,$page=1,$size=10){
+        if($type=1){
+
+        }elseif ($type=2) {
+            # code...
+        }else{
+
+        }
     }
 }
