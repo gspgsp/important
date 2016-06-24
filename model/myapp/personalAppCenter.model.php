@@ -9,11 +9,11 @@ class personalAppCenterModel extends model
 	}
 	//获取我的采购或报价单的数量(1采购 2报价)
 	public function getMyQuotationCount($user_id,$type){
-		return count($this->model('purchase')->where('user_id=$user_id and type=$type')->getAll());
+		return count($this->model('purchase')->where("user_id=$user_id and type=$type")->getAll());
 	}
 	//获取我的关注的数量(产品)
 	public function getMyAttentionCount($user_id){
-		return count($this->model('concerned_product')->where('user_id=$user_id')->getAll());
+		return count($this->model('concerned_product')->where("user_id=$user_id")->getAll());
 	}
 	//获取我的交易员
 	public function getMyCusManager($user_id){
