@@ -124,7 +124,8 @@ class collectionAction extends adminBaseAction
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 			'collection_status'=>2,
-			);		
+			);	
+			//  [oid] => 504    [c_price] => 1    [total_price] => 25    [o_sn] => PO2016062410001519390086	
             //退款可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
  		$update=array_merge($arr[0],$arr2);
 		$this->db->startTrans();//开启事务

@@ -7,6 +7,9 @@
 		<input class="mini-hidden" name="uncollected_price"  value="{$uncollected_price}"/>
 		<input class="mini-hidden" name="c_id"  value="{$c_id}"/>
 		<input class="mini-hidden" name="o_id"  value="{$o_id}"/>
+		<!-- 收付款审核要用的字段 -->
+		<input class="mini-hidden" name="finance"  value="{$finance}"/>
+		<input class="mini-hidden" name="id"  value="{$id}"/>
 
 			<tr>
 				{if $type =='1'}
@@ -22,21 +25,35 @@
 			</tr>
 			<tr>
 				<td>{if $type =='1'}收款日期{else}付款日期{/if}<span style="color:red">*</span></td>
-				<td><input name="payment_time" class="mini-datepicker" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
+				<td><input name="payment_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
 			<tr>
 				<td>合同金额</td>
 				<td><input name="total_price" class="mini-textbox" maxlength="12" {if $total_price}value="{$total_price}"{else}value="{$price}"{/if} style="width:150px;" allowInput="false"/></td>
-			</tr>			
+			</tr>
+<!-- 财务审核显示本次交易金额 -->
+			{if $finance}
+			<tr>
+				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
+				<td><input name="uncollected_price" class="mini-textbox" maxlength="12" value="{$u_price}" style="width:150px;" allowInput="false"/></td>
+			</tr>
+			<tr>
+				<td>{if $type =='1'}销售收款金额{else}销售付款金额{/if}<span style="color:red">*</span></td>
+				<td><input name="collected_price" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true"/></td>
+			</tr>
+
+
+			{else}
 			<tr>
 				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
 				<td><input  class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" allowInput="false"/></td>
 			</tr>
-			
 			<tr>
 				<td>{if $type =='1'}收款金额{else}付款金额{/if}<span style="color:red">*</span></td>
 				<td><input name="collected_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" required="true"/></td>
 			</tr>
+			{/if}
+			
 			<tr>
 				<td>交易员</td>
 				<td><input name="input_admin" class="mini-textbox" maxlength="12" value="{$input_admin}" style="width:150px;"allowInput="false"/></td>
@@ -45,10 +62,13 @@
 				<td>交易方式<span style="color:red">*</span></td>
 				<td><input name="pay_method" class="mini-combobox" data='{:setMiniConfig|$pay_method}' textField="name" value="{$p_method}"valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
+
+			{if $finance}<!-- 财务审核通过显示交易账户 -->
 			<tr>
 				<td>交易账户<span style="color:red">*</span></td>
 				<td><input name="account" class="mini-combobox" data='{:setMiniConfig|$company_account}' textField="name" valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
+			{else}
 			<tr>
 				<td>附件</td>
 				<td>
@@ -56,6 +76,8 @@
 					<input id="upfileId" type="file" name="upFile" style="width:105px" onChange="fileUpload();">
 				</td>
 			</tr>
+			{/if}
+			
 			<tr>
 				<td>备注</td>
 				<td><input name="remark" class="mini-textarea" style="width:300px; height:50px;"/></td>
@@ -63,7 +85,9 @@
 			<tr>
 			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
 				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
+				{if !$finance}
 				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				{/if}
 				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</td>
 			</tr>
@@ -83,7 +107,13 @@ function submitForm() {
   	if (form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
-	if(o.collected_price <= 0){
+	if (o.uncollected_price=='') {
+		$m = o.collected_price-o.total_price;
+	}else{
+		$m = o.collected_price-o.uncollected_price;
+	}
+	
+	if(o.collected_price <= 0 || $m>0){
 		alert("请输入正确的数值");
 		return;
 	}
