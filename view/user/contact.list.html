@@ -8,12 +8,6 @@
 			</td>
 			<td style="float:right;">
 			<form id="soform">
-				<select name="sTime">
-					<option value="input_time">创建时间</option>
-					<option value="update_time">更新时间</option>
-				</select>
-				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
-				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
 				<select name="status" id="soStatus">
 					<option value="" selected="selected">=状态=</option>
 					{html_options options=$status}
@@ -26,7 +20,13 @@
 					<option value="email">邮箱</option>
 
 				</select> 
+				<select name="sTime">
+					<option value="input_time">创建时间</option>
+					<option value="update_time">更新时间</option>
+				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 				<span id="searchMsg"></span>
 				</form>
@@ -36,14 +36,13 @@
 </div>
 
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" 
 		url="/user/contact/init?action=grid" onrowdblclick="onRowDblClick" 
 		showFilterRow="true" idField="id" multiSelect="true" allowCellWrap="true" allowCellSelect="true" allowCellEdit="true"
 		>
 		<div property="columns">    
 			<div type="checkcolumn"></div>
-			<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
-			<div field="name" width="50" headerAlign="center" align="center">联系人</div>
+			<div field="name" width="50" headerAlign="center" align="center" renderer="onLoadHandle">联系人</div>
 			<div field="c_id" width="80" headerAlign="center" align="center">公司</div>
 			<div field="sex" width="60" headerAlign="center"  align="center">性别</div>
 			<div field="tel" width="80" headerAlign="center" align="center">联系电话</div>
@@ -119,8 +118,8 @@ function add(id,ctype){
 }
 //编辑联系人
 function onLoadHandle(e) {
-	var record = e.record,uid=record.user_id, s='';
-	s += '<a href="javascript:viewContactInfo('+uid+')">'+uid+'</a> ';
+	var record = e.record,uid=record.user_id, name=record.name, s='';
+	s += '<a href="javascript:viewContactInfo('+uid+')">'+name+'</a> ';
 
 	return s;
 }

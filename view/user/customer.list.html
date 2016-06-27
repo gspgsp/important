@@ -56,14 +56,13 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
 		url="/user/customer/init?action=grid&do={$doact}&isPublic={$isPublic}{if $isSecurity eq '1'}&isSecurity={$isSecurity}{/if}" idField="user_id"  onrowdblclick="onRowDblClick" {if $choose eq '1'}multiSelect="false"{/if}
 		multiSelect="true" {if $doact neq 'search'}allowCellEdit="true" allowCellSelect="true"{/if}
 		>
 		<div property="columns">    
 			<div type="checkcolumn"></div>
-			{if $doact neq 'search'}<div field="c_id" width="25" headerAlign="center"  align="center" renderer="onLoadHandle">CID</div>{/if}
-			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center">客户名字</div>
+			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
 			<div field="chanel" width="40" headerAlign="center" align="center">渠道</div>
 			<div field="type" width="30" headerAlign="center" align="center">客户类型</div>
 			<div field="level" width="40" headerAlign="center" align="center">级别</div>
@@ -155,8 +154,8 @@ mini.get(c_id).setValue(cid)
 
 //编辑联系人
 function onLoadHandle(e) {
-	var record = e.record,uid=record.c_id, s='';
-	s += '<a href="javascript:viewCinfo('+uid+')">'+uid+'</a> ';
+	var record = e.record,uid=record.c_id, c_name=record.c_name, s='';
+	s += '<a href="javascript:viewCinfo('+uid+')">'+c_name+'</a> ';
 	return s;
 }
 
@@ -167,12 +166,30 @@ function onLoadFllow(e) {
 		s += '<a href="javascript:allotO('+cid+')">分配</a>';
 	}else{
 		if(customer_manager !=''){
-			s += '<a href="javascript:viewFinfo('+cid+')">跟进</a>&nbsp;|&nbsp;<a href="javascript:allotO('+cid+')">更改交易员</a>';
+			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>&nbsp;|&nbsp;<a href="javascript:removeRow('+cid+')">删</a>&nbsp;|&nbsp;<a href="javascript:onEdit()">改</a>&nbsp;|&nbsp;<a href="javascript:allotO('+cid+')">回收</a>';
 		}
 	}
 
 	return s;
 }
+
+//删除数据
+function removeRow(cid) {
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/customer/remove',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+
 //打开跟进客户信息页面
 function viewFinfo(c_id){
 	mini.open({

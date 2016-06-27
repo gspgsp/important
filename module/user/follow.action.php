@@ -27,7 +27,7 @@ class followAction extends adminBaseAction {
 				$contracts = arrayKeyValues(M('user:customerContact')->getListByCid($id),'user_id','name');
 				$this->assign('arr',$contracts);
 			}
-		
+		$this->assign('next_follow',time()+3600*24*7);
 		$this->assign('c_id',$id);
 		$this->display('follow.add.html');
 	}

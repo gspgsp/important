@@ -34,7 +34,7 @@ class contactAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" chanel = 5 ";
+		$where=" chanel = 5 and status != 9 ";
 		$c_id=sget('c_id','i',0);
 		if($c_id !=0)  $where.=" and `c_id` =".$c_id;
 		//筛选状态
@@ -89,7 +89,7 @@ class contactAction extends adminBaseAction {
 				}
 			}
 		}
-		$result=$this->db->where("user_id in ($ids)")->delete();
+		$result=$this->db->where("user_id in ($ids)")->update(array('status'=>9));
 		if($result){
 			$this->success('操作成功');
 		}else{

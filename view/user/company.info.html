@@ -11,20 +11,20 @@
           <tr>
             <td>客户名称：</td>
             <td>
-              <input name="c_name" class="mini-textbox" style="width:250px;" maxlength="11" required="true" value="{$user.c_name}"/>
+              <input name="c_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.c_name}"/>
             </td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td>法人姓名：</td>
-            <td><input name="legal_person" class="mini-textbox" style="width:70px;" maxlength="6" required="true" value="{$user.legal_person}"/></td>
+            <td><input name="legal_person" class="mini-textbox" style="width:70px;" maxlength="6"  value="{$user.legal_person}"/></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td>法人身份证：</td>
-            <td><input name="legal_idcard" class="mini-textbox" style="width:250px;" onvalidation="onIDCardsValidation" required="true" value="{$user.legal_idcard}"/></td>
+            <td><input name="legal_idcard" class="mini-textbox" style="width:250px;" onvalidation="onIDCardsValidation"  value="{$user.legal_idcard}"/></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td>所需牌号：</td>
-            <td><input name="need_product" class="mini-textbox" style="width:250px;" required="true" value="{$user.need_product}"/></td>
+            <td><input name="need_product" class="mini-textbox" style="width:250px;"  value="{$user.need_product}"/></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -48,17 +48,17 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
-          <tr>
+       <!--    <tr>
             <td>邮政编码：</td>
             <td>
-              <input name="zip" class="mini-textbox" value="{$user.zip}" style="width:100px;" maxlength="6" required="true" vtype="zip"/>
+              <input name="zip" class="mini-textbox" value="{$user.zip}" style="width:100px;" maxlength="6"  vtype="zip"/>
             </td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-          </tr>
+          </tr> -->
           <tr>
             <td>成立日期：</td>
-            <td><input  class="mini-datepicker"  name="fund_date" required="true" value="{$user.fund_date}"/>
+            <td><input  class="mini-datepicker"  name="fund_date" value="{$user.fund_date}"/>
             </td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -83,16 +83,16 @@
           <caption><strong>扩展信息</strong></caption>
           <tr>
             <td>客户类型：</td>
-            <td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}' required="true" textfield="name" valuefield="id"/></td>
+            <td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}'  textfield="name" valuefield="id"/></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
-          <tr>
+        <!--   <tr>
             <td>客户级别：</td>
-            <td><input name="level" class="mini-combobox" style="width:150px;" value="{$user.level}" data='{:setMiniConfig|$level}' required="true" textfield="name" valuefield="id"/></td>
+            <td><input name="level" class="mini-combobox" style="width:150px;" value="{$user.level}" data='{:setMiniConfig|$level}'  textfield="name" valuefield="id"/></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-          </tr>
+          </tr> -->
           <tr>
             <td>客户渠道：</td>
             <td><input name="chanel" class="mini-combobox" style="width:150px;" value="{$user.chanel}" data='{:setMiniConfig|$chanel}' required="true" textfield="name" valuefield="id"/></td>
@@ -131,7 +131,7 @@
           </tr>
           <tr>
             <td>信用等级：</td>
-            <td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' required="true" textfield="name" valuefield="id" value="{$user.credit_level}"/>
+            <td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' textfield="name" valuefield="id" value="{$user.credit_level}"/>
             </td>
             <td>附件地址：</td>  
             <td>
@@ -164,17 +164,17 @@
                   <td style="width:80px;">手机：</td>
                   <td style="width:210px;"><input name="info_mobile" class="mini-textbox" maxlength="11" value="{$info_ext.mobile}" style="width:150px;" required="true" onvalidation="onValidMobile"/></td>
                   <td>电话：</td>
-                  <td><input name="info_tel" class="mini-textbox" style="width:150px;" required="true"  value="{$info_ext.tel}" vtype="rangeLength:6,14"/></td>
+                  <td><input name="info_tel" class="mini-textbox" style="width:150px;"  value="{$info_ext.tel}" vtype="rangeLength:6,14"/></td>
                 </tr>
                 <tr>
                   <td style="width:80px;">QQ号：</td>
                   <td style="width:210px;"><input name="info_qq" class="mini-textbox" maxlength="12" value="{$info_ext.qq}" style="width:150px;"/></td>
                   <td>传真：</td>
-                  <td><input name="info_fax" class="mini-textbox" style="width:150px;" value="{$info_ext.fax}" required="true" vtype="rangeLength:6,14"/></td>
+                  <td><input name="info_fax" class="mini-textbox" style="width:150px;" value="{$info_ext.fax}"  vtype="rangeLength:6,14"/></td>
                 </tr>
                 <tr>
                   <td>邮件：</td>
-                  <td><input name="info_email" class="mini-textbox" style="width:150px;"  value="{$info_ext.email}" required="true" vtype="email"/></td>
+                  <td><input name="info_email" class="mini-textbox" style="width:150px;"  value="{$info_ext.email}" vtype="email"/></td>
                   <td></td>
                   <td></td>
                 </tr>

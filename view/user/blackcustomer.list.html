@@ -46,8 +46,7 @@
 		url="/user/blackcustomer/init?action=grid" idField="user_id" multiSelect="true" allowCellEdit="true" allowCellSelect="true">
 		<div property="columns">    
 			<div type="checkcolumn"></div>
-			<div field="c_id" width="25" headerAlign="center"  align="center" renderer="onLoadHandle">CID</div>
-			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center">客户名字</div>
+			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
 			<div field="chanel" width="40" headerAlign="center" align="center">渠道</div>
 			<div field="type" width="30" headerAlign="center" align="center">客户类型</div>
 			<div field="level" width="40" headerAlign="center" align="center">级别</div>
@@ -94,7 +93,11 @@ function identificationStatus(e) {
 	return $("#soidentification").find("option[value="+record+"]").text();
 }
 
-
+function onLoadHandle(e) {
+	var record = e.record,uid=record.c_id, c_name=record.c_name, s='';
+	s += '<a href="javascript:viewCinfo('+uid+')">'+c_name+'</a> ';
+	return s;
+}
 //筛选数据
 function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);

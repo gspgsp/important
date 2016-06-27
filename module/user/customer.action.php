@@ -64,7 +64,7 @@ class customerAction extends adminBaseAction {
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','c_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
-		$where = '`status` != 9';
+		$where = ' `status` != 9 ';
 		$where .= $this->public == 0 ? ' and `customer_manager` != 0 ' : ' and `customer_manager` = 0 ';
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
@@ -267,7 +267,33 @@ class customerAction extends adminBaseAction {
 		}
 		$this->success('操作成功');
 	}
-
+	/**
+	 * Ajax删除节点s
+	 * @access public 
+	 */
+	public function remove(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$data = explode(',',$ids);
+		if(is_array($data)){
+			foreach ($data as $k => $v) {
+				$res = M('user:customer')->getColByName($v,"c_id","c_id");
+				if($res>0){
+					//删除联系人
+					$this->db->model('customer_contact')->where("`c_id`=$v")->update(array('status'=>9));
+				}
+			}
+		}
+		$result=$this->db->model('customer')->where("c_id in ($ids)")->update(array('status'=>9));
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
+	}
 	//分配公海客户
 	function allotCustomer(){
 		$this->is_ajax=true; //指定为Ajax输出
