@@ -150,7 +150,6 @@ class orderAction extends adminBaseAction {
 				$order_sn='SO'.genOrderSn();
 			}else{
 				$order_sn='PO'.genOrderSn();
-				$this->assign('purchase_type','2'); //直接新增的是备货采购 
 			}
 			$this->assign('input_admin',$_SESSION['name']); //用于把
 			$this->assign('order_sn',$order_sn);
@@ -198,8 +197,11 @@ class orderAction extends adminBaseAction {
 			$value['time_price']=$value['number']*$value['unit_price'];
 			$value['require_number']=$value['number'];
 		}
+
 		if($info['c_id']>0) $info['c_name'] = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
+		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
+		$info['delivery_time']=date("Y-m-d",time());  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
@@ -218,15 +220,8 @@ class orderAction extends adminBaseAction {
 		// p($data);
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
-		if($data['transport_type'] == '1') {
-			$data['delivery_time']=strtotime($data['delivery_time']);
-			$data['pickup_time']=$data['delivery_time'];
-			$data['pickup_location']=$data['delivery_location'];
-		}else{
-			$data['pickup_time']=strtotime($data['pickup_time']);
-			$data['delivery_time']=$data['pickup_time'];
-			$data['delivery_location']=$data['pickup_location'];
-		}
+		$data['pickup_time']=strtotime($data['pickup_time']);
+		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['total_price']=$data['price'];
 		$data['total_num']=$data['num'];
@@ -305,6 +300,7 @@ class orderAction extends adminBaseAction {
 		
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
+		//$c_name    = M('user:customer')->getColByName($data[0][c_id]);//获取公司名
 		$c_info    = M('user:customer')->getCinfoById($data[0][c_id]);//获取公司所有信息
 		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
 		$username  = $user_name[username];
@@ -327,9 +323,6 @@ class orderAction extends adminBaseAction {
 
 		//获取是开票还是收付款
 		$invoice=sget('invoice','i');
-		//获取是不是财务审核
-		$finance=sget('finance','i');
-		//p($finance);die;
 		if($invoice==1){
 			//发送开票公司信息
 			$this->assign('tax_id',$c_info['tax_id']);
@@ -348,25 +341,11 @@ class orderAction extends adminBaseAction {
 			$this->display('billing.add.html');
 			
 		}else{
-			if ($finance ==1 ) {
-				//获取要审核的收付款的id，传送出信息
-				$id = sget('id','i',0);
-				$this->assign('finance',$finance);
-				$this->assign('id',$id);
-
-				$res = M('product:collection')->where('id='.$id)->getAll();
-            	if($res){
-            		$un_price = $res[0]['collected_price']+$res[0]['uncollected_price'];
-					$this->assign('c_price',$res[0]['collected_price']);
-					$this->assign('u_price',$un_price);
-				}
-			}else{
-				//获取最后一条收付款信息	
-				$res = M('product:collection')->getLastInfo($name='o_id',$value=$data[0][o_id]);
-				if($res){
-					$this->assign('total_price',$res[0]['total_price']);
-					$this->assign('uncollected_price',$res[0]['uncollected_price']);
-				}
+			//获取最后一条收付款信息	
+			$res = M('product:collection')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+			if($res){
+				$this->assign('total_price',$res[0]['total_price']);
+				$this->assign('uncollected_price',$res[0]['uncollected_price']);
 			}
 			$this->display('collection.add.html');
 		}
@@ -378,7 +357,6 @@ class orderAction extends adminBaseAction {
 	*/
 	public function ajaxSave(){
 		$data    = sdata();
-		//p($data);die;
 		$silling = sget('do','i');
 		if($silling == 1){
 			//保存开票信息		
@@ -411,7 +389,6 @@ class orderAction extends adminBaseAction {
 			}
 
 		}else{
-
 			//保存收付款相关信息
 			if(empty($data['uncollected_price'])){
 				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
@@ -421,36 +398,28 @@ class orderAction extends adminBaseAction {
 			}
 
 			$this->db->startTrans();//开启事务
-
 			try {
-				if($data['finance'] ==1){
-					if($m>0){
-						$data['uncollected_price'] = $m;
-						$data['collection_status'] = 2;
-						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败1");
-					}
-					
-					if($m==0){
-						$data['uncollected_price'] = 0;
-						$data['collection_status'] = 3;
-						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败2");
-					}
-					if($m<0){
-						$this->error("数据错误");
-					}
-					$data['payment_time']=strtotime($data['payment_time']);
-					$id = $data['id'];
-					unset($data['id']);
-					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
-				}else{
+
+				if($m>0){
 					$data['uncollected_price'] = $m;
-					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
+					$data['collection_status'] = 2;
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败1");
 				}
+				
+				if($m==0){
+					$data['uncollected_price'] = 0;
+					$data['collection_status'] = 3;
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败2");
+				}
+				if($m<0){
+					$this->error("数据错误");
+				}
+				$data['payment_time']=strtotime($data['payment_time']);
+				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error('保存失败：'.$this->db->getDbError());
 			}
-
 		}
 		$this->db->commit();
 		$this->success('操作成功');
@@ -467,15 +436,8 @@ class orderAction extends adminBaseAction {
 		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
 		unset($data['o_id']); //避免和后面的add 订单冲突
 		$data['sign_time']=strtotime($data['sign_time']);
-		if($data['transport_type'] == '1') {
-			$data['delivery_time']=strtotime($data['delivery_time']);
-			$data['pickup_time']=$data['delivery_time'];
-			$data['pickup_location']=$data['delivery_location'];
-		}else{
-			$data['pickup_time']=strtotime($data['pickup_time']);
-			$data['delivery_time']=$data['pickup_time'];
-			$data['delivery_location']=$data['pickup_location'];
-		}
+		$data['pickup_time']=strtotime($data['pickup_time']);
+		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['total_price']=$data['price']; //前台计算的所有明细总价
 		$data['total_num']=$data['num']; //所有明细总数
@@ -543,6 +505,7 @@ class orderAction extends adminBaseAction {
 				$order_source  = $this->db->model('order')->select('order_source')->where(' o_id = '.$data['o_id'])->getOne();
 				if($data['order_status'] == '2'){
 					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2 , node_flow=node_flow+1 ') ) throw new Exception("订单审核失败");
+					// showtrace();
 					if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
 					if($order_source == 2){
 						if( $data['sales_type'] != '2' ){ //如果销库存则循环锁定产品库存
@@ -552,15 +515,19 @@ class orderAction extends adminBaseAction {
 							}
 						}
 					}
+
 				}else if($data['order_status'] == '3'){
-					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 3') ) throw new Exception("订单审核失败");				
+					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");				
 				}
 			}
 	
 		} catch (Exception $e) {
+			// showtrace();
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+			// showtrace();
+
 		$this->db->commit();
 		$this->success('操作成功');
 	}
@@ -573,24 +540,20 @@ class orderAction extends adminBaseAction {
 	public function transportcheck(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		if(empty($data)) $this->error('错误的操作');
+		if(empty($data)){
+			$this->error('错误的操作');
+		}
 		$_data=array(
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
 		try {
-			if ($data['transport_status']=='3') { //审核不通过返还库存
-				$sale_log_info = $this->db->model('sale_log')->select('inlog_id,number')->where(' o_id = '.$data['o_id'])->getAll();
-				foreach ($sale_log_info as $k => $v) {
-					if( !$this->db->model('in_log')->where(' id = '.$v['inlog_id'] )->update(' lock_number = lock_number - '.$v['number'].' , controlled_number = controlled_number +'.$v['number']) ) throw new Exception("物流审核不通过，库存更新失败！");
-				}
-			}
 			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");	
+			// if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update('is_join_in = 1') ) throw new Exception("关联的销售订单更新失败");
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
-		$this->db->commit();
 		$this->success('操作成功');
 	}
 

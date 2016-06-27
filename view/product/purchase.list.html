@@ -97,10 +97,12 @@ function onRowDblClick(e) {
 }
 
 function viewhander(e){
-	var record = e.record,id=record.id, status=record.supply_count, s='';
-	s += '<a href="javascript:viewPinfo('+id+')">查看</a>';
-	if(status > 0){
-		s +='&nbsp;|&nbsp;<a href="javascript:chkOrder('+id+')">审核 </a>';
+	var record = e.record,id=record.id, supply_count=record.supply_count, status=record.status, s='';
+	if(supply_count > 0 && (status ==3 || status ==4) ){
+		s += '<a href="javascript:viewPinfo('+id+')">查看</a>';
+	}
+	if(supply_count > 0 && status==2){
+		s +='&nbsp;&nbsp;<a href="javascript:chkOrder('+id+')">确认</a>';
 	}
 	return s;
 }

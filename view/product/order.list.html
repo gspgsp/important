@@ -248,7 +248,7 @@ function onLoadDetail(e){
 						}
 						
 						if (c_status !='3' && out_storage_status == '已出库') {
-						s+='<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>&nbsp;|&nbsp;';
+						s+='<a href="javascript:transaction('+oid+','+order_type+')">收款</a>&nbsp;|&nbsp;';
 						}
 						if (i_status !='全部开票' && newstatus == '3' && c_status =='3') {
 							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|&nbsp;';
@@ -275,7 +275,7 @@ function onLoadDetail(e){
 			}
 			
 			if (c_status !='3' && in_storage_status == '已入库') {
-				s+='<a href="javascript:transaction('+oid+','+order_type+')">申请付款</a>&nbsp;|&nbsp;';
+				s+='<a href="javascript:transaction('+oid+','+order_type+')">付款</a>&nbsp;|&nbsp;';
 			}
 			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库') {
 				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|&nbsp;';
@@ -289,13 +289,13 @@ function onLoadDetail(e){
 	}
 	return s;
 }
-//付款收款申请
+//付款收款
 function transaction(oid,order_type){
 	var width=430, height=420,type=order_type;
 	if(type=='1'){
-		title="新增收款申请";
+		title="新增收款记录";
 	}else{
-		title="新增付款申请";
+		title="新增付款记录";
 	}
 	mini.open({
 		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type,
@@ -340,6 +340,33 @@ function changePurchase(o_id){
 		}
 	});	
 }
+
+// //追加销售明细
+// function addSaleLog(oid){
+// 	mini.open({
+// 		url: "/product/saleLog/info?o_id="+oid,
+// 		showMaxButton:true,
+// 		title: '订单明细', width: 750, height:550,
+// 		ondestroy: function (action) {
+// 			if(action=='save'){ //重新加载
+// 				grid.reload();
+// 			}
+// 		}
+// 	});
+// }
+// //追加采购明细
+// function addPurchaseLog(oid){
+// 	mini.open({
+// 		url: "/product/purchaseLog/info?o_id="+oid,
+// 		showMaxButton:true,
+// 		title: '订单明细', width: 280, height:380,
+// 		ondestroy: function (action) {
+// 			if(action=='save'){ //重新加载
+// 				grid.reload();
+// 			}
+// 		}
+// 	});
+// }
 //发货弹窗
 function outStorage(oid){
 	mini.open({
@@ -420,7 +447,33 @@ function addPur(){
 		}
 	});	
 }
-
+//删除
+// function remove() {
+// 	var rows = grid.getSelecteds(),_ids=new Array();
+// 	if(rows.length<1) return;
+// 		for(var i=0;i<rows.length;i++){
+// 	var _id=parseInt(rows[i].o_id);
+// 	if(_id<1){
+// 		grid.removeRow(rows[i],false);
+// 	}else{
+// 		_ids.push(_id);
+// 	}
+//   }
+// 	var ids=_ids.join(',');
+// 	if(ids=='') return;
+// 	mini.confirm("确定删除？", "提示", function(action){
+// 	if(action!='ok') return;
+// 	var callback=function(data){
+// 	if(data.err=='0'){
+// 		grid.reload();
+// 	}else{
+// 		alert(data.msg)
+// 		return false;
+// 	}
+// 	}
+// 	utils.ajax('/product/order/remove',{ids:ids},callback,"POST","json");
+//   });
+// }
 //双击弹出
 function onRowDblClick(e) {
 	var record = e.record, status=record.status,order_status=record.order_status,transport_status=record.transport_status;

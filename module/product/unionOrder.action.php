@@ -111,6 +111,8 @@ class unionOrderAction extends adminBaseAction {
 		}
 		if($info['sale_id']>0) $info['sale_id'] = M('user:customer')->getColByName("$info[sale_id],c_name");
 		if($info['buy_id']>0) $info['buy_id'] = M('user:customer')->getColByName("$info[buy_id],c_name");
+		$info['delivery_location'] = M('system:region')->get_name($info['delivery_location']);
+		$info['pickup_location'] = M('system:region')->get_name($info['pickup_location']);
 		$info['sign_time']= $info['sign_time'] > 1000 ? date("Y-m-d",$info['sign_time']) : '-';
 		$info['pickup_time']= $info['pickup_time'] > 1000 ? date("Y-m-d",$info['pickup_time']) : '-';
 		$info['delivery_time']= $info['delivery_time'] > 1000 ? date("Y-m-d",$info['delivery_time']) : '-';

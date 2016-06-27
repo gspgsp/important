@@ -10,6 +10,12 @@
 					<td ></td>
 					<td></td>
 			</tr>
+			<tr>	
+				<td>联系人</td>
+				<td><input id="name" name="user_id" class="mini-combobox"  value="{$data.user_id}" data='{:setMiniConfig|$contact}' textField="name" valueField="id"  style="width:90px;" required="true"/></td>
+				<td ></td>
+				<td></td>
+			</tr>
 			{if $id lte 0}
 			<tr>
 				<td >牌号：</td>
@@ -157,6 +163,7 @@ function onDeptChanged(deptCombo,positionCombo,val) {
 
 //强制选择归属公司
 function cstChoose(e){
+	var cname = mini.get("name");
 	var btn = this;
 		mini.open({
 		url: "/user/customer/init?do=search",
@@ -175,6 +182,10 @@ function cstChoose(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
+					cname.load('/user/follow/get_my_contact?c_id='+data.c_id);
+					var users = mini.getData('/user/follow/get_my_contact?c_id='+data.c_id);
+					cname.setValue(users[0].id);
+					cname.setText(users[0].name);
 				}
 			}
 		}

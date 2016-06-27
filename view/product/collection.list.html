@@ -6,7 +6,7 @@
 			<td style="white-space:nowrap;">
 				<!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">充红</a>
 				<span class="separator"></span>-->
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
 			</td>
 			{/if}
 			<td style="float:right;">
@@ -111,36 +111,12 @@ function onLoadHandle(e) {
 
 //追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status,id=record.id, s='';
-	var order_type={$type};
-	if (c_status ==9) {
-		s += '<a href="javascript:transaction('+oid+','+order_type+','+id+')">审核</a>';
-	}
-	if(c_status != '4' &&c_status != '9' && c_price != 0)
-	s += '<a href="javascript:viewPinfo('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">退款</a>';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status, s='';
+	if(c_status != '4' && c_price != 0)
+	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+total_price+',\''+o_sn+'\')">退款</a>';
 	return s;
 }
 
-//付款收款申请审核
-function transaction(oid,order_type,id){
-	var width=430, height=420,type=order_type,finance=1;
-	if(type=='1'){
-		title="收款申请审核";
-	}else{
-		title="付款申请审核";
-	}
-	mini.open({
-		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type+"&finance="+finance+"&id="+id,
-		showMaxButton:true,
-		 title: title, width: width, height:height,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});		
-}
-//下载附件
 function down(e){
 	var record = e.record, accessory =  record.accessory, s = '';
 	if(accessory != ''){
@@ -151,9 +127,9 @@ function down(e){
 }
 
 //红充操作
-function viewPinfo(oid,id,c_price,total_price,o_sn){
+function viewPinfo(oid,c_price,total_price,o_sn){
 	var o_sn = o_sn;
-	var data = {oid:oid,id:id,c_price:c_price,total_price:total_price,o_sn:o_sn};
+	var data = {oid:oid,c_price:c_price,total_price:total_price,o_sn:o_sn};
 	var json = mini.encode(data);
 	mini.confirm("确定交易取消？", "提示", function(action){
 	if(action!='ok') return;

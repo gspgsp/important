@@ -108,10 +108,10 @@ class purchaseAction extends adminBaseAction {
 			$list['data'][$k]['f_id'] = $this->_getFactoryName($v['f_id']);
 			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
 			$list['data'][$k]['period'] = L('period')[$v['period']];
-			if($v['origin']){
-				$areaArr = explode('|', $v['origin']);
-				$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
-			}
+			// if($v['origin']){
+			// 	$areaArr = explode('|', $v['origin']);
+			// 	$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
+			// }
 			if($v['provinces']>0){
 				$list['data'][$k]['provinces'] = M('system:region')->get_name($v['provinces']);
 			}
@@ -176,8 +176,10 @@ class purchaseAction extends adminBaseAction {
 				}
 				$info['company_city']=$areaArr[1];
 			}
+			$contact=M('user:customerContact')->getListByCid($info['c_id']);
 			$c_name = M('user:customer')->getColByName($info['c_id']); //客户名称
 			$f_name = M('product:product')->getFnameByPid($info['p_id']); //厂家名称
+			$this->assign('contact',arrayKeyValues($contact, 'user_id', 'name'));
 			$this->assign('data',$info);
 			$this->assign('c_name',$c_name);
 			$this->assign('f_name',$f_name);

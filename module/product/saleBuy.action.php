@@ -12,6 +12,7 @@ class saleBuyAction extends adminBaseAction {
 		$this->assign('process_type',L('process_level'));//加工级别
 		$this->assign('period',L('period'));//交货周期
 		$this->assign('status',L('purchase_status'));//采购状态
+		$this->assign('ship_type',L('ship_type'));//运输类型
 		$this->assign('ctype',sget('ctype'));//采购状态
 	}
 	/**
@@ -67,6 +68,11 @@ class saleBuyAction extends adminBaseAction {
 		if($id>0){
 			$where .= " and sb.p_id = $id ";
 		}
+		//运输方式
+		$ship_type = sget('ship_type','i',0);
+		if($ship_type != ''){
+			$where .= " and sb.ship_type = $ship_type ";
+		}
 		$sTime = sget("sTime",'s','sb.input_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
 		// 状态
@@ -107,6 +113,7 @@ class saleBuyAction extends adminBaseAction {
 			$list['data'][$k]['c_id'] = M('user:customer')->getColByName($v['c_id']); //报价的厂家
 			$list['data'][$k]['pn'] = $v['pprice'].'|'.$v['pnumber'];
 			$list['data'][$k]['sbn'] = $v['price'].'|'.$v['number'];
+			$list['data'][$k]['ship'] = $v['ship_type'];
 			$list['data'][$k]['cargo_type'] = L('cargo_type')[$v['cargo_type']];
 			$list['data'][$k]['ship_type'] = L('ship_type')[$v['ship_type']];
 			if($v['origin']){
@@ -184,7 +191,11 @@ class saleBuyAction extends adminBaseAction {
 		$pid=sget('id','i'); //报价ID
 		// 根据采购id获得报价id
 		$id = M('product:purchase')->getColById($pid,'last_buy_sale','id'); //获得报价表的ID
+		//获取采购订单的区域
+		$provinces = M('product:purchase')->getColById($pid,'provinces','id'); //获得报价表的ID
 		$info=M('product:salebuy')->getSalebuyInfo($id);
+		//获取订单信息
+		$orderinfo = M('product:unionOrder')->getAllInfoById($id,'p_sale_id');
 		if(empty($info)) $this->error('错误的数据请求');
 		$info['saleminfo'] =M('rbac:adm')->getUserInfoById($info['customer_manager']); //卖交易员信息
 		$info['buyminfo'] =M('rbac:adm')->getUserInfoById($info['ptraderid']);//买交易员信息
@@ -193,11 +204,14 @@ class saleBuyAction extends adminBaseAction {
 		$info['salecinfo'] = M('user:customer')->getCinfoById($info['c_id']);
 		//获取买家公司信息
 		$info['buycinfo'] = M('user:customer')->getCinfoById($info['pc_id']);
-		// 处理地区信息
-		$info['porigin'] = M('system:region')->get_chinese_area($info['porigin']);
+		// 处理交货地区信息
+		$info['porigin'] = M('system:region')->get_name($provinces);
+		//处理配货地点
+		$info['delivery_place'] = M('system:region')->get_name($info['delivery_place']);
 		$this->assign('info',$info);
 		$this->assign('m_transport',L('transport_type')); //运输方式
 		$this->assign('pay_method',L('pay_method'));
+		$this->assign('orderinfo',$orderinfo);
 		$this->assign('id',$id);//报价表
 		$this->assign('pid',$pid); //采购表id
 		$this->assign('ship_type',L('ship_type'));
@@ -217,6 +231,7 @@ class saleBuyAction extends adminBaseAction {
 		$info['originarea'] = $info['origin'];
 		// 处理地区信息
 		$info['origin'] = M('system:region')->get_chinese_area($info['origin']);
+		$info['provinces']= M('system:region')->get_name($info['provinces']);
 		$info['user_info'] = M('user:customerContact')->getListByUserid($info['user_id']);
 		// p($info);die;
 		$this->assign('info',$info);
@@ -296,21 +311,22 @@ class saleBuyAction extends adminBaseAction {
 		// [m_remark] => 订单测试备注 //订单备注
 		$id = $data['id'];  //purchase 的 id
 		$p_id = $data['p_id'];   //purchase 的商品 id
-		$pstatus = M('product:purchase')->getColById($id,'status','id'); //采购id
+		$pstatus = M('product:purchase')->getInfoById($id); //采购id
 		//采购状态判断
-		if($pstatus !=1){
+		if($pstatus['status'] !=2){
 			$this->error('采购订单状态错误！');  //采购订单判断
 		}
 		//报价状态
-		$status = M('product:salebuy')->getColById($data['m_supplier'],'status','id'); //采购id
-		if($status != 1){
+		$salebuyinfo = M('product:salebuy')->getSalebuyInfoById($data['m_supplier']); //采购id
+		if($salebuyinfo['status'] != 2){
 			$this->error('报价订单状态错误！');
 		}
 		//查询报价表信息(报价客户id)
-		$salebuy_cid = M('product:salebuy')->getColById($data['m_supplier'],'c_id');
+		// $salebuy_cid = M('product:salebuy')->getColById($data['m_supplier'],'c_id');
+		//查询报价的地址
 		
-		$salebuy_num = M('product:salebuy')->getColById($data['m_supplier']);// 查询报价数量
-		$total_price = $data['m_price']* $salebuy_num;		// 计算商品总价
+		// $salebuy_num = M('product:salebuy')->getColById($data['m_supplier']);// 查询报价数量
+		$total_price = $data['m_price']*$data['deal_num'];		// 计算商品总价
 		// 开始事物
 		$this->db->startTrans();
 		// 创建审核过的订单
@@ -318,19 +334,20 @@ class saleBuyAction extends adminBaseAction {
 			'order_name'=>'报价ID为【'.$data['m_supplier'].'】采购ID为【'.$id.'】',
 			'order_sn'=>genOrderSn(),
 			'order_source'=>1,
-			'sale_id'=>$salebuy_cid,  //报价客户id
+			'sale_id'=>$salebuyinfo['c_id'],  //报价客户id
 			'buy_id'=>$data['pc_id'],  //采购客户id
 			'p_buy_id'=>$id,
 			'p_sale_id'=>$data['m_supplier'],
 			'sign_time'=>CORE_TIME,
+			'deal_num'=>$data['deal_num'],
 			'total_price'=>$total_price,
 			'deal_price'=>$data['m_price'],
 			'pay_method'=>$data['pay_method'],
 			'remark'=>$data['m_remark'],
 			'customer_manager'=>$_SESSION['adminid'],
 			'sign_place'=>'网站签约',//签约地点
-			'pickup_location'=>$data['originarea'],//提货地点
-			'delivery_location'=>$data['store_house'], //送货地点
+			'pickup_location'=>$salebuyinfo['delivery_place'],//提货地点
+			'delivery_location'=>$pstatus['provinces'], //送货地点
 			'transport_type'=>$data['m_transport'], //运输方式
 			'pickup_time'=>strtotime($data['pickup_time']),
 			'delivery_time'=>strtotime($data['delivery_time']),
@@ -338,22 +355,23 @@ class saleBuyAction extends adminBaseAction {
 		);
 		$this->db->model('union_order')->add($_data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],));  
 		$o_id = $this->db->getLastID();
-		//更新其他报价单状态
-		$this->db->model('sale_buy')->where("`p_id` = $id and `id` != {$data['m_supplier']}")->update(array('status'=>9)); 
-		//更新自身报价为审核通过
-		$this->db->model('sale_buy')->where("`id` = {$data['m_supplier']}")->update(array('status'=>2));
+		//更新其他报价单状态(如果报价人数超过一个人才进行此操作)
+		if($pstatus['supply_count']>1) $this->db->model('sale_buy')->where("`p_id` = $id and `id` != {$data['m_supplier']}")->update(array('status'=>8,'update_time'=>CORE_TIME,)); 
+		// //更新自身报价为审核通过
+		$this->db->model('sale_buy')->where("`id` = {$data['m_supplier']}")->update(array('status'=>3,'update_time'=>CORE_TIME,));
 		//更新采购单状态
-		$this->db->model('purchase')->where("`id` = $id")->update(array('last_buy_sale'=>$data['m_supplier'],'input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],'status'=>2,));
+		$this->db->model('purchase')->where("`id` = $id")->update(array('last_buy_sale'=>$data['m_supplier'],'update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],'status'=>3,));
 		$product = array(
 			'p_id'=> $data['p_id'],  //采购商品id
 			'o_id'=>$o_id,
-			'number'=>$salebuy_num,
+			'number'=>$data['deal_num'],
 			'unit_price'=>$data['m_price'],
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 		);
 		//创建订单详情
 		$this->db->model('union_order_detail')->add($product);
+		// showtrace();
 		if($this->db->commit()){
 			$this->success('操作成功');
 		}else{

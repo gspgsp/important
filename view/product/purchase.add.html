@@ -5,10 +5,16 @@
 		<input class="mini-hidden" name="id" value="{$id}"/>
 		<table border="0" cellpadding="1" cellspacing="2">
 			<tr>
-					<td>客户：</td>
-					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" allowInput="false"  style="width:170px" id="usrId"  text="{$c_name}"/></td>
-					<td ></td>
-					<td></td>
+				<td>客户：</td>
+				<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" allowInput="false"  style="width:170px" id="usrId"  text="{$c_name}"/></td>
+				<td ></td>
+				<td></td>
+			</tr>
+			<tr>	
+				<td>联系人</td>
+				<td><input id="name" name="user_id" class="mini-combobox"  value="{$data.user_id}" data='{:setMiniConfig|$contact}' textField="name" valueField="id"  style="width:90px;" required="true"/></td>
+				<td ></td>
+				<td></td>
 			</tr>
 			{if $id lte 0}
 			<tr>
@@ -102,15 +108,6 @@ function submitForm(){
 		}
 	},'json');
 }
-
-function CloseWindow(action) {            
-	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
-}
-function onCancel(e) {
-	CloseWindow("cancel");
-}
-
 function onValidMobile(e){
 	 if (e.isValid) {
 		 if(!utils.isMobile(e.value)){
@@ -134,6 +131,7 @@ function onDeptChanged(deptCombo,positionCombo,val) {
 //强制选择归属公司
 function cstChoose(e){
 	var btn = this;
+	var cname = mini.get("name");
 		mini.open({
 		url: "/user/customer/init?do=search",
 		title: "选择公司",
@@ -151,11 +149,21 @@ function cstChoose(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
-					$("#"+btn.id+"\\$value").val(data.c_id);
+					cname.load('/user/follow/get_my_contact?c_id='+data.c_id);
+					var users = mini.getData('/user/follow/get_my_contact?c_id='+data.c_id);
+					cname.setValue(users[0].id);
+					cname.setText(users[0].name);
 				}
 			}
 		}
 	});         
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
 }
 function getcomp(e){
 	var model = mini.get("model").getValue();

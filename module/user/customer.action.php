@@ -104,6 +104,7 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['type']=L('company_type')[$v['type']];
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("y-m-d H:i",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
+			$list['data'][$k]['chk'] = $this->_accessChk();
 		}
 		$this->assign('isPublic',$this->public);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
@@ -114,10 +115,20 @@ class customerAction extends adminBaseAction {
 	 * @access public 
 	 * @return html
 	 */
-	public function submitcheck(){
+	public function saveTags(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		p($data );
+		if(empty($data)){
+			$this->error('错误的操作');
+		}
+		foreach($data as $v){
+			$update=array(
+				'status'=>$v['status'],
+				'identification'=>$v['identification'],
+			);
+			$this->db->wherePk($v['c_id'])->update($update);
+		}
+		$this->success('操作成功');
 	}
 
     /**

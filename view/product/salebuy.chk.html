@@ -8,6 +8,10 @@
 					<option value="">=状态=</option>
 					{html_options options=$status}
 				</select>
+				<select name="ship_type" id="ship_type">
+					<option value="">=提货方式=</option>
+					{html_options options=$ship_type}
+				</select>
 				<select name="key_type">
 					<option value="sb.sn">报价编号</option>
 					<option value="saleid">卖家客户</option>
@@ -121,28 +125,30 @@
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
 				<tr>
 					<td>成交价：</td>
-					<td><input name="m_price" class="mini-textbox"  value="" required="true" style="width:150px"/></td>
+					<td><input id="m_price" name="m_price" class="mini-textbox"  value="" required="true" style="width:150px"/></td>
+					<td>成交数量：</td>
+					<td><input id="deal_num" name="deal_num" class="mini-textbox"  value="" required="true" style="width:150px"/></td>
+				</tr>
+				<tr>
 					<td>供应商：</td>
 					<td><input name="m_supplier" id="supplier" value="" textField="text" valueField="id" class="mini-textbox"   allowInput="false" emptyText="请从供应商中选择" required="true" style="width:150px"/></td>
 				</tr>
 				<tr>
 					<td>付款方式：</td>
 					<td>
-						<input name="pay_method" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/>
+						<input name="pay_method" class="mini-combobox" style="width:150px;" value="{$data.pay_method|default:1}" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/>
 					</td>
 				</tr>
 				<tr>
-					<td>送货日期：</td>
-					<td><input name="delivery_time" class="mini-datepicker" style="width:150px;"   required="true"/></td>
-				</tr>
-				<tr>
-					<td>提货日期：</td>
-					<td><input name="pickup_time" class="mini-datepicker" style="width:150px;"   required="true"/></td>
-				</tr>
-				<tr>
 					<td>提货方式：</td>
-					<td><input name="m_transport" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$m_transport}'  required="true" textfield="name" valuefield="id"/></td>
+					<td><input id="m_transport" name="m_transport" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$m_transport}'  required="true" textfield="name" valuefield="id"/></td>
+					<td class="delivery_date">送货日期：</td>
+					<td class="delivery_date"><input id="delivery_date" name="delivery_time" class="mini-datepicker" style="width:150px;"  value="{if $data.delivery_time>1000}{$data.delivery_time|date:Y-m-d H:i:s}{else}{$smarty.now|date:Y-m-d H:i:s}{/if}"  required="true"/></td>
+					<td class="pickup_time">提货日期：</td>
+					<td class="pickup_time"><input id="pickup_time" name="pickup_time" class="mini-datepicker" style="width:150px;"  value="{if $data.pickup_time>1000}{$data.pickup_time|date:Y-m-d H:i:s}{else}{$smarty.now|date:Y-m-d H:i:s}{/if}"  required="true"/></td>
 				</tr>
+				
+				
 				<tr>
 					<td>备注：</td>
 					<td colspan="3">
@@ -160,6 +166,8 @@
 	
 <script type="text/javascript">
 mini.parse();
+$('.delivery_date').hide();
+$('.pickup_time').hide();
 var grid = mini.get("gridCell");
 function search() {
 	grid.load($("#soform").serializeObject(),function(e){
@@ -192,9 +200,20 @@ function submitForm() {
 	},'json');
 }
 function setsupport(e){
-	var record = e.record, pid=record.id;
-	var t = mini.get("supplier");            
-	t.setValue(pid);
+	var record = e.record,pid=record.id,m_price=record.price,ship=record.ship,delivery_date=record.delivery_date,number=record.number;
+	if(ship==1){
+		$('.delivery_date').show();
+		$('.pickup_time').hide();
+	}else{
+		$('.delivery_date').hide();
+		$('.pickup_time').show();
+	}
+	mini.get("supplier").setValue(pid);
+	mini.get("m_price").setValue(m_price);
+	mini.get("m_transport").setValue(ship);
+	mini.get("delivery_date").setValue(delivery_date);
+	mini.get("pickup_time").setValue(delivery_date);
+	mini.get("deal_num").setValue(number);
 }
 function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);

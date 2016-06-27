@@ -32,12 +32,34 @@
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 				</tr>
+				<tr>
+					<td>配货地点：</td>
+					<td>{$info.delivery_place}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
 				<tr>					
 					<td>采购备注:</td>
 					<td colspan="3">{$info.premark}</td>
 				</tr>	
+			</table>	
+		</fieldset>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>成交信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td><font style="color:red;">成交数量：</font></td>
+					<td><font style="color:blue;">{$orderinfo.deal_num}</font></td>
+					<td><font style="color:red;">成交价格：</font></td>
+					<td><font style="color:blue;">{$orderinfo.deal_price}</font></td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">成交总价：</font></td>
+					<td><font style="color:blue;">{$orderinfo.total_price}</font></td>
+					<td><font style="color:red;">&nbsp;</font></td>
+					<td><font style="color:blue;">&nbsp;</font></td>
+				</tr>
 			</table>
-			
 		</fieldset>
 		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
 			<legend>商品基本信息</legend>
@@ -70,7 +92,7 @@
 					<td>交货日期【报】：</td>
 					<td>{$info.delivery_date|date:Y-m-d H:i:s}</td>
 					<td>报价有效期：</td>
-					<td>{$info.expiry_date|date:Y-m-d H:i:s}</td>
+					<td>{if $info.expiry_date>1000}{$info.expiry_date|date:Y-m-d H:i:s}{else}- -{/if}</td>
 				</tr>
 				<tr>
 					<td>创建日期【报】：</td>
@@ -112,9 +134,9 @@
 						sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  showFilterRow="true" allowCellSelect="true" onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
 							<div property="columns">
 							<div field="model" width="60" headerAlign="center" align="center">牌号 / 厂家</div>            
-							<div field="pcid" width="50" headerAlign="center" allowSort="true" align="center">卖方客户</div>
+							<div field="pcid" width="50" headerAlign="center" allowSort="true" align="center">买方客户</div>
 							<div field="sbn" width="50" headerAlign="center" allowSort="true" align="center">单价[卖]数量</div>
-							<div field="c_id" width="50" headerAlign="center" allowSort="true" align="center">买方客户</div>
+							<div field="c_id" width="50" headerAlign="center" allowSort="true" align="center">卖方客户</div>
 							<div field="ship_type" width="30" headerAlign="center"  align="center">交货方式</div>
 							<div field="delivery_date" width="50" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd" align="center">卖方交货日</div>
 							</div>

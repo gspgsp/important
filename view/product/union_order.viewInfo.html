@@ -46,15 +46,26 @@
 					<tr>
 						<td>签约地点 : </td>
 						<td>{$info.sign_place}</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						
+					</tr>
+					{if $info.transport_type eq 2}
+					<tr>
 						<td>提货地址：</td>
 						<td>{$info.pickup_location}</td>
+						<td>提货日期：</td>  
+						<td>{$info.pickup_time}</td>
+						
 					</tr>
+					{else}
 					<tr>
 						<td>送货地点：</td>
 						<td>{$info.delivery_location}</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td>送货日期 : </td>
+						<td>{$info.delivery_time}</td>
 					</tr>
+					{/if}
 					<tr>
 						<td>运输方式：</td>
 						<td>{$transport_type.$info.transport_type}</td>
@@ -66,12 +77,6 @@
 						<td>{$info.freight_price}</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>提货日期：</td>  
-						<td>{$info.pickup_time}</td>
-						<td>送货日期 : </td>
-						<td>{$info.delivery_time}</td>
 					</tr>
 					<tr>
 						<td>付款日期：</td>  

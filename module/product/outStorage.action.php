@@ -52,7 +52,7 @@ class outStorageAction extends adminBaseAction {
 		$this->display('outStorage.edit.html');
 	}
 	/**
-	 * 订单发货
+	 * 异步保存
 	 */
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
@@ -62,25 +62,21 @@ class outStorageAction extends adminBaseAction {
 				'input_admin'=>$_SESSION['name'],
 		);
 		$this->db->startTrans(); //开启事务
-		$info = $this->db->model('order')->select('delivery_time,join_id')->where(' o_id ='.$data['o_id'])->getRow();
+		$data['out_time'] = $this->db->model('order')->select('delivery_time')->where(' o_id ='.$data['o_id'])->getOne();
 		try {
 			if( !$this->db->model('out_storage')->add($data) ) throw new Exception("新增出库单失败");	
 			$out_id=$this->db->getLastID(); //获取新增出库单ID	
 			foreach ($data['log'] as $k => $v) {
 				$log[$k]=$v;
-				$log[$k]['out_time']=$info['delivery_time'];
+				$log[$k]['out_time']=$data['out_time'];
 				$log[$k]['out_id']=$out_id;
 				$log[$k]['detail_id']=$v['id']; //订单明细
 				$log[$k]['number']=$v['out_number'];	 //发货数量
-				$log[$k]['out_storage_status']=3;
 				unset($log[$k]['id']);
-				if( !$this->db->model('out_log')->add($log[$k]+$add_data) ) throw new Exception("出库明细新增失败");
+				// p($log);die;
+				if( !$this->db->model('out_log')->add($log[$k]+$add_data) ) throw new Exception("出库明细新增失败");	
 				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update('out_number = out_number +'.$v['out_number'].' , out_storage_status=3 , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
-				if($info['join_id']>0){ //order表中的joinid 代表此订单是 虚拟入库的 所以没有之前的销售审核通过锁库存 发货时操作有所不同
-					if( !$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update('remainder = remainder-'.$v['out_number'].' , controlled_number = controlled_number - '.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("库存更新失败");
-				}else{
-					if( !$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update('remainder = remainder-'.$v['out_number'].' , lock_number = lock_number - '.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("库存更新失败");
-				}
+				if( !$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update('remainder = remainder-'.$v['out_number'].' , lock_number = lock_number - '.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("库存更新失败");
 				if( !$this->db->model('store_product')->where('p_id = '.$v['p_id'].' and s_id = '.$v['store_id'])->update('remainder = remainder-'.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("仓库货品更新失败");
 			}
 			//每次操作完查询一下明细是否全部出库
@@ -91,9 +87,13 @@ class outStorageAction extends adminBaseAction {
 				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update( array('out_storage_status' =>2,'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME))  ) throw new Exception("订单入库更新失败2！");
 			}
 		} catch (Exception $e) {
+
+
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+
+
 		$this->db->commit();
 		$this->success('操作成功');
 	}

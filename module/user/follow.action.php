@@ -27,7 +27,7 @@ class followAction extends adminBaseAction {
 				$contracts = arrayKeyValues(M('user:customerContact')->getListByCid($id),'user_id','name');
 				$this->assign('arr',$contracts);
 			}
-		$this->assign('week_later',date('Y-m-d H:i:s',time()+604800));
+		
 		$this->assign('c_id',$id);
 		$this->display('follow.add.html');
 	}
@@ -105,6 +105,17 @@ class followAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$c_id=sget('c_id','i');
 		$contact=M('user:customerContact')->getListByCid($c_id);
+		$this->json_output($contact);
+	}
+
+	/**
+	 * 根据公司获取联系人的信息，勿删
+	 * @access public
+	 */
+	public function get_my_contact(){
+		$this->is_ajax=true;
+		$c_id=sget('c_id','i');
+		$contact=M('user:customerContact')->getMyListByCid($c_id);
 		$this->json_output($contact);
 	}
 	/**

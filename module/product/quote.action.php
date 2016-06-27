@@ -176,8 +176,10 @@ class quoteAction extends adminBaseAction {
 				}
 				$info['company_city']=$areaArr[1];
 			}
+			$contact=M('user:customerContact')->getListByCid($info['c_id']);
 			$c_name = M('user:customer')->getColByName($info['c_id']); //客户名称
 			$f_name = M('product:product')->getFnameByPid($info['p_id']); //厂家名称
+			$this->assign('contact',arrayKeyValues($contact, 'user_id', 'name'));
 			$this->assign('data',$info);
 			$this->assign('c_name',$c_name);
 			$this->assign('f_name',$f_name);
