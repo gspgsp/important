@@ -102,7 +102,7 @@ class mainPageModel extends model
         }
         return $opres;
     }
-    //获取点击查看/委托
+    //获取点击查看/委托洽谈
     public function getCheckDelegate($otype,$id){
 
         $where = "pur.id=$id";
@@ -113,6 +113,7 @@ class mainPageModel extends model
             ->where($where)
             ->getRow();
             $contact = M('user:customerContact')->getListByUserid($data['user_id']);
+            $own = M('user:customerContact')->getListByUserid($this->user_id);
         if($otype == 1){
             //产品信息
             $chDeRes['product_type'] = L('product_type')[$data['product_type']];
@@ -141,10 +142,10 @@ class mainPageModel extends model
             $chDeRes['provinces'] = $this->model('lib_region')->select('name')->where('id='.$data['provinces'])->getOne();//交货地,汉字型
             $chDeRes['delivery_place'] = $data['provinces'];//交货地,数字型
             $chDeRes['delivertime'] = $data['cargo_type'] ==1 ? '现货':'期货';//采购方式
-            //我的信息
-            $chDeRes['con_name'] = $contact['name'];
-            $chDeRes['mobile'] = $contact['mobile'];
-            $chDeRes['c_name'] = M('user:customer')->getCinfoById($contact['c_id'])['c_name'];
+            //我的信息(当前用户自己)
+            $chDeRes['con_name'] = $own['name'];
+            $chDeRes['mobile'] = $own['mobile'];
+            $chDeRes['c_name'] = M('user:customer')->getCinfoById($$own['c_id'])['c_name'];
         }
         return $chDeRes;
     }
