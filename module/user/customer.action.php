@@ -324,6 +324,23 @@ class customerAction extends adminBaseAction {
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
+	//展示审核页面
+	public function chkpage(){
+		$id = sget('id','i',0);
+		if($id<1) $this->error('信息错误');
+		$this->assign('id',$id);
+		$this->assign('status',L('status'));// 联系人用户状态
+		$this->display('customer.chk.html');
+	}
+	//审核页面公海用户
+	public function chkSubmit(){
+		$id =sget('id','i',0);
+		$status = sget('status','i');
+		if($id<1) $this->error('用户信息错误');
+		$result = $this->db->wherePk($id)->update(array('status'=>$status));
+		if(!$result) $this->error('操作失败');
+		$this->success('操作成功');
+	}
 	//检查唯一性
 	private function _chkUnique($name='mobile',$value=''){
 		$exist=$this->db->model('user')->select('user_id')->where("$name='$value'")->getOne();
