@@ -91,7 +91,7 @@
 			<tr>
 				<td>运输方式</td>
 				<td>
-					<input type="radio" class="ship_type" name="ship_type" value="1" />&nbsp;自提&nbsp;
+					<input type="radio" class="ship_type" name="ship_type" value="1" checked />&nbsp;自提&nbsp;
 					<input type="radio" class="ship_type" name="ship_type" value="2" />&nbsp;送货上门&nbsp;
 					<input type="radio" class="ship_type" name="ship_type" value="3" />&nbsp;其他
 				</td>
@@ -125,9 +125,6 @@
 				var id=getUrlParam("id");
 				var p_id="";
 				var c_id="";
-				$("#tradeBtn").on("click",function () {
-					window.location.href="/myapp/mainPage/enDelegateForm?id="+id+"";
-				});
 				commonAjax(
 						"post",
 						"/myapp/mainPage/getCheckDelegate",
@@ -139,6 +136,7 @@
 					}else{
 						p_id=res.chDeRes.p_id;
 						c_id=res.chDeRes.c_id;
+						$("#delivery_place").val(res.chDeRes.delivery_place);
 						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);
 						$("#unit_price").val(res.chDeRes.unit_price);
@@ -159,7 +157,8 @@
 					var price=$("#unit_price").val();
 					var number=$("#number").val();
 					var f_name=$("#f_name").text();
-					var ship_type=$('.ship_type:checked').val();
+					var ship_type=$(".ship_type:checked").val();
+					var delivery_place=$("#delivery_place").val();
 					commonAjax(
 							"post",
 							"/myapp/mainPage/savaComission",
@@ -169,11 +168,13 @@
 								price:price,
 								number:number,
 								f_name:f_name,
-								ship_type:ship_type
+								ship_type:ship_type,
+								delivery_place:delivery_place
 							}
 					).then(function (res) {
-						console.log(res);
-						alert();
+						mui.alert("",res.msg,function () {
+
+						});
 					},function () {
 
 					});
