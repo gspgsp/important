@@ -14,7 +14,7 @@ class mainPageAction extends homeBaseAction
     //获取首页数据
     public function getMainPage(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
     	$type = sget('type','i',1);//type为1:今日头条,2:原油价格
     	if($infos = M('myapp:mainPage')->getInfos($type)) $this->json_output(array('err'=>0,'infos'=>$infos));
     	$this->json_output(array('err'=>2,'msg'=>'没有相关资讯'));
@@ -26,7 +26,7 @@ class mainPageAction extends homeBaseAction
     //点击获取今日资讯
     public function getMoreInfos(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
     	$pid=sget('pid','i',29);
 		$page = sget('page','i',1);
 		$size = sget('size','i',10);
@@ -40,7 +40,7 @@ class mainPageAction extends homeBaseAction
     //获取资讯详情
     public function getDetailInfos(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
     	$id=sget('id','i',0);
         if(!$detInf=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'没有该条资讯详情'));
         $this->json_output(array('err'=>0,'detInf'=>$detInf));
@@ -52,7 +52,7 @@ class mainPageAction extends homeBaseAction
     //点击获取更多调价动态
     public function getMoreDyPrice(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
 		$page = sget('page','i',1);
 		$size = sget('size','i',10);
 		if(!$list = M('myapp:mainPage')->getAllPriceFloor($page,$size)) $this->json_output(array('err'=>1,'msg'=>'没有更多调价动态'));
@@ -65,7 +65,7 @@ class mainPageAction extends homeBaseAction
     //获取历史搜索和热门搜索
     public function getHisAndHot(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
     	//历史搜索结果
     	$hisData = $this->_history();
     	//热门搜索结果
@@ -139,7 +139,7 @@ class mainPageAction extends homeBaseAction
     //获取搜索结果数据（通过首页搜索），包括：搜索框，历史搜索，热门搜索
     public function getSearchRes(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
     	//搜素关键字
         $keywords = sget('keywords','s');
     	$page = sget('page','i',1);
@@ -150,7 +150,7 @@ class mainPageAction extends homeBaseAction
     //结果数据按价格排序(1从低到高,2从高到低，3默认时间)
     public function getResByPrice(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $stype = sget('stype','i',1);
         $page = sget('page','i','1');
         $size = sget('size','i',8);
@@ -160,7 +160,7 @@ class mainPageAction extends homeBaseAction
     //按报价或求购信息筛选
     public function getResByQuOPu(){
         $this->is_ajax = true;
-        //if($this->user_id<0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $ctype = sget('ctype','i',1);//1采购 2报价
         $page = sget('page','i',1);
         $size = sget('size','i',8);
@@ -170,7 +170,7 @@ class mainPageAction extends homeBaseAction
     //搜索结果的操作,下三角
     // public function getOperateRes(){
     //     $this->is_ajax = true;
-    //     if($this->user_id<0) $this->error('账户错误');
+    //     if($this->user_id<=0) $this->error('账户错误');
     //     $p_id = sget('p_id','i');//当前点击产品的p_id
     //     if(!$opres = M('myapp:mainPage')->getOperateRes($p_id)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));//改为_getOperateRes()
     //     $this->json_output(array('err'=>0,'opres'=>$opres));
@@ -186,7 +186,7 @@ class mainPageAction extends homeBaseAction
     //搜索结果的操作，查看/委托
     public function getCheckDelegate(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i');//1查看,2委托
         $id = sget('id','i');//当前这一条报价或求购的id,purchase表
         if(!$chDeRes=M('myapp:mainPage')->getCheckDelegate($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
@@ -200,7 +200,7 @@ class mainPageAction extends homeBaseAction
     //获取分类的数据
     public function getProductType(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         if(!$ptypes = M('myapp:mainPage')->getProductTypes()) $this->json_output(array('err'=>2,'msg'=>'获取分类失败'));
         $this->json_output(array('err'=>0,'ptypes'=>$ptypes));
     }
@@ -211,7 +211,7 @@ class mainPageAction extends homeBaseAction
     //获取分类详情页数据
     public function getProductTypeDetail(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5
         if(!$typeData = M('myapp:mainPage')->getProductTypeData($protype)) $this->json_output(array('err'=>2,'msg'=>'获取分类关键字失败'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
@@ -223,7 +223,7 @@ class mainPageAction extends homeBaseAction
     //获取点击三个关键字出结果
     public function getgetKeyWordsRes(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5
         $apply = sget('apply','s');
         $factory = sget('factory','s');
@@ -233,7 +233,7 @@ class mainPageAction extends homeBaseAction
     //首页点击获取我的关注(5条)
     public function getMyShortAttention(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $products = $this->model('concerned_product')->where("user_id=$this->user_id and status=1")->select('product_id,product_name,model,factory_name')->limit('0,5')->getAll();
         foreach ($products as $key => $value) {
             $pur = $this->db->model('purchase')->where('p_id='.$value['product_id'])->order('input_time desc,unit_price asc')->limit('0,2')->getAll();//取最近的两条数据,实际上有多条
@@ -258,7 +258,7 @@ class mainPageAction extends homeBaseAction
     //获取大户报价数据,包括:默认，价格排序
     public function getLargeBid(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i',3);//3,默认(时间)，1，价格升序 2，价格降序
         $page = sget('page','i',1);
         $size = sget('size','i',8);
@@ -268,7 +268,7 @@ class mainPageAction extends homeBaseAction
     //获得大户报价下三角数据
     public function getLargeBidRes(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $id = sget('id','i');
         if(!$newBig = M('myapp:mainPage')->getLargeBidRes($id)) $this->json_output(array('err'=>2,'msg'=>'获取大户相关数据失败'));
         $this->json_output(array('err'=>0,'newBig'=>$newBig));
@@ -280,14 +280,14 @@ class mainPageAction extends homeBaseAction
     //获取筛选条件:公司，厂家，交货地
     public function getLargeChose(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         if(!$choseData = M('myapp:mainPage')->getLargeChoseData()) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选条件失败'));
         $this->json_output(array('err'=>0,'choseData'=>$choseData));
     }
     //获取大客户点击确定筛选结果
     public function getLargeChoseRes(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $page = sget('page','i',1);
         $size = sget('size','i',8);
         $company = sget('company','s');
@@ -329,7 +329,7 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页
     public function getPhysical(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         //历史搜索结果
         $hisData = $this->_history();
         //热门搜索结果
@@ -368,7 +368,7 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页结果数据
     public function getPhysicalRes(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $keywords = sget('keywords','s');
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -382,7 +382,7 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页详情数据
     public function getPhysicalDetail(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $lid = sget('lid','i');
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
@@ -394,7 +394,7 @@ class mainPageAction extends homeBaseAction
     //获取资讯页
     public function getArticleInfo(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $pid=sget('pid','i',29);
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -408,7 +408,7 @@ class mainPageAction extends homeBaseAction
     //获取资讯详情页
     public function getArticleDetail(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $id=sget('id','i',0);
         if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $this->json_output(array('err'=>0,'articleDetail'=>$articleDetail));
@@ -421,7 +421,7 @@ class mainPageAction extends homeBaseAction
     //判断发布报价时候牌号是否存在，存在直接却，不存在自己选择一个
     public function checkReleaseModel(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $model = sget('model','s');
         $process_level =  $this->db->model('product')->select('process_type')->where('model='.$model)->limit('0,1')->getRow();
         if($process_level){
@@ -438,7 +438,7 @@ class mainPageAction extends homeBaseAction
     //获取供求(公海的报价和求购)
     public function getSupply(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -455,7 +455,7 @@ class mainPageAction extends homeBaseAction
     //获取资源库数据
     public function getResource(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -466,7 +466,7 @@ class mainPageAction extends homeBaseAction
     //获取资源库搜索数据
     public function getResSearch(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -481,9 +481,9 @@ class mainPageAction extends homeBaseAction
     //点击委托采购
     public function getPurchase(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $contact_info = M('user:customerContact')->getListByUserid($this->user_id);
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $purchase['content'] = sget('content','s');
         $purchase['user_id'] = $this->user_id;
         $purchase['c_id'] = $contact_info['c_id'];
@@ -495,7 +495,7 @@ class mainPageAction extends homeBaseAction
     //点击委托洽谈保存提交数据
     public function savaComission(){
         $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
+        if($this->user_id<=0) $this->error('账户错误');
         $comData['p_id'] = sget('p_id','i');
         $comData['sn'] = sget('sn','i');//ajax 异步提交生成订单号/touch/sign/buildOrderId
         $comData['user_id'] = $this->user_id;
