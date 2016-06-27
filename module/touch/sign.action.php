@@ -153,7 +153,7 @@ class signAction extends homeBaseAction{
         $this->success('发送成功');
     }
     //生产订单号
-    public function buildOrderId(){
+    protected function buildOrderId(){
         return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
     }
 }
