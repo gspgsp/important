@@ -167,26 +167,29 @@
 							$("#all").prop("checked", false);
 							quotationLi="";
 							productArr=[];
-							console.log(">>>",productArr);
+							console.log("+++",productArr);
 							commonAjax(
 									"post",
 									"/myapp/personalCenter/myQuotation",
 									{cargo_type:cargoType}
 							).then(function (res) {
-								res.data.forEach(function (v,i) {
-									quotationLi+="<li><div class='purchaseWrap3'>" +
-											"<input type='checkbox' data-id='"+ v.id +"' id='"+ v.id +"' class='regular-checkbox regular-checkbox2'>" +
-											"<label for='"+ v.id +"'></label><h3>"+ v.product_type +"|"+ v.model +"" +
-											"<span class='orange'>￥<input style='width:60px;' class='offerNumInput unit_price' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
-											"<p><input style='width:100px;' class='offerTxtInput f_name' type='text' readonly value='"+v.f_name+"'>" +
-											"<span class='orange'><input style='width: 60px;' class='offerNumInput number' type='text' value='"+v.number+"'>吨</span></p>" +
-											"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' readonly value='"+v.store_house+"'><span>"+ stampToDate2(v.input_time) +"</span>" +
-											"</p></div><div class='offerStatus'>" +
-											"<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus "+ shelve(v.shelve_type) +"'></i>"+ shelve2(v.shelve_type) +"</span>" +
-											"<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span></div></li>";
-								});
-								$(".purchaseList").html(quotationLi);
-
+								if(res.err==2){
+									$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+								}else {
+									res.data.forEach(function (v, i) {
+										quotationLi += "<li><div class='purchaseWrap3'>" +
+												"<input type='checkbox' data-id='" + v.id + "' id='" + v.id + "' class='regular-checkbox regular-checkbox2'>" +
+												"<label for='" + v.id + "'></label><h3>" + v.product_type + "|" + v.model + "" +
+												"<span class='orange'>￥<input style='width:60px;' class='offerNumInput unit_price' type='text' value='" + v.unit_price + "'>/吨</span></h3>" +
+												"<p><input style='width:100px;' class='offerTxtInput f_name' type='text' readonly value='" + v.f_name + "'>" +
+												"<span class='orange'><input style='width: 60px;' class='offerNumInput number' type='text' value='" + v.number + "'>吨</span></p>" +
+												"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' readonly value='" + v.store_house + "'><span>" + stampToDate2(v.input_time) + "</span>" +
+												"</p></div><div class='offerStatus'>" +
+												"<span class='shelve' data-pid='" + v.id + "'><i class='purchaseStatus " + shelve(v.shelve_type) + "'></i>" + shelve2(v.shelve_type) + "</span>" +
+												"<span class='dataUpdate' data-pid='" + v.p_id + "' data-id='" + v.id + "'><i class='purchaseStatus update'></i>更新</span></div></li>";
+									});
+									$(".purchaseList").html(quotationLi);
+								}
 								//状态更新
 								$(".shelve").on("click",function () {
 									var pid=$(this).data("pid");
