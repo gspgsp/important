@@ -483,8 +483,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
         $contact_info = M('user:customerContact')->getListByUserid($this->user_id);
-        if($this->user_id<=0) $this->error('账户错误');
-        $purchase['content'] = sget('content','s');
+        if(!$purchase['content'] = sget('content','s')) $this->json_output(array('err'=>3,'msg'=>'委托采购不能为空'));
         $purchase['user_id'] = $this->user_id;
         $purchase['c_id'] = $contact_info['c_id'];
         $purchase['input_time'] = CORE_TIME;
