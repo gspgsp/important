@@ -62,7 +62,6 @@ class unionOrderModel extends model{
 		return empty($result) ? false : $result;
 	}
 
-
 	/** (联营)
 	 *获取近三个月(待审核)订单信息
 	 */
