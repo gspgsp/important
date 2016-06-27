@@ -23,7 +23,7 @@
 				<li><span>牌      号：</span><font id="model"></font></li>
 				<li><span>单      价：</span>￥<font id="unit_price"></font>/吨</li>
 				<li><span>数      量：</span><font id="number"></font>吨</li>
-				<li><span>厂      家：</span><font id="store_house"></font></li>
+				<li><span>厂      家：</span><font id="f_name"></font></li>
 				<li><span>交货地：</span><font id="delivery_place"></font></li>
 				<li><span>发布时间：</span><font id="input_time"></font></li>
 				<li><span>交货时间：</span><font id="delivertime"></font></li>
@@ -38,7 +38,7 @@
 			</ul>
 		</div>
 		<div class="bigCustomerDetailBtn">
-			<input type="button" value="委托洽谈">
+			<input id="tradeBtn" type="button" value="委托洽谈">
 		</div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
@@ -46,6 +46,9 @@
 			});
 			$(function () {
 				var id=getUrlParam("id");
+				$("#tradeBtn").on("click",function () {
+					window.location.href="/myapp/mainPage/enDelegateForm?id="+id+"";
+				});
 				commonAjax(
 						"post",
 						"/myapp/mainPage/getCheckDelegate",
@@ -59,7 +62,7 @@
 						$("#model").text(res.chDeRes.model);
 						$("#unit_price").text(res.chDeRes.unit_price);
 						$("#number").text(res.chDeRes.number);
-						$("#store_house").text(res.chDeRes.store_house);
+						$("#f_name").text(res.chDeRes.f_name);
 						$("#delivery_place").text(res.chDeRes.delivery_place);
 						$("#input_time").text(res.chDeRes.input_time);
 						$("#delivertime").text(res.chDeRes.delivertime);

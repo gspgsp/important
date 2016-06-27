@@ -20,31 +20,31 @@
 		<table class="supplyDemandTradeTb" cellpadding="0" cellspacing="0">
 			<tr>
 				<td width="35%">产品类型</td>
-				<td>LDPE</td>
+				<td id="product_type"></td>
 			</tr>
 			<tr>
 				<td>牌号</td>
-				<td>2102TX00</td>
+				<td id="model"></td>
 			</tr>
 			<tr>
 				<td>单价</td>
-				<td>￥9650/吨</td>
+				<td>￥<input type="text">/吨</td>
 			</tr>
 			<tr>
 				<td>数量</td>
-				<td>30吨</td>
+				<td><input type="text">吨</td>
 			</tr>
 			<tr>
 				<td>厂家</td>
-				<td>伊朗国家石化</td>
+				<td id="f_name"></td>
 			</tr>
 			<tr>
 				<td>交货地</td>
-				<td>上海</td>
+				<td id="delivery_place"></td>
 			</tr>
 			<tr>
 				<td>采购方式</td>
-				<td>现货</td>
+				<td id="delivertime"></td>
 			</tr>
 
 		</table>
@@ -54,11 +54,11 @@
 			</tr>
 			<tr>
 				<td width="35%">联系人</td>
-				<td>张飞扬</td>
+				<td id="con_name">张飞扬</td>
 			</tr>
 			<tr>
 				<td>联系方式</td>
-				<td>13776548475</td>
+				<td id="mobile">13776548475</td>
 			</tr>
 			<tr>
 				<td>公司名称</td>
@@ -74,6 +74,9 @@
 			});
 			$(function () {
 				var id=getUrlParam("id");
+				$("#tradeBtn").on("click",function () {
+					window.location.href="/myapp/mainPage/enDelegateForm?id="+id+"";
+				});
 				commonAjax(
 						"post",
 						"/myapp/mainPage/getCheckDelegate",
@@ -83,11 +86,11 @@
 					if(res.err==1){
 						window.location.href="/myapp/login";
 					}else{
+						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);
-						$("#f_name").text(res.chDeRes.f_name);
 						$("#unit_price").text(res.chDeRes.unit_price);
 						$("#number").text(res.chDeRes.number);
-						$("#store_house").text(res.chDeRes.store_house);
+						$("#f_name").text(res.chDeRes.f_name);
 						$("#delivery_place").text(res.chDeRes.delivery_place);
 						$("#input_time").text(res.chDeRes.input_time);
 						$("#delivertime").text(res.chDeRes.delivertime);
@@ -98,7 +101,6 @@
 				},function () {
 
 				});
-
 			})
 		</script>
 
