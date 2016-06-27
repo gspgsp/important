@@ -31,8 +31,8 @@ class unionOrderModel extends model{
 	/**
 	 * 获取全部信息
 	 */
-	public function getAllInfoById($id=0){
-		return $result = $this->where("id = $id")->getRow();
+	public function getAllInfoById($id=0,$col='id'){
+		return $result = $this->where("$col = $id")->getRow();
 	}
 	/**
 	 * 模糊查询客户名匹配的订单

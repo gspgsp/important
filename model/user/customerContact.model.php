@@ -178,7 +178,12 @@ class customerContactModel extends model{
 	public function getListByCid($cid){
 		return $this->where("c_id=$cid")->select('user_id,name')->getAll();
 	}
-
+	/*
+	*根据客户的id获取下面归属的全部联系人
+	 */
+	public function getMyListByCid($cid){
+		return $this->where("c_id=$cid")->select('user_id as id,name')->getAll();
+	}
 	/*
 	 * 根据模糊联系人查出客户ID
 	 */

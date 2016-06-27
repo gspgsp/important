@@ -9,11 +9,11 @@ class personalAppCenterModel extends model
 	}
 	//获取我的采购或报价单的数量(1采购 2报价)
 	public function getMyQuotationCount($user_id,$type){
-		return count($this->model('purchase')->where("user_id=$user_id and type=$type")->getAll());
+		return count($this->model('purchase')->where('user_id=$user_id and type=$type')->getAll());
 	}
 	//获取我的关注的数量(产品)
 	public function getMyAttentionCount($user_id){
-		return count($this->model('concerned_product')->where("user_id=$user_id and status=1")->getAll());
+		return count($this->model('concerned_product')->where('user_id=$user_id')->getAll());
 	}
 	//获取我的交易员
 	public function getMyCusManager($user_id){
@@ -74,7 +74,7 @@ class personalAppCenterModel extends model
 	}
 	//获取我的关注的数据
 	public function getMyAttention($user_id){
-		$products = $this->model('concerned_product')->where("user_id=$user_id and status=1")->select('id,product_id,product_name,model,factory_name')->getAll();//以后可以分页
+		$products = $this->model('concerned_product')->where("user_id=$user_id and status=1")->select('product_id,product_name,model,factory_name')->getAll();//以后可以分页
         foreach ($products as $key => $value) {
             $factory = $this->model('factory')->where("f_name='{$value['factory_name']}'")->getRow();
 
@@ -96,13 +96,13 @@ class personalAppCenterModel extends model
 	public function mulDelMyAttention($ids){
 		foreach ($ids as $id) {
 			if(!empty($id)){
-				$result = $this->model('concerned_product')->where('id='.$id)->delete();
+				$result = $this->model('purchase')->where('id='.$id)->delete();
 			}
 		}
 		if($result){
 				return array('err'=>0,'msg'=>'批量删除成功');
 			}else{
-				return array('err'=>2,'msg'=>'批量删除失败');
+				return array('err'=>1,'msg'=>'批量删除失败');
 			}
 	}
 }
