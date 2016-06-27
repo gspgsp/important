@@ -138,14 +138,14 @@
 				<input id="change_number" property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
 			
-			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+			<div field="unit_price" id="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			{if $type =='1'}
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
 			{else}
 			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 			{/if}
-			<div field="sum" width="50" headerAlign="center" allowSort="true" align="center" id="sum">小计</div>
+			<div field="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
 		</div>
 
 	</div>
@@ -160,7 +160,6 @@ mini.parse();
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
 var grid = mini.get("investGrid");
-
 function search() {
 	grid.load($("#soform").serializeObject(),function(e){
 		$("#searchMsg").html(e.msg);
@@ -170,11 +169,14 @@ search();
 function onKeyEnter(e) {
 	search();
 }
- function onValidation(e){
+
+function onValidation(e){
  	var number=mini.get('change_number').getValue();
- 	var unit_price={$unit_price};
+ 	
+
+ 	//console.log(unit_price);
 	//index=e.sender.ownerRowunit_price;
-	mini.get("billing_price").setValue(parseFloat(unit_price)*parseFloat(number));
+	//mini.get("billing_price").setValue(parseFloat(unit_price)*parseFloat(number));
 	//btn.setValue(data.c_id);
 	//btn.setText(data.c_name);
 

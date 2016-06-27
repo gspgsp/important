@@ -24,15 +24,16 @@
 				<td>客户名称</td>
 				<td><input name="" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;"allowInput="false"/></td>
 			</tr>
-			<tr>
-				<td>{if $type =='1'}收款日期{else}付款日期{/if}<span style="color:red">*</span></td>
-				<td><input name="payment_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
-			</tr>
+			
 			<tr>
 				<td>合同金额</td>
 				<td><input name="total_price" class="mini-textbox" maxlength="12" {if $total_price}value="{$total_price}"{else}value="{$price}"{/if} style="width:150px;" allowInput="false"/></td>
 			</tr>
 			{if $finance}
+			<tr>
+				<td>{if $type =='1'}收款日期{else}付款日期{/if}<span style="color:red">*</span></td>
+				<td><input name="payment_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
+			</tr>
 			<tr>
 				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
 				<td><input  name="uncollected_price"class="mini-textbox" maxlength="12" value="{$u_price}" style="width:150px;" allowInput="false"/></td>
