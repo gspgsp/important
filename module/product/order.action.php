@@ -373,7 +373,7 @@ class orderAction extends adminBaseAction {
 	*/
 	public function ajaxSave(){
 		$data    = sdata();
-		//p($data);die;
+		p($data);die;
 		$silling = sget('do','i');
 		if($silling == 1){
 			//保存开票信息		
@@ -520,7 +520,7 @@ class orderAction extends adminBaseAction {
 		);
 		$this->db->startTrans(); //开启事务
 		try {	
-			if($data['s_or_p'] == '1'){ //采购订单审核
+			if($data['s_or_p'] == '1'){
 				unset($data['sales_type']);
 				if( !$re=$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($_data+$data) ) throw new Exception("物流审核失败");
 				if( !$re2=$this->db->model('purchase_log')->where(' o_id = '.$data['o_id'])->update(array('order_status'=>2)+$_data) ) throw new Exception("订单明细审核状态更新失败");
