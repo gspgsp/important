@@ -52,10 +52,18 @@
     					<!--classify end-->
     					<!--census begin-->
     					<div class="census flt">
-    						<p>待审核（<span>3</span>）</p>
-    						<p>待付款（<span>5</span>）</p>
-    						<p>待开票（<span>3</span>）</p>
-    						<p>已取消（<span>3</span>）</p>
+							{foreach from=$data1 item=val key=key}
+    						<p>待审核（<span>{$val[number]}</span>）</p>
+							{/foreach}
+							{foreach from=$data2 item=val key=key}
+    						<p>待付款（<span>{$val[number]}</span>）</p>
+							{/foreach}
+							{foreach from=$data3 item=val key=key}
+    						<p>待开票（<span>{$val[number]}</span>）</p>
+							{/foreach}
+							{foreach from=$data4 item=val key=key}
+    						<p>已取消（<span>{$val[number]}</span>）</p>
+							{/foreach}
     					</div>
     					<!--census end-->
     				</li>
@@ -67,10 +75,18 @@
     					<!--classify end-->
     					<!--census begin-->
     					<div class="census flt">
-    						<p>待审核（<span>3</span>）</p>
-    						<p>待付款（<span>5</span>）</p>
-    						<p>待开票（<span>3</span>）</p>
-    						<p>已取消（<span>3</span>）</p>
+							{foreach from=$info1 item=val key=key}
+							<p>待审核（<span>{$val[number]}</span>）</p>
+							{/foreach}
+							{foreach from=$info2 item=val key=key}
+							<p>待付款（<span>{$val[number]}</span>）</p>
+							{/foreach}
+							{foreach from=$info3 item=val key=key}
+							<p>待开票（<span>{$val[number]}</span>）</p>
+							{/foreach}
+							{foreach from=$info4 item=val key=key}
+							<p>已取消（<span>{$val[number]}</span>）</p>
+							{/foreach}
     					</div>
     					<!--census end-->
     				</li>
