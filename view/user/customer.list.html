@@ -75,9 +75,7 @@
 			<div field="depart" width="30" headerAlign="center"  align="center">部门</div>
 			{if $isPublic eq '1'}
 			<div field="identification" width="40" headerAlign="center" align="center" renderer="identificationStatus">认证</div>
-			<div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
-				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' /> 
-			</div>
+			<div field="status" width="40" headerAlign="center"  align="center" renderer="LoadStatus" >状态</div>
 			{else}
 			<div field="identification" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">认证
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$identification}' /> 
@@ -164,8 +162,10 @@ function onLoadFllow(e) {
 	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager;
 	if(status == 2 && customer_manager ==''){
 		s += '<a href="javascript:allotO('+cid+')">分配</a>';
+	}else if(status == 1 && customer_manager ==''){
+		s += '<a href="javascript:chk('+cid+')">审核</a>';
 	}else{
-		if(customer_manager !=''){
+			if(customer_manager !=''){
 			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>&nbsp;|&nbsp;<a href="javascript:removeRow('+cid+')">删</a>&nbsp;|&nbsp;<a href="javascript:onEdit()">改</a>&nbsp;|&nbsp;<a href="javascript:setSea('+cid+')">公海</a></br><a href="javascript:allotO('+cid+')">更改交易员</a>';
 		}
 	}
@@ -189,7 +189,20 @@ function removeRow(cid) {
 		}
 	);
 }
-
+//审核用户
+function chk(cid){
+	mini.open({
+		url: "/user/customer/chkpage?id="+cid,
+		showMaxButton:true,
+		title: "审核用户", 
+		width: 190, height:160,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
 //会员回收
 function setSea(cid) {
 	mini.confirm("确定回收该用户？", "提示",	function(action){
