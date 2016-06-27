@@ -35,7 +35,7 @@
 			{if $finance}
 			<tr>
 				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
-				<td><input  class="mini-textbox" maxlength="12" value="{$u_price}" style="width:150px;" allowInput="false"/></td>
+				<td><input  name="uncollected_price"class="mini-textbox" maxlength="12" value="{$u_price}" style="width:150px;" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>{if $type =='1'}申请收款金额{else}申请付款金额{/if}<span style="color:red">*</span></td>

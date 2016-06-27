@@ -6,6 +6,9 @@
 		<input class="mini-hidden" name="order_sn"  value="{$order_sn}"/>
 		<input class="mini-hidden" name="o_id"  value="{$o_id}"/>
 		<input class="mini-hidden" name="c_id"  value="{$c_id}"/>
+		<!-- 审核所需字段 -->
+		<input class="mini-hidden" name="id"  value="{$id}"/>
+		<input class="mini-hidden" name="finance"  value="{$finance}"/>
 		<!-- <input class="mini-hidden" name="unbilling_price"  value="{$unbilling_price}"/> -->
 			<tr>
 				<td>发票号<span style="color:red">*</span></td>
@@ -28,7 +31,16 @@
 				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$price}" style="width:150px;" allowInput="false"/></td>
 			</tr>
 			
-			
+			{if $finance}
+			<tr>
+				<td>未开票金额</td>
+				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" allowInput="false"/></td>
+			</tr>
+			<tr>
+				<td>申请票据金额<span style="color:red">*</span></td>
+				<td><input name="billing_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" required="true"/></td>
+			</tr>
+			{else}
 			<tr>
 				<td>未开票金额</td>
 				<td><input name="" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" allowInput="false"/></td>
@@ -38,7 +50,8 @@
 				<td>票据金额<span style="color:red">*</span></td>
 				<td><input name="billing_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" required="true"/></td>
 			</tr>
-			
+			{/if}
+
 			<tr>
 				<td>税额<span style="color:red">*</span></td>
 				<td><input name="tax_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>

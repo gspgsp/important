@@ -335,11 +335,26 @@ class orderAction extends adminBaseAction {
 
 			$this->assign('bile_type',L('bile_type'));//票据类型
 
-			//获取最后一条开票信息
-			$res=M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
-			if($res){
-				$this->assign('unbilling_price',$res[0]['unbilling_price']);
+			if ($finance ==1 ) {
+				//获取要审核的开票信息的id，传送出信息
+				$id = sget('id','i',0);
+				$this->assign('finance',$finance);
+				$this->assign('id',$id);
+
+				$res = M('product:billing')->where('id='.$id)->getAll();
+            	if($res){
+            		$un_price = $res[0]['billing_price']+$res[0]['unbilling_price'];
+					$this->assign('b_price',$res[0]['billing_price']);
+					$this->assign('u_price',$un_price);
+				}
+			}else{
+				//获取最后一条开票信息
+				$res=M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+				if($res){
+					$this->assign('unbilling_price',$res[0]['unbilling_price']);
+				}
 			}
+			
 			$this->display('billing.add.html');
 			
 		}else{
@@ -398,7 +413,6 @@ class orderAction extends adminBaseAction {
 				$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 				$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
 				$data['payment_time']=strtotime($data['payment_time']);
-
 				if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");
 			} catch (Exception $e) {
 				$this->db->rollback();
