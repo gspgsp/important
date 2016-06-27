@@ -39,7 +39,7 @@ class indexAction extends userBaseAction{
         $this->assign('info2',$info2);
         $this->assign('info3',$info3);
         $this->assign('info4',$info4);
-        $this->assign('data',$data);
+        $this->assign('res',$data);
         $this->display('index');
 	}
 
