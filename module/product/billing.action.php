@@ -172,4 +172,15 @@ class billingAction extends adminBaseAction
 
 	}
 
+	/**
+	 * 处理数量
+	 * @access private 
+	 */
+	public function changeNumber(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('错误的操作');
+		p($data);
+	}
+
 }
