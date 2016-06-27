@@ -10,17 +10,19 @@
 		<input class="mini-hidden" name="id"  value="{$id}"/>
 		<input class="mini-hidden" name="finance"  value="{$finance}"/>
 		<!-- <input class="mini-hidden" name="unbilling_price"  value="{$unbilling_price}"/> -->
+			{if $finance}
 			<tr>
 				<td>发票号<span style="color:red">*</span></td>
 				<td><input name="invoice_sn" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
+			{/if}
 			<tr>
-				<td>客户名称</td>
-				<td><input name="" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;"allowInput="false"/></td>
+				<td>开票单位</td>
+				<td><input name="rise" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;"allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>开票日期<span style="color:red">*</span></td>
-				<td><input name="payment_time" class="mini-datepicker" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
+				<td><input name="payment_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
 			<tr>
 				<td>{if $type =='1'}销售合同主题{else}采购合同主题{/if}</td>				
@@ -40,35 +42,35 @@
 				<td>申请票据金额<span style="color:red">*</span></td>
 				<td><input name="billing_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" required="true"/></td>
 			</tr>
+			<tr>
+				<td>税额<span style="color:red">*</span></td>
+				<td><input name="tax_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>票据类型<span style="color:red">*</span></td>
+				<td><input name="bile_type" class="mini-combobox" data='{:setMiniConfig|$bile_type}' textField="name" valueField="id" style="width:150px;" required="true"/></td>
+			</tr>
 			{else}
 			<tr>
 				<td>未开票金额</td>
 				<td><input name="" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" allowInput="false"/></td>
 			</tr>
 
-			<tr>
+			<!-- <tr>
 				<td>票据金额<span style="color:red">*</span></td>
 				<td><input name="billing_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" required="true"/></td>
+			</tr> -->
+			<tr>
+				<td>票据金额<span style="color:red">*</span></td>
+				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value=""style="width:150px;" required="true"/></td>
 			</tr>
 			{/if}
-
-			<tr>
-				<td>税额<span style="color:red">*</span></td>
-				<td><input name="tax_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
-			</tr>
-			<tr>
-				<td>抬头</td>
-				<td><input name="rise" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;" required="true" allowInput="false"/></td>
-			</tr>
 			
 			<tr>
 				<td>交易员</td>
 				<td><input name="input_admin" class="mini-textbox" maxlength="12" value="{$input_admin}" style="width:150px;"allowInput="false"/></td>
 			</tr>
-			<tr>
-				<td>票据类型<span style="color:red">*</span></td>
-				<td><input name="bile_type" class="mini-combobox" data='{:setMiniConfig|$bile_type}' textField="name" valueField="id" style="width:150px;" required="true"/></td>
-			</tr>
+			
 			<tr>
 				<td>附件</td>
 				<td>
@@ -76,14 +78,14 @@
 					<input id="upfileId" type="file" name="upFile" style="width:105px" onChange="fileUpload();">
 				</td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>付款信息</td>
 				<td><input name="paying_info" class="mini-textarea" style="width:300px; height:40px;"/></td>
 			</tr>
 			<tr>
 				<td>收款信息</td>
 				<td><input name="receipt_info" class="mini-textarea" style="width:300px; height:40px;"/></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>备注</td>
 				<td><input name="remark" class="mini-textarea" style="width:300px; height:50px;"/></td>
@@ -98,8 +100,7 @@
 		</table>
 	</div>
 </div>
-
-{if $type neq 1}
+{if $type eq 1}
 <fieldset style="width:480px;border:solid 1px #aaa;position:relative;">
         <legend>公司开票资料</legend>
         <div id="editForm1" style="padding:5px;">
@@ -128,11 +129,15 @@
 
 <fieldset style="width:480px;border:solid 1px #aaa;position:relative;">
 <legend>订单详细信息</legend>
-	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" {if $type =='1'} url="/product/saleLog/init?action=grid&oid={$o_id}&type=1"{else}url="/product/purchaseLog/init?action=grid&oid={$o_id}&type=1"{/if} sizeList="[10,20,50,100]" pageSize="20">
+	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" {if $type =='1'} url="/product/saleLog/init?action=grid&oid={$o_id}&type=1"{else}url="/product/purchaseLog/init?action=grid&oid={$o_id}&type=1"{/if} sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div>
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-			<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量</div>     
+
+			<div field="number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
+				<input id="change_number" property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
+			</div>
+			
 			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			{if $type =='1'}
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
@@ -165,7 +170,15 @@ search();
 function onKeyEnter(e) {
 	search();
 }
+ function onValidation(e){
+ 	var number=mini.get('change_number').getValue();
+ 	var unit_price={$unit_price};
+	//index=e.sender.ownerRowunit_price;
+	mini.get("billing_price").setValue(parseFloat(unit_price)*parseFloat(number));
+	//btn.setValue(data.c_id);
+	//btn.setText(data.c_name);
 
+ }
 //增加后提交数据(保存)
 function submitForm(billing) {
 	form.validate();

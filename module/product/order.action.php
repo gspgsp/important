@@ -291,11 +291,13 @@ class orderAction extends adminBaseAction {
 
 		//获取开票总金额
 		if($type==1){
-			$sum=$this->db->model('sale_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
+			//$sum=$this->db->model('sale_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
+			$unit_price=$this->db->model('sale_log')->where("o_id=$o_id")->select("unit_price")->getOne();
 		}else{
-			$sum=$this->db->model('purchase_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
+			//$sum=$this->db->model('purchase_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
+			$unit_price=$this->db->model('purchase_log')->where("o_id=$o_id")->select("unit_price")->getOne();
 		}
-		$this->assign('sum',$sum);
+		$this->assign('unit_price',$unit_price);
 		
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
