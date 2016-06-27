@@ -294,6 +294,20 @@ class customerAction extends adminBaseAction {
 			$this->error('数据处理失败');
 		}
 	}
+
+	public function setsea(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$result=$this->db->model('customer')->where("c_id in ($ids)")->update(array('customer_manager'=>0,'depart'=>0,));
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
+	}
 	//分配公海客户
 	function allotCustomer(){
 		$this->is_ajax=true; //指定为Ajax输出
