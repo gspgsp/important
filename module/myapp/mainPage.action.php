@@ -168,13 +168,13 @@ class mainPageAction extends homeBaseAction
         $this->json_output(array('err'=>0,'sdata'=>$cdata['data']));
     }
     //搜索结果的操作,下三角
-    public function getOperateRes(){
-        $this->is_ajax = true;
-        if($this->user_id<0) $this->error('账户错误');
-        $p_id = sget('p_id','i');//当前点击产品的p_id
-        if(!$opres = M('myapp:mainPage')->getOperateRes($p_id)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
-        $this->json_output(array('err'=>0,'opres'=>$opres));
-    }
+    // public function getOperateRes(){
+    //     $this->is_ajax = true;
+    //     if($this->user_id<0) $this->error('账户错误');
+    //     $p_id = sget('p_id','i');//当前点击产品的p_id
+    //     if(!$opres = M('myapp:mainPage')->getOperateRes($p_id)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));//改为_getOperateRes()
+    //     $this->json_output(array('err'=>0,'opres'=>$opres));
+    // }
     //进入查看
     public function enCheckForm(){
         $this->display('supplyDemand_detail');
@@ -481,6 +481,7 @@ class mainPageAction extends homeBaseAction
     //点击委托采购
     public function getPurchase(){
         $this->is_ajax = true;
+        if($this->user_id<0) $this->error('账户错误');
         $contact_info = M('user:customerContact')->getListByUserid($this->user_id);
         if($this->user_id<0) $this->error('账户错误');
         $purchase['content'] = sget('content','s');
