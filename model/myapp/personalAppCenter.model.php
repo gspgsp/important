@@ -9,11 +9,11 @@ class personalAppCenterModel extends model
     }
     //获取我的采购或报价单的数量(1采购 2报价)
     public function getMyQuotationCount($user_id,$type){
-        return count($this->model('purchase')->where('user_id=$user_id and type=$type')->getAll());
+        return count($this->model('purchase')->where("user_id=$user_id and type=$type")->getAll());
     }
     //获取我的关注的数量(产品)
     public function getMyAttentionCount($user_id){
-        return count($this->model('concerned_product')->where('user_id=$user_id')->getAll());
+        return count($this->model('concerned_product')->where("user_id=$user_id and status=1")->getAll());
     }
     //获取我的交易员
     public function getMyCusManager($user_id){
@@ -74,12 +74,19 @@ class personalAppCenterModel extends model
     }
     //获取我的关注的数据
     public function getMyAttention($user_id){
-        $products = $this->model('concerned_product')->where("user_id=$user_id and status=1")->select('product_id,product_name,model,factory_name')->getAll();//以后可以分页
+        $products = $this->model('concerned_product')->where("user_id=$user_id and status=1")->select('id,product_id,product_name,model,factory_name')->getAll();//以后可以分页
         foreach ($products as $key => $value) {
-            $pur = $this->db->model('purchase')->where('p_id='.$value['product_id'])->order('input_time desc,unit_price asc')->limit('0,2')->getAll();//取最近的两条数据,实际上有多条
-            $palph = int($pur[1]['unit_price']-$pur[0]['unit_price']);//价格差，涨跌
-            $talph = $pur[1]['input_time']-$pur[0]['input_time'];//时间差，分钟以前
-            $products[$key]['unit_price'] = $pur['unit_price'];
+            $factory = $this->model('factory')->where("f_name='{$value['factory_name']}'")->getRow();
+
+            $pro = $this->model('product')->where("model='{$value['model']}' and f_id={$factory['fid']}")->getRow();
+
+            $pur = $this->model('purchase')->where('p_id='.$pro['id'])->order('input_time desc,unit_price asc')->limit('0,2')->getAll();//取最近的两条数据,实际上有多条
+
+            $palph = $pur[1]['unit_price']==0 ? 0 : intval($pur[1]['unit_price']-$pur[0]['unit_price']);
+            //价格差，涨跌
+            $talph = $pur[1]['input_time']==0 ? 0 : $pur[0]['input_time']-$pur[1]['input_time'];
+            //时间差，分钟以前
+            $products[$key]['unit_price'] = $pur[0]['unit_price'];
             $products[$key]['floor_up'] = $palph;
             $products[$key]['time_al'] = $talph;
         }
@@ -89,13 +96,13 @@ class personalAppCenterModel extends model
     public function mulDelMyAttention($ids){
         foreach ($ids as $id) {
             if(!empty($id)){
-                $result = $this->model('purchase')->where('id='.$id)->delete();
+                $result = $this->model('concerned_product')->where('id='.$id)->delete();
             }
         }
         if($result){
                 return array('err'=>0,'msg'=>'批量删除成功');
             }else{
-                return array('err'=>1,'msg'=>'批量删除失败');
+                return array('err'=>2,'msg'=>'批量删除失败');
             }
     }
 }
