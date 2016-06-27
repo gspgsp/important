@@ -474,24 +474,43 @@ class mainPageAction extends homeBaseAction
         if(!$searchData = M('myapp:mainPage')->getResSearchData($keywords,$type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'searchData'=>$searchData['data']));
     }
+    //进入委托采购
+    public function enPurchase(){
+        $this->display('purchase');
+    }
+    //点击委托采购
+    public function getPurchase(){
+        $this->is_ajax = true;
+        $contact_info = M('user:customerContact')->getListByUserid($this->user_id);
+        if($this->user_id<0) $this->error('账户错误');
+        $purchase['content'] = sget('content','s');
+        $purchase['user_id'] = $this->user_id;
+        $purchase['c_id'] = $contact_info['c_id'];
+        $purchase['input_time'] = CORE_TIME;
+        if($this->db->model('purchase')->add($purchase)) $this->json_output(array('err'=>0,'msg'=>'委托采购成功'));
+        $this->json_output(array('err'=>2,'msg'=>'委托采购失败'));
+
+    }
     //点击委托洽谈保存提交数据
     public function savaComission(){
         $this->is_ajax = true;
         if($this->user_id<0) $this->error('账户错误');
-        $p_id = sget('p_id','i');
-        $sn = 12222222;
-        $user_id = $this->user_id;
-        $c_id = sget('c_id','i');
-        $number = sget('number','i');
-        $price = sget('price','f');
-        $delivery_place = sget('delivery_place','i');
-        $delivery_date = sget('delivery_date','i');//?????
-        $customer_manager = sget('customer_manager','i');
-        $ship_type = sget('ship_type','i');
-        $expiry_date = sget('expiry_date','i');
-        $status = sget('status','i');
-        $remark = sget('remark','i');
-        $input_time = CORE_TIME;
-        $chk_time = sget('chk_time','i');
+        $comData['p_id'] = sget('p_id','i');
+        $comData['sn'] = sget('sn','i');//ajax 异步提交生成订单号/touch/sign/buildOrderId
+        $comData['user_id'] = $this->user_id;
+        $comData['c_id'] = sget('c_id','i');
+        $comData['number'] = sget('number','i');
+        $comData['price'] = sget('price','f');
+        $comData['delivery_place'] = sget('delivery_place','i');
+        //$delivery_date = sget('delivery_date','i');
+        $comData['customer_manager'] = M('user:customerContact')->getListByUserid($this->user_id)['customer_manager'];
+        $comData['ship_type'] = sget('ship_type','i');
+        //$expiry_date = sget('expiry_date','i');
+        $comData['status'] = 2;
+        //$remark = sget('remark','i');
+        $comData['input_time'] = CORE_TIME;
+        //$chk_time = sget('chk_time','i');
+        if(M('myapp:mainPage')->savaComissionData($comData)) $this->json_output(array('err'=>0,'msg'=>'委托洽谈成功'));
+        $this->json_output(array('err'=>2,'msg'=>'委托洽谈失败'));
     }
 }
