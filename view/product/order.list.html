@@ -115,7 +115,6 @@
 				<td>
 					<input name="transport_status" class="mini-radiobuttonlist"  textfield="text" value="2"  valuefield="id"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
 					<input name="o_id"  class="mini-hidden" id="o_id2" value="">
-
 				</td>
 			</tr>
 
@@ -237,7 +236,8 @@ function onLoadDetail(e){
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
 		if(order_status =='3' || transport_status =='3') return;
-			if(order_status =='2' && transport_status=='2'){
+			$where= sales_type == '1' ? order_status =='2' && transport_status=='2' : order_status =='2' ;
+			if($where){   //先采后销和先销后采审核条件不同
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
 					if(join_id != '0' && is_join_in == '0'){ //
 						s +='采购单审核中..';
