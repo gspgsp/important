@@ -48,6 +48,7 @@ class mainPageModel extends model
             ->order("$sortField $sortOrder")
             ->getPage();
             foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
             }
             return $data;
