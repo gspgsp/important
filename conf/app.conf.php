@@ -12,7 +12,7 @@ return array(
 	'ERROR_PAGE'    => '/',   //404错误页面
     	//SESSION设置
     	'SESSION_START'    => true,    //是否自动开启Session
-		'SESSION_TTL'      => 480,  //session有效期
+		'SESSION_TTL'      => 3600,  //session有效期
     	'SESSION_TYPE'     => 'memcache', //mysql或memcache
     	'SESSION_NAME'     => C('COOKIE_PRE').'SSID', //名称
     	'SESSION_TOKEN'    => C('COOKIE_PRE').'token', //名称

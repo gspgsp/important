@@ -65,9 +65,10 @@
 				</div>
 				<!--filter-bot end-->
         	</form>
-        	
         </div>
         <!--filter end-->
+
+
         <!--con-tabe-1 begin-->
         <div id="con-tabe-1" class="con-tabe">
         	<!--opt begin-->
@@ -112,6 +113,7 @@ $(function(){
 			}
 		},'json');
 	});
+
 	var listForm=$("#listForm");
 
 	$("#reshelf").click(function(){
@@ -138,6 +140,8 @@ $(function(){
 		},'json');
 	});
 
+
+
 	$("#table_box").load('/user/mypurchase/tables',{type:"{$type}",page:"{$page}"});
 	var filterForm=$("#filterForm");
 	filterForm.on('submit',function(){
@@ -145,6 +149,7 @@ $(function(){
 		$("#table_box").load('/user/mypurchase/tables',data);
 		return false;
 	});
+
 
 	filterForm.find('select').change(function(){
 		filterForm.submit();

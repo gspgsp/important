@@ -306,11 +306,34 @@ class mypurchaseAction extends userBaseAction{
 	 * 我的购货
 	 *
      */
+
 	public function wantBuy(){
 
 		$this->act='wantBuy';
 
 		$this->display('wantbuy');
+	}
+
+	/**采购table
+	 *
+     */
+	public function buyTable(){
+
+		$type=1;//采购
+		$where="s.user_id=$this->user_id and pur.type=$type";
+		//收索条件
+		if($status=sget('status','s','')){
+			$where.=" and s.status={$status} ";
+		}
+		//P($where);
+		$page=sget('page','i',1);
+		$size=10;
+		$list=M('product:purchase')->getWantBuy($where,$page,$size);
+		//p($list);die;
+		$this->assign('list',$list);
+		$this->assign('page',$page);
+		$this->assign('count',ceil($list['count']/$size));
+		$this->display('buytable');
 	}
 
 

@@ -158,14 +158,40 @@ class myoffersAction extends userBaseAction{
 	}
 
 	/**
-	 * 我的供货
+	 * 我的供货(报价)
 	 *
      */
 	public function supply(){
 		$this->act='supply';
 
-
 		$this->display('supply');
+	}
+
+	/**
+	 *
+	 *
+     */
+	public function subblyTable(){
+		$type=2;//报价
+		$where="s.user_id=$this->user_id and pur.type=$type ";
+
+		$status=sget('status','s','');
+		p($status);
+		//收索条件
+		if($status=sget('status','s','')){
+			$where.=" and s.status='{$status}' ";
+		}
+
+		$page=sget('page','i',1);
+		$size=10;
+		$list=M('product:salebuy')->getPurPage($where,$page,$size);
+
+		$this->assign('list',$list);
+		$this->assign('page',$page);
+		$this->assign('count',ceil($list['count']/$size));
+
+		$this->display('supply_table');
+
 	}
 
 
