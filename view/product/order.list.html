@@ -248,7 +248,7 @@ function onLoadDetail(e){
 						}
 						
 						if (c_status !='3' && out_storage_status == '已出库') {
-						s+='<a href="javascript:transaction('+oid+','+order_type+')">收款</a>&nbsp;|&nbsp;';
+						s+='<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>&nbsp;|&nbsp;';
 						}
 						if (i_status !='全部开票' && newstatus == '3' && c_status =='3') {
 							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
@@ -275,7 +275,7 @@ function onLoadDetail(e){
 			}
 			
 			if (c_status !='3' && in_storage_status == '已入库') {
-				s+='<a href="javascript:transaction('+oid+','+order_type+')">付款</a>&nbsp;|&nbsp;';
+				s+='<a href="javascript:transaction('+oid+','+order_type+')">申请付款</a>&nbsp;|&nbsp;';
 			}
 			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库') {
 				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
@@ -293,9 +293,9 @@ function onLoadDetail(e){
 function transaction(oid,order_type){
 	var width=430, height=420,type=order_type;
 	if(type=='1'){
-		title="新增收款记录";
+		title="新增收款申请";
 	}else{
-		title="新增付款记录";
+		title="新增付款申请";
 	}
 	mini.open({
 		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type,
