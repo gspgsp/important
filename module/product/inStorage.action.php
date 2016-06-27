@@ -81,7 +81,10 @@ class inStorageAction extends adminBaseAction {
 				if( !$this->db->model('in_storage')->add($data+$basic_info) ) throw new Exception("新增入库失败!");
 			} 
 			if($data['join_id']>0){
-				if( !$this->db->model('order')->where(' o_id = '.$data['join_id'])->update('is_join_in = 1') ) throw new Exception("销售订单中采购入库状态更新失败");
+				$is_join_in =  $this->db->model('order')->where(' o_id = '.$data['join_id'])->select('is_join_in')->getOne();
+				if($is_join_in<1){
+					if( !$this->db->model('order')->where(' o_id = '.$data['join_id'])->update('is_join_in = 1') ) throw new Exception("销售订单中采购入库状态更新失败");
+				}
 			}
 			foreach ($data['list'] as $k => $v) {
 				$_data['o_id']=$v['o_id'];
@@ -98,14 +101,18 @@ class inStorageAction extends adminBaseAction {
 				if( !$this->db->model('in_log')->add($_data+$basic_info) ) throw new Exception("新增入库明细失败!");
 				$inlog_id=$this->db->getLastID(); //获取新增出库单ID	
 				if( $_data['join_id']>0 ){ //虚拟入库时的仓库 更新到销售明细 以便发货时把数据add到出库明细表
-					if( !$this->db->model('sale_log')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'])->update('store_id='.$_data['store_id'].' , store_aid='.$_data['store_aid'].' , inlog_id='.$inlog_id.' , lot_num='.$_data['lot_num']) ) throw new Exception("销售订单更新虚拟入库数据失败");
+					$inlog_id =  $this->db->model('sale_log')->select('inlog_id')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'])->getOne();
+					if($inlog_id<1){
+						echo "111";
+						if( !$this->db->model('sale_log')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'])->update('store_id='.$_data['store_id'].' , store_aid='.$_data['store_aid'].' , inlog_id='.$inlog_id.' , lot_num='.$_data['lot_num']) ) throw new Exception("销售订单更新虚拟入库数据失败");
+					}
 				}
 				$input_store['s_id']=$data['store_id'];
 				$input_store['p_id']=$v['p_id'];
 				$input_store['number']=$v['number'];
 				$input_store['remainder']=$v['number'];
 				if( $this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->getOne() ){
-					if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->update('number=number+'.$v['in_number']) ) throw new Exception("新增仓库货品更新失败");
+					if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->update('number=number+'.$v['in_number'].'  , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("新增仓库货品更新失败");
 					
 				}else{
 					if( !$this->db->model('store_product')->add($input_store+$basic_info) ) throw new Exception("新增仓库货品失败!");
@@ -118,10 +125,6 @@ class inStorageAction extends adminBaseAction {
 				}else{
 					if( !$this->db->model('purchase_log')->where('id = '.$v['id'])->update(' in_storage_status=2 , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
 				}
-
-
-
-
 			}
 			//每次操作完查询一下明细是否全部入库
 			$check = $this->db->model('purchase_log')->select('id')->where(' in_storage_status < 3 and o_id = '.$data['o_id'] )->getOne();

@@ -84,7 +84,7 @@
 			<div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 			<div field="input_admin" width="40" headerAlign="center" align="center">交易员</div>
 			{if $order_type eq 1}
-			 <div name="action" width="75" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>
+			 <div name="action" width="40" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>
 			 {/if}
 			 <div name="action" width="75" headerAlign="center" align="center" cellStyle="padding:0;" renderer="oncheckDetail">审核</div>
 			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
@@ -164,9 +164,9 @@ function onTransportStatus(e) {
 //追加关联
 function onJoin(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
-	if(sales_type == '1'){
+	if(sales_type == '1' && store_o_id !='0'){
 		s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
-	}else{
+	}else if(sales_type == '2' && join_id !='0'){
 		s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
 	}
 	return s;

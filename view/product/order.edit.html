@@ -26,22 +26,19 @@
 					<tr>
 						<td>是否销库存<font style="color:red;"> * </font></td>
 						<td>
-							 <input name="" class="mini-radiobuttonlist" width="100px" required="true" onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
+							 <input name="sales_type" class="mini-radiobuttonlist" width="100px" required="true" onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
 						</td>
-						<td>销售类型<font style="color:red;"> * </font></td>
-						<td><input name="sales_type" class="mini-combobox" style="width:125px;" id="sales_type" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}'   required="true" textfield="name" valuefield="id"/></td>
-					</tr>
-					{else}
-					<tr>
-						<td>采购类型<font style="color:red;"> * </font></td>
-						<td><input name="purchase_type" class="mini-combobox" style="width:125px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}'   required="true" textfield="name" valuefield="id"/></td>
-					
-					{/if}	
 						<td><font style="color:blue;">运输方式</font><font style="color:red;"> * </font></td>
 						<td>
 						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;" onvaluechanged="changtransport" required="false"/>
 						</td>
 					</tr>
+					{else}
+					<tr>
+						<td>采购类型<font style="color:red;"> * </font></td>
+						<td><input name="purchase_type" class="mini-combobox" style="width:125px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}'   required="true" textfield="name" valuefield="id"/></td>
+					</tr>
+					{/if}	
 					<tr id="send">
 						<td><font style="color:blue;">送货日期</font><font style="color:red;"> * </font></td>
 						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>

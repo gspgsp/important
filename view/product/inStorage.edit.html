@@ -35,16 +35,16 @@
 				</tr>
 			{else}
 				<tr>
-					<td>入库名称:</td>
+					<td>入库名称 :</td>
 					<td>{$in_info.purchase_subject}
 					</td>
 <!-- 					<td>入库单号</td>
 					<td>{$in_info.in_storage_no}</td> -->
 				</tr>
 				<tr>
-					<td>物流公司:</td>
+					<td>物流公司 :</td>
 					<td>{$ship_company.$in_info.ship_id}</td>
-					<td>入库类型</td>
+					<td>入库类型 :</td>
 					<td>{$purchase_type.$in_info.purchase_type}</td>
 				</tr>
 				<tr>		
@@ -114,10 +114,18 @@ function viewOrdInfo(id){
 	});		
 }
 function submitForm() {
+	var isok = true;
 	var form = new mini.Form("#editForm");
 	form.validate();
 	if(form.isValid() == false) return;
 	var rows = grid.getSelecteds();
+	for(var i = 0;i<rows.length;i++){
+		if(!rows[i].lot_num){
+			$("#returnMsg").text("请填写批次");
+			isok=false;
+		} 
+	}
+	if( !isok ) return ;
 	//提交数据
 	var o = form.getData();
 	$.extend(o, {list:rows}); 
