@@ -6,13 +6,16 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<meta name="format-detection" content="telephone=no" /> 
 		<title></title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/app.css" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 	<body style="padding-bottom: 50px;">
 		<header id="bigCustomerHeader">
-			<a class="back" href="#"></a>委托交易
+			<a class="back" href="javascript:window.history.back();"></a>委托交易
 		</header>
 		<table class="supplyDemandTradeTb" cellpadding="0" cellspacing="0">
 			<tr>
@@ -69,7 +72,34 @@
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
-			
+			$(function () {
+				var id=getUrlParam("id");
+				commonAjax(
+						"post",
+						"/myapp/mainPage/getCheckDelegate",
+						{otype:2,id:id}
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						$("#model").text(res.chDeRes.model);
+						$("#f_name").text(res.chDeRes.f_name);
+						$("#unit_price").text(res.chDeRes.unit_price);
+						$("#number").text(res.chDeRes.number);
+						$("#store_house").text(res.chDeRes.store_house);
+						$("#delivery_place").text(res.chDeRes.delivery_place);
+						$("#input_time").text(res.chDeRes.input_time);
+						$("#delivertime").text(res.chDeRes.delivertime);
+						$("#con_name").text(res.chDeRes.con_name);
+						$("#mobile").text(res.chDeRes.mobile);
+						$("#qq").text(res.chDeRes.qq);
+					}
+				},function () {
+
+				});
+
+			})
 		</script>
 
 	</body>

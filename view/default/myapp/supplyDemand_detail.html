@@ -19,8 +19,8 @@
 		<div class="bigCustomerDetail">
 			<h3><img src="__MYAPP__/img/bigCustomer.png">产品信息</h3>
 			<ul class="bigCustomerDetailUl">
-				<li><span>产品类型：</span><font id="model"></font></li>
-				<li><span>牌      号：</span><font id="f_name"></font></li>
+				<li><span>产品类型：</span><font id="product_type"></font></li>
+				<li><span>牌      号：</span><font id="model"></font></li>
 				<li><span>单      价：</span>￥<font id="unit_price"></font>/吨</li>
 				<li><span>数      量：</span><font id="number"></font>吨</li>
 				<li><span>厂      家：</span><font id="store_house"></font></li>
@@ -55,8 +55,8 @@
 					if(res.err==1){
 						window.location.href="/myapp/login";
 					}else{
+						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);
-						$("#f_name").text(res.chDeRes.f_name);
 						$("#unit_price").text(res.chDeRes.unit_price);
 						$("#number").text(res.chDeRes.number);
 						$("#store_house").text(res.chDeRes.store_house);

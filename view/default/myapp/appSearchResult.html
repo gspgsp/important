@@ -61,7 +61,7 @@
 							$("#searchWrapUl").html(searchLi);
 							v.twoData.forEach(function (v,i,a) {
 								searchTb+="<tr><td>"+v.company+"</td>" +
-										"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/myapp/mainPage/enCheckForm?id="+v.id+"'>查看</a>&nbsp;<a class='orange' href=''>委托</a></td></tr>";
+										"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/myapp/mainPage/enCheckForm?id="+v.id+"'>查看</a>&nbsp;<a class='orange' href='/myapp/mainPage/enDelegateForm?id="+v.id+"'>委托</a></td></tr>";
 							});
 							$(".supplyDemandTb").append(searchTb);
 							searchTb="";
