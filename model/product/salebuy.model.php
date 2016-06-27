@@ -36,4 +36,57 @@ class salebuyModel extends model{
 	public function getSalebuyInfoById($id=0,$col = 'id'){
 		return $this->where("$col = $id")->getRow();
 	}
+
+	/**
+	 * 查询我的供货信息
+	 *
+     */
+	public function getPurPage($where,$page,$pageSize){
+		$this->from('sale_buy as s')
+			->join('purchase as pur ','s.p_id=pur.id')
+			->join('lib_region as reg','pur.province=reg.id')
+		    ->join('product as p','p.id=pur.p_id')
+			->join('customer as c','c.c_id=s.c_id')
+			->join('factory as f','p.f_id=f.fid')
+			->join('union_order as u','s.id=u.p_sale_id')
+			->where($where)
+			->order('input_time desc')
+			->page($page,$pageSize)
+			->select('c.c_name,s.number,s.price,s.delivery_date,s.status,s.update_time,s.remark, pur.store_house,
+pur.cargo_type,reg.name,p.product_type,p.model,p.process_type, f.f_name`,u.id AS oid')
+			->getPage();
+
+
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
