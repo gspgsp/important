@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 		<style>
 			.supplyDemandTradeTb input[type="text"]{ margin: 0; height: 20px; font-size: 12px; width: 70px; text-align: center; padding: 5px;}
-			.supplyDemandTradeTb select{ font-size: 12px; margin: 0; width: 65px;}
+			.supplyDemandTradeTb select{ font-size: 12px; margin: 0; width: 50px; height: 25px; border: 1px solid #ddd !important; padding: 0 5px;}
 		</style>
 	</head>
 	<body style="padding-bottom: 50px;">
@@ -43,7 +43,7 @@
 				<td id="f_name"></td>
 			</tr>
 			<tr>
-				<td>选择交货地</td>
+				<td>交货地</td>
 				<td id="delivery_place">
 					<select>
 						<option value="2">北京</option>
@@ -95,19 +95,19 @@
 			</tr>
 			<tr>
 				<td width="35%">联系人</td>
-				<td id="con_name">张飞扬</td>
+				<td id="con_name"></td>
 			</tr>
 			<tr>
 				<td>联系方式</td>
-				<td id="mobile">13776548475</td>
+				<td id="mobile"></td>
 			</tr>
 			<tr>
 				<td>公司名称</td>
-				<td>上海中晨电子商务股份有限公司</td>
+				<td id="c_name"></td>
 			</tr>
 		</table>
 		<div class="bigCustomerDetailBtn">
-			<input type="button" value="委托交易">
+			<input id="tradeBtn" type="button" value="委托交易">
 		</div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
@@ -137,10 +137,31 @@
 						$("#con_name").text(res.chDeRes.con_name);
 						$("#mobile").text(res.chDeRes.mobile);
 						$("#qq").text(res.chDeRes.qq);
+						$("#c_name").text(res.chDeRes.c_name);
 					}
 				},function () {
 
 				});
+				
+				$("#tradeBtn").on("click",function () {
+					commonAjax(
+							"post",
+							"/myapp/mainPage/savaComission",
+							{
+								product_type:product_type,
+								model:model,
+								unit_price:unit_price,
+								number:number,
+								f_name:f_name,
+
+							}
+					).then(function () {
+
+					},function () {
+
+					});
+				});
+				
 			})
 		</script>
 
