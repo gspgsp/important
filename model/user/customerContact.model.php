@@ -197,6 +197,22 @@ class customerContactModel extends model{
 	public function getListByUserid($user_id){
 		return $this->model('customer_contact')->where("user_id=$user_id")->getRow();
 	}
+
+
+	/**根据当前用户id获取当前用户相关信息
+	 * @param $userid
+     */
+	public function getCustomerInFoById($userid){
+		return $this->from('customer_contact con')
+					->leftjoin('customer as cus','con.c_id=cus.c_id')
+					->leftjoin('admin as adm','adm.admin_id=cus.customer_manager')
+					->leftjoin('contact_info as cin','cin.user_id=con.user_id')
+					->leftjoin('user_msg as msg','msg.user_id=con.user_id')
+					->where("con.user_id=$userid and msg.is_read=1 and msg.utype=0")
+					->select('con.last_login,con.name as u_name ,cus.c_name,cus.identification,adm.mobile,adm.name as adm_name,cin.thumb,cin.points,count(msg.id) as number')
+			        ->getRow();
+		}
+
 	/**
 	 * 更具字段取出对应的值
 	 */

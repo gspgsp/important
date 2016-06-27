@@ -75,6 +75,7 @@ class customerModel extends model{
 		}
 		return empty($result) ? array() : $result;
 	}
+
 	/**
 	 * 根据客户id获取客户的所有信息
 	 * @Author   cuiyinming
