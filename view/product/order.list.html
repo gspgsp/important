@@ -251,7 +251,7 @@ function onLoadDetail(e){
 						s+='<a href="javascript:transaction('+oid+','+order_type+')">收款</a>&nbsp;|&nbsp;';
 						}
 						if (i_status !='全部开票' && newstatus == '3' && c_status =='3') {
-							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|&nbsp;';
+							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
 						}
 						if (c_status =='3' && i_status =='全部开票') {
 							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
@@ -278,7 +278,7 @@ function onLoadDetail(e){
 				s+='<a href="javascript:transaction('+oid+','+order_type+')">付款</a>&nbsp;|&nbsp;';
 			}
 			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库') {
-				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|&nbsp;';
+				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
 			}
 			if (c_status =='3' && i_status =='全部开票') {
 				s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
@@ -312,7 +312,7 @@ function transaction(oid,order_type){
 //开票
 function addInvoice(oid,order_type){
 	var width=520, height=680,type=order_type,invoice='1';
-		title="新增开票";
+		title="新增开票申请";
 	mini.open({
 		//有invoice表示是开票
 		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice,

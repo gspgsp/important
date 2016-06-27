@@ -20,14 +20,14 @@
 				</select>
 				
 				<select name="collection_status" id="collection_status">
-					<option value="" selected="selected">={if $type eq '1'}订单收款状态{else}订单付款状态{/if}=</option>
+					<option value="" selected="selected">={if $type eq '1'}收款状态{else}付款状态{/if}=</option>
 						{html_options options=$collection_status}
 				</select>
 				
-				<select name="invoice_status" id="invoice_status">
+				<!-- <select name="invoice_status" id="invoice_status">
 					<option value="" selected="selected">=开票状态=</option>
 					{html_options options=$invoice_status}
-				</select>
+				</select> -->
 				<select name="company_account" id="company_account">
 					<option value="" selected="selected">=交易公司账户=</option>
 					{html_options options=$company_account}
@@ -61,7 +61,7 @@
 		
 		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">{if $type eq '1'}收款状态{else}付款状态{/if}</div>
 
-		<div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div>
+		<!-- <div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div> -->
 		<div field="remark" width="120" headerAlign="center" >备注<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
@@ -111,12 +111,36 @@ function onLoadHandle(e) {
 
 //追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status, s='';
-	if(c_status != '4' && c_price != 0)
-	s += '<a href="javascript:viewPinfo('+oid+','+c_price+','+total_price+',\''+o_sn+'\')">退款</a>';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status,id=record.id, s='';
+	var order_type={$type};
+	if (c_status ==1) {
+		s += '<a href="javascript:transaction('+oid+','+order_type+','+id+')">审核</a>';
+	}
+	if(c_status == 2)
+	s += '<a href="javascript:viewPinfo('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">退款</a>';
 	return s;
 }
 
+//付款收款申请审核
+function transaction(oid,order_type,id){
+	var width=430, height=420,type=order_type,finance=1;
+	if(type=='1'){
+		title="收款申请审核";
+	}else{
+		title="付款申请审核";
+	}
+	mini.open({
+		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type+"&finance="+finance+"&id="+id,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});		
+}
+//下载附件
 function down(e){
 	var record = e.record, accessory =  record.accessory, s = '';
 	if(accessory != ''){
@@ -127,9 +151,9 @@ function down(e){
 }
 
 //红充操作
-function viewPinfo(oid,c_price,total_price,o_sn){
+function viewPinfo(oid,id,c_price,total_price,o_sn){
 	var o_sn = o_sn;
-	var data = {oid:oid,c_price:c_price,total_price:total_price,o_sn:o_sn};
+	var data = {oid:oid,id:id,c_price:c_price,total_price:total_price,o_sn:o_sn};
 	var json = mini.encode(data);
 	mini.confirm("确定交易取消？", "提示", function(action){
 	if(action!='ok') return;
@@ -158,10 +182,10 @@ function viewOrdInfo(oid,type){
 }
 
 //设置状态
-function setInv(e){
-	var inv= e.record.invoice_status;
-	return $("#invoice_status").find("option[value="+inv+"]").text();
-}
+// function setInv(e){开票状态
+// 	var inv= e.record.invoice_status;
+// 	return $("#invoice_status").find("option[value="+inv+"]").text();
+// }
 function setCol(e){
 	var col = e.record.collection_status;
 	return $("#collection_status").find("option[value="+col+"]").text();

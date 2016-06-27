@@ -76,9 +76,9 @@ class collectionAction extends adminBaseAction
 		$collection_status = sget("collection_status",'s','');
 		if($collection_status!='') $where.=" and `collection_status` = '$collection_status' ";
 		//开票状态
-		$invoice_status = sget("invoice_status",'s','');
-		if($invoice_status!='') $where.=" and `invoice_status` = '$invoice_status' ";
-		//收付款状态
+		// $invoice_status = sget("invoice_status",'s','');
+		// if($invoice_status!='') $where.=" and `invoice_status` = '$invoice_status' ";
+		//交易公司类型
 		$company_account = sget("company_account",'s','');
 		if($company_account!='') $where.=" and `account` = '$company_account' ";
 		//关键词
@@ -130,7 +130,7 @@ class collectionAction extends adminBaseAction
 		$this->db->startTrans();//开启事务
 			try {
 				if(!$this->db->model('collection')->add($update) )throw new Exception("新增退款失败");
-				if(!$this->db->model('collection')->wherePK($data['id'])->update( array('collection_status'=>4)) )throw new Exception("修改退款状态失败");
+				if(!$this->db->model('collection')->wherePK($data['id'])->update( array('collection_status'=>3)) )throw new Exception("修改退款状态失败");
 				//根据撤销付款金额与总金额的大小，判断订单付款状态
 				if($data['total_price'] == $data['c_price']){
 					if(!$this->db->model('order')->wherePK($data['oid'])->update( array('collection_status'=>1)) )throw new Exception("修改订单表退款状态失败");
