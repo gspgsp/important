@@ -566,22 +566,52 @@
     <!--left end-->
     <!--right begin-->
     <div class="right frt">
-    	<div class="title">
-        	<ul>
-                {foreach from=$product_type item=value key=key}
-                <li id="taba{$key}" onmouseover="setTab('taba',{$key},5)" {if $key==1}class="hover"{/if}><span>{$value}</span><b></b>/</li> 
-                {/foreach}
-            </ul>
-        </div>
-        <!--taba begin-->
-        <div class="taba">
-            <div class="taba-con" id="con-taba-1"></div>
-            <div class="taba-con" id="con-taba-2"></div>
-            <div class="taba-con" id="con-taba-3"></div>
-            <div class="taba-con" id="con-taba-4"></div>
-            <div class="taba-con" id="con-taba-5"></div>
-        </div>
-        <!--taba end-->
+        <div class="title">网站指数</div>
+        <!--web-index begin-->
+        <ul class="web-index">
+            <!-- <li>
+                <dl class="web-index-lt flt web-index-person">
+                    <dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">昨日服务人数</p>
+                        <p class="num"><span>{$server.population}</span>人</p>
+                    </dd>
+                </dl>
+                <dl class="web-index-rt flt web-index-deal">
+                    <dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">昨日成交</p>
+                        <p class="num"><span>{$server.deal}</span>笔</p>
+                    </dd>
+                </dl>
+            </li> -->
+            <li>
+                <dl class="web-index-lt flt web-index-supply">
+                    <dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">供应总量</p>
+                        <p class="num"><span>{$server.supplyAll}</span>吨</p>
+                    </dd>
+                </dl>
+                <dl class="web-index-rt flt web-index-demand">
+                    <dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">需求总量</p>
+                        <p class="num"><span>{$server.demandAll}</span>吨</p>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl class="web-index-total">
+                    <dt class="icon"></dt>
+                    <dd>
+                        <p class="explain">交易总额</p>
+                        <p class="num"><span>{$server.dealyAll|number_format}</span>元</p>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+        <!--web-index end-->
     </div>
     <!--right end-->
 </div>
@@ -628,52 +658,22 @@
     <!--left end-->
     <!--right begin-->
     <div class="right frt">
-    	<div class="title">网站指数</div>
-        <!--web-index begin-->
-        <ul class="web-index">
-        	<li>
-            	<dl class="web-index-lt flt web-index-person">
-                	<dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">昨日服务人数</p>
-                        <p class="num"><span>{$server.population}</span>人</p>
-                    </dd>
-                </dl>
-                <dl class="web-index-rt flt web-index-deal">
-                	<dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">昨日成交</p>
-                        <p class="num"><span>{$server.deal}</span>笔</p>
-                    </dd>
-                </dl>
-            </li>
-            <li>
-            	<dl class="web-index-lt flt web-index-supply">
-                	<dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">供应总量</p>
-                        <p class="num"><span>{$server.supplyAll}</span>吨</p>
-                    </dd>
-                </dl>
-                <dl class="web-index-rt flt web-index-demand">
-                	<dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">需求总量</p>
-                        <p class="num"><span>{$server.demandAll}</span>吨</p>
-                    </dd>
-                </dl>
-            </li>
-            <li>
-            	<dl class="web-index-total">
-                	<dt class="icon"></dt>
-                    <dd>
-                    	<p class="explain">交易总额</p>
-                        <p class="num"><span>{$server.dealyAll|number_format}</span>元</p>
-                    </dd>
-                </dl>
-            </li>
-        </ul>
-        <!--web-index end-->
+    	<div class="title">
+            <ul>
+                {foreach from=$product_type item=value key=key}
+                <li id="taba{$key}" onmouseover="setTab('taba',{$key},5)" {if $key==1}class="hover"{/if}><span>{$value}</span><b></b>/</li> 
+                {/foreach}
+            </ul>
+        </div>
+        <!--taba begin-->
+        <div class="taba">
+            <div class="taba-con" id="con-taba-1"></div>
+            <div class="taba-con" id="con-taba-2"></div>
+            <div class="taba-con" id="con-taba-3"></div>
+            <div class="taba-con" id="con-taba-4"></div>
+            <div class="taba-con" id="con-taba-5"></div>
+        </div>
+        <!--taba end-->
     </div>
     <!--right end-->
 </div>
@@ -1243,7 +1243,7 @@ function rush(){
 
 //调价动态
 var track = $(".slider-container").silverTrack({
-    perPage:5
+    perPage:4
 });
 var parent = track.container.parents(".track");
  
