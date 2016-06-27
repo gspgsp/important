@@ -5,31 +5,61 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/app.css" />
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 	<body>
 		<header id="classifyHeader">
-			<a class="back" href="#"></a>
+			<a class="back" href="javascript:window.history.back();"></a>
 			委托采购
 		</header>
 		<div class="purchaseWrap">
 			<h3>简单三步</h3>
-			<img src="img/purchaseProgress.jpg" />
+			<img src="__MYAPP__/img/purchaseProgress.jpg" />
 			<div class="purchaseInput">
 				<span>文本</span>
-				<input type="text" placeholder="输入牌号、价格、数量快速委托" />
+				<input id="content" type="text" placeholder="输入牌号、价格、数量快速委托" />
 			</div>
 			<h4>通过文字快速发布采购信息</h4>
 		</div>
 		<div class="purchaseBtn">
-			<input type="button" value="免费委托发布" />
+			<input id="submitBtn" type="button" value="免费委托发布" />
 		</div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				$("#submitBtn").on("click",function () {
+					var content=$("#content").val();
+					if(!content){
+						mui.alert("","请输入采购信息",function () {
+							
+						});
+					}else{
+						commonAjax(
+								"post",
+								"/myapp/mainPage/getPurchase",
+								{content:content}
+						).then(function (res) {
+							console.log(">>>",res);
+							if(res.err==1){
+								window.location.href="/myapp/login";
+							}else{
+								mui.alert("",res.msg,function () {
+									window.location.href="/myapp/mainPage/enMainPage";
+								});
+							}
+						},function () {
+
+						});
+					}
+
+				});
+			})
 		</script>
 
 	</body>

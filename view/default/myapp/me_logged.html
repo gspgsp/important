@@ -1,79 +1,80 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
-		<script src="__MYAPP__/js/mui.min.js"></script>
-		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
-		<script src="__MYAPP__/js/common.js"></script>
-		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
-	</head>
-	<body style="padding-bottom: 55px;">
-		<header id="meHeader">
-			<a class="left" href="tel:4006129965">联系客服</a>
-			我的
-		</header>
-		<div class="meWrap">
-			<div class="meAvator">
-				<img id="avator" src="__MYAPP__/img/avator.png">
-			</div>
-		</div>
-		<div class="meName"></div>
-		<ul class="meUl">
-			<li><a href="/myapp/personalCenter/enMyQuotation"><img src="__MYAPP__/img/me.png">我的报价单<span id="qcount"></span></a></li>
-			<li><a href="/myapp/personalCenter/enMyPurchase"><img src="__MYAPP__/img/me2.png">我的采购<span id="pcount"></span></a></li>
-		</ul>
-		<ul class="meUl">
-			<li><a href="/myapp/personalCenter/enMyAttention"><img src="__MYAPP__/img/me4.png">我的关注<span id="proattcount"></span></a></li>
-			<li><a href="/myapp/personalCenter/enMyPoints"><img src="__MYAPP__/img/me5.png">我的积分<span id="points"></span></a></li>
-			<li><a href="javascript:;"><img src="__MYAPP__/img/me7.png">我的交易员<span id="cus_mana"></span></a></li>
-		</ul>
-		<ul class="meUl">
-			<li><a href="/myapp/personalCenter/enMySet"><img src="__MYAPP__/img/me6.png">设置</a></li>
-			<li><a href="/myapp/personalCenter/enMyFeedBack"><img src="__MYAPP__/img/me8.png">意见反馈</a></li>
-		</ul>
-		<footer id="footer">
-			<ul>
-				<li><a href="#"><i class="foot"></i><br>大客户专区</a></li>
-				<li><a href="#"><i class="foot2"></i><br>物性表</a></li>
-				<li><a href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-				<li><a href="#"><i class="foot4"></i><br>资讯</a></li>
-				<li><a class="footerOn" href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
-			</ul>
-	</footer>
-		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
-			$(function () {
-				commonAjax(
-						"post",
-						"/myapp/personalCenter/getPersonalCenter",
-						{type1:1,type2:2}
-				).then(function (res) {
-					console.log(res);
-					if(res.err==1){
-						window.location.href="/myapp/login";
-					}else{
-						$(".meName").text(res.name);
-						if(res.thumb){
-							$("#avator").attr("src",res.thumb);
-						}
-						$("#cus_mana").text(res.cus_mana);
-						$("#points").text(res.points);
-						$("#qcount").text(res.qcount);
-						$("#pcount").text(res.pcount);
-						$("#proattcount").text(res.proattcount);
-					}
-				},function () {
-					
-				});
-			})
-		</script>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+</head>
+<body style="padding-bottom: 55px;">
+<header id="meHeader">
+	<a class="left" href="tel:4006129965">联系客服</a>
+	我的
+</header>
+<div class="meWrap">
+	<div class="meAvator">
+		<img id="avator" src="__MYAPP__/img/avator.png">
+		<img id="meAlpha" src="__MYAPP__/img/meAlpha.png">
+	</div>
+</div>
+<div class="meName"></div>
+<ul class="meUl">
+	<li><a href="/myapp/personalCenter/enMyQuotation"><img src="__MYAPP__/img/me.png">我的报价单<span id="qcount"></span></a></li>
+	<li><a href="/myapp/personalCenter/enMyPurchase"><img src="__MYAPP__/img/me2.png">我的采购<span id="pcount"></span></a></li>
+</ul>
+<ul class="meUl">
+	<li><a href="/myapp/personalCenter/enMyAttention"><img src="__MYAPP__/img/me4.png">我的关注<span id="proattcount"></span></a></li>
+	<li><a href="/myapp/personalCenter/enMyPoints"><img src="__MYAPP__/img/me5.png">我的积分<span id="points"></span></a></li>
+	<li><a href="javascript:;"><img src="__MYAPP__/img/me7.png">我的交易员<span id="cus_mana"></span></a></li>
+</ul>
+<ul class="meUl">
+	<li><a href="/myapp/personalCenter/enMySet"><img src="__MYAPP__/img/me6.png">设置</a></li>
+	<li><a href="/myapp/personalCenter/enMyFeedBack"><img src="__MYAPP__/img/me8.png">意见反馈</a></li>
+</ul>
+<footer id="footer">
+	<ul>
+		<li><a href="#"><i class="foot"></i><br>大客户专区</a></li>
+		<li><a href="#"><i class="foot2"></i><br>物性表</a></li>
+		<li><a href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+		<li><a href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+		<li><a class="footerOn" href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
+	</ul>
+</footer>
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	$(function () {
+		commonAjax(
+				"post",
+				"/myapp/personalCenter/getPersonalCenter",
+				{type1:1,type2:2}
+		).then(function (res) {
+			console.log(res);
+			if(res.err==1){
+				window.location.href="/myapp/login";
+			}else{
+				$(".meName").text(res.name);
+				if(res.thumb){
+					$("#avator").attr("src",res.thumb);
+				}
+				$("#cus_mana").text(res.cus_mana);
+				$("#points").text(res.points);
+				$("#qcount").text(res.qcount);
+				$("#pcount").text(res.pcount);
+				$("#proattcount").text(res.proattcount);
+			}
+		},function () {
 
-	</body>
+		});
+	})
+</script>
+
+</body>
 
 </html>

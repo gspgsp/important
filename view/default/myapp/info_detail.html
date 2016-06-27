@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/app.css" />
-	</head>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+</head>
 
-	<body class="infoDetailBg">
-		<header id="infoHeader">
-			<a class="back" href="#"></a>
-			行业热点
-		</header>
-		<div class="infoDetailWrap">
-			<h3 class="infoDetailTitle">行业热点 | 2016-03-30</h3>
-			<h3 class="infoDetailTitle2">我的塑料网-发报价赢红包！</h3>
-			<h3 class="infoDetailTitle3">作者：本站原创</h3>
-			<div id="infoDetailContent">
-				在上周五PVC企业涨价的带动下，今日国内PVC市场贸易商报价继续拉涨，低端报价明显减少。尽管高价成交一般，下游对高价抵触，但供应商库存压力不大，低价惜售，挺价意向较强。 今日华东PVC市场报价低价继续减少，整体报价重心仍有小涨。5型普通电石料，主流自提报价在5280-5330元/吨，部分货源自提报价拉涨至5350-5380元/吨。内蒙宜化、三联、东兴、圣雄等自提报价5300元/吨左右，君正、北元等自提5330元/吨左右，君正中泰、天辰自提报价5350-5380元/吨。高价出货一般，窄幅让利出货，部分货源成交尚可。乙烯料报价稳定，1000型号送到华东报价在5650-5850元/吨，更高报价存在，出货一般。
-				华南地区PVC市场气氛尚可，成交稳定，商家报价继续小幅上调。普通5型电石料主流成交价5250-5300元/吨自提，天业价格略高。圣雄/盐湖5型报5250元/吨自提，东兴/鄂绒5型5280元/吨，天湖5型报5290元/吨自提，君正/亿利/北元5型报5350元/吨，中泰5型报5380元/吨自提，天业5型报5400元/吨自提；天业3型5520元/吨自提，中泰3型/8型报5450元/吨自提；三友3/8型报5450 元/吨自提；乙烯料价格稳定，主流5730-5770元/吨自 提，大沽700报5750元/吨自提，大沽1000型报5750元/吨自提。
-				华北地区PVC市场气氛平静，成交稳定，部分价格略涨。普通5型电石料河北市场主流5120-5210元/吨送到，山东市场主流5220-5290元/吨送到。
-			</div>
-		</div>
-		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
-		</script>
+<body class="infoDetailBg">
+<header id="infoHeader">
+	<a class="back" href="javascript:window.history.back();"></a>
+	资讯详情
+</header>
+<div class="infoDetailWrap">
+	<h3 class="infoDetailTitle">资讯详情 | <span id="time"></span></h3>
+	<h3 class="infoDetailTitle2">我的塑料网-发报价赢红包！</h3>
+	<h3 class="infoDetailTitle3">作者：<span id="admin"></span></h3>
+	<div id="infoDetailContent"></div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	$(function () {
+		var detailId=getUrlParam("id");
+		commonAjax(
+				"post",
+				"/myapp/mainPage/getArticleDetail",
+				{id:detailId}
+		).then(function (res) {
+			console.log(">>>",res);
+			$(".infoDetailTitle2").text(res.articleDetail.title);
+			$("#admin").text(res.articleDetail.admin_name);
+			$("#time").text(stampToDate2(res.articleDetail.input_time));
+			$("#infoDetailContent").html(res.articleDetail.content);
+		},function () {
 
-	</body>
+		});
+	});
+</script>
+
+</body>
 
 </html>
