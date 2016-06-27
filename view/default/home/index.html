@@ -429,31 +429,23 @@
                     <p class="how color3">委托发货>>选择保价>>交易完成</p>
                     <p class="msg"></p>
                     <table border="0" cellpadding="0" cellspacing="0">
-                        <form name="" method="post" action="/Index/doaddbuy/status/1">
+                        <form name="" id="contentForm" method="post" action="">
                             <tr>
                                 <td class="name">牌号</td>
-                                <td><input type="text" name="phtext" class="input border-gray grade" maxlength="15" /></td>
+                                <td><input type="text" name="model" class="input border-gray grade" maxlength="15" /></td>
                             </tr>
                             <tr class="num">
                                 <td class="name">数量</td>
-                                <td><input type="text" name="numtext" class="input border-gray amount" onkeyup="setCon(this)"/>吨</td>
+                                <td><input type="text" name="num" class="input border-gray amount" onkeyup="setCon(this)"/>吨</td>
                             </tr>
                             <tr class="num">
                                 <td class="name">意向价格</td>
-                                <td><input type="text" name="pricetext" class="input border-gray price" onkeyup="setCon(this)"/>元</td>
+                                <td><input type="text" name="price" class="input border-gray price" onkeyup="setCon(this)"/>元</td>
                             </tr>
                             <tr>
                                 <td class="name">交货地</td>
-                                <td><input type="text" name="jhtext" class="input border-gray place" maxlength="40" /></td>
+                                <td><input type="text" name="place" class="input border-gray place" maxlength="40" /></td>
                             </tr>
-                            <!-- <tr>
-                                <td class="name">联系人</td>
-                                <td><input type="text" name="" class="input border-gray linkman"/></td>
-                            </tr>
-                            <tr>
-                                <td class="name">电话</td>
-                                <td><input type="text" class="input border-gray tel"/></td>
-                            </tr> -->
                             <tr>
                                 <td colspan="2">
                                     <input type="button" value="免费委托发布" class="submit"/>
@@ -932,6 +924,45 @@
 <script type="text/javascript">
 $(function(){
 
+    // $("#contentForm").submit(function(){
+    //     var user=$("#user_name").html();
+    //     if(!user){
+    //         alert('请先登录');
+    //         window.location.href="/user/login";
+    //         return false;
+    //     }
+    //     var model=$("#contentForm input[name='model']").val().trim();
+    //     var place=$("#contentForm input[name='place']").val().trim();
+    //     var num=$("#contentForm input[name='num']").val().trim();
+    //     var price=$("#contentForm input[name='price']").val().trim();
+    //     if(!model){
+    //         alert('请输入所需牌号');
+    //         return false;
+    //     }
+    //     if(!place){
+    //         alert('请输入交货地');
+    //         return false;
+    //     }
+    //     if(!num){
+    //         alert('请输入数量');
+    //         return false;
+    //     }
+    //     if(!price){
+    //         alert('请输入价格');
+    //         return false;
+    //     }
+    //     var data=$("#contentForm").serialize();
+    //     $.post('/purchase/index/contentPurchase',data,function (data){
+    //         if(data.err==0){
+    //             alert(data.msg);
+    //             document.getElementById('contentForm').reset();
+    //         }else{
+    //             alert(data.msg);
+    //         }
+    //     },'json');
+    //     return false;
+    // });
+
 	$(".go-top").bind("click",function(){
 		$('html,body').animate({'scrollTop':0},300,function(){
 			$(".go-top").hide();
@@ -957,6 +988,12 @@ $(function(){
 		linkman = buy.find(".linkman"),
 		tel = buy.find(".tel");
 	buy.find(".submit").bind("click",function(){
+        var user=$("#user_name").html();
+        if(!user){
+            alert('请先登录');
+            window.location.href="/user/login";
+            return false;
+        }
 		msg = buy.find(".msg");
 		if(grade.val()==""){
 			msg.html("请输入牌号！");
@@ -988,20 +1025,18 @@ $(function(){
 			place.focus();
 			return;
 		}
-        var _user = $('#_user').val();
-        if(_user==''){
-            $.layer({
-                type: 2,
-                border: [0],
-                title: false,
-                fix:true,
-                iframe: {src : "/login/loginbox?type=new"},
-                area: ['360px', '340px']
-            });
-            return;
-        }
 		msg.html("");
-		buy.find("form").submit();
+        var data=$("#contentForm").serialize();
+        $.post('/purchase/index/contentPurchase',data,function (data){
+            if(data.err==0){
+                alert(data.msg);
+                document.getElementById('contentForm').reset();
+            }else{
+                alert(data.msg);
+            }
+        },'json');
+        return false;
+
 	});
 
 	//登录验证

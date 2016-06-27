@@ -123,22 +123,22 @@
         	<img src="__IMG__/home/tradeLc.png" width="230" height="69"/>
             <!--release begin-->
             <div class="release">
-            	<form name="" method="post" action="">
+            	<form id="contentForm" name="" method="post" action="">
                 	<div class="release-tr">
                     	<div class="release-name">牌<span></span>号：</div>
-                        <div class="release-val"><input type="text" maxlength="15"/></div>
+                        <div class="release-val"><input type="text" name="model" maxlength="15"/></div>
                     </div>
                     <div class="release-tr">
                         <div class="release-name">交货地：</div>
-                        <div class="release-val"><input type="text" maxlength="15"/></div>
+                        <div class="release-val"><input type="text" name="place" maxlength="15"/></div>
                     </div>
                     <div class="release-tr">
                         <div class="release-name">数<span></span>量：</div>
-                        <div class="release-val"><input type="text" maxlength="15"/><span>吨</span></div>
+                        <div class="release-val"><input type="text" name="num" maxlength="15"/><span>吨</span></div>
                     </div>
                      <div class="release-tr">
                         <div class="release-name">价<span></span>格：</div>
-                        <div class="release-val"><input type="text" maxlength="15"/><span>元</span></div>
+                        <div class="release-val"><input type="text" name="price" maxlength="15"/><span>元</span></div>
                     </div>
                     <input type="submit" class="submit" value="免费委托发布"/>
                 </form>
@@ -187,6 +187,43 @@
 
 
 <script type="text/javascript">
+$("#contentForm").submit(function(){
+    var user=$("#user_name").html();
+    if(!user){
+        loginbox('purchase');
+        return false;
+    }
+    var model=$("#contentForm input[name='model']").val().trim();
+    var place=$("#contentForm input[name='place']").val().trim();
+    var num=$("#contentForm input[name='num']").val().trim();
+    var price=$("#contentForm input[name='price']").val().trim();
+    if(!model){
+        alert('请输入所需牌号');
+        return false;
+    }
+    if(!place){
+        alert('请输入交货地');
+        return false;
+    }
+    if(!num){
+        alert('请输入数量');
+        return false;
+    }
+    if(!price){
+        alert('请输入价格');
+        return false;
+    }
+    var data=$("#contentForm").serialize();
+    $.post('/purchase/index/contentPurchase',data,function (data){
+        if(data.err==0){
+            alert(data.msg);
+            document.getElementById('contentForm').reset();
+        }else{
+            alert(data.msg);
+        }
+    },'json');
+    return false;
+});
 function doTalk(id)
 {
     var user=$("#user_name").html();

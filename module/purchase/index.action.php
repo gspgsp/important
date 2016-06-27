@@ -83,4 +83,23 @@ class indexAction extends homeBaseAction{
 		$this->display('index');
 	}
 
+	public function contentPurchase(){
+		if($_POST){
+			$this->is_ajax=true;
+			if($this->user_id<=0) $this->error('请先登录');
+			$data=saddslashes($_POST);
+			$str="所需牌号：%s，交货地：%s，数量：%s，价格：%s。";
+			$str=sprintf($str,$data['model'],$data['place'],$data['num'],$data['price']);
+			$_data=array(
+				'user_id'=>$this->user_id,//用户id
+				'content'=>$str,//临时信息字符串
+				'input_time'=>CORE_TIME,
+				'status'=>1,//待审核
+				'type'=>1,//采购
+			);
+			$this->db->model('purchase')->add($_data);
+			$this->success('提交成功');
+		}
+	}
+
 }
