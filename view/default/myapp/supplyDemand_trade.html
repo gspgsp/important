@@ -12,6 +12,10 @@
 		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			.supplyDemandTradeTb input[type="text"]{ margin: 0; height: 20px; font-size: 12px; width: 70px; text-align: center; padding: 5px;}
+			.supplyDemandTradeTb select{ font-size: 12px; margin: 0; width: 65px;}
+		</style>
 	</head>
 	<body style="padding-bottom: 50px;">
 		<header id="bigCustomerHeader">
@@ -28,19 +32,56 @@
 			</tr>
 			<tr>
 				<td>单价</td>
-				<td>￥<input type="text">/吨</td>
+				<td>￥<input id="unit_price" type="text">/吨</td>
 			</tr>
 			<tr>
 				<td>数量</td>
-				<td><input type="text">吨</td>
+				<td><input id="number" type="text">吨</td>
 			</tr>
 			<tr>
 				<td>厂家</td>
 				<td id="f_name"></td>
 			</tr>
 			<tr>
-				<td>交货地</td>
-				<td id="delivery_place"></td>
+				<td>选择交货地</td>
+				<td id="delivery_place">
+					<select>
+						<option value="2">北京</option>
+						<option value="3">安徽</option>
+						<option value="4">福建</option>
+						<option value="5">甘肃</option>
+						<option value="6">广东</option>
+						<option value="7">广西</option>
+						<option value="8">贵州</option>
+						<option value="9">海南</option>
+						<option value="10">河北</option>
+						<option value="11">河南</option>
+						<option value="12">黑龙江</option>
+						<option value="13">湖北</option>
+						<option value="14">湖南</option>
+						<option value="15">吉林</option>
+						<option value="16">江苏</option>
+						<option value="17">江西</option>
+						<option value="18">辽宁</option>
+						<option value="19">内蒙古</option>
+						<option value="20">宁夏</option>
+						<option value="21">青海</option>
+						<option value="22">山东</option>
+						<option value="23">山西</option>
+						<option value="24">陕西</option>
+						<option value="25">上海</option>
+						<option value="26">四川</option>
+						<option value="27">天津</option>
+						<option value="28">西藏</option>
+						<option value="29">新疆</option>
+						<option value="30">云南</option>
+						<option value="31">浙江</option>
+						<option value="32">重庆</option>
+						<option value="33">香港</option>
+						<option value="34">澳门</option>
+						<option value="35">台湾</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td>采购方式</td>
@@ -88,10 +129,9 @@
 					}else{
 						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);
-						$("#unit_price").text(res.chDeRes.unit_price);
-						$("#number").text(res.chDeRes.number);
+						$("#unit_price").val(res.chDeRes.unit_price);
+						$("#number").val(res.chDeRes.number);
 						$("#f_name").text(res.chDeRes.f_name);
-						$("#delivery_place").text(res.chDeRes.delivery_place);
 						$("#input_time").text(res.chDeRes.input_time);
 						$("#delivertime").text(res.chDeRes.delivertime);
 						$("#con_name").text(res.chDeRes.con_name);

@@ -24,7 +24,7 @@
 				<li><span>单      价：</span>￥<font id="unit_price"></font>/吨</li>
 				<li><span>数      量：</span><font id="number"></font>吨</li>
 				<li><span>厂      家：</span><font id="f_name"></font></li>
-				<li><span>交货地：</span><font id="delivery_place"></font></li>
+				<li><span>交货地：</span><font id="provinces"></font></li>
 				<li><span>发布时间：</span><font id="input_time"></font></li>
 				<li><span>交货时间：</span><font id="delivertime"></font></li>
 			</ul>
@@ -63,7 +63,7 @@
 						$("#unit_price").text(res.chDeRes.unit_price);
 						$("#number").text(res.chDeRes.number);
 						$("#f_name").text(res.chDeRes.f_name);
-						$("#delivery_place").text(res.chDeRes.delivery_place);
+						$("#provinces").text(res.chDeRes.provinces);
 						$("#input_time").text(res.chDeRes.input_time);
 						$("#delivertime").text(res.chDeRes.delivertime);
 						$("#con_name").text(res.chDeRes.con_name);
