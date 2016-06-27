@@ -58,18 +58,14 @@
 									"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
 									"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
 									"</table></li>";
-						});
-						$("#searchWrapUl").html(searchLi);
-						res.searchRes.forEach(function (v,i,a) {
+							$("#searchWrapUl").html(searchLi);
 							v.twoData.forEach(function (v,i,a) {
 								searchTb+="<tr><td>"+v.company+"</td>" +
-										"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td>18672574766</td></tr>";
+										"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href=''>查看</a>&nbsp;<a class='orange' href=''>委托</a></td></tr>";
 							});
 							$(".supplyDemandTb").append(searchTb);
 							searchTb="";
 						});
-
-
 					},function () {
 
 					});
