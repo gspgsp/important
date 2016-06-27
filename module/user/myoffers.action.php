@@ -176,7 +176,7 @@ class myoffersAction extends userBaseAction{
 		$where="s.user_id=$this->user_id and pur.type=$type ";
 
 		$status=sget('status','s','');
-		p($status);
+		//p($status);
 		//收索条件
 		if($status=sget('status','s','')){
 			$where.=" and s.status='{$status}' ";
