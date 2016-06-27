@@ -136,6 +136,7 @@ class mainPageModel extends model
             $chDeRes['product_type'] = L('product_type')[$data['product_type']];
             $chDeRes['model'] = $data['model'];
             $chDeRes['unit_price'] = $data['unit_price'];
+            $chDeRes['p_id'] = $data['p_id'];
             $chDeRes['number'] = $data['number'];
             $chDeRes['f_name'] = $data['f_name'];
             $chDeRes['store_house'] = $data['store_house'];
