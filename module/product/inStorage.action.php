@@ -24,7 +24,7 @@ class inStorageAction extends adminBaseAction {
 		$action=sget('action','s');
 		if($action=='grid'){
 			$where = "`o_id`=".$o_id;
-			$where .= " and `in_storage_status` = 1";
+			$where .= " and `in_storage_status` != 3";
 			$list=$this->db->model('purchase_log')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
@@ -48,7 +48,7 @@ class inStorageAction extends adminBaseAction {
 			$this->assign('doyet','doyet');
 		}
 		$order_info = $this->db->select('order_name,purchase_type')->model('order')->where(' o_id = '.$o_id)->getRow();
-		$in_info['storage_date']=date("Y-m-d",$in_info['storage_date']);
+		$in_info['purchase_subject']=L('company_account')[$order_info['order_name']];
 		$in_info['c_name']=M("user:customer")->getColByName($in_info['c_id']); //获取客户名称
 		$in_info['admin_name']=M("product:inStorage")->getNameBySid($in_info['store_aid']); //获得出库人姓名
 		$this->assign('order_info',$order_info );//采购订单带到入库的信息
@@ -64,6 +64,7 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
+
 		if(empty($data)) $this->error('操作有误');
 		$basic_info = array(
 			'input_admin'=>$_SESSION['name'],
@@ -90,9 +91,9 @@ class inStorageAction extends adminBaseAction {
 				$_data['store_aid']=$data['store_aid'];
 				$_data['lot_num']=$v['lot_num'];
 				$_data['unit_price']=$v['unit_price'];
-				$_data['number']=$v['number'];
-				$_data['remainder']=$v['number'];
-				$_data['controlled_number']=$v['number'];
+				$_data['number']=$v['in_number'];
+				$_data['remainder']=$v['in_number'];
+				$_data['controlled_number']=$v['in_number'];
 				$_data['join_id']=$data['join_id'];
 				if( !$this->db->model('in_log')->add($_data+$basic_info) ) throw new Exception("新增入库明细失败!");
 				$inlog_id=$this->db->getLastID(); //获取新增出库单ID	
@@ -104,16 +105,26 @@ class inStorageAction extends adminBaseAction {
 				$input_store['number']=$v['number'];
 				$input_store['remainder']=$v['number'];
 				if( $this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->getOne() ){
-					if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->update('number=number+'.$v['number']) ) throw new Exception("新增仓库货品更新失败");
+					if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->update('number=number+'.$v['in_number']) ) throw new Exception("新增仓库货品更新失败");
 					
 				}else{
 					if( !$this->db->model('store_product')->add($input_store+$basic_info) ) throw new Exception("新增仓库货品失败!");
 				}
-				if( !$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('in_storage_status = 3') ) throw new Exception("更新采购明细失败！");
+				// if( !$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('in_storage_status = 3') ) throw new Exception("更新采购明细失败！");
+				if( !$this->db->model('purchase_log')->where(' id = '.$v['id'])->update(' number = number - '.$v['in_number'].' , in_number = in_number +'.$v['in_number'].'  , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新采购明细失败！");
+				$detailcheck = $this->db->model('purchase_log')->where('id = '.$v['id'].' and number!=0')->getOne();
+				if($detailcheck<1){ //判断明细中的数量是否全部出库
+					if( !$this->db->model('purchase_log')->where('id = '.$v['id'])->update(' in_storage_status=3 , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
+				}else{
+					if( !$this->db->model('purchase_log')->where('id = '.$v['id'])->update(' in_storage_status=2 , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
+				}
+
+
+
 
 			}
 			//每次操作完查询一下明细是否全部入库
-			$check = $this->db->model('purchase_log')->select('id')->where(' in_storage_status = 1 and o_id = '.$data['o_id'] )->getOne();
+			$check = $this->db->model('purchase_log')->select('id')->where(' in_storage_status < 3 and o_id = '.$data['o_id'] )->getOne();
 			if($check<1){
 				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update('in_storage_status = 3') ) throw new Exception("订单入库更新失败1！");
 				$sale_o_id= $this->db->model('order')->select('o_id')->where(' join_id ='.$data['o_id'])->getOne();

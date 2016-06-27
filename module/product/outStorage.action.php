@@ -42,9 +42,11 @@ class outStorageAction extends adminBaseAction {
 			$this->assign('doyet','doyet');
 		}
 		$c_id = $this->db->model('order')->select('c_id')->where("o_id = '$o_id'")->getOne();
+		$order_name = $this->db->model('order')->select('order_name')->where("o_id = '$o_id'")->getOne();
 		$out_info['out_date']=date("Y-m-d",$out_info['out_date']);
 		$out_info['c_name']=M("user:customer")->getColByName($out_info['c_id']); //获取客户名称
 		$out_info['admin_name']=M("product:outStorage")->getNameBySid($out_info['store_aid']); //获得出库人姓名
+		$this->assign('order_name',L('company_account')[$order_name]);
 		$this->assign('c_id',$c_id);
 		$this->assign('out_info',$out_info);
 		$this->assign('out_no',$out_no);
@@ -76,7 +78,7 @@ class outStorageAction extends adminBaseAction {
 				$log[$k]['out_storage_status']=3;
 				unset($log[$k]['id']);
 				if( !$this->db->model('out_log')->add($log[$k]+$add_data) ) throw new Exception("出库明细新增失败");
-				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update(' number = number - '.$v['out_number'].' , out_number = out_number +'.$v['out_number'].' , out_storage_status=3 , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
+				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update(' number = number - '.$v['out_number'].' , out_number = out_number +'.$v['out_number'].'  , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
 				$detailcheck = $this->db->model('sale_log')->where('id = '.$v['id'].' and number!=0')->getOne();
 
 				if($detailcheck<1){ //判断明细中的数量是否全部出库
@@ -93,8 +95,8 @@ class outStorageAction extends adminBaseAction {
 				if( !$this->db->model('store_product')->where('p_id = '.$v['p_id'].' and s_id = '.$v['store_id'])->update('remainder = remainder-'.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("仓库货品更新失败");
 			}
 			//每次操作完查询一下明细是否全部出库
-			$check = $this->db->model('sale_log')->select('id')->where(' out_storage_status >2 and o_id = '.$data['o_id'] )->getOne();
-			if($check<1){
+			$check = $this->db->model('sale_log')->select('id')->where(' out_storage_status <3 and o_id = '.$data['o_id'] )->getOne();
+			if($check<1){ //通过明细的出库状态情况改变订单出库状态
 				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update( array('out_storage_status' =>3,'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME)) ) throw new Exception("订单入库更新失败1！");
 			}else{
 				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update( array('out_storage_status' =>2,'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME))  ) throw new Exception("订单入库更新失败2！");
@@ -103,6 +105,7 @@ class outStorageAction extends adminBaseAction {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+		// showtrace();
 		$this->db->commit();
 		$this->success('操作成功');
 	}

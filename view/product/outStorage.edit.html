@@ -11,7 +11,7 @@
 			{if $doyet eq doyet}
 				<tr>
 					<td>出库名称<font style="color:red;"> * </font></td>
-					<td><input name="sale_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="true" value="{$sale_subject}"  textField="name" valueField="id"/>
+					<td><input name="sale_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="true" value="{$order_name}" allowInput="false" textField="name" valueField="id"/>
 					</td>
 					<td>出库单号</td>
 					<td>{$out_no}</td>
@@ -70,7 +70,7 @@ sizeList="[10,20,50,100]" pageSize="20" allowCellSelect="true" allowCellEdit="tr
 		<div field="store_name" width="90" headerAlign="center" align="center">仓库</div>
 		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
-		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数
+		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数<font  style="color:red;">*</font>
 			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
 		</div>   
 	</div>

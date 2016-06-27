@@ -9,9 +9,13 @@
 			<div id="editForm1" style="padding:5px; ">
 				<table id="table1" width="100%" >
 					<tr>
-						<td>订单名称<font style="color:red;"> * </font></td>
+						<!-- <td>订单名称<font style="color:red;"> * </font></td>
 						<td><input name="order_name" allowInput="false" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="{$info.order_name}"/>
-						</td>
+						</td> -->
+						<td><font style="color:blue;">订单名称<font style="color:red;"> * </font></font></td>
+						<td>
+						<input name="order_name" class="mini-combobox" data='{:setMiniConfig|$company_account}' value="{$info.order_name}" textField="name" valueField="id" style="width:120px;"  required="true"/>
+						</td>	
 						<td>订单编号 : </td>
 						<td>{$info.order_sn}</td>		
 					</tr>

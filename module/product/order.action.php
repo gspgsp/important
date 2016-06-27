@@ -24,6 +24,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('purchase_type',L('purchase_type')); //采购类型
 		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
 		$this->assign('billing_type',L('billing_type'));    	//开票类型
+		
 	}
 	/**
 	 *
@@ -113,6 +114,7 @@ class orderAction extends adminBaseAction {
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
 			$v['order_source']=L('order_source')[$v['order_source']]; 
+			$v['order_name']=L('company_account')[$v['order_name']]; 
 			$v['pay_method'] =L('pay_method')[$v['pay_method']];
 			$v['in_storage_status']=L('in_storage_status')[$v['in_storage_status']];
 			$v['transport_type']=L('transport_type')[$v['transport_type']];
@@ -176,8 +178,6 @@ class orderAction extends adminBaseAction {
 		$order_type = $info['order_type'] == 1? 'saleLog' : 'purchaseLog';
 		$this->assign('order_type',$order_type);
 		$this->assign('o_id',$o_id);
-		
-		
 		$this->display('order.viewInfo.html');
 	}
 	/**
@@ -188,7 +188,7 @@ class orderAction extends adminBaseAction {
 		$order_type= sget('order_type','i',0)==1 ? 'sale_log' : 'purchase_log' ;
 		if($o_id<1) $this->error('信息错误');
 		$info=$this->db->model('order')->getPk($o_id); //查询订单信息
-		$detailinfo=$this->db->model($order_type)->where('o_id = '.$o_id)->getAll();
+		$detailinfo=$this->db->model($order_type)->where('o_id = '.$o_id)->getAll(); //查询明细订单信息
 		foreach ($detailinfo as &$value) {
 			$value['model']=M("product:product")->getModelById($value['p_id']);
 			$pinfo=M("product:product")->getFnameByPid($value['p_id']);
