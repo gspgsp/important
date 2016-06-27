@@ -44,7 +44,8 @@
 }
 
 .view-port, .track .inner {
-  width: 938px;
+  /* width: 748px; */
+  width:800px;
 }
 
 .axis-y .view-port,
@@ -99,7 +100,7 @@
 }
 
 .track a.next {
-  right: 4px;
+  right: 3px;
   background-position: -46px 0;
 }
 
@@ -121,7 +122,7 @@
 
 .slider-container .item {
   position: absolute;
-  width:169px; 
+  width:181px; 
   padding:0 9px; 
   height:139px;
   background:url(../../images/home/sliderBg.jpg) no-repeat right center;
