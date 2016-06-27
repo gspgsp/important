@@ -58,9 +58,7 @@ class cronDay{
 			"User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0\r\n"
 			)
 		);
-		p($opts);
 		$context = stream_context_create($opts);
-		p($context);die;
 		$html = file_get_contents($url,false, $context);
 		if($html){
 			// p($html);
