@@ -166,7 +166,7 @@ function onLoadFllow(e) {
 		s += '<a href="javascript:allotO('+cid+')">分配</a>';
 	}else{
 		if(customer_manager !=''){
-			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>&nbsp;|&nbsp;<a href="javascript:removeRow('+cid+')">删</a>&nbsp;|&nbsp;<a href="javascript:onEdit()">改</a>&nbsp;|&nbsp;<a href="javascript:allotO('+cid+')">回收</a>';
+			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>&nbsp;|&nbsp;<a href="javascript:removeRow('+cid+')">删</a>&nbsp;|&nbsp;<a href="javascript:onEdit()">改</a>&nbsp;|&nbsp;<a href="javascript:setSea('+cid+')">公海</a></br><a href="javascript:allotO('+cid+')">更改交易员</a>';
 		}
 	}
 
@@ -189,6 +189,25 @@ function removeRow(cid) {
 		}
 	);
 }
+
+//会员回收
+function setSea(cid) {
+	mini.confirm("确定回收该用户？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/customer/setsea',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+
+
 
 //打开跟进客户信息页面
 function viewFinfo(c_id){
