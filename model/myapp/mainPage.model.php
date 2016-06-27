@@ -106,12 +106,11 @@ class mainPageModel extends model
 
         $where = "pur.id=$id";
         $chDeRes = array();
-        $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.number,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.provinces,pur.store_house,pur.c_id,pur.input_time,pur.cargo_type,pur.user_id')->from('purchase pur')
+        $data = $this->from('purchase pur')->select('pur.id,pur.p_id,pur.number,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.provinces,pur.store_house,pur.c_id,pur.input_time,pur.cargo_type,pur.user_id')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
-            ->order("$sortField $sortOrder")
-            ->getRow;
+            ->getRow();
             $contact = M('user:customerContact')->getListByUserid($data['user_id']);
         if($otype == 1){
             //产品信息
