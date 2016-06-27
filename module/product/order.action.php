@@ -373,7 +373,7 @@ class orderAction extends adminBaseAction {
 	*/
 	public function ajaxSave(){
 		$data    = sdata();
-		p($data);die;
+		//p($data);die;
 		$silling = sget('do','i');
 		if($silling == 1){
 			//保存开票信息		
