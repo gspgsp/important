@@ -4,16 +4,14 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<script src="__MYAPP__/js/mui.min.js"></script>
-		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
-		<script src="__MYAPP__/js/common.js"></script>
-		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
 	</head>
 
-	<body style="padding-bottom: 50px;">
+	<body>
 		<header id="infoHeader">
-			<a class="back" href="javascript:window.history.back();"></a>
+			<a class="back" href="#"></a>
 			今日资讯
 		</header>
 		<nav id="nav">
@@ -24,56 +22,38 @@
 			<span data-pid="33">塑料期货</span>
 		</nav>
 		<div id="articleWrap">
-			<ul id="articleLi"></ul>
-		</div>
-		<footer id="footer">
-			<ul>
-				<li><a href="#"><i class="foot"></i><br>大客户专区</a></li>
-				<li><a href="#"><i class="foot2"></i><br>物性表</a></li>
-				<li><a href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-				<li><a class="footerOn" href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-				<li><a href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
+			<ul id="articleLi">
+				<li>
+					<div class='articleLi'>
+					<h3>5月4日PVC日评：连绵阴雨 初现晚晴</h3>
+					<img src="img/temp3.jpg">
+					<p>今日国内PVC市场持稳观望，交投平淡。期货市场企稳，商家信心略有恢复。现货市场报价稳定，波动有限，部分小幅让利成交。下午......</p>
+					</div>
+					<p class='time'>2016-05-04 14:32</p>
+				</li>
+				<li>
+					<div class='articleLi'>
+					<h3>5月4日PVC日评：连绵阴雨 初现晚晴</h3>
+					<img src="img/temp3.jpg">
+					<p>今日国内PVC市场持稳观望，交投平淡。期货市场企稳，商家信心略有恢复。现货市场报价稳定，波动有限，部分小幅让利成交。下午......</p>
+					</div>
+					<p class='time'>2016-05-04 14:32</p>
+				</li>
+				<li>
+					<div class='articleLi'>
+					<h3>5月4日PVC日评：连绵阴雨 初现晚晴</h3>
+					<img src="img/temp3.jpg">
+					<p>今日国内PVC市场持稳观望，交投平淡。期货市场企稳，商家信心略有恢复。现货市场报价稳定，波动有限，部分小幅让利成交。下午......</p>
+					</div>
+					<p class='time'>2016-05-04 14:32</p>
+				</li>
+
 			</ul>
-		</footer>
+		</div>
 
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
-			});
-			$(function () {
-				var infoLi="";
-				function infoInit(paramsPid) {
-					commonAjax(
-							"post",
-							"/myapp/mainPage/getArticleInfo",
-							{pid: paramsPid}
-					).then(function (res) {
-						console.log(res);
-						res.articleInfo.forEach(function (v, i, a) {
-							infoLi += "<li data-id='" + v.id + "'><div class='articleLi'>" +
-									"<h3>" + v.title + "</h3><img src='" + v.img + "'>" +
-									"<p>" + v.content + "</p></div>" +
-									"<p class='time'>" + stampToDate2(v.input_time) + "</p></li>";
-						});
-						$("#articleLi").html(infoLi);
-						$("#articleLi li").on("click",function () {
-							var id=$(this).data("id");
-							window.location.href='/myapp/mainPage/enArticleDetail?id='+id;
-						});
-
-					}, function () {
-
-					});
-				}
-				infoInit(29);
-				$("#nav span").on("click",function () {
-					var pid=$(this).data("pid");
-					infoLi="";
-					console.log(pid);
-					$(this).addClass("on").siblings("span").removeClass("on");
-					infoInit(pid);
-				});
-
 			});
 		</script>
 

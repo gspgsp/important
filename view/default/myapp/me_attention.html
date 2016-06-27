@@ -14,14 +14,10 @@
 
 	<body>
 		<header id="meHeader">
-			<a class="back" href="/myapp/personalCenter"></a>
+			<a class="back" href="javascript:window.history.back();"></a>
 			我的关注
-			<a id="manage" class="right" href="javascript:;">管理</a>
+			<a class="right" href="/myapp/personalCenter/manageMyAttention">管理</a>
 		</header>
-		<div class="meAttentionAll" style="display: none;">
-			<input id="all2" type="checkbox">&nbsp;全选/反选
-			<span id="del" class="meAttentionDel">删除</span>
-		</div>
 		<ul class="meAttention"></ul>
 		<a class="me_enter" href="/myapp/personalCenter/addMyAttention">添加关注</a>
 		<script type="text/javascript" charset="utf-8">
@@ -30,8 +26,6 @@
 			});
 			$(function () {
 				var attentionLi="";
-				var productArr=[];
-
 				commonAjax(
 						"post",
 						"/myapp/personalCenter/myAttention"
@@ -41,77 +35,14 @@
 						window.location.href="/myapp/login";
 					}else{
 					res.data.forEach(function (v,i,a) {
-						attentionLi+="<li><input class='checkbox' type='checkbox' value='"+v.id+"'>&nbsp;"+ v.model +" "+ v.factory_name +"<span class='grey'>"+ mToH(v.time_al) +"小时前</span><span class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</span>" +
+						attentionLi+="<li>"+ v.model +" "+ v.factory_name +"<span class='grey'>"+ mToH(v.time_al) +"小时前</span><span class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</span>" +
 								"<span class='orange'>"+ v.unit_price +"/T</span></li>"
 					});
 					$(".meAttention").html(attentionLi);
-
-						$(".checkbox").on("click",function () {
-							var pId=$(this).val();
-							if(this.checked){
-								productArr.push(pId);
-								console.log(productArr);
-							}else{
-								$("#all2").prop("checked",false);
-								productArr.splice($.inArray(pId,productArr),1);
-								console.log(productArr);
-							}
-						});
-
-
 					}
 				},function () {
 
 				});
-
-				$("#manage").on("click",function () {
-					$(".meAttentionAll").toggle();
-					$(".checkbox").toggle();
-				});
-
-				//状态选择
-				$("#all2").click(function(){
-					if(this.checked){
-						$(".meAttention :checkbox").prop("checked", true);
-						productArr=[];
-						$(".checkbox").each(function () {
-							productArr.push($(this).val());
-							console.log(productArr);
-						});
-					}else{
-						$(".meAttention :checkbox").prop("checked", false);
-						productArr=[];
-						console.log(productArr);
-					}
-				});
-
-				$(".checkbox").on("click",function () {
-					var pId=$(this).val();
-					if(this.checked){
-						productArr.push(pId);
-						console.log(productArr);
-					}else{
-						$("#all2").prop("checked",false);
-						productArr.splice($.inArray(pId,productArr),1);
-						console.log(productArr);
-					}
-				});
-
-				$("#del").on("click",function () {
-					commonAjax(
-							"post",
-							"/myapp/personalCenter/delMyAttention",
-							{ids:productArr}
-					).then(function (res) {
-						console.log(res);
-						mui.alert('',res.msg,function(){
-							window.location.reload();
-						});
-					},function () {
-
-					});
-				});
-
 			})
 		</script>
 

@@ -19,8 +19,8 @@ class personalCenterAction extends homeBaseAction
         $type2 = sget('type2','i');//$type1 2报价
         $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
         $name = M('touch:personalcenter')->getUserName($this->user_id);
-        $qCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type2);
-        $pCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type1);
+        $qCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type1);
+        $pCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type2);
         $proAttCount = M('myapp:personalAppCenter')->getMyAttentionCount($this->user_id);
         $points = M('points:pointsBill')->getUerPoints($this->user_id);
         $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名

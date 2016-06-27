@@ -56,13 +56,25 @@
 			<span class="appInfoOn">今日头条</span>
 			<span>原油价格</span>
 			<div class="mui-clearfix"></div>
-			<div id="appInfo">
-				<ul id="appInfoUl"></ul>
-			<a class="appMore" href="/myapp/mainPage/enArticle">更多</a>
+			<div id="appInfo" style=" display: none;">
+				<ul>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+					<li><a href="#">3月22日国内PVC市场简述</a><b>2016-03-22</b></li>
+				</ul>
+			<a class="appMore" href="#">更多</a>
 			</div>
-			<div id="appInfo2" style=" display: none;">
-				<ul id="appInfoUl2"></ul>
-			<a class="appMore" href="/myapp/mainPage/enDyPrice">更多</a>
+			<div id="appInfo2">
+				<ul>
+					<li><a href="#">Nymex WTI</a><i class="red">+0.04↑</i><b>38.32</b></li>
+					<li><a href="#">ICE Brent</a><i class="red">+0.04↑</i><b>39.26</b></li>
+					<li><a href="#">乙烯(CFR东北亚)</a><i class="blue">0</i><b>1205.50</b></li>
+					<li><a href="#">乙烯(CFR东北亚)</a><i class="blue">0</i><b>1160.50</b></li>
+					<li><a href="#">丙烯(FOB韩国)</a><i class="green">-0.04↓</i><b>650.50</b></li>
+				</ul>
+			<a class="appMore" href="#">更多</a>
 			</div>
 		</div>
 		<div class="appConcern">
@@ -109,8 +121,8 @@
 			<ul>
 				<li><a href="#"><i class="foot"></i><br>大客户专区</a></li>
 				<li><a href="#"><i class="foot2"></i><br>物性表</a></li>
-				<li><a class="footerOn" href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-				<li><a href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a class="footerOn" href="#"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="#"><i class="foot4"></i><br>资讯</a></li>
 				<li><a href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
 			</ul>
 		</footer>
@@ -122,52 +134,6 @@
 			slider.slider({
 						interval: 3000
 					});
-			$(function () {
-				$(".appSearch").on("click",function () {
-					window.location.href="/myapp/mainPage/enMainSearch";
-				});
-				
-				$(".appInfo span").on("click",function () {
-					var index=$(this).index();
-					$(this).addClass("appInfoOn").siblings("span").removeClass("appInfoOn");
-					if(index==0){
-						$("#appInfo").show();
-						$("#appInfo2").hide();
-					}else{
-						$("#appInfo2").show();
-						$("#appInfo").hide();
-					}
-				});
-				var appInfoLi="";
-				var appInfoLi2="";
-				commonAjax(
-						"post",
-						"/myapp/mainPage/getMainPage",
-						{type:1}
-				).then(function (res) {
-					console.log(">>>",res);
-					res.infos.forEach(function (v, i, a) {
-						appInfoLi += "<li><a href='/myapp/mainPage/enArticleDetail?id="+v.id+"'>"+v.title+"</a><b>"+stampToDate2(v.input_time)+"</b></li>";
-					});
-					$("#appInfoUl").html(appInfoLi);
-				},function () {
-
-				});
-
-				commonAjax(
-						"post",
-						"/myapp/mainPage/getMainPage",
-						{type:2}
-				).then(function (res) {
-					console.log(">>>",res);
-					res.infos.forEach(function (v, i, a) {
-						appInfoLi2 += "<li>"+v.type+"<i class='"+ oilCompare(v.ups_downs) +"'>"+v.ups_downs+"</i><b>"+v.price+"</b></li>";
-					});
-					$("#appInfoUl2").html(appInfoLi2);
-				},function () {
-
-				});
-			});
 		</script>
 
 	</body>
