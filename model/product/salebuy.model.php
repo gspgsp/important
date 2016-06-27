@@ -49,7 +49,7 @@ class salebuyModel extends model{
 			->join('customer as c','c.c_id=s.c_id')
 			->join('factory as f','p.f_id=f.fid')
 			->join('union_order as u','s.id=u.p_sale_id')
-			->where($where)
+			->where($where.'and pur.last_buy_sale=s.id')
 			->order('input_time desc')
 			->page($page,$pageSize)
 			->select('c.c_name,s.number,s.price,s.delivery_date,s.status,s.update_time,s.remark, pur.store_house,

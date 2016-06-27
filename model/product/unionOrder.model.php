@@ -61,4 +61,42 @@ class unionOrderModel extends model{
 		$result=$this->model('sale_log')->select("$col")->where("o_id='$o_id'")->getOne();
 		return empty($result) ? false : $result;
 	}
+
+
+	/** (联营)
+	 *获取近三个月(待审核)订单信息
+	 */
+	public function getOrderStatusInFo($uid,$date){
+		$result=$this->from('union_order as u')->select('COUNT(u.id) AS number')
+			->where("u.buy_user_id=$uid and u.input_time between  $date and ".time()." and u.order_status=1")->getAll();
+		return empty($result)? false:$result;
+	}
+	/**
+	 * (联营)
+	 *获取近三个月(待付款)订单信息
+	 */
+	public function getOrder($uid,$date){
+		$result=$this->from('union_order as u')->select('COUNT(u.id) AS number')
+			->where("u.buy_user_id=$uid and u.input_time between  $date and ".time()." and u.collection_status=1")->getAll();
+		return empty($result)? false:$result;
+	}
+	/** ((联营))
+	 *获取近三个月(代开票)订单信息
+	 */
+	public function getInvoice($uid,$date){
+		$result=$this->from('union_order as u')
+			->select('COUNT(u.id) AS number')
+			->where("u.buy_user_id=$uid and u.input_time between  $date and ".time()." and u.invoice_status=1")->getAll();
+		return empty($result)? false:$result;
+	}
+	/** (联营)
+	 *获取近三个月(已取消)订单信息
+	 */
+	public function getOrderCancel($uid,$date){
+		$result=$this->from('union_order as u')->select('COUNT(u.id) AS number')
+			->where("u.buy_user_id=$uid and u.input_time between  $date and ".time()." and u.order_status=3")->getAll();
+		return empty($result)? false:$result;
+	}
+
+
 }
