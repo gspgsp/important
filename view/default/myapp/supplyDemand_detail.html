@@ -6,16 +6,18 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<meta name="format-detection" content="telephone=no" /> 
 		<title></title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/app.css" />
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 	<body style="padding-bottom: 50px;">
 		<header id="bigCustomerHeader">
 			<a class="back" href="#"></a>详情
 		</header>
 		<div class="bigCustomerDetail">
-			<h3><img src="img/bigCustomer.png">产品信息</h3>
+			<h3><img src="__MYAPP__/img/bigCustomer.png">产品信息</h3>
 			<ul class="bigCustomerDetailUl">
 				<li><span>产品类型：</span>HDPE</li>
 				<li><span>牌      号：</span>9450F</li>
@@ -28,7 +30,7 @@
 			</ul>
 		</div>
 		<div class="bigCustomerDetail" style="margin: 0;">
-			<h3><img src="img/bigCustomer2.png">联系人</h3>
+			<h3><img src="__MYAPP__/img/bigCustomer2.png">联系人</h3>
 			<ul class="bigCustomerDetailUl">
 				<li><span>姓      名：</span>叶可雅</li>
 				<li><span>联系电话：</span>18917967277</li>
@@ -42,7 +44,18 @@
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
-			
+			$(function () {
+				var id=getUrlParam("id");
+				commonAjax(
+						"post",
+						"/myapp/mainPage/getCheckDelegate",
+						{otype:1,id:id}
+				).then(function (res) {
+					console.log(">>>",res);
+				},function () {
+
+				});
+			})
 		</script>
 
 	</body>
