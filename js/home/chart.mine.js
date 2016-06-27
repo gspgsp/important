@@ -202,7 +202,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 5,
+				  		margin: 15,
 				  		textStyle:{
 							color:'#fc6621'
 						}
@@ -218,7 +218,7 @@ require(
 				  max: ""+quotation.HDPE.max+"",
 				  min: ""+quotation.HDPE.min+"",
 				  type : 'value',
-				  splitNumber:4,
+				  splitNumber:5,
 				  axisLine: {
 					  show: false,
 					  lineStyle: {
@@ -228,7 +228,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-					  margin: -38,
+					  margin: -48,
 					  formatter: '{value}'
 				  }
 			  }
@@ -281,7 +281,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 5,
+				  		margin: 15,
 				  		textStyle:{
 							color:'#fc6621'
 						}
@@ -297,7 +297,7 @@ require(
 				  max: ""+quotation.LDPE.max+"",
 				  min: ""+quotation.LDPE.min+"",
 				  type : 'value',
-				  splitNumber:4,
+				  splitNumber:5,
 				  axisLine: {
 					  show: false,
 					  lineStyle: {
@@ -307,7 +307,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-					  margin: -38,
+					  margin: -48,
 					  formatter: '{value}'
 				  }
 			  }
@@ -360,7 +360,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 5,
+				  		margin: 15,
 				  		textStyle:{
 							color:'#fc6621'
 						}
@@ -376,7 +376,7 @@ require(
 				  max: ""+quotation.LLDPE.max+"",
 				  min: ""+quotation.LLDPE.min+"",
 				  type : 'value',
-				  splitNumber:4,
+				  splitNumber:5,
 				  axisLine: {
 					  show: false,
 					  lineStyle: {
@@ -386,7 +386,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-					  margin: -38,
+					  margin: -48,
 					  formatter: '{value}'
 				  }
 			  }
@@ -439,7 +439,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 5,
+				  		margin: 15,
 				  		textStyle:{
 							color:'#fc6621'
 						}
@@ -455,7 +455,7 @@ require(
 				  max: ""+quotation.PP.max+"",
 				  min: ""+quotation.PP.min+"",
 				  type : 'value',
-				  splitNumber:4,
+				  splitNumber:5,
 				  axisLine: {
 					  show: false,
 					  lineStyle: {
@@ -465,7 +465,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-					  margin: -38,
+					  margin: -48,
 					  formatter: '{value}'
 				  }
 			  }
@@ -518,7 +518,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 5,
+				  		margin: 15,
 				  		textStyle:{
 							color:'#fc6621'
 						}
@@ -534,7 +534,7 @@ require(
 				  max: ""+quotation.PVC.max+"",
 				  min: ""+quotation.PVC.min+"",
 				  type : 'value',
-				  splitNumber:4,
+				  splitNumber:5,
 				  axisLine: {
 					  show: false,
 					  lineStyle: {
@@ -544,7 +544,7 @@ require(
 					  }
 				  },
 				  axisLabel : {
-					  margin: -38,
+					  margin: -48,
 					  formatter: '{value}'
 				  }
 			  }
