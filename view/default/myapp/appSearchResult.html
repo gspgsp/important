@@ -116,11 +116,18 @@
 			});
 			$(function(){
 				var keywords=getUrlParam("keywords");
+
+				function searchPro(keyW) {
+
+				}
+
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getSearchRes"
+						"/myapp/mainPage/getSearchRes",
+						{keywords:keywords}
 				).then(function (res) {
 					console.log(">>>",res);
+
 				},function () {
 
 				});
