@@ -183,11 +183,11 @@ class mainPageAction extends homeBaseAction
     public function enDelegateForm(){
         $this->display('supplyDemand_trade');
     }
-    //搜索结果的操作，查看/委托
+    //搜索结果的操作，查看/委托洽谈
     public function getCheckDelegate(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
-        $otype = sget('otype','i');//1查看,2委托
+        $otype = sget('otype','i');//1查看,2委托洽谈
         $id = sget('id','i');//当前这一条报价或求购的id,purchase表
         if(!$chDeRes=M('myapp:mainPage')->getCheckDelegate($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
         $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
@@ -491,7 +491,7 @@ class mainPageAction extends homeBaseAction
         $this->json_output(array('err'=>2,'msg'=>'委托采购失败'));
 
     }
-    //点击委托洽谈保存提交数据
+    //点击委托交易保存提交数据
     public function savaComission(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
