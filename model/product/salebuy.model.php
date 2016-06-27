@@ -59,4 +59,11 @@ class salebuyModel extends model{
 
 	}
 
+	/**
+	 * 获取报价的单条记录
+	 */
+	public function getSalebuyInfoById($id=0,$col = 'id'){
+		return $this->where("$col = $id")->getRow();
+	}
+
 }
