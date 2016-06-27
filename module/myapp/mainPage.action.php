@@ -111,7 +111,7 @@ class mainPageAction extends homeBaseAction
     //进入搜索结果页(通过首页搜索)
     public function enSearchRes(){
     	//cookie保存输入框的关键字
-		$_cfrom=sget('keyWords','s');//将搜索的关键字传入
+		$_cfrom=sget('keywords','s');//将搜索的关键字传入
 		$history = array();
         if(!empty($_cfrom))
 		array_push($history, $_cfrom);
@@ -142,7 +142,7 @@ class mainPageAction extends homeBaseAction
         if($this->user_id<0) $this->error('账户错误');
     	//搜素关键字
         $keywords = sget('keywords','s');
-    	$page = sget('page','i','1');
+    	$page = sget('page','i',1);
 		$size = sget('size','i',8);
         if(!$searchRes = M('myapp:mainPage')->getAllSearchRes($keywords,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关结果'));
         $this->json_output(array('err'=>0,'searchRes'=>$searchRes['data']));
