@@ -113,7 +113,7 @@ class mainPageModel extends model
             ->where($where)
             ->getRow();
             $contact = M('user:customerContact')->getListByUserid($data['user_id']);
-            $own = M('user:customerContact')->getListByUserid($this->user_id);
+            $own = M('user:customerContact')->getListByUserid($_SESSION['userid']);
         if($otype == 1){
             //产品信息
             $chDeRes['product_type'] = L('product_type')[$data['product_type']];
@@ -137,6 +137,7 @@ class mainPageModel extends model
             $chDeRes['model'] = $data['model'];
             $chDeRes['unit_price'] = $data['unit_price'];
             $chDeRes['p_id'] = $data['p_id'];
+            $chDeRes['c_id'] = $data['c_id'];
             $chDeRes['number'] = $data['number'];
             $chDeRes['f_name'] = $data['f_name'];
             $chDeRes['store_house'] = $data['store_house'];
@@ -146,7 +147,7 @@ class mainPageModel extends model
             //我的信息(当前用户自己)
             $chDeRes['con_name'] = $own['name'];
             $chDeRes['mobile'] = $own['mobile'];
-            $chDeRes['c_name'] = M('user:customer')->getCinfoById($$own['c_id'])['c_name'];
+            $chDeRes['c_name'] = M('user:customer')->getCinfoById($own['c_id'])['c_name'];
         }
         return $chDeRes;
     }
