@@ -117,16 +117,6 @@ function priceCompare(price) {
     }
 }
 
-function oilCompare(price) {
-    if(price>0){
-        return 'red';
-    }else if(price==0){
-        return 'blue';
-    }else if(price<0){
-        return 'green';
-    }
-}
-
 function shelve(type) {
     if(type==1){
         return 'sold';

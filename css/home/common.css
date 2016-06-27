@@ -2,7 +2,7 @@ html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table
 ul,ol,li{ list-style:none;}
 h1,h2,h3,h4{ font-weight:normal;}
 input,button,textarea,select{ color:#666; font-family:"微软雅黑"; outline:medium;}
-body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#444;}
+body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#555;}
 
 
 a{ text-decoration:none;}
