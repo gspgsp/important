@@ -64,7 +64,7 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-
+		// p($data);die;
 		if(empty($data)) $this->error('操作有误');
 		$basic_info = array(
 			'input_admin'=>$_SESSION['name'],
@@ -103,7 +103,7 @@ class inStorageAction extends adminBaseAction {
 				if( $_data['join_id']>0 ){ //虚拟入库时的仓库 更新到销售明细 以便发货时把数据add到出库明细表
 					$inlog_id =  $this->db->model('sale_log')->select('inlog_id')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'])->getOne();
 					if($inlog_id<1){
-						echo "111";
+
 						if( !$this->db->model('sale_log')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'])->update('store_id='.$_data['store_id'].' , store_aid='.$_data['store_aid'].' , inlog_id='.$inlog_id.' , lot_num='.$_data['lot_num']) ) throw new Exception("销售订单更新虚拟入库数据失败");
 					}
 				}

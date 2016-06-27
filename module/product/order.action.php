@@ -267,7 +267,6 @@ class orderAction extends adminBaseAction {
 			$value['require_number']=$value['number'];
 		}
 		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
-		$info['order_name']='';
 		$info['purchase_type']=1;
 		$info['c_id']='' ;
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
