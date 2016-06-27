@@ -15,6 +15,7 @@
 		<style>
 			.supplyDemandTradeTb input[type="text"]{ margin: 0; height: 20px; font-size: 12px; width: 70px; text-align: center; padding: 5px;}
 			.supplyDemandTradeTb select{ font-size: 12px; margin: 0; width: 50px; height: 25px; border: 1px solid #ddd !important; padding: 0 5px;}
+			.ship_type{ position: relative; top: 3px;}
 		</style>
 	</head>
 	<body style="padding-bottom: 50px;">
@@ -44,8 +45,8 @@
 			</tr>
 			<tr>
 				<td>交货地</td>
-				<td id="delivery_place">
-					<select>
+				<td>
+					<select id="delivery_place">
 						<option value="2">北京</option>
 						<option value="3">安徽</option>
 						<option value="4">福建</option>
@@ -87,7 +88,14 @@
 				<td>采购方式</td>
 				<td id="delivertime"></td>
 			</tr>
-
+			<tr>
+				<td>运输方式</td>
+				<td>
+					<input type="radio" class="ship_type" name="ship_type" value="1" />&nbsp;自提&nbsp;
+					<input type="radio" class="ship_type" name="ship_type" value="2" />&nbsp;送货上门&nbsp;
+					<input type="radio" class="ship_type" name="ship_type" value="3" />&nbsp;其他
+				</td>
+			</tr>
 		</table>
 		<table class="supplyDemandTradeTb" cellpadding="0" cellspacing="0">
 			<tr>
@@ -115,6 +123,8 @@
 			});
 			$(function () {
 				var id=getUrlParam("id");
+				var p_id="";
+				var c_id="";
 				$("#tradeBtn").on("click",function () {
 					window.location.href="/myapp/mainPage/enDelegateForm?id="+id+"";
 				});
@@ -127,6 +137,8 @@
 					if(res.err==1){
 						window.location.href="/myapp/login";
 					}else{
+						p_id=res.chDeRes.p_id;
+						c_id=res.chDeRes.c_id;
 						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);
 						$("#unit_price").val(res.chDeRes.unit_price);
@@ -144,19 +156,24 @@
 				});
 				
 				$("#tradeBtn").on("click",function () {
+					var price=$("#unit_price").val();
+					var number=$("#number").val();
+					var f_name=$("#f_name").text();
+					var ship_type=$('.ship_type:checked').val();
 					commonAjax(
 							"post",
 							"/myapp/mainPage/savaComission",
 							{
-								product_type:product_type,
-								model:model,
-								unit_price:unit_price,
+								p_id:p_id,
+								c_id:c_id,
+								price:price,
 								number:number,
 								f_name:f_name,
-
+								ship_type:ship_type
 							}
-					).then(function () {
-
+					).then(function (res) {
+						console.log(res);
+						alert();
 					},function () {
 
 					});
