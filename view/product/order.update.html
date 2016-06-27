@@ -18,7 +18,6 @@
 
 					<tr>
 					{if $order_type eq '1' }
-					
 						<td>销售类型：</td>
 						<td>{$info.sales_type}</td>
 					{else}	
@@ -37,14 +36,14 @@
 
 					<tr id="send">
 						<td><font style="color:blue;">送货日期<font style="color:red;"> * </font></font></td>
-						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
+						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{:date|'Y-m-d H:i:s'}}"/>
 						</td>
 						<td><font style="color:blue;">送货地点<font style="color:red;"> * </font></font></td>
 						<td><input name="delivery_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.delivery_location}"/></td>
 					</tr>
 					<tr id="get" style="display:none;">
 						<td><font style="color:blue;">提货日期<font style="color:red;"> * </font></font></td>
-						<td><input  class="mini-datepicker"  name="pickup_time"  required="true" value="{$info.pickup_time}"/>
+						<td><input  class="mini-datepicker"  name="pickup_time"  required="true" value="{:date|'Y-m-d H:i:s'}"/>
 						</td>
 						<td><font style="color:blue;">提货地点<font style="color:red;"> * </font></font></td>
 						<td><input name="pickup_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickup_location}"/></td>

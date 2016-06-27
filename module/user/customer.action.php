@@ -114,20 +114,10 @@ class customerAction extends adminBaseAction {
 	 * @access public 
 	 * @return html
 	 */
-	public function saveTags(){
+	public function submitcheck(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		if(empty($data)){
-			$this->error('错误的操作');
-		}
-		foreach($data as $v){
-			$update=array(
-				'status'=>$v['status'],
-				'identification'=>$v['identification'],
-			);
-			$this->db->wherePk($v['c_id'])->update($update);
-		}
-		$this->success('操作成功');
+		p($data );
 	}
 
     /**

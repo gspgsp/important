@@ -24,16 +24,21 @@
 					<tr>
 						<td>是否销库存<font style="color:red;"> * </font></td>
 						<td>
-							 <input name="" class="mini-radiobuttonlist" width="100px" required="true" onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
+							 <input name="sales_type" class="mini-radiobuttonlist" width="100px" required="true" onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
 						</td>
-						<td>销售类型<font style="color:red;"> * </font></td>
-						<td><input name="sales_type" class="mini-combobox" style="width:125px;" id="sales_type" value="{$info.sales_type}" data='{:setMiniConfig|$sales_type}'   required="true" textfield="name" valuefield="id"/></td>
+						<td>销售类型</td>
+						<td id="sales_type"></td>
 					</tr>
 					{else}
 					<tr>
-						<td>采购类型<font style="color:red;"> * </font></td>
-						<td><input name="purchase_type" class="mini-combobox" style="width:125px;" value="{$info.purchase_type}" data='{:setMiniConfig|$purchase_type}'   required="true" textfield="name" valuefield="id"/></td>
-					
+						<td>采购类型</td>
+						{if $purchase_type eq '2'}
+						<input class="mini-hidden" name="purchase_type" value="{$purchase_type}"/>
+						<td>备货采购</td>
+						{else}
+						<input class="mini-hidden" name="purchase_type" value="{$info.purchase_type}"/>
+						<td>销售采购</td>
+						{/if}	
 					{/if}	
 						<td><font style="color:blue;">运输方式</font><font style="color:red;"> * </font></td>
 						<td>
@@ -242,21 +247,20 @@ function submitForm(){
 function changordertype(e){
 	var val = e.value;
 	var addSaleType = mini.get("addSaleType");
-	var sales_type= mini.get("sales_type");
 	noStockData=[]; //切换订单类型时清空
 	//1为销库存,else为不销库存,通过界面的单选按钮切换
 	if(val == 1){ 
 		gridCell=mini.get('gridCell1');
 		$("#returnMsg").text('');
+		$("#sales_type").text('先采后销');
 		addSaleType.on("click",consumeStoreDetil).un("click",message).un("click",saleDetil);
-		sales_type.setValue('1');
 		$("#sale").hide();
 		$("#consumeStore").show();
 	}else{
 		gridCell=mini.get('gridCell2');
 		$("#returnMsg").text('');
+		$("#sales_type").text('先销后采');
 		addSaleType.on("click",saleDetil).un("click",message).un("click",consumeStoreDetil); 
-		sales_type.setValue('2');
 		$("#consumeStore").hide();
 		$("#sale").show();
 	}

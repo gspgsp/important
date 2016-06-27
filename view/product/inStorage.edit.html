@@ -111,10 +111,19 @@ function viewOrdInfo(id){
 	});		
 }
 function submitForm() {
+	var isok=true;
+	$("#returnMsg").text('');
 	var form = new mini.Form("#editForm");
 	form.validate();
 	if(form.isValid() == false) return;
 	var rows = grid.getSelecteds();
+	$.each(rows,function(n,value){
+		if(!value.lot_num){
+			$("#returnMsg").text('请输入批次号');
+			isok = false;
+		} 
+	});
+	if(!isok) return;
 	//提交数据
 	var o = form.getData();
 	$.extend(o, {list:rows}); 
