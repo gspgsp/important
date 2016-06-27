@@ -47,6 +47,9 @@ class mainPageModel extends model
             ->page($page,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+            }
 			return $data;
 	}
 	//获取当前类型的键
@@ -89,7 +92,7 @@ class mainPageModel extends model
 			return $data;
     }
     //搜索结果列表的操作按钮，下三角
-    public function getOperateRes($p_id){
+    private function _getOperateRes($p_id){
     	$opres = $this->model('purchase')->where('p_id='.$p_id)->select('id,p_id,user_id,c_id,number,unit_price,provinces,input_time')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
     	foreach ($opres as $key => $value) {
     		$opres[$key]['provinces'] = $this->model('lib_region')->select('name')->where('id='.$value['provinces'])->getOne();
