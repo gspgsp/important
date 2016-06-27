@@ -115,6 +115,124 @@
 .user-wrap .right .pro-detail ul li .pro-table-val{ width:248px; text-align:left;}
 .user-wrap .right .close{ color:#fff; font-size:16px; display:block; width:120px; height:44px; line-height: 44px; text-align: center; background:#267bd3; border-radius:2px; margin:50px auto; clear:both; cursor:pointer;}
 
+/*个人中心首页开始*/
+.user-main{ width: 738px; height: 1400px; overflow:hidden; margin:0 14px 23px 23px; border:1px solid #d6d7dc;}
+.user-main .tit{ height:43px; overflow:hidden; background:#fcf4f0; border-bottom:1px solid #d6d7dc;}
+.user-main .tit h2{ font-size:12px; font-weight: bold; height:16px; line-height:16px; border-left:2px solid #fc6621; margin:13px 0 0 18px; padding:0 0 0 9px; float:left;}
+.user-main .tit a{ line-height:43px; color:#267bd3; margin:0 18px 0 0; float:right;}
+.user-main .user-main-detail{ width:698px; border:1px solid #d6d7dc; margin:0 0 30px 23px;}
+.user-main .user-info{ width:700px; height:126px; overflow:hidden; background:url(../../images/home/userMain1.png) no-repeat; margin:37px 0 23px 23px;}
+.user-main .user-info .lt{ width:68px; text-align:center; color:#fff; margin:19px 0 0 42px; }
+.user-main .user-info .portrait{ width:68px; height:68px; overflow:hidden; position: relative; margin:0 0 6px 0;}
+.user-main .user-info .portrait img{ position: absolute; left:0; top: 0;}
+.user-main .user-info .cen{ width:310px; margin:20px 0 0 50px;}
+.user-main .user-info .cen .authen{ height:20px; overflow:hidden; line-height:20px; margin:5px 0 10px 0;}
+.user-main .user-info .cen .authen p{ color:#fff; text-indent:26px; width:100px; height:20px; overflow:hidden; background:url(../../images/home/userIndex.png); margin:0 20px 0 0; float:left;}
+.user-main .user-info .cen .authen.yes p{ background-position: 0 -144px;}
+.user-main .user-info .cen .authen.yes a{ display:none;}
+.user-main .user-info .cen .authen.no p{ background-position: 0 -164px;}
+.user-main .user-info .cen .authen.no a{ display:block;}
+.user-main .user-info .cen .authen a{ color:#267bd3;}
+.user-main .user-info .cen h2{ font-size:12px; margin:0 0 10px 0;}
+.user-main .user-info .cen span{ color:#999;}
+.user-main .user-info .rt li{ width:112px; text-align:center; float:left; }
+.user-main .user-info .rt li p{ width:44px; height:44px; background:url(../../images/home/userIndex.png) no-repeat; margin:28px 0 10px 38px;}
+.user-main .user-info .rt li.msg p{ background-position: 0 -184px;}
+.user-main .user-info .rt li.point p{ background-position: -44px -184px;}
+.user-main .user-info .rt li b{ color:#fc6621; font-weight:normal;}
+.user-main .order{ height:324px; overflow:hidden;}
+.user-main .order ul{ margin:20px 0 0 23px; }
+.user-main .order ul li{ width:659px; height:110px; overflow:hidden; background:url(../../images/home/userMain2.png) no-repeat; margin:0 0 20px 0;}
+.user-main .order ul li .classify{ width:85px; height:auto; overflow:hidden; text-align:center; margin:11px 80px 0 60px;}
+.user-main .order ul li .classify p{ width:56px; height:65px; background:url(../../images/home/userIndex.png)  no-repeat; margin:0 0 10px 14px;}
+.user-main .order ul li .classify.classify1 p{ background-position: 0 -57px;}
+.user-main .order ul li .classify.classify2 p{ background-position: -56px -57px;}
+.user-main .order ul li .census{ line-height:110px;}
+.user-main .order ul li .census p{ float:left; margin:0 25px 0 0;}
+.user-main .order ul li .census p span{ color:#fc6621;}
+.user-main .product{ height:245px; overflow:hidden;}
+.user-main .product ul{ margin:20px 0 0 40px;}
+.user-main .product ul li{ width:129px; height:141px; overflow:hidden; text-align:center; border:1px solid #e1e1e1; float:left; margin:0 28px 0 0; position:relative;}
+.user-main .product ul li .addr{ margin:30px 0 15px 0; }
+.user-main .product ul li .price{ width:106px; height:20px; overflow:hidden; margin:0 0 15px 12px; position:relative;}
+.user-main .product ul li .price span{ float:left; font-size:18px;}
+.user-main .product ul li .price b{ height:11px; line-height: 11px; position:absolute; bottom:0; right:0; font-weight:normal; background:url(../../images/home/userIndex.png)  no-repeat; padding:0 0 0 17px;}
+.user-main .product ul li .price.up{color:#fc6621;}
+.user-main .product ul li .price.up b{ background-position:0 -122px;}
+.user-main .product ul li .price.down{ color:#149718;}
+.user-main .product ul li .price.down b{ background-position:0 -133px;}
+.user-main .product ul li .time{ color:#999;}
+.user-main .product ul li .del{ position:absolute; top:0; right: 0; width:20px; height:20px; background:url(../../images/home/userIndex.png)  no-repeat 0 -228px; cursor:pointer; display:none;}
+.user-main .product ul li:hover .del{ display:block;}
+.user-main .purchase{ height:330px; line-height:40px; overflow:hidden;}
+.user-main .purchase ul li{ height:40px; overflow:hidden; border-bottom:1px solid #eee;}
+.user-main .purchase ul li:hover{ background:#f5f5f5;}
+.user-main .purchase ul li p{ float:left; margin:0 0 0 32px;}
+.user-main .purchase ul li span{ margin:0 25px 0 0;}
+.user-main .purchase ul li a{ background:#fc6621; color:#fff; border:1px solid #fc6621; padding:4px 5px; margin:0 0 0 68px;}
+.user-main .purchase .purchase-more { text-align:right; margin:0 27px 0 0;}
+.user-main .purchase .purchase-more a{ color:#267bd3;}
+.user-main .other{ height:196px; overflow:hidden; margin:0 0 0 23px;}
+.user-main .other .resource{ width:244px; height:194px; overflow:hidden; border:1px solid #e1e1e1;}
+.user-main .other .resource ul{ height:73px; overflow:hidden; border-bottom:1px solid #e1e1e1;}
+.user-main .other .resource ul li{ width:121px; height:73px; text-align:center; float:left;}
+.user-main .other .resource ul li P{ margin:10px 0 6px 0; }
+.user-main .other .resource ul li span{ font-size:20px;}
+.user-main .other .resource ul li.res1{ border-right:1px solid #e1e1e1;}
+.user-main .other .resource ul li.res1 span{ color:#fc6621;}
+.user-main .other .resource ul li.res2 span{ color:#02a507;}
+.user-main .other .resource h4{ color:#fc6621; height:20px; line-height:20px; margin:0 0 0 15px;}
+.user-main .other .resource p{ margin:0 0 0 15px; }
+.user-main .other .release{ width:432px; height:194px; overflow:hidden; border:1px solid #e1e1e1; margin:0 0 0 19px;}
+.user-main .other .release textarea{ width:382px; height:61px; padding:6px 10px; border:1px solid #d9d9d9; box-shadow:0 2px 2px #eee inset; margin:18px 0 10px 16px;}
+.user-main .other .release input{ background:#fc6621; color:#fff; width:160px; height:32px; border-radius:2px; margin:0 0 0 136px; cursor:pointer;}
+.user-rig{ width: 246px; height: auto; overflow: hidden;}
+.user-rig  h4{ height: 37px; line-height:37px; text-indent:7px; font-weight: bold;}
+.user-rig .trader{ width: 244px; height: 298px; border:1px solid #d6d7dc; margin:0 0 40px 0;}
+.user-rig .trader .user-pic{ width: 88px; height: 88px; overflow:hidden; margin:25px 0 15px 78px; position:relative;}
+.user-rig .trader .user-pic img{ position: absolute; left: 0; top: 0;}
+.user-rig .trader p{ text-align: center; line-height: 22px;}
+.user-rig .trader ul{ width: 244px; border-top: 1px solid #d6d7dc; margin:20px 0 0 0; padding:15px 0 0 0;}
+.user-rig .trader ul li{ height: 19px; background:url(../../images/home/userIndex.png) no-repeat; padding:0 0 0 25px; margin:0 0 8px 15px;}
+.user-rig .trader ul li.name{ background-position:0 0;}
+.user-rig .trader ul li.phone{ background-position:3px -19px;}
+.user-rig .trader ul li.qq{ background-position:0 -38px;}
+.user-rig .help{ width: 244px; height: 271px; border:1px solid #d6d7dc; margin:0 0 40px 0;}
+.user-rig .help dl{ width: 228px; height: 62px; overflow:hidden; border:1px solid #d6d7dc; margin:0 0 10px 7px;}
+.user-rig .help dl.dl1{ background:#fcf4f0;}
+.user-rig .help dl.dl2{ background:#b4ebcc;}
+.user-rig .help dl.dl3{ background:#b4d2f1;}
+.user-rig .help dl img{ float:left; margin:10px 20px 0 19px;}
+.user-rig .help dl dt{ margin:12px 0 0 0;}
+.user-rig .wechat{ width: 244px; height: 149px; overflow:hidden; border:1px solid #d6d7dc; margin:0 0 40px 0;}
+.user-rig .wechat-con{ height:76px; margin:10px 0 0 0;}
+.user-rig .wechat-con img{ display:block; float:left; margin:0 10px 0 10px;}
+.user-rig .wechat-con p{ width:133px; line-height:22px; float:left;}
+.user-rig .point{ width: 244px; height:118px; overflow:hidden; border:1px solid #d6d7dc; margin:0 0 40px 0;}
+.user-rig .point p{ font-size:26px; color:#fc6621; margin:0 0 10px 40px;}
+.user-rig .point ul{ margin:0 0 0 40px; }
+.user-rig .point li{ float:left; margin:0 15px 0 0;}
+.user-rig .point li a{ color:#267bd3;}
+.user-rig .point li a:hover{ text-decoration: underline; }
+.user-rig .slider{ width:244px; height:373px; overflow:hidden; border:1px solid #d6d7dc;}
+
+.user-rig .wrapper {width:244px; margin:0 auto; padding-bottom:50px;}
+.user-rig #focus {width:244px; height:328px; overflow:hidden; position:relative;}
+.user-rig #focus ul {height:373px; position:absolute;}
+.user-rig #focus ul li {float:left; width:244px; height:373px; overflow:hidden; position:relative;}
+.user-rig #focus ul li p{ text-align:center;}
+.user-rig #focus ul li .goods-pic{ width:134px; height:134px; overflow:hidden; margin:23px auto;}
+.user-rig #focus ul li .goods-name{ color:#43495b; font-size:14px; margin-bottom:13px;}
+.user-rig #focus ul li .goods-jifen{ color:#ff7212; font-size:14px; margin:0 0 14px 0; text-align:center;}
+.user-rig #focus ul li .goods-jifen span{ font-size:18px;}
+.user-rig #focus ul li .goods-btn{ width:116px; height:32px; line-height:32px; text-align:center;background:#fc6621; border-radius:2px; margin:0 auto;}
+.user-rig #focus ul li .goods-btn a{ color:#fff;}
+.user-rig #focus .btnBg {position:absolute; width:244px; height:40px; left:0; bottom:0;}
+.user-rig #focus .btn {position:absolute; width:244px; height:24px; left:100px; bottom:1px; padding-left:10px;}
+.user-rig #focus .btn span {display:inline-block; _display:inline; _zoom:1; width:6px; height:6px; border-radius:3px; line-height:6px; text-align:center; font-size:20px; font-family:"Microsoft YaHei",SimHei; margin-right:6px; cursor:pointer; color:#fff; background:#EFEFF4;}
+.user-rig #focus .btn span.on {background:#B1B3BA; color:#fcc;}
+/*个人中心首页结束*/
+
 /*我的供应开始*/
 .tabe,.tabx,.taby{ width:403px; height:30px; overflow:hidden; margin:0 0 10px 23px; font-size:14px;}
 .tabe li,.tabx li,.taby li{ width:60px; height:16px; float:left; text-align: center;border-right:1px solid #ccc; cursor:pointer;}
