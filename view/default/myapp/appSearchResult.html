@@ -31,84 +31,7 @@
 			</span>
 		</div>
 		<div class="supplyDemandUl">
-			<ul>
-				<li>
-					<h3 class="bigCustomerName">
-						<a href="#">
-						HDPE/7000F<br>伊朗国家石化
-						</a>
-					</h3>
-					<p class="supplyDemandStore">
-						<i class="icon iconDown iconUp"></i>
-						<i class="icon iconStore"></i>
-					</p>
-					<p class="supplyDemandSales">
-						<span>￥9300/T起</span><br>2016-05-14
-					</p>
-					<div class="mui-clearfix"></div>
-					<table class="supplyDemandTb" cellpadding="0" cellspacing="0">
-						<tr>
-							<th width="35%">供应商</th>
-							<th width="20%">价格(元/吨)</th>
-							<th width="10%">数量</th>
-							<th width="15%">交货地</th>
-							<th width="20%">业务电话</th>
-						</tr>
-						<tr>
-							<td>上海比森国际贸易有限公司</td>
-							<td>￥9300</td>
-							<td>50T</td>
-							<td>广东</td>
-							<td>18672574766</td>
-						</tr>
-						<tr>
-							<td>上海牧泓实业有限公司</td>
-							<td>￥9300</td>
-							<td>50T</td>
-							<td>上海</td>
-							<td>18672574766</td>
-						</tr>
-					</table>
-				</li>
-				<li>
-					<h3 class="bigCustomerName">
-						<a href="#">
-						HDPE/7000F<br>伊朗国家石化
-						</a>
-					</h3>
-					<p class="supplyDemandStore">
-						<i class="icon iconDown iconUp"></i>
-						<i class="icon iconStore"></i>
-					</p>
-					<p class="supplyDemandSales">
-						<span>￥9300/T起</span><br>2016-05-14
-					</p>
-					<div class="mui-clearfix"></div>
-					<table class="supplyDemandTb" cellpadding="0" cellspacing="0">
-						<tr>
-							<th width="35%">供应商</th>
-							<th width="20%">价格(元/吨)</th>
-							<th width="10%">数量</th>
-							<th width="15%">交货地</th>
-							<th width="20%">业务电话</th>
-						</tr>
-						<tr>
-							<td>上海比森国际贸易有限公司</td>
-							<td>￥9300</td>
-							<td>50T</td>
-							<td>广东</td>
-							<td>18672574766</td>
-						</tr>
-						<tr>
-							<td>上海牧泓实业有限公司</td>
-							<td>￥9300</td>
-							<td>50T</td>
-							<td>上海</td>
-							<td>18672574766</td>
-						</tr>
-					</table>
-				</li>
-			</ul>
+			<ul id="searchWrapUl"></ul>
 		</div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
@@ -116,21 +39,32 @@
 			});
 			$(function(){
 				var keywords=getUrlParam("keywords");
-
+				var searchLi="";
 				function searchPro(keyW) {
+					commonAjax(
+							"post",
+							"/myapp/mainPage/getSearchRes",
+							{keywords:keyW}
+					).then(function (res) {
+						console.log(">>>",res);
+						res.searchRes.forEach(function (v,i,a) {
+							searchLi+="<li><h3 class='bigCustomerName'>" +
+									"<a href='#'>HDPE/7000F<br>伊朗国家石化</a></h3>" +
+									"<p class='supplyDemandStore'><i class='icon iconDown iconUp'></i><i class='icon iconStore'></i></p>" +
+									"<p class='supplyDemandSales'><span>￥9300/T起</span><br>2016-05-14</p>" +
+									"<div class='mui-clearfix'></div><table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
+									"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>业务电话</th></tr>" +
+									"<tr><td>上海比森国际贸易有限公司</td><td>￥9300</td><td>50T</td><td>广东</td><td>18672574766</td></tr><tr><td>上海牧泓实业有限公司</td><td>￥9300</td><td>50T</td><td>上海</td><td>18672574766</td>" +
+									"</tr></table></li>";
+						});
+						$("#searchWrapUl").html(searchLi);
+					},function () {
 
+					});
 				}
 
-				commonAjax(
-						"post",
-						"/myapp/mainPage/getSearchRes",
-						{keywords:keywords}
-				).then(function (res) {
-					console.log(">>>",res);
+				searchPro(keywords);
 
-				},function () {
-
-				});
 			});
 		</script>
 
