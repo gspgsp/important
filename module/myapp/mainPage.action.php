@@ -14,7 +14,7 @@ class mainPageAction extends homeBaseAction
     //获取首页数据
     public function getMainPage(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        // if($this->user_id<=0) $this->error('账户错误');
     	$type = sget('type','i',1);//type为1:今日头条,2:原油价格
     	if($infos = M('myapp:mainPage')->getInfos($type)) $this->json_output(array('err'=>0,'infos'=>$infos));
     	$this->json_output(array('err'=>2,'msg'=>'没有相关资讯'));
@@ -26,7 +26,7 @@ class mainPageAction extends homeBaseAction
     //点击获取今日资讯
     public function getMoreInfos(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
     	$pid=sget('pid','i',29);
 		$page = sget('page','i',1);
 		$size = sget('size','i',10);
@@ -40,7 +40,7 @@ class mainPageAction extends homeBaseAction
     //获取资讯详情
     public function getDetailInfos(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
     	$id=sget('id','i',0);
         if(!$detInf=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'没有该条资讯详情'));
         $this->json_output(array('err'=>0,'detInf'=>$detInf));
@@ -52,7 +52,7 @@ class mainPageAction extends homeBaseAction
     //点击获取更多调价动态
     public function getMoreDyPrice(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
 		$page = sget('page','i',1);
 		$size = sget('size','i',10);
 		if(!$list = M('myapp:mainPage')->getAllPriceFloor($page,$size)) $this->json_output(array('err'=>1,'msg'=>'没有更多调价动态'));
@@ -65,7 +65,7 @@ class mainPageAction extends homeBaseAction
     //获取历史搜索和热门搜索
     public function getHisAndHot(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
     	//历史搜索结果
     	$hisData = $this->_history();
     	//热门搜索结果
@@ -150,7 +150,7 @@ class mainPageAction extends homeBaseAction
     //结果数据按价格排序(1从低到高,2从高到低，3默认时间)
     public function getResByPrice(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $stype = sget('stype','i',1);
         $page = sget('page','i','1');
         $size = sget('size','i',8);
@@ -394,7 +394,7 @@ class mainPageAction extends homeBaseAction
     //获取资讯页
     public function getArticleInfo(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $pid=sget('pid','i',29);
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -408,7 +408,7 @@ class mainPageAction extends homeBaseAction
     //获取资讯详情页
     public function getArticleDetail(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $id=sget('id','i',0);
         if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $this->json_output(array('err'=>0,'articleDetail'=>$articleDetail));
