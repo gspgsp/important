@@ -347,4 +347,9 @@ class mainPageModel extends model
         }
         return $searchData;
     }
+    //点击委托洽谈保存提交数据
+    public function savaComissionData($comData){
+        if($this->model('sale_buy')->add($comData)) return true;
+        return false;
+    }
 }
