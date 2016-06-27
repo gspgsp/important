@@ -496,7 +496,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
         $comData['p_id'] = sget('p_id','i');
-        $comData['sn'] = sget('sn','i');//ajax 异步提交生成订单号/touch/sign/buildOrderId
+        $comData['sn'] = $this->buildOrderId();
         $comData['user_id'] = $this->user_id;
         $comData['c_id'] = sget('c_id','i');
         $comData['number'] = sget('number','i');
@@ -512,5 +512,9 @@ class mainPageAction extends homeBaseAction
         //$chk_time = sget('chk_time','i');
         if(M('myapp:mainPage')->savaComissionData($comData)) $this->json_output(array('err'=>0,'msg'=>'委托洽谈成功'));
         $this->json_output(array('err'=>2,'msg'=>'委托洽谈失败'));
+    }
+    //生产订单号
+    protected function buildOrderId(){
+        return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
     }
 }
