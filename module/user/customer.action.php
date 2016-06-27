@@ -301,7 +301,7 @@ class customerAction extends adminBaseAction {
 		if(empty($ids)){
 			$this->error('操作有误');	
 		}
-		$result=$this->db->model('customer')->where("c_id in ($ids)")->update(array('customer_manager'=>0,'depart'=>0,'status'=>1));
+		$result=$this->db->model('customer')->where("c_id in ($ids)")->update(array('customer_manager'=>0,'depart'=>0,'status'=>1,));
 		if($result){
 			$this->success('操作成功');
 		}else{
