@@ -16,8 +16,9 @@ class indexAction extends userBaseAction{
         $list=M('user:customerContact')->getCustomerInFoById($userid);
 
         //我的关注列表
-        $where="user_id=$this->user_id and ";
+        $where="user_id=$this->user_id and status=1";
         $data = M('product:concernedProduct')->getConcernedList($where);
+        p($data);
 
         $this->assign('data',$list);
         //近三个月的订单信息(自营)
