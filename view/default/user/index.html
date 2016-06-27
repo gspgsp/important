@@ -131,30 +131,14 @@
 				</div>
 				</div>
 				    <ul>
+						{foreach from=$data item=value key=key}
 						<li>
-							<p class="addr">云林 / 9001 上海</p>
-							<div class="price up"><span>¥9650</span><b>100</b></div>
-							<p class="time">今天 15:43</p>
+							<p class="addr">{$value.product_name}/ {$value.model}/{$value.factory_name}</p>
+							<div class="price up"><span>¥{$value.unit_price}</span><b>100</b></div>
+							<p class="time">{$value.update_time| date:Y-m-d}</p>
 							<div class="del"></div>
 						</li>
-						<li>
-							<p class="addr">云林 / 9001 上海</p>
-							<div class="price down"><span>¥9650</span><b>100</b></div>
-							<p class="time">今天 15:43</p>
-							<div class="del"></div>
-						</li>
-						<li>
-							<p class="addr">云林 / 9001 上海</p>
-							<div class="price up"><span>¥9650</span><b>100</b></div>
-							<p class="time">今天 15:43</p>
-							<div class="del"></div>
-						</li>
-						<li>
-							<p class="addr">云林 / 9001 上海</p>
-							<div class="price down"><span>¥9650</span><b>100</b></div>
-							<p class="time">今天 15:43</p>
-							<div class="del"></div>
-						</li>
+						{/foreach}
 					</ul>
     		</div>
     		<!--product end-->

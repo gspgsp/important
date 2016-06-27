@@ -16,10 +16,8 @@ class indexAction extends userBaseAction{
         $list=M('user:customerContact')->getCustomerInFoById($userid);
 
         //我的关注列表
-        $where="user_id=$this->user_id and status=1";
+        $where="cp.user_id=$this->user_id and cp.status=1";
         $data = M('product:concernedProduct')->getConcernedList($where);
-        p($data);
-
         $this->assign('data',$list);
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
@@ -41,7 +39,7 @@ class indexAction extends userBaseAction{
         $this->assign('info2',$info2);
         $this->assign('info3',$info3);
         $this->assign('info4',$info4);
-
+        $this->assign('data',$data);
         $this->display('index');
 	}
 
