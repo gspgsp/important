@@ -130,5 +130,46 @@ class billingAction extends adminBaseAction
 			$this->error('数据处理失败');
 		}
 	}
+	/**
+	 * 开票充红
+	 * @access private 
+	 */
+	public function changeRed(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('错误的操作');
+		$arr = M('product:billing')->getLastInfo($name='o_id',$value=$data['oid']);
+		$arr2 = array(
+			'id'=>'',
+			'order_name'=>'更正开票',
+			'order_sn'=>'更正'.$data['o_sn'],
+			'billing_price'=>'0',
+			'unbilling_price'=>$arr[0]['unbilling_price']+$data['b_price'],
+			'refund_amount'=>$data['c_price'],
+			'update_time'=>CORE_TIME,
+			'update_admin'=>$_SESSION['name'],
+			'invoice_status'=>2,
+			);		
+            //开票可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
+ 		$update=array_merge($arr[0],$arr2);
+		$this->db->startTrans();//开启事务
+			try {
+				if(!$this->db->model('billing')->add($update) )throw new Exception("新增退款失败");
+				if(!$this->db->model('billing')->wherePK($data['id'])->update( array('invoice_status'=>3)) )throw new Exception("修改退款状态失败");
+				//根据撤销付款金额与总金额的大小，判断订单付款状态
+				if($data['total_price'] == $data['b_price']){
+					if(!$this->db->model('order')->wherePK($data['oid'])->update( array('invoice_status'=>1)) )throw new Exception("修改订单表退款状态失败");
+				}else{
+					if(!$this->db->model('order')->wherePK($data['oid'])->update( array('invoice_status'=>2)) )throw new Exception("修改订单表退款状态失败");
+				}
+				
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+		$this->db->commit();
+		$this->success('操作成功');
+
+	}
 
 }

@@ -146,6 +146,26 @@ function addInvoice(oid,order_type,id){
 	});
 }
 
+//红充操作
+function viewPinfo(oid,id,c_price,total_price,o_sn){
+	var o_sn = o_sn;
+	var data = {oid:oid,id:id,c_price:c_price,total_price:total_price,o_sn:o_sn};
+	var json = mini.encode(data);
+	mini.confirm("确定交易取消？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+		if(data.err=='0'){
+			grid.reload();
+		}else{
+			alert(data.msg)
+			return false;
+		}
+	}
+	utils.ajax('/product/billing/changeRed',{data:json},callback,"POST","json");
+  });
+
+}
+
 //设置状态
 
 function setInv(e){
