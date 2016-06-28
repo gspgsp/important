@@ -37,7 +37,7 @@ class indexAction extends userBaseAction{
         //积分商品banner
         $points=M('points:pointsGoods')->getGoods();
 
-        p($points);
+
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
         $uid=$this->user_id;
