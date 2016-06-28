@@ -304,7 +304,7 @@ class mainPageAction extends homeBaseAction
     //进入物性表
     public function enPhysical(){
         //cookie保存输入框的关键字
-        $_cfrom=sget('keyWords','s');//将搜索的关键字传入
+        $_cfrom=sget('keywords','s');//将搜索的关键字传入
         $history = array();
         if(!empty($_cfrom))
         array_push($history, $_cfrom);
@@ -331,7 +331,7 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页
     public function getPhysical(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         //历史搜索结果
         $hisData = $this->_history();
         //热门搜索结果
@@ -345,18 +345,18 @@ class mainPageAction extends homeBaseAction
         $data=$cache->get($_key);
         if(empty($data)){
             $param = array(
-                'mo1'=>'1002YB',
-                'mo2'=>'7000F',
-                'mo3'=>'2100TN00',
-                'mo4'=>'2426H',
-                'mo5'=>'2420H',
-                'mo6'=>'5502BN',
-                'mo7'=>'2102TX00',
-                'mo8'=>'52518',
-                'mo9'=>'2119',
-                'mo10'=>'9001',
-                'mo11'=>'TR131',
-                'mo12'=>'FB6001',
+                '1002YB',
+                '7000F',
+                '2100TN00',
+                '2426H',
+                '2420H',
+                '5502BN',
+                '2102TX00',
+                '52518',
+                '2119',
+                '9001',
+                'TR131',
+                'FB6001',
                 );
             $cache->set($_key,$param,0); //加入缓存
             $data = $param;
@@ -370,7 +370,7 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页结果数据
     public function getPhysicalRes(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $keywords = sget('keywords','s');
         $page = sget('page','i',1);
         $size = sget('size','i',10);
