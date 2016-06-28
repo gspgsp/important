@@ -32,6 +32,9 @@ class indexAction extends userBaseAction{
         //p($count1);
         //今日采购发布总数
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
+        //最新正在洽谈的求购信息
+        $rest=M('product:purchase')->getInfo();
+        p($rest);
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
         $uid=$this->user_id;
@@ -56,6 +59,7 @@ class indexAction extends userBaseAction{
         $this->assign('res',$data);
         $this->assign('count1',$count1);
         $this->assign('count2',$count2);
+        $this->assign('rest',$rest);
         $this->display('index');
 	}
 

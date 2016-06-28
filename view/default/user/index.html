@@ -150,60 +150,17 @@
     		<div class="user-main-detail purchase">
     			<div class="tit"><h2>最新正在洽谈中的采购需求</h2></div>
     			<ul>
+					{foreach from=$rest item=val key=key}
     				<li>
     					<p>
-	    					<span>求购LLDPE 7042 10吨</span> 
-	    					<span>价格：￥9000元</span>
-	    					<span>交货地：上海</span> 
-	    					<span>2016-06-22 16：39</span>
+	    					<span>求购{if $val.product_type==5}PVC{elseif $val.product_type==1}HDPE{elseif $val.product_type==2}LDPE{elseif $val.product_type=3}LLDPE{else}PP{/if} {$val.model} {$val.number}吨</span>
+	    					<span>价格：￥{$val.unit_price}元</span>
+	    					<span>交货地：{$val.name}</span>
+	    					<span>{$val.input_time|date:Y-m-d}</span>
     					</p>
     					<a href="javascript:;">我要供货</a>
     				</li>
-    				<li>
-    					<p>
-	    					<span>求购LLDPE 7042 10吨</span> 
-	    					<span>价格：￥9000元</span>
-	    					<span>交货地：上海</span> 
-	    					<span>2016-06-22 16：39</span>
-    					</p>
-    					<a href="javascript:;">我要供货</a>
-    				</li>
-    				<li>
-    					<p>
-	    					<span>求购LLDPE 7042 10吨</span> 
-	    					<span>价格：￥9000元</span>
-	    					<span>交货地：上海</span> 
-	    					<span>2016-06-22 16：39</span>
-    					</p>
-    					<a href="javascript:;">我要供货</a>
-    				</li>
-    				<li>
-    					<p>
-	    					<span>求购LLDPE 7042 10吨</span> 
-	    					<span>价格：￥9000元</span>
-	    					<span>交货地：上海</span> 
-	    					<span>2016-06-22 16：39</span>
-    					</p>
-    					<a href="javascript:;">我要供货</a>
-    				</li>
-    				<li>
-    					<p>
-	    					<span>求购LLDPE 7042 10吨</span> 
-	    					<span>价格：￥9000元</span>
-	    					<span>交货地：上海</span> 
-	    					<span>2016-06-22 16：39</span>
-    					</p>
-    					<a href="javascript:;">我要供货</a>
-    				</li>
-    				<li>
-    					<p>
-	    					<span>求购LLDPE 7042 10吨</span> 
-	    					<span>价格：￥9000元</span>
-	    					<span>交货地：上海</span> 
-	    					<span>2016-06-22 16：39</span>
-    					</p>
-    					<a href="javascript:;">我要供货</a>
-    				</li>
+					{/foreach}
     			</ul>
 				<p class="purchase-more"><a href="/purchase">更多采购需求》</a></p>
     		</div>
