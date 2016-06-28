@@ -398,31 +398,32 @@ class orderAction extends adminBaseAction {
 			unset($data['detail']);
 			// p($detail);
 			// p($data);
-				!empty($data['unbilling_price'])?$m = ($data['unbilling_price']-$data['billing_price']):$m = ($data['total_price']-$data['billing_price']);
-			$this->db->startTrans();//开启事务	
-			try {
+			!empty($data['unbilling_price'])?$m = ($data['unbilling_price']-$data['billing_price']):$m = ($data['total_price']-$data['billing_price']);
 
-				if($m>0){
-					$data['unbilling_price'] = $m;
-					$data['invoice_status'] = 2;
-					if( !$sss=$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('invoice_status'=>2,'update_time'=>CORE_TIME)) )throw new Exception("跟新订单开票状态失败1");				
-				}
-				if($m==0){
-					$data['unbilling_price'] = 0;
-					$data['invoice_status'] = 2;
-					if( !$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('invoice_status'=>3,'update_time'=>CORE_TIME)) )throw new Exception("跟新订单开票状态失败2");
-				}
-				if($m<0){
-					$this->error("数据错误");
-				}
-
-				//判断生成开票号
+			//判断生成开票号
 				$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 				$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
 				$data['payment_time']=strtotime($data['payment_time']);
 
+			$this->db->startTrans();//开启事务	
+			try {
+
 				//财务审核
 				if($data['finance'] ==1){
+					if($m>0){
+						$data['unbilling_price'] = $m;
+						$data['invoice_status'] = 2;
+						if( !$sss=$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('invoice_status'=>2,'update_time'=>CORE_TIME)) )throw new Exception("跟新订单开票状态失败1");				
+					}
+					if($m==0){
+						$data['unbilling_price'] = 0;
+						$data['invoice_status'] = 2;
+						if( !$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('invoice_status'=>3,'update_time'=>CORE_TIME)) )throw new Exception("跟新订单开票状态失败2");
+					}
+					if($m<0){
+						$this->error("数据错误");
+					}
+				
 					//修改订单明细表中的开票数量
 					foreach ($detail as $v) {
 						if ($billing ==1) {
@@ -432,6 +433,8 @@ class orderAction extends adminBaseAction {
 						}
 					}
 					//财务审核通过，更改开票数据
+					$id = $data['id'];
+					unset($data['id']);
 					if(!$this->db->model('billing')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 				}else{
 					if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");

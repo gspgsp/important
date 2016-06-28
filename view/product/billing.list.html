@@ -121,10 +121,10 @@ function viewOrdInfo(oid,type){
 function viewhander(e){
 	var record = e.record,oid=record.o_id, b_price=record.billing_price,total_price=record.total_price, o_sn=record.order_sn,i_status=record.invoice_status,id=record.id, s='';
 	var order_type={$type};
-	if (p_status ==1) {
-		s += '<a href="javascript:transaction('+oid+','+order_type+','+id+')">审核</a>';
+	if (i_status ==1) {
+		s += '<a href="javascript:addInvoice('+oid+','+order_type+','+id+')">审核</a>';
 	}
-	if(p_status == 2)
+	if(i_status == 2)
 	s += '<a href="javascript:viewPinfo('+oid+','+id+','+b_price+','+total_price+',\''+o_sn+'\')">更正</a>';
 	return s;
 }
