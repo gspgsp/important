@@ -275,11 +275,12 @@ class mainPageModel extends model
             ->getPage();
             foreach ($largrBid['data'] as $key => $value) {
                 $largrBid['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+                $largrBid['data'][$key]['newBig'] = $this->_getLargeBidRes($value['id']);
             }
         return $largrBid;
     }
-    //大户报价下三角数据
-    public function getLargeBidRes($id){
+    //大户报价下三角数据(直接集成到上面)
+    private function _getLargeBidRes($id){
         $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
         $newBig = array();
         $data = $this->model('big_offers')->where("model='{$bigOff['model']}' and factory='{$bigOff['factory']}'")->order('input_time desc')->limit('0,2')->getAll();
@@ -339,6 +340,7 @@ class mainPageModel extends model
     //获取物性表搜索页详情数据
     public function getPhysicalDetailData($lid){
         $phyDetail = $this->model('physical')->where('lid='.$lid)->getRow();
+        //$phyDetail['params'] = htmlspecialchars_decode($phyDetail['params']);
         return $phyDetail;
     }
     //获取供求(公海的报价和求购) 1求(采)购 2报价
