@@ -173,10 +173,11 @@ class inStorageAction extends adminBaseAction {
 			$_data['controlled_number']=$v['in_number']; //可用数量
 			$_data['join_id']=$data['join_id']; //关联的销售订单id
 			//新增入库明细
-			if( $this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->getOne() ){ //判断此采购订单的明细之前有没有入过库
+			$in_id = $this->db->model('in_log')->select('id')->where(' purchase_id = '.$_data['purchase_id'])->getOne()
+			if( $in_id>0 ){ //判断此采购订单的明细之前有没有入过库
 				//更新此次入库数
 				$this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->update(' number = number+'.$v['in_number'].' , remainder = remainder+'.$v['in_number'].' , controlled_number = controlled_number+'.$v['in_number']);
-				$inlog_id=0;
+				$inlog_id=$in_id; 
 			}else{ //如果没有新增入库明细
 				//新增入库明细
 				$this->db->model('in_log')->add($_data+$basic_info);

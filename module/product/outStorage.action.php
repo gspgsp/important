@@ -112,7 +112,7 @@ class outStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-		// p($data);die;
+		p($data);die;
 		$basic_info=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
