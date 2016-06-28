@@ -389,14 +389,19 @@ class orderAction extends adminBaseAction {
 	* 保存付款收款开票信息
 	*/
 	public function ajaxSave(){
-		$data    = sdata();
+		$data = sdata();
 		//p($data);die;
-		$silling = sget('do','i');
-		if($silling == 1){
-			//保存开票信息		
+		$billing = sget('do','i');
+		if($billing >0){
+			//保存开票信息
+			$detail = $data['detail'];
+			unset($data['detail']);
+			// p($detail);
+			// p($data);
 				!empty($data['unbilling_price'])?$m = ($data['unbilling_price']-$data['billing_price']):$m = ($data['total_price']-$data['billing_price']);
 			$this->db->startTrans();//开启事务	
 			try {
+
 				if($m>0){
 					$data['unbilling_price'] = $m;
 					$data['invoice_status'] = 2;
@@ -415,7 +420,22 @@ class orderAction extends adminBaseAction {
 				$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 				$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
 				$data['payment_time']=strtotime($data['payment_time']);
-				if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");
+
+				//财务审核
+				if($data['finance'] ==1){
+					//修改订单明细表中的开票数量
+					foreach ($detail as $v) {
+						if ($billing ==1) {
+							$this->db->model('sale_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);
+						}else{
+							$this->db->model('purchase_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);
+						}
+					}
+					//财务审核通过，更改开票数据
+					if(!$this->db->model('billing')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
+				}else{
+					if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");
+				}
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error('保存失败：'.$this->db->getDbError());
