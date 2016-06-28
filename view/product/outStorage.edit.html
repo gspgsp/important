@@ -90,10 +90,25 @@ function viewOrdInfo(id){
 	});		
 }
 function submitForm() {
+	var isok = true;
 	var form = new mini.Form("#editForm");
 	rows = grid.getSelecteds()
 	form.validate();
 	if(form.isValid() == false) return;
+	var rows = grid.getSelecteds();
+	for(var i = 0;i<rows.length;i++){
+		if(!rows[i].out_number){
+			$("#returnMsg").text("请填写出库数量");
+			isok=false;
+		} 
+		if(parseInt(rows[i].out_number)>parseInt(rows[i].remainder)){
+			$("#returnMsg").text("请填写正确出库数量");
+			isok=false;
+		}
+	}
+	if( !isok ) return ;
+
+
 	//提交数据
 	var o = form.getData();
 	$.extend(o, {log:rows}); 
