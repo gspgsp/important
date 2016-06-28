@@ -139,24 +139,29 @@
 					var store_house=$("#store_house").val();
 					var period=$("#period").val();
 					var process_level=$("#process_level").val();
+					var data=[];
+					var arr={
+						'model':model,
+						'product_type':product_type,
+						'f_name':f_name,
+						'number':number,
+						'price':price,
+						'provinces':provinces,
+						'store_house':store_house,
+						'period':period,
+						'process_level':process_level,
+						'type':2,
+						'cargo_type':1
+					};
+					data.push(arr);
 					commonAjax(
 							"post",
 							"/user/mypurchase/pub",
-							{
-								type:2,
-								cargo_type:1,
-								model:model,
-								product_type:product_type,
-								f_name:f_name,
-								number:number,
-								price:price,
-								provinces:provinces,
-								store_house:store_house,
-								period:period,
-								process_level:process_level
-							}
+							{data}
 					).then(function (res) {
-						console.log(res);
+						mui.alert("",res.msg,function () {
+
+						});
 					},function () {
 
 					});
