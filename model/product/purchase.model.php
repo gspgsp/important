@@ -92,12 +92,13 @@ class purchaseModel extends model{
      */
 	public function footPrice($arr){
 
-	    	$this->from('purchase  as  pur')
+	    return 	$this->from('purchase  as  pur')
 			->where("pur.p_id={$arr['pid']}")
 			->order('pur.update_time DESC')
 			->select('pur.p_id,pur.unit_price')
+			->limit('2')
 			->getAll();
-		//showTrace();
+
 
 	}
 
