@@ -185,17 +185,21 @@
 						{/foreach}
     				</ul>
     				<h4>实时资源</h4>
-    				<p>杉杉汉祥-唐浩斌<br/>出上海现货 塑拖EX5-2102TX00上海期货5502 沙特 塑拖BL3青岛期货...</p>
+					<div id="ref">
+						{foreach from=$ref item=val}
+						<p>{$val.user_nick}<br/>{$val.content}</p>
+						{/foreach}
+					</div>
     			</div>
     			<!--resource end-->
     			<!--release begin-->
     			<div class="release flt">
     				<div class="tit"><h2>免费发布采购需求</h2></div>
-    				<form name="" method="post" action="">
+					<form method="post" class="addform">
     					<textarea placeholder="写下您的真实需求，包括牌号、吨数等，收到后我们会立即
 给您会点确认，剩下的就交给我们吧。"></textarea>
 						<input type="submit" value="免费委托发布"/>
-    				</form>
+					</form>
     			</div>
     			<!--release end-->
     		</div>
@@ -305,6 +309,29 @@
 	});
 
 	//发布采购需求
+	$('.addform').submit(function(){
+		var content = $('.addform textarea').val().trim();
+		var type=1;
+		if(content == ''){
+			alert('请填写发布内容');
+			return false;
+		}
+		$.post('/resource/index/release', {content:content,type:type}, function (data){
+			if(data.err>0){
+				if(data.err==1){
+					loginbox('resource');
+				}else{
+					alert(data.msg);
+				}
+			}else{
+				alert('发布成功');
+				window.location.reload();
+			}
+		},'json')
+		return false;
+	})
+
+
 	
     //关注产品信息
     var track = $(".slider-container").silverTrack({

@@ -32,11 +32,15 @@ class indexAction extends userBaseAction{
         //p($count1);
         //今日采购发布总数
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
+        //资源类库最新一条
+        $ref=M('resourcelib:resourcelib')->getNew();
+        p($ref);
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
+
         //积分商品banner
         $points=M('points:pointsGoods')->getGoods();
-
+        //
 
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
@@ -64,6 +68,7 @@ class indexAction extends userBaseAction{
         $this->assign('count2',$count2);
         $this->assign('rest',$rest);
         $this->assign('points',$points);
+        $this->assign('ref',$ref);
         $this->display('index');
 	}
 
