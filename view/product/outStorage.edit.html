@@ -265,13 +265,13 @@ function saveData() {
 	}
 	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
 }
-function onValidation(){
-	var out_number = parseInt(this.getValue());
-	rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
-	if(out_number>parseInt(rows[0].number)){
-		alert('不能大于订单数量,请重新输入!');
-		this.setValue('0');
-	 	return false;
-	}
-}
+// function onValidation(){
+// 	var out_number = parseInt(this.getValue());
+// 	rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
+// 	if(out_number>parseInt(rows[0].number)){
+// 		alert('不能大于订单数量,请重新输入!');
+// 		this.setValue('0');
+// 	 	return false;
+// 	}
+// }
 </script>
