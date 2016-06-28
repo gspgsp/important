@@ -18,14 +18,16 @@ class indexAction extends userBaseAction{
         $where="cp.user_id=$this->user_id and cp.status=1";
         $data = M('product:concernedProduct')->getConcernedList($where);
 
-//
-//        //关注产品的价格浮动
-//        $arr=array();
-//        foreach($data as $v){
-//
-//           $arr['pid']=$data['pid'];
-//            $price=M('product:purchase')->footPrice($arr);
-//            }
+
+        //关注产品的价格浮动
+        $arr=array();
+        foreach($data as $v){
+           $arr['pid']=$v['pid'];
+            $price=M('product:purchase')->footPrice($arr);
+            $cjprice=$price[0]['unit_price']-$price[1]['unit_price'];
+            p($cjprice);
+            }
+
 
         //今日报价发布总数
         $date1=strtotime(date('Ymd'));
