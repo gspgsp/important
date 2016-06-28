@@ -328,6 +328,22 @@ class mainPageModel extends model
         }
         return $choseRes;
     }
+    //获取大客户详情数据(查看)1查看,2委托洽谈
+    public function getBigBidDetailData($otype,$id){
+        $bigOff = $this->model('big_offers')->where('id='.$id)->getAll();
+        if($otype == 1){
+           $bigCli = $this->model('big_client')->where('id='.$id)->select('gsname,phone')->getRow();
+           $bigOff['gsname'] = $bigCli['gsname'];
+           $bigOff['phone'] = $bigCli['phone'];
+           $bigOff['cjphone'] = $bigCli['cjphone'];
+        }elseif($otype == 2) {
+            $cus_contact = M('user:customerContact')->getListByUserid($_SESSION['userid']);
+            $bigOff['name'] = $cus_contact['name'];
+            $bigOff['mobile'] = $cus_contact['mobile'];
+            $bigOff['c_name'] = M('user:customer')->getCinfoById($cus_contact['c_id'])['c_name'];
+        }
+        return $bigOff;
+    }
     //获取物性表搜索页结果数据
     public function getPhysicalResData($keywords,$page=1,$size=10){
         $phyData = $this->model('physical')
