@@ -51,6 +51,20 @@ class resourcelibModel extends model{
 			->getAll();
 	}
 
+	/**
+	 *获取最新发布一条的资源信息
+	 *
+	 */
+
+	public function getNew(){
+		return $this->from('resourcelib as res')
+			->where('res.status=1')
+			->order('res.input_time')
+			->select('res.user_nick,res.content')
+			->limit('1')
+			->getAll();
+	}
+
 	
 	
 }
