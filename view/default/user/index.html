@@ -116,7 +116,7 @@
 				                <!--slider-container begin-->
 				                <div class="slider-container"  id="example-1">
                                     {foreach from=$res item=value key=key}
-				                    <div class="item">
+				                    <div class="item" id="{$value.id}" >
                                         <p class="addr">
                                             {$value.product_name}/ {$value.model}/{$value.factory_name}
                                         </p>
@@ -304,6 +304,27 @@
 		//删除关注产品信息
 		var del = $(".user-main .product .item .del");
 		del.live("click",function(){
+			var id=$('.item').attr('id');
+			$.ajax({
+					url:'/user/productAttention/changeFocusState',
+					data:{pId:id},
+					type:'get',
+					dataType:'json',
+					cache:'false',
+				success:function(res){
+					if(res.err==0){
+						if(res.status==1){
+							alert('取消关注失败');
+						}else{
+							alert('取消关注成功');
+
+						}
+					}
+
+				}
+
+			})
+
 			$(this).parent().remove();
 		});
 	});

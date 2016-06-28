@@ -17,6 +17,7 @@ class indexAction extends userBaseAction{
         //我的关注列表
         $where="cp.user_id=$this->user_id and cp.status=1";
         $data = M('product:concernedProduct')->getConcernedList($where);
+
 //
 //        //关注产品的价格浮动
 //        $arr=array();
@@ -40,7 +41,7 @@ class indexAction extends userBaseAction{
 
         //积分商品banner
         $points=M('points:pointsGoods')->getGoods();
-       
+
 
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
