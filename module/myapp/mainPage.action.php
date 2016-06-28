@@ -384,7 +384,7 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页详情数据
     public function getPhysicalDetail(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $lid = sget('lid','i');
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
