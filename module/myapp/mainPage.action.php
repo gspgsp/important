@@ -260,25 +260,25 @@ class mainPageAction extends homeBaseAction
     //获取大户报价数据,包括:默认，价格排序
     public function getLargeBid(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i',3);//3,默认(时间)，1，价格升序 2，价格降序
         $page = sget('page','i',1);
         $size = sget('size','i',8);
         if(!$largrBid = M('myapp:mainPage')->getLargeBidData($otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户报价数据失败'));
         $this->json_output(array('err'=>0,'largrBid'=>$largrBid['data']));
     }
-    //获得大户报价下三角数据
-    public function getLargeBidRes(){
-        $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $id = sget('id','i');
-        if(!$newBig = M('myapp:mainPage')->getLargeBidRes($id)) $this->json_output(array('err'=>2,'msg'=>'获取大户相关数据失败'));
-        $this->json_output(array('err'=>0,'newBig'=>$newBig));
-    }
+    //获得大户报价下三角数据(直接集成到上面)
+    // public function getLargeBidRes(){
+    //     $this->is_ajax = true;
+    //     if($this->user_id<=0) $this->error('账户错误');
+    //     $id = sget('id','i');
+    //     if(!$newBig = M('myapp:mainPage')->getLargeBidRes($id)) $this->json_output(array('err'=>2,'msg'=>'获取大户相关数据失败'));
+    //     $this->json_output(array('err'=>0,'newBig'=>$newBig));
+    // }
     //进入筛选页
-    public function enLargeChose(){
-        $this->display('');
-    }
+    // public function enLargeChose(){
+    //     $this->display('');
+    // }
     //获取筛选条件:公司，厂家，交货地
     public function getLargeChose(){
         $this->is_ajax = true;
@@ -385,7 +385,7 @@ class mainPageAction extends homeBaseAction
     public function getPhysicalDetail(){
         $this->is_ajax = true;
         //if($this->user_id<=0) $this->error('账户错误');
-        $lid = sget('lid','i');
+        $lid = sget('lid','i',1);
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
     }
@@ -420,7 +420,7 @@ class mainPageAction extends homeBaseAction
         $this->display('releaseSale');
     }
     //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub
-    //判断发布报价时候牌号是否存在，存在直接却，不存在自己选择一个
+    //判断发布报价时候牌号是否存在，存在直接却，不存在自己选择一个(下面方法在本版本app没有使用，下个版本使用)
     public function checkReleaseModel(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
