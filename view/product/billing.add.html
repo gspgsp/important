@@ -145,7 +145,7 @@
 			{else}
 			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 			{/if}
-			<div field="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
+			<div field="sum" id="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
 		</div>
 
 	</div>
@@ -178,15 +178,21 @@ function onValidation(e){
  	var number=mini.get('change_number').getValue();
  	index=e.sender.ownerRowID;	
  	var data= mini.encode(grid.getData());
+ 	//console.log(data);
  	var callback=function(data){
-		if(data.err=='0'){
-			grid.reload();
+		if(data.unit_price !=''){
+			var index_price = data.unit_price*number;
+			var sum=mini.get('sum');
+			var record = sum.record;
+			console.log(record);
+			submitForm.index.setValue(index_price);
+			//grid.reload();
 		}else{
 			alert(data.msg)
 			return false;
 		}
 	}
- 	utils.ajax('/product/billing/changeNumber',{data:data,no:index},callback,"POST","json");
+ 	utils.ajax('/product/billing/changeNumber?index='+index,{data:data},callback,"POST","json");
 
  // 	unit_price=mini.get('change_price').getValue();
 	// index=e.sender.ownerRowID;

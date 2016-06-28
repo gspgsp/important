@@ -179,8 +179,19 @@ class billingAction extends adminBaseAction
 	public function changeNumber(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		$index = sget('index','i');
 		if(empty($data)) $this->error('错误的操作');
-		p($data);
+		//for循环遍历
+		$unit_price =0;
+		for($i=0;$i<count($data);$i++){
+			$unit_price = ($data[$index]['unit_price']);
+			continue;
+		}
+		$result=array('unit_price'=>$unit_price);
+		$this->json_output($result);
+		//$this->assign('unit_price',$unit_price);
+		//p($unit_price);
+
 	}
 
 }
