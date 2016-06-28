@@ -77,6 +77,8 @@ class saleLogAction extends adminBaseAction {
 				->getPage();
 		$tot=0;
 		foreach($list['data'] as $k=>$v){
+			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
+			$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$list['data'][$k]['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
 			$list['data'][$k]['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$list['data'][$k]['order_name']=M("product:order")->getColByName($v['o_id']);

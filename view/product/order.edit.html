@@ -120,10 +120,8 @@
 								<div field="model" width="100" headerAlign="center">牌号 </div>                
 								<div field="store_name" width="80" headerAlign="center" allowSort="true">仓库</div>
 								<div field="lot_num" width="80" headerAlign="center" >批次</div>
-								<div field="unit_price" width="80" headerAlign="center" >售价
-								</div>
-								<div field="require_number" width="80" headerAlign="center" >数量
-								</div>
+								<div field="require_number" width="80" headerAlign="center" >数量</div>
+								<div field="unit_price" width="80" headerAlign="center" >单价</div>
 								<div field="time_price" width="80" headerAlign="center" >总价</div>
 								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 							</div>
@@ -144,12 +142,9 @@
 						<div id="gridCell2" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns">    
 								<div field="model" width="100" headerAlign="center">牌号</div> 
-								<div field="f_name" width="80" headerAlign="center" >厂家
-								</div> 
-								<div field="require_number" width="80" headerAlign="center" >数量
-								</div>               
-								<div field="unit_price" width="80" headerAlign="center" >价格
-								</div>
+								<div field="f_name" width="80" headerAlign="center" >厂家</div> 
+								<div field="require_number" width="80" headerAlign="center" >数量</div>               
+								<div field="unit_price" width="80" headerAlign="center" >单价</div>
 								<div field="time_price" width="80" headerAlign="center" >总金额</div>
 								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 							</div>
@@ -172,11 +167,10 @@
 						<div id="gridCell3" showModified="false" class="mini-datagrid" style="width:100%;height:100px" showFooter="false" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
 							<div property="columns" >    
 								<div field="model" width="100"  headerAlign="center">牌号</div>        
-								<div field="f_name" width="120" headerAlign="center">厂家</div>         
-								<div field="unit_price" width="80" headerAlign="center" >售价
+								<div field="f_name" width="120" headerAlign="center">厂家</div>
+								<div field="number" width="80" headerAlign="center" >数量</div>      
+								<div field="unit_price" width="80" headerAlign="center" >单价
 								<input id="change_price" property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
-								</div>
-								<div field="number" width="80" headerAlign="center" >数量
 								</div>
 								<div field="time_price" width="80" headerAlign="center" >总金额</div>
 								{if $sales_type neq '2'}

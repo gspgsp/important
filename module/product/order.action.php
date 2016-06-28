@@ -89,8 +89,8 @@ class orderAction extends adminBaseAction {
 		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
 		$transport_status=sget('transport_status','i',0);//物流审核
 		if($transport_status !=0)  $where.=" and `transport_status` =".$transport_status;
-		$goods_status=sget('goods_status','i',0);//发货状态
-		if($goods_status !=0)  $where.=" and `order_source` =".$goods_status;
+		$out_storage_status=sget('out_storage_status','i',0);//发货状态
+		if($out_storage_status !=0)  $where.=" and `out_storage_status` =".$out_storage_status;
 		//筛选时间
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
