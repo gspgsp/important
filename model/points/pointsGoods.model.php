@@ -10,13 +10,13 @@ class pointsGoodsModel extends Model{
 
     //积分兑换
 	public function getGoods(){
-         $this->from('points_goods as pg')
+        return  $this->from('points_goods as pg')
             ->where('pg.status=1')
             ->order('pg.points desc')
-            ->selet('pg.goods_id,pg.name,pg.thumb,pg.points')
+            ->select('pg.goods_id,pg.name,pg.thumb,pg.points')
             ->limit('3')
             ->getAll();
-        showTrace();
+
     }
 
 
