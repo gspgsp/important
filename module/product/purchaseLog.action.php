@@ -158,7 +158,7 @@ class purchaseLogAction extends adminBaseAction {
 		$info['admin_name']=M("product:outStorage")->getNameBySid($info['store_aid']); //获得入库人姓名
 		$admin_list = $this->db->model('store_admin')->select("a.admin_id,a.name")->from('store_admin s')->join('admin a','a.admin_id=s.admin_id')->getAll();
 		$this->assign('admin_list',arrayKeyValues($admin_list,'admin_id','name'));//
-		$this->assign('order_name',$order_name);
+		$this->assign('order_name',L('company_account')[$order_name]);
 		$this->assign('model',$model);
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('type',$type);//分配订单id信息

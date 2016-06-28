@@ -146,7 +146,7 @@ class saleLogAction extends adminBaseAction {
 		$this->assign('process_type',L('process_level'));//加工级别
 		$this->assign('sales_type',L('sales_type'));//加工级别
 		$this->assign('product_type',L('product_type'));//产品类型
-		$this->assign('order_name',$order_name);
+		$this->assign('order_name',L('company_account')[$order_name]);
 		$this->assign('model',$model);
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('type',$type);//分配订单id信息

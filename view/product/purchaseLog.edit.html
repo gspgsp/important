@@ -98,6 +98,11 @@
 						</td>
 					</tr>
 					<tr>
+						<td>厂家<font style="color:red;"></td>
+						<td id="f_name"></td>
+						<input class="mini-hidden" name="f_name" id="ff_name" value=""/>
+					</tr>
+					<tr>
 						<td><font style="color:blue;">数量 : </font></td>
 						<td><input name="number" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.number}"/>
 						</td>
@@ -107,17 +112,12 @@
 						<td><input name="unit_price" class="mini-textbox" style="width:100px;" maxlength="8" required="true" value="{$info.unit_price}"/>
 						</td>
 					</tr>
-<!-- 					<tr>
-						<td>供应商：</td>
-						<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:100px" id="usrId"/></td>
-					</tr> -->
-					<tr>						
+<!-- 					<tr>						
 						<td>备注:</td>
 						<td><input name="remark" class="mini-textarea" style="width:100px" required="false"/ value="{$info.remark}"></td>
 
-					</tr>
+					</tr> -->
 					<input class="mini-hidden" id="hidden_model" name="model" value=""/>
-					<input class="mini-hidden" id="f_name" name="f_name" value=""/>
 				</table>
 		</fieldset>
 
@@ -231,7 +231,9 @@ function proChoose(e){
 					btn.setValue(data.id);
 					btn.setText(data.model);
 					model.setValue(data.model);
-					f_name.setValue(data.f_name);
+					$('#f_name').html(data.f_name);
+					var ff_name = mini.get('ff_name');
+					ff_name.setValue(data.f_name);
 				}
 			}
 		}

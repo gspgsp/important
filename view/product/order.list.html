@@ -24,6 +24,10 @@
 				</select>
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+				<select name="order_name">
+					<option value="" selected="selected">抬头</option>
+					{html_options options=$company_account}
+				</select>
 				<select name="order_source">
 					<option value="" selected="selected">来源</option>
 					{html_options options=$order_source}
@@ -50,7 +54,6 @@
 				</select>
 				<select name="key_type">
 					<option value="order_sn">订单号</option>
-					<option value="order_name">订单名称</option>
 					<option value="c_id">客户名称</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:60px;" onenter="onKeyEnter"/>

@@ -8,7 +8,7 @@
 
 			<legend>出库信息</legend>
 			<table width="100%" border="0" cellpadding="1" cellspacing="2">
-			{if $doyet eq doyet}
+
 				<tr>
 					<td>出库名称<font style="color:red;"> * </font></td>
 					<td><input name="sale_subject" class="mini-textbox" style="width:120px;" maxlength="20"  required="true" value="{$order_name}" allowInput="false" textField="name" valueField="id"/>
@@ -29,33 +29,7 @@
 					<td><input name="remark" class="mini-textarea" style="width:120px" value="{$data.remark}"></td>
 				</tr>
 
-			{else}
-				<tr>
-					<td>出库名称:</td>
-					<td>{$out_info.sale_subject}
-					</td>
-					<td>出库单号</td>
-					<td>{$out_info.out_no}</td>
-				</tr>
 
-				<tr>
-					<td>关联客户:</td>
-					<td>{$out_info.c_name}</td>
-					<td>出库时间</td>
-					<td>{$out_info.out_date}</td>
-				</tr>
-				<tr>
-
-					<td>出库种类:</td>
-					<td>{$out_type.$out_info.out_type}</td>
-					<td>物流公司:</td>
-					<td>{$ship_company.$out_info.ship_id}</td>
-				</tr>
-				<tr>					
-					<td>备注:</td>
-					<td>{$out_info.remark}</td>
-				</tr>	
-			{/if}	
 			</table>
 			
 		</fieldset>
@@ -65,12 +39,13 @@
 sizeList="[10,20,50,100]" pageSize="20" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true" >
 	<div property="columns" >
 		<div type="checkcolumn" ></div>
-		<div field="id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">ID</div>
+		<div field="id" width="30" headerAlign="center" align="center"  renderer="onLoadHandle">ID</div>
 		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
 		<div field="store_name" width="90" headerAlign="center" align="center">仓库</div>
-		<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
-		<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
-		<div field="out_number" width="80" headerAlign="center" allowSort="true" align="center">发货数<font  style="color:red;">*</font>
+		<div field="unit_price" width="50" headerAlign="center" align="center">单价</div>
+		<div field="number" width="80" headerAlign="center" align="center">数量</div>
+		<div field="remainder" width="80" headerAlign="center"  align="center">未发数</div>
+		<div field="out_number" width="80" headerAlign="center"  align="center">发货数<font  style="color:red;">*</font>
 			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
 		</div>   
 	</div>
