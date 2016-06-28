@@ -99,7 +99,7 @@ class mainPageModel extends model
             $keyValue = $this->_getProKey($p_types,$keywords);
         }
         $where="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}'";
-        $where.="pur.type='{$ctype}'";
+        $where.=" and pur.type='{$ctype}'";
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
