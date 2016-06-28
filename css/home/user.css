@@ -162,7 +162,7 @@
 .user-main .product .item .price.down{ color:#149718;}
 .user-main .product .item .price.down b{ background-position:0 -133px;}
 .user-main .product .item .time{ color:#999;}
-.user-main .product .item .del{ position:absolute; top:0; right: 0; width:20px; height:20px; background:url(../../images/home/userIndex.png)  no-repeat 0 -228px; cursor:pointer; display:none;}
+.user-main .product .item .del{ font-size: 12px; position:absolute; top:3px; right: 3px; width:70px; height:20px; line-height:20px; text-align:center; background:#fc6621; color:#fff; border-radius:10px; cursor:pointer; display:none;}
 .user-main .product .item:hover .del{ display:block;}
 .user-main .product .view-port,.user-main .product .track .inner{ width:636px; height:143px;}
 .user-main .product .track a.next{ right:45px;}
