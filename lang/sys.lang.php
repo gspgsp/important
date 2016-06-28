@@ -167,7 +167,7 @@ return array(
 	//运输方式
 	'transport_type'=>array(
 		1=>'供方送到',
-		2=>'自理',
+		2=>'需方自理',
 	),
 	//业务模式
 	'business_model'=>array(
