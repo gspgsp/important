@@ -29,7 +29,11 @@
     					<a href="/user/fundManager/cusRegister">立即认证》</a>
     				</div>
 					<h2>{$data.c_name}</h2>
-					<span>上次登录时间：{$data.last_login|date: Y-m-d :H:i}</span>
+					<span>上次登录时间：
+						{if $data.last_login==0|| $data.last_login==null}{$data.input_time|date: Y-m-d :H:i}
+						{else}
+						{$data.last_login|date: Y-m-d :H:i}
+						{/if}</span>
     			</div>
     			<!--cen end-->
     			<!--rt begin-->
@@ -201,7 +205,7 @@
     					<a href="javascript:;">我要供货</a>
     				</li>
     			</ul>
-				<p class="purchase-more"><a href="javascript:;">更多采购需求》</a></p>
+				<p class="purchase-more"><a href="/purchase">更多采购需求》</a></p>
     		</div>
     		<!--purchase end-->
     		<!--other begin-->
@@ -210,8 +214,12 @@
     			<div class="resource flt">
     				<div class="tit"><h2>资源库</h2></div>
     				<ul>
-    					<li class="res1"><p>今日发布求购</p><span>94678</span></li>
-    					<li class="res2"><p>今日发布供应</p><span>94678</span></li>
+						{foreach from=$count2 item=val }
+    					<li class="res1"><p>今日发布求购</p><span>{$val.total}</span></li>
+						{/foreach}
+						{foreach from=$count1 item=val }
+    					<li class="res2"><p>今日发布供应</p><span>{$val.total}</span></li>
+						{/foreach}
     				</ul>
     				<h4>实时资源</h4>
     				<p>杉杉汉祥-唐浩斌<br/>出上海现货 塑拖EX5-2102TX00上海期货5502 沙特 塑拖BL3青岛期货...</p>

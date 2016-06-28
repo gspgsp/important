@@ -14,11 +14,24 @@ class indexAction extends userBaseAction{
         $userid=$this->user_id;
         //个人信息
         $list=M('user:customerContact')->getCustomerInFoById($userid);
-
         //我的关注列表
         $where="cp.user_id=$this->user_id and cp.status=1";
         $data = M('product:concernedProduct')->getConcernedList($where);
-        $this->assign('data',$list);
+//
+//        //关注产品的价格浮动
+//        $arr=array();
+//        foreach($data as $v){
+//
+//           $arr['pid']=$data['pid'];
+//            $price=M('product:purchase')->footPrice($arr);
+//            }
+
+        //今日报价发布总数
+        $date1=strtotime(date('Ymd'));
+        $count1=M('resourcelib:resourcelib')->getTotalOne($date1);
+        //p($count1);
+        //今日采购发布总数
+        $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
         $uid=$this->user_id;
@@ -39,21 +52,11 @@ class indexAction extends userBaseAction{
         $this->assign('info2',$info2);
         $this->assign('info3',$info3);
         $this->assign('info4',$info4);
+        $this->assign('data',$list);
         $this->assign('res',$data);
+        $this->assign('count1',$count1);
+        $this->assign('count2',$count2);
         $this->display('index');
 	}
 
-//    //获取关注的列表
-//    private function getAttentionvalue(){
-//        $list = $this->db->model('concerned_product')->where('user_id='.$this->user_id)
-//            ->order("input_time desc")
-//            ->limit('6');
-//        foreach ($list['data'] as $key => $value) {
-//            $list['data'][$key]['status'] = L('attention_status')[$value['status']];
-//            $list['data'][$key]['operate'] = L('operate')[$value['operate']];
-//            $list['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d H:i:s",$value['input_time']):'-';
-//            $list['data'][$key]['update_time'] = $value['update_time']>1000 ? date("Y-m-d H:i:s",$value['update_time']):'-';
-//        }
-//        return array('detail'=>$list['data']);
-//    }
 }
