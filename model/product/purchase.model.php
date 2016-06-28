@@ -66,4 +66,23 @@ class purchaseModel extends model{
 			->getPage();
 	}
 
+
+
+
+	/**
+	 * 根据关注商品的pid 获取最低价格差
+	 * @param $pid
+     */
+	public function footPrice($arr){
+
+	    	$this->from('purchase  as  pur')
+			->where("pur.p_id={$arr['pid']}")
+			->order('pur.update_time DESC')
+			->select('pur.p_id,pur.unit_price')
+			->getAll();
+		//showTrace();
+
+	}
+
+
 }

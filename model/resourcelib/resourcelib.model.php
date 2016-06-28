@@ -30,6 +30,27 @@ class resourcelibModel extends model{
 		return $this->where("id in ($ids)")->getAll();
 	}
 
+
+	/**
+	 * 获取今日报价发布总数
+	 * @return mixed
+	 */
+	public function getTotalOne($date1){
+		return  $this->from('resourcelib as res')->where("res.type=1 and res.input_time between  $date1 and ".time()." and res.status=0")
+			->select('count(res.id) as total')
+			->getAll();
+	}
+	/**
+	 * 获取今日求购发布总数
+	 * @return mixed
+	 */
+
+	public function getTotalTow($date1){
+		return 	$this->from('resourcelib as res')->where("res.type=0 and res.input_time between  $date1 and ".time()." and res.status=0")
+			->select('count(res.id) as total')
+			->getAll();
+	}
+
 	
 	
 }
