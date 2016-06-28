@@ -265,24 +265,14 @@
 	            	<!--focus begin-->
 	                <div id="focus">
 	                    <ul>
+							{foreach from=$points item=val key=key}
 	                        <li>
-	                        	<div class="goods-pic"><img src="__IMG__/home/userIndex5.jpg"/></div>
-	                            <p class="goods-name">iPhone 6s 移动联通电信4G手机</p>
-	                            <p class="goods-jifen"><span>670000</span>分</p>
+	                        	<div class="goods-pic"><img src="__UPLOAD__/{$val.thumb}"/></div>
+	                            <p class="goods-name">{$val.name}</p>
+	                            <p class="goods-jifen"><span>{$val.points}</span>分</p>
 	                            <div class="goods-btn"><a href="javascript:;">去积分商城兑换</a></div>
 	                        </li>
-	                        <li>
-	                        	<div class="goods-pic"><img src="__IMG__/home/userIndex5.jpg"/></div>
-	                            <p class="goods-name">iPhone 6s 移动联通电信4G手机</p>
-	                            <p class="goods-jifen"><span>670000</span>分</p>
-	                            <div class="goods-btn"><a href="javascript:;">去积分商城兑换</a></div>
-	                        </li>
-	                        <li>
-	                        	<div class="goods-pic"><img src="__IMG__/home/userIndex5.jpg"/></div>
-	                            <p class="goods-name">iPhone 6s 移动联通电信4G手机</p>
-	                            <p class="goods-jifen"><span>670000</span>分</p>
-	                            <div class="goods-btn"><a href="javascript:;">去积分商城兑换</a></div>
-	                        </li>
+							{/foreach}
 	                    </ul>
 	                </div>
 	                <!--focus end-->

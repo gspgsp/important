@@ -63,6 +63,7 @@ class indexAction extends userBaseAction{
         $this->assign('count1',$count1);
         $this->assign('count2',$count2);
         $this->assign('rest',$rest);
+        $this->assign('points',$points);
         $this->display('index');
 	}
 
