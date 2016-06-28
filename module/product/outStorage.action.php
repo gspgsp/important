@@ -64,7 +64,7 @@ class outStorageAction extends adminBaseAction {
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 		);
-		$this->db->startTrans(); //开启事务
+		// $this->db->startTrans(); //开启事务
 		$info = $this->db->model('order')->select('delivery_time,join_id')->where(' o_id ='.$data['o_id'])->getRow();
 		try {
 			if( !$this->db->model('out_storage')->add($data) ) throw new Exception("新增出库单失败");	
@@ -78,7 +78,7 @@ class outStorageAction extends adminBaseAction {
 				$log[$k]['out_storage_status']=3;
 				unset($log[$k]['id']);
 				if( !$this->db->model('out_log')->add($log[$k]+$add_data) ) throw new Exception("出库明细新增失败");
-				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update(' number = number - '.$v['out_number'].' , out_number = out_number +'.$v['out_number'].'  , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
+				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update(' out_number = out_number +'.$v['out_number'].'  , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
 				$detailcheck = $this->db->model('sale_log')->where('id = '.$v['id'].' and number!=0')->getOne();
 
 				if($detailcheck<1){ //判断明细中的数量是否全部出库
@@ -102,11 +102,10 @@ class outStorageAction extends adminBaseAction {
 				if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update( array('out_storage_status' =>2,'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME))  ) throw new Exception("订单入库更新失败2！");
 			}
 		} catch (Exception $e) {
-			$this->db->rollback();
+			// $this->db->rollback();
 			$this->error($e->getMessage());
 		}
-		// showtrace();
-		$this->db->commit();
+		// $this->db->commit();
 		$this->success('操作成功');
 	}
 	/**

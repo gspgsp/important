@@ -163,6 +163,7 @@ class orderAction extends adminBaseAction {
 		$info=$this->db->getPk($o_id); //查询订单信息
 		if(empty($info)) $this->error('错误的订单信息');	
 		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
+		$info['order_name']=L('company_account')[$info['order_name']];
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
 		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
@@ -502,6 +503,7 @@ class orderAction extends adminBaseAction {
 						$detail[$k]=$v;
 						$detail[$k]['o_id']=$o_id;
 						$detial[$k]['order_sn']=$data['order_sn'];
+						$detail[$k]['remainder']=$v['require_number'];
 						if($data['order_type'] == 1){//销售明细
 							$detail[$k]['number']=$v['require_number'];
 							if( !$this->db->model('sale_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");		

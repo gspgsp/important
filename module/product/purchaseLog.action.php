@@ -107,6 +107,7 @@ class purchaseLogAction extends adminBaseAction {
 			$v['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
 			$v['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
 			$v['purchase_type'] = L('purchase_type')[$v['purchase_type']];
+			$v['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
 			$v['sum'] = $v['unit_price']*$v['number'];
 			$tot=$tot+$v['sum'];
 		}

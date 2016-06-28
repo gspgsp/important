@@ -241,21 +241,21 @@ function submitForm(){
 function changordertype(e){
 	var val = e.value;
 	var addSaleType = mini.get("addSaleType");
-	var sales_type= mini.get("sales_type");
+	// var sales_type= mini.get("sales_type");
 	noStockData=[]; //切换订单类型时清空
 	//1为销库存,else为不销库存,通过界面的单选按钮切换
 	if(val == 1){ 
 		gridCell=mini.get('gridCell1');
 		$("#returnMsg").text('');
 		addSaleType.on("click",consumeStoreDetil).un("click",message).un("click",saleDetil);
-		sales_type.setValue('1');
+		// sales_type.setValue('1');
 		$("#sale").hide();
 		$("#consumeStore").show();
 	}else{
 		gridCell=mini.get('gridCell2');
 		$("#returnMsg").text('');
 		addSaleType.on("click",saleDetil).un("click",message).un("click",consumeStoreDetil); 
-		sales_type.setValue('2');
+		// sales_type.setValue('2');
 		$("#consumeStore").hide();
 		$("#sale").show();
 	}
