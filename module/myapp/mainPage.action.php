@@ -279,7 +279,7 @@ class mainPageAction extends homeBaseAction
     // public function enLargeChose(){
     //     $this->display('');
     // }
-    //获取筛选条件:公司，厂家，交货地
+    //获取大客户筛选条件:公司，厂家，交货地
     public function getLargeChose(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
