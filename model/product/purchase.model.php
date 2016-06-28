@@ -52,18 +52,35 @@ class purchaseModel extends model{
      */
 	public function getWantBuy($where, $page, $pageSize)
 	{
-		$this->from('sale_buy as s')
-			->join('purchase as pur ', 's.p_id=pur.id')
-			->join('lib_region as reg', 'pur.province=reg.id')
-			->join('product as p', 'p.id=pur.p_id')
-			->join('customer as c', 'c.c_id=s.c_id')
-			->join('factory as f', 'p.f_id=f.fid')
-			->join('union_order as u', 's.id=u.p_sale_id')
-			->where($where.'and pur.last_buy_sale=s.id')
-			->order('input_time desc')
-			->page($page, $pageSize)
-			->select('c.c_name,s.number,s.price,s.delivery_date,s.status,s.update_time,s.remark, pur.store_house,pur.cargo_type,reg.name,p.product_type,p.model,p.process_type, f.f_name`,u.id AS oid')
-			->getPage();
+	    return 	$this->from('sale_buy as s')
+				->join('purchase as pur ', 's.p_id=pur.id')
+				->join('lib_region as reg', 'pur.province=reg.id')
+				->join('product as p', 'p.id=pur.p_id')
+				->join('customer as c', 'c.c_id=s.c_id')
+				->join('factory as f', 'p.f_id=f.fid')
+				->join('union_order as u', 's.id=u.p_sale_id')
+				->where($where.'and pur.last_buy_sale=s.id')
+				->order('input_time desc')
+				->page($page, $pageSize)
+				->select('c.c_name,s.number,s.price,s.delivery_date,s.status,s.update_time,s.remark, pur.store_house,pur.cargo_type,reg.name,p.product_type,p.model,p.process_type, f.f_name`,u.id AS oid')
+				->getPage();
+	}
+
+	/**
+	 * 获取洽谈中的采购信息
+	 *
+     */
+	public function getInfo(){
+
+	  return $this->from('purchase as pur')
+					->leftjoin('lib_region as reg','pur.provinces=reg.id')
+					->leftjoin('product as p','p.id=pur.p_id')
+					->where('pur.status=3 and pur.type=1')
+					->order('pur.input_time DESC')
+					->select('pur.id,pur.p_id,p.product_type,p.model,pur.number,pur.unit_price ,reg.name,pur.input_time,pur.type,pur.cargo_type')
+					->limit('6')
+					->getAll();
+
 	}
 
 
