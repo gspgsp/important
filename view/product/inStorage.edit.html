@@ -101,8 +101,8 @@ function submitForm() {
 	if(form.isValid() == false) return;
 	var rows = grid.getSelecteds();
 	for(var i = 0;i<rows.length;i++){
-		if(!rows[i].lot_num){
-			$("#returnMsg").text("请填写批次");
+		if(!rows[i].in_number){
+			$("#returnMsg").text("请填写入库数量");
 			isok=false;
 		} 
 	}

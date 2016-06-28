@@ -5,24 +5,30 @@
 		<table width="100%" border="0" cellpadding="1" cellspacing="2">
 			<input class="mini-hidden" id="hidden_model" name="model" value=""/>
 			<tr>
-				<td>产品<font style="color:red;"> * </font></td>
+				<td>牌号<font style="color:red;"> * </font></td>
 
 				<td>
 					<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="{$info.p_id}" allowInput="false" required="true" text="{$model}"  style="width:100px" id="usrId"/>
 				</td>
 			</tr>
 			<tr>
-				<td>售价<font style="color:red;"> * </font></td>
-				<td><input name="unit_price" class="mini-textbox" style="width:100px" required="true" value=""></td>
+				<td>厂家<font style="color:red;"></td>
+				<td id="f_name"></td>
+				<input class="mini-hidden" name="f_name" id="ff_name" value=""/>
 			</tr>
 			<tr>
 				<td>数量<font style="color:red;"> * </font></td>
 				<td><input name="require_number" class="mini-textbox" style="width:100px" required="true" value=""></td>
 			</tr>
 			<tr>
+				<td>售价<font style="color:red;"> * </font></td>
+				<td><input name="unit_price" class="mini-textbox" style="width:100px" required="true" value=""></td>
+			</tr>
+
+<!-- 			<tr>
 				<td>备注:</td>
 				<td><input name="remark" class="mini-textarea" style="width:100px"  value="{$data.remark}"
-			</tr>
+			</tr> -->
 			</table>
 			</div>
 		{if $choose eq 1}
@@ -76,7 +82,10 @@ function proChoose(e){
 				if (data) {
 					btn.setValue(data.id);
 					btn.setText(data.model);
-					model.setValue(data.model)
+					model.setValue(data.model);
+					$('#f_name').html(data.f_name);
+					var ff_name = mini.get('ff_name');
+					ff_name.setValue(data.f_name);
 				}
 			}
 		}
