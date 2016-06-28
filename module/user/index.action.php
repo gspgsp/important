@@ -34,13 +34,13 @@ class indexAction extends userBaseAction{
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
         //资源类库最新一条
         $ref=M('resourcelib:resourcelib')->getNew();
-        p($ref);
+
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
 
         //积分商品banner
         $points=M('points:pointsGoods')->getGoods();
-        //
+       
 
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
