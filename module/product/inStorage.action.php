@@ -66,7 +66,6 @@ class inStorageAction extends adminBaseAction {
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
-		// p($data);die;
 		if(empty($data)) $this->error('操作有误');
 		$basic_info = array(
 			'input_admin'=>$_SESSION['name'],
@@ -93,9 +92,15 @@ class inStorageAction extends adminBaseAction {
 			$_data['remainder']=$v['in_number'];
 			$_data['controlled_number']=$v['in_number'];
 			$_data['join_id']=$data['join_id'];
-
 			//新增入库明细
-			$this->db->model('in_log')->add($_data+$basic_info);
+			if( $this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->getOne() ){ //判断此采购订单的明细之前有没有入过库
+				//更新此次入库数
+				$this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->update(' number = number+'.$v['in_number'].' , remainder = remainder+'.$v['in_number'].' , controlled_number = controlled_number+'.$v['in_number']);
+			}else{ //如果没有新增入库明细
+				//新增入库明细
+				$this->db->model('in_log')->add($_data+$basic_info);
+			}
+			
 			//循环更新每条采购明细的已入库数量
 			$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('remainder = remainder-'.$v['in_number']);
 			//查询明细是否全部入库
@@ -130,7 +135,6 @@ class inStorageAction extends adminBaseAction {
 		if($this->db->commit()){
 			 $this->success('操作成功');	
 		}else{
-			showtrace();
 			$this->db->rollback();
 			$this->error('操作失败');
 		}
@@ -169,9 +173,17 @@ class inStorageAction extends adminBaseAction {
 			$_data['controlled_number']=$v['in_number']; //可用数量
 			$_data['join_id']=$data['join_id']; //关联的销售订单id
 			//新增入库明细
-			$this->db->model('in_log')->add($_data+$basic_info);
-			//获取新增入库单ID
-			$inlog_id=$this->db->getLastID(); 	
+			if( $this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->getOne() ){ //判断此采购订单的明细之前有没有入过库
+				//更新此次入库数
+				$this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->update(' number = number+'.$v['in_number'].' , remainder = remainder+'.$v['in_number'].' , controlled_number = controlled_number+'.$v['in_number']);
+				$inlog_id=0;
+			}else{ //如果没有新增入库明细
+				//新增入库明细
+				$this->db->model('in_log')->add($_data+$basic_info);
+				//获取新增入库单ID
+				$inlog_id=$this->db->getLastID(); 
+			}
+		
 			if( $_data['join_id']>0 ){ //虚拟入库时的仓库 更新到销售明细 以便发货时把数据add到出库明细表
 				$exist = $this->db->model('sale_log')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'].' and inlog_id ='.$inlog_id)->select('id')->getOne();
 				//判断之前是否更新过
