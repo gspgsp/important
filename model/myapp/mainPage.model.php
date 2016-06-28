@@ -61,7 +61,13 @@ class mainPageModel extends model
     //  }
     // }
     //获取排序后的数据
-    public function getSortedData($stype,$page=1,$size=8){
+    public function getSortedData($keywords,$stype,$page=1,$size=8){
+        //筛选产品类型
+        $p_types = array('1'=>'HDPE','2'=>'LDPE','3'=>'LLDPE','4'=>'PP','5'=>'PVC');
+        if(in_array($keywords, $p_types)){
+            $keyValue = $this->_getProKey($p_types,$keywords);
+        }
+        $where="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}'";
         if($stype == 1){
             $sortField = 'unit_price';
             $sortOrder = 'desc';
@@ -76,13 +82,20 @@ class mainPageModel extends model
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->page($page,$size)
+            ->where($where)
             ->order("$sortField $sortOrder")
             ->getPage();
             return $data;
     }
     //获取筛选后的数据
-    public function getCheckeddData($ctype,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
-        $where="pur.type='{$ctype}'";
+    public function getCheckeddData($keywords,$ctype,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
+        //筛选产品类型
+        $p_types = array('1'=>'HDPE','2'=>'LDPE','3'=>'LLDPE','4'=>'PP','5'=>'PVC');
+        if(in_array($keywords, $p_types)){
+            $keyValue = $this->_getProKey($p_types,$keywords);
+        }
+        $where="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}'";
+        $where.="pur.type='{$ctype}'";
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
