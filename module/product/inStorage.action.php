@@ -36,7 +36,6 @@ class inStorageAction extends adminBaseAction {
 				$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']); //获取牌号名称
 				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-				$list['data'][$k]['in_number']=$v['number'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -59,80 +58,10 @@ class inStorageAction extends adminBaseAction {
 		$this->assign('in_storage_no',$in_storage_no);
 		$this->display('inStorage.edit.html');
 	}
-	/**
-	 * 采购入库
-	 */
-	// public function addSubmit(){
-	// 	$this->is_ajax=true; //指定为Ajax输出
-	// 	$data=sdata(); //获取UI传递的参数
-	// 	if(empty($data)) $this->error('操作有误');
-	// 	$basic_info = array(
-	// 		'input_admin'=>$_SESSION['name'],
-	// 		'input_time'=>CORE_TIME,
-	// 		'customer_manager'=>$_SESSION['adminid'],
-	// 	);
-	// 	$update =  array(
-	// 		'update_admin'=>$_SESSION['name'],
-	// 		'update_time'=>CORE_TIME,
-	// 	);
-	// 	$this->db->startTrans(); //开启事务
-	// 	try {
-	// 		if($data['doyet'] != 'doyet'){
-	// 			if( !$this->db->model('in_storage')->add($data+$basic_info) ) throw new Exception("新增入库失败!");
-	// 		} 
-	// 		if($data['join_id']>0){
-	// 			if( !$this->db->model('order')->where(' o_id = '.$data['join_id'])->update('is_join_in = 1') ) throw new Exception("销售订单中采购入库状态更新失败");
-	// 		}
-	// 		foreach ($data['list'] as $k => $v) {
-	// 			$_data['o_id']=$v['o_id'];
-	// 			$_data['purchase_id']=$v['id'];
-	// 			$_data['p_id']=$v['p_id'];
-	// 			$_data['store_id']=$data['store_id'];
-	// 			$_data['store_aid']=$data['store_aid'];
-	// 			$_data['lot_num']=$v['lot_num'];
-	// 			$_data['unit_price']=$v['unit_price'];
-	// 			$_data['number']=$v['number'];
-	// 			$_data['remainder']=$v['number'];
-	// 			$_data['controlled_number']=$v['number'];
-	// 			$_data['join_id']=$data['join_id'];
-	// 			if( !$this->db->model('in_log')->add($_data+$basic_info) ) throw new Exception("新增入库明细失败!");
-	// 			$inlog_id=$this->db->getLastID(); //获取新增出库单ID	
-	// 			if( $_data['join_id']>0 ){ //虚拟入库时的仓库 更新到销售明细 以便发货时把数据add到出库明细表
-	// 				if( !$this->db->model('sale_log')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'])->update('store_id='.$_data['store_id'].' , store_aid='.$_data['store_aid'].' , inlog_id='.$inlog_id.' , lot_num='.$_data['lot_num']) ) throw new Exception("销售订单更新虚拟入库数据失败");
-	// 			}
-	// 			$input_store['s_id']=$data['store_id'];
-	// 			$input_store['p_id']=$v['p_id'];
-	// 			$input_store['number']=$v['number'];
-	// 			$input_store['remainder']=$v['number'];
-	// 			if( $this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->getOne() ){
-	// 				if( !$this->db->model('store_product')->where('s_id = '.$data['store_id'].' and p_id = '.$v['p_id'])->update('number=number+'.$v['number']) ) throw new Exception("新增仓库货品更新失败");
-					
-	// 			}else{
-	// 				if( !$this->db->model('store_product')->add($input_store+$basic_info) ) throw new Exception("新增仓库货品失败!");
-	// 			}
-	// 			if( !$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('in_storage_status = 3') ) throw new Exception("更新采购明细失败！");
 
-	// 		}
-	// 		//每次操作完查询一下明细是否全部入库
-	// 		$check = $this->db->model('purchase_log')->select('id')->where(' in_storage_status = 1 and o_id = '.$data['o_id'] )->getOne();
-	// 		if($check<1){
-	// 			if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update('in_storage_status = 3') ) throw new Exception("订单入库更新失败1！");
-	// 			$sale_o_id= $this->db->model('order')->select('o_id')->where(' join_id ='.$data['o_id'])->getOne();
-	// 			if($sale_o_id>0){
-	// 				if( !$this->db->model('order')->wherePk($sale_o_id)->update(array('is_join_in' =>1)+$update) ) throw new Exception("销售订单is_join_in更新失败！");
-	// 			}
-	// 		}else{
-	// 			if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update(array('in_storage_status' =>2)+$update) ) throw new Exception("订单入库更新失败2！");
-	// 		}
-	// 	} catch (Exception $e) {
-	// 		$this->db->rollback();
-	// 		$this->error($e->getMessage());
-	// 	}
-	// 	// showtrace();
-	// 	// die;
-	// 	$this->db->commit();
-	// 	$this->success('操作成功');	
-	// }
+	/**
+	 * 备货的采购单入库
+	 */
 
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
@@ -177,12 +106,18 @@ class inStorageAction extends adminBaseAction {
 			}else{//反之更改状态为全部入库
 				$this->db->model('purchase_log')->where(' o_id = '.$_data['o_id'].' and p_id = '.$_data['p_id'])->update('in_storage_status = 2 , input_admin = "'. $_SESSION['name'].'" , input_time='.CORE_TIME);
 			}
+
+
+			$input_store['s_id']=$data['store_id'];
+			$input_store['p_id']=$v['p_id'];
+			$input_store['number']=$v['in_number'];
+			$input_store['remainder']=$v['in_number'];
 			//判断仓库货品表中是否存在此货品
-			if( $this->db->model('store_product')->where('s_id = '.$_data['store_id'].' and p_id = '.$_data['p_id'])->getOne() ){
+			if( $this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->getOne() ){
 				//存在就更新数量
-				$this->db->model('store_product')->where('s_id = '.$_data['store_id'].' and p_id = '.$_data['p_id'])->update('number = number+'.$v['in_number'].' , input_admin = "'. $_SESSION['name'].'" , input_time='.CORE_TIME);
+				$this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->update('number = number+'.$v['in_number'].' , input_admin = "'. $_SESSION['name'].'" , input_time='.CORE_TIME);
 			}else{//不存在就add
-				$this->db->model('store_product')->add($_data+$basic_info);
+				$this->db->model('store_product')->add($input_store+$basic_info);
 			}
 		}	
 		//查询订单中明细状态是否存在有部分入库的
@@ -200,10 +135,94 @@ class inStorageAction extends adminBaseAction {
 		}
 	}
 
+	/**
+	 * 不销库存的采购入库
+	 */
+	public function addJoinSubmit(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data=sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('操作有误');
+		$basic_info = array(
+			'input_admin'=>$_SESSION['name'],
+			'input_time'=>CORE_TIME,
+		);
+		$update =  array(
+			'update_admin'=>$_SESSION['name'],
+			'update_time'=>CORE_TIME,
+		);
+		$this->db->startTrans(); //开启事务
+		//新增入库表头
+		$this->db->model('in_storage')->add($data+$basic_info);
+		$storage_id=$this->db->getLastID(); //获取新增出库单ID
+		foreach ($data['list'] as $k => $v) {
+			$_data['o_id']=$v['o_id'];
+			$_data['purchase_id']=$v['id'];
+			$_data['p_id']=$v['p_id'];
+			$_data['storage_id']=$storage_id;
+			$_data['store_id']=$data['store_id'];
+			$_data['store_aid']=$data['store_aid'];
+			$_data['lot_num']=$v['lot_num'];
+			$_data['unit_price']=$v['unit_price'];
+			$_data['number']=$v['in_number'];
+			$_data['remainder']=$v['in_number'];
+			$_data['controlled_number']=$v['in_number'];
+			$_data['join_id']=$data['join_id'];
+
+			//新增入库明细
+			$this->db->model('in_log')->add($_data+$basic_info);
+			//获取新增入库单ID
+			$inlog_id=$this->db->getLastID(); 	
+			if( $_data['join_id']>0 ){ //虚拟入库时的仓库 更新到销售明细 以便发货时把数据add到出库明细表
+				$exist = $this->db->model('sale_log')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'].' and inlog_id ='.$inlog_id)->select('id')->getOne();
+				//判断之前是否更新过
+				if($exist<1){
+					$this->db->model('sale_log')->where('o_id='.$_data['join_id'].' and p_id='.$_data['p_id'])->update('store_id='.$_data['store_id'].' , store_aid='.$_data['store_aid'].' , inlog_id='.$inlog_id.' , lot_num='.$_data['lot_num'].' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+				}	
+			}
 
 
 
+			//循环更新每条采购明细的已入库数量
+			$this->db->model('purchase_log')->where(' o_id = '.$_data['o_id'] )->update('remainder = remainder-'.$v['in_number'].' , update_admin = "'.$_SESSION['name'].'" , update_time='.CORE_TIME);
+			//查询明细是否全部入库
+			$result = $this->db->model('purchase_log')->select('id')->where(' o_id = '.$_data['o_id'].' and remainder=0' )->getOne();
+			//如果明细的入库数量小于采购数量则更改明细状态为部分入库
+			if($result>0){
+				$this->db->model('purchase_log')->where(' o_id = '.$_data['o_id'].' and p_id = '.$_data['p_id'])->update('in_storage_status = 3 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+			}else{//反之更改状态为全部入库
+				$this->db->model('purchase_log')->where(' o_id = '.$_data['o_id'].' and p_id = '.$_data['p_id'])->update('in_storage_status = 2 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+			}
 
+
+			$input_store['s_id']=$data['store_id'];
+			$input_store['p_id']=$v['p_id'];
+			$input_store['number']=$v['in_number'];
+			$input_store['remainder']=$v['in_number'];
+			//判断仓库货品表中是否存在此货品
+			if( $this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->getOne() ){
+				//存在就更新数量
+				$this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->update('number = number+'.$v['in_number'].' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+			}else{//不存在就add
+				$this->db->model('store_product')->add($input_store+$basic_info);
+			}
+		}	
+		//查询订单中明细状态是否存在有部分入库的
+		if( $this->db->model('purchase_log')->where(' o_id = '.$_data['o_id'].' and in_storage_status < 3')->getOne() ){
+			//更新订单为部分入库
+			$this->db->model('order')->where(' o_id = '.$_data['o_id'])->update('in_storage_status = 2 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+		}else{//反之更新为全部入库
+			$this->db->model('order')->where(' o_id = '.$_data['o_id'])->update('in_storage_status = 3 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+			//采购全部入库了 给销售订单表示 可以发货
+			$this->db->model('order')->where(' o_id = '.$data['join_id'])->update('is_join_in = 1 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+		}
+		if($this->db->commit()){
+			 $this->success('操作成功');	
+		}else{
+			$this->db->rollback();
+			$this->error('操作失败');
+		}
+
+	}
 
 
 	/**

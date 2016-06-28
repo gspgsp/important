@@ -47,7 +47,7 @@ sizeList="[10,20,50,100]" pageSize="20" allowCellSelect="true" allowCellEdit="tr
 		<div field="number" width="50" headerAlign="center"  align="center">数量【吨】</div>
 		<div field="remainder" width="50" headerAlign="center"  align="center">未入数</div>
 		<div field="in_number" width="50" headerAlign="center" align="center">入库数<font  style="color:red;">*</font>
-			<input property="editor" class="mini-textbox"   style="width:100%;" minWidth="100" /> <!-- onvaluechanged="onValidation" -->
+			<input property="editor" class="mini-textbox"   style="width:100%;" minWidth="100" />
 		</div>
 		<div field="lot_num" width="80" headerAlign="center"  align="center">批次号<font  style="color:red;">*</font>
 			<input property="editor" class="mini-textbox"  style="width:100%;" minWidth="100" />
@@ -94,6 +94,7 @@ function viewOrdInfo(id){
 	});		
 }
 function submitForm() {
+	var method='';
 	var isok = true;
 	var form = new mini.Form("#editForm");
 	form.validate();
@@ -109,11 +110,15 @@ function submitForm() {
 	//提交数据
 	var o = form.getData();
 	$.extend(o, {list:rows}); 
-	console.log(o);
+	if(parseInt(o.join_id)>0){ //join_id存在代表不销库存 走第二个方法
+		method = 'addJoinSubmit'
+	}else{
+		method = 'addSubmit';
+	}
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
-	var urlstr = '/product/inStorage/addSubmit';
+	var urlstr = '/product/inStorage/'+method;
 	$.post(urlstr,{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
@@ -230,8 +235,8 @@ function saveData() {
 	}
 	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
 }
-function onValidation(){
-	var in_number = parseInt(this.getValue());
-	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
-}
+// function onValidation(){
+// 	var in_number = parseInt(this.getValue());
+// 	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
+// }
 </script>
