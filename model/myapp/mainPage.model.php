@@ -321,7 +321,7 @@ class mainPageModel extends model
             ->page($page,$size)
             ->where($where)
             ->order("$sortField $sortOrder")
-            ->getPage();@
+            ->getPage();
         foreach ($choseRes['data'] as $key => $value) {
             $choseRes['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
         }
@@ -338,7 +338,8 @@ class mainPageModel extends model
     }
     //获取物性表搜索页详情数据
     public function getPhysicalDetailData($lid){
-        return $this->model('physical')->where('lid='.$lid)->getRow();
+        $phyDetail = $this->model('physical')->where('lid='.$lid)->getRow();
+        return $phyDetail
     }
     //获取供求(公海的报价和求购) 1求(采)购 2报价
     public function getPublicQuoPur($type,$page=1,$size=10){
