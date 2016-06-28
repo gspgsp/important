@@ -24,7 +24,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('purchase_type',L('purchase_type')); //采购类型
 		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
 		$this->assign('billing_type',L('billing_type'));    	//开票类型
-		
+	
 	}
 	/**
 	 *
@@ -312,6 +312,8 @@ class orderAction extends adminBaseAction {
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
 		$c_info    = M('user:customer')->getCinfoById($data[0][c_id]);//获取公司所有信息
+
+		//p($c_info);die;
 		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
 		$username  = $user_name[username];
 		

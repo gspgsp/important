@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<td>{if $type =='1'}销售合同主题{else}采购合同主题{/if}</td>				
-				<td><input name="title" class="mini-textbox" maxlength="12" value="{$order_name}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input name="title" class="mini-textbox" maxlength="12" data='{:setMiniConfig|$company_account}' value="{$order_name}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>合同金额</td>
@@ -40,7 +40,7 @@
 			</tr>
 			<tr>
 				<td>申请票据金额<span style="color:red">*</span></td>
-				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$b_price}" style="width:150px;" required="true"/></td>
+				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$b_price}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>税额<span style="color:red">*</span></td>
@@ -62,7 +62,7 @@
 			</tr> -->
 			<tr>
 				<td>票据金额<span style="color:red">*</span></td>
-				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value=""style="width:150px;" required="true"/></td>
+				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value=""style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			{/if}
 			
