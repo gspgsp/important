@@ -151,19 +151,22 @@
 .user-main .order ul li .census p{ float:left; margin:0 25px 0 0;}
 .user-main .order ul li .census p span{ color:#fc6621;}
 .user-main .product{ height:245px; overflow:hidden;}
-.user-main .product ul{ margin:20px 0 0 40px;}
-.user-main .product ul li{ width:129px; height:141px; overflow:hidden; text-align:center; border:1px solid #e1e1e1; float:left; margin:0 28px 0 0; position:relative;}
-.user-main .product ul li .addr{ margin:30px 0 15px 0; }
-.user-main .product ul li .price{ width:106px; height:20px; overflow:hidden; margin:0 0 15px 12px; position:relative;}
-.user-main .product ul li .price span{ float:left; font-size:18px;}
-.user-main .product ul li .price b{ height:11px; line-height: 11px; position:absolute; bottom:0; right:0; font-weight:normal; background:url(../../images/home/userIndex.png)  no-repeat; padding:0 0 0 17px;}
-.user-main .product ul li .price.up{color:#fc6621;}
-.user-main .product ul li .price.up b{ background-position:0 -122px;}
-.user-main .product ul li .price.down{ color:#149718;}
-.user-main .product ul li .price.down b{ background-position:0 -133px;}
-.user-main .product ul li .time{ color:#999;}
-.user-main .product ul li .del{ position:absolute; top:0; right: 0; width:20px; height:20px; background:url(../../images/home/userIndex.png)  no-repeat 0 -228px; cursor:pointer; display:none;}
-.user-main .product ul li:hover .del{ display:block;}
+.user-main .product .slider-pro{ margin:20px 0 0 45px;}
+.user-main .product .item{ width:129px; height:141px; overflow:hidden; text-align:center; border:1px solid #e1e1e1; float:left; padding:0; margin:0 28px 0 0; background:none;}
+.user-main .product .item .addr{ margin:30px 0 15px 0; }
+.user-main .product .item .price{ width:106px; height:20px; overflow:hidden; margin:0 0 15px 12px; position:relative;}
+.user-main .product .item .price span{ float:left; font-size:18px;}
+.user-main .product .item .price b{ height:11px; line-height: 11px; position:absolute; bottom:0; right:0; font-weight:normal; background:url(../../images/home/userIndex.png)  no-repeat; padding:0 0 0 17px;}
+.user-main .product .item .price.up{color:#fc6621;}
+.user-main .product .item .price.up b{ background-position:0 -122px;}
+.user-main .product .item .price.down{ color:#149718;}
+.user-main .product .item .price.down b{ background-position:0 -133px;}
+.user-main .product .item .time{ color:#999;}
+.user-main .product .item .del{ position:absolute; top:0; right: 0; width:20px; height:20px; background:url(../../images/home/userIndex.png)  no-repeat 0 -228px; cursor:pointer; display:none;}
+.user-main .product .item:hover .del{ display:block;}
+.user-main .product .view-port,.user-main .product .track .inner{ width:636px; height:143px;}
+.user-main .product .track a.next{ right:45px;}
+
 .user-main .purchase{ height:330px; line-height:40px; overflow:hidden;}
 .user-main .purchase ul li{ height:40px; overflow:hidden; border-bottom:1px solid #eee;}
 .user-main .purchase ul li:hover{ background:#f5f5f5;}
