@@ -25,7 +25,7 @@ class concernedProductModel extends Model{
             ->group ('cp.id')
             ->order('pur.update_time DESC')
             ->select('cp.id,p.id as pid,pur.unit_price,cp.product_name,cp.model,cp.product_name,cp.factory_name,cp.status,pur.update_time')
-            ->limit('4')
+            //->limit('4')
             ->getAll();
 
     }
