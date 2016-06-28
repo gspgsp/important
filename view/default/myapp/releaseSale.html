@@ -10,6 +10,9 @@
 		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			.releaseSale input[type=date]{ float: left; width: 100px; height: 21px; line-height: 21px; margin: 0; padding: 0 5px; font-size: 12px;}
+		</style>
 	</head>
 	<body>
 		<header id="classifyHeader">
@@ -20,82 +23,138 @@
 			<h3><img width="15" src="__MYAPP__/img/releaseSaleIcon.png">请选择类别</h3>
 			<p>
 				<span>品种:</span>
-					<select style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
-						<option>请选择</option>
-						<option>HDPE</option>
-						<option>LDPE</option>
-						<option>LLDPE</option>
-						<option>PP</option>
-						<option>PVC</option>
+					<select id="product_type" style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option value="0">请选择</option>
+						<option value="1">HDPE</option>
+						<option value="2">LDPE</option>
+						<option value="3">LLDPE</option>
+						<option value="4">PP</option>
+						<option value="5">PVC</option>
 					</select>
 			</p>
 			<p>
-				牌号:&nbsp;<input id="ph" type="text" placeholder="输入牌号" />
+				牌号:&nbsp;<input id="model" type="text" placeholder="输入牌号" />
 			</p>
 			<p>
-				厂家:&nbsp;<input type="text" placeholder="输入厂家" />
+				厂家:&nbsp;<input id="f_name" type="text" placeholder="输入厂家" />
 			</p>
 			<p>
 				<span>加工级别:</span>
-					<select style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
-						<option>请选择</option>
-						<option>HDPE</option>
-						<option>LDPE</option>
-						<option>LLDPE</option>
-						<option>PP</option>
-						<option>PVC</option>
+					<select id="process_level" style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option value="">请选择</option>
+						<option value="1">重包</option>
+						<option value="2">涂覆</option>
+						<option value="3">薄膜</option>
+						<option value="4">滚塑</option>
+						<option value="5">注塑</option>
+						<option value="6">中空</option>
+						<option value="7">管材</option>
+						<option value="8">拉丝</option>
+						<option value="9">纤维</option>
+						<option value="10">茂金属</option>
+						<option value="11">其他</option>
 					</select>
 			</p>
 		</div>	
 				<div class="releaseSale">
 			<h3><img width="15" src="__MYAPP__/img/releaseSaleIcon.png">其他货物信息</h3>
 			<p>
-				数量:&nbsp;<input style="width: 75px;" type="text" />&nbsp;吨
+				数量:&nbsp;<input id="number" style="width: 75px;" type="text" />&nbsp;吨
 			</p>
 			<p>
-				价格:&nbsp;<input style="width: 75px;" type="text" />&nbsp;元/吨
+				价格:&nbsp;<input id="price" style="width: 75px;" type="text" />&nbsp;元/吨
 			</p>
 			<p>
 				<span>地区:</span>
-					<select style="float: left; width: 70px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
-						<option>请选择</option>
-						<option>HDPE</option>
-						<option>LDPE</option>
-						<option>LLDPE</option>
-						<option>PP</option>
-						<option>PVC</option>
+					<select id="provinces" style="float: left; width: 70px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option value="">请选择</option>
+						<option value="2">北京</option>
+						<option value="3">安徽</option>
+						<option value="4">福建</option>
+						<option value="5">甘肃</option>
+						<option value="6">广东</option>
+						<option value="7">广西</option>
+						<option value="8">贵州</option>
+						<option value="9">海南</option>
+						<option value="10">河北</option>
+						<option value="11">河南</option>
+						<option value="12">黑龙江</option>
+						<option value="13">湖北</option>
+						<option value="14">湖南</option>
+						<option value="15">吉林</option>
+						<option value="16">江苏</option>
+						<option value="17">江西</option>
+						<option value="18">辽宁</option>
+						<option value="19">内蒙古</option>
+						<option value="20">宁夏</option>
+						<option value="21">青海</option>
+						<option value="22">山东</option>
+						<option value="23">山西</option>
+						<option value="24">陕西</option>
+						<option value="25">上海</option>
+						<option value="26">四川</option>
+						<option value="27">天津</option>
+						<option value="28">西藏</option>
+						<option value="29">新疆</option>
+						<option value="30">云南</option>
+						<option value="31">浙江</option>
+						<option value="32">重庆</option>
+						<option value="33">香港</option>
+						<option value="34">澳门</option>
+						<option value="35">台湾</option>
 					</select>
-
 			</p>
 			<p>
-				仓库:&nbsp;<input type="text" />
+				仓库:&nbsp;<input id="store_house" type="text" />
 			</p>
 		</div>	
 		<div class="releaseSale">
 			<h3><img width="15" src="__MYAPP__/img/releaseSaleIcon.png">请选择有效期</h3>
 			<p>
 				<span>期限:</span>
-
-					<!--<select style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">-->
-						<!--<option>请选择</option>-->
-						<!--<option>五天内</option>-->
-					<!--</select>-->
+					<select id="period" style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option>请选择</option>
+						<option value="1">10天以内</option>
+						<option value="2">10-20天</option>
+						<option value="3">20-30天</option>
+						<option value="4">30天以上</option>
+					</select>
 			</p>
 		</div>
 		<div class="releaseSaleBtn">
-			<input type="button" value="立即发布" />
+			<input id="releaseSaleBtn" type="button" value="立即发布" />
 		</div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
 			$(function () {
-				$("#ph").on("change",function () {
-					var model=$(this).val();
+				$("#releaseSaleBtn").on("click",function () {
+					var model=$("#model").val();
+					var product_type=$("#product_type").val();
+					var f_name=$("#f_name").val();
+					var number=$("#number").val();
+					var price=$("#price").val();
+					var provinces=$("#provinces").val();
+					var store_house=$("#store_house").val();
+					var period=$("#period").val();
+					var process_level=$("#process_level").val();
 					commonAjax(
 							"post",
-							"/myapp/mainPage/checkReleaseModel",
-							{model:model}
+							"/user/mypurchase/pub",
+							{
+								type:2,
+								cargo_type:1,
+								model:model,
+								product_type:product_type,
+								f_name:f_name,
+								number:number,
+								price:price,
+								provinces:provinces,
+								store_house:store_house,
+								period:period,
+								process_level:process_level
+							}
 					).then(function (res) {
 						console.log(res);
 					},function () {
