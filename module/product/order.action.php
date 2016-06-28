@@ -24,7 +24,6 @@ class orderAction extends adminBaseAction {
 		$this->assign('purchase_type',L('purchase_type')); //采购类型
 		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
 		$this->assign('billing_type',L('billing_type'));    	//开票类型
-	
 	}
 	/**
 	 *
@@ -401,7 +400,7 @@ class orderAction extends adminBaseAction {
 	*/
 	public function ajaxSave(){
 		$data = sdata();
-		//p($data);die;
+		p($data);die;
 		$billing = sget('do','i');
 		if($billing >0){
 			//保存开票信息

@@ -25,8 +25,9 @@
 				<td><input name="payment_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
 			</tr>
 			<tr>
-				<td>{if $type =='1'}销售合同主题{else}采购合同主题{/if}</td>				
-				<td><input name="title" class="mini-textbox" maxlength="12" data='{:setMiniConfig|$company_account}' value="{$order_name}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td>{if $type =='1'}销售合同主题{else}采购合同主题{/if}</td>
+				<td>{$company_account.$order_name}</td>
+				<td><input name="title" class="mini-hidden" maxlength="12" value="{$order_name}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>合同金额</td>

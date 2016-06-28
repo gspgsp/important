@@ -18,7 +18,8 @@
 				{else}
 				<td>付款主题</td>
 				{/if}
-				<td><input name="title" class="mini-textbox" maxlength="12" data='{:setMiniConfig|$company_account}' value="{$order_name}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td>{$company_account.$order_name}</td>
+				<input name="title" class="mini-hidden" maxlength="12" value="{$order_name}" style="width:150px;"allowInput="false"/>
 			</tr>
 			<tr>
 				<td>客户名称</td>
