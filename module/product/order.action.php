@@ -136,6 +136,13 @@ class orderAction extends adminBaseAction {
 			if(!empty($v['join_id'])){
 				$v['newstatus'] = M("product:order")->getColByName($value=$v['join_id'],$col='invoice_status',$condition='o_id');
 			}
+			//获取单笔订单收付款状态			
+			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
+			$v['one_c_status'] =$m[0]['collection_status'];
+			//获取单笔订单开票状态
+			$n = M("product:billing")->getLastInfo($name='o_id',$value=$v['o_id']);
+			$v['one_b_status'] =$n[0]['invoice_status'];
+
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);

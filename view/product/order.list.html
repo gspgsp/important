@@ -247,7 +247,8 @@ function submitcheck(type) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus;
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status;
+
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
 		if(order_status =='3' || transport_status =='3') return;
@@ -264,10 +265,10 @@ function onLoadDetail(e){
 							}
 						}
 						
-						if (c_status !='3' && out_storage_status == '已出库') {
+						if (c_status !='3' && out_storage_status == '已出库' && one_c_status !='1') {
 						s+='<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>&nbsp;|&nbsp;';
 						}
-						if (i_status !='全部开票' && newstatus == '3' && c_status =='3') {
+						if (i_status !='全部开票' && newstatus == '3' && c_status =='3' && one_b_status !='1') {
 							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
 						}
 						if (c_status =='3' && i_status =='全部开票') {
@@ -291,10 +292,10 @@ function onLoadDetail(e){
 				s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;|&nbsp;';
 			}
 			
-			if (c_status !='3' && in_storage_status == '已入库') {
+			if (c_status !='3' && in_storage_status == '已入库' && one_c_status !='1') {
 				s+='<a href="javascript:transaction('+oid+','+order_type+')">申请付款</a>&nbsp;|&nbsp;';
 			}
-			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库') {
+			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库' && one_b_status !='1') {
 				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
 			}
 			if (c_status =='3' && i_status =='全部开票') {
