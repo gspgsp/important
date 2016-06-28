@@ -34,8 +34,10 @@ class indexAction extends userBaseAction{
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
-        //几分商品
+        //积分商品banner
+        $points=M('points:pointsGoods')->getGoods();
 
+        p($points);
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
         $uid=$this->user_id;

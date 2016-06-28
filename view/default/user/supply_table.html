@@ -1,0 +1,54 @@
+<table class="table1">
+    <tr>
+        <th>买方</th>
+        <th>品种</th>
+        <th>牌号</th>
+        <th>厂家</th>
+        <th>加工级别</th>
+        <th>数量（吨）</th>
+        <th>价格（元／吨）</th>
+        <th>现期货</th>
+        <th>交货地</th>
+        <th>交货时间</th>
+        <th>状态</th>
+        <th>备注</th>
+        <th>操作</th>
+    </tr>
+    {foreach from=$list.data item=value key=key}
+    <tr>
+        <td>{$value.c_name}</td>
+        <td>{:setOption|product_type,$value.product_type}</td>
+        <td>{$value.model}</td>
+        <td>{$value.f_name}</td>
+        <td>{:setOption|process_level,$value.process_type}</td>
+        <td>{$value.number}</td>
+        <td>{$value.price}</td>
+        <td>{if $value.cargo_type==1}现货{else}期货{/if}</td>
+        <td>{$value.city}</td>
+        <td>{$value.delivery_date|date:Y-m-d}</td>
+        <td>{if $value.status==2}待确认{elseif $value.status==3}以成交{elseif $value.status==8}未成交{/if}</td>
+        <td></td>
+        <td>
+            {if $value.oid}
+            <a href="/user/unionorder/detail/id/{$value.oid}">查看订单</a>
+            {/if}
+        </td>
+    </tr>
+    {/foreach}
+</table>
+
+<div id="Pagination" class="pages"></div>
+
+
+
+<script type="text/javascript">
+
+    $("#Pagination").createPage({
+        pageCount:{$count},
+        current:{$page},
+        backFn:function(p){
+            $("#page").val(p);
+            $("#filterForm").submit();
+        }
+    });
+</script>
