@@ -321,7 +321,7 @@ class mainPageModel extends model
             ->page($page,$size)
             ->where($where)
             ->order("$sortField $sortOrder")
-            ->getPage();
+            ->getPage();@
         foreach ($choseRes['data'] as $key => $value) {
             $choseRes['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
         }
