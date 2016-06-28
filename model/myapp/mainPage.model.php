@@ -85,6 +85,10 @@ class mainPageModel extends model
             ->where($where)
             ->order("$sortField $sortOrder")
             ->getPage();
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+            }
             return $data;
     }
     //获取筛选后的数据
@@ -103,6 +107,10 @@ class mainPageModel extends model
             ->where($where)
             ->order("$sortField $sortOrder")
             ->getPage();
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+            }
             return $data;
     }
     //搜索结果列表的操作按钮，下三角
