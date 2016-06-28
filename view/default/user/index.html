@@ -1,6 +1,9 @@
 {layout file="public:main_layout"}
+{insert_css files='home/track.css'}
 {insert_css files='home/user.css'}
 {insert_js files='home/slider.js'}
+{insert_js files='home/jquery.silver_track.js'}
+{insert_js files='home/jquery.silver_track.navigator.js'}
 <div class="buy-crumb w1220">首页-个人中心</div>
 <div class="user-wrap w1220">
     {include file="public:user_left"}
@@ -112,13 +115,16 @@
 				            <div class="view-port">
 				                <!--slider-container begin-->
 				                <div class="slider-container"  id="example-1">
-				                    <div class="item"></div>
-				                    <div class="item"></div>
-				                    <div class="item"></div>
-				                    <div class="item"></div>
-				                    <div class="item"></div>
-				                    <div class="item"></div>
-				                    <div class="item"></div>
+                                    {foreach from=$res item=value key=key}
+				                    <div class="item">
+                                        <p class="addr">
+                                            {$value.product_name}/ {$value.model}/{$value.factory_name}
+                                        </p>
+                                        <div class="price up"><span>¥{$value.unit_price}</span><b>100</b></div>
+                                        <p class="time">{$value.update_time| date:Y-m-d}</p>
+                                        <div class="del"></div>            
+                                    </div>
+                                    {/foreach}
 				                </div>
 				                <!--slider-container begin-->
 				          </div>
@@ -134,16 +140,16 @@
 				    <!--pagination end-->
 				</div>
 				</div>
-				    <ul>
-						{foreach from=$res item=value key=key}
-						<li>
-							<p class="addr">{$value.product_name}/ {$value.model}/{$value.factory_name}</p>
-							<div class="price up"><span>¥{$value.unit_price}</span><b>100</b></div>
-							<p class="time">{$value.update_time| date:Y-m-d}</p>
-							<div class="del"></div>
-						</li>
-						{/foreach}
-					</ul>
+				    <!-- <ul>
+                                            {foreach from=$res item=value key=key}
+                                            <li>
+                                                <p class="addr">{$value.product_name}/ {$value.model}/{$value.factory_name}</p>
+                                                <div class="price up"><span>¥{$value.unit_price}</span><b>100</b></div>
+                                                <p class="time">{$value.update_time| date:Y-m-d}</p>
+                                                <div class="del"></div>
+                                            </li>
+                                            {/foreach}
+                                        </ul> -->
     		</div>
     		<!--product end-->
     		<!--purchase begin-->
@@ -302,13 +308,25 @@
 		$(".authen.no p").html("待认证会员");
 
 		//删除关注产品信息
-		var del = $(".user-main .product ul li .del");
+		var del = $(".user-main .product .item .del");
 		del.live("click",function(){
 			$(this).parent().remove();
 		});
 	});
 
 	//发布采购需求
-	$('')
+	
+    //关注产品信息
+    var track = $(".slider-container").silverTrack({
+        perPage:4
+    });
+    var parent = track.container.parents(".track");
+     
+    // 左右箭头
+    track.install(new SilverTrack.Plugins.Navigator({
+      prev: $("a.prev", parent),
+      next: $("a.next", parent)
+    }));
 
+    track.start();
 </script>
