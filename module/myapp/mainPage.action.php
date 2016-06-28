@@ -298,6 +298,19 @@ class mainPageAction extends homeBaseAction
         if(!$choseRes = M('myapp:mainPage')->getLargeChoseRes($company,$factory,$address,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选筛选结果失败'));
         $this->json_output(array('err'=>0,'choseRes'=>$choseRes));
     }
+    //进入大客户详情页面
+    public function enBigBidDetail(){
+        $this->display('bigCustomer_detail');
+    }
+    //获取大客户详情数据
+    public function getBigBidDetail(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        $otype = sget('otype','i');//1查看,2委托洽谈
+        $id = sget('id','i');//当前这一条报价或求购的id,purchase表
+        if(!$chDeRes=M('myapp:mainPage')->getBigBidDetailData($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
+        $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
+    }
     /**
      *物性表
      */
