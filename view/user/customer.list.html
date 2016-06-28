@@ -62,7 +62,7 @@
 		>
 		<div property="columns">    
 			<div type="checkcolumn"></div>
-			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
+			<div field="c_name" width="75" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
 			<div field="chanel" width="40" headerAlign="center" align="center">渠道</div>
 			<div field="type" width="30" headerAlign="center" align="center">客户类型</div>
 			<div field="level" width="40" headerAlign="center" align="center">级别</div>
@@ -166,7 +166,7 @@ function onLoadFllow(e) {
 		s += '<a href="javascript:chk('+cid+')">审核</a>';
 	}else{
 			if(customer_manager !=''){
-			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>&nbsp;|&nbsp;<a href="javascript:removeRow('+cid+')">删</a>&nbsp;|&nbsp;<a href="javascript:onEdit()">改</a>&nbsp;|&nbsp;<a href="javascript:setSea('+cid+')">公海</a></br><a href="javascript:allotO('+cid+')">更改交易员</a>';
+			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">删</a>|<a href="javascript:onEdit()">改</a>|<a href="javascript:setSea('+cid+')">公海</a></br><a href="javascript:allotO('+cid+')">更改交易员</a>';
 		}
 	}
 
