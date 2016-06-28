@@ -42,6 +42,7 @@
 				var searchLi="";
 				var searchTb="";
 
+
 				function searchPro(keyW) {
 					commonAjax(
 							"post",
@@ -133,17 +134,20 @@
 
 					});
 				});
-
+				var stype="";
 				$(".supplyDemandStatus2 span").on("click",function () {
 					$(this).addClass("on").siblings("span").removeClass("on");
-					var stype=$(this).data("number");
 					var sale=$(this).data("sale");
 					if(sale){
 						if(stype==2){
-						}
 							stype=1;
-
+						}else{
+							stype=2;
+						}
+					}else{
+						stype=$(this).data("number");
 					}
+					console.log("***",stype);
 					commonAjax(
 							"post",
 							"/myapp/mainPage/getResByPrice",
@@ -167,7 +171,6 @@
 							});
 							$(".supplyDemandTb").append(searchTb);
 							searchTb="";
-							stype=2;
 						});
 
 						$(".iconDown").on("click",function () {
