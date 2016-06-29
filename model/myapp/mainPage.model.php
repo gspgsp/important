@@ -119,7 +119,7 @@ class mainPageModel extends model
         foreach ($opres as $key => $value) {
             $opres[$key]['provinces'] = $this->model('lib_region')->select('name')->where('id='.$value['provinces'])->getOne();
             $opres[$key]['company'] = $this->model('customer')->select('c_name')->where('c_id='.$value['c_id'])->getOne();
-            $opres[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d H:i:s",$value['input_time']):'-';
+            $opres[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
         }
         return $opres;
     }
@@ -378,6 +378,7 @@ class mainPageModel extends model
                 $data['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
                 $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
             }
+            return $data;
     }
     //获取资源库数据
     public function getResourceData($type,$page=1,$size=10){
