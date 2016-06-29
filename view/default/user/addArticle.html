@@ -1,0 +1,96 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+{insert_css files='home/jqtransform.css'}
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
+
+{insert_js files='ueditor/ueditor.config.js'}
+{insert_js files='ueditor/ueditor.all.js'}
+
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-我的资讯</h3>
+        <!--site3 begin-->
+            <div class="set4 color3" >
+                <form class="psForm">
+                    <table style="width:auto;">
+                        <tr>
+                            <td class="name">分类：</td>
+                            <td>
+                                <select style="width: 400px;height: 40px;border: 1px solid #d6d7dc;" datatype="*" name="type" class="req">
+                                    {foreach from=$cate item=value key=key}
+                                    <option value="{$key}">{$value}</option>
+                                    {/foreach}
+                                </select>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="name">资讯标题：</td>
+                            <td>
+                                <input type="text" name="title" datatype="*" nullmsg="请输入标题" errormsg="" vlaue="" class="import"/>
+                                <span class="Validform_checktip"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">资讯内容：</td>
+                            <td>
+                                <div name="content" id="container"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center"><input type="submit" value="保存" class="submit"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        <!--site3 end--> 
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->
+
+<script type="text/javascript">
+    var ue = UE.getEditor('container', {
+            autoHeight: true,
+            initialFrameWidth: 800,
+            elementPathEnabled: false,
+            wordCount: false,
+            toolbars: [
+                ["bold", "italic", 'indent','justifyleft','justifycenter','justifyright',]
+            ],
+        });
+
+    var valid=$(".psForm").Validform({
+        tiptype:function(msg,o,cssctl){
+            if(!o.obj.is("form")){
+                var objtip=o.obj.siblings(".Validform_checktip");
+                cssctl(objtip,o.type);
+                objtip.text(msg);
+            }
+        }
+    });
+
+    $(".psForm").submit(function(){
+        if(!valid.check()) return false;
+        var content=ue.getContent();
+        if(!content){
+            alert('请输入资讯内容');
+            return false;
+        }
+        var data=$(this).serialize();
+        $.post('/user/myArticle/saveArticle',data,function (data){
+            if(data.err==0){
+                alert('提交成功');
+                window.location.reload();
+            }else{
+                alert(data.msg);
+            }
+        },'json');
+        return false;
+    });
+</script>

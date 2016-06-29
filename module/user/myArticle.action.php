@@ -9,22 +9,43 @@ class myArticleAction extends userBaseAction
 	}
 	//获取资讯列表
 	public function getMyArticle(){
+		$this->act='myArticle';
 		//分页
 		$page=sget('page','i',1);
-		$page_size=5;
+		$page_size=10;
 		//获取资讯分页列表
-		$myArticle = $this->db->where('cid='.$this->user_id)->page($page,$page_size)->getPage();
-		foreach ($myArticle['data'] as $key => $value) {
-			$myArticle['data'][$key]['status'] = L('publish_status')[$value['status']];
-			$myArticle['data'][$key]['type'] = L('article_kind')[$value['type']];
-			$myArticle['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d H:i:s",$value['input_time']):'-';
-			$myArticle['data'][$key]['update_time'] = $value['update_time']>1000 ? date("Y-m-d H:i:s",$value['update_time']):'-';
-			$myArticle['data'][$key]['operate'] = L('publish_operate')[$value['operate']];
+		$list = $this->db->where('cid='.$this->uinfo['c_id'])->order('input_time desc')->page($page,$page_size)->getPage();
+		foreach ($list['data'] as &$value) {
+			$value['type']=L('article_kind')[$value['type']];
+			$value['status']=L('publish_status')[$value['status']];
+			$value['operate']=L('publish_operate')[$value['operate']];
 		}
-		$this->pages = pages($myArticle['count'], $page, $page_size);
-		$this->assign('detail',$myArticle['data']);
+		$this->pages = pages($list['count'], $page, $page_size);
+		$this->assign('list',$list['data']);
 		$this->display('myArticle');
 	}
+
+	// 添加我的资讯
+	public function addArticle(){
+		$this->cate=L('article_kind');
+		$this->display('addArticle');
+	}
+
+	public function saveArticle(){
+		if($_POST){
+			$this->is_ajax=true;
+			$data=saddslashes($_POST);
+			$data['cid']=$this->uinfo['c_id'];
+			$data['user_id']=$this->user_id;
+			$data['status']=1;
+			$data['operate'] = 1;
+			$data['input_time']=CORE_TIME;
+			$this->db->add($data);
+			$this->success('提交成功');
+		}
+	}
+
+
 	//取消发布或重新发布
 	public function changeFocusState(){
 		$pid = sget('pId','i');
@@ -60,22 +81,5 @@ class myArticleAction extends userBaseAction
 		}
 		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>2,'newData'=>$newData));
 	}
-	//新增资讯
-	public function addMyArticle(){
-		if($_POST){
-			$this->is_ajax=true;
-			$article['cid'] = $this->user_id;
-			$article['title'] = $_POST['tt'];
-			$article['content'] = $_POST['art_info'];
-			$article['type'] = $_POST['kid'];
-			$article['image'] = $_POST['img'];
-			$article['status'] = 1;
-			$article['operate'] = 1;
-			$article['input_time'] = CORE_TIME;
-			$article['update_time'] = CORE_TIME;
-
-			if(!$this->db->model('cop_article')->add($article)) $this->error('添加资讯失败');
-			$this->success('添加资讯成功');
-		}
-	}
+	
 }

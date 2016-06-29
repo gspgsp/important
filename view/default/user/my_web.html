@@ -8,7 +8,7 @@
         });
         $("#en_my").bind('click',function(){
             // window.location.href="/user/myHomeWeb/clickMyWeb?id="+"{$smarty.session.uinfo.c_id}";
-            window.location.href="/company/{$smarty.session.uinfo.c_id}.html";
+            window.location.href="/mycompany/{$smarty.session.uinfo.c_id}.html";
         });
     });
 </script>
@@ -45,7 +45,7 @@
                 <!--com-opt begin-->
                 <div class="com-opt frt">
                 	<input type="button" value="我的网站" id="en_my" />
-                    <input type="button" value="修改" id="chg" />
+                    <!-- <input type="button" value="修改" id="chg" /> -->
                 </div>
                 <!--com-opt end-->
             </div>

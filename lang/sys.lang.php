@@ -13,8 +13,14 @@ return array(
 		'2'=>'未发布',
 		),
 	'article_kind'=>array(
-		1=>'公司咨询',
-		2=>'行业咨询',
+		0=>'公司咨询',
+		1=>'行业咨询',
+		),
+	//我的网站产品分类
+	'product_kind'=>array(
+		1=>'产品一',
+		2=>'产品二',
+		3=>'产品三',
 		),
 	'bank_account_state'=>array(
 		1=>'正常',

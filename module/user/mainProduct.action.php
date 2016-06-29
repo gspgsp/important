@@ -9,17 +9,21 @@ class mainProductAction extends userBaseAction
 	}
 	//显示主营产品
 	public function getMainProduct(){
+		$this->act='myProduct';
+
+		$this->product_kind=L('product_kind');
 		//分页
 		$page=sget('page','i',1);
-		$page_size=5;
+		$page_size=10;
 		//获取资讯分页列表
-		$mainPro = $this->db->where('cid='.$this->user_id)->page($page,$page_size)->getPage();
+		$mainPro = $this->db->where('cid='.$this->uinfo['c_id'])->order("input_time desc")->page($page,$page_size)->getPage();
 		foreach ($mainPro['data'] as $key => $value) {
 			$mainPro['data'][$key]['status'] = L('publish_status')[$value['status']];
 			$mainPro['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d H:i:s",$value['input_time']):'-';
 			$mainPro['data'][$key]['update_time'] = $value['update_time']>1000 ? date("Y-m-d H:i:s",$value['update_time']):'-';
 			$mainPro['data'][$key]['operate'] = L('publish_operate')[$value['operate']];
 		}
+		// p($mainPro);
 		$this->pages = pages($mainPro['count'], $page, $page_size);
 		$this->assign('detail',$mainPro['data']);
 		$this->display('mainPro');
@@ -62,11 +66,12 @@ class mainProductAction extends userBaseAction
 	public function addMainProduct(){
 		if($_POST){
 			$this->is_ajax=true;
-			$product['cid'] = $this->user_id;
+			$product['user_id'] = $this->user_id;
+			$product['cid'] = $this->uinfo['c_id'];
 			$product['image'] = $_POST['pro_img'];
 			$product['name'] = $_POST['pro_name'];
 			$product['infos'] = $_POST['pro_inf'];
-			$product['type']=1;
+			$product['type']=$_POST['pro_type'];
 			$product['status'] = 1;
 			$product['operate'] = 1;
 			$product['input_time'] = CORE_TIME;

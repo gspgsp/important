@@ -81,5 +81,3 @@ class indexAction extends homeBaseAction{
 		}
 	}
 }
-
-

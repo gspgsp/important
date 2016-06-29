@@ -1,5 +1,7 @@
 {layout file="public:main_layout"}
 {insert_css files='home/user.css'}
+{insert_js files='home/jquery.ajaxupload.js'}
+
 
 <link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.css"/>
 <link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.ext.css"/>
@@ -109,10 +111,11 @@
         var pro_img = $(".import.pro_img"),
         pro_name = $(".import.pro_name"),
         pro_inf = $(".import.pro_inf"),
+        pro_type = $(".import.pro_type"),
         errorMsg = $(".error-msg"),
         str = "";
 
-        $(".site-add").bind("click",function(){
+        $(".add_btn").bind("click",function(){
             $.layer({
                 type: 1,
                 title: false,
@@ -141,7 +144,7 @@
                 $.ajax({
                     type:"post",
                     url:"/user/mainProduct/addMainProduct",
-                    data:{'pro_img':pro_img.val(),'pro_name':pro_name.val(),'pro_inf':pro_inf.val()},
+                    data:{'pro_img':pro_img.val(),'pro_name':pro_name.val(),'pro_inf':pro_inf.val(),'pro_type':pro_type.val()},
                     dataType:'json',
                     success:function(res){
                         if(res.err==0)
@@ -160,7 +163,6 @@
         }
     });
 </script>
-<div class="buy-crumb w1220">首页-个人中心</div>
 <!--user-wrap begin-->
 <div class="user-wrap w1220">
     <!--right begin-->
@@ -169,7 +171,7 @@
     	<h3>个人中心-主营产品</h3>
         <!--site2 begin-->
         <div class="site site2 color3">
-        	<div class="site-add"><span>添加</span></div>
+        	<div class="site-add"><span class="add_btn">添加</span></div>
         	<!--site-title begin-->
             <ul class="site-title">
             	<li class="pro-pic">产品图片</li>
@@ -199,7 +201,7 @@
                 <!--site-con-bot begin-->
                 <div class="site-con-bot">
                     <ul>
-                        <li class="pro-pic"><img src="__IMG__/home/proPic1.jpg" width="150" height="100"/></li>
+                        <li class="pro-pic"><img src="__UPLOAD__/{$value.image}" width="150" height="100"/></li>
                         <li class="pro-name">{$value.name}</li>
                         <li class="pro-explain">{$value.infos|truncate:100:"",'utf-8'}</li>
                         <li class="status">{$value.status}</li>
@@ -231,9 +233,20 @@
     <table>
         <form name="" method="post" action="">
             <tr>
-                <td class="name">产品图片：</td>
+                <td class="name">产品分类：</td>
                 <td>
-                    <input type="file" class="pro_img import"></input>
+                    <select class="pro_type import" style="width: 212px;height: 34px;border: 1px solid #d6d7dc;">
+                        {foreach from=$product_kind item=value key=key}
+                        <option value="{$key}">{$value}</option>
+                        {/foreach}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="name">产品图片：</td>
+                <td style="position:relative;">
+                    <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn">
+                    <input type="hidden" id="url" name="" class="pro_img import" value="">
                 </td>
             </tr>
             <tr>
@@ -253,4 +266,28 @@
         </form>
     </table>
 </div>
+
+<script type="text/javascript">
+    new AjaxUpload('#permitP_btn', {
+        action: '/public/sysUpload/images?model=1',
+        name: 'image',
+        onSubmit: function(file, suffix) {
+            // 'gif','jpg','jpeg','png','swf'
+            var patrn = /^(gif|jpg|jpeg|png)$/i;
+            if (!patrn.test(suffix)) {
+                alert('不支持上传 *.' + suffix + '格式的文件。');
+                return false;
+            }
+        },
+        onComplete: function(file, response) {
+            var result = jQuery.parseJSON(response);
+            if(result.err == 0) {
+                $('#url').val(result.msg);
+                $("#permitP_btn").attr('src',"__UPLOAD__/"+result.msg);
+            } else {
+                alert(result.msg);
+            }
+        }
+    });
+</script>
 <!--layer end-->

@@ -9,6 +9,8 @@ class myHomeWebAction extends userBaseAction
 	}
 	//进入我的门户网站
 	public function getMyWeb(){
+		$this->act='myHomepage';
+
         $data = $this->_aboutUs();
         $contact = $this->_linkUs($data);
         $this->assign('data',$data);
@@ -19,6 +21,7 @@ class myHomeWebAction extends userBaseAction
 	public function clickMyWeb(){
 		//客户id
 		$c_id = sget('id','i');
+		p($c_id);die;
 		//关于我们
 		$data = $this->_aboutUs();
 		//最新资讯

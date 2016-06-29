@@ -1,20 +1,17 @@
 {layout file="public:main_layout"}
 {insert_css files='home/user.css'}
+<style type="text/css">
+    .finance-lc5 .detail li .detail-lt p.detail-desc{
+        font-size: 16px;
+    }
+</style>
 <script>
     $(function(){
         //查询操作
         $("#btn2").bind('click',function(){
             var optionVal = $("option[name='Del']:selected").val();
             window.location.href="/user/myPoints/getCheckInfo?opVal="+optionVal;
-            // $.ajax({
-            //     type:"post",
-            //     url:"/user/myPoints/getCheckInfo",
-            //     dataType:'json',
-            //     data:{'opVal':optionVal,'page':1},
-            //     success:function(res){
-                    
-            //     }
-            // });
+          
         });
     });
 </script>
@@ -33,17 +30,17 @@
                 <div class="jifen-lt flt">
                 	<!--portrait begin-->
                 	<div class="portrait flt">
-                    	<img src="{$thumb}" width="100" height="100"/>
+                    	<img src="__UPLOAD__/{$uinfo.thumb}" width="100" height="100"/>
                     	<div class="mask"></div>
                     </div>
                     <!--portrait end-->
                     <!--total begin-->
-                    <p class="flt">我的积分：<span>{$points}</span>积分</p>
+                    <p class="flt">我的积分：<span>{$uinfo.points}</span>积分</p>
                     <!--total end-->
                 </div>
                 <!--jifen-lt end-->
                 <!--jifen-rt begin-->
-                <div class="jifen-rt frt">
+                <!-- <div class="jifen-rt frt">
                 	<span>类 型：</span>
                 	<select>
                     	<option name="Del" value="3">全部</option>
@@ -51,12 +48,12 @@
                         <option name="Del" value="2">积分支出明细</option>
                     </select>
                     <input type="button" value="查询" id="btn2"/>
-                </div>
+                </div> -->
                 <!--jifen-rt end-->
             </div>
             <!--jifen end-->
         	<!--detail begin-->
-            <div class="detail income">
+          <!--   <div class="detail income">
             	<h4>积分收入明细</h4>
                 <ul>
                     {foreach from=$detail item=value}
@@ -71,22 +68,21 @@
                     {/if}
                     {/foreach}
                 </ul>
-            </div>
+            </div> -->
             <!--detail end-->
             <!--detail begin-->
             <div class="detail pay">
-            	<h4>积分支出明细</h4>
+            	<h4>积分兑换订单</h4>
                 <ul>
-                    {foreach from=$detail item=value}
-                    {if $value.type eq '兑换礼品'}
+                    {foreach from=$list item=value}
                 	<li>
                     	<div class="detail-lt flt">
-                        	<p>{$value.addtime}</p>
-                            <h5>{$value.type}：奥克斯（AUX）电热水壶</h5>
+                        	<p>更新时间：{$value.update_time|date:Y-m-d H:i}&nbsp;&nbsp;&nbsp;订单号：{$value.order_id}&nbsp;&nbsp;&nbsp;状态：{$value.status}</p>
+                            <p class="detail-desc">商品:{$value.name} 收货人:{$value.receiver} 手机:{$value.phone} 地址:{$value.address} </p>
+
                         </div>
-                        <div class="detail-rt frt">{$value.points}</div>
+                        <!-- <div class="detail-rt frt">{$value.status}</div> -->
                     </li>
-                    {/if}
                     {/foreach}
                 </ul>
             </div>

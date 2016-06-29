@@ -33,18 +33,22 @@ class myPointsAction extends userBaseAction
     }
     //积分明细详情页
     public function creditDetail(){
-        //获取用户
-        if($this->user_id<0)  $this->json_output(array('err'=>1,'msg'=>'请求超时,请重新登录!'));
-        $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
-        $points = M('points:pointsBill')->getUerPoints($this->user_id);
-        $page = sget('page','i',1);
-        $size = sget('size','i',8);
-        $list = M('user:myPoints')->getCreditDetail($this->user_id,$page,$size);
-        $pages = pages($list['count'], $page, $size);
-        $this->assign('thumb',$thumb);
-        $this->assign('points',$points);
-        $this->assign('detail',$list['data']);
-        $this->assign('pages',$pages);
+
+        $page=sget('page','i',1);
+        $size=10;
+        $model=M('points:pointsOrder');
+        $list=$this->db->from('points_order o')
+            ->join('points_goods g','o.goods_id=g.id')
+            ->where("o.uid={$this->user_id}")
+            ->select("o.*,g.name")
+            ->page($page,$size)
+            ->getPage();
+        foreach ($list['data'] as &$value) {
+            $value['status']=L('points_status')[$value['status']];
+        }
+        $this->pages = pages($list['count'], $page, $size);
+
+        $this->assign('list',$list['data']);
     	$this->display('creditdetail');
     }
     //返回积分明细
