@@ -331,9 +331,9 @@ class mainPageModel extends model
     }
     //获取大客户详情数据(查看)1查看,2委托洽谈
     public function getBigBidDetailData($otype,$id){
-        $bigOff = $this->model('big_offers')->where('id='.$id)->getAll();
+        $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
         if($otype == 1){
-           $bigCli = $this->model('big_client')->where('id='.$bigOff['cid'])->select('gsname,phone')->getRow();
+           $bigCli = $this->model('big_client')->where('id='.$bigOff['cid'])->select('gsname,phone,cjphone')->getRow();
            $bigOff['gsname'] = $bigCli['gsname'];
            $bigOff['phone'] = $bigCli['phone'];
            $bigOff['cjphone'] = $bigCli['cjphone'];
