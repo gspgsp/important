@@ -26,7 +26,6 @@
 				<li><span>厂      家：</span><font id="f_name"></font></li>
 				<li><span>交货地：</span><font id="provinces"></font></li>
 				<li><span>发布时间：</span><font id="input_time"></font></li>
-				<li><span>交货时间：</span><font id="delivertime"></font></li>
 			</ul>
 		</div>
 		<div class="bigCustomerDetail" style="margin: 0;">
@@ -43,7 +42,7 @@
 			<span><img width="15" src="__MYAPP__/img/bigCustomer4.png">&nbsp;交易保障</span>
 		</div>
 		<div class="bigCustomerDetailBtn">
-			<input type="button" value="委托洽谈">
+			<input id="tradeBtn" type="button" value="委托洽谈">
 		</div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
@@ -63,17 +62,16 @@
 					if(res.err==1){
 						window.location.href="/myapp/login";
 					}else{
-						$("#product_type").text(res.chDeRes.product_type);
+						$("#product_type").text(res.chDeRes.type);
 						$("#model").text(res.chDeRes.model);
-						$("#unit_price").text(res.chDeRes.unit_price);
-						$("#number").text(res.chDeRes.number);
-						$("#f_name").text(res.chDeRes.f_name);
-						$("#provinces").text(res.chDeRes.provinces);
+						$("#unit_price").text(res.chDeRes.price);
+						$("#number").text(res.chDeRes.num);
+						$("#f_name").text(res.chDeRes.factory);
+						$("#provinces").text(res.chDeRes.address);
 						$("#input_time").text(res.chDeRes.input_time);
-						$("#delivertime").text(res.chDeRes.delivertime);
-						$("#con_name").text(res.chDeRes.con_name);
-						$("#mobile").text(res.chDeRes.mobile);
-						$("#qq").text(res.chDeRes.qq);
+						$("#phone").text(res.chDeRes.phone);
+						$("#cjphone").text(res.chDeRes.cjphone);
+						$("#gsname").text(res.chDeRes.gsname);
 					}
 				},function () {
 
