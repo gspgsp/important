@@ -146,6 +146,8 @@
 			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
 			{/if}
 			<div field="sum" id="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
+			<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
+
 		</div>
 
 	</div>
@@ -192,6 +194,21 @@ function onValidation(e){
 	}
 	mini.get('billing_price').setValue(total);
  }
+
+//追加操作，删除按钮
+function viewhander(e){
+	var record = e.record,s='';	
+	s += '<a href="javascript:removeRow()">删除</a>';
+	return s;
+}
+//删除操作
+function removeRow() {
+    var rows = grid.getSelecteds();
+    if (rows.length > 0) {
+        grid.removeRows(rows, true);
+    }
+}
+
 
 //增加后提交数据(保存)
 function submitForm(billing) {

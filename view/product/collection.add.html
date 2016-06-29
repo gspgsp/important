@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
 				<td>{if $type =='1'}申请收款金额{else}申请付款金额{/if}<span style="color:red">*</span></td>
-				<td><input name="collected_price" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input name="collected_price" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true"/></td>
 			</tr>
 			{else}		
 			<tr>
@@ -50,7 +50,7 @@
 			</tr>
 			<tr>
 				<td>{if $type =='1'}收款金额{else}付款金额{/if}<span style="color:red">*</span></td>
-				<td><input name="collected_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input name="collected_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" required="true"/></td>
 			</tr>
 			{/if}
 			<tr>

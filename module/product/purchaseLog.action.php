@@ -64,7 +64,12 @@ class purchaseLogAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
-		$where.= 1;
+		if($type==1){//开票审核时，数量已完成的不显示
+			$where.= "billing_number <> number";
+		}else{
+			$where .=1;
+		}
+		
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
 		$in_storage_status=sget('in_status','i',0); //入库时选择未入库的订单
@@ -98,6 +103,7 @@ class purchaseLogAction extends adminBaseAction {
 				->order("$sortField $sortOrder")
 				->getPage();
 		$tot=0;
+		//p($list);
 		foreach($list['data'] as &$v){		
 			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
 			$v['f_name']=$pinfo['f_name'];//根据cid取客户名
