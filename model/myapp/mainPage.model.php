@@ -317,6 +317,7 @@ class mainPageModel extends model
             $where .= " and bio.factory=$factory";
         }elseif (!empty($address)) {
             $where .= " and bio.address=$address";
+        }
         $choseRes = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
             ->join('big_client bic','bio.cid=bic.id')
             ->page($page,$size)
