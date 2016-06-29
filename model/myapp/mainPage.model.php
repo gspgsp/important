@@ -365,12 +365,19 @@ class mainPageModel extends model
     }
     //获取供求(公海的报价和求购) 1求(采)购 2报价
     public function getPublicQuoPur($type,$page=1,$size=10){
-        $pubQuoPur = $this->model('purchase')
-                    ->where('type='.$type)
-                    ->page($page,$size)
-                    ->order('input_time desc')
-                    ->getPage();
-                    return $pubQuoPur;
+        $where = "type=$type";
+        $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
+            ->join('product pro','pur.p_id=pro.id')
+            ->join('factory fa','pro.f_id=fa.fid')
+            ->where($where)
+            ->page($page,$size)
+            ->order('input_time desc')
+            ->getPage();
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
+                $data['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+            }
     }
     //获取资源库数据
     public function getResourceData($type,$page=1,$size=10){
