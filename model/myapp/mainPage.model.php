@@ -312,11 +312,11 @@ class mainPageModel extends model
     public function getLargeChoseRes($company,$factory,$address,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
         $where = "1";
         if(!empty($company)){
-            $where .= " and bic.company=$company";//应用的下标值
+            $where .= " and bic.company='{$company}'";//应用的下标值
         }elseif (!empty($factory)) {
-            $where .= " and bio.factory=$factory";
+            $where .= " and bio.factory='{$factory}'";
         }elseif (!empty($address)) {
-            $where .= " and bio.address=$address";
+            $where .= " and bio.address='{$address}'";
         }
         $choseRes = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
             ->join('big_client bic','bio.cid=bic.id')
