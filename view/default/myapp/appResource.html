@@ -30,9 +30,9 @@
 		</div>
 		<ul class="appResourceUl"></ul>
 		<div class="appResourceText" style="display: none;">
-			<div class="">
-				<input name="checkbox" value="1" type="radio">我有货，我要卖
-				<input name="checkbox" value="2" type="radio">我求购，我要买
+			<div style="padding: 20px 0 0 0;">
+				<input name="resource" value="1" checked type="radio">我有货，我要卖
+				<input name="resource" value="2" type="radio">我求购，我要买
 			</div>
 			<textarea class="appResourceInput" placeholder="请填写真实资源，写清楚公司名称，你的名字，联系方式，货物和数量"></textarea>
 			<div class="appResourceBtn">
@@ -101,6 +101,25 @@
 
 				$(".appWrite").on("click",function () {
 					$(".appResourceText").toggle();
+				});
+
+				$(".release").on("click",function () {
+					var content=$(".appResourceInput").val();
+					var type=$("input[type='radio']:checked").val();
+					commonAjax(
+							"post",
+							"/resource/index/release",
+							{content:content,type:type}
+					).then(function (res) {
+						mui.alert("",res.msg,function () {
+							window.location.reload();
+						});
+					},function () {
+
+					});
+				});
+				$(".cancel").on("click",function () {
+					$(".appResourceText").hide();
 				});
 			})
 		</script>
