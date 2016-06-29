@@ -490,7 +490,7 @@ class mainPageAction extends homeBaseAction
     public function getResSearch(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
-        $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
+        $type = sget('type','i',0);//1求(采)购 2报价(供应) 空值为全部
         $page = sget('page','i',1);
         $size = sget('size','i',10);
         $keywords = sget('keywords','s');
