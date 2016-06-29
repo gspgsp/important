@@ -93,7 +93,7 @@
 							$("#searchWrapUl").html(searchLi);
 							v.newBig.forEach(function (v,i,a) {
 								searchTb+="<tr><td>"+v.gsname+"</td>" +
-										"<td>￥"+v.price+"</td><td>"+v.num+"T</td><td>"+v.address+"</td><td><a href='/myapp/mainPage/enCheckForm?id="+v.id+"'>查看</a></td></tr>";
+										"<td>￥"+v.price+"</td><td>"+v.num+"T</td><td>"+v.address+"</td><td><a href='/myapp/mainPage/enBigBidDetail?id="+v.id+"'>查看</a></td></tr>";
 							});
 							$(".supplyDemandTb").append(searchTb);
 							searchTb="";
