@@ -286,6 +286,7 @@ class mainPageModel extends model
         $data = $this->model('big_offers')->where("model='{$bigOff['model']}' and factory='{$bigOff['factory']}'")->order('input_time desc')->limit('0,2')->getAll();
         foreach ($data as $key => $value) {
             $bigCli = $this->model('big_client')->where('id='.$value['cid'])->select('gsname,phone')->getRow();
+            $newBig[$key]['id'] = $id;
             $newBig[$key]['gsname'] = $bigCli['gsname'];
             $newBig[$key]['phone'] = $bigCli['phone'];
             $newBig[$key]['price'] = $value['price'];
@@ -332,7 +333,7 @@ class mainPageModel extends model
     public function getBigBidDetailData($otype,$id){
         $bigOff = $this->model('big_offers')->where('id='.$id)->getAll();
         if($otype == 1){
-           $bigCli = $this->model('big_client')->where('id='.$id)->select('gsname,phone')->getRow();
+           $bigCli = $this->model('big_client')->where('id='.$bigOff['cid'])->select('gsname,phone')->getRow();
            $bigOff['gsname'] = $bigCli['gsname'];
            $bigOff['phone'] = $bigCli['phone'];
            $bigOff['cjphone'] = $bigCli['cjphone'];
