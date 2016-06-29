@@ -389,6 +389,7 @@ class mainPageModel extends model
         }else{
             $resData = $this->model('resourcelib')->page($page,$size)->order('input_time desc')->getPage();
         }
+        $resData['qq_image'] = $this->model('contact_info')->select('thumb')->where('user_id='.$resData['uid'])->getOne();
         return $resData;
     }
     //获取资源库搜索数据
