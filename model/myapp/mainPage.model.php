@@ -326,6 +326,7 @@ class mainPageModel extends model
             ->getPage();
         foreach ($choseRes['data'] as $key => $value) {
             $choseRes['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+            $choseRes['data'][$key]['twoData'] = $this->_getLargeBidRes($value['id']);
         }
         return $choseRes;
     }
