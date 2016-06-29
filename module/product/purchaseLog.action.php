@@ -36,10 +36,13 @@ class purchaseLogAction extends adminBaseAction {
 		$doact=sget('do','s');
 		$action=sget('action','s');
 		$in_status=sget('in_status','i');
-		if($action=='grid'){ //获取列表
-			$this->_grid();exit;
-		}
+
+		//如果type ==1就是开票新增页面
 		$type = sget('type','i',0);
+		if($action=='grid'){ //获取列表
+			$this->_grid($type);exit;
+		}
+
 		if ($type == 1) {
 			$this->display('billing.add.html');
 		}else{
@@ -55,7 +58,7 @@ class purchaseLogAction extends adminBaseAction {
 	 * @access private 
 	 * @return html
 	 */
-	private function _grid(){
+	private function _grid($type){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','input_time'); //排序字段
@@ -108,7 +111,14 @@ class purchaseLogAction extends adminBaseAction {
 			$v['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
 			$v['purchase_type'] = L('purchase_type')[$v['purchase_type']];
 			$v['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
-			$v['sum'] = $v['unit_price']*$v['number'];
+			
+			//开票申请与审核时所需的值
+			if($type==1){
+				//开票申请与审核时已未发送的数量
+				$v['number'] = $v['number']-$v['billing_number'];
+				//开票申请与审核的小计
+				$v['sum'] = $v['unit_price']*$v['number'];
+			}
 			$tot=$tot+$v['sum'];
 		}
 		$to='mn';

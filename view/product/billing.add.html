@@ -134,11 +134,10 @@
 		<div property="columns">
 			<!-- <div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div> -->
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-
 			<div field="number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
-			
+
 			<div field="unit_price" id="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			{if $type =='1'}
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
@@ -163,6 +162,7 @@ var noStockData;
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
 var grid = mini.get("investGrid");
+// noStockData=grid.getData();
 function search() {
 	grid.load($("#soform").serializeObject(),function(e){
 		$("#searchMsg").html(e.msg);
@@ -178,8 +178,13 @@ function onValidation(e){
 	var number=e.value;
 	var index=grid.getSelected()._index;//行号
 	noStockData=grid.getData();
-	noStockData[index].sum=parseFloat(noStockData[index].unit_price)*parseFloat(number);
+
+	if(number<=0 || number>noStockData[index].number){
+		alert('请输入正确的数值');
+		return;
+	}
 	noStockData[index].number=number;
+	noStockData[index].sum=parseFloat(noStockData[index].unit_price)*parseFloat(number);
 	grid.setData(noStockData);
 	var total=0;
 	for (var i = 0; i < noStockData.length; i++) {

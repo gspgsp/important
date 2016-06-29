@@ -121,7 +121,8 @@ class orderAction extends adminBaseAction {
 			$v['transport_type']=L('transport_type')[$v['transport_type']];
 			$v['business_model']=L('business_model')[$v['business_model']];
 			$v['financial_records']=L('financial_records')[$v['financial_records']];
-			$v['payments_status']= ( $v['order_type'] == '1' ? L('gatheringt_status')[$v['collection_status']] :  L('payment_status')[$v['collection_status']] ) ;
+			//订单收付款状态
+			$v['payments_status']= ( $v['order_type'] == '1' ? L('collection_g_status')[$v['collection_status']] :  L('collection_p_status')[$v['collection_status']] ) ;
 			$v['order_type']=L('order_type')[$v['order_type']];
 			$v['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
@@ -296,7 +297,7 @@ class orderAction extends adminBaseAction {
 	*/
 	public function transactionInfo(){
 		$o_id=sget('o_id','i',0);
-		$type=sget('order_type','s');
+		$type=sget('order_type','s');//type=1为销售订单，type=2为采购订单
 
 		//获取开票总金额
 		// if($type==1){
@@ -346,7 +347,7 @@ class orderAction extends adminBaseAction {
 			$this->assign('invoice_account',$c_info['invoice_account']);
 
 			$this->assign('bile_type',L('bile_type'));//票据类型
-
+			
 			if ($finance ==1 ) {
 				//获取要审核的开票信息的id，传送出信息
 				$id = sget('id','i',0);
@@ -359,6 +360,7 @@ class orderAction extends adminBaseAction {
 					$this->assign('b_price',$res[0]['billing_price']);
 					$this->assign('u_price',$un_price);
 				}
+
 			}else{
 				//获取最后一条开票信息
 				$res=M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
@@ -400,7 +402,7 @@ class orderAction extends adminBaseAction {
 	*/
 	public function ajaxSave(){
 		$data = sdata();
-		p($data);die;
+		//p($data);die;
 		$billing = sget('do','i');
 		if($billing >0){
 			//保存开票信息
@@ -410,9 +412,7 @@ class orderAction extends adminBaseAction {
 			// p($data);
 			!empty($data['unbilling_price'])?$m = ($data['unbilling_price']-$data['billing_price']):$m = ($data['total_price']-$data['billing_price']);
 
-			//判断生成开票号
-				$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
-				$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
+			//将开票时间处理成时间戳
 				$data['payment_time']=strtotime($data['payment_time']);
 
 			$this->db->startTrans();//开启事务	
@@ -433,7 +433,11 @@ class orderAction extends adminBaseAction {
 					if($m<0){
 						$this->error("数据错误");
 					}
-				
+
+					//判断生成开票号,审核时才有
+					$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
+					$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
+
 					//修改订单明细表中的开票数量
 					foreach ($detail as $v) {
 						if ($billing ==1) {
@@ -447,6 +451,7 @@ class orderAction extends adminBaseAction {
 					unset($data['id']);
 					if(!$this->db->model('billing')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 				}else{
+					$data['unbilling_price'] = $m;
 					if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");
 				}
 			} catch (Exception $e) {
