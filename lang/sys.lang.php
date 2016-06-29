@@ -358,15 +358,21 @@ return array(
 	),
 	//单笔订单收款状态
 	'gatheringt_status'=>array(
-		'1'=>'待付款',
+		'1'=>'待收款',
 		'2'=>'已完成',
 		'3'=>'已取消',
 	),
-	//订单收付款状态
-	'collection_status'=>array(
-		1=>'待交易',
-		2=>'部分交易',
-		3=>'全部交易',
+	//订单付款状态
+	'collection_p_status'=>array(
+		1=>'待付款',
+		2=>'部分付款',
+		3=>'全部付款',
+	),
+	//订单收款状态
+	'collection_g_status'=>array(
+		1=>'待收款',
+		2=>'部分收款',
+		3=>'全部收款',
 	),
 	//单笔订单开票状态
 	'invoice_one_status'=>array(
