@@ -7,7 +7,7 @@ class billingAction extends adminBaseAction
 	public function __init(){
 		$this->db=M('public:common')->model('billing');
 		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
-		$this->assign('invoice_status',L('invoice_status'));    //开票状态
+		$this->assign('invoice_status',L('invoice_one_status'));    //开票状态
 		$this->assign('billing_type',L('billing_type'));    	//开票类型
 	}
 
@@ -85,6 +85,9 @@ class billingAction extends adminBaseAction
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['payment_time']=$v['payment_time']>1000 ? date("Y-m-d H:i:s",$v['payment_time']) : '-';
+			//开票主题
+			$list['data'][$k]['title'] = L('company_account')[$list['data'][$k]['title']];
+
 			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
 			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
 		}

@@ -37,7 +37,7 @@
 			{if $finance}
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$u_price}"{/if} style="width:150px;" allowInput="false"/></td>
+				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$u_price}"style="width:150px;" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>申请票据金额<span style="color:red">*</span></td>
@@ -54,7 +54,7 @@
 			{else}
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" allowInput="false"/></td>
+				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" allowInput="false"/></td>
 			</tr>
 
 			<!-- <tr>
