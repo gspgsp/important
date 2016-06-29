@@ -317,7 +317,6 @@ class mainPageModel extends model
             $where .= " and bio.factory=$factory";
         }elseif (!empty($address)) {
             $where .= " and bio.address=$address";
-        }
         $choseRes = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
             ->join('big_client bic','bio.cid=bic.id')
             ->page($page,$size)
@@ -332,6 +331,7 @@ class mainPageModel extends model
     //获取大客户详情数据(查看)1查看,2委托洽谈
     public function getBigBidDetailData($otype,$id){
         $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
+        $bigOff['input_time'] = $bigOff['input_time']>1000 ? date("Y-m-d",$bigOff['input_time']):'-';
         if($otype == 1){
            $bigCli = $this->model('big_client')->where('id='.$bigOff['cid'])->select('gsname,phone,cjphone')->getRow();
            $bigOff['gsname'] = $bigCli['gsname'];
