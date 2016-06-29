@@ -120,8 +120,8 @@
                                         <p class="addr">
                                             {$value.product_name}/ {$value.model}/{$value.factory_name}
                                         </p>
-                                        <div class="price up"><span>¥{$value.unit_price}</span><b>100</b></div>
-                                        <p class="time">{$value.update_time| date:Y-m-d}</p>
+                                        <div class="price up" id="price" data-id="{$value.unit_price}"><span>¥{$value.unit_price}</span><b>100</b></div>
+                                        <p class="time">{$value.input_time|date:Y-m-d}</p>
                                         <div class="del">取消关注</div>            
                                     </div>
                                     {/foreach}
@@ -159,12 +159,18 @@
 					{foreach from=$rest item=val key=key}
     				<li>
     					<p>
-	    					<span>求购{if $val.product_type==5}PVC{elseif $val.product_type==1}HDPE{elseif $val.product_type==2}LDPE{elseif $val.product_type=3}LLDPE{else}PP{/if} {$val.model} {$val.number}吨</span>
+	    					<span>求购{if $val.product_type==1}HDPE
+								{elseif $val.product_type==2}LDPE
+								{elseif $val.product_type==3}LLDPE
+								{elseif $val.product_type==4}PP
+								{else}PVC
+								{/if}
+								{$val.model} {$val.number}吨</span>
 	    					<span>价格：￥{$val.unit_price}元</span>
 	    					<span>交货地：{$val.name}</span>
 	    					<span>{$val.input_time|date:Y-m-d}</span>
     					</p>
-    					<a href="javascript:;">我要供货</a>
+    					<a href="/offers/talk?id={$val.id}">我要供货</a>
     				</li>
 					{/foreach}
     			</ul>
@@ -274,7 +280,7 @@
 	                        	<div class="goods-pic"><img src="__UPLOAD__/{$val.thumb}"/></div>
 	                            <p class="goods-name">{$val.name}</p>
 	                            <p class="goods-jifen"><span>{$val.points}</span>分</p>
-	                            <div class="goods-btn"><a href="javascript:;">去积分商城兑换</a></div>
+	                            <div class="goods-btn"><a href="/pointshop/index/item?id={$val.id}">去积分商城兑换</a></div>
 	                        </li>
 							{/foreach}
 	                    </ul>
@@ -351,7 +357,14 @@
 		},'json')
 		return false;
 	})
+	//刷新
 
+	function refreshVid(){
+		$("#ref p").loaded(function(){
+			$(this).val();
+		});
+		setTimeout(refreshVid, 1000);
+	}
 
 	
     //关注产品信息

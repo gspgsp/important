@@ -17,18 +17,15 @@ class indexAction extends userBaseAction{
         //我的关注列表
         $where="cp.user_id=$this->user_id and cp.status=1";
         $data = M('product:concernedProduct')->getConcernedList($where);
-
-
-        //关注产品的价格浮动
         $arr=array();
-        foreach($data as $v){
-           $arr['pid']=$v['pid'];
-            $price=M('product:purchase')->footPrice($arr);
-            $cjprice=$price[0]['unit_price']-$price[1]['unit_price'];
-            p($cjprice);
-            }
+        $array=array();
+       foreach($data as $k=>$v){
+           $arr['p_id']=$v['product_id'];
+           $price=M('product:purchase')->footPrice($arr);
+           $array[]=$price;
 
-
+       }
+        
         //今日报价发布总数
         $date1=strtotime(date('Ymd'));
         $count1=M('resourcelib:resourcelib')->getTotalOne($date1);
@@ -40,10 +37,8 @@ class indexAction extends userBaseAction{
 
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
-
         //积分商品banner
         $points=M('points:pointsGoods')->getGoods();
-
 
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
