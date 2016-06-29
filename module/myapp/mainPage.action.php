@@ -311,6 +311,10 @@ class mainPageAction extends homeBaseAction
         if(!$chDeRes=M('myapp:mainPage')->getBigBidDetailData($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
         $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
     }
+    //进入大客户的委托洽谈
+    public function enBigBidDelegate(){
+        $this->display('supplyDemand_trade2');
+    }
     /**
      *物性表
      */
