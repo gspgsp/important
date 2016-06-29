@@ -19,11 +19,13 @@ class saleLogAction extends adminBaseAction {
 	public function init(){
 		$doact=sget('do','s');
 		$action=sget('action','s');
+
+		//如果type ==1就是开票新增页面
+		$type = sget('type','i',0);
 		if($action=='grid'){ //获取列表
-			$this->_grid();exit;
+			$this->_grid($type);exit;
 		}
 		//显示新增开票信息页面
-		$type = sget('type','i',0);
 		if ($type == 1) {
 			$this->display('billing.add.html');
 		}else{
@@ -38,13 +40,17 @@ class saleLogAction extends adminBaseAction {
 	 * @access private 
 	 * @return html
 	 */
-	private function _grid(){
+	private function _grid($type){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
-		$where.= 1;
+		if($type==1){//开票审核时，数量已完成的不显示
+			$where.= "billing_number <> number";
+		}else{
+			$where .=1;
+		}
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
 		//开票状态
@@ -75,7 +81,7 @@ class saleLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		$tot=0;
+		//$tot=0;
 		foreach($list['data'] as $k=>$v){
 			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
 			$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
@@ -91,12 +97,19 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['out_storage_status'] = L('out_storage_status')[$v['out_storage_status']];
 			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
 			$list['data'][$k]['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
-			$list['data'][$k]['sum'] = $v['unit_price']*$v['number'];
-			$tot +=$list['data']['sum'];
+
+			//开票申请与审核时所需的值
+			if($type==1){
+				//开票申请与审核时已未发送的数量
+				$v['number'] = $v['number']-$v['billing_number'];
+				//开票申请与审核的小计
+				$list['data'][$k]['sum'] = $v['unit_price']*$v['number'];
+			}
+			//$tot +=$list['data']['sum'];
 		}
-		$to="mn";
-		$this->assign('to',$to);
-		$this->assign('tot',$tot);
+		//$to="mn";
+		//$this->assign('to',$to);
+		//$this->assign('tot',$tot);
 		$this->assign('doact',$doact);
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);

@@ -71,11 +71,17 @@ class billingAction extends adminBaseAction
 		//开票状态
 		$invoice_status = sget("invoice_status",'s','');
 		if($invoice_status!='') $where.=" and `invoice_status` = '$invoice_status' ";
+
 		//关键词搜索
 		$key_type=sget('key_type','s','order_sn');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			$where.=" and `$key_type`  = '$keyword' ";
+			if($key_type == 'order_sn'){
+				$newword = "更正".$keyword;
+				$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
+			}else{
+				$where.=" and `$key_type`  = '$keyword' ";
+			}
 		}
 		$list=$this->db->where($where)
 					->page($page+1,$size)
@@ -140,20 +146,23 @@ class billingAction extends adminBaseAction
 	public function changeRed(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		//p($data);die;[oid] => 625 [id] => 12 [b_price] => 63  [total_price] => 195 [o_sn] => 35020
 		if(empty($data)) $this->error('错误的操作');
 		$arr = M('product:billing')->getLastInfo($name='o_id',$value=$data['oid']);
+
 		$arr2 = array(
 			'id'=>'',
-			'order_name'=>'更正开票',
+			'invoice_sn'=>'',//发票号
+			'tax_price'=>'',//税额
 			'order_sn'=>'更正'.$data['o_sn'],
 			'billing_price'=>'0',
 			'unbilling_price'=>$arr[0]['unbilling_price']+$data['b_price'],
-			'refund_amount'=>$data['c_price'],
+			//'refund_amount'=>$data['b_price'],//新增字段，可不要，用于记录退票金额
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 			'invoice_status'=>2,
 			);		
-            //开票可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
+            //开票可能变化的值 [bile_type]票据类型[payment_time] => 0     [account] => 1
  		$update=array_merge($arr[0],$arr2);
 		$this->db->startTrans();//开启事务
 			try {

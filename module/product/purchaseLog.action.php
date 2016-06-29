@@ -42,7 +42,7 @@ class purchaseLogAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid($type);exit;
 		}
-
+		//显示新增开票信息页面
 		if ($type == 1) {
 			$this->display('billing.add.html');
 		}else{
@@ -102,7 +102,7 @@ class purchaseLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		$tot=0;
+		//$tot=0;
 		//p($list);
 		foreach($list['data'] as &$v){		
 			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
@@ -120,16 +120,16 @@ class purchaseLogAction extends adminBaseAction {
 			
 			//开票申请与审核时所需的值
 			if($type==1){
-				//开票申请与审核时已未发送的数量
+				//开票申请与审核时未发送的数量
 				$v['number'] = $v['number']-$v['billing_number'];
 				//开票申请与审核的小计
 				$v['sum'] = $v['unit_price']*$v['number'];
 			}
-			$tot=$tot+$v['sum'];
+			//$tot=$tot+$v['sum'];
 		}
-		$to='mn';
-		$this->assign('to',$to);
-		$this->assign('tot',$tot);
+		//$to='mn';
+		//$this->assign('to',$to);
+		//$this->assign('tot',$tot);
 		$this->assign('doact',$doact);
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
