@@ -10,6 +10,9 @@
 	<script src="__MYAPP__/js/common.js"></script>
 	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	<style>
+		.appConcern img{ display: block;}
+	</style>
 </head>
 <body style="padding: 0 0 50px 0;">
 <header id="header">
@@ -66,13 +69,7 @@
 	</div>
 </div>
 <div class="appConcern">
-	<ul>
-		<li>7000F 伊朗 <strong>10小时前</strong><b class="green">-100↓</b><i>9000/T</i></li>
-		<li>7000F 伊朗 <strong>10小时前</strong><b class="red">+100↑</b><i>9000/T</i></li>
-		<li>7000F 伊朗 <strong>10小时前</strong><b class="green">-100↓</b><i>9000/T</i></li>
-		<li>7000F 伊朗 <strong>10小时前</strong><b class="red">+100↑</b><i>9000/T</i></li>
-		<li>7000F 伊朗 <strong>10小时前</strong><b class="green">-100↓</b><i>9000/T</i></li>
-	</ul>
+	<ul id="appCon"></ul>
 	<span><a href="/myapp/personalCenter/enMyAttention">...查看更多</a></span>
 	<span><a href="/myapp/personalCenter/addMyAttention">+添加关注</a></span>
 </div>
@@ -102,7 +99,7 @@
 		</li>
 		<li>
 			<div class="appOperateWrap">
-				<a href="">
+				<a href="/myapp/mainPage/enResource">
 					<img width="22" src="__MYAPP__/img/icon4.png"><br>资源库
 				</a>
 			</div>
@@ -144,6 +141,7 @@
 		});
 		var appInfoLi="";
 		var appInfoLi2="";
+		var attentionLi="";
 		commonAjax(
 				"post",
 				"/myapp/mainPage/getMainPage",
@@ -171,6 +169,25 @@
 		},function () {
 
 		});
+
+		commonAjax(
+				"post",
+				"/myapp/personalCenter/myAttention"
+		).then(function (res) {
+			console.log("---",res);
+			if(res.err==1){
+				$(".appConcern").html("<a href='/myapp/personalCenter/enMyAttention'><img width='100%' src='__MYAPP__/img/appIndex.jpg'></a>");
+			}else{
+				res.data.forEach(function (v,i,a) {
+					attentionLi+="<li>"+ v.model +" "+ v.factory_name +"<strong>"+ mToH(v.time_al) +"小时前</strong><b class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</b><i>"+ v.unit_price +"/T</i></li>";
+				});
+				$("#appCon").html(attentionLi);
+			}
+
+		},function () {
+
+		});
+
 	});
 </script>
 

@@ -13,7 +13,7 @@
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 		<style>
-			.supplyDemandTradeTb input[type="text"]{ margin: 0; height: 20px; font-size: 12px; width: 70px; text-align: center; padding: 5px;}
+			.supplyDemandTradeTb input[type="text"]{ margin: 0; height: 20px; font-size: 12px; width: 70px; text-align: center; padding: 0;}
 			.supplyDemandTradeTb select{ font-size: 12px; margin: 0; width: 50px; height: 25px; border: 1px solid #ddd !important; padding: 0 5px;}
 			.ship_type{ position: relative; top: 3px;}
 		</style>
@@ -123,8 +123,8 @@
 				var c_id="";
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getBigBidDetail",
-						{otype:1,id:id}
+						"/myapp/mainPage/getCheckDelegate",
+						{otype:2,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
@@ -132,16 +132,14 @@
 					}else{
 						p_id=res.chDeRes.p_id;
 						c_id=res.chDeRes.c_id;
-						$("#delivery_place").val(res.chDeRes.address);
-						$("#product_type").text(res.chDeRes.type);
+						$("#delivery_place").val(res.chDeRes.delivery_place);
+						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);
-						$("#unit_price").val(res.chDeRes.price);
-						$("#number").val(res.chDeRes.num);
-						$("#f_name").text(res.chDeRes.factory);
-						$("#input_time").text(res.chDeRes.input_time);
-						$("#con_name").text(res.chDeRes.name);
+						$("#unit_price").val(res.chDeRes.unit_price);
+						$("#number").val(res.chDeRes.number);
+						$("#f_name").text(res.chDeRes.f_name);
+						$("#con_name").text(res.chDeRes.con_name);
 						$("#mobile").text(res.chDeRes.mobile);
-						$("#qq").text(res.chDeRes.qq);
 						$("#c_name").text(res.chDeRes.c_name);
 					}
 				},function () {
