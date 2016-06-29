@@ -71,11 +71,10 @@ class purchaseModel extends model{
 	 *
      */
 	public function getInfo(){
-
-	  return $this->from('purchase as pur')
+	    return $this->from('purchase as pur')
 					->leftjoin('lib_region as reg','pur.provinces=reg.id')
 					->leftjoin('product as p','p.id=pur.p_id')
-					->where('pur.status=3 and pur.type=1')
+					->where('pur.status=2 and pur.type=1')
 					->order('pur.input_time DESC')
 					->select('pur.id,pur.p_id,p.product_type,p.model,pur.number,pur.unit_price ,reg.name,pur.input_time,pur.type,pur.cargo_type')
 					->limit('6')
@@ -84,21 +83,20 @@ class purchaseModel extends model{
 	}
 
 
-
-
 	/**
 	 * 根据关注商品的pid 获取最低价格差
 	 * @param $pid
      */
 	public function footPrice($arr){
 
-	    return 	$this->from('purchase  as  pur')
-			->where("pur.p_id={$arr['pid']}")
-			->order('pur.update_time DESC')
-			->select('pur.p_id,pur.unit_price')
-			->limit('2')
-			->getAll();
-
+	    return 	$this->from('purchase as pur ')
+				->leftjoin('product as p','pur.p_id=p.id')
+				->leftjoin('factory as f','p.f_id=f.fid')
+				->where('pur.p_id='.$arr['p_id'])
+				->order('pur.input_time desc')
+				->select('pur.id, pur.p_id,f.f_name,pur.unit_price,pur.input_time,p.model,p.product_type')
+				->limit('1')
+				->getAll();
 
 	}
 

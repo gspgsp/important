@@ -13,7 +13,7 @@ class pointsGoodsModel extends Model{
         return  $this->from('points_goods as pg')
             ->where('pg.status=1')
             ->order('pg.points desc')
-            ->select('pg.goods_id,pg.name,pg.thumb,pg.points')
+            ->select('pg.id,pg.goods_id,pg.name,pg.thumb,pg.points')
             ->limit('3')
             ->getAll();
 
