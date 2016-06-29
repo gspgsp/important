@@ -85,10 +85,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td>采购方式</td>
-				<td id="delivertime"></td>
-			</tr>
-			<tr>
 				<td>运输方式</td>
 				<td>
 					<input type="radio" class="ship_type" name="ship_type" value="1" checked />&nbsp;自提&nbsp;
@@ -127,7 +123,7 @@
 				var c_id="";
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getCheckDelegate",
+						"/myapp/mainPage/getBigBidDetail",
 						{otype:2,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
@@ -136,15 +132,14 @@
 					}else{
 						p_id=res.chDeRes.p_id;
 						c_id=res.chDeRes.c_id;
-						$("#delivery_place").val(res.chDeRes.delivery_place);
-						$("#product_type").text(res.chDeRes.product_type);
+						$("#delivery_place").val(res.chDeRes.address);
+						$("#product_type").text(res.chDeRes.type);
 						$("#model").text(res.chDeRes.model);
-						$("#unit_price").val(res.chDeRes.unit_price);
-						$("#number").val(res.chDeRes.number);
-						$("#f_name").text(res.chDeRes.f_name);
+						$("#unit_price").val(res.chDeRes.price);
+						$("#number").val(res.chDeRes.num);
+						$("#f_name").text(res.chDeRes.factory);
 						$("#input_time").text(res.chDeRes.input_time);
-						$("#delivertime").text(res.chDeRes.delivertime);
-						$("#con_name").text(res.chDeRes.con_name);
+						$("#con_name").text(res.chDeRes.name);
 						$("#mobile").text(res.chDeRes.mobile);
 						$("#qq").text(res.chDeRes.qq);
 						$("#c_name").text(res.chDeRes.c_name);

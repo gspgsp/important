@@ -133,16 +133,16 @@
 						"/myapp/mainPage/getLargeChose"
 				).then(function (res) {
 					console.log("---",res);
-					res.choseData.address.forEach(function (v,i,a) {
-						gsLi+="<span>"+v.address+"</span>";
+					res.choseData.company.forEach(function (v,i,a) {
+						gsLi+="<span>"+v.gsname+"</span>";
 					});
 					$("#gs").html(gsLi);
-					res.choseData.company.forEach(function (v,i,a) {
-						cjLi+="<span>"+v.gsname+"</span>";
+					res.choseData.factory.forEach(function (v,i,a) {
+						cjLi+="<span>"+v.factory+"</span>";
 					});
 					$("#cj").html(cjLi);
-					res.choseData.factory.forEach(function (v,i,a) {
-						jhdLi+="<span>"+v.factory+"</span>";
+					res.choseData.address.forEach(function (v,i,a) {
+						jhdLi+="<span>"+v.address+"</span>";
 					});
 					$("#jhd").html(jhdLi);
 					$("#gsBtn").on("click",function () {
@@ -173,6 +173,7 @@
 						var cgs=$("#gsVal").val();
 						var ccj=$("#cjVal").val();
 						var cjhd=$("#jhdVal").val();
+						$(".bigCustomerMenu").hide();
 						commonAjax(
 								"post",
 								"/myapp/mainPage/getLargeChoseRes",
