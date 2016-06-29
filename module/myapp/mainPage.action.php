@@ -465,8 +465,12 @@ class mainPageAction extends homeBaseAction
         $this->json_output(array('err'=>0,'pubQuoPur'=>$pubQuoPur['data']));
 
     }
+    //进入我要供货
+    public function enMySupply(){
+        $this->display('supplyDemand_trade3');
+    }
     //供求中的查看和委托和搜索结果页中的方法相同
-    //供求中的求购信息下三角-我要供货和搜索结果页中的委托界面方法相同
+    //供求中我要供货和搜索结果页中的方法相同
     //进入资源库
     public function enResource(){
         $this->display('appResource');
