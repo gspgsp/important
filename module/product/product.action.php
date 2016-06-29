@@ -69,10 +69,11 @@ class productAction extends adminBaseAction {
 		$key_type=sget('key_type','s','p_name');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='f_name' ||  $key_type=='remark'){
-				$where.=" and $key_type like '%$keyword%' ";
+			if($key_type=='f_name'){
+				$fids = implode(',',M('product:factory')->getIdsByName($keyword));
+				$where.=" and f_id in ('$fids') ";
 			}else{
-				$where.=" and $key_type = '$keyword' ";
+				$where.=" and $key_type like '%$keyword%' ";
 			}
 		}
 		$list=$this->db->where($where)

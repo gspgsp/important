@@ -55,60 +55,6 @@ class outStorageAction extends adminBaseAction {
 	/**
 	 * 订单发货
 	 */
-	// public function addSubmit(){
-	// 	$this->is_ajax=true; //指定为Ajax输出
-	// 	$data=sdata(); //获取UI传递的参数
-	// 	// p($data);die;
-	// 	$add_data=array(
-	// 			'input_time'=>CORE_TIME,
-	// 			'input_admin'=>$_SESSION['name'],
-	// 	);
-	// 	// $this->db->startTrans(); //开启事务
-	// 	$info = $this->db->model('order')->select('delivery_time,join_id')->where(' o_id ='.$data['o_id'])->getRow();
-	// 	try {
-	// 		if( !$this->db->model('out_storage')->add($data) ) throw new Exception("新增出库单失败");	
-	// 		$out_id=$this->db->getLastID(); //获取新增出库单ID	
-	// 		foreach ($data['log'] as $k => $v) {
-	// 			$log[$k]=$v;
-	// 			$log[$k]['out_time']=$info['delivery_time'];
-	// 			$log[$k]['out_id']=$out_id;
-	// 			$log[$k]['detail_id']=$v['id']; //订单明细
-	// 			$log[$k]['number']=$v['out_number'];	 //发货数量
-	// 			$log[$k]['out_storage_status']=3;
-	// 			unset($log[$k]['id']);
-	// 			if( !$this->db->model('out_log')->add($log[$k]+$add_data) ) throw new Exception("出库明细新增失败");
-	// 			if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update(' out_number = out_number +'.$v['out_number'].'  , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
-	// 			$detailcheck = $this->db->model('sale_log')->where('id = '.$v['id'].' and number!=0')->getOne();
-
-	// 			if($detailcheck<1){ //判断明细中的数量是否全部出库
-	// 				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update(' out_storage_status=3 , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
-	// 			}else{
-	// 				if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update(' out_storage_status=2 , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("更新订单明细失败");
-	// 			}
-
-	// 			if($info['join_id']>0){ //order表中的joinid 代表此订单是 先销后采,虚拟入库 , 流程中没有 销售核通过锁库存 这个操作 , 所以发货时对库存扣减的字段是不同的
-	// 				if( !$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update('remainder = remainder-'.$v['out_number'].' , controlled_number = controlled_number - '.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("库存更新失败");
-	// 			}else{
-	// 				if( !$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update('remainder = remainder-'.$v['out_number'].' , lock_number = lock_number - '.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("库存更新失败");
-	// 			}
-	// 			if( !$this->db->model('store_product')->where('p_id = '.$v['p_id'].' and s_id = '.$v['store_id'])->update('remainder = remainder-'.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME) ) throw new Exception("仓库货品更新失败");
-	// 		}
-	// 		//每次操作完查询一下明细是否全部出库
-	// 		$check = $this->db->model('sale_log')->select('id')->where(' out_storage_status <3 and o_id = '.$data['o_id'] )->getOne();
-	// 		if($check<1){ //通过明细的出库状态情况改变订单出库状态
-	// 			if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update( array('out_storage_status' =>3,'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME)) ) throw new Exception("订单入库更新失败1！");
-	// 		}else{
-	// 			if( !$this->db->model('order')->where(' o_id ='.$data['o_id'])->update( array('out_storage_status' =>2,'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME))  ) throw new Exception("订单入库更新失败2！");
-	// 		}
-	// 	} catch (Exception $e) {
-	// 		// $this->db->rollback();
-	// 		$this->error($e->getMessage());
-	// 	}
-	// 	// $this->db->commit();
-	// 	$this->success('操作成功');
-	// }
-	// 
-	// 
 	public function addSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data=sdata(); //获取UI传递的参数
@@ -133,25 +79,23 @@ class outStorageAction extends adminBaseAction {
 			$_data['number']=$v['out_number'];
 			//新增出库明细
 			$this->db->model('out_log')->add($_data+$basic_info);
+			$outlog_id = $this->db->getLastID();
 			//更新销售明细中的未发数量
 			$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update(' remainder = remainder-'.$v['out_number']);
 			//查询明细是否全部出库
 			$remainder = $this->db->model('sale_log')->select('remainder')->where(' id = '.$_data['detial'])->getOne();
-			if($remainder>0){//大于0说明还有剩余数量没出库
-				//把状态改为部分出库
-				$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update('out_storage_status = 2 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
-			}else{//没有剩余数量表示这条明细全部发出
-				//把状态改为全部出库
-				$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update('out_storage_status = 3 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
-			}
-
+			$out_status = $remainder>0 ? 2 : 3;//大于0说明还有剩余数量没出库(2为部分出库 3为全部出库)
+			//把状态改为部分出库
+			$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update('out_storage_status = '.$out_status.' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 			//扣库存
-			if($info['join_id']>0){ //上面查询的订单中存在joinid 表示不销库存 
+			if($info['join_id']>0){ //上面查询的订单中存在joinid 表示先销后采
+				//调用循环扣库存并打log
+				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$outlog_id);
+
 				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(' remainder = remainder-'.$v['out_number'].' , controlled_number = controlled_number-'.$v['out_number'].', update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 			}else{ //正常销库存的操作
 				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(' remainder = remainder-'.$v['out_number'].' , lock_number = lock_number - '.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME);
 			}
-
 			//扣仓库货品数量
 			$this->db->model('store_product')->where('p_id = '.$_data['p_id'].' and s_id = '.$_data['store_id'])->update('remainder = remainder-'.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME);
 		}
@@ -231,6 +175,41 @@ class outStorageAction extends adminBaseAction {
 		}else{
 			$this->error('数据处理失败');
 		}
+	}
+	/**
+	 * [chkoutlog description]判断处理出库&关联入库详情
+	 * @Author   cuiyinming
+	 * @DateTime 2016-06-29T16:24:02+0800
+	 * @param    integer                  $number   [出库数量]
+	 * @param    integer                  $inlog_id [入库明细id]
+	 * @return   [type]                             [description]
+	 */
+	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$chk=0){
+		//查询入库明细
+		$logs_info = $this->db->model('in_logs')->where(" inlog_id = $inlog_id and remainder<>0 ")->order('input_time asc')->getAll();
+		foreach ($logs_info as $k => $v) {
+			if($chk == 0){
+					//循环扣库存
+					$out = $number > $v['remainder'] ? $v['remainder'] : $number;
+					$this->db->model('in_logs')->where("id = {$v['id']}")->update("`remainder` = `remainder` - $out");
+					//新增出库明细流水
+					$outlogs = array(
+						'p_id'=>$v['p_id'],
+						'sale_id'=>$sale_id,
+						'outlog_id'=>$outlog_id,
+						'number'=>$out,
+						'inlogs_id'=>$v['id'],
+						'store_id'=>$v['store_id'],
+						'store_aid'=>$v['store_aid'],
+						'input_time'=>CORE_TIME,
+						);
+					$this->db->model('out_logs')->add($outlogs);
+					$number -= $out;
+					$chk = $number == 0 ? 1 : 0;
+			}
+			
+		}
+		return true;
 	}
 	
 }
