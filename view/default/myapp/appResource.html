@@ -16,7 +16,7 @@
 		<header id="searchHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
 			<div class="searchSearch">
-				<input type="text" placeholder="在资源中搜索你想要的" />
+				<input id="querySearch" type="text" placeholder="在资源中搜索你想要的" />
 				<a class="appQuery2" href="javascript:;"></a>
 			</div>
 			<a class="appWrite" href="javascript:;"></a>
@@ -64,6 +64,34 @@
 						return "__MYAPP__/img/avator.png";
 					}
 				}
+
+				$(".appQuery2").on("click",function () {
+					var keywords=$("#querySearch").val();
+					commonAjax(
+							"post",
+							"/myapp/mainPage/getResSearch",
+							{keywords:keywords,type:0}
+					).then(function (res) {
+						console.log(res);
+						appLi="";
+						commonAjax(
+								"post",
+								"/myapp/mainPage/getResource",
+								{type:type}
+						).then(function (res) {
+							console.log(res);
+							res.resData.forEach(function (v,i,a) {
+								appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>上海拜力得 "+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+							});
+							$(".appResourceUl").html(appLi);
+						},function () {
+
+						});
+
+					},function () {
+
+					});
+				});
 				
 				$(".appResourceChoose span").on("click",function () {
 					type=$(this).data("type");
