@@ -101,7 +101,7 @@ function submitForm() {
 	if(form.isValid() == false) return;
 	var rows = grid.getSelecteds();
 	for(var i = 0;i<rows.length;i++){
-		if(rows[i].in_number>>parseInt(rows[i].remainder)){
+		if(rows[i].in_number>parseInt(rows[i].remainder)){
 			$("#returnMsg").text("请填写正确出库数量");
 			isok=false;
 		} 
