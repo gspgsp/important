@@ -341,6 +341,7 @@ class mainPageModel extends model
            $bigOff['cjphone'] = $bigCli['cjphone'];
         }elseif($otype == 2) {
             $cus_contact = M('user:customerContact')->getListByUserid($_SESSION['userid']);
+            $bigOff['address'] = $this->model('lib_region')->select('id')->where("name='{$bigOff['address']}'")->getOne();
             $bigOff['name'] = $cus_contact['name'];
             $bigOff['mobile'] = $cus_contact['mobile'];
             $bigOff['c_name'] = M('user:customer')->getCinfoById($cus_contact['c_id'])['c_name'];
