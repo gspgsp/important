@@ -96,7 +96,7 @@
 .wxbUl li p{ font-size: 12px; line-height: 20px; color: #646464; margin: 0;}
 .wxbUl li p.wxbTitle{ font-size: 15px; margin: 5px 0 0 0; color: #323232;}
 .wxbUl li p.wxbTitle span{ float: right; font-size: 12px; color: #646464;}
-.wxbUl li p.wxbTitle2{ overflow: hidden; margin: 5px 0 0 0; width: 100%; height: 22px; line-height: 22px;}
+.wxbUl li p.wxbTitle2{ overflow: hidden; margin: 5px 0 0 0; width: 100%; height: 24px; line-height: 22px; white-space:nowrap; text-overflow:ellipsis;}
 .wxbUl li p.wxbTitle2 span{ float: left; font-size: 12px; margin: 0 10px 0 0; padding: 0 10px; color: #FF5000; border: 1px solid #FF5000; border-radius: 2px;}
 .wxbDetailTitle{ background: #FFFFFF; height: 40px; line-height: 40px; font-weight: normal; padding: 0 10px; margin: 0; font-size: 15px; border: 1px solid #D9D9D9; border-left: none; border-right: none;}
 .wxbDetailWrap{ background: #FFFFFF; border-top: 1px solid #D9D9D9; margin: 10px 0 0 0;}
