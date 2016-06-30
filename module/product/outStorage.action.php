@@ -80,7 +80,7 @@ class outStorageAction extends adminBaseAction {
 			$_data['unit_price']=$v['unit_price']; 
 			$_data['number']=$v['out_number'];
 			//新增出库明细
-			$this->db->model('out_log')->add($_data+$basic_info+array('out_storage_status'=>1));
+			$this->db->model('out_log')->add($_data+$basic_info+array('out_storage_status'=>1 ));
 			$outlog_id = $this->db->getLastID();
 			//更新销售明细中的未发数量
 			$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update(' remainder = remainder-'.$v['out_number']);
