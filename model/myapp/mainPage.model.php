@@ -372,7 +372,7 @@ class mainPageModel extends model
         $phyDelData = array();
         $physical = $this->getPhysicalDetailData($lid);
         $phyDelData['type'] = $physical['type'];//类型
-        $phyDelData['company'] = $physical['company'];//厂家
+        $phyDelData['f_name'] = $physical['company'];//厂家
         $phyDelData['model'] = $physical['name'];//牌号
         //联系人
         $cus_contact = M('user:customerContact')->getListByUserid($_SESSION['userid']);
