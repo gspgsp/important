@@ -240,10 +240,14 @@ class mainPageAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         $products = $this->model('concerned_product')->where("user_id=$this->user_id and status=1")->select('product_id,product_name,model,factory_name')->limit('0,5')->getAll();
         foreach ($products as $key => $value) {
-            $pur = $this->db->model('purchase')->where('p_id='.$value['product_id'])->order('input_time desc,unit_price asc')->limit('0,2')->getAll();//取最近的两条数据,实际上有多条
-            $palph = int($pur[1]['unit_price']-$pur[0]['unit_price']);//价格差，涨跌
-            $talph = $pur[1]['input_time']-$pur[0]['input_time'];//时间差，分钟以前
-            $products[$key]['unit_price'] = $pur['unit_price'];
+            $factory = $this->model('factory')->where("f_name='{$value['factory_name']}'")->getRow();
+            $pro = $this->model('product')->where("model='{$value['model']}' and f_id={$factory['fid']}")->getRow();
+            $pur = $this->model('purchase')->where('p_id='.$pro['id'])->order('input_time desc,unit_price asc')->limit('0,2')->getAll();//取最近的两条数据,实际上有多条
+            $palph = $pur[1]['unit_price']==0 ? 0 : intval($pur[0]['unit_price']-$pur[1]['unit_price']);
+            //价格差，涨跌
+            $talph = $pur[1]['input_time']==0 ? 0 : $pur[0]['input_time']-$pur[1]['input_time'];
+            //时间差，分钟以前
+            $products[$key]['unit_price'] = $pur[0]['unit_price'];
             $products[$key]['floor_up'] = $palph;
             $products[$key]['time_al'] = $talph;
         }
