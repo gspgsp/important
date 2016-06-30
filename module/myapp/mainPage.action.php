@@ -234,7 +234,7 @@ class mainPageAction extends homeBaseAction
         $region = sget('region','s');
         M('myapp:mainPage')->getKeyWordsData($protype,$apply,$factory,$region);
     }
-    //首页点击获取我的关注(5条)
+    //首页点击获取我的关注(5条),其实和个人中心里的关注的代码相同,下个版本再合并
     public function getMyShortAttention(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
@@ -412,6 +412,16 @@ class mainPageAction extends homeBaseAction
         $lid = sget('lid','i',1);
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
+    }
+    //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
+    public function getPhysicalDelegate(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        $type = segt('type','s');
+        $company = sget('company','s');
+        $name = sget('name','s');
+        if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($type,$company,$name)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
+        $this->json_output(array('err'=>0,'phyDelData'=>$phyDelData));
     }
     //进入资讯页
     public function enArticle(){
