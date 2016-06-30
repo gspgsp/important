@@ -14,6 +14,10 @@ class infosModel extends model
 			->page($page+1,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
+			foreach ($list['data'] as $key => $value) {
+				$list['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+				$list['data'][$key]['update_time'] = $value['update_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+			}
 		return $list;
 	}
 
