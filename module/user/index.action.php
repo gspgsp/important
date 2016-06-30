@@ -25,15 +25,14 @@ class indexAction extends userBaseAction{
            $array[]=$price;
 
        }
-        
         //今日报价发布总数
         $date1=strtotime(date('Ymd'));
         $count1=M('resourcelib:resourcelib')->getTotalOne($date1);
         //p($count1);
         //今日采购发布总数
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
-        //资源类库最新一条
-        $ref=M('resourcelib:resourcelib')->getNew();
+
+
 
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
@@ -66,8 +65,17 @@ class indexAction extends userBaseAction{
         $this->assign('count2',$count2);
         $this->assign('rest',$rest);
         $this->assign('points',$points);
-        $this->assign('ref',$ref);
+
         $this->display('index');
 	}
+
+    public function ajax(){
+
+        if($_GET['status']){
+            $ref=M('resourcelib:resourcelib')->getNew();
+        }
+
+        json_output($ref);
+    }
 
 }
