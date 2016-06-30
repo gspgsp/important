@@ -290,7 +290,7 @@ function submitFinancial(){
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records;
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
 
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
@@ -298,10 +298,16 @@ function onLoadDetail(e){
 			var where1= sales_type == '1' ? (order_status =='2' && transport_status=='2') : (order_status =='2') ;
 			if(where1){   //先采后销和先销后采审核条件不同
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
-					if(join_id != '0' && is_join_in == '0'){ //
+					if( join_id != '0' && is_join_check == '0' ){ //关联的采购未审核
 						s +='采购单审核中..';
 						return s;
+					}else if( join_id != '0' && is_join_check == '2' ){ //关联的采购审核不通过
+						s +='采购单审核不通过..';
+						return s;
 					}else{
+						if(financial_records == '否'){
+							s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
+						}
 						if( out_storage_status != '已出库'){ //没有全部发货时可见发货按钮
 							if( order_status =='2' && transport_status =='2' ){
 								s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;|&nbsp;';
@@ -316,9 +322,6 @@ function onLoadDetail(e){
 						}
 						if (c_status =='3' && i_status =='全部开票') {
 							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
-						}
-						if(financial_records == '否'){
-							s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
 						}
 						s+='<a href="javascript:salecompact('+oid+')">合同</a>';
 						if (newstatus != '3' && c_status =='3') {

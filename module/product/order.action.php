@@ -646,7 +646,10 @@ class orderAction extends adminBaseAction {
 			'update_admin'=>$_SESSION['name'],
 		);
 		try {
-			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");	
+			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");
+			$transport_status = $data['transport_status'] == '2' ? '1' : '2';
+			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update(array('is_join_check'=>$transport_status)+$_data) ) throw new Exception("关联的销售订单接收采购订单状态更新失败");
+
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}

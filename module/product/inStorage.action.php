@@ -228,7 +228,7 @@ class inStorageAction extends adminBaseAction {
 			$this->db->model('order')->where(' o_id = '.$_data['o_id'])->update('in_storage_status = 2 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 		}else{//反之更新为全部入库
 			$this->db->model('order')->where(' o_id = '.$_data['o_id'])->update('in_storage_status = 3 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
-			//采购全部入库了 给销售订单表示 可以发货
+			// //采购全部入库了 给销售订单表示 可以发货
 			$this->db->model('order')->where(' o_id = '.$data['join_id'])->update('is_join_in = 1 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 		}
 		if($this->db->commit()){
