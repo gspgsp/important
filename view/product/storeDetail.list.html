@@ -38,7 +38,7 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div>
+			<div field="id" width="30" headerAlign="center" align="center" allowSort="true"  renderer="onLoadLogDetail">查看</div>
 			<div field="store_name" width="45" headerAlign="center" align="center" allowSort="true">仓库</div>
 			<div field="admin_name" width="30" headerAlign="center" align="center" allowSort="true">入库人</div>
 			<div field="purchase_id" width="130" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
@@ -76,6 +76,21 @@ search();
 function onKeyEnter(e) {
 	search();
 }
+//追加详情按钮
+function onLoadLogDetail(e){
+	var record = e.record,s='',id=record.id;
+	s+='<a href="javascript:viewLogInfo('+id+')">详情</a>';
+	return s;
+}
+function viewLogInfo(id){
+	mini.open({
+		url: "/product/storeDetail/logDetail?id="+id,
+		showMaxButton:true,
+		title: "查看订单相关信息", 
+		width: 950, height:450
+	});
+}
+
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn;

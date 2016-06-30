@@ -111,6 +111,7 @@ class outStorageAction extends adminBaseAction {
 		if($this->db->commit()){
 			 $this->success('操作成功');	
 		}else{
+			showtrace();
 			$this->db->rollback();
 			$this->error('操作失败');
 		}

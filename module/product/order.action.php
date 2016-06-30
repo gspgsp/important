@@ -166,6 +166,8 @@ class orderAction extends adminBaseAction {
 			$this->assign('order_sn',$order_sn);
 			$this->assign('otype','addopus'); //新增订单关联前台显示
 			$info['sign_place']="上海";
+			$info['delivery_location']="上海";
+			$info['pickup_location']="上海";
 			$info['sign_time']=date("Y-m-d",CORE_TIME);
 			$this->assign('info',$info);
 			$this->assign('order_type',$order_type);

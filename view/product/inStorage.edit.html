@@ -101,6 +101,10 @@ function submitForm() {
 	if(form.isValid() == false) return;
 	var rows = grid.getSelecteds();
 	for(var i = 0;i<rows.length;i++){
+		if(!rows[i].in_number){
+			$("#returnMsg").text("请填写入库数量");
+			isok=false;
+		} 
 		if(parseFloat(rows[i].in_number,2)>parseFloat(rows[i].remainder,2)){
 			$("#returnMsg").text("请填写正确出库数量");
 			isok=false;
@@ -235,8 +239,4 @@ function saveData() {
 	}
 	utils.ajax('/product/outStorage/save',{data:json},callback,"POST","json");
 }
-// function onValidation(){
-// 	var in_number = parseInt(this.getValue());
-// 	var rows = grid.getSelecteds(),_ids=new Array(),_numbers=new Array();
-// }
 </script>
