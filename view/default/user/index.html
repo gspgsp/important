@@ -191,11 +191,10 @@
 						{/foreach}
     				</ul>
     				<h4>实时资源</h4>
-					<div id="ref">
-						{foreach from=$ref item=val}
-						<p>{$val.user_nick}<br/>{$val.content}</p>
-						{/foreach}
+					<div id="refreshs">
+
 					</div>
+
     			</div>
     			<!--resource end-->
     			<!--release begin-->
@@ -357,16 +356,26 @@
 		},'json')
 		return false;
 	})
-	//刷新
+    //资源库局部刷新
+	setInterval(function(){
+		$.ajax({
+			url:'/user/index/ajax',
+			type:'get',
+			dataType:'json',
+			cache:'false',
+			data:{status:1},
+			success:function(res){
+				var str='';
+				$.each(res,function(i,item){
+					str='<p>'+item[user_nick] +'<br/>' +item[contents]+'</p>';
+				})
 
-	function refreshVid(){
-		$("#ref p").loaded(function(){
-			$(this).val();
-		});
-		setTimeout(refreshVid, 1000);
-	}
+				$('#refreshs').html(str);
+			}
 
-	
+		})
+	},10000);
+
     //关注产品信息
     var track = $(".slider-container").silverTrack({
         perPage:4
