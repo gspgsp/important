@@ -124,7 +124,7 @@
 		commonAjax(
 				"post",
 				"/myapp/mainPage/getPhysicalDelegate",
-				{otype:2,id:id}
+				{id:id}
 		).then(function (res) {
 			console.log(">>>",res);
 			if(res.err==1){
