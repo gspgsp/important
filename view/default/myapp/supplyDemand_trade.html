@@ -159,25 +159,34 @@
 					var f_name=$("#f_name").text();
 					var ship_type=$(".ship_type:checked").val();
 					var delivery_place=$("#delivery_place").val();
-					commonAjax(
-							"post",
-							"/myapp/mainPage/savaComission",
-							{
-								p_id:p_id,
-								c_id:c_id,
-								price:price,
-								number:number,
-								f_name:f_name,
-								ship_type:ship_type,
-								delivery_place:delivery_place
+					if(price&&number&&f_name&&ship_type&&delivery_place){
+						commonAjax(
+								"post",
+								"/myapp/mainPage/savaComission",
+								{
+									p_id:p_id,
+									c_id:c_id,
+									price:price,
+									number:number,
+									f_name:f_name,
+									ship_type:ship_type,
+									delivery_place:delivery_place
+								}
+						).then(function (res) {
+							if(res.err==1){
+								window.location.href="/myapp/login";
 							}
-					).then(function (res) {
-						mui.alert("",res.msg,function () {
+							mui.alert("",res.msg,function () {
+
+							});
+						},function () {
 
 						});
-					},function () {
+					}else{
+						mui.alert("","请把信息填写完整",function () {
 
-					});
+						});
+					}
 				});
 				
 			})
