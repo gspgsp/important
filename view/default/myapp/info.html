@@ -53,7 +53,7 @@
 					infoLi += "<li data-id='" + v.id + "'><div class='articleLi'>" +
 							"<h3>" + v.title + "</h3><img src='" + v.img + "'>" +
 							"<p>" + v.content + "</p></div>" +
-							"<p class='time'>" + stampToDate2(v.input_time) + "</p></li>";
+							"<p class='time'>" + v.input_time + "</p></li>";
 				});
 				$("#articleLi").html(infoLi);
 				$("#articleLi li").on("click",function () {

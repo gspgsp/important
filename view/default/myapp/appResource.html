@@ -129,9 +129,14 @@
 							"/resource/index/release",
 							{content:content,type:type}
 					).then(function (res) {
-						mui.alert("",res.msg,function () {
-							window.location.reload();
-						});
+						console.log(res);
+						if(res.err==1){
+							window.location.href="/myapp/login";
+						}else{
+							mui.alert("",res.msg,function () {
+								window.location.reload();
+							});
+						}
 					},function () {
 
 					});

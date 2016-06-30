@@ -149,7 +149,7 @@
 		).then(function (res) {
 			console.log(">>>",res);
 			res.infos.forEach(function (v, i, a) {
-				appInfoLi += "<li><a href='/myapp/mainPage/enArticleDetail?id="+v.id+"'>"+v.title+"</a><b>"+stampToDate2(v.input_time)+"</b></li>";
+				appInfoLi += "<li><a href='/myapp/mainPage/enArticleDetail?id="+v.id+"'>"+v.title+"</a><b>"+v.input_time+"</b></li>";
 			});
 			$("#appInfoUl").html(appInfoLi);
 		},function () {
