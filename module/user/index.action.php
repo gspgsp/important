@@ -31,9 +31,7 @@ class indexAction extends userBaseAction{
         //p($count1);
         //今日采购发布总数
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
-        //实时资源
-
-
+        $ref=M('resourcelib:resourcelib')->getNew();
 
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
@@ -66,16 +64,17 @@ class indexAction extends userBaseAction{
         $this->assign('count2',$count2);
         $this->assign('rest',$rest);
         $this->assign('points',$points);
-
+        $this->assign('ref',$ref);
         $this->display('index');
 	}
 
+    /**
+     * 实时资源
+     *
+     */
     public function ajax(){
 
-        if($_GET['status']){
-            $status=empty($_GET['status'])?0:0;
-            $ref=M('resourcelib:resourcelib')->getNew($status);
-        }
+        $ref=M('resourcelib:resourcelib')->getNew();
 
         json_output($ref);
     }

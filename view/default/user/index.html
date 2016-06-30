@@ -192,7 +192,9 @@
     				</ul>
     				<h4>实时资源</h4>
 					<div id="refreshs">
-
+						{foreach from=$ref item=val}
+						<p>{$val.user_nick}<br/>{$val.contents}</p>
+						{/foreach}
 					</div>
 
     			</div>
