@@ -421,7 +421,7 @@ class mainPageAction extends homeBaseAction
     public function getPhysicalDelegate(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
-        $lid = segt('lid','i');
+        $lid = sget('lid','i');
         if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($lid)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
         $this->json_output(array('err'=>0,'phyDelData'=>$phyDelData));
     }
