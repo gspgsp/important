@@ -23,7 +23,7 @@ class myquotationModel extends model
 		if(!empty($id)){
 			$fdata = array();
 			$qdata = array();
-			//$data实际上只有两条数据
+			//$data实际上只有两条数据unit_price和number
 			foreach ($data as $key => $value) {
 				if($key == 'f_name'){
 					$fdata['f_name'] = $value;
@@ -38,6 +38,8 @@ class myquotationModel extends model
 			$qdata['user_id'] = $pur['user_id'];
 			$qdata['c_id'] = $pur['c_id'];
 			$qdata['unit'] = $pur['unit'];
+			$qdata['number'] = $data['number'];
+			$qdata['unit_price'] = $data['unit_price'];
 			$qdata['price_type'] = $pur['price_type'];
 			$qdata['package'] = $pur['package'];
 			$qdata['area'] = $pur['area'];
@@ -57,7 +59,7 @@ class myquotationModel extends model
 			$qdata['group_no'] = $pur['group_no'];
 			$qdata['is_vip'] = $pur['is_vip'];
 			$qdata['bargain'] = $pur['bargain'];
-			$qdata['input_time'] = $pur['input_time'];
+			$qdata['input_time'] = CORE_TIME;
 			$qdata['input_admin'] = $pur['input_admin'];
 			$qdata['update_time'] = CORE_TIME;
 			$qdata['update_admin'] = $pur['update_admin'];
