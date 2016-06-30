@@ -462,7 +462,7 @@ class orderAction extends adminBaseAction {
 	public function ajaxSave(){
 		$data = sdata();
 		//p($data);die;
-		$billing = sget('do','i');
+		$billing = sget('do','i');//区分销售采购订单
 		if($billing >0){
 			//保存开票信息
 			$detail = $data['detail'];
@@ -497,13 +497,17 @@ class orderAction extends adminBaseAction {
 					$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 					$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
 
-					//修改订单明细表中的开票数量
+					//修改订单明细表 与 开票更正关联表 中的开票数量
 					foreach ($detail as $v) {
+						//开票更正关联订单明细
 						if ($billing ==1) {
-							$this->db->model('sale_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);
+							//$this->db->model('sale_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);//修改订单明细表中的开票数量
+							$this->db->model('unbilling_log')->where('unbilling_id='.$v['unbilling_id'])->update(array('sale_log_id'=>$v['id'],'number'=>$v['number'],'billing_id'=>$data['id']));
 						}else{
-							$this->db->model('purchase_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);
+							//$this->db->model('purchase_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);//修改订单明细表中的开票数量
+							$this->db->model('unbilling_log')->where('unbilling_id='.$v['unbilling_id'])->update(array('purchase_log_id'=>$v['id'],'number'=>$v['number'],'billing_id'=>$data['id']));
 						}
+						
 					}
 					//财务审核通过，更改开票数据
 					$id = $data['id'];
@@ -511,6 +515,19 @@ class orderAction extends adminBaseAction {
 					if(!$this->db->model('billing')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 				}else{
 					$data['unbilling_price'] = $m;
+
+					foreach ($detail as $v) {
+						//开票更正关联订单明细
+						if ($billing ==1) {
+							//$this->db->model('sale_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);//修改订单明细表中的开票数量
+							$this->db->model('unbilling_log')->add(array('sale_log_id'=>$v['id'],'billing_number'=>$v['number'],'billing_id'=>$data['id']));
+						}else{
+							//$this->db->model('purchase_log')->where('id='.$v['id'])->update("`billing_number`=billing_number+".$v['number']);//修改订单明细表中的开票数量
+							$this->db->model('unbilling_log')->add(array('purchase_log_id'=>$v['id'],'billing_number'=>$v['number'],'billing_id'=>$data['id']));
+						}
+						
+					}
+
 					if(!$this->db->model('billing')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid'])) )throw new Exception("开票失败");
 				}
 			} catch (Exception $e) {

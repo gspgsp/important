@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
 				<td>申请票据金额<span style="color:red">*</span></td>
-				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$b_price}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$t_price}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>税额<span style="color:red">*</span></td>
@@ -130,14 +130,21 @@
 
 <fieldset style="width:480px;border:solid 1px #aaa;position:relative;">
 <legend>订单详细信息</legend>
-	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" {if $type =='1'} url="/product/saleLog/init?action=grid&oid={$o_id}&type=1"{else}url="/product/purchaseLog/init?action=grid&oid={$o_id}&type=1"{/if} sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" url="/product/unbilling_log/init?action=grid&oid={$o_id}&type={$type}&finance={$finance}" sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<!-- <div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div> -->
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+			
+			{if $finance}
+			<div field="billing_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
+				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
+			{else}
 			<div field="number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
-
+			{/if}
 			<div field="unit_price" id="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			{if $type =='1'}
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
@@ -181,10 +188,10 @@ function onValidation(e){
 	var index=grid.getSelected()._index;//行号
 	noStockData=grid.getData();
 
-	if(number<=0 || number>noStockData[index].number){
-		alert('请输入正确的数值');
-		return;
-	}
+	// if(number<=0 || number>noStockData[index].number){
+	// 	alert('请输入正确的数值');
+	// 	return;
+	// }
 	noStockData[index].number=number;
 	noStockData[index].sum=parseFloat(noStockData[index].unit_price)*parseFloat(number);
 	grid.setData(noStockData);

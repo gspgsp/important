@@ -161,14 +161,23 @@ class billingAction extends adminBaseAction
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 			'invoice_status'=>2,
-			);		
+			);
             //开票可能变化的值 [bile_type]票据类型[payment_time] => 0     [account] => 1
  		$update=array_merge($arr[0],$arr2);
 		$this->db->startTrans();//开启事务
 			try {
 				if(!$this->db->model('billing')->add($update) )throw new Exception("新增退款失败");
 				if(!$this->db->model('billing')->wherePK($data['id'])->update( array('invoice_status'=>3)) )throw new Exception("修改退款状态失败");
-				//根据撤销付款金额与总金额的大小，判断订单付款状态
+				//根据撤销开票记录id,返还订单明细数量
+				if($data['order_type']==1){
+					$_ids = $this->db->model('unbilling_log')->select('sale_log_id')->where('billing_id='.$data['id'])->getAll();
+				}else{
+					$_ids = $this->db->model('unbilling_log')->select('purchase_log_id')->where('billing_id='.$data['id'])->getAll();
+				}
+				//调用返还方法
+				$this->returnNumber($_ids,$data['order_type']);
+
+				//根据撤销开票金额与总金额的大小，判断订单开票状态
 				if($data['total_price'] == $data['b_price']){
 					if(!$this->db->model('order')->wherePK($data['oid'])->update( array('invoice_status'=>1)) )throw new Exception("修改订单表退款状态失败");
 				}else{
@@ -183,27 +192,40 @@ class billingAction extends adminBaseAction
 		$this->success('操作成功');
 
 	}
-
 	/**
-	 * 处理数量
-	 * @access private 
+	 *撤销开票时,返还订单明细数量
 	 */
-	public function changeNumber(){
-		$this->is_ajax=true; //指定为Ajax输出
-		$data = sdata(); //获取UI传递的参数
-		$index = sget('index','i');
-		if(empty($data)) $this->error('错误的操作');
-		//for循环遍历
-		$unit_price =0;
-		for($i=0;$i<count($data);$i++){
-			$unit_price = ($data[$index]['unit_price']);
-			continue;
+	public function returnNumber($_ids,$type){
+		//p($_ids);p($type);die;
+		foreach ($_ids as $v) {
+			if ($type ==1) {
+				$this->db->model('sale_log')->where('id='.$v['sale_log_id'])->update("`billing_number`=billing_number-".$v['number']);
+			}else{
+				$this->db->model('purchase_log')->where('id='.$v['purchase_log_id'])->update("`billing_number`=billing_number-".$v['number']);
+			}
 		}
-		$result=array('unit_price'=>$unit_price);
-		$this->json_output($result);
-		//$this->assign('unit_price',$unit_price);
-		//p($unit_price);
-
 	}
+
+	// /**
+	//  * 处理数量
+	//  * @access private 
+	//  */
+	// public function changeNumber(){
+	// 	$this->is_ajax=true; //指定为Ajax输出
+	// 	$data = sdata(); //获取UI传递的参数
+	// 	$index = sget('index','i');
+	// 	if(empty($data)) $this->error('错误的操作');
+	// 	//for循环遍历
+	// 	$unit_price =0;
+	// 	for($i=0;$i<count($data);$i++){
+	// 		$unit_price = ($data[$index]['unit_price']);
+	// 		continue;
+	// 	}
+	// 	$result=array('unit_price'=>$unit_price);
+	// 	$this->json_output($result);
+	// 	//$this->assign('unit_price',$unit_price);
+	// 	//p($unit_price);
+
+	//}
 
 }

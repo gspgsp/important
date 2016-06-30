@@ -125,7 +125,7 @@ function viewhander(e){
 		s += '<a href="javascript:addInvoice('+oid+','+order_type+','+id+')">审核</a>';
 	}
 	if(i_status == 2)
-	s += '<a href="javascript:viewPinfo('+oid+','+id+','+b_price+','+total_price+',\''+o_sn+'\')">更正</a>';
+	s += '<a href="javascript:viewPinfo('+oid+','+id+','+order_type+','+b_price+','+total_price+',\''+o_sn+'\')">更正</a>';
 	return s;
 }
 
@@ -146,10 +146,10 @@ function addInvoice(oid,order_type,id){
 	});
 }
 
-//红充操作
-function viewPinfo(oid,id,b_price,total_price,o_sn){
+//红充更正操作
+function viewPinfo(oid,id,order_type,b_price,total_price,o_sn){
 	var o_sn = o_sn;
-	var data = {oid:oid,id:id,b_price:b_price,total_price:total_price,o_sn:o_sn};
+	var data = {oid:oid,id:id,order_type:order_type,b_price:b_price,total_price:total_price,o_sn:o_sn};
 	var json = mini.encode(data);
 	mini.confirm("确定交易取消？", "提示", function(action){
 	if(action!='ok') return;
