@@ -413,6 +413,10 @@ class mainPageAction extends homeBaseAction
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
     }
+    //进入物性表的发布采购
+    public function enPhysicalDelegate(){
+        $this->display('supplyDemand_trade4');
+    }
     //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
     public function getPhysicalDelegate(){
         $this->is_ajax = true;
@@ -536,10 +540,10 @@ class mainPageAction extends homeBaseAction
     public function savaComission(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
-        $comData['p_id'] = sget('p_id','i');
+        $comData['p_id'] = sget('p_id','i',0);
         $comData['sn'] = $this->buildOrderId();
         $comData['user_id'] = $this->user_id;
-        $comData['c_id'] = sget('c_id','i');
+        $comData['c_id'] = sget('c_id','i',0);
         $comData['number'] = sget('number','i');
         $comData['price'] = sget('price','f');
         $comData['delivery_place'] = sget('delivery_place','i');
