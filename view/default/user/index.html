@@ -367,7 +367,11 @@
 			success:function(res){
 				var str='';
 				$.each(res,function(i,item){
-					str='<p>'+item[user_nick] +'<br/>' +item[contents]+'</p>';
+
+					$.each(item,function(j,val){
+
+						str='<p>'+ +'<br/>' +val+'</p>';
+					})
 				})
 
 				$('#refreshs').html(str);
