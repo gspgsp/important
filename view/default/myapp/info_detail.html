@@ -37,7 +37,7 @@
 			console.log(">>>",res);
 			$(".infoDetailTitle2").text(res.articleDetail.title);
 			$("#admin").text(res.articleDetail.admin_name);
-			$("#time").text(stampToDate2(res.articleDetail.input_time));
+			$("#time").text(res.articleDetail.input_time);
 			$("#infoDetailContent").html(res.articleDetail.content);
 		},function () {
 
