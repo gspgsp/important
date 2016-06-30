@@ -31,8 +31,8 @@ class inStorageAction extends adminBaseAction {
 					->getPage();
 			foreach($list['data'] as $k=>$v){
 				$pinfo=M("product:product")->getFnameByPid($v['p_id']);
-				$list['data'][$k]['order_sn']=M("product:order")->getColByOid($o_id,'order_sn');			
 				$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
+				$list['data'][$k]['order_sn']=M("product:order")->getColByOid($o_id,'order_sn');			
 				$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']); //获取牌号名称
 				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';

@@ -32,6 +32,8 @@ class outStorageAction extends adminBaseAction {
 			foreach($list['data'] as $k=>&$v){
 				$v['model']=M("product:product")->getModelById($v['p_id']); //获取客户名称
 				$v['store_name']=M("product:store")->getStoreNameBySid($v['store_id']);
+				$pinfo=M("product:product")->getFnameByPid($v['p_id']);
+				$v['f_name']=$pinfo['f_name'];//根据cid取客户名
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -78,7 +80,7 @@ class outStorageAction extends adminBaseAction {
 			$_data['unit_price']=$v['unit_price']; 
 			$_data['number']=$v['out_number'];
 			//新增出库明细
-			$this->db->model('out_log')->add($_data+$basic_info);
+			$this->db->model('out_log')->add($_data+$basic_info+array('out_storage_status'=>1));
 			$outlog_id = $this->db->getLastID();
 			//更新销售明细中的未发数量
 			$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update(' remainder = remainder-'.$v['out_number']);
@@ -91,7 +93,7 @@ class outStorageAction extends adminBaseAction {
 			if($info['join_id']>0){ //上面查询的订单中存在joinid 表示先销后采
 				//调用循环扣库存并打log
 				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$outlog_id);
-
+				//库存的总明细扣减
 				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(' remainder = remainder-'.$v['out_number'].' , controlled_number = controlled_number-'.$v['out_number'].', update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 			}else{ //正常销库存的操作
 				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(' remainder = remainder-'.$v['out_number'].' , lock_number = lock_number - '.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME);
@@ -109,7 +111,6 @@ class outStorageAction extends adminBaseAction {
 		if($this->db->commit()){
 			 $this->success('操作成功');	
 		}else{
-			showtrace();
 			$this->db->rollback();
 			$this->error('操作失败');
 		}

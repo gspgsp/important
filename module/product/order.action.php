@@ -165,6 +165,9 @@ class orderAction extends adminBaseAction {
 			$this->assign('input_admin',$_SESSION['name']); //用于把
 			$this->assign('order_sn',$order_sn);
 			$this->assign('otype','addopus'); //新增订单关联前台显示
+			$info['sign_place']="上海";
+			$info['sign_time']=date("Y-m-d",CORE_TIME);
+			$this->assign('info',$info);
 			$this->assign('order_type',$order_type);
 			$this->display('order.edit.html');
 			exit;
@@ -207,11 +210,10 @@ class orderAction extends adminBaseAction {
 			$value['time_price']=$value['number']*$value['unit_price'];
 			$value['require_number']=$value['number'];
 		}
-
 		if($info['c_id']>0) $info['c_name'] = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
-		$info['delivery_time']=date("Y-m-d",time());  //转换时默认发货时间为当前时间
+		$info['delivery_time']=date("Y-m-d",CORE_TIME);  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
@@ -227,13 +229,13 @@ class orderAction extends adminBaseAction {
 	public function editOrderSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		// p($data);
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['pickup_time']=strtotime($data['pickup_time']);
 		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['total_price']=$data['price'];
+		$data['financial_records']=2;//财务记录 默认否
 		$data['total_num']=$data['num'];
 			$this->db->startTrans(); //开启事务
 			$update_data=array(
@@ -289,6 +291,61 @@ class orderAction extends adminBaseAction {
 		$this->assign('order_type','2');
 		$this->assign('sales_type','2');
 		$this->display('order.edit.html');
+	}
+	/**
+	 * 新增销售采购订单
+	 * @access public 
+	 * @return html
+	 */
+	public function addSubmit() {
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('错误的请求');	
+		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
+		unset($data['o_id']); //避免和后面的add 订单冲突
+		$data['sign_time']=strtotime($data['sign_time']);
+		$data['pickup_time']=strtotime($data['pickup_time']);
+		$data['delivery_time']=strtotime($data['delivery_time']);
+		$data['payment_time']=strtotime($data['payment_time']);
+		$data['financial_records']=2;//财务记录 默认否
+		$data['total_price']=$data['price']; //前台计算的所有明细总价
+		$data['total_num']=$data['num']; //所有明细总数
+		$data['order_source'] = 2; //订单默认来源ERP
+		//新增
+			$this->db->startTrans(); //开启事务
+			$add_data=array(
+				'input_time'=>CORE_TIME,
+				'input_admin'=>$_SESSION['name'],
+				'admin_id'=>$_SESSION['adminid'],
+			);
+			try {	
+				if($data['join_id']>0) unset($data['store_o_id']); //不销库存的订单 不存在此字段
+				if( !$this->db->model('order')->add($data+$add_data) ) throw new Exception("新增订单失败");//新增订单
+				$o_id=$this->db->getLastID(); //获取新增订单ID
+				if($data['join_id']>0){  //反向把新增的采购订单id 保存在所关联的销售订单中
+					if( !$this->db->model('order')->where(' o_id ='.$data['join_id'])->update(' join_id = '.$o_id) ) throw new Exception("关联的销售订单更新失败");	
+				}
+				if( !$o_id ) throw new Exception("新增订单失败");
+				if(!empty($data['detail'])){ 
+					foreach ($data['detail'] as $k => $v) {
+						$detail[$k]=$v;
+						$detail[$k]['o_id']=$o_id;
+						$detial[$k]['order_sn']=$data['order_sn'];
+						$detail[$k]['remainder']=$v['require_number'];
+						if($data['order_type'] == 1){//销售明细
+							$detail[$k]['number']=$v['require_number'];
+							if( !$this->db->model('sale_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");		
+						}else{//采购明细
+							if( !$this->db->model('purchase_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");
+						}
+					}
+				}	
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+			$this->db->commit();
+			$this->success();
 	}
 
 	/**
@@ -503,61 +560,7 @@ class orderAction extends adminBaseAction {
 		$this->db->commit();
 		$this->success('操作成功');
 	}
-	/**
-	 * 新增销售采购订单
-	 * @access public 
-	 * @return html
-	 */
-	public function addSubmit() {
-		$this->is_ajax=true; //指定为Ajax输出
-		$data = sdata(); //获取UI传递的参数
-		if(empty($data)) $this->error('错误的请求');	
-		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
-		unset($data['o_id']); //避免和后面的add 订单冲突
-		$data['sign_time']=strtotime($data['sign_time']);
-		$data['pickup_time']=strtotime($data['pickup_time']);
-		$data['delivery_time']=strtotime($data['delivery_time']);
-		$data['payment_time']=strtotime($data['payment_time']);
-		$data['total_price']=$data['price']; //前台计算的所有明细总价
-		$data['total_num']=$data['num']; //所有明细总数
-		$data['order_source'] = 2; //订单默认来源ERP
-		//新增
-			$this->db->startTrans(); //开启事务
-			$add_data=array(
-				'input_time'=>CORE_TIME,
-				'input_admin'=>$_SESSION['name'],
-				'admin_id'=>$_SESSION['adminid'],
-			);
-			try {	
-				if($data['join_id']>0) unset($data['store_o_id']); //不销库存的订单 不存在此字段
-				if( !$this->db->model('order')->add($data+$add_data) ) throw new Exception("新增订单失败");//新增订单
-				$o_id=$this->db->getLastID(); //获取新增订单ID
-				if($data['join_id']>0){  //反向把新增的采购订单id 保存在所关联的销售订单中
-					if( !$this->db->model('order')->where(' o_id ='.$data['join_id'])->update(' join_id = '.$o_id) ) throw new Exception("关联的销售订单更新失败");	
-				}
-				if( !$o_id ) throw new Exception("新增订单失败");
-				if(!empty($data['detail'])){ 
-					foreach ($data['detail'] as $k => $v) {
-						$detail[$k]=$v;
-						$detail[$k]['o_id']=$o_id;
-						$detial[$k]['order_sn']=$data['order_sn'];
-						$detail[$k]['remainder']=$v['require_number'];
-						if($data['order_type'] == 1){//销售明细
-							$detail[$k]['number']=$v['require_number'];
-							if( !$this->db->model('sale_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");		
-						}else{//采购明细
-							if( !$this->db->model('purchase_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");
-						}
-					}
-				}	
-			} catch (Exception $e) {
-				$this->db->rollback();
-				$this->error($e->getMessage());
-			}
-			$this->db->commit();
-			$this->success();
 
-	}
 	/**
 	 * 销售审核
 	 * @access public
@@ -566,9 +569,7 @@ class orderAction extends adminBaseAction {
 	public function ordercheck(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		if(empty($data)){
-			$this->error('错误的操作');
-		}
+		if(empty($data)) $this->error('错误的操作');
 		$_data=array(
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
@@ -620,18 +621,32 @@ class orderAction extends adminBaseAction {
 	public function transportcheck(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		if(empty($data)){
-			$this->error('错误的操作');
-		}
+		if(empty($data)) $this->error('错误的操作');
 		$_data=array(
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
 		try {
 			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");	
-			// if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update('is_join_in = 1') ) throw new Exception("关联的销售订单更新失败");
 		} catch (Exception $e) {
-			$this->db->rollback();
+			$this->error($e->getMessage());
+		}
+		$this->success('操作成功');
+	}
+	/**
+	 * 财务记录
+	 */
+	public function financialCheck(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('错误的操作');
+		$_data=array(
+			'update_time'=>CORE_TIME,
+			'update_admin'=>$_SESSION['name'],
+		);
+		try {
+			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("财务记录更新失败");	
+		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
 		$this->success('操作成功');

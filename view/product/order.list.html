@@ -72,18 +72,18 @@
 			<div field="order_name" width="30" headerAlign="center" align="center" allowSort="true">抬头</div>
 			<div field="order_source" width="25" headerAlign="center" align="center" allowSort="true">来源</div>
 			<div field="c_name" width="70" headerAlign="center" align="center" allowSort="true">客户名称</div>
-			{if $order_type eq 2}
-			<div field="in_storage_status" width="40" headerAlign="center" align="center" allowSort="true">入库状态</div>
-			{/if}
 			<div field="total_num" width="40" headerAlign="center" align="center" allowSort="true">总数</div>
-			<div field="total_price" width="40" headerAlign="center" align="center" allowSort="true">总金额</div>
-			<div field="pay_method" width="40" headerAlign="center" align="center" allowSort="true">付款方式</div>
-			{if $order_type eq 1}
-			<div field="out_storage_status" width="40" headerAlign="center" align="center" allowSort="true">出库状态</div>
+			<div field="total_price" width="60" headerAlign="center" align="center" allowSort="true">总金额</div>
+			<div field="pay_method" width="40" headerAlign="center" align="center" allowSort="true">付款</div>
+			{if $order_type eq 2}
+			<div field="in_storage_status" width="45" headerAlign="center" align="center" allowSort="true">入库状态</div>
+			{else}
+			<div field="out_storage_status" width="45" headerAlign="center" align="center" allowSort="true">出库状态</div>
 			{/if}
-			<div field="payments_status" width="40" headerAlign="center" align="center" allowSort="true">{if $order_type eq 1}收款{else}付款{/if}状态</div>
-			<div field="invoice_status" width="40" headerAlign="center" align="center" allowSort="true">开票状态</div>
-			<div field="type_status" width="60" headerAlign="center" align="center" allowSort="true">{if $order_type eq 1}销售{else}采购{/if}|物流</div>
+			<div field="payments_status" width="45" headerAlign="center" align="center" allowSort="true">{if $order_type eq 1}收款{else}付款{/if}状态</div>
+			<div field="invoice_status" width="45" headerAlign="center" align="center" allowSort="true">开票状态</div>
+			<div field="type_status" width="70" headerAlign="center" align="center" allowSort="true">{if $order_type eq 1}销售{else}采购{/if}|物流</div>
+			<div field="financial_records" width="45" headerAlign="center" align="center" allowSort="true">财务记录</div>
 			<div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 			<div field="input_admin" width="40" headerAlign="center" align="center">交易员</div>
 			{if $order_type eq 1}
@@ -128,6 +128,23 @@
 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitcheck('transportcheck')">提交</a>
 			</td>
 			</tr>
+		</table>
+	</div>
+</div>
+<div id="financialCheck" class="mini-window" title="财务记录" style="width:170px;height:100px;" showModal="true" allowResize="true" allowDrag="true">
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<tr>
+				<td>确定要进行财务记录吗 ?</td>
+				<input name="o_id"  class="mini-hidden" id="o_id3" value="">
+				<input name="financial_records"  class="mini-hidden" id="financial_records" value="">
+			</tr>
+			<tr>
+				<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-ok" href="javascript:submitFinancial()">是</a>
+			</td>
+			</tr>
+
 		</table>
 	</div>
 </div>
@@ -200,7 +217,6 @@ function oncheckDetail(e){
 			if(transport_status != '2' && node_flow>'0') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
 		}
 	} 
-
 	return s;
 }
 //销售审核
@@ -245,9 +261,36 @@ function submitcheck(type) {
 	var str = '/product/order/'+type;
 	utils.ajax(str,{data:json},callback,"POST","json");
 }
+//财务记录
+var financial = mini.get("financialCheck");
+function financialInfo(oid){
+	mini.get('o_id3').setValue(oid);
+	mini.get('financial_records').setValue(1);
+	financial.show();
+}
+
+function submitFinancial(){
+	var form = new mini.Form('financialCheck');
+	form.validate();
+	if (form.isValid() == false) return;
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			financial.hide();
+		}
+	}
+	utils.ajax('/product/order/financialCheck',{data:json},callback,"POST","json");	
+}
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status;
+	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records;
 
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
@@ -274,8 +317,10 @@ function onLoadDetail(e){
 						if (c_status =='3' && i_status =='全部开票') {
 							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
 						}
+						if(financial_records == '否'){
+							s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
+						}
 						s+='<a href="javascript:salecompact('+oid+')">合同</a>';
-
 						if (newstatus != '3' && c_status =='3') {
 							s +='(采购未开票..)';
 						}
@@ -301,6 +346,9 @@ function onLoadDetail(e){
 			if (c_status =='3' && i_status =='全部开票') {
 				s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
 			}
+			if(financial_records == '否'){
+				s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
+			}	
 			s+='<a href="javascript:salecompact('+oid+')">合同</a>';
 
 		}

@@ -39,13 +39,14 @@
 sizeList="[10,20,50,100]" pageSize="20" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true" >
 	<div property="columns" >
 		<div type="checkcolumn" ></div>
-		<div field="id" width="30" headerAlign="center" align="center"  renderer="onLoadHandle">ID</div>
-		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-		<div field="store_name" width="90" headerAlign="center" align="center">仓库</div>
+		<div field="id" width="35" headerAlign="center" align="center"  renderer="onLoadHandle">ID</div>
+		<div field="model" width="95" headerAlign="center" align="center">牌号</div>
+		<div field="f_name" width="120" headerAlign="center" align="center">厂家</div>
+		<div field="store_name" width="70" headerAlign="center" align="center">仓库</div>
 		<div field="unit_price" width="50" headerAlign="center" align="center">单价</div>
-		<div field="number" width="80" headerAlign="center" align="center">数量</div>
-		<div field="remainder" width="80" headerAlign="center"  align="center">未发数</div>
-		<div field="out_number" width="80" headerAlign="center"  align="center">发货数<font  style="color:red;">*</font>
+		<div field="number" width="50" headerAlign="center" align="center">数量</div>
+		<div field="remainder" width="50" headerAlign="center"  align="center">未发数</div>
+		<div field="out_number" width="50" headerAlign="center"  align="center">发货数<font  style="color:red;">*</font>
 			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
 		</div>   
 	</div>
