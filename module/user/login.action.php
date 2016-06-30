@@ -4,7 +4,6 @@
  * 用户登录
  */
 class loginAction extends homeBaseAction{
-	
 	public function init()
 	{
 		$this->display('login');
@@ -36,10 +35,45 @@ class loginAction extends homeBaseAction{
 		}
 	}
 
+	//登录弹窗
 	public function loginbox()
 	{
 		$this->type=sget('type', 's', '');
 		$this->display('loginbox');
+	}
+
+	public function auth(){
+
+		$sns=thinkOauth::getInstance('qq');
+		redirect($sns->getRequestCodeURL());
+
+	}
+
+	// 回调
+	public function callback(){
+		$sns=thinkOauth::getInstance('qq');
+		if(!$code=sget('code','s','')) $this->error('授权失败');
+		$extend=null;
+		if(!$token = $sns->getAccessToken($code , $extend)) $this->error('授权失败');
+		$snsType = E('SnsType',APP_LIB.'extend');
+		$snsInfo=$snsType->qq($token);
+		$openid=$token['openid'];
+		$outerModel=M('user:userOuter');
+		if($outerInfo=$outerModel->where("outer_id='{$openid}'")->getRow()){
+
+		}else{
+			$_SESSION['auth_openid']=$openid;
+			redirect('/user/login/bindLogin');
+		}
+		
+	}
+
+	public function bindLogin(){
+		$_SESSION['auth_openid']='aaa';
+		if(!$openid=$_SESSION['auth_openid']) $this->forward('/user/login');
+		p($openid);
+
+		$this->display('bindLogin');
 	}
 
 }

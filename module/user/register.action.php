@@ -156,7 +156,7 @@ class registerAction extends homeBaseAction{
 			
 			return false;	
 		}
-		$chk=M('system:sysUser')->usrUnique('mobile',$value);
+		$chk=M('system:sysUser')->usrUnique('mobile',$value);//非重复
 		if(!$chk){
 			$this->err='手机号已存在';
 			return false;	

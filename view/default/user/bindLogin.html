@@ -1,0 +1,77 @@
+{layout file="public:main_layout"}
+{insert_css files='home/master.css'}
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
+
+<div class="ybbbg">
+	
+	<div class="ybb">
+		<div class="ybbl">
+			<div class="ybblt" style="margin-left:250px;"> 
+				<span class="ybbltl">
+					<font style="color:#ee4822;">绑定平台账号</font>
+				</span>
+				<span class="ybbltr">
+				还没有账号？<a style="color:#ee4822;" href="/user/register">注册账号</a>
+				</span>
+				<div class="clear"></div>
+			</div>
+			<div class="ybblb" style="margin-left:250px;">
+				<form name="validateForm1" class="registerform">  
+					<label>
+						<span class="cybblba_iejf">手机号：</span>
+						<input type="text" name="username" datatype="*" nullmsg="请输入账号！" errormsg="请输入账号！" class="cybblbb">
+						<p class="Validform_checktip" style="float:left;width:182px; font-weight:normal; font-size:12px; font-family:Arial; line-height:39px;padding-left:22px;">请输入手机号</p>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="cybblba_iejf">密码：</span>
+						<input type="password" name="password" datatype="*" nullmsg="请输入密码！" errormsg="请输入密码！" class="cybblbb">
+						<p class="Validform_checktip" style="float:left;width:182px; font-weight:normal; font-size:12px; font-family:Arial; line-height:39px;padding-left:22px;">请输入密码</p>
+						<div class="clear"></div>
+					</label>
+					<input type="submit" class="ybblbi" value="登陆">
+					<label>
+						<span class="cybblba_iejf">&nbsp;</span>
+						<div style="float:left;">
+							<span id="tips" style="color:red;">321321</span>
+						</div>
+					</label>
+
+				</form>
+			</div>
+			<div class="clear"> </div>
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var demo=$(".registerform").Validform({
+	tiptype:function(msg,o,cssctl){
+		if(!o.obj.is("form")){
+			var objtip=o.obj.siblings(".Validform_checktip");
+			cssctl(objtip,o.type);
+			objtip.text(msg);
+		}
+	}
+});
+var tips=$("#tips");
+$(".registerform").submit(function(){
+	if(!demo.check()) return false;
+	var datas=$(this).serialize();
+	$.post('/user/login/dolongin',datas,function (data){
+	    if(data.err>0){
+	        errMsg(data.msg);
+	    }else{
+	        window.location.reload();
+	    }
+	},'json');
+	errMsg('');
+	return false;
+})
+function errMsg(msg){
+    tips.html(msg);
+}
+</script>
