@@ -154,17 +154,23 @@
 						'cargo_type':1
 					};
 					data.push(arr);
-					commonAjax(
-							"post",
-							"/user/mypurchase/pub",
-							{data}
-					).then(function (res) {
-						mui.alert("",res.msg,function () {
+					if(model&&product_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
+						commonAjax(
+								"post",
+								"/user/mypurchase/pub",
+								{data}
+						).then(function (res) {
+							mui.alert("",res.msg,function () {
+
+							});
+						},function () {
 
 						});
-					},function () {
+					}else{
+						mui.alert("","请把信息填写完整",function () {
 
-					});
+						});
+					}
 
 				});
 			})
