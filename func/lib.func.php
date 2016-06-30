@@ -25,8 +25,7 @@ function genOrderSn($type=1){
 	// return substr($date,0,8).str_pad($type, 4, '0', STR_PAD_RIGHT).substr($date,8,4)
 	// 		.str_pad(mt_rand(1000, 999999), 6, '0', STR_PAD_LEFT);
 	//return time().str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-	return substr($date,0,8).str_pad($type, 4, '0', STR_PAD_RIGHT).substr($date,8,4)
-			.str_pad(mt_rand(1000, 999999), 6, '0', STR_PAD_LEFT);
+	return substr($date,0,12).str_pad(mt_rand(10, 9999), 4, '0', STR_PAD_LEFT);
 }
 
 
