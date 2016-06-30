@@ -172,13 +172,13 @@
 
 		commonAjax(
 				"post",
-				"/myapp/personalCenter/myAttention"
+				"/myapp/mainPage/getMyShortAttention"
 		).then(function (res) {
 			console.log("---",res);
 			if(res.err==1){
 				$(".appConcern").html("<a href='/myapp/personalCenter/enMyAttention'><img width='100%' src='__MYAPP__/img/appIndex.jpg'></a>");
 			}else{
-				res.data.forEach(function (v,i,a) {
+				res.products.forEach(function (v,i,a) {
 					attentionLi+="<li>"+ v.model +" "+ v.factory_name +"<strong>"+ mToH(v.time_al) +"小时前</strong><b class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</b><i>"+ v.unit_price +"/T</i></li>";
 				});
 				$("#appCon").html(attentionLi);
