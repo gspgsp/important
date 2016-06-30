@@ -11,7 +11,11 @@ class mainPageModel extends model
     //获取今日头条、原油价格
     public function getInfos($type){
         if($type == 1){
-            return $this->model('info')->select('id,title,input_time')->where("cate_id in (29,30,31,32,33)")->order('input_time desc')->limit('0,5')->getAll();
+            $result = $this->model('info')->select('id,title,input_time')->where("cate_id in (29,30,31,32,33)")->order('input_time desc')->limit('0,5')->getAll();
+            foreach ($result as $key => $value) {
+                $result[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+            }
+            return $result;
         }elseif($type == 2){
             $oils = $this->model('oil_price')->order('input_time desc')->limit('0,5')->getAll();
             foreach ($oils as $key => $value) {
