@@ -29,7 +29,7 @@
         <h3>我的积分</h3>
         {if $smarty.session.userid > 0 }
         <p id="points">{$userInfo.points}</p>
-        <div class="record"><a href="">积分兑换记录</a></div>
+        <div class="record"><a href="user/myPoints/getCheckInfo?opVal=2">积分兑换记录</a></div>
         {else}
         <div class="no-login"><a href="javascript:loginbox('pointshop')">登录</a>后显示积分</div>
         {/if}
