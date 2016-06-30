@@ -367,6 +367,19 @@ class mainPageModel extends model
         //$phyDetail['params'] = htmlspecialchars_decode($phyDetail['params']);
         return $phyDetail;
     }
+    //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
+    public function getPhysicalDelegateData($type,$company,$name){
+        $phyDelData = array();
+        $phyDelData['type'] = $type;//类型
+        $phyDelData['company'] = $company;//厂家
+        $phyDelData['model'] = $name;//牌号
+        //联系人
+        $cus_contact = M('user:customerContact')->getListByUserid($_SESSION['userid']);
+        $phyDelData['name'] = $cus_contact['name'];
+        $phyDelData['mobile'] = $cus_contact['mobile'];
+        $phyDelData['c_name'] = M('user:customer')->getCinfoById($cus_contact['c_id'])['c_name'];
+        return $phyDelData;
+    }
     //获取供求(公海的报价和求购) 1求(采)购 2报价
     public function getPublicQuoPur($type,$page=1,$size=10){
         $where = "type=$type";
