@@ -367,18 +367,12 @@
 			success:function(res){
 				var str='';
 				$.each(res,function(i,item){
-
-					$.each(item,function(j,val){
-
-						str='<p>'+ +'<br/>' +val+'</p>';
-					})
+					str='<p>'+ item.user_nick+'<br/>' +item.contents+'</p>';
 				})
-
 				$('#refreshs').html(str);
 			}
-
 		})
-	},10000);
+	},5000);
 
     //关注产品信息
     var track = $(".slider-container").silverTrack({

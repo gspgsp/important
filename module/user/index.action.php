@@ -31,6 +31,7 @@ class indexAction extends userBaseAction{
         //p($count1);
         //今日采购发布总数
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
+        //实时资源
 
 
 
@@ -72,7 +73,8 @@ class indexAction extends userBaseAction{
     public function ajax(){
 
         if($_GET['status']){
-            $ref=M('resourcelib:resourcelib')->getNew();
+            $status=empty($_GET['status'])?0:0;
+            $ref=M('resourcelib:resourcelib')->getNew($status);
         }
 
         json_output($ref);
