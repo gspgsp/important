@@ -58,9 +58,9 @@ class resourcelibModel extends model{
 
 	public function getNew(){
 		return $this->from('resourcelib as res')
-			->where('res.status=1')
-			->order('res.input_time')
-			->select('res.user_nick,res.content')
+			->where('res.status=0')
+			->order('res.input_time desc')
+			->select('res.user_nick,res.content as contents')
 			->limit('1')
 			->getAll();
 	}
