@@ -33,11 +33,11 @@
 	</tr>
 	<tr>
 		<td>单价</td>
-		<td>￥<input id="unit_price" type="text">/吨</td>
+		<td>￥<input id="unit_price" type="text" placeholder="请输入单价">/吨</td>
 	</tr>
 	<tr>
 		<td>数量</td>
-		<td><input id="number" type="text">吨</td>
+		<td><input id="number" type="text" placeholder="请输入数量">吨</td>
 	</tr>
 	<tr>
 		<td>厂家</td>
@@ -47,6 +47,7 @@
 		<td>交货地</td>
 		<td>
 			<select id="delivery_place">
+				<option value="">请选择</option>
 				<option value="2">北京</option>
 				<option value="3">安徽</option>
 				<option value="4">福建</option>
@@ -124,25 +125,18 @@
 		commonAjax(
 				"post",
 				"/myapp/mainPage/getPhysicalDelegate",
-				{id:id}
+				{lid:id}
 		).then(function (res) {
 			console.log(">>>",res);
 			if(res.err==1){
 				window.location.href="/myapp/login";
 			}else{
-				p_id=res.chDeRes.p_id;
-				c_id=res.chDeRes.c_id;
-				$("#delivery_place").val(res.chDeRes.address);
-				$("#product_type").text(res.chDeRes.type);
-				$("#model").text(res.chDeRes.model);
-				$("#unit_price").val(res.chDeRes.price);
-				$("#number").val(res.chDeRes.num);
-				$("#f_name").text(res.chDeRes.factory);
-				$("#input_time").text(res.chDeRes.input_time);
-				$("#con_name").text(res.chDeRes.name);
-				$("#mobile").text(res.chDeRes.mobile);
-				$("#qq").text(res.chDeRes.qq);
-				$("#c_name").text(res.chDeRes.c_name);
+				$("#product_type").text(res.phyDelData.type);
+				$("#model").text(res.phyDelData.model);
+				$("#f_name").text(res.phyDelData.f_name);
+				$("#con_name").text(res.phyDelData.name);
+				$("#mobile").text(res.phyDelData.mobile);
+				$("#c_name").text(res.phyDelData.c_name);
 			}
 		},function () {
 
@@ -159,8 +153,6 @@
 						"post",
 						"/myapp/mainPage/savaComission",
 						{
-							p_id:p_id,
-							c_id:c_id,
 							price:price,
 							number:number,
 							f_name:f_name,
