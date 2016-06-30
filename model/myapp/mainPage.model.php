@@ -368,11 +368,12 @@ class mainPageModel extends model
         return $phyDetail;
     }
     //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
-    public function getPhysicalDelegateData($type,$company,$name){
+    public function getPhysicalDelegateData($lid){
         $phyDelData = array();
-        $phyDelData['type'] = $type;//类型
-        $phyDelData['company'] = $company;//厂家
-        $phyDelData['model'] = $name;//牌号
+        $physical = $this->getPhysicalDetailData($lid);
+        $phyDelData['type'] = $physical['type'];//类型
+        $phyDelData['company'] = $physical['company'];//厂家
+        $phyDelData['model'] = $physical['name'];//牌号
         //联系人
         $cus_contact = M('user:customerContact')->getListByUserid($_SESSION['userid']);
         $phyDelData['name'] = $cus_contact['name'];
