@@ -26,7 +26,7 @@ class userMsgAction extends adminBaseAction {
 			$sortField = sget("sortField",'s','input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 
-			$where=" 1 ";
+			$where=" 1 and `utype` = 0 ";
 			$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 			$where.=getTimeFilter($sTime); //时间筛选
 			
@@ -60,7 +60,7 @@ class userMsgAction extends adminBaseAction {
 				//是否已读
 				switch ($val['is_read'])
 				{
-					case 1:
+					case 2:
 					  $is_read = "已读";
 					  break;
 					default:
