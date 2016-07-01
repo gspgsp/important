@@ -507,7 +507,8 @@ class mainPageAction extends homeBaseAction
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
         $page = sget('page','i',1);
         $size = sget('size','i',10);
-        M('myapp:mainPage')->getSupplyCondDatas($keywords,$type,$otype,$page,$size);
+        if(!$data = M('myapp:mainPage')->getSupplyCondDatas($keywords,$type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
     //进入我要供货
     public function enMySupply(){
