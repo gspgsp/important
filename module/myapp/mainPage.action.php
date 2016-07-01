@@ -480,9 +480,10 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         //if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
+        $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
         $page = sget('page','i',1);
         $size = sget('size','i',10);
-        if(!$pubQuoPur = M('myapp:mainPage')->getPublicQuoPur($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        if(!$pubQuoPur = M('myapp:mainPage')->getPublicQuoPur($type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'pubQuoPur'=>$pubQuoPur['data']));
 
     }
