@@ -163,7 +163,7 @@
 		).then(function (res) {
 			console.log(">>>",res);
 			res.infos.forEach(function (v, i, a) {
-				appInfoLi2 += "<li>"+v.type+"<i class='"+ oilCompare(v.ups_downs) +"'>"+arrow(v.ups_downs)+""+v.ups_downs+"</i><b>"+v.price+"</b></li>";
+				appInfoLi2 += "<li>"+v.type+"<i class='"+ oilCompare(v.alph) +"'>"+arrow(v.alph)+""+v.ups_downs+"</i><b>"+v.price+"</b></li>";
 			});
 			$("#appInfoUl2").html(appInfoLi2);
 		},function () {
