@@ -495,7 +495,8 @@ class mainPageModel extends model
         }elseif (!empty($product_type)) {
             $where.=" and pro.product_type =$product_type ";
         }elseif (!empty($provinces)) {
-            $where.=" and pro.provinces =$provinces ";
+            $id = $this->model('lib_region')->select('id')->where('name='.$provinces)->getOne();
+            $where.=" and pro.provinces =$id ";
         }elseif (!empty($cargo_type)) {
             $where.=" and pro.cargo_type =$cargo_type ";
         }
