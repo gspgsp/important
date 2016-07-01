@@ -232,7 +232,8 @@ class mainPageAction extends homeBaseAction
         $apply = sget('apply','s');
         $factory = sget('factory','s');
         $region = sget('region','s');
-        M('myapp:mainPage')->getKeyWordsData($protype,$apply,$factory,$region);
+        if(!$data = M('myapp:mainPage')->getKeyWordsData($protype,$apply,$factory,$region)) $this->json_output(array('err'=>2,'msg'=>'获取三个关键字结果失败'));
+        $this->json_output(array('err'=>0,'data'=>$data));
     }
     //首页点击获取我的关注(5条),其实和个人中心里的关注的代码相同,下个版本再合并
     public function getMyShortAttention(){
