@@ -53,7 +53,8 @@
 				function bigSearch(type,otype,model,f_name,product_type,cargo_type,provinces) {
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getSupply",
+							//"/myapp/mainPage/getSupply",
+							"/myapp/mainPage/getSupplyCondData",
 							{type:type,otype:otype,model:model,f_name:f_name,product_type:product_type,cargo_type:cargo_type,provinces:provinces}
 					).then(function (res) {
 						console.log(res);
@@ -132,7 +133,7 @@
 					});
 				}
 
-				bigSearch(2,3,);
+				bigSearch(2,3,"373MC","比利时苏威",5,1,"甘肃");
 				$(".supplyDemandChange span").on("click",function () {
 					num=$(this).data("num");
 					$(this).addClass("on").siblings("span").removeClass("on");
