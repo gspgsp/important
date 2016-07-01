@@ -22,15 +22,18 @@ class indexAction extends userBaseAction{
        foreach($data as $k=>$v){
            $arr['p_id']=$v['product_id'];
            $price=M('product:purchase')->footPrice($arr);
-           $array[]=$price;
-
+            $prices['price']=$price[0]['unit_price']-$price[1]['unit_price'];
+           $prices['p_id']=$price[0]['p_id'];
+           $array[]=array_merge($price[0],$prices);
        }
+        p($array);
         //今日报价发布总数
         $date1=strtotime(date('Ymd'));
         $count1=M('resourcelib:resourcelib')->getTotalOne($date1);
         //p($count1);
         //今日采购发布总数
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
+        //默认最新资讯
         $ref=M('resourcelib:resourcelib')->getNew();
 
         //最新正在洽谈的求购信息
@@ -65,6 +68,7 @@ class indexAction extends userBaseAction{
         $this->assign('rest',$rest);
         $this->assign('points',$points);
         $this->assign('ref',$ref);
+        $this->assign('prices',$array);
         $this->display('index');
 	}
 

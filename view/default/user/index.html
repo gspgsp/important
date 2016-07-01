@@ -115,12 +115,12 @@
 				            <div class="view-port">
 				                <!--slider-container begin-->
 				                <div class="slider-container"  id="example-1">
-                                    {foreach from=$res item=value key=key}
+                                    {foreach from=$prices item=value key=key}
 				                    <div class="item" id="{$value.id}" >
                                         <p class="addr">
-                                            {$value.product_name}/ {$value.model}/{$value.factory_name}
+                                            {$value.product_name}/ {$value.model}/{$value.f_name}
                                         </p>
-                                        <div class="price up" id="price" data-id="{$value.unit_price}"><span>¥{$value.unit_price}</span><b>100</b></div>
+                                        <div class="price up" id="price" data-id="{$value.unit_price}"><span>¥{$value.unit_price}</span><b>{$value.price}</b></div>
                                         <p class="time">{$value.input_time|date:Y-m-d}</p>
                                         <div class="del">取消关注</div>            
                                     </div>
