@@ -103,7 +103,7 @@ class collectionAction extends adminBaseAction
 			$list['data'][$k]['invoice_status']=M('product:order')->getColByName($value=$v['o_id'],$col='invoice_status',$condition='o_id');
 			// $list['data'][$k]['is_collection_status']=M('product:order')->getColByName($value=$v['o_id'],$col='collection_status',$condition='o_id');
 			
-			//每笔订单 开票明细的审核状态
+			//每笔订单 收付款明细的审核状态
 			$arr = M('product:collection')->getLastInfo($name='o_id',$value=$v['o_id']);
 			$red_status = $this->db->where('collection_status =1 and o_id='.$arr[0]['o_id'])->getAll();
 			$list['data'][$k]['red_status']=empty($red_status)?0:1;

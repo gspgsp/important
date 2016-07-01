@@ -119,11 +119,11 @@ function viewOrdInfo(oid,type){
 
 //追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, b_price=record.billing_price,total_price=record.total_price, o_sn=record.order_sn,i_status=record.invoice_status,id=record.id, s='';
+	var record = e.record,oid=record.o_id, b_price=record.billing_price,total_price=record.total_price, o_sn=record.order_sn,i_status=record.invoice_status,id=record.id, s='',red_status=record.red_status;
 	var order_type={$type};
 	if (i_status ==1) {
 		s = '<a href="javascript:addInvoice('+oid+','+order_type+','+id+')">审核</a>';
-	}else if(i_status == 2){
+	}else if(i_status == 2 && red_status == 0){
 		s = '<a href="javascript:changeRed('+id+')">红字更正</a>';
 	}else{
 		s="-";

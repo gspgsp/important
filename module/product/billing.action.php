@@ -100,6 +100,10 @@ class billingAction extends adminBaseAction
 
 			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
 			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
+			//每笔订单 收付款明细的审核状态
+			$arr = M('product:billing')->getLastInfo($name='o_id',$value=$v['o_id']);
+			$red_status = $this->db->where('invoice_status =1 and o_id='.$arr[0]['o_id'])->getAll();
+			$list['data'][$k]['red_status']=empty($red_status)?0:1;
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
