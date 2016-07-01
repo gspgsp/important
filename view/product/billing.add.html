@@ -3,9 +3,9 @@
   <div id="addForm" class="form" >
 		<table style="width:100%;">
 		<input class="mini-hidden" name="billing_type"  value="{$type}"/>
-		<input class="mini-hidden" name="order_sn"  value="{$order_sn}"/>
+		<input class="mini-hidden" name="order_sn"  value="{$headData.order_sn}"/>
 		<input class="mini-hidden" name="o_id"  value="{$o_id}"/>
-		<input class="mini-hidden" name="c_id"  value="{$c_id}"/>
+		<input class="mini-hidden" name="c_id"  value="{$headData.c_id}"/>
 		<!-- 审核所需字段 -->
 		<input class="mini-hidden" name="id"  value="{$id}"/>
 		<input class="mini-hidden" name="finance"  value="{$finance}"/>
@@ -18,30 +18,30 @@
 			{/if}
 			<tr>
 				<td>开票单位</td>
-				<td><input name="rise" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;"allowInput="false"/></td>
+				<td><input name="rise" class="mini-textbox" maxlength="12" value="{$headData.c_name}" style="width:150px;"allowInput="false"/></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>开票日期<span style="color:red">*</span></td>
 				<td><input name="payment_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:150px;" format="yyyy-MM-dd" showTime="true" required="true"/></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>{if $type =='1'}销售合同主题{else}采购合同主题{/if}</td>
-				<td>{$company_account.$order_name}</td>
-				<td><input name="title" class="mini-hidden" maxlength="12" value="{$order_name}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td>{$company_account.$headData.order_name}</td>
+				<td><input name="title" class="mini-hidden" maxlength="12" value="{$headData.order_name}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>合同金额</td>
-				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$price}" style="width:150px;" allowInput="false"/></td>
+				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$headData.total_price}" style="width:150px;" allowInput="false"/></td>
 			</tr>
 			
 			{if $finance}
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$u_price}"style="width:150px;" allowInput="false"/></td>
+				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$headData.unbilling_price}"style="width:150px;" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>申请票据金额<span style="color:red">*</span></td>
-				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$t_price}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$headData.billing_price}" style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>税额<span style="color:red">*</span></td>
@@ -54,23 +54,15 @@
 			{else}
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" allowInput="false"/></td>
+				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$un_pay}" style="width:150px;" allowInput="false"/></td>
 			</tr>
-
-			<!-- <tr>
-				<td>票据金额<span style="color:red">*</span></td>
-				<td><input name="billing_price" class="mini-textbox" maxlength="12" {if $unbilling_price eq ''}value="{$price}"{else}value="{$unbilling_price}"{/if} style="width:150px;" required="true"/></td>
-			</tr> -->
+			
 			<tr>
 				<td>票据金额<span style="color:red">*</span></td>
-				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$unbilling_price}"style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$un_pay}"style="width:150px;" required="true" allowInput="false"/></td>
 			</tr>
 			{/if}
 			
-			<tr>
-				<td>交易员</td>
-				<td><input name="input_admin" class="mini-textbox" maxlength="12" value="{$input_admin}" style="width:150px;"allowInput="false"/></td>
-			</tr>
 			
 			<tr>
 				<td>附件</td>
@@ -128,22 +120,24 @@
     </fieldset>
 {/if}
 
-<fieldset style="width:480px;border:solid 1px #aaa;position:relative;">
+<fieldset style="width:760px;border:solid 1px #aaa;position:relative;">
 <legend>订单详细信息</legend>
-	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" url="/product/unbilling_log/init?action=grid&oid={$o_id}&type={$type}&finance={$finance}" sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" url="/product/billing/init?action=billingLog&id={$id}&o_id={$o_id}&$type={$type}&is_head={$is_head}" sizeList="[10,20,50,100]" showFooter="false" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<!-- <div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div> -->
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
 			
 			{if $finance}
-			<div field="billing_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
+			<div field="b_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
 			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
 			{else}
-			<div field="number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
+			<div field="b_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
+			<div field="un_number" width="50" headerAlign="center" align="center">未开数量</div>
+			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
 			{/if}
 			<div field="unit_price" id="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			{if $type =='1'}
@@ -157,9 +151,6 @@
 
 		</div>
 
-	</div>
-	<div>
-		<span style="float:right">合计{$sum}</span>
 	</div>
 </fieldset>
 <script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
@@ -192,14 +183,14 @@ function onValidation(e){
 	// 	alert('请输入正确的数值');
 	// 	return;
 	// }
-	noStockData[index].number=number;
-	noStockData[index].sum=parseFloat(noStockData[index].unit_price)*parseFloat(number);
+	noStockData[index].b_number=number;
+	noStockData[index].sum=parseFloat(noStockData[index].unit_price*number).toFixed(2);
 	grid.setData(noStockData);
 	var total=0;
 	for (var i = 0; i < noStockData.length; i++) {
-		total+=noStockData[i].sum;
+		total+=parseFloat(noStockData[i].sum);
 	}
-	mini.get('billing_price').setValue(total);
+	mini.get('billing_price').setValue(total.toFixed(2));
  }
 
 //追加操作，删除按钮
@@ -214,6 +205,12 @@ function removeRow() {
     if (rows.length > 0) {
         grid.removeRows(rows, true);
     }
+	noStockData=grid.getData();
+    var total=0;
+    for (var i = 0; i < noStockData.length; i++) {
+    	total+=parseFloat(noStockData[i].sum);
+    }
+    mini.get('billing_price').setValue(total.toFixed(2));
 }
 
 
@@ -228,7 +225,7 @@ function submitForm(billing) {
 	var json = mini.encode(o);
 
 	form.loading("数据提交中，请稍后......");
-	$.post('/product/order/ajaxSave',{data:json,do:billing},function(data){
+	$.post('/product/billing/ajaxSave',{data:json,do:billing},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){

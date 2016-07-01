@@ -122,20 +122,23 @@ function viewhander(e){
 	var record = e.record,oid=record.o_id, b_price=record.billing_price,total_price=record.total_price, o_sn=record.order_sn,i_status=record.invoice_status,id=record.id, s='';
 	var order_type={$type};
 	if (i_status ==1) {
-		s += '<a href="javascript:addInvoice('+oid+','+order_type+','+id+')">审核</a>';
+		s = '<a href="javascript:addInvoice('+oid+','+order_type+','+id+')">审核</a>';
+	}else if(i_status == 2){
+		s = '<a href="javascript:changeRed('+id+')">红字更正</a>';
+	}else{
+		s="-";
 	}
-	if(i_status == 2)
-	s += '<a href="javascript:viewPinfo('+oid+','+id+','+order_type+','+b_price+','+total_price+',\''+o_sn+'\')">更正</a>';
+	
 	return s;
 }
 
 //开票审核
 function addInvoice(oid,order_type,id){
-	var width=520, height=680,type=order_type,finance=1,invoice='1';
+	var width=800, height=680,type=order_type,finance=1,invoice='1';
 		title="开票申请审核";
 	mini.open({
 		//有invoice表示是开票,有finance表示是审核
-		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice+"&finance="+finance+"&id="+id,
+		url: "/product/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice+"&finance="+finance+"&id="+id,
 		showMaxButton:true,
 		 title: title, width: width, height:height,
 		ondestroy: function (action) {
@@ -146,24 +149,15 @@ function addInvoice(oid,order_type,id){
 	});
 }
 
-//红充更正操作
-function viewPinfo(oid,id,order_type,b_price,total_price,o_sn){
-	var o_sn = o_sn;
-	var data = {oid:oid,id:id,order_type:order_type,b_price:b_price,total_price:total_price,o_sn:o_sn};
-	var json = mini.encode(data);
-	mini.confirm("确定交易取消？", "提示", function(action){
-	if(action!='ok') return;
-	var callback=function(data){
-		if(data.err=='0'){
+//查看
+function changeRed(id){
+	if(!confirm('确定要更正这条信息吗?')) return;
+	$.post('/product/billing/changeRed',{id:id},function(data){
+		if(data.err==0){
+			alert('操作成功');
 			grid.reload();
-		}else{
-			alert(data.msg)
-			return false;
 		}
-	}
-	utils.ajax('/product/billing/changeRed',{data:json},callback,"POST","json");
-  });
-
+	},'json');
 }
 
 //设置状态
