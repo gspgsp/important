@@ -502,10 +502,10 @@ class mainPageAction extends homeBaseAction
     //根据供求的筛选条件渲染数据
     public function getSupplyCondData(){
         $this->is_ajax = true;
-        $model = sget('model','i');//牌号
+        $model = sget('model','s');//牌号
         $f_name = sget('f_name','s');//厂家名称
+        $provinces = sget('provinces','s')//地区
         $product_type = sget('product_type','i');//类型
-        $provinces = sget('provinces','i')//地区
         $cargo_type = sget('cargo_type','i');//货物属性
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
