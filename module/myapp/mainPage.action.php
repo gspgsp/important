@@ -504,7 +504,7 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         $model = sget('model','s');//牌号
         $f_name = sget('f_name','s');//厂家名称
-        $provinces = sget('provinces','s')//地区
+        $provinces = sget('provinces','s');//地区
         $product_type = sget('product_type','i');//类型1/2/3/4/5
         $cargo_type = sget('cargo_type','i');//货物属性1现货 2期货
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
