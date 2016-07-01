@@ -29,8 +29,9 @@
 						<td>采购类型：</td>
 						<td>{$info.purchase_type}</td>
 					{/if}	
-						<td>结算方式：</td>
-						<td><input name="payment_way" class="mini-textbox" style="width:125px;" maxlength="8" value="{$info.payment_way}"/>
+						<td>业务模式<font style="color:red;"> * </font></td>
+						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}' required="true" textfield="name" valuefield="id"/></td>
+						
 					</tr>
 					<tr>
 						<td><font style="color:blue;">运输方式<font style="color:red;"> * </font></font></td>
@@ -84,8 +85,9 @@
 						<td>
 						<input  class="mini-datepicker"  name="payment_time"  required="true" value="{$info.payment_time}"/>
 						</td>
-						<td>业务模式<font style="color:red;"> * </font></td>
-						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}' required="true" textfield="name" valuefield="id"/></td>
+						<td>结算方式：</td>
+						<td><input name="payment_way" class="mini-textarea" style="width:125px;" maxlength="40" value="{$info.payment_way}"/>
+						
 					</tr>
 					<input class="mini-hidden"  id="require_number" name="require_number" value="0"/>
 					<input class="mini-hidden"  id="total_price" name="total_price" value="0"/>
