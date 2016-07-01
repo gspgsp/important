@@ -111,13 +111,13 @@ function onLoadHandle(e) {
 
 //追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status,id=record.id, s='';
+	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status,id=record.id,is_collection_status=record.is_collection_status, s='',red_status=record.red_status;
 	var order_type={$type};
 	if (c_status ==1) {
-		s += '<a href="javascript:transaction('+oid+','+order_type+','+id+')">审核</a>';
+		s += '<a href="javascript:transaction('+oid+','+order_type+','+id+')">记账</a>';
 	}
-	if(c_status == 2)
-	s += '<a href="javascript:viewPinfo('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">退款</a>';
+	if(c_status == 2 && red_status == 0)
+	s += '<a href="javascript:viewPinfo('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">红字更正</a>';
 	return s;
 }
 
@@ -150,7 +150,7 @@ function down(e){
 
 }
 
-//红充操作
+//红字更正操作
 function viewPinfo(oid,id,c_price,total_price,o_sn){
 	var o_sn = o_sn;
 	var data = {oid:oid,id:id,c_price:c_price,total_price:total_price,o_sn:o_sn};
