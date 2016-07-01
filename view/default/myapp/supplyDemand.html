@@ -50,11 +50,11 @@
 				var num="";
 				var otype="";
 
-				function bigSearch(type,otype) {
+				function bigSearch(type,otype,model,f_name,product_type,cargo_type,provinces) {
 					commonAjax(
 							"post",
 							"/myapp/mainPage/getSupply",
-							{type:type,otype:otype}
+							{type:type,otype:otype,model:model,f_name:f_name,product_type:product_type,cargo_type:cargo_type,provinces:provinces}
 					).then(function (res) {
 						console.log(res);
 						if(res.pubQuoPur.length==0){
@@ -132,7 +132,7 @@
 					});
 				}
 
-				bigSearch(2,3);
+				bigSearch(2,3,);
 				$(".supplyDemandChange span").on("click",function () {
 					num=$(this).data("num");
 					$(this).addClass("on").siblings("span").removeClass("on");
