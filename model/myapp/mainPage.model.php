@@ -269,7 +269,7 @@ class mainPageModel extends model
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
-            ->order("$sortField $sortOrder")
+            ->order("pur.input_time desc")
             ->getAll();
             //数据处理
             foreach ($data as $key => $value) {
