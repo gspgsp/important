@@ -457,6 +457,12 @@ class mainPageAction extends homeBaseAction
     public function enReleaseSale(){
         $this->display('releaseSale');
     }
+    //进入发布报价时验证是否登录
+    public function checkReleaseLogin(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        json_output(array('err'=>0,'msg'=>'用户已登录'));
+    }
     //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub
     //判断发布报价时候牌号是否存在，存在直接却，不存在自己选择一个(下面方法在本版本app没有使用，下个版本使用)
     public function checkReleaseModel(){
@@ -486,6 +492,22 @@ class mainPageAction extends homeBaseAction
         if(!$pubQuoPur = M('myapp:mainPage')->getPublicQuoPur($type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'pubQuoPur'=>$pubQuoPur['data']));
 
+    }
+    //获取供求的筛选条件
+    public function getSupplyCondition(){
+        $this->is_ajax = true;
+        if(!$typeData=M('myapp:mainPage')->getSupplyConditionData()) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'typeData'=>$typeData));
+    }
+    //根据供求的筛选条件渲染数据
+    public function getSupplyCondData(){
+        $this->is_ajax = true;
+        $keywords = sget('keywords','s');//搜索关键字
+        $type = sget('type','i',2);//1求(采)购 2报价(供应)
+        $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        M('myapp:mainPage')->getSupplyCondDatas($keywords,$type,$otype,$page,$size);
     }
     //进入我要供货
     public function enMySupply(){
