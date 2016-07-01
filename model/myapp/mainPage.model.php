@@ -38,6 +38,7 @@ class mainPageModel extends model
     //原油价格数据处理方法(获取涨跌)
     private function _getUpOilDowns($type,$id){
         $preTime = $this->model('oil_price')->where("id=$id and type=$type")->select('input_time')->getRow();
+        $this->model('oil_price')->where("type=$type and input_time < $preTime")
 
     }
     //获取搜索结果数据(4种方式)
@@ -209,17 +210,17 @@ class mainPageModel extends model
     //获取分类关键字
     public function getProductTypeData($protype){
         $apply = array(
-        1=>'重包',
-        2=>'涂覆',
-        3=>'薄膜',
-        4=>'滚塑',
-        5=>'注塑',
-        6=>'中空',
-        7=>'管材',
-        8=>'拉丝',
-        9=>'纤维',
-        10=>'茂金属',
-        11=>'其他',
+        '重包',
+        '涂覆',
+        '薄膜',
+        '滚塑',
+        '注塑',
+        '中空',
+        '管材',
+        '拉丝',
+        '纤维',
+        '茂金属',
+        '其他',
     );
         $factory = $this->model('factory')->where('product_type='.$protype)->select('f_name')->order('sort,desc')->limit('0,10')->getAll();
         $region = array(
