@@ -33,10 +33,9 @@
     				</div>
 					<h2>{$data.c_name}</h2>
 					<span>上次登录时间：
-						{if $data.last_login==0|| $data.last_login==null}{$data.input_time|date: Y-m-d :H:i}
-						{else}
+
 						{$data.last_login|date: Y-m-d :H:i}
-						{/if}</span>
+						</span>
     			</div>
     			<!--cen end-->
     			<!--rt begin-->
@@ -118,9 +117,18 @@
                                     {foreach from=$prices item=value key=key}
 				                    <div class="item" id="{$value.id}" >
                                         <p class="addr">
-                                            {$value.product_name}/ {$value.model}/{$value.f_name}
+
+											{if $value.product_type==1}HDPE
+											{elseif $value.product_type==2}LDPE
+											{elseif $value.product_type==3}LLDPE
+											{elseif $value.product_type==4}PP
+											{else}PVC
+											{/if}/ {$value.model}/{$value.f_name}
                                         </p>
-                                        <div class="price up" id="price" data-id="{$value.unit_price}"><span>¥{$value.unit_price}</span><b>{$value.price}</b></div>
+                                        <div class="price up" id="price" data-id="{$value.price}">
+											<span>¥{$value.unit_price}</span>
+											<b>{$value.absprice}</b>
+										</div>
                                         <p class="time">{$value.input_time|date:Y-m-d}</p>
                                         <div class="del">取消关注</div>            
                                     </div>
@@ -375,6 +383,15 @@
 			}
 		})
 	},5000);
+
+	$(function(){
+		var price=$('#price').attr('data-id');
+		if(price>0){
+			$('#price').addClass('price up');
+		}else{
+			$('#price').addClass('price down');
+		}
+	})
 
     //关注产品信息
     var track = $(".slider-container").silverTrack({

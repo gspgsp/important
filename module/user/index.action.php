@@ -3,7 +3,6 @@
 
 class indexAction extends userBaseAction{
 
-
     /**
      * 个人中心首页
      *
@@ -19,14 +18,14 @@ class indexAction extends userBaseAction{
         $data = M('product:concernedProduct')->getConcernedList($where);
         $arr=array();
         $array=array();
-       foreach($data as $k=>$v){
+        foreach($data as $k=>$v){
            $arr['p_id']=$v['product_id'];
            $price=M('product:purchase')->footPrice($arr);
-            $prices['price']=$price[0]['unit_price']-$price[1]['unit_price'];
+           $prices['price']=$price[0]['unit_price']-$price[1]['unit_price'];
            $prices['p_id']=$price[0]['p_id'];
+           $prices['absprice']=abs($prices['price']);
            $array[]=array_merge($price[0],$prices);
-       }
-        p($array);
+        }
         //今日报价发布总数
         $date1=strtotime(date('Ymd'));
         $count1=M('resourcelib:resourcelib')->getTotalOne($date1);
@@ -35,12 +34,10 @@ class indexAction extends userBaseAction{
         $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
         //默认最新资讯
         $ref=M('resourcelib:resourcelib')->getNew();
-
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
         //积分商品banner
         $points=M('points:pointsGoods')->getGoods();
-
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
         $uid=$this->user_id;
@@ -77,9 +74,7 @@ class indexAction extends userBaseAction{
      *
      */
     public function ajax(){
-
         $ref=M('resourcelib:resourcelib')->getNew();
-
         json_output($ref);
     }
 
