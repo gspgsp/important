@@ -32,14 +32,15 @@ class mainPageModel extends model
             ->getPage();
             foreach ($list['data'] as $key => $value) {
                 $list['data'][$key]['type'] = $value['type'] == 0? 'WTI':'BRENT';
+                $list['data'][$key]['alph'] = $this->_getUpOilDowns($value['type'],$value['id']);
             }
         return $list;
     }
     //原油价格数据处理方法(获取涨跌)
     private function _getUpOilDowns($type,$id){
-        $preTime = $this->model('oil_price')->where("id=$id and type=$type")->select('input_time')->getRow();
-        $nextOil = $this->model('oil_price')->where("type=$type and input_time < $preTime")->limit('0,1')->order('input_time desc')->getRow();
-
+        $preOil = $this->model('oil_price')->where("id=$id and type=$type")->select('price,input_time')->getRow();
+        $nextOil = $this->model('oil_price')->where("type=$type and input_time < $preOil['input_time']")->limit('0,1')->order('input_time desc')->getRow();
+        return empty($nextOil) ? 0 : $preOil['price']-$nextOil['price'];
     }
     //获取搜索结果数据(4种方式)
     public function getAllSearchRes($keywords,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
