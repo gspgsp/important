@@ -505,8 +505,8 @@ class mainPageAction extends homeBaseAction
         $model = sget('model','s');//牌号
         $f_name = sget('f_name','s');//厂家名称
         $provinces = sget('provinces','s')//地区
-        $product_type = sget('product_type','i');//类型
-        $cargo_type = sget('cargo_type','i');//货物属性
+        $product_type = sget('product_type','i');//类型1/2/3/4/5
+        $cargo_type = sget('cargo_type','i');//货物属性1现货 2期货
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
         if(!$data = M('myapp:mainPage')->getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
