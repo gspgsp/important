@@ -140,15 +140,24 @@
 							mui.alert("",res.msg,function () {
 								window.location.href="/myapp/personalCenter/enMyPoints";
 							});
-						}else{
-							if(res.msg=="请求超时,请重新登录!"){
-								mui.alert("",res.msg,function () {
-									window.location.href="/myapp/login";
-								});
-							}
+						}else if(res.err==1){
 							mui.alert("",res.msg,function () {
 								window.location.href="/myapp/login";
 							});
+						}else if(res.err==2){
+							mui.alert("",res.msg,function () {});
+						}else if(res.err==3){
+							mui.alert("",res.msg,function () {});
+						}else if(res.err==4){
+							mui.alert("",res.msg,function () {});
+						}else if(res.err==5){
+							mui.alert("",res.msg,function () {});
+						}else if(res.err==6){
+							mui.alert("",res.msg,function () {});
+						}else if(res.err==7){
+							mui.alert("",res.msg,function () {});
+						}else if(res.err==8){
+							mui.alert("",res.msg,function () {});
 						}
 						console.log(">>>",res);
 

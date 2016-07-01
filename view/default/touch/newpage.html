@@ -22,6 +22,11 @@
     Vue.http.options.emulateJSON = true;
 
     var infolist=Vue.extend({
+        data:function () {
+            return {
+                msg:'aaa'
+            }
+        },
         template:
                 "<nav id='nav'>" +
                 "<span class='on'>市场点评</span><span>行业热点</span><span>企业调价</span><span>装置动态</span><span>塑料期货</span>" +
@@ -30,7 +35,7 @@
                 "<ul id='articleLi'></ul>" +
                 "</div>",
         ready:function () {
-            this.$http({url:'/touch/information/get_items3',method:"POST",data:{pid:29,page:3}}).then(function (res) {
+            this.$http({url:'/touch/information/get_items',method:"POST",data:{pid:29,page:3}}).then(function (res) {
                 console.log(res);
             },function (res) {
                 console.log(">>>");

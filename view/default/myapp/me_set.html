@@ -28,7 +28,6 @@
 		<ul class="meUl2">
 			<li>当前版本<span>1.10</span></li>
 		</ul>
-		<a class="me_quit" href="javascript:;">退出登录</a>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
@@ -49,24 +48,6 @@
 					}
 				},function () {
 
-				});
-
-				$(".me_quit").on("click",function () {
-					commonAjax(
-							"post",
-							"/myapp/personalCenter/logOut"
-					).then(function (res) {
-						console.log(res);
-						if(res.err==0){
-							mui.alert('',res.msg,function(){
-								window.location.href="/myapp/mainPage/enMainPage";
-							});
-						}else{
-							window.location.href="/myapp/login";
-						}
-					},function () {
-
-					});
 				});
 			})
 

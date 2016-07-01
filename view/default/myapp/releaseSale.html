@@ -129,6 +129,16 @@
 				swipeBack: true //启用右滑关闭功能
 			});
 			$(function () {
+				commonAjax(
+						"post",
+						"/myapp/mainPage/checkReleaseLogin"
+				).then(function (res) {
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}
+				},function () {
+
+				});
 				$("#releaseSaleBtn").on("click",function () {
 					var model=$("#model").val();
 					var product_type=$("#product_type").val();

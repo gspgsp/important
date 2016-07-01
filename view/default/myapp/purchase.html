@@ -35,11 +35,6 @@
 			$(function () {
 				$("#submitBtn").on("click",function () {
 					var content=$("#content").val();
-					if(!content){
-						mui.alert("","请输入采购信息",function () {
-							
-						});
-					}else{
 						commonAjax(
 								"post",
 								"/myapp/mainPage/getPurchase",
@@ -49,15 +44,11 @@
 							if(res.err==1){
 								window.location.href="/myapp/login";
 							}else{
-								mui.alert("",res.msg,function () {
-									window.location.href="/myapp/mainPage/enMainPage";
-								});
+								mui.alert("",res.msg,function () {});
 							}
 						},function () {
 
 						});
-					}
-
 				});
 			})
 		</script>
