@@ -130,7 +130,7 @@ class mainPageModel extends model
         foreach ($opres as $key => $value) {
             $opres[$key]['provinces'] = $this->model('lib_region')->select('name')->where('id='.$value['provinces'])->getOne();
             $opres[$key]['company'] = $this->model('customer')->select('c_name')->where('c_id='.$value['c_id'])->getOne();
-            $opres[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+            $opres[$key]['input_time'] = date("Y-m-d",$value['input_time']);
         }
         return $opres;
     }
@@ -273,8 +273,9 @@ class mainPageModel extends model
             ->getAll();
             //数据处理
             foreach ($data as $key => $value) {
-                $data[$key]['product_type'] = L('product_type')[$data['product_type']];
+                $data[$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data[$key]['input_time'] = date("Y-m-d",$value['input_time']);
+                $data[$key]['twoData'] = $this->_getOperateRes($value['p_id']);
             }
         return $data;
     }
