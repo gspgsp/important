@@ -411,14 +411,24 @@ class mainPageModel extends model
         return $phyDelData;
     }
     //获取供求(公海的报价和求购) 1求(采)购 2报价
-    public function getPublicQuoPur($type,$page=1,$size=10){
+    public function getPublicQuoPur($type,$otype,$page=1,$size=10,$sortField='input_time',$sortOrder='desc'){
         $where = "type=$type";
+        if($otype==1){
+            $sortField = 'price';
+            $sortOrder='asc';
+        }elseif ($otype==2) {
+            $sortField = 'price';
+            $sortOrder='desc';
+        }elseif ($otype==3) {
+            $sortField='input_time';
+            $sortOrder='desc';
+        }
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
             ->page($page,$size)
-            ->order('input_time desc')
+            ->order("$sortField $sortOrder")
             ->getPage();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
