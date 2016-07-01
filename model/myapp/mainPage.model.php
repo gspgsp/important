@@ -99,6 +99,7 @@ class mainPageModel extends model
             ->getPage();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
+                $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
                 $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
             }
             return $data;
