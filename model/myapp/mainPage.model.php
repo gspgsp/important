@@ -476,9 +476,8 @@ class mainPageModel extends model
         return $typeData;
     }
     //根据供求的筛选条件渲染数据
-    public function getSupplyCondDatas($keywords,$type,$otype,$page=1,$size=10){
+    public function getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype,$page=1,$size=10){
         $where = "type=$type";
-        $where.="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type ='{$keywords}' or pur.provinces ='{$keywords}' or pur.cargo_type ='{$keywords}'";
         if($otype==1){
             $sortField = 'unit_price';
             $sortOrder='asc';
@@ -488,6 +487,17 @@ class mainPageModel extends model
         }elseif ($otype==3) {
             $sortField='input_time';
             $sortOrder='desc';
+        }
+        if(!empty($model)){
+            $where.=" and pro.model like '%{$model}%' ";
+        }elseif (!empty($f_name)) {
+            $where.=" and fa.f_name like '%{$f_name}%' ";
+        }elseif (!empty($product_type)) {
+            $where.=" and pro.product_type =$product_type ";
+        }elseif (!empty($provinces)) {
+            $where.=" and pro.provinces =$provinces ";
+        }elseif (!empty($cargo_type)) {
+            $where.=" and pro.cargo_type =$cargo_type ";
         }
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
