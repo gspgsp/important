@@ -1,0 +1,140 @@
+{layout file="public:mini_layout"}
+<div style="padding:10px;">
+	<div id="infoForm" class="form">
+		<input class="mini-hidden" name="ctype" value="{$ctype}"/>
+		<input class="mini-hidden" name="id" value="{$id}"/>
+		<table border="0" cellpadding="1" cellspacing="2">
+			{if $id lte 0}
+			<tr>
+				<td >牌号：</td>
+				<td><input name="model"  id="model" class="mini-textbox" value="{$data.model}" style="width:170px;" required="true" onvaluechanged="getcomp"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>厂家：</td>
+				<td><input id="comp" name="f_id" class="mini-combobox" textField="f_name"  valueField="fid"  value="{$f_name.f_id}" allowInput="false"  style="width:170px" required="true" text="{$f_name.f_name}" onvaluechanged="getinfo"></td>
+				<td ></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td >加工级别：</td>
+				<td><input id="process_type" name="process_type" class="mini-combobox" data='{:setMiniConfig|$process_type}' value="{$data.process_type}" textField="name" valueField="id" style="width:170px;" required="true"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>产品分类：</td>
+				<td><input id="product_type" name="product_type" class="mini-combobox" data='{:setMiniConfig|$product_type}' textField="name" valueField="id" style="width:170px;" required="true" value="{$data.product_type}"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			{/if}
+			<tr>
+				<td style="width:80px;">交货周期：</td>
+				<td style="width:210px;"><input name="period" class="mini-combobox" data='{:setMiniConfig|$period}' textField="name" valueField="id" style="width:170px;" value = "{$data.period|default:1}" required="true"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width:80px;">数量：</td>
+				<td style="width:210px;"><input name="number" class="mini-textbox" maxlength="12" value="{$data.number}" style="width:150px;" required="true"/>&nbsp;&nbsp;吨</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width:80px;">预期价格：</td>
+				<td><input name="unit_price" class="mini-textbox" style="width:150px;" required="true"  value="{$data.unit_price}"/>&nbsp;&nbsp;元</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>交货地：</td>
+				<td><input name="company_province" id="c_1_0" style="width:80px;" required="true" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$data.company_province}" showNullItem="true"/>
+					<input name="company_city" id="c_2_0" required="true" class="mini-combobox" url="{if $data.company_province}/user/user/getRegion?pid={$data.company_province}{/if}" value="{$data.company_city}" style="width:80px;" textField="name" valueField="id" />
+				</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>备注：</td>
+				<td colspan="3">
+					<input name="remark" class="mini-textarea" value="{$data.remark}" style="width:180px; height:50px;"/>
+				</td>
+			</tr>
+			<tr>
+				<td><input class="mini-hidden" name="status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$data.status|default:2}"/></td>
+			</tr>
+		</table>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/product/zcpurchase/addSubmit',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function onValidMobile(e){
+	 if (e.isValid) {
+		 if(!utils.isMobile(e.value)){
+			 e.errorText = "错误的手机号";
+				e.isValid = false;
+		 }
+	 }
+}
+//获取地区的信息
+function setReg(name,val){
+	var deptCombo = mini.get(name+"_1_0");
+	var positionCombo = mini.get(name+"_2_0");
+	onDeptChanged(deptCombo,positionCombo,val);
+}
+function onDeptChanged(deptCombo,positionCombo,val) {
+	var id = deptCombo.getValue();
+	positionCombo.setValue("");
+	var url = "/user/user/getRegion?pid=" + id
+	positionCombo.setUrl(url);
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+function getcomp(e){
+	var model = mini.get("model").getValue();
+	mini.get("comp").load('/product/factory/getfaclist?model='+model);
+	var data = mini.getData('/product/factory/getfaclist?model='+model);
+}
+
+function getinfo(e){
+	var model = mini.get("model").getValue();
+	var fid = mini.get("comp").getValue();
+	var data = mini.getData('/product/product/getPinfo?model='+model+'&fid='+fid);
+	mini.get("process_type").setValue(data.process_type);
+	mini.get("product_type").setValue(data.product_type);
+	
+}
+</script>
