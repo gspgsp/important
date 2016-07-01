@@ -77,7 +77,7 @@
 									"<span class='orange'>￥<input style='width:60px;' class='offerNumInput unit_price' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
 									"<p><input style='width:100px;' class='offerTxtInput f_name' type='text' readonly value='"+v.f_name+"'>" +
 									"<span class='orange'><input style='width: 60px;' class='offerNumInput number' type='text' value='"+v.number+"'>吨</span></p>" +
-									"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' readonly value='"+v.store_house+"'><span>"+ stampToDate2(v.input_time) +"</span>" +
+									"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' readonly value='"+v.store_house+"'><span>"+v.input_time+"</span>" +
 									"</p></div><div class='offerStatus'>" +
 									"<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus "+ shelve(v.shelve_type) +"'></i>"+ shelve2(v.shelve_type) +"</span>" +
 									"<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span></div></li>";
@@ -183,7 +183,7 @@
 												"<span class='orange'>￥<input style='width:60px;' class='offerNumInput unit_price' type='text' value='" + v.unit_price + "'>/吨</span></h3>" +
 												"<p><input style='width:100px;' class='offerTxtInput f_name' type='text' readonly value='" + v.f_name + "'>" +
 												"<span class='orange'><input style='width: 60px;' class='offerNumInput number' type='text' value='" + v.number + "'>吨</span></p>" +
-												"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' readonly value='" + v.store_house + "'><span>" + stampToDate2(v.input_time) + "</span>" +
+												"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' readonly value='" + v.store_house + "'><span>" + v.input_time + "</span>" +
 												"</p></div><div class='offerStatus'>" +
 												"<span class='shelve' data-pid='" + v.id + "'><i class='purchaseStatus " + shelve(v.shelve_type) + "'></i>" + shelve2(v.shelve_type) + "</span>" +
 												"<span class='dataUpdate' data-pid='" + v.p_id + "' data-id='" + v.id + "'><i class='purchaseStatus update'></i>更新</span></div></li>";
