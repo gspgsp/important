@@ -502,12 +502,14 @@ class mainPageAction extends homeBaseAction
     //根据供求的筛选条件渲染数据
     public function getSupplyCondData(){
         $this->is_ajax = true;
-        $keywords = sget('keywords','s');//搜索关键字
+        $model = sget('model','i');//牌号
+        $f_name = sget('f_name','s');//厂家名称
+        $product_type = sget('product_type','i');//类型
+        $provinces = sget('provinces','i')//地区
+        $cargo_type = sget('cargo_type','i');//货物属性
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
-        $page = sget('page','i',1);
-        $size = sget('size','i',10);
-        if(!$data = M('myapp:mainPage')->getSupplyCondDatas($keywords,$type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        if(!$data = M('myapp:mainPage')->getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
     //进入我要供货
