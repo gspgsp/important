@@ -272,9 +272,9 @@ class mainPageModel extends model
             ->order("pur.input_time desc")
             ->getAll();
             //数据处理
-            foreach ($data['data'] as $key => $value) {
-                $data['data'][$key]['product_type'] = L('product_type')[$data['product_type']];
-                $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
+            foreach ($data as $key => $value) {
+                $data[$key]['product_type'] = L('product_type')[$data['product_type']];
+                $data[$key]['input_time'] = date("Y-m-d",$value['input_time']);
             }
         return $data;
     }
