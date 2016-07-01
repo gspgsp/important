@@ -5,32 +5,24 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/app.css" />
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 	<body>
 		<header id="classifyHeader">
-			<a class="back" href="#"></a>
+			<a class="back" href="javascript:window.history.back();"></a>
 			分类
 		</header>
 		<div class="classifyWrap">
 			<h3>应用</h3>
-			<p>
-				<span class="on">重包</span><span>涂覆</span><span>薄膜</span><span>注塑</span><span>其他</span>
-			</p>
+			<p id="yy"></p>
 			<h3>厂家</h3>
-			<p>
-				<span>东华能源</span><span>东莞三星道达尔</span><span>东莞富宏</span><span>上海金菲</span><span>上海赛科</span>
-				<span>上海石化</span><span>上海氯碱</span>
-			</p>
+			<p id="cj"></p>
 			<h3>地区</h3>
-			<p>
-				<span>上海</span><span>江苏</span><span>浙江</span><span>山东</span><span>广东</span>
-				<span>山西</span><span>福建</span><span>四川</span><span>重庆</span><span>广东</span>
-				<span>山西</span><span>福建</span><span>四川</span><span>重庆</span><span>安徽</span>
-				<span>辽宁</span><span>吉林</span><span>湖北</span><span>湖南</span><span>河南</span>	
-			</p>
+			<p id="dq"></p>
 			<div style="text-align: center; padding: 35px 0;">
 				<a class="classifyEnter" href="#">确定</a>
 			</div>
@@ -39,6 +31,33 @@
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			$(function () {
+				var type=getUrlParam("type");
+				var yy="";
+				var cj="";
+				var dq="";
+				commonAjax(
+						"post",
+						"/myapp/mainPage/getProductTypeDetail",
+						{type:type}
+				).then(function (res) {
+					console.log(res);
+					res.typeData[0].forEach(function (v,i,a) {
+						yy+="<span>"+v+"</span>";
+						$("#yy").html(yy);
+					});
+					res.typeData[1].forEach(function (v,i,a) {
+						cj+="<span>"+v+"</span>";
+						$("#cj").html(cj);
+					});
+					res.typeData[2].forEach(function (v,i,a) {
+						dq+="<span>"+v+"</span>";
+						$("#dq").html(dq);
+					});
+				},function () {
+
+				});
+			})
 		</script>
 
 	</body>

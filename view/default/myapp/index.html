@@ -16,7 +16,7 @@
 </head>
 <body style="padding: 0 0 50px 0;">
 <header id="header">
-	<!--<a class="headerMenu" href="#"></a>-->
+	<a class="headerMenu" href="/myapp/mainPage/enProductType"></a>
 	<div class="appSearch">
 		<input type="text" placeholder="请输入产品分类、牌号" />
 		<a class="appQuery" href="#"></a>
@@ -163,7 +163,7 @@
 		).then(function (res) {
 			console.log(">>>",res);
 			res.infos.forEach(function (v, i, a) {
-				appInfoLi2 += "<li>"+v.type+"<i class='"+ oilCompare(v.ups_downs) +"'>"+v.ups_downs+"</i><b>"+v.price+"</b></li>";
+				appInfoLi2 += "<li>"+v.type+"<i class='"+ oilCompare(v.ups_downs) +"'>"+arrow(v.ups_downs)+""+v.ups_downs+"</i><b>"+v.price+"</b></li>";
 			});
 			$("#appInfoUl2").html(appInfoLi2);
 		},function () {

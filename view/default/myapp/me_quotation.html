@@ -134,13 +134,13 @@
 
 						//数据更新
 						$(".dataUpdate").on("click",function () {
-							var purchaseWrap=$(this).parents("li").find(".purchaseWrap");
+							var purchaseWrap=$(this).parents("li").find(".purchaseWrap3");
 							var unit_price=purchaseWrap.find(".unit_price").val();
 							var f_name=purchaseWrap.find(".f_name").val();
 							var number=purchaseWrap.find(".number").val();
 							var store_house=purchaseWrap.find(".store_house").val();
 							var id=$(this).data("id");
-							var pid=$(this).data("p_id");
+							var pid=$(this).data("pid");
 							commonAjax(
 									"post",
 									"/touch/myquotation/refreshCell",
@@ -240,13 +240,14 @@
 
 								//数据更新
 								$(".dataUpdate").on("click",function () {
-									var purchaseWrap=$(this).parents("li").find(".purchaseWrap");
+									var purchaseWrap=$(this).parents("li").find(".purchaseWrap3");
 									var unit_price=purchaseWrap.find(".unit_price").val();
 									var f_name=purchaseWrap.find(".f_name").val();
 									var number=purchaseWrap.find(".number").val();
 									var store_house=purchaseWrap.find(".store_house").val();
 									var id=$(this).data("id");
 									var pid=$(this).data("p_id");
+
 									commonAjax(
 											"post",
 											"/touch/myquotation/refreshCell",
