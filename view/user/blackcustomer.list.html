@@ -43,13 +43,13 @@
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-		url="/user/blackcustomer/init?action=grid" idField="user_id" multiSelect="true" allowCellEdit="true" allowCellSelect="true">
+		url="/user/blackcustomer/init?action=grid" idField="user_id" multiSelect="true" allowCellEdit="true" allowCellWrap="true" allowCellSelect="true">
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
 			<div field="chanel" width="40" headerAlign="center" align="center">渠道</div>
 			<div field="type" width="30" headerAlign="center" align="center">客户类型</div>
-			<div field="level" width="40" headerAlign="center" align="center">级别</div>
+			<!-- <div field="level" width="40" headerAlign="center" align="center">级别</div> -->
 			<div field="need_product" width="60" headerAlign="center" align="center">所需要的牌号</div>
 			<div field="legal_person" width="30" headerAlign="center" align="center" >法人姓名</div>
 			<div field="legal_idcard" width="60" headerAlign="center"  align="center">法人身份证</div>
