@@ -20,6 +20,7 @@ class mainPageModel extends model
             $oils = $this->model('oil_price')->order('input_time desc')->limit('0,5')->getAll();
             foreach ($oils as $key => $value) {
                 $oils[$key]['type'] = $value['type']==0 ?'WTI':'BRENT';
+                $oils[$key]['alph'] = $this->_getUpOilDowns($value['type'],$value['id']);
             }
             return $oils;
         }
@@ -40,7 +41,7 @@ class mainPageModel extends model
     private function _getUpOilDowns($type,$id){
         $preOil = $this->model('oil_price')->where("id=$id and type=$type")->select('price,input_time')->getRow();
         $nextOil = $this->model('oil_price')->where("input_time < {$preOil['input_time']} and type=$type")->limit('0,1')->order('input_time desc')->getRow();
-        return empty($nextOil) ? 0 : $preOil['price']-$nextOil['price'];
+        return empty($nextOil) ? 0 : $preOil['ups_downs']-$nextOil['ups_downs'];
     }
     //获取搜索结果数据(4种方式)
     public function getAllSearchRes($keywords,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
