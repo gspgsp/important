@@ -27,6 +27,10 @@ class loginAction extends homeBaseAction{
 			if($result['err']>0){
 				$this->error($result['msg']);
 			}else{
+				//的三方授权登录绑定账号
+				if($_SESSION['auth_openid']){
+					M('user:userOuter')->bindUser($result['user']['user_id']);
+				}
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
 				$this->success('登录成功');
@@ -51,28 +55,31 @@ class loginAction extends homeBaseAction{
 
 	// 回调
 	public function callback(){
-		$sns=thinkOauth::getInstance('qq');
+		$type='qq';
+		$sns=thinkOauth::getInstance($type);
 		if(!$code=sget('code','s','')) $this->error('授权失败');
 		$extend=null;
 		if(!$token = $sns->getAccessToken($code , $extend)) $this->error('授权失败');
 		$snsType = E('SnsType',APP_LIB.'extend');
-		$snsInfo=$snsType->qq($token);
+		$snsInfo=$snsType->$type($token);
 		$openid=$token['openid'];
 		$outerModel=M('user:userOuter');
-		if($outerInfo=$outerModel->where("outer_id='{$openid}'")->getRow()){
-
+		$type=strtoupper($type);
+		if($outerInfo=$outerModel->where("outer_id='{$openid}' and outer_source='{$type}'")->getRow()){
+			$userInfo=M("public:common")->model('customer_contact')->where("user_id='{$outerInfo['user_id']}'")->getRow();
+			M('user:passport')->setSession($outerInfo['user_id'],$userInfo);
+			redirect('/user');
 		}else{
 			$_SESSION['auth_openid']=$openid;
+			$_SESSION['auth_info']=$snsInfo;
 			redirect('/user/login/bindLogin');
 		}
 		
 	}
 
 	public function bindLogin(){
-		$_SESSION['auth_openid']='aaa';
+		if($this->user_id>0) $this->forward('/user');
 		if(!$openid=$_SESSION['auth_openid']) $this->forward('/user/login');
-		p($openid);
-
 		$this->display('bindLogin');
 	}
 

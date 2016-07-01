@@ -104,6 +104,10 @@ class registerAction extends homeBaseAction{
 				if(!$customer){
 					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=1")) throw new Exception("系统错误 reg:104");
 				}
+				//的三方授权登录绑定账号
+				if($_SESSION['auth_openid']){
+					M('user:userOuter')->bindUser($user_id);
+				}
 			} catch (Exception $e) {
 				$user_model->rollback();
 				// showTrace();

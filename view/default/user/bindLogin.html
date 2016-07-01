@@ -34,7 +34,7 @@
 					<label>
 						<span class="cybblba_iejf">&nbsp;</span>
 						<div style="float:left;">
-							<span id="tips" style="color:red;">321321</span>
+							<span id="tips" style="color:red;"></span>
 						</div>
 					</label>
 
@@ -65,7 +65,7 @@ $(".registerform").submit(function(){
 	    if(data.err>0){
 	        errMsg(data.msg);
 	    }else{
-	        window.location.reload();
+	        window.location.href='/user';
 	    }
 	},'json');
 	errMsg('');
