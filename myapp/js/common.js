@@ -22,6 +22,16 @@ function getUrlParam(name) {
     if (r!=null) return unescape(r[2]); return null; //返回参数值
 }
 
+function arrow(num) {
+    if(num>0){
+        return "+";
+    }else if(num==0){
+        return "";
+    }else{
+        return "-";
+    }
+}
+
 function sendMsg() {
     var times=60;
     var username=$("#phone").val();
