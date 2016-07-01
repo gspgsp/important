@@ -95,7 +95,7 @@ class purchaseModel extends model{
 				->where('pur.p_id='.$arr['p_id'])
 				->order('pur.input_time desc')
 				->select('pur.id, pur.p_id,f.f_name,pur.unit_price,pur.input_time,p.model,p.product_type')
-				->limit('1')
+				->limit('2')
 				->getAll();
 
 	}
