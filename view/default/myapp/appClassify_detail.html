@@ -24,7 +24,7 @@
 			<h3>地区</h3>
 			<p id="dq"></p>
 			<div style="text-align: center; padding: 35px 0;">
-				<a class="classifyEnter" href="#">确定</a>
+				<a class="classifyEnter" href="javascript:;">确定</a>
 			</div>
 		</div>
 		<script type="text/javascript" charset="utf-8">
@@ -36,6 +36,9 @@
 				var yy="";
 				var cj="";
 				var dq="";
+				var apply2="";
+				var factory="";
+				var region2="";
 				commonAjax(
 						"post",
 						"/myapp/mainPage/getProductTypeDetail",
@@ -53,6 +56,21 @@
 					res.typeData[2].forEach(function (v,i,a) {
 						dq+="<span>"+v+"</span>";
 						$("#dq").html(dq);
+					});
+					$("#yy span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						apply2=$(this).text();
+					});
+					$("#cj span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						factory=$(this).text();
+					});
+					$("#dq span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						region2=$(this).text();
+					});
+					$(".classifyEnter").on("click",function () {
+						window.location.href="/myapp/mainPage/enKeyWordsRes?type="+type+"&apply="+escape(apply2)+"&factory="+escape(factory)+"&region="+escape(region2)+"";
 					});
 				},function () {
 

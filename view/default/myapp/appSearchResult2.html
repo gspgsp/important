@@ -38,16 +38,17 @@
 				swipeBack: true //启用右滑关闭功能
 			});
 			$(function(){
-				var keywords=getUrlParam("keywords");
+				var type=getUrlParam("type");
+				var apply2=unescape(getUrlParam("apply"));
+				var factory=unescape(getUrlParam("factory"));
+				var region=unescape(getUrlParam("region"));
 				var searchLi="";
 				var searchTb="";
-
-
-				function searchPro(keyW) {
+				function searchPro(stype,sapply2,sfactory,sregion) {
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getSearchRes",
-							{keywords:keyW}
+							"/myapp/mainPage/getgetKeyWordsRes",
+							{type:stype,apply:sapply2,factory:sfactory,region:sregion}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.searchRes.length==0){
@@ -87,7 +88,7 @@
 
 					});
 				}
-				searchPro(keywords);
+				searchPro(type,apply2,factory,region);
 
 				$(".appQuery2").on("click",function () {
 					var searchTxt=$("#searchTxt").val();
