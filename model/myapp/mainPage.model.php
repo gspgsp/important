@@ -13,7 +13,7 @@ class mainPageModel extends model
         if($type == 1){
             $result = $this->model('info')->select('id,title,input_time')->where("cate_id in (29,30,31,32,33)")->order('input_time desc')->limit('0,5')->getAll();
             foreach ($result as $key => $value) {
-                $result[$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+                $result[$key]['input_time'] = date("Y-m-d",$value['input_time']);
             }
             return $result;
         }elseif($type == 2){
@@ -60,6 +60,7 @@ class mainPageModel extends model
             ->getPage();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
+                $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
                 $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
             }
             return $data;
