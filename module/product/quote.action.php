@@ -63,7 +63,7 @@ class quoteAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','p.input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1  and p.`type` = 2 ";   //1 采购 2报价
+		$where=" 1  and p.`type` = 2 and p.`is_union` = 0";   //1 采购 2报价
 		if($slt){
 			$where .=" and p.`cargo_type` = 2 "; //期货采购
 		}else{
