@@ -442,6 +442,7 @@ class orderAction extends adminBaseAction {
             		$un_price = $res[0]['collected_price']+$res[0]['uncollected_price'];
 					$this->assign('c_price',$res[0]['collected_price']);
 					$this->assign('u_price',$un_price);
+					$this->assign('remark',$res[0]['remark']);//备注
 				}
 			}else{
 				//获取最后一条收付款信息	
@@ -449,6 +450,7 @@ class orderAction extends adminBaseAction {
 				if($res){
 					$this->assign('total_price',$res[0]['total_price']);
 					$this->assign('uncollected_price',$res[0]['uncollected_price']);
+					$this->assign('remark',$res[0]['remark']);//备注
 				}
 			}
 			$this->display('collection.add.html');
