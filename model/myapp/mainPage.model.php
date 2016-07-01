@@ -157,7 +157,7 @@ class mainPageModel extends model
             $chDeRes['provinces'] = $this->model('lib_region')->select('name')->where('id='.$data['provinces'])->getOne();//交货地,汉字型
             $chDeRes['delivery_place'] = $data['provinces'];//交货地,数字型
             $chDeRes['c_name'] = M('user:customer')->getCinfoById($data['c_id'])['c_name'];//公司名
-            $chDeRes['input_time'] = $data['input_time'] >1000 ? date("Y-m-d",$data['input_time']):'-';//发布时间
+            $chDeRes['input_time'] = date("Y-m-d",$data['input_time']);//发布时间
             $chDeRes['delivertime'] = $data['cargo_type'] ==1 ? '现货':'期货';//交货时间
             //联系人
             $chDeRes['con_name'] = $contact['name'];
