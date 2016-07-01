@@ -69,6 +69,7 @@ class storeDetailAction extends adminBaseAction {
 			$v['order_sn']=M("product:order")->getColByOid($v['o_id'],'order_sn');
 			$v['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
 			$v['model']=M("product:product")->getModelById($v['p_id']);//获取牌号
+			$v['f_name']=M("product:product")->getFnameByid($v['p_id']);
 			$v['admin_name']=M("product:inStorage")->getNameBySid($v['store_aid']); //获得入库人姓名
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
