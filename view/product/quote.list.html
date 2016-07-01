@@ -67,9 +67,7 @@
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
 			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
-			<div field="status" width="30" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态
-				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' />
-			</div>
+			<div field="status" width="30" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
 			<div action='do' width="40" renderer="viewhander">操作</div>
 		</div>
 	</div>
@@ -109,6 +107,9 @@ function viewhander(e){
 	if(count>0){
 		s = '<a href="javascript:viewPinfo('+id+')">采购列表</a>';
 	}
+	if(status==1){
+		s +='&nbsp;<a href="javascript:chk('+id+')">审</a>';
+	}
 	return s;
 }
 
@@ -143,6 +144,19 @@ function add(id,ctype){
 			}
 		}
 	});	
+}
+//弹出阶段审核窗口
+function chk(id){
+	mini.open({
+		url:"/product/purchase/chkpage?id="+id,
+		showMaxButton:true,
+		title:'审核',width:190,height:210,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
 }
 //行内编辑后保存数据
 function saveData() {
