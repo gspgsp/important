@@ -10,7 +10,7 @@
 		<!-- 审核所需字段 -->
 		<input class="mini-hidden" name="id"  value="{$id}"/>
 		<input class="mini-hidden" name="finance"  value="{$finance}"/>
-
+		<!-- $price 是保留字段，用于收付款改掉订单总价是的显示结果-->
 
 			<tr>
 				{if $type =='1'}
@@ -46,7 +46,7 @@
 			{else}		
 			<tr>
 				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
-				<td><input  class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" allowInput="false"/></td>
+				<td><input name="un_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>{if $type =='1'}收款金额{else}付款金额{/if}<span style="color:red">*</span></td>
@@ -106,10 +106,21 @@ function submitForm() {
   	if (form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
-	if(o.collected_price <= 0 || o.collection_price >o.uncollected_price){
-		alert("请输入正确的数值");
+	//输入的值必须大于0，小于总金额	
+	if(parseFloat(o.collected_price) <= 0 || parseFloat(o.collected_price) >parseFloat(o.total_price)){ 
+		alert("请输入正确的数值1");
 		return;
 	}
+	//uncollected_price不为空，就不是第一次申请审核，输入值得小于未收付款金额
+	if (parseFloat(o.uncollected_price) >'') {
+		if (parseFloat(o.collected_price) >parseFloat(o.uncollected_price)) {alert("请输入正确的数值2");return;}
+	}
+	//un_price不为空，就不是第一次申请，输入值得小于未收付款金额
+	if(parseFloat(o.un_price) >''){
+		if (parseFloat(o.collected_price >o.un_price)) {alert("请输入正确的数值3");return;}
+
+	}
+	
 	var json = mini.encode(o);
 	form.loading("数据提交中，请稍后......");
 	$.post('/product/order/ajaxSave',{data:json},function(data){
