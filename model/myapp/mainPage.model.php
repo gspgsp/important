@@ -38,7 +38,7 @@ class mainPageModel extends model
     //原油价格数据处理方法(获取涨跌)
     private function _getUpOilDowns($type,$id){
         $preTime = $this->model('oil_price')->where("id=$id and type=$type")->select('input_time')->getRow();
-        $this->model('oil_price')->where("type=$type and input_time < $preTime")
+        // $this->model('oil_price')->where("type=$type and input_time < $preTime")
 
     }
     //获取搜索结果数据(4种方式)
