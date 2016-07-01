@@ -40,7 +40,6 @@ class personalCenterAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
         $cargo_type = sget('cargo_type','i',1);
-        // $data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$cargo_type);
         if(!$data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
     }

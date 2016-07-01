@@ -220,9 +220,9 @@ class mainPageAction extends homeBaseAction
         if(!$typeData = M('myapp:mainPage')->getProductTypeData($protype)) $this->json_output(array('err'=>2,'msg'=>'获取分类关键字失败'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
     }
-    //进入三个关键字出结果
+    //进入三个关键字出结果(其实和搜索页的相同，只是关键字不同)
     public function enKeyWordsRes(){
-        $this->display('appSearchResult');
+        $this->display('appSearchResult2');
     }
     //获取点击三个关键字出结果
     public function getgetKeyWordsRes(){
