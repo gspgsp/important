@@ -13,4 +13,15 @@ class purchaseLogModel extends model{
 		return empty($result) ? false : $result;
 	}
 
+	public function getLogListByOid($o_id,$page,$size){
+		$list=$this->from('purchase_log pl')
+			->join('product pro','pl.p_id=pro.id')
+			->join('factory fa','pro.f_id=fa.fid')
+			->select('pl.*,pro.model,fa.f_name')
+			->where("o_id=$o_id")
+			->page($page,$size)
+			->getPage();
+		return $list;
+	}
+
 }
