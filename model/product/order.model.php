@@ -43,6 +43,14 @@ class orderModel extends model{
 	}
 
 	/**
+	 * 根据o_id去查对应的客户名
+	 */
+	public function getCnameByOid($o_id=0){
+		$result = $this->select('c.c_name')->from('order o')->join('customer c' , 'o.c_id = c.c_id')->where(" o_id = $o_id ")->getOne();
+		return empty($result) ? '-' : $result ;
+	}
+
+	/**
 	 * 根据id查订单明细表的值
 	 */
 	public function getODidByOid($o_id=0,$col='id'){
