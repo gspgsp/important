@@ -38,7 +38,7 @@ class mainPageModel extends model
     //原油价格数据处理方法(获取涨跌)
     private function _getUpOilDowns($type,$id){
         $preTime = $this->model('oil_price')->where("id=$id and type=$type")->select('input_time')->getRow();
-        // $this->model('oil_price')->where("type=$type and input_time < $preTime")
+        $this->model('oil_price')->where("type=$type and input_time < $preTime")->limit('0,1')->order('input_time desc')->getRow();
 
     }
     //获取搜索结果数据(4种方式)
@@ -222,7 +222,12 @@ class mainPageModel extends model
         '茂金属',
         '其他',
     );
-        $factory = $this->model('factory')->where('product_type='.$protype)->select('f_name')->order('sort,desc')->limit('0,10')->getAll();
+        $fids = $this->model('product')->where('product_type='.$protype)->select('f_id')->order('input_time,desc')->limit('0,20')->getAll();
+        $factory = array();
+        foreach ($fids as $key => $value) {
+            $f_name = $this->model('factory')->where('fid='.$value)->select('f_name')->getOne();
+            array_push($factory,$f_name);
+        }
         $region = array(
             '上海',
             '江苏',
