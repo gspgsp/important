@@ -414,10 +414,76 @@ class mainPageModel extends model
     public function getPublicQuoPur($type,$otype,$page=1,$size=10,$sortField='input_time',$sortOrder='desc'){
         $where = "type=$type";
         if($otype==1){
-            $sortField = 'price';
+            $sortField = 'unit_price';
             $sortOrder='asc';
         }elseif ($otype==2) {
-            $sortField = 'price';
+            $sortField = 'unit_price';
+            $sortOrder='desc';
+        }elseif ($otype==3) {
+            $sortField='input_time';
+            $sortOrder='desc';
+        }
+        $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
+            ->join('product pro','pur.p_id=pro.id')
+            ->join('factory fa','pro.f_id=fa.fid')
+            ->where($where)
+            ->page($page,$size)
+            ->order("$sortField $sortOrder")
+            ->getPage();
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
+                $data['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+            }
+            return $data;
+    }
+    //获取供求的筛选条件
+    public function getSupplyConditionData(){
+        $product_type = array(
+            'HDPE',
+            'LDPE',
+            'LLDPE',
+            'PP',
+            'PVC',
+            );
+        $model = $this->db->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
+        $factory = $this->db->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
+        $region = array(
+            '上海',
+            '江苏',
+            '浙江',
+            '山东',
+            '广东',
+            '山西',
+            '福建',
+            '四川',
+            '重庆',
+            '安徽',
+            '辽宁',
+            '吉林',
+            '湖北',
+            '湖南',
+            '河南',
+            '江西',
+            '广西',
+            '海南',
+            );
+        $cargoPro = array(
+            '现货',
+            '期货',
+            );
+        $typeData = array($product_type,$model,$factory,$region,$cargoPro);
+        return $typeData;
+    }
+    //根据供求的筛选条件渲染数据
+    public function getSupplyCondDatas($keywords,$type,$otype,$page=1,$size=10){
+        $where = "type=$type";
+        $where.="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type ='{$keywords}' or pur.provinces ='{$keywords}' or pur.cargo_type ='{$keywords}'";
+        if($otype==1){
+            $sortField = 'unit_price';
+            $sortOrder='asc';
+        }elseif ($otype==2) {
+            $sortField = 'unit_price';
             $sortOrder='desc';
         }elseif ($otype==3) {
             $sortField='input_time';
