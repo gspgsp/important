@@ -123,7 +123,7 @@ function viewhander(e){
 	var order_type={$type};
 	if (i_status ==1) {
 		s = '<a href="javascript:addInvoice('+oid+','+order_type+','+id+')">审核</a>';
-	}else if(i_status == 2 && red_status == 0){
+	}else if(i_status == 2){
 		s = '<a href="javascript:changeRed('+id+')">红字更正</a>';
 	}else{
 		s="-";

@@ -343,7 +343,7 @@ function onLoadDetail(e){
 			if (c_status !='3' && one_c_status !='1') {
 				s+='<a href="javascript:transaction('+oid+','+order_type+')">申请付款</a>&nbsp;|&nbsp;';
 			}
-			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库' && one_b_status !='1') {
+			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库' && !one_b_status ) {
 				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
 			}
 			if (c_status =='3' && i_status =='全部开票') {

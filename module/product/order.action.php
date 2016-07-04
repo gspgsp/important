@@ -140,8 +140,9 @@ class orderAction extends adminBaseAction {
 			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
 			$v['one_c_status'] =$m[0]['collection_status'];
 			//获取单笔订单开票状态
-			$n = M("product:billing")->getLastInfo($name='o_id',$value=$v['o_id']);
-			$v['one_b_status'] =$n[0]['invoice_status'];
+			// $n = M("product:billing")->getLastInfo($name='o_id',$value=$v['o_id']);
+			// $v['one_b_status'] =$n[0]['invoice_status'];
+			$v['one_b_status']=M("product:billing")->where("o_id={$v['o_id']} and invoice_status=1")->select('invoice_status')->getOne();
 
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
