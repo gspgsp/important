@@ -17,16 +17,17 @@ class indexAction extends userBaseAction{
         $where="cp.user_id=$this->user_id and cp.status=1";
         $data = M('product:concernedProduct')->getConcernedList($where);
         $arr=array();
-        $array=array();
         foreach($data as $k=>$v){
-           $arr['p_id']=$v['product_id'];
-           $price=M('product:purchase')->footPrice($arr);
-           $prices['price']=$price[0]['unit_price']-$price[1]['unit_price'];
-           $prices['p_id']=$price[0]['p_id'];
-           $prices['absprice']=abs($prices['price']);
-           $array[]=array_merge($price[0],$prices);
+            $arr['p_id']=$v['product_id'];
+            $arr['id']=$v['id'];
+            $price=M('product:purchase')->footPrice($arr);
+            $arrays=array_merge($arr,$price[0]);
+            $prices['price']=$price[0]['unit_price']-$price[1]['unit_price'];
+            $prices['p_id']=$price[0]['p_id'];
+            $prices['absprice']=abs($prices['price']);
+            $array[]=array_merge($arrays,$prices);
         }
-        //今日报价发布总数
+
         $date1=strtotime(date('Ymd'));
         $count1=M('resourcelib:resourcelib')->getTotalOne($date1);
         //p($count1);
