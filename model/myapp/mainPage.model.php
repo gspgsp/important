@@ -446,8 +446,8 @@ class mainPageModel extends model
             'PP',
             'PVC',
             );
-        $model = $this->db->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
-        $factory = $this->db->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
+        $model = $this->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
+        $factory = $this->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
         $region = array(
             '上海',
             '江苏',
