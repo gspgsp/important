@@ -132,19 +132,26 @@ class billingAction extends adminBaseAction
 		}else{
 			//开票申请
 			//未付款金额
-			$this->un_pay=$this->db->model('purchase_log')->where("o_id=$o_id")->select("sum(b_number*unit_price)")->getOne();
+			if($this->type==1){
+				$modelName='sale_log';
+			}else{
+				$modelName='purchase_log';
+			}
+			
+			$this->un_pay=$this->db->model("$modelName")->where("o_id=$o_id")->select("sum(b_number*unit_price)")->getOne();
 			$headData=$this->db->from('order o')
 				->join('customer c','o.c_id=c.c_id')
 				->where("o.o_id=$o_id")
 				->select('c.c_name,o.total_price,o.order_name,o.o_id,o.c_id,o.order_sn')
 				->getRow();
 			$this->assign('headData',$headData);
-			
+
 		}
+		//公司开票资料
+		$this->companyInfo=M("user:customer")->getCinfoById($headData['c_id']);
 
 		$this->display('billing.add.html');
 
-		$this->display('');
 	}
 
 	public function ajaxSave(){
@@ -246,10 +253,11 @@ class billingAction extends adminBaseAction
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		$type=sget('type','i',0);
 
 		if($is_head=sget('is_head','i',0)){
 			$o_id=sget('o_id','i',0);
-			$type=sget('type','i',0);
+
 			if($type==1){
 				//销售明细
 				$list=M('product:saleLog')->getLogListByOid($o_id,$page,$size);
@@ -259,25 +267,23 @@ class billingAction extends adminBaseAction
 			}
 		}else{
 			$id=sget('id','i',0);
-
 			if($type==1){
 				$listModel=$this->db->from('billing_log b')
-					->join('sale_log l','b.l_id=l.id');
+					->join('sale_log l','b.l_id=l.id')
+					->join('store st','l.store_id=st.id')
+					->select('b.*,l.b_number as u_number,l.lot_num,st.store_name');
 			}else{
 				$listModel=$this->db->from('billing_log b')
-					->join('purchase_log l','b.l_id=l.id');
+					->join('purchase_log l','b.l_id=l.id')
+					->select('b.*,l.b_number as u_number');
 			}
-			$list=$listModel->select('b.*,l.b_number as u_number')
-					->where("b.parent_id=$id")
-					->page($page,$size)
-					->getPage();
+			$list=$listModel->where("b.parent_id=$id")->page($page,$size)->getPage();
 		}
 
 		foreach ($list['data'] as &$value) {
 			$value['sum']=floatval($value['b_number']*$value['unit_price']);
 			if($is_head){
 				$value['un_number']=$value['b_number'];
-
 			}else{
 				$value['un_number']=$value['u_number'];
 			}

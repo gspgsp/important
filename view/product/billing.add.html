@@ -101,19 +101,19 @@
             <table style="width:100%;">
                 <tr>
                     <td style="width:100px;">纳税人识别号</td>
-                    <td style="width:150px;"><input name="tax_id" class="mini-textbox" value="{$tax_id}"allowInput="false"/></td>
+                    <td style="width:150px;"><input name="tax_id" class="mini-textbox" value="{$companyInfo.tax_id}" allowInput="false"/></td>
                     <td style="width:80px;">开票地址</td>
-                    <td style="width:150px;"><input name="invoice_address" class="mini-textbox" value="{$invoice_address}"allowInput="false"/></td>
+                    <td style="width:150px;"><input name="invoice_address" class="mini-textbox" value="{$companyInfo.invoice_address}" allowInput="false"/></td>
                 </tr>
                 <tr>
                     <td>开票银行</td>
-                    <td style="width:150px;"><input name="invoice_bank" class="mini-textbox" value="{$invoice_bank}"allowInput="false"/></td>
+                    <td style="width:150px;"><input name="invoice_bank" class="mini-textbox" value="{$companyInfo.invoice_bank}" allowInput="false"/></td>
                     <td>开票帐号</td>
-                    <td style="width:150px;"><input name="invoice_account" class="mini-textbox" value="{$invoice_account}"allowInput="false"/></td> 
+                    <td style="width:150px;"><input name="invoice_account" class="mini-textbox" value="{$companyInfo.invoice_account}" allowInput="false"/></td> 
                 </tr>
                 <tr>
                 	<td style="width:80px;">开票电话</td>
-                    <td style="width:150px;"><input name="invoice_tel" class="mini-textbox" value="{$invoice_tel}"allowInput="false"/></td> 
+                    <td style="width:150px;"><input name="invoice_tel" class="mini-textbox" value="{$companyInfo.invoice_tel}" allowInput="false"/></td> 
                 </tr>
             </table>
         </div>
@@ -122,7 +122,7 @@
 
 <fieldset style="width:760px;border:solid 1px #aaa;position:relative;">
 <legend>详细信息</legend>
-	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" url="/product/billing/init?action=billingLog&id={$id}&o_id={$o_id}&$type={$type}&is_head={$is_head}" sizeList="[10,20,50,100]" showFooter="false" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" url="/product/billing/init?action=billingLog&id={$id}&o_id={$o_id}&type={$type}&is_head={$is_head}" sizeList="[10,20,50,100]" showFooter="false" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<!-- <div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div> -->
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
