@@ -16,7 +16,7 @@ class msgAction extends userBaseAction{
 		$this->msg_status=L('msg_status');
 		$this->msg_type=L('msg_type');
 
-		$where="user_id=$this->user_id";
+		$where="user_id=$this->user_id and utype=0";
 		//已读状态筛选
 		if($is_read=sget('status','i',0)){
 			$this->assign('is_read',$is_read);
@@ -47,7 +47,7 @@ class msgAction extends userBaseAction{
 			$this->is_ajax=true;
 			$id=sget('id','i',0);
 			$model=$this->db->model('user_msg');
-			$where="id=$id and user_id=$this->user_id";
+			$where="id=$id and user_id=$this->user_id and utype=0";
 			if(!$model->where($where)->getRow()) $this->error('消息不存在');
 			$model->where($where)->update("is_read=2");
 			$this->success('操作成功');
@@ -60,7 +60,7 @@ class msgAction extends userBaseAction{
 		{
 			$model=$this->db->model('user_msg');
 			$ids=sget('ids');
-			if(!$model->where("id in (".implode(',',$ids).") and user_id=$this->user_id")->update("is_read=2")) $this->error('消息不存在');
+			if(!$model->where("id in (".implode(',',$ids).") and user_id=$this->user_id and utype=0")->update("is_read=2")) $this->error('消息不存在');
 			$this->success('操作成功');
 		}
 	}
