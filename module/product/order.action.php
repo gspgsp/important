@@ -640,12 +640,9 @@ class orderAction extends adminBaseAction {
 			}
 	
 		} catch (Exception $e) {
-			// showtrace();
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
-			// showtrace();
-
 		$this->db->commit();
 		$this->success('操作成功');
 	}
