@@ -84,6 +84,7 @@ return array(
 		2=>'商业发票',
 		3=>'服务业发票',
 		),
+
 	'chk_node'=>array(
 		array(
 			'id'=>1,
@@ -101,6 +102,12 @@ return array(
 			'id'=>4,
 			'text'=>"四级流程",
 			),
+		),
+
+	//票据类型
+	'account_status'=>array(
+		1=>'银行账户',
+		2=>'现金账户',
 		),
 );
 ?>
