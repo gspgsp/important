@@ -216,7 +216,7 @@
 .icon2.iconDown{ background: url(../img/supplyDemandDown.png) no-repeat; background-size: 100% 100%;}
 
 /* 我 */
-#meHeader{ width: 100%; height: 45px; border-bottom: 1px solid #B2B2B2; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
+#meHeader{ width: 100%; height: 45px; border-bottom: 1px solid #d9d9d9; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
 #meHeader .left{ position: absolute; left: 12px; color: #FF5000;}
 #meHeader .right{ position: absolute; right: 12px; color: #FF5000;}
 .meWrap{ width: 100%; height: 75px; position: relative;}
