@@ -29,7 +29,7 @@
 		).then(function (res) {
 			console.log(res);
 			res.dyprice.forEach(function (v, i, a) {
-				oilLi += "<li>"+ v.type +"<i class='"+ oilCompare(v.ups_downs) +"'>"+ v.ups_downs +"</i><b>"+ v.price +"</b></li>";
+				oilLi += "<li>"+ v.type +"<i class='"+ oilCompare(v.ups_downs) +"'>"+arrow(v.alph)+""+ v.ups_downs +"</i><b>"+ v.price +"</b></li>";
 			});
 			$("#infoOil").html(oilLi);
 		},function () {
