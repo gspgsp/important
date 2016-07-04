@@ -216,7 +216,7 @@ class orderAction extends adminBaseAction {
 		if($info['c_id']>0) $info['c_name'] = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
-		$info['delivery_time']=date("Y-m-d",CORE_TIME);  //转换时默认发货时间为当前时间
+		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
@@ -306,9 +306,17 @@ class orderAction extends adminBaseAction {
 		if(empty($data)) $this->error('错误的请求');	
 		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
 		unset($data['o_id']); //避免和后面的add 订单冲突
+
+		if ($data['transport_type'] == '1') { //供方送到
+			$data['delivery_time']=strtotime($data['delivery_time']); 
+			$data['pickup_time']=$data['delivery_time'];
+			$data['pickup_location']=$data['delivery_location'];
+		}else{//需方自提
+			$data['pickup_time']=strtotime($data['pickup_time']); //提货日期
+			$data['delivery_time']=$data['pickup_time'];
+			$data['delivery_location']=$data['pickup_location'];
+		}
 		$data['sign_time']=strtotime($data['sign_time']);
-		$data['pickup_time']=strtotime($data['pickup_time']);
-		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['financial_records']=2;//财务记录 默认否
 		$data['total_price']=$data['price']; //前台计算的所有明细总价
