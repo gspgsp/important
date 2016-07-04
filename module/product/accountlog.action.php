@@ -5,7 +5,9 @@
 class accountlogAction extends adminBaseAction {
 	public function __init(){
 		$this->db=M('public:common')->model('company_account_log');
-		$this->assign('account_status',L('account_status'));
+		$this->assign('account_type',L('account_type'));//记账类型
+		$this->assign('order_type',L('order_type'));//订单类型
+		$this->assign('order_chanel',L('order_chanel'));//订单来源
 		$this->doact = sget('do','s');
 
 	}
@@ -39,19 +41,35 @@ class accountlogAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1 ";		
+		$where=" 1 ";
+		$o_chanel=sget('order_chanel','i');//订单来源
+		$o_type=sget('order_type','i');//订单类型
+		$a_type=sget('type','i');//记账类型
 		$keyword=sget('keyword','s');//关键词
 
+		if(!empty($o_chanel)){
+			$where.=" and `order_chanel` = '$o_chanel'";
+		}
+		if(!empty($o_type)){
+			$where.=" and `order_type` = '$o_type'";
+		}
+		if(!empty($a_type)){
+			$where.=" and `type` = '$a_type'";
+		}
 		if(!empty($keyword)){
-			$where.=" and `account_no` = '$keyword'";
+			//在只有中晨梓辰两个账户时，默认id=1为中晨，id=2为梓辰，后期调整时改账户为点选，传id用于查询
+			$keyword=$keyword=='中晨'?1:2;
+			$where.=" and `account_id` = '$keyword'";
 		}
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
 		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['update_admin']=$this->db->model('admin')->where('admin_id ='.$v['update_admin'])->select('name')->getOne();
+			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$list['data'][$k]['input_admin']=$this->db->model('admin')->where('admin_id ='.$v['input_admin'])->select('name')->getOne();
+			$list['data'][$k]['account_name']=$this->db->model('company_account')->where('id ='.$v['account_id'])->select('account_name')->getOne();
+
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);

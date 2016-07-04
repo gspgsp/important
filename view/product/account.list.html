@@ -7,7 +7,7 @@
 		<tr>
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
-				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+				<!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>      -->
 				<span class="separator"></span>             
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
 			</td>
@@ -43,8 +43,8 @@
 			</div>                
 			<div field="freeze" width="60" headerAlign="center" allowSort="true" align="center">冻结金额
 			</div>
-			<div field="balance" width="60" headerAlign="center" allowSort="true" align="center">当前余额
-			</div>
+			<!-- <div field="balance" width="60" headerAlign="center" allowSort="true" align="center">当前余额
+			</div> -->
 			
 			<div field="update_admin" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建者</div>
 		</div>
@@ -88,10 +88,10 @@
 				<td>冻结金额</td>
 				<td><input name="freeze" class="mini-textbox" style="width:120px;" textField="name" valueField="id" value="1"/></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>当前余额</td>
 				<td><input name="balance" class="mini-textbox" style="width:120px" /></td>
-			</tr>
+			</tr> -->
 			<tr>
 			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
