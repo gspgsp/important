@@ -198,7 +198,11 @@ class billingAction extends adminBaseAction
 					if(!$billingLogModel->where("status=1 and parent_id={$data['id']}")->delete()) throw new Exception("开票明细删除失败");
 				}
 				if($sum==0){
+					//更新为全部开票
 					if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
+				}else{
+					//更新为部分开票
+					if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>2,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
 				}
 			} catch (Exception $e) {
 				$billingModel->rollback();
@@ -228,6 +232,7 @@ class billingAction extends adminBaseAction
 						'p_id'=>$value['p_id'],
 						'number'=>$value['number'],
 						'b_number'=>$value['b_number'],
+						'type'=>$value['type'],
 						'model'=>$value['model'],
 						'f_name'=>$value['f_name'],
 						'unit_price'=>$value['unit_price'],
