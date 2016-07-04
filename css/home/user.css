@@ -154,9 +154,9 @@
 .user-main .product .slider-pro{ margin:20px 0 0 45px;}
 .user-main .product .item{ width:129px; height:141px; overflow:hidden; text-align:center; border:1px solid #e1e1e1; float:left; padding:0; margin:0 28px 0 0; background:none;}
 .user-main .product .item .addr{ margin:30px 0 15px 0; }
-.user-main .product .item .price{ width:106px; height:20px; overflow:hidden; margin:0 0 15px 12px; position:relative;}
-.user-main .product .item .price span{ float:left; font-size:18px;}
-.user-main .product .item .price b{ height:11px; line-height: 11px; position:absolute; bottom:0; right:0; font-weight:normal; background:url(../../images/home/userIndex.png)  no-repeat; padding:0 0 0 17px;}
+.user-main .product .item .price{ width:116px; height:14px; line-height:14px; overflow:hidden; margin:0 0 15px 7px; position:relative;}
+.user-main .product .item .price span{ float:left; font-size:14px; font-weight: bold;}
+.user-main .product .item .price b{ height:11px; line-height: 11px; position:absolute; bottom:0; right:0; font-weight:normal; background:url(../../images/home/userIndex.png)  no-repeat; padding:0 0 0 12px;}
 .user-main .product .item .price.up{color:#fc6621;}
 .user-main .product .item .price.up b{ background-position:0 -122px;}
 .user-main .product .item .price.down{ color:#149718;}
