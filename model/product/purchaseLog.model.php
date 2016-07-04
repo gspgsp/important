@@ -17,7 +17,7 @@ class purchaseLogModel extends model{
 		$list=$this->from('purchase_log pl')
 			->join('product pro','pl.p_id=pro.id')
 			->join('factory fa','pro.f_id=fa.fid')
-			->select('pl.*,pro.model,fa.f_name')
+			->select('pl.*,pro.model,pro.product_type,fa.f_name')
 			->where("o_id=$o_id")
 			->page($page,$size)
 			->getPage();
