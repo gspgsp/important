@@ -159,14 +159,16 @@ class billingAction extends adminBaseAction
 		$purchaseLogModel=M('product:purchaseLog');
 		$saleLogModel=M('product:saleLog');
 		$orderModel=M('product:order');
+
+
 		if($data['finance']==1){
 			//财务审核开票信息
 			$data['update_time']=CORE_TIME;
 			$data['update_admin']=$_SESSION['username'];
 			$data['invoice_status']=2;//完成开票状态
 			$data['payment_time']=CORE_TIME;
-
 			$billingModel->startTrans();
+
 			try {
 				if(!$billingModel->where("id={$data['id']}")->update($data)) throw new Exception("开票审核更新表头失败");
 				foreach ($detail as $key => $value) {
@@ -174,13 +176,15 @@ class billingAction extends adminBaseAction
 					$value['status']=2;
 					if(!$billingLogModel->where("id={$value['id']}")->update($value)) throw new Exception("开票明细更新失败");
 					if($type==1){
+						$b_number=$saleLogModel->where("id={$value['l_id']}")->select('b_number')->getOne();
+						if($value['b_number']>$b_number) throw new Exception("开票数量不能大于未开票数量");
 						if(!$saleLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) throw new Exception("销售明细更新失败");
 						$sum=$saleLogModel->where("o_id={$data['o_id']}")->select("sum(b_number)")->getOne();
-
 					}elseif($type==2){
+						$b_number=$purchaseLogModel->where("id={$value['l_id']}")->select('b_number')->getOne();
+						if($value['b_number']>$b_number) throw new Exception("开票数量不能大于未开票数量");
 						if(!$purchaseLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) throw new Exception("采购明细更新失败");
 						$sum=$purchaseLogModel->where("o_id={$data['o_id']}")->select("sum(b_number)")->getOne();
-
 					}
 				}
 				if($billingLogModel->where("status=1 and parent_id={$data['id']}")->getRow()){
@@ -208,6 +212,9 @@ class billingAction extends adminBaseAction
 				if(!$billingModel->add($data)) throw new Exception("开票申请表头添加失败");
 				$parent_id=$billingModel->getLastID();
 				foreach ($detail as $key => $value) {
+
+					if($value['b_number']>$value['un_number']) throw new Exception("开票数量不能大于未开票数量");
+
 					$log_data=array(
 						'parent_id'=>$parent_id,
 						'l_id'=>$value['id'],
@@ -220,12 +227,12 @@ class billingAction extends adminBaseAction
 						'input_time'=>CORE_TIME,
 						'input_admin'=>$_SESSION['username'],
 					);
-					$billingLogModel->add($log_data);
+					if(!$billingLogModel->add($log_data)) throw new Exception("开票明细添加失败");;
 				}
 				
 			} catch (Exception $e) {
-				$this->error($e->getMessage());
 				$billingModel->rollback();
+				$this->error($e->getMessage());
 			}
 			$billingModel->commit();
 			$this->success('提交成功');
@@ -244,13 +251,26 @@ class billingAction extends adminBaseAction
 			$o_id=sget('o_id','i',0);
 			$type=sget('type','i',0);
 			if($type==1){
-
+				//销售明细
+				$list=M('product:saleLog')->getLogListByOid($o_id,$page,$size);
 			}else{
+				//采购明细
 				$list=M('product:purchaseLog')->getLogListByOid($o_id,$page,$size);
 			}
 		}else{
 			$id=sget('id','i',0);
-			$list=$this->db->from('billing_log')->where("parent_id=$id")->page($page,$size)->getPage();
+
+			if($type==1){
+				$listModel=$this->db->from('billing_log b')
+					->join('sale_log l','b.l_id=l.id');
+			}else{
+				$listModel=$this->db->from('billing_log b')
+					->join('purchase_log l','b.l_id=l.id');
+			}
+			$list=$listModel->select('b.*,l.b_number as u_number')
+					->where("b.parent_id=$id")
+					->page($page,$size)
+					->getPage();
 		}
 
 		foreach ($list['data'] as &$value) {
