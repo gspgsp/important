@@ -26,7 +26,7 @@
 		<ul class="meAttention4">
 			<li><div class="meAttention4Box"><span>品种</span>
 				<select id="pz">
-					<option>无</option>
+					<option value="">无</option>
 					<option value="1">HDPE</option>
 					<option value="2">LDPE</option>
 					<option value="3">LLDPE</option>
@@ -34,8 +34,8 @@
 					<option value="5">PVC</option>
 				</select>
 			</div></li>
-			<li><div class="meAttention4Box"><span>牌号</span><select id="ph"><option>无</option></select></div></li>
-			<li><div class="meAttention4Box"><span>厂家</span><select id="cj"><option>无</option></select></div></li>
+			<li><div class="meAttention4Box"><span>牌号</span><select id="ph"><option value="">无</option></select></div></li>
+			<li><div class="meAttention4Box"><span>厂家</span><select id="cj"><option value="">无</option></select></div></li>
 		</ul>
 		<div class="meAttentionBtn">
 			<input id="attentionBtn" type="button" value="确定" />
@@ -96,18 +96,26 @@
 				});
 				
 				$("#attentionBtn").on("click",function () {
-					commonAjax(
-							"post",
-							"/myapp/personalCenter/addProAttention",
-							{address:address,num:model,kid:kid}
-					).then(function (res) {
-						console.log(res);
-						mui.alert("",res.msg,function () {
-							window.location.href="/myapp/personalCenter/enMyAttention";
-						});
-					},function () {
-
-					});
+					if(address&&model&&kid){
+						commonAjax(
+								"post",
+								"/myapp/personalCenter/addProAttention",
+								{address:address,num:model,kid:kid}
+						).then(function (res) {
+							console.log(res);
+							if(res.err==0){
+								mui.alert("",res.msg,function () {
+									window.location.href="/myapp/personalCenter/enMyAttention";
+								});
+							}else if(res.err==1){
+								window.location.href="/myapp/login";
+							}else{
+								mui.alert("",res.msg,function () {});
+							}
+						},function () {});
+					}else{
+						mui.alert("","请把信息填写完整",function () {});
+					}
 				});
 			})
 		</script>
