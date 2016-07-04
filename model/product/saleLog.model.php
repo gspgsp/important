@@ -13,4 +13,16 @@ class saleLogModel extends model{
 		return empty($result) ? false : $result;
 	}
 
+	public function getLogListByOid($o_id,$page,$size){
+		$list=$this->from('sale_log pl')
+			->join('product pro','pl.p_id=pro.id')
+			->join('factory fa','pro.f_id=fa.fid')
+			->join('store st','pl.store_id=st.id')
+			->select('pl.*,pro.model,fa.f_name,st.store_name')
+			->where("o_id=$o_id")
+			->page($page,$size)
+			->getPage();
+		return $list;
+	}
+
 }
