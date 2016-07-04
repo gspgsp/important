@@ -692,6 +692,10 @@ class orderAction extends adminBaseAction {
 		$this->success('操作成功');
 	}
 
+	/**
+	 * 合同 PDF
+	 *
+	 */
 	public function pdf(){
 		$oid = sget('oid','i',0);
 		if($oid>0){
@@ -728,7 +732,7 @@ class orderAction extends adminBaseAction {
 		// 设置默认等宽
 		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 		// 设置间距
-		$pdf->SetMargins(15, 25, 15);
+		$pdf->SetMargins(15, 20, 15);
 		$pdf->SetHeaderMargin(5);
 		$pdf->SetFooterMargin(10);
 		// 设置分页
