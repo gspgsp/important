@@ -343,6 +343,7 @@ class orderAction extends adminBaseAction {
 						$detail[$k]['o_id']=$o_id;
 						$detial[$k]['order_sn']=$data['order_sn'];
 						$detail[$k]['remainder']=$v['require_number'];
+						$detail[$k]['b_number']=$v['require_number'];
 						if($data['order_type'] == 1){//销售明细
 							$detail[$k]['number']=$v['require_number'];
 							if( !$this->db->model('sale_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");		

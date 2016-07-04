@@ -121,23 +121,24 @@
 {/if}
 
 <fieldset style="width:760px;border:solid 1px #aaa;position:relative;">
-<legend>订单详细信息</legend>
+<legend>详细信息</legend>
 	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" url="/product/billing/init?action=billingLog&id={$id}&o_id={$o_id}&$type={$type}&is_head={$is_head}" sizeList="[10,20,50,100]" showFooter="false" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<!-- <div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div> -->
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
+			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div>
 			
 			{if $finance}
 			<div field="b_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
-			<div field="u_number" width="50" headerAlign="center" align="center">未开票数量</div>
+			<div field="un_number" width="50" headerAlign="center" align="center">未开票数量</div>
 			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
 			{else}
 			<div field="b_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
-			<div field="un_number" width="50" headerAlign="center" align="center">未开数量</div>
+			<div field="un_number" width="50" headerAlign="center" align="center">未开票数量</div>
 			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
 			{/if}
 			<div field="unit_price" id="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
@@ -145,7 +146,7 @@
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
 			<div field="store_name" width="50" headerAlign="center" allowSort="true" align="center">仓库</div>
 			{else}
-			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">供应商</div>
+			<!-- <div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div> -->
 			{/if}
 			<div field="sum" id="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
 			<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
@@ -176,14 +177,18 @@ function onKeyEnter(e) {
 
 //修改数量改变值方法
 function onValidation(e){
-	var number=e.value;
+	var number=parseFloat(e.value);
 	var index=grid.getSelected()._index;//行号
 	noStockData=grid.getData();
+	if( !number || number<=0){
+		number=1;
+		e.sender.setValue(number);
+	}
+	if(number>noStockData[index].un_number){
+		number=noStockData[index].un_number;
+		e.sender.setValue(number);
+	}
 
-	// if(number<=0 || number>noStockData[index].number){
-	// 	alert('请输入正确的数值');
-	// 	return;
-	// }
 	noStockData[index].b_number=number;
 	noStockData[index].sum=parseFloat(noStockData[index].unit_price*number).toFixed(2);
 	grid.setData(noStockData);
@@ -221,6 +226,11 @@ function submitForm(billing) {
   	if (form.isValid() == false) return;
 	//提交数据
 	var data=grid.getData();
+	console.log(data);
+	if(data.length==0){
+		$("#returnMsg").text("明细不能为空");
+		return;
+	}
 	var o = form.getData();
 	$.extend(o, {detail:data}); 
 	var json = mini.encode(o);
