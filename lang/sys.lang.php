@@ -397,6 +397,9 @@ return array(
 		div.test{
 			font-size:12px;
 		}
+		.first,tr{
+		line-height: 19px;
+		}
 		.first,td{
 		border:1px solid black;
 		border-collapse:collapse;
