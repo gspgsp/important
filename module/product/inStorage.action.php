@@ -93,14 +93,20 @@ class inStorageAction extends adminBaseAction {
 			$_data['controlled_number']=$v['in_number'];
 			$_data['join_id']=$data['join_id'];
 			//新增入库明细
-			if( $this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->getOne() ){ //判断此采购订单的明细之前有没有入过库
+			$in_id = $this->db->model('in_log')->select('id')->where(' purchase_id = '.$_data['purchase_id'])->getOne();
+			if( $in_id>0  ){ //判断此采购订单的明细之前有没有入过库
 				//更新此次入库数
 				$this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->update(' number = number+'.$v['in_number'].' , remainder = remainder+'.$v['in_number'].' , controlled_number = controlled_number+'.$v['in_number']);
+				$inlog_id=$in_id; 
 			}else{ //如果没有新增入库明细
 				//新增入库明细
 				$this->db->model('in_log')->add($_data+$basic_info);
+				//获取新增入库单ID
+				$inlog_id=$this->db->getLastID(); 
 			}
-			
+			//新增入库明细单流水
+			$this->db->model('in_logs')->add(array('p_id'=>$v['p_id'],'purchase_id'=>$v['id'],'number'=>$v['in_number'],'remainder'=>$v['in_number'],'inlog_id'=>$inlog_id,'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid'])+$basic_info);
+
 			//循环更新每条采购明细的已入库数量
 			$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('remainder = remainder-'.$v['in_number']);
 			//查询明细是否全部入库
