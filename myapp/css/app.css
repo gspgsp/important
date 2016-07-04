@@ -382,25 +382,25 @@
 #proPoints{ font-size: 20px; color: #ff5000;}
 .proExchange{ width: 100%; height: 50px; line-height: 50px; font-size: 15px; text-align: center; color: #ffffff; background: #fd6720; position: fixed; bottom: 0; left: 0;}
 
-.proLayer{ width: 200px; height: 135px; display: none; z-index: 10; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -68px 0 0 -100px;}
-.proLayer h3{ font-size: 15px; height: 28px; margin: 0; border-bottom: 1px solid #d9d9d9; line-height: 28px; text-align: center; color: #323232; font-weight: normal;}
-.proLayer p{ padding: 10px 15px; font-size: 13px; color: #646464; margin: 0;}
-.proLayer button{ width: 56px; height: 22px; border: none; font-size: 12px; border-radius: 2px; color: #ffffff;}
+.proLayer{ width: 300px; height: 135px; display: none; z-index: 10; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -68px 0 0 -150px;}
+.proLayer h3{ font-size: 15px; height: 30px; margin: 0; border-bottom: 1px solid #d9d9d9; line-height: 30px; text-align: center; color: #323232; font-weight: normal;}
+.proLayer p{ padding: 10px 15px; text-align: center; font-size: 13px; color: #646464; margin: 5px 0 0 0;}
+.proLayer button{ width: 70px; height: 27px; border: none; font-size: 12px; border-radius: 2px; color: #ffffff;}
 .proLayer button.confirm{ background: #ff5000;}
 .layer{ width: 100%; height: 100%; display: none; position: fixed; top: 0; left: 0; background-color:rgba(0,0,0,.5);}
 
-.proInput{ width: 210px; height: 160px; display: none; box-sizing: border-box; padding: 10px; z-index: 10; font-size: 11px; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -80px 0 0 -105px;}
+.proInput{ width: 300px; height: 200px; display: none; box-sizing: border-box; padding: 20px; z-index: 10; font-size: 12px; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -100px 0 0 -150px;}
 .proInput p{ margin: 0 0 7px 0;}
-.proInput span{ float: left; width: 55px; line-height: 20px; font-size: 12px;}
-.proInput input[type=text],.proInput input[type=number]{ width: 130px; height: 20px; border-radius: 0; margin: 0; box-sizing: border-box; padding: 0 5px; line-height: 20px; border: 1px solid #d9d9d9;}
+.proInput span{ float: left; width: 55px; color: #323232; line-height: 25px; font-size: 12px;}
+.proInput input[type=text],.proInput input[type=number]{ width: 200px; height: 25px; border-radius: 0; margin: 0; box-sizing: border-box; padding: 0 5px; line-height: 25px; border: 1px solid #d9d9d9;}
 .proText2{ width: 65px;}
 .proText:focus{ outline: none;}
-.proInput input[type=button]{ width: 56px; height: 22px; padding: 0; border: none; background: #999999; font-size: 12px; border-radius: 2px; color: #ffffff;}
+.proInput input[type=button]{ width: 70px; height: 27px; padding: 0; border: none; background: #999999; font-size: 12px; border-radius: 2px; color: #ffffff;}
 .proInput input[type=button]:focus{ outline: none;}
 
 
 /* 我的采购 报价 供货 */
-.myPurchase{ width: 100%; height: 50px; box-sizing: border-box; padding: 10px 0 0 0; background: #ff6600; position: relative;}
+.myPurchase{ width: 100%; height: 50px; box-sizing: border-box; padding: 10px 0 0 0; background: #ff5000; position: relative;}
 .purchaseInput2{ border: 1px solid #ffffff; border-radius: 3px; width: auto; margin: 0 90px 0 22px; height: 28px;}
 #query{ width: 15px; height: 15px; position: relative; float: right;  margin: 5px 5px 0 0;}
 .purchaseInput2 input[type=text]{ width: 180px; margin: 0; height: 28px; text-transform: uppercase; padding: 0 0 0 4px; background: none; border: none; font-size: 13px; color: #ffffff;}
