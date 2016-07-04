@@ -11,6 +11,9 @@
 		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			.icon{ float: none; display: inline-block; vertical-align: -5px;}
+		</style>
 	</head>
 	<body style="padding-bottom: 50px;">
 		<header id="bigCustomerHeader">
@@ -43,7 +46,7 @@
 		</div>
 		<div class="supplyDemandStatus">
 			<span data-number="3" class="on">默认</span>
-			<span data-big="true">价格</span>
+			<span id="sale" data-big="true">价格</span>
 		</div>
 		<div class="supplyDemandUl">
 			<ul id="searchWrapUl"></ul>
@@ -122,11 +125,16 @@
 					if(big){
 						if(stype==2){
 							stype=1;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconUp'></i>");
 						}else{
 							stype=2;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconDown'></i>");
 						}
 					}else{
 						stype=$(this).data("number");
+						$("#sale").find(".icon").remove();
 					}
 					searchLi="";
 					bigSearch(stype);
