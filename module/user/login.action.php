@@ -47,10 +47,8 @@ class loginAction extends homeBaseAction{
 	}
 
 	public function auth(){
-
 		$sns=thinkOauth::getInstance('qq');
 		redirect($sns->getRequestCodeURL());
-
 	}
 
 	// 回调

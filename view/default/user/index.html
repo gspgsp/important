@@ -383,10 +383,10 @@
 			}
 		})
 	},5000);
-
+   //涨跌幅度
 	$(function(){
 		var price=$('#price').attr('data-id');
-		if(price>0){
+		if(price>0||price==0){
 			$('#price').addClass('price up');
 		}else{
 			$('#price').addClass('price down');
