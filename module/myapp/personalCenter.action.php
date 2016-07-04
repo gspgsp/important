@@ -394,12 +394,13 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         // $dataP = sdata(); //传递的参数:产品类别/产品牌号/产地
         if(empty($_POST)){
-            $this->error('请添加关注产品信息');
+            //$this->error('请添加关注产品信息');
+            $this->json_output(array('err'=>3,'msg'=>'请添加关注产品信息'));
         }
         //检查该产品是否已经关注过
         $fid = M('product:factory')->getIdsByName($_POST['address']);//根据厂家查出fid
         $pid = M('product:product')->getPidByModel($_POST['num'], $fid[0]);//根据牌号和fid查出产品id
-        if($this->db->model('concerned_product')->select('product_id')->where('product_id='.$pid)->getOne()) $this->error('该产品已经关注过');
+        if($this->db->model('concerned_product')->select('product_id')->where('product_id='.$pid)->getOne()) $this->json_output(array('err'=>4,'msg'=>'该产品已经关注过'));
 
         $userContact = M('user:customerContact')->getListByUserid($this->user_id);
         $company = M('user:customer')->getCinfoById($userContact['c_id']);
