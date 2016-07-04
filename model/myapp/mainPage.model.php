@@ -393,7 +393,7 @@ class mainPageModel extends model
     //获取物性表搜索页详情数据
     public function getPhysicalDetailData($lid){
         $phyDetail = $this->model('physical')->where('lid='.$lid)->getRow();
-        //$phyDetail['params'] = htmlspecialchars_decode($phyDetail['params']);
+        $phyDetail['params'] = htmlspecialchars_decode($phyDetail['params']);
         return $phyDetail;
     }
     //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
