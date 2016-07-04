@@ -2,9 +2,9 @@
 /**
  * 资源库数据采集管理
  */
-class accountAction extends adminBaseAction {
+class accountlogAction extends adminBaseAction {
 	public function __init(){
-		$this->db=M('public:common')->model('company_account');
+		$this->db=M('public:common')->model('company_account_log');
 		$this->assign('account_status',L('account_status'));
 		$this->doact = sget('do','s');
 
@@ -24,7 +24,7 @@ class accountAction extends adminBaseAction {
 			$this->_save();exit;
 		}
 		$this->assign('page_title','资源库列表');
-		$this->display('account.list.html');
+		$this->display('accountlog.list.html');
 	}
 
 

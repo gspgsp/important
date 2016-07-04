@@ -367,16 +367,6 @@ class orderAction extends adminBaseAction {
 	public function transactionInfo(){
 		$o_id=sget('o_id','i',0);
 		$type=sget('order_type','s');//type=1为销售订单，type=2为采购订单
-
-		//获取开票总金额
-		// if($type==1){
-		// 	//$sum=$this->db->model('sale_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
-		// 	$unit_price=$this->db->model('sale_log')->where("o_id=$o_id")->select("unit_price")->getOne();
-		// }else{
-		// 	//$sum=$this->db->model('purchase_log')->where("o_id=$o_id")->select("sum(number*unit_price)")->getOne();
-		// 	$unit_price=$this->db->model('purchase_log')->where("o_id=$o_id")->select("unit_price")->getOne();
-		// }
-		// $this->assign('unit_price',$unit_price);
 		
 		if(empty($o_id)) $this->error('信息错误');	
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
@@ -473,17 +463,20 @@ class orderAction extends adminBaseAction {
 	*/
 	public function ajaxSave(){
 		$data = sdata();
-		//p($data);die;
-		$billing = sget('do','i');//区分销售采购订单
-		if($billing >0){
-			//保存开票信息
-			$detail = $data['detail'];
-			unset($data['detail']);
-			// p($data);
-			$billingModel=M('product:billing');
-			$billingModel->add($data);
+		//$billing = sget('do','i');//区分销售采购订单
+		
+		
 
-			die;
+
+		// if($billing >0){
+		// 	//保存开票信息
+		// 	$detail = $data['detail'];
+		// 	unset($data['detail']);
+		// 	// p($data);
+		// 	$billingModel=M('product:billing');
+		// 	$billingModel->add($data);
+
+		// 	die;
 
 			// p($detail);
 			// p($data);
@@ -553,7 +546,9 @@ class orderAction extends adminBaseAction {
 			// 	$this->error('保存失败：'.$this->db->getDbError());
 			// }
 
-		}else{
+		//}else{
+		
+		
 			//保存收付款相关信息
 			if(empty($data['uncollected_price'])){
 				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
@@ -562,28 +557,45 @@ class orderAction extends adminBaseAction {
 				$m = $data['uncollected_price']-$data['collected_price'];
 			}
 
-			$this->db->startTrans();//开启事务
-
+			$this->db->startTrans();//开启事务 
+ 
 			try {
 				if($data['finance'] ==1){
 					if($m>0){
-						$data['uncollected_price'] = $m;
-						$data['collection_status'] = 2;
 						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败1");
 					}
 					
 					if($m==0){
-						$data['uncollected_price'] = 0;
-						$data['collection_status'] = 2;
 						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) throw new Exception("跟新订单交易状态失败2");
 					}
 					if($m<0){
 						$this->error("数据错误");
 					}
+					$data['uncollected_price'] = $m;
+					$data['collection_status'] = 2;
 					$data['payment_time']=strtotime($data['payment_time']);
 					$id = $data['id'];
 					unset($data['id']);
+					//更新收付款信息
 					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
+					//添加account_log账户明细信息
+					$add_data['account_id']=$data['account'];
+					$add_data['money']=$data['collected_price'];
+					$add_data['remark']=$data['remark'];
+					$add_data['type']=$data['order_type']==1?1:2;
+					$add_data['order_id']=$data['o_id'];
+					$add_data['order_type']=$data['order_type'];
+
+					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['adminid']))) throw new Exception("交易失败");
+
+					//修改account账户信息，1是销售，收款
+					if($data['order_type']==1){
+						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['adminid'])) throw new Exception("交易失败");
+
+					}else{
+						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['adminid'])) throw new Exception("交易失败");
+					}
+
 				}else{
 					$data['uncollected_price'] = $m;
 					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
@@ -593,7 +605,7 @@ class orderAction extends adminBaseAction {
 				$this->error('保存失败：'.$this->db->getDbError());
 			}
 
-		}
+	//	}
 		$this->db->commit();
 		$this->success('操作成功');
 	}
