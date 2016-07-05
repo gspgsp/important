@@ -94,8 +94,8 @@ function onKeyEnter(e) {
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',oid = record.o_id;
-	var type={$type};
-	s += '<a href="javascript:viewOrdInfo('+oid+','+type+')">'+oid+'</a> ';
+	var o_type={$type};
+	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
 	return s;
 }
 
@@ -107,10 +107,11 @@ function down(e){
 	return s;
 
 }
+
 //查看订单相关信息
-function viewOrdInfo(oid,type){
+function viewOrdInfo(oid,o_type){
 	mini.open({
-		url: "/product/order/info?oid="+oid+'&type='+type,
+		url: "/product/order/info?oid="+oid+'&o_type='+o_type,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
 		width: 800, height:430
