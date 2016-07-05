@@ -135,7 +135,7 @@ function removeRow() {
 					grid.reload();
 				}
 			}
-			utils.ajax('/product/account/{$action}?action=remove',{ids:ids},callback,"POST","json");
+			utils.ajax('/product/account/init?action=remove',{ids:ids},callback,"POST","json");
 		}
 	);
 }
@@ -154,7 +154,7 @@ function saveData() {
 			grid.reload();
 		}
 	}
-	utils.ajax('/product/account/{$action}?action=save',{data:json},callback,"POST","json");
+	utils.ajax('/product/account/init?action=save',{data:json},callback,"POST","json");
 }
 
 //弹出增加form表单
@@ -182,7 +182,7 @@ function submitForm() {
 	  addaccount.hide();
 	}
   }
-  utils.ajax('/product/account/{$action}?action=save&do=add',{data:json},callback,"POST","json");
+  utils.ajax('/product/account/init?action=save&do=add',{data:json},callback,"POST","json");
 }
 
 
