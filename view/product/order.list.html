@@ -1,4 +1,4 @@
-{layout file="public:mini_layout"}
+ {layout file="public:mini_layout"}
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
@@ -168,8 +168,7 @@ function search() {
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn;
-	var order_type={$order_type};
-	s += '<a href="javascript:viewOrdInfo('+o_id+','+order_type+')">'+order_sn+'</a> ';
+	s += '<a href="javascript:viewOrdInfo('+o_id+')">'+order_sn+'</a> ';
 	return s;
 }
 //获取订单状态
@@ -185,9 +184,9 @@ function onTransportStatus(e) {
 //追加关联
 function onJoin(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
-	if(sales_type == '1' && store_o_id !='0'){
+	if(sales_type == '1' && store_o_id !='0'){ //正常销库存的 关联的采购
 		s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
-	}else if(sales_type == '2' && join_id !='0'){
+	}else if(sales_type == '2' && join_id !='0'){ //不库存的 关联的采购
 		s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
 	}
 	return s;
