@@ -32,7 +32,7 @@
 				success:function (res) {
 					console.log(">>>",res);
 					layer.closeAll();
-					if(res.err==2){
+					if(res.err==1){
 						window.location.href="/touch/login";
 					}else{
 						$("#avatorImg").attr('src',avatorImg(res.thumb));
