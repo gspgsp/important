@@ -166,16 +166,16 @@
 					{foreach from=$rest item=val key=key}
     				<li>
     					<p>
-	    					<span>求购{if $val.product_type==1}HDPE
+	    					<span class="wantbuy">求购{if $val.product_type==1}HDPE
 								{elseif $val.product_type==2}LDPE
 								{elseif $val.product_type==3}LLDPE
 								{elseif $val.product_type==4}PP
 								{else}PVC
 								{/if}
 								{$val.model} {$val.number}吨</span>
-	    					<span>价格：￥{$val.unit_price}元</span>
-	    					<span>交货地：{$val.name}</span>
-	    					<span>{$val.input_time|date:Y-m-d}</span>
+	    					<span class="price">价格：￥{$val.unit_price}元</span>
+	    					<span class="address">交货地：{$val.name}</span>
+	    					<span class="time">{$val.input_time|date:Y-m-d}</span>
     					</p>
     					<a href="/offers/talk?id={$val.id}">我要供货</a>
     				</li>
