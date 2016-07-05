@@ -8,8 +8,8 @@
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
 				<!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>      -->
-				<span class="separator"></span>             
-				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+				<!-- <span class="separator"></span>             
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>  -->
 			</td>
 			<td style="float:right;">
 			<form id="soform">
@@ -29,15 +29,9 @@
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="id" width="50" headerAlign="center" align="center" allowSort="true">ID</div>
-			<div field="account_name" renderer="setCate" width="30" headerAlign="center" allowSort="true" align="center">账户名称
-				<!-- <input property="editor" class="mini-textbox" style="width:100%;"/> -->
-			</div>
-			<div field="type" width="50" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">账户类型<span style="color:red">*</span>
-				<input property="editor" name="type" class="mini-combobox" data='{:setMiniConfig|$account_status}' textField="name" value="type" style="width:90px;" required="true"/>
-				
-			</div>
-			<div field="account_no" width="80" headerAlign="center" allowSort="true" align="center">账号<span style="color:red">*</span>
-				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			<div field="account_name" width="30" headerAlign="center" allowSort="true" align="center">账户名称</div>
+			<div field="type" renderer="settype" width="50" headerAlign="center" autoShowPopup="true" align="center">账户类型</div>
+			<div field="account_no" width="80" headerAlign="center" allowSort="true" align="center">账号
 			</div>
 			<div field="sum" width="60" headerAlign="center" align="center">账户金额
 			</div>                
@@ -117,45 +111,45 @@ function onKeyEnter(e) {
 }
 
 //删除数据
-function removeRow() {
-	var rows = grid.getSelecteds(),_ids=new Array();
-	if(rows.length<1) return;
-	for(var i=0;i<rows.length;i++){
-		_ids[i]=parseInt(rows[i].id);
-	}
-	var ids=_ids.join(',');
-	if(ids=='') return;
-	mini.confirm("确定删除内容？", "提示",	function(action){
-			if(action!='ok') return;
-			var callback=function(data){
-				if(data.err!='0'){
-					alert(data.msg)
-					return false;
-				}else{
-					grid.reload();
-				}
-			}
-			utils.ajax('/product/account/init?action=remove',{ids:ids},callback,"POST","json");
-		}
-	);
-}
+// function removeRow() {
+// 	var rows = grid.getSelecteds(),_ids=new Array();
+// 	if(rows.length<1) return;
+// 	for(var i=0;i<rows.length;i++){
+// 		_ids[i]=parseInt(rows[i].id);
+// 	}
+// 	var ids=_ids.join(',');
+// 	if(ids=='') return;
+// 	mini.confirm("确定删除内容？", "提示",	function(action){
+// 			if(action!='ok') return;
+// 			var callback=function(data){
+// 				if(data.err!='0'){
+// 					alert(data.msg)
+// 					return false;
+// 				}else{
+// 					grid.reload();
+// 				}
+// 			}
+// 			utils.ajax('/product/account/init?action=remove',{ids:ids},callback,"POST","json");
+// 		}
+// 	);
+// }
 
 //行内编辑后保存数据
-function saveData() {
-	var data = grid.getChanges();
-	var json = mini.encode(data);
-	if(json.length<10) return false;
-	grid.loading("保存中，请稍后......");
-	var callback=function(data){
-		if(data.err!='0'){
-			alert(data.msg)
-			return false;
-		}else{
-			grid.reload();
-		}
-	}
-	utils.ajax('/product/account/init?action=save',{data:json},callback,"POST","json");
-}
+// function saveData() {
+// 	var data = grid.getChanges();
+// 	var json = mini.encode(data);
+// 	if(json.length<10) return false;
+// 	grid.loading("保存中，请稍后......");
+// 	var callback=function(data){
+// 		if(data.err!='0'){
+// 			alert(data.msg)
+// 			return false;
+// 		}else{
+// 			grid.reload();
+// 		}
+// 	}
+// 	utils.ajax('/product/account/init?action=save',{data:json},callback,"POST","json");
+// }
 
 //弹出增加form表单
 var addaccount = mini.get("addaccount");

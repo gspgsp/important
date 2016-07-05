@@ -10,7 +10,6 @@ class billingAction extends adminBaseAction
 		$this->assign('invoice_one_status',L('invoice_one_status'));    //开票状态
 		$this->assign('billing_type',L('billing_type'));    			//开票类型
 		$this->assign('company_account',L('company_account')); 			//交易公司账户
-
 	}
 
 	/**

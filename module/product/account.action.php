@@ -5,7 +5,6 @@
 class accountAction extends adminBaseAction {
 	public function __init(){
 		$this->db=M('public:common')->model('company_account');
-		$this->assign('account_status',L('account_status'));
 		$this->doact = sget('do','s');
 
 	}
@@ -51,6 +50,8 @@ class accountAction extends adminBaseAction {
 					->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$list['data'][$k]['type'] = L('account_status')[$list['data'][$k]['type']];//账户类型	
+
 			$list['data'][$k]['update_admin']=$this->db->model('admin')->where('admin_id ='.$v['update_admin'])->select('name')->getOne();
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
