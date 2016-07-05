@@ -233,4 +233,16 @@ class collectionAction extends adminBaseAction
 
 	}
 
+	/**
+	 * 异步请求账户余额，显示
+	 */
+	public function changeaccount(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$id = sdata(); //获取UI传递的参数
+		$data['sum']=$this->db->model('company_account')->where('id='.$id)->select('sum')->getOne();
+		if ($data<1) {
+			$data['err']='0';
+		}
+		json_output($data);
+	}
 }

@@ -64,8 +64,13 @@
 			{if $finance}
 			<tr>
 				<td>交易账户<span style="color:red">*</span></td>
-				<td><input name="account" class="mini-combobox" data='{:setMiniConfig|$company_account}' textField="name" valueField="id" style="width:90px;" required="true"/></td>
+				<td><input name="account" onvaluechanged="changeaccount" class="mini-combobox" data='{:setMiniConfig|$company_account}' textField="name" valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
+			<tr id='account' >
+				<td>账户余额</td>
+				<td><input name="account_price" id="account_price" value="" textField="text" valueField="id" class="mini-textbox"    allowInput="false"  style="width:89px"/></td>
+			</tr>
+
 			<tr>
 				<td>附件</td>
 				<td>
@@ -99,7 +104,8 @@ mini.parse();
 //搜索或刷新
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
-
+//默认隐藏账户余额
+$('#account').hide(); 
 //增加后提交数据(保存)
 function submitForm() {
 	form.validate();
@@ -134,6 +140,21 @@ function submitForm() {
 	},'json');
 }
 
+//选择账户时显示不同账户余额
+function changeaccount(e){
+	var val = e.value;//1,2
+	$.post('/product/collection/changeaccount',{data:val},function(data){
+		form.unmask();	
+		if(data.err!='0'){
+			mini.get('account_price').setValue(data.sum);
+			// alert(data.sum);
+		}else{
+			return false;
+		}
+	},'json');
+
+	$('#account').show();
+}
 function fileUpload() {
 	$.ajaxFileUpload({
 		url:'/system/sysUpload/upload',
