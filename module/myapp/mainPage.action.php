@@ -1,5 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin:*");
 /**
 *应用首页-app
 */
