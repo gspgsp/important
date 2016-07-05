@@ -15,7 +15,8 @@ class orderAction extends adminBaseAction {
 		$this->assign('order_status',L('order_status')); //订单审核
 		$this->assign('transport_status',L('transport_status')); //物流审核
 		$this->assign('out_storage_status',L('out_storage_status')); //发货状态
-		$this->assign('invoice_status',L('invoice_status')); //开票状态
+		$this->assign('invoice_status',L('invoice_status')); 		//开票状态
+		$this->assign('invoice_one_status',L('invoice_one_status'));    //单笔明细开票状态
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
 		$this->assign('order_type',L('order_type')); //订单类型：
@@ -578,7 +579,7 @@ class orderAction extends adminBaseAction {
 					unset($data['id']);
 					//更新收付款信息
 					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
-					//添加account_log账户明细信息
+					//添加account_log账户明细信息,默认设计账户类型就是账户id
 					$add_data['account_id']=$data['account'];
 					$add_data['money']=$data['collected_price'];
 					$add_data['remark']=$data['remark'];

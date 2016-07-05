@@ -29,8 +29,8 @@
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="id" width="50" headerAlign="center" align="center" allowSort="true">ID</div>
-			<div field="account_name" renderer="setCate" width="30" headerAlign="center" allowSort="true" align="center">账户名称<span style="color:red">*</span>
-				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			<div field="account_name" renderer="setCate" width="30" headerAlign="center" allowSort="true" align="center">账户名称
+				<!-- <input property="editor" class="mini-textbox" style="width:100%;"/> -->
 			</div>
 			<div field="type" width="50" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">账户类型<span style="color:red">*</span>
 				<input property="editor" name="type" class="mini-combobox" data='{:setMiniConfig|$account_status}' textField="name" value="type" style="width:90px;" required="true"/>
@@ -59,11 +59,11 @@
 			<input class="mini-hidden" name="id"/>
 			<tr>
 				<td>账户名称<span style="color:red">*</span></td>
-				<td><input name="account_name" class="mini-textbox" style="width:120px;" required="true"/></td>
+				<td><input name="account_name" class="mini-textbox" style="width:160px;" required="true"/></td>
 			</tr>
 			<tr>
 				<td>账户类型<span style="color:red">*</span></td>
-				<td><input name="type" class="mini-combobox" data='{:setMiniConfig|$account_status}' textField="name" valueField="id" style="width:120px;" required="true"/>
+				<td><input name="type" class="mini-combobox" data='{:setMiniConfig|$account_status}' textField="name" valueField="id" style="width:160px;" required="true"/>
 				</td>
 			</tr>
 			<!-- <tr>
@@ -73,24 +73,24 @@
 			
 			<tr>
 				<td>开户账号<span style="color:red">*</span></td>
-				<td><input name="account_no" class="mini-textbox" style="width:120px" required="true"/></td>
+				<td><input name="account_no" class="mini-textbox" style="width:160px" required="true"/></td>
 			</tr>
 			<tr>
 				<td>期初金额<span style="color:red">*</span></td>
-				<td><input name="sum" class="mini-textbox" required="true" style="width:120px"/>
+				<td><input name="sum" class="mini-textbox" required="true" style="width:160px"/>
 				</td>
 			</tr>
 			<tr>
 				<td>开户日期</td>
-				<td><input name="update_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:120px;" format="yyyy-MM-dd HH:mm" showTime="true"/></td>
+				<td><input name="update_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:160px;" format="yyyy-MM-dd HH:mm" showTime="true"/></td>
 			</tr>			
-			<tr>
+			<!-- <tr>
 				<td>冻结金额</td>
-				<td><input name="freeze" class="mini-textbox" style="width:120px;" textField="name" valueField="id" value="1"/></td>
-			</tr>
+				<td><input name="freeze" class="mini-textbox" style="width:160px;" textField="name" valueField="id" value="1"/></td>
+			</tr> -->
 			<!-- <tr>
 				<td>当前余额</td>
-				<td><input name="balance" class="mini-textbox" style="width:120px" /></td>
+				<td><input name="balance" class="mini-textbox" style="width:160px" /></td>
 			</tr> -->
 			<tr>
 			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">

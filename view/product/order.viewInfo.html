@@ -191,9 +191,9 @@
 							<option value="" selected="selected">=票据类型=</option>
 							{html_options options=$bile_type}
 						</select>
-						<select name="invoice_status" id="invoice_status">
+						<select name="invoice_one_status" id="invoice_one_status">
 							<option value="" selected="selected">=开票状态=</option>
-							{html_options options=$invoice_status}
+							{html_options options=$invoice_one_status}
 						</select>
 						<select name="key_type">
 							<option value="invoice_sn">发票号</option>
@@ -219,10 +219,10 @@
 					<div field="billing_price" width="40" headerAlign="center" align="center" align="center">本次开票金额</div>
 					<div field="unbilling_price" width="40" headerAlign="center" align="center" align="center">未开票金额</div>
 					<!-- <div field="tax_price" width="40" headerAlign="center" align="center" align="center">税额</div> -->
-					<div field="rise" width="40" headerAlign="center" align="center" align="center">抬头</div>
+					<!-- <div field="rise" width="40" headerAlign="center" align="center" align="center">抬头</div> -->
 					<!-- <div field="title" width="30" headerAlign="center" align="center" align="center">合同主题</div> -->
 					<div field="bile_type" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center">票据类型</div>
-					<!-- <div field="invoice_status" renderer="setInv" width="40" headerAlign="center" align="center" allowSort="true">订单开票状态</div> -->
+					<div field="invoice_status" renderer="setInvone" width="40" headerAlign="center" align="center" allowSort="true">{if $type eq '1'}销售开票状态{else}采购开票状态{/if}</div>
 					<div field="payment_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >开票日期</div>
 					
 				</div>
@@ -279,8 +279,15 @@
 	//设置收付款状态
 
 	function setInv(e){
+		//总订单开票状态
 		var inv= e.record.invoice_status;
 		return $("#invoice_status").find("option[value="+inv+"]").text();
+	}
+	
+	function setInvone(e){
+		//单笔订单开票状态
+		var inv= e.record.invoice_status;
+		return $("#invoice_one_status").find("option[value="+inv+"]").text();
 	}
 	function setCol(e){
 		var col = e.record.collection_status;

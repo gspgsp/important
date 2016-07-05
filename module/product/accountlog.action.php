@@ -57,9 +57,11 @@ class accountlogAction extends adminBaseAction {
 			$where.=" and `type` = '$a_type'";
 		}
 		if(!empty($keyword)){
+
 			//在只有中晨梓辰两个账户时，默认id=1为中晨，id=2为梓辰，后期调整时改账户为点选，传id用于查询
 			$keyword=$keyword=='中晨'?1:2;
 			$where.=" and `account_id` = '$keyword'";
+			
 		}
 		$list=$this->db->where($where)
 					->page($page+1,$size)

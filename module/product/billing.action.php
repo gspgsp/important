@@ -6,10 +6,10 @@ class billingAction extends adminBaseAction
 {
 	public function __init(){
 		$this->db=M('public:common')->model('billing');
-		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
-		$this->assign('invoice_status',L('invoice_one_status'));    //开票状态
-		$this->assign('billing_type',L('billing_type'));    	//开票类型
-		$this->assign('company_account',L('company_account')); //交易公司账户
+		$this->assign('bile_type',L('bile_type'));		 	 			//票据类型
+		$this->assign('invoice_one_status',L('invoice_one_status'));    //开票状态
+		$this->assign('billing_type',L('billing_type'));    			//开票类型
+		$this->assign('company_account',L('company_account')); 			//交易公司账户
 
 	}
 

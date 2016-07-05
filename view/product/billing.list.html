@@ -14,9 +14,9 @@
 					<option value="" selected="selected">=票据类型=</option>
 					{html_options options=$bile_type}
 				</select>
-				<select name="invoice_status" id="invoice_status">
+				<select name="invoice_one_status" id="invoice_one_status">
 					<option value="" selected="selected">=开票状态=</option>
-					{html_options options=$invoice_status}
+					{html_options options=$invoice_one_status}
 				</select>
 				<select name="key_type">
 					<option value="invoice_sn">发票号</option>
@@ -164,7 +164,7 @@ function changeRed(id){
 
 function setInv(e){
 	var inv= e.record.invoice_status;
-	return $("#invoice_status").find("option[value="+inv+"]").text();
+	return $("#invoice_one_status").find("option[value="+inv+"]").text();
 }
 function setBile(e){
 	var pay= e.record.bile_type;
