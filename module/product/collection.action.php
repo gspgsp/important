@@ -144,11 +144,12 @@ class collectionAction extends adminBaseAction
 				if(!$this->db->model('collection')->wherePK($data['id'])->update( array('collection_status'=>3)) )throw new Exception("修改退款状态失败");
 				//根据撤销付款金额与总金额的大小，判断订单付款状态
 				if($data['total_price'] == $data['c_price']){
-					if(!$this->db->model('order')->wherePK($data['oid'])->update( array('collection_status'=>1)) )throw new Exception("修改订单表退款状态失败");
+					$arr=array('collection_status'=>1,);
 				}else{
-					if(!$this->db->model('order')->wherePK($data['oid'])->update( array('collection_status'=>2)) )throw new Exception("修改订单表退款状态失败");
+					$arr=array('collection_status'=>2,);
 				}
-				
+				if(!$this->db->model('order')->wherePK($data['oid'])->update($arr+array('update_time'=>CORE_TIME,)) )throw new Exception("修改订单表退款状态失败");
+				//showtrace();die;
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());
