@@ -15,8 +15,8 @@
 					<ul>
 						{foreach from=$list.data item=value}
 						<li>
-							<p class="dianyriqieg">{$value.input_time|date:Y-m-d H:i}<span class="dianyriqieg_lbr"><a href="/article/index/info/id/{$value.id}">{$value.title}</a></span></p>
-							<p class="lbzhenweiieg">&nbsp;<a href="/article/index/info/id/{$value.id}">[详情]</a></p>
+							<p class="dianyriqieg">{$value.input_time|date:Y-m-d H:i}<span class="dianyriqieg_lbr"><a href="/article/show/{$value.id}.html">{$value.title}</a></span></p>
+							<p class="lbzhenweiieg">&nbsp;<a href="/article/show/{$value.id}.html">[详情]</a></p>
 						</li>
 						{/foreach}
 					</ul>
