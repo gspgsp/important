@@ -628,8 +628,8 @@ class orderAction extends adminBaseAction {
 		try {	
 			if($data['s_or_p'] == '1'){
 				unset($data['sales_type']);
-				if( !$re=$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($_data+$data) ) throw new Exception("物流审核失败");
-				if( !$re2=$this->db->model('purchase_log')->where(' o_id = '.$data['o_id'])->update(array('order_status'=>2,'node_flow'=>'+='.'1')+$_data) ) throw new Exception("订单明细审核状态更新失败");
+				if( !$re=$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($_data+$data+array('node_flow'=>'+=1')) ) throw new Exception("物流审核失败");
+				if( !$re2=$this->db->model('purchase_log')->where(' o_id = '.$data['o_id'])->update(array('order_status'=>2,)+$_data) ) throw new Exception("订单明细审核状态更新失败");
 			}else{
 				//销售审核通过即锁库存 2:通过  ,  3:不通过
 				//检查来源
