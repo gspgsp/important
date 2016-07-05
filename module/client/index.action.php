@@ -6,6 +6,8 @@ class indexAction extends homeBaseAction{
 	public function __init(){
 		$this->db=M('public:common');
 	}
+
+	
 	public function init()
 	{	
 		$where=1;
@@ -67,6 +69,8 @@ class indexAction extends homeBaseAction{
 		$page=sget('page','i',1);
 		$pageSize=20;
 		$list=M('product:bigOffers')->getOfferList($where,$order,$page,$pageSize);
+		// p($list);
+		$this->pages=pages($list['count'],$page,$pageSize);
 		$this->assign('list',$list);
 		$this->display('index');
 	}

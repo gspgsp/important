@@ -112,12 +112,15 @@
 	            <div class="price">￥{$value.price}</div>
 	            <div class="address">{$value.address}</div>
 	            <div class="company">{$value.gsname}</div>
-	            <div class="phone">{$value.cjphone}</div>
 	            <div class="phone">{$value.phone}</div>
+	            <div class="phone">{if $value.cjphone}{$value.cjphone}{else}&nbsp;{/if}</div>
 	            <div class="date">{$value.input_time|date:m-d H:i}</div>
 	        </li>
 	        {/foreach}
 	    </ul>
+	    <div class="page">
+	    	{$pages}
+	    </div>
 	</div>
 </div>
 
