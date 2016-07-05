@@ -319,6 +319,7 @@
 		var del = $(".user-main .product .item .del");
 		del.live("click",function(){
 			var id=$('.item').attr('id');
+			alert(id);
 			$.ajax({
 					url:'/user/productAttention/changeFocusState',
 					data:{pId:id},
@@ -332,7 +333,7 @@
 							window.location.reload();
 						}else{
 							alert('取消关注成功');
-							window.location.reload();
+//							window.location.reload();
 						}
 					}
 
