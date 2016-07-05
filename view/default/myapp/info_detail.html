@@ -8,8 +8,10 @@
 	<script src="__MYAPP__/js/mui.min.js"></script>
 	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
 	<script src="__MYAPP__/js/common.js"></script>
+	<script src="__MYAPP__/js/nativeShare.js"></script>
 	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	<link rel="stylesheet" href="__MYAPP__/css/nativeShare.css" />
 </head>
 
 <body class="infoDetailBg">
@@ -23,6 +25,7 @@
 	<h3 class="infoDetailTitle3">作者：<span id="admin"></span></h3>
 	<div id="infoDetailContent"></div>
 </div>
+<div id="nativeShare"></div>
 <script type="text/javascript" charset="utf-8">
 	mui.init({
 		swipeBack: true //启用右滑关闭功能
@@ -39,6 +42,18 @@
 			$("#admin").text(res.articleDetail.admin_name);
 			$("#time").text(res.articleDetail.input_time);
 			$("#infoDetailContent").html(res.articleDetail.content);
+
+			var config = {
+				url:'http://blog.wangjunfeng.com',
+				title:'王俊锋的个人博客',
+				desc:'王俊锋的个人博客',
+				img:'http://www.wangjunfeng.com/img/face.jpg',
+				img_title:'王俊锋的个人博客',
+				from:'王俊锋的博客'
+			};
+			var share_obj = new nativeShare('nativeShare',config);
+
+
 		},function () {
 
 		});
