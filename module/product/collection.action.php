@@ -149,7 +149,6 @@ class collectionAction extends adminBaseAction
 					$arr=array('collection_status'=>2,);
 				}
 				if(!$this->db->model('order')->wherePK($data['oid'])->update($arr+array('update_time'=>CORE_TIME,)) )throw new Exception("修改订单表退款状态失败");
-				//showtrace();die;
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());
