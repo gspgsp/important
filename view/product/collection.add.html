@@ -114,16 +114,16 @@ function submitForm() {
 	var o = form.getData();
 	//输入的值必须大于0，小于总金额	
 	if(parseFloat(o.collected_price) <= 0 || parseFloat(o.collected_price) >parseFloat(o.total_price)){ 
-		alert("请输入正确的数值1");
+		alert("请输入正确的数值");
 		return;
 	}
 	//uncollected_price不为空，就不是第一次申请审核，输入值得小于未收付款金额
 	if (parseFloat(o.uncollected_price) >'') {
-		if (parseFloat(o.collected_price) >parseFloat(o.uncollected_price)) {alert("请输入正确的数值2");return;}
+		if (parseFloat(o.collected_price) >parseFloat(o.uncollected_price)) {alert("请输入正确的数值");return;}
 	}
 	//un_price不为空，就不是第一次申请，输入值得小于未收付款金额
 	if(parseFloat(o.un_price) >''){
-		if (parseFloat(o.collected_price >o.un_price)) {alert("请输入正确的数值3");return;}
+		if (parseFloat(o.collected_price >o.un_price)) {alert("请输入正确的数值");return;}
 
 	}
 	
