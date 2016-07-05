@@ -168,7 +168,8 @@ function search() {
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn;
-	s += '<a href="javascript:viewOrdInfo('+o_id+')">'+order_sn+'</a> ';
+	var order_type = {$order_type};
+	s += '<a href="javascript:viewOrdInfo('+o_id+','+order_type+')">'+order_sn+'</a> ';
 	return s;
 }
 //获取订单状态
