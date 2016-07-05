@@ -166,13 +166,14 @@ class billingAction extends adminBaseAction
 		$saleLogModel=M('product:saleLog');
 		$orderModel=M('product:order');
 
-
 		if($data['finance']==1){
 			//财务审核开票信息
 			$data['update_time']=CORE_TIME;
 			$data['update_admin']=$_SESSION['username'];
 			$data['invoice_status']=2;//完成开票状态
 			$data['payment_time']=CORE_TIME;
+
+			$data['unbilling_price']=$data['unbilling_price']-$data['billing_price'];
 			$billingModel->startTrans();
 
 			try {
@@ -318,6 +319,8 @@ class billingAction extends adminBaseAction
 		$data['update_time']='';
 		$data['update_admin']='';
 		$data['invoice_status']=3;	
+		$data['unbilling_price']=$data['unbilling_price']+$data['billing_price'];
+		
 		$billingModel->startTrans();
 		try {
 			$billingModel->where("id=$id")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
@@ -329,14 +332,22 @@ class billingAction extends adminBaseAction
 				$value['input_admin']=$_SESSION['username'];
 				$value['update_time']='';
 				$value['update_admin']='';
+				
 				$billingLogModel->add($value);
 				if($data['billing_type']==1){
 					$saleLogModel->where("id={$value['l_id']}")->update("b_number=b_number+{$value['b_number']}");
+					$billingNumber=$saleLogModel->where("id={$value['l_id']}")->select("number-b_number")->getOne();
 				}else{
 					$purchaseLogModel->where("id={$value['l_id']}")->update("b_number=b_number+{$value['b_number']}");
+					$billingNumber=$purchaseLogModel->where("id={$value['l_id']}")->select("number-b_number")->getOne();
 				}
 			}
-			$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>2,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
+			if($billingNumber==0){
+				$invoice_status=1;
+			}else{
+				$invoice_status=2;
+			}
+			$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>$invoice_status,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
 
 		} catch (Exception $e) {
 			$billingModel->rollback();
