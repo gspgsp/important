@@ -265,6 +265,27 @@ class quoteAction extends adminBaseAction {
 		$result  = $this->db->model('factory')->select('f_name')->where("`fid` = $id")->getOne();
 		return empty($result) ? '-' : $result;
 	}
+	/**
+	 * 弹出审核页面
+	 * @Author   cuiyinming
+	 * @DateTime 2016-07-01T15:31:38+0800
+	 * @return   [type]                   [description]
+	 */
+	public function chkpage(){
+		$id = sget('id','i',0);
+		if($id<1) $this->error('信息错误');
+		$this->assign('id',$id);
+		$this->display('quote.chk.html');
+	}
+	//审核结果提交
+	public function chkSubmit(){
+		$id =sget('id','i',0);
+		$status = sget('status','i');
+		if($id<1) $this->error('用户信息错误');
+		$result = $this->db->wherePk($id)->update(array('status'=>$status,'update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name']));
+		if(!$result) $this->error('操作失败');
+		$this->success('操作成功');
+	}
 
 	/**
 	 * Excel导入

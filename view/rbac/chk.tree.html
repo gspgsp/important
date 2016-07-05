@@ -85,6 +85,7 @@ function del() {
 
 //强制选择管理员
 function usrChoose(e){
+	var node_id=$("#node_id").val();
 	var btn = this;
 		mini.open({
 		url: "/rbac/adm/init?do=search",
@@ -103,7 +104,7 @@ function usrChoose(e){
 				if (data) {
 					btn.setValue(data.admin_id);
 					btn.setText(data.name);
-					var oNodes = mini.getData('/rbac/node/geiadmnodes?adm='+data.admin_id);
+					var oNodes = mini.getData('/rbac/node/geiadmnodes?adm='+data.admin_id+'&id='+node_id);
 					grid.setValue(oNodes);
 				}
 			}

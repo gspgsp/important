@@ -210,11 +210,11 @@ function oncheckDetail(e){
 	}else{
 		order_type = (order_type=='销售订单' ? '1' : '2');
 		if(order_type=='1'){	//销售
-			if(order_status != '2' && node_flow=='ture') s += '<a href="javascript:orderSaCheck('+oid+','+sales_type+')">销售审核</a>&nbsp;&nbsp;';
-			if(transport_status != '2' && node_flow=='ture') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
+			if(order_status != '2' && node_flow==true) s += '<a href="javascript:orderSaCheck('+oid+','+sales_type+')">销售审核</a>&nbsp;&nbsp;';
+			if(transport_status != '2' && node_flow==true) s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
 		}else{
-			if(order_status != '2' && node_flow=='ture') s += '<a href="javascript:orderPuCheck('+oid+')">采购审核</a>&nbsp;&nbsp;';
-			if(transport_status != '2' && node_flow=='ture') s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
+			if(order_status != '2' && node_flow==true) s += '<a href="javascript:orderPuCheck('+oid+')">采购审核</a>&nbsp;&nbsp;';
+			if(transport_status != '2' && node_flow==true) s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
 		}
 	} 
 	return s;

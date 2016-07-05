@@ -240,7 +240,7 @@ class nodeAction extends adminBaseAction {
 		$chk_flows =sget('nodes','s');   // 权限流id
 		$adm_id = sget('adm_id','i',0);//管理员名字
 		// 先删除对应管理员的权限流
-		$this->db->model('adm_chk')->where("`adm_id` = $adm_id")->delete();
+		$this->db->model('adm_chk')->where("`adm_id` = $adm_id and node_id=$node_id")->delete();
 		$chk_flows = explode(',', $chk_flows);
 		$data = array(
 			'adm_id'=>$adm_id,
@@ -260,7 +260,8 @@ class nodeAction extends adminBaseAction {
 	public function geiadmnodes(){
 		$this->is_ajax = true;
 		$adm = sget('adm','i',0);
-		$nodes = $this->db->model('adm_chk')->select('node_flow')->where("adm_id = $adm")->getCol();
+		$node_id = sget('id','i',0);//节点
+		$nodes = $this->db->model('adm_chk')->select('node_flow')->where("adm_id = $adm and node_id=$node_id")->getCol();
 		$out = implode(',',$nodes);
 		$this->json_output($out);
 	}
