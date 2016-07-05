@@ -171,8 +171,12 @@
 .user-main .purchase ul li{ height:40px; overflow:hidden; border-bottom:1px solid #eee;}
 .user-main .purchase ul li:hover{ background:#f5f5f5;}
 .user-main .purchase ul li p{ float:left; margin:0 0 0 32px;}
-.user-main .purchase ul li span{ margin:0 25px 0 0;}
-.user-main .purchase ul li a{ background:#fc6621; color:#fff; border:1px solid #fc6621; padding:4px 5px; margin:0 0 0 68px;}
+.user-main .purchase ul li span{ display:block; float:left;}
+.user-main .purchase ul li span.wantbuy{ width:200px; overflow:hidden;}
+.user-main .purchase ul li span.price{ width:140px; overflow:hidden;}
+.user-main .purchase ul li span.address{ width:100px; overflow:hidden;}
+.user-main .purchase ul li span.time{ width:130px; overflow:hidden;}
+.user-main .purchase ul li a{ background:#fc6621; color:#fff; border:1px solid #fc6621; padding:4px 5px;}
 .user-main .purchase .purchase-more { text-align:right; margin:0 27px 0 0;}
 .user-main .purchase .purchase-more a{ color:#267bd3;}
 .user-main .other{ height:196px; overflow:hidden; margin:0 0 0 23px;}
