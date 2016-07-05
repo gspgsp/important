@@ -287,6 +287,7 @@ class billingAction extends adminBaseAction
 
 		foreach ($list['data'] as &$value) {
 			$value['sum']=floatval($value['b_number']*$value['unit_price']);
+			$value['type']=L("product_type")[$value['type']];
 			if($is_head){
 				$value['un_number']=$value['b_number'];
 			}else{
