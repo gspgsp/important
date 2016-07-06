@@ -499,3 +499,11 @@ a{ text-decoration:none;}
 .success .opt{ width:336px; height:38px; line-height:38px; margin:0 auto;}
 .success .opt a{ font-size:14px; color:#fff; display:block; width:152px; height:38px; text-align:center; background:#267bd3; border-radius:4px;}
 /*success end*/
+
+/*renzheng begin*/
+.renzheng{ width: 100%; height: 70px; background:#f7f7f7;}
+.renzheng ul{ width: 454px; height:47px; overflow: hidden; margin:0 auto;}
+.renzheng ul li{ width: 106px; float: left; margin:0 10px 0 0;}
+.renzheng ul li.last{ margin-right: 0; }
+.renzheng img{display: inline; width:106px;height: 40px;}
+/*renzheng end*/
