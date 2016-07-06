@@ -41,7 +41,7 @@ class storeDetailAction extends adminBaseAction {
    		if(sget('remainder','i') ==2 ){ //join_id 代表关联了销售订单id  (虚拟入库的库存)
 			$where.=" and `join_id` > 0";   
 		}
-		if($isAddSale==1) $where.=" and `controlled_number` > 0 "; //销库存时之显示可用数量大于0的产品
+		if($isAddSale==1) $where.=" and `controlled_number` > 0 "; //销库存时之显示可用数量大于0的产品 
 		//筛选时间
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
