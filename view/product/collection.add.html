@@ -131,13 +131,13 @@ function submitForm() {
 	
 	var type="{$type}";
 	var finance='{$finance}';
-	if (finance) {
+	if (finance==1) {
 		var check_price = mini.get('check_price').value;
-		if (type != 1 &&(check_price<account_price)) {
+		if (type == 2 &&(parseFloat(check_price)>parseFloat(account_price))) {
 			alert('账户余额不足，不能付款');
 			return false;
 		}
-	}	
+	}
 	var json = mini.encode(o);
 	form.loading("数据提交中，请稍后......");
 	$.post('/product/order/ajaxSave',{data:json},function(data){
@@ -158,7 +158,7 @@ function changeaccount(e){
 	$.post('/product/collection/changeaccount',{data:val},function(data){
 		form.unmask();	
 		if(data.err!='0'){
-			account_price = parseFloat(data.sum);
+			account_price = data.sum;
 			mini.get('account_price').setValue(data.sum);
 		}else{
 			return false;
