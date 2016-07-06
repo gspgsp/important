@@ -1,6 +1,6 @@
 {layout file="public:main_layout"}
 {insert_css files='home/user.css'}
-{insert_js files='jquery/jquery.upload.js'}
+{insert_js files='home/jquery.ajaxupload.js'}
 
 <div class="buy-crumb w1220">首页-个人中心</div>
 <!--user-wrap begin-->
@@ -28,32 +28,48 @@
                     <td>企业法人身份证号<span>*</span>：</td>
                     <td><input type="text" class="import" name="legal_idcard" id="legal_idcard" /></td>
                     <td>企业法人身份证照片上传：</td>
-                    <td><input type="file" id="file1" name="file1" value="" id="legal_idcard_pic" /></td>
-                    <td><input type="button" value="上传" class="button" name="legal_idcard_pic" /></td>
+                    <!-- <td><input type="file" id="file1" name="file1" value="" id="legal_idcard_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="legal_idcard_pic" /></td> -->
+                    <td style="float:left;">
+                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn1" onclick="getImg(this.id)">
+                        <input type="hidden" id="legal_idcard_pic" name="" class="pro_img import" value="">
+                    </td>
                     <!-- <td><input type="hidden" id="idcard" name="idcard" value=""/></td> -->
                   </tr>
                   <tr>
                     <td>营业执照号<span>*</span>：</td>
                     <td><input type="text" class="import" name="business_licence" id="business_licence" /></td>
                     <td>营业执照副本照片上传：</td>
-                    <td><input type="file" id="file2" name="file2" value="" id="business_licence_pic" /></td>
-                    <td><input type="button" value="上传" class="button" name="business_licence_pic" /></td>
+                    <!-- <td><input type="file" id="file2" name="file2" value="" id="business_licence_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="business_licence_pic" /></td> -->
+                    <td style="float:left;">
+                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn2" onclick="getImg(this.id)">
+                        <input type="hidden" id="business_licence_pic" name="" class="pro_img import" value="">
+                    </td>
                     <!-- <td><input type="hidden" id="licence" name="licence" value=""/></td> -->
                   </tr>
                   <tr>
                     <td>税务登记号：</td>
                     <td><input type="text" class="import" name="tax_registration" id="tax_registration" /></td>
                     <td>税务登记证照片上传：</td>
-                    <td><input type="file" id="file3" name="file3" value="" id="tax_registration_pic" /></td>
-                    <td><input type="button" value="上传" class="button" name="tax_registration_pic" /></td>
+                    <!-- <td><input type="file" id="file3" name="file3" value="" id="tax_registration_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="tax_registration_pic" /></td> -->
+                    <td style="float:left;">
+                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn3" onclick="getImg(this.id)">
+                        <input type="hidden" id="tax_registration_pic" name="" class="pro_img import" value="">
+                    </td>
                    <!--  <td><input type="hidden" id="registration" name="registration" value=""/></td> -->
                   </tr>
                   <tr>
                     <td>组织机构代码证号：</td>
                     <td><input type="text" class="import" name="grounp_no" id="grounp_no" /></td>
                     <td>组织机构代码证照片上传：</td>
-                    <td><input type="file" id="file4" name="file4" value="" id="organization_pic" /></td>
-                    <td><input type="button" value="上传" class="button" name="organization_pic" /></td>
+                    <!-- <td><input type="file" id="file4" name="file4" value="" id="organization_pic" /></td>
+                    <td><input type="button" value="上传" class="button" name="organization_pic" /></td> -->
+                    <td style="float:left;">
+                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn4" onclick="getImg(this.id)">
+                        <input type="hidden" id="organization_pic" name="" class="pro_img import" value="">
+                    </td>
                    <!--  <td><input type="hidden" id="no" name="no" value=""/></td> -->
                   </tr>
                   <tr>
@@ -72,31 +88,31 @@
     <!--right end-->
 <!--user-wrap end-->
 <script type="text/javascript">
-    $(function(){
-        $('.button').on("click",function (){
-            FileUpload($('.button').parent('td').prev().attr('id'));
-        });
-    })
-    function FileUpload(idValue) {
-            $.ajaxFileUpload
-            (
-                {
-                    url: '/public/upload/upload', //用于文件上传的服务器端请求地址
-                    secureuri: false, //是否需要安全协议，一般设置为false
-                    fileElementId: idValue, //文件上传域的ID
-                    dataType: 'json', //返回值类型 一般设置为json
-                    success: function (data, status)  //服务器成功响应处理函数
-                    {
-                        $(this).attr("value", data.file[0].savename);
-                    },
-                    error: function (data, status, e)//服务器响应失败处理函数
-                    {
-                        alert(e);
-                    }
+    //ajax上传图片
+    function getImg(that){
+            var input_id = $("#"+that);
+            new AjaxUpload(that, {
+            action: '/public/sysUpload/images?model=1',
+            name: 'image',
+            onSubmit: function(file, suffix) {
+                // 'gif','jpg','jpeg','png','swf'
+                var patrn = /^(gif|jpg|jpeg|png)$/i;
+                if (!patrn.test(suffix)) {
+                    alert('不支持上传 *.' + suffix + '格式的文件。');
+                    return false;
                 }
-            );
-            return false;
-        }
+            },
+            onComplete: function(file, response) {
+                var result = jQuery.parseJSON(response);
+                if(result.err == 0) {
+                    input_id.next().val(result.msg);
+                    input_id.attr('src',"__UPLOAD__/"+result.msg);
+                } else {
+                    alert(result.msg);
+                }
+            }
+        });
+    }
     //提交
     $("#btnCl").bind('click',function(){
             var legal_person = $("#legal_person").val();
