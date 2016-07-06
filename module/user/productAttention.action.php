@@ -21,7 +21,6 @@ class productAttentionAction extends userBaseAction
 	public function addProAttention(){
 		$this->is_ajax=true; //指定为Ajax输出
 		// $dataP = sdata(); //传递的参数:产品类别/产品牌号/产地/备注
-		p($_POST);
 		if(empty($_POST)){
 			$this->error('请添加关注产品信息');
 		}
