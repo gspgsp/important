@@ -125,7 +125,6 @@ class mypurchaseAction extends userBaseAction{
 	//采购发布
 	public function pub()
 	{
-
 		if($data=$_POST['data'])
 		{
 			$this->is_ajax=true;
@@ -134,7 +133,6 @@ class mypurchaseAction extends userBaseAction{
 			$pur_model=M('product:purchase');
 			$fac_model=M('product:factory');
 			$pro_model=M('product:product');
-
 			$model=$this->db->from('product p')
 				->join('factory f','p.f_id=f.fid');
 			$data=saddslashes($data);
