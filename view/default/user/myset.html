@@ -4,6 +4,12 @@
 {insert_js files='home/jquery.ajaxupload.js'}
 <style type="text/css">
 	.requires{border:1px solid red !important;}
+	.import.import3{border:1px solid #d6d7dc;
+		resize: none;
+		width: 400px;
+		height:154px;
+	}
+
 </style>
 
 
@@ -142,7 +148,8 @@
 	                    </tr>
 	                    <tr>
 	                    	<td class="name">公司介绍：</td>
-	                        <td><input type="text" name="com_intro" class="import import3" value="{$customer.com_intro}"/></td>
+	                        <td><textarea name="com_intro" class="import import3 " placeholder="最多能输入250个字" value="{$customer.com_intro}"/></textarea></td>
+
 	                    </tr>
 	                </table>
 	                <div class="opt">
