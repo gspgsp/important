@@ -115,7 +115,7 @@
 				                <!--slider-container begin-->
 				                <div class="slider-container"  id="example-1">
                                     {foreach from=$prices item=value key=key}
-				                    <div class="item" id="{$value.id}" >
+				                    <div class="item"  >
                                         <p class="addr">
 											{if $value.product_type==1}HDPE
 											{elseif $value.product_type==2}LDPE
@@ -129,7 +129,7 @@
 											<b>{$value.absprice}</b>
 										</div>
                                         <p class="time">{$value.input_time|date:Y-m-d}</p>
-                                        <div class="del">取消关注</div>            
+                                        <div class="del" id="{$value.id}">取消关注</div>
                                     </div>
                                     {/foreach}
 				                </div>
@@ -318,7 +318,7 @@
 		//删除关注产品信息
 		var del = $(".user-main .product .item .del");
 		del.live("click",function(){
-			var id=$('.item').attr('id');
+			var id=$(this).attr('id');
 			$.ajax({
 					url:'/user/productAttention/changeFocusState',
 					data:{pId:id},
@@ -329,10 +329,10 @@
 					if(res.err==0){
 						if(res.status==1){
 							alert('取消关注失败');
-							window.location.reload();
+//							window.location.reload();
 						}else{
 							alert('取消关注成功');
-//							window.location.reload();
+							window.location.reload();
 						}
 					}
 
