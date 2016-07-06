@@ -34,6 +34,7 @@ class apiAction extends action{
 		$vcode->font_size = 14;
 		$vcode->width = 80;
 		$vcode->height = 36;
+		$vcode->seedtype =2;
 		#$vcode->background = "#cccccc";
 		$vcode->doimage();
 		$name='vc_'.sget('name','s','vcode');

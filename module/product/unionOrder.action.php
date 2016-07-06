@@ -148,7 +148,7 @@ class unionOrderAction extends adminBaseAction {
 					$this->error('该订单存在订单明细，请先删除订单明细！');
 					continue;
 				}else{
-					$result=$this->db->mode('union_order')->where("id = ($v)")->delete();
+					$result=$this->db->model('union_order')->where("id = ($v)")->delete();
 				}
 				
 			}
