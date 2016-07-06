@@ -19,7 +19,7 @@ class concernedProductModel extends Model{
 
         return  $this->from('concerned_product as cp')
             ->where($where)
-            ->select('cp.id, cp.product_id')
+            ->select('cp.id, cp.product_id,cp.model,cp.factory_name')
             ->getAll();
 
     }
