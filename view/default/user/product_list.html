@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.css"/>
 <link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.ext.css"/>
+<script src="__MYAPP__/js/common.js"></script>
 <style type="text/css">
 .xubox_setwin .xubox_close0{ right:-70px!important;}
 </style>
@@ -106,13 +107,57 @@
             });
         });
          //添加新的关注产品
-        var kid = $(".import.kid"),
-        num = $(".import.num"),
-        address = $(".import.address"),
-        remark = $(".import.remark"),
+        var kid = $("#pz"),
+        num = $("#ph"),
+        address = $("#cj"),
+        remark = $("#remark"),
         errorMsg = $(".error-msg"),
+        kind="",
+        ph="",
+        cj="",
         str = "";
+        //给kid,num,address对象添加事件
+        $("#pz").change(function () {
+                    kind=$(this).children('option:selected').val();
+                    commonAjax(
+                            "post",
+                            '/user/productAttention/getModelByCla',
+                            {kind:kind}
+                    ).then(function (res) {
+                        console.log(">>>",res);
+                        if(res.err==1){
+                            window.location.href="/myapp/login";
+                        }else{
+                            ph="<option>无</option>";
+                            res.models.forEach(function (v,i,a) {
+                                ph+="<option value='"+v.model+"'>"+v.model+"</option>";
+                            });
+                            $("#ph").html(ph);
+                            $("#cj").html("<option>无</option>");
+                        }
+                    },function () {
 
+                    });
+                });
+
+                $("#ph").change(function () {
+                    model=$(this).children('option:selected').val();
+                    commonAjax(
+                            "post",
+                            "/user/productAttention/getFactoryByMod",
+                            {model:model}
+                    ).then(function (res) {
+                        ph="<option>无</option>";
+                        res.factorys.forEach(function (v,i,a) {
+                            cj="<option>无</option>";
+                            cj+="<option value='"+v+"'>"+v+"</option>";
+                        });
+                        $("#cj").html(cj);
+                    },function () {
+
+                    })
+                });
+        //添加事件点击
         $(".focus-add").bind("click",function(){
             $.layer({
                 type: 1,
@@ -237,27 +282,30 @@
             <tr>
                 <td class="name">产品类别：</td>
                 <td>
-                    <select class="kid import" style="width: 212px;height: 34px;">
+                    <select class="kid import" style="width: 212px;height: 34px;" id="pz">
                         <option value="1" selected="selected">HDPE</option>
                         <option value="2">LDPE</option>
                         <option value="3">LLDPE</option>
-                        <option value="4">共聚PP</option>
+                        <option value="4">PP</option>
+                        <!-- <option value="4">共聚PP</option> -->
                         <option value="5">PVC</option>
-                        <option value="6">均聚PP</option>
+                        <!-- <option value="6">均聚PP</option> -->
                     </select>
                 </td>
             </tr>
             <tr>
                 <td class="name">牌号：</td>
-                <td><input type="text" class="num import"/></td>
+                <!-- <td><input type="text" class="num import" id="num" /></td> -->
+                <td><select id="ph"><option value="">无</option></select></td>
             </tr>
             <tr>
                 <td class="name">产地：</td>
-                <td><input type="text" class="address import"/></td>
+                <!-- <td><input type="text" class="address import" id="address" /></td> -->
+                <td><select id="cj"><option value="">无</option></select></td>
             </tr>
             <tr>
                 <td class="name">备注：</td>
-                <td><input type="text" class="remark import"/></td>
+                <td><input type="text" class="remark import" id="remark" /></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
