@@ -10,7 +10,7 @@ class productAttentionAction extends userBaseAction
 	//关注产品
 	public function proAttentionValue(){
 		$page=sget('page','i',1);
-		$size=2;
+		$size=8;
 		$model = 'concerned_product';
 		$data = $this->_getAttentionvalue($model,$page,$size);
 		$this->assign('detail',$data['detail']);

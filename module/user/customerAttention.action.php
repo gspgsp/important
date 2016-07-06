@@ -11,7 +11,7 @@ class customerAttentionAction extends userBaseAction
 	//关注商家
 	public function cusAttentionList(){
 		$page=sget('page','i',1);
-		$size=2;
+		$size=8;
 		$model = 'concerned_customer';
 		$data = $this->_getAttentionList($model,$page,$size);
 		$this->assign('detail',$data['detail']);
@@ -30,7 +30,7 @@ class customerAttentionAction extends userBaseAction
 		 *
 		 */
 		$customer = M('user:customer')->getCompanyByName($_POST['cus_name']);//根据商家名称查找商家
-		if($this->db->model('concerned_customer')->select('customer_id')->where('customer_id='.$customer['c_id'])->getOne()) $this->error('该商家已经关注过');
+		if($c_id = $this->db->model('concerned_customer')->select('customer_id')->where('customer_id='.$customer['c_id'])->getOne()) $this->error('该商家已经关注过');
 
 		$userContact = M('user:customerContact')->getListByUserid($this->user_id);
 
