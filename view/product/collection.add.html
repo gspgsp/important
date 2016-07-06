@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
 				<td>申请金额<span style="color:red">*</span></td>
-				<td><input name="collected_price" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true"/></td>
+				<td><input name="collected_price" id="check_price" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true"/></td>
 			</tr>
 			{else}		
 			<tr>
@@ -119,7 +119,9 @@ function submitForm() {
 	}
 	//uncollected_price不为空，就不是第一次申请审核，输入值得小于未收付款金额
 	if (parseFloat(o.uncollected_price) >'') {
-		if (parseFloat(o.collected_price) >parseFloat(o.uncollected_price)) {alert("请输入正确的数值");return;}
+		if (parseFloat(o.collected_price) >parseFloat(o.uncollected_price)) {
+			alert("请输入正确的数值");return;
+		}
 	}
 	//un_price不为空，就不是第一次申请，输入值得小于未收付款金额
 	if(parseFloat(o.un_price) >''){
@@ -127,6 +129,15 @@ function submitForm() {
 
 	}
 	
+	var type="{$type}";
+	var finance='{$finance}';
+	if (finance) {
+		var check_price = mini.get('check_price').value;
+		if (type != 1 &&(check_price<account_price)) {
+			alert('账户余额不足，不能付款');
+			return false;
+		}
+	}	
 	var json = mini.encode(o);
 	form.loading("数据提交中，请稍后......");
 	$.post('/product/order/ajaxSave',{data:json},function(data){
@@ -141,13 +152,14 @@ function submitForm() {
 }
 
 //选择账户时显示不同账户余额
+var account_price =0;
 function changeaccount(e){
 	var val = e.value;//1,2
 	$.post('/product/collection/changeaccount',{data:val},function(data){
 		form.unmask();	
 		if(data.err!='0'){
+			account_price = parseFloat(data.sum);
 			mini.get('account_price').setValue(data.sum);
-			// alert(data.sum);
 		}else{
 			return false;
 		}
@@ -155,6 +167,9 @@ function changeaccount(e){
 
 	$('#account').show();
 }
+
+
+//上传附件
 function fileUpload() {
 	$.ajaxFileUpload({
 		url:'/system/sysUpload/upload',
