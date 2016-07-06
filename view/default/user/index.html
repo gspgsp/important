@@ -125,10 +125,10 @@
 											{/if}/ {$value.model}/{$value.f_name}
                                         </p>
                                         <div class="price up" id="price" data-id="{$value.price}">
-											<span>¥{$value.unit_price}</span>
+											<span>{if $value.unit_price>0}¥{$value.unit_price}{else}暂无报价{/if}</span>
 											<b>{$value.absprice}</b>
 										</div>
-                                        <p class="time">{$value.input_time|date:Y-m-d}</p>
+                                        <p class="time">{if $value.input_time>0}{$value.input_time|date:Y-m-d}{else}--{/if}</p>
                                         <div class="del" id="{$value.id}">取消关注</div>
                                     </div>
                                     {/foreach}

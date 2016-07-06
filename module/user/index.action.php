@@ -20,7 +20,10 @@ class indexAction extends userBaseAction{
         foreach($data as $k=>$v){
             $arr['p_id']=$v['product_id'];
             $arr['id']=$v['id'];
+            $arr['model']=$v['model'];
+            $arr['f_name']=$v['factory_name'];
             $price=M('product:purchase')->footPrice($arr);
+            $price[0]=!empty($price[0])?$price[0]:array('unit_price'=>'暂无报价','input_time'=>'-');
             $arrays=array_merge($arr,$price[0]);
             $prices['price']=$price[0]['unit_price']-$price[1]['unit_price'];
             $prices['p_id']=$price[0]['p_id'];
