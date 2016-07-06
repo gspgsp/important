@@ -108,6 +108,7 @@ class myHomeWebAction extends userBaseAction
 	//联系我们
 	private function _linkUs($data){
 		if(!$contact=$this->db->model('customer_contact')->where('user_id='.$data['contact_id'])->select('name,tel,fax,mobile,qq,email')->getRow()) $this->error('没有联系人信息');
+
 		return $contact;
 	}
 	//最新资讯
