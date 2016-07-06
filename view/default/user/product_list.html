@@ -191,8 +191,11 @@
                     data:{'kid':kid.val(),'num':num.val(),'address':address.val(),'remark':remark.val()},
                     dataType:'json',
                     success:function(res){
-                        if(res.err==0)
-                        window.location.href="/user/productAttention/proAttentionValue";
+                        if(res.err==0){
+                            window.location.href="/user/productAttention/proAttentionValue";
+                        }else if(res.err==2){
+                            alert(res.msg);
+                        }
                     }
                 });
                  //errorMsg.html("");
