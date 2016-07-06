@@ -102,7 +102,7 @@ class myHomeWebAction extends userBaseAction
 	//关于我们
 	private function _aboutUs(){
 		// if(!$data=$this->db->model('customer')->where('c_id='.$this->user_id)->select('c_name,address,type,contact_id,com_intro,com_logo')->getRow()) $this->error('没有客户信息');
-		$data=$this->db->model('customer')->select('c_name,address,type,contact_id,com_intro,com_logo')->where('contact_id='.$this->user_id)->getRow();
+		$data=$this->db->model('customer')->select('c_name,address,type,contact_id,com_intro,com_logo')->where('c_id='.$this->uinfo['c_id'])->getRow();
 		return $data;
 	}
 	//联系我们
