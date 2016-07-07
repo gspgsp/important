@@ -20,7 +20,7 @@
                 	{foreach from=$client item=value}
                 	<li {if in_array($value.id,$cid)}class="chose"{/if}>
                         <a title={$value.gsname} href="/client?cid={$value.ss}&br={$br}">
-                            <div class="com-logo"><img src="{$value.logo}" width="146" height="70"/></div>
+                            <div class="com-logo"><img src="__UPLOAD__/{$value.logo}" width="146" height="70"/></div>
                             <span>{$value.gsname}</span>
                         </a>
                     </li>
