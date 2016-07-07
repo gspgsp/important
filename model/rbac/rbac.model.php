@@ -11,9 +11,9 @@ class rbacModel extends model{
 	 * 查看用户权限是否足够
 	 * @access public
 	 * @param int $admin_id 用户ID
-     * @return bool
+	 * @return bool
 	 */
-    public function checkAccess($admin_id=0){
+	public function checkAccess($admin_id=0){
 		//不需要检查的排除
 		$no_auth_module=array('index','pass');
 		if(!empty($no_auth_module) && in_array(strtolower(ROUTE_C),$no_auth_module)){
@@ -29,26 +29,26 @@ class rbacModel extends model{
 				return false;
 			}
 		}
-        return true;
-    }	
-    	/**
-    	 * j检查用户当前的审核流程
-    	 * @Author   cuiyinming
-    	 * @DateTime 2016-06-20T09:53:43+0800
-    	 * @return   [type]                   [description]
-    	 */
-    	public function checkChk($admin_id){
-    		$accessId='/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A;
-    		$nodeid=$this->model('adm_node')->select('id')->where("status=1 and ntype=1 and `level`>2 and `name` = '$accessId'")->order('pid asc,sort_order asc')->getOne();
-    		// 查询当前用户的具有的该节点的权限流
-    		return $this->select('node_flow')->model('adm_chk')->where("`adm_id`= $admin_id and `node_id` = $nodeid")->getCol();
-    	}
+		return true;
+	}	
+		/**
+		 * j检查用户当前的审核流程
+		 * @Author   cuiyinming
+		 * @DateTime 2016-06-20T09:53:43+0800
+		 * @return   [type]                   [description]
+		 */
+		public function checkChk($admin_id){
+			$accessId='/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A;
+			$nodeid=$this->model('adm_node')->select('id')->where("status=1 and ntype=1 and `level`>2 and `name` = '$accessId'")->order('pid asc,sort_order asc')->getOne();
+			// 查询当前用户的具有的该节点的权限流
+			return $this->select('node_flow')->model('adm_chk')->where("`adm_id`= $admin_id and `node_id` = $nodeid")->getCol();
+		}
 	
 	/*
 	 * 取得当前用户的所有权限列表
 	 * @access public
 	 * @param int $admin_id 用户ID
-     * @return array
+	 * @return array
 	 */
 	public function getAccessList($admin_id=0) {
 		if(!isset($_SESSION['role_access'])){
@@ -66,14 +66,14 @@ class rbacModel extends model{
 		}else{
 			$access=$_SESSION['role_access'];	
 		}
-        return $access;
-    }
+		return $access;
+	}
 	
 	
-    /**
-     * 获取我的菜单
-     * @access private
-     */
+	/**
+	 * 获取我的菜单
+	 * @access private
+	 */
 	public function _getMyMenu(){
 		if(!isset($_SESSION['role_menu'])){
 			//所有平级菜单
@@ -123,12 +123,12 @@ class rbacModel extends model{
 		return $menu;
 	}
 	
-    /**
-     * 生成菜单树
-     * @param array $arr 平级菜单数组
-     * @param int $pid 父ID
-     * @access private
-     */
+	/**
+	 * 生成菜单树
+	 * @param array $arr 平级菜单数组
+	 * @param int $pid 父ID
+	 * @access private
+	 */
 	private function _menuTree($arr=array(), $pid=1){
 		$tree=array();
 		foreach($arr as $k=>$v){
@@ -141,5 +141,39 @@ class rbacModel extends model{
 		}
 		return $tree;
 	}
+	/**
+	 * 获取领导下面的所有子领导
+	 */
+	public function getSons($pid=0){
+		$infos = $this->select("admin_id,pid")->model('admin')->getAll();
+		return  $this->_get_tree_child($infos,$pid);
+	
+	}
+
+
+	private function _get_tree_child($data, $fid) {
+		$result = array();
+		 $result[]=$fid;
+		$fids = array($fid);
+		do {
+			$cids = array();
+			$flag = false;
+			foreach($fids as $fid) {
+				for($i = count($data) - 1; $i >=0 ; $i--) {
+					$node = $data[$i];
+					if($node['pid'] == $fid) {
+						array_splice($data, $i , 1);
+						$result[] = $node['admin_id'];
+						$cids[] = $node['admin_id'];
+						$flag = true;
+					}
+				}
+			}
+			$fids = $cids;
+		} while($flag === true);
+		return implode(',',$result);
+	}
+
+
 }
 ?>
