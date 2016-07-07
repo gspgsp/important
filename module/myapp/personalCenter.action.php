@@ -17,7 +17,7 @@ class personalCenterAction extends homeBaseAction
         $this->is_ajax = true;
         if(empty($this->dataToken)) return array('err'=>10,'msg'=>'TokenSession过期');
         // if($this->user_id<=0) $this->error('账户错误');
-        $dataToken = sget('dataToken','s','4dfc3b98cc24e4edca33412c61952c81');
+        $dataToken = sget('dataToken','s');
         //保存用户的id
         $this->userid = M('myapp:token')->deUserId($dataToken);
         //token检查
