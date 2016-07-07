@@ -102,6 +102,16 @@ class customerModel extends model{
 		$result = $this->model('customer')->where("c_name='$name'")->getRow();
 		return empty($result) ? array() : $result;
 	}
+
+	/**
+	 * 根据customer_manager 获取所有的扩展cid(客户id)
+	 */
+	public function getCidByPoolCus($customer_manager){
+		$result = $this->model('customer_pool')->select('c_id')->where("customer_manager='$customer_manager'")->getCol();
+		return implode(',',$result);
+	}
+
+
 	/**
 	 *营业执照号验证
 	 */
