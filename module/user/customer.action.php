@@ -113,7 +113,6 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
 			$list['data'][$k]['chk'] = $this->_accessChk();
 		}
-		showtrace();
 		$this->assign('isPublic',$this->public);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
