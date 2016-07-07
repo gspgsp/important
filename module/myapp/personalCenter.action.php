@@ -15,6 +15,10 @@ class personalCenterAction extends homeBaseAction
     public function getPersonalCenter(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->user_id);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $type1 = sget('type1','i');//$type1 1采购
         $type2 = sget('type2','i');//$type1 2报价
         $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
@@ -584,6 +588,10 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         M('user:passport')->setSession();
         $this->json_output(array('err'=>0,'msg'=>'退出成功'));
+    }
+    //token验证方法
+    private function _chkToken($dataToken,$user_id){
+         return M('myapp:token')->chkToken($dataToken,$user_id);
     }
 
 }
