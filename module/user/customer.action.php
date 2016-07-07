@@ -89,7 +89,11 @@ class customerAction extends adminBaseAction {
 		//筛选自己的客户
 		if($this->public == 0){
 			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']); 
+				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); 
+				if(!empty($pools)){
+					$sons .= ','.$pools; //扩展的客户
+				}
 				$where .= " and `customer_manager` in ($sons) ";
 			}
 		}
@@ -109,6 +113,7 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
 			$list['data'][$k]['chk'] = $this->_accessChk();
 		}
+		showtrace();
 		$this->assign('isPublic',$this->public);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
