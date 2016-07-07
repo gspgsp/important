@@ -16,7 +16,7 @@ class personalCenterAction extends homeBaseAction
     public function getPersonalCenter(){
         $this->is_ajax = true;
         // if($this->user_id<=0) $this->error('账户错误');
-        $dataToken = sget('dataToken','s');
+        $dataToken = sget('dataToken','s','4dfc3b98cc24e4edca33412c61952c81');
         //保存用户的id
         $this->userid = M('myapp:token')->deUserId($dataToken);
         //token检查
