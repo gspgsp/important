@@ -733,8 +733,8 @@ class personalCenterAction extends homeBaseAction
         //token检查
         $chkRes = $this->_chkToken($dataToken,$this->userid);
         if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
-        M('user:passport')->setSession();
-        $this->json_output(array('err'=>0,'msg'=>'退出成功'));
+        if(M('myapp:token')->destory($dataToken)) $this->json_output(array('err'=>0,'msg'=>'退出成功'));
+        //M('user:passport')->setSession();
     }
     //token验证方法
     private function _chkToken($dataToken,$user_id){
