@@ -597,11 +597,18 @@ class orderAction extends adminBaseAction {
 					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 
 					//修改account账户信息，1是销售，收款
+
 					if($data['order_type']==1){
 						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['adminid'])) throw new Exception("交易失败");
 
 					}else{
-						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['adminid'])) throw new Exception("交易失败");
+						$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
+						if ($data['collected_price']>$money) {
+							$this->error('余额不足');
+						}else{
+							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['adminid'])) throw new Exception("交易失败");
+						}
+					
 					}
 
 				}else{
