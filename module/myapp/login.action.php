@@ -28,7 +28,8 @@ class loginAction extends homeBaseAction{
 			}else{
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
-				$this->success('登录成功');
+				//$this->success('登录成功');
+				$this->json_output(array('err'=>0,'msg'=>'登录成功','dataToken'=>$_SESSION['token']));
 			}
 
 		}
