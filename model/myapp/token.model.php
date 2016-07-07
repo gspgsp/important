@@ -21,7 +21,7 @@ class tokenModel extends model
 	 * return array(error,msg,uinfo)
 	 */
 	public function chkToken($token='',$userid=0){
-		if(empty($_SESSION['token'])) return array('err'=>5,'msg'=>'TokenSession过期');
+		//if(empty($_SESSION['token'])) return array('err'=>5,'msg'=>'TokenSession过期');
 		if(strlen($token)>30){
 			$result=$this->_fix($token,true);
 			if(empty($result)){
