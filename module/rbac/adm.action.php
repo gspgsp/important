@@ -45,7 +45,6 @@ class admAction extends adminBaseAction {
 			
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['last_login']=$v['last_login']>1000 ? date("Y-m-d H:i:s",$v['last_login']) : '-';
-				$list['data'][$k]['status'] = L('adm_status')[$v['status']];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -55,6 +54,7 @@ class admAction extends adminBaseAction {
 		$this->assign('lock',$lock);
 		$this->depart=C('depart'); //所属部门
 		$this->depart_json=setMiniConfig($this->depart);
+		$this->leader_json=setMiniConfig(arrayKeyValues($this->db->select("admin_id as id,name")->getAll(),'id','name'));
 		$this->assign('page_title','管理员列表');
 		$this->display('adm.init.html');
 	}
@@ -127,7 +127,8 @@ class admAction extends adminBaseAction {
 			'name'=>$data['name'],
 			'mobile'=>$data['mobile'],	 
 			'depart'=>(int)$data['depart'],	 
-			'username'=>$data['username'],	 
+			'username'=>$data['username'],
+			'pid'=>$data['pid'],	 
 		);
 		if(!empty($data['password'])){
 			$_data['password']=md5($data['password']);

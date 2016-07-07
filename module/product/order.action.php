@@ -105,6 +105,11 @@ class orderAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
+		//筛选过滤自己的订单信息
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+			$where .= " and `customer_manager` in ($sons) ";
+		}
 		$list=$this->db->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
@@ -329,6 +334,8 @@ class orderAction extends adminBaseAction {
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 				'admin_id'=>$_SESSION['adminid'],
+				'customer_manager'=>$_SESSION['adminid'],
+				'depart'=>$_SESSION['depart'],
 			);
 			try {	
 				if($data['join_id']>0) unset($data['store_o_id']); //不销库存的订单 不存在此字段

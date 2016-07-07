@@ -77,6 +77,11 @@ class saleLogAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
 		}
+		//筛选过滤自己的订单信息
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+			$where .= " and `customer_manager` in ($sons) ";
+		}
 		$list=$this->db->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
