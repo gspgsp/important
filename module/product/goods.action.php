@@ -97,11 +97,19 @@ class goodsAction extends adminBaseAction {
 		if(empty($data)){
 			$this->error('操作数据为空');
 		}
+
 		if(($this->doact)=='add'){
-			$result = $this->db->add($data+array('create_time'=>CORE_TIME));
+			if($data['id']){//更新
+				$this->db->wherePk($data['id'])->update($data);
+				$result=true;
+			}else{//新增
+				$result = $this->db->add($data+array('create_time'=>CORE_TIME));
+			}
+			
 		}else{
 			foreach($data as $k=>$v){
 				$_data=$v;
+				$_data['create_time']=strtotime($_data['create_time']);
 				$sql[]=$this->db->wherePk($v['id'])->updateSql($_data);
 			}
 		}
