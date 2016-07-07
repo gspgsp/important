@@ -15,7 +15,6 @@ class personalCenterAction extends homeBaseAction
     //获取个人中心首页数据
     public function getPersonalCenter(){
         $this->is_ajax = true;
-        //if(empty($this->dataToken)) return array('err'=>10,'msg'=>'TokenSession过期');
         // if($this->user_id<=0) $this->error('账户错误');
         $dataToken = sget('dataToken','s');
         //保存用户的id
@@ -46,9 +45,15 @@ class personalCenterAction extends homeBaseAction
     public function myQuotation(){
 
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $cargo_type = sget('cargo_type','i',1);
-        if(!$data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
+        if(!$data = M('myapp:personalAppCenter')->getMyQuotation($this->userid,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
     }
     //进入我的采购
@@ -58,9 +63,15 @@ class personalCenterAction extends homeBaseAction
     //获取我的采购
     public function myPurchase(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $cargo_type = sget('cargo_type','i',1);
-        if(!$data = M('myapp:personalAppCenter')->getMyPurchase($this->user_id,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
+        if(!$data = M('myapp:personalAppCenter')->getMyPurchase($this->userid,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
     }
     //进入我的关注
@@ -70,8 +81,14 @@ class personalCenterAction extends homeBaseAction
     //获取我的关注
     public function myAttention(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $products = M('myapp:personalAppCenter')->getMyAttention($this->user_id);
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        $products = M('myapp:personalAppCenter')->getMyAttention($this->userid);
         $this->json_output(array('err'=>0,'data'=>$products));
     }
     //进入我的积分
@@ -81,9 +98,15 @@ class personalCenterAction extends homeBaseAction
     //获取我的积分
     public function getMyPoints(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $gtype = sget('gtype','i');
-        $points = M('points:pointsBill')->getUerPoints($this->user_id);
+        $points = M('points:pointsBill')->getUerPoints($this->userid);
         if(!$result = M('touch:creditshop')->getCreditShop($gtype))
             $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
             $this->json_output(array('err'=>0,'points'=>$points,'shop'=>$result));
@@ -95,7 +118,13 @@ class personalCenterAction extends homeBaseAction
     //获取我的物流
     public function getMyTrans(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         //$this->db->model('')
     }
     //进入我的设置
@@ -105,9 +134,15 @@ class personalCenterAction extends homeBaseAction
     //获取我的设置
     public function getMySet(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $set = M('user:customerContact')->getUserInfoByid($this->user_id);
-        $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        $set = M('user:customerContact')->getUserInfoByid($this->userid);
+        $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->userid);//交易员姓名
         $set['cus_mana'] = $cus_mana;
         $set['c_name'] = M('user:customer')->getCinfoById($set['c_id'])['c_name'];//公司名称
         if(!$set) $this->json_output(array('err'=>2,'msg'=>'没有相关的设置信息'));
@@ -120,7 +155,13 @@ class personalCenterAction extends homeBaseAction
     //获取我的意见反馈
     public function getMyFeedBack(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         //
     }
     /**
@@ -129,7 +170,13 @@ class personalCenterAction extends homeBaseAction
     //报价搜索
     public function doQuoSearch(){
         $this->is_ajax=true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         //搜素关键字
         $keywords = sget('keywords','s');
         //1现货/2期货
@@ -147,7 +194,7 @@ class personalCenterAction extends homeBaseAction
         }
         //1,上架2,下架,其他,全部
         $type = sget('type','s');
-        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id} and pur.cargo_type={$cargo_type} and pur.type=2";
+        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->userid} and pur.cargo_type={$cargo_type} and pur.type=2";
         if($type == '1'){
             $where.=" and pur.shelve_type=1";
             $data = $this->db->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.number,pur.store_house,pur.input_time,pur.shelve_type')->from('purchase pur')
@@ -207,7 +254,13 @@ class personalCenterAction extends homeBaseAction
     //单个上架，下架切换
     public function changestate(){
         $this->is_ajax=true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         //当前报价的id
         $id = sget('id','i',0);
         if($id>0){
@@ -218,7 +271,13 @@ class personalCenterAction extends homeBaseAction
     //单个更新报价单
     public function refreshCell(){
         $this->is_ajax=true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $id = sget('id','i',0);
         $data = sget('qdata','a');
         $p_id = sget('pid','i',0);
@@ -228,7 +287,13 @@ class personalCenterAction extends homeBaseAction
     //批量更新报价单
     public function refreshMulCell(){
         $this->is_ajax=true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         //取出所有的id
         $ids = sget('ids','a');
         $up = sget('up','i');
@@ -240,7 +305,13 @@ class personalCenterAction extends homeBaseAction
     //求购搜索
     public function doPurSearch(){
         $this->is_ajax=true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         //搜素关键字
         $keywords = sget('keywords','s');
         //1现货/2期货
@@ -258,7 +329,7 @@ class personalCenterAction extends homeBaseAction
         }
         //1.待审核  2.审核通过  3.洽谈中  4.交易成功   5.无效 6:过期
         $type = sget('status','s');
-        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->user_id} and pur.cargo_type={$cargo_type} and pur.type=1";
+        $where="(fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}') and pur.user_id={$this->userid} and pur.cargo_type={$cargo_type} and pur.type=1";
         if($type == '1'){
             $where.=" and pur.status=1";
             $data = $this->db->from('purchase pur')
@@ -399,7 +470,13 @@ class personalCenterAction extends homeBaseAction
     //保存添加新的我的关注(产品)
     public function addProAttention(){
         $this->is_ajax=true; //指定为Ajax输出
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         // $dataP = sdata(); //传递的参数:产品类别/产品牌号/产地
         if(empty($_POST)){
             //$this->error('请添加关注产品信息');
@@ -410,10 +487,10 @@ class personalCenterAction extends homeBaseAction
         $pid = M('product:product')->getPidByModel($_POST['num'], $fid[0]);//根据牌号和fid查出产品id
         if($this->db->model('concerned_product')->select('product_id')->where('product_id='.$pid)->getOne()) $this->json_output(array('err'=>4,'msg'=>'该产品已经关注过'));
 
-        $userContact = M('user:customerContact')->getListByUserid($this->user_id);
+        $userContact = M('user:customerContact')->getListByUserid($this->userid);
         $company = M('user:customer')->getCinfoById($userContact['c_id']);
 
-        $data['user_id'] = $this->user_id;
+        $data['user_id'] = $this->userid;
         $data['product_name'] = L('product_type')[$_POST['kid']];//产品类别下标
         $data['model'] = $_POST['num'];
         $data['factory_name'] = $_POST['address'];
@@ -440,7 +517,13 @@ class personalCenterAction extends homeBaseAction
     //我的关注全选/不选删除
     public function delMyAttention(){
         $this->is_ajax=true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $ids = sget('ids','a');
         $result = M('myapp:personalAppCenter')->mulDelMyAttention($ids);
         $this->json_output($result);
@@ -452,9 +535,15 @@ class personalCenterAction extends homeBaseAction
     //返回积分明细
     public function get_creditdetail(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $points = M('points:pointsBill')->getUerPoints($this->user_id);
-        $result = M('touch:creditdetail')->getCreditDetail($this->user_id);
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        $points = M('points:pointsBill')->getUerPoints($this->userid);
+        $result = M('touch:creditdetail')->getCreditDetail($this->userid);
         $this->json_output(array('points'=>$points,'detail'=>$result));
     }
     //签到、兑换路径:/myapp/sign
@@ -465,8 +554,14 @@ class personalCenterAction extends homeBaseAction
     //返回兑换记录
     public function get_creditRecord(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $result = M('touch:creditRecord')->getCreditRecord($this->user_id);
+        // if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        $result = M('touch:creditRecord')->getCreditRecord($this->userid);
         $this->json_output($result);
     }
     //商品详情页
@@ -476,7 +571,13 @@ class personalCenterAction extends homeBaseAction
     //点击返回商品详情
     public function get_shopDetail(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $gid = sget('gid','i',0);
         $result = M('touch:creditshop')->getShopDetail($gid);
         $this->json_output($result);
@@ -491,7 +592,13 @@ class personalCenterAction extends homeBaseAction
     //保存姓名
     public function saveName(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $name = sget('name','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
@@ -507,9 +614,15 @@ class personalCenterAction extends homeBaseAction
     //保存公司
     public function saveCompany(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        // if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $c_name = sget('c_name','s');
-        $c_id = M('user:customerContact')->getListByUserid($this->user_id)['c_id'];
+        $c_id = M('user:customerContact')->getListByUserid($this->userid)['c_id'];
         if(!$this->db->model('customer')->where('c_id='.$c_id)->update(array('c_name'=>$c_name))) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
         $this->json_output(array('err'=>0,'msg'=>'修改成功'));
     }
@@ -520,7 +633,13 @@ class personalCenterAction extends homeBaseAction
     //保存我的交易员
     public function saveTrader(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $customer_manager = sget('cus_manager','i');//交易员下标
         $_user=array(
                     'update_time'=>CORE_TIME,
@@ -536,7 +655,13 @@ class personalCenterAction extends homeBaseAction
     //保存密码修改
     public function savePassword(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $password = sget('password','s');
         $oldpassword = sget('oldpassword','s');
         $salt=randstr(6);
@@ -556,7 +681,13 @@ class personalCenterAction extends homeBaseAction
     //保存邮箱
     public function saveEmail(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $email = sget('email','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
@@ -572,24 +703,36 @@ class personalCenterAction extends homeBaseAction
     //保存QQ
     public function saveQq(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $qq = sget('qq','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
                     'update_admin'=>$_SESSION['name'],
                     'qq'=>$qq,
                 );
-        $this->_saveSetData($_user);
+        $this->_saveSetData($_user,$this->userid);
     }
     //保存个人设置
-    private function _saveSetData($_user){
-        if(!$this->db->model('customer_contact')->where('user_id='.$this->user_id)->update($_user)) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
+    private function _saveSetData($_user,$user_id){
+        if(!$this->db->model('customer_contact')->where('user_id='.$user_id)->update($_user)) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
         $this->json_output(array('err'=>0,'msg'=>'修改成功'));
     }
     //退出登录
     public function logOut(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         M('user:passport')->setSession();
         $this->json_output(array('err'=>0,'msg'=>'退出成功'));
     }
