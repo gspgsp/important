@@ -21,7 +21,7 @@
 </div>
 <!--summary begin-->
 <div class="summary w1200">
-	<div class="left flt"><img src="{$data.thumb}" width="300" height="300"/></div>
+	<div class="left flt"><img src="__UPLOAD__/{$data.thumb}" width="300" height="300"/></div>
     <!--right begin-->
     <div class="right flt">
     	<h3>{$data.name}</h3>
@@ -64,7 +64,7 @@
     </ul>
     <div id="con-tab-1">
         <if condition="$data.image neq ''">
-    	<img src="{$data.image}"/>
+    	<img src="__UPLOAD__/{$data.image}"/>
         </if>
     </div>
     <div id="con-tab-2" style="display:none;padding: 15px;line-height: 18px;">
