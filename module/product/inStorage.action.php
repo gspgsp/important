@@ -126,7 +126,7 @@ class inStorageAction extends adminBaseAction {
 			//判断仓库货品表中是否存在此货品
 			if( $this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->getOne() ){
 				//存在就更新数量
-				$this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->update('number = number+'.$v['in_number'].' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+				$this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->update('number = number+'.$v['in_number'].' , remainder = remainder+'.$v['in_number'].' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 			}else{//不存在就add
 				$this->db->model('store_product')->add($input_store+$basic_info);
 			}
