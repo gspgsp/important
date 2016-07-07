@@ -30,7 +30,9 @@
 		<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
 		<div field="update_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
+		{if $ischeck eq '1'}
 		<div name="action"  width="50" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>
+		{/if}
 	</div>
   </div>
  </div>
