@@ -67,7 +67,7 @@ class cronDay{
 						foreach ($matches[1] as $k => $v) {
 							$is_rof = $matches[3][$k]>0 ? 3 : ($matches[3][$k]==0 ? 2 : 1);
 							$data = array(
-								'input_timie'=>CORE_TIME,
+								'input_time'=>CORE_TIME,
 								'addtime'=>strtotime($v),
 								'price'=>trim($matches[2][$k]),
 								'rof'=>trim($matches[3][$k]),
