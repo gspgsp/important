@@ -270,7 +270,7 @@ class passportModel extends model{
 							'last_ip'=>$user['last_ip'],
 							'invite_code'=>operationAlphaID($user_id,true),
 						) + (array)$uinfo;
-
+		$_SESSION['token'] = M('myapp:token')->insert($user_id,$user);
 		return true;
 	}
 	
