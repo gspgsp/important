@@ -15,7 +15,7 @@ class personalCenterAction extends homeBaseAction
     //获取个人中心首页数据
     public function getPersonalCenter(){
         $this->is_ajax = true;
-        if(empty($this->dataToken)) return array('err'=>10,'msg'=>'TokenSession过期');
+        //if(empty($this->dataToken)) return array('err'=>10,'msg'=>'TokenSession过期');
         // if($this->user_id<=0) $this->error('账户错误');
         $dataToken = sget('dataToken','s');
         //保存用户的id
