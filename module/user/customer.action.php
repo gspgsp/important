@@ -92,7 +92,8 @@ class customerAction extends adminBaseAction {
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']); 
 				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); 
 				if(!empty($pools)){
-					$sons .= ','.$pools; //扩展的客户
+					$sons .= ','.$pools; //拼接扩展的客户
+					$sons = implode(',',array_unique(explode(',',$sons))); //去重
 				}
 				$where .= " and `customer_manager` in ($sons) ";
 			}
