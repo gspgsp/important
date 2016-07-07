@@ -21,6 +21,7 @@ class tokenModel extends model
 	 * return array(error,msg,uinfo)
 	 */
 	public function chkToken($token='',$userid=0){
+		if(empty($_SESSION['token'])) return array('err'=>5,'msg'=>'Token校验错误');
 		if(strlen($token)>30){
 			$result=$this->_fix($token,true);
 			if(empty($result)){
@@ -137,5 +138,11 @@ class tokenModel extends model
 	private function _pos($token=''){
 		//最后一位数字+3位开始起的8位替换
 		return hexdec(substr($token,-1))+3;
+	}
+	//反编译用户的id
+	public function deUserId($token){
+			$_pos=$this->_pos($token); //替换开始位置
+			$_userid=self::$MUID-hexdec(substr($token,$_pos,8));
+			return $_userid;
 	}
 }
