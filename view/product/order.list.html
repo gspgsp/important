@@ -306,11 +306,12 @@ function onLoadDetail(e){
 						s +='采购单审核不通过..';
 						return s;
 					}else{
-						if(financial_records == '否'){
-							s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
-						}
+
 						if( out_storage_status != '已出库'){ //没有全部发货时可见发货按钮
 							if( order_status =='2' && transport_status =='2' ){
+								if(financial_records == '否'){
+									s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
+								}
 								if(sales_type == '1'){
 									s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;|&nbsp;';
 								}else{ //先销后采
