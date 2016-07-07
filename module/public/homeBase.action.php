@@ -7,12 +7,14 @@ class homeBaseAction extends action {
 	protected $user_id=0;
 	protected $token='';
 	protected $debug = false;
+	protected $dataToken='';
 
 	public function __construct() {
 		parent::__construct();
 		if(!is_robot()){ //非机器人访问
 			startHomeSession();
 			$this->user_id=$_SESSION['userid'];
+			$this->dataToken=$_SESSION['token'];
 			setReferer($this->user_id);
 			if(empty($this->user_id)){ //检查令牌
 				$token=cookie::get(C('SESSION_TOKEN'));
