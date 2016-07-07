@@ -396,7 +396,7 @@ function consumeStoreDetil(){
 					obj.require_number=data.require_number;
 					obj.remark=data.remark;
 					obj.inlog_id=data.inlog_id;
-					obj.time_price=obj.unit_price*obj.require_number;
+					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
 					for(var i =0;i<noStockData.length;i++){ //遍历所有明细的采购ID是否相同 目前只允许销一个采购id的 产品库存
 						if(noStockData[i].o_id != obj.o_id){
 							alert('目前支持销同一采购单的产品！');
@@ -448,7 +448,7 @@ function saleDetil(){
 					obj.remark=data.remark;
 					obj.unit_price=data.unit_price;
 					obj.require_number=data.require_number;
-					obj.time_price=obj.unit_price*obj.require_number;
+					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
 					noStockData.push(obj);
 					gridCell.setData(noStockData);
 					totalCount(noStockData);
@@ -487,7 +487,7 @@ function addPurDetil(){
 					obj.c_id=data.c_id;
 					obj.remark=data.remark;
 					obj.require_number=data.number;
-					obj.time_price=obj.unit_price*obj.require_number;
+					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
 					noStockData.push(obj);
 					gridCell.setData(noStockData);
 					totalCount(noStockData);
