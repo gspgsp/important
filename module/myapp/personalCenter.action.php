@@ -4,6 +4,7 @@
 */
 class personalCenterAction extends homeBaseAction
 {
+    protected $userid = '';
 	public function __init() {
 		$this->db=M('public:common')->model('customer_contact');
     }
@@ -14,20 +15,22 @@ class personalCenterAction extends homeBaseAction
     //获取个人中心首页数据
     public function getPersonalCenter(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $dataToken = sget('dataToken','s');
+        // if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s','4dfc3b98cc24e4edca33412c61952c81');
+        //保存用户的id
+        $this->userid = M('myapp:token')->deUserId($dataToken);
         //token检查
-        $chkRes = $this->_chkToken($dataToken,$this->user_id);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
         if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $type1 = sget('type1','i');//$type1 1采购
         $type2 = sget('type2','i');//$type1 2报价
-        $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
-        $name = M('touch:personalcenter')->getUserName($this->user_id);
-        $qCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type2);
-        $pCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type1);
-        $proAttCount = M('myapp:personalAppCenter')->getMyAttentionCount($this->user_id);
-        $points = M('points:pointsBill')->getUerPoints($this->user_id);
-        $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
+        $thumb = M('touch:personalcenter')->getUserThumb($this->userid);
+        $name = M('touch:personalcenter')->getUserName($this->userid);
+        $qCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->userid,$type2);
+        $pCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->userid,$type1);
+        $proAttCount = M('myapp:personalAppCenter')->getMyAttentionCount($this->userid);
+        $points = M('points:pointsBill')->getUerPoints($this->userid);
+        $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->userid);//交易员姓名
         if($name){
             $this->json_output(array('thumb'=>$thumb,'name'=>$name,'qcount'=>$qCount,'pcount'=>$pCount,'proattcount'=>$proAttCount,'points'=>$points,'cus_mana'=>$cus_mana));
         }else{
