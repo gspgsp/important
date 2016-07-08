@@ -23,7 +23,7 @@
 					<tr>
 						<td>是否销库存<font style="color:red;"> * </font></td>
 						<td>
-							 <input name="sales_type" class="mini-radiobuttonlist" width="100px" required="true" onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
+							 <input name="sales_type" class="mini-radiobuttonlist" width="100px" required="true"  onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
 						</td>
 						<td><font style="color:blue;">运输方式</font><font style="color:red;"> * </font></td>
 						<td>
@@ -97,10 +97,9 @@
 					<tr>
 						<td>备注：</td>
 						<td><input name="remark" class="mini-textarea" style="width:125px;" maxlength="40" value="{$info.remark}"/>
-						{if $info.purchase_type eq '1'}
-						<td>协作者：</td>
-						<td><input name="customer_manager" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="" allowInput="false"  style="width:100px"/>
-							<input class="mini-hidden"  id="depart" name="depart" value="0"/>
+						{if $order_type neq '2'}
+						<td id="partnertitle">协作者：</td>
+						<td id="partner"><input  name="partner" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="" allowInput="false"  style="width:100px"/>
 						</td>
 						{/if}
 					</tr>
@@ -209,6 +208,8 @@
 <script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
 <script type="text/javascript">
 mini.parse();
+$('#partnertitle').hide();
+$('#partner').hide();
 var form = new mini.Form("#infoForm");
 var noStockData;
 var totalCounts={num:0,price:0};
@@ -258,14 +259,16 @@ function changordertype(e){
 		gridCell=mini.get('gridCell1');
 		$("#returnMsg").text('');
 		addSaleType.on("click",consumeStoreDetil).un("click",message).un("click",saleDetil);
-		// sales_type.setValue('1');
+		$('#partnertitle').hide();
+		$('#partner').hide();
 		$("#sale").hide();
 		$("#consumeStore").show();
 	}else{
 		gridCell=mini.get('gridCell2');
 		$("#returnMsg").text('');
 		addSaleType.on("click",saleDetil).un("click",message).un("click",consumeStoreDetil); 
-		// sales_type.setValue('2');
+		$('#partnertitle').show();
+		$('#partner').show();
 		$("#consumeStore").hide();
 		$("#sale").show();
 	}
@@ -509,7 +512,6 @@ function addPurDetil(){
 //添加协助者
 function allotCustomer(){
 		var btn = this;
-		var depart = mini.get('depart');
 		mini.open({
 		url: "rbac/adm/init?isPublic=1&do=search",
 		title: "分配客户",
@@ -527,8 +529,6 @@ function allotCustomer(){
 				if (data) {
 					btn.setValue(data.admin_id);
 					btn.setText(data.name);
-					depart.setValue(data.depart);
-					// $("#"+btn.id+"\\$value").val(data.name);
 				}
 			}
 		}
