@@ -4,8 +4,10 @@
 */
 class mainPageAction extends homeBaseAction
 {
+    protected $sourceModel;
 	public function __init() {
 		$this->db=M('public:common')->model('info');
+        $this->sourceModel = M('resourcelib:resourcelib');
     }
     //进入首页
     public function enMainPage(){
