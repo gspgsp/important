@@ -94,10 +94,10 @@ class signAction extends homeBaseAction{
                 if(empty($value)) $this->json_output(array('err'=>2,'msg'=>'信息不完整'));
             }
             //检查验证码
-            $resVcode=M('system:sysSMS')->chkDynamicCode($data['phone'],$data['vcode']);
-            if($resVcode['err']>0){
-                $this->json_output(array('err'=>3,'msg'=>$resVcode['msg']));
-            }
+            // $resVcode=M('system:sysSMS')->chkDynamicCode($data['phone'],$data['vcode']);
+            // if($resVcode['err']>0){
+            //     $this->json_output(array('err'=>3,'msg'=>$resVcode['msg']));
+            // }
             if(!is_mobile($data['phone'])) $this->json_output(array('err'=>4,'msg'=>'错误的联系电话'));
             $uinfo=M('public:common')->model('contact_info')->where("user_id=$this->userid")->getRow();
             $id=$data['gid'];
