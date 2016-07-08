@@ -330,12 +330,13 @@ class orderAction extends adminBaseAction {
 		$data['order_source'] = 2; //订单默认来源ERP
 		//新增
 			$this->db->startTrans(); //开启事务
+
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 				'admin_id'=>$_SESSION['adminid'],
-				'customer_manager'=>$_SESSION['adminid'],
-				'depart'=>$_SESSION['depart'],
+				'customer_manager'=>empty($data['customer_manager']) ? $_SESSION['adminid'] : $data['customer_manager'],
+				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
 			try {	
 				if($data['join_id']>0) unset($data['store_o_id']); //不销库存的订单 不存在此字段
