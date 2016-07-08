@@ -132,10 +132,6 @@ class signAction extends homeBaseAction{
             $this->success('兑换成功');
         }
     }
-    //token验证方法
-    private function _chkToken($dataToken,$user_id){
-         return M('myapp:token')->chkToken($dataToken,$user_id);
-    }
     //ajax获取短信验证码
     public function sendmsg(){
         $this->is_ajax=true;
@@ -164,6 +160,10 @@ class signAction extends homeBaseAction{
         //发送手机动态码
         $sms->send(0,$mobile,$msg,1);
         $this->success('发送成功');
+    }
+    //token验证方法
+    private function _chkToken($dataToken,$user_id){
+         return M('myapp:token')->chkToken($dataToken,$user_id);
     }
     //生产订单号
     protected function buildOrderId(){
