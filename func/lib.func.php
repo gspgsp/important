@@ -168,6 +168,26 @@ function validBankNo($bankno){
 	}       
 }
 
+/*
+ * 检查企业银行卡号是否合法
+ * @param string $bankno 银行卡号
+ * 1.企业卡号为9到22位。
+ * 2.卡号全为数字。
+ * @return array('err','msg')
+*/
+function validCompanyBankNo($bankno){
+	$strLen = strlen($bankno);
+	if ($strLen < 9 || $strLen > 22) {
+		return array('err'=>1,'msg'=>'银行卡号长度不正确');
+	}
+	
+	if(!preg_match('/^\d*$/',$bankno)){
+		return array('err'=>1,'msg'=>'银行卡号必须全为数字');
+	}
+	return array('err'=>0,'msg'=>'验证通过');
+
+}
+
 //根据手机号查询用户所在城市
 function getCityByMobile($mobile=''){
 	$mobile=substr($mobile,0,7).mt_rand(1000,9990);
