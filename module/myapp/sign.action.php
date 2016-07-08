@@ -17,15 +17,19 @@ class signAction extends homeBaseAction{
 	public function signOn(){
 
 		$this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        if($this->user_id>0){
+        //if($this->userid<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        if($this->userid>0){
             // 周末不支持签到
             if( $this->today == 0 || $this->today == 6 ){
                 exit(json_encode(array('status'=> 0, 'msg' => '周一到周五可以签到')));
             }
             // 随机积分
             $points = 50;
-            if($data = $this->pointsSingModel->where('uid='.$this->user_id)->getRow()){
+            if($data = $this->pointsSingModel->where('uid='.$this->userid)->getRow()){
                 //最后签到时间小于今天的凌晨时间戳可以签到,每天一次
                 if( $data['sing_time'] < strtotime(date('Y-m-d', time())) ){
                     //上周最后签到时间小于本周开始时间 重置本周签到状态
@@ -44,8 +48,8 @@ class signAction extends homeBaseAction{
                     $billModel=M('points:pointsBill');
                     $billModel->startTrans();
                     try {
-                        if(!$this->pointsSingModel->where('uid='.$this->user_id)->update($data)) throw new Exception('系统错误。code:201');
-                        if(!$billModel->addPoints($points, $this->user_id, 1)) throw new Exception('系统错误。code:202');
+                        if(!$this->pointsSingModel->where('uid='.$this->userid)->update($data)) throw new Exception('系统错误。code:201');
+                        if(!$billModel->addPoints($points, $this->userid, 1)) throw new Exception('系统错误。code:202');
                     } catch (Exception $e) {
                         $billModel->rollback();
                         exit(json_encode(array('status' => 0, 'msg' => $e->getMessage())));
@@ -57,12 +61,12 @@ class signAction extends homeBaseAction{
                 }
             }else{
                 $this->signDay[$this->today] = 1;
-                $data = array('uid' =>$this->user_id, 'sing_status' => json_encode($this->signDay), 'sing_time' => time());
+                $data = array('uid' =>$this->userid, 'sing_status' => json_encode($this->signDay), 'sing_time' => time());
                 $billModel=M('points:pointsBill');
                 $billModel->startTrans();
                 try {
                     if(!$this->pointsSingModel->add($data)) throw new Exception('系统错误。code:201');
-                    if(!$billModel->addPoints($points, $this->user_id, 1)) throw new Exception('系统错误。code:202');
+                    if(!$billModel->addPoints($points, $this->userid, 1)) throw new Exception('系统错误。code:202');
                 } catch (Exception $e) {
                     $billModel->rollback();
                     exit(json_encode(array('status' => 0, 'msg' => $e->getMessage())));
@@ -80,6 +84,10 @@ class signAction extends homeBaseAction{
     {
         if($_POST){
             $this->is_ajax=true;
+            $dataToken = sget('dataToken','s');
+            $this->userid = M('myapp:token')->deUserId($dataToken);
+            $chkRes = $this->_chkToken($dataToken,$this->userid);
+            if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
             $data=saddslashes($_POST);
             foreach ($data as $key => $value) {
                 if(empty($value)) $this->error('信息不完整');
@@ -89,7 +97,7 @@ class signAction extends homeBaseAction{
 
             if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
 
-            $uinfo=M('public:common')->model('contact_info')->where("user_id=$this->user_id")->getRow();
+            $uinfo=M('public:common')->model('contact_info')->where("user_id=$this->userid")->getRow();
             $id=sget('gid','i',0);
             if(!$goods=$this->pointsGoodsModel->getPk($id)) $this->error('没有找到您要兑换的');
             if($goods['status']==2) $this->error('您兑换的商品已下架');
@@ -106,14 +114,14 @@ class signAction extends homeBaseAction{
                 'receiver'      => $data['receiver'],
                 'phone'         => $data['phone'],
                 'address'       => $data['address'],
-                'uid'           => $this->user_id,
+                'uid'           => $this->userid,
                 'usepoints'     => $goods['points'],
             );
             //开启事物
             $model->startTrans();
             try {
                 if(!$model->add($_orderData)) throw new Exception('系统错误，无法兑换。code:101');
-                if(!$billModel->decPoints($goods['points'], $this->user_id, 5)) throw new Exception('系统错误，无法兑换。code:102');
+                if(!$billModel->decPoints($goods['points'], $this->userid, 5)) throw new Exception('系统错误，无法兑换。code:102');
             } catch (Exception $e) {
                 $model->rollback();
                 $this->error($e->getMessage());
