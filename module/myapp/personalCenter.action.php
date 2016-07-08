@@ -564,6 +564,16 @@ class personalCenterAction extends homeBaseAction
         $result = M('touch:creditRecord')->getCreditRecord($this->userid);
         $this->json_output($result);
     }
+    //商品兑换获取用户数据
+    public function getUserProduct(){
+        $this->is_ajax = true;
+        $dataToken = sget('dataToken','s');
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        if(!$userInfo = M('user:customerContact')->getListByUserid($this->userid)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->json_output(array('err'=>0,'userInfo'=>$userInfo));
+    }
     //商品详情页
     public function shopDetail(){
         $this->display('me_shopdetail');
