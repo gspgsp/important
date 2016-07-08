@@ -65,10 +65,10 @@
         });
 
         $(".btn.submit").bind("click",function(){
-            var tel = /^0(10|21|22|23|[1-9]{3}-|\s)?[1-9]{7,8}$/;
+            var tel = /^0(10|21|22|23|[1-9]{3})\s?-\s?[1-9][0-9]{6,7}$/;
             if(tax_id.val().length != 18){
                 valid("请输入18位的识别号",tax_id);
-            }else if(tel.test(invoice_tel.val())){
+            }else if(!tel.test(invoice_tel.val())){//要取非
                 valid("请输入正确的电话号码",invoice_tel);
             }else{
                 $.ajax({
