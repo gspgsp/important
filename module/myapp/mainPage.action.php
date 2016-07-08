@@ -4,6 +4,7 @@
 */
 class mainPageAction extends homeBaseAction
 {
+    protected $userid = '';
     protected $sourceModel;
 	public function __init() {
 		$this->db=M('public:common')->model('info');
@@ -462,7 +463,10 @@ class mainPageAction extends homeBaseAction
     //进入发布报价时验证是否登录
     public function checkReleaseLogin(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         json_output(array('err'=>0,'msg'=>'用户已登录'));
     }
     //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub
@@ -584,10 +588,13 @@ class mainPageAction extends homeBaseAction
     //点击委托采购
     public function getPurchase(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $contact_info = M('user:customerContact')->getListByUserid($this->user_id);
+        $dataToken = sget('dataToken','s');
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        $contact_info = M('user:customerContact')->getListByUserid($this->userid);
         if(!$purchase['content'] = sget('content','s')) $this->json_output(array('err'=>3,'msg'=>'委托采购不能为空'));
-        $purchase['user_id'] = $this->user_id;
+        $purchase['user_id'] = $this->userid;
         $purchase['c_id'] = $contact_info['c_id'];
         $purchase['input_time'] = CORE_TIME;
         if($this->db->model('purchase')->add($purchase)) $this->json_output(array('err'=>0,'msg'=>'委托采购成功'));
@@ -597,16 +604,19 @@ class mainPageAction extends homeBaseAction
     //点击委托交易保存提交数据
     public function savaComission(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $comData['p_id'] = sget('p_id','i',0);
         $comData['sn'] = $this->buildOrderId();
-        $comData['user_id'] = $this->user_id;
+        $comData['user_id'] = $this->userid;
         $comData['c_id'] = sget('c_id','i',0);
         $comData['number'] = sget('number','i');
         $comData['price'] = sget('price','f');
         $comData['delivery_place'] = sget('delivery_place','i');
         //$delivery_date = sget('delivery_date','i');
-        $comData['customer_manager'] = M('user:customerContact')->getListByUserid($this->user_id)['customer_manager'];
+        $comData['customer_manager'] = M('user:customerContact')->getListByUserid($this->userid)['customer_manager'];
         $comData['ship_type'] = sget('ship_type','i');
         //$expiry_date = sget('expiry_date','i');
         $comData['status'] = 2;
