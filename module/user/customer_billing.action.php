@@ -24,19 +24,19 @@ class customer_billingAction extends adminBaseAction
 			if(!empty($keyword)){
 				if ($key_type == 'c_name') {
 					$c_ids = M('user:customer')->getLikeCidByCname($keyword,$condition='c_id');
-					$where.=" and `c_id` in $c_ids";
+					$where.=" and `c_id` in ($c_ids)";
 				}else{
-					$where.=" and $key_type like '%$keyword%' ";
+					$where.=" and $key_type = '$keyword' ";
 				}
 			}
 			$list=$this->db->where($where)
 						->page($page+1,$size)
 						->order("$sortField $sortOrder")
 						->getPage();
-	//p($list);die;
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 				$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+				$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
