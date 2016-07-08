@@ -80,6 +80,8 @@ class indexAction extends userBaseAction{
     public function ajax(){
         $ref=M('resourcelib:resourcelib')->getNew();
         json_output($ref);
+
     }
+
 
 }
