@@ -7,46 +7,69 @@ class customer_billingAction extends adminBaseAction
 	public function __init(){
 		$this->db=M('public:common')->model('customer_billing');
 	}
+
+	/**
+	 *
+	 * @access public
+	 * @return html
+	 */
 	public function init(){
-		//获取列表数据
-		$doact=sget('do','s');
-		$action=sget('action');
-		if($action=='grid'){
-			$page = sget("pageIndex",'i',0); //页码
-			$size = sget("pageSize",'i',20); //每页数
-			$sortField = sget("sortField",'s','c_id'); //排序字段
-			$sortOrder = sget("sortOrder",'s','desc'); //排序
-			//搜索条件
-			$where="1";
-			//关键词
-			$key_type=sget('key_type','s','c_name');
-			$keyword=sget('keyword','s');
-			if(!empty($keyword)){
-				if ($key_type == 'c_name') {
-					$c_ids = M('user:customer')->getLikeCidByCname($keyword,$condition='c_id');
-					$where.=" and `c_id` in ($c_ids)";
-				}else{
-					$where.=" and $key_type = '$keyword' ";
-				}
-			}
-			$list=$this->db->where($where)
-						->page($page+1,$size)
-						->order("$sortField $sortOrder")
-						->getPage();
-			foreach($list['data'] as $k=>$v){
-				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-				$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-				$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
-			}
-			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
-			$this->json_output($result);
+		$action=sget('action','s');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
 		}
 		$this->assign('choose',sget('choose','s'));
 		$this->assign('doact',$doact);
-		$this->assign('page_title','仓库管理');
+		$this->assign('page_title','开票资料管理');
 		$this->display('customer_billing.list.html');
+
 	}
 
+	public function _grid(){
+		//获取列表数据
+		$page = sget("pageIndex",'i',0); //页码
+		$size = sget("pageSize",'i',20); //每页数
+		$sortField = sget("sortField",'s','c_id'); //排序字段
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		//搜索条件
+		$where="1";
+		//关键词
+		$key_type=sget('key_type','s','c_name');
+		$keyword=sget('keyword','s');
+		if(!empty($keyword)){
+			if ($key_type == 'c_name') {
+				$c_ids = M('user:customer')->getLikeCidByCname($keyword,$condition='c_id');
+				$where.=" and `c_id` in ($c_ids)";
+			}else{
+				$where.=" and $key_type = '$keyword' ";
+			}
+		}
+		$list=$this->db->where($where)
+					->page($page+1,$size)
+					->order("$sortField $sortOrder")
+					->getPage();
+		foreach($list['data'] as $k=>$v){
+			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
+		}
+		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+		$this->json_output($result);
+
+		
+	}
+
+	/**
+	 * 打开新增或修改申请，审核页面
+	 */
+	public function info(){
+		// $id=sget('id','i');
+		// 	if($id>0){
+
+		// 	}
+		// $this->assign('c_id',$id);
+		$this->display('customer_billing.list.add.html');
+	}
 
 	/**
 	 * 保存添加的开票信息
@@ -72,6 +95,17 @@ class customer_billingAction extends adminBaseAction
 		$this->success('操作成功');
 	}
 	
+	/**
+	 * 开票资料申请审核时返回数据
+	 */
+	public function getBillingMes(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //传递的参数
+		if(empty($data)){
+			$this->error('错误的请求');
+		}
+		p($data);die;
+	}
 	/**
 	 * 保存行内编辑仓库数据
 	 * @access public 

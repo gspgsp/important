@@ -1,0 +1,119 @@
+{layout file="public:mini_layout"}
+<div id="billingInfo"  title="增加开票资料" showModal="true" allowResize="true" allowDrag="true">
+	<div id="addForm" class="form" >
+		<table style="width:100%;">
+			<tr>
+				<td style="width:80px;">选择客户</td>
+				<td>
+					<input name="c_id" class="mini-buttonedit" onbuttonclick="checkedMer" valueField="admin_id" textField="name"  value="" allowInput="false"  style="width:200px" id="id"/>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:80px;">纳税人识别号</td>
+				<td><input name="tax_id" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			
+			<tr>
+				<td style="width:80px;">开票电话</td>
+				<td><input name="invoice_tel" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td style="width:80px;">开票银行</td>
+				<td><input name="invoice_bank" class="mini-textbox" required="true" style="width:200px"/></td>
+			</tr>
+			<tr>
+				<td style="width:80px;">开票帐号</td>
+				<td><input name="invoice_account" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td style="width:80px;">开票地址</td>
+				<td><input name="invoice_address" class="mini-textarea" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td style="width:80px;">传真</td>
+				<td><input name="fax" class="mini-textbox" style="width:200px;"/></td>
+			</tr>
+		</table>
+	</div>
+	<div align="center" style="margin-top:10px;">
+	  <a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+	  <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+	  <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+	</div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+var billingInfo = mini.get("billingInfo");
+var form = new mini.Form("#addForm");
+
+//增加后提交数据(保存)
+function submitForm() {
+	form.validate();
+	if (form.isValid() == false) return;  
+	var o = form.getData();
+	//验证电话
+	var str=/^0\d{2,4}-?\d{7,8}$/;
+	if(!str.test(o.invoice_tel)) {
+		alert("请输入正确的电话号码");
+		return false;
+	}
+	
+	form.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+		  form.unmask();
+		  alert(data.msg);
+		  return false;
+		}else{
+		  CloseWindow("save");
+		}
+    }
+  utils.ajax('/user/customer_billing/ajaxSave',{data:json},callback,"POST","json");
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+function onValidMobile(e){
+	 if (e.isValid) {
+		 if(!utils.isMobile(e.value)){
+			 e.errorText = "错误的手机号";
+				e.isValid = false;
+		 }
+	 }
+}
+//弹出业务员选择列表
+function checkedMer(e){
+		var btn = this;
+		mini.open({
+			//check=1表示是单选
+		url: "/user/customer/init?do=search&choose=1",
+		title: "选择客户",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.grid.getSelected();
+				var _ids=new Array(),_name=new Array();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+				}
+			}
+		}
+	});
+}
+</script>

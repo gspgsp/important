@@ -64,32 +64,33 @@
 			<tr>
 				<td>选择客户</td>
 				<td>
-					<input name="c_id" class="mini-buttonedit" onbuttonclick="checkedMer" valueField="admin_id" textField="name"  value="" allowInput="false"  style="width:170px" id="id"/>
+					<input name="c_id" class="mini-buttonedit" onbuttonclick="checkedMer" valueField="admin_id" textField="name"  value="" allowInput="false"  style="width:200px" id="id"/>
 				</td>
 			</tr>
 			<tr>
 				<td style="width:60px;">纳税人识别号</td>
 				<td><input name="tax_id" class="mini-textbox" style="width:200px" required="true"/></td>
 			</tr>
-			<tr>
-				<td style="width:60px;">开票地址</td>
-				<td><input name="invoice_address" class="mini-textbox" style="width:200px" required="true"/></td>
-			</tr>
+			
 			<tr>
 				<td style="width:40px;">开票电话</td>
-				<td><input name="invoice_tel" class="mini-textarea" style="width:200px" required="true"/></td>
+				<td><input name="invoice_tel" class="mini-textbox" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
 				<td>开票银行</td>
-				<td><input name="invoice_bank" class="mini-textarea" style="width:200px;"/></td>
+				<td><input name="invoice_bank" class="mini-textbox" required="true" style="width:200px"/></td>
 			</tr>
 			<tr>
 				<td style="width:40px;">开票帐号</td>
-				<td><input name="invoice_account" class="mini-textarea" style="width:200px" required="true"/></td>
+				<td><input name="invoice_account" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td style="width:60px;">开票地址</td>
+				<td><input name="invoice_address" class="mini-textarea" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
 				<td>传真</td>
-				<td><input name="fax" class="mini-textarea" style="width:200px;"/></td>
+				<td><input name="fax" class="mini-textbox" style="width:200px;"/></td>
 			</tr>
 		</table>
 	</div>
@@ -114,68 +115,75 @@ function onKeyEnter(e) {
   search();
 }
 
-//弹出增加form表单
-var billingInfo = mini.get("billingInfo");
-var form = new mini.Form("#addForm");
-function add() {
-	form.clear();
-	billingInfo.show();
-}
-
-//弹出业务员选择列表
-function checkedMer(e){
-		var btn = this;
-		mini.open({
-			//check=1表示是单选
-		url: "/user/customer/init?do=search&choose=1",
-		title: "选择客户",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
+//打开增加开票资料表单
+function add(){
+	var width=$(parent.window).width()/5, height=320;
+	title="新增开票资料";
+	mini.open({
+		url: "/user/customer_billing/info",
+		showMaxButton:true,
+		 title: title, width: width, height:height,
 		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.grid.getSelected();
-				var _ids=new Array(),_name=new Array();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.c_id);
-					btn.setText(data.c_name);
-				}
+			if(action=='save'){ //重新加载
+				grid.reload();
 			}
 		}
-	});
+	});		
 }
+// 弹出业务员选择列表
+// function checkedMer(e){
+// 		var btn = this;
+// 		mini.open({
+// 			//check=1表示是单选
+// 		url: "/user/customer/init?do=search&choose=1",
+// 		title: "选择客户",
+// 		width: 1200,
+// 		height: 550,
+// 		onload: function () {
+// 			var iframe = this.getIFrameEl();
+// 		},
+// 		ondestroy: function (action) {
+// 			if (action == "ok") {
+// 				var iframe = this.getIFrameEl();
+// 				var data = iframe.contentWindow.grid.getSelected();
+// 				var _ids=new Array(),_name=new Array();
+// 				data = mini.clone(data);    //必须
+// 				if (data) {
+// 					btn.setValue(data.c_id);
+// 					btn.setText(data.c_name);
+// 				}
+// 			}
+// 		}
+// 	});
+// }
 
 //增加后提交数据(保存)
-function submitForm() {
-	form.validate();
-	if (form.isValid() == false) return;  
-	var o = form.getData();
-	//验证电话
-	var str=/^0\d{2,4}-?\d{7,8}$/;
-	if(!str.test(o.invoice_tel)) {
-		alert("请输入正确的电话号码");
-		return false;
-	}
+// function submitForm() {
+// 	form.validate();
+// 	if (form.isValid() == false) return;  
+// 	var o = form.getData();
+// 	//验证电话
+// 	var str=/^0\d{2,4}-?\d{7,8}$/;
+// 	if(!str.test(o.invoice_tel)) {
+// 		alert("请输入正确的电话号码");
+// 		return false;
+// 	}
 	
-	grid.loading("数据提交中，请稍后......");
-	var json = mini.encode(o);
+// 	grid.loading("数据提交中，请稍后......");
+// 	var json = mini.encode(o);
 
-	var callback=function(data){
-	if(data.err!='0'){
-	  grid.unmask();
-	  alert(data.msg);
-	  return false;
-	}else{
-	  grid.reload();
-	  billingInfo.hide(); 
-	}
-  }
-  utils.ajax('/user/customer_billing/ajaxSave',{data:json},callback,"POST","json");
-}
+// 	var callback=function(data){
+// 		if(data.err!='0'){
+// 		  grid.unmask();
+// 		  alert(data.msg);
+// 		  return false;
+// 		}else{
+// 		  grid.reload();
+// 		  billingInfo.hide(); 
+// 		}
+//     }
+//   utils.ajax('/user/customer_billing/ajaxSave',{data:json},callback,"POST","json");
+// }
 
 
 //追加操作按钮
@@ -187,58 +195,42 @@ function onLoadHandle(e) {
 
 //申请修改开票资料
 function changeMessage(id) {
-		var btn = this;
-		mini.open({
-		url: "/product/store/info?id="+id,
-		title: "查看业务员",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
-		ondestroy: function (action) {
-				if(action=='save'){ //重新加载
-					grid.reload();
-				}
-			}
-	});
+	$.post('/user/customer_billing/getBillingMes?id='.id,callback,"POST","json");
+	var callback=function(data){
+		if(data.err!='0'){
+		  grid.unmask();
+		  alert(data.msg);
+		  return false;
+		}else{
+		  grid.reload();
+		  billingInfo.hide(); 
+		}
+    }
+	
+
+	form.clear();
+	billingInfo.show();
+	// 	var btn = this;
+	// 	mini.open({
+	// 	url: "/product/store/info?id="+id,
+	// 	title: "查看业务员",
+	// 	width: 1200,
+	// 	height: 550,
+	// 	onload: function () {
+	// 		var iframe = this.getIFrameEl();
+	// 	},
+	// 	ondestroy: function (action) {
+	// 			if(action=='save'){ //重新加载
+	// 				grid.reload();
+	// 			}
+	// 		}
+	// });
 }
-
-//弹出锁定人选择
-// var proInfo = mini.get("lockInfo");
-// var lform = new mini.Form("#lockForm");
-// function lockAdmin(store_id) {
-// mini.get("s_id").setValue(store_id)
-// 	proInfo.show();
-// }
-
 
 function GetData() {
 	var row = grid.getSelected();
 	return row;
 }
-
-// //提交选定后的业务员
-// function submitLock() {
-// var sid = mini.get(s_id).getValue();
-// 	lform.validate();
-
-// 	if (lform.isValid() == false) return;
-// 	var o = lform.getData();
-// 	grid.loading("数据提交中，请稍后......");
-// 	var json = mini.encode(o);
-// 	var callback=function(data){
-// 		if(data.err!='0'){
-// 			grid.unmask();
-// 			alert(data.msg);
-// 			return false;
-// 		}else{
-// 			grid.reload();
-// 			proInfo.hide();
-// 		}
-// 	}
-// 	utils.ajax('/product/store/checkLock',{data:json,lid:sid},callback,"POST","json");
-// }
 
 //筛选数据
 function CloseWindow(action) {
