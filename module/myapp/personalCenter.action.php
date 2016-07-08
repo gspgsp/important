@@ -678,11 +678,11 @@ class personalCenterAction extends homeBaseAction
         $user_model=M('system:sysUser');
         $_user=array(
                     'update_time'=>CORE_TIME,
-                    'update_admin'=>$_SESSION['name'],
+                    //'update_admin'=>$_SESSION['name'],
                     'salt'=>$salt,
                     'password'=>$user_model->genPassword($password.$salt),
                 );
-        $this->_saveSetData($_user);
+        $this->_saveSetData($_user,$this->userid);
     }
     //进入邮箱
     public function enEmail(){
@@ -701,10 +701,10 @@ class personalCenterAction extends homeBaseAction
         $email = sget('email','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
-                    'update_admin'=>$_SESSION['name'],
+                    //'update_admin'=>$_SESSION['name'],
                     'email'=>$email,
                 );
-        $this->_saveSetData($_user);
+        $this->_saveSetData($_user,$this->userid);
     }
     //进入QQ
     public function enQq(){
@@ -723,7 +723,7 @@ class personalCenterAction extends homeBaseAction
         $qq = sget('qq','s');
         $_user=array(
                     'update_time'=>CORE_TIME,
-                    'update_admin'=>$_SESSION['name'],
+                    //'update_admin'=>$_SESSION['name'],
                     'qq'=>$qq,
                 );
         $this->_saveSetData($_user,$this->userid);
