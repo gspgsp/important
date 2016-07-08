@@ -97,6 +97,12 @@
 					<tr>
 						<td>备注：</td>
 						<td><input name="remark" class="mini-textarea" style="width:125px;" maxlength="40" value="{$info.remark}"/>
+						{if $info.purchase_type eq '1'}
+						<td>协作者：</td>
+						<td><input name="customer_manager" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="" allowInput="false"  style="width:100px"/>
+							<input class="mini-hidden"  id="depart" name="depart" value="0"/>
+						</td>
+						{/if}
 					</tr>
 					<input class="mini-hidden"  id="require_number" name="require_number" value="0"/>
 					<input class="mini-hidden"  id="total_price" name="total_price" value="0"/>
@@ -500,7 +506,34 @@ function addPurDetil(){
 		}
 	});
 }	
-
+//添加协助者
+function allotCustomer(){
+		var btn = this;
+		var depart = mini.get('depart');
+		mini.open({
+		url: "rbac/adm/init?isPublic=1&do=search",
+		title: "分配客户",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+					depart.setValue(data.depart);
+					// $("#"+btn.id+"\\$value").val(data.name);
+				}
+			}
+		}
+	});
+}
 function onValidation(e){ 
 	unit_price=mini.get('change_price').getValue();
 	index=e.sender.ownerRowID;
