@@ -6,14 +6,18 @@ class billInformationAction extends userBaseAction
 {
 	private $cus_ct;
 	public function __init(){
-		$this->db = M('public:common')->model('customer');
+		$this->db = M('public:common')->model('customer_billing');
 		$this->cus_ct = M('user:customerContact')->getListByUserid($this->user_id);
 	}
 	//开票详情页
 	public function billInfo(){
 		$this->is_ajax = true;
 		if($this->user_id<0) $this->error('账户错误');
-		$data = $this->db->select('c_id,c_name,tax_id,invoice_address,invoice_tel,invoice_bank,invoice_account')->where('c_id='.$this->cus_ct['c_id'])->getRow();
+		$where = " cbil.c_id={$this->cus_ct['c_id']} and cbil.status=1 and cbil.display_status=1";
+		$data = $this->db->select('cbil.id,cbil.c_id,cbil.tax_id,cbil.invoice_address,cbil.invoice_tel,cbil.invoice_bank,cbil.invoice_account,cus.c_name')->from('customer_billing cbil')
+		->join('customer cus','cus.c_id=cbil.c_id')
+		->where($where)
+		->getRow();
 		$data['invoice_account'] = desDecrypt($data['invoice_account']);//解密
 		$this->assign('detail',$data);
 		$this->display('billInfo');
@@ -23,12 +27,13 @@ class billInformationAction extends userBaseAction
 		$this->is_ajax = true;
 		$data = array();
 		if($_POST){
+			$id = $_POST['id'];
 			$data['tax_id'] = $_POST['tax_id'];
 			$data['invoice_address'] = $_POST['invoice_address'];
 			$data['invoice_tel'] = $_POST['invoice_tel'];
 			$data['invoice_bank'] = $_POST['invoice_bank'];
 			$data['invoice_account'] = desEncrypt($_POST['invoice_account']);//加密
-			if($this->db->where('c_id='.$this->cus_ct['c_id'])->update($data)) $this->json_output(array('err'=>0,'msg'=>'更新成功'));
+			if($this->db->where('id='.$id)->update($data)) $this->json_output(array('err'=>0,'msg'=>'更新成功'));
 		}
 	}
 	//删除某个开票
