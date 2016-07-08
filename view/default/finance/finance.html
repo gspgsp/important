@@ -1,0 +1,216 @@
+{layout file="public:main_layout"}
+{insert_css files='home/master.css'}
+
+<div class="gyl banner">
+    <div class="w1200" style="height:350px; position:relative; z-index:101;">
+        <!--layer begin-->
+        <div class="gyl layer">
+            <img src="__IMG__/home/layerTxt.png" width="200" class="layer-txt">
+            <div class="btn"><a href="javascript:;">免费申请</a></div>
+            <img src="__IMG__/home/layerTel.png" width="200" class="layer-tel">
+        </div>
+        <!--layer end-->
+    </div>
+</div>
+
+<div class="gyl titles">
+    <h2>众塑宝</h2>
+</div>
+
+<div class="gyl zsb w1200">
+    <!--left begin-->
+    <div class="left flt">
+        <div class="arrow"><img src="__IMG__/home/arrow1.png" width="145" height="87"></div>
+        <!--explain begin-->
+        <div class="gyl explain">
+            <h4>针对仓单融资业务</h4>
+            <p>融资发起人将货物发至指定仓库后48小时内取得货款的服务</p>
+            <div class="btn"><a href="javascript:;">立即申请</a></div>
+        </div>
+        <!--explain begin-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt"><img src="__IMG__/home/zsb1.jpg" width="607" height="399"></div>
+    <!--right end-->
+</div>
+
+<div class="gyl zsb-1 w1200">
+    <div class="left flt"><img src="__IMG__/home/zsb2.jpg" width="615" height="471"></div>
+    <div class="arrow flt"><img src="__IMG__/home/arrow2.jpg" width="148" height="93"></div>
+    <!--explain begin-->
+    <div class="gyl explain flt">
+        <h4>针对订单融资业务</h4>
+        <p>对需要短期资金周转的下游客户，我司给予一定的信用期限，并按产品实际采购价格加上信用期资金成本进行结算赊销服务</p>
+        <div class="btn"><a href="javascript:;">立即申请</a></div>
+    </div>
+    <!--explain end-->
+</div>
+
+<div class="gyl titles">
+    <h2>交易流程</h2>
+</div>
+
+<div class="gyl lct w1200"><img src="__IMG__/home/lct.jpg" width="1200" height="350"></div>
+
+<div class="gyl mask">
+    <h3>免费申请金融服务</h3>
+    <table border="0">
+        <form name="" method="post" action="/gyl/savegyl" onsubmit="return checkInput()"></form>
+        <tbody><tr>
+            <td width="70" align="right">联系人：</td>
+            <td width="256"><input type="text" name="lxr" value="" id="lxr" class="bor-gray" placeholder="请输入您的姓名"></td>
+            <td class="msg"></td>
+        </tr>
+        <tr>
+            <td>申请金额：</td>
+            <td><input type="text" name="money" id="money" class="bor-gray" placeholder="请输入您的申请金额（万元）"></td>
+            <td class="msg"></td>
+        </tr>
+        <tr>
+            <td>申请期限：</td>
+            <td><input type="text" name="time" id="time" class="bor-gray" placeholder="请输入您的申请期限（天）"></td>
+            <td class="msg"></td>
+        </tr>
+        <tr>
+            <td>手机号码：</td>
+            <td><input type="text" value="" name="phone" id="phone" class="bor-gray" placeholder="请输入您的手机号"></td>
+            <td class="msg"></td>
+        </tr>
+        <tr>
+            <td>公司名称：</td>
+            <td><input type="text" value="" name="company" id="company" class="bor-gray" placeholder="请输入您的公司名称"></td>
+            <td class="msg"></td>
+        </tr>
+        <tr>
+            <td width="70"></td>
+            <td>
+                <div class="form-btn"><input type="submit" value="立即申请金融服务"></div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
+        </tbody></table>
+
+</div>
+
+<div class="gyl success">您的申请已经受理，业务人员会及时和您联系！谢谢。</div>
+
+<input type="hidden" name="success" value="">
+
+<script>
+    var lxr ="";
+    var money ="" ;
+    var time ="" ;
+    var phone ="";
+    var company ="";
+    $(function(){
+        /*alert($("input[name=success]").val())*/
+        if($("input[name=success]").val()){
+            $.layer({
+                area: ['420px', '120px'],
+                border:[0],
+                type: 1,
+                title:false,
+                page: {dom:'.success'}//这里content是一个DOM
+            });
+        }
+        $(".btn").bind("click",function(){
+            var _user = $("#user_name").html();
+            if(!_user){
+                loginbox('finance');
+                return;
+            }
+
+            $.layer({
+                area: ['520px', '390px'],
+                border:[0],
+                type: 1,
+                title:false,
+                page: {dom:'.mask'}, //这里content是一个DOM
+                success:function(){
+                    lxr = $("#lxr");
+                    money = $("#money");
+                    time = $("#time");
+                    phone = $("#phone");
+                    company = $("#company");
+                    lxr.bind("blur",function(){
+                        if(lxr.val()==""){
+                            $(this).parent().next("td").html("请输入联系人");
+                            return false;
+                        }
+                        else{
+                            $(this).parent().next("td").html("");
+                        }
+                    });
+                    money.bind("blur",function(){
+                        if(money.val()==""){
+                            $(this).parent().next("td").html("请输入金额");
+                            return false;
+                        }
+                        else{
+                            $(this).parent().next("td").html("");
+                        }
+                    });
+                    time.bind("blur",function(){
+                        if(time.val()==""){
+                            $(this).parent().next("td").html("请输入期限");
+                            return false;
+                        }
+                        else{
+                            $(this).parent().next("td").html("");
+                        }
+                    });
+                    phone.bind("blur",function(){
+                        if(phone.val()==""){
+                            $(this).parent().next("td").html("请输入联系电话");
+                            return false;
+                        }
+                        else{
+                            $(this).parent().next("td").html("");
+                        }
+                    });
+                    company.bind("blur",function(){
+                        if(company.val()==""){
+                            $(this).parent().next("td").html("请输入公司名称");
+                            return false;
+                        }
+                        else{
+                            $(this).parent().next("td").html("");
+                        }
+                    });
+                }
+            });
+        });
+
+
+
+        var inputs = $(".mask input");
+        inputs.bind("focus",function(){
+            $(this).removeClass("bor-gray").addClass("bor-orge");
+        });
+        inputs.bind("blur",function(){
+            $(this).removeClass("bor-orge").addClass("bor-gray");
+        });
+    });
+
+    function checkInput(){
+        if(lxr.val()==""){
+            return false;
+        }
+        if(money.val()==""){
+            return false;
+        }
+        if(time.val()==""){
+            return false;
+        }
+        if(phone.val()==""){
+            return false;
+        }
+        if(company.val()==""){
+            return false;
+        }
+    }
+
+</script>
+
