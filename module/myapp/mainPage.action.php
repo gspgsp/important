@@ -532,7 +532,38 @@ class mainPageAction extends homeBaseAction
         if(!$resData = M('myapp:mainPage')->getResourceData($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'resData'=>$resData['data']));
     }
-    //发布资源库的方法和pc相同/resource/index/release
+    //发布资源库的方法和pc相同/resource/index/release(但是这里要用到token)
+    public function release()
+    {
+        if($_POST)
+        {
+            $this->is_ajax=true;
+            $dataToken = sget('dataToken','s');
+            $this->userid = M('myapp:token')->deUserId($dataToken);
+            $chkRes = $this->_chkToken($dataToken,$this->userid);
+            if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+            $content = trim(sget('content', 's', ''));
+            $type=sget('type','i',0);
+            if($content=='') json_output(array('err'=>2,'msg'=>'请输入要发布的内容'));
+            $uinfo=$_SESSION['uinfo'];
+            $_data=array(
+                'uid'=>$this->userid,
+                'type'=>$type,
+                'content'=>$content,
+                'input_time'=>CORE_TIME,
+                'realname'=>$uinfo['name'],
+                'user_qq'=>$uinfo['qq'],
+                );
+            $this->sourceModel->add($_data);
+            $billModel=M('points:pointsBill');
+            $today=strtotime(date('Y-m-d',time()));
+            $is_pup=$billModel->where("uid={$this->userid} and type=9 and addtime>$today")->getRow();
+            if(!$is_pup){
+                $billModel->addPoints(100,$this->userid,9);
+            }
+            json_output(array('err'=>0,'msg'=>'发布成功'));
+        }
+    }
     //获取资源库搜索数据
     public function getResSearch(){
         $this->is_ajax = true;
@@ -586,5 +617,9 @@ class mainPageAction extends homeBaseAction
     //生产订单号
     protected function buildOrderId(){
         return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    }
+    //token验证方法
+    private function _chkToken($dataToken,$user_id){
+         return M('myapp:token')->chkToken($dataToken,$user_id);
     }
 }
