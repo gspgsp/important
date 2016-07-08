@@ -136,4 +136,37 @@ class signAction extends homeBaseAction{
     private function _chkToken($dataToken,$user_id){
          return M('myapp:token')->chkToken($dataToken,$user_id);
     }
+    //ajax获取短信验证码
+    public function sendmsg(){
+        $this->is_ajax=true;
+            $dataToken = sget('dataToken','s');
+            $this->userid = M('myapp:token')->deUserId($dataToken);
+            $chkRes = $this->_chkToken($dataToken,$this->userid);
+            if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        //验证手机
+        $mobile=sget('mobile','s');
+        if(!is_mobile($mobile)){
+            $this->json_output(array('err'=>2,'msg'=>'您的手机号码格式不正确'));
+            }
+        //系统短信模型
+        $sms=M('system:sysSMS');
+        //检查注册的限制
+        $result=$sms->chkRegLimit($mobile,get_ip());
+        if(empty($result)){
+            $this->json_output(array('err'=>3,'msg'=>$sms->getError()));
+        }
+        //请求动态码
+        $result=$sms->genDynamicCode($mobile);
+        if($result['err']>0){ //请求错误
+            $this->json_output(array('err'=>4,'msg'=>$result['msg']));
+        }
+        $msg=$result['msg']; //短信内容
+        //发送手机动态码
+        $sms->send(0,$mobile,$msg,1);
+        $this->success('发送成功');
+    }
+    //生产订单号
+    protected function buildOrderId(){
+        return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    }
 }
