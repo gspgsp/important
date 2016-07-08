@@ -2,6 +2,7 @@
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>	
+			{if $choose neq '1'}
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
 				<span class="separator"></span>
@@ -9,6 +10,7 @@
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
 			</td>
+			{/if}
 			<td style="float:right;">
 			  <form id="soform">				
 				<select name="key_type">

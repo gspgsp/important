@@ -36,6 +36,7 @@ class inStorageAction extends adminBaseAction {
 				$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']); //获取牌号名称
 				$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+				$list['data'][$k]['in_number']=$v['remainder']; //默认全部数量
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);

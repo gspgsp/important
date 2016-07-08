@@ -34,6 +34,7 @@ class outStorageAction extends adminBaseAction {
 				$v['store_name']=M("product:store")->getStoreNameBySid($v['store_id']);
 				$pinfo=M("product:product")->getFnameByPid($v['p_id']);
 				$v['f_name']=$pinfo['f_name'];//根据cid取客户名
+				$list['data'][$k]['out_number']=$v['remainder']; //默认全部数量
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
