@@ -45,6 +45,13 @@ class registerAction extends homeBaseAction{
 	public function reginfo()
 	{
 		if(!$_SESSION['check_reg_ok']) $this->forward('/user/register');
+
+		//第三方登陆
+		$auth_openid=$_SESSION['auth_openid'];
+		$auth_info=$_SESSION['auth_info'];
+		unset($_SESSION['auth_openid']);
+		unset($_SESSION['auth_info']);
+
 		if($_POST)
 		{
 			$this->is_ajax=true;
@@ -105,8 +112,8 @@ class registerAction extends homeBaseAction{
 					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=1")) throw new Exception("系统错误 reg:104");
 				}
 				//的三方授权登录绑定账号
-				if($_SESSION['auth_openid']){
-					M('user:userOuter')->bindUser($user_id);
+				if($auth_openid){
+					M('user:userOuter')->bindUser($user_id,$auth_openid,$auth_info);
 				}
 			} catch (Exception $e) {
 				$user_model->rollback();

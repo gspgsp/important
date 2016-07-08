@@ -3,7 +3,7 @@ class IndexAction extends homeBaseAction{
 
 	protected $db;
 	public function __init(){
-
+		
 		//资讯分类
 		$this->cate=M('system:cate')->where("pid=23")->select('cate_id,cate_name')->getAll();
 		
@@ -12,7 +12,7 @@ class IndexAction extends homeBaseAction{
 		$this->newOffers=$purchase->getPurPage("type=2 and pur.shelve_type=1 and  pur.cargo_type=1 and pur.status in (2,3,4)");
 		$this->newPurchase=$purchase->getPurPage("type=2 and pur.shelve_type=1 and  pur.cargo_type=2 and pur.status in (2,3,4)");
 		$this->db=M('public:common');
-
+		
 
 
 	}
