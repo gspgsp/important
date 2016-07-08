@@ -1285,8 +1285,8 @@ background:url(../../images/home/BgBtn2.png) no-repeat; margin:0 auto; margin-to
 .gyl.layer .btn a{ color:#fff; display:block;}  
 
 /*title begin*/
-.gyl.title{ width:1200px; height:60px; margin:0 auto; background:url(../../images/home/gylTitleBg.jpg) no-repeat; clear:both;}
-.gyl.title h2{ color:#ff7200; font-size:60px; width:346px; height: 60px; line-height: 60px; margin:0 auto; text-align:center; top:10px;}
+.gyl.titles{ width:1200px; height:60px; margin:0 auto; background:url(../../images/home/gylTitleBg.jpg) no-repeat; clear:both;}
+.gyl.titles h2{ color:#ff7200; font-size:60px; width:346px; height: 60px; line-height: 60px; margin:0 auto; text-align:center; top:10px;}
 /*title end*/
 
 .gyl.explain h4{ font-size:36px; height:36px; line-height: 36px; color:#ff7200; margin:0 0 6px 0;}
