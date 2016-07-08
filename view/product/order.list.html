@@ -82,6 +82,7 @@
 			{/if}
 			<div field="payments_status" width="45" headerAlign="center" align="center" >{if $order_type eq 1}收款{else}付款{/if}状态</div>
 			<div field="invoice_status" width="45" headerAlign="center" align="center" >开票状态</div>
+			<div field="remark" width="45" headerAlign="center" align="center" >备注</div>
 			<div field="type_status" width="70" headerAlign="center" align="center">{if $order_type eq 1}销售{else}采购{/if}|物流</div>
 			<div field="financial_records" width="45" headerAlign="center" align="center">财务记录</div>
 			<div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
@@ -295,6 +296,7 @@ function onLoadDetail(e){
 
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
+		s+='<a href="javascript:salecompact('+oid+')">合同</a>&nbsp;|&nbsp;';
 		if(order_status =='3' || transport_status =='3') return;
 			var where1= sales_type == '1' ? (order_status =='2' && transport_status=='2') : (order_status =='2') ;
 			if(where1){   //先采后销和先销后采审核条件不同
@@ -332,7 +334,7 @@ function onLoadDetail(e){
 						if (c_status =='3' && i_status =='全部开票') {
 							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
 						}
-						s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+						
 						if (newstatus != '3' && c_status =='3') {
 							s +='(采购未开票..)';
 						}
@@ -343,6 +345,8 @@ function onLoadDetail(e){
 				}	
 			}
 	}else{   //采购	
+		s+='<a href="javascript:salecompact('+oid+')">合同</a>&nbsp;|&nbsp;';
+
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
 			if(in_storage_status != '已入库'){ //没有全部入库时可见入库按钮
@@ -361,7 +365,6 @@ function onLoadDetail(e){
 			if(financial_records == '否'){
 				s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
 			}	
-			s+='<a href="javascript:salecompact('+oid+')">合同</a>';
 
 		}
 	}
