@@ -551,7 +551,8 @@ class mainPageAction extends homeBaseAction
             $content = trim(sget('content', 's', ''));
             $type=sget('type','i',0);
             if($content=='') json_output(array('err'=>2,'msg'=>'请输入要发布的内容'));
-            $uinfo=$_SESSION['uinfo'];
+
+            $uinfo=M('user:customerContact')->getListByUserid($this->userid);
             $_data=array(
                 'uid'=>$this->userid,
                 'type'=>$type,
