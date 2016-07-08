@@ -108,7 +108,7 @@ class orderAction extends adminBaseAction {
 		//筛选过滤自己的订单信息
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
-			$where .= " and `customer_manager` in ($sons) ";
+			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
 		}
 		$list=$this->db->where($where)
 				->page($page+1,$size)
@@ -219,6 +219,7 @@ class orderAction extends adminBaseAction {
 			$value['time_price']=$value['number']*$value['unit_price'];
 			$value['require_number']=$value['number'];
 		}
+
 		if($info['c_id']>0) $info['c_name'] = M('user:customer')->getColByName($info['c_id'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
@@ -226,6 +227,7 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
+		$info['partnername']= M('rbac:adm')->getUserByCol($info['partner']);
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('detail',json_encode($detailinfo));//明细数据
 		$this->assign('order_sn',$order_sn);
