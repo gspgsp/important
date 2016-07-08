@@ -741,8 +741,8 @@ class orderAction extends adminBaseAction {
 		foreach($detiles as $k => $v){
 			$detail_info .= '<tr >
 				<td  width="120" align="center">'.L('product_type')[$v['product_type']].'</td>
-				<td  width="140" align="center">'.$v['model'].'</td>
-				<td  width="80"  align="center">'.$v['f_name'].'</td>
+				<td  width="100" align="center">'.$v['model'].'</td>
+				<td  width="140"  align="center">'.$v['f_name'].'</td>
 				<td  width="80"  align="center">吨</td>
 				<td  width="80"  align="center">'.$v['number'].'</td>
 				<td  width="80"  align="center">'.$v['unit_price'].'</td>
@@ -769,8 +769,8 @@ class orderAction extends adminBaseAction {
 		$total=$this->_cny($orderList['total_price']);
 		$table1='<tr >
 			<td  width="120" align="center"><b>产品名称</b></td>
-			<td  width="140" align="center" ><b>规格/规格</b></td>
-			<td  width="80"  align="center"><b>产地</b></td>
+			<td  width="100" align="center" ><b>规格/规格</b></td>
+			<td  width="140"  align="center"><b>产地</b></td>
 			<td  width="80"  align="center"> <b>单位</b></td>
 			<td  width="80"  align="center"><b>数量</b></td>
 			<td  width="80"  align="center"><b>单价</b></td>
