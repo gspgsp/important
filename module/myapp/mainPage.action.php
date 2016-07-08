@@ -5,6 +5,7 @@
 class mainPageAction extends homeBaseAction
 {
     protected $userid = '';
+    protected $db;
     protected $sourceModel;
 	public function __init() {
 		$this->db=M('public:common')->model('info');
@@ -460,7 +461,7 @@ class mainPageAction extends homeBaseAction
     public function enReleaseSale(){
         $this->display('releaseSale');
     }
-    //进入发布报价时验证是否登录
+    //进入发布报价时验证是否登录(本项目已经不再使用)
     public function checkReleaseLogin(){
         $this->is_ajax = true;
         $dataToken = sget('dataToken','s');
@@ -470,6 +471,86 @@ class mainPageAction extends homeBaseAction
         json_output(array('err'=>0,'msg'=>'用户已登录'));
     }
     //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub
+    //采购发布
+    public function pub()
+    {
+        if($data=$_POST['data'])
+        {
+            $this->is_ajax=true;
+            $dataToken = sget('dataToken','s');
+            $this->userid = M('myapp:token')->deUserId($dataToken);
+            $chkRes = $this->_chkToken($dataToken,$this->userid);
+            if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+            $uinfo=M('user:customerContact')->getListByUserid($this->userid);
+            $cargo_type=sget('cargo_type','i',1);//现货、期货
+            $type=sget('type','i',1);//采购1、报价2
+            $pur_model=M('product:purchase');
+            $fac_model=M('product:factory');
+            $pro_model=M('product:product');
+            $model=$this->db->from('product p')
+                ->join('factory f','p.f_id=f.fid');
+            $data=saddslashes($data);
+            foreach ($data as $key => $value) {
+                //是否已有该产品
+                $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
+                $pid=$model->where($where)->select('p.id')->getOne();
+
+                $_data=array(
+                    'user_id'=>$this->userid,//用户id
+                    'c_id'=>$uinfo['c_id'],//客户id
+                    'customer_manager'=>$uinfo['customer_manager'],//交易员
+                    'number'=>$value['number'],//吨数
+                    'unit_price'=>$value['price'],//单价
+                    'provinces'=>$value['provinces'],//省份id
+                    'store_house'=>$value['store_house'],//仓库
+                    'cargo_type'=>$cargo_type,//现货期货
+                    'period'=>$value['period'],//期货周期
+                    'bargain'=>$value['bargain'],//是否实价
+                    'type'=>$type,//采购、报价
+                    'status'=>$type==1?1:2,//状态，报价不需要审核，采购需要审核
+                    'input_time'=>CORE_TIME,//创建时间
+                );
+                if($pid){
+                    //已有产品直接添加采购信息
+                    $_data['p_id']=$pid;//产品id
+                    $pur_model->add($_data);
+                }else{
+                    //没有产品则新增一个产品
+                    $pur_model->startTrans();
+                    try {
+                        // 是否已有厂家
+                        $f_id=$fac_model->where("f_name='{$value['f_name']}'")->select('fid')->getOne();
+                        if(!$f_id){
+                            //创建新厂家
+                            $_factory=array(
+                                'f_name'=>$value['f_name'],//厂家名称
+                                'input_time'=>CORE_TIME,//创建时间
+                            );
+                            if(!$fac_model->add($_factory)) throw new Exception("系统错误 pubpur:101");
+                            $f_id=$fac_model->getLastID();
+                        }
+                        $_product=array(
+                            'model'=>$value['model'],//牌号
+                            'product_type'=>$value['product_type'],//产品类型
+                            'process_type'=>$value['process_level'],//加工级别
+                            'f_id'=>$f_id,//厂家id
+                            'input_time'=>CORE_TIME,//创建时间
+                            'status'=>3,//审核状态
+                        );
+                        if(!$pro_model->add($_product)) throw new Exception("系统错误 pubpur:102");
+                        $pid=$pro_model->getLastID();
+                        $_data['p_id']=$pid;
+                        if(!$pur_model->add($_data)) throw new Exception("系统错误 pubpur:103");
+                    } catch (Exception $e) {
+                        $pur_model->rollback();
+                        $this->error($e->getMessage());
+                    }
+                    $pur_model->commit();
+                }
+            }
+            $this->success('提交成功');
+        }
+    }
     //判断发布报价时候牌号是否存在，存在直接却，不存在自己选择一个(下面方法在本版本app没有使用，下个版本使用)
     public function checkReleaseModel(){
         $this->is_ajax = true;
