@@ -127,6 +127,7 @@ class orderAction extends adminBaseAction {
 			$v['transport_type']=L('transport_type')[$v['transport_type']];
 			$v['business_model']=L('business_model')[$v['business_model']];
 			$v['financial_records']=L('financial_records')[$v['financial_records']];
+			$v['partner']=M('rbac:adm')->getUserByCol($v['partner']);
 			//订单收付款状态
 			$v['payments_status']= ( $v['order_type'] == '1' ? L('collection_g_status')[$v['collection_status']] :  L('collection_p_status')[$v['collection_status']] ) ;
 			$v['order_type']=L('order_type')[$v['order_type']];
@@ -189,6 +190,7 @@ class orderAction extends adminBaseAction {
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);
 		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
+		$info['partner']=M('rbac:adm')->getUserByCol($info['partner']);
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 		if($o_type ==1){
