@@ -23,14 +23,13 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:3px;">
-  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/user/customer_billing/init?action=grid"  idField="id"
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/customer_billing/init?action=grid"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" {if $choose eq '1'}multiSelect="false"{/if} multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="c_name" width="90" headerAlign="center" align="center" align="center">客户名称</div>
 		<div field="tax_id" width="90" headerAlign="center" align="center">纳税人识别号</div>
-		<div field="invoice_address" width="90" headerAlign="center" align="center">开票地址
-		</div>
+		<div field="invoice_address" width="90" headerAlign="center" align="center">开票地址</div>
 		<div field="invoice_tel" width="90" headerAlign="center" align="center">开票电话</div>
 		<div field="invoice_bank" width="250" headerAlign="center" >开票银行</div>
 		<div field="invoice_account" width="250" headerAlign="center" >开票帐号</div>
@@ -43,6 +42,7 @@
 	</div>
   </div>
  </div>
+
 
 <script type="text/javascript">
 //搜索或刷新数据
@@ -58,34 +58,18 @@ function onKeyEnter(e) {
   search();
 }
 
-//打开增加开票资料表单
-function add(){
-	var width=$(parent.window).width()/5, height=320;
-	title="新增开票资料";
-	mini.open({
-		url: "/user/customer_billing/info",
-		showMaxButton:true,
-		title: title, width: width, height:height,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});		
-}
 //追加操作按钮
 function onLoadHandle(e) {
 	var record = e.record, s='',id = record.id;
-	  	s += '<a href="javascript:changeMessage('+id+')">申请修改</a>';
-	 	return s;
+	s += '<a href="javascript:check('+id+')">审核</a>';
+	return s;
 }
 
-//申请修改开票资料
-function changeMessage(id) {
-	var btn = this;
+//审核修改开票资料
+function check(id) {
 	mini.open({
-	url: "/user/customer_billing/info?id="+id,
-	title: "修改开票资料",
+	url: "/product/customer_billing/check?id="+id,
+	title: "审核开票资料",
 	width: $(parent.window).width()/5,
 	height: 370,
 	onload: function () {

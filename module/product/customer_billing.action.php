@@ -9,7 +9,7 @@ class customer_billingAction extends adminBaseAction
 	}
 
 	/**
-	 *
+	 * 开票资料列表
 	 * @access public
 	 * @return html
 	 */
@@ -20,7 +20,7 @@ class customer_billingAction extends adminBaseAction
 		}
 		$this->assign('choose',sget('choose','s'));
 		$this->assign('doact',$doact);
-		$this->assign('page_title','开票资料管理');
+		$this->assign('page_title','开票资料审核');
 		$this->display('customer_billing.list.html');
 
 	}
@@ -32,7 +32,7 @@ class customer_billingAction extends adminBaseAction
 		$sortField = sget("sortField",'s','c_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where="`display_status`=1 and `status`=1";//未假删除的数据
+		$where="`display_status`=1 and `status`=0";//未假删除的,未审核的数据
 		//关键词
 		$key_type=sget('key_type','s','c_name');
 		$keyword=sget('keyword','s');
@@ -60,9 +60,9 @@ class customer_billingAction extends adminBaseAction
 	}
 
 	/**
-	 * 打开新增或修改申请开票资料页面
+	 * 开票资料审核页面check
 	 */
-	public function info(){
+	public function check(){
 		$id = sget('id','i',0);
 		$list=$this->db->from('customer_billing cb')
             ->join('customer c','c.c_id=cb.c_id')
@@ -100,6 +100,4 @@ class customer_billingAction extends adminBaseAction
 		$cache->delete('customer_billing');
 		$this->success('操作成功');
 	}
-
-
 }
