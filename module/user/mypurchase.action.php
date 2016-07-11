@@ -29,7 +29,7 @@ class mypurchaseAction extends userBaseAction{
 	{
 		$this->act="purchaselist";
 		$this->type=1;
-		$this->name="采购管理";
+		$this->name="求购管理";
 
 		if($id=$_SESSION['msg_pid']){
 			$_SESSION['msg_pid']=null;
