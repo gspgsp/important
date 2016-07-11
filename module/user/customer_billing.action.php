@@ -70,10 +70,10 @@ class customer_billingAction extends adminBaseAction
             ->join('customer c','c.c_id=cb.c_id')
             ->where("cb.id={$id}")
             ->select("cb.*,c.c_name")
-            ->getAll();
+            ->getRow();
         $this->assign('id',$id);//传值id>0表示为申请修改
-        $this->assign('c_id',$list[0]['c_id']);
-        $this->assign('c_name',$list[0]['c_name']);
+        $this->assign('c_id',$list['c_id']);
+        $this->assign('c_name',$list['c_name']);
 		$this->display('customer_billing.list.add.html');
 	}
 

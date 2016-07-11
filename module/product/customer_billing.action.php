@@ -68,8 +68,9 @@ class customer_billingAction extends adminBaseAction
             ->join('customer c','c.c_id=cb.c_id')
             ->where("cb.id={$id}")
             ->select("cb.*,c.c_name")
-            ->getAll();
-//p($list);die;
+            ->getRow();
+p($list);die;
+        $this->assign('haha',6);
         $this->assign('id',$list[0]['id']);
         $this->assign('user_id',$list[0]['user_id']);
         $this->assign('c_id',$list[0]['c_id']);

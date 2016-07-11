@@ -3,40 +3,33 @@
 	<div id="addForm" class="form" >
 		<table style="width:100%;">
 		<!-- 传值id，表示是修改数据，申请审核 -->
+
 		<input class="mini-hidden" name="id"  value="{$id}"/>
 			<tr>
-			{if $id gt "0"}
 				<td style="width:80px;">客户名称</td>
 				<td>
-					<input class="mini-hidden" name="c_id"  value="{$c_id}"/>
-					<input name="c_name" class="mini-textbox" valueField="{c_id}" textField="name"  value="{$c_name}" allowInput="false"  style="width:200px" id="id"/>
+					<input name="c_name" class="mini-textbox" value="{$c_name}" allowInput="false"  style="width:200px" id="id"/>
 				</td>
-			{else}
-				<td style="width:80px;">选择客户</td>
-				<td>
-					<input name="c_id" class="mini-buttonedit" onbuttonclick="checkedMer" valueField="admin_id" textField="name"  value="" allowInput="false"  style="width:200px" id="id"/>
-				</td>
-			{/if}
 			</tr>
 			<tr>
-				<td style="width:80px;">纳税人识别号<span style="color:red">*	</span></td>
+				<td style="width:80px;">纳税人识别号</td>
 				<td><input name="tax_id" class="mini-textbox" style="width:200px" required="true"/></td>
 			</tr>
 			
 			<tr>
-				<td style="width:80px;">开票电话<span style="color:red">*	</span></td>
+				<td style="width:80px;">开票电话</td>
 				<td><input name="invoice_tel" class="mini-textbox" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
-				<td style="width:80px;">开票银行<span style="color:red">*	</span></td>
+				<td style="width:80px;">开票银行</td>
 				<td><input name="invoice_bank" class="mini-textbox" required="true" style="width:200px"/></td>
 			</tr>
 			<tr>
-				<td style="width:80px;">开票帐号<span style="color:red">*	</span></td>
+				<td style="width:80px;">开票帐号</td>
 				<td><input name="invoice_account" class="mini-textbox" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
-				<td style="width:80px;">开票地址<span style="color:red">*	</span></td>
+				<td style="width:80px;">开票地址</td>
 				<td><input name="invoice_address" class="mini-textarea" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
