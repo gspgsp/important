@@ -364,7 +364,7 @@ class mainPageModel extends model
         return $choseRes;
     }
     //获取大客户详情数据(查看)1查看,2委托洽谈
-    public function getBigBidDetailData($otype,$id){
+    public function getBigBidDetailData($otype,$id,$userid){
         $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
         $bigOff['input_time'] = $bigOff['input_time']>1000 ? date("Y-m-d",$bigOff['input_time']):'-';
         if($otype == 1){
@@ -373,7 +373,7 @@ class mainPageModel extends model
            $bigOff['phone'] = $bigCli['phone'];
            $bigOff['cjphone'] = $bigCli['cjphone'];
         }elseif($otype == 2) {
-            $cus_contact = M('user:customerContact')->getListByUserid($_SESSION['userid']);
+            $cus_contact = M('user:customerContact')->getListByUserid($userid);
             $bigOff['address'] = $this->model('lib_region')->select('id')->where("name='{$bigOff['address']}'")->getOne();
             $bigOff['name'] = $cus_contact['name'];
             $bigOff['mobile'] = $cus_contact['mobile'];
