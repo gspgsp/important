@@ -474,10 +474,14 @@ class mainPageAction extends homeBaseAction
     //发布报价
     public function pub()
     {
-        if($data=sget('data','a'))
+        if($data=$_POST['data'])
         {
             $this->is_ajax=true;
-            $dataToken = $data['dataToken'];
+            $data=saddslashes($data);
+            $dataToken = $data[0]['dataToken'];
+            p($data);
+            p($dataToken);
+            die;
             $this->userid = M('myapp:token')->deUserId($dataToken);
             $chkRes = $this->_chkToken($dataToken,$this->userid);
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
@@ -490,7 +494,7 @@ class mainPageAction extends homeBaseAction
             $pro_model=M('product:product');
             $model=$this->db->from('product p')
                 ->join('factory f','p.f_id=f.fid');
-            foreach ($data as $key => $value) {
+            foreach ($data[0] as $key => $value) {
                 //是否已有该产品
                 $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
                 $pid=$model->where($where)->select('p.id')->getOne();
