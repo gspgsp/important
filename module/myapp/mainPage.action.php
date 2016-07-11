@@ -318,12 +318,19 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         //if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i');//1查看,2委托洽谈
-        if($otype==2 && $this->user_id<=0) $this->error('账户错误');
+
+        $dataToken = sget('dataToken','s','');//委托洽谈需要token
+        if($otype==2) {
+            $this->userid = M('myapp:token')->deUserId($dataToken);
+            $chkRes = $this->_chkToken($dataToken,$this->userid);
+            if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        }
+
         $id = sget('id','i');//当前这一条报价或求购的id,purchase表
         if(!$chDeRes=M('myapp:mainPage')->getBigBidDetailData($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
         $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
     }
-    //进入大客户的委托洽谈
+    //进入大客户的委托洽谈(调用的方法统一在上面的代码中)
     public function enBigBidDelegate(){
         $this->display('supplyDemand_trade2');
     }
