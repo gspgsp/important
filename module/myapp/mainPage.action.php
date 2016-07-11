@@ -483,7 +483,6 @@ class mainPageAction extends homeBaseAction
             $chkRes = $this->_chkToken($dataToken,$this->userid);
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
             $uinfo=M('user:customerContact')->getListByUserid($this->userid);
-
             //$cargo_type=sget('cargo_type','i',1);//现货、期货
             $cargo_type=$data[0]['cargo_type'];
             //$type=sget('type','i',1);//采购1、报价2
@@ -493,11 +492,12 @@ class mainPageAction extends homeBaseAction
             $pro_model=M('product:product');
             $model=$this->db->from('product p')
                 ->join('factory f','p.f_id=f.fid');
-            foreach ($data[0] as $key => $value) {
+            $data=saddslashes($data);
+            $value = $data[0];
+            //foreach ($arr as $key => $value) {
                 //是否已有该产品
                 $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
                 $pid=$model->where($where)->select('p.id')->getOne();
-
                 $_data=array(
                     'user_id'=>$this->userid,//用户id
                     'c_id'=>$uinfo['c_id'],//客户id
@@ -550,7 +550,7 @@ class mainPageAction extends homeBaseAction
                     }
                     $pur_model->commit();
                 }
-            }
+            //}
             $this->success('提交成功');
         }
     }
