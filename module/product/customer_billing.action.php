@@ -69,9 +69,18 @@ class customer_billingAction extends adminBaseAction
             ->where("cb.id={$id}")
             ->select("cb.*,c.c_name")
             ->getAll();
-        $this->assign('id',$id);//传值id>0表示为申请修改
+//p($list);die;
+        $this->assign('id',$list[0]['id']);
+        $this->assign('user_id',$list[0]['user_id']);
         $this->assign('c_id',$list[0]['c_id']);
+        $this->assign('tax_id',$list[0]['tax_id']);
+        $this->assign('invoice_bank',$list[0]['invoice_bank']);
+        $this->assign('invoice_address',$list[0]['invoice_address']);
+        $this->assign('invoice_tel',$list[0]['invoice_tel']);
+        $this->assign('invoice_account',desDecrypt($list[0]['invoice_account']));
+        $this->assign('fax',$list[0]['fax']);
         $this->assign('c_name',$list[0]['c_name']);
+
 		$this->display('customer_billing.list.add.html');
 	}
 
