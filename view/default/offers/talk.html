@@ -72,7 +72,7 @@
                 </tr>
                 <tr>
                     <td>配送日期<span class="red">*</span>：</td>
-                    <td><input type="text" id="date1" datatype="*" class="req" name="delivery_date"/></td>
+                    <td><input type="text" id="date1" datatype="*"  class="req" name="delivery_date"/></td>
                     <td>配送地点<span class="red">*</span>：</td>
                     <td>
                         <select datatype="*" name="delivery_place" class="req">
@@ -108,7 +108,8 @@
 $(function(){
     laydate({
         elem: '#date1',
-        event: 'focus' 
+        event: 'focus',
+        min: laydate.now()
     });
 })
 
@@ -134,4 +135,5 @@ function submitFrom(){
         }   
     },'json');
 }
+
 </script>
