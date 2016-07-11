@@ -474,30 +474,28 @@ class mainPageAction extends homeBaseAction
     //发布报价
     public function pub()
     {
-        if($data=sget('data','a'))
+        if($data=$_POST)
         {
+
             $this->is_ajax=true;
-            //$data=saddslashes($data);
-            p($data);
-            die;
-            $dataToken = $data[0]['dataToken'];
+            $data=saddslashes($data);
+            $dataToken = sget('dataToken','s','');
             $this->userid = M('myapp:token')->deUserId($dataToken);
             $chkRes = $this->_chkToken($dataToken,$this->userid);
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
             $uinfo=M('user:customerContact')->getListByUserid($this->userid);
-            //$cargo_type=sget('cargo_type','i',1);//现货、期货
-            $cargo_type=$data[0]['cargo_type'];
-            //$type=sget('type','i',1);//采购1、报价2
-            $type=$data[0]['type'];
+            $cargo_type=sget('cargo_type','i',1);//现货、期货
+            $type=sget('type','i',1);//采购1、报价2
             $pur_model=M('product:purchase');
             $fac_model=M('product:factory');
             $pro_model=M('product:product');
-            $model=$this->db->from('product p')
-                ->join('factory f','p.f_id=f.fid');
-            //$data=saddslashes($data);
-            $value = $data[0];
-            //foreach ($arr as $key => $value) {
+
+
+            $datas[0]=$data;
+            foreach ($datas as $key => $value) {
                 //是否已有该产品
+                $model=M("product:product")->from('product p')
+                    ->join('factory f','p.f_id=f.fid');
                 $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
                 $pid=$model->where($where)->select('p.id')->getOne();
                 $_data=array(
@@ -552,7 +550,7 @@ class mainPageAction extends homeBaseAction
                     }
                     $pur_model->commit();
                 }
-            //}
+            }
             $this->success('提交成功');
         }
     }

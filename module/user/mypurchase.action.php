@@ -133,11 +133,12 @@ class mypurchaseAction extends userBaseAction{
 			$pur_model=M('product:purchase');
 			$fac_model=M('product:factory');
 			$pro_model=M('product:product');
-			$model=$this->db->from('product p')
-				->join('factory f','p.f_id=f.fid');
+
 			$data=saddslashes($data);
 			foreach ($data as $key => $value) {
 				//是否已有该产品
+				$model=$this->db->from('product p')
+                    ->join('factory f','p.f_id=f.fid');
 				$where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
 				$pid=$model->where($where)->select('p.id')->getOne();
 
@@ -161,6 +162,7 @@ class mypurchaseAction extends userBaseAction{
 					$_data['p_id']=$pid;//产品id
 					$pur_model->add($_data);
 				}else{
+
 					//没有产品则新增一个产品
 					$pur_model->startTrans();
 					try {
