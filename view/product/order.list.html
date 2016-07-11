@@ -297,16 +297,16 @@ function onLoadDetail(e){
 
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
-		s+='<a href="javascript:salecompact('+oid+')">合同</a>&nbsp;|&nbsp;';
+		// s+='<a href="javascript:salecompact('+oid+')">合同</a>&nbsp;|&nbsp;';
 		if(order_status =='3' || transport_status =='3') return;
 			var where1= sales_type == '1' ? (order_status =='2' && transport_status=='2') : (order_status =='2') ;
 			if(where1){   //先采后销和先销后采审核条件不同
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
 					if( join_id != '0' && is_join_check == '0' ){ //关联的采购未审核
-						s +='采购单审核中..';
+						s +='(采购单审核中...)';
 						return s;
 					}else if( join_id != '0' && is_join_check == '2' ){ //关联的采购审核不通过
-						s +='采购单审核不通过..';
+						s +='(采购单审核不通过...)';
 						return s;
 					}else{
 
@@ -337,7 +337,7 @@ function onLoadDetail(e){
 						}
 						
 						if (newstatus != '3' && c_status =='3') {
-							s +='(采购未开票..)';
+							s +='(采购未开票...)';
 						}
 
 					}
@@ -345,9 +345,8 @@ function onLoadDetail(e){
 					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
 				}	
 			}
+		s+='<a href="javascript:salecompact('+oid+')">合同</a>';
 	}else{   //采购	
-		s+='<a href="javascript:salecompact('+oid+')">合同</a>&nbsp;|&nbsp;';
-
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
 			if(in_storage_status != '已入库'){ //没有全部入库时可见入库按钮
@@ -368,6 +367,7 @@ function onLoadDetail(e){
 			}	
 
 		}
+		s+='<a href="javascript:salecompact('+oid+')">合同</a>';
 	}
 	return s;
 }
