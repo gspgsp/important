@@ -316,11 +316,10 @@ class mainPageAction extends homeBaseAction
     //获取大客户详情数据
     public function getBigBidDetail(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i');//1查看,2委托洽谈
 
-        $dataToken = sget('dataToken','s','');//委托洽谈需要token
         if($otype==2) {
+            $dataToken = sget('dataToken','s','');//委托洽谈需要token
             $this->userid = M('myapp:token')->deUserId($dataToken);
             $chkRes = $this->_chkToken($dataToken,$this->userid);
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
