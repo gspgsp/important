@@ -406,44 +406,44 @@ class orderAction extends adminBaseAction {
 		$this->assign('order_sn',$data[0][order_sn]);
 
 		//获取是开票还是收付款
-		$invoice=sget('invoice','i');
+		//$invoice=sget('invoice','i');
 		//获取是不是财务审核
 		$finance=sget('finance','i');
 		//p($finance);die;
-		if($invoice==1){
-			//发送开票公司信息
-			$this->assign('tax_id',$c_info['tax_id']);
-			$this->assign('invoice_address',$c_info['invoice_address']);
-			$this->assign('invoice_tel',$c_info['invoice_tel']);
-			$this->assign('invoice_bank',$c_info['invoice_bank']);
-			$this->assign('invoice_account',$c_info['invoice_account']);
+		// if($invoice==1){
+		// 	//发送开票公司信息
+		// 	$this->assign('tax_id',$c_info['tax_id']);
+		// 	$this->assign('invoice_address',$c_info['invoice_address']);
+		// 	$this->assign('invoice_tel',$c_info['invoice_tel']);
+		// 	$this->assign('invoice_bank',$c_info['invoice_bank']);
+		// 	$this->assign('invoice_account',$c_info['invoice_account']);
 
-			$this->assign('bile_type',L('bile_type'));//票据类型
+		// 	$this->assign('bile_type',L('bile_type'));//票据类型
 			
-			if ($finance ==1 ) {
-				//获取要审核的开票信息的id，传送出信息
-				$id = sget('id','i',0);
-				$this->assign('finance',$finance);
-				$this->assign('id',$id);
+		// 	if ($finance ==1 ) {
+		// 		//获取要审核的开票信息的id，传送出信息
+		// 		$id = sget('id','i',0);
+		// 		$this->assign('finance',$finance);
+		// 		$this->assign('id',$id);
 
-				$res = M('product:billing')->where('id='.$id)->getAll();
-            	if($res){
-            		$un_price = $res[0]['billing_price']+$res[0]['unbilling_price'];
-					$this->assign('b_price',$res[0]['billing_price']);
-					$this->assign('u_price',$un_price);
-				}
+		// 		$res = M('product:billing')->where('id='.$id)->getAll();
+  //           	if($res){
+  //           		$un_price = $res[0]['billing_price']+$res[0]['unbilling_price'];
+		// 			$this->assign('b_price',$res[0]['billing_price']);
+		// 			$this->assign('u_price',$un_price);
+		// 		}
 
-			}else{
-				//获取最后一条开票信息
-				$res=M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
-				if($res){
-					$this->assign('unbilling_price',$res[0]['unbilling_price']);
-				}
-			}
+		// 	}else{
+		// 		//获取最后一条开票信息
+		// 		$res=M('product:billing')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+		// 		if($res){
+		// 			$this->assign('unbilling_price',$res[0]['unbilling_price']);
+		// 		}
+		// 	}
 			
-			$this->display('billing.add.html');
+		// 	$this->display('billing.add.html');
 			
-		}else{
+		// }else{
 			if ($finance ==1 ) {
 				//获取要审核的收付款的id，传送出信息
 				$id = sget('id','i',0);
@@ -467,7 +467,7 @@ class orderAction extends adminBaseAction {
 				}
 			}
 			$this->display('collection.add.html');
-		}
+		//}
 		
 	}
 

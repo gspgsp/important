@@ -392,11 +392,11 @@ function transaction(oid,order_type){
 }
 //开票
 function addInvoice(oid,order_type){
-	var width=800, height=680,type=order_type,invoice='1';
+	var width=800, height=680,type=order_type;
 		title="新增开票申请";
 	mini.open({
 		//有invoice表示是开票
-		url: "/product/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice+"&is_head=1",
+		url: "/product/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&is_head=1",
 		showMaxButton:true,
 		 title: title, width: width, height:height,
 		ondestroy: function (action) {
