@@ -139,7 +139,7 @@ class mainPageModel extends model
         return $opres;
     }
     //获取点击查看/委托洽谈
-    public function getCheckDelegate($otype,$id){
+    public function getCheckDelegate($otype,$id,$userid){
 
         $where = "pur.id=$id";
         $chDeRes = array();
@@ -149,7 +149,7 @@ class mainPageModel extends model
             ->where($where)
             ->getRow();
             $contact = M('user:customerContact')->getListByUserid($data['user_id']);
-            $own = M('user:customerContact')->getListByUserid($_SESSION['userid']);
+            $own = M('user:customerContact')->getListByUserid($userid);
         if($otype == 1){
             //产品信息
             $chDeRes['product_type'] = L('product_type')[$data['product_type']];
