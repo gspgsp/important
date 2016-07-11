@@ -474,7 +474,7 @@ class mainPageAction extends homeBaseAction
     //发布报价
     public function pub()
     {
-        if($data=$_POST['data'])
+        if($data=sget('data','a'))
         {
             $this->is_ajax=true;
             //$data=saddslashes($data);
