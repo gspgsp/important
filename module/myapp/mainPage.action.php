@@ -438,7 +438,10 @@ class mainPageAction extends homeBaseAction
     //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
     public function getPhysicalDelegate(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $lid = sget('lid','i');
         if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($lid)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
         $this->json_output(array('err'=>0,'phyDelData'=>$phyDelData));
