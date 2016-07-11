@@ -195,9 +195,16 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         //if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i');//1查看,2委托洽谈
-        if($otype==2 && $this->user_id<=0) $this->error('账户错误');
+
+        if($otype==2) {
+            $dataToken = sget('dataToken','s','');//委托洽谈需要token
+            $this->userid = M('myapp:token')->deUserId($dataToken);
+            $chkRes = $this->_chkToken($dataToken,$this->userid);
+            if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        }
+
         $id = sget('id','i');//当前这一条报价或求购的id,purchase表
-        if(!$chDeRes=M('myapp:mainPage')->getCheckDelegate($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
+        if(!$chDeRes=M('myapp:mainPage')->getCheckDelegate($otype,$id,$this->userid)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
         $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
     }
     //点击委托洽谈,返回到搜索结果页--->仍然调用搜索页的模板和数据获取方法
