@@ -477,7 +477,9 @@ class mainPageAction extends homeBaseAction
         if($data=$_POST['data'])
         {
             $this->is_ajax=true;
-            $data=saddslashes($data);
+            //$data=saddslashes($data);
+            p($data);
+            die;
             $dataToken = $data[0]['dataToken'];
             $this->userid = M('myapp:token')->deUserId($dataToken);
             $chkRes = $this->_chkToken($dataToken,$this->userid);
@@ -492,7 +494,7 @@ class mainPageAction extends homeBaseAction
             $pro_model=M('product:product');
             $model=$this->db->from('product p')
                 ->join('factory f','p.f_id=f.fid');
-            $data=saddslashes($data);
+            //$data=saddslashes($data);
             $value = $data[0];
             //foreach ($arr as $key => $value) {
                 //是否已有该产品
