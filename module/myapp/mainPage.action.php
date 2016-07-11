@@ -5,7 +5,7 @@
 class mainPageAction extends homeBaseAction
 {
     protected $userid = '';
-    protected $db;
+    //protected $db;
     protected $sourceModel;
 	public function __init() {
 		$this->db=M('public:common')->model('info');
@@ -471,14 +471,13 @@ class mainPageAction extends homeBaseAction
         json_output(array('err'=>0,'msg'=>'用户已登录'));
     }
     //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub
-    //采购发布
+    //发布报价
     public function pub()
     {
-        if($data=$_POST['data'])
+        if($data=sget('data','a'))
         {
             $this->is_ajax=true;
-            $data=saddslashes($data);
-            $dataToken = $data[0]['dataToken'];
+            $dataToken = $data['dataToken'];
             $this->userid = M('myapp:token')->deUserId($dataToken);
             $chkRes = $this->_chkToken($dataToken,$this->userid);
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
@@ -491,7 +490,7 @@ class mainPageAction extends homeBaseAction
             $pro_model=M('product:product');
             $model=$this->db->from('product p')
                 ->join('factory f','p.f_id=f.fid');
-            foreach ($data[0] as $key => $value) {
+            foreach ($data as $key => $value) {
                 //是否已有该产品
                 $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
                 $pid=$model->where($where)->select('p.id')->getOne();
