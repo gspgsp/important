@@ -326,7 +326,7 @@ class mainPageAction extends homeBaseAction
         }
 
         $id = sget('id','i');//当前这一条报价或求购的id,purchase表
-        if(!$chDeRes=M('myapp:mainPage')->getBigBidDetailData($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
+        if(!$chDeRes=M('myapp:mainPage')->getBigBidDetailData($otype,$id,$this->userid)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
         $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
     }
     //进入大客户的委托洽谈(调用的方法统一在上面的代码中)
