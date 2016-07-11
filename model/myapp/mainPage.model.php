@@ -397,14 +397,14 @@ class mainPageModel extends model
         return $phyDetail;
     }
     //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
-    public function getPhysicalDelegateData($lid){
+    public function getPhysicalDelegateData($lid,$userid){
         $phyDelData = array();
         $physical = $this->getPhysicalDetailData($lid);
         $phyDelData['type'] = $physical['type'];//类型
         $phyDelData['f_name'] = $physical['company'];//厂家
         $phyDelData['model'] = $physical['name'];//牌号
         //联系人
-        $cus_contact = M('user:customerContact')->getListByUserid($_SESSION['userid']);
+        $cus_contact = M('user:customerContact')->getListByUserid($userid);
         $phyDelData['name'] = $cus_contact['name'];
         $phyDelData['mobile'] = $cus_contact['mobile'];
         $phyDelData['c_name'] = M('user:customer')->getCinfoById($cus_contact['c_id'])['c_name'];
