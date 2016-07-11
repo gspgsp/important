@@ -443,7 +443,7 @@ class mainPageAction extends homeBaseAction
         $chkRes = $this->_chkToken($dataToken,$this->userid);
         if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $lid = sget('lid','i');
-        if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($lid)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
+        if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($lid,$this->userid)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
         $this->json_output(array('err'=>0,'phyDelData'=>$phyDelData));
     }
     //进入资讯页
