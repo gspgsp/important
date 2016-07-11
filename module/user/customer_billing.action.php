@@ -51,7 +51,7 @@ class customer_billingAction extends adminBaseAction
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			//$list['data'][$k]['invoice_account']=desDecrypt($v['invoice_account']);
+			$list['data'][$k]['invoice_account']=desDecrypt($v['invoice_account']);
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 
 		}

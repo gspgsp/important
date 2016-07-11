@@ -51,6 +51,7 @@ class customer_billingAction extends adminBaseAction
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$list['data'][$k]['invoice_account']=desDecrypt($v['invoice_account']);
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
@@ -69,18 +70,16 @@ class customer_billingAction extends adminBaseAction
             ->where("cb.id={$id}")
             ->select("cb.*,c.c_name")
             ->getRow();
-p($list);die;
-        $this->assign('haha',6);
-        $this->assign('id',$list[0]['id']);
-        $this->assign('user_id',$list[0]['user_id']);
-        $this->assign('c_id',$list[0]['c_id']);
-        $this->assign('tax_id',$list[0]['tax_id']);
-        $this->assign('invoice_bank',$list[0]['invoice_bank']);
-        $this->assign('invoice_address',$list[0]['invoice_address']);
-        $this->assign('invoice_tel',$list[0]['invoice_tel']);
-        $this->assign('invoice_account',desDecrypt($list[0]['invoice_account']));
-        $this->assign('fax',$list[0]['fax']);
-        $this->assign('c_name',$list[0]['c_name']);
+        $this->assign('id',$list['id']);
+        $this->assign('user_id',$list['user_id']);
+        $this->assign('c_id',$list['c_id']);
+        $this->assign('tax_id',$list['tax_id']);
+        $this->assign('invoice_bank',$list['invoice_bank']);
+        $this->assign('invoice_address',$list['invoice_address']);
+        $this->assign('invoice_tel',$list['invoice_tel']);
+        $this->assign('invoice_account',desDecrypt($list['invoice_account']));
+        $this->assign('fax',$list['fax']);
+        $this->assign('c_name',$list['c_name']);
 
 		$this->display('customer_billing.list.add.html');
 	}
