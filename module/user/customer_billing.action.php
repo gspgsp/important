@@ -93,6 +93,9 @@ class customer_billingAction extends adminBaseAction
 		if ($data['id']>0) {
 			$result = $this->db->where('id='.$data['id'])->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],'status'=>0,));
 		}else{
+			if(!M('user:customer_billing')->curUnique($name='c_id',$value="$data[c_id]")){
+				$this->error('此客户已添加开票资料');
+			}
 			$result = $this->db->add($data+array('input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],));
 		}

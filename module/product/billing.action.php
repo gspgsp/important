@@ -147,7 +147,7 @@ class billingAction extends adminBaseAction
 
 		}
 		//公司开票资料
-		$this->companyInfo=M("user:customer")->getCinfoById($headData['c_id']);
+		$this->companyInfo=M("user:customer_billing")->getCinfoById($headData['c_id']);
 
 		$this->display('billing.add.html');
 
