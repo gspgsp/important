@@ -479,16 +479,15 @@ class mainPageAction extends homeBaseAction
             $this->is_ajax=true;
             $data=saddslashes($data);
             $dataToken = $data[0]['dataToken'];
-            p($data);
-            p($dataToken);
-            die;
             $this->userid = M('myapp:token')->deUserId($dataToken);
             $chkRes = $this->_chkToken($dataToken,$this->userid);
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
             $uinfo=M('user:customerContact')->getListByUserid($this->userid);
 
-            $cargo_type=sget('cargo_type','i',1);//现货、期货
-            $type=sget('type','i',1);//采购1、报价2
+            //$cargo_type=sget('cargo_type','i',1);//现货、期货
+            $cargo_type=$data[0]['cargo_type'];
+            //$type=sget('type','i',1);//采购1、报价2
+            $type=$data[0]['type'];
             $pur_model=M('product:purchase');
             $fac_model=M('product:factory');
             $pro_model=M('product:product');
