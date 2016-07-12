@@ -23,7 +23,7 @@ class registerAction extends homeBaseAction{
 			if(!$this->_chkmobile($mobile)) $this->error($this->err);
 			$password=sget('password','s');
 			if(!$this->_chkpass($password)) $this->error($this->err);
-			$mcode=spost('code','s');
+			$mcode=sget('code','s');
 			$result=M('myapp:msg')->chkDynamicCode($mobile,$mcode,1);
 			if($result['err']>0){
 				$this->error($result['msg']);
