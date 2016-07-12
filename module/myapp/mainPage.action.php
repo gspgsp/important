@@ -459,15 +459,17 @@ class mainPageAction extends homeBaseAction
         $page = sget('page','i',1);
         $size = sget('size','i',10);
         $articles = array();
-
+        $tempArr = array();
         if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
         foreach ($articleInfo['data'] as $key => $value) {
             $articleInfo['data'][$key]['content']=strip_tags($articleInfo['data'][$key]['content']);
             $articleInfo['data'][$key]['brief']=mb_substr($articleInfo['data'][$key]['content'],0,20,'utf-8')."...";
-            $articles[]=$articleInfo['data'][$key];
+            $tempArr['title']=$articleInfo['data'][$key]['title'];
+            $tempArr['brief']=$articleInfo['data'][$key]['brief'];
+            $tempArr['input_time']=$articleInfo['data'][$key]['input_time'];
+            $articles[]=$tempArr;
+            unset($tempArr);
         }
-        // $articleInfo['content']=strip_tags($articleInfo['content']);
-        // $articleInfo['brief']=mb_substr($articleInfo['content'],0,20,'utf-8')."...";
         $this->json_output(array('err'=>0,'articleInfo'=>$articles));
     }
     //进入资讯详情页
