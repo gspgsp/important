@@ -89,13 +89,12 @@ class customerAction extends adminBaseAction {
 		//筛选自己的客户
 		if($this->public == 0){
 			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']); 
-				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); 
-				if(!empty($pools)){
-					$sons .= ','.$pools; //拼接扩展的客户
-					$sons = implode(',',array_unique(explode(',',$sons))); //去重
-				}
+				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 				$where .= " and `customer_manager` in ($sons) ";
+				if(!empty($pools)){
+					$where .= " or `c_id` in ($pools)";
+				}
 			}
 		}
 		$list=$this->db
@@ -353,6 +352,21 @@ class customerAction extends adminBaseAction {
 	private function _chkUnique($name='mobile',$value=''){
 		$exist=$this->db->model('user')->select('user_id')->where("$name='$value'")->getOne();
 		return $exist>0 ? true : false;
+	}
+	//共享客户
+	public function share(){
+		$this->display('customer.share.html');
+	}
+	//共享客户提交
+	public function shareSubmit(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('用户信息错误');
+		$exits = $this->db->model('customer_pool')->where("`customer_manager` = {$data['id']} and `c_id` = {$data['c_id']}")->getRow();
+		if($exits) $this->error('共享记录已经存在');
+		$result = $this->db->model('customer_pool')->add(array('customer_manager'=>$data['id'],'c_id'=>$data['c_id'],'input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name']));
+		if(!$result) $this->error('操作失败');
+		$this->success('操作成功');
 	}
 
 }
