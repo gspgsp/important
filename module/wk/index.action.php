@@ -8,7 +8,7 @@ class indexAction extends adminBaseAction{
 		$this->uname=$_SESSION['username'];
 		$this->db=M("public:common");
 		$this->model=M('wk:share');
-		$this->today=strtotime(date('Y-m-d',time()));
+		//$this->today=strtotime(date('Y-m-d',time()));
 
 	}
 	public function init()
@@ -70,7 +70,8 @@ class indexAction extends adminBaseAction{
 		$p=sget('p','i',1);
 		$size=200;
 		if($type=='') return;
-		$list=$this->model->where("type='{$type}' and is_stock=0 and status='上架' and input_time>$this->today")->page($p,$size)->order('input_time desc')->getPage();
+		$list=$this->model->where("type='{$type}' and is_stock=0 and status='上架'")->page($p,$size)->order('input_time desc')->getPage();
+		// $list=$this->model->where("type='{$type}' and is_stock=0 and status='上架' and input_time>$this->today")->page($p,$size)->order('input_time desc')->getPage();
 		
 		if($list['data']){
 			foreach ($list['data'] as $key => $value) {
@@ -85,7 +86,8 @@ class indexAction extends adminBaseAction{
 	// 置顶定时加载
 	public function topTimer()
 	{
-		$list=$this->model->where("is_top=1 and status='上架' and type='供应' and input_time>$this->today")->order("input_time desc")->getAll();
+		$list=$this->model->where("is_top=1 and status='上架' and type='供应'")->order("input_time desc")->getAll();
+		// $list=$this->model->where("is_top=1 and status='上架' and type='供应' and input_time>$this->today")->order("input_time desc")->getAll();
 		if($list){
 			foreach ($list as $key => $value) {
 				$list[$key]['date']=date('m-d H:i',$value['input_time']);
@@ -131,7 +133,8 @@ class indexAction extends adminBaseAction{
 	{
 		$grade=sget('grade','s','');
 		$type=sget('type','s','');
-		$list=$this->model->where("is_stock=0 and status='上架' and grade='{$grade}' and type='{$type}' and input_time>{$this->today}")->order("price asc")->getAll();
+		$list=$this->model->where("is_stock=0 and status='上架' and grade='{$grade}' and type='{$type}'")->order("price asc")->getAll();
+		// $list=$this->model->where("is_stock=0 and status='上架' and grade='{$grade}' and type='{$type}' and input_time>{$this->today}")->order("price asc")->getAll();
 		
 		if($list){
 			foreach ($list as $key => $value) {

@@ -8,6 +8,7 @@
 				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel()">excel导入</a>
 				<span class="separator"></span> 
 				<a class="mini-button" iconCls="icon-reload" plain="true" onclick="reload()">重新发布</a>
+				<a class="mini-button" iconCls="icon-reload" plain="true" onclick="sync()">同布</a>
 				
 			</td>
 			<td style="float:right;">
@@ -254,5 +255,19 @@ function inputExcel(){
 			}
 		}
 	});
+}
+
+//同步当天更新数据
+function sync() {
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/product/zcquote/sync',callback,"POST","json");
 }
 </script>

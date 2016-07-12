@@ -298,4 +298,48 @@ class zcquoteAction extends adminBaseAction {
 		}
 		$this->json_output(array('err'=>0,'result'=>$result?:false));
 	}
+
+	/**
+	 * 更新当天数据
+	 */
+	public function sync(){
+		$result = $this->db->model('share')->where("`sync`=0")->getAll();
+		$sql1=array();
+		$sql2=array();
+		foreach ($result as $v) {
+			$_data['type']=$v['type']=='供应'?2:1;
+			$ids = M('product:factory')->getIdByName($v['factory']);
+			$_data['p_id']  = M('product:product')->getPidByIds($v['grade'],$ids);
+			$_data['number'] = $v['num'];
+			$_data['unit_price'] = $v['price'];
+			$_data['store_house'] = $v['store'];
+			$_data['bargain']=$v['true_price']=='可议价'?1:2;
+			$_data['shelve_type']=$v['status']=='上架'?1:2;
+			$_data['remark'] = $v['remark'];
+			$_data['input_time'] = $v['input_time'];
+			$_data['input_admin'] = $v['uname'];
+			$_data['customer_manager'] = $v['uid'];
+			$_data['cargo_type']=$v['stock']=='现货'?1:2;
+			$_data['sync'] = 1;
+
+//`ship_type`配送','自提'配送方式, is_top是否置顶 1是 0否,content文本格式,is_stock是否库存信息 0不是 1是,cost成本价,supplier供应商,pay付款,(前台传到后台没有用到的字段)
+			$sql1[] = $this->db->model('purchase')->add($_data);
+			$sql2[] = $this->db->model('share')->where("id=".$v['id'])->update('`sync = 1`');
+
+		}
+		if(empty($sql1)){
+			$this->error('操作数据为空');
+		}
+		$result1=$this->db->commitTrans($sql1);
+		$result2=$this->db->commitTrans($sql2);
+		if($result1){
+			$cache=cache::startMemcache();
+			$cache->delete('share');
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
+
+			
+	}
 }
