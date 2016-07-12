@@ -52,10 +52,10 @@ class findPwdAction extends homeBaseAction{
 		}
 		$chk=M('system:sysUser')->usrUnique('mobile',$value);
 		if(!$chk){
-			$this->err='手机号已存在';
-			return false;
-		}else{
 			return true;
+		}else{
+			$this->err='没有相关账户';
+			return false;
 		}
 	}
 
@@ -68,7 +68,9 @@ class findPwdAction extends homeBaseAction{
 		$this->is_ajax=true;
 		//验证手机
 		$mobile=sget('mobile','s');
-		if(!$this->db->model('customer_contact')->where("mobile='{$mobile}'")->getRow()) $this->error('没有相关账户');
+		if(!$this->_chkmobile($mobile)){
+			$this->error($this->err);
+		}
 		$sms=M('myapp:msg');
 		//请求动态码
 		$result=$sms->genDynamicCode($mobile,1);
