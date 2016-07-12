@@ -59,7 +59,6 @@ class customershareAction extends adminBaseAction {
 			$where .= " and cp.customer_manager = {$_SESSION['adminid']} ";
 		}
 		$list=$this->db ->select("cp.*,c.customer_manager as cm, c.c_name, c.chanel,c.need_product,c.legal_person,c.type")->from('customer_pool cp')->leftjoin('customer c','c.c_id = cp.c_id')->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-		showtrace();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['cm'] = M('rbac:adm')->getUserByCol($v['cm']);
 		 	$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
