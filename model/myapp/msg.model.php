@@ -70,15 +70,18 @@ class msgModel extends model
 	 */
 	public function chkDynamicCode($mobile='',$mcode='',$stype=0){
 		$msg = $this->model('log_sms')->where("mobile='{$mobile}' and stype=$stype")->order('input_time desc')->limit('0,1')->getRow();
-		if(!empty($msg)){
+		if(count($msg)>0){
 			if(CORE_TIME-$msg['input_time']>300){
 				return array('err'=>1,'msg'=>'手机动态码已失效');
-			}
-			if($mcode==substr($msg['msg'],4,6)){
+			}else if($mcode==mb_substr($msg['msg'],4,6)){
 				return array('err'=>0,'msg'=>'验证通过');
 			}
+
+		}else
+		{
+		    return array('err'=>2,'msg'=>'手机动态码输入不正确，请重新输入');
 		}
-		return array('err'=>2,'msg'=>'手机动态码输入不正确，请重新输入');
+
 	}
 
 }
