@@ -68,9 +68,7 @@ class findPwdAction extends homeBaseAction{
 		$this->is_ajax=true;
 		//验证手机
 		$mobile=sget('mobile','s');
-		if(!$this->_chkmobile($mobile)){
-			$this->error($this->err);
-		}
+		if(!$this->db->model('customer_contact')->where("mobile='{$mobile}'")->getRow()) $this->error('没有相关账户');
 		$sms=M('myapp:msg');
 		//请求动态码
 		$result=$sms->genDynamicCode($mobile,1);
