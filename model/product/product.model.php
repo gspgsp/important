@@ -61,4 +61,15 @@ class productModel extends model{
 		return $this->select("f.f_name")->from('product p')->join('factory f','f.fid=p.f_id')->where('p.id='.$pid)->getOne();
 	}
 
+	/**
+	 * 根据牌号和厂家ids获取商品id
+	 * 此id 也是 purchase表中的p_id;
+	 */
+	public function getPidByIds($model='',$ids=0,$id=0){
+		$where = "model= '$model' and f_id in $ids ";
+		// if($id>0) $where .= " and id !='$id'";
+		$result = $this->select('id')->where($where)->getOne();
+		return $result>0 ? $result : 0;
+	}
+
 }
