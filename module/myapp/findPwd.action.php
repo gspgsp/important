@@ -19,7 +19,7 @@ class findPwdAction extends homeBaseAction{
 			$password=sget('password','s');
 			if(!$this->_chkmobile($mobile)) $this->error($this->err);
 			$mcode=sget('code','s');
-			$result=M('system:sysSMS')->chkDynamicCode($mobile,$mcode);
+			$result=M('myapp:msg')->chkDynamicCode($mobile,$mcode,7);
 			if($result['err']>0){
 				$this->error($result['msg']);
 			}
@@ -71,21 +71,17 @@ class findPwdAction extends homeBaseAction{
 		if(!$this->_chkmobile($mobile)){
 			$this->error($this->err);
 		}
-		$sms=M('system:sysSMS');
-		//检查注册的限制
-		$result=$sms->chkRegLimit($mobile,get_ip());
-		if(empty($result)){
-			$this->error($sms->getError());
-		}
+		$sms=M('myapp:msg');
 		//请求动态码
-		$result=$sms->genDynamicCode($mobile);
+		$result=$sms->genDynamicCode($mobile,1);
 		if($result['err']>0){ //请求错误
 			$this->error($result['msg']);
 		}
 		$msg=$result['msg']; //短信内容
 		//发送手机动态码
-		$sms->send(0,$mobile,$msg,2);
+		$sms->send(0,$mobile,$msg,7);
 		$this->success('发送成功');
+
 	}
 
 }
