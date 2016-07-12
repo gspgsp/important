@@ -49,7 +49,6 @@ class mainPageAction extends homeBaseAction
         if(!$detInf=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'没有该条资讯详情'));
         $detInf['input_time'] = date("Y-m-d",$detInf['input_time']);
         $detInf['content']=strip_tags($detInf['content']);
-        $detInf['brief']=mb_substr($detInf['content'],0,20,'utf-8')."...";
         $this->json_output(array('err'=>0,'detInf'=>$detInf));
     }
     //进入调价动态
@@ -459,8 +458,17 @@ class mainPageAction extends homeBaseAction
         $pid=sget('pid','i',29);
         $page = sget('page','i',1);
         $size = sget('size','i',10);
+        $articles = array();
+
         if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
-        $this->json_output(array('err'=>0,'articleInfo'=>$articleInfo['data']));
+        foreach ($articleInfo['data'] as $key => $value) {
+            $articleInfo['data'][$key]['content']=strip_tags($articleInfo['data'][$key]['content']);
+            $articleInfo['data'][$key]['brief']=mb_substr($articleInfo['data'][$key]['content'],0,20,'utf-8')."...";
+            $articles[]=$articleInfo['data'][$key];
+        }
+        // $articleInfo['content']=strip_tags($articleInfo['content']);
+        // $articleInfo['brief']=mb_substr($articleInfo['content'],0,20,'utf-8')."...";
+        $this->json_output(array('err'=>0,'articleInfo'=>$articles));
     }
     //进入资讯详情页
     public function enArticleDetail(){
