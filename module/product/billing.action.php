@@ -156,7 +156,6 @@ class billingAction extends adminBaseAction
 	public function ajaxSave(){
 		$data = sdata();
 		$type = sget('do','i');//区分销售采购订单
-	
 		$detail = $data['detail'];
 		unset($data['detail']);
 		$billingModel=M('product:billing');
@@ -193,17 +192,18 @@ class billingAction extends adminBaseAction
 						if(!$purchaseLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) throw new Exception("采购明细更新失败");
 						$sum=$purchaseLogModel->where("o_id={$data['o_id']}")->select("sum(b_number)")->getOne();
 					}
+					if($sum==0){
+						//更新为全部开票
+						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
+					}else{
+						//更新为部分开票
+						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>2,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
+					}
 				}
 				if($billingLogModel->where("status=1 and parent_id={$data['id']}")->getRow()){
 					if(!$billingLogModel->where("status=1 and parent_id={$data['id']}")->delete()) throw new Exception("开票明细删除失败");
 				}
-				if($sum==0){
-					//更新为全部开票
-					if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
-				}else{
-					//更新为部分开票
-					if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>2,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
-				}
+				
 			} catch (Exception $e) {
 				$billingModel->rollback();
 				$this->error($e->getMessage());
@@ -247,7 +247,7 @@ class billingAction extends adminBaseAction
 				$this->error($e->getMessage());
 			}
 			$billingModel->commit();
-			$this->success('提交成功');
+				$this->success('提交成功');
 		}
 
 	}
