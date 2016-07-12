@@ -45,6 +45,7 @@
 			
 			<td style="float:right;">
 			{if $isPublic neq '1'}
+				<a class="mini-button" iconCls="icon-addnew" onclick="share()">共享</a>
 				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a> 
 				<a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a> 
 			{/if}
@@ -252,8 +253,23 @@ function add(id,ctype){
 		}
 	});	
 }
+//共享客户联系人
+function share(){
+	var width=225,height=170;
+	title='添加共享联系人';
+	mini.open({
+		url: "/user/customer/share",
+		showMaxButton:true,
+		title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
 //行内编辑后保存数据
-function saveTags() {
+function saveTags(){
 	var data = grid.getChanges();
 	var json = mini.encode(data);
 	if(json.length<10) return false;
