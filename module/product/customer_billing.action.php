@@ -81,7 +81,7 @@ class customer_billingAction extends adminBaseAction
         $this->assign('fax',$list['fax']);
         $this->assign('c_name',$list['c_name']);
 
-		$this->display('customer_billing.list.add.html');
+		$this->display('customer_billing.add.html');
 	}
 
 	/**

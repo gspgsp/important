@@ -236,7 +236,7 @@ class billingAction extends adminBaseAction
 						'model'=>$value['model'],
 						'f_name'=>$value['f_name'],
 						'unit_price'=>$value['unit_price'],
-						'input_time'=>CORE_TIME,
+						'input_time'=>CORE_TIME, 
 						'input_admin'=>$_SESSION['username'],
 					);
 					if(!$billingLogModel->add($log_data)) throw new Exception("开票明细添加失败");;
