@@ -48,6 +48,8 @@ class mainPageAction extends homeBaseAction
     	$id=sget('id','i',0);
         if(!$detInf=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'没有该条资讯详情'));
         $detInf['input_time'] = date("Y-m-d",$detInf['input_time']);
+        $detInf['content']=strip_tags($detInf['content']);
+        $detInf['brief']=mb_substr($detInf['content'],0,20,'utf-8')."...";
         $this->json_output(array('err'=>0,'detInf'=>$detInf));
     }
     //进入调价动态
