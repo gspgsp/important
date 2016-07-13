@@ -109,9 +109,6 @@ class personalCenterAction extends homeBaseAction
 		$points = M('points:pointsBill')->getUerPoints($this->userid);
 		if(!$result = M('touch:creditshop')->getCreditShop($gtype))
 			$this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
-			foreach ($result as &$v) {
-				$v['thumb']=FILE_URL."/upload/".$v['thumb'];
-			}
 			$this->json_output(array('err'=>0,'points'=>$points,'shop'=>$result));
 	}
 	//进入我的物流
