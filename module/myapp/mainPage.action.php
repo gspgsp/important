@@ -464,6 +464,7 @@ class mainPageAction extends homeBaseAction
         foreach ($articleInfo['data'] as $key => $value) {
             $articleInfo['data'][$key]['content']=strip_tags($articleInfo['data'][$key]['content']);
             $articleInfo['data'][$key]['brief']=mb_substr($articleInfo['data'][$key]['content'],0,20,'utf-8')."...";
+            $tempArr['id']=$articleInfo['data'][$key]['id'];
             $tempArr['title']=$articleInfo['data'][$key]['title'];
             $tempArr['brief']=$articleInfo['data'][$key]['brief'];
             $tempArr['input_time']=$articleInfo['data'][$key]['input_time'];
