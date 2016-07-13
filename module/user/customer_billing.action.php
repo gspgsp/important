@@ -44,6 +44,21 @@ class customer_billingAction extends adminBaseAction
 				$where.=" and $key_type = '$keyword' ";
 			}
 		}
+		//筛选自己的客户
+		$res=array();
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$where = " 1 ";
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+			$where .= " and `customer_manager` in ($sons) ";
+			$res=$this->db->model('customer')->where($where)->select('c_id')->getCol();
+
+		}
+		if ($res) {
+			$ids = implode(',', $res);
+			$where .=" and `c_id` in $ids";
+		}
+
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
