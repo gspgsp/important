@@ -324,6 +324,8 @@ class zcquoteAction extends adminBaseAction {
 			$_data['input_admin'] = $v['uname'];
 			$_data['customer_manager'] = $v['uid'];
 			$_data['cargo_type']=$v['stock']=='现货'?1:2;
+			$_data['origin']='上海';
+			$_data['provinces']=25;//lib_region表中上海的id为25
 			$_data['sync'] = 1;
 			if($id>0){
 				//`ship_type`配送','自提'配送方式, is_top是否置顶 1是 0否,content文本格式,is_stock是否库存信息 0不是 1是,cost成本价,supplier供应商,pay付款,(前台传到后台没有用到的字段)
@@ -337,7 +339,6 @@ class zcquoteAction extends adminBaseAction {
 			$this->success('操作成功');
 		}else{
 			$this->db->rollback();
-			showtrace();
 			$this->error('数据处理失败');
 		}
 
