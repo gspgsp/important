@@ -25,8 +25,9 @@
             {if $smarty.session.userid > 0 }
             <li><a id="user_name" href="/user">{$smarty.session.uinfo.name} 个人中心</a></li>
             <li class="login"><a href="/user/logout"  >退出登录</a></li>
+
             {else}
-            <li class="login"><a  href="/user/login">{$smarty.session.uinfo.name}</a></li>
+            <li class="login"><a  href="/user/login">您好，请登录</a></li>
             <li><a href="/user/register">免费注册</a></li>
             {/if}
             <!-- <li class="app"><a href="javascript:;">手机网站</a></li> -->

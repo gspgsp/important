@@ -14,7 +14,6 @@ class registerAction extends homeBaseAction{
 	{
 		$this->display('register');
 	}
-
 	public function reg()
 	{
 		$mobile=sget('phone','s');
@@ -26,6 +25,7 @@ class registerAction extends homeBaseAction{
 				$this->error('请输入验证码');
 			}
 			//检查验证码
+
 			if(!chkVcode('regcode',$vcode)){
 				$this->error('验证码不正确，请重新输入');	
 			}
