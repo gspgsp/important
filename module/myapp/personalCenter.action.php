@@ -597,6 +597,7 @@ class personalCenterAction extends homeBaseAction
 		$gid = sget('gid','i',0);
 		$result = M('touch:creditshop')->getShopDetail($gid);
 		$result['image']=FILE_URL."/upload/".$result['image'];
+		$result['thumb']=FILE_URL."/upload/".$result['thumb'];
 		$this->json_output($result);
 	}
 	/**
