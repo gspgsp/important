@@ -135,7 +135,7 @@ class orderAction extends adminBaseAction {
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
 			$v['node_flow'] = $this->_accessChk($this->db->model('order')->select('node_flow')->where("`o_id` ={$v['o_id']} ")->getOne());
-
+			$v['cmanager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			//获取采购订单开票状态
 			if(!empty($v['store_o_id'])){
 				$v['newstatus'] = M("product:order")->getColByName($value=$v['store_o_id'],$col='invoice_status',$condition='o_id');
