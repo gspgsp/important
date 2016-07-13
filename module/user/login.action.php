@@ -70,7 +70,6 @@ class loginAction extends homeBaseAction{
 		}else{
 			$_SESSION['auth_openid']=$openid;
 			$_SESSION['auth_info']=$snsInfo;
-
 			redirect('/user/login/bindLogin');
 		}
 		
@@ -78,8 +77,8 @@ class loginAction extends homeBaseAction{
 
 	public function bindLogin(){
 		if($this->user_id>0) $this->forward('/user');
-		p($_SESSION);
 		if(!$openid=$_SESSION['auth_openid']) $this->forward('/user/login');
+		$this->assign('auth_info',$_SESSION['auth_info']);
 		$this->display('bindLogin');
 	}
 

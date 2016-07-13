@@ -22,13 +22,18 @@
         <!--top-lt end-->
         <!--top-rt begin-->
         <ul class="top-rt frt">
-            {if $smarty.session.userid > 0 }
-            <li><a id="user_name" href="/user">{$smarty.session.uinfo.name} 个人中心</a></li>
-            <li class="login"><a href="/user/logout"  >退出登录</a></li>
+            {if !empty($auth_info)}
+                 <li>{$auth_info.name}</li>
             {else}
-            <li class="login"><a  href="/user/login">您好，请登录</a></li>
-            <li><a href="/user/register">免费注册</a></li>
+                {if $smarty.session.userid > 0 }
+                <li><a id="user_name" href="/user">{$smarty.session.uinfo.name} 个人中心</a></li>
+                <li class="login"><a href="/user/logout"  >退出登录</a></li>
+                {else}
+                <li class="login"><a  href="/user/login">您好，请登录</a></li>
+                <li><a href="/user/register">免费注册</a></li>
+                {/if}
             {/if}
+            
             <!-- <li class="app"><a href="javascript:;">手机网站</a></li> -->
             <li><a href="/page">常见问题</a></li>
             <li><a href="/page?id=16">联系我们</a></li>
