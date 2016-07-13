@@ -161,6 +161,12 @@ class orderAction extends adminBaseAction {
 	*/
 	public function info(){
 		$o_id=sget('oid','i',0);
+		$sale=sget('sale','i','0');
+		if ($sale ==1) {//查看订单对应得销售订单信息
+			if($o_id>0){
+				$o_id = M("product:order")->where('join_id='.$o_id.' or store_o_id='.$o_id)->select('o_id')->getOne();
+			}
+		}
 		$change_id=sget('change_id',i,0); //接收不销库存的o_id 用于生成采购
 		$order_type=sget('order_type','i',0); //用于区分销售还是采购
 		$o_type = sget('o_type','i',0);//用于双击弹出查看时，区分销售还是采购

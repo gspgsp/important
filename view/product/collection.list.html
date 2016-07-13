@@ -71,6 +71,9 @@
 		<!-- <div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 		<div field="input_admin" width="30" headerAlign="center" align="center">创建者</div> -->
 		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+		{if $type eq 2}
+			<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>	
+		{/if}
 		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
 		
 	</div>
@@ -107,7 +110,25 @@ function onLoadHandle(e) {
 	return s;
 }
 
+//追加操作，关联销售订单
+function relevance(e){
+	var record = e.record,oid=record.o_id,s='';
+	var order_type = 2;
+	//传值表示是查看销售订单
+	var sale = 1;
+		s += '<a href="javascript:viewOrdInfo('+oid+','+order_type+','+sale+')">查看</a>';
+	return s;
+}
 
+//查看订单相关信息
+function viewOrdInfo(oid,o_type,sale){
+	mini.open({
+		url: "/product/order/info?oid="+oid+'&o_type='+o_type+'&sale='+sale,
+		showMaxButton:true,
+		title: "查看订单相关信息", 
+		width: 800, height:430
+	});		
+}
 
 //追加操作，退款和下载按钮
 function viewhander(e){
@@ -170,15 +191,6 @@ function viewPinfo(oid,id,c_price,total_price,o_sn){
 
 }
 
-//查看订单相关信息
-function viewOrdInfo(oid,o_type){
-	mini.open({
-		url: "/product/order/info?oid="+oid+'&o_type='+o_type,
-		showMaxButton:true,
-		title: "查看订单相关信息", 
-		width: 800, height:430
-	});		
-}
 
 //设置状态
 // function setInv(e){开票状态
