@@ -109,7 +109,7 @@ class customerModel extends model{
 	public function getCidByPoolCus($customer_manager=0){
 		$where = " 1 ";
 		if($customer_manager>0){
-			$where = "and `customer_manager` = '$customer_manager' ";
+			$where .= " and `customer_manager` = $customer_manager ";
 		}
 		$result = $this->model('customer_pool')->select('c_id')->where($where)->getCol();
 		return implode(',',array_unique($result));

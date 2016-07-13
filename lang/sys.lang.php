@@ -426,7 +426,7 @@ return array(
 	<p><span>六、包装标准:</span>&nbsp;&nbsp;<span>按生产企业的包装标准为准</span><p>
 	<p><span>七、验收标准方式:&nbsp;&nbsp;按第一、第二条款验收期限:自到货之日期三天内验收。需方若有异议须在到货之日起三天内以书面形式向供方提出，否则，视为验收合格。合理损耗为总量的千分之三，凡在合理损耗范围内短缺，供方不负责赔偿。</span><p>
 	<p><span>八、付款方式:</span>&nbsp;&nbsp;<span>%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>付款日期:</span>&nbsp;&nbsp;<span>%s</span></p>
-	<p><span>九、贷款结算方式:</span>&nbsp;&nbsp;<span>%s</span><p>
+	<p><span>九、货款结算方式:</span>&nbsp;&nbsp;<span>%s</span><p>
 	<p><span>十、其它约定:</span>&nbsp;&nbsp;<span>1.需方付清全款后，供方开给需方17%%的增值税发票</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;2.需方于合同签订当日下午16:30前盖章回传有效</span><p>
 	<p><span>十一、违约责任:除了不可抗拒因素外(自然灾害，战争等)合同其它违约事项遵照《中华人民共和国合同法》承担违约责任。双方任何一方违反合同的任一条款，均视为违约。违约方需向对方支付本合同日千分之八的违约金。</span><p>
 	<p><span>十二、本合同未尽事项，经双方友好协商作出补充规定的，补充规定与本合同具有同等的法律效力。</span><p>
