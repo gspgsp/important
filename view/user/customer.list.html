@@ -28,7 +28,6 @@
 				</select>
 				<select name="key_type">
 					<option value="c_id" selected="selected">客户ID</option>
-					<option value="legal_person">法人姓名</option>
 					<option value="legal_idcard">法人身份证</option>
 					<option value="c_name">客户名称</option>
 					<option value="need_product" >所需牌号</option>
@@ -42,7 +41,6 @@
 			   </form>
 			</td>
 			{if $doact neq 'search'}
-			
 			<td style="float:right;">
 			{if $isPublic neq '1'}
 				<a class="mini-button" iconCls="icon-addnew" onclick="share()">共享</a>
@@ -255,10 +253,11 @@ function add(id,ctype){
 }
 //共享客户联系人
 function share(){
-	var width=225,height=170;
+	var row = grid.getSelected();
+	var width=225,height=130;
 	title='添加共享联系人';
 	mini.open({
-		url: "/user/customer/share",
+		url: "/user/customer/share?id="+row.c_id,
 		showMaxButton:true,
 		title: title, width: width, height:height,
 		ondestroy: function (action) {

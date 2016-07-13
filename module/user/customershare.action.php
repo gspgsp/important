@@ -49,14 +49,14 @@ class customershareAction extends adminBaseAction {
 				$where.=" and cp.`customer_manager` in (".join(',',$adms).") ";
 			}else if($key_type=='c_name'){
 				$cids = M('user:customer')->getcidByCname($keyword);
-				$where.=" and cp.`c_id` in (cids  ) ";
+				$where.=" and cp.`c_id` in ($cids) ";
 			}else{
 				$where.=" and cp.$key_type='$keyword' ";
 			}
 		}
 		//筛选能看到的共享客户
 		if($_SESSION['adminid'] !=1 && $_SESSION['adminid']>0){
-			$where .= " and cp.customer_manager = {$_SESSION['adminid']} ";
+			$where .= " and cp.customer_manager = {$_SESSION['adminid']} or `share_manager` =  {$_SESSION['adminid']}";
 		}
 		$list=$this->db ->select("cp.*,c.customer_manager as cm, c.c_name, c.chanel,c.need_product,c.legal_person,c.type")->from('customer_pool cp')->leftjoin('customer c','c.c_id = cp.c_id')->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){

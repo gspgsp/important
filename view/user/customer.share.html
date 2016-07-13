@@ -6,14 +6,9 @@ td.dt{width:80px; text-align:right; font-weight:bold;}
 </style>
 <form id="infoForm" class="form">
 		<div title="基本信息">
+		<input name="c_id" class="mini-hidden"    value="{$id}"/>
 		<div style="padding-left:11px;padding-bottom:5px;">
-			<table style="table-layout:fixed;">
-				<tr>
-					<td>客户名称<span style="color:red">*</span></td>
-					<td>
-						<input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="c_id"  textField="c_name" value="" allowInput="false" style="width:100px"/>
-					</td>
-				</tr>
+			<table style="table-layout:fixed;">		
 				<tr>
 					<td>交易员:<span style="color:red">*</span></td>
 					<td>
@@ -69,30 +64,6 @@ function allotCustomer(){
 				if (data) {
 					btn.setValue(data.admin_id);
 					btn.setText(data.name);
-				}
-			}
-		}
-	});
-}
-//强制选择归属公司
-function usrChoose(e){
-	var btn = this;
-		mini.open({
-		url: "/user/customer/init?do=search",
-		title: "选择公司",
-		width: 1200,
-		height: 550,
-		onload: function () {
-			var iframe = this.getIFrameEl();
-		},
-		ondestroy: function (action) {
-			if (action == "ok") {
-				var iframe = this.getIFrameEl();
-				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
-				if (data) {
-					btn.setValue(data.c_id);
-					btn.setText(data.c_name);
 				}
 			}
 		}

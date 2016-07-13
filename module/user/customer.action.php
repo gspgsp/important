@@ -80,7 +80,8 @@ class customerAction extends adminBaseAction {
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='legal_person' || $key_type=='c_name'){
+			if($key_type=='c_name'){
+				$cidshare = M('user:customer')->getcidByCname($keyword);
 				$where.=" and $key_type like '%$keyword%' ";
 			}else{
 				$where.=" and $key_type='$keyword' ";
@@ -94,6 +95,9 @@ class customerAction extends adminBaseAction {
 				$where .= " and `customer_manager` in ($sons) ";
 				if(!empty($pools)){
 					$where .= " or `c_id` in ($pools)";
+				}
+				if(!empty($cidshare)){
+					$where .= " or `c_id` in ($cidshare)";
 				}
 			}
 		}
@@ -355,6 +359,9 @@ class customerAction extends adminBaseAction {
 	}
 	//共享客户
 	public function share(){
+		$id =sget('id','i',0);
+		if($id<1) $this->error('用户信息错误');
+		$this->assign('id',$id);
 		$this->display('customer.share.html');
 	}
 	//共享客户提交
@@ -364,14 +371,18 @@ class customerAction extends adminBaseAction {
 		if(empty($data)) $this->error('用户信息错误');
 		$exits = $this->db->model('customer_pool')->where("`customer_manager` = {$data['id']} and `c_id` = {$data['c_id']}")->getRow();
 		if($exits) $this->error('共享记录已经存在');
-		$result = $this->db->model('customer_pool')->add(array('customer_manager'=>$data['id'],'c_id'=>$data['c_id'],'input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name']));
+		$result = $this->db->model('customer_pool')->add(array('customer_manager'=>$data['id'],'c_id'=>$data['c_id'],'input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],'share_manager'=>$_SESSION['adminid'],'share_managername'=>$_SESSION['username']));
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
 
 	//公司名去重
 	public function curUnique(){
-		
+		$data = trim($_POST['data']);
+		if(empty($data)) $this->error('请填写公司名称');
+		$res = M('user:customer')->curUnique('c_name',$data);
+		if(!$res) $this->success('存在相同的公司名称,请修改！');
+		$this->success('查询的公司不重复');
 	}
 
 }
