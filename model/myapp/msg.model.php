@@ -20,7 +20,7 @@ class msgModel extends model
 				return array('err'=>1,'msg'=>'动态码已发送成功，请稍候再试');
 			}
 			if(CORE_TIME-$msg['input_time']<=300){//有效期300秒
-				$mcode=substr($msg['msg'],4,6);
+				$mcode=mb_substr($msg['msg'],4,6);
 				$msg=sprintf(L('sms_template.dynamic_code'),$mcode);
 			}
 		}
