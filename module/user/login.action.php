@@ -70,6 +70,7 @@ class loginAction extends homeBaseAction{
 		}else{
 			$_SESSION['auth_openid']=$openid;
 			$_SESSION['auth_info']=$snsInfo;
+			print_r($_SESSION);
 			redirect('/user/login/bindLogin');
 		}
 		
