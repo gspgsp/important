@@ -110,7 +110,7 @@ class personalCenterAction extends homeBaseAction
         if(!$result = M('touch:creditshop')->getCreditShop($gtype))
             $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
             foreach ($result as $key => $value) {
-                $result[$key]['thumb']=__UPLOAD__."/{$result[$key]['thumb']}";
+                $result[$key]['thumb']=__UPLOAD__."/$value['thumb']";
             }
             $this->json_output(array('err'=>0,'points'=>$points,'shop'=>$result));
     }
@@ -566,7 +566,7 @@ class personalCenterAction extends homeBaseAction
         if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $result = M('touch:creditRecord')->getCreditRecord($this->userid);
         foreach ($result as $key => $value) {
-            $result[$key]['thumb']=__UPLOAD__."/{$result[$key]['thumb']}";
+            $result[$key]['thumb']=__UPLOAD__."/$value['thumb']";
         }
         $this->json_output($result);
     }
@@ -596,7 +596,7 @@ class personalCenterAction extends homeBaseAction
         if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
         $gid = sget('gid','i',0);
         $result = M('touch:creditshop')->getShopDetail($gid);
-        $result['image']=__UPLOAD__."/{$result['image']}";
+        $result['image']=__UPLOAD__."/$result['image']";
         $this->json_output($result);
     }
     /**
