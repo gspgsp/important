@@ -51,13 +51,13 @@ class tokenModel extends model
 	 * return string
 	 */
 	public function insert($userid=0,$user=array()){
-		$is_first_time = true;
+		$_SESSION['is_first_time'] = true;
 		$appToken = $this->model('app_token')->where('userid='.$userid)->getRow();
 		if(CORE_TIME <= $appToken['expiry']){
-			$is_first_time = false;
+			$_SESSION['is_first_time'] = false;
 			return $appToken['token'];
 		}else{
-			if($is_first_time){
+			if($_SESSION['is_first_time']){
 				$this->userid=$userid;
 				$this->token=$this->_genToken($userid);
 				if(empty($user))
@@ -71,9 +71,9 @@ class tokenModel extends model
 					'data'=>json_encode($this->uinfo),
 				);
 				$this->model('app_token')->add($data);
-				$is_first_time = false;
+				$_SESSION['is_first_time'] = false;
 				return $this->token;
-			}elseif(!$is_first_time){
+			}elseif(!$_SESSION['is_first_time']){
 				$this->userid=$userid;
 				$this->token=$this->_genToken($userid);
 				if(empty($user))
