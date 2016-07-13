@@ -115,7 +115,7 @@
 .buy-wrap .buy-info{ margin-bottom:10px;}
 .buy-wrap .buy-info .buy-title{ border-bottom-color:#ccc;}
 .buy-wrap .buy-info .buy-title h2{ font-size: 14px; font-weight: bold;}
-.buy-wrap .buy-info table{ margin:15px 0 0 40px;}
+.buy-wrap .buy-info table{ margin:15px auto;}
 .buy-wrap .buy-info table tr{ height:40px;}
 .buy-wrap .buy-info table select{ color:#323232; border:1px solid #d9d9d9; width: 100px; height:24px; line-height:24px;}
 .buy-wrap .buy-info table b{ margin:0 15px;}
@@ -149,7 +149,7 @@
 .buy-wrap .detail .opt a{color:#267bd3;}
 .buy-wrap .detail .opt a:hover{ text-decoration:underline;}
 
-.buy-wrap .remark{ width:1140px; height:auto; overflow:hidden; margin:0 auto; margin-top:60px;}
+.buy-wrap .remark{ width:626px; height:auto; overflow:hidden; margin:0 auto; margin-top:60px;}
 .buy-wrap .remark .remark-rt{ width:680px; height:146px; overflow:hidden; border:1px solid #ccc;}
 .buy-wrap .remark .remark-rt textarea{ width:660px; height:126px; overflow:auto; margin:10px;}
 .buy-wrap .buy-btn{ height:38px; margin:80px 0  80px 448px;}
@@ -157,7 +157,7 @@
 .buy-wrap .buy-btn a{ display: block; line-height:35px; text-align:center; }
 
 .buy-wrap.talk .buy-info input{ border:1px solid #d6d7dc; width:139px; height:14px; padding:7px 0 7px 10px; margin:0 5px 0 0;}
-.buy-wrap.talk .remark .remark-rt{ width:779px; height:111px;}
+.buy-wrap.talk .remark .remark-rt{ width:500px; height:111px;}
 .buy-wrap.talk .remark .remark-rt textarea{ width:759px; height:91px;}
 
 .buy-wrap .order-confirm table{ font-size:12px; border-collapse: collapse;}
