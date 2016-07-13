@@ -65,7 +65,7 @@ class productModel extends model{
 	 * 根据牌号和厂家ids获取商品id
 	 * 此id 也是 purchase表中的p_id;
 	 */
-	public function getPidByIds($model='',$ids=0,$id=0){
+	public function getPidByIds($model='',$ids=0){
 		$where = "model= '$model' and f_id in $ids ";
 		// if($id>0) $where .= " and id !='$id'";
 		$result = $this->select('id')->where($where)->getOne();
