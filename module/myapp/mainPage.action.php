@@ -654,11 +654,6 @@ class mainPageAction extends homeBaseAction
         $page = sget('page','i',1);
         $size = sget('size','i',10);
         if(!$resData = M('myapp:mainPage')->getResourceData($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
-        foreach ($resData['data'] as  &$v) {
-            if(empty($v['qq_image'])){
-                $v['qq_image']=__MYAPP__."/img/1.png";
-            }
-        }
         $this->json_output(array('err'=>0,'resData'=>$resData['data']));
     }
     //发布资源库的方法和pc相同/resource/index/release(但是这里要用到token)
