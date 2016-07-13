@@ -34,7 +34,7 @@
 <div class="mini-fit" style="padding:3px;">
   <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"
   {if $type eq '1'} url="/product/billing/init?action=grid&type={$type}"{else}  url="/product/billing/itin?action=grid&type={$type}" {/if} idField="id"
-	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="o_id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单ID</div>
