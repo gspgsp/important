@@ -102,7 +102,7 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['out_storage_status'] = L('out_storage_status')[$v['out_storage_status']];
 			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
 			$list['data'][$k]['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
-
+			$list['data'][$k]['cmanager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			//开票申请与审核时所需的值
 			if($type==1){
 				//开票申请与审核时已未发送的数量
