@@ -303,13 +303,17 @@ class zcquoteAction extends adminBaseAction {
 	 * 更新当天数据
 	 */
 	public function sync(){
-		$result = $this->db->model('share')->where("`sync`=0")->getAll();
-		$sql1=array();
-		$sql2=array();
+		set_time_limit(0);
+		$result = $this->db->model('share')->where("`sync`=0")->order('input_time desc')->getAll();
+		$this->db->startTrans();
 		foreach ($result as $v) {
+			$_data  =array();
 			$_data['type']=$v['type']=='供应'?2:1;
-			$ids = M('product:factory')->getIdByName($v['factory']);
-			$_data['p_id']  = M('product:product')->getPidByIds($v['grade'],$ids);
+			$id = M('product:factory')->getIdByFName($v['factory']);
+			if(!$id) continue;
+			$p_id = M('product:product')->getPidByModel($v['grade'],$id);
+			if(!$p_id) continue;
+			$_data['p_id'] = $p_id;
 			$_data['number'] = $v['num'];
 			$_data['unit_price'] = $v['price'];
 			$_data['store_house'] = $v['store'];
@@ -321,22 +325,19 @@ class zcquoteAction extends adminBaseAction {
 			$_data['customer_manager'] = $v['uid'];
 			$_data['cargo_type']=$v['stock']=='现货'?1:2;
 			$_data['sync'] = 1;
-
-//`ship_type`配送','自提'配送方式, is_top是否置顶 1是 0否,content文本格式,is_stock是否库存信息 0不是 1是,cost成本价,supplier供应商,pay付款,(前台传到后台没有用到的字段)
-			$sql1[] = $this->db->model('purchase')->add($_data);
-			$sql2[] = $this->db->model('share')->where("id=".$v['id'])->update('`sync = 1`');
-
+			if($id>0){
+				//`ship_type`配送','自提'配送方式, is_top是否置顶 1是 0否,content文本格式,is_stock是否库存信息 0不是 1是,cost成本价,supplier供应商,pay付款,(前台传到后台没有用到的字段)
+				$sql1 = $this->db->model('purchase')->add($_data);
+				if($sql1){
+					$this->db->model('share')->where("id=".$v['id'])->update('`sync` = 1');
+				}	
+			}
 		}
-		if(empty($sql1)){
-			$this->error('操作数据为空');
-		}
-		$result1=$this->db->commitTrans($sql1);
-		$result2=$this->db->commitTrans($sql2);
-		if($result1){
-			$cache=cache::startMemcache();
-			$cache->delete('share');
+		if($this->db->commit()){
 			$this->success('操作成功');
 		}else{
+			$this->db->rollback();
+			showtrace();
 			$this->error('数据处理失败');
 		}
 
