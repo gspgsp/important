@@ -12,13 +12,16 @@ class factoryModel extends model{
 	public function getIdsByName($name){
 		return $this->where("f_name like '%$name%'")->select('fid')->getCol();
 	}
-
+	//根具名字取得厂家的id
+	public function getIdByFName($name){
+		return $this->select('fid')->where("f_name = '$name'")->getOne();
+	}
 	/**
 	 * 根据名字取得厂家id
 	 * 返回的是id组成的字符串
 	 */
 	public function getIdByName($name){
-		$ids = $this->where("f_name like '%$name%'")->select('fid')->getCol();
+		$ids = $this->select('fid')->where("f_name like '%$name%'")->getCol();
 		if (!empty($ids)){
 			foreach ($ids as $v) {
 				$ids[]=$v['f_id'];
