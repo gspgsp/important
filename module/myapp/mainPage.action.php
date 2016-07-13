@@ -250,8 +250,13 @@ class mainPageAction extends homeBaseAction
     //首页点击获取我的关注(5条),其实和个人中心里的关注的代码相同,下个版本再合并
     public function getMyShortAttention(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $products = $this->db->model('concerned_product')->where("user_id=$this->user_id and status=1")->select('product_id,product_name,model,factory_name')->limit('0,5')->getAll();
+
+        $dataToken = sget('dataToken','s');
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+
+        $products = $this->db->model('concerned_product')->where("user_id=$this->userid and status=1")->select('product_id,product_name,model,factory_name')->limit('0,5')->getAll();
         foreach ($products as $key => $value) {
             $factory = $this->db->model('factory')->where("f_name='{$value['factory_name']}'")->getRow();
             $pro = $this->db->model('product')->where("model='{$value['model']}' and f_id={$factory['fid']}")->getRow();
