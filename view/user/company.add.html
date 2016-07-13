@@ -10,9 +10,9 @@
 					<tr>
 						<td>客户名称：<font style="color:red;">*</font></td>
 						<td>
-							<input name="c_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.c_name}"/>
+							<input id="c_name" name="c_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.c_name}"/>
 						</td>
-						<td>&nbsp;</td>
+						<td><button onClick="checkUnique()">查重</button></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
@@ -293,5 +293,19 @@ function fileUpload(id) {
 		}
 	)
 	return false;
+}
+
+function checkUnique(){
+	var c_name = mini.get('c_name').getValue();
+	var urlstr = '/user/customer/curUnique';
+	$.post(urlstr,{data:c_name},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
 }
 </script>

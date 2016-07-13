@@ -369,4 +369,9 @@ class customerAction extends adminBaseAction {
 		$this->success('操作成功');
 	}
 
+	//公司名去重
+	public function curUnique(){
+		
+	}
+
 }
