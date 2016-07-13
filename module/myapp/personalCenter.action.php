@@ -565,8 +565,8 @@ class personalCenterAction extends homeBaseAction
 		$chkRes = $this->_chkToken($dataToken,$this->userid);
 		if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
 		$result = M('touch:creditRecord')->getCreditRecord($this->userid);
-		foreach ($result as $key => $value) {
-			$result[$key]['thumb']=__UPLOAD__."/{$value['thumb']}";
+		foreach ($result as  &$v) {
+			$v['thumb']=FILE_URL."/upload/".$v['thumb'];
 		}
 		$this->json_output($result);
 	}
@@ -596,7 +596,7 @@ class personalCenterAction extends homeBaseAction
 		if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
 		$gid = sget('gid','i',0);
 		$result = M('touch:creditshop')->getShopDetail($gid);
-		$result['image']=__UPLOAD__."/{$result['image']}";
+		$result['image']=FILE_URL."/upload/".$result['image'];
 		$this->json_output($result);
 	}
 	/**
