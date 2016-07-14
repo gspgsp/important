@@ -52,7 +52,7 @@
 						<div class="btn">
 							<input type="submit" value="登  录" />
 						</div>
-						<span id="tips" style="color:red;"></span>
+						<span id="tips" style="color:red;font-size: 20px"></span>
 						<p class="qq-login"><a href="/user/login/auth">使用QQ账号登录</a></p>
 					</form>
 				</div>
@@ -79,17 +79,17 @@
 			return false;
 		}
 		if(!is_mobile.test(username)){
-			errMsg('账号或密码错误');
+			errMsg('手机号不合规范');
 			return false;
 		}
 		if(password==''){
 			errMsg('密码不能为空');
 			return false;
 		}
-		if(password.trim() < 6){
-			errMsg('账号或密码错误');
-			return false;
-		}
+//		if(password.trim() < 6){
+//			errMsg('账号或密码错误');
+//			return false;
+//		}
 		$.post('/user/login/dolongin',{username:username,password:password},function (data){
 			if(data.err>0){
 				errMsg(data.msg);
