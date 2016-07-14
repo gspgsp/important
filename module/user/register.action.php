@@ -20,7 +20,7 @@ class registerAction extends homeBaseAction{
 		if(!$this->_chkmobile($mobile)) $this->error($this->err);
 
 		if($this->reg_vcode){
-			$vcode=sget('regcode','s');
+			$vcode=strtolower(sget('regcode','s'));
 			if(empty($vcode)){
 				$this->error('请输入验证码');
 			}
