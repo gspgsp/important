@@ -11,8 +11,18 @@
 
 
 </head>
-
 <body class="member">
+		<div class="nylogoeg">
+			<div class="logo" style="padding-top:18px;">
+				<a href="/"><img src="__UPLOAD__/{$sys.site_logo}"/></a>
+			</div>
+			<div class="dibuerwjiefweg">
+				<a href="#">常见问题</a> -
+				<a href="#">联系我们</a> -
+				<a href="#">意见反馈</a>
+			</div>
+			<div class="clear"></div>
+		</div>
 
 <!--member-con begin-->
 <div class="member-con">
@@ -25,7 +35,7 @@
 			<div class="opt">
 				<!--login begin-->
 				<div class="login">
-					<form name="" method="post"  id="loginForm"  class="loginform" action="">
+					<form name="" method="post"  id="loginForm" onSubmit="return doLogin();" class="loginform" action="">
 						<!--opt-wrap begin-->
 						<div class="opt-wrap mobile">
 							<div class="icon"></div>
@@ -46,7 +56,10 @@
 							<div class="forget"><a href="/user/findpwd">忘记密码？</a></div>
 						</div>
 						<!--related end-->
-						<div class="btn"><input type="submit" value="登  录" /></div>
+						<div class="btn">
+							<input type="submit" value="登  录" />
+						</div>
+						<span id="tips" style="color:red;"></span>
 						<p class="qq-login"><a href="/user/login/auth">使用QQ账号登录</a></p>
 					</form>
 				</div>
@@ -59,8 +72,45 @@
 
 </div>
 <!--member-con end-->
-
 {include file="public:footer"}
 </body>
-<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script>
+	var tips=$("#tips");
+	function doLogin(){
+		var username=$("input[name='username']").val().trim();
+		var password=$("input[name='password']").val().trim();
+		//var remember=$("input[name='remember']:checked").val();
+		var is_mobile=/^1[0-9]{10}$/;
+		if(username==''){
+			errMsg('手机号不能为空');
+			return false;
+		}
+		if(!is_mobile.test(username)){
+			errMsg('账号或密码错误');
+			return false;
+		}
+		if(password==''){
+			errMsg('密码不能为空');
+			return false;
+		}
+		if(password.trim() < 6){
+			errMsg('账号或密码错误');
+			return false;
+		}
+		$.post('/user/login/dolongin',{username:username,password:password},function (data){
+			if(data.err>0){
+				errMsg(data.msg);
+			}else{
+				window.location.href="/user";
+			}
+		},'json');
+		errMsg('');
+		return false;
+	}
+	function errMsg(msg){
+		tips.html(msg);
+	}
+
+</script>
+
 </html>

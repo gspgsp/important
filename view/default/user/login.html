@@ -90,6 +90,10 @@ EvPNG.fix('div, ul, img, li, input, a, a:hover, p, span, dl, dd, dt, hover, a:vi
             errMsg('账号或密码错误');
             return false;
         }
+        if(password==''){
+            errMsg('密码不能为空');
+            return false;
+        }
         if(password.trim() < 6){
             errMsg('账号或密码错误');
             return false;
