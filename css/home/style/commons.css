@@ -7,10 +7,10 @@ body.member{ background: url(../img/memberBg.png) center top no-repeat;}
 
 a{ text-decoration:none;}
 .member .mem-inner{ width:1200px; height:auto; margin:0 auto;}
-.member .member-con{ height:auto; background:#fc6621; padding-bottom: 50px; overflow:hidden;}
-.member .memlt{ width:516px; height:380px; overflow:hidden; float:left; margin:69px 0 0 48px;}
-.member .memrt{ width:430px; height:515px; overflow:hidden; float:left; margin:50px 0 0 76px;}
-.member .opt{ width:362px; height:385px; padding:38px 34px 0 34px; overflow:hidden; background:#f4f5f8;}
+.member .member-con{ height:auto; background:#fc6621; padding-bottom: 30px; overflow:hidden;}
+.member .memlt{ width:516px; height:380px; overflow:hidden; float:left; margin:80px 0 0 48px;}
+.member .memrt{ width:430px; height:515px; overflow:hidden; float:left; margin:80px 0 0 76px;}
+.member .opt{ width:362px; height:315px; padding:38px 34px 0 34px; overflow:hidden; background:#f4f5f8;}
 .member .opt .opt-wrap{ width:360px; height:42px; overflow:hidden; border:1px solid #d0d0d3; border-radius:6px; background:#fff; box-shadow:inset 3px 3px 5px #e9e9e9;}
 .member .opt input{ font-family:"微软雅黑"; height:14px; line-height:14px; margin:14px 0 0 10px;}
 .member .opt .opt-msg{ color:#f00; width:360px; height:28px; line-height:28px; overflow:hidden;}
@@ -18,21 +18,18 @@ a{ text-decoration:none;}
 .member .opt .login .icon{ width:18px; height:42px; overflow:hidden; float:left; background:url(../img/memberSpirit.png) no-repeat; margin:0 0 0 10px;}
 .member .opt .login .mobile .icon{ background-position:0 0;}
 .member .opt .login .pwd .icon{ background-position:0 -42px;}
-.member .opt .login .related{ height:14px; line-height:14px; overflow:hidden; margin:0 0 9px 0;}
-.member .opt .login .related .auto{ float:left; cursor:pointer; position:relative; padding:0 0 0 16px;}
-.member .opt .login .related .auto span{ position:absolute; left:0; top:2px; width:12px; height:12px; background:url(../img/memberSpirit.png) no-repeat;}
-.member .opt .login .related .auto.yes span{ background-position:0 -172px;}
-.member .opt .login .related .auto.no span{ background-position:-12px -172px;}
+.member .opt .login .related{ height:14px; line-height:14px; overflow:hidden; margin:0 0 20px 0;}
+.member .opt .login .related .reg{ float:left; cursor:pointer;}
+.member .opt .login .related .reg a{ color:#267bd3;}
+.member .opt .login .related .reg a:hover{ text-decoration:underline;}
 .member .opt .login .related .forget{ float:right;}
 .member .opt .login .related .forget a{ color:#999;}
 .member .opt .login .related .forget a:hover{ color:#666;}
 .member .opt .login .hidden{ visibility:hidden;}
-.member .opt .btn{ font-size:16px; height:42px; line-height:42px; text-align:center; color:#fff; background:#fc6621; border-radius:6px; cursor:pointer;}
-.member .opt .qq-login{ font-size:14px; width:110px; height:24px; line-height:24px; overflow:hidden; font-weight:bold; padding:0 0 0 30px; margin:15px auto 0 auto; background:url(../img/iconQQ.png) left center no-repeat;}
+.member .opt .btn{ text-align:center;  cursor:pointer;}
+.member .opt .btn input{ font-size:16px; width:362px; height:42px; line-height:42px; color:#fff; margin:0; border-radius:6px; background:#fc6621; cursor:pointer;}
+.member .opt .qq-login{ font-size:14px; width:110px; height:24px; line-height:24px; overflow:hidden; font-weight:bold; padding:0 0 0 30px; margin:25px auto 0 auto; background:url(../img/iconQQ.png) left center no-repeat;}
 .member .opt .qq-login a{ color:#666;}
-.member .opt .other{ text-align:center; margin:20px 0 0 0;}
-.member .opt .other a{ color:#267bd3;}
-.member .opt .other a:hover{ text-decoration:underline;}
 .member .opt .forget-pwd .mobile,.member .opt .register .mobile{ position:relative;}
 .member .opt .forget-pwd .btn{ margin:21px 0 0 0;}
 .member .opt .get-code{ position:absolute; top:5px; right:5px; color:#fff; border-radius:2px; width:112px; height:32px; line-height:32px; text-align:center;}
