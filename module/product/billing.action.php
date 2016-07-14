@@ -103,6 +103,8 @@ class billingAction extends adminBaseAction
 			$arr = M('product:billing')->getLastInfo($name='o_id',$value=$v['o_id']);
 			$red_status = $this->db->where('invoice_status =1 and o_id='.$arr[0]['o_id'])->getAll();
 			$list['data'][$k]['red_status']=empty($red_status)?0:1;
+			//交易员就是当前登录人的名字
+			$list['data'][$k]['username']=$_SESSION['username'];
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);

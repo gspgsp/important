@@ -110,6 +110,9 @@ class collectionAction extends adminBaseAction
 			//附件下载
 			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
 
+			//交易员就是当前登录人的名字
+			$list['data'][$k]['username']=$_SESSION['username'];
+
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);	
