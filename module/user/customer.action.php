@@ -102,7 +102,7 @@ class customerAction extends adminBaseAction {
 			}
 		}
 		$list=$this->db
-		            ->where($where)
+		    ->where($where)
 			->page($page+1,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
@@ -116,6 +116,14 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("y-m-d H:i",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
 			$list['data'][$k]['chk'] = $this->_accessChk();
+			//获取联系人的姓名和手机号
+			$contact = $this->db->model('customer_contact')->select('name,mobile')->where('c_id='.$v['c_id'])->getRow();
+			$list['data'][$k]['name'] = $contact['name'];
+			$list['data'][$k]['mobile'] = $contact['mobile'];
+			//获取最新一次跟踪消息
+			$message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();
+			$list['data'][$k]['remark'] = $message;
+
 		}
 		$this->assign('isPublic',$this->public);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');

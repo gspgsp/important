@@ -4,7 +4,7 @@
  */
 class followAction extends adminBaseAction {
 	public function __init(){
-		$this->db=M('public:common')->model('follow_up');//客户跟进信息表
+		$this->db=M('public:common')->model('customer_follow');//客户跟进信息表
 		$this->assign('follow_up_way',L('follow_up_way'));//跟进方式语言包
 	}
 	/**
