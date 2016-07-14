@@ -731,6 +731,7 @@ class orderAction extends adminBaseAction {
 	 *
 	 */
 	public function pdf(){
+		load::L('pdf');
 		$oid = sget('oid','i',0);
 		if($oid>0){
 			$orderLists=$this->db->from('order as o')->leftjoin('customer as c','c.c_id=o.c_id')->select('o.order_sn,o.total_price,o.order_type,o.payment_way,o.pay_method,o.pickup_location,o.delivery_location,o.sign_time,o.sign_place,o.transport_type,o.payment_time,o.pickup_time,c.c_name,o.customer_manager as ocm')->where('o_id='.$oid)->getRow();
@@ -827,7 +828,7 @@ class orderAction extends adminBaseAction {
 			<td  width="140" align="center">020-98765432</td>
 		 </tr>';
 		$location=!empty($orderList['pickup_location'])?$orderList['pickup_location']:$orderList['delivery_location'];
-		$str = sprintf(L('htmls.html'),(L('transport_type')[$orderList['transport_type']]),'上海梓辰实业有限公司',$orderList['order_sn'],$orderList['c_name'],$orderList['sign_place'],$sign_time,$table1,$location,$pickup_time,(L('transport_type')[$orderList['transport_type']]),(L('pay_method')[$orderList['pay_method']]),$payment_time,$orderLists['payment_way'],$table2);
+		$str = sprintf(L('pdf_template.buy'),(L('transport_type')[$orderList['transport_type']]),'上海梓辰实业有限公司',$orderList['order_sn'],$orderList['c_name'],$orderList['sign_place'],$sign_time,$table1,$location,$pickup_time,(L('transport_type')[$orderList['transport_type']]),(L('pay_method')[$orderList['pay_method']]),$payment_time,$orderLists['payment_way'],$table2);
 		//echo $str;
 		$pdf->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
 		// 输出pdf
