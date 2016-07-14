@@ -13,7 +13,7 @@
 			{if $finance}
 			<tr>
 				<td>发票号<span style="color:red">*</span></td>
-				<td><input name="invoice_sn" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
+				<td><input id='invoice_sn' onblur="checkUnique" name="invoice_sn" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
 			</tr>
 			{/if}
 			<tr>
@@ -222,6 +222,11 @@ function removeRow() {
     	total+=parseFloat(noStockData[i].sum);
     }
     mini.get('billing_price').setValue(total.toFixed(2));
+}
+
+//发票号去重，采购不去重，销售去重
+function checkUnique(){
+	alert(2345);
 }
 
 
