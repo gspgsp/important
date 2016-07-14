@@ -1,0 +1,46 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input{ margin:0; padding:0; border:0;}
+ul,ol,li{ list-style:none;}
+h1,h2,h3,h4{ font-weight:normal;}
+input{ outline:medium;}
+body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
+body.member{ background: url(../img/memberBg.png) center top no-repeat;}
+
+a{ text-decoration:none;}
+.member .mem-inner{ width:1200px; height:auto; margin:0 auto;}
+.member .member-con{ height:auto; background:#fc6621; padding-bottom: 50px; overflow:hidden;}
+.member .memlt{ width:516px; height:380px; overflow:hidden; float:left; margin:69px 0 0 48px;}
+.member .memrt{ width:430px; height:515px; overflow:hidden; float:left; margin:50px 0 0 76px;}
+.member .opt{ width:362px; height:385px; padding:38px 34px 0 34px; overflow:hidden; background:#f4f5f8;}
+.member .opt .opt-wrap{ width:360px; height:42px; overflow:hidden; border:1px solid #d0d0d3; border-radius:6px; background:#fff; box-shadow:inset 3px 3px 5px #e9e9e9;}
+.member .opt input{ font-family:"微软雅黑"; height:14px; line-height:14px; margin:14px 0 0 10px;}
+.member .opt .opt-msg{ color:#f00; width:360px; height:28px; line-height:28px; overflow:hidden;}
+.member .opt .opt-msg p{ height:28px; background:url(../img/memberSpirit.png) no-repeat 0 -144px; margin:0 0 0 12px; padding:0 0 0 21px; display:none;}
+.member .opt .login .icon{ width:18px; height:42px; overflow:hidden; float:left; background:url(../img/memberSpirit.png) no-repeat; margin:0 0 0 10px;}
+.member .opt .login .mobile .icon{ background-position:0 0;}
+.member .opt .login .pwd .icon{ background-position:0 -42px;}
+.member .opt .login .related{ height:14px; line-height:14px; overflow:hidden; margin:0 0 9px 0;}
+.member .opt .login .related .auto{ float:left; cursor:pointer; position:relative; padding:0 0 0 16px;}
+.member .opt .login .related .auto span{ position:absolute; left:0; top:2px; width:12px; height:12px; background:url(../img/memberSpirit.png) no-repeat;}
+.member .opt .login .related .auto.yes span{ background-position:0 -172px;}
+.member .opt .login .related .auto.no span{ background-position:-12px -172px;}
+.member .opt .login .related .forget{ float:right;}
+.member .opt .login .related .forget a{ color:#999;}
+.member .opt .login .related .forget a:hover{ color:#666;}
+.member .opt .login .hidden{ visibility:hidden;}
+.member .opt .btn{ font-size:16px; height:42px; line-height:42px; text-align:center; color:#fff; background:#fc6621; border-radius:6px; cursor:pointer;}
+.member .opt .qq-login{ font-size:14px; width:110px; height:24px; line-height:24px; overflow:hidden; font-weight:bold; padding:0 0 0 30px; margin:15px auto 0 auto; background:url(../img/iconQQ.png) left center no-repeat;}
+.member .opt .qq-login a{ color:#666;}
+.member .opt .other{ text-align:center; margin:20px 0 0 0;}
+.member .opt .other a{ color:#267bd3;}
+.member .opt .other a:hover{ text-decoration:underline;}
+.member .opt .forget-pwd .mobile,.member .opt .register .mobile{ position:relative;}
+.member .opt .forget-pwd .btn{ margin:21px 0 0 0;}
+.member .opt .get-code{ position:absolute; top:5px; right:5px; color:#fff; border-radius:2px; width:112px; height:32px; line-height:32px; text-align:center;}
+.member .opt .get-code.enable{ background:#fc6621; cursor:pointer;}
+.member .opt .get-code.disabled{ background:#626774;}
+.member .opt .code{ color:#333; font-size:18px; width:104px; height:42px; line-height:42px; text-align:center; float:right; background:#e4e4e4; cursor:pointer;}
+.member .opt .success{ width:240px; height:60px; line-height:60px; color:#56a41c; font-size:30px; background:url(../img/memberSpirit.png) no-repeat 0 -84px; padding:0 0 0 87px; margin:0 auto; margin-top:104px;}
+.member .opt .hide{ display:none;}
+ 
+
+
