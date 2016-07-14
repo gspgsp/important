@@ -381,7 +381,7 @@ class customerAction extends adminBaseAction {
 		$data = trim($_POST['data']);
 		if(empty($data)) $this->error('请填写公司名称');
 		$res = M('user:customer')->curUnique('c_name',$data);
-		if(!$res) $this->success('存在相同的公司名称,请修改！');
+		if(!$res) $this->success('存在相同的公司名称,请与饶伟平联系共享！');
 		$this->success('查询的公司不重复');
 	}
 
