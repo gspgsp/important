@@ -103,8 +103,7 @@ class billingAction extends adminBaseAction
 			$arr = M('product:billing')->getLastInfo($name='o_id',$value=$v['o_id']);
 			$red_status = $this->db->where('invoice_status =1 and o_id='.$arr[0]['o_id'])->getAll();
 			$list['data'][$k]['red_status']=empty($red_status)?0:1;
-			//交易员就是当前登录人的名字
-			$list['data'][$k]['username']=$_SESSION['username'];
+			
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
@@ -221,6 +220,7 @@ class billingAction extends adminBaseAction
 			//业务员提交申请开票
 			
 			$data['input_time']=CORE_TIME;
+			$data['customer_manager']=$_SESSION['adminid'];
 			//判断生成开票号,审核时才有
 			$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 			$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);

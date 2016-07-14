@@ -52,7 +52,6 @@ class accountAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['type'] = L('account_status')[$list['data'][$k]['type']];//账户类型	
 
-			$list['data'][$k]['update_admin']=$this->db->model('admin')->where('admin_id ='.$v['update_admin'])->select('name')->getOne();
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);

@@ -605,26 +605,26 @@ class orderAction extends adminBaseAction {
 					$add_data['order_id']=$data['o_id'];
 					$add_data['order_type']=$data['order_type'];
 
-					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['adminid']))) throw new Exception("交易失败");
+					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username'],'customer_manager'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 
 					//修改account账户信息，1是销售，收款
 
 					if($data['order_type']==1){
-						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['adminid'])) throw new Exception("交易失败");
+						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['username'])) throw new Exception("交易失败");
 
 					}else{
 						$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
 						if ($data['collected_price']>$money) {
 							$this->error('余额不足');
 						}else{
-							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['adminid'])) throw new Exception("交易失败");
+							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['username'])) throw new Exception("交易失败");
 						}
 					
 					}
 
 				}else{
 					$data['uncollected_price'] = $m;
-					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
+					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid'],'input_admin'=>$_SESSION['username']))) throw new Exception("交易失败");
 				}
 			} catch (Exception $e) {
 				$this->db->rollback();

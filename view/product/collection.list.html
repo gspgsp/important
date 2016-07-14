@@ -68,10 +68,9 @@
 		
 		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >{if $type eq '1'}收款日期{else}付款日期{/if}</div>
 
-		<!-- <div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
-		<div field="input_admin" width="30" headerAlign="center" align="center">创建者</div> -->
+		<!-- <div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div> -->
+		<div field="input_admin" width="30" headerAlign="center" align="center">业务员</div>
 		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
-		<div field="username" width="30" headerAlign="center" align="center">交易员</div>
 		{if $type eq 2}
 			<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>	
 		{/if}
