@@ -94,16 +94,11 @@ class customer_billingAction extends adminBaseAction
 		if(empty($data)){
 			$this->error('错误的请求');
 		}
-
 		if(validCompanyBankNo($data['invoice_account'])['err']==1){$this->error('银行卡号错误');}
 		$data['invoice_account'] = desEncrypt($data['invoice_account']);
 		if ($data['id']>0) {
-			$result = $this->db->where('id='.$data['id'])->update($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],'status'=>0,));
-		}else{
-			$result = $this->db->add($data+array('input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],));
+			$result = $this->db->where('id='.$data['id'])->update($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],'status'=>1,));
 		}
-		
 		if(!$result) $this->error('操作失败');
 		$cache=cache::startMemcache();
 		$cache->delete('customer_billing');
