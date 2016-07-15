@@ -97,8 +97,9 @@ class orderAction extends adminBaseAction {
 		//关键词搜索
 		$key_type=sget('key_type','s','order_sn');
 		$keyword=sget('keyword','s');
-		if(!empty($keyword) && $key_type=='order_name'  ){
-			$where.=" and `$key_type`  like '%$keyword%' ";
+		if(!empty($keyword) && $key_type=='input_admin'  ){
+			$admin_id = M('rbac:adm')->getAdmin_Id($keyword);
+			$where.=" and `customer_manager` = $admin_id";
 		}elseif(!empty($keyword) && $key_type=='c_id'){
 			$keyword=M('product:order')->getOidByCname($keyword);
 			$where.=" and `$key_type` in ('$keyword') ";
