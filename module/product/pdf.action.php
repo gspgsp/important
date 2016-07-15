@@ -1,0 +1,318 @@
+<?php 
+
+class pdfAction extends adminBaseAction {
+	public function __init(){
+		$this->debug = false;
+		$this->db=M('public:common')->model('order');
+	}
+	/**
+	 * 合同 PDF
+	 *
+	 */
+	public function pdf(){
+		$arr = array(
+			'pdf_template'=>array(
+			'sale'=>'<table width="635" border="0" align="center" bgcolor="#fff">
+		<tr ><td>&nbsp;</td></tr>
+	<tr >
+		<td colspan="2" align="center"><h1>销售合同书</h1></td>
+	</tr>
+	
+	<tr height="20"><td>&nbsp;</td></tr>
+	<tr align="left">
+		<td width="440" height="20">供方（甲方）：上海中晨电子商务股份有限公司</td>
+		<td height="20">合同编号：SH2016041404</td>
+	</tr>
+	<tr  align="left">
+		<td  width="440" height="20">需方（乙方）：潍坊信步贸易有限公司</td>
+		<td height="20">签约地点：上海 虹口</td>
+	</tr>
+	<tr  align="left">
+		<td height="20"></td>
+		<td height="20">签约时间：2016-04-14 10:20</td>
+	</tr>
+	<tr align="left">
+		<td colspan="2" height="20" width="600">甲、乙双方经协商，根据《中华人民共和国合同法》相关规定，就以下产品的购销等有关事宜，签订本合同</td>
+	</tr>
+</table>
+<table width="635" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#666">
+	<tr>
+		<td colspan="7" bgcolor="#FFFFFF" height="20" style="line-height:20px;">&nbsp;一、产品名称、型号（规格）、产地、数量、单价、金额：</td>
+	</tr>
+	%s
+</table>
+<table width="635" align="left" bgcolor="#fff">
+	<tr>
+		<td width="30"  height="20" style="line-height:20px;">二、</td>
+		<td width="100"  height="20" style="line-height:20px;">质量标准：</td>
+		<td  width="465"  height="20" style="line-height:20px;">以生产厂家该牌号质量标准为准</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td  height="20" style="line-height:20px;">包装标准：</td>
+		<td  height="20" style="line-height:20px;">以生产厂家的包装标准为准</td>
+	</tr>
+</table>
+<table width="635" align="left" bgcolor="#fff">
+  <tr>
+		<td width="30"  height="20" style="line-height:20px;">三、</td>
+		<td width="100" align="left"  height="20" style="line-height:20px;">提货地点：</td>
+		<td></td>
+	</tr>
+  <tr>
+		<td></td>
+		<td  height="20" style="line-height:20px;">提货日期：</td>
+		<td></td>
+	</tr>
+  <tr>
+		<td></td>
+		<td  height="20" style="line-height:20px;">运输方式及运费：</td>
+		<td width="440"  height="20" style="line-height:20px;">运输方式按照以下第__种。 1.乙方自提。2.甲方代办托运。3.甲方送货。</td>
+	</tr>
+</table>
+<table width="635" align="left" bgcolor="#fff">
+  <tr>
+		<td width="30" height="20" style="line-height:20px;">四、</td>
+		<td width="100" height="20" style="line-height:20px;">验收标准方式：</td>
+		<td width="465" height="20" style="line-height:20px;">1、验收标准：按照本合同第一条、第二条标准。</td>
+  </tr>
+  <tr>
+		<td height="20" style="line-height:20px;" ></td>
+		<td height="20" style="line-height:20px;"></td>
+		<td width="505" height="20" style="line-height:20px;">2、验收方式：对于数量、包装有异议，乙方须在到货当日以书面形式向甲方提出。对于质量或其他有异议的，乙方须在到货之日起三日内，以书面形式向甲方提出。否则，视为验收合格。</td>
+  </tr>
+  <tr>
+		<td height="20" style="line-height:20px;"></td>
+		<td height="20" style="line-height:20px;"></td>
+		<td width="505" height="20" style="line-height:20px;">3、合理损耗为总量的千分之三，凡在合理损耗范围内短缺，甲方不负责赔偿。</td>
+  </tr>
+</table>
+<table width="635" align="left" bgcolor="#fff">
+  <tr>
+		<td width="30" height="20" style="line-height:20px;">五、</td>
+		<td width="100" height="20" style="line-height:20px;">付款方式：</td>
+		<td width="505" height="20" style="line-height:20px;">银行电汇</td>
+  </tr>
+  <tr>
+		<td height="20" style="line-height:20px;"></td>
+		<td height="20" style="line-height:20px;">付款日期：</td>
+		<td width="505" height="20" style="line-height:20px;">2016/7/13，款到提货</td>
+  </tr>
+</table>
+<table width="635" align="left" bgcolor="#fff">
+  <tr>
+		<td width="30" height="20" style="line-height:20px;">六、</td>
+		<td width="100" height="20" style="line-height:20px;">所有权归属：</td>
+		<td width="505" height="20" style="line-height:20px;">乙方付清全部货款前，无论货物是否交付，全部货物所有权归属甲方。乙方付清全部货款后，提货之日起货物所有权归属乙方，乙方付清全部货款后，提款之日起货物毁损灭失等风险由乙方承担。</td>
+	</tr>
+</table>
+<table width="635" align="left" bgcolor="#fff">
+  <tr>
+		<td width="30" height="20" style="line-height:20px;">七、</td>
+		<td width="100" height="20" style="line-height:20px;">违约责任：</td>
+		<td width="505" height="20" style="line-height:20px;">1、甲方承担赔偿责任的， 仅限于乙方直接损失，且以相应货物价值为限。</td>
+	</tr>
+  <tr>
+		<td height="20" style="line-height:20px;"></td>
+		<td height="20" style="line-height:20px;"></td>
+		<td width="505" height="20" style="line-height:20px;">2、乙方逾期付款的，应向甲方支付违约金，违约金按照本合同总金额每日千分之八计算。因此产生的运输费、仓储费、诉讼费、保全费、律师费、差旅费、货物价格波动损失及其他损失由乙方承担。逾期付款超过三日的，甲方有权解除合同。</td>
+	</tr>
+  <tr>
+		<td height="20" style="line-height:20px;"></td>
+		<td height="20" style="line-height:20px;"></td>
+		<td width="505" height="20" style="line-height:20px;">3、乙方逾期提货的，应向甲方支付违约金，违约金计算参照本条第2款。因此产生仓储费用等及其他损失由乙方承担。逾期提货超过三日的，甲方有权解除合同。</td>
+	</tr>
+  <tr>
+		<td></td>
+		<td></td>
+		<td width="465" height="20" style="line-height:20px;">4、乙方股东及法定代表人对上述违约责任承担连带责任。</td>
+	</tr>
+</table>
+<table width="635" align="left" bgcolor="#fff">
+  <tr>
+		<td width="30" height="20" style="line-height:20px;">八、</td>
+		<td width="100" height="20" style="line-height:20px;">争议解决：</td>
+		<td width="505" height="20" style="line-height:20px;">双方合同履行过程中产生纠纷，应协商解决，协商不成的，应向甲方住所地人民法院起诉。</td>
+	</tr>
+</table>
+<table width="635" align="left" bgcolor="#fff">
+  <tr>
+		<td width="30" height="20" style="line-height:20px;">九、</td>
+		<td width="100" height="20" style="line-height:20px;">其他约定：</td>
+		<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方开始给乙方17%的增值税发票。</td>
+	</tr>
+  <tr>
+		<td></td>
+		<td></td>
+		<td width="505" height="20" style="line-height:20px;">2、乙方于合同签订当日下午4:30前盖章回传有效，超过上述时间回传的无效。</td>
+	</tr>
+  <tr>
+		<td></td>
+		<td></td>
+		<td width="505" height="20" style="line-height:20px;">3、本合同自双方盖章后生效，一式两份，双方各执一份。传真件具有同等法律效力。</td>
+	</tr>
+</table>
+<table width="635" align="center" bgcolor="#fff" style="border-bottom:2px solid #000;">
+	<tr>
+		<td colspan="4" height="2" style="line-height:2px;"></td>
+	</tr>
+</table>
+<table width="635" align="center" bgcolor="#fff" style="border:2px solid #000;">
+	<tr>
+		<td colspan="4" height="20" style="line-height:20px;"></td>
+	</tr>
+	%s
+</table>',
+	),
+		);
+		// load::L('pdf');
+		$oid = sget('oid','i',0);
+		if($oid>0){
+			$orderLists=$this->db->from('order as o')->leftjoin('customer as c','c.c_id=o.c_id')->select('o.order_sn,o.total_price,o.order_type,o.payment_way,o.pay_method,o.pickup_location,o.delivery_location,o.sign_time,o.sign_place,o.transport_type,o.payment_time,o.pickup_time,c.c_name,o.customer_manager as ocm')->where('o_id='.$oid)->getRow();
+			if($orderLists['order_type']==1){
+				$detiless=$this->db->from('sale_log as s')
+						->leftjoin('product as p','p.id=s.p_id')
+						->leftjoin('factory as f','p.f_id=f.fid')
+						->select('s.o_id,s.number,s.unit_price,p.model,p.product_type,f.f_name')
+						->where('s.o_id='.$oid)->getAll();
+			}else{
+				$detiless=$this->db->from('purchase_log as s')
+						->leftjoin('product as p','p.id=s.p_id')
+						->leftjoin('factory as f','p.f_id=f.fid')
+						->select('s.o_id,s.number,s.unit_price,p.model,p.product_type,f.f_name')
+						->where('s.o_id='.$oid)->getAll();
+			}	
+		}
+		$admname = M('rbac:adm')->getUserByCol($orderLists['ocm']);
+		$orderList=!empty($orderLists)?$orderLists:false;
+		$detiles=!empty($detiless)?$detiless:false;
+		//提货日期
+		$pickup_time=!empty($orderLists['pickup_time'])?date('Y年m月d日',$orderLists['pickup_time']):'-';
+		//签约时间
+		$sign_time=!empty($orderLists['sign_time'])?date('Y-m-d',$orderLists['sign_time']):'-';
+		//付款时间
+		$payment_time=!empty($orderLists['payment_time'])?date('Y-m-d',$orderList['payment_time']):'-';
+		foreach($detiles as $k => $v){
+			$detail_info .= '<tr >
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_type']].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['model'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['f_name'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">吨</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['unit_price'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number']*$v['unit_price'].'</td>
+			</tr >';
+		}
+		E('TCPdf',APP_LIB.'extend');
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$pdf->SetTitle('上海中晨电商合同报表');
+		$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
+		// 设置默认等宽
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+		// 设置间距
+		$pdf->SetMargins(15, 20, 15);
+		$pdf->SetHeaderMargin(3);
+		$pdf->SetFooterMargin(10);
+		// 设置分页
+		$pdf->SetAutoPageBreak(TRUE, 25);
+		$pdf->setImageScale(1.25);
+		$pdf->setFontSubsetting(true);
+		// 设置中文字体
+		$pdf->SetFont('stsongstdlight','', 10);
+		$pdf->AddPage();
+		$total=$this->_cny($orderList['total_price']);
+		$table1='<tr>
+				<td width="130" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">产品名称</td>
+				<td width="60" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">规格/型号</td>
+				<td width="140" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">产地</td>
+				<td width="30" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">单位</td>
+				<td width="75" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">数量</td>
+				<td width="92" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">单价</td>
+				<td width="100" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">金额</td>
+			</tr>
+			' .$detail_info. '
+			<tr>
+				<td bgcolor="#FFFFFF"  height="20" style="line-height:20px;">合计</td>
+				<td colspan="6" bgcolor="#FFFFFF" class="number"  height="20" style="line-height:20px;">'.$orderList['total_price'].'</td>
+			</tr>
+			<tr>
+				<td bgcolor="#FFFFFF"  height="20" style="line-height:20px;">合计人民币（大写）</td>
+				<td colspan="6" bgcolor="#FFFFFF" class="number"  height="20" style="line-height:20px;">'.$total.'</td>
+			</tr>
+			';
+		$table2='
+			<tr>
+				<td align="right" height="20" style="line-height:20px;" width="110">&nbsp;甲方（签章）：</td>
+				<td align="left" height="20" style="line-height:20px;"  width="200">'.上海梓辰实业有限公司.'</td>
+				<td align="right" height="20" style="line-height:20px;"  width="110">&nbsp;乙方（签章）：</td>
+				<td align="left" height="20" style="line-height:20px;"  width="215">'.$orderList['c_name'].'</td>
+			</tr>
+			<tr>
+				<td align="right" height="20" style="line-height:20px;" width="105">法人：</td>
+				<td>'.李铁道.'</td>
+				<td align="right" height="20" style="line-height:20px;" width="105">法人：</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td align="right" height="20" style="line-height:20px;" width="105">经办人：</td>
+				<td>'.$admname.'</td>
+				<td align="right" height="20" style="line-height:20px;" width="105">经办人：</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td align="right" height="20" style="line-height:20px;" width="105">传真：</td>
+				<td>021-61673516</td>
+				<td align="right" height="20" style="line-height:20px;" width="105">传真：</td>
+				<td>020-98765432</td>
+			</tr>
+			';
+		$location=!empty($orderList['pickup_location'])?$orderList['pickup_location'] : $orderList['delivery_location'];
+		$str = sprintf($arr['pdf_template']['sale'],'上海梓辰实业有限公司',$orderList['order_sn'],$orderList['c_name'],$orderList['sign_place'],$sign_time,$table1,$location,$pickup_time,(L('transport_type')[$orderList['transport_type']]),(L('pay_method')[$orderList['pay_method']]),$payment_time,$orderLists['payment_way'],$table2);
+		$pdf->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
+		// 输出pdf
+		$pdf->Output("{$orderLists['order_sn']}.pdf", 'I');
+		}
+		/**
+		 * 人民币转文字
+		 * @Author   cuiyinming
+		 * @DateTime 2016-06-16T12:17:28+0800
+		 * @param    [type]                   $ns [description]
+		 * @return   [type]                       [description]
+		 */
+		private function _cny($ns){
+			static $cnums = array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖"),
+			$cnyunits = array("圆","角","分"),
+			$grees = array("拾","佰","仟","万","拾","佰","仟","亿");
+			list($ns1,$ns2) = explode(".",$ns,2);
+			$ns2 = array_filter(array($ns2[1],$ns2[0]));
+			$ret = array_merge($ns2,array(implode("",$this->_cny_map_unit(str_split($ns1), $grees)), ""));
+			$ret = implode("",array_reverse($this->_cny_map_unit($ret,$cnyunits)));
+			return str_replace(array_keys($cnums), $cnums,$ret);
+		}
+		/**
+		 * 循环处理
+		 * @Author   cuiyinming
+		 * @DateTime 2016-06-16T12:18:07+0800
+		 * @param    [type]                   $list  [description]
+		 * @param    [type]                   $units [description]
+		 * @return   [type]                          [description]
+		 */
+		private function _cny_map_unit($list,$units){
+			$ul = count($units);
+			$xs = array();
+			foreach (array_reverse($list) as $x)
+			{
+				$l = count($xs);
+				if($x!="0" || !($l%4))
+				{
+					$n=($x=='0'?'':$x).($units[($l-1)%$ul]);
+				}
+				else
+				{
+					$n=is_numeric($xs[0][0]) ? $x : '';
+				}
+				array_unshift($xs, $n);
+			}
+			return $xs;
+		}
+	}
