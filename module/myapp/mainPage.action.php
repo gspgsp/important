@@ -489,6 +489,7 @@ class mainPageAction extends homeBaseAction
         $id=sget('id','i',0);
         if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $articleDetail['input_time'] = date("Y-m-d",$articleDetail['input_time']);
+        $articleDetail['brief'] = mb_substr($articleDetail['content'],0,10,'utf-8')."...";
         $this->json_output(array('err'=>0,'articleDetail'=>sstripslashes($articleDetail)));
     }
     //进入发布报价
