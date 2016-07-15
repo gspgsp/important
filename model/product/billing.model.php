@@ -19,4 +19,19 @@ class billingModel extends model{
 		}
 		return empty($ids)?false:$exist;
 	}
+
+	/*
+	 * 检查唯一性
+	 * @param string $name 检查类型
+	 * @param string $value 检查值
+	 * @return bool（true唯一）
+	 */
+	public function curUnique($name='invoice_sn',$value='',$c_id=0){
+		$where = "$name='$value'";
+		if($c_id){
+			$where .= " and c_id !='$c_id'";
+		}
+		$exist=$this->model('billing')->select('c_id')->where($where)->getOne();
+		return $exist>0 ? false : true;
+	}
 }
