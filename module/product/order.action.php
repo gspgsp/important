@@ -99,7 +99,7 @@ class orderAction extends adminBaseAction {
 		$keyword=sget('keyword','s');
 		if(!empty($keyword) && $key_type=='input_admin'  ){
 			$admin_id = M('rbac:adm')->getAdmin_Id($keyword);
-			$where.=" and `customer_manager` = $admin_id";
+			$where.=" and `customer_manager` = '$admin_id'";
 		}elseif(!empty($keyword) && $key_type=='c_id'){
 			$keyword=M('product:order')->getOidByCname($keyword);
 			$where.=" and `$key_type` in ('$keyword') ";
@@ -394,7 +394,7 @@ class orderAction extends adminBaseAction {
 
 		//p($c_info);die;
 		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
-		$username  = $user_name[username];
+		$username  = $user_name['name'];
 		
 		//订单中没有业务员id就传input_admin过去
 		if (empty($username)) {
@@ -597,7 +597,7 @@ class orderAction extends adminBaseAction {
 					$id = $data['id'];
 					unset($data['id']);
 					//更新收付款信息
-					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'admin_id'=>$_SESSION['adminid']))) throw new Exception("交易失败");
+					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid']))) throw new Exception("交易失败");
 					//添加account_log账户明细信息,默认设计账户类型就是账户id
 					$add_data['account_id']=$data['account'];
 					$add_data['money']=$data['collected_price'];
@@ -611,14 +611,14 @@ class orderAction extends adminBaseAction {
 					//修改account账户信息，1是销售，收款
 
 					if($data['order_type']==1){
-						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['username'])) throw new Exception("交易失败");
+						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) throw new Exception("交易失败");
 
 					}else{
 						$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
 						if ($data['collected_price']>$money) {
 							$this->error('余额不足');
 						}else{
-							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`=".$_SESSION['username'])) throw new Exception("交易失败");
+							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) throw new Exception("交易失败");
 						}
 					
 					}
