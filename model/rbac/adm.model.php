@@ -62,5 +62,17 @@ class admModel extends model{
 		$nodes=$this->model('admin')->select('admin_id')->where("name like '%$name%' ")->getCol();
 		return $nodes;
 	}
+
+	/*
+	 * 根据管理员姓名，精确查出所有管理员id
+	 * @access public
+	 * @param int $name 管理员姓名
+	 * @return array
+	 */
+	public function getAdmin_Id($name) {
+		//获取所有非超管
+		$nodes=$this->model('admin')->select('admin_id')->where("name='$name'")->getOne();
+		return $nodes;
+	}
 }
 ?>
