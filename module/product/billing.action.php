@@ -166,6 +166,10 @@ class billingAction extends adminBaseAction
 		$billingModel=M('product:billing');
 		$billingLogModel=M('product:billingLog');
 		$data['payment_time']=strtotime($data['payment_time']);
+		//开票号去重
+		$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);	
+		if(!$res) $this->error("发票号重复,请更换！");
+
 		$purchaseLogModel=M('product:purchaseLog');
 		$saleLogModel=M('product:saleLog');
 		$orderModel=M('product:order');
@@ -513,5 +517,15 @@ class billingAction extends adminBaseAction
 	// 	//p($unit_price);
 
 	//}
+	
+	/**
+	 * 发票号去重
+	 */
+	public function curUnique(){
+		$data = trim($_POST['data']);
+		if(empty($data)) $this->error('请填写发票号');
+		$res = M('product:billing')->curUnique('invoice_sn',$data);	
+		if(!$res) $this->error("发票号重复,请更换！");
+	}
 
 }
