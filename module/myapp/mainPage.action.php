@@ -491,7 +491,8 @@ class mainPageAction extends homeBaseAction
         $articleDetail['input_time'] = date("Y-m-d",$articleDetail['input_time']);
         $content = strip_tags($articleDetail['content']);
         $articleDetail['brief'] = mb_substr($content,0,10,'utf-8')."...";
-        $this->json_output(array('err'=>0,'articleDetail'=>sstripslashes($articleDetail)));
+        // $this->json_output(array('err'=>0,'articleDetail'=>sstripslashes($articleDetail)));
+        $this->json_output(array('err'=>0,'articleDetail'=>$articleDetail));
     }
     //进入发布报价
     public function enReleaseSale(){
