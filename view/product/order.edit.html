@@ -47,7 +47,11 @@
 						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;" onvaluechanged="changtransport" required="false"/>
 						</td>
 					</tr>	
-					{/if}	
+					{/if}
+					<tr>
+						<td>联系传真<font style="color:red;"> * </font></td>
+						<td><input name="c_fax" class="mini-combobox" style="width:125px;" value="{$info.c_fax}" data='{:setMiniConfig|$c_fax}'  required="true" textfield="name" valuefield="id"/></td>
+					</tr>	
 					<tr id="send">
 						<td><font style="color:blue;">送货日期</font><font style="color:red;"> * </font></td>
 						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
