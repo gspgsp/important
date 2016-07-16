@@ -25,6 +25,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('purchase_type',L('purchase_type')); //采购类型
 		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
 		$this->assign('billing_type',L('billing_type'));    	//开票类型
+		$this->assign('c_fax',L('c_fax'));  //联系传真
 	}
 	/**
 	 *
