@@ -135,8 +135,13 @@ class purchaseLogAction extends adminBaseAction {
 		//$to='mn';
 		//$this->assign('to',$to);
 		//$this->assign('tot',$tot);
+		$msg="";
+		if($list['count']>0){
+			$sum=$this->db->select("sum(number) as wsum, sum(remainder) as msum")->where($where)->getRow();
+			$msg="[筛选结果]数量:【".$sum['wsum']."】未入数量:【".$sum['wsum']."】";
+		}
+		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->assign('doact',$doact);
-		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
 	/**

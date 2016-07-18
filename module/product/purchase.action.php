@@ -116,7 +116,6 @@ class purchaseAction extends adminBaseAction {
 				$list['data'][$k]['provinces'] = M('system:region')->get_name($v['provinces']);
 			}
 		}
-
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}	

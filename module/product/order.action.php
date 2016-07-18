@@ -154,7 +154,12 @@ class orderAction extends adminBaseAction {
 			$v['one_b_status']=M("product:billing")->where("o_id={$v['o_id']} and invoice_status=1")->select('invoice_status')->getOne();
 
 		}
-		$result=array('total'=>$list['count'],'data'=>$list['data']);
+		$msg="";
+		if($list['count']>0){
+			$sum=$this->db->select("sum(total_num) as wsum, sum(total_price) as msum")->where($where)->getRow();
+			$msg="[筛选结果]总额:【".price_format($sum['msum'])."】总吨:【".$sum['wsum']."】";
+		}
+		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->json_output($result);
 	}
 	/**
