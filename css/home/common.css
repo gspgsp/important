@@ -264,10 +264,10 @@ a{ text-decoration:none;}
 .index .oil-k .oil-k-title .time{ color:#999; float:right; margin:5px 0 0 0;}
 .index .oil-k .oil-k-title .time b{ font-weight:normal; margin:0 22px 0 0;}
 .index .oil-k .oil-con{ width:360px; height:200px; background:#EEE;}
-.index .right .title{ color: #333; font-size:14px; overflow:visible;}
+.index .right .title{ border-bottom-color:#45ae73; color: #333; font-size:14px; overflow:visible;}
 .index .right .title li{ float:left; position:relative; cursor:pointer;}
 .index .right .title li.hover b{ position:absolute; left:36%; bottom:-8px; width:18px; height:8px; background:url(../../images/home/tabaBg.png) no-repeat;}
-.index .right .title li.hover span{ color:#fc6621;}
+.index .right .title li.hover span{ color:#45ae73;}
 .index .right .title li span{ margin:0 8px; cursor:pointer;}
 .index .right .taba{ width:398px; height:256px; overflow:hidden; border-bottom:1px solid #d6d7dc; border-right:1px solid #d6d7dc;}
 .index .right .taba .taba-con{ height:230px; margin:18px 0 0 0;}
@@ -380,7 +380,8 @@ a{ text-decoration:none;}
 /*floor2 end*/
 
 /*floor3 begin*/
-.ship{ height:auto; overflow:hidden;}
+.ship{ height:auto; overflow:hidden; border:1px solid #d6d7dc; border-top: none;}
+.ship.info .left,.ship.info .right{ border:none;}
 .ship .left,.ship .right{ height:332px;}
 .ship .left h2{ font-size:18px; width:270px; height:58px; line-height:58px; text-align:center; background:url(../../images/home/spirit.png) no-repeat 0 -163px; margin:0 auto;}
 .ship .left h2 span{ color:#48b173;}
@@ -393,7 +394,8 @@ a{ text-decoration:none;}
 /*floor3 end*/
 
 /*floor4 begin*/
-.supply-chain{ height:auto; overflow:hidden;}
+.supply-chain{ height:auto; overflow:hidden; border:1px solid #d6d7dc; border-top:none;}
+.supply-chain.info .left,.supply-chain.info .right{ border:none; }
 .supply-chain .left,.supply-chain .right{ height:397px;}
 .supply-chain .left h2{ font-size:18px; text-align:center; width:320px; height:58px; line-height:58px; background:url(../../images/home/spirit.png) no-repeat 0 -221px; margin:0 auto;}
 .supply-chain .left h2 span{ color:#fc6621;}
