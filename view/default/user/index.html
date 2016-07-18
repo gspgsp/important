@@ -34,7 +34,7 @@
 					<h2>{$data.c_name}</h2>
 					<span>上次登录时间：
 
-						{$data.last_login|date: Y-m-d :H:i}
+						{$data.last_login|date: Y-m-d H:i}
 						</span>
     			</div>
     			<!--cen end-->
@@ -59,16 +59,16 @@
     					<!--census begin-->
     					<div class="census flt">
 							{foreach from=$data1 item=val key=key}
-    						<p>待审核（<span>{$val[number]}</span>）</p>
+    						<p><a href="/user/selforder?order_status=1">待审核（<span>{$val[number]}</span>）</a></p>
 							{/foreach}
 							{foreach from=$data2 item=val key=key}
     						<p>待付款（<span>{$val[number]}</span>）</p>
 							{/foreach}
 							{foreach from=$data3 item=val key=key}
-    						<p>待开票（<span>{$val[number]}</span>）</p>
+    						<p><a href="/user/selforder?invoice_status=1">待开票（<span>{$val[number]}</span>）</a></p>
 							{/foreach}
 							{foreach from=$data4 item=val key=key}
-    						<p>已取消（<span>{$val[number]}</span>）</p>
+    						<p><a href="/user/selforder?order_status=3">已取消（<span>{$val[number]}</span>）</a></p>
 							{/foreach}
     					</div>
     					<!--census end-->
@@ -82,16 +82,16 @@
     					<!--census begin-->
     					<div class="census flt">
 							{foreach from=$info1 item=val key=key}
-							<p>待审核（<span>{$val[number]}</span>）</p>
+							<p><a href="user/unionorder?order_status=1">待审核（<span>{$val[number]}</span>）</a></p>
 							{/foreach}
 							{foreach from=$info2 item=val key=key}
 							<p>待付款（<span>{$val[number]}</span>）</p>
 							{/foreach}
 							{foreach from=$info3 item=val key=key}
-							<p>待开票（<span>{$val[number]}</span>）</p>
+							<p><a href="/user/unionorder?invoice_status=1">待开票（<span>{$val[number]}</span>）</a></p>
 							{/foreach}
 							{foreach from=$info4 item=val key=key}
-							<p>已取消（<span>{$val[number]}</span>）</p>
+							<p><a href="/user/unionorder?order_status=3">已取消（<span>{$val[number]}</span>）</a></p>
 							{/foreach}
     					</div>
     					<!--census end-->

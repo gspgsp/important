@@ -16,7 +16,7 @@ class changepassAction extends userBaseAction{
 			if( strlen($old)<6||strlen($old)>16 ) $this->error('密码长度为6-16位字符');
 			if( strlen($new)<6||strlen($new)>16 ) $this->error('密码长度为6-16位字符');
 			if( $new!=$renew ) $this->error('两次密码不一致');
-			$model=M("user:customerContact");
+			$model=new customerContactModel();
 			$uinfo=$model->where("user_id=$this->user_id")->getRow();
 			if(empty($uinfo)) $this->error('错误的账号');
 			$npassword=M('system:sysUser')->genPassword($old.$uinfo['salt']);

@@ -20,7 +20,7 @@
     <div class="left flt">
     	<div class="title">
             {if $smarty.session.userid > 0 }
-        	<span>您好，{$smarty.session.uinfo.real_name}</span>
+        	<span>您好，{$smarty.session.uinfo.name}</span>
             <a href="/user/logout">退出</a>
             {else}
             <span>请登录</span>

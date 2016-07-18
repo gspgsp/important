@@ -24,12 +24,10 @@ class indexAction extends homeBaseAction{
                 $this->signDay = json_decode($singData['sing_status'], true);
             }
         }
-
 		$p=sget('page','i',1);
 		$size=20;
 		$where='1';
 		$where.=" and status=1";
-
 		if($cate_id=sget('cate','i',0)){
 			$where.=" and cate_id=$cate_id";
 		}
@@ -45,6 +43,7 @@ class indexAction extends homeBaseAction{
 		$this->assign('signDay', $this->signDay);
 		$this->assign('today', $this->today);
 		$this->display('index.html');
+
 	}
 
 
