@@ -47,7 +47,6 @@ class indexAction extends homeBaseAction{
 			$this->pages = pages($count, $p, $pageSize);
 			$this->assign('list', $list);
 		}
-
 		$this->display('index.html');
 	}
 
