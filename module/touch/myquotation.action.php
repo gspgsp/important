@@ -18,8 +18,7 @@ class myquotationAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i');//1采购 2报价
-        $result = array();
-        $result = M('touch:purchase')->getPurchase($this->user_id,$type);
+        if(!$result = M('touch:purchase')->getPurchase($this->user_id,$type)) $this->json_output(array('err'=>2,'msg'=>'没有相关数据!'));
         $this->json_output($result);
     }
     //单个上架，下架切换

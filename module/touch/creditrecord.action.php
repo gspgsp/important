@@ -18,6 +18,9 @@ class creditrecordAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
 		$result = array();
 		$result = M('touch:creditRecord')->getCreditRecord($this->user_id);
+        foreach ($result as  &$v) {
+            $v['thumb']=FILE_URL."/upload/".$v['thumb'];
+        }
 		$this->json_output($result);
 	}
 }
