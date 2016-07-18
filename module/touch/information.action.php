@@ -36,8 +36,8 @@ class informationAction extends homeBaseAction
 			$result = M('touch:infos')->getCateList($pid,$page,$size);
 		}
         foreach ($result['data'] as $key => $value) {
-            //$result['data'][$key]['content']=strip_tags($result['data'][$key]['content']);
-            $result['data'][$key]['content'] = preg_replace("/<img.+?\/>/", "", strip_tags($result['data'][$key]['content']));
+            $result['data'][$key]['content']=strip_tags($result['data'][$key]['content']);
+            // $result['data'][$key]['content'] = preg_replace("/<img.+?\/>/", "", strip_tags($result['data'][$key]['content']));
             $result['data'][$key]['brief']=mb_substr($result['data'][$key]['content'],0,20,'utf-8')."...";
             $tempArr['id']=$result['data'][$key]['id'];
             $tempArr['title']=$result['data'][$key]['title'];
