@@ -296,4 +296,5 @@ class customerContactModel extends model{
 	private function _ismyEmail($str){
 		return strlen($email) > 6 && preg_match("/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/", $email);
 	}
+
 }
