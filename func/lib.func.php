@@ -177,7 +177,7 @@ function validBankNo($bankno){
 */
 function validCompanyBankNo($bankno){
 	$strLen = strlen($bankno);
-	if ($strLen < 9 || $strLen > 22) {
+	if ($strLen < 9 || $strLen > 26) {
 		return array('err'=>1,'msg'=>'银行卡号长度不正确');
 	}
 	
