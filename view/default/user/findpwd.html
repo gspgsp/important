@@ -96,9 +96,10 @@ function sendphonecode(){
 	if(e){
 		time('sendphone');  
 		$.ajax({ 
-			type: 'POST', 
-			url: "/user/findpwd/sendmsg", 
-			data: {mobile:e,regcode:regcode}, 
+			type: 'post',
+			url: "/user/findpwd/sendmsg",
+			cache:false,
+			data: {mobile:e,regcode:regcode},
 			dataType:'json', 
 		beforeSend:function(){ 
 			// $("#sendphone").val("正在发送...");//显示加载动画 

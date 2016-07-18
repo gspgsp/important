@@ -11,6 +11,7 @@ class findpwdAction extends homeBaseAction{
 			$data=saddslashes($_POST);
 			if(!$this->_chkmobile($data['phone'])) $this->error($this->err);
 			$result=M('system:sysSMS')->chkDynamicCode($data['phone'],$data['code']);
+			p($result);die;
 			if($result['err']>0){
 				$this->error($result['msg']);	
 			}
@@ -97,12 +98,9 @@ class findpwdAction extends homeBaseAction{
 		$this->is_ajax=true;
 		//验证手机，邮箱，验证码
 		$mobile=sget('mobile','s');
-		if(!$this->_chkmobile($mobile)){
-			$this->error($this->err);
-		}
-
+		if(!$this->_chkmobile($mobile)){$this->error($this->err);}
 		if($this->reg_vcode){
-			$vcode=sget('regcode','s');
+			$vcode=strtolower(sget('regcode','s'));
 			if(empty($vcode)){
 				$this->error('请输入验证码');
 			}
@@ -110,6 +108,7 @@ class findpwdAction extends homeBaseAction{
 			if(!chkVcode('regcode',$vcode)){
 				$this->error('验证码不正确，请重新输入');	
 			}
+
 		}
 		
 		$sms=M('system:sysSMS');

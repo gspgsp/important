@@ -96,7 +96,7 @@
             name: 'image',
             onSubmit: function(file, suffix) {
                 // 'gif','jpg','jpeg','png','swf'
-                var patrn = /^(gif|jpg|jpeg|png)$/i;
+                var patrn = /^(jpg|jpeg|png)$/i;
                 if (!patrn.test(suffix)) {
                     alert('不支持上传 *.' + suffix + '格式的文件。');
                     return false;
