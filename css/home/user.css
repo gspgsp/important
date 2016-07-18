@@ -464,7 +464,7 @@
 .set4 table{ font-size:16px; width:505px; margin:30px auto;}
 .set4 table tr{ height:70px;}
 .set4 table .name{ text-align:right;}
-.layer{ font-size:14px; width:400px; height:300px; overflow:hidden; background:#fff; display:none;}
+.layer{ font-size:14px; width:400px; height:300px; padding:0 0 30px 0; overflow:hidden; background:#fff; display:none;}
 .layer h3{ text-align:center; margin:25px 0 10px 0;}
 .layer .error-msg{ height:20px; line-height:20px; color:#f00; margin:0 0 0 75px;}
 .layer table{ width:318px; margin:0 auto;}
