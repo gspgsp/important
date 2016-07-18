@@ -66,7 +66,7 @@ class pdfAction extends adminBaseAction {
 							  <tr>
 								<td></td>
 								<td  height="20" style="line-height:20px;">运输方式及运费：</td>
-								<td width="440"  height="20" style="line-height:20px;">运输方式按照以下第_%s_种。 1.乙方自提。2.甲方代办托运。3.甲方送货。</td>
+								<td width="440"  height="20" style="line-height:20px;">运输方式按照以下第_%s_种。 1.乙方自提。2.甲方送货。3.甲方代办托运。</td>
 							</tr>
 						</table>
 						<table width="635" align="left" bgcolor="#fff">
@@ -222,7 +222,7 @@ class pdfAction extends adminBaseAction {
 							  <tr>
 								<td></td>
 								<td  height="20" style="line-height:20px;">运输方式及运费：</td>
-								<td width="440"  height="20" style="line-height:20px;">运输方式按照以下第_%s_种。 1.乙方自提。2.甲方代办托运。3.甲方送货。</td>
+								<td width="440"  height="20" style="line-height:20px;">运输方式按照以下第_%s_种。 1.乙方自提。2.甲方送货。3.甲方代办托运。</td>
 							</tr>
 						</table>
 						<table width="635" align="left" bgcolor="#fff">

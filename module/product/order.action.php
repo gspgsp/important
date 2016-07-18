@@ -677,7 +677,7 @@ class orderAction extends adminBaseAction {
 					}
 
 				}else if($data['order_status'] == '3'){
-					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单审核失败");				
+					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 3') ) throw new Exception("订单审核失败");				
 				}
 			}
 	
