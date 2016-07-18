@@ -6,7 +6,15 @@ class customer_billingAction extends adminBaseAction
 {
 	public function __init(){
 		$this->db=M('public:common')->model('customer_billing');
+		$res = $this->db->select('id,invoice_account')->getAll();
+		// p($res);
+		// set_time_limit(0);
+		// foreach ($res as $key => $v) {
+		// 	$invoice_account = desEncrypt($v['invoice_account']);
+		// 	$this->db->where('id='.$v['id'])->update(array('invoice_account'=>$invoice_account,));
+		// }
 	}
+
 
 	/**
 	 *

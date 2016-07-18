@@ -223,14 +223,6 @@ function removeRow() {
     mini.get('billing_price').setValue(total.toFixed(2));
 }
 
-// //发票号去重，采购不去重，销售去重
-// function checkUnique(){
-// 	alert(2345);
-// }
-
-
-
-
 //增加后提交数据(保存)
 function submitForm(billing) {
 	form.validate();
@@ -289,7 +281,7 @@ function onCancel(e) {
 	CloseWindow("cancel");
 }
 
-//销售发票号去重
+//销售发票号去重,采购不去重
 {if $type =='1'}
 	$(function(){
 		$("#invoice_sn").bind("change",function(){
@@ -303,4 +295,5 @@ function onCancel(e) {
 		});
 	});
 {/if}
+
 </script>
