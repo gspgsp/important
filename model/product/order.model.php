@@ -72,7 +72,7 @@ class orderModel extends model{
 	public function getOrderStatusInFo($uid,$date){
 		 $result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
 				      ->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.order_status=1")->getAll();
-		 return empty($result)? false:$result;
+		 return empty($result)? 0:$result;
 	}
 	/**
 	 * (自营)
@@ -81,7 +81,7 @@ class orderModel extends model{
 	public function getOrder($uid,$date){
 		$result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
 			->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.collection_status=1")->getAll();
-		return empty($result)? false:$result;
+		return empty($result)? 0:$result;
 	}
 	/** (自营)
 	 *获取近三个月(代开票)订单信息
@@ -89,7 +89,7 @@ class orderModel extends model{
 	public function getInvoice($uid,$date){
 		$result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
 			->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.invoice_status=1")->getAll();
-		return empty($result)? false:$result;
+		return empty($result)? 0:$result;
 	}
 	/** (自营)
 	 *获取近三个月(已取消)订单信息
@@ -97,7 +97,7 @@ class orderModel extends model{
 	public function getOrderCancel($uid,$date){
 		$result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
 			->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.order_status=3")->getAll();
-		return empty($result)? false:$result;
+		return empty($result)? 0:$result;
 	}
 	
 }
