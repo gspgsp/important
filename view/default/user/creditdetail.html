@@ -30,7 +30,11 @@
                 <div class="jifen-lt flt">
                 	<!--portrait begin-->
                 	<div class="portrait flt">
+                        {if $uinfo.thumb}
                     	<img src="__UPLOAD__/{$uinfo.thumb}" width="100" height="100"/>
+                        {else}
+                        <img src="__IMG__/home/portrait1.jpg"  width="100" height="100"/>
+                        {/if}
                     	<div class="mask"></div>
                     </div>
                     <!--portrait end-->

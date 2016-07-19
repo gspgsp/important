@@ -18,7 +18,11 @@
     			<div class="lt flt">
     				<!--portrait begin-->
     				<div class="portrait user-pic1">
+						{if $data.thumb}
 						<img width="68" height="68"  src="__UPLOAD__/{$data.thumb}"/>
+						{else}
+						<img width="68" height="68"  src="__IMG__/home/portrait1.jpg"/>
+						{/if}
     					<img src="__IMG__/home/userPicMask1.png"/>
     				</div>
     				<!--portrait end-->
