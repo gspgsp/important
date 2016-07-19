@@ -527,7 +527,8 @@ class mainPageAction extends homeBaseAction
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
             $uinfo=M('user:customerContact')->getListByUserid($this->userid);
             $cargo_type=sget('cargo_type','i',1);//现货、期货
-            $type=sget('type','i',1);//采购1、报价2
+            // $type=sget('type','i',2);//采购1、报价2
+            $type=2;//采购1、报价2
             $pur_model=M('product:purchase');
             $fac_model=M('product:factory');
             $pro_model=M('product:product');
