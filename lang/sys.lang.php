@@ -51,9 +51,9 @@ return array(
 		1=>'HDPE',
 		2=>'LDPE',
 		3=>'LLDPE',
-		4=>'共聚PP',
+		4=>'PPHM',
 		5=>'PVC',
-		6=>'均聚PP',
+		6=>'PPCP',
 		),
 );
 ?>

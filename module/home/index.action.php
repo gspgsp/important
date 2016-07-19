@@ -14,6 +14,7 @@ class indexAction extends homeBaseAction{
 		$this->process_level=L('process_level');
 		//产品分类
 		$this->product_type=L('product_type');
+//		p($this->product_type);
 		//省份地区
 		$this->area=M('system:region')->getProvinceCache();
 		//牌号新采购
