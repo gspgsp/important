@@ -20,6 +20,7 @@ class loginAction extends homeBaseAction{
 
 	public function dolongin()
 	{
+
 		if(isset($_REQUEST['username'])){
 			$this->is_ajax=true;
 			$username=sget('username','s');
