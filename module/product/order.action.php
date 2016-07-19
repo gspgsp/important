@@ -118,7 +118,7 @@ class orderAction extends adminBaseAction {
 				->getPage();
 
 		foreach($list['data'] as &$v){
-			$v['c_name']=M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
+			$v['c_name']=  $v['partner'] == $_SESSION['adminid'] ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
@@ -196,8 +196,16 @@ class orderAction extends adminBaseAction {
 			exit;
 		}
 		$info=$this->db->getPk($o_id); //查询订单信息
+		//关联的交易员id
+		// $join_manager=$this->db->select('customer_manager as cmer')->where("`o_id` = {$info['join_id']}")->getOne();
 		if(empty($info)) $this->error('错误的订单信息');	
-		if($info['c_id']>0) $c_name = M('user:customer')->getColByName($info['c_id'],"c_name");
+		if($info['c_id']>0){
+			if(($info['partner'] == $_SESSION['adminid'] || $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1){
+				$c_name =  '*******';
+			 }else{
+			 	$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
+			 } 
+		}
 		$info['order_name']=L('company_account')[$info['order_name']];
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
 		$info['pickup_time']=date("Y-m-d",$info['pickup_time']);

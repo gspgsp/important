@@ -103,6 +103,7 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
 			$list['data'][$k]['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
 			$list['data'][$k]['cmanager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
+			$list['data'][$k]['total'] = price_format($v['unit_price']*$v['number']);
 			//开票申请与审核时所需的值
 			if($type==1){
 				//开票申请与审核时已未发送的数量
@@ -117,8 +118,13 @@ class saleLogAction extends adminBaseAction {
 		//$this->assign('tot',$tot);
 		$msg="";
 		if($list['count']>0){
+			// 循环计算小计
+			$tol = 0;
+			foreach ($list['data'] as $k => $v) {
+				$tol += $v['total'];
+			}
 			$sum=$this->db->select("sum(number) as wsum, sum(remainder) as msum")->where($where)->getRow();
-			$msg="[筛选结果]数量:【".$sum['wsum']."】未入数量:【".$sum['wsum']."】";
+			$msg="[筛选结果]数量:【".$sum['wsum']."】未入数量:【".$sum['wsum']."】小计：【".price_format($tol)."】";
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->assign('doact',$doact);
