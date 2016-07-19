@@ -57,12 +57,12 @@ class collectionAction extends adminBaseAction
 		$sortField = sget("sortField",'s','o_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where = 1;
+		$where ="  1 ";
 		$type = sget('type','i');//1销售,2采购
 		if ($type == 1) {
-			$where=" `order_type`=1 ";
+			$where .=" and `order_type`=1 ";
 		}elseif($type ==2){
-			$where=" `order_type`=2 ";
+			$where .="  and `order_type`=2 ";
 		}
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
@@ -86,6 +86,18 @@ class collectionAction extends adminBaseAction
 		if($keyword!=''){
 			$newword = "更正".$keyword;
 			$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
+		}
+		//筛选领导级别
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+			$where .= " and `customer_manager` in ($sons) ";
+			// if(!empty($pools)){
+			// 	$where .= " or `c_id` in ($pools)";
+			// }
+			// if(!empty($cidshare)){
+			// 	$where .= " or `c_id` in ($cidshare)";
+			// }
 		}
 		$list=$this->db->where($where)
 					->page($page+1,$size)
