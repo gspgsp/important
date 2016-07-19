@@ -737,7 +737,7 @@
                             	<p><img src="http://q2.qlogo.cn/headimg_dl?bs=qq&amp;dst_uin={$value.user_qq}&amp;src_uin=*&amp;fid=*&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" width="40" height="40"/></p>
                                 {if $value.user_nick==''}{$value.realname}{else}{$value.user_nick}{/if}
                             </div>
-                            <div class="qq"><span class="qq_img"></span>{$value.user_qq}</div>
+                            <div class="qq"><span class="qq_img"></span>{if $smarty.session.userid > 0}{$value.user_qq}{else}{$value.user_qqs}{/if}</div>
                         </div>
                       <div class="rob-info">{$value.content|mb_substr=0,60,'utf-8'}</div>
                   	</div>
