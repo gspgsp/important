@@ -112,11 +112,7 @@ class orderAction extends adminBaseAction {
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
 		}
-		$list=$this->db->where($where)
-				->page($page+1,$size)
-				->order("$sortField $sortOrder")
-				->getPage();
-
+		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as &$v){
 			$v['c_name']=  $v['partner'] == $_SESSION['adminid'] ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
@@ -145,6 +141,7 @@ class orderAction extends adminBaseAction {
 			if(!empty($v['join_id'])){
 				$v['newstatus'] = M("product:order")->getColByName($value=$v['join_id'],$col='invoice_status',$condition='o_id');
 			}
+			$v['see'] =  $v['customer_manager'] == $_SESSION['adminid'] ? '1':'0';
 			//获取单笔订单收付款状态			
 			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
 			$v['one_c_status'] =$m[0]['collection_status'];
@@ -212,6 +209,7 @@ class orderAction extends adminBaseAction {
 		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['partner']=M('rbac:adm')->getUserByCol($info['partner']);
+		$info['creater']=M('rbac:adm')->getUserByCol($info['customer_manager']);
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 		if($o_type ==1){

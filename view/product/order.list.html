@@ -77,10 +77,10 @@
 			<div field="total_num" width="40" headerAlign="center" align="center" allowSort="true">总数</div>
 			<div field="total_price" width="60" headerAlign="center" align="center" allowSort="true">总金额</div>
 			<!-- <div field="pay_method" width="40" headerAlign="center" align="center" >付款</div> -->
-			<div field="partner" width="40" headerAlign="center" align="center" >协助者</div>	
 			{if $order_type eq 2}
 			<div field="in_storage_status" width="45" headerAlign="center" align="center" >入库状态</div>
 			{else}
+			<div field="partner" width="40" headerAlign="center" align="center" >协助者</div>
 			<div field="out_storage_status" width="45" headerAlign="center" align="center">出库状态</div>
 			{/if}
 			<div field="payments_status" width="45" headerAlign="center" align="center" >{if $order_type eq 1}收款{else}付款{/if}状态</div>
@@ -295,7 +295,7 @@ function submitFinancial(){
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
+	var record = e.record,s='',oid = record.o_id,see = record.see,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
 
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
@@ -315,13 +315,13 @@ function onLoadDetail(e){
 						if( out_storage_status != '已出库'){ //没有全部发货时可见发货按钮
 							if( order_status =='2' && transport_status =='2' ){
 								if(financial_records == '否'){
-									s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
+									s+='<a href="javascript:financialInfo('+oid+')">财务</a>';
 								}
 								if(sales_type == '1'){
-									s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;|&nbsp;';
+									s+='&nbsp;|&nbsp;<a href="javascript:outStorage('+oid+')">发货</a>';
 								}else{ //先销后采
 									if(is_join_in == '1'){
-										s+='<a href="javascript:outStorage('+oid+')">发货</a>&nbsp;|&nbsp;';
+										s+='&nbsp;|&nbsp;<a href="javascript:outStorage('+oid+')">发货</a>';
 									}
 								}
 								
@@ -329,25 +329,27 @@ function onLoadDetail(e){
 						}
 						
 						if (c_status !='3' && one_c_status !='1'  && transport_status =='2') {
-						s+='<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>&nbsp;|&nbsp;';
+						s+='&nbsp;|&nbsp;<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>';
 						}
 						if (i_status !='全部开票' && newstatus == '3' && c_status =='3' && !one_b_status) {
-							s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
+							s+='&nbsp;|&nbsp;<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>';
 						}
 						if (c_status =='3' && i_status =='全部开票') {
-							s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
+							s+='&nbsp;|&nbsp;<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
 						}
 						
 						if (newstatus != '3' && c_status =='3') {
-							s +='(采购未开票...)';
+							s +='&nbsp;|&nbsp;(采购未开票...)';
 						}
 
 					}
 				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
-					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>&nbsp;|&nbsp;';
+					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
 				}	
 			}
-		s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+		if(see=='1'){	
+			s+='&nbsp;|&nbsp;<a href="javascript:salecompact('+oid+')">合同</a>';
+		}
 	}else{   //采购	
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
@@ -369,7 +371,9 @@ function onLoadDetail(e){
 			}	
 
 		}
-		s+='<a href="javascript:salecompact('+oid+')">合同</a>';
+		if(see=='1'){
+			s+='&nbsp;|&nbsp;<a href="javascript:salecompact('+oid+')">合同</a>';
+		}	
 	}
 	return s;
 }
