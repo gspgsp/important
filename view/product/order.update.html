@@ -39,21 +39,12 @@
 						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;"   onvaluechanged="changtransport" required="true"/>
 						</td>	
 					</tr>
-
-					<tr id="send">
-						<td><font style="color:blue;">送货日期<font style="color:red;"> * </font></font></td>
+					<tr>
+						<td><font style="color:blue;"><span  style="display:none;" id="get">提货</span><span id="send">送货</span>日期<font style="color:red;"> * </font></font></td>
 						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
 						</td>
-						<td><font style="color:blue;">送货地点<font style="color:red;"> * </font></font></td>
-						<td><input name="delivery_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.delivery_location}"/></td>
-					</tr>
-					<tr id="get" style="display:none;">
-						<td><font style="color:blue;">提货日期<font style="color:red;"> * </font></font></td>
-						<td><input  class="mini-datepicker"  name="pickup_time"  required="true" value="{$info.pickup_time}"/>
-						</td>
-						<td><font style="color:blue;">提货地点<font style="color:red;"> * </font></font></td>
-						<td><input name="pickup_location" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickup_location}"/></td>
-						
+						<td><font style="color:blue;"><span style="display:none;" id="get1">提货</span><span id="send1">送货</span>地点<font style="color:red;"> * </font></font></td>
+						<td><input name="pickuplocation" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickuplocation}"/></td>
 					</tr>
 					<tr>
 						<td>签订日期<font style="color:red;"> * </font></td>
@@ -205,6 +196,7 @@ function submitForm(){
 	$.extend(o, {detail:datas}); 
 	$.extend(o, totalCounts); 
 	var json = mini.encode(o);
+	console.log(json);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
 	var urlstr = '/product/order/editOrderSubmit';
@@ -220,12 +212,16 @@ function submitForm(){
 }
 function changtransport(e){
 	var val = e.value;
-	if(val == 1){
+	if(val == 1 || val ==2){
 		$("#get").hide();
+		$("#get1").hide();
 		$("#send").show();
+		$("#send1").show();
 	}else{
 		$("#send").hide();
 		$("#get").show();
+		$("#send1").hide();
+		$("#get1").show();
 	}
 }
 //强制选择归属公司
