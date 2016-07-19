@@ -243,6 +243,7 @@ class orderAction extends adminBaseAction {
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
 		$info['partnername']= M('rbac:adm')->getUserByCol($info['partner']);
+		$info['pickuplocation'] = $info['pickup_location'];
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('detail',json_encode($detailinfo));//明细数据
 		$this->assign('order_sn',$order_sn);
@@ -255,10 +256,10 @@ class orderAction extends adminBaseAction {
 	public function editOrderSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		$data['delivery_location'] =  $data['pickup_location'] = $data['pickuplocation'];
+		$data['pickup_time'] = $data['delivery_time'] = strtotime($data['delivery_time']);
 		if(empty($data)) $this->error('错误的请求');	
 		$data['sign_time']=strtotime($data['sign_time']);
-		$data['pickup_time']=strtotime($data['pickup_time']);
-		$data['delivery_time']=strtotime($data['delivery_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['total_price']=$data['price'];
 		$data['financial_records']=2;//财务记录 默认否
@@ -329,16 +330,8 @@ class orderAction extends adminBaseAction {
 		if(empty($data)) $this->error('错误的请求');	
 		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
 		unset($data['o_id']); //避免和后面的add 订单冲突
-
-		if ($data['transport_type'] == '1') { //供方送到
-			$data['delivery_time']=strtotime($data['delivery_time']); 
-			$data['pickup_time']=$data['delivery_time'];
-			$data['pickup_location']=$data['delivery_location'];
-		}else{//需方自提
-			$data['pickup_time']=strtotime($data['pickup_time']); //提货日期
-			$data['delivery_time']=$data['pickup_time'];
-			$data['delivery_location']=$data['pickup_location'];
-		}
+		$data['delivery_location'] =  $data['pickup_location'] = $data['pickuplocation'];
+		$data['pickup_time'] = $data['delivery_time'] = strtotime($data['delivery_time']);
 		$data['sign_time']=strtotime($data['sign_time']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$data['financial_records']=2;//财务记录 默认否
@@ -347,7 +340,6 @@ class orderAction extends adminBaseAction {
 		$data['order_source'] = 2; //订单默认来源ERP
 		//新增
 			$this->db->startTrans(); //开启事务
-
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
