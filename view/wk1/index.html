@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<title>工作台</title>
+	<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap-datetimepicker.min.css">
+
+	<script type="text/javascript" src="__CSS__/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="__CSS__/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="__CSS__/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="__CSS__/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="__JS__/home/template-native.js"></script>
+	<script type="text/javascript" src="__JS__/home/jquery.ajaxupload.js"></script>
+	<script type="text/javascript" src="__CSS__/bootstrap/js/jquery.page.js"></script>
+
+	<style type="text/css">
+	.offer{
+		height: 512px;
+		overflow: auto;
+	}
+	.mylist{
+		height: 590px;
+		overflow: auto;
+	}
+	.red{color:red;}
+	.stock{height: 200px;overflow: auto;}
+	.demand{height: 250px;overflow: auto;}
+	.requires{border:1px solid red !important;}
+	.table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th{padding: 2px 1px;}
+
+	.selects{
+		padding: 0 !important;
+		height: auto !important;
+	}
+	.inputs{
+		padding: 0 !important;
+		width:100px;
+		height: auto;
+	}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">用户：{$smarty.session.username}</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6 col-xs-12" style="width:100%">
+				<div class="panel panel-default">
+					<div class="panel-heading">最新报价</div>
+					<div class="offer">
+						<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
+					        <thead>
+					            <tr>					           
+					                <th colspan="9">发布内容</th>
+					                <th width="100">发布者</th>
+					                <th width="150">发布时间</th>
+					            </tr>
+					        </thead>
+					        <tbody id="offerTop">					        
+					        	{foreach from=$offerList item=value key=key}	        	
+					            <tr>
+					                <td>{$value.content}</td>
+					                <td>{$value.uname}</td>
+					                <td>{$value.input_time|date='Y-m-d H:i:s', ###}</td>
+					            </tr>
+					        	{/foreach}
+					        </tbody>
+
+					    </table>
+					</div>
+					<!-- <button onClick="loadMore('供应','loadoffer','offerTable')" id="loadoffer" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
+				</div>
+			</div>
+
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						发布信息
+						<!--<div class="col-md-3 col-lg-4 pull-right">
+							<a href="__IMG__/wk/offer.xlsx" class="btn btn-info btn-xs">模板下载</a>
+							<button type="button" data-toggle="modal" data-target="#offerModal" class="btn btn-info btn-xs ">报价导入</button>
+						</div>-->
+					</div>
+					<form style="padding:10px;" id="addForm" onSubmit="return false;">
+						<div class="form-inline">
+							<div class="checkbox">
+							    <label>
+							    	<input name="type" type="checkbox"> 求购
+							    </label>
+							</div>
+							<div class="form-group">
+								<textarea name="content" class="form-control" style="width:1000px;" rows="4" placeholder="请填写发布内容"></textarea>
+							</div>
+							<button onClick="release()" type="button" class="btn btn-primary">发布</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">我发布的信息
+						<button type="button" onClick="repup2()" class="btn btn-primary btn-sm col-sm-offset-7">重新发布</button>
+					</div>
+					
+					<div class="mylist">
+						<form onSubmit="return false;" id="myTableForm">
+						<table id="myTable" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
+					        <thead>
+					            <tr>
+					                <th>类型</th>
+					                <th>内容</th>					               
+					                <th>状态</th>
+					                <th>责任人</th>
+					                <th>时间</th>
+					                <th>操作</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					        </tbody>
+					    </table>
+					    </form>
+					</div>
+					<!-- <button onClick="myload(this)" p="2" id="myload" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="padding-bottom: 50px;"></div>
+
+<!-- modal -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">重新发布</h4>
+			</div>
+			<div class="modal-body">
+				<form style="padding:10px;" id="editForm" onSubmit="return false;">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"> 关 闭 </button>
+				<button onClick="editpub()" type="button" class="btn btn-primary"> 发 布 </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/html" id="trTemp">
+<%if (!data.content){%>
+	<tr onDblclick="get_grade('<%=data.grade%>','<%=data.type%>')" >
+	    <td style="color:red;"><%=data.grade%></td>
+	    <td><%=data.factory%></td>
+	    <td><%=data.num%></td>
+	    <td style="color:red;"><%=data.price%></td>
+	    <td><%=data.true_price%></td>
+	    <td><%=data.ship_type%></td>
+	    <td><%=data.store%></td>
+	    <td><%=data.stock%></td>
+	    <td><%=data.remark%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+	<%}else{%>
+	<tr>
+	    <td colspan="9"><%=data.content%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+<%}%>
+</script>
+
+<script type="text/html" id="topTemp">
+<%if (!data.content){%>
+	<tr onDblclick="get_grade('<%=data.grade%>','<%=data.type%>')" >
+	
+	    <td style="color:red;"><%=data.grade%></td>
+	    <td><%=data.factory%></td>
+	    <td><%=data.num%></td>
+	    <td style="color:red;"><%=data.price%></td>
+	    <td><%=data.true_price%></td>
+	    <td><%=data.ship_type%></td>
+	    <td><%=data.store%></td>
+	    <td><%=data.stock%></td>
+	    <td><%=data.remark%><span class="label label-danger">Top</span></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+	<%}else{%>
+	<tr>
+	    <td colspan="9"><%=data.content%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+<%}%>
+</script>
+
+<script type="text/html" id="stockTemp">
+	<tr>
+	    <td><%=data.pay%></td>
+	    <td><%=data.grade%></td>
+	    <td><%=data.factory%></td>
+	    <td><%=data.num%></td>
+	    <td><%=data.cost%></td>
+	    <td><%=data.price%></td>
+	    <td><%=data.ship_type%></td>
+	    <td><%=data.store%></td>
+	    <td><%=data.remark%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+</script>
+
+<script type="text/html" id="searchTemp">
+<%if (!data.content){%>
+	<tr>
+	    <td <%if (data.type=='求购'){%>class="red"<%}%> > <%=data.type%></td>
+	    <td><%=data.grade%></td>
+	    <td><%=data.factory%></td>
+	    <td><%=data.num%></td>
+	    <td><%=data.price%></td>
+	    <td><%=data.true_price%></td>
+	    <td><%=data.ship_type%></td>
+	    <td><%=data.store%></td>
+	    <td><%=data.stock%></td>
+	    <td><%=data.remark%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+	<%}else{%>
+	<tr>
+	    <td><%=data.type%></td>
+	    <td colspan="9"><%=data.content%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+<%}%>
+</script>
+
+<script type="text/html" id="editTemp">
+	<div class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<div class="checkbox">
+					<label>
+						<input name="type" <%if (data.type=='求购'){%>checked<%}%> type="checkbox"> 求购
+					</label>
+					<label>
+						<input name="ship_type" <%if (data.ship_type=='自提'){%>checked<%}%> type="checkbox"> 自提
+					</label>
+					<label>
+						<input name="true_price" <%if (data.true_price=='实价'){%>checked<%}%> type="checkbox"> 实价
+					</label>
+					<label>
+						<input name="stock" <%if (data.stock=='期货'){%>checked<%}%> type="checkbox"> 期货
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">牌号</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" value="<%=data.grade%>" name="grade" placeholder="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">厂家</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" value="<%=data.factory%>" name="factory" placeholder="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">数量</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" value="<%=data.num%>" name="num" placeholder="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">价格</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" value="<%=data.price%>" name="price" placeholder="">
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">仓库</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" value="<%=data.store%>" name="store" placeholder="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">备注</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" value="<%=data.remark%>" name="remark" placeholder="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">供应商</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" value="<%=data.supplier%>" name="supplier" placeholder="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">文本发布</label>
+			<div class="col-sm-10">
+				<textarea name="content" class="form-control" placeholder="" style="width:400px;" rows="4"><%=data.content%></textarea>
+			</div>
+		</div>
+		<input type="hidden" value="<%=data.id%>" name="iid">
+	</div>
+</script>
+
+
+<!-- 我发布的信息 -->
+<script type="text/html" id="mytrTemp">
+	<tr>
+	    <td><%=data.type%></td>
+	    <td><%=data.content%></td>
+	    <td><%=data.status%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	    <td>
+		    <a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
+		    <a onClick="changeTop(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
+	    </td>
+	</tr>
+
+</script>
+
+<script type="text/html" id="editMyTemp">
+	    <td class="text-center">
+			<input checked onClick="editmy(<%=data.id%>,this)" type="checkbox" pid="<%=data.id%>">
+	    </td>
+	    <td>
+			<select class="form-control selects" name="data[<%=data.id%>][type]">
+				<option <%if (data.type=='供应') {%>selected<%}%> vlaue="供应">供应</option>
+				<option <%if (data.type=='求购') {%>selected<%}%> value="求购">求购</option>
+			</select>
+	    </td>
+	    <td width="10">
+	    	<input type="text" class="form-control inputs requirer" value="<%=data.grade%>" name="data[<%=data.id%>][grade]" placeholder="牌号（必填）">
+	    </td>
+	    <td width="10">
+	    	<input type="text" class="form-control inputs requirer" value="<%=data.factory%>" name="data[<%=data.id%>][factory]" placeholder="厂家（必填）">
+	    </td>
+	    <td width="10">
+	    	<input type="text" class="form-control inputs requirer" value="<%=data.num%>" name="data[<%=data.id%>][num]" placeholder="数量（必填）">
+	    </td>
+	    <td width="10">
+	    	<input type="text" class="form-control inputs requirer" value="<%=data.price%>" name="data[<%=data.id%>][price]" placeholder="价格（必填）">
+	    </td>
+        <td>
+    		<select class="form-control selects" name="data[<%=data.id%>][true_price]">
+    			<option <%if (data.true_price=='实价') {%>selected<%}%> vlaue="实价">实价</option>
+    			<option <%if (data.true_price=='可议价') {%>selected<%}%> value="可议价">可议价</option>
+    		</select>
+        </td>
+        <td>
+    		<select class="form-control selects" name="data[<%=data.id%>][ship_type]">
+    			<option <%if (data.ship_type=='自提') {%>selected<%}%> vlaue="自提">自提</option>
+    			<option <%if (data.ship_type=='配送') {%>selected<%}%> value="配送">配送</option>
+    		</select>
+        </td>
+        <td width="10">
+        	<input type="text" class="form-control inputs requirer" value="<%=data.store%>" name="data[<%=data.id%>][store]" placeholder="仓库（必填）">
+        </td>
+        <td>
+    		<select class="form-control selects" name="data[<%=data.id%>][stock]">
+    			<option <%if (data.stock=='现货') {%>selected<%}%> vlaue="现货">现货</option>
+    			<option <%if (data.stock=='期货') {%>selected<%}%> value="期货">期货</option>
+    		</select>
+        </td>
+        <td width="10">
+        	<input type="text" class="form-control inputs " value="<%=data.remark%>" name="data[<%=data.id%>][remark]" placeholder="备注">
+        </td>
+        <td width="10">
+        	<input type="text" class="form-control inputs " value="<%=data.supplier%>" name="data[<%=data.id%>][supplier]" placeholder="供应商">
+        </td>
+        <td>
+    		<select class="form-control selects" name="data[<%=data.id%>][status]">
+    			<option <%if (data.status=='上架') {%>selected<%}%> vlaue="上架">上架</option>
+    			<option <%if (data.status=='下架') {%>selected<%}%> value="下架">下架</option>
+    		</select>
+        </td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.input_time%></td>
+	    <td>
+			<a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
+		    <a onClick="changeTop(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
+	    </td>
+</script>
+ <!-- <a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a> -->
+<!-- <a onClick="repup(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;">重新发布</a> -->
+
+<script type="text/javascript">
+
+    $(".form_datetime").datetimepicker({
+    	autoclose:true,
+    	todayBtn:true,
+    	todayHighlight:true,
+    	language:'zh-CN',
+    	minView:2,
+    });
+
+	function release(){
+		var content=$("#addForm textarea[name='content']").val().trim();
+		var type=$("#addForm input[name='type']:checked").val();
+		if(content.length==0){
+			$("#addForm textarea[name='content']").addClass('requires');
+			return;
+		}
+		$.post('/wk1/index/addInfo',{content:content,type:type},function(data){
+			if(data.err>0){
+				alert(data.msg);
+			}else{
+				prependTr(data.data);
+				alert('发布成功');
+				myload();
+			}
+		},'json');
+
+	}
+
+	var oldhtml=[];
+
+	// 获取我的发布信息编辑
+	function editmy(id,that)
+	{
+		if($(that).is(':checked')){
+			var old=$(that).parents('tr').html();
+			oldhtml[id]=old;
+			$.get('/wk1/index/get_info',{id:id},function (data){
+				if(data){
+					var html=template('editMyTemp',{data:data});
+					$(that).parents('tr').html(html);
+				}
+				$("input,textarea").focus(function(){
+					$(this).removeClass('requires');
+				})
+			},'json');
+		}else{
+			var html=oldhtml[id];
+			$(that).parents('tr').html(html);
+		}
+	}
+
+	//添加发布
+	function editpub()
+	{
+		var content=$("#editForm textarea[name='content']").val().trim();
+		var grade=$("#editForm input[name='grade']").val().trim();
+		if(content==''&&grade==''){
+			$("#editForm input[name='grade']").addClass('requires');
+			return;
+		}else{
+			$("#editForm input[name='grade']").removeClass('requires');
+		}
+		var data=$("#editForm").serialize();
+		$.post('/wk1/index/addInfo',data,function (data){
+			if(data.err>0){
+				alert(data.msg);
+			}else{
+				$('#myModal').modal('hide');
+				alert("发布成功!");
+				myload();
+				loadall();
+
+			}
+		})
+	}
+
+	function prependTr(data){
+		var html=template('trTemp',{data:data});
+		if(data.type=='供应'){
+			$("#offerTable").prepend(html);
+		}else{
+			$("#demandTable").prepend(html);
+		}
+		document.getElementById('addForm').reset();
+	}
+	$("input,textarea").focus(function(){
+		$(this).removeClass('requires');
+	})
+
+	function repup(id){
+		$.get('/wk1/index/get_info',{id:id},function (data){
+			if(data){
+				var html=template('editTemp',{data:data});
+				$('#editForm').html(html);
+				$('#myModal').modal();
+				$("input,textarea").focus(function(){
+					$(this).removeClass('requires');
+				})
+			}
+		},'json');
+
+	}
+
+	function repup2()
+	{
+		var flag=true;
+		var data =$('#myTableForm').serialize();
+		if(!data){
+			alert('请勾选要重新发布的信息');
+			return;
+		}
+		$("#myTableForm .requirer").each(function(k,v){
+			if($(this).val().trim()==''){
+				$(this).addClass('requires');
+				flag=false;
+			}
+		});
+
+		if(!flag) return;
+
+		$.post('/wk1/index/repup2',data,function (data){
+			if(data==1){
+				myload();
+				loadall();
+				alert('发布成功');
+			}
+		},'json');
+	}
+	//上下架
+	function changeStatus(id){
+		if(!confirm('确定要更改状态吗？')) return;
+		$.post('/wk1/index/changeStatus',{id:id},function (data){
+			if(data){
+				alert('更改成功');
+				myload();
+				loadall();
+			}
+		},'json');
+	}
+
+	function changeTop(id){
+		if(!confirm('确定要更改状态吗？')) return;
+		$.post('/wk1/index/chengeTop',{id:id},function (data){
+			if(data){
+				alert('更改成功');
+				myload();
+				loadall();
+			}
+		},'json');
+	}
+	
+	function loadMore(type,btn,form,re){
+		var btn=$("#"+btn+"");
+		var p=btn.attr('p');
+		if(re) p=1;
+		btn.html('加载中..');
+		$.get('/wk1/index/loadMore',{type:type,p:p},function (data){
+			var html='';
+			$(data.list).each(function(k, v){
+				html+=template('trTemp', {data:v});
+			})
+			if(re){
+				$("#"+form+"").html(html);
+			}else{
+				$("#"+form+"").append(html);
+			}
+			btn.attr('p',data.p);
+			btn.html('加载更多');
+		},'json');
+	}
+
+	var t="{$time}";
+
+	var timer=setInterval(loadnews,5000);
+
+	loadTop();
+	var topTimer=setInterval(loadTop,10000);
+
+	var stockTimer=setInterval(loadstock,10000);
+	function loadTop(){
+		$.get('/wk1/index/topTimer',{t:t},function (data){
+			if(data.list.length){
+				var html="";
+				$(data.list).each(function(k,v){
+					html+=template('topTemp',{data:v});
+				});
+				$("#offerTop").html(html);
+			}else{
+				$("#offerTop").html('');
+			}
+		},'json');
+	}
+	function loadnews(){
+		$.get('/wk1/index/get_newinfo',{t:t},function (data){
+			t=data.time;
+			var html='';
+			var html2='';
+			$(data.offerList).each(function(k,v){
+				html+=template('trTemp',{data:v});
+			});
+			$("#offerTable").prepend(html);
+			$(data.demandList).each(function(k,v){
+				html2+=template('trTemp',{data:v});
+			});
+			$("#demandTable").prepend(html2);
+		},'json');
+	}
+
+	loadMore('供应','loadoffer','offerTable',true);
+	loadMore('求购','loadrdemand','demandTable',true);
+	function loadall(){
+		loadTop();
+		loadMore('供应','loadoffer','offerTable',true);
+		loadMore('求购','loadrdemand','demandTable',true);
+	}
+
+	function loadstock(){
+		$.get('/wk1/index/loadstock',{t:t},function (data){
+			if(data.list.length){
+				var html="";
+				$(data.list).each(function(k,v){
+					html+=template('stockTemp',{data:v});
+				});
+				$("#stockList").html(html);
+			}
+		},'json');
+	}
+	
+
+	function myload(that)
+	{
+		var p=$(that).attr('p');
+		$("#myload").html('加载中..');
+		$.get('/wk1/index/myload',{p:p},function (data){
+			if(data.list.length){
+				var html='';
+				$(data.list).each(function(k, v){
+					html+=template('mytrTemp',{data:v});
+				});
+				if(p){
+					$("#myTable").find('tbody').append(html);
+					$(that).attr('p',data.p);
+				}else{
+					$("#myTable").find('tbody').html(html);
+					$("#myload").attr('p',2);
+					
+				}
+				$("#myload").html('加载更多');
+			}else{
+				$("#myload").html('加载更多');
+			}
+		},'json');
+	}
+	myload();
+
+	function searchSubmit(){
+
+		var timeline=$("#timeline").val();
+		var keyword=$("#keyword").val().trim();
+		if(keyword==''){
+			$("#keyword").addClass('requires');
+			return false;
+		}
+		$.post('/wk1/index/searchs',{keyword:keyword,timeline:timeline,p:1},function (data){
+			if(data.list.length){
+				var html="";
+				$(data.list).each(function (k,v){
+					html+=template('searchTemp',{data:v});
+				})
+				$("#searchList").html(html);
+				$("#Pagination").createPage({
+					pageCount:data.count,
+					current:1,
+					backFn:function(p){
+						$.post('/wk1/index/searchs',{keyword:keyword,timeline:timeline,p:p},function (data2){
+							if(data2.list.length){
+								var html="";
+								$(data2.list).each(function (k,v){
+									html+=template('searchTemp',{data:v});
+								})
+								$("#searchList").html(html);
+							}
+						},'json');
+						
+					}
+				});
+				$('#searchsModal').modal();
+			}else{
+				alert("未找到相应信息!");
+
+			}
+		},'json');
+		return false;
+	}
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
