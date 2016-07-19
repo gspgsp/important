@@ -85,9 +85,9 @@ return array(
 		1=>'HDPE',
 		2=>'LDPE',
 		3=>'LLDPE',
-		4=>'PPHM',
+		4=>'均聚PP',
 		5=>'PVC',
-		6=>'PPCP',
+		6=>'共聚PP',
 	),
 	//加工级别
 	'process_level'=>array(
