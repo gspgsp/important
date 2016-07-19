@@ -25,10 +25,12 @@ class pointsBillModel extends Model{
 	public function addPoints($num=0, $uid=0, $type=0){
 		$user = M('public:common')->model('contact_info');
 		if( $info=$user->where("user_id=$uid")->getRow() ){
+			file_put_contents('./suc.txt', $num);
 			if(!$user->where("user_id=$uid")->update("points=points+$num")) return false;
 			if(!$this->add( array('addtime' => time(), 'uid' => $uid, 'points' => $num, 'type' => $type) )) return false;
 			return true;
 		}else{
+			file_put_contents('./err.txt', $num);
 			return false;
 		}
 	}
