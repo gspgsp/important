@@ -527,8 +527,8 @@ class mainPageAction extends homeBaseAction
             if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
             $uinfo=M('user:customerContact')->getListByUserid($this->userid);
             $cargo_type=sget('cargo_type','i',1);//现货、期货
-            // $type=sget('type','i',2);//采购1、报价2
-            $type=2;//采购1、报价2
+            $type=sget('type','i',2);//采购1、报价2
+            //$type=2;//采购1、报价2
             $pur_model=M('product:purchase');
             $fac_model=M('product:factory');
             $pro_model=M('product:product');
@@ -559,6 +559,7 @@ class mainPageAction extends homeBaseAction
                 if($pid){
                     //已有产品直接添加采购信息
                     $_data['p_id']=$pid;//产品id
+                    if($pur_model->where("p_id=$pid and number=$number and unit_price=$price and provinces=$provinces and store_house='{$store_house}' and period=$period and bargain=$bargain")->getRow()) $this->json_output(array('err'=>3,'msg'=>'请不要重复相同的报价'));
                     $pur_model->add($_data);
                 }else{
                     //没有产品则新增一个产品
