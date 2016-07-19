@@ -1,6 +1,6 @@
 .user-wrap{ margin-bottom:30px;}
 .user-wrap .left{ width:172px; height:890px; overflow:hidden; background:#fcf4f0;}
-.user-wrap .left h2{ font-size:12px; font-weight: bold; color:#333; height:28px; line-height:28px; margin:0 0 0 6px; padding:0 0 0 27px; background:url(../img/order.png) no-repeat;}
+.user-wrap .left h2{ font-size:12px; color:#333; height:28px; line-height:28px; margin:0 0 0 6px; padding:0 0 0 27px; background:url(../img/order.png) no-repeat;}
 .user-wrap .left h2.msg{ background-position:0 -88px; margin-top:14px;}
 .user-wrap .left h2.order{ background-position:0 -138px;}
 .user-wrap .left h2.supply{ background-position:0 -188px;}
@@ -14,7 +14,7 @@
 .user-wrap .left ul li a{ color:#777;}
 .user-wrap .left ul li a:hover,.user-wrap .left ul li.hover a{ color:#fc6621;}
 .user-wrap .right{ width:1046px; height:auto; overflow:hidden; border:1px solid #d6d7dc;}
-.user-wrap .right h3{ font-size:12px; font-weight: bold; color:#333; text-indent:23px; height:48px; line-height:48px; border-bottom:1px solid #d6d7dc; margin:0 0 25px 0; position:relative;}
+.user-wrap .right h3{ font-size:12px; color:#333; text-indent:23px; height:48px; line-height:48px; border-bottom:1px solid #d6d7dc; margin:0 0 25px 0; position:relative;}
 .user-wrap .right h3 a{ font-size:14px; color:#267bd3; position:absolute; right:23px; top:0; background:url(../img/finance.png) no-repeat 0 -315px;} 
 /*.user-wrap .right .tab{ width:1046px; height:67px; overflow:hidden;}
 .user-wrap .right .tab ul{ height:60px; margin:0 0 0 23px; border-left:1px solid #d6d7dc;}
@@ -224,7 +224,7 @@
 .user-rig .slider{ width:244px; height:373px; overflow:hidden; border:1px solid #d6d7dc;}
 
 .user-rig .wrapper {width:244px; margin:0 auto; padding-bottom:50px;}
-.user-rig #focus {width:244px; height:328px; overflow:hidden; position:relative;}
+.user-rig #focus {width:244px; height:348px; overflow:hidden; position:relative;}
 .user-rig #focus ul {height:373px; position:absolute;}
 .user-rig #focus ul li {float:left; width:244px; height:373px; overflow:hidden; position:relative;}
 .user-rig #focus ul li p{ text-align:center;}
