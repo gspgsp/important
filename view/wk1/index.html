@@ -117,8 +117,9 @@
 						<table id="myTable" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
 					        <thead>
 					            <tr>
+					            	<th>&nbsp;</th>
 					                <th>类型</th>
-					                <th>内容</th>					               
+					                <th colspan="9">内容</th>					               
 					                <th>状态</th>
 					                <th>责任人</th>
 					                <th>时间</th>
@@ -326,8 +327,11 @@
 <!-- 我发布的信息 -->
 <script type="text/html" id="mytrTemp">
 	<tr>
+		<td class="text-center">
+			<input onClick="editmy(<%=data.id%>,this)" type="checkbox" pid="<%=data.id%>">
+		</td>
 	    <td><%=data.type%></td>
-	    <td><%=data.content%></td>
+	    <td colspan="9"><%=data.content%></td>
 	    <td><%=data.status%></td>
 	    <td><%=data.uname%></td>
 	    <td><%=data.date%></td>
@@ -339,6 +343,7 @@
 
 </script>
 
+<!-- 我重新发布的信息显示页面 -->
 <script type="text/html" id="editMyTemp">
 	    <td class="text-center">
 			<input checked onClick="editmy(<%=data.id%>,this)" type="checkbox" pid="<%=data.id%>">
@@ -349,44 +354,8 @@
 				<option <%if (data.type=='求购') {%>selected<%}%> value="求购">求购</option>
 			</select>
 	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.grade%>" name="data[<%=data.id%>][grade]" placeholder="牌号（必填）">
-	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.factory%>" name="data[<%=data.id%>][factory]" placeholder="厂家（必填）">
-	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.num%>" name="data[<%=data.id%>][num]" placeholder="数量（必填）">
-	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.price%>" name="data[<%=data.id%>][price]" placeholder="价格（必填）">
-	    </td>
-        <td>
-    		<select class="form-control selects" name="data[<%=data.id%>][true_price]">
-    			<option <%if (data.true_price=='实价') {%>selected<%}%> vlaue="实价">实价</option>
-    			<option <%if (data.true_price=='可议价') {%>selected<%}%> value="可议价">可议价</option>
-    		</select>
-        </td>
-        <td>
-    		<select class="form-control selects" name="data[<%=data.id%>][ship_type]">
-    			<option <%if (data.ship_type=='自提') {%>selected<%}%> vlaue="自提">自提</option>
-    			<option <%if (data.ship_type=='配送') {%>selected<%}%> value="配送">配送</option>
-    		</select>
-        </td>
-        <td width="10">
-        	<input type="text" class="form-control inputs requirer" value="<%=data.store%>" name="data[<%=data.id%>][store]" placeholder="仓库（必填）">
-        </td>
-        <td>
-    		<select class="form-control selects" name="data[<%=data.id%>][stock]">
-    			<option <%if (data.stock=='现货') {%>selected<%}%> vlaue="现货">现货</option>
-    			<option <%if (data.stock=='期货') {%>selected<%}%> value="期货">期货</option>
-    		</select>
-        </td>
-        <td width="10">
-        	<input type="text" class="form-control inputs " value="<%=data.remark%>" name="data[<%=data.id%>][remark]" placeholder="备注">
-        </td>
-        <td width="10">
-        	<input type="text" class="form-control inputs " value="<%=data.supplier%>" name="data[<%=data.id%>][supplier]" placeholder="供应商">
+        <td colspan="9">
+        	<textarea colspan="9" rows="2" class="form-control inputs " style="width:100%;" value="<%=data.content%>" name="data[<%=data.id%>][content]" placeholder="发布的内容"></textarea>
         </td>
         <td>
     		<select class="form-control selects" name="data[<%=data.id%>][status]">
