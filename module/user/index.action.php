@@ -30,14 +30,12 @@ class indexAction extends userBaseAction{
             $prices['absprice']=abs($prices['price']);
             $array[]=array_merge($arrays,$prices);
         }
-
         $date1=strtotime(date('Ymd'));
-        $count1=M('resourcelib:resourcelib')->getTotalOne($date1);
-        //p($count1);
+        $this->count1=M('resourcelib:resourcelib')->getTotalOne($date1);
         //今日采购发布总数
-        $count2=M('resourcelib:resourcelib')->getTotalTow($date1);
-        //默认最新资讯
-        $ref=M('resourcelib:resourcelib')->getNew();
+        $this->count2=M('resourcelib:resourcelib')->getTotalTow($date1);
+        //实时资讯
+        $this->ref=M('resourcelib:resourcelib')->getNew();
         //最新正在洽谈的求购信息
         $rest=M('product:purchase')->getInfo();
         //积分商品banner
@@ -45,30 +43,19 @@ class indexAction extends userBaseAction{
         //近三个月的订单信息(自营)
         $date= date(strtotime('-90 day'));
         $uid=$this->user_id;
-        $res1=M('product:order')->getOrderStatusInFo($uid,$date);//待审核
-        $res2=M('product:order')->getOrder($uid,$date);          //代付款
-        $res3=M('product:order')->getInvoice($uid,$date);        //带开票
-        $res4=M('product:order')->getOrderCancel($uid,$date);    //已取消
+        $this->res1=M('product:order')->getOrderStatusInFo($uid,$date);//待审核
+        $this->res2=M('product:order')->getOrder($uid,$date);          //代付款
+        $this->res3=M('product:order')->getInvoice($uid,$date);        //带开票
+        $this->res4=M('product:order')->getOrderCancel($uid,$date);    //已取消
         //近三个月的订单信息(联营)
-        $info1=M('product:unionOrder')->getOrderStatusInFo($uid,$date);//待审核
-        $info2=M('product:unionOrder')->getOrder($uid,$date);          //代付款
-        $info3=M('product:unionOrder')->getInvoice($uid,$date);        //带开票
-        $info4=M('product:unionOrder')->getOrderCancel($uid,$date);    //已取消
-        $this->assign('data1',$res1);
-        $this->assign('data2',$res2);
-        $this->assign('data3',$res3);
-        $this->assign('data4',$res4);
-        $this->assign('info1',$info1);
-        $this->assign('info2',$info2);
-        $this->assign('info3',$info3);
-        $this->assign('info4',$info4);
+        $this->info1=M('product:unionOrder')->getOrderStatusInFo($uid,$date);//待审核
+        $this->info2=M('product:unionOrder')->getOrder($uid,$date);          //代付款
+        $this->info3=M('product:unionOrder')->getInvoice($uid,$date);        //带开票
+        $this->info4=M('product:unionOrder')->getOrderCancel($uid,$date);    //已取消
         $this->assign('data',$list);
-        $this->assign('res',$data);
-        $this->assign('count1',$count1);
-        $this->assign('count2',$count2);
+//        $this->assign('res',$data);
         $this->assign('rest',$rest);
         $this->assign('points',$points);
-        $this->assign('ref',$ref);
         $this->assign('prices',$array);
         $this->display('index');
 	}

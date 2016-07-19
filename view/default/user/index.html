@@ -62,18 +62,10 @@
     					<!--classify end-->
     					<!--census begin-->
     					<div class="census flt">
-							{foreach from=$data1 item=val key=key}
-    						<p><a href="/user/selforder?order_status=1">待审核（<span>{$val[number]}</span>）</a></p>
-							{/foreach}
-							{foreach from=$data2 item=val key=key}
-    						<p>待付款（<span>{$val[number]}</span>）</p>
-							{/foreach}
-							{foreach from=$data3 item=val key=key}
-    						<p><a href="/user/selforder?invoice_status=1">待开票（<span>{$val[number]}</span>）</a></p>
-							{/foreach}
-							{foreach from=$data4 item=val key=key}
-    						<p><a href="/user/selforder?order_status=3">已取消（<span>{$val[number]}</span>）</a></p>
-							{/foreach}
+    						<p><a href="/user/selforder?order_status=1">待审核（<span>{$res1[0][number]}</span>）</a></p>
+    						<p>待付款（<span>{$res2[0][number]}</span>）</p>
+    						<p><a href="/user/selforder?invoice_status=1">待开票（<span>{$res3[0][number]}</span>）</a></p>
+    						<p><a href="/user/selforder?order_status=3">已取消（<span>{$res4[0][number]}</span>）</a></p>
     					</div>
     					<!--census end-->
     				</li>
@@ -85,18 +77,10 @@
     					<!--classify end-->
     					<!--census begin-->
     					<div class="census flt">
-							{foreach from=$info1 item=val key=key}
-							<p><a href="user/unionorder?order_status=1">待审核（<span>{$val[number]}</span>）</a></p>
-							{/foreach}
-							{foreach from=$info2 item=val key=key}
-							<p>待付款（<span>{$val[number]}</span>）</p>
-							{/foreach}
-							{foreach from=$info3 item=val key=key}
-							<p><a href="/user/unionorder?invoice_status=1">待开票（<span>{$val[number]}</span>）</a></p>
-							{/foreach}
-							{foreach from=$info4 item=val key=key}
-							<p><a href="/user/unionorder?order_status=3">已取消（<span>{$val[number]}</span>）</a></p>
-							{/foreach}
+							<p><a href="user/unionorder?order_status=1">待审核（<span>{$info1[0][number]}</span>）</a></p>
+							<p>待付款（<span>{$info2[0][number]}</span>）</p>
+							<p><a href="/user/unionorder?invoice_status=1">待开票（<span>{$info3[0][number]}</span>）</a></p>
+							<p><a href="/user/unionorder?order_status=3">已取消（<span>{$info4[0][number]}</span>）</a></p>
     					</div>
     					<!--census end-->
     				</li>
@@ -194,20 +178,13 @@
     			<div class="resource flt">
     				<div class="tit"><h2>资源库</h2></div>
     				<ul>
-						{foreach from=$count2 item=val }
-    					<li class="res1"><p>今日发布求购</p><span>{$val.total}</span></li>
-						{/foreach}
-						{foreach from=$count1 item=val }
-    					<li class="res2"><p>今日发布供应</p><span>{$val.total}</span></li>
-						{/foreach}
+    					<li class="res1"><p>今日发布求购</p><span>{$count2[0][total]}</span></li>
+    					<li class="res2"><p>今日发布供应</p><span>{$count1[0][total]}</span></li>
     				</ul>
     				<h4>实时资源</h4>
 					<div id="refreshs">
-						{foreach from=$ref item=val}
-						<p>{$val.user_nick}<br/>{$val.contents}</p>
-						{/foreach}
+						<p>{$ref[0][user_nick]}<br/>{$ref[0][contents]}</p>
 					</div>
-
     			</div>
     			<!--resource end-->
     			<!--release begin-->
