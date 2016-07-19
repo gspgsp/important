@@ -417,7 +417,7 @@ class mainPageModel extends model
     }
     //获取供求(公海的报价和求购) 1求(采)购 2报价
     public function getPublicQuoPur($type,$otype,$page=1,$size=10,$sortField='input_time',$sortOrder='desc'){
-        $where = "pur.type=$type";
+        $where = "pur.type=$type and pur.shelve_type=1";
         if($otype==1){
             $sortField = 'unit_price';
             $sortOrder='asc';
