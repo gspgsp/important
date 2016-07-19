@@ -129,8 +129,13 @@ class mainPageModel extends model
             return $data;
     }
     //搜索结果列表的操作按钮，下三角
-    private function _getOperateRes($p_id){
-        $opres = $this->model('purchase')->where('p_id='.$p_id)->select('id,p_id,user_id,c_id,number,unit_price,provinces,input_time')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
+    private function _getOperateRes($p_id,$type){
+        if($type){
+            $where="p_id=$p_id and type=$type";
+        }else{
+            $where="p_id=$p_id";
+        }
+        $opres = $this->model('purchase')->where($where)->select('id,p_id,user_id,c_id,number,unit_price,provinces,input_time')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
         foreach ($opres as $key => $value) {
             $opres[$key]['provinces'] = $this->model('lib_region')->select('name')->where('id='.$value['provinces'])->getOne();
             $opres[$key]['company'] = $this->model('customer')->select('c_name')->where('c_id='.$value['c_id'])->getOne();
@@ -433,7 +438,7 @@ class mainPageModel extends model
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$type);
             }
             return $data;
     }
@@ -510,7 +515,7 @@ class mainPageModel extends model
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$type);
             }
             return $data;
     }
