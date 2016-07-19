@@ -58,10 +58,18 @@ class contactAction extends adminBaseAction {
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+			if(!empty($pools)){
+				$cids = explode(',', $pools);
+			}
+		}
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			$list['data'][$k]['depart']=C('depart')[$v['depart']];
 			$list['data'][$k]['sex']=L('sex')[$v['sex']];
+			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $v['name'];
+			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $v['mobile'];
 			$list['data'][$k]['c_id']= M('user:customer')->getColByName($v['c_id']);
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';

@@ -94,6 +94,7 @@ class customerAction extends adminBaseAction {
 				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 				$where .= " and `customer_manager` in ($sons) ";
 				if(!empty($pools)){
+					$cids = explode(',', $pools);
 					$where .= " or `c_id` in ($pools)";
 				}
 				if(!empty($cidshare)){
@@ -101,11 +102,7 @@ class customerAction extends adminBaseAction {
 				}
 			}
 		}
-		$list=$this->db
-		    ->where($where)
-			->page($page+1,$size)
-			->order("$sortField $sortOrder")
-			->getPage();
+		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 		 	$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			$list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
@@ -118,8 +115,8 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['chk'] = $this->_accessChk();
 			//获取联系人的姓名和手机号
 			$contact = $this->db->model('customer_contact')->select('name,mobile')->where('c_id='.$v['c_id'])->getRow();
-			$list['data'][$k]['name'] = $contact['name'];
-			$list['data'][$k]['mobile'] = $contact['mobile'];
+			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $contact['name'];
+			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $contact['mobile'];
 			//获取最新一次跟踪消息
 			$message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();
 			$list['data'][$k]['remark'] = $message;
@@ -217,6 +214,14 @@ class customerAction extends adminBaseAction {
 		if(empty($info)) $this->error('错误的公司信息');
 		// 根据公司查询联系人信息
 		$info_ext = $this->db->model('customer_contact')->getPk($info['contact_id']);
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+			if(!empty($pools)){
+				$cids = array_values(explode(',', $pools));
+			}
+		}
+		$info_ext['name'] = in_array($info_ext['c_id'],$cids) ? '*' :  $info_ext['name'];
+		$info_ext['mobile'] = in_array($info_ext['c_id'],$cids) ? '*' :  $info_ext['mobile'];
 		$this->assign('info_ext',$info_ext); //分陪l联系人信息
 		$this->assign('ctype',3);
 		// p(arrayKeyValues(M('system:region')->get_regions(1),'id','name'));
