@@ -559,7 +559,7 @@ class mainPageAction extends homeBaseAction
                 if($pid){
                     //已有产品直接添加采购信息
                     $_data['p_id']=$pid;//产品id
-                    if($pur_model->where("p_id=$pid and number=$number and unit_price=$price and provinces=$provinces and store_house='{$store_house}' and period=$period and bargain=$bargain")->getRow()) $this->json_output(array('err'=>3,'msg'=>'请不要重复相同的报价'));
+                    if($pur_model->where("p_id=$pid and number=$number and unit_price=$price and provinces=$provinces and store_house='{$store_house}' and period=$period and bargain=$bargain")->getAll()) $this->json_output(array('err'=>3,'msg'=>'请不要重复相同的报价'));
                     $pur_model->add($_data);
                 }else{
                     //没有产品则新增一个产品
