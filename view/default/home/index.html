@@ -653,7 +653,8 @@
     	<div class="title">
             <ul>
                 {foreach from=$product_type item=value key=key}
-                <li id="taba{$key}" onmouseover="setTab('taba',{$key},5)" {if $key==1}class="hover"{/if}><span>{$value}</span><b></b>/</li> 
+                <li id="taba{$key}" onmouseover="setTab('taba',{$key},5)" {if $key==1}class="hover"{/if}><span>{$value}</span><b></b>/
+                </li>
                 {/foreach}
             </ul>
         </div>

@@ -12,7 +12,7 @@
         <!--right begin-->
         <ul class="right frt">
         {if $smarty.session.userid > 0 }
-            <a href="/user/" class="mycount">{$smarty.session.uinfo.name} 我的账户</a>
+            <a href="/user" class="mycount">{$smarty.session.uinfo.name}个人中心</a>
             <a href="/user/logout" class="loginout">退出登录</a>
         {else}
         	<li class="login"><a href="/user/login">登录</a></li>
