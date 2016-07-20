@@ -533,7 +533,7 @@ class personalCenterAction extends homeBaseAction
 		if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
 		//$ids = sget('ids','a');
 		$ids = $_POST['ids'];
-		$ids = explode(",",$ids);
+		$ids = explode(",","{$ids}");
 		$result = M('myapp:personalAppCenter')->mulDelMyAttention($ids);
 		$this->json_output($result);
 	}
