@@ -107,15 +107,16 @@ class orderAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
+		$orderby = "$sortField $sortOrder";
 		//筛选过滤自己的订单信息
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
 			//筛选财务
 			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
-			if(in_array($roleid, array('30','26','27'))) $where .= " and `order_status` = 2 and `transport_status` = 2 ";
+			if(in_array($roleid, array('30','26','27'))) $where .= " and `order_status` = 2 and `transport_status` = 2 "; $orderby = "update_time desc";
 		}
-		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
+		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		foreach($list['data'] as &$v){
 			$v['c_name']=  $v['partner'] == $_SESSION['adminid'] ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
