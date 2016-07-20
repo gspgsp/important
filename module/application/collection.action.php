@@ -90,10 +90,13 @@ class collectionAction extends adminBaseAction
 		}
 
 		//筛选领导级别
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-			$where .= " and `customer_manager` in ($sons) ";
-		}
+		// if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+		// 	$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+		// 	$where .= " and `customer_manager` in ($sons) ";
+		// }
+		
+		//必须只能看业务员自己的申请
+		$where .=" and `customer_manager`= $_SESSION['adminid']";
 
 		//p($where);die;
 		$list=$this->db->where($where)
