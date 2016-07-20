@@ -63,6 +63,7 @@
 							<li><a href="/user/register">免费注册</a></li>
 						{/if}
 					{/if}
+					
 					<!--<li style="color:orange;">-->
 						<!--<if condition="$_SESSION['webUserId'] neq ''">-->
 							<!--<else />-->
@@ -74,11 +75,11 @@
 						<!--<a href="">注册</a>-->
 					<!--</li>-->
 
-					<li><a href="/page/show.html?cid=15">常见问题</a></li>
+					<li><a href="/page?id=15">常见问题</a></li>
 
-					<li><a href="/page/show.html?cid=11">联系我们</a></li>
+					<li><a href="/page?id=5601">联系我们</a></li>
 
-					<li><a href="/page/show.html?cid=9">意见反馈</a></li>
+					<li><a href="/page?id=17">意见反馈</a></li>
 
 				</ul>
 
@@ -894,7 +895,7 @@
 
 				<span>预计运费</span>
 
-				<p><b>￥</b><i class="fee">577.50</i></p>
+				<p><b>￥</b><i class="fee"></i></p>
 
 				<div class="other">该报价含<em>开票费</em>和<em>上车费</em></div>
 
@@ -976,7 +977,7 @@
 
 <script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
 
-<script type="text/javascript" src="__JS__/home/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/home/layer-v1.8.5/layer.min.js"></script>
 
 <script type="text/javascript" src="__JS__/home/address.js"></script>
 
@@ -990,7 +991,7 @@ $(function(){
 	//跳转到反馈意见页面
 	$(".fix3").bind("click",function(){
 		
-		window.open("http://user.wodesuliao.cn/page/show.html?cid=9");
+		window.open("http://new.wodesuliao.cn//page?id=17");
 	});
 
 	//返回顶部
@@ -1181,47 +1182,27 @@ $(function(){
 		}
 
 		//异步获取价格信息
-
 		var form =addrFromInput.val();
-
 		var to = addToInput.val().split('|')[1];
-
 		var pr = addToInput.val().split('|')[0];
-
 		var weight = numInput.val();
-
 		$.ajax({
-
 			url: "/ship/index/get_price",
-
 			type : 'post',
-
 			dataType : 'json',
-
 			data : {s : form, e : to, w : weight, p : pr},
-
 				success:function(data){
-
 				if(data.err==0){
-
 					$('.fee').html(data.msg);
-
+					console.log(data.msg);
 					$.layer({
-
 						area: ['640px', '300px'],
-
 						border:[0],
-
 						type: 1,
-
 						title:false,
-
 						page: {dom:'.layer'},
-
 						close:function(){
-
 						},
-
 						success:function(){
 
 							layerSearch.show();
@@ -1241,25 +1222,20 @@ $(function(){
 					});
 
 				}else{
-
-
-		$.layer({
-			area: ['400px', '180px'],
-			border:[0],
-			type: 1,
-			title:false,
-			page: {dom:'.layer-error'},
-			close:function(){
-			},
-			success:function(){
-				var str = "您所查询的不在该范围";
-				$(".layer-error p").html(str);
-				$(".layer-error").parent().next("span").find("a").addClass("layer-close");
-			} 
-		});
-
-
-
+						$.layer({
+							area: ['400px', '180px'],
+							border:[0],
+							type: 1,
+							title:false,
+							page: {dom:'.layer-error'},
+							close:function(){
+							},
+							success:function(){
+								var str = "您所查询的不在该范围";
+								$(".layer-error p").html(str);
+								$(".layer-error").parent().next("span").find("a").addClass("layer-close");
+							}
+						});
 
 				}
 
@@ -1282,7 +1258,7 @@ $(function(){
 				border: [0],
 				title: false,
 				fix:true,
-				iframe: {src : "http://user.wodesuliao.cn/login/loginbox?type=ship"},
+				iframe: {src : "http://new.wodesuliao.cn/user/login/loginbox?type=ship"},
 				area: ['360px', '340px']
 			});
 			return;
@@ -1292,7 +1268,6 @@ $(function(){
 	//点击我要订车
 
 	$(".order-car .btn").bind("click",function(){
-
 		if($(".my-user").val()==""){
 			//iframe登录窗
 			$.layer({
@@ -1300,7 +1275,7 @@ $(function(){
 				border: [0],
 				title: false,
 				fix:true,
-				iframe: {src : "http://user.wodesuliao.cn/login/loginbox?type=ship"},
+				iframe: {src : "http://new.wodesuliao.cn/user/login/loginbox?type=ship"},
 				area: ['360px', '340px']
 			});
 			return;
@@ -1369,10 +1344,6 @@ $(function(){
 
 						      	var str = "",n=3;
 
-						      	
-
-
-
 						      	setInterval(function(){
 
 						      		str  = data.msg+(n--)+"秒后跳转到登录页";
@@ -1418,14 +1389,9 @@ $(function(){
 	$(".find-car-btn").bind("click",function(){
 
 		if(findCarInput.val()==""){
-
 			findCarInput.focus();
-
 			return;
-
-		}
-
-		else{
+		} else{
 
 			$.layer({
 
@@ -1441,18 +1407,14 @@ $(function(){
 
 			close:function(){
 
-				
-
 			},
 
 			success:function(){
-
 				layerSearch.hide();
 
 				layerAnswer.show();
 
 				$(".layer").parent().next("span").find("a").addClass("layer-close");
-
 			} 
 
 			});
