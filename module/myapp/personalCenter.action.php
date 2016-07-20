@@ -282,7 +282,10 @@ class personalCenterAction extends homeBaseAction
 		$chkRes = $this->_chkToken($dataToken,$this->userid);
 		if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
 		$id = sget('id','i',0);
-		$data = sget('qdata','a');
+		$number = sget('number','f');//数量
+		$unit_price = sget('unit_price','f');//价格
+		$data['number']=$number;
+		$data['unit_price']=$unit_price;
 		$p_id = sget('pid','i',0);
 		$result = M('touch:myquotation')->refreshCell($id, $data, $p_id);
 		$this->json_output($result);
