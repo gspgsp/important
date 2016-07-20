@@ -131,7 +131,7 @@ class mainPageModel extends model
     //搜索结果列表的操作按钮，下三角
     private function _getOperateRes($p_id,$type){
         if($type){
-            $where="p_id=$p_id and type=$type";
+            $where="p_id=$p_id and type=$type and shelve_type=1";
         }else{
             $where="p_id=$p_id";
         }
