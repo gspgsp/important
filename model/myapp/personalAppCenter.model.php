@@ -92,51 +92,27 @@ class personalAppCenterModel extends model
         }
         return $products;
     }
-
-        function getmaxdim($vDim)
-        {
-                if(!is_array($vDim)) return 0;
-                else
-                {
-                        $max1 = 0;
-                        foreach($vDim as $item1)
-                        {
-                            $t1 = $this->getmaxdim($item1);
-                            if( $t1 > $max1) $max1 = $t1;
-                        }
-                        return $max1 + 1;
-                }
-        }
-
     //我的关注全选/不选删除操作
     public function mulDelMyAttention($ids){
         $rtn_sucess= 0;
         $rtn_fail= 0;
-        $sql1='';
-        $sql2='';
-        //$pb = $this->getmaxdim($ids);
-
-
+        $total = count($ids);
         foreach ($ids as $id) {
             if(!empty($id)){
                 $result = $this->model('concerned_product')->where('id='.$id)->delete();
                 if($result){
                     $rtn_sucess = $rtn_sucess +1;
-                    $sql1=$sql1.$this->model('concerned_product')->where('id='.$id)->getLastSql();
-                }else
-                {
+                }else{
                     $rtn_fail=$rtn_fail+1;
-                    $sql2=$sql2.$this->model('concerned_product')->where('id='.$id)->getLastSql();
                 }
             }
         }
 
         if($rtn_fail>0)
         {
-            return array('err'=>1,'msg'=>json_encode($ids).'成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条'.$sql2);
-        }else
-        {
-            return array('err'=>0,'msg'=>json_encode($ids).'成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条'.$sql1);
+            return array('err'=>1,'msg'=>'共选中:'.$total.'条,成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条');
+        }else{
+            return array('err'=>0,'msg'=>'共选中:'.$total.'条,成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条');
         }
 
 
