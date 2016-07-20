@@ -1003,19 +1003,19 @@
 		var p=btn.attr('p');
 		if(re) p=1;
 		btn.html('加载中..');
-		// $.get('/wk/index/loadMore',{type:type,p:p},function (data){
-		// 	var html='';
-		// 	$(data.list).each(function(k, v){
-		// 		html+=template('trTemp', {data:v});
-		// 	})
-		// 	if(re){
-		// 		$("#"+form+"").html(html);
-		// 	}else{
-		// 		$("#"+form+"").append(html);
-		// 	}
-		// 	btn.attr('p',data.p);
-		// 	btn.html('加载更多');
-		// },'json');
+		$.get('/wk/index/loadMore',{type:type,p:p},function (data){
+			var html='';
+			$(data.list).each(function(k, v){
+				html+=template('trTemp', {data:v});
+			})
+			if(re){
+				$("#"+form+"").html(html);
+			}else{
+				$("#"+form+"").append(html);
+			}
+			btn.attr('p',data.p);
+			btn.html('加载更多');
+		},'json');
 	}
 
 	var t="{$time}";
