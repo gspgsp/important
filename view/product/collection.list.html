@@ -151,7 +151,7 @@ function transaction(oid,order_type,id){
 		title="付款申请审核";
 	}
 	mini.open({
-		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type+"&finance="+finance+"&id="+id,
+		url: "/product/collection/transactionInfo?o_id="+oid+"&order_type="+type+"&finance="+finance+"&id="+id,
 		showMaxButton:true,
 		 title: title, width: width, height:height,
 		ondestroy: function (action) {
