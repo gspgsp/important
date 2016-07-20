@@ -9,6 +9,7 @@ class collectionAction extends adminBaseAction
 		$this->assign('pay_method',L('pay_method'));		 	//付款方式
 		$this->assign('invoice_status',L('invoice_status'));    //开票状态
 		$this->assign('company_account',L('company_account'));  //交易公司账户order_type
+
 	}
 
 	/**
@@ -93,7 +94,8 @@ class collectionAction extends adminBaseAction
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 			$where .= " and `customer_manager` in ($sons) ";
 		}
-		
+
+		//p($where);die;
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder".', payment_time DESC')
@@ -217,7 +219,7 @@ class collectionAction extends adminBaseAction
 					$id = $data['id'];
 					unset($data['id']);
 					//更新收付款信息
-					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid']))) $this->error("交易失败");
+					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败");
 					//添加account_log账户明细信息,默认设计账户类型就是账户id
 					$add_data['account_id']=$data['account'];
 					$add_data['money']=$data['collected_price'];
