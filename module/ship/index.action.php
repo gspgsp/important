@@ -3,7 +3,7 @@ class indexAction extends homeBaseAction{
 
 	public function init()
 	{
-		
+//		p($_SESSION);
 		$this->display('index.html');
 	}
 

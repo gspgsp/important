@@ -18,17 +18,22 @@
             <li>欢迎光临<a href="/">我的塑料网</a>！</li>
             <li class="collect"><a href="javascript:Addme();">收藏本站</a></li>
             <li class="blog"><a target="_blank" href="http://weibo.com/u/5664121161">官方微博</a></li>
+            {if $smarty.session.userid > 0 }
+            <li><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
+                {else}
+                 <li><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
+            {/if}
         </ul>
         <!--top-lt end-->
         <!--top-rt begin-->
         <ul class="top-rt frt">
             {if !empty($auth_info)}
                  <li>{$auth_info.name}</li>
-            {else}
+                 {else}
                 {if $smarty.session.userid > 0 }
                 <li><a id="user_name" href="/user">{$smarty.session.uinfo.name} 个人中心</a></li>
                 <li class="login"><a href="/user/logout"  >退出登录</a></li>
-                {else}
+                   {else}
                 <li class="login"><a  href="/user/login">您好，请登录</a></li>
                 <li><a href="/user/register">免费注册</a></li>
                 {/if}

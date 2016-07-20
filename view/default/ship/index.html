@@ -63,7 +63,7 @@
 							<li><a href="/user/register">免费注册</a></li>
 						{/if}
 					{/if}
-					
+
 					<!--<li style="color:orange;">-->
 						<!--<if condition="$_SESSION['webUserId'] neq ''">-->
 							<!--<else />-->
@@ -99,9 +99,7 @@
 
 			<ul id="news-text">
 
-
 					<li>123 于 122 委托 <span>21321</span> 吨货物 已经成交</li>
-
 
 			</ul>
 
@@ -1280,7 +1278,7 @@ $(function(){
 			});
 			return;
 	    }
-		
+
 
 		//异步获取价格信息
 
@@ -1348,7 +1346,7 @@ $(function(){
 
 						      		str  = data.msg+(n--)+"秒后跳转到登录页";
 
-						      		$(".layer-erro p").html(str);	
+						      		$(".layer-erro p").html(str);
 
 						      		if(n<0) n=0;
 
@@ -1356,31 +1354,22 @@ $(function(){
 
 						      	},1000);
 
-						   
+
 
 						      }
 
-						      $(".layer-error p").html(data.msg);	
+						      $(".layer-error p").html(data.msg);
 
-						      $(".layer-error").parent().next("span").find("a").addClass("layer-close");
+							$(".layer-error").parent().next("span").find("a").addClass("layer-close");
 
-						} 
-
+						}
 					});
-
 				}
-
 			},
-
-
-
 		 })
-
-		
-
 	});
 
-	
+
 
 	//点击立即找车
 
@@ -1411,7 +1400,6 @@ $(function(){
 
 			success:function(){
 				layerSearch.hide();
-
 				layerAnswer.show();
 
 				$(".layer").parent().next("span").find("a").addClass("layer-close");
