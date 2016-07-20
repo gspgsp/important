@@ -301,7 +301,8 @@ class personalCenterAction extends homeBaseAction
 		$chkRes = $this->_chkToken($dataToken,$this->userid);
 		if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
 		//取出所有的id
-		$ids = sget('ids','a');
+		//$ids = sget('ids','a');
+		$ids=explode(",",sget('ids','s'));
 		$up = sget('up','i');
 		$down = sget('down','i');
 		$del = sget('del','i');
