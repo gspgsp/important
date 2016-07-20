@@ -14,13 +14,11 @@ class loginAction extends homeBaseAction{
 
 	public function init()
 	{
-//		$this->display('login');
 		$this->display('logion');
 	}
 
 	public function dolongin()
 	{
-
 		if(isset($_REQUEST['username'])){
 			$this->is_ajax=true;
 			$username=sget('username','s');
