@@ -93,20 +93,20 @@ class personalAppCenterModel extends model
         return $products;
     }
 
-   //判断数组维数
-   public function getmaxdim($arr){
-    　　if(!is_array($arr)){
-    　　return 0;
-    　　}else{
-    　　$dimension = 0;
-    　　foreach($arr as $item1)
-    　　{
-    　　$t1=$this->getmaxdim($item1);
-    　　if($t1>$dimension){$dimension = $t1;}
-    　　}
-    　　return $dimension+1;
-    　　}
-　　}
+        function getmaxdim($vDim)
+        {
+                if(!is_array($vDim)) return 0;
+                else
+                {
+                        $max1 = 0;
+                        foreach($vDim as $item1)
+                        {
+                            $t1 = $this->getmaxdim($item1);
+                            if( $t1 > $max1) $max1 = $t1;
+                        }
+                        return $max1 + 1;
+                }
+        }
 
     //我的关注全选/不选删除操作
     public function mulDelMyAttention($ids){
@@ -114,13 +114,13 @@ class personalAppCenterModel extends model
         $rtn_fail= 0;
         $sql1='';
         $sql2='';
-        $pb = getmaxdim($ids);
+        $pb = $this->getmaxdim($ids);
 
         foreach ($ids as $id) {
             if(!empty($id)){
                 if($pb>=2)
                 {
-                    $id = $id[0];
+                $id = $id[0];
                 }
                 $result = $this->model('concerned_product')->where('id='.$id)->delete();
                 if($result){
