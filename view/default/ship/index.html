@@ -52,10 +52,27 @@
 				<ul>
 
 					<li class="home"><a href="/">返回我的塑料网首页</a></li>
-
-					<li style="color:orange;"><if condition="$_SESSION['webUserId'] neq ''"><else /><a href="javascript:;" class="login">登录</a></if></li>
-
-					<li style="color:#FFF;">|&nbsp;&nbsp;&nbsp;<a href="">退出</a><a href="">注册</a></li>
+					{if !empty($auth_info)}
+							<li>{$auth_info.name}</li>
+					   {else}
+					   {if $smarty.session.userid>0}
+							<li>{$smarty.session.uinfo.name}</li>
+							<li style="color:orange;"><a href="/user/logout" class="login">退出登录</a></li>
+							{else}
+					        <li style="color:#FFF;">|&nbsp;&nbsp;&nbsp;<a href="/user/login">请登录</a></li>
+							<li><a href="/user/register">免费注册</a></li>
+						{/if}
+					{/if}
+					<!--<li style="color:orange;">-->
+						<!--<if condition="$_SESSION['webUserId'] neq ''">-->
+							<!--<else />-->
+							<!--<a href="javascript:;" class="login">登录</a>-->
+						<!--</if>-->
+					<!--</li>-->
+					<!--<li style="color:#FFF;">|&nbsp;&nbsp;&nbsp;-->
+						<!--<a href="">退出</a>-->
+						<!--<a href="">注册</a>-->
+					<!--</li>-->
 
 					<li><a href="/page/show.html?cid=15">常见问题</a></li>
 
