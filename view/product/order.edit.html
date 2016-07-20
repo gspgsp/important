@@ -53,10 +53,10 @@
 						<td><input name="c_fax" class="mini-combobox" style="width:125px;" value="{$info.c_fax}" data='{:setMiniConfig|$c_fax}'  required="true" textfield="name" valuefield="id"/></td>
 					</tr>
 					<tr>
-						<td><font style="color:blue;"><span  style="display:none;" id="get">提货</span><span id="send">送货</span>日期<font style="color:red;"> * </font></font></td>
+						<td><font style="color:blue;"><span  id="get">提货</span><span id="send" style="display:none;">送货</span>日期<font style="color:red;"> * </font></font></td>
 						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
 						</td>
-						<td><font style="color:blue;"><span style="display:none;" id="get1">提货</span><span id="send1">送货</span>地点<font style="color:red;"> * </font></font></td>
+						<td><font style="color:blue;"><span id="get1">提货</span><span id="send1" style="display:none;">送货</span>地点<font style="color:red;"> * </font></font></td>
 						<td><input name="pickuplocation" class="mini-textbox" style="width:125px;"  required="true" value="{$info.pickuplocation}"/></td>
 					</tr>
 					<tr>
@@ -282,16 +282,16 @@ function delDetail(index){
 }
 function changtransport(e){
 	var val = e.value;
-	if(val == 1 || val ==2){
+	if(val == 1){
+		$("#get").show();
+		$("#get1").show();
+		$("#send1").hide();
+		$("#send").hide();
+	}else{
 		$("#get").hide();
 		$("#get1").hide();
 		$("#send").show();
 		$("#send1").show();
-	}else{
-		$("#send").hide();
-		$("#get").show();
-		$("#send1").hide();
-		$("#get1").show();
 	}
 }
 function CloseWindow(action) {            

@@ -111,6 +111,9 @@ class orderAction extends adminBaseAction {
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
+			//筛选财务
+			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+			if(in_array($roleid, array('30','26','27'))) $where .= " and `order_status` = 2 and `transport_status` = 2 ";
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as &$v){
