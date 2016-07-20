@@ -306,6 +306,9 @@ function onLoadDetail(e){
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
 					if( join_id != '0' && is_join_check == '0' ){ //关联的采购未审核
 						s +='(采购单审核中...)';
+						if(see=='1'){
+							s+='&nbsp;|&nbsp;<a href="javascript:salecompact('+oid+')">合同</a>';
+						}
 						return s;
 					}else if( join_id != '0' && is_join_check == '2' ){ //关联的采购审核不通过
 						s +='(采购单审核不通过...)';
@@ -327,7 +330,6 @@ function onLoadDetail(e){
 								
 							}
 						}
-						
 						if (c_status !='3' && one_c_status !='1'  && transport_status =='2') {
 						s+='&nbsp;|&nbsp;<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>';
 						}

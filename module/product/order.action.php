@@ -114,7 +114,10 @@ class orderAction extends adminBaseAction {
 			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
 			//筛选财务
 			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
-			if(in_array($roleid, array('30','26','27'))) $where .= " and `order_status` = 2 and `transport_status` = 2 "; $orderby = "update_time desc";
+			if(in_array($roleid, array('30','26','27'))){
+				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
+				 $orderby = "update_time desc";
+			} 
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		foreach($list['data'] as &$v){
