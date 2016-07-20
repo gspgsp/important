@@ -20,6 +20,7 @@ return array(
 		'/^mycompany\/([0-9]+)$/'=>'mycompany/index/init?id=$1',//我的网站子网站路由
 		'/^article\/show\/([0-9]+)$/'=>'article/index/info?id=$1',
 		'/^physical\/([0-9]+)$/' => 'physical/index/content/id/$1.html',
+		'/^myHomeWeb\/([0-9]+)$/'=>'user/myHomeWeb/getMyWeb'
 	),
 
 	//子(泛)域名路由规则
