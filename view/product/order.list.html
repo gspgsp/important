@@ -29,9 +29,10 @@
 					<option value="" selected="selected">抬头</option>
 					{html_options options=$company_account}
 				</select>
-				<select name="order_source">
-					<option value="" selected="selected">来源</option>
-					{html_options options=$order_source}
+				<select name="financial_records">
+					<option value="" selected="selected">财务记录</option>
+					<option value="1">是</option>
+					<option value="2">否</option>
 				</select>
 				<select name="pay_method" >
 					<option value="" selected="selected">付款</option>
@@ -89,6 +90,7 @@
 			<div field="type_status" width="70" headerAlign="center" align="center">{if $order_type eq 1}销售{else}采购{/if}|物流</div>
 			<div field="financial_records" width="45" headerAlign="center" align="center">财务记录</div>
 			<div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
+			<div field="update_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">更新时间</div>
 			<div field="cmanager" width="40" headerAlign="center" align="center">交易员</div>
 			{if $order_type eq 1}
 			 <div name="action" width="40" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>

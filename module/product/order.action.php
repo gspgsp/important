@@ -76,8 +76,8 @@ class orderAction extends adminBaseAction {
 		if(sget('type','i',0) !=0) $order_type=sget('type','i',0);//订单类型
 		if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
 		if($order_type !=0)  $where.=" and `order_type` =".$order_type;
-		$order_name=sget('order_name','i',0);//抬头
-		if($order_name !=0)  $where.=" and `order_name` =".$order_name;
+		$financial_records=sget('financial_records','s');//抬头
+		if($financial_records !='')  $where.=" and `financial_records` = ".$financial_records;
 		$order_source=sget('order_source','i',0);//订单来源
 		if($order_source !=0)  $where.=" and `order_source` =".$order_source;
 		$pay_method=sget('pay_method','i',0);//付款方式
