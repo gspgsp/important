@@ -524,19 +524,19 @@ class personalCenterAction extends homeBaseAction
 	//我的关注全选/不选删除
 	public function delMyAttention(){
 		$this->is_ajax=true;
-		//if($this->user_id<=0) $this->error('账户错误');
-		$dataToken = sget('dataToken','s');
-		//保存用户的id
-		$this->userid = M('myapp:token')->deUserId($dataToken);
-		//token检查
-		$chkRes = $this->_chkToken($dataToken,$this->userid);
-		if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
-		//$ids = sget('ids','a');
-		$ids = $_POST['ids'];
-		//$ids = explode(",","{$ids}");
-		$ids = json_decode($ids);
-		$result = M('myapp:personalAppCenter')->mulDelMyAttention($ids);
-		$this->json_output($result);
+        //if($this->user_id<=0) $this->error('账户错误');
+        $dataToken = sget('dataToken','s');
+        //保存用户的id的值
+        $this->userid = M('myapp:token')->deUserId($dataToken);
+        //token检查
+        $chkRes = $this->_chkToken($dataToken,$this->userid);
+        if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
+        //$ids = sget('ids','a');
+        $ids = $_POST['ids'];
+        $ids = explode(",",$ids);
+        $result = M('myapp:personalAppCenter')->mulDelMyAttention($ids);
+        $this->json_output($result);
+
 	}
 	//积分明细
 	public function creditDetail(){
