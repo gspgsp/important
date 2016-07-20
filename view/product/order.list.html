@@ -301,14 +301,20 @@ function onLoadDetail(e){
 	if(order_type=='1'){	//销售
 		// s+='<a href="javascript:salecompact('+oid+')">合同</a>&nbsp;|&nbsp;';
 		if(order_status =='3' || transport_status =='3') return;
+
+		//向辉修改财务按钮出现位置，销售物流审核通过后既可以出现
+		if( order_status =='2' && transport_status =='2' ){
+			if(financial_records == '否'){
+				s+='<a href="javascript:financialInfo('+oid+')">财务</a>';
+			}
+		}
+
+
 			var where1= sales_type == '1' ? (order_status =='2' && transport_status=='2') : (order_status =='2') ;
 			if(where1){   //先采后销和先销后采审核条件不同
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
 					if( join_id != '0' && is_join_check == '0' ){ //关联的采购未审核
 						s +='(采购单审核中...)';
-						if(see=='1'){
-							s+='&nbsp;|&nbsp;<a href="javascript:salecompact('+oid+')">合同</a>';
-						}
 						return s;
 					}else if( join_id != '0' && is_join_check == '2' ){ //关联的采购审核不通过
 						s +='(采购单审核不通过...)';
@@ -317,9 +323,9 @@ function onLoadDetail(e){
 
 						if( out_storage_status != '已出库'){ //没有全部发货时可见发货按钮
 							if( order_status =='2' && transport_status =='2' ){
-								if(financial_records == '否'){
-									s+='<a href="javascript:financialInfo('+oid+')">财务</a>';
-								}
+								// if(financial_records == '否'){
+								// 	s+='<a href="javascript:financialInfo('+oid+')">财务</a>';
+								// }
 								if(sales_type == '1'){
 									s+='&nbsp;|&nbsp;<a href="javascript:outStorage('+oid+')">发货</a>';
 								}else{ //先销后采
@@ -330,6 +336,7 @@ function onLoadDetail(e){
 								
 							}
 						}
+						
 						if (c_status !='3' && one_c_status !='1'  && transport_status =='2') {
 						s+='&nbsp;|&nbsp;<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>';
 						}
@@ -346,7 +353,7 @@ function onLoadDetail(e){
 
 					}
 				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
-					s+='<a href="javascript:changePurchase('+oid+')">生成采购</a>';
+					s+='&nbsp;|&nbsp;<a href="javascript:changePurchase('+oid+')">生成采购</a>';
 				}	
 			}
 		if(see=='1'){	
