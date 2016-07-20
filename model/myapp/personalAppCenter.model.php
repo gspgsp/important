@@ -114,14 +114,10 @@ class personalAppCenterModel extends model
         $rtn_fail= 0;
         $sql1='';
         $sql2='';
-        $pb = $this->getmaxdim($ids);
+        //$pb = $this->getmaxdim($ids);
 
         foreach ($ids as $id) {
             if(!empty($id)){
-                if($pb>=2)
-                {
-                $id = $id[0];
-                }
                 $result = $this->model('concerned_product')->where('id='.$id)->delete();
                 if($result){
                     $rtn_sucess = $rtn_sucess +1;
@@ -136,10 +132,10 @@ class personalAppCenterModel extends model
 
         if($rtn_fail>0)
         {
-            return array('err'=>1,'msg'=>'成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条'.$sql2);
+            return array('err'=>1,'msg'=>json_encode($ids).'成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条'.$sql2);
         }else
         {
-            return array('err'=>0,'msg'=>'成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条'.$sql1);
+            return array('err'=>0,'msg'=>json_encode($ids).'成功删除:'.$rtn_sucess.'条,删除失败:'.$rtn_fail.'条'.$sql1);
         }
 
 
