@@ -145,7 +145,7 @@ class orderAction extends adminBaseAction {
 			if(!empty($v['join_id'])){
 				$v['newstatus'] = M("product:order")->getColByName($value=$v['join_id'],$col='invoice_status',$condition='o_id');
 			}
-			$v['see'] =  $v['customer_manager'] == $_SESSION['adminid'] ? '1':'0';
+			$v['see'] =  ($v['customer_manager'] == $_SESSION['adminid'] ||  in_array($v['customer_manager'], explode(',', $sons)) || $_SESSION['adminid']  == '1') ? '1':'0';
 			//获取单笔订单收付款状态			
 			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
 			$v['one_c_status'] =$m[0]['collection_status'];
