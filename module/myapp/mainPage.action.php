@@ -737,15 +737,15 @@ class mainPageAction extends homeBaseAction
         $this->userid = M('myapp:token')->deUserId($dataToken);
         $chkRes = $this->_chkToken($dataToken,$this->userid);
         if($chkRes['err']>0) $this->json_output(array('err'=>9,'msg'=>$chkRes['msg']));
-        $comData['p_id'] = sget('p_id','i',0);
+        $comData['p_id'] = sget('id','i',0);//采购 报价id(purchase表的id而不是p_id)决定了类型
         $comData['sn'] = $this->buildOrderId();
-        $comData['user_id'] = $this->userid;
+        $comData['user_id'] = M('product:purchase')->getInfoById($comData['p_id'])['user_id'];//当前purchase的id
         $comData['c_id'] = sget('c_id','i',0);
         $comData['number'] = sget('number','i');
         $comData['price'] = sget('price','f');
         $comData['delivery_place'] = sget('delivery_place','i');
         //$delivery_date = sget('delivery_date','i');
-        $comData['customer_manager'] = M('user:customerContact')->getListByUserid($this->userid)['customer_manager'];
+        $comData['customer_manager'] = M('user:customerContact')->getListByUserid($comData['user_id'])['customer_manager'];
         $comData['ship_type'] = sget('ship_type','i');
         //$expiry_date = sget('expiry_date','i');
         $comData['status'] = 2;
