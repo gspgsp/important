@@ -86,6 +86,13 @@ class billingAction extends adminBaseAction
 				$where.=" and `$key_type`  = '$keyword' ";
 			}
 		}
+
+		//筛选领导级别
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			$where .= " and `customer_manager` in ($sons) ";
+		}
+		
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")

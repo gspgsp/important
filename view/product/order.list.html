@@ -377,7 +377,7 @@ function onLoadDetail(e){
 	}
 	return s;
 }
-//付款收款
+//申请付款收款
 function transaction(oid,order_type){
 	var width=430, height=420,type=order_type;
 	if(type=='1'){
@@ -386,7 +386,7 @@ function transaction(oid,order_type){
 		title="新增付款申请";
 	}
 	mini.open({
-		url: "/product/order/transactionInfo?o_id="+oid+"&order_type="+type,
+		url: "/product/collection/transactionInfo?o_id="+oid+"&order_type="+type,
 		showMaxButton:true,
 		 title: title, width: width, height:height,
 		ondestroy: function (action) {
@@ -396,7 +396,7 @@ function transaction(oid,order_type){
 		}
 	});		
 }
-//开票
+//申请开票
 function addInvoice(oid,order_type){
 	var width=800, height=680,type=order_type;
 		title="新增开票申请";

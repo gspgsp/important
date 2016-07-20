@@ -87,18 +87,13 @@ class collectionAction extends adminBaseAction
 			$newword = "更正".$keyword;
 			$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
 		}
+
 		//筛选领导级别
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-			// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 			$where .= " and `customer_manager` in ($sons) ";
-			// if(!empty($pools)){
-			// 	$where .= " or `c_id` in ($pools)";
-			// }
-			// if(!empty($cidshare)){
-			// 	$where .= " or `c_id` in ($cidshare)";
-			// }
 		}
+		
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder".', payment_time DESC')
@@ -128,6 +123,138 @@ class collectionAction extends adminBaseAction
 		$this->json_output($result);	
 	}
 	
+	/**
+	* 付款收款信息
+	* @access public
+	*/
+	public function transactionInfo(){
+		$o_id=sget('o_id','i',0);
+		$type=sget('order_type','s');//type=1为销售订单，type=2为采购订单
+		
+		if(empty($o_id)) $this->error('信息错误');	
+		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
+		$c_info    = M('user:customer')->getCinfoById($data[0][c_id]);//获取公司所有信息
+
+		//p($c_info);die;
+		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
+		$username  = $user_name['name'];
+		
+		//订单中没有业务员id就传input_admin过去
+		if (empty($username)) {
+			$this->assign('input_admin',$data[0][input_admin]);
+		}else{
+			$this->assign('input_admin',$username);
+		}
+		//传递表头信息
+		$this->assign('p_method',$data[0][pay_method]);
+		$this->assign('order_name',$data[0][order_name]);
+		$this->assign('c_name',$c_info[c_name]);
+		$this->assign('c_id',$data[0][c_id]);
+		$this->assign('type',$type);
+		$this->assign('o_id',$o_id);
+		$this->assign('price',$data[0]['total_price']);
+		$this->assign('order_sn',$data[0][order_sn]);
+
+		//获取是不是财务审核
+		$finance=sget('finance','i');
+
+			if ($finance ==1 ) {
+				//获取要审核的收付款的id，传送出信息
+				$id = sget('id','i',0);
+				$this->assign('finance',$finance);
+				$this->assign('id',$id);
+
+				$res = M('product:collection')->where('id='.$id)->getAll();
+				if($res){
+					$un_price = $res[0]['collected_price']+$res[0]['uncollected_price'];
+					$this->assign('c_price',$res[0]['collected_price']);
+					$this->assign('u_price',$un_price);
+					$this->assign('remark',$res[0]['remark']);//备注
+				}
+			}else{
+				//获取最后一条收付款信息	
+				$res = M('product:collection')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+				if($res){
+					$this->assign('total_price',$res[0]['total_price']);
+					$this->assign('uncollected_price',$res[0]['uncollected_price']);
+					$this->assign('remark',$res[0]['remark']);//备注
+				}
+			}
+			$this->display('collection.add.html');
+		
+	}
+
+	/**
+	* 保存付款收款信息
+	*/
+	public function ajaxSave(){
+		$data = sdata();
+		
+			//保存收付款相关信息
+			if(empty($data['uncollected_price'])){
+				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
+				$m = $data['total_price']-$data['collected_price'];
+			}else{
+				$m = $data['uncollected_price']-$data['collected_price'];
+			}
+
+			$this->db->startTrans();//开启事务 
+ 
+				if($data['finance'] ==1){
+					if($m>0){
+						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
+					}
+					
+					if($m==0){
+						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
+					}
+					if($m<0){
+						$this->error("数据错误");
+					}
+					$data['uncollected_price'] = $m;
+					$data['collection_status'] = 2;
+					$data['payment_time']=strtotime($data['payment_time']);
+					$id = $data['id'];
+					unset($data['id']);
+					//更新收付款信息
+					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid']))) $this->error("交易失败");
+					//添加account_log账户明细信息,默认设计账户类型就是账户id
+					$add_data['account_id']=$data['account'];
+					$add_data['money']=$data['collected_price'];
+					$add_data['remark']=$data['remark'];
+					$add_data['type']=$data['order_type']==1?1:2;
+					$add_data['order_id']=$data['o_id'];
+					$add_data['order_type']=$data['order_type'];
+
+					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username'],'customer_manager'=>$_SESSION['adminid']))) $this->error("交易失败");
+
+					//修改account账户信息，1是销售，收款
+
+					if($data['order_type']==1){
+						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
+
+					}else{
+						$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
+						if ($data['collected_price']>$money) {
+							$this->error('余额不足');
+						}else{
+							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
+						}
+					
+					}
+
+				}else{
+					$data['uncollected_price'] = $m;
+					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid'],'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+				}
+			if($this->db->commit()){
+				$this->success('操作成功');
+			}else{
+				$this->db->rollback();
+				$this->error('保存失败：'.$this->db->getDbError());
+			}		
+		
+	}
 
 	/**
 	 * 充红

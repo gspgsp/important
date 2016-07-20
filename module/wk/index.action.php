@@ -36,6 +36,13 @@ class indexAction extends adminBaseAction{
 				$_data['ship_type']=isset($_POST['ship_type'])?'自提':'配送';
 				$_data['true_price']=isset($_POST['true_price'])?'实价':'可议价';
 				$_data['stock']=isset($_POST['stock'])?'期货':'现货';
+
+				//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
+				$grade=$_data['grade'];
+				$factory=$_data['factory'];
+				if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
+				if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
+
 			}else{
 				$_data['content']=$content;
 			}
@@ -45,12 +52,6 @@ class indexAction extends adminBaseAction{
 			$_data['uid']=$this->adminid;
 			$_data['uname']=$this->uname;
 			$_data['status']='上架';
-
-			//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
-			$grade=$_data['grade'];
-			$factory=$_data['factory'];
-			if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
-			if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
 
 			if($id){
 				$this->model->where("id=$id")->update($_data);
@@ -85,7 +86,8 @@ class indexAction extends adminBaseAction{
 	// 置顶定时加载
 	public function topTimer()
 	{
-		$list=$this->model->where("is_top=1 and status='上架' and type='供应' and input_time>$this->today")->order("input_time desc")->getAll();
+		$list=$this->model->where("`content` != '' and `is_top` = 1 and `status` ='上架' and type='供应' and `input_time` > $this->today")->order("input_time desc")->getAll();
+		showtrace();
 		if($list){
 			foreach ($list as $key => $value) {
 				$list[$key]['date']=date('m-d H:i',$value['input_time']);
@@ -115,7 +117,7 @@ class indexAction extends adminBaseAction{
 		$p=sget('p','i',1);
 		$size=200;
 
-		$list=$this->model->where("is_stock=0 and uname='{$this->uname}'")->order('input_time desc')->page($p,$size)->getAll();
+		$list=$this->model->where("is_stock=0 and uname='{$this->uname}'")->order('input_time desc,content asc')->page($p,$size)->getAll();
 		if($list){
 			foreach ($list as $key => $value) {
 				$list[$key]['date']=date('m-d H:i',$value['input_time']);

@@ -569,7 +569,6 @@
 	    <td><%=data.remark%></td>
 	    <td><%=data.uname%></td>
 	    <td><%=data.date%></td>
-	</tr>
 </script>
 
 <script type="text/html" id="searchTemp">
@@ -798,6 +797,7 @@
     	window.open("/wk/index/excelOutput?start="+start+"&end="+end);
     })
 
+	//正常发布
 	function release1(){
 		var form=$("#addForm");
 		var grade=$('#addForm input[name="grade"]').val().trim();
@@ -857,6 +857,7 @@
 
 	var oldhtml=[];
 
+	// 获取我的发布信息编辑
 	function editmy(id,that)
 	{
 		if($(that).is(':checked')){
@@ -877,26 +878,26 @@
 		}
 	}
 
+	// 发布文本信息
+	function release2(){
+		var content=$("#addForm textarea[name='content']").val().trim();
+		var type=$("#addForm input[name='type']:checked").val();
+		if(content.length==0){
+			$("#addForm textarea[name='content']").addClass('requires');
+			return;
+		}
+		$.post('/wk/index/addInfo',{content:content,type:type},function(data){
+			if(data.err>0){
+				alert(data.msg);
+			}else{
+				prependTr(data.data);
+				alert('发布成功');
+				myload();
+			}
+		},'json');
 
-	// function release2(){
-	// 	var content=$("#addForm textarea[name='content']").val().trim();
-	// 	var type=$("#addForm input[name='type']:checked").val();
-	// 	if(content.length==0){
-	// 		$("#addForm textarea[name='content']").addClass('requires');
-	// 		return;
-	// 	}
-	// 	$.post('/wk/index/addInfo',{content:content,type:type},function(data){
-	// 		if(data.err>0){
-	// 			alert(data.msg);
-	// 		}else{
-	// 			prependTr(data.data);
-	// 			alert('发布成功');
-	// 			myload();
-	// 		}
-	// 	},'json');
-
-	// }
-
+	}
+	
 	function editpub()
 	{
 		var content=$("#editForm textarea[name='content']").val().trim();
@@ -947,7 +948,7 @@
 		},'json');
 
 	}
-
+	//重新发布
 	function repup2()
 	{
 		var flag=true;
@@ -985,6 +986,7 @@
 		},'json');
 	}
 
+	//置顶
 	function changeTop(id){
 		if(!confirm('确定要更改状态吗？')) return;
 		$.post('/wk/index/chengeTop',{id:id},function (data){
@@ -1001,26 +1003,26 @@
 		var p=btn.attr('p');
 		if(re) p=1;
 		btn.html('加载中..');
-		$.get('/wk/index/loadMore',{type:type,p:p},function (data){
-			var html='';
-			$(data.list).each(function(k, v){
-				html+=template('trTemp', {data:v});
-			})
-			if(re){
-				$("#"+form+"").html(html);
-			}else{
-				$("#"+form+"").append(html);
-			}
-			btn.attr('p',data.p);
-			btn.html('加载更多');
-		},'json');
+		// $.get('/wk/index/loadMore',{type:type,p:p},function (data){
+		// 	var html='';
+		// 	$(data.list).each(function(k, v){
+		// 		html+=template('trTemp', {data:v});
+		// 	})
+		// 	if(re){
+		// 		$("#"+form+"").html(html);
+		// 	}else{
+		// 		$("#"+form+"").append(html);
+		// 	}
+		// 	btn.attr('p',data.p);
+		// 	btn.html('加载更多');
+		// },'json');
 	}
 
 	var t="{$time}";
 
-	var timer=setInterval(loadnews,5000);
+	//var timer=setInterval(loadnews,5000);
 
-	loadTop();
+	// loadTop();
 	var topTimer=setInterval(loadTop,10000);
 
 	var stockTimer=setInterval(loadstock,10000);
@@ -1037,21 +1039,23 @@
 			}
 		},'json');
 	}
-	function loadnews(){
-		$.get('/wk/index/get_newinfo',{t:t},function (data){
-			t=data.time;
-			var html='';
-			var html2='';
-			$(data.offerList).each(function(k,v){
-				html+=template('trTemp',{data:v});
-			});
-			$("#offerTable").prepend(html);
-			$(data.demandList).each(function(k,v){
-				html2+=template('trTemp',{data:v});
-			});
-			$("#demandTable").prepend(html2);
-		},'json');
-	}
+
+	// function loadnews(){
+	// 	$.get('/wk/index/get_newinfo',{t:t},function (data){
+	// 		console.log(data);return;
+	// 		t=data.time;
+	// 		var html='';
+	// 		var html2='';
+	// 		$(data.offerList).each(function(k,v){
+	// 			html+=template('trTemp',{data:v});
+	// 		});
+	// 		$("#offerTable").prepend(html);
+	// 		$(data.demandList).each(function(k,v){
+	// 			html2+=template('trTemp',{data:v});
+	// 		});
+	// 		$("#demandTable").prepend(html2);
+	// 	},'json');
+	// }
 
 	loadMore('供应','loadoffer','offerTable',true);
 	loadMore('求购','loadrdemand','demandTable',true);

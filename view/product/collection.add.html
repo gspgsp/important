@@ -141,7 +141,7 @@ function submitForm() {
 	}
 	var json = mini.encode(o);
 	form.loading("数据提交中，请稍后......");
-	$.post('/product/order/ajaxSave',{data:json},function(data){
+	$.post('/product/collection/ajaxSave',{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
