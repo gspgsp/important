@@ -116,6 +116,7 @@ class personalAppCenterModel extends model
         $sql2='';
         //$pb = $this->getmaxdim($ids);
 
+
         foreach ($ids as $id) {
             if(!empty($id)){
                 $result = $this->model('concerned_product')->where('id='.$id)->delete();
