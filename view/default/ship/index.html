@@ -74,7 +74,7 @@
 						<!--<a href="">退出</a>-->
 						<!--<a href="">注册</a>-->
 					<!--</li>-->
-
+					<!--<li><a href="javascript:;" class="logisticsApply">承运商入驻</a></li>-->
 					<li><a href="/page?id=15">常见问题</a></li>
 
 					<li><a href="/page?id=5601">联系我们</a></li>
@@ -969,6 +969,45 @@
     </ul>
     <!--right end-->
 </div>
+<div class="logistics">
+	<h3>申请承运商入驻</h3>
+	<table border="0">
+		<form name="" method="post" action="/Ship/logisticsApply" onsubmit="return checkInput()">
+			<tr>
+				<td width="70" align="right">联系人：</td>
+				<td width="256"><input type="text" name="lxr"  id="lxr" class="bor-gray" placeholder="请输入您的姓名"/></td>
+				<td class="msg"></td>
+			</tr>
+			<tr>
+				<td>手机号码：</td>
+				<td><input type="text" name="phone" id="phone" class="bor-gray" placeholder="请输入您的手机号"/></td>
+				<td class="msg"></td>
+			</tr>
+			<tr>
+				<td>公司名称：</td>
+				<td><input type="text" name="company" id="company" class="bor-gray" placeholder="请输入您的公司名称"/></td>
+				<td class="msg"></td>
+			</tr>
+			<tr>
+				<td>公司简介：</td>
+				<td>
+					<textarea name="companycontent" id="companycontent" class="bor-gray" placeholder="请输入您的公司简介" rows="3" cols="30"></textarea>
+				</td>
+				<td class="msg"></td>
+			</tr>
+			<tr>
+				<td width="70"></td>
+				<td>
+					<div class="form-btn"><input type="submit"  value="立即申请入驻"></div>
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+		</form>
+	</table>
+
+</div>
+<div class="lsuccess">您的申请已经受理，业务人员会及时和您联系！谢谢。</div>
+<input type="hidden" name="success" value="" >
 <!--mask-storage end-->
 <input type="hidden" value="" class="my-user" />
 </body>
@@ -982,6 +1021,75 @@
 <script type="text/javascript">
 
 $(function(){
+
+	if($("input[name=success]").val()){
+		$.layer({
+			area: ['420px', '120px'],
+			border:[0],
+			type: 1,
+			title:false,
+			page: {dom:'.lsuccess'}//这里content是一个DOM
+		});
+	}
+
+//承运商入驻
+	$(".logisticsApply").bind("click",function(){
+
+		$.layer({
+			area: ['520px', '390px'],
+			border:[0],
+			type: 1,
+			title:false,
+			page: {dom:'.logistics'}, //这里content是一个DOM
+			success:function(){
+				lxr = $("#lxr");
+				phone = $("#phone");
+				company = $("#company");
+				companycontent = $("#companycontent");
+				lxr.bind("blur",function(){
+					if(lxr.val()==""){
+						$(this).parent().next("td").html("请输入联系人");
+						return false;
+					}
+					else{
+						$(this).parent().next("td").html("");
+					}
+				});
+				phone.bind("blur",function(){
+					if(phone.val()==""){
+						$(this).parent().next("td").html("请输入联系电话");
+						return false;
+					}
+					else{
+						$(this).parent().next("td").html("");
+					}
+				});
+				company.bind("blur",function(){
+					if(company.val()==""){
+						$(this).parent().next("td").html("请输入公司名称");
+						return false;
+					}
+					else{
+						$(this).parent().next("td").html("");
+					}
+				});
+				companycontent.bind("blur",function(){
+					if(companycontent.val()==""){
+						$(this).parent().next("td").html("请输入公司简介");
+						return false;
+					}
+					else{
+						$(this).parent().next("td").html("");
+					}
+				});
+
+			}
+		});
+
+	});
+
+
+
 
 	$(".sub-to-con .xl-tr .xl-td:nth-child(2n) .two").css({"left":"-263px"});
 
