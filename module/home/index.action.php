@@ -36,12 +36,12 @@ class indexAction extends homeBaseAction{
 		$readjust=$this->setReadjust($readjust);
 		$this->assign('readjust', $readjust);
 		
-		//行情信息
+		//行情信息(原油指数右边曲线)
 		$this->quotation = M('operator:market')->get_quotation_index();
-
 		//原油指数
 		$this->oil1=M('operator:oilPrice')->get_index('0');
 		$this->oil2=M('operator:oilPrice')->get_index('1');
+
 		//2F 大客户报价
 		$this->bigClient=$this->db->model('big_client')->limit(12)->getAll();
 		$this->bigOffers=M('product:bigOffers')->getOfferList("1","of.input_time desc",1,5)['data'];

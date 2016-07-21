@@ -167,7 +167,10 @@ $(function(){
         var phone = mobile.val();
         //已经输入了联系电话
         if(valid(mobile) && preg.test(mobile.val()) ){
-            $.post('/pointshop/index/sendmsg', {phone:phone}, function (data){
+            //需要修改发送短信接口
+           // /api/sms/init type:4
+            //'/pointshop/index/sendmsg'  本地短信
+            $.post('/api/sms/init', {phone:phone,'type':4 }, function (data){
                 if(data.err == 0){
                     layer.alert('发送成功，请留意接收短信！',-1);
                     return;

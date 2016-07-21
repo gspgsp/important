@@ -90,6 +90,6 @@ class myPointsAction extends userBaseAction
         $this->assign('detail',$list['data']);
         $this->assign('pages',$pages);
         $this->display('creditdetail');
-        //$this->json_output(array('detail'=>$list['data'],'page'=>$pages));
+//        $this->json_output(array('detail'=>$list['data'],'page'=>$pages));
     }
 }
