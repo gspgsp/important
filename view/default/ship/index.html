@@ -56,10 +56,10 @@
 							<li>{$auth_info.name}</li>
 					   {else}
 					   {if $smarty.session.userid>0}
-							<li>{$smarty.session.uinfo.name}</li>
-							<li style="color:orange;"><a href="/user/logout" class="login">退出登录</a></li>
+							<li class="my-user" value="{$smarty.session.userid}">{$smarty.session.uinfo.name}</li>
+							<li style="color:orange;"><a href="/user/logout">退出登录</a></li>
 							{else}
-					        <li style="color:#FFF;">|&nbsp;&nbsp;&nbsp;<a href="/user/login">请登录</a></li>
+					        <li style="color:#FFF;">|&nbsp;&nbsp;&nbsp;<a href="javascript:;"  class="login">请登录</a></li>
 							<li><a href="/user/register">免费注册</a></li>
 						{/if}
 					{/if}
@@ -721,17 +721,17 @@
 
 	<div class="w1200" style=" height:240px; position:relative;">
 
-		<div class="find-car-form">
+		<!--<div class="find-car-form">-->
 
-			<form name="" method="post" action="">
+			<!--&lt;!&ndash;<form name="" method="post" action="">&ndash;&gt;-->
 
-				<input type="text" class="find-car-input" placeholder="输入要找车的需求...例如：上海到无锡，10吨货，什么价格..."/>
+				<!--&lt;!&ndash;<input type="text" class="find-car-input" placeholder="输入要找车的需求...例如：上海到无锡，10吨货，什么价格..."/>&ndash;&gt;-->
 
-				<input type="button" class="find-car-btn" value="立即找车"/>
+				<!--&lt;!&ndash;<input type="button" class="find-car-btn" value="立即找车"/>&ndash;&gt;-->
 
-			</form>
+			<!--&lt;!&ndash;</form>&ndash;&gt;-->
 
-		</div>
+		<!--</div>-->
 
 	</div>
 
@@ -1139,8 +1139,6 @@ $(function(){
 	$(".search .btn").bind("click",function(){
 
 
-		
-
 		//判断是否选择了装点
 
 		if(addrFromInput.val()==""){
@@ -1205,7 +1203,7 @@ $(function(){
 
 							layerSearch.show();
 
-							layerAnswer.hide()
+							layerAnswer.hide();
 
 							layerFrom.html(addrFromInput.val());
 
@@ -1279,97 +1277,106 @@ $(function(){
 			return;
 	    }
 
+		var confi= $.layer({
+			shade:[0],
+			closeBtn: false,
+			area:['auto','auto'],
+			dialog:{
+				msg:'你确定要现在订车吗?',
+				btns:2,
+				type:1,
+				btn:['确定','取消'],
+				yes:function(){
+					//异步获取价格信息
+					layer.close(confi);
 
-		//异步获取价格信息
+					var id=$(".my-user").val();
 
-		var form =addrFromInput.val();
+					var form =addrFromInput.val();
 
-		var to = addToInput.val();
+					var to = addToInput.val();
 
-		var weight = numInput.val();
+					var weight = numInput.val();
 
-		var price = $('.fee').html();
+					var price = $('.fee').html();
+					$.ajax({
+						//发送链接地址
+						url: "/ship/index/collect",
+						type : 'post',
+						dataType : 'json',
+						cache:false,
+						data : {id :id, s : form, e : to, w : weight, p : price},
 
-		$.ajax({
+						success:function(data){
 
-			url: "",
+							if(data.err==0){
 
-			type : 'post',
+								layerSearch.hide();
 
-			dataType : 'json',
+								layerAnswer.show();
 
-			data : {s : form, e : to, w : weight, p : price},
+								//清空查运价搜索框
 
-				success:function(data){
+								addrFromInput.val("");
 
-				if(data.err==0){
+								addToInput.val("");
 
-					layerSearch.hide();
+								numInput.val("");
 
-					layerAnswer.show();
+							}else{
 
-					//清空查运价搜索框
+								//请在这里补充错误图层
 
-					addrFromInput.val("");
+								$.layer({
 
-					addToInput.val("");
+									area: ['400px', '200px'],
 
-					numInput.val("");
+									border:[0],
 
-				}else{
+									type: 1,
 
-					//请在这里补充错误图层
+									title:false,
 
-					$.layer({
+									page: {dom:'.layer-error'},
 
-						area: ['400px', '200px'],
+									close:function(){
 
-						border:[0],
+									},
 
-						type: 1,
+									success:function(){
 
-						title:false,
+										if(data.err==2){
 
-						page: {dom:'.layer-error'},
+											var str = "",n=3;
 
-						close:function(){
+											setInterval(function(){
 
+												str  = data.msg+(n--)+"秒后跳转到登录页";
+
+												$(".layer-erro p").html(str);
+
+												if(n<0) n=0;
+
+												if(n==0)  location = "";
+
+											},1000);
+
+										}
+
+										$(".layer-error p").html(data.msg);
+
+										$(".layer-error").parent().next("span").find("a").addClass("layer-close");
+
+									}
+								});
+							}
 						},
-
-						success:function(){
-
-						      if(data.err==2){
-
-						      	var str = "",n=3;
-
-						      	setInterval(function(){
-
-						      		str  = data.msg+(n--)+"秒后跳转到登录页";
-
-						      		$(".layer-erro p").html(str);
-
-						      		if(n<0) n=0;
-
-						      		if(n==0)  location = "";
-
-						      	},1000);
-
-
-
-						      }
-
-						      $(".layer-error p").html(data.msg);
-
-							$(".layer-error").parent().next("span").find("a").addClass("layer-close");
-
-						}
-					});
+					})
 				}
-			},
-		 })
+			}
+		});
+
 	});
-
-
 
 	//点击立即找车
 
@@ -1411,7 +1418,6 @@ $(function(){
 
 	});
 
-	
 	//运输合作协议
 	var dataIndex1,strUrl1,agreementImg1 = $(".mask-tran .right img");
 	 $(".cooperate li .agreement-tran").bind("click",function(){
