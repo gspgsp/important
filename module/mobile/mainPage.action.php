@@ -205,7 +205,7 @@ class mainPageAction extends homeBaseAction
         $otype = sget('otype','i');//1查看,2委托洽谈
         if($otype==2 && $this->user_id<=0) $this->error('账户错误');
         $id = sget('id','i');//当前这一条报价或求购的id,purchase表
-        if(!$chDeRes=M('mobile:myDelegate')->getCheckDelegate($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
+        if(!$chDeRes=M('mobile:myDelegate')->getCheckDelegate($otype,$id,$this->user_id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
         $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
     }
     //点击委托洽谈,返回到搜索结果页--->仍然调用搜索页的模板和数据获取方法
