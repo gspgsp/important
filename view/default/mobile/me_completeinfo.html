@@ -44,12 +44,12 @@
 					var qq=$("#qq").val();
 					commonAjax(
 							"post",
-							"/myapp/register/reginfo",
+							"/mobile/register/reginfo",
 							{name:name,c_name:c_name,qq:qq}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
-							window.location.href="/myapp/personalCenter";
+							window.location.href="/mobile/personalCenter";
 						}else if(res.err==1){
 							mui.alert('',res.msg,function(){});
 						}

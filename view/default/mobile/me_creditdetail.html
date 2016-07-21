@@ -23,7 +23,7 @@
 		<div class="shopHeader">
 			<img style=" float: left; margin: 10px 0 0 22px;" width="24" src="__MYAPP__/img/myCredit.png">
 			<h3 class="myCredit">我的积分 <span id="credit"></span><br>
-				<a href="/myapp/personalCenter/creditDetail">积分明细</a>&nbsp;<a href="/myapp/personalCenter/creditRecord">兑换记录</a>
+				<a href="/mobile/personalCenter/creditDetail">积分明细</a>&nbsp;<a href="/mobile/personalCenter/creditRecord">兑换记录</a>
 			</h3>
 			<div class="creditBtn">签到</div>
 		</div>
@@ -49,12 +49,12 @@
 				var gtype="";
 				commonAjax(
 						"post",
-						"/myapp/personalCenter/getMyPoints",
+						"/mobile/personalCenter/getMyPoints",
 						{gtype:gtype}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else{
 						$("#credit").html(res.points);
 						if(!res.shop){
@@ -69,7 +69,7 @@
 							$(".shopUl").html(creditshopLi);
 							$(".shopUl li").on("click",function () {
 								var id=$(this).data("id");
-								window.location.href='/myapp/personalCenter/shopDetail?id='+id;
+								window.location.href='/mobile/personalCenter/shopDetail?id='+id;
 							});
 						}
 					}
@@ -82,12 +82,12 @@
 					creditshopLi="";
 					commonAjax(
 							"post",
-							"/myapp/personalCenter/getMyPoints",
+							"/mobile/personalCenter/getMyPoints",
 							{gtype:gtype}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==1){
-							window.location.href="/myapp/login";
+							window.location.href="/mobile/login";
 						}else{
 							$("#credit").html(res.points);
 							if(!res.shop){
@@ -102,7 +102,7 @@
 								$(".shopUl").html(creditshopLi);
 								$(".shopUl li").on("click",function () {
 									var id=$(this).data("id");
-									window.location.href='/myapp/personalCenter/shopDetail?id='+id;
+									window.location.href='/mobile/personalCenter/shopDetail?id='+id;
 								});
 							}
 						}
@@ -114,10 +114,10 @@
 				$(".creditBtn").on("click",function () {
 					commonAjax(
 							"get",
-							"/myapp/sign/signOn"
+							"/mobile/sign/signOn"
 					).then(function (res) {
 						if(res.err==1){
-							window.location.href="/myapp/login";
+							window.location.href="/mobile/login";
 						}else {
 							mui.alert('',res.msg,function(){
 								window.location.reload();

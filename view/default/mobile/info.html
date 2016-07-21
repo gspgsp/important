@@ -28,11 +28,11 @@
 </div>
 <footer id="footer">
 	<ul>
-		<li><a href="/myapp/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
-		<li><a href="/myapp/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-		<li><a href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-		<li><a class="footerOn" href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-		<li><a href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
+		<li><a href="/mobile/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+		<li><a href="/mobile/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+		<li><a href="/mobile/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+		<li><a class="footerOn" href="/mobile/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+		<li><a href="/mobile/personalCenter"><i class="foot5"></i><br>我</a></li>
 	</ul>
 </footer>
 
@@ -45,20 +45,19 @@
 		function infoInit(paramsPid) {
 			commonAjax(
 					"post",
-					"/myapp/mainPage/getArticleInfo",
+					"/mobile/mainPage/getArticleInfo",
 					{pid: paramsPid}
 			).then(function (res) {
 				console.log(res);
 				res.articleInfo.forEach(function (v, i, a) {
 					infoLi += "<li data-id='" + v.id + "'><div class='articleLi'>" +
-							"<h3>" + v.title + "</h3><img src='" + v.img + "'>" +
-							"<p>" + v.content + "</p></div>" +
+							"<h3>" + v.title + "</h3><p>" + v.brief + "</p></div>" +
 							"<p class='time'>" + v.input_time + "</p></li>";
 				});
 				$("#articleLi").html(infoLi);
 				$("#articleLi li").on("click",function () {
 					var id=$(this).data("id");
-					window.location.href='/myapp/mainPage/enArticleDetail?id='+id;
+					window.location.href='/mobile/mainPage/enArticleDetail?id='+id;
 				});
 
 			}, function () {

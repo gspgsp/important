@@ -30,15 +30,15 @@
 					var c_name=$("#c_name").val();
 					commonAjax(
 							"post",
-							"/myapp/personalCenter/saveCompany",
+							"/mobile/personalCenter/saveCompany",
 							{c_name:c_name}
 					).then(function (res) {
 						console.log(res);
 						if(res.err==1){
-							window.location.href="/myapp/login";
+							window.location.href="/mobile/login";
 						}else{
 							mui.alert('',res.msg,function(){
-								window.location.href="/myapp/personalCenter";
+								window.location.href="/mobile/personalCenter";
 							});
 						}
 					},function () {

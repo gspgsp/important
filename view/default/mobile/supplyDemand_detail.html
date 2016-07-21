@@ -47,16 +47,16 @@
 			$(function () {
 				var id=getUrlParam("id");
 				$("#tradeBtn").on("click",function () {
-					window.location.href="/myapp/mainPage/enDelegateForm?id="+id+"";
+					window.location.href="/mobile/mainPage/enDelegateForm?id="+id+"";
 				});
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getCheckDelegate",
+						"/mobile/mainPage/getCheckDelegate",
 						{otype:1,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else{
 						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);

@@ -131,10 +131,10 @@
 			$(function () {
 				commonAjax(
 						"post",
-						"/myapp/mainPage/checkReleaseLogin"
+						"/mobile/mainPage/checkReleaseLogin"
 				).then(function (res) {
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}
 				},function () {
 

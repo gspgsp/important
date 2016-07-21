@@ -56,7 +56,11 @@
 		commonAjax(
 				"post",
 				"/myapp/personalCenter/getPersonalCenter",
-				{type1:1,type2:2}
+				{
+					type1:1,
+					type2:2,
+					dataToken: "f0d7d3c5231e3b98cc22a9d681594ec9"
+				}
 		).then(function (res) {
 			console.log(res);
 			if(res.err==1){

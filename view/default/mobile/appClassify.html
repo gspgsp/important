@@ -19,35 +19,35 @@
 		<div class="classifyUl">
 			<ul id="classifyUl">
 				<li>
-					<a href="/myapp/mainPage/enProductTypeDetail?type=1">
+					<a href="/mobile/mainPage/enProductTypeDetail?type=1">
 					<p><img width="22" src="__MYAPP__/img/classify.png"> 高密度聚乙烯 HDPE</p>
 					<p id="hdpe" style="font-size: 12px; color: #646464;"></p>
 					<img class="classifyBack" src="__MYAPP__/img/classifyBack.png" />
 					</a>
 				</li>
 				<li>
-					<a href="/myapp/mainPage/enProductTypeDetail?type=2">
+					<a href="/mobile/mainPage/enProductTypeDetail?type=2">
 					<p><img width="22" src="__MYAPP__/img/classify2.png"> 低密度聚乙烯 LDPE</p>
 					<p id="ldpe" style="font-size: 12px; color: #646464;"></p>
 					<img class="classifyBack" src="__MYAPP__/img/classifyBack.png" />
 					</a>
 				</li>
 				<li>
-					<a href="/myapp/mainPage/enProductTypeDetail?type=3">
+					<a href="/mobile/mainPage/enProductTypeDetail?type=3">
 					<p><img width="22" src="__MYAPP__/img/classify3.png"> 线性聚乙烯 LLDPE</p>
 					<p id="lldpe" style="font-size: 12px; color: #646464;"></p>
 					<img class="classifyBack" src="__MYAPP__/img/classifyBack.png" />
 					</a>
 				</li>
 				<li>
-					<a href="/myapp/mainPage/enProductTypeDetail?type=4">
+					<a href="/mobile/mainPage/enProductTypeDetail?type=4">
 					<p><img width="22" src="__MYAPP__/img/classify4.png"> 聚丙烯 PP</p>
 					<p id="pp" style="font-size: 12px; color: #646464;"></p>
 					<img class="classifyBack" src="__MYAPP__/img/classifyBack.png" />
 					</a>
 				</li>
 				<li>
-					<a href="/myapp/mainPage/enProductTypeDetail?type=5">
+					<a href="/mobile/mainPage/enProductTypeDetail?type=5">
 					<p><img width="22" src="__MYAPP__/img/classify5.png"> 聚氯乙烯 PVC</p>
 					<p id="pvc" style="font-size: 12px; color: #646464;"></p>
 					<img class="classifyBack" src="__MYAPP__/img/classifyBack.png" />
@@ -67,7 +67,7 @@
 				var pvc="";
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getProductType"
+						"/mobile/mainPage/getProductType"
 				).then(function (res) {
 					console.log(res);
 					res.ptypes[0].model.forEach(function (v,i,a) {

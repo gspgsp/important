@@ -195,7 +195,8 @@
 
 		commonAjax(
 				"post",
-				"/myapp/mainPage/getMyShortAttention"
+				"/myapp/mainPage/getMyShortAttention",
+				{dataToken: "766e3b98cc24c7ab22eff966965319a1"}
 		).then(function (res) {
 			console.log("---",res);
 			if(res.err==1){

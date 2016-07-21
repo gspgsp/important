@@ -46,7 +46,7 @@
 				function searchPro(keyW) {
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getSearchRes",
+							"/mobile/mainPage/getSearchRes",
 							{keywords:keyW}
 					).then(function (res) {
 						console.log(">>>",res);
@@ -69,7 +69,7 @@
 							res.searchRes.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v, i, a) {
 									searchTb += "<tr><td>" + v.company + "</td>" +
-											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/myapp/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
+											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobile/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
 								});
 								$(".supplyDemandTb").eq(index).append(searchTb);
 								index++;
@@ -103,7 +103,7 @@
 					var ctype=$(this).val();
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getResByQuOPu",
+							"/mobile/mainPage/getResByQuOPu",
 							{ctype:ctype,keywords:keywords}
 					).then(function (res) {
 						console.log("---",res);
@@ -126,7 +126,7 @@
 							res.sdata.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v, i, a) {
 									searchTb += "<tr><td>" + v.company + "</td>" +
-											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/myapp/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
+											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobile/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
 								});
 								$(".supplyDemandTb").eq(index).append(searchTb);
 								index++;
@@ -159,7 +159,7 @@
 					console.log("***",stype);
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getResByPrice",
+							"/mobile/mainPage/getResByPrice",
 							{stype:stype,keywords:keywords}
 					).then(function (res) {
 						console.log("+++",res);
@@ -180,7 +180,7 @@
 						res.sdata.forEach(function (v,i,a) {
 							v.twoData.forEach(function (v, i, a) {
 								searchTb += "<tr><td>" + v.company + "</td>" +
-										"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/myapp/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
+										"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobile/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
 							});
 							$(".supplyDemandTb").eq(index).append(searchTb);
 							index++;

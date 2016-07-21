@@ -52,11 +52,11 @@
 
 				commonAjax(
 						"post",
-						"/myapp/personalCenter/myPurchase",
+						"/mobile/personalCenter/myPurchase",
 						{cargo_type:cargoType}
 				).then(function (res) {
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else if(res.err==2){
 						$(".purchaseList").html("<li class='noData'>暂无数据</li>");
 					}else{
@@ -74,11 +74,11 @@
 							purchaseLi="";
 							commonAjax(
 									"post",
-									"/myapp/personalCenter/myPurchase",
+									"/mobile/personalCenter/myPurchase",
 									{cargo_type:cargoType}
 							).then(function (res) {
 								if(res.err==1){
-									window.location.href="/myapp/login";
+									window.location.href="/mobile/login";
 								}else if(res.err==2){
 									$(".purchaseList").html("<li class='noData'>暂无数据</li>");
 								}else{
@@ -108,7 +108,7 @@
 					}else{
 						commonAjax(
 								"post",
-								"/myapp/personalCenter/doPurSearch",
+								"/mobile/personalCenter/doPurSearch",
 								{
 									keywords:$(".productQuery").val().toLocaleUpperCase(),
 									status:$(".chooseType2").val(),
@@ -117,7 +117,7 @@
 						).then(function (res) {
 							if(res.err==1){
 								console.log(res);
-								window.location.href="/myapp/login";
+								window.location.href="/mobile/login";
 							}else if(res.err==2){
 								$(".purchaseList").html("<li class='noData'>暂无数据</li>");
 							}else{

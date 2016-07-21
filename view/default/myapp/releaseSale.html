@@ -161,22 +161,39 @@
 						'period':period,
 						'process_level':process_level,
 						'type':2,
-						'cargo_type':1,
-						'dataToken':'766e3b98cc24c7ab22eff966965319a1'
+						'cargo_type':1
 					};
 					data.push(arr);
 					if(model&&product_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
-						commonAjax(
-								"post",
-								"/myapp/mainPage/pub",
-								{data}
-						).then(function (res) {
-							mui.alert("",res.msg,function () {
 
-							});
-						},function () {
+						$.ajax({
+							type:"post",
+							url:"/myapp/mainPage/pub",
+							data:{data:data,dataToken:'766e3b98cc24c7ab22eff966965319a1'},
+							dataType:'json',
+							success:function (res) {
+								console.log(res);
+							},
+							error:function () {
 
+							}
 						});
+
+
+//						commonAjax(
+//								"post",
+//								"/myapp/mainPage/pub",
+//								{data:data,dataToken:'766e3b98cc24c7ab22eff966965319a1'}
+//						).then(function (res) {
+//							console.log(res);
+//							mui.alert("",res.msg,function () {
+//
+//							});
+//						},function () {
+//
+//						});
+
+
 					}else{
 						mui.alert("","请把信息填写完整",function () {
 

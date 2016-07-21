@@ -34,6 +34,7 @@
 						if(!res.shop){
 							$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
 						}else{
+							creditshopLi="";
 							res.shop.forEach(function (v,i,a) {
 								creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
 										"<img src='"+ v.thumb +"'></div>" +
@@ -78,6 +79,7 @@
 							if(!res.shop){
 								$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
 							}else{
+								creditshopLi="";
 								res.shop.forEach(function (v,i,a) {
 									creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
 											"<img src='"+ v.thumb +"'></div>" +

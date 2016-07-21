@@ -30,15 +30,15 @@
 					var qq=$("#qq").val();
 					commonAjax(
 							"post",
-							"/myapp/personalCenter/saveQq",
+							"/mobile/personalCenter/saveQq",
 							{qq:qq}
 					).then(function (res) {
 						console.log(res);
 						if(res.err==1){
-							window.location.href="/myapp/login";
+							window.location.href="/mobile/login";
 						}else{
 							mui.alert('',res.msg,function(){
-								window.location.href="/myapp/personalCenter";
+								window.location.href="/mobile/personalCenter";
 							});
 						}
 					},function () {

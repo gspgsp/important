@@ -83,11 +83,11 @@
 				var gid=getUrlParam("id");
 				commonAjax(
 						"post",
-						"/myapp/personalCenter/get_shopDetail",
+						"/mobile/personalCenter/get_shopDetail",
 						{gid:gid}
 				).then(function (res) {
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else{
 					$("#thumbImg").attr("src",res.thumb);
 					$("#proImg").attr("src",res.image);
@@ -141,11 +141,11 @@
 					).then(function (res) {
 						if(res.err==0){
 							mui.alert("",res.msg,function () {
-								window.location.href="/myapp/personalCenter/enMyPoints";
+								window.location.href="/mobile/personalCenter/enMyPoints";
 							});
 						}else if(res.err==1){
 							mui.alert("",res.msg,function () {
-								window.location.href="/myapp/login";
+								window.location.href="/mobile/login";
 							});
 						}else if(res.err==2){
 							mui.alert("",res.msg,function () {});
@@ -166,7 +166,7 @@
 
 					},function () {
 						mui.alert("","系统错误",function () {
-							window.location.href="/myapp/login";
+							window.location.href="/mobile/login";
 						});
 					});
 				});

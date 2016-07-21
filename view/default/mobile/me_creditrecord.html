@@ -26,10 +26,10 @@
 				var creditRecord="";
 				commonAjax(
 						"get",
-						"/myapp/personalCenter/get_creditRecord"
+						"/mobile/personalCenter/get_creditRecord"
 				).then(function (res) {
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else{
 					if(res.length!=0){
 						res.forEach(function (v,i,a) {

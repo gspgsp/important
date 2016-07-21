@@ -16,7 +16,7 @@
 		<header id="meHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
 			登录
-			<a class="right" href="/myapp/register/init">注册</a>
+			<a class="right" href="/mobile/register/init">注册</a>
 		</header>
 		<h3 class="meTitle">欢迎来到我的塑料网</h3>
 		<div class="registerWrap">
@@ -82,7 +82,7 @@
 						console.log(">>>",res);
 						if(res.err==0){
 							mui.alert('',res.msg,function(){
-								window.location.href="/myapp/login";
+								window.location.href="/mobile/login";
 							});
 						}else if(res.err==1){
 							mui.alert('',res.msg,function(){});

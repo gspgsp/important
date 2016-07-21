@@ -19,8 +19,8 @@
 		<header id="supplyDemandHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
 			<div class="supplyDemandChange">
-				<span data-num="2" class="on">供应信息</span>
-				<span data-num="1">求购信息</span>
+				<span data-num="2" class="on">商城报价</span>
+				<span data-num="1">采购单</span>
 			</div>
 			<span class="appMenu"></span>
 		</header>
@@ -57,14 +57,15 @@
 		<div class="supplyDemandUl">
 			<ul id="searchWrapUl"></ul>
 		</div>
-		<a class="supplyDemandBtn" href="/myapp/mainPage/enReleaseSale">发布报价</a>
+		<a id="releaseSale" class="supplyDemandBtn" href="/mobile/mainPage/enReleaseSale">发布报价</a>
+		<a id="purchase" class="supplyDemandBtn" style="display: none;" href="/mobile/mainPage/enPurchase">委托采购</a>
 		<footer id="footer">
 			<ul>
-				<li><a href="/myapp/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
-				<li><a href="/myapp/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-				<li><a href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-				<li><a href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-				<li><a href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
+				<li><a href="/mobile/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="/mobile/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+				<li><a href="/mobile/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="/mobile/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="/mobile/personalCenter"><i class="foot5"></i><br>我</a></li>
 			</ul>
 		</footer>
 		<input id="flVal" type="hidden">
@@ -91,7 +92,7 @@
 				function chooseSearch(type,otype,model,f_name,product_type,cargo_type,provinces) {
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getSupplyCondData",
+							"/mobile/mainPage/getSupplyCondData",
 							{type:type,otype:otype,model:model,f_name:f_name,product_type:product_type,cargo_type:cargo_type,provinces:provinces}
 					).then(function (res) {
 						console.log(res);
@@ -115,7 +116,7 @@
 							res.data.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
-											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/myapp/mainPage/enCheckForm?id="+v.id+"'>查看</a></td></tr>";
+											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/mobile/mainPage/enCheckForm?id="+v.id+"'>查看</a></td></tr>";
 									$(".supplyDemandTb").eq(index).append(searchTb);
 									searchTb="";
 								});
@@ -136,7 +137,7 @@
 				function bigSearch(type,otype) {
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getSupply",
+							"/mobile/mainPage/getSupply",
 							{type:type,otype:otype}
 					).then(function (res) {
 						console.log(res);
@@ -160,7 +161,7 @@
 							res.pubQuoPur.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
-											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/myapp/mainPage/enCheckForm?id="+v.id+"'>查看</a></td></tr>";
+											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/mobile/mainPage/enCheckForm?id="+v.id+"'>查看</a></td></tr>";
 									$(".supplyDemandTb").eq(index).append(searchTb);
 									searchTb="";
 								});
@@ -182,7 +183,7 @@
 				function bigSearch2(type,otype) {
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getSupply",
+							"/mobile/mainPage/getSupply",
 							{type:type,otype:otype}
 					).then(function (res) {
 						console.log(res);
@@ -207,7 +208,7 @@
 							res.pubQuoPur.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
-											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/myapp/mainPage/enCheckForm?id="+v.id+"'>查看</a></td></tr>";
+											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/mobile/mainPage/enCheckForm?id="+v.id+"'>供货</a></td></tr>";
 									$(".supplyDemandTb").eq(index).append(searchTb);
 									searchTb="";
 								});
@@ -228,7 +229,7 @@
 
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getSupplyCondition"
+						"/mobile/mainPage/getSupplyCondition"
 				).then(function (res) {
 					console.log("---",res);
 					res.typeData[0].forEach(function (v,i,a) {
@@ -298,8 +299,12 @@
 					console.log(num);
 					if(num==1){
 						bigSearch2(1,3);
+						$("#releaseSale").hide();
+						$("#purchase").show();
 					}else{
 						bigSearch(2,3);
+						$("#purchase").hide();
+						$("#releaseSale").show();
 					}
 				});
 				$(".supplyDemandStatus span").on("click",function () {

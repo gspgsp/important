@@ -28,6 +28,13 @@
 				<input id="regcode" class="registerInput" maxlength="6" type="tel" placeholder="请输入6位验证码">
 				<button class="validCode">获取验证码</button>
 			</div>
+			<div class="registerBox">
+				<input id="name" class="registerInput" type="text" placeholder="请输入姓名">
+			</div>
+			<div class="registerBox">
+				<input id="c_name" class="registerInput" type="text" placeholder="请输入公司名">
+			</div>
+
 		</div>
 		<div style="margin: 0 20px;">
 			<div class="registerBtn">提交</div>
@@ -41,14 +48,18 @@
 					var mobile=$("#username").val();
 					var password=$("#password").val();
 					var code=$("#regcode").val();
+					var name=$("#name").val();
+					var c_name=$("#c_name").val();
+
 					commonAjax(
 							"post",
 							"/myapp/register/register",
-							{mobile:mobile,password:password,code:code}
+							{mobile:mobile,password:password,code:code,name:name,c_name:c_name}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
-							window.location.href="/myapp/register/enReginfo";
+							mui.alert('',res.msg,function(){});
+							//window.location.href="/myapp/register/enReginfo";
 						}else if(res.err==1){
 							mui.alert('',res.msg,function(){});
 						}
@@ -66,7 +77,7 @@
 					commonAjax(
 							"post",
 							"/myapp/register/sendmsg",
-							{'mobile':username,'password':password}
+							{'mobile':username}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){

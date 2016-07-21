@@ -14,7 +14,7 @@
 
 <body>
 <header id="meHeader">
-	<a class="back" href="/myapp/personalCenter"></a>
+	<a class="back" href="/mobile/personalCenter"></a>
 	我的关注
 	<a id="manage" class="right" href="javascript:;">管理</a>
 </header>
@@ -23,7 +23,7 @@
 	<span id="del" class="meAttentionDel">删除</span>
 </div>
 <ul class="meAttention"></ul>
-<a class="me_enter" href="/myapp/personalCenter/addMyAttention">添加关注</a>
+<a class="me_enter" href="/mobile/personalCenter/addMyAttention">添加关注</a>
 <script type="text/javascript" charset="utf-8">
 	mui.init({
 		swipeBack: true //启用右滑关闭功能
@@ -34,11 +34,11 @@
 
 		commonAjax(
 				"post",
-				"/myapp/personalCenter/myAttention"
+				"/mobile/personalCenter/myAttention"
 		).then(function (res) {
 			console.log(">>>",res);
 			if(res.err==1){
-				window.location.href="/myapp/login";
+				window.location.href="/mobile/login";
 			}else{
 				res.data.forEach(function (v,i,a) {
 					attentionLi+="<li><input class='checkbox' type='checkbox' value='"+v.id+"'>&nbsp;"+ v.model +" "+ v.factory_name +"<span class='grey'>"+ mToH(v.time_al) +"小时前</span><span class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</span>" +
@@ -100,7 +100,7 @@
 		$("#del").on("click",function () {
 			commonAjax(
 					"post",
-					"/myapp/personalCenter/delMyAttention",
+					"/mobile/personalCenter/delMyAttention",
 					{ids:productArr}
 			).then(function (res) {
 				console.log(res);

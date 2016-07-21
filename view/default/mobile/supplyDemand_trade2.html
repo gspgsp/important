@@ -123,12 +123,12 @@
 				var c_id="";
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getBigBidDetail",
+						"/mobile/mainPage/getBigBidDetail",
 						{otype:2,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else{
 						p_id=res.chDeRes.p_id;
 						c_id=res.chDeRes.c_id;
@@ -157,7 +157,7 @@
 					if(price&&number&&f_name&&ship_type&&delivery_place){
 						commonAjax(
 								"post",
-								"/myapp/mainPage/savaComission",
+								"/mobile/mainPage/savaComission",
 								{
 									p_id:p_id,
 									c_id:c_id,
@@ -169,7 +169,7 @@
 								}
 						).then(function (res) {
 							if(res.err==1){
-								window.location.href="/myapp/login";
+								window.location.href="/mobile/login";
 							}
 							mui.alert("",res.msg,function () {
 

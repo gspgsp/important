@@ -41,9 +41,6 @@
 			<span><img width="15" src="__MYAPP__/img/bigCustomer4.png">&nbsp;人工采货</span>
 			<span><img width="15" src="__MYAPP__/img/bigCustomer4.png">&nbsp;交易保障</span>
 		</div>
-		<div class="bigCustomerDetailBtn">
-			<input id="tradeBtn" type="button" value="委托洽谈">
-		</div>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
@@ -51,16 +48,16 @@
 			$(function () {
 				var id=getUrlParam("id");
 				$("#tradeBtn").on("click",function () {
-					window.location.href="/myapp/mainPage/enBigBidDelegate?id="+id+"";
+					window.location.href="/mobile/mainPage/enBigBidDelegate?id="+id+"";
 				});
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getBigBidDetail",
+						"/mobile/mainPage/getBigBidDetail",
 						{otype:1,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else{
 						$("#product_type").text(res.chDeRes.type);
 						$("#model").text(res.chDeRes.model);

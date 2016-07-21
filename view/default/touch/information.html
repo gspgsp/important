@@ -12,21 +12,6 @@
     <script>
         $(function () {
             var infoLi="";
-            
-            function imgSrc(img) {
-                if(img){
-                    return img;
-                }else{
-                    return '__IMG__/wx/defaultImg.jpg';
-                }
-            }
-
-            function stampToDate(date) {
-                var newDate=new Date();
-                newDate.setTime(date*1000);
-                return newDate.toLocaleDateString();
-            }
-
             function infoInit(paramsPid){
                 $.ajax({
                     type:"post",
@@ -44,11 +29,11 @@
                     success:function (res) {
                         console.log(res);
                         layer.closeAll();
-                        res.data.forEach(function (v,i) {
+                        res.result.forEach(function (v,i) {
                             infoLi +="<li data-id='"+v.id+"'><div class='articleLi'>" +
-                                    "<h3>"+v.title+"</h3><img src='"+ imgSrc(v.img) +"'>" +
-                                    "<p>"+v.content+"</p></div>" +
-                                    "<p class='time'>"+ stampToDate(v.input_time) +"</p></li>";
+                                    "<h3>"+v.title+"</h3>" +
+                                    "<p>"+v.brief+"</p></div>" +
+                                    "<p class='time'>"+ v.input_time +"</p></li>";
                         });
                         $("#articleLi").html(infoLi);
                         $("#articleLi li").on("click",function () {

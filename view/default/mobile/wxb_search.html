@@ -26,7 +26,7 @@
 				var searchLi="";
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getPhysicalRes",
+						"/mobile/mainPage/getPhysicalRes",
 						{keywords:keywords}
 				).then(function (res) {
 					console.log(res);
@@ -34,7 +34,7 @@
 						$(".wxbUl").html("<li class='noSearch'>暂无数据</li>");
 					}else{
 						res.phyData.forEach(function (v,i,a) {
-							searchLi+="<li><a href='/myapp/mainPage/enPhysicalDetail?lid="+v.lid+"'>" +
+							searchLi+="<li><a href='/mobile/mainPage/enPhysicalDetail?lid="+v.lid+"'>" +
 									"<p class='wxbTitle'>"+ v.name +"<span>"+ v.company +"</span></p>" +
 									"<p class='wxbTitle2'><span>规格级别</span>"+ v.standard +"</p>" +
 									"<p class='wxbTitle2'><span>改料用途</span>"+ v.purpose +"</p></a></li>";

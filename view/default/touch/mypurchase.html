@@ -47,7 +47,7 @@
 					success:function (res) {
 						layer.closeAll();
 						console.log(">>>",res);
-						if(res.length==0){
+						if(res.err==2){
 							$(".purchaseList").html("<li class='noData'>暂无数据</li>");
 						}else if(res.err==1){
 							window.location.href="/touch/login";
@@ -83,7 +83,7 @@
 				success:function (res) {
 					console.log(">>>",res);
 					layer.closeAll();
-					if(res.length==0){
+					if(res.err==2){
 						$(".purchaseList").html("<li class='noData'>暂无数据</li>");
 					}else if(res.err==1){
 						window.location.href="/touch/login";

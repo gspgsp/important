@@ -18,7 +18,7 @@
 </head>
 <body style="padding: 0 0 50px 0;">
 <header id="header">
-	<a class="headerMenu" href="/myapp/mainPage/enProductType"></a>
+	<a class="headerMenu" href="/mobile/mainPage/enProductType"></a>
 	<div class="appSearch">
 		<input type="text" placeholder="请输入产品分类、牌号" />
 		<a class="appQuery" href="#"></a>
@@ -26,50 +26,7 @@
 	<a class="headerService" href="tel:4006129965"></a>
 </header>
 <div id="slider" class="mui-slider">
-	<div class="mui-slider-group mui-slider-loop">
-		<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
-		<div class="mui-slider-item mui-slider-item-duplicate">
-			<a href="#">
-				<img src="__MYAPP__/img/banner5.jpg">
-			</a>
-		</div>
-		<!-- 第一张 -->
-		<div class="mui-slider-item">
-			<a href="#">
-				<img src="__MYAPP__/img/banner.jpg">
-			</a>
-		</div>
-		<!-- 第二张 -->
-		<div class="mui-slider-item">
-			<a href="#">
-				<img src="__MYAPP__/img/banner2.jpg">
-			</a>
-		</div>
-		<!-- 第三张 -->
-		<div class="mui-slider-item">
-			<a href="#">
-				<img src="__MYAPP__/img/banner3.jpg">
-			</a>
-		</div>
-		<!-- 第四张 -->
-		<div class="mui-slider-item">
-			<a href="#">
-				<img src="__MYAPP__/img/banner4.jpg">
-			</a>
-		</div>
-		<!-- 第五张 -->
-		<div class="mui-slider-item">
-			<a href="#">
-				<img src="__MYAPP__/img/banner5.jpg">
-			</a>
-		</div>
-		<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-		<div class="mui-slider-item mui-slider-item-duplicate">
-			<a href="#">
-				<img src="__MYAPP__/img/banner.jpg">
-			</a>
-		</div>
-	</div>
+	<div class="mui-slider-group mui-slider-loop"></div>
 	<div class="mui-slider-indicator">
 		<div class="mui-indicator mui-active"></div>
 		<div class="mui-indicator"></div>
@@ -84,23 +41,23 @@
 	<div class="mui-clearfix"></div>
 	<div id="appInfo">
 		<ul id="appInfoUl"></ul>
-		<a class="appMore" href="/myapp/mainPage/enArticle">更多</a>
+		<a class="appMore" href="/mobile/mainPage/enArticle">更多</a>
 	</div>
 	<div id="appInfo2" style=" display: none;">
 		<ul id="appInfoUl2"></ul>
-		<a class="appMore" href="/myapp/mainPage/enDyPrice">更多</a>
+		<a class="appMore" href="/mobile/mainPage/enDyPrice">更多</a>
 	</div>
 </div>
 <div class="appConcern">
 	<ul id="appCon"></ul>
-	<span><a href="/myapp/personalCenter/enMyAttention">...查看更多</a></span>
-	<span><a href="/myapp/personalCenter/addMyAttention">+添加关注</a></span>
+	<span><a href="/mobile/personalCenter/enMyAttention">...查看更多</a></span>
+	<span><a href="/mobile/personalCenter/addMyAttention">+添加关注</a></span>
 </div>
 <div class="appOperate">
 	<ul>
 		<li>
 			<div class="appOperateWrap">
-				<a href="/myapp/mainPage/enReleaseSale">
+				<a href="/mobile/mainPage/enReleaseSale">
 				<img width="22" src="__MYAPP__/img/icon.png"><br>
 				发布报价
 				</a>
@@ -108,21 +65,21 @@
 		</li>
 		<li>
 			<div class="appOperateWrap">
-				<a href="/myapp/mainPage/enPurchase">
+				<a href="/mobile/mainPage/enPurchase">
 					<img width="22" src="__MYAPP__/img/icon2.png"><br>委托采购
 				</a>
 			</div>
 		</li>
 		<li>
 			<div class="appOperateWrap">
-				<a href="/myapp/mainPage/enSupply">
+				<a href="/mobile/mainPage/enSupply">
 					<img width="22" src="__MYAPP__/img/icon3.png"><br>供求
 				</a>
 			</div>
 		</li>
 		<li>
 			<div class="appOperateWrap">
-				<a href="/myapp/mainPage/enResource">
+				<a href="/mobile/mainPage/enResource">
 					<img width="22" src="__MYAPP__/img/icon4.png"><br>资源库
 				</a>
 			</div>
@@ -131,11 +88,11 @@
 </div>
 <footer id="footer">
 	<ul>
-		<li><a href="/myapp/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
-		<li><a href="/myapp/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-		<li><a class="footerOn" href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-		<li><a href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-		<li><a href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
+		<li><a href="/mobile/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+		<li><a href="/mobile/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+		<li><a class="footerOn" href="/mobile/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+		<li><a href="/mobile/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+		<li><a href="/mobile/personalCenter"><i class="foot5"></i><br>我</a></li>
 	</ul>
 </footer>
 <script type="text/javascript" charset="utf-8">
@@ -148,7 +105,7 @@
 	});
 	$(function () {
 		$(".appSearch").on("click",function () {
-			window.location.href="/myapp/mainPage/enMainSearch";
+			window.location.href="/mobile/mainPage/enMainSearch";
 		});
 
 		$(".appInfo span").on("click",function () {
@@ -165,14 +122,34 @@
 		var appInfoLi="";
 		var appInfoLi2="";
 		var attentionLi="";
+		var bannerLi="";
+		
 		commonAjax(
 				"post",
-				"/myapp/mainPage/getMainPage",
+				"/mobile/mainPage/getAppBanner"
+		).then(function (res) {
+			console.log(">>>",res);
+			res.banners.forEach(function (v, i, a) {
+				bannerLi += "<div class='mui-slider-item' data-url='"+i+"'><img src='"+v.img+"'></div>"
+			});
+			$(".mui-slider-group").html(bannerLi);
+			$(".mui-slider-group").append("<div class='mui-slider-item mui-slider-item-duplicate' data-url='0'><img src='"+res.banners[0].img+"'></div>");
+			$(".mui-slider-group").prepend("<div class='mui-slider-item mui-slider-item-duplicate' data-url='1'><img src='"+res.banners[4].img+"'></div>");
+			slider.slider({
+				interval: 3000
+			});
+		},function () {
+
+		});
+
+		commonAjax(
+				"post",
+				"/mobile/mainPage/getMainPage",
 				{type:1}
 		).then(function (res) {
 			console.log(">>>",res);
 			res.infos.forEach(function (v, i, a) {
-				appInfoLi += "<li><a href='/myapp/mainPage/enArticleDetail?id="+v.id+"'><font>"+v.title+"</font></a><b>"+v.input_time+"</b></li>";
+				appInfoLi += "<li><a href='/mobile/mainPage/enArticleDetail?id="+v.id+"'><font>"+v.title+"</font></a><b>"+v.input_time+"</b></li>";
 			});
 			$("#appInfoUl").html(appInfoLi);
 		},function () {
@@ -181,7 +158,7 @@
 
 		commonAjax(
 				"post",
-				"/myapp/mainPage/getMainPage",
+				"/mobile/mainPage/getMainPage",
 				{type:2}
 		).then(function (res) {
 			console.log(">>>",res);
@@ -195,11 +172,13 @@
 
 		commonAjax(
 				"post",
-				"/myapp/mainPage/getMyShortAttention"
+				"/mobile/mainPage/getMyShortAttention"
 		).then(function (res) {
 			console.log("---",res);
 			if(res.err==1){
-				$(".appConcern").html("<a href='/myapp/personalCenter/enMyAttention'><img width='100%' src='__MYAPP__/img/appIndex.jpg'></a>");
+				$(".appConcern").html("<a href='/mobile/personalCenter/enMyAttention'><img width='100%' src='__MYAPP__/img/appIndex.jpg'></a>");
+			}else if(res.err==2){
+				$(".appConcern").html("<a href='/mobile/personalCenter/enMyAttention'><img width='100%' src='__MYAPP__/img/appIndex.jpg'></a>");
 			}else{
 				res.products.forEach(function (v,i,a) {
 					attentionLi+="<li><font>"+ v.model +" "+ v.factory_name +"</font><strong>"+ mToH(v.time_al) +"小时前</strong><b class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</b><i>"+ v.unit_price +"/T</i></li>";

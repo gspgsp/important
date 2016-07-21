@@ -42,11 +42,11 @@
 		</div>
 		<footer id="footer">
 			<ul>
-				<li><a href="/myapp/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
-				<li><a href="/myapp/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-				<li><a href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-				<li><a href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-				<li><a href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
+				<li><a href="/mobile/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="/mobile/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+				<li><a href="/mobile/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="/mobile/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="/mobile/personalCenter"><i class="foot5"></i><br>我</a></li>
 			</ul>
 		</footer>
 		<script type="text/javascript" charset="utf-8">
@@ -69,13 +69,13 @@
 					var keywords=$("#querySearch").val();
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getResSearch",
+							"/mobile/mainPage/getResSearch",
 							{keywords:keywords,type:0}
 					).then(function (res) {
 						console.log(res);
 						appLi="";
 						res.searchData.forEach(function (v,i,a) {
-							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>上海拜力得 "+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
 						});
 						$(".appResourceUl").html(appLi);
 					},function () {
@@ -90,12 +90,12 @@
 					appLi="";
 					commonAjax(
 							"post",
-							"/myapp/mainPage/getResource",
+							"/mobile/mainPage/getResource",
 							{type:type}
 					).then(function (res) {
 						console.log(res);
 						res.resData.forEach(function (v,i,a) {
-							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>上海拜力得 "+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
 						});
 						$(".appResourceUl").html(appLi);
 					},function () {
@@ -105,12 +105,12 @@
 
 				commonAjax(
 						"post",
-						"/myapp/mainPage/getResource",
+						"/mobile/mainPage/getResource",
 						{type:type}
 				).then(function (res) {
 					console.log(res);
 					res.resData.forEach(function (v,i,a) {
-						appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>上海拜力得 "+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+						appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
 					});
 					$(".appResourceUl").html(appLi);
 				},function () {
@@ -131,7 +131,7 @@
 					).then(function (res) {
 						console.log(res);
 						if(res.err==1){
-							window.location.href="/myapp/login";
+							window.location.href="/mobile/login";
 						}else{
 							mui.alert("",res.msg,function () {
 								window.location.reload();

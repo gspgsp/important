@@ -13,9 +13,9 @@
 	</head>
 	<body style="padding-bottom: 55px;">
 		<header id="meHeader">
-			<a class="back" href="/myapp/mainPage/enMainPage"></a>
+			<a class="back" href="/mobile/mainPage/enMainPage"></a>
 			登录
-			<a class="right" href="/myapp/register/init">注册</a>
+			<a class="right" href="/mobile/register/init">注册</a>
 		</header>
 		<h3 class="meTitle">欢迎来到我的塑料网</h3>
 		<div class="registerWrap">
@@ -35,7 +35,7 @@
 		<div style="margin: 0 20px;">
 		<div class="registerBtn">登录</div>
 		<div class="loginLink">
-			<a href="/myapp/findPwd/init" style="float: right;">忘记密码?</a>
+			<a href="/mobile/findPwd/init" style="float: right;">忘记密码?</a>
 		</div>
 		</div>
 		<script type="text/javascript" charset="utf-8">
@@ -48,12 +48,12 @@
 					var password=$("#password").val();
 					commonAjax(
 							"post",
-							"/myapp/login/login",
+							"/mobile/login/login",
 							{username:mobile,password:password}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
-							window.location.href="/myapp/personalCenter";
+							window.location.href="/mobile/personalCenter";
 						}else if(res.err==1){
 							mui.alert('',res.msg,function(){});
 						}

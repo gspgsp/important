@@ -14,7 +14,7 @@
 
 	<body>
 		<header id="meHeader">
-			<a class="back" href="javascript:window.history.back();"></a>
+			<a class="back" href="/mobile/personalCenter/enMyAttention"></a>
 			添加关注
 		</header>
 		<!--<div class="meAttentionSearch">-->
@@ -54,12 +54,12 @@
 					kid=$(this).children('option:selected').val();
 					commonAjax(
 							"post",
-							'/myapp/personalCenter/getModelByCla',
+							'/mobile/personalCenter/getModelByCla',
 							{kid:kid}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==1){
-							window.location.href="/myapp/login";
+							window.location.href="/mobile/login";
 						}else{
 							ph="<option>无</option>";
 							res.models.forEach(function (v,i,a) {
@@ -77,7 +77,7 @@
 					model=$(this).children('option:selected').val();
 					commonAjax(
 							"post",
-							"/myapp/personalCenter/getFactoryByMod",
+							"/mobile/personalCenter/getFactoryByMod",
 							{model:model}
 					).then(function (res) {
 						ph="<option>无</option>";
@@ -99,16 +99,16 @@
 					if(address&&model&&kid){
 						commonAjax(
 								"post",
-								"/myapp/personalCenter/addProAttention",
+								"/mobile/personalCenter/addProAttention",
 								{address:address,num:model,kid:kid}
 						).then(function (res) {
 							console.log(res);
 							if(res.err==0){
 								mui.alert("",res.msg,function () {
-									window.location.href="/myapp/personalCenter/enMyAttention";
+									window.location.href="/mobile/personalCenter/enMyAttention";
 								});
 							}else if(res.err==1){
-								window.location.href="/myapp/login";
+								window.location.href="/mobile/login";
 							}else{
 								mui.alert("",res.msg,function () {});
 							}

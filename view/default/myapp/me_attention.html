@@ -34,7 +34,8 @@
 
 		commonAjax(
 				"post",
-				"/myapp/personalCenter/myAttention"
+				"/myapp/personalCenter/myAttention",
+				{dataToken: "52435433b98cc24f1471c75e17487fc4"}
 		).then(function (res) {
 			console.log(">>>",res);
 			if(res.err==1){
@@ -101,7 +102,7 @@
 			commonAjax(
 					"post",
 					"/myapp/personalCenter/delMyAttention",
-					{ids:productArr}
+					{ids:productArr,dataToken: "52435433b98cc24f1471c75e17487fc4"}
 			).then(function (res) {
 				console.log(res);
 				mui.alert('',res.msg,function(){

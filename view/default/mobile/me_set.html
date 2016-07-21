@@ -21,9 +21,9 @@
 			<li>公司<span id="address"></span></li>
 		</ul>
 		<ul class="meUl2">
-			<li><a href="/myapp/personalCenter/enPassword">修改密码<img src="__MYAPP__/img/classifyBack.png"></a></li>
-			<li><a href="/myapp/personalCenter/enEmail">电子邮箱<img src="__MYAPP__/img/classifyBack.png"><span id="email"></span></a></li>
-			<li><a href="/myapp/personalCenter/enQq">QQ号码<img src="__MYAPP__/img/classifyBack.png"><span id="qq"></span></a></li>
+			<li><a href="/mobile/personalCenter/enPassword">修改密码<img src="__MYAPP__/img/classifyBack.png"></a></li>
+			<li><a href="/mobile/personalCenter/enEmail">电子邮箱<img src="__MYAPP__/img/classifyBack.png"><span id="email"></span></a></li>
+			<li><a href="/mobile/personalCenter/enQq">QQ号码<img src="__MYAPP__/img/classifyBack.png"><span id="qq"></span></a></li>
 		</ul>
 		<ul class="meUl2">
 			<li>当前版本<span>1.10</span></li>
@@ -35,11 +35,11 @@
 			$(function () {
 				commonAjax(
 						"post",
-						"/myapp/personalCenter/getMySet"
+						"/mobile/personalCenter/getMySet"
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/myapp/login";
+						window.location.href="/mobile/login";
 					}else{
 						$("#name").text(res.data.name);
 						$("#email").text(res.data.email);
