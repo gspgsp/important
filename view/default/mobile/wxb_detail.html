@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			#wxbDetailWrap{ font-size: 12px; background: #ffffff; margin: 10px 0 0 0; color: #646464;}
+			#wxbDetailWrap td{ height: 30px; text-align: center; border: 1px solid #d9d9d9;}
+			#wxbDetailWrap table{ width: 100%;}
+		</style>
+	</head>
+
+	<body>
+		<header id="bigCustomerHeader">
+			<a class="back" href="javascript:window.history.back();"></a>物性表详情
+		</header>
+		<h3 id="name" class="wxbDetailTitle"></h3>
+		<div class="wxbDetailWrap">
+			<h3 class="wxbHead">规格用途</h3>
+			<table class="wxbTb" cellpadding="0" cellspacing="0">
+				<tr>
+					<td width="30%">规格级别</td>
+					<td id="standard"></td>
+				</tr>
+				<tr>
+					<td>外观颜色</td>
+					<td id="color"></td>
+				</tr>
+				<tr>
+					<td>改料用途</td>
+					<td id="purpose"></td>
+				</tr>
+				<tr>
+					<td>备注说明</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<div id="wxbDetailWrap"></div>
+
+		<div class="wxbLink">
+			<a id="checkOffer" href="javascript:;">查看报价</a>
+			<a id="releasePurchase" href="javascript:;">发布采购</a>
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var lid=getUrlParam("lid");
+				commonAjax(
+						"post",
+						"/myapp/mainPage/getPhysicalDetail",
+						{lid:lid}
+				).then(function (res) {
+					console.log(res);
+					$("#name").text(res.phyDetail.name);
+					$("#color").text(res.phyDetail.color);
+					$("#standard").text(res.phyDetail.standard);
+					$("#purpose").text(res.phyDetail.purpose);
+					$("#wxbDetailWrap").html(res.phyDetail.params);
+					$("#checkOffer").on("click",function () {
+						window.location.href="/myapp/mainPage/enSearchRes?keywords="+ res.phyDetail.type +"";
+					});
+					$("#releasePurchase").on("click",function () {
+						window.location.href="/myapp/mainPage/enPhysicalDelegate?id="+ res.phyDetail.lid +"";
+					});
+
+				},function () {
+
+				});
+			})
+		</script>
+
+	</body>
+
+</html>

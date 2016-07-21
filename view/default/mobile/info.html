@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+</head>
+
+<body style="padding-bottom: 50px;">
+<header id="infoHeader">
+	<a class="back" href="javascript:window.history.back();"></a>
+	今日资讯
+</header>
+<nav id="nav">
+	<span data-pid="29" class="on">市场点评</span>
+	<span data-pid="30">行业热点</span>
+	<span data-pid="31">企业调价</span>
+	<span data-pid="32">装置动态</span>
+	<span data-pid="33">塑料期货</span>
+</nav>
+<div id="articleWrap">
+	<ul id="articleLi"></ul>
+</div>
+<footer id="footer">
+	<ul>
+		<li><a href="/myapp/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+		<li><a href="/myapp/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+		<li><a href="/myapp/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+		<li><a class="footerOn" href="/myapp/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+		<li><a href="/myapp/personalCenter"><i class="foot5"></i><br>我</a></li>
+	</ul>
+</footer>
+
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	$(function () {
+		var infoLi="";
+		function infoInit(paramsPid) {
+			commonAjax(
+					"post",
+					"/myapp/mainPage/getArticleInfo",
+					{pid: paramsPid}
+			).then(function (res) {
+				console.log(res);
+				res.articleInfo.forEach(function (v, i, a) {
+					infoLi += "<li data-id='" + v.id + "'><div class='articleLi'>" +
+							"<h3>" + v.title + "</h3><img src='" + v.img + "'>" +
+							"<p>" + v.content + "</p></div>" +
+							"<p class='time'>" + v.input_time + "</p></li>";
+				});
+				$("#articleLi").html(infoLi);
+				$("#articleLi li").on("click",function () {
+					var id=$(this).data("id");
+					window.location.href='/myapp/mainPage/enArticleDetail?id='+id;
+				});
+
+			}, function () {
+
+			});
+		}
+		infoInit(29);
+		$("#nav span").on("click",function () {
+			var pid=$(this).data("pid");
+			infoLi="";
+			console.log(pid);
+			$(this).addClass("on").siblings("span").removeClass("on");
+			infoInit(pid);
+		});
+
+	});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body style="padding-bottom: 55px;">
+		<header id="meHeader">
+			<a class="back" href="#"></a>
+			完善信息
+		</header>
+		<h3 class="meTitle" style="margin-bottom: 30px;">请先完善个人信息</h3>
+		<div class="meSetInput">
+			<span>姓名</span>
+			<input id="name" type="text" placeholder="请输入姓名" />
+		</div>
+		<div class="meSetInput">
+			<span>公司</span>
+			<input id="c_name" type="text" placeholder="请输入公司名" />
+		</div>
+		<div class="meSetInput">
+			<span>QQ</span>
+			<input id="qq" type="tel" placeholder="请输入QQ号码" />
+		</div>
+		<div style="margin: 0 20px;">
+			<div class="registerBtn">提交</div>
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				$(".registerBtn").on("click",function () {
+					var name=$("#name").val();
+					var c_name=$("#c_name").val();
+					var qq=$("#qq").val();
+					commonAjax(
+							"post",
+							"/myapp/register/reginfo",
+							{name:name,c_name:c_name,qq:qq}
+					).then(function (res) {
+						console.log(">>>",res);
+						if(res.err==0){
+							window.location.href="/myapp/personalCenter";
+						}else if(res.err==1){
+							mui.alert('',res.msg,function(){});
+						}
+					},function(res){
+
+					});
+				});
+			})
+		</script>
+
+	</body>
+
+</html>

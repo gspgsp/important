@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+</head>
+
+<body>
+<header id="infoHeader">
+	<a class="back" href="javascript:window.history.back();"></a>
+	原油价格
+</header>
+<ul id="infoOil"></ul>
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	$(function () {
+		var oilLi="";
+		commonAjax(
+				"post",
+				"/myapp/mainPage/getMoreDyPrice"
+		).then(function (res) {
+			console.log(res);
+			res.dyprice.forEach(function (v, i, a) {
+				oilLi += "<li>"+ v.type +"<i class='"+ oilCompare(v.ups_downs) +"'>"+arrow(v.alph)+""+ v.ups_downs +"</i><b>"+ v.price +"</b></li>";
+			});
+			$("#infoOil").html(oilLi);
+		},function () {
+
+		});
+	})
+</script>
+
+</body>
+
+</html>

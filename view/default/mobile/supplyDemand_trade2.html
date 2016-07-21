@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" /> 
+		<title></title>
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			.supplyDemandTradeTb input[type="text"]{ margin: 0; height: 20px; font-size: 12px; width: 70px; text-align: center; padding: 0;}
+			.supplyDemandTradeTb select{ font-size: 12px; margin: 0; width: 50px; height: 25px; border: 1px solid #ddd !important; padding: 0 5px;}
+			.ship_type{ position: relative; top: 3px;}
+		</style>
+	</head>
+	<body style="padding-bottom: 50px;">
+		<header id="bigCustomerHeader">
+			<a class="back" href="javascript:window.history.back();"></a>委托交易
+		</header>
+		<table class="supplyDemandTradeTb" cellpadding="0" cellspacing="0">
+			<tr>
+				<td width="35%">产品类型</td>
+				<td id="product_type"></td>
+			</tr>
+			<tr>
+				<td>牌号</td>
+				<td id="model"></td>
+			</tr>
+			<tr>
+				<td>单价</td>
+				<td>￥<input id="unit_price" type="text">/吨</td>
+			</tr>
+			<tr>
+				<td>数量</td>
+				<td><input id="number" type="text">吨</td>
+			</tr>
+			<tr>
+				<td>厂家</td>
+				<td id="f_name"></td>
+			</tr>
+			<tr>
+				<td>交货地</td>
+				<td>
+					<select id="delivery_place">
+						<option value="2">北京</option>
+						<option value="3">安徽</option>
+						<option value="4">福建</option>
+						<option value="5">甘肃</option>
+						<option value="6">广东</option>
+						<option value="7">广西</option>
+						<option value="8">贵州</option>
+						<option value="9">海南</option>
+						<option value="10">河北</option>
+						<option value="11">河南</option>
+						<option value="12">黑龙江</option>
+						<option value="13">湖北</option>
+						<option value="14">湖南</option>
+						<option value="15">吉林</option>
+						<option value="16">江苏</option>
+						<option value="17">江西</option>
+						<option value="18">辽宁</option>
+						<option value="19">内蒙古</option>
+						<option value="20">宁夏</option>
+						<option value="21">青海</option>
+						<option value="22">山东</option>
+						<option value="23">山西</option>
+						<option value="24">陕西</option>
+						<option value="25">上海</option>
+						<option value="26">四川</option>
+						<option value="27">天津</option>
+						<option value="28">西藏</option>
+						<option value="29">新疆</option>
+						<option value="30">云南</option>
+						<option value="31">浙江</option>
+						<option value="32">重庆</option>
+						<option value="33">香港</option>
+						<option value="34">澳门</option>
+						<option value="35">台湾</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>运输方式</td>
+				<td>
+					<input type="radio" class="ship_type" name="ship_type" value="1" checked />&nbsp;自提&nbsp;
+					<input type="radio" class="ship_type" name="ship_type" value="2" />&nbsp;送货上门&nbsp;
+					<input type="radio" class="ship_type" name="ship_type" value="3" />&nbsp;其他
+				</td>
+			</tr>
+		</table>
+		<table class="supplyDemandTradeTb" cellpadding="0" cellspacing="0">
+			<tr>
+				<td colspan="2" style="text-align: left; padding: 0 15px;">我的信息</td>
+			</tr>
+			<tr>
+				<td width="35%">联系人</td>
+				<td id="con_name"></td>
+			</tr>
+			<tr>
+				<td>联系方式</td>
+				<td id="mobile"></td>
+			</tr>
+			<tr>
+				<td>公司名称</td>
+				<td id="c_name"></td>
+			</tr>
+		</table>
+		<div class="bigCustomerDetailBtn">
+			<input id="tradeBtn" type="button" value="委托交易">
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var id=getUrlParam("id");
+				var p_id="";
+				var c_id="";
+				commonAjax(
+						"post",
+						"/myapp/mainPage/getBigBidDetail",
+						{otype:2,id:id}
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						p_id=res.chDeRes.p_id;
+						c_id=res.chDeRes.c_id;
+						$("#delivery_place").val(res.chDeRes.address);
+						$("#product_type").text(res.chDeRes.type);
+						$("#model").text(res.chDeRes.model);
+						$("#unit_price").val(res.chDeRes.price);
+						$("#number").val(res.chDeRes.num);
+						$("#f_name").text(res.chDeRes.factory);
+						$("#input_time").text(res.chDeRes.input_time);
+						$("#con_name").text(res.chDeRes.name);
+						$("#mobile").text(res.chDeRes.mobile);
+						$("#qq").text(res.chDeRes.qq);
+						$("#c_name").text(res.chDeRes.c_name);
+					}
+				},function () {
+
+				});
+				
+				$("#tradeBtn").on("click",function () {
+					var price=$("#unit_price").val();
+					var number=$("#number").val();
+					var f_name=$("#f_name").text();
+					var ship_type=$(".ship_type:checked").val();
+					var delivery_place=$("#delivery_place").val();
+					if(price&&number&&f_name&&ship_type&&delivery_place){
+						commonAjax(
+								"post",
+								"/myapp/mainPage/savaComission",
+								{
+									p_id:p_id,
+									c_id:c_id,
+									price:price,
+									number:number,
+									f_name:f_name,
+									ship_type:ship_type,
+									delivery_place:delivery_place
+								}
+						).then(function (res) {
+							if(res.err==1){
+								window.location.href="/myapp/login";
+							}
+							mui.alert("",res.msg,function () {
+
+							});
+						},function () {
+
+						});
+					}else{
+						mui.alert("","请把信息填写完整",function () {
+
+						});
+					}
+				});
+				
+			})
+		</script>
+
+	</body>
+
+</html>

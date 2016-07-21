@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" /> 
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+	<body style="padding-bottom: 50px;">
+		<header id="bigCustomerHeader">
+			<a class="back" href="javascript:window.history.back();"></a>详情
+		</header>
+		<div class="bigCustomerDetail">
+			<h3><img src="__MYAPP__/img/bigCustomer.png">产品信息</h3>
+			<ul class="bigCustomerDetailUl">
+				<li><span>产品类型：</span><font id="product_type"></font></li>
+				<li><span>牌      号：</span><font id="model"></font></li>
+				<li><span>单      价：</span>￥<font id="unit_price"></font>/吨</li>
+				<li><span>数      量：</span><font id="number"></font>吨</li>
+				<li><span>厂      家：</span><font id="f_name"></font></li>
+				<li><span>交货地：</span><font id="provinces"></font></li>
+				<li><span>发布时间：</span><font id="input_time"></font></li>
+			</ul>
+		</div>
+		<div class="bigCustomerDetail" style="margin: 0;">
+			<h3><img src="__MYAPP__/img/bigCustomer2.png">联系人</h3>
+			<ul class="bigCustomerDetailUl">
+				<li><span>公      司：</span><font id="gsname"></font><img class="bigCustomer3" src="__MYAPP__/img/bigCustomer3.png"></li>
+				<li><span>业务电话：</span><font id="phone"></font></li>
+				<li><span>厂家电话：</span><font id="cjphone"></font></li>
+			</ul>
+		</div>
+		<div class="bigCustomerDetailTxt">
+			<span><img width="15" src="__MYAPP__/img/bigCustomer4.png">&nbsp;自营现货</span>
+			<span><img width="15" src="__MYAPP__/img/bigCustomer4.png">&nbsp;人工采货</span>
+			<span><img width="15" src="__MYAPP__/img/bigCustomer4.png">&nbsp;交易保障</span>
+		</div>
+		<div class="bigCustomerDetailBtn">
+			<input id="tradeBtn" type="button" value="委托洽谈">
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var id=getUrlParam("id");
+				$("#tradeBtn").on("click",function () {
+					window.location.href="/myapp/mainPage/enBigBidDelegate?id="+id+"";
+				});
+				commonAjax(
+						"post",
+						"/myapp/mainPage/getBigBidDetail",
+						{otype:1,id:id}
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						$("#product_type").text(res.chDeRes.type);
+						$("#model").text(res.chDeRes.model);
+						$("#unit_price").text(res.chDeRes.price);
+						$("#number").text(res.chDeRes.num);
+						$("#f_name").text(res.chDeRes.factory);
+						$("#provinces").text(res.chDeRes.address);
+						$("#input_time").text(res.chDeRes.input_time);
+						$("#phone").text(res.chDeRes.phone);
+						$("#cjphone").text(res.chDeRes.cjphone);
+						$("#gsname").text(res.chDeRes.gsname);
+					}
+				},function () {
+
+				});
+			})
+		</script>
+
+	</body>
+
+</html>
