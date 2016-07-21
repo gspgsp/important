@@ -79,6 +79,9 @@ class personalCenterAction extends homeBaseAction
         $points = M('points:pointsBill')->getUerPoints($this->user_id);
         if(!$result = M('touch:creditshop')->getCreditShop($gtype))
             $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
+            foreach ($result as &$v) {
+                $v['thumb']=FILE_URL."/upload/".$v['thumb'];
+            }
             $this->json_output(array('err'=>0,'points'=>$points,'shop'=>$result));
     }
     //进入我的物流
@@ -460,6 +463,9 @@ class personalCenterAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
         $result = M('touch:creditRecord')->getCreditRecord($this->user_id);
+        foreach ($result as  &$v) {
+            $v['thumb']=FILE_URL."/upload/".$v['thumb'];
+        }
         $this->json_output($result);
     }
     //商品详情页
@@ -472,6 +478,8 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         $gid = sget('gid','i',0);
         $result = M('touch:creditshop')->getShopDetail($gid);
+        $result['image']=FILE_URL."/upload/".$result['image'];
+        $result['thumb']=FILE_URL."/upload/".$result['thumb'];
         $this->json_output($result);
     }
     /**
