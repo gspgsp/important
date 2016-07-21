@@ -11,6 +11,10 @@ class mainPageAction extends homeBaseAction
     public function enMainPage(){
     	$this->display('index');
     }
+    //进入banner后的链接页面
+    public function enBannerPage(){
+        $this->display('info_banner');
+    }
     //获取移动端的banner->position=4
     public function getAppBanner(){
         if(!$banners=M('system:block')->getBlock(4,5)) $this->json_output(array('err'=>2,'msg'=>'没有相关数据'));
@@ -531,6 +535,10 @@ class mainPageAction extends homeBaseAction
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
         if(!$data = M('myapp:mainPage')->getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'data'=>$data['data']));
+    }
+    //由采购单进入查看->我要供货
+    public function enCheckForm2(){
+        $this->display('appSearchResult2');
     }
     //进入我要供货
     public function enMySupply(){
