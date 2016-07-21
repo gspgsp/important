@@ -507,6 +507,7 @@ class mainPageAction extends homeBaseAction
         $page = sget('page','i',1);
         $size = sget('size','i',10);
         if(!$pubQuoPur = M('myapp:mainPage')->getPublicQuoPur($type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->_checkLastPage($pubQuoPur['count'],$size,$page);
         $this->json_output(array('err'=>0,'pubQuoPur'=>$pubQuoPur['data']));
 
     }
@@ -607,5 +608,13 @@ class mainPageAction extends homeBaseAction
     //生产订单号
     protected function buildOrderId(){
         return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    }
+    //判断是否到最后一页
+    private function _checkLastPage($count,$size,$page){
+        if($count>0){
+            if(ceil($count/$size)<=$page){
+                $this->json_output(array('err'=>2,'msg'=>'没有更多数据'));
+            }
+        }
     }
 }
