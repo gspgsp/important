@@ -2,8 +2,7 @@
 //路径配置
 require.config({
   paths: {
-	  echarts: 'http://static.wdsln.com/js/home/dist' 
-  }
+	  }
 });
 //使用
 require(
@@ -21,6 +20,7 @@ require(
 	var conTaba3 = ec.init(document.getElementById('con-taba-3'));
 	var conTaba4 = ec.init(document.getElementById('con-taba-4'));
 	var conTaba5 = ec.init(document.getElementById('con-taba-5'));
+	var conTaba5 = ec.init(document.getElementById('con-taba-6'));
 
 
 	 /*********布伦特油开始*******/
@@ -417,7 +417,7 @@ require(
 	  };
 	  /********LLDPE结束*******/
 
-	   /********PP开始*******/
+	   /********均聚PP开始*******/
 	  option6 = {
 		  tooltip : {
 			  trigger: 'axis'
@@ -574,6 +574,86 @@ require(
 		  ]
 	  };
 	  /********PVC结束*******/
+	  ///********共聚PP开始*******/
+	  option8 = {
+		  tooltip : {
+			  trigger: 'axis'
+		  },
+		  grid:{x:0,y:'4px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
+		  calculable : true,
+		  xAxis : [
+			  {
+				  splitLine:{show: true,lineStyle:{color:['#e4e4e4']}},//显示网格
+				  type : 'category',
+				  axisTick:{ show:false}, //隐藏轴标记
+				  boundaryGap : false,
+				  axisLine: {  // 坐标轴线
+					  show: false, // 默认显示，属性show控制显示与否
+					  lineStyle: { // 属性lineStyle控制线条样式
+						  color: '#F00',
+						  width: 1,
+						  type: 'soild'
+					  }
+				  },
+				  axisLabel : {
+					  margin: 15,
+					  textStyle:{
+						  color:'#fc6621'
+					  }
+				  },
+				  data : quotation.共聚PP.date
+			  }
+		  ],
+		  yAxis : [
+			  {
+				  splitLine:{
+					  lineStyle:{color:['#e4e4e4']}
+				  },
+				  max: ""+quotation.共聚PP.max+"",
+				  min: ""+quotation.共聚PP.min+"",
+				  type : 'value',
+				  splitNumber:5,
+				  axisLine: {
+					  show: false,
+					  lineStyle: {
+						  color: '#F00',
+						  width: 1,
+						  type: 'soild'
+					  }
+				  },
+				  axisLabel : {
+					  margin: -48,
+					  formatter: '{value}'
+				  }
+			  }
+		  ],
+		  series : [
+			  {
+				  name:'价格',
+				  type:'line',
+				  symbol:'', //去掉折线上的圆点
+				  itemStyle: {
+					  normal: {
+						  lineStyle:{ color:'#fc6621',width:1}
+					  }
+				  },
+				  data:quotation.共聚PP.price,
+				  markPoint : {
+					  data : [
+						  //{name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
+					  ]
+				  },
+				  markLine : {
+					  data : [
+						  //{type : 'average', name : '平均值'}
+					  ]
+				  }
+			  }
+		  ]
+	  };
+	  ///********共聚PP结束*******/
+
+
 	  //为echarts对象加载数据
 	  myChart1.setOption(option1);
 	  myChart2.setOption(option2);
@@ -582,6 +662,7 @@ require(
 	  conTaba3.setOption(option5);
 	  conTaba4.setOption(option6);
 	  conTaba5.setOption(option7);
+	  conTaba5.setOption(option8);
 	  
   }
 );
