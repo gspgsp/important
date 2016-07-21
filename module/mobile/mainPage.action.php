@@ -11,6 +11,14 @@ class mainPageAction extends homeBaseAction
     public function enMainPage(){
     	$this->display('index');
     }
+    //获取移动端的banner->position=4
+    public function getAppBanner(){
+        if(!$banners=M('system:block')->getBlock(4,5)) $this->json_output(array('err'=>2,'msg'=>'没有相关数据'));
+        foreach ($banners as &$v) {
+                $v['img']=FILE_URL."/upload/".$v['img'];
+            }
+        $this->json_output(array('err'=>0,'banners'=>$banners));
+    }
     //获取首页数据
     public function getMainPage(){
         $this->is_ajax = true;
