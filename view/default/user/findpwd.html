@@ -97,7 +97,8 @@ function sendphonecode(){
 		time('sendphone');  
 		$.ajax({ 
 			type: 'post',
-			url: "/user/findpwd/sendmsg",
+//			url: "/api/sms/passwdFind",  //上线短信接口
+			url: "/user/findpwd/sendmsg",  //本地短信
 			cache:false,
 			data: {mobile:e,regcode:regcode},
 			dataType:'json', 
