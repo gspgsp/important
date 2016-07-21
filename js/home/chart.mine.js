@@ -2,6 +2,7 @@
 //路径配置
 require.config({
   paths: {
+	  echarts: 'http://static.online.com/js/home/dist'
 	  }
 });
 //使用
