@@ -49,7 +49,6 @@ class indexAction extends homeBaseAction
             $province = sget('p', 's', '');
             $status=0;
             $shipCollect = M('operator:ship_collect');
-
            $ship_collect=$shipCollect->add(array('input_time'=>time(),'user_id'=>$id,'ending'=>$ending,'weight'=>$weight,'price'=>$province,'status'=>$status,'startings'=>$starting)) ;
             if($ship_collect){
                 die(json_encode(array('err' => '0')));
