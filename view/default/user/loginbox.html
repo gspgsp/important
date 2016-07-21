@@ -27,7 +27,7 @@ body{ font-family:"微软雅黑"; font-size:14px; color:#666;}
 .layer-login .login-btn:hover input{ background:#168ad9;}
 .layer-login .login-btn input{ color:#fff; font-size:16px; display:block; width:290px; height:40px; border-radius:3px; overflow:hidden; background:#3598db;  cursor:pointer;}
 .layer-login .login-other{ font-family:Arial,"微软雅黑"; width:290px; height:40px; line-height:40px; text-align:center; overflow:hidden;  margin:0 auto; margin-top:25px; text-align:right;}
-.layer-login .login-other a{ margin:0 10px;}
+.layer-login .login-other a{ display:block; background:url("../images/home/QQ.png") ; margin:0 10px;}
 .inp{width: 270px; border:1px solid #ddd;padding: 10px;}
 .requires{border:1px solid red;}
 </style>
@@ -51,7 +51,7 @@ body{ font-family:"微软雅黑"; font-size:14px; color:#666;}
         <!--login-tr begin-->
         <div class="login-tr">
             <!-- <div class="login-auto"><input type="checkbox" id="auto" name="remember" value="1" checked="checked"/><label for="auto">2周内自动登录</label></div> -->
-            <div><a href="javascript:;" onclick="register()">注册新账号</a></div></div>
+            <a href="javascript:;" onclick="register()">注册新账号</a>
             <div class="login-forget"><a href="javascript:findPwd();">忘记密码？</a></div>
         </div>
         <!--login-tr end-->
@@ -63,7 +63,7 @@ body{ font-family:"微软雅黑"; font-size:14px; color:#666;}
     </form>
     <!--login-btn end-->
     <!--login-btn begin-->
-    <div class="login-other"><a href="javascript:;" onclick="loginqq()">使用QQ账号登录</a>|
+    <div class="login-other"><a href="javascript:;" onclick="loginqq()">使用QQ账号登录</a></div>
     <!--login-btn end-->
 </div>
 </body>

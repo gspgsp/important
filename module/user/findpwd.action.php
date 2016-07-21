@@ -11,13 +11,13 @@ class findpwdAction extends homeBaseAction{
 			$data=saddslashes($_POST);
 			if(!$this->_chkmobile($data['phone'])) $this->error($this->err);
 			$result=M('system:sysSMS')->chkDynamicCode($data['phone'],$data['code']);
-			p($result);die;
 			if($result['err']>0){
 				$this->error($result['msg']);	
 			}
 			$_SESSION['mobile']=$data['phone'];
 			$_SESSION['check_find_ok']=true;
 			$this->success('验证通过');
+			json_decode(array('err'=>$result['err'],'msg'=>$result['msg']));
 		}else{
 			$this->display('findpwd');
 		}
@@ -42,12 +42,13 @@ class findpwdAction extends homeBaseAction{
 			unset($_SESSION['check_find_ok']);
 			unset($_SESSION['mobile']);
 			$this->success('修改成功');
-		}else{
+		   }else{
 			$this->display('dofind');
 		}
 	}
 
 	public function findSuccess(){
+
 		$this->display('find_success');
 	}
 
