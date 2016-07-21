@@ -78,24 +78,26 @@ class signAction extends homeBaseAction{
     //兑换
     public function addOrder()
     {
+
         if($_POST){
             $this->is_ajax=true;
+            if($this->user_id<=0) $this->error('账户错误');
             $data=saddslashes($_POST);
             foreach ($data as $key => $value) {
-                if(empty($value)) $this->error('信息不完整');
+                if(empty($value)) $this->json_output(array('err'=>2,'msg'=>'信息不完整'));
             }
-
-            if($data['code']!='123') $this->error('验证码错误');
-
-            if(!is_mobile($data['phone'])) $this->error('错误的联系电话');
-
+            //检查验证码
+            $resVcode=M('system:sysSMS')->chkDynamicCode($data['phone'],$data['vcode']);
+            if($resVcode['err']>0){
+                $this->json_output(array('err'=>3,'msg'=>$resVcode['msg']));
+            }
+            if(!is_mobile($data['phone'])) $this->json_output(array('err'=>4,'msg'=>'错误的联系电话'));
             $uinfo=M('public:common')->model('contact_info')->where("user_id=$this->user_id")->getRow();
-            $id=sget('gid','i',0);
-            if(!$goods=$this->pointsGoodsModel->getPk($id)) $this->error('没有找到您要兑换的');
-            if($goods['status']==2) $this->error('您兑换的商品已下架');
-            if($goods['num']<=0) $this->error('您兑换的商品库存不足');
-            if($uinfo['points']<$goods['points']) $this->error('您的积分不足');
-
+            $id=$data['gid'];
+            if(!$goods=$this->pointsGoodsModel->getPk($id)) $this->json_output(array('err'=>5,'msg'=>'没有找到您要兑换的'));
+            if($goods['status']==2) $this->json_output(array('err'=>6,'msg'=>'您兑换的商品已下架'));
+            if($goods['num']<=0) $this->json_output(array('err'=>7,'msg'=>'您兑换的商品库存不足'));
+            if($uinfo['points']<$goods['points']) $this->json_output(array('err'=>8,'msg'=>'您的积分不足'));
             $model = M('points:pointsOrder');
             $billModel=M('points:pointsBill');
             $_orderData = array(
@@ -122,5 +124,36 @@ class signAction extends homeBaseAction{
             $model->commit();
             $this->success('兑换成功');
         }
+    }
+
+    //ajax获取短信验证码
+    public function sendmsg(){
+        $this->is_ajax=true;
+            if($this->user_id<=0) $this->error('账户错误');
+        //验证手机
+        $mobile=sget('mobile','s');
+        if(!is_mobile($mobile)){
+            $this->json_output(array('err'=>2,'msg'=>'您的手机号码格式不正确'));
+            }
+        //系统短信模型
+        $sms=M('system:sysSMS');
+        //检查注册的限制
+        $result=$sms->chkRegLimit($mobile,get_ip());
+        if(empty($result)){
+            $this->json_output(array('err'=>3,'msg'=>$sms->getError()));
+        }
+        //请求动态码
+        $result=$sms->genDynamicCode($mobile);
+        if($result['err']>0){ //请求错误
+            $this->json_output(array('err'=>4,'msg'=>$result['msg']));
+        }
+        $msg=$result['msg']; //短信内容
+        //发送手机动态码
+        $sms->send(0,$mobile,$msg,1);
+        $this->success('发送成功');
+    }
+    //生产订单号
+    protected function buildOrderId(){
+        return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
     }
 }
