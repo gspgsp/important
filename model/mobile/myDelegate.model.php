@@ -8,8 +8,7 @@ class myDelegateModel extends model
         parent::__construct(C('db_default'), 'purchase');
     }
     //获取点击查看/委托洽谈
-    public function getCheckDelegate($otype,$id){
-
+    public function getCheckDelegate($otype,$id,$userId){
         $where = "pur.id=$id";
         $chDeRes = array();
         $data = $this->from('purchase pur')->select('pur.id,pur.p_id,pur.number,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.provinces,pur.store_house,pur.c_id,pur.input_time,pur.cargo_type,pur.user_id')
@@ -18,7 +17,7 @@ class myDelegateModel extends model
             ->where($where)
             ->getRow();
             $contact = M('user:customerContact')->getListByUserid($data['user_id']);
-            $own = M('user:customerContact')->getListByUserid($this->user_id);
+            $own = M('user:customerContact')->getListByUserid($userId);
         if($otype == 1){
             //产品信息
             $chDeRes['product_type'] = L('product_type')[$data['product_type']];
