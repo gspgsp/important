@@ -156,6 +156,7 @@ class pdfAction extends adminBaseAction {
 								<td></td>
 								<td width="505" height="20" style="line-height:20px;">3、本合同自双方盖章后生效，一式两份，双方各执一份。传真件具有同等法律效力。</td>
 							</tr>
+							%s
 						</table>
 						<table width="635" align="center" bgcolor="#fff" style="border-bottom:2px solid #000;">
 							<tr>
@@ -307,6 +308,7 @@ class pdfAction extends adminBaseAction {
 								<td></td>
 								<td width="505" height="20" style="line-height:20px;">3、本合同自双方盖章后生效，一式两份，双方各执一份。传真件具有同等法律效力。</td>
 							</tr>
+							%s
 						</table>
 						<table width="635" align="center" bgcolor="#fff" style="border-bottom:2px solid #000;">
 							<tr>
@@ -324,7 +326,7 @@ class pdfAction extends adminBaseAction {
 		// load::L('pdf');
 		$oid = sget('oid','i',0);
 		if($oid>0){
-			$orderLists=$this->db->from('order as o')->leftjoin('customer as c','c.c_id=o.c_id')->select('o.order_sn, o.total_price, o.order_name, o.order_type, o.c_fax,  o.payment_way, o.pay_method, o.pickup_location, o.delivery_location, o.sign_time, o.sign_place, o.transport_type, o.payment_time,o.pickup_time,c.c_name,c.legal_person, o.customer_manager as ocm')->where('o_id='.$oid)->getRow();
+			$orderLists=$this->db->from('order as o')->leftjoin('customer as c','c.c_id=o.c_id')->select('o.order_sn, o.total_price, o.order_name, o.order_type, o.c_fax,  o.payment_way, o.pay_method, o.pickup_location, o.delivery_location, o.sign_time, o.sign_place, o.additional, o.transport_type, o.payment_time,o.pickup_time,c.c_name,c.legal_person, o.customer_manager as ocm')->where('o_id='.$oid)->getRow();
 			if($orderLists['order_type']==1){
 				$detiless=$this->db->from('sale_log as s')
 						->leftjoin('product as p','p.id=s.p_id')
@@ -453,10 +455,17 @@ class pdfAction extends adminBaseAction {
 				<td align="left">'.L('c_fax')[$orderList['c_fax']].'</td>
 			</tr>
 			';
+		$additional = empty($orderList['additional']) ? '' : '
+		  	<tr>
+				<td></td>
+				<td></td>
+				<td width="505" height="20" style="line-height:20px;">4、'.$orderList['additional'].'</td>
+			</tr>
+			';
 		// 销售情况
-		$str = sprintf($arr['pdf_template']['sale'],$ordertitle,$orderList['order_sn'],$orderList['c_name'],$sign_time,$table1,$shipname,$location,$shipname,$pickup_time,$orderList['transport_type'],(L('pay_method')[$orderList['pay_method']]),$payment_time,$orderLists['payment_way'],$table2);
+		$str = sprintf($arr['pdf_template']['sale'],$ordertitle,$orderList['order_sn'],$orderList['c_name'],$sign_time,$table1,$shipname,$location,$shipname,$pickup_time,$orderList['transport_type'],(L('pay_method')[$orderList['pay_method']]),$payment_time,$orderLists['payment_way'],$additional,$table2);
 		// 采购情况
-		$str1 = sprintf($arr['pdf_template']['buy'],$orderList['c_name'],$orderList['order_sn'],$ordertitle,$sign_time,$table1,$shipname,$location,$shipname,$pickup_time,$orderList['transport_type'],(L('pay_method')[$orderList['pay_method']]),$payment_time,$orderLists['payment_way'],$table3);
+		$str1 = sprintf($arr['pdf_template']['buy'],$orderList['c_name'],$orderList['order_sn'],$ordertitle,$sign_time,$table1,$shipname,$location,$shipname,$pickup_time,$orderList['transport_type'],(L('pay_method')[$orderList['pay_method']]),$payment_time,$orderLists['payment_way'],$additional,$table3);
 		$contract = $orderLists['order_type']==1 ? $str : $str1;
 		$pdf->writeHTMLCell(0, 0, '', '', $contract, 0, 1, 0, true, '', true);
 		// 输出pdf
