@@ -32,7 +32,7 @@ class indexAction extends homeBaseAction{
 		$this->assign('grabList',$grabList);
 		
 		$readjust=M('operator:dynamic')->getList();
-		//调价动态
+		//调价动态(行情中心)
 		$readjust=$this->setReadjust($readjust);
 		$this->assign('readjust', $readjust);
 		

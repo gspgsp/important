@@ -114,9 +114,9 @@ function sendphonecode(){
 		time('sendphone');  
 		$.ajax({ 
 			type: 'POST', 
-			url: "/api/sms/init",  //线上注册短信接口
-//			url: "/user/register/sendmsg",
-			data: {'mobile':e,'regcode':regcode,'type':1},
+//			url: "/api/sms/init",  //线上注册短信接口
+			url: "/user/register/sendmsg",
+			data: {'mobile':e,'regcode':regcode},
 			dataType:'json', 
 		beforeSend:function(){ 
 			// $("#sendphone").val("正在发送...");//显示加载动画 

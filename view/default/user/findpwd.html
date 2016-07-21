@@ -97,10 +97,10 @@ function sendphonecode(){
 		time('sendphone');  
 		$.ajax({ 
 			type: 'post',
-			url: "/api/sms/init",  //上线短信接口
-//			url: "/user/findpwd/sendmsg",  //本地短信
+//			url: "/api/sms/init",  //上线短信接口
+			url: "/user/findpwd/sendmsg",  //本地短信
 			cache:false,
-			data: {mobile:e,regcode:regcode,'type':2},
+			data: {mobile:e,regcode:regcode},
 			dataType:'json', 
 		beforeSend:function(){ 
 			// $("#sendphone").val("正在发送...");//显示加载动画 
