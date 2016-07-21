@@ -494,11 +494,11 @@ function inStorage(oid,join_id){
 //查看订单相关信息
 function viewOrdInfo(oid,o_type){
 	mini.open({
-		url: "/product/order/info?oid="+oid+'&o_type='+o_type,
+		url: "/application/order/info?oid="+oid+'&o_type='+o_type,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
 		width: 800, height:430
-	});		
+	});
 }
 //行内编辑后保存数据
 function saveData() {

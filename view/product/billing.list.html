@@ -33,7 +33,7 @@
 </div>
 <div class="mini-fit" style="padding:3px;">
   <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"
-  {if $type eq '1'} url="/application/billing/init?action=grid&type={$type}"{else}  url="/application/billing/itin?action=grid&type={$type}" {/if} idField="id"
+  {if $type eq '1'} url="/product/billing/init?action=grid&type={$type}"{else}  url="/product/billing/itin?action=grid&type={$type}" {/if} idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
@@ -111,7 +111,7 @@ function down(e){
 //查看订单相关信息
 function viewOrdInfo(oid,o_type){
 	mini.open({
-		url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+		url: "/product/order/info?oid="+oid+'&o_type='+o_type,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
 		width: 800, height:430
@@ -139,7 +139,7 @@ function addInvoice(oid,order_type,id){
 		title="开票申请审核";
 	mini.open({
 		//有invoice表示是开票,有finance表示是审核
-		url: "/application/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice+"&finance="+finance+"&id="+id,
+		url: "/product/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice+"&finance="+finance+"&id="+id,
 		showMaxButton:true,
 		 title: title, width: width, height:height,
 		ondestroy: function (action) {
@@ -153,7 +153,7 @@ function addInvoice(oid,order_type,id){
 //查看
 function changeRed(id){
 	if(!confirm('确定要更正这条信息吗?')) return;
-	$.post('/application/billing/changeRed',{id:id},function(data){
+	$.post('/product/billing/changeRed',{id:id},function(data){
 		if(data.err==0){
 			alert('操作成功');
 			grid.reload();
@@ -190,7 +190,7 @@ function saveData() {
 	  return false;
 	}
   }
-  utils.ajax('/application/billing/save',{data:json},callback,"POST","json");
+  utils.ajax('/product/billing/save',{data:json},callback,"POST","json");
 }
 //筛选数据
 function CloseWindow(action) {

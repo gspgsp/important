@@ -88,13 +88,14 @@ class billingAction extends adminBaseAction
 		}
 
 		//筛选领导级别
-		// if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-		// 	$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-		// 	$where .= " and `customer_manager` in ($sons) ";
-		// }
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			$where .= " and `customer_manager` in ($sons) ";
+		}
 		
 		//必须只能看业务员自己的申请
-		$where .=" and `customer_manager`= {$_SESSION['adminid']}";
+		//$where .=" and `customer_manager`= {$_SESSION['adminid']}";
+		
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
@@ -175,16 +176,17 @@ class billingAction extends adminBaseAction
 		$billingModel=M('product:billing');
 		$billingLogModel=M('product:billingLog');
 		$data['payment_time']=strtotime($data['payment_time']);
-		//开票号去重
-		$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);	
-		if(!$res) $this->error("发票号重复,请更换！");
-
+		
 		$purchaseLogModel=M('product:purchaseLog');
 		$saleLogModel=M('product:saleLog');
 		$orderModel=M('product:order');
 
 		if($data['finance']==1){
 			//财务审核开票信息
+			//开票号去重
+			$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);	
+			if(!$res) $this->error("发票号重复,请更换！");
+
 			$data['update_time']=CORE_TIME;
 			$data['update_admin']=$_SESSION['username'];
 			$data['invoice_status']=2;//完成开票状态

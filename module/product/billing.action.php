@@ -105,6 +105,7 @@ class billingAction extends adminBaseAction
 			$list['data'][$k]['title'] = L('company_account')[$list['data'][$k]['title']];
 
 			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
+
 			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
 			//每笔订单 收付款明细的审核状态
 			$arr = M('product:billing')->getLastInfo($name='o_id',$value=$v['o_id']);
@@ -173,9 +174,7 @@ class billingAction extends adminBaseAction
 		$billingModel=M('product:billing');
 		$billingLogModel=M('product:billingLog');
 		$data['payment_time']=strtotime($data['payment_time']);
-		//开票号去重
-		$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);	
-		if(!$res) $this->error("发票号重复,请更换！");
+		
 
 		$purchaseLogModel=M('product:purchaseLog');
 		$saleLogModel=M('product:saleLog');
@@ -189,6 +188,12 @@ class billingAction extends adminBaseAction
 			$data['payment_time']=CORE_TIME;
 
 			$data['unbilling_price']=$data['unbilling_price']-$data['billing_price'];
+
+			//销售开票号去重
+			if ($type==1) {
+				$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);
+				if(!$res) $this->error("发票号重复,请更换！");
+			}
 			$billingModel->startTrans();
 
 			try {
@@ -264,7 +269,7 @@ class billingAction extends adminBaseAction
 				$this->error($e->getMessage());
 			}
 			$billingModel->commit();
-				$this->success('提交成功');
+			$this->success('提交成功');
 		}
 
 	}
@@ -317,6 +322,52 @@ class billingAction extends adminBaseAction
 
 	}
 
+	public function billingLog(){
+		$page = sget("pageIndex",'i',0); //页码
+		$size = sget("pageSize",'i',20); //每页数
+		$sortField = sget("sortField",'s','id'); //排序字段
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		$type=sget('type','i',0);
+
+		if($is_head=sget('is_head','i',0)){
+			$o_id=sget('o_id','i',0);
+
+			if($type==1){
+				//销售明细
+				$list=M('product:saleLog')->getLogListByOid($o_id,$page,$size);
+			}else{
+				//采购明细
+				$list=M('product:purchaseLog')->getLogListByOid($o_id,$page,$size);
+			}
+		}else{
+			$id=sget('id','i',0);
+			if($type==1){
+				$listModel=$this->db->from('billing_log b')
+					->join('sale_log l','b.l_id=l.id')
+					->join('store st','l.store_id=st.id')
+					->select('b.*,l.b_number as u_number,l.lot_num,st.store_name');
+			}else{
+				$listModel=$this->db->from('billing_log b')
+					->join('purchase_log l','b.l_id=l.id')
+					->select('b.*,l.b_number as u_number');
+			}
+			$list=$listModel->where("b.parent_id=$id")->page($page,$size)->getPage();
+		}
+
+		foreach ($list['data'] as &$value) {
+			$value['sum']=floatval($value['b_number']*$value['unit_price']);
+			if($is_head){
+				$value['un_number']=$value['b_number'];
+				$value['type']=L("product_type")[$value['type']];
+			}else{
+				$value['un_number']=$value['u_number'];
+			}
+		}
+
+		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+		$this->json_output($result);
+
+	}
 	//红字更正
 	public function changeRed(){
 		$this->is_ajax=true;
@@ -436,59 +487,7 @@ class billingAction extends adminBaseAction
 			$this->error('数据处理失败');
 		}
 	}
-	/**
-	 * 开票充红
-	 * @access private 
-	 */
-	// public function changeRed(){
-	// 	$this->is_ajax=true; //指定为Ajax输出
-	// 	$data = sdata(); //获取UI传递的参数
-	// 	//p($data);die;[oid] => 625 [id] => 12 [b_price] => 63  [total_price] => 195 [o_sn] => 35020
-	// 	if(empty($data)) $this->error('错误的操作');
-	// 	$arr = M('product:billing')->getLastInfo($name='o_id',$value=$data['oid']);
-
-	// 	$arr2 = array(
-	// 		'id'=>'',
-	// 		'invoice_sn'=>'',//发票号
-	// 		'tax_price'=>'',//税额
-	// 		'order_sn'=>'更正'.$data['o_sn'],
-	// 		'billing_price'=>'0',
-	// 		'unbilling_price'=>$arr[0]['unbilling_price']+$data['b_price'],
-	// 		//'refund_amount'=>$data['b_price'],//新增字段，可不要，用于记录退票金额
-	// 		'update_time'=>CORE_TIME,
-	// 		'update_admin'=>$_SESSION['name'],
-	// 		'invoice_status'=>2,
-	// 		);
- //            //开票可能变化的值 [bile_type]票据类型[payment_time] => 0     [account] => 1
- // 		$update=array_merge($arr[0],$arr2);
-	// 	$this->db->startTrans();//开启事务
-	// 		try {
-	// 			if(!$this->db->model('billing')->add($update) )throw new Exception("新增退款失败");
-	// 			if(!$this->db->model('billing')->wherePK($data['id'])->update( array('invoice_status'=>3)) )throw new Exception("修改退款状态失败");
-	// 			//根据撤销开票记录id,返还订单明细数量
-	// 			if($data['order_type']==1){
-	// 				$_ids = $this->db->model('unbilling_log')->select('sale_log_id')->where('billing_id='.$data['id'])->getAll();
-	// 			}else{
-	// 				$_ids = $this->db->model('unbilling_log')->select('purchase_log_id')->where('billing_id='.$data['id'])->getAll();
-	// 			}
-	// 			//调用返还方法
-	// 			$this->returnNumber($_ids,$data['order_type']);
-
-	// 			//根据撤销开票金额与总金额的大小，判断订单开票状态
-	// 			if($data['total_price'] == $data['b_price']){
-	// 				if(!$this->db->model('order')->wherePK($data['oid'])->update( array('invoice_status'=>1)) )throw new Exception("修改订单表退款状态失败");
-	// 			}else{
-	// 				if(!$this->db->model('order')->wherePK($data['oid'])->update( array('invoice_status'=>2)) )throw new Exception("修改订单表退款状态失败");
-	// 			}
-				
-	// 		} catch (Exception $e) {
-	// 			$this->db->rollback();
-	// 			$this->error($e->getMessage());
-	// 		}
-	// 	$this->db->commit();
-	// 	$this->success('操作成功');
-
-	// }
+	
 	/**
 	 *撤销开票时,返还订单明细数量
 	 */
@@ -530,6 +529,7 @@ class billingAction extends adminBaseAction
 	 */
 	public function curUnique(){
 		$data = trim($_POST['data']);
+		p($data);die;
 		if(empty($data)) $this->error('请填写发票号');
 		$res = M('product:billing')->curUnique('invoice_sn',$data);	
 		if(!$res) $this->error("发票号重复,请更换！");

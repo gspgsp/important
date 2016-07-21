@@ -122,8 +122,9 @@ function relevance(e){
 
 //查看订单相关信息
 function viewOrdInfo(oid,o_type,sale){
+
 	mini.open({
-		url: "/application/order/info?oid="+oid+'&o_type='+o_type+'&sale='+sale,
+		url: "/application/order/viewInfo?oid="+oid+'&o_type='+o_type+'&sale='+sale,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
 		width: 800, height:430
