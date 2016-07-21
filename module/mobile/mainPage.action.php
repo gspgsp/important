@@ -538,7 +538,7 @@ class mainPageAction extends homeBaseAction
     }
     //由采购单进入查看->我要供货
     public function enCheckForm2(){
-        $this->display('appSearchResult2');
+        $this->display('supplyDemand_detail2');
     }
     //进入我要供货
     public function enMySupply(){
