@@ -2,7 +2,7 @@
 //路径配置
 require.config({
   paths: {
-	  echarts: 'http://static.svnonline.com/js/home/dist' 
+	  echarts: 'http://static.wdsln.com/js/home/dist' 
   }
 });
 //使用
@@ -444,7 +444,7 @@ require(
 							color:'#fc6621'
 						}
 				  },
-				  data : quotation.PP.date
+				  data : quotation.均聚PP.date
 			  }
 		  ],
 		  yAxis : [
@@ -452,8 +452,8 @@ require(
 				  splitLine:{
 					  lineStyle:{color:['#e4e4e4']}
 				  },
-				  max: ""+quotation.PP.max+"",
-				  min: ""+quotation.PP.min+"",
+				  max: ""+quotation.均聚PP.max+"",
+				  min: ""+quotation.均聚PP.min+"",
 				  type : 'value',
 				  splitNumber:5,
 				  axisLine: {
@@ -480,7 +480,7 @@ require(
 						  lineStyle:{ color:'#fc6621',width:1}
 					  }
 				  },
-				  data:quotation.PP.price,
+				  data:quotation.均聚PP.price,
 				  markPoint : {
 					  data : [
 						  //{name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
