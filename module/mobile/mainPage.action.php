@@ -1,6 +1,6 @@
 <?php
 /**
-*应用首页-app
+*应用首页-web-app
 */
 class mainPageAction extends homeBaseAction
 {
@@ -437,8 +437,20 @@ class mainPageAction extends homeBaseAction
         $pid=sget('pid','i',29);
         $page = sget('page','i',1);
         $size = sget('size','i',10);
+        $articles = array();
+        $tempArr = array();
         if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
-        $this->json_output(array('err'=>0,'articleInfo'=>$articleInfo['data']));
+        foreach ($articleInfo['data'] as $key => $value) {
+            $articleInfo['data'][$key]['content']=strip_tags($articleInfo['data'][$key]['content']);
+            $articleInfo['data'][$key]['brief']=mb_substr($articleInfo['data'][$key]['content'],0,20,'utf-8')."...";
+            $tempArr['id']=$articleInfo['data'][$key]['id'];
+            $tempArr['title']=$articleInfo['data'][$key]['title'];
+            $tempArr['brief']=$articleInfo['data'][$key]['brief'];
+            $tempArr['input_time']=$articleInfo['data'][$key]['input_time'];
+            $articles[]=$tempArr;
+            unset($tempArr);
+        }
+        $this->json_output(array('err'=>0,'articleInfo'=>$articles));
     }
     //进入资讯详情页
     public function enArticleDetail(){
@@ -449,9 +461,9 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         //if($this->user_id<=0) $this->error('账户错误');
         $id=sget('id','i',0);
-        if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
+         if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $articleDetail['input_time'] = date("Y-m-d",$articleDetail['input_time']);
-        $this->json_output(array('err'=>0,'articleDetail'=>$articleDetail));
+        $this->json_output(array('err'=>0,'articleDetail'=>sstripslashes($articleDetail)));
     }
     //进入发布报价
     public function enReleaseSale(){

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 用户登录- app
+ * 用户登录- web-app
  */
 class loginAction extends homeBaseAction{
 	public function init()

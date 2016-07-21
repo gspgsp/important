@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 用户找回密码- app
+ * 用户找回密码- web-app
  */
 class findPwdAction extends homeBaseAction{
 	public function __init()

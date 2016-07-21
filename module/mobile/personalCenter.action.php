@@ -1,6 +1,6 @@
 <?php
 /**
-*个人中心控制器-app
+*个人中心控制器-web-app
 */
 class personalCenterAction extends homeBaseAction
 {

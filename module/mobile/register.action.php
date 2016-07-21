@@ -1,6 +1,6 @@
 <?php
 /**
- * 用户注册--app
+ * 用户注册--web-app
  */
 class registerAction extends homeBaseAction{
 
