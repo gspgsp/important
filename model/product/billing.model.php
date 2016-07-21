@@ -26,12 +26,12 @@ class billingModel extends model{
 	 * @param string $value 检查值
 	 * @return bool（true唯一）
 	 */
-	public function curUnique($name='invoice_sn',$value='',$c_id=0){
-		$where = "$name='$value'";
+	public function curUnique($name='`invoice_sn`',$value='',$c_id=0){
+		$where = "$name='{$value}'";
 		if($c_id){
 			$where .= " and c_id !='$c_id'";
 		}
-		$exist=$this->model('billing')->select('c_id')->where($where)->getOne();
-		return $exist>0 ? false : true;
+		$exist=$this->model('billing')->select('c_id')->where($where)->getAll();
+		return count($exist)>0 ? false : true;
 	}
 }
