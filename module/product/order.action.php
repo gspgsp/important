@@ -66,9 +66,15 @@ class orderAction extends adminBaseAction {
 	 * Ajax获取列表内容
 	 */
 	public function _grid(){
+		
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
-		$sortField = sget("sortField",'s','input_time'); //排序字段
+		$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+		if(in_array($roleid, array('30','26','27'))){
+			$sortField = sget("sortField",'s','update_time'); //排序字段
+		}else{
+			$sortField = sget("sortField",'s','input_time'); //排序字段
+		}
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
 		$where.= 1;
@@ -113,10 +119,8 @@ class orderAction extends adminBaseAction {
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
 			//筛选财务
-			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 			if(in_array($roleid, array('30','26','27'))){
 				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
-				 $orderby = "update_time desc";
 			} 
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
