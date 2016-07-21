@@ -208,7 +208,7 @@
 							res.pubQuoPur.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
-											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/mobile/mainPage/enCheckForm?id="+v.id+"'>供货</a></td></tr>";
+											"<td>￥"+v.unit_price+"</td><td>"+v.number+"T</td><td>"+v.provinces+"</td><td><a href='/mobile/mainPage/enCheckForm2?id="+v.id+"'>供货</a></td></tr>";
 									$(".supplyDemandTb").eq(index).append(searchTb);
 									searchTb="";
 								});
