@@ -131,17 +131,17 @@
 			console.log(">>>",res);
 			res.banners.forEach(function (v, i, a) {
 				bannerLi += "<div class='mui-slider-item' data-url='"+i+"'>" +
-						"<img src='__MYAPP__/img/banner4.jpg'>" +
-//						"<img src='"+v.img+"'>" +
+//						"<img src='__MYAPP__/img/banner4.jpg'>" +
+						"<img src='"+v.img+"'>" +
 						"</div>"
 			});
 			$(".mui-slider-group").html(bannerLi);
 
-			$(".mui-slider-group").append("<div class='mui-slider-item mui-slider-item-duplicate' data-url='0'><img src='__MYAPP__/img/banner4.jpg'></div>");
-			$(".mui-slider-group").prepend("<div class='mui-slider-item mui-slider-item-duplicate' data-url='1'><img src='__MYAPP__/img/banner4.jpg'></div>");
+//			$(".mui-slider-group").append("<div class='mui-slider-item mui-slider-item-duplicate' data-url='0'><img src='__MYAPP__/img/banner4.jpg'></div>");
+//			$(".mui-slider-group").prepend("<div class='mui-slider-item mui-slider-item-duplicate' data-url='1'><img src='__MYAPP__/img/banner4.jpg'></div>");
 
-//			$(".mui-slider-group").append("<div class='mui-slider-item mui-slider-item-duplicate' data-url='0'><img src='"+res.banners[0].img+"'></div>");
-//			$(".mui-slider-group").prepend("<div class='mui-slider-item mui-slider-item-duplicate' data-url='1'><img src='"+res.banners[4].img+"'></div>");
+			$(".mui-slider-group").append("<div class='mui-slider-item mui-slider-item-duplicate' data-url='0'><img src='"+res.banners[0].img+"'></div>");
+			$(".mui-slider-group").prepend("<div class='mui-slider-item mui-slider-item-duplicate' data-url='1'><img src='"+res.banners[4].img+"'></div>");
 			slider.slider({
 				interval: 3000
 			});
