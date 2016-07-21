@@ -63,16 +63,32 @@ class indexAction extends adminBaseAction{
 	}
 
 
-
+//获取正常发布数据
 	public function loadMore()
 	{
-
 		$type=sget('type');
 		$p=sget('p','i',1);
 		$size=200;
 		if($type=='') return;
-		$list=$this->model->where("type='{$type}' and is_stock=0 and status='上架' and input_time>$this->today")->page($p,$size)->order('input_time desc')->getPage();
-		
+		$list=$this->model->where("type='{$type}' and `content`='' and is_stock=0 and status='上架' and input_time>$this->today")->page($p,$size)->order('input_time desc')->getPage();
+		if($list['data']){
+			foreach ($list['data'] as $key => $value) {
+				$list['data'][$key]['date']=date('m-d H:i',$value['input_time']);
+			}
+		}else{
+			$list['data']=array();
+		}
+		exit(json_encode(array('list'=>$list['data'],'p'=>$p+1)));
+	}
+
+//获取文本内容数据
+	public function loadRemarkMore()
+	{
+		$type=sget('type');
+		$p=sget('p','i',1);
+		$size=200;
+		if($type=='') return;
+		$list=$this->model->where("`content`!='' and is_stock=0 and status='上架' and input_time>$this->today")->page($p,$size)->order('input_time desc')->getPage();
 		if($list['data']){
 			foreach ($list['data'] as $key => $value) {
 				$list['data'][$key]['date']=date('m-d H:i',$value['input_time']);
@@ -87,7 +103,6 @@ class indexAction extends adminBaseAction{
 	public function topTimer()
 	{
 		$list=$this->model->where("`content` != '' and `is_top` = 1 and `status` ='上架' and type='供应' and `input_time` > $this->today")->order("input_time desc")->getAll();
-		showtrace();
 		if($list){
 			foreach ($list as $key => $value) {
 				$list[$key]['date']=date('m-d H:i',$value['input_time']);

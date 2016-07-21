@@ -44,11 +44,10 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">用户：{$smarty.session.username}</div>
+		<div class="row" >
+			<div class="alert alert-info" role="alert">用户：{$smarty.session.username}</div>
 		</div>
-		<div style="padding:10px;"></div>
-		<div class="row">
+		<div class="row" style="margin-top:10px;">
 			<div class="col-md-12 col-lg-4">
 				开始
 				<input size="16" type="text" value="{:date|'Y-m-d'}" id="start" readonly data-date-format="yyyy-mm-dd" class="form_datetime">
@@ -75,9 +74,9 @@
 		<div style="padding:10px;"></div>
 		<div class="row">
 			<div class="col-lg-6 col-xs-12">
-				<div class="panel panel-default">
+				<div class="panel panel-primary">
 					<div class="panel-heading">最新报价</div>
-					<div class="offer">
+					<div class="offer" style="height: 200px;">
 						<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
 					        <thead>
 					            <tr>
@@ -145,15 +144,37 @@
 					        	</foreach>
 					        </tbody>
 					    </table>
+
+					    
 					</div>
 					<!-- <button onClick="loadMore('供应','loadoffer','offerTable')" id="loadoffer" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
 
+				</div>
+				<div class="panel panel-primary">
+							<div class="panel-heading">发布信息</div>
+							<div class="demand">
+								<foreach name="demandList" item="value" key="key">
+							        	<if condition="$value['content'] eq '' ">
+							            </if></foreach><else>
+							            </else>
+							            <table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
+									        <thead>
+									            <tr>
+									                <th>发布内容</th>
+									                <th width="55">责任人</th>
+									                <th width="88">时间</th>
+									            </tr>
+									        </thead>
+								        	<tbody id="remarkTable"></tbody>
+							    		</table>
+							</div>
+								<!-- <button onClick="loadMore('求购','loadrdemand','demandTable')" id="loadrdemand" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
 				</div>
 			</div>
 
 			<div class="col-lg-6 col-xs-12">
 				<div class="">
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
 						<div class="panel-heading">
 							库存信息
 							<div class="col-md-3 col-lg-4 pull-right">
@@ -204,7 +225,7 @@
 					</div>
 				</div>
 				<div class="">
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
 						<div class="panel-heading">采购需求</div>
 						<div class="demand">
 							<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
@@ -258,7 +279,7 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<div class="panel panel-default">
+				<div class="panel panel-primary">
 					<div class="panel-heading">
 						发布信息
 						<div class="col-md-3 col-lg-4 pull-right">
@@ -324,7 +345,7 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<div class="panel panel-default">
+				<div class="panel panel-primary">
 					<div class="panel-heading">我发布的信息
 						<button type="button" onClick="repup2()" class="btn btn-primary btn-sm col-sm-offset-7">重新发布</button>
 					</div>
@@ -531,6 +552,15 @@
 <%}%>
 </script>
 
+<!-- 制作文本类容发布的tr表格 -->
+<script type="text/html" id="remarkTemp">
+	<tr onDblclick="get_grade('<%=data.grade%>','<%=data.type%>')" >
+	    <td><%=data.content%></td>
+	    <td><%=data.uname%></td>
+	    <td><%=data.date%></td>
+	</tr>
+</script>
+
 <script type="text/html" id="topTemp">
 <%if (!data.content){%>
 	<tr onDblclick="get_grade('<%=data.grade%>','<%=data.type%>')" >
@@ -694,24 +724,24 @@
 		    <td><%=data.uname%></td>
 		    <td><%=data.date%></td>
 		    <td>
-				<a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
+				<a onClick="changeStatus(<%=data.id%>)" class="btn btn-danger btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
 
-			    <a onClick="changeTop(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
+			    <a onClick="changeTop(<%=data.id%>)" class="btn btn-danger btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
 		    </td>
 		</tr>
 		<%}else{%>
 		<tr>
 			<td class="text-center"></td>
-		    <td><%=data.type%></td>
-		    <td colspan="9"><%=data.content%></td>
-		    <td><%=data.supplier%></td>
-		    <td><%=data.status%></td>
+		    <!-- <td><%=data.type%></td> -->
+		    <td colspan="12"><%=data.content%></td>
+		    <!-- <td><%=data.supplier%></td>
+		    <td><%=data.status%></td> -->
 		    <td><%=data.uname%></td>
 		    <td><%=data.date%></td>
-		    <td>
+		    <!-- <td>
 			    <a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
 			    <a onClick="changeTop(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
-		    </td>
+		    </td> -->
 		</tr>
 	<%}%>
 </script>
@@ -1005,9 +1035,37 @@
 		btn.html('加载中..');
 		$.get('/wk/index/loadMore',{type:type,p:p},function (data){
 			var html='';
+			if (type=='发布信息') {
+				$(data.list).each(function(k, v){
+					html+=template('remarkTemp', {data:v});
+				})		
+			}else{
+				$(data.list).each(function(k, v){
+					html+=template('trTemp', {data:v});
+				})		
+			}
+										
+			if(re){
+				$("#"+form+"").html(html);
+			}else{
+				$("#"+form+"").append(html);
+			}
+			btn.attr('p',data.p);
+			btn.html('加载更多');
+		},'json');
+	}
+
+	function loadRemarkMore(type,btn,form,re){
+		var btn=$("#"+btn+"");
+		var p=btn.attr('p');
+		if(re) p=1;
+		btn.html('加载中..');
+		$.get('/wk/index/loadRemarkMore',{type:type,p:p},function (data){
+			var html='';
 			$(data.list).each(function(k, v){
-				html+=template('trTemp', {data:v});
+				html+=template('remarkTemp', {data:v});
 			})
+										
 			if(re){
 				$("#"+form+"").html(html);
 			}else{
@@ -1020,12 +1078,13 @@
 
 	var t="{$time}";
 
-	//var timer=setInterval(loadnews,5000);
+	var timer1=setInterval(loadMore,180000);
+	var timer2=setInterval(loadRemarkMore,180000);
 
-	// loadTop();
-	var topTimer=setInterval(loadTop,10000);
+	loadTop();
+	//var topTimer=setInterval(loadTop,10000);
 
-	var stockTimer=setInterval(loadstock,10000);
+	//var stockTimer=setInterval(loadstock,10000);
 	function loadTop(){
 		$.get('/wk/index/topTimer',{t:t},function (data){
 			if(data.list.length){
@@ -1037,6 +1096,7 @@
 			}else{
 				$("#offerTop").html('');
 			}
+
 		},'json');
 	}
 
@@ -1058,6 +1118,7 @@
 	// }
 
 	loadMore('供应','loadoffer','offerTable',true);
+	loadRemarkMore('发布信息','loadoffer','remarkTable',true);
 	loadMore('求购','loadrdemand','demandTable',true);
 	function loadall(){
 		loadTop();
