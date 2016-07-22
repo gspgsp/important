@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>{if $seo.title}{$seo.title}{else}{$title}-{$sys.site_title}{/if}</title>
+<title>{if $seo.title}{$seo.title}{else}{$title}{$sys.site_title}{/if}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta property="qc:admins" content="347746133667745354117636" />
 <meta name="keywords" content="{$seo.keywords}" />
@@ -92,17 +92,17 @@
         <div class="right frt">
             <ul class="ewm color3">
                 <li>
-                    <p><img src="__IMG__/home/ewmWx.jpg" width="84" height="84"/></p>
+                    <p><img src="__UPLOAD__/{$sys.weixin.qrcode}" width="84" height="84"/></p>
                     <span>官方微信</span>
                 </li>
                 <li>
-                    <p><img src="__IMG__/home/ewmApp.jpg" width="81" height="81"/></p>
-                    <span>APP</span>
+                    <p><img src="__UPLOAD__/{$sys.app.itemtips.icon}" width="81" height="81"/></p>
+                    <span>{$sys.app.itemtips.text}</span>
                 </li>
             </ul>
         </div>
     </div>
-    <p style="text-align:center;" class="copyright color3">{$sys.icp_number}</p>
+    <p style="text-align:center;" class="copyright color3">{$sys.icp_number}<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259304101'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259304101%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></p>
 </div>
 <!--footer end-->
 
