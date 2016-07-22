@@ -123,7 +123,7 @@ class sysSMSModel extends model{
 	}
 
 	/*
-	 * 生成安卓推送信息
+	 * 生成安卓推送下载信息
      * @access public
 	 * @param string $mobile 手机号
      * @return (err,msg)
