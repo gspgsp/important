@@ -101,7 +101,7 @@ class indexAction extends adminBaseAction{
 	// 置顶定时加载
 	public function topTimer()
 	{
-		$list=$this->model->where("`content` != '' and `is_top` = 1 and `status` ='上架' and type='供应' and `input_time` > $this->today")->order("input_time desc")->getAll();
+		$list=$this->model->where("`content` = '' and `is_top` = 1 and `status` ='上架' and type='供应' and `input_time` > $this->today")->order("input_time desc")->getAll();
 		if($list){
 			foreach ($list as $key => $value) {
 				$list[$key]['date']=date('m-d H:i',$value['input_time']);
