@@ -51,4 +51,9 @@
 				}
 			}
 		}
+		public function test1(){
+			$str = '<?xml version="1.0" encoding="UTF-8"?><response><error>-9001</error><message></message></response>';
+			$s = xml2array($str);
+			p($s);die;
+		}
 }
