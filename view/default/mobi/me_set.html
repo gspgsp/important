@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+	<body>
+		<header id="meHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			设置
+		</header>
+		<ul class="meUl2">
+			<li>姓名<span id="name"></span></li>
+			<li>公司<span id="address"></span></li>
+		</ul>
+		<ul class="meUl2">
+			<li><a href="/mobile/personalCenter/enPassword">修改密码<img src="__MYAPP__/img/classifyBack.png"></a></li>
+			<li><a href="/mobile/personalCenter/enEmail">电子邮箱<img src="__MYAPP__/img/classifyBack.png"><span id="email"></span></a></li>
+			<li><a href="/mobile/personalCenter/enQq">QQ号码<img src="__MYAPP__/img/classifyBack.png"><span id="qq"></span></a></li>
+		</ul>
+		<ul class="meUl2">
+			<li>当前版本<span>1.10</span></li>
+		</ul>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				commonAjax(
+						"post",
+						"/mobile/personalCenter/getMySet"
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/mobile/login";
+					}else{
+						$("#name").text(res.data.name);
+						$("#email").text(res.data.email);
+						$("#qq").text(res.data.qq);
+						$("#address").text(res.data.c_name);
+					}
+				},function () {
+
+				});
+			})
+
+		</script>
+
+	</body>
+
+</html>

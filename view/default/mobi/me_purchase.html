@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body style="padding-bottom: 50px;">
+		<header id="supplyDemandHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			<div class="supplyDemandChange">
+				<span class="on">现货管理</span>
+				<span>期货管理</span>
+			</div>
+		</header>
+		<div class="myPurchase">
+			<div class="purchaseInput2">
+				<input class="productQuery" type="text" placeholder="请输入产品分类、牌号、厂家">
+				<img id="query" src="__MYAPP__/img/query.png">
+			</div>
+			<select class="chooseType2">
+				<option value ="">全部</option>
+				<option value ="1">待审核</option>
+				<option value="2">审核通过</option>
+				<option value="3">洽谈中</option>
+				<option value="4">交易成功</option>
+				<option value="5">无效</option>
+				<option value="6">过期</option>
+			</select>
+			<div class="chooseType">全部</div>
+		</div>
+		<ul class="purchaseList"></ul>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var purchaseLi="";
+				var cargoType=1;
+
+				$(".chooseType2").on("change",function () {
+					var chooseValue=$(this).find("option:selected").text();
+					$(".chooseType").text(chooseValue);
+				});
+
+				commonAjax(
+						"post",
+						"/mobile/personalCenter/myPurchase",
+						{cargo_type:cargoType}
+				).then(function (res) {
+					if(res.err==1){
+						window.location.href="/mobile/login";
+					}else if(res.err==2){
+						$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+					}else{
+						res.data.reverse().forEach(function (v,i) {
+							purchaseLi+="<li><div class='purchaseWrap2'>" +
+									"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+									"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+									"</div></li>";
+						});
+						$(".purchaseList").html(purchaseLi);
+
+						$(".supplyDemandChange span").on("click",function () {
+							$(this).addClass("on").siblings("span").removeClass("on");
+							cargoType=$(this).index()+1;
+							purchaseLi="";
+							commonAjax(
+									"post",
+									"/mobile/personalCenter/myPurchase",
+									{cargo_type:cargoType}
+							).then(function (res) {
+								if(res.err==1){
+									window.location.href="/mobile/login";
+								}else if(res.err==2){
+									$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+								}else{
+									res.data.forEach(function (v,i) {
+										purchaseLi+="<li><div class='purchaseWrap2'>" +
+												"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+												"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+												"</div></li>";
+									});
+									$(".purchaseList").html(purchaseLi);
+
+								}
+							},function () {
+
+							});
+
+						});
+					}
+				},function () {
+
+				});
+
+				//搜索
+				$("#query").on("click",function () {
+					if(!$(".productQuery").val()){
+						mui.alert('','请输入要搜索的内容',function(){});
+					}else{
+						commonAjax(
+								"post",
+								"/mobile/personalCenter/doPurSearch",
+								{
+									keywords:$(".productQuery").val().toLocaleUpperCase(),
+									status:$(".chooseType2").val(),
+									cargo_type:cargoType
+								}
+						).then(function (res) {
+							if(res.err==1){
+								console.log(res);
+								window.location.href="/mobile/login";
+							}else if(res.err==2){
+								$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+							}else{
+								purchaseLi="";
+								res.resultData.forEach(function (v,i) {
+									purchaseLi+="<li><div class='purchaseWrap2'>" +
+											"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
+											"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
+											"</div></li>";
+								});
+								$(".purchaseList").html(purchaseLi);
+							}
+						},function () {
+
+						});
+					}
+				});
+
+			})
+		</script>
+
+	</body>
+
+</html>

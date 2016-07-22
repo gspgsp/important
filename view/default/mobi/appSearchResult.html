@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body>
+		<header id="searchHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			<div class="searchSearch">
+				<input id="searchTxt" type="text" placeholder="请输入产品分类、牌号" />
+				<a class="appQuery2" href="javascript:;"></a>
+			</div>
+		</header>
+		<div class="supplyDemandStatus2">
+			<span data-number="3" class="on">默认</span>
+			<span data-sale="true">价格</span>
+			<p style="width: 33.33333333%; height: 40px; line-height: 40px; margin: 0; float: left; text-align: center;">
+				<select id="ctypeChange">
+					<option value="1">采购</option>
+					<option value="2">报价</option>
+				</select>
+			</p>
+		</div>
+		<div class="supplyDemandUl">
+			<ul id="searchWrapUl"></ul>
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function(){
+				var keywords=getUrlParam("keywords");
+				var searchLi="";
+				var searchTb="";
+
+
+				function searchPro(keyW) {
+					commonAjax(
+							"post",
+							"/mobile/mainPage/getSearchRes",
+							{keywords:keyW}
+					).then(function (res) {
+						console.log(">>>",res);
+						if(res.searchRes.length==0){
+							$("#searchWrapUl").html("<li class='noSearch'>暂无数据</li>");
+						}else{
+						res.searchRes.forEach(function (v,i,a) {
+							searchLi+="<li><h3 class='bigCustomerName'>" +
+									"<a href='#'>"+v.product_type+"/"+v.model+"<br>"+v.f_name+"</a></h3>" +
+									"<p class='supplyDemandStore'><i class='icon iconDown'></i></p>" +
+									"<p class='supplyDemandSales'><span>￥"+v.unit_price+"/T起</span><br>"+v.input_time+"</p>" +
+									"<div class='mui-clearfix'></div>" +
+									"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
+									"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
+									"</table></li>";
+							$("#searchWrapUl").html(searchLi);
+						});
+
+							var index=0;
+							res.searchRes.forEach(function (v,i,a) {
+								v.twoData.forEach(function (v, i, a) {
+									searchTb += "<tr><td>" + v.company + "</td>" +
+											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobile/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
+								});
+								$(".supplyDemandTb").eq(index).append(searchTb);
+								index++;
+								searchTb = "";
+							});
+
+
+						$(".iconDown").on("click",function () {
+							$(this).toggleClass("iconUp");
+							$(this).parents("li").find(".supplyDemandTb").toggle();
+						});
+
+						}
+					},function () {
+
+					});
+				}
+				searchPro(keywords);
+
+				$(".appQuery2").on("click",function () {
+					var searchTxt=$("#searchTxt").val();
+					if(!searchTxt){
+						mui.alert("","请输入搜索内容",function () {});
+					}else{
+						searchLi="";
+						searchPro(searchTxt);
+					}
+				});
+
+				$("#ctypeChange").on("change",function () {
+					var ctype=$(this).val();
+					commonAjax(
+							"post",
+							"/mobile/mainPage/getResByQuOPu",
+							{ctype:ctype,keywords:keywords}
+					).then(function (res) {
+						console.log("---",res);
+						searchLi="";
+						if(res.sdata.length==0){
+							$("#searchWrapUl").html("<li class='noSearch'>暂无数据</li>");
+						}else {
+							res.sdata.forEach(function (v, i, a) {
+								searchLi += "<li><h3 class='bigCustomerName'>" +
+										"<a href='#'>" + v.product_type + "/" + v.model + "<br>" + v.f_name + "</a></h3>" +
+										"<p class='supplyDemandStore'><i class='icon iconDown'></i></p>" +
+										"<p class='supplyDemandSales'><span>￥" + v.unit_price + "/T起</span><br>" + v.input_time + "</p>" +
+										"<div class='mui-clearfix'></div>" +
+										"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
+										"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
+										"</table></li>";
+								$("#searchWrapUl").html(searchLi);
+							});
+							var index=0;
+							res.sdata.forEach(function (v,i,a) {
+								v.twoData.forEach(function (v, i, a) {
+									searchTb += "<tr><td>" + v.company + "</td>" +
+											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobile/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
+								});
+								$(".supplyDemandTb").eq(index).append(searchTb);
+								index++;
+								searchTb = "";
+							});
+
+							$(".iconDown").on("click", function () {
+								$(this).toggleClass("iconUp");
+								$(this).parents("li").find(".supplyDemandTb").toggle();
+							});
+
+						}
+					},function () {
+
+					});
+				});
+				var stype="";
+				$(".supplyDemandStatus2 span").on("click",function () {
+					$(this).addClass("on").siblings("span").removeClass("on");
+					var sale=$(this).data("sale");
+					if(sale){
+						if(stype==2){
+							stype=1;
+						}else{
+							stype=2;
+						}
+					}else{
+						stype=$(this).data("number");
+					}
+					console.log("***",stype);
+					commonAjax(
+							"post",
+							"/mobile/mainPage/getResByPrice",
+							{stype:stype,keywords:keywords}
+					).then(function (res) {
+						console.log("+++",res);
+						searchLi="";
+						res.sdata.forEach(function (v,i,a) {
+							searchLi+="<li><h3 class='bigCustomerName'>" +
+									"<a href='#'>"+v.product_type+"/"+v.model+"<br>"+v.f_name+"</a></h3>" +
+									"<p class='supplyDemandStore'><i class='icon iconDown'></i></p>" +
+									"<p class='supplyDemandSales'><span>￥"+v.unit_price+"/T起</span><br>"+v.input_time+"</p>" +
+									"<div class='mui-clearfix'></div>" +
+									"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
+									"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
+									"</table></li>";
+							$("#searchWrapUl").html(searchLi);
+						});
+
+						var index=0;
+						res.sdata.forEach(function (v,i,a) {
+							v.twoData.forEach(function (v, i, a) {
+								searchTb += "<tr><td>" + v.company + "</td>" +
+										"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobile/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
+							});
+							$(".supplyDemandTb").eq(index).append(searchTb);
+							index++;
+							searchTb = "";
+						});
+
+
+						$(".iconDown").on("click",function () {
+							$(this).toggleClass("iconUp");
+							$(this).parents("li").find(".supplyDemandTb").toggle();
+						});
+
+
+					},function () {
+
+					});
+				});
+
+
+
+			});
+		</script>
+
+	</body>
+
+</html>

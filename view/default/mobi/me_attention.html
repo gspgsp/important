@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+</head>
+
+<body>
+<header id="meHeader">
+	<a class="back" href="javascript:window.history.back();"></a>
+	我的关注
+	<a id="manage" class="right" href="javascript:;">管理</a>
+</header>
+<div class="meAttentionAll" style="display: none;">
+	<input id="all2" type="checkbox">&nbsp;全选/反选
+	<span id="del" class="meAttentionDel">删除</span>
+</div>
+<ul class="meAttention"></ul>
+<a class="me_enter" href="/mobile/personalCenter/addMyAttention">添加关注</a>
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	$(function () {
+		var attentionLi="";
+		var productArr=[];
+
+		commonAjax(
+				"post",
+				"/mobile/personalCenter/myAttention"
+		).then(function (res) {
+			console.log(">>>",res);
+			if(res.err==1){
+				window.location.href="/mobile/login";
+			}else{
+				res.data.forEach(function (v,i,a) {
+					attentionLi+="<li><input class='checkbox' type='checkbox' value='"+v.id+"'>&nbsp;"+ v.model +" "+ v.factory_name +"<span class='grey'>"+ mToH(v.time_al) +"小时前</span><span class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</span>" +
+							"<span class='orange'>"+ v.unit_price +"/T</span></li>"
+				});
+				$(".meAttention").html(attentionLi);
+
+				$(".checkbox").on("click",function () {
+					var pId=$(this).val();
+					if(this.checked){
+						productArr.push(pId);
+						console.log(productArr);
+					}else{
+						$("#all2").prop("checked",false);
+						productArr.splice($.inArray(pId,productArr),1);
+						console.log(productArr);
+					}
+				});
+
+
+			}
+		},function () {
+
+		});
+
+		$("#manage").on("click",function () {
+			$(".meAttentionAll").toggle();
+			$(".checkbox").toggle();
+		});
+
+		//状态选择
+		$("#all2").click(function(){
+			if(this.checked){
+				$(".meAttention :checkbox").prop("checked", true);
+				productArr=[];
+				$(".checkbox").each(function () {
+					productArr.push($(this).val());
+					console.log(productArr);
+				});
+			}else{
+				$(".meAttention :checkbox").prop("checked", false);
+				productArr=[];
+				console.log(productArr);
+			}
+		});
+
+		$(".checkbox").on("click",function () {
+			var pId=$(this).val();
+			if(this.checked){
+				productArr.push(pId);
+				console.log(productArr);
+			}else{
+				$("#all2").prop("checked",false);
+				productArr.splice($.inArray(pId,productArr),1);
+				console.log(productArr);
+			}
+		});
+
+		$("#del").on("click",function () {
+			commonAjax(
+					"post",
+					"/mobile/personalCenter/delMyAttention",
+					{ids:productArr}
+			).then(function (res) {
+				console.log(res);
+				mui.alert('',res.msg,function(){
+					window.location.reload();
+				});
+			},function () {
+
+			});
+		});
+
+	})
+</script>
+
+</body>
+
+</html>
