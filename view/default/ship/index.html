@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<title>中晨物流</title>
-
+<title>中晨物流-{if $seo.title}{$seo.title}{else}{$title}{$sys.site_title}{/if}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta property="qc:admins" content="347746133667745354117636" />
+<meta name="keywords" content="{$seo.keywords}" />
+<meta name="description" content="{$seo.description}" />
+<link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />
 <link href="__CSS__/home/master.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="__CSS__/home/ship.css"/>
 
@@ -969,7 +969,7 @@
     </ul>
     <!--right end-->
 </div>
-<div class="logistics">
+<div class="logistics" style="display:none;">
 	<h3>申请承运商入驻</h3>
 	<table border="0">
 		<form name="" method="post" action="/Ship/logisticsApply" onsubmit="return checkInput()">
@@ -1004,9 +1004,9 @@
 			</tr>
 		</form>
 	</table>
-
-</div>
 <div class="lsuccess">您的申请已经受理，业务人员会及时和您联系！谢谢。</div>
+</div>
+
 <input type="hidden" name="success" value="" >
 <!--mask-storage end-->
 <input type="hidden" value="" class="my-user" />
