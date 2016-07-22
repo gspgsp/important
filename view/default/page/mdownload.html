@@ -1,0 +1,251 @@
+{layout file="public:main_layout"}
+{insert_css files='home/master.css'}
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type="text/css">
+        *{ margin:0; padding:0;}
+        img{ border:0;}
+        ul,ol,li{ list-style:none;}
+        body{ font-family:"宋体"; font-size:12px;}
+
+        .flt{ float:left;}
+        .frt{ float:right;}
+        .w1200{ width:1200px; height:auto; overflow:hidden; background:#383938; margin:0 auto;}
+        .wrap .enlarge{ width:473px; height:423px; overflow:hidden; background:url(__IMG__/home/zt-enlarge.png) no-repeat; position:absolute; right:87px; top:104px;}
+
+        .ad{ height: auto; overflow: hidden;}
+        .ad .ad-txt{ width:670px; margin:61px 48px 0 49px; padding:0 0 143px 0;}
+        .ad .ad-pic{ width: 342px; height: 348px; margin: 18px 0 0 0;}
+        .opt{ width: 1200px; overflow: hidden; margin: 0 auto;}
+        .opt .opt-lt{ width:482px; height: 83px; overflow:hidden; margin:30px 0 0 0;}
+        .opt .opt-lt li{ width: 221px; float: left; margin-right: 20px;}
+        .opt .opt-cen{ width: 308px; height: auto; overflow: hidden; margin: 30px 0 0 0;}
+        .opt .opt-cen input{ color:#333;font-family:"微软雅黑";}
+        .opt .opt-cen .inp_p1{ width:308px;height:39px;}
+        .opt .opt-cen .inp_p2{ height:41px;margin-top:5px;width:308px;overflow:hidden;}
+        .opt .opt-cen .inp_p1 .input_1{ display:block;width:288px;height:19px;padding:10px;font-size:16px;}
+        .opt .opt-cen .inp_p2 .sp1{ width: 120px; height: 39px; display: block; float: left;}
+        .opt .opt-cen .inp_p2 .sp1 input{ width: 100px; height: 19px; padding: 10px;font-size:16px;}
+        .opt .opt-cen .inp_p2 .sp2{ width: 78px; font-size: 16px; height: 39px; line-height: 39px; text-align: center; overflow: hidden; background: #ccc; float: left; margin: 0 0 0 5px; cursor: pointer;}
+        .opt .opt-cen .inp_p2 .sp3{ width: 98px; height: 39px; display: block; background: #666; color: #fff; float: left; margin:0 0 0 5px; cursor: pointer;}
+        .opt .opt-rt{ width: 228px; margin:20px 0 0 35px;}
+        .opt .opt-rt li{ width:94px; height:auto; overflow:hidden; float:left; margin: 0 20px 0 0;}
+        .opt .opt-rt li .ewm-txt{ margin:10px 0 0 0;}
+
+
+        .banner{ height:75px;overflow:hidden;}
+        .banner.bg{ background:#d31045;}
+        .banner .banner-lt{ width:307px; height:75px; overflow:hidden; border-right:2px solid #fff;}
+        .banner .banner-lt img{ margin:0 0 0 72px;}
+        .banner .banner-rt img{ margin:36px 0 0 49px;}
+
+        .bottom{ width: 100%; height: 154px; overflow: hidden; position: fixed; left: 0; bottom: 0; z-index: 10000; background:rgba(0,0,0,.9);}
+
+        /*覆盖之前有冲突的样式*/
+        /*.yea{ width: 100%!important;}*/
+        .banner{ float: none!important;}
+        .fotbg{ clear: both;}
+    </style>
+</head>
+
+<div class="wrap w1200">
+    <!--<div class="enlarge"></div>-->
+    <div class="ad">
+        <div class="ad-txt flt">
+            <img src="__IMG__/home/zt-ad.png" width="630">
+        </div>
+        <div class="ad-pic flt">
+            <img src="__IMG__/home/zt-enlarge.png" width="302">
+        </div>
+    </div>
+</div>
+<div class="banner bg w1200" style="padding:10px 0;">
+    <div class="banner-lt flt"><img src="__IMG__/home/zt-bannerTop1.png" width="130"></div>
+    <div class="banner-rt flt"><img src="__IMG__/home/zt-bannerTop2.png" width="736"></div>
+</div>
+<div class="bottom">
+    <div class="opt">
+        <div class="opt-lt flt">
+            <ul>
+                <li><a href="https://itunes.apple.com/us/app/wo-de-su-liao-wang/id1071746048?l=zh&amp;ls=1&amp;mt=8"><img src="__IMG__/home/zt-download1.png" width="221" height="83"></a></li>
+                <li><a href="http://www.wodesuliao.cn/appdownloadapk.html"><img src="__IMG__/home/zt-download2.png" width="221" height="83"></a></li>
+            </ul>
+        </div>
+        <div class="opt-cen flt">
+            <form name="" method="post"  >
+                <p class="inp_p1">
+                    <input class="input_1" type="text" placeholder="输入手机号获取下载链接（安卓用户）" name="phone" id="phone">
+                <div class="clear"></div>
+                </p>
+                <p class="inp_p2">
+                    <span class="sp1"><input type="text" id="imgcode" class="input_2" name="captcha"  placeholder="输入验证码"></span>
+                    <img class="sp2" id="my-code"  src="/api/vcode?name=regcode" onclick="this.src=this.src+'&t='+Math.random()" alt="看不清，点击刷新" title="看不清，点击刷新" style="cursor:pointer;float:left;margin-top:0px;" >
+                    <!--<span class="sp2"  onclick="randCreate(this)" id="my-code">AGXF</span>-->
+                    <input type="button" class="sp3 tijiaobtn" id="sendphone" value="免费发送" onclick=" sendphonecode()">
+                 <div class="clear"></div>
+                </p>
+            </form>
+        </div>
+        <div class="opt-rt flt">
+            <ul>
+                <li><img src="__IMG__/home/zt-ewm2.png" width="94" height="94"><img src="__IMG__/home/zt-ewm1Txt.png" width="94" class="ewm-txt"></li>
+                <li><img src="__IMG__/home/zt-ewm1.png" width="94" height="94"><img src="__IMG__/home/zt-ewm2Txt.png" width="94" class="ewm-txt"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__JS__/home/layer-v1.8.5/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/home/tab.js"></script>
+
+<script>
+    var wait=60;
+    function time(o) {
+        var o =  document.getElementById(o)
+        if (wait == 0) {
+            // $('#sendphone').removeAttr("onclick");
+            $('#sendphone').attr("onclick","sendphonecode()");
+            $("#sendphone").val("免费发送");
+            wait = 60;
+        } else {
+            $('#sendphone').removeAttr("onclick");
+            $("#sendphone").val("重新发送(" + wait + ")");
+            wait--;
+            setTimeout(function() {
+                time(o)
+            }, 1000)
+        }
+    }
+
+    function sendphonecode(){
+        var e = $.trim($("#phone").val());
+        regcode = $.trim($("#imgcode").val());
+
+        if(e==''){
+            ll('手机号不能为空！',2);
+            $('#phone').focus();
+            return false;
+        }
+        if(!regcode){
+            ll("请先填写正确的图片验证码！",2);
+            $('#imgcode').focus();
+            return false;
+        }
+        if(e){
+            time('sendphone');
+            $.ajax({
+                type: 'post',
+                url: '/page/mdownload/sendmsg',  //本地短信
+                cache:false,
+                data: {mobile:e,regcode:regcode},
+                dataType:'json',
+                beforeSend:function(){
+                    // $("#sendphone").val("正在发送...");//显示加载动画
+                },
+
+                success:function(data){
+                    if(data.err==0 ){
+                        ll("发送成功！",1)
+                        // $("#sendphone").val("发送成功");//显示加载动画
+                        $('#sendphone').removeAttr("onclick");
+                    }else if(data.err > 0){
+                        ll(data.msg,2)
+                        // $("#sendphone").val("再次发送");//显示加载动画
+                    }else{
+                        ll("发送失败！",2)
+                        $('#sendphone').removeAttr("onclick");
+                        // $("#sendphone").val("发送失败");//显示加载动画
+                    }
+                },
+                error:function(){
+                    alert("数据加载失败");
+                }
+            });
+        }else{
+            ll("请填写手机号码！",2)
+        }
+    }
+
+
+
+//    function sendurl(){
+//        var input1 = $(".input_1");
+//        var input2 = $(".input_2");
+//        var e = $(".input_1").val();
+//        var code = $(".input_2").val();
+//        var myStr1 = '<input type="button" class="sp3 tijiaobtn" value="免费发送" onclick="sendurl()">';
+//        var myStr2 = '<input type="button" class="sp3 tijiaobtn" value="暂时不可用" style="color:#7f7f7f;">';
+//        alert(e);alert(code);
+//        if(e ==""){
+//            ll("请填写手机号码！",2);
+//            input1.focus();
+//            return;
+//        }
+//
+//        if(code ==""){
+//            ll("请填写验证码！",2);
+//            input2.focus();
+//            return;
+//        }else if(code.toUpperCase()!=$("#my-code").html()){
+//            ll("验证码输入有误！",2);
+//            input2.focus();
+//            return;
+//        }
+//        //验证码刷新,同时按钮不可用,1分钟之后才能使用
+//        randCreate(document.getElementById("my-code"));
+//        $(".inp_p2 .tijiaobtn").remove();
+//        $(".inp_p2").append(myStr2);
+//        setInterval(function(){
+//            $(".inp_p2 .tijiaobtn").remove();
+//            $(".inp_p2").append(myStr1);
+//        },30000);
+//
+//        if(e){
+//            $.ajax({
+//                type: 'POST',
+//                url: "/page/mdownload/sendmsg",    //本地短信接口
+//                data: {'phone':e},
+//                dataType:'text',
+//                success:function(json){
+//                    if(json == 1){
+//                        ll("短信发送成功请注意查收!",1)
+//                    }else{
+//                        ll("手机号有误,请重新输入!",2)
+//                    }
+//                },
+//                error:function(){
+//                    ll("因网络问题发送失败,请检查网络!",2)
+//                }
+//            });
+//        }/*else{
+//         ll("请填写手机号码！",2)
+//         }*/
+//
+//    }
+    /* function checkForm(){
+     var phone = $.trim($('#phone').val());
+     var imgcode = $.trim($('#imgcode').val());
+     var code = $.trim($('#code').val());
+     if(phone==""){
+     ll('手机号不能为空！',2)
+     $('#phone').focus();
+     return false;
+     }
+     if(imgcode==""){
+     ll('验证码不能为空！',2)
+     $('#imgcode').focus();
+     return false;
+     }
+     if(code==""){
+     ll('短信验证码不能为空！',2)
+     $('#code').focus();
+     return false;
+     }
+
+
+     } */
+
+
+</script>

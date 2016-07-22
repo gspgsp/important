@@ -30,7 +30,11 @@ class indexAction extends homeBaseAction{
 	{
 		$this->display('about.html');
 	}
+
+	public function mdownload(){
+
+		$this->display('mdownload');
+	}
 }
 
 
- ?>

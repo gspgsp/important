@@ -123,7 +123,7 @@ class findpwdAction extends homeBaseAction{
 		
 		$msg=$result['msg']; //短信内容
 		//发送手机动态码
-		$sms->send(0,$mobile,$msg,1);
+		$sms->send(0,$mobile,$msg,2);
 		$this->success('发送成功');
 	}
 }
