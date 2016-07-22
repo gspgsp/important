@@ -1,0 +1,9 @@
+Jul 22 15:38:47 VMBridge INFO : VM                  : 1.8.0_91@http://java.oracle.com/
+Jul 22 15:38:47 VMBridge INFO : VMBridge version             : 5.5.4.1    
+Jul 22 15:38:47 VMBridge INFO : logFile             : VMBridge.log
+Jul 22 15:38:47 VMBridge INFO : default logLevel    : 3
+Jul 22 15:38:47 VMBridge INFO : socket              : SERVLET_LOCAL:8080
+Jul 22 15:38:47 VMBridge INFO : java.ext.dirs       : D:\Program Files\Java\jdk1.8.0_91\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext
+Jul 22 15:38:47 VMBridge INFO : php.java.bridge.base: C:\Users\xqj
+Jul 22 15:38:47 VMBridge INFO : thread pool size    : 20
+Jul 22 15:38:47 VMBridge INFO : JavaBridgeRunner started on port INET_LOCAL:8080
