@@ -27,7 +27,6 @@ class indexAction extends adminBaseAction{
 	public function addInfo()
 	{
 		if($_POST){
-
 			$id=sget('iid','i',0);
 			$content=trim($_POST['content']);
 

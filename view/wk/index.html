@@ -151,24 +151,31 @@
 
 				</div>
 				<div class="panel panel-primary">
-							<div class="panel-heading">发布信息</div>
-							<div class="demand">
-								<foreach name="demandList" item="value" key="key">
-							        	<if condition="$value['content'] eq '' ">
-							            </if></foreach><else>
-							            </else>
-							            <table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
-									        <thead>
-									            <tr>
-									                <th>发布内容</th>
-									                <th width="55">责任人</th>
-									                <th width="88">时间</th>
-									            </tr>
-									        </thead>
-								        	<tbody id="remarkTable"></tbody>
-							    		</table>
-							</div>
-								<!-- <button onClick="loadMore('求购','loadrdemand','demandTable')" id="loadrdemand" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
+					<div class="panel-heading">文本发布</div>
+					<div class="demand">						
+			            <table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
+					        <thead>
+					            <tr>
+					                <th>发布内容</th>
+					                <th width="55">责任人</th>
+					                <th width="88">时间</th>
+					            </tr>
+					        </thead>
+				        	<tbody id="remarkTable">
+				        		<foreach name="remarkList" item="value" key="key">
+						        	<if condition="$value['content'] neq '' ">
+						        		<tr>
+							                <td colspan="9">{$value.content}</td>
+							                <td>{$value.uname}</td>
+							                <td>{$value.input_time|date='m-d H:i', ###}</td>
+					            		</tr>
+
+						            </if>
+					            </foreach>       		
+				        	</tbody>
+			    		</table>
+					</div>
+						<!-- <button onClick="loadMore('求购','loadrdemand','demandTable')" id="loadrdemand" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
 				</div>
 			</div>
 
@@ -333,6 +340,8 @@
 							<button onClick="release1()" type="button" class="btn btn-primary">发布</button>
 						</div>
 						<div style="padding:10px;"></div>
+					</form>
+					<form style="padding:10px;" id="contentForm" onSubmit="return false;">
 						<div class="form-inline">
 							<label for="exampleInputName2">文本发布：</label>
 							<textarea name="content" class="form-control" style="width:82%;" rows="2"></textarea>
@@ -599,6 +608,7 @@
 	    <td><%=data.remark%></td>
 	    <td><%=data.uname%></td>
 	    <td><%=data.date%></td>
+	</tr>
 </script>
 
 <script type="text/html" id="searchTemp">
@@ -866,7 +876,7 @@
 				document.getElementById('addForm').reset();
 				
 				alert('发布成功');
-
+				loadall();
 				myload();
 			}
 		},'json');
@@ -910,10 +920,10 @@
 
 	// 发布文本信息
 	function release2(){
-		var content=$("#addForm textarea[name='content']").val().trim();
-		var type=$("#addForm input[name='type']:checked").val();
+		var content=$("#contentForm textarea[name='content']").val().trim();
+		var type=$("#contentForm input[name='type']:checked").val();
 		if(content.length==0){
-			$("#addForm textarea[name='content']").addClass('requires');
+			$("#contentForm textarea[name='content']").addClass('requires');
 			return;
 		}
 		$.post('/wk/index/addInfo',{content:content,type:type},function(data){
@@ -923,6 +933,7 @@
 				prependTr(data.data);
 				alert('发布成功');
 				myload();
+				loadall();
 			}
 		},'json');
 
@@ -1035,16 +1046,9 @@
 		btn.html('加载中..');
 		$.get('/wk/index/loadMore',{type:type,p:p},function (data){
 			var html='';
-			if (type=='发布信息') {
-				$(data.list).each(function(k, v){
-					html+=template('remarkTemp', {data:v});
-				})		
-			}else{
-				$(data.list).each(function(k, v){
-					html+=template('trTemp', {data:v});
-				})		
-			}
-										
+			$(data.list).each(function(k, v){
+				html+=template('trTemp', {data:v});
+			})										
 			if(re){
 				$("#"+form+"").html(html);
 			}else{
@@ -1082,9 +1086,9 @@
 	var timer2=setInterval(loadRemarkMore,180000);
 
 	loadTop();
-	//var topTimer=setInterval(loadTop,10000);
+	var topTimer=setInterval(loadTop,10000);
 
-	//var stockTimer=setInterval(loadstock,10000);
+	var stockTimer=setInterval(loadstock,10000);
 	function loadTop(){
 		$.get('/wk/index/topTimer',{t:t},function (data){
 			if(data.list.length){
@@ -1124,6 +1128,7 @@
 		loadTop();
 		loadMore('供应','loadoffer','offerTable',true);
 		loadMore('求购','loadrdemand','demandTable',true);
+		loadRemarkMore('发布信息','loadoffer','remarkTable',true);
 	}
 
 	function loadstock(){
