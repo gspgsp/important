@@ -61,7 +61,7 @@ class storeOutLogAction extends adminBaseAction {
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['out_time']=$v['out_time']>1000 ? date("Y-m-d H:i:s",$v['out_time']) : '-';
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
-			$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']);//获取牌号
+			$list['data'][$k]['model']=strtoupper(M("product:product")->getModelById($v['p_id']));//获取牌号
 			$list['data'][$k]['fname']=M("product:product")->getFnameByid($v['p_id']);//获取厂家
 			$list['data'][$k]['admin_name']=M("product:inStorage")->getNameBySid($v['store_aid']); //获得入库人姓名
 			$list['data'][$k]['sales_type']=L('sales_type')[M("product:order")->getColByName($v['o_id'],'sales_type')];//出库流水

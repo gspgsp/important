@@ -69,7 +69,7 @@ class unionOrderDetailAction extends adminBaseAction {
 			$list['data'][$k]['c_name']=M("user:customer")->getColByName($tailInfo['sale_id']);//根据cid取客户名
 			$list['data'][$k]['pc_name']=M("user:customer")->getColByName($tailInfo['buy_id']);//根据cid取客户名
 			$list['data'][$k]['order_name']=M("product:unionOrder")->getColByName($v['o_id']);
-			$list['data'][$k]['model']=M("product:product")->getModelFnameById($v['p_id']);
+			$list['data'][$k]['model']=strtoupper(M("product:product")->getModelFnameById($v['p_id']));
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';

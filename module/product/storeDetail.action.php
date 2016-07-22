@@ -69,7 +69,7 @@ class storeDetailAction extends adminBaseAction {
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$v['order_sn']=M("product:order")->getColByOid($v['o_id'],'order_sn');
 			$v['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
-			$v['model']=M("product:product")->getModelById($v['p_id']);//获取牌号
+			$v['model']=strtoupper(M("product:product")->getModelById($v['p_id']));//获取牌号
 			$v['f_name']=M("product:product")->getFnameByid($v['p_id']);
 			$v['admin_name']=M("product:inStorage")->getNameBySid($v['store_aid']); //获得入库人姓名
 		}
