@@ -420,17 +420,17 @@ class mainPageAction extends homeBaseAction
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
     }
     //进入物性表的发布采购
-    public function enPhysicalDelegate(){
-        $this->display('supplyDemand_trade4');
-    }
+    // public function enPhysicalDelegate(){
+    //     $this->display('supplyDemand_trade4');
+    // }
     //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
-    public function getPhysicalDelegate(){
-        $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $lid = sget('lid','i');
-        if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($lid,$this->user_id)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
-        $this->json_output(array('err'=>0,'phyDelData'=>$phyDelData));
-    }
+    // public function getPhysicalDelegate(){
+    //     $this->is_ajax = true;
+    //     if($this->user_id<=0) $this->error('账户错误');
+    //     $lid = sget('lid','i');
+    //     if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($lid,$this->user_id)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
+    //     $this->json_output(array('err'=>0,'phyDelData'=>$phyDelData));
+    // }
     //进入资讯页
     public function enArticle(){
         $this->display('info');
