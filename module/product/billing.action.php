@@ -104,7 +104,7 @@ class billingAction extends adminBaseAction
 			//开票业务员
 			$list['data'][$k]['input_admin']=M('rbac:adm')->getUserByCol($v['customer_manager']);
 			//开票主题
-			$list['data'][$k]['title'] = L('company_account')[$list['data'][$k]['order_name']];
+			$list['data'][$k]['order_name'] = L('company_account')[$list['data'][$k]['order_name']];
 			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
 
 			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
