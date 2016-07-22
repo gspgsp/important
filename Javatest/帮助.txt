@@ -1,0 +1,8 @@
+在进入Java目录下执行 以下dos命令
+
+start javaw -jar JavaBridge.jar
+
+启动服务再能运行
+
+
+注意：需要在机器上 安装一个 java jdk，版本在1.5 以上都行
