@@ -123,6 +123,22 @@ class sysSMSModel extends model{
 	}
 
 	/*
+	 * 生成安卓推送信息
+     * @access public
+	 * @param string $mobile 手机号
+     * @return (err,msg)
+	 */
+	public function getPush($mobile,$type=''){
+
+		if(isset($mobile)&& !empty($mobile)){
+
+			$str='aaaaa';
+			$msg=sprintf(L('sms_push.push_code'),$str);
+		}
+		return array('err'=>0,'msg'=>$msg);
+	}
+
+	/*
 	 * 检查动态码
      * @access public
 	 * @param string $mobile 手机号

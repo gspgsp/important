@@ -47,6 +47,7 @@ function getSystemParam($key=''){
 	return $sys;
 }
 
+
 //[前台]检查验证码
 function chkVcode($name='',$value=''){
 	$name='vc_'.$name;
