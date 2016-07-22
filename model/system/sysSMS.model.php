@@ -132,7 +132,7 @@ class sysSMSModel extends model{
 
 		if(isset($mobile)&& !empty($mobile)){
 
-			$str='aaaaa';
+			$str='http://www.wodesuliao.cn/Public/Attachment/File/APP/wodesuliao.apk';
 			$msg=sprintf(L('sms_push.push_code'),$str);
 		}
 		return array('err'=>0,'msg'=>$msg);
