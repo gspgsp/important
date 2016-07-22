@@ -57,7 +57,7 @@
 				var lid=getUrlParam("lid");
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getPhysicalDetail",
+						"/mobi/mainPage/getPhysicalDetail",
 						{lid:lid}
 				).then(function (res) {
 					console.log(res);
@@ -67,10 +67,10 @@
 					$("#purpose").text(res.phyDetail.purpose);
 					$("#wxbDetailWrap").html(res.phyDetail.params);
 					$("#checkOffer").on("click",function () {
-						window.location.href="/mobile/mainPage/enSearchRes?keywords="+ res.phyDetail.type +"";
+						window.location.href="/mobi/mainPage/enSearchRes?keywords="+ res.phyDetail.type +"";
 					});
 					$("#releasePurchase").on("click",function () {
-						window.location.href="/mobile/mainPage/enPhysicalDelegate?id="+ res.phyDetail.lid +"";
+						window.location.href="/mobi/mainPage/enPhysicalDelegate?id="+ res.phyDetail.lid +"";
 					});
 
 				},function () {

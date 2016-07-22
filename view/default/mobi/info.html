@@ -28,11 +28,11 @@
 </div>
 <footer id="footer">
 	<ul>
-		<li><a href="/mobile/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
-		<li><a href="/mobile/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-		<li><a href="/mobile/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-		<li><a class="footerOn" href="/mobile/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-		<li><a href="/mobile/personalCenter"><i class="foot5"></i><br>我</a></li>
+		<li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+		<li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+		<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+		<li><a class="footerOn" href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+		<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
 	</ul>
 </footer>
 
@@ -45,7 +45,7 @@
 		function infoInit(paramsPid) {
 			commonAjax(
 					"post",
-					"/mobile/mainPage/getArticleInfo",
+					"/mobi/mainPage/getArticleInfo",
 					{pid: paramsPid}
 			).then(function (res) {
 				console.log(res);
@@ -57,7 +57,7 @@
 				$("#articleLi").html(infoLi);
 				$("#articleLi li").on("click",function () {
 					var id=$(this).data("id");
-					window.location.href='/mobile/mainPage/enArticleDetail?id='+id;
+					window.location.href='/mobi/mainPage/enArticleDetail?id='+id;
 				});
 
 			}, function () {

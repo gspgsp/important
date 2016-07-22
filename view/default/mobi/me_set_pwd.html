@@ -35,15 +35,15 @@
 					var oldpassword=$("#oldpassword").val();
 					commonAjax(
 							"post",
-							"/mobile/personalCenter/savePassword",
+							"/mobi/personalCenter/savePassword",
 							{password:password,oldpassword:oldpassword}
 					).then(function (res) {
 						console.log(res);
 						if(res.err==1){
-							window.location.href="/mobile/login";
+							window.location.href="/mobi/login";
 						}else{
 							mui.alert('',res.msg,function(){
-								window.location.href="/mobile/personalCenter";
+								window.location.href="/mobi/personalCenter";
 							});
 						}
 					},function () {

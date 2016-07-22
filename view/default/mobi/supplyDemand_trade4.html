@@ -104,7 +104,7 @@
 	</tr>
 	<tr>
 		<td>联系方式</td>
-		<td id="mobile"></td>
+		<td id="mobi"></td>
 	</tr>
 	<tr>
 		<td>公司名称</td>
@@ -124,18 +124,18 @@
 		var c_id="";
 		commonAjax(
 				"post",
-				"/mobile/mainPage/getPhysicalDelegate",
+				"/mobi/mainPage/getPhysicalDelegate",
 				{lid:id}
 		).then(function (res) {
 			console.log(">>>",res);
 			if(res.err==1){
-				window.location.href="/mobile/login";
+				window.location.href="/mobi/login";
 			}else{
 				$("#product_type").text(res.phyDelData.type);
 				$("#model").text(res.phyDelData.model);
 				$("#f_name").text(res.phyDelData.f_name);
 				$("#con_name").text(res.phyDelData.name);
-				$("#mobile").text(res.phyDelData.mobile);
+				$("#mobi").text(res.phyDelData.mobi);
 				$("#c_name").text(res.phyDelData.c_name);
 			}
 		},function () {
@@ -151,7 +151,7 @@
 			if(price&&number&&f_name&&ship_type&&delivery_place){
 				commonAjax(
 						"post",
-						"/mobile/mainPage/savaComission",
+						"/mobi/mainPage/savaComission",
 						{
 							price:price,
 							number:number,
@@ -161,10 +161,10 @@
 						}
 				).then(function (res) {
 					if(res.err==1){
-						window.location.href="/mobile/login";
+						window.location.href="/mobi/login";
 					}
 					mui.alert("",res.msg,function () {
-						window.location.href="/mobile/mainPage/enPhysical";
+						window.location.href="/mobi/mainPage/enPhysical";
 					});
 				},function () {
 

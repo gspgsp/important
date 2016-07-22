@@ -83,11 +83,11 @@
 				var gid=getUrlParam("id");
 				commonAjax(
 						"post",
-						"/mobile/personalCenter/get_shopDetail",
+						"/mobi/personalCenter/get_shopDetail",
 						{gid:gid}
 				).then(function (res) {
 					if(res.err==1){
-						window.location.href="/mobile/login";
+						window.location.href="/mobi/login";
 					}else{
 					$("#thumbImg").attr("src",res.thumb);
 					$("#proImg").attr("src",res.image);
@@ -141,11 +141,11 @@
 					).then(function (res) {
 						if(res.err==0){
 							mui.alert("",res.msg,function () {
-								window.location.href="/mobile/personalCenter/enMyPoints";
+								window.location.href="/mobi/personalCenter/enMyPoints";
 							});
 						}else if(res.err==1){
 							mui.alert("",res.msg,function () {
-								window.location.href="/mobile/login";
+								window.location.href="/mobi/login";
 							});
 						}else if(res.err==2){
 							mui.alert("",res.msg,function () {});
@@ -166,7 +166,7 @@
 
 					},function () {
 						mui.alert("","系统错误",function () {
-							window.location.href="/mobile/login";
+							window.location.href="/mobi/login";
 						});
 					});
 				});
@@ -183,7 +183,7 @@
 								window.location.href="/mypp/login";
 							}else {
 								$("#receiver").val(res.userInfo.name);
-								$("#phone").val(res.userInfo.mobile);
+								$("#phone").val(res.userInfo.mobi);
 							}
 						},
 						error:function () {

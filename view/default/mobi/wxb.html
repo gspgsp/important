@@ -30,11 +30,11 @@
 		</div>
 		<footer id="footer">
 			<ul>
-				<li><a href="/mobile/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
-				<li><a class="footerOn" href="/mobile/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-				<li><a href="/mobile/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-				<li><a href="/mobile/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-				<li><a href="/mobile/personalCenter"><i class="foot5"></i><br>我</a></li>
+				<li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a class="footerOn" href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+				<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
 			</ul>
 		</footer>
 		<script type="text/javascript" charset="utf-8">
@@ -46,7 +46,7 @@
 				var spanLi="";
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getPhysical"
+						"/mobi/mainPage/getPhysical"
 				).then(function (res) {
 					console.log(res);
 					res.phyHotData.forEach(function (v, i, a) {
@@ -54,7 +54,7 @@
 					});
 					$("#hotSearch").html(spanLi);
 					$("#hotSearch span").on("click",function () {
-						window.location.href="/mobile/mainPage/enPhysicalRes?keywords="+$(this).text()+"";
+						window.location.href="/mobi/mainPage/enPhysicalRes?keywords="+$(this).text()+"";
 					});
 				},function () {
 
@@ -64,7 +64,7 @@
 					if(!$("#search").val()){
 						mui.alert("","请输入搜索内容",function () {});
 					}else{
-						window.location.href="/mobile/mainPage/enPhysicalRes?keywords="+$('#search').val()+"";
+						window.location.href="/mobi/mainPage/enPhysicalRes?keywords="+$('#search').val()+"";
 					}
 				});
 

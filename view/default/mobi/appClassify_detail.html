@@ -41,7 +41,7 @@
 				var region2="";
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getProductTypeDetail",
+						"/mobi/mainPage/getProductTypeDetail",
 						{type:type}
 				).then(function (res) {
 					console.log(res);
@@ -70,7 +70,7 @@
 						region2=$(this).text();
 					});
 					$(".classifyEnter").on("click",function () {
-						window.location.href="/mobile/mainPage/enKeyWordsRes?type="+type+"&apply="+escape(apply2)+"&factory="+escape(factory)+"&region="+escape(region2)+"";
+						window.location.href="/mobi/mainPage/enKeyWordsRes?type="+type+"&apply="+escape(apply2)+"&factory="+escape(factory)+"&region="+escape(region2)+"";
 					});
 				},function () {
 

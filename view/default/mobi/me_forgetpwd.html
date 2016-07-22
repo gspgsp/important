@@ -16,7 +16,7 @@
 		<header id="meHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
 			登录
-			<a class="right" href="/mobile/register/init">注册</a>
+			<a class="right" href="/mobi/register/init">注册</a>
 		</header>
 		<h3 class="meTitle">欢迎来到我的塑料网</h3>
 		<div class="registerWrap">
@@ -48,7 +48,7 @@
 					commonAjax(
 							"post",
 							"/touch/findpwd/sendmsg",
-							{'mobile':username,'password':password}
+							{'mobi':username,'password':password}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
@@ -71,18 +71,18 @@
 				}
 
 				$(".registerBtn").on("click",function () {
-					var mobile=$("#username").val();
+					var mobi=$("#username").val();
 					var password=$("#password").val();
 					var code=$("#regcode").val();
 					commonAjax(
 							"post",
 							"/touch/findpwd/findpwd",
-							{username:mobile,password:password,vcode:code}
+							{username:mobi,password:password,vcode:code}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
 							mui.alert('',res.msg,function(){
-								window.location.href="/mobile/login";
+								window.location.href="/mobi/login";
 							});
 						}else if(res.err==1){
 							mui.alert('',res.msg,function(){});

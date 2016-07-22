@@ -45,7 +45,7 @@
 		var spanLi="";
 		commonAjax(
 				"post",
-				"/mobile/mainPage/getHisAndHot"
+				"/mobi/mainPage/getHisAndHot"
 		).then(function (res) {
 			console.log(res);
 			res.hotData.forEach(function (v, i, a) {
@@ -53,7 +53,7 @@
 			});
 			$("#hotSearch").html(spanLi);
 			$("#hotSearch span").on("click",function () {
-				window.location.href="/mobile/mainPage/enSearchRes?keywords="+$(this).text()+"";
+				window.location.href="/mobi/mainPage/enSearchRes?keywords="+$(this).text()+"";
 			});
 		},function () {
 
@@ -63,7 +63,7 @@
 			if(!$("#search").val()){
 				mui.alert("","请输入搜索内容",function () {});
 			}else{
-				window.location.href="/mobile/mainPage/enSearchRes?keywords="+$('#search').val().toLocaleUpperCase()+"";
+				window.location.href="/mobi/mainPage/enSearchRes?keywords="+$('#search').val().toLocaleUpperCase()+"";
 			}
 		});
 

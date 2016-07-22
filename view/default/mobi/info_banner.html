@@ -24,7 +24,7 @@
         var url=getUrlParam("url");
         commonAjax(
                 "post",
-                "/mobile/mainPage/getAppBanner"
+                "/mobi/mainPage/getAppBanner"
         ).then(function (res) {
             console.log("banner",res.banners[url].url);
             $("#frame").attr("src",res.banners[url].url);

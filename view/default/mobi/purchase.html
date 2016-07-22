@@ -37,12 +37,12 @@
 					var content=$("#content").val();
 						commonAjax(
 								"post",
-								"/mobile/mainPage/getPurchase",
+								"/mobi/mainPage/getPurchase",
 								{content:content}
 						).then(function (res) {
 							console.log(">>>",res);
 							if(res.err==1){
-								window.location.href="/mobile/login";
+								window.location.href="/mobi/login";
 							}else{
 								mui.alert("",res.msg,function () {});
 							}

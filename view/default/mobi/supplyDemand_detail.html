@@ -33,7 +33,7 @@
 			<h3><img src="__MYAPP__/img/bigCustomer2.png">联系人</h3>
 			<ul class="bigCustomerDetailUl">
 				<li><span>姓      名：</span><font id="con_name"></font></li>
-				<li><span>联系电话：</span><font id="mobile"></font></li>
+				<li><span>联系电话：</span><font id="mobi"></font></li>
 				<li><span>QQ号码：</span><font id="qq"></font></li>
 			</ul>
 		</div>
@@ -47,16 +47,16 @@
 			$(function () {
 				var id=getUrlParam("id");
 				$("#tradeBtn").on("click",function () {
-					window.location.href="/mobile/mainPage/enDelegateForm?id="+id+"";
+					window.location.href="/mobi/mainPage/enDelegateForm?id="+id+"";
 				});
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getCheckDelegate",
+						"/mobi/mainPage/getCheckDelegate",
 						{otype:1,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/mobile/login";
+						window.location.href="/mobi/login";
 					}else{
 						$("#product_type").text(res.chDeRes.product_type);
 						$("#model").text(res.chDeRes.model);

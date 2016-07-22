@@ -53,11 +53,11 @@
 		</div>
 		<footer id="footer">
 			<ul>
-				<li><a class="footerOn" href="/mobile/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
-				<li><a href="/mobile/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-				<li><a href="/mobile/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-				<li><a href="/mobile/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-				<li><a href="/mobile/personalCenter"><i class="foot5"></i><br>我</a></li>
+				<li><a class="footerOn" href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+				<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
 			</ul>
 		</footer>
 		<input id="gsVal" type="hidden">
@@ -77,7 +77,7 @@
 				function bigSearch(otype) {
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getLargeBid",
+						"/mobi/mainPage/getLargeBid",
 						{otype:otype}
 				).then(function (res) {
 					console.log(res);
@@ -100,7 +100,7 @@
 							v.newBig.forEach(function (v,i,a) {
 								searchTb+="<tr><td>"+v.gsname+"</td>" +
 										"<td>￥"+v.price+"</td><td>"+v.num+"T</td><td>"+v.address+"</td><td>" +
-										"<a href='/mobile/mainPage/enBigBidDetail?id="+v.id+"'>查看</a></td></tr>";
+										"<a href='/mobi/mainPage/enBigBidDetail?id="+v.id+"'>查看</a></td></tr>";
 								$(".supplyDemandTb").eq(index).append(searchTb);
 								searchTb="";
 							});
@@ -142,7 +142,7 @@
 
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getLargeChose"
+						"/mobi/mainPage/getLargeChose"
 				).then(function (res) {
 					console.log("---",res);
 					res.choseData.company.forEach(function (v,i,a) {
@@ -188,7 +188,7 @@
 						$(".bigCustomerMenu").hide();
 						commonAjax(
 								"post",
-								"/mobile/mainPage/getLargeChoseRes",
+								"/mobi/mainPage/getLargeChoseRes",
 								{company:cgs,factory:ccj,address:cjhd}
 						).then(function (res) {
 							console.log("===",res);
@@ -213,7 +213,7 @@
 									v.twoData.forEach(function (v,i,a) {
 										searchTb+="<tr><td>"+v.gsname+"</td>" +
 												"<td>￥"+v.price+"</td><td>"+v.num+"T</td><td>"+v.address+"</td><td>" +
-												"<a href='/mobile/mainPage/enBigBidDetail?id="+v.id+"'>查看</a></td></tr>";
+												"<a href='/mobi/mainPage/enBigBidDetail?id="+v.id+"'>查看</a></td></tr>";
 										$(".supplyDemandTb").eq(index).append(searchTb);
 										searchTb="";
 									});

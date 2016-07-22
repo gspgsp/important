@@ -43,12 +43,12 @@
 					var code=$("#regcode").val();
 					commonAjax(
 							"post",
-							"/mobile/register/register",
+							"/mobi/register/register",
 							{mobile:mobile,password:password,code:code}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
-							window.location.href="/mobile/register/enReginfo";
+							window.location.href="/mobi/register/enReginfo";
 						}else if(res.err==1){
 							mui.alert('',res.msg,function(){});
 						}
@@ -65,8 +65,8 @@
 					var password=$("#password").val();
 					commonAjax(
 							"post",
-							"/mobile/register/sendmsg",
-							{'mobile':username,'password':password}
+							"/mobi/register/sendmsg",
+							{'mobi':username,'password':password}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){

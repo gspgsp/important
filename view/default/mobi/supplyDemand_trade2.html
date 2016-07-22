@@ -103,7 +103,7 @@
 			</tr>
 			<tr>
 				<td>联系方式</td>
-				<td id="mobile"></td>
+				<td id="mobi"></td>
 			</tr>
 			<tr>
 				<td>公司名称</td>
@@ -123,12 +123,12 @@
 				var c_id="";
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getBigBidDetail",
+						"/mobi/mainPage/getBigBidDetail",
 						{otype:2,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/mobile/login";
+						window.location.href="/mobi/login";
 					}else{
 						p_id=res.chDeRes.p_id;
 						c_id=res.chDeRes.c_id;
@@ -140,7 +140,7 @@
 						$("#f_name").text(res.chDeRes.factory);
 						$("#input_time").text(res.chDeRes.input_time);
 						$("#con_name").text(res.chDeRes.name);
-						$("#mobile").text(res.chDeRes.mobile);
+						$("#mobi").text(res.chDeRes.mobi);
 						$("#qq").text(res.chDeRes.qq);
 						$("#c_name").text(res.chDeRes.c_name);
 					}
@@ -157,7 +157,7 @@
 					if(price&&number&&f_name&&ship_type&&delivery_place){
 						commonAjax(
 								"post",
-								"/mobile/mainPage/savaComission",
+								"/mobi/mainPage/savaComission",
 								{
 									p_id:p_id,
 									c_id:c_id,
@@ -169,7 +169,7 @@
 								}
 						).then(function (res) {
 							if(res.err==1){
-								window.location.href="/mobile/login";
+								window.location.href="/mobi/login";
 							}
 							mui.alert("",res.msg,function () {
 

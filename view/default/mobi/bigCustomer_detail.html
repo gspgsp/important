@@ -48,16 +48,16 @@
 			$(function () {
 				var id=getUrlParam("id");
 				$("#tradeBtn").on("click",function () {
-					window.location.href="/mobile/mainPage/enBigBidDelegate?id="+id+"";
+					window.location.href="/mobi/mainPage/enBigBidDelegate?id="+id+"";
 				});
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getBigBidDetail",
+						"/mobi/mainPage/getBigBidDetail",
 						{otype:1,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/mobile/login";
+						window.location.href="/mobi/login";
 					}else{
 						$("#product_type").text(res.chDeRes.type);
 						$("#model").text(res.chDeRes.model);

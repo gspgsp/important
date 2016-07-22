@@ -127,12 +127,12 @@
 				var c_id="";
 				commonAjax(
 						"post",
-						"/mobile/mainPage/getCheckDelegate",
+						"/mobi/mainPage/getCheckDelegate",
 						{otype:2,id:id}
 				).then(function (res) {
 					console.log(">>>",res);
 					if(res.err==1){
-						window.location.href="/mobile/login";
+						window.location.href="/mobi/login";
 					}else{
 						p_id=res.chDeRes.p_id;
 						c_id=res.chDeRes.c_id;
@@ -162,7 +162,7 @@
 					if(price&&number&&f_name&&ship_type&&delivery_place){
 						commonAjax(
 								"post",
-								"/mobile/mainPage/savaComission",
+								"/mobi/mainPage/savaComission",
 								{
 									id:id,
 									c_id:c_id,
@@ -174,7 +174,7 @@
 								}
 						).then(function (res) {
 							if(res.err==1){
-								window.location.href="/mobile/login";
+								window.location.href="/mobi/login";
 							}
 							mui.alert("",res.msg,function () {
 
