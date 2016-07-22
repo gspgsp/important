@@ -88,6 +88,7 @@ return array(
 		4=>'均聚PP',
 		5=>'PVC',
 		6=>'共聚PP',
+		7=>'ABS',
 	),
 	//加工级别
 	'process_level'=>array(
