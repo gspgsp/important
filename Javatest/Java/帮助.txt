@@ -1,3 +1,0 @@
-在当前目录下执行 以下dos命令
-
-start javaw -jar JavaBridge.jar

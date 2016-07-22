@@ -1,1 +1,0 @@
-start javaw -jar  F:\Zend\workspaces\DefaultWorkspace12.5\APMServ\web\Javatest\Java\JavaBridge.jar
