@@ -4,14 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>我的塑料网-个人中心</title>
-    <link href="__CSS__/wx/normalize.css" rel="stylesheet">
-    <link href="__CSS__/wx/app.css" rel="stylesheet">
+    <link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="__MYAPP__/css/app.css" />
     <script type="text/javascript" src="__JS__/wx/vue.js"></script>
     <script type="text/javascript" src="__JS__/wx/vue-router.js"></script>
     <script type="text/javascript" src="__JS__/wx/vue-resource.js"></script>
+    <style>
+        .appConcern img{ display: block;}
+        .mui-slider-group img{ display: block;}
+        .mui-slider-indicator .mui-indicator{ margin: 1px; background: #ffffff;}
+        .mui-slider-indicator .mui-active.mui-indicator{ background: #ff5000;}
+    </style>
 </head>
 <body>
-<div id="app">
+<div id="app" style="padding: 0 0 50px 0;">
     <router-view></router-view>
 </div>
 <script type="text/javascript">
@@ -28,17 +34,21 @@
             }
         },
         template:
-                "<nav id='nav'>" +
+            "<header id='infoHeader'><a class='back' href='javascript:window.history.back();'></a>今日资讯</header>"+
+            "<nav id='nav'>" +
                 "<span class='on'>市场点评</span><span>行业热点</span><span>企业调价</span><span>装置动态</span><span>塑料期货</span>" +
                 "</nav>" +
                 "<div id='articleWrap'>" +
-                "<ul id='articleLi'></ul>" +
-                "</div>",
+                "<ul id='articleLi'></ul></div>" +
+            "<footer id='footer'><ul><li><a href='/mobi/mainPage/enLargeBid'><i class='foot'></i><br>大客户专区</a></li>" +
+            "<li><a href='/mobi/mainPage/enPhysical'><i class='foot2'></i><br>物性表</a></li>" +
+            "<li><a v-link={name:'index'}><i class='foot3'></i><br>首页</a></li>" +
+            "<li><a class='footerOn' href='/mobi/mainPage/enArticle'><i class='foot4'></i><br>资讯</a></li>" +
+            "<li><a href='/mobi/personalCenter'><i class='foot5'></i><br>我</a></li></ul></footer>",
         ready:function () {
-            this.$http({url:'/touch/information/get_items',method:"POST",data:{pid:29,page:3}}).then(function (res) {
+            this.$http({url:'/mobi/mainPage/getArticleInfo',method:"POST",data:{pid:29}}).then(function (res) {
                 console.log(res);
             },function (res) {
-                console.log(">>>");
 
             })
         }
@@ -49,7 +59,32 @@
     });
 
     var index=Vue.extend({
-        template:"<p>this is index!!!</p>"
+        data:function(){
+            return {
+                infos: []
+            }
+        },
+        template:
+                "<header id='header'><a class='headerMenu' href='/mobi/mainPage/enProductType'></a>" +
+                "<div class='appSearch'><input type='text' placeholder='请输入产品分类、牌号' /><a class='appQuery' href='#'></a></div>" +
+                "<a class='headerService' href='tel:4006129965'></a></header>"+
+                "<div class='appInfo'><span class='appInfoOn'>今日头条</span><span>原油价格</span><div class='mui-clearfix'></div>" +
+                "<div id='appInfo'><ul id='appInfoUl'><li v-for='info in infos'><a href='#'><font>{{info.title}}</font></a><b>{{info.input_time}}</b></li></ul><a class='appMore' href='/mobi/mainPage/enArticle'>更多</a></div>" +
+                "<div id='appInfo2' style=' display: none;'><ul id='appInfoUl2'></ul><a class='appMore' href='/mobi/mainPage/enDyPrice'>更多</a></div></div>"+
+                "<footer id='footer'><ul>" +
+                "<li><a href='/mobi/mainPage/enLargeBid'><i class='foot'></i><br>大客户专区</a></li>" +
+                "<li><a href='/mobi/mainPage/enPhysical'><i class='foot2'></i><br>物性表</a></li>" +
+                "<li><a class='footerOn' href='/mobi/mainPage/enMainPage'><i class='foot3'></i><br>首页</a></li>" +
+                "<li><a v-link={name:'infolist'}><i class='foot4'></i><br>资讯</a></li>" +
+                "<li><a href='/mobi/personalCenter'><i class='foot5'></i><br>我</a></li></ul></footer>",
+        ready:function () {
+            this.$http({url:'/mobi/mainPage/getMainPage',method:"POST",data:{type:1}}).then(function(res){
+                this.$set('infos',res.data.infos);
+                console.log(res.data.infos);
+            },function(){
+
+            })
+        }
     });
 
 

@@ -13,7 +13,9 @@
 	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	<link rel="stylesheet" href="__MYAPP__/css/nativeShare.css" />
 	<style>
+		body{ padding-top: 45px;}
 		#infoDetailContent img{ width: 100%; display: block;}
+		#infoHeader{ position: fixed; top: 0; left: 0;}
 	</style>
 </head>
 
@@ -29,12 +31,24 @@
 	<div id="infoDetailContent"></div>
 </div>
 <div id="nativeShare"></div>
+<div id="backTop" style="display: none">
+	<img src="__MYAPP__/img/topArrow.png">
+</div>
 <script type="text/javascript" charset="utf-8">
 	mui.init({
 		swipeBack: true //启用右滑关闭功能
 	});
 	$(function () {
 		var detailId=getUrlParam("id");
+
+		$(window).scroll(function(){
+			if($(window).scrollTop()>300){
+				$("#backTop").show();
+			}else{
+				$("#backTop").hide();
+			}
+		});
+
 		commonAjax(
 				"post",
 				"/mobi/mainPage/getArticleDetail",
