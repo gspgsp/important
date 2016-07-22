@@ -17,7 +17,7 @@
         <ul class="top-lt flt">
             <li>欢迎光临<a href="/">我的塑料网</a>！</li>
             <li class="collect"><a href="javascript:Addme();">收藏本站</a></li>
-            <li class="blog"><a target="_blank" href="http://weibo.com/u/5664121161">官方微博</a></li>
+            <li class="blog"><a target="_blank" href="{$sys.weibo.link}">官方微博</a></li>
             {if $smarty.session.userid > 0 }
             <li><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
                 {else}
@@ -43,7 +43,7 @@
             <li><a href="/page">常见问题</a></li>
             <li><a href="/page?id=16">联系我们</a></li>
             <li><a href="/page?id=17">意见反馈</a></li>
-            <li class="lang"><a href="/">中文</a> | <!-- <a href="javascript:;">EN</a></li> -->
+            <li class="lang"><a href="/">中文</a> | <a href="javascript:;">EN</a></li>
         </ul>
         <!--top-rt end-->
     </div>
@@ -100,7 +100,7 @@
             </ul>
         </div>
     </div>
-    <p style="text-align:center;" class="copyright color3">2015 版权所有 我的塑料网 沪icp 备 10036109号 增值电信业务经营许可证（ICP证）：沪B2-20160089</p>
+    <p style="text-align:center;" class="copyright color3">{$sys.icp_number}</p>
 </div>
 <!--footer end-->
 

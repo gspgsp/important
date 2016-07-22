@@ -61,6 +61,7 @@ class homeBaseAction extends action {
 		$service = explode(',', $sys['service']);
 		$this->assign('service',$service);
 		$this->assign('sys',$sys);
+
 		//网站主题
 		$theme_path = ($this->sys['theme'] ?: 'default') . '/';
 		$this->view->template_dir .= $theme_path;
