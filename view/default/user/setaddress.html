@@ -1,7 +1,8 @@
 {layout file="public:main_layout"}
 {insert_css files='home/user.css'}
 <style type="text/css">
-.xubox_setwin .xubox_close0{ right:-70px!important;}
+    .xubox_setwin .xubox_close0{ right:-70px!important;}
+
 </style>
 
 <!--header end-->
@@ -136,7 +137,7 @@ $(function(){
 		errorMsg = $(".error-msg"),
 		str = "";
 		
-	$(".kp-add").bind("click",function(){
+	$(".kp-add span").bind("click",function(){
 		$.layer({
 			type: 1,
 			title: false,
