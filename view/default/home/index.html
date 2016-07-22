@@ -579,7 +579,7 @@
                     </dd>
                 </dl>
             </li> -->
-            <li>
+         <!--    <li>
                 <dl class="web-index-lt flt web-index-supply">
                     <dt class="icon"></dt>
                     <dd>
@@ -603,7 +603,32 @@
                         <p class="num"><span>{$server.dealyAll|number_format}</span>元</p>
                     </dd>
                 </dl>
-            </li>
+            </li> -->
+            <li>
+                         <dl class="web-index-lt flt web-index-supply">
+                             <dt class="icon"></dt>
+                             <dd>
+                                 <p class="explain">供应总量</p>
+                                 <p class="num"><span>{$service.0}</span>吨</p>
+                             </dd>
+                         </dl>
+                         <dl class="web-index-rt flt web-index-demand">
+                             <dt class="icon"></dt>
+                             <dd>
+                                 <p class="explain">需求总量</p>
+                                 <p class="num"><span>{$service.1}</span>吨</p>
+                             </dd>
+                         </dl>
+                     </li>
+                     <li>
+                         <dl class="web-index-total">
+                             <dt class="icon"></dt>
+                             <dd>
+                                 <p class="explain">交易总额</p>
+                                 <p class="num"><span>{$service.2|number_format}</span>元</p>
+                             </dd>
+                         </dl>
+                     </li>
         </ul>
         <!--web-index end-->
     </div>
@@ -667,7 +692,6 @@
             <div class="taba-con" id="con-taba-3"></div>
             <div class="taba-con" id="con-taba-4"></div>
             <div class="taba-con" id="con-taba-5"></div>
-            <div class="taba-con" id="con-taba-6"></div>
         </div>
         <!--taba end-->
     </div>
