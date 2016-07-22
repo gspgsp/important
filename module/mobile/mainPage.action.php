@@ -614,7 +614,7 @@ class mainPageAction extends homeBaseAction
         if($count>0){
             if($count%$size==0 && ceil($count/$size)<$page){
                 $this->json_output(array('err'=>3,'msg'=>'没有更多数据'));
-            }elseif ($count%$size!=0 && (ceil($count/$size)+1)<$page) {
+            }elseif ($count%$size!=0 && ceil($count/$size)<$page) {
                 $this->json_output(array('err'=>3,'msg'=>'没有更多数据'));
             }
         }
