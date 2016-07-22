@@ -62,6 +62,7 @@ class logsmsAction extends adminBaseAction {
 				$list['data'][$k]['mobile']=$val['mobile'];
 				//短信内容
 				$list['data'][$k]['msg']=$val['msg'];
+				$list['data'][$k]['user_ip']=get_ip();
 				//请求时间
 				$list['data'][$k]['input_time']=$val['input_time']>1000 ? date("Y-m-d H:i:s",$val['input_time']) : '-';
 				$list['data'][$k]['stype']=$this->stype[$val['stype']];

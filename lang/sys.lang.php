@@ -16,6 +16,7 @@ return array(
 		3=>'大汉三通',
 		4=>'上海月呈',
 		5=>'创蓝文化',
+		6=>'亿美短信',
 	),
 	'theme_types'=>array(
 		'default'=>'默认主题',
