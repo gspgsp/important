@@ -86,7 +86,6 @@ class saleLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		
 		foreach($list['data'] as $k=>$v){
 			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
 			$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
@@ -94,7 +93,7 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名
 			$list['data'][$k]['order_name']=M("product:order")->getColByName($v['o_id']);
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); 
-			$list['data'][$k]['model']=M("product:product")->getModelById($v['p_id']);
+			$list['data'][$k]['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
