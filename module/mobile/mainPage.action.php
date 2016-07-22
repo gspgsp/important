@@ -441,7 +441,7 @@ class mainPageAction extends homeBaseAction
         //if($this->user_id<=0) $this->error('账户错误');
         $pid=sget('pid','i',29);
         $page = sget('page','i',1);
-        $size = sget('size','i',10);
+        $size = sget('size','i',30);
         $articles = array();
         $tempArr = array();
         if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
