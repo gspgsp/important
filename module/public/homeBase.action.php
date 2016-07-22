@@ -58,7 +58,7 @@ class homeBaseAction extends action {
 		$this->assign('user_id', $this->user_id);
 		$sys = M('system:setting')->getSetting();
 		// 网站服务人数
-		$service = explode(',', $sys['service']);
+		$service = explode('|', $sys['service']);
 		$this->assign('service',$service);
 		$this->assign('sys',$sys);
 
