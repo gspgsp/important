@@ -67,37 +67,11 @@ class orderModel extends model{
 	}
 
 	/** (自营)
-	 *获取近三个月(待审核)订单信息
-     */
-	public function getOrderStatusInFo($uid,$date){
-		 $result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
-				      ->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.order_status=1")->getAll();
-		 return empty($result)? 0:$result;
-	}
-	/**
-	 * (自营)
-	 *获取近三个月(待付款)订单信息
-	 */
-	public function getOrder($uid,$date){
-		$result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
-			->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.collection_status=1")->getAll();
-		return empty($result)? 0:$result;
-	}
-	/** (自营)
-	 *获取近三个月(代开票)订单信息
-	 */
-	public function getInvoice($uid,$date){
-		$result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
-			->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.invoice_status=1")->getAll();
-		return empty($result)? 0:$result;
-	}
-	/** (自营)
-	 *获取近三个月(已取消)订单信息
-	 */
-	public function getOrderCancel($uid,$date){
-		$result=$this->from('order as o')->select('COUNT(o.o_id) AS number')
-			->where("o.user_id=$uid and o.input_time between  $date and ".time()." and o.order_status=3")->getAll();
-		return empty($result)? 0:$result;
+	 *获取近三个月(待审核)订单信息('待审核 order_status=1，已取消order_status=3，$col =collection_status 代开票 ')
+     	*/
+	public function getOrder($uid=0,$status = 1, $col ='order_status'){
+		$tm = date(strtotime('-90 day'));
+		return $this->from('order')->select('COUNT(o_id) AS number')->where("user_id=$uid and input_time > $tm and $col = $status")->getOne();
 	}
 	
 }
