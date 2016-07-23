@@ -269,7 +269,7 @@ a{ text-decoration:none;}
 .index .right .title li.hover b{ position:absolute; left:36%; bottom:-8px; width:18px; height:8px; background:url(../../images/home/tabaBg.png) no-repeat;}
 .index .right .title li.hover span{ color:#45ae73;}
 .index .right .title li span{ margin:0 8px; cursor:pointer;}
-.index .right .taba{ width:398px; height:256px; overflow:hidden; border-bottom:1px solid #d6d7dc; border-right:1px solid #d6d7dc;}
+.index .right .taba{ width:398px; height:256px; overflow:hidden; border-bottom:1px solid #d6d7dc; border-left:1px solid #d6d7dc; border-right:1px solid #d6d7dc;}
 .index .right .taba .taba-con{ height:230px; margin:18px 0 0 0;}
 /*index end*/
 
