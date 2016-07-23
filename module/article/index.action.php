@@ -24,7 +24,6 @@ class IndexAction extends homeBaseAction{
 		$page_size=10;
 		//获取资讯分页列表
 		$list=M('system:info')->getListByCate($cate_id,$page,$page_size);
-		p($list);
 		$this->pages = pages($list['count'], $page, $page_size);
 		$this->assign('list',$list);
 		$this->assign('cid',$cate_id);
