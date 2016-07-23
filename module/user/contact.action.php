@@ -154,5 +154,67 @@ class contactAction extends adminBaseAction {
 
 	}
 
+	/**
+	* 会员登录密码修改
+	* @access public
+	*/
+	public function modifyPasswd(){
+		$user_id=sget('id','i');
+		if($user_id<1){
+			$this->error('错误的用户信息');
+		}
+		$user=$this->db->model('customer_contact')->getPk($user_id);
+		if(empty($user)){
+			$this->error('错误的用户信息');	
+		}
+		$this->assign('user',$user);
+		$this->assign('page_title','会员登录密码修改');
+		$this->display('user.modPasswd.html');
+	}
+	/**
+	 * 更新用户密码
+	 * @access public 
+	 * @return html
+	 */
+	public function passWdSubmit() {
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		$user_id=(int)$data['user_id'];
+		if(empty($user_id)){
+			$this->error('错误的用户信息');	
+		}
+		//用户原信息
+		$info=$this->db->model('customer_contact')->getPk($user_id);
+		if(empty($info)){
+			$this->error('错误的用户信息');	
+		}
+		
+		//需要更新的信息
+		$basic=array();
+		if(!empty($data['password'])){
+			if(strlen($data['password'])<8){
+				$this->error('密码应为8-20位');	
+			}
+			//更新密码
+			$basic['salt']=randstr(6);
+			$basic['password']=M('system:sysUser')->genPassword($data['password'].$basic['salt']);
+		}
+		
+		//开始更新数据
+		if(!empty($basic)){
+			$msg = sprintf(L('sms_template.passwd_edit_success'),$data['password']);
+			$this->db->model('customer_contact')->wherePk($user_id)->update($basic);	
+
+			//管理员重置密码，写日志
+			$remarks = "管理员重置用户密码";
+			M('user:applyLog')->addLog($user_id,'reset_passwd','',$data['password'],1,$remarks);
+			//发送手机短信
+			M('system:sysSMS')->send($user_id,$info['mobile'],$msg,2);
+		}
+
+		$this->success('操作成功');
+	}
+
+
 
 }

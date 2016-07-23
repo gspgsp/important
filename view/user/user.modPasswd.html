@@ -9,7 +9,7 @@
       </tr>
       <tr>
         <td>姓名：</td>
-        <td>{$user.info.real_name}</td>
+        <td>{$user.name}</td>
       </tr>
       <tr>
         <td>登录密码：</td>
@@ -38,7 +38,7 @@ function submitBasic(){
   var json = mini.encode(o);
   $("#returnMsg").text('');
   form.loading("数据提交中，请稍后......");
-  $.post('/user/user/passWdSubmit',{data:json},function(data){
+  $.post('/user/contact/passWdSubmit',{data:json},function(data){
 	  form.unmask();
 	  $("#returnMsg").text(data.msg);
 	  if(data.err=='0'){

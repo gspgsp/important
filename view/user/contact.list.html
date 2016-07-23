@@ -38,8 +38,7 @@
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" 
 		url="/user/contact/init?action=grid" onrowdblclick="onRowDblClick" 
-		showFilterRow="true" idField="id" multiSelect="true" allowCellWrap="true" allowCellSelect="true" allowCellEdit="true"
-		>
+		showFilterRow="true" idField="id" multiSelect="true" allowCellWrap="true" allowCellSelect="true" allowCellEdit="true" contextMenu="#gridMenu"  headerContextMenu="#headerMenu">
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="name" width="50" headerAlign="center" align="center" renderer="onLoadHandle">联系人</div>
@@ -60,6 +59,9 @@
 			
 		</div>
 	</div>
+	<ul id="gridMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">              
+		<li name="modifyPasswd" iconCls="icon-edit" onclick="modifyPasswd">重置密码</li>
+	</ul>
 </div>
 <script type="text/javascript">
 mini.parse();
@@ -98,6 +100,37 @@ function removeRow() {
 			utils.ajax('/user/contact/init?action=remove',{ids:ids},callback,"POST","json");
 		}
 	);
+}
+function onBeforeOpen(e) {
+	var grid = mini.get("gridCell");
+	var menu = e.sender;
+		
+	var row = grid.getSelected();
+	var rowIndex = grid.indexOf(row);            
+	if (!row) {
+		e.cancel = true;
+		//阻止浏览器默认右键菜单
+		e.htmlEvent.preventDefault();
+		return;
+	}
+
+}
+//重置密码
+function modifyPasswd(e) {
+	var row = grid.getSelected();
+	if (row) {
+		var width=300,height=200,title='重置密码';
+		urlStr="/user/contact/modifyPasswd?id="+row.user_id;
+		mini.open({
+			url: urlStr,
+			title: title, width: width, height:height,
+			ondestroy: function (action) {
+				if(action=='save'){ //重新加载
+					grid.reload();
+				}
+			}
+		});	
+	}             
 }
 // //查看编辑用户信息
 function add(id,ctype){	
