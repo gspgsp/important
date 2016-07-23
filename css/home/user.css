@@ -15,7 +15,7 @@
 .user-wrap .left ul li a:hover,.user-wrap .left ul li.hover a{ color:#fc6621;}
 .user-wrap .right{ width:1046px; height:auto; overflow:hidden; border:1px solid #d6d7dc;}
 .user-wrap .right h3{ font-size:12px; color:#333; text-indent:23px; height:48px; line-height:48px; border-bottom:1px solid #d6d7dc; margin:0 0 25px 0; position:relative;}
-.user-wrap .right h3 a{ font-size:14px; color:#267bd3; position:absolute; right:23px; top:0; background:url(../img/finance.png) no-repeat 0 -315px;} 
+.user-wrap .right h3 a{ font-size:14px; color:#267bd3; position:absolute; right:23px; top:0; background:url(../../../static/images/home/img/finance.png) no-repeat 0 -315px;} 
 /*.user-wrap .right .tab{ width:1046px; height:67px; overflow:hidden;}
 .user-wrap .right .tab ul{ height:60px; margin:0 0 0 23px; border-left:1px solid #d6d7dc;}
 .user-wrap .right .tab ul li{ font-size:16px; width:199px; height:58px; line-height:58px; text-align:center; border-top:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-right:1px solid #d6d7dc; float:left; cursor:pointer;}
@@ -305,7 +305,7 @@
 .finance-lc4 .filter-ticket input.query{ display:block; width:100px; height:32px; line-height:32px; margin:0; background:#267bd3; border-radius:2px; color:#fff; float:left; cursor:pointer;}
 .finance-lc4 .filter-ticket label{ line-height:32px; margin:0 60px 0 0; float:left;}
 .finance-lc4 .ticket-list{ height:auto; overflow:hidden; margin:50px 0 0 43px;}
-.finance-lc4 .ticket-list li{ width:225px; height:315px; overflow:hidden; margin:0 20px 20px 0; background:#f5f5f5 url(../img/finance.png) no-repeat; float:left;}
+.finance-lc4 .ticket-list li{ width:225px; height:315px; overflow:hidden; margin:0 20px 20px 0; background:#f5f5f5 url(../../images/home/finance.png) no-repeat; float:left;}
 .finance-lc4 .ticket-list li.will-overdue{ background-position:0 0;}
 .finance-lc4 .ticket-list li.used{ background-position:-225px 0;}
 .finance-lc4 .ticket-list li.overdue{ background-position:-450px 0;}
@@ -428,7 +428,6 @@
 .con-tabx .opt input{ display:inline-block; width:100px; height:44px; color:#fff; cursor:pointer; border-radius:2px;}
 .con-tabx .opt input.btn1{ background:#fc6621; margin:0 0 0 120px;}
 .con-tabx .opt input.btn2{ background:#6d6c6c; margin:0 0 0 20px;}
-.con-tabx .opt input.save,.con-tabx .opt input.save2{ display: none; }
 #con-tabx-1{ width:630px; margin:0 auto;}
 #con-tabx-1 .lt-rt{ height:auto; overflow:hidden;}
 #con-tabx-1 .lt{ width:317px; overflow:hidden;}
@@ -465,7 +464,7 @@
 .set4 table{ font-size:16px; width:505px; margin:30px auto;}
 .set4 table tr{ height:70px;}
 .set4 table .name{ text-align:right;}
-.layer{ font-size:14px; width:400px; height:auto; padding:0 0 30px 0; overflow:hidden; background:#fff; display:none;}
+.layer{ font-size:14px; width:400px; height:300px; padding:0 0 30px 0; overflow:hidden; background:#fff; display:none;}
 .layer h3{ text-align:center; margin:25px 0 10px 0;}
 .layer .error-msg{ height:20px; line-height:20px; color:#f00; margin:0 0 0 75px;}
 .layer table{ width:318px; margin:0 auto;}
