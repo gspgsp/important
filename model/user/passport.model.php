@@ -106,8 +106,8 @@ class passportModel extends model{
 		if(empty($uinfo['salt'])){
 			$up = array();
 			$up['salt']=randstr(6);
-			$up['password']=$this->genPassword($password.$up['salt']);
-			$this->db->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($up);
+			$up['password']= M('system:sysUser')->genPassword($password.$up['salt']);
+			$this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($up);
 		}	
 		$this->_loginSuccess($uinfo,$chanel);
 		return array('err'=>0,'msg'=>'登录成功','user'=>$uinfo);
