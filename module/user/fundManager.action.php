@@ -28,6 +28,7 @@ class fundManagerAction extends userBaseAction
 			$this->assign('pages',$data['pages']);
 			$this->display('cus_reg_suc');
 		}
+		//$this->display('identify');
 	}
 	//认证页面
 	public function cusRegister(){
