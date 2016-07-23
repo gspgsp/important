@@ -24,7 +24,7 @@ class indexAction extends homeBaseAction{
 		//供求信息
 		$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4)")['data'];
 		//即时抢货
-		$grabList=$this->db->model('resourcelib')->select('content,user_qq,user_nick,qq_image,input_time,realname')->limit(3)->order("input_time desc")->getAll();
+		$grabList=$this->db->model('resourcelib')->select('content,user_qq,user_nick,qq_image,input_time,realname')->where('type=0')->limit(3)->order("input_time desc")->getAll();
 		if($this->user_id<=0){
 			foreach ($grabList as $key => $value) {
 				$grabList[$key]['user_qqs'] = str_pad(substr($value['user_qq'], 0, 4), strlen($value['user_qq']), '*');
