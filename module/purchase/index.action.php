@@ -77,8 +77,13 @@ class indexAction extends homeBaseAction{
 			$list[$key]['number']=floatval($value['number']);
 			$list[$key]['unit_price']=floatval($value['unit_price']);
 		}
-
-
+		//最近订单
+		$info=M('product:unionOrderDetail')->getInfo();
+		$grabList=array();
+			foreach ($info as $key => $value) {
+				$grabList[$key]['name'] = str_pad(substr($value['name'], 0, 1), strlen($value['name']), '*');
+			}
+		$this->assign('info',$grabList);
 		$this->assign('list',$list);
 		$this->display('index');
 	}
@@ -101,5 +106,7 @@ class indexAction extends homeBaseAction{
 			$this->success('提交成功');
 		}
 	}
+
+
 
 }
