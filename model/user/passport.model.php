@@ -78,11 +78,13 @@ class passportModel extends model{
 
 
 		//密文 
-		$npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
-		
+		if(empty($uinfo['salt'])){
+			$npassword = md5($password);
+		}else{
+			$npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
+		}
 		if($uinfo['password']!==$npassword){
 			$this->_loginError($uinfo['user_id'],$username,3,$password,$chanel);
-
 			$_data = array();
 			$_data['login_fail_count'] = $uinfo['login_fail_count'] >= 5 ? 1 : $uinfo['login_fail_count']+1;
 			$msg = '密码不正确，连续输错5次将被锁定';
@@ -100,7 +102,13 @@ class passportModel extends model{
 			return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服');
 		}
 
-		//用户成功登录
+		//用户成功登录（对老用户做处理）
+		if(empty($uinfo['salt'])){
+			$up = array();
+			$up['salt']=randstr(6);
+			$up['password']=$this->genPassword($password.$up['salt']);
+			$this->db->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($up);
+		}	
 		$this->_loginSuccess($uinfo,$chanel);
 		return array('err'=>0,'msg'=>'登录成功','user'=>$uinfo);
 	}
