@@ -86,12 +86,12 @@ class passportModel extends model{
 		if($uinfo['password']!==$npassword){
 			$this->_loginError($uinfo['user_id'],$username,3,$password,$chanel);
 			$_data = array();
-			$_data['login_fail_count'] = $uinfo['login_fail_count'] >= 5 ? 1 : $uinfo['login_fail_count']+1;
-			$msg = '密码不正确，连续输错5次将被锁定';
+			$_data['login_fail_count'] = $uinfo['login_fail_count'] >= 10 ? 1 : $uinfo['login_fail_count']+1;
+			$msg = '密码不正确，连续输错10次将被锁定';
 
-			if($_data['login_fail_count'] == 5){
+			if($_data['login_fail_count'] == 10){
 				$_data['login_unlock_time'] = CORE_TIME + 14400;
-				$msg = '已输错5次密码，账号将锁定4小时';
+				$msg = '已输错10次密码，账号将锁定4小时';
 			}
 			$this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($_data);
 			return array('err'=>3,'msg'=>$msg);
