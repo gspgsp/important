@@ -90,13 +90,13 @@ class purchaseModel extends model{
 	public function footPrice($arr){
 
 		     return    $res=$this->from('purchase as pur ')
-				->leftjoin('product as p','pur.p_id=p.id')
-				->leftjoin('factory as f','p.f_id=f.fid')
-				->where('pur.p_id='.$arr['p_id'])
-				->order('pur.input_time desc')
-				->select(' pur.p_id,f.f_name,pur.unit_price,pur.input_time,p.model,p.product_type')
-				->limit('2')
-				->getAll();
+						->leftjoin('product as p','pur.p_id=p.id')
+						->leftjoin('factory as f','p.f_id=f.fid')
+						->where('pur.p_id='.$arr['p_id'])
+						->order('pur.input_time desc')
+						->select(' pur.p_id,f.f_name,pur.unit_price,pur.input_time,p.model,p.product_type')
+						->limit('2')
+						->getAll();
 
 
 	}
