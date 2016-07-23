@@ -33,7 +33,14 @@ class findpwdAction extends homeBaseAction{
 			if(!$this->_chkpass($pass,$repass)) $this->error($this->err);
 			$model=M("user:customerContact");
 			if(!$uinfo=$model->where("mobile=$mobile")->getRow()) $this->error('错误的账号');
-			$newpass=M('system:sysUser')->genPassword($pass.$uinfo['salt']);
+			//对老用户做处理
+			if(empty($uinfo['salt'])){
+				$up = array();
+				$up['salt']=randstr(6);
+				$newpass=M('system:sysUser')->genPassword($pass.$up['salt']);
+			}else{
+				$newpass=M('system:sysUser')->genPassword($pass.$uinfo['salt']);
+			}
 			$_data=array(
 				'password'=>$newpass,
 				'update_time'=>CORE_TIME,
