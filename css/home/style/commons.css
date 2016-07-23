@@ -13,7 +13,7 @@ a{ text-decoration:none;}
 .member .logo{ margin:0 0 25px 90px;}
 .member .opt{ width:362px; height:315px; padding:38px 34px 0 34px; overflow:hidden; background:#f4f5f8;}
 .member .opt .opt-wrap{ width:360px; height:42px; overflow:hidden; border:1px solid #d0d0d3; border-radius:6px; background:#fff; box-shadow:inset 3px 3px 5px #e9e9e9;}
-.member .opt input{ font-family:"微软雅黑"; width:310px; height:14px; line-height:14px; margin:14px 0 0 10px;}
+.member .opt input{ font-family:"微软雅黑"; width:310px; height:16px; line-height:16px; margin:12px 0 0 10px;}
 .member .opt .opt-msg{ color:#f00; width:360px; height:28px; line-height:28px; overflow:hidden;}
 .member .opt .opt-msg p{ height:28px; background:url(../img/memberSpirit.png) no-repeat 0 -144px; margin:0 0 0 12px; padding:0 0 0 21px; display:none;}
 .member .opt .login .icon{ width:18px; height:42px; overflow:hidden; float:left; background:url(../img/memberSpirit.png) no-repeat; margin:0 0 0 10px;}
