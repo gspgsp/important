@@ -293,7 +293,6 @@ class quoteAction extends adminBaseAction {
 	public function inputExcel(){
 		$this->is_ajax = true;
 		E('PHPExcel',APP_LIB.'extend');
-
 		if(empty($_FILES['check_file']) || $_FILES['check_file']['error']) $this->error('文件上传失败！');
 
 		$result = array();
