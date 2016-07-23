@@ -8,7 +8,7 @@
 				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel()">excel导入</a>
 				<span class="separator"></span> 
 				<a class="mini-button" iconCls="icon-reload" plain="true" onclick="reload()">重新发布</a>
-				
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
 			</td>
 			<td style="float:right;">
 			<form id="soform">
@@ -193,7 +193,33 @@ function GetData() {
 	var row = grid.getSelected();
 	return row;
 }
-
+//删除
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+		for(var i=0;i<rows.length;i++){
+	var _id=parseInt(rows[i].id);
+	if(_id<1){
+		grid.removeRow(rows[i],false);
+	}else{
+		_ids.push(_id);
+	}
+  }
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/quote/remove',{ids:ids},callback,"POST","json");
+  });
+}
 function reload() {
 	var data = grid.getChanges();
 	var json = mini.encode(data);

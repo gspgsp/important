@@ -335,4 +335,34 @@ class quoteAction extends adminBaseAction {
 		}
 		$this->json_output(array('err'=>0,'result'=>$result?:false));
 	}
+	//删除报价
+	/**
+	 * Ajax删除
+	 * @access private 
+	 */
+	public function remove(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$data = explode(',',$ids);
+		if(is_array($data)){
+			foreach ($data as $k => $v) {
+				$result = $this->db->model('sale_buy')->where("p_id = $v")->getRow();
+				if(!empty($result)){
+					$this->error('该报价存在采购信息，不能删除！');
+					continue;
+				}else{
+					$result=$this->db->model('purchase')->where("id = ($v)")->delete();
+				}
+				
+			}
+		}
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('订单有相关明细存在');
+		}
+	}
 }

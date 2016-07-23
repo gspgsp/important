@@ -84,6 +84,7 @@ class productAction extends adminBaseAction {
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$list['data'][$k]['model']=strtoupper($v['model']);
 			$list['data'][$k]['product_type'] = L('product_type')[$v['product_type']]; 
 			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
 			$list['data'][$k]['f_name'] = M('product:factory')->getFnameById($v['f_id']);
