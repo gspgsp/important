@@ -19,11 +19,11 @@ return array(
 	//短信模板
 	'sms_template'=>array(
 		'dynamic_code'=>'验证码：%s，切勿泄漏给他人，有效期5分钟，如非本人操作，请忽略本短信。',
+		'passwd_edit_success'=>'尊敬的用户，您的新登录密码为%s，请及时登录系统并重新修改,感谢您对我的塑料网的支持。',
 	),
 
 	//推送Android 下载APP短信模板
 	'sms_push'=>array(
-
 		'push_code'=>'【上海中晨塑料】 感谢您下载我的塑料网手机客户端，请点击一下链接进行下载:%s',
 	),
 
