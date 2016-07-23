@@ -34,7 +34,7 @@ class IndexAction extends homeBaseAction{
 	public function info()
 	{
 		$id=sget('id','i',0);
-		$this->data=M('system:info')->getInfoById($id);
+		$this->data=sstripslashes(M('system:info')->getInfoById($id));
 		$this->display('info.html');
 	}
 
