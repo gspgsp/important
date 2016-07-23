@@ -142,5 +142,36 @@ function onRowDblClick(e){
 
 }
 
+function onBeforeOpen(e) {
+    var grid = mini.get("gridCell");
+    var menu = e.sender;
+        
+    var row = grid.getSelected();
+    var rowIndex = grid.indexOf(row);            
+    if (!row) {
+        e.cancel = true;
+        //阻止浏览器默认右键菜单
+        e.htmlEvent.preventDefault();
+        return;
+    }
+
+}
+//重置密码
+function modifyPasswd(e) {
+    var row = grid.getSelected();
+    if (row) {
+        var width=300,height=200,title='重置密码';
+        urlStr="/user/user/modifyPasswd?id="+row.user_id;
+        mini.open({
+            url: urlStr,
+            title: title, width: width, height:height,
+            ondestroy: function (action) {
+                if(action=='save'){ //重新加载
+                    grid.reload();
+                }
+            }
+        }); 
+    }             
+}
 
 </script>
