@@ -14,6 +14,8 @@ class registerAction extends homeBaseAction{
 	{
 		$this->display('register');
 	}
+
+
 	public function reg()
 	{
 		$mobile=sget('phone','s');
