@@ -16,11 +16,11 @@ class userLogModel extends model{
 	 * @param string $description        备注描述
 	 */
 	public function addLog($user_id,$action_type,$old_value='',$new_value='',$success=1,$description='',$channel=1){
-		$user_ip = get_ip();
-		$input_time = CORE_TIME;
-		$old_value = addslashes($old_value);
-		$new_value = addslashes($new_value);
+	$user_ip = get_ip();
+	$input_time = CORE_TIME;
+	$old_value = addslashes($old_value);
+	$new_value = addslashes($new_value);
 
-		return $this->add(compact('user_id','action_type','old_value','new_value','input_time','user_ip','success','description','channel'));
-	}
+	return $this->add(compact('user_id','action_type','old_value','new_value','input_time','user_ip','success','description','channel'));
+}
 }
