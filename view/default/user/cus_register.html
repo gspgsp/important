@@ -88,30 +88,65 @@
     <!--right end-->
 <!--user-wrap end-->
 <script type="text/javascript">
+   $(function(){
+        upload_pic($("#permitP_btn1"));
+        upload_pic($("#permitP_btn2"));
+        upload_pic($("#permitP_btn3"));
+        upload_pic($("#permitP_btn4"));
+   })
+
+   var upload_pic = function(obj){
+        new AjaxUpload(obj, {
+        action: '/public/sysUpload/images?model=1',
+        name: 'image',
+        onSubmit: function(file, suffix)
+        {
+            // 'gif','jpg','jpeg','png','swf'
+            var patrn = /^(jpg|jpeg|png)$/i;
+            if (!patrn.test(suffix)) {
+                alert('不支持上传 *.' + suffix + '格式的文件。');
+                return false;
+            }
+        },
+        onComplete: function(file, response) {
+            var result = jQuery.parseJSON(response);
+            if(result.err == 0) {
+                $(obj).next().val(result.msg);
+                $(obj).attr('src',"__UPLOAD__/"+result.msg);
+            } else {
+                alert(result.msg);
+            }
+        }
+        });
+   }
+
     //ajax上传图片
     function getImg(that){
-            var input_id = $("#"+that);
-            new AjaxUpload(that, {
-            action: '/public/sysUpload/images?model=1',
-            name: 'image',
-            onSubmit: function(file, suffix) {
-                // 'gif','jpg','jpeg','png','swf'
-                var patrn = /^(jpg|jpeg|png)$/i;
-                if (!patrn.test(suffix)) {
-                    alert('不支持上传 *.' + suffix + '格式的文件。');
-                    return false;
-                }
-            },
-            onComplete: function(file, response) {
-                var result = jQuery.parseJSON(response);
-                if(result.err == 0) {
-                    input_id.next().val(result.msg);
-                    input_id.attr('src',"__UPLOAD__/"+result.msg);
-                } else {
-                    alert(result.msg);
-                }
-            }
-        });
+        console.log(1);
+        // $("#"+that).parent().find("input[type='hidden']").click();
+            // var input_id = $("#"+that);
+            // new AjaxUpload(that, {
+            // action: '/public/sysUpload/images?model=1',
+            // name: 'image',
+            // onSubmit: function(file, suffix) 
+            // {
+            //     // // 'gif','jpg','jpeg','png','swf'
+            //     // var patrn = /^(jpg|jpeg|png)$/i;
+            //     // if (!patrn.test(suffix)) {
+            //     //     alert('不支持上传 *.' + suffix + '格式的文件。');
+            //     //     return false;
+            //     // }
+            // },
+            // onComplete: function(file, response) {
+            //     // var result = jQuery.parseJSON(response);
+            //     // if(result.err == 0) {
+            //     //     input_id.next().val(result.msg);
+            //     //     input_id.attr('src',"__UPLOAD__/"+result.msg);
+            //     // } else {
+            //     //     alert(result.msg);
+            //     // }
+            // }
+            // });
     }
     //提交
     $("#btnCl").bind('click',function(){
