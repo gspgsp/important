@@ -22,7 +22,7 @@ a{ text-decoration:none;}
 .top li.blog{ background:url(../../images/home/spirit.png) no-repeat -144px -115px; padding:0 0 0 19px;}
 .top li.app{ background:url(../../images/home/spirit.png) no-repeat -214px -81px; padding:0 0 0 14px;}
 .top li.lang{ margin-right:0;}
-.top li.login a{ color:#fc6621;}
+.top li a#user_name{ color:#fc6621;}
 /*top end*/
 
 /*header begin*/
