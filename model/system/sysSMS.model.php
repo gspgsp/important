@@ -121,23 +121,6 @@ class sysSMSModel extends model{
 		$_SESSION['mctime']=CORE_TIME;
 		return array('err'=>0,'msg'=>$msg);
 	}
-
-	/*
-	 * 生成安卓推送下载信息
-     * @access public
-	 * @param string $mobile 手机号
-     * @return (err,msg)
-	 */
-	public function getPush($mobile,$type=''){
-
-		if(isset($mobile)&& !empty($mobile)){
-
-			$str='http://www.wodesuliao.cn/Public/Attachment/File/APP/wodesuliao.apk';
-			$msg=sprintf(L('sms_push.push_code'),$str);
-		}
-		return array('err'=>0,'msg'=>$msg);
-	}
-
 	/*
 	 * 检查动态码
      * @access public
