@@ -12,7 +12,7 @@ class myVoucherAction extends userBaseAction
 		$this->is_ajax = true;
 		if($this->user_id<0) $this->error('账户错误');
 		$page=sget('page','i',1);
-		$page_size=2;
+		$page_size=3;
 		if(!$list = $this->db->where('user_id='.$this->user_id)->page($page,$page_size)->getPage()) $this->error('没有相关的抵用券');
 		$this->_getTickets($list,$page,$page_size);
 	}
@@ -21,9 +21,9 @@ class myVoucherAction extends userBaseAction
 		$this->is_ajax = true;
 		$id = sget('id','i');//获取查询的条件
 		$page=sget('page','i',1);
-		$page_size=1;
+		$page_size=3;
 		if($id == 5){
-			$page_size=2;
+			$page_size=3;
 			if(!$list = $this->db->where('user_id='.$this->user_id)->page($page,$page_size)->getPage()) $this->error('没有相关的抵用券');
 		}else{
 			if(!$list = $this->db->where("user_id=$this->user_id and state=$id")->page($page,$page_size)->getPage()) $this->error('没有相关的抵用券');
