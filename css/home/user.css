@@ -268,7 +268,7 @@
 
 /*财务中心开始*/
 .user-wrap .right .finance-lc-pic{ width:1000px; height:44px; overflow:hidden; margin:0 0 0 23px;}
-.finance-lc1{ font-size:16px; width:272px; height:245px; text-align:center; background:url(../img/finance1.jpg) no-repeat left center; padding:0 0 0 308px; margin:127px 0 127px 131px;}
+.finance-lc1{ font-size:16px; width:272px; height:245px; text-align:center; background:url(../../images/home/finance1.jpg) no-repeat left center; padding:0 0 0 308px; margin:127px 0 127px 131px;}
 .finance-lc1 p{ padding:60px 0 68px 0;}
 .finance-lc1 input{ font-size:16px; color:#fff; width:164px; height:48px; background:#267bd3; color:#fff; cursor:pointer;}
 .finance-lc2{ font-size:14px;}
