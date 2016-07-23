@@ -44,7 +44,7 @@ class findpwdAction extends homeBaseAction{
 			$_data=array(
 				'password'=>$newpass,
 				'update_time'=>CORE_TIME,
-				'salt'=>$uinfo['salt']? $uinfo['salt']:$up['salt']
+				'salt'=>!empty($uinfo['salt'])? $uinfo['salt']:$up['salt']
 			);
 			if(!$model->where("mobile=$mobile")->update($_data)) $this->error('操作失败，系统错误');
 			unset($_SESSION['check_find_ok']);
