@@ -428,6 +428,7 @@
 .con-tabx .opt input{ display:inline-block; width:100px; height:44px; color:#fff; cursor:pointer; border-radius:2px;}
 .con-tabx .opt input.btn1{ background:#fc6621; margin:0 0 0 120px;}
 .con-tabx .opt input.btn2{ background:#6d6c6c; margin:0 0 0 20px;}
+.con-tabx .opt input.save,.con-tabx .opt input.save2{ display: none; }
 #con-tabx-1{ width:630px; margin:0 auto;}
 #con-tabx-1 .lt-rt{ height:auto; overflow:hidden;}
 #con-tabx-1 .lt{ width:317px; overflow:hidden;}
@@ -464,7 +465,7 @@
 .set4 table{ font-size:16px; width:505px; margin:30px auto;}
 .set4 table tr{ height:70px;}
 .set4 table .name{ text-align:right;}
-.layer{ font-size:14px; width:400px; height:300px; padding:0 0 30px 0; overflow:hidden; background:#fff; display:none;}
+.layer{ font-size:14px; width:400px; height:auto; padding:0 0 30px 0; overflow:hidden; background:#fff; display:none;}
 .layer h3{ text-align:center; margin:25px 0 10px 0;}
 .layer .error-msg{ height:20px; line-height:20px; color:#f00; margin:0 0 0 75px;}
 .layer table{ width:318px; margin:0 auto;}
