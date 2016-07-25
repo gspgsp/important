@@ -4,7 +4,7 @@
 {insert_js files='home/slider.js'}
 {insert_js files='home/jquery.silver_track.js'}
 {insert_js files='home/jquery.silver_track.navigator.js'}
-<div class="buy-crumb w1220">首页-个人中心</div>
+<div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
 <div class="user-wrap w1220">
     {include file="public:user_left"}
     <!--right begin-->
@@ -313,7 +313,7 @@
 //							window.location.reload();
 						}else{
 							alert('取消关注成功');
-							window.location.reload();
+							$(this).parent().remove();
 						}
 					}
 
