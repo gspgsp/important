@@ -92,6 +92,7 @@
 				var otype=3;
 				var type=1;
 				var pageNum=2;
+				var index=0;
 
 				function chooseSearch(type,otype,model,f_name,product_type,cargo_type,provinces) {
 					commonAjax(
@@ -116,7 +117,7 @@
 								$("#searchWrapUl").html(searchLi);
 							});
 
-							var index=0;
+							index=0;
 							res.data.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
@@ -163,7 +164,7 @@
 										"</table></li>";
 								$("#searchWrapUl").html(searchLi);
 							});
-							var index=0;
+
 							res.pubQuoPur.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
@@ -212,7 +213,7 @@
 										"</table></li>";
 								$("#searchWrapUl").html(searchLi);
 							});
-							var index=0;
+							index=0;
 							res.pubQuoPur.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
@@ -261,7 +262,6 @@
 								$("#searchWrapUl").html(searchLi);
 							});
 
-							var index=0;
 							res.pubQuoPur.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
@@ -311,7 +311,7 @@
 								$("#searchWrapUl").html(searchLi);
 							});
 
-							var index=0;
+							index=0;
 							res.pubQuoPur.forEach(function (v,i,a) {
 								v.twoData.forEach(function (v,i,a) {
 									searchTb+="<tr><td>"+v.company+"</td>" +
