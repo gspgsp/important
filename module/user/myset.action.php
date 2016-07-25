@@ -56,8 +56,6 @@ class mysetAction extends userBaseAction{
 		}
 	}
 
-
-
 	public function edit_company()
 	{
 		if($_POST){
