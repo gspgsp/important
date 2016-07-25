@@ -1,0 +1,104 @@
+{layout file="public:mini_layout"}
+
+<div id="basicForm" class="form"  style="padding:5px;">
+<table width="100%" cellpadding="1" bgcolor="#CCCCCC">
+  <tr>
+    <td bgcolor="#FFFFFF">姓名：</td>
+    <td bgcolor="#FFFFFF">{$user.msg.user_name}&nbsp;</td>
+    <td bgcolor="#FFFFFF">称谓：</td>
+    <td bgcolor="#FFFFFF">{if $user.msg.sex eq '1'}男{else}女{/if}&nbsp;</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">留言类型：</td>
+    <td bgcolor="#FFFFFF">{$msgType.$user.msg.msg_type}&nbsp;</td>
+    <td bgcolor="#FFFFFF">留言回复方式：</td>
+    <td bgcolor="#FFFFFF">{$replyWay.$user.msg.reply_way}&nbsp;</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">邮箱：</td>
+    <td bgcolor="#FFFFFF">{$user.msg.email}&nbsp;</td>
+    <td bgcolor="#FFFFFF">手机号码：</td>
+    <td bgcolor="#FFFFFF">{$user.msg.mobile}&nbsp;</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">留言内容：</td>
+    <td colspan="3" bgcolor="#FFFFFF"><label for="textarea"></label>
+      <textarea name="textarea" id="textarea" cols="45" rows="5" readonly="readonly">{$user.msg.message}</textarea></td>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">问题截图：</td>
+    <td colspan="3" bgcolor="#FFFFFF">{if $user.msg.img_url}<img src="__UPLOAD__/{$user.msg.img_url}" width="200px" />{/if}</td>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">指定回访时间：</td>
+    <td bgcolor="#FFFFFF">{$replyTime.$user.msg.reply_time}&nbsp;</td>
+    <td bgcolor="#FFFFFF">留言处理状态：</td>
+    <td bgcolor="#FFFFFF">{$msgStatus.$user.msg.status}&nbsp;</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">留言时间：</td>
+    <td bgcolor="#FFFFFF">{$user.msg.input_time|date:Y-m-d H:i:s}&nbsp;</td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+  </tr>
+  {if $user.msg.reply_way neq '1'}
+  <tr>
+    <td bgcolor="#FFFFFF">审核状态：</td>
+    <td bgcolor="#FFFFFF"><input class="mini-combobox" name="status" id="status" style="width:100px;" data='{:setMiniConfig|$msgStatus}' value="{$user.msg.status}"  required="true" textfield="name" valuefield="id"/>
+			<input class="mini-hidden" value="{$user.msg.id}" name="id" id="id" /></td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">回复内容：</td>
+    <td bgcolor="#FFFFFF"><input class="mini-textarea" style="width:300px;" name="reply_content" id="reply_content" value="{$user.msg.reply_content}" /></td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+  </tr>
+  {/if}
+</table>
+    
+    <div style="text-align:center;padding:10px;"> {if $user.msg.reply_way neq '1'}<a class="mini-button" iconcls="icon-ok" onclick="submitBasic">确定</a>{/if} <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+
+var form = new mini.Form("#basicForm");
+function submitBasic(){
+	//var ids = $("#ids").val();
+	//var check_status = $("#check_status").val();
+	form.validate();
+	if(form.isValid() == false) return;
+	
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+
+	mini.confirm("确定执行当前审批操作？", "提示",	function(action){
+			if(action!='ok') return;
+
+			$.post('/user/feedback/replyMessage',{data:json},function(data){
+				form.unmask();
+				$("#returnMsg").text(data.msg);
+				if(data.err=='0'){
+					CloseWindow("save");
+				}else{
+					return false;
+				}
+			},'json');
+		}
+	);
+
+}
+
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script>
