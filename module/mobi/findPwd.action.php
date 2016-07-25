@@ -72,11 +72,6 @@ class findPwdAction extends homeBaseAction{
 			$this->error($this->err);
 		}
 		$sms=M('system:sysSMS');
-		//检查注册的限制
-		$result=$sms->chkRegLimit($mobile,get_ip());
-		if(empty($result)){
-			$this->error($sms->getError());
-		}
 		//请求动态码
 		$result=$sms->genDynamicCode($mobile);
 		if($result['err']>0){ //请求错误
