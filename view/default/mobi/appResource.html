@@ -75,7 +75,7 @@
 						console.log(res);
 						appLi="";
 						res.searchData.forEach(function (v,i,a) {
-							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.user_nick+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
 						});
 						$(".appResourceUl").html(appLi);
 					},function () {
@@ -95,7 +95,7 @@
 					).then(function (res) {
 						console.log(res);
 						res.resData.forEach(function (v,i,a) {
-							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.user_nick+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
 						});
 						$(".appResourceUl").html(appLi);
 					},function () {
@@ -110,7 +110,7 @@
 				).then(function (res) {
 					console.log(res);
 					res.resData.forEach(function (v,i,a) {
-						appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.realname+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+						appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.user_nick+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
 					});
 					$(".appResourceUl").html(appLi);
 				},function () {
