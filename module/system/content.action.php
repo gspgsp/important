@@ -164,19 +164,18 @@ class contentAction extends adminBaseAction {
 		}
 		
 		//是否存在
-		$where=" (title='$_info[title]'";
-		if(!empty($_info['sn'])>1){
-			$where.=" or sn='$_info[sn]'";
-		}
-		$where .=" ) ";
-		if($id>0){
-			$where.=" and id!='$id'";
-		}
+		$where="  1 ";
+		// if(!empty($_info['sn'])>1){
+		// 	$where.=" and sn='$_info[sn]'";
+		// }
+		// if($id>0){
+		// 	$where.=" and id!='$id'";
+		// }
 		
-		$exist=$this->db->select("id,title,sn")->where($where)->getRow();
-		if($exist){
-			$this->error('存在相同['.$exist['id'].']'.($_info['sn']==$exist['sn'] ? '编号' : '标题'));	
-		}
+		// $exist=$this->db->select("id,sn")->where($where)->getRow();
+		// if($exist){
+		// 	$this->error('存在相同['.$exist['id'].']'.($_info['sn']==$exist['sn'] ? '编号' : '标题'));	
+		// }
 		if($this->hasPrice>0){
 			$_info['price']=(float)$_info['price'];	
 			$_info['stock']=(float)$_info['stock'];	
