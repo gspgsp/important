@@ -19,6 +19,7 @@ class selforderAction extends userBaseAction{
 		$this->goods_status=L('goods_status');
 		$this->invoice_status=L('invoice_status');
 		$this->order_status=L('order_status');
+		$this->collection_p_status=L('collection_p_status');
 
 		$where="user_id=$this->user_id";
 
@@ -33,6 +34,10 @@ class selforderAction extends userBaseAction{
 		//运输方式
 		if($transport_type=sget('transport_type','i',0)){
 			$where.=" and transport_type=$transport_type";
+		}
+		//付款状态
+		if($collection_p_status=sget('collection_p_status','i',0)){
+			$where="and collection_status=$collection_p_status";
 		}
 		//发货状态
 		if($goods_status=sget('goods_status','i',0)){
@@ -49,7 +54,7 @@ class selforderAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$orderList=M('product:order')
-			->select('o_id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark')
+			->select('o_id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark,collection_status')
 //			->leftjoin('sale_log as s','o.order_sn=s.o_id')
 //			->leftjoin('product as p ','s.p_id=p.id')
 //			->leftjoin('factory as f','p.f_id=f.fid')

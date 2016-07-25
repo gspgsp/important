@@ -51,9 +51,11 @@
     		            </td>
     		            <td>付款状态：</td>
     		            <td>
-    		            	<select>
+    		            	<select name="collection_p_status">
     		                	<option>请选择</option>
-    		                    <option>待付款</option>
+								{foreach from=$collection_p_status item=value key=key}
+    		                    <option value="{key}">{$value}</option>
+								{/foreach}
     		                </select>
     		            </td>
     		          </tr>
@@ -104,6 +106,7 @@
             <li class="transport">运输方式</li>
             <li class="freight">运费</li>
             <li class="status">状态</li>
+			<li class="fk-status">付款状态</li>
             <li class="fh-status">发货状态</li>
             <li class="kp-status">开票状态</li>
             <li class="remark">备注</li>
@@ -141,6 +144,7 @@
                     <li class="transport">{:setOption|transport_type,$value.transport_type}</li>
                     <li class="freight">{$value.freight_price}</li>
                     <li class="status">{:setOption|order_status,$value.order_status}</li>
+					<li class="fk-status">{:setOption|collection_status,$value.collection_status}</li>
                     <li class="fk-status">{:setOption|order_status,$value.order_status}</li>
                     <li class="kp-status">{:setOption|invoice_status,$value.invoice_status}</li>
                     <li class="remark">{$value.remark}</li>

@@ -51,9 +51,11 @@
     		            </td>
     		            <td>付款状态：</td>
     		            <td>
-    		            	<select>
-    		                	<option>待付款</option>
-    		                    <option>待付款</option>
+    		            	<select name="collection_p_status">
+    		                	<option value="">请选择</option>
+								{foreach from=$collection_p_status  item=value key=key}
+    		                    <option value="{key}">{$value}</option>
+								{/foreach}
     		                </select>
     		            </td>
     		          </tr>

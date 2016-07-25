@@ -40,13 +40,13 @@ class indexAction extends userBaseAction{
 		$this->points=M('points:pointsGoods')->getGoods();
 		//近三个月的订单信息(自营)
 		$this->res1=M('product:order')->getOrder($this->user_id);//待审核
-		$this->res2=M('product:order')->getOrder($this->user_id,1,'collection_status');          //代付款
-		$this->res3=M('product:order')->getOrder($this->user_id,1,'invoice_status');        //带开票
+		$this->res2=M('product:order')->getOrder($this->user_id,1,'collection_status');    //代付款
+		$this->res3=M('product:order')->getOrder($this->user_id,1,'invoice_status');      //带开票
 		$this->res4=M('product:order')->getOrder($this->user_id,3);    //已取消
 		//近三个月的订单信息(联营)
 		$this->info1=M('product:unionOrder')->getOrder($this->user_id);//待审核
-		$this->info2=M('product:unionOrder')->getOrder($this->user_id,1,'collection_status');          //代付款
-		$this->info3=M('product:unionOrder')->getOrder($this->user_id,1,'invoice_status');        //带开票
+		$this->info2=M('product:unionOrder')->getOrder($this->user_id,1,'collection_status'); //代付款
+		$this->info3=M('product:unionOrder')->getOrder($this->user_id,1,'invoice_status');      //带开票
 		$this->info4=M('product:unionOrder')->getOrder($this->user_id,3);    //已取消
 		$this->assign('prices',$array);
 		$this->display('index');
