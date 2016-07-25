@@ -42,7 +42,7 @@
 			}else{
 				res.data.forEach(function (v,i,a) {
 					attentionLi+="<li><input class='checkbox' type='checkbox' value='"+v.id+"'>&nbsp;"+ v.model +" "+ v.factory_name +"<span class='grey'>"+ mToH(v.time_al) +"小时前</span><span class='"+ priceCompare(v.floor_up) +"'>"+ v.floor_up +"</span>" +
-							"<span class='orange'>"+ v.unit_price +"/T</span></li>"
+							"<span class='orange'>"+price(v.unit_price) +"</span></li>"
 				});
 				$(".meAttention").html(attentionLi);
 
