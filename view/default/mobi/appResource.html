@@ -109,8 +109,14 @@
 						{type:type}
 				).then(function (res) {
 					console.log(res);
+					var name="";
 					res.resData.forEach(function (v,i,a) {
-						appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.user_nick+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
+						if(v.user_nick){
+							name=v.user_nick;
+						}else{
+							name=v.realname;
+						}
+						appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+name+"<span>"+v.update_time+"分钟前</span></h3><p>"+ v.content +"</p></div></li>";
 					});
 					$(".appResourceUl").html(appLi);
 				},function () {
