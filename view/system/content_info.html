@@ -30,7 +30,10 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 					<td><input id="img_url"  name="info[img]" class="mini-textbox" value="{$info.img}" style="width:300px"/>
 					<input id="upfileId" type="file" name="upFile" onChange="fileUpload();"></td>
 				</tr>
-
+				<tr>
+					<td class="dt">来源</td>
+					<td><input id="source"  name="info[source]" class="mini-textbox" value="{$info.source|default:本站原创}" style="width:150px"/></td>
+				</tr>
 				<tr>
 					<td class="dt">编号</td>
 					<td><input id="sn_code"  name="info[sn]" class="mini-textbox" value="{$info.sn}" style="width:150px" onvaluechanged="onCheckSn"/>（不可重复：a-Z0-9+-._）</td>
