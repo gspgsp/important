@@ -35,7 +35,7 @@ class indexAction extends homeBaseAction{
 			$sphinx->SetServer('localhost',9312);
 			$sphinx->SetMatchMode(SPH_MATCH_PHRASE);
 			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
-			$result = $sphinx->query($keyword,'resourcelib');
+			$result = $sphinx->query('*'."$keyword".'*','resourcelib');
 			$ids = array_keys($result['matches']);
 			$list = $this->sourceModel->getSearch($ids);
 			$this->pages = pages($result['total'], $p, $pageSize);
