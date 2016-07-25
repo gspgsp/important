@@ -262,7 +262,7 @@ $(function(){
 
 	var conTabx1 = $("#con-tabx-1");
 	$(".change").live("click",function(){
-		conTabx1.find(".edit").removeAttr("readonly");
+		conTabx1.find(".edit").removeAttr("readonly").css("border","solid 1px red");
 		conTabx1.find(".save").show();
 		$(this).hide();
 	});
