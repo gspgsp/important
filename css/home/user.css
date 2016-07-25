@@ -428,6 +428,7 @@
 .con-tabx .opt input{ display:inline-block; width:100px; height:44px; color:#fff; cursor:pointer; border-radius:2px;}
 .con-tabx .opt input.btn1{ background:#fc6621; margin:0 0 0 120px;}
 .con-tabx .opt input.btn2{ background:#6d6c6c; margin:0 0 0 20px;}
+.con-tabx .opt input.save,.con-tabx .opt input.save2{ display: none; }
 #con-tabx-1{ width:630px; margin:0 auto;}
 #con-tabx-1 .lt-rt{ height:auto; overflow:hidden;}
 #con-tabx-1 .lt{ width:317px; overflow:hidden;}
