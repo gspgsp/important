@@ -66,13 +66,6 @@ class mainPageModel extends model
             }
             return $data;
     }
-    //获取当前类型的键
-    // private function _getProKey($p_types,$keywords){
-    //  foreach ($p_types as $key => $value) {
-    //      if($value == strtoupper($keywords))
-    //          return $key;
-    //  }
-    // }
     //获取排序后的数据
     public function getSortedData($keywords,$stype,$page=1,$size=8){
         //筛选产品类型
