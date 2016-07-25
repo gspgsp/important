@@ -4,6 +4,7 @@
  * 用户找回密码- web-app
  */
 class findPwdAction extends homeBaseAction{
+	private $err='';
 	public function __init()
 	{
 		$this->db=M('public:common')->model('customer_contact');
@@ -17,7 +18,7 @@ class findPwdAction extends homeBaseAction{
 			$this->is_ajax=true;
 			$mobile=sget('mobile','s');
 			$password=sget('password','s');
-			if(!$this->_chkmobile($mobile)) $this->error($this->err);
+			if(!$this->_chkmobile($mobile)) $this->json_output(array('err'=>1,'msg'=>$this->err));
 			$mcode=sget('code','s');
 			$result=M('system:sysSMS')->chkDynamicCode($mobile,$mcode);
 			if($result['err']>0){
