@@ -47,8 +47,8 @@
 					var password=$("#password").val();
 					commonAjax(
 							"post",
-							"/touch/findpwd/sendmsg",
-							{'mobi':username,'password':password}
+							"/mobi/findpwd/sendmsg",
+							{'mobile':username,'password':password}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
@@ -71,13 +71,13 @@
 				}
 
 				$(".registerBtn").on("click",function () {
-					var mobi=$("#username").val();
+					var mobile=$("#username").val();
 					var password=$("#password").val();
 					var code=$("#regcode").val();
 					commonAjax(
 							"post",
-							"/touch/findpwd/findpwd",
-							{username:mobi,password:password,vcode:code}
+							"/mobi/findpwd/findpwd",
+							{username:mobile,password:password,vcode:code}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
