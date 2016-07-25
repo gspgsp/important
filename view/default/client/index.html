@@ -96,6 +96,7 @@
 	            <div class="cj">厂家</div>
 	            <div class="amount">数量（吨）</div>
 	            <div class="price">价格（元/吨）</div>
+	            <div class="change">涨跌</div>
 	            <div class="address">交货地</div>
 	            <div class="company">公司</div>
 	            <div class="phone">业务电话</div>
@@ -105,11 +106,14 @@
 	        </li>
 	        {foreach from=$list.data item=value}
 	    	<li class="con">
-	            <div class="ph">{$value.type}</div>
+	            <div class="lb">{$value.type}</div>
 	            <div class="ph">{$value.model}</div>
 	            <div class="cj">{$value.factory}</div>
 	            <div class="amount">{$value.num}</div>
 	            <div class="price">￥{$value.price}</div>
+	            <div class="change up">
+	            	<!-- <span></span> -->&nbsp;
+	            </div>
 	            <div class="address">{$value.address}</div>
 	            <div class="company">{$value.gsname}</div>
 	            <div class="phone">{$value.phone}</div>
