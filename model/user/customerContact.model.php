@@ -205,7 +205,7 @@ class customerContactModel extends model{
 	public function getCustomerInFoById($userid){
 		return $this->from('customer_contact con')
 					->leftjoin('customer as cus','con.c_id=cus.c_id')
-					->leftjoin('admin as adm','adm.admin_id=cus.customer_manager')
+					->leftjoin('admin as adm','adm.admin_id=con.customer_manager')
 					->leftjoin('contact_info as cin','cin.user_id=con.user_id')
 					->leftjoin('user_msg as msg','msg.user_id=con.user_id')
 					->where("con.user_id=$userid and msg.is_read=1 and msg.utype=0")
