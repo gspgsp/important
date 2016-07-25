@@ -154,7 +154,7 @@
 						}else{
 							//searchLi="";
 							res.pubQuoPur.forEach(function (v,i,a) {
-								searchLi+="<li><h3 class='bigCustomerName'>" +
+								searchLi="<li><h3 class='bigCustomerName'>" +
 										"<a href='#'>"+v.product_type+"/"+v.model+"<br>"+v.f_name+"</a></h3>" +
 										"<p class='supplyDemandStore'><i class='icon iconDown'></i></p>" +
 										"<p class='supplyDemandSales'><span>￥"+v.unit_price+"/T起</span><br>"+v.input_time+"</p>" +
@@ -162,7 +162,8 @@
 										"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
 										"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
 										"</table></li>";
-								$("#searchWrapUl").html(searchLi);
+								$("#searchWrapUl").append(searchLi);
+
 							});
 
 							res.pubQuoPur.forEach(function (v,i,a) {
@@ -173,6 +174,7 @@
 									searchTb="";
 								});
 								index++;
+								console.log(index);
 							});
 
 
