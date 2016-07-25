@@ -140,7 +140,7 @@ function submitForm() {
 		}
 	}
 	var json = mini.encode(o);
-	form.loading("数据提交中，请稍后......");
+
 	
 	$.ajax({
         type: "GET",
@@ -150,6 +150,7 @@ function submitForm() {
         async:false,
         success: function(data){
         	
+        	form.loading("数据提交中，请稍后......");
         	$.post('/product/collection/ajaxSave',{data:json},function(data){
         		form.unmask();
         		$("#returnMsg").text(data.msg);
