@@ -66,7 +66,7 @@
 					commonAjax(
 							"post",
 							"/mobi/register/sendmsg",
-							{'mobi':username,'password':password}
+							{'mobile':username,'password':password}
 					).then(function (res) {
 						console.log(">>>",res);
 						if(res.err==0){
