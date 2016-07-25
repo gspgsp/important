@@ -43,7 +43,7 @@
 			}
 			//请求动态码
 			if(isset($mobile)&& !empty($mobile)){
-				$str='http://www.wodesuliao.cn/Public/Attachment/File/APP/wodesuliao.apk';
+				$str=shortenURL('http://statics.myplas.com/myapp/app/myplas.apk');
 				$msg=sprintf(L('sms_push.push_code'),$str);
 				//放送下载链接
 				$result  = M('system:sysSMS')->send($this->user_id,$mobile,$msg,8);
