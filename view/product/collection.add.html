@@ -141,29 +141,20 @@ function submitForm() {
 	}
 	var json = mini.encode(o);
 
-	
-	$.ajax({
-        type: "GET",
-        url: "/product/collection/ajaxSave",
-        data: {username:$("#username").val(), content:$("#content").val()},
-        dataType: "json",
-        async:false,
-        success: function(data){
-        	
-        	form.loading("数据提交中，请稍后......");
-        	$.post('/product/collection/ajaxSave',{data:json},function(data){
-        		form.unmask();
-        		$("#returnMsg").text(data.msg);
-        		if(data.err=='0'){
-        			CloseWindow("save");
-        		}else{
-        			return false;
-        		}
-        	},'json');
-        	
-        }
-    });
-	
+ 	utils.ajax('/product/collection/chkCollecteprice',{data:json,async:false},function(data){
+        if (data.err!='0') return alert('申请付款已提交,请关闭窗口重试!');
+		form.loading("数据提交中，请稍后......");
+		utils.ajax('/product/collection/ajaxSave',{data:json},function(data){
+			form.unmask();
+			$("#returnMsg").text(data.msg);
+			if(data.err=='0'){
+				CloseWindow("save");
+			}else{
+				return false;
+			}
+		},"POST","json");
+  	   
+ 	},"POST","json");
 
 }
 

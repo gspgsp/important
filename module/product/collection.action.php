@@ -186,75 +186,91 @@ class collectionAction extends adminBaseAction
 		
 	}
 
+    /**
+	* 检查收付款状态
+	*/
+	public function chkCollecteprice(){
+		$this->is_ajax=true; //指定为Ajax输出
+	    $data=sdata();
+	    if(empty($data)) $this->error('信息错误');	
+	    $status = $this->db->model('collection')->select('collection_status')->where("o_id=".$data['o_id'])->order('id desc')->getOne();
+		if(empty($status)){
+			$this->success('没有重复提交');
+		}else{
+			$this->error('重复提交');			
+		}
+	}
+
 	/**
 	* 保存付款收款信息
 	*/
 	public function ajaxSave(){
-		$data = sdata();
+		$data=sdata();
+		$o_id = sget('o_id','i',0);
 		
-			//保存收付款相关信息
-			if(empty($data['uncollected_price'])){
-				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
-				$m = $data['total_price']-$data['collected_price'];
-			}else{
-				$m = $data['uncollected_price']-$data['collected_price'];
-			}
+		//保存收付款相关信息
+		if(empty($data['uncollected_price'])){
+			$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
+			$m = $data['total_price']-$data['collected_price'];
+		}else{
+			$m = $data['uncollected_price']-$data['collected_price'];
+		}
 
-			$this->db->startTrans();//开启事务 
- 
-				if($data['finance'] ==1){
-					if($m>0){
-						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
-					}
-					
-					if($m==0){
-						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
-					}
-					if($m<0){
-						$this->error("数据错误");
-					}
-					$data['uncollected_price'] = $m;
-					$data['collection_status'] = 2;
-					$data['payment_time']=strtotime($data['payment_time']);
-					$id = $data['id'];
-					unset($data['id']);
-					//更新收付款信息
-					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败");
-					//添加account_log账户明细信息,默认设计账户类型就是账户id
-					$add_data['account_id']=$data['account'];
-					$add_data['money']=$data['collected_price'];
-					$add_data['remark']=$data['remark'];
-					$add_data['type']=$data['order_type']==1?1:2;
-					$add_data['order_id']=$data['o_id'];
-					$add_data['order_type']=$data['order_type'];
+		$this->db->startTrans();//开启事务 
 
-					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username'],'customer_manager'=>$_SESSION['adminid']))) $this->error("交易失败");
+			if($data['finance'] ==1){
+				if($m>0){
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
+				}
+				
+				if($m==0){
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
+				}
+				if($m<0){
+					$this->error("数据错误");
+				}
+				$data['uncollected_price'] = $m;
+				$data['collection_status'] = 2;
+				$data['payment_time']=strtotime($data['payment_time']);
+				$id = $data['id'];
+				unset($data['id']);
+				//更新收付款信息
+				if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败");
+				//添加account_log账户明细信息,默认设计账户类型就是账户id
+				$add_data['account_id']=$data['account'];
+				$add_data['money']=$data['collected_price'];
+				$add_data['remark']=$data['remark'];
+				$add_data['type']=$data['order_type']==1?1:2;
+				$add_data['order_id']=$data['o_id'];
+				$add_data['order_type']=$data['order_type'];
 
-					//修改account账户信息，1是销售，收款
+				if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username'],'customer_manager'=>$_SESSION['adminid']))) $this->error("交易失败");
 
-					if($data['order_type']==1){
-						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
+				//修改account账户信息，1是销售，收款
 
-					}else{
-						$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
-						if ($data['collected_price']>$money) {
-							$this->error('余额不足');
-						}else{
-							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
-						}
-					
-					}
+				if($data['order_type']==1){
+					if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
 
 				}else{
-					$data['uncollected_price'] = $m;
-					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid'],'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+					$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
+					if ($data['collected_price']>$money) {
+						$this->error('余额不足');
+					}else{
+						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
+					}
+				
 				}
-			if($this->db->commit()){
-				$this->success('操作成功');
+
 			}else{
-				$this->db->rollback();
-				$this->error('保存失败：'.$this->db->getDbError());
-			}		
+				$data['uncollected_price'] = $m;				
+				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid'],'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+			}
+		if($this->db->commit()){
+			$this->success('操作成功');
+		}else{
+			$this->db->rollback();
+			$this->error('保存失败：'.$this->db->getDbError());
+		}
 		
 	}
 

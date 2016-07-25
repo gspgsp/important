@@ -128,7 +128,7 @@ class customer_billingAction extends adminBaseAction
 				$this->error('此客户已添加开票资料');
 			}
 			$result = $this->db->add($data+array('input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],));
+			'input_admin'=>$_SESSION['name'],'customer_manager'=>$_SESSION['adminid']));
 		}
 		
 		if(!$result) $this->error('操作失败');
