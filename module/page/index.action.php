@@ -35,6 +35,14 @@ class indexAction extends homeBaseAction{
 
 		$this->display('mdownload');
 	}
+
+	//意见反馈
+	public function feedBack(){
+
+		$cid=sget('cid','i',0);
+
+		$this->display('feedback.html');
+	}
 }
 
 
