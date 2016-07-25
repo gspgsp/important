@@ -26,8 +26,6 @@ a{ text-decoration:none; color:#444;}
 .header .top .right ul li.home{ background:url(../../images/home/iconArrow.png) no-repeat left center; padding:0 0 0 15px;}
 .header .top .right ul li.home a{ color:#43af70;}
 .header .slogan{ width:522px; height:59px; overflow:hidden; margin:0 auto; margin-bottom:30px;}
-.header .notice{ color:#efeff4; font-size:12px; width:300px; height:30px; line-height:30px; overflow:hidden; margin:0 auto; text-align:center; margin-bottom:16px;}
-.header .notice span{ color:#ff9600;}
 
 .search{ width:676px; height:78px; background:rgba(255,255,255,.3); border-radius:3px; margin:0 auto; margin-bottom:13px;}
 .search ul.search-inner{ padding:12px 0 0 0;}
@@ -92,9 +90,6 @@ a{ text-decoration:none; color:#444;}
 .feature li h3{ color:#2d2c3b; font-weight:normal; font-size:18px; margin:0 0 11px 0;}
 .feature li p{ color:#b3b5bc; font-size:14px; line-height:16px;}
 /*feature  end*/
-
-.market{ width:100%; height:480px; overflow:hidden; background:url(../../images/home/market.png) center top; margin-bottom:23px;}
-
 .cooperate li{ width:350px; height:260px; overflow:hidden; float:left; position:relative; margin:0 22px 22px 0;}
 .cooperate li .agreement{ color:#efeff4; font-size:18px; width:100px; height:44px; line-height:44px; text-align:center; background:#43af70; position:absolute; left:0; bottom:12px; cursor:pointer;}
 .cooperate li img{ transition:.6s;}
