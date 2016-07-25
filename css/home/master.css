@@ -1409,17 +1409,26 @@ a{ text-decoration:none; color:#444;}
 .big-client .result .condt .valid-date-name{ width:76px; padding:0 0 0 32px;}
 .big-client .result .condt .valid-date-val{ width:98px; height:26px; margin:15px 0 0 0;}
 .big-client .result ul{ width:1158px; height:auto; overflow:hidden; margin:0 auto;}
-.big-client .result li{ height:60px; line-height:60px; overflow:hidden;}
-.big-client .result li.title{ font-size:14px; font-weight:bold;}
+.big-client .result li{ height:39px; line-height:39px; border-bottom:1px solid #d6d7dc; overflow:hidden;}
+.big-client .result li.title{ font-size:14px; border-bottom:none; background:#f3e7bd;}
 .big-client .result li.title .opt{ background:none; color:#444;}
-.big-client .result li.con:hover{ background:#f7f7f7;}
+.big-client .result li.con:hover{ background:#fffee1;}
 .big-client .result li div{ float:left; text-align:center; overflow: hidden;}
-.big-client .result li .lb{ width:111px;}
+.big-client .result li .lb{ width:91px;}
 .big-client .result li .tj{ background:url(../../images/home/iconRec.png) 6px center no-repeat;}
-.big-client .result li .ph{ width:101px;}
+.big-client .result li .ph{ width:71px;}
 .big-client .result li .cj{ width:121px;}
 .big-client .result li .amount{ width:81px;}
 .big-client .result li .price{ width:131px;}
+.big-client .result li .change{ width:80px;}
+.big-client .result li.con .change{ font-weight: bold; position:relative;}
+.big-client .result li.con .change span{ width:12px; height:12px; overflow:hidden; position: absolute; left:0; top: 13px; background:url(../../images/home/mallOfferSpirit.png) no-repeat;}
+.big-client .result li.con .change.up{ color:#fc6621;}
+.big-client .result li.con .change.up span{ background-position:0 -71px;}
+.big-client .result li.con .change.down{ color:#5ac35b;}
+.big-client .result li.con .change.down span{ background-position:-12px -71px;}
+.big-client .result li.con .change.tie{ color:#267bd3;}
+.big-client .result li.con .change.tie span{ top:15px; width:16px; height:6px; background-position:0 -83px;}
 .big-client .result li .address{ width:62px;}
 .big-client .result li .company{ width:176px;}
 .big-client .result li .phone{ width:120px;}
