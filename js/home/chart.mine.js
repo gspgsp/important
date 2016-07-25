@@ -2,7 +2,7 @@
 //路径配置
 require.config({
   paths: {
-	  echarts: 'http://static.online.com/js/home/dist' 
+	  echarts: 'http://statics.myplas.com/js/home/dist' 
 	  }
 });
 //使用
@@ -21,7 +21,7 @@ require(
 	var conTaba3 = ec.init(document.getElementById('con-taba-3'));
 	var conTaba4 = ec.init(document.getElementById('con-taba-4'));
 	var conTaba5 = ec.init(document.getElementById('con-taba-5'));
-	var conTaba5 = ec.init(document.getElementById('con-taba-6'));
+	var conTaba6 = ec.init(document.getElementById('con-taba-6'));
 
 
 	 /*********布伦特油开始*******/
@@ -663,7 +663,7 @@ require(
 	  conTaba3.setOption(option5);
 	  conTaba4.setOption(option6);
 	  conTaba5.setOption(option7);
-	  conTaba5.setOption(option8);
+	  conTaba6.setOption(option8);
 	  
   }
 );
