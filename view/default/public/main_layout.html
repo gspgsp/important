@@ -73,7 +73,7 @@
 </div>
 <!--header end-->
 
-{__CONTENT__}
+<!-- {__CONTENT__} -->
 
 <!--footer begin-->
 <div class="footer">
@@ -130,4 +130,80 @@
         </li>
     </ul>
 </div>
+<!--zt-contact begin-->
+<script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODAxNDc0M180MjQ0MDNfNDAwMDY3NzYxMV8"></script>
+<div class="zt-contact">
+    <ul>
+        <li class="opt">
+            <div id="BizQQWPA">
+                <div class="zt-slide bg-gray">在线咨询</div>
+                <div class="zt-mouseover icon-qq bg-gray"></div>
+            </div>
+        </li>
+        <li>
+            <div class="ewm bg-gray"><img src="__IMG__/home/zt-wx-ewm.jpg" width="200" height="200"></div>
+            <div class="icon-ewm icon-wx bg-gray"></div>
+        </li>
+        <li>
+            <div class="ewm bg-gray"><img src="__IMG__/home/zt-ios-ewm.png" width="200" height="200"></div>
+            <div class="icon-ewm icon-ios bg-gray"></div>
+        </li>
+        <!-- <li class="opt">
+            <a href="/page/show.html?cid=9">
+                <div class="zt-slide bg-gray">意见反馈</div>
+                <div class="zt-mouseover icon-suggest bg-gray"></div>
+            </a>
+        </li> -->
+        <li class="go-top"></li>
+    </ul>
+</div>
+<!--zt-contact end-->
+<script>
+$(function(){
+     var ztContact = $(".zt-contact");
+        ztContact.find(".opt").bind("mouseover",function(){
+            $(this).find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
+            $(this).find(".zt-mouseover").removeClass("bg-gray").addClass("bg-orge");
+            $(this).find(".zt-slide").stop().animate({
+                "left":"0px"
+            });
+        });
+        ztContact.find(".opt").bind("mouseleave",function(){
+            
+            $(this).find(".zt-slide").removeClass("bg-orge").addClass("bg-gray");
+            $(this).find(".zt-mouseover").removeClass("bg-orge").addClass("bg-gray");
+            $(this).find(".zt-slide").stop().animate({
+                "left":"60px"
+            });
+        });
+        
+        ztContact.find(".icon-ewm").bind("mouseover",function(){ 
+            $(this).prev(".ewm").show();
+            $(this).removeClass("bg-gray").addClass("bg-orge");
+        });
+        
+        ztContact.find(".icon-ewm").bind("mouseleave",function(){
+            $(this).prev(".ewm").hide();
+            $(this).removeClass("bg-orge").addClass("bg-gray");
+        });
+
+        //返回顶部
+        $(".go-top").bind("click",function(){
+            $('html,body').animate({'scrollTop':0},300,function(){
+                $(".go-top").hide();
+            });
+        });
+
+        $(window).bind("scroll",function(){
+            if($(window).scrollTop()>=300){
+                $(".go-top").show();
+            }
+            if($(window).scrollTop()<300){
+                $(".go-top").hide();
+            }
+        });
+});
+
+ BizQQWPA.addCustom({aty: '0', a: '0', nameAccount: 4000677611, selector: 'BizQQWPA'});
+</script>
 </body>
