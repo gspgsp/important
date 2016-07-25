@@ -17,7 +17,7 @@ class findPwdAction extends homeBaseAction{
 			$this->is_ajax=true;
 			$mobile=sget('mobile','s');
 			$password=sget('password','s');
-			if(!$this->_chkmobile($mobile)) $this->json_output(array('err'=>1,'msg'=>$this->err));
+			if(!$this->_chkmobile($mobile)) $this->error($this->err);
 			$mcode=sget('code','s');
 			$result=M('system:sysSMS')->chkDynamicCode($mobile,$mcode);
 			if($result['err']>0){
@@ -54,7 +54,7 @@ class findPwdAction extends homeBaseAction{
 		if(!$chk){
 			return true;
 		}else{
-			$this->err='手机号码不存在';
+			$this->err='没有相关账户';
 			return false;
 		}
 	}
