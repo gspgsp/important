@@ -141,15 +141,29 @@ function submitForm() {
 	}
 	var json = mini.encode(o);
 	form.loading("数据提交中，请稍后......");
-	$.post('/product/collection/ajaxSave',{data:json},function(data){
-		form.unmask();
-		$("#returnMsg").text(data.msg);
-		if(data.err=='0'){
-			CloseWindow("save");
-		}else{
-			return false;
-		}
-	},'json');
+	
+	$.ajax({
+        type: "GET",
+        url: "/product/collection/ajaxSave",
+        data: {username:$("#username").val(), content:$("#content").val()},
+        dataType: "json",
+        async:false,
+        success: function(data){
+        	
+        	$.post('/product/collection/ajaxSave',{data:json},function(data){
+        		form.unmask();
+        		$("#returnMsg").text(data.msg);
+        		if(data.err=='0'){
+        			CloseWindow("save");
+        		}else{
+        			return false;
+        		}
+        	},'json');
+        	
+        }
+    });
+	
+
 }
 
 //选择账户时显示不同账户余额
