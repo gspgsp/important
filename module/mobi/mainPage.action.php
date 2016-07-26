@@ -595,8 +595,6 @@ class mainPageAction extends homeBaseAction
         foreach ($resData['data'] as &$value) {
             $value['input_time'] = $this->_changeTime($value['input_time']);
         }
-        p($resData['data']);
-        die;
         $this->json_output(array('err'=>0,'resData'=>$resData['data']));
     }
     //发布资源库的方法和pc相同/resource/index/release
