@@ -10,7 +10,7 @@ class infosModel extends model
 	//获取对应的文章
 	public function getCateList($cid,$page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
 
-		$list = $this->model('info')->select('id,title,img,cate_id,content,input_time,update_time')->where('cate_id='.$cid)
+		$list = $this->model('info')->select('id,title,img,cate_id,content,description,source,input_time,update_time')->where('cate_id='.$cid)
 			->page($page,$size)
 			->order("$sortField $sortOrder")
 			->getPage();
