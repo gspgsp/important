@@ -48,17 +48,17 @@ class sourceAction extends adminBaseAction {
 		//筛选人工发布或者是系统采集
 		$this->doact=='search' ? $where.= ' and `uid` > 0 ' : $where.= ' and `uid` = 0 ';
 		//状态
-		$status=sget('status',0);
+		$status=sget('status','i',0);
 		if($status>0){
 			$where.=' and status='.($status-1);	
 		}
 		//推荐
-		$elite=sget('elite',0);
+		$elite=sget('elite','i',0);
 		if($elite>0){
 			$where.=' and elite='.($elite-1);	
 		}
 		//信息类型
-		$type=sget('type',0);
+		$type=sget('type','i',0);
 		if($type>0){
 			$where.=' and `type`='.($type-1);	
 		}
