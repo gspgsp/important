@@ -129,4 +129,26 @@ class productAttentionAction extends userBaseAction
             $this->json_output(array('err'=>2,'msg'=>'没有相关厂家结果'));
             $this->json_output(array('err'=>0,'factorys'=>$factorys));
     }
+
+	//获取异步查询产品类型
+	public function getLevel()
+	{
+		if($_POST)
+		{
+			$this->is_ajax=true;
+			$model=sget('model','s','');
+			$product_type=$this->db->model('product')
+				->where("model='{$model}'")
+				->select('product_type')
+				->getOne();
+				if(empty($product_type)) $this->error('无数据');
+				$_data=array(
+					'id'=>$product_type,
+					'name'=>setOption('product_type',$product_type),
+				);
+				$this->success($_data);
+
+
+		}
+	}
 }
