@@ -16,7 +16,7 @@ class concernedProductModel extends Model{
 	 * @param $where
 	 */
 	public function getConcernedList($uid=0,$status=1){
-		return  $this->from('concerned_product')->where("user_id = $uid and status = $status")->select('id, product_id,model,factory_name')->getAll();
+		return  $this->from('concerned_product')->where("user_id = $uid and status = $status")->select('id, product_id,product_name,model,factory_name')->getAll();
 
 	}
 
