@@ -109,6 +109,7 @@ class cronDay{
 					$temp[$k]['input_time'] =  time();
 					$temp[$k]['type'] =  $k==0 ? 0 : 1;
 					$temp[$k]['price'] = $v;
+					$temp[$k]['input_time'] = CORE_TIME;
 					$items = $this->db->model('oil_price')->where("`price`= $v and `ups_downs` = {$matches[2][$k]}")->getRow();
 					if(empty($items)){
 						$this->db->model('oil_price')->add($temp[$k]);
