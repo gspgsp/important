@@ -136,11 +136,13 @@
 .user-main .user-info .cen h2{ font-size:12px; margin:0 0 10px 0;}
 .user-main .user-info .cen span{ color:#999;}
 .user-main .user-info .rt li{ width:112px; text-align:center; float:left; }
+.user-main .user-info .rt li a{ color:#555;}
 .user-main .user-info .rt li p{ width:44px; height:44px; background:url(../../images/home/userIndex.png) no-repeat; margin:28px 0 10px 38px;}
 .user-main .user-info .rt li.msg p{ background-position: 0 -184px;}
 .user-main .user-info .rt li.point p{ background-position: -44px -184px;}
 .user-main .user-info .rt li b{ color:#fc6621; font-weight:normal;}
 .user-main .order{ height:324px; overflow:hidden;}
+.user-main .order a{ color:#555;}
 .user-main .order ul{ margin:20px 0 0 23px; }
 .user-main .order ul li{ width:659px; height:110px; overflow:hidden; background:url(../../images/home/userMain2.png) no-repeat; margin:0 0 20px 0;}
 .user-main .order ul li .classify{ width:85px; height:auto; overflow:hidden; text-align:center; margin:11px 80px 0 60px;}
@@ -229,7 +231,7 @@
 .user-rig #focus ul li {float:left; width:244px; height:373px; overflow:hidden; position:relative;}
 .user-rig #focus ul li p{ text-align:center;}
 .user-rig #focus ul li .goods-pic{ width:134px; height:134px; overflow:hidden; margin:23px auto;}
-.user-rig #focus ul li .goods-name{ color:#43495b; font-size:14px; margin-bottom:13px;}
+.user-rig #focus ul li .goods-name{ color:#43495b; font-size:14px; width:200px; margin:0 auto; margin-bottom:13px;}
 .user-rig #focus ul li .goods-jifen{ color:#ff7212; font-size:14px; margin:0 0 14px 0; text-align:center;}
 .user-rig #focus ul li .goods-jifen span{ font-size:18px;}
 .user-rig #focus ul li .goods-btn{ width:116px; height:32px; line-height:32px; text-align:center;background:#fc6621; border-radius:2px; margin:0 auto;}
@@ -370,6 +372,7 @@
 .focus1 .focus-top span{ float:left;}
 .focus1 .focus-bot{ width:998px; height:38px; line-height:38px; border:1px solid #e6e7ea;}
 .focus1 .focus-bot li{ float:left;}
+.focus1 .focus-bot li button{ background:none; cursor:pointer; color:#267bd3;}
 .focus1 .focus li{ float:left; text-align:center;}
 .focus1 .category{ width:339px;}
 .focus1 .grade{ width:146px;}
@@ -465,7 +468,7 @@
 .set4 table{ font-size:16px; width:505px; margin:30px auto;}
 .set4 table tr{ height:70px;}
 .set4 table .name{ text-align:right;}
-.layer{ font-size:14px; width:400px; height:300px; padding:0 0 30px 0; overflow:hidden; background:#fff; display:none;}
+.layer{ font-size:14px; width:400px; height:auto; padding:0 0 30px 0; overflow:hidden; background:#fff; display:none;}
 .layer h3{ text-align:center; margin:25px 0 10px 0;}
 .layer .error-msg{ height:20px; line-height:20px; color:#f00; margin:0 0 0 75px;}
 .layer table{ width:318px; margin:0 auto;}
