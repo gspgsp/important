@@ -590,8 +590,13 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
         $page = sget('page','i',1);
-        $size = sget('size','i',10);
+        $size = sget('size','i',30);
         if(!$resData = M('myapp:mainPage')->getResourceData($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        foreach ($resData['data'] as &$value) {
+            $value['input_time'] = $this->_changeTime($value['input_time']);
+        }
+        p($resData['data']);
+        die;
         $this->json_output(array('err'=>0,'resData'=>$resData['data']));
     }
     //发布资源库的方法和pc相同/resource/index/release
@@ -657,5 +662,24 @@ class mainPageAction extends homeBaseAction
                 $this->json_output(array('err'=>3,'msg'=>'没有更多数据'));
             }
         }
+    }
+    //时间戳转换为秒-分钟-小时-天
+    private function  _changeTime($time) {
+        $int = time() - $time;
+        $str = '';
+        if ($int <= 2){
+            $str = sprintf('刚刚', $int);
+        }elseif ($int < 60){
+            $str = sprintf('%d秒前', $int);
+        }elseif ($int < 3600){
+            $str = sprintf('%d分钟前', floor($int/60));
+        }elseif ($int < 86400){
+            $str = sprintf('%d小时前', floor($int/3600));
+        }elseif ($int < 2592000){
+            $str = sprintf('%d天前', floor($int/86400));
+        }else{
+            $str = date('Y-m-d H:i:s', $time);
+        }
+        return $str;
     }
 }
