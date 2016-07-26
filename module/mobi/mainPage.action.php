@@ -446,12 +446,11 @@ class mainPageAction extends homeBaseAction
         $tempArr = array();
         if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
         foreach ($articleInfo['data'] as $key => $value) {
-            $articleInfo['data'][$key]['content']=strip_tags($articleInfo['data'][$key]['content']);
-            $articleInfo['data'][$key]['brief']=mb_substr($articleInfo['data'][$key]['content'],0,20,'utf-8')."...";
-            $tempArr['id']=$articleInfo['data'][$key]['id'];
-            $tempArr['title']=$articleInfo['data'][$key]['title'];
-            $tempArr['brief']=$articleInfo['data'][$key]['brief'];
-            $tempArr['input_time']=$articleInfo['data'][$key]['input_time'];
+            $tempArr['id']=$value['id'];
+            $tempArr['title']=$value['title'];
+            $tempArr['brief']=mb_substr($value['description'],0,20,'utf-8')."...";
+            $tempArr['source']= empty($value['source'])?'本站':$value['source'];
+            $tempArr['input_time']=$value['input_time'];
             $articles[]=$tempArr;
             unset($tempArr);
         }
