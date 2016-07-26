@@ -118,7 +118,7 @@
 /*个人中心首页开始*/
 .user-main{ width: 738px; height: 1400px; overflow:hidden; margin:0 14px 23px 23px; border:1px solid #d6d7dc;}
 .user-main .tit{ height:43px; overflow:hidden; background:#fcf4f0; border-bottom:1px solid #d6d7dc;}
-.user-main .tit h2{ font-size:12px; font-weight: bold; height:16px; line-height:16px; border-left:2px solid #fc6621; margin:13px 0 0 18px; padding:0 0 0 9px; float:left;}
+.user-main .tit h2{ font-size:12px; height:16px; line-height:16px; border-left:2px solid #fc6621; margin:13px 0 0 18px; padding:0 0 0 9px; float:left;}
 .user-main .tit a{ line-height:43px; color:#267bd3; margin:0 18px 0 0; float:right;}
 .user-main .user-main-detail{ width:698px; border:1px solid #d6d7dc; margin:0 0 30px 23px;}
 .user-main .user-info{ width:700px; height:126px; overflow:hidden; background:url(../../images/home/userMain1.png) no-repeat; margin:37px 0 23px 23px;}
@@ -191,7 +191,7 @@
 .user-main .other .resource ul li.res1 span{ color:#fc6621;}
 .user-main .other .resource ul li.res2 span{ color:#02a507;}
 .user-main .other .resource h4{ color:#fc6621; height:20px; line-height:20px; margin:0 0 0 15px;}
-.user-main .other .resource p{ margin:0 0 0 15px; }
+.user-main .other .resource p{ margin:0 0 0 15px; line-height:18px;}
 .user-main .other .release{ width:432px; height:194px; overflow:hidden; border:1px solid #e1e1e1; margin:0 0 0 19px;}
 .user-main .other .release textarea{ width:382px; height:61px; padding:6px 10px; border:1px solid #d9d9d9; box-shadow:0 2px 2px #eee inset; margin:18px 0 10px 16px;}
 .user-main .other .release input{ background:#fc6621; color:#fff; width:160px; height:32px; border-radius:2px; margin:0 0 0 136px; cursor:pointer;}
