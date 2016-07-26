@@ -62,7 +62,7 @@ class mainPageModel extends model
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time']);
             }
             return $data;
     }
@@ -94,7 +94,7 @@ class mainPageModel extends model
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time']);
             }
             return $data;
     }
@@ -117,16 +117,16 @@ class mainPageModel extends model
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time']);
             }
             return $data;
     }
     //搜索结果列表的操作按钮，下三角
-    private function _getOperateRes($p_id,$type){
+    private function _getOperateRes($p_id,$input_time,$type){
         if($type){
-            $where="p_id=$p_id and type=$type and shelve_type=1";
+            $where="p_id=$p_id and type=$type and shelve_type=1 and input_time<=$input_time";
         }else{
-            $where="p_id=$p_id";
+            $where="p_id=$p_id and input_time<=$input_time";
         }
         $opres = $this->model('purchase')->where($where)->select('id,p_id,user_id,c_id,number,unit_price,provinces,input_time')->order('unit_price desc,input_time desc')->limit('0,2')->getAll();
         foreach ($opres as $key => $value) {
@@ -277,7 +277,7 @@ class mainPageModel extends model
             foreach ($data as $key => $value) {
                 $data[$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data[$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data[$key]['twoData'] = $this->_getOperateRes($value['p_id']);
+                $data[$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time']);
             }
         return $data;
     }
@@ -431,7 +431,7 @@ class mainPageModel extends model
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$type);
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time'],$type);
             }
             return $data;
     }
@@ -508,7 +508,7 @@ class mainPageModel extends model
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
                 $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$type);
+                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time'],$type);
             }
             return $data;
     }
