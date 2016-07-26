@@ -10,7 +10,7 @@
 				</div>
 				<div class="yablb" style="margin-top:6px;">
 					<div class="zixunbiaotimgcg"> {$data.title} </div>
-					<div class="zxiun_faburiqi">发布日期：{$data.input_time|date:Y-m-d}    作者：{if $info.source}{$info.source}{else}本站原创{/if}</div>
+					<div class="zxiun_faburiqi">发布日期：{$data.input_time|date:Y-m-d}    作者：{if $data.source}{$data.source}{else}本站原创{/if}</div>
 					<div class="zousiengweg_wz">
 						{$data.content}
 					</div>
