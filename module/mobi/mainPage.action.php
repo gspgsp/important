@@ -104,17 +104,17 @@ class mainPageAction extends homeBaseAction
 				'LLDPE',
 				'PP',
 				'PVC',
-				'C100V',
-				'E2059',
-				'K221',
-				'MP7151',
-				'P70F',
-				'S3160',
-				'上海金菲',
-				'上海石化',
-				'中石化青岛',
-				'中石油广西',
-				'沙特APPC',
+				'2426H',
+				'FB1460',
+				'7042',
+				'15803',
+				'BL3',
+				'RE420MO',
+				'神华',
+				'北欧化工',
+				'阿塞拜疆',
+				'伊朗国家石化',
+				'中石油大庆',
 				);
 			$cache->set($_key,$param,0); //加入缓存
 			$data = $param;
@@ -375,18 +375,18 @@ class mainPageAction extends homeBaseAction
         $data=$cache->get($_key);
         if(empty($data)){
             $param = array(
-                '1002YB',
-                '7000F',
-                '2100TN00',
                 '2426H',
+                'FB1460',
+                '7042',
+                '15803',
                 '2420H',
-                '5502BN',
+                'RE420MO',
                 '2102TX00',
-                '52518',
-                '2119',
-                '9001',
-                'TR131',
-                'FB6001',
+                'EX5',
+                'BF970MO',
+                '7000F',
+                '9450F',
+                '21HN',
                 );
             $cache->set($_key,$param,0); //加入缓存
             $data = $param;
