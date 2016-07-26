@@ -265,7 +265,8 @@ class mainPageModel extends model
         }elseif (!empty($factory)) {
             $where .= " and fa.f_name=$factory";
         }elseif (!empty($region)) {
-            $where .= " and pur.provinces=$region";
+            $lid = $this->model('lib_region')->select('id')->where("name='$region'")->getOne();
+            $where .= " and pur.provinces=$lid";
         }
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
