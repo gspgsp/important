@@ -220,7 +220,6 @@ class mainPageAction extends homeBaseAction
     //获取分类详情页数据
     public function getProductTypeDetail(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5
         if(!$typeData = M('myapp:mainPage')->getProductTypeData($protype)) $this->json_output(array('err'=>2,'msg'=>'获取分类关键字失败'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
@@ -232,7 +231,6 @@ class mainPageAction extends homeBaseAction
     //获取点击三个关键字出结果
     public function getgetKeyWordsRes(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5
         $apply = sget('apply','s');
         $factory = sget('factory','s');
@@ -272,7 +270,6 @@ class mainPageAction extends homeBaseAction
     //获取大户报价数据,包括:默认，价格排序
     public function getLargeBid(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i',3);//3,默认(时间)，1，价格升序 2，价格降序
         $page = sget('page','i',1);
         $size = sget('size','i',8);
@@ -280,28 +277,16 @@ class mainPageAction extends homeBaseAction
         $this->json_output(array('err'=>0,'largrBid'=>$largrBid['data']));
     }
     //获得大户报价下三角数据(直接集成到上面)
-    // public function getLargeBidRes(){
-    //     $this->is_ajax = true;
-    //     if($this->user_id<=0) $this->error('账户错误');
-    //     $id = sget('id','i');
-    //     if(!$newBig = M('myapp:mainPage')->getLargeBidRes($id)) $this->json_output(array('err'=>2,'msg'=>'获取大户相关数据失败'));
-    //     $this->json_output(array('err'=>0,'newBig'=>$newBig));
-    // }
     //进入筛选页
-    // public function enLargeChose(){
-    //     $this->display('');
-    // }
     //获取大客户筛选条件:公司，厂家，交货地
     public function getLargeChose(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         if(!$choseData = M('myapp:mainPage')->getLargeChoseData()) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选条件失败'));
         $this->json_output(array('err'=>0,'choseData'=>$choseData));
     }
     //获取大客户点击确定筛选结果
     public function getLargeChoseRes(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $page = sget('page','i',1);
         $size = sget('size','i',8);
         $company = sget('company','s');
@@ -317,7 +302,6 @@ class mainPageAction extends homeBaseAction
     //获取大客户详情数据
     public function getBigBidDetail(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $otype = sget('otype','i');//1查看,2委托洽谈
         if($otype==2 && $this->user_id<=0) $this->error('账户错误');
         $id = sget('id','i');//当前这一条报价或求购的id,purchase表
@@ -361,7 +345,6 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页
     public function getPhysical(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         //历史搜索结果
         $hisData = $this->_history();
         //热门搜索结果
@@ -400,7 +383,6 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页结果数据
     public function getPhysicalRes(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $keywords = sget('keywords','s');
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -414,23 +396,12 @@ class mainPageAction extends homeBaseAction
     //获取物性表搜索页详情数据
     public function getPhysicalDetail(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $lid = sget('lid','i',1);
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
     }
     //进入物性表的发布采购
-    // public function enPhysicalDelegate(){
-    //     $this->display('supplyDemand_trade4');
-    // }
     //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
-    // public function getPhysicalDelegate(){
-    //     $this->is_ajax = true;
-    //     if($this->user_id<=0) $this->error('账户错误');
-    //     $lid = sget('lid','i');
-    //     if(!$phyDelData = M('myapp:mainPage')->getPhysicalDelegateData($lid,$this->user_id)) $this->json_output(array('err'=>2,'msg'=>'物性表委托失败'));
-    //     $this->json_output(array('err'=>0,'phyDelData'=>$phyDelData));
-    // }
     //进入资讯页
     public function enArticle(){
         $this->display('info');
@@ -438,7 +409,6 @@ class mainPageAction extends homeBaseAction
     //获取资讯页
     public function getArticleInfo(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $pid=sget('pid','i',29);
         $page = sget('page','i',1);
         $size = sget('size','i',30);
@@ -573,7 +543,6 @@ class mainPageAction extends homeBaseAction
     //获取供求(公海的报价和求购)
     public function getSupply(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
         $page = sget('page','i',1);
@@ -619,7 +588,6 @@ class mainPageAction extends homeBaseAction
     //获取资源库数据
     public function getResource(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
         $page = sget('page','i',1);
         $size = sget('size','i',10);
@@ -630,7 +598,6 @@ class mainPageAction extends homeBaseAction
     //获取资源库搜索数据
     public function getResSearch(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         $type = sget('type','i',0);//1求(采)购 2报价(供应) 默认值(0)为全部
         $page = sget('page','i',1);
         $size = sget('size','i',10);
