@@ -237,7 +237,15 @@ class billingAction extends adminBaseAction
 			//业务员提交申请开票
 			
 			$data['input_time']=CORE_TIME;
-			$data['customer_manager']=$_SESSION['adminid'];
+			$data['input_admin']=$_SESSION['username'];
+			// $data['customer_manager']=$_SESSION['adminid'];
+			
+			//获取订单明细中的业务员id
+			$customer_manager=0;
+			foreach ($detail as $v) {
+				$customer_manager = $v['customer_manager'];
+			}
+			$data['customer_manager']=$customer_manager;
 			//判断生成开票号,审核时才有
 			$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 			$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
