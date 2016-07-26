@@ -69,6 +69,9 @@ class indexAction extends homeBaseAction{
 		$uids=array_unique($uids);
 		$contactList=M("user:customerContact")->getContactByuserid($uids);
 		foreach ($contactList as $key => $value) {
+			$contactList[$key]['admobile'] = str_pad(substr($value['admobile'], 0, 7), strlen($value['admobile']), '*');
+		}
+		foreach ($contactList as $key => $value) {
 			$customerTemp[$value['user_id']]=$value;
 		}
 		foreach ($list as $key => $value) {
@@ -83,6 +86,7 @@ class indexAction extends homeBaseAction{
 			foreach ($info as $key => $value) {
 				$grabList[$key]['name'] = str_pad(substr($value['name'], 0, 1), strlen($value['name']), '*');
 			}
+
 		$this->assign('info',$grabList);
 		$this->assign('list',$list);
 		$this->display('index');
