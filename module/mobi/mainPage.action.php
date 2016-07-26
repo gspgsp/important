@@ -455,8 +455,6 @@ class mainPageAction extends homeBaseAction
             $articles[]=$tempArr;
             unset($tempArr);
         }
-        p($articles);
-        die;
         $this->json_output(array('err'=>0,'articleInfo'=>$articles));
     }
     //进入资讯详情页
