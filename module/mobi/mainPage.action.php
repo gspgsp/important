@@ -156,7 +156,7 @@ class mainPageAction extends homeBaseAction
     	//搜素关键字
         $keywords = sget('keywords','s');
     	$page = sget('page','i',1);
-		$size = sget('size','i',8);
+		$size = sget('size','i',20);
         if(!$searchRes = M('myapp:mainPage')->getAllSearchRes($keywords,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关结果'));
         $this->json_output(array('err'=>0,'searchRes'=>$searchRes['data']));
     }
