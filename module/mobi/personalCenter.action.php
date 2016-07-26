@@ -26,7 +26,6 @@ class personalCenterAction extends homeBaseAction
         $points = M('points:pointsBill')->getUerPoints($this->user_id);
         $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
         if($name){
-            //$thumb=empty($thumb)?FILE_URL.'/myapp/img/avator.png':$thumb;
             $this->json_output(array('thumb'=>empty($thumb)?FILE_URL.'/myapp/img/avator.png':FILE_URL."/upload/".$thumb,'name'=>$name,'qcount'=>$qCount,'pcount'=>$pCount,'proattcount'=>$proAttCount,'points'=>$points,'cus_mana'=>$cus_mana));
         }else{
             $this->json_output(array('err'=>2,'msg'=>'没有相关数据!'));
