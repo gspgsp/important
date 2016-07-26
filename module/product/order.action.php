@@ -331,6 +331,7 @@ class orderAction extends adminBaseAction {
 	public function editOrderSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		// p($data);die;
 		$data['delivery_location'] =  $data['pickup_location'] = $data['pickuplocation'];
 		$data['pickup_time'] = $data['delivery_time'] = strtotime($data['delivery_time']);
 		if(empty($data)) $this->error('错误的请求');	
@@ -348,11 +349,10 @@ class orderAction extends adminBaseAction {
 				if( !$this->db->model('order')->where('o_id = '.$data['o_id'])->update($data+$update_data) ) throw new Exception("更新订单失败");//更新订单
 				if(!empty($data['detail'])){ 
 					foreach ($data['detail'] as $k => $v) {
-						$detail[$k]['unit_price']=$v['unit_price'];
 						if($data['order_type'] == 1){//销售明细
-							if( !$this->db->model('sale_log')->where('o_id = '.$data['o_id'])->update($detail[$k]+$update_data) ) throw new Exception("更新明细失败");		
+							if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update($v+$update_data) ) throw new Exception("更新明细失败");		
 						}else{//采购明细
-							if( !$this->db->model('purchase_log')->where('o_id = '.$data['o_id'])->update($detail[$k]+$update_data) ) throw new Exception("更新明细失败");
+							if( !$this->db->model('purchase_log')->where('id = '.$v['id'])->update($v+$update_data) ) throw new Exception("更新明细失败");
 						}
 					}
 				}	
