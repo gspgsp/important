@@ -514,7 +514,7 @@ class mainPageModel extends model
             return $data;
     }
     //获取资源库数据
-    public function getResourceData($type,$page=1,$size=10){
+    public function getResourceData($type,$page=1,$size=30){
         if($type==1){
             $resData = $this->model('resourcelib')->where('type=0')->page($page,$size)->order('input_time desc')->getPage();
         }elseif ($type==2) {
