@@ -449,7 +449,6 @@ class mainPageAction extends homeBaseAction
             $tempArr['id']=$value['id'];
             $tempArr['title']=$value['title'];
             $tempArr['brief']=mb_substr($value['description'],0,20,'utf-8')."...";
-            $tempArr['source']= empty($value['source'])?'本站':$value['source'];
             $tempArr['input_time']=$value['input_time'];
             $articles[]=$tempArr;
             unset($tempArr);
@@ -467,6 +466,7 @@ class mainPageAction extends homeBaseAction
         $id=sget('id','i',0);
          if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $articleDetail['input_time'] = date("Y-m-d",$articleDetail['input_time']);
+        $articleDetail['source']= empty($value['source'])?'本站':$value['source'];
         $this->json_output(array('err'=>0,'articleDetail'=>sstripslashes($articleDetail)));
     }
     //进入发布报价
