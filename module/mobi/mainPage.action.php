@@ -466,7 +466,7 @@ class mainPageAction extends homeBaseAction
         $id=sget('id','i',0);
          if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $articleDetail['input_time'] = date("Y-m-d",$articleDetail['input_time']);
-        $articleDetail['source']= empty($value['source'])?'本站':$value['source'];
+        $articleDetail['source']= empty($articleDetail['source'])?'本站':$articleDetail['source'];
         $this->json_output(array('err'=>0,'articleDetail'=>sstripslashes($articleDetail)));
     }
     //进入发布报价
