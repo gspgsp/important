@@ -14,10 +14,12 @@ class indexAction extends userBaseAction{
 		$this->data=M('user:customerContact')->getCustomerInFoById($this->user_id);
 		//我的关注列表
 		$list = M('product:concernedProduct')->getConcernedList($this->user_id);
+
 		$arr=array();
 		foreach($list as $k=>$v){
 			$arr['p_id']=$v['product_id'];
 			$arr['id']=$v['id'];
+			$arr['product_type']=$v['product_name'];
 			$arr['model']=$v['model'];
 			$arr['f_name']=$v['factory_name'];
 			$price=M('product:purchase')->footPrice($arr);

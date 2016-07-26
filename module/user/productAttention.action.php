@@ -9,7 +9,7 @@ class productAttentionAction extends userBaseAction
 	}
 	//关注产品
 	public function proAttentionValue(){
-		$product_type=$this->product_type=L('product_type');
+		$this->product_type=L('product_type');
 		$page=sget('page','i',1);
 		$size=8;
 		$model = 'concerned_product';
@@ -52,13 +52,13 @@ class productAttentionAction extends userBaseAction
 		$data['input_admin'] = $_SESSION['name'];
 		$data['update_time'] = CORE_TIME;
 		$data['update_admin'] = $_SESSION['name'];
-
 		if(!M('user:account')->add($data)) $this->error('添加关注失败');
 		$this->success('添加关注成功');
 	}
 	//获取关注的列表
 	private function _getAttentionvalue($model,$page,$size){
 		$list = $this->db->model($model)->where('user_id='.$this->user_id)->page($page,$size)
+//			->where('status=1')
 			->order("input_time desc")
 			->getPage();
 		foreach ($list['data'] as $key => $value) {

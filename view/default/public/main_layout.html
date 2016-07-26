@@ -89,7 +89,7 @@
                 </li>
                 {/foreach}
             </ul>
-            
+
         </div>
         <div class="right frt">
             <ul class="ewm color3">
@@ -115,7 +115,7 @@
         </li>
         <li>
             <a href="http://www.shjbzx.cn/" target="_blank">
-            <img src="__IMG__/home/cert2.jpg"/>
+                <img src="__IMG__/home/cert2.jpg"/>
             </a>
         </li>
         <li>
@@ -148,12 +148,12 @@
             <div class="ewm bg-gray"><img src="__IMG__/home/zt-ios-ewm.png" width="200" height="200"></div>
             <div class="icon-ewm icon-ios bg-gray"></div>
         </li>
-        <!-- <li class="opt">
-            <a href="/page/show.html?cid=9">
-                <div class="zt-slide bg-gray">意见反馈</div>
-                <div class="zt-mouseover icon-suggest bg-gray"></div>
-            </a>
-        </li>
+        <!--<li class="opt">-->
+            <!--<a href="/page/show.html?cid=9">-->
+                <!--<div class="zt-slide bg-gray">意见反馈</div>-->
+                <!--<div class="zt-mouseover icon-suggest bg-gray"></div>-->
+            <!--</a>-->
+        <!--</li>-->
         <li class="go-top"></li>
     </ul>
 </div>
@@ -169,19 +169,19 @@ $(function(){
             });
         });
         ztContact.find(".opt").bind("mouseleave",function(){
-            
+
             $(this).find(".zt-slide").removeClass("bg-orge").addClass("bg-gray");
             $(this).find(".zt-mouseover").removeClass("bg-orge").addClass("bg-gray");
             $(this).find(".zt-slide").stop().animate({
                 "left":"60px"
             });
         });
-        
-        ztContact.find(".icon-ewm").bind("mouseover",function(){ 
+
+        ztContact.find(".icon-ewm").bind("mouseover",function(){
             $(this).prev(".ewm").show();
             $(this).removeClass("bg-gray").addClass("bg-orge");
         });
-        
+
         ztContact.find(".icon-ewm").bind("mouseleave",function(){
             $(this).prev(".ewm").hide();
             $(this).removeClass("bg-orge").addClass("bg-gray");

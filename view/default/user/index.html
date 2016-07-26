@@ -105,12 +105,7 @@
                                     {foreach from=$prices item=value key=key}
 				                    <div class="item"  >
                                         <p class="addr">
-											{if $value.product_type==1}HDPE
-											{elseif $value.product_type==2}LDPE
-											{elseif $value.product_type==3}LLDPE
-											{elseif $value.product_type==4}PP
-											{else}PVC
-											{/if}/ {$value.model}/{$value.f_name}
+											{$value.product_type}/ {$value.model}/{$value.f_name}
                                         </p>
                                         <div class="price up" id="price" data-id="{$value.price}">
 											<span>{if $value.unit_price>0}¥{$value.unit_price}{else}暂无报价{/if}</span>
@@ -157,8 +152,10 @@
 	    					<span class="wantbuy">求购{if $val.product_type==1}HDPE
 								{elseif $val.product_type==2}LDPE
 								{elseif $val.product_type==3}LLDPE
-								{elseif $val.product_type==4}PP
-								{else}PVC
+								{elseif $val.product_type==4}均聚PP
+								{elseif $val.product_type==5}PVC
+								{elseif $val.product_type==6}共聚PP
+								{else}ABS
 								{/if}
 								{$val.model} {$val.number}吨</span>
 	    					<span class="price">价格：￥{$val.unit_price}元</span>
@@ -266,7 +263,7 @@
 	                    <ul>
 							{foreach from=$points item=val key=key}
 	                        <li>
-	                        	<div class="goods-pic"><img src="__UPLOAD__/{$val.thumb}"/></div>
+	                        	<div class="goods-pic"><img height="120" width="120" src="__UPLOAD__/{$val.thumb}"/></div>
 	                            <p class="goods-name">{$val.name}</p>
 	                            <p class="goods-jifen"><span>{$val.points}</span>分</p>
 	                            <div class="goods-btn"><a href="/pointshop/index/item?id={$val.id}">去积分商城兑换</a></div>
