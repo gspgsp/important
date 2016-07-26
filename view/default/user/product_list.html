@@ -286,25 +286,22 @@
                 <td class="name">产品类别：</td>
                 <td>
                     <select class="kid import" style="width: 212px;height: 34px;" id="pz">
-                        <option value="1" selected="selected">HDPE</option>
-                        <option value="2">LDPE</option>
-                        <option value="3">LLDPE</option>
-                        <option value="4">PP</option>
-                        <!-- <option value="4">共聚PP</option> -->
-                        <option value="5">PVC</option>
-                        <!-- <option value="6">均聚PP</option> -->
+                        <option>请选择</option>
+                        {foreach from=$product_type item=value key=key}
+                        <option value="{$key}">{$value}</option>
+                        {/foreach}
                     </select>
                 </td>
             </tr>
             <tr>
                 <td class="name">牌号：</td>
                 <!-- <td><input type="text" class="num import" id="num" /></td> -->
-                <td><select id="ph"><option value="">无</option></select></td>
+                <td><select id="ph"><option value="">请选择</option></select></td>
             </tr>
             <tr>
                 <td class="name">产地：</td>
                 <!-- <td><input type="text" class="address import" id="address" /></td> -->
-                <td><select id="cj"><option value="">无</option></select></td>
+                <td><select id="cj"><option value="">请选择</option></select></td>
             </tr>
             <tr>
                 <td class="name">备注：</td>

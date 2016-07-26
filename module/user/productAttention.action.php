@@ -9,6 +9,7 @@ class productAttentionAction extends userBaseAction
 	}
 	//关注产品
 	public function proAttentionValue(){
+		$product_type=$this->product_type=L('product_type');
 		$page=sget('page','i',1);
 		$size=8;
 		$model = 'concerned_product';
