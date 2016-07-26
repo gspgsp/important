@@ -44,7 +44,7 @@ class mainPageModel extends model
         return empty($nextOil) ? 0 : $preOil['ups_downs']-$nextOil['ups_downs'];
     }
     //获取搜索结果数据(4种方式)
-    public function getAllSearchRes($keywords,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
+    public function getAllSearchRes($keywords,$page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
         //筛选产品类型
         $p_types = array('1'=>'HDPE','2'=>'LDPE','3'=>'LLDPE','4'=>'PP','5'=>'PVC');
         if(in_array($keywords, $p_types)){
