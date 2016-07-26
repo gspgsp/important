@@ -56,7 +56,7 @@
 		).then(function (res) {
 			console.log(">>>",res);
 			$(".infoDetailTitle2").text(res.articleDetail.title);
-			$("#admin").text(res.articleDetail.admin_name);
+			$("#admin").text(res.articleDetail.source);
 			$("#time").text(res.articleDetail.input_time);
 			$("#infoDetailContent").html(res.articleDetail.content);
 
