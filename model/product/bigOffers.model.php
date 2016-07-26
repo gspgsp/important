@@ -18,4 +18,15 @@ class bigOffersModel extends Model{
 			->page($page,$pageSize)
 			->getPage();
 	}
+	//获取最近的差价
+	public function getPrice($v=array()){
+		return $this->from('big_offers')
+				->where(" type={$v['type']}  and model={$v['model']} and factory={$v['factory']} and
+				address={$v['address']}")
+				->select('id,cid,price')
+				->order('input_time desc')
+				->limit('2')
+				->getAll();
+
+	}
 }
