@@ -81,7 +81,6 @@
                 <p class="inp_p2">
                     <span class="sp1"><input type="text" id="imgcode" class="input_2" name="captcha"  placeholder="不区分大小写"></span>
                     <img class="sp2" id="my-code"  src="/api/vcode?name=regcode" onclick="this.src=this.src+'&t='+Math.random()" alt="看不清，点击刷新" title="看不清，点击刷新" style="cursor:pointer;float:left;margin-top:0px;" >
-                    <!--<span class="sp2"  onclick="randCreate(this)" id="my-code">AGXF</span>-->
                     <input type="button" class="sp3 tijiaobtn" id="sendphone" value="免费发送" onclick=" sendphonecode()">
                  <div class="clear"></div>
                 </p>
@@ -89,8 +88,8 @@
         </div>
         <div class="opt-rt flt">
             <ul>
-                <li><img src="__IMG__/home/zt-ewm2.png" width="94" height="94"><img src="__IMG__/home/zt-ewm1Txt.png" width="94" class="ewm-txt"></li>
-                <li><img src="__IMG__/home/zt-ewm1.png" width="94" height="94"><img src="__IMG__/home/zt-ewm2Txt.png" width="94" class="ewm-txt"></li>
+                <li><img src="__UPLOAD__/{$sys.app.itemtips.icon}" width="94" height="94"><img src="__IMG__/home/zt-ewm1Txt.png" width="94" class="ewm-txt"></li>
+                <li><img src="__UPLOAD__/{$sys.app.itemtips.icon}" width="94" height="94"><img src="__IMG__/home/zt-ewm2Txt.png" width="94" class="ewm-txt"></li>
             </ul>
         </div>
     </div>
