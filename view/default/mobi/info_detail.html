@@ -41,8 +41,6 @@
 	});
 	$(function () {
 		var detailId=getUrlParam("id");
-		var targetUrl=window.location.href;
-
 		$(window).scroll(function(){
 			if($(window).scrollTop()>300){
 				$("#backTop").show();
@@ -52,9 +50,9 @@
 		});
 
 		commonAjax(
-				"get",
+				"post",
 				"/mobi/wxShare/getSignPackage",
-				{targetUrl}
+				{targetUrl:window.location.href}
 		).then(function(res){
 			console.log(res);
 			wx.config({
