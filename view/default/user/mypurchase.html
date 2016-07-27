@@ -51,7 +51,7 @@
 	                    <td><input type="text" onblur="getLevel(this,0)" class="required" name="data[0][model]" value=""/></td>
 	                    <td><input type="text" class="required" name="data[0][f_name]" value=""/></td>
 	                    <td class="level">
-	                    	<select class="required" class="required" name="data[0][process_level]">
+	                    	<select class="required" name="data[0][process_level]">
 	                    		<option value="">请选择</option>
 	                    		{foreach from=$process_level item=value key=key}
 	                    		<option value="{$key}">{$value}</option>
@@ -171,7 +171,7 @@
 </div>
 
 <script type="text/html" id="levelTemp">
-	<select class="required" class="required" name="data[<%=data%>][process_level]">
+	<select class="required"  name="data[<%=data%>][process_level]">
 		<option value="">请选择</option>
 		{foreach from=$process_level item=value key=key}
 		<option value="{$key}">{$value}</option>
@@ -196,7 +196,7 @@
 		<!--<td><input type="text" onblur="getLevel(this,<%=data%>)" class="required" name="data[<%=data%>][model]" value=""/></td>-->
 	    <td><input type="text" class="required" name="data[<%=data%>][f_name]" value=""/></td>
 	    <td class="level">
-			<select class="required" class="required" name="data[<%=data%>][process_level]">
+			<select class="required"  name="data[<%=data%>][process_level]">
 				<option value="">请选择</option>
 				{foreach from=$process_level item=value key=key}
 				<option value="{$key}">{$value}</option>
@@ -237,8 +237,8 @@
 var i=0;
 
 $(function(){
-	var table1=$(".table1");
-	var table2=$(".table2");
+	var table1=$(".table1");  //现货
+	var table2=$(".table2");  //期货
 	$('.add-quote-1').bind('click',function(){
 		i++;
 		var html=template('purchaseTemp',{data:i,type:1});

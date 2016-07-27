@@ -91,19 +91,17 @@ class mypurchaseAction extends userBaseAction{
 		}
 	}
 
+	//重新上架
 	public function reshelf()
-	{	
+	{
 		$this->is_ajax=true;
 		if($data=$_POST['data'])
 		{
 			$model=$this->db->model('purchase');
 			foreach ($data as $key => $value) {
-
-
 				if($value['on']){
 					$_data=$model->getPk($value['on']);
 					$status=$value['type']==1?1:2;//报价直接审核通过，采购需要后台审核
-
 					unset($_data['id']);
 					$_data['supply_count']=0;
 					$_data['last_buy_sale']=0;
@@ -218,7 +216,7 @@ class mypurchaseAction extends userBaseAction{
 		}
 	}
 
-
+   //通过牌号 获取加工级别
 	public function getLevel()
 	{
 		if($_POST)

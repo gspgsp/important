@@ -22,8 +22,8 @@
         <td>{$value.model}</td>
         <td>{$value.f_name}</td>
         <td>{:setOption|process_level,$value.process_type}</td>
-        <td><input type="text" name="data[{$value.id}][num]" value="{:floatval|$value.number}"/></td>
-        <td><input type="text" name="data[{$value.id}][price]" value="{:floatval|$value.unit_price}"/></td>
+        <td><input type="text" readonly name="data[{$value.id}][num]" value="{:floatval|$value.number}"/></td>
+        <td><input type="text" readonly name="data[{$value.id}][price]" value="{:floatval|$value.unit_price}"/></td>
         <td>{:setOption|bargain,$value.bargain}</td>
         <td>{$value.cityname}</td>
         <td>{:setOption|cargo_type,$value.cargo_type}</td>
