@@ -88,18 +88,19 @@ class wxShareAction extends action
 		return $reqPar;
 	}
 	//获取url
-	protected function get_url(){
-		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-		$url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-		return $url;
-	}
+	// protected function get_url(){
+	// 	$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+	// 	$url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	// 	return $url;
+	// }
 	//获取签名
 	public function getSignPackage(){
+		$this->is_ajax = true;
 		$signPackage = array(
 			"jsapi_ticket" => $this->get_jsapi_ticket(),
 			"noncestr"  => $this->createNonceStr(),
 			"timestamp" => time(),
-			"url"       => $this->get_url(),
+			"url"       => $_POST['targetUrl'],
 		);
 		$string = $this->formatQueryParaMap($signPackage, false);
 		$signPackage['signature'] = sha1($string);
