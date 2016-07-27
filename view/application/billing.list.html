@@ -19,9 +19,12 @@
 					{html_options options=$invoice_one_status}
 				</select>
 				<select name="key_type">
+					<option value="c_name">公司名称</option>
+					<option value="admin">交易员</option>
 					<option value="invoice_sn">发票号</option>
 					<option value="order_sn">订单号</option>
 					<option value="total_price">订单金额</option>
+					
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -59,6 +62,12 @@
 		<div field="receipt_info" width="90" headerAlign="center" >收款信息<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div> -->
+		<div field="express_address" width="100" headerAlign="center" >快递地址<span style="color:red">*</span>
+			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
+		</div>
+		<div field="ems" width="100" headerAlign="center" >快递单号<span style="color:red">*</span>
+			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
+		</div>
 		<div field="remark" width="100" headerAlign="center" >备注<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>

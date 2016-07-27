@@ -82,11 +82,29 @@ class collectionAction extends adminBaseAction
 		//交易公司类型
 		$company_account = sget("company_account",'s','');
 		if($company_account!='') $where.=" and `account` = '$company_account' ";
-		//关键词
+
+		//关键词搜索
+		$key_type=sget('key_type','s','order_sn');
 		$keyword=sget('keyword','s');
-		if($keyword!=''){
-			$newword = "更正".$keyword;
-			$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
+		if(!empty($keyword)){
+			switch ($key_type) {
+				case 'order_sn':
+					$newword = "更正".$keyword;
+					$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
+					break;
+				case 'c_name':					
+					$c_ids = M('user:customer')->getInfoByCname($key_type,$keyword);
+					$str_cids = implode(',',array_values($c_ids));
+					$where.=" and `c_id` in ($str_cids)";
+					break;
+				case 'admin':
+					$customer_manager = M('rbac:adm')->getAdmin_Id($keyword);
+					$where.=" and `customer_manager` = $customer_manager";
+					break;
+				default:
+					$where.=" and `$key_type`  = '$keyword' ";
+					break;
+			}
 		}
 
 		//筛选领导级别

@@ -89,6 +89,10 @@ class billingAction extends adminBaseAction
 					$str_cids = implode(',',array_values($c_ids));
 					$where.=" and `c_id` in ($str_cids)";
 					break;
+				case 'admin':
+					$customer_manager = M('rbac:adm')->getAdmin_Id($keyword);
+					$where.=" and `customer_manager` = $customer_manager";
+					break;
 				default:
 					$where.=" and `$key_type`  = '$keyword' ";
 					break;

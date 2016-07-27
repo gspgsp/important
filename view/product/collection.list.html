@@ -32,7 +32,13 @@
 					<option value="" selected="selected">=交易公司账户=</option>
 					{html_options options=$company_account}
 				</select>
-				<input name="keyword" class="mini-textbox" emptyText="请输入订单号" style="width:140px;" onenter="onKeyEnter"/>
+				<select name="key_type">
+					<option value="c_name">公司名称</option>
+					<option value="admin">交易员</option>
+					<option value="order_sn">订单号</option>
+					<option value="total_price">订单金额</option>					
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 				<span id="searchMsg"></span>
 			  </form>

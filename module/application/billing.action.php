@@ -79,11 +79,23 @@ class billingAction extends adminBaseAction
 		$key_type=sget('key_type','s','order_sn');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type == 'order_sn'){
-				$newword = "更正".$keyword;
-				$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
-			}else{
-				$where.=" and `$key_type`  = '$keyword' ";
+			switch ($key_type) {
+				case 'order_sn':
+					$newword = "更正".$keyword;
+					$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
+					break;
+				case 'c_name':					
+					$c_ids = M('user:customer')->getInfoByCname($key_type,$keyword);
+					$str_cids = implode(',',array_values($c_ids));
+					$where.=" and `c_id` in ($str_cids)";
+					break;
+				case 'admin':
+					$customer_manager = M('rbac:adm')->getAdmin_Id($keyword);
+					$where.=" and `customer_manager` = $customer_manager";
+					break;
+				default:
+					$where.=" and `$key_type`  = '$keyword' ";
+					break;
 			}
 		}
 
@@ -419,13 +431,15 @@ class billingAction extends adminBaseAction
 			$_id=$v['id'];
 			if($_id>0){
 				$update=array(
-					'payment_time'=>strtotime($v['payment_time']),
-					'input_time'  =>strtotime($v['input_time']),
-					'update_time' =>CORE_TIME,
-					'update_admin'=>$_SESSION['name'],
-					'remark'      =>$v['remark'],
-					'paying_info' =>$v['paying_info'],
-            		'receipt_info'=>$v['receipt_info'],
+					'payment_time'	 =>strtotime($v['payment_time']),
+					'input_time'  	 =>strtotime($v['input_time']),
+					'update_time' 	 =>CORE_TIME,
+					'update_admin'	 =>$_SESSION['name'],
+					'remark'      	 =>$v['remark'],
+					'ems' 		  	 =>$v['ems'],
+					'express_address'=>$v['express_address'],
+					'paying_info' 	 =>$v['paying_info'],//付款信息，已取消，可删除
+            		'receipt_info'	 =>$v['receipt_info'],//收款信息，已取消，可删除
 				);
 				$sql[]=$this->db->wherePk($_id)->updateSql(saddslashes($update));
 			}
