@@ -82,8 +82,8 @@
 					<tr>
 						<td>备注：<font style="color:red;"> * </font></td>
 						<td><input name="remark" class="mini-textarea" style="width:125px;"  required="true"  maxlength="40" value="{$info.remark}"/>
-						<td>协作者：</td>
-						<td><input name="partner"  text="{$info.partnername}" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="{$info.partner}" allowInput="false"  style="width:100px"/>
+						<td>协作者：<font style="color:red;"> * </font></td>
+						<td><input name="partner"  text="{$info.partnername}" class="mini-buttonedit" required="true" onbuttonclick="allotCustomer" valueField="id"  value="{$info.partner}" allowInput="false"  style="width:100px"/>
 							<input class="mini-hidden"  id="depart" name="depart" value="0"/>
 						</td>
 					</tr>

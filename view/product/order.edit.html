@@ -94,8 +94,8 @@
 						<td>备注：<font style="color:red;"> * </font></td>
 						<td><input name="remark" class="mini-textarea" style="width:125px;" maxlength="40" required="true"  value="{$info.remark}"/>
 						{if $order_type neq '2'}
-						<td id="partnertitle">协作者：</td>
-						<td id="partner"><input  name="partner" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="" allowInput="false"  style="width:100px"/>
+						<td id="partnertitle">协作者：<font style="color:red;"> * </font></td>
+						<td id="partner"><input  name="partner" class="mini-buttonedit" onbuttonclick="allotCustomer"  required="true" valueField="id"  value="" allowInput="false"  style="width:100px"/>
 						</td>
 						{/if}
 					</tr>
