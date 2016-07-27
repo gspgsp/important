@@ -100,6 +100,19 @@ class purchaseModel extends model{
 
 
 	}
+//可能感兴趣的产品
+	public function getInfos($where=1,$page=1,$pageSize=10){
+		return $this->from('purchase pur')
+			->join('product pro','pur.p_id=pro.id')
+			->join('factory fa','pro.f_id=fa.fid')
+			->join('lib_region reg','pur.provinces=reg.id')
+			->where($where)
+			->order('input_time desc')
+			->page($page,$pageSize)
+			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.provinces,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,reg.name as cityname')
+			->limit('1')
+			->getAll();
+	}
 
 
 }
