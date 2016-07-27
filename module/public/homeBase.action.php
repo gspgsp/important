@@ -53,7 +53,6 @@ class homeBaseAction extends action {
 			}
 			$this->_uv();
 		}
-
 		//系统信息:赋值模板
 		$this->assign('user_id', $this->user_id);
 		$sys = M('system:setting')->getSetting();
@@ -61,24 +60,20 @@ class homeBaseAction extends action {
 		$service = explode('|', $sys['service']);
 		$this->assign('service',$service);
 		$this->assign('sys',$sys);
-
 		//网站主题
 		$theme_path = ($this->sys['theme'] ?: 'default') . '/';
 		$this->view->template_dir .= $theme_path;
 		$this->view->compile_dir .= $theme_path;
 		$this->view->cache_dir .= $theme_path;
-
 		//底部分类信息
-		
 		$this->footer=M('system:info')->getFooterCate();
-
-
 		if(strstr($_GET['a'],'&gclid')){ //google推广链接的问题
 			$action=$_GET['a']=substr($_GET['a'],0,strpos($_GET['a'],'&'));
 			if(method_exists($this,$action)){
 				$this->$action();exit;
 			}
 		}
+
 	}
 
 	/*
