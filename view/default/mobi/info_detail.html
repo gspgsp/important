@@ -8,10 +8,8 @@
 	<script src="__MYAPP__/js/mui.min.js"></script>
 	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
 	<script src="__MYAPP__/js/common.js"></script>
-	<script src="__MYAPP__/js/nativeShare.js"></script>
 	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
-	<link rel="stylesheet" href="__MYAPP__/css/nativeShare.css" />
 	<style>
 		body{ padding-top: 45px;}
 		#infoDetailContent img{ width: 100%; display: block;}
@@ -40,6 +38,8 @@
 		swipeBack: true //启用右滑关闭功能
 	});
 	$(function () {
+		var title="";
+		var desc="";
 		var detailId=getUrlParam("id");
 		$(window).scroll(function(){
 			if($(window).scrollTop()>300){
@@ -51,12 +51,28 @@
 
 		commonAjax(
 				"post",
+				"/mobi/mainPage/getArticleDetail",
+				{id:detailId}
+		).then(function (res) {
+			console.log(">>>",res);
+			title=res.articleDetail.title;
+			desc=res.articleDetail.description;
+			$(".infoDetailTitle2").text(res.articleDetail.title);
+			$("#admin").text(res.articleDetail.source);
+			$("#time").text(res.articleDetail.input_time);
+			$("#infoDetailContent").html(res.articleDetail.content);
+		},function () {
+
+		});
+
+		commonAjax(
+				"post",
 				"/mobi/wxShare/getSignPackage",
 				{targetUrl:window.location.href}
 		).then(function(res){
 			console.log(res);
 			wx.config({
-				debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 				appId: res.signPackage.appId, // 必填，公众号的唯一标识
 				timestamp: res.signPackage.timestamp, // 必填，生成签名的时间戳
 				nonceStr: res.signPackage.noncestr, // 必填，生成签名的随机串
@@ -71,8 +87,8 @@
 			});
 			wx.ready(function(){
 				wx.onMenuShareTimeline({
-					title: '12342', // 分享标题
-					link: 'qqrqwr', // 分享链接
+					title: title, // 分享标题
+					link: window.location.href, // 分享链接
 					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', // 分享图标
 					success: function () {
 						// 用户确认分享后执行的回调函数
@@ -82,9 +98,9 @@
 					}
 				});
 				wx.onMenuShareAppMessage({
-					title: '12342', // 分享标题
-					desc: '12342', // 分享描述
-					link: '', // 分享链接
+					title: title, // 分享标题
+					desc: desc, // 分享描述
+					link: window.location.href, // 分享链接
 					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', // 分享图标
 					type: '', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -96,9 +112,9 @@
 					}
 				});
 				wx.onMenuShareQQ({
-					title: '', // 分享标题
-					desc: '', // 分享描述
-					link: '', // 分享链接
+					title: title, // 分享标题
+					desc: desc, // 分享描述
+					link: window.location.href, // 分享链接
 					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', // 分享图标
 					success: function () {
 						// 用户确认分享后执行的回调函数
@@ -109,32 +125,6 @@
 				});
 			});
 		},function(){
-
-		});
-
-		commonAjax(
-				"post",
-				"/mobi/mainPage/getArticleDetail",
-				{id:detailId}
-		).then(function (res) {
-			console.log(">>>",res);
-			$(".infoDetailTitle2").text(res.articleDetail.title);
-			$("#admin").text(res.articleDetail.source);
-			$("#time").text(res.articleDetail.input_time);
-			$("#infoDetailContent").html(res.articleDetail.content);
-
-//			var config = {
-//				url:'http://blog.wangjunfeng.com',
-//				title:'王俊锋的个人博客',
-//				desc:'王俊锋的个人博客',
-//				img:'http://www.wangjunfeng.com/img/face.jpg',
-//				img_title:'王俊锋的个人博客',
-//				from:'王俊锋的博客'
-//			};
-//			var share_obj = new nativeShare('nativeShare',config);
-
-
-		},function () {
 
 		});
 	});
