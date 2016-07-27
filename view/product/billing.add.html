@@ -98,26 +98,26 @@
 	</div>
 </div>
 {if $type eq 1}
-<fieldset style="width:480px;border:solid 1px #aaa;position:relative;">
+<fieldset style="width:760px;border:solid 1px #aaa;position:relative;">
         <legend>公司开票资料</legend>
         <div id="editForm1" style="padding:5px;">
             <input class="mini-hidden" name="id"/>
             <table style="width:100%;">
                 <tr>
-                    <td style="width:100px;">纳税人识别号</td>
-                    <td style="width:150px;"><input name="tax_id" class="mini-textbox" value="{$companyInfo.tax_id}" allowInput="false"/></td>
-                    <td style="width:80px;">开票地址</td>
-                    <td style="width:150px;"><input name="invoice_address" class="mini-textbox" value="{$companyInfo.invoice_address}" allowInput="false"/></td>
+                    <td>纳税人识别号</td>
+                    <td><input name="tax_id" class="mini-textbox" style="width:240px;" value="{$companyInfo.tax_id}" allowInput="false"/></td>
+                    <td>开票地址</td>
+                    <td><input name="invoice_address" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_address}" allowInput="false"/></td>
                 </tr>
                 <tr>
                     <td>开票银行</td>
-                    <td style="width:150px;"><input name="invoice_bank" class="mini-textbox" value="{$companyInfo.invoice_bank}" allowInput="false"/></td>
+                    <td><input name="invoice_bank" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_bank}" allowInput="false"/></td>
                     <td>开票帐号</td>
-                    <td style="width:150px;"><input name="invoice_account" class="mini-textbox" value="{$companyInfo.invoice_account}" allowInput="false"/></td> 
+                    <td><input name="invoice_account" class="mini-textbox" style="width:240px;" value="{$invoice_account}" allowInput="false"/></td> 
                 </tr>
                 <tr>
-                	<td style="width:80px;">开票电话</td>
-                    <td style="width:150px;"><input name="invoice_tel" class="mini-textbox" value="{$companyInfo.invoice_tel}" allowInput="false"/></td> 
+                	<td>开票电话</td>
+                    <td><input name="invoice_tel" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_tel}" allowInput="false"/></td> 
                 </tr>
             </table>
         </div>

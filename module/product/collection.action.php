@@ -192,14 +192,23 @@ class collectionAction extends adminBaseAction
 	public function chkCollecteprice(){
 		$this->is_ajax=true; //指定为Ajax输出
 	    $data=sdata();
-	    if(empty($data)) $this->error('信息错误');	
+	    if(empty($data)) $this->error('信息错误');
 	    $status = $this->db->model('collection')->select('collection_status')->where("o_id=".$data['o_id'])->order('id desc')->getOne();
 	    //$status不等于2表示没有提交申请或者没有审核，此两种状态都可以提交
-		if($status!=2){
-			$this->success('没有重复提交');
-		}else{
-			$this->error('重复提交');			
-		}
+	    if($data['finance']){
+	    	if($status==2){
+				$this->error('重复审核');
+			}else{
+				$this->success('没有重复审核');			
+			}
+	    }else{
+	    	if($status==1){
+				$this->error('重复提交');
+			}else{
+				$this->success('没有重复提交');			
+			}
+	    }
+		
 	}
 
 	/**

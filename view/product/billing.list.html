@@ -10,10 +10,11 @@
 			    开票日期
 				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
-				<select name="bile_type" id="bile_type">
+				<!-- <select name="bile_type" id="bile_type">
 					<option value="" selected="selected">=票据类型=</option>
 					{html_options options=$bile_type}
-				</select>
+				</select> -->
+
 				<select name="invoice_one_status" id="invoice_one_status">
 					<option value="" selected="selected">=开票状态=</option>
 					{html_options options=$invoice_one_status}
@@ -22,6 +23,7 @@
 					<option value="invoice_sn">发票号</option>
 					<option value="order_sn">订单号</option>
 					<option value="total_price">订单金额</option>
+					<option value="c_name">公司名称</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>

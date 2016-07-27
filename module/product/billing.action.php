@@ -79,11 +79,19 @@ class billingAction extends adminBaseAction
 		$key_type=sget('key_type','s','order_sn');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type == 'order_sn'){
-				$newword = "更正".$keyword;
-				$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
-			}else{
-				$where.=" and `$key_type`  = '$keyword' ";
+			switch ($key_type) {
+				case 'order_sn':
+					$newword = "更正".$keyword;
+					$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
+					break;
+				case 'c_name':					
+					$c_ids = M('user:customer')->getInfoByCname($key_type,$keyword);
+					$str_cids = implode(',',array_values($c_ids));
+					$where.=" and `c_id` in ($str_cids)";
+					break;
+				default:
+					$where.=" and `$key_type`  = '$keyword' ";
+					break;
 			}
 		}
 
@@ -161,7 +169,10 @@ class billingAction extends adminBaseAction
 
 		}
 		//公司开票资料
+		
 		$this->companyInfo=M("user:customer_billing")->getCinfoById($headData['c_id']);
+		$invoice_account=desDecrypt($this->companyInfo['invoice_account']);
+		$this->assign('invoice_account',$invoice_account);
 
 		$this->display('billing.add.html');
 
