@@ -238,13 +238,8 @@ class billingAction extends adminBaseAction
 			
 			$data['input_time']=CORE_TIME;
 			$data['input_admin']=$_SESSION['username'];
-			// $data['customer_manager']=$_SESSION['adminid'];
-			
-			//获取订单明细中的业务员id
-			$customer_manager=0;
-			foreach ($detail as $v) {
-				$customer_manager = $v['customer_manager'];
-			}
+			//根据o_id获取订单中的业务员id,即customer_manager
+			$customer_manager = $this->db->model('order')->select('customer_manager')->where('o_id='.$data['o_id'])->getOne();
 			$data['customer_manager']=$customer_manager;
 			//判断生成开票号,审核时才有
 			$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
