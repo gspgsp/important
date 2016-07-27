@@ -11,6 +11,10 @@ class mainPageAction extends homeBaseAction
     public function enUpdate(){
         $this->display('update');
     }
+    //app下载页面
+    public function enDownLoad(){
+        $this->display('download');
+    }
     //进入首页
     public function enMainPage(){
     	$this->display('index');
