@@ -746,7 +746,7 @@ width:257px;
 .yemain {width:1200px; height:auto; margin:0 auto;}
 .yemainl {width:240px; height:auto; float:left;}
 .yemainr {width:940px; height:auto; float:right;}
-.yemainla {padding:0 19px;  border:solid 1px #ddd; background:#fff;}
+.yemainla {padding:0 19px 30px 19px;  border:solid 1px #ddd; background:#fff;}
 .yemainra {padding:0 30px 63px 30px; height:auto; border:solid 1px #ddd; background:#fff;}
 .yemainlat {font-size:18px; height:49px; line-height:49px; padding-left:3px; border-bottom:solid 1px #ddd; font-weight:bold; color:#666;}
 .yemainlab li {width:200px; height:49px; border-bottom:solid 1px #ddd;}
@@ -1441,6 +1441,7 @@ a{ text-decoration:none; color:#444;}
 /*大户报价尾*/
 
 /*feedback begin*/
+.feedback select{ margin-bottom:20px; height:28px;}
 .feedback textarea{ font-family:"微软雅黑"; width:846px; height: 70px; padding:15px; overflow:hidden; border:1px solid #ccc;}
 .feedback input{ font-family:"微软雅黑"; width:90px; height:32px; line-height:32px; background:#fc6621; border-radius:2px; color:#fff; margin:30px 0 0 378px; cursor:pointer;}
 /*feedback end*/
