@@ -69,11 +69,11 @@ class indexAction extends homeBaseAction{
 		$page=sget('page','i',1);
 		$pageSize=20;
 		$list=M('product:bigOffers')->getOfferList($where,$order,$page,$pageSize);
-//		//p($list['data']);
+//		p($list['data']);
 //		foreach($list['data'] as $v ){
-//
-////			$price=M('product:bigOffers')->getPrice($v);
-////			P($price);
+
+//			$price=M('product:bigOffers')->getPrice($v);
+//			P($price);
 //			$price=$this->db->model('big_offers')
 //				->where('type='.$v['type'] and 'model='.$v['model'] and 'factory='.$v['factory'] and 'address='.$v['address'])
 //				->order('input_time desc')
@@ -81,9 +81,8 @@ class indexAction extends homeBaseAction{
 //				->limit('2')
 //				->getAll();
 //			p($price);
-////			showTrace();
+//			showTrace();
 //		}
-
 		$this->pages=pages($list['count'],$page,$pageSize);
 		$this->assign('list',$list);
 		$this->display('index');
