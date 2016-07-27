@@ -124,7 +124,6 @@ class indexAction extends homeBaseAction{
 		$pageSize=20;//分页
 
 		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
-
 		$this->pages = pages($list['count'], $p, $pageSize);
 		$list=$list['data'];
 		foreach ($list as $key => $value) {
@@ -149,7 +148,6 @@ class indexAction extends homeBaseAction{
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}
-		// p($list);
 		$this->assign('list',$list);
 		$this->display('index');
 	}

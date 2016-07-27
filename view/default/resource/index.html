@@ -179,49 +179,50 @@
 					<!--ad end-->
 					<h3 class="re-title">可能感兴趣的</h3>
 					<div class="lis">
+						{foreach from=$info item=value key=key}
 						<!--left begin-->
 						<div class="left">
-							<p>LDPE / 15803阿赛 / 阿赛</p>
-							<p>24.75 上海</p>
+							<p>{:witchType|$value.product_type} / {$value.model} /{$value.f_name}</p>
+							<p>{$value.number}吨 {$value.cityname}</p>
 						</div>
 						<!--left end-->
 						<!--right begin-->
 						<div class="right">
-							<p>￥<span>9450</span></p>
-							<div class="interest-btn"><a href="#">去看看</a></div>
+							<p>￥<span>{$value.unit_price}</span></p>
+							<div class="interest-btn"><a href="javascript:doTalk({$value.id});">去看看</a></div>
 							<!--<div class="interest-btn"><a href="/index/addbuybyid/id/74362">去看看</a></div>-->
 						</div>
 						<!--right end-->
+						{/foreach}
 					</div>
-
-
 					<!--slider begin-->
-					<div class="slider">
-						<!--wrapper begin-->
-						<div class="wrapper">
-							<!--focus begin-->
-							<div id="focus">
-								<ul style="left: -298px; width: 1192px;">
-									<li>
-										<div class="goods-pic"><img src="/Public/Attachment/Images/2016/03/11/56e262d8439ad.png" width="63" height="129"></div>
-										<p class="goods-name">朴美家纺全棉床上用品四件套纯棉床单被罩双人床品4件套</p>
-										<p class="goods-jifen"><span>19800</span>分</p>
-										<div class="goods-btn"><a href="/pointshop/detail/index/id/3">去积分商城兑换</a></div>
-									</li>
-								</ul>
-								<div class="btnBg" style="opacity: 0.5;"></div>
-								<div class="btn">
-									<span class=""></span>
-									<span class="on"></span>
-									<span class=""></span>
-								</div>
-							</div>
-							<!--focus end-->
-						</div>
-						<!-- wrapper end -->
-					</div>
+					<!--<div class="slider">-->
+						<!--&lt;!&ndash;wrapper begin&ndash;&gt;-->
+						<!--<div class="wrapper">-->
+							<!--&lt;!&ndash;focus begin&ndash;&gt;-->
+							<!--<div id="focus">-->
+								<!--<ul style="left: -298px; width: 1192px;">-->
+									<!--<li>-->
+										<!--<div class="goods-pic"><img src="/Public/Attachment/Images/2016/03/11/56e262d8439ad.png" width="63" height="129"></div>-->
+										<!--<p class="goods-name">朴美家纺全棉床上用品四件套纯棉床单被罩双人床品4件套</p>-->
+										<!--<p class="goods-jifen"><span>19800</span>分</p>-->
+										<!--<div class="goods-btn"><a href="/pointshop/detail/index/id/3">去积分商城兑换</a></div>-->
+									<!--</li>-->
+								<!--</ul>-->
+								<!--<div class="btnBg" style="opacity: 0.5;"></div>-->
+								<!--<div class="btn">-->
+									<!--<span class=""></span>-->
+									<!--<span class="on"></span>-->
+									<!--<span class=""></span>-->
+								<!--</div>-->
+							<!--</div>-->
+							<!--&lt;!&ndash;focus end&ndash;&gt;-->
+						<!--</div>-->
+						<!--&lt;!&ndash; wrapper end &ndash;&gt;-->
+					<!--</div>-->
 					<!--slider end-->
 				</div>
+
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -230,6 +231,16 @@
 </div>
 
 <script type="text/javascript">
+	function doTalk(id)
+	{
+		var user=$("#user_name").html();
+		if(!user){
+			loginbox('offers');
+			return;
+		}
+		window.location.href="/offers/talk?id="+id;
+	}
+
 $('.radioclass').click(function(event) {
 	$(this).attr({'checked': 'checked'});
 	$(this).parents('.rad').siblings().find('.radioclass').removeAttr('checked');

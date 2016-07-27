@@ -47,11 +47,12 @@ class indexAction extends homeBaseAction{
 			$this->pages = pages($count, $p, $pageSize);
 			$this->assign('list', $list);
 		}
+		$this->info=$this->_getInfo();
 
 		$this->display('index.html');
 	}
 
-
+    //资源发布
 	public function release()
 	{
 		if($_POST)
@@ -79,5 +80,20 @@ class indexAction extends homeBaseAction{
 			}
 			json_output(array('err'=>0,'msg'=>'发布成功'));
 		}
+	}
+	//可能感兴趣的产品
+	private function _getInfo(){
+		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
+//		$status=1;
+//		$limit=1;
+//		$info=M('product:concernedProduct')->getConcernedList($this->user_id,$status=1,$limit=1);
+//		foreach($info as $k=>$v){
+//			$arr['model']=$v['product_model'];
+//		}
+//		if($arr['product_name']){
+//			$where.=" and pro.model={$arr}";
+//		}
+		return $list=M('product:purchase')->getInfos($where);
+
 	}
 }
