@@ -21,6 +21,7 @@ class mainPageModel extends model
             foreach ($oils as $key => $value) {
                 $oils[$key]['type'] = $value['type']==0 ?'WTI':'BRENT';
                 $oils[$key]['alph'] = $this->_getUpOilDowns($value['type'],$value['id']);
+                $oils[$key]['input_time'] = date("Y/m/d",$value['input_time']);
             }
             return $oils;
         }
@@ -34,6 +35,7 @@ class mainPageModel extends model
             foreach ($list['data'] as $key => $value) {
                 $list['data'][$key]['type'] = $value['type'] == 0? 'WTI':'BRENT';
                 $list['data'][$key]['alph'] = $this->_getUpOilDowns($value['type'],$value['id']);
+                $list['data'][$key]['input_time'] = date("Y/m/d",$value['input_time']);
             }
         return $list;
     }
