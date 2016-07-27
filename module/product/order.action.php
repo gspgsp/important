@@ -346,13 +346,13 @@ class orderAction extends adminBaseAction {
 				'update_admin'=>$_SESSION['name'],
 			);
 			try {	
-				if( !$this->db->model('order')->where('o_id = '.$data['o_id'])->update($data+$update_data) ) throw new Exception("更新订单失败");//更新订单
+				if(!$this->db->model('order')->where('o_id = '.$data['o_id'])->update($update_data+$data) ) throw new Exception("更新订单失败");//更新订单
 				if(!empty($data['detail'])){ 
 					foreach ($data['detail'] as $k => $v) {
 						if($data['order_type'] == 1){//销售明细
-							if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update($v+$update_data) ) throw new Exception("更新明细失败");		
+							if( !$this->db->model('sale_log')->where('id = '.$v['id'])->update($update_data+$v)) throw new Exception("更新明细失败");	
 						}else{//采购明细
-							if( !$this->db->model('purchase_log')->where('id = '.$v['id'])->update($v+$update_data) ) throw new Exception("更新明细失败");
+							if( !$this->db->model('purchase_log')->where('id = '.$v['id'])->update($update_data+$v)) throw new Exception("更新明细失败");
 						}
 					}
 				}	
