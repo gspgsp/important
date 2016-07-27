@@ -13,12 +13,12 @@
 			{if $finance}
 			<tr>
 				<td>发票号<span style="color:red">*</span></td>
-				<td><input id='invoice_sn'  name="invoice_sn" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
+				<td><input id='invoice_sn'  name="invoice_sn" class="mini-textbox" maxlength="50" value="" style="width:250px;" required="true"/></td>
 			</tr>
 			{/if}
 			<tr>
 				<td>开票单位</td>
-				<td><input name="rise" class="mini-textbox" maxlength="12" value="{$headData.c_name}" style="width:150px;"allowInput="false"/></td>
+				<td><input name="rise" class="mini-textbox" maxlength="12" value="{$headData.c_name}" style="width:250px;"allowInput="false"/></td>
 			</tr>
 			<!-- <tr>
 				<td>开票日期<span style="color:red">*</span></td>
@@ -26,26 +26,26 @@
 			</tr> -->
 			<tr>
 				<td>收款日期</td>
-				<td><input name="" class="mini-textbox" value="{$payment_time}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input name="" class="mini-textbox" value="{$payment_time}" style="width:250px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>{if $type =='1'}销售合同主题{else}采购合同主题{/if}</td>
 				<td>{$company_account.$headData.order_name}</td>
-				<td><input name="title" class="mini-hidden" maxlength="12" value="{$headData.order_name}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input name="title" class="mini-hidden" maxlength="12" value="{$headData.order_name}" style="width:250px;" required="true" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>合同金额</td>
-				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$headData.total_price}" style="width:150px;" allowInput="false"/></td>
+				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$headData.total_price}" style="width:250px;" allowInput="false"/></td>
 			</tr>
 			
 			{if $finance}
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$headData.unbilling_price}"style="width:150px;" allowInput="false"/></td>
+				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$headData.unbilling_price}"style="width:250px;" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>申请票据金额<span style="color:red">*</span></td>
-				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$headData.billing_price}" style="width:150px;" required="true" allowInput="false"/></td>
+				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$headData.billing_price}" style="width:250px;" required="true" allowInput="false"/></td>
 			</tr>
 			<!-- <tr>
 				<td>税额<span style="color:red">*</span></td>
@@ -58,7 +58,7 @@
 			{else}
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$un_pay}" style="width:150px;" allowInput="false"/></td>
+				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$un_pay}" style="width:250px;" allowInput="false"/></td>
 			</tr>
 			
 			<tr>

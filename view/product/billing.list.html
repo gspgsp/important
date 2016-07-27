@@ -70,6 +70,9 @@
 		<div field="input_admin" width="30" headerAlign="center" align="center">交易员</div>
 		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		<!-- <div field="update_admin" width="30" headerAlign="center" align="center">修改者</div> -->
+		{if $type eq 1}
+			<div width="40" headerAlign="center" renderer="relevance" align="center">关联采购</div>	
+		{/if}
 		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
 		
 	</div>
@@ -101,6 +104,16 @@ function onLoadHandle(e) {
 	return s;
 }
 
+//追加操作，关联销售订单
+function relevance(e){
+	var record = e.record,oid=record.o_id,s='';
+	var order_type = 1;
+	//传值表示是查看销售订单
+	var sale = 1;
+		s += '<a href="javascript:viewOrdInfo('+oid+','+order_type+','+sale+')">查看</a>';
+	return s;
+}
+
 function down(e){
 	var record = e.record, accessory =  record.accessory, s = '';
 	if(accessory != ''){
@@ -111,9 +124,9 @@ function down(e){
 }
 
 //查看订单相关信息
-function viewOrdInfo(oid,o_type){
+function viewOrdInfo(oid,o_type,sale){
 	mini.open({
-		url: "/product/order/info?oid="+oid+'&o_type='+o_type,
+		url: "/product/order/info?oid="+oid+'&o_type='+o_type+'&sale='+sale,
 		showMaxButton:true,
 		title: "查看订单相关信息", 
 		width: 800, height:430

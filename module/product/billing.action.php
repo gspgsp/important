@@ -72,7 +72,7 @@ class billingAction extends adminBaseAction
 		$bile_type = sget("bile_type",'s','');
 		if($bile_type!='') $where.=" and `bile_type` = '$bile_type' ";
 		//开票状态
-		$invoice_status = sget("invoice_status",'s','');
+		$invoice_status = sget("invoice_one_status",'s','');
 		if($invoice_status!='') $where.=" and `invoice_status` = '$invoice_status' ";
 
 		//关键词搜索
