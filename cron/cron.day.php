@@ -101,20 +101,23 @@ class cronDay{
 		$context = stream_context_create($opts);
 		$html = file_get_contents($url,false, $context);
 		if($html){
-			if(preg_match_all("/style=\"color:#008000;font-size:12px;\">([\s\S]+?)↓([\s\S]+?)<\/span>/", $html, $matches)){
-				$temp = array();
-				unset($matches[1][2]);
-				foreach ($matches[1] as $k=>$v) {
-					$temp[$k]['ups_downs'] = trim($matches[2][$k]); //涨跌幅
-					$temp[$k]['input_time'] =  time();
-					$temp[$k]['type'] =  $k==0 ? 0 : 1;
-					$temp[$k]['price'] = $v;
-					$temp[$k]['input_time'] = CORE_TIME;
-					$items = $this->db->model('oil_price')->where("`price`= $v and `ups_downs` = {$matches[2][$k]}")->getRow();
+			if(preg_match_all("/<span id=\"Menu1_lb_wti\".*?>([\s\S]+?)<\/span>.*?<span id=\"Menu1_lb_brent\".*?>([\s\S]+?)<\/span>/", $html, $matches)){
+				unset($matches[0]);
+				foreach ($matches as $k=>$v) {
+					$temp = array();
+					$temp['type'] =  $k==1 ? 0 : 1;
+					$temp['price'] = substr($v[0],0,5);
+					$temp['input_time'] = strtotime(date("Y/m/d"))-86400;
+					$temp['ups_downs'] = substr($v[0],8);
+					$items = $this->db->model('oil_price')->where("`price`= {$temp['price']} and `input_time` = {$temp['input_time']} and `type` = {$temp['type']}")->getRow();
 					if(empty($items)){
-						$this->db->model('oil_price')->add($temp[$k]);
+						$this->db->model('oil_price')->add($temp);
+					}else{
+						$temp['update_time'] = CORE_TIME;
+						$this->db->model('oil_price')->where("`input_time` = {$temp['input_time']} and `type` = {$temp['type']}")->update($temp);
 					}
 				}
+				M('operator:oilPrice')->delCache();
 			}
 		}
 	}
