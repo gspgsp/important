@@ -9,12 +9,10 @@ overflow:hidden;
 .noticeQuestion_horizontal_wrap {
     margin-top: 40px;
 }
-
 .asterisk {
     margin-right: 3px;
     color: #e6551d;
 }
-
 /*account state*/
 .account-state {
     margin-bottom: 7px;
