@@ -100,7 +100,7 @@ class wxShareAction extends action
 			"jsapi_ticket" => $this->get_jsapi_ticket(),
 			"noncestr"  => $this->createNonceStr(),
 			"timestamp" => time(),
-			"url"       => $_POST['targetUrl'],
+			"url"       => sget('targetUrl','s'),
 		);
 		$string = $this->formatQueryParaMap($signPackage, false);
 		$signPackage['signature'] = sha1($string);
