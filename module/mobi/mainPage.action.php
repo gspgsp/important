@@ -7,6 +7,10 @@ class mainPageAction extends homeBaseAction
 	public function __init() {
 		$this->db=M('public:common')->model('info');
     }
+    //app更新页面
+    public function enUpdate(){
+        $this->display('update');
+    }
     //进入首页
     public function enMainPage(){
     	$this->display('index');
