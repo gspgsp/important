@@ -3,8 +3,7 @@
 <script type="text/javascript">
     var oil1 = {:json_encode|$oil1};
     var oil2 = {:json_encode|$oil2};
-    var quotation = {:json_encode|$quotation};
-    
+    var quotation = {:json_encode|$quotation};   
 </script>
 
 <!--banner begin-->
@@ -648,7 +647,7 @@
                 <div class="oil-k-title">
                 	<h3>布油</h3>
                     <span class="data">{$oil2[last][price]}</span>
-                    <span class="time"><b>{$oil2[last][input_time]|date:m月d日}</b></span>
+                    <span class="time"><b>{$oil2[last][input_time]|date:m月d日}</b>{$oil2[last][input_time]|date:H:i}</span>
                 </div>
                 <!--oil-k-title end-->
                 <!--<img src="__IMG__/home/kLine.jpg" width="320" height="182"/>-->
@@ -663,7 +662,7 @@
                 <div class="oil-k-title">
                 	<h3>WTI</h3>
                     <span class="data">{$oil1[last][price]}</span>
-                    <span class="time"><b>{$oil1[last][input_time]|date:m月d日}</b></span>
+                    <span class="time"><b>{$oil1[last][input_time]|date:m月d日}</b>{$oil1[last][input_time]|date:H:i}</span>
                 </div>
                 <!--oil-k-title end-->
                 <!--oil-blt-con begin-->
@@ -1282,6 +1281,17 @@ $(function(){
 
 
         // alert(cc({$server.dealyAll}));
+        $(".pagination a.next").bind("mousedown",function(){
+            $(this).css({
+                "right":"-19px"
+            });
+        });
+
+        $(".pagination a.next").bind("mouseup",function(){
+            $(this).css({
+                "right":"3px"
+            });
+        });
 });
 
 function setCon(myThis){
