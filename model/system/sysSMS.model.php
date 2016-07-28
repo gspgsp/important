@@ -121,6 +121,7 @@ class sysSMSModel extends model{
 		$_SESSION['mctime']=CORE_TIME;
 		return array('err'=>0,'msg'=>$msg);
 	}
+
 	/*
 	 * 检查动态码
      * @access public
