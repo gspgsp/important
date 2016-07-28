@@ -114,6 +114,7 @@ class purchaseLogAction extends adminBaseAction {
 			$v['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$v['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
 			$v['order_name']=M("product:order")->getColByName($v['o_id']);
+			$v['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名
 			$v['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
