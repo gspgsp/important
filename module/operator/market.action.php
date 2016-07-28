@@ -12,9 +12,10 @@ class marketAction extends adminBaseAction{
 	}
 
 	public function init(){
-
-		$this->assign('product_type',L('product_type'));//行情分类
-		
+		$type = L('product_type');
+		$type[5] = '共聚PP';
+		$type[6] = 'PVC';
+		$this->assign('product_type',$type);//行情分类
 		$action=sget('action','s');
 		if($action=='grid'){
 			$this->_grid();exit;
@@ -26,7 +27,6 @@ class marketAction extends adminBaseAction{
 	protected function _grid(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
-
 		$list=$this->db->order('input_time desc')->page($page+1,$size)->getPage();
 		foreach ($list['data'] as &$value) {
 			$value['input_time']= $value['input_time']==0?'--':date('Y-m-d',$value['input_time']);
