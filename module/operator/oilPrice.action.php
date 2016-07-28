@@ -64,6 +64,7 @@ class oilPriceAction extends adminBaseAction{
 			$data['update_time']=CORE_TIME;
 			$result = $this->db->wherePk($id)->update($data);
 		}
+		M('operator:oilPrice')->delCache();
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
@@ -78,6 +79,7 @@ class oilPriceAction extends adminBaseAction{
 			$value['update_time']=CORE_TIME;
 			$this->db->wherePk($value['id'])->update($value);
 		}
+		M('operator:oilPrice')->delCache();
 		$this->success('操作成功');
 	}
 }
