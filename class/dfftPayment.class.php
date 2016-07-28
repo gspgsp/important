@@ -22,18 +22,21 @@ class dfftPayment{
 	 * @access public 
 	 */
     public function __construct(array $config){
-        
+        $config=C('DFFTPAYMENT_CONFIG');
 		if(!empty($config)){
 			$this->mallID=$config['mallID'];
 			$this->certificatepassword=$config['certificatepassword'];
 			$this->certificatepath=$config['certificatepath'];
 			$this->callbackpay=$config['callbackpay'];
+			$this->apiurl=$config['apiurl'];
 		}else 
 		{
-    		$this->mallID='000106';
-    		$this->certificatepassword='999999';
-    		$this->certificatepath=$_SERVER['DOCUMENT_ROOT'].'/Javatest/Java/hbtest2.pfx'; //证书路径
-    		$this->callbackpay='http://fkphsk.6655.la:10515/';
+//     		$this->mallID='000106';
+//     		$this->certificatepassword='999999';
+//     		$this->certificatepath=FILE_URL.'/Javatest/Java/hbtest2.pfx'; //证书路径
+//     		$this->callbackpay=APP_URL.'/';
+// 		    $this->apiurl='https://uat.easternpay.com.cn/gateway/api';
+            echo '获取配置信息失败,请配置相关信息!';
 		}
     }
     
