@@ -85,7 +85,6 @@
   margin-top: -32px;
   width: 46px;
   height: 46px;
-  background:url(../../images/home/arrows.png);
   background-repeat: no-repeat;
 }
 
@@ -96,12 +95,16 @@
 
 .track a.prev {
   left: 0;
-  background-position: 0 0;
+  width:46px;
+  height:46px;
+  background:url(../../images/home/arrowsLt.png) no-repeat; 
 }
 
 .track a.next {
   right: 3px;
-  background-position: -46px 0;
+  width:46px;
+  height:46px;
+  background:url(../../images/home/arrowsRt.png) no-repeat; 
 }
 
 .slider-container {
@@ -290,6 +293,7 @@
 .example-1 a.prev,
 .example-1 a.next {
   margin-top: -69px;
+  border:none;
 }
 
 .example-2 a.prev,
