@@ -43,7 +43,7 @@
 						<li>
 							<a class="ahover">意见反馈</a>
 							<ul class="yemainlab_bane_a">
-								<li><a href="/page/index/feedBack">意见反馈</a></li>
+								<li><a href="/page/index/feedBack" {if $id==17}class="ahover"{/if} >意见反馈</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -58,15 +58,17 @@
 			<div class="yemainra">
 				<div class="yebl feedback">
 					<div class="yeblt">意见反馈</div>
+					<div>问题类别:</div>
 					<div>
 						<select name="type">
 							<option>请选择</option>
-							<option>类型1</option>
-							<option>类型2</option>
-							<option>类型3</option>
+							<option value="1">类型1</option>
+							<option value="2">类型2</option>
+							<option value="3">类型3</option>
 						</select>
 					</div>
 					<div class="gongwiabwbnege">
+						<p><span>*</span>请留下您对我的塑料网新版首页的意见和建议</p>
 						<form name="" method="post" action="">
 							<textarea placeholder="请输入您的意见..."></textarea>
 							<input type="submit" value="提交"/>

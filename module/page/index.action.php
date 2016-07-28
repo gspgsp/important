@@ -39,8 +39,8 @@ class indexAction extends homeBaseAction{
 	//意见反馈
 	public function feedBack(){
 
-		$cid=sget('cid','i',0);
-
+		$cid=17;
+		$this->assign('id',$cid);
 		$this->display('feedback.html');
 	}
 }
