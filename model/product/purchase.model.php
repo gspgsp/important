@@ -94,7 +94,7 @@ class purchaseModel extends model{
 						->leftjoin('factory as f','p.f_id=f.fid')
 						->where('pur.p_id='.$arr['p_id'])
 						->order('pur.input_time desc')
-						->select(' pur.p_id,f.f_name,pur.unit_price,pur.input_time,p.model,p.product_type')
+						->select(' pur.p_id,f.f_name,pur.unit_price,pur.input_time,p.model')
 						->limit('2')
 						->getAll();
 
