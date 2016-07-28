@@ -15,7 +15,6 @@ require(
 	  // 基于准备好的dom，初始化echarts图表
 	var myChart1 = ec.init(document.getElementById('oil-blt-con'));
 	var myChart2 = ec.init(document.getElementById('oil-wti-con'));
-
 	var conTaba1 = ec.init(document.getElementById('con-taba-1'));
 	var conTaba2 = ec.init(document.getElementById('con-taba-2'));
 	var conTaba3 = ec.init(document.getElementById('con-taba-3'));
@@ -662,8 +661,8 @@ require(
 	  conTaba2.setOption(option4);
 	  conTaba3.setOption(option5);
 	  conTaba4.setOption(option6);
-	  conTaba5.setOption(option7);
-	  conTaba6.setOption(option8);
+	  conTaba5.setOption(option8);
+	  conTaba6.setOption(option7);
 	  
   }
 );
