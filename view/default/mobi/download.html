@@ -8,6 +8,8 @@
 	<style>
 		body { margin: 0; padding: 0;}
 		img{ width: 100%; display: block;}
+		#shade{ width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none; background: rgba(0,0,0,0.5);}
+		#d5{ width: 100%; position: absolute; top:0; right: 0; display: none;}
 	</style>
 </head>
 <body>
@@ -15,5 +17,22 @@
 <a href="http://t.cn/Rt4H7hM"><img src="__MYAPP__/img/d2.jpg"></a>
 <a href="https://itunes.apple.com/us/app/wo-de-su-liao-wang/id1071746048?l=zh&ls=1&mt=8"><img src="__MYAPP__/img/d3.jpg"></a>
 <img src="__MYAPP__/img/d4.jpg">
+<div id="shade"></div>
+<img id="d5" src="__MYAPP__/img/d5.png">
+<script type="text/javascript">
+	//itms-apps://itunes.apple.com/app/id1050846396
+	function is_weixin(){
+		var ua = navigator.userAgent.toLowerCase();
+		if(ua.match(/MicroMessenger/i)=="micromessenger") {
+			document.getElementById("shade").style.display='block';
+			document.getElementById("d5").style.display='block';
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	is_weixin();
+</script>
 </body>
 </html>

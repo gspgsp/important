@@ -6,20 +6,40 @@
     <title></title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <style>
-    	body,html{ margin: 0; padding: 0; width: 100%; height: 100%; background: #e9261f;}
-    	body{ background: url(img/app.jpg) no-repeat center; background-size: 100% 100%;}
-    	#app2{ width: 100%;}
-    	#app2 img{ width: 90%; margin: 20% 5% 0 5%;}
-    	#txt{ margin: 10% 8% 0 8%;}
+		html, body {
+			position: relative;
+			height: 100%;
+		}
+		body {
+			background: #df2b26;
+			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+			font-size: 14px;
+			color:#000;
+			margin: 0;
+			padding: 0;
+		}
+		img{ width: 100%; display: block;}
     </style>
 </head>
 <body>
-	<div id="app2">
-		<img src="img/app2.png">
-	</div>	
-	<div id="txt">
-		<p style="font-size: 24px; color: #FFFFFF;">启禀小主：</p>
-		<p style="font-size: 18px; color: #f6ff00; text-indent: 2em;">您的旧版APP已经停止维护更新，请前往我的塑料网主页下载最新版APP！</p>
-	</div>
+<img src="__MYAPP__/img/update.jpg">
+<img id="download" src="__MYAPP__/img/update2.jpg">
+<img src="__MYAPP__/img/update3.jpg">
+<script type="text/javascript">
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+	//alert('是否是Android：'+isAndroid);
+	//alert('是否是iOS：'+isiOS);
+	var download=document.getElementById("download");
+	download.onclick=function () {
+		if(isiOS){
+			window.location.href="https://itunes.apple.com/us/app/wo-de-su-liao-wang/id1071746048?l=zh&ls=1&mt=8";
+		}
+		if(isAndroid){
+			window.location.href="http://t.cn/Rt4H7hM";
+		}
+	}
+</script>
 </body>
 </html>
