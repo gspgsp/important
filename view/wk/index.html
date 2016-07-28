@@ -1082,14 +1082,10 @@
 
 	var t="{$time}";
 
-	var timer1=setInterval(loadMore,10000);
-	var timer2=setInterval(loadRemarkMore,10000);
+	var timer1=setInterval(loadall,10000);
 
 	loadTop();
-	var topTimer=setInterval(loadTop,10000);
-	var stockTimer=setInterval(loadstock,10000);
-	var myLoadTimer=setInterval(myload,10000);
-	
+
 	function loadTop(){
 		$.get('/wk/index/topTimer',{t:t},function (data){
 			if(data.list.length){
@@ -1104,23 +1100,6 @@
 
 		},'json');
 	}
-
-	// function loadnews(){
-	// 	$.get('/wk/index/get_newinfo',{t:t},function (data){
-	// 		console.log(data);return;
-	// 		t=data.time;
-	// 		var html='';
-	// 		var html2='';
-	// 		$(data.offerList).each(function(k,v){
-	// 			html+=template('trTemp',{data:v});
-	// 		});
-	// 		$("#offerTable").prepend(html);
-	// 		$(data.demandList).each(function(k,v){
-	// 			html2+=template('trTemp',{data:v});
-	// 		});
-	// 		$("#demandTable").prepend(html2);
-	// 	},'json');
-	// }
 
 	loadMore('供应','loadoffer','offerTable',true);
 	loadRemarkMore('发布信息','loadoffer','remarkTable',true);
