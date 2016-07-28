@@ -1,0 +1,160 @@
+ {layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="float:right;">
+			<form id="soform">
+				<span id="searchMsg"></span>
+				<select name="sTime">
+					<option value="input_time">创建时间</option>
+					<option value="update_tim出e">更新时间</option>
+					<option value="sign_time">签订日期</option>
+					<option value="pickup_time">提货日期</option>
+					<option value="delivery_time">送货日期</option>
+					<option value="payment_time">付款日期</option>
+
+				</select>
+				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+				<select name="order_name">
+					<option value="" selected="selected">抬头</option>
+					{html_options options=$company_account}
+				</select>
+				<select name="financial_records">
+					<option value="" selected="selected">财务记录</option>
+					<option value="1">是</option>
+					<option value="2">否</option>
+				</select>
+				<select name="pay_method" >
+					<option value="" selected="selected">付款</option>
+					{html_options options=$pay_method}
+				</select>
+				<select name="business_model" >
+					<option value="" selected="selected">业务</option>
+					{html_options options=$business_model}
+				</select>
+				<select name="order_status" id="soStatus2">
+					<option value="" selected="selected"  >订单</option>
+					{html_options options=$order_status}
+				</select>
+				<select name="transport_status" id="soStatus3">
+					<option value="" selected="selected" >物流</option>
+					{html_options options=$transport_status}
+				</select>
+				<select name="out_storage_status" >
+					<option value="" selected="selected">发货</option>
+					{html_options options=$out_storage_status}
+				</select>
+				<select name="key_type">
+					<option value="order_sn">订单号</option>
+					<option value="c_id">客户名称</option>
+					<option value="input_admin">交易员</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="" style="width:60px;" onenter="onKeyEnter"/>
+				<select name="team">
+					<option value="">选择战队</option>
+					{foreach from=$team item=value key=key}
+                    	<option value="{$value.id}" {$selected_{$value.id}}>{$value.name}</option>
+                	{/foreach}
+				</select>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/order/order/init?action=grid&do={$doact}&type={$order_type}"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="order_sn" width="120" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
+			<div field="order_name" width="30" headerAlign="center" align="center">抬头</div>
+			<div field="order_source" width="25" headerAlign="center" align="center">来源</div>
+			<div field="c_name" width="70" headerAlign="center" align="center" >客户名称</div>
+			<div field="total_num" width="40" headerAlign="center" align="center" allowSort="true">总数</div>
+			<div field="total_price" width="60" headerAlign="center" align="center" allowSort="true">总金额</div>
+			<!-- <div field="pay_method" width="40" headerAlign="center" align="center" >付款</div> -->
+			{if $order_type eq 2}
+			<div field="in_storage_status" width="45" headerAlign="center" align="center" >入库状态</div>
+			{else}
+			<div field="partner" width="40" headerAlign="center" align="center" >协助者</div>
+			<div field="out_storage_status" width="45" headerAlign="center" align="center">出库状态</div>
+			{/if}
+			<div field="payments_status" width="45" headerAlign="center" align="center" >{if $order_type eq 1}收款{else}付款{/if}状态</div>
+			<div field="invoice_status" width="45" headerAlign="center" align="center" >开票状态</div>
+			<div field="remark" width="45" headerAlign="center" align="center" >备注</div>
+			<div field="type_status" width="70" headerAlign="center" align="center">{if $order_type eq 1}销售{else}采购{/if}|物流</div>
+			<div field="financial_records" width="45" headerAlign="center" align="center">财务记录</div>
+			<div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
+			<div field="update_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">更新时间</div>
+			<div field="cmanager" width="40" headerAlign="center" align="center">交易员</div>
+			
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+//追加操作按钮
+function onLoadHandle(e) {
+	var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn;
+	var order_type = {$order_type};
+	s += '<a href="javascript:viewOrdInfo('+o_id+','+order_type+')">'+order_sn+'</a> ';
+	return s;
+}
+//获取订单状态
+function onOrderStatus(e) {
+	var record = e.record.order_status; //record.id
+	return $("#soStatus2").find("option[value="+record+"]").text();
+}
+//获取物流状态
+function onTransportStatus(e) {
+	var record = e.record.transport_status; //record.id
+	return $("#soStatus3").find("option[value="+record+"]").text();
+}
+
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+function LoadOrderType(e) {
+	var record = e.record.order_type; 
+	return $("#soStatus").find("option[value="+record+"]").text();
+}
+
+//查看订单相关信息
+function viewOrdInfo(oid,o_type){
+	mini.open({
+		url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+		showMaxButton:true,
+		title: "查看订单相关信息", 
+		width: 800, height:430
+	});
+}
+
+//双击弹出
+function onRowDblClick(e) {
+	var record = e.record, status=record.status,order_status=record.order_status,transport_status=record.transport_status;
+	console.log(record);
+	if(order_status=='1' && transport_status=='1'){ //未审核的允许编辑
+		onEdit(e.row);
+	}
+}
+
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+</script>
