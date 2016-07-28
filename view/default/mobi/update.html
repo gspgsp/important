@@ -11,7 +11,7 @@
 			height: 100%;
 		}
 		body {
-			background: #eee;
+			background: #df2b26;
 			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 			font-size: 14px;
 			color:#000;
@@ -23,5 +23,23 @@
 </head>
 <body>
 <img src="__MYAPP__/img/update.jpg">
+<img id="download" src="__MYAPP__/img/update2.jpg">
+<img src="__MYAPP__/img/update3.jpg">
+<script type="text/javascript">
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+	//alert('是否是Android：'+isAndroid);
+	//alert('是否是iOS：'+isiOS);
+	var download=document.getElementById("download");
+	download.onclick=function () {
+		if(isiOS){
+			window.location.href="https://itunes.apple.com/us/app/wo-de-su-liao-wang/id1071746048?l=zh&ls=1&mt=8";
+		}
+		if(isAndroid){
+			window.location.href="http://t.cn/Rt4H7hM";
+		}
+	}
+</script>
 </body>
 </html>

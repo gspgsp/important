@@ -11,7 +11,7 @@
 	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	<style>
-		body{ padding-top: 45px;}
+		body{ padding-top: 45px; padding-bottom: 50px;}
 		#infoDetailContent img{ width: 100%; display: block;}
 		#infoHeader{ position: fixed; top: 0; left: 0;}
 	</style>
@@ -28,7 +28,15 @@
 	<h3 class="infoDetailTitle3">作者：<span id="admin"></span></h3>
 	<div id="infoDetailContent"></div>
 </div>
-<div id="nativeShare"></div>
+<footer id="footer">
+	<ul>
+		<li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+		<li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+		<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+		<li><a class="footerOn" href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+		<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+	</ul>
+</footer>
 <div id="backTop" style="display: none">
 	<img src="__MYAPP__/img/topArrow.png">
 </div>
@@ -47,6 +55,10 @@
 			}else{
 				$("#backTop").hide();
 			}
+		});
+
+		$("#backTop").on("click",function () {
+			$('body').animate({ scrollTop: 0 },300);
 		});
 
 		commonAjax(
