@@ -105,7 +105,7 @@
                                     {foreach from=$prices item=value key=key}
 				                    <div class="item"  >
                                         <p class="addr">
-											{:setOption|product_type,$value.product_type}/ {$value.model}/{$value.f_name}
+											{$value.product_type}/ {$value.model}/{$value.f_name}
                                         </p>
                                         <div class="price up" id="price" data-id="{$value.price}">
 											<span>{if $value.unit_price>0}¥{$value.unit_price}{else}暂无报价{/if}</span>
