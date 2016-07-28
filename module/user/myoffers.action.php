@@ -39,7 +39,6 @@ class myoffersAction extends userBaseAction{
 		$this->type=2;
 		$this->name="报价管理";
 
-
 		if($id=$_SESSION['msg_pid']){
 			$_SESSION['msg_pid']=null;
 			$size=10;
@@ -79,16 +78,16 @@ class myoffersAction extends userBaseAction{
 		if($_POST)
 		{
 			$this->is_ajax=true;
-			$saveName=sget('saveName','s','');//上传文件名
-			$savePath=C('upload_local.path');//文件保存路径
-			$path=$savePath.$saveName;//文件路径
+			$saveName=sget('saveName','s','');                     //上传文件名
+			$savePath=C('upload_local.path');                      //文件保存路径
+			$path=$savePath.$saveName;                             //文件路径
 			if(!is_file($path)) $this->error('文件不存在');
 
-			E('PHPExcel',APP_LIB.'extend');//引入phpexcel类
+			E('PHPExcel',APP_LIB.'extend');                        //引入phpexcel类
 			$purModel=M('product:purchase');
-			$productModel=M('product:product');//产品
-			$factoryModel=M('product:factory');//厂家
-			$regionModel=M('system:region');//地区
+			$productModel=M('product:product');                    //产品
+			$factoryModel=M('product:factory');                    //厂家
+			$regionModel=M('system:region');                       //地区
 
 			static $times=1;//计数器
 
@@ -111,23 +110,22 @@ class myoffersAction extends userBaseAction{
 					$factoryModel->add($f_data);
 					$_factory=$factoryModel->getLastID();
 				}
-
 				$product_type=array_flip(L('product_type'));//产品类型
-
 				if(!$product_type=$product_type[$value['D']]) continue;
 
 				$process_type=array_flip(L('process_level'));
 				$process_type=isset($process_type[$value['C']])?$process_type[$value['C']]:11;//加工级别
 				//产品
+
 				if(!$_model=$productModel->where("model='{$value['A']}' and f_id=$_factory and product_type=$product_type")->select('id')->getOne()){
-					
+
 					$_product=array(
-						'model'=>$value['A'],//牌号
-						'product_type'=>$product_type,//产品类型
-						'process_type'=>$process_type,//加工级别
-						'f_id'=>$_factory,//厂家id
-						'input_time'=>CORE_TIME,//创建时间
-						'status'=>3,//审核状态
+						'model'=>$value['A'],              //牌号
+						'product_type'=>$product_type,     //产品类型
+						'process_type'=>$process_type,     //加工级别
+						'f_id'=>$_factory,                 //厂家id
+						'input_time'=>CORE_TIME,           //创建时间
+						'status'=>3,                       //审核状态
 					);
 					$productModel->add($_product);
 					$_model=$productModel->getLastID();
