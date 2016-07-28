@@ -17,7 +17,7 @@ return array(
 		// '/^(index|ajax)(\/\w+)$/' => 'home/$1$2',
 		// '/^(android|ios|wp|weixin)\/(\w+)\/(\w+)$/' => 'app/$2/$3?chanel=$1',
 		// '/^(\w+\/\w+\/)(\w+)\-(\w+)/' => '$1$2$3',
-		'/^physical\/([0-9]+).html$/'=>'physical/index/content/id/$1.html',//物性表路由
+		'/^physical\/([0-9]+)$/'=>'/physical/index/content?id=$1',//物性表路由
 		'/^company\/([0-9]+)$/'=>'mycompany/index/init?id=$1',//我的网站子网站路由
 		'/^article\/show\/([0-9]+)$/'=>'article/index/info?id=$1',
 	),
