@@ -208,7 +208,7 @@ class orderAction extends adminBaseAction {
 		if($info['c_id']>0){
 			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 			//如果是财务部屏蔽
-			$exits  = in_array($roleid, array('30','26','27')) ? '1' : '0';
+			$exits  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
 			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $exits !='1'){
 				$c_name =  '*******';
 			 }else{

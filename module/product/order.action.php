@@ -119,7 +119,7 @@ class orderAction extends adminBaseAction {
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
 			//筛选财务
-			if(in_array($roleid, array('30','26','27'))){
+			if(in_array($roleid, array('30','26','27','25','24','21'))){
 				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
 			} 
 		}
@@ -210,7 +210,7 @@ class orderAction extends adminBaseAction {
 		if($info['c_id']>0){
 			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 			//如果是财务部屏蔽
-			$exits  = in_array($roleid, array('30','26','27')) ? '1' : '0';
+			$exits  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
 			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $exits !='1'){
 				$c_name =  '*******';
 			 }else{
@@ -265,7 +265,7 @@ class orderAction extends adminBaseAction {
 		if($info['c_id']>0){
 			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 			//如果是财务部屏蔽
-			$exits  = in_array($roleid, array('30','26','27')) ? '1' : '0';
+			$exits  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
 			if(($info['partner'] == $_SESSION['adminid'] || $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $exits !='1'){
 				$c_name =  '*******';
 			 }else{
