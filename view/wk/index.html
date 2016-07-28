@@ -1082,13 +1082,14 @@
 
 	var t="{$time}";
 
-	var timer1=setInterval(loadMore,180000);
-	var timer2=setInterval(loadRemarkMore,180000);
+	var timer1=setInterval(loadMore,10000);
+	var timer2=setInterval(loadRemarkMore,10000);
 
 	loadTop();
-	var topTimer=setInterval(loadTop,180000);
-
-	var stockTimer=setInterval(loadstock,180000);
+	var topTimer=setInterval(loadTop,10000);
+	var stockTimer=setInterval(loadstock,10000);
+	var myLoadTimer=setInterval(myload,10000);
+	
 	function loadTop(){
 		$.get('/wk/index/topTimer',{t:t},function (data){
 			if(data.list.length){
