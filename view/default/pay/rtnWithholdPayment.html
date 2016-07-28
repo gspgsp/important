@@ -13,7 +13,7 @@
   }else{
      $postdata = file_get_contents("php://input");
   }
-  file_put_contents("./callbackpay.txt", $postdata,FILE_APPEND);
+  file_put_contents("./WithholdPayment.txt", $postdata,FILE_APPEND);
   $param = json_decode($postdata);
   if(isset($param)){
       // 支付消息

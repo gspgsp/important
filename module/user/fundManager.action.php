@@ -94,4 +94,5 @@ class fundManagerAction extends userBaseAction
 	public function getBackLast(){
 		$this->display('identify');
 	}
+	
 }

@@ -9,73 +9,86 @@
 
      {include file="public:user_left"}
     <div class="right frt">
-    	<h3>个人中心-资金管理</h3>
+    	<h3>个人中心-资质审核</h3>
         <!--finance-lc-pic begin-->
         <div class="finance-lc-pic"><img src="__IMG__/home/financeLc2.jpg" width="1000" height="44"/></div>
         <!--finance-lc-pic end-->
+        <div id="J_Message" style="display:none;margin-left: 23px;margin-right: 23px;background: #fef2f2;color: #6C6C6C;border-color: #ffb4a8;height: 30px;padding-top: 10px;" class="login-msg error">			
+			<p class="error" style="text-align: center;font-size: 14px;"></p>		
+		</div>
         <!--finance-lc2 begin-->
         <div class="finance-lc2 color3">
-        	<h4>资质认证请填写以下内容，并上传证件照片</h4>
+        	<h4 style="margin:10px 0 10px 23px">资质认证请填写以下内容，并上传证件照片</h4>
             <form name="" action="" onSubmit="return false;" method="post">
-            	<table border="1">
+            	<table border="1" style="width:75%;">
                   <tr>
                     <td>企业法人姓名<span>*</span>：</td>
-                    <td><input type="text" class="import" name="legal_person" id="legal_person" /></td>
-                    <td width="242">&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_person" id="legal_person" /></td>
+                    <td >授权委托书上传：</td>
+                    <td style="float:left;">
+                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn5" required="true"  onclick="getImg(this.id)">
+                        <input type="hidden" id="Powerofattorney_pic" name="" class="pro_img import" value="">
+                    </td>
                   </tr>
                   <tr>
                     <td>企业法人身份证号<span>*</span>：</td>
-                    <td><input type="text" class="import" name="legal_idcard" id="legal_idcard" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_idcard" id="legal_idcard" /></td>
                     <td>企业法人身份证照片上传：</td>
                     <!-- <td><input type="file" id="file1" name="file1" value="" id="legal_idcard_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="legal_idcard_pic" /></td> -->
                     <td style="float:left;">
-                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn1" onclick="getImg(this.id)">
+                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn1" required="true" onclick="getImg(this.id)">
                         <input type="hidden" id="legal_idcard_pic" name="" class="pro_img import" value="">
                     </td>
                     <!-- <td><input type="hidden" id="idcard" name="idcard" value=""/></td> -->
                   </tr>
                   <tr>
                     <td>营业执照号<span>*</span>：</td>
-                    <td><input type="text" class="import" name="business_licence" id="business_licence" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="business_licence" id="business_licence" /></td>
                     <td>营业执照副本照片上传：</td>
                     <!-- <td><input type="file" id="file2" name="file2" value="" id="business_licence_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="business_licence_pic" /></td> -->
                     <td style="float:left;">
-                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn2" onclick="getImg(this.id)">
+                        <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn2"  required="true" onclick="getImg(this.id)">
                         <input type="hidden" id="business_licence_pic" name="" class="pro_img import" value="">
                     </td>
                     <!-- <td><input type="hidden" id="licence" name="licence" value=""/></td> -->
                   </tr>
-                  <tr>
-                    <td>税务登记号：</td>
-                    <td><input type="text" class="import" name="tax_registration" id="tax_registration" /></td>
-                    <td>税务登记证照片上传：</td>
+                  <tr style="height:50px;">
+                    <td>税务登记号<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="tax_registration" id="tax_registration" /></td>
+                    <td style="display:none;">税务登记证照片上传：</td>
                     <!-- <td><input type="file" id="file3" name="file3" value="" id="tax_registration_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="tax_registration_pic" /></td> -->
-                    <td style="float:left;">
+                    <td style="float:left;display:none;">
                         <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn3" onclick="getImg(this.id)">
                         <input type="hidden" id="tax_registration_pic" name="" class="pro_img import" value="">
                     </td>
                    <!--  <td><input type="hidden" id="registration" name="registration" value=""/></td> -->
                   </tr>
-                  <tr>
-                    <td>组织机构代码证号：</td>
-                    <td><input type="text" class="import" name="grounp_no" id="grounp_no" /></td>
-                    <td>组织机构代码证照片上传：</td>
+                  <tr style="height:50px;">
+                    <td>组织机构代码证号<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="grounp_no" id="grounp_no" /></td>
+                    <td style="display:none;">组织机构代码证照片上传：</td>
                     <!-- <td><input type="file" id="file4" name="file4" value="" id="organization_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="organization_pic" /></td> -->
-                    <td style="float:left;">
+                    <td style="float:left;display:none;">
                         <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn4" onclick="getImg(this.id)">
                         <input type="hidden" id="organization_pic" name="" class="pro_img import" value="">
                     </td>
                    <!--  <td><input type="hidden" id="no" name="no" value=""/></td> -->
                   </tr>
+                  <tr><td>是否三证合一<span>*</span>：<td>
+                  	<select style="height:100%;width:100%;" name="chk_pics" id="chk_pics"> 
+						<option value="1" id="fourthOption">是</option> 
+						<option value="0" id="fourthOption">否</option> 
+					</select>
+				  </tr>
                   <tr>
                   	<td colspan="4" class="opt">
                     	<input type="submit" value="提交审核" id="btnCl" />
                         <input type="button" value="返回上一步" id="reBk" />
+                        <input type="button" value="授权委托书下载" style="background: #fc6621;" id="downword"  />
                     </td>
                   </tr>
                 </table>
@@ -93,7 +106,32 @@
         upload_pic($("#permitP_btn2"));
         upload_pic($("#permitP_btn3"));
         upload_pic($("#permitP_btn4"));
+        upload_pic($("#permitP_btn5"));
+        $("#chk_pics").change(function(){
+        	chgChecked();
+        });
+        $("#downword").click(function(){
+        	window.location.href="__UPLOAD__/企业操作员授权委托书.doc";
+        });
    })
+   
+   var chgChecked=function(){
+   	if($("#chk_pics ").val()==1){
+		$("#tax_registration_pic").parent().hide();
+		$("#tax_registration_pic").parent().prev().hide();
+		$("#tax_registration_pic").prev().attr("required",false);
+		$("#organization_pic").parent().hide();
+		$("#organization_pic").parent().prev().hide();
+		$("#organization_pic").prev().attr("required",false);
+	}else{
+		$("#tax_registration_pic").parent().show();
+		$("#tax_registration_pic").parent().prev().show();
+		$("#tax_registration_pic").prev().attr("required",true);
+		$("#organization_pic").parent().show();
+		$("#organization_pic").parent().prev().show();
+		$("#organization_pic").prev().attr("required",true);	
+	}
+   }
 
    var upload_pic = function(obj){
         new AjaxUpload(obj, {
@@ -119,37 +157,72 @@
         }
         });
    }
-
-    //ajax上传图片
-    function getImg(that){
-        console.log(1);
-        // $("#"+that).parent().find("input[type='hidden']").click();
-            // var input_id = $("#"+that);
-            // new AjaxUpload(that, {
-            // action: '/public/sysUpload/images?model=1',
-            // name: 'image',
-            // onSubmit: function(file, suffix) 
-            // {
-            //     // // 'gif','jpg','jpeg','png','swf'
-            //     // var patrn = /^(jpg|jpeg|png)$/i;
-            //     // if (!patrn.test(suffix)) {
-            //     //     alert('不支持上传 *.' + suffix + '格式的文件。');
-            //     //     return false;
-            //     // }
-            // },
-            // onComplete: function(file, response) {
-            //     // var result = jQuery.parseJSON(response);
-            //     // if(result.err == 0) {
-            //     //     input_id.next().val(result.msg);
-            //     //     input_id.attr('src',"__UPLOAD__/"+result.msg);
-            //     // } else {
-            //     //     alert(result.msg);
-            //     // }
-            // }
-            // });
+  
+    var ChkVaild=function(){
+    	var rtn = true;
+		//验证姓名是否全是中文
+		if(/^[\u4e00-\u9fa5]+$/.test($("#legal_person").val())){	
+           if($("#legal_person").val().length<=1||$("#legal_person").val().length>30){
+        	   $("#J_Message").find("p").text('中文姓名长度为2-30个汉字,请重新输入!');
+        	   $("#J_Message").fadeIn();
+        	   rtn = false;
+           }
+		}else{
+     	   $("#J_Message").find("p").text('请输入正确的中文姓名!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+		}
+		//身份证验证15-18
+		if(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test($("#legal_idcard").val())){	
+		}else{
+     	   $("#J_Message").find("p").text('请输入正确的身份证号!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+		}
+		//营业执照号验证
+		if(/^(\s)*(\d{15})(\s)*$/.test($("#business_licence").val())){		
+		}else{
+      	   $("#J_Message").find("p").text('请输入正确的营业执照!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+		}
+		
+		//税务登记号
+		if($("#tax_registration").val()==""){		
+      	   $("#J_Message").find("p").text('请输入税务登记号!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+		}
+		
+		//组织机构号
+		if($("#grounp_no").val()==""){		
+      	   $("#J_Message").find("p").text('请输入组织机构号!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+		}
+		
+		//验证上传图片问题
+		$("img[id^='permitP_btn']").each(function(i,obj){
+			if($(obj).attr("required")){
+				if($(obj).attr("src").indexOf('portraitUpload.png')>0){
+		      	   $("#J_Message").find("p").text("请上传"+$(obj).parent().parent().find("td").eq(2).text().substring(0,  $(obj).parent().parent().find("td").eq(2).text().indexOf("上传"))+"!");
+		    	   $("#J_Message").fadeIn();
+		    	   rtn = false;
+		    	   return false;
+				}
+			}
+		});
+		
+		return rtn;
     }
+    
     //提交
     $("#btnCl").bind('click',function(){
+    	 	   	
+    	    if(!ChkVaild()) return false;
+    	    
+    	    var index =layer.load('正在处理请稍后', 0);
+    	       	    
             var legal_person = $("#legal_person").val();
             var legal_idcard = $("#legal_idcard").val();
             var legal_idcard_pic = $("#legal_idcard_pic").val();
@@ -158,17 +231,29 @@
             var tax_registration = $("#tax_registration").val();
             var tax_registration_pic = $("#tax_registration_pic").val();
             var grounp_no = $("#grounp_no").val();
-            var organization_pic = $("#organization_pic").val();
+            var organization_pic = $("#organization_pic").val(); 
+            var Powerofattorney_pic = $("#Powerofattorney_pic").val(); 
+                        		           
             $.ajax({
                 type:"post",
                 url:"/user/fundManager/certificate",
-                data:{'legal_person':legal_person,'legal_idcard':legal_idcard,'legal_idcard_pic':legal_idcard_pic,'business_licence':business_licence,'business_licence_pic':business_licence_pic,'tax_registration':tax_registration,'tax_registration_pic':tax_registration_pic,'grounp_no':grounp_no,'organization_pic':organization_pic},
+                data:{'legal_person':legal_person,'legal_idcard':legal_idcard,'legal_idcard_pic':legal_idcard_pic,'business_licence':business_licence,'business_licence_pic':business_licence_pic,'tax_registration':tax_registration,'tax_registration_pic':tax_registration_pic,'grounp_no':grounp_no,'organization_pic':organization_pic,'Powerofattorney_pic':Powerofattorney_pic},
                 dataType:'json',
                 success:function(res){
                     if(res.err==0){
-                    window.location.href="/user/fundManager/fundManager";
+                    	window.location.href="/user/fundManager/fundManager";
+                    }else{
+                   	   $("#J_Message").find("p").text(res.msg);
+                	   $("#J_Message").fadeIn();
                     }
-                }
+                	layer.close(index);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                	 layer.close(index);
+                	 //alert(XMLHttpRequest.status);
+                	 //alert(XMLHttpRequest.readyState);
+                	 //alert(textStatus);
+            	}
             });
         });
     //返回上一步
