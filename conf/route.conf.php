@@ -17,10 +17,10 @@ return array(
 		// '/^(index|ajax)(\/\w+)$/' => 'home/$1$2',
 		// '/^(android|ios|wp|weixin)\/(\w+)\/(\w+)$/' => 'app/$2/$3?chanel=$1',
 		// '/^(\w+\/\w+\/)(\w+)\-(\w+)/' => '$1$2$3',
-		'/^mycompany\/([0-9]+)$/'=>'mycompany/index/init?id=$1',//我的网站子网站路由
+		'/^company\/([0-9]+)$/'=>'mycompany/index/init?id=$1',//我的网站子网站路由
 		'/^article\/show\/([0-9]+)$/'=>'article/index/info?id=$1',
-		'/^physical\/([0-9]+)$/' => 'physical/index/content?id=$1',
-		'/^myHomeWeb/'=>'user/myHomeWeb/getMyWeb'
+		'/^physical\/index\/([0-9]+)$/'=>'article/index/content?id=$1',
+
 	),
 
 	//子(泛)域名路由规则
