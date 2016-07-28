@@ -43,6 +43,7 @@
 	                <tr>
 	                	<td>
 	                    	<select name="data[0][product_type]">
+								<option value="">请选择</option>
 	                    		{foreach from=$product_type item=value key=key}
 	                        	<option value="{$key}">{$value}</option>
 	                        	{/foreach}
@@ -117,6 +118,7 @@
 	                <tr>
 	            		<td>
 	            	    	<select name="data[0][product_type]">
+								<option value="">请选择</option>
 	            	    		{foreach from=$product_type item=value key=key}
 	            	        	<option value="{$key}">{$value}</option>
 	            	        	{/foreach}

@@ -120,7 +120,7 @@ class mypurchaseAction extends userBaseAction{
 		}
 	}
 
-	//采购发布
+	//采购发布(报价发布)
 	public function pub()
 	{
 		if($data=$_POST['data'])

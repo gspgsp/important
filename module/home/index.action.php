@@ -7,7 +7,6 @@ class indexAction extends homeBaseAction{
 	}
 	public function init()
 	{
-		
 		//轮播图
 		$this->banners=array_reverse(M('system:block')->getBlock(1,10));
 		//产品应用
