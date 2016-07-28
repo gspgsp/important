@@ -19,7 +19,7 @@ return array(
 		// '/^(\w+\/\w+\/)(\w+)\-(\w+)/' => '$1$2$3',
 		'/^company\/([0-9]+)$/'=>'mycompany/index/init?id=$1',//我的网站子网站路由
 		'/^article\/show\/([0-9]+)$/'=>'article/index/info?id=$1',
-		'/^physical\/index\/([0-9]+)$/'=>'article/index/content?id=$1',
+		'/^physical\/index\/([0-9]+)$/'=>'physical/index/content?id=$1',
 
 	),
 
