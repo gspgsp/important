@@ -52,7 +52,7 @@ class indexAction extends homeBaseAction{
 
 		//新闻资讯
 		$this->articleList = M('system:info')->get_index_article();
-		$this->seo = array('title'=>'首页',);
+		// $this->seo = array('title'=>'首页',);
 		$this->display('index.html');
 	}
 
