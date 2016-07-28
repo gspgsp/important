@@ -4,10 +4,11 @@
  */
 class productAttentionAction extends userBaseAction
 {
+	private $db;
 	public function __init(){
 		$this->db = M('public:common')->model('concerned_product');
 	}
-	//关注产品
+	//关注产品列表
 	public function proAttentionValue(){
 		$this->product_type=L('product_type');
 		$page=sget('page','i',1);

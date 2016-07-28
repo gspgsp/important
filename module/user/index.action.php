@@ -14,7 +14,6 @@ class indexAction extends userBaseAction{
 		$this->data=M('user:customerContact')->getCustomerInFoById($this->user_id);
 		//我的关注列表
 		$list = M('product:concernedProduct')->getConcernedList($this->user_id);
-
 		$arr=array();
 		foreach($list as $k=>$v){
 			$arr['p_id']=$v['product_id'];

@@ -26,8 +26,10 @@
                         _this.text("取消关注");
                         _this.parents('ul').find('li.status').text('关注中');
                     }else if(res.status == 2){
-                        _this.text("重新关注");
-                        _this.parents('ul').find('li.status').text('已取消');
+                        alert('取消成功');
+                        location.reload();
+//                        _this.text("重新关注");
+//                        _this.parents('ul').find('li.status').text('已取消');
                     }
                 }
             }
