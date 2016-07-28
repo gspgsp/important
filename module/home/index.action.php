@@ -14,6 +14,7 @@ class indexAction extends homeBaseAction{
 		//产品分类
 		$product_type=L('product_type');
 		unset($product_type[7]);
+		unset($product_type[8]);
 		$this->assign('product_type',$product_type);
 		//省份地区
 		$this->area=M('system:region')->getProvinceCache();
@@ -51,6 +52,7 @@ class indexAction extends homeBaseAction{
 
 		//新闻资讯
 		$this->articleList = M('system:info')->get_index_article();
+		$this->seo = array('title'=>'我的塑料网-安全的便捷的网站交易平台',);
 		$this->display('index.html');
 	}
 

@@ -48,7 +48,7 @@ class indexAction extends homeBaseAction{
 			$this->assign('list', $list);
 		}
 		$this->info=$this->_getInfo();
-
+		$this->seo = array('title'=>'资源库',);
 		$this->display('index.html');
 	}
 

@@ -83,6 +83,7 @@ class indexAction extends homeBaseAction{
 //			p($price);
 //			showTrace();
 //		}
+		$this->seo = array('title'=>'大户报价',);
 		$this->pages=pages($list['count'],$page,$pageSize);
 		$this->assign('list',$list);
 		$this->display('index');

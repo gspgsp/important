@@ -10,6 +10,7 @@ class indexAction extends homeBaseAction{
 	}
 	public function init()
 	{
+		$this->seo = array('title'=>'物性表',);
 		$this->display('index.html');
 	}
 
@@ -34,6 +35,7 @@ class indexAction extends homeBaseAction{
 	public function search()
 	{
 		$keyword = sget('keyword', 's', '');
+		$this->seo = array('title'=>$keyword,);
 		if($keyword){
 			$p = abs(sget('page', 'i', 1));
 			$pageSize = 10;
@@ -55,18 +57,18 @@ class indexAction extends homeBaseAction{
 	{
 		$id = sget('id', 'i', 0);
 		$print = sget('print', 's', '');
-
 		if( $data = $this->physicalModel->where("lid=$id")->getRow() )
 		{
-			// p($data);
 			$data['uses'] = htmlspecialchars_decode($data['uses']);
 			$data['params'] = htmlspecialchars_decode($data['params']);
 			$this->assign('data', $data);
 			if($print)
 			{
+				$this->seo = array('title'=>'打印物性表',);
 				$this->display('print.html');
 			}else
-			{
+			{	
+				$this->seo = array('title'=>'物性指标详情',);
 				$this->display('content.html');
 			}
 		}else{

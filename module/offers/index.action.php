@@ -148,6 +148,7 @@ class indexAction extends homeBaseAction{
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}
+		$this->seo = array('title'=>'商城报价',);
 		$this->assign('list',$list);
 		$this->display('index');
 	}

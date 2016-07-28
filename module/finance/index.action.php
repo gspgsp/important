@@ -7,14 +7,14 @@
  */
 
 class IndexAction extends  homeBaseAction{
-    protected $db;
-    public function __init()
-    {
-        $this->db=M('public:common');
-    }
+	protected $db;
+	public function __init()
+	{
+		$this->db=M('public:common');
+	}
 
-    public function init(){
-
-        $this->display('finance');
-    }
+	public function init(){
+		$this->seo = array('title'=>'供应链金融',);
+		$this->display('finance');
+	}
 }

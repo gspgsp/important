@@ -86,7 +86,7 @@ class indexAction extends homeBaseAction{
 			foreach ($info as $key => $value) {
 				$grabList[$key]['name'] = str_pad(substr($value['name'], 0, 1), strlen($value['name']), '*');
 			}
-
+		$this->seo = array('title'=>'采购单',);
 		$this->assign('info',$grabList);
 		$this->assign('list',$list);
 		$this->display('index');
