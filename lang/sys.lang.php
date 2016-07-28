@@ -47,13 +47,6 @@ return array(
 		9=>'资源库发布',
 		10=>'资源库搜索',
 		),
-	'factory_name'=>array(
-		1=>'HDPE',
-		2=>'LDPE',
-		3=>'LLDPE',
-		4=>'PPHM',
-		5=>'PVC',
-		6=>'PPCP',
-		),
+
 );
 ?>

@@ -38,7 +38,7 @@ class productAttentionAction extends userBaseAction
 		$company = M('user:customer')->getCinfoById($userContact['c_id']);
 
 		$data['user_id'] = $this->user_id;
-		$data['product_name'] = L('factory_name')[$_POST['kid']];
+		$data['product_name'] = L('product_type')[$_POST['kid']];
 		$data['model'] = $_POST['num'];
 		$data['factory_name'] = $_POST['address'];
 		$data['remark'] = $_POST['remark'];
