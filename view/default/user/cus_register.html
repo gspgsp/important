@@ -142,7 +142,7 @@
             // 'gif','jpg','jpeg','png','swf'
             var patrn = /^(jpg|jpeg|png)$/i;
             if (!patrn.test(suffix)) {
-                alert('不支持上传 *.' + suffix + '格式的文件。');
+            	layer.msg('不支持上传 *.' + suffix + '格式的文件。');
                 return false;
             }
         },
@@ -152,7 +152,7 @@
                 $(obj).next().val(result.msg);
                 $(obj).attr('src',"__UPLOAD__/"+result.msg);
             } else {
-                alert(result.msg);
+            	layer.msg(result.msg);
             }
         }
         });

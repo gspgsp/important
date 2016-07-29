@@ -26,15 +26,15 @@
             </ul>
             <!--tabx end-->
             <!--con-tabx-1 begin-->
-            <div id="con-tabx-1" class="con-tabx">
+            <div id="con-tabx-1" class="con-tabx" style="width:750px;">
             	<form id="infoForm">
 					<!--lt-rt begin-->
 					<div class="lt-rt">
 					    <!--lt begin-->
-					    <div class="lt flt">
+					    <div class="lt flt" style="width:750px;">
 						    <div style="float:right">
-							    <input type="button" value="修改" class="change"/>
-							    <input type="submit" value="保存" class="save" style="display: none;"/>
+							    <input type="button" value="修改" class="change" style="cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
+							    <input type="submit" value="保存" class="save" style="display: none;cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
 							</div>
 							<div style="clear:both"></div>
 					        <table>
@@ -82,7 +82,7 @@
 					            <tr>
 					                <td class="name">联系电话：</td>
 					                <!-- <td class="val"><input type="text" name="tel" value="{$user_info.tel}" class="import edit" readonly="true"/></td> -->
-					                <td class="val"><input type="text" name="tel" value="{$user_info.tel}" class="import edit" readonly="true"/></td>
+					                <td class="val"><input type="text" name="tel" value="{$user_info.tel}" class="import  edit" readonly="true"/></td>
 					            </tr>
 					            <tr>
 					                <td class="name">邮箱：</td>
@@ -115,33 +115,35 @@
             </div>
             <!--con-tabx-1 end-->
             <!--con-tabx-2 begin-->
-            <div id="con-tabx-2" class="con-tabx" style="display:none;">
+            <div id="con-tabx-2" class="con-tabx" style="display:none;width:750px;">
             	<form id="companyForm">
             		<div style="float:right">
-					    <input type="button" value="修改" class="change2"/>
-					    <input type="submit" value="保存" class="save2" style="display: none;"/>
+					    <input type="button" value="修改" class="change2" style="cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
+					    <input type="submit" value="保存" id="save2" class="save2" style="display: none;cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
+   					    <input type="button" id="bind_member" value="绑定东方付通" style="cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
 					</div>
 					<div style="clear:both"></div>
 	            	<table>
 	                	<tr>
 
 	                    	<td class="name">公司名称：</td>
-	                        <td><input type="text" name="c_name" class="import import1 required" value="{$customer.c_name}" readonly="true"/></td>
+	                        <td><input type="text" name="c_name" style="width:386px;" class="import import1 required" value="{$customer.c_name}" readonly="true"/></td>
 	                    </tr>
 	                    <tr>
 	                    	<td class="name">所需牌号：</td>
-	                        <td><input type="text" name="need_product" class="import import2 required edit" value="{$customer.need_product}" readonly="true"/></td>
+	                        <td><input type="text" name="need_product" style="width:386px;" class="import import2 required edit" value="{$customer.need_product}" readonly="true"/></td>
 	                    </tr>
 	                    <tr>
 	                    	<td class="name">公司地址：</td>
 	                        <td>
-	                        	<select name="origin[]" onChange="getarea(this)" class="required" disabled="disabled">
+	                            <input type='hidden' name='origin' id='origin'/>
+	                        	<select style="height:32px;width:197px;" id="origin_0" name="origin_0" onChange="getarea(this)" class="required" disabled="disabled">
 	                        		<option value="">请选择</option>
 	                        		{foreach from=$area item=value}
 	                        		<option {if $value.id==$origin[0]}selected{/if} value="{$value.id}">{$value.name}</option>
 	                        		{/foreach}
 	                        	</select>
-	                        	<select name="origin[]" class="required" disabled="disabled">
+	                        	<select style="height:32px;width:197px;" id="origin_1" name="origin_1" class="required" disabled="disabled">
 	                        		<option value="">请选择</option>
 	                        		{foreach from=$city item=value}
 	                        		<option {if $value.id==$origin[1]}selected{/if} value="{$value.id}">{$value.name}</option>
@@ -178,9 +180,11 @@
 <script type="text/javascript">
 function getarea(that){
 	var pid=$(that).val();
+    var index =layer.load('正在查询请稍后', 0);
 	$.get('/api/region',{region_id:pid},function(data){
+       	layer.close(index);
 		if(data.length){
-			console.log(data);
+			//console.log(data);
 			var html='<option value="">请选择</option>';
 			$(data).each(function(k,v){
 				html+='<option value="'+v.id+'">'+v.name+'</option>';
@@ -200,7 +204,7 @@ $(function(){
 	    	// 'gif','jpg','jpeg','png','swf'
 	        var patrn = /^(jpg|jpeg|png)$/i;
 	        if (!patrn.test(suffix)) {
-	            alert('不支持上传 *.' + suffix + '格式的文件。');
+	        	layer.msg('不支持上传 *.' + suffix + '格式的文件。');
 	            return false;
 	        }
 	    },
@@ -210,7 +214,7 @@ $(function(){
 	            $('#url').val(result.msg);
 	            $("#head").attr('src',"__UPLOAD__/"+result.msg);
 	        } else {
-	            alert(result.msg);
+	        	layer.msg(result.msg);
 	        }
 	    }
 	});
@@ -219,15 +223,20 @@ $(function(){
 	$("#infoForm").bind('submit', function(){
 		var name=$("#infoForm input[name='name']").val().trim();
 		if(name.length==0){
-			alert('姓名不能为空');
+			layer.tips('姓名不能为空', $("#infoForm input[name='name']"), {
+				  tips: 1
+			});
 			return false;
 		}
+		$(".xubox_layer").remove();
+	    var index =layer.load('正在处理请稍后', 0);
 		var data=$(this).serialize();
 		$.post('/user/myset/edit_info',data,function (data){
+           	layer.close(index);
 			if(data.err==0){
-				alert('修改成功');
+				layer.msg('修改成功');
 			}else{
-				alert(data.msg);
+				layer.msg(data.msg);
 				window.location.reload();
 			}
 		},'json');
@@ -239,17 +248,29 @@ $(function(){
 		$(this).find('.required').each(function(k,v){
 			if($(this).val().trim().length==0){
 				$(this).addClass('requires');
+				layer.tips('请填写', $(this), {
+					  tips: 1
+				});
 				flag=false;
 				return false;
 			}
 		});
 		if(!flag) return false;
+		if(($("#origin_0").val()=="")||($("#origin_1").val()=="")){
+			alert('请填写公司地址信息!');
+			return false;
+		}
+		$(".xubox_layer").remove();
+	    var index =layer.load('正在处理请稍后', 0);
+		$("#origin").val($("#origin_0").val()+'|'+$("#origin_1").val());
 		var data=$(this).serialize();
 		$.post('/user/myset/edit_company',data,function (data){
+           	layer.close(index);
 			if(data.err==0){
-				alert('修改成功');
+				//alert('修改成功');
+				layer.msg('修改成功');
 			}else{
-				alert(data.msg);
+				layer.msg(data.msg);
 			}
 		},'json');
 		return false;
@@ -268,9 +289,17 @@ $(function(){
 	});
 
 	$(".save").live("click",function(){
-		conTabx1.find(".edit").attr("readonly","true");
-		conTabx1.find(".change").show();
-		$(this).hide();
+		var name=$("#infoForm input[name='name']").val().trim();
+		if(name.length==0){
+			layer.tips('姓名不能为空', $("#infoForm input[name='name']"), {
+				  tips: 1
+			});
+			return false;
+		}else{
+			conTabx1.find(".edit").attr("readonly","true");
+			conTabx1.find(".change").show();
+			$(this).hide();
+		}
 	});
 
 	var conTabx2 = $("#con-tabx-2");
@@ -284,12 +313,42 @@ $(function(){
 	});
 
 	$(".save2").live("click",function(){
+		var flag=true;
+		$("#companyForm").find('.required').each(function(k,v){
+			if($(this).val().trim().length==0){
+				$(this).addClass('requires');
+				layer.tips('请填写', $(this), {
+					  tips: 1
+				});
+				flag=false;
+				return false;
+			}
+		});
+		if(!flag) return false;
 		conTabx2.find(".edit").attr("readonly","true");
 		conTabx2.find(".change2").show();
 		$(this).hide();
 
 		//select禁止使用
 		conTabx2.find("select").attr("disabled","disabled");
+	});
+	
+	//绑定东方付通会员账号
+	$("#bind_member").click(function(){
+		if($("#save2").css('display')!="none"){
+			layer.tips('请先保存公司信息!', $("#save2"), {
+				  tips: 1
+			});
+			return false;
+		}
+		var data=$("#companyForm").serialize();
+		$.post('/user/myset/bind_member',data,function (data){
+			if(data.err==0){
+				layer.msg('操作成功');
+			}else{
+				layer.msg(data.msg);
+			}
+		},'json');
 	});
 
 })

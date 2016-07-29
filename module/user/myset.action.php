@@ -61,19 +61,31 @@ class mysetAction extends userBaseAction{
 		if($_POST){
 			$this->is_ajax=true;
 			$model=$this->db->model('customer');
+			$contactmodel=$this->db->model('customer_contact');
 			$_data=saddslashes($_POST);
 			$c_id=$_SESSION['uinfo']['c_id'];//用户关联客户id
-			if(!$customer=$model->where("c_id=$c_id")->getRow()) $this->error('信息不存在');
+			$customer=M('user:customer')->getCinfoById($c_id);
+			if(empty($customer))$this->error('信息不存在');
+// 			if(!$customer=$model->where("c_id=$c_id")->getRow()) $this->error('信息不存在');
+			$contact_id=$customer['contact_id'];
+			if(empty($contactmodel->where("user_id='{$contact_id}'")->getRow()))
+			{
+			    $this->error('默认联系人不存在,请联系系统管理员维护当前公司默认联系人!');
+			}
+			
+			if($contact_id!=$this->user_id) $this->error('不是默认联系人不能修改!'.'请联系:'.$contactmodel->where("user_id='{$contact_id}'")->getRow()['name']);
 			if(!trim($_data['c_name'])) $this->error('公司名称不能为空');
 			if(!trim($_data['need_product'])) $this->error('需求牌号不能为空');
 			if(!trim($_data['address'])) $this->error('公司详细地址不能为空');
 			if(!$_data['origin']) $this->error('公司地址不能为空');
 			$c_name=trim($_data['c_name']);
 			if($c_name!=$customer['c_name'] && $model->where("c_name='{$c_name}'")->getOne()) $this->error('公司已存在，不能重复新建。');
-			if($customer['contact_id']!=$this->user_id) $this->error('不是默认联系人不能修改');
 			$_data['update_time']=CORE_TIME;
-			$_data['origin']=implode('|',$_data['origin']);
+			p($_data);
+// 			$_data['origin']=implode('|',$_data['origin']);
 			if(!$model->where("c_id=$c_id")->update($_data)) $this->error('操作失败，系统错误。');
+			showtrace();
+//             file_put_contends('./111.txt',$model->where("c_id=$c_id")->update($_data).getLastSql());
 			$this->success('操作成功');
 		}
 	}
@@ -162,8 +174,45 @@ class mysetAction extends userBaseAction{
 			}
 
 		}
-
-
+		
+	}
+	
+	/**
+	 * 绑定东方付通账号
+	 *
+	 */
+	public function bind_member()
+	{
+	    if($_POST)
+	    {
+	        $this->is_ajax=true;
+			$model=$this->db->model('customer');
+			$_data=saddslashes($_POST);
+			$c_id=$_SESSION['uinfo']['c_id'];//用户关联客户id
+			$customer=M('user:customer')->getCinfoById($c_id);
+			if(empty($customer))$this->error('信息不存在');
+			if(!trim($_data['c_name'])) $this->error('公司名称不能为空');
+			if(!trim($_data['need_product'])) $this->error('需求牌号不能为空');
+			if(!trim($_data['address'])) $this->error('公司详细地址不能为空');
+			if(!$_data['origin']) $this->error('公司地址不能为空');
+// 			$_data['update_time']=CORE_TIME;
+// 			$_data['origin']=implode('|',$_data['origin']);
+// 			if(!$model->where("c_id=$c_id")->update($_data)) $this->error('操作失败，系统错误。');
+            try {                
+                $bind = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+                $params = array(
+                    'mallID'     => '000106',
+                    'payType'    => '09020',
+                    'memCode'    => $c_id,
+                    'memName'    => $_data['c_name'],
+                );
+//              header("Location:".$ss->memberbind(json_encode($params)));//会员绑定
+                $this->success($bind->memberbind(json_encode($params)));
+            } catch (Exception $e) {
+                 $this->error('绑定失败');
+            }
+// 			$this->success('操作成功');
+	    }
 	}
 
 
