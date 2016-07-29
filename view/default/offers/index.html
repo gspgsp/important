@@ -136,7 +136,7 @@
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
                 <div class="amount">{:floatval|$value.number}</div>
-                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span><b>{if $value.bargain==1}议价{else}实价{/if}</b></div>
+                <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span>{if $value.bargain==1}<b class="price1">议价</b>{else}<b class="price2">实价</b>{/if}</div>
                 <!-- <div class="change tie"><b></b><span>100</span></div> -->
                 <div class="address">{$value.cityname}</div>
                 <div class="company">
