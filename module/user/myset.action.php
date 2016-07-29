@@ -14,12 +14,13 @@ class mysetAction extends userBaseAction{
 	{
 		$this->act="myset";
 		$user_info=$this->db->from('customer_contact c')
+			->join('customer as cu','cu.c_id=c.c_id')
 			->join('contact_info i','c.user_id=i.user_id')
-			->leftjoin('admin ad','c.customer_manager=ad.admin_id')
+			->leftjoin('admin ad','cu.customer_manager=ad.admin_id')
 			->where("c.user_id=$this->user_id")
 			->select("c.user_id,c.mobile,c.name,c.tel,c.fax,c.c_id,email,i.points,i.thumb,ad.name as ad_name")
 			->getRow();
-		// p($user_info);
+//		 p($user_info);
 
 		//公司信息
 		$customer=$this->db->model('customer')->where("c_id={$user_info['c_id']}")->getRow();
