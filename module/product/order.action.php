@@ -123,6 +123,7 @@ class orderAction extends adminBaseAction {
 				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
 			} 
 		}
+		// p($where);die;
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		foreach($list['data'] as &$v){
 			$v['c_name']=  ($v['partner'] == $_SESSION['adminid'] && $v['customer_manager'] != $_SESSION['adminid']) ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
@@ -424,7 +425,7 @@ class orderAction extends adminBaseAction {
 			);
 			try {	
 				if($data['join_id']>0) unset($data['store_o_id']); //不销库存的订单 不存在此字段
-				if( !$this->db->model('order')->add($data+$add_data) ) throw new Exception("新增订单失败");//新增订单
+				if( !$this->db->model('order')->add($add_data+$data) ) throw new Exception("新增订单失败");//新增订单
 				$o_id=$this->db->getLastID(); //获取新增订单ID
 				if($data['join_id']>0){  //反向把新增的采购订单id 保存在所关联的销售订单中
 					if( !$this->db->model('order')->where(' o_id ='.$data['join_id'])->update(' join_id = '.$o_id) ) throw new Exception("关联的销售订单更新失败");	
@@ -439,9 +440,9 @@ class orderAction extends adminBaseAction {
 						$detail[$k]['b_number']=$v['require_number'];
 						if($data['order_type'] == 1){//销售明细
 							$detail[$k]['number']=$v['require_number'];
-							if( !$this->db->model('sale_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");		
+							if( !$this->db->model('sale_log')->add($add_data+$detail[$k]) ) throw new Exception("新增明细失败");		
 						}else{//采购明细
-							if( !$this->db->model('purchase_log')->add($detail[$k]+$add_data) ) throw new Exception("新增明细失败");
+							if( !$this->db->model('purchase_log')->add($add_data+$detail[$k]) ) throw new Exception("新增明细失败");
 						}
 					}
 				}	
