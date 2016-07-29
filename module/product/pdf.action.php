@@ -61,7 +61,7 @@ class pdfAction extends adminBaseAction {
 							  <tr>
 								<td></td>
 								<td  height="20" style="line-height:20px;">%s日期：</td>
-								<td>%s</td>
+								<td>%s左右</td>
 							</tr>
 							  <tr>
 								<td></td>
@@ -218,7 +218,7 @@ class pdfAction extends adminBaseAction {
 							  <tr>
 								<td></td>
 								<td  height="20" style="line-height:20px;">%s日期：</td>
-								<td>%s</td>
+								<td>%s左右</td>
 							</tr>
 							  <tr>
 								<td></td>
