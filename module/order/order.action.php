@@ -123,7 +123,7 @@ class orderAction extends adminBaseAction {
 		}
 
 		$list=$this->db->where($where)->order($orderby)->getAll();
-		foreach($list['data'] as &$v){
+		foreach($list as &$v){
 			$v['c_name']=  $v['partner'] == $_SESSION['adminid'] ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
@@ -158,8 +158,6 @@ class orderAction extends adminBaseAction {
 			$v['one_b_status']=M("product:billing")->where("o_id={$v['o_id']} and invoice_status=1")->select('invoice_status')->getOne();
 
 		}
-		
-		$logs = $list['data'];
 		//销售订单和采购订单 导出的字段不同，要区分开来
 		$str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
 		if($order_type == 1){
@@ -168,7 +166,7 @@ class orderAction extends adminBaseAction {
 						<td>收款状态</td><td>开票状态</td><td>备注</td><td>销售|物流</td>
 						<td>财务记录</td><td>创建时间</td><td>更新时间</td><td>交易员</td>
 					</tr>';
-			foreach($logs as $k=>$v){
+			foreach($list as $k=>$v){
 				$str .= "<tr><td>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
 							<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['partner']."</td><td>".$v['out_storage_status']."</td>
 							<td>".$v['payments_status']."</td><td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td>
@@ -181,7 +179,7 @@ class orderAction extends adminBaseAction {
 						<td>开票状态</td><td>备注</td><td>采购|物流</td><td>财务记录</td>
 						<td>创建时间</td><td>更新时间</td><td>交易员</td>
 					</tr>';
-			foreach($logs as $k=>$v){
+			foreach($list as $k=>$v){
 				$str .= "<tr><td>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
 				<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['in_storage_status']."</td><td>".$v['payments_status']."</td>
 				<td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td><td>".$v['financial_records']."</td>
