@@ -81,6 +81,8 @@ class indexAction extends homeBaseAction{
 			json_output(array('err'=>0,'msg'=>'发布成功'));
 		}
 	}
+
+
 	//可能感兴趣的产品
 	private function _getInfo(){
 		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
