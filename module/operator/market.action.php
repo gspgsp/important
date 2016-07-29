@@ -29,7 +29,9 @@ class marketAction extends adminBaseAction{
 		$size = sget("pageSize",'i',20); //每页数
 		$list=$this->db->order('input_time desc')->page($page+1,$size)->getPage();
 		foreach ($list['data'] as &$value) {
-			$value['input_time']= $value['input_time']==0?'--':date('Y-m-d',$value['input_time']);
+			$value['input_time']= $value['input_time']==0?'--':date('Y-m-d H:i:s',$value['input_time']);
+			$value['addtime']= $value['addtime']==0?'--':date('Y-m-d',$value['addtime']);
+			$value['update_time']= $value['update_time']==0?'--':date('Y-m-d H:i:s',$value['update_time']);
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
