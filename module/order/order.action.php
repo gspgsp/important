@@ -48,6 +48,155 @@ class orderAction extends adminBaseAction {
 		$this->display('order.list.html');
 	}
 	/**
+	 * 导出报表
+	 * @access public 
+	 * @return html
+	 */
+	public function download(){
+		$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+		if(in_array($roleid, array('30','26','27'))){
+			$sortField = sget("sortField",'s','update_time'); //排序字段
+		}else{
+			$sortField = sget("sortField",'s','input_time'); //排序字段
+		}
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		//筛选
+		$where.= 1;
+		//筛选状态
+		if(sget('type','i',0) !=0) $order_type=sget('type','i',0);//订单类型
+		if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
+		if($order_type !=0)  $where.=" and `order_type` =".$order_type;
+		$financial_records=sget('financial_records','s');//抬头
+		if($financial_records !='')  $where.=" and `financial_records` = ".$financial_records;
+		$order_source=sget('order_source','i',0);//订单来源
+		if($order_source !=0)  $where.=" and `order_source` =".$order_source;
+		$pay_method=sget('pay_method','i',0);//付款方式
+		if($pay_method !=0)  $where.=" and `pay_method` =".$pay_method;
+		$transport_type=sget('transport_type','i',0);//运输方式
+		if($transport_type !=0)  $where.=" and `transport_type` =".$transport_type;
+		$business_model=sget('business_model','i',0);//业务模式
+		if($business_model !=0)  $where.=" and `business_model` =".$business_model;
+		$order_status=sget('order_status','i',0);//订单审核
+		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
+		$transport_status=sget('transport_status','i',0);//物流审核
+		if($transport_status !=0)  $where.=" and `transport_status` =".$transport_status;
+		$out_storage_status=sget('out_storage_status','i',0);//发货状态
+		if($out_storage_status !=0)  $where.=" and `out_storage_status` =".$out_storage_status;
+		//筛选时间
+		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
+		$where.=getTimeFilter($sTime); //时间筛选
+		//关键词搜索
+		$key_type=sget('key_type','s','order_sn');
+		$keyword=sget('keyword','s');
+		if(!empty($keyword) && $key_type=='input_admin'  ){
+			$admin_id = M('rbac:adm')->getAdmin_Id($keyword);
+			$where.=" and `customer_manager` = '$admin_id'";
+		}elseif(!empty($keyword) && $key_type=='c_id'){
+			$keyword=M('product:order')->getOidByCname($keyword);
+			$where.=" and `$key_type` in ('$keyword') ";
+		}elseif(!empty($keyword)){
+			$where.=" and `$key_type`  = '$keyword' ";
+		}
+		$orderby = "$sortField $sortOrder";
+		//筛选过滤自己的订单信息
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+			$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
+			//筛选财务
+			if(in_array($roleid, array('30','26','27'))){
+				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
+			} 
+		}
+		//团队处理
+		$team_id = sget("team",'s',''); //team
+		if(!empty($team_id)){
+			$team_user_arr = M('rbac:role')->model('adm_role_user')
+				->where('role_id='.$team_id)
+				->select('user_id')
+				->getAll();
+			$str = ',';
+			foreach ($team_user_arr as $key => $value) {
+				$string.=$str.$value['user_id'];
+			}
+			$in_string = trim($string,',');
+			$where.=" and `customer_manager` in (" .$in_string. " )";
+		}
+
+		$list=$this->db->where($where)->order($orderby)->getAll();
+		foreach($list['data'] as &$v){
+			$v['c_name']=  $v['partner'] == $_SESSION['adminid'] ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
+			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
+			$v['order_source']=L('order_source')[$v['order_source']]; 
+			$v['order_name']=L('company_account')[$v['order_name']]; 
+			$v['pay_method'] =L('pay_method')[$v['pay_method']];
+			$v['in_storage_status']=L('in_storage_status')[$v['in_storage_status']];
+			$v['transport_type']=L('transport_type')[$v['transport_type']];
+			$v['business_model']=L('business_model')[$v['business_model']];
+			$v['financial_records']=L('financial_records')[$v['financial_records']];
+			$v['partner']=M('rbac:adm')->getUserByCol($v['partner']);
+			//订单收付款状态
+			$v['payments_status']= ( $v['order_type'] == '1' ? L('collection_g_status')[$v['collection_status']] :  L('collection_p_status')[$v['collection_status']] ) ;
+			$v['order_type']=L('order_type')[$v['order_type']];
+			$v['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
+			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
+			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
+			$v['node_flow'] = $this->_accessChk($this->db->model('order')->select('node_flow')->where("`o_id` ={$v['o_id']} ")->getOne());
+			$v['cmanager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
+			//获取采购订单开票状态
+			if(!empty($v['store_o_id'])){
+				$v['newstatus'] = M("product:order")->getColByName($value=$v['store_o_id'],$col='invoice_status',$condition='o_id');
+			}
+			if(!empty($v['join_id'])){
+				$v['newstatus'] = M("product:order")->getColByName($value=$v['join_id'],$col='invoice_status',$condition='o_id');
+			}
+			$v['see'] =  ($v['customer_manager'] == $_SESSION['adminid'] ||  in_array($v['customer_manager'], explode(',', $sons)) || $_SESSION['adminid']  == '1') ? '1':'0';
+			//获取单笔订单收付款状态			
+			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
+			$v['one_c_status'] =$m[0]['collection_status'];
+			$v['one_b_status']=M("product:billing")->where("o_id={$v['o_id']} and invoice_status=1")->select('invoice_status')->getOne();
+
+		}
+		
+		$logs = $list['data'];
+		//销售订单和采购订单 导出的字段不同，要区分开来
+		$str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
+		if($order_type == 1){
+			$str .= '<tr><td>订单号</td><td>抬头</td><td>来源</td><td>客户名称</td>
+						<td>总数</td><td>总金额</td><td>协作者</td><td>出库状态</td>
+						<td>收款状态</td><td>开票状态</td><td>备注</td><td>销售|物流</td>
+						<td>财务记录</td><td>创建时间</td><td>更新时间</td><td>交易员</td>
+					</tr>';
+			foreach($logs as $k=>$v){
+				$str .= "<tr><td>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
+							<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['partner']."</td><td>".$v['out_storage_status']."</td>
+							<td>".$v['payments_status']."</td><td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td>
+							<td>".$v['financial_records']."</td><td>".$v['input_time']."</td><td>".$v['update_time']."</td><td>".$v['cmanager']."</td>
+						</tr>";
+			}
+		}elseif($order_type == 2){
+			$str .= '<tr><td>订单号</td><td>抬头</td><td>来源</td><td>客户名称</td>
+						<td>总数</td><td>总金额</td><td>入库状态</td><td>付款状态</td>
+						<td>开票状态</td><td>备注</td><td>采购|物流</td><td>财务记录</td>
+						<td>创建时间</td><td>更新时间</td><td>交易员</td>
+					</tr>';
+			foreach($logs as $k=>$v){
+				$str .= "<tr><td>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
+				<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['in_storage_status']."</td><td>".$v['payments_status']."</td>
+				<td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td><td>".$v['financial_records']."</td>
+				<td>".$v['input_time']."</td><td>".$v['update_time']."</td><td>".$v['cmanager']."</td></tr>";
+			}
+		}
+		
+		$str .= '</table>';
+		$filename = 'accountMpay.'.date("Y-m-d");
+		header("Content-type: application/vnd.ms-excel; charset=utf-8");
+		header("Content-Disposition: attachment; filename=$filename.xls");
+		echo $str;
+		exit;
+	}
+	/**
 	 * @access public
 	 * @return html
 	 * 默认是采购订单
@@ -59,6 +208,8 @@ class orderAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
+		$team = $this->db=M('public:common')->model('adm_role')->where('pid=22')->getAll();
+		$this->assign('team',$team);
 		$this->assign('order_type',2);
 		$this->assign('doact',$doact);
 		$this->assign('page_title','订单管理列表');
