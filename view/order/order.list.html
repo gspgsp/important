@@ -3,7 +3,7 @@
 	<table style="width:100%;">
 		<tr>
 			<td style="float:right;">
-			<form id="soform">
+			<form id="soform" method="get" action="/order/order/download">
 				<span id="searchMsg"></span>
 				<select name="sTime">
 					<option value="input_time">创建时间</option>
@@ -46,10 +46,16 @@
 					{html_options options=$out_storage_status}
 				</select> -->
 				<select name="key_type">
+					<option value="input_admin">交易员</option>
 					<option value="order_sn">订单号</option>
 					<option value="c_id">客户名称</option>
-					<option value="input_admin">交易员</option>
 				</select>
+				<!-- 判断是销售订单还是采购订单 -->
+				{if $order_type eq 1}
+					<input name="order_type" value="1" style="display:none" />
+				{else}
+					<input name="order_type" value="2" style="display:none" />
+				{/if}
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:60px;" onenter="onKeyEnter"/>
 				<select name="team">
 					<option value="">选择战队</option>
@@ -58,6 +64,7 @@
                 	{/foreach}
 				</select>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<a class="mini-button" class="output" onclick="download()" iconCls="icon-download" plain="true">Excel导出</a>
 				<span id="searchMsg"></span></form>
 			</td>
 		</tr>
@@ -101,6 +108,9 @@ function search() {
 	grid.load($("#soform").serializeObject(),function(e){
 		$("#searchMsg").html(e.msg);
 	});
+}
+function download() {
+	$("#soform").submit();
 }
 //追加操作按钮
 function onLoadHandle(e) {
@@ -157,4 +167,10 @@ function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
 	else window.close();
 }
+// $(function(){
+// 	$('.output').on('click',function(){
+// 		// $
+// 	});
+// 	// download
+// });
 </script>
