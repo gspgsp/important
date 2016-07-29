@@ -42,7 +42,9 @@
 .mall-offer .result li.result-con .price{ color:#fc6621;}
 .mall-offer .result li.result-con .price i{ font-style:normal; float:left;}
 .mall-offer .result li.result-con .price span{ float:left;}
-.mall-offer .result li.result-con .price b{ color:#fff; font-weight:normal;display:block; width:44px; height:22px; line-height:17px; text-align:left; text-indent:7px; position:absolute; right:0; background:url(../../images/home/mallOfferSpirit.png) no-repeat 0 -49px; margin:9px 0 0 5px;}
+.mall-offer .result li.result-con .price b{ color:#fff; font-weight:normal;display:block; width:44px; height:22px; line-height:17px; text-align:left; text-indent:7px; position:absolute; right:0; background:url(../../images/home/mallOfferSpirit.png) no-repeat; margin:9px 0 0 5px;}
+.mall-offer .result li.result-con .price b.price1{ background-position:0 -49px;}
+.mall-offer .result li.result-con .price b.price2{ background-position:-80px -188px;}
 .mall-offer .result li.result-con .change b{ display:block; width:12px; height:12px; background:url(../../images/home/mallOfferSpirit.png) no-repeat; float:left; margin:14px 6px 0 0;}
 .mall-offer .result li.result-con .change.up{ color:#fc6621;}
 .mall-offer .result li.result-con .change.up b{ background-position:0 -71px;}
