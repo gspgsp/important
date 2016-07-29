@@ -26,7 +26,7 @@
                         _this.text("取消关注");
                         _this.parents('ul').find('li.status').text('关注中');
                     }else if(res.status == 2){
-                        alert('取消成功');
+                       layer.msg('取消成功');
                         location.reload();
 //                        _this.text("重新关注");
 //                        _this.parents('ul').find('li.status').text('已取消');
@@ -196,9 +196,9 @@
                         if(res.err==0){
                             window.location.href="/user/productAttention/proAttentionValue";
                         }else if(res.err==2){
-                            alert(res.msg);
+                            layer.msg(res.msg);
                         }else if(res.err==1){
-                            alert(res.msg);
+                            layer.msg(res.msg);
                         }
                     }
                 });

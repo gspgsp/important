@@ -306,10 +306,10 @@
 				success:function(res){
 					if(res.err==0){
 						if(res.status==1){
-							alert('取消关注失败');
+							layer.msg('取消关注失败');
 //							window.location.reload();
 						}else{
-							alert('取消关注成功');
+							layer.msg('取消关注成功');
 							$(this).parent().remove();
 						}
 					}
@@ -326,7 +326,7 @@
 		var content = $('.addform textarea').val().trim();
 		var type=1;
 		if(content == ''){
-			alert('请填写发布内容');
+			layer.msg('请填写发布内容');
 			return false;
 		}
 		$.post('/resource/index/release', {content:content,type:type}, function (data){
@@ -337,7 +337,7 @@
 					alert(data.msg);
 				}
 			}else{
-				alert('发布成功');
+				layer.msg('发布成功');
 				window.location.reload();
 			}
 		},'json')
