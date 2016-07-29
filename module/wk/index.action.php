@@ -362,7 +362,7 @@ class indexAction extends adminBaseAction{
 		$keyword=sget('keyword','s','');
 
 		$p=sget('p','i',1);
-		$size=1;
+		$size=20;
 		if($keyword==''||!$timeline) return;
 
 		$where.=" and is_stock=0 and status='上架' and grade like '%{$keyword}%'";
