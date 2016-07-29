@@ -141,14 +141,21 @@
 		</li>
 	</ul>
 </div>
+<script charset="utf-8" src="http://wpa.b.qq.com/cgi/wpa.php"></script>
 <!--zt-contact begin-->
 <div class="zt-contact">
 	<ul>
-		<li class="opt">
+		<!-- <li class="opt">
 			<a target="blank" href="http://p.qiao.baidu.com/cps/chat?siteId=8866032&userId=10895876">
 				<div class="zt-slide bg-gray">在线咨询</div>
 				<div class="zt-mouseover icon-qq bg-gray"></div>
 			</a>
+		</li> -->
+		<li class="opt">
+			<div id="BizQQWPA">
+				<div class="zt-slide bg-gray">在线咨询</div>
+				<div class="zt-mouseover icon-qq bg-gray"></div>
+			</div>
 		</li>
 		<li>
 			<div class="ewm bg-gray"><img src="__IMG__/home/zt-wx-ewm.jpg" width="200" height="200"></div>
@@ -213,5 +220,7 @@ $(function(){
 			}
 		});
 });
+
+BizQQWPA.addCustom({aty: '0', a: '0', nameAccount: 4000677611, selector: 'BizQQWPA'});
 </script>
 </body>
