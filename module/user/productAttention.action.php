@@ -58,8 +58,7 @@ class productAttentionAction extends userBaseAction
 	}
 	//获取关注的列表
 	private function _getAttentionvalue($model,$page,$size){
-		$list = $this->db->model($model)->where('user_id='.$this->user_id)->page($page,$size)
-			->where('status=1')
+		$list = $this->db->model($model)->where("user_id=$this->user_id and status=1")->page($page,$size)
 			->order("input_time desc")
 			->getPage();
 		foreach ($list['data'] as $key => $value) {
