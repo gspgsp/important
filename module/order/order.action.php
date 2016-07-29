@@ -167,10 +167,10 @@ class orderAction extends adminBaseAction {
 						<td>财务记录</td><td>创建时间</td><td>更新时间</td><td>交易员</td>
 					</tr>';
 			foreach($list as $k=>$v){
-				$str .= "<tr><td>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
+				$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
 							<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['partner']."</td><td>".$v['out_storage_status']."</td>
 							<td>".$v['payments_status']."</td><td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td>
-							<td>".$v['financial_records']."</td><td>".$v['input_time']."</td><td>".$v['update_time']."</td><td>".$v['cmanager']."</td>
+							<td>".$v['financial_records']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['input_time']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['update_time']."</td><td>".$v['cmanager']."</td>
 						</tr>";
 			}
 		}elseif($order_type == 2){
@@ -180,10 +180,10 @@ class orderAction extends adminBaseAction {
 						<td>创建时间</td><td>更新时间</td><td>交易员</td>
 					</tr>';
 			foreach($list as $k=>$v){
-				$str .= "<tr><td>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
+				$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
 				<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['in_storage_status']."</td><td>".$v['payments_status']."</td>
 				<td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td><td>".$v['financial_records']."</td>
-				<td>".$v['input_time']."</td><td>".$v['update_time']."</td><td>".$v['cmanager']."</td></tr>";
+				<td style='vnd.ms-excel.numberformat:@'>".$v['input_time']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['update_time']."</td><td>".$v['cmanager']."</td></tr>";
 			}
 		}
 		
