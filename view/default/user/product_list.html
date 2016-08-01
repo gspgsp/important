@@ -13,8 +13,6 @@
         //操作
         $(".del").on("click",function(){
             var pid=$(this).val();
-            var _this=$(this);
-            console.log(pid);
             $.ajax({
             type:"post",
             url:"/user/productAttention/changeFocusState",
@@ -22,15 +20,12 @@
             dataType:'json',
             success:function(res){
                 if(res.err==0){
-                    if(res.status == 1){
-                        _this.text("取消关注");
-                        _this.parents('ul').find('li.status').text('关注中');
-                    }else if(res.status == 2){
-                       layer.msg('取消成功');
-                        location.reload();
-//                        _this.text("重新关注");
-//                        _this.parents('ul').find('li.status').text('已取消');
-                    }
+                    layer.msg('取消成功');
+                    location.reload();
+
+                }else{
+                    layer.msg('取消失败');
+                    location.reload();
                 }
             }
             });
@@ -62,29 +57,29 @@
                                 console.log(productArr);
                             }
                         });
-        //批量关注
-        $("#ml").bind('click',function(){
-            $.ajax({
-                type:"post",
-                url:"/user/productAttention/mulLook",
-                data:{'ids':productArr},
-                dataType:'json',
-                success:function(res){
-                    if(res.err==0){
-                        if(res.status == 1){
-                            $(res.newData).each(function(resk,resv){
-                                $(".del").each(function(k,v){
-                                    if($(this).val() == resv.id){
-                                    $(this).text("取消关注");
-                                    $(this).parents('ul').find('li.status').text('关注中');
-                                }
-                                });
-                            });
-                        }
-                    }
-                }
-            });
-        });
+//        //批量关注
+//        $("#ml").bind('click',function(){
+//            $.ajax({
+//                type:"post",
+//                url:"/user/productAttention/mulLook",
+//                data:{'ids':productArr},
+//                dataType:'json',
+//                success:function(res){
+//                    if(res.err==0){
+//                        if(res.status == 1){
+//                            $(res.newData).each(function(resk,resv){
+//                                $(".del").each(function(k,v){
+//                                    if($(this).val() == resv.id){
+//                                    $(this).text("取消关注");
+//                                    $(this).parents('ul').find('li.status').text('关注中');
+//                                }
+//                                });
+//                            });
+//                        }
+//                    }
+//                }
+//            });
+//        });
         //批量取消
         $("#mq").bind('click',function(){
             $.ajax({
@@ -95,14 +90,11 @@
                 success:function(res){
                     if(res.err==0){
                         if(res.status == 2){
-                            $(res.newData).each(function(resk,resv){
-                                $(".del").each(function(k,v){
-                                    if($(this).val() == resv.id){
-                                    $(this).text("重新关注");
-                                    $(this).parents('ul').find('li.status').text('已取消');
-                                }
-                                });
-                            });
+                              layer.msg('取消成功');
+                              location.reload();
+                        }else{
+                            layer.msg('取消失败');
+                            location.reload();
                         }
                     }
                 }

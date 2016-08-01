@@ -33,7 +33,7 @@ class productAttentionAction extends userBaseAction
 		$fid = M('product:factory')->getIdsByName($_POST['address']);//根据厂家查出fid
 		$pid = M('product:product')->getPidByModel($_POST['num'], $fid[0]);//根据牌号和fid查出产品id
 		if(!$pid) $this->json_output(array('err'=>2,'msg'=>'没有相关的产品'));
-		if($this->db->model('concerned_product')->select('product_id')->where('product_id='.$pid)->getOne()) $this->error('该产品已经关注过');
+		if($this->db->model('concerned_product')->select('product_id')->where('product_id='.$pid and 'user_id='.$this->user_id)->getOne()) $this->error('该产品已经关注过');
 		$userContact = M('user:customerContact')->getListByUserid($this->user_id);
 		$company = M('user:customer')->getCinfoById($userContact['c_id']);
 
@@ -70,42 +70,42 @@ class productAttentionAction extends userBaseAction
 		$pages = pages($list['count'], $page, $size);
 		return array('detail'=>$list['data'],'pages'=>$pages);
 	}
-	//取消或重新关注
+	//取消关注
 	public function changeFocusState(){
 		$pid = sget('pId','i');
-		$data = $this->db->select('status,operate')->where('id='.$pid)->getRow();
-		$data['status'] = $data['status']==1 ? 2 : 1;
-		$data['operate'] = $data['status']==1 ? 1 : 2;
-		if($this->db->where('id='.$pid)->update($data))
-			$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>$data['status']));
-	}
-	//批量关注
-	public function mulLook(){
-		$ids = sget('ids','a');
-		$newData = array();
-		foreach ($ids as $key => $value) {
-			$data = $this->db->select('id,status,operate')->where('id='.$value)->getRow();
-			$data['status'] = 1;
-			$data['operate'] = 1;
-			$this->db->where('id='.$value)->update($data);
-			$newData[] = $data;
+		$data = $this->db->select('id,status,operate')->where('id='.$pid and 'user_id='.$this->user_id)->getRow();
+		if($data['status']==1){
+			if($this->db->where("id=$pid and user_id=$this->user_id")->delete()){
+				$this->json_output(array('err'=>0,'msg'=>'关注改变成功'));
+			}
 		}
-		//$this->json_output($newData);
-		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>1,'newData'=>$newData));
 	}
-	//批量取消
+//	//批量关注
+//	public function mulLook(){
+//		$ids = sget('ids','a');
+//		$newData = array();
+//		foreach ($ids as $key => $value) {
+//			$data = $this->db->select('id,status,operate')->where('id='.$value)->getRow();
+//			$data['status'] = 1;
+//			$data['operate'] = 1;
+//			$this->db->where('id='.$value)->update($data);
+//			$newData[] = $data;
+//		}
+//		//$this->json_output($newData);
+//		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>1,'newData'=>$newData));
+//	}
+//	批量取消
 	public function mulQuit(){
 		$ids = sget('ids','a');
 		$newData = array();
 		foreach ($ids as $key => $value) {
-			$data = $this->db->select('id,status,operate')->where('id='.$value)->getRow();
-			$data['status'] = 2;
-			$data['operate'] = 2;
-			$this->db->where('id='.$value)->update($data);
-			$newData[] = $data;
+			$data = $this->db->select('id,status,operate')->where('id='.$value and 'user_id='.$this->user_id)->getRow();
+			if($data['status']==1){
+				$this->db->where("id=$value and user_id=$this->user_id" )->delete();
+
+			}
 		}
-		//$this->json_output($newData);
-		$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>2,'newData'=>$newData));
+		$this->json_output(array('err'=>0,'msg'=>'取消关注成功','status'=>2));
 	}
 	//ajax联动操作
 	public function getModelByCla(){
