@@ -72,9 +72,10 @@ class indexAction extends homeBaseAction{
 //		p($list['data']);
 		foreach($list['data'] as $v ){
 			$price=$this->db->model('big_offers')
-				->getAll("select id,cid,price from p2p_big_offers where type=`'{$v['type']}`' and model=`'{$v['model']}`' and factory=`'{$v['factory']}`' and address=`'{$v['address']}`' order by input_time desc limit 2");
-//			showTrace();
+				->getAll("select id,cid,price from p2p_big_offers where type='{$v['type']}' and model='{$v['model']}' and factory='{$v['factory']}' and address='{$v['address']}' order by input_time desc limit 2");
+			p($price);
 		}
+		showTrace();
 //		showTrace();
 		$this->seo = array('title'=>'大户报价',);
 		$this->pages=pages($list['count'],$page,$pageSize);
