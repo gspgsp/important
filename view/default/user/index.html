@@ -203,8 +203,12 @@
     		<!--trader begin-->
     		<div class="trader"><!-- __IMG__/home/   ../../images/home/ -->
     			<div class="user-pic">
-    				<!--<img src="__IMG__/home/userPic.jpg"/>-->
-    				<!--<img src="__IMG__/home/userPicMask.png"/>-->
+					{if $data.pic}
+    				<img  width="88" height="88" src="__UPLOAD__/{$data.pic}"/>
+					{else}
+					<img width="88" height="88"  src="__IMG__/home/logos.png"/>
+					{/if}
+    				<img src="__IMG__/home/userPicMask.png"/>
     			</div>
     			<p>我是您的专属交易员  {$data.adm_name}</p>
 				<p>您有需要我帮助的请及时与我联系</p>
