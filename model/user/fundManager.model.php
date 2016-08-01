@@ -36,31 +36,26 @@ class fundManagerModel extends model
               if($zip->addFile(ROOT_PATH.'../static/upload/'.$data['legal_idcard_pic'], 'legal_idcard_pic.png')){
                   $sucess=true;
               }
-              p(ROOT_PATH.'../static/upload/'.$data['legal_idcard_pic']);
             }
             if(!empty($data['business_licence_pic'])){
               if($zip->addFile(ROOT_PATH.'../static/upload/'.$data['business_licence_pic'], 'business_licence_pic.png')){
                   $sucess=true;
               }
-              p(ROOT_PATH.'../static/upload/'.$data['business_licence_pic']);
             }
             if(!empty($data['tax_registration_pic'])){
               if($zip->addFile(ROOT_PATH.'../static/upload/'.$data['tax_registration_pic'], 'tax_registration_pic.png')){
                   $sucess=true;
               }
-              p(ROOT_PATH.'../static/upload/'.$data['tax_registration_pic']);
             }
             if(!empty($data['organization_pic'])){
               if($zip->addFile(ROOT_PATH.'../static/upload/'.$data['organization_pic'], 'organization_pic.png')){
                   $sucess=true;
               }
-              p(ROOT_PATH.'../static/upload/'.$data['organization_pic']);
             }
             if(!empty($data['Powerofattorney_pic'])){
                 if($zip->addFile(ROOT_PATH.'../static/upload/'.$data['Powerofattorney_pic'], 'Powerofattorney_pic.png')){
                     $sucess=true;
                 }
-                p(ROOT_PATH.'../static/upload/'.$data['Powerofattorney_pic']);
             }
             $zip->close();
         } else {
