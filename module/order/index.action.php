@@ -14,6 +14,7 @@ class indexAction extends adminBaseAction
 		
 		if(empty($start_time) && empty($end_time) && empty($time_type)){
 			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m-d', time())));
+			// $start_time=date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-1,date('Y'))); //起始日期昨天0点
 			$end_time = date('Y-m-d H:i:s',strtotime('now'));
 		}
 		if(empty($time_type)){
@@ -41,6 +42,7 @@ class indexAction extends adminBaseAction
 		
 		if(empty($start_time) && empty($end_time) && empty($time_type)){
 			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m-d', time())));
+			//$start_time=date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-1,date('Y'))); //起始日期昨天0点
 			$end_time = date('Y-m-d H:i:s',strtotime('now'));
 		}
 		// p($start_time,$end_time);die();
