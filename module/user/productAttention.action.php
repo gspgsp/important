@@ -33,7 +33,7 @@ class productAttentionAction extends userBaseAction
 		$fid = M('product:factory')->getIdsByName($_POST['address']);//根据厂家查出fid
 		$pid = M('product:product')->getPidByModel($_POST['num'], $fid[0]);//根据牌号和fid查出产品id
 		if(!$pid) $this->json_output(array('err'=>2,'msg'=>'没有相关的产品'));
-		if($this->db->model('concerned_product')->select('product_id')->where("product_id=$pid and 'user_id=$this->user_id ")->getOne()) $this->error('该产品已经关注过');
+		if($this->db->model('concerned_product')->select('product_id')->where("product_id=$pid and user_id=$this->user_id ")->getOne()) $this->error('该产品已经关注过');
 		$userContact = M('user:customerContact')->getListByUserid($this->user_id);
 		$company = M('user:customer')->getCinfoById($userContact['c_id']);
 		$data['user_id'] = $this->user_id;
@@ -72,8 +72,8 @@ class productAttentionAction extends userBaseAction
 	//取消关注
 	public function changeFocusState(){
 		$pid = sget('pId','i');
-		$data = M('public:common')->model('concerned_product')->select('id,status')->where('id='.$pid and 'user_id='.$this->user_id)->getRow();
-		showTrace();die;
+		$data = M('public:common')->model('concerned_product')->getAll('select id,status  from p2p_concerned_product where id='.$pid.' and user_id='.$this->user_id);
+		$data = $data[0];
 		if($data['status']==1){
 			if($this->db->where("id=$pid and user_id=$this->user_id")->delete()){
 				$this->json_output(array('err'=>0,'msg'=>'取消关注成功'));
