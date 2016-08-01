@@ -60,13 +60,14 @@ class fundManagerModel extends model
             $zip->close();
         } else {
             log::write('zip failed, code:'.$res);
+            p('zip failed, code:'.$res);
         }
 
 // 		//写入数据库
 // 		$data['organization_state'] = 2;
         p($zip);
         if($sucess){
-		  $data['zip_url'] =  FILE_URL.'/upload/zip/'.$zip_name;
+		  $data['zip_url'] =  ROOT_PATH.'/upload/zip/'.$zip_name;
         }
 		if(!$this->model('customer')->where('c_id='.$_SESSION['uinfo']['c_id'])->update($data)) return array('err'=>1,'msg'=>'更新失败');
 		showtrace();
