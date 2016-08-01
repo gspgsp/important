@@ -52,7 +52,7 @@ class productAttentionAction extends userBaseAction
 		$data['input_admin'] = $_SESSION['name'];
 		$data['update_time'] = CORE_TIME;
 		$data['update_admin'] = $_SESSION['name'];
-		if(!M('product:concerned_product')->add($data)) $this->error('添加关注失败');
+		if(!M('user:account')->add($data)) $this->error('添加关注失败');
 		$this->success('添加关注成功');
 	}
 	//获取关注的列表
