@@ -305,13 +305,11 @@
 					cache:'false',
 				success:function(res){
 					if(res.err==0){
-						if(res.status==1){
-							layer.msg('取消关注失败');
-//							window.location.reload();
-						}else{
-							layer.msg('取消关注成功');
-							$(this).parent().remove();
-						}
+						layer.msg('取消关注成功');
+						$(this).parent().remove();
+					}else{
+						layer.msg('取消关注失败');
+						window.location.reload();
 					}
 
 				}
