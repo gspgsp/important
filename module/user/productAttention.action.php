@@ -36,7 +36,6 @@ class productAttentionAction extends userBaseAction
 		if($this->db->model('concerned_product')->select('product_id')->where("product_id=$pid and 'user_id=$this->user_id ")->getOne()) $this->error('该产品已经关注过');
 		$userContact = M('user:customerContact')->getListByUserid($this->user_id);
 		$company = M('user:customer')->getCinfoById($userContact['c_id']);
-
 		$data['user_id'] = $this->user_id;
 		$data['product_name'] = L('product_type')[$_POST['kid']];
 		$data['model'] = $_POST['num'];
@@ -53,9 +52,7 @@ class productAttentionAction extends userBaseAction
 		$data['input_admin'] = $_SESSION['name'];
 		$data['update_time'] = CORE_TIME;
 		$data['update_admin'] = $_SESSION['name'];
-		if(!M('user:account')->add($data)) $this->error('添加关注失败');
-		showTrace();
-		die;
+		if(!M('product:concerned_product')->add($data)) $this->error('添加关注失败');
 		$this->success('添加关注成功');
 	}
 	//获取关注的列表
@@ -76,6 +73,7 @@ class productAttentionAction extends userBaseAction
 	public function changeFocusState(){
 		$pid = sget('pId','i');
 		$data = M('public:common')->model('concerned_product')->select('id,status')->where('id='.$pid and 'user_id='.$this->user_id)->getRow();
+		showTrace();die;
 		if($data['status']==1){
 			if($this->db->where("id=$pid and user_id=$this->user_id")->delete()){
 				$this->json_output(array('err'=>0,'msg'=>'取消关注成功'));
