@@ -344,7 +344,9 @@ $(function(){
 		var data=$("#companyForm").serialize();
 		$.post('/user/myset/bind_member',data,function (data){
 			if(data.err==0){
-				layer.msg('操作成功');
+				//layer.msg('操作成功');
+				//window.location.href=data.msg; 
+				window.open(data.msg);
 			}else{
 				layer.msg(data.msg);
 			}

@@ -188,22 +188,18 @@ class mysetAction extends userBaseAction{
 			if(!trim($_data['need_product'])) $this->error('需求牌号不能为空');
 			if(!trim($_data['address'])) $this->error('公司详细地址不能为空');
 			if(!$_data['origin']) $this->error('公司地址不能为空');
-// 			$_data['update_time']=CORE_TIME;
-// 			$_data['origin']=implode('|',$_data['origin']);
-// 			if(!$model->where("c_id=$c_id")->update($_data)) $this->error('操作失败，系统错误。');
             try {                
                 $bind = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
-                p($bind);
-                die;
                 $params = array(
                     'mallID'     => '000106',
                     'payType'    => '09020',
                     'memCode'    => $c_id,
                     'memName'    => $_data['c_name'],
                 );
-//              header("Location:".$ss->memberbind(json_encode($params)));//会员绑定
                 $this->success($bind->memberbind(json_encode($params)));
             } catch (Exception $e) {
+                 p(1);
+                 die;
                  $this->error('绑定失败');
             }
 // 			$this->success('操作成功');
