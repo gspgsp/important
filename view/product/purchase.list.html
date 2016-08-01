@@ -6,7 +6,7 @@
 				<a class="mini-button" iconCls="icon-add" onclick="add(0,{$ctype})" plain="true" tooltip="增加">增加</a>
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>
 				<a href="__UPLOAD__/zip/采购模板.rar" class="mini-button" iconCls="icon-downgrade" plain="true">模板下载</a>
-				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel()">excel导入</a>
+				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel({$ctype})">excel导入</a>
 			</td>
 			<td style="float:right;">
 			<form id="soform">
@@ -213,7 +213,7 @@ console.log(xhr.responseText);
 }
 });
 //导入excel
-function inputExcel(){
+function inputExcel(type){
 	mini.showMessageBox({
 		title: "excel导入",
 		buttons: ["ok", "cancel"],
@@ -224,7 +224,7 @@ function inputExcel(){
 			if(action=='ok'){
 				var messageid = mini.loading("正在处理...", "处理中");
 				$.ajaxFileUpload({
-					url:'/product/purchase/inputExcel',
+					url:'/product/purchase/inputExcel?ctype='+type,
 					fileElementId:"manual_check_file",
 					dataType: 'json',
 					success: function (data, status) {

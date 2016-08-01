@@ -35,7 +35,7 @@ class purchaseAction extends adminBaseAction {
 		}
 		$this->assign('doact',$this->doact);
 		$this->assign('slt','slt');
-		$this->assign('ctype','1');
+		$this->assign('ctype','2');
 		$this->assign('page_title','采购报价列表');
 		$this->display('purchase.list.html');
 	}
@@ -47,7 +47,7 @@ class purchaseAction extends adminBaseAction {
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
-		$this->assign('ctype','2');
+		$this->assign('ctype','1');
 		$this->assign('page_title','采购报价列表');
 		$this->display('purchase.list.html');
 	}
@@ -282,6 +282,7 @@ class purchaseAction extends adminBaseAction {
 
 	public function inputExcel(){
 		$this->is_ajax = true;
+		$ctype = sget('ctype','i',0);
 		E('PHPExcel',APP_LIB.'extend');
 
 		if(empty($_FILES['check_file']) || $_FILES['check_file']['error']) $this->error('文件上传失败！');
@@ -297,13 +298,16 @@ class purchaseAction extends adminBaseAction {
 			$error=array();
  			foreach($sheetData as $row){ 				
 				//如果为空或者不是数字则 不检查导入该行
-				if(empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E']) || empty($row['F']) || empty($row['G']) || empty($row['H']) || !is_numeric($row['A']) || !is_numeric($row['F']) || !is_numeric($row['G']) ) continue;
-
+				if(empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E']) || empty($row['F']) || empty($row['G']) || empty($row['H']) || !is_numeric($row['A']) || !is_numeric($row['F']) || !is_numeric($row['G']) ){
+					$error['number']+=1;
+					$error['err'][]='数据不规范';
+					continue;
+				} 
 				//获取厂家f_id
 				$f_id = M('product:factory')->getIdByFName($row['D']);
 				if (!$f_id) {
 					$error['number']+=1;
-					$error['err'][]=$row['D'];
+					$error['err'][]=$row['D'].'厂家名有误';
 					continue;
 				}
 
@@ -312,19 +316,15 @@ class purchaseAction extends adminBaseAction {
 				$product_type=array_flip(L('product_type'))[$rowB];
 				if(!$product_type){
 					$error['number']+=1;
-					$error['err'][]=$row['B'];
+					$error['err'][]=$row['B'].'产品类型有误';
 					continue;
 				}
 
-				//获取加工级别
-				$process_type=array_flip(L('process_level'));
-				$process_type=isset($process_type[$row['E']])?$process_type[$row['E']]:11;
- 				
 				//获取期货周期
 				$period=array_flip(L('period'));
 				if(!$period=$period[$row['I']]){
 					$error['number']+=1;
-					$error['err'][]=$row['I'];
+					$error['err'][]=$row['I'].'周期有误';
 					continue;
 				}
 
@@ -332,7 +332,7 @@ class purchaseAction extends adminBaseAction {
 				$user_id = $this->db->model('customer_contact')->select('user_id')->where('c_id='.$row['A'].' and is_default=1')->getOne();
 				if (!$user_id){
 					$error['number']+=1;
-					$error['err'][]=$row['A'];
+					$error['err'][]=$row['A'].'联系人有误';
 					continue;
 				}
 
@@ -340,8 +340,29 @@ class purchaseAction extends adminBaseAction {
 				$add_id = $this->db->model('lib_region')->select('id')->where('name='."'".$row['H']."'")->getOne();
 				if (!$add_id){
 					$error['number']+=1;
-					$error['err'][]=$row['H'];
+					$error['err'][]=$row['H'].'交货地有误';
 					continue;
+				}
+
+				//获取产品的ID
+				$p_id = M('product:product')->getPidByModel($row['C'],$f_id);
+				if (!$p_id){
+					$error['number']+=1;
+					$error['err'][]=$row['C'].'对应商品不存在';
+					continue;
+				}
+
+				//获取产品属性，如：加工级别
+				// $process_type=array_flip(L('process_level'));
+				// $process_type=isset($process_type[$row['E']])?$process_type[$row['E']]:11;
+				$process_type = $this->db->model('product')->select('process_type')->where("id=".$p_id)->getOne();
+				if(!empty($row['E'])){
+					$process = L('process_level')[$process_type];
+					if($row['E'] != $process){
+						$error['number']+=1;
+						$error['err'][]=$row['C'].'加工级别有误';
+						continue;
+					}
 				}
 
 				//写数据到表中p2p_product
@@ -358,18 +379,16 @@ class purchaseAction extends adminBaseAction {
 					'period' 	=>$period,					
 					'remark' 	=>$row['J'],
 					//牌号和厂家id取得商品id
-					'p_id'   	=>M('product:product')->getPidByModel($row['C'],$f_id),
-					'cargo_type'=>1,	//现货
-					'status' 	=>2,	//审核通过
-					'type'		=>1,	//1采购 2报价
-					'is_union'	=>0,	//是否是中晨的报价 0否1是
-					'sync'		=>1,	//0后台添加 1更新过来
+					'p_id'   	=>$p_id,
+					'cargo_type'=>$ctype,	//1现货 2期货
+					'status' 	=>2,		//审核通过
+					'type'		=>1,		//1采购 2报价
+					'is_union'	=>0,		//是否是中晨的报价 0否1是
+					'sync'		=>1,		//0后台添加 1更新过来
 					'customer_manager'=>$_SESSION['adminid'],//谁导入就是谁发的采购信息
 					'input_time'=>CORE_TIME,
 					'input_admin'=>$_SESSION['name'],
 				);
-				$_infoData['p_id']  = $_infoData['p_id']>0 ?$_infoData['p_id'] : M('product:product')->insertProduct(array('status'=>3,)+$_infoData);
-
 				$this->db->model('purchase')->add($_infoData);
 			}
 		} catch (Exception $e) {
