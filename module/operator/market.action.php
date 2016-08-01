@@ -61,11 +61,11 @@ class marketAction extends adminBaseAction{
 		}
 		$id=$data['id'];
 		unset($data['id']);
-		$data['input_time']=CORE_TIME;
+		$data['input_time']=$data['addtime']=strtotime($data['input_time']);
 		if(!$id){
 			$result = $this->db->add($data);
 		}else{
-			$result = $this->db->wherePk($id)->update($data);
+			$result = $this->db->wherePk($id)->update(array('update_time'=>CORE_TIME,)+$data);
 		}
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
@@ -76,9 +76,10 @@ class marketAction extends adminBaseAction{
 		$this->is_ajax=true;
 		$data=sdata();
 		if(empty($data)) $this->error('信息不存在');
-		foreach ($data as $key => $value) {
-			$value['input_time']=CORE_TIME;
-			$this->db->wherePk($value['id'])->update($value);
+		foreach ($data as &$v) {
+			$v['update_time']=CORE_TIME;
+			$v['input_time']=$v['addtime']=strtotime($v['input_time']);
+			$this->db->wherePk($v['id'])->update($v);
 		}
 		$this->success('操作成功');
 	}
