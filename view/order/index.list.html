@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="__JS__/home/laydate/laydate.js"></script>
 </head>
 <body>
-  <div class="team_box" style="width:46%; float:left;">
+  <div class="team_box" style="width:50%; float:left;">
         <table id="laydate">
         	<tr>	
         		<td>
@@ -27,24 +27,25 @@
                     <input style="width:130px;" class="laydate" type="text" class="start_time"  name="start_time" value="{$start_time}" />
                 </td>
                 <td><input style="width:130px;" class="laydate" type="text" readonly="readonly" class="end_time" name="end_time" value="{$end_time}" /></td>
+                <!-- </tr>
+                <tr> -->
                 <td>
                 	<select name="time_type" id="soStatus">
-                	<option value="" {$default_selected}>特定时间</option>
-                    <option value="this_week" {$this_week_selected}>本周</option>
-                    <option value="last_week" {$last_week_selected}>上周</option>
-                    <option value="this_month" {$this_month_selected}>本月</option>
-                    <option value="last_month" {$last_month_selected}>上月</option>
-                </select>
+                		<option value="" {$default_selected}>特定时间</option>
+                    	<option value="this_week" {$this_week_selected}>本周</option>
+                    	<option value="last_week" {$last_week_selected}>上周</option>
+                    	<option value="this_month" {$this_month_selected}>本月</option>
+                    	<option value="last_month" {$last_month_selected}>上月</option>
+                	</select>
                 </td>
                 <td>
-                	<!-- <input type="hidden" name="order_type" value="{$order_type}" /> -->
                     <button style="cursor: pointer; margin-left: 10px; border: 1px solid black; padding: 2px 10px;" class="submit" type="submit" >搜索</button>
                 </td>
             </tr>
         </table>
 </div>
 <input type="hidden" id="order_type" value="{$order_type}" />
-  <div class="person_box" style="width:54%;float:left;">
+  <div class="person_box" style="width:50%;float:left;">
         <table id="laydate2">
             <tr>
             	<td>
@@ -63,25 +64,27 @@
                 <td><input style="width:130px;" class="laydate" type="text" readonly="readonly" class="end_time" name="end_time2" value="{$end_time}" /></td>
                 <td>
                 	<select name="time_type" id="soStatus2">
-                	<option value="" {$default_selected}>特定时间</option>
-                    <option value="this_week" {$this_week_selected}>本周</option>
-                    <option value="last_week" {$last_week_selected}>上周</option>
-                    <option value="this_month" {$this_month_selected}>本月</option>
-                    <option value="last_month" {$last_month_selected}>上月</option>
-                </select>
+                		<option value="" {$default_selected}>特定时间</option>
+                    	<option value="this_week" {$this_week_selected}>本周</option>
+                    	<option value="last_week" {$last_week_selected}>上周</option>
+                    	<option value="this_month" {$this_month_selected}>本月</option>
+                    	<option value="last_month" {$last_month_selected}>上月</option>
+                	</select>
                 </td>
                  <td>
                 	<select name="team_type" id="team">
-                	{foreach from=$team item=value key=key}
-                    	<option value="{$value.id}" {$selected_{$value.id}}>{$value.name}</option>
-                	{/foreach}
-                </select>
+                		{foreach from=$team item=value key=key}
+                    		<option value="{$value.id}" {$selected_{$value.id}}>{$value.name}</option>
+                		{/foreach}
+                	</select>
                 </td>
                 <td>
                     <button style="cursor: pointer; margin-left: 10px; border: 1px solid black; padding: 2px 10px;" class="submit2" type="submit" >搜索</button>
                 </td>
-                <td>
-                    <button style="cursor: pointer; margin-left: 10px; border: 1px solid black; padding: 2px 10px;" class="change_view" type="submit" >个人贡献率视图切换</button>
+                </tr>
+                <tr>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="change_view" type="submit" >个人贡献率视图切换</button>
                 </td>
             </tr>
         </table>
@@ -89,8 +92,8 @@
 <!-- <div style="height:50px; width:100%;"></div> -->
 <div id="container" style="width:54%;height:650px;float:left;margin-top:20px;"></div>
 <div id="container2" style="width:46%;height:650px; float:left;margin-top:20px;"></div>
-<div id="container3" style="width:50%;height:500px; float:left; display:none;"></div>
-<div id="container4" style="widows: 50px;%;height:500px; float:left; display:none;"></div>
+<div id="container3" style="width:52%;height:500px; float:left; display:none;"></div>
+<div id="container4" style="widows: 48px;%;height:500px; float:left; display:none;"></div>
 <script type="text/javascript">
 	$(function(){
 		//处理左边的团队展示区
