@@ -56,4 +56,10 @@
 				$this->error('发送错误');
 			}
 		}
+		/**
+		 * 404错误页面
+		 */
+		public function wrong(){
+			$this->display('404.html');
+		}
 	}
