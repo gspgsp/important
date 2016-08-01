@@ -23,6 +23,18 @@
 </head>
 <body>
 <img src="__MYAPP__/img/update.jpg">
-<a id="download" href="https://www.pgyer.com/UzgG">下载</a>
+<a id="android" href="https://www.pgyer.com/UzgG" style="display: none;"><img src="__MYAPP__/img/update2.jpg"></a>
+<a id="ios" href="https://www.pgyer.com/MnRz" style="display: none;"><img src="__MYAPP__/img/update2.jpg"></a>
+<img src="__MYAPP__/img/update3.jpg">
+<script>
+	var ua = navigator.userAgent.toLowerCase();
+	if (/iphone|ipad|ipod/.test(ua)) {
+		window.location.href="https://www.pgyer.com/MnRz";
+//		document.getElementById("ios").style.display="block";
+	} else if (/android/.test(ua)) {
+//		document.getElementById("android").style.display="block";
+		window.location.href="https://www.pgyer.com/UzgG";
+	}
+</script>
 </body>
 </html>
