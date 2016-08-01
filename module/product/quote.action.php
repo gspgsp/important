@@ -48,7 +48,7 @@ class quoteAction extends adminBaseAction {
 			$this->_grid();exit;
 		}
 		$this->assign('ctype','1');
-		$this->assign('page_title','报价列表');
+		$this->assign('page_title','采购列表');
 		$this->display('quote.list.html');
 	}
 	/**
