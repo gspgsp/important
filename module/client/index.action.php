@@ -69,7 +69,6 @@ class indexAction extends homeBaseAction{
 		$page=sget('page','i',1);
 		$pageSize=20;
 		$list=M('product:bigOffers')->getOfferList($where,$order,$page,$pageSize);
-//		p($list['data']);
 		$arr=array();
 		foreach($list['data'] as $k=>$v ){
 			$price=$this->db->model('big_offers')
@@ -79,7 +78,6 @@ class indexAction extends homeBaseAction{
 			$prices['cid']=$price[0]['cid'];
 			$prices['absprices']=abs($prices['prices']); //差价取绝对值
 			$arr['data'][]=array_merge($v,$prices);
-
 		}
 		$list['data']=$arr['data'];
 		$this->seo = array('title'=>'大户报价',);

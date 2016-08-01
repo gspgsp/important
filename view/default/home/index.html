@@ -725,9 +725,9 @@
                 {foreach from=$purBuy item=value}
                 {if $value.type==2}
             	<li class="supply">
-                	<div class="breed"><span></span>{if $value.price_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
+                	<div class="breed"><span></span>{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
                     <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
-                    <div class="level">{if $value.process_level}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
+                    <div class="level">{if $value.process_type}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
                     <div class="factory">{if $value.f_name}{$value.f_name}{else}&nbsp;{/if}</div>
                     <div class="amount">{if $value.number}{:floatval|$value.number}{else}&nbsp;{/if}</div>
                     <div class="price">￥{if $value.unit_price}{:floatval|$value.unit_price}{else}&nbsp;{/if}</div>
