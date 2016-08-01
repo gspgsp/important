@@ -130,14 +130,16 @@
         });
 
         $(".btn.submit").bind("click",function(){
-            if(cus_name.val()==""){
-                valid("请输入商家名称",cus_name);
+            if(cus_name.val().trim()==""){
+                valid("商家名称不能为空!",cus_name);
             }
-            else if(contact.val()==""){
-                valid("请输入联系人",contact);
+            else if(contact.val().trim()==""){
+                valid("联系人不能为空!",contact);
             }
-            else if(mobile.val()==""){
-                valid("请输入电话",mobile);
+            else if(mobile.val().trim()==""){
+                valid("电话号码不能为空!",mobile);
+            }else if(mobile.val().length!=11){
+                valid("手机号码为11位!",mobile);
             }
             else{
                 $.ajax({
@@ -186,7 +188,7 @@
             <div class="all-opt">
                 <input type="checkbox" id="all"/>
                 <label for="all">全选</label>
-                <!--<a id="ml" href="javascript:;">批量关注</a>-->
+                <a id="ml" href="javascript:;">批量关注</a>
                 <a id="mq" href="javascript:;">批量取消</a>
             </div>
             <!--all-opt end-->
