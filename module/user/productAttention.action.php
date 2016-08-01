@@ -54,6 +54,8 @@ class productAttentionAction extends userBaseAction
 		$data['update_time'] = CORE_TIME;
 		$data['update_admin'] = $_SESSION['name'];
 		if(!M('user:account')->add($data)) $this->error('添加关注失败');
+		showTrace();
+		die;
 		$this->success('添加关注成功');
 	}
 	//获取关注的列表
