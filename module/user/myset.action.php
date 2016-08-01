@@ -32,6 +32,7 @@ class mysetAction extends userBaseAction{
 			$this->city=M('system:region')->get_regions($origin[0]);
 		}
 		$this->assign('origin',$origin);
+		$this->assign('origin_hidden',$customer['origin']);
 		$this->assign('user_info',$user_info);
 		$this->assign('customer',$customer);
 		$this->display('myset');
@@ -104,7 +105,7 @@ class mysetAction extends userBaseAction{
 	 */
 	public function addAddress(){
 		if($_POST){
-			$model=M('user:userAddress');
+			$usermodel=M('user:userAddress');
 			$this->is_ajax=true;
 			$data=$_POST;
 			$_data=array(
@@ -115,9 +116,9 @@ class mysetAction extends userBaseAction{
 				'mobile'=>trim($data['mobile']),               //收件人电话
 				'type'=>trim($data['type'])?:0                 //是否为默认地址
 			);
-			$info=$model->add($_data);
+			$info=$usermodel->add($_data);
 			if($info){
-				$lastid=$model->getLastID();
+				$lastid=$usermodel->getLastID();
 			}
 		}
 		$this->json_output($lastid);
@@ -131,14 +132,14 @@ class mysetAction extends userBaseAction{
 	public function delete(){
 		if($_GET){
 			$this->is_ajax=true;
-			$model=M('user:userAddress');
+			$useraddressmodel=M('user:userAddress');
 			$where['id']=$_GET['id'];
 
-			$type=$model->where('id='.$where['id'])->select('type')->getOne();
+			$type=$useraddressmodel->where('id='.$where['id'])->select('type')->getOne();
 			if($type>0){
 				$mes='';
 			}else{
-				$mes=$model->where('id='.$where['id'])->delete();
+				$mes=$useraddressmodel->where('id='.$where['id'])->delete();
 
 			}
 		}
@@ -154,14 +155,14 @@ class mysetAction extends userBaseAction{
 
 		if($_GET){
 			$this->is_ajax=true;
-			$model=M('user:userAddress');
+			$useraddressmodel=M('user:userAddress');
 			if($id=trim(sget('id','s',''))){
 				//查询数据库中有无默认设置
-				$info=$model->where("user_id=$this->user_id and id=$id")->select('id')->getRow();
+				$info=$useraddressmodel->where("user_id=$this->user_id and id=$id")->select('id')->getRow();
 
 				if($info){
-					$model->where("user_id=$this->user_id")->update(array("type"=>0));
-					$model->where("user_id=$this->user_id and id=$id")->update(array("type"=>1));
+					$useraddressmodel->where("user_id=$this->user_id")->update(array("type"=>0));
+					$useraddressmodel->where("user_id=$this->user_id and id=$id")->update(array("type"=>1));
 				}
 				$this->json_output('操作成功');
 			}
@@ -179,7 +180,6 @@ class mysetAction extends userBaseAction{
 	    if($_POST)
 	    {
 	        $this->is_ajax=true;
-			$model=$this->db->model('customer');
 			$_data=saddslashes($_POST);
 			$c_id=$_SESSION['uinfo']['c_id'];//用户关联客户id
 			$customer=M('user:customer')->getCinfoById($c_id);
@@ -193,6 +193,8 @@ class mysetAction extends userBaseAction{
 // 			if(!$model->where("c_id=$c_id")->update($_data)) $this->error('操作失败，系统错误。');
             try {                
                 $bind = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+                p($bind);
+                die;
                 $params = array(
                     'mallID'     => '000106',
                     'payType'    => '09020',

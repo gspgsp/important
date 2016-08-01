@@ -86,7 +86,8 @@ class registerAction extends homeBaseAction{
 						'origin'=>implode('|',$origin),
 					);
 					if(!$cus_model->add($_customer)) throw new Exception("系统错误 reg:101");
-					$c_id=$cus_model->getLastID();
+// 					$c_id=$cus_model->getLastID();
+					$c_id=$cus_model->select('c_id')->where("c_name='$c_name'")->getOne();
 				}
 				$salt=randstr(6);
 				$is_default=empty($customer)?1:0;
@@ -101,24 +102,29 @@ class registerAction extends homeBaseAction{
 					'password'=>$user_model->genPassword($password.$salt),
 				);
 				if(!$user_model->add($_user)) throw new Exception("系统错误 reg:102");
-				$user_id=$user_model->getLastID();
+// 				$user_id=$user_model->getLastID();
+				$user_id=$user_model->select('user_id')->where("mobile='$mobile'")->getOne();
 				$_info=array(
 					'user_id'=>$user_id,
 					'reg_ip'=>get_ip(),
 					'reg_time'=>CORE_TIME,
 					'reg_chanel'=>1,
 				);
-				if(!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
+				
+				//1.如果是新公司contact_id就为当前申请人user_id
+				//2.否则为已存在公司的
+				if(!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");				
 				if(!$customer){
-					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=1")) throw new Exception("系统错误 reg:104");
+// 					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=1")) throw new Exception("系统错误 reg:104");
+				    if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=$user_id")) throw new Exception("系统错误 reg:104");
 				}
+// 				showtrace();
 				//的三方授权登录绑定账号
 				if($auth_openid){
 					M('user:userOuter')->bindUser($user_id,$auth_openid,$auth_info);
 				}
 			} catch (Exception $e) {
 				$user_model->rollback();
-				// showTrace();
 				$this->error($e->getMessage());
 			}
 			$user_model->commit();
