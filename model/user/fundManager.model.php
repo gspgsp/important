@@ -68,6 +68,7 @@ class fundManagerModel extends model
 		  $data['zip_url'] =  FILE_URL.'/upload/zip/'.$zip_name;
         }
 		if(!$this->model('customer')->where('c_id='.$_SESSION['uinfo']['c_id'])->update($data)) return array('err'=>1,'msg'=>'更新失败');
+		showtrace();
 		return array('err'=>0,'msg'=>'验证通过,更新成功');
 	}
 	/**
