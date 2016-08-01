@@ -129,7 +129,8 @@ class admAction extends adminBaseAction {
 			'mobile'=>$data['mobile'],	 
 			'depart'=>(int)$data['depart'],	 
 			'username'=>$data['username'],
-			'pid'=>$data['pid'],	 
+			'pid'=>$data['pid'],
+			'pic'=>$data['pic'],	 
 		);
 		if(!empty($data['password'])){
 			$_data['password']=md5($data['password']);
