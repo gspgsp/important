@@ -7,204 +7,6 @@
 <style type="text/css">
 .xubox_setwin .xubox_close0{ right:-70px!important;}
 </style>
-<script type="text/javascript">
-    $(function(){
-        var productArr=[];
-        //操作
-        $(".del").on("click",function(){
-            var pid=$(this).val();
-            $.ajax({
-            type:"post",
-            url:"/user/productAttention/changeFocusState",
-            data:{'pId':pid},
-            dataType:'json',
-            success:function(res){
-                if(res.status==1){
-                    layer.msg('取消成功');
-                    location.reload();
-
-                }else{
-                    layer.msg('取消失败');
-                    location.reload();
-                }
-            }
-            });
-        });
-        //全选
-        $("#all").click(function(){
-                            if(this.checked){
-                                $(".purchaseList").prop("checked", true);
-                                productArr=[];
-                                $(".regular-checkbox2").each(function () {
-                                    productArr.push($(this).data("id"));
-                                    console.log(productArr);
-                                });
-                            }else{
-                                $(".purchaseList").prop("checked", false);
-                                productArr=[];
-                                console.log(productArr);
-                            }
-                        });
-        //单选
-        $(".regular-checkbox2").on("click",function () {
-                            var pId=$(this).data("id");
-                            if(this.checked){
-                                productArr.push(pId);
-                                console.log(productArr);
-                            }else{
-                                $("#all").prop("checked",false);
-                                productArr.splice($.inArray(pId,productArr),1);
-                                console.log(productArr);
-                            }
-                        });
-//        //批量关注
-//        $("#ml").bind('click',function(){
-//            $.ajax({
-//                type:"post",
-//                url:"/user/productAttention/mulLook",
-//                data:{'ids':productArr},
-//                dataType:'json',
-//                success:function(res){
-//                    if(res.err==0){
-//                        if(res.status == 1){
-//                            $(res.newData).each(function(resk,resv){
-//                                $(".del").each(function(k,v){
-//                                    if($(this).val() == resv.id){
-//                                    $(this).text("取消关注");
-//                                    $(this).parents('ul').find('li.status').text('关注中');
-//                                }
-//                                });
-//                            });
-//                        }
-//                    }
-//                }
-//            });
-//        });
-        //批量取消
-        $("#mq").bind('click',function(){
-            $.ajax({
-                type:"post",
-                url:"/user/productAttention/mulQuit",
-                data:{'ids':productArr},
-                dataType:'json',
-                success:function(res){
-                    if(res.err==0){
-                          layer.msg('取消成功');
-                          location.reload();
-                    }else{
-                        layer.msg('取消失败');
-                        location.reload();
-                    }
-                }
-            });
-        });
-         //添加新的关注产品
-        var kid = $("#pz"),
-        num = $("#ph"),
-        address = $("#cj"),
-        remark = $("#remark"),
-        errorMsg = $(".error-msg"),
-        kind="",
-        ph="",
-        cj="",
-        str = "";
-        //给kid,num,address对象添加事件
-        $("#pz").change(function () {
-                    kind=$(this).children('option:selected').val();
-                    commonAjax(
-                            "post",
-                            '/user/productAttention/getModelByCla',
-                            {kind:kind}
-                    ).then(function (res) {
-                        console.log(">>>",res);
-                        if(res.err==1){
-                            window.location.href="/myapp/login";
-                        }else{
-                            ph="<option>无</option>";
-                            res.models.forEach(function (v,i,a) {
-                                ph+="<option value='"+v.model+"'>"+v.model+"</option>";
-                            });
-                            $("#ph").html(ph);
-                            $("#cj").html("<option>无</option>");
-                        }
-                    },function () {
-
-                    });
-                });
-
-                $("#ph").change(function () {
-                    model=$(this).children('option:selected').val();
-                    commonAjax(
-                            "post",
-                            "/user/productAttention/getFactoryByMod",
-                            {model:model}
-                    ).then(function (res) {
-                        ph="<option>无</option>";
-                        res.factorys.forEach(function (v,i,a) {
-                            cj="<option>无</option>";
-                            cj+="<option value='"+v+"'>"+v+"</option>";
-                        });
-                        $("#cj").html(cj);
-                    },function () {
-
-                    })
-                });
-        //添加事件点击
-        $(".focus-add span").bind("click",function(){
-            $.layer({
-                type: 1,
-                title: false,
-                border: [0],
-                page: {dom : '.layer'},
-                close:function(){
-                    kid.val("");
-                    num.val("");
-                    address.val("");
-                    remark.val("");
-                    errorMsg.html("");
-                }
-            });
-        });
-
-        $(".btn.submit").bind("click",function(){
-            if(kid.val()==""){
-                valid("请选择产品类型",kid);
-            }
-            else if(num.val()==""){
-                valid("请选择产品牌号",num);
-            }
-            else if(address.val()==""){
-                valid("请选择产地",address);
-            }
-            else{
-                $.ajax({
-                    type:"post",
-                    url:"/user/productAttention/addProAttention",
-                    data:{'kid':kid.val(),'num':num.val(),'address':address.val(),'remark':remark.val()},
-                    dataType:'json',
-                    success:function(res){
-                        if(res.err==0){
-                            window.location.href="/user/productAttention/proAttentionValue";
-                        }else if(res.err==2){
-                            layer.msg(res.msg);
-                        }else if(res.err==1){
-                            layer.msg(res.msg);
-                        }
-                    }
-                });
-//                 errorMsg.html("");
-            }
-        });
-
-        function valid(str,elem){
-            var errorMsg = $(".error-msg");
-            errorMsg.html(str);
-            elem.focus();
-            return false;
-        }
-
-    });
-</script>
 <div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
 <!--user-wrap begin-->
 <div class="user-wrap w1220">
@@ -310,3 +112,201 @@
     </table>
 </div>
 <!--layer end-->
+<script>
+    $(function(){
+        var productArr=[];
+        //操作
+        $(".del").on("click",function(){
+            var pid=$(this).val();
+            $.ajax({
+                type:"post",
+                url:"/user/productAttention/changeFocusState",
+                data:{'pId':pid},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0){
+                        layer.msg('取消成功');
+                        location.reload();
+
+                    }else{
+                        layer.msg('取消失败');
+                        location.reload();
+                    }
+                }
+            });
+        });
+        //全选
+        $("#all").click(function(){
+            if(this.checked){
+                $(".purchaseList").prop("checked", true);
+                productArr=[];
+                $(".regular-checkbox2").each(function () {
+                    productArr.push($(this).data("id"));
+                    console.log(productArr);
+                });
+            }else{
+                $(".purchaseList").prop("checked", false);
+                productArr=[];
+                console.log(productArr);
+            }
+        });
+        //单选
+        $(".regular-checkbox2").on("click",function () {
+            var pId=$(this).data("id");
+            if(this.checked){
+                productArr.push(pId);
+                console.log(productArr);
+            }else{
+                $("#all").prop("checked",false);
+                productArr.splice($.inArray(pId,productArr),1);
+                console.log(productArr);
+            }
+        });
+//        //批量关注
+//        $("#ml").bind('click',function(){
+//            $.ajax({
+//                type:"post",
+//                url:"/user/productAttention/mulLook",
+//                data:{'ids':productArr},
+//                dataType:'json',
+//                success:function(res){
+//                    if(res.err==0){
+//                        if(res.status == 1){
+//                            $(res.newData).each(function(resk,resv){
+//                                $(".del").each(function(k,v){
+//                                    if($(this).val() == resv.id){
+//                                    $(this).text("取消关注");
+//                                    $(this).parents('ul').find('li.status').text('关注中');
+//                                }
+//                                });
+//                            });
+//                        }
+//                    }
+//                }
+//            });
+//        });
+        //批量取消
+        $("#mq").bind('click',function(){
+            $.ajax({
+                type:"post",
+                url:"/user/productAttention/mulQuit",
+                data:{'ids':productArr},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0){
+                        layer.msg('取消成功');
+                        location.reload();
+                    }else{
+                        layer.msg('取消失败');
+                        location.reload();
+                    }
+                }
+            });
+        });
+        //添加新的关注产品
+        var kid = $("#pz"),
+                num = $("#ph"),
+                address = $("#cj"),
+                remark = $("#remark"),
+                errorMsg = $(".error-msg"),
+                kind="",
+                ph="",
+                cj="",
+                str = "";
+        //给kid,num,address对象添加事件
+        $("#pz").change(function () {
+            kind=$(this).children('option:selected').val();
+            commonAjax(
+                    "post",
+                    '/user/productAttention/getModelByCla',
+                    {kind:kind}
+            ).then(function (res) {
+                console.log(">>>",res);
+                if(res.err==1){
+                    window.location.href="/myapp/login";
+                }else{
+                    ph="<option>无</option>";
+                    res.models.forEach(function (v,i,a) {
+                        ph+="<option value='"+v.model+"'>"+v.model+"</option>";
+                    });
+                    $("#ph").html(ph);
+                    $("#cj").html("<option>无</option>");
+                }
+            },function () {
+
+            });
+        });
+
+        $("#ph").change(function () {
+            model=$(this).children('option:selected').val();
+            commonAjax(
+                    "post",
+                    "/user/productAttention/getFactoryByMod",
+                    {model:model}
+            ).then(function (res) {
+                ph="<option>无</option>";
+                res.factorys.forEach(function (v,i,a) {
+                    cj="<option>无</option>";
+                    cj+="<option value='"+v+"'>"+v+"</option>";
+                });
+                $("#cj").html(cj);
+            },function () {
+
+            })
+        });
+        //添加事件点击
+        $(".focus-add span").bind("click",function(){
+            $.layer({
+                type: 1,
+                title: false,
+                border: [0],
+                page: {dom : '.layer'},
+                close:function(){
+                    kid.val("");
+                    num.val("");
+                    address.val("");
+                    remark.val("");
+                    errorMsg.html("");
+                }
+            });
+        });
+
+        $(".btn.submit").bind("click",function(){
+            if(kid.val()==""){
+                valid("请选择产品类型",kid);
+            }
+            else if(num.val()==""){
+                valid("请选择产品牌号",num);
+            }
+            else if(address.val()==""){
+                valid("请选择产地",address);
+            }
+            else{
+                $.ajax({
+                    type:"post",
+                    url:"/user/productAttention/addProAttention",
+                    data:{'kid':kid.val(),'num':num.val(),'address':address.val(),'remark':remark.val()},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.err==0){
+                            window.location.href="/user/productAttention/proAttentionValue";
+                        }else if(res.err==2){
+                            layer.msg(res.msg);
+                        }else if(res.err==1){
+                            layer.msg(res.msg);
+                        }
+                    }
+                });
+//                 errorMsg.html("");
+            }
+        });
+
+        function valid(str,elem){
+            var errorMsg = $(".error-msg");
+            errorMsg.html(str);
+            elem.focus();
+            return false;
+        }
+
+    });
+</script>
