@@ -76,8 +76,10 @@ class productAttentionAction extends userBaseAction
 		$data = $this->db->select('id,status,operate')->where('id='.$pid and 'user_id='.$this->user_id)->getRow();
 		if($data['status']==1){
 			if($this->db->where("id=$pid and user_id=$this->user_id")->delete()){
-				$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>$data['status']));
+				$this->json_output(array('err'=>0,'msg'=>'关注改变成功'));
 			}
+		}else{
+			$this->json_output(array('err'=>1,'msg'=>'不能取消关注'));
 		}
 	}
 //	//批量关注
