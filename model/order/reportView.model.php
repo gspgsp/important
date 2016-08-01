@@ -40,7 +40,7 @@ class reportViewModel extends model
 		}
 
 		if($team_or_person == 'team'){
-			$where.=" and `ord`.input_time >=".$start.' and `ord`.input_time <='.$end.' and role.pid=22 and order_type='.$order_type;
+			$where.=" and `ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end." and role.pid=22 and order_type=".$order_type;
 			$data = $this->from('order as ord')
 					->leftjoin('adm_role_user as adm','ord.customer_manager=adm.user_id')
 					->leftjoin('adm_role as role','adm.role_id=role.id')
@@ -62,7 +62,7 @@ class reportViewModel extends model
 				$string.=$str.$value['user_id'];
 			}
 			$in_string = trim($string,',');
-			$where.="and order_type=".$order_type." and `ord`.input_time >=".$start.' and `ord`.input_time <='.$end.' and ord.customer_manager in (' .$in_string.' )';
+			$where.="and order_type=".$order_type." and `ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end.' and ord.customer_manager in (' .$in_string.' )';
 			$data = $this->from('order as ord')
 					->leftjoin('admin as a','ord.customer_manager=a.admin_id')
 					->where($where)
@@ -70,7 +70,7 @@ class reportViewModel extends model
 					->order('ord.'.$order_by_time_field.' asc')
 					->group('ord.customer_manager')
 					->getAll();
-					// return $this->getLastSql();	
+					// return $this->getLastSql();		
 			$return = array('time'=>array($start,$end),'data'=>$data);
 			return $return;
 		}
