@@ -153,9 +153,9 @@ function chk(id){
 function add(id,ctype){
 	var width=330,height=420;
 		if(ctype==1){
-			title='新增期货采购';
-		}else{
 			title ='新增现货采购';
+		}else{
+			title ='新增期货采购';
 		}
 	mini.open({
 		url: "/product/purchase/init?action=info&id="+id+"&ctype="+ctype,

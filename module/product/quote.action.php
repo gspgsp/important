@@ -36,11 +36,11 @@ class quoteAction extends adminBaseAction {
 		}
 		$this->assign('slt','slt');
 		$this->assign('ctype','2');
-		$this->assign('page_title','报价列表');
+		$this->assign('page_title','期货报价列表');
 		$this->display('quote.list.html');
 	}
 	/**
-	 *现货采购
+	 *期货报价
 	 */
 	public function cargo(){
 		$action=sget('action','s');
@@ -48,7 +48,7 @@ class quoteAction extends adminBaseAction {
 			$this->_grid();exit;
 		}
 		$this->assign('ctype','1');
-		$this->assign('page_title','采购列表');
+		$this->assign('page_title','现货报价列表');
 		$this->display('quote.list.html');
 	}
 	/**
@@ -90,8 +90,7 @@ class quoteAction extends adminBaseAction {
 				$where.=" and pd.f_id in ($result) ";
 			}else{
 				$where.=" and `$key_type`='$keyword' ";
-			}
-			
+			}	
 		}
 		$list=$this->db->select("p.*,pd.model, pd.f_id, pd.product_type, pd.process_type, pd.unit")
 				->from('purchase p')->join('product pd','pd.id = p.p_id')
@@ -114,9 +113,7 @@ class quoteAction extends adminBaseAction {
 			if($v['provinces']>0){
 				$list['data'][$k]['provinces'] = M('system:region')->get_name($v['provinces']);
 			}
-
 		}
-
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}	
@@ -136,7 +133,7 @@ class quoteAction extends adminBaseAction {
 		foreach($data as $k=>$v){
 			$_data=array(
 				'update_time'=>CORE_TIME,
-				'update_admin'=>$_SESSION['name'],
+				'update_admin'=>$_SESSION['username'],
 				'chk_time'=>CORE_TIME,
 			);
 			if(isset($v['_state']) && $v['_state']=='added'){
@@ -199,7 +196,7 @@ class quoteAction extends adminBaseAction {
 			$this->error('操作有误');	
 		}
 		$_data = array(
-			'input_admin' => $_SESSION['name'],
+			'input_admin' => $_SESSION['username'],
 			'input_time' => CORE_TIME,
 		);
 		foreach ($data as $k => $v) {
@@ -228,7 +225,7 @@ class quoteAction extends adminBaseAction {
 		$id =  $data['id'];
 		$data['give_time'] = isset($data['give_time']) ? strtotime($data['give_time']) :  0;
 		$data['type'] = 2;
-		$utype = $data['ctype'];
+		//$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
 		$data['provinces'] =  $data['company_province'];
 		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
@@ -236,7 +233,7 @@ class quoteAction extends adminBaseAction {
 		//公共数据
 		$_data = array(
 			'input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],
+			'input_admin'=>$_SESSION['username'],
 		);
 		if($id <= 0){
 			if($data['f_id']>0  && (!empty($model))){
@@ -247,11 +244,11 @@ class quoteAction extends adminBaseAction {
 				$this->error('牌号或者厂家不能为空');
 			}
 		}
-		//货物类型
-		if($utype==1) $data['cargo_type'] = 2;
+		//货物类型$data['ctype']
+		$data['cargo_type'] = $data['ctype']==1?1:2;
 		//数据添加操作
 		if($data['id']>0){
-			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],)))  $this->success('操作成功');
+			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['username'],)))  $this->success('操作成功');
 	
 		}else{
 			if($this->db->add($data+$_data)) $this->success('操作成功');	
@@ -282,7 +279,7 @@ class quoteAction extends adminBaseAction {
 		$id =sget('id','i',0);
 		$status = sget('status','i');
 		if($id<1) $this->error('用户信息错误');
-		$result = $this->db->wherePk($id)->update(array('status'=>$status,'update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name']));
+		$result = $this->db->wherePk($id)->update(array('status'=>$status,'update_time'=>CORE_TIME,'update_admin'=>$_SESSION['username']));
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}

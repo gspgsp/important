@@ -36,7 +36,7 @@ class purchaseAction extends adminBaseAction {
 		$this->assign('doact',$this->doact);
 		$this->assign('slt','slt');
 		$this->assign('ctype','2');
-		$this->assign('page_title','采购报价列表');
+		$this->assign('page_title','期货采购列表');
 		$this->display('purchase.list.html');
 	}
 	/**
@@ -48,7 +48,7 @@ class purchaseAction extends adminBaseAction {
 			$this->_grid();exit;
 		}
 		$this->assign('ctype','1');
-		$this->assign('page_title','采购报价列表');
+		$this->assign('page_title','现货采购列表');
 		$this->display('purchase.list.html');
 	}
 	/**
@@ -101,6 +101,7 @@ class purchaseAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
+
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
@@ -136,7 +137,7 @@ class purchaseAction extends adminBaseAction {
 			$_data=array(
 				'update_time'=>CORE_TIME,
 				'chk_time'=>CORE_TIME,
-				'update_admin'=>$_SESSION['name'],
+				'update_admin'=>$_SESSION['username'],
 			);
 			if(isset($v['_state']) && $v['_state']=='added'){
 				$sql[]=$this->db->addSql($_data+array(
@@ -198,7 +199,7 @@ class purchaseAction extends adminBaseAction {
 		if(empty($_info)){
 			$this->error('操作有误');	
 		}
-		$_info['admin_name']=$_SESSION['name'];
+		$_info['admin_name']=$_SESSION['username'];
 		$_info['update_time']=CORE_TIME;
 		$_info['status']=1;
 		$_info['provinces'] = $_info['company_province'];
@@ -216,7 +217,7 @@ class purchaseAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		$id =  $data['id'];
-		$utype = $data['ctype'];
+		//$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
 		$data['provinces'] =  $data['company_province'];
 		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
@@ -224,7 +225,7 @@ class purchaseAction extends adminBaseAction {
 		//公共数据
 		$_data = array(
 			'input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],
+			'input_admin'=>$_SESSION['username'],
 		);
 		if($id <= 0){
 			if($data['f_id']>0  && (!empty($model))){
@@ -236,10 +237,10 @@ class purchaseAction extends adminBaseAction {
 			}
 		}
 		//货物类型
-		if($utype==1) $data['cargo_type'] = 2;
+		$data['cargo_type'] = $data['ctype']==1?1:2;
 		//数据添加操作
 		if($data['id']>0){
-			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],)))  $this->success('操作成功');
+			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['username'],)))  $this->success('操作成功');
 		
 		}else{
 			if($this->db->add($data+$_data)) $this->success('操作成功');	
@@ -271,7 +272,7 @@ class purchaseAction extends adminBaseAction {
 		$id =sget('id','i',0);
 		$status = sget('status','i');
 		if($id<1) $this->error('用户信息错误');
-		$result = $this->db->wherePk($id)->update(array('status'=>$status,'update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name']));
+		$result = $this->db->wherePk($id)->update(array('status'=>$status,'update_time'=>CORE_TIME,'update_admin'=>$_SESSION['username']));
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
