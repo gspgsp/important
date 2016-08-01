@@ -190,7 +190,6 @@ class billingAction extends adminBaseAction
 		$billingModel=M('product:billing');
 		$billingLogModel=M('product:billingLog');
 		$data['payment_time']=strtotime($data['payment_time']);
-		
 
 		$purchaseLogModel=M('product:purchaseLog');
 		$saleLogModel=M('product:saleLog');
@@ -198,7 +197,6 @@ class billingAction extends adminBaseAction
 
 		if($data['finance']==1){
 			//财务审核开票信息
-			$data['order_name']		=$data['title'];
 			$data['update_time']	=CORE_TIME;
 			$data['update_admin']	=$_SESSION['username'];
 			$data['invoice_status']	=2;//完成开票状态
@@ -248,10 +246,10 @@ class billingAction extends adminBaseAction
 			$this->success('操作成功');
 			
 		}else{
-			//业务员提交申请开票
-			
+			//业务员提交申请开票			
 			$data['input_time']=CORE_TIME;
 			$data['input_admin']=$_SESSION['username'];
+			$data['order_name']	=$data['title'];
 			//根据o_id获取订单中的业务员id,即customer_manager
 			$customer_manager = $this->db->model('order')->select('customer_manager')->where('o_id='.$data['o_id'])->getOne();
 			$data['customer_manager']=$customer_manager;
