@@ -76,7 +76,7 @@ class productAttentionAction extends userBaseAction
 		$data = $this->db->select('id,status,operate')->where('id='.$pid and 'user_id='.$this->user_id)->getRow();
 		if($data['status']==1){
 			if($this->db->where("id=$pid and user_id=$this->user_id")->delete()){
-				$this->json_output(array('err'=>0,'msg'=>'关注改变成功'));
+				$this->json_output(array('err'=>0,'msg'=>'关注改变成功','status'=>$data['status']));
 			}
 		}
 	}
@@ -102,7 +102,6 @@ class productAttentionAction extends userBaseAction
 			$data = $this->db->select('id,status,operate')->where('id='.$value and 'user_id='.$this->user_id)->getRow();
 			if($data['status']==1){
 				$this->db->where("id=$value and user_id=$this->user_id" )->delete();
-
 			}
 		}
 		$this->json_output(array('err'=>0,'msg'=>'取消关注成功'));
