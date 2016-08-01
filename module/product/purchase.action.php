@@ -376,7 +376,7 @@ class purchaseAction extends adminBaseAction {
 					'number'	=>$row['F'],
 					'unit_price'=>$row['G'],
 					'provinces' =>$add_id,					
-					'period' 	=>$period,					
+					'period' 	=>$period,					s
 					'remark' 	=>$row['J'],
 					//牌号和厂家id取得商品id
 					'p_id'   	=>$p_id,
@@ -387,7 +387,7 @@ class purchaseAction extends adminBaseAction {
 					'sync'		=>1,		//0后台添加 1更新过来
 					'customer_manager'=>$_SESSION['adminid'],//谁导入就是谁发的采购信息
 					'input_time'=>CORE_TIME,
-					'input_admin'=>$_SESSION['name'],
+					'input_admin'=>$_SESSION['username'],
 				);
 				$this->db->model('purchase')->add($_infoData);
 			}

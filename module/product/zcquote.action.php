@@ -332,7 +332,6 @@ class zcquoteAction extends adminBaseAction {
 						continue;
 					}
 				}
-				
 				//写数据到表中p2p_product
 				$_infoData = array(
 					'c_id'		=>$row['A'],
@@ -347,7 +346,6 @@ class zcquoteAction extends adminBaseAction {
 					'bargain'	=>$row['I']=='是'?2:1,		//1可议价 2实价
 					'store_house'=>$row['J'],
 					'remark' 	=>$row['K'],
-
 					//牌号和厂家id取得商品id
 					'p_id'   	=>$p_id,
 					// 'cargo_type'=>$ctype,	//1现货 2期货
@@ -357,7 +355,7 @@ class zcquoteAction extends adminBaseAction {
 					'sync'		=>1,		//0后台添加 1更新过来
 					'customer_manager'=>$_SESSION['adminid'],//谁导入就是谁发的采购信息
 					'input_time'=>CORE_TIME,
-					'input_admin'=>$_SESSION['name'],
+					'input_admin'=>$_SESSION['username'],
 				);
 
 				$this->db->model('purchase')->add($_infoData);
