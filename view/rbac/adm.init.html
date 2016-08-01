@@ -71,42 +71,49 @@
 				<table style="width:100%;">
 					<input class="mini-hidden" name="admin_id"/>
 						<tr>
-								<td style="width:70px;">姓名：</td>
-								<td><input name="name" class="mini-textbox" style="width:80px" required="true"/></td>
+							<td style="width:70px;">姓名：</td>
+							<td><input name="name" class="mini-textbox" style="width:80px" required="true"/></td>
 						</tr>
 						<tr>
-								<td style="width:70px;">用户名：</td>
-								<td><input name="username" class="mini-textbox" style="width:80px" required="true"/></td>
+							<td style="width:70px;">用户名：</td>
+							<td><input name="username" class="mini-textbox" style="width:80px" required="true"/></td>
 						</tr>
 						<tr>
 							<td style="width:100px;">手机号：</td>
 							<td><input name="mobile" class="mini-textbox" style="width:100px;" /></td>
 						</tr>
 						<tr>
-								<td style="width:70px;">密码：</td>
-								<td><input name="password" class="mini-textbox" style="width:80px"/></td>
+							<td style="width:70px;">密码：</td>
+							<td><input name="password" class="mini-textbox" style="width:80px"/></td>
 						</tr>
 						<tr>
-								<td style="width:70px;">所属部门：</td>
-								<td><input name="depart" class="mini-combobox"  data='{$depart_json}' textField="name" valueField="id" style="width:100px;" required="true"/></td>
+							<td style="width:70px;">所属部门：</td>
+							<td><input name="depart" class="mini-combobox"  data='{$depart_json}' textField="name" valueField="id" style="width:100px;" required="true"/></td>
 						</tr>
 						<tr>
-								<td style="width:70px;">领&nbsp;&nbsp;导：</td>
-								<td><input name="pid" class="mini-combobox"  data='{$leader_json}' textField="name" valueField="id" style="width:100px;" required="true"/></td>
+							<td style="width:70px;">头&nbsp;&nbsp;像：</td>
+							<td><input id="img_url"  name="pic" class="mini-textbox"  style="width:40px"/>
+								<input id="upfileId" type="file" name="upFile" style="width:60px" onChange="fileUpload(); ">
+		  					</td>
 						</tr>
 						<tr>
-								<td>帐户状态：</td>
-								<td><input name="status" class="mini-combobox" data='[{"id":0,"name":"禁用"},{"id":1,"name":"正常"}]' textField="name" valueField="id" style="width:90px;" required="true"/>
+							<td style="width:70px;">领&nbsp;&nbsp;导：</td>
+							<td><input name="pid" class="mini-combobox"  data='{$leader_json}' textField="name" valueField="id" style="width:100px;" required="true"/></td>
+						</tr>
+						<tr>
+							<td>帐户状态：</td>
+							<td><input name="status" class="mini-combobox" data='[{"id":0,"name":"禁用"},{"id":1,"name":"正常"}]' textField="name" valueField="id" style="width:90px;" required="true"/>
 						</td>
 						</tr>
-					<tr>
+						<tr>
 							<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
 								 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
 							</td>                
-					</tr>
+						</tr>
 				</table>
 		</div>
 </div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell");
@@ -117,6 +124,30 @@ var form = new mini.Form("#addForm");
 function add() {
 	form.clear();
 	admInfo.show();
+}
+function fileUpload() {
+	$.ajaxFileUpload({
+		url:'/system/sysUpload/images?model={$action}',
+			secureuri:false,
+			fileElementId:'upfileId',
+			dataType: 'json',
+			success: function (data, status) {
+				if(data.err=='0'){
+					mini.get("img_url").setValue(data.msg);
+					imgResize();
+				}
+			},
+			error: function (data, status, e){
+				$("#picResult").html(e);
+			}
+		}
+	)
+	return false;
+}
+function imgResize(){
+	$("#picDisplay img").load(function(){
+		if(this.width>80) this.width = 80;				 
+	});
 }
 function onRowDblClick(e) {
 	{if $doact neq 'search'}
@@ -136,6 +167,7 @@ function edit() {
 		mini.getbyName('username').setValue(row.username);
 		mini.getbyName('status').setValue(row.status);
 		mini.getbyName('pid').setValue(row.pid);
+		mini.getbyName('pic').setValue(row.pic);
 		admInfo.show();
 	}
 }
