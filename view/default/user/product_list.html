@@ -89,13 +89,11 @@
                 dataType:'json',
                 success:function(res){
                     if(res.err==0){
-                        if(res.status == 2){
-                              layer.msg('取消成功');
-                              location.reload();
-                        }else{
-                            layer.msg('取消失败');
-                            location.reload();
-                        }
+                          layer.msg('取消成功');
+                          location.reload();
+                    }else{
+                        layer.msg('取消失败');
+                        location.reload();
                     }
                 }
             });

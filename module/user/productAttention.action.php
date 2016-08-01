@@ -105,7 +105,7 @@ class productAttentionAction extends userBaseAction
 
 			}
 		}
-		$this->json_output(array('err'=>0,'msg'=>'取消关注成功','status'=>2));
+		$this->json_output(array('err'=>0,'msg'=>'取消关注成功'));
 	}
 	//ajax联动操作
 	public function getModelByCla(){
