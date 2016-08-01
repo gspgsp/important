@@ -98,33 +98,24 @@ class billingAction extends adminBaseAction
 					break;
 			}
 		}
-
 		//筛选领导级别
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 			$where .= " and `customer_manager` in ($sons) ";
-		}
-				
+		}		
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
-		
-		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['payment_time']=$v['payment_time']>1000 ? date("Y-m-d H:i:s",$v['payment_time']) : '-';
-
-			//开票业务员
-			$list['data'][$k]['input_admin']=M('rbac:adm')->getUserByCol($v['customer_manager']);
-			
-			//开票主题
-			$list['data'][$k]['order_name'] = L('company_account')[$list['data'][$k]['order_name']];
-
-			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
-			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
-			//每笔订单 收付款明细的审核状态
-			$arr = M('product:billing')->getLastInfo($name='o_id',$value=$v['o_id']);
+		foreach($list['data'] as &$v){
+			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$v['payment_time']=$v['payment_time']>1000 ? date("Y-m-d H:i:s",$v['payment_time']) : '-';
+			$v['input_admin']=M('rbac:adm')->getUserByCol($v['customer_manager']);//开票业务员
+			$v['order_name'] = L('company_account')[$list['data'][$k]['order_name']];//开票主题
+			$v['c_name']=M('user:customer')->getColByName($v['c_id'],'c_name','c_id');
+			empty($v['accessory'])?:$v['accessory']=FILE_URL.'/upload/'.$v['accessory'];
+			$arr = M('product:billing')->getLastInfo('o_id',$v['o_id']);//每笔订单 收付款明细的审核状态
 			$red_status = $this->db->where('invoice_status =1 and o_id='.$arr[0]['o_id'])->getAll();
 			$list['data'][$k]['red_status']=empty($red_status)?0:1;
 			
@@ -132,8 +123,6 @@ class billingAction extends adminBaseAction
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
 	}
-
-
 	//开票
 	public function transactionInfo(){
 		$o_id=sget('o_id','i',0);
