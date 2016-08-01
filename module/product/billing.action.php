@@ -198,13 +198,12 @@ class billingAction extends adminBaseAction
 
 		if($data['finance']==1){
 			//财务审核开票信息
-			$data['update_time']=CORE_TIME;
-			$data['update_admin']=$_SESSION['username'];
-			$data['invoice_status']=2;//完成开票状态
-			$data['payment_time']=CORE_TIME;
-
+			$data['order_name']		=$data['title'];
+			$data['update_time']	=CORE_TIME;
+			$data['update_admin']	=$_SESSION['username'];
+			$data['invoice_status']	=2;//完成开票状态
+			$data['payment_time']	=CORE_TIME;
 			$data['unbilling_price']=$data['unbilling_price']-$data['billing_price'];
-
 			//销售开票号去重
 			if ($type==1) {
 				$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);
