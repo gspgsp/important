@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="__JS__/home/laydate/laydate.js"></script>
 </head>
 <body>
-  <div class="team_box" style="width:48%; float:left;">
+  <div class="team_box" style="width:46%; float:left;">
         <table id="laydate">
         	<tr>	
         		<td>
@@ -24,9 +24,9 @@
 					</select>
         		</td>
                 <td>
-                    <input style="width:80px;" class="laydate" type="text" class="start_time"  name="start_time" value="{$start_time}" />
+                    <input style="width:130px;" class="laydate" type="text" class="start_time"  name="start_time" value="{$start_time}" />
                 </td>
-                <td><input style="width:80px;" class="laydate" type="text" readonly="readonly" class="end_time" name="end_time" value="{$end_time}" /></td>
+                <td><input style="width:130px;" class="laydate" type="text" readonly="readonly" class="end_time" name="end_time" value="{$end_time}" /></td>
                 <td>
                 	<select name="time_type" id="soStatus">
                 	<option value="" {$default_selected}>特定时间</option>
@@ -44,7 +44,7 @@
         </table>
 </div>
 <input type="hidden" id="order_type" value="{$order_type}" />
-  <div class="person_box" style="width:52%;float:left;">
+  <div class="person_box" style="width:54%;float:left;">
         <table id="laydate2">
             <tr>
             	<td>
@@ -58,9 +58,9 @@
 					</select>
             	</td>    
                 <td>
-                    <input style="width:80px;" class="laydate" type="text" class="start_time"  name="start_time2" value="{$start_time}" />
+                    <input style="width:130px;" class="laydate" type="text" class="start_time"  name="start_time2" value="{$start_time}" />
                 </td>
-                <td><input style="width:80px;" class="laydate" type="text" readonly="readonly" class="end_time" name="end_time2" value="{$end_time}" /></td>
+                <td><input style="width:130px;" class="laydate" type="text" readonly="readonly" class="end_time" name="end_time2" value="{$end_time}" /></td>
                 <td>
                 	<select name="time_type" id="soStatus2">
                 	<option value="" {$default_selected}>特定时间</option>
@@ -100,7 +100,6 @@
 		var _time_type = $('#soStatus option:selected').val();
 		var _order_by_time_field = $('#sTime1 option:selected').val();
 		var _order_type = $('#order_type').val();
-		// alert(_order_by_time_field);
 			$.post('/order/index/getTeamData',{
 					start_time:_start_time,
 					end_time:_end_time,
@@ -193,10 +192,14 @@
 		$('.submit2').trigger('click');
 		//日期插件
 		laydate({
-       		'elem': '#laydate .laydate'
+       		'elem': '#laydate .laydate',
+       		'format': 'YYYY/MM/DD hh:mm:ss',
+       		  'istime': true, //是否开启时间选择
     	});
     	laydate({
-       		'elem': '#laydate2 .laydate'
+       		'elem': '#laydate2 .laydate',
+       		'format': 'YYYY/MM/DD hh:mm:ss',
+       		'istime': true, //是否开启时间选择
     	});
 		//视图切换
 		$(".change_view").toggle(
