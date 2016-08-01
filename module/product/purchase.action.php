@@ -376,7 +376,7 @@ class purchaseAction extends adminBaseAction {
 					'number'	=>$row['F'],
 					'unit_price'=>$row['G'],
 					'provinces' =>$add_id,					
-					'period' 	=>$period,					s
+					'period' 	=>$period,
 					'remark' 	=>$row['J'],
 					//牌号和厂家id取得商品id
 					'p_id'   	=>$p_id,
