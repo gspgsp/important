@@ -218,7 +218,7 @@ class quoteAction extends adminBaseAction {
 	}
 
 	/**
-	 * 新增采购信息
+	 * 新增报价信息
 	 * @access public 
 	 * @return html
 	 */

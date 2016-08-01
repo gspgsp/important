@@ -49,7 +49,7 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
-			<tr>
+			<tr class="mini-hidden">
 				<td style="width:80px;">大客户：</td>
 				<td style="width:210px;"><input name="is_vip" class="mini-combobox" data='{:setMiniConfig|$is_vip}' textField="name" valueField="id" style="width:170px;" value="{$data.is_vip|default:2}" required="true"/></td>
 				<td>&nbsp;</td>
@@ -199,6 +199,7 @@ function getcomp(e){
 }
 
 function getinfo(e){
+	alert(21345);
 	var model = mini.get("model").getValue();
 	var fid = mini.get("comp").getValue();
 	var data = mini.getData('/product/product/getPinfo?model='+model+'&fid='+fid);
