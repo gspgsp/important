@@ -70,19 +70,12 @@ class indexAction extends homeBaseAction{
 		$pageSize=20;
 		$list=M('product:bigOffers')->getOfferList($where,$order,$page,$pageSize);
 //		p($list['data']);
-//		foreach($list['data'] as $v ){
-
-//			$price=M('product:bigOffers')->getPrice($v);
-//			P($price);
-//			$price=$this->db->model('big_offers')
-//				->where('type='.$v['type'] and 'model='.$v['model'] and 'factory='.$v['factory'] and 'address='.$v['address'])
-//				->order('input_time desc')
-//				->select('id,cid,price')
-//				->limit('2')
-//				->getAll();
-//			p($price);
+		foreach($list['data'] as $v ){
+			$price=$this->db->model('big_offers')
+				->getAll("select id,cid,price from p2p_big_offers where type=`'{$v['type']}`' and model=`'{$v['model']}`' and factory=`'{$v['factory']}`' and address=`'{$v['address']}`' order by input_time desc limit 2");
 //			showTrace();
-//		}
+		}
+//		showTrace();
 		$this->seo = array('title'=>'大户报价',);
 		$this->pages=pages($list['count'],$page,$pageSize);
 		$this->assign('list',$list);
