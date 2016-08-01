@@ -111,9 +111,7 @@
 	            <div class="cj">{$value.factory}</div>
 	            <div class="amount">{$value.num}</div>
 	            <div class="price">￥{$value.price}</div>
-	            <div class="change up">
-	            	<!-- <span></span> -->&nbsp;
-	            </div>
+	            <div id="price" value="{$value.prices}" class="change up" >{$value.absprices}</div>
 	            <div class="address">{$value.address}</div>
 	            <div class="company">{$value.gsname}</div>
 	            <div class="phone">{$value.phone}</div>
@@ -129,7 +127,14 @@
 </div>
 
 <script>
+	//涨跌
 $(function(){
+	var price=$("#price").value();
+	if(price<0){
+		$("#price").addClass('change down');
+	}else{
+		$("#price").addClass('change up');
+	}
 
 	$(".sort-sel .sorttype").click(function(){
 		var sort=$(this).attr('sort');
