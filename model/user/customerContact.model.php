@@ -209,7 +209,7 @@ class customerContactModel extends model{
 					->leftjoin('contact_info as cin','cin.user_id=con.user_id')
 					->leftjoin('user_msg as msg','msg.user_id=con.user_id')
 					->where("con.user_id=$userid and msg.is_read=1 and msg.utype=0")
-					->select('con.last_login,con.name as u_name ,con.input_time,cus.c_name,cus.identification,adm.mobile,adm.name as adm_name,cin.thumb,cin.points,count(msg.id) as number')
+					->select('con.last_login,con.name as u_name ,con.input_time,cus.c_name,cus.identification,adm.mobile,adm.name as adm_name,adm.pic,cin.thumb,cin.points,count(msg.id) as number')
 			        ->getRow();
 		}
 
