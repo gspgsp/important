@@ -11,11 +11,10 @@ class indexAction extends adminBaseAction
 		$end_time = spost('end_time','s','');
 		$time_type = spost('time_type','s','');
 		$team_id = spost('team_id','i','');
-		// $order_type = spost('team_id','i','');
 		
 		if(empty($start_time) && empty($end_time) && empty($time_type)){
-			$start_time = date('Y-m-d',strtotime('-1 month'));
-			$end_time = date('Y-m-d',strtotime('now'));
+			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m-d', time())));
+			$end_time = date('Y-m-d H:i:s',strtotime('now'));
 		}
 		if(empty($time_type)){
 			$time_type = 'default';
@@ -41,9 +40,10 @@ class indexAction extends adminBaseAction
 		$team_id = spost('team_id','i','');
 		
 		if(empty($start_time) && empty($end_time) && empty($time_type)){
-			$start_time = date('Y-m-d',strtotime('-1 month'));
-			$end_time = date('Y-m-d',strtotime('now'));
+			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m-d', time())));
+			$end_time = date('Y-m-d H:i:s',strtotime('now'));
 		}
+		// p($start_time,$end_time);die();
 		if(empty($time_type)){
 			$time_type = 'default';
 		}
