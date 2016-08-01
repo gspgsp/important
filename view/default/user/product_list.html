@@ -7,111 +7,7 @@
 <style type="text/css">
 .xubox_setwin .xubox_close0{ right:-70px!important;}
 </style>
-<div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
-<!--user-wrap begin-->
-<div class="user-wrap w1220">
-    <!--right begin-->
-    {include file="public:user_left"}
-    <div class="right frt">
-    	<h3>个人中心-关注的产品</h3>
-        <!--focus1 begin-->
-        <div class="focus1 color3">
-        	<div class="focus-add"><span>添加</span></div>
-        	<!--focus-title begin-->
-            <ul class="focus focus-title">
-            	<li class="category">产品类别</li>
-                <li class="grade">牌号</li>
-                <li class="place">产地</li>
-                <li class="status">状态</li>
-                <li class="opt">操作</li>
-            </ul>
-            <!--focus-title end-->
-            <!--all-opt begin-->
-            <div class="all-opt">
-                <input type="checkbox" id="all"/>
-                <label for="all">全选</label>
-                <!--<a id="ml" href="javascript:;" >批量关注</a>-->
-                <a id="mq" href="javascript:;" >批量取消</a>
-            </div>
-            <!--all-opt end-->
-            <!--focus-con begin-->
-            {foreach from=$detail item=value}
-            <div class="focus-con">
-            	<!--focus-top begin-->
-                <div class="focus-top">
-                    <input type="checkbox" class="purchaseList regular-checkbox2" data-id="{$value.id}" />
-                    <span>添加时间：{$value.input_time}</span>
-                </div>
-                <!--focus-top end-->
-                <!--focus-bot begin-->
-                <div class="focus focus-bot">
-                    <ul>
-                        <li class="category">{$value.product_name}</li>
-                        <li class="grade">{$value.model}</li>
-                        <li class="place">{$value.factory_name}</li>
-                        <li class="status">{$value.status}</li>
-                        <li class="opt-con">
-                        <button class="del" value="{$value.id}">{$value.operate}</button>
-                        </li>
-                    </ul>
-                </div>
-                <!--focus-bot end-->
-            </div>
-            {/foreach}
-            <!--focus-con end-->
-            <!--page begin-->
-            <div class="page" style="text-align: center;">
-                <ul style="display: inline-block;">
-                    <li>{$pages}</li>
-                </ul>
-            </div>
-            <!--page end-->
-        </div>
-        <!--focus1 end--> 
-    </div>
-    <!--right end-->
-</div>
-<!--user-wrap end-->
-<!--layer begin-->
-<div class="layer">
-    <h3>添加新关注</h3>
-    <p class="error-msg"></p>
-    <table>
-        <form name="" method="post" action="">
-            <tr>
-                <td class="name">产品类别：</td>
-                <td>
-                    <select class="kid import" style="width: 212px;height: 34px;" id="pz">
-                        <option>请选择</option>
-                        {foreach from=$product_type item=value key=key}
-                        <option value="{$key}">{$value}</option>
-                        {/foreach}
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="name">牌号：</td>
-                <!-- <td><input type="text" class="num import" id="num" /></td> -->
-                <td><select id="ph"><option value="">请选择</option></select></td>
-            </tr>
-            <tr>
-                <td class="name">产地：</td>
-                <!-- <td><input type="text" class="address import" id="address" /></td> -->
-                <td><select id="cj"><option value="">请选择</option></select></td>
-            </tr>
-            <tr>
-                <td class="name">备注：</td>
-                <td><input type="text" class="remark import" id="remark" /></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="button" value="确定" class="btn submit"/>
-                </td>
-            </tr>
-        </form>
-    </table>
-</div>
-<!--layer end-->
+
 <script>
     $(function(){
         var productArr=[];
@@ -310,3 +206,110 @@
 
     });
 </script>
+<div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-关注的产品</h3>
+        <!--focus1 begin-->
+        <div class="focus1 color3">
+        	<div class="focus-add"><span>添加</span></div>
+        	<!--focus-title begin-->
+            <ul class="focus focus-title">
+            	<li class="category">产品类别</li>
+                <li class="grade">牌号</li>
+                <li class="place">产地</li>
+                <li class="status">状态</li>
+                <li class="opt">操作</li>
+            </ul>
+            <!--focus-title end-->
+            <!--all-opt begin-->
+            <div class="all-opt">
+                <input type="checkbox" id="all"/>
+                <label for="all">全选</label>
+                <!--<a id="ml" href="javascript:;" >批量关注</a>-->
+                <a id="mq" href="javascript:;" >批量取消</a>
+            </div>
+            <!--all-opt end-->
+            <!--focus-con begin-->
+            {foreach from=$detail item=value}
+            <div class="focus-con">
+            	<!--focus-top begin-->
+                <div class="focus-top">
+                    <input type="checkbox" class="purchaseList regular-checkbox2" data-id="{$value.id}" />
+                    <span>添加时间：{$value.input_time}</span>
+                </div>
+                <!--focus-top end-->
+                <!--focus-bot begin-->
+                <div class="focus focus-bot">
+                    <ul>
+                        <li class="category">{$value.product_name}</li>
+                        <li class="grade">{$value.model}</li>
+                        <li class="place">{$value.factory_name}</li>
+                        <li class="status">{$value.status}</li>
+                        <li class="opt-con">
+                        <button class="del" value="{$value.id}">{$value.operate}</button>
+                        </li>
+                    </ul>
+                </div>
+                <!--focus-bot end-->
+            </div>
+            {/foreach}
+            <!--focus-con end-->
+            <!--page begin-->
+            <div class="page" style="text-align: center;">
+                <ul style="display: inline-block;">
+                    <li>{$pages}</li>
+                </ul>
+            </div>
+            <!--page end-->
+        </div>
+        <!--focus1 end--> 
+    </div>
+    <!--right end-->
+</div>
+<!--user-wrap end-->
+<!--layer begin-->
+<div class="layer">
+    <h3>添加新关注</h3>
+    <p class="error-msg"></p>
+    <table>
+        <form name="" method="post" action="">
+            <tr>
+                <td class="name">产品类别：</td>
+                <td>
+                    <select class="kid import" style="width: 212px;height: 34px;" id="pz">
+                        <option>请选择</option>
+                        {foreach from=$product_type item=value key=key}
+                        <option value="{$key}">{$value}</option>
+                        {/foreach}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="name">牌号：</td>
+                <!-- <td><input type="text" class="num import" id="num" /></td> -->
+                <td><select id="ph"><option value="">请选择</option></select></td>
+            </tr>
+            <tr>
+                <td class="name">产地：</td>
+                <!-- <td><input type="text" class="address import" id="address" /></td> -->
+                <td><select id="cj"><option value="">请选择</option></select></td>
+            </tr>
+            <tr>
+                <td class="name">备注：</td>
+                <td><input type="text" class="remark import" id="remark" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" value="确定" class="btn submit"/>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+<!--layer end-->
+
+

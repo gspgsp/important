@@ -73,10 +73,10 @@ class productAttentionAction extends userBaseAction
 	//取消关注
 	public function changeFocusState(){
 		$pid = sget('pId','i');
-		$data = M('public:common')->model('concerned_product')->select('*')->where('id='.$pid and 'user_id='.$this->user_id)->getRow();
+		$data = M('public:common')->model('concerned_product')->select('id,status')->where('id='.$pid and 'user_id='.$this->user_id)->getRow();
 		if($data['status']==1){
 			if($this->db->where("id=$pid and user_id=$this->user_id")->delete()){
-				$this->json_output(array('err'=>0,'msg'=>'关注改变成功'));
+				$this->json_output(array('err'=>0,'msg'=>'取消关注成功'));
 			}
 		}else{
 			$this->json_output(array('err'=>1,'msg'=>json_encode($data)));
