@@ -31,21 +31,25 @@
 	</div>
 </div>
 
-<div id="admInfo" class="mini-window" title="新增大客户" style="width:500px;" 
+<div id="admInfo" class="mini-window" title="行情指数" style="width:260px;" 
  	showModal="true" allowResize="true" allowDrag="true"
  	>
  	<div id="addForm" class="form" >
  		<table style="width:100%;">
  			<input class="mini-hidden" name="id" value="">
  			<tr>
- 				<td style="width:100px;">分类：</td>
+ 				<td style="width:60px;">分类：</td>
  				<td>
  					<input name="cid" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$product_type}' required="true" textfield="name" valuefield="id"/>
  				</td>
  			</tr>
  			<tr>
- 				<td style="width:100px;">价格：</td>
- 				<td><input name="price" required="true" class="mini-textbox" style="width:200px"/></td>
+ 				<td style="width:60px;">价格：</td>
+ 				<td><input name="price" required="true" class="mini-textbox" style="width:150px"/></td>
+ 			</tr>
+ 			<tr>
+ 				<td style="width:60px;">价格日期：</td>
+ 				<td><input name="input_time" required="true" class="mini-datepicker" value="{$smarty.now|date:Y-m-d H:i:s}" style="width:150px"/></td>
  			</tr>
  			<tr>
 	 			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
