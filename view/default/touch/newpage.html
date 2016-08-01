@@ -6,6 +6,7 @@
     <title>我的塑料网-个人中心</title>
     <link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="__MYAPP__/css/app.css" />
+    <script type="text/javascript" src="__MYAPP__/js/mui.min.js"></script>
     <script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
     <script type="text/javascript" src="__JS__/wx/vue.js"></script>
     <script type="text/javascript" src="__JS__/wx/vue-router.js"></script>
@@ -15,6 +16,8 @@
         .mui-slider-group img{ display: block;}
         .mui-slider-indicator .mui-indicator{ margin: 1px; background: #ffffff;}
         .mui-slider-indicator .mui-active.mui-indicator{ background: #ff5000;}
+        .icon{ float: none; display: inline-block; vertical-align: -5px;}
+        #infoDetailContent img{ width: 100%; display: block;}
     </style>
 </head>
 <body>
@@ -26,19 +29,54 @@
         <a class='headerMenu' href='/mobi/mainPage/enProductType'></a>
         <div class='appSearch'><input type='text' placeholder='请输入产品分类、牌号' /><a class='appQuery' href='#'></a></div>
         <a class='headerService' href='tel:4006129965'></a>
-    </header><div class='appInfo'><span class='appInfoOn'>今日头条</span><span>原油价格</span><div class='mui-clearfix'></div>
-    <div id='appInfo'>
+    </header>
+    <div id="slider" class="mui-slider">
+        <div class="mui-slider-group mui-slider-loop">
+            <div class="mui-slider-item"><img src="http://pic.myplas.com/upload/16/07/19/578d86ea86395.jpg"></div>
+            <div class="mui-slider-item"><img src="http://pic.myplas.com/upload/16/07/19/578d86ea86395.jpg"></div>
+            <div class="mui-slider-item"><img src="http://pic.myplas.com/upload/16/07/19/578d86ea86395.jpg"></div>
+            <div class="mui-slider-item"><img src="http://pic.myplas.com/upload/16/07/19/578d86ea86395.jpg"></div>
+        </div>
+        <div class="mui-slider-indicator">
+            <div class="mui-indicator mui-active"></div>
+            <div class="mui-indicator"></div>
+        </div>
+    </div>
+    <div class='appInfo'>
+        <span v-for="(index,item) in items" :class="{'appInfoOn':index==itemIndex}" @click="itemsActive(index)">{{item}}</span>
+        <div class='mui-clearfix'></div>
+    <div id='appInfo' v-show="0==itemIndex">
         <ul id='appInfoUl'>
             <li v-for='info in infos'><a v-link={path:'/infoDetail?id='+info.id}><font>{{info.title}}</font></a><b>{{info.input_time}}</b></li>
         </ul>
-        <a class='appMore' href='/mobi/mainPage/enArticle'>更多</a></div>
-    <div id='appInfo2' style=' display: none;'>
-        <ul id='appInfoUl2'></ul>
-        <a class='appMore' href='/mobi/mainPage/enDyPrice'>更多</a>
-    </div></div>
+        <a class='appMore' v-link={name:'infolist'}>更多</a>
+    </div>
+    <div id='appInfo2' v-show="1==itemIndex">
+        <ul id='appInfoUl2'>
+            <li v-for='oil in oils'>{{oil.type}}<i class="{{oil.alph|upDownColor}}">{{oil.alph|upDown}}{{oil.ups_downs}}</i><b>{{oil.price}}</b><b style="margin-right: 10px;">{{oil.input_time}} </b></li>
+        </ul>
+        <a class='appMore' v-link={name:'oilPrice'}>更多</a>
+    </div>
+    </div>
+    <div class="appOperate">
+        <ul>
+            <li><div class="appOperateWrap">
+                <a href="/mobi/mainPage/enReleaseSale"><img width="22" src="__MYAPP__/img/icon.png"><br>发布报价</a>
+            </div></li>
+            <li><div class="appOperateWrap">
+                <a href="/mobi/mainPage/enPurchase"><img width="22" src="__MYAPP__/img/icon2.png"><br>委托采购</a>
+            </div></li>
+            <li><div class="appOperateWrap">
+                <a href="/mobi/mainPage/enSupply"><img width="22" src="__MYAPP__/img/icon3.png"><br>供求</a>
+            </div></li>
+            <li><div class="appOperateWrap">
+                <a href="/mobi/mainPage/enResource"><img width="22" src="__MYAPP__/img/icon4.png"><br>资源库</a>
+            </div></li>
+        </ul>
+    </div>
     <footer id='footer'>
         <ul>
-            <li><a href='/mobi/mainPage/enLargeBid'><i class='foot'></i><br>大客户专区</a></li>
+            <li><a v-link={name:'bigCustomer'}><i class='foot'></i><br>大客户专区</a></li>
             <li><a href='/mobi/mainPage/enPhysical'><i class='foot2'></i><br>物性表</a></li>
             <li><a class='footerOn' href='/mobi/mainPage/enMainPage'><i class='foot3'></i><br>首页</a></li>
             <li><a v-link={name:'infolist'}><i class='foot4'></i><br>资讯</a></li>
@@ -49,18 +87,15 @@
 
 <template id="infolist">
     <header id='infoHeader'><a class='back' href='javascript:window.history.back();'></a>今日资讯</header>
-    <nav id='nav'><span class='on' @click='changeArticle(29)'>市场点评</span>
-        <span @click='changeArticle(30)'>行业热点</span>
-        <span @click='changeArticle(31)'>企业调价</span>
-        <span @click='changeArticle(32)'>装置动态</span>
-        <span @click='changeArticle(33)'>塑料期货</span>
+    <nav id='nav'>
+        <span v-for="(index,item) in items" :class="{'on':index==itemIndex}" @click="itemsActive(index)">{{item.name}}</span>
     </nav>
     <div id='articleWrap'>
     <ul id='articleLi'>
         <li v-for='info in infoUl'>
         <div class='articleLi'>
             <a v-link={path:'/infoDetail?id='+info.id}>
-                /<h3>{{info.title}}</h3><p>{{info.brief}}</p>
+                <h3>{{info.title}}</h3><p>{{info.brief}}</p>
             </a>
         </div><p class='time'>{{info.input_time}}</p>
         </li>
@@ -68,7 +103,7 @@
     </div>
     <footer id='footer'>
         <ul>
-            <li><a href='/mobi/mainPage/enLargeBid'><i class='foot'></i><br>大客户专区</a></li>
+            <li><a v-link={name:'bigCustomer'}><i class='foot'></i><br>大客户专区</a></li>
             <li><a href='/mobi/mainPage/enPhysical'><i class='foot2'></i><br>物性表</a></li>
             <li><a v-link={name:'index'}><i class='foot3'></i><br>首页</a></li>
             <li><a class='footerOn' v-link={name:'infolist'}><i class='foot4'></i><br>资讯</a></li>
@@ -89,7 +124,7 @@
     </div>
     <footer id="footer">
         <ul>
-            <li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+            <li><a v-link={name:'bigCustomer'}><i class="foot"></i><br>大客户专区</a></li>
             <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
             <li><a v-link={name:'index'}><i class="foot3"></i><br>首页</a></li>
             <li><a class='footerOn' v-link={name:'infolist'}><i class="foot4"></i><br>资讯</a></li>
@@ -99,7 +134,71 @@
     <div id="backTop" style="display: none">
         <img src="__MYAPP__/img/topArrow.png">
     </div>
+</template>
 
+<template id="bigCustomer">
+    <header id="bigCustomerHeader">
+        <a class="back" href="javascript:window.history.back();"></a>
+        大客户专区
+        <span class="appMenu"></span>
+    </header>
+    <div class="bigCustomerMenu" style="display:none;">
+        <h3 class="bigCustomerMenuTitle">
+            公司
+            <!--<i class="icon2 iconUp iconDown"></i>-->
+            <span id="gsBtn">全部</span>
+        </h3>
+        <p id="gs"></p>
+        <h3 class="bigCustomerMenuTitle">
+            厂家
+            <!--<i class="icon2 iconUp iconDown"></i>-->
+            <span id="cjBtn">全部</span>
+        </h3>
+        <p id="cj"></p>
+        <h3 class="bigCustomerMenuTitle">
+            交货地
+            <!--<i class="icon2 iconUp iconDown"></i>-->
+            <span id="jhdBtn">全部</span>
+        </h3>
+        <p id="jhd"></p>
+        <div style="text-align: center; padding: 20px 0;">
+            <a id="chooseBtn" class="classifyEnter" href="javascript:;">确定</a>
+        </div>
+    </div>
+    <div class="supplyDemandStatus">
+        <span data-number="3" class="on">默认</span>
+        <span id="sale" data-big="true">价格</span>
+    </div>
+    <div class="supplyDemandUl">
+        <ul id="searchWrapUl"></ul>
+    </div>
+    <footer id="footer">
+        <ul>
+            <li><a class="footerOn" v-link={name:'bigCustomer'}><i class="foot"></i><br>大客户专区</a></li>
+            <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+            <li><a v-link={name:'index'}><i class="foot3"></i><br>首页</a></li>
+            <li><a v-link={name:'infolist'}><i class="foot4"></i><br>资讯</a></li>
+            <li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+        </ul>
+    </footer>
+</template>
+<template id="oilPrice">
+    <header id="infoHeader">
+        <a class="back" href="javascript:window.history.back();"></a>
+        原油价格
+    </header>
+    <ul id="infoOil">
+        <li v-for='oil in oilInfo'>{{oil.type}}<i class="{{oil.alph|upDownColor}}">{{oil.alph|upDown}}{{oil.ups_downs}}</i><b>{{oil.price}}</b><b style="margin-right: 10px;">{{oil.input_time}} </b></li>
+    </ul>
+    <footer id="footer">
+        <ul>
+            <li><a v-link={name:'bigCustomer'}><i class="foot"></i><br>大客户专区</a></li>
+            <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+            <li><a v-link={name:'index'}><i class="foot3"></i><br>首页</a></li>
+            <li><a v-link={name:'infolist'}><i class="foot4"></i><br>资讯</a></li>
+            <li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+        </ul>
+    </footer>
 </template>
 
 <script type="text/javascript">
@@ -107,31 +206,99 @@
         template:"<p>this is error page</p>"
     });
 
+    Vue.filter('upDown',function (value) {
+        if(value>0){
+            return '+'
+        }else if(value<0){
+            return '-'
+        }else{
+            return ''
+        }
+    });
+
+    Vue.filter('upDownColor',function (value) {
+        if(value>0){
+            return 'red'
+        }else if(value<0){
+            return 'green'
+        }else{
+            return 'blue'
+        }
+    });
+
+
     Vue.http.options.emulateJSON = true;
 
     var index=Vue.extend({
         template:"#index",
         data:function(){
             return {
-                infos: []
+                oils:[],
+                infos:[],
+                itemIndex:0,
+                items:['今日头条','原油价格']
             }
         },
         ready:function () {
+            var slider = mui("#slider");
+            slider.slider({
+                interval: 3000
+            });
             console.log(this.$route.path);
+            this.$http({url:'/mobi/mainPage/getMainPage',method:"POST",data:{type:2}}).then(function(res){
+                console.log(res.data.infos);
+                this.$set('oils',res.data.infos);
+            },function(){
+
+            });
             this.$http({url:'/mobi/mainPage/getMainPage',method:"POST",data:{type:1}}).then(function(res){
                 this.$set('infos',res.data.infos);
                 console.log(res.data.infos);
             },function(){
 
             })
+        },
+        methods:{
+            itemsActive:function (index) {
+                this.itemIndex=index ? index : 0;
+            }
+
         }
     });
 
+    var oilPrice=Vue.extend({
+        template:"#oilPrice",
+        data:function () {
+            return {
+                oilInfo:[]
+            }
+        },
+        ready:function () {
+            this.$http({url:'/mobi/mainPage/getMoreDyPrice',method:"POST",data:{}}).then(function (res) {
+                console.log(res.data.dyprice);
+                this.$set('oilInfo',res.data.dyprice);
+            },function (res) {
+
+            });
+
+        }
+    });
+
+    var bigCustomer=Vue.extend({
+        template:"#bigCustomer",
+        data:function () {
+            return {
+
+            }
+        }
+    });
 
     var infolist=Vue.extend({
         template:"#infolist",
         data:function () {
             return {
+                itemIndex: 0,
+                items: [{name: '市场点评'}, {name: '行业热点'}, {name: '企业调价'}, {name: '装置动态'}, {name: '塑料期货'}],
                 pid:[29,30,31,32,33],
                 infoUl:[]
             }
@@ -146,13 +313,10 @@
 
         },
         methods:{
-            changeArticle:function(index){
-                console.log(index);
-                $("#nav span").on("click",function () {
-                    $(this).addClass("on").siblings("span").removeClass("on");
-                });
-
-                this.$http({url:'/mobi/mainPage/getArticleInfo',method:"POST",data:{pid:index}}).then(function (res) {
+            itemsActive:function (index) {
+                console.log(this.pid[index]);
+                this.itemIndex=index ? index : 0;
+                this.$http({url:'/mobi/mainPage/getArticleInfo',method:"POST",data:{pid:this.pid[index]}}).then(function (res) {
                     console.log(res);
                     this.$set('infoUl',res.data.articleInfo);
                 },function (res) {
@@ -193,9 +357,17 @@
             name:'index',
             component: index
         },
+        '/bigCustomer':{
+            name:'bigCustomer',
+            component:bigCustomer
+        },
         '/infoDetail':{
             name:'infoDetail',
             component:infoDetail
+        },
+        '/oilPrice':{
+            name:'oilPrice',
+            component:oilPrice
         },
         '/infolist': {
             name:'infolist',
