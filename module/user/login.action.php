@@ -37,7 +37,7 @@ class loginAction extends homeBaseAction{
 			}else{
 				//的三方授权登录绑定账号
 				if($_SESSION['auth_openid']){
-					M('user:userOuter')->bindUser($result['user']['user_id'],$_SESSION['auth_openid'],$result);
+					M('user:userOuter')->bindUser($result['user']['user_id'],$_SESSION['auth_openid'],$_SESSION['auth_info']);
 				}
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
@@ -71,6 +71,8 @@ class loginAction extends homeBaseAction{
 		$openid=$token['openid'];
 		$outerModel=M('user:userOuter');
 		$type=strtoupper($type);	
+// 		p($openid);
+// 		die;
 		if($outerInfo=$outerModel->where("outer_id='{$openid}' and outer_source='{$type}'")->getRow()){
 			$userInfo=M("public:common")->model('customer_contact')->where("user_id='{$outerInfo['user_id']}'")->getRow();
 			M('user:passport')->setSession($outerInfo['user_id'],$userInfo);
