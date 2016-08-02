@@ -220,7 +220,6 @@ class registerAction extends homeBaseAction{
 		if($result['err']>0){ //请求错误
 			$this->error($result['msg']);
 		}
-		
 		$msg=$result['msg']; //短信内容
 		//发送手机动态码
 		$sms->send(0,$mobile,$msg,1);

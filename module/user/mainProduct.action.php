@@ -23,7 +23,6 @@ class mainProductAction extends userBaseAction
 			$mainPro['data'][$key]['update_time'] = $value['update_time']>1000 ? date("Y-m-d H:i:s",$value['update_time']):'-';
 			$mainPro['data'][$key]['operate'] = L('publish_operate')[$value['operate']];
 		}
-		// p($mainPro);
 		$this->pages = pages($mainPro['count'], $page, $page_size);
 		$this->assign('detail',$mainPro['data']);
 		$this->display('mainPro');

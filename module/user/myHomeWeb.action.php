@@ -12,9 +12,7 @@ class myHomeWebAction extends userBaseAction
 
 		$this->act='myHomepage';
         $data = $this->_aboutUs();
-		p($data);
         $contact = $this->_linkUs($data);
-		p($contact);
         $this->assign('data',$data);
         $this->assign('contact',$contact);
         $this->display('my_web');

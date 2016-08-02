@@ -9,11 +9,10 @@ class indexAction extends userBaseAction{
 	 */
 	public function init()
 	{
-		p($_SESSION);
 		$this->act='index';
 		//个人信息
 		$this->data=M('user:customerContact')->getCustomerInFoById($this->user_id);
-		p($this->data);
+
 		//我的关注列表
 		$list = M('product:concernedProduct')->getConcernedList($this->user_id);
 		$arr=array();
