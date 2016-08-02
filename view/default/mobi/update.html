@@ -33,7 +33,7 @@
 	<input class="phone" type="tel" placeholder="输入手机号获取下载链接（安卓用户" maxlength="11" name="phone" id="phone">
 	<input type="text" id="imgcode" class="input_2" name="captcha" placeholder="不区分大小写">
 	<img class="sp2" id="my-code" src="/api/vcode?name=regcode" onclick="this.src=this.src+'&amp;t='+Math.random()" alt="看不清，点击刷新" style="float:left;margin: 10px 0 0 10px;">
-	<input class="btn" type="button" value="发送更新">
+	<input id="sendphone" class="btn" type="button" value="发送更新">
 </div>
 <a id="ios" href="https://www.pgyer.com/MnRz" style="display: none;"><img src="__MYAPP__/img/update2.jpg"></a>
 <script>
@@ -43,7 +43,28 @@
 	} else if (/android/.test(ua)) {
 		$("#android").show();
 	}
+
+	var wait=120;
+	function time(o) {
+		var o =  document.getElementById(o);
+		if (wait == 0) {
+			$("#sendphone").val("发送更新");
+			$("#sendphone").removeAttr("disabled");
+			wait = 120;
+		} else {
+			$("#sendphone").val("重新发送(" + wait + ")");
+			$("#sendphone").attr("disabled","disabled");
+			wait--;
+			setTimeout(function() {
+				time(o)
+			}, 1000)
+		}
+	}
+
+
+
 	$(".btn").on("click",function () {
+		time('sendphone');
 		if($("#phone").val()&&$("#imgcode").val()){
 			$.ajax({
 				type: 'post',
