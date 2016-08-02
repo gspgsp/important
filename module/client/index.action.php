@@ -69,17 +69,17 @@ class indexAction extends homeBaseAction{
 		$page=sget('page','i',1);
 		$pageSize=20;
 		$list=M('product:bigOffers')->getOfferList($where,$order,$page,$pageSize);
-		$arr=array();
-		foreach($list['data'] as $k=>$v ){
-			$price=$this->db->model('big_offers')
-				->getAll("select id,cid,price from p2p_big_offers where type='{$v['type']}' and model='{$v['model']}' and factory='{$v['factory']}' and address='{$v['address']}' order by input_time desc limit 2");
-			$prices['prices']=$price[0]['price']-$price[1]['price'];//差价
-			$prices['id']=$price[0]['id'];
-			$prices['cid']=$price[0]['cid'];
-			$prices['absprices']=abs($prices['prices']); //差价取绝对值
-			$arr['data'][]=array_merge($v,$prices);
-		}
-		$list['data']=$arr['data'];
+//		$arr=array();
+//		foreach($list['data'] as $k=>$v ){
+//			$price=$this->db->model('big_offers')
+//				->getAll("select id,cid,price from p2p_big_offers where type='{$v['type']}' and model='{$v['model']}' and factory='{$v['factory']}' and address='{$v['address']}' order by input_time desc limit 2");
+//			$prices['prices']=$price[0]['price']-$price[1]['price'];//差价
+//			$prices['id']=$price[0]['id'];
+//			$prices['cid']=$price[0]['cid'];
+//			$prices['absprices']=abs($prices['prices']); //差价取绝对值
+//			$arr['data'][]=array_merge($v,$prices);
+//		}
+//		$list['data']=$arr['data'];
 		$this->seo = array('title'=>'大户报价',);
 		$this->pages=pages($list['count'],$page,$pageSize);
 		$this->assign('list',$list);
