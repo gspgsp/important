@@ -7,13 +7,14 @@
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>
 				<a href="__UPLOAD__/zip/报价模板.rar" class="mini-button" iconCls="icon-downgrade" plain="true">模板下载</a>
 				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel()">excel导入</a>
+				<a class="mini-button" class="output" iconCls="icon-downgrade" plain="true" onclick="outputExcel()">excel导出</a>
 				<span class="separator"></span> 
 				<a class="mini-button" iconCls="icon-reload" plain="true" onclick="reload()">重新发布</a>
 				<a class="mini-button" iconCls="icon-reload" plain="true" onclick="sync()">同布</a>
 				
 			</td>
 			<td style="float:right;">
-			<form id="soform">
+			<form id="soform" method="get" action="/product/zcquote/download">
 				创建时间   
 				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
@@ -31,6 +32,7 @@
 					{html_options options=$status}
 				</select>
 				<select name="key_type">
+					<option value="username">交易员</option>
 					<option value="f_name">厂家</option>
 					<option value="number">数量</option>
 					<option value="unit_price">价格</option>
@@ -67,7 +69,8 @@
 			<div field="remark" width="100" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
-			<div field="input_admin" width="45" headerAlign="center" align="center">创建人</div>
+			<!-- <div field="input_admin" width="45" headerAlign="center" align="center">创建人</div> -->
+			<div field="username" width="45" headerAlign="center" align="center">交易员</div>
 			<div field="status" width="30" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' />
 			</div>
@@ -270,5 +273,10 @@ function sync() {
 		}
 	}
 	utils.ajax('/product/zcquote/sync',callback,"POST","json");
+}
+
+//导出excel
+function outputExcel(){
+	$("#soform").submit();
 }
 </script>

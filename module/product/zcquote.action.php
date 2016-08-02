@@ -81,6 +81,10 @@ class zcquoteAction extends adminBaseAction {
 				$result = M('product:factory')->getIdsByName($keyword);
 				$result = implode($result,',');
 				$where.=" and pd.f_id in ($result) ";
+			}else if($key_type == 'username'){
+				//方法是getOne,所以不考虑同名的情况
+				$ids = M('rbac:adm')->getAdmin_Id($keyword);
+				$where.=" and `customer_manager`='$ids' ";
 			}else{
 				$where.=" and `$key_type`='$keyword' ";
 			}	
@@ -98,6 +102,7 @@ class zcquoteAction extends adminBaseAction {
 			$list['data'][$k]['f_id'] = $this->_getFactoryName($v['f_id']);
 			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
 			$list['data'][$k]['bargain'] = L('bargain')[$v['bargain']];
+			$list['data'][$k]['username'] = M('rbac:adm')->getUserByCol($v['customer_manager'],'name');
 			if($v['origin']){
 				$areaArr = explode('|', $v['origin']);
 				$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
@@ -410,5 +415,90 @@ class zcquoteAction extends adminBaseAction {
 		}
 
 			
+	}
+
+	/**
+	 * 导出excel
+	 * @access public 
+	 * @return html
+	 */
+	public function download(){
+
+		$sortField = sget("sortField",'s','p.input_time'); //排序字段
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		//搜索条件
+		$where=" 1  and p.`type` = 2  and `is_union` = 1 ";   //type 1 采购 2报价  is_union 1为中晨的 0的话为非中晨
+		$sTime = sget("sTime",'s','p.input_time'); //搜索时间类型
+		$where.= getTimeFilter($sTime); //时间筛选
+		// 状态
+		$status = sget("status",'s',''); 
+		if($status!='') $where.=" and p.status='$status' ";
+		//品种
+		$product_type = sget('product_type','s','');
+		$bargain = sget('bargain','s','');
+		if($bargain!='') $where.=" and p.bargain = '$bargain' ";
+		//关键词搜索
+		$key_type=sget('key_type','s','p.bargain');
+		$keyword=sget('keyword','s');
+		if(!empty($keyword)){
+			if($key_type == 'f_name'){
+				$result = M('product:factory')->getIdsByName($keyword);
+				$result = implode($result,',');
+				$where.=" and pd.f_id in ($result) ";
+			}else if($key_type == 'username'){
+				//方法是getOne,所以不考虑同名的情况
+				$ids = M('rbac:adm')->getAdmin_Id($keyword);
+				$where.=" and `customer_manager`='$ids' ";
+			}else{
+				$where.=" and `$key_type`='$keyword' ";
+			}	
+		}
+		//筛选领导级别
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			$where .= " and `customer_manager` in ($sons) ";
+		}
+		$orderby = "$sortField $sortOrder";
+		$list=$this->db->select("p.*,pd.model, pd.f_id, pd.product_type, pd.process_type, pd.unit")
+				->from('purchase p')->join('product pd','pd.id = p.p_id')
+				->where($where)
+				->order("$sortField $sortOrder")
+				->getAll();
+		foreach($list as &$val){
+			$val['input_time']=$val['input_time']>1000 ? date("Y-m-d H:i:s",$val['input_time']) : '-';
+			$val['update_time']=$val['update_time']>1000 ? date("Y-m-d H:i:s",$val['update_time']) : '-';
+			$val['product_type'] = L('product_type')[$val['product_type']];
+			$val['f_id'] = $this->_getFactoryName($v['f_id']);
+			$val['process_type'] = L('process_level')[$val['process_type']];
+			$val['bargain'] = L('bargain')[$v['bargain']];
+			$val['username'] = M('rbac:adm')->getUserByCol($val['customer_manager'],'name');
+			if($val['origin']){
+				$areaArr = explode('|', $val['origin']);
+				$val['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
+			}
+			if($val['provinces']>0){
+				$val['provinces'] = M('system:region')->get_name($val['provinces']);
+			}
+		}
+		$str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
+
+		$str .= '<tr><td>品种</td><td>牌号</td><td>厂家</td><td>加工级别</td>
+					<td>数量【吨】</td><td>价格【元/吨】</td><td>采购</td><td>省份</td>
+					<td>是否实价</td><td>仓库</td><td>备注</td><td>创建时间</td><td>更新时间</td>
+					<td>交易员</td>
+				</tr>';
+		foreach($list as $k=>$v){
+			$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['product_type']."</td><td>".$v['model']."</td><td>".$v['f_id']."</td><td>".$v['process_type']."</td>
+						<td>".$v['number']."</td><td>".$v['unit_price']."</td><td>".$v['supply_count']."</td><td>".$v['provinces']."</td>
+						<td>".$v['bargain']."</td><td>".$v['store_house']."</td><td>".$v['remark']."</td><td>".$v['input_time']."</td><td>".$v['update_time']."</td>
+						<td>".$v['username']."</td>
+					</tr>";
+		}
+		$str .= '</table>';
+		$filename = 'zcquote.'.date("Y-m-d");
+		header("Content-type: application/vnd.ms-excel; charset=utf-8");
+		header("Content-Disposition: attachment; filename=$filename.xls");
+		echo $str;
+		exit;
 	}
 }
