@@ -221,7 +221,7 @@ class zcpurchaseAction extends adminBaseAction {
 		//公共数据
 		$_data = array(
 			'input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],
+			'input_admin'=>$_SESSION['username'],
 		);
 		if($id <= 0){
 			if($data['f_id']>0  && (!empty($model))){
