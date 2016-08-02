@@ -19,23 +19,57 @@
 			padding: 0;
 		}
 		img{ width: 100%; display: block;}
+		#android{ padding: 15px;}
+		.phone{ width: 100%; height: 40px; font-size: 14px; padding: 5px; box-sizing: border-box;}
+		#imgcode{  height: 40px; float: left; font-size: 14px; padding: 5px; box-sizing: border-box; margin: 10px 0 0 0;}
+		#my-code{ width: 78px; height: 40px;}
+		.btn{width: 100%; font-size: 17px; margin: 15px 0 0 0; background: #ff6600; border-radius: 5px; border: none; color: #ffffff; text-align: center; height: 43px; line-height: 43px;}
 	</style>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
 </head>
 <body>
 <img src="__MYAPP__/img/update.jpg">
-<a id="android" href="https://www.pgyer.com/UzgG" style="display: none;"><img src="__MYAPP__/img/update2.jpg"></a>
+<div id="android" style="display: none;">
+	<input class="phone" type="tel" placeholder="输入手机号获取下载链接（安卓用户" maxlength="11" name="phone" id="phone">
+	<input type="text" id="imgcode" class="input_2" name="captcha" placeholder="不区分大小写">
+	<img class="sp2" id="my-code" src="/api/vcode?name=regcode" onclick="this.src=this.src+'&amp;t='+Math.random()" alt="看不清，点击刷新" style="float:left;margin: 10px 0 0 10px;">
+	<input class="btn" type="button" value="发送更新">
+</div>
+
 <a id="ios" href="https://www.pgyer.com/MnRz" style="display: none;"><img src="__MYAPP__/img/update2.jpg"></a>
 <img src="__MYAPP__/img/update3.jpg">
 <script>
 	var ua = navigator.userAgent.toLowerCase();
 	if (/iphone|ipad|ipod/.test(ua)) {
-		window.location.href="https://www.pgyer.com/MnRz";
-//		document.getElementById("ios").style.display="block";
+		$("#ios").show();
 	} else if (/android/.test(ua)) {
-//		document.getElementById("android").style.display="block";
-		window.open('https://www.pgyer.com/UzgG');
-		//window.location.href="https://www.pgyer.com/UzgG";
+		$("#android").show();
 	}
+	$(".btn").on("click",function () {
+		if($("#phone").val()&&$("#imgcode").val()){
+			$.ajax({
+				type: 'post',
+				url: '/page/mdownload/sendmsg',  //本地短信
+				cache:false,
+				data: {mobile:e,regcode:regcode},
+				dataType:'json',
+				success:function(data){
+					if(data.err==0 ){
+						alert("发送成功！");
+					}else if(data.err > 0){
+						alert(data.msg);
+					}else{
+						alert("发送失败！");
+					}
+				},
+				error:function(){
+					alert("数据加载失败");
+				}
+			});
+		}else{
+			alert("请把信息填写完整");
+		}
+	});
 </script>
 </body>
 </html>

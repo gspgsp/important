@@ -78,9 +78,9 @@
         <ul>
             <li><a v-link={name:'bigCustomer'}><i class='foot'></i><br>大客户专区</a></li>
             <li><a href='/mobi/mainPage/enPhysical'><i class='foot2'></i><br>物性表</a></li>
-            <li><a class='footerOn' href='/mobi/mainPage/enMainPage'><i class='foot3'></i><br>首页</a></li>
+            <li><a class='footerOn' v-link={name:'index'}><i class='foot3'></i><br>首页</a></li>
             <li><a v-link={name:'infolist'}><i class='foot4'></i><br>资讯</a></li>
-            <li><a href='/mobi/personalCenter'><i class='foot5'></i><br>我</a></li>
+            <li><a v-link={name:'meLogged'}><i class='foot5'></i><br>我</a></li>
         </ul>
     </footer>
 </template>
@@ -178,7 +178,7 @@
             <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
             <li><a v-link={name:'index'}><i class="foot3"></i><br>首页</a></li>
             <li><a v-link={name:'infolist'}><i class="foot4"></i><br>资讯</a></li>
-            <li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+            <li><a v-link={name:'meLogged'}><i class="foot5"></i><br>我</a></li>
         </ul>
     </footer>
 </template>
@@ -200,7 +200,7 @@
         </ul>
     </footer>
 </template>
-<template id="">
+<template id="meLogged">
     <header id="meHeader" style="background: #ff5000; color: #ffffff;">
         <a class="left" style="color: #ffffff; font-size: 15px;" href="tel:4006129965">联系客服</a>
         我的
@@ -234,9 +234,33 @@
             <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
             <li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
             <li><a href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
-            <li><a class="footerOn" href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+            <li><a class='footerOn' v-link={name:'meLogged'}><i class="foot5"></i><br>我</a></li>
         </ul>
     </footer>
+</template>
+<template id="login">
+    <header id="meHeader">
+        <a class="back" href="/mobi/mainPage/enMainPage"></a>
+        登录
+        <a class="right" href="/mobi/register/init">注册</a>
+    </header>
+    <h3 class="meTitle">欢迎来到我的塑料网</h3>
+    <div class="registerWrap">
+        <div class="registerBox">
+            <img src="__MYAPP__/img/username.jpg">
+            <input id="username" class="registerInput" maxlength="11" type="tel" value="{{mobi}}" placeholder="请输入手机号码">
+        </div>
+        <div class="registerBox">
+            <img src="__MYAPP__/img/pwd.jpg">
+            <input id="password" class="registerInput" maxlength="20" type="password" value="{{pwd}}" placeholder="请输入密码">
+        </div>
+    </div>
+    <div style="margin: 0 20px;">
+        <div class="registerBtn" @click="enterLogin()">登录</div>
+        <div class="loginLink">
+            <a href="/mobi/findPwd/init" style="float: right;">忘记密码?</a>
+        </div>
+    </div>
 </template>
 <script type="text/javascript">
     var Error=Vue.extend({
@@ -265,6 +289,25 @@
 
 
     Vue.http.options.emulateJSON = true;
+
+    var meLogged=Vue.extend({
+        template:"#meLogged",
+        data:function () {
+           return {
+
+           }
+        },
+        ready:function () {
+            this.$http({url:'/mobi/personalCenter/getPersonalCenter',method:'POST',data:{type1:1,type2:2}}).then(function (res) {
+                console.log(res);
+                if(res.data.err==1){
+                    router.go('/login');
+                }
+            },function () {
+
+            })
+        }
+    });
 
     var index=Vue.extend({
         template:"#index",
@@ -385,6 +428,26 @@
         }
     });
 
+    var login=Vue.extend({
+        template:"#login",
+        data:function () {
+            return {
+                mobi:"",
+                pwd:""
+            }
+        },
+        methods:{
+            enterLogin:function(){
+                console.log(">>>",this.mobi);
+                this.$http({url:'/mobi/login/login',method:"POST",data:{username:this.mobi,password:this.pwd}}).then(function (res) {
+                    console.log(res);
+                },function () {
+
+                })
+            }
+        }
+    });
+
     var error=Vue.extend({
         template:"<p>error!!!</p>"
     });
@@ -401,6 +464,10 @@
             name:'bigCustomer',
             component:bigCustomer
         },
+        '/meLogged':{
+            name:'meLogged',
+            component:meLogged
+        },
         '/infoDetail':{
             name:'infoDetail',
             component:infoDetail
@@ -412,6 +479,10 @@
         '/infolist': {
             name:'infolist',
             component: infolist
+        },
+        '/login':{
+            name:'login',
+            component:login
         },
         '*':{
             name:'error',
