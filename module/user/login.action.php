@@ -35,13 +35,10 @@ class loginAction extends homeBaseAction{
 			if($result['err']>0){
 				$this->error($result['msg']);
 			}else{
-			    p($result);
 				//的三方授权登录绑定账号
 				if($_SESSION['auth_openid']){
 					M('user:userOuter')->bindUser($result['user']['user_id'],$_SESSION['auth_openid'],$result);
 				}
-				p($result);
-				die;
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
 				$this->success('登录成功');
