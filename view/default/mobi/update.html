@@ -51,7 +51,7 @@
 				type: 'post',
 				url: '/page/mdownload/sendmsg',  //本地短信
 				cache:false,
-				data: {mobile:e,regcode:regcode},
+				data: {mobile:$("#phone").val(),regcode:$("#imgcode").val()},
 				dataType:'json',
 				success:function(data){
 					if(data.err==0 ){
