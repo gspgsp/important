@@ -255,11 +255,13 @@ class passportModel extends model{
 		if(empty($user)){
 			$user=$this->model('customer_contact')->wherePk($user_id)->getRow();
 		}
-		
 		//用户头像等信息
 		$uinfo=$this->model('contact_info')->wherePk($user_id)->getRow();
+
+
 		//用户对应公司的信息
 		$cinfo=$this->model('customer')->where("c_id={$user['c_id']}")->select('c_id,c_name,customer_manager')->getRow();
+
 		//将数据写入cookie
 		$token=$this->encrypt($user_id,$user['password']);
 		//cookie::set(C('SESSION_TOKEN'), $token); //C('SESSION_TTL')
