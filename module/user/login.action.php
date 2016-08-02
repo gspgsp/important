@@ -40,9 +40,10 @@ class loginAction extends homeBaseAction{
 				if($_SESSION['auth_openid']){
 					M('user:userOuter')->bindUser($result['user']['user_id'],$_SESSION['auth_openid'],$result);
 				}
+				p($result);
+				die;
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
-				p($_SESSION);die;
 				$this->success('登录成功');
 			}
 			$this->forward('/');exit;
