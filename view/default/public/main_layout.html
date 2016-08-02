@@ -169,10 +169,10 @@
 <script>
 $(function(){
 	 var ztContact = $(".zt-contact");
-		ztContact.find(".opt").bind("mouseover",function(){
-			$(this).find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
-			$(this).find(".zt-mouseover").removeClass("bg-gray").addClass("bg-orge");
-			$(this).find(".zt-slide").stop().animate({
+		ztContact.find(".icon-qq").bind("mouseover",function(){
+			$(this).closest("li").find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
+			$(this).removeClass("bg-gray").addClass("bg-orge");
+			$(this).closest("li").find(".zt-slide").stop().animate({
 				"left":"0px"
 			});
 		});
