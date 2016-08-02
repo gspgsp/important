@@ -76,8 +76,12 @@ class orderAction extends adminBaseAction {
 		if($transport_type !=0)  $where.=" and `transport_type` =".$transport_type;
 		$business_model=sget('business_model','i',0);//业务模式
 		if($business_model !=0)  $where.=" and `business_model` =".$business_model;
-		$order_status=sget('order_status','i',0);//订单审核
-		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
+		$order_status=sget('order_status','i',0);//订单审核,默认订单取消的不做统计范围
+		if($order_status !=0){
+			$where.=" and `order_status` =".$order_status;
+		}else{
+			$where.=" and `order_status` <> 3";
+		}
 		$transport_status=sget('transport_status','i',0);//物流审核
 		if($transport_status !=0)  $where.=" and `transport_status` =".$transport_status;
 		$out_storage_status=sget('out_storage_status','i',0);//发货状态
@@ -121,7 +125,6 @@ class orderAction extends adminBaseAction {
 			$in_string = trim($string,',');
 			$where.=" and `customer_manager` in (" .$in_string. " )";
 		}
-
 		$list=$this->db->where($where)->order($orderby)->getAll();
 		foreach($list as &$v){
 			$v['c_name']=  $v['partner'] == $_SESSION['adminid'] ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
@@ -244,8 +247,12 @@ class orderAction extends adminBaseAction {
 		if($transport_type !=0)  $where.=" and `transport_type` =".$transport_type;
 		$business_model=sget('business_model','i',0);//业务模式
 		if($business_model !=0)  $where.=" and `business_model` =".$business_model;
-		$order_status=sget('order_status','i',0);//订单审核
-		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
+		$order_status=sget('order_status','i',0);//订单审核,默认订单取消的不做统计范围
+		if($order_status !=0){
+			$where.=" and `order_status` =".$order_status;
+		}else{
+			$where.=" and `order_status` <> 3";
+		}
 		$transport_status=sget('transport_status','i',0);//物流审核
 		if($transport_status !=0)  $where.=" and `transport_status` =".$transport_status;
 		$out_storage_status=sget('out_storage_status','i',0);//发货状态
@@ -289,9 +296,8 @@ class orderAction extends adminBaseAction {
 			$in_string = trim($string,',');
 			$where.=" and `customer_manager` in (" .$in_string. " )";
 		}
-
+// p($where);die;
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
-
 		foreach($list['data'] as &$v){
 			$v['c_name']=  $v['partner'] == $_SESSION['adminid'] ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
