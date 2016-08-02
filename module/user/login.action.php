@@ -76,12 +76,10 @@ class loginAction extends homeBaseAction{
 		if($outerInfo=$outerModel->where("outer_id='{$openid}' and outer_source='{$type}'")->getRow()){
 			$userInfo=M("public:common")->model('customer_contact')->where("user_id='{$outerInfo['user_id']}'")->getRow();
 			M('user:passport')->setSession($outerInfo['user_id'],$userInfo);
-			showtrace();
 			redirect('/user');
 		}else{
 			$_SESSION['auth_openid']=$openid;
 			$_SESSION['auth_info']=$snsInfo;
-			showtrace();
 			redirect('/user/login/bindLogin');
 		}
 
