@@ -9,6 +9,7 @@ class myHomeWebAction extends userBaseAction
 	}
 	//进入我的门户网站
 	public function getMyWeb(){
+		p($_SESSION);
 		$this->act='myHomepage';
         $data = $this->_aboutUs();
         $contact = $this->_linkUs($data);
