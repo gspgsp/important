@@ -10,23 +10,9 @@ class indexAction extends homeBaseAction
 
     public function init()
     {
-        $zip = new ZipArchive;
-        $res = $zip->open(FILE_URL.'/1234567.zip',ZipArchive::CREATE|ZipArchive::OVERWRITE);
-        if ($res === TRUE) {
-            $zip->addFile(FILE_URL.'/111.txt', '111.txt');
-            $zip->close();
-            echo 'ok';
-        } else {
-            echo 'failed, code:' . $res;
-        }
-        
-//         E('PHPExcel',APP_LIB.'extend');
-//         $tt = new PHPExcel_Shared_ZipArchive;
-//         $tt::open("123456e7982323.zip");
-//         $result = $tt::addFromString('e:/222.txt','121212');
-//         $result = $tt::addZipFiles("12345679.zip",array('‪C:\Users\xqj\Desktop\111.txt'));
-//         var_dump($result);
-//         $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+       
+//            $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+//            echo $obj->_getSign('{"name":"123456"}');
 //            echo $obj->_base64Sign('1231321312312312');
 //            echo $obj->_base64Verify('{"name":"123456"}',$obj->_getSign('{"name":"123456"}'));
 //             // 账户查询
