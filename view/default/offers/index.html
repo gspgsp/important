@@ -143,7 +143,7 @@
                 	<span>{$value.customer.c_name}</span>
                     <div class="company-detail">
                         <h5>{$value.customer.c_name}</h5>
-                        <p>{$value.customer.name} {$value.customer.mobile}</p>
+                        <p>{$value.customer.name} {$value.customer.mobile}&nbsp;&nbsp;交易员:{$value.customer.adname} {$value.customer.admobile}</p>
                         <p>联系我时，请说是在我的塑料网看到的，谢谢！</p>
                     </div>
                     <b></b>
@@ -224,7 +224,7 @@
     {
         var size=$("#cart li").size();
         if(!size){
-            alert('请先选购商品');
+            layer.msg('请先选购商品');
             return;
         }
         var user=$("#user_name").html();
@@ -312,7 +312,8 @@
                 var html='<li><p><span>'+data.msg.product_type+'</span><span>'+data.msg.model+'</span><span>'+data.msg.f_name+'</span></p><p><span>'+data.msg.unit_price+'</span><span>'+data.msg.city+'</span></p><div class="pin"></div><div class="close" onClick="delCart(\''+data.msg.sid+'\',this)"></div></li>';
                 $("#cart").append(html);
             }else{
-                alert(data.msg);
+                layer.msg(data.msg);
+//                alert(data.msg);
                 return;
             }
         },'json');
