@@ -41,6 +41,7 @@ class loginAction extends homeBaseAction{
 				}
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
+				p($_SESSION);die;
 				$this->success('登录成功');
 			}
 			$this->forward('/');exit;
