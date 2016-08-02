@@ -20,6 +20,7 @@ class userOuterModel extends model
 			'input_time'=>CORE_TIME,
 		);
 		$this->add($_data);
+		showtrace();
 		return true;
 	}
 }
