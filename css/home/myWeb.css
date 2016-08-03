@@ -55,7 +55,7 @@ a{ text-decoration:none;}
 .product-detail .right{ width:948px; height:auto; margin:10px 0 0 0; overflow:hidden; border:1px solid #ddd;}
 .product-detail .product-show{ margin:50px 0 0 60px;}
 .product-detail .product-show li{ width:253px; height:303px; overflow:hidden; float:left; margin:0 30px 60px 0; cursor:pointer;}
-.product-detail .product-show li img{ display:block;}
+.product-detail .product-show li img{ display:block; margin: auto}
 .product-detail .product-show li .product-text{ color:#999; font-size:12px; height:176px; padding:20px 0; text-align:center; background:#eee;}
 .product-detail .product-show li .product-text .name{ font-family:"微软雅黑"; color:#666; width:85px; height:26px; line-height:26px; border:2px solid #999; margin:0 0 0 82px;}
 .product-detail .product-show li .product-text .desc{ width:213px; height:44px; overflow:hidden; margin:10px 0 0 20px; line-height:22px;}
