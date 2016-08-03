@@ -73,7 +73,7 @@ class customer_billingAction extends adminBaseAction
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['invoice_account']=desDecrypt($v['invoice_account']);
+			// $list['data'][$k]['invoice_account']=desDecrypt($v['invoice_account']);
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 
 		}
@@ -100,7 +100,7 @@ class customer_billingAction extends adminBaseAction
         $this->assign('invoice_bank',$list['invoice_bank']);
         $this->assign('invoice_address',$list['invoice_address']);
         $this->assign('invoice_tel',$list['invoice_tel']);
-        $this->assign('invoice_account',desDecrypt($list['invoice_account']));
+        $this->assign('invoice_account',$list['invoice_account']);
         $this->assign('fax',$list['fax']);
         $this->assign('c_name',$list['c_name']);
 
@@ -119,7 +119,7 @@ class customer_billingAction extends adminBaseAction
 		}
 
 		if(validCompanyBankNo($data['invoice_account'])['err']==1){$this->error('银行卡号错误');}
-		$data['invoice_account'] = desEncrypt($data['invoice_account']);
+		// $data['invoice_account'] = desEncrypt($data['invoice_account']);
 		if ($data['id']>0) {
 			$result = $this->db->where('id='.$data['id'])->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],'status'=>0,));
 		}else{
