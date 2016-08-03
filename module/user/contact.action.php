@@ -54,14 +54,17 @@ class contactAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
-		$list=$this->db->where($where)
-					->page($page+1,$size)
-					->order("$sortField $sortOrder")
-					->getPage();
+		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+			$where .= " and `customer_manager` in ($sons) ";
 			if(!empty($pools)){
 				$cids = explode(',', $pools);
+				$where .= " or `c_id` in ($pools)";
+			}
+			if(!empty($cidshare)){
+				$where .= " or `c_id` in ($cidshare)";
 			}
 		}
 		foreach($list['data'] as $k=>$v){
