@@ -43,7 +43,7 @@ class wxActivityAction extends homeBaseAction
 		$ques_id = sget('ques_id','i',0);
 		$answer = sget('answer','s');
 		if(empty($answer)) $this->json_output(array('err'=>11,'msg'=>'空答案'));
-		if(M('mobi:wxActivity')->saveAnswer($this->user_id,$ques_id,$answer)) $this->json_output(array('err'=>11,'msg'=>'提交成功'));
-		$this->json_output(array('err'=>12,'msg'=>'提交失败'));
+		if(M('mobi:wxActivity')->saveAnswer($this->user_id,$ques_id,$answer)) $this->json_output(array('err'=>12,'msg'=>'提交成功'));
+		$this->json_output(array('err'=>13,'msg'=>'提交失败'));
 	}
 }
