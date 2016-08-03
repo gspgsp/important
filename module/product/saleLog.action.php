@@ -97,7 +97,7 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
-			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
+			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']];
 			$list['data'][$k]['out_storage_status'] = L('out_storage_status')[$v['out_storage_status']];
 			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
 			$list['data'][$k]['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
