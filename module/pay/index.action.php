@@ -10,6 +10,52 @@ class indexAction extends homeBaseAction
 
     public function init()
     {
+        
+//             $zip = new ZipArchive;
+//             $res = $zip->open('/home/wwwroot/test/branches/static/upload/zip/test.zip', ZipArchive::CREATE|ZipArchive::OVERWRITE);
+//             if ($res === TRUE) {
+// //                 if($zip->addFromString('/home/wwwroot/test/branches/static/upload/zip/test.txt', 'file content goes here')){
+// //                     echo 'ok';
+// //                 }else{
+// //                     echo 'fail';
+// //                 }
+// //                 $zip->close();
+// //                 echo 'ok';
+//                 if($zip->addFile('/home/wwwroot/test/branches/static/upload/zip/test.txt')){
+//                     echo 'ok';
+//                 }else{
+//                     echo 'fail';
+//                 }
+//                 $zip->close();
+//                 echo 'ok';
+//             } else {
+//                 echo 'failed';
+//             }
+
+        error_reporting(E_ALL);
+        if (!extension_loaded('zip')) {
+            dl('zip.so');
+        }
+        echo dl('zip.so');
+        $thisdir = dirname(__FILE__);
+        echo $thisdir;
+        unlink("/home/wwwroot/test/branches/static/upload/zip/test.zip");
+        $zip = new ZipArchive();
+        $filename = "/home/wwwroot/test/branches/static/upload/zip/test.zip";
+        
+        if (!$zip->open($filename, ZIPARCHIVE::CREATE)) {
+            exit("cannot open <".$filename.">\n");
+        } else {
+            echo "file <".$filename."> OK\n";
+        }
+        
+        $zip->addFromString("/home/wwwroot/test/branches/static/upload/zip/test.txt" . time(), "#1 This is a test string added as testfilephp.txt.\n");
+        $zip->addFromString("/home/wwwroot/test/branches/static/upload/zip/test.txt" . time(), "#2 This is a test string added as testfilephp2.txt.\n");
+//         $zip->addFile($thisdir . "/too.php","/testfromfile.php");
+        echo "numfiles: " . $zip->numFiles . "\n";
+        echo "status:" . $zip->status . "\n";
+        $zip->close();
+        unset($zip);
        
 //            $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
 //            echo $obj->_getSign('{"name":"123456"}');
