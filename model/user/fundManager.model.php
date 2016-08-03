@@ -67,7 +67,7 @@ class fundManagerModel extends model
         }
 
 // 		//写入数据库
-// 		$data['organization_state'] = 2;
+		$data['organization_state'] = 2;
         if($sucess){
 		  $data['zip_url'] =  ROOT_PATH.'/upload/zip/'.$zip_name;
         }
