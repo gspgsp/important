@@ -8,12 +8,12 @@
     <div class="contentWrapper nameAuth">
       <div class="vw_prompt_wrap tip-wrap">
         <div class="prompt_container">
-          <div class="prompt_state">
+          <div class="prompt_state" style="text-align: center">
             <i class="icon {if $err}GreenCircleFail{else}correctGreenCircleWhiteIcon{/if}"></i>
-            <span class="prompt_title">{$message}</span>
+            <span class="prompt_title" style="font-size:16px; font-weight:bold;color:red;">{$message}</span>
           </div>
           <div style="padding:15px 0; background-color:#f8f8f8; text-align:center">
-            页面将在 <span class="wait" id="wait">{$waitSecond}</span> 秒后自动跳转，如果不想等待请点击 <a href="{$url}" style="font-size:16px; font-weight:bold;"> 这里 </a> 跳转
+            页面将在 <span class="wait" id="wait">{$waitSecond}</span> 秒后自动跳转，如果不想等待请点击 <a href="{$url}" style="font-size:16px; font-weight:bold; "> 这里 </a> 跳转
           </div>
         </div>
       </div>
