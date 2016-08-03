@@ -55,7 +55,7 @@ class indexAction extends homeBaseAction
         echo "numfiles: " . $zip->numFiles . "\n";
         echo "status:" . $zip->status . "\n";
         $zip->close();
-        // unset($zip);
+        unset($zip);
        
 //            $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
 //            echo $obj->_getSign('{"name":"123456"}');
