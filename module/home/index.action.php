@@ -15,6 +15,7 @@ class indexAction extends homeBaseAction{
 		$product_type=L('product_type');
 		unset($product_type[7]);
 		unset($product_type[8]);
+		unset($product_type[9]);
 		$this->assign('product_type',$product_type);
 		//省份地区
 		$this->area=M('system:region')->getProvinceCache();

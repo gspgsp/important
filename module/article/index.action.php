@@ -27,7 +27,7 @@ class IndexAction extends homeBaseAction{
 		$this->assign('list',$list);
 		$this->assign('cid',$cate_id);
 		$title = $cate_id==29 ? '市场点评' : ($cate_id==30 ? '行业热点' : ($cate_id==31 ? '企业调价' : ($cate_id==32 ? '装置动态' : ($cate_id==33 ? '塑料期货' : '行业资讯'))));
-		$this->seo = array('title'=>$title,);
+		$this->seo = array('title'=>$title.'-塑料头条',);
 		$this->display('index.html');
 
 	}

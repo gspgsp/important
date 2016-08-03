@@ -3,7 +3,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>打印</title>
+<title>{if $seo.title}{$seo.title}-{$sys.site_name}{else}{$sys.site_title}{/if}</title>
+<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+<link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />
 </head>
 <body>
 <div id="main" class="main">

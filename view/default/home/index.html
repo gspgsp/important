@@ -645,9 +645,9 @@
             <div class="oil-k oil-blt">
             	<!--oil-k-title begin-->
                 <div class="oil-k-title">
-                	<h3>布油</h3>
-                    <span class="data">{$oil2[last][price]}</span>
-                    <span class="time"><b>{$oil2[last][input_time]|date:m月d日}</b></span>
+                	<h3>WTI</h3>
+                    <span class="data">{$oil1[last][price]}</span>
+                    <span class="time"><b>{$oil1[last][input_time]|date:m月d日}</b></span>
                 </div>
                 <!--oil-k-title end-->
                 <!--<img src="__IMG__/home/kLine.jpg" width="320" height="182"/>-->
@@ -660,9 +660,9 @@
             <div class="oil-k oil-wti">
             	<!--oil-k-title begin-->
                 <div class="oil-k-title">
-                	<h3>WTI</h3>
-                    <span class="data">{$oil1[last][price]}</span>
-                    <span class="time"><b>{$oil1[last][input_time]|date:m月d日}</b></span>
+                	<h3>布油</h3>
+                    <span class="data">{$oil2[last][price]}</span>
+                    <span class="time"><b>{$oil2[last][input_time]|date:m月d日}</b></span>
                 </div>
                 <!--oil-k-title end-->
                 <!--oil-blt-con begin-->
@@ -928,7 +928,7 @@
                     <div class="headline-list {if $kk !=0 }last{/if} ">
                         <ul>
                             {foreach from=$vv item=v key=k}
-                            <li><a href="/article/show/{$v.id}.html">{$v.title|truncate:20}</a>{$v.input_time|date:m-d}</li>
+                            <li><a href="/{$v.id}.html">{$v.title|truncate:20}</a>{$v.input_time|date:m-d}</li>
                             {/foreach}
                         </ul>
                     </div>

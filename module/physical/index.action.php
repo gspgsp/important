@@ -35,7 +35,7 @@ class indexAction extends homeBaseAction{
 	public function search()
 	{
 		$keyword = sget('keyword', 's', '');
-		$this->seo = array('title'=>$keyword,);
+		$this->seo = array('title'=>$keyword.'物理特性详情表-物性表',);
 		if($keyword){
 			$p = abs(sget('page', 'i', 1));
 			$pageSize = 10;
@@ -64,11 +64,11 @@ class indexAction extends homeBaseAction{
 			$this->assign('data', $data);
 			if($print)
 			{
-				$this->seo = array('title'=>'打印物性表',);
+				$this->seo = array('title'=>$data['type'].'/'.$data['name'].'物性表打印-物性表',);
 				$this->display('print.html');
 			}else
 			{	
-				$this->seo = array('title'=>'物性指标详情',);
+				$this->seo = array('title'=>$data['type'].'/'.$data['name'].'物性指标详情-物性表',);
 				$this->display('content.html');
 			}
 		}else{
