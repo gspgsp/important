@@ -55,7 +55,7 @@
 .mall-offer .result li.result-con .change span{ float:left;}
 .mall-offer .result li.result-con .company{ cursor:pointer; position:relative;}
 .mall-offer .result li.result-con .company span{ display:block; width:190px; height:39px; overflow:hidden;}
-.mall-offer .result li.result-con .company .company-detail{width: 287px; height: 88px; overflow:hidden; background:#fff; text-align:left; text-indent:19px; border:1px solid #fc6621; position:absolute; top:-25px; left:-50px; z-index:999; display:none;}
+.mall-offer .result li.result-con .company .company-detail{width: 287px; height: 98px; overflow:hidden; background:#fff; text-align:left; text-indent:19px; border:1px solid #fc6621; position:absolute; top:-30px; left:-50px; z-index:999; display:none;}
 .mall-offer .result li.result-con .company .company-detail h5{ color:#fc6621;}
 .mall-offer .result li.result-con .company .company-detail p{ line-height:15px;}
 .mall-offer .result li.result-con .company:hover .company-detail{ display:block;}
