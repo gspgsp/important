@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
 *开票管理控制器
 */
@@ -126,7 +126,12 @@ class billingAction extends adminBaseAction
 			$list['data'][$k]['red_status']=empty($red_status)?0:1;
 			
 		}
-		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+		$msg="";
+		if($list['count']>0){
+			$sum=$this->db->select("sum(total_price) as tsum, sum(billing_price) as bsum, sum(unbilling_price) as usum")->where($where)->getRow();
+			$msg="[合计]总额:【".price_format($sum['tsum'])."】已开票:【".$sum['bsum']."】未开票:【".$sum['usum']."】";
+		}
+		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->json_output($result);
 	}
 

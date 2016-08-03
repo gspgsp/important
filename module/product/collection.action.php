@@ -136,10 +136,14 @@ class collectionAction extends adminBaseAction
 			$list['data'][$k]['red_status']=empty($red_status)?0:1;
 			//附件下载
 			empty($v['accessory'])?:$list['data'][$k]['accessory']=FILE_URL.'/upload/'.$v['accessory'];
-
-
 		}
-		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+
+		$msg="";
+		if($list['count']>0){
+			$sum=$this->db->select("sum(total_price) as tsum, sum(collected_price) as csum, sum(uncollected_price) as usum")->where($where)->getRow();
+			$msg="[合计]总额:【".price_format($sum['tsum'])."】已付款:【".$sum['csum']."】未付款:【".$sum['usum']."】";
+		}
+		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->json_output($result);	
 	}
 	

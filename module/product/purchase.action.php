@@ -246,8 +246,7 @@ class purchaseAction extends adminBaseAction {
 		$data['cargo_type'] = $data['ctype']==1?1:2;
 		//数据添加操作
 		if($data['id']>0){
-			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['username'],)))  $this->success('操作成功');
-		
+			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['username'],)))  $this->success('操作成功');		
 		}else{
 			if($this->db->add($data+$_data)) $this->success('操作成功');	
 		}
