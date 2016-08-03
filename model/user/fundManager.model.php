@@ -23,10 +23,13 @@ class fundManagerModel extends model
 
 // 		//验证营业执照号合法性
 // 		if(!preg_match('/^(\s)*(\d{15})(\s)*$/', $data['business_licence'])) return array('err'=>1,'msg'=>'营业执照号不合法');
-        log::write(json_encode($data));
+//         log::write(json_encode($data));
         if (!file_exists(ROOT_PATH.'../static/upload/zip/')){ 
             mkdir(ROOT_PATH.'../static/upload/zip/');
         } 
+        if (!extension_loaded('zip')) {
+            dl('zip.so');
+        }
         $zip = new ZipArchive;
         $zip_name = strtotime("now").'.zip';
         $res = $zip->open(ROOT_PATH.'../static/upload/zip/'.$zip_name,ZipArchive::CREATE|ZipArchive::OVERWRITE);
@@ -58,6 +61,7 @@ class fundManagerModel extends model
                 }
             }
             $zip->close();
+            unset($zip);
         } else {
             log::write('zip failed, code:'.$res);
         }
