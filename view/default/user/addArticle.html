@@ -33,7 +33,7 @@
                         <tr>
                             <td class="name">资讯标题：</td>
                             <td>
-                                <input type="text" name="title" datatype="*" nullmsg="请输入标题" errormsg="" vlaue="" class="import"/>
+                                <input type="text" name="title" datatype="*" nullmsg="请输入标题" errormsg="" placeholder="最多输入20个字" vlaue="" class="import"/>
                                 <span class="Validform_checktip"></span>
                             </td>
                         </tr>
@@ -79,17 +79,23 @@
     $(".psForm").submit(function(){
         if(!valid.check()) return false;
         var content=ue.getContent();
+        var title=$('.import').val();
+        if(title.length>20){
+            layer.msg('标题不能超过20个字!');
+            return false;
+        }
         if(!content){
-            alert('请输入资讯内容');
+           layer.msg('资讯内容不能为空!');
             return false;
         }
         var data=$(this).serialize();
         $.post('/user/myArticle/saveArticle',data,function (data){
             if(data.err==0){
-                alert('提交成功');
+               layer.msg('提交成功!');
                 window.location.reload();
             }else{
-                alert(data.msg);
+                layer.msg(data.msg);
+//                alert(data.msg);
             }
         },'json');
         return false;
