@@ -411,9 +411,9 @@
 .site li.info-detail{ width:264px; margin:0 0 0 20px;}
 .site li.opt-con a.on{ color:#267bd3;}
 .site li.opt-con a.off{ color:#f00;}
+.site li button{ background:none; cursor:pointer;}
 .site .site-con li.pro-pic,.site .site-con li.info-pic{ margin-top:19px;}
 .site .site-con li.pro-explain{ text-align:left; line-height:20px; margin:20px 0 0 0;}
-.site .site-con li.info-tit{ line-height:20px; margin:50px 0 0 0;}
 .site .site-con li.info-detail{ line-height:20px; margin-top:22px;}
 .site .site-con{ width:1000px; height:188px; overflow:hidden; margin:0 0 20px 23px;}
 .site .site-con .site-con-top{ height:38px; line-height:38px; background:#f2f2f2;}
