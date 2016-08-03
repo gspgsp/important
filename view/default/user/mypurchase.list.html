@@ -102,14 +102,14 @@ $(function(){
 			}
 		});
 		if(!mid.length){
-			alert('请勾选要操作的信息');
+			layer.msg('请勾选要操作的信息');
 			return;
 		}
 		console.log(mid);
 		$.post('/user/mypurchase/offshelf',{ids:mid},function(data){
 			if(data.err==0){
 				filterForm.submit();
-				alert(data.msg);
+				layer.msg(data.msg);
 			}
 		},'json');
 	});
@@ -125,7 +125,7 @@ $(function(){
 			}
 		});
 		if(!mid.length){
-			alert('请勾选要操作的信息');
+			layer.msg('请勾选要操作的信息');
 			return;
 		}
 		var data=listForm.serialize();
@@ -133,7 +133,7 @@ $(function(){
 		$.post('/user/mypurchase/reshelf',data,function(data){
 			if(data.err==0){
 				filterForm.submit();
-				alert(data.msg);
+				layer.msg(data.msg);
 			}else{
 				window.location.reload();
 			}
