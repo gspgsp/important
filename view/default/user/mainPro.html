@@ -132,13 +132,25 @@
 
         $(".btn.submit").bind("click",function(){
             if(pro_img.val()==""){
-                valid("请输入产品图片",pro_img);
+                layer.msg("您没有上传产品图片!");
+                return;
             }
             else if(pro_name.val().trim()==""){
-                valid("请输入产品名称",pro_name);
+                layer.msg("请输入产品名称");
+                return;
+            }
+            else if(pro_name.val().length>5){
+                layer.msg("产品名称最多输入5个字");
+                return;
             }
             else if(pro_inf.val().trim()==""){
-                valid("请输入产品说明",pro_inf);
+                layer.msg("请输入产品说明");
+                return;
+//                valid("请输入产品说明",pro_inf);
+            }
+            else if(pro_inf.val().length>100){
+                layer.msg("产品说明最多能输入100个字!");
+                return;
             }
             else{
                 $.ajax({
