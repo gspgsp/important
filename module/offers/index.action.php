@@ -1,4 +1,4 @@
-	<?php
+<?php
 class indexAction extends homeBaseAction{
 
 	protected $db;
@@ -23,6 +23,7 @@ class indexAction extends homeBaseAction{
 		}
 
 		if($type=sget('type','i',0)){
+			$seotype = L('product_type')[$type];
 			$this->assign('type',$type);
 			//地区筛选
 			$area_ids=$this->db->from('purchase pur')
@@ -42,18 +43,22 @@ class indexAction extends homeBaseAction{
 		}
 		//筛选条件
 		if($process=sget('process','i',0)){
+			$seoprocess = ' '.L('process_level')[$process];
 			$this->assign('process',$process);
 			$where.=" and pro.process_type=$process";
 		}
 
 		if($ct=sget('ct','i',0)){
+			$seotitle = ' '.$this->db->model('lib_region')->select('name')->where("id = $ct")->getOne();
 			$this->assign('ct',$ct);
 			$where.=" and pur.provinces=$ct";
+
 		}
 
 		if($fa=sget('fa','i',0)){
 			$this->assign('fa',$fa);
 			$where.=" and pro.f_id=$fa";
+			$seofa = ' '.$this->db->model('factory')->select('f_name')->where("fid = $fa")->getOne();
 		}
 
 		if($key_model=sget('key_model','s','')){
@@ -103,7 +108,6 @@ class indexAction extends homeBaseAction{
 			$processList=$process_level;
 		}
 		$this->assign('processList',$processList);
-
 		//地区
 		$provinces=$this->db->model('lib_region')->where($cityWhere)->order('sort desc')->getAll();
 		$this->assign('provinces',$provinces);
@@ -148,7 +152,8 @@ class indexAction extends homeBaseAction{
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}
-		$this->seo = array('title'=>'商城报价',);
+		
+		$this->seo =array('title'=>$seotype.$seoprocess.$seotitle.$seofa. $keywords.$key_model.$key_name.' 商城报价');
 		$this->assign('list',$list);
 		$this->display('index');
 	}

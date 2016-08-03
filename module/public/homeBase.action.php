@@ -7,8 +7,6 @@ class homeBaseAction extends action {
 	protected $user_id=0;
 	protected $token='';
 	protected $debug = false;
-	//protected $dataToken='';
-
 	public function __construct() {
 		parent::__construct();
 		if(!is_robot()){ //非机器人访问
