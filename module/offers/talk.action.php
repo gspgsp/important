@@ -52,7 +52,7 @@ class talkAction extends homeBaseAction{
 			$data['delivery_place']=$data['delivery_place'];
 			$data['ship_type']=$data['ship_type'];
 			$data['input_time']=CORE_TIME;
-			$data['status']=2;
+			$data['status']=1;
 			$data['user_id']=$this->user_id;
 			$data['sn']=genOrderSn();
 			$this->db->model('sale_buy')->add($data);

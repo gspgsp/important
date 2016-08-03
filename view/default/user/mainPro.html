@@ -134,10 +134,10 @@
             if(pro_img.val()==""){
                 valid("请输入产品图片",pro_img);
             }
-            else if(pro_name.val()==""){
+            else if(pro_name.val().trim()==""){
                 valid("请输入产品名称",pro_name);
             }
-            else if(pro_inf.val()==""){
+            else if(pro_inf.val().trim()==""){
                 valid("请输入产品说明",pro_inf);
             }
             else{
@@ -252,11 +252,11 @@
             </tr>
             <tr>
                 <td class="name">产品名称：</td>
-                <td><input type="text" class="pro_name import"/></td>
+                <td><input type="text" placeholder="最多输入5个字" class="pro_name import"/></td>
             </tr>
             <tr>
                 <td class="name">产品说明：</td>
-                 <td><textarea style="width:212px; height:34px;border:solid 1px #d6d7dc;" class="pro_inf import"></textarea> </td>
+                 <td><textarea style="width:212px; height:34px;border:solid 1px #d6d7dc;" placeholder="最多输入100个字" class="pro_inf import"></textarea> </td>
                 <!-- <td><input type="text" class="pro_inf import"/></td> -->
             </tr>
             <tr>
