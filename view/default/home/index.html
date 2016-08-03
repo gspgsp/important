@@ -768,7 +768,7 @@
                             </div>
                             <div class="qq"><span class="qq_img"></span>{if $smarty.session.userid > 0}{$value.user_qq}{else}{$value.user_qqs}{/if}</div>
                         </div>
-                      <div class="rob-info">{$value.content|mb_substr=0,60,'utf-8'}</div>
+                      <div class="rob-info">{$value.content|mb_substr=0,40,'utf-8'}</div>
                   	</div>
                     <a href="javascript:rush();"><div class="rob-rt frt"><p>{$value.input_time|date:H:i}</p></div></a>
                 </li>
