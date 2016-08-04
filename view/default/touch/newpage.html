@@ -142,25 +142,31 @@
         大客户专区
         <span class="appMenu"></span>
     </header>
-    <div class="bigCustomerMenu" style="display:none;">
+    <div class="bigCustomerMenu" style="-display:none;">
         <h3 class="bigCustomerMenuTitle">
             公司
             <!--<i class="icon2 iconUp iconDown"></i>-->
             <span id="gsBtn">全部</span>
         </h3>
-        <p id="gs"></p>
+        <p id="gs">
+            <span v-for="gs in choseData.company">{{gs.gsname}}</span>
+        </p>
         <h3 class="bigCustomerMenuTitle">
             厂家
             <!--<i class="icon2 iconUp iconDown"></i>-->
             <span id="cjBtn">全部</span>
         </h3>
-        <p id="cj"></p>
+        <p id="cj">
+            <span v-for="cj in choseData.factory">{{cj.factory}}</span>
+        </p>
         <h3 class="bigCustomerMenuTitle">
             交货地
             <!--<i class="icon2 iconUp iconDown"></i>-->
             <span id="jhdBtn">全部</span>
         </h3>
-        <p id="jhd"></p>
+        <p id="jhd">
+            <span v-for="jhd in choseData.address">{{jhd.address}}</span>
+        </p>
         <div style="text-align: center; padding: 20px 0;">
             <a id="chooseBtn" class="classifyEnter" href="javascript:;">确定</a>
         </div>
@@ -170,7 +176,22 @@
         <span id="sale" data-big="true">价格</span>
     </div>
     <div class="supplyDemandUl">
-        <ul id="searchWrapUl"></ul>
+        <ul id="searchWrapUl">
+            <li v-for="(index,big) in largrBid" @click="itemsActive(index)">
+                <h3 class='bigCustomerName'><a href='#'>{{big.type}}/{{big.model}}<br>{{big.factory}}</a></h3>
+                <p class='supplyDemandStore'><i class='icon iconDown' @click="toggle()"></i></p>
+                <p class='supplyDemandSales'><span>￥{{big.price}}/T起</span><br>{{big.input_time}}</p>
+                <div class='mui-clearfix'></div>
+                <table class='supplyDemandTb' v-show="index==itemIndex" cellpadding='0' cellspacing='0'>
+                    <tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>
+                    <tr v-for="newBig in big.newBig">
+                        <td>{{newBig.gsname}}</td><td>￥{{newBig.price}}</td>
+                        <td>{{newBig.num}}T</td><td>{{newBig.address}}</td>
+                        <td><a href='/mobi/mainPage/enBigBidDetail?id="+v.id+"'>查看</a></td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
     </div>
     <footer id="footer">
         <ul>
@@ -207,19 +228,19 @@
     </header>
     <div class="meWrap">
         <div class="meAvator">
-            <img id="avator" src="__MYAPP__/img/avator.png">
+            <img id="avator" v-bind:src=thumb>
             <img id="meAlpha" src="__MYAPP__/img/meAlpha.png">
         </div>
     </div>
     <div class="meName"></div>
     <ul class="meUl">
-        <li><a href="/mobi/personalCenter/enMyQuotation"><img src="__MYAPP__/img/me.png">我的报价单<span id="qcount"></span></a></li>
-        <li><a href="/mobi/personalCenter/enMyPurchase"><img src="__MYAPP__/img/me2.png">我的采购<span id="pcount"></span></a></li>
+        <li><a href="/mobi/personalCenter/enMyQuotation"><img src="__MYAPP__/img/me.png">我的报价单<span id="qcount">{{qcount}}</span></a></li>
+        <li><a href="/mobi/personalCenter/enMyPurchase"><img src="__MYAPP__/img/me2.png">我的采购<span id="pcount">{{pcount}}</span></a></li>
     </ul>
     <ul class="meUl">
-        <li><a href="/mobi/personalCenter/enMyAttention"><img src="__MYAPP__/img/me4.png">我的关注<span id="proattcount"></span></a></li>
-        <li><a href="/mobi/personalCenter/enMyPoints"><img src="__MYAPP__/img/me5.png">我的积分<span id="points"></span></a></li>
-        <li><a href="javascript:;"><img src="__MYAPP__/img/me7.png">我的交易员<span id="cus_mana"></span></a></li>
+        <li><a href="/mobi/personalCenter/enMyAttention"><img src="__MYAPP__/img/me4.png">我的关注<span id="proattcount">{{proattcount}}</span></a></li>
+        <li><a href="/mobi/personalCenter/enMyPoints"><img src="__MYAPP__/img/me5.png">我的积分<span id="points">{{points}}</span></a></li>
+        <li><a href="javascript:;"><img src="__MYAPP__/img/me7.png">我的交易员<span id="cus_mana">{{cus_mana}}</span></a></li>
     </ul>
     <ul class="meUl">
         <li><a href="/mobi/personalCenter/enMySet"><img src="__MYAPP__/img/me6.png">设置</a></li>
@@ -230,10 +251,10 @@
     </div>
     <footer id="footer">
         <ul>
-            <li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+            <li><a v-link={name:'bigCustomer'}><i class="foot"></i><br>大客户专区</a></li>
             <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
-            <li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
-            <li><a href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+            <li><a v-link={name:'index'}><i class="foot3"></i><br>首页</a></li>
+            <li><a v-link={name:'infolist'}><i class="foot4"></i><br>资讯</a></li>
             <li><a class='footerOn' v-link={name:'meLogged'}><i class="foot5"></i><br>我</a></li>
         </ul>
     </footer>
@@ -248,11 +269,11 @@
     <div class="registerWrap">
         <div class="registerBox">
             <img src="__MYAPP__/img/username.jpg">
-            <input id="username" class="registerInput" maxlength="11" type="tel" value="{{mobi}}" placeholder="请输入手机号码">
+            <input id="username" class="registerInput" maxlength="11" type="tel" v-model="mobi" placeholder="请输入手机号码">
         </div>
         <div class="registerBox">
             <img src="__MYAPP__/img/pwd.jpg">
-            <input id="password" class="registerInput" maxlength="20" type="password" value="{{pwd}}" placeholder="请输入密码">
+            <input id="password" class="registerInput" maxlength="20" type="password" v-model="pwd" placeholder="请输入密码">
         </div>
     </div>
     <div style="margin: 0 20px;">
@@ -294,18 +315,68 @@
         template:"#meLogged",
         data:function () {
            return {
-
+               cus_mana:"",
+               name:"",
+               pcount:"",
+               points:"",
+               proattcount:"",
+               qcount:"",
+               thumb:""
            }
         },
         ready:function () {
             this.$http({url:'/mobi/personalCenter/getPersonalCenter',method:'POST',data:{type1:1,type2:2}}).then(function (res) {
                 console.log(res);
+                this.$set('cus_mana',res.data.cus_mana);
+                this.$set('name',res.data.name);
+                this.$set('pcount',res.data.pcount);
+                this.$set('points',res.data.points);
+                this.$set('proattcount',res.data.proattcount);
+                this.$set('qcount',res.data.qcount);
+                this.$set('thumb',res.data.thumb);
+
                 if(res.data.err==1){
                     router.go('/login');
                 }
             },function () {
 
             })
+        }
+    });
+
+    var bigCustomer=Vue.extend({
+        template:"#bigCustomer",
+        data:function () {
+            return {
+                largrBid:[],
+                choseData:[],
+                open:false,
+                itemIndex:-1
+            }
+        },
+        methods:{
+            itemsActive:function (index) {
+                this.itemIndex=index ? index : 0;
+            },
+            toggle:function () {
+
+            }
+        },
+        ready:function () {
+            this.$http({url:'/mobi/mainPage/getLargeBid',method:"POST",data:{otype:3}}).then(function (res) {
+                console.log(res);
+                this.$set('largrBid',res.data.largrBid);
+            },function (res) {
+
+            });
+
+            this.$http({url:'/mobi/mainPage/getLargeChose',method:"POST",data:{}}).then(function (res) {
+                console.log(res);
+                this.$set('choseData',res.data.choseData);
+            },function (res) {
+
+            });
+
         }
     });
 
@@ -361,18 +432,6 @@
 
             });
 
-        }
-    });
-
-    var bigCustomer=Vue.extend({
-        template:"#bigCustomer",
-        data:function () {
-            return {
-
-            }
-        },
-        ready:function () {
-            
         }
     });
 
@@ -441,6 +500,12 @@
                 console.log(">>>",this.mobi);
                 this.$http({url:'/mobi/login/login',method:"POST",data:{username:this.mobi,password:this.pwd}}).then(function (res) {
                     console.log(res);
+                    if(res.data.err==0){
+                        router.go('/meLogged');
+                    }else if(res.data.err==1){
+                        mui.alert('',res.data.msg,function(){});
+                    }
+
                 },function () {
 
                 })
