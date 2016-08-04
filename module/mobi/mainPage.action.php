@@ -530,7 +530,7 @@ class mainPageAction extends homeBaseAction
                     $pur_model->commit();
                 }
             }
-            if(!empty($pt)){
+            if(!empty($pt) && CORE_TIME>strtotime('2016-08-5') && CORE_TIME<strtotime('2016-08-19')){
                 $this->json_output(array('err'=>2,'msg'=>'微信来源'));
             }
             $this->success('提交成功');
