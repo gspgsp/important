@@ -339,6 +339,30 @@ class billingAction extends adminBaseAction
 
 	}
 
+	/**
+	 * 删除
+	 */
+	public function delBilling(){
+		$id = sget('id','i');
+		if(empty($id)){
+			$this->error('操作有误');	
+		}
+		$i_status = $this->db->model('billing')->select('invoice_status')->where('id='.$id)->getOne();
+		if ($i_status == 1) {
+			$this->db->startTrans();//开启事务 
+
+			$this->db->model('billing')->where("id=".$id)->delete() or $this->error("删除开票头失败");
+			$this->db->model('billing_log')->where("parent_id=".$id)->delete() or $this->error("删除开票明细失败");
+
+			if($this->db->commit()){
+				$this->success('删除成功');
+			}else{
+				$this->db->rollback();
+				$this->error('删除失败：'.$this->db->getDbError());
+			}		
+		}
+	}
+
 	//红字更正
 	public function changeRed(){
 		$this->is_ajax=true;

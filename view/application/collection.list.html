@@ -78,6 +78,7 @@
 			<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>	
 		{/if}
 		<!-- <div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div> -->
+		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
 		
 	</div>
   </div>
@@ -134,37 +135,17 @@ function viewOrdInfo(oid,o_type,sale){
 	});		
 }
 
-//追加操作，退款和下载按钮
+//追加删除操作
 function viewhander(e){
-	var record = e.record,oid=record.o_id, c_price=record.collected_price,total_price=record.total_price, o_sn=record.order_sn,c_status=record.collection_status,id=record.id,is_new_collection=record.is_new_collection, s='',red_status=record.red_status;
-	var order_type={$type};
+	var record = e.record,c_status=record.collection_status,id=record.id,s='';
 	if (c_status ==1) {
-		s += '<a href="javascript:transaction('+oid+','+order_type+','+id+')">记账</a>';
+		s += "<a href=/application/collection/delCollection?id="+id+">删除</a>";
+	}else{
+		s="-";
 	}
-	if(c_status == 2 && red_status == 0)
-	s += '<a href="javascript:viewPinfo('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">红字更正</a>';
 	return s;
 }
 
-//付款收款申请审核
-function transaction(oid,order_type,id){
-	var width=440, height=440,type=order_type,finance=1;
-	if(type=='1'){
-		title="收款申请审核";
-	}else{
-		title="付款申请审核";
-	}
-	mini.open({
-		url: "/application/collection/transactionInfo?o_id="+oid+"&order_type="+type+"&finance="+finance+"&id="+id,
-		showMaxButton:true,
-		 title: title, width: width, height:height,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});		
-}
 //下载附件
 function down(e){
 	var record = e.record, accessory =  record.accessory, s = '';
@@ -172,26 +153,6 @@ function down(e){
 		return '<a href="'+accessory+'">下载</a>';
 	}
 	return s;
-
-}
-
-//红字更正操作
-function viewPinfo(oid,id,c_price,total_price,o_sn){
-	var o_sn = o_sn;
-	var data = {oid:oid,id:id,c_price:c_price,total_price:total_price,o_sn:o_sn};
-	var json = mini.encode(data);
-	mini.confirm("确定交易取消？", "提示", function(action){
-	if(action!='ok') return;
-	var callback=function(data){
-		if(data.err=='0'){
-			grid.reload();
-		}else{
-			alert(data.msg)
-			return false;
-		}
-	}
-	utils.ajax('/application/collection/changeRed',{data:json},callback,"POST","json");
-  });
 
 }
 
@@ -213,7 +174,6 @@ function setCom(e){
 	var com = e.record.account;
 	return $("#company_account").find("option[value="+com+"]").text();
 }
-
 //行内编辑后保存数据
 function saveData() {
   var data = grid.getChanges();

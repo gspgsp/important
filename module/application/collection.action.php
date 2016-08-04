@@ -145,6 +145,26 @@ class collectionAction extends adminBaseAction
 	}
 	
 	/**
+	 * 删除
+	 */
+	public function delCollection(){
+		$id = sget('id','i');
+		if(empty($id)){
+			$this->error('操作有误');	
+		}
+		$c_status = $this->db->model('collection')->select('collection_status')->where('id='.$id)->getOne();
+		if ($c_status == 1) {
+			$result=$this->db->where("id=".$id)->delete();
+			if($result){
+				$this->success('删除成功');
+			}else{
+				$this->error('删除失败');
+			}
+		}
+	}
+
+
+	/**
 	* 付款收款信息
 	* @access public
 	*/
@@ -277,47 +297,7 @@ class collectionAction extends adminBaseAction
 		
 	}
 
-	/**
-	 * 充红
-	 * @access private 
-	 */
-	public function changeRed(){
-		$this->is_ajax=true; //指定为Ajax输出
-		$data = sdata(); //获取UI传递的参数
-		if(empty($data)) $this->error('错误的操作');
-		$arr = M('product:collection')->getLastInfo($name='o_id',$value=$data['oid']);
-		$arr2 = array(
-			'id'=>'',
-			'order_name'=>'退款',
-			'order_sn'=>'更正'.$data['o_sn'],
-			'collected_price'=>'0',
-			'uncollected_price'=>$arr[0]['uncollected_price']+$data['c_price'],
-			'refund_amount'=>$data['c_price'],
-			'update_time'=>CORE_TIME,
-			'update_admin'=>$_SESSION['name'],
-			'collection_status'=>2,
-			);		
-            //退款可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
- 		$update=array_merge($arr[0],$arr2);
-		$this->db->startTrans();//开启事务
-			try {
-				if(!$this->db->model('collection')->add($update) )throw new Exception("新增退款失败");
-				if(!$this->db->model('collection')->wherePK($data['id'])->update( array('collection_status'=>3)) )throw new Exception("修改退款状态失败");
-				//根据撤销付款金额与总金额的大小，判断订单付款状态
-				if($data['total_price'] == $data['c_price']){
-					$arr=array('collection_status'=>1,);
-				}else{
-					$arr=array('collection_status'=>2,);
-				}
-				if(!$this->db->model('order')->wherePK($data['oid'])->update($arr+array('update_time'=>CORE_TIME,)) )throw new Exception("修改订单表退款状态失败");
-			} catch (Exception $e) {
-				$this->db->rollback();
-				$this->error($e->getMessage());
-			}
-		$this->db->commit();
-		$this->success('操作成功');
 
-	}
 	/**
 	 * 保存行内编辑数据
 	 * @access public 

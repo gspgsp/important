@@ -75,7 +75,7 @@
 		<div field="input_admin" width="30" headerAlign="center" align="center">交易员</div>
 		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		<!-- <div field="update_admin" width="30" headerAlign="center" align="center">修改者</div> -->
-		<!-- <div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div> -->
+		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
 	</div>
   </div>
  </div>
@@ -126,12 +126,10 @@ function viewOrdInfo(oid,o_type){
 
 //追加操作，退款和下载按钮
 function viewhander(e){
-	var record = e.record,oid=record.o_id, b_price=record.billing_price,total_price=record.total_price, o_sn=record.order_sn,i_status=record.invoice_status,id=record.id, s='',red_status=record.red_status;
-	var order_type={$type};
+	var record = e.record,i_status=record.invoice_status,id=record.id, s='';
+	// var order_type={$type};
 	if (i_status ==1) {
-		s = '<a href="javascript:addInvoice('+oid+','+order_type+','+id+')">审核</a>';
-	}else if(i_status == 2){
-		s = '<a href="javascript:changeRed('+id+')">红字更正</a>';
+		s += "<a href=/application/billing/delBilling?id="+id+">删除</a>";
 	}else{
 		s="-";
 	}
@@ -139,33 +137,6 @@ function viewhander(e){
 	return s;
 }
 
-//开票审核
-function addInvoice(oid,order_type,id){
-	var width=800, height=680,type=order_type,finance=1,invoice='1';
-		title="开票申请审核";
-	mini.open({
-		//有invoice表示是开票,有finance表示是审核
-		url: "/application/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&invoice="+invoice+"&finance="+finance+"&id="+id,
-		showMaxButton:true,
-		 title: title, width: width, height:height,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
-		}
-	});
-}
-
-//查看
-function changeRed(id){
-	if(!confirm('确定要更正这条信息吗?')) return;
-	$.post('/application/billing/changeRed',{id:id},function(data){
-		if(data.err==0){
-			alert('操作成功');
-			grid.reload();
-		}
-	},'json');
-}
 
 //设置状态
 
