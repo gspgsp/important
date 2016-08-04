@@ -10,11 +10,11 @@ class wxActivityAction extends homeBaseAction
 	}
 	//活动介绍页
 	public function enIntroduction(){
-		$this->display('');
+		$this->display('introduction_rio');
 	}
 	//答题页
 	public function enActivity(){
-		$this->display('');
+		$this->display('activity_rio');
 	}
 	//获取题目
 	public function getActivity(){
