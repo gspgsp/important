@@ -62,7 +62,7 @@ class selforderAction extends userBaseAction{
 			->page($page,$size)
 			->order('input_time desc')
 			->getPage();
-		  // p($orderList);die;
+//		   p($orderList);
 
 		$this->pages = pages($orderList['count'], $page, $size);
 
