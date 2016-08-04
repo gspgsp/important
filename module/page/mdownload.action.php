@@ -43,7 +43,7 @@
 			}
 			//请求动态码
 			if(isset($mobile)&& !empty($mobile)){
-				$str=shortenURL('http://statics.myplas.com/myapp/app/myplas.apk');
+				$str=shortenURL('http://m.myplas.com/mobi/mainPage/enDownload');
 				$msg=sprintf(L('sms_push.push_code'),$str);
 				//放送下载链接
 				$result  = M('system:sysSMS')->send($this->user_id,$mobile,$msg,8);

@@ -5,8 +5,11 @@ class indexAction extends homeBaseAction{
 	{
 		$this->db=M('public:common');
 	}
-	public function init()
-	{
+	public function init(){
+		//如果用户是从移动端，则转到移动注册页面
+		if(M('public:common')->is_mobile_request()){
+			$this->forward('http://m.myplas.com');
+		}
 		//轮播图
 		$this->banners=array_reverse(M('system:block')->getBlock(1,10));
 		//产品应用
