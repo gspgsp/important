@@ -124,19 +124,33 @@ function viewOrdInfo(oid,o_type){
 	});		
 }
 
-//追加操作，退款和下载按钮
+//追加删除按钮
 function viewhander(e){
 	var record = e.record,i_status=record.invoice_status,id=record.id, s='';
 	// var order_type={$type};
 	if (i_status ==1) {
-		s += "<a href=/application/billing/delBilling?id="+id+">删除</a>";
+		s += '<a href="javascript:del('+id+')">删除</a> ';
 	}else{
 		s="-";
 	}
-	
 	return s;
 }
 
+function del(id){
+	mini.confirm("确定删除吗？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+	  			if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/application/billing/delBilling',{id:id},callback,"POST","json");
+		}
+	);
+}
 
 //设置状态
 
