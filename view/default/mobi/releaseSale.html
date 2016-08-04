@@ -142,9 +142,6 @@
 
 				var pt="";
 				var ua = navigator.userAgent.toLowerCase();
-				if(ua.match(/MicroMessenger/i)=="micromessenger"){
-					pt=1;
-				}
 
 				$("#releaseSaleBtn").on("click",function () {
 					var model=$("#model").val().toUpperCase();
@@ -156,6 +153,9 @@
 					var store_house=$("#store_house").val();
 					var period=$("#period").val();
 					var process_level=$("#process_level").val();
+					if(ua.match(/MicroMessenger/i)=="micromessenger"){
+						pt=1;
+					}
 					var data=[];
 					var arr={
 						'model':model,
