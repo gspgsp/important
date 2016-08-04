@@ -9,7 +9,7 @@ class wxActivityModel extends model
 		parent::__construct(C('db_default'), 'purchase');
 	}
 	public function getActivity($uid){
-		$start = strtotime('2016-08-4');
+		$start = strtotime('2016-08-5');
 		$end = strtotime('2016-08-19');
 		$now = strtotime(date("Y-m-d",CORE_TIME));
 		if($now>$start){
