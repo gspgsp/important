@@ -90,13 +90,13 @@ class indexAction extends adminBaseAction
 		$time_min = date('Y-m-d',$return_data['time'][0]);
 		$time_max = date('Y-m-d',$return_data['time'][1]);
 		$title = $time_min.'~'.$time_max;
-		$subtitle = '所有团队战况图';
+		$subtitle = '所有团队战况图(各战队组长除外)';
 
 		$option_arr = array(
 			'chart'=>array('type'=>'column','plotBorderWidth'=>1),
 			'colors'=>array('#8bbc21','#126AED'),
 			'title'=>array('text'=>$title,'margin'=>30),
-			'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'25',)),
+			'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'22',)),
 			'xAxis'=>array('categories'=>$team,'title'=>array('text'=>null)),
 			'yAxis'=>array(
 				'min'=>0,
@@ -139,7 +139,7 @@ class indexAction extends adminBaseAction
 		$time_max = date('Y-m-d',$return_data['time'][1]);
 		$title = $time_min.'~'.$time_max;
 		if($show_type == 'pie_num'){
-			$subtitle = $team_name .'个人订单总吨数贡献率';
+			$subtitle = $team_name .'个人订单总吨数贡献率(各战队组长除外)';
 			$pie_data = array();
 			foreach ($data as $key => $value) {
 				$pie_data[] = array($value['name'],(int)$value['num']);
@@ -147,14 +147,14 @@ class indexAction extends adminBaseAction
 			$option_arr = array(
 				'chart'=>array('plotBackgroundColor'=>null,'plotBorderWidth'=>null,'plotShadow'=>false),
 				'title'=>array('text'=>$title,'margin'=>30),
-				'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'25',)),
+				'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'22',)),
 				'tooltip'=>array('pointFormat'=>'{series.name}: <b>{point.percentage:.1f}%</b>'),
 				'plotOptions'=>array('pie'=>array('allowPointSelect'=>true,'cursor'=>'pointer',
 					'dataLabels'=>array('enabled'=>true,'color'=>'#000000','connectorColor'=>'#000000','format'=>'<b>{point.name}</b>: {point.percentage:.1f} %'))),
        	 		'series'=>array(array('type'=>'pie','name'=>'总吨数','data'=>$pie_data)),
 			);
 		}elseif($show_type == 'pie_price'){
-			$subtitle = $team_name .'个人订单总额贡献率';
+			$subtitle = $team_name .'个人订单总额贡献率(各战队组长除外)';
 			$pie_data = array();
 			foreach ($data as $key => $value) {
 				$pie_data[] = array($value['name'],(int)$value['price']);
@@ -162,19 +162,19 @@ class indexAction extends adminBaseAction
 			$option_arr = array(
 				'chart'=>array('plotBackgroundColor'=>null,'plotBorderWidth'=>null,'plotShadow'=>false),
 				'title'=>array('text'=>$title,'margin'=>30),
-				'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'25',)),
+				'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'22',)),
 				'tooltip'=>array('pointFormat'=>'{series.name}: <b>{point.percentage:.1f}%</b>'),
 				'plotOptions'=>array('pie'=>array('allowPointSelect'=>true,'cursor'=>'pointer',
 					'dataLabels'=>array('enabled'=>true,'color'=>'#000000','connectorColor'=>'#000000','format'=>'<b>{point.name}</b>: {point.percentage:.1f} %'))),
        	 		'series'=>array(array('type'=>'pie','name'=>'订单总额','data'=>$pie_data)),
 			);
 		}else{
-			$subtitle = $team_name .'个人战况图';
+			$subtitle = $team_name .'个人战况图(各战队组长除外)';
 			$option_arr = array(
 				'chart'=>array('type'=>'bar','plotBorderWidth'=>1),
 				'colors'=>array('#CD7B00','#8085E9'),
 				'title'=>array('text'=>$title,'margin'=>30),
-				'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'25',)),
+				'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'22',)),
 				'xAxis'=>array('categories'=>$name,'title'=>array('text'=>null)),
 				'yAxis'=>array(
 					'min'=>0,
