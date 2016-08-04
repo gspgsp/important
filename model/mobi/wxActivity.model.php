@@ -9,7 +9,7 @@ class wxActivityModel extends model
 		parent::__construct(C('db_default'), 'purchase');
 	}
 	public function getActivity($uid){
-		$start = strtotime('2016-08-5');
+		$start = strtotime('2016-08-4');
 		$end = strtotime('2016-08-20');
 		$where = "user_id = $uid and input_time between $start and $end";
 		return $this->from('purchase as pur')->where($where)->select('count(pur.id) as total')->getAll();
