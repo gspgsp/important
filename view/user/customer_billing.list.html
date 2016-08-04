@@ -7,11 +7,16 @@
 				<span class="separator"></span>
 			</td>
 			<td style="float:right;">
-			  <form id="soform">				
+			  <form id="soform">
+			  	<select name="status">
+			  		<option value="1">已审核</option>
+					<option value="0">未审核</option>					
+				</select>
 				<select name="key_type">
 					<option value="c_name">客户名称</option>
 					<option value="invoice_tel">开票电话</option>
 					<option value="invoice_account">开票帐号</option>
+					<option value="admin">交易员</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -36,6 +41,7 @@
 		<div field="fax" width="50" headerAlign="center" >传真</div>
 		<!-- <div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >添加时间</div>
 		<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div> -->
+		<div field="username" width="50" headerAlign="center" align="center">业务员</div>
 		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
 		<div name="action"  width="50" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>

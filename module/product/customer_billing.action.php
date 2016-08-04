@@ -40,6 +40,9 @@ class customer_billingAction extends adminBaseAction
 			if ($key_type == 'c_name') {
 				$c_ids = M('user:customer')->getLikeCidByCname($keyword,$condition='c_id');
 				$where.=" and `c_id` in ($c_ids)";
+			}else if($key_type == 'admin'){
+				$customer_manager = M('rbac:adm')->getAdmin_Id($keyword);
+				$where.=" and `customer_manager` = $customer_manager";
 			}else{
 				$where.=" and $key_type = '$keyword' ";
 			}
@@ -52,6 +55,8 @@ class customer_billingAction extends adminBaseAction
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
+			//关联业务员
+			$list['data'][$k]['username']=M('rbac:adm')->getUserByCol($v['customer_manager']);
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
