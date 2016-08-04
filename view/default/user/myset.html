@@ -197,6 +197,7 @@ function getarea(that){
 	},'json');
 }
 $(function(){
+	$('textarea[name="com_intro"]').val("{$customer.com_intro}");
 	new AjaxUpload('#permitP_btn', {
 	    action: '/public/sysUpload/images?model=1',
 	    name: 'image',
