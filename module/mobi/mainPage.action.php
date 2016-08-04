@@ -462,6 +462,7 @@ class mainPageAction extends homeBaseAction
         if($data=$_POST['data']){
             $this->is_ajax=true;
             $data=saddslashes($data);
+            $pt = $data[0]['pt'];//平台,1:微信，空:其他
             $cargo_type=$data[0]['cargo_type'];//现货、期货
             $type=$data[0]['type'];//采购1、报价2
             $pur_model=M('product:purchase');
@@ -486,6 +487,7 @@ class mainPageAction extends homeBaseAction
                     'period'=>$value['period'],//期货周期
                     'bargain'=>$value['bargain'],//是否实价
                     'type'=>$type,//采购、报价
+                    'sync'=>$pt==1?3:4,//报价来源平台
                     'status'=>$type==1?1:2,//状态，报价不需要审核，采购需要审核
                     'input_time'=>CORE_TIME,//创建时间
                 );
@@ -527,6 +529,9 @@ class mainPageAction extends homeBaseAction
                     }
                     $pur_model->commit();
                 }
+            }
+            if(!empty($pt)){
+                $this->json_output(array('err'=>2,'msg'=>'微信来源'));
             }
             $this->success('提交成功');
         }
