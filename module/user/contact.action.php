@@ -54,7 +54,6 @@ class contactAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
-		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
@@ -67,6 +66,7 @@ class contactAction extends adminBaseAction {
 				$where .= " or `c_id` in ($cidshare)";
 			}
 		}
+		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			$list['data'][$k]['depart']=C('depart')[$v['depart']];

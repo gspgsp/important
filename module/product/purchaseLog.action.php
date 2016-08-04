@@ -124,6 +124,7 @@ class purchaseLogAction extends adminBaseAction {
 			$v['purchase_type'] = L('purchase_type')[$v['purchase_type']];
 			$v['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
 			$v['cmanager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
+			$v['total'] = price_format($v['unit_price']*$v['number']);
 			//开票申请与审核时所需的值
 			if($type==1){
 				//开票申请与审核时未发送的数量
