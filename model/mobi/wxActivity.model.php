@@ -10,7 +10,11 @@ class wxActivityModel extends model
 	}
 	public function getActivity($uid){
 		$start = strtotime('2016-08-4');
-		$end = strtotime('2016-08-20');
+		$end = strtotime('2016-08-19');
+		$now = strtotime(date("Y-m-d",CORE_TIME));
+		if($now>$start){
+			$start = $now;
+		}
 		$where = "user_id = $uid and input_time between $start and $end";
 		return $this->from('purchase as pur')->where($where)->select('count(pur.id) as total')->getAll();
 	}
