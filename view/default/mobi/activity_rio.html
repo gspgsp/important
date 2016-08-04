@@ -1,12 +1,84 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>助力里约奥运健儿，为中国加油</title>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<style>
+			img{ width: 100%; display: block;}
+			.activity2{ width: 100%; height: 265px; padding: 0 45px 0 50px; color: #0d83c3; background: url("__MYAPP__/img/activityrio2.jpg") no-repeat; background-size: 100% 100%;}
+			#topic{ font-size: 14px; margin: 0 0 10px 0; font-weight: normal;}
+			#title{ margin: 0;font-size: 14px; color: #0d83c3; line-height: 30px; text-indent: 2em;}
+			#rioInput{ color: #969696; height: 50px; font-size: 12px; border-color: #0d83c3; margin: 20px 0 0 0; background: none;}
+			#rioBtn{ border-color: #0d83c3; background: #0d83c3; color: #ffffff; margin: 20px 0 0 0;}
+		</style>
 	</head>
 	<body>
+	<img src="__MYAPP__/img/activityrio.jpg">
+	<div class="activity2">
+		<h3 id="topic">竞猜题目：</h3>
+		<p id="title"></p>
+		<input id="rioInput" type="text">
+		<div style="text-align: center;">
+			<input id="rioBtn" type="button" value="提交答案">
+		</div>
+	</div>
+	<img src="__MYAPP__/img/activityrio3.jpg">
+	<script type="text/javascript">
+		$(function () {
+			var ques_id="";
+			commonAjax(
+					"post",
+					"/mobi/wxActivity/getActivity"
+			).then(function (res) {
+				console.log(res);
+				if(res.err==1){
+					window.location.href="/mobi/login";
+				}else if(res.err==10){
+					ques_id=res.ques_id;
+					$("#title").text(res.question);
+				}else if(res.err==11){
+					mui.alert("",res.msg,function () {
+						window.location.href="/mobi/wxActivity/enIntroduction";
+					});
+				}
+			},function () {
+
+			});
+
+			$("#rioBtn").on("click",function () {
+				var answer=$("#rioInput").val();
+				commonAjax(
+						"post",
+						"/mobi/wxActivity/saveAnswer",
+						{ques_id:ques_id,answer:answer}
+				).then(function (res) {
+					console.log(res);
+					if(res.err==1){
+						window.location.href="/mobi/login";
+					}else if(res.err==12){
+						mui.alert("",res.msg,function () {
+
+						});
+					}else if(res.err==13){
+						mui.alert("",res.msg,function () {
+							window.location.href="/mobi/wxActivity/enIntroduction";
+						});
+					}else if(res.err==14){
+						mui.alert("",res.msg,function () {
+							window.location.reload();
+						});
+					}
+				},function () {
+
+				});
+			});
+
+		})
+	</script>
 	</body>
 </html>
