@@ -199,6 +199,7 @@ class indexAction extends homeBaseAction{
 			'id'=>$data['id'],
 			'name'=>$data['model'],
 			'num'=>1,
+			'number'=>$data['number'],
 			'price'=>$data['unit_price'],
 			'options'=>array(
 				'p_id'=>$data['p_id'],

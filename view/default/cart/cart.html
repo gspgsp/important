@@ -20,7 +20,7 @@
         <td>{$value.options.model}</td>
         <td>{$value.options.f_name}</td>
         <td>{$value.options.city}</td>
-        <td class="amount"><input type="text" onChange="set_cart('{$key}',this)" value="{$value.num}"></td>
+        <td class="amount"><input type="text" onChange="set_cart('{$key}',this)" value="{$value.num}" data-id="{$value.number}"></td>
         <td>吨</td>
         <td class="d-price"><span>{$value.options.unit_price}</span>元</td>
         <td class="money">{$value.total}</td>

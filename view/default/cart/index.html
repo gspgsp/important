@@ -19,41 +19,41 @@
     <form id="cartFrom" method="" action="">
     	<!--order-confirm begin-->
         <div class="order-confirm">
-            <!-- <table border="1">
-                <tr>
-                    <td>订单名称：</td>
-                    <td><input name="order_name" type="text"/></td>
-                    <td>配送方式：</td>
-                    <td>
-                    <select datatype="*" name="transport_type" class="required">
-                        <option value="">请选择</option>
-                        {foreach from=$transport_type item=value key=key}
-                        <option value="{$key}">{$value}</option>
-                        {/foreach}
-                    </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>配送日期：</td>
-                    <td><input datatype="*" name="pickup_time" id="date1" type="text"/></td>
-                    <td>配送地点：</td>
-                    <td><input datatype="*" name="pickup_location" type="text"/></td>
-                </tr>
-                <tr>
-                 
-                </tr>
-                <tr>
-                    <td>付款方式：</td>
-                    <td>
-                        <select datatype="*" name="pay_method" class="required">
-                            <option value="">请选择</option>
-                            {foreach from=$pay_method item=value key=key}
-                            <option value="{$key}">{$value}</option>
-                            {/foreach}
-                        </select>
-                    </td>
-                </tr>
-            </table> -->
+            <!--<table border="1">-->
+                <!--<tr>-->
+                    <!--<td>订单名称：</td>-->
+                    <!--<td><input name="order_name" type="text"/></td>-->
+                    <!--<td>配送方式：</td>-->
+                    <!--<td>-->
+                    <!--<select datatype="*" name="transport_type" class="required">-->
+                        <!--<option value="">请选择</option>-->
+                        <!--{foreach from=$transport_type item=value key=key}-->
+                        <!--<option value="{$key}">{$value}</option>-->
+                        <!--{/foreach}-->
+                    <!--</select>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>配送日期：</td>-->
+                    <!--<td><input datatype="*" name="pickup_time" id="date1" type="text"/></td>-->
+                    <!--<td>配送地点：</td>-->
+                    <!--<td><input datatype="*" name="pickup_location" type="text"/></td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                 <!---->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>付款方式：</td>-->
+                    <!--<td>-->
+                        <!--<select datatype="*" name="pay_method" class="required">-->
+                            <!--<option value="">请选择</option>-->
+                            <!--{foreach from=$pay_method item=value key=key}-->
+                            <!--<option value="{$key}">{$value}</option>-->
+                            <!--{/foreach}-->
+                        <!--</select>-->
+                    <!--</td>-->
+                <!--</tr>-->
+            <!--</table>-->
            
             <!--buy-info begin-->
             <div class="buy-info">
@@ -164,6 +164,12 @@ function load_cart(){
 
 function set_cart(sid,that){
     var num=parseFloat($(that).val());
+    var number=parseFloat($(that).attr("data-id"));
+    if(num>number){
+        layer.msg('库存不足!最多能购买'+number+'吨');
+        $(that).val(1);
+        return false;
+    }
     if(!num){
         $(that).val(1);
         return;
@@ -191,7 +197,8 @@ $("#cartFrom").submit(function(){
         if(data.err==0){
             window.location.href="/cart/index/msg";
         }else{
-            alert(data.msg);
+            layer.msg(data.msg);
+
         }   
     },'json');
     return false;

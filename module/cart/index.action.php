@@ -52,8 +52,9 @@ class indexAction extends homeBaseAction{
 		if($_POST)
 		{
 			$this->is_ajax=true;
-			$orderSn=genOrderSn();
+			$orderSn='PO'.genOrderSn();
 			$data=saddslashes($_POST);
+
 			$contact=$this->db->model('customer_contact')->where("user_id=$this->user_id")->getRow();
 			$data['order_sn']=$orderSn;
 			$data['order_type']=1;	//销售类型
@@ -63,14 +64,15 @@ class indexAction extends homeBaseAction{
 			$data['user_id']=$this->user_id;	//用户id
 			$data['admin_id']=$_SESSION['uinfo']['customer_manager'];//交易员id
 			$data['sign_time']=CORE_TIME;	//签订日期
+			$data['total_num']=$_SESSION['cart']['total_rows'];//总数量
 			$data['total_price']=Cart::getTotalPrice();	//总金额
+			$data['financial_records']=2;
 			$data['pickup_time']=strtotime($data['pickup_time']);	//提货日期
 			$data['delivery_time']=strtotime($data['delivery_time']);	//送货日期
 			$data['input_time']=CORE_TIME;	//创建时间
 			$model=$this->db->model('order');
 
 			$goods=Cart::getGoods(); //购物车列表
-
 			$model->startTrans();
 			try {
 				if(!$model->add($data)) throw new Exception("系统错误。 cart:101");

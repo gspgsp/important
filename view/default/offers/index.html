@@ -173,7 +173,7 @@
                     <b></b>
                 </div>
                 <div class="time">{$value.input_time|date:m-d H:i:s}</div>
-                <div class="opt"><a onClick="select_cart({$value.id});" href="javascript:;">选购</a></div>
+                <div class="opt"><a onClick="select_cart({$value.id},{$value.number});" href="javascript:;">选购</a></div>
             </li>
             {/if}
             {/foreach}
@@ -306,8 +306,9 @@
 		
 	});
     // 选购
-    function select_cart(id){
-        $.post('/offers/index/addCart',{id:id},function(data){
+    function select_cart(id,number){
+
+        $.post('/offers/index/addCart',{id:id,number:number},function(data){
             if(data.err==0){
                 var html='<li><p><span>'+data.msg.product_type+'</span><span>'+data.msg.model+'</span><span>'+data.msg.f_name+'</span></p><p><span>'+data.msg.unit_price+'</span><span>'+data.msg.city+'</span></p><div class="pin"></div><div class="close" onClick="delCart(\''+data.msg.sid+'\',this)"></div></li>';
                 $("#cart").append(html);

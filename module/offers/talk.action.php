@@ -35,9 +35,10 @@ class talkAction extends homeBaseAction{
 	public function addorder()
 	{
 		if($_POST){
-			
+
 			$this->is_ajax=true;
 			$data=saddslashes($_POST);
+			if($this->user_id==$data['id']) $this->error('采购人和供货人不能相同');
 			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']||!$data['delivery_place']||!$data['ship_type']) $this->error('信息填写不完整');
 			$p_id=$data['p_id'];
 
@@ -46,15 +47,15 @@ class talkAction extends homeBaseAction{
 			if( !$purData ) $this->error('请求错误,信息不存在');
 
 			$data['p_id']=$p_id;//报价id
-			$data['c_id']=$_SESSION['uinfo']['c_id'];//客户id
-			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//交易员id
+			$data['c_id']=$_SESSION['uinfo']['c_id'];//   供货方客户id
+			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//供货方交易员id
 			$data['delivery_date']=strtotime($data['delivery_date']);
 			$data['delivery_place']=$data['delivery_place'];
 			$data['ship_type']=$data['ship_type'];
 			$data['input_time']=CORE_TIME;
 			$data['status']=1;
 			$data['user_id']=$this->user_id;
-			$data['sn']=genOrderSn();
+			$data['sn']='UO'.genOrderSn();
 			$this->db->model('sale_buy')->add($data);
 			$model->where("id=$p_id")->update("supply_count=supply_count+1");
 

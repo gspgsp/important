@@ -13,8 +13,8 @@ return array(
 		'2'=>'未发布',
 		),
 	'article_kind'=>array(
-		0=>'公司咨询',
-		1=>'行业咨询',
+		0=>'公司资讯',
+		1=>'行业资讯',
 		),
 	//我的网站产品分类
 	'product_kind'=>array(
