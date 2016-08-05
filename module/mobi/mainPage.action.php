@@ -166,6 +166,12 @@ class mainPageAction extends homeBaseAction
     	$page = sget('page','i',1);
 		$size = sget('size','i',20);
         if(!$searchRes = M('myapp:mainPage')->getAllSearchRes($keywords,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关结果'));
+        //去掉包含有空元素的数
+        foreach ($searchRes['data'] as $key => $value) {
+            if(!$value['f_name'] || !$value['model'] || !$value['product_type'] || !$value['unit_price']){
+                unset($searchRes['data'][$key]);
+            }
+        }
         $this->json_output(array('err'=>0,'searchRes'=>$searchRes['data']));
     }
     //结果数据按价格排序(1从低到高,2从高到低，3默认时间)
