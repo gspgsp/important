@@ -21,6 +21,18 @@
         	<h4 style="margin:10px 0 10px 23px">资质认证请填写以下内容，并上传证件照片</h4>
             <form name="" action="" onSubmit="return false;" method="post">
             	<table border="1" style="width:75%;">
+                  <tr style="height:50px;">
+                    <td>纳税人识别号<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="tax_id" id="tax_id" /></td>
+                    <td>开票电话<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_tel" id="invoice_tel" /></td>
+                  </tr>
+                  <tr style="height:50px;">
+                    <td>开票银行<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_bank" id="invoice_bank" /></td>
+                    <td>开票帐号<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_account" id="invoice_account" /></td>
+                  </tr>
                   <tr>
                     <td>企业法人姓名<span>*</span>：</td>
                     <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_person" id="legal_person" /></td>
@@ -78,7 +90,10 @@
                     </td>
                    <!--  <td><input type="hidden" id="no" name="no" value=""/></td> -->
                   </tr>
-                  <tr><td>是否三证合一<span>*</span>：<td>
+                  <tr>
+                    <td>开票地址<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_address" id="invoice_address" /></td>
+                    <td>是否三证合一<span>*</span>：<td>
                   	<select style="height:100%;width:100%;" name="chk_pics" id="chk_pics"> 
 						<option value="1" id="fourthOption">是</option> 
 						<option value="0" id="fourthOption">否</option> 
@@ -160,17 +175,70 @@
   
     var ChkVaild=function(){
     	var rtn = true;
+		//纳税人识别号
+		if($("#tax_id").val()==""){		
+      	   $("#J_Message").find("p").text('请输入纳税人识别号!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+    	   return rtn;
+		}else{
+           if($("#tax_id").val().length!=18){
+        	   $("#J_Message").find("p").text('纳税人识别号长度为18位,请重新输入!');
+        	   $("#J_Message").fadeIn();
+        	   rtn = false;
+        	   return rtn;
+           }
+		}
+		//开票电话
+		if($("#invoice_tel").val()==""){		
+      	   $("#J_Message").find("p").text('请输入开票电话!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+    	   return rtn;
+		}else{
+	           var tel = /^0(10|21|22|23|[1-9]{3})\s?-\s?[1-9][0-9]{6,7}$/;
+	           if(!tel.test($("#invoice_tel").val())){
+	          	   $("#J_Message").find("p").text('请输入正确的电话号码!');
+	        	   $("#J_Message").fadeIn();
+	        	   rtn = false;
+	        	   return rtn;
+	           }
+		}
+		//开票银行
+		if($("#invoice_bank").val()==""){		
+      	   $("#J_Message").find("p").text('请输入开票银行!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+    	   return rtn;
+		}
+		//开票帐号
+		if($("#invoice_account").val()==""){		
+      	   $("#J_Message").find("p").text('请输入开票帐号!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+    	   return rtn;
+		}
+		//税务登记号
+		if($("#tax_registration").val()==""){		
+      	   $("#J_Message").find("p").text('请输入税务登记号!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+    	   return rtn;
+		}
+     	
 		//验证姓名是否全是中文
 		if(/^[\u4e00-\u9fa5]+$/.test($("#legal_person").val())){	
            if($("#legal_person").val().length<=1||$("#legal_person").val().length>30){
         	   $("#J_Message").find("p").text('中文姓名长度为2-30个汉字,请重新输入!');
         	   $("#J_Message").fadeIn();
         	   rtn = false;
+        	   return rtn;
            }
 		}else{
-     	   $("#J_Message").find("p").text('请输入正确的中文姓名!');
+     	   $("#J_Message").find("p").text('请输入正确的中文企业法人姓名!');
     	   $("#J_Message").fadeIn();
     	   rtn = false;
+    	   return rtn;
 		}
 		//身份证验证15-18
 		if(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test($("#legal_idcard").val())){	
@@ -178,6 +246,7 @@
      	   $("#J_Message").find("p").text('请输入正确的身份证号!');
     	   $("#J_Message").fadeIn();
     	   rtn = false;
+    	   return rtn;
 		}
 		//营业执照号验证
 		if(/^(\s)*(\d{15})(\s)*$/.test($("#business_licence").val())){		
@@ -185,6 +254,7 @@
       	   $("#J_Message").find("p").text('请输入正确的营业执照!');
     	   $("#J_Message").fadeIn();
     	   rtn = false;
+    	   return rtn;
 		}
 		
 		//税务登记号
@@ -192,6 +262,7 @@
       	   $("#J_Message").find("p").text('请输入税务登记号!');
     	   $("#J_Message").fadeIn();
     	   rtn = false;
+    	   return rtn;
 		}
 		
 		//组织机构号
@@ -199,6 +270,7 @@
       	   $("#J_Message").find("p").text('请输入组织机构号!');
     	   $("#J_Message").fadeIn();
     	   rtn = false;
+    	   return rtn;
 		}
 		
 		//验证上传图片问题
@@ -212,6 +284,14 @@
 				}
 			}
 		});
+		
+		//开票地址
+		if($("#invoice_address").val()==""){		
+      	   $("#J_Message").find("p").text('请输入开票地址!');
+    	   $("#J_Message").fadeIn();
+    	   rtn = false;
+    	   return rtn;
+		}
 		
 		return rtn;
     }
