@@ -47,7 +47,7 @@
         errorMsg = $(".error-msg"),
         str = "";
 
-        $(".kp-add").bind("click",function(){
+        $(".kp-add span").bind("click",function(){
                 $.layer({
                 type: 1,
                 title: false,
@@ -113,10 +113,11 @@
                         <div class="kp-lt flt">
                             <p>公司名称：{$detail.c_name}</p>
                             <p>纳税人识别号：{$detail.tax_id}</p>
-                            <p>地址：{$detail.invoice_address}</p>
-                            <p>电话：{$detail.invoice_tel}</p>
                             <p>开户银行：{$detail.invoice_bank}</p>
-                            <p>账号：{$detail.invoice_account}</p>
+                            <p>银行账号：{$detail.invoice_account}</p>
+                            <p>公司地址：{$detail.invoice_address}</p>
+                            <p>公司电话：{$detail.invoice_tel}</p>
+                            <p>审核状态：</p>
                         </div>
                         <!--kp-lt end-->
                     </li>
