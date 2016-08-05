@@ -189,12 +189,13 @@
 	<tr>
 		<td>
 	    	<select class="required" name="data[<%=data%>][product_type]">
+				<option value="">请选择</option>
 	    		{foreach from=$product_type item=value key=key}
 	        	<option value="{$key}">{$value}</option>
 	        	{/foreach}
 	        </select>
 	    </td>
-	    <td><input type="text" onblur="getLevel(this,0)" class="required" name="data[<%=data%>][model]" value=""/></td>
+	    <td><input type="text" onblur="getLevel(this,<%=data%>)" class="required" name="data[<%=data%>][model]" value=""/></td>
 		<!--<td><input type="text" onblur="getLevel(this,<%=data%>)" class="required" name="data[<%=data%>][model]" value=""/></td>-->
 	    <td><input type="text" class="required" name="data[<%=data%>][f_name]" value=""/></td>
 	    <td class="level">
@@ -262,6 +263,7 @@ $(function(){
 		});
 		if(!flag) return false;
 		var data=$(this).serialize();
+		// console.log(data);
 		$.post('/user/mypurchase/pub',data,function(res){
 			if(res.err==0){
 				alert('发布成功');
