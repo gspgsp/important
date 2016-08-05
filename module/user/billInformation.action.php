@@ -13,12 +13,14 @@ class billInformationAction extends userBaseAction
 	public function billInfo(){
 		$this->is_ajax = true;
 		if($this->user_id<0) $this->error('账户错误');
-		$where = " cbil.c_id={$this->cus_ct['c_id']} and cbil.status=1 and cbil.display_status=1";
-		$data = $this->db->select('cbil.id,cbil.c_id,cbil.tax_id,cbil.invoice_address,cbil.invoice_tel,cbil.invoice_bank,cbil.invoice_account,cus.c_name')->from('customer_billing cbil')
-		->join('customer cus','cus.c_id=cbil.c_id')
-		->where($where)
+//		$where = " cbil.c_id={$this->$_SESSION['union']['c_id']} and cbil.display_status=1";
+		$data = $this->db->from('customer as c')
+		->join('customer_billing as cb','c.c_id=cb.c_id')
+		->where("user_id=$this->user_id  and cb.display_status=1")
+		->select("cb.id,c.c_name,c.legal_person,cb.tax_id,cb.invoice_address,cb.invoice_tel,cb.invoice_bank, invoice_account,cb.status")
 		->getRow();
-		$data['invoice_account'] = desDecrypt($data['invoice_account']);//解密
+		$data['invoice_account']= str_pad(substr($data['invoice_account'],0,10), strlen($data['invoice_account']), '*');
+//		$data['invoice_account'] =desDecrypt($data['invoice_account']);//解密
 		$this->assign('detail',$data);
 		$this->display('billInfo');
 	}
@@ -28,12 +30,17 @@ class billInformationAction extends userBaseAction
 		$data = array();
 		if($_POST){
 			$id = $_POST['id'];
-			$data['tax_id'] = $_POST['tax_id'];
-			$data['invoice_address'] = $_POST['invoice_address'];
-			$data['invoice_tel'] = $_POST['invoice_tel'];
-			$data['invoice_bank'] = $_POST['invoice_bank'];
-			$data['invoice_account'] = desEncrypt($_POST['invoice_account']);//加密
-			if($this->db->where('id='.$id)->update($data)) $this->json_output(array('err'=>0,'msg'=>'更新成功'));
+			$status=$this->db->model('customer_billing')->select('status')->where('id='.$id)->getOne();
+			if($status==1) $this->json_output(array('err'=>1,'msg'=>'系统错误'));
+
+			$data['tax_id'] = $_POST['tax_id'];                      //识别号码
+			$data['invoice_address'] = $_POST['invoice_address'];    //开票地址
+			$data['invoice_tel'] = $_POST['invoice_tel'];            //开票电话
+			$data['invoice_bank'] = $_POST['invoice_bank'];          //开户银行
+			$data['invoice_account'] = ($_POST['invoice_account']);  //银行账号
+//			$data['invoice_account'] = desEncrypt($_POST['invoice_account']);//加密
+			$data['status']=0;                                       //状态
+			if($this->db->where('id='.$id)->update($data)) $this->json_output(array('err'=>0,'msg'=>'更新成功,等待审核'));
 		}
 	}
 	//删除某个开票

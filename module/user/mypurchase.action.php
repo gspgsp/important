@@ -124,7 +124,7 @@ class mypurchaseAction extends userBaseAction{
 	public function pub()
 	{
 		if($data=$_POST['data'])
-		{
+		{	p($_POST);die;
 			$this->is_ajax=true;
 			$cargo_type=sget('cargo_type','i',1);//现货、期货
 			$type=sget('type','i',1);//采购1、报价2

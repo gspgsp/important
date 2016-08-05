@@ -182,7 +182,7 @@
     	   rtn = false;
     	   return rtn;
 		}else{
-           if($("#tax_id").val().length!=18||$("#tax_id").val().length!=15){
+           if(!($("#tax_id").val().length==18||$("#tax_id").val().length==15)){
         	   $("#J_Message").find("p").text('纳税人识别号长度为18或15位,请重新输入!');
         	   $("#J_Message").fadeIn();
         	   rtn = false;
