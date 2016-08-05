@@ -313,11 +313,17 @@
             var grounp_no = $("#grounp_no").val();
             var organization_pic = $("#organization_pic").val(); 
             var Powerofattorney_pic = $("#Powerofattorney_pic").val(); 
+            
+            var tax_id = $("#tax_id").val(); 
+            var invoice_address = $("#invoice_address").val(); 
+            var invoice_tel = $("#invoice_tel").val(); 
+            var invoice_bank = $("#invoice_bank").val(); 
+            var invoice_account = $("#invoice_account").val(); 
                         		           
             $.ajax({
                 type:"post",
                 url:"/user/fundManager/certificate",
-                data:{'legal_person':legal_person,'legal_idcard':legal_idcard,'legal_idcard_pic':legal_idcard_pic,'business_licence':business_licence,'business_licence_pic':business_licence_pic,'tax_registration':tax_registration,'tax_registration_pic':tax_registration_pic,'grounp_no':grounp_no,'organization_pic':organization_pic,'Powerofattorney_pic':Powerofattorney_pic},
+                data:{'legal_person':legal_person,'legal_idcard':legal_idcard,'legal_idcard_pic':legal_idcard_pic,'business_licence':business_licence,'business_licence_pic':business_licence_pic,'tax_registration':tax_registration,'tax_registration_pic':tax_registration_pic,'grounp_no':grounp_no,'organization_pic':organization_pic,'Powerofattorney_pic':Powerofattorney_pic,'tax_id':tax_id,'invoice_address':invoice_address,'invoice_tel':invoice_tel,'invoice_bank':invoice_bank,'invoice_account':invoice_account},
                 dataType:'json',
                 success:function(res){
                     if(res.err==0){
