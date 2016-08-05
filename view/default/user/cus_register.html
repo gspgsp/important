@@ -23,7 +23,7 @@
             	<table border="1" style="width:75%;">
                   <tr style="height:50px;">
                     <td>纳税人识别号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="tax_id" id="tax_id" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="tax_id" id="tax_id" placeholder="15位或18位" /></td>
                     <td>开票电话<span>*</span>：</td>
                     <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_tel" id="invoice_tel" /></td>
                   </tr>
@@ -35,7 +35,7 @@
                   </tr>
                   <tr>
                     <td>企业法人姓名<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_person" id="legal_person" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_person" id="legal_person" placeholder="2到20个汉字" /></td>
                     <td >授权委托书上传：</td>
                     <td style="float:left;">
                         <img src="__IMG__/home/portraitUpload.png" style="width:50px;height:50px;" id="permitP_btn5" required="true"  onclick="getImg(this.id)">
@@ -44,7 +44,7 @@
                   </tr>
                   <tr>
                     <td>企业法人身份证号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_idcard" id="legal_idcard" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_idcard" id="legal_idcard"  /></td>
                     <td>企业法人身份证照片上传：</td>
                     <!-- <td><input type="file" id="file1" name="file1" value="" id="legal_idcard_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="legal_idcard_pic" /></td> -->
@@ -56,7 +56,7 @@
                   </tr>
                   <tr>
                     <td>营业执照号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="business_licence" id="business_licence" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="business_licence" id="business_licence" placeholder="15位" /></td>
                     <td>营业执照副本照片上传：</td>
                     <!-- <td><input type="file" id="file2" name="file2" value="" id="business_licence_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="business_licence_pic" /></td> -->
@@ -182,8 +182,8 @@
     	   rtn = false;
     	   return rtn;
 		}else{
-           if($("#tax_id").val().length!=18){
-        	   $("#J_Message").find("p").text('纳税人识别号长度为18位,请重新输入!');
+           if($("#tax_id").val().length!=18||$("#tax_id").val().length!=15){
+        	   $("#J_Message").find("p").text('纳税人识别号长度为18或15位,请重新输入!');
         	   $("#J_Message").fadeIn();
         	   rtn = false;
         	   return rtn;
