@@ -1,0 +1,73 @@
+<template>
+    <header id="meHeader" style="background: #ff5000; color: #ffffff;">
+        <a class="left" style="color: #ffffff; font-size: 15px;" href="tel:4006129965">联系客服</a>
+        我的
+    </header>
+    <div class="meWrap">
+        <div class="meAvator">
+            <img id="avator" v-bind:src=thumb>
+            <img id="meAlpha" src="__MYAPP__/img/meAlpha.png">
+        </div>
+    </div>
+    <div class="meName"></div>
+    <ul class="meUl">
+        <li><a href="/mobi/personalCenter/enMyQuotation"><img src="__MYAPP__/img/me.png">我的报价单<span id="qcount">{{qcount}}</span></a></li>
+        <li><a href="/mobi/personalCenter/enMyPurchase"><img src="__MYAPP__/img/me2.png">我的采购<span id="pcount">{{pcount}}</span></a></li>
+    </ul>
+    <ul class="meUl">
+        <li><a href="/mobi/personalCenter/enMyAttention"><img src="__MYAPP__/img/me4.png">我的关注<span id="proattcount">{{proattcount}}</span></a></li>
+        <li><a href="/mobi/personalCenter/enMyPoints"><img src="__MYAPP__/img/me5.png">我的积分<span id="points">{{points}}</span></a></li>
+        <li><a href="javascript:;"><img src="__MYAPP__/img/me7.png">我的交易员<span id="cus_mana">{{cus_mana}}</span></a></li>
+    </ul>
+    <ul class="meUl">
+        <li><a href="/mobi/personalCenter/enMySet"><img src="__MYAPP__/img/me6.png">设置</a></li>
+        <!--<li><a href="/mobi/personalCenter/enMyFeedBack"><img src="__MYAPP__/img/me8.png">意见反馈</a></li>-->
+    </ul>
+    <div class="bigCustomerDetailBtn">
+        <input id="tradeBtn" style="background: #ff6600; border-bottom: 2px solid #cc5200;" type="button" value="退出登录">
+    </div>
+    <footer id="footer">
+        <ul>
+            <li><a v-link={name:'bigCustomer'}><i class="foot"></i><br>大客户专区</a></li>
+            <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+            <li><a v-link={name:'index'}><i class="foot3"></i><br>首页</a></li>
+            <li><a v-link={name:'infolist'}><i class="foot4"></i><br>资讯</a></li>
+            <li><a class='footerOn' v-link={name:'meLogged'}><i class="foot5"></i><br>我</a></li>
+        </ul>
+    </footer>
+</template>
+
+<script>
+	module.exports={
+        el:"#app",
+        data:function () {
+           return {
+               cus_mana:"",
+               name:"",
+               pcount:"",
+               points:"",
+               proattcount:"",
+               qcount:"",
+               thumb:""
+           }
+        },
+        ready:function () {
+            this.$http({url:'/mobi/personalCenter/getPersonalCenter',method:'POST',data:{type1:1,type2:2}}).then(function (res) {
+                console.log(res);
+                this.$set('cus_mana',res.data.cus_mana);
+                this.$set('name',res.data.name);
+                this.$set('pcount',res.data.pcount);
+                this.$set('points',res.data.points);
+                this.$set('proattcount',res.data.proattcount);
+                this.$set('qcount',res.data.qcount);
+                this.$set('thumb',res.data.thumb);
+
+                if(res.data.err==1){
+                    router.go('/login');
+                }
+            },function () {
+
+            })
+        }
+	}
+</script>
