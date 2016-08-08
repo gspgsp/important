@@ -176,6 +176,7 @@ return array(
 		3=>'支票',
 		4=>'转账',
 		5=>'托收',
+	    6=>'东方付通',
 	),
 	//运输方式
 	'transport_type'=>array(
