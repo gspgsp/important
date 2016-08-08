@@ -420,7 +420,7 @@ class orderAction extends adminBaseAction {
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 				'admin_id'=>$_SESSION['adminid'],
-				'customer_manager'=>empty($data['customer_manager']) ? $_SESSION['adminid'] : $data['customer_manager'],
+				'customer_manager'=>$_SESSION['adminid'],
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
 			try {	
@@ -445,7 +445,7 @@ class orderAction extends adminBaseAction {
 							if( !$this->db->model('purchase_log')->add($add_data+$detail[$k]) ) throw new Exception("新增明细失败");
 						}
 					}
-				}	
+				}
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());

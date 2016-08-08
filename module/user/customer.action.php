@@ -113,8 +113,9 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("y-m-d H:i",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
 			$list['data'][$k]['chk'] = $this->_accessChk();
+			// p($v['c_id']);
 			//获取联系人的姓名和手机号
-			$contact = $this->db->model('customer_contact')->select('name,mobile')->where('c_id='.$v['c_id'])->getRow();
+			$contact = $this->db->model('customer_contact')->select('name,mobile')->where('user_id='.$v['contact_id'])->getRow();
 			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $contact['name'];
 			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $contact['mobile'];
 			//获取最新一次跟踪消息

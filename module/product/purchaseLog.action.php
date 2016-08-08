@@ -92,6 +92,9 @@ class purchaseLogAction extends adminBaseAction {
 		}elseif(!empty($keyword) && $key_type=='p_id' ){
 			$keyword=M('product:product')->getpidByPname($keyword);
 			$where.=" and `$key_type` in ($keyword) ";
+		}elseif(!empty($keyword) && $key_type=='o_sn' ){
+			$keyword=M('product:purchase')->getoidBysn($keyword);
+			$where.=" and `o_id` = '$keyword' ";
 		}elseif(!empty($keyword) && $key_type=='c_id' ){
 			$keyword=M('user:customer')->getcidByCname($keyword);
 			$where.=" and `$key_type` in ($keyword) ";

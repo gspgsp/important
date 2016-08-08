@@ -299,16 +299,6 @@ class saleBuyAction extends adminBaseAction {
 	public function chkSubmit(){
 		$this->is_ajax = true;
 		$data = sdata();
-		// [id] => 104   //采购id
-		// [p_id] => 140  //商品id
-		// [status] => 1  //采购状态
-		// [originarea] => 8|118  //区域码
-		// [store_house] =>   //仓库
-		// [m_price] => 3690   //成交价格
-		// [m_supplier] => 12   //供应商
-		// [pay_method] => 2 	//支付方式
-		// [m_transport] => 2  //运输方式
-		// [m_remark] => 订单测试备注 //订单备注
 		$id = $data['id'];  //purchase 的 id
 		$p_id = $data['p_id'];   //purchase 的商品 id
 		$pstatus = M('product:purchase')->getInfoById($id); //采购id
@@ -338,6 +328,8 @@ class saleBuyAction extends adminBaseAction {
 			'buy_id'=>$data['pc_id'],  //采购客户id
 			'p_buy_id'=>$id,
 			'p_sale_id'=>$data['m_supplier'],
+			'buy_user_id'=>M('product:unionOrder')->getPcol("$id"),
+			'sale_user_id'=>M('product:unionOrder')->getScol($data['m_supplier']),
 			'sign_time'=>CORE_TIME,
 			'deal_num'=>$data['deal_num'],
 			'total_price'=>$total_price,
