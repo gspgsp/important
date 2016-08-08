@@ -51,7 +51,6 @@ class indexAction extends homeBaseAction{
 	// 下订单
 	public function addOrder()
 	{
-
 		if($this->user_id<=0) $this->forward('/user/login');
 		if($_POST)
 		{
