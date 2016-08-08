@@ -232,6 +232,8 @@ a{ text-decoration:none;}
 .price-dynamic .left .slider .up .data .data-lt span{ background-position:-144px -57px;}
 .price-dynamic .left .slider .down .data .data-lt span{ background-position:-160px -57px;}
 .price-dynamic .left .slider .down .data{ color:#149718;}
+.price-dynamic .left .slider .tie .data .data-lt span{ width:16px; height:2px; background:#267bd3; border-radius:6px; background:#267bd3;}
+.price-dynamic .left .slider .tie .data{ color:#267bd3;}
 .price-dynamic .web-index{ width:398px; height:139px; border-left:1px solid #d6d7dc; border-right:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc;}
 .price-dynamic .web-index li{ height:69px; overflow:hidden; border-bottom:1px solid #d6d7dc;}
 .price-dynamic .web-index li .web-index-lt{ width:199px; height:85px; border-right:1px solid #d6d7dc;}
