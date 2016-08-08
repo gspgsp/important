@@ -170,3 +170,6 @@
 .buy-wrap .order-confirm table select{ font-size: 12px; width:100px; height:24px; color: #666;}
 .buy-wrap .order-confirm table textarea{ width:858px; height:52px; padding:10px; border:1px solid #bbb;}
 .red{color: red;}
+.buy-wrap .order-confirm .other.hide{ display:none;}
+.buy-wrap .order-confirm .other span{ margin:0 0 0 10px;}
+.buy-wrap .order-confirm .other input{ width:100px; height:24px; padding:0 0 0 10px;}
