@@ -141,8 +141,9 @@ function submitFrom(){
     var data=$("#talkForm").serialize();
     $.post('/offers/talk/addorder',data, function(data){
         if(data.err==0){
-            layer.msg(data.msg);
-            window.history.back();
+            window.location.href="/offers/talk/msg";
+//            layer.msg(data.msg);
+//            window.history.back();
         }else{
             layer.msg(data.msg);
         }   

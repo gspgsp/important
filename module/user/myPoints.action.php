@@ -33,7 +33,7 @@ class myPointsAction extends userBaseAction
     }
     //积分明细详情页
     public function creditDetail(){
-
+        $this->act='creditDetail';
         $page=sget('page','i',1);
         $size=10;
         $model=M('points:pointsOrder');

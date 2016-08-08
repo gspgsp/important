@@ -57,7 +57,6 @@ class indexAction extends homeBaseAction{
 			$this->is_ajax=true;
 			$orderSn='PO'.genOrderSn();
 			$data=saddslashes($_POST);
-
 			$contact=$this->db->model('customer_contact')->where("user_id=$this->user_id")->getRow();
 			$data['order_sn']=$orderSn;
 			$data['order_type']=1;	//销售类型

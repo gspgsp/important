@@ -7,6 +7,7 @@ class changepassAction extends userBaseAction{
 
 	public function init()
 	{
+		$this->act='changepass';
 		if($_POST){
 			$this->is_ajax=true;
 			$old=trim(sget('old','s',''));

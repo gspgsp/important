@@ -98,9 +98,9 @@
                         <td>
                             <div class="other hide">
                                 <span>配送日期</span>
-                                <input type="text" id="date1"  datatype="*"  class="required" name="delivery_date"/>
+                                <input type="text" id="date1"  datatype="*" name="delivery_date" class="required"/>
                                 <span>配送地点</span>
-                                <select datatype="*" name="delivery_place"  class="required">
+                                <select datatype="*" name="delivery_place" class="required" >
                                     <option value="">请选择</option>
                                     {foreach from=$area item=value key=key}
                                     <option value="{$value.id}">{$value.name}</option>
@@ -172,8 +172,12 @@
    $('#transport_type').click(function(){
        if($(this).val()==2 ||$(this).val()==3){
            $(".buy-wrap .order-confirm .other").removeClass("hide");
-       }else
-           $(".buy-wrap .order-confirm .other").addClass("hide");
+           $(".buy-wrap .order-confirm .other input").addClass("required");
+           $(".buy-wrap .order-confirm .other select").addClass("required");
+       }else{
+       $(".buy-wrap .order-confirm .other").addClass("hide");
+       $(".buy-wrap .order-confirm .other input").val(laydate.now());
+       }
 
    })
 
@@ -223,6 +227,13 @@ var demo=$("#cartFrom").Validform({
 });
 
 $("#cartFrom").submit(function(){
+
+    if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
+        $(".other select").addClass("required").attr("datatype","*");
+    }else{
+        $(".other select").removeClass("required").removeAttr("datatype");
+    }
+
     if(!demo.check()) return false;
     var data=$("#cartFrom").serialize();
     $.post('/cart/index/addorder',data,function(data){

@@ -11,6 +11,7 @@ class billInformationAction extends userBaseAction
 	}
 	//开票详情页
 	public function billInfo(){
+		$this->act='billInfo';
 		$this->is_ajax = true;
 		if($this->user_id<0) $this->error('账户错误');
 //		$where = " cbil.c_id={$this->$_SESSION['union']['c_id']} and cbil.display_status=1";

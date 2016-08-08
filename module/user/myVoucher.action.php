@@ -9,6 +9,7 @@ class myVoucherAction extends userBaseAction
 	}
 	//显示我的抵用券
 	public function showMyVoucher(){
+		$this->act='showMyVoucher';
 		$this->is_ajax = true;
 		if($this->user_id<0) $this->error('账户错误');
 		$page=sget('page','i',1);

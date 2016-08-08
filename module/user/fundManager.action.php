@@ -11,6 +11,7 @@ class fundManagerAction extends userBaseAction
 	}
 	//进入资金管理
 	public function fundManager(){
+		$this->act='fundManager';
 		$this->is_ajax = true;
 		if($this->user_id<=0) $this->error('账户错误');
 		if($this->company['organization_state']==1 || $this->company['organization_state']==4){

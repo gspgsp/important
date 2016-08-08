@@ -35,11 +35,8 @@ class talkAction extends homeBaseAction{
 	public function addorder()
 	{
 		if($_POST){
-
 			$this->is_ajax=true;
 			$data=saddslashes($_POST);
-			if($this->db->model('sale_buy')->select('id')->where("p_id={$data['p_id']} and user_id=$this->user_id")->getOne()) $this->error('您已提过改信息，不能重复提交！');
-
 			if($this->user_id==$data['user_id']) $this->error('采购人和供货人不能相同');
 
 			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']||!$data['delivery_place']||!$data['ship_type']) $this->error('信息填写不完整');
@@ -71,5 +68,19 @@ class talkAction extends homeBaseAction{
 			$this->error('请求错误');
 		}
 
+	}
+
+
+	public function msg()
+	{
+		if(!$_SESSION['order_success'] || $this->user_id<=0) $this->forward('/');
+		$_SESSION['order_success']=null;
+
+		$customer_manager=$this->db->model('admin')
+			->where("admin_id={$_SESSION['uinfo']['customer_manager']}")
+			->select('admin_id,name,mobile')
+			->getRow();
+		$this->assign('customer_manager',$customer_manager);
+		$this->display('success');
 	}
 }
