@@ -61,8 +61,10 @@
 .user-wrap .right .result li.opt{ width:60px; border-right:none;}
 .user-wrap .right .result li.opt a{ color:#267bd3; display:block;}
 .user-wrap .right .result li.opt a:hover{ text-decoration:underline;}
-.user-wrap .right .result-con li.pay{ line-height:20px; padding:16px 0 0 0;}
-.user-wrap .right .result-con li.transport,.user-wrap .right .result-con li.remark,.user-wrap .right .result-con li.opt,.user-wrap .right .result-con li.buyer,.user-wrap .right .result-con li.seller{ line-height:20px; padding:30px 0 0 0;}
+.user-wrap .right .result li.opt a.opt-pay.none{ display:none;}
+.user-wrap .right .result-con li.opt{ line-height:20px; padding:20px 0 0 0;}
+.user-wrap .right .result-con li.pay{ line-height:20px; padding:40px 0 0 0;}
+.user-wrap .right .result-con li.transport,.user-wrap .right .result-con li.remark,.user-wrap .right .result-con li.buyer,.user-wrap .right .result-con li.seller{ line-height:20px; padding:30px 0 0 0;}
 .user-wrap .right .result li.buyer{ width:96px;}
 .user-wrap .right .result li.seller{ width:94px;}
 .user-wrap .right .result li.checkout{ width:94px;}
