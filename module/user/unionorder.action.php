@@ -9,8 +9,7 @@ class unionorderAction extends userBaseAction{
 	public function init()
 	{
 		$this->act="unionorder";
-
-		p($_SESSION);
+		
 		$this->transport_type=L('transport_type');
 		$this->goods_status=L('goods_status');
 		$this->invoice_status=L('invoice_status');
