@@ -41,11 +41,9 @@ class talkAction extends homeBaseAction{
 			if($this->user_id==$data['id']) $this->error('采购人和供货人不能相同');
 			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']||!$data['delivery_place']||!$data['ship_type']) $this->error('信息填写不完整');
 			$p_id=$data['p_id'];
-
 			$model=M('product:purchase');
 			$purData=$model->getPurchaseById($p_id);
 			if( !$purData ) $this->error('请求错误,信息不存在');
-
 			$data['p_id']=$p_id;//报价id
 			$data['c_id']=$_SESSION['uinfo']['c_id'];//   供货方客户id
 			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//供货方交易员id
@@ -58,7 +56,6 @@ class talkAction extends homeBaseAction{
 			$data['sn']='UO'.genOrderSn();
 			$this->db->model('sale_buy')->add($data);
 			$model->where("id=$p_id")->update("supply_count=supply_count+1");
-
 			// //发送站内信
 			$name=$purData['type']==1?'采购':'报价';
 			$msgType=$purData['type']==1?2:3;
