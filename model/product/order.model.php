@@ -73,5 +73,10 @@ class orderModel extends model{
 		$tm = date(strtotime('-90 day'));
 		return $this->from('order')->select('COUNT(o_id) AS number')->where("user_id=$uid and input_time > $tm and $col = $status")->getOne();
 	}
-	
+	/**
+	 * 根据订单id获取订单信息
+	 */
+	public function getOinfoById($oid = 0){
+		return $this->where("o_id = $oid")->getRow();
+	}
 }
