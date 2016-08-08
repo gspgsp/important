@@ -20,10 +20,10 @@ class goodsAction extends adminBaseAction {
 		$action=sget('action','s');
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
-		}elseif($action=='remove'){ //删除列表数据
-			$this->_remove();exit;
-		}elseif($action=='save'){ //获取列表
-			$this->_save();exit;
+		// }elseif($action=='remove'){ //删除列表数据
+		// 	$this->_remove();exit;
+		// }elseif($action=='save'){ //获取列表
+		// 	$this->_save();exit;
 		}
 		$this->assign('page_title','资源库列表');
 		$this->display('goods.list.html');
@@ -71,7 +71,7 @@ class goodsAction extends adminBaseAction {
 	 * Ajax删除节点s
 	 * @access private 
 	 */
-	private function _remove(){
+	public function remove(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
@@ -90,7 +90,7 @@ class goodsAction extends adminBaseAction {
 	 * @access public 
 	 * @return html
 	 */
-	private function _save(){
+	public function save(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		$sql=array();

@@ -172,7 +172,8 @@ function removeRow() {
 					grid.reload();
 				}
 			}
-			utils.ajax('/product/goods/{$action}?action=remove',{ids:ids},callback,"POST","json");
+			// utils.ajax('/product/goods/{$action}?action=remove',{ids:ids},callback,"POST","json");
+			utils.ajax('/product/goods/remove',{ids:ids},callback,"POST","json");
 		}
 	);
 }
@@ -193,7 +194,8 @@ function saveData() {
 			grid.reload();
 		}
 	}
-	utils.ajax('/product/goods/{$action}?action=save',{data:json},callback,"POST","json");
+	// utils.ajax('/product/goods/{$action}?action=save',{data:json},callback,"POST","json");
+	utils.ajax('/product/goods/save',{data:json},callback,"POST","json");
 }
 
 //弹出增加form表单
@@ -221,7 +223,7 @@ function submitForm() {
 	  addgoods.hide();
 	}
   }
-  utils.ajax('/product/goods/{$action}?action=save&do=add',{data:json},callback,"POST","json");
+  utils.ajax('/product/goods/save?do=add',{data:json},callback,"POST","json");
 }
 
 function doEdit(){
