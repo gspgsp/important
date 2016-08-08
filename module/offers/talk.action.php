@@ -58,6 +58,7 @@ class talkAction extends homeBaseAction{
 			$data['user_id']=$this->user_id;
 			$data['sn']='UO'.genOrderSn();
 			$this->db->model('sale_buy')->add($data);
+
 			$model->where("id=$p_id")->update("supply_count=supply_count+1");
 
 			// //发送站内信
