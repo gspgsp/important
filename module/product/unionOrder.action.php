@@ -84,7 +84,6 @@ class unionOrderAction extends adminBaseAction {
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
 			$list['data'][$k]['pay_method'] =L('pay_method')[$v['pay_method']];
 			$list['data'][$k]['transport_type']=L('transport_type')[$v['transport_type']];
-			$list['data'][$k]['order_status']=L('order_status')[$v['order_status']];
 			$list['data'][$k]['goods_status']=L('goods_status')[$v['goods_status']];
 			$list['data'][$k]['invoice_status']=L('invoice_status')[$v['invoice_status']];
 		}
@@ -171,5 +170,17 @@ class unionOrderAction extends adminBaseAction {
 	$result = $this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
 	if($result) $this->success('操作成功！');
 	$this->error('操作失败');
+	}
+	/**
+	 * 保存订单审核
+	 */
+	public function chk(){
+		$this->is_ajax = true;
+		$data = sdata();
+		$id = $data['id'];
+		if(empty($id)) $this->error('操作有误！');
+		$result = $this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
+		if($result) $this->success('操作成功！');
+		$this->error('操作失败');
 	}
 }

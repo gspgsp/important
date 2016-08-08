@@ -27,7 +27,7 @@
 					<option value="" selected="selected">运输</option>
 					{html_options options=$transport_type}
 				</select>
-				<select name="order_status" >
+				<select name="order_status" id="soStatus">
 					<option value="" selected="selected">审核</option>
 					{html_options options=$order_status}
 				</select>
@@ -63,7 +63,7 @@
 			<div field="total_price" width="50" headerAlign="center" align="center" allowSort="true">总金额</div>
 			<div field="sign_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd">签订时间</div>
 			<div field="pay_method" width="45" headerAlign="center" align="center" allowSort="true">付款方式</div>
-			<div field="order_status" width="35" headerAlign="center" align="center" allowSort="true">审核</div>
+			<div field="order_status" width="35" headerAlign="center" align="center" renderer="LoadoStatus">审核</div>
 			<div field="goods_status" width="35" headerAlign="center" align="center" allowSort="true">发货</div>
 			<div field="invoice_status" width="35" headerAlign="center" align="center" allowSort="true">开票</div>
 			<div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
@@ -112,6 +112,31 @@
 		</table>
 	</div>
 </div>
+<div id="admInfo1" class="mini-window" title="审核" style="width:270px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="addForm1" class="form" >
+		<table style="width:100%;">
+			<input id="chkid" class="mini-hidden" name="id"/>
+			<tr>
+				<td>审核:</td>
+				<td><input name="order_status" class="mini-combobox" data='{:setMiniConfig|$order_status}' textField="name" valueField="id"  style="width:170px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>备注:</td>
+				<td><input name="remark"  class="mini-textarea"  style="width:170px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td style="text-align:center;padding-top:5px;" colspan="2">
+					<a class="mini-button" style="width:60px;" onClick="submitForm1()">确定</a>
+					<span style="display:inline-block;width:25px;"></span>
+					<a class="mini-button" style="width:60px;" onClick="hide()">取消</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
 {if $doact eq 'search'}
 <div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
 	<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
@@ -149,11 +174,20 @@ function onLoadHandle(e) {
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.id;
-		s += '<a href="javascript:outStorage('+oid+')">'+'发货'+'</a>';
+	var record = e.record,s='',oid = record.id, order_status = record.order_status,collection_status = record.collection_status;
+		if(order_status == 2 && collection_status !=1){
+			s += '<a href="javascript:outStorage('+oid+')">发货</a>';
+		}else if(order_status == 1){
+			s += '<a href="javascript:outchk('+oid+')">审核</a>';
+		}
+		
+		
 	return s;
 }
-
+function LoadoStatus(e) {
+	var record = e.record.order_status; //record.id
+	return $("#soStatus").find("option[value="+record+"]").text();
+}
 //弹出发货form表单
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
@@ -161,10 +195,6 @@ function outStorage(id) {
 	form.clear();
 	mini.get("id").setValue(id);
 	admInfo.show();
-}
-function hide() {
-	form.clear();
-	admInfo.hide();
 }
 //提交发货数据(保存)
 function submitForm() {
@@ -186,7 +216,34 @@ function submitForm() {
   }
   utils.ajax('/product/unionOrder/shipSave',{data:json},callback,"POST","json");
 }
-
+// 提交审核相关代码段
+//弹出审核form表单
+var admInfo1 = mini.get("admInfo1");
+var form = new mini.Form("#addForm1");
+function outchk(id) {
+	form.clear();
+	mini.get("chkid").setValue(id);
+	admInfo1.show();
+}
+//审核信息(保存)
+function submitForm1() {
+	form.validate();
+  if (form.isValid() == false) return;
+  var o = form.getData();
+  grid.loading("数据提交中，请稍后......");
+  var json = mini.encode(o);
+  var callback=function(data){
+	if(data.err!='0'){
+	  grid.unmask();
+	  alert(data.msg);
+	  return false;
+	}else{
+	  grid.reload();
+	  admInfo1.hide();
+	}
+  }
+  utils.ajax('/product/unionOrder/chk',{data:json},callback,"POST","json");
+}
 //查看订单相关信息
 function viewOrdInfo(oid){
 	mini.open({
@@ -209,6 +266,12 @@ function add(){
 			}
 		}
 	});	
+}
+//隐藏
+function hide() {
+	form.clear();
+	admInfo.hide();
+	admInfo1.hide();
 }
 //删除
 function remove() {
@@ -253,9 +316,6 @@ function onComfirm() {
 function onCancel() {
 	CloseWindow("cancel");
 }
-
-
-
 //强制选择归属公司
 function usrChoose(e){
 	var btn = this;

@@ -38,27 +38,63 @@
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="o_id" width="20" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单ID</div>
+			<div field="cname" width="80" headerAlign="center" align="center">客户名称</div>
 			<div field="order_sn" width="80" headerAlign="center" align="center">订单号</div>
 			<div field="model" width="55" headerAlign="center" align="center" renderer="onLoadProduct">牌号</div>
 			<div field="fname" width="65" headerAlign="center" aligen="center" >厂家</div>
 			<div field="out_storage_status" width="30" headerAlign="center" align="center" >出库状态</div>
-			<div field="number" width="25" headerAlign="center" align="center" allowSort="true">出库数量</div>
-			<div field="sales_type" width="40" headerAlign="center" align="center" >销售类型</div>
+			<div field="number" width="30" headerAlign="center" align="center" allowSort="true">出库数量</div>
+			<div field="sales_type" width="35" headerAlign="center" align="center" >销售类型</div>
 			<div field="store_name" width="30" headerAlign="center" align="center">库名</div>
 			<div field="admin_name" width="25" headerAlign="center" align="center" >出库人</div>
+			<div field="ship" width="25" headerAlign="center" align="center" >运费</div>
+			<div field="ship_time" width="45" headerAlign="center" align="center" dateFormat="yyyy-MM-dd">运输时间</div>
 			<div field="out_time" width="60" headerAlign="center" align="center" dateFormat="yyyy-MM-dd">出库时间</div>
 			<div field="input_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">操作时间</div>
+			 <div name="action" width="40" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 		</div>
 	</div>
 </div></div>
-	{if $doact eq 'search'}
+{if $doact eq 'search'}
 	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
 			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
 			<span style="display:inline-block;width:25px;"></span>
 			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
 	</div>
-	{/if}
-
+{/if}
+<div id="admInfo" class="mini-window" title="发货" style="width:300px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="addForm" class="form" >
+		<table style="width:100%;">
+			<input id="id" class="mini-hidden" name="id"/>
+			<tr>
+				<td>物流公司:</td>
+				<td><input name="ship_comp" class="mini-textbox" style="width:200px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>出货时间:</td>
+				<td><input name="ship_time" class="mini-datepicker" style="width:200px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>运费价格:</td>
+				<td><input name="ship" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td>备&nbsp;&nbsp;注:</td>
+				<td><input name="ship_remark" class="mini-textarea" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+			<td style="text-align:center;padding-top:5px;" colspan="2">
+				<a class="mini-button" style="width:60px;" onClick="submitForm()">确定</a>
+				<span style="display:inline-block;width:25px;"></span>
+				<a class="mini-button" style="width:60px;" onClick="hide()">取消</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
 <script type="text/javascript">
 mini.parse();
 //搜索或刷新
@@ -102,6 +138,36 @@ function viewProInfo(pid){
 		width: 250, height:250
 	});		
 }
+//新增产品详情
+function onLoadDetail(e){
+	var record = e.record,s='',oid = record.id, ship = record.ship;
+		if(ship == 0){
+			s += '<a href="javascript:outStorage('+oid+')">录发货</a>';
+		}
+		s+='&nbsp;&nbsp;<a href="javascript:salecompact('+oid+')">证明</a>';
+
+	return s;
+}
+//生成pdf文件
+function salecompact(o_id){
+	var width=845, height=650;
+	title="出货证明PDF";
+	mini.open({
+		url: "/product/pdf/outpdf?oid="+o_id,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+//隐藏
+function hide() {
+	form.clear();
+	admInfo.hide();
+}
 //删除
 function remove() {
 	var rows = grid.getSelecteds(),_ids=new Array();
@@ -125,6 +191,33 @@ function remove() {
 			utils.ajax('/product/storeOutLog/remove',{ids:ids},callback,"POST","json");
 		}
 	);
+}
+//弹出发货form表单
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function outStorage(id) {
+	form.clear();
+	mini.get("id").setValue(id);
+	admInfo.show();
+}
+//提交发货数据(保存)
+function submitForm() {
+	form.validate();
+	  if (form.isValid() == false) return;
+	  var o = form.getData();
+	  grid.loading("数据提交中，请稍后......");
+	  var json = mini.encode(o);
+	  var callback=function(data){
+		if(data.err!='0'){
+		  grid.unmask();
+		  alert(data.msg);
+		  return false;
+		}else{
+		  grid.reload();
+		  admInfo.hide();
+		}
+	  }
+  	utils.ajax('/product/storeOutLog/shipSave',{data:json},callback,"POST","json");
 }
 function GetData() {
 	var row = grid.getSelected();

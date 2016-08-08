@@ -67,6 +67,8 @@ class storeOutLogAction extends adminBaseAction {
 			$list['data'][$k]['sales_type']=L('sales_type')[M("product:order")->getColByName($v['o_id'],'sales_type')];//出库流水
 			$list['data'][$k]['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//订单id
 			$list['data'][$k]['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
+			$list['data'][$k]['cname'] = M("product:order")->getCnameByOid($v['o_id']);
+			$list['data'][$k]['ship_time']=$v['ship_time']>1000 ? date("Y-m-d H:i:s",$v['ship_time']) : '-';
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -136,5 +138,18 @@ class storeOutLogAction extends adminBaseAction {
 		}
 		$list = $this->db->where("id in ($ids)")->update(array('del'=>1));
 		$this->success('操作成功');
+	}
+	/**
+	 * 保存发货信息
+	 */
+	public function shipSave(){
+		$this->is_ajax = true;
+		$data = sdata();
+		$id = $data['id'];
+		if(empty($id)) $this->error('操作有误！');
+		$data['ship_time'] = strtotime($data['ship_time']);
+		$result = $this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
+		if($result) $this->success('操作成功！');
+		$this->error('操作失败');
 	}
 }
