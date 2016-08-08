@@ -69,4 +69,17 @@ class unionOrderModel extends model{
 		$tm = date(strtotime('-90 day'));
 		return $this->from('union_order ')->select('COUNT(id) AS number')->where("buy_user_id=$uid and input_time > $tm and $col = $status")->getOne();
 	}
+
+	/*
+	*根据订单purchase_id 获取puchase表中的字段值
+	 */
+	public function getPcol($id = 0, $col='user_id'){
+		return $this->model('purchase')->select("$col")->where("id='$id'")->getOne();
+	}
+	/*
+	*根据订单salebuy_id 获取sale_buy表中的字段值
+	 */
+	public function getScol($id = 0, $col='user_id'){
+		return $this->model('sale_buy')->select("$col")->where("id='$id'")->getOne();
+	}
 }

@@ -1,7 +1,7 @@
 <?php
 set_time_limit(0);
 //定义项目路径
-define('APP_NAME', 'wdsln.com/branches/www');
+define('APP_NAME', 'wdsln/branches/www');
 define('ROOT_PATH', dirname(__FILE__).'/');
 define('APP_LIB', ROOT_PATH.'../'); 
 require(APP_LIB . 'conf/constants.php');
