@@ -38,7 +38,10 @@ class talkAction extends homeBaseAction{
 
 			$this->is_ajax=true;
 			$data=saddslashes($_POST);
-			if($this->user_id==$data['id']) $this->error('采购人和供货人不能相同');
+			if($this->db->model('sale_buy')->select('id')->where("p_id={$data['p_id']} and user_id=$this->user_id")->getOne()) $this->error('您已提过改信息，不能重复提交！');
+
+			if($this->user_id==$data['user_id']) $this->error('采购人和供货人不能相同');
+
 			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']||!$data['delivery_place']||!$data['ship_type']) $this->error('信息填写不完整');
 			$p_id=$data['p_id'];
 			$model=M('product:purchase');
@@ -62,6 +65,7 @@ class talkAction extends homeBaseAction{
 			$msg=L('msg_template.offers');
 			$msg=sprintf($msg,$name,$purData['id'],$purData['model'],$purData['unit_price'],$_SESSION['uinfo']['name'],$purData['id'],$purData['type']);
 			M("system:sysMsg")->sendMsg($purData['user_id'],$msg,$msgType);
+			$_SESSION['order_success']=true;
 			$this->success('提交成功');
 		}else{
 			$this->error('请求错误');

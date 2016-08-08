@@ -97,7 +97,7 @@
         </div>
         <div class="buy-btn">
             <input type="hidden" name="p_id" value="{$data.id}">
-            <!--<input type="hidden" name="id" value="{$data.user_id}">-->
+            <input type="hidden" name="user_id" value="{$data.user_id}">
         	<button onclick="submitFrom()">提交</button>
             <button><a class="btn" href="/offers">返回</a></button>
             
@@ -139,7 +139,7 @@ function submitFrom(){
         return false;
     }
     var data=$("#talkForm").serialize();
-    $.post('/offers/talk/addorder',data,function(data){
+    $.post('/offers/talk/addorder',data, function(data){
         if(data.err==0){
             layer.msg(data.msg);
             window.history.back();
