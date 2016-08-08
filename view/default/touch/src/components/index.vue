@@ -70,10 +70,10 @@
             }
        },
 		ready:function () {
-//          var slider = mui("#slider");
-//          slider.slider({
-//              interval: 3000
-//          });
+            var slider = mui("#slider");
+            slider.slider({
+                interval: 3000
+            });
             console.log(this.$route.path);
             this.$http.post('/mobi/mainPage/getMainPage',{type:2}).then(function(res){
             	console.log(res.json());
