@@ -53,12 +53,10 @@ class talkAction extends homeBaseAction{
 			$data['delivery_place']=$data['delivery_place'];
 			$data['ship_type']=$data['ship_type'];
 			$data['input_time']=CORE_TIME;
-			$data['input_admin']=$this->user_id;
 			$data['status']=1;
 			$data['user_id']=$this->user_id;
 			$data['sn']='UO'.genOrderSn();
 			$this->db->model('sale_buy')->add($data);
-
 			$model->where("id=$p_id")->update("supply_count=supply_count+1");
 
 			// //发送站内信
