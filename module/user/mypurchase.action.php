@@ -94,30 +94,39 @@ class mypurchaseAction extends userBaseAction{
 	//重新上架
 	public function reshelf()
 	{
-		$this->is_ajax=true;
-		if($data=$_POST['data'])
-		{
-			$model=$this->db->model('purchase');
-			foreach ($data as $key => $value) {
-				if($value['on']){
-					$_data=$model->getPk($value['on']);
-					$status=$value['type']==1?1:2;//报价直接审核通过，采购需要后台审核
-					unset($_data['id']);
-					$_data['supply_count']=0;
-					$_data['last_buy_sale']=0;
-					$_data['input_time']=CORE_TIME;
-					$_data['update_time']=CORE_TIME;
-					$_data['shelve_type']=1;
-					$_data['number']=$value['num'];
-					$_data['unit_price']=$value['price'];
-					$_data['status']=$status;
-					$model->add($_data);
-				}
-			}
-			$this->success('操作成功');
-		}else{
-			$this->error('信息不存在');
-		}
+	    $this->is_ajax=true;
+	    if($data=$_POST['data'])
+	    {
+	        $this->db->startTrans();//开启事务
+	        try {
+	            $model=$this->db->model('purchase');
+	            foreach ($data as $key => $value) {
+	                if($value['on']){
+	                    $_data=$model->getPk($value['on']);
+	                    // 		                $status=$value['type']==1?1:2;//报价直接审核通过，采购需要后台审核
+	                    // 		                unset($_data['id']);
+	                    // 		                $_data['supply_count']=0;
+	                    // 		                $_data['last_buy_sale']=0;
+	                    // 		                $_data['input_time']=CORE_TIME;
+	                    // 		                $_data['update_time']=CORE_TIME;
+	                    // 		                $_data['shelve_type']=1;
+	                    // 		                $_data['number']=$value['num'];
+	                    // 		                $_data['unit_price']=$value['price'];
+	                    // 		                $_data['status']=$status;
+	                    // 		                $model->add($_data);
+	                    $model->where("user_id=$this->user_id and id =".$_data['id'])
+	                    ->update(array('shelve_type'=>1,'update_time'=>CORE_TIME));
+	                }
+	            }
+	        } catch (Exception $e) {
+	            $this->db->rollback();
+	            $this->error($e->getMessage());
+	        }
+	        $this->db->commit();
+	        $this->success('操作成功');
+	    }else{
+	        $this->error('信息不存在');
+	    }
 	}
 
 	//采购发布(报价发布)
