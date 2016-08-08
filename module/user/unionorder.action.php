@@ -10,7 +10,7 @@ class unionorderAction extends userBaseAction{
 	{
 		$this->act="unionorder";
 
-
+		p($_SESSION);
 		$this->transport_type=L('transport_type');
 		$this->goods_status=L('goods_status');
 		$this->invoice_status=L('invoice_status');
@@ -19,29 +19,29 @@ class unionorderAction extends userBaseAction{
 		$where="buy_user_id=$this->user_id";
 
 		//订单筛选
-		// if($orderSn=sget('sn','s','')){
-		// 	$where.=" and order_sn=$orderSn";
-		// }
-		// //日期筛选
-		// if($input_time=sget('input_time','s','')){
+		 if($orderSn=sget('sn','s','')){
+		 	$where.=" and order_sn=$orderSn";
+		 }
+		 //日期筛选
+		 if($input_time=sget('input_time','s','')){
 
-		// }
-		// //运输方式
-		// if($transport_type=sget('transport_type','i',0)){
-		// 	$where.=" and transport_type=$transport_type";
-		// }
-		// //发货状态
-		// if($goods_status=sget('goods_status','i',0)){
-		// 	$where.=" and goods_status=$goods_status";
-		// }
-		// //开票状态
-		// if($invoice_status=sget('invoice_status','i',0)){
-		// 	$where.=" and invoice_status=$invoice_status";
-		// }
-		// //订单状态
-		// if($order_status=sget('order_status','i',0)){
-		// 	$where.=" and order_status=$order_status";
-		// }
+		 }
+		 //运输方式
+		 if($transport_type=sget('transport_type','i',0)){
+		 	$where.=" and transport_type=$transport_type";
+		 }
+		 //发货状态
+		 if($goods_status=sget('goods_status','i',0)){
+		 	$where.=" and goods_status=$goods_status";
+		 }
+		 //开票状态
+		 if($invoice_status=sget('invoice_status','i',0)){
+		 	$where.=" and invoice_status=$invoice_status";
+		 }
+		 //订单状态
+		 if($order_status=sget('order_status','i',0)){
+		 	$where.=" and order_status=$order_status";
+		 }
 		$page=sget('page','i',1);
 		$size=10;
 		$orderList=M('product:unionOrder')

@@ -21,6 +21,7 @@ class billInformationAction extends userBaseAction
 		->getRow();
 		$data['invoice_account']= str_pad(substr($data['invoice_account'],0,10), strlen($data['invoice_account']), '*');
 //		$data['invoice_account'] =desDecrypt($data['invoice_account']);//解密
+
 		$this->assign('detail',$data);
 		$this->display('billInfo');
 	}

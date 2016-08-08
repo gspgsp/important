@@ -39,6 +39,7 @@ class indexAction extends homeBaseAction{
 		$readjust=M('operator:dynamic')->getList();
 		//调价动态(行情中心)
 		$readjust=$this->setReadjust($readjust);
+
 		$this->assign('readjust', $readjust);
 		
 		//行情信息(原油指数右边曲线)

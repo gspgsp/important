@@ -25,12 +25,12 @@
         <li><a href="/user/fundManager/fundManager">资金管理</a></li>
         <li><a href="/user/myVoucher/showMyVoucher">我的抵用券</a></li>
         <li><a href="/user/myPoints/creditDetail">我的积分</a></li>
-        <li><a href="/user/billInformation/billInfo">开票资料</a></li>
+        <li {if $act=='proAttentionValue'}class="hover"{/if}><a href="/user/billInformation/billInfo">开票资料</a></li>
     </ul>
     <h2 class="follow">关注中心</h2>
     <ul>
-        <li><a href="/user/productAttention/proAttentionValue">关注的产品</a></li>
-        <li><a href="/user/customerAttention/cusAttentionList">关注的商家</a></li>
+        <li {if $act=='proAttentionValue'}class="hover"{/if}><a href="/user/productAttention/proAttentionValue">关注的产品</a></li>
+        <li {if $act=='cusAttentionList'}class="hover"{/if}><a href="/user/customerAttention/cusAttentionList">关注的商家</a></li>
     </ul>
     <h2 class="website">我的网站</h2>
     <ul>

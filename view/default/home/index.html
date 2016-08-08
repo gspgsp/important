@@ -528,7 +528,7 @@
                         <!--slider-container begin-->
                         <div class="slider-container"  id="example-1">
                             {foreach from=$readjust item=value}
-                            <div class="item {if $value.type==1}up{else}down{/if}">
+                            <div class="item {if $value.type==1}up{elseif $value.type==2}down{else $value.type==3}tie{/if}">
                                 <h3><span>{$value.cj}</span>{$value.ph}</h3>
                                 <div class="data">
                                     <div class="data-lt"><span></span>{$value.price}</div>

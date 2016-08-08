@@ -10,6 +10,7 @@ class customerAttentionAction extends userBaseAction
 	}
 	//关注商家
 	public function cusAttentionList(){
+		$this->act='cusAttentionList';
 		$page=sget('page','i',1);
 		$size=8;
 		$model = 'concerned_customer';

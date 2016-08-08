@@ -47,11 +47,11 @@
         errorMsg = $(".error-msg"),
         str = "";
 
-        $(".kp-add").bind("click",function(){
-            var val=$('.kp-add').attr('id');
+        $(".kp-add").click(function(){
+            var val=$('#p_status').attr('status');
             if(val==1){
                 layer.msg('审核已通过，不能在修改!');
-                $(".kp-add").attr('disabled',true);
+//                $(".kp-add").attr('disabled',true);
                 return false;
             }
                 $.layer({
@@ -137,7 +137,7 @@
                             <p>银行账号：{$detail.invoice_account}</p>
                             <p>公司地址：{$detail.invoice_address}</p>
                             <p>公司电话：{$detail.invoice_tel}</p>
-                            <p>审核状态：{if $detail.status==1}已审核{else}待审核{/if}</p>
+                            <p id="p_status" status="{$detail.status}"> 审核状态：{if $detail.status==1}已审核{else if $detail.status==0}待审核{/if}</p>
                         </div>
                         <!--kp-lt end-->
                     </li>
