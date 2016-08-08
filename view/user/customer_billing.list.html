@@ -35,12 +35,14 @@
 		<div field="tax_id" width="90" headerAlign="center" align="center">纳税人识别号</div>
 		<div field="invoice_address" width="90" headerAlign="center" align="center">开票地址
 		</div>
+		<div field="ems_address" width="90" headerAlign="center" align="center">邮寄地址</div>
 		<div field="invoice_tel" width="90" headerAlign="center" align="center">开票电话</div>
 		<div field="invoice_bank" width="90" headerAlign="center" >开票银行</div>
 		<div field="invoice_account" width="90" headerAlign="center" >开票帐号</div>
-		<div field="fax" width="50" headerAlign="center" >传真</div>
+		<!-- <div field="fax" width="50" headerAlign="center" >传真</div> -->
 		<!-- <div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >添加时间</div>
 		<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div> -->
+		<div field="status" width="50" headerAlign="center" align="center">审核状态</div>
 		<div field="username" width="50" headerAlign="center" align="center">业务员</div>
 		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
@@ -65,7 +67,7 @@ function onKeyEnter(e) {
 
 //打开增加开票资料表单
 function add(){
-	var width=400, height=320;
+	var width=400, height=400;
 	title="新增开票资料";
 	mini.open({
 		url: "/user/customer_billing/info",

@@ -81,6 +81,8 @@ class customer_billingAction extends adminBaseAction
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 			//关联业务员
 			$list['data'][$k]['username']=M('rbac:adm')->getUserByCol($v['customer_manager']);
+			//审核状态
+			$list['data'][$k]['status']=$v['status']==1?'审核通过':'未审核';
 
 		}
 
@@ -110,6 +112,7 @@ class customer_billingAction extends adminBaseAction
         $this->assign('invoice_account',$list['invoice_account']);
         $this->assign('fax',$list['fax']);
         $this->assign('c_name',$list['c_name']);
+        $this->assign('ems_address',$list['ems_address']);
 
 		$this->display('customer_billing.add.html');
 	}

@@ -57,6 +57,8 @@ class customer_billingAction extends adminBaseAction
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 			//关联业务员
 			$list['data'][$k]['username']=M('rbac:adm')->getUserByCol($v['customer_manager']);
+			//审核状态
+			$list['data'][$k]['status']=$v['status']==1?'审核通过':'未审核';
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
@@ -81,7 +83,9 @@ class customer_billingAction extends adminBaseAction
         $this->assign('invoice_bank',$list['invoice_bank']);
         $this->assign('invoice_address',$list['invoice_address']);
         $this->assign('invoice_tel',$list['invoice_tel']);
-        $this->assign('invoice_account',desDecrypt($list['invoice_account']));
+        //银行账号加密
+        // $this->assign('invoice_account',desDecrypt($list['invoice_account']));
+        $this->assign('invoice_account',$list['invoice_account']);
         $this->assign('fax',$list['fax']);
         $this->assign('c_name',$list['c_name']);
 

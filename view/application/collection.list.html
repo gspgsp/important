@@ -137,9 +137,9 @@ function viewOrdInfo(oid,o_type,sale){
 
 //追加删除按钮
 function viewhander(e){
-	var record = e.record,i_status=record.invoice_status,id=record.id, s='';
+	var record = e.record,c_status=record.collection_status,id=record.id, s='';
 	// var order_type={$type};
-	if (i_status ==1) {
+	if (c_status ==1) {
 		s += '<a href="javascript:del('+id+')">删除</a> ';
 	}else{
 		s="-";
