@@ -9,14 +9,13 @@ class unionorderAction extends userBaseAction{
 	public function init()
 	{
 		$this->act="unionorder";
-		
+
 		$this->transport_type=L('transport_type');
 		$this->goods_status=L('goods_status');
 		$this->invoice_status=L('invoice_status');
 		$this->order_status=L('order_status');
 		$this->collection_p_status=L('collection_p_status');
 		$where="buy_user_id=$this->user_id";
-
 		//订单筛选
 		 if($orderSn=sget('sn','s','')){
 		 	$where.=" and order_sn=$orderSn";

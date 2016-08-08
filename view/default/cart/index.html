@@ -61,18 +61,20 @@
                     <h2>基本信息</h2>
                     <span>我的交易员：{$customer_manager.name}  {$customer_manager.mobile}</span>
                 </div>
-                <table>
+                <table id="table">
                     <tr>
                         <td width="80">客户名称：</td>
                         <td width="120">我的塑料网</td>
                         <td width="80">联<i></i>系<i></i>人：</td>
                         <td>{$customer_manager.name}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>联系电话：</td>
                         <td>{$customer_manager.mobile}</td>
                         <td>采购类型：</td>
                         <td>现货</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>付款方式：</td>
@@ -86,12 +88,25 @@
                         </td>
                         <td>运输方式：</td>
                         <td>
-                            <select datatype="*" name="transport_type" class="required">
+                            <select datatype="*" id="transport_type" name="transport_type" class="required">
                                 <option value="">请选择</option>
                                 {foreach from=$transport_type item=value key=key}
                                 <option value="{$key}">{$value}</option>
                                 {/foreach}
                             </select>
+                        </td>
+                        <td>
+                            <div class="other hide">
+                                <span>配送日期</span>
+                                <input type="text" id="date1"  datatype="*"  class="required" name="delivery_date"/>
+                                <span>配送地点</span>
+                                <select datatype="*" name="delivery_place"  class="required">
+                                    <option value="">请选择</option>
+                                    {foreach from=$area item=value key=key}
+                                    <option value="{$value.id}">{$value.name}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -145,6 +160,24 @@
 </div>
 
 <script>
+
+    //配送时间
+    $(function(){
+        laydate({
+            elem: '#date1',
+            event: 'focus',
+            min: laydate.now()
+        });
+    })
+   $('#transport_type').click(function(){
+       if($(this).val()==2 ||$(this).val()==3){
+           //$("table").appendTo();
+           $(".buy-wrap .order-confirm .other").removeClass("hide");
+       }else
+           $(".buy-wrap .order-confirm .other").addClass("hide");
+
+   })
+
 function delCart(id,that){
     $.post('/offers/index/delCart',{id,id},function(data){
         if(data.err==0){

@@ -17,10 +17,13 @@ class indexAction extends homeBaseAction{
 		if(empty($cartList)) $this->forward('/offers');
 		$this->pay_method=L('pay_method');
 		$this->transport_type=L('transport_type');
+		//配送地点
+		$this->area=M('system:region')->get_regions(1);
 		$customer_manager=$this->db->model('admin')
 			->where("admin_id={$_SESSION['uinfo']['customer_manager']}")
 			->select('admin_id,name,mobile')
 			->getRow();
+
 		$this->assign('customer_manager',$customer_manager);
 		$this->display('index');
 	}
@@ -48,6 +51,7 @@ class indexAction extends homeBaseAction{
 	// 下订单
 	public function addOrder()
 	{
+
 		if($this->user_id<=0) $this->forward('/user/login');
 		if($_POST)
 		{
