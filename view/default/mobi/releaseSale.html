@@ -136,6 +136,13 @@
 					alert(res);
 				});
 				
+				var ua = navigator.userAgent.toLowerCase();
+				if(ua.match(/MicroMessenger/i)=="micromessenger"){
+					var pt=1;
+				}else{
+					var pt="";
+				}
+				
 				$("#releaseSaleBtn").on("click",function () {
 					var model=$("#model").val().toUpperCase();
 					var product_type=$("#product_type").val();
@@ -158,7 +165,8 @@
 						'period':period,
 						'process_level':process_level,
 						'type':2,
-						'cargo_type':1
+						'cargo_type':1,
+						'pt':pt
 					};
 					data.push(arr);
 					if(model&&product_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
@@ -198,12 +206,6 @@
 			});
 		</script>
 		<!--<script type="text/javascript" charset="utf-8">
-				var ua = navigator.userAgent.toLowerCase();
-				if(ua.match(/MicroMessenger/i)=="micromessenger"){
-					var pt=1;
-				}else{
-					var pt="";
-				}
 		</script>-->
 	</body>
 
