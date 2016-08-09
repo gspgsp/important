@@ -1,0 +1,269 @@
+ {layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+		{if $doact neq 'search'}
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-save" onclick="addReamrk()">保存标记</a>
+				<a class="mini-button" iconCls="icon-remove" onclick="removeReamrk()">取消标记</a>
+			</td>
+		{/if}
+			<td style="float:right;">
+			<form id="soform">
+				<span id="searchMsg"></span>
+				<select name="sTime">
+					<option value="input_time">创建时间</option>
+					<option value="update_tim出e">更新时间</option>
+					<option value="sign_time">签订日期</option>
+					<option value="pickup_time">提货日期</option>
+					<option value="delivery_time">送货日期</option>
+					<option value="payment_time">付款日期</option>
+
+				</select>
+				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+				<select name="order_name">
+					<option value="" selected="selected">抬头</option>
+					{html_options options=$company_account}
+				</select>
+				<select name="financial_records">
+					<option value="" selected="selected">财务记录</option>
+					<option value="1">是</option>
+					<option value="2">否</option>
+				</select>
+				<select name="pay_method" >
+					<option value="" selected="selected">付款</option>
+					{html_options options=$pay_method}
+				</select>
+				<select name="business_model" >
+					<option value="" selected="selected">业务</option>
+					{html_options options=$business_model}
+				</select>
+				<select name="order_status" id="soStatus2">
+					<option value="" selected="selected"  >订单</option>
+					{html_options options=$order_status}
+				</select>
+				<select name="transport_status" id="soStatus3">
+					<option value="" selected="selected" >物流</option>
+					{html_options options=$transport_status}
+				</select>
+				<select name="out_storage_status" >
+					<option value="" selected="selected">发货</option>
+					{html_options options=$out_storage_status}
+				</select>
+				<select name="key_type">
+					<option value="order_sn">订单号</option>
+					<option value="c_id">客户名称</option>
+					<option value="input_admin">交易员</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="" style="width:60px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" url="/product/order/init?action=grid&do={$doact}&type={$order_type}"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+		<div property="columns" style="background:#00FFF5">
+			<div type="checkcolumn"></div>
+			<div field="order_sn" width="120" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
+			<div field="order_name" width="30" headerAlign="center" align="center">抬头</div>
+			<div field="order_source" width="25" headerAlign="center" align="center">来源</div>
+			<div field="c_name" width="70" headerAlign="center" align="center" >客户名称</div>
+			<div field="total_num" width="40" headerAlign="center" align="center" allowSort="true">总数</div>
+			<div field="total_price" width="60" headerAlign="center" align="center" allowSort="true">总金额</div>
+			<!-- <div field="pay_method" width="40" headerAlign="center" align="center" >付款</div> -->
+			{if $order_type eq 2}
+			<div field="in_storage_status" width="45" headerAlign="center" align="center" >入库状态</div>
+			{else}
+			<div field="partner" width="40" headerAlign="center" align="center" >协助者</div>
+			<div field="out_storage_status" width="45" headerAlign="center" align="center">出库状态</div>
+			{/if}
+			<div field="payments_status" width="45" headerAlign="center" align="center" >{if $order_type eq 1}收款{else}付款{/if}状态</div>
+			<div field="invoice_status" width="45" headerAlign="center" align="center" >开票状态</div>
+			<div field="remark" width="45" headerAlign="center" align="center" >备注</div>
+			<div field="type_status" width="70" headerAlign="center" align="center">{if $order_type eq 1}销售{else}采购{/if}|物流</div>
+			<div field="financial_records" width="45" headerAlign="center" align="center">财务记录</div>
+			<div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
+			<div field="update_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">更新时间</div>
+			<div field="cmanager" width="40" headerAlign="center" align="center">交易员</div>
+			<div field="pay_remark" width="250" headerAlign="center" >来款标记
+				<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
+			</div>
+		</div>
+	</div>
+</div>
+	{if $doact eq 'search'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+	{/if}
+
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var grid = mini.get("gridCell");
+grid.on("drawcell", function (e) {
+    var record = e.record,
+        column = e.column,
+        field = e.field,
+        value = e.value;
+
+
+    //将性别文本替换成图片
+    if (column.field == "pay_remark") {
+        if (e.value != "") {
+            e.rowStyle = "background:#00FFF5";
+        } else {
+            e.rowStyle = "";
+        }
+    }
+
+
+});
+
+
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+//追加操作按钮
+function onLoadHandle(e) {
+	var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn;
+	var order_type = {$order_type};
+	s += '<a href="javascript:viewOrdInfo('+o_id+','+order_type+')">'+order_sn+'</a> ';
+	return s;
+}
+//获取订单状态
+function onOrderStatus(e) {
+	var record = e.record.order_status; //record.id
+	return $("#soStatus2").find("option[value="+record+"]").text();
+}
+//获取物流状态
+function onTransportStatus(e) {
+	var record = e.record.transport_status; //record.id
+	return $("#soStatus3").find("option[value="+record+"]").text();
+}
+
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+function LoadOrderType(e) {
+	var record = e.record.order_type; 
+	return $("#soStatus").find("option[value="+record+"]").text();
+}
+
+
+function submitFinancial(){
+	var form = new mini.Form('financialCheck');
+	form.validate();
+	if (form.isValid() == false) return;
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			financial.hide();
+		}
+	}
+	utils.ajax('/product/order/financialCheck',{data:json},callback,"POST","json");	
+}
+
+
+
+
+
+
+//查看订单相关信息
+function viewOrdInfo(oid,o_type){
+	mini.open({
+		url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+		showMaxButton:true,
+		title: "查看订单相关信息", 
+		width: 800, height:430
+	});
+}
+
+//行内编辑后保存数据 保存标记
+function addReamrk() {
+  //var row = grid.getSelecteds();
+  //var json = mini.encode(row);
+  var data = grid.getChanges();
+  var json = mini.encode(data);
+  if(json.length<=10) {
+  	return false
+  };
+  /*if(row.length<=0) {
+	  mini.alert('请选择操作记录!','系统提示');
+	  return false
+  };*/
+  
+  grid.loading("保存中，请稍后......");
+  var callback=function(data){
+	grid.unmask();
+	if(data.err=='0'){
+	  grid.reload();
+	}else{
+	  mini.alert(data.msg,'系统提示');
+	  return false;
+	}
+  }
+  utils.ajax('/product/order_remark/addremark',{data:json},callback,"POST","json");
+}
+
+
+//取消标记
+function removeReamrk(){
+	  var row = grid.getSelecteds();
+	  var json = mini.encode(row);
+	  if(row.length<=0) {
+		  mini.alert('请选择操作记录!','系统提示');
+		  return false
+	  };
+	  
+	  grid.loading("保存中，请稍后......");
+	  var callback=function(data){
+		grid.unmask();
+		if(data.err=='0'){
+		  grid.reload();
+		}else{
+		  mini.alert(data.msg,'系统提示');
+		  return false;
+		}
+	  }
+	  utils.ajax('/product/order_remark/removeReamrk',{data:json},callback,"POST","json");
+}
+
+
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+
+
+
+</script>

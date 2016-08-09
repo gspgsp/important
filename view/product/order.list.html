@@ -95,6 +95,7 @@
 			 <div name="action" width="40" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>
 			 <div name="action" width="75" headerAlign="center" align="center" cellStyle="padding:0;" renderer="oncheckDetail">审核</div>
 			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+			<div field="pay_remark" width="250" headerAlign="center" >来款标记</div>
 		</div>
 	</div>
 </div>
@@ -164,6 +165,24 @@
 mini.parse();
 //搜索或刷新
 var grid = mini.get("gridCell");
+grid.on("drawcell", function (e) {
+    var record = e.record,
+        column = e.column,
+        field = e.field,
+        value = e.value;
+
+
+    //将性别文本替换成图片
+    if (column.field == "pay_remark") {
+        if (e.value != "") {
+            e.rowStyle = "background:#00FFF5";
+        } else {
+            e.rowStyle = "";
+        }
+    }
+
+
+});
 function search() {
 	grid.load($("#soform").serializeObject(),function(e){
 		$("#searchMsg").html(e.msg);
