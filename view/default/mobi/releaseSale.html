@@ -135,15 +135,7 @@
 				},function (res) {
 					alert(res);
 				});
-
-			});
-		</script>
-		<!--<script type="text/javascript" charset="utf-8">
-				alert(1);
-
-				var pt="";
-				var ua = navigator.userAgent.toLowerCase();
-
+				
 				$("#releaseSaleBtn").on("click",function () {
 					var model=$("#model").val().toUpperCase();
 					var product_type=$("#product_type").val();
@@ -154,9 +146,6 @@
 					var store_house=$("#store_house").val();
 					var period=$("#period").val();
 					var process_level=$("#process_level").val();
-					if(ua.match(/MicroMessenger/i)=="micromessenger"){
-						pt=1;
-					}
 					var data=[];
 					var arr={
 						'model':model,
@@ -202,8 +191,17 @@
 					}
 
 				});
+			});
+		</script>
+		<!--<script type="text/javascript" charset="utf-8">
+				var ua = navigator.userAgent.toLowerCase();
+				if(ua.match(/MicroMessenger/i)=="micromessenger"){
+					var pt=1;
+				}else{
+					var pt="";
+				}
 		</script>-->
-
 	</body>
+
 
 </html>
