@@ -166,7 +166,7 @@
 							type:"post",
 							url:"/mobi/mainPage/pub",
 							async:true,
-							data:data,
+							data:{data:data},
 							dataType:"json",
 							success:function(res){
 							if(res.err==0){
