@@ -289,12 +289,12 @@ class buySaleAction extends adminBaseAction {
 			'order_name'=>'采购ID为【'.$p_id.'】销售ID为【'.$id.'】',
 			'order_sn'=>genOrderSn(),
 			'order_source'=>1,
-			'sale_id'=>$data['c_id'],  //采购客户id
-			'buy_id'=>$data['pc_id'],  //销售客户id
+			'sale_id'=>$data['pc_id'],  //采购客户id
+			'buy_id'=>$data['c_id'],  //销售客户id
 			'p_buy_id'=>$id,  //销售id
 			'p_sale_id'=>$p_id, //采购id
-			'buy_user_id'=>M('product:unionOrder')->getScol($id),
-			'sale_user_id'=>M('product:unionOrder')->getPcol($p_id),
+			'buy_user_id'=>M('product:unionOrder')->getScol($p_id),
+			'sale_user_id'=>M('product:unionOrder')->getPcol($id),
 			'sign_time'=>CORE_TIME,
 			'total_price'=>$total_price,
 			'deal_price'=>$data['m_price'],
