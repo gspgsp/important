@@ -125,22 +125,21 @@
 		<script src="__MYAPP__/js/common.js"></script>
 		<script>
 			$(function(){
-				alert(1);
-			});
-		</script>
-		<!--<script type="text/javascript" charset="utf-8">
-				alert(1);
 				commonAjax(
 						"get",
 						"/mobi/mainPage/checkReleaseLogin"
 				).then(function (res) {
-					alert(res);
 					if(res.err==1){
 						window.location.href="/mobi/login";
 					}
 				},function (res) {
 					alert(res);
 				});
+
+			});
+		</script>
+		<!--<script type="text/javascript" charset="utf-8">
+				alert(1);
 
 				var pt="";
 				var ua = navigator.userAgent.toLowerCase();
