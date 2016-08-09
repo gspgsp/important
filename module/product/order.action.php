@@ -29,7 +29,6 @@ class orderAction extends adminBaseAction {
 		$this->assign('pay_remark',L('pay_remark'));  //联系传真
 	}
 	/**
-	 *
 	 * @access public
 	 * @return html
 	 */
