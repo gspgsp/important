@@ -161,33 +161,33 @@
 						'cargo_type':1
 					};
 					data.push(arr);
-					if(model&&product_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
-						commonAjax(
-								"post",
-								"/mobi/mainPage/pub",
-								{data}
-						).then(function (res) {
-							if(res.err==0){
-								mui.alert("",res.msg,function () {
-
-								});
-							}else if(res.err==2){
-								mui.confirm("","提交成功",["继续报价","去竞猜 "],function(e){
-									if(e.index==0){
-										window.location.reload();
-									}else if(e.index==1){
-										window.location.href="/mobi/wxActivity/enActivity";
-									}
-								});
-							}
-						},function (res) {
-							alert(res);
-						});
-					}else{
-						mui.alert("","请把信息填写完整",function () {
-
-						});
-					}
+//					if(model&&product_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
+//						commonAjax(
+//								"post",
+//								"/mobi/mainPage/pub",
+//								{data}
+//						).then(function (res) {
+//							if(res.err==0){
+//								mui.alert("",res.msg,function () {
+//
+//								});
+//							}else if(res.err==2){
+//								mui.confirm("","提交成功",["继续报价","去竞猜 "],function(e){
+//									if(e.index==0){
+//										window.location.reload();
+//									}else if(e.index==1){
+//										window.location.href="/mobi/wxActivity/enActivity";
+//									}
+//								});
+//							}
+//						},function (res) {
+//							alert(res);
+//						});
+//					}else{
+//						mui.alert("","请把信息填写完整",function () {
+//
+//						});
+//					}
 
 				});
 			});
