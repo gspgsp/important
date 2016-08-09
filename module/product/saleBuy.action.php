@@ -112,8 +112,8 @@ class saleBuyAction extends adminBaseAction {
 			$list['data'][$k]['pcid'] = $v['ptype'] == 2 ? M('user:customer')->getColByName($v['pcid']) : M('user:customer')->getColByName($v['c_id']); //采购的厂家
 			$list['data'][$k]['pcid_id'] = $v['pcid']; 
 			$list['data'][$k]['c_id'] = $v['ptype'] == 2 ? M('user:customer')->getColByName($v['c_id']) : M('user:customer')->getColByName($v['pcid']); 
-			$list['data'][$k]['pn'] = $v['ptype'] == 2 ? $v['pprice'].'|'.$v['pnumber'] : $v['price'].'|'.$v['number'];
-			$list['data'][$k]['sbn'] = $v['ptype'] == 2  ? $v['price'].'|'.$v['number']  : $v['pprice'].'|'.$v['pnumber'];
+			$list['data'][$k]['pn'] = $v['ptype'] == 1 ? $v['pprice'].'|'.$v['pnumber'] : $v['price'].'|'.$v['number'];
+			$list['data'][$k]['sbn'] = $v['ptype'] == 1  ? $v['price'].'|'.$v['number']  : $v['pprice'].'|'.$v['pnumber'];
 			$list['data'][$k]['ship'] = $v['ship_type'];
 			$list['data'][$k]['cargo_type'] = L('cargo_type')[$v['cargo_type']];
 			$list['data'][$k]['ship_type'] = L('ship_type')[$v['ship_type']];
