@@ -414,6 +414,7 @@ function consumeStoreDetil(){
 					obj.require_number=data.require_number;
 					obj.remark=data.remark;
 					obj.inlog_id=data.inlog_id;
+					obj.m_p_price=data.m_p_price;
 					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
 					for(var i =0;i<noStockData.length;i++){ //遍历所有明细的采购ID是否相同 目前只允许销一个采购id的 产品库存
 						if(noStockData[i].o_id != obj.o_id){
