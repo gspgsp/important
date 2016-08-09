@@ -96,23 +96,24 @@ class saleBuyAction extends adminBaseAction {
 			}
 			
 		}
-		$list=$this->db->select("p.id as purchaseid, pd.model, pd.f_id, p.number as pnumber, p.unit_price as pprice,p.c_id as pcid, p.cargo_type, p.origin, sb.*")->from('sale_buy sb')->leftjoin('purchase p','p.id = sb.p_id')
+		$list=$this->db->select("p.id as purchaseid, pd.model, pd.f_id, p.number as pnumber, p.type as ptype, p.unit_price as pprice,p.c_id as pcid, p.cargo_type, p.origin, sb.*")->from('sale_buy sb')->leftjoin('purchase p','p.id = sb.p_id')
 				->leftjoin('product pd','pd.id = p.p_id')
 				->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
+		
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i",$v['update_time']) : '-';
 			$list['data'][$k]['expiry_date']=$v['expiry_date']>1000 ? date("Y-m-d",$v['expiry_date']) : '-';
 			$list['data'][$k]['delivery_date']=$v['delivery_date']>1000 ? date("Y-m-d",$v['delivery_date']) : '-';
 			$list['data'][$k]['model'] = $v['f_id']>0 ? M('product:factory')->getFnameById($v['f_id']).'|'.$v['model'] : $v['model'];
-			$list['data'][$k]['pcid'] = M('user:customer')->getColByName($v['pcid']); //采购的厂家
+			$list['data'][$k]['pcid'] = $v['ptype'] == 2 ? M('user:customer')->getColByName($v['pcid']) : M('user:customer')->getColByName($v['c_id']); //采购的厂家
 			$list['data'][$k]['pcid_id'] = $v['pcid']; 
-			$list['data'][$k]['c_id'] = M('user:customer')->getColByName($v['c_id']); //报价的厂家
-			$list['data'][$k]['pn'] = $v['pprice'].'|'.$v['pnumber'];
-			$list['data'][$k]['sbn'] = $v['price'].'|'.$v['number'];
+			$list['data'][$k]['c_id'] = $v['ptype'] == 2 ? M('user:customer')->getColByName($v['c_id']) : M('user:customer')->getColByName($v['pcid']); 
+			$list['data'][$k]['pn'] = $v['ptype'] == 2 ? $v['pprice'].'|'.$v['pnumber'] : $v['price'].'|'.$v['number'];
+			$list['data'][$k]['sbn'] = $v['ptype'] == 2  ? $v['price'].'|'.$v['number']  : $v['pprice'].'|'.$v['pnumber'];
 			$list['data'][$k]['ship'] = $v['ship_type'];
 			$list['data'][$k]['cargo_type'] = L('cargo_type')[$v['cargo_type']];
 			$list['data'][$k]['ship_type'] = L('ship_type')[$v['ship_type']];
