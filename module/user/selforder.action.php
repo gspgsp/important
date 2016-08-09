@@ -84,6 +84,9 @@ class selforderAction extends userBaseAction{
 			->select('o.*,ad.name,ad.mobile')
 			->where("o_id=$id and user_id={$this->user_id}")
 			->getRow();
+		$order['transport_type']==1?($order['pickup_time']='--'):($order['delivery_time']=$order['delivery_time']);
+		$order['transport_type']==1?($order['pickup_location']='--'):($order['delivery_location']=$order['delivery_location']);
+
 		$sale_log=$this->db->from('sale_log s')
 			->leftjoin('product p','s.p_id=p.id')
 			->leftjoin('factory f','p.f_id=f.fid')

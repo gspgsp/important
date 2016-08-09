@@ -13,7 +13,6 @@ class indexAction extends homeBaseAction{
 	{
 		//购物车
 		$this->cartList=Cart::getGoods();
-
 		$cityWhere='pid=1';
 		$factoryWhere=1;
 		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
@@ -141,7 +140,6 @@ class indexAction extends homeBaseAction{
 		foreach ($contactList as $key => $value) {
 			$customerTemp[$value['user_id']]=$value;
 		}
-
 		foreach ($list as $key => $value) {
 			if($value['is_union']==0){
 				$list[$key]['customer']=$customerTemp[$value['user_id']];
@@ -152,8 +150,8 @@ class indexAction extends homeBaseAction{
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}
-		
 		$this->seo =array('title'=>$seotype.$seoprocess.$seotitle.$seofa. $keywords.$key_model.$key_name.' 商城报价');
+
 		$this->assign('list',$list);
 		$this->display('index');
 	}

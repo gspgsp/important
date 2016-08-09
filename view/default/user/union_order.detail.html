@@ -63,6 +63,11 @@
                 <td>货款结算方式：</td>
                 <td>{$order.payment_way}</td>
               </tr>
+              <tr>
+                <td>订单审核状态：</td>
+                <td>{:setOption|order_status,$order.order_status}</td>
+
+              </tr>
             </table>
         </div>
         <!--basic-info end-->

@@ -23,7 +23,6 @@ class indexAction extends homeBaseAction{
 			->where("admin_id={$_SESSION['uinfo']['customer_manager']}")
 			->select('admin_id,name,mobile')
 			->getRow();
-
 		$this->assign('customer_manager',$customer_manager);
 		$this->display('index');
 	}
