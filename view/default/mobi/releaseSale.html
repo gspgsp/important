@@ -162,11 +162,12 @@
 					};
 					data.push(arr);
 					if(model&&product_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
-						commonAjax(
-								"post",
-								"/mobi/mainPage/pub",
-								{data}
-						).then(function (res) {
+						$.ajax({
+							type:"post",
+							url:"/mobi/mainPage/pub",
+							async:true,
+							data:data,
+							success:function(res){
 							if(res.err==0){
 								mui.alert("",res.msg,function () {
 
@@ -179,10 +180,13 @@
 										window.location.href="/mobi/wxActivity/enActivity";
 									}
 								});
+							}								
+							},
+							error:function(){
+								
 							}
-						},function (res) {
-							alert(res);
 						});
+
 					}else{
 						mui.alert("","请把信息填写完整",function () {
 
