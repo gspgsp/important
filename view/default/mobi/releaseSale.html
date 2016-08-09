@@ -6,9 +6,6 @@
 		<title>发布报价</title>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
-		<script src="__MYAPP__/js/mui.min.js"></script>
-		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
-		<script src="__MYAPP__/js/common.js"></script>
 		<style>
 			.releaseSale input[type=date]{ float: left; width: 100px; height: 21px; line-height: 21px; margin: 0; padding: 0 5px; font-size: 12px;}
 		</style>
@@ -123,8 +120,10 @@
 		<div class="releaseSaleBtn">
 			<input id="releaseSaleBtn" type="button" value="立即发布" />
 		</div>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
 		<script type="text/javascript" charset="utf-8">
-			$(function () {
 				alert(1);
 				commonAjax(
 						"get",
@@ -199,7 +198,6 @@
 					}
 
 				});
-			})
 		</script>
 
 	</body>
