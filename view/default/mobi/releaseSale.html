@@ -133,11 +133,12 @@
 						"post",
 						"/mobi/mainPage/checkReleaseLogin"
 				).then(function (res) {
+					alert(res);
 					if(res.err==1){
 						window.location.href="/mobi/login";
 					}
-				},function () {
-
+				},function (res) {
+					alert(res);
 				});
 
 				var pt="";
