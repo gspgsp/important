@@ -34,13 +34,15 @@
                 <td>运费：</td>
                 <td>{$order.freight_price}</td>
               </tr>
+                {if $order.transport_type==1}
               <tr>
                 <td>运输方式：</td>
                 <td>
                 	{:setOption|transport_type,$order.transport_type}
                 </td>
-                <td>配送日期：</td>
-                <td>{if $order.pickup_time}{$order.pickup_time|date:Y-m-d H:i}{/if}</td>
+
+                <td>提货日期：</td>
+                <td>{$order.pickup_time}</td>
                 
               </tr>
               <!-- <tr>
@@ -50,11 +52,36 @@
                 <td>{$order.delivery_location}</td>
               </tr> -->
               <tr>
-                <td>配送地点：</td>
+                <td>提货地点：</td>
                 <td>{$order.pickup_location}</td>
+
                 <td>付款日期：</td>
                 <td>{if $order.payment_time}{$order.payment_time|date:Y-m-d H:i}{/if}</td>
               </tr>
+                {else}
+                <tr>
+                    <td>运输方式：</td>
+                    <td>
+                        {:setOption|transport_type,$order.transport_type}
+                    </td>
+
+                    <td>配送日期：</td>
+                    <td>{if $order.delivery_time}{$order.delivery_time|date:Y-m-d H:i}{/if}</td>
+
+                </tr>
+                <!-- <tr>
+                  <td>送货日期：</td>
+                  <td>{if $order.delivery_time}{$order.delivery_time|date:Y-m-d H:i}{/if}</td>
+                  <td>送货地点：</td>
+                  <td>{$order.delivery_location}</td>
+                </tr> -->
+                <tr>
+                    <td>配送地点：</td>
+                    <td>{$order.delivery_location}</td>
+                    <td>付款日期：</td>
+                    <td>{if $order.payment_time}{$order.payment_time|date:Y-m-d H:i}{/if}</td>
+                </tr>
+                {/if}
               <tr>
                 <td>付款方式：</td>
                 <td>
@@ -62,6 +89,10 @@
                 </td>
                 <td>货款结算方式：</td>
                 <td>{$order.payment_way}</td>
+              </tr>
+              <tr>
+                <td>订单审核状态：</td>
+                <td>{:setOption|order_status,$order.order_status}</td>
               </tr>
             </table>
         </div>
