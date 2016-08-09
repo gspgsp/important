@@ -174,7 +174,7 @@ grid.on("drawcell", function (e) {
 
     //将性别文本替换成图片
     if (column.field == "pay_remark") {
-        if (e.value != "") {
+        if (!(e.value == ""||e.value==null)) {
             e.rowStyle = "background:#00FFF5";
         } else {
             e.rowStyle = "";
