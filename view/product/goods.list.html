@@ -223,7 +223,7 @@ function submitForm() {
 	  addgoods.hide();
 	}
   }
-  utils.ajax('/product/goods/save?do=add',{data:json},callback,"POST","json");
+  utils.ajax('/product/goods/save?doact=add',{data:json},callback,"POST","json");
 }
 
 function doEdit(){

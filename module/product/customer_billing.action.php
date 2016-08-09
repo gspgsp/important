@@ -88,6 +88,7 @@ class customer_billingAction extends adminBaseAction
         $this->assign('invoice_account',$list['invoice_account']);
         $this->assign('fax',$list['fax']);
         $this->assign('c_name',$list['c_name']);
+        $this->assign('ems_address',$list['ems_address']);
 
 		$this->display('customer_billing.add.html');
 	}

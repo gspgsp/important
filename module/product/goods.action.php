@@ -97,7 +97,6 @@ class goodsAction extends adminBaseAction {
 		if(empty($data)){
 			$this->error('操作数据为空');
 		}
-
 		if(($this->doact)=='add'){
 			if($data['id']){//更新
 				$this->db->wherePk($data['id'])->update($data);
