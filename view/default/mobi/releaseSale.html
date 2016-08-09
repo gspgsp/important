@@ -125,9 +125,6 @@
 			<input id="releaseSaleBtn" type="button" value="立即发布" />
 		</div>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
 			$(function () {
 				commonAjax(
 						"post",
@@ -192,8 +189,8 @@
 									}
 								});
 							}
-						},function () {
-
+						},function (res) {
+							alert(res);
 						});
 					}else{
 						mui.alert("","请把信息填写完整",function () {
