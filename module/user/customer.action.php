@@ -266,7 +266,9 @@ class customerAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		$utype = $data['ctype'];
+
 		if($utype==1){
+			if(empty($data['mobile']) && empty($data['tel'])) $this->error('手机或者电话至少填写一个'); 
 			//验证联系人信息
 			$param=array(
 				'mobile'=>$data['mobile'],		 
@@ -274,6 +276,7 @@ class customerAction extends adminBaseAction {
 				'qq'=>$data['qq'],	 
 			);
 		}else{
+			if(empty($data['info_mobile']) && empty($data['info_tel'])) $this->error('手机或者电话至少填写一个'); 
 			//验证公司信息
 			$param=array(
 				'c_name'=>$data['c_name'],		 
