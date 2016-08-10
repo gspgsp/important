@@ -6,7 +6,7 @@
  */
 class dfftPayment{
     private $callbackpay ='';//支付回调地址
-	private $mallID=''; //商城号码
+	public $mallID=''; //商城号码
 	private $certificatepassword=''; //证书密码
 	private $certificatepath =''; //证书路径
 	// 	生产环境接口
@@ -90,10 +90,10 @@ class dfftPayment{
 	    //验证签名 可以尝试改下字符串 查看结果       
 	    $result = $signUtil->verifySignedDataDetached($this->certificatepath,$this->certificatepassword,$sign,$data);
 	    if($result == "1"){
-	        echo "签名验证成功!";
+// 	        echo "签名验证成功!";
 	        return true;
 	    }else{
-	        echo "签名验证失败!";
+// 	        echo "签名验证失败!";
 	        return false;
 	    }
 	}
@@ -318,6 +318,72 @@ class dfftPayment{
 	    $result = HttpClient::quickPost($this->apiurl,array('order'=>$order));
 	    return $result;
 	}
+	
+	
+// 	/**
+// 	 * 支付处理
+// 	 * @access public
+// 	 * @$datajson包括以下15个参数
+// 	 * mallID 商城号码
+// 	 * payType 支付类型 01010：直接支付 01021：关闭支付 
+// 	 * payID 支付号码 单笔支付的唯一标识
+// 	 * originalPayID 关闭支付时必填  tradeOrder 交易订单号 合同号或其他交易订单号
+// 	 * payMemCode 付款会员代码  payMemName 付款会员名称  recMemCode 相关会员代码  recMemName 相关会员名称 currency 币种 为空则默认为 CNY（人民币）
+// 	 * payAmt 金额  保留两位小数 summary 摘要 交易信息callBackUrl 回调 URL 服务器异步通知结果地址 
+// 	 * signature 签名  调用签名程序产生指令签名
+// 	 * customFiels 自定义字段
+// 	 * instAccount 优先记账
+// 	 * locktag 锁定标识
+// 	 * bankUse 银行用途
+// 	 * bankDigest  银行摘要
+// 	 * */
+// 	public function directPay($datajson='')
+// 	{	
+	    
+// 	    $payid = 'PO'.date('Ymdhis',time()).'-'.rand(999,9999);
+// 	    $params = array(
+// 	        'mallID' => $this->mallID ,
+// 	        'payType' => '01010' ,
+// 	        'payID' => $payid ,
+// 	        'originalPayID' => '' ,
+// 	        'tradeOrder' => $payid ,
+// 	        'payMemCode' => '0000001' ,
+// 	        'payMemName' => 'cs0000001' ,
+// 	        'recMemCode' => '0000002' ,
+// 	        'recMemName' => 'cs0000002' ,
+// 	        'currency' => 'CNY' ,
+// 	        'payAmt' => '100' ,
+// 	        'summary' => '' ,
+// 	        'callBackUrl' => APP_URL.'/user/selforder/callback' ,
+// 	        'customFiels'=>'',
+// 	        'instAccount'=>'0',
+// 	        'locktag'=>'1',
+// 	        'bankUse'=>'',
+// 	        'bankDigest'=>'',
+// 	    );	    	    
+	    
+// // 	    $params = json_decode($datajson,true);
+// 	    $params['signature'] = $this->_getSign(json_encode($params));
+// 	    $order = $this->_base64Sign(json_encode($params));
+// 	    $result = HttpClient::quickPost($this->apiurl,array('order'=>$order));
+// // 	    $obj = json_decode($result);
+// // 	    if(isset($obj)){
+// // 	        // 关闭状态
+// // 	        $payStatus = $obj->payStatus;
+// // 	        // 关闭消息
+// // 	        $payMessage = $obj->payMessage;
+// // 	        // 签名
+// // 	        $signature = $obj->signature;
+// // 	        // 	        echo '处理消息:<br />';
+// // 	        //判断订单是否关闭成功 payStatus 为000000 为关闭成功
+// // 	        if($payStatus  == '000000'){
+// // 	            echo "订单:".$params['tradeOrder'].",关闭成功!";
+// // 	        }else{
+// // 	            echo "订单:".$params['tradeOrder'].",".$payMessage."!";
+// // 	        }
+// // 	    }
+// 	    return $result;
+// 	}
    	
 	
 	/**
