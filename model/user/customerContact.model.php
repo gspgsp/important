@@ -39,9 +39,6 @@ class customerContactModel extends model{
 			$uid = $info['info_user_id']>0 ? $info['info_user_id'] : 0;
 			$cid = $info['c_id']>0 ? $info['c_id'] : 0;
 			//开始验证添加的企业（公司名字)
-			if(empty($param['info_mobile'])){
-				return array('err'=>1,'msg'=>'联系人电话不能为空');
-			}
 			if(!empty($param['c_name'])){
 				if(!M('user:customer')->curUnique('c_name',$param['c_name'],$cid)){
 					return array('err'=>1,'msg'=>'公司名称已经存在');
