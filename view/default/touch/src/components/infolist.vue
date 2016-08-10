@@ -7,7 +7,7 @@
     <ul id='articleLi'>
         <li v-for='info in infoUl'>
         <div class='articleLi'>
-            <a v-link={path:'/infoDetail?id='+info.id}>
+            <a v-link={path:'/infodetail?id='+info.id}>
                 <h3>{{info.title}}</h3><p>{{info.brief}}</p>
             </a>
         </div><p class='time'>{{info.input_time}}</p>
@@ -16,16 +16,16 @@
     </div>
     <footer id='footer'>
         <ul>
-            <li><a v-link={name:'bigCustomer'}><i class='foot'></i><br>大客户专区</a></li>
-            <li><a href='/mobi/mainPage/enPhysical'><i class='foot2'></i><br>物性表</a></li>
+            <li><a><i class='foot'></i><br>大客户专区</a></li>
+            <li><a><i class='foot2'></i><br>物性表</a></li>
             <li><a v-link={name:'index'}><i class='foot3'></i><br>首页</a></li>
             <li><a class='footerOn' v-link={name:'infolist'}><i class='foot4'></i><br>资讯</a></li>
-            <li><a href='/mobi/personalCenter'><i class='foot5'></i><br>我</a></li></ul>
+            <li><a v-link={name:'melogged'}><i class='foot5'></i><br>我</a></li></ul>
     </footer>
 </template>
 <script>
 	module.exports={
-		el:"#app"
+		el:"#app",
         data:function () {
             return {
                 itemIndex: 0,
@@ -35,23 +35,22 @@
             }
         },
         ready:function () {
-            this.$http({url:'/mobi/mainPage/getArticleInfo',method:"POST",data:{pid:29}}).then(function (res) {
-                console.log(res);
-                this.$set('infoUl',res.data.articleInfo);
-            },function (res) {
-
-            });
-
+        	this.$http.post('/mobi/mainPage/getArticleInfo',{pid:29}).then(function(res){
+        		console.log(res.json().articleInfo);
+        		this.$set('infoUl',res.json().articleInfo);
+        	},function(){
+        		
+        	});
         },
         methods:{
             itemsActive:function (index) {
                 console.log(this.pid[index]);
                 this.itemIndex=index ? index : 0;
-                this.$http({url:'/mobi/mainPage/getArticleInfo',method:"POST",data:{pid:this.pid[index]}}).then(function (res) {
-                    console.log(res);
-                    this.$set('infoUl',res.data.articleInfo);
-                },function (res) {
-
+                this.$http.post('/mobi/mainPage/getArticleInfo',{pid:this.pid[index]}).then(function(res){
+                	console.log(res.json().articleInfo);
+                	this.$set('infoUl',res.json().articleInfo);
+                },function(){
+                	
                 });
             }
         }

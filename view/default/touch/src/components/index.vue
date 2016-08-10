@@ -21,15 +21,15 @@
         <div class='mui-clearfix'></div>
     <div id='appInfo' v-show="0==itemIndex">
         <ul id='appInfoUl'>
-            <li v-for='info in infos'><a><font>{{info.title}}</font></a><b>{{info.input_time}}</b></li>
+            <li v-for='info in infos'><a v-link={path:'/infodetail?id='+info.id}><font>{{info.title}}</font></a><b>{{info.input_time}}</b></li>
         </ul>
-        <a class='appMore'>更多</a>
+        <a class='appMore' v-link={name:'infolist'}>更多</a>
     </div>
     <div id='appInfo2' v-show="1==itemIndex">
         <ul id='appInfoUl2'>
             <li v-for='oil in oils'>{{oil.type}}<i class="{{oil.alph|upDownColor}}">{{oil.alph|upDown}}{{oil.ups_downs}}</i><b>{{oil.price}}</b><b style="margin-right: 10px;">{{oil.input_time}} </b></li>
         </ul>
-        <a class='appMore'>更多</a>
+        <a v-link={name:'oilprice'} class='appMore'>更多</a>
     </div>
     </div>
     <div class="appOperate">
@@ -53,8 +53,8 @@
             <li><a><i class='foot'></i><br>大客户专区</a></li>
             <li><a href='/mobi/mainPage/enPhysical'><i class='foot2'></i><br>物性表</a></li>
             <li><a class='footerOn'><i class='foot3'></i><br>首页</a></li>
-            <li><a><i class='foot4'></i><br>资讯</a></li>
-            <li><a><i class='foot5'></i><br>我</a></li>
+            <li><a v-link={name:'infolist'}><i class='foot4'></i><br>资讯</a></li>
+            <li><a v-link={name:'melogged'}><i class='foot5'></i><br>我</a></li>
         </ul>
     </footer>
 </template>
@@ -83,7 +83,6 @@
             });
             this.$http.post('/mobi/mainPage/getMainPage',{type:1}).then(function(res){
             	console.log(res.json());
-            	//console.log(res.data.infos);
                 this.$set('infos',res.json().infos);
             },function(){
 

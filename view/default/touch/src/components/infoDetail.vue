@@ -11,15 +11,15 @@
     </div>
     <footer id="footer">
         <ul>
-            <li><a v-link={name:'bigCustomer'}><i class="foot"></i><br>大客户专区</a></li>
-            <li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+            <li><a><i class="foot"></i><br>大客户专区</a></li>
+            <li><a><i class="foot2"></i><br>物性表</a></li>
             <li><a v-link={name:'index'}><i class="foot3"></i><br>首页</a></li>
             <li><a class='footerOn' v-link={name:'infolist'}><i class="foot4"></i><br>资讯</a></li>
-            <li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+            <li><a v-link={name:'melogged'}><i class="foot5"></i><br>我</a></li>
         </ul>
     </footer>
     <div id="backTop" style="display: none">
-        <img src="__MYAPP__/img/topArrow.png">
+        <img src="../../img/topArrow.png">
     </div>
 </template>
 <script>
@@ -32,12 +32,11 @@
         },
         ready:function () {
             console.log(this.$route.query.id);
-            this.$http({url:'/mobi/mainPage/getArticleDetail',method:"POST",data:{id:this.$route.query.id}}).then(function (res) {
-                console.log(res.data);
-                this.$set('content',res.data.articleDetail);
-                console.log(this.content);
-            },function (res) {
-
+            this.$http.post('/mobi/mainPage/getArticleDetail',{id:this.$route.query.id}).then(function(res){
+                console.log(res.json());
+                this.$set('content',res.json().articleDetail);           	
+            },function(){
+            	
             });
         }
 	}
