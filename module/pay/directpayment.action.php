@@ -8,7 +8,11 @@ class directpaymentAction extends homeBaseAction
 
     public function init()
     {
-        $this->display('directpayment.html');
+        $order= sget("id",'s',''); 
+        echo $order;
+        $this->assign('order',$order);
+        //         $this->display('directpayment.html');
+        $this->display('pay.html');
     }
 }
 

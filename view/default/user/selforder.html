@@ -53,7 +53,7 @@
     		            <td>
     		            	<select name="collection_p_status">
     		                	<option>请选择</option>
-								{foreach from=$collection_p_status item=value key=key}
+								{foreach from=$collection_status item=value key=key}
     		                    <option value="{key}">{$value}</option>
 								{/foreach}
     		                </select>
@@ -151,7 +151,7 @@
                     <li class="opt">
                     	<a href="/user/selforder/detail/id/{$value.o_id}">查看</a>
                     	{if $value.order_status eq '2'}
-                        	<a href="javascript:;" class="opt-pay">付款</a>
+                        	<a href="javascript:;" class="opt-pay" data-id="{$value.o_id}">付款</a>
                         {/if}
                         <a href="javascript:;" class="opt-cancel">取消</a>
                     </li>
@@ -173,12 +173,32 @@
 
 
 <script>
+var inter=0, layer_index=0;
+//定时异步查询支付是否成功 
+//如果成功则清除定时器和loading层
+var querySucess = function(id){
+	//window.clearInterval(inter)
+	//console.log(1);
+	$.post('/user/selforder/querySucess',{id:id},function(data){
+		if(data.err=='0'){
+			//layer.msg(data.msg);
+			window.clearInterval(inter);
+        	layer.close(layer_index);
+		}else{
+			console.log(data.msg);
+			if(data.msg=="支付失败"){
+				window.clearInterval(inter);
+	        	layer.close(layer_index);
+	        	layer.msg(data.msg);
+			}
+		}					   
+	},'json');
+}
 $(function(){
 	$("#filter select").change(function(){
 		$("#filterForm").submit();
 	});
-	var other = $(".filter .other"),
-		filterBot = $(".filter .filter-bot");
+	var other = $(".filter .other"),filterBot = $(".filter .filter-bot");
 	other.bind("click",function(){
 		if($(this).hasClass("show")){
 			$(this).removeClass("show").addClass("hide");
@@ -189,10 +209,25 @@ $(function(){
 			filterBot.removeClass("hide");
 		}
 	});
+	
 
     //付款
     $(".opt-pay").live("click",function(){
-       
+    	var id =$(this).attr('data-id');
+    	if($(this).attr('data-id').trim()==""){ 
+    		layer.msg('记录id不能为空!');
+    		return false;
+    	}
+	    layer_index =layer.load('正在处理请稍后', 0);
+	    inter=setInterval("querySucess("+id+")",1000)
+    	$.post('/user/selforder/pay',{id:id},function(data){
+    		if(data.err=='0'){
+				//layer.msg(data.msg);
+    			window.open("/pay/directpayment/init?id="+data.msg);
+    		}else{
+				layer.msg(data.msg);
+    		}					   
+    	},'json');
     });
 
     //取消

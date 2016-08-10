@@ -9,29 +9,27 @@ class indexAction extends homeBaseAction
     {}
 
     public function init()
-    {
+    {        
+//         header("content-type:text/html; charset=utf-8");
+//         $url="http://127.0.0.1:8080/JavaBridge/java/Java.inc";
+//         ini_set("display_errors", "On");
+//         ini_set("allow_url_include", "On");
+//         error_reporting(E_ALL | E_STRICT);
+// //         echo HttpClient::quickGet($url);
+//         echo $_SERVER['DOCUMENT_ROOT'];
+//         require_once("http://127.0.0.1:8080/JavaBridge/java/Java.inc");
+//         java_require($_SERVER['DOCUMENT_ROOT']."/Javatest/Java"); //一定要把刚才生成的jar文件放到这个require的目录下面
+//         $system = new Java("java.lang.System");
+//         $s = new Java("java.lang.String", "php-java-bridge config...<br><br>");
+//         echo $s;
 
-        
-        header("content-type:text/html; charset=utf-8");
-        $url="http://127.0.0.1:8080/JavaBridge/java/Java.inc";
-        ini_set("display_errors", "On");
-        ini_set("allow_url_include", "On");
-        error_reporting(E_ALL | E_STRICT);
-//         echo HttpClient::quickGet($url);
-        echo $_SERVER['DOCUMENT_ROOT'];
-        require_once("http://127.0.0.1:8080/JavaBridge/java/Java.inc");
-        java_require($_SERVER['DOCUMENT_ROOT']."/Javatest/Java"); //一定要把刚才生成的jar文件放到这个require的目录下面
-        $system = new Java("java.lang.System");
-        $s = new Java("java.lang.String", "php-java-bridge config...<br><br>");
-        echo $s;
-
-        //demonstrate property access
-        echo "Java version=".$system->getProperty("java.version")." <br> ";
-        echo "Java vendor=" .$system->getProperty('java.vendor')." <br> ";
-        echo "OS=".$system->getProperty(" os.name ")." ".
-            $system->getProperty("os.version")." on ".
-            $system->getProperty(" os.arch ")." <br> ";
-        die;
+//         //demonstrate property access
+//         echo "Java version=".$system->getProperty("java.version")." <br> ";
+//         echo "Java vendor=" .$system->getProperty('java.vendor')." <br> ";
+//         echo "OS=".$system->getProperty(" os.name ")." ".
+//             $system->getProperty("os.version")." on ".
+//             $system->getProperty(" os.arch ")." <br> ";
+//         die;
 
 //         error_reporting(E_ALL);
 //         if (!extension_loaded('zip')) {
@@ -57,7 +55,7 @@ class indexAction extends homeBaseAction
 //         $zip->close();
 //         unset($zip);
        
-//            $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+           $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
 //            echo $obj->_getSign('{"name":"123456"}');
 //            echo $obj->_base64Sign('1231321312312312');
 //            echo $obj->_base64Verify('{"name":"123456"}',$obj->_getSign('{"name":"123456"}'));
@@ -77,14 +75,14 @@ class indexAction extends homeBaseAction
 //                 'mallID' => '000106',
 //            );
 //            echo $obj->OrderQuery(json_encode($params));
-//             // 会员绑定查询
-//            $params = array(
-//                 'mallID'     => '000106',
-//                 'payType'    => '09011',
-//                 'memCode'    => '0000001',
-//                 'memName'    => 'cs0000001',
-//            );
-//            echo $obj->memberbindquery(json_encode($params));
+            // 会员绑定查询
+           $params = array(
+                'mallID'     => '000106',
+                'payType'    => '09011',
+                'memCode'    => '5041',
+                'memName'    => '上海中晨电子商务股份有限公司',
+           );
+           echo $obj->memberbindquery(json_encode($params));
 //               // 会员绑定
 //            $params = array(
 //                     'mallID'     => '000106',
