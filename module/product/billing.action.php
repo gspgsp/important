@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
 *开票管理控制器
 */
@@ -327,7 +327,6 @@ class billingAction extends adminBaseAction
 			}
 			$list=$listModel->where("b.parent_id=$id")->page($page,$size)->getPage();
 		}
-
 		foreach ($list['data'] as &$value) {
 			$value['sum']=floatval($value['b_number']*$value['unit_price']);
 			if($is_head){
@@ -374,12 +373,24 @@ class billingAction extends adminBaseAction
 			}
 			$list=$listModel->where("b.parent_id=$id")->page($page,$size)->getPage();
 		}
-
 		foreach ($list['data'] as &$value) {
+		//聚乙烯：HDPE、LDPE、LLDPE，聚丙烯：均聚PP、共聚PP，塑料ABS：ABS、MABS，塑料PC:PC
+			$t = $value['type'];
+			if($t==(1||2||3)){
+				$value['type'] =1;
+			}else if($t==(4||6)){
+				$value['type'] =2;
+			}else if($t==(7||9)){
+				$value['type'] =3;
+			}else if($t==8){
+				$value['type'] =4;
+			}else{
+				$value['type'] =5;
+			}
 			$value['sum']=floatval($value['b_number']*$value['unit_price']);
 			if($is_head){
 				$value['un_number']=$value['b_number'];
-				$value['type']=L("product_type")[$value['type']];
+				$value['type']=L("finance_p_type")[$value['type']];
 			}else{
 				$value['un_number']=$value['u_number'];
 			}

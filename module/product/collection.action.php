@@ -239,6 +239,10 @@ class collectionAction extends adminBaseAction
 	public function ajaxSave(){
 		$data=sdata();
 		$o_id = sget('o_id','i',0);
+
+		//根据o_id获取订单中的业务员id,即customer_manager
+		$customer_manager = $this->db->model('order')->select('customer_manager')->where('o_id='.$data['o_id'])->getOne();
+		$data['customer_manager']=$customer_manager;
 		
 		//保存收付款相关信息
 		if(empty($data['uncollected_price'])){
@@ -276,7 +280,7 @@ class collectionAction extends adminBaseAction
 				$add_data['order_id']=$data['o_id'];
 				$add_data['order_type']=$data['order_type'];
 
-				if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username'],'customer_manager'=>$_SESSION['adminid']))) $this->error("交易失败");
+				if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
 
 				//修改account账户信息，1是销售，收款
 
@@ -295,7 +299,7 @@ class collectionAction extends adminBaseAction
 
 			}else{
 				$data['uncollected_price'] = $m;				
-				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid'],'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
 			}
 		if($this->db->commit()){
 			$this->success('操作成功');
