@@ -18,7 +18,7 @@ class salebuyModel extends model{
 	 * @Author   cuiyinming
 	 * @DateTime 2016-05-20T14:54:36+0800
 	 * @return   [type]                   [description]
-
+	*/
 	public function getColById($pid=0,  $col = 'number', $value = 'id'){
 		$result=$this->select("$col")->where("$value =".$pid)->getOne();
 		return empty($result) ? '' : $result;
