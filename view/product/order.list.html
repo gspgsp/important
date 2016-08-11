@@ -208,16 +208,11 @@ function onTransportStatus(e) {
 //追加关联
 function onJoin(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
-	if(sales_type == '1'){ //正常销库存的 关联的采购
-		// if(store_o_id !='0'){
-		// 	s += '<a href="javascript:viewOrdInfo('+store_o_id+')">入库</a>';
-		// }
-		if(join_id !='0'){
-			s += '<a href="javascript:viewOrdInfo('+join_id+')">销售</a> ';
-		}	
-	}else if(sales_type == '2' && join_id !='0'){ //不库存的 关联的采购
-		s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
-	}
+		if(store_o_id > 0 && join_id == 0){
+			s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
+		}else if(store_o_id == 0 && join_id > 0){
+			s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
+		}
 	return s;
 }
 search();

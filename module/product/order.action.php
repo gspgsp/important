@@ -403,8 +403,8 @@ class orderAction extends adminBaseAction {
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		if(empty($data)) $this->error('错误的请求');	
-		$data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
+		if(empty($data)) $this->error('错误的请求');
+		if($data['o_id']>0) $data['join_id']=$data['o_id']; //把销售订单的id 关联到新增的采购订单中
 		unset($data['o_id']); //避免和后面的add 订单冲突
 		$data['delivery_location'] =  $data['pickup_location'] = $data['pickuplocation'];
 		$data['pickup_time'] = $data['delivery_time'] = strtotime($data['delivery_time']);
@@ -422,37 +422,47 @@ class orderAction extends adminBaseAction {
 				'admin_id'=>$_SESSION['adminid'],
 				'customer_manager'=>$_SESSION['adminid'],
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
-			);
-			try {	
-				if($data['join_id']>0) unset($data['store_o_id']); //不销库存的订单 不存在此字段
-				if( !$this->db->model('order')->add($add_data+$data) ) throw new Exception("新增订单失败");//新增订单
-				$o_id=$this->db->getLastID(); //获取新增订单ID
-				if($data['join_id']>0){  //反向把新增的采购订单id 保存在所关联的销售订单中
-					if( !$this->db->model('order')->where(' o_id ='.$data['join_id'])->update(' join_id = '.$o_id) ) throw new Exception("关联的销售订单更新失败");	
-				}
-				if( !$o_id ) throw new Exception("新增订单失败");
-				if(!empty($data['detail'])){ 
-					foreach ($data['detail'] as $k => $v) {
-						$detail[$k]=$v;
-						$detail[$k]['o_id']=$o_id;
-						$detial[$k]['order_sn']=$data['order_sn'];
-						$detail[$k]['remainder']=$v['require_number'];
-						$detail[$k]['b_number']=$v['require_number'];
-						if($data['order_type'] == 1){//销售明细
-							$detail[$k]['purchase_price']=$v['m_p_price'];
-							$detail[$k]['number']=$v['require_number'];
-							if( !$this->db->model('sale_log')->add($add_data+$detail[$k]) ) throw new Exception("新增明细失败");		
-						}else{//采购明细
-							if( !$this->db->model('purchase_log')->add($add_data+$detail[$k]) ) throw new Exception("新增明细失败");
-						}
+			);	
+			if($data['order_type'] == 1 && $data['sales_type'] == 1){//如果是销售订单(1.先采后销  2.先销后采')
+				if(!$data['store_o_id'])  $this->error("采购订单未选择或者错误");//不销库存的订单 不存在此字段
+				if(!$this->db->model('order')->where("o_id = {$data['store_o_id']}")->getRow()) $this->error("您选择的采购订单不存在");
+			}
+			if($data['order_type'] == 2){//如果是销售订单(1.先采后销  2.先销后采')
+				if(isset($data['store_o_id'])) unset($data['store_o_id']);
+			}
+			if(!$this->db->model('order')->add($add_data+$data) ) $this->error("新增订单失败");//新增订单
+			$o_id=$this->db->getLastID();//获取新增订单ID
+			if(!$o_id) $this->error("新增订单失败");
+			if($data['order_type'] == 1 && $data['sales_type'] == 1){ //如果是销售订单(1.先采后销  2.先销后采')
+				if(!$data['store_o_id'])  $this->error("采购订单未选择或者错误");//不销库存的订单 不存在此字段
+				$this->db->model('order')->wherePk($data['store_o_id'])->update(array('join_id'=>$o_id,));
+			}
+			if(isset($data['join_id']) && $data['join_id']>0){
+				//反向把新增的采购订单id 保存在所关联的销售订单中
+				if(!$this->db->model('order')->wherePk($data['join_id'])->update(array('join_id'=>$o_id,))) $this->error("关联的销售订单更新失败");
+			}
+			if(!empty($data['detail'])){ 
+				foreach ($data['detail'] as $k => $v) {
+					$detail[$k]=$v;
+					$detail[$k]['o_id']=$o_id;
+					$detial[$k]['order_sn']=$data['order_sn'];
+					$detail[$k]['remainder']=$v['require_number'];
+					$detail[$k]['b_number']=$v['require_number'];
+					if($data['order_type'] == 1){//销售明细
+						$detail[$k]['purchase_price']=$v['m_p_price'];
+						$detail[$k]['number']=$v['require_number'];
+						if( !$this->db->model('sale_log')->add($add_data+$detail[$k]) ) $this->error("新增明细失败");		
+					}else{//采购明细
+						if( !$this->db->model('purchase_log')->add($add_data+$detail[$k]) ) $this->error("新增明细失败");
 					}
 				}
-			} catch (Exception $e) {
-				$this->db->rollback();
-				$this->error($e->getMessage());
 			}
-			$this->db->commit();
-			$this->success();
+			if($this->db->commit()){
+				$this->success();
+			}else{
+				$this->db->rollback();
+				$this->error($this->db->getDbError());
+			}
 	}
 
 
