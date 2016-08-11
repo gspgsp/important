@@ -180,7 +180,9 @@ class billingAction extends adminBaseAction
 		//公司开票资料
 		
 		$this->companyInfo=M("user:customer_billing")->getCinfoById($headData['c_id']);
-		$invoice_account=desDecrypt($this->companyInfo['invoice_account']);
+		// $invoice_account=desDecrypt($this->companyInfo['invoice_account']);
+		$invoice_account=$this->companyInfo['invoice_account'];
+		
 		$this->assign('invoice_account',$invoice_account);
 
 		$this->display('billing.add.html');
@@ -378,11 +380,11 @@ class billingAction extends adminBaseAction
 			$t = $value['type'];
 			if($t==(1||2||3)){
 				$value['type'] =1;
-			}else if($t==(4||6)){
+			}elseif($t==(4||6)){
 				$value['type'] =2;
-			}else if($t==(7||9)){
+			}elseif($t==(7||9)){
 				$value['type'] =3;
-			}else if($t==8){
+			}elseif($t==8){
 				$value['type'] =4;
 			}else{
 				$value['type'] =5;
@@ -561,7 +563,6 @@ class billingAction extends adminBaseAction
 	 */
 	public function curUnique(){
 		$data = trim($_POST['data']);
-		p($data);die;
 		if(empty($data)) $this->error('请填写发票号');
 		$res = M('product:billing')->curUnique('invoice_sn',$data);	
 		if(!$res) $this->error("发票号重复,请更换！");
