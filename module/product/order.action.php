@@ -332,7 +332,8 @@ class orderAction extends adminBaseAction {
 	public function editOrderSubmit(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-		// p($data);die;
+		if($data['store_o_id']>0) unset($data['store_o_id']);
+		if($data['join_id']>0) unset($data['join_id']);
 		$data['delivery_location'] =  $data['pickup_location'] = $data['pickuplocation'];
 		$data['pickup_time'] = $data['delivery_time'] = strtotime($data['delivery_time']);
 		if(empty($data)) $this->error('错误的请求');	
