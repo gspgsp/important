@@ -29,7 +29,6 @@ class indexAction extends adminBaseAction{
 		if($_POST){
 			$id=sget('iid','i',0);
 			$content=trim($_POST['content']);
-
 			if($content==''){
 				$_data=$_POST;
 				$_data['ship_type']=isset($_POST['ship_type'])?'自提':'配送';
@@ -37,7 +36,7 @@ class indexAction extends adminBaseAction{
 				$_data['stock']=isset($_POST['stock'])?'期货':'现货';
 
 				//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
-				$grade=$_data['grade'];
+				$grade=strtolower($_data['grade']);
 				$factory=$_data['factory'];
 				if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
 				if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
