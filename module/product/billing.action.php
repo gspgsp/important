@@ -353,7 +353,6 @@ class billingAction extends adminBaseAction
 
 		if($is_head=sget('is_head','i',0)){
 			$o_id=sget('o_id','i',0);
-
 			if($type==1){
 				//销售明细
 				$list=M('product:saleLog')->getLogListByOid($o_id,$page,$size);
@@ -375,6 +374,7 @@ class billingAction extends adminBaseAction
 			}
 			$list=$listModel->where("b.parent_id=$id")->page($page,$size)->getPage();
 		}
+
 		foreach ($list['data'] as &$value) {
 		//聚乙烯：HDPE、LDPE、LLDPE，聚丙烯：均聚PP、共聚PP，塑料ABS：ABS、MABS，塑料PC:PC
 			$t = $value['type'];

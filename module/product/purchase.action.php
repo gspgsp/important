@@ -297,18 +297,25 @@ class purchaseAction extends adminBaseAction {
 		try {
 			$objPHPExcel = PHPExcel_IOFactory::load($_FILES['check_file']['tmp_name']);
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-   
 			if(empty($sheetData)) $this->error('上传文件不正确，请重新上传');
 			if(count(array_shift($sheetData)) !== 10) throw new Exception('Excel表数据格式不匹配');
 
 			$error=array();
  			foreach($sheetData as $row){ 				
 				//如果为空或者不是数字则 不检查导入该行
-				if(empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E']) || empty($row['F']) || empty($row['G']) || empty($row['H']) || !is_numeric($row['A']) || !is_numeric($row['F']) || !is_numeric($row['G']) ){
+				if(empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E']) || empty($row['F']) || empty($row['G']) || empty($row['H']) || empty($row['I']) || !is_numeric($row['F']) || !is_numeric($row['G']) ){
 					$error['number']+=1;
 					$error['err'][]='数据不规范';
 					continue;
-				} 
+				}
+				//获取公司id
+				$c_id = $this->db->model('customer')->select('c_id')->where('c_name='.'"'.$row['A'].'"')->getOne();
+				if (!$c_id){
+					$error['number']+=1;
+					$error['err'][]=$row['A'].'公司名有误';
+					continue;
+				}
+
 				//获取厂家f_id
 				$f_id = M('product:factory')->getIdByFName($row['D']);
 				if (!$f_id) {
@@ -335,7 +342,7 @@ class purchaseAction extends adminBaseAction {
 				}
 
 				//获取默认联系人user_id
-				$user_id = $this->db->model('customer_contact')->select('user_id')->where('c_id='.$row['A'].' and is_default=1')->getOne();
+				$user_id = $this->db->model('customer_contact')->select('user_id')->where('c_id='.$c_id.' and is_default=1')->getOne();
 				if (!$user_id){
 					$error['number']+=1;
 					$error['err'][]=$row['A'].'联系人有误';
@@ -370,10 +377,9 @@ class purchaseAction extends adminBaseAction {
 						continue;
 					}
 				}
-
 				//写数据到表中p2p_product
 				$_infoData = array(
-					'c_id'		=>$row['A'],
+					'c_id'		=>$c_id,
 					'user_id'	=>$user_id,
 					'product_type'=>$product_type,
 					'model'		=>$row['C'],
