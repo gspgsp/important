@@ -40,8 +40,9 @@ class reportViewModel extends model
 		}
 
 		if($team_or_person == 'team'){
-			$where.=" and `ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end." and role.pid=22 and `ord`.order_type=".$order_type." and `ord`.order_status <> 3";
-			$data = $this->from('order as ord')
+			//2个sql 一个处理总吨数和总金额 一个处理总收款
+			$where.=" and `ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end." and role.pid=22 and `ord`.order_type=".$order_type." and `ord`.order_status = 2 and `ord`.transport_status = 2 ";
+			$num_price_data = $this->from('order as ord')
 					->leftjoin('adm_role_user as adm','ord.customer_manager=adm.user_id')
 					->leftjoin('adm_role as role','adm.role_id=role.id')
 					->where($where)
@@ -50,8 +51,35 @@ class reportViewModel extends model
 					->group('adm.role_id')
 					->getAll();
 					// return $this->getLastSql();
-			$return = array('time'=>array($start,$end),'data'=>$data);
-			return $return;
+
+			$where2 = "`ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end." and  `ord`.order_type=".$order_type." and `ord`.order_status = 2 and `ord`.transport_status = 2 and `coll`.collection_status = 2 and `role`.pid = 22";
+			// $profit = $this->from('order as ord')
+			// 			   ->select('sum(coll.collected_price) as price ,adm.role_id,role.name')
+			// 			   ->leftjoin('collection as coll','ord.o_id=coll.o_id')
+			// 			   ->leftjoin('adm_role_user as adm','coll.customer_manager=adm.user_id')
+			// 			   ->leftjoin('adm_role as role','adm.role_id=role.id')
+			// 	 		   ->where($where2)
+			// 	 		   ->group('coll.customer_manager')
+			// 	 		   ->getAll();
+			$profit = $this->db->getAll('SELECT coll.customer_manager,SUM(coll.collected_price) AS profit ,adm.role_id,role.name
+				FROM `p2p_order` `ord`
+				LEFT JOIN `p2p_collection` `coll` ON ord.o_id=coll.o_id
+				LEFT JOIN `p2p_adm_role_user` `adm` ON coll.customer_manager=adm.user_id
+				LEFT JOIN `p2p_adm_role` `role` ON adm.role_id=role.id
+				WHERE '.$where2.'
+				GROUP BY `role`.`name`');
+					// return $this->getLastSql();
+			foreach ($profit as $key => $value) {
+				foreach ($num_price_data as $k => $v) {
+					if($value['role_id'] == $v['role_id']){
+						$temp[] = array_merge($value,$v);
+						unset($profit[$key]);
+						unset($num_price_data[$k]);
+					}
+				}
+			}
+			$res = array_merge($profit,$num_price_data,$temp);
+			return $return = array('time'=>array($start,$end),'data'=>$res);
 		}else{
 			$team_user_arr = $this->from('adm_role_user as adm')
 					->where('adm.role_id='.$team_id)
@@ -62,8 +90,9 @@ class reportViewModel extends model
 				$string.=$str.$value['user_id'];
 			}
 			$in_string = trim($string,',');
-			$where.="and `ord`.order_type=".$order_type." and `ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end.' and `ord`.order_status <> 3 and ord.customer_manager in (' .$in_string.' )';
-			$data = $this->from('order as ord')
+			//2个sql 一个处理总吨数和总金额 一个处理总收款
+			$where.="and `ord`.order_type=".$order_type." and `ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end.' and `ord`.order_status = 2 and `ord`.transport_status = 2 and ord.customer_manager in (' .$in_string.' )';
+			$num_price_data = $this->from('order as ord')
 					->leftjoin('admin as a','ord.customer_manager=a.admin_id')
 					->where($where)
 					->select('sum(ord.total_num) as num,sum(ord.total_price) as price,ord.input_time,ord.customer_manager,a.name')
@@ -71,7 +100,27 @@ class reportViewModel extends model
 					->group('ord.customer_manager')
 					->getAll();
 					// return $this->getLastSql();		
-			$return = array('time'=>array($start,$end),'data'=>$data);
+
+			$where2="`ord`.order_type=".$order_type." and `ord`.".$order_by_time_field." >=".$start." and `ord`.".$order_by_time_field." <=".$end.' and `ord`.order_status = 2 and `ord`.transport_status = 2 and `coll`.collection_status = 2 and ord.customer_manager in (' .$in_string.' )';
+			$profit = $this->from('order as ord')
+					->leftjoin('collection as coll','ord.o_id=coll.o_id')
+					->where($where2)
+					->select('sum(coll.collected_price) as profit,ord.customer_manager')
+					->order('ord.'.$order_by_time_field.' asc')
+					->group('ord.customer_manager')
+					->getAll();
+					// return $this->getLastSql(); 		
+			foreach ($profit as $key => $value) {
+				foreach ($num_price_data as $k => $v) {
+					if($value['customer_manager'] == $v['customer_manager']){
+						$temp[] = array_merge($value,$v);
+						unset($profit[$key]);
+						unset($num_price_data[$k]);
+					}
+				}
+			}
+			$res = array_merge($profit,$num_price_data,$temp);
+			$return = array('time'=>array($start,$end),'data'=>$res);
 			return $return;
 		}
 	}
