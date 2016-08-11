@@ -397,7 +397,6 @@ class quoteAction extends adminBaseAction {
 					'input_time'=>CORE_TIME,
 					'input_admin'=>$_SESSION['username'],
 				);
-
 				$this->db->model('purchase')->add($_infoData);
 			}
 		} catch (Exception $e) {

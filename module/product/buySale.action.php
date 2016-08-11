@@ -186,7 +186,6 @@ class buySaleAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$chk = sget('chk','i',0);
 		$pid=sget('id','i'); //报价ID(销售表中的id)
-		$model=M('product:purchase');
 		// 根据采购id获得报价id
 		$info=M('product:salebuy')->getSalebuyInfo($pid);
 		if(empty($info)) $this->error('错误的数据请求');
@@ -200,7 +199,6 @@ class buySaleAction extends adminBaseAction {
 		$info['originarea'] = $info['porigin'];   //区域
 		// 处理地区信息
 		$info['porigin'] = M('system:region')->get_chinese_area($info['porigin']);
-		$model->where("id={$info['purchaseid']}")->update("supply_count=supply_count+1");
 		$this->assign('info',$info);
 		$this->assign('m_transport',L('transport_type')); //运输方式
 		$this->assign('pay_method',L('pay_method'));
