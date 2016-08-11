@@ -18,15 +18,14 @@ class hbIndexAction extends homeBaseAction{
 				}else{
 					exit('authError');
 				}
-			}else
-			{
+			}else{
+				$this->AppID = 'wxbe66e37905d73815';
+				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0  ';
 				$url = $this->get_url();
 				$this->get_authorize_url($url);
 			}
 		}
 		$this->openid=$_SESSION['weixinAuth']['openid'];
-		$this->AppID = 'wxbe66e37905d73815';
-		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
 		//$this->update_times();
 	}
