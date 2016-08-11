@@ -29,11 +29,11 @@ class hbIndexAction extends homeBaseAction{
 	}
 	//活动页面
 	public function enHbPage(){
-		$this->display('');
+		$this->display('index');
 	}
 	//规则页面
 	public function enRuler(){
-		$this->display('');
+		$this->display('rule');
 	}
 	//将用户和红包关联
 	protected function update_times(){
