@@ -92,6 +92,16 @@ return array(
 		8=>'PC',
 		9=>'MABS',
 	),
+
+	//财务要求的产品分类
+	//聚乙烯：HDPE、LDPE、LLDPE，聚丙烯：均聚PP、共聚PP，塑料ABS：ABS、MABS，塑料PC:PC
+	'finance_p_type'=>array(
+		1=>'聚乙烯',
+		2=>'聚丙烯',
+		3=>'塑料ABS',
+		4=>'塑料PC',
+		5=>'其他',
+	),
 	//加工级别
 	'process_level'=>array(
 		1=>'重包',
