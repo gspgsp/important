@@ -41,6 +41,11 @@ class cronReport{
 	 */
 	public function get_report_user_data()
 	{
+		
+		$res = $this->db->model('report_user')->where('report_date = '.$this->this_month_start)->getAll();
+		if(!$res){
+			echo "this month is ".date('F').", quota is not set for this month";die();
+		}
 		$pur_and_sale_data = $this->get_pur_and_sale_data();//业务员完成销售采购总吨数和总金额统计
 		$old_and_new_user_data = $this->get_old_and_new_user();//业务员开发新老用户统计
 		$profit_data = $this->get_profit();//业务员销售利润统计
@@ -92,12 +97,16 @@ class cronReport{
 		// p($pur_sale_user_profit_data);die();
 		foreach ($pur_sale_user_profit_data as $key => $value) {
 			$data['saled'] = $value['sale_price'];
+			$data['saled_num'] = $value['sale_num'];
 			$data['buyd'] = $value['pur_price'];
+			$data['buyd_num'] = $value['pur_num'];
 			$data['old_userd'] = $value['old'];
 			$data['new_userd'] = $value['new'];
 			$data['profitd'] = $value['profit'];
 			$data['update_time'] = time();
-			$this->db->model('report_user')->where('admin_id = '.$value['customer_manager'])->update($data);
+			$this->db->model('report_user')
+					 ->where('admin_id = '.$value['customer_manager'].' and report_date = '.$this->this_month_start)
+					 ->update($data);
 		}
 	}
 	/**
