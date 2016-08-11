@@ -92,7 +92,6 @@
             itemsActive:function (index) {
                 this.itemIndex=index ? index : 0;
             }
-
         }
 	}
 </script>

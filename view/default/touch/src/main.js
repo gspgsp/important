@@ -7,7 +7,8 @@ import infodetail from "./components/infodetail";
 import melogged from "./components/melogged";
 import login from "./components/login";
 import oilprice from "./components/oilprice";
-import mycreditdetail from "./components/mycreditdetail"
+import mycreditdetail from "./components/mycreditdetail";
+import shopdetail from "./components/shopdetail";
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -66,6 +67,10 @@ Vue.filter('upDownColor',function (value) {
         '/mycreditdetail':{
         	name:'mycreditdetail',
         	component:mycreditdetail
+        },
+        '/shopdetail':{
+        	name:'shopdetail',
+        	component:shopdetail
         }
 //      '/bigCustomer':{
 //          name:'bigCustomer',
