@@ -135,9 +135,9 @@ class hbPayAction extends homeBaseAction
 	   curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,false);  
 	   
 	   //cert 与 key 分别属于两个.pem文件
-	   curl_setopt($ch,CURLOPT_SSLCERT,'./Public/keyfile/apiclient_cert.pem');
-	   curl_setopt($ch,CURLOPT_SSLKEY,'./Public/keyfile/apiclient_key.pem');
-	   curl_setopt($ch,CURLOPT_CAINFO,'./Public/keyfile/rootca.pem');
+	   curl_setopt($ch,CURLOPT_SSLCERT,FILE_URL.'/myapp/certify/apiclient_cert.pem');
+	   curl_setopt($ch,CURLOPT_SSLKEY,FILE_URL.'/myapp/certify/apiclient_key.pem');
+	   curl_setopt($ch,CURLOPT_CAINFO,FILE_URL.'/myapp/certify/rootca.pem');
 	 
 	   if( count($aHeader) >= 1 ){
 	      curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
