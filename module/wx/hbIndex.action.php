@@ -27,6 +27,14 @@ class hbIndexAction extends homeBaseAction{
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
 		$this->update_times();
 	}
+	//活动页面
+	public function enHbPage(){
+		$this->display('');
+	}
+	//规则页面
+	public function enRuler(){
+		$this->display('');
+	}
 	//将用户和红包关联
 	protected function update_times(){
 		$model=M('weixin_name');
