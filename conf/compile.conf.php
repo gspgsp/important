@@ -7,6 +7,7 @@ return array(
 	//类文件
 	'class' => array(
 		//CORE_PATH.'extend/demo.class.php',
+		APP_LIB.'class/phpanalysis.class.php',
 	),
 
 	//函数库文件

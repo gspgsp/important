@@ -77,6 +77,12 @@ class saleLogAction extends adminBaseAction {
 		}elseif(!empty($keyword) && $key_type=='o_sn' ){
 			$keyword=M('product:purchase')->getoidBysn($keyword);
 			$where.=" and `o_id` = '$keyword' ";
+		}elseif(!empty($keyword)&&$key_type=='c_id'){
+			$keyword=M('product:order')->getOidByCname($keyword);
+			$where.=" and `$key_type` in ('$keyword') ";
+		}elseif(!empty($keyword) && $key_type=='input_admin'  ){
+			$admin_id = M('rbac:adm')->getAdmin_Id($keyword);
+			$where.=" and `customer_manager` = '$admin_id'";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
 		}

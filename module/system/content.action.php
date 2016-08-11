@@ -182,6 +182,18 @@ class contentAction extends adminBaseAction {
 		}
 		
 		$_info['admin_name']=$_SESSION['name'];
+		//去除描述里的标签和空格
+		$keywords=strip_tags($_info['content']);
+		//正则去除图片
+		$keywords=preg_replace('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', '', htmlspecialchars_decode($keywords));
+		//引入分词类，获取关键词
+		    $pa = new PhpAnalysis ( 'utf-8', 'utf-8', false ); 
+		    $pa->LoadDict ();  
+		    $pa->SetSource ($keywords);  
+		    $pa->StartAnalysis ( true );  
+		    $tags = $pa->GetFinallyKeywords ( 5 ); // 获取文章中的五个关键字         
+		    $_info['keywords'] = $tags;
+		    $_info['description'] = mb_substr(strip_tags($keywords), 0,100);
 		$_data=saddslashes($_info);
 		
 		//更新或新增商品数据
