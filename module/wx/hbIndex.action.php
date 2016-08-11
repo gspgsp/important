@@ -25,7 +25,7 @@ class hbIndexAction extends homeBaseAction{
 		}
 		$this->openid=$_SESSION['weixinAuth']['openid'];
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
-		$this->update_times();
+		//$this->update_times();
 	}
 	//活动页面
 	public function enHbPage(){
@@ -36,45 +36,31 @@ class hbIndexAction extends homeBaseAction{
 		$this->display('rule');
 	}
 	//将用户和红包关联
-	protected function update_times(){
-		$model=M('weixin_name');
-		$userinfo=$_SESSION['weixinAuth'];
-		//记录openid
-		if( $data=$model->where(array('openid'=>$this->openid))->find() ){
-			$today=strtotime(date('Y-m-d'),time());
-			if($data['updatetime']<$today){
-				//每天更新抽奖机会
-				$model->where(array('id'=>$data['id']))->save(array('updatetime'=>time(),'times'=>$data['base_num']));
-			}
-			//发布报价获取抽奖机会
-			if($data['uid']){
-				$opus=M("opus")->where(array('uid'=>$data['uid']))->order('addtime desc')->find();
-				$buy=M("buy")->where(array('uid'=>$data['uid']))->order('addtime desc')->find();
+	// protected function update_times(){
+	// 	$model=M('weixin_name');
+	// 	$userinfo=$_SESSION['weixinAuth'];
+	// 	//记录openid
+	// 	if( $data=$model->where(array('openid'=>$this->openid))->find() ){
+	// 		$today=strtotime(date('Y-m-d'),time());
+	// 		if($data['updatetime']<$today){
+	// 			//每天更新抽奖机会
+	// 			$model->where(array('id'=>$data['id']))->save(array('updatetime'=>time(),'times'=>$data['base_num']));
+	// 		}
+	// 	}else{
+	// 		//未保存openid 保存openid
+	// 		$_data=array(
+	// 			'openid'=>$userinfo['openid'],
+	// 			'name'=>$userinfo['nickname'],
+	// 			'times'=>1,
+	// 			'img'=>$userinfo['headimgurl'],
+	// 			'base_num'=>1,
+	// 			'addtime'=>time(),
+	// 			'updatetime'=>time(),
+	// 			);
+	// 		$model->add($_data);
+	// 	}
 
-				if(($opus['addtime']>$today||$buy['addtime']>$today)&&$data['opustime']<$today){
-					$model->where(array('openid'=>$this->openid))->save(array('times'=>$data['times']+3,'opustime'=>time()));
-				}
-				if(!$data['is_app']){
-					if($weixin_app=M('weixin_app')->where(array('uid'=>$data['uid']))->find()){
-						$model->where(array('uid'=>$data['uid']))->save(array('times'=>$data['times']+2,'is_app'=>1));
-					}
-				}
-			}
-		}else{
-			//未保存openid 保存openid
-			$_data=array(
-				'openid'=>$userinfo['openid'],
-				'name'=>$userinfo['nickname'],
-				'times'=>1,
-				'img'=>$userinfo['headimgurl'],
-				'base_num'=>1,
-				'addtime'=>time(),
-				'updatetime'=>time(),
-				);
-			$model->add($_data);
-		}
-
-	}
+	// }
 	//获取授权的token
 	protected function get_author_access_token($code=''){
 		if($code == '') return false;

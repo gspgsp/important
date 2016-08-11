@@ -4,6 +4,8 @@
 */
 class hbPayAction extends homeBaseAction
 {
+	define(WEIXIN_MCHID,'1324710901');//商户号id
+	define(WEIXIN_PARTNERKEY, 'x39kmrlyOBOYvfR3vBlJpnAvkNsmQygJ');//秘钥
 	protected $openid;
 	public function __init(){
 		if(!isset($_SESSION['weixinAuth'])) exit('noAuthorization');
@@ -14,36 +16,94 @@ class hbPayAction extends homeBaseAction
 	public function enPay(){
 		$this->display('record');
 	}
-	//
-	public function hongbao($re_openid='', $total_amount=100, $total_num=1){
+	//兑换红包
+	public function hongbao(){
+		$this->is_ajax=true;
+		$total_amount = sget('total_amount','i',0);
 		$parameter = array(
-		   'mch_billno' => $this->get_billno(C('WEIXIN_MCHID')),//商户订单
-		   'mch_id' => C('WEIXIN_MCHID'),//商户id
-		   'wxappid' => C('WEIXIN_APPID'),//服务号appid
-		   'send_name' => C('WEIXIN_SEND_NAME'),
-		   're_openid' => $re_openid,
-		   'total_amount' => $total_amount,
-		   'total_num' => $total_num,
-		   'wishing' => C('WEIXIN_WISHING'),
-		   'client_ip' => $_SERVER['SERVER_ADDR'],
-		   'act_name' => C('WEIXIN_ACT_NAME'),
-		   'remark' => C('WEIXIN_REMARK'),
-		   'nonce_str' => rand_str(32),
+		   'mch_billno' => $this->get_billno(WEIXIN_MCHID),//商户订单
+		   'mch_id' => '1324710901',//商户id
+		   'wxappid' => 'wxbe66e37905d73815',//服务号appid
+		   'send_name' => '我的塑料网',//红包发送者名称
+		   'nick_name'=>'红包',//提供方名称
+		   're_openid' => $this->openid,//相对于一脉互通的openid
+		   'total_amount' => $total_amount,//付款金额，单位分
+		   'min_value'=>100,//最小红包金额，单位分
+		   'max_value'=>300,//最大红包金额，单位分
+		   'total_num' => 1,//红包収放总人数
+		   'wishing' => '我的塑料网红包',//红包祝福诧
+		   'client_ip' => $_SERVER['SERVER_ADDR'],//调用接口的机器 Ip 地址
+		   'act_name' => '微信红包',//活劢名称
+		   'remark' => '微信红包',//备注信息
+		   'nonce_str' => $this->rand_str(),//随机字符串
 		);
 		ksort($parameter);
-		$result = formatQueryParaMap($parameter, false);
+		$result = $this->formatQueryParaMap($parameter, false);
 		$sign = $this->sign($result);
 		$parameter['sign'] = $sign;
-		$xmlTpl = arrayToXml($parameter);
+		$xmlTpl = $this->arrayToXml($parameter);
 		$url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 		$responseXml = $this->curl_post_ssl($url, $xmlTpl);
 		logger($responseXml);
 		$postObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		if($postObj->result_code == 'SUCCESS'){
-		    return true;
+		    //return true;
 		}else{
 		    return false;
 		}
+	}
+	/**
+	 * [formatQueryParaMap 按照字段名的ASCII 码从小到大排序（字典序）红包接口用]
+	 * @param  [type] $paraMap   [生成排序的数组]
+	 * @param  [type] $urlencode [false]
+	 * @return [type]            [description]
+	 */
+	protected function formatQueryParaMap($paraMap, $urlencode=false){
+		$buff = "";
+		ksort($paraMap);
+		foreach ($paraMap as $k => $v){
+		   if (null != $v && "null" != $v && "sign" != $k) {
+		       if($urlencode){
+		         $v = urlencode($v);
+		      }
+		      $buff .= $k . "=" . $v . "&";
+		   }
+		}
+		$reqPar;
+		if (strlen($buff) > 0) {
+		   $reqPar = substr($buff, 0, strlen($buff)-1);
+		}
+		return $reqPar;
+	}
+	/**
+	 * [arrayToXml 数组转xml 红包接口用]
+	 * @param  [type] $arr [传入数组]
+	 * @return [type]      [返回xml]
+	 */
+	protected function arrayToXml($arr){
+		$xml = "<xml>";
+		foreach ($arr as $key=>$val)
+		{
+		  if (is_numeric($val))
+		  {
+		    $xml.="<".$key.">".$val."</".$key.">"; 
+		  }
+		  else{
+		    $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";  
+		  } 
+		}
+		$xml.="</xml>";
+		return $xml; 
+	}
+	//微信日志
+	protected function logger($postStr, $type=1){
+		$model = M('weixin_log');
+		$data = array(
+			'content' 		=> $postStr,
+			'type'	  		=> $type,
+			'input_time'	=> time(),
+		);
+		return $model->add($data);
 	}
 
 	/**
@@ -51,7 +111,7 @@ class hbPayAction extends homeBaseAction
 	 * @param  [type] $mch_id [商户id]
 	 * @return [type]         [description]
 	 */
-	private function get_billno($mch_id){
+	protected function get_billno($mch_id){
 	     return  $mch_id . date('Ymd', time()) . rand(1000000000,9999999999);
 	}
 	/**
@@ -59,13 +119,12 @@ class hbPayAction extends homeBaseAction
 	 * @param  [type] $content [formatQueryParaMap 返回的 ASCII 码从小到大排序字符串]
 	 * @return [type]          [description]
 	 */
-	private function sign($content){
-		$signStr = $content . "&key=" . C('WEIXIN_PARTNERKEY');
+	protected function sign($content){
+		$signStr = $content . "&key=" . WEIXIN_PARTNERKEY;
 		return strtoupper(md5($signStr));
 	}
 
-	private function curl_post_ssl($url, $vars, $second=30,$aHeader=array())
-	{
+	protected function curl_post_ssl($url, $vars, $second=30,$aHeader=array()){
 	   $ch = curl_init();
 	   //超时时间
 	   curl_setopt($ch,CURLOPT_TIMEOUT,$second);
@@ -96,5 +155,13 @@ class hbPayAction extends homeBaseAction
 	      curl_close($ch);
 	      return $error;
 	   }
+	}
+	protected function rand_str($length=32) {
+	  $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	  $str = "";
+	  for ($i = 0; $i < $length; $i++) {
+	    $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+	  }
+	  return $str;
 	}
 }
