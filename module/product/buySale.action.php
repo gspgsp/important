@@ -302,8 +302,8 @@ class buySaleAction extends adminBaseAction {
 			'remark'=>$data['m_remark'],
 			'customer_manager'=>$_SESSION['adminid'],
 			'sign_place'=>'网站签约',//签约地点
-			'pickup_location'=>$data['originarea'],//提货地点
-			'delivery_location'=>$data['pstore_house'], //送货地点
+			// 'pickup_location'=>$data['originarea'],//提货地点
+			// 'delivery_location'=>$data['pstore_house'], //送货地点
 			'transport_type'=>$data['m_transport'], //运输方式
 			'pickup_time'=>strtotime($data['pickup_time']),
 			'delivery_time'=>strtotime($data['delivery_time']),
