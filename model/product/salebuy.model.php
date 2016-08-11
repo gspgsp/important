@@ -18,7 +18,7 @@ class salebuyModel extends model{
 	 * @Author   cuiyinming
 	 * @DateTime 2016-05-20T14:54:36+0800
 	 * @return   [type]                   [description]
-	 */
+
 	public function getColById($pid=0,  $col = 'number', $value = 'id'){
 		$result=$this->select("$col")->where("$value =".$pid)->getOne();
 		return empty($result) ? '' : $result;
@@ -41,20 +41,20 @@ class salebuyModel extends model{
 	 * 查询我的供货信息
 	 *
      */
-	public function getPurPage($where,$page,$pageSize){
-		$this->from('sale_buy as s')
-			->join('purchase as pur ','s.p_id=pur.id')
-			->join('lib_region as reg','pur.province=reg.id')
-		    ->join('product as p','p.id=pur.p_id')
-			->join('customer as c','c.c_id=s.c_id')
-			->join('factory as f','p.f_id=f.fid')
-			->join('union_order as u','s.id=u.p_sale_id')
-			->where($where.'and pur.last_buy_sale=s.id')
-			->order('input_time desc')
-			->page($page,$pageSize)
-			->select('c.c_name,s.number,s.price,s.delivery_date,s.status,s.update_time,s.remark, pur.store_house,
-pur.cargo_type,reg.name,p.product_type,p.model,p.process_type, f.f_name`,u.id AS oid')
-			->getPage();
+	public function getPurPage($where,$page=1,$pageSize=10){
+	     return 	$this->from('purchase as pur')
+					->join('sale_buy as sb ','pur.id=sb.p_id')
+					->join('customer as cus','sb.c_id=cus.c_id')
+					->join('lib_region as r','sb.delivery_place=r.id')
+					->join('product as pro','pur.p_id=pro.id')
+					->join('factory as fac','fac.fid=pro.f_id')
+			 		->join('union_order as un','un.buy_user_id=sb.user_id')
+					->where($where.'and pur.last_buy_sale=sb.id')
+					->order('sb.input_time desc')
+					->select(' fac.`f_name`,pur.`id`,pur.`p_id`,pur.`type`,pro.`process_type`,pro.`product_type`,pro.`model`,pur.last_buy_sale,sb.id AS sb_id,sb.number,sb.price,un.`delivery_time`,sb.status,
+sb.ship_type,sb.remark,cus.c_name,r.name AS delivery_place')
+			 ->page($page,$pageSize)
+					->getPage();
 
 
 	}
