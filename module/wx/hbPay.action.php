@@ -8,8 +8,8 @@ class hbPayAction extends homeBaseAction
 	public function __init(){
 		if(!isset($_SESSION['weixinAuth'])) exit('noAuthorization');
 		$this->openid=$_SESSION['weixinAuth']['openid'];
-		define(WEIXIN_MCHID,'1324710901');//商户号id
-		define(WEIXIN_PARTNERKEY, 'x39kmrlyOBOYvfR3vBlJpnAvkNsmQygJ');//秘钥
+		// define(WEIXIN_MCHID,'1324710901');//商户号id
+		// define(WEIXIN_PARTNERKEY, 'x39kmrlyOBOYvfR3vBlJpnAvkNsmQygJ');//秘钥
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
 	}
 	//进入红包支付页面
