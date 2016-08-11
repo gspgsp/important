@@ -86,15 +86,21 @@ class indexAction extends adminBaseAction
 			$team[] = $value['name'];
 			$price_data[] = $value['price']/10000;
 			$num_data[] = $value['num']/1;
+			$profit_data[] = $value['profit']/10000;
 		}
 		$time_min = date('Y-m-d',$return_data['time'][0]);
 		$time_max = date('Y-m-d',$return_data['time'][1]);
 		$title = $time_min.'~'.$time_max;
 		$subtitle = '所有团队战况图(各战队组长除外)';
-
+		//判断订单类型，输出不同的文案
+		if($order_type == 1){
+			$pur_or_sale_name = '已收款';
+		}else{
+			$pur_or_sale_name = '已付款';
+		}
 		$option_arr = array(
 			'chart'=>array('type'=>'column','plotBorderWidth'=>1),
-			'colors'=>array('#8bbc21','#126AED'),
+			'colors'=>array('#8bbc21','#126AED','#F75E29'),
 			'title'=>array('text'=>$title,'margin'=>30),
 			'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'22',)),
 			'xAxis'=>array('categories'=>$team,'title'=>array('text'=>null)),
@@ -106,7 +112,7 @@ class indexAction extends adminBaseAction
 			'plotOptions'=>array('bar'=>array('dataLabels'=>array('enabled'=>true))),
 			'legend'=>array('layout'=>'vertical','align'=>'left','verticalAlign'=>'top','floating'=>true,'backgroundColor'=>'#FFFFFF','borderWidth'=>0,'shadow'=>true),
 			'credits'=>array('enabled'=>false),
-        	'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data)),
+        	'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data),array('name'=>$pur_or_sale_name,'data'=>$profit_data)),
 		);
 		$this->ajaxReturn('1',json_encode($option_arr));
 	}
@@ -134,10 +140,17 @@ class indexAction extends adminBaseAction
 			$name[] = $value['name'];
 			$price_data[] = $value['price']/10000;
 			$num_data[] = $value['num']/1;
+			$profit_data[] = $value['profit']/10000;
 		}
 		$time_min = date('Y-m-d',$return_data['time'][0]);
 		$time_max = date('Y-m-d',$return_data['time'][1]);
 		$title = $time_min.'~'.$time_max;
+		//判断订单类型，输出不同的文案
+		if($order_type == 1){
+			$pur_or_sale_name = '已收款';
+		}else{
+			$pur_or_sale_name = '已付款';
+		}
 		if($show_type == 'pie_num'){
 			$subtitle = $team_name .'个人订单总吨数贡献率(各战队组长除外)';
 			$pie_data = array();
@@ -172,7 +185,7 @@ class indexAction extends adminBaseAction
 			$subtitle = $team_name .'个人战况图(各战队组长除外)';
 			$option_arr = array(
 				'chart'=>array('type'=>'bar','plotBorderWidth'=>1),
-				'colors'=>array('#CD7B00','#8085E9'),
+				'colors'=>array('#CD7B00','#8085E9','#D44A40'),
 				'title'=>array('text'=>$title,'margin'=>30),
 				'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'22',)),
 				'xAxis'=>array('categories'=>$name,'title'=>array('text'=>null)),
@@ -184,7 +197,7 @@ class indexAction extends adminBaseAction
 				'plotOptions'=>array('bar'=>array('dataLabels'=>array('enabled'=>true))),
 				'legend'=>array('layout'=>'vertical','align'=>'left','verticalAlign'=>'top','floating'=>true,'backgroundColor'=>'#FFFFFF','borderWidth'=>0,'shadow'=>true),
 				'credits'=>array('enabled'=>false),
-        		'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data)),
+        		'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data),array('name'=>$pur_or_sale_name,'data'=>$profit_data)),
 			);
 		}
 		$this->ajaxReturn('1',json_encode($option_arr));
