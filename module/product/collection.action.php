@@ -229,6 +229,11 @@ class collectionAction extends adminBaseAction
 			}else{
 				$this->success('没有重复提交');			
 			}
+			if($status==2){
+			    $this->error('重复审核');
+			}else{
+			    $this->success('没有重复审核');
+			}
 	    }
 		
 	}
