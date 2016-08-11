@@ -93,16 +93,17 @@ class customerAction extends adminBaseAction {
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 				$where .= " and `customer_manager` in ($sons) ";
-				if(!empty($pools)){
-					$cids = explode(',', $pools);
-					$where .= " or `c_id` in ($pools)";
-				}
 				if(!empty($cidshare)){
 					$where .= " or `c_id` in ($cidshare)";
+				}else{
+					if(!empty($pools)){
+						$cids = explode(',', $pools);
+						$where .= " or `c_id` in ($pools)";
+					}
 				}
 			}
 		}
-		p($where);
+		// p($where);
 		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 		 	$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
