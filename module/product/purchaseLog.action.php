@@ -96,11 +96,13 @@ class purchaseLogAction extends adminBaseAction {
 			$keyword=M('product:purchase')->getoidBysn($keyword);
 			$where.=" and `o_id` = '$keyword' ";
 		}elseif(!empty($keyword) && $key_type=='c_id' ){
-			$keyword=M('product:order')->getOidByCname($keyword);
-			$where.=" and `$key_type` in ('$keyword') ";
+			//$keyword=M('product:order')->getOidByCname($keyword);
+			$keyword=M('product:order')->getIdByCname($keyword);
+			$where.=" and `o_id` in ($keyword) ";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
 		}
+		//p($where);die;
 		//筛选过滤自己的订单信息
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
