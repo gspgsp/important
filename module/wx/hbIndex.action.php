@@ -6,6 +6,7 @@ class hbIndexAction extends homeBaseAction{
 
 	protected $openid;
 	protected $AppID,$AppSecret;
+	public $authorize_url="";
 	public function __construct(){
 		parent::__construct();
 		if( !isset($_SESSION['weixinAuth']) ) {
@@ -22,7 +23,7 @@ class hbIndexAction extends homeBaseAction{
 				$this->AppID = 'wxbe66e37905d73815';
 				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 				$url = $this->get_url();
-				$this->get_authorize_url($url);
+			             $this->$authorize_url =$this->get_authorize_url($url);
 			}
 		}
 		$this->openid=$_SESSION['weixinAuth']['openid'];
@@ -35,6 +36,7 @@ class hbIndexAction extends homeBaseAction{
 	}
 	//活动页面
 	public function enHbPage(){
+	          $this->assign('authorize_url',$this->$authorize_url);
 		$this->display('index');
 	}
 	//规则页面
