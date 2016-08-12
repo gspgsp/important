@@ -2,8 +2,7 @@
 /**
 *微信红包支付功能
 */
-class hbPayAction extends homeBaseAction
-{
+class hbPayAction extends homeBaseAction{
 	protected $openid;
 	public function __init(){
 		//if(!isset($_SESSION['weixinAuth'])) exit('未授权');
