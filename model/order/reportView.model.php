@@ -75,14 +75,12 @@ class reportViewModel extends model
 				foreach ($profit as $k => $v) {
 					if($value['role_id'] == $v['role_id']){
 						$num_price_data[$key]['profit'] = $v['profit'];
-					}else{
-						array_push($temp, $v);
 					}
 				}
 			}
-			foreach ($temp as $key => $value) {
-				array_push($num_price_data, $value);
-			}
+			// foreach ($temp as $key => $value) {
+			// 	array_push($num_price_data, $value);
+			// }
 			return $return = array('time'=>array($start,$end),'data'=>$num_price_data);
 		}else{
 			$team_user_arr = $this->from('adm_role_user as adm')
@@ -119,13 +117,8 @@ class reportViewModel extends model
 				foreach ($profit as $k => $v) {
 					if($value['customer_manager'] == $v['customer_manager']){
 						$num_price_data[$key]['profit'] = $v['profit'];
-					}else{
-						array_push($temp, $value);
 					}
 				}
-			}
-			foreach ($temp as $key => $value) {
-				array_push($num_price_data, $value);
 			}
 			$return = array('time'=>array($start,$end),'data'=>$num_price_data);
 			return $return;
