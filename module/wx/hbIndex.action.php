@@ -20,7 +20,7 @@ class hbIndexAction extends homeBaseAction{
 				}
 			}else{
 				$this->AppID = 'wxbe66e37905d73815';
-				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0  ';
+				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 				$url = $this->get_url();
 				$this->get_authorize_url($url);
 			}
@@ -92,7 +92,8 @@ class hbIndexAction extends homeBaseAction{
 	//通过回调方法获取用户的code
 	protected function get_authorize_url($redirect_uri = '', $state = ''){
        $redirect_uri = urlencode($redirect_uri);
-       $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+       // $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+       $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect "
        echo "<script language='javascript' type='text/javascript'>";
        echo "window.location.href='$url'";
        echo "</script>";
