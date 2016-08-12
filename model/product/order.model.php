@@ -22,6 +22,18 @@ class orderModel extends model{
 		$data = implode(',',$cids);
 		return empty($data)? false : $data;
 	}
+	/*
+	  根据客户名称查询相应的订单ID
+	 */
+	public function getIdByCname($value=''){
+		$c_ids=$this->getOidByCname($value);
+		$data=$this->model('order')->select('o_id')->where("c_id in (".$c_ids.")")->getAll();
+		foreach($data as $v){
+			$oId_Arr[]=$v['o_id'];
+		}
+		$o_id=implode(',', $oId_Arr);
+		return empty($o_id)? false : $o_id;
+	}
 	/**
 	 * 模糊查询订单名匹配的明细
 	 */
