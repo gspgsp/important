@@ -409,13 +409,13 @@ function onCancel() {
 function usrChoose(e){
 	var btn = this;
 		mini.open({
-		url: "product/factory/init?do=search",
+		url: "product/factory/query?do=search",
 		title: "选择公司",
 		width: 1200,
 		height: 550,
 		onload: function () {
 			var iframe = this.getIFrameEl();
-			iframe.contentWindow.SetData();
+			//iframe.contentWindow.SetData();
 		},
 		ondestroy: function (action) {
 			if (action == "ok") {
