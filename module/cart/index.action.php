@@ -72,7 +72,6 @@ class indexAction extends homeBaseAction{
 			$data['delivery_time']=strtotime($data['delivery_time']);	//送货日期
 			$data['input_time']=CORE_TIME;	//创建时间
 			$model=$this->db->model('order');
-
 			$goods=Cart::getGoods(); //购物车列表
 			$model->startTrans();
 			try {
