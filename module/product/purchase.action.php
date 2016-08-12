@@ -407,7 +407,7 @@ class purchaseAction extends adminBaseAction {
 		} catch (Exception $e) {
 			$this->error($e->getMessage());			
 		}
-		$this->json_output(array('err'=>$error['number'],'result'=>!$error['err']?'导入成功':$error['err']),);
+		$this->json_output(array('err'=>$error['number'],'result'=>!$error['err']?'导入成功':$error['err']));
 	}
 
 	/**
