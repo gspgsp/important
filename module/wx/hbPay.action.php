@@ -16,21 +16,68 @@ class hbPayAction extends homeBaseAction
 	public function enPay(){
 		$this->display('record');
 	}
-	//兑换红包
-	public function hongbao(){
+	//我的奖品
+	public function myPrize(){
+		if(!$userinfo=M('wx:hb')->where(array('openid'=>$this->openid))->getRow()) $this->json_output(array('err'=>6,'msg'=>'微信未授权登录'));
+		//详情
+		$count = count($this->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>0))->getAll());
+		$money = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(array('oid'=>$userinfo['id'],'status'=>0))->getOne();
+		$name = $userinfo['name'];
+		$img = $userinfo['img'];
+		//中奖记录
+		$no = $this->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>0)->getAll();//没兑换
+		$yes->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>1)->getAll();//已经兑换
+		//返回数据
+		$this->json_output(array('err'=>7,'count'=>$count,'money'=>$money,'name'=>$name,'img'=>$img,'no'=>$no,'yes'=>$yes));
+	}
+	//提现红包
+	public function cash(){
+		if(!$userinfo=M('wx:hb')->where(array('openid'=>$this->openid))->getRow()) $this->json_output(array('err'=>2,'msg'=>'微信未授权登录'));
+		//if($userinfo['username']=='') exit($this->json_out(4,'账号未登录'));
+		$prizeModel = M('wx:wxprice');
+		// $model=M('weixin_prize');
+		$count = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(array('oid'=>$userinfo['id'],'status'=>0))->getOne();
+		//$count=$prizeModel->where(array('oid'=>$userinfo['id'],'status'=>0))->sum('price');
+		if($count<200) $this->json_output(array('err'=>3,'msg'=>'红包金额不足2元,无法提现。'));
+		$prizeModel->startTrans();
+		try {
+			if(!$prizeModel->where(array('oid'=>$userinfo['id'],'prize'=>1,'status'=>0))->update(array('status'=>1,'updatetime'=>time()))) throw new Exception('系统错误。code:101');
+			if( !$this->hongbao($this->openid, $count, 1) ) throw new Exception("系统错误。code:103");
+			if( !$this->hongbao_log($this->openid, 0, 1, $count, 1) ) throw new Exception("系统错误。code:102");
+		} catch (Exception $e) {
+			$prizeModel->rollback();
+			$this->json_output(array('err'=>4,'msg'=>$e->getMessage()));
+		}
+		$prizeModel->commit();
+		$result=array('count'=>$count/100,'msg'=>'提现成功');
+		$this->json_output(array('err'=>5,'result'=>$result));
+	}
+	//领取红包日志(记录)
+	protected function hongbao_log($openid, $type, $status, $price, $num){
+		$data = array(
+			'openid'		=> $openid,
+			'type'			=> $type,
+			'status'		=> $status,
+			'input_time'	=> time(),
+			'price'			=> $price,
+			'num'			=> $num,
+			);
+		return $this->db->model('weixin_hongbao')->add($data);
+	}
+	//商户同意
+	protected function hongbao($re_openid='', $total_amount=100, $total_num=1){
 		$this->is_ajax=true;
-		$total_amount = sget('total_amount','i',0);
 		$parameter = array(
 		   'mch_billno' => $this->get_billno(WEIXIN_MCHID),//商户订单
 		   'mch_id' => '1324710901',//商户id
 		   'wxappid' => 'wxbe66e37905d73815',//服务号appid
 		   'send_name' => '我的塑料网',//红包发送者名称
 		   'nick_name'=>'红包',//提供方名称
-		   're_openid' => $this->openid,//相对于一脉互通的openid
+		   're_openid' => $re_openid,//相对于一脉互通的openid
 		   'total_amount' => $total_amount,//付款金额，单位分
 		   'min_value'=>100,//最小红包金额，单位分
 		   'max_value'=>300,//最大红包金额，单位分
-		   'total_num' => 1,//红包収放总人数
+		   'total_num' =>$total_num,//红包収放总人数
 		   'wishing' => '我的塑料网红包',//红包祝福诧
 		   'client_ip' => $_SERVER['SERVER_ADDR'],//调用接口的机器 Ip 地址
 		   'act_name' => '微信红包',//活劢名称
