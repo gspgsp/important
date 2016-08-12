@@ -73,7 +73,7 @@ module.exports={
 		signOn:function(){
 			this.$http.get("/mobi/sign/signOn").then(function(res){
 				console.log(res.json());
-				if(res.json().status==1){
+				if(res.json().err==1){
 					this.$route.router.go("/login");
 				}else{
 					mui.alert('',res.json().msg,function(){

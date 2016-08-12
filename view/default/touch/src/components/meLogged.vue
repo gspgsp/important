@@ -9,7 +9,7 @@
             <img id="meAlpha" src="../../img/meAlpha.png">
         </div>
     </div>
-    <div class="meName"></div>
+    <div class="meName">{{name}}</div>
     <ul class="meUl">
         <li><a href="/mobi/personalCenter/enMyQuotation"><img src="../../img/me.png">我的报价单<span id="qcount">{{qcount}}</span></a></li>
         <li><a href="/mobi/personalCenter/enMyPurchase"><img src="../../img/me2.png">我的采购<span id="pcount">{{pcount}}</span></a></li>
@@ -20,7 +20,7 @@
         <li><a href="javascript:;"><img src="../../img/me7.png">我的交易员<span id="cus_mana">{{cus_mana}}</span></a></li>
     </ul>
     <ul class="meUl">
-        <li><a href="/mobi/personalCenter/enMySet"><img src="../../img/me6.png">设置</a></li>
+        <li><a v-link={name:'myset'}><img src="../../img/me6.png">设置</a></li>
         <!--<li><a href="/mobi/personalCenter/enMyFeedBack"><img src="__MYAPP__/img/me8.png">意见反馈</a></li>-->
     </ul>
     <div class="bigCustomerDetailBtn">

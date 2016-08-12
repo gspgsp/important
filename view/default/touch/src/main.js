@@ -9,6 +9,7 @@ import login from "./components/login";
 import oilprice from "./components/oilprice";
 import mycreditdetail from "./components/mycreditdetail";
 import shopdetail from "./components/shopdetail";
+import myset from "./components/myset";
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -71,6 +72,10 @@ Vue.filter('upDownColor',function (value) {
         '/shopdetail':{
         	name:'shopdetail',
         	component:shopdetail
+        },
+        '/myset':{
+        	name:'myset',
+        	component:myset
         }
 //      '/bigCustomer':{
 //          name:'bigCustomer',

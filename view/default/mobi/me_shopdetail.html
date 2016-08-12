@@ -180,10 +180,10 @@
 						dataType:'json',
 						success:function (res) {
 							if(res.err==1){
-								window.location.href="/mypp/login";
+								window.location.href="/mobi/login";
 							}else {
 								$("#receiver").val(res.userInfo.name);
-								$("#phone").val(res.userInfo.mobi);
+								$("#phone").val(res.userInfo.mobile);
 							}
 						},
 						error:function () {

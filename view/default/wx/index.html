@@ -3,11 +3,146 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
+		<title>幸运大转盘，快使出洪荒之力</title>
 		<script src="__MYAPP__/js/mui.min.js"></script>
 		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/awardRotate.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<style>
+			html{ width: 100%; height: 100%;}
+			body{ background: url('__MYAPP__/img/rule.jpg') no-repeat #f2f3e3; padding-bottom: 40px; background-size: 100% 100%; }
+			.top{ width: 100%;}
+			.top img{ display: block; width: 100%;}
+			.mid{ position: relative;}
+			.bg{ width: 285px; height: 285px; position: relative; margin: -10px auto;}
+			.rotate{ width: 285px; height: 285px; position: absolute; z-index: 10;}
+			.rotate img{ width: 285px; height: 285px;}
+			.pointer{ width: 125px; height: 150px; position: absolute; left: 50%; margin: -85px 0 0 -62px; top: 50%; z-index: 15;}
+			.pointer img{ width: 125px; height: 150px;}
+			.msg{ width: 270px; height: 35px; line-height: 35px; font-size: 12px; text-align: center; background: #FFFFFF; border: 1px solid #ff0000; border-radius: 9px; margin: 30px auto;}
+			.msg b{ color: #fd0101;}
+			.msg p{margin: 0; color: #323232; font-size: 12px;}
+			.fpzDownload{ width: 100%; height: 40px; line-height: 40px; position: fixed; bottom: 0; left: 0; background: #000000;}
+			.fpzDownloadPic{ width: auto; height: 40px; text-align: center; margin: 0 65px 0 0;}
+			.fpzDownloadLink{ width: 65px; height: 40px; text-decoration: none; position: absolute; top: 0; right: 0; background: #03bcae; color: #FFFFFF; text-align: center; font-size: 13px;}
+		</style>
 	</head>
 	<body>
+		<div class="top">
+			<img src="__MYAPP__/img/rule5.jpg">
+		</div>
+		<div class="mid">
+			<a href="/wx/hbIndex/enRuler"><img style=" width: 75px; position: absolute; top: 10px; left: 20px;" src="__MYAPP__/img/rule7.png"></a>
+			<img style=" width: 99px; margin: 0 auto; display: block;" src="__MYAPP__/img/rule6.png">
+			<a href="/wx/hbPay/enPay"><img style=" width: 75px; position: absolute; top: 10px; right: 20px;" src="__MYAPP__/img/rule8.png"></a>
+		</div>
+		<div class="bg">
+		<div class="pointer"><img src="__MYAPP__/img/rule10.png" alt="pointer"></div>
+		<div class="rotate">
+			<img id="rotate" src="__MYAPP__/img/rule9.png">
+		</div>
+			<img src="__MYAPP__/img/rule11.png" style="position: absolute; width: 94px; z-index: 20; bottom: 0; right: 5px;">
+		</div>
+		<div class="msg" style="margin: 30px auto 10px auto;">
+			<img id="rotate" width="24" style="position: relative; top: 5px;" src="__MYAPP__/img/rule12.png">&nbsp;您目前还有<b>1</b>次抽奖机会。
+		</div>
+		<div id="demo" class="msg" style="margin: 15px auto 10px auto; overflow: hidden;">
+			<div id="demo1">
+				<p><b>轻舞飞扬</b>抽到<b>￥0.34</b>现金红包</p>
+				<p><b>轻舞飞扬</b>抽到<b>￥0.34</b>现金红包</p>
+			</div>
+			<div id="demo2"></div>
+		</div>
+		<footer class="fpzDownload">
+			<div class="fpzDownloadPic">
+				<img width="250" src="__MYAPP__/img/fpzDownload.jpg">
+			</div>
+			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
+		</footer>
+		<script type="text/javascript">
+		var speed=100;
+		var demo=document.getElementById("demo");
+		var demo1=document.getElementById("demo1");
+		var demo2=document.getElementById("demo2");
+	    demo2.innerHTML=demo1.innerHTML;
+	    function Marquee(){
+	      if(demo2.offsetTop-demo.scrollTop<=0)
+	         demo.scrollTop-=demo1.offsetHeight
+	      else{
+	         demo.scrollTop++;
+	      }
+	   }
+	   var MyMar=setInterval(Marquee,speed)
+            var rotateTimeOut = function (){
+                $('#rotate').rotate({
+                    angle:0,
+                    animateTo:2160,
+                    duration:8000,
+                    callback:function (){
+                        alert('网络超时，请检查您的网络设置！');
+                    }
+                });
+            };
+            var bRotate = false;
+            var rotateFn = function (awards, angles){
+                bRotate = !bRotate;
+                $('#rotate').stopRotate();
+                $('#rotate').rotate({
+                    angle:0,
+                    animateTo:angles+1800,
+                    duration:8000,
+                    callback:function (){
+                        //alert();
+                        bRotate = !bRotate;
+                    }
+                })
+
+            };
+            $('.pointer').click(function (){
+                if(bRotate)return;
+                var item = rnd(0,7);
+                switch (item) {
+                    case 0:
+                        //var angle = [26, 88, 137, 185, 235, 287, 337];
+                        rotateFn(0, 60);
+                        break;
+                    case 1:
+                        //var angle = [88, 137, 185, 235, 287];
+                        rotateFn(1, 105);
+                        break;
+                    case 2:
+                        //var angle = [137, 185, 235, 287];
+                        rotateFn(2, 150);
+                        break;
+                    case 3:
+                        //var angle = [137, 185, 235, 287];
+                        rotateFn(3, 195);
+                        break;
+                    case 4:
+                        //var angle = [185, 235, 287];
+                        rotateFn(4, 240);
+                        break;
+                    case 5:
+                        //var angle = [185, 235, 287];
+                        rotateFn(5, 285);
+                        break;
+                    case 6:
+                        //var angle = [235, 287];
+                        rotateFn(6, 340);
+                        break;
+                    case 7:
+                        //var angle = [287];
+                        rotateFn(7, 375);
+                        break;
+
+                }
+                console.log(item);
+            });
+        function rnd(n, m){
+            return Math.floor(Math.random()*(m-n+1)+n)
+        }
+
+		
+		</script>
 	</body>
 </html>

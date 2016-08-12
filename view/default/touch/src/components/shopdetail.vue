@@ -46,14 +46,14 @@
 	<div class="proInput" v-show="layerShow2">
 		<p><span>收件人:</span><input id="receiver" class="proText" v-model="username" type="text"></p>
 		<p><span>联系电话:</span><input id="phone" class="proText" v-model="mobi" type="number"></p>
-		<p><span>联系地址:</span><input id="address" class="proText" type="text"></p>
+		<p><span>联系地址:</span><input id="address" class="proText" v-model="address" type="text"></p>
 		<p style="position: relative;">
-			<span>验证码:</span><input id="code" style="font-size: 12px; width: 100px;" class="proText2" type="text" placeholder="输入验证码">
-			<button class="validCode" style="width: 72px; border-radius: 0; background: #ff5000; height: 25px; right: 25px; line-height: 25px; position: absolute; top: 0;">获取验证码</button>
+			<span>验证码:</span><input id="code" style="font-size: 12px; width: 100px;" class="proText2" type="text" v-model="code" placeholder="输入验证码">
+			<input type="button" class="validCode" @click='sendMsg()'  v-model="btnVal" style="width: 72px; border-radius: 0; background: #ff5000; height: 25px; right: 25px; line-height: 25px; position: absolute; top: 0;">
 		</p>
 		<p style="text-align: center; margin: 20px 0 0 0;">
 			<input type="button" class="cancel2" @click="cancel()" value="取消">
-			<input type="button" class="confirm2" style="background: #ff5000;" value="确定">
+			<input type="button" class="confirm2" @click="confirm2()" style="background: #ff5000;" value="确定">
 		</p>
 	</div>
 	<div class="layer" v-show="layerShow"></div>
@@ -70,7 +70,12 @@ module.exports={
 			layerShow:false,
 			layerShow2:false,
 			username:"",
-			mobi:""
+			mobi:"",
+			btnVal:"获取验证码",
+			times:60,
+			status:false,
+			code:"",
+			address:""
 		}
 	},
 	ready:function(){
@@ -112,118 +117,49 @@ module.exports={
        		},function(){
        			
        		});        	
+        },
+        sendMsg:function(){
+        	var _this=this;        	
+        	this.$http.post('/touch/sign/sendmsg',{'mobile':this.mobi}).then(function(res){
+        		console.log(res.json());
+        		if(res.json().err!=0){
+        			mui.alert("",res.json().msg,function () {
+	
+					});
+        		}else{
+        			var countStart=setInterval(function(){
+						_this.btnVal=_this.times--+'秒后重发';
+						if(_this.times<0){
+							clearInterval(countStart);
+							_this.btnVal='获取验证码';
+							_this.times=60;
+						}
+					},1000); 
+        		}
+        	},function(){
+        		
+        	});
+        },
+        confirm2:function(){
+        	this.$http.post('/touch/sign/addOrder',{'gid':this.$route.query.id,'receiver':this.username,'phone':this.mobi,'address':this.address,'vcode':this.code}).then(function(res){
+				console.log(res.json());
+				if(res.err==0){
+					mui.alert("",res.json().msg,function () {
+						this.$route.router.go('/mycreditdetail');
+					});
+				}else if(res.err==1){
+					mui.alert("",res.json().msg,function () {
+						this.$route.router.go('/login');
+					});
+				}else{
+					mui.alert("",res.json().msg,function () {
+						window.location.reload();
+					});
+				}          		
+        	},function(){
+        		
+        	});
         }
 	}
 }
-//		var gid=getUrlParam("id");
-//		commonAjax(
-//				"post",
-//				"/mobi/personalCenter/get_shopDetail",
-//				{gid:gid}
-//		).then(function (res) {
-//			if(res.err==1){
-//				window.location.href="/mobi/login";
-//			}else{
-//			$("#thumbImg").attr("src",res.thumb);
-//			$("#proImg").attr("src",res.image);
-//			$("#name").text(res.name);
-//			$("#proPoints").text(res.points);
-//			$("#proPoints2").text(res.points);
-//			}
-//		},function () {
-//
-//		});
-//
-//		$(".validCode").on("click",function () {
-//			if($("#phone").val()){
-//				sendMsg();
-//			}else{
-//				mui.alert("","请先输入手机号码",function () {});
-//			}
-//		});
-//
-//		$(".proChoose span").on("click",function () {
-//			var index=$(this).index();
-//			$(this).addClass("on").siblings("span").removeClass("on");
-//			$(".proContent").eq(index).show().siblings(".proContent").hide();
-//		});
-//
-//		$(".cancel").on("click",function () {
-//			$(".proLayer").hide();
-//			$(".layer").hide();
-//		});
-//
-//		$(".cancel2").on("click",function () {
-//			$(".proInput").hide();
-//			$(".layer").hide();
-//		});
-//
-//		$(".confirm").on("click",function () {
-//			$(".proLayer").hide();
-//			$(".proInput").show();
-//		});
-//
-//		$(".confirm2").on("click",function () {
-//			var receiver=$("#receiver").val();
-//			var phone=$("#phone").val();
-//			var address=$("#address").val();
-//			var vcode=$("#code").val();
-//
-//			commonAjax(
-//					"post",
-//					"/touch/sign/addOrder",
-//					{gid:gid,receiver:receiver,phone:phone,address:address,vcode:vcode}
-//			).then(function (res) {
-//				if(res.err==0){
-//					mui.alert("",res.msg,function () {
-//						window.location.href="/mobi/personalCenter/enMyPoints";
-//					});
-//				}else if(res.err==1){
-//					mui.alert("",res.msg,function () {
-//						window.location.href="/mobi/login";
-//					});
-//				}else if(res.err==2){
-//					mui.alert("",res.msg,function () {});
-//				}else if(res.err==3){
-//					mui.alert("",res.msg,function () {});
-//				}else if(res.err==4){
-//					mui.alert("",res.msg,function () {});
-//				}else if(res.err==5){
-//					mui.alert("",res.msg,function () {});
-//				}else if(res.err==6){
-//					mui.alert("",res.msg,function () {});
-//				}else if(res.err==7){
-//					mui.alert("",res.msg,function () {});
-//				}else if(res.err==8){
-//					mui.alert("",res.msg,function () {});
-//				}
-//				console.log(">>>",res);
-//
-//			},function () {
-//				mui.alert("","系统错误",function () {
-//					window.location.href="/mobi/login";
-//				});
-//			});
-//		});
-//
-//		$(".proExchange").on("click",function () {
-//			$(".proLayer").show();
-//			$(".layer").show();
-//			$.ajax({
-//				type:"post",
-//				url:"/touch/creditshop/getUserProduct",
-//				dataType:'json',
-//				success:function (res) {
-//					if(res.err==1){
-//						window.location.href="/mypp/login";
-//					}else {
-//						$("#receiver").val(res.userInfo.name);
-//						$("#phone").val(res.userInfo.mobi);
-//					}
-//				},
-//				error:function () {
-//
-//				}
-//			});
-//		});
 </script>
