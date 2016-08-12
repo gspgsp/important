@@ -7,22 +7,24 @@ class hbIndexAction extends homeBaseAction{
 	protected $AppID,$AppSecret;
 	public function __construct(){
 		parent::__construct();
-		if(!isset($_SESSION['weixinAuth'])){
-			if( isset($_GET['code']) && isset($_GET['state']) ){
-				$code = $_GET['code'];
-				$userinfo = $this->get_author_access_token($code);
-				$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-				if($info){
-					$_SESSION['weixinAuth'] = $info;
-				}else{
-					exit('authError');
-				}
+		$get = $_GET['param'];
+		$code = $_GET['code'];
+		//判断code是否存在
+		if($get=='access_token' && !empty($code)){
+			$code = $_GET['code'];
+			$userinfo = $this->get_author_access_token($code);
+			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
+			if($info){
+				$_SESSION['weixinAuth'] = $info;
 			}else{
-				$this->AppID = 'wxbe66e37905d73815';
-				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
-				$url = $this->get_url();
-				$this->get_authorize_url($url);
+				exit('authError');
 			}
+		}else{
+			$this->AppID = 'wxbe66e37905d73815';
+			$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+			// $url = $this->get_url();
+			$this->get_authorize_url(APP_URL."/wx/hbIndex?param=access_token",'STATE');
+			// $this->get_authorize_url($url);
 		}
 		$this->openid=$_SESSION['weixinAuth']['openid'];
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
