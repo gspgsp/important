@@ -89,14 +89,26 @@ class hbIndexAction extends homeBaseAction{
 		$url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		return $url;
 	}
-	//通过回调方法获取用户的code
-	protected function get_authorize_url($redirect_uri = '', $state = ''){
+// 	//通过回调方法获取用户的code
+// 	protected function get_authorize_url($redirect_uri = '', $state = ''){
+//        $redirect_uri = urlencode($redirect_uri);
+//        // $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+//        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+//        echo "<script language='javascript' type='text/javascript'>";
+//        echo "window.location.href='$url'";
+//        echo "</script>";
+//    }
+   
+   /**
+    * 获取微信授权链接
+    *
+    * @param string $redirect_uri 跳转地址
+    * @param mixed $state 参数
+    */
+   public function get_authorize_url($redirect_uri = '', $state = '')
+   {
        $redirect_uri = urlencode($redirect_uri);
-       // $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
-       $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-       echo "<script language='javascript' type='text/javascript'>";
-       echo "window.location.href='$url'";
-       echo "</script>";
+       return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->app_id}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
    }
 
    //用户登录和微信账号绑定
