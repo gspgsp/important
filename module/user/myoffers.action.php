@@ -100,11 +100,12 @@ class myoffersAction extends userBaseAction{
 				if($times>=20) break;//一次导入最多20条
 				if($key==1) continue;//跳过第一条
 
-				//厂家
+				//厂家 status 1为正常 2为锁定
 				if(!$_factory=$factoryModel->where("f_name='{$value['B']}'")->select('fid')->getOne()){
 					$f_data=array(
 						'f_name'=>$value['B'],
 						'input_time'=>CORE_TIME,
+					    'status'=>2,
 					);
 					$factoryModel->add($f_data);
 					$_factory=$factoryModel->getLastID();
