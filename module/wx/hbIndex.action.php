@@ -35,9 +35,11 @@ class hbIndexAction extends homeBaseAction{
 		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 		$url = $this->get_url();
      	$this->$authorize_url =$this->get_authorize_url($url);
-		$this->openid=$_SESSION['weixinAuth']['openid'];
+		// $this->openid=$_SESSION['weixinAuth']['openid'];
+		p($this->$authorize_url );
+		die;
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
-		$this->update_times();
+		// $this->update_times();
 	}
 	//活动页面
 	public function enHbPage(){
