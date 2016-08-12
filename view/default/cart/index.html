@@ -99,13 +99,15 @@
                             <div class="other hide">
                                 <span>配送日期</span><span>:</span>
                                 <input type="text" id="date1"  datatype="*" name="delivery_date" class="required"/>
-                                <span>配送地点</span><span>:</span>
+
+                                <span  >配送地点</span><span class="red">*</span>
                                 <select datatype="*" name="delivery_place" class="required" >
                                     <option value="">请选择</option>
                                     {foreach from=$area item=value key=key}
                                     <option value="{$value.id}">{$value.name}</option>
                                     {/foreach}
                                 </select>
+                                <!--<span>详细地址<input type="text" name="address" value="" placeholder="详细地址"/></span>-->
                             </div>
                         </td>
                     </tr>
