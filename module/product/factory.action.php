@@ -161,4 +161,45 @@ class factoryAction extends adminBaseAction
 		$getfaclist=M('product:product')->getFacByModel($model);
 		$this->json_output($getfaclist);
 	}
+	
+	//用来查询选择厂家 
+	public function query(){
+	    //获取列表数据
+	    $action=sget('action');
+	    $doact=sget('do','s');
+	    if($action=='grid'){
+	        $page = sget("pageIndex",'i',0); //页码
+	        $size = sget("pageSize",'i',20); //每页数
+	        $sortField = sget("sortField",'s','fid'); //排序字段
+	        $sortOrder = sget("sortOrder",'s','desc'); //排序
+	        //搜索条件
+	        $where=" 1 ";
+	        //状态
+// 	        $status = sget("status",'s','');
+	        $status='1';//只显示正常
+	        if($status!='') $where.=" and `status` = '$status' ";
+	        //关键词
+	        $keyword=sget('keyword','s');
+	        if(!empty($keyword)){
+	            $where.=" and `f_name` like '%$keyword%' ";
+	        }
+	        $list=$this->db->where($where)
+	        ->page($page+1,$size)
+	        ->order("$sortField $sortOrder")
+	        ->getPage();
+	        foreach($list['data'] as $k=>$v){
+	            $list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+	            $list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+	            $list['data'][$k]['status']=L('factory_status')[$v['status']];
+	        }
+	        $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+	        $this->json_output($result);
+	    }
+	    $this->assign('doact',$doact);
+	    $this->assign('status','正常');
+	    $this->assign('factory_status','正常'); //厂家状态
+	    $this->assign('page_title','厂家管理');
+	    $this->display('factory_query.list.html');
+	}
+	
 }
