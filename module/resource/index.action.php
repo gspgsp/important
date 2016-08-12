@@ -39,7 +39,7 @@ class indexAction extends homeBaseAction{
 			$ids = array_keys($result['matches']);
 			$list = $this->sourceModel->getSearch($ids);//
 			$this->pages = pages($result['total'], $p, $pageSize);
-			
+			p($list);
 			$opt = array("before_match"=>"<font style='font-weight:bold;color:#f00'>","after_match"=>"</font>");
 
 			$list = $sphinx->buildExcerpts($list,"resourcelib",$keyword,$opt);
