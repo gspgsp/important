@@ -38,16 +38,10 @@ class indexAction extends homeBaseAction{
 			$result = $sphinx->query('*'."$keyword".'*','resourcelib');
 			$ids = array_keys($result['matches']);
 			$list = $this->sourceModel->getSearch($ids);//
+			foreach ($list as &$v) {
+				$v['content'] = str_replace($keyword, '<font style="color:#F00">'.$keyword.'</font>',$v['content']);
+			}
 			$this->pages = pages($result['total'], $p, $pageSize);
-			p($list);
-			$opt = array(
-				"before_match"=>"<font style='font-weight:bold;color:#f00'>",
-				"after_match"=>"</font>",
-			);
-
-			$list = $sphinx->buildExcerpts($list,"resourcelib",$keyword,$opt);
-			p($list);
-
 			$this->assign('list', $list);
 
 		}else{
