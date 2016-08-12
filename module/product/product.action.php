@@ -205,14 +205,26 @@ class productAction extends adminBaseAction {
 		$check_status =  sget('status','i',0);
 		$status = $this->db->select('status')->wherePk($changeid)->getOne() == 1  ? 2 : 1;
 		if($check_status == 3)   $status=1;
+		$f_id = $this->db->select('f_id')->wherePk($changeid)->getOne();//获取厂家编号
+		$this->db->startTrans();
 		$res = $this->db->wherePk($changeid)->update(array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],'status'=>$status,));
-		if($res){
-			$cache=cache::startMemcache();
-			$cache->delete('product');
+		$factoryModel=M('product:factory')->where("fid={$f_id}")->update(array('status'=>$status==1?1:2,));//审核通过 厂家由锁定变为正常
+		if($this->db->commit()){
+		    $cache=cache::startMemcache();
+		    $cache->delete('product');
+		    $this->success('操作成功');
 			$this->success('操作成功');
 		}else{
-			$this->error('操作失败');
+		    $this->db->rollback();
+		    $this->error('操作失败');
 		}
+// 		if($res){
+// 			$cache=cache::startMemcache();
+// 			$cache->delete('product');
+// 			$this->success('操作成功');
+// 		}else{
+// 			$this->error('操作失败');
+// 		}
 	}
 
 
