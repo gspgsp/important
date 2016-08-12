@@ -168,10 +168,11 @@ class mypurchaseAction extends userBaseAction{
 						// 是否已有厂家
 						$f_id=$fac_model->where("f_name='{$value['f_name']}'")->select('fid')->getOne();
 						if(!$f_id){
-							//创建新厂家
+							//创建新厂家 status 默认为锁定 1为正常 2为锁定
 							$_factory=array(
 								'f_name'=>$value['f_name'],//厂家名称
 								'input_time'=>CORE_TIME,//创建时间
+							    'status'=>2,
 							);
 							if(!$fac_model->add($_factory)) throw new Exception("系统错误 pubpur:101");
 							$f_id=$fac_model->getLastID();
