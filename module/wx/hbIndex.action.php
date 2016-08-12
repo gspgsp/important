@@ -7,7 +7,11 @@ class hbIndexAction extends homeBaseAction{
 	protected $openid;
 	protected $AppID,$AppSecret;
 	public $authorize_url="";
-	public function __construct(){
+	public function __init(){
+		file_put_contents('3.txt', 333);
+		$this->debug = false;
+		$this->db = M('public:common');
+		//
 		if( !isset($_SESSION['weixinAuth']) ) {
 			if( isset($_GET['code']) && isset($_GET['state']) ){
 				$code = $_GET['code'];
@@ -23,15 +27,12 @@ class hbIndexAction extends homeBaseAction{
 				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 				$url = $this->get_url();
 			             $this->$authorize_url =$this->get_authorize_url($url);
+			             file_put_contents('2.txt', $this->$authorize_url);
 			}
 		}
 		$this->openid=$_SESSION['weixinAuth']['openid'];
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
 		$this->update_times();
-	}
-	public function __init(){
-		$this->debug = false;
-		$this->db = M('public:common');
 	}
 	//活动页面
 	public function enHbPage(){
