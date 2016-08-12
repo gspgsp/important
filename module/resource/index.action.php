@@ -38,16 +38,11 @@ class indexAction extends homeBaseAction{
 			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
 			//spinx 返回的id
 			$ids = array_keys($result['matches']);
-//			$list = $this->sourceModel->getSearch($ids);//$list==$res
-			$sql="select * from p2p_resourcelib where id in($ids)";
-			$res = mysql_query($sql);
-			
-			$opt = array("before_match"=>"<font style='font-weight:bold;color:#f00'>","after_match"=>"</font>");
-			while($row=mysql_fetch_assoc($res)){
-				$rows = $sphinx->buildExcerpts($row,"main",$keyword,$opt);
-			}
-			$rows = $sphinx->buildExcerpts($row,"main",$keyword,$opt);
+			$list = $this->sourceModel->getSearch($ids);//$list==$res
 
+			$opt = array("before_match"=>"<font style='font-weight:bold;color:#f00'>","after_match"=>"</font>");
+			$rows = $sphinx->buildExcerpts($list,"main",$keyword,$opt);
+			p($rows);
 			$this->pages = pages($result['total'], $p, $pageSize);
 			$this->assign('list', $rows);
 		}else{
