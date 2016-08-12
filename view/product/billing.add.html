@@ -129,7 +129,12 @@
 	<div id="investGrid" class="mini-datagrid" style="width:auto;height:200px;" idField="id" url="/product/billing/billingLog?id={$id}&o_id={$o_id}&type={$type}&is_head={$is_head}" sizeList="[10,20,50,100]" showFooter="false" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<!-- <div field="id" width="30" headerAlign="center" align="center" allowSort="true" >ID</div> -->
+			{if $finance}
+			<div field="f_type" width="50" headerAlign="center" align="center">品种</div>
+			<div field="c_type" width="50" headerAlign="center" align="center">类型</div>
+			{else}
 			<div field="type" width="50" headerAlign="center" align="center">类型</div>
+			{/if}			
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
 			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div>
 			

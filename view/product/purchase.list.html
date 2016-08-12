@@ -231,9 +231,11 @@ function inputExcel(type){
 					url:'/product/purchase/inputExcel?ctype='+type,
 					fileElementId:"manual_check_file",
 					dataType: 'json',
-					success: function (data, status) {
-						if(!data.err) mini.alert(data.msg);
-						else{
+					success: function (data, status) {						
+						if(!data.err){
+							mini.alert(data.result);
+							grid.reload();
+						}else{
 							var iconCls = 'mini-messagebox-info',html = "Excel导入成功。",title="处理成功",width=200;
 							if(data.result){
 								width=350;

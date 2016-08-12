@@ -383,6 +383,7 @@ class billingAction extends adminBaseAction
 				
 			}else{
 				//聚乙烯：HDPE、LDPE、LLDPE，聚丙烯：均聚PP、共聚PP，塑料ABS：ABS、MABS，塑料PC:PC
+				$value['c_type']=$value['type'];
 				$t = $value['type'];
 				if($t=='HDPE'||$t=='LDPE'||$t=='LLDPE'){
 					$value['type'] =1;
@@ -395,7 +396,7 @@ class billingAction extends adminBaseAction
 				}else{
 					$value['type'] =5;
 				}
-				$value['type']=L("finance_p_type")[$value['type']];
+				$value['f_type']=L("finance_p_type")[$value['type']];
 				$value['un_number']=$value['u_number'];
 			}
 		}

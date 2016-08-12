@@ -321,7 +321,8 @@ class zcpurchaseAction extends adminBaseAction {
 				}
 
 				//获取默认联系人user_id
-				$user_id = $this->db->model('customer_contact')->select('user_id')->where('c_id='.$c_id.' and is_default=1')->getOne();
+				// $user_id = $this->db->model('customer_contact')->select('user_id')->where('c_id='.$c_id.' and is_default=1')->getOne();
+				$user_id = $this->db->model('customer')->select('contact_id')->where('c_id='.$c_id)->getOne();
 				if (!$user_id){
 					$error['number']+=1;
 					$error['err'][]=$row['A'].'联系人有误';
@@ -388,7 +389,7 @@ class zcpurchaseAction extends adminBaseAction {
 			$this->error($e->getMessage());
 			
 		}
-		$this->json_output(array('err'=>$error['number'],'result'=>!$error['err']?:$error['err']));
+		$this->json_output(array('err'=>$error['number'],'result'=>!$error['err']?'导入成功':$error['err']));
 	}
 
 	/**
