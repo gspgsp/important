@@ -25,8 +25,8 @@ class hbPayAction extends homeBaseAction
 		$name = $userinfo['name'];
 		$img = $userinfo['img'];
 		//中奖记录
-		$no = $this->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>0)->getAll();//没兑换
-		$yes->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>1)->getAll();//已经兑换
+		$no = $this->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>0))->getAll();//没兑换
+		$yes->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>1))->getAll();//已经兑换
 		//返回数据
 		$this->json_output(array('err'=>7,'count'=>$count,'money'=>$money,'name'=>$name,'img'=>$img,'no'=>$no,'yes'=>$yes));
 	}
