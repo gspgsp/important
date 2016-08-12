@@ -6,6 +6,7 @@ class indexAction extends homeBaseAction{
 	public function __init(){
 		$this->db=M('public:common');
 	}
+	//采购单列表
 	public function init()
 	{
 		$where="pur.type=1 and pur.shelve_type=1 and pur.status in (2,3,4)";
@@ -92,6 +93,7 @@ class indexAction extends homeBaseAction{
 		$this->display('index');
 	}
 
+	//采购单 右侧免费委托发布
 	public function contentPurchase(){
 		if($_POST){
 			$this->is_ajax=true;

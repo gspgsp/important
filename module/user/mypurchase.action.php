@@ -48,34 +48,6 @@ class mypurchaseAction extends userBaseAction{
 		$this->display('mypurchase.list');
 	}
 
-	public function tables()
-	{
-		$type=sget('type','i',1);
-		$this->assign('type',$type);
-		$where="pur.user_id=$this->user_id and type=$type";
-
-		if($keyword=sget('keyword','s','')){
-			$where.=" and (pro.model='{$keyword}' or fa.f_name='{$keyword}')";
-		}
-		if($product_type=sget('product_type','i',0)){
-			$where.=" and pro.product_type={$product_type}";
-		}
-		if($shelve_type=sget('shelve_type','i',0)){
-			$where.=" and pur.shelve_type={$shelve_type}";
-		}
-		if($cargo_type=sget('cargo_type','i',0)){
-			$where.=" and pur.cargo_type={$cargo_type}";
-		}
-
-		$page=sget('page','i',1);
-		$size=10;
-		$list=M('product:purchase')->getPurPage($where,$page,$size);
-		$this->assign('list',$list);
-		$this->assign('page',$page);
-		$this->assign('count',ceil($list['count']/$size));
-		$this->display('mypurchase.table');
-	}
-
 
 	//下架操作
 	public function offshelf()
@@ -128,6 +100,26 @@ class mypurchaseAction extends userBaseAction{
 	        $this->error('信息不存在');
 	    }
 	}
+
+    //通过牌号 获取加工级别
+    public function getLevel()
+    {
+        if($_POST)
+        {
+            $this->is_ajax=true;
+            $model=sget('model','s','');
+            $process_type=$this->db->model('product')
+                ->where("model='{$model}'")
+                ->select('process_type')
+                ->getOne();
+            if(empty($process_type)) $this->error('无数据');
+            $_data=array(
+                'id'=>$process_type,
+                'name'=>setOption('process_level',$process_type),
+            );
+            $this->success($_data);
+        }
+    }
 
 	//采购发布(报价发布)
 	public function pub()
@@ -207,17 +199,48 @@ class mypurchaseAction extends userBaseAction{
 		}
 	}
 
+	public function tables()
+	{
+		$type=sget('type','i',1);//1 采购 2报价
+		$this->assign('type',$type);
+		$where="pur.user_id=$this->user_id and type=$type";
+
+		if($keyword=sget('keyword','s','')){
+			$where.=" and (pro.model='{$keyword}' or fa.f_name='{$keyword}')";
+		}
+		if($product_type=sget('product_type','i',0)){
+			$where.=" and pro.product_type={$product_type}";
+		}
+		if($shelve_type=sget('shelve_type','i',0)){
+			$where.=" and pur.shelve_type={$shelve_type}";
+		}
+		if($cargo_type=sget('cargo_type','i',0)){
+			$where.=" and pur.cargo_type={$cargo_type}";
+		}
+
+		$page=sget('page','i',1);
+		$size=10;
+		$list=M('product:purchase')->getPurPage($where,$page,$size);
+
+		$this->assign('list',$list);
+		$this->assign('page',$page);
+		$this->assign('count',ceil($list['count']/$size));
+		$this->display('mypurchase.table');
+	}
+
 
 	// 获得我的洽谈、报价列表
 	public function get_offers()
 	{
 		if($_POST){
 			$id=sget('id','i',0);
+			$page=sget('page','i',1);
+			$size=10;
 			$list=$this->db->from('purchase pur')
 				->join('sale_buy sb','pur.id=sb.p_id')
 				->join('customer cus','sb.c_id=cus.c_id')
 				->leftjoin('lib_region r','sb.delivery_place=r.id')
-				->where("sb.p_id=$id")
+				->where("sb.p_id=$id and sb.status in(2,3)")
 				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place')
 				->getAll();
 			$this->assign('list',$list);
@@ -225,25 +248,7 @@ class mypurchaseAction extends userBaseAction{
 		}
 	}
 
-   //通过牌号 获取加工级别
-	public function getLevel()
-	{
-		if($_POST)
-		{
-			$this->is_ajax=true;
-			$model=sget('model','s','');
-			$process_type=$this->db->model('product')
-				->where("model='{$model}'")
-				->select('process_type')
-				->getOne();
-			if(empty($process_type)) $this->error('无数据');
-			$_data=array(
-				'id'=>$process_type,
-				'name'=>setOption('process_level',$process_type),
-			);
-			$this->success($_data);
-		}
-	}
+
 
 	// 选定报价
 	public function selected()
@@ -252,53 +257,52 @@ class mypurchaseAction extends userBaseAction{
 		{
 			$this->is_ajax=true;
 			$model=$this->db->model('sale_buy');
-			$id=sget('id','i',0);//sale_buy的报价id
+			$id=sget('id','i',0);//sale_buy的报价id(9760)
 			$price=sget('price');//成交价格
-
 			if( !$data=$model->where("id=$id")->getRow() ) $this->error('信息不存在');//根据id信息未找到
 			$purModel=M('product:purchase');
 			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');//报价表与用户不匹配
 			if($purData['last_buy_sale']) $this->error('不能重复选定');
-			$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'status'=>3));
 			$orderModel=M('product:unionOrder');
-			$orderSn=genOrderSn();
-			$orderData=array();
-			$orderData['order_name']="联营订单";
-			$orderData['order_sn']=$orderSn;
-			$orderData['order_source']=1;
-			$orderData['sale_id']=$purData['c_id'];//卖家客户
-			$orderData['buy_id']=$data['c_id'];//买家客户
-			$orderData['slae_user_id']=$purData['user_id'];//卖家客户
-			$orderData['buy_user_id']=$data['user_id'];//买家客户
-			$orderData['p_sale_id']=$id;//sale_buy的报价id
-			$orderData['sign_time']=CORE_TIME;
-			$orderData['sign_place']='网站签约';
-			$orderData['deal_price']=$price;//成交价格
-			$orderData['total_price']=$price*$data['number'];//总金额
-			$orderData['customer_manager']=$purData['customer_manager'];//交易员
-			$orderData['pickup_location']=$data['delivery_place'];//提货地点
-			$orderData['delivery_location']=$data['delivery_place'];//送货地点
-			$orderData['transport_type']=$data['ship_type'];//运输方式
-			$orderData['deal_price']=$price;//成交价格
-			$orderData['pickup_time']=$data['delivery_date'];//提货时间
-			$orderData['delivery_time']=$data['delivery_date'];//送货时间
-			$orderData['input_time']=CORE_TIME;//成交价格
-			$orderModel->add($orderData);
-			$o_id=$orderModel->getLastID();
 
-			$orderDetail=M('product:unionOrderDetail');
-			$detail_data=array(
-				'o_id'=>$o_id,
-				'p_id'=>$purData['p_id'],
-				'number'=>$data['number'],
-				'unit_price'=>$price,
-				'input_time'=>CORE_TIME,
-			);
-			$orderDetail->add($detail_data);
+				$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'status'=>3));
+				$orderSn='UO'.genOrderSn();
+				$orderData=array();
+				$orderData['order_name']="联营订单";
+				$orderData['order_sn']=$orderSn;
+				$orderData['order_source']=1;
+				$orderData['sale_id']=$purData['c_id'];//卖家客户
+				$orderData['buy_id']=$data['c_id'];//买家客户
+				$orderData['sale_user_id']=$purData['user_id'];//卖家客户
+				$orderData['buy_user_id']=$data['user_id'];//买家客户
+				$orderData['p_sale_id']=$id;//sale_buy的报价id
+				$orderData['sign_time']=CORE_TIME;
+				$orderData['sign_place']='网站签约';
+				$orderData['deal_price']=$price;//成交价格
+				$orderData['total_price']=$price*$data['number'];//总金额
+				$orderData['customer_manager']=$purData['customer_manager'];//交易员
+				$orderData['pickup_location']=$data['delivery_place'];//提货地点
+				$orderData['delivery_location']=$data['delivery_place'];//送货地点
+				$orderData['transport_type']=$data['ship_type'];//运输方式
+				$orderData['deal_price']=$price;//成交价格
+				$orderData['pickup_time']=$data['delivery_date'];//提货时间
+				$orderData['delivery_time']=$data['delivery_date'];//送货时间
+				$orderData['input_time']=CORE_TIME;//成交时间
+				$orderModel->add($orderData);
+				$o_id=$orderModel->getLastID();
 
-			$model->where("p_id={$data['p_id']}")->update(array('status'=>8,'update_time'=>CORE_TIME));//更新其他报价为未选中
-			$model->where("id=$id")->update(array('status'=>3,'update_time'=>CORE_TIME));//更新选中状态
+				$orderDetail=M('product:unionOrderDetail');
+				$detail_data=array(
+					'o_id'=>$o_id,
+					'p_id'=>$purData['p_id'],
+					'number'=>$data['number'],
+					'unit_price'=>$price,
+					'input_time'=>CORE_TIME,
+				);
+				$orderDetail->add($detail_data);
 
+				$model->where("p_id={$data['p_id']}")->update(array('status'=>8,'update_time'=>CORE_TIME));//更新其他报价为未选中
+				$model->where("id=$id")->update(array('status'=>3,'update_time'=>CORE_TIME));//更新选中状态
 
 			$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
 			$msg=L('msg_template.union_order');
@@ -336,6 +340,7 @@ class mypurchaseAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$list=M('product:purchase')->getWantBuy($where,$page,$size);
+
 		//p($list);die;
 		$this->assign('list',$list);
 		$this->assign('page',$page);

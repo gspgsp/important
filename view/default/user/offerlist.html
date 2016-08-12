@@ -2,7 +2,6 @@
     a.but{
         font-size: 14px;
         float: left;
-        min-width: 56px;
         height: 32px;
         line-height: 32px;
         text-align: center;
@@ -20,8 +19,9 @@
         margin: 10px auto;
     }
     .but_box .inpu_box{
-        width: 188px;
+        width: 255px;
         float: left;
+
         font-size: 16px;
     }
     .but_box .inpu{
@@ -29,6 +29,10 @@
         height: 30px;
         border: 1px solid #dfdfdf;
         text-indent: 12px;
+        float: left;
+    }
+    .but_box span,.but_box a{
+        float: left;
     }
 </style>
 <table style="margin: 0;" class="table1">
@@ -45,10 +49,10 @@
     {foreach from=$list item=value}
     <tr>
     	<td>
-            {if $value.last_buy_sale}
+            {if $value.last_buy_sale==$value.id}
             已选定
-            {else}
-            <input style="width:15px;" name="xd" value="{$value.id}" type="radio">
+            {else }
+            <input style="width:15px;" name="xd" class="ids" value="{$value.id}" type="radio" id="{$value.last_buy_sale}">
             {/if}
         </td>
         <td>{$value.c_name}</td>
@@ -62,15 +66,23 @@
     {/foreach}
 </table>
 <div class="but_box">
-    <div class="inpu_box">
-        成交价：
-        <input type="text" class="inpu" name="price">
+    <div class="inpu_box" >
+        <span>成交价：</span>
+        <input type="text" class="inpu" name="price" >
+        <a class="but" id="xd" href="javasript:;" >选定</a>
     </div>
-    <a class="but" id="xd" href="javasript:;">选定</a>
     <a class="but" id="closeBtn" href="javasript:;">关闭</a>
 </div>
 
 <script type="text/javascript">
+    $(function(){
+//        if($(".ids").attr('id')>0){
+        if($(".table1").text().indexOf('已选定')>=0) {
+            $('.but_box .inpu_box').css('display', 'none');
+        }
+//        }
+    })
+
     $("#closeBtn").live('click',function(){
         layer.close(btn);
     })
@@ -96,4 +108,5 @@
             }
         },'json');
     })
+
 </script>

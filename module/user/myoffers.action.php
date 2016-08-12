@@ -9,7 +9,7 @@ class myoffersAction extends userBaseAction{
 	{
 		$this->db=M('public:common');
 	}
-
+	//报价发布列表
 	public function init()
 	{
 		$this->act="myoffers";
@@ -32,7 +32,7 @@ class myoffersAction extends userBaseAction{
 		$this->forward("/user/{$url}/lists");
 	}
 
-	// 我的报价列表
+	//报价管理
 	public function lists()
 	{
 		$this->act="offerlist";
@@ -70,7 +70,6 @@ class myoffersAction extends userBaseAction{
 
 	/**
 	 * 处理excel文件
-	 *
 	 *
      */
 	public function doExcel()
@@ -166,24 +165,20 @@ class myoffersAction extends userBaseAction{
 	}
 
 	/**
-	 *
-	 *
+	 *(我的供货)报价列表
      */
 	public function subblyTable(){
 		$type=2;//报价
-		$where="s.user_id=$this->user_id and pur.type=$type ";
+		$where="un.sale_user_id=$this->user_id and pur.type=$type  ";
 
-		$status=sget('status','s','');
-		//p($status);
 		//收索条件
 		if($status=sget('status','s','')){
-			$where.=" and s.status='{$status}' ";
+			$where.=" and sb.status='{$status}' ";
 		}
-
 		$page=sget('page','i',1);
 		$size=10;
 		$list=M('product:salebuy')->getPurPage($where,$page,$size);
-
+		$list=array_unique($list);
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));

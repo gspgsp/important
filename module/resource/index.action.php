@@ -33,7 +33,8 @@ class indexAction extends homeBaseAction{
 			}
 			$sphinx = new SphinxClient;
 			$sphinx->SetServer('localhost',9312);
-			$sphinx->SetMatchMode(SPH_MATCH_PHRASE);   //将整个查询看作一个词组，要求按顺序完整匹配;
+			$sphinx->SetMatchMode(SPH_MATCH_ALL);
+//			$sphinx->SetMatchMode(SPH_MATCH_PHRASE);   //将整个查询看作一个词组，要求按顺序完整匹配;
 			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
 			$result = $sphinx->query('*'."$keyword".'*','resourcelib');
 			$ids = array_keys($result['matches']);

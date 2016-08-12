@@ -24,10 +24,10 @@
         <td>{$value.number}</td>
         <td>{$value.price}</td>
         <td>{if $value.cargo_type==1}现货{else}期货{/if}</td>
-        <td>{$value.city}</td>
-        <td>{$value.delivery_date|date:Y-m-d}</td>
+        <td>{$value.delivery_place}</td>
+        <td>{$value.delivery_time|date:Y-m-d}</td>
         <td>{if $value.status==2}待确认{elseif $value.status==3}以成交{elseif $value.status==8}未成交{/if}</td>
-        <td></td>
+        <td>{$value.remark}</td>
         <td>
             {if $value.oid}
             <a href="/user/unionorder/detail/id/{$value.oid}">查看订单</a>

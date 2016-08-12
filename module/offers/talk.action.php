@@ -48,14 +48,14 @@ class talkAction extends homeBaseAction{
 			$data['c_id']=$_SESSION['uinfo']['c_id'];//   供货方客户id
 			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//供货方交易员id
 			$data['delivery_date']=strtotime($data['delivery_date']);
-			$data['delivery_place']=$data['delivery_place'];
+			$data['delivery_place']=$data['delivery_place'];    //交货地
 			$data['ship_type']=$data['ship_type'];
 			$data['input_time']=CORE_TIME;
 			$data['status']=1;
 			$data['user_id']=$this->user_id;
 			$data['sn']='UO'.genOrderSn();
 			$this->db->model('sale_buy')->add($data);
-			$model->where("id=$p_id")->update("supply_count=supply_count+1");
+//			$model->where("id=$p_id")->update("supply_count=supply_count+1");
 			// //发送站内信
 			$name=$purData['type']==1?'采购':'报价';
 			$msgType=$purData['type']==1?2:3;
