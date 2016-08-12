@@ -34,20 +34,13 @@ class indexAction extends homeBaseAction{
 			$sphinx = new SphinxClient;
 			$sphinx->SetServer('localhost',9312);
 			$sphinx->SetMatchMode(SPH_MATCH_PHRASE);   //将整个查询看作一个词组，要求按顺序完整匹配;
-			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
 			$result = $sphinx->query('*'."$keyword".'*','resourcelib');
+			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
+			//spinx 返回的id
 			$ids = array_keys($result['matches']);
-//			$list = $this->sourceModel->getSearch($ids);
-			//设置高亮
-			$sql = "select * from p2p_resourcelib where id in($ids)";
-			$res=mysql_query($sql);
+			$list = $this->sourceModel->getSearch($ids);//$list==$res
 			$opt = array("before_match"=>"<font style='font-weight:bold;color:#f00'>","after_match"=>"</font>");
-			while($row=mysql_fetch_assoc($res)){
-				//这里为sphinx高亮显示
-				$rows = $sphinx->buildExcerpts($row,"main",$keyword,$opt);
-				p($rows);
-			}
-
+			$rows = $sphinx->buildExcerpts($list,"main",$keyword,$opt);
 			$this->pages = pages($result['total'], $p, $pageSize);
 			$this->assign('list', $rows);
 		}else{
