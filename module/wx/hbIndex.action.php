@@ -98,17 +98,7 @@ class hbIndexAction extends homeBaseAction{
        echo "window.location.href='$url'";
        echo "</script>";
    }
-   // /**
-   //  * 获取微信授权链接
-   //  *
-   //  * @param string $redirect_uri 跳转地址
-   //  * @param mixed $state 参数
-   //  */
-   // public function get_authorize_url($redirect_uri = '', $state = '')
-   // {
-   //     $redirect_uri = urlencode($redirect_uri);
-   //     return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->app_id}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
-   // }
+
 
    //用户登录和微信账号绑定
    public function dologin(){
