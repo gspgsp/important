@@ -46,7 +46,7 @@ class reportViewModel extends model
 					->leftjoin('adm_role_user as adm','ord.customer_manager=adm.user_id')
 					->leftjoin('adm_role as role','adm.role_id=role.id')
 					->where($where)
-					->select('sum(ord.total_num) as num,sum(ord.total_price) as price,ord.input_time,ord.customer_manager,adm.role_id,role.name')
+					->select('sum(ord.total_num) as num,sum(ord.total_price) as price,ord.input_time,ord.customer_manager,adm.role_id,role.name,0 as profit')
 					->order('ord.'.$order_by_time_field.' asc')
 					->group('adm.role_id')
 					->getAll();
@@ -61,25 +61,29 @@ class reportViewModel extends model
 			// 	 		   ->where($where2)
 			// 	 		   ->group('coll.customer_manager')
 			// 	 		   ->getAll();
-			$profit = $this->db->getAll('SELECT coll.customer_manager,SUM(coll.collected_price) AS profit ,adm.role_id,role.name
+			$profit = $this->db->getAll('SELECT coll.customer_manager,SUM(coll.collected_price) AS profit ,adm.role_id,role.name,0 as num,0 as price
 				FROM `p2p_order` `ord`
 				LEFT JOIN `p2p_collection` `coll` ON ord.o_id=coll.o_id
 				LEFT JOIN `p2p_adm_role_user` `adm` ON coll.customer_manager=adm.user_id
 				LEFT JOIN `p2p_adm_role` `role` ON adm.role_id=role.id
 				WHERE '.$where2.'
 				GROUP BY `role`.`name`');
-					// return $this->getLastSql();
-			foreach ($profit as $key => $value) {
-				foreach ($num_price_data as $k => $v) {
+			// return $this->getLastSql();
+			//提前将2个数组的结构保持一致  sql中 select 0 as profit  这样吨数和价格数组中就有profit 这个字段 
+			//如果 role_id相同 则把利润数据赋值到 吨数和价格 数组中
+			foreach ($num_price_data as $key => $value) {
+				foreach ($profit as $k => $v) {
 					if($value['role_id'] == $v['role_id']){
-						$temp[] = array_merge($value,$v);
-						unset($profit[$key]);
-						unset($num_price_data[$k]);
+						$num_price_data[$key]['profit'] = $v['profit'];
+					}else{
+						array_push($temp, $v);
 					}
 				}
 			}
-			$res = array_merge($profit,$num_price_data,$temp);
-			return $return = array('time'=>array($start,$end),'data'=>$res);
+			foreach ($temp as $key => $value) {
+				array_push($num_price_data, $value);
+			}
+			return $return = array('time'=>array($start,$end),'data'=>$num_price_data);
 		}else{
 			$team_user_arr = $this->from('adm_role_user as adm')
 					->where('adm.role_id='.$team_id)
@@ -95,7 +99,7 @@ class reportViewModel extends model
 			$num_price_data = $this->from('order as ord')
 					->leftjoin('admin as a','ord.customer_manager=a.admin_id')
 					->where($where)
-					->select('sum(ord.total_num) as num,sum(ord.total_price) as price,ord.input_time,ord.customer_manager,a.name')
+					->select('sum(ord.total_num) as num,sum(ord.total_price) as price,ord.input_time,ord.customer_manager,a.name,0 as profit')
 					->order('ord.'.$order_by_time_field.' asc')
 					->group('ord.customer_manager')
 					->getAll();
@@ -105,22 +109,25 @@ class reportViewModel extends model
 			$profit = $this->from('order as ord')
 					->leftjoin('collection as coll','ord.o_id=coll.o_id')
 					->where($where2)
-					->select('sum(coll.collected_price) as profit,ord.customer_manager')
+					->select('sum(coll.collected_price) as profit,ord.customer_manager,0 as num,0 as price')
 					->order('ord.'.$order_by_time_field.' asc')
 					->group('ord.customer_manager')
 					->getAll();
-					// return $this->getLastSql(); 		
-			foreach ($profit as $key => $value) {
-				foreach ($num_price_data as $k => $v) {
+					// return $this->getLastSql(); 	
+			
+			foreach ($num_price_data as $key => $value) {
+				foreach ($profit as $k => $v) {
 					if($value['customer_manager'] == $v['customer_manager']){
-						$temp[] = array_merge($value,$v);
-						unset($profit[$key]);
-						unset($num_price_data[$k]);
+						$num_price_data[$key]['profit'] = $v['profit'];
+					}else{
+						array_push($temp, $value);
 					}
 				}
 			}
-			$res = array_merge($profit,$num_price_data,$temp);
-			$return = array('time'=>array($start,$end),'data'=>$res);
+			foreach ($temp as $key => $value) {
+				array_push($num_price_data, $value);
+			}
+			$return = array('time'=>array($start,$end),'data'=>$num_price_data);
 			return $return;
 		}
 	}
