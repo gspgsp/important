@@ -25,6 +25,7 @@ class cronReport{
 		$this->logfile=CACHE_PATH.'log/cron/report.log'; //日志文件
 		$this->db=M('public:common');
 		$this->this_month_start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),1,date("Y"))) );
+		$this->next_month_start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m")+1,1,date("Y"))) );
 	}
 
 	/**
@@ -50,6 +51,7 @@ class cronReport{
 		$old_and_new_user_data = $this->get_old_and_new_user();//业务员开发新老用户统计
 		$profit_data = $this->get_profit();//业务员销售利润统计
 		//合并销售采购总数统计 + 新老用户统计
+		$temp = array();
 		foreach ($pur_and_sale_data as $key => $value) {
 			foreach ($old_and_new_user_data as $k => $v) {
 				if($value['customer_manager'] == $v['customer_manager']){
@@ -61,6 +63,7 @@ class cronReport{
 		}
 		$pur_sale_user_data = array_merge($pur_and_sale_data,$old_and_new_user_data,$temp);
 		//合并（销售采购总数统计和新老用户统计）+ 利润统计
+		$temp1 = array();
 		foreach ($pur_sale_user_data as $key => $value) {
 			foreach ($profit_data as $k => $v) {
 				if($value['customer_manager'] == $v['customer_manager']){
@@ -118,7 +121,7 @@ class cronReport{
 	public function get_sale_data()
 	{
 		$where =' 1 ';
-		$where .= 'and order_type = 1 and order_status = 2 and transport_status = 2 and input_time > '.$this->this_month_start;
+		$where .= 'and order_type = 1 and order_status = 2 and transport_status = 2 and input_time > '.$this->this_month_start.' and input_time < '.$this->next_month_start;
 		$select = 'sum(total_num) as sale_num,sum(total_price) as sale_price,customer_manager';
 		$sale_data = $this->db->model('order')
 						 ->select($select)
@@ -137,7 +140,7 @@ class cronReport{
 	public function get_purchase_data()
 	{
 		$where =' 1 ';
-		$where .= 'and order_type = 2 and order_status = 2 and transport_status = 2 and input_time > '.$this->this_month_start;
+		$where .= 'and order_type = 2 and order_status = 2 and transport_status = 2 and input_time > '.$this->this_month_start.' and input_time < '.$this->next_month_start;
 		$select = 'sum(total_num) as pur_num,sum(total_price) as pur_price,customer_manager';
 		$pur_data = $this->db->model('order')
 						 ->select($select)
@@ -159,13 +162,18 @@ class cronReport{
 		foreach ($pur_data as $key => $value) {
 			foreach ($sale_data as $k => $v) {
 				if($value['customer_manager'] == $v['customer_manager']){
-					$temp[] = array_merge($v,$value);
-					unset($pur_data[$key]);
+					$pur_data[$key]['sale_num'] = $v['sale_num'];
+					$pur_data[$key]['sale_price'] = $v['sale_price'];
 					unset($sale_data[$k]);
 				}
 			}
 		}
-		return $new = array_merge($pur_data,$sale_data,$temp);
+		if(!empty($sale_data)){
+			$new = array_merge($pur_data,$sale_data);
+		}else{
+			$new = $pur_data;	
+		}
+		return $new;
 	}
 	/**处理新老客户 
 	 *第一步：将order表中的c_id和customer_manager拿出来，
@@ -178,7 +186,7 @@ class cronReport{
 	 */
 	public function get_old_and_new_user(){
 		$where = ' 1 ';
-		$where .= 'and o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$this->this_month_start;
+		$where .= 'and o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start;
 		$select ='o.c_id,o.customer_manager as man';
 		$old_data = $this->db->model('order as o')
 			 			 ->select($select)
@@ -200,7 +208,7 @@ class cronReport{
 			foreach ($old_data as $k => $v) {
 				if($value['c_id'] == $v[0] && $value['admin'] == $v[1]){
 					//创建时间大于当月，新开发客户+1
-					if($value['time'] >= $this->this_month_start){
+					if($value['time'] >= $this->this_month_start && $value['time'] < $this->next_month_start){
 						$new[$value['admin']]['customer_manager'] = $value['admin'];
 						$new[$value['admin']]['new'] += 1;
 					}else{
@@ -225,31 +233,34 @@ class cronReport{
 							SELECT o.`o_id`, o.`join_id`, o.`customer_manager`,SUM(s.`number` * s.`unit_price`) AS s_price
 							FROM p2p_order AS o
 							JOIN p2p_sale_log AS s ON o.`o_id` = s.`o_id`
-							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1  AND o.input_time > '.$this->this_month_start.'
+							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1  AND o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start.'
 							GROUP BY o.o_id
 							) AS sale
 							JOIN (
 							SELECT o.`o_id`, o.`join_id`, o.`customer_manager`,SUM(p.`number` * p.`unit_price`) AS p_price
 							FROM p2p_order AS o
 							JOIN p2p_purchase_log AS p ON o.`join_id` = p.`o_id`
-							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1  AND o.input_time > '.$this->this_month_start.'
+							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1  AND o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start.'
 							GROUP BY o.o_id
 							) AS pur
 							ON (sale.`o_id` = pur.`o_id`)
 							GROUP BY sale.`customer_manager`'
 						);
+				 		 // return $this->db->getLastSql();
 		
 		// 先采后销 pur_sale_data
 		$where = ' 1 ';
-		$where .= 'and o.sales_type = 1 and o.order_type = 1 and o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$this->this_month_start;
+		$where .= 'and o.sales_type = 1 and o.order_type = 1 and o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start;
 		$pur_sale_data = $this->db->model('order as o')
 								 ->select('o.customer_manager, SUM((s.unit_price - s.purchase_price)*s.number) AS profit')
 								 ->leftjoin('sale_log as s','o.o_id=s.o_id')
 								 ->where($where)
-								 ->group('customer_manager')
+								 ->group('o.customer_manager')
 								 ->getAll();
 				 		 // return $this->db->getLastSql();
+		// p($pur_sale_data);die();
 		//合并2种方式的利润
+		$temp =array();
 		foreach ($pur_sale_data as $key => $value) {
 			foreach ($sale_pur_data as $k => $v) {
 				if($value['customer_manager'] == $v['customer_manager']){
