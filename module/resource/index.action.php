@@ -37,9 +37,19 @@ class indexAction extends homeBaseAction{
 			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
 			$result = $sphinx->query('*'."$keyword".'*','resourcelib');
 			$ids = array_keys($result['matches']);
-			$list = $this->sourceModel->getSearch($ids);
+//			$list = $this->sourceModel->getSearch($ids);
+			//设置高亮
+			$sql = "select * from p2p_resourcelib where id in($ids)";
+			$res=mysql_query($sql);
+			$opt = array("before_match"=>"<font style='font-weight:bold;color:#f00'>","after_match"=>"</font>");
+			while($row=mysql_fetch_assoc($res)){
+				//这里为sphinx高亮显示
+				$rows = $sphinx->buildExcerpts($row,"main",$keyword,$opt);
+				p($rows);
+			}
+
 			$this->pages = pages($result['total'], $p, $pageSize);
-			$this->assign('list', $list);
+			$this->assign('list', $rows);
 		}else{
 			$type = sget('type', 's', '');
 			$list = $this->sourceModel->getList(abs($p-1), $pageSize, $type);
