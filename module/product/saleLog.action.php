@@ -86,7 +86,7 @@ class saleLogAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
 		}
-		p($where);die;
+		//p($where);die;
 		//筛选过滤自己的订单信息
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
