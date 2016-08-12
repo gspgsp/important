@@ -109,9 +109,9 @@ class orderAction extends adminBaseAction {
 			$where.=" and `customer_manager` = '$admin_id'";
 		}elseif(!empty($keyword) && $key_type=='c_id'){
 			$keyword=M('product:order')->getOidByCname($keyword);
-			$where.=" and `$key_type` in ('$keyword') ";
+			$where.=" and `$key_type` in ($keyword) ";
 		}elseif(!empty($keyword)){
-			$where.=" and `$key_type`  = '$keyword' ";
+			$where.=" and `$key_type`  = $keyword";
 		}
 		$orderby = "$sortField $sortOrder";
 		//筛选过滤自己的订单信息
@@ -123,8 +123,10 @@ class orderAction extends adminBaseAction {
 				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
 			} 
 		}
-		// p($where);die;
+
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
+		//echo $_SESSION['adminid'];
+		//p($list);die;
 		foreach($list['data'] as &$v){
 			$v['c_name']=  ($v['partner'] == $_SESSION['adminid'] && $v['customer_manager'] != $_SESSION['adminid']) ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
