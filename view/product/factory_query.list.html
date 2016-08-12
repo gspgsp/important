@@ -1,0 +1,80 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>	
+			<td style="float:right;">
+			  <form id="soform">
+				<select name="status" id="soStatus">
+					<option value="" selected="selected">=状态=</option>
+					{html_options options=$status}
+				</select>
+				<span>厂家名称</span>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span>
+			  </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/factory/query?action=grid" idField="fid"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="fid" width="30" headerAlign="center" align="center" align="center">ID</div>
+		<div field="f_name" width="90" headerAlign="center" align="center">厂家名称
+			<input property="editor" class="mini-textbox" style="width:100%;" minWidth="100" />
+		</div>
+		<div field="input_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >添加时间</div>
+		<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
+		<div field="update_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+		<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
+		<div field="remark" width="250" headerAlign="center" >备注</div>
+		<div field="status" width="60" headerAlign="center" align="center" allowSort="true">状态</div>
+	</div>
+  </div>
+ </div>
+ <div></div>
+{if $doact eq 'search'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+{/if}
+
+
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>
