@@ -7,7 +7,7 @@ class hbIndexAction extends homeBaseAction{
 	protected $AppID,$AppSecret;
 	public function __construct(){
 		parent::__construct();
-		//if( !isset($_SESSION['weixinAuth']) ) {
+		if(!isset($_SESSION['weixinAuth'])){
 			if( isset($_GET['code']) && isset($_GET['state']) ){
 				$code = $_GET['code'];
 				$userinfo = $this->get_author_access_token($code);
@@ -23,7 +23,7 @@ class hbIndexAction extends homeBaseAction{
 				$url = $this->get_url();
 				$this->get_authorize_url($url);
 			}
-		//}
+		}
 		$this->openid=$_SESSION['weixinAuth']['openid'];
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
 		$this->update_times();
