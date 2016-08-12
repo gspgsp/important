@@ -6,45 +6,35 @@ class hbIndexAction extends homeBaseAction{
 
 	protected $openid;
 	protected $AppID,$AppSecret;
-	public $authorize_url="";
+	public function __construct(){
+		parent::__construct();
+		if( !isset($_SESSION['weixinAuth']) ) {
+			if( isset($_GET['code']) && isset($_GET['state']) ){
+				$code = $_GET['code'];
+				$userinfo = $this->get_author_access_token($code);
+				$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
+				if($info){
+					$_SESSION['weixinAuth'] = $info;
+				}else{
+					exit('authError');
+				}
+			}else{
+				$this->AppID = 'wxbe66e37905d73815';
+				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+				$url = $this->get_url();
+				$this->get_authorize_url($url);
+			}
+		}
+		$this->openid=$_SESSION['weixinAuth']['openid'];
+		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
+		$this->update_times();
+	}
 	public function __init(){
-		file_put_contents('3.txt', 333);
 		$this->debug = false;
 		$this->db = M('public:common');
-		//
-		// if( !isset($_SESSION['weixinAuth']) ) {
-		// 	if( isset($_GET['code']) && isset($_GET['state']) ){
-		// 		$code = $_GET['code'];
-		// 		$userinfo = $this->get_author_access_token($code);
-		// 		$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-		// 		if($info){
-		// 			$_SESSION['weixinAuth'] = $info;
-		// 		}else{
-		// 			exit('authError');
-		// 		}
-		// 	}else{
-		// 		$this->AppID = 'wxbe66e37905d73815';
-		// 		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
-		// 		$url = $this->get_url();
-		// 	             $this->$authorize_url =$this->get_authorize_url($url);
-		// 	             file_put_contents('2.txt', $this->$authorize_url);
-		// 	}
-		// }
-		//
-		$this->AppID = 'wxbe66e37905d73815';
-		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
-		$url = $this->get_url();
-     	$this->$authorize_url =$this->get_authorize_url($url);
-		// $this->openid=$_SESSION['weixinAuth']['openid'];
-		p($this->$authorize_url );
-		die;
-		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
-		// $this->update_times();
 	}
 	//活动页面
 	public function enHbPage(){
-		file_put_contents('1.txt', $this->$authorize_url);
-	          $this->assign('authorize_url',$this->$authorize_url);
 		$this->display('index');
 	}
 	//规则页面
@@ -99,27 +89,26 @@ class hbIndexAction extends homeBaseAction{
 		$url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		return $url;
 	}
-// 	//通过回调方法获取用户的code
-// 	protected function get_authorize_url($redirect_uri = '', $state = ''){
-//        $redirect_uri = urlencode($redirect_uri);
-//        // $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
-//        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-//        echo "<script language='javascript' type='text/javascript'>";
-//        echo "window.location.href='$url'";
-//        echo "</script>";
-//    }
-   
-   /**
-    * 获取微信授权链接
-    *
-    * @param string $redirect_uri 跳转地址
-    * @param mixed $state 参数
-    */
-   public function get_authorize_url($redirect_uri = '', $state = '')
-   {
+	//通过回调方法获取用户的code
+	protected function get_authorize_url($redirect_uri = '', $state = ''){
        $redirect_uri = urlencode($redirect_uri);
-       return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->app_id}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+       // $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+       $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+       echo "<script language='javascript' type='text/javascript'>";
+       echo "window.location.href='$url'";
+       echo "</script>";
    }
+   // /**
+   //  * 获取微信授权链接
+   //  *
+   //  * @param string $redirect_uri 跳转地址
+   //  * @param mixed $state 参数
+   //  */
+   // public function get_authorize_url($redirect_uri = '', $state = '')
+   // {
+   //     $redirect_uri = urlencode($redirect_uri);
+   //     return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->app_id}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+   // }
 
    //用户登录和微信账号绑定
    public function dologin(){
