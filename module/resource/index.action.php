@@ -33,16 +33,19 @@ class indexAction extends homeBaseAction{
 			}
 			$sphinx = new SphinxClient;
 			$sphinx->SetServer('localhost',9312);
-//			$sphinx->SetMatchMode(SPH_MATCH_ALL);
 			$sphinx->SetMatchMode(SPH_MATCH_PHRASE);   //将整个查询看作一个词组，要求按顺序完整匹配;
 			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
 			$result = $sphinx->query('*'."$keyword".'*','resourcelib');
 			$ids = array_keys($result['matches']);
 			$list = $this->sourceModel->getSearch($ids);//
 			$this->pages = pages($result['total'], $p, $pageSize);
+			
+			$opt = array("before_match"=>"<font style='font-weight:bold;color:#f00'>","after_match"=>"</font>");
+
+			$list = $sphinx->buildExcerpts($list,"resourcelib",$keyword,$opt);
+			p($list);
+
 			$this->assign('list', $list);
-//			$opt = array("before_match"=>"<font style='font-weight:bold;color:#f00'>","after_match"=>"</font>");
-//			$rows = $sphinx->buildExcerpts($list,"main",$keyword,$opt);
 
 		}else{
 			$type = sget('type', 's', '');
