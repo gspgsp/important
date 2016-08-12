@@ -12,24 +12,29 @@ class hbIndexAction extends homeBaseAction{
 		$this->debug = false;
 		$this->db = M('public:common');
 		//
-		if( !isset($_SESSION['weixinAuth']) ) {
-			if( isset($_GET['code']) && isset($_GET['state']) ){
-				$code = $_GET['code'];
-				$userinfo = $this->get_author_access_token($code);
-				$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-				if($info){
-					$_SESSION['weixinAuth'] = $info;
-				}else{
-					exit('authError');
-				}
-			}else{
-				$this->AppID = 'wxbe66e37905d73815';
-				$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
-				$url = $this->get_url();
-			             $this->$authorize_url =$this->get_authorize_url($url);
-			             file_put_contents('2.txt', $this->$authorize_url);
-			}
-		}
+		// if( !isset($_SESSION['weixinAuth']) ) {
+		// 	if( isset($_GET['code']) && isset($_GET['state']) ){
+		// 		$code = $_GET['code'];
+		// 		$userinfo = $this->get_author_access_token($code);
+		// 		$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
+		// 		if($info){
+		// 			$_SESSION['weixinAuth'] = $info;
+		// 		}else{
+		// 			exit('authError');
+		// 		}
+		// 	}else{
+		// 		$this->AppID = 'wxbe66e37905d73815';
+		// 		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+		// 		$url = $this->get_url();
+		// 	             $this->$authorize_url =$this->get_authorize_url($url);
+		// 	             file_put_contents('2.txt', $this->$authorize_url);
+		// 	}
+		// }
+		//
+		$this->AppID = 'wxbe66e37905d73815';
+		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+		$url = $this->get_url();
+     	$this->$authorize_url =$this->get_authorize_url($url);
 		$this->openid=$_SESSION['weixinAuth']['openid'];
 		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
 		$this->update_times();
