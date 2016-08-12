@@ -97,9 +97,9 @@
                         </td>
                         <td>
                             <div class="other hide">
-                                <span>配送日期</span>
+                                <span>配送日期</span><span>:</span>
                                 <input type="text" id="date1"  datatype="*" name="delivery_date" class="required"/>
-                                <span>配送地点</span>
+                                <span>配送地点</span><span>:</span>
                                 <select datatype="*" name="delivery_place" class="required" >
                                     <option value="">请选择</option>
                                     {foreach from=$area item=value key=key}
@@ -169,6 +169,7 @@
             min: laydate.now()
         });
     })
+
    $('#transport_type').click(function(){
        if($(this).val()==2 ||$(this).val()==3){
            $(".buy-wrap .order-confirm .other").removeClass("hide");

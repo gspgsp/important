@@ -12,6 +12,7 @@ class indexAction extends homeBaseAction{
 
 	public function init()
 	{
+
 		if($this->user_id<=0) $this->forward('/user/login');
 		$cartList=Cart::getGoods();
 		if(empty($cartList)) $this->forward('/offers');
@@ -58,6 +59,19 @@ class indexAction extends homeBaseAction{
 			$data=saddslashes($_POST);
 			$contact=$this->db->model('customer_contact')->where("user_id=$this->user_id")->getRow();
 			$data['order_sn']=$orderSn;
+			if($data['transport_type']==1){       //1 自提
+				$data['pickup_time']='--';	      //提货日期
+				$data['delivery_time']='--';	  //送货日期
+				$data['pickup_location']='--';    //配送地点
+				$data['delivery_location']='--';  //提货地点
+				unset($data['delivery_place']);
+				unset($data['delivery_date']);
+			}else{
+				$data['pickup_time']=strtotime($data['delivery_date']);	    //提货日期
+				$data['delivery_time']=strtotime($data['delivery_date']);	//送货日期
+				$data['pickup_location']=$data['delivery_place'];           //配送地点
+				$data['delivery_location']=$data['delivery_place'];         //提货地点
+			}
 			$data['order_type']=1;	//销售类型
 			$data['sign_place']='网站签约';	//签约地点
 			$data['order_source']=1;	//订单来源 1网站
@@ -68,8 +82,6 @@ class indexAction extends homeBaseAction{
 			$data['total_num']=$_SESSION['cart']['total_rows'];//总数量
 			$data['total_price']=Cart::getTotalPrice();	//总金额
 			$data['financial_records']=2;
-			$data['pickup_time']=strtotime($data['pickup_time']);	//提货日期
-			$data['delivery_time']=strtotime($data['delivery_time']);	//送货日期
 			$data['input_time']=CORE_TIME;	//创建时间
 			$model=$this->db->model('order');
 			$goods=Cart::getGoods(); //购物车列表
