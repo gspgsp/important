@@ -20,7 +20,7 @@ class loginAction extends homeBaseAction{
 			}elseif(strlen($password)<6){
 				$this->error('密码错误');
 			}
-			$chanel=3; //wap渠道
+			$chanel=2; //app渠道
 			$result=M('user:passport')->login($username,$password,$chanel);
 
 			if($result['err']>0){
@@ -28,6 +28,9 @@ class loginAction extends homeBaseAction{
 			}else{
 				M('user:passport')->setSession($result['user']['user_id'],$result['user']);
 				unset($_SESSION['gurl']);
+				//保存登陆成功的日志
+				$info = $this->db->model('customer_contact')->where('mobile='.$username)->getRow();
+				M('user:passport')->loginSuccess($info['user_id'],$chanel=2);
 				$this->success('登录成功');
 			}
 
