@@ -8,7 +8,6 @@ class hbIndexAction extends homeBaseAction{
 	protected $AppID,$AppSecret;
 	public $authorize_url="";
 	public function __construct(){
-		parent::__construct();
 		if( !isset($_SESSION['weixinAuth']) ) {
 			if( isset($_GET['code']) && isset($_GET['state']) ){
 				$code = $_GET['code'];
@@ -36,6 +35,7 @@ class hbIndexAction extends homeBaseAction{
 	}
 	//活动页面
 	public function enHbPage(){
+		file_put_contents('1.txt', $this->$authorize_url);
 	          $this->assign('authorize_url',$this->$authorize_url);
 		$this->display('index');
 	}
