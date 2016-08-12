@@ -91,7 +91,7 @@ class indexAction extends adminBaseAction
 		$time_min = date('Y-m-d',$return_data['time'][0]);
 		$time_max = date('Y-m-d',$return_data['time'][1]);
 		$title = $time_min.'~'.$time_max;
-		$subtitle = '所有团队战况图(各战队组长除外)';
+		$subtitle = '所有团队战况图';
 		//判断订单类型，输出不同的文案
 		if($order_type == 1){
 			$pur_or_sale_name = '已收款';
@@ -152,7 +152,7 @@ class indexAction extends adminBaseAction
 			$pur_or_sale_name = '已付款';
 		}
 		if($show_type == 'pie_num'){
-			$subtitle = $team_name .'个人订单总吨数贡献率(各战队组长除外)';
+			$subtitle = $team_name .'个人订单总吨数贡献率';
 			$pie_data = array();
 			foreach ($data as $key => $value) {
 				$pie_data[] = array($value['name'],(int)$value['num']);
@@ -167,7 +167,7 @@ class indexAction extends adminBaseAction
        	 		'series'=>array(array('type'=>'pie','name'=>'总吨数','data'=>$pie_data)),
 			);
 		}elseif($show_type == 'pie_price'){
-			$subtitle = $team_name .'个人订单总额贡献率(各战队组长除外)';
+			$subtitle = $team_name .'个人订单总额贡献率';
 			$pie_data = array();
 			foreach ($data as $key => $value) {
 				$pie_data[] = array($value['name'],(int)$value['price']);
@@ -182,7 +182,7 @@ class indexAction extends adminBaseAction
        	 		'series'=>array(array('type'=>'pie','name'=>'订单总额','data'=>$pie_data)),
 			);
 		}else{
-			$subtitle = $team_name .'个人战况图(各战队组长除外)';
+			$subtitle = $team_name .'个人战况图';
 			$option_arr = array(
 				'chart'=>array('type'=>'bar','plotBorderWidth'=>1),
 				'colors'=>array('#CD7B00','#8085E9','#D44A40'),
