@@ -20,10 +20,12 @@ class hbIndexAction extends homeBaseAction{
 				exit('authError');
 			}
 		}else{
-			$this->AppID = 'wxbe66e37905d73815';
-			$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+// 			$this->AppID = 'wxbe66e37905d73815';
+// 			$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+		    $this->AppID = 'wx00df62a914e25294';
+		    $this->AppSecret = '9be0026abfd442209334c1ef28bc46e6';
 			// $url = $this->get_url();
-			$this->get_authorize_url(APP_URL."/wx/hbIndex?param=access_token",'STATE');
+			$this->get_authorize_url("http://m.myplas.com/wx/hbIndex?param=access_token",'STATE');
 			// $this->get_authorize_url($url);
 		}
 		$this->openid=$_SESSION['weixinAuth']['openid'];
