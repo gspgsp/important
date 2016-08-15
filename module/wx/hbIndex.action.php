@@ -40,9 +40,9 @@ class hbIndexAction extends homeBaseAction{
 		$this->db = M('public:common');
 	}
 	//活动页面
-	public function enHbPage(){
-		$this->display('index');
-	}
+	// public function enHbPage(){
+	// 	$this->display('index');
+	// }
 	//规则页面
 	public function enRuler(){
 		$this->display('rule');
