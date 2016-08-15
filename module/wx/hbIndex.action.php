@@ -50,6 +50,8 @@ class hbIndexAction extends homeBaseAction{
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
 		$userinfo=$_SESSION['weixinAuth'];
+		p($this->openid);
+		p($userinfo);
 		M('wx:hb')->updateTimes($this->openid,$userinfo);
 	}
 	//获取授权的token
