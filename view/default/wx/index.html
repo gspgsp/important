@@ -59,18 +59,18 @@
 			</div>
 			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
 		</footer>
-		<form class="mui-input-group">
+		<form id="login" class="mui-input-group" style="height:150px; display: none; position:fixed; top:50%; margin: -60px 0 0 0; width:100%; z-index:100;">
 					<div class="mui-input-row">
 						<label>Input</label>
 						<input type="text" placeholder="普通输入框">
 					</div>
 					<div class="mui-input-row">
-						<label>Input</label>
+						<label>用户名:</label>
 						<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
 					</div>
 
 					<div class="mui-input-row mui-plus-visible">
-						<label>Input</label>
+						<label>密码:</label>
 						<input type="text" class="mui-input-speech mui-input-clear" placeholder="语音输入" data-input-clear="6" data-input-speech="6"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-icon mui-icon-speech"></span>
 					</div>
 				<div class="mui-button-row">
@@ -78,7 +78,7 @@
 				<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
 			</div>
 		</form>
-		<input type="hidden" id="times" value="" />
+		<input type="hidden" id="times" value=""/>
 		<script type="text/javascript">
 		$("#num").text($("#times").val());
 		
@@ -142,7 +142,7 @@
 									if(e.index==0){
 										window.location.reload();
 									}else if(e.index==1){
-
+										$("#login").show();
 									}
 								});
                         		}else if(res.err==1){
