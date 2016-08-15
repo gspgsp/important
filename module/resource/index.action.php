@@ -42,7 +42,6 @@ class indexAction extends homeBaseAction{
 			foreach ($list as &$v) {
 				$v['content'] = str_replace($keyword, '<font style="color:#F00">'.$keyword.'</font>',$v['content']);
 			}
-			p($result);
 			$this->pages = pages($result['total'], $p, $pageSize);
 			$this->assign('list', $list);
 
