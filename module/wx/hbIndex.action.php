@@ -294,14 +294,15 @@ class hbIndexAction extends null2Action{
 	}
 	//动态获取5条数据
 	public function getHonorData(){
-		$this->is_ajax=true;
+		//$this->is_ajax=true;
 		$names = $this->db->model('weixin_name')->select('id,name')->limit('0,5')->order('addtime desc')->getAll();
 		foreach ($names as $key => $value) {
 			$prize = $this->db->model('weixin_prize')->select('price')->where("oid={$value['id']}")->limit('0,1')->order('addtime desc')->getOne();
 			$prize= $prize/100;
 			$names['price'] = $prize;
 		}
-		$this->json_output(array('err'=>0,'names'=>$names));//滚动获奖信息
+		//$this->json_output(array('err'=>0,'names'=>$names));//滚动获奖信息
+		return json_encode(array('err'=>0,'names'=>$names));//滚动获奖信息
 	}
 
 }
