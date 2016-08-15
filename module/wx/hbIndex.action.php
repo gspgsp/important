@@ -184,6 +184,7 @@ class hbIndexAction extends null2Action{
 	//每次点击活动按钮
 	public function comeback(){
 		$userinfo = M('wx:hb')->where("openid='{$this->openid}'")->getRow();
+		p($userinfo);
 		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'次数用完，未登录账号'));
 		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'次数用完，已登录账号'));
 		//更新抽奖次数
