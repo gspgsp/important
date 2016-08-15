@@ -99,8 +99,16 @@
                         	type:"post",
                         	url:"/wx/hbIndex/comeback",
                         	async:true,
+                        	dataType:"json",
                         	success:function(res){
                         		console.log(res);
+//								mui.confirm("","提交成功",["返回","登录 "],function(e){
+//									if(e.index==0){
+//										window.location.reload();
+//									}else if(e.index==1){
+//										window.location.href="/mobi/wxActivity/enActivity";
+//									}
+//								});
                         	},
                         	error:function(){
                         		
