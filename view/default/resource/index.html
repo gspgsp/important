@@ -50,10 +50,12 @@
 								</span>
 							</div>
 							<!--left end-->
-							<form action="/resource/index/init?type={$smarty.get.type}&keyword=" method="get" id="searfm">
+							<form action="/resource/index/init" method="get" id="searfm">
+								<input type="hidden" name="type" value="{$smarty.get.type}" />
 								<input type="text" name="keyword" id="txt1" value="" placeholder="在{$countall}条资源中搜索你需要的...">
 								<input type="submit" value="" id="sear">
 								<a href="javascript:;" id="refresh" onclick="myrefresh()">刷新</a>
+
 							</form>
 						</div>
 						<!--search-inner end-->
