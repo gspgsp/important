@@ -24,10 +24,10 @@ class resourcelibModel extends model{
 	}
 
 
-	public function getSearch($ids)
+	public function getSearch($type,$ids)
 	{
 		$ids = implode(',' ,$ids);
-		return $this->where("id in ($ids)")->getAll();
+		return $this->where("type={$type} and id in ($ids)")->getAll();
 	}
 
 
