@@ -46,7 +46,6 @@ class hbModel extends model{
 				);
 			p($_data);
 			$this->model('weixin_name')->add($_data);
-			showtrace();
 		}
 	}
 }
