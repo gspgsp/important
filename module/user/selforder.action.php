@@ -53,25 +53,31 @@ class selforderAction extends userBaseAction{
 		}
 		$page=sget('page','i',1);
 		$size=10;
-		$orderList=M('product:order')
-			->select('o_id,order_name,order_sn,user_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark,collection_status')
-//			->leftjoin('sale_log as s','o.order_sn=s.o_id')
-//			->leftjoin('product as p ','s.p_id=p.id')
-//			->leftjoin('factory as f','p.f_id=f.fid')
-			->where($where)
-			->page($page,$size)
-			->order('input_time desc')
-			->getPage();
-
+		$orderList= $this->db->model('order')
+//				->leftjoin('sale_log as s','o.order_sn=s.o_id')
+//				->leftjoin('product p','s.p_id=p.id')
+//				->leftjoin('factory f','p.f_id=f.fid')
+				->select('o_id,order_name,order_sn,user_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark,collection_status')
+				->where($where)
+				->page($page,$size)
+				->order('input_time desc')
+				->getPage();
 		$this->pages = pages($orderList['count'], $page, $size);
 
 		foreach ($orderList['data'] as &$value) {
 			$value['totalNum']=$this->db->model('sale_log')->where("o_id={$value['o_id']}")->select("sum(number)")->getOne();
+			$value['model']=$this->db->model('sale_log as s')
+				->leftjoin('product p','s.p_id=p.id')
+				->leftjoin('factory f','p.f_id=f.fid')
+				->where("o_id={$value['o_id']}")->select("p.model")->getOne();
+			$value['f_name']=$this->db->model('sale_log as s')
+				->leftjoin('product p','s.p_id=p.id')
+				->leftjoin('factory f','p.f_id=f.fid')
+				->where("o_id={$value['o_id']}")->select("f_name")->getOne();
 		}
 		$this->assign('orderList',$orderList);
 		$this->display('selforder');
 	}
-
 
 	// 订单详细查看
 	public function detail()
@@ -83,6 +89,7 @@ class selforderAction extends userBaseAction{
 			->select('o.*,ad.name,ad.mobile')
 			->where("o_id=$id and user_id={$this->user_id}")
 			->getRow();
+
 		$order['transport_type']==1?($order['pickup_time']='--'):($order['delivery_time']=$order['delivery_time']);
 		$order['transport_type']==1?($order['pickup_location']='--'):($order['delivery_location']=$order['delivery_location']);
 
