@@ -79,7 +79,7 @@ class selforderAction extends userBaseAction{
 		$id=sget('id','i',0);
 		if(!$this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->getRow()) $this->forward('/');
 		$order=$this->db->from('order o')
-			->join('admin ad','o.admin_id=ad.admin_id')
+			->join('admin ad','o.customer_manager=ad.admin_id')
 			->select('o.*,ad.name,ad.mobile')
 			->where("o_id=$id and user_id={$this->user_id}")
 			->getRow();
