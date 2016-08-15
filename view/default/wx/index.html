@@ -99,6 +99,10 @@
                         	type:"post",
                         	url:"/wx/hbIndex/comeback",
                         	async:true,
+                        	data:{
+                        		param:access_token,
+                        		code:code
+                        	},
                         	dataType:"json",
                         	success:function(res){
                         		console.log(res);
