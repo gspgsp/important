@@ -9,6 +9,8 @@ class hbIndexAction extends homeBaseAction{
 		parent::__construct();
 		$get = $_GET['param'];
 		$code = $_GET['code'];
+		file_put_contents('1.txt', $get);
+		file_put_contents('2.txt', $code);
 		//判断code是否存在
 		if($get=='access_token' && !empty($code)){
 			$code = $_GET['code'];
@@ -63,7 +65,7 @@ class hbIndexAction extends homeBaseAction{
 
 	}
 	//通过openid 和 token获取用户信息
-	protected function get_user_info($openid,$access_token){
+	protected function get_user_info($access_token,$openid){
 		$url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN";
 		$result = json_decode($this->http($url), true);
 		if(!isset($result['errcode']))
