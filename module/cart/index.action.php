@@ -59,6 +59,7 @@ class indexAction extends homeBaseAction{
 			$data=saddslashes($_POST);
 			$contact=$this->db->model('customer_contact')->where("user_id=$this->user_id")->getRow();
 			$data['order_sn']=$orderSn;
+			$c_name=$this->db->model('lib_region')->select('name')->where("id={$data['delivery_place']}")->getOne();//地址
 			if($data['transport_type']==1){       //1 自提
 				$data['pickup_time']='--';	      //提货日期
 				$data['delivery_time']='--';	  //送货日期
@@ -69,15 +70,16 @@ class indexAction extends homeBaseAction{
 			}else{
 				$data['pickup_time']=strtotime($data['delivery_date']);	    //提货日期
 				$data['delivery_time']=strtotime($data['delivery_date']);	//送货日期
-				$data['pickup_location']=$data['delivery_place'];           //配送地点
-				$data['delivery_location']=$data['delivery_place'];         //提货地点
+				$data['pickup_location']=$c_name.$data['address'];           //配送地点
+				$data['delivery_location']=$c_name.$data['address'];         //提货地点
 			}
+
 			$data['order_type']=1;	//销售类型
 			$data['sign_place']='网站签约';	//签约地点
 			$data['order_source']=1;	//订单来源 1网站
 			$data['c_id']=$contact['c_id'];
 			$data['user_id']=$this->user_id;	//用户id
-			$data['admin_id']=$_SESSION['uinfo']['customer_manager'];//交易员id
+			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//交易员id
 			$data['sign_time']=CORE_TIME;	//签订日期
 			$data['total_num']=$_SESSION['cart']['total_rows'];//总数量
 			$data['total_price']=Cart::getTotalPrice();	//总金额
