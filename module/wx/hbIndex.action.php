@@ -270,7 +270,7 @@ class hbIndexAction extends null2Action{
 			$prize= $prize/100;
 			$names[$key]['price'] = $prize;
 		}
-		return $names;
+		$this->json_output(array('err'=>0,'names'=>$names));//滚动获奖信息
 	}
 
 }
