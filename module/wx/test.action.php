@@ -7,10 +7,10 @@ class testAction
 	function __construct()
 	{
 		define("TOKEN", "wodesuliao");
-// 		$this->AppID = 'wxbe66e37905d73815';
-// 		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
-		$this->AppID = 'wx00df62a914e25294';
-		$this->AppSecret = '9be0026abfd442209334c1ef28bc46e6';
+		$this->AppID = 'wxbe66e37905d73815';
+		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+		// $this->AppID = 'wx00df62a914e25294';
+		// $this->AppSecret = '9be0026abfd442209334c1ef28bc46e6';
 		$this->mch_id = '1324710901';
 		$this->partnerkey = 'x39kmrlyOBOYvfR3vBlJpnAvkNsmQygJ';
 		if(!isset($_GET["echostr"])){
