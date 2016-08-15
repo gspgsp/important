@@ -84,7 +84,6 @@ class inStorageAction extends adminBaseAction {
 			$_data['o_id']=$v['o_id'];
 			$_data['purchase_id']=$v['id'];
 			$_data['p_id']=$v['p_id'];
-			$_data['storage_id']=$storage_id;
 			$_data['store_id']=$data['store_id'];
 			$_data['store_aid']=$data['store_aid'];
 			if (!empty($v['lot_num'])) $_data['lot_num']= $v['lot_num']; //批次号 不是必填字段
@@ -106,7 +105,7 @@ class inStorageAction extends adminBaseAction {
 				$inlog_id=$this->db->getLastID(); 
 			}
 			//新增入库明细单流水
-			$this->db->model('in_logs')->add(array('p_id'=>$v['p_id'],'purchase_id'=>$v['id'],'number'=>$v['in_number'],'remainder'=>$v['in_number'],'inlog_id'=>$inlog_id,'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid'])+$basic_info);
+			$this->db->model('in_logs')->add(array('p_id'=>$v['p_id'],'purchase_id'=>$v['id'],'number'=>$v['in_number'],'remainder'=>$v['in_number'],'inlog_id'=>$inlog_id,'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid'],'storage_id'=>$storage_id)+$basic_info);
 
 			//循环更新每条采购明细的已入库数量
 			$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('remainder = remainder-'.$v['in_number']);
