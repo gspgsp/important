@@ -15,11 +15,12 @@ class hbIndexAction extends homeBaseAction{
 		if($get=='access_token' && !empty($code)){
 			$code = $_GET['code'];
 			$open_access = $this->get_author_access_token($code);
-			file_put_contents('3.txt', $userinfo);
-			$userinfo = json_decode($open_access,true);
+			p($open_access);
+			$userinfo = $open_access;
+			p($userinfo);
 			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-			file_put_contents('4.txt', $info);
-			if($info){
+			p($info);
+			if(!empty($info)){
 				$_SESSION['weixinAuth'] = $info;
 			}else{
 				exit('authError');
@@ -57,8 +58,6 @@ class hbIndexAction extends homeBaseAction{
 		if($code == '') return false;
 		$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->AppID}&secret={$this->AppSecret}&code={$code}&grant_type=authorization_code";
 		$result = $this->http($url);
-		file_put_contents('5.txt', $url);
-		file_put_contents('6.txt', $result);
 		if( $result ) $result = json_decode($result, true);
 		if( isset($result['errcode']) ){
 			return false;
