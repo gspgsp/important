@@ -85,7 +85,6 @@ class indexAction extends homeBaseAction{
 			$data['total_price']=Cart::getTotalPrice();	//总金额
 			$data['financial_records']=2;
 			$data['input_time']=CORE_TIME;	//创建时间
-			p($data);die;
 			$model=$this->db->model('order');
 			$goods=Cart::getGoods(); //购物车列表
 			$model->startTrans();
