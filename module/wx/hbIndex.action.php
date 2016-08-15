@@ -266,7 +266,9 @@ class hbIndexAction extends null2Action{
 	public function getHonorData(){
 		$names = M('wx:hb')->select('id,name')->limit('0,5')->order('addtime desc')->getAll();
 		foreach ($names as $key => $value) {
-			$names['price'] = M('wx:wxprice')->select('price')->where('oid='.$value['id'])->limit('0,1')->order('addtime desc')->getOne();
+			$prize = M('wx:wxprice')->select('price')->where('oid='.$value['id'])->limit('0,1')->order('addtime desc')->getOne();
+			$prize= $prize/100;
+			$names['price'] = $prize;
 		}
 		return $names;
 	}
