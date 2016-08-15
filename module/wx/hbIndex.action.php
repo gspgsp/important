@@ -175,7 +175,7 @@ class hbIndexAction extends null2Action{
 				// 'base_num'=>3,
 				// 'times'=>$data['times']+2,
 				);
-				M('wx:hb')->where("openid='{$this->openid}'")->update($_data);
+				M('wx:hb')->where("openid='{$this->openid}'")->update(saddslashes($_data));
 		}
 		//绑定后更新抽奖次数
 		$this->update_times();
@@ -187,7 +187,7 @@ class hbIndexAction extends null2Action{
 		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'次数用完，未登录账号'));
 		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'次数用完，已登录账号'));
 		//更新抽奖次数
-		M('wx:hb')->where("id=$userinfo['id']")->update(array('times'=>$userinfo['times']-1));
+		M('wx:hb')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
 
 		$prize_name=array('未中奖','微信红包');
 		$prize_arr = array(
@@ -240,7 +240,7 @@ class hbIndexAction extends null2Action{
 			$res=array('yes'=>0,'prize_name'=>'未中奖');
 			$countModel->rollback();
 		}
-		$res['times']=M('wx:hb')->select('times')->where("id=$userinfo['id']")->getOne();//剩余抽奖的次数
+		$res['times']=M('wx:hb')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
 		$res['name']=$userinfo['name'];//微信用户名
 		$this->json_output(array('err'=>4,'res'=>$res));//返回抽奖的结果
 	}
