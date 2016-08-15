@@ -2,11 +2,11 @@
 /**
 * 微信红包入口文件
 */
-class hbIndexAction{
+class hbIndexAction extends homeBaseAction{
 	protected $openid;
 	protected $AppID,$AppSecret;
 	public function __construct(){
-		//parent::__construct();
+		parent::__construct();
 		$this->AppID = 'wxbe66e37905d73815';
 		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 		$get = $_GET['param'];
@@ -17,6 +17,7 @@ class hbIndexAction{
 			$open_access = $this->get_author_access_token($code);
 			$userinfo = $open_access;
 			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
+// 			p($info);
 			if(!empty($info)){
 				$_SESSION['weixinAuth'] = $info;
 			}else{
@@ -40,9 +41,9 @@ class hbIndexAction{
 		$this->db = M('public:common');
 	}
 	//活动页面
-	// public function enHbPage(){
-	// 	$this->display('index');
-	// }
+	public function enHbPage(){
+		$this->display('index');
+	}
 	//规则页面
 	public function enRuler(){
 		$this->display('rule');
