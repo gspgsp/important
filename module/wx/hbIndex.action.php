@@ -299,7 +299,7 @@ class hbIndexAction extends null2Action{
 		foreach ($names as $key => $value) {
 			$prize = $this->db->model('weixin_prize')->where("oid={$value['id']}")->limit('0,1')->order('addtime desc')->getRow();
 			$prize= $prize/100;
-			$names['price'] = $prize['price'];
+			$names[$key]['price'] = $prize['price'];
 		}
 		//$this->json_output(array('err'=>0,'names'=>$names));//滚动获奖信息
 		return json_encode(array('err'=>0,'names'=>$names));//滚动获奖信息
