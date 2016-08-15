@@ -33,6 +33,7 @@ class hbIndexAction extends homeBaseAction{
 		if(!empty($_SESSION['weixinAuth'])){
 		    $this->openid=$_SESSION['weixinAuth']['openid'];
 		    $this->update_times();
+		    $this->display('index');
 		}
 	}
 	public function __init(){
