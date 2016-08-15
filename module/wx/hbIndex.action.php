@@ -17,7 +17,6 @@ class hbIndexAction extends homeBaseAction{
 			$open_access = $this->get_author_access_token($code);
 			$userinfo = $open_access;
 			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-// 			p($info);
 			if(!empty($info)){
 				$_SESSION['weixinAuth'] = $info;
 			}else{
@@ -51,7 +50,7 @@ class hbIndexAction extends homeBaseAction{
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
 		$userinfo=$_SESSION['weixinAuth'];
-		//M('wx:hb')->updateTimes($this->openid,$userinfo);
+		M('wx:hb')->updateTimes($this->openid,$userinfo);
 	}
 	//获取授权的token
 	protected function get_author_access_token($code=''){
