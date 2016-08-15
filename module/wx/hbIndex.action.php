@@ -262,5 +262,9 @@ class hbIndexAction extends null2Action{
 		unset ($proArr);
 		return $result;
 	}
+	//动态获取5条数据
+	public function getHonorData(){
+		$userinfo = M('wx:hb')->where("openid='{$this->openid}'")->getRow();
+	}
 
 }
