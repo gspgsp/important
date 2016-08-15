@@ -59,6 +59,25 @@
 			</div>
 			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
 		</footer>
+		<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>Input</label>
+						<input type="text" placeholder="普通输入框">
+					</div>
+					<div class="mui-input-row">
+						<label>Input</label>
+						<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
+					</div>
+
+					<div class="mui-input-row mui-plus-visible">
+						<label>Input</label>
+						<input type="text" class="mui-input-speech mui-input-clear" placeholder="语音输入" data-input-clear="6" data-input-speech="6"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-icon mui-icon-speech"></span>
+					</div>
+				<div class="mui-button-row">
+				<button type="button" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
+				<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+			</div>
+		</form>
 		<input type="hidden" id="times" value="" />
 		<script type="text/javascript">
 		$("#num").text($("#times").val());
@@ -117,25 +136,18 @@
                         	dataType:"json",
                         	success:function(res){
                         		console.log(res);
-                        		$("#times").text(res.times);
+                        		$("#num").text(res.times);
                         		if(res.err==2){
-								mui.confirm("","提交成功",["返回","登录 "],function(e){
+								mui.confirm("",res.msg,["返回","登录 "],function(e){
 									if(e.index==0){
 										window.location.reload();
 									}else if(e.index==1){
-										window.location.href="/mobi/wxActivity/enActivity";
+
 									}
 								});
                         		}else if(res.err==1){
                         			
                         		}
-//								mui.confirm("","提交成功",["返回","登录 "],function(e){
-//									if(e.index==0){
-//										window.location.reload();
-//									}else if(e.index==1){
-//										window.location.href="/mobi/wxActivity/enActivity";
-//									}
-//								});
                         	},
                         	error:function(e){
                         		console.log(e);
