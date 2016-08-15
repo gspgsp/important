@@ -153,7 +153,7 @@
                     	{if $value.order_status eq '2'}
                         	<a href="javascript:;" class="opt-pay" data-id="{$value.o_id}">付款</a>
                         {/if}
-                        <a href="javascript:;" class="opt-cancel">取消</a>
+                        <a href="javascript:;" class="opt-cancel" data-id="{$value.o_id}">取消</a>
                     </li>
                 </ul>
             </div>
@@ -219,7 +219,7 @@ $(function(){
     		return false;
     	}
 	    layer_index =layer.load('正在处理请稍后', 0);
-	    inter=setInterval("querySucess("+id+")",1000)
+	    inter=setInterval("querySucess("+id+")",1000);
     	$.post('/user/selforder/pay',{id:id},function(data){
     		if(data.err=='0'){
 				//layer.msg(data.msg);
@@ -232,7 +232,14 @@ $(function(){
 
     //取消
     $(".opt-cancel").live("click",function(){
-        
+	    layer_index =layer.load('正在处理请稍后', 0);
+    	$.post('/user/selforder/payCancel',{id:id},function(data){
+    		if(data.err=='0'){
+				layer.msg(data.msg);
+    		}else{
+				layer.msg(data.msg);
+    		}					   
+    	},'json');
     });
 });
 </script>
