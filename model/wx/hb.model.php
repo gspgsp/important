@@ -43,6 +43,7 @@ class hbModel extends model{
 				'addtime'=>time(),
 				'updatetime'=>time(),
 				);
+			p($_data);
 			$this->model('weixin_name')->add($_data);
 		}
 	}
