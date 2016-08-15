@@ -17,30 +17,30 @@ class hbPayAction extends homeBaseAction{
 	}
 	//我的奖品
 	public function myPrize(){
-		if(!$userinfo=M('wx:hb')->where(array('openid'=>$this->openid))->getRow()) $this->json_output(array('err'=>6,'msg'=>'微信未授权登录'));
+		if(!$userinfo=$this->db->model('weixin_name')->where(saddslashes(array('openid'=>$this->openid)))->getRow()) $this->json_output(array('err'=>6,'msg'=>'微信未授权登录'));
 		//详情
-		$count = count($this->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>0))->getAll());
-		$money = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(array('oid'=>$userinfo['id'],'status'=>0))->getOne();
+		$count = count($this->db->model('weixin_prize')->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getAll());
+		$money = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getOne();
 		$name = $userinfo['name'];
 		$img = $userinfo['img'];
 		//中奖记录
-		$no = $this->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>0))->getAll();//没兑换
-		$yes->db->model('weixin_prize')->where(array('oid'=>$userinfo['id'],'status'=>1))->getAll();//已经兑换
+		$no = $this->db->model('weixin_prize')->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getAll();//没兑换
+		$yes=$this->db->model('weixin_prize')->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>1)))->getAll();//已经兑换
 		//返回数据
 		$this->json_output(array('err'=>7,'count'=>$count,'money'=>$money,'name'=>$name,'img'=>$img,'no'=>$no,'yes'=>$yes));
 	}
 	//提现红包
 	public function cash(){
-		if(!$userinfo=M('wx:hb')->where(array('openid'=>$this->openid))->getRow()) $this->json_output(array('err'=>2,'msg'=>'微信未授权登录'));
+		if(!$userinfo=$this->db->model('weixin_name')->where(saddslashes(array('openid'=>$this->openid)))->getRow()) $this->json_output(array('err'=>2,'msg'=>'微信未授权登录'));
 		//if($userinfo['username']=='') exit($this->json_out(4,'账号未登录'));
-		$prizeModel = M('wx:wxprice');
+		$prizeModel = $this->db->model('weixin_prize');
 		// $model=M('weixin_prize');
-		$count = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(array('oid'=>$userinfo['id'],'status'=>0))->getOne();
+		$count = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getOne();
 		//$count=$prizeModel->where(array('oid'=>$userinfo['id'],'status'=>0))->sum('price');
 		if($count<200) $this->json_output(array('err'=>3,'msg'=>'红包金额不足2元,无法提现。'));
 		$prizeModel->startTrans();
 		try {
-			if(!$prizeModel->where(array('oid'=>$userinfo['id'],'prize'=>1,'status'=>0))->update(array('status'=>1,'updatetime'=>time()))) throw new Exception('系统错误。code:101');
+			if(!$prizeModel->where(saddslashes(array('oid'=>$userinfo['id'],'prize'=>1,'status'=>0)))->update(array('status'=>1,'updatetime'=>time()))) throw new Exception('系统错误。code:101');
 			if( !$this->hongbao($this->openid, $count, 1) ) throw new Exception("系统错误。code:103");
 			if( !$this->hongbao_log($this->openid, 0, 1, $count, 1) ) throw new Exception("系统错误。code:102");
 		} catch (Exception $e) {
@@ -90,7 +90,7 @@ class hbPayAction extends homeBaseAction{
 		$xmlTpl = $this->arrayToXml($parameter);
 		$url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 		$responseXml = $this->curl_post_ssl($url, $xmlTpl);
-		logger($responseXml);
+		//logger($responseXml);
 		$postObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		if($postObj->result_code == 'SUCCESS'){
 		    //return true;
@@ -142,15 +142,15 @@ class hbPayAction extends homeBaseAction{
 		return $xml; 
 	}
 	//微信日志
-	protected function logger($postStr, $type=1){
-		$model = M('weixin_log');
-		$data = array(
-			'content' 		=> $postStr,
-			'type'	  		=> $type,
-			'input_time'	=> time(),
-		);
-		return $model->add($data);
-	}
+	// protected function logger($postStr, $type=1){
+	// 	$model = M('weixin_log');
+	// 	$data = array(
+	// 		'content' 		=> $postStr,
+	// 		'type'	  		=> $type,
+	// 		'input_time'	=> time(),
+	// 	);
+	// 	return $model->add($data);
+	// }
 
 	/**
 	 * [get_billno 生产商户订单ID 红包接口用]
