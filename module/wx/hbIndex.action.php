@@ -2,11 +2,11 @@
 /**
 * 微信红包入口文件
 */
-class hbIndexAction extends homeBaseAction{
+class hbIndexAction{
 	protected $openid;
 	protected $AppID,$AppSecret;
 	public function __construct(){
-		parent::__construct();
+		//parent::__construct();
 		$this->AppID = 'wxbe66e37905d73815';
 		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 		$get = $_GET['param'];
