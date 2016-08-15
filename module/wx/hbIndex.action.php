@@ -53,7 +53,7 @@ class hbIndexAction extends homeBaseAction{
 		$userinfo=$_SESSION['weixinAuth'];
 		$openid = $_SESSION['weixinAuth']['openid'];
 		// M('wx:hb')->updateTimes($this->openid,$userinfo);
-				//记录openid
+		//记录openid
 		if($data=$this->db->model('weixin_name')->where("openid='{$openid}'")->getRow()){
 				$today = strtotime(date('Y-m-d',time()));
 				//每天更新抽奖机会
