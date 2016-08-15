@@ -44,7 +44,7 @@
 			<img src="__MYAPP__/img/rule11.png" style="position: absolute; width: 94px; z-index: 20; bottom: 0; right: 5px;">
 		</div>
 		<div class="msg" style="margin: 30px auto 10px auto;">
-			<img id="rotate" width="24" style="position: relative; top: 5px;" src="__MYAPP__/img/rule12.png">&nbsp;您目前还有<b>1</b>次抽奖机会。
+			<img id="rotate" width="24" style="position: relative; top: 5px;" src="__MYAPP__/img/rule12.png">&nbsp;您目前还有<b id="num"></b>次抽奖机会。
 		</div>
 		<div id="demo" class="msg" style="margin: 15px auto 10px auto; overflow: hidden;">
 			<div id="demo1">
@@ -59,10 +59,24 @@
 			</div>
 			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
 		</footer>
-		<input type="hidden" id="code" name="code" value="{$code}" />
+		<input type="hidden" id="times" value="" />
 		<script type="text/javascript">
-
-
+		$("#num").text($("#times").val());
+		
+		$.ajax({
+			type:"get",
+			url:"/wx/hbIndex/getHonorData",
+			async:true,
+			dataType:"json",
+			success:function(res){
+				console.log(res);
+				
+			},
+			error:function(){
+				
+			}
+		});
+		
 		var speed=100;
 		var demo=document.getElementById("demo");
 		var demo1=document.getElementById("demo1");
@@ -100,13 +114,21 @@
                         	type:"post",
                         	url:"/wx/hbIndex/comeback",
                         	async:true,
-                        	data:{
-                        		param:access_token,
-                        		code:$('#code').val()
-                        	},
                         	dataType:"json",
                         	success:function(res){
                         		console.log(res);
+                        		$("#times").text(res.times);
+                        		if(res.err==2){
+								mui.confirm("","提交成功",["返回","登录 "],function(e){
+									if(e.index==0){
+										window.location.reload();
+									}else if(e.index==1){
+										window.location.href="/mobi/wxActivity/enActivity";
+									}
+								});
+                        		}else if(){
+                        			
+                        		}
 //								mui.confirm("","提交成功",["返回","登录 "],function(e){
 //									if(e.index==0){
 //										window.location.reload();
