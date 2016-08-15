@@ -93,7 +93,7 @@ class hbPayAction extends homeBaseAction{
 		//logger($responseXml);
 		$postObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		if($postObj->result_code == 'SUCCESS'){
-		    //return true;
+		    return true;
 		}else{
 		    return false;
 		}

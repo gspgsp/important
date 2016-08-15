@@ -268,7 +268,7 @@ class hbIndexAction extends null2Action{
 		foreach ($names as $key => $value) {
 			$prize = $this->db->model('weixin_prize')->select('price')->where('oid='.$value['id'])->limit('0,1')->order('addtime desc')->getOne();
 			$prize= $prize/100;
-			$names['price'] = $prize;
+			$names[$key]['price'] = $prize;
 		}
 		return $names;
 	}
