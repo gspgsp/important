@@ -59,6 +59,7 @@
 			</div>
 			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
 		</footer>
+		<input type="hidden" id="code" name="code" value="{$code}" />
 		<script type="text/javascript">
 
 
@@ -101,7 +102,7 @@
                         	async:true,
                         	data:{
                         		param:access_token,
-                        		code:code
+                        		code:$('#code').val()
                         	},
                         	dataType:"json",
                         	success:function(res){
