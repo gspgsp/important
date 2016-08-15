@@ -167,7 +167,7 @@ class hbIndexAction extends null2Action{
 		if(!$cinfo['customer_manager']) $this->json_output(array('err'=>5,'msg'=>'正在等待分配交易员，请稍候再试'));
 
 		//检查绑定是否微信
-		$data=M('wx:hb')->where("openid='{$this->openid}'")->getRow();
+		$data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
 			if(!$data['username']){
 				$_data=array(
 				'username'=>$uinfo['mobile'],
@@ -175,7 +175,7 @@ class hbIndexAction extends null2Action{
 				// 'base_num'=>3,
 				// 'times'=>$data['times']+2,
 				);
-				M('wx:hb')->where("openid='{$this->openid}'")->update(saddslashes($_data));
+				$this->db->model('weixin_name')->where("openid='{$this->openid}'")->update(saddslashes($_data));
 		}
 		//绑定后更新抽奖次数
 		$this->update_times();
@@ -183,13 +183,13 @@ class hbIndexAction extends null2Action{
 	}
 	//每次点击活动按钮
 	public function comeback(){
-		$userinfo = M('wx:hb')->where("openid='{$this->openid}'")->getRow();
+		$userinfo = $data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
 		p($userinfo);
 		showtrace();
 		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'次数用完，未登录账号'));
 		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'次数用完，已登录账号'));
 		//更新抽奖次数
-		M('wx:hb')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
+		$data=$this->db->model('weixin_name')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
 
 		$prize_name=array('未中奖','微信红包');
 		$prize_arr = array(
@@ -210,7 +210,7 @@ class hbIndexAction extends null2Action{
 		$res['yes'] = $prize_arr[$rid-1]['prize']; //中奖项,只有$rid=4的时候才有奖
 		$res['prize_name']=$prize_name[$res['yes']];//$prize_name[1],微信红包
 		//获取当天红包总数
-		$count= M('wx:wxcount')->getRow();
+		$count= $this->db->model('weixin_count')->getRow();
 		$price=0;
 		$hold=0;
 		// $count=$countModel->find();
@@ -231,8 +231,8 @@ class hbIndexAction extends null2Action{
 			$res['price']=$price/100;//中的奖金额度
 		}
 		//红包模型
-		$countModel = M('wx:wxcount');
-		$prizeModel = M('wx:wxprice');
+		$countModel = $this->db->model('weixin_count');
+		$prizeModel = $this->db->model('weixin_prize'); 
 		$countModel->startTrans();
 		try {
 			if(!$countModel->where("1=1")->update(saddslashes(array('count'=>$count['count']-($price/100),'input_time'=>time())))) throw new Exception("系统错误。code:102");
@@ -242,7 +242,7 @@ class hbIndexAction extends null2Action{
 			$res=array('yes'=>0,'prize_name'=>'未中奖');
 			$countModel->rollback();
 		}
-		$res['times']=M('wx:hb')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
+		$res['times']=$this->db->model('weixin_name')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
 		$res['name']=$userinfo['name'];//微信用户名
 		$this->json_output(array('err'=>4,'res'=>$res));//返回抽奖的结果
 	}
@@ -266,9 +266,9 @@ class hbIndexAction extends null2Action{
 	}
 	//动态获取5条数据
 	public function getHonorData(){
-		$names = M('wx:hb')->select('id,name')->limit('0,5')->order('addtime desc')->getAll();
+		$names = $this->db->model('weixin_name')->select('id,name')->limit('0,5')->order('addtime desc')->getAll();
 		foreach ($names as $key => $value) {
-			$prize = M('wx:wxprice')->select('price')->where('oid='.$value['id'])->limit('0,1')->order('addtime desc')->getOne();
+			$prize = $this->db->model('weixin_prize')->select('price')->where('oid='.$value['id'])->limit('0,1')->order('addtime desc')->getOne();
 			$prize= $prize/100;
 			$names['price'] = $prize;
 		}
