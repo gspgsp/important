@@ -3,10 +3,11 @@
 * 微信红包入口文件
 */
 class hbIndexAction extends homeBaseAction{
-	protected $openid;
+	public $openid;
 	protected $AppID,$AppSecret;
 	public function __construct(){
-		parent::__construct();
+		// parent::__construct();
+		parent::__construct(C('db_default'), 'weixin_name');
 		$this->AppID = 'wxbe66e37905d73815';
 		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 		$get = $_GET['param'];
@@ -29,15 +30,15 @@ class hbIndexAction extends homeBaseAction{
 			$this->get_authorize_url("http://m.myplas.com/wx/hbIndex?param=access_token",'STATE');
 			// $this->get_authorize_url($url);
 		}
+	}
+	public function __init(){
+// 		$this->debug = false;
+		$this->db=M('public:common');
 		if(!empty($_SESSION['weixinAuth'])){
 		    $this->openid=$_SESSION['weixinAuth']['openid'];
 		    $this->update_times();
 		    $this->display('index');
 		}
-	}
-	public function __init(){
-		$this->debug = false;
-		$this->db = M('public:common');
 	}
 	//活动页面
 	// public function enHbPage(){
@@ -50,9 +51,46 @@ class hbIndexAction extends homeBaseAction{
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
 		$userinfo=$_SESSION['weixinAuth'];
-		p($this->openid);
-		p($userinfo);
-		M('wx:hb')->updateTimes($this->openid,$userinfo);
+		$openid = $_SESSION['weixinAuth']['openid'];
+		// M('wx:hb')->updateTimes($this->openid,$userinfo);
+				//记录openid
+		if($data=$this->db->model('weixin_name')->where("openid='{$openid}'")->getRow()){
+				$today = strtotime(date('Y-m-d',time()));
+				//每天更新抽奖机会
+				if($data['updatetime']<$today){
+					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('updatetime'=>time(),'times'=>$data['base_num'])));
+				}
+				//先判断有没有绑定用户(就是已经注册过的用户)
+				if($data['uid']>0 && $data['app_time']<$today){
+					//新注册app，加一次机会
+					$where1 = "user_id={$data['uid']} && reg_time > $today && reg_chanel==2";
+					if($this->db->model('contact_info')->where($where1)->getRow()){
+						$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
+					}
+					//登录app，加一次机会
+					$where2 = "log.user_id={$data['uid']} && log.input_time > $today && log.chanel==2 && cinfo.reg_time < $today";
+					$res = $this->db->model('log_login')->select('log.user_id')->from('log_login log')
+		            ->join('contact_info cinfo','log.user_id=cinfo.user_id')
+		            ->where($where2)
+		            ->getRow();
+		            if($res){
+		            	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
+		            }
+				}
+
+		}else{
+			//未保存openid 保存openid
+			$_data=array(
+				'openid'=>$userinfo['openid'],
+				'name'=>$userinfo['nickname'],
+				'times'=>1,
+				'img'=>$userinfo['headimgurl'],
+				'base_num'=>1,
+				'addtime'=>time(),
+				'updatetime'=>time(),
+				);
+			$this->db->model('weixin_name')->add($_data);
+		}
 	}
 	//获取授权的token
 	protected function get_author_access_token($code=''){
