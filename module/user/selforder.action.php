@@ -140,7 +140,7 @@ class selforderAction extends userBaseAction{
 	        $params['currency'] = 'CNY'; // 人民币
 	        $params['payAmt'] = $order['total_price']; // 付款金额
 	        $params['originalPayID'] = '';  // 直接支付不需要赋值
-	        $params['callBackUrl'] = APP_URL.'/user/selforder/callback'; //回调通知地址，订单支付成功后通知商城的地址
+	        $params['callBackUrl'] = APP_URL.'/pay/rtnpay/selforder_callback'; //回调通知地址，订单支付成功后通知商城的地址
 	        $params['summary'] = ''; //摘要	        	        
 // 	        echo "支付号码：".$payID;      	        	              
 	        $params['customFiels'] ='';//自定义字段
@@ -158,65 +158,67 @@ class selforderAction extends userBaseAction{
 // 	        $this->assign('dataorder',$dataorder);
 // 	        $this->display('pay.html');
 	        $update=array(
-	            'payid'      => $payID,
+	            'pay_id'      => $payID,
 	        );
 	        $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
 	   	    $this->success($dataorder);
 	    }
 	}
 	
-	// 支付成功回调
-	public function callback()
-	{        
-        //获取参数
-        if(isset($_POST['postdata']) || !empty($_POST['postdata'])){
-            $postdata = $_POST['postdata'];
-        }else{
-            $postdata = file_get_contents("php://input");
-        }
-//         file_put_contents("./pay.txt", $postdata,FILE_APPEND);
-        $param = json_decode($postdata);
-        if(isset($param)){
-          // 支付消息
-          $message = $param->payMessage;
-          // 支付订单的支付号码
-          $payID = $param->payID;
-          // 支付状态
-          $payStatus = $param->payStatus;
-          // 签名
-          $signature = $param->signature;
+// 	// 支付成功回调
+// 	public function callback()
+// 	{   
+// 	    // $token=cookie::get(C('SESSION_TOKEN'));
+// 	    file_put_contents($_SERVER['DOCUMENT_ROOT']."/Javatest/Java/pay.txt",$_POST['postdata']);
+//         //获取参数
+//         if(isset($_POST['postdata']) || !empty($_POST['postdata'])){
+//             $postdata = $_POST['postdata'];
+//         }else{
+//             $postdata = file_get_contents("php://input");
+//         }
+// //         file_put_contents("./pay.txt", $postdata,FILE_APPEND);
+//         $param = json_decode($postdata);
+//         if(isset($param)){
+//           // 支付消息
+//           $message = $param->payMessage;
+//           // 支付订单的支付号码
+//           $payID = $param->payID;
+//           // 支付状态
+//           $payStatus = $param->payStatus;
+//           // 签名
+//           $signature = $param->signature;
           
-          $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
-          $rtn = $obj->_base64Verify($postdata,$signature);
-          //验证签名，是否为东方付通发送的指令
-          if($rtn == "1"){
-        	// 订单支付成功(其他不处理)
-        	if ($payStatus == "000000") {
-        		//$payID
-        	    $this->db->startTrans();
-        		// 修改订单状态 已支付 (商城逻辑处理)
-        		//状态为3默认全部付款
-        	    $update=array(
-        	        'collection_status'      => "3",
-        	    );
-        	    if(!$this->db->model('order')->where("order_sn={$payID}")->update(saddslashes($update))) throw new Exception("更新支付状态失败!");
-        	    if(!$this->db->model('pay_message')->add($param)) throw new Exception("插入支付信息失败!");
-        	    if($this->db->commit()){
-        	        $this->success('生成成功');
-        	    }else{
-        	        $this->db->rollback();
-        	        $this->error('生成失败:'.$this->db->getDbError());
-        	    }
-        	}
-            // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
-          }else{
-        	//签名验证失败！
-              $this->error('签名验证失败!');
-          }
-        }else{
-            $this->error('支付失败,回调内容为空!');
-        }
-	}
+//           $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+//           $rtn = $obj->_base64Verify($postdata,$signature);
+//           //验证签名，是否为东方付通发送的指令
+//           if($rtn == "1"){
+//         	// 订单支付成功(其他不处理)
+//         	if ($payStatus == "000000") {
+//         		//$payID
+//         	    $this->db->startTrans();
+//         		// 修改订单状态 已支付 (商城逻辑处理)
+//         		//状态为3默认全部付款
+//         	    $update=array(
+//         	        'collection_status' => "3",
+//         	    );
+//         	    if(!$this->db->model('order')->where("pay_id={$payID}")->update(saddslashes($update))) throw new Exception("更新支付状态失败!");
+//         	    if(!$this->db->model('pay_message')->add($param)) throw new Exception("插入支付信息失败!");
+//         	    if($this->db->commit()){
+//         	        $this->success('生成成功');
+//         	    }else{
+//         	        $this->db->rollback();
+//         	        $this->error('生成失败:'.$this->db->getDbError());
+//         	    }
+//         	}
+//             // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
+//           }else{
+//         	//签名验证失败！
+//               $this->error('签名验证失败!');
+//           }
+//         }else{
+//             $this->error('支付失败,回调内容为空!');
+//         }
+// 	}
 	
 	//时时查询支付状态
 	public function querySucess(){
@@ -230,15 +232,21 @@ class selforderAction extends userBaseAction{
 	        ->select('o.*,ad.name,ad.mobile')
 	        ->where("o_id=$id and user_id={$this->user_id}")
 	        ->getRow();
-	        $order_sn = $order['order_sn'];
-	        $rtn = $this->db->model('pay_message')->where("payid='$order_sn'")->getRow();
+	        $payid = $order['pay_id'];
+	        $rtn = $this->db->model('pay_message')->where("pay_id='$payid'")->getRow();
 	        if(!$rtn) $this->error('查询订单失败!');
-	        if($rtn['paystatus']=="000000"){
+	        if($rtn['pay_status']=="000000"){
 	            $this->success('支付成功');
 	        }else{
 	            $this->error('支付失败');
 	        }
 	    }
+	}
+	
+	//取消支付
+	public function payCancel(){
+	    p(1);
+	    die;
 	}
 
 
