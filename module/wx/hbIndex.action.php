@@ -2,7 +2,7 @@
 /**
 * 微信红包入口文件
 */
-class hbIndexAction extends homeBaseAction{
+class hbIndexAction extends null2Action{
 	public $openid;
 	protected $AppID,$AppSecret;
 	public function __construct(){
@@ -50,6 +50,9 @@ class hbIndexAction extends homeBaseAction{
 	}
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
+	    if(empty($_SESSION['weixinAuth'])){
+	        exit('authError');
+	    }
 		$userinfo=$_SESSION['weixinAuth'];
 		$openid = $_SESSION['weixinAuth']['openid'];
 		// M('wx:hb')->updateTimes($this->openid,$userinfo);
