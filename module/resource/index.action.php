@@ -44,7 +44,6 @@ class indexAction extends homeBaseAction{
 			}
 			$this->pages = pages($result['total'], $p, $pageSize);
 			$this->assign('list', $list);
-
 		}else{
 			$type = sget('type', 's', '');
 			$list = $this->sourceModel->getList(abs($p-1), $pageSize, $type);
