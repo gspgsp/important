@@ -7,6 +7,8 @@ class hbIndexAction extends homeBaseAction{
 	protected $AppID,$AppSecret;
 	public function __construct(){
 		parent::__construct();
+		$this->AppID = 'wxbe66e37905d73815';
+		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 		$get = $_GET['param'];
 		$code = $_GET['code'];
 		//判断code是否存在
@@ -22,8 +24,6 @@ class hbIndexAction extends homeBaseAction{
 				exit('authError');
 			}
 		}else{
-			$this->AppID = 'wxbe66e37905d73815';
-			$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
 		    // $this->AppID = 'wx00df62a914e25294';
 		    // $this->AppSecret = '9be0026abfd442209334c1ef28bc46e6';
 			// $url = $this->get_url();
