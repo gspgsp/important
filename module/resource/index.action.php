@@ -27,6 +27,7 @@ class indexAction extends homeBaseAction{
 		$p = sget('page', 'i', 1);
 		$pageSize = 10;
 		$keyword = trim(sget('keyword', 's', ''));
+		$type=trim(sget('type','s','0'));
 		if($keyword){
 			if(!$this->is_search){
 				$billModel->addPoints(50,$this->user_id,10);
@@ -37,10 +38,11 @@ class indexAction extends homeBaseAction{
 			$sphinx->setLimits(abs($p-1)*$pageSize ,$pageSize ,1000);
 			$result = $sphinx->query('*'."$keyword".'*','resourcelib');
 			$ids = array_keys($result['matches']);
-			$list = $this->sourceModel->getSearch($ids);//
+			$list = $this->sourceModel->getSearch($type,$ids);//
 			foreach ($list as &$v) {
 				$v['content'] = str_replace($keyword, '<font style="color:#F00">'.$keyword.'</font>',$v['content']);
 			}
+			p($result);
 			$this->pages = pages($result['total'], $p, $pageSize);
 			$this->assign('list', $list);
 
