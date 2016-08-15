@@ -17,7 +17,6 @@ class hbIndexAction extends homeBaseAction{
 			$open_access = $this->get_author_access_token($code);
 			$userinfo = $open_access;
 			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-// 			p($info);
 			if(!empty($info)){
 				$_SESSION['weixinAuth'] = $info;
 			}else{
@@ -41,9 +40,9 @@ class hbIndexAction extends homeBaseAction{
 		$this->db = M('public:common');
 	}
 	//活动页面
-	public function enHbPage(){
-		$this->display('index');
-	}
+	// public function enHbPage(){
+	// 	$this->display('index');
+	// }
 	//规则页面
 	public function enRuler(){
 		$this->display('rule');
