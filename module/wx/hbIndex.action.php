@@ -15,11 +15,9 @@ class hbIndexAction extends homeBaseAction{
 		if($get=='access_token' && !empty($code)){
 			$code = $_GET['code'];
 			$open_access = $this->get_author_access_token($code);
-			p($open_access);
 			$userinfo = $open_access;
-			p($userinfo);
 			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-			p($info);
+// 			p($info);
 			if(!empty($info)){
 				$_SESSION['weixinAuth'] = $info;
 			}else{
@@ -32,9 +30,10 @@ class hbIndexAction extends homeBaseAction{
 			$this->get_authorize_url("http://m.myplas.com/wx/hbIndex?param=access_token",'STATE');
 			// $this->get_authorize_url($url);
 		}
-		$this->openid=$_SESSION['weixinAuth']['openid'];
-		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
-		$this->update_times();
+		if(!empty($_SESSION['weixinAuth'])){
+		    $this->openid=$_SESSION['weixinAuth']['openid'];
+		    $this->update_times();
+		}
 	}
 	public function __init(){
 		$this->debug = false;
@@ -51,7 +50,7 @@ class hbIndexAction extends homeBaseAction{
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
 		$userinfo=$_SESSION['weixinAuth'];
-		M('wx:hb')->updateTimes($this->openid,$userinfo);
+		//M('wx:hb')->updateTimes($this->openid,$userinfo);
 	}
 	//获取授权的token
 	protected function get_author_access_token($code=''){
