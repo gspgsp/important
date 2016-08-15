@@ -10,6 +10,7 @@ class hbModel extends model{
 		//记录openid
 		if($data=$this->model('weixin_name')->where("openid='{$openid}'")->getRow()){
 				$today = strtotime(date('Y-m-d',time()));
+				p($data);
 				//每天更新抽奖机会
 				if($data['updatetime']<$today){
 					$this->model('weixin_name')->where("id=$data['id']")->update(array('updatetime'=>time(),'times'=>$data['base_num']));
