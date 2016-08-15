@@ -53,7 +53,7 @@ class selforderAction extends userBaseAction{
 		}
 		$page=sget('page','i',1);
 		$size=10;
-		$orderList= $this->db->model('order')
+		$orderList=M('product:order')
 //				->leftjoin('sale_log as s','o.order_sn=s.o_id')
 //				->leftjoin('product p','s.p_id=p.id')
 //				->leftjoin('factory f','p.f_id=f.fid')
@@ -69,11 +69,13 @@ class selforderAction extends userBaseAction{
 			$value['model']=$this->db->model('sale_log as s')
 				->leftjoin('product p','s.p_id=p.id')
 				->leftjoin('factory f','p.f_id=f.fid')
-				->where("o_id={$value['o_id']}")->select("p.model")->getOne();
+				->select("p.model")
+				->where("o_id={$value['o_id']}")->getOne();
 			$value['f_name']=$this->db->model('sale_log as s')
 				->leftjoin('product p','s.p_id=p.id')
 				->leftjoin('factory f','p.f_id=f.fid')
-				->where("o_id={$value['o_id']}")->select("f_name")->getOne();
+				->select("f_name")
+				->where("o_id={$value['o_id']}")->getOne();
 		}
 		$this->assign('orderList',$orderList);
 		$this->display('selforder');
