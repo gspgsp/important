@@ -38,10 +38,32 @@ class indexAction extends homeBaseAction{
 
 	//意见反馈
 	public function feedBack(){
-
+		//var_dump($_SESSION);EXIT;
 		$cid=17;
 		$this->assign('id',$cid);
 		$this->display('feedback.html');
+	}
+	//添加意见
+	public function addAdvise(){
+		$type=spost('type','i');
+		$message=htmlspecialchars(spost('advise','s'));
+		$advise=array(
+			'user_id'=>isset($_SESSION['userid'])?(int)$_SESSION['userid']:'',
+			'user_name'=>isset($_SESSION['uinfo']['name'])?$_SESSION['uinfo']['name']:'',
+			'msg_type'=>isset($type)?$type:'',
+			'message'=>isset($message)?$message:'',
+			'email'	=>isset($_SESSION['uinfo']['email'])?$_SESSION['uinfo']['email']:'',
+			'mobile'=>isset($_SESSION['uinfo']['mobile'])?$_SESSION['uinfo']['mobile']:'',
+			'input_time'=>time(),
+		);
+		try{
+			if(!$this->db->model('customer_message')->add($advise)) throw new Exception("留言失败...");
+		}catch(Exception $e){
+			$this->error($e->getMessage());
+			exit;
+		}
+		$this->success('留言成功！');
+
 	}
 }
 
