@@ -9,8 +9,8 @@
 </ul>
 <ul class="meUl2">
 	<li><a href="/mobi/personalCenter/enPassword">修改密码<img src="../../img/classifyBack.png"></a></li>
-	<li><a href="/mobi/personalCenter/enEmail">电子邮箱<img src="../../img/classifyBack.png"><span id="email">{{email}}</span></a></li>
-	<li><a href="/mobi/personalCenter/enQq">QQ号码<img src="../../img/classifyBack.png"><span id="qq">{{qq}}</span></a></li>
+	<li><a v-link={name:'setemail'}>电子邮箱<img src="../../img/classifyBack.png"><span id="email">{{email}}</span></a></li>
+	<li><a v-link={name:'setqq'}>QQ号码<img src="../../img/classifyBack.png"><span id="qq">{{qq}}</span></a></li>
 </ul>
 <ul class="meUl2">
 	<li>当前版本<span>1.10</span></li>

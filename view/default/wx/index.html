@@ -95,6 +95,17 @@
                     duration:8000,
                     callback:function (){
                         //alert();
+                        $.ajax({
+                        	type:"post",
+                        	url:"/wx/hbIndex/comeback",
+                        	async:true,
+                        	success:function(res){
+                        		console.log(res);
+                        	},
+                        	error:function(){
+                        		
+                        	}
+                        });
                         bRotate = !bRotate;
                     }
                 })
