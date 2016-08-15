@@ -16,7 +16,7 @@ class hbIndexAction extends homeBaseAction{
 			$code = $_GET['code'];
 			$open_access = $this->get_author_access_token($code);
 			file_put_contents('3.txt', $userinfo);
-			$userinfo = json_decode($open_access);
+			$userinfo = json_decode($open_access,true);
 			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
 			file_put_contents('4.txt', $info);
 			if($info){
