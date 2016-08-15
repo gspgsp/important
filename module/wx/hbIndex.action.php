@@ -3,53 +3,81 @@
 * 微信红包入口文件
 */
 class hbIndexAction extends null2Action{
-	public $openid,$code,$cache;
+	public $openid,$code;
 	public $AppID,$AppSecret;
 	public function __construct(){
 		// parent::__construct();
 		parent::__construct(C('db_default'), 'weixin_name');
+		$this->AppID = 'wxbe66e37905d73815';
+		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+		$get = $_GET['param'];
+		$code = $_GET['code'];
 		$cache = cache::startMemcache();
+		//判断code是否存在
+		if($get=='access_token' && !empty($code)){
+		    if(($cache->get('open_access')==null)||($cache->get('open_access')=="")){
+		        $open_access = $this->get_author_access_token($code);
+		        $cache->set('open_access',$open_access,7200);
+		    }else{
+		        $open_access = $cache->get('open_access');
+		    }
+		    $userinfo = $open_access;		    
+		    $cache->set('userinfo',$userinfo,7200);
+		    $info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
+		    $this->openid = $userinfo['openid'];
+		    if(!empty($info)){
+		        $cache->set('weixinAuth',$info,7200);
+		    }else{
+		        $cache->delete('weixinAuth');
+		        $cache->delete('open_access');
+		        exit('authError');
+		    }
+		}
 	}
 	public function __init(){
 // 		$this->debug = false;
 		$this->db=M('public:common');
 	}
 	public function init(){
-		$this->AppID = 'wxbe66e37905d73815';
-		$this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+	    $cache = cache::startMemcache();
 		$get = $_GET['param'];
 		$code = $_GET['code'];
 		//判断code是否存在
 		if($get=='access_token' && !empty($code)){
-			$code = $_GET['code'];
-			$this->code = $_GET['code'];
-			if(empty($cache->get('open_access'))){
-			      $open_access = $this->get_author_access_token($code);
-			      $cache->set('open_access',$open_access,7200);
-            }else{
-            	      $open_access = $cache->get('open_access');
-             }
-			$userinfo = $open_access;
-			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
-			$this->openid = $userinfo['openid'];
-			if(!empty($info)){
-				$cache->set('weixinAuth',$info,7200);
-			}else{
-				exit('authError');
-			}
+// 			$code = $_GET['code'];
+// 			$this->code = $_GET['code'];
+// 			if($cache->get('open_access')){
+// 			      $open_access = $this->get_author_access_token($code);
+// 			      $cache->set('open_access',$open_access,7200);
+//             }else{
+//             	      $open_access = $cache->get('open_access');
+//              }
+// 			$userinfo = $open_access;
+// 			$cache->set('userinfo',$userinfo,7200);
+// 			$info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
+// 			$this->openid = $userinfo['openid'];
+// 			if(!empty($info)){
+// 			    p($info);
+// 				$cache->set('weixinAuth',$info,7200);
+// 				p($cache->get('weixinAuth'));
+// 			}else{
+// 				exit('authError');
+// 			}
 		}else{
 			$this->get_authorize_url("http://m.myplas.com/wx/hbIndex/enHbPage?param=access_token",'STATE');
 		}
 	}
 	//活动页面
 	public function enHbPage(){
-		if(!empty($cache->get('weixinAuth'))){
+	    $cache = cache::startMemcache();
+		if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth')=="")){
+		}else{
 		    $this->openid=$cache->get('weixinAuth')['openid'];
 		    $this->update_times();
-		    // $this->assign('code',$this->code);
-		    	            // $this->display('index');
+		    $times =$this->db->model('weixin_name')->where("openid='{$this->openid}'")->select('times')->getOne();
+		    $this->assign('times',$times);
+		    $this->display('index');
 		}
-				    	            $this->display('index');
 	}
 	//规则页面
 	public function enRuler(){
@@ -57,14 +85,13 @@ class hbIndexAction extends null2Action{
 	}
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
-	    if(empty($cache->get('weixinAuth'))){
+	    $cache = cache::startMemcache();
+	    if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth')=="")){
 	        exit('用户信息为空');
 	    }
 		$userinfo=$cache->get('weixinAuth');
 		$openid = $cache->get('weixinAuth')['openid'];
 		// M('wx:hb')->updateTimes($this->openid,$userinfo);
-		p($openid);
-		die;
 		//记录openid
 		if($data=$this->db->model('weixin_name')->where("openid='{$openid}'")->getRow()){
 			$today = strtotime(date('Y-m-d',time()));
@@ -107,9 +134,9 @@ class hbIndexAction extends null2Action{
 	//获取授权的token
 	protected function get_author_access_token($code=''){
 		if($code == '') return false;
-		$url = "	https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->AppID}&secret={$this->AppSecret}&code={$code}&grant_type=authorization_code";
-		p($url);
+		$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->AppID}&secret={$this->AppSecret}&code={$code}&grant_type=authorization_code";
 		$result = $this->http($url);
+		p($url);
 		p($result);
 		if( $result ) $result = json_decode($result, true);
 		if( isset($result['errcode']) ){
