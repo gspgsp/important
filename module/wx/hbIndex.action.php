@@ -273,10 +273,10 @@ class hbIndexAction extends null2Action{
 			$res['yes']=0;
 			$hold=1;//拦截红包
 		}
-		if($userinfo['id']>8000){
-			$res['yes']=0;
-			$hold=2;
-		}
+		// if($userinfo['id']>8000){
+		// 	$res['yes']=0;
+		// 	$hold=2;
+		// }
 		if($res['yes']==1){
 			if(!$userinfo['username']){
 				$price=rand(20,30);//未登录的时候奖
