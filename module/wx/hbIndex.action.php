@@ -34,7 +34,7 @@ class hbIndexAction extends null2Action{
 		        $cache->delete('weixinAuth'.$this->openid);
 		        $cache->delete('open_access');
 // 		        exit('authError');
-		        $this->display('index');
+		        $this->get_authorize_url("http://m.myplas.com/wx/hbIndex/enHbPage?param=access_token",'STATE');
 		    }
 		}
 	}
@@ -293,7 +293,7 @@ class hbIndexAction extends null2Action{
 			$countModel->commit();
 		} catch (Exception $e) {
 			p($e->getMessage());
-			$res=array('yes'=>0,'prize_name'=>'未中奖','price'=>'0');
+			$res=array('yes'=>0,'prize_name'=>'未中奖','price'=>0);
 			$countModel->rollback();
 		}
 		$res['times']=$this->db->model('weixin_name')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
