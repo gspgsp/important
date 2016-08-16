@@ -168,7 +168,7 @@
 								});
                         		}else if(res.err==4){
                         			console.log(res.res.price);
-                         			mui.alert("","",function(){
+                         			mui.alert("",res.res.price,function(){
                         				window.location.href="/wx/hbIndex/init";
                         			});                        			
                         		}else if(res.err==3){
