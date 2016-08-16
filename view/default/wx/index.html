@@ -168,6 +168,11 @@
 								});
                         		}else if(res.err==4){
                         			console.log(res.res.price);
+                        			if(res.res.price==0){
+                          			mui.alert("","未中奖",function(){
+                        				window.location.href="/wx/hbIndex/init";
+                        			});                       				
+                        			}
                          			mui.alert("",res.res.price,function(){
                         				window.location.href="/wx/hbIndex/init";
                         			});                        			
