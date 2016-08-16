@@ -256,7 +256,8 @@ class hbIndexAction extends null2Action{
 		// }
 		// $rid = $this->get_rand($arr); //根据概率获取奖项id
 		//$res['yes'] = $prize_arr[$rid-1]['prize']; //中奖项,只有$rid=4的时候才有奖
-		$res['yes']=$this->gethonor();
+		// $res['yes']=$this->gethonor();
+		$res['yes']=1;
 		$res['prize_name']=$prize_name[$res['yes']];//$prize_name[1],微信红包
 		//获取当天红包总数
 		$count= $this->db->model('weixin_count')->getRow();
