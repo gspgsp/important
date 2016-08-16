@@ -77,7 +77,7 @@ class orderAction extends adminBaseAction {
 		}
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
-		$where.= 1 and order_status;
+		$where.= "1";
 		//筛选状态
 		if(sget('type','i',0) !=0) $order_type=sget('type','i',0);//订单类型
 		if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
