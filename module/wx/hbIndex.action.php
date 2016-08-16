@@ -244,26 +244,8 @@ class hbIndexAction extends null2Action{
 		$data=$this->db->model('weixin_name')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
 
 		$prize_name=array('未中奖','微信红包');
-		// $prize_arr = array(
-		//     '0' => array('id'=>1,'prize'=>1,'v'=>0),
-		//     '1' => array('id'=>2,'prize'=>0,'v'=>0),
-		//     '2' => array('id'=>3,'prize'=>0,'v'=>0),
-		//     '3' => array('id'=>4,'prize'=>1,'v'=>40),
-		//     '4' => array('id'=>5,'prize'=>1,'v'=>0),
-		//     '5' => array('id'=>6,'prize'=>1,'v'=>0),
-		//     '6' => array('id'=>7,'prize'=>1,'v'=>0),
-		//     '7' => array('id'=>8,'prize'=>1,'v'=>0),
-		//     '8' => array('id'=>9,'prize'=>0,'v'=>60),
-		// );
-		// foreach ($prize_arr as $key => $val) {
-		//   $arr[$val['id']] = $val['v'];
-		// }
-		// $rid = $this->get_rand($arr); //根据概率获取奖项id
-		//$res['yes'] = $prize_arr[$rid-1]['prize']; //中奖项,只有$rid=4的时候才有奖
-		// $res['yes']=$this->gethonor();
-		$res['yes']=1;
-		//$res['prize_name']=$prize_name[$res['yes']];//$prize_name[1],微信红包
-		$res['prize_name']='微信红包';
+		$res['yes']=$this->gethonor();
+		$res['prize_name']=$prize_name[$res['yes']];//$prize_name[1],微信红包
 		//获取当天红包总数
 		$count= $this->db->model('weixin_count')->where("id=1")->getRow();
 		$price=0;
@@ -285,8 +267,6 @@ class hbIndexAction extends null2Action{
 			}
 			$res['price']=$price/100;//中的奖金额度
 		}
-		p($count['count']);
-		p($price);
 		//红包模型
 		$countModel = $this->db->model('weixin_count');
 		$prizeModel = $this->db->model('weixin_prize');
@@ -309,7 +289,6 @@ class hbIndexAction extends null2Action{
 			if(!$this->db->model('weixin_prize')->add(saddslashes($prizeArr))) throw new Exception("系统错误。code:102");
 			$countModel->commit();
 		} catch (Exception $e) {
-			p($e->getMessage());
 			$res=array('yes'=>0,'prize_name'=>'未中奖');
 			$countModel->rollback();
 		}
