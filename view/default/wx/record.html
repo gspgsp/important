@@ -28,15 +28,15 @@
 	<body>
 		<div id="wrap">
 			<div id="avator">
-				<img src="__MYAPP__/img/avator.png">
+				<img id="img" src="__MYAPP__/img/avator.png">
 			</div>
 			<p>
-				<span>轻舞飞扬</span><br>
-				您当前等待提现红包<span>2</span>个，合计
+				<span id="name"></span><br>
+				您当前等待提现红包<span id="count">2</span>个，合计
 			</p>
 			<div class="clear" style="height: 10px;"></div>
 			<p>
-				<b>1.23</b>元
+				<b id="money"></b>元
 			</p>
 			<input id="withdraw" class="btn" style="width: 220px; height: 35px; background: #ff0000; border-radius: 15px; border: none; font-size: 16px; color: #FFFFFF;" type="button" value="立即提现" />
 		</div>
@@ -70,6 +70,12 @@
 				dataType:"json",
 				success:function(res){
 					console.log(res);
+					$("#name").text(res.name);
+					$("#count").text(res.count);
+					$("#money").text(res.money);
+					if(res.img){
+						$("#img").attr("src",res.img);
+					}
 				},
 				error:function(){
 					
