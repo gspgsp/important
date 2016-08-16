@@ -75,8 +75,12 @@
 	                </li>
 	                <li class="is-read">{:setOption|msg_status,$value.is_read}</li>
 	                {if $value.is_read==1}
-	                <li class="already"><a onClick="readMsg({$value.id},this)" href="javascript:;">标为已读</a></li>
+	                 <li class="already">
+						 <a onClick="readMsg({$value.id},this)" href="javascript:;">标为已读</a>
+						 <!--<a onclick="dell({$value.id},this)">删除</a>-->
+					 </li>
 	                {/if}
+
 	            </ul>
 	        </div>
 	        <!--result-bot end-->
@@ -95,6 +99,15 @@ function readMsg(id,that){
 		if(data.err==0){
 			$(that).parents('.result-con').find('.is-read').html('已读');
 			$(that).parent().remove();
+		}
+	},'json');
+}
+//删除短消息
+function dell(id,that){
+	$.get('/user/msg/delMsg',{id:id},function(data){
+		if(data.err==0){
+			layer.msg('已删除');
+			window.location.reload();
 		}
 	},'json');
 }

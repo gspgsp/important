@@ -64,4 +64,18 @@ class msgAction extends userBaseAction{
 			$this->success('操作成功');
 		}
 	}
+
+	//删除消息
+	public function delMsg(){
+		if($_GET){
+			$this->is_ajax=true;
+			$model=$this->db->model('user_msg');
+			$id=sget('id','i','');
+			$where="id=$id and user_id=$this->user_id ";
+			if(!$model->where($where)->getRow()) $this->error('消息不存在');
+			$model->where($where)->delete();
+			$this->success('操作成功');
+		}
+	}
+
 }
