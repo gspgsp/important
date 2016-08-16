@@ -101,6 +101,10 @@
 							mui.alert("",res.msg,function(){
                         		window.location.href="/wx/hbPay/enPay";
                         	});                        			                        										
+						}else if(res.err==4){
+							mui.alert("",res.msg,function(){
+                        		window.location.href="/wx/hbPay/enPay";
+                        });                        			                        																	
 						}
 					},
 					error:function(){
