@@ -67,10 +67,13 @@ function submitForm() {
 	if (form.isValid() == false) return;  
 	var o = form.getData();
 	//验证电话
-	var str=/^0\d{2,4}-?\d{7,8}$/;
-	if(!str.test(o.invoice_tel)) {
+	var tel=/^0\d{2,3}-?\d{7,8}$/;
+	var mob=/^0{0,1}(13[0-9]|15[5-9]|153|151|18[7-9])[0-9]{8}$/;
+	if(!tel.test(o.invoice_tel)) {
+		if(!mob.test(o.invoice_tel)) {
 		alert("请输入正确的电话号码");
 		return false;
+		}
 	}
 	
 	form.loading("数据提交中，请稍后......");
