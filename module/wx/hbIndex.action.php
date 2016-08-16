@@ -307,11 +307,15 @@ class hbIndexAction extends null2Action{
 	//动态获取5条数据
 	public function getHonorData(){
 		$this->is_ajax=true;
-		$names = $this->db->model('weixin_name')->select('id,name')->limit('0,5')->order('addtime desc')->getAll();
+		$names = $this->db->model('weixin_name')->select('id,name,0 as price')->limit('0,5')->order('addtime desc')->getAll();
 		foreach($names as $key => $value){
-			$prize = $this->db->model('weixin_prize')->where("oid={$value['id']}")->limit('0,1')->order('addtime desc')->getRow();
-			$prize= $prize/100;
-			$names[$key]['price'] = $prize['price'];
+			$price = $this->db->model('weixin_prize')->where("oid={$value['id']}")->limit('0,1')->order('addtime desc')->getRow();
+            if((empty($price))||($price==0)){
+                $price=0;
+            }else{
+			    $price= $price/100;
+            }
+			$names[$key]['price'] = $price;
 		}
 		$this->json_output(array('err'=>0,'names'=>$names));//滚动获奖信息
 	}
