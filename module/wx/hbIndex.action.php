@@ -113,14 +113,14 @@ class hbIndexAction extends null2Action{
 					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
 				}
 				//登录app，加一次机会
-				$where2 = "log.user_id={$data['uid']} && log.input_time > $today && log.chanel==2 && cinfo.reg_time < $today";
+				$where2 = "log.user_id={$data['uid']} && log.input_time > $today && log.chanel=2 && cinfo.reg_time < $today";
 				$res = $this->db->model('log_login')->select('log.user_id')->from('log_login log')
 			            ->join('contact_info cinfo','log.user_id=cinfo.user_id')
 			            ->where($where2)
 			            ->getRow();
-			            if($res){
-			            	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
-			            }
+	            if(!empty($res)){
+	            	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
+	            }
 			}
 
 		}else{
