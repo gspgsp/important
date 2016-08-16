@@ -154,8 +154,6 @@ class hbPayAction extends homeBaseAction{
 		$responseXml = $this->curl_post_ssl($url, $xmlTpl);
 		//logger($responseXml);
 		$postObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
-		p($postObj);
-		die;
 		if($postObj->result_code == 'SUCCESS'){
 		    return true;
 		}else{
@@ -264,10 +262,7 @@ class hbPayAction extends homeBaseAction{
 	   curl_setopt($ch,CURLOPT_SSLCERT,ROOT_PATH.'../static/myapp/certify/apiclient_cert.pem');
 	   curl_setopt($ch,CURLOPT_SSLKEY,ROOT_PATH.'../static/myapp/certify/apiclient_key.pem');
 	   curl_setopt($ch,CURLOPT_CAINFO,ROOT_PATH.'../static/myapp/certify/rootca.pem');
-	   
-	   p(FILE_URL.'/myapp/certify/apiclient_cert.pem');
-	   die;
-	   
+	   	   
 	 
 	   if( count($aHeader) >= 1 ){
 	      curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
