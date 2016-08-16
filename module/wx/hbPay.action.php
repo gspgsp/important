@@ -149,12 +149,13 @@ class hbPayAction extends homeBaseAction{
 		$sign = $this->sign($result);
 		$parameter['sign'] = $sign;
 		$xmlTpl = $this->arrayToXml($parameter);
-		die;
 		//$xmlTpl = $this->arrayToXml();
 		$url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 		$responseXml = $this->curl_post_ssl($url, $xmlTpl);
 		//logger($responseXml);
 		$postObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
+		p($postObj);
+		die;
 		if($postObj->result_code == 'SUCCESS'){
 		    return true;
 		}else{
@@ -190,53 +191,35 @@ class hbPayAction extends homeBaseAction{
 	 * @return [type]      [返回xml]
 	 */
 	protected function arrayToXml($arr){
-	    p($arr);
 		$xml = "<xml>";
 		foreach ($arr as $key=>$val){
-		    p($key);
 		  if(is_numeric($val)){
-		    $xml.="<".$key.">".$val."</".$key.">";
+		    $xml=$xml."<".$key.">".$val."</".$key.">";
 		  }else{
-		    $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+		    $xml=$xml."<".$key."><![CDATA[".$val."]]></".$key.">";
 		  }
-		  p($xml);
 		}
-		$xml.="</xml>";
+		$xml=$xml."</xml>";
 		return $xml;
 	}
 // 	public function arrayToXml($arr){
-// 		// $xml = "<xml>";
-// 		// $xml.="<sign><![CDATA[".$arr['sign']."]]></sign>";
-// 		// $xml.="<mch_billno><![CDATA[".$arr['mch_billno']."]]></mch_billno>";
-// 		// $xml.="<mch_id><![CDATA[".$arr['mch_id']."]]></mch_id>";
-// 		// $xml.="<wxappid><![CDATA[".$arr['wxappid']."]]></wxappid>";
-// 		// $xml.="<send_name><![CDATA[".$arr['send_name']."]]></send_name>";
-// 		// $xml.="<re_openid><![CDATA[".$arr['re_openid']."]]></re_openid>";
-// 		// $xml.="<total_amount><![CDATA[".$arr['total_amount']."]]></total_amount>";
-// 		// $xml.="<total_num><![CDATA[".$arr['total_num']."]]></total_num>";
-// 		// $xml.="<wishing><![CDATA[".$arr['wishing']."]]></wishing>";
-// 		// $xml.="<client_ip><![CDATA[".$arr['client_ip']."]]></client_ip>";
-// 		// $xml.="<act_name><![CDATA[".$arr['act_name']."]]></act_name>";
-// 		// $xml.="<remark><![CDATA[".$arr['remark']."]]></remark>";
-// 		// $xml.="<nonce_str><![CDATA[".$arr['nonce_str']."]]></nonce_str>";
-// 		// $xml.= "</xml>";
-// 		$xml = "<xml>";
-// 		$xml.="<sign><![CDATA[5145AA2CB918F0E84863AA9EE6EC3BD5]]></sign>";
-// 		$xml.="<mch_billno><![CDATA[1324710901201608161245954148]]></mch_billno>";
-// 		$xml.="<mch_id><![CDATA[1324710901]]></mch_id>";
-// 		$xml.="<wxappid><![CDATA[wxbe66e37905d73815]]></wxappid>";
-// 		$xml.="<send_name><![CDATA[我的塑料网]]></send_name>";
-// 		$xml.="<re_openid><![CDATA[o1SYHww1LpW0o6cm2uWngRiD4HmY]]></re_openid>";
-// 		$xml.="<total_amount><![CDATA[300]]></total_amount>";
-// 		$xml.="<total_num><![CDATA[1]]></total_num>";
-// 		$xml.="<wishing><![CDATA[我的塑料网红包]]></wishing>";
-// 		$xml.="<client_ip><![CDATA[ 127.0.0.1]]></client_ip>";
-// 		$xml.="<act_name><![CDATA[微信红包]]></act_name>";
-// 		$xml.="<remark><![CDATA[微信红包]]></remark>";
-// 		$xml.="<nonce_str><![CDATA[ASM6C7ZfjUHcsotdbAT4QEaqgmMTqleN]]></nonce_str>";
-// 		$xml.= "</xml>";
-// 		p($xml);
-// 		return $xml;
+//        $textTpl = "<xml>
+//                     <sign><![CDATA[%s]]></sign>
+//                     <mch_billno><![CDATA[%s]]></mch_billno>
+//                     <mch_id><![CDATA[%s]]></mch_id>
+//                     <wxappid><![CDATA[%s]]></wxappid>
+//                     <send_name><![CDATA[%s]]></send_name>
+//                     <re_openid><![CDATA[%s]]></re_openid>
+//                     <total_amount><![CDATA[%s]]></total_amount>
+//                     <total_num><![CDATA[%s]]></total_num>
+//                     <wishing><![CDATA[%s]]></wishing>
+//                     <client_ip><![CDATA[%s]]></client_ip>
+//                     <act_name><![CDATA[%s]]></act_name>
+//                     <remark><![CDATA[%s]]></remark>
+//                     <nonce_str><![CDATA[%s]]></nonce_str>
+//                   </xml>";
+// 		$resultStr = sprintf($textTpl, $arr['sign'],$arr['mch_billno'],$arr['mch_id'],$arr['wxappid'],$arr['send_name'],$arr['re_openid'],$arr['total_amount'],$arr['total_num'],$arr['wishing'],$arr['client_ip'],$arr['act_name'],$arr['remark'],$arr['nonce_str']);
+// 		return $resultStr;
 // 	}
 	//微信日志
 	// protected function logger($postStr, $type=1){
@@ -278,9 +261,13 @@ class hbPayAction extends homeBaseAction{
 	   curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,false);  
 	   
 	   //cert 与 key 分别属于两个.pem文件
-	   curl_setopt($ch,CURLOPT_SSLCERT,FILE_URL.'/myapp/certify/apiclient_cert.pem');
-	   curl_setopt($ch,CURLOPT_SSLKEY,FILE_URL.'/myapp/certify/apiclient_key.pem');
-	   curl_setopt($ch,CURLOPT_CAINFO,FILE_URL.'/myapp/certify/rootca.pem');
+	   curl_setopt($ch,CURLOPT_SSLCERT,ROOT_PATH.'../static/myapp/certify/apiclient_cert.pem');
+	   curl_setopt($ch,CURLOPT_SSLKEY,ROOT_PATH.'../static/myapp/certify/apiclient_key.pem');
+	   curl_setopt($ch,CURLOPT_CAINFO,ROOT_PATH.'../static/myapp/certify/rootca.pem');
+	   
+	   p(FILE_URL.'/myapp/certify/apiclient_cert.pem');
+	   die;
+	   
 	 
 	   if( count($aHeader) >= 1 ){
 	      curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
