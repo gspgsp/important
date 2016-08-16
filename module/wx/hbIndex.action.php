@@ -290,9 +290,21 @@ class hbIndexAction extends null2Action{
 		$prizeModel = $this->db->model('weixin_prize'); 
 		$countModel->startTrans();
 		try {
-			if(!$countModel->where("1=1")->update(saddslashes(array('count'=>$count['count']-($price/100),'input_time'=>time())))) throw new Exception("系统错误。code:102");
-			if(!$prizeModel->add(saddslashes(array('oid'=>$userinfo['id'],'openid'=>$this->openid,'prize'=>$res['yes'],'price'=>$price,'addtime'=>time(),'prize_name'=>$prize_name[$res['yes']],'is_hold'=>$hold)))) throw new Exception("系统错误。code:102");
-			showtrace();
+			$countArr = array(
+				'count'=>$count['count']-($price/100),
+				'input_time'=>time()
+				);
+			$prizeArr = array(
+				'oid'=>$userinfo['id'],
+				'openid'=>$this->openid,
+				'prize'=>$res['yes'],
+				'price'=>$price,
+				'addtime'=>time(),
+				'prize_name'=>$prize_name[$res['yes']],
+				'is_hold'=>$hold
+				);
+			if(!$countModel->where("1=1")->update($countArr)) throw new Exception("系统错误。code:102");
+			if(!$prizeModel->add($prizeArr)) throw new Exception("系统错误。code:102");
 			$countModel->commit();
 		} catch (Exception $e) {
 			p($e->getMessage());
