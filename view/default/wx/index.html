@@ -149,7 +149,7 @@
 												type:"post",
 												url:"/wx/hbIndex/doLogin",
 												async:true,
-												data:{username:$("#mobi").val(),password:$("#pwd").val()},
+												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
 												success:function(res){
 													if(res.err==0){
 														mui.alert("",res.msg,function(){
