@@ -303,7 +303,7 @@ class hbIndexAction extends null2Action{
 				'prize_name'=>$prize_name[$res['yes']],
 				'is_hold'=>$hold
 				);
-			if(!$countModel->where("1=1")->update($countArr)) throw new Exception("系统错误。code:102");
+			if(!$countModel->where("id=1")->update($countArr)) throw new Exception("系统错误。code:102");
 			if(!$prizeModel->add($prizeArr)) throw new Exception("系统错误。code:102");
 			$countModel->commit();
 		} catch (Exception $e) {
