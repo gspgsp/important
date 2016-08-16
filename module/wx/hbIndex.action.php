@@ -221,8 +221,10 @@ class hbIndexAction extends null2Action{
 	}
 	//每次点击活动按钮
 	public function comeback(){
+	    $cache = cache::startMemcache();
+	    $openid = $cache->get('weixinAuth')['openid'];
+	    $this->openid = $openid;
 		$userinfo = $data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
-		file_put_contents('1.txt', $userinfo);
 		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'次数用完，未登录账号','times'=>$userinfo['times']));
 		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'次数用完，已登录账号','times'=>$userinfo['times']));
 		//更新抽奖次数
