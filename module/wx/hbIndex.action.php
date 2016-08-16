@@ -292,8 +292,10 @@ class hbIndexAction extends null2Action{
 		try {
 			if(!$countModel->where("1=1")->update(saddslashes(array('count'=>$count['count']-($price/100),'input_time'=>time())))) throw new Exception("系统错误。code:102");
 			if(!$prizeModel->add(saddslashes(array('oid'=>$userinfo['id'],'openid'=>$this->openid,'prize'=>$res['yes'],'price'=>$price,'addtime'=>time(),'prize_name'=>$prize_name[$res['yes']],'is_hold'=>$hold)))) throw new Exception("系统错误。code:102");
+			showtrace();
 			$countModel->commit();
 		} catch (Exception $e) {
+			p($e->getMessage());
 			$res=array('yes'=>0,'prize_name'=>'未中奖');
 			$countModel->rollback();
 		}
