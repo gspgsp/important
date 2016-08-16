@@ -193,6 +193,11 @@
 
             };
             $('.pointer').click(function (){
+            	if(!$("#times").val()){
+            		mui.alert("","想获得更多机会,请查看活动规则",function(){
+            			
+            		});
+            	}else{
                 if(bRotate)return;
                 var item = rnd(0,7);
                 switch (item) {
@@ -231,6 +236,7 @@
 
                 }
                 console.log(item);
+               }
             });
         function rnd(n, m){
             return Math.floor(Math.random()*(m-n+1)+n)
