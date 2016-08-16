@@ -4,6 +4,36 @@
 */
 class hbPayAction extends homeBaseAction{
 	public $openid;
+	public function __construct(){
+	    // parent::__construct();
+	    parent::__construct(C('db_default'), 'weixin_name');
+	    $this->AppID = 'wxbe66e37905d73815';
+	    $this->AppSecret = '7eb6cc579a7d39a0e123273913daedb0';
+	    $get = $_GET['param'];
+	    $code = $_GET['code'];
+	    $cache = cache::startMemcache();
+	    //判断code是否存在
+	    if(!empty($code)){
+		    if(($cache->get('open_access')==null)||($cache->get('open_access')=="")){
+		        $open_access = $this->get_author_access_token($code);
+		        $cache->set('open_access',$open_access,7200);
+		    }else{
+		        $open_access = $cache->get('open_access');
+		        $cache->delete('open_access');
+		    }
+		    $userinfo = $open_access;		    
+		    $cache->set('userinfo',$userinfo,7200);
+		    $info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
+		    $this->openid = $userinfo['openid'];
+		    if(!empty($info)){
+		        $cache->set('weixinAuth'.$this->openid,$info,7200);
+		    }else{
+		        $cache->delete('weixinAuth'.$this->openid);
+		        $cache->delete('open_access');
+		        exit('authError');
+		    }
+	    }
+	}
 	public function __init(){
 		$this->db=M('public:common');
 		//if(!isset($_SESSION['weixinAuth'])) exit('未授权');
@@ -19,10 +49,10 @@ class hbPayAction extends homeBaseAction{
 	//我的奖品
 	public function myPrize(){
 	    $cache = cache::startMemcache();
-	    if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth')=="")){
+	    if(($cache->get('weixinAuth'.$this->openid)==null)||($cache->get('weixinAuth'.$this->openid)=="")){
 	        exit('用户信息为空');
 	    }
-	    $this->openid = $cache->get('weixinAuth')['openid'];
+	    $this->openid = $cache->get('weixinAuth'.$this->openid)['openid'];
 		if(!$userinfo=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow()) {
 		    $this->json_output(array('err'=>6,'msg'=>'微信未授权登录'));
 		}

@@ -20,15 +20,16 @@ class hbIndexAction extends null2Action{
 		        $cache->set('open_access',$open_access,7200);
 		    }else{
 		        $open_access = $cache->get('open_access');
+		        $cache->delete('open_access');
 		    }
 		    $userinfo = $open_access;		    
 		    $cache->set('userinfo',$userinfo,7200);
 		    $info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
 		    $this->openid = $userinfo['openid'];
 		    if(!empty($info)){
-		        $cache->set('weixinAuth',$info,7200);
+		        $cache->set('weixinAuth'.$this->openid,$info,7200);
 		    }else{
-		        $cache->delete('weixinAuth');
+		        $cache->delete('weixinAuth'.$this->openid);
 		        $cache->delete('open_access');
 		        exit('authError');
 		    }
@@ -70,9 +71,9 @@ class hbIndexAction extends null2Action{
 	//活动页面
 	public function enHbPage(){
 	    $cache = cache::startMemcache();
-		if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth')=="")){
+		if(($cache->get('weixinAuth'.$this->openid)==null)||($cache->get('weixinAuth'.$this->openid)=="")){
 		}else{
-		    $this->openid=$cache->get('weixinAuth')['openid'];
+		    $this->openid=$cache->get('weixinAuth'.$this->openid)['openid'];
 		    $this->update_times();
 		    $times =$this->db->model('weixin_name')->where("openid='{$this->openid}'")->select('times')->getOne();
 		    $this->assign('times',$times);
@@ -86,11 +87,11 @@ class hbIndexAction extends null2Action{
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
 	    $cache = cache::startMemcache();
-	    if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth')=="")){
+	    if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth'.$this->openid)=="")){
 	        exit('用户信息为空');
 	    }
-		$userinfo=$cache->get('weixinAuth');
-		$openid = $cache->get('weixinAuth')['openid'];
+		$userinfo=$cache->get('weixinAuth'.$this->openid);
+		$openid = $cache->get('weixinAuth'.$this->openid)['openid'];
 		// M('wx:hb')->updateTimes($this->openid,$userinfo);
 		//记录openid
 		if($data=$this->db->model('weixin_name')->where("openid='{$openid}'")->getRow()){
@@ -222,7 +223,7 @@ class hbIndexAction extends null2Action{
 	//每次点击活动按钮
 	public function comeback(){
 	    $cache = cache::startMemcache();
-	    $openid = $cache->get('weixinAuth')['openid'];
+	    $openid = $cache->get('weixinAuth'.$this->openid)['openid'];
 	    $this->openid = $openid;
 		$userinfo = $data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
 		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'次数用完，未登录账号','times'=>$userinfo['times']));
