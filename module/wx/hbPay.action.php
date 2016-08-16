@@ -148,9 +148,7 @@ class hbPayAction extends homeBaseAction{
 		$result = $this->formatQueryParaMap($parameter, false);
 		$sign = $this->sign($result);
 		$parameter['sign'] = $sign;
-		p(1);
 		$xmlTpl = $this->arrayToXml($parameter);
-		p($xmlTpl);
 		die;
 		//$xmlTpl = $this->arrayToXml();
 		$url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
@@ -170,7 +168,6 @@ class hbPayAction extends homeBaseAction{
 	 * @return [type]            [description]
 	 */
 	protected function formatQueryParaMap($paraMap, $urlencode=false){
-	    p($paraMap);
 		$buff = "";
 		ksort($paraMap);
 		foreach ($paraMap as $k => $v){
@@ -193,13 +190,16 @@ class hbPayAction extends homeBaseAction{
 	 * @return [type]      [返回xml]
 	 */
 	protected function arrayToXml($arr){
+	    p($arr);
 		$xml = "<xml>";
 		foreach ($arr as $key=>$val){
+		    p($key);
 		  if(is_numeric($val)){
 		    $xml.="<".$key.">".$val."</".$key.">";
 		  }else{
 		    $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
 		  }
+		  p($xml);
 		}
 		$xml.="</xml>";
 		return $xml;
