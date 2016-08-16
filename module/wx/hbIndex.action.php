@@ -232,23 +232,23 @@ class hbIndexAction extends null2Action{
 		$data=$this->db->model('weixin_name')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
 
 		$prize_name=array('未中奖','微信红包');
-		$prize_arr = array(
-		    '0' => array('id'=>1,'prize'=>1,'v'=>0),
-		    '1' => array('id'=>2,'prize'=>0,'v'=>0),
-		    '2' => array('id'=>3,'prize'=>0,'v'=>0),
-		    '3' => array('id'=>4,'prize'=>1,'v'=>40),
-		    '4' => array('id'=>5,'prize'=>1,'v'=>0),
-		    '5' => array('id'=>6,'prize'=>1,'v'=>0),
-		    '6' => array('id'=>7,'prize'=>1,'v'=>0),
-		    '7' => array('id'=>8,'prize'=>1,'v'=>0),
-		    '8' => array('id'=>9,'prize'=>0,'v'=>60),
-		);
-		foreach ($prize_arr as $key => $val) {
-		  $arr[$val['id']] = $val['v'];
-		}
-		$rid = $this->get_rand($arr); //根据概率获取奖项id
+		// $prize_arr = array(
+		//     '0' => array('id'=>1,'prize'=>1,'v'=>0),
+		//     '1' => array('id'=>2,'prize'=>0,'v'=>0),
+		//     '2' => array('id'=>3,'prize'=>0,'v'=>0),
+		//     '3' => array('id'=>4,'prize'=>1,'v'=>40),
+		//     '4' => array('id'=>5,'prize'=>1,'v'=>0),
+		//     '5' => array('id'=>6,'prize'=>1,'v'=>0),
+		//     '6' => array('id'=>7,'prize'=>1,'v'=>0),
+		//     '7' => array('id'=>8,'prize'=>1,'v'=>0),
+		//     '8' => array('id'=>9,'prize'=>0,'v'=>60),
+		// );
+		// foreach ($prize_arr as $key => $val) {
+		//   $arr[$val['id']] = $val['v'];
+		// }
+		// $rid = $this->get_rand($arr); //根据概率获取奖项id
 		//$res['yes'] = $prize_arr[$rid-1]['prize']; //中奖项,只有$rid=4的时候才有奖
-		$res['yes']=1;
+		$res['yes']=$this->gethonor();
 		$res['prize_name']=$prize_name[$res['yes']];//$prize_name[1],微信红包
 		//获取当天红包总数
 		$count= $this->db->model('weixin_count')->getRow();
@@ -289,22 +289,28 @@ class hbIndexAction extends null2Action{
 		$this->json_output(array('err'=>4,'res'=>$res));//返回抽奖的结果
 	}
 	//算法
-	public function get_rand($proArr){
-		$result = '';
-		//概率数组的总概率精度
-		$proSum = array_sum($proArr);
-		//概率数组循环
-		foreach ($proArr as $key => $proCur) {
-			$randNum = mt_rand(1, $proSum);
-			if ($randNum <= $proCur) {
-				$result = $key;
-				break;
-			} else {
-				$proSum -= $proCur;
-			}
-		}
-		unset ($proArr);
-		return $result;
+	// public function get_rand($proArr){
+	// 	$result = '';
+	// 	//概率数组的总概率精度
+	// 	$proSum = array_sum($proArr);
+	// 	//概率数组循环
+	// 	foreach ($proArr as $key => $proCur) {
+	// 		$randNum = mt_rand(1, $proSum);
+	// 		if ($randNum <= $proCur) {
+	// 			$result = $key;
+	// 			break;
+	// 		} else {
+	// 			$proSum -= $proCur;
+	// 		}
+	// 	}
+	// 	unset ($proArr);
+	// 	return $result;
+	// }
+	//新的中奖算法
+	public function gethonor(){
+		$options = array(1,0,0,1,0,0,1,0,0,1);
+		$index = rand(0, count($option)-1);
+		return $option[$index];
 	}
 	//动态获取5条数据
 	public function getHonorData(){
