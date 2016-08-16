@@ -289,6 +289,7 @@ class hbIndexAction extends null2Action{
 			if(!$this->db->model('weixin_prize')->add(saddslashes($prizeArr))) throw new Exception("系统错误。code:102");
 			$countModel->commit();
 		} catch (Exception $e) {
+			p($e->getMessage());
 			$res=array('yes'=>0,'prize_name'=>'未中奖');
 			$countModel->rollback();
 		}
