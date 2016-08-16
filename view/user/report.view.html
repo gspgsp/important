@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>统计数据</title>
+	<script type="text/javascript" src="__JS__/jquery/jquery.js"></script>
+	<script type="text/javascript" src="__JS__/ueditor/third-party/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="__JS__/ueditor/third-party/highcharts/modules/exporting.js"></script>
+	<script type="text/javascript" src="__JS__/home/laydate/laydate.js"></script>
+</head>
+<body>
+  <div class="team_box" style="width:100%; float:left;">
+        <table id="laydate">
+        	<tr>	
+                <td>
+                	<select name="time_type" id="soStatus">
+                    	<option value="this_month" {$this_month_selected}>本月</option>
+                    	<option value="last_month" {$last_month_selected}>上月</option>
+                	</select>
+                </td>
+                <td>
+                	<select name="team_type" id="team">
+                		{foreach from=$team item=value key=key}
+                    		<option value="{$value.id}" {$selected_{$value.id}}>{$value.name}</option>
+                		{/foreach}
+                	</select>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='sale_num' >销售吨位</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='buy_num' >采购吨位</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='sales' >销售金额</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='buys' >采购金额</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='old' >老客户量</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='new' >新客户量</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='day' >日电话量</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='month' >月电话量</button>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='profit' >利润</button>
+                </td>
+            </tr>
+        </table>
+</div>
+<div id="container" style="width:100%;height:300px;float:left;margin-top:10px;"></div>
+ <div class="team_box" style="width:100%; float:left;">
+	<table>
+		<tr>
+			<td>
+                	<select name="time_type" id="soStatus2">
+                    	<option value="this_month" {$this_month_selected}>本月</option>
+                    	<option value="last_month" {$last_month_selected}>上月</option>
+                	</select>
+                </td>
+                <td>
+                	<select name="team_type" id="team2">
+                		{foreach from=$team item=value key=key}
+                    		<option value="{$value.id}" {$selected_{$value.id}}>{$value.name}</option>
+                		{/foreach}
+                	</select>
+                </td>
+                <td colspan="2">
+                    <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" id="submit" type="submit" name='search' >搜索</button>
+                </td>
+		</tr>
+	</table>
+ </div>
+<div id="container2" style="width:100%;height:350px; float:left;margin-top:10px;"></div>
+<!-- <div id="container3" style="width:52%;height:500px; float:left; display:none;"></div>
+<div id="container4" style="width:48%;height:500px; float:left; display:none;"></div> -->
+<script type="text/javascript">
+	$(function(){
+		//处理各项指标展示区
+		$('.submit').on('click',function(){
+			var _time_type = $('#soStatus option:selected').val();
+			var _team_id = $('#team option:selected').val();
+			var _team_name = $('#team option:selected').html();
+			var _data_type = $(this).attr('name');
+			//console.log(_data_type);
+			$.post('/user/quota/getPersonData',{
+					time_type:_time_type,
+					team_id:_team_id,
+					team_name:_team_name,
+					data_type:_data_type
+				},function(data){
+					console.log((data.msg));
+					// var obj = $.parseJSON(data.msg);
+				    $('#container').highcharts($.parseJSON(data.msg));
+				    // $('#container2').highcharts($.parseJSON(data.msg));
+				},'json');
+		});
+		//处理百分比,当月份改变触发事件
+		$('#submit').on('click',function(){
+			var _time_type = $('#soStatus2 option:selected').val();
+			var _team_id = $('#team2 option:selected').val();
+			var _team_name = $('#team2 option:selected').html();
+			$.post('/user/quota/getPercent',{
+					time_type:_time_type,
+					team_id:_team_id,
+					team_name:_team_name
+				},function(data){
+					// console.log((data.msg));
+					// var obj = $.parseJSON(data.msg);
+				    $('#container2').highcharts($.parseJSON(data.msg));
+				    // $('#container2').highcharts($.parseJSON(data.msg));
+				},'json');
+		});
+		//默认点击一个
+		$(".submit[name='sale_num']").on('click',function(){
+			var _time_type = $('#soStatus option:selected').val();
+			var _team_id = $('#team option:selected').val();
+			var _team_name = $('#team option:selected').html();
+			var _data_type = $(this).attr('name');
+			$.post('/user/quota/getPersonData',{
+					time_type:_time_type,
+					team_id:_team_id,
+					team_name:_team_name,
+					data_type:_data_type
+				},function(data){
+					console.log((data.msg));
+				    $('#container').highcharts($.parseJSON(data.msg));
+				},'json');
+		});
+		//页面加载后，触发点击事件
+		$(".submit[name='sale_num']").trigger('click');
+		$("#submit").trigger('click');
+		//初始状态样式
+		$(".submit[name='sale_num']").css('color','red');
+		//点击按钮变色
+		$(':submit[type="submit"]').on('click',function(){
+			$(':submit[type="submit"]').css('color','');
+			$(this).css('color','red');
+		});
+	});
+</script>
+</body>
+</html>

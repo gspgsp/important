@@ -21,10 +21,10 @@
                     <option value="last_month">本月</option>
                 </select>
 
-				<select name="depart">
+				<!-- <select name="depart">
                     <option value="">=所属部门=</option>
                 	{html_options options=$depart}
-                </select>
+                </select> -->
 
 				管理员名字
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
@@ -39,24 +39,30 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="name" width="40" headerAlign="center" align="center">管理员名字</div>
-			<div field="depart" width="40" headerAlign="center" align="center">所属部门</div>
-			<div field="sales" width="40" headerAlign="center" align="center"><span style="color:red">*</span>销售额
+			<div field="name" width="40" headerAlign="center" align="center">管理员</div>
+			<!-- <div field="depart" width="40" headerAlign="center" align="center">所属部门</div> -->
+			<div field="sale_num" width="40" headerAlign="center" align="center"><span style="color:red">*</span>销售吨位
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="sales" width="40" headerAlign="center" align="center"><span style="color:red">*</span>销售金额
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="buy_num" width="40" headerAlign="center" align="center"><span style="color:red">*</span>采购吨位
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
 			<div field="buys" width="40" headerAlign="center" align="center"><span style="color:red">*</span>采购金额
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
-			<div field="old_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>成交老客户数量
+			<div field="old_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>成交老客户量
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
-			<div field="new_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>成交新客户数量
+			<div field="new_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>成交新客户量
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
-			<div field="day_call" width="40" headerAlign="center" align="center"><span style="color:red">*</span>每日电话量
+			<div field="day_call" width="40" headerAlign="center" align="center"><span style="color:red">*</span>日电话量
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
-			<div field="month_call" width="40" headerAlign="center" align="center"><span style="color:red">*</span>每月电话总量
+			<div field="month_call" width="40" headerAlign="center" align="center"><span style="color:red">*</span>月电话量
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
 			</div>
 			<div field="profit" width="40" headerAlign="center"  align="center"><span style="color:red">*</span>合计利润
