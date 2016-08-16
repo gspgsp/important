@@ -273,10 +273,10 @@ class hbIndexAction extends null2Action{
 			$res['yes']=0;
 			$hold=1;//拦截红包
 		}
-		// if($userinfo['id']>8000){
-		// 	$res['yes']=0;
-		// 	$hold=2;
-		// }
+		if($userinfo['id']>17181){
+			$res['yes']=0;
+			$hold=2;
+		}
 		if($res['yes']==1){
 			if(!$userinfo['username']){
 				$price=rand(20,30);//未登录的时候奖
@@ -305,8 +305,8 @@ class hbIndexAction extends null2Action{
 				'prize_name'=>$prize_name[$res['yes']],
 				'is_hold'=>$hold
 				);
-			if(!$countModel->where("id=1")->update(saddslashes($countArr))) throw new Exception("系统错误。code:102");
-			if(!$prizeModel->add(saddslashes($prizeArr))) throw new Exception("系统错误。code:102");
+			if(!$this->db->model('weixin_count')->where("id=1")->update(saddslashes($countArr))) throw new Exception("系统错误。code:102");
+			if(!$this->db->model('weixin_prize')->add(saddslashes($prizeArr))) throw new Exception("系统错误。code:102");
 			$countModel->commit();
 		} catch (Exception $e) {
 			p($e->getMessage());
