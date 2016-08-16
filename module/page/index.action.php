@@ -45,6 +45,10 @@ class indexAction extends homeBaseAction{
 	}
 	//添加意见
 	public function addAdvise(){
+		if($_SESSION['userid']==0){
+			$this->forward('/user/login');
+			exit;
+		}
 		$type=spost('type','i');
 		$message=htmlspecialchars(spost('advise','s'));
 		$advise=array(
