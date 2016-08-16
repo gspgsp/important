@@ -91,4 +91,25 @@ class orderModel extends model{
 	public function getOinfoById($oid = 0){
 		return $this->where("o_id = $oid")->getRow();
 	}
+	/**
+	 * 根据where 条件查询已收款（销售订单）和已付款（采购id）
+	 * @Author   yezhongbao
+	 * @DateTime 2016-08-16T14:42:42+0800
+	 * @return   [type]                   [description]
+	 */
+	public function get_collection($where='1'){
+		$collection = $this->model('order as o')
+						   ->select('o_id')
+  			 			   ->where($where)
+				 		   ->getAll();
+		foreach ($collection as $key => $value) {
+			$str.=$value['o_id'].',';
+		}
+		$string = trim($str,',');
+		$collection_data = $this->model('collection')
+							->select('sum(collected_price) as collection')
+							->where('collection_status=2 and o_id in ('.$string.')')
+							->getOne();
+		return $collection_data;
+	}
 }
