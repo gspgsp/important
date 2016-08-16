@@ -33,7 +33,8 @@ class hbIndexAction extends null2Action{
 		    }else{
 		        $cache->delete('weixinAuth'.$this->openid);
 		        $cache->delete('open_access');
-		        exit('authError');
+// 		        exit('authError');
+		        $this->display('index');
 		    }
 		}
 	}
