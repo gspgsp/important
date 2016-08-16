@@ -64,22 +64,20 @@
                 <table id="table">
                     <tr>
                         <td width="80">客户名称：</td>
-                        <td width="120">我的塑料网</td>
+                        <td width="120">{$smarty.session.uinfo.c_name}</td>
                         <td width="80">联<i></i>系<i></i>人：</td>
-                        <td>{$customer_manager.name}</td>
+                        <td>{$smarty.session.uinfo.name}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>联系电话：</td>
-                        <td>{$customer_manager.mobile}</td>
-                        <td>采购类型：</td>
-                        <td>现货</td>
+                        <td>{$smarty.session.uinfo.mobile}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>付款方式<span class="red">*</span>:</td>
                         <td>
-                            <select datatype="*" name="pay_method" class="required">
+                            <select datatype="*" name="pay_method" class="required" id="pay_method">
                                 <option value="">请选择</option>
                                 {foreach from=$pay_method item=value key=key}
                                 <option value="{$key}">{$value}</option>
@@ -95,6 +93,8 @@
                                 {/foreach}
                             </select>
                         </td>
+                        <td>配送时间<span class="red">*</span>:</td>
+                        <td> <input type="text" id="date3"  datatype="*" name="delivery_date" class="required"/></td>
                         <!--<td>-->
                             <!--<div class="other hide">-->
                                 <!--<span>配送日期</span><span>:</span>-->
@@ -110,11 +110,10 @@
                         <!--</td>-->
                     </tr>
                     <tr class="other hide">
-                        <td>配送时间<span class="red">*</span>:</td>
-                        <td> <input type="text" id="date1"  datatype="*" name="delivery_date" class="required"/></td>
+
                         <td>配送地点<span class="red">*</span>:</td>
                         <td>
-                                <select datatype="*" name="delivery_place" class="required" >
+                                <select datatype="*" name="delivery_place" class="required" id="delivery_place" >
                                     <option value="">请选择</option>
                                     {foreach from=$area item=value key=key}
                                     <option value="{$value.id}">{$value.name}</option>
@@ -122,7 +121,7 @@
                                 </select>
                         </td>
                         <td>详细地址<span class="red">*</span>:</td>
-                        <td><input type="text"  datatype="*" name="address" class="required"  placeholder="详细地址"/></td>
+                        <td><input type="text" id="address"  datatype="*" name="address" class="required"  placeholder="详细地址"/></td>
                     </tr>
                 </table>
                 <!--sly-chn begin-->
@@ -179,9 +178,9 @@
     //配送时间
     $(function(){
         laydate({
-            elem: '#date1',
+            elem: '#date3',
             event: 'focus',
-            min: laydate.now()
+
         });
     })
 //显示隐藏
@@ -193,11 +192,11 @@
            $(".buy-wrap .order-confirm .other select").addClass("required");
        }else{
        $(".buy-wrap .order-confirm .other").addClass("hide");
-       $(".buy-wrap .order-confirm .other input").val('--');
+       $(".buy-wrap .order-confirm .other input").val('');
        }
 
    })
-
+//
 function delCart(id,that){
     $.post('/offers/index/delCart',{id,id},function(data){
         if(data.err==0){
@@ -209,12 +208,12 @@ function delCart(id,that){
     },'json');
 }
 function load_cart(){
-    if($('#load-cart').size() > 0){
-        $('#load-cart').load($('#load-cart').attr('data-url'));
-    }
-    
-}
+        if($('#load-cart').size() > 0){
+            $('#load-cart').load($('#load-cart').attr('data-url'));
+        }
 
+    }
+//
 function set_cart(sid,that){
     var num=parseFloat($(that).val());
     var number=parseFloat($(that).attr("data-id"));
@@ -232,17 +231,17 @@ function set_cart(sid,that){
         load_cart();
     });
 }
-
-var demo=$("#cartFrom").Validform({
-    tiptype:function(msg,o,cssctl){
-        if(!o.obj.is("form")){
-            var objtip=o.obj.siblings(".Validform_checktip");
-            cssctl(objtip,o.type);
-            objtip.text(msg);
-        }
-    }
-});
-
+//
+//var demo=$("#cartFrom").Validform({
+//    tiptype:function(msg,o,cssctl){
+//        if(!o.obj.is("form")){
+//            var objtip=o.obj.siblings(".Validform_checktip");
+//            cssctl(objtip,o.type);
+//            objtip.text(msg);
+//        }
+//    }
+//});
+//
 $("#cartFrom").submit(function(){
 
     if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
@@ -252,16 +251,56 @@ $("#cartFrom").submit(function(){
     }
 
 
-    if(!demo.check()) return false;
-    var data=$("#cartFrom").serialize();
+//    if(!demo.check()) return false;
+        var pay_method=$('#pay_method').val();
+        var transport_type=$('#transport_type').val();
+        var  date3=$("#date3").val();
+        var  delivery_place=$("#delivery_place").val();
+        var   address=$("#address").val();
+    if($("#transport_type").val()==1){
+        if(pay_method==''){
+            layer.msg('支付方式不能为空');return false;
+            pay_method.focus();
+        }
+        if(transport_type==''){
+            layer.msg('运输方式不能为空');return false;
+            transport_type.focus();
+        }
+        if(date3==''){
+            layer.msg('配送时间不能为空');return false;
+            date3.focus();
+        }
+    }else{
+        if(pay_method==''){
+            layer.msg('支付方式不能为空');return false;
+            pay_method.focus();
+        }
+        if(transport_type==''){
+            layer.msg('运输方式不能为空');return false;
+            transport_type.focus();
+        }
+        if(date3==''){
+            layer.msg('配送时间不能为空');return false;
+            date3.focus();
+        }
+        if(delivery_place==''){
+            layer.msg('配送地点不能为空');return false;
+            delivery_place.focus();
+        }
+        if(address==''){
+            layer.msg('详细地址不能为空');return false;
+            address.focus();
+        }
 
+    }
+    var data=$("#cartFrom").serialize();
     $.post('/cart/index/addorder',data,function(data){
         if(data.err==0){
             window.location.href="/cart/index/msg";
         }else{
             layer.msg(data.msg);
 
-        }   
+        }
     },'json');
     return false;
 });
@@ -270,13 +309,13 @@ $(function(){
     load_cart();
     laydate({
         elem: '#date1',
-        event: 'focus' 
+        event: 'focus'
+
     });
     laydate({
         elem: '#date2',
-        event: 'focus' 
+        event: 'focus'
     });
 
-    
 });
 </script>
