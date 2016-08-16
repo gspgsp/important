@@ -5,11 +5,12 @@
 class hbPayAction extends homeBaseAction{
 	protected $openid;
 	public function __init(){
+		$this->db=M('public:common');
 		//if(!isset($_SESSION['weixinAuth'])) exit('未授权');
-		$this->openid=$_SESSION['weixinAuth']['openid'];
+		//$this->openid=$_SESSION['weixinAuth']['openid'];
+		$this->openid="o1SYHww1LpW0o6cm2uWngRiD4HmY";
 		define(WEIXIN_MCHID,'1324710901');//商户号id
 		define(WEIXIN_PARTNERKEY, 'x39kmrlyOBOYvfR3vBlJpnAvkNsmQygJ');//秘钥
-		// $this->openid="o1SYHw7UuAqoEoM1Yoyk7DEoqp7g";
 	}
 	//进入红包支付页面
 	public function enPay(){
@@ -37,16 +38,17 @@ class hbPayAction extends homeBaseAction{
 	}
 	//提现红包
 	public function cash(){
-		if(!$userinfo=$this->db->model('weixin_name')->where(saddslashes(array('openid'=>$this->openid)))->getRow()) $this->json_output(array('err'=>2,'msg'=>'微信未授权登录'));
+		$this->is_ajax=true;
+		if(!$userinfo=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow()) $this->json_output(array('err'=>2,'msg'=>'微信未授权登录'));
 		//if($userinfo['username']=='') exit($this->json_out(4,'账号未登录'));
 		$prizeModel = $this->db->model('weixin_prize');
 		// $model=M('weixin_prize');
-		$count = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getOne();
+		$count = $this->db->model('weixin_prize')->select("sum(price) as pr")->where("oid={$userinfo['id']} and status=0")->getOne();
 		//$count=$prizeModel->where(array('oid'=>$userinfo['id'],'status'=>0))->sum('price');
 		if($count<200) $this->json_output(array('err'=>3,'msg'=>'红包金额不足2元,无法提现。'));
 		$prizeModel->startTrans();
-		try {
-			if(!$prizeModel->where(saddslashes(array('oid'=>$userinfo['id'],'prize'=>1,'status'=>0)))->update(array('status'=>1,'updatetime'=>time()))) throw new Exception('系统错误。code:101');
+		try {//
+			if(!$prizeModel->where("oid={$userinfo['id']} and prize=1 and status=0")->update(saddslashes(array('status'=>1,'updatetime'=>time())))) throw new Exception('系统错误。code:101');
 			if( !$this->hongbao($this->openid, $count, 1) ) throw new Exception("系统错误。code:103");
 			if( !$this->hongbao_log($this->openid, 0, 1, $count, 1) ) throw new Exception("系统错误。code:102");
 		} catch (Exception $e) {
@@ -94,6 +96,7 @@ class hbPayAction extends homeBaseAction{
 		$sign = $this->sign($result);
 		$parameter['sign'] = $sign;
 		$xmlTpl = $this->arrayToXml($parameter);
+		p($xmlTpl);
 		$url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 		$responseXml = $this->curl_post_ssl($url, $xmlTpl);
 		//logger($responseXml);
