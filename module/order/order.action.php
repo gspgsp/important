@@ -339,7 +339,9 @@ class orderAction extends adminBaseAction {
 		$msg="";
 		if($list['count']>0){
 			$sum=$this->db->select("sum(total_num) as wsum, sum(total_price) as msum")->where($where)->getRow();
-			$msg="[筛选结果]总额:【".price_format($sum['msum'])."】总吨:【".$sum['wsum']."】";
+			$collection = M('product:order')->get_collection($where);
+			$order_type=='1'?$collection_name='收款':$collection_name='付款';
+			$msg="[筛选结果]总额:【".price_format($sum['msum'])."】总吨:【".$sum['wsum']."】".$collection_name.":【".price_format($collection)."】";
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->json_output($result);
