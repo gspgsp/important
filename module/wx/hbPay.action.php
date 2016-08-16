@@ -40,11 +40,20 @@ class hbPayAction extends homeBaseAction{
 	//进入红包支付页面
 	public function enPay(){
 	    if(empty($_GET['openid'])){
+	        $this->get_authorize_url("http://m.myplas.com/wx/hbIndex/enHbPage?param=access_token",'STATE');
 	        exit('openid为空');
 	    }
 	    $this->openid = $_GET['openid'];
 	    $this->assign('openid',$this->openid);
 		$this->display('record');
+	}
+	//通过回调方法获取用户的code
+	protected function get_authorize_url($redirect_uri = '', $state = ''){
+	    $redirect_uri = urlencode($redirect_uri);
+	    $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->AppID}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+	    echo "<script language='javascript' type='text/javascript'>";
+	    echo "window.location.href='$url'";
+	    echo "</script>";
 	}
 	//我的奖品
 	public function myPrize(){
