@@ -22,19 +22,21 @@ class hbPayAction extends homeBaseAction{
 	    if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth')=="")){
 	        exit('用户信息为空');
 	    }
-	    $this->openid = get('weixinAuth')['openid'];
-		if(!$userinfo=$this->db->model('weixin_name')->where(saddslashes(array('openid'=>$this->openid)))->getRow()) $this->json_output(array('err'=>6,'msg'=>'微信未授权登录'));
+	    $this->openid = $cache->get('weixinAuth')['openid'];
+		if(!$userinfo=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow()) {
+		    $this->json_output(array('err'=>6,'msg'=>'微信未授权登录'));
+		}
 		//详情
-		$count = count($this->db->model('weixin_prize')->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getAll());
-		$money = $this->db->model('weixin_prize')->select("sum('price') as pr")->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getOne();
+		$count = count($this->db->model('weixin_prize')->where("openid='{$this->openid}' and status=0")->getAll());
+		$money = $this->db->model('weixin_prize')->select("sum('price') as pr")->where("oid='{$userinfo['id']}' and status=0")->getOne();
 		$name = $userinfo['name'];
 		$img = $userinfo['img'];
 		//中奖记录
-		$no = $this->db->model('weixin_prize')->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getAll();//没兑换
+		$no = $this->db->model('weixin_prize')->where("oid='{$userinfo['id']}' and status=0")->getAll();//没兑换
 		foreach ($no as &$value) {
 			$value['addtime'] = date("Y-m-d",$value['addtime']);
 		}
-		$yes=$this->db->model('weixin_prize')->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>1)))->getAll();//已经兑换
+		$yes=$this->db->model('weixin_prize')->where("oid='{$userinfo['id']}' and status=1")->getAll();//已经兑换
 		foreach ($yes as &$value) {
 			$value['updatetime'] = date("Y-m-d",$value['updatetime']);
 		}
