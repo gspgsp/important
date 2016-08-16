@@ -239,7 +239,7 @@ class hbIndexAction extends null2Action{
 	    $openid = $this->openid;
 // 	    $cache = cache::startMemcache();
 		$userinfo = $data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
-		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'机会用完啦...下载app或登录app可获取更多机会哟','times'=>$userinfo['times']));
+		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'机会用完啦...下载并成功登录我的塑料网app可获取更多机会哟','times'=>$userinfo['times']));
 		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'机会用完啦...明天再来呗','times'=>$userinfo['times']));
 		//更新抽奖次数
 		$data=$this->db->model('weixin_name')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
