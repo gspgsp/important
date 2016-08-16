@@ -319,7 +319,7 @@ class hbIndexAction extends null2Action{
 	public function gethonor(){
 		$options = array(1,0,0,1,0,0,1,0,0,1);
 		$index = rand(0, count($option)-1);
-		return $option[$index];
+		return $options[$index];
 	}
 	//动态获取5条数据
 	public function getHonorData(){
