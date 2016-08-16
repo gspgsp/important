@@ -164,10 +164,14 @@
 										});										
 									}
 								});
-                        		}else{
-                         			mui.alert("",res.msg,function(){
+                        		}else if(res.err==4){
+                         			mui.alert("",res.prize_name,function(){
                         				window.location.reload();
                         			});                        			
+                        		}else if(res){
+                         			mui.alert("",res.msg,function(){
+                        				window.location.reload();
+                        			});                        			                        			
                         		}
                         	},
                         	error:function(e){
