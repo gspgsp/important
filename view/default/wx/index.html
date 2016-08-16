@@ -25,6 +25,8 @@
 			.fpzDownload{ width: 100%; height: 40px; line-height: 40px; position: fixed; bottom: 0; left: 0; background: #000000;}
 			.fpzDownloadPic{ width: auto; height: 40px; text-align: center; margin: 0 65px 0 0;}
 			.fpzDownloadLink{ width: 65px; height: 40px; text-decoration: none; position: absolute; top: 0; right: 0; background: #03bcae; color: #FFFFFF; text-align: center; font-size: 13px;}
+			#layer{ width: 100%; height: 100%; display: none;
+			 position: fixed; top: 0; left: 0; background: rgba(1,1,1,0.7); z-index: 90;}
 		</style>
 	</head>
 	<body>
@@ -47,10 +49,7 @@
 			<img id="rotate" width="24" style="position: relative; top: 5px;" src="__MYAPP__/img/rule12.png">&nbsp;您目前还有<b id="num"></b>次抽奖机会。
 		</div>
 		<div id="demo" class="msg" style="margin: 15px auto 10px auto; overflow: hidden;">
-			<div id="demo1">
-				<p><b>轻舞飞扬</b>抽到<b>￥0.34</b>现金红包</p>
-				<p><b>轻舞飞扬</b>抽到<b>￥0.34</b>现金红包</p>
-			</div>
+			<div id="demo1"></div>
 			<div id="demo2"></div>
 		</div>
 		<footer class="fpzDownload">
@@ -59,29 +58,30 @@
 			</div>
 			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
 		</footer>
-		<form id="login" class="mui-input-group" style="height:150px; display: none; position:fixed; top:50%; margin: -60px 0 0 0; width:100%; z-index:100;">
+		<form id="login" class="mui-input-group" style="height:125px; display: none; position:fixed; top:50%; margin: -60px 0 0 0; width:100%; z-index:100;">
 					<div class="mui-input-row">
 						<label>Input</label>
 						<input type="text" placeholder="普通输入框">
 					</div>
 					<div class="mui-input-row">
 						<label>用户名:</label>
-						<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
+						<input id="mobi" type="text" class="mui-input-clear" placeholder="带清除按钮的输入框" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
 					</div>
 
 					<div class="mui-input-row mui-plus-visible">
 						<label>密码:</label>
-						<input type="text" class="mui-input-speech mui-input-clear" placeholder="语音输入" data-input-clear="6" data-input-speech="6"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-icon mui-icon-speech"></span>
+						<input id="pwd" type="password" class="mui-input-speech mui-input-clear" placeholder="语音输入" data-input-clear="6" data-input-speech="6"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-icon mui-icon-speech"></span>
 					</div>
 				<div class="mui-button-row">
-				<button type="button" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
-				<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+				<button id="go" type="button" class="mui-btn mui-btn-primary">确认</button>&nbsp;&nbsp;
+				<button id="cancel" type="button" class="mui-btn mui-btn-danger">取消</button>
 			</div>
 		</form>
+		<div id="layer"></div>
 		<input type="hidden" id="times" value="{$times}"/>
 		<script type="text/javascript">
 		$("#num").text($("#times").val());
-		
+		var msgLi="";
 		$.ajax({
 			type:"get",
 			url:"/wx/hbIndex/getHonorData",
@@ -89,7 +89,10 @@
 			dataType:"json",
 			success:function(res){
 				console.log(res);
-				
+				res.names.forEach(function(v,i,a){
+					msgLi+="<p><b>"+v.name+"</b>抽到<b>￥"+v.price+"</b>现金红包</p>";
+				});
+				$("#demo1").html(msgLi);
 			},
 			error:function(){
 				
@@ -143,6 +146,27 @@
 										window.location.reload();
 									}else if(e.index==1){
 										$("#login").show();
+										$("#layer").show();									
+										$("#go").on("click",function(){
+											$.ajax({
+												type:"post",
+												url:"/wx/hbIndex/doLogin",
+												async:true,
+												data:{username:$("#mobi").val(),password:$("#pwd").val()},
+												success:function(res){
+													if(res.err==0){
+														mui.alert("",res.msg,function(){
+															window.location.reload();
+														});
+													}
+												},
+												error:function(){},
+												dataType:"json"	
+											});
+										});
+										$("#cancel").on("click",function(){
+											window.location.reload();
+										});										
 									}
 								});
                         		}else if(res.err==1){
