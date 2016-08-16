@@ -165,7 +165,7 @@
 
 .buy-wrap .order-confirm table{ font-size:12px; border-collapse: collapse;}
 .buy-wrap .order-confirm table tr td{ height:40px;}
-.buy-wrap .order-confirm table input{ width:287px; height:15px; padding:10px 0 10px 10px; border:1px solid #bbb;}
+.buy-wrap .order-confirm table input{ width:229px; height:4px; padding:10px 0 10px 10px; border:1px solid #bbb;}
 .buy-wrap .order-confirm table input.readonly{ color:#a8a8a7; background:#ebebe5;}
 .buy-wrap .order-confirm table select{ font-size: 12px; width:100px; height:24px; color: #666;}
 .buy-wrap .order-confirm table textarea{ width:858px; height:52px; padding:10px; border:1px solid #bbb;}
