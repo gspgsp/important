@@ -59,19 +59,19 @@
 				<div class="yebl feedback">
 					<div class="yeblt">意见反馈</div>
 					<div>问题类别:</div>
-					<form name="" method="post" action="/page/index/addAdvise">
+					<form name="" method="post" action="/page/index/addAdvise" >
 					<div>
-						<select name="type">
-							<option>请选择</option>
+						<select name="type" id="type">
+							<option value="0">请选择</option>
 							<option value="1">类型1</option>
 							<option value="2">类型2</option>
 							<option value="3">类型3</option>
 						</select>
 					</div>
-					<div class="gongwiabwbnege">
+					<div class="gongwiabwbnege" >
 						<p><span>*</span>请留下您对我的塑料网新版首页的意见和建议</p>
-							<textarea name="advise" placeholder="请输入您的意见..."></textarea>
-							<input type="submit" value="提交"/>
+							<textarea name="advise" id="advise" placeholder="请输入您的意见..."></textarea>
+							<input  type="submit" value="提交" />
 					</div>
 					</form>
 				    <div class="clear"></div>
@@ -83,3 +83,18 @@
 		<div class="clear"></div>
 	</div>
 </div>
+<script type='text/javascript' >
+	$(function(){
+		$('form').submit(function(event) {
+			if($('#type').val()==0){
+				alert('请选择意见类型。');
+				return false;
+			}
+			if($('#advise').val()==''){
+				alert('请填写建议。。。');
+				$('#advise').focus();
+				return false;
+			}
+		});
+	});
+</script>
