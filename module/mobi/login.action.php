@@ -4,6 +4,10 @@
  * 用户登录- web-app
  */
 class loginAction extends homeBaseAction{
+	public function __init()
+	{
+		$this->db=M('public:common');
+	}
 	public function init()
 	{
 		$this->display('me_login');
