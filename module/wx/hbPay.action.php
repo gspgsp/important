@@ -62,7 +62,7 @@ class hbPayAction extends homeBaseAction{
 		}
 		//详情
 		$count = count($this->db->model('weixin_prize')->where("openid='{$this->openid}' and status=0")->getAll());
-		$money = $this->db->model('weixin_prize')->select("sum('price') as pr")->where("oid='{$userinfo['id']}' and status=0")->getOne();
+		$money = $this->db->model('weixin_prize')->select("sum(price) as pr")->where("oid='{$userinfo['id']}' and status=0")->getOne();
 		if(empty($money)){
 		    $money = 0;
 		}
