@@ -244,7 +244,7 @@ class hbIndexAction extends null2Action{
 		//更新抽奖次数
 		$data=$this->db->model('weixin_name')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
 
-		$prize_name=array('未中奖','微信红包');
+		$prize_name=array('谢谢参与','微信红包');
 		$res['yes']=$this->gethonor();
 		$res['prize_name']=$prize_name[$res['yes']];//$prize_name[1],微信红包
 		//获取当天红包总数
@@ -293,7 +293,7 @@ class hbIndexAction extends null2Action{
 			$countModel->commit();
 		} catch (Exception $e) {
 			p($e->getMessage());
-			$res=array('yes'=>0,'prize_name'=>'未中奖','price'=>0);
+			$res=array('yes'=>0,'prize_name'=>'谢谢参与','price'=>0);
 			$countModel->rollback();
 		}
 		$res['times']=$this->db->model('weixin_name')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
@@ -320,7 +320,7 @@ class hbIndexAction extends null2Action{
 	// }
 	//新的中奖算法
 	public function gethonor(){
-		$options = array(1,0,0,1,0,0,1,0,0,1);
+		$options = array(0,0,0,1,0,0,1,0,0,1);
 		$index = rand(0, count($option)-1);
 		return $options[$index];
 	}
