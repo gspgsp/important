@@ -117,7 +117,7 @@ class reportAction extends adminBaseAction {
 		if(empty($data)) $this->error('错误的请求');
     		$data['input_time']=CORE_TIME;
     		$data['input_admin']=$_SESSION['name'];
-    		$data['report_date']= strtotime($data['report_date']);
+    		$data['report_date']= strtotime(date('Y-m',strtotime($data['report_date'])));
 		$result = $this->db->add($data);
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
