@@ -62,11 +62,13 @@
 				</table>
 			</div>
 		</div>
+		<input type="hidden" id="openid" value="{$openid}"/>
 		<script type="text/javascript">
 			$.ajax({
 				type:"post",
 				url:"/wx/hbPay/myPrize",
 				async:true,
+            	data:{openid:$("#openid").val()},
 				dataType:"json",
 				success:function(res){
 					console.log(res);
