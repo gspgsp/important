@@ -102,7 +102,7 @@ class hbPayAction extends homeBaseAction{
     		    $price = 0;
     		}
     		//$count=$prizeModel->where(array('oid'=>$userinfo['id'],'status'=>0))->sum('price');
-    		if($price<200) $this->json_output(array('err'=>3,'msg'=>'红包金额不足2元,无法提现。'));
+    		if($price<100) $this->json_output(array('err'=>3,'msg'=>'红包金额不足1元,无法提现。'));
     		$prizeModel->startTrans();
     		try {//
     			if(!$prizeModel->where("oid={$userinfo['id']} and prize=1 and status=0")->update(saddslashes(array('status'=>1,'updatetime'=>time())))) throw new Exception('系统错误。code:101');
