@@ -88,9 +88,6 @@
 					dataType:"json",
 					success:function(res){
 						console.log(res);
-						res.result.forEach(function(v,i,a){
-							
-						});
 						if(res.err==4){
 							mui.alert("",res.msg,function(){
                         		window.location.href="/wx/hbPay/enPay";
