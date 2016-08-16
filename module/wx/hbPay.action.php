@@ -69,16 +69,17 @@ class hbPayAction extends homeBaseAction{
 		$name = $userinfo['name'];
 		$img = $userinfo['img'];
 		//中奖记录
-		$no = $this->db->model('weixin_prize')->where("oid='{$userinfo['id']}' and status=0")->getAll();//没兑换
+		$no = $this->db->model('weixin_prize')->where("oid='{$userinfo['id']}' and status=0 and price>0")->limit('0,5')->getAll();//没兑换
 		foreach ($no as &$value) {
 			$value['addtime'] = date("Y-m-d",$value['addtime']);
 		}
-		$yes=$this->db->model('weixin_prize')->where("oid='{$userinfo['id']}' and status=1")->getAll();//已经兑换
+		$yes=$this->db->model('weixin_prize')->where("oid='{$userinfo['id']}' and status=1 and price>0")->limit('0,5')->getAll();//已经兑换
 		foreach ($yes as &$value) {
 			$value['updatetime'] = date("Y-m-d",$value['updatetime']);
 		}
+		$result = array_merge($no, $yes);
 		//返回数据
-		$this->json_output(array('err'=>7,'count'=>$count,'money'=>$money/100,'name'=>$name,'img'=>$img,'no'=>$no,'yes'=>$yes));
+		$this->json_output(array('err'=>7,'count'=>$count,'money'=>$money/100,'name'=>$name,'img'=>$img,'no'=>$no,'yes'=>$yes,'result'=>$result));
 	}
 	//提现红包
 	public function cash(){
