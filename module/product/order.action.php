@@ -77,7 +77,7 @@ class orderAction extends adminBaseAction {
 		}
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
-		$where.= 1;
+		$where.= 1 and order_status;
 		//筛选状态
 		if(sget('type','i',0) !=0) $order_type=sget('type','i',0);//订单类型
 		if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
@@ -93,7 +93,11 @@ class orderAction extends adminBaseAction {
 		$business_model=sget('business_model','i',0);//业务模式
 		if($business_model !=0)  $where.=" and `business_model` =".$business_model;
 		$order_status=sget('order_status','i',0);//订单审核
-		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
+		if($order_status !=0){
+			$where.=" and `order_status` =".$order_status;
+		}else{
+			$where.= " and `order_status` <> 3";
+		}  
 		$transport_status=sget('transport_status','i',0);//物流审核
 		if($transport_status !=0)  $where.=" and `transport_status` =".$transport_status;
 		$out_storage_status=sget('out_storage_status','i',0);//发货状态
@@ -126,7 +130,7 @@ class orderAction extends adminBaseAction {
 
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		//echo $_SESSION['adminid'];
-		//p($list);die;
+		// p($list);die;
 		foreach($list['data'] as &$v){
 			$v['c_name']=  ($v['partner'] == $_SESSION['adminid'] && $v['customer_manager'] != $_SESSION['adminid']) ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
