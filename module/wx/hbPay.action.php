@@ -16,7 +16,7 @@ class hbPayAction extends homeBaseAction{
 	    if(!empty($code)){
 		    $open_access = $this->get_author_access_token($code);
 		    $cache->set('open_access',$open_access,7200);
-		    $userinfo = $open_access;		    
+		    $userinfo = $open_access;
 		    $cache->set('userinfo',$userinfo,7200);
 		    $info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
 		    $this->openid = $userinfo['openid'];
@@ -83,7 +83,7 @@ class hbPayAction extends homeBaseAction{
 	//提现红包
 	public function cash(){
 		$this->is_ajax=true;
-		if(!$userinfo=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow()) $this->json_output(array('err'=>2,'msg'=>'微信未授权登录'));
+		if(!$userinfo=$this->db->model('weixin_name')->where("openid='o1SYHww1LpW0o6cm2uWngRiD4HmY'")->getRow()) $this->json_output(array('err'=>2,'msg'=>'微信未授权登录'));
 		//if($userinfo['username']=='') exit($this->json_out(4,'账号未登录'));
 		$prizeModel = $this->db->model('weixin_prize');
 		// $model=M('weixin_prize');
@@ -93,7 +93,7 @@ class hbPayAction extends homeBaseAction{
 		$prizeModel->startTrans();
 		try {//
 			if(!$prizeModel->where("oid={$userinfo['id']} and prize=1 and status=0")->update(saddslashes(array('status'=>1,'updatetime'=>time())))) throw new Exception('系统错误。code:101');
-			if( !$this->hongbao($this->openid, $count, 1) ) throw new Exception("系统错误。code:103");
+			if( !$this->hongbao('o1SYHww1LpW0o6cm2uWngRiD4HmY', $count, 1) ) throw new Exception("系统错误。code:103");
 			if( !$this->hongbao_log($this->openid, 0, 1, $count, 1) ) throw new Exception("系统错误。code:102");
 		} catch (Exception $e) {
 			$prizeModel->rollback();
@@ -140,7 +140,7 @@ class hbPayAction extends homeBaseAction{
 		$sign = $this->sign($result);
 		$parameter['sign'] = $sign;
 		$xmlTpl = $this->arrayToXml($parameter);
-		p($xmlTpl);
+		//$xmlTpl = $this->arrayToXml();
 		$url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 		$responseXml = $this->curl_post_ssl($url, $xmlTpl);
 		//logger($responseXml);
@@ -179,20 +179,51 @@ class hbPayAction extends homeBaseAction{
 	 * @param  [type] $arr [传入数组]
 	 * @return [type]      [返回xml]
 	 */
-	protected function arrayToXml($arr){
+	// protected function arrayToXml($arr){
+	// 	$xml = "<xml>";
+	// 	foreach ($arr as $key=>$val){
+	// 	  if(is_numeric($val)){
+	// 	    $xml.="<".$key.">".$val."</".$key.">";
+	// 	  }else{
+	// 	    $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+	// 	  }
+	// 	}
+	// 	$xml.="</xml>";
+	// 	return $xml;
+	// }
+	public function arrayToXml($arr){
+		// $xml = "<xml>";
+		// $xml.="<sign><![CDATA[".$arr['sign']."]]></sign>";
+		// $xml.="<mch_billno><![CDATA[".$arr['mch_billno']."]]></mch_billno>";
+		// $xml.="<mch_id><![CDATA[".$arr['mch_id']."]]></mch_id>";
+		// $xml.="<wxappid><![CDATA[".$arr['wxappid']."]]></wxappid>";
+		// $xml.="<send_name><![CDATA[".$arr['send_name']."]]></send_name>";
+		// $xml.="<re_openid><![CDATA[".$arr['re_openid']."]]></re_openid>";
+		// $xml.="<total_amount><![CDATA[".$arr['total_amount']."]]></total_amount>";
+		// $xml.="<total_num><![CDATA[".$arr['total_num']."]]></total_num>";
+		// $xml.="<wishing><![CDATA[".$arr['wishing']."]]></wishing>";
+		// $xml.="<client_ip><![CDATA[".$arr['client_ip']."]]></client_ip>";
+		// $xml.="<act_name><![CDATA[".$arr['act_name']."]]></act_name>";
+		// $xml.="<remark><![CDATA[".$arr['remark']."]]></remark>";
+		// $xml.="<nonce_str><![CDATA[".$arr['nonce_str']."]]></nonce_str>";
+		// $xml.= "</xml>";
 		$xml = "<xml>";
-		foreach ($arr as $key=>$val)
-		{
-		  if (is_numeric($val))
-		  {
-		    $xml.="<".$key.">".$val."</".$key.">"; 
-		  }
-		  else{
-		    $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";  
-		  } 
-		}
-		$xml.="</xml>";
-		return $xml; 
+		$xml.="<sign><![CDATA[5145AA2CB918F0E84863AA9EE6EC3BD5]]></sign>";
+		$xml.="<mch_billno><![CDATA[1324710901201608161245954148]]></mch_billno>";
+		$xml.="<mch_id><![CDATA[1324710901]]></mch_id>";
+		$xml.="<wxappid><![CDATA[wxbe66e37905d73815]]></wxappid>";
+		$xml.="<send_name><![CDATA[我的塑料网]]></send_name>";
+		$xml.="<re_openid><![CDATA[o1SYHww1LpW0o6cm2uWngRiD4HmY]]></re_openid>";
+		$xml.="<total_amount><![CDATA[300]]></total_amount>";
+		$xml.="<total_num><![CDATA[1]]></total_num>";
+		$xml.="<wishing><![CDATA[我的塑料网红包]]></wishing>";
+		$xml.="<client_ip><![CDATA[ 127.0.0.1]]></client_ip>";
+		$xml.="<act_name><![CDATA[微信红包]]></act_name>";
+		$xml.="<remark><![CDATA[微信红包]]></remark>";
+		$xml.="<nonce_str><![CDATA[ASM6C7ZfjUHcsotdbAT4QEaqgmMTqleN]]></nonce_str>";
+		$xml.= "</xml>";
+		p($xml);
+		return $xml;
 	}
 	//微信日志
 	// protected function logger($postStr, $type=1){
@@ -249,7 +280,7 @@ class hbPayAction extends homeBaseAction{
 	      curl_close($ch);
 	      return $data;
 	   }
-	   else { 
+	   else {
 	      $error = curl_errno($ch);
 	      curl_close($ch);
 	      return $error;
