@@ -17,7 +17,7 @@
 			#wrap b{ font-size: 60px; font-weight: normal;}
 			.btn{ }
 			.record{ width: 100%; height: 176px; background: url('__MYAPP__/img/rule4.jpg') no-repeat; background-size: 100% 100%; padding: 25px 0 0 0; margin: 100px 0 0 0;}
-			.recordWrap{ width: 310px; padding: 20px 0 0 0; height: 130px; background: rgba(255,255,255,0.8); margin: 0 auto;}
+			.recordWrap{ width: 310px; padding: 20px 0 10px 0; min-height: 130px; background: rgba(255,255,255,0.8); margin: 0 auto;}
 			.recordWrap h3{ width: 100%; font-weight: normal; text-align: center; font-size: 17px; color: #df330a; margin: 0;}
 			.tb{ width: 100%; margin: 10px 0 0 0;}
 			.tb th{ padding: 0 0 5px 0;}
@@ -43,27 +43,18 @@
 		<div class="record">
 			<div class="recordWrap">
 				<h3>中奖纪录</h3>
-				<table class="tb">
+				<table id="tb" class="tb">
 					<tr>
 						<th>获取时间</th>
 						<th>奖品</th>
 						<th>状态</th>
-					</tr>
-					<tr>
-						<td>08月15日</td>
-						<td><span>0.13</span>元</td>
-						<td>等待提现</td>
-					</tr>
-					<tr>
-						<td>08月15日</td>
-						<td><span>0.13</span>元</td>
-						<td>等待提现</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 		<input type="hidden" id="openid" value="{$openid}"/>
 		<script type="text/javascript">
+		var tb="";
 			$.ajax({
 				type:"post",
 				url:"/wx/hbPay/myPrize",
@@ -75,6 +66,10 @@
 					$("#name").text(res.name);
 					$("#count").text(res.count);
 					$("#money").text(res.money);
+					res.result.forEach(function(v,i,a){
+						tb+="<tr><td>"+v.addtime+"</td><td><span>"+v.price+"</span>元</td><td>"+v.status+"</td></tr>"
+					});
+					$("#tb").append(tb);
 					if(res.img){
 						$("#img").attr("src",res.img);
 					}
@@ -93,6 +88,9 @@
 					dataType:"json",
 					success:function(res){
 						console.log(res);
+						res.result.forEach(function(v,i,a){
+							
+						});
 						if(res.err==4){
 							mui.alert("",res.msg,function(){
                         		window.location.href="/wx/hbPay/enPay";
