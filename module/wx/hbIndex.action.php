@@ -194,6 +194,10 @@ class hbIndexAction extends null2Action{
 
    //用户登录和微信账号绑定
    public function doLogin(){
+        if(empty($_POST['openid'])){
+              exit('openid为空');
+        }
+        $this->openid = $_POST['openid'];
 		$this->is_ajax=true;
 		$username=sget('username','s');
 		$password=sget('password','s');
@@ -232,7 +236,7 @@ class hbIndexAction extends null2Action{
 	    }
 	    $this->openid = $_POST['openid'];
 	    $openid = $this->openid;
-	    $cache = cache::startMemcache();
+// 	    $cache = cache::startMemcache();
 		$userinfo = $data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
 		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'次数用完，未登录账号','times'=>$userinfo['times']));
 		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'次数用完，已登录账号','times'=>$userinfo['times']));
