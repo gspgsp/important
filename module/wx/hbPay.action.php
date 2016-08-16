@@ -78,7 +78,7 @@ class hbPayAction extends homeBaseAction{
 			$value['updatetime'] = date("Y-m-d",$value['updatetime']);
 		}
 		//返回数据
-		$this->json_output(array('err'=>7,'count'=>$count,'money'=>$money,'name'=>$name,'img'=>$img,'no'=>$no,'yes'=>$yes));
+		$this->json_output(array('err'=>7,'count'=>$count,'money'=>$money/100,'name'=>$name,'img'=>$img,'no'=>$no,'yes'=>$yes));
 	}
 	//提现红包
 	public function cash(){
