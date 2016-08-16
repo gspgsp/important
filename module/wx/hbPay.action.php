@@ -3,7 +3,7 @@
 *微信红包支付功能
 */
 class hbPayAction extends homeBaseAction{
-	protected $openid;
+	public $openid;
 	public function __init(){
 		$this->db=M('public:common');
 		//if(!isset($_SESSION['weixinAuth'])) exit('未授权');
@@ -18,6 +18,11 @@ class hbPayAction extends homeBaseAction{
 	}
 	//我的奖品
 	public function myPrize(){
+	    $cache = cache::startMemcache();
+	    if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth')=="")){
+	        exit('用户信息为空');
+	    }
+	    $this->openid = get('weixinAuth')['openid'];
 		if(!$userinfo=$this->db->model('weixin_name')->where(saddslashes(array('openid'=>$this->openid)))->getRow()) $this->json_output(array('err'=>6,'msg'=>'微信未授权登录'));
 		//详情
 		$count = count($this->db->model('weixin_prize')->where(saddslashes(array('oid'=>$userinfo['id'],'status'=>0)))->getAll());
