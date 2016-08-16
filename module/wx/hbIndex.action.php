@@ -265,7 +265,7 @@ class hbIndexAction extends null2Action{
 		//$res['prize_name']=$prize_name[$res['yes']];//$prize_name[1],微信红包
 		$res['prize_name']='微信红包';
 		//获取当天红包总数
-		$count= $this->db->model('weixin_count')->getRow();
+		$count= $this->db->model('weixin_count')->where("id=1")->getRow();
 		$price=0;
 		$hold=0;
 		// $count=$countModel->find();
