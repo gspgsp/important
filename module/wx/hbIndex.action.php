@@ -285,9 +285,11 @@ class hbIndexAction extends null2Action{
 			}
 			$res['price']=$price/100;//中的奖金额度
 		}
+		p($count['count']);
+		p($price);
 		//红包模型
 		$countModel = $this->db->model('weixin_count');
-		$prizeModel = $this->db->model('weixin_prize'); 
+		$prizeModel = $this->db->model('weixin_prize');
 		$countModel->startTrans();
 		try {
 			$countArr = array(
@@ -303,8 +305,6 @@ class hbIndexAction extends null2Action{
 				'prize_name'=>$prize_name[$res['yes']],
 				'is_hold'=>$hold
 				);
-			showtrace($countModel->where("id=1")->update(saddslashes($countArr)));
-			die;
 			if(!$countModel->where("id=1")->update(saddslashes($countArr))) throw new Exception("系统错误。code:102");
 			if(!$prizeModel->add(saddslashes($prizeArr))) throw new Exception("系统错误。code:102");
 			$countModel->commit();
