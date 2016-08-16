@@ -31,15 +31,21 @@
                 pwd:""
             }
         },
+        ready:function(){
+        	
+        },
         methods:{
             enterLogin:function(){
-                console.log(">>>",this.mobi);
+                console.log(this.mobi); 
+                //alert(1);
                 this.$http.post('/mobi/login/login',{username:this.mobi,password:this.pwd}).then(function(res){
                 	console.log(res.json());
                 	if(res.json().err==0){
                 		this.$route.router.go('/melogged');
                 	}else if(res.json().err==1){
-                		mui.alert('',res.json().msg,function(){});
+                		mui.alert('',res.json().msg,function(){
+                			
+                		});
                 	}
                 },function(){
                 	

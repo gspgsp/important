@@ -24,7 +24,7 @@
         <!--<li><a href="/mobi/personalCenter/enMyFeedBack"><img src="__MYAPP__/img/me8.png">意见反馈</a></li>-->
     </ul>
     <div class="bigCustomerDetailBtn">
-        <input id="tradeBtn" style="background: #ff6600; border-bottom: 2px solid #cc5200;" type="button" value="退出登录">
+        <input id="tradeBtn" @click="logOut()" style="background: #ff6600; border-bottom: 2px solid #cc5200;" type="button" value="退出登录">
     </div>
     <footer id="footer">
         <ul>
@@ -67,6 +67,23 @@
         	},function(){
         		
         	});
+        },
+        methods:{
+        	logOut:function(){
+        		var _this=this;
+        		this.$http.post("/mobi/personalCenter/logOut",{}).then(function(res){
+        			console.log(res.json())
+        			if(res.json().err==0){
+	        			mui.alert('',res.json().msg,function(){
+	        				_this.$route.router.go("/");
+						});	
+        			}else{
+        				this.$route.router.go("/login");
+        			}
+        		},function(){
+        			
+        		});
+        	}
         }
 	}
 </script>
