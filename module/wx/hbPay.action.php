@@ -38,7 +38,7 @@ class hbPayAction extends homeBaseAction{
 		$this->db=M('public:common');
 		//if(!isset($_SESSION['weixinAuth'])) exit('未授权');
 		//$this->openid=$_SESSION['weixinAuth']['openid'];
-		$this->openid="o1SYHww1LpW0o6cm2uWngRiD4HmY";
+// 		$this->openid="o1SYHww1LpW0o6cm2uWngRiD4HmY";
 		define(WEIXIN_MCHID,'1324710901');//商户号id
 		define(WEIXIN_PARTNERKEY, 'x39kmrlyOBOYvfR3vBlJpnAvkNsmQygJ');//秘钥
 	}
