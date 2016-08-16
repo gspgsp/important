@@ -94,7 +94,7 @@ class hbPayAction extends homeBaseAction{
     		// $model=M('weixin_prize');
     		$price = $this->db->model('weixin_prize')->select("sum(price) as pr")->where("oid={$userinfo['id']} and status=0")->getOne();
     		if(empty($price)){
-    		    $price = 300;
+    		    $price = 0;
     		}
     		//$count=$prizeModel->where(array('oid'=>$userinfo['id'],'status'=>0))->sum('price');
     		if($price<200) $this->json_output(array('err'=>3,'msg'=>'红包金额不足2元,无法提现。'));
