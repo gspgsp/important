@@ -14,13 +14,8 @@ class hbPayAction extends homeBaseAction{
 	    $cache = cache::startMemcache();
 	    //判断code是否存在
 	    if(!empty($code)){
-		    if(($cache->get('open_access')==null)||($cache->get('open_access')=="")){
-		        $open_access = $this->get_author_access_token($code);
-		        $cache->set('open_access',$open_access,7200);
-		    }else{
-		        $open_access = $cache->get('open_access');
-		        $cache->delete('open_access');
-		    }
+		    $open_access = $this->get_author_access_token($code);
+		    $cache->set('open_access',$open_access,7200);
 		    $userinfo = $open_access;		    
 		    $cache->set('userinfo',$userinfo,7200);
 		    $info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
@@ -44,13 +39,20 @@ class hbPayAction extends homeBaseAction{
 	}
 	//进入红包支付页面
 	public function enPay(){
+	    if(empty($_GET['openid'])){
+	        exit('openid为空');
+	    }
+	    $this->openid = $_GET['openid'];
+	    $this->assign('openid',$this->openid);
 		$this->display('record');
 	}
 	//我的奖品
 	public function myPrize(){
+	    if(empty($_POST['openid'])){
+	        exit('openid为空');
+	    }
+	    $this->openid = $_POST['openid'];
 	    $cache = cache::startMemcache();
-// 	    p($cache->get('weixinAuth'.$this->openid));
-// 	    die;
 	    if(($cache->get('weixinAuth'.$this->openid)==null)||($cache->get('weixinAuth'.$this->openid)=="")){
 	        exit('用户信息为空');
 	    }

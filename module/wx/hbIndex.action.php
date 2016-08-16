@@ -14,14 +14,16 @@ class hbIndexAction extends null2Action{
 		$code = $_GET['code'];
 		$cache = cache::startMemcache();
 		//判断code是否存在
-		if($get=='access_token' && !empty($code)){
-		    if(($cache->get('open_access')==null)||($cache->get('open_access')=="")){
-		        $open_access = $this->get_author_access_token($code);
-		        $cache->set('open_access',$open_access,7200);
-		    }else{
-		        $open_access = $cache->get('open_access');
-		        $cache->delete('open_access');
-		    }
+		if(!empty($code)){
+// 		    if(($cache->get('open_access')==null)||($cache->get('open_access')=="")){
+// 		        $open_access = $this->get_author_access_token($code);
+// 		        $cache->set('open_access',$open_access,7200);
+// 		    }else{
+// 		        $open_access = $cache->get('open_access');
+// 		        $cache->delete('open_access');
+// 		    }
+		    $open_access = $this->get_author_access_token($code);
+		    $cache->set('open_access',$open_access,7200);
 		    $userinfo = $open_access;		    
 		    $cache->set('userinfo',$userinfo,7200);
 		    $info=$this->get_user_info($userinfo['openid'],$userinfo['access_token']);
@@ -71,12 +73,15 @@ class hbIndexAction extends null2Action{
 	//活动页面
 	public function enHbPage(){
 	    $cache = cache::startMemcache();
+// 	    p($this->openid);
+// 	    p($cache->get('weixinAuth'.$this->openid));
 		if(($cache->get('weixinAuth'.$this->openid)==null)||($cache->get('weixinAuth'.$this->openid)=="")){
 		}else{
 		    $this->openid=$cache->get('weixinAuth'.$this->openid)['openid'];
 		    $this->update_times();
 		    $times =$this->db->model('weixin_name')->where("openid='{$this->openid}'")->select('times')->getOne();
 		    $this->assign('times',$times);
+		    $this->assign('openid',$this->openid);
 		    $this->display('index');
 		}
 	}
@@ -137,8 +142,8 @@ class hbIndexAction extends null2Action{
 		if($code == '') return false;
 		$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->AppID}&secret={$this->AppSecret}&code={$code}&grant_type=authorization_code";
 		$result = $this->http($url);
-// 		p($url);
-// 		p($result);
+		p($url);
+		p($result);
 		if( $result ) $result = json_decode($result, true);
 		if( isset($result['errcode']) ){
 			return false;
@@ -222,9 +227,12 @@ class hbIndexAction extends null2Action{
 	}
 	//每次点击活动按钮
 	public function comeback(){
+	    if(empty($_POST['openid'])){
+	        exit('openid为空');
+	    }
+	    $this->openid = $_POST['openid'];
+	    $openid = $this->openid;
 	    $cache = cache::startMemcache();
-	    $openid = $cache->get('weixinAuth'.$this->openid)['openid'];
-	    $this->openid = $openid;
 		$userinfo = $data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
 		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'次数用完，未登录账号','times'=>$userinfo['times']));
 		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'次数用完，已登录账号','times'=>$userinfo['times']));
