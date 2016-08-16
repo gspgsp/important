@@ -49,6 +49,8 @@ class hbPayAction extends homeBaseAction{
 	//我的奖品
 	public function myPrize(){
 	    $cache = cache::startMemcache();
+// 	    p($cache->get('weixinAuth'.$this->openid));
+// 	    die;
 	    if(($cache->get('weixinAuth'.$this->openid)==null)||($cache->get('weixinAuth'.$this->openid)=="")){
 	        exit('用户信息为空');
 	    }

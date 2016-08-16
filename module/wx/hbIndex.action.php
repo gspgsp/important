@@ -87,7 +87,7 @@ class hbIndexAction extends null2Action{
 	//更新抽奖次数以及关联微信用户
 	protected function update_times(){
 	    $cache = cache::startMemcache();
-	    if(($cache->get('weixinAuth')==null)||($cache->get('weixinAuth'.$this->openid)=="")){
+	    if(($cache->get('weixinAuth'.$this->openid)==null)||($cache->get('weixinAuth'.$this->openid)=="")){
 	        exit('用户信息为空');
 	    }
 		$userinfo=$cache->get('weixinAuth'.$this->openid);
@@ -137,8 +137,8 @@ class hbIndexAction extends null2Action{
 		if($code == '') return false;
 		$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->AppID}&secret={$this->AppSecret}&code={$code}&grant_type=authorization_code";
 		$result = $this->http($url);
-		p($url);
-		p($result);
+// 		p($url);
+// 		p($result);
 		if( $result ) $result = json_decode($result, true);
 		if( isset($result['errcode']) ){
 			return false;
@@ -315,15 +315,15 @@ class hbIndexAction extends null2Action{
 	//动态获取5条数据
 	public function getHonorData(){
 		$this->is_ajax=true;
-		$names = $this->db->model('weixin_name')->select('id,name,0 as price')->limit('0,5')->order('addtime desc')->getAll();
+		$names = $this->db->model('weixin_name')->select("id,name,'0' as price")->limit('0,5')->order('addtime desc')->getAll();
 		foreach($names as $key => $value){
 			$price = $this->db->model('weixin_prize')->where("oid={$value['id']}")->limit('0,1')->order('addtime desc')->getRow();
-            if((empty($price))||($price==0)){
-                $price=0;
+            if(empty($price)||($price['price']==0)){
+                $price['price']=0;
             }else{
-			    $price= $price/100;
+			    $price['price']= $price['price']/100;
             }
-			$names[$key]['price'] = $price;
+			$names[$key]['price'] = $price['price'];
 		}
 		$this->json_output(array('err'=>0,'names'=>$names));//滚动获奖信息
 	}
