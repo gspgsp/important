@@ -140,7 +140,7 @@
                         		if(res.err==2){
 								mui.confirm("",res.msg,["返回","登录 "],function(e){
 									if(e.index==0){
-										window.location.reload();
+										window.location.href="/wx/hbIndex/init";
 									}else if(e.index==1){
 										$("#login").show();
 										$("#layer").show();									
@@ -153,7 +153,7 @@
 												success:function(res){
 													if(res.err==0){
 														mui.alert("",res.msg,function(){
-															window.location.reload();
+															window.location.href="/wx/hbIndex/init";
 														});
 													}
 												},
@@ -162,17 +162,17 @@
 											});
 										});
 										$("#cancel").on("click",function(){
-											window.location.reload();
+											window.location.href="/wx/hbIndex/init";
 										});										
 									}
 								});
                         		}else if(res.err==4){
                          			mui.alert("",res.res.prize_name,function(){
-                        				window.location.reload();
+                        				window.location.href="/wx/hbIndex/init";
                         			});                        			
                         		}else if(res.err==3){
                          			mui.alert("",res.msg,function(){
-                        				window.location.reload();
+                        				window.location.href="/wx/hbIndex/init";
                         			});                        			                        			
                         		}
                         	},
