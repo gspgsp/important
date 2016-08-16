@@ -295,7 +295,9 @@ class hbIndexAction extends null2Action{
 		}
 		$res['times']=$this->db->model('weixin_name')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
 		$res['name']=$userinfo['name'];//微信用户名
-// 	    return json_encode(array('err'=>4,'res'=>$res));
+		if($price==0){
+			$res['price']=0;
+		}
 		$this->json_output(array('err'=>4,'res'=>$res));//返回抽奖的结果
 	}
 	//算法
