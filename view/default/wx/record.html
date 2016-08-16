@@ -87,8 +87,9 @@
 			$("#withdraw").on("click",function(){
 				$.ajax({
 					type:"post",
-					url:"",
+					url:"/wx/hbPay/cash",
 					async:true,
+		           	data:{openid:$("#openid").val()},
 					dataType:"json",
 					success:function(res){
 						console.log(res);
