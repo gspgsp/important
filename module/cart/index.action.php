@@ -75,7 +75,7 @@ class indexAction extends homeBaseAction{
 				$data['delivery_location']=$c_name.$data['address'];         //提货地点
 			}
 
-			$data['order_type']=1;	//销售类型
+			$data['order_type']=1;	     //销售类型
 			$data['sign_place']='网站签约';	//签约地点
 			$data['order_source']=1;	//订单来源 1网站
 			$data['c_id']=$contact['c_id'];
