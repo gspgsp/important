@@ -73,11 +73,13 @@ class hbPayAction extends homeBaseAction{
 		foreach ($no as &$value) {
 			$value['addtime'] = date("Y-m-d",$value['addtime']);
 			$value['status']="等待提现";
+			$value['price']=$value['price']/100;
 		}
 		$yes=$this->db->model('weixin_prize')->where("oid='{$userinfo['id']}' and status=1 and price>0")->limit('0,5')->getAll();//已经兑换
 		foreach ($yes as &$value) {
 			$value['updatetime'] = date("Y-m-d",$value['updatetime']);
 			$value['status']="已提现";
+			$value['price']=$value['price']/100;
 		}
 		$result = array_merge($no, $yes);
 		//返回数据
