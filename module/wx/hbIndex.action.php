@@ -142,8 +142,8 @@ class hbIndexAction extends null2Action{
 		if($code == '') return false;
 		$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->AppID}&secret={$this->AppSecret}&code={$code}&grant_type=authorization_code";
 		$result = $this->http($url);
-		p($url);
-		p($result);
+// 		p($url);
+// 		p($result);
 		if( $result ) $result = json_decode($result, true);
 		if( isset($result['errcode']) ){
 			return false;
