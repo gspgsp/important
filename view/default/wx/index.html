@@ -74,6 +74,7 @@
 		</form>
 		<div id="layer"></div>
 		<input type="hidden" id="times" value="{$times}"/>
+		<input type="hidden" id="openid" value="{openid}"/>
 		<script type="text/javascript">
 		$("#num").text($("#times").val());
 		var msgLi="";
@@ -130,6 +131,7 @@
                         $.ajax({
                         	type:"post",
                         	url:"/wx/hbIndex/comeback",
+                        	data:{openid:$("#openid").val()},
                         	async:true,
                         	dataType:"json",
                         	success:function(res){
