@@ -266,6 +266,8 @@ class hbIndexAction extends null2Action{
 				$price=rand(30,80);//登录时候的奖
 			}
 			$res['price']=$price/100;//中的奖金额度
+		}else{
+		    $res['price']=0;//中的奖金额度
 		}
 		//红包模型
 		$countModel = $this->db->model('weixin_count');
@@ -290,14 +292,11 @@ class hbIndexAction extends null2Action{
 			$countModel->commit();
 		} catch (Exception $e) {
 			p($e->getMessage());
-			$res=array('yes'=>0,'prize_name'=>'未中奖');
+			$res=array('yes'=>0,'prize_name'=>'未中奖','price'=>'0');
 			$countModel->rollback();
 		}
 		$res['times']=$this->db->model('weixin_name')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
 		$res['name']=$userinfo['name'];//微信用户名
-		if($price==0){
-			$res['price']=0;
-		}
 		$this->json_output(array('err'=>4,'res'=>$res));//返回抽奖的结果
 	}
 	//算法
