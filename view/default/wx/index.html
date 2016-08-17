@@ -69,7 +69,7 @@
 					</div>
 				<div class="mui-button-row">
 				<button id="go" type="button" class="mui-btn mui-btn-primary">登录</button>&nbsp;&nbsp;
-				<button id="cancel" type="button" class="mui-btn mui-btn-danger">取消</button>&nbsp;&nbsp;
+				<button id="cancel" type="button" class="mui-btn mui-btn-danger">取消</button><br>
 				<a href="/mobi/mainPage/enDownload">下载并登录APP可获得一次机会</a>
 			</div>
 		</form>
@@ -152,11 +152,9 @@
 												async:true,
 												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
 												success:function(res){
-													if(res.err==0){
 														mui.alert("",res.msg,function(){
 															window.location.href="/wx/hbIndex/init";
 														});
-													}
 												},
 												error:function(){},
 												dataType:"json"	
@@ -171,7 +169,7 @@
                         			console.log(res.res.price);
                         			if(res.res.price==0){
                           			mui.alert("","谢谢参与",function(){
-                          												mui.confirm("",res.msg,["返回","登录 "],function(e){
+                          			mui.confirm("",res.msg,["返回","登录 "],function(e){
 									if(e.index==0){
 										window.location.href="/wx/hbIndex/init";
 									}else if(e.index==1){
@@ -184,11 +182,9 @@
 												async:true,
 												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
 												success:function(res){
-													if(res.err==0){
 														mui.alert("",res.msg,function(){
 															window.location.href="/wx/hbIndex/init";
 														});
-													}
 												},
 												error:function(){},
 												dataType:"json"	
@@ -217,11 +213,9 @@
 												async:true,
 												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
 												success:function(res){
-													if(res.err==0){
 														mui.alert("",res.msg,function(){
 															window.location.href="/wx/hbIndex/init";
 														});
-													}
 												},
 												error:function(){},
 												dataType:"json"	
