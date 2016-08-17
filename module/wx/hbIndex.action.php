@@ -109,21 +109,21 @@ class hbIndexAction extends null2Action{
 			//先判断有没有绑定用户(就是已经注册过的用户)
 			if($data['uid']>0 && $data['app_time']<$today){
 				//新注册app，加一次机会
-				$where1 = "user_id={$data['uid']} && reg_time > $today && reg_chanel==2";
-				if($this->db->model('contact_info')->where($where1)->getRow()){
-					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
-				}
+				// $where1 = "user_id={$data['uid']} && reg_time > $today && reg_chanel==2";
+				// if($this->db->model('contact_info')->where($where1)->getRow()){
+				// 	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
+				// }
+				$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
 				//登录app，加一次机会
-				$where2 = "log.user_id={$data['uid']} && log.input_time > $today && log.chanel=2 && cinfo.reg_time < $today";
-				$res = $this->db->model('log_login')->select('log.user_id')->from('log_login log')
-			            ->join('contact_info cinfo','log.user_id=cinfo.user_id')
-			            ->where($where2)
-			            ->getRow();
-	            if(!empty($res)){
-	            	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
-	            }
+				// $where2 = "log.user_id={$data['uid']} && log.input_time > $today && log.chanel=2 && cinfo.reg_time < $today";
+				// $res = $this->db->model('log_login')->select('log.user_id')->from('log_login log')
+			 //            ->join('contact_info cinfo','log.user_id=cinfo.user_id')
+			 //            ->where($where2)
+			 //            ->getRow();
+	   //          if(!empty($res)){
+	   //          	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
+	   //          }
 			}
-
 		}else{
 			//未保存openid 保存openid
 			$_data=array(
@@ -239,8 +239,9 @@ class hbIndexAction extends null2Action{
 	    $openid = $this->openid;
 // 	    $cache = cache::startMemcache();
 		$userinfo = $data=$this->db->model('weixin_name')->where("openid='{$this->openid}'")->getRow();
-		if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'机会用完啦...下载并成功登录我的塑料网app可获取更多机会哟','times'=>$userinfo['times']));
-		if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'机会用完啦...明天再来呗','times'=>$userinfo['times']));
+		// if($userinfo['times']<=0&&$userinfo['username']=='') $this->json_output(array('err'=>2,'msg'=>'机会用完啦...下载并成功登录我的塑料网app可获取更多机会哟','times'=>$userinfo['times']));
+		// if($userinfo['times']<=0&&$userinfo['username']!='') $this->json_output(array('err'=>3,'msg'=>'机会用完啦...明天再来呗','times'=>$userinfo['times']));
+		if($userinfo['times']<=0) $this->json_output(array('err'=>2,'msg'=>'机会用完啦...下载并成功登录我的塑料网app可获取更多机会哟','times'=>$userinfo['times']));
 		//更新抽奖次数
 		$data=$this->db->model('weixin_name')->where("id={$userinfo['id']}")->update(saddslashes(array('times'=>$userinfo['times']-1)));
 
@@ -262,9 +263,9 @@ class hbIndexAction extends null2Action{
 		}
 		if($res['yes']==1){
 			if(!$userinfo['username']){
-				$price=rand(20,30);//未登录的时候奖
+				$price=rand(20,40);//未登录的时候奖
 			}else{
-				$price=rand(30,80);//登录时候的奖
+				$price=rand(40,80);//登录时候的奖
 			}
 			$res['price']=$price/100;//中的奖金额度
 		}else{
@@ -320,7 +321,7 @@ class hbIndexAction extends null2Action{
 	// }
 	//新的中奖算法
 	public function gethonor(){
-		$options = array(0,0,0,1,0,0,1,0,0,1);
+		$options = array(1,0,0,1,0,0,1,0,0,1);
 		$index = rand(0, count($option)-1);
 		return $options[$index];
 	}
