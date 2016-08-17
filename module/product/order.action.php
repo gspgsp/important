@@ -104,6 +104,8 @@ class orderAction extends adminBaseAction {
 		if($transport_status !=0)  $where.=" and `transport_status` =".$transport_status;
 		$out_storage_status=sget('out_storage_status','i',0);//发货状态
 		if($out_storage_status !=0)  $where.=" and `out_storage_status` =".$out_storage_status;
+		$in_storage_status=sget('in_storage_status','i',0);//发货状态
+		if($in_storage_status !=0)  $where.=" and `in_storage_status` =".$in_storage_status;
 		//筛选时间
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
@@ -117,7 +119,7 @@ class orderAction extends adminBaseAction {
 			$keyword=M('product:order')->getOidByCname($keyword);
 			$where.=" and `$key_type` in ($keyword) ";
 		}elseif(!empty($keyword)){
-			$where.=" and `$key_type`  = $keyword";
+			$where.=" and `$key_type`  = '$keyword'";
 		}
 		$orderby = "$sortField $sortOrder";
 		//筛选过滤自己的订单信息
@@ -129,7 +131,6 @@ class orderAction extends adminBaseAction {
 				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
 			} 
 		}
-
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		//echo $_SESSION['adminid'];
 		// p($list);die;
