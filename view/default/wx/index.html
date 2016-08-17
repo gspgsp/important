@@ -169,65 +169,65 @@
                         			console.log(res.res.price);
                         			if(res.res.price==0){
                           			mui.alert("","谢谢参与",function(){
-                          			mui.confirm("",res.msg,["返回","登录 "],function(e){
-									if(e.index==0){
-										window.location.href="/wx/hbIndex/init";
-									}else if(e.index==1){
-										$("#login").show();
-										$("#layer").show();									
-										$("#go").on("click",function(){
-											$.ajax({
-												type:"post",
-												url:"/wx/hbIndex/doLogin",
-												async:true,
-												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
-												success:function(res){
-														mui.alert("",res.msg,function(){
-															window.location.href="/wx/hbIndex/init";
-														});
-												},
-												error:function(){},
-												dataType:"json"	
-											});
-										});
-										$("#cancel").on("click",function(){
-											window.location.href="/wx/hbIndex/init";
-										});										
-									}
-								});
-
-                        				//window.location.href="/wx/hbIndex/init";
+//                        			mui.confirm("",res.msg,["返回","登录 "],function(e){
+//									if(e.index==0){
+//										window.location.href="/wx/hbIndex/init";
+//									}else if(e.index==1){
+//										$("#login").show();
+//										$("#layer").show();									
+//										$("#go").on("click",function(){
+//											$.ajax({
+//												type:"post",
+//												url:"/wx/hbIndex/doLogin",
+//												async:true,
+//												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
+//												success:function(res){
+//														mui.alert("",res.msg,function(){
+//															window.location.href="/wx/hbIndex/init";
+//														});
+//												},
+//												error:function(){},
+//												dataType:"json"	
+//											});
+//										});
+//										$("#cancel").on("click",function(){
+//											window.location.href="/wx/hbIndex/init";
+//										});										
+//									}
+//								});
+//
+//                      				//window.location.href="/wx/hbIndex/init";
                         			});                       				
                         			}else{
                          			mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元",function(){
-                        												mui.confirm("",res.msg,["返回","登录 "],function(e){
-									if(e.index==0){
-										window.location.href="/wx/hbIndex/init";
-									}else if(e.index==1){
-										$("#login").show();
-										$("#layer").show();									
-										$("#go").on("click",function(){
-											$.ajax({
-												type:"post",
-												url:"/wx/hbIndex/doLogin",
-												async:true,
-												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
-												success:function(res){
-														mui.alert("",res.msg,function(){
-															window.location.href="/wx/hbIndex/init";
-														});
-												},
-												error:function(){},
-												dataType:"json"	
-											});
-										});
-										$("#cancel").on("click",function(){
-											window.location.href="/wx/hbIndex/init";
-										});										
-									}
-								});
-
-                        				//window.location.href="/wx/hbIndex/init";
+//                      			mui.confirm("",res.msg,["返回","登录 "],function(e){
+//									if(e.index==0){
+//										window.location.href="/wx/hbIndex/init";
+//									}else if(e.index==1){
+//										$("#login").show();
+//										$("#layer").show();									
+//										$("#go").on("click",function(){
+//											$.ajax({
+//												type:"post",
+//												url:"/wx/hbIndex/doLogin",
+//												async:true,
+//												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
+//												success:function(res){
+//														mui.alert("",res.msg,function(){
+//															window.location.href="/wx/hbIndex/init";
+//														});
+//												},
+//												error:function(){},
+//												dataType:"json"	
+//											});
+//										});
+//										$("#cancel").on("click",function(){
+//											window.location.href="/wx/hbIndex/init";
+//										});										
+//									}
+//								});
+//
+//                      				//window.location.href="/wx/hbIndex/init";
                         			});
                         			}
                         		}else if(res.err==3){
