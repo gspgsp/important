@@ -119,7 +119,7 @@ class orderAction extends adminBaseAction {
 			$keyword=M('product:order')->getOidByCname($keyword);
 			$where.=" and `$key_type` in ($keyword) ";
 		}elseif(!empty($keyword)){
-			$where.=" and `$key_type`  = '$keyword'";
+			$where.=" and `$key_type` like '%".$keyword."%'";
 		}
 		$orderby = "$sortField $sortOrder";
 		//筛选过滤自己的订单信息

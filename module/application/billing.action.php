@@ -53,7 +53,7 @@ class billingAction extends adminBaseAction
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','input_time'); //排序字段
-		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		$sortOrder = sget("sortOrder",'s','asc'); //排序
 		//搜索条件
 		$where = 1;
 		$type = sget('type','i');

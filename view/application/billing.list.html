@@ -42,10 +42,10 @@
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="o_id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单ID</div>
-		<div field="invoice_sn" width="70" headerAlign="center" align="center" align="center">发票号</div>
-		<div field="billing_sn" width="70" headerAlign="center" align="center" align="center">开票号</div>
+		<div field="invoice_sn" width="65" headerAlign="center" align="center" align="center">发票号</div>
+		<div field="billing_sn" width="65" headerAlign="center" align="center" align="center">开票号</div>
 		<div field="order_sn" width="80" headerAlign="center" align="center" align="center">订单号</div>
-		<div field="c_name" width="100" headerAlign="center" align="center" align="center">公司名</div>
+		<div field="c_name" width="110" headerAlign="center" align="center" align="center">公司名</div>
 		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
 		<div field="billing_price" width="40" headerAlign="center" align="center" align="center">本次开票金额</div>
 		<div field="unbilling_price" width="40" headerAlign="center" align="center" align="center">未开票金额</div>
@@ -53,7 +53,7 @@
 		<!-- <div field="rise" width="40" headerAlign="center" align="center" align="center">抬头</div> -->
 		<div field="order_name" width="30" headerAlign="center" align="center" align="center">合同主题</div>
 		<div field="accessory" width="25" headerAlign="center" align="center" align="center" renderer="down">附件</div>		
-		<div field="bile_type" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center">票据类型</div>
+		<div field="bile_type" renderer="setBile" width="40" headerAlign="center" allowSort="true" align="center">票据类型</div>
 		<div field="invoice_status" renderer="setInv" width="40" headerAlign="center" align="center" allowSort="true">{if $type eq '1'}销售开票状态{else}采购开票状态{/if}</div>
 		<!-- <div field="paying_info" width="90" headerAlign="center" >付款信息<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
@@ -64,10 +64,10 @@
 		<div field="express_address" width="100" headerAlign="center" >快递地址<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
-		<div field="ems" width="100" headerAlign="center" >快递单号<span style="color:red">*</span>
+		<div field="ems" width="70" headerAlign="center" >快递单号<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
-		<div field="remark" width="60" headerAlign="center" >备注<span style="color:red">*</span>
+		<div field="remark" width="50" headerAlign="center" >备注<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
 		<div field="payment_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >开票日期</div>
@@ -75,7 +75,7 @@
 		<div field="input_admin" width="30" headerAlign="center" align="center">交易员</div>
 		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		<!-- <div field="update_admin" width="30" headerAlign="center" align="center">修改者</div> -->
-		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
+		<div action='do' width="30" headerAlign="center" renderer="viewhander" align="center">操作</div>
 	</div>
   </div>
  </div>
