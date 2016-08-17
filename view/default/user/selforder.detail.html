@@ -24,7 +24,7 @@
               </tr>
               <tr>
                 <td>签订日期：</td>
-                <td>{$order.sign_time|date:Y-m-d H:i}</td>
+                <td>{$order.sign_time|date:Y-m-d}</td>
                 <td>签约地点：</td>
                 <td>{$order.sign_place}</td>
               </tr>
@@ -42,7 +42,7 @@
                 </td>
 
                 <td>提货日期：</td>
-                <td>{$order.pickup_time}</td>
+                <td>{$order.pickup_time|date:Y-m-d}</td>
                 
               </tr>
               <!-- <tr>
@@ -66,7 +66,7 @@
                     </td>
 
                     <td>配送日期：</td>
-                    <td>{if $order.delivery_time}{$order.delivery_time|date:Y-m-d H:i}{/if}</td>
+                    <td>{if $order.delivery_time}{$order.delivery_time|date:Y-m-d}{/if}</td>
 
                 </tr>
                 <!-- <tr>

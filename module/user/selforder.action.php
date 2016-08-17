@@ -90,7 +90,7 @@ class selforderAction extends userBaseAction{
 			->where("o_id=$id and user_id={$this->user_id}")
 			->getRow();
 
-		$order['transport_type']==1?($order['pickup_time']='--'):($order['delivery_time']=$order['delivery_time']);
+		$order['transport_type']==1?($order['pickup_time']):($order['delivery_time']=$order['delivery_time']);
 		$order['transport_type']==1?($order['pickup_location']='--'):($order['delivery_location']=$order['delivery_location']);
 
 		$sale_log=$this->db->from('sale_log s')
@@ -102,7 +102,6 @@ class selforderAction extends userBaseAction{
 		foreach ($sale_log as $key => &$value) {
 			$value['totalPrice']=$value['number']*$value['unit_price'];
 		}
-
 		$this->assign('sale_log',$sale_log);
 		$this->assign('order',$order);
 		$this->display('selforder.detail');
