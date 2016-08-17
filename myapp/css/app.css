@@ -43,10 +43,12 @@
 .appConcern span:first-of-type{ border-right: 1px solid #d9d9d9;}
 .appConcern span a{ color: #ff5000;}
 
-.appOperate{ width: 100%; overflow: hidden;}
+.appOperate{ width: 100%; overflow: hidden; margin: 10px 0 0 0;}
 .appOperate ul{ list-style: none; margin: 0; padding: 0; overflow: hidden;}
-.appOperate ul li{ width: 25%; height: 90px; margin: 10px 0 0 0; float: left; text-align: center;}
-.appOperateWrap{ width: 60px; height: 60px; display: inline-block; font-size: 12px; line-height: 15px; padding: 10px 0 0 0; background: #FFFFFF; border-radius: 3px; border: 1px solid #D9D9D9;}
+.appOperate ul li{ width: 50%; height: 75px;text-align: center; border: 1px solid #e1e1e1; border-left: none; border-bottom: none; background: #FFFFFE; float: left;}
+.appOperate ul li:nth-of-type(even){border-right: none;}
+.appOperateWrap{width: 120px; line-height: 50px; margin: 15px 0 0 0; text-align: left; font-size: 17px; display: inline-block;}
+.appOperateWrap img{ float: left;}
 .appOperateWrap a{ color: #000;}
 #footer{ width: 100%; height: 50px; position: fixed; left: 0; font-size: 12px; bottom: 0; background: #f9f9f9; border-top: 1px solid #e1e1e1; border-bottom: 1px solid #e1e1e1;}
 #footer ul{ list-style: none; margin: 0; padding: 0;}
@@ -177,7 +179,7 @@
 .icon.iconStore{ background: url(../img/supplyDemandStore.png) no-repeat; background-size: 100% 100%;}
 .icon.iconStore.iconStoreOn{ background: url(../img/supplyDemandStoreOn.png) no-repeat; background-size: 100% 100%;}
 
-.supplyDemandTb{ width: 100%; font-size: 12px; color: #323232; display: none;}
+.supplyDemandTb{ width: 100%; font-size: 12px; color: #323232; -display: none;}
 .supplyDemandTb th{ font-weight: normal; height: 35px; text-align: center; border: 1px solid #e7e7e7;}
 .supplyDemandTb td{ text-align: center; height: 45px; line-height: 20px; border: 1px solid #e7e7e7; border-bottom: none;}
 .supplyDemandTb tr td:first-of-type{ color: #646464;}
@@ -387,14 +389,14 @@
 #proPoints{ font-size: 20px; color: #ff5000;}
 .proExchange{ width: 100%; height: 50px; line-height: 50px; font-size: 15px; text-align: center; color: #ffffff; background: #fd6720; position: fixed; bottom: 0; left: 0;}
 
-.proLayer{ width: 300px; height: 135px; display: none; z-index: 10; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -68px 0 0 -150px;}
+.proLayer{ width: 300px; height: 135px; -display: none; z-index: 10; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -68px 0 0 -150px;}
 .proLayer h3{ font-size: 15px; height: 30px; margin: 0; border-bottom: 1px solid #d9d9d9; line-height: 30px; text-align: center; color: #323232; font-weight: normal;}
 .proLayer p{ padding: 10px 15px; text-align: center; font-size: 13px; color: #646464; margin: 5px 0 0 0;}
 .proLayer button{ width: 70px; height: 27px; border: none; font-size: 12px; border-radius: 2px; color: #ffffff;}
 .proLayer button.confirm{ background: #ff5000;}
-.layer{ width: 100%; height: 100%; display: none; position: fixed; top: 0; left: 0; background-color:rgba(0,0,0,.5);}
+.layer{ width: 100%; height: 100%; -display: none; position: fixed; top: 0; left: 0; background-color:rgba(0,0,0,.5);}
 
-.proInput{ width: 300px; height: 200px; display: none; box-sizing: border-box; padding: 20px; z-index: 10; font-size: 12px; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -100px 0 0 -150px;}
+.proInput{ width: 300px; height: 200px; -display: none; box-sizing: border-box; padding: 20px; z-index: 10; font-size: 12px; border: 1px solid #d9d9d9; border-radius: 5px; background: #ffffff; position: fixed; left: 50%; top: 50%; margin: -100px 0 0 -150px;}
 .proInput p{ margin: 0 0 7px 0;}
 .proInput span{ float: left; width: 55px; color: #323232; line-height: 25px; font-size: 12px;}
 .proInput input[type=text],.proInput input[type=number]{ width: 200px; height: 25px; border-radius: 0; margin: 0; box-sizing: border-box; padding: 0 5px; line-height: 25px; border: 1px solid #d9d9d9;}
