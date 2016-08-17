@@ -215,42 +215,35 @@ class billingAction extends adminBaseAction
 				if(!$res) $this->error("发票号重复,请更换！");
 			}
 			$billingModel->startTrans();
+				if(!$billingModel->where("id={$data['id']}")->update($data)) $this->error("开票审核更新表头失败");
 
-			try {
-				if(!$billingModel->where("id={$data['id']}")->update($data)) throw new Exception("开票审核更新表头失败");
 				foreach ($detail as $key => $value) {
 					$value['update_time']=CORE_TIME;
 					$value['status']=2;
-					if(!$billingLogModel->where("id={$value['id']}")->update($value)) throw new Exception("开票明细更新失败");
+					if(!$billingLogModel->where("id={$value['id']}")->update($value)) $this->error("开票明细更新失败");
 					if($type==1){
 						$b_number=$saleLogModel->where("id={$value['l_id']}")->select('b_number')->getOne();
-						if($value['b_number']>$b_number) throw new Exception("开票数量不能大于未开票数量");
-						if(!$saleLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) throw new Exception("销售明细更新失败");
-						$sum=$saleLogModel->where("o_id={$data['o_id']}")->select("sum(b_number)")->getOne();
+						if($value['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
+						if(!$saleLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) $this->error("销售明细更新失败");
+						// $sum=$saleLogModel->where("o_id={$data['o_id']}")->select("sum(b_number)")->getOne();
+						$sum=$saleLogModel->where("id={$value['l_id']}")->select("sum(b_number)")->getOne();
 					}elseif($type==2){
 						$b_number=$purchaseLogModel->where("id={$value['l_id']}")->select('b_number')->getOne();
-						if($value['b_number']>$b_number) throw new Exception("开票数量不能大于未开票数量");
-						if(!$purchaseLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) throw new Exception("采购明细更新失败");
-						$sum=$purchaseLogModel->where("o_id={$data['o_id']}")->select("sum(b_number)")->getOne();
+						if($value['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
+						if(!$purchaseLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) $this->error("采购明细更新失败");
+						$sum=$purchaseLogModel->where("id={$value['l_id']}")->select("sum(b_number)")->getOne();
 					}
-					if($sum==0){
+					if($sum==0){						
 						//更新为全部开票
-						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
+						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) $this->error("订单状态更新失败");
 					}else{
 						//更新为部分开票
-						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>2,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) throw new Exception("订单状态更新失败");
+						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>2,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) $this->error("订单状态更新失败");
 					}
 				}
-				if($billingLogModel->where("status=1 and parent_id={$data['id']}")->getRow()){
-					if(!$billingLogModel->where("status=1 and parent_id={$data['id']}")->delete()) throw new Exception("开票明细删除失败");
-				}
-				
-			} catch (Exception $e) {
-				$billingModel->rollback();
-				$this->error($e->getMessage());
-			}
-			$billingModel->commit();
-			$this->success('操作成功');
+				// if($billingLogModel->where("status=1 and parent_id={$data['id']}")->getRow()){
+				// 	if(!$billingLogModel->where("status=1 and parent_id={$data['id']}")->delete()) $this->error("开票明细删除失败");
+				// }
 			
 		}else{
 			//业务员提交申请开票			
@@ -264,12 +257,12 @@ class billingAction extends adminBaseAction
 			$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 			$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
 			$billingModel->startTrans();
-			try {
-				if(!$billingModel->add($data)) throw new Exception("开票申请表头添加失败");
+			// try {
+				if(!$billingModel->add($data)) $this->error("开票申请表头添加失败");
 				$parent_id=$billingModel->getLastID();
 				foreach ($detail as $key => $value) {
 
-					if($value['b_number']>$value['un_number']) throw new Exception("开票数量不能大于未开票数量");
+					if($value['b_number']>$value['un_number']) $this->error("开票数量不能大于未开票数量");
 
 					$log_data=array(
 						'parent_id'=>$parent_id,
@@ -284,15 +277,15 @@ class billingAction extends adminBaseAction
 						'input_time'=>CORE_TIME, 
 						'input_admin'=>$_SESSION['username'],
 					);
-					if(!$billingLogModel->add($log_data)) throw new Exception("开票明细添加失败");;
+					if(!$billingLogModel->add($log_data)) $this->error("开票明细添加失败");
 				}
-				
-			} catch (Exception $e) {
-				$billingModel->rollback();
-				$this->error($e->getMessage());
-			}
-			$billingModel->commit();
-			$this->success('提交成功');
+		}
+
+		if($billingModel->commit()){
+			$this->success('操作成功');
+		}else{
+			$billingModel->rollback();
+			$this->error('保存失败：'.$this->db->getDbError());
 		}
 
 	}
@@ -383,20 +376,20 @@ class billingAction extends adminBaseAction
 				
 			}else{
 				//聚乙烯：HDPE、LDPE、LLDPE，聚丙烯：均聚PP、共聚PP，塑料ABS：ABS、MABS，塑料PC:PC
-				$value['c_type']=$value['type'];
+				$value['type']=$value['type'];
 				$t = $value['type'];
 				if($t=='HDPE'||$t=='LDPE'||$t=='LLDPE'){
-					$value['type'] =1;
+					$value['n_type'] =1;
 				}elseif($t=='均聚PP'||$t=='共聚PP'){
-					$value['type'] =2;
+					$value['n_type'] =2;
 				}elseif($t=='ABS'||$t=='MABS'){
-					$value['type'] =3;
+					$value['n_type'] =3;
 				}elseif($t=='PC'){
-					$value['type'] =4;
+					$value['n_type'] =4;
 				}else{
-					$value['type'] =5;
+					$value['n_type'] =5;
 				}
-				$value['f_type']=L("finance_p_type")[$value['type']];
+				$value['f_type']=L("finance_p_type")[$value['n_type']];
 				$value['un_number']=$value['u_number'];
 			}
 		}
@@ -423,7 +416,7 @@ class billingAction extends adminBaseAction
 		$data['input_admin']=$_SESSION['username'];
 		$data['update_time']='';
 		$data['update_admin']='';
-		$data['invoice_status']=3;	
+		$data['invoice_status']=3;
 		$data['unbilling_price']=$data['unbilling_price']+$data['billing_price'];
 		
 		$billingModel->startTrans();
