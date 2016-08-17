@@ -62,7 +62,7 @@ class indexAction extends homeBaseAction{
 			$data['order_sn']=$orderSn;
 			$c_name=$this->db->model('lib_region')->select('name')->where("id={$data['delivery_place']}")->getOne();//地址
 			if($data['transport_type']==1){       //1 自提
-				$data['pickup_time']='--';	      //提货日期
+				$data['pickup_time']=strtotime($data['delivery_date']);	      //提货日期
 				$data['delivery_time']='--';	  //送货日期
 				$data['pickup_location']='--';    //配送地点
 				$data['delivery_location']='--';  //提货地点
