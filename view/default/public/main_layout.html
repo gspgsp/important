@@ -9,6 +9,7 @@
 <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
 <link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />
 <link rel="stylesheet" type="text/css" href="__CSS__/home/common.css"/>
+<link rel="stylesheet" type="text/css" href="__CSS__/home/companyList_first.css"/>
 <script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="__JS__/home/layer-v1.8.5/layer.min.js"></script>
 <script type="text/javascript" src="__JS__/home/common.js"></script>
@@ -67,7 +68,28 @@
 		<li><a href="/physical">物性表</a></li>
 		<li><a href="/article">塑料头条</a></li>
 		<li><a href="/pointshop">积分商城</a></li>
+                <li><a href="javascript:void(0)">...</a></li>
 	</ul>
+        
+        <div  id="divs" >
+            <ul class="clearfix">
+                <li><a href="/companyList">客户公司详情</a></li>                
+            </ul>
+        </div>
+        <script>                   
+              $(".link3 li:last").hover(function (){ 
+                        $("#divs").show();
+                        $("#divs").hover(function(){
+                            $("#divs").show();
+                                 },function (){  
+                                $("#divs").hide();  
+                            });  
+                    },function (){  
+                        $("#divs").hide();  
+                    });      
+        </script>  
+        
+        
 	<!--nav end-->
 	<div class="download frt"><a href="/page/mdownload/mdownload">手机客户端</a></div>
 </div>

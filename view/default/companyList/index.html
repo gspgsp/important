@@ -1,0 +1,93 @@
+{layout file="public:main_layout"}
+{insert_css files='home/companyList.css'}
+<div class="big-client">
+	<div class="filter">
+	</div>
+	<!--filter end-->
+	<!--result begin-->
+	<div class="result">
+		<div class="condt">
+	    	<p class="total">共<span>{$list.count}</span>条</p>
+                <p class="price-range-name">公司名称</p>
+                <form name="" id="filterFrom" method="get" action="">
+                <input type="text" name="copName" value="{$copName}" class="price-range-val" />
+                <p class="price-range-name">公司地址</p>
+                <input type="text" name="address" value="{$address}" class="price-range-val" />
+                <input type="submit" class="btn-submit" value="搜索"></form>
+	    </div>           
+		<ul>
+	    	<li class="title">        	
+	            <div class="company">公司</div>
+                     <div class="address">地址</div>
+                    <div class="cop_intro">公司简介</div>
+	        </li>
+	        {foreach from=$list.data item=value}
+	    	<li class="con">
+	            <div class="company">{$value.c_name}</div>
+                    <div class="address">{$value.address}</div>
+                    <div class="cop_intro">{$value.com_intro}</div>
+	        </li>
+	        {/foreach}
+	    </ul>
+	    <div class="page">
+	    	{$pages}
+	    </div>
+	</div>
+</div>
+
+<script>
+$(function(){
+	$(".sort-sel .sorttype").click(function(){
+		var sort=$(this).attr('sort');
+		$(".sortnum").val(sort);
+		$("#filterFrom").submit();
+	});
+	//品牌每次只能选择一个
+	$(".brand .filter-detail li a").bind("click",function(){
+		$(this).addClass("chose").closest("li").siblings().find("a").removeClass("chose");
+	});
+	
+	//地址每次只能选择一个
+	$(".address .filter-detail li a").bind("click",function(){
+		$(this).addClass("chose").siblings().removeClass("chose");
+		$(this).addClass("chose").closest("li").siblings().find("a").removeClass("chose");
+	});
+	
+	
+	//展开公司与品牌
+	$(".company .filter-show,.brand .filter-show").bind("click",function(){
+		var more = $(this).prev(".filter-detail").find("ul");
+		if(more.hasClass("hide")){
+			more.removeClass("hide").addClass("show");
+            $(this).find("span").html("收起").removeClass("hide").addClass("show");
+		}
+		else{
+			more.removeClass("show").addClass("hide");
+            $(this).find("span").html("展开更多").removeClass("show").addClass("hide");
+		}
+	});
+	
+	//展开交货地
+	$(".address .filter-show").bind("click",function(){
+		var addr1 = $(".address-1"),
+			addr2 = $(".address-2");
+		if(addr1.hasClass("show")){
+			addr1.removeClass("show").addClass("hide");
+            $(this).find("span").html("收起").removeClass("hide").addClass("show");
+		}
+		else{
+			addr1.removeClass("hide").addClass("show");
+            $(this).find("span").html("展开更多").removeClass("show").addClass("hide");
+		}
+		
+		if(addr2.hasClass("show")){
+			addr2.removeClass("show").addClass("hide");
+            $(this).find("span").html("展开更多").removeClass("show").addClass("hide");
+		}
+		else{
+			addr2.removeClass("hide").addClass("show");
+            $(this).find("span").html("收起").removeClass("hide").addClass("show");
+		}
+	});
+});
+</script>
