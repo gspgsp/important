@@ -183,7 +183,7 @@ var querySucess = function(obj){
 			//layer.msg(data.msg);
 			window.clearInterval(inter);
         	layer.close(layer_index);
-        	$(obj).parent().parent().find(".fk-status").text('全部付款');
+        	$(obj).parent().parent().find(".fk-status").text('已付款');
         	layer.msg(data.msg);
 		}else{
 			console.log(data.msg);
