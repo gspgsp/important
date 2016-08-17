@@ -149,3 +149,15 @@ catch (e) {
   }
 }
 
+ $(".link3 li:last").hover(function (){ 
+                        $("#divs").show();
+                        $("#divs").hover(function(){
+                            $("#divs").show();
+                                 },function (){  
+                                $("#divs").hide();  
+                            });  
+                    },function (){  
+                        $("#divs").hide();  
+                    }); 
+
+

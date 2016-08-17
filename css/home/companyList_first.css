@@ -1,0 +1,16 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body{ font-family: "Microsoft YaHei" ! important; font-size:12px; color:#444; text-align:left; line-height:22px;min-width:1280px; background:url(../../images/home/mainbg.jpg) center bottom repeat-x; padding:0; margin:0}
+form,img,ul,li,p,dl,dt,dd,span,p{border:0;margin:0;padding:0;}
+h1,h2,h3,h4{font-size:12px;font-weight:100;margin:0;padding:0;}
+li,dl{list-style-type:none; }
+.clear{clear:both;}
+img{ display:block;}
+input,textarea {outline-width:0;outline-style:none; border:none;}
+
+/*客户公司详情导航*/
+ #divs{ margin-left: 102px; left: 1100px;border: 1px solid #E1DFDA;  width: 100px;height:40px;   z-index: 1000;   box-shadow: 0px 2px 5px rgba(76, 74, 68, 0.3);    background: #fff;    position: absolute;    top: 95px; display: none;}
+#divs ul {height:44px;postion:absolute;}
+#divs li {  vertical-align:center; font-size: 14px; text-align: center;     line-height: 44px;      width:100px;   float:left;       }
+
+
