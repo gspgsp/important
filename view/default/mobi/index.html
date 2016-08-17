@@ -139,7 +139,7 @@
 		var appInfoLi2="";
 		var attentionLi="";
 		var bannerLi="";
-
+		
 		commonAjax(
 				"post",
 				"/mobi/mainPage/getAppBanner"
@@ -191,15 +191,9 @@
 				{type:2}
 		).then(function (res) {
 			console.log(">>>",res);
-			res.infos.forEach(function (v, i, a) {
-				appInfoLi2 += "<li>"+v.type+"<i class='"+ oilCompare(v.alph) +"'>"+arrow(v.alph)+""+v.ups_downs+"</i><b>"+v.price+"</b><b style='margin-right: 10px;'>"+v.input_time+"</b></li>";
-			});
-			$("#appInfoUl2").html(appInfoLi2);
-		},function () {
-
-		});
-
-    $('#container').highcharts({
+			brent=res.infos.brent;
+			wit=res.infos.wit;
+		$('#container').highcharts({
         chart: {
             type: 'line'
         },
@@ -207,7 +201,7 @@
             text: ''
         },
         xAxis: {
-            categories: ['8-15', '8-15', '8-15', '8-15', '8-15',]
+            categories: res.infos.times
         },
         yAxis: {
             title: {
@@ -224,16 +218,20 @@
         },
         series: [{
             name: 'BRENT',
-            data: [7.0, 6.9, 9.5, 14.5, 18.4]
+            data: res.infos.brent
         }, {
             name: 'WTI',
-            data: [3.9, 4.2, 5.7, 8.5, 11.9]
+            data: res.infos.wit
         }],
         credits: {
             	text: '',
             	href: ''
         	}
     });
+
+		},function () {
+
+		});
 
 		commonAjax(
 				"post",
