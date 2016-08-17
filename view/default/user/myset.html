@@ -334,19 +334,22 @@ $(function(){
 		conTabx2.find("select").attr("disabled","disabled");
 	});
 	
+	var layer_index=0;
 	//绑定东方付通会员账号
 	$("#bind_member").click(function(){
-		if($("#save2").css('display')!="none"){
-			layer.tips('请先保存公司信息!', $("#save2"), {
-				  tips: 1
-			});
-			return false;
-		}
+		// if($("#save2").css('display')!="none"){
+		// 	layer.tips('请先保存公司信息!', $("#save2"), {
+		// 		  tips: 1
+		// 	});
+		// 	return false;
+		// }
 		var data=$("#companyForm").serialize();
+	    layer_index =layer.load('正在处理请稍后', 0);
 		$.post('/user/myset/bind_member',data,function (data){
 			if(data.err==0){
 				//layer.msg('操作成功');
 				//window.location.href=data.msg; 
+	        	layer.close(layer_index);
 				window.open(data.msg);
 			}else{
 				layer.msg(data.msg);

@@ -145,7 +145,7 @@
                     <li class="freight">{$value.freight_price}</li>
                     <li class="status">{:setOption|order_status,$value.order_status}</li>
 					<li class="fk-status">{:setOption|collection_p_status,$value.collection_status}</li>
-                    <li class="fk-status">{:setOption|order_status,$value.order_status}</li>
+                    <li class="fh-status">{:setOption|order_status,$value.order_status}</li>
                     <li class="kp-status">{:setOption|invoice_status,$value.invoice_status}</li>
                     <li class="remark">{$value.remark}</li>
                     <li class="opt">
@@ -184,6 +184,7 @@ var querySucess = function(id){
 			//layer.msg(data.msg);
 			window.clearInterval(inter);
         	layer.close(layer_index);
+        	layer.msg(data.msg);
 		}else{
 			console.log(data.msg);
 			if(data.msg=="支付失败"){
