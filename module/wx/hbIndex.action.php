@@ -296,7 +296,14 @@ class hbIndexAction extends null2Action{
 			$res=array('yes'=>0,'prize_name'=>'谢谢参与','price'=>0);
 			$countModel->rollback();
 		}
-		$res['times']=$this->db->model('weixin_name')->select('times')->where("id={$userinfo['id']}")->getOne();//剩余抽奖的次数
+		$times=$this->db->model('weixin_name')->select('times,app_time')->where("id={$userinfo['id']}")->getRow();//剩余抽奖的次数
+		$today = strtotime(date('Y-m-d',time()));
+		if($times['app_time']>$today){
+			$res['over']=1;//不提示
+		}else{
+			$res['over']=0;//提示
+		}
+		$res['times']=$times['times'];
 		$res['name']=$userinfo['name'];//微信用户名
 		$this->json_output(array('err'=>4,'res'=>$res));//返回抽奖的结果
 	}
