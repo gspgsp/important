@@ -148,7 +148,7 @@
                     <li class="remark">{$value.remark}</li>
                     <li class="opt">
                     	<a href="/user/unionorder/detail/id/{$value.id}">查看</a>
-                    	{if $value.order_status eq '2'}
+                    	{if (($value.order_status=='2')&&$(value.collection_status<>'3')) }
                         	<a href="javascript:;" class="opt-pay" data-id="{$value.o_id}">付款</a>
                         {/if}
                         <a href="javascript:;" class="opt-cancel" data-id="{$value.o_id}">取消</a>
