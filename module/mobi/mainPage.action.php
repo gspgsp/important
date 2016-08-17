@@ -34,51 +34,16 @@ class mainPageAction extends homeBaseAction
     //获取首页数据
     public function getMainPage(){
         $this->is_ajax = true;
-        // if($this->user_id<=0) $this->error('账户错误');
     	$type = sget('type','i',1);//type为1:今日头条,2:原油价格
     	if($infos = M('myapp:mainPage')->getInfos($type)) $this->json_output(array('err'=>0,'infos'=>$infos));
-    	$this->json_output(array('err'=>2,'msg'=>'没有相关资讯'));
+    	$this->json_output(array('err'=>2,'msg'=>'没有相关资讯或原油价'));
     }
     //进入今日资讯
-    public function enTodayInfos(){
-    	$this->display('info');
-    }
     //点击获取今日资讯
-    public function getMoreInfos(){
-        $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
-    	$pid=sget('pid','i',29);
-		$page = sget('page','i',1);
-		$size = sget('size','i',10);
-		if(!$infos = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>0,'infos'=>$infos['data']));
-		$this->json_output(array('err'=>2,'msg'=>'没有更多相关资讯'));
-    }
     //进入资讯详情
-    public function enDetailInfos(){
-    	$this->display('info_detail');
-    }
     //获取资讯详情
-    public function getDetailInfos(){
-        $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
-    	$id=sget('id','i',0);
-        if(!$detInf=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'没有该条资讯详情'));
-        $detInf['input_time'] = date("Y-m-d",$detInf['input_time']);
-        $this->json_output(array('err'=>0,'detInf'=>$detInf));
-    }
     //进入调价动态
-    public function enDyPrice(){
-    	$this->display('info_oil');
-    }
     //点击获取更多调价动态
-    public function getMoreDyPrice(){
-        $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
-		$page = sget('page','i',1);
-		$size = sget('size','i',10);
-		if(!$list = M('myapp:mainPage')->getAllPriceFloor($page,$size)) $this->json_output(array('err'=>1,'msg'=>'没有更多调价动态'));
-		$this->json_output(array('err'=>0,'dyprice'=>$list['data']));
-    }
     //进入首页搜素页
     public function enMainSearch(){
     	$this->display('appSearch');
