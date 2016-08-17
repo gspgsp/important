@@ -126,6 +126,7 @@ class customer_billingAction extends adminBaseAction
 	public function ajaxSave(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //传递的参数
+		$data['customer_manager'] = M('rbac:adm')->getAdmin_Id($data['manager']);
 		if(empty($data)){
 			$this->error('错误的请求');
 		}
@@ -138,8 +139,7 @@ class customer_billingAction extends adminBaseAction
 			if(!M('user:customer_billing')->curUnique($name='c_id',$value="$data[c_id]")){
 				$this->error('此客户已添加开票资料');
 			}
-			$result = $this->db->add($data+array('input_time'=>CORE_TIME,
-			'input_admin'=>$_SESSION['name'],'customer_manager'=>$_SESSION['adminid']));
+			$result = $this->db->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],));
 		}
 		
 		if(!$result) $this->error('操作失败');

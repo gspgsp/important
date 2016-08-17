@@ -15,6 +15,7 @@
 				<td style="width:80px;">选择客户</td>
 				<td>
 					<input name="c_id" class="mini-buttonedit" onbuttonclick="checkedMer" valueField="admin_id" textField="name"  value="" allowInput="false"  style="width:200px" id="id"/>
+					<input id="manager" class="mini-hidden" name="manager"  value=""/>
 				</td>
 			{/if}
 			</tr>
@@ -110,6 +111,7 @@ function onValidMobile(e){
 //弹出业务员选择列表
 function checkedMer(e){
 	var btn = this;
+	var manager = document.getElementById('manager');
 	mini.open({
 			//check=1表示是单选
 		url: "/user/customer/init?do=search&choose=1",
@@ -128,6 +130,7 @@ function checkedMer(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
+					manager.value=data.customer_manager;
 				}
 			}
 		}
