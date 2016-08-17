@@ -194,12 +194,7 @@ class billingAction extends adminBaseAction
 		$type = sget('do','i');//区分销售采购订单
 		$detail = $data['detail'];
 		unset($data['detail']);
-		$billingLogModel=M('product:billingLog');
 		$data['payment_time']=strtotime($data['payment_time']);
-
-		$purchaseLogModel=M('product:purchaseLog');
-		$saleLogModel=M('product:saleLog');
-		$orderModel=M('product:order');
 		$this->db->startTrans();
 		if($data['finance']==1){
 			//财务审核开票信息
@@ -209,44 +204,39 @@ class billingAction extends adminBaseAction
 				'invoice_status'=>2,
 				'payment_time'=>CORE_TIME,
 				'unbilling_price'=>'-='.$data['billing_price'],
-
 				);
-			//销售开票号去重
-			if ($type==1) {
-				$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);
-				if(!$res) $this->error("发票号重复,请更换！");
-			}
+				//销售开票号去重
+				if ($type==1) {
+					$res = M('product:billing')->curUnique('invoice_sn',$data['invoice_sn']);
+					if(!$res) $this->error("发票号重复,请更换！");
+				}
 				if(!$this->db->model('billing')->where("id={$data['id']}")->update($_data+$data)) $this->error("开票审核更新表头失败");
+				foreach ($detail as $v) {
+					if(!$this->db->model('billing_log')->where("id={$v['id']}")->update(array('update_time'=>CORE_TIME,'status'=>2,))) $this->error("开票明细更新失败");
+					if($type==1){//销售
+						$b_number=$this->db->model('sale_log')->where("id={$v['l_id']}")->select('b_number')->getOne();
+						if($v['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
+						if(!$this->db->model('sale_log')->where("id={$v['l_id']}")->update(array('b_number'=>'-='.$v['b_number'],))) $this->error("销售明细更新失败");
 
-				foreach ($detail as $key => $value) {
-					$value['update_time']=CORE_TIME;
-					$value['status']=2;
-					if(!$this->db->model('billing_log')->where("id={$value['id']}")->update($value)) $this->error("开票明细更新失败");
-					if($type==1){
-						$b_number=$this->db->model('sale_log')->where("id={$value['l_id']}")->select('b_number')->getOne();
-						if($value['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
-						if(!$saleLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) $this->error("销售明细更新失败");
-						// $sum=$saleLogModel->where("o_id={$data['o_id']}")->select("sum(b_number)")->getOne();
-						$sum=$saleLogModel->where("id={$value['l_id']}")->select("sum(b_number)")->getOne();
-					}elseif($type==2){
-						$b_number=$purchaseLogModel->where("id={$value['l_id']}")->select('b_number')->getOne();
-						if($value['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
-						if(!$purchaseLogModel->where("id={$value['l_id']}")->update("b_number=b_number-{$value['b_number']}")) $this->error("采购明细更新失败");
-						$sum=$purchaseLogModel->where("id={$value['l_id']}")->select("sum(b_number)")->getOne();
-					}
-					if($sum==0){						
-						//更新为全部开票
-						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) $this->error("订单状态更新失败");
+
 					}else{
-						//更新为部分开票
-						if(!$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>2,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']))) $this->error("订单状态更新失败");
+						$b_number=$this->db->model('purchase_log')->where("id={$v['l_id']}")->select('b_number')->getOne();
+						if($v['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
+						if(!$this->db->model('purchase_log')->where("id={$v['l_id']}")->update(array('b_number'=>'-='.$v['b_number'],))) $this->error("采购明细更新失败");
+
 					}
 				}
-				// if($this->db->model('billing_log')->where("status=1 and parent_id={$data['id']}")->getRow()){
-				// 	if(!$this->db->model('billing_log')->where("status=1 and parent_id={$data['id']}")->delete()) $this->error("开票明细删除失败");
-				// }
-				showtrace();
-			
+				if($this->db->commit()){
+					if($this->db->model('billing_log')->where("status=1 and parent_id={$data['id']}")->getRow()){
+						if(!$this->db->model('billing_log')->where("status=1 and parent_id={$data['id']}")->delete()) $this->error("开票明细删除失败");
+					}
+					$istatus = ($b_number-$v['b_number']) == 0 ? 3 : 2;
+					$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
+					$this->success('操作成功');
+				}else{
+					$this->db->rollback();
+					$this->error('保存失败：'.$this->db->getDbError());
+				}
 		}else{
 			//业务员提交申请开票			
 			$data['input_time']=CORE_TIME;
@@ -277,15 +267,13 @@ class billingAction extends adminBaseAction
 					);
 					if(!$this->db->model('billing_log')->add($log_data)) $this->error("开票明细添加失败");
 				}
+				if($this->db->commit()){
+					$this->success('操作成功');
+				}else{
+					$this->db->rollback();
+					$this->error('保存失败：'.$this->db->getDbError());
+				}
 		}
-
-		if($this->db->commit()){
-			$this->success('操作成功');
-		}else{
-			$this->db->rollback();
-			$this->error('保存失败：'.$this->db->getDbError());
-		}
-
 	}
 
 
