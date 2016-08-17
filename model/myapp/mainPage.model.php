@@ -17,34 +17,32 @@ class mainPageModel extends model
             }
             return $result;
         }elseif($type == 2){
-            $oils = $this->model('oil_price')->order('input_time desc')->limit('0,5')->getAll();
-            foreach ($oils as $key => $value) {
-                $oils[$key]['type'] = $value['type']==0 ?'WTI':'BRENT';
-                $oils[$key]['alph'] = $this->_getUpOilDowns($value['type'],$value['id']);
-                $oils[$key]['input_time'] = date("Y/m/d",$value['input_time']);
-            }
-            return $oils;
+            $wit = $this->_getOilPrice(0);
+            $brent = $this->_getOilPrice(1);
+            $wit_t = $this->_getTimeArray($wit);
+            $brent_t = $this->_getTimeArray($brent);
+            $times = count($wit_t)==5?$wit_t:$brent_t;
+            return array("wit"=>$wit,"brent"=>$brent,"times"=>$times);
         }
     }
+    //分别获取WTI和BRENT 5条的数据
+    private function _getOilPrice($oitype){
+        $oils = $this->model('oil_price')->select("id,input_time,price")->where("type=$oitype")->order('input_time desc')->limit('0,5')->getAll();
+        foreach ($oils as &$value) {
+            $value['input_time']=date("m-d",$value['input_time']);
+        }
+        return $oils;
+    }
+    //获取时间数组
+    private function _getTimeArray($oils){
+        $time=array();
+        foreach ($oils as $key => $value) {
+            $time[$key] = $value['input_time'];
+        }
+        return $time;
+    }
     //获取所有的原油价格
-    public function getAllPriceFloor($page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
-        $list = $this->model('oil_price')
-            ->page($page,$size)
-            ->order("$sortField $sortOrder")
-            ->getPage();
-            foreach ($list['data'] as $key => $value) {
-                $list['data'][$key]['type'] = $value['type'] == 0? 'WTI':'BRENT';
-                $list['data'][$key]['alph'] = $this->_getUpOilDowns($value['type'],$value['id']);
-                $list['data'][$key]['input_time'] = date("Y/m/d",$value['input_time']);
-            }
-        return $list;
-    }
     //原油价格数据处理方法(获取涨跌)
-    private function _getUpOilDowns($type,$id){
-        $preOil = $this->model('oil_price')->where("id=$id and type=$type")->select('price,input_time')->getRow();
-        $nextOil = $this->model('oil_price')->where("input_time < {$preOil['input_time']} and type=$type")->limit('0,1')->order('input_time desc')->getRow();
-        return empty($nextOil) ? 0 : $preOil['ups_downs']-$nextOil['ups_downs'];
-    }
     //获取搜索结果数据(4种方式)
     public function getAllSearchRes($keywords,$page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
         //筛选产品类型
