@@ -47,7 +47,7 @@ class mainPageModel extends model
     private function _getOilArray($oils){
         $oil=array();
         foreach ($oils as $key => $value) {
-            $oil[$key] = $value['price'];
+            $oil[$key] = floatval($value['price']);
         }
         return $oil;
     }
