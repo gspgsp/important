@@ -91,6 +91,7 @@ return array(
 		7=>'ABS',
 		8=>'PC',
 		9=>'MABS',
+		10=>'HIPS',
 	),
 
 	//财务要求的产品分类
