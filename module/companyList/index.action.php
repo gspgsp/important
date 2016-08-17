@@ -5,7 +5,8 @@ class indexAction extends homeBaseAction{
 	protected $db;
 	public function __init(){
 		$this->db=M('public:common');
-	}	
+	}
+
 	public function init()
 	{	
 		$where=1;

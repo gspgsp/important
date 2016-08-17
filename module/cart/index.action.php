@@ -10,6 +10,10 @@ class indexAction extends homeBaseAction{
 	}
 
 
+	public function aa(){
+
+	}
+
 	public function init()
 	{
 
@@ -125,7 +129,7 @@ class indexAction extends homeBaseAction{
 	{
 		if(!$_SESSION['order_success'] || $this->user_id<=0) $this->forward('/');
 		$_SESSION['order_success']=null;
-		
+
 		$customer_manager=$this->db->model('admin')
 			->where("admin_id={$_SESSION['uinfo']['customer_manager']}")
 			->select('admin_id,name,mobile')
