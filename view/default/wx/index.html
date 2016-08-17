@@ -58,22 +58,6 @@
 			</div>
 			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
 		</footer>
-		<form id="login" class="mui-input-group" style="height:125px; display: none; position:fixed; top:50%; margin: -60px 0 0 0; width:100%; z-index:100;">
-					<div class="mui-input-row">
-						<label>用户名</label>
-						<input id="mobi" type="text" placeholder="用户名">
-					</div>
-					<div class="mui-input-row">
-						<label>密码:</label>
-						<input id="pwd" type="password" class="mui-input-clear" placeholder="密码" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
-					</div>
-				<div class="mui-button-row">
-				<button id="go" type="button" class="mui-btn mui-btn-primary">登录</button>&nbsp;&nbsp;
-				<button id="cancel" type="button" class="mui-btn mui-btn-danger">取消</button>&nbsp;&nbsp;
-				<a href="/mobi/mainPage/enDownload">下载</a>
-			</div>
-		</form>
-		<div id="layer"></div>
 		<input type="hidden" id="times" value="{$times}"/>
 		<input type="hidden" id="openid" value="{$openid}"/>
 		<script type="text/javascript">
@@ -96,7 +80,7 @@
 			}
 		});
 		
-		var speed=800;
+		var speed=400;
 		var demo=document.getElementById("demo");
 		var demo1=document.getElementById("demo1");
 		var demo2=document.getElementById("demo2");
@@ -128,7 +112,6 @@
                     animateTo:angles+1800,
                     duration:3000,
                     callback:function (){
-                        //alert();
                         $.ajax({
                         	type:"post",
                         	url:"/wx/hbIndex/comeback",
@@ -139,102 +122,23 @@
                         		console.log(res);
                         		$("#num").text(res.times);
                         		if(res.err==2){
-								mui.confirm("",res.msg,["返回","登录 "],function(e){
+								mui.confirm("",res.msg,["返回","下载"],function(e){
 									if(e.index==0){
 										window.location.href="/wx/hbIndex/init";
 									}else if(e.index==1){
-										$("#login").show();
-										$("#layer").show();									
-										$("#go").on("click",function(){
-											$.ajax({
-												type:"post",
-												url:"/wx/hbIndex/doLogin",
-												async:true,
-												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
-												success:function(res){
-													if(res.err==0){
-														mui.alert("",res.msg,function(){
-															window.location.href="/wx/hbIndex/init";
-														});
-													}
-												},
-												error:function(){},
-												dataType:"json"	
-											});
-										});
-										$("#cancel").on("click",function(){
-											window.location.href="/wx/hbIndex/init";
-										});										
+										window.location.href="/mobi/mainPage/enDownload";									
 									}
 								});
                         		}else if(res.err==4){
                         			console.log(res.res.price);
                         			if(res.res.price==0){
                           			mui.alert("","谢谢参与",function(){
-                          												mui.confirm("",res.msg,["返回","登录 "],function(e){
-									if(e.index==0){
-										window.location.href="/wx/hbIndex/init";
-									}else if(e.index==1){
-										$("#login").show();
-										$("#layer").show();									
-										$("#go").on("click",function(){
-											$.ajax({
-												type:"post",
-												url:"/wx/hbIndex/doLogin",
-												async:true,
-												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
-												success:function(res){
-													if(res.err==0){
-														mui.alert("",res.msg,function(){
-															window.location.href="/wx/hbIndex/init";
-														});
-													}
-												},
-												error:function(){},
-												dataType:"json"	
-											});
-										});
-										$("#cancel").on("click",function(){
-											window.location.href="/wx/hbIndex/init";
-										});										
-									}
-								});
-
-                        				//window.location.href="/wx/hbIndex/init";
+                      					window.location.href="/wx/hbIndex/init";
                         			});                       				
                         			}else{
-                         			mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元",function(){
-                        												mui.confirm("",res.msg,["返回","登录 "],function(e){
-									if(e.index==0){
-										window.location.href="/wx/hbIndex/init";
-									}else if(e.index==1){
-										$("#login").show();
-										$("#layer").show();									
-										$("#go").on("click",function(){
-											$.ajax({
-												type:"post",
-												url:"/wx/hbIndex/doLogin",
-												async:true,
-												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
-												success:function(res){
-													if(res.err==0){
-														mui.alert("",res.msg,function(){
-															window.location.href="/wx/hbIndex/init";
-														});
-													}
-												},
-												error:function(){},
-												dataType:"json"	
-											});
-										});
-										$("#cancel").on("click",function(){
-											window.location.href="/wx/hbIndex/init";
-										});										
-									}
-								});
-
-                        				//window.location.href="/wx/hbIndex/init";
-                        			});
+	                         			mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元",function(){
+	
+	                        			});
                         			}
                         		}else if(res.err==3){
                          			mui.alert("",res.msg,function(){
