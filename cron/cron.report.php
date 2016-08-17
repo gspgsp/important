@@ -106,7 +106,7 @@ class cronReport{
 			$data['old_userd'] = $value['old'];
 			$data['new_userd'] = $value['new'];
 			$data['profitd'] = $value['profit'];
-			$data['update_time'] = time();
+			$data['collection_time'] = time();
 			$this->db->model('report_user')
 					 ->where('admin_id = '.$value['customer_manager'].' and report_date = '.$this->this_month_start)
 					 ->update($data);
