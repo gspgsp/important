@@ -262,9 +262,9 @@ class hbIndexAction extends null2Action{
 		}
 		if($res['yes']==1){
 			if(!$userinfo['username']){
-				$price=rand(20,40);//未登录的时候奖
+				$price=rand(20,30);//未登录的时候奖
 			}else{
-				$price=rand(40,80);//登录时候的奖
+				$price=rand(30,80);//登录时候的奖
 			}
 			$res['price']=$price/100;//中的奖金额度
 		}else{
@@ -320,7 +320,7 @@ class hbIndexAction extends null2Action{
 	// }
 	//新的中奖算法
 	public function gethonor(){
-		$options = array(1,0,0,1,0,0,1,0,1,0);
+		$options = array(1,0,0,1,0,0,1,0,1,0,0);
 		$index = rand(0, count($option)-1);
 		return $options[$index];
 	}
