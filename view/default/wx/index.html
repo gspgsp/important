@@ -70,7 +70,6 @@
 				<div class="mui-button-row">
 				<button id="go" type="button" class="mui-btn mui-btn-primary">登录</button>&nbsp;&nbsp;
 				<button id="cancel" type="button" class="mui-btn mui-btn-danger">取消</button>
-				<p><a href="/mobi/mainPage/enDownload">下载并登录APP可获得一次机会</a></p>
 			</div>
 		</form>
 		<div id="layer"></div>
@@ -172,9 +171,15 @@
 										window.location.href="/wx/hbIndex/init";
                         			});                       				
                         			}else{
-                         			mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元,下载并成功登录我的塑料网app可获取更多机会哟",function(){
-                      					window.location.href="/wx/hbIndex/init";
-                        			});
+                        				if(res.res.times==0){
+                                          	mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元",function(){
+                      							window.location.href="/wx/hbIndex/init";
+                        					});
+                        				}else{
+                                           	mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元,下载并成功登录我的塑料网app可获取更多机会哟",function(){
+                      							window.location.href="/wx/hbIndex/init";
+                        					});                       					
+                        				}
                         			}
                         		}else if(res.err==3){
                          			mui.alert("",res.msg,function(){
