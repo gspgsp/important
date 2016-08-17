@@ -89,6 +89,7 @@ class reportAction extends adminBaseAction {
 			$v['report_date']=$v['report_date']>1000 ? date("Y-m",$v['report_date']) : '-';
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$v['collection_time']=$v['collection_time']>1000 ? date("Y-m-d H:i:s",$v['collection_time']) : '-';
 			$message = M('rbac:adm')->getUserInfoById($admin_id=$v['admin_id']);
 			$v['depart']=C('depart')[$message['depart']];
 			$v['name']  =$message['name'];
@@ -139,6 +140,8 @@ class reportAction extends adminBaseAction {
 			$_id=$v['id'];
 			if($_id>0){
 				$update=array(
+					'collection_time'  =>strtotime($v['collection_time']),
+					'report_date'  =>strtotime($v['report_date']),
 					'input_time'  =>strtotime($v['input_time']),
 					'update_time'  =>CORE_TIME,
 					'update_admin' =>$_SESSION['name'],
