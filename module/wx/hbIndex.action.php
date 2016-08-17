@@ -119,7 +119,6 @@ class hbIndexAction extends null2Action{
 			            ->join('contact_info cinfo','log.user_id=cinfo.user_id')
 			            ->where($where2)
 			            ->getRow();
-	            file_put_contents('res.txt', $res);
 	            if(!empty($res)){
 	            	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
 	            }
