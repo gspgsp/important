@@ -28,7 +28,6 @@ class apiAction extends action{
     */
 	public function vcode(){
 		startAdminSession();		
-
 		$vcode=new vcode();
 		$vcode->code_len = 4;
 		$vcode->font_size = 14;

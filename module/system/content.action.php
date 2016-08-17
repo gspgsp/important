@@ -187,11 +187,26 @@ class contentAction extends adminBaseAction {
 		//正则去除图片
 		$keywords=preg_replace('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', '', htmlspecialchars_decode($keywords));
 		//引入分词类，获取关键词
+		   /*
 		    $pa = new PhpAnalysis ( 'utf-8', 'utf-8', false ); 
 		    $pa->LoadDict ();  
 		    $pa->SetSource ($keywords);  
 		    $pa->StartAnalysis ( true );  
-		    $tags = $pa->GetFinallyKeywords ( 5 ); // 获取文章中的五个关键字         
+		    $tags = $pa->GetFinallyKeywords ( 5 ); // 获取文章中的五个关键字  
+		    */
+		   $pscws = new PSCWS4();
+		        $pscws->set_dict(APP_LIB.'class/keyword/lib/dict.utf8.xdb');
+		        $pscws->set_rule(APP_LIB.'class/keyword/lib/rules.utf8.ini');
+		        $pscws->set_ignore(true);
+		        $pscws->send_text($keywords);
+		        $words = $pscws->get_tops(5);
+		        //var_dump($words);exit;  
+		        $tags = array();
+		        foreach ($words as $val) {
+		            $tags[] = $val['word'];
+		        }
+		        $tags=implode(',', $tags);
+		        $pscws->close();     
 		    $_info['keywords'] = $tags;
 		    $_info['description'] = mb_substr(strip_tags($keywords), 0,100);
 		$_data=saddslashes($_info);

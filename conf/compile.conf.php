@@ -7,7 +7,8 @@ return array(
 	//类文件
 	'class' => array(
 		//CORE_PATH.'extend/demo.class.php',
-		APP_LIB.'class/phpanalysis.class.php',
+		APP_LIB.'class/keyword/pscws4.class.php'
+		
 	),
 
 	//函数库文件
