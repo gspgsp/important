@@ -145,7 +145,7 @@ class selforderAction extends userBaseAction{
 	        $params['currency'] = 'CNY'; // 人民币
 	        $params['payAmt'] = $order['total_price']; // 付款金额
 	        $params['originalPayID'] = '';  // 直接支付不需要赋值
-	        $params['callBackUrl'] = APP_URL.'/pay/rtnpay/selforder_callback'; //回调通知地址，订单支付成功后通知商城的地址
+	        $params['callBackUrl'] = str_replace("///", "//",str_replace("http:/", "http://", APP_URL)).'/pay/rtnpay/selforder_callback'; //回调通知地址，订单支付成功后通知商城的地址
 	        $params['summary'] = ''; //摘要	        	        
 // 	        echo "支付号码：".$payID;      	        	              
 	        $params['customFiels'] ='';//自定义字段
@@ -162,10 +162,24 @@ class selforderAction extends userBaseAction{
 // 	        echo "参数：<br />".$dataorder;
 // 	        $this->assign('dataorder',$dataorder);
 // 	        $this->display('pay.html');
+	        $this->db->startTrans();
 	        $update=array(
 	            'pay_id'      => $payID,
 	        );
 	        $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
+	        $tmp=$this->db->model('pay_message')->select('payID')->where("tradeorder='".$order['order_sn']."'")->getOne();
+	        if(!empty($tmp)){
+	           $this->db->model('pay_message')->where("tradeorder='".$order['order_sn']."'")->delete();
+	           $this->db->model('pay_message')->add(saddslashes($params));
+	        }else{
+	           $this->db->model('pay_message')->add(saddslashes($params));
+	        }
+	        if($this->db->commit()){
+	            $this->success($dataorder);
+	        }else{
+	            $this->db->rollback();
+                $this->error('生成失败:'.$this->db->getDbError());
+	        }
 	   	    $this->success($dataorder);
 	    }
 	}
@@ -233,17 +247,17 @@ class selforderAction extends userBaseAction{
 	        $id = empty($data['id'])?0:$data['id'];
 	        if(!$this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->getRow()) $this->error('查询订单失败!');
 	        $order=$this->db->from('order o')
-	        ->join('admin ad','o.admin_id=ad.admin_id')
+	        ->join('admin ad','o.customer_manager=ad.admin_id')
 	        ->select('o.*,ad.name,ad.mobile')
 	        ->where("o_id=$id and user_id={$this->user_id}")
 	        ->getRow();
 	        $payid = $order['pay_id'];
-	        $rtn = $this->db->model('pay_message')->where("pay_id='$payid'")->getRow();
+	        $rtn = $this->db->model('pay_message')->where("payID='$payid'")->getRow();
 	        if(!$rtn) $this->error('查询订单失败!');
-	        if($rtn['pay_status']=="000000"){
+	        if(trim($rtn['payStatus'])=='000000'){
 	            $this->success('支付成功');
 	        }else{
-	            $this->error('支付失败');
+// 	            $this->error('支付失败');
 	        }
 	    }
 	}

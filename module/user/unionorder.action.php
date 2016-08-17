@@ -132,10 +132,24 @@ class unionorderAction extends userBaseAction{
 	        // 	        echo "参数：<br />".$dataorder;
 	        // 	        $this->assign('dataorder',$dataorder);
 	        // 	        $this->display('pay.html');
+	        $this->db->startTrans();
 	        $update=array(
 	            'pay_id'      => $payID,
 	        );
 	        $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
+	        $tmp=$this->db->model('pay_message')->select('payID')->where("tradeorder='".$order['order_sn']."'")->getOne();
+	        if(!empty($tmp)){
+	            $this->db->model('pay_message')->where("tradeorder='".$order['order_sn']."'")->delete();
+	            $this->db->model('pay_message')->add(saddslashes($params));
+	        }else{
+	            $this->db->model('pay_message')->add(saddslashes($params));
+	        }
+	        if($this->db->commit()){
+	            $this->success($dataorder);
+	        }else{
+	            $this->db->rollback();
+	            $this->error('生成失败:'.$this->db->getDbError());
+	        }
 	        $this->success($dataorder);
 	    }
 	}
@@ -206,7 +220,7 @@ class unionorderAction extends userBaseAction{
 			->where("o.id=$id and buy_user_id={$this->user_id}")
 			->getRow();
 	        $payid = $order['pay_id'];
-	        $rtn = $this->db->model('pay_message')->where("pay_id='$payid'")->getRow();
+	        $rtn = $this->db->model('pay_message')->where("payID='$payid'")->getRow();
 	        if(!$rtn) $this->error('查询订单失败!');
 	        if($rtn['pay_status']=="000000"){
 	            $this->success('支付成功');
@@ -215,6 +229,7 @@ class unionorderAction extends userBaseAction{
 	        }
 	    }
 	}
+	
 	
 	//取消支付
 	public function payCancel(){

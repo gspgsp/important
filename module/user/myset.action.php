@@ -185,15 +185,13 @@ class mysetAction extends userBaseAction{
 			$customer=M('user:customer')->getCinfoById($c_id);
 			if(empty($customer))$this->error('信息不存在');
 			if(!trim($_data['c_name'])) $this->error('公司名称不能为空');
-			if(!trim($_data['need_product'])) $this->error('需求牌号不能为空');
-			if(!trim($_data['address'])) $this->error('公司详细地址不能为空');
-			if(!$_data['origin']) $this->error('公司地址不能为空');
+// 			if(!trim($_data['need_product'])) $this->error('需求牌号不能为空');
+// 			if(!trim($_data['address'])) $this->error('公司详细地址不能为空');
+// 			if(!$_data['origin']) $this->error('公司地址不能为空');
             try { 
-                file_put_contents(ROOT_PATH.'../static/upload/'.'1111.txt', '1');
                 $bind = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
-                file_put_contents(ROOT_PATH.'../static/upload/'.'2222.txt',json_encode($bind));
                 $params = array(
-                    'mallID'     => '000106',
+                    'mallID'     => $bind->mallID,
                     'payType'    => '09020',
                     'memCode'    => $c_id,
                     'memName'    => $_data['c_name'],
