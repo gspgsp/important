@@ -21,13 +21,15 @@ class mainPageModel extends model
             $brent = $this->_getOilPrice(1);
             $wit_t = $this->_getTimeArray($wit);
             $brent_t = $this->_getTimeArray($brent);
+            $wit = $this->_getOilArray($wit);
+            $brent = $this->_getOilArray($brent);
             $times = count($wit_t)==5?$wit_t:$brent_t;
             return array("wit"=>$wit,"brent"=>$brent,"times"=>$times);
         }
     }
     //分别获取WTI和BRENT 5条的数据
     private function _getOilPrice($oitype){
-        $oils = $this->model('oil_price')->select("id,input_time,price")->where("type=$oitype")->order('input_time desc')->limit('0,5')->getAll();
+        $oils = $this->model('oil_price')->select("input_time,price")->where("type=$oitype")->order('input_time desc')->limit('0,5')->getAll();
         foreach ($oils as &$value) {
             $value['input_time']=date("m-d",$value['input_time']);
         }
@@ -40,6 +42,14 @@ class mainPageModel extends model
             $time[$key] = $value['input_time'];
         }
         return $time;
+    }
+    //获取单一原油数组
+    private function _getOilArray($oils){
+        $oil=array();
+        foreach ($oils as $key => $value) {
+            $oil[$key] = $value['price'];
+        }
+        return $oil;
     }
     //获取所有的原油价格
     //原油价格数据处理方法(获取涨跌)
