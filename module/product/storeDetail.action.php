@@ -91,7 +91,7 @@ class storeDetailAction extends adminBaseAction {
 			$sortField = sget("sortField",'s','input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			//筛选
-			$where = $id >0 ? " `inlog_id` = $id " : " 1 ";
+			$where = $id >0 ? " `inlog_id` = $id " : " 1 and status = 1";
 			//筛选时间
 			$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 			$where.=getTimeFilter($sTime); //时间筛选
@@ -125,8 +125,67 @@ class storeDetailAction extends adminBaseAction {
 			$this->display('inLogDetial.list.html');
 		}
 	}
-
-
+	/**
+	 * 撤销入库详细流水
+	 */
+	public function instoreBack(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$vas = explode(',', $ids);
+		$this->db->startTrans();
+		foreach ($vas as $k => $v) {
+			//更新明细为失效状态（采购未销售情况下的撤销）
+			$inlogs = $this->db->model('in_logs')->where("id = $v")->getRow();
+			if(empty($inlogs)) $this->error('错误的流水信息');
+			//如果说暂时没有出库
+			if($inlogs['number'] == $inlogs['remainder']){
+				//入库明细的明细
+				$this->db->model('in_logs')->where("id = $v")->delete();
+				//入库明细头（出库头）
+				$this->db->model('in_storage')->where("id = {$inlogs['storage_id']}")->delete();
+				//更新入库明细
+				$this->db->model('in_log')->where("id = {$inlogs['inlog_id']}")->update(array('remainder'=>'-='.$inlogs['number'],'controlled_number'=>'-='.$inlogs['number'],'number'=>'-='.$inlogs['number'],'update_time'=>CORE_TIME,));
+				// 查询采购订单明细的状态
+				$pinfo = $this->db->model('purchase_log')->where("id = {$inlogs['purchase_id']}")->getRow();
+				if($pinfo['number']==( $pinfo['remainder']+$inlogs['number'])){
+					$in_status = 1;
+				}else{
+					$in_status = 2;
+				}
+				//如果订单状态是全部入库则修改入库状态为部分入库（并更剩余未入数量）
+				$this->db->model('purchase_log')->where("id = {$inlogs['purchase_id']}")->update(array('remainder'=>'+='.$inlogs['number'],'in_storage_status'=>$in_status,'update_time'=>CORE_TIME,));
+				//接下来判断订单的入库状态并更新(主要判断是否存在同订单的入库信息)
+				if($this->db->model('in_logs')->where("`id` != $v and `inlog_id` = {$inlogs['inlog_id']}")->getRow()){
+					$o_status = 2;
+				}else{
+					$o_status = 1;
+				}
+				$this->db->model('order')->where("`o_id` = {$pinfo['o_id']}")->update(array('in_storage_status'=>$o_status,'update_time'=>CORE_TIME,));
+				//把仓库的商品删除
+				$this->db->model('store_product')->where("`s_id`={$inlogs['store_id']} and `p_id` = {$inlogs['p_id']}")->update(array('number'=>'-='.$inlogs['number'],'remainder'=>'-='.$inlogs['number'],));
+			}else{
+				//查询这个出库的关联订单及入库
+				$outs = $this->db->model('out_logs')->where("inlogs_id like '%$v%'")->getRow();
+				if (!empty($outs)) {
+					$oid = $this->db->model('sale_log')->select('o_id')->where("id = {$outs['sale_id']}")->getOne();
+					//查询订单号
+					$sn = $this->db->model('order')->select('order_sn')->where("`o_id` = $oid")->getOne();
+					$this->error('该采购已经出库,请先撤销出库记录后在操作,订单SN为'.$sn.',出库id为：'.$outs['id']);
+				}
+				$this->error('该采购已经出库,请先撤销出库记录后在操作');
+			}
+			
+		}
+		if($this->db->commit()){
+			$this->success('撤销成功');
+		}else{
+			$this->db->rollback();
+			$this->error('撤销失败');
+		}
+	}
 	/**
 	* 订单信息
 	* @access public

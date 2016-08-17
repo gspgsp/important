@@ -122,7 +122,19 @@ class storeOutLogAction extends adminBaseAction {
 			$this->display('outLogDetial.list.html');
 		}
 	}
-
+	/**
+	 * 撤销出库详细流水
+	 */
+	public function outstoreBack(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		p($ids);
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$vas = explode(',', $ids);
+		$this->db->startTrans();
+	}
 
 
 

@@ -16,13 +16,18 @@
 					<td>出库单号</td>
 					<td>{$out_no}</td>
 				</tr>
-
 				<tr>
 					<td>出库种类<font style="color:red;"> * </font></td>
 					<td><input name="out_type" class="mini-combobox" data='{:setMiniConfig|$out_type}' value="{$data.out_type|default:1}" textField="name" valueField="id" style="width:120px;" required="true"/>
 					</td>
 					<td>物流公司<font style="color:red;"> * </font></td>
 					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="true"/></td>
+				</tr>
+				<tr>
+					<td>选择仓库<font style="color:red;"> * </font></td>
+					<td><input name="store_id" class="mini-buttonedit" onbuttonclick="stoChoose" value="{$data.store_id}" allowInput="false"  text="{$data.store_name}"  style="width:120px" id="usrId" required="true"/></td>
+					<td>入库人<font style="color:red;"> * </font></td>
+					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
 				</tr>
 				<tr>
 					<td>备注:</td>
@@ -128,8 +133,6 @@ function submitForm() {
 		}
 	},'json');
 }
-
-
 function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
   else window.close();
@@ -192,7 +195,7 @@ function stoChoose(e){
 	var btn = this;
 	var aname = mini.get("name");
 		mini.open({
-		url: "/product/store/init?do=search",
+		url: "/product/store/init?do=search&choose=1",
 		title: "选择仓库",
 		width: 1200,
 		height: 550,

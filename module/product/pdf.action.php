@@ -105,7 +105,7 @@ class pdfAction extends adminBaseAction {
 								<td width="30" height="20" style="line-height:20px;">六、</td>
 								<td width="100" height="20" style="line-height:20px;">所有权归属：</td>
 								<td width="505" height="20" style="line-height:20px;">
-									乙方付清全部货款前，无论货物是否交付，全部货物所有权归属甲方。乙方付清全部货款后，提货之日起货物所有权归属乙方，乙方付清全部货款后，提款之日起货物毁损灭失等风险由乙方承担。
+									乙方付清全部货款前，无论货物是否交付，全部货物所有权归属甲方。乙方付清全部货款后，提货之日起货物所有权归属乙方，乙方付清全部货款后，提货之日起货物毁损灭失等风险由乙方承担。
 								</td>
 							</tr>
 						</table>

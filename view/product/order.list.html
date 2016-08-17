@@ -59,7 +59,7 @@
 					<option value="c_id">客户名称</option>
 					<option value="input_admin">交易员</option>
 				</select>
-				<input name="keyword" class="mini-textbox" emptyText="" style="width:60px;" onenter="onKeyEnter"/>
+				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 				<span id="searchMsg"></span></form>
 			</td>
@@ -208,9 +208,14 @@ function onTransportStatus(e) {
 //追加关联
 function onJoin(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
+
 		if(store_o_id > 0 && join_id == 0){
 			s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
 		}else if(store_o_id == 0 && join_id > 0){
+			s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
+		}else if(o_id == join_id && join_id>0 && store_o_id>0){
+			s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
+		}else if(o_id == store_o_id && join_id>0 && store_o_id>0){
 			s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
 		}
 	return s;
@@ -491,7 +496,7 @@ function outStorage(oid){
 	mini.open({
 		url:"/product/outStorage/info?o_id="+oid,
 		showMaxButton:true,
-		title:'发货记录新增',width:850,height:380,
+		title:'发货记录新增',width:850,height:420,
 		ondestroy: function(action){
 			if(action=='save'){ //重新加载
 				grid.reload();

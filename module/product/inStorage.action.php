@@ -127,6 +127,7 @@ class inStorageAction extends adminBaseAction {
 			if( $this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->getOne() ){
 				//存在就更新数量
 				$this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->update('number = number+'.$v['in_number'].' , remainder = remainder+'.$v['in_number'].' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+
 			}else{//不存在就add
 				$this->db->model('store_product')->add($input_store+$basic_info);
 			}
@@ -179,14 +180,27 @@ class inStorageAction extends adminBaseAction {
 			$_data['controlled_number']=$v['in_number']; //可用数量
 			$_data['join_id']=$data['join_id']; //关联的销售订单id
 			//新增入库明细
+			// 判断订单类型，如果是显小后才则全锁定
+			$orderinfo = $this->db->model('order')->where("`o_id` = {$v['o_id']}")->getRow();
 			$in_id = $this->db->model('in_log')->select('id')->where(' purchase_id = '.$_data['purchase_id'])->getOne();
 			if( $in_id>0 ){ //判断此采购订单的明细之前有没有入过库
 				//更新此次入库数  compact()
-				$this->db->model('in_log')->where(' purchase_id = '.$_data['purchase_id'])->update(' number = number+'.$v['in_number'].' , remainder = remainder+'.$v['in_number'].' , controlled_number = controlled_number+'.$v['in_number']);
+				if($orderinfo['order_type'] == 2 && $orderinfo['purchase_type'] == 1){ // 如果是销售采购则为1
+					$lock_arr = array('lock_number'=>'+='.$v['in_number'],);
+				}else{
+					$lock_arr = array();
+				}
+				$this->db->model('in_log')->where("purchase_id = {$_data['purchase_id']}")->update(array('number'=>'+='.$v['in_number'],'remainder'=>'+='.$v['in_number'],'controlled_number'=>'+='.$v['in_number'],)+$lock_arr);
 				$inlog_id=$in_id; 
 			}else{ //如果没有新增入库明细
+				//更新此次入库数  compact()
+				if($orderinfo['order_type'] == 2 && $orderinfo['purchase_type'] == 1){ // 如果是销售采购则为1
+					$lock_arr = array('lock_number'=>$v['in_number'],);
+				}else{
+					$lock_arr = array();
+				}
 				//新增入库明细
-				$this->db->model('in_log')->add($_data+$basic_info);
+				$this->db->model('in_log')->add($_data+$basic_info+$lock_arr);
 				//获取新增入库单ID
 				$inlog_id=$this->db->getLastID(); 
 			}
@@ -214,8 +228,6 @@ class inStorageAction extends adminBaseAction {
 			}else{//反之更改状态为全部入库
 				$this->db->model('purchase_log')->where(' id = '.$v['id'])->update('in_storage_status = 3 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 			}
-
-
 			$input_store['s_id']=$data['store_id'];
 			$input_store['p_id']=$v['p_id'];
 			$input_store['number']=$v['in_number'];
@@ -223,7 +235,7 @@ class inStorageAction extends adminBaseAction {
 			//判断仓库货品表中是否存在此货品
 			if( $this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->getOne() ){
 				//存在就更新数量
-				$this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->update('number = number+'.$v['in_number'].' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
+				$this->db->model('store_product')->where('s_id = '.$input_store['s_id'].' and p_id = '.$input_store['p_id'])->update(array('number'=>'+='.$v['in_number'],'remainder'=>'+='.$v['in_number'],'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME,));
 			}else{//不存在就add
 				$this->db->model('store_product')->add($input_store+$basic_info);
 			}

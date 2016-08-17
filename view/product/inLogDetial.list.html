@@ -2,6 +2,9 @@
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
+			<td style="float:left;">
+				<a class="mini-button" iconCls="icon-undo" plain="true" onclick="release()">撤销</a>
+			</td>
 			<td style="float:right;">
 			<form id="soform">
 				<select name="sTime">
@@ -76,7 +79,29 @@ function viewOrdInfo(id){
 		width: 450, height:320
 	});		
 }
-
+//撤销
+function release() {
+    var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定撤销该入库流水吗？</br>1：设置后该记录会被标记无效</br>2：产生的库存记录会被返还</br>3：订单相关的内容会被撤销", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+	  			if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/product/storeDetail/instoreBack',{ids:ids},callback,"POST","json");
+		}
+	);
+}
 
 function GetData() {
 	var row = grid.getSelected();

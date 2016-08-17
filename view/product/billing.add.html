@@ -99,29 +99,29 @@
 </div>
 {if $type eq 1}
 <fieldset style="width:760px;border:solid 1px #aaa;position:relative;">
-        <legend>公司开票资料</legend>
-        <div id="editForm1" style="padding:5px;">
-            <input class="mini-hidden" name="id"/>
-            <table style="width:100%;">
-                <tr>
-                    <td>纳税人识别号</td>
-                    <td><input name="tax_id" class="mini-textbox" style="width:240px;" value="{$companyInfo.tax_id}" allowInput="false"/></td>
-                    <td>开票地址</td>
-                    <td><input name="invoice_address" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_address}" allowInput="false"/></td>
-                </tr>
-                <tr>
-                    <td>开票银行</td>
-                    <td><input name="invoice_bank" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_bank}" allowInput="false"/></td>
-                    <td>开票帐号</td>
-                    <td><input name="invoice_account" class="mini-textbox" style="width:240px;" value="{$invoice_account}" allowInput="false"/></td> 
-                </tr>
-                <tr>
-                	<td>开票电话</td>
-                    <td><input name="invoice_tel" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_tel}" allowInput="false"/></td> 
-                </tr>
-            </table>
-        </div>
-    </fieldset>
+		<legend>公司开票资料</legend>
+		<div id="editForm1" style="padding:5px;">
+			<input class="mini-hidden" name="id"/>
+			<table style="width:100%;">
+				<tr>
+					<td>纳税人识别号</td>
+					<td><input name="tax_id" class="mini-textbox" style="width:240px;" value="{$companyInfo.tax_id}" allowInput="false"/></td>
+					<td>开票地址</td>
+					<td><input name="invoice_address" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_address}" allowInput="false"/></td>
+				</tr>
+				<tr>
+					<td>开票银行</td>
+					<td><input name="invoice_bank" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_bank}" allowInput="false"/></td>
+					<td>开票帐号</td>
+					<td><input name="invoice_account" class="mini-textbox" style="width:240px;" value="{$invoice_account}" allowInput="false"/></td> 
+				</tr>
+				<tr>
+					<td>开票电话</td>
+					<td><input name="invoice_tel" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_tel}" allowInput="false"/></td> 
+				</tr>
+			</table>
+		</div>
+	</fieldset>
 {/if}
 
 <fieldset style="width:760px;border:solid 1px #aaa;position:relative;">
@@ -216,22 +216,22 @@ function viewhander(e){
 }
 //删除操作
 function removeRow() {
-    var rows = grid.getSelecteds();
-    if (rows.length > 0) {
-        grid.removeRows(rows, true);
-    }
+	var rows = grid.getSelecteds();
+	if (rows.length > 0) {
+		grid.removeRows(rows, true);
+	}
 	noStockData=grid.getData();
-    var total=0;
-    for (var i = 0; i < noStockData.length; i++) {
-    	total+=parseFloat(noStockData[i].sum);
-    }
-    mini.get('billing_price').setValue(total.toFixed(2));
+	var total=0;
+	for (var i = 0; i < noStockData.length; i++) {
+		total+=parseFloat(noStockData[i].sum);
+	}
+	mini.get('billing_price').setValue(total.toFixed(2));
 }
 
 //增加后提交数据(保存)
 function submitForm(billing) {
 	form.validate();
-  	if (form.isValid() == false) return;
+	if (form.isValid() == false) return;
 	//提交数据
 	var data=grid.getData();
 	console.log(data);

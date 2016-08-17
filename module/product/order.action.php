@@ -86,6 +86,8 @@ class orderAction extends adminBaseAction {
 		if($financial_records !='')  $where.=" and `financial_records` = ".$financial_records;
 		$order_source=sget('order_source','i',0);//订单来源
 		if($order_source !=0)  $where.=" and `order_source` =".$order_source;
+		$order_name=sget('order_name','i',0);//订单抬头
+		if($order_name !=0)  $where.=" and `order_name` =".$order_name;
 		$pay_method=sget('pay_method','i',0);//付款方式
 		if($pay_method !=0)  $where.=" and `pay_method` =".$pay_method;
 		$transport_type=sget('transport_type','i',0);//运输方式
@@ -440,9 +442,9 @@ class orderAction extends adminBaseAction {
 			if($data['order_type'] == 2){//如果是销售订单(1.先采后销  2.先销后采')
 				if(isset($data['store_o_id'])) unset($data['store_o_id']);
 			}
-			if(!$this->db->model('order')->add($add_data+$data) ) $this->error("新增订单失败");//新增订单
+			if(!$this->db->model('order')->add($add_data+$data)) $this->error("新增订单失败2");//新增订单
 			$o_id=$this->db->getLastID();//获取新增订单ID
-			if(!$o_id) $this->error("新增订单失败");
+			if(!$o_id) $this->error("新增订单失败1");
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){ //如果是销售订单(1.先采后销  2.先销后采')
 				if(!$data['store_o_id'])  $this->error("采购订单未选择或者错误");//不销库存的订单 不存在此字段
 				$this->db->model('order')->wherePk($data['store_o_id'])->update(array('join_id'=>$o_id,));
@@ -458,12 +460,12 @@ class orderAction extends adminBaseAction {
 					$detial[$k]['order_sn']=$data['order_sn'];
 					$detail[$k]['remainder']=$v['require_number'];
 					$detail[$k]['b_number']=$v['require_number'];
+					$detail[$k]['purchase_price']=empty($v['m_p_price']) ? 0 : $v['m_p_price'];
 					if($data['order_type'] == 1){//销售明细
-						$detail[$k]['purchase_price']=$v['m_p_price'];
 						$detail[$k]['number']=$v['require_number'];
-						if( !$this->db->model('sale_log')->add($add_data+$detail[$k]) ) $this->error("新增明细失败");		
+						if( !$this->db->model('sale_log')->add($detail[$k]+$add_data)) $this->error("新增明细失败1");		
 					}else{//采购明细
-						if( !$this->db->model('purchase_log')->add($add_data+$detail[$k]) ) $this->error("新增明细失败");
+						if( !$this->db->model('purchase_log')->add($detail[$k]+$add_data)) $this->error("新增明细失败2");
 					}
 				}
 			}
