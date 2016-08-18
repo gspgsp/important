@@ -54,8 +54,7 @@ class unionorderAction extends userBaseAction{
 			$value['totalNum']=$this->db->model('union_order_detail')->where("o_id={$value['id']}")->select("sum(number)")->getOne();
 			$value['c_name']=$this->db->model('customer')->where("c_id={$value['sale_id']}")->select('c_name')->getOne();
 		}
-
-
+		
 		$this->assign('orderList',$orderList);
 		$this->display('union_order');
 	}
