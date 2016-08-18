@@ -423,7 +423,9 @@ class mainPageModel extends model
     //获取供求的筛选条件
     public function getSupplyConditionData(){
         $product_type = array();
-        $product_type[]= L('product_type');
+        foreach ($L('product_type') as $key => $value) {
+            $product_type[$key] = $value;
+        }
         $model = $this->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
         $factory = $this->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
         $region = array('上海','江苏','浙江','山东','广东','山西','福建','四川','重庆','安徽','辽宁','吉林','湖北','湖南','河南','江西','广西','海南');
