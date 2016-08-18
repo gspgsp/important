@@ -151,7 +151,7 @@
                     <li class="opt">
                     	<a href="/user/selforder/detail/id/{$value.o_id}">查看</a>
                     	{if (($value.order_status=='2')&&$(value.collection_status<>'3')) }
-                        	<a href="javascript:;" class="opt-pay" data-id="{$value.o_id}">付款</a>
+                        	<a href="javascript:;" id="opt-pay-{$value.o_id}" class="opt-pay" data-id="{$value.o_id}">付款</a>
                         {/if}
                         <a href="javascript:;" class="opt-cancel" data-id="{$value.o_id}">取消</a>
                     </li>
@@ -176,14 +176,13 @@
 var inter=0, layer_index=0;
 //定时异步查询支付是否成功 
 //如果成功则清除定时器和loading层
-var querySucess = function(obj){
-	var id =$(obj).attr('data-id');
+var querySucess = function(id){
 	$.post('/user/selforder/querySucess',{id:id},function(data){
 		if(data.err=='0'){
 			//layer.msg(data.msg);
 			window.clearInterval(inter);
         	layer.close(layer_index);
-        	$(obj).parent().parent().find(".fk-status").text('已付款');
+        	$("#opt-pay-"+id).parent().parent().find(".fk-status").text('已付款')
         	layer.msg(data.msg);
 		}else{
 			console.log(data.msg);
@@ -220,7 +219,7 @@ $(function(){
     		return false;
     	}
 	    layer_index =layer.load('正在处理请稍后', 0);
-	    inter=setInterval("querySucess("+$(this)+")",1000);
+	    inter=setInterval("querySucess("+id+")",1000);
     	$.post('/user/selforder/pay',{id:id},function(data){
     		if(data.err=='0'){
 				//layer.msg(data.msg);
