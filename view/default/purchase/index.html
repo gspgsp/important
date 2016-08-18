@@ -79,9 +79,6 @@
                         	{if $value.status==2}
                             <p>洽谈中...</p>
                             <a href="javascript:doTalk({$value.id});" class="yes">我要供货</a>
-                            {elseif $value.status==3}
-                            <p>等待打款</p>
-                            <a href="javascript:;" class="no">等待打款</a>
                             {else}
                             <p>交易完成</p>
                             <a href="javascript:;" class="no">交易完成</a>
