@@ -466,7 +466,7 @@ class mainPageModel extends model
         }elseif (!empty($cargo_type)) {
             $where.=" and pur.cargo_type =$cargo_type ";
         }
-        $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.provinces,pro.model,pro.product_type,pur.unit_price,pur.number,fa.f_name,pur.input_time')->from('purchase pur')
+        $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.provinces,pur.status,pur.user_id,pur.cargo_type,pro.model,pro.product_type,pur.unit_price,pur.number,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
@@ -486,7 +486,7 @@ class mainPageModel extends model
     }
     //根据地区获得id
     private function _getIdByProvince($name){
-        return $this->model('lib_region')->select('id')->where('name='.$name)->getOne();
+        return $this->model('lib_region')->select('id')->where("name='{$name}'")->getOne();
     }
     //获取资源库数据
     public function getResourceData($type,$page=1,$size=30){
