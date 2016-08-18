@@ -153,7 +153,7 @@
         <!--detail end-->
         <!--buy-btn begin-->
         <div class="buy-btn">
-            <button type="butto" id='btn_ok'>确认下单</button>
+            <button type="submit" >确认下单</button>
             <a href="/offers">返回</a>
         </div>
     </form>
@@ -168,9 +168,6 @@
             elem: '#date3',
             event: 'focus',
             min: laydate.now()
-        });
-        $("#btn_ok").click(function(){
-        	document.forms[0].submit();
         });
     })
     //显示隐藏
@@ -233,6 +230,18 @@
     //});
     //
     $("#cartFrom").submit(function(){
+    	
+        var arr = new array();
+        //验证购物车中是否已经有产生订单
+        $("#cart .details").each(function(index,obj){
+            var obj = new Object();
+            obj.id =$(obj).attr("data-id");
+            obj.amount = $(obj).find(".amount").val();
+            arr.push(obj);
+        });
+        var details=JSON.stringfy(arr);
+        return false;
+    	
 
         if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
             $(".other select").addClass("required").attr("datatype","*");
@@ -283,6 +292,8 @@
             }
 
         }
+        
+        
         var data=$("#cartFrom").serialize();
         $.post('/cart/index/addorder',data,function(data){
             if(data.err==0){
@@ -292,6 +303,8 @@
 
             }
         },'json');
+        
+        
         return false;
     });
 
