@@ -15,7 +15,7 @@
         <th width="100">操作</th>
     </tr>
     {foreach from=$cartList item=value key=key}
-    <tr class="details">
+    <tr class="details" data-id="{$value.id}">
         <td>{$value.options.product_type}</td>
         <td>{$value.options.model}</td>
         <td>{$value.options.f_name}</td>
