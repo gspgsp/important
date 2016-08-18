@@ -149,7 +149,7 @@
                     <li class="opt">
                     	<a href="/user/unionorder/detail/id/{$value.id}">查看</a>
                     	{if (($value.order_status=='2')&&($value.collection_status!=3)) }
-                        	<a href="javascript:;" id="opt-pay-{$value.o_id}" class="opt-pay" data-id="{$value.o_id}">付款</a>
+                        	<a href="javascript:;" id="opt-pay-{$value.id}" class="opt-pay" data-id="{$value.id}">付款</a>
                         {/if}
                         <a href="javascript:;" class="opt-cancel" data-id="{$value.o_id}">取消</a>
                     </li>
@@ -221,7 +221,7 @@ $(function(){
     	}
 	    layer_index =layer.load('正在处理请稍后', 0);
 	    inter=setInterval("querySucess("+id+")",1000);
-    	$.post('/user/unionorder/pay',{id:id},function(data){
+    	$.post("/user/unionorder/pay",{id:id},function(data){
     		if(data.err=='0'){
 				//layer.msg(data.msg);
     			window.open("/pay/directpayment/init?id="+data.msg);
@@ -234,7 +234,7 @@ $(function(){
     //取消
     $(".opt-cancel").live("click",function(){
 	    layer_index =layer.load('正在处理请稍后', 0);
-    	$.post('/user/unionorder/payCancel',{id:id},function(data){
+    	$.post("/user/unionorder/payCancel",{id:id},function(data){
     		if(data.err=='0'){
 				layer.msg(data.msg);
     		}else{
