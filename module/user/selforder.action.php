@@ -150,7 +150,7 @@ class selforderAction extends userBaseAction{
 // 	        echo "支付号码：".$payID;      	        	              
 	        $params['customFiels'] ='';//自定义字段
 	        $params['instAccount']='0'; //优先记账0 或空：不记账99：记账
-	        $params['locktag']='1';// 锁定标识 1 锁定到收款方  到货支付此处必须为1 直接支付为0或空
+	        $params['locktag']='0';// 锁定标识 1 锁定到收款方  到货支付此处必须为1 直接支付为0或空
 	        $params['bankUse']='';//银行用途
 	        $params['bankDigest']='';//银行摘要	
 	        // 生成签名
