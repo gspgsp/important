@@ -18,7 +18,7 @@
 	<body style="padding-bottom: 90px;">
 		<header id="supplyDemandHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
-			商城报价<span class="appMenu"></span>
+			采购单<span class="appMenu"></span>
 		</header>
 		<div class="bigCustomerMenu" style="display:none;">
 			<h3 class="bigCustomerMenuTitle">
@@ -51,7 +51,18 @@
 			<span id="sale" data-big="true">价格</span>
 		</div>
 		<div class="supplyDemandUl">
-			<ul id="searchWrapUl"></ul>
+			<ul id="searchWrapUl">
+				<li>
+					<a href='/mobi/mainPage/enCheckForm?id="+v.p_id+"'>
+					<h3 class='purchaseOrders'>ldpe/2130/伊朗国家石化<br>
+					<span class="purchaseSale">￥9950/T起</span><span class="city">上海</span><br>
+					<span class="times">张总 发布于 2016-08-11 09:57:20</span>
+					</h3>
+					<p class='purchaseSaleStatus'><span class="purchaseCon">洽谈中</span><br><a class="purchaseLink" href="#">我要供货</a></p>
+					<span class="purchaseCargo">现</span>
+					<div class='mui-clearfix'></div></a>
+				</li>
+			</ul>
 			<div style="text-align: center; padding: 5px 0;">
 				<input class="more" type="button" value="点击加载更多">
 			</div>
@@ -92,7 +103,7 @@
 				//货物属性
 				var cargo_type="";
 				//采求购
-				var type=2;
+				var type=1;
 				//时间价格
 				var otype=3;
 				//页码
@@ -219,7 +230,7 @@
 											"<p class='supplyDemandStore'><i class='icon iconStore'></i></p>" +
 											"<p class='supplyDemandSales'><span>￥"+v.unit_price.split(".")[0]+"/T起</span><br>"+v.number+"T<br>"+v.input_time.split(" ")[0]+"</p>" +
 											"<div class='mui-clearfix'></div></a></li>";
-									$("#searchWrapUl").html(searchLi);
+									//$("#searchWrapUl").html(searchLi);
 								});
 							}
 						}else if(res.err==3){
