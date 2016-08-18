@@ -465,8 +465,10 @@ class mainPageModel extends model
             $where.=" and pur.provinces =$id ";
         }elseif (!empty($cargo_type)) {
             $where.=" and pur.cargo_type =$cargo_type ";
+        }elseif ($type==1) {
+            $where.=" and pur.status>2 and pur.status<5 ";
         }
-        $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.provinces,pur.status,pur.user_id,pur.cargo_type,pro.model,pro.product_type,pur.unit_price,pur.number,fa.f_name,pur.input_time')->from('purchase pur')
+        $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.provinces,pur.status,pur.user_id,pur.cargo_type,pur.type,pro.model,pro.product_type,pur.unit_price,pur.number,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
             ->where($where)
@@ -476,7 +478,14 @@ class mainPageModel extends model
             foreach ($data['data'] as &$value) {
                 $value['product_type'] = L('product_type')[$value['product_type']];
                 $value['provinces'] = $this->_getProvinceById($value['provinces']);
-                $value['input_time'] = date("Y-m-d H:i:s",$value['input_time']);
+                $value['input_time'] = date("Y-m-d H:i:s",$value['input_time']);//格式一
+                if($value['type']==1){
+                    $value['cargo_type'] = L('cargo_type')[$value['cargo_type']];
+                    $value['operate'] = $value['status']==3?"我要供货":"交易成功";//操作
+                    $value['status']=L('purchase_status')[$value['status']];
+                    $value['user_id']=M('user:customerContact')->getListByUserid($value['user_id'])['name'];//获取联系人
+                    $value['input_time'] = date("Y-m-d H:i",$value['input_time']);//格式二
+                }
             }
             return $data;
     }
