@@ -156,7 +156,6 @@ class contentAction extends adminBaseAction {
 	private function _submit() {
 		$this->is_ajax=true;
 		$id=sget('id','i'); //产品ID
-
 		$_info=sget('info','a');
 		$_info['sn']=preg_replace('/[^\w|.|-]/','',$_info['sn']); //过滤非法字符:a-Z0-9.-_
 		if(strlen($_info['title'])<3){
@@ -165,17 +164,6 @@ class contentAction extends adminBaseAction {
 		
 		//是否存在
 		$where="  1 ";
-		// if(!empty($_info['sn'])>1){
-		// 	$where.=" and sn='$_info[sn]'";
-		// }
-		// if($id>0){
-		// 	$where.=" and id!='$id'";
-		// }
-		
-		// $exist=$this->db->select("id,sn")->where($where)->getRow();
-		// if($exist){
-		// 	$this->error('存在相同['.$exist['id'].']'.($_info['sn']==$exist['sn'] ? '编号' : '标题'));	
-		// }
 		if($this->hasPrice>0){
 			$_info['price']=(float)$_info['price'];	
 			$_info['stock']=(float)$_info['stock'];	
@@ -187,20 +175,12 @@ class contentAction extends adminBaseAction {
 		//正则去除图片
 		$keywords=preg_replace('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', '', htmlspecialchars_decode($keywords));
 		//引入分词类，获取关键词
-		   /*
-		    $pa = new PhpAnalysis ( 'utf-8', 'utf-8', false ); 
-		    $pa->LoadDict ();  
-		    $pa->SetSource ($keywords);  
-		    $pa->StartAnalysis ( true );  
-		    $tags = $pa->GetFinallyKeywords ( 5 ); // 获取文章中的五个关键字  
-		    */
 		   $pscws = new PSCWS4();
 		        $pscws->set_dict(APP_LIB.'class/keyword/lib/dict.utf8.xdb');
 		        $pscws->set_rule(APP_LIB.'class/keyword/lib/rules.utf8.ini');
 		        $pscws->set_ignore(true);
 		        $pscws->send_text($keywords);
 		        $words = $pscws->get_tops(5);
-		        //var_dump($words);exit;  
 		        $tags = array();
 		        foreach ($words as $val) {
 		            $tags[] = $val['word'];
@@ -210,7 +190,6 @@ class contentAction extends adminBaseAction {
 		    $_info['keywords'] = $tags;
 		    $_info['description'] = mb_substr(strip_tags($keywords), 0,100);
 		$_data=saddslashes($_info);
-		
 		//更新或新增商品数据
 		if($id>0){
 			$_data['update_time']=CORE_TIME;
