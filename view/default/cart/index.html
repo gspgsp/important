@@ -77,7 +77,7 @@
                     <tr>
                         <td>付款方式<span class="red">*</span>:</td>
                         <td>
-                            <select datatype="*" name="pay_method" class="required" id="pay_method">
+                            <select style="width:100px" datatype="*" name="pay_method" class="required" id="pay_method">
                                 <option value="">请选择</option>
                                 {foreach from=$pay_method item=value key=key}
                                 <option value="{$key}">{$value}</option>
@@ -86,7 +86,7 @@
                         </td>
                         <td>运输方式<span class="red">*</span>:</td>
                         <td >
-                            <select datatype="*" id="transport_type" name="transport_type" class="required">
+                            <select style="width:100px" datatype="*" id="transport_type" name="transport_type" class="required">
                                 <option value="">请选择</option>
                                 {foreach from=$transport_type item=value key=key}
                                 <option value="{$key}">{$value}</option>
@@ -94,7 +94,7 @@
                             </select>
                         </td>
                         <td>配送时间<span class="red">*</span>:</td>
-                        <td> <input type="text" id="date3"  datatype="*" name="delivery_date" class="required"/></td>
+                        <td> <input style="width:229px"; type="text" id="date3"  datatype="*" name="delivery_date" class="required"/></td>
                     </tr>
                     <tr class="other hide">
 
@@ -108,7 +108,7 @@
                                 </select>
                         </td>
                         <td>详细地址<span class="red">*</span>:</td>
-                        <td><input type="text" id="address"  datatype="*" name="address" class="required"  placeholder="详细地址"/></td>
+                        <td><input style="width:200px;" type="text" id="address"  datatype="*" name="address" class="required"  placeholder="详细地址"/></td>
                     </tr>
                 </table>
                 <!--sly-chn begin-->
