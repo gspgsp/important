@@ -5,56 +5,56 @@
 {insert_js files='home/Validform_v5.3.2_min.js'}
 
 <div class="buy-wrap">
-        <!--buy-process begin-->
-        <div class="buy-process">
-            <ul>
-                <li class="one"><p>1</p><span>商城直营产品选择</span></li>
-                <li class="two"><p>2</p><span>物流服务选择</span></li>
-                <li class="three"><p>3</p><span>供应链金融服务选择</span></li>
-                <li class="four"><p>4</p><span>完成交易</span></li>
-            </ul>
-            <div class="line"></div>
-        </div>
-        <!--buy-process end-->
+    <!--buy-process begin-->
+    <div class="buy-process">
+        <ul>
+            <li class="one"><p>1</p><span>商城直营产品选择</span></li>
+            <li class="two"><p>2</p><span>物流服务选择</span></li>
+            <li class="three"><p>3</p><span>供应链金融服务选择</span></li>
+            <li class="four"><p>4</p><span>完成交易</span></li>
+        </ul>
+        <div class="line"></div>
+    </div>
+    <!--buy-process end-->
     <form id="cartFrom" method="" action="">
-    	<!--order-confirm begin-->
+        <!--order-confirm begin-->
         <div class="order-confirm">
             <!--<table border="1">-->
-                <!--<tr>-->
-                    <!--<td>订单名称：</td>-->
-                    <!--<td><input name="order_name" type="text"/></td>-->
-                    <!--<td>配送方式：</td>-->
-                    <!--<td>-->
-                    <!--<select datatype="*" name="transport_type" class="required">-->
-                        <!--<option value="">请选择</option>-->
-                        <!--{foreach from=$transport_type item=value key=key}-->
-                        <!--<option value="{$key}">{$value}</option>-->
-                        <!--{/foreach}-->
-                    <!--</select>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>配送日期：</td>-->
-                    <!--<td><input datatype="*" name="pickup_time" id="date1" type="text"/></td>-->
-                    <!--<td>配送地点：</td>-->
-                    <!--<td><input datatype="*" name="pickup_location" type="text"/></td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                 <!---->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>付款方式：</td>-->
-                    <!--<td>-->
-                        <!--<select datatype="*" name="pay_method" class="required">-->
-                            <!--<option value="">请选择</option>-->
-                            <!--{foreach from=$pay_method item=value key=key}-->
-                            <!--<option value="{$key}">{$value}</option>-->
-                            <!--{/foreach}-->
-                        <!--</select>-->
-                    <!--</td>-->
-                <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>订单名称：</td>-->
+            <!--<td><input name="order_name" type="text"/></td>-->
+            <!--<td>配送方式：</td>-->
+            <!--<td>-->
+            <!--<select datatype="*" name="transport_type" class="required">-->
+            <!--<option value="">请选择</option>-->
+            <!--{foreach from=$transport_type item=value key=key}-->
+            <!--<option value="{$key}">{$value}</option>-->
+            <!--{/foreach}-->
+            <!--</select>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>配送日期：</td>-->
+            <!--<td><input datatype="*" name="pickup_time" id="date1" type="text"/></td>-->
+            <!--<td>配送地点：</td>-->
+            <!--<td><input datatype="*" name="pickup_location" type="text"/></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!---->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>付款方式：</td>-->
+            <!--<td>-->
+            <!--<select datatype="*" name="pay_method" class="required">-->
+            <!--<option value="">请选择</option>-->
+            <!--{foreach from=$pay_method item=value key=key}-->
+            <!--<option value="{$key}">{$value}</option>-->
+            <!--{/foreach}-->
+            <!--</select>-->
+            <!--</td>-->
+            <!--</tr>-->
             <!--</table>-->
-           
+
             <!--buy-info begin-->
             <div class="buy-info">
                 <div class="buy-title">
@@ -64,7 +64,7 @@
                 <table id="table">
                     <tr>
                         <td width="80">客户名称：</td>
-                        <td width="200">{$smarty.session.uinfo.c_name}</td>
+                        <td width="120">{$smarty.session.uinfo.c_name}</td>
                         <td width="80">联<i></i>系<i></i>人：</td>
                         <td>{$smarty.session.uinfo.name}</td>
                         <td></td>
@@ -77,7 +77,7 @@
                     <tr>
                         <td>付款方式<span class="red">*</span>:</td>
                         <td>
-                            <select style="width:100px" datatype="*" name="pay_method" class="required" id="pay_method">
+                            <select datatype="*" name="pay_method" class="required" id="pay_method">
                                 <option value="">请选择</option>
                                 {foreach from=$pay_method item=value key=key}
                                 <option value="{$key}">{$value}</option>
@@ -85,8 +85,8 @@
                             </select>
                         </td>
                         <td>运输方式<span class="red">*</span>:</td>
-                        <td >
-                            <select style="width:100px" datatype="*" id="transport_type" name="transport_type" class="required">
+                        <td>
+                            <select datatype="*" id="transport_type" name="transport_type" class="required">
                                 <option value="">请选择</option>
                                 {foreach from=$transport_type item=value key=key}
                                 <option value="{$key}">{$value}</option>
@@ -94,53 +94,53 @@
                             </select>
                         </td>
                         <td>配送时间<span class="red">*</span>:</td>
-                        <td> <input style="width:229px"; type="text" id="date3"  datatype="*" name="delivery_date" class="required"/></td>
+                        <td> <input type="text" id="date3"  datatype="*" name="delivery_date" class="required"/></td>
                     </tr>
                     <tr class="other hide">
 
                         <td>配送地点<span class="red">*</span>:</td>
                         <td>
-                                <select datatype="*" name="delivery_place" class="required" id="delivery_place" >
-                                    <option value="">请选择</option>
-                                    {foreach from=$area item=value key=key}
-                                    <option value="{$value.id}">{$value.name}</option>
-                                    {/foreach}
-                                </select>
+                            <select datatype="*" name="delivery_place" class="required" id="delivery_place" >
+                                <option value="">请选择</option>
+                                {foreach from=$area item=value key=key}
+                                <option value="{$value.id}">{$value.name}</option>
+                                {/foreach}
+                            </select>
                         </td>
                         <td>详细地址<span class="red">*</span>:</td>
-                        <td><input style="width:200px;" type="text" id="address"  datatype="*" name="address" class="required"  placeholder="详细地址"/></td>
+                        <td><input type="text" id="address"  datatype="*" name="address" class="required"  placeholder="详细地址"/></td>
                     </tr>
                 </table>
                 <!--sly-chn begin-->
-                <!--<div class="sly-chn">-->
-                    <!--&lt;!&ndash;sly-chn-lt begin&ndash;&gt;-->
-                    <!--<div class="sly-chn-lt flt"><b class="yes"></b><span>需要供应链金融服务</span></div> &ndash;&gt;-->
-                    <!--&lt;!&ndash;sly-chn-lt end&ndash;&gt;-->
-                    <!--&lt;!&ndash;sly-chn-rt begin&ndash;&gt;-->
-                 <!--<div class="sly-chn-rt flt">-->
-                        <!--<ul class="sly-chn-term">-->
-                            <!--<li>申请条件：</li>-->
-                            <!--<li>1）注册资金100万元、成立并连续经营3年以上，当地工商部门无不良记录；</li>-->
-                            <!--<li>2）本网站注册且上传三证并认证通过；</li>-->
-                            <!--<li>3）在本网站实际交易业务不少于3笔，信用记录良好；</li>-->
-                            <!--<li class="tips">申请说明：供应链金融服务需要审核，该项服务审核结果不影响订单的正常下达</li>-->
-                        <!--</ul>-->
-                        <!--<div class="sly-chn-lc">-->
-                            <!--<h4>申请流程：</h4>-->
-                            <!--<img src="__IMG__/home/img/slyChnLc.png" width="694" height="63"/>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash;sly-chn-rt end&ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash;sly-chn begin&ndash;&gt;-->
-            <!--</div>-->
+                <div class="sly-chn">
+                    <!--sly-chn-lt begin-->
+                    <div class="sly-chn-lt flt"><b class="yes"></b><span>需要供应链金融服务</span></div> -->
+                    <!--sly-chn-lt end-->
+                    <!--sly-chn-rt begin-->
+                    <div class="sly-chn-rt flt">
+                        <ul class="sly-chn-term">
+                            <li>申请条件：</li>
+                            <li>1）注册资金100万元、成立并连续经营3年以上，当地工商部门无不良记录；</li>
+                            <li>2）本网站注册且上传三证并认证通过；</li>
+                            <li>3）在本网站实际交易业务不少于3笔，信用记录良好；</li>
+                            <li class="tips">申请说明：供应链金融服务需要审核，该项服务审核结果不影响订单的正常下达</li>
+                        </ul>
+                        <div class="sly-chn-lc">
+                            <h4>申请流程：</h4>
+                            <img src="__IMG__/home/img/slyChnLc.png" width="694" height="63"/>
+                        </div>
+                    </div>
+                    <!--sly-chn-rt end-->
+                </div>
+                <!--sly-chn begin-->
+            </div>
             <!--buy-info end-->
 
         </div>
         <!--order-confirm end-->
         <!--detail begin-->
         <div class="detail" id="load-cart" data-url="/cart/index/loadCart">
-            
+
         </div>
         <div class="remark">
             <!--remark-lt begin-->
@@ -153,7 +153,7 @@
         <!--detail end-->
         <!--buy-btn begin-->
         <div class="buy-btn">
-        	<button type="submit">确认下单</button>
+            <button type="submit">确认下单</button>
             <a href="/offers">返回</a>
         </div>
     </form>
@@ -164,91 +164,78 @@
 
     //配送时间
     $(function(){
-        load_cart();
         laydate({
             elem: '#date3',
             event: 'focus',
             min: laydate.now()
         });
-        /*
-        laydate({
-            elem: '#date1',
-            event: 'focus',
-            min: laydate.now()
-
-        });
-        laydate({
-            elem: '#date2',
-            event: 'focus',
-            min: laydate.now()
-        });*/
     })
-//显示隐藏
-   $('#transport_type').click(function(){
-       if($(this).val()==2 ||$(this).val()==3){
-           $(".buy-wrap .order-confirm .other").removeClass("hide");
-           $(".buy-wrap .order-confirm .other input").addClass("required");
-           $(".buy-wrap .order-confirm .other input").val('');
-           $(".buy-wrap .order-confirm .other select").addClass("required");
-       }else{
-       $(".buy-wrap .order-confirm .other").addClass("hide");
-       $(".buy-wrap .order-confirm .other input").val('');
-       }
-
-   })
-//
-function delCart(id,that){
-    $.post('/offers/index/delCart',{id,id},function(data){
-        if(data.err==0){
-            $(that).parents('tr').remove();
-            if($("#cart .details").size()==0){
-                window.location.href="/offers";
-            }
+    //显示隐藏
+    $('#transport_type').click(function(){
+        if($(this).val()==2 ||$(this).val()==3){
+            $(".buy-wrap .order-confirm .other").removeClass("hide");
+            $(".buy-wrap .order-confirm .other input").addClass("required");
+            $(".buy-wrap .order-confirm .other input").val('');
+            $(".buy-wrap .order-confirm .other select").addClass("required");
+        }else{
+            $(".buy-wrap .order-confirm .other").addClass("hide");
+            $(".buy-wrap .order-confirm .other input").val('');
         }
-    },'json');
-}
-function load_cart(){
+
+    })
+    //
+    function delCart(id,that){
+        $.post('/offers/index/delCart',{id,id},function(data){
+            if(data.err==0){
+                $(that).parents('tr').remove();
+                if($("#cart .details").size()==0){
+                    window.location.href="/offers";
+                }
+            }
+        },'json');
+    }
+    function load_cart(){
         if($('#load-cart').size() > 0){
             $('#load-cart').load($('#load-cart').attr('data-url'));
         }
 
     }
-//
-function set_cart(sid,that){
-    var num=parseFloat($(that).val());
-    var number=parseFloat($(that).attr("data-id"));
-    if(num>number){
-        layer.msg('库存不足!最多能购买'+number+'吨');
-        $(that).val(1);
-        return false;
-    }
-    if(!num){
-        $(that).val(1);
-        return;
-    }
-    $.post('/cart/index/setCart',{sid:sid,num:num},function(data){
+    //
+    function set_cart(sid,that){
+        var num=parseFloat($(that).val());
+        var number=parseFloat($(that).attr("data-id"));
+        if(num>number){
+            layer.msg('库存不足!最多能购买'+number+'吨');
+            $(that).val(1);
+            return false;
+        }
+        if(!num){
+            $(that).val(1);
+            return;
+        }
+        $.post('/cart/index/setCart',{sid:sid,num:num},function(data){
 
-        load_cart();
-    });
-}
-//
-//var demo=$("#cartFrom").Validform({
-//    tiptype:function(msg,o,cssctl){
-//        if(!o.obj.is("form")){
-//            var objtip=o.obj.siblings(".Validform_checktip");
-//            cssctl(objtip,o.type);
-//            objtip.text(msg);
-//        }
-//    }
-//});
-//
-$("#cartFrom").submit(function(){
-
-    if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
-        $(".other select").addClass("required").attr("datatype","*");
-    }else{
-        $(".other select").removeClass("required").removeAttr("datatype");
+            load_cart();
+        });
     }
+    //
+    //var demo=$("#cartFrom").Validform({
+    //    tiptype:function(msg,o,cssctl){
+    //        if(!o.obj.is("form")){
+    //            var objtip=o.obj.siblings(".Validform_checktip");
+    //            cssctl(objtip,o.type);
+    //            objtip.text(msg);
+    //        }
+    //    }
+    //});
+    //
+    $("#cartFrom").submit(function(){
+
+        if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
+            $(".other select").addClass("required").attr("datatype","*");
+        }else{
+            $(".other select").removeClass("required").removeAttr("datatype");
+        }
 
 
 //    if(!demo.check()) return false;
@@ -257,53 +244,65 @@ $("#cartFrom").submit(function(){
         var  date3=$("#date3").val();
         var  delivery_place=$("#delivery_place").val();
         var   address=$("#address").val();
-    if($("#transport_type").val()==1){
-        if(pay_method==''){
-            layer.msg('支付方式不能为空');return false;
-            pay_method.focus();
-        }
-        if(transport_type==''){
-            layer.msg('运输方式不能为空');return false;
-            transport_type.focus();
-        }
-        if(date3==''){
-            layer.msg('配送时间不能为空');return false;
-            date3.focus();
-        }
-    }else{
-        if(pay_method==''){
-            layer.msg('支付方式不能为空');return false;
-            pay_method.focus();
-        }
-        if(transport_type==''){
-            layer.msg('运输方式不能为空');return false;
-            transport_type.focus();
-        }
-        if(date3==''){
-            layer.msg('配送时间不能为空');return false;
-            date3.focus();
-        }
-        if(delivery_place==''){
-            layer.msg('配送地点不能为空');return false;
-            delivery_place.focus();
-        }
-        if(address==''){
-            layer.msg('详细地址不能为空');return false;
-            address.focus();
-        }
-
-    }
-    var data=$("#cartFrom").serialize();
-    $.post('/cart/index/addorder',data,function(data){
-        if(data.err==0){
-            window.location.href="/cart/index/msg";
+        if($("#transport_type").val()==1){
+            if(pay_method==''){
+                layer.msg('支付方式不能为空');return false;
+                pay_method.focus();
+            }
+            if(transport_type==''){
+                layer.msg('运输方式不能为空');return false;
+                transport_type.focus();
+            }
+            if(date3==''){
+                layer.msg('配送时间不能为空');return false;
+                date3.focus();
+            }
         }else{
-            layer.msg(data.msg);
+            if(pay_method==''){
+                layer.msg('支付方式不能为空');return false;
+                pay_method.focus();
+            }
+            if(transport_type==''){
+                layer.msg('运输方式不能为空');return false;
+                transport_type.focus();
+            }
+            if(date3==''){
+                layer.msg('配送时间不能为空');return false;
+                date3.focus();
+            }
+            if(delivery_place==''){
+                layer.msg('配送地点不能为空');return false;
+                delivery_place.focus();
+            }
+            if(address==''){
+                layer.msg('详细地址不能为空');return false;
+                address.focus();
+            }
 
         }
-    },'json');
-    return false;
-});
+        var data=$("#cartFrom").serialize();
+        $.post('/cart/index/addorder',data,function(data){
+            if(data.err==0){
+                window.location.href="/cart/index/msg";
+            }else{
+                layer.msg(data.msg);
 
+            }
+        },'json');
+        return false;
+    });
 
+    $(function(){
+        load_cart();
+//        laydate({
+//            elem: '#date1',
+//            event: 'focus'
+//
+//        });
+//        laydate({
+//            elem: '#date2',
+//            event: 'focus'
+//        });
+
+    });
 </script>
