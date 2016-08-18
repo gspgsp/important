@@ -88,11 +88,15 @@
 					dataType:"json",
 					success:function(res){
 						console.log(res);
-						mui.alert("",res.result.msg,function(){
-                        	window.location.href="/wx/hbPay/enPay";
-                        });                        			                        			
-                      			                        																	
-						
+						if(res.err==5){
+							mui.alert("",res.result.msg,function(){
+	                        	window.location.href="/wx/hbPay/enPay";
+	                       });                        			                        										
+						}else{
+							mui.alert("",res..msg,function(){
+	                        	window.location.href="/wx/hbPay/enPay";
+	                        });                        			                        				
+						}						
 					},
 					error:function(){
 						
