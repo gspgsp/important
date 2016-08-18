@@ -10,7 +10,7 @@ class companyListModel extends Model{
 	{
 		return $this->from('customer')
 			->where($where)
-			->select('c_name,address,com_intro')
+			->select('c_id,c_name,address,com_intro')
 			->page($page,$pageSize)
 			->getPage();
 	}
