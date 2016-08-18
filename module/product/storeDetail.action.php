@@ -168,7 +168,7 @@ class storeDetailAction extends adminBaseAction {
 				$this->db->model('store_product')->where("`s_id`={$inlogs['store_id']} and `p_id` = {$inlogs['p_id']}")->update(array('number'=>'-='.$inlogs['number'],'remainder'=>'-='.$inlogs['number'],));
 			}else{
 				//查询这个出库的关联订单及入库
-				$outs = $this->db->model('out_logs')->where("inlogs_id like '%$v%'")->getRow();
+				$outs = $this->db->model('out_logs')->where("inlogs_id = '$v'")->getRow();
 				if (!empty($outs)) {
 					$oid = $this->db->model('sale_log')->select('o_id')->where("id = {$outs['sale_id']}")->getOne();
 					//查询订单号

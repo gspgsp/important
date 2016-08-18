@@ -128,16 +128,52 @@ class storeOutLogAction extends adminBaseAction {
 	public function outstoreBack(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
-		p($ids);
 		if(empty($ids)){
 			$this->error('操作有误');	
 		}
 		$vas = explode(',', $ids);
 		$this->db->startTrans();
+		foreach ($vas as $k => $v) {
+			//更新明细为失效状态（对出库流水该处理）
+			$outlogs = $this->db->model('out_logs')->where("id = $v")->getRow();
+			if(empty($outlogs)) $this->error('错误的流水信息');
+			$out_storage = $this->db->model('out_storage')->where(" id =  {$outlogs['storage_id']}")->getRow();
+			//查询是否有相同的出库头流水
+			$exits =  $this->db->model('out_logs')->where("id != $v and `storage_id` = {$outlogs['storage_id']}")->getRow();
+			//删除明细
+			$this->db->model('out_logs')->where("id = $v")->delete();
+			if(empty($exits)) $this->db->model('out_storage')->where("`id` = {$outlogs['storage_id']}")->delete();
+			// 查询明细中的数量
+			$outnum = $this->db->model('out_log')->select("number")->where("id = {$outlogs['outlog_id']}")->getOne();
+			$status = $outnum > $outlogs['number'] ? 2 : 1;
+			//更新出库明细
+			$this->db->model('out_log')->where("id = {$outlogs['outlog_id']}")->update(array('number'=>'-='.$outlogs['number'],'update_time'=>CORE_TIME,'out_storage_status'=>$status));
+			// 查询销售订单明细的状态
+			$pinfo = $this->db->model('sale_log')->where("id = {$outlogs['sale_id']}")->getRow();
+			if($pinfo['number']==($pinfo['remainder']+$outlogs['number'])){
+				$in_status = 1;
+			}else{
+				$in_status = 2;
+			}
+			//如果订单状态是全部入库则修改入库状态为部分入库（并更剩余未入数量）
+			$this->db->model('sale_log')->where("id = {$outlogs['sale_id']}")->update(array('remainder'=>'+='.$outlogs['number'],'out_storage_status'=>$in_status,'update_time'=>CORE_TIME,));
+			//接下来判断订单的出库状态并更新(主要判断是否存在同订单的出库信息)
+			if($this->db->model('out_logs')->where("`id` != $v and `sale_id` = {$outlogs['sale_id']}")->getRow()){
+				$o_status = 2;
+			}else{
+				$o_status = 1;
+			}
+			$this->db->model('order')->where("`o_id` = {$pinfo['o_id']}")->update(array('out_storage_status'=>$o_status,'update_time'=>CORE_TIME,));
+			//把仓库的商品删除
+			$this->db->model('store_product')->where("`s_id`={$outlogs['store_id']} and `p_id` = {$outlogs['p_id']}")->update(array('number'=>'+='.$outlogs['number'],'remainder'=>'+='.$outlogs['number'],));
+		}
+		if($this->db->commit()){
+			$this->success('撤销成功');
+		}else{
+			$this->db->rollback();
+			$this->error('撤销失败');
+		}
 	}
-
-
-
 	/**
 	 * Ajax删除
 	 * @access private 

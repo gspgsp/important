@@ -101,18 +101,19 @@ class outStorageAction extends adminBaseAction {
 			//把状态改为部分出库
 			$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update('out_storage_status = '.$out_status.' , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 			//扣库存
-			if($info['join_id']>0){ //上面查询的订单中存在joinid 表示先销后采
+			// if($info['join_id']>0){ //上面查询的订单中存在joinid 表示先销后采
 				//调用循环扣库存并打log
-				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id);
+				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id,$storage_id);
 				//库存的总明细扣减
-				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(array('remainder'=>'-='.$v['out_number'],'lock_number'=>'-='.$v['out_number'],'controlled_number'=>'-='.$v['out_number'],'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME,));
-			}else{ //正常销库存的操作
-				//新增出库明细单流水// 循环扣库存
-				$res = $this->nchkoutlog($v['out_number'],$v['inlog_id']);//从入库明细扣除商品
-				$this->db->model('out_logs')->add(array('p_id'=>$v['p_id'],'sale_id'=>$v['id'],'number'=>$v['out_number'],'outlog_id'=>$inlog_id,'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid'],'storage_id'=>$storage_id,'inlogs_id'=>$res)+array('input_time'=>CORE_TIME,));
-				//库存的总明细扣减
-				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(array('remainder' =>'-='.$v['out_number'],'controlled_number'=>'-='.$v['out_number'],'lock_number' =>'-='.$v['out_number'],'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME,));
-			}
+				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(array('remainder'=>'-='.$v['out_number'],'lock_number'=>'-='.$v['out_number'],'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME,));
+			// }else{ //正常销库存的操作
+			// 	//新增出库明细单流水// 循环扣库存
+			// 	$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id,$storage_id);
+			// 	// $res = $this->nchkoutlog($v['out_number'],$v['inlog_id']);//从入库明细扣除商品
+			// 	// $this->db->model('out_logs')->add(array('p_id'=>$v['p_id'],'sale_id'=>$v['id'],'number'=>$v['out_number'],'outlog_id'=>$inlog_id,'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid'],'storage_id'=>$storage_id,'inlogs_id'=>$res)+array('input_time'=>CORE_TIME,));
+			// 	//库存的总明细扣减
+			// 	$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(array('remainder' =>'-='.$v['out_number'],'controlled_number'=>'-='.$v['out_number'],'lock_number' =>'-='.$v['out_number'],'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME,));
+			// }
 			//扣仓库货品数量
 			$this->db->model('store_product')->where('p_id = '.$_data['p_id'].' and s_id = '.$_data['store_id'])->update('remainder = remainder-'.$v['out_number'].' , update_admin="'.$_SESSION['name'].'" , update_time='.CORE_TIME);
 		}
@@ -201,7 +202,7 @@ class outStorageAction extends adminBaseAction {
 	 * @param    integer                  $inlog_id [入库明细id]
 	 * @return   [type]                             [description]
 	 */
-	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$chk=0){
+	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$storage_id=0,$chk=0){
 		//查询入库明细
 		$logs_info = $this->db->model('in_logs')->where(" inlog_id = $inlog_id and remainder<>0 ")->order('input_time asc')->getAll();
 		foreach ($logs_info as $k => $v) {
@@ -219,6 +220,7 @@ class outStorageAction extends adminBaseAction {
 						'store_id'=>$v['store_id'],
 						'store_aid'=>$v['store_aid'],
 						'input_time'=>CORE_TIME,
+						'storage_id'=>$storage_id,
 						);
 					$this->db->model('out_logs')->add($outlogs);
 					$number -= $out;
@@ -228,35 +230,48 @@ class outStorageAction extends adminBaseAction {
 		}
 		return true;
 	}
-	/**
-	 * 循环处理发货信息
-	 * @Author   cuiyinming
-	 * @DateTime 2016-08-16T16:24:20+0800
-	 * @param    integer                  $number    [description]
-	 * @param    integer                  $inlog_id  [description]
-	 * @param    integer                  $sale_id   [description]
-	 * @param    integer                  $outlog_id [description]
-	 * @param    integer                  $chk       [description]
-	 * @return   [type]                              [description]
-	 */
-	private function nchkoutlog($number=0,$inlog_id=0,$chk=0){
-		//查询入库明细
-		$logs_info = $this->db->model('in_logs')->where(" inlog_id = $inlog_id and remainder<>0 ")->order('input_time asc')->getAll();
-		foreach ($logs_info as $k => $v) {
-			if($chk == 0){
-					//循环扣库存
-					$out = $number > $v['remainder'] ? $v['remainder'] : $number;
-					$this->db->model('in_logs')->where("id = {$v['id']}")->update("`remainder` = `remainder` - $out");
-					//新增出库明细流水
-					$number -= $out;
-					$return .= $v['id'].'|';
-					$chk = $number == 0 ? 1 : 0;
+	// /**
+	//  * 循环处理发货信息
+	//  * @Author   cuiyinming
+	//  * @DateTime 2016-08-16T16:24:20+0800
+	//  * @param    integer                  $number    [description]
+	//  * @param    integer                  $inlog_id  [description]
+	//  * @param    integer                  $sale_id   [description]
+	//  * @param    integer                  $outlog_id [description]
+	//  * @param    integer                  $chk       [description]
+	//  * @return   [type]                              [description]
+	//  */
+	// private function nchkoutlog($number=0,$inlog_id=0,$chk=0){
+	// 	//查询入库明细
+	// 	$logs_info = $this->db->model('in_logs')->where(" inlog_id = $inlog_id and remainder<>0 ")->order('input_time asc')->getAll();
+	// 	foreach ($logs_info as $k => $v) {
+	// 		if($chk == 0){
+	// 				//循环扣库存
+	// 				$out = $number > $v['remainder'] ? $v['remainder'] : $number;
+	// 				$this->db->model('in_logs')->where("id = {$v['id']}")->update("`remainder` = `remainder` - $out");
+	// 				//新增出库明细流水
+	// 				$outlogs = array(
+	// 					'p_id'=>$v['p_id'],
+	// 					'sale_id'=>$sale_id,
+	// 					'outlog_id'=>$outlog_id,
+	// 					'number'=>$out,
+	// 					'inlogs_id'=>$v['id'],
+	// 					'store_id'=>$v['store_id'],
+	// 					'store_aid'=>$v['store_aid'],
+	// 					'input_time'=>CORE_TIME,
+	// 					'storage_id'=>$storage_id,
+	// 					);
+	// 				$this->db->model('out_logs')->add($outlogs);
+	// 				$number -= $out;
+	// 				// $return .= $v['id'].'|';
+	// 				$chk = $number == 0 ? 1 : 0;
 
-			}
+	// 		}
 			
-		}
-		return $return;
-	}
+	// 	}
+	// 	// return $return;
+	// 	return true;
+	// }
 
 	
 }
