@@ -155,7 +155,7 @@
 
 
 /* 供求 */
-#supplyDemandHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative; padding: 6px 0 0 0;}
+#supplyDemandHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
 .appMenu{ position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; background: url(../img/appMenu2.png) no-repeat; background-size: 100% 100%;}
 .supplyDemandChange{ width: auto; height: 32px; margin: 0 50px; border: 1px solid #ff5000; border-radius: 2px;}
 .supplyDemandChange span{ width: 50%; float: left; background: #ff5000; color: #FFFFFF; font-size: 15px; box-sizing: border-box; height: 30px; line-height: 30px; text-align: center;}
@@ -170,14 +170,14 @@
 .supplyDemandUl ul{ list-style: none; margin: 0; padding: 0; background: #FFFFFF;}
 .supplyDemandUl li{ width: 100%; overflow: hidden; height: auto; border-bottom: 1px solid #E7E7E7;}
 .supplyDemandName{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
-.supplyDemandSales{ float: right; font-size: 12px; width: 85px; margin: 6px 10px 0 0; text-align: center; color: #646464;}
+.supplyDemandSales{ float: right; font-size: 12px; width: 85px; margin: 6px 10px 0 0; text-align: right; color: #646464;}
 .supplyDemandSales span{ color: #FF5000;}
-.supplyDemandStore{ float: right; margin: 6px 10px 0 0;}
+.supplyDemandStore{ float: right; margin: 25px 10px 0 0;}
 .icon{ width: 22px; height: 22px; float: left;}
 .icon.iconDown{ background: url(../img/supplyDemandDown.png) no-repeat; background-size: 100% 100%;}
 .icon.iconUp{ background: url(../img/supplyDemandUp.png) no-repeat; background-size: 100% 100%;}
 .icon.iconStore{ background: url(../img/supplyDemandStore.png) no-repeat; background-size: 100% 100%;}
-.icon.iconStore.iconStoreOn{ background: url(../img/supplyDemandStoreOn.png) no-repeat; background-size: 100% 100%;}
+.icon.iconStoreOn{ background: url(../img/supplyDemandStoreOn.png) no-repeat; background-size: 100% 100%;}
 
 .supplyDemandTb{ width: 100%; font-size: 12px; color: #323232; -display: none;}
 .supplyDemandTb th{ font-weight: normal; height: 35px; text-align: center; border: 1px solid #e7e7e7;}
@@ -194,7 +194,7 @@
 /* 大客户专区 */
 #bigCustomerHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
 .bigCustomerName{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
-.bigCustomerName a{ color: #323232;}
+.bigCustomerName a{ color: #323232; display: block;}
 .bigCustomerMenu{ width: 100%; height: 300px; overflow-y: scroll; background: #efeff4; border-bottom: 1px solid #d9d9d9; position: absolute; top: 87px; left: 0;}
 .bigCustomerMenuTitle{ width: 100%; height: 35px; line-height: 35px; color: #ff5000; font-weight: normal; font-size: 15px; margin: 0; padding: 0 12px;}
 .bigCustomerMenuTitle span{ float: right; font-size: 12px;}
