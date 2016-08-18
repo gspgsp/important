@@ -422,7 +422,17 @@ class mainPageModel extends model
     //获取供求(公海的商城报价和采购单) 1求(采)购 2报价
     //获取供求的筛选条件
     public function getSupplyConditionData(){
-        $product_type = L('product_type');
+        $product_type = array(
+            1=>'HDPE',
+            2=>'LDPE',
+            3=>'LLDPE',
+            4=>'均聚PP',
+            5=>'PVC',
+            6=>'共聚PP',
+            7=>'ABS',
+            8=>'PC',
+            9=>'MABS',
+        );
         $model = $this->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
         $factory = $this->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
         $region = array('上海','江苏','浙江','山东','广东','山西','福建','四川','重庆','安徽','辽宁','吉林','湖北','湖南','河南','江西','广西','海南');
