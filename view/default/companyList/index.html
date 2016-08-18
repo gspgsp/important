@@ -16,14 +16,14 @@
                 <input type="submit" class="btn-submit" value="搜索"></form>
 	    </div>           
 		<ul>
-	    	<li class="title">        	
+	    	<li class="title">
 	            <div class="company">公司</div>
                      <div class="address">地址</div>
                     <div class="cop_intro">公司简介</div>
 	        </li>
 	        {foreach from=$list.data item=value}
 	    	<li class="con">
-	            <div class="company">{$value.c_name}</div>
+                    <div class="company"><a href="/company/{$value.c_id}.html">{$value.c_name}</a></div>
                     <div class="address">{$value.address}</div>
                     <div class="cop_intro">{$value.com_intro}</div>
 	        </li>
