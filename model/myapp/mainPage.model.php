@@ -440,7 +440,7 @@ class mainPageModel extends model
             '现货',
             '期货',
             );
-        $typeData = array($product_type,$model,$factory,$region,$cargoPro);
+        $typeData = array(array($product_type),$model,$factory,$region,$cargoPro);
         return $typeData;
     }
     //获取供求(公海的商城报价和采购单) 1求(采)购 2报价以及根据供求的筛选条件渲染数据
