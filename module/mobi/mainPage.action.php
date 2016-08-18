@@ -521,39 +521,37 @@ class mainPageAction extends homeBaseAction
         }
 
     }
-    //进入供求(公海的报价和求购)
-    public function enSupply(){
+    //进入商城报价(公海的商城报价和采购单)
+    public function enQuotation(){
         $this->display('supplyDemand');
     }
-    //获取供求(公海的报价和求购)
-    public function getSupply(){
-        $this->is_ajax = true;
-        $type = sget('type','i',2);//1求(采)购 2报价(供应)
-        $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
-        $page = sget('page','i',1);
-        $size = sget('size','i',10);
-        if(!$pubQuoPur = M('myapp:mainPage')->getPublicQuoPur($type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
-        $this->_checkLastPage($pubQuoPur['count'],$size,$page);
-        $this->json_output(array('err'=>0,'pubQuoPur'=>$pubQuoPur['data']));
-
+    //进入采购单(公海的商城报价和采购单)
+    public function enSelect(){
+        $this->display('supplyDemand');
     }
+    //获取供求(公海的商城报价和采购单)
     //获取供求的筛选条件
     public function getSupplyCondition(){
         $this->is_ajax = true;
         if(!$typeData=M('myapp:mainPage')->getSupplyConditionData()) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
     }
-    //根据供求的筛选条件渲染数据
+    //获取供求(公海的商城报价和采购单)以及根据供求的筛选条件渲染数据
     public function getSupplyCondData(){
         $this->is_ajax = true;
+        //筛选条件
         $model = sget('model','s');//牌号
         $f_name = sget('f_name','s');//厂家名称
         $provinces = sget('provinces','s');//地区
-        $product_type = sget('product_type','i');//类型1/2/3/4/5
+        $product_type = sget('product_type','i');//类型1/2/3/4/5/6/7/8/9
         $cargo_type = sget('cargo_type','i');//货物属性1现货 2期货
+        //普通条件
         $type = sget('type','i',2);//1求(采)购 2报价(供应)
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
-        if(!$data = M('myapp:mainPage')->getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+
+        if(!$data = M('myapp:mainPage')->getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
     //由采购单进入查看->我要供货
