@@ -164,11 +164,24 @@
 
     //配送时间
     $(function(){
+        load_cart();
         laydate({
             elem: '#date3',
             event: 'focus',
             min: laydate.now()
         });
+        /*
+        laydate({
+            elem: '#date1',
+            event: 'focus',
+            min: laydate.now()
+
+        });
+        laydate({
+            elem: '#date2',
+            event: 'focus',
+            min: laydate.now()
+        });*/
     })
 //显示隐藏
    $('#transport_type').click(function(){
@@ -292,17 +305,5 @@ $("#cartFrom").submit(function(){
     return false;
 });
 
-$(function(){
-    load_cart();
-    laydate({
-        elem: '#date1',
-        event: 'focus'
 
-    });
-    laydate({
-        elem: '#date2',
-        event: 'focus'
-    });
-
-});
 </script>
