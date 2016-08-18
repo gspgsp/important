@@ -17,6 +17,8 @@ class rtnpayAction extends homeBaseAction
     // 支付成功回调
     public function selforder_callback()
     {
+        $ip= get_ip();
+        file_put_contents("./pay.txt", $ip,FILE_APPEND);
         // $token=cookie::get(C('SESSION_TOKEN'));
         //获取参数
         if((isset($_POST['postdata'])) || (!empty($_POST['postdata']))){
