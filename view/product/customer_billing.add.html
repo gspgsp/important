@@ -13,32 +13,32 @@
 			</tr>
 			<tr>
 				<td style="width:80px;">纳税人识别号</td>
-				<td><input name="tax_id" value="{$tax_id}" class="mini-textbox" style="width:200px" required="true" allowInput="false" /></td>
+				<td><input name="tax_id" value="{$tax_id}" class="mini-textbox" style="width:200px" required="true" /></td>
 			</tr>
 			
 			<tr>
 				<td style="width:80px;">开票电话</td>
-				<td><input name="invoice_tel" value="{$invoice_tel}" class="mini-textbox" style="width:200px" required="true" allowInput="false" /></td>
+				<td><input name="invoice_tel" value="{$invoice_tel}" class="mini-textbox" style="width:200px" required="true" /></td>
 			</tr>
 			<tr>
 				<td style="width:80px;">开票银行</td>
-				<td><input name="invoice_bank" value="{$invoice_bank}" class="mini-textbox" required="true" style="width:200px" allowInput="false" /></td>
+				<td><input name="invoice_bank" value="{$invoice_bank}" class="mini-textbox" required="true" style="width:200px" /></td>
 			</tr>
 			<tr>
 				<td style="width:80px;">开票帐号</td>
-				<td><input name="invoice_account" value="{$invoice_account}" class="mini-textbox" style="width:200px" required="true" allowInput="false" /></td>
+				<td><input name="invoice_account" value="{$invoice_account}" class="mini-textbox" style="width:200px" required="true" /></td>
 			</tr>
 			<tr>
 				<td style="width:80px;">开票地址</td>
-				<td><input name="invoice_address" value="{$invoice_address}" class="mini-textarea" style="width:200px" required="true" allowInput="false" /></td>
+				<td><input name="invoice_address" value="{$invoice_address}" class="mini-textarea" style="width:200px" required="true" /></td>
 			</tr>
 			<tr>
 				<td style="width:80px;">邮寄地址</td>
-				<td><input name="ems_address" value="{$ems_address}" class="mini-textarea" style="width:200px" required="true" allowInput="false" /></td>
+				<td><input name="ems_address" value="{$ems_address}" class="mini-textarea" style="width:200px" required="true" /></td>
 			</tr>
 			<tr>
 				<td style="width:80px;">传真</td>
-				<td><input name="fax" value="{$fax}" class="mini-textbox" style="width:200px;" allowInput="false" /></td>
+				<td><input name="fax" value="{$fax}" class="mini-textbox" style="width:200px;" /></td>
 			</tr>
 		</table>
 	</div>
@@ -72,11 +72,12 @@ function submitForm() {
 
 	var callback=function(data){
 		if(data.err!='0'){
-		  form.unmask();
-		  alert(data.msg);
-		  return false;
+		  	form.unmask();
+		  	alert(data.msg);
+		  	return false;
 		}else{
-		  CloseWindow("save");
+			alert('操作成功');
+		  	CloseWindow("save");
 		}
     }
   utils.ajax('/product/customer_billing/ajaxSave',{data:json},callback,"POST","json");

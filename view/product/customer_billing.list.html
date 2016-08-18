@@ -3,7 +3,11 @@
 	<table style="width:100%;">
 		<tr>
 			<td style="float:right;">
-			  <form id="soform">				
+			  <form id="soform">
+			  	<select name="status">
+			  		<option value="0">未审核</option>	
+			  		<option value="1">已审核</option>									
+				</select>			
 				<select name="key_type">
 					<option value="c_name">客户名称</option>
 					<option value="invoice_tel">开票电话</option>
@@ -59,8 +63,12 @@ function onKeyEnter(e) {
 
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record, s='',id = record.id;
-	s += '<a href="javascript:check('+id+')">审核</a>';
+	var record = e.record, s='',id = record.id,status = record.status;
+	if (status=='未审核') {
+		s += '<a href="javascript:check('+id+')">审核</a>';
+	}else{
+		s +='-'
+	}
 	return s;
 }
 

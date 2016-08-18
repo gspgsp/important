@@ -32,7 +32,10 @@ class customer_billingAction extends adminBaseAction
 		$sortField = sget("sortField",'s','c_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where="`display_status`=1 and `status`=0";//未假删除的,未审核的数据
+		$where="`display_status`=1";//未假删除的
+		//审核状态搜索
+		$status = sget('status','i');
+		$where .=" and `status` = $status ";
 		//关键词
 		$key_type=sget('key_type','s','c_name');
 		$keyword=sget('keyword','s');
