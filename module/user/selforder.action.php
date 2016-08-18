@@ -89,7 +89,7 @@ class selforderAction extends userBaseAction{
 			->select('o.*,ad.name,ad.mobile')
 			->where("o_id=$id and user_id={$this->user_id}")
 			->getRow();
-
+		$order['order_name']='-';
 		$order['transport_type']==1?($order['pickup_time']):($order['delivery_time']=$order['delivery_time']);
 		$order['transport_type']==1?($order['pickup_location']='--'):($order['delivery_location']=$order['delivery_location']);
 

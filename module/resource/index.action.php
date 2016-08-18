@@ -90,15 +90,15 @@ class indexAction extends homeBaseAction{
 	//可能感兴趣的产品
 	private function _getInfo(){
 		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2)";
-//		$status=1;
-//		$limit=1;
-//		$info=M('product:concernedProduct')->getConcernedList($this->user_id,$status=1,$limit=1);
-//		foreach($info as $k=>$v){
-//			$arr['model']=$v['product_model'];
-//		}
-//		if($arr['product_name']){
-//			$where.=" and pro.model={$arr}";
-//		}
+		$status=1;
+		$limit=1;
+		$info=M('product:concernedProduct')->getConcernedList($this->user_id,$status=1,$limit=1);
+		foreach($info as $k=>$v){
+			$arr['model']=$v['product_model'];
+		}
+		if($arr['product_name']){
+			$where.=" and pro.model={$arr}";
+		}
 		return $list=M('product:purchase')->getInfos($where);
 
 	}
