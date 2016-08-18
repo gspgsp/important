@@ -130,23 +130,23 @@ class selforderAction extends userBaseAction{
 	        $c_info = M('user:customer')->getCinfoById($order['c_id']);
 	        if($order['order_type']=='1')//销售 中晨卖方
 	        {
-	            $params['payMemCode'] = $order['c_id']; // 付款人代码
-	            $params['payMemName'] = $c_info['c_name']; // 付款人名称
-	            $params['recMemCode'] = '5041';            // 收款人代码
-	            $params['recMemName'] = '上海中晨电子商务股份有限公司'; // 收款人名称
+	            $params['payMemCode'] = $order['c_id'];                    // 付款人代码
+	            $params['payMemName'] = $c_info['c_name'];                 // 付款人名称
+	            $params['recMemCode'] = '5041';                            // 收款人代码
+	            $params['recMemName'] = '上海中晨电子商务股份有限公司';       // 收款人名称
 	        }
-	        if($order['order_type']=='2')//销售 中晨买方
+	        if($order['order_type']=='2')                                  //销售 中晨买方
 	        {
-	            $params['payMemCode'] = '5041'; // 付款人代码
-	            $params['payMemName'] = '上海中晨电子商务股份有限公司'; // 付款人名称
-	            $params['recMemCode'] = $order['c_id']; // 收款人代码
-	            $params['recMemName'] = $c_info['c_name']; // 收款人名称
+	            $params['payMemCode'] = '5041';                            // 付款人代码
+	            $params['payMemName'] = '上海中晨电子商务股份有限公司';       // 付款人名称
+	            $params['recMemCode'] = $order['c_id'];                    // 收款人代码
+	            $params['recMemName'] = $c_info['c_name'];                 // 收款人名称
 	        }
-	        $params['currency'] = 'CNY'; // 人民币
-	        $params['payAmt'] = $order['total_price']; // 付款金额
-	        $params['originalPayID'] = '';  // 直接支付不需要赋值
-	        $params['callBackUrl'] = str_replace("///", "//",str_replace("http:/", "http://", APP_URL)).'/pay/rtnpay/selforder_callback'; //回调通知地址，订单支付成功后通知商城的地址
-	        $params['summary'] = ''; //摘要	        	        
+	        $params['currency'] = 'CNY';                                   // 人民币
+	        $params['payAmt'] = $order['total_price'];                     // 付款金额
+	        $params['originalPayID'] = '';                                 // 直接支付不需要赋值
+	        $params['callBackUrl'] = str_replace("///", "//",str_replace("http:/", "http://", APP_URL)).'/pay/rtnpay/selforder_callback';                                        //回调通知地址，订单支付成功后通知商城的地址
+	        $params['summary'] = '';                                       //摘要
 // 	        echo "支付号码：".$payID;      	        	              
 	        $params['customFiels'] ='';//自定义字段
 	        $params['instAccount']='0'; //优先记账0 或空：不记账99：记账
