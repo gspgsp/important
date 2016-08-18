@@ -17,8 +17,6 @@ class rtnpayAction extends homeBaseAction
     // 支付成功回调
     public function selforder_callback()
     {
-        $ip= get_ip();
-        file_put_contents("./pay.txt", $ip,FILE_APPEND);
         // $token=cookie::get(C('SESSION_TOKEN'));
         //获取参数
         if((isset($_POST['postdata'])) || (!empty($_POST['postdata']))){
@@ -79,7 +77,8 @@ class rtnpayAction extends homeBaseAction
                                 if(!$this->db->model('pay_message')->where("payID='{$payID}'")->update(saddslashes($update2))) throw new Exception("更新支付信息失败!");
                                 if(!$this->db->model('order')->where("pay_id='{$payID}'")->update(saddslashes($update))) throw new Exception("更新支付状态失败!");
                         }
-                        // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
+                        // 响应支付平台已接收,接收到消息必须返回  
+                        return "{\"payStatus\":\"000000\"}";
                     }else{
                         //签名验证失败！
 //                         $this->error('签名验证失败!');
@@ -149,7 +148,8 @@ class rtnpayAction extends homeBaseAction
 //                             $this->error('生成失败:'.$this->db->getDbError());
 //                         }
                     }
-                    // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
+                    // 响应支付平台已接收,接收到消息必须返回  
+                    return "{\"payStatus\":\"000000\"}";
                 }else{
                     //签名验证失败！
 //                         $this->error('签名验证失败!');
