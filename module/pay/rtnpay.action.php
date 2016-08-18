@@ -73,6 +73,9 @@ class rtnpayAction extends homeBaseAction
                                     'payMessage' => $message,
                                     'payStatus' => $payStatus,
                                 );
+                                //自营订单支付操作
+                                $remarks = "自营订单支付成功回调";
+                                M('user:applyLog')->addLog($this->user_id,'rtnpay/selforder_callback','',json_encode($param),1,$remarks);
                                 if(!$this->db->model('pay_message')->where("payID='{$payID}'")->update(saddslashes($update2))) throw new Exception("更新支付信息失败!");
                                 if(!$this->db->model('order')->where("pay_id='{$payID}'")->update(saddslashes($update))) throw new Exception("更新支付状态失败!");
                         }
