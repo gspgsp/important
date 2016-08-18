@@ -174,6 +174,9 @@ class selforderAction extends userBaseAction{
 	        }else{
 	           $this->db->model('pay_message')->add(saddslashes($params));
 	        }
+	        //自营订单支付操作
+	        $remarks = "自营订单支付操作";
+	        M('user:applyLog')->addLog($this->user_id,'selforder/pay','',json_encode($params),1,$remarks);
 	        if($this->db->commit()){
 	            $this->success($dataorder);
 	        }else{

@@ -144,6 +144,9 @@ class unionorderAction extends userBaseAction{
 	        }else{
 	            $this->db->model('pay_message')->add(saddslashes($params));
 	        }
+	        //自营订单支付操作
+	        $remarks = "联营订单支付操作";
+	        M('user:applyLog')->addLog($this->user_id,'unionorder/pay','',json_encode($params),1,$remarks);
 	        if($this->db->commit()){
 	            $this->success($dataorder);
 	        }else{
