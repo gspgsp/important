@@ -181,7 +181,8 @@ var querySucess = function(id){
 				//layer.msg(data.msg);
 				window.clearInterval(inter);
 	        	layer.close(layer_index);
-	        	$("#opt-pay-"+id).parent().parent().find(".fk-status").text('已付款')
+	        	$("#opt-pay-"+id).parent().parent().find(".fk-status").text('已付款');
+	        	$("#opt-pay-"+id).remove();
 	        	layer.msg(data.msg);
 			}else{
 				console.log(data.msg);
