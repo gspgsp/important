@@ -427,7 +427,7 @@ class mainPageModel extends model
         $arr = array();
         $var = L('product_type');
         foreach ($var as $key => $value) {
-            $arr['type'.$key] = $value;
+            $arr['type'] = $value;
             $product_type[] = $arr;
             unset($arr);
         }
