@@ -82,12 +82,17 @@ class rtnpayAction extends homeBaseAction
                         // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
                     }else{
                         //签名验证失败！
-                        $this->error('签名验证失败!');
+//                         $this->error('签名验证失败!');
+                        throw new Exception("签名验证失败!");
                     }
             }else{
-                $this->error('支付失败,回调内容为空!');
+                throw new Exception("支付失败,回调内容为空!");
+//                 $this->error('支付失败,回调内容为空!');
             }
         } catch (Exception $e) {
+            //自营订单支付操作
+            $remarks = "自营订单支付成功回调";
+            M('user:applyLog')->addLog($this->user_id,'selforder_callback','支付失败',$e->getMessage()+'!',1,$remarks);
             $this->error('支付失败:'. $e->getMessage()+'!');
         }
     }
@@ -147,12 +152,17 @@ class rtnpayAction extends homeBaseAction
                     // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
                 }else{
                     //签名验证失败！
-                    $this->error('签名验证失败!');
+//                         $this->error('签名验证失败!');
+                        throw new Exception("签名验证失败!");
                 }
             }else{
-                $this->error('支付失败,回调内容为空!');
+                throw new Exception("支付失败,回调内容为空!");
+//                 $this->error('支付失败,回调内容为空!');
             }
         } catch (Exception $e) {
+            //联营订单支付操作
+            $remarks = "联营订单支付成功回调";
+            M('user:applyLog')->addLog($this->user_id,'unionorder_callback','支付失败',$e->getMessage()+'!',1,$remarks);
             $this->error('支付失败:'. $e->getMessage()+'!');
         }
     }
