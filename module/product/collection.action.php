@@ -140,8 +140,12 @@ class collectionAction extends adminBaseAction
 
 		$msg="";
 		if($list['count']>0){
-			$sum=$this->db->select("sum(total_price) as tsum, sum(collected_price) as csum, sum(uncollected_price) as usum")->where($where)->getRow();
-			$msg="[合计]总额:【".price_format($sum['tsum'])."】已付款:【".$sum['csum']."】未付款:【".$sum['usum']."】";
+			$sum=$this->db->select("sum(total_price) as tsum, sum(collected_price) as csum, sum(uncollected_price) as usum")->where($where)->getRow();			
+			if ($type == 1) {
+				$msg="[合计]总额:【".price_format($sum['tsum'])."】已收款:【".$sum['csum']."】未收款:【".$sum['usum']."】";
+			}elseif($type ==2){
+				$msg="[合计]总额:【".price_format($sum['tsum'])."】已付款:【".$sum['csum']."】未付款:【".$sum['usum']."】";
+			}
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->json_output($result);	

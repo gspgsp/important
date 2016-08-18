@@ -71,6 +71,10 @@ class billingAction extends adminBaseAction
 		//票据类型
 		$bile_type = sget("bile_type",'s','');
 		if($bile_type!='') $where.=" and `bile_type` = '$bile_type' ";
+
+		//合同主题
+		$order_name = sget("order_name",'s','');
+		if($order_name!='') $where.=" and `order_name` = '$order_name' ";
 		//开票状态
 		$invoice_status = sget("invoice_one_status",'s','');
 		if($invoice_status!='') $where.=" and `invoice_status` = '$invoice_status' ";
