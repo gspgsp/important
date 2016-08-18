@@ -1429,8 +1429,8 @@ a{ text-decoration:none; color:#444;}
 .big-client .result li.con .change.down span{ background-position:-12px -71px;}
 .big-client .result li.con .change.tie{ color:#267bd3;}
 .big-client .result li.con .change.tie span{ top:15px; width:16px; height:6px; background-position:0 -83px;}
-.big-client .result li .address{ width:340px;}
-.big-client .result li .company{ width:250px;}
+.big-client .result li .address{ width:380px;}
+.big-client .result li .company{ width:260px;}
 .big-client .result li .phone{ width:120px;}
 .big-client .result li .date{ width:82px;}
 .big-client .result li .opt{ width:102px; background:url(../../images/home/aniuwieng.jpg) center no-repeat;}
