@@ -176,19 +176,21 @@ var inter=0, layer_index=0;
 //如果成功则清除定时器和loading层
 var querySucess = function(id){
 	$.post('/user/unionorder/querySucess',{id:id},function(data){
-		if(data.err=='0'){
-			//layer.msg(data.msg);
-			window.clearInterval(inter);
-        	layer.close(layer_index);
-        	$("#opt-pay-"+id).parent().parent().find(".fk-status").text('已付款')
-        	layer.msg(data.msg);
-		}else{
-			console.log(data.msg);
-			if(data.msg=="支付失败"){
+		if(data!=null){
+			if(data.err=='0'){
+				//layer.msg(data.msg);
 				window.clearInterval(inter);
 	        	layer.close(layer_index);
+	        	$("#opt-pay-"+id).parent().parent().find(".fk-status").text('已付款')
 	        	layer.msg(data.msg);
-			}
+			}else{
+				console.log(data.msg);
+				if(data.msg=="支付失败"){
+					window.clearInterval(inter);
+		        	layer.close(layer_index);
+		        	layer.msg(data.msg);
+				}
+			}	
 		}					   
 	},'json');
 }
