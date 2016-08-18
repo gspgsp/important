@@ -462,9 +462,9 @@ class mainPageModel extends model
             $where.=" and pro.product_type =$product_type ";
         }elseif (!empty($provinces)) {
             $id = $this->_getIdByProvince($provinces);
-            $where.=" and pro.provinces =$id ";
+            $where.=" and pur.provinces =$id ";
         }elseif (!empty($cargo_type)) {
-            $where.=" and pro.cargo_type =$cargo_type ";
+            $where.=" and pur.cargo_type =$cargo_type ";
         }
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.provinces,pro.model,pro.product_type,pur.unit_price,pur.number,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
