@@ -175,7 +175,7 @@ var inter=0, layer_index=0;
 //定时异步查询支付是否成功 
 //如果成功则清除定时器和loading层
 var querySucess = function(obj){
-	var id =$(this).attr('data-id');
+	var id =$(obj).attr('data-id');
 	$.post('/user/unionorder/querySucess',{id:id},function(data){
 		if(data.err=='0'){
 			//layer.msg(data.msg);
