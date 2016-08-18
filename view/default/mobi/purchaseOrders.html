@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			.bigCustomerMenu p{ height: auto;}
+			.icon{ float: none; display: inline-block; vertical-align: -5px;}
+		</style>
+	</head>
+	<body style="padding-bottom: 90px;">
+		<header id="supplyDemandHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			商城报价<span class="appMenu"></span>
+		</header>
+		<div class="bigCustomerMenu" style="display:none;">
+			<h3 class="bigCustomerMenuTitle">
+				分类
+			</h3>
+			<p id="fl"></p>
+			<h3 class="bigCustomerMenuTitle">
+				牌号
+			</h3>
+			<p id="ph"></p>
+			<h3 class="bigCustomerMenuTitle">
+				厂家
+			</h3>
+			<p id="cj"></p>
+			<h3 class="bigCustomerMenuTitle">
+				地区
+			</h3>
+			<p id="dq"></p>
+			<h3 class="bigCustomerMenuTitle">
+				货物属性
+			</h3>
+			<p id="hwsx"></p>
+			<div style="text-align: center; padding: 20px 0;">
+				<a id="chooseBtn" class="classifyEnter" href="javascript:;">确定</a>
+			</div>
+		</div>
+
+		<div class="supplyDemandStatus">
+			<span data-otype="3" class="on">默认</span>
+			<span id="sale" data-big="true">价格</span>
+		</div>
+		<div class="supplyDemandUl">
+			<ul id="searchWrapUl"></ul>
+			<div style="text-align: center; padding: 5px 0;">
+				<input class="more" type="button" value="点击加载更多">
+			</div>
+		</div>
+		<a id="releaseSale" class="supplyDemandBtn" href="/mobi/mainPage/enReleaseSale">发布报价</a>
+		<a id="purchase" class="supplyDemandBtn" style="display: none;" href="/mobi/mainPage/enPurchase">委托采购</a>
+		<footer id="footer">
+			<ul>
+				<li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+				<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+			</ul>
+		</footer>
+		<input id="flVal" type="hidden">
+		<input id="phVal" type="hidden">
+		<input id="cjVal" type="hidden">
+		<input id="dqVal" type="hidden">
+		<input id="hwsxVal" type="hidden">
+		<script type="text/javascript" charset="utf-8">
+			$(function () {
+				var searchLi="";
+				var flLi="";
+				var phLi="";
+				var cjLi="";
+				var dqLi="";
+				var hwsxLi="";
+				
+				//牌号
+				var model="";
+				//厂家
+				var f_name="";
+				//地区
+				var provinces="";
+				//类型
+				var product_type="";
+				//货物属性
+				var cargo_type="";
+				//采求购
+				var type=2;
+				//时间价格
+				var otype=3;
+				//页码
+				var page=1;
+
+				commonAjax(
+						"post",
+						"/mobi/mainPage/getSupplyCondition"
+				).then(function (res) {
+					console.log("---",res);
+					res.typeData[0].forEach(function (v,i,a) {
+						flLi+="<span data-eq='"+(i+1)+"'>"+v.type+"</span>";
+					});
+					$("#fl").html(flLi);
+					res.typeData[1].forEach(function (v,i,a) {
+						phLi+="<span>"+v.model+"</span>";
+					});
+					$("#ph").html(phLi);
+					res.typeData[2].forEach(function (v,i,a) {
+						cjLi+="<span>"+v.f_name+"</span>";
+					});
+					$("#cj").html(cjLi);
+					res.typeData[3].forEach(function (v,i,a) {
+						dqLi+="<span>"+v+"</span>";
+					});
+					$("#dq").html(dqLi);
+					res.typeData[4].forEach(function (v,i,a) {
+						hwsxLi+="<span data-num='"+(i+1)+"'>"+v+"</span>";
+					});
+					$("#hwsx").html(hwsxLi);
+
+					$("#fl span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#flVal").val($(this).data("eq"));
+					});
+					$("#ph span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#phVal").val($(this).text());
+					});
+					$("#cj span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#cjVal").val($(this).text());
+					});
+					$("#dq span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#dqVal").val($(this).text());
+					});
+					$("#hwsx span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#hwsxVal").val($(this).data("num"));
+					});
+
+					$("#chooseBtn").on("click",function () {
+						product_type=$("#flVal").val();
+						model=$("#phVal").val();
+						f_name=$("#cjVal").val();
+						provinces=$("#dqVal").val();
+						cargo_type=$("#hwsxVal").val();
+						$(".bigCustomerMenu").hide();
+						searchLi="";
+						page=1;
+						renderQuo(model,f_name,provinces,product_type,cargo_type,type,otype,page);
+					});
+				},function () {
+
+				});
+				
+				$(".appMenu").on("click",function () {
+					$(".bigCustomerMenu").toggle();
+				});
+				
+				//价格 时间筛选
+				$(".supplyDemandStatus span").on("click",function () {
+					$(this).addClass("on").siblings("span").removeClass("on");
+					var big=$(this).data("big");
+					if(big){
+						if(otype==2){
+							otype=1;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconUp'></i>");
+						}else{
+							otype=2;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconDown'></i>");
+						}
+					}else{
+						otype=$(this).data("number");
+						$("#sale").find(".icon").remove();
+					}
+					searchLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(model,f_name,provinces,product_type,cargo_type,type,otype,page);
+				});
+
+
+				function renderQuo(model,f_name,provinces,product_type,cargo_type,type,otype,page) {
+					$(".more").val("加载更多数据");
+					commonAjax(
+							"post",
+							"/mobi/mainPage/getSupplyCondData",
+							{
+								model:model,
+								f_name:f_name,
+								provinces:provinces,
+								product_type:product_type,
+								cargo_type:cargo_type,
+								type:type,
+								otype:otype,
+								page:page,
+								size:10
+							}
+					).then(function (res) {
+						console.log(res);
+ 						if(res.err==0){
+							if(res.data.length==0){
+								$(".more").hide();
+								$("#searchWrapUl").html("<li class='noSearch'>暂无数据</li>");								
+							}else{
+								$(".more").show();
+								res.data.forEach(function (v,i,a) {
+									searchLi+="<li><a href='/mobi/mainPage/enCheckForm?id="+v.p_id+"'><h3 class='bigCustomerName'>" +
+											""+v.product_type+"/"+v.model+"<br>"+v.f_name+"<br>"+v.provinces+"</h3>" +
+											"<p class='supplyDemandStore'><i class='icon iconStore'></i></p>" +
+											"<p class='supplyDemandSales'><span>￥"+v.unit_price.split(".")[0]+"/T起</span><br>"+v.number+"T<br>"+v.input_time.split(" ")[0]+"</p>" +
+											"<div class='mui-clearfix'></div></a></li>";
+									$("#searchWrapUl").html(searchLi);
+								});
+							}
+						}else if(res.err==3){
+							$(".more").val(res.msg);
+						}
+					},function () {
+
+					});
+				}
+				
+				//初始数据
+				renderQuo(model,f_name,provinces,product_type,cargo_type,type,otype,page);
+				
+				$(".more").on("click",function(){
+					page++;
+					renderQuo(model,f_name,provinces,product_type,cargo_type,type,otype,page);
+				});
+				
+			});
+
+		</script>
+
+	</body>
+
+</html>
