@@ -429,6 +429,7 @@ class mainPageModel extends model
         foreach ($var as $key => $value) {
             $arr[$key] = $value;
             $product_type[] = $arr;
+            unset($arr);
         }
         $model = $this->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
         $factory = $this->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
