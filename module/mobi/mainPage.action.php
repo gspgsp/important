@@ -550,8 +550,8 @@ class mainPageAction extends homeBaseAction
         $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
         $page = sget('page','i',1);
         $size = sget('size','i',10);
-
         if(!$data = M('myapp:mainPage')->getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $this->_checkLastPage($data['count'],$size,$page);
         $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
     //由采购单进入查看->我要供货
