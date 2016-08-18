@@ -380,8 +380,6 @@ class mainPageAction extends homeBaseAction
         if(!$phyDetail = M('myapp:mainPage')->getPhysicalDetailData($lid)) $this->json_output(array('err'=>2,'msg'=>'获取物性表详情失败'));
         $this->json_output(array('err'=>0,'phyDetail'=>$phyDetail));
     }
-    //进入物性表的发布采购
-    //物性表的发布采购(委托洽谈),单独写一个方法physical表和搜索中的不能共用
     //进入资讯页
     public function enArticle(){
         $this->display('info');
@@ -429,6 +427,8 @@ class mainPageAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         json_output(array('err'=>0,'msg'=>'用户已登录'));
     }
+    //进入物性表的发布采购
+    //物性表的发布采购(委托洽谈),单独写一个方法physical表(getPhysicalDelegateData)和搜索中的不能共用
     //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
     public function pub(){
         if($data=$_POST['data']){
@@ -527,7 +527,7 @@ class mainPageAction extends homeBaseAction
     }
     //进入采购单(公海的商城报价和采购单)
     public function enSelect(){
-        $this->display('supplyDemand');
+        $this->display('purchaseOrders');
     }
     //获取供求(公海的商城报价和采购单)
     //获取供求的筛选条件
