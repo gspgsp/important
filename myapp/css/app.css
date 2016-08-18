@@ -168,11 +168,19 @@
 .supplyDemandUl{}
 .supplyDemandBtn{ width: 100%; height: 40px; position: fixed; text-align: center; bottom: 50px; left: 0; line-height: 40px; background: rgba(0,0,0,0.5); color: #ffffff;}
 .supplyDemandUl ul{ list-style: none; margin: 0; padding: 0; background: #FFFFFF;}
-.supplyDemandUl li{ width: 100%; overflow: hidden; height: auto; border-bottom: 1px solid #E7E7E7;}
-.supplyDemandName{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
+.supplyDemandUl li{ width: 100%; position: relative; overflow: hidden; height: auto; border-bottom: 1px solid #E7E7E7;}
+.purchaseCargo{ position: absolute; top: 0; right: 0; width: 40px; height: 30px; font-size: 14px; border-radius: 0 0 0 20px; text-indent: 5px; line-height: 30px; text-align: center; color: #FFFFFF; background: #267bd3;}
+.supplyDemandName,.purchaseOrders{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
 .supplyDemandSales{ float: right; font-size: 12px; width: 85px; margin: 6px 10px 0 0; text-align: right; color: #646464;}
 .supplyDemandSales span{ color: #FF5000;}
 .supplyDemandStore{ float: right; margin: 25px 10px 0 0;}
+
+.purchaseSale{ color: #FF5000; font-size: 12px;}
+.city{ font-size: 12px; margin: 0 0 0 20px;}
+.times{ font-size: 12px;}
+.purchaseCon{ font-size: 12px; color: #323232;}
+.purchaseSaleStatus{float: right; text-align: center; margin: 15px 30px 0 0;}
+.purchaseLink{ font-size: 12px; color: #FFFFFF; background: #ff5000; padding: 5px 15px; border-radius: 3px;}
 .icon{ width: 22px; height: 22px; float: left;}
 .icon.iconDown{ background: url(../img/supplyDemandDown.png) no-repeat; background-size: 100% 100%;}
 .icon.iconUp{ background: url(../img/supplyDemandUp.png) no-repeat; background-size: 100% 100%;}
