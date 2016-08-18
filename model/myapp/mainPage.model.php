@@ -480,7 +480,7 @@ class mainPageModel extends model
                 $value['provinces'] = $this->_getProvinceById($value['provinces']);
                 $value['input_time'] = date("Y-m-d H:i:s",$value['input_time']);//格式一
                 if($value['type']==1){
-                    $value['cargo_type'] = L('cargo_type')[$value['cargo_type']];
+                    $value['cargo_type'] = $value['cargo_type']==1?"现":"期";
                     $value['operate'] = $value['status']==3?"我要供货":"交易成功";//操作
                     $value['status']=L('purchase_status')[$value['status']];
                     $value['user_id']=M('user:customerContact')->getListByUserid($value['user_id'])['name'];//获取联系人
