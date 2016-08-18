@@ -423,7 +423,8 @@ class mainPageModel extends model
     //获取供求的筛选条件
     public function getSupplyConditionData(){
         $product_type = array();
-        foreach ($L('product_type') as $key => $value) {
+        $var = L('product_type');
+        foreach ($var as $key => $value) {
             $product_type[$key] = $value;
         }
         $model = $this->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
