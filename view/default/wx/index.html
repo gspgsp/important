@@ -73,10 +73,10 @@
 			</div>
 		</form>
 		<div id="layer"></div>
-		<input type="hidden" id="times" value="{$times+1}"/>
+		<input type="hidden" id="times" value="{$times}"/>
 		<input type="hidden" id="openid" value="{$openid}"/>
 		<script type="text/javascript">
-		$("#num").text($("#times").val());
+		$("#num").text($("#times").val()+1);
 		var msgLi="";
 		$.ajax({
 			type:"get",
