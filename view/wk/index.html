@@ -1044,7 +1044,7 @@
 		var p=btn.attr('p');
 		if(re) p=1;
 		btn.html('加载中..');
-		$.get('/wk/index/loadMore',{type:type,p:p},function (data){
+		$.get('/wk/index/loadMore?rnd'+(Math.ceil(Math.random()*1000)),{type:type,p:p},function (data){
 			var html='';
 			$(data.list).each(function(k, v){
 				html+=template('trTemp', {data:v});
@@ -1064,7 +1064,7 @@
 		var p=btn.attr('p');
 		if(re) p=1;
 		btn.html('加载中..');
-		$.get('/wk/index/loadRemarkMore',{type:type,p:p},function (data){
+		$.get('/wk/index/loadRemarkMore?rnd'+(Math.ceil(Math.random()*1000)),{type:type,p:p},function (data){
 			var html='';
 			$(data.list).each(function(k, v){
 				html+=template('remarkTemp', {data:v});
@@ -1082,12 +1082,16 @@
 
 	var t="{$time}";
 
+// 	setInterval(function(){
+// $('#wordsContainer').load('wordsContainer.php?rnd'+(Math.ceil(Math.random()*1000)));
+// },1000);
+
 	var timer1=setInterval(loadall,60000);
 
 	loadTop();
 
 	function loadTop(){
-		$.get('/wk/index/topTimer',{t:t},function (data){
+		$.get('/wk/index/topTimer?rnd'+(Math.ceil(Math.random()*1000)),{t:t},function (data){
 			if(data.list.length){
 				var html="";
 				$(data.list).each(function(k,v){
