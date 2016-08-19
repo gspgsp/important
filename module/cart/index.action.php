@@ -122,45 +122,52 @@ class indexAction extends homeBaseAction{
 	/**
 	 * @Author: yuanjiaye
      */
-	public function error(){
-		if($this->user_id<=0) $this->forward('/user/login');
-		if($_POST){
-			$this->is_ajax=true;
-			$_POST['data']=str_replace('\\','',$_POST['data']);
-			$data=json_decode($_POST['data'],true);
-			$arr=array();
-			foreach($data as $k=>$v){
-				$arr['id']=$v['id'];
-				$arr['amount']=$v['amount'];
-				$info=M('product:purchase')->select('id,number')->where("id={$v['id']}")->getAll();
-				//报价商品剩余数量为0
-				if(!$info[0]['number']){
-					$str=$this->db->model('purchase as pur')
-						->join('product as pro','pur.p_id=pro.id')
-						->join('factory as fac','pro.f_id=fac.fid')
-						->select('pur.id,pro.model,pro.product_type,fac.f_name')
-						->where("pur.id={$v['id']}")
-						->getAll();
-					json_output($str);return false;
-				}
-				//报价商品还有剩余
-				if($info[0]['number']){
-					$infos=p(array_merge($arr,$info[0]));
-					if(($infos['amount']-$infos['number'])<0){
-						$str=$this->db->model('purchase as pur')
-							->join('product as pro','pur.p_id=pro.id')
-							->join('factory as fac','pro.f_id=fac.fid')
-							->select('pur.id,pro.model,pro.product_type,fac.f_name')
-							->where("pur.id={$infos['id']}")
-							->getAll();
-						json_output(array('err'=>1,'msg'=>$str));return false;
-					}
-				}
-
-			}
-
-		}
-}
+//	public function error(){
+//		if($this->user_id<=0) $this->forward('/user/login');
+//		if($_POST){
+//			$this->is_ajax=true;
+//			$_POST['data']=str_replace('\\','',$_POST['data']);
+//			$data=json_decode($_POST['data'],true);
+//			$arr=array();
+//			$rtn = true;
+//			$str_temp="";
+//			foreach($data as $k=>$v){
+//				$arr['id']=$v['id'];
+//				$arr['amount']=$v['amount'];
+//				$info=M('product:purchase')->select('id,number')->where("id={$v['id']}")->getAll();
+//				p($info);
+//				//报价商品剩余数量为0
+//				if(!$info[0]['number']){
+//					$str=$this->db->model('purchase as pur')
+//						->join('product as pro','pur.p_id=pro.id')
+//						->join('factory as fac','pro.f_id=fac.fid')
+//						->select('pur.id,pro.model,pro.product_type,fac.f_name')
+//						->where("pur.id={$v['id']}")
+//						->getAll();
+//					$str_temp=$str;
+//					$rtn =false;
+//					return $rtn;
+//				}
+//				//报价商品还有剩余
+//				if($info[0]['number']){
+//					$infos=p(array_merge($arr,$info[0]));
+//					if(($infos['amount']-$infos['number'])<0){
+//						$str=$this->db->model('purchase as pur')
+//							->join('product as pro','pur.p_id=pro.id')
+//							->join('factory as fac','pro.f_id=fac.fid')
+//							->select('pur.id,pro.model,pro.product_type,fac.f_name')
+//							->where("pur.id={$infos['id']}")
+//							->getAll();
+//						$str_temp=$str;
+//						$rtn =false;
+//						return $rtn;
+//					}
+//				}
+//
+//			}
+//			if(!$rtn) return json_output(array('err'=>1,'msg'=>$str_temp));
+//		}
+//}
 
 	public function msg()
 	{

@@ -283,19 +283,17 @@
 
         var arr = new Array();
         //验证购物车中是否已经有产生订单
-        $("#cart .details").each(function(index,o){
-            var obj = new Object();
-            obj.id =$(o).attr("data-id");
-            obj.amount = $(o).find(".amount input[type='text']").val();
-            arr.push(obj);
-        });
-        var details=JSON.stringify(arr);
-        $.post('/cart/index/error',"data="+details,function(data){
+//        $("#cart .details").each(function(index,o){
+//            var obj = new Object();
+//            obj.id =$(o).attr("data-id");
+//            obj.amount = $(o).find(".amount input[type='text']").val();
+//            arr.push(obj);
+//        });
+//        var details=JSON.stringify(arr);
+//        $.post('/cart/index/error',"data="+details,function(data){
+//
+//        });
 
-        });
-
-
-        return false;
         var data=$("#cartFrom").serialize();
 
         $.post('/cart/index/addorder',data,function(data){
