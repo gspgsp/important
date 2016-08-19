@@ -274,6 +274,22 @@
 
 /*财务中心开始*/
 .user-wrap .right .finance-lc-pic{ width:1000px; height:44px; overflow:hidden; margin:0 0 0 23px;}
+.user-wrap .right .acct-info{font-size: 14px; width:500px;margin:50px auto;}
+.user-wrap .right .acct-info ul{ height: 25px; overflow:hidden; margin:0 0 15px 0;}
+.user-wrap .right .acct-info li{ float:left;}
+.user-wrap .right .acct-info li span{ color:red; font-weight: bold; font-size: 16px; margin:0 10px;}
+.user-wrap .right .acct-info-btn{ width:220px; height:32px; overflow:hidden; margin:50px auto;}
+.user-wrap .right .acct-info-btn li{ margin:0 20px 0 0; float:left;}
+.user-wrap .right .acct-info-btn li a,.user-wrap .right .record .record-btn a{ font-size:14px; color:#fff; display:block; width: 90px; height:32px; line-height:32px; text-align:center; background:#267bd3; border-radius:2px;}
+.user-wrap .right .record .record-btn{ width:90px; margin:20px auto;}
+.user-wrap .right .record{ width:900px; height:auto; overflow:hidden; margin:30px auto;}
+.user-wrap .right .record h2{ font-size:14px; font-weight:bold; height:40px; line-height:40px; border-bottom:1px solid #ccc;}
+.user-wrap .right .record .record-tr{ height:30px; line-height:30px; border-bottom:1px solid #ccc;}
+.user-wrap .right .record .record-tr.record-title{ font-weight:bold; background:#eee;}
+.user-wrap .right .record .record-tr:hover{ background:#f4f4f4;}
+.user-wrap .right .record .record-tr li{ height:30px; float:left; text-align:center; border-left:1px solid #ccc;}
+.user-wrap .right .record .record-tr li.number,.user-wrap .right .record .record-tr li.time,.user-wrap .right .record .record-tr li.pay,.user-wrap .right .record .record-tr li.income,.user-wrap .right .record .record-tr li.trade{ width:150px;}
+.user-wrap .right .record .record-tr li.remark{ width:142px; border-right:1px solid #ccc;}
 .finance-lc1{ font-size:16px; width:272px; height:245px; text-align:center; background:url(../../images/home/finance1.jpg) no-repeat left center; padding:0 0 0 308px; margin:127px 0 127px 131px;}
 .finance-lc1 p{ padding:60px 0 68px 0;}
 .finance-lc1 input{ font-size:16px; color:#fff; width:164px; height:48px; background:#267bd3; color:#fff; cursor:pointer;}
