@@ -228,11 +228,11 @@ class mainPageModel extends model
         array_push($types, $type7);
         $type8['name'] = '聚碳酸酯';
         $type8['type'] = 'PC';
-        $type8['model'] = array('JC-160','JH330B','JH-350');
+        $type8['model'] = array('ET3113','SC-1100R','TY-635');
         array_push($types, $type8);
         $type9['name'] = '工程塑料';
         $type9['type'] = 'MABS';
-        $type9['model'] = array('JC-160','JH330B','JH-350');
+        $type9['model'] = array('TR557INP');
         array_push($types, $type9);
         return empty($types)?false:$types;
     }
