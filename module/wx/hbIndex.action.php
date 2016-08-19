@@ -107,7 +107,7 @@ class hbIndexAction extends null2Action{
 				$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('updatetime'=>time(),'times'=>$data['base_num'])));
 				//去掉绑定的用户
 				if($this->db->model('weixin_name')->select("uid,username")->where("id={$data['id']}")->getRow()){
-					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('uid'=>0,'username'=>'')));
+					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('uid'=>0,'username'=>'','app_time'=>0)));
 				}
 			}
 			//先判断有没有绑定用户(就是已经注册过的用户)
