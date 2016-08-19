@@ -189,7 +189,6 @@ class mainPageAction extends homeBaseAction
     //获取分类的数据
     public function getProductType(){
         $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
         if(!$ptypes = M('myapp:mainPage')->getProductTypes()) $this->json_output(array('err'=>2,'msg'=>'获取分类失败'));
         $this->json_output(array('err'=>0,'ptypes'=>$ptypes));
     }
@@ -200,7 +199,7 @@ class mainPageAction extends homeBaseAction
     //获取分类详情页数据
     public function getProductTypeDetail(){
         $this->is_ajax = true;
-        $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5
+        $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5,6,7,8,9
         if(!$typeData = M('myapp:mainPage')->getProductTypeData($protype)) $this->json_output(array('err'=>2,'msg'=>'获取分类关键字失败'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
     }
