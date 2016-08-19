@@ -256,7 +256,7 @@ class selforderAction extends userBaseAction{
 	        ->getRow();
 	        $payid = $order['pay_id'];
 	        $rtn = $this->db->model('pay_message')->where("payID='$payid'")->getRow();
-	        if(!$rtn) $this->error('查询订单失败!');
+	        if(!$rtn) $this->error('查询支付明细失败!');
 	        if(trim($rtn['payStatus'])=='000000'){
 	            $this->success('支付成功');
 	        }else{
@@ -266,9 +266,28 @@ class selforderAction extends userBaseAction{
 	}
 	
 	//取消支付
+	//1.先退款 2.退相关库存处理
 	public function payCancel(){
-	    p(1);
-	    die;
+		if($_POST){
+	        $this->is_ajax=true;
+	        $data=saddslashes($_POST);
+	        $id = empty($data['id'])?0:$data['id'];
+	        if(!$this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->getRow()) {
+	            showtrace();
+	            $this->error('查询订单失败!');
+	        }
+	        $order=$this->db->from('order o')
+	        ->join('admin ad','o.customer_manager=ad.admin_id')
+	        ->select('o.*,ad.name,ad.mobile')
+	        ->where("o_id=$id and user_id={$this->user_id}")
+	        ->getRow();
+	        $payid = $order['pay_id'];
+	        p($payid);
+	        $rtn = $this->db->model('pay_message')->where("payID='$payid'")->getRow();
+	        if(!$rtn) $this->error('查询支付明细失败!');
+	        p(json_encode($rtn));
+	        die;
+	    }
 	}
 
 
