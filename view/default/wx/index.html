@@ -147,7 +147,7 @@
                         	dataType:"json",
                         	success:function(res){
                         		console.log(res);
-                        		$("#num").text(res.times);
+                        		$("#num").text(res.times+1);
                         		if(res.err==2){
 								mui.confirm("",res.msg,["返回","登录 "],function(e){
 									if(e.index==0){
