@@ -180,7 +180,7 @@
 .times{ font-size: 12px;}
 .purchaseCon{ font-size: 12px; color: #323232;}
 .purchaseSaleStatus{float: right; text-align: center; margin: 15px 30px 0 0;}
-.purchaseLink{ font-size: 12px; color: #FFFFFF; background: #ff5000; padding: 5px 15px; border-radius: 3px;}
+.purchaseLink{ font-size: 12px; color: #FFFFFF;  background: #ff5000; padding: 5px 15px; border-radius: 3px;}
 .icon{ width: 22px; height: 22px; float: left;}
 .icon.iconDown{ background: url(../img/supplyDemandDown.png) no-repeat; background-size: 100% 100%;}
 .icon.iconUp{ background: url(../img/supplyDemandUp.png) no-repeat; background-size: 100% 100%;}
