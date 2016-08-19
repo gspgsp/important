@@ -159,7 +159,8 @@
         });
    }
   
-    var ChkVaild=function(){     	
+    var ChkVaild=function(){   
+    	var rtn = true;
 		//验证姓名是否全是中文
 		if(/^[\u4e00-\u9fa5]+$/.test($("#legal_person").val())){	
            if($("#legal_person").val().length<=1||$("#legal_person").val().length>30){
@@ -218,15 +219,7 @@
 				}
 			}
 		});
-		
-		//开票地址
-		if($("#invoice_address").val()==""){		
-      	   $("#J_Message").find("p").text('请输入开票地址!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
-		}
-		
+				
 		return rtn;
     }
     
