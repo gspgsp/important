@@ -76,7 +76,7 @@
 		<input type="hidden" id="times" value="{$times}"/>
 		<input type="hidden" id="openid" value="{$openid}"/>
 		<script type="text/javascript">
-		$("#num").text($("#times").val()+1);
+		$("#num").text(parseInt($("#times").val())+1);
 		var msgLi="";
 		$.ajax({
 			type:"get",
