@@ -51,18 +51,7 @@
 			<span id="sale" data-big="true">价格</span>
 		</div>
 		<div class="supplyDemandUl">
-			<ul id="searchWrapUl">
-				<li>
-					<a href='/mobi/mainPage/enCheckForm?id="+v.p_id+"'>
-					<h3 class='purchaseOrders'>ldpe/2130/伊朗国家石化<br>
-					<span class="purchaseSale">￥9950/T起</span><span class="city">上海</span><br>
-					<span class="times">张总 发布于 2016-08-11 09:57:20</span>
-					</h3>
-					<p class='purchaseSaleStatus'><span class="purchaseCon">洽谈中</span><br><a class="purchaseLink" href="#">我要供货</a></p>
-					<span class="purchaseCargo">现</span>
-					<div class='mui-clearfix'></div></a>
-				</li>
-			</ul>
+			<ul id="searchWrapUl"></ul>
 			<div style="text-align: center; padding: 5px 0;">
 				<input class="more" type="button" value="点击加载更多">
 			</div>
@@ -108,6 +97,12 @@
 				var otype=3;
 				//页码
 				var page=1;
+				
+				function cargoType(cargotype){
+					if(cargotype=="期"){
+						return "green"
+					}
+				}
 
 				commonAjax(
 						"post",
@@ -225,12 +220,11 @@
 							}else{
 								$(".more").show();
 								res.data.forEach(function (v,i,a) {
-									searchLi+="<li><a href='/mobi/mainPage/enCheckForm?id="+v.p_id+"'><h3 class='bigCustomerName'>" +
-											""+v.product_type+"/"+v.model+"<br>"+v.f_name+"<br>"+v.provinces+"</h3>" +
-											"<p class='supplyDemandStore'><i class='icon iconStore'></i></p>" +
-											"<p class='supplyDemandSales'><span>￥"+v.unit_price.split(".")[0]+"/T起</span><br>"+v.number+"T<br>"+v.input_time.split(" ")[0]+"</p>" +
-											"<div class='mui-clearfix'></div></a></li>";
-									//$("#searchWrapUl").html(searchLi);
+									searchLi+="<li><a href='/mobi/mainPage/enCheckForm?id="+v.p_id+"'>"+
+									"<h3 class='purchaseOrders'>"+v.product_type+"/"+v.model+"/"+v.f_name+"<br>"+
+									"<span class='purchaseSale'>￥"+v.unit_price.split(".")[0]+"/T起</span><span class='city'>"+v.provinces+"</span><br><span class='times'>"+v.user_id+" 发布于"+v.input_time+"</span></h3>"+
+									"<p class='purchaseSaleStatus'><span class='purchaseCon'>"+v.status+"</span><br><a class='purchaseLink' href='/mobi/mainPage/enCheckForm2?id="+v.id+"'>"+v.operate+"</a></p><span class='purchaseCargo "+cargoType(v.cargo_type)+"'>"+v.cargo_type+"</span><div class='mui-clearfix'></div></a></li>"
+									$("#searchWrapUl").html(searchLi);
 								});
 							}
 						}else if(res.err==3){
