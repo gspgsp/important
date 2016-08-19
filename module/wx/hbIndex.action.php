@@ -104,10 +104,10 @@ class hbIndexAction extends null2Action{
 			$today = strtotime(date('Y-m-d',time()));
 			//每天更新抽奖机会
 			if($data['updatetime']<$today){
-				$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('updatetime'=>time(),'times'=>$data['base_num'])));
+				$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('updatetime'=>time(),'times'=>$data['base_num'],'app_time'=>0)));
 				//去掉绑定的用户
 				if($this->db->model('weixin_name')->select("uid,username")->where("id={$data['id']}")->getRow()){
-					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('uid'=>0,'username'=>'','app_time'=>0)));
+					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('uid'=>0,'username'=>'')));
 				}
 			}
 			//先判断有没有绑定用户(就是已经注册过的用户)
