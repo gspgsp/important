@@ -273,9 +273,9 @@ class selforderAction extends userBaseAction{
 	        $data=saddslashes($_POST);
 	        $id = empty($data['id'])?0:$data['id'];
 	        if(!$this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->getRow()) {
-	            showtrace();
 	            $this->error('查询订单失败!');
 	        }
+	        showtrace();
 	        $order=$this->db->from('order o')
 	        ->join('admin ad','o.customer_manager=ad.admin_id')
 	        ->select('o.*,ad.name,ad.mobile')
