@@ -159,7 +159,6 @@
     </form>
     <!--buy-btn end-->
 </div>
-
 <script>
 
     //配送时间
@@ -231,17 +230,6 @@
     //
     $("#cartFrom").submit(function(){
     	
-        var arr = new Array();
-        //验证购物车中是否已经有产生订单
-        $("#cart .details").each(function(index,o){
-            var obj = new Object();
-            obj.id =$(o).attr("data-id");
-            obj.amount = $(o).find(".amount input[type='text']").val();
-            arr.push(obj);
-        });
-        var details=JSON.stringify(arr);
-        return false;
-    	
         if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
             $(".other select").addClass("required").attr("datatype","*");
         }else{
@@ -249,11 +237,12 @@
         }
 
 
+
 //    if(!demo.check()) return false;
-        var pay_method=$('#pay_method').val();
-        var transport_type=$('#transport_type').val();
-        var  date3=$("#date3").val();
-        var  delivery_place=$("#delivery_place").val();
+        var   pay_method=$('#pay_method').val();
+        var   transport_type=$('#transport_type').val();
+        var   date3=$("#date3").val();
+        var   delivery_place=$("#delivery_place").val();
         var   address=$("#address").val();
         if($("#transport_type").val()==1){
             if(pay_method==''){
@@ -291,9 +280,24 @@
             }
 
         }
-        
-        
+
+        var arr = new Array();
+        //验证购物车中是否已经有产生订单
+        $("#cart .details").each(function(index,o){
+            var obj = new Object();
+            obj.id =$(o).attr("data-id");
+            obj.amount = $(o).find(".amount input[type='text']").val();
+            arr.push(obj);
+        });
+        var details=JSON.stringify(arr);
+        $.post('/cart/index/error',"data="+details,function(data){
+
+        });
+
+
+        return false;
         var data=$("#cartFrom").serialize();
+
         $.post('/cart/index/addorder',data,function(data){
             if(data.err==0){
                 window.location.href="/cart/index/msg";
