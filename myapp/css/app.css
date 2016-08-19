@@ -231,8 +231,8 @@
 #meHeader{ width: 100%; height: 45px; border-bottom: 1px solid #d9d9d9; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
 #meHeader .left{ position: absolute; left: 12px; color: #FF5000;}
 #meHeader .right{ position: absolute; right: 12px; color: #FF5000;}
-.meWrap{ width: 100%; height: 75px; position: relative;}
-.meAvator{ width: 100px; height: 100px; border-radius: 50%; border: 5px solid #ffffff; position: absolute; top: 20px; left: 50%; margin: 0 0 0 -50px;}
+.meWrap{ width: 100%; height: 150px; background: url(../img/me_bg.jpg) no-repeat; padding-top: 5px; background-size: 100% 100%; position: relative;}
+.meAvator{ width: 100px; height: 100px; border-radius: 50%; border: 5px solid #f4b5b5; margin: 0 auto;}
 .meAvator img{ width: 90px; height: 90px; border-radius: 50%;}
 .meRegLogin{ width: 140px; height: 32px; display: block; margin: 55px auto 0 auto; line-height: 32px; text-align: center; font-size: 15px; background: #ff6600; border-radius: 5px; color: #FFFFFF;}
 .meUl{ background: #FFFFFF; list-style: none; margin: 20px 0 0 0; padding: 0 10px; border-bottom: 1px solid #E7E7E7; border-top: 1px solid #E7E7E7;}
@@ -241,7 +241,7 @@
 .meUl li a{ color: #323232; display: block;}
 .meUl li img{ width: 22px; float: left; margin: 12px 15px 0 0;}
 .meUl li span{ float: right; font-size: 12px; color: #646464;}
-.meName{ width: 250px; height: 32px; margin: 55px auto 0 auto; line-height: 32px; text-align: center; font-size: 15px;color: #323232;}
+.meName{ width: 250px; height: 32px; margin: 5px auto; line-height: 32px; text-align: center; font-size: 15px;color: #e64748;}
 #meAlpha{ width: 130px; height: 125px; position: absolute; top: 0; left: 0;}
 
 .meUl2{ background: #FFFFFF; list-style: none; margin: 10px 0 0 0; padding: 0 10px; border-bottom: 1px solid #E7E7E7; border-top: 1px solid #E7E7E7;}
