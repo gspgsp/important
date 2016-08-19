@@ -95,6 +95,17 @@
 			}
 		});
 		
+		
+		$(".fpzDownloadLink").on("click",function(){
+			$.ajax({
+				type:"get",
+				url:"/wx/hbIndex/getDownload",
+				async:true,
+				success:function(){},
+				error:function(){}
+			});
+		});
+		
 		var speed=400;
 		var demo=document.getElementById("demo");
 		var demo1=document.getElementById("demo1");
