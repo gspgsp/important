@@ -21,18 +21,6 @@
         	<h4 style="margin:10px 0 10px 23px">资质认证请填写以下内容，并上传证件照片</h4>
             <form name="" action="" onSubmit="return false;" method="post">
             	<table border="1" style="width:75%;">
-                  <tr style="height:50px;">
-                    <td>纳税人识别号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="tax_id" id="tax_id" placeholder="15位或18位" /></td>
-                    <td>开票电话<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_tel" id="invoice_tel" placeholder="xxx-xxxxxxxx" /></td>
-                  </tr>
-                  <tr style="height:50px;">
-                    <td>开票银行<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_bank" id="invoice_bank" /></td>
-                    <td>开票帐号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_account" id="invoice_account" /></td>
-                  </tr>
                   <tr>
                     <td>企业法人姓名<span>*</span>：</td>
                     <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_person" id="legal_person" placeholder="2到20个汉字" /></td>
@@ -91,8 +79,6 @@
                    <!--  <td><input type="hidden" id="no" name="no" value=""/></td> -->
                   </tr>
                   <tr>
-                    <td>开票地址<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="invoice_address" id="invoice_address" /></td>
                     <td>是否三证合一<span>*</span>：<td>
                   	<select style="height:100%;width:100%;" name="chk_pics" id="chk_pics"> 
 						<option value="1" id="fourthOption">是</option> 
@@ -173,59 +159,7 @@
         });
    }
   
-    var ChkVaild=function(){
-    	var rtn = true;
-		//纳税人识别号
-		if($("#tax_id").val()==""){		
-      	   $("#J_Message").find("p").text('请输入纳税人识别号!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
-		}else{
-           if(!($("#tax_id").val().length==18||$("#tax_id").val().length==15)){
-        	   $("#J_Message").find("p").text('纳税人识别号长度为18或15位,请重新输入!');
-        	   $("#J_Message").fadeIn();
-        	   rtn = false;
-        	   return rtn;
-           }
-		}
-		//开票电话
-		if($("#invoice_tel").val()==""){		
-      	   $("#J_Message").find("p").text('请输入开票电话!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
-		}else{
-	           var tel = /^0(10|21|22|23|[1-9]{3})\s?-\s?[1-9][0-9]{6,7}$/;
-	           if(!tel.test($("#invoice_tel").val())){
-	          	   $("#J_Message").find("p").text('请输入正确的电话号码!');
-	        	   $("#J_Message").fadeIn();
-	        	   rtn = false;
-	        	   return rtn;
-	           }
-		}
-		//开票银行
-		if($("#invoice_bank").val()==""){		
-      	   $("#J_Message").find("p").text('请输入开票银行!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
-		}
-		//开票帐号
-		if($("#invoice_account").val()==""){		
-      	   $("#J_Message").find("p").text('请输入开票帐号!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
-		}
-		//税务登记号
-		if($("#tax_registration").val()==""){		
-      	   $("#J_Message").find("p").text('请输入税务登记号!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
-		}
-     	
+    var ChkVaild=function(){     	
 		//验证姓名是否全是中文
 		if(/^[\u4e00-\u9fa5]+$/.test($("#legal_person").val())){	
            if($("#legal_person").val().length<=1||$("#legal_person").val().length>30){
@@ -314,16 +248,12 @@
             var organization_pic = $("#organization_pic").val(); 
             var Powerofattorney_pic = $("#Powerofattorney_pic").val(); 
             
-            var tax_id = $("#tax_id").val(); 
-            var invoice_address = $("#invoice_address").val(); 
-            var invoice_tel = $("#invoice_tel").val(); 
-            var invoice_bank = $("#invoice_bank").val(); 
-            var invoice_account = $("#invoice_account").val(); 
+
                         		           
             $.ajax({
                 type:"post",
                 url:"/user/fundManager/certificate",
-                data:{'legal_person':legal_person,'legal_idcard':legal_idcard,'legal_idcard_pic':legal_idcard_pic,'business_licence':business_licence,'business_licence_pic':business_licence_pic,'tax_registration':tax_registration,'tax_registration_pic':tax_registration_pic,'grounp_no':grounp_no,'organization_pic':organization_pic,'Powerofattorney_pic':Powerofattorney_pic,'tax_id':tax_id,'invoice_address':invoice_address,'invoice_tel':invoice_tel,'invoice_bank':invoice_bank,'invoice_account':invoice_account},
+                data:{'legal_person':legal_person,'legal_idcard':legal_idcard,'legal_idcard_pic':legal_idcard_pic,'business_licence':business_licence,'business_licence_pic':business_licence_pic,'tax_registration':tax_registration,'tax_registration_pic':tax_registration_pic,'grounp_no':grounp_no,'organization_pic':organization_pic,'Powerofattorney_pic':Powerofattorney_pic},
                 dataType:'json',
                 success:function(res){
                     if(res.err==0){
