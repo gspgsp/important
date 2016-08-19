@@ -105,6 +105,10 @@ class hbIndexAction extends null2Action{
 			//每天更新抽奖机会
 			if($data['updatetime']<$today){
 				$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('updatetime'=>time(),'times'=>$data['base_num'])));
+				//去掉绑定的用户
+				if($this->db->model('weixin_name')->select("uid,username")->where("id={$data['id']}")->getRow()){
+					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('uid'=>0,'username'=>'')));
+				}
 			}
 			//先判断有没有绑定用户(就是已经注册过的用户)
 			if($data['uid']>0 && $data['app_time']<$today){
@@ -345,6 +349,11 @@ class hbIndexAction extends null2Action{
 			$names[$key]['price'] = $price['price'];
 		}
 		$this->json_output(array('err'=>0,'names'=>$names));//滚动获奖信息
+	}
+	//统计下载量
+	public function getDownload(){
+		$download_count = $this->db->model('wxactivity')->select("download_count")->where("id=1")->getOne();
+		$this->db->model('wxactivity')->where("id=1")->update(saddslashes(array('download_count'=>$download_count+1)));
 	}
 
 }
