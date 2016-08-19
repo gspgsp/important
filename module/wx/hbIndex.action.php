@@ -255,9 +255,9 @@ class hbIndexAction extends null2Action{
 		}
 		if($res['yes']==1){
 			if(!$userinfo['username']){
-				$price=rand(20,30);//未登录的时候奖
+				$price=rand(50,100);//未登录的时候奖
 			}else{
-				$price=rand(30,80);//登录时候的奖
+				$price=rand(50,100);//登录时候的奖
 			}
 			$res['price']=$price/100;//中的奖金额度
 		}else{
