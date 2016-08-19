@@ -170,6 +170,7 @@
 .supplyDemandUl ul{ list-style: none; margin: 0; padding: 0; background: #FFFFFF;}
 .supplyDemandUl li{ width: 100%; position: relative; overflow: hidden; height: auto; border-bottom: 1px solid #E7E7E7;}
 .purchaseCargo{ position: absolute; top: 0; right: 0; width: 40px; height: 30px; font-size: 14px; border-radius: 0 0 0 20px; text-indent: 5px; line-height: 30px; text-align: center; color: #FFFFFF; background: #267bd3;}
+.purchaseCargo.green{ background: #00b400;}
 .supplyDemandName,.purchaseOrders{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
 .supplyDemandSales{ float: right; font-size: 12px; width: 85px; margin: 6px 10px 0 0; text-align: right; color: #646464;}
 .supplyDemandSales span{ color: #FF5000;}
