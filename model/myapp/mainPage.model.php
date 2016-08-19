@@ -211,13 +211,29 @@ class mainPageModel extends model
         $type3['model'] = array('218W','21HN','7042');
         array_push($types, $type3);
         $type4['name'] = '聚丙烯';
-        $type4['type'] = 'PP';
-        $type4['model'] = array('JC-160','JH330B','JH-350');
+        $type4['type'] = '均聚PP';
+        $type4['model'] = array('336C','1850','S1003');
         array_push($types, $type4);
         $type5['name'] = '聚氯乙烯';
-        $type5['type'] = ' PVC';
+        $type5['type'] = 'PVC';
         $type5['model'] = array('373MC','C100V','C12/62V');
         array_push($types, $type5);
+        $type6['name'] = '聚丙烯';
+        $type6['type'] = '共聚PP';
+        $type6['model'] = array('M800E','M09','M30RH');
+        array_push($types, $type6);
+        $type7['name'] = '工程塑料';
+        $type7['type'] = 'ABS';
+        $type7['model'] = array('747S','HI-121','AG15E1');
+        array_push($types, $type7);
+        $type8['name'] = '聚碳酸酯';
+        $type8['type'] = 'PC';
+        $type8['model'] = array('JC-160','JH330B','JH-350');
+        array_push($types, $type8);
+        $type9['name'] = '工程塑料';
+        $type9['type'] = 'MABS';
+        $type9['model'] = array('JC-160','JH330B','JH-350');
+        array_push($types, $type9);
         return empty($types)?false:$types;
     }
     //获取分类关键字
