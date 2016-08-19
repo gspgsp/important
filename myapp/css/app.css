@@ -188,7 +188,7 @@
 .icon.iconStore{ background: url(../img/supplyDemandStore.png) no-repeat; background-size: 100% 100%;}
 .icon.iconStoreOn{ background: url(../img/supplyDemandStoreOn.png) no-repeat; background-size: 100% 100%;}
 
-.supplyDemandTb{ width: 100%; font-size: 12px; color: #323232; -display: none;}
+.supplyDemandTb{ width: 100%; font-size: 12px; color: #323232; display: none;}
 .supplyDemandTb th{ font-weight: normal; height: 35px; text-align: center; border: 1px solid #e7e7e7;}
 .supplyDemandTb td{ text-align: center; height: 45px; line-height: 20px; border: 1px solid #e7e7e7; border-bottom: none;}
 .supplyDemandTb tr td:first-of-type{ color: #646464;}
