@@ -110,23 +110,12 @@ class hbIndexAction extends null2Action{
 					$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('uid'=>0,'username'=>'')));
 				}
 			}
-			//先判断有没有绑定用户(就是已经注册过的用户)
-			if($data['uid']>0 && $data['app_time']<$today){
+			//先判断有没有绑定用户(就是已经注册过的用户)再访问一次数据库
+			$data2=$this->db->model('weixin_name')->where("openid='{$openid}'")->getRow();
+			if($data2['uid']>0 && $data2['app_time']<$today){
 				//新注册app，加一次机会
-				// $where1 = "user_id={$data['uid']} && reg_time > $today && reg_chanel==2";
-				// if($this->db->model('contact_info')->where($where1)->getRow()){
-				// 	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
-				// }
 				$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
 				//登录app，加一次机会
-				// $where2 = "log.user_id={$data['uid']} && log.input_time > $today && log.chanel=2 && cinfo.reg_time < $today";
-				// $res = $this->db->model('log_login')->select('log.user_id')->from('log_login log')
-			 //            ->join('contact_info cinfo','log.user_id=cinfo.user_id')
-			 //            ->where($where2)
-			 //            ->getRow();
-	   //          if(!empty($res)){
-	   //          	$this->db->model('weixin_name')->where("id={$data['id']}")->update(saddslashes(array('app_time'=>time(),'times'=>$data['times']+1)));
-	   //          }
 			}
 		}else{
 			//未保存openid 保存openid
