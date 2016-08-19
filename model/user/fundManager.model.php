@@ -71,39 +71,8 @@ class fundManagerModel extends model
         if($sucess){
 		  $data['zip_url'] =  ROOT_PATH.'/upload/zip/'.$zip_name;
         }
-        $billingdata['tax_id'] = $data['tax_id'];
-        $billingdata['invoice_address'] = $data['invoice_address'];
-        $billingdata['invoice_tel'] = $data['invoice_tel'];
-        $billingdata['invoice_bank'] = $data['invoice_bank'];
-        $billingdata['invoice_account'] = desEncrypt($data['invoice_account']);//加密
-        $billingdata['user_id'] = $_SESSION['uinfo']['user_id'];
-        $billingdata['c_id']=$_SESSION['uinfo']['c_id'];
-        unset($data['tax_id']);
-        unset($data['invoice_address']);
-        unset($data['invoice_tel']);
-        unset($data['invoice_bank']);
-        unset($data['invoice_account']);
-        $this->db->startTrans();
         if(!$this->model('customer')->where('c_id='.$_SESSION['uinfo']['c_id'])->update($data)) return array('err'=>1,'msg'=>'更新失败');
-        if(!empty(M('public:common')->model('customer_billing')->where('c_id='.$_SESSION['uinfo']['c_id'])->getOne())){
-            $billingdata['update_time']=time();
-            $billingdata['update_admin']=$_SESSION['uinfo']['user_id'];
-            if(!M('public:common')->model('customer_billing')->where('c_id='.$billingdata['c_id'])->update($billingdata)) return array('err'=>1,'msg'=>'更新失败');
-        }else{
-            $billingdata['status']=0;
-            $billingdata['display_status']=1;
-            $billingdata['customer_manager']=$_SESSION['uinfo']['customer_manager'];
-            $billingdata['input_time']=time();
-            $billingdata['input_admin']=$_SESSION['uinfo']['user_id'];
-            if(!M('public:common')->model('customer_billing')->add($billingdata))return array('err'=>1,'msg'=>'新增失败');
-        }
-		if($this->db->commit()){
-		    return array('err'=>0,'msg'=>'验证通过,更新成功');
-		}else{
-		    $this->db->rollback();
-		    return array('err'=>1,'msg'=>'生成失败:'.$this->db->getDbError());
-		}
-// 		return array('err'=>0,'msg'=>'验证通过,更新成功');
+		return array('err'=>0,'msg'=>'验证通过,更新成功');
 	}
 	/**
 	 * 判断身份证号格式是否正确
