@@ -1,0 +1,52 @@
+{layout file="public:mini_layout"}
+<form id="infoForm" class="form" method="POST">
+<input type="hidden" name="user_ids" value="{$ids}" />
+	<div style="margin:50px;">
+		<table style="width:100%;">
+			<tr>
+				<td style="text-align:left;width:60px;">接收人员：</td>
+				<td colspan="3">{$send_info}</td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">发送时间：</td>
+				<td colspan="3">
+					<input name="send_time" class="mini-datepicker" style="width:155px;" showTime="true" value="" format="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">短信内容：</td>
+				<td colspan="7">
+					<input name="sms" class="mini-textarea" style="width:350px;height:140px;" required="true" value="" maxlength="200" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="text-align:center;padding:10px;">
+		<a class="mini-button" iconCls="icon-ok" onclick="submitForm" style="width:60px;margin-right:20px;">确定</a>
+		<a class="mini-button" iconCls="icon-cancel" onclick="onCancel" style="width:60px;">取消</a>
+	</div> 
+</form>
+<script>
+mini.parse();
+var form = new mini.Form("#infoForm");
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	form.loading("数据提交中，请稍后......");
+	$.post(window.location.href,$.extend({},$("#infoForm").serializeObject(),$("#infoForm").data()),function(data){
+	  form.unmask();
+	  mini.alert(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }
+	},'json');
+}
+
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

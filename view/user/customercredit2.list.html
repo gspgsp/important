@@ -1,0 +1,422 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+		{if $ischecked neq 'checked' }
+			<td style="white-space:nowrap;">
+			{if $doact neq 'check'}
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-edit" plain="true" onclick="onEdit()">编辑</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+			{/if}	
+			</td>
+		{/if}
+			<td style="float:right;">
+			<form id="soform">
+				
+				<!-- <select name="status" id="soStatus">
+					<option value="" selected="selected">=状态=</option>
+					{if $doact neq 'check'}
+					{html_options options=$pass_status}
+					{else}
+					{html_options options=$wait_status}
+					{/if}
+				</select> -->
+				<select name="level" id="soStatus">
+					<option value="" selected="selected">=客户等级=</option>
+					<option value="a">A</option>
+					<option value="b">B</option>
+					<option value="c">C</option>
+					<option value="d">D</option>
+				</select>
+				
+				<!-- <select name="key_type">
+					<option value="">=指标分数=</option>
+					<option value="customer">客户公司</option>
+					{foreach from=$list item=value2}
+					<option value="lab_id{$value2.lab_id}">{$value2.lab_name}</option>
+					{/foreach}
+				</select> -->
+				<input name="keyword" class="mini-textbox" emptyText="" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/user/customercredit2/init?action=grid&do={$doact}&ischecked={$ischecked}"  idField="id" 
+	sizeList="[10,20,50,100]" pageSize="20" {if $ischecked eq 'checked'}multiSelect="false"{/if} multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="c_name" width="60" headerAlign="center" align="center">客户公司名称</div>
+            <div field="com_id" width="60" headerAlign="center" align="center">客户公司ID</div>
+
+			 {if $doact neq 'check'}
+			 <div name="action" width="80" headerAlign="center" align="center" renderer="onLoadHandle" cellStyle="padding:0;">操作</div>
+			 {else}
+			<div name="action" width="80" headerAlign="center" align="center" renderer="checkLoadHandle" cellStyle="padding:0;">审核</div>
+			 {/if}
+		</div>
+	</div>
+</div>
+<div id="admInfo" class="mini-window" title="客户信用添加" style="width:800px;" 
+	showModal="true" allowResize="true" allowDrag="true">
+	<form method="post"  id="setform"  onSubmit="return myCheck()" name='form1'>
+	<div id="addForm" class="form">
+		<table style="width:80%;">
+			<tr>
+				<td>
+                   客户名称：<input name="com_id" class="mini-buttonedit" onbuttonclick="usrChoose"  textField="name" valueField="id" value="" allowInput="false" style="width:200px;" required="true"  id="usrId"/>&nbsp;&nbsp;&nbsp; 总分：<span id="spanSum"></span> 
+                   <input name="credit_sum" class="mini-textbox" id="sum2" value="" allowInput="false" style="width:40px;"/>                             
+				</td>
+			</tr>
+		
+               
+                {foreach from=$list item=value}
+                
+                <tr>
+                    
+                    <td>
+                        {$value.html}{$value.name} 
+                        {if $value.pid eq 0}
+                        	<!-- <input type="hidden" name="cat{$value.id}" value="{$value.grade}"/> -->
+                        {else}
+                        	<input type="number" name="str_id{$value.id}" min="0" max="{$value.grade}" step="0.5" value="" style="width:50px" required="true" autocomplete='on' onfocus=this.select() onblur="inputSum(this.value)">限额:【{$value.grade}分】&nbsp; 说明：{$value.remark}
+                        {/if} 
+                        
+                    </td>                    
+                </tr>
+                	
+          {/foreach}
+           
+            <tr>
+				<td>备注:<input name="remark" class="mini-textarea" style="width:200px" required="true"/ value="{$remark}"></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+				
+			</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+<div id="checkInfo" class="mini-window" title="增加产品信息" style="width:300px;" showModal="true" allowResize="true" allowDrag="true">
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			<tr>
+				<td>更换已审核的产品</td>
+				<td>
+					<input name="id" class="mini-buttonedit" onbuttonclick="checkedProduct" valueField="id"  value="" allowInput="false"  style="width:170px" id="id"/>
+					<input id="p_id" class="mini-hidden" value="">
+				</td>
+			</tr>
+
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitPro()">保存</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{if $ischecked eq 'checked'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+{/if}
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var grid = mini.get("gridCell");
+someset();
+//table设置
+function someset() {
+	var ids=1;
+	var callback=function(data){
+	console.log(typeof(data));
+	console.log(data);
+	var cd=0;
+	len=data.length;
+	console.log(data.length);
+	arr=[];		
+    arr.push({type:"checkcolumn"});
+    arr.push({field:'id',width:'20',type:'indexcolumn',headerAlign:'center',align:'center',header:'ID'});
+    arr.push({field:'c_name',width:'50',headerAlign:'center',align:'center',header:'客户公司名称'});
+    arr.push({field:'customer_id',width:'0',headerAlign:'center',align:'center',header:'客户公司ID'});
+    arr.push({field:'credit_sum',width:'30',headerAlign:'center',align:'center',header:'客户分数'});
+    arr.push({field:'level',width:'30',headerAlign:'center',align:'center',header:'客户等级'});
+	for(; cd<len;cd++){
+		arr.push({field:'str_id'+data[cd]['id'],width:'60',header:data[cd]['name'],headerAlign:"center",align:'center'});		 
+	}			
+		//console.log(arr);
+		var grid = mini.get("gridCell");
+		grid.set({
+	    	columns: arr
+	     });	
+	}
+	utils.ajax('/user/customercredit2/someset',{ids:ids},callback,"POST","json");
+
+}
+
+//获取input框的值
+function inputSum(e){
+	var sum=0;
+	var test = document.getElementById('setform');
+    var inputs = test.getElementsByTagName('input');
+    var sum = 0;
+    console.log(inputs);
+    console.log(inputs.length);
+    for(var i = 4; i < inputs.length; i++) {
+    	var ab=inputs[i].value;
+    	ab=parseFloat(ab);
+    	if(ab==null||ab==''||isNaN(ab)){
+    		continue;
+    	}else{
+    		sum +=ab;
+        	console.log('sum:');
+    		console.log(sum);
+    		console.log(ab);
+    	}
+        
+    }
+    
+	//$("#spanSum")[0].innerHTML=sum+'分';
+	//$("#sum2").val(sum);
+	 var t = mini.get("sum2");
+	 		//t.setValue();
+            t.setValue(sum);
+
+   
+}
+inputSum();
+
+grid.render(document.body);
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+//弹出增加form表单
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function add() {
+	form.clear();
+	admInfo.show();
+}
+
+
+//新增一条行记录
+function addRow() {          
+	var newRow = {name: "source"};
+	grid.addRow(newRow, 0);
+	grid.beginEditCell(newRow, "source");
+}
+
+//检查分数大小
+function checkgrade(){
+	alert('checkgrade');
+	console.log("haolema");
+}
+
+function submitForm(){
+	for(var i=0;i<document.form1.elements.length-1;i++)  
+               {  
+                  if(document.form1.elements[i].value=="")  
+                  {  
+                  	 alert("当前表单不能有空项"); 
+                     die;
+                  }  
+               } 
+	var data=JSON.stringify( $('#setform').serializeObject())  ;
+ 	var jsonObj = JSON.parse(data);  
+           console.log(typeof(data));
+           console.log(data);
+           console.log(jsonObj);
+           console.log(typeof(jsonObj));
+
+		$.ajax({  //json对象
+		url:'/user/customercredit2/ajaxSave',
+		data:jsonObj,
+		type:'post',
+		dataType:'json',
+		success:function(){grid.reload();
+	  				admInfo.hide();},  
+		error:function(e){alert(e)}  
+		});
+}
+
+
+//删除
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	console.log(rows);
+	if(rows.length<1) return;
+		for(var i=0;i<rows.length;i++){
+	var _id=parseInt(rows[i].customer_id);
+	if(_id<1){
+		grid.removeRow(rows[i],false);
+	}else{
+		_ids.push(_id);
+	}
+  }
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	console.log(ids);
+	mini.confirm("确定删除？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+			if(data.result){
+				width=300;
+				title="操作完成";
+				iconCls = 'mini-messagebox-warning';
+				html = '无法删除';
+				$.each(data.result,function(k,v){
+					html += k+" &nbsp;";
+				});
+				html+="";
+			}
+			mini.showMessageBox({
+				showHeader: false,
+				width: width,
+				title: title,
+				buttons: ["ok"],
+				html: html,
+				iconCls: iconCls
+			});
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/user/customercredit2/remove',{ids:ids},callback,"POST","json");
+  });
+}
+//双击弹出
+function onRowDblClick(e) {
+	var record = e.record, status=record.status;
+	onEdit();
+
+}
+//编辑
+function onEdit(e) {
+	var row = grid.getSelected();
+	console.log(row);
+	if (row) {
+		var width=500,height=570,title='分类信息';
+		urlStr="/user/customercredit2/edit?id="+row.customer_id+'&c_name='+row.c_name;
+		mini.open({
+			url: urlStr,
+			title: title,
+			width: width,
+			height:height,
+			ondestroy: function (action) {
+				if(action=='save'){ //重新加载
+					grid.reload();
+				}
+			}
+		});
+	}
+}
+
+//审核不通过
+//弹出更换产品表单
+var proInfo = mini.get("checkInfo");
+var form = new mini.Form("#replaceForm");
+function replaceProduct(pid) {
+mini.get(p_id).setValue(pid)
+	proInfo.show();
+}
+
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+
+
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+
+
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+
+		mini.open({
+		url: "user/customercredit2/query?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			//iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				var callback=function(data1){
+					//console.log(data);
+					 if(data1){
+						
+						grid.unmask();
+						//alert(data);
+						alert(data1.msg);
+						return false;
+					}
+
+					if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+					$("#"+btn.id+"\\$value").val(data.c_id);
+					}
+				}
+
+				utils.ajax('/user/customercredit2/checkCustomer',{id:data.c_id,name:data.c_name},callback,"POST","json");
+
+				
+			}
+		}
+	});
+}
+
+
+jQuery.extend({
+handleError: function( s, xhr, status, e ) {
+// If a local callback was specified, fire it
+if ( s.error )
+s.error( xhr, status, e );
+// If we have some XML response text (e.g. from an AJAX call) then log it in the console
+else if(xhr.responseText)
+console.log(xhr.responseText);
+}
+});
+</script>

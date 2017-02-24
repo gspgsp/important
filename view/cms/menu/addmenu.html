@@ -1,0 +1,204 @@
+{layout file="public:mini_layout"}
+{insert_css files='common.css?,set_reply.css?'}
+{insert_js files='touch/common.js'}
+<style>body{background-color:#fff;}.err_tips img{float:left;margin:1px 5px 0 0;}ul{list-style:none;}</style>
+<div class="news_set" style="padding:10px 15px;">
+    <div class="rule_title" style="margin-left:0;">
+		{if $info.level neq 1}
+    	<span>
+            <span>一级菜单位置：</span>
+            <span>
+                <select id="m_mark">
+                    <option value="1" {if $info.mark eq 1}selected="selected"{/if}>第一栏</option>
+                    <option value="2" {if $info.mark eq 2}selected="selected"{/if}>第二栏</option>
+                    <option value="3" {if $info.mark eq 3}selected="selected"{/if}>第三栏</option>
+                </select>
+            </span>
+        </span>
+		{/if}
+        {if $info.level eq 2}
+        <span>
+            <span>子菜单位置：</span>
+            <span>
+                <select id="m_menu">
+                    <option value="1" {if $info.menu_string.p eq 1}selected="selected"{/if}>第1位</option>
+                    <option value="1" {if $info.menu_string.p eq 2}selected="selected"{/if}>第2位</option>
+                    <option value="1" {if $info.menu_string.p eq 3}selected="selected"{/if}>第3位</option>
+                    <option value="1" {if $info.menu_string.p eq 4}selected="selected"{/if}>第4位</option>
+                    <option value="1" {if $info.menu_string.p eq 5}selected="selected"{/if}>第5位</option>
+                </select>
+            </span>
+        </span>
+        {/if}
+    </div>
+    <form action="" method="post" id="news_temple">
+    <ul>
+        <li>
+            <span class="title_n">名称：</span>
+            <span class="ctx_n"><input type="text" name="name" value="{$info[name]}" id="m_name" /></span>  
+        </li>
+        <li>
+            <span class="title_n">有效：</span>
+            <span class="ctx_n">
+				<select name="status" id="m_status">
+					<option value="0" {if $info.status eq 0}selected="selected"{/if}>失效</option>
+					<option value="1" {if $info.status eq 1}selected="selected"{/if}>有效</option>
+				</select>
+			</span>  
+        </li>
+        <li>
+            <span class="title_n">类型：</span>
+            <span class="ctx_n">
+				<select name="level" id="m_level">
+					<option value="1" {if $info.level eq 1}selected="selected"{/if}>一级菜单</option>
+					<option value="2" {if $info.level eq 2}selected="selected"{/if}>二级菜单</option>
+				</select>
+			</span>  
+        </li>
+        <li>
+            <span class="title_n">类型：</span>
+            <span class="ctx_n">
+				<select name="type" id="m_type">
+					<option value="1" {if $info.type eq 1}selected="selected"{/if}>子菜单</option>
+					<option value="2" {if $info.type eq 2}selected="selected"{/if}>链接</option>
+					<option value="3" {if $info.type eq 3}selected="selected"{/if}>事件</option>
+				</select>
+			</span>  
+        </li>
+        <li id="views_link" style="display:none;">
+            <span class="title_n">链接：</span>
+            <span class="ctx_n">
+            	<input id="m_url"  name="url" value="{$info.keyname}" style="width:300px; float:left;"/>
+                <input type="checkbox" id="auth_check" style="width:auto;float:left;margin:4px 5px 0 15px"; /><label>加授权</label>
+            </span>
+			<p style="clear:both;padding:5px 0;color:#999;">注菜单等级为一级菜单，且子菜单选择子菜单时，此项可不填</p>
+        </li>
+        <li id="click_key" style="display:none;">
+            <span class="title_n">回复序号：</span>
+            <span class="ctx_n">
+            	<input id="m_key"  name="keyname" value="{$info.menu_string.reply}" style="width:200px;"/>
+            </span>
+        </li>
+        <li class=""><input type="button" id="news_submit" class="addNews_btn" value="保存"></li>
+    </ul>
+    <div class="event"></div>
+    </form>
+</div>
+<p class="err_tips" style="margin:10px;padding:5px 10px;border-radius:3px;border:1px solid #c93;background-color:#fea;width:100px;color:#e30;display:none;"></p>
+<script>
+mini.parse();
+function tipsShow($msg) {
+	mini.confirm($msg.msg, "提示",	function(action){
+			if(action=='ok'){
+				return;
+			};
+		}
+	);
+}
+	// 存储回复模板模板
+	function setMenuTemple($form){
+		var $temple_form = {
+			'name' 			: $form.name||$("#r_title").val(),
+			'type' 			: $form.type ||2,
+			'level' 		: $form.level||2,
+			'keyname'		: $form.keyname  ||"",
+			'menu_string'	: $form.menu_string  ||""
+		}
+		var $data = {};
+		$.ajax({
+			type : "POST",
+			url:"/cms/sysMenu/setMenu",
+			data:$temple_form,
+			dataType:"json",
+			async:false,
+			success: function($msg){
+				if($msg.err==0){
+					$(".err_tips").show();
+					$(".err_tips").html("<img src='__JS__/miniui/miniui/themes/icons/ok.png'> 添加成功！");
+				}else{
+					$(".err_tips").show();
+					$(".err_tips").html("<img src='__JS__/miniui/miniui/themes/icons/ok.png'> "+$msg.msg);
+				}
+			}
+		})
+		return $data;
+	}
+
+	function editMenu(){
+		var $id = "{$id}";
+			
+		var name   = $("#m_name").val();	
+		var mark   = $("#m_mark").val()||"{$info.mark}";	
+		var level  = $("#m_level").val();	
+		var $url   = $("#m_url").val();
+		var type   = $("#m_type").val();
+		var $reply = $("#m_key").val();
+		
+		$auth_key = $("#auth_check").is(":checked");
+		//组装授权URL
+		$auth_url = $auth_key?"https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri="+encodeURIComponent($url)+"&response_type=code&scope=snsapi_base&state=login#wechat_redirect":$url;
+		
+		$menu = {
+			'id' 	: $id,
+			'status': $("#m_status").val()||1,
+			'level' : level,
+			'mark'  : mark,
+			'name'  : name,
+			'type'  : type||2,
+			'keyname' : $url,
+			'menu_string' : {'name':name,'url':$auth_url,'type':'view','p':$("#m_menu").val()}
+		}
+		if($menu.type == 3){
+			$menu.menu_string.type ="click";
+			delete $menu.menu_string.url;
+			$menu.menu_string.reply =$reply;
+			$menu.menu_string.keyname =$menu.keyname;
+		};
+		var $url = "/cms/sysMenu/setMenu";
+		if("{$id}"){
+			$url = "/cms/sysMenu/editMenu";
+		}
+		$.post($url,$menu,function($msg){
+			if($msg.err==0){
+				$("[data-id="+$id+"]").attr("data-key",$msg.keyname);
+				$("[data-id="+$id+"]").attr("data-type",$msg.type);
+				tipsShow({'msg':'修改成功'})
+				setTimeout(function(){
+					CloseWindow("save");
+				},2000)
+			}else{
+				tipsShow({'msg':'编辑失败，'+$msg.msg})
+			}
+		})
+	}
+		
+	$("#m_type").change(function(){
+		var $val = $(this).val();
+		if($val==2){
+			$("#views_link").show();
+			$("#click_key").hide();
+		}else if($val==3){
+			$("#views_link").hide();
+			$("#click_key").show();
+		}else{
+			$("#click_key").show();
+			$("#click_key").hide();
+		}
+	});
+	+(function(){
+		$("#m_type").change();
+	}())
+	// 增加新图文模板提交
+	$("#news_submit").click(function(){
+		editMenu();
+	});
+	
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script>

@@ -1,0 +1,120 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	  <div title="基本信息" class="form" id="editForm">
+		<input class="mini-hidden" name="id" value="{$data.id}"/>
+		<table width="100%" border="0" cellpadding="1" cellspacing="2">
+			<!-- <span id="catgrade">共【{$data.catgrade}分】</span> -->
+			<tr>
+				<td>信用分类：</td>
+				<td>
+                   <input name="cat_id" class="mini-combobox" data='{:setMiniConfig|$cat_name}' textField="name" valueField="id" value="{$data.cat_id}" style="width:120px;" required="true" onvaluechanged="setGrade(this.value)"/>                                    
+				</td><span id="catgrade">[分类总分]:【{$data.catgrade}】分，该分类下指标已有【{$sum}】分</span>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+            <tr>
+				<td>信用指标：</td>
+				<td><input name="lab_name" class="mini-textbox" style="width:150px" required="true" value="{$data.lab_name}"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>指标分数：</td>
+				<td><input name="lab_grade" class="mini-textbox" style="width:150px" blur="alert('v')" required="true" value="{$data.lab_grade}"/></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>指标说明：</td>
+				<td><input name="lab_desc" class="mini-textarea" style="width:200px" required="false"/ value="{$data.lab_desc}">
+				</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>			
+			<tr>
+				<td>备注</td>
+				<td><input name="remark" class="mini-textarea" style="width:200px" required="false"/ value="{$data.remark}">
+				</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			</table>
+			</div>
+			<div align="center" style="margin-top:10px;">
+				<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//增加后提交数据(保存)
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	var o = form.getData();
+	var json = mini.encode(o);
+	var callback=function(data){
+	if(data.err!='0'){
+	alert(data.msg);
+	return false;
+	}else{
+	CloseWindow('save');
+	}
+	}
+  utils.ajax('/user/creditlab/ajaxSave?action=edit',{data:json},callback,"POST","json");
+}
+
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+function setGrade(e){
+	// var data=JSON.stringify( $('#setform').serializeObject()  )  ;
+ // 	var jsonObj = JSON.parse(data);  
+ 	console.log(e);
+	var jsonObj={'id':e};
+	$.ajax({  //json对象
+		url:'/user/creditlab/sumgrade',
+		data:jsonObj,
+		type:'post',
+		dataType:'json',
+		success:function(e){
+				//grid.reload();
+	  				//admInfo.hide();
+	  				console.log(e.msg);
+	  				$('#catgrade').html(e.msg);
+	  				},  
+		error:function(e){alert(e)}  
+		});
+}
+//setGrade();
+
+// //强制选择归属公司
+// function usrChoose(e){
+// 	var btn = this;
+// 		mini.open({
+// 		url: "product/factory/init?do=search",
+// 		title: "选择公司",
+// 		width: 1200,
+// 		height: 550,
+// 		onload: function () {
+// 			var iframe = this.getIFrameEl();
+// 			iframe.contentWindow.SetData();
+// 		},
+// 		ondestroy: function (action) {
+// 			if (action == "ok") {
+// 				var iframe = this.getIFrameEl();
+// 				var data = iframe.contentWindow.GetData();
+// 				data = mini.clone(data);    //必须
+// 				if (data) {
+// 					btn.setValue(data.fid);
+// 					btn.setText(data.f_name);
+// 					$("#"+btn.id+"\\$value").val(data.fid);
+// 				}
+// 			}
+// 		}
+// 	});
+// }
+</script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>统计数据</title>
+	<script type="text/javascript" src="__JS__/jquery/jquery.js"></script>
+	<script type="text/javascript" src="__JS__/echarts.min.js"></script>
+</head>
+<body>
+	<div id="main8" style="width: 100%;height:500px;"></div>
+</body>
+<script type="text/javascript">
+		$(function(){
+		var myChart8 = echarts.init(document.getElementById('main8'));
+        // 指定图表的配置项和数据
+        var option8 = {
+            title: {
+                text: '节目投票'
+            },
+            tooltip: {},
+            legend: {
+                data:['票数']
+            },
+            xAxis: {
+            	axisLabel: {
+               	initnterval: 0,
+               	rotate: 20,
+           		},
+                data: {$name}
+            },
+            yAxis: {},
+            series: [{
+                name: '票数',
+                type: 'bar',
+                data: {$v_score}
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart8.setOption(option8);
+		});
+</script>
+</html>

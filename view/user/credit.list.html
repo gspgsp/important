@@ -1,0 +1,268 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+                <a class="mini-button" iconCls="icon-addnew" plain="true" onclick="add()">新增</a>
+                <span class="separator"></span>
+                <a class="mini-button" iconCls="icon-edit" plain="true" onclick="edit()">编辑</a>
+                <span class="separator"></span>
+                <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+            </td>
+            <td style="float:right;">
+                <form id="soform">
+                <span id="searchMsg" style="margin-left:30px;float:left;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnterFilter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="searchFilter()">查询</a>
+                <!-- <span id="searchMsg"></span> -->
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+<div class="mini-fit" style="padding:3px;">
+    <div id="cellList" class="mini-treegrid" style="width:100%;height:100%;"
+        showTreeIcon="true" expandOnLoad="true" expandOnDblClick="false" onnodedblclick="onRowDblClick"
+        treeColumn="Treename" idField="id" parentField="pid" resultAsTree="false"  
+        allowResize="false"  fitColumns="false">
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div name="Treename" field="name" width="80" headerAlign="center">名称</div>
+            <div field="grade" width="30" headerAlign="center" align="center">分数</div>
+            <div field="remark" width="120" headerAlign="center" align="center">备注</div>
+            <div field="id" width="50" align="center" headerAlign="center">ID</div>
+            <div field="pid" width="0" align="center" headerAlign="center">pid</div>
+            <div field="input_time" width="80" headerAlign="center" align="center" dateFormat="yyyy-MM-dd">创建日期</div>
+            <div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
+            <div field="update_time" width="80" headerAlign="center" align="center" dateFormat="yyyy-MM-dd">更新日期</div>
+            <div field="update_admin" width="50" headerAlign="center" align="center">创建者</div>
+            <div name="action" width="80" headerAlign="center" align="center" renderer="onLoadHandle" cellStyle="padding:0;">状态</div>	        
+        </div>
+    </div>
+</div>
+<div id="cellInfo" class="mini-window" title="设置角色" style="width:300px;" 
+    showModal="true" allowResize="true" allowDrag="true"
+    >
+    <div id="addForm" class="form" >
+        <table style="width:100%;">
+        	<input class="mini-hidden" name="role_id"/>
+            <tr>
+                <td style="width:70px;">名称：</td>
+                <td><input name="name" class="mini-textbox" value="" required="true"/></td>
+            </tr>
+            <tr>
+                <td>所属类：</td>
+                <td><input name="pid" class="mini-combobox" allowInput="false" textField="name" valueField="id" showNullItem="true"/></td>
+            </tr>
+             <tr>
+                <td>分数：</td>
+                <td><input name="grade" class="mini-textbox" value="" required="true"/></td>
+            </tr>
+            <tr>
+                <td>备注：</td>
+                <td><input name="remark" class="mini-textarea" style="width:200px;" vtype="minLength:2" required="true" minLengthErrorText="不能少于2个字符" value=""/>
+                </td>
+            </tr>
+          <tr>
+              <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+                 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+              </td>                
+          </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("cellList");
+var data={$data}; //数据对象
+console.log(data);
+grid.loadList(data, "id", "pid");
+var pid=mini.getbyName('pid'); //Info中PID
+pid.setData(data);
+
+
+
+//追加操作按钮
+function onLoadHandle(e) {
+  var record = e.record, state = record.status, s='',changeid = record.id;
+	if(state==2){
+		s += "<a href='javascript:changeState("+changeid+")'>禁用</a>";
+	}else{
+		s +="<a href='javascript:changeState("+changeid+")'>正常</a>";
+	}
+  return s;
+}
+
+//切换状态
+function changeState(changeid,status){
+	$.ajax({
+		type:"post",
+		url:"/user/credit/changeSave",
+		data:{changeid:changeid},
+		dataType:"json",
+		success:function(data){
+			if(data.err=='0'){
+			 // var grid = mini.get("cellList");
+			 //  grid.reload();
+			  window.location.reload();
+			  //search();
+			}else{
+			  alert(data.msg)
+			  return false;
+			}
+		}
+	})
+}
+
+//新增/编辑
+var cellInfo = mini.get("cellInfo");
+function add() {
+	console.log('function add');
+	var form = new mini.Form("#addForm");
+	form.clear();
+	mini.getbyName('role_id').setValue('');	
+	cellInfo.show();
+}
+function onRowDblClick(e) {
+	edit();
+}
+function edit() {
+	var row = grid.getSelectedNode();
+	if (row) {
+		mini.getbyName('role_id').setValue(row.id);	
+		mini.getbyName('name').setValue(row.name);
+		mini.getbyName('grade').setValue(row.grade);	
+		mini.getbyName('remark').setValue(row.remark);	
+		prow=grid.getParentNode(row);
+		pid.setValue(row.pid);
+		//pid.setValue(4);
+		console.log(row);
+		cellInfo.show();
+	}
+}
+function submitForm(){
+	var form = new mini.Form("#addForm");
+	form.validate();
+	if (form.isValid() == false) return;
+
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg)
+			return false;
+		}else{
+			window.location.reload();
+			cellInfo.hide(); 
+		}
+	}
+	var id=mini.getbyName('role_id').getValue();
+	console.log(id);
+	var action=id ? 'edit?id='+id : 'add';
+	utils.ajax('/user/credit/'+action,{data:json},callback,"POST","json");
+}
+
+
+
+
+//删除
+function remove() {
+	var row = grid.getSelectedNode(),id=row.id;
+	mini.confirm("确定删除？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		
+			if(data.result){
+				width=300;
+				title="操作完成";
+				iconCls = 'mini-messagebox-warning';
+				html = '以下分类存在指标无法删除,【ID】：';
+				$.each(data.result,function(k,v){
+					html += k+" &nbsp;";
+				});
+				html+="";
+					mini.showMessageBox({
+					showHeader: false,
+					width: width,
+					title: title,
+					buttons: ["ok"],
+					html: html,
+					iconCls: iconCls
+				});
+			}
+			window.location.reload();
+			
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/user/credit/remove',{ids:id},callback,"POST","json");
+  });
+}
+
+
+function messageSet(e){
+	// var data=JSON.stringify( $('#setform').serializeObject()  )  ;
+ // 	var jsonObj = JSON.parse(data);  
+	var jsonObj={'id':e};
+	$.ajax({  //json对象
+		url:'/user/credit/sumGrade',
+		data:jsonObj,
+		type:'post',
+		dataType:'json',
+		success:function(e){
+				//grid.reload();
+	  				//admInfo.hide();
+	  				console.log(e.msg);
+	  				$('#searchMsg').html(e.msg);
+	  				},  
+		error:function(e){alert(e)}  
+		});
+}
+
+messageSet();
+// function messageSet(){
+// 	grid.load($("#soform").serializeObject(),function(e){
+// 	$("#searchMsg").html(e.msg);
+//   });
+// }
+
+// function search() {
+//   grid.load($("#soform").serializeObject(),function(e){
+// 	$("#searchMsg").html(e.msg);
+//   });
+// }
+// search();
+// function onKeyEnter(e) {
+//   search();
+// }
+
+
+
+function onKeyEnterFilter(e) {
+	searchFilter();
+}
+function searchFilter(){
+	var key = mini.getbyName("keyword").getValue();
+	if(key == "") {
+		grid.clearFilter();
+	} else {
+		key = key.toLowerCase();
+		grid.filter(function (node) {
+			var name = node.name ? node.name.toLowerCase() : "";
+			var remark = node.remark ? node.remark.toLowerCase() : "";
+			if (name.indexOf(key) != -1 || remark.indexOf(key) != -1) {
+				return true;
+			}
+		});
+	}
+}
+
+
+</script>

@@ -1,0 +1,287 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+#infoForm{margin:0px auto; padding:6px; width:800px;}
+td.dt{width:80px; text-align:right; font-weight:bold;}
+#errMsg{ display:none; border:3px solid #F00; padding:5px; background:#FFC;}
+td a.add,td a.del{cursor:pointer; color:#36F;}
+.hidden {display:none;}
+</style>
+<form id="infoForm">
+	<input type="hidden" name="id" id="judge" value="{$info.id}"/>
+	<div class="mini-tabs" activeIndex="0" plain="false">
+		<div title="基本信息">
+		<table style="width:100%;">
+				<tr>
+					<td class="dt">名称</td>
+					<td>
+						<input name="info[title]" class="mini-textbox" value="{$info.title}" style="width:300px" required="true"/>
+					</td>
+					<td rowspan="4" width="150"> 
+						<span style="display:none;" id="picLoading">loading...</span>
+						<div id="picDisplay" style="width:80px; height:80px; border:1px solid #efefef; padding:1px;  text-align:center; vertical-align:middle;">
+							{if $info.img}<img src="__UPLOAD__/{$info.img}" width="80">{/if}
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="dt">热门</td>
+					<td>
+					 	<input name="info[hot]" id="hot" onvaluechanged="hotEvent()" class="mini-combobox" valueField="id" textField="name" value="{$info.hot}" data='[{"id":"0","name":"否"},{"id":"1","name":"是"}]' required="true"/>
+					</td>
+				</tr>
+
+				<tr id="img" {if $info.hot == 0 }class="hidden"{/if}>
+					<td class="dt">图片</td>
+					<td>
+						<input id="img_url"  name="info[img]" class="mini-textbox" value="{$info.img}" style="width:300px"/>
+						<input id="upfileId" type="file" name="upFile" onChange="fileUpload();">
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="dt">作者</td>
+					<td>
+						<input id="author"  name="info[author]" class="mini-textbox" value="{$info.author}" style="width:150px"/>
+					</td>
+				</tr>
+
+				<tr  class="hidden">
+					<td class="dt">缩略图</td>
+					<td>
+						<input id="sm_img"  name="info[sm_img]" class="mini-textbox" value="{$info.sm_img}" style="width:150px"/>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="dt">信息来源</td>
+					<td>
+						<input id="source"  name="info[source_from]" class="mini-textbox" value="{$info.source|default:本站原创}" style="width:150px"/>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="dt" >外链URL</td>
+					<td>
+						<input name="info[link_url]" vtype="url" class="mini-textbox" value="{$info.link_url}" style="width:300px"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="dt" >排序值</td>
+					<td>
+						<input name="info[sort_order]" vtype="int" class="mini-textbox" value="{$info.sort_order|default:0}" style="width:100px"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="dt" >文章类型</td>
+					<td>
+						<input name="info[type]" vtype="int" class="mini-radiobuttonlist" textField="textField" valueField="valueField" value="{$info.type|default:public}" data='{:json_encode|$newsType}' />
+					</td>
+				</tr>
+			 	<tr>
+					<td valign="top" class="dt">分类</td>
+					<td> 
+						<input id="oneLevel" name="info[cate_id][]" class="mini-combobox" valueField="cate_id" textField="cate_name"  data='{:json_encode|$cate}' required="true" onvaluechanged="getSecondLevel" value="{$cate_ids[0]}" />
+						<input id="secondLevel" onvaluechanged="getThreeLevel" style="display:none;" name="info[cate_id][]" class="mini-combobox"  valueField="cate_id" textField="cate_name" value="{$cate_ids[1]}" />
+						<input id="threeLevel" style="display:none;" name="info[cate_id][]" class="mini-combobox" valueField="cate_id" textField="cate_name" onvaluechanged="setThreeValue(0)" value="{$cate_ids[2]}" />
+					</td>
+			  	</tr>
+					
+						
+
+			  	<tr>
+					<td valign="top" class="dt">详情描述</td>
+					<td colspan="2">  
+						<textarea id="content" name="info[content]" style="width:660px; height:300px;">
+							{$info.content}
+						</textarea>
+					</td>
+				</tr>
+			</table>
+	  	</div>
+		<div title="SEO信息">
+		<table style="width:100%;">
+				<tr>
+					<td class="dt">SEO关键词</td>
+					<td>
+						<input name="info[keywords]" class="mini-textbox" value="{$info.keywords}" style="width:450px"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="dt">SEO描述</td>
+					<td>
+						<input name="info[description]" class="mini-textarea" style="width:600px;height:50px; font-size:12px;" value="{$info.description}"/>  
+					</td>
+				</tr>
+		  </table>
+		</div>
+	</div>
+		<div style="text-align:center;padding:10px;">
+		   	<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+		   	<a class="mini-button" iconCls="icon-ok" onclick="repeatSubmit">重新发布</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div> 
+</form>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+function hotEvent(){
+	var val = mini.get('hot').getValue();
+	if(val == 1){
+		$("#img").removeClass('hidden');
+	}else{
+		$("#img").addClass('hidden');
+		mini.get('img_url').setValue('');
+	}
+
+}
+
+function submitForm(n){
+	var form = new mini.Form("#infoForm");            
+	var data = form.getData();     
+	var json = mini.encode(data); 
+	  console.log(json);
+	  if(form.isValid() == false) return;
+	  form.loading("数据提交中，请稍后......");
+
+	  $.post('/system/news/{$action}?action=info&repeat='+n,
+	  	$("#infoForm").serialize(),
+	  	function(data){
+		  form.unmask();
+		  $("#returnMsg").text(data.msg);
+		  if(data.err=='0'){
+			  CloseWindow("save");
+		  }else{
+			  return false;
+		  }
+	  },'json');
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+function repeatSubmit(){
+	$('#judge').val('');
+	submitForm(1);
+}
+var editor1=editor2=null;
+KindEditor.ready(function(K) {
+  editor1 = K.create('textarea[id="content"]', {uploadJson : '/system/sysUpload/images?from=kind',afterCreate : function() {},afterChange:function (e) { this.sync() }});
+});
+
+$(function(){
+	imgResize();	   
+})
+
+function fileUpload() {
+	$("#picLoading").ajaxStart(function(){
+		$(this).show();
+	}).ajaxComplete(function() {
+		$(this).hide();
+	});
+	$.ajaxFileUpload({
+		url:"/system/sysUpload/images?model={$action}&thumb_size=80x100",
+			secureuri:false,
+			fileElementId:'upfileId',
+			dataType: 'json',
+			success: function (data, status) {
+				if(data.err=='0'){
+					console.log(data);
+					mini.get("img_url").setValue(data.msg.img);
+					mini.get("sm_img").setValue(data.msg.sm_img);
+					$("#picDisplay").html('').append("<img src='__UPLOAD__/"+data.msg.img+"'>");
+					imgResize();
+				}
+			},
+			error: function (data, status, e){
+				$("#picResult").html(e);
+			}
+		}
+	)
+	return false;
+}
+function imgResize(){
+	$("#picDisplay img").load(function(){
+		if(this.width>80) this.width = 80;				 
+	});
+}
+function getSecondLevel(){
+	var id= mini.get('oneLevel').getValue();
+	$.ajax({
+	     type: 'post',
+	     url: '/system/news/getCate?pid='+id ,
+	     data: {} ,
+	     success: function(data){
+	     	if(data.length>0){
+	     		$("#secondLevel").css("display","inline-block");
+	    		mini.get('secondLevel').setData(data);
+	    		mini.get('threeLevel').setData({});
+	    		$("#threeLevel").css("display","none");
+	     	}else{	
+	     		mini.get('secondLevel').setData({});
+	     		mini.get('threeLevel').setData({});
+	     		$("#secondLevel").css("display","none");
+	     		$("#threeLevel").css("display","none");
+	     		mini.get('secondLevel').setValue('');
+	     		mini.get('threeLevel').setValue('');
+	     	}
+	    } ,
+	    dataType: 'json'
+	});
+	mini.get('oneLevel').setValue(id);
+}
+var n=-1;
+function getThreeLevel(){
+	var id= mini.get('secondLevel').getValue();
+	$.ajax({
+	     type: 'post',
+	     url: '/system/news/getCate?pid='+id ,
+	     data: {} ,
+	     success: function(data){
+	     	if(data.length>0){
+	     		$("#threeLevel").css("display","inline-block");
+	    		mini.get('threeLevel').setData(data);
+	     	}else{
+	     		mini.get('threeLevel').setData({});
+	     		$("#threeLevel").css("display","none");
+	     		mini.get('threeLevel').setValue('');
+	     	}
+
+	    } ,
+	    dataType: 'json'
+	});
+	mini.get('secondLevel').setValue(id);
+	n++;
+	setThreeValue(n);
+}
+function setThreeValue(n){
+	if(n==0){
+		var id= mini.get('threeLevel').getValue();
+	}else{
+		var id= '';
+	}
+	mini.get('threeLevel').setValue(id);
+}
+function select(){
+	var second=mini.get('secondLevel').getValue();
+	var three=mini.get('threeLevel').getValue();
+	//显示并选中二级分类
+	if(second!=''){		
+		getSecondLevel();		
+	}
+	//显示并选中三级分类
+	if (three!='') {
+		getThreeLevel();
+	}
+}
+select();
+</script>

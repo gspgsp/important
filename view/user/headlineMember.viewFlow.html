@@ -1,0 +1,46 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+#infoForm{margin:0px auto; padding:6px; width:950px;}
+table{border-collapse: collapse; text-align: center;}
+td{width:60px;border:1px solid #ccc;}
+#head td{font-weight:bold;}
+#errMsg{ display:none; border:3px solid #F00; padding:5px; background:#FFC;}
+</style>
+<form id="infoForm">
+	<div class="mini-tabs" activeIndex="0" plain="false">
+		<div title="基本信息">
+		<table style="width:100%;">				
+				<tr id="head">	
+					<td>客户名称</td>
+					<td>电话</td>	
+					<td>会员经办人</td>
+					<td>操作类型</td>
+					<td>年数</td>			
+					<td>起始时间</td>					
+					<td>终止时间</td>
+					<td>操作时间</td>
+				</tr>
+				{if $data}
+				{foreach from=$data item=v}	
+				<tr>
+					<td>{$v[c_name]}</td>
+					<td>{$v[mobile]}</td>
+					<td>{$v[sale_name]}</td>
+					<td>{if $v[type]==1}开通{else}删减{/if}</td>
+					<td>{if $v[year_num]==99}一键清空{else}{$v[year_num]}{/if}</td>
+					<td>{$v[start_time]|date:Y-m-d H:i}</td>
+					<td>{$v[end_time]|date:Y-m-d H:i}</td>
+					<td>{$v[input_time]|date:Y-m-d H:i}</td>
+				</tr>				
+				{/foreach}
+				{else}
+				<tr>
+					<td colspan="5">
+						没有会员开通记录！
+					</td>
+				</tr>
+				{/if}
+			</table>
+	  	</div>
+	</div>
+</form>

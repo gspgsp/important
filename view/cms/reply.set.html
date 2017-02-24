@@ -1,0 +1,753 @@
+{layout file="public:main_layout"}
+{insert_css files='set_reply.css?'}
+{insert_js files='touch/common.js'}
+<div id="_content">
+    <div class="rule_title">
+        <span>规则标题：</span>
+        <span><input type="text" name="title" id="r_title" /></span>
+    </div>
+    <div class="input_ctx">
+        <h2>输入</h2>
+        <ul class="input_list">
+            <li>
+                <span>用途：</span>
+                <select name="use_type" id="use_type">
+                    <option value="1">欢迎语</option>
+                    <option value="2" selected="selected">自动回复</option>
+                </select>
+            </li>
+            <li>
+                <span>类型：</span>
+                <select name="input_type" id="input_type">
+                    <option value="1" data-show="input_txt">文本</option>
+                    <option value="2" data-show="input_regexp">正则表达式</option>
+                    <option value="3">图片</option>
+                </select>
+            </li>
+            
+        </ul>
+        
+        <div class="input_txt cm_input" id="input_txt" style="display:block;">
+            <h4>内容</h4>
+            <span><input type="text" id="input_string" name="input_string" class="r_text" /></span>
+            <span class="t_contains"><input type="checkbox" id="t_contains" checked="checked" /><label for="t_contains">包含</label></span>
+        </div>
+        <div class="input_regexp cm_input" id="input_regexp">
+            <h4>
+            	<span>组合正则表达式</span>
+            	<input type="checkbox" name="re_contain" id="re_contain" checked="checked" />
+                <label>包含</label>
+            </h4>
+            <ul class="reg_ctx" data-reply="input_string">
+                <li>
+                    <span class="label_t">
+                        <input type="checkbox" name="type_number" id="type_number" />
+                        <label for="type_number">数字</label>
+                    </span>
+                    <span>
+                        <select id="se_number" name="number" class="c_in_nums">
+                            <option value="rnd">随机位数</option>
+                            <option selected="selected" value="input">固定位数</option>
+                        </select>                        
+                    </span>
+                    <span class="in_nums"><label>输入位数：</label><input type="tel" class="r_nums" /></span>
+                </li>
+                <li>
+                    <span class="label_t">
+                        <input type="checkbox" name="type_word" id="type_word" />
+                        <label for="type_word">字母</label>
+                    </span>
+                    <span>
+                        <select id="se_word" name="word" class="c_in_nums">
+                            <option value="rnd">随机位数</option>
+                            <option selected="selected" value="input">固定位数</option>
+                        </select>                        
+                    </span>
+                    <span class="in_nums"><label>输入位数：</label><input type="tel" class="r_nums" /></span>
+                </li>
+                <li>
+                    <span class="label_t">
+                        <input type="checkbox" name="type_text" id="type_text" />
+                        <label for="type_text">文本</label>
+                    </span>
+                    <span><input type="text" id="reg_text" class="r_text" /></span>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+    <div class="reply_ctx">
+        <h2>回复</h2>
+        <div class="type_choose">
+            <span>回复类型</span>
+            <span>
+                <select id="reply_type">
+                    <option value="1">文本</option>
+                    <option value="2">图文</option>
+                </select>
+            </span>
+            <span class="rnd_mark1" style="display:none;"><input type="checkbox" id="random" />随机回复</span>
+        </div>
+        
+        <div class="reply_txt cm_reply" id="reply_txt" style="display:block;">
+            <h3>文本回复 <a href="javascript:void(0)" class="cblue" id="hide_rmlist">选择序号输入</a></h3>
+            <div id="txt_rm_list" class="news_list" style="width:100%;margin-bottom:15px;">
+				{if $tpages}<div class="page_list">{$tpages}</div>{/if}
+                <table id="text_list">
+                    <colgroup>
+                        <col width="40px" />
+						<col width="40px" />
+                        <col width="100px" />
+                        <col width="150px" />
+                        <col width="500px" />
+                    </colgroup>
+                	<tr id="rtable_text">
+                    	<th>请勾选</th>
+						<th>序号</th>
+                        <th>发布时间</th>
+                    	<th>文字链接</th>
+                    	<th>回复文本</th>
+                    </tr>
+                    {foreach from=$tlist key=k item=v}
+                	<tr>
+                    	<td><input type="checkbox" value="{$v[id]}" name="news_{$v[id]}" class="txt_reply_checkbox" /></td>
+						<td>{$v[id]}</td>
+                        <td>{$v[create_time]}</td>
+                    	<td>{$v[link]}</td>
+                    	<td align="left">{$v[reply]}</td>
+                    </tr>
+                    {/foreach}
+                </table>
+				{if $tpages}<div class="page_list">{$tpages}</div>{/if}
+            </div>
+			<div class="i_numbers" id="t_number" style="display:none">
+				<input type="text" placeholder="请输入模板序号" id="text_number" />
+			</div>
+			
+            <div class="reply_list" id="reply_list">
+            	<h4>添加一条新文本回复模板</h4>
+                <div class="txt_item" data-t="1">
+                	<form method="post" action="">
+                    <div class="r_main">
+                        <span>回复内容</span>
+                        <span><textarea rows="2" name="t1_reply_string" class="reply_textarea" id="reply_textarea"></textarea></span>
+                    </div>
+                    <div class="r_link">
+                        <h5 style="font-weight:normal;">添加文字链接</h5>
+                        <ul id="extra_link_t1">
+                           <li data-link="1">
+                                <div class="l_wrd"><label>文字<em>1</em>：</label><input type="text" name="t1_word" placeholder="链接文字" /></div>
+                                <div class="l_url"><label>链接<em>1</em>：</label><input type="text" name="t1_link" /></div>
+                           </li>
+                        </ul>
+                        <div class="add_link" style="margin-bottom:10px;"><a href="javascript:void(0);" class="cblue add_extra">新增文字+链接</a></div>
+                    </div>
+                    <div class="save_btn"><span class="cm_btn" onclick="saveTemple(this)">保存文本模板</span></div>
+                    </form>
+                </div>
+            </div>
+            <!--
+            <div class="add_reply add_txt_line" style="display:none;"><a href="javascript:void(0);" class="cblue" id="add_extra_txt">新增文本回复</a></div>
+            -->
+            
+        </div>
+        <!-- 图文消息区域 -->
+        <div class="reply_news cm_reply" id="reply_news">
+            <h3>图文选择 <a href="javascript:void(0)" class="cblue" id="hide_rnlist">选择序号输入</a></h3>
+            <div class="news_list" id="news_rn_list" style="width:100%;">
+				{if $npages}<div class="page_list">{$npages}</div>{/if}
+                <table id="news_rlist">
+                    <colgroup>
+                        <col width="60px" />
+						<col width="60px" />
+                        <col width="120px" />
+                        <col width="240px" />
+                    </colgroup>
+                    <tr id="rtable_title">
+                        <th>请勾选</th>
+						<th>模板序号</th>
+                        <th>发布时间</th>
+                        <th>封面标题</th>
+						<th>图文描述</th>
+                    </tr>
+                    {foreach from=$lists key=k item=v}
+                    <tr>
+                        <td><input type="checkbox" value="{$v[id]}" name="text_{$v[id]}" class="news_reply_checkbox" /></td>
+						<th>{$v[id]}</th>
+                        <td>{$v[create_time]}</td>
+                        <td>{$v[title]}</td>
+						<td>{$v[views]}</td>
+                    </tr>
+                    {/foreach}
+                </table>
+				{if $npages}<div class="page_list">{$npages}</div>{/if}
+            </div>
+			<div class="i_numbers" id="i_number" style="display:none">
+				<input type="text" placeholder="请输入模板序号" id="news_number" /><br />
+				<label>注：以空格或逗号分隔，第一个输入的序号默认为头图模板</label>
+			</div>
+			
+            <div class="add_reply"><a href="javascript:void(0);" class="cblue add_news">新增回复图文模板</a></div>
+            <div class="news_set" style="display:none;">
+                <form action="" method="post" id="news_temple">
+                <ul>
+                    <li>
+                        <span class="title_n">标题：</span>
+                        <span class="ctx_n"><input type="text" name="title" id="n_title" /></span>  
+                    </li>
+                    <li>
+                        <span class="title_n">链接：</span>
+                        <span class="ctx_n"><input type="text" name="link" id="n_link" /></span>  
+                    </li>
+                    <li>
+                        <span class="title_n">图片链接：</span>
+                        <span class="ctx_n"><input type="text" name="imgurl" id="n_imgurl" /></span>  
+                    </li>
+                    <li>
+                        <span class="title_n">描述：</span>
+                        <span class="ctx_n"><textarea rows="2" name="desc" id="n_desc"></textarea></span>  
+                    </li>
+                    <li class=""><input type="button" id="news_submit" class="addNews_btn" value="添加"></li>
+                </ul>
+                </form>
+            </div>
+            
+        </div>
+        <div class="mini-toolbar" style="margin:10px 0 0; width:380px;">
+            <table>
+                <tr>
+                    <td style="float:">
+                        <form id="soform">
+                        <span>回复生效时间：</span>
+                        <input name="create_time" class="mini-datepicker" style="width:100px;" id="create_time"/> -
+                        <input name="expire_time" class="mini-datepicker" style="width:100px;" id="expire_time"/>
+                        </form>
+                    </td>
+               </tr>
+            </table>
+        </div>
+        
+        <div class="reply_submit">
+            <span id="submit" onclick="setReply()">设置好了，添加</span>
+        </div>
+    </div>
+
+</div>
+<script>
+mini.parse();
+		// 构造提交表单
+		var $reply_form = {
+			'id'		 : "{$info.id}",
+			'use_type'	 : 2, //自动回复类型
+			'input_type' : 1, //输入类型
+			'title'		 : "",//回复标题
+			'reply_type' : 1, //回复类型
+			'input_string' : "",
+			'reply_string' : "",
+			'reply_rand' : 0,
+			'create_time': 0,
+			'expire_time': 0
+		}
+		var rday = new Date();
+		var $reply_string = {};
+		var $input_string = {
+				'contain':1,
+				'regexp':{'num':'','wrd':'','txt':''},
+				'txt':''
+			};
+			
+		// 存储回复模板模板
+		function setTxtTemple($form){
+			var $temple_form = {
+				'title' 		: $form.title||"",
+				'create_time'   : $form.create_time||0,
+				'expire_time'   : $form.expire_time||0,
+				'template_type' : $form.template_type||1,
+				'template_string' : $form.template_string||""
+			}
+			var $data = {};
+			$.ajax({
+				type : "POST",
+				url:"/cms/sysCms/setTemple",
+				data:$temple_form,
+				dataType:"json",
+				async:false,
+				success: function($msg){
+					$data= $msg;
+					tipsShow($msg);
+				}
+			})
+			// 存入模板
+			//$.post("/cms/sysCms/setTemple",$temple_form,function($msg){
+			//},false);
+			return $data;
+		}	
+		
+		function saveTemple(obj){
+			// 构建文本回复模板
+			$temp_str={
+				'title' 		  : "",
+				'template_type'   : 1,
+				'template_string' : "",
+			}
+			var $input_str = {
+				};
+				
+			if($("[data-t=1]").find("textarea").val()==""){
+				return false;
+			}
+			// 附带链接的文字
+			$reply_str = {};
+			$reply_str['reply'] = $("[data-t=1]").find(".reply_textarea").val();
+			$reply_str['link'] = [];
+				
+			// 获取当前文本回复项带链接的数量
+			var objitem = $("#extra_link_t1 li");
+			var len = $(objitem).length;
+			var wrd = "",url="";
+			for(var j=0;j<len;j++){
+				wrd = $(objitem).eq(j).find(".l_wrd input").val();
+				url = $(objitem).eq(j).find(".l_url input").val()
+				if(url==""||wrd=="") continue;
+				
+				// 文字链接输入框不为空，赋值进链接数组
+				$reply_str['link'].push({
+					'wrd':wrd,
+					'url':url
+				});
+				$temp_str.title += wrd+","
+			}
+			
+			$temp_str.template_string = $reply_str;	
+			// 存储模板
+			$msg = setTxtTemple($temp_str);
+			
+			buildList($msg);
+		} 
+		
+		function buildList($data){
+			
+			if($data.err==0){
+				var str = "";
+				str += "<tr>"; 
+				str += "<td><input type='checkbox' name='txt_'"+$data.data.id+" value='"+$data.data.id+"' class='txt_reply_checkbox'/></td>";
+				str +="<td>"+formatTime(parseInt($data.data.create_time)*1000,3)+"</td>";
+				if($data.data.template_string['link'].length>0){
+					var len = $data.data.template_string['link'].length;
+					var list = $data.data.template_string['link'];
+					var l_str = "",r_str=$data.data.template_string['reply'];
+					for(var i=0;i<len;i++){
+						l_str = '<a href="'+list[i].url+'" class="blue">'+list[i].wrd+'</a>';
+						r_str = r_str.replace(list[i].wrd,'<a href="'+list[i].url+'" class="blue">'+list[i].wrd+'</a>');
+					}
+					str +="<td>"+l_str+"</td>";
+					str +="<td>"+r_str+"</td>";
+				}else{
+					str +="<td></td>";
+					str +="<td>"+$data.data.template_string['reply']+"</td>";
+				}
+				str +="</tr>";
+				
+				$("#rtable_text").after(str);
+			}
+		}
+		
+		// 正则表达式的规则
+		function getRules(){
+			var input = "";
+			input +="{"
+			if($("#type_number").is(":checked")){
+				if($('#se_number').val()=="rnd"){
+					$input_string.regexp.num = '1';
+				}else{
+					$input_string.regexp.num = $("#type_number").parents('li').find(".r_nums").val();
+				}
+				input +="'contain':"+$input_string.contain+",";
+				input +="'regexp':{'num':"+$input_string.regexp.num+",";
+			}
+			if($("#type_word").is(":checked")){
+				if($('#se_word').val()=="rnd"){
+					$input_string.regexp.wrd = '1';
+				}else{
+					$input_string.regexp.wrd = $("#type_word").parents('li').find(".r_nums").val();
+				}
+				input +="'wrd':'"+$input_string.regexp.wrd+"',";
+			}
+			if($("#type_text").is(":checked")){
+				$input_string.regexp.txt = $("#type_text").parents('li').find(".r_text").val();
+				input +="'txt':'"+$input_string.regexp.txt+"'";
+			}
+			input +="},}";
+			delete $input_string.txt;
+			$reply_form.input_string = $input_string;
+		}
+		function getReplyString(){
+			var $reply_str = "",$nstr="";
+			if($("#txt_rm_list").is(":visible")){
+				// 循环组装模板id,注：不管回复是否是随机回复，存入模板id都是多数的；
+				$(".txt_reply_checkbox").each(function() {
+					if($(this).is(":checked")){
+						$reply_str +=$(this).attr("value")+",";
+					}
+				})
+				$reply_str = $reply_str.replace(/,$/,"");
+			}
+			if($("#t_number").is(":visible")){
+				$nstr = $.trim($("#text_number").val());
+				$nstr = $nstr.replace(/[,|，|\s]/g,",");
+				$nstr = $nstr.replace(/\w/g,"");
+			}
+			$reply_form.reply_string = $reply_str||$nstr;
+		}
+		
+		// 获取附带的图文链接
+		function getLink(){
+			/*
+			// 回复附带文字链接
+			var reply="{";
+			var len1 = $("[data-t]").length;
+			for(var i=0;i<len1;i++){
+				// 回复内容为空，继续下个循环
+				if($("[data-t]").eq(i).find("textarea").val()=="") continue;
+				var attr = $("[data-t]").eq(i).attr('data-t');
+					attr = String(attr);
+				
+				// 附带链接的文字
+				$reply_string[attr] = {};
+				 reply +="{"
+				$reply_string[attr]['link'] = [];
+				
+				// 获取当前文本回复项带链接的数量
+				var objitem = $("#extra_link_t"+(i+1)+" li");
+				var len = $(objitem).length;
+				reply +="'link':["
+				for(var j=0;j<len;j++){
+					// 文字链接输入框不为空，赋值进链接数组
+					if($(objitem).eq(j).find(".l_wrd input").val()!=""&&$(objitem).eq(j).find(".l_url input").val()!=""){
+						$reply_string[attr]['link'].push({
+							'wrd':$(objitem).eq(j).find(".l_wrd input").val(),
+							'url':$(objitem).eq(j).find(".l_url input").val()
+						});
+						reply +="{"
+						reply +="'wrd':'"+$(objitem).eq(j).find(".l_wrd input").val()+"',"; 
+						reply +="'url':'"+$(objitem).eq(j).find(".l_url input").val()+"'";
+						reply +="}";
+					}
+				}
+				reply +="],";
+				$reply_string[attr]['reply'] = $("[data-t]").eq(i).find("textarea").val();
+				reply += "'reply':'"+$("[data-t]").eq(i).find("textarea").val()+"'";
+				reply +="},";
+			}
+			reply +="}";
+			
+			$reply_form.reply_string = $reply_str;
+			// 构建文本回复模板
+			$txt_temp={
+				'title' 		  : $reply_form.title,
+				'template_type'   : 1,
+				'template_string' : $reply_string,
+			}
+			// 存储模板
+			setTxtTemple($txt_temp);
+			*/
+		}
+		// 文本回复选择
+		$(".txt_reply_checkbox").each(function() {
+			$(this).click(function(){
+				if($reply_form.reply_rand==0){
+					$(".txt_reply_checkbox").not(this).attr("checked",false);
+				}
+			});
+		});
+		
+		// 为新添加的元素绑定方法
+		function listenDel(){
+			$(".del").click(function(){
+				$(this).parent().remove();
+			});
+		}
+		
+		function getNewsStr(){
+			var $arr = [],$str="",$nstr="";
+			if($("#news_rn_list").is(":visible")){
+				$(".news_reply_checkbox").each(function(){
+					if($(this).is(":checked")){
+						if($arr.length<10){
+							$arr.push($(this).attr("value"));
+							$str +=$(this).attr("value")+","
+						}
+					}
+				});
+			}
+			$str = $str.replace(/,$/,"");
+			if($("#i_number").is(":visible")){
+				$nstr = $.trim($("#news_number").val());
+				$nstr = $nstr.replace(/[,|，|\s]/g,",");
+				$nstr = $nstr.replace(/\w/g,"");
+			}
+			$reply_form.reply_string = $str||$nstr;
+		}
+		
+		function setReply(){
+			var submitKey = false;
+			$reply_form.use_type = $("#use_type").val();
+			// 文本的时候，检查各条文本
+			if($reply_form.reply_type ==1){
+				getReplyString();
+				if($reply_form.reply_string!=""){
+					submitKey = true;
+				}
+				 /*// 检查回复
+				for(i in $reply_form.reply_string){
+					if($reply_string[i]&&$reply_string[i]['reply']!=""){
+						submitKey = true;
+					}
+				}*/
+			}else if($reply_form.reply_type ==2){
+				getNewsStr();
+				if($reply_form.reply_string.length>0){
+					submitKey = true;
+				}
+			}
+			
+			if($reply_form.input_type ==2){
+				getRules();
+			}else if($reply_form.input_type ==1){
+				$("#input_string").blur();
+			}else{
+				$reply_form.input_string = "image";
+			}
+			if($reply_form.use_type==1){
+				$reply_form.input_string = "欢迎语";
+			}
+			$reply_form.title = $.trim($("#r_title").val())||$reply_form.title;
+			$reply_form.create_time = $("[name=create_time]").val()||0;
+			$reply_form.expire_time = $("[name=expire_time]").val()||0;
+			console.log($reply_form);
+			// 检查输入
+			if($input_string.contain==1&&$input_string.txt!=""){
+				submitKey = true;
+			}else if($input_string.contain==2&&($input_string.regexp.num||$input_string.regexp.wrd||$input_string.regexp.txt)){
+				submitKey = true;
+			}
+			
+			if(!submitKey){
+				alert("请完善您的规则");
+				return false;
+			}
+			
+			$.post("/cms/sysCms/setReply",$reply_form,function($msg){
+				tipsShow($msg);
+			})	
+		}
+		
+$(function(){
+	// 是否包含
+	$("#t_contains, #re_contain").click(function(){
+		if($(this).is(":checked")){
+			$reply_form.input_string['contain'] = 1;
+		}else{
+			$reply_form.input_string['contain'] = 0;
+		}
+	});
+	// 包含中的单选
+	$("ul.reg_ctx input[type=checkbox]").click(function(){
+		if(!$("#re_contain").is(":checked")){
+			$("ul.reg_ctx input[type=checkbox]").not(this).attr("checked",false);
+		}
+	});
+	
+	// 自动回复类型
+	$("#use_type").change(function(){
+		$reply_form.use_type = $(this).val();
+		$reply_form.title = ($reply_form.use_type==1?"欢迎语":"自动回复")+"_"+rday.getFullYear()+addZero(parseInt(rday.getMonth())+1)+addZero(rday.getDate())+addZero(rday.getHours())+addZero(rday.getMinutes());
+	})
+	// 输入文本类型
+	$("#input_type").change(function(){
+		var val = $(this).val();
+		// 为表单赋值
+		$reply_form.input_type = val;
+		$(".cm_input").hide();
+		switch(val){
+			case '1' :
+				$("#input_txt").show();
+			break;
+			case '2' :
+				$("#input_regexp").show();
+			break;
+		}
+	})
+	// 回复类型选择
+	$("#reply_type").change(function(){
+		$reply_form.reply_type = $(this).val();
+		$(".cm_reply").hide();
+		if($reply_form.reply_type==1){
+			$("#reply_txt").show();
+			$(".rnd_mark").show();
+		}else{
+			$("#reply_news").show();
+			$(".rnd_mark").hide();
+		}
+	});
+	// 随机回复
+	$("#random").click(function(){
+		if($("#random").is(":checked")){
+			$reply_form.reply_rand = 1;
+			//$(".add_txt_line").show();
+		}else{
+			$reply_form.reply_rand = 0;
+			//$(".add_txt_line").hide();
+		}
+	});
+	$(".c_in_nums").each(function() {
+		$(this).change(function(){
+			if($(this).val()=="input"){
+				$(this).parents('li').find(".in_nums").show();
+			}else{
+				$(this).parents('li').find(".in_nums").hide();
+			}
+		});
+	});
+	// 文本输入
+	$("#input_string").blur(function(){
+		if($reply_form.input_type ==1){
+			$input_string.txt = $.trim($(this).val());
+			// $reply_form.input_string = "{'contain':"+$input_string.contain+",'txt':'"+$.trim($(this).val())+"'}";
+			delete $input_string.regexp;
+			$reply_form.input_string = $input_string;
+		}
+	});
+	$("#r_title").blur(function(){
+		$reply_form.title = $.trim($(this).val());
+	});
+	// 随机回复循环赋值
+	$("[data-t]").each(function(){
+		var attr = $(this).attr("data-t");
+		
+		$(this).find("textarea").blur(function(){
+			if($.trim($(this).val())==""){
+				$(this).parents("li").find(".in_nums").show();
+			}else{
+				$(this).parents("li").find(".in_nums").show();
+			}
+		});
+	});
+	
+	// 添加一条文字链接
+	$(".add_extra").click(function(){
+		var obj = $(this).parents('.r_link').find("ul");
+		var len = $(obj).find("li").length;
+		var uli = $(obj).find("li").eq(len-1);
+		// 获取最后一个元素的属性值
+		var n = $(uli).attr('data-link');
+			n = parseInt(n)+1;
+			
+		var el = uli.clone(true);
+			el.attr('data-link',n);
+			$(el).find('em').html(n);
+			if($(el).find("a.del").length==0){
+				el.append("<a href='javascript:void(0)' class='del cblue'>删除</a>");
+			}
+		$(obj).append(el);
+		
+		listenDel();
+	});
+	
+	$("#add_extra_txt").click(function(){
+		var obj = $("#reply_list");
+		var len = $("#reply_list .txt_item").length;
+		var uitem = $("#reply_list .txt_item").eq(len-1);
+		// 获取最后一个元素的属性值
+		var n = $(uitem).attr('data-t');
+			n = parseInt(n)+1;
+			
+		var ele = uitem.clone(true);
+			ele.attr('data-t',n);
+			$(ele).find("ul").attr('id','extra_link_t'+n);
+			if($(ele).find("span.del").length==0){
+				ele.append("<span class='del'><a href='javascript:void(0)' class='cblue'>删除</a></span>");
+			}
+		$(obj).append(ele);
+		listenDel();
+	});
+	
+	// 失效时间
+	$("#expire_time").blur(function(){
+		$reply_form.expire_time = $.trim($(this).val());
+	});	
+		
+	
+	// 增加新图文模板按钮显示
+	$(".add_news").click(function(){
+		$(".news_set").show();	
+	});
+	
+	// 增加新图文模板提交
+	$("#news_submit").click(function(){
+		var $temple_form = {
+			'title' : $("#n_title").val(),
+			'create_time' : 0,
+			'expire_time' : 0,
+			'template_type' : 2,
+			'template_string' : ''
+		}
+		$temple_form.template_string = {
+			'title' : $("#n_title").val(),
+			'link'  : $("#n_link").val(),
+			'imgurl' : $("#n_imgurl").val(),
+			'desc'  : $("#n_desc").val(),
+		};
+		
+		$msg = setTxtTemple($temple_form);
+		//$.post("/cms/sysCms/setTemple",$temple_form,function($msg){
+		if($msg.err==0){
+			var str = "";
+			str += "<tr>"; 
+			str += "<td><input type='checkbox' name='news_'"+$msg.data.id+" value='"+$msg.data.id+"' class='news_reply_checkbox'/></td>";
+			str +="<td>"+formatTime(parseInt($msg.data.create_time)*1000,3)+"</td>";
+			str +="<td>"+$msg.data.template_string['title']+"</td>";
+			//str +="<td>"+$msg.data.template_string['desc']+"</td>";
+			str +="</tr>";
+			$("#rtable_title").after(str);
+			tipsShow($msg);
+		}
+		//})	
+	});
+	$("#hide_rmlist").click(function(){
+		$("#txt_rm_list").toggle();
+		$("#t_number").toggle();
+		if($("#txt_rm_list").is(":visible")){
+			$(this).html("选择序号输入");
+		}else{
+			$(this).html("选择点选模板");
+		}
+	});
+	$("#hide_rnlist").click(function(){
+		$("#news_rn_list").toggle();
+		$("#i_number").toggle();
+		if($("#news_rn_list").is(":visible")){
+			$(this).html("选择序号输入");
+		}else{
+			$(this).html("选择点选模板");
+		}
+	});
+	// 自动赋值
+	(function(){
+		$("#input_type").change();
+		$("#use_type").change();
+		$("#reply_type").change();
+		if($("#random").is(":checked")){
+			$reply_form.reply_rand = 1;
+		}
+	}())
+})
+//删除数据
+function tipsShow($msg) {
+	mini.confirm($msg.msg, "提示",	function(action){
+			if(action!='ok') return;
+		}
+	);
+}
+		
+</script>

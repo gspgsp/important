@@ -1,0 +1,153 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+			</td>
+			<td style="float:right;">
+			<form id="soform" method="get" action="/product/purchase/download">
+				<input class="mini-hidden" name="ctype"  value="{$ctype}"/>
+				创建时间   
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				<!-- <select name="status" id="soStatus">
+					<option value="">=状态=</option>
+					{html_options options=$status}
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>    -->
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/product/textPurchase/init?action=grid&do={$slt}&doact={$doact}&id={$id}" onrowdblclick="onRowDblClick"
+		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="content" width="200" headerAlign="center" allowSort="true" align="center">采购内容</div>
+			<div field="c_name" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">客户名称</div>
+			<div field="name" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoad">联系人</div>
+			<div field="user_id" width="50" headerAlign="center" align="center" allowSort="true">联系人</div>
+			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
+			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
+			<div field="customer_manager" width="45" headerAlign="center" align="center">交易员</div>
+			<div field="status" width="30" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
+			<div action='do' width="40" renderer="viewhander">操作</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+function viewhander(e){
+	var record = e.record,id=record.id, supply_count=record.supply_count, status=record.status, s='';
+	if(status==1){
+		s +='&nbsp;<a href="javascript:chk('+id+')">审</a>';
+	}
+	return s;
+}
+
+//弹出审核窗口
+function chkOrder(id){
+	mini.open({
+		url:"/product/saleBuy/chk?id="+id,
+		showMaxButton:true,
+		title:'报价单审核',width:750,height:630,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//编辑联系人
+function onLoad(e) {
+	var record = e.record,uid=record.user_id, name=record.name, s='';
+	if(uid>0){
+		s += '<a href="javascript:viewContactInfo('+uid+')">'+name+'</a> ';
+	}
+	return s;
+}
+//弹出阶段审核窗口
+function chk(id){
+	mini.open({
+		url:"/product/purchase/chkpage?id="+id,
+		showMaxButton:true,
+		title:'审核',width:190,height:210,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//删除
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+		for(var i=0;i<rows.length;i++){
+	var _id=parseInt(rows[i].id);
+	if(_id<1){
+		grid.removeRow(rows[i],false);
+	}else{
+		_ids.push(_id);
+	}
+  }
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/textPurchase/remove',{ids:ids},callback,"POST","json");
+  });
+}
+//编辑联系人
+function onLoadHandle(e) {
+	var record = e.record,uid=record.c_id, c_name=record.c_name, s='';
+	if(uid>0){
+		s += '<a href="javascript:viewCinfo('+uid+')">'+c_name+'</a> ';
+	}
+	return s;
+}
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>

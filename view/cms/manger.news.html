@@ -1,0 +1,87 @@
+{layout file="public:main_layout"}
+{insert_css files='touch/common.css?,set_manger.css'}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap; text-align:left;">
+                <strong>图文模板</strong>
+                <a class="mini-button" iconCls="icon-add" plain="true" onclick="add(0,'/cms/cms/addnews')">新增</a>
+                <a class="mini-button" iconCls="icon-remove" onclick="removeRow()" plain="true">删除</a>
+            </td>
+       </tr>
+    </table>
+</div>
+
+    <div id="news_list" class="mini-datagrid" style="width:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/cms/sysCms/getTempleLsit?id=2&action=grid" idField="ids"  onrowdblclick="onRowDblClick"
+        multiSelect="true"
+        >
+        <div property="columns">    
+            <div type="checkcolumn"></div>
+		  <div field="id" width="50" headerAlign="center" align="center">模板序号</div>
+          <div field="create_time" width="50" headerAlign="center" align="center">发布时间</div>
+          <div field="expire_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center" allowSort="true">失效时间</div>
+          <div field="title" width="120" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">封面标题</div>
+          <div field="desc" width="320" headerAlign="center" align="left">描述</div>
+		  <div field="views" width="120" headerAlign="center" align="center">图文</div>
+        </div>
+</div>
+<script>
+mini.parse();
+var grid = mini.get("news_list");
+grid.load();
+//查看编辑卡片信息
+function add(id,url){
+	var position=$("#soPosition").val();
+	if(id==0 && position==''){
+		alert("请选择栏目")
+		return false;
+	}
+	
+	mini.open({
+		url: url+"?position="+position+"&id="+id,
+		showMaxButton:true,
+		title: '新增/编辑模板', width: 800, height:550,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});		
+}
+function onRowDblClick(e) {
+	edit('/cms/cms/addnews');
+}
+function edit(url) {
+	var row = grid.getSelected();
+	if (row) {
+		add(row.id,url)
+	}
+}
+//删除数据
+function removeRow() {
+    var rows = grid.getSelecteds(),_ids=new Array(),_pos=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+		_pos[i]=parseInt(rows[i].position);
+	}
+	var ids=_ids.join(','),pos=_pos.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+	  			if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/cms/sysCms/delTemple',{ids:ids,pos:pos},callback,"POST","json");
+		}
+	);
+}
+
+</script>

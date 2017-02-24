@@ -1,0 +1,213 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+    <div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
+        <div title="客户详细信息">
+            <div style="height:540px">
+                <table width="100%">
+                    <caption><strong>基本信息</strong></caption>
+                    <tr>
+                        <td>供应商名称：</td>
+                        <td>
+                            {$info.c_name}
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>法人姓名：</td>
+                        <td>{$info.legal_person}</td>
+                    </tr>
+                    <tr>
+                        <td>法人身份证：</td>
+                        <td>{$info.legal_idcard}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td>填写牌号：</td>-->
+                        <!--<td colspan="3"><span style="color:red;">(手机端填写)</span>{$info.need_product}</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>所需牌号：</td>-->
+                        <!--<td colspan="3"><span style="color:red;">(系统生成)</span>{$info.need_product_adm}</td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <td>备注：</td>
+                        <td>{$info.need_product}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <!-- <td>邮政编码：</td>
+                        <td>
+                            {$info.zip}
+                        </td> -->
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>信用等级：</td>
+                        <td>{$credit_level.$info.credit_level}</td>
+                    </tr>
+                    <tr>
+                        <td>成立日期：</td>
+                        <td>{$info.fund_date}
+                        </td>
+                        <td>注册资本：</td>
+                        <td>
+                            {$info.registered_capital}
+                            万
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>所在省市</td>
+                        <td>{$regionList.$info.company_province},{$regionList.$info.company_city}</td>
+                        <td>公司地址：</td>
+                        <td>{$info.address}</td>
+                    </tr>
+                    <tr>
+                        <td>客户类型：</td>
+                        <td>{$type.$info.type}</td>
+                        <!-- <td>客户级别：</td>
+                        <td>{$level.$info.level}</td> -->
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>状态：</td>
+                        <td>{$status.$info.status}</td>
+                    </tr>
+                    <tr>
+                        <td>附件地址：</td>
+                        <td>{if $info.file_url}<a href="{$info.file_url1}">查看</a> {else}--{/if}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <caption><strong>扩展信息</strong></caption>
+                    {if $info.merge_three neq 1}
+                    <tr>
+                        <td>营业执照号：</td>
+                        <td>{$info.business_licence}</td>
+                        <td>执照照片：</td>
+                        <td>{if $info.business_licence_pic}<a href="{$info.business_licence_pic1}">查看</a> {else}--{/if}</td>
+                    </tr>
+                    <tr>
+                        <td>组织代码：</td>
+                        <td>{$info.organization_code}</td>
+                        <td>组织图片：</td>
+                        <td>{if $info.organization_pic}<a href="{$info.organization_pic1}">查看</a> {else}--{/if}</td>
+                    </tr>
+                    <tr>
+                        <td>税务登记码：</td>
+                        <td>{$info.tax_registration}</td>
+                        <td>税务图片：</td>
+                        <td>{if $info.tax_registration_pic}<a href="{$info.tax_registration_pic1}">查看</a> {else}--{/if}</td>
+                    </tr>
+                    {else}
+                    <tr>
+                        <td>统一社会信用代码：</td>
+                        <td>{$info.business_licence}</td>
+                        <td>证件图片：</td>
+                        <td>{if $info.business_licence_pic}<a href="{$info.business_licence_pic1}">查看</a> {else}--{/if}</td>
+                    </tr>
+                    {/if}
+                    <tr>
+                        <td>法人身份证照片（正面）：</td>
+                        <td>{if $info.legal_idcard_pic_1}<a href="{$info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>
+                        <td>法人身份证照片（反面）：</td>
+                        <td>{if $info.legal_idcard_pic_2}<a href="{$info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div title="联系人列表">
+            <div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" idField="id"  url="/user/contact/init?action=grid&c_id={$c_id}" sizeList="[10,20,50,100]" pageSize="20">
+                <div property="columns">
+                    <div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
+                    <div field="name" width="50" headerAlign="center" align="center">联系人</div>
+                    <div field="is_default" width="50" headerAlign="center" align="center">是/否默认联系人</div>
+                    <div field="c_id" width="80" headerAlign="center" align="center">公司</div>
+                    <div field="sex" width="60" headerAlign="center"  align="center">性别</div>
+                    <div field="mobile" width="80" headerAlign="center" align="center">手机号</div>
+                    <div field="qq" width="80" headerAlign="center" align="center">qq号</div>
+                    <div field="email" width="80" headerAlign="center" align="center">邮箱</div>
+                    <div field="customer_manager" width="80" headerAlign="center" align="center">交易员</div>
+                    <div field="depart" width="80" headerAlign="center" align="center">所属部门</div>
+                    <div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
+                    <div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
+                        <input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        mini.parse();
+        var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
+        var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow");
+        function changeTab(e){
+            var tab=e.tab;
+            if(tab.title=='联系人列表'){
+                var data=investGrid.getData();
+                if(data.length<1){
+                    investGrid.load();
+                }
+            }
+
+
+        }
+        //编辑联系人
+        function onLoadHandle(e) {
+            var record = e.record,uid=record.user_id, s='';
+            s += '<a href="javascript:viewContactInfo('+uid+')">'+uid+'</a> ';
+
+            return s;
+        }
+        //追加关联
+        function onJoin(e) {
+            var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
+
+            if(store_o_id > 0 && join_id == 0){
+                s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
+            }else if(store_o_id == 0 && join_id > 0){
+                s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
+            }else if(o_id == join_id && join_id>0 && store_o_id>0){
+                s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
+            }else if(o_id == store_o_id && join_id>0 && store_o_id>0){
+                s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
+            }
+            return s;
+        }
+        function see_order(e){
+            var record = e.record,s='',o_id = record.o_id,sn = record.order_sn;
+            return '<a href="javascript:viewOrdInfo('+o_id+')">'+sn+'</a> ';
+        }
+        //查看订单相关信息
+        function viewOrdInfo(oid,o_type){
+            mini.open({
+                url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+                showMaxButton:true,
+                title: "查看订单相关信息",
+                width: 800, height:460
+            });
+        }
+        function search() {
+            buy_log.load($("#soform").serializeObject(),function(e){
+                $("#searchMsg").html(e.msg);
+            });
+        }
+        function search2() {
+            sale_log.load($("#soform1").serializeObject(),function(e){
+                $("#searchMsg1").html(e.msg);
+            });
+        }
+        search();
+        search2();
+        function onKeyEnter(e) {
+            search();
+        }
+        function onKeyEnter1(e) {
+            search2();
+        }
+
+    </script>

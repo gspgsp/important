@@ -1,0 +1,268 @@
+ {layout file="public:mini_layout"}
+ <div class="mini-toolbar"  style="margin:3px 3px 0;">
+	 <table style="width:100%;">
+		 <tr>
+			 <td style="white-space:nowrap;">
+				 <!--<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>-->
+				 <!--<span class="separator"></span>-->
+				 <a href="__UPLOAD__/zip/big_prices_list.zip" class="mini-button" iconCls="icon-download" plain="true">模板下载</a>
+				 <a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel()">excel导入</a>
+			 </td>
+		 </tr>
+	 </table>
+ </div>
+
+<!--<div class="mini-toolbar" style="margin:3px 3px 0;">-->
+	<!--<table style="width:100%;">-->
+		<!--<tr>-->
+			<!--<td style="float:right;">-->
+			<!--<form id="soform" method="get" action="/order/profit/download">-->
+				<!--<span id="searchMsg"></span>-->
+				<!--创建时间-->
+				<!--<input name="startTime" class="mini-datepicker" style="width:95px;"/> - -->
+				<!--<input name="endTime" class="mini-datepicker" style="width:95px;"/>-->
+				<!--<select name="skey_type">-->
+					<!--<option value="s_uname">销售员</option>-->
+					<!--<option value="s_sn">销售单号</option>-->
+				<!--</select>-->
+				<!--<input name="skeyword" class="mini-textbox" emptyText="请输入关键字" style="width:100px;" onenter="onKeyEnter"/>-->
+				<!--牌号：<input name="model" class="mini-textbox" emptyText="请输入牌号" style="width:80px;" onenter="onKeyEnter"/>-->
+				<!--厂家：<input name="fname" class="mini-textbox" emptyText="请输入厂家" style="width:80px;" onenter="onKeyEnter"/>-->
+				<!--<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>-->
+				<!--&lt;!&ndash; <a class="mini-button" class="output" onclick="download()" iconCls="icon-download" plain="true">Excel导出</a> &ndash;&gt;-->
+				<!--<span id="searchMsg"></span></form>-->
+			<!--</td>-->
+		<!--</tr>-->
+	<!--</table>-->
+<!--</div>-->
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		 url="/product/client/init?action=grid" onrowdblclick="onRowDblClick"
+		 showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+	>
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="gsname" width="40" headerAlign="center" align="center">大客户公司名称</div>
+			<div field="type" width="40" headerAlign="center" align="center">类型</div>
+			<div field="model" width="40" headerAlign="center" align="center">牌号</div>
+			<div field="factory" width="40" headerAlign="center" align="center" allowSort="true">厂家</div>
+			<div field="num" width="40" headerAlign="center" align="center" allowSort="true">数量</div>
+			<div field="price" width="40" headerAlign="center" align="center" allowSort="true">价格</div>
+			<div field="upordown" width="40" headerAlign="center" align="center" allowSort="true">涨跌</div>
+			<div field="address" width="40" headerAlign="center" align="center" allowSort="true">交货地</div>
+			<div field="ck" width="30" headerAlign="center" align="center" >仓库</div>
+			<div field="input_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">更新时间</div>
+			<div name="action"  width="50" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>
+		</div>
+	</div>
+</div>
+ <div id="admInfo" class="mini-window" title="编辑大客户报价" style="width:500px;"
+	  showModal="true" allowResize="true" allowDrag="true">
+	 <div id="addForm" class="form" >
+		 <table style="width:100%;">
+			 <input class="mini-hidden" name="id" value="">
+			 <!--<tr>-->
+				 <!--<td style="width:100px;">大客户公司名称：</td>-->
+				 <!--<td><input name="gsname" class="mini-textbox" style="width:200px" readonly="false" /></td>-->
+			 <!--</tr>-->
+			 <tr>
+				 <td style="width:100px;">类型：</td>
+				 <td><input name="type" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="width:100px;">牌号：</td>
+				 <td><input name="model" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="width:100px;">厂家：</td>
+				 <td><input name="factory" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="width:100px;">数量：</td>
+				 <td><input name="num" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="width:100px;">价格：</td>
+				 <td><input name="price" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="width:100px;">涨跌：</td>
+				 <td><input name="upordown" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="width:100px;">交货地：</td>
+				 <td><input name="address" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="width:100px;">仓库：</td>
+				 <td><input name="ck" class="mini-textbox" style="width:200px"/></td>
+			 </tr>
+			 <tr>
+				 <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+					 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+				 </td>
+			 </tr>
+		 </table>
+	 </div>
+ </div>
+ <script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function download() {
+	$("#soform").submit();
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+
+
+//弹出增加form表单
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function add() {
+	form.clear();
+	admInfo.show();
+}
+
+function onLoadHandle(e){
+	var record = e.record,id=record.id;
+	var s='<a href="javascript:editInfo('+id+');">编辑</a>|<a href="javascript:del('+id+');">删除</a>';
+	return s;
+}
+//删除
+function del(id){
+	if(!confirm('确定要删除吗？')) return;
+	$.post('/product/client/del',{id:id},function (data){
+		if(data.err==0){
+			grid.reload();
+		}
+	},'json');
+}
+
+//编辑
+function editInfo(id){
+	$.post('/product/client/editInfo',{id:id},function (data){
+		if(data.err==0){
+			admInfo.show();
+			form.setData(data.data);
+		}
+	},'json')
+}
+
+//增加后提交数据(保存)
+function submitForm() {
+	form.validate();
+	if (form.isValid() == false) return;
+
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			admInfo.hide();
+		}
+	}
+	utils.ajax('/product/client/ajaxSave',{data:json},callback,"POST","json");
+}
+
+
+jQuery.extend({
+	handleError: function( s, xhr, status, e ) {
+// If a local callback was specified, fire it
+		if ( s.error )
+			s.error( xhr, status, e );
+// If we have some XML response text (e.g. from an AJAX call) then log it in the console
+		else if(xhr.responseText)
+			console.log(xhr.responseText);
+	}
+});
+
+//导入excel
+function inputExcel(){
+	mini.showMessageBox({
+		title: "excel导入",
+		buttons: ["ok", "cancel"],
+		html: '<p style="margin-left:50px;">\
+				<label><strong>选择Excel文件</strong> <br /><input type="file" name="check_file" id="manual_check_file" />\
+			  </p>',
+		callback: function (action) {
+			if(action=='ok'){
+//				var messageid = mini.loading("正在处理...", "处理中");
+				$.ajaxFileUpload({
+					url:'/product/client/inputExcel',
+					fileElementId:"manual_check_file",
+					dataType: 'json',
+					success: function (data, status) {
+						if(data.msg){
+							mini.showMessageBox({
+								showHeader: false,
+								width: width,
+								title: '处理失败',
+								buttons: ["ok"],
+								html: data.msg,
+								iconCls: iconCls
+							});
+							grid.reload();
+							mini.hideMessageBox(messageid);
+							return false;
+						}
+						if(!data.err){
+							mini.alert(data.result);
+							grid.reload();
+						}else{
+							var iconCls = 'mini-messagebox-info',html = "Excel导入。",title="处理成功",width=200;
+							if(data.result){
+								width=400;
+								title="月度指标导入完成，但部分数据有问题，请核实！";
+								iconCls = 'mini-messagebox-warning';
+								html = '异常交易员信息如下：<br /><div style="height:250px;overflow:scroll;"><span>失败'+data.err+'条数据</span><br/>';
+								$.each(data.result,function(k,v){
+									html += k+" "+v+"<br />";
+								});
+								html+="</div>";
+							}
+							mini.showMessageBox({
+								showHeader: false,
+								width: width,
+								title: title,
+								buttons: ["ok"],
+								html: html,
+								iconCls: iconCls
+							});
+							grid.reload();
+						}
+						mini.hideMessageBox(messageid);
+					},
+					error: function (data, status, e){
+						mini.hideMessageBox(messageid);
+						alert(e);
+					}
+				});
+			}
+		}
+	});
+}
+</script>

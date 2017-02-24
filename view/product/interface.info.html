@@ -1,0 +1,127 @@
+{layout file="public:mini_layout"}
+<div id="addForm" class="form" >
+		<input class="mini-hidden" name="id" value="{$info.id}">
+		<table style="width:100%;">
+			<tr>
+				<td width="100">公司名称：</td>
+				<td>{$cname}</td>
+			</tr>
+			<tr>
+				<td>联系人：</td>
+				<td>{$user_name}</td>
+			</tr>
+			<tr>
+				<td>电话：</td>
+				<td>{$mobile}</td>
+			</tr>
+			<tr>
+				<td>信息类型：</td>
+				<td>{$type}</td>
+			</tr>
+			<tr>
+				<td>信息备注：</td>
+				<td>{$info.content}</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="left">信息规范化&nbsp;&nbsp;
+					<a class="mini-button" id="plas" href="javascript:void(0)"><span class="mini-button-text  mini-button-icon-text "><span class="mini-button-icon mini-iconfont icon-add" style=""></span>+添加一行+</span></a>
+					<a class="mini-button" id="del" href="javascript:void(0)"><span class="mini-button-text  mini-button-icon-text "><span class="mini-button-icon mini-iconfont icon-cancel" style=""></span>+删除一行+</span></a>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<table  border="1"  width="100%" id="tba">
+			<tr align="center">
+				<td>牌号&厂家</td>
+				<td>单价</td>
+				<td>仓库</td>
+				<!-- <td>操作</td> -->
+			</tr>
+			<tr class="info">
+				<td><input id="tbl1" class="mini-textboxlist" name="pid1" required="true" style="width:400px;" url="/user/plastic/getPrdoucts" valueField="id" textField="model"/></td>
+				<td><input name="price1" class="mini-textbox" value="" style="width:110px;" required="true"/></td>
+				<td><input name="store1" class="mini-textbox" value="" style="width:110px;" required="true"/></td>
+				<!-- <td><a href = "javascript:del()"></a></td> -->
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td style="text-align:center;padding-top:25px;padding-right:20px; margin-top:25px;width:700px; margin:0 auto;" colspan="2">
+					<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
+					<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+					<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+var form = new mini.Form("#addForm");
+mini.parse();
+// 模糊匹配牌号
+$(function(){
+	$("input").focus(function(){
+		var id=$(this).attr("id").substring(0,4);
+		var t = mini.get("id");
+		t.on("valuechanged", onValueChanged);
+		function onValueChanged(e) {
+			alert(this.getValue() + "\n" + this.getText());
+		}
+	});
+	
+	var num = 1;
+	$('#plas').click(function(event) {
+		num += 1;
+		var html = '<tr class="info">';
+			html +='<td><input id="tbl'+num+'" class="mini-textboxlist" name="pid'+num+'" required="true" style="width:400px;" url="/user/plastic/getPrdoucts" valueField="id" textField="model"/></td>';
+			html +='<td><input name="price'+num+'" class="mini-textbox" value="" style="width:110px;" required="true"/></td>';
+			html +='<td><input name="store'+num+'" class="mini-textbox" value="" style="width:110px;" required="true"/></td>';
+			// html +='<td><a class="del" href = "javascript:;">删除</a></td>'
+			html +='</tr>';
+		$('#tba').append(html);
+		$(".del").click(function(){
+			$(this).parents("tr").remove();
+		})
+		
+		mini.parse();
+	});
+	$('#del').click(function(event) {
+		if(num<2) return false;
+		num -= 1;
+		$('.info:last').remove();
+	});
+});
+function del(){
+	
+}
+//增加客户跟进后提交数据(保存)
+function submitForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/product/interface/saveshow',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action){
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

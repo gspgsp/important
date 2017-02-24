@@ -1,0 +1,112 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            	{if $parent.cate_id && $parent.spell != 'help'}
+                【{$parent.cate_name}】<a class="mini-button" iconCls="icon-upload" plain="true" href="/system/newsCate/{$action}?pid={$parent.pid}">返回上级</a>
+                <span class="separator"></span>
+                {/if}         
+                <a class="mini-button" iconCls="icon-add" plain="true" onclick="addRow()">新增</a>
+                <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+                <span class="separator"></span>             
+                <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>    
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  pageSize=10000
+        url="/system/newsCate/{$action}?action=grid&pid={$pid}" onrowdblclick="switchChild" showFooter=false
+        showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true"
+        >
+        <div property="columns">    
+            <div type="checkcolumn"></div>
+      		<div name="action" width="40" headerAlign="center" renderer="onLoadHandle">操作</div>
+            <div field="cate_name" width="120" headerAlign="center">名称                        
+                <input property="editor" class="mini-textbox" style="width:100%;"/>
+            </div>                
+            <div field="sort_order" width="80" headerAlign="center" allowSort="true">排序
+                <input property="editor" class="mini-spinner" minValue="0" maxValue="1000" style="width:100%;"/>
+            </div>      
+            <div field="status" width="80" headerAlign="center" type="comboboxcolumn" autoShowPopup="true">状态
+                <input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />     
+            </div>
+            <div field="spell" width="120" headerAlign="center">别名                        
+                <input property="editor" class="mini-textbox" style="width:100%;"/>
+            </div>                
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+var dStatus=[{ id: 1, text: '可用' }, { id: 0, text: '禁用'}];
+
+//查看下一级
+function onLoadHandle(e) {
+	var record = e.record; //record.id
+	if(record.cate_id==0) return '-';
+	return '<a href="/system/newsCate/{$action}?pid='+record.cate_id+'">下级</a> ';
+}
+
+//增加一行
+function addRow() {  
+	var newRow = {sort_order:0,status:1,spell:''};
+	newRow.cate_id = 0;
+	newRow.pid = "{$pid}";
+	newRow.level=parseInt('{$parent.next}');
+	grid.addRow(newRow,0);
+}
+
+//保存数据
+function saveData() {
+    data = grid.getChanges();
+	if(data.length<1){
+		return;
+	}
+    var json = mini.encode(data);
+    grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		grid.unmask();
+		if(data.err!='0'){
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/system/newsCate/save',{data:json},callback,"POST","json");
+}
+
+//删除数据
+function removeRow() {
+    var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		var _id=parseInt(rows[i].cate_id);
+		if(_id<1){
+			grid.removeRow(rows[i],false);
+		}else{
+			_ids[i]=_id;
+		}
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除数据？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/system/newsCate/remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+</script>

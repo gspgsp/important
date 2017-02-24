@@ -1,0 +1,38 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+	<h4>用户积分设置</h4>
+	<form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+	<div class="part">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tbody>
+				<tr>
+					<th>塑料圈积分设置: </th>
+					<td>
+						<p>登录：<input name="points[login]" value="{$points.login}" class="mini-textbox" style="width:50px;"/> 积分</p>
+						<p>发布采购：<input name="points[pur]" value="{$points.pur}" class="mini-textbox" style="width:50px;"/> 积分</p>
+						<p>发布报价：<input name="points[sale]" value="{$points.sale}" class="mini-textbox" style="width:50px;"/> 积分</p>
+						<p>引荐人：<input name="points[ref]" value="{$points.ref}" class="mini-textbox" style="width:50px;"/> 积分</p>
+					</td>
+				</tr>
+				<tr>
+					<th>PC端积分设置: </th>
+					<td>
+						<p>资源搜索：<input name="points_pc[search]" value="{$points_pc.search}" class="mini-textbox" style="width:50px;"/> 积分</p>
+						<p>发布资源：<input name="points_pc[pub]" value="{$points_pc.pub}" class="mini-textbox" style="width:50px;"/> 积分</p>
+						<p>签到：<input name="points_pc[sign]" value="{$points_pc.sign}" class="mini-textbox" style="width:50px;"/> 积分</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="tblbtn">
+			<a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+			<a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+			<input type="reset" style="display:none;">
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

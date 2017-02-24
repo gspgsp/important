@@ -1,0 +1,74 @@
+{layout file="public:main_layout"}
+{insert_css files='set_reply.css?,set_menu.css?'}
+
+<div class="reply_area" id="reply_area" style="padding:10px;">
+	<div class="">
+		<p>请输入菜单名称（一级菜单最多4个汉字，8个英文字符；二级菜单最多8个汉字，16个英文字符）</p>
+		<div><input type="text" id="menuname" data-level="" style="width:280px;height:30px;line-height:30px;border:1px solid #393;padding:2px 10px;font-size:16px;" value="{$name}" /></div>
+	</div>
+	<div class="reply_submit" style="padding-bottom:10px;">
+       	<a class="mini-button" iconCls="icon-ok" onclick="submitForm()">确定</a>
+        <a class="mini-button" iconCls="icon-cancel" onclick="onCancel()">取消</a>
+	</div>
+</div>
+<script>
+mini.parse();
+function submitForm(){
+	$keyForm = {
+	  'id' 			: '{$id}'||'',
+	  'mark'		: '{$mark}',
+	  'type' 		: '{$type}',
+	  'name' 		: $("#menuname").val()||"{$name}",
+	  'level'		: "{$level}"||1,
+	  'keyname' 	: '{$keyname}',
+	  'menu_string' : ''
+	}
+	
+	// keyname规则：msg+模板类型+菜单位置
+	$keyForm.menu_string = {
+		'name':$("#menuname").val(),
+		'type':'{$type}',
+		'keyname':'{$keyname}',
+		'reply'  : "{$mString.reply}",
+		'p'		: 1
+	}
+	var url = '/cms/sysMenu/setMenu';
+	if($keyForm.id){
+		var url = '/cms/sysMenu/editMenu';
+	}
+	$.post(url,$keyForm,function(data){
+		if(data.err=='0'){
+			var $data = {
+				'level' : data.level,
+				'id'    : data.id,
+				'name'  : data.name,
+				'reply' : data.menu_string.reply,
+				'mark'	: '{mark}',
+				'msg' : 'save'
+			}
+			if($keyForm.id){
+				$data.msg = 'edit';
+			}
+			CloseWindow($data);
+		}else{
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+$(".txt_reply_checkbox").click(function(){
+	$(".txt_reply_checkbox").not(this).attr("checked",false);
+});
+$(".news_reply_checkbox").click(function(){
+	if($(".news_reply_checkbox:checked").length>=10){
+		$(this).attr("checked",false);
+	}
+});
+
+</script>

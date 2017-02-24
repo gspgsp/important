@@ -1,0 +1,51 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+	<h4>用户限制设置</h4>
+	<form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+	<div class="part">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tbody>
+				<tr>
+					<th>后台用户限制设置: </th>
+					<td>
+						<p>公海客户每日认领人数限制：<input name="limit[allot]" value="{$limit.allot}" class="mini-textbox" style="width:50px;"/> 人</p>
+					</td>
+				</tr>
+				<tr>
+					<th>前台用户限制设置: </th>
+					<td>
+						<p>预留：<input name="limit[search]" value="{$limit.search}" class="mini-textbox" style="width:50px;"/> </p>
+					</td>
+				</tr>
+				<tr>
+					<th>回收客户再次被原始交易员认领天数: </th>
+					<td>
+						<p><input name="limit[back]" value="{$limit.back}" class="mini-textbox" style="width:50px;"/> </p>
+					</td>
+				</tr>
+				<tr>
+					<th>客户强开开关: </th>
+					<td>
+						<p>
+							<select name="limit[recycle]" class="mini-combobox" value="{$limit.recycle}" style="width:100px;"/>
+								<option value="0" {if $limit.recycle eq 0}selected{/if}>否</option>
+								<option value="1" {if $limit.recycle eq 1}selected{/if}>是</option>
+							</select>
+						</p>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	<div class="tblbtn">
+			<a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+			<a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+			<input type="reset" style="display:none;">
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

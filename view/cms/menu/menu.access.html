@@ -1,0 +1,34 @@
+{layout file="public:main_layout"}
+{insert_css files='/touch/common.css?,set_manger.css'}
+<div class="news_set">
+    <div class="mini-toolbar" style="margin:3px 0 0;">
+        <table>
+            <tr>
+                <td style="white-space:nowrap; width:80px;">
+                    <strong>访问统计</strong>
+                    <!--<a class="mini-button" iconCls="icon-remove" onclick="removeRow()" plain="true">删除</a>-->
+                </td>
+                <td style="float:left">
+                </td>
+           </tr>
+        </table>
+    </div>
+    <div style="width:100%;" class="news_list mini-datagrid" id="news_list" url="/cms/sysMenu/getAccessList?action=grid"  idField="ids" sizeList="[15,30,50,100]" pageSize="30" showFilterRow="true" multiSelect="true" onrowdblclick="">
+        <div property="columns">
+          <div type="checkcolumn"></div>
+		  <div field="temp_id" width="40" headerAlign="center" align="center">菜单序号</div>
+          <div field="name" width="50" headerAlign="center" align="center">菜单名</div>
+		  <div field="daily" width="50" headerAlign="center" align="center">访问时间</div>
+          <div field="keyname" width="100" headerAlign="center" align="center">关键字</div>
+		  <div field="access_times" width="60" headerAlign="center" align="center">今日访问</div>
+          <div field="total" width="100" headerAlign="center" align="center">本月访问</div>
+        </div>
+    </div>
+</div>
+<script>
+mini.parse();
+var grid = mini.get("news_list");
+grid.load();
+
+
+</script>

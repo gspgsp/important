@@ -1,0 +1,57 @@
+{layout file="public:mini_layout"}
+<div id="treeForm" class="form" style="padding:5px;">
+	<div style="padding-bottom:5px;">
+        <a class="mini-button" iconCls="icon-save" onclick="save()">【保存】</a>
+        <span class="separator" style="padding-right:5px;"></span>             
+        <a class="mini-button" iconCls="icon-ok" onclick="checkAll()">全选</a>
+        <a class="mini-button" iconCls="icon-close" onclick="uncheckAll()">取消</a>
+    </div>
+    <input type="hidden" name="rule_id" value="{$rule_id}" id="rule_id"/>
+    <ul id="cellList" class="mini-tree" style="padding:5px;" 
+            showTreeIcon="false" textField="text" idField="id" resultAsTree="false"
+            showCheckBox="true"  expandOnLoad=0 
+            checkRecursive="true" autoCheckParent="false"
+            >
+    </ul>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("cellList");
+var data={$data}; //数据对象
+var oNodes='{$nodes}'; //原始值
+grid.loadList(data, "id");
+setCheckedNodes();
+//恢复默认值
+function setCheckedNodes() {
+    grid.setValue(oNodes);
+}
+//全选
+function checkAll() {
+	var nodes = grid.getAllChildNodes(grid.getRootNode());
+	grid.checkNodes(nodes);
+}
+//取消全选
+function uncheckAll() {
+	var nodes = grid.getAllChildNodes(grid.getRootNode());
+	grid.uncheckNodes(nodes);
+}
+
+function save() {
+  var ids = grid.getValue(),rule_id=$("#rule_id").val();
+  grid.loading("数据提交中，请稍后......");
+  var callback=function(data){
+	  grid.unmask();
+	  if(data.err!='0'){
+		  alert(data.msg)
+		  return false;
+	  }else{
+         CloseWindow("save");
+	  }
+  }
+  utils.ajax('/user/dismissRule/saveStaff?action={$action}&rule_id='+rule_id,{admin_id:ids},callback,"POST","json");
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+</script>

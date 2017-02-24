@@ -1,0 +1,108 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	<form id="infoForm" class="form">
+		<input class="mini-hidden" name="ctype" value="1"/>
+		<!--<input class="mini-hidden" name="user_id" value="{$usermodel.user_id}"/>-->
+		<input class="mini-hidden" name="user_id" value="{$user_id}"/>
+		<input class="mini-hidden" name="c_id" value="{$usermodel.c_id}"/>
+		<table border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td>归属公司：</td>
+				<td>
+					<input name="c_name" id="c_name" class="mini-textbox" style="width:300px;" required="true" vtype="rangeLength:2,50" value="{$usermodel.c_name}"/>
+				</td>
+				<td ></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td >主营产品：</td>
+				<td><input name="main_product" class="mini-textbox" style="width:300px;" required="false" value=""/></td>
+			</tr>
+			<tr>
+				<td >关注牌号：</td>
+				<td id="td">
+					<input id="tbl1" class="mini-textboxlist" name="" textName="model_1" required="false" style="width:250px;" url="/user/plastic/getModel" value="" text="" valueField="id" textField="model" emptyText ="提示1：牌号一"/>（提示：关注牌号最多可选3个）
+				</td>
+			</tr>
+
+			<tr>
+				<td >月用量：</td>
+				<td><input name="month_consum" class="mini-textbox" style="width:300px;" required="false" value=""/></td>
+			</tr>
+			<tr>
+				<td >备注：</td>
+				<td><input name="remarks" class="mini-textbox" style="width:300px;" required="false" value=""/></td>
+			</tr>
+		</table>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">初审通过</a>
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm_1">初审拒绝</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	mini.parse();
+	// 模糊匹配牌号
+
+	/*
+	* 表单提交
+	* */
+	var form = new mini.Form("#infoForm");
+	//初审通过
+	function submitForm(){
+        form.validate();
+        if(form.isValid() == false) return;
+
+        //提交数据
+        var o = form.getData();
+        var json = mini.encode(o);
+        $("#returnMsg").text('');
+        form.loading("数据提交中，请稍后......");
+        $.post('/user/plastic/saveInfo',{data:json},function(data){
+            form.unmask();
+            $("#returnMsg").text(data.msg);
+            if(data.err=='0'){
+                CloseWindow("save");
+            }else{
+                return false;
+            }
+        },'json');
+
+    }
+
+    //初审拒绝
+    function submitForm_1(){
+        form.validate();
+        if(form.isValid() == false) return;
+
+        //提交数据
+        var o = form.getData();
+		var is_trial=3;
+        var json = mini.encode(o);
+        $("#returnMsg").text('');
+        form.loading("数据提交中，请稍后......");
+        $.post('/user/plastic/saveInfo',{data:json, is_trial:is_trial},function(data){
+            form.unmask();
+            $("#returnMsg").text(data.msg);
+            if(data.err=='0'){
+                CloseWindow("save");
+            }else{
+                return false;
+            }
+        },'json');
+
+    }
+
+	function CloseWindow(action) {
+		if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+		else window.close();
+	}
+	function onCancel(e) {
+		CloseWindow("cancel");
+	}
+
+</script>
+

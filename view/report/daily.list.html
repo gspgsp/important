@@ -1,0 +1,110 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<form id="soform">
+					<select name="team_id">
+					<option selected="selected">战队名称</option>
+						{html_options options=$team}
+					</select>
+					交易员
+					<input name="keyword" class="mini-textbox" style="width:70px;" onenter="onKeyEnter"/>
+					时间筛选
+					<input name="startTime" class="mini-datepicker"  value="{$startTime}" style="width:100px;"/>
+					<input name="endTime" class="mini-datepicker" value="{$endTime}" style="width:100px;"/>
+					<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" url="/report/daily/init?action=grid" showFilterRow="true" idField="id" multiSelect="true">
+		<div property="columns">
+			<div type="checkcolumn" width="10"></div>
+			<!-- <div field="id" width="20" headerAlign="center" align="center">ID</div> -->
+		 	<div name="team_id" field="team_id" width="20" headerAlign="center" allowSort="false" align="center">团队id</div>   
+			<div class="myrow" field="admin_name" width="30" headerAlign="center" allowSort="false" align="center">交易员</div>
+		 	<div field="team_name" width="50" headerAlign="center" allowSort="false" align="center">团队</div>   
+			<div field="total_num" width="35" headerAlign="center" allowSort="true" align="center" >吨数</div>
+			<div field="zb1" width="55" headerAlign="center" align="center" >吨数指标</div>
+			<div field="call_num" width="35" headerAlign="center" allowSort="true" align="center" >电话</div>
+			<div field="zb2" width="55" headerAlign="center" align="center" >电话指标</div>
+			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">抓取时间</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.on("drawcell", function (e) {
+    var record = e.record,
+        column = e.column,
+        field = e.field,
+        value = e.value;
+
+    if(column.field == 'team_id'){
+    	if(e.value == 34){
+    		e.cellStyle = "background:#FF1493";
+    	}
+    	if(e.value == 35){
+    		e.cellStyle = "background:#FF6347";
+    	}
+    	if(e.value == 36){
+    		e.cellStyle = "background:#6495ED";
+    	}
+    	if(e.value == 37){
+    		e.cellStyle = "background:#FF8C00";
+    	}
+    	if(e.value == 38){
+    		e.cellStyle = "background:#F5DEB3";
+    	}
+    	if(e.value == 40){
+    		e.cellStyle = "background:#FFD700";
+    	}
+    	if(e.value == 41){
+    		e.cellStyle = "background:#ADFF2F";
+    	}
+    	if(e.value == 42){
+    		e.cellStyle = "background:#7FFFAA";
+    	}
+    	if(e.value == 46){
+    		e.cellStyle = "background:#6495ED";
+    	}
+    	if(e.value == 49){
+    		e.cellStyle = "background:#00CED1";
+    	}
+    }
+    if (column.field == "total_num") {
+    	//console.log(record);
+        if (e.value<24.75) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+    if (column.field == "call_num") {
+    	//console.log(record);
+        if (e.value<50) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+    
+ });
+grid.load();
+//查询
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+</script> 

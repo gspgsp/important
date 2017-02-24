@@ -1,0 +1,134 @@
+{layout file="public:main_layout"}
+{insert_css files='touch/common.css?,set_reply.css?'}
+{insert_js files='touch/common.js'}
+<style>body{background-color:#fff;}</style>
+<div class="txt_item" id="text_temple" style="padding:10px 20px;">
+    <div class="rule_title" style="margin-left:0;">
+        <span>模板名称：</span>
+        <span><input type="text" name="title" value="{$info[title]}" id="r_title" /></span>
+    </div>
+    <div class="r_main">
+        <span>回复内容</span>
+        <span><textarea rows="2" name="t1_reply_string" class="reply_textarea" id="reply_textarea">{$info.reply}</textarea></span>
+    </div>
+    <div class="r_link">
+        <h5 style="font-weight:normal;">加入可跳转的文字</h5>
+        <ul id="extra_link_t1">
+		   {if $info[link]||$info['id']}
+			   {foreach from=$info[link] key=k item=v}
+			   <li data-link="1">
+					<div class="l_wrd"><label>文字<em>1</em>：</label><input type="text" value="{$v[wrd]}" name="t1_word" /></div>
+					<div class="l_url"><label>链接<em>1</em>：</label><input type="text" value="{$v[url]}" name="t1_link" /></div>
+			   </li>
+			   {/foreach}
+		   {else}
+			   <li data-link="1">
+					<div class="l_wrd"><label>文字<em>1</em>：</label><input type="text" value="" name="t1_word" /></div>
+					<div class="l_url"><label>链接<em>1</em>：</label><input type="text" value="" name="t1_link" /></div>
+			   </li>
+		   {/if}
+        </ul>
+        <div class="add_link" style="margin-bottom:10px;"><a href="javascript:void(0);" class="cblue add_extra">新增文字+链接</a></div>
+    </div>
+    <div class="save_btn"><span class="cm_btn" onclick="saveTemple(this)">保存文本模板</span></div>
+</div>
+<p class="err_tips" style="margin:10px;padding:5px 10px;border-radius:3px;border:1px solid #c93;background-color:#fea;width:100px;color:#e30;display:none;"></p>
+<script>
+		function saveTemple(obj){
+			// 构建文本回复模板
+			$temp_str={
+				'title' 		  : "",
+				'template_type'   : 1,
+				'template_string' : "",
+			}
+			var $input_str = {
+				};
+				
+			if($("[data-t=1]").find("textarea").val()==""){
+				return false;
+			}
+			// 附带链接的文字
+			$reply_str = {};
+			$reply_str['reply'] = $("#reply_textarea").val();
+			$reply_str['link'] = [];
+				
+			// 获取当前文本回复项带链接的数量
+			var objitem = $("#extra_link_t1 li");
+			var len = $(objitem).length;
+			var wrd = "",url="";
+			for(var j=0;j<len;j++){
+				wrd = $(objitem).eq(j).find(".l_wrd input").val();
+				url = $(objitem).eq(j).find(".l_url input").val()
+				if(url==""||wrd=="") continue;
+				
+				// 文字链接输入框不为空，赋值进链接数组
+				$reply_str['link'].push({
+					'wrd':wrd,
+					'url':url
+				});
+			}
+			// 模板名称
+			$temp_str.title = $("#r_title").val();
+			
+			$temp_str.template_string = $reply_str;	
+			// 存储模板
+			setTxtTemple($temp_str);
+		} 
+		// 存储回复模板模板
+		function setTxtTemple($form){
+			var $temple_form = {
+				'id'			: "{$id}",
+				'title' 		: $form.title||"",
+				'create_time'   : $form.create_time||0,
+				'expire_time'   : $form.expire_time||0,
+				'template_type' : $form.template_type||1,
+				'template_string' : $form.template_string||""
+			}
+			var $data = {};
+			$.ajax({
+				type : "POST",
+				url:"/cms/sysCms/setTemple",
+				data:$temple_form,
+				dataType:"json",
+				async:false,
+				success: function($msg){
+					if($msg.err==0){
+						$(".err_tips").show();
+						$(".err_tips").html("<img src='__JS__/miniui/miniui/themes/icons/ok.png'> 添加成功！");
+						 CloseWindow('save')
+					}else{
+						$(".err_tips").show();
+						$(".err_tips").html("<img src='__JS__/miniui/miniui/themes/icons/ok.png'> "+$msg.msg);
+					}
+				}
+			})
+			return $data;
+		}
+			
+		// 为新添加的元素绑定方法
+		function listenDel(){
+			$(".del").click(function(){
+				$(this).parent().remove();
+			});
+		}
+
+	// 添加一条文字链接
+	$(".add_extra").click(function(){
+		var obj = $(this).parents('.r_link').find("ul");
+		var len = $(obj).find("li").length;
+		var uli = $(obj).find("li").eq(len-1);
+		// 获取最后一个元素的属性值
+		var n = $(uli).attr('data-link');
+			n = parseInt(n)+1;
+			
+		var el = uli.clone(true);
+			el.attr('data-link',n);
+			$(el).find('em').html(n);
+			if($(el).find("a.del").length==0){
+				el.append("<a href='javascript:void(0)' class='del cblue'>删除</a>");
+			}
+		$(obj).append(el);
+		
+		listenDel();
+	});
+</script>

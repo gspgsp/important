@@ -1,0 +1,41 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+    <h4>app升级设置</h4>
+    <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+        <div class="part">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr><th>APP名字：</th><td><input name="appName" value="{$appName}" class="mini-textbox" style="width:380px;" placeholder="塑料圈APP" /></td></tr>
+                <tr><th>APP版本号：</th><td><input name="version" value="{$version}" class="mini-textbox" style="width:380px;" placeholder="2.1" /></td></tr>
+                <tr><th>andriod apk下载地址：</th><td><input name="and_updateurl" value="{$and_updateurl}" class="mini-textbox" style="width:380px;" placeholder="http://www.myplas.com" /></td></tr>
+                <tr><th>ios apk下载地址：</th><td><input name="ios_updateurl" value="{$ios_updateurl}" class="mini-textbox" style="width:380px;" placeholder="http://www.myplas.com" /></td></tr>
+                <tr>
+                    <th>显示公告: </th>
+                    <td>
+                        <label><input type="radio" name="serverFlag" value="1" {if $serverFlag}checked="checked"{/if}/>是</label>
+                        <label><input type="radio" name="serverFlag" value="0" {if empty($serverFlag)} checked="checked"{/if}/>否</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>强制更新: </th>
+                    <td>
+                        <label><input type="radio" name="lastForce" value="1" {if $lastForce}checked="checked"{/if}/>启用</label>
+                        <label><input type="radio" name="lastForce" value="0" {if empty($lastForce)} checked="checked"{/if}/>禁用</label>
+                    </td>
+                </tr>
+                <tr><th>andriod版本更新描述或公告内容</th><td><input name="and_upgradeinfo" value="{$and_upgradeinfo}" class="mini-textarea" style="width:500px;height:180px" placeholder="目前已经更新了卡屏功能，请更新！"/></td></tr>
+                <tr><th>ios版本更新描述或公告内容</th><td><input name="ios_upgradeinfo" value="{$ios_upgradeinfo}" class="mini-textarea" style="width:500px;height:180px" placeholder="目前已经更新了卡屏功能，请更新！"/></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tblbtn">
+            <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+            <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+            <input type="reset" style="display:none;">
+            <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    mini.parse();
+</script>

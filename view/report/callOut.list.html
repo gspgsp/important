@@ -1,0 +1,102 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="sTime">
+				    	<option value="input_time">时间间隔</option>
+				</select>
+				<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$startTime}"/> -
+                <input name="endTime" class="mini-datepicker" style="width:100px;" value="{$endTime}"/>
+				<!--<select name="key_name">-->
+                                    <!--<option value="">==请选择人员==</option>-->
+                                    <!--{foreach from=$listone item=value}					-->
+					<!--<option value="{$value.aname}">{$value.aname}</option>-->
+                                     <!--{/foreach}-->
+				<!--</select>       -->
+				<select name="phone_status">
+					<option value="">=通话状态=</option>
+					<option value="1" {if $phone_status eq 1} selected="selected"{/if}>拨号成功</option>
+					<option value="2" {if $phone_status eq 2} selected="selected"{/if}>响铃</option>
+				</select>
+				<select name="key_dpt">
+					<option value="">==请选择部门==</option>
+					{foreach from=$listtwo item=value}
+					<option value="{$value.name}">{$value.name}</option>
+					{/foreach}
+				</select>
+				<select name="key_type">
+					<option value="customer_manager">交易员</option>
+					<option value="seat_phone">座机号码</option>
+					<option value="remark">拨打号码</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/report/callReport/callOut?action=callOut&startTime={$startTime}&endTime={$endTime}&seat_phone={$seat_phone}&phone_status={$phone_status}" showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true">
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+                <div field="id" width="30" headerAlign="center" align="center">ID</div>
+                <div field="remark" width="70" headerAlign="center" align="center">被叫号码</div>
+                <div field="start" width="80" dateFormat="yyyy-MM-dd HH:mm" headerAlign="center" align="center" >开始时间</div>
+				<div field="time" width="40" headerAlign="center" align="center">呼叫时间</div>
+				<div field="ending" width="60" headerAlign="center" align="center">呼叫结果</div>
+				<div field="cname" width="70" headerAlign="center"  align="center">所属部门</div>        
+				<div field="aname" width="60" headerAlign="center"  align="center">拨号坐席人员</div>
+				<div field="phone" width="60" headerAlign="center"  align="center">拨号坐席电话</div>
+                <div field="files" width="60" headerAlign="center"  align="center" renderer="onLoadSome">录音文件</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	console.log({$phone_status});
+	console.log({$sdf});
+	console.log({$startTime});
+	console.log(22);
+	console.log({$endTime});
+	console.log(33);
+	console.log({$seat_phone});
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+function onLoadSome(e){
+    var record = e.record;
+    console.log(e);
+    console.log(record);
+    var s='';
+    s += '<a href="javascript:showInfo(record.files)">查看</a>';
+    return s;
+}
+
+function showInfo(record){
+    var rows = grid.getSelected();
+    
+	mini.open({
+	  url: "/report/callReport/showInfo?info="+record,
+	  showMaxButton:true,
+	  title: "录音文件详细", 
+	  width: 600, height:230
+	});   
+
+}
+
+</script>

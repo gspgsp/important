@@ -1,0 +1,169 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+			<a class="mini-button" class="output" iconCls="icon-downgrade" plain="true" onclick="outputExcel()">excel导出</a>
+			</td>
+			<td style="float:right;">
+			<form id="soform" method="get" action="/report/callReport/download">
+				<select name="sTime">
+						<option value="input_time">时间间隔</option>
+				</select>
+				<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$startTime}"/> -
+							<input name="endTime" class="mini-datepicker" style="width:100px;" value="{$endTime}"/>
+				<!--<select name="key_name">-->
+									<!--<option value="">==请选择人员==</option>-->
+									<!--{foreach from=$listone item=value}					-->
+					<!--<option value="{$value.aname}">{$value.aname}</option>-->
+									 <!--{/foreach}-->
+				<!--</select>-->
+				<select name="key_dpt">
+					<option value="">==请选择部门==</option>
+					{foreach from=$listtwo item=value}
+					<option value="{$value.name}">{$value.name}</option>
+					{/foreach}
+				</select>
+				<select name="key_type">
+					<option value="customer_manager">交易员</option>
+					<option value="seat_phone">座机号码</option>
+					<option value="out_num">呼出次数>=</option>
+					<option value="out_eff_num">有效呼出次数>=</option>
+					<option value="in_num">呼入>=</option>
+					<option value="in_eff_num">有效呼入>=</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>
+	
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="100"
+		url="/report/callReport/calllist?action=calllist" showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true">
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="dpt" width="90" headerAlign="center" align="center">部门</div>
+			<div field="name" width="80" headerAlign="center" align="center">业务人员</div>
+			<div field="seat_phone" width="60" headerAlign="center" align="center">座机号码</div>
+			<div field="out_num" width="80" headerAlign="center"  align="center" allowSort="true" renderer="onLoadHandle1">呼出次数</div>
+			<div field="out_eff_num" width="60" headerAlign="center"  align="center" allowSort="true" renderer="onLoadHandle2">有效呼出次数</div>
+			<div field="out_time" width="80" headerAlign="center"  align="center" allowSort="true" >呼出总时长</div>
+			<div field="in_num" width="80" headerAlign="center"  align="center" allowSort="true" renderer="onLoadHandle3">呼入次数</div>
+			<div field="in_eff_num" width="110" headerAlign="center"   align="center" allowSort="true" renderer="onLoadHandle4">有效呼入次数</div>
+			<div field="in_time" width="110" headerAlign="center"   align="center" allowSort="true" >呼入总时长</div>	
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+
+search();
+function onKeyEnter(e) {
+	search();
+}
+function onLoadHandle1(e) {
+	var record = e.record,uid=record.seat_phone, out_num=record.out_num, s='';
+	s += '<a href="javascript:viewCReport1('+uid+')">'+out_num+'</a> ';
+	return s;
+}
+function onLoadHandle2(e) {
+	var record = e.record,uid=record.seat_phone, out_eff_num=record.out_eff_num, s='';
+	s += '<a href="javascript:viewCReport2('+uid+')">'+out_eff_num+'</a> ';
+	return s;
+}
+function onLoadHandle3(e) {
+	var record = e.record,uid=record.seat_phone, in_num=record.in_num, s='';
+	s += '<a href="javascript:viewCReport3('+uid+')">'+in_num+'</a> ';
+	return s;
+}
+function onLoadHandle4(e) {
+	var record = e.record,uid=record.seat_phone, in_eff_num=record.in_eff_num, s='';
+	s += '<a href="javascript:viewCReport4('+uid+')">'+in_eff_num+'</a> ';
+	return s;
+}
+//查看通话记录相关信息
+function viewCReport1(c_id){
+	var tmpArr=$("#soform").serializeObject();
+	var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
+	console.log(startTime,endTime);
+	mini.open({
+		url: "report/callReport/callout?seat_phone="+c_id+"&startTime="+startTime+"&endTime="+endTime,
+		showMaxButton:true,
+		title: "查看呼出通话记录相关信息",
+		width: 1200, height:650
+	});
+}
+
+//查看有效通话记录相关信息
+function viewCReport2(c_id){
+	var tmpArr=$("#soform").serializeObject();
+	var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
+	console.log(startTime,endTime);
+	mini.open({
+		url: "report/callReport/callout?phone_status=1&seat_phone="+c_id+"&startTime="+startTime+"&endTime="+endTime,
+		showMaxButton:true,
+		title: "查看呼出通话记录相关信息",
+		width: 1200, height:650
+	});
+}
+
+
+//查看通话记录相关信息
+function viewCReport3(c_id){
+	var tmpArr=$("#soform").serializeObject();
+	var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
+	console.log(startTime,endTime);
+	mini.open({
+		url: "report/callReport/callin?seat_phone="+c_id+"&startTime="+startTime+"&endTime="+endTime,
+		showMaxButton:true,
+		title: "查看呼出通话记录相关信息",
+		width: 1200, height:650
+	});
+}
+
+//查看通话记录相关信息
+function viewCReport4(c_id){
+	var tmpArr=$("#soform").serializeObject();
+	var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
+	console.log(startTime,endTime);
+	mini.open({
+		url: "report/callReport/callin?phone_status=1&seat_phone="+c_id+"&startTime="+startTime+"&endTime="+endTime,
+		showMaxButton:true,
+		title: "查看呼出通话记录相关信息",
+		width: 1200, height:650
+	});
+}
+
+
+function viewCReport(e) {
+	var row = grid.getSelected();
+	if (row) {
+		var width=740,height=700,title='编辑客户信息';
+		urlStr="/user/customer/edit?id="+row.c_id+'&ctype=3';
+		mini.open({
+			url: urlStr,
+			title: title, width: width, height:height,
+			ondestroy: function (action) {
+				if(action=='save'){ //重新加载
+					grid.reload();
+				}
+			}
+		});
+	}
+}
+
+//导出excel
+function outputExcel(){
+	$("#soform").submit();
+}
+</script>

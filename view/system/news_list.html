@@ -1,0 +1,152 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add(0)">新增</a>
+				<a class="mini-button" iconCls="icon-edit" plain="true" onclick="edit()">编辑</a>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+				<span class="separator"></span>             
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="cate_id" id="soCate">
+					<option value="">=分类筛选=</option>
+					{foreach from=$cateTree key=k item=v}
+						<option value="{$v[cate_id]}" {if $v[cate_id]==$cate_id}selected="selected"{/if}>
+							{$v[deep]}<span>{$v[cate_name]}</span>
+						</option>
+					{/foreach}
+				</select>
+				<select name="status">
+					<option value="">=状态=</option>
+					<option value="2">可用</option>
+					<option value="1">禁用</option>
+				</select>
+				<select name="key_type">
+					<option value="title">标题</option>
+					<option value="id">ID</option>
+				</select>       
+					<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+					<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+					<span id="searchMsg"></span>
+			</form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/system/news/{$action}?action=grid" showFilterRow="true" idField="id" multiSelect="true" onrowdblclick="onRowDblClick" allowCellSelect="true" allowCellEdit="true" >
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="id" width="50" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="title" width="120" headerAlign="center">名称                        
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="cate_id" width="100" headerAlign="center" align="center" renderer="onLoadCate">分类</div>               
+			<div field="sort_order" width="60" headerAlign="center" allowSort="true" align="center">排序
+				<input property="editor" class="mini-spinner" minValue="0" maxValue="1000" style="width:100%;"/>
+			</div>      
+			<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
+				<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />     
+			</div>
+			<div field="hot" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">热门
+				<input property="editor" class="mini-combobox" style="width:100%;" data="dHot" />     
+			</div>
+			<div field="true_pv" width="50" headerAlign="center" align="center" allowSort="true">访问量</div>     
+			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
+			<div field="admin_name" width="60" headerAlign="center" align="center">输入人</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+var dStatus=[{ id: 1, text: '可用' }, { id: 0, text: '禁用'}];
+var dHot=[{ id: 1, text: '是' }, { id: 0, text: '否'}];
+function onLoadCate(e) {
+	var record = e.record.cate_id; //record.id
+	var str=$("#soCate").find("option[value="+record+"]").text();
+	return str.replace(/\s+/g,"");
+}
+
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+
+function onRowDblClick(e) {
+	edit();
+}
+function edit() {
+	var row = grid.getSelected();
+	if (row) {
+		add(row.id)
+	}
+}
+//删除数据
+function removeRow() {
+	var rows = grid.getSelecteds(), _ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/system/news/del',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+
+
+//查看编辑卡片信息
+function add(id){
+	mini.open({
+		url: "/system/news/info?edit_id="+id,
+		showMaxButton:true,
+		title: '信息编辑', width: 850, height:550,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});		
+}
+
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/system/news/save',{data:json},callback,"POST","json");
+}
+
+</script>

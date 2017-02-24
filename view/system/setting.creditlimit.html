@@ -1,0 +1,39 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+    <h4>企业信用参数设置</h4>
+    <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+        <div class="part">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr>
+                    <th>企查查api秘钥: </th>
+                    <td>
+                        <input name="creditlimit[creditcode]" value="{$creditlimit.creditcode}" class="mini-textbox" style="width:380px" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>信用额度: </th>
+                    <td>
+                        <input name="creditlimit[ord]" value="{$creditlimit.ord|default:0.2}" class="mini-textbox" style="width:380px" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>预信用额度: </th>
+                    <td>
+                        <input name="creditlimit[pre]" value="{$creditlimit.pre|default:0.2}" class="mini-textbox" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tblbtn">
+            <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+            <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+            <input type="reset" style="display:none;">
+            <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    mini.parse();
+</script>
