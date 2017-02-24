@@ -22,14 +22,14 @@ class plasticAttentionModel extends model
             $count = $this->select('count(id)')->where("focused_id=$focused_id and input_time > $start and input_time < $end")->getOne();
             $allow_send = $this->getUserSet($focused_id);
             if(empty($allow_send)) $allow_send = array('focus'=>0,'repeat'=>0);
+            //开启事务获得id
+            $this->model('weixin_fans');
             if($allow_send['focus']==0 && $count<1){
                 $this->sendRemindMsg($userid,$focused_id,1);
             }
-            //开启事务获得id
-            $this->model('weixin_fans')->startTrans();
             if($this->model('weixin_fans')->add($_data)){
                 $fans_id = $this->model('weixin_fans')->getLastID();
-                M('suggestion:suggestion')->suggestion_fans($userid,$fans_id);
+                //M('suggestion:suggestion')->suggestion_fans($userid,$fans_id);
                 $this->model('weixin_fans')->commit();
                 return array('err'=>0,'msg'=>'关注成功');
             } else{
@@ -44,13 +44,13 @@ class plasticAttentionModel extends model
             //开启事务获得id
             $this->model('weixin_fans')->startTrans();
             if($bools=$this->model('weixin_fans')->where("user_id=$userid and focused_id=$focused_id")->update($_data)){
-                $fans_id = $this->model('weixin_fans')->select('id')->where("user_id=$userid and focused_id=$focused_id")->getOne();
+                //$fans_id = $this->model('weixin_fans')->select('id')->where("user_id=$userid and focused_id=$focused_id")->getOne();
                 $this->model('weixin_fans')->commit();
                 if($result['status']==2){
-                    M('suggestion:suggestion')->suggestion_fans($userid,$fans_id);
+                    //M('suggestion:suggestion')->suggestion_fans($userid,$fans_id);
                     return array('err'=>0,'msg'=>'关注成功');
                 }elseif($result['status']==1){
-                    M('suggestion:suggestion')->suggestion_fans($userid,$fans_id,'D');
+                    //M('suggestion:suggestion')->suggestion_fans($userid,$fans_id,'D');
                     return array('err'=>0,'msg'=>'取消关注成功');
                 }
             }

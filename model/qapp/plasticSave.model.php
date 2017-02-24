@@ -41,7 +41,9 @@ class plasticSaveModel extends model
                         'is_enable'=>0,
                         'update_time'=>date("Y-m-d H:i:s"),
                     );
-                    if($this->model('suggestion_model')->where("id=".$v['id'])->update($arr2)) M('suggestion:suggestion')->suggestion_model($userid,$v['name'],'*','*','D');
+                    if($this->model('suggestion_model')->where("id=".$v['id'])->update($arr2)) {
+
+                    }//M('suggestion:suggestion')->suggestion_model($userid,$v['name'],'*','*','D');
                 }
 
                 foreach($field as $v){
@@ -54,7 +56,8 @@ class plasticSaveModel extends model
                             'create_time'=>date("Y-m-d H:i:s"),
                             'is_concern'=>1,
                         );
-                        if($this->model('suggestion_model')->add($arr)) M('suggestion:suggestion')->suggestion_model($userid,$v);
+                        if($this->model('suggestion_model')->add($arr)){}
+                        // M('suggestion:suggestion')->suggestion_model($userid,$v);
 
 
                     }
