@@ -25,7 +25,7 @@ class newPageAction extends homeBaseAction
 	public function getSupplyCondData(){
         $this->is_ajax = true;
         //筛选条件
-        $model = sget('model','s');//牌号
+        $model = sget('model','s');//牌号 
         $f_name = sget('f_name','s');//厂家名称
         $provinces = sget('provinces','s');//地区
         $product_type = sget('product_type','i');//类型1/2/3/4/5/6/7/8/9
