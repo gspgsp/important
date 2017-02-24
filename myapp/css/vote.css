@@ -1,0 +1,40 @@
+html,body{ width: 100%; height: 100%;}
+#app{}
+.vote-person{ background: #f3b740;}
+.vote-person img{ width: 100%;}
+.vote-wrap{ padding: 10px; background: #f3b740;}
+.vote-box{ width: auto; margin-bottom: 15px; background: #ffffff; padding: 10px; border: 2px solid #0a0204; border-radius: 5px;}
+.vote-box h3{ font-size: 14px; color: #333333;}
+.vote-box h3 span{ font-size: 10px; font-weight: normal; color: #fe5540;}
+.vote{ font-size: 14px;}
+.vote.weui-cells{ margin: 0;}
+.weui-cells.vote:after, .weui-cells.vote:before { display: none;}
+.weui-cell.vote{ padding: 5px 0;}
+.weui-cell.vote:after, .weui-cell.vote:before { display: none;}
+.vote span{ float: right;}
+.vote b{ font-weight: normal; color: #fe5540;}
+.vote-btn{ width: 100%; height: 45px; line-height: 45px; background: #e84013; border-bottom: 2px solid #761900; color: #FFFFFF; text-align: center; border-radius: 6px;}
+.vote-team{ width: 100%; height: 38px; background: url(../img/vote-team.png) no-repeat center; background-size: 141px 38px;}
+.vote-team2{ width: 100%; height: 38px; background: url(../img/vote-team2.png) no-repeat center; background-size: 141px 38px;}
+
+.vote-person2{ width: 100%; height: 100%; background: #af0d13;}
+.vote-person2 img{ width: 100%;}
+.vote-wrap2{ padding: 10px; background: #b20b12;}
+.vote-btn2{ width: 100%; height: 45px; margin: 25px 0; line-height: 45px; background: #e9d13a; border-bottom: 2px solid #761900; color: #af0d13; text-align: center; border-radius: 6px;}
+.vote-box2{ width: auto; overflow: hidden; background: #ec3d46; padding: 10px; box-shadow: 0px 0px 8px #920c10; margin: 0 0 10px 0;}
+.vote-box2 h3{ font-size: 12px; font-weight: normal; color: #FFFFFF;}
+.vote-ul{ margin: 15px 0 0 0; padding: 0; font-size: 15px; color: #FFFFFF;}
+.vote-ul li{ border-bottom: 1px dotted #FFFFFF;}
+.vote-ul span{ float: right; color: #FFFFFF; margin: -10px 0 0 0;}
+.star{ margin: -10px 0 0 0; float: right; list-style: none;}
+.star li{ float: left; width: 19px; height: 19px; border: none; margin: 0 2px 0 0; background: url(../img/staroff.png) no-repeat; background-size: 100% 100%;}
+.star li.on{ background: url(../img/staron.png) no-repeat; background-size: 100% 100%;}
+
+.login{ width: 270px; height: 320px; z-index: 5; background: url(../img/voteloginbg.jpg) no-repeat; background-size: 100% 100%; position: fixed; top: 50%; left: 50%; margin: -160px 0 0 -135px;}
+.login2{ width: 270px; height: 320px; z-index: 5; background: url(../img/voteloginbg2.jpg) no-repeat; background-size: 100% 100%; position: fixed; top: 50%; left: 50%; margin: -160px 0 0 -135px;}
+.layer{ width: 100%; height: 100%; background: rgba(0,0,0,0.7); position: fixed; top: 0; left: 0;}
+.mobile{ width: auto; margin: 150px 20px 0 20px; padding: 0 0 6px 0; border-bottom: 1px solid #fd9d99;}
+.code{ width: 70px; margin: 20px 20px 0 20px; padding: 0 0 6px 0; border-bottom: 1px solid #fd9d99;}
+.sendcode{ width: 100px; height: 30px; line-height: 30px; text-align: center; color: #fff8a6; font-size: 12px; display: inline-block; background: #f43038; border-radius: 3px;}
+.tovote{ width: auto; margin: 20px 20px 0 20px; text-align: center; font-size: 17px; color: #fff8a6; height: 30px; line-height: 30px; border-radius: 30px; background: #f43038;}
+

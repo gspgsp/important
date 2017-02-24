@@ -1,0 +1,109 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input,button,textarea{ margin:0; padding:0; border:0;}
+ul,ol,li{ list-style:none;}
+h1,h2,h3,h4,h5{ font-weight:normal;}
+input,button,textarea,select{ font-family:"微软雅黑"; outline:medium;}
+body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
+
+a{ text-decoration:none;}
+.flt{ float:left;}
+.frt{ float:right;}
+.w1220{ width:1220px; height:auto; overflow:hidden; margin:0 auto;}
+/*banner begin*/
+.finance .banner{ font-size:18px; width:100%; height:426px; line-height:426px; text-align:center; overflow:hidden; background:#ccc;}
+.finance .finance-sel{background:#fefcfc;border-radius:8px;width:250px;margin:33px 0 0 0;float:left;height:360px;position:relative;z-index:2}
+.finance .finance-sel li{width:250px;height:90px;overflow:hidden}
+.finance .finance-sel li a{display:block;margin:0 0 0 20px;position:relative}
+.finance .finance-sel li a h3{color:#323232;font-size:18px; font-weight:bold; padding:19px 0 7px 0;}
+.finance .finance-sel li a p{font-size:14px;color:#646464;}
+.finance .finance-sel li a span{position:absolute;right:10px;top:34px;width:23px;height:23px;background:url(../../images/home/img/financeSpirit.png) no-repeat 0 -511px}
+.finance .finance-sel li.hover a h3,.finance-sel li.hover a p,.finance-sel li:hover a h3,.finance-sel li:hover a p{color:#fc6621;}
+.finance .finance-sel li.hover a span,.finance-sel li:hover a span{background-position:-23px -511px}
+.finance .finance-input{ color:#fff; font-size:16px; width:290px; height:auto; margin:20px 0 0 0; padding:20px 0 35px 20px; border-radius:6px;}
+.finance .finance-input .error-msg{ font-size:12px; height:12px; line-height:12px; margin:0 0 10px 90px;}
+.finance .finance-input.finance-input2{ background:rgba(91,40,37,.6);}
+.finance .finance-input.finance-input3{ background:rgba(36,176,229,.6);}
+.finance .finance-input.finance-input4{ background:rgba(25,139,114,.6);}
+.finance .finance-input .tr{ height:26px; overflow:hidden; margin:0 0 10px 0;}
+.finance .finance-input .tr div{ float:left;}
+.finance .finance-input .tr .name{ width:80px; text-align:right; margin:0 10px 0 0;}
+.finance .finance-input .tr .val select{ width:126px; height:26px; overflow:hidden;}
+.finance .finance-input .tr .val input.import{ width:116px; height:26px; padding:0 0 0 10px; overflow:hidden;}
+.finance .finance-input .tr.grade{ overflow:visible; position:relative;}
+.finance .finance-input .tr.grade .suggest{ font-size:12px; color:#555; width:126px; height:auto; max-height:150px; text-indent:6px; overflow:auto; background:#ddd; position:absolute; left:90px; top:26px;}
+.finance .finance-input .tr.grade .suggest li{ line-height:25px; cursor:pointer;}
+.finance .finance-input .tr.grade .suggest li:hover{ background:#ccc;}
+.finance .finance-input .tr.grade .suggest li a,.finance .finance-input .tr.grade .suggest li span{ display:block;}
+.finance .finance-input .btn input{ font-size:14px; color:#fff; width:90px; height:26px; border-radius:2px; margin:5px 0 0 30px; cursor:pointer;}
+.finance .finance-input.finance-input2 .btn input{ background:#037fff;}
+.finance .finance-input.finance-input3 .btn input{ background:#fc6621;}
+.finance .finance-input.finance-input4 .btn input{ background:#ea2700;}
+.finance .finance-input .tr .val span{ font-size:12px; margin:0 0 0 7px;}
+/*banner end*/
+
+.finance .floor .title{ font-size:20px; width:100%; height:39px; line-height:39px; overflow:hidden; border-bottom:4px solid; margin:21px 0 0 0;}
+.finance .floor .floor-con .left{ color:#fefdfd; width:250px; height:356px; overflow:hidden; float:left; position:relative;}
+.finance .floor .floor-con .left p{ font-size:18px; margin:21px 0 16px 21px;}
+.finance .floor .floor-con .left span{ font-size:14px; display:block; margin:0 0 21px 21px;}
+.finance .floor .floor-con .left .pic{ background:url(../../images/home/img/financeSpirit.png) no-repeat;}
+.finance .floor .floor-con .left .btn{ width:112px; height:36px; line-height:36px; text-align:center; border-radius:4px; position:absolute; left:69px; bottom:20px;}
+.finance .floor .floor-con .left .btn a{ color:#fff; font-size:14px; display:block;}
+.finance .floor .floor-con .right{ width:969px; height:355px; overflow:hidden; border-right:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; float:left;}
+.finance .floor .floor-con .right h3{ font-size:18px; height:18px; line-height:18px; margin:21px 0 0 20px;}
+.finance .floor .floor-con .right .pic{ width:760px; height:176px; overflow:hidden; margin:0 0 0 105px;}
+.finance .floor .floor-con .right ul{ color:#323232; font-size:14px; width:784px; height:auto; overflow:hidden; margin:21px 0 0 105px;}
+.finance .floor .floor-con .right ul li{ width:104px; height:22px; line-height:22px; text-align:center; overflow:hidden; border:1px solid #d6d7dc; margin:0 24px 20px 0; float:left; cursor:pointer;}
+.finance .floor.floor1 .title{ color:#fc6621; border-color:#fca67e;}
+.finance .floor.floor1 .floor-con .left{ background:#fca67e;}
+.finance .floor.floor1 .floor-con .left .pic{ width:167px; height:167px; margin:0 0 0 42px; background-position:0 0;}
+.finance .floor.floor1 .floor-con .left .btn{ background:#de4600;}
+.finance .floor.floor1 .floor-con .right ul li:hover,.finance .floor.floor1 .floor-con .right ul li.hover{ border-color:#fc6621; color:#fc6621;}
+.finance .floor.floor2 .title{ color:#267bd3; border-color:#6cb0f6;}
+.finance .floor.floor2 .floor-con .left{ background:#6cb0f6;}
+.finance .floor.floor2 .floor-con .left .pic{ width:158px; height:159px; margin:0 0 0 39px; background-position:0 -167px;}
+.finance .floor.floor2 .floor-con .left .btn{ background:#216ab8;}
+.finance .floor.floor2 .floor-con .right ul li:hover,.finance .floor.floor2 .floor-con .right ul li.hover{ border-color:#267bd3; color:#267bd3;}
+.finance .floor.floor3 .title{ color:#00b400; border-color:#81d681;}
+.finance .floor.floor3 .floor-con .left{ background:#81d681;}
+.finance .floor.floor3 .floor-con .left .pic{ width:175px; height:185px; margin:0 0 0 38px; background-position:0 -326px;}
+.finance .floor.floor3 .floor-con .left .btn{ background:#008200;}
+.finance .floor.floor3 .floor-con .right ul li:hover,.finance .floor.floor3 .floor-con .right ul li.hover{ border-color:#00b400; color:#00b400;}
+
+/*page-banner begin*/
+.finance .page-banner{ width:100%; height:426px; overflow:hidden;}
+.finance .page-banner.page2-banner{ background:url(../../images/home/img/fBanner3.jpg) no-repeat center top;}
+.finance .page-banner.page3-banner{ background:url(../../images/home/img/fBanner4.jpg) no-repeat center top;}
+.finance .page-banner.page4-banner{ background:url(../../images/home/img/fBanner5.jpg) no-repeat center top;}
+/*page-banner end*/
+
+/*page2 begin*/
+.finance .mypage h3{ color:#121212; font-size:24px; text-align:center;}
+.finance .feature{ height:360px;}
+.finance .feature h3{ margin:20px 0 61px 0;}
+.finance .feature .pic{ width:1064px; height:180px; overflow:hidden; margin:0 0 0 78px;}
+.finance .apply{ height:400px; overflow:hidden;}
+.finance .apply.apply2{ background:url(../../images/home/img/page2C.jpg) no-repeat center top;}
+.finance .apply.apply3{ background:url(../../images/home/img/page3C.jpg) no-repeat center top;}
+.finance .apply.apply4{ background:url(../../images/home/img/page4C.jpg) no-repeat center top;}
+.finance .apply h3{ color:#fff; margin:25px 0 53px 0;}
+.finance .apply .pic{ width:1101px; height:255px; overflow:hidden; margin:0 0 0 64px;}
+.finance .question{ height:400px;}
+.finance .question h3{ margin:26px 0 44px 0;}
+.finance .question dl{ font-size:16px; margin:0 0 25px 50px;}
+.finance .question dl dt{ color:#323232; margin:0 0 3px 0;}
+.finance .question dl dd{ color:#646464;}
+.finance .case{ color:#323232; height:400px; background:#e6e6e6;}
+.finance .case h3{ margin:26px 0 58px 0;}
+.finance .case p{ font-size:16px; width:1130px; margin:0 0 0 45px; line-height:24px;}
+.finance .case span{ font-size:16px; margin:30px 0 0 45px; display:block;}
+/*page2 end*/
+
+html,body{overflow-x:hidden;}
+#bannerSlidePlayer{position:absolute;width:100%;left:0;top:102px;}
+.main_image{overflow:hidden;position:relative;height:426px}
+.main_image li{float:left;width:100%;height:426px;overflow:hidden!important}
+.main_image li a{display:block;height:426px;position:relative;overflow:hidden}
+.main_image li img{height:426px;width:1920px;margin-left:50%;left:-960px;top:0;position:absolute;display:block}
+.main_visual .flicking_con{position:absolute;text-align:center;bottom:0;left:38%;z-index:2;width:590px;height:25px;margin:0 0 0 5px}
+.main_visual .flicking_con a{text-indent:99999px;margin:0;margin-left:5px;float:none;width:12px;height:12px;background:url(../../images/home/spirit.png) 0 0;padding:0;display:inline-block;position:relative}
+.main_visual .flicking_con a.on{background:url(../../images/home/spirit.png) -12px 0;}
+.sidefloor{position:relative;z-index:2;overflow:hidden;width:250px;margin-left:-610px;left:50%;height:426px;}
