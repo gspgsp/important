@@ -1,0 +1,138 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='home/laydate/laydate.js'}
+<div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
+<!--user-wrap begin-->
+
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-收支明细</h3>
+    	<!--filter begin-->
+        <div class="filter">
+        	<form id="filterForm" method="get" action="">
+    		    <!--filter-bot begin-->
+    		    <div class="filter-bot" id="filter">
+    		    	<table border="1">
+    		          <tr>
+    		          	<td>流水号：</td>
+    		            <td width="242"><input type="text" class="number" name="number" value=""/></td>
+    		            <td>创建时间：</td>
+    		            <td width="600">
+    		            <span style="margin:0 10px 0 10px;">开始时间</span><input id="date1" name="input_time_1" value="" class="time1" type="text"/>
+    		            <span style="margin:0 10px 0 10px;">结束时间</span><input id="date2" name="input_time_2" value="" class="time2" type="text"/>
+    		            </td>
+    		          </tr>
+    		          <tr>
+    		            <td>交易单号：</td>
+    		            <td><input type="text" name="order_sn" class="order_sn" value=""/></td>
+                          <td><input type="submit" class="btn_submit" value="搜索"/></td>
+    		          </tr>
+    		        </table>
+    		    </div>
+    		    <!--filter-bot end-->
+        	</form>  	
+        </div>
+        <!--filter end-->
+        <!--record begin-->
+        <div class="record">
+            <h2>最近收支</h2>
+            <div class="record-con-more link6">
+                <!--record-tr begin-->
+                <ul class="record-tr record-title">
+                    <li class="number">流水号</li>
+                    <li class="time">时间</li>
+                    <li class="pay">支出（元）</li>
+                    <li class="income">收入（元）</li>
+                    <li class="trade">交易单号</li>
+                    <li class="remark">备注</li>
+                    <!--<li class="opt">操作</li>-->
+                </ul>
+                <!--record-tr end-->
+                <!--record-tr begin-->
+                {foreach from=$info.data item=value key=key}
+                <ul class="record-tr">
+                    <li class="number">{$value.id}</li>
+                    <li class="time">{$value.input_time|date: Y-m-d }</li>
+                    {if $value.order_type==1}
+                    <li class="pay">0</li>
+                    <li class="income">{$value.total_price}</li>
+                    {else}
+                    <li class="pay">{$value.total_price}</li>
+                    <li class="income">0</li>
+                    {/if}
+                    <li class="trade">{$value.order_sn}</li>
+                    <li class="remark">无</li>
+                    <!--<li class="opt"><a href="/user/fundInfomation/fundDetail">查看</a></li>-->
+                </ul>
+                {/foreach}
+                <!--record-tr end-->
+
+            </div>
+        </div>
+        <!--record end-->
+        <!--finance-lc-pic end-->
+    </div>
+    <!--right end-->
+    <div>&nbsp;</div>
+    <div class="page" style="text-align: center;">
+                <ul style="display: inline-block;">
+                    <li>{$pages}</li>
+                </ul>
+    </div>
+</div>
+<!--user-wrap end-->
+<script type="text/javascript">
+   $(function(){
+       $('.btn_submit').click(function(){
+           var number=$('.number').val().trim();
+           var time1=$('.time1').val().trim();
+           var time2=$('.time2').val().trim();
+           var order_sn=$('.order_sn').val().trim();
+           if((time1&&!time2)||(!time1&&time2)){
+               layer.msg('创建时间不能只选一个');return false;
+           }
+           if(!checkEndTime()){
+               layer.msg("结束时间必须晚于开始时间！");return false;
+           }
+           $.ajax({
+               url:'/user/fundInfomation/fundInfomation',
+               type:'get',
+               dataType:'json',
+               data:{id:number,time1:time1,time2:time2,order_sn:order_sn},
+               cache:'false'
+           })
+       })
+
+       function checkEndTime(){
+           var startTime=$(".time1").val();
+           var start=new Date(startTime.replace("-", "/").replace("-", "/"));
+           var endTime=$(".time2").val();
+           var end=new Date(endTime.replace("-", "/").replace("-", "/"));
+           if(end<start){
+               return false;
+           }
+           return true;
+       }
+   })
+
+    $(function(){
+        laydate({
+            elem: '#date1',
+            event: 'focus'
+        });
+        laydate({
+            elem: '#date2',
+            event: 'focus'
+        });
+    })
+
+    $(function(){
+        //取消
+        $(".opt a").live("click",function(){
+
+        });
+
+    });
+</script>

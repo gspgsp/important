@@ -1,0 +1,284 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='home/tab.js'}
+
+<div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
+<div class="user-wrap w1220">
+	{include file="public:user_left"}
+	<div class="right frt">
+		<h3>个人中心-塑料白条</h3>
+		<!--ious-filter begin-->
+		<div class="ious-filter">
+			<span>订单编号：</span><input type="text" class="import"/>
+			<span>创建时间：</span><input type="text" class="import" id="date"/>
+			<span>状态：</span>
+			<select>
+				<option value="">全部</option>
+				<option value="">待审核</option>
+				<option value="">待审核</option>
+				<option value="">待审核</option>
+			</select>
+			<input type="button" class="btn" value="查询"/>
+			<input type="button" class="btn" value="费用试算"/>
+		</div>
+		<!--ious-filter end-->
+		<!--ious-title begin-->
+		<div class="ious-title">
+			<ul>
+				<li class="sel no"><span></span>全选</li>
+				<li class="order">商品</li>
+				<li class="amount">总量（吨）</li>
+				<li class="cost">运费</li>
+				<li class="total">总额（元）</li>
+				<li class="opt">操作</li>
+			</ul>
+		</div>
+		<!--ious-title end-->
+		<!--ious-con begin-->
+		<div class="ious-con">
+			<div class="sel yes"></div>
+			<!--order begin-->
+			<div class="order flt">
+				<ul>
+					<li class="color-blue">
+						<b>订单编号：</b><span>201505100001</span>
+						<b>合同名称：</b><span>中晨</span>
+					</li>
+					<li>
+						<b>创建时间：</b><span>2016-09-13 10：29</span>
+						<b>交货时间：</b><span>2016-09-13 10：29</span>
+					</li>
+					<li>
+						<b>审核状态：</b><span>待审核</span>
+						<b>付款状态：</b><span>待付款</span>
+						<b>发货状态：</b><span>待发货</span>
+						<b>开票状态：</b><span>待开票</span>
+					</li>
+					<li class="color-blue data">
+						<em class="data1"></em><b>已收款：</b><span>0.00元</span>
+						<em class="data2"></em><b>应收款：</b><span>460350.00元</span>
+						<em class="data3"></em><b>预计还款时间：</b><span>2016-09-18</span>
+					</li>
+					<li>
+						<b>运输方式：</b><span>需方自提，费用自理</span>
+						<b>备注：</b><span>沈辉采购，马良销售</span>
+					</li>
+				</ul>
+			</div>
+			<!--order end-->
+			<!--mix begin-->
+			<div class="mix flt">
+				<!--mix-top begin-->
+				<div class="mix-top">
+					<span>49.5</span>
+					<span>0.000</span>
+					<span>460350.00</span>
+				</div>
+				<!--mix-top end-->
+				<!--mix-bot begin-->
+				<div class="mix-bot">
+					<div class="pie" id="pie1"></div>
+					<!--pie-data begin-->
+					<ul class="pie-data">
+						<li class="data1"><b></b><span>预付款：50,0000元</span></li>
+						<li class="data2"><b></b><span>已收款：30,0000元</span></li>
+						<li class="data3"><b></b><span>未付款：30,0000元</span></li>
+					</ul>
+					<!--pie-data end-->
+				</div>
+				<!--mix-bot end-->
+			</div>
+			<!--mix end-->
+			<!--opt begin-->
+			<div class="opt flt">
+				<p><a href="/user/ious/detail">查看</a></p>
+				<!-- <p><a href="javascript:;">取消</a></p> -->
+				<div class="status no"></div>
+			</div>
+			<!--opt end-->
+		</div>
+		<!--ious-con end-->
+		<!--ious-con begin-->
+		<div class="ious-con">
+			<div class="sel no"></div>
+			<!--order begin-->
+			<div class="order flt">
+				<ul>
+					<li class="color-blue">
+						<b>订单编号：</b><span>201505100001</span>
+						<b>合同名称：</b><span>中晨</span>
+					</li>
+					<li>
+						<b>创建时间：</b><span>2016-09-13 10：29</span>
+						<b>交货时间：</b><span>2016-09-13 10：29</span>
+					</li>
+					<li>
+						<b>审核状态：</b><span>待审核</span>
+						<b>付款状态：</b><span>待付款</span>
+						<b>发货状态：</b><span>待发货</span>
+						<b>开票状态：</b><span>待开票</span>
+					</li>
+					<li class="color-blue data">
+						<em class="data1"></em><b>已收款：</b><span>0.00元</span>
+						<em class="data2"></em><b>应收款：</b><span>460350.00元</span>
+						<em class="data3"></em><b>预计还款时间：</b><span>2016-09-18</span>
+					</li>
+					<li>
+						<b>运输方式：</b><span>需方自提，费用自理</span>
+						<b>备注：</b><span>沈辉采购，马良销售</span>
+					</li>
+				</ul>
+			</div>
+			<!--order end-->
+			<!--mix begin-->
+			<div class="mix flt">
+				<!--mix-top begin-->
+				<div class="mix-top">
+					<span>49.5</span>
+					<span>0.000</span>
+					<span>460350.00</span>
+				</div>
+				<!--mix-top end-->
+				<!--mix-bot begin-->
+				<div class="mix-bot">
+					<div class="pie" id="pie2"></div>
+					<!--pie-data begin-->
+					<ul class="pie-data">
+						<li class="data1"><b></b><span>预付款：50,0000元</span></li>
+						<li class="data2"><b></b><span>已收款：30,0000元</span></li>
+						<li class="data3"><b></b><span>未付款：30,0000元</span></li>
+					</ul>
+					<!--pie-data end-->
+				</div>
+				<!--mix-bot end-->
+			</div>
+			<!--mix end-->
+			<!--opt begin-->
+			<div class="opt flt">
+				<p><a href="javascript:;">查看</a></p>
+				<!-- <p><a href="javascript:;">取消</a></p> -->
+				<div class="status yes"></div>
+			</div>
+			<!--opt end-->
+		</div>
+		<!--ious-con end-->
+	</div>
+</div>
+<script type="text/javascript" src="__JS__/home/echarts.common.min.js"></script>
+<script type="text/javascript" src="__JS__/home/laydate/laydate.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	//选中当前订单
+	$(".ious-con .sel").bind("click",function(){
+		var oThis = $(this),
+			iousTitSel = $(".ious-title .sel");
+		if(oThis.hasClass("yes")){
+			oThis.removeClass("yes").addClass("no");
+			iousTitSel.removeClass("yes").addClass("no");
+		} 
+		else if(oThis.hasClass("no")){
+			oThis.removeClass("no").addClass("yes");
+		}
+	});
+
+	//全选
+	$(".ious-title .sel").bind("click",function(){
+		var oThis = $(this),
+			iousConSel = $(".ious-con .sel");
+		if(oThis.hasClass("yes")){
+			oThis.removeClass("yes").addClass("no");
+			iousConSel.removeClass("yes").addClass("no");
+		} 
+		else if(oThis.hasClass("no")){
+			oThis.removeClass("no").addClass("yes");
+			iousConSel.removeClass("no").addClass("yes");
+		}
+	});
+});
+
+laydate({
+    elem: '#date',
+    festival: true //显示节日
+});
+
+/*饼图开始*/
+var pie1 = echarts.init(document.getElementById('pie1')); 
+var pie2 = echarts.init(document.getElementById('pie2')); 
+option1 = {
+    tooltip : {
+        trigger: 'item',
+        textStyle:{ fontSize:'12px'},
+        formatter: "{b} : {c} ({d}%)"
+    },
+    color:['#fc6621','#00b400','#bfbfbd'],
+    legend: {
+    	show:false,
+    	right:0,
+        orient:'vertical',
+        data:['预付款','已收款','未付款']
+    },
+    series:[
+        {
+        	name: '访问来源',
+            type:'pie',
+            radius :'80%',
+            center: ['50%', '50%'],
+            label: {normal:{show:false}}, 
+            labelLine:{normal:{show:false}},
+            data:[
+                {value:335, name:'预付款'},
+                {value:310, name:'已收款'},
+                {value:234, name:'未付款'},
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 0,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+
+option2 = {
+    tooltip : {
+        trigger: 'item',
+        textStyle:{ fontSize:'12px'},
+        formatter: "{b} : {c} ({d}%)"
+    },
+    color:['#fc6621','#00b400','#bfbfbd'],
+    legend: {
+    	show:false,
+    	right:0,
+        orient:'vertical',
+        data:['预付款','已收款','未付款']
+    },
+    series:[
+        {
+            name: '访问来源',
+            type:'pie',
+            radius :'80%',
+            center: ['50%', '50%'],
+            label: {normal:{show:false}}, 
+            labelLine:{normal:{show:false}},
+            data:[
+                {value:195, name:'预付款'},
+                {value:0, name:'已收款'},
+                {value:510, name:'未付款'},
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 0,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+ pie1.setOption(option1);  
+ pie2.setOption(option2);     
+/*饼图结束*/
+</script>

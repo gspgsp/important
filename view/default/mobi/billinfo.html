@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	<style>
+		#bill label{ padding: 10px 0 10px 15px; line-height: 21px; width: 38%; font-size: 12px;}
+		#bill input[type=text]{ width: 62%; font-size: 12px; padding: 0 7px;}
+	</style>
+</head>
+
+<body style="padding-bottom: 50px;">
+<header id="infoHeader">
+	<a class="back" href="javascript:window.history.back();"></a>
+	开票资料
+	<a class="billRight" href="javascript:;">修改</a>
+</header>
+<ul class="meUl2">
+	<li>公司名称：<span id="c_name"></span></li>
+	<li>纳税人识别号：<span id="tax_id"></span></li>
+	<li>公司法人：<span id="legal_person"></span></li>
+	<li>开户银行：<span id="invoice_bank"></span></li>
+	<li>银行账号：<span id="invoice_account"></span></li>
+	<li>公司地址：<span id="invoice_address"></span></li>
+	<li>公司电话：<span id="invoice_tel"></span></li>
+	<li>审核状态：<span id="status"></span></li>
+</ul>
+<div class="alter">
+	<form id="bill" class="mui-input-group" style=" border-radius: 8px; padding: 20px 0 30px 0;">
+	<div class="mui-input-row">
+		<label>公司名称：</label><input class="c_name" readonly="readonly" style="background: #E2E2E2;" type="text">
+	</div>
+	<div class="mui-input-row">
+		<label>纳税人识别号：</label><input class="tax_id" type="text">
+	</div>
+		<div class="mui-input-row">
+		<label>公司法人：</label><input class="legal_person" type="text">
+	</div>
+	<div class="mui-input-row">
+		<label>开户银行：</label><input class="invoice_bank" type="text">
+	</div>
+	<div class="mui-input-row">
+		<label>银行账号：</label><input class="invoice_account" type="text">
+	</div>
+	<div class="mui-input-row">
+		<label>公司地址：</label><input class="invoice_address" type="text">
+	</div>
+	<div class="mui-input-row">
+		<label>公司电话：</label><input class="invoice_tel" type="text">
+	</div>
+	<div class="mui-button-row"style="padding-top: 20px;">
+		<button id="cancel" type="button" class="mui-btn mui-btn-danger" style="background: #999999; border: none;" onclick="return false;">取消</button>&nbsp;&nbsp;
+		<button id="submit" type="button" class="mui-btn mui-btn-primary" style="background: #ff5000; border: none;" onclick="return false;">确认</button>	
+	</div>
+	</form>
+</div>
+<div class="billLayer"></div>
+<script type="text/javascript" charset="utf-8">
+	$(function () {
+		var id="";
+		var tax_id="";
+		var invoice_address="";
+		var invoice_tel="";
+		var invoice_bank="";
+		var invoice_account="";
+		var status="";
+
+		commonAjax(
+				"post",
+				"/mobi/personalCenter/getBillInfo"
+		).then(function (res) {
+			console.log(">>>",res);
+			if(res.err==1){
+				window.location.href="/mobi/login";
+			}else if(res.err==2){
+				mui.alert("",res.msg,function(){
+					
+				});
+			}else{
+				if(res.data.status==1){
+					status="已审核"
+				}else{
+					status="待审核";
+				}
+				id=res.data.id;
+				$("#c_name").text(res.data.c_name);
+				$(".c_name").val(res.data.c_name);
+				$("#tax_id").text(res.data.tax_id);
+				$(".tax_id").val(res.data.tax_id);
+				$("#legal_person").text(res.data.legal_person);
+				$(".legal_person").val(res.data.legal_person);
+				$("#invoice_bank").text(res.data.invoice_bank);
+				$(".invoice_bank").val(res.data.invoice_bank);
+				$("#invoice_account").text(res.data.invoice_account);
+				$(".invoice_account").val(res.data.invoice_account);
+				$("#invoice_address").text(res.data.invoice_address);
+				$(".invoice_address").val(res.data.invoice_address);
+				$("#invoice_tel").text(res.data.invoice_tel);
+				$(".invoice_tel").val(res.data.invoice_tel);
+				$("#status").text(status);
+			}
+		},function () {
+
+		});
+		
+		$(".billRight").on("click",function(){
+			$(".billLayer").show();
+			$(".alter").show()
+		});
+		
+		$("#cancel").on("click",function(){
+			$(".billLayer").hide();
+			$(".alter").hide()
+		});
+		
+		$("#submit").on("click",function(){
+			commonAjax(
+					"post",
+					"/mobi/personalCenter/saveBillInfo",
+					{
+						id:id,
+						tax_id:$(".tax_id").val(),
+						invoice_address:$(".invoice_address").val(),
+						invoice_tel:$(".invoice_tel").val(),
+						invoice_bank:$(".invoice_bank").val(),
+						invoice_account:$(".invoice_account").val()
+					}
+			).then(function (res) {
+				console.log(">>>",res);
+				if(res.err==1){
+					window.location.href="/mobi/login";
+				}else{
+					mui.alert("",res.msg,function(){
+						window.location.reload();
+					});
+				}
+			},function () {
+	
+			});
+			
+		});
+
+	});
+</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+</body>
+</html>

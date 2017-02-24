@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>塑料圈通讯录</title>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/plastic2.css" />
+</head>
+
+<body>
+	<div id="app">
+		<keep-alive>
+			<router-view></router-view>
+		</keep-alive>
+	</div>
+	<script type="text/javascript" src="__MYAPP__/js/mui.min.js"></script>
+	<script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="__MYAPP__/js/jquery.upload.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+		var tel = localStorage.tel;
+		console.log(tel);
+//		wx.config({
+//			debug: false,
+//			appId: '{$AppID}',
+//			timestamp: '{$timestamp}',
+//			nonceStr: '{$noncestr}',
+//			signature: '{$signature}',
+//			jsApiList: [
+//				'showOptionMenu',
+//				'onMenuShareTimeline',
+//				'onMenuShareAppMessage',
+//				'onMenuShareQQ'
+//			]
+//		});
+	</script>
+	<script type="text/javascript" src="__MYAPP__/plastic2/main.js"></script>
+</body>
+
+</html>

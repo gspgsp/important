@@ -1,0 +1,769 @@
+{layout file="public:news_warp"}
+
+{if $nav!='vip'}
+<!--headline-floor1 begin-->
+<div class="headline-floor headline-floor1 w1220">
+	<!--left begin-->
+    <div class="left-wrap bor pre-release flt">
+    	<div class="bor-title">
+        	<h3>早盘抢鲜看</h3>
+            <p class="more" id="zts"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zts.html">MORE</a></p>
+            <p class="more" id="sydt" style="display:none;"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sydt.html">MORE</a></p>
+        </div>
+        <!--tab begin-->
+        <div class="tab-wrap">
+            <div class="tab">
+                <ul>
+                    <li id="tab1" onclick="setTab('tab',1,2)" class="hover"><span><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zts.html">早提示</a></span><b>|</b></li>
+                    <li id="tab2" onclick="setTab1('tab',2,2)"><span><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sydt.html">上游动态</a></span></li>
+                </ul>
+            </div>
+        </div>
+        <!--tab end-->
+        <div class="con-tab">
+        	<ul id="con-tab-1" class="newsli">
+            	{foreach from=$data[zts] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zts/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                        {/foreach}
+            </ul>
+            <ul id="con-tab-2" class="newsli" style="display:none;">
+                        {foreach from=$data[sydt] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/sydt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                        {/foreach}
+            </ul>
+        </div>
+    </div>
+    <!--left end-->
+  <!--right begin-->
+    <div class="banner frt">
+        <div class="wrapper">
+            <div id="focus">
+                <ul>
+                    <li><div><a href="{if $nav}{$nav}{else}public{/if}sszc.html" target="_blank"><img src="__UPLOAD__/{$sszcBanner[0].img}" alt="{$sszcBanner[0].title}" title="{$sszcBanner[0].title}"  width="890" height="260" /></a></div></li>
+                    <li><div><a href="{if $nav}{$nav}{else}public{/if}zcss.html" target="_blank"><img src="__UPLOAD__/{$zcssBanner[0].img}" alt="{$zcssBanner[0].title}" title="{$zcssBanner[0].title}"   width="890"  height="260" /></a></div></li>
+                    <li><div><a href="{if $nav}{$nav}{else}public{/if}sjfx.html" target="_blank"><img src="__UPLOAD__/{$sjjdBanner[0].img}" alt="{$sjjdBanner[0].title}" title="{$sjjdBanner[0].title}"  width="890"  height="260"  /></a></div></li>
+                    {if $nav!='pvc'}
+                    <li><div><a href="{if $nav}{$nav}{else}public{/if}jpfx.html" target="_blank"><img src="__UPLOAD__/{$jpfxBanner[0].img}" alt="{$jpfxBanner[0].title}" title="{$jpfxBanner[0].title}"  width="890"  height="260"  /></a></div></li>
+                    {/if}
+                </ul>
+                <div class="banner-title {if $nav!='pvc'}title1{else}title2{/if}">
+                    <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sszc.html">塑市早茶</a></p>
+                    <p class="on"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zcss.html">中晨塑说</a></p>
+                    <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sjfx.html">数据分析</a></p>
+                    {if $nav!='pvc'}
+                    <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}jpfx.html">竞拍分析</a></p>
+                    {/if}
+                </div>
+            </div>
+        </div>
+        <!-- wrapper end -->
+    </div>
+    <!--right end-->
+</div>
+<!--headline-floor1 end-->
+<!--headline-floor2 begin-->
+<div class="headline-floor headline-floor2 w1220">
+	<!--left begin-->
+    <div class="left-wrap bor flt">
+    {if $type != 'public'}
+        <a href="{$cLeftTopBanner[0].url}" target="_blank"><img src="__UPLOAD__/{$cLeftTopBanner[0].img}" title="{$cLeftTopBanner[0].title}" alt="{$cLeftTopBanner[0].title}" width="320" height="530" /></a>            
+    {else} 
+        <!--bor-tit begin-->
+        <div class="bor-tit">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}jrjd.html" style="color:#fc6621;">今日焦点</a></h3>
+            <p class="date">{$date}</p>
+        </div>
+        <!--bor-tit end-->
+        <ul class="today">
+                        {foreach from=$data[jrjd] key=key item=v}
+                            {if !empty($v.id) && $key<=9 && $key!=='hot'}
+                            <li><span>{$v.input_time|date:H:i}</span><a target="_blank"  href="/{$v.type}/jrjd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:12}</a></li>
+                            {/if}
+                        {/foreach}
+        </ul>
+        <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}jrjd.html">MORE</a></p>    
+    {/if}    
+
+    </div>
+    <!--left end-->
+    <!--center-wrap begin-->
+    <div class="center-wrap flt">
+    	<!--center begin-->
+        <div class="center bor">
+            <!--bor-tit begin-->
+            <div class="bor-tit">
+                <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}hqgz.html" style="color:#fc6621;">行情跟踪</a></h3>
+                <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}hqgz.html">MORE</a></p>
+            </div>
+            <!--bor-tit end-->
+            <h4><a target="_blank"  href="/{$data[hqgz][hot].type}/hqgz/{$data[hqgz][hot].id}.html" title="{$data[hqgz][hot].title}">{$data[hqgz][hot].title|truncate:25}</a></h4>
+            <!--summary begin-->
+            <div class="summary">
+                    {$data[hqgz][hot].content}
+	</div>
+            <!--summary end-->
+            <ul class="newsli">
+                        {foreach from=$data[hqgz] item=v}
+                            {if $v.id != $data[hqgz][hot][id]}
+                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/hqgz/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                            {/if}
+                        {/foreach}
+        	</ul>
+        </div>
+        <!--center end-->
+        <!--center begin-->
+        <div class="center bor">
+        	<!--bor-tit begin-->
+            <div class="bor-tit">
+                <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zcss.html" style="color:#fc6621;">中晨塑说</a></h3>
+                <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zcss.html">MORE</a></p>
+            </div>
+            <!--bor-tit end-->
+            <h4><a target="_blank"  href="/{$data[zcss][hot].type}/zcss/{$data[zcss][hot].id}.html" title="{$data[zcss][hot].title}">{$data[zcss][hot].title|truncate:25}</a></h4>
+            <!--summary begin-->
+            <div class="summary">
+                    {$data[zcss][hot].content}
+            </div>
+            <!--summary end-->
+            <ul class="newsli">
+                        {foreach from=$data[zcss] item=v}
+                            {if $v.id != $data[zcss][hot][id]}
+                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zcss/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                            {/if}
+                        {/foreach}
+            </ul>
+        </div>
+        <!--center end-->
+    </div>
+    <!--center-wrap end-->
+    {if $type=='pe'}
+            <!--right-wrap begin-->
+    <div class="right-wrap frt">
+        <!--right begin-->
+        <div class="right pe bor">
+            <!--bor-tit begin-->
+            <div class="bor-tit">
+                <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qydt.html" style="color:#fc6621;">企业动态</a></h3>
+                <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qydt.html">MORE</a></p>
+            </div>
+            <!--bor-tit end-->
+            <ul class="newsli" style="line-height:34px;">
+                        {foreach from=$data[qydt] item=v}
+                                {if !empty($v)}
+                                <li {if $v.today}class="hover"{/if} class="qydt"><a target="_blank"  href="/{$v.type}/qydt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                        {/foreach}
+            </ul>
+        </div>
+        <!--right end-->
+    </div>
+    <!--right-wrap end-->
+    {else}
+            <!--right-wrap begin-->
+        <div class="right-wrap frt">
+            <!--right begin-->
+            <div class="right pvc bor">
+                <!--bor-tit begin-->
+                <div class="bor-tit">
+                    <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qydt.html" style="color:#fc6621;">企业动态</a></h3>
+                    <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qydt.html">MORE</a></p>
+                </div>
+                <!--bor-tit end-->
+                <ul class="newsli" style="line-height:35px;">
+                            {foreach from=$data[qydt] item=v}
+                                {if !empty($v)}
+                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qydt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                            {/foreach}
+                </ul>
+            </div>
+            <!--right end-->
+            <!--ad1 begin-->
+            <div class="ad1">
+                    <a href="{$middleRightBanner[0].url}" target="_blank"><img src="__UPLOAD__/{$middleRightBanner[0].img}" title="{$middleRightBanner[0].title}" alt="{$middleRightBanner[0].title}" width="320" height="140" /></a>
+            </div>
+            <!--ad1 end-->
+        </div>
+        <!--right-wrap end-->
+    {/if}
+
+</div>
+<!--headline-floor2 end-->
+<!--headline-floor3 begin-->
+<div class="headline-floor headline-floor3 w1220">
+        {if $type=='pe'}
+                <!--left-wrap begin-->
+            <div class="left-wrap pe bor flt">
+                <!--bor-tit begin-->
+                <div class="bor-tit">
+                    <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zzdt.html" style="color:#fc6621;">装置动态</a></h3>
+                    <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zzdt.html">MORE</a></p>
+                </div>
+                <!--bor-tit end-->
+                <ul class="newsli" style="line-height:32px;">
+                        {foreach from=$data[zzdt] item=v}
+                                {if !empty($v)}
+                                <li {if $v.today}class="hover"{/if} class="zzdt"><a target="_blank"  href="/{$v.type}/zzdt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                        {/foreach}
+                </ul>
+            </div>
+            <!--left-wrap end-->
+        {else}
+	<!--left-wrap begin-->
+            <div class="left-wrap pvc flt">
+                    <a href="{$middleLeftBanner[0].url}" target="_blank"><img src="__UPLOAD__/{$middleLeftBanner[0].img}" title="{$middleLeftBanner[0].title}" alt="{$middleLeftBanner[0].title}" width="320" height="344" /></a>
+            </div>
+            <!--left-wrap end-->
+        {/if}
+    <!--center-wrap begin-->
+    <div class="center-wrap bor flt">
+    	<!--bor-tit begin-->
+        <div class="bor-tit">
+            <h3>期刊报告</h3>
+            <p class="sel">                         
+                <span id="tabb1" onmouseover="setTab('tabb',1,3)" class="hover"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}rp.html">日评</a>|</span>
+                <span id="tabb2" onmouseover="setTab('tabb',2,3)"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}zb.html">周报</a>|</span>
+                <span id="tabb3" onmouseover="setTab('tabb',3,3)"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}yb.html">月报</a></span>
+            </p>
+        </div>
+        <!--bor-tit end-->
+        <!--con-tabb begin-->
+        <div class="con-tabb">
+        	<!--con-tabb-1 begin-->
+            <div id="con-tabb-1">
+                    <h4><a target="_blank"  href="/{$data[rp][hot].type}/rp/{$data[rp][hot].id}.html" title="{$data[rp][hot].title}">{$data[rp][hot].title|truncate:25}</a></h4>
+                    <!--summary begin-->
+                    <div class="summary">
+                            {$data[rp][hot].content}
+                    </div>
+                    <!--summary end-->
+                    <ul class="newsli" style="line-height:37px;">
+                                {foreach from=$data[rp] item=v}
+                                    {if $v.id != $data[rp][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/rp/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    {/if}
+                                {/foreach}
+                    </ul>
+            </div>
+            <!--con-tabb-1 end-->
+            <!--con-tabb-2 begin-->
+            <div id="con-tabb-2" style="display:none;">
+                    <h4><a target="_blank"  href="/{$data[zb][hot].type}/zb/{$data[zb][hot].id}.html" title="{$data[zb][hot].title}">{$data[zb][hot].title|truncate:25}</a></h4>
+                    <!--summary begin-->
+                    <div class="summary">
+                            {$data[zb][hot].content}
+                    </div>
+                    <!--summary end-->
+                    <ul class="newsli" style="line-height:37px;">
+                                {foreach from=$data[zb] item=v}
+                                    {if $v.id != $data[zb][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zb/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    {/if}
+                                {/foreach}
+                    </ul>
+            </div>
+            <!--con-tabb-2 end-->
+            <!--con-tabb-3 begin-->
+            <div id="con-tabb-3" style="display:none;">
+                    <h4><a target="_blank"  href="/{$data[yb][hot].type}/yb/{$data[yb][hot].id}.html" title="{$data[yb][hot].title}">{$data[yb][hot].title|truncate:25}</a></h4>
+                    <!--summary begin-->
+                    <div class="summary">
+                            {$data[yb][hot].content}
+                    </div>
+                    <!--summary end-->
+                    <ul class="newsli" style="line-height:37px;">
+                                {foreach from=$data[yb] item=v}
+                                    {if $v.id != $data[yb][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/yb/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    {/if}
+                                {/foreach}
+                    </ul>
+            </div>
+            <!--con-tabb-3 end-->
+        </div>
+        <!--con-tabb end-->
+    </div>
+    <!--center-wrap end-->
+    <!--left-wrap begin-->
+            <div class="left-wrap pe bor flt">
+                <!--bor-tit begin-->
+                <div class="bor-tit">
+                    <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}wpkd.html" style="color:#fc6621;">外盘快递</a></h3>
+                    <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}wpkd.html">MORE</a></p>
+                </div>
+                <!--bor-tit end-->
+                <ul class="newsli" style="line-height:32px;">
+                        {foreach from=$data[wpkd] key=key item=v}
+                                {if !empty($v) && $key!=='hot' }
+                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/wpkd/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                        {/foreach}
+                </ul>
+            </div>
+            <!--left-wrap end-->
+</div>
+<!--headline-floor3 end-->
+<!--headline-floor4 begin-->
+{if $type != 'public'}
+<div class="headline-floor headline-floor4 w1220"  style="height:152px;">
+{else}
+<div class="headline-floor headline-floor4 w1220">
+{/if}
+	<!--ad2 begin-->
+	<div class="ad2 bor">
+{if $type != 'public'}
+                    <a href="{$cMiddleBanner[0].url}" target="_blank"><img src="__UPLOAD__/{$cMiddleBanner[0].img}" title="{$cMiddleBanner[0].title}" alt="{$cMiddleBanner[0].title}" width="1220" height="151" /></a>
+{else}
+            <!--bor-tit begin-->
+            <div class="bor-tit">
+                <h3><a href="{if $nav}{$nav}{else}public{/if}zcsj.html" target="_blank" style="color:#fc6621;">中晨事件</a></h3>
+            </div>
+            <!--bor-tit end-->
+            <!--ad2-con begin-->
+            <div class="ad2-con">
+                    <a href="{if $nav}{$nav}{else}public{/if}zcsj.html" target="_blank"><img src="__UPLOAD__/{$middleBanner[0].img}" title="{$middleBanner[0].title}" alt="{$middleBanner[0].title}" width="1218" height="217" /></a>
+            </div>
+            <!--ad2-con end-->
+{/if}
+
+    </div>
+    <!--ad2 end-->
+</div>
+<!--headline-floor4 end-->
+<!--headline-floor5 begin-->
+<div class="headline-floor headline-floor5 w1220">
+	<!--left-wrap begin-->
+    <div class="left-wrap bor flt">
+    	<!--bor-tit begin-->
+        <div class="bor-tit">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}hyyw.html" style="color:#fc6621;">行业要闻</a></h3>
+            <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}hyyw.html">MORE</a></p>
+        </div>
+        <!--bor-tit end-->
+        <ul class="newsli" style="line-height:34px;">
+                {foreach from=$data[hyyw] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/hyyw/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
+        </ul>
+    </div>
+    <!--left-wrap end-->
+    <!--center-wrap begin-->
+    <div class="center-wrap bor flt">
+    	<!--bor-tit begin-->
+        <div class="bor-tit">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}mjsc.html" style="color:#fc6621;">美金市场</a></h3>
+            <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}mjsc.html">MORE</a></p>
+        </div>
+        <!--bor-tit end-->
+                    <h4><a target="_blank"  href="/{$data[mjsc][hot].type}/mjsc/{$data[mjsc][hot].id}.html" title="{$data[mjsc][hot].title}">{$data[mjsc][hot].title|truncate:25}</a></h4>
+                    <!--summary begin-->
+                    <div class="summary">
+                            {$data[mjsc][hot].content}
+                    </div>
+                    <!--summary end-->
+                    <ul class="newsli">
+                                {foreach from=$data[mjsc] item=v}
+                                    {if $v.id != $data[mjsc][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/mjsc/{$v.id}.html" title="{$v.title}"<span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    {/if}
+                                {/foreach}
+                    </ul>
+    </div>
+    <!--center-wrap end-->
+    <!--right-wrap begin-->
+    <div class="right-wrap bor frt">
+    	<!--bor-tit begin-->
+        <div class="bor-tit">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qhzx.html" style="color:#fc6621;">期货资讯</a></h3>
+            <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qhzx.html">MORE</a></p>
+        </div>
+        <!--bor-tit end-->
+        <ul class="newsli"  style="line-height:34px;">
+                {foreach from=$data[qhzx] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qhzx/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
+        </ul>
+    </div>
+    <!--right-wrap end-->
+</div>
+<!--headline-floor5 begin-->
+<!--headline-floor6 begin-->
+<div class="headline-floor headline-floor6 w1220">
+	<!--left-wrap begin-->
+    <div class="left-wrap bor flt">
+    	<!--bor-tit begin-->
+        <div class="bor-tit">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}djjd.html" style="color:#fc6621;">独家解读</a></h3>
+            <p class="more"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}djjd.html">MORE</a></p>
+        </div>
+        <!--bor-tit end-->
+        {if $type=='pe'}
+            <!--unscramble begin-->
+        <div class="unscramble pe">
+            <h4>下游</h4>
+            <ul>
+                {foreach from=$data[xy] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/xy/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        <!--unscramble begin-->
+        <div class="unscramble pe">
+            <h4>库存</h4>
+            <ul>
+                {foreach from=$data[kc] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/kc/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        <!--unscramble begin-->
+        <div class="unscramble pe">
+            <h4>产量</h4>
+            <ul>
+                {foreach from=$data[cl] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/cl/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        <!--unscramble begin-->
+        <div class="unscramble pe">
+            <h4>网拍</h4>
+            <ul>
+                {foreach from=$data[wp] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/wp/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        <!--unscramble begin-->
+        <div class="unscramble pe">
+            <h4>排产</h4>
+            <ul>
+                {foreach from=$data[pc] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pc/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        <!--unscramble begin-->
+        <div class="unscramble pe last">
+            <h4>进出口</h4>
+            <ul>
+                {foreach from=$data[jck] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/jck/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        {else}
+        <!--unscramble begin-->
+        <div class="unscramble pvc">
+        	<h4>下游</h4>
+            <ul>
+                {foreach from=$data[xy] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/xy/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+
+        <!--unscramble begin-->
+        <div class="unscramble pvc">
+        	<h4>产量</h4>
+            <ul>
+                {foreach from=$data[cl] key=key item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/cl/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        <!--unscramble begin-->
+        <div class="unscramble pvc">
+        	<h4>装置检修</h4>
+            <ul>
+                {foreach from=$data[zzjx] key=key item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zzjx/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:11}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+         <!--unscramble begin-->
+        <div class="unscramble pvc">
+            <h4>进口</h4>
+            <ul>
+                {foreach from=$data[jk] key=key  item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/jk/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        <!--unscramble begin-->
+        <div class="unscramble pvc last">
+        	<h4>出口</h4>
+            <ul>
+                {foreach from=$data[ck] key=key item=v}
+                            {if !empty($v) && $key !== 'hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ck/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--unscramble end-->
+        {/if}
+    </div>
+    <!--left-wrap end-->
+</div>
+<!--headline-floor6 end-->
+
+{else}
+
+<!--vip-tile-big begin-->
+<div class="vip-title-big vip-auction w1220"><h2>神华竞拍/损失产量</h2></div>
+<!--vip-tile-big end-->
+<!--vip-wrap begin-->
+<div class="vip-wrap w1220">
+    <!--left begin-->
+    <div class="left flt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}shjp.html">神华竞拍</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}shjp.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+            <ul class="vipli">
+                {foreach from=$data[shjp] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/shjp/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sscl.html">损失产量</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sscl.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+
+            <h4><a target="_blank"  href="/{$data[sscl][hot].type}/sscl/{$data[sscl][hot].id}.html" title="{$data[sscl][hot].title}">{$data[sscl][hot].title|truncate:25}</a></h4>
+            <p>{$data[sscl][hot].content}</p>
+
+            <ul class="vipli two">
+                        {foreach from=$data[sscl] item=v}
+                                    {if $v.id != $data[sscl][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/sscl/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+                                    {/if}
+                        {/foreach}
+            </ul>
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--right end-->
+</div>
+<!--vip-wrap end-->
+<!--vip-tile-big begin-->
+<div class="vip-title-big w1220"><h2>PE专栏</h2></div>
+<!--vip-tile-big end-->
+<!--vip-wrap begin-->
+<div class="vip-wrap w1220">
+    <!--left begin-->
+    <div class="left flt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}penc.html">内参</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}penc.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+            <ul class="vipli">
+                {foreach from=$data[penc] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/penc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pecjsj.html">成交数据</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pecjsj.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+
+           <h4><a target="_blank"  href="/{$data[pecjsj][hot].type}/pecjsj/{$data[pecjsj][hot].id}.html" title="{$data[pecjsj][hot].title}">{$data[pecjsj][hot].title|truncate:25}</a></h4>
+            <p>{$data[pecjsj][hot].content}</p>
+
+            <ul class="vipli two">
+                        {foreach from=$data[pecjsj] item=v}
+                                    {if $v.id != $data[pecjsj][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pecjsj/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+                                    {/if}
+                        {/foreach}
+            </ul>
+
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--right end-->
+</div>
+<!--vip-wrap end-->
+<!--vip-tile-big begin-->
+<div class="vip-title-big w1220"><h2>PP专栏</h2></div>
+<!--vip-tile-big end-->
+<!--vip-wrap begin-->
+<div class="vip-wrap w1220">
+    <!--left begin-->
+    <div class="left flt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppnc.html">内参</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppnc.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+            <ul class="vipli">
+                {foreach from=$data[ppnc] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ppnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppcjsj.html">成交数据</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppcjsj.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+
+           <h4><a target="_blank"  href="/{$data[ppcjsj][hot].type}/ppcjsj/{$data[ppcjsj][hot].id}.html" title="{$data[ppcjsj][hot].title}">{$data[ppcjsj][hot].title|truncate:25}</a></h4>
+            <p>{$data[ppcjsj][hot].content}</p>
+
+            <ul class="vipli two">
+                        {foreach from=$data[ppcjsj] item=v}
+                                    {if $v.id != $data[ppcjsj][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ppcjsj/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+                                    {/if}
+                        {/foreach}
+            </ul>
+
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--right end-->
+</div>
+<!--vip-wrap end-->
+<!--vip-tile-big begin-->
+<div class="vip-title-big w1220"><h2>PVC专栏</h2></div>
+<!--vip-tile-big end-->
+<!--vip-wrap begin-->
+<div class="vip-wrap w1220">
+    <!--left begin-->
+    <div class="left flt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvcnc.html">内参</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvcnc.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+            <ul class="vipli">
+                {foreach from=$data[pvcnc] key=key item=v}
+                            {if !empty($v) && $key!=='hot'}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvcnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvccjsj.html">成交数据</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvccjsj.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+
+           <h4><a target="_blank"  href="/{$data[pvccjsj][hot].type}/pvccjsj/{$data[pvccjsj][hot].id}.html" title="{$data[pvccjsj][hot].title}">{$data[pvccjsj][hot].title|truncate:25}</a></h4>
+            <p>{$data[pvccjsj][hot].content}</p>
+
+            <ul class="vipli two">
+                        {foreach from=$data[pvccjsj] item=v}
+                                    {if $v.id != $data[pvccjsj][hot][id]}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvccjsj/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+                                    {/if}
+                        {/foreach}
+            </ul>
+
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--right end-->
+</div>
+<!--vip-wrap end-->
+
+{/if}
+

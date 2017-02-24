@@ -1,0 +1,186 @@
+{layout file="public:news_warp"}
+{insert_css files='home/master.css'}
+<!--headline-crumb begin-->
+<div class="headline-crumb w1220"><a target="_blank" href="/" style="color:#fc6621;">塑料头条</a>&nbsp;》{if $type !=='public'}<a target="_blank"  href="/{$type}.html" style="color:#fc6621;">{$upperType}</a>&nbsp;》{/if}<a target="_blank"  href="/{$type}{$cate}.html" style="color:#fc6621;">{$data[cate_name]}</a>&nbsp;》<a target="_blank"  href="/{$type}/{$cate}/{$data[id]}.html" style="color:#fc6621;">{$data[title]}</a></div>
+<!--headline-crumb end-->
+<!--headline-main begin-->
+<div class="headline-main w1220" style="position:relative;">
+	<!--left begin-->
+    <div class="left flt"  style="background:#fff;border:solid 1px #dddddd;">
+    	<!--detail begin-->
+        <div class="detail">
+            <div style="display:none;">
+                <img src="__NEWS__/img/weixin.png" />
+            </div>
+        	<h1>{$data[title]}</h1>
+            <div class="other">
+            	<span>发布日期：{$data[input_time]|date:Y-m-d H:i:s}</span>
+                <span>来源：{$data[source_from]}</span>
+                <span>阅读量：{$data[pageViews]}</span>
+            </div>
+                <p>{$data[content]}</p>
+                <br />
+            <div class="relate link6">
+                        {if $data[nextOne]}
+                                <div class="item"><span>上一篇：</span><a target="_blank"  href="/{$type}/{$cate}/{$data[nextOne].id}.html" title="{$data[nextOne].title}">{$data[nextOne].title}</a></div>
+                        {/if}
+                        {if $data[lastOne]}
+                                <div class="item"><span>下一篇：</span><a target="_blank"  href="/{$type}/{$cate}/{$data[lastOne].id}.html" title="{$data[lastOne].title}">{$data[lastOne].title}</a></div>
+                        {/if} <div class="yashowline">
+                        <p>&nbsp;</p> 
+                        <p class="yahere" style="text-indent:0px;">分享到：</p>
+                        <!-- JiaThis Button BEGIN -->
+                        <div class="jiathis_style_24x24">
+                            <a target="_blank"  class="jiathis_button_qzone"></a>
+                            <a target="_blank"  class="jiathis_button_tsina"></a>
+                            <a target="_blank"  class="jiathis_button_tqq"></a>
+                            <a target="_blank"  class="jiathis_button_weixin"></a>
+                            <a target="_blank"  class="jiathis_button_renren"></a>
+                            <a target="_blank"  href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis"></a>
+                            <a target="_blank"  class="jiathis_counter_style"></a>
+                        </div>
+                        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                        <!-- JiaThis Button END -->
+            </div> 
+            </div>
+        </div>            
+           
+    </div>
+    <div class="clear"></div>
+    <!-- 內链begin -->
+    <br />
+    <div class="neilian"  style="background:#fff;border:solid 1px #dddddd;">
+            <h2>相关内容</h2>
+        <ul>
+            {foreach from=$data[neilian] item=v}
+                <li><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" title="{$v.title}">{$v.title|truncate:23}</a></li>
+            {/foreach}
+        </ul>
+    </div>
+    <!-- 內链end -->
+        <!--detail end-->
+    <div class="yabld" style="width:825px;">
+                    <div class="yabldt">免责声明 </div>
+                    <p> 1、我的塑料网发布此信息目的在于传播更多信息，与本网站立场无关。<br>
+                        2、我的塑料网不保证该信息（包括但不限于文字、数据及图表）全部或者部分内容的准确性、真实性、完整性、有效性、 及时性、原创性等。<br>
+                        3、相关信息并未经过本网站证实，不对您构成任何投资建议，据此操作，风险自担。<br>
+                        4、如有侵权请直接与作者联系或书面发函至本公司转达、处理。 </p>
+    </div>
+   
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt" style="position:absolute;right:0px; top:0px; background:#fff;border:solid 1px #dddddd;">
+    	<!--bor-title begin-->
+        <div class="bor-title">
+        	<h2>点击排行</h2>
+      	</div>
+        <ul class="link6" id="charts">
+                {foreach from=$chartsData key=key item=v}
+                        {if $key<=3}
+                            <li><span class="front">{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{if $v.prefix} [{$v.cate_name}] {/if}{$v.title}</a><!--（{$v.pv}）--></li>
+                        {else}
+                            <li><span>{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{if $v.prefix} [{$v.cate_name}] {/if} {$v.title}</a><!--（{$v.pv}）--></li>
+                        {/if}
+                {/foreach}
+        </ul>
+    </div>
+    <!--right end-->
+</div>
+<!--headline-main end-->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    //微信分享配置文件
+        wx.config({
+            debug: false,
+            appId: "{$wxApi[AppID]}",
+            timestamp: "{$wxApi[timestamp]}",
+            nonceStr: "{$wxApi[noncestr]}",
+            signature: "{$wxApi[signature]}",
+            jsApiList: [
+                    'showOptionMenu',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage'
+            ]
+        });
+
+  wx.ready(function () {
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: "{$data[title]}", // 分享标题
+            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
+            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
+            success: function () { 
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: "{$data[title]}", // 分享标题
+            desc: '我的塑料网', // 分享描述
+            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
+            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () { 
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+        //分享到QQ
+        wx.onMenuShareQQ({
+            title: "{$data[title]}", // 分享标题
+            desc: '我的塑料网', // 分享描述
+            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
+            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
+            success: function () { 
+               // 用户确认分享后执行的回调函数
+            },
+            cancel: function () { 
+               // 用户取消分享后执行的回调函数
+            }
+        });
+
+        //分享到腾讯微博
+        wx.onMenuShareWeibo({
+            title: "{$data[title]}", // 分享标题
+            desc: '我的塑料网', // 分享描述
+            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
+            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
+            success: function () { 
+               // 用户确认分享后执行的回调函数
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+        //分享到QQ空间
+        wx.onMenuShareQZone({
+            title: "{$data[title]}", // 分享标题
+            desc: '我的塑料网', // 分享描述
+            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
+            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
+            success: function () { 
+               // 用户确认分享后执行的回调函数
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });    
+  });
+
+</script>

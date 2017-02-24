@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body>
+		<header id="meHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			站内信
+			<span class="appMenu"></span>
+			<select id="msgSelect">
+				<option value="">全部</option>
+				<option value="1">系统信息</option>
+				<option value="2">报价信息</option>
+				<option value="3">采购信息</option>
+				<option value="4">自营订单</option>
+				<option value="5">联营订单</option>
+			</select>
+		</header>
+		<div class="msgWrap">
+			<ul id="msgUl"></ul>
+		</div>
+		<script type="text/javascript" charset="utf-8">
+		var status="";
+		var type="";
+		var page=1;
+		var msgLi="";
+		
+		function link(type,id){
+			if(type==1){
+				return ""
+			}else if(type==2){
+				return "<a href='/mobi/personalCenter/enMyPurchase?id="+id+"'>查看详情</a>"
+			}else if(type==3){
+				return "<a href='/mobi/personalCenter/enMyQuotation?id="+id+"'>查看详情</a>"
+			}
+		}
+		
+		function renderMsg(status,type,page){
+			commonAjax(
+					"post",
+					"/mobi/personalCenter/getMsg",
+					{
+						status:status,
+						type:type,
+						page:page,
+						size:10
+					}
+			).then(function (res) {
+				console.log(res);
+				if(res.err==1){
+					window.location.href="/mobi/login";
+				}else{
+					msgLi="";
+					res.msg.forEach(function(v,i,a){
+						msgLi+="<li><i class='iconInfo'></i><div class='msginfo'><h3>系统消息"+
+						"<span class='msgTime'>"+v.input_time+"</span></h3>"+
+						"<div class='msgtxt'>"+v.msg+""+link(v.type,v.num)+"</div></div></li>"
+					});
+					$("#msgUl").html(msgLi);
+				}
+			},function () {
+	
+			});			
+		}
+		
+		renderMsg(status,type,1);
+		
+		$("#msgSelect").on("change",function () {
+			var chooseValue=$(this).find("option:selected").text();
+			$(".chooseType").text(chooseValue);
+		});
+		</script>
+		<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

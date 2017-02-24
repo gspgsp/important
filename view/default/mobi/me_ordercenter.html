@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body style="padding-bottom: 50px;">
+		<header id="supplyDemandHeader" style="padding-top: 8px;">
+			<a class="back" href="javascript:window.history.back();"></a>
+			<div class="supplyDemandChange">
+				<span data-type="1" class="on">自营订单</span>
+				<span data-type="2">联营订单</span>
+			</div>
+		</header>
+		<div class="myPurchase">
+		<div style="display: inline-block;">
+		<div class="searchSearch" style="margin: -2px 0 0 0; float: left;">
+			<input id="search" type="text" placeholder="请输入订单编号">
+			<a class="appQuery2" href="javascript:;"></a>
+		</div>
+		<label>状态:</label>
+		<div class="chooseType"><span id="ztTxt">全部</span>
+			<select id="zt" class="chooseType2">
+				<option value="">全部</option>
+				<option value="1">待审核</option>
+				<option value="2">已审核</option>
+				<option value="3">已取消</option>
+				<option value="4">待出库</option>
+				<option value="5">部分出库</option>
+				<option value="6">已出库</option>
+				<option value="7">待付款</option>
+				<option value="8">部分付款</option>
+				<option value="9">全部付款</option>
+			</select>
+			<select id="zt2" class="chooseType2" style="display: none;">
+				<option value="">全部</option>
+				<option value="1">待审核</option>
+				<option value="2">已审核</option>
+				<option value="3">已取消</option>
+				<option value="4">待发货</option>
+				<option value="5">部分发货</option>
+				<option value="6">全部发货</option>
+				<option value="7">待付款</option>
+				<option value="8">部分付款</option>
+				<option value="9">全部付款</option>
+			</select>
+		</div>	
+		</div>
+		</div>
+		<ul class="orderList"></ul>
+		<!--<div class="orderApplyWrap">
+			<p>开票单位:<span>上海xxx制品有限公司</span></p>
+			<p>首款日期:<span>2016-08-24 10:08:22</span></p>
+			<p>合同金额:<span>188100</span></p>
+			<p>未开票金额:<span>188100</span></p>
+			<p>票据金额:<span>4750</span></p>
+			<p>备注:<span></span></p>
+			<h3>详细信息</h3>
+			<div class="orderApplyCon">
+				<p>LDPE|2102TX00|伊朗<input type="checkbox"></p>
+				<p>数量<input type="number"></p>
+				<p>未开票数量<span>99吨</span></p>
+				<p>单价<span class="red">9500</span></p>
+				<p>小计<span class="red">47500</span></p>
+			</div>
+			<div class="orderApplyCon">
+				<p>LDPE|2102TX00|伊朗<input type="checkbox"></p>
+				<p>数量<input type="number"></p>
+				<p>未开票数量<span>99吨</span></p>
+				<p>单价<span class="red">9500</span></p>
+				<p>小计<span class="red">47500</span></p>
+			</div>
+			<p class="orderBtn" style="border: none;">
+				<input style="background: #FF5000;" type="button" value="提交">&nbsp;&nbsp;&nbsp;<input style="background: #007aff;" type="button" value="关闭">
+			</p>
+		</div>
+		<div class="orderLayer"></div>-->
+		<script type="text/javascript" charset="utf-8">
+			$(function () {
+				var type=1;
+				var keywords="";
+				var otype="";
+				var page=1;
+				var orderLi="";
+				
+				function renderOrder(type,keywords,otype,page){
+					commonAjax(
+						"post",
+						"/mobi/personalCenter/getMyOrder",
+						{
+							type:type,
+							keywords:keywords,
+							otype:otype,
+							page:page,
+							size:10
+						}
+					).then(function (res) {
+						console.log(">>>",res);
+						if (res.err==1) {
+							window.location.href="/mobi/login";
+						}else if(res.err==2){
+							$(".orderList").html("<li class='noData'>暂无数据</li>");
+						}else {
+							orderLi="";
+							res.data.forEach(function (v, i, a) {
+								orderLi+="<li><h3>"+v.order_type+">订单编号:"+v.order_sn+"<span>"+v.cur_state+"</span></h3>"+
+								"<a href='/mobi/personalCenter/enOrderDetail?id="+v.o_id+"&type="+type+"'><div class='orderWrap'><p>"+v.detail[0].product_type+"|"+v.detail[0].model+"|"+v.detail[0].f_name+"<span><b>¥"+v.detail[0].unit_price+"/T</b><br><i>"+v.detail[0].number+"吨</i></span></p></div></a>"+
+								"<p class='orderInfo'>共"+v.count+"件商品  合计："+v.total_price+"（含运费"+v.freight_price+"元）</p>"+
+								"<p class='orderStatus'><span>"+v.order_status+"</span><span>"+v.out_storage_status+"</span><span>"+v.collection_status+"</span><span>"+v.invoice_status+"</span></p></li>";
+							});
+							$(".orderList").html(orderLi);
+						}
+					},function () {
+			
+					});						
+				}
+				
+				
+				//初始化
+				renderOrder(type,keywords,otype,page);
+				
+				//select
+				$(".supplyDemandChange span").on("click",function(){
+					type=$(this).data("type");
+					console.log(type);
+					if(type==1){
+						$("#zt").show();
+						$("#zt2").hide();
+					}else{
+						$("#zt2").show();
+						$("#zt").hide();						
+					}
+					$(this).addClass("on").siblings().removeClass("on"); 
+					renderOrder(type,keywords,otype,page);
+				});
+				$("#zt").on("change",function(){
+					otype=$(this).find("option:selected").val();
+					$("#ztTxt").text($(this).find("option:selected").text());
+					renderOrder(type,keywords,otype,page);
+				});
+				$("#zt2").on("change",function(){
+					otype=$(this).find("option:selected").val();
+					$("#ztTxt").text($(this).find("option:selected").text());
+					renderOrder(type,keywords,otype,page);
+				});
+				$(".appQuery2").on("click",function(){
+					keywords=$("#search").val().toUpperCase();
+					renderOrder(type,keywords,otype,page);
+				});
+
+			})
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

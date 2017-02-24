@@ -1,0 +1,44 @@
+{layout file="public:news_warp"}
+<!--headline-crumb begin-->
+<div class="headline-crumb w1220"><a target="_blank" href="/" style="color:#fc6621;">塑料头条</a>&nbsp;》{if $type}{if $type !=='public'}<a target="_blank"  href="/{$type}.html" style="color:#fc6621;">{$upperType}</a>&nbsp;》{/if}{/if}{if !$keywords}{if $cate_name}<span><a target="_blank"  href="/{$type}{$cate}.html" style="color:#fc6621;">{$cate_name}</a></span>{else}<span><a target="_blank"  href="/{$type}{$cate}.html" style="color:#fc6621;">{$data[data][0].cate_name}</a></span>{/if}{/if}</div>
+<!--headline-crumb end-->
+<!--headline-main begin-->
+<div class="headline-main w1220">
+	<!--left begin-->
+    <div class="left flt">
+    	<ul  id="list-title-hover">
+                {foreach from=$data['data'] item=v key=key}
+                    <li>
+                        <div class="news-title">
+                            <h2><a target="_blank"  href="/{$v.type}/{if $cate}{$cate}{else}{$v.spell}{/if}/{$v.id}.html" title="{$v.title}">{if $v.prefix} [{$v.cate_name}] {/if}&nbsp;{$v.title|truncate:30}</a></h2>
+                            <p><!-- 作者：{$v.author}&nbsp;&nbsp;  -->发布日期：{$v.input_time|date:Y-m-d}</p>
+                        </div>
+                        <p class="summary" style="text-indent:50px;">{$v.content}...</a></p>
+                        <div class="btn"><a target="_blank"  href="/{$v.type}/{if $cate}{$cate}{else}{$v.spell}{/if}/{$v.id}.html">MORE</a></div>
+                    </li>
+                {/foreach}
+            </ul>
+        <div style="width:620px; height:28px; overflow:hidden; margin:30px auto;" class="page">
+                {$pages}
+        </div>
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+    	<!--bor-title begin-->
+        <div class="bor-title">
+        	<h2>点击排行</h2>
+      	</div>
+        <ul class="link6" id="charts">
+                {foreach from=$chartsData key=key item=v}
+                        {if $key<=3}
+                            <li><span class="front">{$key}</span><a target="_blank"  href="/{$v.type}/{if $cate}{$cate}{else}{$v.spell}{/if}/{$v.id}.html"  title="{$v.title}" class="limitFont5" style="text-decoration:none;">{if $v.prefix} [{$v.cate_name}] {/if}{$v.title}</a><!--（{$v.pv}）--></li>
+                        {else}
+                            <li><span>{$key}</span><a target="_blank"  href="/{$v.type}/{if $cate}{$cate}{else}{$v.spell}{/if}/{$v.id}.html"  title="{$v.title}"  class="limitFont5" style="text-decoration:none;">{if $v.prefix} [{$v.cate_name}] {/if}{$v.title}</a><!--（{$v.pv}）--></li>
+                        {/if}
+                {/foreach}
+        </ul>
+    </div>
+    <!--right end-->
+</div>
+<!--headline-main end-->
