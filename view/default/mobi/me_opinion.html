@@ -6,40 +6,92 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 
 	<body>
 		<header id="meHeader">
-			<a class="back" href="#"></a>
+			<a class="back" href="javascript:window.history.back();"></a>
 			意见反馈
 		</header>
 		<div class="meOpinion">
 			<h3>请选择您要反馈的问题类型</h3>
 			<div class="meOpinionChange">
-				<span class="on">发布/委托问题</span>
-				<span>举报诈骗信息</span>
-				<span>其他</span>
+				<span class="on" data-type = "1">发布/委托问题</span>
+				<span data-type = "2">举报诈骗信息</span>
+				<span data-type = "3">其他</span>
 			</div>
-			<textarea placeholder="感谢反馈，请写下您的问题和意见"></textarea>
+			<textarea id="message" placeholder="感谢反馈，请写下您的问题和意见"></textarea>
 			<div class="meOpinionInput">
 				<span>联系方式</span>
 				<div style=" float: left; width: 75%;">
-				<input type="tel" placeholder="请输入您的QQ号或者手机号" />
+				<input id="contact_way" type="tel" placeholder="请输入您的QQ号或者手机号" />
 				</div>
 			</div>
-			<a class="me_opinionEnter" href="#">提交</a>
+			<a class="me_opinionEnter" href="javascript:;">提交</a>
 			<a class="meOpinionPhone" href="tel:400-6129-965">
 				<img class="meOpinionPic" src="__MYAPP__/img/appService2.png">联系客服：400-6129-965
 			</a>
 		</div>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
+		var type=1;
+		$(".meOpinionChange span").on("click",function(){
+			$(this).addClass("on").siblings("span").removeClass("on");
+			type=$(this).data("type");
+			console.log(type);
+		});
+		$(".me_opinionEnter").on("click",function(){
+			var message=$("#message").val();
+			var contact_way=$("#contact_way").val();
+			if(message&&contact_way){
+				commonAjax(
+						"post",
+						"/mobi/personalCenter/saveFeedBack",
+						{
+							msg_type:type,
+							message:message,
+							contact_way:contact_way
+						}
+				).then(function (res) {
+					console.log(res);
+					if(res.err==1){
+						window.location.href="/mobi/login";
+					}else{
+						mui.alert('',res.msg,function(){
+							window.location.reload();
+						});
+					}
+				},function () {
+		
+				});				
+			}else{
+				mui.alert('','请把信息填写完整',function(){
+					
+				});
+			}			
+		});
 		</script>
-
+		<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

@@ -5,7 +5,6 @@
 <title>积分商城-我的塑料网</title>
 <link rel="stylesheet" type="text/css" href="__CSS__/home/common.css"/>
 <link rel="stylesheet" type="text/css" href="__CSS__/home/pointshop.css"/>
-
 <style type="text/css">
     
 </style>
@@ -67,7 +66,7 @@
         {if $smarty.session.userid > 0 }
         <div class="sign-on {if $signDay[$today] == 1}off{else}on{/if} "></div>
         {else}
-        <a href=""><div class="sign-on no-login"></div></a>
+        <div class="sign-on  no-login"></div>
         {/if}
         <h4>每日签到得积分，连续一周签到积分翻倍</h4>
     </div>

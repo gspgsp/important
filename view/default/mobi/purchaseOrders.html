@@ -43,6 +43,7 @@
 			<p id="hwsx"></p>
 			<div style="text-align: center; padding: 20px 0;">
 				<a id="chooseBtn" class="classifyEnter" href="javascript:;">确定</a>
+				<a class="classifyEnter" href="javascript:window.location.reload();">重置</a>
 			</div>
 		</div>
 
@@ -220,9 +221,9 @@
 							}else{
 								$(".more").show();
 								res.data.forEach(function (v,i,a) {
-									searchLi+="<li><a href='/mobi/mainPage/enCheckForm?id="+v.p_id+"'>"+
+									searchLi+="<li><a href='/mobi/mainPage/enCheckForm?id="+v.id+"'>"+
 									"<h3 class='purchaseOrders'>"+v.product_type+"/"+v.model+"/"+v.f_name+"<br>"+
-									"<span class='purchaseSale'>￥"+v.unit_price.split(".")[0]+"/T起</span><span class='city'>"+v.provinces+"</span><br><span class='times'>"+v.user_id+" 发布于"+v.input_time+"</span></h3>"+
+									"<span class='purchaseSale'>￥"+v.unit_price.split(".")[0]+"</span><span class='purchaseNum'>"+v.number+"/吨</span><span class='city'>"+v.provinces+"</span><br><span class='times'>"+v.user_id+" 发布于"+v.input_time+"</span><br><span class='times'>跟进交易员"+v.cus_manager+" "+v.cus_mobile+"</span></h3>"+
 									"<p class='purchaseSaleStatus'><span class='purchaseCon'>"+v.status+"</span><br><a class='purchaseLink' href='/mobi/mainPage/enCheckForm2?id="+v.id+"'>"+v.operate+"</a></p><span class='purchaseCargo "+cargoType(v.cargo_type)+"'>"+v.cargo_type+"</span><div class='mui-clearfix'></div></a></li>"
 									$("#searchWrapUl").html(searchLi);
 								});
@@ -246,7 +247,24 @@
 			});
 
 		</script>
-
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

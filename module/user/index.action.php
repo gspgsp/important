@@ -9,10 +9,10 @@ class indexAction extends userBaseAction{
 	 */
 	public function init()
 	{
+		if($this->user_id<0) $this->error('系统错误');
 		$this->act='index';
 		//个人信息
 		$this->data=M('user:customerContact')->getCustomerInFoById($this->user_id);
-
 		//我的关注列表
 		$list = M('product:concernedProduct')->getConcernedList($this->user_id);
 		$arr=array();
@@ -63,6 +63,8 @@ class indexAction extends userBaseAction{
 		json_output($ref);
 
 	}
+
+
 
 
 }

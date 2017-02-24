@@ -30,9 +30,9 @@
               </tr>
               <tr>
                 <td>总金额：</td>
-                <td>{$order.total_price}</td>
+                <td>{$order.total_price} 元</td>
                 <td>运费：</td>
-                <td>{$order.freight_price}</td>
+                <td>{$order.freight_price} 元</td>
               </tr>
               <tr>
                 <td>运输方式：</td>
@@ -85,8 +85,8 @@
                 <th width="120">数量（吨）</th>
                 <th width="129">单价（元／吨）</th>
                 <th width="130">金额(元)</th>
-                <th width="130">&nbsp;</th>
-                <th width="148">&nbsp;</th>
+                <!--<th width="130">&nbsp;</th>-->
+                <!--<th width="148">&nbsp;</th>-->
               </tr>
               {foreach from=$sale_log item=value}
               <tr>
@@ -96,8 +96,8 @@
                 <td>{$value.number}</td>
                 <td>{$value.unit_price}</td>
                 <td>{$value.totalPrice}</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <!--<td>&nbsp;</td>-->
+                <!--<td>&nbsp;</td>-->
               </tr>
               {/foreach}
             </table>

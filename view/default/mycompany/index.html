@@ -53,10 +53,15 @@
         <div class="right info">
             <h3>最新资讯</h3>
             <ul>
-                {foreach from=$article_index item=value}
-                <li><a class="" href="javascript:getDetail({$value.id});">{$value.title|truncate:20:"",'utf-8'}</a>{$value.input_time|date:Y-m-d H:i}</li>
+                {foreach from=$news item=value}
+                <li><a class="" href="/{$value.type}/jrjd/{$value.id}.html">{$value.title|truncate:20:"",'utf-8'}</a>{$value.update_time|date:Y-m-d}</li>
                 {/foreach}
             </ul>
+            <!--<ul>-->
+                <!--{foreach from=$article_index item=value}-->
+                <!--<li><a class="" href="javascript:getDetail({$value.id});">{$value.title|truncate:20:"",'utf-8'}</a>{$value.input_time|date:Y-m-d H:i}</li>-->
+                <!--{/foreach}-->
+            <!--</ul>-->
         </div>
         <!--info end-->
     </div>
@@ -88,7 +93,137 @@
         <!--contact end-->
     </div>
     <!--company-wrap end-->
+    <!--company-wrap begin-->
+    <div class="company-wrap">
+        <!--mall-offer begin-->
+        <div class="mall-offer left">
+            <h3>我的报价信息</h3>
+            <ul class="result">
+                <li class="result-title">
+                    <div class="brand">品种</div>
+                    <div class="grade">牌号</div>
+                    <div class="factory">厂家</div>
+                    <div class="amount">数量</div>
+                    <div class="price">价格</div>
+                    <div class="place">交货地区</div>
+                    <div class="price">实价/可议价</div>
+                    <div class="place">现期货</div>
+                    <div class="time">更新时间</div>
+                </li>
+                {foreach from= $list item=value key=key}
+                <li class="result-con">
+                    {if $value.product_type }
+                    <div class="brand">{:witchType|$value.product_type}</div>
+                    {else}
+                    <div>&nbsp;</div>
+                    {/if}
+                    {if $value.model }
+                    <div class="grade">{$value.model}</div>
+                    {else}
+                    <div class="grade">&nbsp;</div>
+                    {/if}
+                    {if $value.f_name}
+                    <div class="factory">{$value.f_name}</div>
+                    {else}
+                    <div class="factory">&nbsp;</div>
+                    {/if}
+                    {if $value.number}
+                    <div class="amount">{$value.number}</div>
+                    {else}
+                    <div class="amount">&nbsp;</div>
+                    {/if}
+                    {if $value.unit_price}
+                    <div class="price"><i>￥</i><span>{$value.unit_price}</span></div>
+                    {else}
+                    <div class="price">&nbsp;</div>
+                    {/if}
+                    {if $value.store_house}
+                    <div class="place">{$value.store_house}</div>
+                    {else}
+                    <div class="place">&nbsp;</div>
+                    {/if}
+                    {if $value.bargain}
+                    <div class="price">{if $value.bargain==1}可议价{else}实价{/if}</div>
+                    {else}
+                    <div class="price">&nbsp;</div>
+                    {/if}
+                    {if $value.cargo_type}
+                    <div class="xian-qi ">{if $value.cargo_type==1}现货{else}期货{/if}</div>
+                    {else}
+                    <div class="xian-qi">&nbsp;</div>
+                    {/if}
+                    {if $value.input_time}
+                    <div class="time">{$value.input_time|date:m-d H:i}</div>
+                    {else}
+                    <div class="time">&nbsp;</div>
+                    {/if}
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+        <!--mall-offer end-->
+    </div>
+    <!--company-wrap end-->
+    <!--company-wrap begin-->
+    <div class="company-wrap">
+        <!--resource begin-->
+        <div class="resource left">
+            <h3>我的资源库</h3>
+            <!--search begin-->
+            <div class="search">
+                <!--search-inner begin-->
+                <div class="search-inner">
+                   <span>
+									<a {if $smarty.get.type === null}class="hover"{/if}  href="/mycompany/index/init?id={$smarty.session.uinfo.c_id}&type=''">全部<b>{$countall}</b></a>
+								</span>
+								<span>
+									<a {if $smarty.get.type === '0'}class="hover"{/if} href="/mycompany/index/init?id={$smarty.session.uinfo.c_id}&type=0">求购<b>{$count2}</b></a>
+								</span>
+								<span>
+									<a {if $smarty.get.type === '1'}class="hover"{/if} href="/mycompany/index/init?id={$smarty.session.uinfo.c_id}&type=1">供应<b>{$count1}</b></a>
+								</span>
+                </div>
+                <!--search-inner end-->
+            </div>
+            <!--search end-->
+            <!--list begin-->
+            <div class="list">
+                <!--lists begin-->
+                {foreach from=$res item=v key= key}
+                <div class="lists">
+                    <div class="listl">
+                        <img width="48" height="48" src="http://q2.qlogo.cn/headimg_dl?bs=qq&amp;dst_uin={$v.user_qq}&amp;src_uin=*&amp;fid=*&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" alt="用户头像">
+                    </div>
+                    <div class="listr">
+                        <p class="title">
+                                <span class="name">{if $v.user_nick==''}{$v.realname}{else}{$v.user_nick}{/if}</span>
+                            <span>
+                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v.user_qq}&amp;site=qq&amp;menu=yes"><img src="http://wpa.qq.com/pa?p=2:{$v.user_qq}:41" border="0" alt="点击咨询" title="点击咨询"></a>
+                            </span>
+                            <span class="qq"><a href="javascript:void(0)">QQ:{$v.user_qq}</a></span>
+                            <span></span><span class="time">{$v.input_time|date:m-d H:i}</span>
+                        </p>
+                        <pre style="min-height:50px;overflow:hidden;">{$v.content}</pre>
+                        <p></p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                {/foreach}
+                <!--lists end-->
+                <!--page begin-->
+                <div class="page">
+                    {$pages}
+                </div>
+                <!--page end-->
+            </div>
+            <!--list begin-->
+        </div>
+        <!--resource end-->
+    </div>
+    <!--company-wrap end-->
 </div>
+
+
 <!--关于我们开始-->
 <div id="con-tab-2" class="about-detail">
     <!--profile begin-->
@@ -217,7 +352,7 @@
     <!--touch begin-->
     <div class="touch">
     	<!--crumb begin-->
-        <div class="crumb">您现在的位置：关于我们</div>
+        <div class="crumb">您现在的位置：联系我们</div>
         <!--crumb end-->
         <!--profile-con begin-->
         <div class="touch-con contact">

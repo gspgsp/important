@@ -9,157 +9,229 @@
     <!--right begin-->
     <div class="right frt">
     	<h3>个人中心-联营商城订单</h3>
-        <!--tab begin-->
-        <!--<div class="tab color3">
+        <!--run-tab begin-->
+        <div class="run-tab color3">
             <ul>
-                <li id="taba1" onmouseover="setTab('taba',1,5)" class="hover">所有订单</li>
-                <li id="taba2" onmouseover="setTab('taba',2,5)">已审核</li>
-                <li id="taba3" onmouseover="setTab('taba',3,5)">待审核</li>
-                <li id="taba4" onmouseover="setTab('taba',4,5)">已取消</li>
-                <li id="taba5" onmouseover="setTab('taba',5,5)">已作废</li>
+                <li {if $type=="1"} class="hover"{/if} onclick="yy(1)">全部订单</li>
+                <li {if $type=="2"} class="hover"{/if}  id="order_status_2" value="1" onclick="yy(2)" >已审核</li>
+                <li {if $type=="3"} class="hover"{/if} id="order_status_1" value="2" onclick="yy(3)">待审核</li>
+                <li {if $type=="4"} class="hover"{/if} id="invoice_status_1" value="3" onclick="yy(4)">待开票</li>
+                <li {if $type=="5"} class="hover"{/if} id="collection_status_1" value="4" onclick="yy(5)">待付款</li>
+                <li {if $type=="6"} class="hover"{/if} id="order_status_3" value="5" onclick="yy(6)">已取消</li>
             </ul>
-        </div>-->
-        <!--tab end-->
-        <!--filter begin-->
-        <div class="filter">
-        	<form id="filterForm" method="get" action="">
-    			<!--filter-top begin-->
-    		    <div class="filter-top">
-    		    	<!--query begin-->
-    		        <div class="query flt">
-    		        	<input type="text" name="sn" placeholder="请输入订单编号" class="import flt"/>
-    		            <input type="submit" value="订单查询" class="submit flt"/>
-    		        </div>
-    		        <!--query end-->
-    		        <div class="other hide flt">订单筛选条件</div>
-    		    </div>
-    		    <!--filter-top end-->
-    		    <!--filter-bot begin-->
-    		    <div class="filter-bot hide" id="filter">
-    		    	<table border="1">
-    		          <tr>
-    		            <td>创建时间：</td>
-    		            <td width="200"><input name="input_time" type="text"/></td>
-    		            <td>运输方式：</td>
-    		            <td width="242">
-    		            	<select name="transport_type">
-    		                	<option value="">请选择</option>
-    		            		{foreach from=$transport_type item=value key=key}
-    		                	<option value="{$key}">{$value}</option>
-    		                	{/foreach}
-    		                </select>
-    		            </td>
-    		            <td>付款状态：</td>
-    		            <td>
-    		            	<select name="collection_p_status">
-    		                	<option value="">请选择</option>
-								{foreach from=$collection_p_status  item=value key=key}
-    		                    <option value="{key}">{$value}</option>
-								{/foreach}
-    		                </select>
-    		            </td>
-    		          </tr>
-    		          <tr>
-    		            <td>发货状态：</td>
-    		            <td>
-    		            	<select name="goods_status">
-    		                	<option value="">请选择</option>
-    		            		{foreach from=$goods_status item=value key=key}
-    		                	<option value="{$key}">{$value}</option>
-    		                	{/foreach}
-    		                </select>
-    		            </td>
-    		            <td>开票状态：</td>
-    		            <td>
-    		            	<select name="invoice_status">
-    		                	<option value="">请选择</option>
-    		            		{foreach from=$invoice_status item=value key=key}
-    		                	<option value="{$key}">{$value}</option>
-    		                	{/foreach}
-    		                </select>
-    		            </td>
-    		            <td>交易状态：</td>
-    		            <td>
-    		            	<select name="order_status">
-    		                	<option value="">请选择</option>
-    		            		{foreach from=$order_status item=value key=key}
-    		                	<option value="{$key}">{$value}</option>
-    		                	{/foreach}
-    		                </select>
-    		            </td>
-    		          </tr>
-    		        </table>
-    		    </div>
-    		    <!--filter-bot end-->
-        	</form>
-        	
+            <form method="get"  action="/user/unionorder/init">
+            <span>订单编号：</span>
+                <input type="text" class="import" placeholder="请输入订单编号" name="sn" value="{$sn}"/>
+                <input type="submit" class="btn" value="查询"/>
+            </form>
         </div>
+        <!--run-tab end-->
+        <!--filter begin-->
+        <!--<div class="filter">-->
+            <!--<form id="filterForm" method="get" action="">-->
+                        <!--<div class="filter-top">-->
+                            <!--<div class="query flt">-->
+                                <!--<input type="text" name="sn" placeholder="请输入订单编号" class="import flt"/>-->
+                                <!--<input type="submit" value="订单查询" class="submit flt"/>-->
+                            <!--</div>-->
+                            <!--<div class="other hide flt">订单筛选条件</div>-->
+                        <!--</div>-->
+                        <!--<div class="filter-bot hide" id="filter">-->
+                            <!--<table border="1">-->
+                              <!--<tr>-->
+                                <!--<td>创建时间：</td>-->
+                                <!--<td width="200"><input name="input_time" type="text"/></td>-->
+                                <!--<td>运输方式：</td>-->
+                                <!--<td width="242">-->
+                                    <!--<select name="transport_type">-->
+                                        <!--<option value="">请选择</option>-->
+                                        <!--{foreach from=$transport_type item=value key=key}-->
+                                        <!--<option value="{$key}">{$value}</option>-->
+                                        <!--{/foreach}-->
+                                    <!--</select>-->
+                                <!--</td>-->
+                                <!--<td>付款状态：</td>-->
+                                <!--<td>-->
+                                    <!--<select name="collection_p_status">-->
+                                        <!--<option value="">请选择</option>-->
+                                        <!--{foreach from=$collection_p_status  item=value key=key}-->
+                                        <!--<option value="{key}">{$value}</option>-->
+                                        <!--{/foreach}-->
+                                    <!--</select>-->
+                                <!--</td>-->
+                              <!--</tr>-->
+                              <!--<tr>-->
+                                <!--<td>发货状态：</td>-->
+                                <!--<td>-->
+                                    <!--<select name="goods_status">-->
+                                        <!--<option value="">请选择</option>-->
+                                        <!--{foreach from=$goods_status item=value key=key}-->
+                                        <!--<option value="{$key}">{$value}</option>-->
+                                        <!--{/foreach}-->
+                                    <!--</select>-->
+                                <!--</td>-->
+                                <!--<td>开票状态：</td>-->
+                                <!--<td>-->
+                                    <!--<select name="invoice_status">-->
+                                        <!--<option value="">请选择</option>-->
+                                        <!--{foreach from=$invoice_status item=value key=key}-->
+                                        <!--<option value="{$key}">{$value}</option>-->
+                                        <!--{/foreach}-->
+                                    <!--</select>-->
+                                <!--</td>-->
+                                <!--<td>交易状态：</td>-->
+                                <!--<td>-->
+                                    <!--<select name="order_status">-->
+                                        <!--<option value="">请选择</option>-->
+                                        <!--{foreach from=$order_status item=value key=key}-->
+                                        <!--<option value="{$key}">{$value}</option>-->
+                                        <!--{/foreach}-->
+                                    <!--</select>-->
+                                <!--</td>-->
+                              <!--</tr>-->
+                            <!--</table>-->
+                        <!--</div>-->
+            <!--</form>    -->
+        <!--</div>-->
         <!--filter end-->
         <!--result-title begin-->
-        <ul class="result result-title color3">
-            <li class="total">订单类型</li>
-            <li class="already">公司</li>
-            <li class="total">总量(吨)</li>
-            <li class="amount">总金额(元)</li>
-            <li class="payable">应付款</li>
-            <li class="pay">付款方式</li>
-            <li class="transport">运输方式</li>
-            <li class="freight">运费</li>
-            <li class="fk-status">状态</li>
-            <li class="fh-status">发货状态</li>
-            <li class="kp-status">开票状态</li>
-            <li class="remark">备注</li>
-            <li class="opt">操作</li>
-        </ul>
+        <!--<ul class="result result-title color3">-->
+            <!--<li class="total">订单类型</li>-->
+            <!--<li class="already">公司</li>-->
+            <!--<li class="total">总量(吨)</li>-->
+            <!--<li class="amount">总金额(元)</li>-->
+            <!--<li class="payable">应付款</li>-->
+            <!--<li class="pay">付款方式</li>-->
+            <!--<li class="transport">运输方式</li>-->
+            <!--<li class="freight">运费</li>-->
+            <!--<li class="fk-status">状态</li>-->
+            <!--<li class="fh-status">发货状态</li>-->
+            <!--<li class="kp-status">开票状态</li>-->
+            <!--<li class="remark">备注</li>-->
+            <!--<li class="opt">操作</li>-->
+        <!--</ul>-->
         <!--result-title end-->
-        <!--all-opt begin-->
-        <div class="all-opt">
-        	<!-- <input type="checkbox" id="all"/>
-        	<label for="all">全选</label>
-            <a href="javascript:;">批量查看</a>
-            <a href="javascript:;">批量取消</a> -->
+        <!--order-title begin-->
+        <div class="order-title">
+            <ul>
+                <!--<li class="sel no"><span></span>全选</li>-->
+                <li class="order">商品</li>
+                <li class="amount">总量（吨）</li>
+                <li class="cost">运费</li>
+                <li class="total">总额（元）</li>
+                <li class="opt">操作</li>
+            </ul>
         </div>
-        <!--all-opt end-->
-        {foreach from=$orderList.data item=value}
-        <!--result-con begin-->
-        <div class="result-con">
-        	<!--result-top begin-->
-            <div class="result-top">
-            	<!-- <input type="checkbox"/> -->
-
-            	<span>{$value.input_time|date:Y-m-d H:i}</span>
-                <span>订单编号：{$value.order_sn}</span>
-            </div>
-            <!--result-top end-->
-            <!--result-bot begin-->
-            <div class="result result-bot">
-            	<ul>
-                    <li class="total">{:setOption|order_type,$value.type}</li>
-                    <li class="already">{$value.c_name}</li>
-                    <li class="total">{$value.totalNum}</li>
-                    <li class="amount">{$value.total_price}</li>
-                    <li class="payable">{$value.total_price}</li>
-                    <li class="pay">{:setOption|pay_method,$value.pay_method}</li>
-                    <li class="transport">{:setOption|transport_type,$value.transport_type}</li>
-                    <li class="freight">{$value.freight_price}</li>
-                    <li class="status">{:setOption|order_status,$value.order_status}</li>
-                    <li class="fk-status">{:setOption|goods_status,$value.goods_status}</li>
-                    <li class="kp-status">{:setOption|invoice_status,$value.invoice_status}</li>
-                    <li class="remark">{$value.remark}</li>
-                    <li class="opt">
-                    	<a href="/user/unionorder/detail/id/{$value.id}">查看</a>
-                    	{if (($value.order_status=='2')&&($value.collection_status!=3)) }
-                        	<a href="javascript:;" id="opt-pay-{$value.id}" class="opt-pay" data-id="{$value.id}">付款</a>
+        <!--order-title end-->
+        <!--order-con begin-->
+        {foreach from=$orderList.data  item=value key=key}
+        <div class="order-con">
+            <!--<div class="sel no"></div>-->
+            <!--order begin-->
+            <div class="order flt">
+                <ul>
+                    <li class="color-blue">
+                        <b>订单编号：</b><span>{$value.order_sn}</span>
+                        <b>公司：</b><span>{$value.c_name}</span>
+                    </li>
+                    <li>
+                        <b>创建时间：</b><span>{$value.input_time|date:Y-m-d}</span>
+                        {if $value.transport_type==1}
+                        <b>交货时间：</b><span>{$value.delivery_time|date:Y-m-d }</span>
+                        {else}
+                        <b>交货时间：</b><span>{$value.pickup_time|date:Y-m-d }</span>
                         {/if}
-                        <a href="javascript:;" class="opt-cancel" data-id="{$value.o_id}">取消</a>
+                    </li>
+                    <li class="status">
+                        <em class="status1"></em><b>审核状态：</b><span>{:setOption|order_status,$value.order_status}</span>
+                        <em class="status2"></em><b>发货状态：</b><span>{:setOption|goods_status,$value.goods_status}</span>
+                    </li>
+                    <li class="status">
+                        <em class="status3"></em><b>开票状态：</b><span>{:setOption|invoice_status,$value.invoice_status}</span>
+                        <em class="status4"></em><b>付款状态：</b><span>{:setOption|collection_p_status,$value.collection_status}</span>
+                    </li>
+                    <li class="color-orge">
+                        {if $value.uncollected_price>0}
+                        <b>已付款：</b><span>{$value.uncollected_price}元</span>
+                        {else}
+                        <b>已付款：</b><span>0.00元</span>
+                        {/if}
+                        </em><b>应付款：</b><span>{$value.total_price}元</span>
+                    </li>
+                    <li>
+                        <b>付款方式：</b><span>{:setOption|pay_method,$value.pay_method}</span>
+                    </li>
+                    <li>
+                        <b>运输方式：</b><span>{:setOption|transport_type,$value.transport_type}</span>
+
+                    </li>
+                    <li class="remark">
+                        <b>备注：</b><span>{$value.remark}</span>
                     </li>
                 </ul>
             </div>
-            <!--result-bot end-->
+            <!--order end-->
+            <!--amount begin-->
+            <div class="amount">{$value.totalNum}</div>
+            <!--amount end-->
+            <!--cost begin-->
+            <div class="cost">{$value.freight_price}</div>
+            <!--cost end-->
+            <!--total begin-->
+            <div class="total">{$value.total_price}</div>
+            <!--total end-->
+            <!--opt begin-->
+            <div class="opt link-blue">
+                <p><a href="/user/unionorder/detail/id/{$value.id}">查看</a></p>
+                <p> {if (($value.order_status=='2')&&($value.collection_status!=3)) }
+                    <a href="javascript:;" id="opt-pay-{$value.id}" class="opt-pay" data-id="{$value.id}">付款</a>
+                    {/if}</p>
+                <p> <a href="javascript:;" class="opt-cancel" data-id="{$value.o_id}">取消</a></p>
+            </div>
+            <!--opt end-->
         </div>
-        <!--result-con end-->
         {/foreach}
-        
+        <!--order-con end-->
+
+       <!--{foreach from=$orderList.data item=value}-->
+        <!--&lt;!&ndash;result-con begin&ndash;&gt;-->
+        <!--<div class="result-con">-->
+            <!--&lt;!&ndash;result-top begin&ndash;&gt;-->
+            <!--<div class="result-top">-->
+                <!--<input type="checkbox"/>-->
+        <!---->
+                <!--<span>{$value.input_time|date:Y-m-d H:i}</span>-->
+                <!--<span>订单编号：{$value.order_sn}</span>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;result-top end&ndash;&gt;-->
+            <!--&lt;!&ndash;result-bot begin&ndash;&gt;-->
+            <!--<div class="result result-bot">-->
+                <!--<ul>-->
+                    <!--<li class="total">{:setOption|order_type,$value.type}</li>-->
+                    <!--<li class="already">{$value.c_name}</li>-->
+                    <!--<li class="total">{$value.totalNum}</li>-->
+                    <!--<li class="amount">{$value.total_price}</li>-->
+                    <!--<li class="payable">{$value.total_price}</li>-->
+                    <!--<li class="pay">{:setOption|pay_method,$value.pay_method}</li>-->
+                    <!--<li class="transport">{:setOption|transport_type,$value.transport_type}</li>-->
+                    <!--<li class="freight">{$value.freight_price}</li>-->
+                    <!--<li class="status">{:setOption|order_status,$value.order_status}</li>-->
+                    <!--<li class="fk-status">{:setOption|goods_status,$value.goods_status}</li>-->
+                    <!--<li class="kp-status">{:setOption|invoice_status,$value.invoice_status}</li>-->
+                    <!--<li class="remark">{$value.remark}</li>-->
+                    <!--<li class="opt">-->
+                        <!--<a href="/user/unionorder/detail/id/{$value.id}">查看</a>-->
+                        <!--{if (($value.order_status=='2')&&($value.collection_status!=3)) }-->
+                            <!--<a href="javascript:;" id="opt-pay-{$value.id}" class="opt-pay" data-id="{$value.id}">付款</a>-->
+                        <!--{/if}-->
+                        <!--<a href="javascript:;" class="opt-cancel" data-id="{$value.o_id}">取消</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;result-bot end&ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash;result-con end&ndash;&gt;-->
+        <!--{/foreach}-->
         <!--page begin-->
         <div class="page frt">
         	{$pages}
@@ -171,6 +243,15 @@
 
 
 <script>
+    //订单状态筛选
+    function yy(type){
+        if(type==1){
+            window.location.href='/user/unionorder/init';
+        }else{
+            window.location.href='/user/unionorder/init?type='+type;
+        }
+    }
+
 var inter=0, layer_index=0;
 //定时异步查询支付是否成功 
 //如果成功则清除定时器和loading层
@@ -196,6 +277,12 @@ var querySucess = function(id){
 	},'json');
 }
 $(function(){
+    //切换订单状态
+    var runTab = $(".run-tab ul li");
+    runTab.bind("click",function(){
+        $(this).addClass("hover").siblings().removeClass("hover");
+    });
+
 	$("#filter select").change(function(){
 		$("#filterForm").submit();
 	});

@@ -11,10 +11,15 @@ class billInformationAction extends userBaseAction
 	}
 	//开票详情页
 	public function billInfo(){
+//		p($_SESSION);
 		$this->act='billInfo';
 		$this->is_ajax = true;
 		if($this->user_id<0) $this->error('账户错误');
-//		$where = " cbil.c_id={$this->$_SESSION['union']['c_id']} and cbil.display_status=1";
+		$info=$this->db->model('customer as cus')
+			->join('customer_contact as ct','cus.c_id=ct.c_id')
+			->select('cus.c_id,cus.c_name')
+			->where("ct.user_id=$this->user_id")
+			->getAll();
 		$data = $this->db->from('customer as c')
 		->join('customer_billing as cb','c.c_id=cb.c_id')
 		->where("user_id=$this->user_id  and cb.display_status=1")
@@ -22,27 +27,47 @@ class billInformationAction extends userBaseAction
 		->getRow();
 		$data['invoice_account']= str_pad(substr($data['invoice_account'],0,10), strlen($data['invoice_account']), '*');
 //		$data['invoice_account'] =desDecrypt($data['invoice_account']);//解密
-
+		$this->assign('info',$info);
 		$this->assign('detail',$data);
 		$this->display('billInfo');
 	}
 	//修改开票信息
 	public function changeBill(){
+		if($this->user_id<0) $this->error('账户错误');
 		$this->is_ajax = true;
 		$data = array();
 		if($_POST){
-			$id = $_POST['id'];
-			$status=$this->db->model('customer_billing')->select('status')->where('id='.$id)->getOne();
-			if($status==1) $this->json_output(array('err'=>1,'msg'=>'系统错误'));
+//			$id = $_POST['id'];
+			//开票id为空，新增
+			if(empty($_POST['id'])){
+				$data['user_id']=$_SESSION['userid'];
+				$data['c_id']=$_SESSION['uinfo']['c_id'];
+				$data['tax_id']= $_POST['tax_id'];
+				$data['invoice_address'] = $_POST['invoice_address'];
+				$data['invoice_tel'] = $_POST['invoice_tel'];
+				$data['invoice_bank'] = $_POST['invoice_bank'];
+				$data['invoice_account'] = $_POST['invoice_account'];
+				$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];
+				$data['input_time']=CORE_TIME;
+				$data['input_admin']=$this->user_id;
+				$data['status']=2;
+				$data['display_status']=1;
+				if($this->db->model('customer_billing')->add($data))$this->json_output(array('err'=>0,'msg'=>'更新成功,等待审核'));
 
-			$data['tax_id'] = $_POST['tax_id'];                      //识别号码
-			$data['invoice_address'] = $_POST['invoice_address'];    //开票地址
-			$data['invoice_tel'] = $_POST['invoice_tel'];            //开票电话
-			$data['invoice_bank'] = $_POST['invoice_bank'];          //开户银行
-			$data['invoice_account'] = ($_POST['invoice_account']);  //银行账号
+			}else{
+				//开票id不为空，修改
+				$status=$this->db->model('customer_billing')->select('status')->where('id='.$_POST['id'])->getOne();
+				if($status==1) $this->json_output(array('err'=>1,'msg'=>'系统错误'));
+				$data['tax_id'] = $_POST['tax_id'];                      //识别号码
+				$data['invoice_address'] = $_POST['invoice_address'];    //开票地址
+				$data['invoice_tel'] = $_POST['invoice_tel'];            //开票电话
+				$data['invoice_bank'] = $_POST['invoice_bank'];          //开户银行
+				$data['invoice_account'] = ($_POST['invoice_account']);  //银行账号
 //			$data['invoice_account'] = desEncrypt($_POST['invoice_account']);//加密
-			$data['status']=0;                                       //状态
-			if($this->db->where('id='.$id)->update($data)) $this->json_output(array('err'=>0,'msg'=>'更新成功,等待审核'));
+				$data['status']=2;                                       //状态
+				if($this->db->where('id='.$_POST['id'])->update($data)) $this->json_output(array('err'=>0,'msg'=>'更新成功,等待审核'));
+			}
+
 		}
 	}
 	//删除某个开票

@@ -75,7 +75,7 @@ class registerAction extends homeBaseAction{
 				if(!$customer){
 					$_customer=array(
 						'c_name'=>$c_name,
-						'chanel'=>2,
+						'chanel'=>sget('chanel','i',0),
 					);
 					if(!$cus_model->add($_customer)) throw new Exception("系统错误 reg:101");
 					$c_id=$cus_model->getLastID();
@@ -89,6 +89,8 @@ class registerAction extends homeBaseAction{
 					'qq'=>sget('qq','s'),
 					'c_id'=>$c_id,
 					'is_default'=>$is_default,
+					'parent_mobile'=>sget('parent_mobile','s'),
+					'chanel'=>sget('chanel','i',0),
 				);
 				if(!$user_model->add($_user)) throw new Exception("系统错误 reg:102");
 				$user_id=$user_model->getLastID();
@@ -96,12 +98,16 @@ class registerAction extends homeBaseAction{
 					'user_id'=>$user_id,
 					'reg_ip'=>get_ip(),
 					'reg_time'=>CORE_TIME,
-					'reg_chanel'=>2,
+					'reg_chanel'=>sget('chanel','i',0),
 				);
 				if(!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
 				if(!$customer){
 					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=".$user_id)) throw new Exception("系统错误 reg:104");
 				}
+				//注册日志
+				// $remarks = "塑料圈注册操作";
+	   //          M('user:applyLog')->addLog($user_id,'plasticzonec/register','','塑料圈注册',1,$remarks);
+				//
 			} catch (Exception $e) {
 				$user_model->rollback();
 				$this->error($e->getMessage());

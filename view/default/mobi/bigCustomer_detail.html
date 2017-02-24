@@ -42,9 +42,6 @@
 			<span><img width="15" src="__MYAPP__/img/bigCustomer4.png">&nbsp;交易保障</span>
 		</div>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
 			$(function () {
 				var id=getUrlParam("id");
 				$("#tradeBtn").on("click",function () {
@@ -75,7 +72,24 @@
 				});
 			})
 		</script>
-
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

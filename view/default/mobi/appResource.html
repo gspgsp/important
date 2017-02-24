@@ -29,6 +29,9 @@
 			</div>
 		</div>
 		<ul class="appResourceUl"></ul>
+		<div style="text-align: center; padding: 5px 0;">
+			<input class="more" type="button" value="点击加载更多">
+		</div>
 		<div class="appResourceText" style="display: none;">
 			<div style="padding: 20px 0 0 0;">
 				<input name="resource" value="1" checked type="radio">我有货，我要卖
@@ -50,13 +53,12 @@
 			</ul>
 		</footer>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
 			$(function () {
-				var type="";
+				var type=3;
 				var appLi="";
-
+				var keywords="";
+				var page=1;
+				
 				function changeAvator(avator) {
 					if(avator){
 						return avator;
@@ -66,21 +68,11 @@
 				}
 
 				$(".appQuery2").on("click",function () {
-					var keywords=$("#querySearch").val();
-					commonAjax(
-							"post",
-							"/mobi/mainPage/getResSearch",
-							{keywords:keywords,type:0}
-					).then(function (res) {
-						console.log(res);
-						appLi="";
-						res.searchData.forEach(function (v,i,a) {
-							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.user_nick+"<span>"+v.input_time+"</span></h3><p>"+ v.content +"</p></div></li>";
-						});
-						$(".appResourceUl").html(appLi);
-					},function () {
-
-					});
+					keywords=$("#querySearch").val();
+					appLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(type,keywords,page);
 				});
 				
 				$(".appResourceChoose span").on("click",function () {
@@ -88,41 +80,50 @@
 					$(this).addClass("on").siblings("span").removeClass("on");
 					console.log("---",type);
 					appLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(type,keywords,page);
+				});
+				
+				function renderQuo(type,keywords,page) {
+					$(".more").val("加载更多数据");
 					commonAjax(
 							"post",
 							"/mobi/mainPage/getResource",
-							{type:type}
+							{
+								type:type,
+								keywords:keywords,
+								page:page,
+								size:10
+							}
 					).then(function (res) {
 						console.log(res);
+						var name="";
+						if(res.err==0){
 						res.resData.forEach(function (v,i,a) {
-							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+v.user_nick+"<span>"+v.input_time+"</span></h3><p>"+ v.content +"</p></div></li>";
+							if(v.user_nick){
+								name=v.user_nick;
+							}else{
+								name=v.realname;
+							}
+							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+name+"<span>"+v.input_time+"</span></h3><p>"+ v.content +"</p></div></li>";
 						});
 						$(".appResourceUl").html(appLi);
+						}else if(res.err==3){
+							$(".more").val(res.msg);
+						}
 					},function () {
 
 					});
+				}
+				
+				//初始数据
+				renderQuo(type,keywords,page);
+				$(".more").on("click",function(){
+					page++;
+					renderQuo(type,keywords,page);
 				});
-
-				commonAjax(
-						"post",
-						"/mobi/mainPage/getResource",
-						{type:type}
-				).then(function (res) {
-					console.log(res);
-					var name="";
-					res.resData.forEach(function (v,i,a) {
-						if(v.user_nick){
-							name=v.user_nick;
-						}else{
-							name=v.realname;
-						}
-						appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+name+"<span>"+v.input_time+"</span></h3><p>"+ v.content +"</p></div></li>";
-					});
-					$(".appResourceUl").html(appLi);
-				},function () {
-
-				});
-
+				
 				$(".appWrite").on("click",function () {
 					$(".appResourceText").toggle();
 				});
@@ -152,7 +153,24 @@
 				});
 			})
 		</script>
-
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

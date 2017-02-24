@@ -126,7 +126,7 @@
 								<div class="num"><img src="__IMG__/home/re1.png" width="53" height="65"></div>
 								<div class="desc">
 									<h4>发布一条资源</h4>
-									<p>+100 积分</p>
+									<p>+{$points.pub} 积分</p>
 								</div>
 								{if $is_pup}
 								<div class="status yes">已完成</div>
@@ -138,7 +138,7 @@
 								<div class="num"><img src="__IMG__/home/re2.png" width="53" height="65"></div>
 								<div class="desc">
 									<h4>每日签到</h4>
-									<p>+50 积分</p>
+									<p>+{$points.sign} 积分</p>
 								</div>
 								{if $is_sign}
 								<div class="status yes">已完成</div>
@@ -150,7 +150,7 @@
 								<div class="num"><img src="__IMG__/home/re3.png" width="53" height="65"></div>
 								<div class="desc">
 									<h4>搜索一条资源</h4>
-									<p>+50 积分</p>
+									<p>+{$points.search} 积分</p>
 								</div>
 								{if $is_search}
 								<div class="status yes">已完成</div>
@@ -268,7 +268,7 @@ $(".addform").submit(function(){
 	var content = $('.con').val().trim();
 	var type=$('input[name="typ"]:checked').val();
 	if(content == ''){
-		alert('请填写发布内容');
+		layer.msg('请填写发布内容');
 		return false;
 	}
 	$.post('/resource/index/release', {content:content,type:type}, function (data){
@@ -276,22 +276,25 @@ $(".addform").submit(function(){
 			if(data.err==1){
 				loginbox('resource');
 			}else{
-				alert(data.msg);
+				layer.msg(data.msg);
 			}
 		}else{
-			alert('发布成功');
+			layer.msg('发布成功');
 			window.location.reload();
 		}
 	},'json')
 	return false;
 })
-
+	//签到
 function qiandao(){
     $.post('/pointshop/index/signon', function (data){
+		if(data.err==1){
+			loginbox('pointshop');
+		}
             if(data.status == 1){
-                alert(data.msg);
+				layer.msg(data.msg);
             }else{
-                alert(data.msg);
+				layer.msg(data.msg);
             }
             window.location.reload();
 

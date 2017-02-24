@@ -21,6 +21,7 @@ class indexAction extends homeBaseAction{
 
 
 		$this->data=sstripslashes($model->getInfoById($id));
+		$this->seo = array('title'=>$this->data['title'],'keywords'=>$this->data['keywords'],'description'=>$this->data['description']);
 		$this->assign('cate',$cate);
 		$this->assign('id',$id);
 		$this->display('index.html');
@@ -34,6 +35,9 @@ class indexAction extends homeBaseAction{
 	public function mdownload(){
 
 		$this->display('mdownload');
+	}
+	public function notFind(){
+		$this->display('404.html');
 	}
 
 	//意见反馈

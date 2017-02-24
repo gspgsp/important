@@ -50,7 +50,7 @@ body{ font-family:"微软雅黑"; font-size:14px; color:#666;}
         <!--login-tr end-->
         <!--login-tr begin-->
         <div class="login-tr">
-            <!-- <div class="login-auto"><input type="checkbox" id="auto" name="remember" value="1" checked="checked"/><label for="auto">2周内自动登录</label></div> -->
+             <!--<div class="login-auto"><input type="checkbox" id="auto" name="remember" value="1" checked="checked"/><label for="auto">2周内自动登录</label></div> -->
             <a href="javascript:;" onclick="register()">注册新账号</a>
             <div class="login-forget"><a href="javascript:findPwd();">忘记密码？</a></div>
         </div>
@@ -77,7 +77,7 @@ function doLogin(){
     var type="{$type}";
     var is_mobile=/^1[0-9]{10}$/;
     if(username==''){
-        errMsg('请输入账号');
+        errMsg('请输入正确的账号');
         return false;
     }
     if(password==''){
@@ -96,7 +96,12 @@ function doLogin(){
         if(data.err>0){
             errMsg(data.msg);
         }else{
-            window.parent.location = "/"+type;
+        	//type为-1就不跳转只登陆
+        	if(type!="-1"){
+            	window.parent.location = "/"+type;
+            }else{
+            	window.parent.location.reload(); 
+            }
         }
     },'json');
     errMsg('');

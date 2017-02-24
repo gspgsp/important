@@ -43,7 +43,7 @@ class indexAction extends homeBaseAction{
 		if($_POST)
 		{
 			$sid=sget('sid','s','');
-			$num=round(sget('num'),2);
+			$num=round(sget('num'),4);
 			Cart::update(array('sid'=>$sid,'num'=>$num));
 			$this->success('修改成功');
 		}
@@ -55,8 +55,8 @@ class indexAction extends homeBaseAction{
 		if($this->user_id<=0) $this->forward('/user/login');
 		if($_POST)
 		{
-			$this->is_ajax=true;
-			$orderSn='PO'.genOrderSn();
+
+			$orderSn='SO'.genOrderSn();
 			$data=saddslashes($_POST);
 			$contact=$this->db->model('customer_contact')->where("user_id=$this->user_id")->getRow();
 			$data['order_sn']=$orderSn;
@@ -77,6 +77,7 @@ class indexAction extends homeBaseAction{
 			$data['order_type']=1;	     //销售类型
 			$data['sign_place']='网站签约';	//签约地点
 			$data['order_source']=1;	//订单来源 1网站
+			$data['remark']=htmlspecialchars($data['remark']);   //备注
 			$data['c_id']=$contact['c_id'];
 			$data['user_id']=$this->user_id;	//用户id
 			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//交易员id
@@ -85,6 +86,7 @@ class indexAction extends homeBaseAction{
 			$data['total_price']=Cart::getTotalPrice();	//总金额
 			$data['financial_records']=2;
 			$data['input_time']=CORE_TIME;	//创建时间
+			$data['order_name']=1;	//默认为中晨
 			$model=$this->db->model('order');
 			$goods=Cart::getGoods(); //购物车列表
 			$model->startTrans();
@@ -120,55 +122,40 @@ class indexAction extends homeBaseAction{
 	}
 
 	/**
+	 * 根据产品id 查询库存剩余量
 	 * @Author: yuanjiaye
      */
-//	public function error(){
-//		if($this->user_id<=0) $this->forward('/user/login');
-//		if($_POST){
-//			$this->is_ajax=true;
-//			$_POST['data']=str_replace('\\','',$_POST['data']);
-//			$data=json_decode($_POST['data'],true);
-//			$arr=array();
-//			$rtn = true;
-//			$str_temp="";
-//			foreach($data as $k=>$v){
-//				$arr['id']=$v['id'];
-//				$arr['amount']=$v['amount'];
-//				$info=M('product:purchase')->select('id,number')->where("id={$v['id']}")->getAll();
-//				p($info);
-//				//报价商品剩余数量为0
-//				if(!$info[0]['number']){
-//					$str=$this->db->model('purchase as pur')
-//						->join('product as pro','pur.p_id=pro.id')
-//						->join('factory as fac','pro.f_id=fac.fid')
-//						->select('pur.id,pro.model,pro.product_type,fac.f_name')
-//						->where("pur.id={$v['id']}")
-//						->getAll();
-//					$str_temp=$str;
-//					$rtn =false;
-//					return $rtn;
+//	public function error()
+//	{
+//		if ($this->user_id <= 0) $this->forward('/user/login');
+//		if ($_POST) {
+//			$this->is_ajax = true;
+//			$_POST['data'] = str_replace('\\', '', $_POST['data']);
+//			$data = json_decode($_POST['data'], true);
+//			$arr = array();
+//			$iserr=array();
+//			foreach ($data as $key => $value) {
+//				$arr = $value;
+//				$data[$key]['remainder'] = $this->db->model('store_product')->select('remainder')->where("p_id={$arr['id']}")->getOne();
+//				$data[$key]['diff'] = $data[$key]['remainder'] - $data[$key]['amount'];
+//				if($data[$key]['diff']<0){
+//					$iserr['id']=$data[$key]['id'];
+//					$iserr['model']=$data[$key]['model'];
+//					$iserr['f_name']=$data[$key]['f_name'];
+//					break;
 //				}
-//				//报价商品还有剩余
-//				if($info[0]['number']){
-//					$infos=p(array_merge($arr,$info[0]));
-//					if(($infos['amount']-$infos['number'])<0){
-//						$str=$this->db->model('purchase as pur')
-//							->join('product as pro','pur.p_id=pro.id')
-//							->join('factory as fac','pro.f_id=fac.fid')
-//							->select('pur.id,pro.model,pro.product_type,fac.f_name')
-//							->where("pur.id={$infos['id']}")
-//							->getAll();
-//						$str_temp=$str;
-//						$rtn =false;
-//						return $rtn;
-//					}
-//				}
-//
 //			}
-//			if(!$rtn) return json_output(array('err'=>1,'msg'=>$str_temp));
+//			//库存为剩余为零
+//			if(count($iserr)>0)
+//			{
+//				return json_output(array('err'=>1,'msg'=>$iserr));
+//			}else{
+//				return json_output(array('err'=>0,'msg'=>''));
+//			}
+//
 //		}
-//}
-
+//	}
+	//提示信息
 	public function msg()
 	{
 		if(!$_SESSION['order_success'] || $this->user_id<=0) $this->forward('/');

@@ -21,6 +21,13 @@
         	<h4 style="margin:10px 0 10px 23px">资质认证请填写以下内容，并上传证件照片</h4>
             <form name="" action="" onSubmit="return false;" method="post">
             	<table border="1" style="width:75%;">
+                    <tr>
+                        <td>是否三证合一<span>*</span>：<td>
+                        <select style="height:100%;width:100%;" name="chk_pics" id="chk_pics">
+                            <option value="1" id="fourthOption">是</option>
+                            <option value="0" id="fourthOptions">否</option>
+                        </select>
+                    </tr>
                   <tr>
                     <td>企业法人姓名<span>*</span>：</td>
                     <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_person" id="legal_person" placeholder="2到20个汉字" /></td>
@@ -32,7 +39,7 @@
                   </tr>
                   <tr>
                     <td>企业法人身份证号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="legal_idcard" id="legal_idcard"  /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" placeholder="请输入身份证号码" name="legal_idcard" id="legal_idcard"  /></td>
                     <td>企业法人身份证照片上传：</td>
                     <!-- <td><input type="file" id="file1" name="file1" value="" id="legal_idcard_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="legal_idcard_pic" /></td> -->
@@ -43,9 +50,9 @@
                     <!-- <td><input type="hidden" id="idcard" name="idcard" value=""/></td> -->
                   </tr>
                   <tr>
-                    <td>营业执照号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="business_licence" id="business_licence" placeholder="15位" /></td>
-                    <td>营业执照副本照片上传：</td>
+                    <td>统一社会信用代码<span>*</span>：</td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="business_licence" id="business_licence" placeholder="请输入18位统一社会信用代码" /></td>
+                    <td>统一社会信用代码副本照片上传：</td>
                     <!-- <td><input type="file" id="file2" name="file2" value="" id="business_licence_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="business_licence_pic" /></td> -->
                     <td style="float:left;">
@@ -54,9 +61,9 @@
                     </td>
                     <!-- <td><input type="hidden" id="licence" name="licence" value=""/></td> -->
                   </tr>
-                  <tr style="height:50px;">
+                  <tr style="height:50px; display:none;" id="tax_registrations">
                     <td>税务登记号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="tax_registration" id="tax_registration" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" placeholder="请输入税务登记号" name="tax_registration" id="tax_registration" /></td>
                     <td style="display:none;">税务登记证照片上传：</td>
                     <!-- <td><input type="file" id="file3" name="file3" value="" id="tax_registration_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="tax_registration_pic" /></td> -->
@@ -66,9 +73,9 @@
                     </td>
                    <!--  <td><input type="hidden" id="registration" name="registration" value=""/></td> -->
                   </tr>
-                  <tr style="height:50px;">
+                  <tr style="height:50px; display: none" id="grounp_nos">
                     <td>组织机构代码证号<span>*</span>：</td>
-                    <td><input style="height: 18px;width: 95%;" type="text" class="import" name="grounp_no" id="grounp_no" /></td>
+                    <td><input style="height: 18px;width: 95%;" type="text" class="import" placeholder="请输入组织机构代码证" name="grounp_no" id="grounp_no" /></td>
                     <td style="display:none;">组织机构代码证照片上传：</td>
                     <!-- <td><input type="file" id="file4" name="file4" value="" id="organization_pic" /></td>
                     <td><input type="button" value="上传" class="button" name="organization_pic" /></td> -->
@@ -78,13 +85,7 @@
                     </td>
                    <!--  <td><input type="hidden" id="no" name="no" value=""/></td> -->
                   </tr>
-                  <tr>
-                    <td>是否三证合一<span>*</span>：<td>
-                  	<select style="height:100%;width:100%;" name="chk_pics" id="chk_pics"> 
-						<option value="1" id="fourthOption">是</option> 
-						<option value="0" id="fourthOption">否</option> 
-					</select>
-				  </tr>
+
                   <tr>
                   	<td colspan="4" class="opt">
                     	<input type="submit" value="提交审核" id="btnCl" />
@@ -112,22 +113,33 @@
         	chgChecked();
         });
         $("#downword").click(function(){
-        	window.location.href="__UPLOAD__/企业操作员授权委托书.doc";
+        	//window.location.href="__UPLOAD__/企业操作员授权委托书.doc";
+        	window.location.href="/user/fundManager/downloadAdjunct";
         });
    })
    
    var chgChecked=function(){
-   	if($("#chk_pics ").val()==1){
+   	if($("#chk_pics").val()==1){
+		$("#business_licence").attr("placeholder","大于或等于18位").parent().prev().text("统一社会信用代码：");
 		$("#tax_registration_pic").parent().hide();
 		$("#tax_registration_pic").parent().prev().hide();
 		$("#tax_registration_pic").prev().attr("required",false);
 		$("#organization_pic").parent().hide();
-		$("#organization_pic").parent().prev().hide();
+        $("#tax_registrations").hide();      //税务登记证
+        $("#tax_registrations").prev('input').attr("required",false);
+        $("#grounp_nos").hide();             //组织机构证
+        $("#tax_registration").attr("required",false);
+        $("#organization_pic").parent().prev().hide();
 		$("#organization_pic").prev().attr("required",false);
 	}else{
+		$("#business_licence").attr("placeholder","请输入15位营业执照代码").parent().prev().text("营业执照号：");
 		$("#tax_registration_pic").parent().show();
 		$("#tax_registration_pic").parent().prev().show();
 		$("#tax_registration_pic").prev().attr("required",true);
+        $("#tax_registrations").show();
+        $("#grounp_nos").show();
+        $("#tax_registration").attr("required",true);
+        $("#grounp_no").attr("required",true);
 		$("#organization_pic").parent().show();
 		$("#organization_pic").parent().prev().show();
 		$("#organization_pic").prev().attr("required",true);	
@@ -176,7 +188,7 @@
     	   return rtn;
 		}
 		//身份证验证15-18
-		if(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test($("#legal_idcard").val())){	
+		if(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|X)$)/.test($.trim($("#legal_idcard").val()))){
 		}else{
      	   $("#J_Message").find("p").text('请输入正确的身份证号!');
     	   $("#J_Message").fadeIn();
@@ -184,28 +196,47 @@
     	   return rtn;
 		}
 		//营业执照号验证
-		if(/^(\s)*(\d{15})(\s)*$/.test($("#business_licence").val())){		
+		if($("#chk_pics").val()==1){
+			if($("#business_licence").val().length>=18){
+
+			}else{
+	      	   $("#J_Message").find("p").text('请输入正确的统一社会信用代码!');
+	    	   $("#J_Message").fadeIn();
+	    	   rtn = false;
+	    	   return rtn;
+			}
 		}else{
-      	   $("#J_Message").find("p").text('请输入正确的营业执照!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
+			if(/^(\s)*(\d{15})(\s)*$/.test($("#business_licence").val())){		
+			}else{
+	      	   $("#J_Message").find("p").text('请输入正确的营业执照!');
+	    	   $("#J_Message").fadeIn();
+	    	   rtn = false;
+	    	   return rtn;
+			}
 		}
 		
 		//税务登记号
-		if($("#tax_registration").val()==""){		
-      	   $("#J_Message").find("p").text('请输入税务登记号!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
+		if($("#tax_registration").attr("required")=="required"){
+			if($("#tax_registration").val()==""){		
+	      	   $("#J_Message").find("p").text('请输入税务登记号!');
+	    	   $("#J_Message").fadeIn();
+	    	   rtn = false;
+	    	   return rtn;
+			}
 		}
 		
 		//组织机构号
-		if($("#grounp_no").val()==""){		
-      	   $("#J_Message").find("p").text('请输入组织机构号!');
-    	   $("#J_Message").fadeIn();
-    	   rtn = false;
-    	   return rtn;
+		if($("#chk_pics").val()==1){
+			
+		}else{
+			if($("#grounp_no").attr("required")=="required"){
+				if($("#grounp_no").val()==""){		
+		      	   $("#J_Message").find("p").text('请输入组织机构号!');
+		    	   $("#J_Message").fadeIn();
+		    	   rtn = false;
+		    	   return rtn;
+				}
+			}
 		}
 		
 		//验证上传图片问题

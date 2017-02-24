@@ -15,53 +15,71 @@ class selforderAction extends userBaseAction{
 	{
 		$this->act="selforder";
 
-		$this->transport_type=L('transport_type');
-		$this->goods_status=L('goods_status');
-		$this->invoice_status=L('invoice_status');
-		$this->order_status=L('order_status');
-		$this->collection_p_status=L('collection_p_status');
+		$this->transport_type=L('transport_type');                //运输状态
+		$this->goods_status=L('goods_status');			          //发货状态
+		$this->invoice_status=L('invoice_status');                //订单开票状态
+		$this->order_status=L('order_status');                    //订单状态(含交易完成)
+		$this->collection_p_status=L('collection_p_status');      //订单付款状态
+		$this->type=1;
 
-		$where="user_id=$this->user_id";
+		$where="o.user_id=$this->user_id";
 
 		//订单筛选
-		if($orderSn=sget('sn','s','order_sn')){
+		if($orderSn=trim(sget('sn','s',''))){
+			$this->sn=$orderSn;
+			$where.=" and o.order_sn='{$orderSn}'";
+		}
 
-			$where.=" and order_sn=".$orderSn;
-		}
-		//日期筛选
-		if($input_time=sget('input_time','s','')){
+		if($type=sget('type','s','')){
+			//全部订单
+			if($type==1){
+				$this->type=$type;
+				$where;
+			}
+			//已审核
+			if($type==2){
+				$order_status=2;
+				$this->type=$type;
+				$where.=" and o.order_status={$order_status}";
+			}
+			//待审核
+			if($type==3){
+				$order_status=1;
+				$this->type=$type;
+				$where.=" and  o.order_status={$order_status}";
+			}
 
+			//待开票
+			if($type==4){
+				$invoice_status=1;
+				$this->type=$type;
+				$where.= " and o.invoice_status={$invoice_status} and o.order_status=2";
+			}
+			//待付款
+			if($type==5){
+				$collection_status=1;
+				$this->type=$type;
+				$where.=" and o.collection_status={$collection_status} and o.order_status=2";
+			}
+			if($type==6){
+				$order_status=3;
+				$this->type=$type;
+				$where.=" and o.order_status={$order_status}";
+			}
 		}
-		//运输方式
-		if($transport_type=sget('transport_type','i',0)){
-			$where.=" and transport_type=$transport_type";
-		}
-		//付款状态
-		if($collection_p_status=sget('collection_p_status','i',0)){
-			$where="and collection_status=$collection_p_status";
-		}
-		//发货状态
-		if($goods_status=sget('goods_status','i',0)){
-			$where.=" and goods_status=$goods_status";
-		}
-		//开票状态
-		if($invoice_status=sget('invoice_status','i',0)){
-			$where.=" and invoice_status=$invoice_status";
-		}
-		//订单状态
-		if($order_status=sget('order_status','i',0)){
-			$where.=" and order_status=$order_status";
-		}
+
 		$page=sget('page','i',1);
-		$size=10;
-		$orderList=M('product:order')
-				->select('o_id,order_name,order_sn,user_id,total_price,pay_method,transport_type,freight_price,order_status,invoice_status,input_time,remark,collection_status')
+		$size=4;
+		$orderList=$this->db->model('order as `o`')
+				->leftjoin('collection as col','col.o_id=o.o_id')
+			->select('o.o_id,o.order_name,o.order_sn,o.user_id,o.total_num,o.total_price,o.pay_method,o.transport_type,o.freight_price,o.order_status,o.invoice_status,o.out_storage_status,o.input_time,o.remark,o.collection_status,o.pickup_time,o.delivery_time,col.collected_price,col.payment_time')
 				->where($where)
 				->page($page,$size)
-				->order('input_time desc')
+				->order('`o`.input_time desc')
 				->getPage();
-		$this->pages = pages($orderList['count'], $page, $size);
 
+
+		$this->pages = pages($orderList['count'], $page, $size);
 		foreach ($orderList['data'] as &$value) {
 			$value['totalNum']=$this->db->model('sale_log')->where("o_id={$value['o_id']}")->select("sum(number)")->getOne();
 			$value['model']=$this->db->model('sale_log as s')
@@ -75,20 +93,26 @@ class selforderAction extends userBaseAction{
 				->select("f_name")
 				->where("o_id={$value['o_id']}")->getOne();
 		}
+
 		$this->assign('orderList',$orderList);
 		$this->display('selforder');
 	}
 
-	// 订单详细查看
+
+	/**
+	 * 自营订单明细
+	 * @Author: yuanjiaye
+     */
 	public function detail()
 	{
 		$id=sget('id','i',0);
 		if(!$this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->getRow()) $this->forward('/');
 		$order=$this->db->from('order o')
-			->join('admin ad','o.customer_manager=ad.admin_id')
-			->select('o.*,ad.name,ad.mobile')
+			->leftjoin('admin ad','o.customer_manager=ad.admin_id')
+			->select('o.o_id,o.order_name,o.order_sn,o.user_id,o.total_price,o.pay_method,o.transport_type,o.freight_price,o.order_status,o.invoice_status,o.out_storage_status,o.input_time,o.remark,o.collection_status,o.pickup_time,o.delivery_time,o.sign_time,o.sign_place,o.payment_time,ad.name,ad.mobile')
 			->where("o_id=$id and user_id={$this->user_id}")
 			->getRow();
+
 		$order['order_name']='-';
 		$order['transport_type']==1?($order['pickup_time']):($order['delivery_time']=$order['delivery_time']);
 		$order['transport_type']==1?($order['pickup_location']='--'):($order['delivery_location']=$order['delivery_location']);
@@ -102,6 +126,7 @@ class selforderAction extends userBaseAction{
 		foreach ($sale_log as $key => &$value) {
 			$value['totalPrice']=$value['number']*$value['unit_price'];
 		}
+
 		$this->assign('sale_log',$sale_log);
 		$this->assign('order',$order);
 		$this->display('selforder.detail');
@@ -120,70 +145,114 @@ class selforderAction extends userBaseAction{
 	        ->select('o.*')
 	        ->where("o_id=$id and user_id={$this->user_id}")
 	        ->getRow();
-	        $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
-	        $payID = 'PAY'.date('Ymdhis',time()).'-'.rand(999,9999);	        
-	        //参数封装
-	        $params['payID'] =  $payID; // 支付号码，东方付通对此订单的唯一标识，商城必须保存此订单号，下次支付时使用
-	        $params['tradeOrder'] =  $order['order_sn']; // 合同号码，商城的订单号	        
-	        $params['mallID'] = $obj->mallID;  // 商城号
-	        $params['payType'] = '01010'; // 接口类型，直接支付
-	        $c_info = M('user:customer')->getCinfoById($order['c_id']);
-	        if($order['order_type']=='1')//销售 中晨卖方
-	        {
-	            $params['payMemCode'] = $order['c_id'];                    // 付款人代码
-	            $params['payMemName'] = $c_info['c_name'];                 // 付款人名称
-	            $params['recMemCode'] = '5041';                            // 收款人代码
-	            $params['recMemName'] = '上海中晨电子商务股份有限公司';       // 收款人名称
+	        if($order['collection_status']=='3'){
+	            $this->error('该订单已付款');
 	        }
-	        if($order['order_type']=='2')                                  //销售 中晨买方
-	        {
-	            $params['payMemCode'] = '5041';                            // 付款人代码
-	            $params['payMemName'] = '上海中晨电子商务股份有限公司';       // 付款人名称
-	            $params['recMemCode'] = $order['c_id'];                    // 收款人代码
-	            $params['recMemName'] = $c_info['c_name'];                 // 收款人名称
-	        }
-	        $params['currency'] = 'CNY';                                   // 人民币
-	        $params['payAmt'] = $order['total_price'];                     // 付款金额
-	        $params['originalPayID'] = '';                                 // 直接支付不需要赋值
-	        $params['callBackUrl'] = str_replace("///", "//",str_replace("http:/", "http://", APP_URL)).'/pay/rtnpay/selforder_callback';                                        //回调通知地址，订单支付成功后通知商城的地址
-	        $params['summary'] = '';                                       //摘要
-// 	        echo "支付号码：".$payID;      	        	              
-	        $params['customFiels'] ='';//自定义字段
-	        $params['instAccount']='0'; //优先记账0 或空：不记账99：记账
-	        $params['locktag']='0';// 锁定标识 1 锁定到收款方  到货支付此处必须为1 直接支付为0或空
-	        $params['bankUse']='';//银行用途
-	        $params['bankDigest']='';//银行摘要	
-	        // 生成签名
-	        $params['signature'] = $obj->_getSign(json_encode($params));    //打印签名密文      
-	        $json = json_encode($params);        
-// 	        echo "支付参数：<br />".$json;
-// 	        echo "<br /><br />";        
-	        $dataorder = $obj->_base64Sign($json);
-// 	        echo "参数：<br />".$dataorder;
-// 	        $this->assign('dataorder',$dataorder);
-// 	        $this->display('pay.html');
-	        $this->db->startTrans();
-	        $update=array(
-	            'pay_id'      => $payID,
-	        );
-	        $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
-	        $tmp=$this->db->model('pay_message')->select('payID')->where("tradeorder='".$order['order_sn']."'")->getOne();
-	        if(!empty($tmp)){
-	           $this->db->model('pay_message')->where("tradeorder='".$order['order_sn']."'")->delete();
-	           $this->db->model('pay_message')->add(saddslashes($params));
+	        $pay_method = $order['pay_method'];//付款方式 6是东方付通
+	        if($pay_method==6){
+	            $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+	            $payID = 'PAY'.date('Ymdhis',time()).'-'.rand(999,9999);
+	            //参数封装
+	            $params['payID'] =  $payID; // 支付号码，东方付通对此订单的唯一标识，商城必须保存此订单号，下次支付时使用
+	            $params['tradeOrder'] =  $order['order_sn']; // 合同号码，商城的订单号
+	            $params['mallID'] = $obj->mallID;  // 商城号
+	            $params['payType'] = '01010'; // 接口类型，直接支付
+	            $c_info = M('user:customer')->getCinfoById($order['c_id']);
+	            if($order['order_type']=='1')//销售 中晨卖方
+	            {
+	                $params['payMemCode'] = $order['c_id'];                    // 付款人代码
+	                $params['payMemName'] = $c_info['c_name'];                 // 付款人名称
+	                $params['recMemCode'] = '5041';                            // 收款人代码
+	                $params['recMemName'] = '上海中晨电子商务股份有限公司';       // 收款人名称
+	            }
+	            if($order['order_type']=='2')                                  //销售 中晨买方
+	            {
+	                $params['payMemCode'] = '5041';                            // 付款人代码
+	                $params['payMemName'] = '上海中晨电子商务股份有限公司';       // 付款人名称
+	                $params['recMemCode'] = $order['c_id'];                    // 收款人代码
+	                $params['recMemName'] = $c_info['c_name'];                 // 收款人名称
+	            }
+	            $params['currency'] = 'CNY';                                   // 人民币
+	            $params['payAmt'] = $order['total_price'];                     // 付款金额
+	            $params['originalPayID'] = '';                                 // 直接支付不需要赋值
+	            $params['callBackUrl'] = str_replace("///", "//",str_replace("http:/", "http://", APP_URL)).'/pay/rtnpay/selforder_callback';                                        //回调通知地址，订单支付成功后通知商城的地址
+	            $params['summary'] = '';                                       //摘要
+	            // 	        echo "支付号码：".$payID;
+	            $params['customFiels'] ='';//自定义字段
+	            $params['instAccount']='0'; //优先记账0 或空：不记账99：记账
+	            $params['locktag']='0';// 锁定标识 1 锁定到收款方  到货支付此处必须为1 直接支付为0或空
+	            $params['bankUse']='';//银行用途
+	            $params['bankDigest']='';//银行摘要
+	            // 生成签名
+	            $params['signature'] = $obj->_getSign(json_encode($params));    //打印签名密文
+	            $json = json_encode($params);
+	            $dataorder = $obj->_base64Sign($json);
+	            $this->db->startTrans();
+	            $update=array(
+	                'pay_id'      => $payID,
+	            );
+	            $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
+	            $tmp=$this->db->model('pay_message')->select('payID')->where("tradeorder='".$order['order_sn']."' and refundMark=0")->getOne();
+	            if(!empty($tmp)){
+	                $this->db->model('pay_message')->where("tradeorder='".$order['order_sn']."' and refundMark=0")->delete();
+	                $this->db->model('pay_message')->add(saddslashes($params));
+	            }else{
+	                $this->db->model('pay_message')->add(saddslashes($params));
+	            }
+	            //自营订单支付操作
+	            $remarks = "自营订单支付操作";
+	            M('user:applyLog')->addLog($this->user_id,'selforder/pay','',json_encode($params),1,$remarks);
+	            if($this->db->commit()){
+	                $this->success($dataorder);
+	            }else{
+	                $this->db->rollback();
+	                $this->error('生成失败:'.$this->db->getDbError());
+	            }
+	            $this->success($dataorder);	            
 	        }else{
-	           $this->db->model('pay_message')->add(saddslashes($params));
+	            $this->success('线下支付');
+// 	            $this->db->startTrans();
+// 	            //前台传入后台默认为全部付款
+// 	            $update=array(
+// 	                'collection_status'   => 3,
+// 	            );
+// 	            $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
+// 	            $collection=$this->db->model('collection')->where("order_sn='".$order['order_sn']."'")->getOne();
+// 	            if(empty($collection)){
+// 	                $update2=array(
+// 	                    'order_sn'=>$order['order_sn'],
+// 	                    'order_type'=>$order['order_type'],
+// 	                    'c_id'=>$order['c_id'],
+// 	                    'o_id'=>$order['o_id'],
+// 	                    'total_price'=>$order['total_price'],
+// 	                    'collected_price'=>CORE_TIME,
+// 	                    'uncollected_price'=>CORE_TIME,
+// 	                    'pay_method'=>CORE_TIME,
+// 	                    'payment_time'=>CORE_TIME,
+// 	                    'remark'=>'网站前台付款',
+// 	                    'account'=>CORE_TIME,
+// 	                    'collection_status'=>CORE_TIME,
+// 	                    'customer_manager'=>CORE_TIME,
+// 	                    'input_time'=>CORE_TIME,
+// 	                    'input_admin'=>$this->user_id,
+// 	                );
+// 	                $this->db->model('collection')->add($update2);
+// 	            }else{
+// 	                $update2=array(
+// 	                    'input_time'=>CORE_TIME,
+// 	                    'input_admin'=>$this->user_id,
+// 	                );
+// 	                p($collection+$update2);
+// 	                die;
+// 	                $this->db->model('collection')->where("order_sn='".$order['order_sn']."'")->add($collection+$update2);
+// 	            }
+// 	            if($this->db->commit()){
+// 	               $this->success('线下支付');
+// 	            }else{
+// 	                $this->db->rollback();
+// 	                $this->error('生成失败:'.$this->db->getDbError());
+// 	            }
 	        }
-	        //自营订单支付操作
-	        $remarks = "自营订单支付操作";
-	        M('user:applyLog')->addLog($this->user_id,'selforder/pay','',json_encode($params),1,$remarks);
-	        if($this->db->commit()){
-	            $this->success($dataorder);
-	        }else{
-	            $this->db->rollback();
-                $this->error('生成失败:'.$this->db->getDbError());
-	        }
-	   	    $this->success($dataorder);
 	    }
 	}
 	
@@ -280,12 +349,100 @@ class selforderAction extends userBaseAction{
 	        ->select('o.*,ad.name,ad.mobile')
 	        ->where("o_id=$id and user_id={$this->user_id}")
 	        ->getRow();
-	        $payid = $order['pay_id'];
-	        p($payid);
-	        $rtn = $this->db->model('pay_message')->where("payID='$payid'")->getRow();
-	        if(!$rtn) $this->error('查询支付明细失败!');
-	        p(json_encode($rtn));
-	        die;
+	        $pay_method = $order['pay_method'];//付款方式 6是东方付通
+	        if($order['order_status']==3){
+	            $this->error('该订单已取消!');
+	        }
+	        if($pay_method==6){
+//     	        $payid = $order['pay_id'];
+//     	        $rtn = $this->db->model('pay_message')->where("payID='$payid'")->getRow();
+//     	        if(!$rtn) $this->error('查询支付明细失败!');
+//     	        $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+//     	        $payID = 'PAY'.date('Ymdhis',time()).'-'.rand(999,9999);
+//     	        //参数封装
+//     	        $params['payID'] =  $payID; // 支付号码，东方付通对此订单的唯一标识，商城必须保存此订单号，下次支付时使用
+//     	        $params['tradeOrder'] =  $rtn['tradeOrder']; // 合同号码，商城的订单号	        
+//     	        $params['mallID'] = $rtn['mallID'];  // 商城号
+//     	        $params['payType'] = '01010'; // 接口类型，直接支付
+//                 $params['payMemCode'] = $rtn['recMemCode'];                    // 付款人代码
+//                 $params['payMemName'] = $rtn['recMemName'];                 // 付款人名称
+//                 $params['recMemCode'] = $rtn['payMemCode'];                            // 收款人代码
+//                 $params['recMemName'] = $rtn['payMemName'];       // 收款人名称
+//     	        $params['currency'] = $rtn['currency'];                                   // 人民币
+//     	        $params['payAmt'] = $rtn['payAmt'];                     // 付款金额
+//     	        $params['originalPayID'] = '';                                 // 直接支付不需要赋值
+//     	        $params['callBackUrl'] = str_replace("///", "//",str_replace("http:/", "http://", APP_URL)).'/pay/rtnpay/selforder_payCancel';                                        //回调通知地址，订单支付成功后通知商城的地址
+//     	        $params['summary'] = '';                                       //摘要
+//     // 	        echo "支付号码：".$payID;      	        	              
+//     	        $params['customFiels'] ='';//自定义字段
+//     	        $params['instAccount']='0'; //优先记账0 或空：不记账99：记账
+//     	        $params['locktag']='0';// 锁定标识 1 锁定到收款方  到货支付此处必须为1 直接支付为0或空
+//     	        $params['bankUse']='';//银行用途
+//     	        $params['bankDigest']='';//银行摘要	
+//     	        // 生成签名
+//     	        $params['signature'] = $obj->_getSign(json_encode($params));    //打印签名密文      
+//     	        $json = json_encode($params);     
+//     	        $dataorder = $obj->_base64Sign($json);
+//     	        $this->db->startTrans();
+//     	        $update=array(
+//     	            'pay_id'      => $payID,
+//     	        );
+//     	        $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
+//     	        $tmp=$this->db->model('pay_message')->select('payID')->where("tradeorder='".$order['order_sn']."' and refundMark=1")->getOne();
+//     	        $params['refundMark'] = '1';//退款标识
+//     	        if(!empty($tmp)){
+//     	           $this->db->model('pay_message')->where("tradeorder='".$order['order_sn']."' and refundMark=1")->delete();
+//     	           $this->db->model('pay_message')->add(saddslashes($params));
+//     	        }else{
+//     	           $this->db->model('pay_message')->add(saddslashes($params));
+//     	        }
+//     	        //自营订单支付操作
+//     	        $remarks = "自营订单取消支付操作";
+//     	        M('user:applyLog')->addLog($this->user_id,'payCancel','',json_encode($params),1,$remarks);
+//     	        if($this->db->commit()){
+//     	            $this->success($dataorder);
+//     	        }else{
+//     	            $this->db->rollback();
+//                     $this->error('生成失败:'.$this->db->getDbError());
+//     	        }
+//     	   	    $this->success($dataorder);
+	            $this->db->startTrans();
+    	        $update=array(
+    	            'order_status'      => 3,//取消
+    	        );
+    	        $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
+	            //同步到后台付款信息
+	            $collection=$this->db->model('collection')->select('*')->where("order_sn='".$order['order_sn']."' and "." order_name='退款'")->getRow();
+	            if(empty($collection)){
+	                $update3=array(
+	                    'order_sn'=>$order['order_sn'],
+	                    'order_type'=>$order['order_type'],
+	                    'c_id'=>$order['c_id'],
+	                    'o_id'=>$order['o_id'],
+	                    'total_price'=>-$order['total_price'],
+	                    'collected_price'=>-$order['total_price'],
+	                    'uncollected_price'=>0,
+	                    'pay_method'=>6,
+	                    'payment_time'=>CORE_TIME,
+	                    'order_name'=>'退款',
+	                    'remark'=>'网站前台取消付款',
+	                    //'account'=>CORE_TIME,
+	                    'collection_status'=>2,
+	                    'customer_manager'=>$order['customer_manager'],
+	                    'input_time'=>CORE_TIME,
+	                    'input_admin'=>$this->user_id,
+	                );
+	                $this->db->model('collection')->add(saddslashes($update3));
+	            }
+	            if($this->db->commit()){
+	                $this->success('生成成功');
+	            }else{
+	                $this->db->rollback();
+	                $this->error('生成失败:'.$this->db->getDbError());
+	            }
+	        }else{
+	            $this->success('线下支付');
+	        }
 	    }
 	}
 

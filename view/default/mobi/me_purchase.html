@@ -12,133 +12,341 @@
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
 	</head>
 
-	<body style="padding-bottom: 50px;">
-		<header id="supplyDemandHeader">
+	<body style="padding-bottom: 50px; padding-top: 95px;">
+		<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
+		<header id="supplyDemandHeader" style="padding-top: 8px; border-bottom: 1px solid #d6d7dc;">
 			<a class="back" href="javascript:window.history.back();"></a>
-			<div class="supplyDemandChange">
-				<span class="on">现货管理</span>
-				<span>期货管理</span>
+			<div class="searchSearch">
+				<input id="search" type="text" placeholder="请输入产品分类、牌号、厂家">
+				<a class="appQuery2" href="javascript:;"></a>
 			</div>
+			<a href="/mobi/mainPage/enPurchase"><span class="appPlus"></span></a>
 		</header>
 		<div class="myPurchase">
-			<div class="purchaseInput2">
-				<input class="productQuery" type="text" placeholder="请输入产品分类、牌号、厂家">
-				<img id="query" src="__MYAPP__/img/query.png">
-			</div>
-			<select class="chooseType2">
-				<option value ="">全部</option>
-				<option value ="1">待审核</option>
-				<option value="2">审核通过</option>
-				<option value="3">洽谈中</option>
-				<option value="4">交易成功</option>
-				<option value="5">无效</option>
-				<option value="6">过期</option>
+		<div style="display: inline-block;">
+		<label>品种:</label>
+		<div class="chooseType"><span id="pzTxt">全部</span>
+			<select id="pz" class="chooseType2">
+				<option value="">全部</option>
+				<option value="1">HDPE</option>
+				<option value="2">LDPE</option>
+				<option value="3">LLDPE</option>
+				<option value="4">均聚PP</option>
+				<option value="5">PVC</option>
+				<option value="6">共聚PP</option>
+				<option value="7">ABS</option>
+				<option value="8">PC</option>
+				<option value="9">MABS</option>
 			</select>
-			<div class="chooseType">全部</div>
 		</div>
-		<ul class="purchaseList"></ul>
+		<label>状态:</label>
+		<div class="chooseType"><span id="ztTxt">全部</span>
+			<select id="zt" class="chooseType2">
+				<option value="">全部</option>
+				<option value="1">已上架</option>
+				<option value="2">已下架</option>
+			</select>
+		</div>	
+		<label>现期货:</label>
+		<div class="chooseType"><span id="xqhTxt">全部</span>
+		<select id="xqh" class="chooseType2">
+			<option value="">全部</option>
+			<option value="1">现货</option>
+			<option value="2">期货</option>
+		</select>
+		</div>
+		</div>
+		</div>
+		</div>
+		<ul class="purchaseList">
+		</ul>
+		<footer id="offerFooter">
+			<input type="checkbox" id="all" class="regular-checkbox">
+			<label for="all" style=" top: 10px; left: 15px;"></label> 全选/反选
+			<span class="chooseStatus on">上架</span>
+			<span class="chooseStatus">下架</span>
+			<span class="batchUpdate">批量更新</span>
+		</footer>
+		<div class="talkModal">
+			<ul id="talkUl"></ul>
+			<div id="talkFinish" class="talkFinish">
+				<input class="talkClose" type="button" value="关闭"/>
+			</div>
+			<div id="talkFinish2" class="talkFinish">
+				<input id="price" type="number" placeholder="请输入成交价格" />
+				<input class="talkClose" type="button" value="关闭"/>
+				<input id="talkChoose" type="button" value="选定"/>
+			</div>
+		</div>
+		<div class="talkLayer"></div>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
 			$(function () {
-				var purchaseLi="";
-				var cargoType=1;
-
-				$(".chooseType2").on("change",function () {
-					var chooseValue=$(this).find("option:selected").text();
-					$(".chooseType").text(chooseValue);
-				});
-
-				commonAjax(
+				var quotationLi="";
+				var productArr=[];
+				var upId=1;
+				var downId="";
+				var delId="";
+				var talkLi="";
+				var buyId="";
+				var type=1;
+				var product_type="";
+				var shelve_type="";
+				var cargo_type="";
+				var keywords="";
+				var page=1;
+				
+				function renderQuo(type,product_type,shelve_type,cargo_type,keywords,page){
+					commonAjax(
 						"post",
-						"/mobi/personalCenter/myPurchase",
-						{cargo_type:cargoType}
-				).then(function (res) {
-					if(res.err==1){
-						window.location.href="/mobi/login";
-					}else if(res.err==2){
-						$(".purchaseList").html("<li class='noData'>暂无数据</li>");
-					}else{
-						res.data.reverse().forEach(function (v,i) {
-							purchaseLi+="<li><div class='purchaseWrap2'>" +
-									"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
-									"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
-									"</div></li>";
-						});
-						$(".purchaseList").html(purchaseLi);
-
-						$(".supplyDemandChange span").on("click",function () {
-							$(this).addClass("on").siblings("span").removeClass("on");
-							cargoType=$(this).index()+1;
-							purchaseLi="";
+						"/mobi/personalCenter/myQuoAndPur",
+						{
+							type:type,
+							product_type:product_type,
+							shelve_type:shelve_type,
+							cargo_type:cargo_type,
+							keywords:keywords,
+							page:page,
+							size:10
+						}
+					).then(function(res){
+						console.log(res);
+						if(res.err==1){
+							window.location.href="/mobi/login";
+						}else if(res.err==2){
+							$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+						}else{
+							quotationLi="";
+							res.data.forEach(function (v,i) {
+								quotationLi+="<li><div class='purchaseWrap3'>" +
+										"<input type='checkbox' data-id='"+ v.id +"' id='"+ v.id +"' class='regular-checkbox regular-checkbox2'>" +
+										"<label for='"+ v.id +"'></label><h3>"+ v.product_type +"|"+ v.model +"" +
+										"<span class='orange'>￥<input style='width:60px;' class='offerNumInput unit_price' type='text' value='"+v.unit_price+"'>/吨</span></h3>" +
+										"<p><input style='width:100px;' class='offerTxtInput f_name' type='text' readonly value='"+v.f_name+"'>" +
+										"<span class='orange'><input style='width: 60px;' class='offerNumInput number' type='text' value='"+v.number+"'>吨</span></p>" +
+										"<p><input style='width:120px;' class='offerTxtInput3 store_house' type='text' readonly value='"+v.store_house+"'><span>"+v.input_time+"</span>" +
+										"</p></div><div class='offerStatus2'>" +
+										"<span class='shelve' data-pid='"+ v.id +"'><i class='purchaseStatus "+ shelve(v.shelve_type) +"'></i>"+ shelve2(v.shelve_type) +"</span>" +
+										"<span class='dataUpdate' data-pid='"+ v.p_id +"' data-id='"+ v.id +"'><i class='purchaseStatus update'></i>更新</span>"+
+										"<span class='dataTalk' data-id='"+ v.id +"'><i class='purchaseStatus talk'></i>洽谈("+v.count+")</span></div></li>";
+							});
+							$(".purchaseList").html(quotationLi);
+							
+						//状态更新
+						$(".shelve").on("click",function () {
+							var pid=$(this).data("pid");
 							commonAjax(
 									"post",
-									"/mobi/personalCenter/myPurchase",
-									{cargo_type:cargoType}
+									"/touch/myquotation/changestate",
+									{id:pid}
 							).then(function (res) {
 								if(res.err==1){
-									window.location.href="/mobi/login";
-								}else if(res.err==2){
-									$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+									mui.alert('',res.msg,function(){});
 								}else{
-									res.data.forEach(function (v,i) {
-										purchaseLi+="<li><div class='purchaseWrap2'>" +
-												"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
-												"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
-												"</div></li>";
-									});
-									$(".purchaseList").html(purchaseLi);
-
+									window.location.reload();
 								}
-							},function () {
-
+							},function (res) {
+								mui.alert('','系统错误',function(){});
 							});
-
 						});
-					}
-				},function () {
-
-				});
-
-				//搜索
-				$("#query").on("click",function () {
-					if(!$(".productQuery").val()){
-						mui.alert('','请输入要搜索的内容',function(){});
-					}else{
-						commonAjax(
-								"post",
-								"/mobi/personalCenter/doPurSearch",
-								{
-									keywords:$(".productQuery").val().toLocaleUpperCase(),
-									status:$(".chooseType2").val(),
-									cargo_type:cargoType
-								}
-						).then(function (res) {
-							if(res.err==1){
-								console.log(res);
-								window.location.href="/mobi/login";
-							}else if(res.err==2){
-								$(".purchaseList").html("<li class='noData'>暂无数据</li>");
+						
+						//数据更新
+						$(".dataUpdate").on("click",function () {
+							var purchaseWrap=$(this).parents("li").find(".purchaseWrap3");
+							var unit_price=purchaseWrap.find(".unit_price").val();
+							var f_name=purchaseWrap.find(".f_name").val();
+							var number=purchaseWrap.find(".number").val();
+							var store_house=purchaseWrap.find(".store_house").val();
+							var id=$(this).data("id");
+							var pid=$(this).data("pid");
+							commonAjax(
+									"post",
+									"/touch/myquotation/refreshCell",
+									{
+										id:id,
+										pid:pid,
+										qdata:{
+											unit_price:unit_price,
+											f_name:f_name,
+											number:number,
+											store_house:store_house
+										}
+									}
+							).then(function (res) {
+								window.location.reload();
+							},function (res) {
+								mui.alert('','系统错误',function(){});
+							});
+						});
+						
+						//全选、反选
+						$(".regular-checkbox2").on("click",function () {
+							var pId=$(this).data("id");
+							if(this.checked){
+								productArr.push(pId);
+								console.log(productArr);
 							}else{
-								purchaseLi="";
-								res.resultData.forEach(function (v,i) {
-									purchaseLi+="<li><div class='purchaseWrap2'>" +
-											"<h3><span class='orange'>￥"+ v.unit_price +"/T</span></h3>" +
-											"<p>"+ v.product_type +"|"+ v.model +"|"+ v.f_name +"<span>"+ v.number +"吨</span></p><p>"+ v.store_house +"<span>"+ stampToDate2(v.input_time) +"</span></p>" +
-											"</div></li>";
-								});
-								$(".purchaseList").html(purchaseLi);
+								$("#all").prop("checked",false);
+								productArr.splice($.inArray(pId,productArr),1);
+								console.log(productArr);
 							}
-						},function () {
-
 						});
-					}
+						
+						$(".chooseStatus").on("click",function () {
+							$(this).addClass("on").siblings(".chooseStatus").removeClass("on");
+							if($(this).text()=="上架"){
+								upId=1;
+								downId="";
+								delId="";
+							}else if($(this).text()=="下架"){
+								upId="";
+								downId="1";
+								delId="";
+							}else if($(this).text()=="删除"){
+								upId="";
+								downId="";
+								delId=1;
+							}
+						});
+						
+						//洽谈
+						$(".dataTalk").on("click",function(){
+							$(".talkModal").show();
+							$(".talkLayer").show();
+							var talkId=$(this).data("id");
+							commonAjax(
+									"post",
+									"/mobi/personalCenter/getOptions",
+									{
+										id:talkId
+									}
+							).then(function (res) {
+								console.log(res);
+								talkLi="";
+								if(res.err==2){
+									$("#talkFinish").show();
+									$("#talkFinish2").hide();
+									$("#talkUl").html("<li style=' text-align: center; font-size: 26px; padding: 120px 0;'>暂无洽谈</li>");
+								}else{									
+									res.data.forEach(function(v,i,a){
+										talkLi+="<li><h3><input name='buyId' type='radio' checked='checked' value='"+v.id+"' /><span id='c_name'>"+v.c_name+"</span>"+
+										"</h3><div class='talkWrap'><p><b id='delivery_place'>"+v.delivery_place+"</b><span class='talkRed'>"+v.price+"/吨</span></p>"+
+										"<p><b id='delivery_date'>"+v.delivery_date+"</b><span id='number'>"+v.number+"吨</span></p>"+
+										"<p><b id='ship_type'>"+v.ship_type+"</b></p><p>"+v.remark+"</p></div></li>";
+									});
+									$("#talkFinish").hide();
+									$("#talkFinish2").show();
+									$("#talkUl").html(talkLi);
+									buyId=$(":radio[name='buyId']").val();
+									 $(":radio[name='buyId']").change(function(){
+									 	buyId=$(this).val();
+									 	console.log(buyId);
+									 });
+								}
+							},function (res) {
+								
+							});							
+						});
+						
+						$("#talkChoose").on("click",function(){
+							if($("#price").val()){
+								commonAjax(
+										"post",
+										"/mobi/personalCenter/selected",
+										{
+											id:buyId,
+											price:$("#price").val()
+										}
+								).then(function (res) {
+									mui.alert('',res.msg,function(){
+										window.location.reload();
+									});
+									
+								},function (res) {
+									mui.alert('','系统错误',function(){});
+								});								
+							}else{
+								mui.alert('','请填写完整',function(){});
+							}
+							
+						});
+						
+						$(".talkClose").on("click",function(){
+							$(".talkModal").hide();
+							$(".talkLayer").hide();
+						});
+						
+						}
+						
+					},function(){
+						
+					});
+				}
+				
+				//初始化
+				renderQuo(type,product_type,shelve_type,cargo_type,keywords,page);
+				
+				//批量更新
+				$(".batchUpdate").on("click",function () {
+					commonAjax(
+							"post",
+							"/touch/myquotation/refreshMulCell",
+							{
+								ids:productArr,
+								up:upId,
+								down:downId,
+								del:delId
+							}
+					).then(function (res) {
+						window.location.reload();
+					},function (res) {
+						mui.alert('','系统错误',function(){});
+					});
+				});
+				
+				//搜索
+				$(".appQuery2").on("click",function(){
+					keywords=$("#search").val().toUpperCase();
+					renderQuo(type,product_type,shelve_type,cargo_type,keywords,page);
+				});
+				
+				//select
+				$("#pz").on("change",function(){
+					product_type=$(this).find("option:selected").val();
+					$("#pzTxt").text($(this).find("option:selected").text());
+					renderQuo(type,product_type,shelve_type,cargo_type,keywords,page);
+				});
+				$("#zt").on("change",function(){
+					product_type=$(this).find("option:selected").val();
+					$("#ztTxt").text($(this).find("option:selected").text());
+					renderQuo(type,product_type,shelve_type,cargo_type,keywords,page);
+				});
+				$("#xqh").on("change",function(){
+					product_type=$(this).find("option:selected").val();
+					$("#xqhTxt").text($(this).find("option:selected").text());
+					renderQuo(type,product_type,shelve_type,cargo_type,keywords,page);
 				});
 
 			})
-		</script>
 
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

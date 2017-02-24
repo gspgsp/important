@@ -30,7 +30,8 @@
         <td>{if $value.period}{:setOption|period,$value.period}{else}--{/if}</td>
         <td>{:setOption|shelve_type,$value.shelve_type}</td>
         <td>{$value.input_time|date:Y-m-d :H:i}</td>
-        <td><a href="javascript:selectOffer({$value.id});">{$value.supply_count}</a></td>
+        <!--<td><a href="javascript:selectOffer({$value.id});">{$value.supply_count}</a></td>-->
+        <td><a href="javascript:selectOffer({$value.id});">{$value.counts}</a></td>
     </tr>
     {/foreach}
 </table>

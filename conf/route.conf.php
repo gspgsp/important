@@ -17,9 +17,16 @@ return array(
 		// '/^(index|ajax)(\/\w+)$/' => 'home/$1$2',
 		// '/^(android|ios|wp|weixin)\/(\w+)\/(\w+)$/' => 'app/$2/$3?chanel=$1',
 		// '/^(\w+\/\w+\/)(\w+)\-(\w+)/' => '$1$2$3',
-		'/^physical\/([0-9]+)$/'=>'/physical/index/content?id=$1',//物性表路由
-		'/^company\/([0-9]+)$/'=>'mycompany/index/init?id=$1',//我的网站子网站路由
-		'/^article\/show\/([0-9]+)$/'=>'article/index/info?id=$1',
+		'/^wrong$/'=>'page/mdownload/wrong',//404错误页
+		'/^physical\/key\/([0-9A-Za-z-]+)$/'=>'physical/index/search?keyword=$1',//物性表搜索路由
+		'/^physical\/([0-9]+)$/'=>'physical/index/content?id=$1',//物性表路由
+		'/^company\/([0-9]+)\/([null]+)$/'=>'mycompany/index/init?id=$1&type=$2',//我的网站子网站路由
+		'/^(pe|pp|pvc|vip)$/'=>'news/index/init?type=$1',	//分类首页
+		'/^(public|pe|pp|pvc|vip)([A-Za-z]{2,7})$/'=>'news/index/lst?type=$1&cate=$2',
+		'/^(public|pe|pp|pvc|vip)\/([A-Za-z]{2,7})\/([0-9]+)$/'=>'news/index/detail?type=$1&cate=$2&id=$3',
+		'/^newsXML$/'=>'news/index/newsXML',
+                        //	'/^article\/show\/id\/([0-9]+)$/'=>'article/index/info?id=$1',//死链接文章详情处理
+		'/^home\/([0-9]+)$/'=>'home/index/agreement',//注册协议
 	),
 
 	//子(泛)域名路由规则
@@ -31,7 +38,9 @@ return array(
 		//'*'=>array('member/user','name=*'),
 	), 
 	'SUB_DOMAIN_ROUTE' => array(
-		't'=>'mobi/mainPage/enMainPage',
+		'm'=>'mobi/mainPage/enMainPage',
+		'56'=>'ship/index/init',
+		'vip'=>'pointshop/index/init',
 	), 
 );
 ?>

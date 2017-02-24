@@ -136,6 +136,8 @@ class mypurchaseAction extends userBaseAction{
 			$data=saddslashes($data);
 			foreach ($data as $key => $value) {
 				//是否已有该产品
+				if($value['number']==0) $this->error('发布数量不能为0!');
+				if($value['price']==0) $this->error('发布价格不能为0!');
 				$model=$this->db->from('product p')
                     ->join('factory f','p.f_id=f.fid');
 				$where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
@@ -148,6 +150,7 @@ class mypurchaseAction extends userBaseAction{
 					'number'=>$value['number'],//吨数
 					'unit_price'=>$value['price'],//单价
 					'provinces'=>$value['provinces'],//省份id
+					'origin'=>$value['provinces'].'|'.$value['provinces'],//后台显示交货地用
 					'store_house'=>$value['store_house'],//仓库
 					'cargo_type'=>$cargo_type,//现货期货
 					'period'=>$value['period'],//期货周期
@@ -222,7 +225,17 @@ class mypurchaseAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$list=M('product:purchase')->getPurPage($where,$page,$size);
+		foreach($list['data'] as $key=>$v ){
+			$info=$this->db->from('purchase pur')
+				->join('sale_buy sb','pur.id=sb.p_id')
+				->join('customer cus','sb.c_id=cus.c_id')
+				->leftjoin('lib_region r','sb.delivery_place=r.id')
+				->where("sb.p_id={$v['id']} and sb.status in(2,3)")
+				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place')
+				->getAll();
 
+			$list['data'][$key]['counts']=count($info);
+		}
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));

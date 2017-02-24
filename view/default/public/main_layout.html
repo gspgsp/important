@@ -1,18 +1,60 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>{if $seo.title}{$seo.title}-{$sys.site_name}{else}{$sys.site_title}{/if}</title>
+	{if $seo.cate_name}
+<title>{$seo.title}_{$seo.cate_name} {$sys.site_title}</title>
+	{else}
+	<title>{$seo.title} {$sys.site_title}</title>
+	{/if}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta property="qc:admins" content="3477461216651041363757" />
 <!--<meta property="qc:admins" content="347746133667745354117636" />-->
+	{if $seo.status eq 1}
 <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
 <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{elseif $seo.status eq 2}
+<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{elseif $seo.status eq 3}
+<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{elseif $seo.status eq 4}
+<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{elseif $seo.status eq 5}
+<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{elseif $seo.status eq 6}
+<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{elseif $seo.status eq 7}
+	<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+	<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{elseif $seo.status eq 10}
+	<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+	<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+	{else}
+	<meta name="keywords" content="{$sys.site_keywords}" />
+	<meta name="description" content="{$sys.site_desc}" />
+	{/if}
 <link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />
 <link rel="stylesheet" type="text/css" href="__CSS__/home/common.css"/>
-<link rel="stylesheet" type="text/css" href="__CSS__/home/companyList_first.css"/>
+<style type="text/css">
+.copyright img{ display:inline;}
+</style>
 <script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="__JS__/home/layer-v1.8.5/layer.min.js"></script>
 <script type="text/javascript" src="__JS__/home/common.js"></script>
+<script type="text/javascript" src="__JS__/home/zeroclipboard/ZeroClipboard.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4808bff4f0276952e006e0f3ec054483";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 </head>
 <body>
 <!--top begin-->
@@ -21,12 +63,12 @@
 		<!--top-lt begin-->
 		<ul class="top-lt flt">
 			<li>欢迎光临<a href="/">我的塑料网</a>！</li>
-			<li class="collect"><a href="javascript:Addme();">收藏本站</a></li>
-			<li class="blog"><a target="_blank" href="{$sys.weibo.link}">官方微博</a></li>
+			<li class="collect"><a rel="nofollow" href="javascript:Addme();">收藏本站</a></li>
+			<li class="blog"><a rel="nofollow" target="_blank" href="{$sys.weibo.link}">官方微博</a></li>
 			{if $smarty.session.userid > 0 }
-			<li><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
+				<li><a rel="nofollow" href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
 				{else}
-				 <li><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
+				<li><a rel="nofollow" href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
 			{/if}
 		</ul>
 		<!--top-lt end-->
@@ -36,19 +78,21 @@
 				 <li>{$auth_info.name}</li>
 				 {else}
 				{if $smarty.session.userid > 0 }
-				<li><a id="user_name" href="/user">{$smarty.session.uinfo.name} 个人中心</a></li>
-				<li class="login"><a href="/user/logout"  >退出登录</a></li>
+				<li><a rel="nofollow" id="user_name" href="/user">{$smarty.session.uinfo.name} 个人中心</a></li>
+				<li class="login"><a rel="nofollow" href="/user/logout"  >退出登录</a></li>
 				   {else}
-				<li class="login"><a  href="/user/login">您好，请登录</a></li>
-				<li><a href="/user/register">免费注册</a></li>
+				<li class="login"><a rel="nofollow" href="/user/login">您好，请登录</a></li>
+				<li><a rel="nofollow" href="/user/register">免费注册</a></li>
 				{/if}
 			{/if}
-			
+
 			<!-- <li class="app"><a href="javascript:;">手机网站</a></li> -->
-			<li><a href="/page">常见问题</a></li>
-			<li><a href="/page?id=5601">联系我们</a></li>
-			<li><a href="/page/index/feedBack">意见反馈</a></li>
-			<li class="lang"><a href="/">中文</a> | <a href="javascript:;">EN</a></li>
+			<li><a rel="nofollow" href="/page">常见问题</a></li>
+			<li><a rel="nofollow" href="/page?id=5601">联系我们</a></li>
+			<li><a rel="nofollow" href="/page/index/feedBack">意见反馈</a></li>
+			<li class="lang">
+				<a rel="nofollow" href="/">中文</a> | <a rel="nofollow" href="javascript:;">EN</a>
+			</li>
 		</ul>
 		<!--top-rt end-->
 	</div>
@@ -56,42 +100,27 @@
 <!--top end-->
 <!--header begin-->
 <div class="header">
-	<div class="logo flt"><a href="/"><img src="__UPLOAD__/{$sys.site_logo}" width="241" height="44"/></a></div>
+	<!-- <div class="logo flt"><a href="/"><img src="__UPLOAD__/{$sys.site_logo}" width="211" height="37"/></a></div> -->
+	<div class="logo flt">
+		<h1><a href="/"><img src="__UPLOAD__/{$sys.site_logo}" width="121" height="75" alt="logo"/></a></h1>
+	</div>
+	<div class="logo-brand flt"><img src="__IMG__/home/logo2Brand.jpg" width="79" height="32"/></div>
 	<!--nav begin-->
 	<ul class="nav link3 flt">
-		<li><a href="/offers">商城报价</a></li>
-		<li><a href="/client">大户报价</a></li>
-		<li><a href="/purchase">采购单</a></li>
-		<li><a href="/resource">资源库</a></li>
-		<li><a href="http://56.myplas.com/">物流专区</a></li>
-		<li><a href="/finance">供应链金融</a></li>
-		<li><a href="/physical">物性表</a></li>
-		<li><a href="/news">塑料头条</a></li>
-		<li><a href="/pointshop">积分商城</a></li>
-                <li><a href="javascript:void(0)">...</a></li>
+		<li ><a href="/offers"  target="_blank" {if $on eq offers} class="hover" {/if} >商城报价</a></li>
+		<li><a href="/finance"  target="_blank" {if $on_4 eq finance} class="hover" {/if}>塑料金融</a></li>
+		<li style="display:none;"><a href="/client"   target="_blank" {if $on_1 eq client} class="hover" {/if}>大户报价</a></li>
+		<li><a href="/purchase" target="_blank" {if $on_2 eq purchase} class="hover" {/if}>采购单</a></li>
+		<li><a href="/resource" target="_blank" {if $on_3 eq resource} class="hover" {/if}>资源库</a></li>
+		<li><a href="http://56.myplas.com/" target="_blank">物流专区</a></li>
+		<li><a href="/physical" target="_blank" {if $on_6 eq physical} class="hover" {/if}>物性表</a></li>
+		<li style="display:none;"><a href="/article" target="_blank" {if $on_7 eq article} class="hover" {/if}>塑料头条</a></li>
+		<li><a href="http://news.myplas.com/" target="_blank">塑料头条</a></li>
+		<li><a href="/pointshop" target="_blank">积分商城</a></li>
+		<li><a href="/q.html" target="_blank">塑料圈</a></li>
 	</ul>
-        
-        <div  id="divs" >
-            <ul class="clearfix">
-                <li><a href="/companyList">客户公司详情</a></li>                
-            </ul>
-        </div>
-        <script>                   
-              $(".link3 li:last").hover(function (){ 
-                        $("#divs").show();
-                        $("#divs").hover(function(){
-                            $("#divs").show();
-                                 },function (){  
-                                $("#divs").hide();  
-                            });  
-                    },function (){  
-                        $("#divs").hide();  
-                    });      
-        </script>  
-        
-        
 	<!--nav end-->
-	<div class="download frt"><a href="/page/mdownload/mdownload">手机客户端</a></div>
+	<div class="download frt"><a href="/download.html">手机客户端</a></div>
 </div>
 <!--header end-->
 
@@ -106,12 +135,11 @@
 				<li>
 					<h4>{$value.cate_name}</h4>
 					{foreach from=$value.son item=v}
-					<p><a href="/page?id={$v.id}">{$v.title}</a></p>
+					<p><a href="/page/{$v.id}.html">{$v.title}</a></p>
 					{/foreach}
 				</li>
 				{/foreach}
 			</ul>
-
 		</div>
 		<div class="right frt">
 			<ul class="ewm color3">
@@ -126,44 +154,73 @@
 			</ul>
 		</div>
 	</div>
-	<p style="text-align:center;" class="copyright color3">{$sys.icp_number}
-	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259304101'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259304101%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-</p>
 </div>
 <!--footer end-->
-
+<!--friend-links begin-->
+<div class="friend-links link3">
+	<div class="friend-links-inner w1220">
+		<ul>
+			<li>友情链接:</li>
+			{foreach from=$friendshipLink item= value key==key}
+			<li><a href="{$value.url}" target="_blank">{$value.title}</a></li>
+			{/foreach}
+		</ul>
+		<!--links-more begin-->
+		<p class="links-more"><a href="http://www.myplas.com/page/8364.html" target="_blank">MORE</a></p>
+		<!--links-more end-->
+	</div>
+</div>
+<!--friend-links end-->
+<!--footer-nav begin-->
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+ <div class="footer-nav link3">
+    <ul>
+        <!--<li><a rel="nofollow">{$aboutUs.cate_name}</a>|</li>关于我们-->
+		   {foreach from=$aboutUs.son item=v}
+        <li><a rel="nofollow" href="/page/{$v.id}.html">{$v.title}</a>|</li>
+		   {/foreach}
+		<li class="last"><a rel="nofollow" href="/page/index/feedBack">意见反馈</a></li>
+    </ul>
+</div>
+<!--footer-nav end-->
+<!--copyright begin-->
+<p class="copyright color3">{$sys.icp_number}
+	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259304101'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259304101%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+</p>
+<!--copyright end-->
 <div class="renzheng">
 	<ul>
+		{foreach from=$Partner item=value key=key}
 		<li>
-			<img src="__IMG__/home/cert1.jpg"/>
-		</li>
-		<li>
-			<a href="http://www.shjbzx.cn/" target="_blank">
-				<img src="__IMG__/home/cert2.jpg"/>
+			<a href="{$value.url}" target="_blank">
+				<img border="0" src="__UPLOAD__/{$value.img}"/>
 			</a>
 		</li>
-		<li>
-			<a id='___szfw_logo___' href='https://credit.szfw.org/CX20160519015265020195.html' target='_blank'>
-				<img src="__IMG__/home/cert.png" border='0' />
-			</a>
-		</li>
-		<li class="last">
-			<a href="http://webscan.360.cn/index/checkwebsite/url/www.myplas.com" target="_blank">
-				<img border="0" src="http://img.webscan.360.cn/status/pai/hash/11d280d842ae0cda461140c3b62a13a6"/>
-			</a>
-		</li>
+		{/foreach}
 	</ul>
 </div>
 <script charset="utf-8" src="http://wpa.b.qq.com/cgi/wpa.php"></script>
 <!--zt-contact begin-->
+
 <div class="zt-contact">
 	<ul>
-		<!-- <li class="opt">
-			<a target="blank" href="http://p.qiao.baidu.com/cps/chat?siteId=8866032&userId=10895876">
-				<div class="zt-slide bg-gray">在线咨询</div>
-				<div class="zt-mouseover icon-qq bg-gray"></div>
-			</a>
-		</li> -->
 		<li class="opt">
 			<div id="BizQQWPA">
 				<div class="zt-slide bg-gray">在线咨询</div>
@@ -206,7 +263,13 @@ $(function(){
 				"left":"60px"
 			});
 		});
-
+		ztContact.find(".icon-suggest").bind("mouseover",function(){
+			$(this).closest("li").find(".zt-slide").removeClass("bg-gray").addClass("bg-orge");
+			$(this).removeClass("bg-gray").addClass("bg-orge");
+			$(this).closest("li").find(".zt-slide").stop().animate({
+				"left":"0px"
+			});
+		});
 		ztContact.find(".icon-ewm").bind("mouseover",function(){
 			$(this).prev(".ewm").show();
 			$(this).removeClass("bg-gray").addClass("bg-orge");

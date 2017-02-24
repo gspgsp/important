@@ -6,8 +6,13 @@
 </head>
 <body>
 	正在跳转到支付平台...<br />
+	<!--  
 	<form action="https://uat.easternpay.com.cn/gateway/api"  method="post">
 		<input type="hidden" name="order" size="200" value='{$order}'/>
+	</form>
+	-->
+	<form action="https://www.easternpay.com.cn/gateway/api"  method="post">
+	<input type="hidden" name="order" size="200" value='{$order}'/>
 	</form>
 	<script>
 		document.forms[0].submit();

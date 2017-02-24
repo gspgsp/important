@@ -9,7 +9,7 @@
 					<ul class="yemainlab_bane_a">
 						<!-- class="ahover" -->
 						{foreach from=$value.son item=v}
-						<li><a href="/page?id={$v.id}" {if $id==$v.id}class="ahover"{/if} >{$v.title}</a></li>
+						<li><a href="/page/{$v.id}.html" {if $id==$v.id}class="ahover"{/if} >{$v.title}</a></li>
 						{/foreach}   
 					</ul>
 				</li>

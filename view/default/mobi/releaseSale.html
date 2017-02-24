@@ -103,9 +103,20 @@
 			<p>
 				仓库:&nbsp;<input id="store_house" type="text" />
 			</p>
+			<p>
+				<input style="margin: 4px 5px 0 0; float: left;" name="bargain" checked="checked" value="2" type="radio" /><label style="float: left;">实价</label><input style="margin: 4px 5px 0 5px; float: left;" name="bargain" value="1" type="radio" /><label style="float: left;">可面议</label>
+			</p>
 		</div>	
 		<div class="releaseSale">
 			<h3><img width="15" src="__MYAPP__/img/releaseSaleIcon.png">请选择有效期</h3>
+			<p>
+				<span>类型:</span>
+					<select id="cargo_type" style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
+						<option value="">请选择</option>
+						<option value="1">现货资源</option>
+						<option value="2">期货资源</option>
+					</select>
+			</p>
 			<p>
 				<span>期限:</span>
 					<select id="period" style="float: left; width: 75px; margin: 0 0 0 5px; padding: 0; font-size: 12px;">
@@ -153,6 +164,8 @@
 					var store_house=$("#store_house").val();
 					var period=$("#period").val();
 					var process_level=$("#process_level").val();
+					var cargo_type=$("#cargo_type").val();
+					var bargain= $("input[name='bargain']:checked").val();;
 					var data=[];
 					var arr={
 						'model':model,
@@ -165,11 +178,12 @@
 						'period':period,
 						'process_level':process_level,
 						'type':2,
-						'cargo_type':1,
-						'pt':pt
+						'cargo_type':cargo_type,
+						'pt':pt,
+						'bargain':bargain
 					};
 					data.push(arr);
-					if(model&&product_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
+					if(model&&product_type&&cargo_type&&f_name&&number&&price&&provinces&&store_house&&period&&process_level){
 						$.ajax({
 							type:"post",
 							url:"/mobi/mainPage/pub",
@@ -205,8 +219,24 @@
 				});
 			});
 		</script>
-		<!--<script type="text/javascript" charset="utf-8">
-		</script>-->
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 

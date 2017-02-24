@@ -21,8 +21,8 @@
         <div class="set1 color3">
         	<!--tabx begin-->
             <ul class="tabx">
-            <li id="tabx1" onmouseover="setTab('tabx',1,2)" class="hover" style="border-left:1px solid #e6e7ea;"><p>个人信息</p><span></span></li>
-            <li id="tabx2" onmouseover="setTab('tabx',2,2)"><p>公司信息</p><span></span></li>
+            <li id="tabx1" onclick="setTab('tabx',1,2)" class="hover"><p>个人信息</p><span></span></li>
+            <li id="tabx2" onclick="setTab('tabx',2,2)" style="border-right:none;"><p>公司信息</p><span></span></li>
             </ul>
             <!--tabx end-->
             <!--con-tabx-1 begin-->
@@ -52,11 +52,7 @@
 					                    <!--portrait-wrap begin-->
 					                    <div class="portrait-wrap">
 					                        <div class="portrait flt">
-												{if $user_info.thumb}
 												<img src="__UPLOAD__/{$user_info.thumb}" id="head" width="80" height="80"/>
-												{else}
-												<img src="__IMG__/home/logos.jpg"  width="80" height="80"/>
-												{/if}
 					                        </div>
 					                        <div class="upload frt">
 					                            <img src="__IMG__/home/portraitUpload.png" width="59" height="68"/>
@@ -120,7 +116,7 @@
             		<div style="float:right">
 					    <input type="button" value="修改" class="change2" style="cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
 					    <input type="submit" value="保存" id="save2" class="save2" style="display: none;cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
-   					    <input type="button" id="bind_member" value="绑定东方付通" style="cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>
+   					    <!--<input type="button" id="bind_member" value="绑定东方付通" style="cursor: pointer;height:40px;width:100px;font-size:14px;border-radius:2px;background:#267bd3;color:#fff;"/>-->
 					</div>
 					<div style="clear:both"></div>
 	            	<table>
@@ -196,8 +192,10 @@ function getarea(that){
 		}
 	},'json');
 }
+
 $(function(){
 	$('textarea[name="com_intro"]').val("{$customer.com_intro}");
+	//上传头像
 	new AjaxUpload('#permitP_btn', {
 	    action: '/public/sysUpload/images?model=1',
 	    name: 'image',
@@ -235,7 +233,7 @@ $(function(){
 		$.post('/user/myset/edit_info',data,function (data){
            	layer.close(index);
 			if(data.err==0){
-				layer.msg('修改成功');
+				layer.msg('修改成功',3,1);
 			}else{
 				layer.msg(data.msg);
 				window.location.reload();
@@ -269,7 +267,7 @@ $(function(){
            	layer.close(index);
 			if(data.err==0){
 				//alert('修改成功');
-				layer.msg('修改成功');
+				layer.msg('修改成功',3,1);
 			}else{
 				layer.msg(data.msg);
 			}
@@ -334,6 +332,7 @@ $(function(){
 		conTabx2.find("select").attr("disabled","disabled");
 	});
 	
+	/*
 	var layer_index=0;
 	//绑定东方付通会员账号
 	$("#bind_member").click(function(){
@@ -356,6 +355,7 @@ $(function(){
 			}
 		},'json');
 	});
+	*/
 
 })
 </script>

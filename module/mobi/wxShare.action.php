@@ -107,4 +107,69 @@ class wxShareAction extends action
 		$signPackage['appId'] = $this->AppID;
 		$this->json_output(array('err'=>0,'signPackage'=>$signPackage));
 	}
+	//curl 获取文件数据
+	public function curl_file($url){
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_NOBODY, 0);//只取body头
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//curl_exec执行成功后返回执行的结果；不设置的话，curl_exec执行成功则返回true
+		$output = curl_exec($ch);
+		curl_close($ch);
+		return $output;
+	}
+	//每次获取token
+	public function get_ev_token(){
+		$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->AppID}&secret={$this->AppSecret}";
+		$result = json_decode($this->http($url), true);
+		return $result['access_token'];
+	}
+	//下载语音消息
+	public function downLoadVoice(){
+		$this->is_ajax = true;
+		$media_id = sget('media_id','s');
+		$url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$this->get_ev_token()."&media_id=".$media_id;
+		$result = $this->curl_file($url);
+		if(empty($result)) $this->json_output(array('err'=>2,'msg'=>'请求失败'));
+		$timestamp = time();
+		if (!file_exists(ROOT_PATH.'../static/myapp/customervoice/')){
+            mkdir(ROOT_PATH.'../static/myapp/customervoice/');
+        }
+		$ret = file_put_contents(ROOT_PATH.'../static/myapp/customervoice/'.$timestamp.'-read.amr', $result, true);
+		if($ret>0) $this->json_output(array('err'=>0,'msg'=>'语音上传成功'));
+		$this->json_output(array('err'=>3,'msg'=>'语音上传失败'));
+	}
+	//分级遍历文件夹
+	public function getFiles(){
+		$this->is_ajax = true;
+		$path = sget('path','s');
+		$file = array();
+		foreach(glob($path) as $afile){
+			// if(is_dir($afile)){//此处不能使用
+			// 	getFiles($afile.'/*');
+			// }else{
+			// 	$file[] = $afile;
+			// }
+			$file[] = $afile;
+		}
+		$this->json_output(array('err'=>0,'file'=>$file));
+	}
+	//从服务器下载音频文件
+	public function downLoadVoFroServer(){
+		$this->is_ajax = true;
+		$afile = sget('afile','s');
+		$file_name = $afile;//将要输出的文件数据
+		$file_dir = "http://m.myplas.com/myapp/customervoice/";//服务器地址
+		$file = @ fopen($file_dir . $file_name,"r");
+		if(!$file){
+			$this->json_output(array('err'=>2,'msg'=>'文件找不到'));
+		}else{
+			Header("Content-type: application/octet-stream");
+			Header("Content-Disposition: attachment; filename=" . $file_name);
+			while(!feof($file)){//文件指针,指针循环
+				$result = fread($file,50000);//从文件指针读出数据
+				$this->json_output(array('err'=>0,'msg'=>$result));
+			}
+			fclose ($file);
+		}
+	}
 }

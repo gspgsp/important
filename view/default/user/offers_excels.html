@@ -46,17 +46,17 @@
 
 <script type="text/javascript">
 $(function(){
-	new AjaxUpload('#fileBtn', {
+	new AjaxUpload('#fileBtn', {                 //#fileBtn 上传文件按钮的id
 	    action: '/public/sysUpload/upload',
-	    name: 'file',
-	    onSubmit: function(file, suffix) {
+	    name: 'file',                            //上传文件的文件名
+	    onSubmit: function(file, suffix) {       //file上传文件的文件名   // @参数suffix为那个文件（后缀名）
 	        var patrn = /^(xls|xlsx)$/i;
 	        if (!patrn.test(suffix)) {
 	            alert('不支持上传 *.' + suffix + '格式的文件。');
 	            return false;
 	        }
 	    },
-	    onComplete: function(file, response) {
+	    onComplete: function(file, response) {   //file上传文件的文件名
 	        var result = jQuery.parseJSON(response);
 	        if(!result.err) {
 	            $("#fileName").val(result.file[0].name);
@@ -79,6 +79,7 @@ $(function(){
 				window.location.reload();
 			}else{
 				alert(data.msg);
+//				layer.msg(data.msg);
 			}
 		},'json');
 		return false;

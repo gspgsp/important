@@ -10,6 +10,7 @@ class myPointsAction extends userBaseAction
     }
     //我的积分详情页
     public function init(){
+
     	$this->display('creditshop');
     }
     //返回我的积分以及商品推荐
@@ -31,7 +32,7 @@ class myPointsAction extends userBaseAction
         $result = M('touch:creditshop')->getShopDetail($gid);
         $this->json_output($result);
     }
-    //积分明细详情页
+    //积分兑换明细详情页
     public function creditDetail(){
         $this->act='creditDetail';
         $page=sget('page','i',1);
@@ -47,7 +48,6 @@ class myPointsAction extends userBaseAction
             $value['status']=L('points_status')[$value['status']];
         }
         $this->pages = pages($list['count'], $page, $size);
-
         $this->assign('list',$list['data']);
     	$this->display('creditdetail');
     }

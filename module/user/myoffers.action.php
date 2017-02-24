@@ -95,25 +95,90 @@ class myoffersAction extends userBaseAction{
 
 			$objPHPExcel = PHPExcel_IOFactory::load($path);
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+			//只处理整条空行
+			foreach($sheetData as $k=>$v){
+				$a = true;
+				foreach($v as $kk=>$vv){
+					if($vv != null){
+						$a = false;
+					}
+				}
+				if($a == true){
+					unset($sheetData[$k]);
+				}
+			}
+
 			if(empty($sheetData)) $this->error('上传文件不正确，请重新上传');
 			foreach ($sheetData as $key => $value) {
 				if($times>=20) break;//一次导入最多20条
 				if($key==1) continue;//跳过第一条
+//				if($value['A']=='') $this->error('牌号不能为空');
+//				if($value['B']=='') $this->error('厂家不能为空');
+//				if($value['C']=='') $this->error('加工级别不能为空');
+//				if($value['D']=='') $this->error('类别不能为空');
+//				if($value['E']==0 || $value['E']=='') $this->error('第'.$key.'行，发布数量不能为0或者空');
+//				if($value['F']==0 || $value['F']=='') $this->error('发布价格不正确');
+//				if($value['G']=='') $this->error('省份不能为空');
+//				if($value['J']=='') $this->error('现期货不能为空');
+				if($value['A']=='') {
+					$error['err'][]='第'.($key)."行,牌号不能为空";
+					continue;
+				}
+				if($value['B']=='') {
+					$error['err'][]='第'.($key)."行，厂家不能为空";
+					continue;
+				}
+				if($value['C']=='') {
+					$error['err'][]='第'.($key)."行，加工级别不能为空";
+					continue;
+				}
+				if($value['D']=='') {
+					$error['err'][]='第'.($key)."行，类别不能为空";
+					continue;
+				}
+				if($value['E']==''||$value['E']==0) {
+					$error['err'][]='第'.($key)."行，发布数量不能为空或为0";
+					continue;
+				}
+				if($value['F']==''||$value['F']==0) {
+					$error['err'][]='第'.($key)."行，发布价格不能为空或为0";
+					continue;
+				}
+				if($value['G']=='') {
+					$error['err'][]='第'.($key)."行，省份不能为空";
+					continue;
+				}
+				if($value['H']=='') {
+					$error['err'][]='第'.($key)."行，仓库地址不能为空";
+					continue;
+				}
+				if($value['I']=='') {
+					$error['err'][]='第'.($key)."行，是否实价不能为空";
+					continue;
+				}
+				if($value['J']=='') {
+					$error['err'][]='第'.($key)."行，现期货不能为空";
+					continue;
+				}
 
 				//厂家 status 1为正常 2为锁定
+
 				if(!$_factory=$factoryModel->where("f_name='{$value['B']}'")->select('fid')->getOne()){
 					$f_data=array(
 						'f_name'=>$value['B'],
 						'input_time'=>CORE_TIME,
 					    'status'=>2,
 					);
+
 					$factoryModel->add($f_data);
 					$_factory=$factoryModel->getLastID();
 				}
+
 				$product_type=array_flip(L('product_type'));//产品类型
 				if(!$product_type=$product_type[$value['D']]) continue;
 
 				$process_type=array_flip(L('process_level'));
+
 				$process_type=isset($process_type[$value['C']])?$process_type[$value['C']]:11;//加工级别
 				//产品
 
@@ -127,8 +192,10 @@ class myoffersAction extends userBaseAction{
 						'input_time'=>CORE_TIME,           //创建时间
 						'status'=>3,                       //审核状态
 					);
+
 					$productModel->add($_product);
 					$_model=$productModel->getLastID();
+
 				}
 				if(!$_provinces=$regionModel->where("name='{$value['G']}' and pid=1")->select('id')->getOne()) continue;//判断地区
 				//报价发布
@@ -140,6 +207,7 @@ class myoffersAction extends userBaseAction{
 					'number'=>$value['E'],//吨数
 					'unit_price'=>$value['F'],//单价
 					'provinces'=>$_provinces,//省份id
+					'origin'=>$value['provinces'].'|'.$value['provinces'],//后台显示交货地用
 					'store_house'=>$value['H'],//仓库
 					'cargo_type'=>$value['J']=='现货'?1:2,//现货期货
 					'bargain'=>$value['I']=='是'?2:1,//是否实价
@@ -148,10 +216,19 @@ class myoffersAction extends userBaseAction{
 					'status'=>2,//状态，报价不需要审核
 					'input_time'=>CORE_TIME,//创建时间
 				);
+
 				$purModel->add($_data);
 				$times++;
 			}
-			$this->success('导入成功');
+			if(!empty($error['err'])){
+				$str = '';
+				foreach($error['err'] as $k=>$v){
+					$str.=$v."\n";
+				}
+				$this->error("数据部分导入成功,异常数据为:\n".$str."\n【请单独上传异常数据】");
+			}else{
+				$this->success('导入成功');
+			}
 		}
 	}
 

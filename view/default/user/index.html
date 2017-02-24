@@ -18,11 +18,7 @@
     			<div class="lt flt">
     				<!--portrait begin-->
     				<div class="portrait user-pic1">
-						{if $data.thumb}
 						<img width="68" height="68"  src="__UPLOAD__/{$data.thumb}"/>
-						{else}
-						<img width="68" height="68"  src="__IMG__/home/logos.jpg"/>
-						{/if}
     					<img src="__IMG__/home/userPicMask1.png"/>
     				</div>
     				<!--portrait end-->
@@ -62,10 +58,10 @@
     					<!--classify end-->
     					<!--census begin-->
     					<div class="census flt">
-    						<p><a href="/user/selforder?order_status=1">待审核（<span>{$res1}</span>）</a></p>
-    						<p><a href="/user/selforder?collection_status=1">待付款（<span>{$res2}</span>）</a></p>
-    						<p><a href="/user/selforder?invoice_status=1">待开票（<span>{$res3}</span>）</a></p>
-    						<p><a href="/user/selforder?order_status=3">已取消（<span>{$res4}</span>）</a></p>
+    						<p><a href="/user/selforder?type=3">待审核（<span>{$res1}</span>）</a></p>
+    						<p><a href="/user/selforder?type=5">待付款（<span>{$res2}</span>）</a></p>
+    						<p><a href="/user/selforder?type=4">待开票（<span>{$res3}</span>）</a></p>
+    						<p><a href="/user/selforder?type=6">已取消（<span>{$res4}</span>）</a></p>
     					</div>
     					<!--census end-->
     				</li>
@@ -77,10 +73,10 @@
     					<!--classify end-->
     					<!--census begin-->
     					<div class="census flt">
-							<p><a href="user/unionorder?order_status=1">待审核（<span>{$info1}</span>）</a></p>
+							<p><a href="user/unionorder?type=3">待审核（<span>{$info1}</span>）</a></p>
 							<p>待付款（<span>{$info2}</span>）</p>
-							<p><a href="/user/unionorder?invoice_status=1">待开票（<span>{$info3}</span>）</a></p>
-							<p><a href="/user/unionorder?order_status=3">已取消（<span>{$info4}</span>）</a></p>
+							<p><a href="/user/unionorder?type=4">待开票（<span>{$info3}</span>）</a></p>
+							<p><a href="/user/unionorder?type=6">已取消（<span>{$info4}</span>）</a></p>
     					</div>
     					<!--census end-->
     				</li>
@@ -334,7 +330,7 @@
 		$.post('/resource/index/release', {content:content,type:type}, function (data){
 			if(data.err>0){
 				if(data.err==1){
-					loginbox('resource');
+					loginbox('user');
 				}else{
 					alert(data.msg);
 				}

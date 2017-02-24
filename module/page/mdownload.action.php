@@ -62,4 +62,16 @@
 		public function wrong(){
 			$this->display('404.html');
 		}
+		/**
+		 * 塑料圈宣传单页
+		 */
+		public function q(){
+			$this->seo = array(
+				'title'=>'塑料圈',
+				'keywords'=>'塑料圈，塑料圈通讯录，塑料圈APP，塑料圈通讯录APP，行业通讯录，塑料行业资讯',
+				'description'=>'塑料圈，塑料人自己的通讯录，供您发布塑料原料供求信息，查询塑料同行联系方式，浏览最新塑料行业资讯',
+				'status'=>10
+			);
+			$this->display('quan.html');
+		}
 	}

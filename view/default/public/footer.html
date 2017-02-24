@@ -7,7 +7,7 @@
                 <li>
                     <h4>{$value.cate_name}</h4>
                     {foreach from=$value.son item=v}
-                    <p><a href="/page?id={$v.id}">{$v.title}</a></p>
+                    <p><a href="/page/{$v.id}.html">{$v.title}</a></p>
                     {/foreach}
                 </li>
                 {/foreach}
@@ -29,27 +29,43 @@
     </div>
     <p style="text-align:center;" class="copyright color3">{$sys.icp_number}</p>
 </div>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 <!--footer end-->
-
 <div class="renzheng">
-    <ul>
-        <li>
-            <img src="__IMG__/home/cert1.jpg"/>
-        </li>
-        <li>
-            <a href="http://www.shjbzx.cn/" target="_blank">
-                <img src="__IMG__/home/cert2.jpg"/>
-            </a>
-        </li>
-        <li>
-            <a id='___szfw_logo___' href='https://credit.szfw.org/CX20160519015265020195.html' target='_blank'>
-                <img src="__IMG__/home/cert.png" border='0' />
-            </a>
-        </li>
-        <li class="last">
-            <a href="http://webscan.360.cn/index/checkwebsite/url/www.myplas.com" target="_blank">
-                <img border="0" src="http://img.webscan.360.cn/status/pai/hash/11d280d842ae0cda461140c3b62a13a6"/>
-            </a>
-        </li>
-    </ul>
+   <ul>
+       {foreach from=$Partner item=value key=key}
+       <li>
+           <a href="{$value.url}" target="_blank">
+               <img border="0" src="__UPLOAD__/{$value.img}"/>
+           </a>
+       </li>
+       {/foreach}
+   </ul>
 </div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4808bff4f0276952e006e0f3ec054483";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>

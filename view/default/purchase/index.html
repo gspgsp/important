@@ -1,7 +1,11 @@
 {layout file="public:main_layout"}
 {insert_css files='home/purchaseOrder.css'}
 
-{include file="public:crumb"}
+<div class="crumb w1220">
+    <h3>商城报价</h3>
+    <p>当前位置 - 我的塑料网 - </p>
+    <span>采购单</span>
+</div>
 <style type="text/css">
     .purchase-order .filter-other li .filter-sel a.current{color:#fff; background:#fc6621; border-radius:3px;}
 </style>
@@ -19,7 +23,7 @@
                     	{/foreach}
                     </div>
                 </li>
-                <li class="area">
+            <!-- <li class="area">
                 	<div class="filter-name">地区</div>
                     <div class="filter-sel">
                         <div class="area1">
@@ -42,14 +46,14 @@
                         </div>
                     </div>
                     <div class="filter-more">展开</div>
-                </li>
+                </li> --->
             </ul>
             <form id="searchForm" action="/purchase" method="get">
             <div class="search">
             	<span>牌号：</span><input type="text" name="key_model" value="{$key_model}" class="import"/>
                 <span>厂家：</span><input type="text" name="key_fa" value="{$key_fa}" class="import"/>
-                <input type="checkbox" class="check" {if $cargotype==1 }checked{/if} name="cargo_type" value="1" id="check3"/><label for="check3">现货</label>
-                <input type="checkbox" class="check" {if $cargotype==2 }checked{/if} name="cargo_type" value="2" id="check4"/><label for="check4">期货</label>
+                <!--<input type="checkbox" class="check" {if $cargotype==1 }checked{/if} name="cargo_type" value="1" id="check3"/><label for="check3">现货</label>-->
+                <!--<input type="checkbox" class="check" {if $cargotype==2 }checked{/if} name="cargo_type" value="2" id="check4"/><label for="check4">期货</label>-->
                 <!-- <span>采购日期：</span>
                 <select>
                 	<option value="">不限</option>
@@ -57,19 +61,19 @@
                 	<option value="{$key}">{$value}</option>
                 	{/foreach}
                 </select> -->
-                <span>状态：</span>
-                <select name="status">
-                	<option value="">不限</option>
-                	<option {if $status==2 }selected{/if} value="2">洽谈中</option>
-                    <option {if $status==3 }selected{/if} value="3">交易完成</option>
-                </select>
+                <!--<span>状态：</span>-->
+                <!--<select name="status">-->
+                	<!--<option value="">不限</option>-->
+                	<!--<option {if $status==2 }selected{/if} value="2">洽谈中</option>-->
+                    <!--<option {if $status==3 }selected{/if} value="3">交易完成</option>-->
+                <!--</select>-->
                 <input type="submit" class="submit" value="搜索"/>
                 <input type="hidden" name="type" id="type" value="{$type}">
                 <input type="hidden" name="ct" id="ct" value="{$ct}">
             </div>
             </form>
         </div>
-        <div class="require color3">
+      <!--  <div class="require color3">
         	<h3>采购需求列表</h3>
             <div class="require-wrap">
                 <ul class="require-list">
@@ -101,6 +105,45 @@
                             <div class="other color9">
                                 <p class="time">{$value.customer.name} 发布于 {$value.input_time|date:Y-m-d H:i}</p>
                                 <p class="linkman">跟进交易员：{$value.customer.adname} {$value.customer.admobile}</p>
+                                <!-- <p class="qq"><a href="javascript:;"><img src="__IMG__/home/purchaseOrderQQ.jpg" width="27" height="20"/></a></p>
+                            </div>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+                <div class="page">
+                    {$pages}
+                </div>
+            </div>
+        </div>     --->
+
+        <div class="require color3">
+            <h3>采购完成订单</h3>
+            <div class="require-wrap">
+                <ul class="require-list">
+                    {foreach from=$list.data item=value}
+                    <li>
+                        <div class="left">
+                            {if $value.status==2}
+                            <p>洽谈中...</p>
+                            <a href="javascript:doTalk({$value.id});" class="yes">我要供货</a>
+                            {else}
+                            <p>交易完成</p>
+                            <a href="javascript:;" class="no">交易完成</a>
+                            {/if}
+                        </div>
+                        <div class="right">
+                            <div class="require-top">
+                                <span>{:witchType|$value.product_type}</span>
+                                <span>{$value.model}</span>
+                                <span>{$value.f_name}</span>
+                                <span>{$value.number}吨</span>
+
+                            </div>
+                            <div class="price"><b>成交价格</b><span>¥{$value.unit_price}</span></div>
+                            <div class="other color9">
+                                <p class="time"> 成交时间 {$value.update_time|date:Y-m-d H:i}</p>
+
                                 <!-- <p class="qq"><a href="javascript:;"><img src="__IMG__/home/purchaseOrderQQ.jpg" width="27" height="20"/></a></p> -->
                             </div>
                         </div>
@@ -156,6 +199,9 @@
             <!--</ul>-->
         <!--</div>-->
         <!--recent-deal end-->
+        <!--inside-ad begin-->
+        <div class="inside-ad ads"><img src="__IMG__/home/insideAd.png"><span>广告</span></div>
+        <!--inside-ad end-->
     </div>
     <!--right end-->
 </div>

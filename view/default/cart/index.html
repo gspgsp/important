@@ -147,7 +147,7 @@
             <div class="remark-lt flt">备注：</div>
             <!--remark-lt end-->
             <!--remark-rt begin-->
-            <div class="remark-rt flt"><textarea name="remark"></textarea></div>
+            <div class="remark-rt flt"><textarea id="remark" placeholder="允许输入35个字符！" name="remark"></textarea></div>
             <!--remark-rt end-->
         </div>
         <!--detail end-->
@@ -182,144 +182,176 @@
         }
 
     })
-    //
-    /*function delCart(id,that){
-        $.post('/offers/index/delCart',{id,id},function(data){
-            if(data.err==0){
-                $(that).parents('tr').remove();
-                if($("#cart .details").size()==0){
-                    window.location.href="/offers";
+    //删除产品
+    function delCart(id,that){
+//        alert($(that).closest('tr').find('input').val());
+//        alert($(that).closest('tr').find('.money').html());
+        $.ajax({
+            url:'/offers/index/delCart',
+            type:'post',
+            data:{id:id},
+            cache:false,
+            dataType:'json',
+            async : false,     //设置同异步 false:同步  true:异步
+            success:function(data){
+                if(data.err==0){
+                    $(that).parents('tr').remove();
+                    load_cart();
+                    if($("#cart .details").size()==0){
+                        window.location.href="/offers";
+                    }
                 }
+
             }
-        },'json');
-    }*/
+        })
+
+//        $.post('/offers/index/delCart',{id,id},function(data){
+//            if(data.err==0){
+//                $(that).parents('tr').remove();
+//                sum=eval($("#sum").text().slice(4,-1)-$(that).closest('tr').find('input').val());
+//                totalPrice=eval($("#totalPrice").text()-$(that).closest('tr').find('.money').html());
+//                $("#sum").text(sum+"吨");
+//                $("#totalPrice").text(totalPrice);
+//                if($("#cart .details").size()==0){
+//                    window.location.href="/offers";
+//                }
+//            }
+//        },'json');
+    }
     function load_cart(){   
         if($('#load-cart').size() > 0){
             $('#load-cart').load($('#load-cart').attr('data-url'));
         }
 
     }
-    //
-    function set_cart(sid,that){
-        var num=parseFloat($(that).val());
-        var number=parseFloat($(that).attr("data-id"));
-        if(num>number){
-            layer.msg('库存不足!最多能购买'+number+'吨');
-            $(that).val(1);
-            return false;
-        }
-        if(!num){
-            $(that).val(1);
-            return;
-        }
-        $.post('/cart/index/setCart',{sid:sid,num:num},function(data){
 
-            load_cart();
+    var check = function(){
+        var rtn = true;
+        var   pay_method=$('#pay_method').val();            //支付方式
+        var   transport_type=$('#transport_type').val();    //运输方式
+        var   date3=$("#date3").val();                      //配送时间
+        var   delivery_place=$("#delivery_place").val();    //配送地点
+        var   address=$("#address").val();                  //详细地址
+        var   remark=$('#remark').val().trim();                   //备注
+
+        if($("#transport_type").val()==1){
+            if(pay_method==''){
+                layer.msg('支付方式不能为空');
+                pay_method.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(transport_type==''){
+                layer.msg('运输方式不能为空');
+                transport_type.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(date3==''){
+                layer.msg('配送时间不能为空');
+                date3.focus();
+                rtn = false;
+                return rtn;
+            }
+
+        }else{
+            if(pay_method==''){
+                layer.msg('支付方式不能为空');
+                pay_method.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(transport_type==''){
+                layer.msg('运输方式不能为空');
+                transport_type.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(date3==''){
+                layer.msg('配送时间不能为空');
+                date3.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(delivery_place==''){
+                layer.msg('配送地点不能为空');
+                delivery_place.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(address==''){
+                layer.msg('详细地址不能为空');
+                address.focus();
+                rtn = false;
+                return rtn;
+            }
+        }
+        if(remark){
+            if(remark.length>35){
+                layer.msg('最大允许输入35个字符！');
+                return false;
+            }
+        }
+
+        var arr = new Array();
+        //验证购物车中商品有无库存余量
+        $("#cart .details").each(function(index,o){
+            var obj = new Object();
+            obj.id =$(o).attr("data-id");
+            obj.model =$(o).find("#data-id").attr("data-id");
+            obj.f_name =$(o).find("#data-ids").attr("data-ids");
+            obj.amount = $(o).find(".amount input[type='text']").val();
+            arr.push(obj);
         });
+        var details=JSON.stringify(arr);
+
+        $.ajax({
+            url:'/cart/index/error',
+            data:{data:details},
+            type:'post',
+            cache:'false',
+            dataType:'json',
+            async : false,     //设置同异步 false:同步  true:异步
+            success:function(datas){
+                console.log(datas);
+                if(datas.err==1){
+                    var str='<p>牌号:'+datas.msg.model+'</p>'+'<p>厂家:'+datas.msg.f_name+'<br>'+'库存不足</p>';
+                    layer.msg(str);
+                    rtn = false;
+                    return rtn;
+                }else{
+                    rtn = true;
+                    return rtn;
+                }
+            }
+        })
+        return rtn;
     }
-    //
-    //var demo=$("#cartFrom").Validform({
-    //    tiptype:function(msg,o,cssctl){
-    //        if(!o.obj.is("form")){
-    //            var objtip=o.obj.siblings(".Validform_checktip");
-    //            cssctl(objtip,o.type);
-    //            objtip.text(msg);
-    //        }
-    //    }
-    //});
-    //
+
     $("#cartFrom").submit(function(){
+
     	
         if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
             $(".other select").addClass("required").attr("datatype","*");
         }else{
             $(".other select").removeClass("required").removeAttr("datatype");
         }
-
-
-
-//    if(!demo.check()) return false;
-        var   pay_method=$('#pay_method').val();
-        var   transport_type=$('#transport_type').val();
-        var   date3=$("#date3").val();
-        var   delivery_place=$("#delivery_place").val();
-        var   address=$("#address").val();
-        if($("#transport_type").val()==1){
-            if(pay_method==''){
-                layer.msg('支付方式不能为空');return false;
-                pay_method.focus();
-            }
-            if(transport_type==''){
-                layer.msg('运输方式不能为空');return false;
-                transport_type.focus();
-            }
-            if(date3==''){
-                layer.msg('配送时间不能为空');return false;
-                date3.focus();
-            }
-        }else{
-            if(pay_method==''){
-                layer.msg('支付方式不能为空');return false;
-                pay_method.focus();
-            }
-            if(transport_type==''){
-                layer.msg('运输方式不能为空');return false;
-                transport_type.focus();
-            }
-            if(date3==''){
-                layer.msg('配送时间不能为空');return false;
-                date3.focus();
-            }
-            if(delivery_place==''){
-                layer.msg('配送地点不能为空');return false;
-                delivery_place.focus();
-            }
-            if(address==''){
-                layer.msg('详细地址不能为空');return false;
-                address.focus();
-            }
-
-        }
-
-        var arr = new Array();
-        //验证购物车中是否已经有产生订单
-//        $("#cart .details").each(function(index,o){
-//            var obj = new Object();
-//            obj.id =$(o).attr("data-id");
-//            obj.amount = $(o).find(".amount input[type='text']").val();
-//            arr.push(obj);
-//        });
-//        var details=JSON.stringify(arr);
-//        $.post('/cart/index/error',"data="+details,function(data){
-//
-//        });
+        //检验
+        if(!check()) return false;
 
         var data=$("#cartFrom").serialize();
-
         $.post('/cart/index/addorder',data,function(data){
             if(data.err==0){
                 window.location.href="/cart/index/msg";
             }else{
                 layer.msg(data.msg);
-
             }
         },'json');
-        
-        
+
         return false;
     });
 
     $(function(){
         load_cart();
-//        laydate({
-//            elem: '#date1',
-//            event: 'focus'
-//
-//        });
-//        laydate({
-//            elem: '#date2',
-//            event: 'focus'
-//        });
-
     });
 </script>

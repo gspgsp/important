@@ -8,31 +8,35 @@
 class testAction extends homeBaseAction{
 
     public function __init(){
-        $this->db = M('public:common')->model('temp');
+        $this->db = M('public:common')->model('resourcelib');
     }
 
     public function test(){
+        $potentialCustomers=M('resourcelib:potentialCustomers');
+        $middlePotentialCustomers=M('resourcelib:middlePotentialCustomers');
+        $content=$this->db->select('content')->where("`content` REGEXP'.*1[0-9]{10}.*' ")->limit(100)->getCol();
 
-        $info=$this->db->model('temp')->select('id,name')->getAll();
-//       p($info);
-        $arr=array();
-        foreach($info as $k=>$v){
-            $arr['id']=$v['id'];
-            $arr['name']=$v['name'];
-             $data= $this->db->model('temps as t')->select('t.c_id,t.c_name,t.contact_id')
-                    ->where("t.c_name=".$arr['name'])
-                    ->getAll();
-//            p($data);
-             $data=array_filter($data) ;
-                foreach($data as $k=>$v){
-                    $array['name']=$v['c_name'];
-                    $array['customer_id']=$v['c_id'];
-                    $array['contact_id']=$v['contact_id'];
-                    $info=$this->db->model('temp')->where('temp.name='.$array['name'])->update($array);
-//                    showTrace();
-                }
-
+        $arr = array();
+        foreach($content as $k=>$v){
+              preg_match("/[1][0-9]{10}/", $v,$arr[]);
         }
+        foreach($arr as $k=>$v){
+            $arrs['phone_number']=$v[0];
+            $array=array_unique($arrs);
+            $middlePotentialCustomers->add($array);
+        }
+        $sql="select phone_number from p2p_middle_potential_customers
+ where   phone_number not in (select mobile from p2p_customer_contact where chanel=6) and status=0";
+       $list =$this->db->getAll($sql);
+        foreach($list as $k=>$v ) {
+            $potentialCustomers->add($v);
+        }
+
+        $this->display('test.html');
+    }
+
+
+    public function user(){
 
     }
 

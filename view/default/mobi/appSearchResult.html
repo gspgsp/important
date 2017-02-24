@@ -10,6 +10,9 @@
 		<script src="__MYAPP__/js/common.js"></script>
 		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			.icon { float: none; display: inline-block; vertical-align: -5px;}
+		</style>
 	</head>
 
 	<body>
@@ -21,8 +24,8 @@
 			</div>
 		</header>
 		<div class="supplyDemandStatus2">
-			<span data-number="3" class="on">默认</span>
-			<span data-sale="true">价格</span>
+			<span data-otype="3" class="on">默认</span>
+			<span id="sale" data-big="true">价格</span>
 			<p style="width: 33.33333333%; height: 40px; line-height: 40px; margin: 0; float: left; text-align: center;">
 				<select id="ctypeChange">
 					<option value="1">采购</option>
@@ -32,178 +35,145 @@
 		</div>
 		<div class="supplyDemandUl">
 			<ul id="searchWrapUl"></ul>
+			<div style="text-align: center; padding: 5px 0;">
+				<input class="more" type="button" value="点击加载更多">
+			</div>
 		</div>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
 			$(function(){
-				var keywords=getUrlParam("keywords");
+				//类型
+				var type="";
+				//应用
+				var apply="";
+				//厂家
+				var factory="";
+				//地区
+				var region="";
+				//关键字
+				var keywords=unescape(getUrlParam("keywords"));
+				//报价供货
+				var ctype=3;
+				//时间价格筛选
+				var otype=3;
+				//页码
+				var page=1;
 				var searchLi="";
-				var searchTb="";
-
-
-				function searchPro(keyW) {
+				
+				function renderQuo(source,type,apply,factory,region,keywords,ctype,otype,page) {
+					$(".more").val("加载更多数据");
 					commonAjax(
 							"post",
-							"/mobi/mainPage/getSearchRes",
-							{keywords:keyW}
+							"/mobi/mainPage/getKeyWordsRes",
+							{
+								source:source,
+								type:type,
+								apply:apply,
+								factory:factory,
+								region:region,
+								keywords:keywords.toUpperCase(),
+								ctype:ctype,
+								otype:otype,
+								page:page,
+								size:10
+							}
 					).then(function (res) {
-						console.log(">>>",res);
-						if(res.searchRes.length==0){
-							$("#searchWrapUl").html("<li class='noSearch'>暂无数据</li>");
-						}else{
-						res.searchRes.forEach(function (v,i,a) {
-							searchLi+="<li><h3 class='bigCustomerName'>" +
-									"<a href='#'>"+v.product_type+"/"+v.model+"<br>"+v.f_name+"</a></h3>" +
-									"<p class='supplyDemandStore'><i class='icon iconDown'></i></p>" +
-									"<p class='supplyDemandSales'><span>￥"+v.unit_price+"/T起</span><br>"+v.input_time+"</p>" +
-									"<div class='mui-clearfix'></div>" +
-									"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
-									"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
-									"</table></li>";
-							$("#searchWrapUl").html(searchLi);
-						});
-
-							var index=0;
-							res.searchRes.forEach(function (v,i,a) {
-								v.twoData.forEach(function (v, i, a) {
-									searchTb += "<tr><td>" + v.company + "</td>" +
-											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobi/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
+						console.log(res);
+ 						if(res.err==0){
+							if(res.data.length==0){
+								$(".more").hide();
+								$("#searchWrapUl").html("<li class='noSearch'>暂无数据</li>");								
+							}else{
+								$(".more").show();
+								res.data.forEach(function (v,i,a) {
+									searchLi+="<li><a href='/mobi/mainPage/enCheckForm?id="+v.id+"'><h3 class='bigCustomerName'>" +
+											""+v.product_type+"/"+v.model+"<br>"+v.f_name+"<br>"+v.provinces+"</h3>" +
+											"<p class='supplyDemandStore'></p>" +
+											"<p class='supplyDemandSales'><span>￥"+v.unit_price.split(".")[0]+"/T起</span><br>"+v.number+"T<br>"+v.input_time.split(" ")[0]+"</p>" +
+											"<div class='mui-clearfix'></div></a></li>";
+									$("#searchWrapUl").html(searchLi);
 								});
-								$(".supplyDemandTb").eq(index).append(searchTb);
-								index++;
-								searchTb = "";
-							});
-
-
-						$(".iconDown").on("click",function () {
-							$(this).toggleClass("iconUp");
-							$(this).parents("li").find(".supplyDemandTb").toggle();
-						});
-
+							}
+						}else if(res.err==3){
+							$(".more").val(res.msg);
 						}
 					},function () {
 
 					});
 				}
-				searchPro(keywords);
 
 				$(".appQuery2").on("click",function () {
-					var searchTxt=$("#searchTxt").val();
-					if(!searchTxt){
+					keywords=$("#searchTxt").val();
+					if(!keywords){
 						mui.alert("","请输入搜索内容",function () {});
 					}else{
+						$("#searchTxt").val("");
 						searchLi="";
-						searchPro(searchTxt);
+						page=1;
+						$(".more").val("加载更多数据");
+						renderQuo(2,type,apply,factory,region,keywords,ctype,otype,page);
 					}
 				});
 
 				$("#ctypeChange").on("change",function () {
-					var ctype=$(this).val();
-					commonAjax(
-							"post",
-							"/mobi/mainPage/getResByQuOPu",
-							{ctype:ctype,keywords:keywords}
-					).then(function (res) {
-						console.log("---",res);
-						searchLi="";
-						if(res.sdata.length==0){
-							$("#searchWrapUl").html("<li class='noSearch'>暂无数据</li>");
-						}else {
-							res.sdata.forEach(function (v, i, a) {
-								searchLi += "<li><h3 class='bigCustomerName'>" +
-										"<a href='#'>" + v.product_type + "/" + v.model + "<br>" + v.f_name + "</a></h3>" +
-										"<p class='supplyDemandStore'><i class='icon iconDown'></i></p>" +
-										"<p class='supplyDemandSales'><span>￥" + v.unit_price + "/T起</span><br>" + v.input_time + "</p>" +
-										"<div class='mui-clearfix'></div>" +
-										"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
-										"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
-										"</table></li>";
-								$("#searchWrapUl").html(searchLi);
-							});
-							var index=0;
-							res.sdata.forEach(function (v,i,a) {
-								v.twoData.forEach(function (v, i, a) {
-									searchTb += "<tr><td>" + v.company + "</td>" +
-											"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobi/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
-								});
-								$(".supplyDemandTb").eq(index).append(searchTb);
-								index++;
-								searchTb = "";
-							});
+					ctype=$(this).val();
+					searchLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(1,type,apply,factory,region,keywords,ctype,otype,page);
 
-							$(".iconDown").on("click", function () {
-								$(this).toggleClass("iconUp");
-								$(this).parents("li").find(".supplyDemandTb").toggle();
-							});
-
-						}
-					},function () {
-
-					});
 				});
-				var stype="";
+				
 				$(".supplyDemandStatus2 span").on("click",function () {
 					$(this).addClass("on").siblings("span").removeClass("on");
-					var sale=$(this).data("sale");
-					if(sale){
-						if(stype==2){
-							stype=1;
+					var big=$(this).data("big");
+					if(big){
+						if(otype==2){
+							otype=1;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconUp'></i>");
 						}else{
-							stype=2;
+							otype=2;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconDown'></i>");
 						}
 					}else{
-						stype=$(this).data("number");
+						otype=$(this).data("number");
+						$("#sale").find(".icon").remove();
 					}
-					console.log("***",stype);
-					commonAjax(
-							"post",
-							"/mobi/mainPage/getResByPrice",
-							{stype:stype,keywords:keywords}
-					).then(function (res) {
-						console.log("+++",res);
-						searchLi="";
-						res.sdata.forEach(function (v,i,a) {
-							searchLi+="<li><h3 class='bigCustomerName'>" +
-									"<a href='#'>"+v.product_type+"/"+v.model+"<br>"+v.f_name+"</a></h3>" +
-									"<p class='supplyDemandStore'><i class='icon iconDown'></i></p>" +
-									"<p class='supplyDemandSales'><span>￥"+v.unit_price+"/T起</span><br>"+v.input_time+"</p>" +
-									"<div class='mui-clearfix'></div>" +
-									"<table class='supplyDemandTb' cellpadding='0' cellspacing='0'>" +
-									"<tr><th width='35%'>供应商</th><th width='20%'>价格(元/吨)</th><th width='10%'>数量</th><th width='15%'>交货地</th><th width='20%'>操作</th></tr>" +
-									"</table></li>";
-							$("#searchWrapUl").html(searchLi);
-						});
-
-						var index=0;
-						res.sdata.forEach(function (v,i,a) {
-							v.twoData.forEach(function (v, i, a) {
-								searchTb += "<tr><td>" + v.company + "</td>" +
-										"<td>￥" + v.unit_price + "</td><td>" + v.number + "T</td><td>" + v.provinces + "</td><td><a href='/mobi/mainPage/enCheckForm?id=" + v.id + "'>查看</a></td></tr>";
-							});
-							$(".supplyDemandTb").eq(index).append(searchTb);
-							index++;
-							searchTb = "";
-						});
-
-
-						$(".iconDown").on("click",function () {
-							$(this).toggleClass("iconUp");
-							$(this).parents("li").find(".supplyDemandTb").toggle();
-						});
-
-
-					},function () {
-
-					});
+					searchLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(2,type,apply,factory,region,keywords,ctype,otype,page);
 				});
-
+				
+				//初始数据
+				renderQuo(2,type,apply,factory,region,keywords,ctype,otype,page);
+				$(".more").on("click",function(){
+					page++;
+					renderQuo(2,type,apply,factory,region,keywords,ctype,otype,page);
+				});
 
 
 			});
 		</script>
-
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

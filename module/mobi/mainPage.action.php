@@ -123,23 +123,6 @@ class mainPageAction extends homeBaseAction
     	$this->display('appSearchResult');
     }
     //获取搜索结果数据（通过首页搜索），包括：搜索框，历史搜索，热门搜索
-    public function getSearchRes(){
-        $this->is_ajax = true;
-        //if($this->user_id<=0) $this->error('账户错误');
-    	//搜素关键字
-        $keywords = sget('keywords','s');
-    	$page = sget('page','i',1);
-		$size = sget('size','i',20);
-        $result = array();
-        if(!$searchRes = M('myapp:mainPage')->getAllSearchRes($keywords,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关结果'));
-        //去掉包含有空元素的数
-        foreach ($searchRes['data'] as $key=>$value) {
-            if($value['f_name'] && $value['model'] && $value['product_type'] && $value['unit_price']){
-                $result[]=$value;
-            }
-        }
-        $this->json_output(array('err'=>0,'searchRes'=>$result));
-    }
     //结果数据按价格排序(1从低到高,2从高到低，3默认时间)
     public function getResByPrice(){
         $this->is_ajax = true;
@@ -203,19 +186,37 @@ class mainPageAction extends homeBaseAction
         if(!$typeData = M('myapp:mainPage')->getProductTypeData($protype)) $this->json_output(array('err'=>2,'msg'=>'获取分类关键字失败'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
     }
-    //进入三个关键字出结果(其实和搜索页的相同，只是关键字不同)
+    //进入三个关键字出结果  获取搜索结果数据（通过首页搜索），包括：搜索框，历史搜索，热门搜索
     public function enKeyWordsRes(){
         $this->display('appSearchResult2');
     }
     //获取点击三个关键字出结果
-    public function getgetKeyWordsRes(){
+    public function getKeyWordsRes(){
         $this->is_ajax = true;
-        $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5
+        $source = sget('source','i',2);//搜索来源 1左侧 2中间
+        //
+        $protype = sget('type','i');//整形下标，每点击一次传1,2,3,4,5,6,7,8,9
         $apply = sget('apply','s');
         $factory = sget('factory','s');
         $region = sget('region','s');
-        if(!$data = M('myapp:mainPage')->getKeyWordsData($protype,$apply,$factory,$region)) $this->json_output(array('err'=>2,'msg'=>'获取三个关键字结果失败'));
-        $this->json_output(array('err'=>0,'data'=>$data));
+        //
+        $keywords = sget('keywords','s');//常规关键字搜索
+        //
+        $ctype = sget('ctype','i',3);//1报价(供货) 2采购(求购) 3全部
+        $otype = sget('otype','i',3);//1价格升2价格降3默认(时间)
+        //
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        if(!$data = M('myapp:mainPage')->getKeyWordsData($protype,$apply,$factory,$region,$keywords,$ctype,$otype,$page,$size,$source)) $this->json_output(array('err'=>2,'msg'=>'获取搜索结果失败'));
+        $this->_checkLastPage($data['count'],$size,$page);
+        //去掉包含有空元素的数
+        $result = array();
+        foreach ($data['data'] as $key=>$value) {
+            if($value['f_name'] && $value['model'] && $value['product_type'] && $value['unit_price']){
+                $result[]=$value;
+            }
+        }
+        $this->json_output(array('err'=>0,'data'=>$result));
     }
     //首页点击获取我的关注(5条),其实和个人中心里的关注的代码相同,下个版本再合并
     public function getMyShortAttention(){
@@ -246,50 +247,46 @@ class mainPageAction extends homeBaseAction
     public function enLargeBid(){
         $this->display('bigCustomer');
     }
-    //获取大户报价数据,包括:默认，价格排序
+    //获取大户报价数据,包括:默认，价格排序 以及获取大客户点击确定筛选结果
     public function getLargeBid(){
         $this->is_ajax = true;
+        //条件筛选
+        $company = sget('company','s');
+        $factory = sget('factory','s');
+        $address = sget('address','s');
+        //普通筛选
         $otype = sget('otype','i',3);//3,默认(时间)，1，价格升序 2，价格降序
+        //
+        $ctype = sget('ctype','i',1);//1:普通筛选 2:条件筛选
         $page = sget('page','i',1);
-        $size = sget('size','i',8);
-        if(!$largrBid = M('myapp:mainPage')->getLargeBidData($otype,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户报价数据失败'));
+        $size = sget('size','i',10);
+        $largrBid = M('myapp:mainPage')->getLargeChoseRes($ctype,$company,$factory,$address,$otype,$page,$size);
+        if(empty($largrBid['data'])) $this->json_output(array('err'=>2,'msg'=>'没有大户报价数据'));
+        $this->_checkLastPage($largrBid['count'],$size,$page);
         $this->json_output(array('err'=>0,'largrBid'=>$largrBid['data']));
     }
-    //获得大户报价下三角数据(直接集成到上面)
-    //进入筛选页
     //获取大客户筛选条件:公司，厂家，交货地
     public function getLargeChose(){
         $this->is_ajax = true;
         if(!$choseData = M('myapp:mainPage')->getLargeChoseData()) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选条件失败'));
         $this->json_output(array('err'=>0,'choseData'=>$choseData));
     }
-    //获取大客户点击确定筛选结果
-    public function getLargeChoseRes(){
-        $this->is_ajax = true;
-        $page = sget('page','i',1);
-        $size = sget('size','i',8);
-        $company = sget('company','s');
-        $factory = sget('factory','s');
-        $address = sget('address','s');
-        if(!$choseRes = M('myapp:mainPage')->getLargeChoseRes($company,$factory,$address,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取大户筛选筛选结果失败'));
-        $this->json_output(array('err'=>0,'choseRes'=>$choseRes));
-    }
     //进入大客户详情页面
     public function enBigBidDetail(){
         $this->display('bigCustomer_detail');
     }
-    //获取大客户详情数据
-    public function getBigBidDetail(){
-        $this->is_ajax = true;
-        $otype = sget('otype','i');//1查看,2委托洽谈
-        if($otype==2 && $this->user_id<=0) $this->error('账户错误');
-        $id = sget('id','i');//当前这一条报价或求购的id,purchase表
-        if(!$chDeRes=M('myapp:mainPage')->getBigBidDetailData($otype,$id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
-        $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
-    }
     //进入大客户的委托洽谈
     public function enBigBidDelegate(){
         $this->display('supplyDemand_trade2');
+    }
+    //获取大客户详情数据
+    public function getBigBidDetail(){
+        $this->is_ajax = true;
+        $otype = sget('otype','i');//1详情,2委托洽谈
+        if($otype==2 && $this->user_id<=0) $this->error('账户错误');
+        $id = sget('id','i');//当前这一条报价或求购的id,big_offers表
+        if(!$chDeRes=M('myapp:mainPage')->getBigBidDetailData($otype,$id,$this->user_id)) $this->json_output(array('err'=>2,'msg'=>'没有查看/委托的数据'));
+        $this->json_output(array('err'=>0,'chDeRes'=>$chDeRes));
     }
     /**
      *物性表
@@ -391,7 +388,7 @@ class mainPageAction extends homeBaseAction
         $size = sget('size','i',30);
         $articles = array();
         $tempArr = array();
-        if(!$articleInfo = M('touch:infos')->getCateList($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
+        if(!$articleInfo = M('myapp:mainPage')->getPlasticDayInfo($pid,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'获取资讯页失败'));
         foreach ($articleInfo['data'] as $key => $value) {
             $tempArr['id']=$value['id'];
             $tempArr['title']=$value['title'];
@@ -411,9 +408,9 @@ class mainPageAction extends homeBaseAction
         $this->is_ajax = true;
         //if($this->user_id<=0) $this->error('账户错误');
         $id=sget('id','i',0);
-         if(!$articleDetail=$this->db->model('info')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
+         if(!$articleDetail=$this->db->model('news_content')->where("id=$id")->getRow()) $this->json_output(array('err'=>2,'msg'=>'获取资讯详情页失败'));
         $articleDetail['input_time'] = date("Y-m-d",$articleDetail['input_time']);
-        $articleDetail['source']= empty($articleDetail['source'])?'本站':$articleDetail['source'];
+        $articleDetail['source']= empty($articleDetail['source_from'])?'本站':$articleDetail['source_from'];
         $this->json_output(array('err'=>0,'articleDetail'=>sstripslashes($articleDetail)));
     }
     //进入发布报价
@@ -424,26 +421,47 @@ class mainPageAction extends homeBaseAction
     public function checkReleaseLogin(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
-        json_output(array('err'=>0,'msg'=>'用户已登录'));
+        $this->json_output(array('err'=>0,'msg'=>'用户已登录'));
     }
     //进入物性表的发布采购
     //物性表的发布采购(委托洽谈),单独写一个方法physical表(getPhysicalDelegateData)和搜索中的不能共用
     //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
     public function pub(){
+        if($this->user_id<=0) $this->error('账户错误');
         if($data=$_POST['data']){
             $this->is_ajax=true;
             $data=saddslashes($data);
-            $pt = $data[0]['pt'];//平台,1:微信，空:其他
+            $pt = $data[0]['pt'];//平台,1:塑料圈(6) 空:其他(本接口下为app(4))
+            $remark = $data[0]['remark'];//备注
+            $content = $data[0]['content'];//客户直接填写的求购内容，无格式
             $cargo_type=$data[0]['cargo_type'];//现货、期货
             $type=$data[0]['type'];//采购1、报价2
             $pur_model=M('product:purchase');
             $fac_model=M('product:factory');
             $pro_model=M('product:product');
+            //判断是否只有content
+            if(empty($data[0]['model']) && empty($data[0]['f_name']) && empty($data[0]['store_house'])){
+                $_content = array(
+                    'user_id'=>$this->user_id,//用户id
+                    'c_id'=>$_SESSION['uinfo']['c_id'],//客户id
+                    'status'=>$type==1?1:2,//状态，报价不需要审核，采购需要审核
+                    'sync'=>$pt==1?6:4,//报价来源平台
+                    'type'=>$type,//采购、报价
+                    'content'=>str_replace(PHP_EOL, '', $content),//客户直接填写的求购内容
+                    'input_time'=>CORE_TIME,//创建时间
+                    'remark'=>$remark,//备注
+                    );
+                if(!$pur_model->add($_content)) $this->json_output(array('err'=>3,'msg'=>'插入数据失败'));
+                $this->addPlasticPurSalPoints($this->user_id,$type);
+                $this->success('提交成功');
+            }
+            //
             foreach ($data as $key => $value) {
                 //是否已有该产品
                 $model=$this->db->from('product p')
                     ->join('factory f','p.f_id=f.fid');
-                $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
+//                 $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
+                $where="p.model='{$value['model']}'  and f.f_name='{$value['f_name']}'";
                 $pid=$model->where($where)->select('p.id')->getOne();
 
                 $_data=array(
@@ -458,9 +476,11 @@ class mainPageAction extends homeBaseAction
                     'period'=>$value['period'],//期货周期
                     'bargain'=>$value['bargain'],//是否实价
                     'type'=>$type,//采购、报价
-                    'sync'=>$pt==1?3:4,//报价来源平台
+                    'sync'=>$pt==1?6:4,//报价来源平台
                     'status'=>$type==1?1:2,//状态，报价不需要审核，采购需要审核
                     'input_time'=>CORE_TIME,//创建时间
+                    'remark'=>$remark,//备注
+                    'content'=>str_replace(PHP_EOL, '', $content),//客户直接填写的求购内容
                 );
                 if($pid){
                     //已有产品直接添加采购信息
@@ -501,10 +521,30 @@ class mainPageAction extends homeBaseAction
                     $pur_model->commit();
                 }
             }
-            if(!empty($pt) && CORE_TIME>strtotime('2016-08-5') && CORE_TIME<strtotime('2016-08-19')){
-                $this->json_output(array('err'=>2,'msg'=>'微信来源'));
-            }
+            $this->addPlasticPurSalPoints($this->user_id,$type);
             $this->success('提交成功');
+        }
+    }
+    //发布报价或采购的时候添加积分
+    public function addPlasticPurSalPoints($userid,$type){
+        $billModel=M('points:pointsBill');
+        $today=strtotime(date('Y-m-d',time()));
+        $points = 0;
+        switch ($type) {
+            case 1:
+                $where = "uid=$userid and type=6 and addtime>$today";
+                $points = intval($this->plastic_points['pur']);
+                $type = 6;
+                break;
+            case 2:
+                $where = "uid=$userid and type=3 and addtime>$today";
+                $points = intval($this->plastic_points['sale']);
+                $type = 3;
+                break;
+        }
+        $is_pur_sale=$billModel->where($where)->getRow();
+        if(!$is_pur_sale){
+            $billModel->addPoints($points,$userid,$type,1);
         }
     }
     //判断发布报价时候牌号是否存在，存在直接却，不存在自己选择一个(下面方法在本版本app没有使用，下个版本使用)
@@ -532,7 +572,8 @@ class mainPageAction extends homeBaseAction
     //获取供求的筛选条件
     public function getSupplyCondition(){
         $this->is_ajax = true;
-        if(!$typeData=M('myapp:mainPage')->getSupplyConditionData()) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $ptype = sget('ptype','i',0);//类型下标1,2,3,4....
+        if(!$typeData=M('myapp:mainPage')->getSupplyConditionData($ptype)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         $this->json_output(array('err'=>0,'typeData'=>$typeData));
     }
     //获取供求(公海的商城报价和采购单)以及根据供求的筛选条件渲染数据
@@ -570,26 +611,21 @@ class mainPageAction extends homeBaseAction
     //获取资源库数据
     public function getResource(){
         $this->is_ajax = true;
-        $type = sget('type','i');//1求(采)购 2报价(供应) 空值为全部
+        //关键字
+        $keywords = sget('keywords','s');
+        //普通
+        $type = sget('type','i',3);//1求(采)购 2报价(供应) 3全部
         $page = sget('page','i',1);
-        $size = sget('size','i',30);
-        if(!$resData = M('myapp:mainPage')->getResourceData($type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
+        $size = sget('size','i',10);
+        if(!$resData = M('myapp:mainPage')->getResourceData($keywords,$type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
         foreach ($resData['data'] as &$value) {
             $value['input_time'] = $this->_changeTime($value['input_time']);
         }
+        $this->_checkLastPage($resData['count'],$size,$page);
         $this->json_output(array('err'=>0,'resData'=>$resData['data']));
     }
     //发布资源库的方法和pc相同/resource/index/release
     //获取资源库搜索数据
-    public function getResSearch(){
-        $this->is_ajax = true;
-        $type = sget('type','i',0);//1求(采)购 2报价(供应) 默认值(0)为全部
-        $page = sget('page','i',1);
-        $size = sget('size','i',10);
-        $keywords = sget('keywords','s');
-        if(!$searchData = M('myapp:mainPage')->getResSearchData($keywords,$type,$page,$size)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据'));
-        $this->json_output(array('err'=>0,'searchData'=>$searchData['data']));
-    }
     //进入委托采购
     public function enPurchase(){
         $this->display('purchase');

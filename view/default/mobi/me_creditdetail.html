@@ -38,12 +38,8 @@
         		<img src="__MYAPP__/img/credit_classify3.png"><br>数码
     		</span>
 		</div>
-		<div class="shopRecommand">商品推荐</div>
-		<ul class="shopUl"></ul>
+		<ul class="shopUl" style="margin: 10px 0 0 0;"></ul>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
 			$(function () {
 				var creditshopLi="";
 				var gtype="";
@@ -56,7 +52,12 @@
 					if(res.err==1){
 						window.location.href="/mobi/login";
 					}else{
-						$("#credit").html(res.points);
+						if(res.points){
+							$("#credit").html(res.points);
+						}else{
+							$("#credit").html("<a style=' font-size: 16px; color: #ff6600;' href='/mobi/login'>请登录</a>");
+						}
+						
 						if(!res.shop){
 							$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
 						}else{
@@ -130,7 +131,24 @@
 
 			})
 		</script>
-
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

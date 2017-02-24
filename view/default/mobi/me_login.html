@@ -32,6 +32,9 @@
 				<!--<img id="vcodeImg" name="regcode">-->
 			<!--</div>-->
 		</div>
+		<div style=" padding: 0 20px">
+			<input id="checkbox" type="checkbox">&nbsp;<label style="color: #999999;">记住密码</label>
+		</div>
 		<div style="margin: 0 20px;">
 		<div class="registerBtn">登录</div>
 		<div class="loginLink">
@@ -43,9 +46,26 @@
 				swipeBack: true //启用右滑关闭功能
 			});
 			$(function () {
+				
+				var lousername=window.localStorage.getItem("username")||"";
+	        	var lopassword=window.localStorage.getItem("password")||"";
+        		if(lousername!==""&&lopassword!==""){
+        			$("#checkbox").attr("checked",true);
+        			$("#username").val(lousername);
+        			$("#password").val(lopassword);
+        		}
+				
 				$(".registerBtn").on("click",function () {
 					var mobi=$("#username").val();
 					var password=$("#password").val();
+					if ($("#checkbox").is(':checked')) {
+	    		    	window.localStorage.setItem("username",mobi);
+	    		    	window.localStorage.setItem("password",password);
+	            } else{
+	    		    	window.localStorage.setItem("username","");
+	    		    	window.localStorage.setItem("password","");            		
+	            	}
+
 					commonAjax(
 							"post",
 							"/mobi/login/login",
@@ -63,7 +83,24 @@
 				});
 			})
 		</script>
-
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 	</body>
 
 </html>

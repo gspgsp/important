@@ -5,6 +5,13 @@ class indexAction extends homeBaseAction
 
     public function init()
     {
+
+        $this->seo = array(
+            'title'=>'中晨物流',
+            'keywords'=>'中晨物流，塑料物流，大宗商品物流，我的塑料网物流',
+            'description'=>'中晨物流，安全可靠！交易安全：全程跟踪物流状态确保安全抵达。合作物流：全部与大型物流公司合作，车队资源一应俱全。真人找车：所有委托全部真人全程跟进，放心省事服务好',
+            'status'=>5
+        );
         $this->display('index.html');
     }
 
@@ -40,16 +47,16 @@ class indexAction extends homeBaseAction
 
     //物流入库等待后台分配物流公司
     public function collect(){
-
         if($_POST){
             $id=sget('id','s','0');
             $starting = sget('s', 's', '');
             $ending = sget('e', 's', '');
             $weight = sget('w', 'i', 0);
-            $province = sget('p', 's', '');
+            $price = sget('p', 's', '');
             $status=0;
+
             $shipCollect = M('operator:ship_collect');
-           $ship_collect=$shipCollect->add(array('input_time'=>time(),'user_id'=>$id,'ending'=>$ending,'weight'=>$weight,'price'=>$province,'status'=>$status,'startings'=>$starting)) ;
+            $ship_collect=$shipCollect->query("insert into p2p_ship_collect (`input_time`,`user_id`,`ending`,`weight`,`price`,`status`,`starting`) VALUES (".time().", $id, '$ending', $weight, $price, $status, '$starting')");
             if($ship_collect){
                 die(json_encode(array('err' => '0')));
             }else{

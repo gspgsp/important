@@ -3,24 +3,29 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>我的塑料网-个人中心</title>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <title>我的塑料网</title>
     <link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="__MYAPP__/css/app.css" />
-    <style>
-        .appConcern img{ display: block;}
-        .mui-slider-group img{ display: block;}
-        .mui-slider-indicator .mui-indicator{ margin: 1px; background: #ffffff;}
-        .mui-slider-indicator .mui-active.mui-indicator{ background: #ff5000;}
-        .icon{ float: none; display: inline-block; vertical-align: -5px;}
-        #infoDetailContent img{ width: 100%; display: block;}
-    </style>
+    <link rel="stylesheet" href="__MYAPP__/css/newpage.css" />
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?4808bff4f0276952e006e0f3ec054483";
+	  var s = document.getElementsByTagName("script")[0];
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
 </head>
 <body>
-<div id="app" style="padding: 0 0 50px 0;">
-    <router-view></router-view>
+<div id="app">
+    <router-view transition="fade" transition-mode="out-in"></router-view>
 </div>
 <script type="text/javascript" src="__MYAPP__/js/mui.min.js"></script>
-<script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+<!--<script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/themes/grid-light.js"></script>-->
 <script type="text/javascript" src="__MYAPP__/dist/main.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </body>
 </html>

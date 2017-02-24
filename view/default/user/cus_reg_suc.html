@@ -9,24 +9,40 @@
     <div class="right frt">
     	<h3>个人中心-资质审核</h3>
         <!--finance-lc-pic begin-->
-        <div class="finance-lc-pic">
-            <img src="__IMG__/home/financeLc3.jpg" width="1000" height="44"/>
-        </div>
+	    {if $organization_state=='1' }
+	        <div class="finance-lc-pic">
+	            <img src="__IMG__/home/financeLc3.jpg" width="1000" height="44"/>
+	        </div>
+        {/if}
         <!--acct-info begin-->
         <div class="acct-info">
-            <ul>
-                <li>账户余额：<span>325.000.00</span></li>
-                <li>锁定余额：<span>0.00</span></li>
-                <li>账户状态：<span>有效</span></li>
+            <h4 id="c_name" cs="{$ifbind}">{$c_name}</h4>
+            <ul>				
+			  <li>账户余额：<span>{$freeAmt}</span></li>
+			  <li>锁定余额：<span>{$lockedAmt}</span></li>				
+              <li>账户状态：
+             <span>
+				{if $ifbind=='1' }
+					已绑定
+				{else}
+				      未绑定  
+				{/if}
+			</span></li>
             </ul>
-            <p>已绑定电子支付：<span>东方付通（交通银行 3865548956874）</span></p>
+	 		{if $ifbind=='1' }
+			  <p class="bind-yes">已绑定电子支付：<span>东方付通（{$c_id}）</span></p>
+			{else}
+			  <p class="bind-no">您未绑定电子支付：<input type="button" id="bind_member" value="绑定东方付通"></p>
+			{/if}
         </div>
         <!--acct-info end-->
         <!--acct-info-btn begin -->
-        <ul class="acct-info-btn">
-            <li><a href="javascript:;">充值</a></li>
-            <li><a href="javascript:;">账号管理</a></li>
-        </ul>
+ 	 	{if $ifbind=='1' }
+	        <ul class="acct-info-btn">
+	            <li><a href="javascript:window.open('http://www.easternpay.com.cn/');">充值</a></li>
+	            <li><a href="javascript:window.open('http://www.easternpay.com.cn/');">账号管理</a></li>
+	        </ul>
+        {/if}
         <!--acct-info-btn end -->
         <!--record begin-->
         <div class="record">
@@ -43,37 +59,25 @@
                 </ul>
                 <!--record-tr end-->
                 <!--record-tr begin-->
+                {foreach from=$data item=value key=key}
                 <ul class="record-tr">
-                    <li class="number">T45789623565</li>
-                    <li class="time">2016-08-01 12:40:30</li>
-                    <li class="pay">10000</li>
-                    <li class="income">60000</li>
-                    <li class="trade">1212121545487266</li>
+                    <li class="number">{$value.id}</li>
+                    <li class="time">{$value.input_time|date: Y-m-d H:i}</li>
+                    {if $value.order_type==1}
+                    <li class="pay">0</li>
+                    <li class="income">{$value.total_price}</li>
+                    {else}
+                    <li class="pay">{$value.total_price}</li>
+                    <li class="income">0</li>
+                    {/if}
+                    <li class="trade">{$value.order_sn}</li>
                     <li class="remark">无</li>
                 </ul>
+                {/foreach}
                 <!--record-tr end-->
-                <!--record-tr begin-->
-                <ul class="record-tr">
-                    <li class="number">T45789623565</li>
-                    <li class="time">2016-08-01 12:40:30</li>
-                    <li class="pay">10000</li>
-                    <li class="income">60000</li>
-                    <li class="trade">1212121545487266</li>
-                    <li class="remark">无</li>
-                </ul>
-                <!--record-tr end-->
-                <!--record-tr begin-->
-                <ul class="record-tr">
-                    <li class="number">T45789623565</li>
-                    <li class="time">2016-08-01 12:40:30</li>
-                    <li class="pay">10000</li>
-                    <li class="income">60000</li>
-                    <li class="trade">1212121545487266</li>
-                    <li class="remark">无</li>
-                </ul>
-                <!--record-tr end-->
+
                 <!--record-btn begin-->
-                <div class="record-btn"><a href="javascript:;">更多</a></div>
+                <div class="record-btn"><a href="/user/fundInfomation/fundInfomation">更多</a></div>
                 <!--record-btn end-->
             </div>
         </div>
@@ -144,3 +148,21 @@
     </div>
 </div>
 <!--user-wrap end-->
+<script type="text/javascript">
+var layer_index=0;
+//绑定东方付通会员账号
+$("#bind_member").click(function(){
+	var data="c_name="+$("#c_name").text();
+    layer_index =layer.load('正在处理请稍后', 0);
+	$.post('/user/myset/bind_member',data,function (data){
+		if(data.err==0){
+			//layer.msg('操作成功');
+			//window.location.href=data.msg; 
+        	layer.close(layer_index);
+			window.open(data.msg);
+		}else{
+			layer.msg(data.msg);
+		}
+	},'json');
+});
+</script>

@@ -15,12 +15,12 @@ class registerAction extends homeBaseAction{
 		$this->display('register');
 	}
 
-
+	//注册首页
 	public function reg()
 	{
 		$mobile=sget('phone','s');
 		if(!$this->_chkmobile($mobile)) $this->error($this->err);
-
+		//验证码
 		if($this->reg_vcode){
 			$vcode=strtolower(sget('regcode','s'));
 			if(empty($vcode)){
@@ -42,7 +42,7 @@ class registerAction extends homeBaseAction{
 		$this->forward('/user/register/reginfo');
 
 	}
-
+	//注册第二页(填写注册信息)
 	public function reginfo()
 	{
 		if(!$_SESSION['check_reg_ok']) $this->forward('/user/register');
@@ -85,6 +85,7 @@ class registerAction extends homeBaseAction{
 						'chanel'=>1,
 						'origin'=>implode('|',$origin),
 					);
+
 					if(!$cus_model->add($_customer)) throw new Exception("系统错误 reg:101");
 // 					$c_id=$cus_model->getLastID();
 					$c_id=$cus_model->select('c_id')->where("c_name='$c_name'")->getOne();
@@ -113,7 +114,8 @@ class registerAction extends homeBaseAction{
 				
 				//1.如果是新公司contact_id就为当前申请人user_id
 				//2.否则为已存在公司的
-				if(!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");				
+
+				if(!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
 				if(!$customer){
 // 					if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=1")) throw new Exception("系统错误 reg:104");
 				    if(!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=$user_id")) throw new Exception("系统错误 reg:104");
@@ -227,19 +229,43 @@ class registerAction extends homeBaseAction{
 	}
 
 
-	// 获取已存在的客户
-	public function get_company()
-	{
-		if($_GET)
-		{
-			$pid=sget('pid','i',0);
-			$cid=sget('cid','i',0);
-			$origin=implode('|',array($pid,$cid));
-			// p($origin);
+//	// 获取已存在的客户
+//	public function get_company()
+//	{
+//		if($_GET)
+//		{
+//			$pid=sget('pid','i',0);
+//			$cid=sget('cid','i',0);
+//			$origin=implode('|',array($pid,$cid));
+//			// p($origin);
+//			$model=$this->db->model('customer');
+//			$list=$model->where("origin='{$origin}'")->select('c_id,c_name,need_product,com_intro,type,c_name as text')->getAll();
+//			json_output($list);
+//		}
+//	}
+	//模糊匹配公司
+	public function getCompany(){
+		if($_GET){
+			$company=sget('keyword','s','');
 			$model=$this->db->model('customer');
-			$list=$model->where("origin='{$origin}'")->select('c_id,c_name,need_product,com_intro,type')->getAll();
+			$list=$model->where("c_name like '$company%'")->select('c_id,c_name')->limit('10')->getAll();
 			json_output($list);
+
 		}
+
+////		spinx  模糊匹配
+//		$company = trim(sget('keyword', 's', ''));
+//		if($company){
+//			$sphinx = new SphinxClient;
+//			$sphinx->SetServer('localhost',9312);
+//			$sphinx->SetMatchMode(SPH_MATCH_ALL);
+//			$sphinx->setLimits(0,10,10);
+//			$result = $sphinx->query('*'."$company".'*','customer');
+//			$lids = array_keys($result['matches']);
+//			$list = $this->db->model('customer')->get_search_list($lids);
+//			json_output($list);
+//		}
+
 	}
 
 }

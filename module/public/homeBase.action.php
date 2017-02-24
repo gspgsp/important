@@ -3,14 +3,23 @@
  * 前端控制器
  */
 class homeBaseAction extends action {
+	protected $plastic_points = NULL;
 	protected $ssid=NULL;
 	protected $user_id=0;
 	protected $token='';
 	protected $debug = false;
+	const    POSITION= 2;    //合作伙伴
+	const    NUMBER  = 4;    //数量
+	const    POSITIONS= 3;    //友情链接
 	public function __construct() {
 		parent::__construct();
+		//调用配置项
+		$this->plastic_points = M('system:setting')->get('points')['points'];
 		if(!is_robot()){ //非机器人访问
 			startHomeSession();
+			$cache=cache::startRedis();
+			$_SESSION['userid']=($cache->get('userid_'.SESS_ID)==false?0:$cache->get('userid_'.SESS_ID));
+			$_SESSION['uinfo']=($cache->get('uinfo_'.SESS_ID)==false?null:json_decode($cache->get('uinfo_'.SESS_ID)));
 			$this->user_id=$_SESSION['userid'];
 			//$this->dataToken=$_SESSION['token'];
 			setReferer($this->user_id);
@@ -34,7 +43,6 @@ class homeBaseAction extends action {
 
 				$this->unread_msgs_count = M('system:sysMsg')->countUnread($this->user_id);
 			}
-
 			//是否需要HTTPs跳转
 			if(C('HTTPS_ON')){
 				if(!isset($_SERVER['HTTPS'])){ //所有都不必须要跳、或指定模块跳转
@@ -63,14 +71,31 @@ class homeBaseAction extends action {
 		$this->view->template_dir .= $theme_path;
 		$this->view->compile_dir .= $theme_path;
 		$this->view->cache_dir .= $theme_path;
-		//底部分类信息
-		$this->footer=M('system:info')->getFooterCate();
+
 		if(strstr($_GET['a'],'&gclid')){ //google推广链接的问题
 			$action=$_GET['a']=substr($_GET['a'],0,strpos($_GET['a'],'&'));
 			if(method_exists($this,$action)){
 				$this->$action();exit;
 			}
 		}
+        //底部分类信息
+        $this->footer=M('system:info')->getFooterCate();
+		//底部单独关于我们
+		$this->aboutUs=M('system:info')->aboutUs();
+		//底部 合作伙伴
+		$this->Partner=M('system:block')->getBlock(self::POSITION,self::NUMBER);
+		//友情链接
+	    $this->friendshipLink=M('system:block')->getFriendshipLink(self::POSITIONS);
+
+		//分配action名用于显示导航条的hover效果
+		$this->assign('on',$_GET['m']);
+		$this->assign('on_1',$_GET['m']);
+		$this->assign('on_2',$_GET['m']);
+		$this->assign('on_3',$_GET['m']);
+		$this->assign('on_4',$_GET['m']);
+		$this->assign('on_6',$_GET['m']);
+		$this->assign('on_7',$_GET['m']);
+
 
 	}
 

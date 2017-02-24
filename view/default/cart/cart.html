@@ -1,30 +1,91 @@
 <div class="buy-title">
-    <h2>产品明细</h2>
-    <span>总价：<i class="total">{$totalPrice}</i>元 <b class="sum">总数量：<em>{$totalNums}</em>吨</b></span>
+	<h2>产品明细</h2>
+	<span>总价：<i class="total" id="totalPrice">{$totalPrice}</i>元 <b class="sum" id="sum">总数量：<em>{$totalNums}</em>吨</b></span>
 </div>
 <table id="cart">
 	<tr>
-        <th>产品名称</th>
-        <th>牌号</th>
-        <th width="140">厂家</th>
-        <th>交货地</th>
-        <th width="140">数量</th>
-        <th>单位</th>
-        <th width="120">单价</th>
-        <th width="120">金额</th>
-        <th width="100">操作</th>
-    </tr>
-    {foreach from=$cartList item=value key=key}
-    <tr class="details" data-id="{$value.id}">
-        <td>{$value.options.product_type}</td>
-        <td>{$value.options.model}</td>
-        <td>{$value.options.f_name}</td>
-        <td>{$value.options.city}</td>
-        <td class="amount"><input type="text"  style="width: 60px" onChange="set_cart('{$key}',this)" value="{$value.num}" data-id="{$value.number}"></td>
-        <td>吨</td>
-        <td class="d-price"><span>{$value.options.unit_price}</span>元</td>
-        <td class="money">{$value.total}</td>
-        <td class="opt"><a href="javascript:;" onClick="delCart('{$key}',this)">删除</a></td>
-    </tr>
-    {/foreach}
+		<th>产品名称</th>
+		<th>牌号</th>
+		<th width="140">厂家</th>
+		<th>交货地</th>
+		<th width="140">数量</th>
+		<th>单位</th>
+		<th width="120">单价</th>
+		<th width="120">金额</th>
+		<th width="100">操作</th>
+	</tr>
+	{foreach from=$cartList item=value key=key}
+	<tr class="details" data-id="{$value.options.p_id}">
+		<td>{$value.options.product_type}</td>
+		<td  id="data-id" data-id="{$value.options.model}">{$value.options.model}</td>
+		<td  id="data-ids" data-ids="{$value.options.f_name}">{$value.options.f_name}</td>
+		<td>{$value.options.city}</td>
+		<!--<td class="amount"><input type="text"  style="width: 60px" onblur="set_cart('{$key}',this)" value="{$value.num}" data-id="{$value.number}" id="{$value.options.p_id}"></td>-->
+		<!--<td>吨</td>-->
+		<td class="amount"><input type="text" name="num" style="width: 60px" value="{$value.num}" data-id="{$value.number}" id="{$value.options.p_id}" data-atr="{$key}"></td>
+		<td>吨</td>
+		<td class="d-price"><span>{$value.options.unit_price}</span>元</td>
+		<td class="money">{$value.total}</td>
+		<td class="opt"><a href="javascript:;" onClick="delCart('{$key}',this)">删除</a></td>
+	</tr>
+	{/foreach}
 </table>
+<script>
+
+	// $(".details").click(function(){
+	//     var id=$(this).attr("id");
+	//     var num= parseFloat($(this).find('input').attr('value'));
+	//     var number=parseFloat($(this).find('input').attr('data-id'));
+	//     if(num>number){
+	//         layer.msg('超过商家上架数量!最多能购买'+number+'吨');
+	//         $(this).find('input').val(1);
+	//         return false;
+	//     }
+	//     if(!num){
+	//         $(this).find('input').val(1);
+	//         return;
+	//     }
+	//     $.post('/cart/index/setCart',{sid:id,num:num},function(data){
+	//         load_cart();
+
+	//     });
+	// })
+	$("input[name=num]").blur(function(event) {
+		var num = $(this).val();
+		var id=$(this).attr('data-atr');
+		var left_num=parseFloat($(this).attr('data-id'));
+		if(num>left_num){
+			layer.msg('超过商家上架数量!最多能购买'+left_num+'吨');
+			$(this).val(1);
+			return false;
+		}
+		if(!num){
+			$(this).val(1);
+			return;
+		}
+		//计算总数
+		calc();
+		$.post('/cart/index/setCart',{sid:id,num:num},function(data) {
+			//window.location.reload();
+//			load_cart();
+
+		});
+
+
+	});
+	//计算总数量和总吨数
+	var calc=function(){
+		var sum=0;
+		var totalPrice=0;
+		$(".details").each(function(i,obj){
+			var sl = parseFloat($("#"+$(obj).attr("data-id")).val());
+			var dj = parseFloat($(obj).find(".d-price span").text());
+			$(obj).find(".money").text(sl*dj);
+			sum = sum + sl;
+			totalPrice= totalPrice + sl*dj ;
+		});
+		$("#sum").text(sum+"吨");
+		$("#totalPrice").text(totalPrice);
+	}
+
+</script>

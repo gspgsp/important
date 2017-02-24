@@ -10,7 +10,12 @@ class indexAction extends homeBaseAction{
 	}
 	public function init()
 	{
-		$this->seo = array('title'=>'物性表',);
+		$this->seo = array(
+			'title'=>'物性表',
+			'keywords'=>'塑料物性，塑料牌号，塑料原料物性表，塑料牌号物性表',
+			'description'=>'我的塑料网物性表提供近90000种塑料原料物性查询。物性表参数包含塑料融指、硬度、熔体流动速率、塑料原料规格用途等。可直接在线搜索预览或打印',
+			'status'=>7
+			);
 		$this->display('index.html');
 	}
 

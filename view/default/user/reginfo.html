@@ -1,8 +1,10 @@
 {layout file="public:main_layout"}
 {insert_css files='home/master.css'}
 {insert_css files='home/jqtransform.css'}
+{insert_css files='../js/select2-4.0.3/css/select2.min.css'}
 {insert_js files='home/Validform_v5.3.2_min.js'}
-
+{insert_js files='select2-4.0.3/js/select2.full.min.js'}
+{insert_js files="home/reginfo.js"}
 <div class="ybbbg">
 	<div class="ybbt">
 		<dl>
@@ -34,31 +36,31 @@
 			<div class="ycblb">
 				<form name="validateForm1" class="registerform" action="" method="post">  
 					<label>
-						<span class="ycblba">密码：</span>
-						<input type="password" name="password" datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间" class="ycblbb" />
+						<span class="ycblba">密码 <span style="color: red">*</span>：</span>
+						<input type="password" placeholder="建议使用至少两种字符组合" name="password" datatype="*6-16" nullmsg="密码不能为空！" errormsg="密码范围在6~16位之间！" class="ycblbb" />
 						<span class="ycblbj Validform_checktip">设置登录密码!</span>
 						<div class="clear"></div>
 					</label>
 					<label>
-						<span class="ycblba">确认密码：</span>
-						<input type="password" name="password2" datatype="*" recheck="password" nullmsg="请再输入一次密码！" errormsg="您两次输入的账号密码不一致！" class="ycblbb" />
+						<span class="ycblba">确认密码 <span style="color: red">*</span>：</span>
+						<input type="password" placeholder="请再次输入密码" name="password2" datatype="*6-16" recheck="password" nullmsg="确认密码不能为空！" errormsg="您两次输入的账号密码不一致！" class="ycblbb" />
 						<span class="ycblbj Validform_checktip">请请再输入一次密码！</span>
 						<div class="clear"></div>
 					</label>
 					<label>
-						<span class="ycblba">真实姓名：</span>
-						<input type="text" name="name" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
-						<span class="ycblbj Validform_checktip">请填写您的真实姓名</span>
+						<span class="ycblba">用户名 <span style="color: red">*</span>：</span>
+						<input type="text" name="name" placeholder="您的账户名或登录名" datatype="*2-5" nullmsg="用户名或登录名不能为空！" errormsg="用户名长度2-5个字符！" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请填写您的用户名或登录名</span>
 						<div class="clear"></div>
 					</label>
 					<label>
-						<span class="ycblba">QQ：</span>
-						<input type="text" name="qq" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
+						<span class="ycblba">QQ <span style="color: red">*</span>：</span>
+						<input type="text" name="qq" placeholder="建议使用常用QQ" datatype="n7-11" nullmsg="QQ号不能为空！" errormsg="常用QQ位数为7-11位！" class="ycblbb" />
 						<span class="ycblbj Validform_checktip">请填写您的QQ号</span>
 						<div class="clear"></div>
 					</label>
 					<label>
-						<span class="ycblba">公司所在地：</span>
+						<span class="ycblba">公司所在地 <span style="color: red">*</span>：</span>
 						<select id="s_province" datatype="*" class="ycblbd" onChange="getarea(this)" name="origin[]" >
 							<option value="">请选择</option>
 							{foreach from=$area item=value key=key}
@@ -74,29 +76,26 @@
 						<span class="ycblbj Validform_checktip">请选择公司所在地区</span>
 						<div class="clear"></div>
 					</label>
-					<label>
-						<span class="ycblba">已存在公司：</span>
-						<select id="companyed" class="ycblbd" name="companyed" >
-							<option>暂未匹配到数据</option>
-						</select>&nbsp;&nbsp;
-						<span class="ycblbj Validform_checktip">您可以选择该地区下已存在的公司</span>
-						<div class="clear"></div>
-					</label>
-					<label>
-						<span class="ycblba">公司名称：</span>
-						<input type="text" id="company" name="c_name" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
+					<label class="show-wrap">
+						<span class="ycblba">公司名称 <span style="color: red">*</span>：</span>
+							<input type="text" autocomplete="off" id="company" name="c_name" datatype="s4-20" nullmsg="公司名称不能为空！" errormsg="公司名称只支持中文字符！" class="ycblbb" value="" />
+							<div class="suggest">
+								<ul id="search_list"></ul>
+							</div>
+						<!--</div>-->
 						<span class="ycblbj Validform_checktip">填写所属公司名称</span>
 						<div class="clear"></div>
 					</label>
 					<label>
-						<span class="ycblba">主营品种：</span>
-						<input type="text" id="hangye" name="need_product" datatype="*" nullmsg="必填" errormsg="必填" class="ycblbb" />
+						<span class="ycblba">主营品种 <span style="color: red">*</span>：</span>
+						<input type="text" id="hangye" placeholder="主要经营品类" name="need_product" datatype="*2-20" nullmsg="主营产品不能为空！" errormsg="允许输入范围2-20个字符！" class="ycblbb" />
 						<span class="ycblbj Validform_checktip">请填写公司主营品种</span>
 						<div class="clear"></div>
 					</label>
 					<label>
 						<span class="ycblba">公司简介：</span>
-						<textarea name="com_intro" id="intro" class="yjb" style="height:100px;width:335px"></textarea>
+						<textarea name="com_intro" id="intro" class="yjb" placeholder="最大输入200个字符" datatype="*0-200" errormsg="允许输入范围0-200个字符！" style="height:100px;width:335px"></textarea>
+						<span class="ycblbj Validform_checktip"></span>
 					</label>
 					<br/>
 					<br/>
@@ -126,6 +125,7 @@
 	</div>
 </div>
 
+
 <script type="text/javascript">
 var companyData;
 $(function(){
@@ -152,22 +152,45 @@ $(function(){
 		},'json');
 		return false;
 	})
+	
+	
 
-	$("#s_city").change(function(){
-		var cid=$(this).val();
-		var pid=$("#s_province").val();
-		$.get('/user/register/get_company',{pid:pid,cid:cid},function (data){
-			if(data.length>0){
-				companyData=data;
-				var html='<option value="">请选择</option>';
-				$(data).each(function(k,v){
-					html+='<option value="'+k+'">'+v.c_name+'</option>';
-				});
-				$("#companyed").html(html);
-			}
-		},'json');
-
-	})
+//	$("#s_city").change(function(){
+//		var cid=$(this).val();
+//		var pid=$("#s_province").val();
+//		$.get('/user/register/get_company',{pid:pid,cid:cid},function (data){
+//			if(data.length>0){
+//				companyData=data;
+//				/*var html='<option value="">请选择</option>';
+//				$(data).each(function(k,v){
+//					html+='<option value="'+k+'">'+v.c_name+'</option>';
+//				});
+//				$("#companyed").html(html);*/
+//				$("#companyed").select2({
+//					  data: data
+//				})
+//			}
+//		},'json');
+//
+//	})
+	
+	/*
+	$("#companyed").on("change", function (e) { 
+		console.log(e);
+	});*/
+	$("#companyed").on("select2:select", function (e) { 
+		 var args = JSON.stringify(e.params, function (key, value) {
+		      if (value && value.nodeName) return "[DOM node]";
+		      if (value instanceof $.Event) return "[$.Event]";
+		      return value;
+		 });
+		$("#company").val(JSON.parse(args).data.c_name);
+		$("#hangye").val(JSON.parse(args).data.need_product);
+		$("#intro").val(JSON.parse(args).data.com_intro);
+		$("input[name='type'][value="+JSON.parse(args).data.type+"]").attr('checked','checked');
+		//console.log(args);
+	});
+	/*
 	$("#companyed").change(function(){
 		var index=$(this).val();
 		if(index!=''){
@@ -181,11 +204,8 @@ $(function(){
 			$("#intro").val('');
 			$("input[name='type']").eq(0).attr('checked','checked');
 		}
-	})
+	});*/
 })
-
-
-
 
 function getarea(that){
 	var pid=$(that).val();

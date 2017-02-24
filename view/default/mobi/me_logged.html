@@ -15,6 +15,7 @@
 <header id="meHeader" style="background: #ff5000; color: #ffffff;">
 	<a class="left" style="color: #ffffff; font-size: 15px;" href="tel:4006129965">联系客服</a>
 	我的
+	<a href="/mobi/personalCenter/enMsg"><span class="msg"><i class="msgCount"></i></span></a>
 </header>
 <div class="meWrap">
 	<div class="meAvator">
@@ -25,6 +26,7 @@
 <ul class="meUl">
 	<li><a href="/mobi/personalCenter/enMyQuotation"><img src="__MYAPP__/img/me.png">我的报价单<span id="qcount"></span></a></li>
 	<li><a href="/mobi/personalCenter/enMyPurchase"><img src="__MYAPP__/img/me2.png">我的采购<span id="pcount"></span></a></li>
+	<li><a href="/mobi/personalCenter/enOrder"><img src="__MYAPP__/img/me9.png">我的订单<span id="pcount"></span></a></li>
 </ul>
 <ul class="meUl">
 	<li><a href="/mobi/personalCenter/enMyAttention"><img src="__MYAPP__/img/me4.png">我的关注<span id="proattcount"></span></a></li>
@@ -33,7 +35,7 @@
 </ul>
 <ul class="meUl">
 	<li><a href="/mobi/personalCenter/enMySet"><img src="__MYAPP__/img/me6.png">设置</a></li>
-	<!--<li><a href="/mobi/personalCenter/enMyFeedBack"><img src="__MYAPP__/img/me8.png">意见反馈</a></li>-->
+	<li><a href="/mobi/personalCenter/enMyFeedBack"><img src="__MYAPP__/img/me8.png">意见反馈</a></li>
 </ul>
 <div class="bigCustomerDetailBtn">
 	<input id="tradeBtn" style="background: #ff6600; border-bottom: 2px solid #cc5200;" type="button" value="退出登录">
@@ -69,6 +71,7 @@
 				$("#points").text(res.points);
 				$("#qcount").text(res.qcount);
 				$("#pcount").text(res.pcount);
+				$(".msgCount").text(res.msgCount);
 				$("#proattcount").text(res.proattcount);
 			}
 		},function () {
@@ -95,7 +98,24 @@
 
 	})
 </script>
-
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 </body>
 
 </html>

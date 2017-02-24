@@ -22,11 +22,20 @@
 </div>
 </body>
 <script>
-var n = 5;
-setInterval(function(){
-	n--;
-	if(n==0) location = "/";
-	document.getElementById("time").innerHTML = n;
-},1000);
+if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    //alert(navigator.userAgent);  
+    window.location.href ="http://q.myplas.com";
+} else if (/(Android)/i.test(navigator.userAgent)) {
+    //alert(navigator.userAgent); 
+    window.location.href ="http://q.myplas.com";
+} else {
+    var n = 5;
+	setInterval(function(){
+		n--;
+		if(n==0) location = "/";
+		document.getElementById("time").innerHTML = n;
+	},1000);
+
+}
 </script>
 </html>

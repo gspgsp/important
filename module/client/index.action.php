@@ -21,7 +21,7 @@ class indexAction extends homeBaseAction{
 		// 品牌筛选
 		if($br=sget('br','s','')){
 			$this->assign('br',$br);
-			$where.=" and of.factory=$br";
+			$where.=" and of.factory='$br'";
 		}
 		//类型筛选
 		if($type=sget('type','s','')){
@@ -62,9 +62,9 @@ class indexAction extends homeBaseAction{
 		}
 		$this->assign('cid',$cid);
 		$this->assign('client',$client);
-
 		//品牌
 		$this->brand=$this->db->model('big_offers')->group('factory')->select('factory')->getAll();
+
 		//报价列表
 		$page=sget('page','i',1);
 		$pageSize=20;
@@ -80,7 +80,13 @@ class indexAction extends homeBaseAction{
 //			$arr['data'][]=array_merge($v,$prices);
 //		}
 //		$list['data']=$arr['data'];
-		$this->seo = array('title'=>'大户报价',);
+		$this->seo = array(
+			'title'=>'大户报价',
+			'keywords'=>'塑料报价，塑料原料报价，塑料贸易，塑化行业',
+			'description'=>'我的塑料网大户报价栏目提供众多大型塑化行业上游企业及大型塑料贸易商最新报价，资深塑料交易员全程为您服务',
+			'status'=>2
+			);
+
 		$this->pages=pages($list['count'],$page,$pageSize);
 		$this->assign('list',$list);
 		$this->display('index');

@@ -37,18 +37,18 @@
 			<div class="ybblb">
 				<form name="validateForm1" class="registerform" onsubmit="return checkForm();" action="/user/register/reg" method="post">  
 					<label>
-						<span class="ybblba">手机号：</span>
-						<input type="text" name="phone" id="phone" class="ybblbb" />
+						<span class="ybblba">手机号 <span style="color: red">*</span>：</span>
+						<input type="text" name="phone" placeholder="建议使用常用手机" id="phone" class="ybblbb" />
 					<div class="clear"></div>
 					</label>
 					<label>
-						<span class="ybblba">验证码：</span>
+						<span class="ybblba">验证码 <span style="color: red">*</span>：</span>
 						<input type="text" name="regcode" id="imgcode" placeholder="不区分大小写" class="ybblbb" />
 						<img width="70" height="38" src="/api/vcode?name=regcode" onclick="this.src=this.src+'&t='+Math.random()" alt="看不清，点击刷新" title="看不清，点击刷新" style="cursor:pointer;float:left;" id="verifyImage" />
 						<div class="clear"></div>
 					</label>
 					<label>
-						<span class="ybblba">短信验证码：</span>
+						<span class="ybblba">短信验证码 <span style="color: red">*</span>：</span>
 						<input type="text" name="code" id="code" class="ybblbd" />
 						<span class="ybblbe">
 							<input type="button" onclick="sendphonecode()" id="sendphone" class="ybblbf" value="免费获取短信验证码" />
@@ -57,7 +57,7 @@
 					</label>
 					<label>
 						<input name="xieyi" type="checkbox" id="xieyi" checked  value="1" class="ybblbh" />
-						<span class="ybblbg">已阅读《我的塑料网用户服务协议》</span>
+						<span class="ybblbg"><a href="/home/01.html" target="_blank">已阅读《我的塑料网用户服务协议》</a></span>
 					</label>
 					<input type="submit" class="ybblbi" value="同意协议并继续" />
 				</form>
@@ -169,5 +169,8 @@ function checkForm(){
 		$('#xieyi').focus();
 		return false;
 	}
-}     
+}
+
+
+
 </script>

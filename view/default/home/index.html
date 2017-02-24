@@ -1,8 +1,8 @@
 {layout file="public:main_layout"}
-{insert_css files='home/track.css'}
+<script type="text/javascript" src="__JS__/home/MSClass.js"></script>
 <script type="text/javascript">
-    var oil1 = {:json_encode|$oil1};
-    var oil2 = {:json_encode|$oil2};
+    var oil1 = {:json_encode|$oil1};        //WIT
+    var oil2 = {:json_encode|$oil2};        //布油
     var quotation = {:json_encode|$quotation};   
 </script>
 
@@ -13,26 +13,11 @@
         <ul class="main_image clearfix">
             {foreach from=$banners item=value}
             <li class="element">
-                <a href="{$value.url}">
+                <a href="{$value.url}" target="_blank">
                     <img src="__UPLOAD__/{$value.img}" alt="{$value.title}">
                 </a>
             </li>
             {/foreach}
-            <!-- <li class="element">
-                <a href="http://wodesuliao.cn/article/show.html?id=3375">
-                    <img src="__IMG__/home/banner6.jpg" alt="开奖啦">
-                </a>
-            </li>
-            <li class="element">
-                <a href="/dkh">
-                    <img src="__IMG__/home/banner1.jpg" alt="大客户报价区">
-                </a>
-            </li>
-            <li class="element">
-                <a href="/ship">
-                    <img src="__IMG__/home/banner2.jpg" alt="中晨物流">
-                </a>
-            </li> -->
         </ul>
         <div class="flicking_con"></div>
         <a href="javascript:void(0);" id="btn_prev" class="hidden"></a>
@@ -44,12 +29,12 @@
             <!--left begin-->
             <div class="left flt">
                 <ul>
-                    <li id="tab1" onmouseover="setTab('tab',1,6)"  class="hover"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>供应信息</li>
-                    <li id="tab2" onmouseover="setTab('tab',2,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>求购信息</li>
-                    <li id="tab3" onmouseover="setTab('tab',3,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>中晨物流</li>
-                    <li id="tab4" onmouseover="setTab('tab',4,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>供应链金融</li>
-                    <li id="tab5" onmouseover="setTab('tab',5,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>我要求购</li>
-                    <li id="tab6" onmouseover="setTab('tab',6,6)"><span></span><b><img src="__IMG__/home/menuHover.png"/></b>用户登录</li>
+                    <li id="tab1" onmouseover="setTab('tab',1,6)"  class="hover"><span></span>供应信息</li>
+                    <li id="tab2" onmouseover="setTab('tab',2,6)"><span></span>求购信息</li>
+                    <li id="tab3" onmouseover="setTab('tab',3,6)"><span></span>中晨物流</li>
+                    <li id="tab4" onmouseover="setTab('tab',4,6)"><span></span>塑料金融</li>
+                    <li id="tab5" onmouseover="setTab('tab',5,6)"><span></span>我要求购</li>
+                    <li id="tab6" onmouseover="setTab('tab',6,6)"><span></span>用户登录</li>
                 </ul>
             </div>
             <!--left end-->
@@ -110,12 +95,17 @@
                     </div>
                     <!--search end-->
                     <h3>牌号新采购</h3>
+                    <!--<ul>-->
+                        <!--{foreach from=$newPur item=value}-->
+                        <!--<li>{:witchType|$value.product_type} {$value.model} {$value.f_name} {:floatval|$value.number}吨  {$value.cityname}  {$value.input_time|date:Y-m-d}</li>-->
+                        <!--{/foreach}-->
+                    <!--</ul>-->
                     <ul>
-                        {foreach from=$newPur item=value}
-                        <li>{:witchType|$value.product_type} {$value.model} {$value.f_name} {:floatval|$value.number}吨 {$value.cityname} {$value.input_time|date:Y-m-d}</li>
+                        {foreach from=$newPurs item=value}
+                        <li>{:witchType|$value.product_type}<b>{$value.model}</b><b>{$value.f_name}</b> {:floatval|$value.number}吨<b>{$value.pickup_location}</b><span>{$value.update_time|date:Y-m-d}</span></li>
                         {/foreach}
                     </ul>
-                    <p><a href="/purchase">更多求购》</a></p>
+                    <p><a href="/purchase">更多求购>></a></p>
                 </div>
                 <!--con-tab-2 end-->
                 <!--con-tab-3 begin-->
@@ -504,6 +494,7 @@
                         </form>
                     </table>
                 {/if}
+                </if>
                 </div>
                 <!--con-tab-6 end-->
             </div>
@@ -520,12 +511,31 @@
         <!--slider begin-->
         <!--slider begin-->
         <div class="slider">
-            <div class="track example-1">
-                <!--inner begin-->
+            <div class="mr_frbox">
+                 <img class="mr_btn mr_frBtnL prev" src="__IMG__/home/arrowsLt.png" width="46" height="46"/>
+                  <div class="mr_frUl">
+                  <ul>
+                        {foreach from=$readjust item=value}
+                       <li class="{if $value.type==1}up{elseif $value.type==2}down{else $value.type==3}tie{/if}">
+        
+                            <h3><span>{$value.cj}</span>{$value.ph}</h3>
+                            <div class="data">
+                                <div class="data-lt"><span></span>{$value.price}</div>
+                                <div class="data-rt">
+                                    <p>{if $value.type==1}+{else}-{/if}{$value.num}</p>
+                                    <p>{$value.rate}%</p>
+                                </div>
+                            </div>
+                            <p class="time"><span>{$value.input_time|date:m月d日}</span>{$value.input_time|date:H:i}</p>
+                        </li>
+                        {/foreach}
+                  </ul>
+                  </div>
+                <img class="mr_btn mr_frBtnR next" src="__IMG__/home/arrowsRt.png" width="46" height="46"/>
+            </div>
+            <!-- <div class="track example-1">
                 <div class="inner">
-                    <!--view-port begin-->
                     <div class="view-port">
-                        <!--slider-container begin-->
                         <div class="slider-container"  id="example-1">
                             {foreach from=$readjust item=value}
                             <div class="item {if $value.type==1}up{elseif $value.type==2}down{else $value.type==3}tie{/if}">
@@ -541,69 +551,38 @@
                             </div>
                             {/foreach}
                         </div>
-                        <!--slider-container begin-->
                   </div>
-                  <!--view-port begin-->
                 </div>
-                <!--inner end-->
-                <!--pagination begin-->
                 <div class="pagination">
                     <a href="#" class="prev disabled"></a>
                     <a href="#" class="next disabled"></a>
                 </div>
-                <!--pagination end-->
-            </div>
+            </div> -->
         </div>
         <!---slider end-->
     </div>
     <!--left end-->
     <!--right begin-->
     <div class="right frt">
-        <div class="title">网站指数</div>
-        <!--web-index begin-->
-        <ul class="web-index">
-            <!-- <li>
-                <dl class="web-index-lt flt web-index-person">
-                    <dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">昨日服务人数</p>
-                        <p class="num"><span>{$server.population}</span>人</p>
-                    </dd>
-                </dl>
-                <dl class="web-index-rt flt web-index-deal">
-                    <dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">昨日成交</p>
-                        <p class="num"><span>{$server.deal}</span>笔</p>
-                    </dd>
-                </dl>
-            </li> -->
-         <!--    <li>
-                <dl class="web-index-lt flt web-index-supply">
-                    <dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">供应总量</p>
-                        <p class="num"><span>{$server.supplyAll}</span>吨</p>
-                    </dd>
-                </dl>
-                <dl class="web-index-rt flt web-index-demand">
-                    <dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">需求总量</p>
-                        <p class="num"><span>{$server.demandAll}</span>吨</p>
-                    </dd>
-                </dl>
-            </li>
-            <li>
-                <dl class="web-index-total">
-                    <dt class="icon"></dt>
-                    <dd>
-                        <p class="explain">交易总额</p>
-                        <p class="num"><span>{$server.dealyAll|number_format}</span>元</p>
-                    </dd>
-                </dl>
-            </li> -->
-            <li>
+        <div class="title">
+            <ul>
+                <li id="taba1" onmouseover="setTab('taba',1,3)" class="hover"><span>网站指数</span><b></b>/</li>
+                <li id="taba2" onmouseover="setTab('taba',2,3)"><span>WTI</span><b></b>/</li>
+                <li id="taba3" onmouseover="setTab('taba',3,3)"><span>布油</span><b></b></li>
+                <!-- <li id="taba4" onmouseover="setTab('taba',4,8)"><span>LDPE</span><b></b>/</li>
+                <li id="taba5" onmouseover="setTab('taba',5,8)"><span>LLDPE</span><b></b>/</li>
+                <li id="taba6" onmouseover="setTab('taba',6,8)"><span>PP</span><b></b>/</li>
+                <li id="taba7" onmouseover="setTab('taba',7,8)"><span>PVC</span><b></b>/</li>
+                <li id="taba8" onmouseover="setTab('taba',8,8)"><span>HDPE</span><b></b></li> -->
+            </ul>
+        </div> 
+        <!--taba begin-->
+        <div class="taba">
+            <!--con-taba-1 begin-->
+            <div class="taba-con" id="con-taba-1">
+                <!--web-index begin-->
+                <ul class="web-index">
+                    <li>
                          <dl class="web-index-lt flt web-index-supply">
                              <dt class="icon"></dt>
                              <dd>
@@ -628,55 +607,78 @@
                              </dd>
                          </dl>
                      </li>
-        </ul>
+                </ul>
+                <!--web-index end-->
+            </div>
+            <!--con-taba-1 end-->
+            <div class="taba-con" id="con-taba-2"></div>
+            <div class="taba-con" id="con-taba-3"></div>
+            <!-- <div class="taba-con" id="con-taba-4"></div>
+            <div class="taba-con" id="con-taba-5"></div>
+            <div class="taba-con" id="con-taba-6"></div>
+            <div class="taba-con" id="con-taba-7"></div>
+            <div class="taba-con" id="con-taba-8"></div> -->
+        </div>
+        <!--taba end-->
+        <div class="title">网站指数</div>
+        <!--web-index begin-->
+        <!-- <ul class="web-index">
+            <li>
+                 <dl class="web-index-lt flt web-index-supply">
+                     <dt class="icon"></dt>
+                     <dd>
+                         <p class="explain">供应总量</p>
+                         <p class="num"><span>{$service.0}</span>吨</p>
+                     </dd>
+                 </dl>
+                 <dl class="web-index-rt flt web-index-demand">
+                     <dt class="icon"></dt>
+                     <dd>
+                         <p class="explain">需求总量</p>
+                         <p class="num"><span>{$service.1}</span>吨</p>
+                     </dd>
+                 </dl>
+             </li>
+             <li>
+                 <dl class="web-index-total">
+                     <dt class="icon"></dt>
+                     <dd>
+                         <p class="explain">交易总额</p>
+                         <p class="num"><span>{$service.2|number_format}</span>元</p>
+                     </dd>
+                 </dl>
+             </li>
+        </ul> -->
         <!--web-index end-->
     </div>
     <!--right end-->
 </div>
 <!--price-dynamic end-->
 <!--index begin-->
-<div class="index w1220">
-	<!--left begin-->
+<!-- <div class="index w1220">
     <div class="left flt">
-    	<div class="title">原油指数</div>
-        <!--oil-index begin-->
+        <div class="title">原油指数</div>
         <div class="oil-index">
-        	<!--oil-blt begin-->
             <div class="oil-k oil-blt">
-            	<!--oil-k-title begin-->
                 <div class="oil-k-title">
-                	<h3>WTI</h3>
+                    <h3>WTI</h3>
                     <span class="data">{$oil1[last][price]}</span>
                     <span class="time"><b>{$oil1[last][input_time]|date:m月d日}</b></span>
                 </div>
-                <!--oil-k-title end-->
-                <!--<img src="__IMG__/home/kLine.jpg" width="320" height="182"/>-->
-                <!--oil-blt-con begin-->
                 <div class="oil-con" id="oil-blt-con"></div>
-                <!--oil-blt-con end-->
             </div>
-            <!--oil-blt begin-->
-            <!--oil-wti begin-->
             <div class="oil-k oil-wti">
-            	<!--oil-k-title begin-->
                 <div class="oil-k-title">
-                	<h3>布油</h3>
+                    <h3>布油</h3>
                     <span class="data">{$oil2[last][price]}</span>
                     <span class="time"><b>{$oil2[last][input_time]|date:m月d日}</b></span>
                 </div>
-                <!--oil-k-title end-->
-                <!--oil-blt-con begin-->
                 <div class="oil-con" id="oil-wti-con"></div>
-                <!--oil-blt-con end-->
             </div>
-            <!--oil-wti end-->
         </div>
-        <!--oil-index end-->
     </div>
-    <!--left end-->
-    <!--right begin-->
     <div class="right frt">
-    	<div class="title">
+        <div class="title">
             <ul>
                 {foreach from=$product_type item=value key=key}
                 <li id="taba{$key}" onmouseover="setTab('taba',{$key},6)" {if $key==1}class="hover"{/if}><span>{$value}</span><b></b>/
@@ -684,7 +686,6 @@
                 {/foreach}
             </ul>
         </div>
-        <!--taba begin-->
         <div class="taba">
             <div class="taba-con" id="con-taba-1"></div>
             <div class="taba-con" id="con-taba-2"></div>
@@ -693,15 +694,35 @@
             <div class="taba-con" id="con-taba-5"></div>
             <div class="taba-con" id="con-taba-6"></div>
         </div>
-        <!--taba end-->
     </div>
-    <!--right end-->
-</div>
+</div> -->
 <!--index end-->
 <!--floor1 begin-->
 <div class="floor floor1 w1220">
 	<!--floor-title begin-->
-    <div class="floor-title">1F 供求信息<p>即时抢货</p></div>
+    <div class="floor-title">
+        <!--left begin-->
+        <div class="left flt">
+            <span>1F 供求信息</span>
+            <b>实时成交价：</b>
+            <ul id="news-text">
+                {foreach from=$deals item=value key=key}
+                <li>
+                    <span class="time">{$value.input_time|date:m-d H:i}</span>
+                    <span>{:witchType|$value.product_type}   {$value.model}</span>
+                    <span>{$value.f_name}</span>
+                    <span class="amount">{$value.unit_price}/吨</span>
+                </li>
+                {/foreach}
+            </ul>
+            <script type="text/javascript">new Marquee("news-text","down",2,370,15,0,4000)</script>
+            <!--<a href="javascript:;">更多成交价>></a>-->
+        </div>
+        <!--left end-->
+         <!--right begin-->
+        <div class="right flt">即时抢货</div>
+        <!--right end-->
+    </div>
     <!--floor-title end-->
     <!--supply-demand begin-->
     <div class="supply-demand info">
@@ -729,7 +750,7 @@
                     <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
                     <div class="level">{if $value.process_type}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
                     <div class="factory">{if $value.f_name}{$value.f_name}{else}&nbsp;{/if}</div>
-                    <div class="amount">{if $value.number}{:floatval|$value.number}{else}&nbsp;{/if}</div>
+                    <div class="amount">{if $value.number==0.00}&nbsp;{else}{:floatval|$value.number}{/if}</div>
                     <div class="price">￥{if $value.unit_price}{:floatval|$value.unit_price}{else}&nbsp;{/if}</div>
                     <div class="place">{if $value.cityname}{$value.cityname}{else}&nbsp;{/if}</div>
                     <div class="time">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</div>
@@ -741,7 +762,7 @@
                     <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
                     <div class="level">{if $value.process_type}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
                     <div class="factory">{if $value.f_name}{$value.f_name}{else}&nbsp;{/if}</div>
-                    <div class="amount">{if $value.number}{:floatval|$value.number}{else}&nbsp;{/if}</div>
+                    <div class="amount">{if $value.number==0.00}&nbsp;{else}{:floatval|$value.number}{/if}</div>
                     <div class="price">￥{if $value.unit_price}{:floatval|$value.unit_price}{else}&nbsp;{/if}</div>
                     <div class="place">{if $value.cityname}{$value.cityname}{else}&nbsp;{/if}</div>
                     <div class="time">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</div>
@@ -756,26 +777,40 @@
         </div>
         <!--left end-->
         <!--right begin-->
-   	  	<div class="right frt">
-       		<ul>
+        <div class="right frt">
+            <h4>免费发布求购需求</h4>
+            <!--release begin-->
+            <div class="release">
+                <form name="" method="post" action="" class="addform">
+                    <textarea  placeholder="写下您的真实需求，包括牌号、吨数等，收到后我们会立即
+给您会点确认，剩下的就交给我们吧。"></textarea>
+                    <input type="submit" value="发布采购需求"/>
+                </form>
+            </div>
+            <!--release end-->
+            <ul>
                 {foreach from=$grabList item=value}
-            	<li>
+                <li>
                     <div class="rob-lt">
-                    	<div class="rob-person">
-                        	<div class="nickname">
-                            	<p><img src="http://q2.qlogo.cn/headimg_dl?bs=qq&amp;dst_uin={$value.user_qq}&amp;src_uin=*&amp;fid=*&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" width="40" height="40"/></p>
+                        <div class="rob-person">
+                            <div class="nickname">
+                                <p><img src="http://q2.qlogo.cn/headimg_dl?bs=qq&amp;dst_uin={$value.user_qq}&amp;src_uin=*&amp;fid=*&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" width="20" height="20"/></p>
                                 {if $value.user_nick==''}{$value.realname}{else}{$value.user_nick}{/if}
                             </div>
-                            <div class="qq"><span class="qq_img"></span>{if $smarty.session.userid > 0}{$value.user_qq}{else}{$value.user_qqs}{/if}</div>
+                            <div class="qq">
+                                <span class="qq_img"></span>
+                                {if $smarty.session.userid > 0}{$value.user_qq}{else}{$value.user_qqs}{/if}
+                            </div>
                         </div>
-                      <div class="rob-info">{$value.content|mb_substr=0,40,'utf-8'}</div>
-                  	</div>
+                      <div class="rob-info color6">{$value.content|mb_substr=0,40,'utf-8'}</div>
+                    </div>
                     <a href="javascript:rush();"><div class="rob-rt frt"><p>{$value.input_time|date:H:i}</p></div></a>
                 </li>
                 {/foreach}
-          	</ul>
+            </ul>
             <div class="more"><a href="/resource"></a></div>
         </div>
+        <!--right end-->
     </div>
     <!--supply-demand end-->
 </div>
@@ -783,7 +818,12 @@
 <!--floor2 begin-->
 <div class="floor floor2 w1220">
 	<!--floor-title begin-->
-    <div class="floor-title">2F 大户报价</div>
+    <div class="floor-title link3">
+        <span>2F</span> 
+        <a href="/client" target="_blank">大户报价</a>
+        <div class="floor-ad-lt ads"><img src="__IMG__/home/floorAdLt.png"><span>广告</span></div>
+        <div class="floor-ad-rt ads"><img src="__IMG__/home/floorAdRt.png"><span>广告</span></div>
+    </div>
     <!--floor-title end-->
      <!--large-bid begin-->
     <div class="large-bid info">
@@ -817,6 +857,7 @@
                 {/foreach}
             </ul>
             <!--info-con end-->
+            <div class="more"><a href="/client"></a></div>
         </div>
         <!--left end-->
         <!--right begin-->
@@ -834,9 +875,12 @@
 </div>
 <!--floor2 end-->
 <!--floor3 begin-->
-<div class="floor floor3 w1220">
+<div class="floor floor3 w1220"> 
 	<!--floor-title begin-->
-    <div class="floor-title">3F 中晨物流<p><a href="/ship">更多物流></a></p></div>
+    <div class="floor-title link3">
+        <span>3F</span> <a href="/ship" target="_blank">中晨物流</a>
+        <p><a href="/ship" target="_blank">更多物流></a></p>
+    </div>
     <!--floor-title end-->
     <!--ship begin-->
     <div class="ship info">
@@ -868,7 +912,7 @@
         </div>
         <!--left end-->
         <!--right begin-->
-        <div class="right frt"><img src="__IMG__/home/ship.jpg" width="398" height="332"/></div>
+        <div class="right frt"><img src="__IMG__/home/ship.jpg" width="398" height="332" alt="中晨物流"/></div>
         <!--right end-->
     </div>
     <!--ship end-->
@@ -877,7 +921,10 @@
 <!--floor4 begin-->
 <div class="floor floor4 w1220">
 	<!--floor-title begin-->
-    <div class="floor-title">4F 供应链金融<p><a href="/finance">供应链金融></a></p></div>
+    <div class="floor-title link3">
+        <span>4F</span> <a href="/finance" target="_blank">塑料金融</a>
+        <p><a href="/finance" target="_blank">塑料金融></a></p>
+    </div>
     <!--floor-title end-->
     <!--supply-chain begin-->
     <div class="supply-chain info">
@@ -897,101 +944,67 @@
             </ul>
             <h2>供应链金融<span>优势</span></h2>
             <ul class="advantage">
-            	<li>仓单/订单融资</li>
-                <li>仓单/订单融资</li>
-                <li>仓单/订单融资</li>
-                <li>仓单/订单融资</li>
+            	<li>放款速度快</li>
+                <li>赎货灵活便捷</li>
+                <li>准入门槛低</li>
+                <li>融资方式多样</li>
             </ul>
         </div>
         <!--left begin-->
         <!--right begin-->
-        <div class="right frt"><img src="__IMG__/home/slyChain.jpg" width="398" height="397"/></div>
+        <div class="right frt"><img src="__IMG__/home/slyChain.jpg" width="398" height="397" alt="中晨塑料金融" /></div>
         <!--right begin-->
     </div>
     <!--supply-chain end-->
 </div>
 <div class="floor floor5 w1220">
-    <div class="floor-title">5F 塑料头条<p><a href="/article">更多></a></p></div>
+    <div class="floor-title link3">
+        <span>5F</span> <a href="http://news.myplas.com/" target="_blank">塑料头条</a>
+        <p><a href="http://news.myplas.com/" target="_blank">更多></a></p>
+    </div>
     <div class="headline">
         <div class="left flt">
             <div class="headline-title color6">
                 <foreach name="articleList" item="value" key="key">
                 {foreach from=$articleList item=value key=key}
-            	<h3 id="tabb{$key}" onmouseover="setTab('tabb',{$key},5)" {if $key==1}class="hover"{/if} >{$value.cate_name}</h3>
+            	<h3 id="tabb{$value.num}" onmouseover="setTab('tabb',{$value.num},5)" {if $value.num==1}class="hover"{/if} >{$key}</h3>
                 {/foreach}
                 </foreach>
             </div>
             <div class="headline-con link6 color9">
                 {foreach from=$articleList item=value key=key}
-            	<div id="con-tabb-{$key}" {if $key!=1}style="display:none;"{/if} >
-                    {foreach from=$value.list item=vv key=kk}
-                    <div class="headline-list {if $kk !=0 }last{/if} ">
-                        <ul>
-                            {foreach from=$vv item=v key=k}
-                            <li><a href="/{$v.id}.html">{$v.title|truncate:20}</a>{$v.input_time|date:m-d}</li>
-                            {/foreach}
-                        </ul>
-                    </div>
+            	<div id="con-tabb-{$value.num}" {if $value.num!=1}style="display:none;"{/if} >
+                    {foreach from=$value item=vv key=kk}
+                        {if $kk!=='num'}
+                            <div class="headline-list {if $kk !=0 }last{/if} ">
+                                <ul>
+                                    {foreach from=$vv item=v key=k}
+                                    <li><a href="/{$v.type}/{$v.spell}/{$v.id}.html" title="{$v.title}">{$v.title|truncate:22}</a>{$v.input_time|date:m-d}</li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        {/if}
                     {/foreach}
                 </div>
                 {/foreach}
             </div>
         </div>
-        <div class="right frt"><img src="__IMG__/home/headline.jpg" width="400" height="243"/></div>
+        <div class="right frt"><img src="__IMG__/home/headline.jpg" width="400" height="243" alt="塑料头条"/></div>
     </div>
 </div>
-
+<div class="aside-ad ads"><span>广告</span></div>
 <script type="text/javascript" src="__JS__/home/tab.js"></script>
 <script type="text/javascript" src="__JS__/home/dist/echarts.js"></script>
 <script type="text/javascript" src="__JS__/home/chart.mine.js"></script>
 <script type="text/javascript" src="__JS__/home/address.js"></script>
-<script type="text/javascript" src="__JS__/home/jquery.silver_track.js"></script>
-<script type="text/javascript" src="__JS__/home/jquery.silver_track.navigator.js"></script>
 <script type="text/javascript" src="__JS__/home/uc-resource-pack.js"></script>
 <script type="text/javascript" src="__JS__/home/jquery.touchSlider.js"></script>
 <script type="text/javascript" src="__JS__/home/home.js"></script>
+<script type="text/javascript" src="__JS__/home/ss.js"></script>
 <script type="text/javascript">
 $(function(){
 
-    // $("#contentForm").submit(function(){
-    //     var user=$("#user_name").html();
-    //     if(!user){
-    //         alert('请先登录');
-    //         window.location.href="/user/login";
-    //         return false;
-    //     }
-    //     var model=$("#contentForm input[name='model']").val().trim();
-    //     var place=$("#contentForm input[name='place']").val().trim();
-    //     var num=$("#contentForm input[name='num']").val().trim();
-    //     var price=$("#contentForm input[name='price']").val().trim();
-    //     if(!model){
-    //         alert('请输入所需牌号');
-    //         return false;
-    //     }
-    //     if(!place){
-    //         alert('请输入交货地');
-    //         return false;
-    //     }
-    //     if(!num){
-    //         alert('请输入数量');
-    //         return false;
-    //     }
-    //     if(!price){
-    //         alert('请输入价格');
-    //         return false;
-    //     }
-    //     var data=$("#contentForm").serialize();
-    //     $.post('/purchase/index/contentPurchase',data,function (data){
-    //         if(data.err==0){
-    //             alert(data.msg);
-    //             document.getElementById('contentForm').reset();
-    //         }else{
-    //             alert(data.msg);
-    //         }
-    //     },'json');
-    //     return false;
-    // });
-
+//行情中心滚动特效
 	$(".go-top").bind("click",function(){
 		$('html,body').animate({'scrollTop':0},300,function(){
 			$(".go-top").hide();
@@ -1007,6 +1020,36 @@ $(function(){
 			$(".go-top").show();
 		}
 	});
+    //免费发布求购需求
+    var release = $(".release textarea"),
+        releaseStr = "写下您的真实需求，包括牌号、吨数等，收到后我们会立即给您会点确认，剩下的就交给我们吧。";
+    release.bind("focus",function(){
+        $(this).attr("placeholder","");
+    });
+    release.bind("blur",function(){
+        $(this).attr("placeholder",releaseStr);
+    });
+
+
+    $('.addform').submit(function(){
+        var content = $('.addform textarea').val().trim();
+        var tips=1;
+        var type=1;
+        if(content ==''){
+            layer.msg('请填写发布内容');
+            return false;
+        }
+        $.post('/purchase/index/contentPurchase', {content:content,tips:tips}, function (data){
+            if(data.err==1){
+                loginbox('home');
+            }else{
+                layer.msg('发布成功');
+                window.location.reload();
+            }
+        },'json')
+        return false;
+    })
+
 
 	//发布采购
 	var buy = $("#con-tab-5"),
@@ -1019,8 +1062,7 @@ $(function(){
 	buy.find(".submit").bind("click",function(){
         var user=$("#user_name").html();
         if(!user){
-            alert('请先登录');
-            window.location.href="/user/login";
+            loginbox('home');
             return false;
         }
 		msg = buy.find(".msg");
@@ -1058,10 +1100,10 @@ $(function(){
         var data=$("#contentForm").serialize();
         $.post('/purchase/index/contentPurchase',data,function (data){
             if(data.err==0){
-                alert(data.msg);
+                layer.msg(data.msg);
                 document.getElementById('contentForm').reset();
             }else{
-                alert(data.msg);
+                layer.msg(data.msg);
             }
         },'json');
         return false;
@@ -1074,7 +1116,7 @@ $(function(){
         var password=$("#pwd").val();
         msg = $('.msg');
         if(username==""){
-            msg.html("请输入手机号或者邮箱！");
+            msg.html("请输入正确的账号");
             return false;
         }
         if(password==""){
@@ -1085,7 +1127,8 @@ $(function(){
             if(data.err>0){
                 msg.html(data.msg);
             }else{
-                alert('登录成功');
+                layer.msg('登录成功');
+//                alert('登录成功');
                 window.location.reload();
             }
         },'json');
@@ -1288,20 +1331,6 @@ function rush(){
     }
 }
 
-//调价动态
-var track = $(".slider-container").silverTrack({
-    perPage:4
-});
-var parent = track.container.parents(".track");
- 
-// 左右箭头
-track.install(new SilverTrack.Plugins.Navigator({
-  prev: $("a.prev", parent),
-  next: $("a.next", parent)
-}));
-
-track.start();
-
 function Addme(title, url) {
   url = document.URL;  //你自己的主页地址
   title = "我的塑料网";  //你自己的主页名称
@@ -1317,5 +1346,17 @@ catch (e) {
      }
   }
 }
+
+
+$(".mr_frbox").slide({
+    titCell:"",
+    mainCell:".mr_frUl ul",
+    autoPage:true,
+    effect:"leftLoop",
+    autoPlay:true,
+    vis:4,
+    scroll:2,
+    interTime:4000
+});
 
 </script>

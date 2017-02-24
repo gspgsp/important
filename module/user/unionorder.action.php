@@ -6,6 +6,11 @@ class unionorderAction extends userBaseAction{
 	{
 		$this->db=M('public:common');
 	}
+
+	/**
+	 * 订单列表
+	 * @Author: yuanjiaye
+     */
 	public function init()
 	{
 		$this->act="unionorder";
@@ -14,60 +19,92 @@ class unionorderAction extends userBaseAction{
 		$this->invoice_status=L('invoice_status');
 		$this->order_status=L('order_status');
 		$this->collection_p_status=L('collection_p_status');
-		$where="buy_user_id=$this->user_id";
+		$this->type=1;
+
+		$where="un.buy_user_id=$this->user_id";
 		//订单筛选
 		 if($orderSn=sget('sn','s','')){
-		 	$where.=" and order_sn=$orderSn";
+			 $orderSn=saddslashes($orderSn);
+			 $this->sn=$orderSn;
+		 	$where.=" and un.order_sn='{$orderSn}'";
 		 }
-		 //日期筛选
-		 if($input_time=sget('input_time','s','')){
 
-		 }
-		 //运输方式
-		 if($transport_type=sget('transport_type','i',0)){
-		 	$where.=" and transport_type=$transport_type";
-		 }
-		 //发货状态
-		 if($goods_status=sget('goods_status','i',0)){
-		 	$where.=" and goods_status=$goods_status";
-		 }
-		 //开票状态
-		 if($invoice_status=sget('invoice_status','i',0)){
-		 	$where.=" and invoice_status=$invoice_status";
-		 }
-		 //订单状态
-		 if($order_status=sget('order_status','i',0)){
-		 	$where.=" and order_status=$order_status";
-		 }
+		if($type=sget('type','s','')){
+			//全部订单
+			if($type==1){
+				$where;
+			}
+			//已审核
+			if($type==2){
+				$order_status=2;
+				$this->type=$type;
+				$where.=" and un.order_status={$order_status}";
+			}
+			//待审核
+			if($type==3){
+				$order_status=1;
+				$this->type=$type;
+				$where.=" and  un.order_status={$order_status}";
+			}
+
+			//待开票
+			if($type==4){
+				$invoice_status=1;
+				$this->type=$type;
+				$where.= " and un.invoice_status={$invoice_status} and un.order_status=2";
+			}
+			//待付款
+			if($type==5){
+				$collection_status=1;
+				$this->type=$type;
+				$where.=" and un.collection_status={$collection_status} and un.order_status=2";
+			}
+			//已取消
+			if($type==6){
+				$order_status=3;
+				$this->type=$type;
+				$where.=" and un.order_status={$order_status}";
+			}
+		}
+
 		$page=sget('page','i',1);
-		$size=10;
-		$orderList=M('product:unionOrder')
-			->select('id,type,order_name,order_sn,sale_user_id,buy_user_id,sale_id,buy_id,deal_price,total_price,pay_method,customer_manager,transport_type,freight_price,input_time,order_status,goods_status,invoice_status')
-			// ->select('id,order_name,order_sn,user_id,admin_id,total_price,pay_method,transport_type,freight_price,order_status,goods_status,invoice_status,input_time')
+		$size=4;
+		$orderList=$this->db->model('union_order as `un`')
+			->leftjoin('collection as col','un.id=col.o_id')
+			->leftjoin('sale_buy as sb','sb.id=un.p_sale_id')
+			->select('un.id,un.type,un.order_name,un.order_sn,un.sale_user_id,un.buy_user_id,un.sale_id,un.buy_id,un.deal_price,un.total_price,un.pay_method,un.customer_manager,un.transport_type,un.collection_status,un.pickup_time,un.delivery_time,un.freight_price,un.input_time,un.order_status,un.goods_status,un.invoice_status,sb.remark,col.uncollected_price,col.payment_time')
 			->where($where)
 			->page($page,$size)
 			->order('input_time desc')
 			->getPage();
-		$this->pages = pages($orderList['count'], $page, $size);
 
+		$this->pages = pages($orderList['count'], $page, $size);
 		foreach ($orderList['data'] as &$value) {
 			$value['totalNum']=$this->db->model('union_order_detail')->where("o_id={$value['id']}")->select("sum(number)")->getOne();
 			$value['c_name']=$this->db->model('customer')->where("c_id={$value['sale_id']}")->select('c_name')->getOne();
 		}
-
 		$this->assign('orderList',$orderList);
 		$this->display('union_order');
 	}
 
+
+	/**
+	 * 联营订单明细
+	 * @Author: yuanjiaye
+     */
 	public function detail()
 	{
 		$id=sget('id','i',0);
 
 		$order=$this->db->from('union_order o')
 			->join('admin ad','o.customer_manager=ad.admin_id')
-			->select('o.*,ad.name,ad.mobile')
+			->leftjoin('collection as col','o.id=col.o_id')
+			->select('o.id,o.order_name,o.sale_id,o.customer_manager,o.total_price,o.pay_method
+			,o.sign_place,o.sign_time,o.pickup_location,o.delivery_location,o.collection_status,o.transport_type
+			,o.freight_price,o.pickup_time,o.delivery_time,o.order_sn,o.order_status,o.input_time,ad.name,ad.mobile,col.payment_time')
 			->where("o.id=$id and buy_user_id={$this->user_id}")
 			->getRow();
+
 		$order['c_name']=$this->db->model('customer')->where("c_id={$order['sale_id']}")->select('c_name')->getOne();
 		$sale_log=$this->db->from('union_order_detail s')
 			->leftjoin('product p','s.p_id=p.id')
@@ -91,12 +128,12 @@ class unionorderAction extends userBaseAction{
 	        $this->is_ajax=true;
 	        $data=saddslashes($_POST);
 	        $id = empty($data['id'])?0:$data['id'];
-	        if(!$this->db->model('union_order')->where("o_id=$id and user_id=$this->user_id")->getRow()) $this->forward('/');
+	        if(!$this->db->model('union_order')->where("id=$id and buy_user_id=$this->user_id")->getRow()) $this->forward('/');
 	        $order=$this->db->from('union_order o')
-			->join('admin ad','o.customer_manager=ad.admin_id')
-			->select('o.*,ad.name,ad.mobile')
-			->where("o.id=$id and buy_user_id={$this->user_id}")
-			->getRow();
+	        ->join('admin ad','o.customer_manager=ad.admin_id')
+	        ->select('o.*,ad.name,ad.mobile')
+	        ->where("o.id=$id and buy_user_id={$this->user_id}")
+	        ->getRow();
 	        $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
 	        $payID = 'PAY'.date('Ymdhis',time()).'-'.rand(999,9999);
 	        //参数封装
@@ -135,7 +172,7 @@ class unionorderAction extends userBaseAction{
 	        $update=array(
 	            'pay_id'      => $payID,
 	        );
-	        $this->db->model('order')->where("o_id=$id and user_id=$this->user_id")->update(saddslashes($update));
+	        $this->db->model('union_order')->where("id=$id and buy_user_id=$this->user_id")->update(saddslashes($update));
 	        $tmp=$this->db->model('pay_message')->select('payID')->where("tradeorder='".$order['order_sn']."'")->getOne();
 	        if(!empty($tmp)){
 	            $this->db->model('pay_message')->where("tradeorder='".$order['order_sn']."'")->delete();
@@ -156,58 +193,58 @@ class unionorderAction extends userBaseAction{
 	    }
 	}
 	
-	// 支付成功回调
-	public function callback()
-	{
-	    //获取参数
-	    if(isset($_POST['postdata']) || !empty($_POST['postdata'])){
-	        $postdata = $_POST['postdata'];
-	    }else{
-	        $postdata = file_get_contents("php://input");
-	    }
-	    //         file_put_contents("./pay.txt", $postdata,FILE_APPEND);
-	    $param = json_decode($postdata);
-	    if(isset($param)){
-	        // 支付消息
-	        $message = $param->payMessage;
-	        // 支付订单的支付号码
-	        $payID = $param->payID;
-	        // 支付状态
-	        $payStatus = $param->payStatus;
-	        // 签名
-	        $signature = $param->signature;
+// 	// 支付成功回调
+// 	public function callback()
+// 	{
+// 	    //获取参数
+// 	    if(isset($_POST['postdata']) || !empty($_POST['postdata'])){
+// 	        $postdata = $_POST['postdata'];
+// 	    }else{
+// 	        $postdata = file_get_contents("php://input");
+// 	    }
+// 	    //         file_put_contents("./pay.txt", $postdata,FILE_APPEND);
+// 	    $param = json_decode($postdata);
+// 	    if(isset($param)){
+// 	        // 支付消息
+// 	        $message = $param->payMessage;
+// 	        // 支付订单的支付号码
+// 	        $payID = $param->payID;
+// 	        // 支付状态
+// 	        $payStatus = $param->payStatus;
+// 	        // 签名
+// 	        $signature = $param->signature;
 	
-	        $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
-	        $rtn = $obj->_base64Verify($postdata,$signature);
-	        //验证签名，是否为东方付通发送的指令
-	        if($rtn == "1"){
-	            // 订单支付成功(其他不处理)
-	            if ($payStatus == "000000") {
-	                //$payID
-	                $this->db->startTrans();
-	                // 修改订单状态 已支付 (商城逻辑处理)
-	                //状态为3默认全部付款
-	                $update=array(
-	                    'collection_status'      => "3",
-	                );
-	                if(!$this->db->model('union_order')->where("pay_id={$payID}")->update(saddslashes($update))) throw new Exception("更新支付状态失败!");
-	                if(!$this->db->model('pay_message')->add($param)) throw new Exception("插入支付信息失败!");
-	                if($this->db->commit()){
-	                    $this->success('生成成功');
-	                }else{
-	                    $this->db->rollback();
-	                    $this->error('生成失败:'.$this->db->getDbError());
-	                }
-	            }
-	            // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
-	        }else{
-	            //签名验证失败！
-	            $this->error('签名验证失败!');
-	        }
-	    }else{
-	        $this->error('支付失败,回调内容为空!');
-	    }
-	}
+// 	        $obj = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+// 	        $rtn = $obj->_base64Verify($postdata,$signature);
+// 	        //验证签名，是否为东方付通发送的指令
+// 	        if($rtn == "1"){
+// 	            // 订单支付成功(其他不处理)
+// 	            if ($payStatus == "000000") {
+// 	                //$payID
+// 	                $this->db->startTrans();
+// 	                // 修改订单状态 已支付 (商城逻辑处理)
+// 	                //状态为3默认全部付款
+// 	                $update=array(
+// 	                    'collection_status'      => "3",
+// 	                );
+// 	                if(!$this->db->model('union_order')->where("pay_id={$payID}")->update(saddslashes($update))) throw new Exception("更新支付状态失败!");
+// 	                if(!$this->db->model('pay_message')->add($param)) throw new Exception("插入支付信息失败!");
+// 	                if($this->db->commit()){
+// 	                    $this->success('生成成功');
+// 	                }else{
+// 	                    $this->db->rollback();
+// 	                    $this->error('生成失败:'.$this->db->getDbError());
+// 	                }
+// 	            }
+// 	            // 响应支付平台已接收,接收到消息必须返回  // echo "{\"payStatus\":\"000000\"}";
+// 	        }else{
+// 	            //签名验证失败！
+// 	            $this->error('签名验证失败!');
+// 	        }
+// 	    }else{
+// 	        $this->error('支付失败,回调内容为空!');
+// 	    }
+// 	}
 	
 	//时时查询支付状态
 	public function querySucess(){
@@ -223,7 +260,7 @@ class unionorderAction extends userBaseAction{
 			->getRow();
 	        $payid = $order['pay_id'];
 	        $rtn = $this->db->model('pay_message')->where("payID='$payid'")->getRow();
-	        if(!$rtn) $this->error('查询订单失败!');
+	        if(!$rtn) $this->error('查询支付明细失败!');
 	        if($rtn['pay_status']=="000000"){
 	            $this->success('支付成功');
 	        }else{

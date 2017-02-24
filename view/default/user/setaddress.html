@@ -115,8 +115,8 @@ $(function(){
             type:'get',
             data:{ id:ids},
             cache:false,
-            dataType:'json',
-            success:function($data){
+            dataType:'json'
+        }).then(function($data){      //成功
                 if($data==''){
                     alert('默认地址不能删除');
                     window.location.reload();
@@ -125,9 +125,11 @@ $(function(){
                     alert('删除成功');
                     window.location.reload();
                 }
-            }
+        },function(){                //失败
+
         })
-    })
+
+    });
 
 
 	var tt = $(".import.tt"),

@@ -1,5 +1,10 @@
 {layout file="public:main_layout"}
 {insert_css files='home/master.css'}
+<div class="crumb w1220">
+    <h3>大户报价</h3>
+    <p>当前位置 - 我的塑料网 -</p>
+    <span>大户报价</span>
+</div>
 <div class="big-client">
 	<!-- <div class="sel-condt">
 		<div class="sel-condt-name">您已经选择的公司：</div>
@@ -11,174 +16,182 @@
 	<!--filter begin-->
 	<div class="filter">
 		<!--filter-tr begin-->
-	    <div class="filter-tr company">
-	    	<div class="filter-name">公司</div>
-	        <div class="filter-all"><a href="/client?cid=&br={$br}" {if !$ccid}class="chose"{/if}>全部</a></div>
-	        <!--filter-detail begin-->
-	        <div class="filter-detail multiple">
-	        	<ul class="hide">
-                	{foreach from=$client item=value}
-                	<li {if in_array($value.id,$cid)}class="chose"{/if}>
-                        <a title={$value.gsname} href="/client?cid={$value.ss}&br={$br}">
-                            <div class="com-logo"><img src="__UPLOAD__/{$value.logo}" width="146" height="70"/></div>
-                            <span>{$value.gsname}</span>
-                        </a>
-                    </li>
-                    {/foreach}
-	            </ul>
-	        </div>
-	        <!--filter-detail end-->
-	        <div class="filter-show"><span class="hide">展开更多</span></div>
-	    </div>
-	    <!--filter-tr end-->
-	    <!--filter-tr begin-->
-	    <div class="filter-tr brand">
-	    	<div class="filter-name">品牌</div>
-	        <div class="filter-all"><a href="/client?cid={$ccid}&br=" {if !$br}class="chose"{/if}>全部</a></div>
-	        <!--filter-detail begin-->
-	        <div class="filter-detail only-one">
-	        	<ul class="hide">
-                	{foreach from=$brand item=value}
-                	<li>
-                        <a {if $value['factory']==$br}class="chose"{/if} href="/client?cid={$ccid}&br={$value.factory}">{$value.factory}</a>
-                    </li>
-                    {/foreach}      
-	            </ul>
-	        </div>
-	        <!--filter-detail end-->
-	        <div class="filter-show"><span class="hide">展开更多</span></div>
-	    </div>
-	    <!--filter-tr end-->
-	   
-	    <!--search-tr begin-->
-	    <div class="search-tr">
-	    	<form name="" method="get" action="">
-	        	<p class="search-name">类别：</p>
-	            <input type="text" name="type" value="{$type}" class="search-input"/>
-	            <p class="search-name">牌号：</p>
-	            <input type="text" name="model" value="{$model}" class="search-input"/>
-	            <input type="submit" class="btn-submit" value="搜索">
-	            <input type="hidden" name="cid" value="{$ccid}">
-	            <input type="hidden" name="br" value="{$br}">
-	            <input type="hidden" name="from" value="{$from}">
-	            <input type="hidden" name="to" value="{$to}">
-	        	<input type="hidden" name="sort" class="sortnum" value="{$sort}">
-	        </form>
-	    </div>
-	    <!--search-tr end-->
+		<div class="filter-tr company">
+			<div class="filter-name">公司</div>
+			<div class="filter-all"><a href="/client?cid=&br={$br}" {if !$ccid}class="chose"{/if}>全部</a></div>
+			<!--filter-detail begin-->
+			<div class="filter-detail multiple">
+				<ul class="hide">
+					{foreach from=$client item=value}
+					<li {if in_array($value.id,$cid)}class="chose"{/if}>
+					<a title={$value.gsname} href="/client?cid={$value.ss}&br={$br}">
+						<div class="com-logo"><img src="__UPLOAD__/{$value.logo}" width="146" height="70"/></div>
+						<span>{$value.gsname}</span>
+					</a>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+			<!--filter-detail end-->
+			<div class="filter-show"><span class="hide">展开更多</span></div>
+		</div>
+		<!--filter-tr end-->
+		<!--filter-tr begin-->
+		<div class="filter-tr brand">
+			<div class="filter-name">品牌</div>
+			<div class="filter-all"><a href="/client?cid={$ccid}&br=" {if !$br}class="chose"{/if}>全部</a></div>
+			<!--filter-detail begin-->
+			<div class="filter-detail only-one">
+				<ul class="hide">
+					{foreach from=$brand item=value}
+					<li>
+						<a {if $value.factory==$br}class="chose"{/if} href="/client?cid={$ccid}&br={$value.factory}">{$value.factory}</a>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+			<!--filter-detail end-->
+			<div class="filter-show"><span class="hide">展开更多</span></div>
+		</div>
+		<!--filter-tr end-->
+
+		<!--search-tr begin-->
+		<div class="search-tr">
+			<form name="" method="get" action="">
+				<p class="search-name">类别：</p>
+				<input type="text" name="type" value="{$type}" class="search-input"/>
+				<p class="search-name">牌号：</p>
+				<input type="text" name="model" value="{$model}" class="search-input"/>
+				<input type="submit" class="btn-submit" value="搜索">
+				<input type="hidden" name="cid" value="{$ccid}">
+				<input type="hidden" name="br" value="{$br}">
+				<input type="hidden" name="from" value="{$from}">
+				<input type="hidden" name="to" value="{$to}">
+				<input type="hidden" name="sort" class="sortnum" value="{$sort}">
+			</form>
+		</div>
+		<!--search-tr end-->
 	</div>
 	<!--filter end-->
+	<!--mid-ad begin-->
+	<div class="mid-ad ads w1220"><img src="__IMG__/home/midAd.png"><span>广告</span></div>
+	<!--mid-ad end-->
 	<!--result begin-->
 	<div class="result">
 		<div class="condt">
-	    	<p class="total">共<span>{$list.count}</span>条</p>
-	        <p class="sort">排序：</p>
-	        <div class="sort-sel">
-	        	<a class="sorttype {if !$sort}on{/if}" sort="0"  href="javascript:;">默认</a>
-	            <a class="sorttype {if $sort}on{/if}" sort="1" href="javascript:;">价格倒序</a>
-	        </div>
-	        <p class="price-range-name">价格范围</p>
-	        <form name="" id="filterFrom" method="get" action="">
-	        <input type="text" name="from" value="{$from}" class="price-range-val"/>
-	        <p class="short-line">-</p>
-	        <input type="text" name="to" value="{$to}" class="price-range-val"/>
-	        <input type="hidden" name="cid" value="{$ccid}">
-	        <input type="hidden" name="br" value="{$br}">
-	        <input type="hidden" name="type" value="{$type}">
-	        <input type="hidden" name="model" value="{$model}">
-	        <input type="hidden" name="sort" class="sortnum" value="{$sort}">
-	        <input type="submit" class="btn-submit" value="确定">
-	    </div>
+			<p class="total">共<span>{$list.count}</span>条</p>
+			<p class="sort">排序：</p>
+			<div class="sort-sel">
+				<a class="sorttype {if !$sort}on{/if}" sort="0"  href="javascript:;">默认</a>
+				<a class="sorttype {if $sort}on{/if}" sort="1" href="javascript:;">价格倒序</a>
+			</div>
+			<p class="price-range-name">价格范围</p>
+			<form name="" id="filterFrom" method="get" action="">
+				<input type="text" name="from" value="{$from}" class="price-range-val"/>
+				<p class="short-line">-</p>
+				<input type="text" name="to" value="{$to}" class="price-range-val"/>
+				<input type="hidden" name="cid" value="{$ccid}">
+				<input type="hidden" name="br" value="{$br}">
+				<input type="hidden" name="type" value="{$type}">
+				<input type="hidden" name="model" value="{$model}">
+				<input type="hidden" name="sort" class="sortnum" value="{$sort}">
+				<input type="submit" class="btn-submit" value="确定">
+		</div>
 		<ul>
-	    	<li class="title">
-	        	<div class="lb">类别</div>
-	            <div class="ph">牌号</div>
-	            <div class="cj">厂家</div>
-	            <div class="amount">数量（吨）</div>
-	            <div class="price">价格（元/吨）</div>
-	            <div class="change">涨跌</div>
-	            <div class="address">交货地</div>
-	            <div class="company">公司</div>
-	            <div class="phone">业务电话</div>
-	            <div class="phone">厂家电话</div>
-	            <div class="date">更新时间</div>
-	            <!-- <div class="opt">操作</div> -->
-	        </li>
-	        {foreach from=$list.data item=value}
-	    	<li class="con">
-	            <div class="lb">{$value.type}</div>
-	            <div class="ph">{$value.model}</div>
-	            <div class="cj">{$value.factory}</div>
-	            <div class="amount">{$value.num}</div>
-	            <div class="price">￥{$value.price}</div>
-	            <div id="prices" {if $value.upordown>0 || $value.upordown==0}class="change up"{else} class="change down"{/if} >{if $value.upordown}{$value.upordown}{else}0{/if}</div>
-	            <div class="address">{$value.address}</div>
-	            <div class="company">{$value.gsname}</div>
-	            <div class="phone">{$value.phone}</div>
-	            <div class="phone">{if $value.cjphone}{$value.cjphone}{else}&nbsp;{/if}</div>
-	            <div class="date">{$value.input_time|date:m-d H:i}</div>
-	        </li>
-	        {/foreach}
-	    </ul>
-	    <div class="page">
-	    	{$pages}
-	    </div>
+			<li class="title">
+				<div class="lb">类别</div>
+				<div class="ph">牌号</div>
+				<div class="cj">厂家</div>
+				<div class="amount">数量（吨）</div>
+				<div class="price">价格（元/吨）</div>
+				<div class="change">涨跌</div>
+				<div class="address">交货地</div>
+				<div class="company">公司</div>
+				<div class="phone">业务电话</div>
+				<div class="phone">厂家电话</div>
+				<div class="date">更新时间</div>
+				<!-- <div class="opt">操作</div> -->
+			</li>
+			{foreach from=$list.data item=value}
+			<li class="con">
+				<div class="lb">{$value.type}</div>
+				<div class="ph">{$value.model}</div>
+				<div class="cj">{$value.factory}</div>
+				<div class="amount">{$value.num}</div>
+				<div class="price">￥{$value.price}</div>
+				{if $value.upordown<0}
+				<div class="change down">{$value.upordown}</div>
+				{else }
+				<div class="change up">{$value.upordown}</div>
+				{/if}
+				<div class="address">{$value.address}</div>
+				<div class="company">{$value.gsname}</div>
+				<div class="phone">{$value.phone}</div>
+				<div class="phone">{if $value.cjphone}{$value.cjphone}{else}&nbsp;{/if}</div>
+				<div class="date">{$value.input_time|date:m-d H:i}</div>
+			</li>
+			{/foreach}
+		</ul>
+		<div class="page">
+			{$pages}
+		</div>
 	</div>
 </div>
-
+<div class="aside-ad ads"><span>广告</span></div>
 <script>
-$(function(){
-	$(".sort-sel .sorttype").click(function(){
-		var sort=$(this).attr('sort');
-		$(".sortnum").val(sort);
-		$("#filterFrom").submit();
+	$(function(){
+
+		$(".sort-sel .sorttype").click(function(){
+			var sort=$(this).attr('sort');
+			$(".sortnum").val(sort);
+			$("#filterFrom").submit();
+		});
+		//品牌每次只能选择一个
+		$(".brand .filter-detail li a").bind("click",function(){
+			$(this).addClass("chose").closest("li").siblings().find("a").removeClass("chose");
+		});
+
+		//地址每次只能选择一个
+		$(".address .filter-detail li a").bind("click",function(){
+			$(this).addClass("chose").siblings().removeClass("chose");
+			$(this).addClass("chose").closest("li").siblings().find("a").removeClass("chose");
+		});
+
+
+		//展开公司与品牌
+		$(".company .filter-show,.brand .filter-show").bind("click",function(){
+			var more = $(this).prev(".filter-detail").find("ul");
+			if(more.hasClass("hide")){
+				more.removeClass("hide").addClass("show");
+				$(this).find("span").html("收起").removeClass("hide").addClass("show");
+			}
+			else{
+				more.removeClass("show").addClass("hide");
+				$(this).find("span").html("展开更多").removeClass("show").addClass("hide");
+			}
+		});
+
+		//展开交货地
+		$(".address .filter-show").bind("click",function(){
+			var addr1 = $(".address-1"),
+					addr2 = $(".address-2");
+			if(addr1.hasClass("show")){
+				addr1.removeClass("show").addClass("hide");
+				$(this).find("span").html("收起").removeClass("hide").addClass("show");
+			}
+			else{
+				addr1.removeClass("hide").addClass("show");
+				$(this).find("span").html("展开更多").removeClass("show").addClass("hide");
+			}
+
+			if(addr2.hasClass("show")){
+				addr2.removeClass("show").addClass("hide");
+				$(this).find("span").html("展开更多").removeClass("show").addClass("hide");
+			}
+			else{
+				addr2.removeClass("hide").addClass("show");
+				$(this).find("span").html("收起").removeClass("hide").addClass("show");
+			}
+		});
 	});
-	//品牌每次只能选择一个
-	$(".brand .filter-detail li a").bind("click",function(){
-		$(this).addClass("chose").closest("li").siblings().find("a").removeClass("chose");
-	});
-	
-	//地址每次只能选择一个
-	$(".address .filter-detail li a").bind("click",function(){
-		$(this).addClass("chose").siblings().removeClass("chose");
-		$(this).addClass("chose").closest("li").siblings().find("a").removeClass("chose");
-	});
-	
-	
-	//展开公司与品牌
-	$(".company .filter-show,.brand .filter-show").bind("click",function(){
-		var more = $(this).prev(".filter-detail").find("ul");
-		if(more.hasClass("hide")){
-			more.removeClass("hide").addClass("show");
-            $(this).find("span").html("收起").removeClass("hide").addClass("show");
-		}
-		else{
-			more.removeClass("show").addClass("hide");
-            $(this).find("span").html("展开更多").removeClass("show").addClass("hide");
-		}
-	});
-	
-	//展开交货地
-	$(".address .filter-show").bind("click",function(){
-		var addr1 = $(".address-1"),
-			addr2 = $(".address-2");
-		if(addr1.hasClass("show")){
-			addr1.removeClass("show").addClass("hide");
-            $(this).find("span").html("收起").removeClass("hide").addClass("show");
-		}
-		else{
-			addr1.removeClass("hide").addClass("show");
-            $(this).find("span").html("展开更多").removeClass("show").addClass("hide");
-		}
-		
-		if(addr2.hasClass("show")){
-			addr2.removeClass("show").addClass("hide");
-            $(this).find("span").html("展开更多").removeClass("show").addClass("hide");
-		}
-		else{
-			addr2.removeClass("hide").addClass("show");
-            $(this).find("span").html("收起").removeClass("hide").addClass("show");
-		}
-	});
-});
 </script>

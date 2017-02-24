@@ -2,30 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>中晨物流-{if $seo.title}{$seo.title}{else}{$title}{$sys.site_title}{/if}</title>
+	{if $seo.cate_name}
+	<title>{$seo.title}_{$seo.cate_name} {$sys.site_title}</title>
+	{else}
+	<title>{$seo.title} {$sys.site_title}</title>
+	{/if}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta property="qc:admins" content="347746133667745354117636" />
-<meta name="keywords" content="{$seo.keywords}" />
-<meta name="description" content="{$seo.description}" />
+<meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+<meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
 <link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />
 <link href="__CSS__/home/master.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="__CSS__/home/ship.css"/>
-
 <style type="text/css">
-
 .mask-close{ width:66px!important; height:66px!important; background: url(__IMG__/home/iconClose.png) no-repeat center center rgba(0,0,0,.5)!important; top:4px!important; right:59px!important;}
-
 .layer-close{ background:url(__IMG__/home/iconClose2.png) no-repeat!important;}
-
 </style>
 </head>
-
-
-
 <body>
-
 <!--header begin-->
-
 <div class="header">
 
 	<div class="w1200" style="overflow:visible;">
@@ -44,7 +39,7 @@
 
 			<div class="right frt">
 
-				<p><span>找车热线</span> 021-60949820</p>
+				<p><span>找车热线</span> 021-61673571</p>
 
 				<ul>
 
@@ -566,7 +561,7 @@
 
 			<ul>
 
-				<li class="tip1">中晨塑料即将登陆新三板，即中国塑料电商第一股</li>
+				<!--<li class="tip1">中晨塑料即将登陆新三板，即中国塑料电商第一股</li>-->
 
 				<li class="tip2">中晨物流 安全可靠</li>
 
@@ -1502,8 +1497,8 @@ $(function(){
 	});
 
 	//运输合作协议
-	var dataIndex1,strUrl1,agreementImg1 = $(".mask-tran .right img");
-	 $(".cooperate li .agreement-tran").bind("click",function(){
+	/*var dataIndex1,strUrl1,agreementImg1 = $(".mask-tran .right img");*/
+	 /*$(".cooperate li .agreement-tran").bind("click",function(){
 		dataIndex1 = $(this).parent().attr("data-index");
 		strUrl1 = "__IMG__/home/agreementTran"+dataIndex1+".png";
 		agreementImg1.attr("src",strUrl1);
@@ -1521,12 +1516,12 @@ $(function(){
 
 			} 
 		});
-	});
+	});*/
 
 	//仓储合作协议
-	var dataIndex2,strUrl2,strUrl3,agreementImg2 = $("#con-tab-1 img"),agreementImg3 = $("#con-tab-2 img");
+	/*var dataIndex2,strUrl2,strUrl3,agreementImg2 = $("#con-tab-1 img"),agreementImg3 = $("#con-tab-2 img");*/
 
-	$(".cooperate li .agreement-storage").bind("click",function(){
+	/*$(".cooperate li .agreement-storage").bind("click",function(){
 
         dataIndex2 = $(this).parent().attr("data-index");
 
@@ -1570,7 +1565,7 @@ $(function(){
 
 		});
 
-	});
+	});*/
 
 });
 

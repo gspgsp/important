@@ -5,8 +5,10 @@
 class personalCenterAction extends homeBaseAction
 {
     protected $userid = '';
+    protected $today = '';
 	public function __init() {
 		$this->db=M('public:common')->model('customer_contact');
+        $this->today = strtotime(date('Y-m-d',time()));
     }
     //进入个人中心
     public function init(){
@@ -18,6 +20,7 @@ class personalCenterAction extends homeBaseAction
         if($this->user_id<=0) $this->error('账户错误');
         $type1 = sget('type1','i');//$type1 1采购
         $type2 = sget('type2','i');//$type1 2报价
+        $is_read=sget('status','i',1);//读取状态筛选 1=>'未读',2=>'已读',空 全部
         $thumb = M('touch:personalcenter')->getUserThumb($this->user_id);
         $name = M('touch:personalcenter')->getUserName($this->user_id);
         $qCount = M('myapp:personalAppCenter')->getMyQuotationCount($this->user_id,$type2);
@@ -25,37 +28,131 @@ class personalCenterAction extends homeBaseAction
         $proAttCount = M('myapp:personalAppCenter')->getMyAttentionCount($this->user_id);
         $points = M('points:pointsBill')->getUerPoints($this->user_id);
         $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
+        $msg = M('myapp:personalAppCenter')->getMsg($this->user_id,$is_read);//获取未读的站内信消息
         if($name){
-            $this->json_output(array('thumb'=>empty($thumb)?FILE_URL.'/myapp/img/avator.png':FILE_URL."/upload/".$thumb,'name'=>$name,'qcount'=>$qCount,'pcount'=>$pCount,'proattcount'=>$proAttCount,'points'=>$points,'cus_mana'=>$cus_mana));
+            $this->json_output(array('thumb'=>empty($thumb)?FILE_URL.'/myapp/img/avator.png':FILE_URL."/upload/".$thumb,'name'=>$name,'qcount'=>$qCount,'pcount'=>$pCount,'proattcount'=>$proAttCount,'points'=>$points,'cus_mana'=>$cus_mana,'msgCount'=>$msg['count']));
         }else{
             $this->json_output(array('err'=>2,'msg'=>'没有相关数据!'));
         }
+    }
+    //进入站内信
+    public function enMsg(){
+        $this->display('msg');
+    }
+    //获取站内信
+    public function getMsg(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        $is_read=sget('status','i');//读取状态筛选 1=>'未读',2=>'已读',空 全部
+        $type=sget('type','i');//语言包的5个状态, 空 全部
+        $page=sget('page','i',1);
+        $size=sget('size','i',10);
+        $msg = M('myapp:personalAppCenter')->getMsg($this->user_id,$is_read,$type,$page,$size);
+        $this->_checkLastPage($msg['count'],$size,$page);//是否最后一页
+        foreach ($msg['data'] as &$value) {
+            $value['msg']=preg_replace("/查看详情/", "", $value['msg']);
+            $value['msg'] = mb_strcut($value['msg'], 0, strripos($value['msg'],"，"), 'utf-8');
+            $value['left'] = stripos($value['msg'],"：");
+            $value['right'] = stripos($value['msg'],"（");
+            $value['num'] = mb_strcut(mb_strcut($value['msg'],0,$value['right'],'utf-8'),$value['left']+3,strlen(mb_strcut($value['msg'],0,$value['right'],'utf-8')),'utf-8');//id或订单编号
+            if($value['type']==1){
+                if($value['input_time']>$this->today){
+                    $value['is_read']=1;
+                }else{
+                    $value['is_read']=2;
+                }
+            }elseif ($value['type']==2 || $value['type']==3) {
+                $value['num'] = intval($value['num']);
+            }
+            $value['is_read'] = $value['is_read']==1?'new':'已读';
+            $value['input_time'] = M('myapp:personalAppCenter')->changeTime($value['input_time']);
+        }
+        $this->json_output(array('err'=>0,'msg'=>$msg['data']));
     }
     //进入我的报价单
     public function enMyQuotation(){
         $this->display('me_quotation');
     }
-    //获取我的报价单
-    public function myQuotation(){
-
-        $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $cargo_type = sget('cargo_type','i',1);
-        if(!$data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
-        $this->json_output(array('err'=>0,'data'=>$data));
-    }
     //进入我的采购
     public function enMyPurchase(){
         $this->display('me_purchase');
     }
-    //获取我的采购
-    public function myPurchase(){
+    //获取我的报价单/我的采购
+    public function myQuoAndPur(){
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
-        $cargo_type = sget('cargo_type','i',1);
-        if(!$data = M('myapp:personalAppCenter')->getMyPurchase($this->user_id,$cargo_type)) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
+        //普通
+        $type = sget('type','i');//1:采购 2:报价
+        $product_type = sget('product_type','i');//1/2/3/4/5/6/7/8/9 空 全部
+        $shelve_type = sget('shelve_type','i');// 1:上架 2:下架 空 全部
+        $cargo_type = sget('cargo_type','i');//1现货 2期货 空 全部
+        //关键字搜索
+        $keywords = sget('keywords','s');
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        $data = M('myapp:personalAppCenter')->getMyQuotation($this->user_id,$type,$product_type,$shelve_type,$cargo_type,$keywords,$page,$size);
+        if(!$data['data']) $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
+        $this->_checkLastPage($data['count'],$size,$page);
+        $this->json_output(array('err'=>0,'data'=>$data['data']));
+    }
+    //获取采购洽谈(求购信息有人报价) 委托洽谈(采购信息有人报价)
+    public function getOptions(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        $id = sget('id','i');
+        if(!$data = M('myapp:personalAppCenter')->getOptions($id)) $this->json_output(array('err'=>2,'msg'=>'没有相关的洽谈数据!'));
         $this->json_output(array('err'=>0,'data'=>$data));
     }
+    //选定报价
+    public function selected(){
+        $this->is_ajax=true;
+        if($this->user_id<=0) $this->error('账户错误');
+        $id=sget('id','i',0);//sale_buy的报价id 此处为id不是p_id
+        $price=sget('price','f');//成交价格
+        $result = M('myapp:personalAppCenter')->selectPrice($this->user_id,$id,$price);
+        $this->json_output($result);
+    }
+    //进入我的订单
+    public function enOrder(){
+        $this->display('me_ordercenter');
+    }
+    //获取我的订单(自营、联营)
+    public function getMyOrder(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        //普通
+        $type = sget('type','i',1);//1,自营 2,联营
+        //搜索
+        $keywords = sget('keywords','s');//订单编号搜索
+        $otype = sget('otype','s');//1/2/3/4/5/6/7/8/9  空 全部  4/5/6有所不同
+        $page = sget('page','i',1);
+        $size = sget('size','i',10);
+        $data = M('myapp:personalAppCenter')->getMyOrder($this->user_id,$type,$keywords,$otype,$page,$size);
+        if(!$data['data']) $this->json_output(array('err'=>2,'msg'=>'没有相自营/联营的关数据'));
+        $this->_checkLastPage($data['count'],$size,$page);
+        $this->json_output(array('err'=>0,'data'=>$data['data']));
+    }
+    //进入订单详情
+    public function enOrderDetail(){
+        $this->display('me_orderdetail');
+    }
+    //获取订单详情
+    public function getOrderDetail(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        //普通
+        $type = sget('type','i',1);//1,自营 2,联营
+        $id = sget('id','i',0);//order表或union_order表的o_id/id
+        $result = M('myapp:personalAppCenter')->getOrderDetail($this->user_id,$type,$id);
+        $this->json_output($result);
+    }
+    //保存自营申请开票
+    // public function saveAppliBill(){
+    //     $this->is_ajax = true;
+    //     if($this->user_id<=0) $this->error('账户错误');
+    //     $o_id = sget('o_id','i',0);//order的id
+    //     M('myapp:personalAppCenter')->saveAppliBill($this->user_id,$o_id);
+    // }
     //进入我的关注
     public function enMyAttention(){
         $this->display('me_attention');
@@ -74,14 +171,20 @@ class personalCenterAction extends homeBaseAction
     //获取我的积分
     public function getMyPoints(){
         $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        $gtype = sget('gtype','i');
+        //if($this->user_id<=0) $this->error('账户错误');
+        $points = empty($this->user_id)?"请登录":M('points:pointsBill')->getUerPoints($this->user_id);
+        $gtype = sget('gtype','i');//1=>'家居',2=>'数码',空，全部
         $points = M('points:pointsBill')->getUerPoints($this->user_id);
-        if(!$result = M('touch:creditshop')->getCreditShop($gtype))
-            $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
+        if(!$result = M('touch:creditshop')->getCreditShop($gtype))  $this->json_output(array('err'=>2,'msg'=>'没有相关的数据!'));
             foreach ($result as &$v) {
                 $v['thumb']=FILE_URL."/upload/".$v['thumb'];
             }
+            // foreach ($result as &$v) {
+            //     if(file_exists(FILE_URL."/upload/".$v['thumb'])){
+            //         $v['thumb'] = FILE_URL."/upload/".$v['thumb'];
+            //         $newRes[] = $v;
+            //     }
+            // }
             $this->json_output(array('err'=>0,'points'=>$points,'shop'=>$result));
     }
     //进入我的物流
@@ -103,21 +206,11 @@ class personalCenterAction extends homeBaseAction
         $this->is_ajax = true;
         if($this->user_id<=0) $this->error('账户错误');
         $set = M('user:customerContact')->getUserInfoByid($this->user_id);
-        $cus_mana = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
-        $set['cus_mana'] = $cus_mana;
+        $set['cus_mana'] = M('myapp:personalAppCenter')->getMyCusManager($this->user_id);//交易员姓名
         $set['c_name'] = M('user:customer')->getCinfoById($set['c_id'])['c_name'];//公司名称
-        if(!$set) $this->json_output(array('err'=>2,'msg'=>'没有相关的设置信息'));
+        $set['bill_status'] = M('myapp:personalAppCenter')->checkBillInfo($this->user_id)==false?"未上传":"已上传";
+        if(empty($set)) $this->json_output(array('err'=>2,'msg'=>'没有相关的设置信息'));
         $this->json_output(array('err'=>0,'data'=>$set));
-    }
-    //进入我的意见反馈
-    public function enMyFeedBack(){
-        $this->display('me_opinion');
-    }
-    //获取我的意见反馈
-    public function getMyFeedBack(){
-        $this->is_ajax = true;
-        if($this->user_id<=0) $this->error('账户错误');
-        //
     }
     /**
      *跳转到下个界面，功能操作
@@ -582,10 +675,74 @@ class personalCenterAction extends homeBaseAction
                 );
         $this->_saveSetData($_user);
     }
+    //进入关于我们
+    public function enAboutUs(){
+        $this->display('aboutus');
+    }
+    //获取关于我们
+    public function getAboutUs(){
+
+    }
+    //进入去评分
+    public function enEvaluate(){
+        $this->display('');
+    }
+    //获取评分
+    public function getEvaluate(){
+        
+    }
+    //进入开票资料
+    public function enBillInfo(){
+        $this->display('billinfo');
+    }
+    //获取开票资料
+    public function getBillInfo(){
+        $this->is_ajax = true;
+        //if($this->user_id<=0) $this->error('账户错误');
+        if($data=M('myapp:personalAppCenter')->getBillInfo(3858)) $this->json_output(array('err'=>0,'data'=>$data));
+        $this->json_output(array('err'=>2,'msg'=>'暂无开票资料'));
+    }
+    //保存修改后的开票资料
+    public function saveBillInfo(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        $id = sget('id','i');
+        $tax_id = sget('tax_id','s');
+        $invoice_address = sget('invoice_address','s');
+        $invoice_tel = sget('invoice_tel','s');
+        $invoice_bank = sget('invoice_bank','s');
+        $invoice_account = sget('invoice_account','s');
+        $result = M('myapp:personalAppCenter')->changeBill($id,$this->user_id,$tax_id,$invoice_address,$invoice_tel,$invoice_bank,$invoice_account);
+        $this->json_output($result);
+    }
+    //进入意见反馈
+    public function enMyFeedBack(){
+        $this->display('me_opinion');
+    }
+    //保存意见反馈
+    public function saveFeedBack(){
+        $this->is_ajax = true;
+        if($this->user_id<=0) $this->error('账户错误');
+        $msg_type = sget('msg_type','i');//留言类型,1:发布/委托问题 2:举报诈骗信息3:其他
+        $message = sget('message','s');
+        $contact_way = sget('contact_way','s');
+        $result = M('myapp:personalAppCenter')->saveFeedBack($this->user_id,$msg_type,$message,$contact_way);
+        $this->json_output($result);
+     }
     //保存个人设置
     private function _saveSetData($_user){
         if(!$this->db->model('customer_contact')->where('user_id='.$this->user_id)->update($_user)) $this->json_output(array('err'=>2,'msg'=>'修改失败'));
         $this->json_output(array('err'=>0,'msg'=>'修改成功'));
+    }
+    //判断是否到最后一页
+    private function _checkLastPage($count,$size,$page){
+        if($count>0){
+            if($count%$size==0 && ceil($count/$size)<$page){
+                $this->json_output(array('err'=>3,'msg'=>'没有更多数据'));
+            }elseif ($count%$size!=0 && ceil($count/$size)<$page) {
+                $this->json_output(array('err'=>3,'msg'=>'没有更多数据'));
+            }
+        }
     }
     //退出登录
     public function logOut(){

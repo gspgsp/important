@@ -15,18 +15,39 @@ class indexAction extends homeBaseAction{
 		//产品应用
 		$this->process_level=L('process_level');
 		//产品分类
-		$product_type=L('product_type');
-		unset($product_type[7]);
-		unset($product_type[8]);
-		unset($product_type[9]);
-		$this->assign('product_type',$product_type);
+		$this->assign('product_type',array_slice(L('product_type'),0,6));
 		//省份地区
 		$this->area=M('system:region')->getProvinceCache();
 		//牌号新采购
-		$this->newPur=M('product:purchase')->getPurPage("type=1 and shelve_type=1 and pur.status in (2,3,4)",1,5)['data'];
-
+//		$this->newPur=M('product:purchase')->getPurPage("type=1 and shelve_type=1 and pur.status in (2,3,4)",1,5)['data'];
+		$newPurs=M('product:order')->getPurPage("o.order_type=2 AND o.order_status=2 AND o.transport_status=2");
+		foreach($newPurs as $key=>$value){
+			$newPurs[$key]['delivery_location']=str_pad(mb_substr($value['delivery_location'],0,2,'utf-8'),4,'...');
+			$newPurs[$key]['pickup_location']=str_pad(mb_substr($value['pickup_location'],0,2,'utf-8'),4,'...');
+		}
+		$this->assign('newPurs',$newPurs);
 		//供求信息
-		$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4)")['data'];
+		$purBuy=$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)")['data'];
+
+
+		//实时成交价格信息
+//			$deal=$this->db->model('order')->select('o_id')->where(' invoice_status=3 and collection_status=3 and order_type=1')->order('update_time desc')->limit('3')->getAll();
+//			$arr=array();
+//			foreach($deal as $k=>$v){
+//				$arr[]=$this->db->model('sale_log as slo')
+//					->join('product as pro','slo.p_id=pro.id')
+//					->join('factory as f','f.fid=pro.f_id')
+//					->select('slo.input_time,pro.product_type,pro.model,f.f_name,slo.unit_price')
+//					->where("slo.o_id={$v['o_id']}")
+//					->getAll();
+//			}
+//		foreach($arr as $k=>$v){
+//			foreach($v as $kk=>$vv){
+//				$brr[] = $vv;
+//			}
+//		}
+		$this->deals=M('product:order')->getTrad();
+
 		//即时抢货
 		$grabList=$this->db->model('resourcelib')->select('content,user_qq,user_nick,qq_image,input_time,realname')->where('type=0')->limit(3)->order("input_time desc")->getAll();
 		if($this->user_id<=0){
@@ -45,8 +66,10 @@ class indexAction extends homeBaseAction{
 		//行情信息(原油指数右边曲线)
 		$this->quotation = M('operator:market')->get_quotation_index();
 		//原油指数
-		$this->oil1=M('operator:oilPrice')->get_index('0');
-		$this->oil2=M('operator:oilPrice')->get_index('1');
+		$this->oil1=M('operator:oilPrice')->get_index('0');   //WIT
+
+		$this->oil2=M('operator:oilPrice')->get_index('1');   //布油
+
 
 		//2F 大客户报价
 		$this->bigClient=$this->db->model('big_client')->limit(12)->getAll();
@@ -56,7 +79,7 @@ class indexAction extends homeBaseAction{
 		$this->shipList = M('operator:ship_price')->get_index_ship(3);
 
 		//新闻资讯
-		$this->articleList = M('system:info')->get_index_article();
+		$this->articleList = M('news:news')->getHomeNews();
 		// $this->seo = array('title'=>'首页',);
 		$this->display('index.html');
 	}
@@ -74,6 +97,16 @@ class indexAction extends homeBaseAction{
 			list($readjust[$key]['cj'],$readjust[$key]['pz'],$readjust[$key]['ph']) = explode(' ', $value['name']);
 		}
 		return $readjust;
+	}
+
+
+	/**
+	 * 注册协议
+	 * @Author: yuanjiaye
+	 */
+	public function agreement(){
+
+		$this->display('agreement.html');
 	}
 }
 

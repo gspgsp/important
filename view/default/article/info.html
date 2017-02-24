@@ -9,7 +9,7 @@
 					{/foreach}
 				</div>
 				<div class="yablb" style="margin-top:6px;">
-					<div class="zixunbiaotimgcg"> {$data.title} </div>
+					<h1 class="zixunbiaotimgcg"> {$data.title} </h1>
 					<div class="zxiun_faburiqi">发布日期：{$data.input_time|date:Y-m-d}    作者：{if $data.source}{$data.source}{else}本站原创{/if}</div>
 					<div class="zousiengweg_wz">
 						{$data.content}
@@ -30,7 +30,15 @@
 						<!-- JiaThis Button END -->
 					</div>
 				</div>
-
+					<div class="yabld">
+						<div class="yabldt">相关资讯</div>
+						<ul class="related-info">
+							{foreach from=$ids item=value key=key}
+							<li><a href="/{$value.id}.html">{$value.title}</a></li>
+							{/foreach}
+						</ul>
+						<div class="clear"></div>
+					</div>
 					<div class="yabld">
 						<div class="yabldt">免责声明 </div>
 						<p> 1、我的塑料网发布此信息目的在于传播更多信息，与本网站立场无关。<br>
