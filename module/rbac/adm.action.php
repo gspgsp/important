@@ -9,7 +9,6 @@ class admAction extends adminBaseAction {
 		$this->db=M('rbac:adm');
 		$this->doact = sget('do','s');
 		$this->public = sget('isPublic','i',0);
-
 	}
 	
 	/**
@@ -129,6 +128,7 @@ class admAction extends adminBaseAction {
 			'mobile'=>$data['mobile'],	 
 			'depart'=>(int)$data['depart'],	 
 			'username'=>$data['username'],
+			'seat_phone'=>$data['seat_phone'],
 			'pid'=>$data['pid'],
 			'pic'=>$data['pic'],	 
 		);

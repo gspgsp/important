@@ -30,6 +30,13 @@
 					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
 				</tr>
 				<tr>
+					<td>运费</td>
+					<td><input name="ship" class="mini-textbox" value="{$data.ship|default:0}"  style="width:120px;" />
+					</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
 					<td>备注:</td>
 					<td><input name="remark" class="mini-textarea" style="width:120px" value="{$data.remark}"></td>
 				</tr>

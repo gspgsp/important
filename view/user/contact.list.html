@@ -49,8 +49,9 @@
 			<div field="qq" width="80" headerAlign="center" align="center">qq号</div>
 			<div field="fax" width="80" headerAlign="center" align="center">传真</div>
 			<div field="email" width="80" headerAlign="center" align="center">邮箱</div>
-			<div field="customer_manager" width="80" headerAlign="center" align="center">交易员</div>
-			<div field="depart" width="80" headerAlign="center" align="center">所属部门</div>
+			<div field="visit_count" width="40" headerAlign="center" align="center" allowSort="true">登录次</div>
+			<div field="customer_manager" width="40" headerAlign="center" align="center">交易员</div>
+			<div field="depart" width="40" headerAlign="center" align="center">部门</div>
 			<div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
 			<div field="input_admin" width="80" headerAlign="center" align="center">创建管理员</div>
 			<div field="update_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">更新时间</div>
@@ -63,6 +64,13 @@
 		<li name="modifyPasswd" iconCls="icon-edit" onclick="modifyPasswd">重置密码</li>
 	</ul>
 </div>
+{if $doact eq 'search'}
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+		<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+		<span style="display:inline-block;width:25px;"></span>
+		<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+{/if}
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell");
@@ -75,8 +83,21 @@ search();
 function onKeyEnter(e) {
 	search();
 }
-
-
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onComfirm() {
+	CloseWindow("ok");
+}
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
 //删除数据
 function removeRow() {
 	var rows = grid.getSelecteds(),_ids=new Array();

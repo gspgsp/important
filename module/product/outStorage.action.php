@@ -85,11 +85,13 @@ class outStorageAction extends adminBaseAction {
 				// 判断出货数量与详情数量 
 				$out_storage_status = $v['remainder'] == $v['out_number'] ? 3 : 2;
 				//更新此次入库数
-				$this->db->model('out_log')->where("id = $out_id")->update(array('number'=>'+='.$v['out_number'],'out_storage_status'=>$out_storage_status));
+				$this->db->model('out_log')->where("id = $out_id")->update(array('number'=>'+='.$v['out_number'],'out_storage_status'=>$out_storage_status,'ship'=>'+='.$data['ship'],));
 				$inlog_id=$out_id; 
 			}else{ //如果没有新增入库明细
+				// 判断出货数量与详情数量 
+				$out_storage_status = $v['remainder'] == $v['out_number'] ? 3 : 2;
 				//新增入库明细
-				$this->db->model('out_log')->add($_data+$basic_info+array('sale_log_id'=>$v['id'],'out_time'=>$data['out_time'],'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid']));
+				$this->db->model('out_log')->add($_data+$basic_info+array('sale_log_id'=>$v['id'],'out_time'=>$data['out_time'],'ship'=>$data['ship'],'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid'],'out_storage_status'=>$out_storage_status,));
 				//获取新增入库单ID
 				$inlog_id=$this->db->getLastID(); 
 			}

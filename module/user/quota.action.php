@@ -196,5 +196,39 @@ class quotaAction extends adminBaseAction
 		
 		$this->ajaxReturn('1',json_encode($option_arr));
 	}
+	/**
+	 * 导出报表
+	 * @access public 
+	 * @return html
+	 */
+	public function download(){
+		$time_type = spost('time_type','s','');
+		$return_data = $this->data = M('user:quotaView')->getExcelData($time_type);
+		foreach ($return_data as $key => $value) {
+				$return_data[$key]['ave_num'] = round(($value['saled_num'] + $value['buyd_num'])/2,4);
+				$return_data[$key]['plan_num'] = round(($value['sale_num'] + $value['buy_num'])/2,4);
+				$return_data[$key]['percent'] = round(($return_data[$key]['ave_num'] / $return_data[$key]['plan_num'])*100,2);
+		}
+		$this_month = date("Y年m月",mktime(0, 0 , 0,date("m"),1,date("Y")));
+		$last_month = date("Y年m月",mktime(0, 0 , 0,date("m")-1,1,date("Y")));
+		if($time_type == 'this_month'){
+			$title = $this_month."指标报表";
+		}elseif($time_type == 'last_month'){
+			$title = $last_month."指标报表";
+		}
+		$str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
+			$str .= '<tr><td>战队名称</td><td>业务员</td><td>销售吨数</td><td>采购吨数</td>
+						<td>个人平均</td><td>计划数量</td><td>完成百分比（%）</td>
+					</tr>';
+			foreach($return_data as $k=>$v){
+				$str .= "<tr><td>".$v['team']."</td><td>".$v['name']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['saled_num']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['buyd_num']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['ave_num']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['plan_num']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['percent']."</td></tr>";
+			}
+		$str .= '</table>';
+		$filename = $title;
+		header("Content-type: application/vnd.ms-excel; charset=utf-8");
+		header("Content-Disposition: attachment; filename=$filename.xls");
+		echo $str;
+		exit;
+	}
 }
 ?>

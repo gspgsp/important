@@ -9,8 +9,8 @@
 			<td style="float:right;">
 			<form id="soform">
 				<select name="sTime">
-				    	<option value="input_time">订单时间</option>
-				    	<option value="update_time">处理时间</option>
+				    	<option value="ship.input_time">订单时间</option>
+				    	<option value="ship.update_time">处理时间</option>
 				</select>       
 				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
@@ -42,6 +42,9 @@
 		<div property="columns">    
 			<div type="checkcolumn"></div>
 			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="name" width="90" headerAlign="center" align="center">联系人</div>
+			<div field="mobile" width="90" headerAlign="center" align="center">联系人手机</div>
+			<div field="c_name" width="90" headerAlign="center" align="center">联系人公司</div>
 			<div field="starting" width="90" headerAlign="center" align="center">发货地</div>
 			<div field="ending" width="80" headerAlign="center" align="center">卸货地</div>
 			<div field="weight" width="80" headerAlign="center" allowSort="true" align="center">货物重量</div>                

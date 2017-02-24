@@ -1,4 +1,7 @@
  {layout file="public:mini_layout"}
+  <style type="text/css">
+ 	.hidden {display:none;}
+  </style>
 <link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
 <div style="padding:5px; " >
 	<div id="infoForm" class="form">
@@ -15,30 +18,42 @@
 						<td><font style="color:blue;">订单名称<font style="color:red;"> * </font></font></td>
 						<td>
 						<input name="order_name" class="mini-combobox" data='{:setMiniConfig|$company_account}' value="{$info.order_name}" textField="name" valueField="id" style="width:120px;"  required="true"/>
-						</td>	
+						</td>
 						<td>订单编号 : </td>
-						<td>{$info.order_sn}</td>		
+						<td>{$info.order_sn}</td>
 					</tr>
 
 					<tr>
 					{if $order_type eq '1' }
-					
+
 						<td>销售类型：</td>
 						<td>{$info.sales_type}</td>
-					{else}	
+					{else}
 						<td>采购类型：</td>
 						<td>{$info.purchase_type}</td>
-					{/if}	
+					{/if}
 						<td>业务模式<font style="color:red;"> * </font></td>
 						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}' required="true" textfield="name" valuefield="id"/></td>
-						
+
 					</tr>
 					<tr>
 						<td><font style="color:blue;">运输方式<font style="color:red;"> * </font></font></td>
 						<td>
 						<input name="transport_type" class="mini-combobox" data='{:setMiniConfig|$transport_type}' value="{$info.transport_type|default:1}" textField="name" valueField="id" style="width:120px;"   onvaluechanged="changtransport" required="true"/>
-						</td>	
+						</td>
+						{if $order_type neq '2'}
+						<td>是否期货<font style="color:red;"> * </font></td>
+						<td><input name="is_futures" class="mini-combobox"  data='[{"id":"1","name":"否"},{"id":"2","name":"是"}]' value="{$info.is_futures|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/></td>
+						{/if}
 					</tr>
+					{if $order_type neq '2'}
+					<td>是否代购</td>
+					<td><input  id="pur_id" name="h_pur" class="mini-combobox" onvaluechanged="Event()" data='[{"id":"1","name":"否"},{"id":"2","name":"是"}]' value="{$info.h_pur|default:1}" textField="name" valueField="id" style="width:120px;" required="false"/></td>
+					<td class="cg {if $info.h_pur eq 1}hidden{/if}">采购商</td>
+					<td class="cg {if $info.h_pur eq 1}hidden{/if}">
+						<input name="h_pur_cid" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.h_pur_cid}" allowInput="false"  text="{$info.c_name_pur}"  style="width:125px;"  id="h_pur_cid" />
+					</td>
+					{/if}
 					<tr>
 						<td><font style="color:blue;"><span  style="display:none;" id="get">提货</span><span id="send">送货</span>日期<font style="color:red;"> * </font></font></td>
 						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="{$info.delivery_time}"/>
@@ -61,7 +76,7 @@
 						<td>
 							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:125px;" id="usrId"/>
 						</td>
-						
+
 					</tr>
 					<tr>
 						<td>运费 : </td>
@@ -69,15 +84,15 @@
 						</td>
 						<td>付款方式<font style="color:red;"> * </font></td>
 						<td><input name="pay_method" class="mini-combobox" style="width:125px;" value="{$info.pay_method}" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/></td>
-						
-					</tr>	
+
+					</tr>
 					<tr>
 						<td>付款日期<font style="color:red;"> * </font></td>
 						<td>
 						<input  class="mini-datepicker"  name="payment_time"  required="true" value="{$info.payment_time}"/>
 						</td>
 						<td>结算方式：<font style="color:red;"> * </font></td>
-						<td><input name="payment_way" class="mini-textarea"  required="true"  style="width:125px;" maxlength="40" value="{$info.payment_way}"/>	
+						<td><input name="payment_way" class="mini-textarea"  required="true"  style="width:125px;" maxlength="40" value="{$info.payment_way}"/>
 					</tr>
 					<tr>
 						<td>备注：<font style="color:red;"> * </font></td>
@@ -104,11 +119,13 @@
 					<legend>销库存销售明细</legend>
 					<div id="editForm1" style="padding:5px;" >
 					<div class="detail">
-						    	<div id="gridCell1" class="mini-datagrid" style="width:100%;height:100px" showFooter="false" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
-							<div property="columns">    
+								<div id="gridCell1" class="mini-datagrid" style="width:100%;height:100px" showFooter="false" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">
 								<div field="model" width="100" headerAlign="center">牌号 </div>
 								<div field="f_name" width="100" headerAlign="center">厂家 </div>
-								<div field="require_number" width="80" headerAlign="center" >数量</div>
+								<div field="require_number" width="80" headerAlign="center" >数量<font style="color:red;"> * </font>
+									<input  id="change_number" property="editor" class="mini-textbox"  onvaluechanged="onValidation2" style="width:100%;"/>
+								</div>
 								<div field="unit_price" width="80" headerAlign="center" >单价<font style="color:red;"> * </font>
 									<input  id="change_price" property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;"/>
 								</div>
@@ -134,31 +151,36 @@
 					<div id="editForm3" style="padding:5px;" >
 					<div class="detail">
 						<div id="gridCell2" showModified="false" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
-							<div property="columns">    
-								<div field="model" width="100"  headerAlign="center">牌号</div>        
+							<div property="columns">
+								<div field="model" width="100"  headerAlign="center">牌号</div>
 								<div field="f_name" width="120" headerAlign="center">厂家</div>
-								<div field="number" width="80" headerAlign="center" >数量
-								</div>         
+								{if $info.p_type eq 2}
+								<div field="number" width="80" headerAlign="center" >数量<font style="color:red;"> * </font>
+									<input  id="change_number" property="editor" class="mini-textbox"  onvaluechanged="onValidation2" style="width:100%;"/>
+								</div>
+								{else}
+								<div field="number" width="80" headerAlign="center" >数量</div>
+								{/if}
 								<div field="unit_price" width="80" headerAlign="center" >单价<font style="color:red;"> * </font>
-									<input id="change_price" property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
+									<input id="change_price" property="editor" onvaluechanged="onValidation3"  class="mini-textbox" style="width:100%;"/>
 								</div>
 								<div field="time_price" width="80" headerAlign="center" >总金额</div>
 							</div>
 						</div>
-						    <!--total begin-->
-						    <div class="total">
-						        <span class="total-money">合计金额：<input type="text" value="0"/></span>
-						        <span class="total-amount">合计数量：<input type="text" value="0"/></span>
-						    </div>
-						    <!--total end-->
+							<!--total begin-->
+							<div class="total">
+								<span class="total-money">合计金额：<input type="text" value="0"/></span>
+								<span class="total-amount">合计数量：<input type="text" value="0"/></span>
+							</div>
+							<!--total end-->
 					</div>
 					</div>
 			</fieldset>
 			{/if}
 			</div>
-		</div>	
 		</div>
-</div>
+		</div>
+	</div>
 		<div align="center" style="margin-top:10px;">
 		{if $otype eq 'addopus'}
 			{if $order_type neq '2'}
@@ -181,13 +203,13 @@ var noStockData;
 var totalCounts={num:0,price:0};
 "{if $order_type eq 1}"
 gridCell=mini.get('gridCell1');
-noStockData=[]; 
+noStockData=[];
 var noStockData = {$detail};
 gridCell.setData(noStockData);
 totalCount(noStockData);
 "{else}"
 gridCell=mini.get('gridCell2');
-noStockData=[]; 
+noStockData=[];
 var noStockData = {$detail};
 gridCell.setData(noStockData);
 totalCount(noStockData);
@@ -199,13 +221,13 @@ function submitForm(){
 	var o = form.getData();
 	var datas=gridCell.getData();
 	o.store_o_id=datas[0].o_id; //把明细的库存采购id赋给 o的一维数组方便后台处理
-	$.extend(o, {detail:datas}); 
-	$.extend(o, totalCounts); 
+	$.extend(o, {detail:datas});
+	$.extend(o, totalCounts);
 	var json = mini.encode(o);
 	console.log(json);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
-	var urlstr = '/product/order/editOrderSubmit';
+	var urlstr = '/product/order/editOrderSubmit?update_time='+{$info.update_time};
 	$.post(urlstr,{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
@@ -215,6 +237,19 @@ function submitForm(){
 			return false;
 		}
 	},'json');
+}
+//是否代采
+function Event(){
+	var val = mini.get('pur_id').getValue();
+	if(val == 2){
+		$(".cg").removeClass('hidden');
+		mini.get('h_pur_cid').setRequired(true);
+	}else{
+		$(".cg").addClass('hidden');
+		mini.get('h_pur_cid').setRequired(false);
+		mini.get('h_pur_cid').setValue('0');
+	}
+
 }
 function changtransport(e){
 	var val = e.value;
@@ -253,7 +288,14 @@ function usrChoose(e){
 				}
 			}
 		}
-	});         
+	});
+}
+//修改按价格引起的联动
+function onValidation(e){
+	var unit_price=mini.get('change_price').getValue();
+	index=e.sender.ownerRowID;
+	noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);
+	totalCount(noStockData);
 }
 function totalCount(noStockData){
 	totalCounts={num:0,price:0};
@@ -264,12 +306,67 @@ function totalCount(noStockData){
 	$(".total-money").find('input').val(totalCounts.price);
 	$(".total-amount").find('input').val(totalCounts.num);
 }
+//修改数量引起的联动
+function onValidation1(e){
+	var unit_number=mini.get('change_number').getValue();
+	index=e.sender.ownerRowID;
+	noStockData[index].time_price=parseFloat(unit_number)*parseFloat(noStockData[index].unit_price);
+	noStockData[index].unumber = unit_number;
+	totalCount1(noStockData);
+}
+function totalCount1(noStockData){
+	console.log(noStockData);
+	totalCounts={num:0,price:0};
+	for (var i = 0; i < noStockData.length; i++) {
+		if(noStockData[i].unumber < 0.01) alert('你484傻！修改的数量不能小于0吨');
+		var n = noStockData[i].unumber > 0 ? noStockData[i].unumber : noStockData[i].require_number;
+		totalCounts.num=parseFloat(totalCounts.num)+parseFloat(n);
 
-function onValidation(e){
+		totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
+	};
+	$(".total-money").find('input').val(totalCounts.price);
+	$(".total-amount").find('input').val(totalCounts.num);
+}
+//采购修改
+//修改数量引起的联动
+function onValidation2(e){
+	var unit_number=mini.get('change_number').getValue();
+	index=e.sender.ownerRowID;
+	noStockData[index].time_price=parseFloat(unit_number)*parseFloat(noStockData[index].unit_price);
+	noStockData[index].unumber = unit_number;
+	totalCount2(noStockData);
+}
+function totalCount2(noStockData){
+	console.log(noStockData);
+	totalCounts={num:0,price:0};
+	for (var i = 0; i < noStockData.length; i++) {
+		if(noStockData[i].unumber < 0.01) alert('你484傻！修改的数量不能小于0吨');
+		var n = noStockData[i].unumber > 0 ? noStockData[i].unumber : noStockData[i].require_number;
+		totalCounts.num=parseFloat(totalCounts.num)+parseFloat(n);
+
+		totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
+	};
+	$(".total-money").find('input').val(totalCounts.price);
+	$(".total-amount").find('input').val(totalCounts.num);
+}
+//修改数量引起的联动
+function onValidation3(e){
 	var unit_price=mini.get('change_price').getValue();
 	index=e.sender.ownerRowID;
-	noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);
-	totalCount(noStockData);
+	noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].number);
+	console.log(noStockData);
+	totalCount3(noStockData);
+}
+function totalCount3(noStockData){
+	console.log(noStockData);
+	totalCounts={num:0,price:0};
+	for (var i = 0; i < noStockData.length; i++) {
+		var n = noStockData[i].unumber > 0 ? noStockData[i].unumber : noStockData[i].number;
+		totalCounts.num=parseFloat(totalCounts.num)+parseFloat(n);
+		totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
+	};
+	$(".total-money").find('input').val(totalCounts.price);
+	$(".total-amount").find('input').val(totalCounts.num);
 }
 //添加协助者
 function allotCustomer(){
@@ -299,9 +396,9 @@ function allotCustomer(){
 		}
 	});
 }
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");

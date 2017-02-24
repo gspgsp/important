@@ -6,11 +6,12 @@ class accountAction extends adminBaseAction {
 	public function __init(){
 		$this->db=M('public:common')->model('company_account');
 		$this->doact = sget('do','s');
+		$this->assign('account_status',L('account_status'));//账户类型
 
 	}
 	/**
 	 * 会员列表
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function init(){
@@ -29,7 +30,7 @@ class accountAction extends adminBaseAction {
 
 	/**
 	 * Ajax获取列表内容
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	private function _grid(){
@@ -38,7 +39,7 @@ class accountAction extends adminBaseAction {
 		$sortField = sget("sortField",'s','id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where=" 1 ";		
+		$where=" 1 ";
 		$keyword=sget('keyword','s');//关键词
 
 		if(!empty($keyword)){
@@ -50,15 +51,15 @@ class accountAction extends adminBaseAction {
 					->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['type'] = L('account_status')[$list['data'][$k]['type']];//账户类型	
+			$list['data'][$k]['type'] = L('account_status')[$list['data'][$k]['type']];//账户类型
 
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
-	}	
+	}
 	/**
 	 * Ajax删除节点s
-	 * @access private 
+	 * @access private
 	 */
 	private function _remove(){
 		$this->is_ajax=true; //指定为Ajax输出
@@ -73,10 +74,10 @@ class accountAction extends adminBaseAction {
 			$this->error('数据处理失败');
 		}
 	}
-	
+
 	/**
 	 * 编辑已存在的数据
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	private function _save(){
@@ -105,8 +106,8 @@ class accountAction extends adminBaseAction {
 			$this->error('数据处理失败');
 		}
 	}
-	
-	
-		
-	
+
+
+
+
 }

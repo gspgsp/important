@@ -9,6 +9,7 @@ class goodsAction extends adminBaseAction {
 		$this->doact = sget('do','s');
 		$this->assign('goods_category',L('goods_category')); //商品分类
 		$this->assign('status',array(1=>'上架',2=>'下架'));
+		$this->assign('is_mobile',array(0=>'pc显示',1=>'塑料圈显示'));
 
 	}
 	/**
@@ -103,6 +104,11 @@ class goodsAction extends adminBaseAction {
 				$result=true;
 			}else{//新增
 				$result = $this->db->add($data+array('create_time'=>CORE_TIME));
+			}
+			if($result){
+				$this->success('操作成功');
+			}else{
+				$this->error('数据处理失败');
 			}
 			
 		}else{

@@ -49,7 +49,7 @@ class saleLogAction extends adminBaseAction {
 		if($type==1){//开票审核时，数量已完成的不显示
 			$where.= "billing_number <> number";
 		}else{
-			$where .=1;
+			$where .=' 1 ';
 		}
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
@@ -104,6 +104,8 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['order_name']=M("product:order")->getColByName($v['o_id']);
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); 
 			$list['data'][$k]['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
+			//比较价格较上次是否小于1%
+			$list['data'][$k]['min_price'] = M('product:factory')->minPrice($v['p_id'],$v['input_time']);
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
@@ -120,6 +122,8 @@ class saleLogAction extends adminBaseAction {
 				//开票申请与审核的小计
 				$list['data'][$k]['sum'] = $v['unit_price']*$v['number'];
 			}
+			//出库确认
+			$list['data'][$k]['out_check'] = intval(M("product:outStorage")->getFildById($v['o_id'],$v['p_id']));
 			//$tot +=$list['data']['sum'];
 		}
 		//$to="mn";

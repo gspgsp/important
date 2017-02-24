@@ -20,6 +20,7 @@
 					<select name="key_type">
 						<option value="name">姓名</option>
 						<option value="username">用户名</option>
+						<option value="seat_phone">座机号</option>
 					</select>  
 						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
 						<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -41,6 +42,7 @@
 			<div field="username" width="80" align="center" headerAlign="center">用户名</div>
 			<div field="name" width="50" align="center" headerAlign="center">姓名</div>
 			<div field="mobile" width="70" align="center" headerAlign="center">手机号</div>
+			<div field="seat_phone" width="70" align="center" headerAlign="center">座机号</div>
 			<div field="depart" width="50" align="center" headerAlign="center" renderer="onLoadDepart">部门</div>
 			<div field="leader" width="50" align="center" headerAlign="center">领导</div>
 			<div field="status" width="50" align="center" headerAlign="center" renderer="LoadStatus">状态</div>
@@ -81,6 +83,10 @@
 						<tr>
 							<td style="width:100px;">手机号：</td>
 							<td><input name="mobile" class="mini-textbox" style="width:100px;" /></td>
+						</tr>
+						<tr>
+							<td style="width:100px;">座机号：</td>
+							<td><input name="seat_phone" class="mini-textbox" style="width:100px;" /></td>
 						</tr>
 						<tr>
 							<td style="width:70px;">密码：</td>
@@ -165,6 +171,7 @@ function edit() {
 		mini.getbyName('mobile').setValue(row.mobile);
 		mini.getbyName('depart').setValue(row.depart);
 		mini.getbyName('username').setValue(row.username);
+		mini.getbyName('seat_phone').setValue(row.seat_phone);
 		mini.getbyName('status').setValue(row.status);
 		mini.getbyName('pid').setValue(row.pid);
 		mini.getbyName('pic').setValue(row.pic);

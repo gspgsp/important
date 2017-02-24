@@ -12,12 +12,14 @@
   <div class="team_box" style="width:100%; float:left;">
         <table id="laydate">
         	<tr>	
+				<form id="soform" method="post" action="/user/quota/download">
                 <td>
                 	<select name="time_type" id="soStatus">
                     	<option value="this_month" {$this_month_selected}>本月</option>
                     	<option value="last_month" {$last_month_selected}>上月</option>
                 	</select>
                 </td>
+				</form>
                 <td>
                 	<select name="team_type" id="team">
                 		{foreach from=$team item=value key=key}
@@ -52,7 +54,11 @@
                 <td colspan="2">
                     <button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" class="submit" type="submit" name='profit' >利润</button>
                 </td>
+                <td>
+                	<button style="cursor: pointer; border: 1px solid black; padding: 2px 7px;" onclick="download()"  class="output">Excel导出</button>
+                </td>
             </tr>
+
         </table>
 </div>
 <div id="container" style="width:100%;height:300px;float:left;margin-top:10px;"></div>
@@ -96,7 +102,7 @@
 					team_name:_team_name,
 					data_type:_data_type
 				},function(data){
-					console.log((data.msg));
+					// console.log((data.msg));
 					// var obj = $.parseJSON(data.msg);
 				    $('#container').highcharts($.parseJSON(data.msg));
 				    // $('#container2').highcharts($.parseJSON(data.msg));
@@ -130,7 +136,7 @@
 					team_name:_team_name,
 					data_type:_data_type
 				},function(data){
-					console.log((data.msg));
+					// console.log((data.msg));
 				    $('#container').highcharts($.parseJSON(data.msg));
 				},'json');
 		});
@@ -145,6 +151,9 @@
 			$(this).css('color','red');
 		});
 	});
+	function download() {
+		$("#soform").submit();
+	}
 </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 				<select name="key_type">
 					<option value="p_id">牌号</option>
 					<option value="store_id">仓库</option>
-					<option value="lot_num">批次</option>
+					<option value="customer_manager">交易员</option>
 					<option value="unit_price">采购价</option>	
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
@@ -22,17 +22,19 @@
 		sizeList="[10,20,50,100]" pageSize="20" multiSelect="false"  showFilterRow="true"  onrowclick="setsupport" onlyCheckSelection="true" allowCellSelect="true" allowRowSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
+			<div field="purchase_id" width="40" headerAlign="center" align="center" allowSort="true">采购明细id</div>
 			<div field="store_name" width="50" headerAlign="center" align="center" allowSort="true">仓库</div>
 			<div field="order_sn" width="45" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
 			<div field="model" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
-			<div field="f_name" width="50" headerAlign="center" align="center" allowSort="true">厂家</div>
-			<div field="lot_num" width="35" headerAlign="center" align="center" allowSort="true">批次</div>
+			<div field="f_name" width="55" headerAlign="center" align="center" allowSort="true">厂家</div>
+			<div field="customer_manager" width="35" headerAlign="center" align="center" allowSort="true">交易员</div>
 			<div field="unit_price" width="40"  headerAlign="center" align="center" allowSort="true">采购价</div>
+			<div field="expect_price" width="40"  headerAlign="center" align="center" allowSort="true">期望售价</div>
 			<div field="number" width="40" headerAlign="center" align="center" allowSort="true">进货数量</div>
 			<div field="remainder" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
 			<div field="controlled_number" width="40" headerAlign="center" align="center" allowSort="true">可用数量</div>
 			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
-			<div field="admin_name" width="45" headerAlign="center" align="center">管理员</div>
+			<div field="admin_name" width="35" headerAlign="center" align="center">管理员</div>
 		</div>
 	</div>
 </div>
@@ -64,14 +66,14 @@
 					</td>
 					<td><font style="color:blue;">销售价<font style="color:red;"> * </font></font></td>
 					<td>
-					<input name="unit_price" id="u_price" value="{$info.unit_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="true"  required="true" style="width:150px"/>	
+					<input name="unit_price" id="u_price" value="{$info.unit_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="true"  required="true" style="width:150px"/>
 					</td>
-					
 				</tr>
 				<tr>
-					
 					<td>备注 : </td>
 					<td><input name="remark" class="mini-textarea" style="width:200px"  value="{$info.remark}"></td>
+					<td id="s_title" style="display:none;"><font style="color:blue;">历史价：</font></td>
+					<td id="s_val" style="display:none;"><font style="color:red;" id="s_price"> 0</font>&nbsp;元 <a href="javascript:proHistory()">查看</a></td>
 				</tr>
 				<input class="mini-hidden" id="m_o_id" name="o_id" value=""/>
 				<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
@@ -81,9 +83,10 @@
 				<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
 				<input class="mini-hidden" id="m_lock_number" name="lock_number" value=""/>
 				<input class="mini-hidden" id="inlog_id" name="inlog_id" value=""/>
+				<input class="mini-hidden" id="history_price" name="history_price" value=""/>
+				<input class="mini-hidden" id="purchase_id" name="purchase_id" value=""/>
 				<input class="mini-hidden" id="controlled_number" name="controlled_number" value=""/>
-
-			</table>	
+			</table>
 		</fieldset>
 	</div>
 		{if $choose eq 1}
@@ -168,7 +171,7 @@ function setsupport(e){
 	"{if $type eq 'edit'}"
 	return false;
 	"{/if}"
-	var record = e.record, id=record.id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number,o_id = record.o_id,f_name=record.f_name;
+	var record = e.record, id=record.id, purchase_id=record.purchase_id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number,o_id = record.o_id,f_name=record.f_name,price_s=record.price_s;
 	mini.get("model").setValue(model);
 	mini.get("m_f_name").setValue(f_name);
 	mini.get("store").setValue(store);
@@ -180,8 +183,13 @@ function setsupport(e){
 	mini.get("m_store_id").setValue(store_id);
 	mini.get("m_o_id").setValue(o_id);
 	mini.get("inlog_id").setValue(id);
+	mini.get("purchase_id").setValue(purchase_id);
 	mini.get("m_lock_number").setValue(locknum);
+	mini.get("history_price").setValue(price_s);
 	mini.get("controlled_number").setValue(controlled_number);
+	$('#s_price').html(price_s);
+	$('#s_title').show();
+	$('#s_val').show();
 
 }
 function onValidation(e) {
@@ -209,8 +217,17 @@ function addPur(){
 				grid.reload();
 			}
 		}
-	});	
-
+	});
+}
+//展示10条历史成交价
+function proHistory(){
+	var product_id = $('#m_p_id').val();
+		mini.open({
+		url: " /order/business/init?p_id="+product_id,
+		title: "产品历史成交价",
+		width: 1250,
+		height: 550,
+	});
 }
 //强制选择归属订单
 function ordChoose(e){
@@ -235,7 +252,7 @@ function ordChoose(e){
 				}
 			}
 		}
-	});         
+	});
 }
 function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);

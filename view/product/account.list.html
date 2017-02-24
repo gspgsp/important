@@ -8,12 +8,12 @@
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
 				<!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>      -->
-				<!-- <span class="separator"></span>             
+				<!-- <span class="separator"></span>
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>  -->
 			</td>
 			<td style="float:right;">
 			<form id="soform">
-				<input name="keyword" class="mini-textbox" emptyText="请输入账户名称" style="width:140px;" onenter="onKeyEnter"/>   
+				<input name="keyword" class="mini-textbox" emptyText="请输入账户名称" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 				<span id="searchMsg"></span></form>
 			</td>
@@ -23,10 +23,10 @@
 
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-		url="/product/account/init?action=grid"	
+		url="/product/account/init?action=grid"
 		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
 		>
-		<div property="columns">    
+		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="id" width="50" headerAlign="center" align="center" allowSort="true">ID</div>
 			<div field="account_name" width="30" headerAlign="center" allowSort="true" align="center">账户名称</div>
@@ -34,18 +34,18 @@
 			<div field="account_no" width="80" headerAlign="center" allowSort="true" align="center">账号
 			</div>
 			<div field="sum" width="60" headerAlign="center" align="center">账户金额
-			</div>                
+			</div>
 			<div field="freeze" width="60" headerAlign="center" allowSort="true" align="center">冻结金额
 			</div>
 			<!-- <div field="balance" width="60" headerAlign="center" allowSort="true" align="center">当前余额
 			</div> -->
-			
+
 			<div field="update_admin" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建者</div>
 		</div>
 	</div>
 </div>
 
-<div id="addaccount" class="mini-window" title="添加账户" style="width:300px;" 
+<div id="addaccount" class="mini-window" title="添加账户" style="width:300px;"
 	showModal="true" allowResize="true" allowDrag="true"
 	>
 	<div id="addForm" class="form" >
@@ -64,7 +64,7 @@
 				<td>开户银行<span style="color:red">*</span></td>
 				<td><input name="bank" class="mini-textbox" style="width:120px" required="true"/></td>
 			</tr> -->
-			
+
 			<tr>
 				<td>开户账号<span style="color:red">*</span></td>
 				<td><input name="account_no" class="mini-textbox" style="width:160px" required="true"/></td>
@@ -77,7 +77,7 @@
 			<tr>
 				<td>开户日期</td>
 				<td><input name="update_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:160px;" format="yyyy-MM-dd HH:mm" showTime="true"/></td>
-			</tr>			
+			</tr>
 			<!-- <tr>
 				<td>冻结金额</td>
 				<td><input name="freeze" class="mini-textbox" style="width:160px;" textField="name" valueField="id" value="1"/></td>

@@ -24,6 +24,7 @@ class collectionAction extends adminBaseAction
 			$this->_grid();exit;
 		}
 		$this->assign('type','1');
+		$this->assign('order_sn',sget('order_sn','s'));
 		$this->assign('collection_status',L('gatheringt_status'));    //订单收款状态
 		$this->assign('page_title','销售收款明细');
 		$this->display('collection.list.html');
@@ -49,7 +50,7 @@ class collectionAction extends adminBaseAction
 
 		/**
 	 * Ajax获取列表内容
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	private function _grid(){
@@ -67,6 +68,8 @@ class collectionAction extends adminBaseAction
 		}
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
+		$order_sn=sget('order_sn','s');
+		if($order_sn)  $where.=" and `order_sn` = '$order_sn' ";
 		//交易日期
 		$sTime = sget("sTime",'s','payment_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
@@ -92,7 +95,7 @@ class collectionAction extends adminBaseAction
 					$newword = "更正".$keyword;
 					$where.=" and `order_sn` = '$keyword' or `order_sn` = '$newword'";
 					break;
-				case 'c_name':					
+				case 'c_name':
 					$c_ids = M('user:customer')->getInfoByCname($key_type,$keyword);
 					$str_cids = implode(',',array_values($c_ids));
 					$where.=" and `c_id` in ($str_cids)";
@@ -113,21 +116,28 @@ class collectionAction extends adminBaseAction
 			$where .= " and `customer_manager` in ($sons) ";
 		}
 		$list=$this->db->where($where)
+					->select("c.*,a.name")
+					->from('collection c')
+					->join('admin as a','a.admin_id=c.customer_manager')
 					->page($page+1,$size)
 					->order("$sortField $sortOrder".', payment_time DESC')
 					->getPage();
+				// $list=$this->db->where($where)
+				// 	->page($page+1,$size)
+				// 	->order("$sortField $sortOrder".', payment_time DESC')
+				// 	->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['payment_time']=$v['payment_time']>1000 ? date("Y-m-d H:i:s",$v['payment_time']) : '-';
 			//收付款主题
 			$list['data'][$k]['title'] = L('company_account')[$list['data'][$k]['title']];
-			
+
 			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
 			//开票状态
 			$list['data'][$k]['invoice_status']=M('product:order')->getColByName($value=$v['o_id'],$col='invoice_status',$condition='o_id');
 			// $list['data'][$k]['is_new_collection']=M('product:order')->getColByName($value=$v['o_id'],$col='is_new_collection',$condition='o_id');
-			
+
 			//每笔订单 收付款明细的审核状态
 			$arr = M('product:collection')->getLastInfo($name='o_id',$value=$v['o_id']);
 			$red_status = $this->db->where('collection_status =1 and o_id='.$arr[0]['o_id'])->getAll();
@@ -138,7 +148,7 @@ class collectionAction extends adminBaseAction
 		$msg="";
 		if($list['count']>0){
 			$sum=$this->db->select("sum(total_price) as tsum, sum(collected_price) as csum, sum(uncollected_price) as usum")->where($where)->getRow();
-			
+
 			if ($type == 1) {
 				$msg="[合计]总额:【".price_format($sum['tsum'])."】已收款:【".$sum['csum']."】未收款:【".$sum['usum']."】";
 			}elseif($type ==2) {
@@ -146,16 +156,16 @@ class collectionAction extends adminBaseAction
 			}
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
-		$this->json_output($result);	
+		$this->json_output($result);
 	}
-	
+
 	/**
 	 * 删除
 	 */
 	public function delCollection(){
 		$id = sget('id','i');
 		if(empty($id)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$c_status = $this->db->model('collection')->select('collection_status')->where('id='.$id)->getOne();
 		if ($c_status == 1) {
@@ -176,15 +186,15 @@ class collectionAction extends adminBaseAction
 	public function transactionInfo(){
 		$o_id=sget('o_id','i',0);
 		$type=sget('order_type','s');//type=1为销售订单，type=2为采购订单
-		
-		if(empty($o_id)) $this->error('信息错误');	
+
+		if(empty($o_id)) $this->error('信息错误');
 		$data      = M('product:order')->getAllByName($value=$o_id,$condition='o_id');
 		$c_info    = M('user:customer')->getCinfoById($data[0][c_id]);//获取公司所有信息
 
 		//p($c_info);die;
 		$user_name = M('rbac:adm')->getUserInfoById($data[0][admin_id]);//获取前台添加的业务员名字
 		$username  = $user_name['name'];
-		
+
 		//订单中没有业务员id就传input_admin过去
 		if (empty($username)) {
 			$this->assign('input_admin',$data[0][input_admin]);
@@ -218,16 +228,21 @@ class collectionAction extends adminBaseAction
 					$this->assign('remark',$res[0]['remark']);//备注
 				}
 			}else{
-				//获取最后一条收付款信息	
+				//获取最后一条收付款信息
 				$res = M('product:collection')->getLastInfo($name='o_id',$value=$data[0][o_id]);
 				if($res){
-					$this->assign('total_price',$res[0]['total_price']);
-					$this->assign('uncollected_price',$res[0]['uncollected_price']);
-					$this->assign('remark',$res[0]['remark']);//备注
+// 					$this->assign('total_price',$res[0]['total_price']);
+// 					$this->assign('uncollected_price',$res[0]['uncollected_price']);
+// 					$this->assign('remark',$res[0]['remark']);//备注
+				    $collected_price =  $this->db->model('collection')->select("IFNULL(SUM(collected_price),0) AS collected_price")->where("o_id='".$data[0][o_id]."'")->getOne();
+				    $uncollected_price = $data[0]['total_price'] -  $collected_price;
+				    $this->assign('total_price',$data[0]['total_price']);
+				    $this->assign('uncollected_price',$uncollected_price);
+				    $this->assign('remark',$res[0]['remark']);//备注
 				}
 			}
 			$this->display('collection.add.html');
-		
+
 	}
 
 	/**
@@ -235,7 +250,17 @@ class collectionAction extends adminBaseAction
 	*/
 	public function ajaxSave(){
 		$data = sdata();
-		
+		$o_id = sget('o_id','i',0);
+		if ($data['collection_token'] != $_SESSION['collection_token']) {
+			$this->error("非法提交数据");
+			unset($_SESSION['collection_token']);
+		}else{
+			unset($_SESSION['collection_token']);
+		}
+		//根据o_id获取订单中的业务员id,即customer_manager
+		$customer_manager = $this->db->model('order')->select('customer_manager')->where('o_id='.$data['o_id'])->getOne();
+		$data['customer_manager']=$customer_manager;
+
 			//保存收付款相关信息
 			if(empty($data['uncollected_price'])){
 				$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
@@ -244,13 +269,13 @@ class collectionAction extends adminBaseAction
 				$m = $data['uncollected_price']-$data['collected_price'];
 			}
 
-			$this->db->startTrans();//开启事务 
- 
+			$this->db->startTrans();//开启事务
+
 				if($data['finance'] ==1){
 					if($m>0){
 						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
 					}
-					
+
 					if($m==0){
 						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
 					}
@@ -272,7 +297,7 @@ class collectionAction extends adminBaseAction
 					$add_data['order_id']=$data['o_id'];
 					$add_data['order_type']=$data['order_type'];
 
-					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username'],'customer_manager'=>$_SESSION['adminid']))) $this->error("交易失败");
+					if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
 
 					//修改account账户信息，1是销售，收款
 
@@ -286,26 +311,25 @@ class collectionAction extends adminBaseAction
 						}else{
 							if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
 						}
-					
+
 					}
 
 				}else{
 					$data['uncollected_price'] = $m;
-					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME, 'customer_manager'=>$_SESSION['adminid'],'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+					if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
 				}
 			if($this->db->commit()){
 				$this->success('操作成功');
 			}else{
 				$this->db->rollback();
 				$this->error('保存失败：'.$this->db->getDbError());
-			}		
-		
-	}
+			}
 
+	}
 
 	/**
 	 * 保存行内编辑数据
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function save(){
@@ -341,7 +365,7 @@ class collectionAction extends adminBaseAction
 
 	/**
 	 * 下载附件
-	 * @access private 
+	 * @access private
 	 */
 	public function downloadAdjunct(){
 		$this->is_ajax=true; //指定为Ajax输出

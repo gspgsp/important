@@ -73,7 +73,8 @@ class shipAction extends adminBaseAction {
 		if(empty($ids)){
 			$this->error('操作有误');	
 		}
-		$result=$this->db->where("id in ($ids)")->delete();
+		$result=$this->db->model('ship_collect')->where("id in ($ids)")->delete();
+		// showtrace();
 		if($result){
 			$this->success('操作成功');
 		}else{
@@ -131,29 +132,45 @@ class shipAction extends adminBaseAction {
 		if($action=='grid'){
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
-			$sortField = sget("sortField",'s','input_time'); //排序字段
+//			$sortField = sget("sortField",'s','input_time'); //排序字段
+			$sortField = sget("sortField",'s','ship.input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			//搜索条件
 			$where=" 1 ";
 			//筛选时间
 			$sTime = sget("sTime",'s','input_time'); //搜索时间类型
+//			$sTime = sget("sTime",'s','ship.input_time'); //搜索时间类型
 			$where.=getTimeFilter($sTime); //时间筛选
+
 			//状态
 			$status=sget('status',0);
 			if($status>0){
-				$where.=' and status='.($status-1);	
+//				$where.=' and status='.($status-1);
+				$where.=' and ship.status='.($status-1);
 			}
 			// //关键词搜索
-			$key_type=sget('key_type','s','starting');
-			$keyword=sget('keyword','s');
+//			$key_type=sget('key_type','s','starting');
+			$key_type=sget('key_type','s','ship.starting');
+			$keyword=trim(sget('keyword','s'));
 			if(!empty($keyword)){
-				if($key_type=='starting' || $key_type=='ending'){
+				if($key_type=='ship.starting' || $key_type=='ship.ending'){
 					$where.=" and `$key_type` like '%$keyword%' ";
+//					$where.=" and `ship.$key_type` like '%$keyword%' ";
 				}else{
 					$where.=" and `$key_type`='$keyword' ";
+//					$where.=" and `ship.$key_type`='$keyword' ";
 				}
 			}
-			$list=$this->db->model('ship_collect')->where($where)
+//			$list=$this->db->model('ship_collect ')
+//				->where($where)
+//				->page($page+1,$size)
+//				->order("$sortField $sortOrder")
+//				->getPage();
+			$list=$this->db->model('ship_collect as ship')
+					->leftjoin('customer_contact as con','con.user_id=ship.user_id')
+					->leftjoin('customer as cus','con.c_id=cus.c_id')
+				    ->select('con.name,con.mobile,cus.c_name,ship.*')
+					->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
@@ -202,10 +219,16 @@ class shipAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$id=sget('id','i');
 		if($id>0){
-			$info=$this->db->model('ship_collect')->wherePk($id)->getRow();
+//			$info=$this->db->model('ship_collect')->wherePk($id)->getRow();
+		    $where="id={$id}";
+			$info=$this->db->model('ship_collect as ship')
+				->leftjoin('customer_contact as con','con.user_id=ship.user_id')
+				->leftjoin('customer as cus','con.c_id=cus.c_id')
+				->select('con.name,con.mobile,cus.c_name,ship.*')
+				->where($where)->getAll();
 		}
 		//分配物流公司
-		$this->assign('info',$info);
+		$this->assign('info',$info[0]);
 		$this->assign('ship_company',L('ship_company'));
 		$this->assign('page_title','处理物流订单');
 		$this->display('ship.info.html');
@@ -226,4 +249,7 @@ class shipAction extends adminBaseAction {
 		$this->db->model('ship_collect')->wherePk($id)->update($_data);
 		$this->success('操作成功');
 	}
+
+
+
 }

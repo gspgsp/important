@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td>所需牌号：</td>
-            <td><input name="need_product" class="mini-textbox" style="width:250px;"  value="{$user.need_product}"/></td>
+            <td><input name="need_product" class="mini-textbox" style="width:250px;" required="true" value="{$user.need_product}"/></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -67,7 +67,34 @@
             <td>注册资本：</td>
             <td>
               <input name="registered_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.registered_capital|default:}"/>
-            万
+            元
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>实到资本：</td>
+            <td>
+              <input name="true_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.true_capital|default:}"/>
+              元
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>预信用额度：</td>
+            <td>
+              <input name="pre_credit_limit" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.credit_limit|default:}"/>
+              元
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>信用额度：</td>
+            <td>
+              <input name="credit_limit" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.credit_limit|default:}"/>
+              元
             </td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -140,6 +167,10 @@
             </td>
           </tr>
           <tr>
+            <td>是否授信：</td>
+            <td><input class="mini-combobox" name="is_credit" style="width:100px;" data='{:setMiniConfig|$credit}' required="true" textfield="name" valuefield="id" value="{$user.is_credit|default:0}"/></td>
+          </tr>
+          <tr>
             <td>状态：</td>
             <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' textfield="name" valuefield="id" value="{$user.status|default:1}"/></td>
           </tr>
@@ -162,7 +193,7 @@
                 </tr>
                 <tr>
                   <td style="width:80px;">手机：</td>
-                  <td style="width:210px;"><input name="info_mobile" class="mini-textbox" maxlength="11" value="{$info_ext.mobile}" style="width:150px;" onvalidation="onValidMobile"/></td>
+                  <td style="width:210px;"><input name="info_mobile" class="mini-textbox" maxlength="11" value="{$info_ext.mobile}" style="width:150px;" required="true" onvalidation="onValidMobile"/></td>
                   <td>电话：</td>
                   <td><input name="info_tel" class="mini-textbox" style="width:150px;"  value="{$info_ext.tel}" vtype="rangeLength:6,14"/></td>
                 </tr>

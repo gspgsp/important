@@ -4,6 +4,8 @@
 		<tr>
 			<td style="float:left;">
 				<a class="mini-button" iconCls="icon-undo" plain="true" onclick="release()">撤销</a>
+				<span class="separator"></span>
+				<span id="searchMsg"></span>
 			</td>
 			<td style="float:right;">
 			<form id="soform">
@@ -14,13 +16,13 @@
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
 				<select name="key_type">
+					<option value="p_id">牌号</option>
 					<option value="store_id">仓库</option>
-					<option value="store_aid">入库人</option>
-					<option value="p_id">牌号</option>	
+					<option value="store_aid">入库人</option>	
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-				<span id="searchMsg"></span></form>
+			</form>
 			</td>
 		</tr>
 	</table>

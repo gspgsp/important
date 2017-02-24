@@ -170,25 +170,33 @@ class contentAction extends adminBaseAction {
 		}
 		
 		$_info['admin_name']=$_SESSION['name'];
-		//去除描述里的标签和空格
-		$keywords=strip_tags($_info['content']);
-		//正则去除图片
-		$keywords=preg_replace('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', '', htmlspecialchars_decode($keywords));
-		//引入分词类，获取关键词
-		   $pscws = new PSCWS4();
-		        $pscws->set_dict(APP_LIB.'class/keyword/lib/dict.utf8.xdb');
-		        $pscws->set_rule(APP_LIB.'class/keyword/lib/rules.utf8.ini');
-		        $pscws->set_ignore(true);
-		        $pscws->send_text($keywords);
-		        $words = $pscws->get_tops(5);
-		        $tags = array();
-		        foreach ($words as $val) {
-		            $tags[] = $val['word'];
-		        }
-		        $tags=implode(',', $tags);
-		        $pscws->close();     
-		    $_info['keywords'] = $tags;
-		    $_info['description'] = mb_substr(strip_tags($keywords), 0,100);
+		if(empty($_info['keywords'])){
+			//去除描述里的标签和空格
+			$keywords=strip_tags($_info['content']);
+			//正则去除图片
+			$keywords=preg_replace('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', '', htmlspecialchars_decode($keywords));
+			//引入分词类，获取关键词
+			   $pscws = new PSCWS4();
+			        $pscws->set_dict(APP_LIB.'class/keyword/lib/dict.utf8.xdb');
+			        $pscws->set_rule(APP_LIB.'class/keyword/lib/rules.utf8.ini');
+			        $pscws->set_ignore(true);
+			        $pscws->send_text($keywords);
+			        $words = $pscws->get_tops(10);
+			        $tags = array();
+			        foreach ($words as $val) {
+			            $tags[] = $val['word'];
+			        }
+			        $tags=implode(',', $tags);
+			        $pscws->close();     
+			    $_info['keywords'] = $tags;
+			if(empty($_info['description'])){
+				$_info['description'] = mb_substr(strip_tags($keywords), 0,200);
+			}
+		}else{
+			if(empty($_info['description'])){
+				$_info['description'] = mb_substr(strip_tags($_info['content']), 0,200);
+			}			
+		}
 		$_data=saddslashes($_info);
 		//更新或新增商品数据
 		if($id>0){

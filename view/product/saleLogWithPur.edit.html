@@ -24,11 +24,22 @@
 				<td>售价<font style="color:red;"> * </font></td>
 				<td><input name="unit_price" class="mini-textbox" style="width:100px" required="true" value=""></td>
 			</tr>
-
-<!-- 			<tr>
+			<!-- <tr>
 				<td>备注:</td>
 				<td><input name="remark" class="mini-textarea" style="width:100px"  value="{$data.remark}"
 			</tr> -->
+			<tr id ='history' style="display:none;">
+				<td>历史成交记录:</td>
+				<td>
+					<a href="javascript:proHistory()" style="color:red;">点击查看</a>
+					<input class="mini-hidden" name="history_price" id="history_price" value=""/>
+					<input class="mini-hidden" id="product_id" value="0"/>
+				</td>
+			</tr>
+			<tr id ='s_price' style="display:none;">
+				<td>最近成交价:</td>
+				<td><font style="color:red;" id="neighbor_price">0</font>&nbsp;&nbsp;元</td>
+			</tr>
 			</table>
 			</div>
 		{if $choose eq 1}
@@ -61,6 +72,17 @@ function submitForm() {
 	}
   utils.ajax('/product/product/ajaxSave?action=edit',{data:json},callback,"POST","json");
 }
+//展示10条历史成交价
+function proHistory(){
+	var product_id = $('#product_id').val();
+	console.log(product_id);
+		mini.open({
+		url: " /order/business/init?p_id="+product_id,
+		title: "产品历史成交价",
+		width: 1250,
+		height: 550,
+	});
+}
 //强制选择归属产品
 function proChoose(e){
 	var btn = this;
@@ -78,7 +100,7 @@ function proChoose(e){
 			if (action == "ok") {
 				var iframe = this.getIFrameEl();
 				var data = iframe.contentWindow.GetData();
-				data = mini.clone(data);    //必须
+				data = mini.clone(data);//必须
 				if (data) {
 					btn.setValue(data.id);
 					btn.setText(data.model);
@@ -86,6 +108,12 @@ function proChoose(e){
 					$('#f_name').html(data.f_name);
 					var ff_name = mini.get('ff_name');
 					ff_name.setValue(data.f_name);
+					mini.get('product_id').setValue(data.id);
+					mini.get('history_price').setValue(data.price_s);
+					$('#neighbor_price').html(data.price_s);
+					$('#history').show();
+					$('#s_price').show();
+
 				}
 			}
 		}

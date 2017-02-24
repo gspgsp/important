@@ -1,21 +1,21 @@
 <?php
-/** 
+/**
  * 系统设置
  */
 class sysUploadAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
 	}
-	
+
 	/**
 	 * 上传图片
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function images(){
 		$this->is_ajax=true; //指定为Ajax输出
 		set_time_limit(0);
-		
+
 		//取得模块的缩小尺寸规格
 		$model=sget('model','s');
 		$sys=M('system:setting')->getSetting();
@@ -23,28 +23,37 @@ class sysUploadAction extends adminBaseAction {
 		if(isset($sys['model_img'][$model])){
 			$thumbs=$sys['model_img'][$model]['string'];
 		}
-		
+		//取出静态页面直接传过来的缩略图尺寸
+		$thumb_size=sget('thumb_size','s');
+		if(empty($thumbs)&& !empty($thumb_size)){
+			$thumbs=$thumb_size;
+		}
 		$result=A('public:image')->upload($thumbs);
-		
-		$from=sget('from','s'); //来源		
+
+		$from=sget('from','s'); //来源
 		if(empty($result['err'])){
 			if($from=='kind'){
 				$this->json_output(array('error'=>0,'message'=>'','url'=>C('TEMP_REPLACE.__UPLOAD__').'/'.$result['img']));
 			}else{
-				$this->success($result['img']);
+				if(empty($result['sm_img'])){
+					$this->success($result['img']);
+				}else{
+					$this->success($result);
+				}
+
 			}
 		}else{
 			if($from=='kind'){
 				$this->json_output(array('error'=>1,'message'=>$result['err'],'url'=>''));
 			}else{
-				$this->error($result['err']);	
+				$this->error($result['err']);
 			}
 		}
 	}
-	
+
 	/**
 	 * 上传文件
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function upload(){
@@ -52,8 +61,8 @@ class sysUploadAction extends adminBaseAction {
 		set_time_limit(0);
 		//$savePath = "fileContract";
 		$result=A('public:upload')->upload($savePath);
-		
-		$from=sget('from','s'); //来源		
+
+		$from=sget('from','s'); //来源
 		if(empty($result['err'])){
 			$file = $result['file'];
 			$att = array(
@@ -65,7 +74,7 @@ class sysUploadAction extends adminBaseAction {
 				);
 			M('system:attachment')->addAtt($att);
 			$attId = M('system:attachment')->getLastID();
-				
+
 			if($from=='kind'){
 				$this->json_output(array('error'=>0,'message'=>'','url'=>C('TEMP_REPLACE.__UPLOAD__').'/'.$file[0]['savename']));
 				//$this->json_output(array('error'=>0,'message'=>'','attId'=>$attId,'url'=>APP_URL.'/upload/'.$result['file']));
@@ -77,7 +86,7 @@ class sysUploadAction extends adminBaseAction {
 			if($from=='kind'){
 				$this->json_output(array('error'=>1,'message'=>$result['err'],'url'=>''));
 			}else{
-				$this->error($result['err']);	
+				$this->error($result['err']);
 			}
 		}
 	}

@@ -60,6 +60,79 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
+	 * 塑料头条banner
+	 */
+	public function sszcBanner(){
+		$this->position = 8;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条banner
+	 */
+	public function zcssBanner(){
+		$this->position = 9;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条banner
+	 */
+	public function sjjdBanner(){
+		$this->position = 10;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条banner
+	 */
+	public function jpfxBanner(){
+		$this->position = 11;
+		$this->init();
+	}
+
+
+	/**
+	 * 塑料头条banner
+	 */
+	public function middleLeftBanner(){
+		$this->position = 12;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条banner
+	 */
+	public function middleRightBanner(){
+		$this->position = 13;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条首页中间banner
+	 */
+	public function middleBanner(){
+		$this->position = 14;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条子频道左上位置banner
+	 */
+	public function cLeftTopBanner(){
+		$this->position = 17;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条子频道中间位置banner
+	 */
+	public function cMiddleBanner(){
+		$this->position = 16;
+		$this->init();
+	}
+
+	/**
 	 * 合作伙伴
 	 */
 	public function partners(){

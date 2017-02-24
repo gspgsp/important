@@ -61,7 +61,13 @@ class customer_billingAction extends adminBaseAction
 			//关联业务员
 			$list['data'][$k]['username']=M('rbac:adm')->getUserByCol($v['customer_manager']);
 			//审核状态
-			$list['data'][$k]['status']=$v['status']==1?'审核通过':'未审核';
+			if ($v['status']==1) {
+				$list['data'][$k]['status']='审核通过';
+			}elseif($v['status']==2){
+				$list['data'][$k]['status']='未审核';
+			}else{
+				$list['data'][$k]['status']='数据有误';
+			}
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
@@ -114,5 +120,80 @@ class customer_billingAction extends adminBaseAction
 		$cache=cache::startMemcache();
 		$cache->delete('customer_billing');
 		$this->success('操作成功');
+	}
+
+	/**
+	 * 导出excel
+	 * @access public 
+	 * @return html
+	 */
+	public function download(){
+		$sortField = sget("sortField",'s','c_id'); //排序字段
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		//搜索条件
+		$where="`display_status`=1";//未假删除的
+		//审核状态搜索
+		$status = sget('status','i');
+		$where .=" and `status` = $status ";
+		//关键词
+		$key_type=sget('key_type','s','c_name');
+		$keyword=sget('keyword','s');
+		if(!empty($keyword)){
+			if ($key_type == 'c_name') {
+				$c_ids = M('user:customer')->getLikeCidByCname($keyword,$condition='c_id');
+				$where.=" and `c_id` in ($c_ids)";
+			}else if($key_type == 'admin'){
+				$customer_manager = M('rbac:adm')->getAdmin_Id($keyword);
+				$where.=" and `customer_manager` = $customer_manager";
+			}else{
+				$where.=" and $key_type = '$keyword' ";
+			}
+		}
+
+		//筛选领导级别
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			$where .= " and `customer_manager` in ($sons) ";
+		}
+		$orderby = "$sortField $sortOrder";
+
+		$list=$this->db->where($where)
+					->page($page+1,$size)
+					->order("$sortField $sortOrder")
+					->getAll();
+		foreach($list as $k=>$v){
+			$list[$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$list[$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$list[$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
+			//关联业务员
+			$list[$k]['username']=M('rbac:adm')->getUserByCol($v['customer_manager']);
+			//审核状态
+			if ($v['status']==1) {
+				$list[$k]['status']='审核通过';
+			}elseif($v['status']==2){
+				$list[$k]['status']='未审核';
+			}else{
+				$list[$k]['status']='数据有误';
+			}
+		}
+		
+		$str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
+
+		$str .= '<tr><td>客户名称</td><td>纳税人识别号</td><td>开票地址</td><td>邮寄地址</td>
+					<td>开票电话</td><td>开票银行</td><td>开票帐号</td><td>传真</td>
+					<td>审核状态</td><td>业务员</td>
+				</tr>';
+		foreach($list as $val){
+			$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$val['c_name']."</td><td>".$val['tax_id']."</td><td>".$val['invoice_address']."</td><td>".$val['ems_address']."</td>
+						<td>".$val['invoice_tel']."</td><td>".$val['invoice_bank']."</td><td>".$val['invoice_account']."</td><td>".$val['fax']."</td>
+						<td>".$val['status']."</td><td>".$val['username']."</td>
+					</tr>";
+		}
+		$str .= '</table>';
+		$filename = 'invoice.'.date("Y-m-d");
+		header("Content-type: application/vnd.ms-excel; charset=utf-8");
+		header("Content-Disposition: attachment; filename=$filename.xls");
+		echo $str;
+		exit;
 	}
 }

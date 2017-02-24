@@ -15,7 +15,7 @@
 				<td style="width:80px;">纳税人识别号</td>
 				<td><input name="tax_id" value="{$tax_id}" class="mini-textbox" style="width:200px" required="true" /></td>
 			</tr>
-			
+
 			<tr>
 				<td style="width:80px;">开票电话</td>
 				<td><input name="invoice_tel" value="{$invoice_tel}" class="mini-textbox" style="width:200px" required="true" /></td>
@@ -56,11 +56,11 @@ var form = new mini.Form("#addForm");
 //增加后提交数据(保存)
 function submitForm() {
 	form.validate();
-	if (form.isValid() == false) return;  
+	if (form.isValid() == false) return;
 	var o = form.getData();
 	//验证电话
 	var tel=/^0\d{2,3}-?\d{7,8}$/;
-	var mob=/^0{0,1}(13[0-9]|15[5-9]|153|151|182|18[7-9])[0-9]{8}$/;
+	var mob=/^0{0,1}(13[0-9]|15[0-9]|170|171|173|145|147|17[5-8]|18[0-9])[0-9]{8}$/;
 	if(!tel.test(o.invoice_tel)) {
 		if(!mob.test(o.invoice_tel)) {
 		alert("请输入正确的电话号码");
@@ -83,9 +83,9 @@ function submitForm() {
   utils.ajax('/product/customer_billing/ajaxSave',{data:json},callback,"POST","json");
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");

@@ -1,12 +1,12 @@
 {layout file="public:mini_layout"}
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
-		<tr>	
+		<tr>
 			{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
 				<!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">充红</a>
 				<span class="separator"></span>-->
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
 			</td>
 			{/if}
 			<td style="float:right;">
@@ -19,12 +19,12 @@
 					<option value="" selected="selected">=交易方式=</option>
 					{html_options options=$pay_method}
 				</select>
-				
+
 				<select name="collection_status" id="collection_status">
 					<option value="" selected="selected">={if $type eq '1'}收款状态{else}付款状态{/if}=</option>
 						{html_options options=$collection_status}
 				</select>
-				
+
 				<!-- <select name="invoice_status" id="invoice_status">
 					<option value="" selected="selected">=开票状态=</option>
 					{html_options options=$invoice_status}
@@ -33,7 +33,7 @@
 					<option value="c_name">公司名称</option>
 					<option value="admin">交易员</option>
 					<option value="order_sn">订单号</option>
-					<option value="total_price">订单金额</option>					
+					<option value="total_price">订单金额</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -44,7 +44,7 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:3px;">
-  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"{if $type eq '1'}url="/application/collection/init?action=grid&type={$type}"{else}url="/application/collection/itin?action=grid&type={$type}"{/if}  idField="fid"
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"{if $type eq '1'}url="/application/collection/init?action=grid&type={$type}&order_sn={$order_sn}"{else}url="/application/collection/itin?action=grid&type={$type}&order_sn={$order_sn}"{/if}  idField="fid"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
@@ -58,28 +58,28 @@
 		<div field="title" width="30" headerAlign="center" align="center" align="center">{if $type eq '1'}收款主题{else}付款主题{/if}</div>
 		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">{if $type eq '1'}收款方式{else}付款方式{/if}</div>
 
-		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>		
+		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>
 		<div field="accessory" width="25" headerAlign="center" align="center" allowSort="true" renderer="down">附件</div>
-		
-		
+
+
 		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">{if $type eq '1'}收款状态{else}付款状态{/if}</div>
 
 		<!-- <div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div> -->
 		<div field="remark" width="60" headerAlign="center" >备注<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
-		
+
 		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >{if $type eq '1'}收款日期{else}付款日期{/if}</div>
 
 		<div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
-		<div field="input_admin" width="30" headerAlign="center" align="center">业务员</div>
+		<div field="name" width="30" headerAlign="center" align="center">业务员</div>
 		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		{if $type eq 2}
-			<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>	
+			<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>
 		{/if}
 		<!-- <div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div> -->
 		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
-		
+
 	</div>
   </div>
  </div>
@@ -96,6 +96,40 @@
 //搜索或刷新数据
 mini.parse();
 var grid = mini.get("gridCell");
+grid.on("drawcell", function (e) {
+    var record = e.record,
+        column = e.column,
+        field = e.field,
+        value = e.value;
+
+    if (column.field == "total_price") {
+    	//console.log(record);
+        if (e.value<0) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+    if (column.field == "collected_price") {
+    	//console.log(record);
+        if (e.value<0) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+    if (column.field == "uncollected_price") {
+    	//console.log(record);
+        if (e.value<0) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+ });
 function search() {
   grid.load($("#soform").serializeObject(),function(e){
 	$("#searchMsg").html(e.msg);
@@ -130,9 +164,9 @@ function viewOrdInfo(oid,o_type,sale){
 	mini.open({
 		url: "/application/order/viewInfo?oid="+oid+'&o_type='+o_type+'&sale='+sale,
 		showMaxButton:true,
-		title: "查看订单相关信息", 
+		title: "查看订单相关信息",
 		width: 800, height:430
-	});		
+	});
 }
 
 //追加删除按钮
@@ -196,7 +230,7 @@ function saveData() {
   var data = grid.getChanges();
   var json = mini.encode(data);
   if(json.length<10) return false;
-  
+
   grid.loading("保存中，请稍后......");
   var callback=function(data){
 	grid.unmask();

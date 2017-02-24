@@ -119,6 +119,10 @@
 				<td><input class="mini-combobox" name="status" style="width:90px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="1"/></td>
 			</tr>
 			<tr>
+				<td>显示端口<span style="color:red">*</span></td>
+				<td><input class="mini-combobox" name="is_mobile" style="width:90px;" data='{:setMiniConfig|$is_mobile}' required="true" textField="name" valueField="id"/></td>
+			</tr>
+			<tr>
 				<td>排序</td>
 				<td><input name="sort" class="mini-textbox" style="width:170px" /></td>
 			</tr>
@@ -212,7 +216,6 @@ function submitForm() {
   var o = form.getData();
   grid.loading("数据提交中，请稍后......");
   var json = mini.encode(o);
-
   var callback=function(data){
 	if(data.err!='0'){
 	  grid.unmask();
@@ -223,7 +226,7 @@ function submitForm() {
 	  addgoods.hide();
 	}
   }
-  utils.ajax('/product/goods/save?doact=add',{data:json},callback,"POST","json");
+  utils.ajax('/product/goods/save?do=add',{data:json},callback,"POST","json");
 }
 
 function doEdit(){

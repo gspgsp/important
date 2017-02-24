@@ -18,7 +18,7 @@ class quoteAction extends adminBaseAction {
 	}
 	/**
 	 * 会员列表
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function init(){
@@ -34,6 +34,7 @@ class quoteAction extends adminBaseAction {
 		}elseif($action=='info'){ //获取列表
 			$this->_info();exit;
 		}
+		$this->assign('id',sget('id','i',''));
 		$this->assign('slt','slt');
 		$this->assign('ctype','2');
 		$this->assign('page_title','期货报价列表');
@@ -72,7 +73,7 @@ class quoteAction extends adminBaseAction {
 		$sTime = sget("sTime",'s','p.input_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
 		// 状态
-		$status = sget("status",'s',''); 
+		$status = sget("status",'s','');
 		if($status!='') $where.=" and p.status='$status' ";
 		//品种
 		$product_type = sget('product_type','s','');
@@ -94,7 +95,12 @@ class quoteAction extends adminBaseAction {
 				$where.=" and `customer_manager`='$ids' ";
 			}else{
 				$where.=" and `$key_type`='$keyword' ";
-			}	
+			}
+		}
+		//此id是从每日任务统计传来的
+		$id=sget('id','i');
+		if(!empty($id)){
+			$where="1 and p.`id` = '$id' ";
 		}
 		$list=$this->db->select("p.*,pd.model, pd.f_id, pd.product_type, pd.process_type, pd.unit")
 				->from('purchase p')->join('product pd','pd.id = p.p_id')
@@ -111,6 +117,7 @@ class quoteAction extends adminBaseAction {
 			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
 			$list['data'][$k]['bargain'] = L('bargain')[$v['bargain']];
 			$list['data'][$k]['username'] = M('rbac:adm')->getUserByCol($v['customer_manager'],'name');
+			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 			if($v['origin']){
 				$areaArr = explode('|', $v['origin']);
 				$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
@@ -121,11 +128,11 @@ class quoteAction extends adminBaseAction {
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
-	}	
+	}
 
 	/**
 	 * 编辑已存在的数据
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	private function _save(){
@@ -148,7 +155,7 @@ class quoteAction extends adminBaseAction {
 			}else{
 				$sql[]=$this->db->wherePk($v['id'])->updateSql(array('status'=>$v['status'])+$_data);
 			}
-			
+
 		}
 		$result=$this->db->commitTrans($sql);
 		if($result){
@@ -159,7 +166,7 @@ class quoteAction extends adminBaseAction {
 	}
 	/**
 	 * 获取处理订单
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	private function _info(){
@@ -198,7 +205,7 @@ class quoteAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		if(empty($data)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$_data = array(
 			'input_admin' => $_SESSION['username'],
@@ -221,7 +228,7 @@ class quoteAction extends adminBaseAction {
 
 	/**
 	 * 新增报价信息
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function addSubmit() {
@@ -254,11 +261,11 @@ class quoteAction extends adminBaseAction {
 		//数据添加操作
 		if($data['id']>0){
 			if($this->db->where("id = $id")->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['username'],)))  $this->success('操作成功');
-	
+
 		}else{
-			if($this->db->add($data+$_data)) $this->success('操作成功');	
+			if($this->db->add($data+$_data)) $this->success('操作成功');
 		}
-		$this->error('添加失败');	
+		$this->error('添加失败');
 	}
 	/**
 	 * 根据厂家id获取厂家名称
@@ -304,12 +311,12 @@ class quoteAction extends adminBaseAction {
 		try {
 			$objPHPExcel = PHPExcel_IOFactory::load($_FILES['check_file']['tmp_name']);
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-   
+
 			if(empty($sheetData)) $this->error('上传文件不正确，请重新上传');
 			if(count(array_shift($sheetData)) !== 11) throw new Exception('Excel表数据格式不匹配');
 
 			$error=array();
- 			foreach($sheetData as $row){ 				
+ 			foreach($sheetData as $row){
 				//如果为空或者不是数字则 不检查导入该行
 				if(empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E']) || empty($row['F']) || empty($row['G']) || empty($row['H']) || empty($row['I']) || !is_numeric($row['F']) || !is_numeric($row['G']) ){
 					$error['number']+=1;
@@ -380,7 +387,7 @@ class quoteAction extends adminBaseAction {
 						continue;
 					}
 				}
-				
+
 				//写数据到表中p2p_product
 				$_infoData = array(
 					'c_id'		=>$c_id,
@@ -391,7 +398,7 @@ class quoteAction extends adminBaseAction {
 					'process_type'=>$process_type,
 					'number'	=>$row['F'],
 					'unit_price'=>$row['G'],
-					'provinces' =>$add_id,					
+					'provinces' =>$add_id,
 					'bargain'	=>$row['I']=='是'?2:1,		//1可议价 2实价
 					'store_house'=>$row['J'],
 					'remark' 	=>$row['K'],
@@ -410,7 +417,7 @@ class quoteAction extends adminBaseAction {
 				$this->db->model('purchase')->add($_infoData);
 			}
 		} catch (Exception $e) {
-			$this->error($e->getMessage());			
+			$this->error($e->getMessage());
 		}
 		$this->json_output(array('err'=>$error['number'],'result'=>!$error['err']?'导入成功':$error['err']));
 	}
@@ -419,13 +426,13 @@ class quoteAction extends adminBaseAction {
 	//删除报价
 	/**
 	 * Ajax删除
-	 * @access private 
+	 * @access private
 	 */
 	public function remove(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$data = explode(',',$ids);
 		if(is_array($data)){
@@ -437,7 +444,7 @@ class quoteAction extends adminBaseAction {
 				}else{
 					$result=$this->db->model('purchase')->where("id = ($v)")->delete();
 				}
-				
+
 			}
 		}
 		if($result){
@@ -449,7 +456,7 @@ class quoteAction extends adminBaseAction {
 
 	/**
 	 * 导出excel
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function download(){
@@ -474,16 +481,16 @@ class quoteAction extends adminBaseAction {
 		}
 		$sTime = sget("sTime",'s','p.input_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
-		
+
 		$status = sget("status",'s',''); // 状态
 		if($status!='') $where.=" and p.status='$status' ";
-		
+
 		$product_type = sget('product_type','s','');//品种
 		if($product_type!='') $where.=" and pd.product_type = '$product_type' ";
-		
+
 		$bargain = sget('bargain','s','');//周期
 		if($bargain!='') $where.=" and p.bargain = '$bargain' ";
-		
+
 		$key_type=sget('key_type','s','p.bargain');//关键词搜索
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
@@ -497,7 +504,7 @@ class quoteAction extends adminBaseAction {
 				$where.=" and `customer_manager`='$ids' ";
 			}else{
 				$where.=" and `$key_type`='$keyword' ";
-			}	
+			}
 		}
 		//筛选领导级别
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){

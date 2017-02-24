@@ -144,7 +144,6 @@ class settingAction extends adminBaseAction {
 		$this->assign('page_title','交易设置');
 		$this->display('setting.trade.html');
 	}
-
 	/**
 	 * 其他设置项目
 	 * @return html

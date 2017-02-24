@@ -6,9 +6,11 @@
 			<td style="white-space:nowrap;">
 			{if $order_type eq 1}
 				<a class="mini-button" iconCls="icon-add" onclick="addSale()">销售</a>
+				<a class="mini-button" iconCls="icon-split" onclick="compact()">合</a>
 			{else}
 				<a class="mini-button" iconCls="icon-add" onclick="addPur()">采购</a>
 			{/if}
+			<a class="mini-button" iconCls="icon-remove" onclick="del()">废</a>
 			</td>
 		{/if}
 			<td style="float:right;">
@@ -30,29 +32,47 @@
 					{html_options options=$company_account}
 				</select>
 				<select name="financial_records">
-					<option value="" selected="selected">财务记录</option>
+					<option value="" selected="selected">=财务=</option>
 					<option value="1">是</option>
 					<option value="2">否</option>
 				</select>
+				<select name="collection_status">
+					<option value="" selected="selected">=收付款=</option>
+					<option value="1">待收付款</option>
+					<option value="2">部分收付款</option>
+					<option value="3">已完成</option>
+				</select>
+				<select name="invoice_status">
+					<option value="" selected="selected">=开票=</option>
+					<option value="1">待开票</option>
+					<option value="2">部分开票</option>
+					<option value="3">全部开票</option>
+				</select>
 				<select name="pay_method" >
-					<option value="" selected="selected">付款</option>
+					<option value="" selected="selected">=付款=</option>
 					{html_options options=$pay_method}
 				</select>
 				<select name="business_model" >
-					<option value="" selected="selected">业务</option>
+					<option value="" selected="selected">=业务=</option>
 					{html_options options=$business_model}
 				</select>
 				<select name="order_status" id="soStatus2">
-					<option value="" selected="selected"  >订单</option>
+					<option value="" selected="selected"  >=订单=</option>
 					{html_options options=$order_status}
 				</select>
 				<select name="transport_status" id="soStatus3">
-					<option value="" selected="selected" >物流</option>
+					<option value="" selected="selected" >=物流=</option>
 					{html_options options=$transport_status}
 				</select>
 				<select {if $order_type eq 1}name="out_storage_status"{else}name="in_storage_status"{/if} >
-					<option value="" selected="selected">发货</option>
+					<option value="" selected="selected">=发货=</option>
 					{html_options options=$out_storage_status}
+				</select>
+				<select name="team">
+					<option value="" selected="selected">=战队=</option>
+					{foreach from=$teams item=v}
+					<option value="{$v.id}">{$v.name}</option>
+					{/foreach}
 				</select>
 
 				<select name="key_type">
@@ -68,14 +88,14 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/order/init?action=grid&do={$doact}&type={$order_type}"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/order/init?action=grid&do={$doact}&type={$order_type}&order_sn={$order_sn}&o_ids={$o_ids}&moreChoice={$moreChoice}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="order_sn" width="120" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
 			<div field="order_name" width="30" headerAlign="center" align="center">抬头</div>
 			<div field="order_source" width="25" headerAlign="center" align="center">来源</div>
-			<div field="c_name" width="70" headerAlign="center" align="center" >客户名称</div>
+			<div field="c_name" width="90" headerAlign="center" align="center" renderer="tips">客户名称</div>
 			<div field="total_num" width="40" headerAlign="center" align="center" allowSort="true">总数</div>
 			<div field="total_price" width="60" headerAlign="center" align="center" allowSort="true">总金额</div>
 			<!-- <div field="pay_method" width="40" headerAlign="center" align="center" >付款</div> -->
@@ -93,10 +113,10 @@
 			<div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
 			<div field="update_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">更新时间</div>
 			<div field="cmanager" width="40" headerAlign="center" align="center">交易员</div>
-			 <div name="action" width="40" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>
-			 <div name="action" width="75" headerAlign="center" align="center" cellStyle="padding:0;" renderer="oncheckDetail">审核</div>
+			 <div name="action" width="35" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>
+			 <div name="action" width="50" headerAlign="center" align="center" cellStyle="padding:0;" renderer="oncheckDetail">审核</div>
 			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
-			<div field="pay_remark" width="250" headerAlign="center" >来款标记</div>
+			<div field="pay_remark" width="50" headerAlign="center" >来款标记</div>
 		</div>
 	</div>
 </div>
@@ -104,11 +124,19 @@
 	<div id="replaceForm" class="form" >
 		<table style="width:100%;">
 			<tr>
+				<td   style="border-bottom:solid 1px #a5acb5;text-align:right;" id="sn"></td>
+			</tr>
+			<tr>
 				<td>
 					<input name="order_status" class="mini-radiobuttonlist" textfield="text" value="2"  valuefield="id"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
 					<input name="o_id"  class="mini-hidden" id="o_id1" value="">
 					<input name="s_or_p"  class="mini-hidden" id="s_or_p" value="">
 					<input name="sales_type"  class="mini-hidden" id="sales_type" value="">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input id='order_remark' name="order_remark" class="mini-textarea" style="width:100%; height:70px" emptyText="请输入您的备注"/>
 				</td>
 			</tr>
 			<tr>
@@ -123,12 +151,19 @@
 	<div id="replaceForm" class="form" >
 		<table style="width:100%;">
 			<tr>
+				<td   style="border-bottom:solid 1px #a5acb5;text-align:right;"  id="sn1"></td>
+			</tr>
+			<tr>
 				<td>
 					<input name="transport_status" class="mini-radiobuttonlist"  textfield="text" value="2"  valuefield="id"  data="[{id: 2, text: '审核通过'}, {id: 3, text: '已取消'}]"/>
 					<input name="o_id"  class="mini-hidden" id="o_id2" value="">
 				</td>
 			</tr>
-
+			<tr>
+				<td colspan="2">
+					<input name="transport_remark" id="transport_remark" class="mini-textarea" style="width:100%; height:70px" emptyText="请输入您的备注"/>
+				</td>
+			</tr>
 			<tr>
 			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitcheck('transportcheck')">提交</a>
@@ -167,20 +202,20 @@ mini.parse();
 //搜索或刷新
 var grid = mini.get("gridCell");
 grid.on("drawcell", function (e) {
-    var record = e.record,
-        column = e.column,
-        field = e.field,
-        value = e.value;
+	var record = e.record,
+		column = e.column,
+		field = e.field,
+		value = e.value;
 
 
-    //将性别文本替换成图片
-    if (column.field == "pay_remark") {
-        if (!(e.value == ""||e.value==null)) {
-            e.rowStyle = "background:#00FFF5";
-        } else {
-            e.rowStyle = "";
-        }
-    }
+	//将性别文本替换成图片
+	if (column.field == "pay_remark") {
+		if (!(e.value == ""||e.value==null)) {
+			e.rowStyle = "background:#00FFF5";
+		} else {
+			e.rowStyle = "";
+		}
+	}
 
 
 });
@@ -195,6 +230,13 @@ function onLoadHandle(e) {
 	var order_type = {$order_type};
 	s += '<a href="javascript:viewOrdInfo('+o_id+','+order_type+')">'+order_sn+'</a> ';
 	return s;
+}
+function tips(e) {
+	var record = e.record,s='',c_name = record.c_name,c_status = record.c_status;
+	if(c_status==8){
+		return '<span style="color:red;">'+c_name+'</span>';
+	}
+	return c_name;
 }
 //获取订单状态
 function onOrderStatus(e) {
@@ -227,7 +269,7 @@ function onKeyEnter(e) {
 }
 
 function LoadOrderType(e) {
-	var record = e.record.order_type; 
+	var record = e.record.order_type;
 	return $("#soStatus").find("option[value="+record+"]").text();
 }
 //审核
@@ -240,24 +282,26 @@ function oncheckDetail(e){
 	}else{
 		order_type = (order_type=='销售订单' ? '1' : '2');
 		if(order_type=='1'){	//销售
-			if(order_status != '2' && node_flow==true) s += '<a href="javascript:orderSaCheck('+oid+','+sales_type+')">销售审核</a>&nbsp;&nbsp;';
-			if(transport_status != '2' && node_flow==true) s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
+			if(order_status != '2' && node_flow==true) s += '<a href="javascript:orderSaCheck('+oid+','+sales_type+')">销售审</a>&nbsp;&nbsp;';
+			if(transport_status != '2' && node_flow==true) s += '</br><a href="javascript:transportCheck('+oid+')"> 物流审</a>';
 		}else{
-			if(order_status != '2' && node_flow==true) s += '<a href="javascript:orderPuCheck('+oid+')">采购审核</a>&nbsp;&nbsp;';
-			if(transport_status != '2' && node_flow==true) s += '<a href="javascript:transportCheck('+oid+')"> 物流审核</a>';
+			if(order_status != '2' && node_flow==true) s += '<a href="javascript:orderPuCheck('+oid+')">采购审</a>&nbsp;&nbsp;';
+			if(transport_status != '2' && node_flow==true) s += '</br><a href="javascript:transportCheck('+oid+')"> 物流审</a>';
 		}
-	} 
+	}
 	return s;
 }
 //销售审核
 var ordInfo = mini.get("ordercheck");
 function orderSaCheck(oid,sales_type){
+	$('#sn').html("查：<a href='javascript:viewOrdInfo("+oid+",{$order_type})'>"+grid.getSelected().order_sn+"</a>");
 	mini.get('o_id1').setValue(oid);
 	mini.get('sales_type').setValue(sales_type);
 	ordInfo.show();
 }
 //采购审核
 function orderPuCheck(oid){
+	$('#sn').html("查：<a href='javascript:viewOrdInfo("+oid+",{$order_type})'>"+grid.getSelected().order_sn+"</a>");
 	mini.get('o_id1').setValue(oid);
 	mini.get('s_or_p').setValue(1); //销售or采购
 	ordInfo.show();
@@ -265,6 +309,7 @@ function orderPuCheck(oid){
 //物流审核
 var tranInfo = mini.get("transportcheck");
 function transportCheck(oid){
+	$('#sn1').html("查：<a href='javascript:viewOrdInfo("+oid+",{$order_type})'>"+grid.getSelected().order_sn+"</a>");
 	mini.get('o_id2').setValue(oid);
 	tranInfo.show();
 }
@@ -283,6 +328,8 @@ function submitcheck(type) {
 			alert(data.msg);
 			return false;
 		}else{
+			mini.get("order_remark").setValue("");
+			mini.get("transport_remark").setValue("");
 			grid.reload();
 			ordInfo.hide();
 			tranInfo.hide();
@@ -316,14 +363,19 @@ function submitFinancial(){
 			financial.hide();
 		}
 	}
-	utils.ajax('/product/order/financialCheck',{data:json},callback,"POST","json");	
+	utils.ajax('/product/order/financialCheck',{data:json},callback,"POST","json");
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,see = record.see,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,newstatus=record.newstatus,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
-
+	var record = e.record,s='',oid = record.o_id,see = record.see,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,purstatus=record.pur_status,is_super=record.is_supper,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
+		if(is_super==1){
+			s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>|';
+		}else if (purstatus==1 && is_super !=1) {
+			s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>|';
+		}
+
 		// s+='<a href="javascript:salecompact('+oid+')">合同</a>&nbsp;|&nbsp;';
 		if(order_status =='3' || transport_status =='3') return;
 
@@ -340,6 +392,9 @@ function onLoadDetail(e){
 				if( (sales_type == '1' && join_id == '0') || (sales_type == '2' && join_id != '0') ){ //先采后销
 					if( join_id != '0' && is_join_check == '0' ){ //关联的采购未审核
 						s +='(采购单审核中...)';
+						if(see=='1'){
+							s+='&nbsp;|&nbsp;<a href="javascript:salecompact('+oid+')">合同</a>';
+						}
 						return s;
 					}else if( join_id != '0' && is_join_check == '2' ){ //关联的采购审核不通过
 						s +='(采购单审核不通过...)';
@@ -358,57 +413,73 @@ function onLoadDetail(e){
 										s+='&nbsp;|&nbsp;<a href="javascript:outStorage('+oid+')">发货</a>';
 									}
 								}
-								
+
 							}
 						}
-						
+
 						if (c_status !='3' && one_c_status !='1'  && transport_status =='2') {
-						s+='&nbsp;|&nbsp;<a href="javascript:transaction('+oid+','+order_type+')">申请收款</a>';
+						s+='&nbsp;|&nbsp;<a href="javascript:transaction('+oid+','+order_type+')">收款</a>';
 						}
-						//newstatus为对应采购订单开票状态
-						if (i_status !='全部开票' && newstatus == '3' && c_status =='3' && !one_b_status) {
-							s+='&nbsp;|&nbsp;<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>';
-						}
+						//purstatus为对应采购订单开票状态
+						/*
+						if (i_status !='全部开票' && purstatus == '3' && c_status =='3' && !one_b_status) {
+							s+='&nbsp;|&nbsp;<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
+						}*/
+
+						// if (i_status !='全部开票'  && c_status =='3' && !one_b_status) {
+						// 	s+='&nbsp;|&nbsp;<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
+						// }
+
 						if (c_status =='3' && i_status =='全部开票') {
 							s+='&nbsp;|&nbsp;<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>';
 						}
-						
-						if (newstatus != '3' && c_status =='3') {
-							s +='&nbsp;|&nbsp;(采购未开票...)';
-						}
+
+						/*
+						if (purstatus==1) {
+							s+='&nbsp;|&nbsp;<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>';
+						}*/
+						/*
+						if (purstatus != '3' && c_status =='3') {
+								s +='&nbsp;|&nbsp;(采购未开票...)';
+						}*/
 
 					}
 				}else if(join_id == '0'){ //先销后采->下采购单虚拟入库->发货
 					s+='&nbsp;|&nbsp;<a href="javascript:changePurchase('+oid+')">生成采购</a>';
-				}	
+				}
 			}
-		if(see=='1'){	
+		if(see=='1'){
 			s+='&nbsp;|&nbsp;<a href="javascript:salecompact('+oid+')">合同</a>';
 		}
-	}else{   //采购	
+
+	}else{   //采购
 		if(order_status =='3' || transport_status =='3')  return;
 		if(order_status =='2' && transport_status=='2'){
 			if(in_storage_status != '已入库'){ //没有全部入库时可见入库按钮
 				s+='<a href="javascript:inStorage('+oid+','+join_id+')">入库</a>&nbsp;|&nbsp;';
 			}
-			
+
 			if (c_status !='3' && one_c_status !='1') {
-				s+='<a href="javascript:transaction('+oid+','+order_type+')">申请付款</a>&nbsp;|&nbsp;';
+				s+='<a href="javascript:transaction('+oid+','+order_type+')">付款</a>&nbsp;|&nbsp;';
 			}
-			if (i_status !='全部开票' && c_status =='3' && in_storage_status == '已入库' && !one_b_status ) {
-				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">申请开票</a>&nbsp;|&nbsp;';
+
+			if (i_status !='全部开票' && c_status =='3' && !one_b_status && is_super !=1) {
+				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>&nbsp;|&nbsp;';
+			}
+			if(is_super==1 && i_status !='全部开票' && !one_b_status){
+				s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>|';
 			}
 			if (c_status =='3' && i_status =='全部开票') {
 				s+='<a href="javascript:viewOrdInfo('+oid+','+order_type+')">查看</a>&nbsp;|&nbsp;';
 			}
 			if(financial_records == '否'){
 				s+='<a href="javascript:financialInfo('+oid+')">财务</a>&nbsp;|&nbsp;';
-			}	
+			}
 
 		}
 		if(see=='1'){
 			s+='&nbsp;|&nbsp;<a href="javascript:salecompact('+oid+')">合同</a>';
-		}	
+		}
 	}
 	return s;
 }
@@ -425,30 +496,44 @@ function transaction(oid,order_type){
 		showMaxButton:true,
 		 title: title, width: width, height:height,
 		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
+			/*if(action=='save'){ //重新加载
 				grid.reload();
 			}
 			if(action=='cancel'){ //重新加载
 				grid.reload();
-			}
+			}*/
+			grid.reload();
 		}
-	});		
+	});
 }
+
 //申请开票
 function addInvoice(oid,order_type){
-	var width=800, height=680,type=order_type;
-		title="新增开票申请";
-	mini.open({
-		//有invoice表示是开票
-		url: "/product/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&is_head=1",
-		showMaxButton:true,
-		 title: title, width: width, height:height,
-		ondestroy: function (action) {
-			if(action=='save'){ //重新加载
-				grid.reload();
-			}
+	var width=800, height=680,type=order_type;title="新增开票申请";
+	$.post("/product/billing/chkaddInvoice",{
+		o_id:oid,
+		order_type:type,
+		is_head:1
+	},function(data){
+		//成功
+		if(data.err==0){
+			mini.open({
+				//有invoice表示是开票
+				url: "/product/billing/transactionInfo?o_id="+oid+"&order_type="+type+"&is_head=1",
+				showMaxButton:true,
+				 title: title, width: width, height:height,
+				ondestroy: function (action) {
+					if(action=='save'){ //重新加载
+						grid.reload();
+					}
+				}
+			});
+		}else{
+			mini.alert(data.msg);
+			grid.reload();
 		}
-	});		
+		//console.log(data);
+	},'json');
 }
 //先销后采 生成采购单
 function changePurchase(o_id){
@@ -463,7 +548,7 @@ function changePurchase(o_id){
 				grid.reload();
 			}
 		}
-	});	
+	});
 }
 
 // //追加销售明细
@@ -523,8 +608,13 @@ function viewOrdInfo(oid,o_type){
 	mini.open({
 		url: "/application/order/info?oid="+oid+'&o_type='+o_type,
 		showMaxButton:true,
-		title: "查看订单相关信息", 
-		width: 800, height:430
+		title: "查看订单相关信息",
+		width: 800, height:500,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
 	});
 }
 //行内编辑后保存数据
@@ -551,26 +641,26 @@ function addSale(){
 	mini.open({
 		url: "/product/order/info?order_type=1",
 		showMaxButton:true,
-		title: '新增销售订单', width: 845, height: 650, 
+		title: '新增销售订单', width: 900, height: 650,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
 			}
 		}
-	});	
+	});
 }
 //新增采购订单
 function addPur(){
 	mini.open({
 		url: "/product/order/info?order_type=2",
 		showMaxButton:true,
-		title: '新增采购订单', width: 845, height: 650, 
+		title: '新增采购订单', width: 845, height: 650,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
 			}
 		}
-	});	
+	});
 }
 //删除
 // function remove() {
@@ -685,7 +775,51 @@ function salecompact(o_id){
 				grid.reload();
 			}
 		}
-	});	
+	});
 }
 
+//废除订单
+function del() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].o_id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定撤销该订单吗？</br>1：设置无效需先撤销牵连的流水</br>2：产生的库存记录会被返还</br>3：订单相关的内容会被撤销</br>4：订单会被标记为无效", "提示",function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/product/order/orderBack',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+
+//合并生成pdf文件
+function compact(){
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].o_id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.open({
+		url: "/product/pdf/pdf?oid="+ids,
+		showMaxButton:true,
+		 title: '生成合同', width: 845, height:650,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
 </script>

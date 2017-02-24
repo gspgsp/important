@@ -169,7 +169,7 @@ class orderAction extends adminBaseAction {
 						<td>收款状态</td><td>开票状态</td><td>备注</td><td>销售|物流</td>
 						<td>财务记录</td><td>创建时间</td><td>更新时间</td><td>交易员</td>
 					</tr>';
-			foreach($list as $k=>$v){
+			foreach($list as $k=>&$v){
 				$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
 							<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['partner']."</td><td>".$v['out_storage_status']."</td>
 							<td>".$v['payments_status']."</td><td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td>
@@ -182,7 +182,7 @@ class orderAction extends adminBaseAction {
 						<td>开票状态</td><td>备注</td><td>采购|物流</td><td>财务记录</td>
 						<td>创建时间</td><td>更新时间</td><td>交易员</td>
 					</tr>';
-			foreach($list as $k=>$v){
+			foreach($list as $k=>&$v){
 				$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['order_source']."</td><td>".$v['c_name']."</td>
 				<td>".$v['total_num']."</td><td>".$v['total_price']."</td><td>".$v['in_storage_status']."</td><td>".$v['payments_status']."</td>
 				<td>".$v['invoice_status']."</td><td>".$v['remark']."</td><td>".$v['type_status']."</td><td>".$v['financial_records']."</td>

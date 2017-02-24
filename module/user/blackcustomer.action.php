@@ -62,9 +62,9 @@ class blackcustomerAction extends adminBaseAction {
 			}
 		}
 		//筛选自己的客户
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-			$where .= " and `customer_manager` =  {$_SESSION['adminid']} ";
-		}
+		// if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+		// 	$where .= " and `customer_manager` =  {$_SESSION['adminid']} ";
+		// }
 		$list=$this->db
 		            ->where($where)
 			->page($page+1,$size)
@@ -262,6 +262,66 @@ class blackcustomerAction extends adminBaseAction {
 	private function _chkUnique($name='mobile',$value=''){
 		$exist=$this->db->model('user')->select('user_id')->where("$name='$value'")->getOne();
 		return $exist>0 ? true : false;
+	}
+	//彻底删除客户
+	public function del(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$data = explode(',',$ids);
+		if(is_array($data)){
+			foreach ($data as $k => $v) {
+				$res = M('user:customer')->getColByName($v,"c_id","c_id");
+				if($res>0){
+					//删除联系人
+					$this->db->model('customer_contact')->where("`c_id`=$v")->delete();
+					//新增客户流转记录日志----S
+					$remarks = "对客户操作：从黑名单中彻底删除";// 审核用户
+					M('user:customerLog')->addLog($v,'delete','黑名单客户','从系统中彻底删除',1,$remarks);
+					//新增客户流转记录日志----E
+				}
+				//查询是不是有该用户的报价
+				if($this->db->model('purchase')->where("`c_id`=$v")->getRow()){
+					$this->db->model('purchase')->where("`c_id`=$v")->delete();
+				}
+			}
+		}
+		$result=$this->db->model('customer')->where("c_id in ($ids)")->delete();
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
+	}
+	//还原进入黑名单的客户
+	public function restore(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');	
+		}
+		$data = explode(',',$ids);
+		if(is_array($data)){
+			foreach ($data as $k => $v) {
+				$res = M('user:customer')->getColByName($v,"c_id","c_id");
+				if($res>0){
+					//还原联系人
+					$this->db->model('customer_contact')->where("`c_id`=$v")->update(array('status'=>2));
+					//新增客户流转记录日志----S
+					$remarks = "对客户操作：黑名单还原为公海或私海客户";// 审核用户
+					M('user:customerLog')->addLog($v,'revocation','黑名单客户','还原为公海或私海客户',1,$remarks);
+					//新增客户流转记录日志----E
+				}
+			}
+		}
+		$result=$this->db->model('customer')->where("c_id in ($ids)")->update(array('status'=>2));
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
 	}
 
 }

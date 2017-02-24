@@ -11,9 +11,8 @@ class customer_billingAction extends adminBaseAction
 		// foreach ($res as $key => $v) {
 		// 	$this->db->model('customer_billing')->where('c_id='.$v['c_id'])->update(array('customer_manager'=>$v['customer_manager'],));
 		// }
+		
 	}
-
-
 	/**
 	 *
 	 * @access public
@@ -84,7 +83,13 @@ class customer_billingAction extends adminBaseAction
 			//关联业务员
 			$list['data'][$k]['username']=M('rbac:adm')->getUserByCol($v['customer_manager']);
 			//审核状态
-			$list['data'][$k]['status']=$v['status']==1?'审核通过':'未审核';
+			if ($v['status']==1) {
+				$list['data'][$k]['status']='审核通过';
+			}elseif($v['status']==2){
+				$list['data'][$k]['status']='未审核';
+			}else{
+				$list['data'][$k]['status']='数据有误';
+			}
 
 		}
 
@@ -100,21 +105,21 @@ class customer_billingAction extends adminBaseAction
 	public function info(){
 		$id = sget('id','i',0);
 		$list=$this->db->from('customer_billing cb')
-            ->join('customer c','c.c_id=cb.c_id')
-            ->where("cb.id={$id}")
-            ->select("cb.*,c.c_name")
-            ->getRow();
-        $this->assign('id',$list['id']);
-        $this->assign('user_id',$list['user_id']);
-        $this->assign('c_id',$list['c_id']);
-        $this->assign('tax_id',$list['tax_id']);
-        $this->assign('invoice_bank',$list['invoice_bank']);
-        $this->assign('invoice_address',$list['invoice_address']);
-        $this->assign('invoice_tel',$list['invoice_tel']);
-        $this->assign('invoice_account',$list['invoice_account']);
-        $this->assign('fax',$list['fax']);
-        $this->assign('c_name',$list['c_name']);
-        $this->assign('ems_address',$list['ems_address']);
+			->join('customer c','c.c_id=cb.c_id')
+			->where("cb.id={$id}")
+			->select("cb.*,c.c_name")
+			->getRow();
+		$this->assign('id',$list['id']);
+		$this->assign('user_id',$list['user_id']);
+		$this->assign('c_id',$list['c_id']);
+		$this->assign('tax_id',$list['tax_id']);
+		$this->assign('invoice_bank',$list['invoice_bank']);
+		$this->assign('invoice_address',$list['invoice_address']);
+		$this->assign('invoice_tel',$list['invoice_tel']);
+		$this->assign('invoice_account',$list['invoice_account']);
+		$this->assign('fax',$list['fax']);
+		$this->assign('c_name',$list['c_name']);
+		$this->assign('ems_address',$list['ems_address']);
 
 		$this->display('customer_billing.add.html');
 	}
@@ -132,12 +137,13 @@ class customer_billingAction extends adminBaseAction
 		if(validCompanyBankNo($data['invoice_account'])['err']==1){$this->error('银行卡号错误');}
 		// $data['invoice_account'] = desEncrypt($data['invoice_account']);
 		if ($data['id']>0) {
-			$result = $this->db->where('id='.$data['id'])->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],'status'=>0,));
+			$result = $this->db->where('id='.$data['id'])->update($data+array('update_time'=>CORE_TIME,'update_admin'=>$_SESSION['name'],'status'=>2,));
 		}else{
 			if(!M('user:customer_billing')->curUnique($name='c_id',$value="$data[c_id]")){
 				$this->error('此客户已添加开票资料');
 			}
 			$data['customer_manager'] = M('rbac:adm')->getAdmin_Id($data['manager']);
+			$data['status'] ='2';
 			$result = $this->db->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],));
 		}
 		
@@ -145,6 +151,48 @@ class customer_billingAction extends adminBaseAction
 		$cache=cache::startMemcache();
 		$cache->delete('customer_billing');
 		$this->success('操作成功');
+	}
+
+	// 显示开票资料，不可编辑
+	public function billingInfo(){
+		$id = sget('id','i',0);
+		$this->info=$this->db->from('customer_billing cb')->leftjoin('customer c','c.c_id=cb.c_id')->where("cb.c_id={$id}")->select("cb.*,c.c_name")->getRow();
+		$this->display('customer_billing.info.html');
+	}
+
+	/**
+	 * 保存行内编辑仓库数据
+	 * @access public 
+	 * @return html
+	 */
+	public function save(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('错误的操作');
+		$sql=array();
+		foreach($data as $v){
+			$_id=$v['id'];
+			if($_id>0){
+				$update=array(					
+					// 'input_time'  =>strtotime($v['input_time']),
+					'remark'=>$v['remark'],
+					'update_time'  =>CORE_TIME,
+					'update_admin' =>$_SESSION['name'],
+				);
+				$sql[]=$this->db->wherePk($_id)->updateSql(saddslashes($update));
+			}
+		}
+		if(empty($sql)){
+			$this->error('操作数据为空');
+		}
+		$result=$this->db->commitTrans($sql);
+		if($result){
+			$cache=cache::startMemcache();
+			$cache->delete('customer_billing');
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
 	}
 
 

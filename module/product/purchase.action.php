@@ -33,6 +33,7 @@ class purchaseAction extends adminBaseAction {
 		}elseif($action=='info'){ //获取列表
 			$this->_info();exit;
 		}
+		$this->assign('id',sget('id','i',''));
 		$this->assign('doact',$this->doact);
 		$this->assign('slt','slt');
 		$this->assign('ctype','2');
@@ -99,13 +100,18 @@ class purchaseAction extends adminBaseAction {
 			}
 			
 		}
+		//此id是从每日任务统计传来的
+		$id=sget('id','i');
+		if(!empty($id)){
+			$where="1 and p.`id` = '$id' ";
+		}
+
 		$list=$this->db->select("p.*,pd.model, pd.f_id, pd.product_type, pd.process_type, pd.unit")
 				->from('purchase p')->join('product pd','pd.id = p.p_id')
 				->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
@@ -167,6 +173,7 @@ class purchaseAction extends adminBaseAction {
 	 * @return html
 	 */
 	private function _info(){
+		$getReportData = $this->getReportData();//调用adminBase的方法，验证业务员是否设置本月指标
 		$this->is_ajax=true;
 		$id=sget('id','i');
 		if($id>0){
@@ -185,10 +192,17 @@ class purchaseAction extends adminBaseAction {
 			$contact=M('user:customerContact')->getListByCid($info['c_id']);
 			$c_name = M('user:customer')->getColByName($info['c_id']); //客户名称
 			$f_name = M('product:product')->getFnameByPid($info['p_id']); //厂家名称
+			if(($info['c_id']==4016)||($info['c_id']==5041)){
+			    $this->assign('cc_id',$info['c_id']);
+			}else{
+			    $this->assign('cc_id',0);
+			}
 			$this->assign('contact',arrayKeyValues($contact, 'user_id', 'name'));
 			$this->assign('data',$info);
 			$this->assign('c_name',$c_name);
 			$this->assign('f_name',$f_name);
+		}else{
+		    $this->assign('cc_id',0);
 		}
 		$this->assign('id',$id);
 
@@ -506,5 +520,21 @@ class purchaseAction extends adminBaseAction {
 		header("Content-Disposition: attachment; filename=$filename.xls");
 		echo $str;
 		exit;
+	}
+	/**
+	 * 获取平台自购custom内容
+	 * @access public
+	 * @return html
+	 */
+	public function getcustom(){
+	    $this->is_ajax=true; //指定为Ajax输出
+	    $data = sdata(); //获取UI传递的参数
+	    $c_id =  $data['c_id'];
+	    $custom=$this->db->model('customer')->select('*')->where("c_id='{$c_id}'")->getRow();
+	    if(empty($custom)){
+	        $this->error("公司不存在!");
+	    }else{
+	        $this->success($custom);
+	    }
 	}
 }

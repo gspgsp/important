@@ -1,12 +1,12 @@
 {layout file="public:mini_layout"}
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
-		<tr>	
+		<tr>
 			{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
 				<!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">充红</a>
 				<span class="separator"></span>-->
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
 			</td>
 			{/if}
 			<td style="float:right;">
@@ -19,25 +19,25 @@
 					<option value="" selected="selected">=交易方式=</option>
 					{html_options options=$pay_method}
 				</select>
-				
+
 				<select name="collection_status" id="collection_status">
 					<option value="" selected="selected">={if $type eq '1'}收款状态{else}付款状态{/if}=</option>
 						{html_options options=$collection_status}
 				</select>
-				
-				<!-- <select name="invoice_status" id="invoice_status">
-					<option value="" selected="selected">=开票状态=</option>
-					{html_options options=$invoice_status}
-				</select> -->
-				<select name="company_account" id="company_account">
-					<option value="" selected="selected">=交易公司账户=</option>
+
+				<select name="title" id="invoice_status">
+					<option value="" selected="selected">=付款主题=</option>
 					{html_options options=$company_account}
 				</select>
+				<!-- <select name="company_account" id="company_account">
+					<option value="" selected="selected">=交易公司账户=</option>
+					{html_options options=$company_account}
+				</select> -->
 				<select name="key_type">
 					<option value="c_name">公司名称</option>
 					<option value="admin">交易员</option>
 					<option value="order_sn">订单号</option>
-					<option value="total_price">订单金额</option>					
+					<option value="total_price">订单金额</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -48,12 +48,12 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:3px;">
-  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"{if $type eq '1'}url="/product/collection/init?action=grid&type={$type}"{else}url="/product/collection/itin?action=grid&type={$type}"{/if}  idField="fid"
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"{if $type eq '1'}url="/product/collection/init?action=grid&type={$type}&order_sn={$order_sn}"{else}url="/product/collection/itin?action=grid&type={$type}&order_sn={$order_sn}"{/if}  idField="fid"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="o_id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单ID</div>
-		<div field="order_sn" width="90" headerAlign="center" align="center" align="center">订单号</div>
+		<div field="order_sn"  renderer="tips" width="90" headerAlign="center" align="center" align="center">订单号</div>
 		<div field="c_name" width="120" headerAlign="center" align="center" align="center">公司名</div>
 		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
 
@@ -62,27 +62,27 @@
 		<div field="title" width="30" headerAlign="center" align="center" align="center">{if $type eq '1'}收款主题{else}付款主题{/if}</div>
 		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">{if $type eq '1'}收款方式{else}付款方式{/if}</div>
 
-		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>		
+		<div field="account" renderer="setCom" width="40" headerAlign="center" allowSort="true" align="center">交易公司账户</div>
 		<div field="accessory" width="25" headerAlign="center" align="center" allowSort="true" renderer="down">附件</div>
-		
-		
+
+
 		<div field="collection_status" renderer="setCol" width="45" headerAlign="center" allowSort="true" align="center">{if $type eq '1'}收款状态{else}付款状态{/if}</div>
 
 		<!-- <div field="invoice_status" renderer="setInv" width="30" headerAlign="center" align="center" allowSort="true">开票状态</div> -->
 		<div field="remark" width="60" headerAlign="center" >备注<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
-		
+
 		<div field="payment_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >{if $type eq '1'}收款日期{else}付款日期{/if}</div>
 
 		<div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
-		<div field="input_admin" width="30" headerAlign="center" align="center">业务员</div>
+		<div field="name" width="30" headerAlign="center" align="center">业务员</div>
 		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		{if $type eq 2}
-			<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>	
+			<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>
 		{/if}
 		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
-		
+
 	</div>
   </div>
  </div>
@@ -99,6 +99,48 @@
 //搜索或刷新数据
 mini.parse();
 var grid = mini.get("gridCell");
+grid.on("drawcell", function (e) {
+    var record = e.record,
+        column = e.column,
+        field = e.field,
+        value = e.value;
+    if (column.field == "total_price") {
+    	if(e.record.collection_status == 3){
+    		e.cellStyle = "background:#FFAEB9"
+    	};
+    	//console.log(record);
+        if (e.value<0) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+    if (column.field == "collected_price") {
+    	//console.log(record);
+    	if(e.record.collection_status == 3){
+    		e.cellStyle = "background:#FFAEB9"
+    	};
+        if (e.value<0) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+    if (column.field == "uncollected_price") {
+    	//console.log(record);
+    	if(e.record.collection_status == 3){
+    		e.cellStyle = "background:#FFAEB9"
+    	};
+        if (e.value<0) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+ });
 function search() {
   grid.load($("#soform").serializeObject(),function(e){
 	$("#searchMsg").html(e.msg);
@@ -111,10 +153,20 @@ function onKeyEnter(e) {
 
 //追加订单id的操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',oid = record.o_id;
+	var record = e.record,s='',oid = record.o_id,remark=record.remark;
 	var o_type={$type};
 	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
 	return s;
+}
+
+//备注含有“退款”或者“赔偿”，订单号标红
+function tips(e) {
+	var record = e.record,s='',order_sn = record.order_sn,remark=record.remark;
+	var reg= new RegExp("退款|破损");
+	if (remark && reg.test(remark)) {
+		return '<span style="color:red;">'+order_sn+'</span>';
+	}
+	return order_sn;
 }
 
 //追加操作，关联销售订单
@@ -132,9 +184,9 @@ function viewOrdInfo(oid,o_type,sale){
 	mini.open({
 		url: "/product/order/info?oid="+oid+'&o_type='+o_type+'&sale='+sale,
 		showMaxButton:true,
-		title: "查看订单相关信息", 
+		title: "查看订单相关信息",
 		width: 800, height:430
-	});		
+	});
 }
 
 //追加操作，退款和下载按钮
@@ -143,12 +195,47 @@ function viewhander(e){
 	var order_type={$type};
 	if (c_status ==1) {
 		s += '<a href="javascript:transaction('+oid+','+order_type+','+id+')">记账</a>';
+		return s;
 	}
-	if(c_status == 2 && red_status == 0)
-	s += '<a href="javascript:viewPinfo('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">红字更正</a>';
-	return s;
+
+	if(c_status == 2 && red_status == 0 && record.order_name!='退款'){
+		if(record.pay_method!="6"){//不等于东方付通
+			s += '<a href="javascript:viewPinfo('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">红字更正</a>';
+			return s;
+		}
+	}else{
+		if(record.pay_method=="6" && record.order_name=='退款'){//不等于东方付通
+			if(record.refund_amount!="0"){
+				s += '退款已确认';
+				return s;
+			}else{
+				s += '<a href="javascript:refundOk('+oid+','+id+','+c_price+','+total_price+',\''+o_sn+'\')">退款确认</a>';
+				return s;
+			}
+		}
+	}
 }
 
+//东方付通退款确认
+var refundOk = function(oid,id,c_price,total_price,o_sn){
+	var o_sn = o_sn;
+	var data = {oid:oid,id:id,c_price:c_price,total_price:total_price,o_sn:o_sn};
+	var json = mini.encode(data);
+	mini.confirm("确定交易取消？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+		if(data.err=='0'){
+			grid.reload();
+		}else{
+			alert(data.msg)
+			return false;
+		}
+	}
+	//console.log(json);
+	utils.ajax('/product/collection/refundOk',{data:json},callback,"POST","json");
+  });
+
+}
 //付款收款申请审核
 function transaction(oid,order_type,id){
 	var width=440, height=440,type=order_type,finance=1;
@@ -166,7 +253,7 @@ function transaction(oid,order_type,id){
 				grid.reload();
 			}
 		}
-	});		
+	});
 }
 //下载附件
 function down(e){
@@ -193,6 +280,7 @@ function viewPinfo(oid,id,c_price,total_price,o_sn){
 			return false;
 		}
 	}
+	//console.log(json);
 	utils.ajax('/product/collection/changeRed',{data:json},callback,"POST","json");
   });
 
@@ -222,7 +310,7 @@ function saveData() {
   var data = grid.getChanges();
   var json = mini.encode(data);
   if(json.length<10) return false;
-  
+
   grid.loading("保存中，请稍后......");
   var callback=function(data){
 	grid.unmask();

@@ -5,9 +5,11 @@
 class clientsAction extends adminBaseAction
 {
 	protected $offerModel;
+	protected $db;
 	public function __init(){
 		$this->db=M('public:common')->model('big_client');
-		// $this->offerModel=M('public:common')->model('big_offers');
+//		$this->db=M('public:common')->model('big_offers');
+//		 $this->offerModel=M('public:common')->model('big_offers');
 	}
 
 	public function init(){
@@ -29,8 +31,9 @@ class clientsAction extends adminBaseAction
 			$this->json_output($result);
 
 		}
-
+//
 		$this->display('clients.list.html');
+
 	}
 
 	/**
@@ -79,7 +82,7 @@ class clientsAction extends adminBaseAction
 		$this->json_output($result);
 	}
 
-	
+
 	public function offerlist(){
 		$action=sget('action');
 		if($action=='grid'){
@@ -99,10 +102,8 @@ class clientsAction extends adminBaseAction
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			}
-
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
-
 		}
 
 		$this->display('clients.offers.list.html');

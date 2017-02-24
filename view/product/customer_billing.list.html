@@ -2,10 +2,13 @@
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
+			<td style="white-space:nowrap;">				
+				<a class="mini-button" class="output" iconCls="icon-downgrade" plain="true" onclick="outputExcel()">excel导出</a>
+			</td>
 			<td style="float:right;">
-			  <form id="soform">
+				<form id="soform" method="get" action="/product/customer_billing/download">			  
 			  	<select name="status">
-			  		<option value="0">未审核</option>	
+			  		<option value="2">未审核</option>	
 			  		<option value="1">已审核</option>									
 				</select>			
 				<select name="key_type">
@@ -59,6 +62,11 @@ function search() {
 search();
 function onKeyEnter(e) {
   search();
+}
+
+//导出excel
+function outputExcel(){
+	$("#soform").submit();
 }
 
 //追加操作按钮

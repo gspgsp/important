@@ -6,6 +6,7 @@ class followAction extends adminBaseAction {
 	public function __init(){
 		$this->db=M('public:common')->model('customer_follow');//客户跟进信息表
 		$this->assign('follow_up_way',L('follow_up_way'));//跟进方式语言包
+        $this->moreChoice = sget('moreChoice','i',0);
 	}
 	/**
 	 *
@@ -14,6 +15,7 @@ class followAction extends adminBaseAction {
 	 */
 	public function init(){
 		$action=sget('action','s');
+		$this->assign('ids',sget('ids','s'));
 		if($action=='grid'){ //获取列表
 			$this->_grid();exit;
 		}
@@ -63,16 +65,21 @@ class followAction extends adminBaseAction {
 				$where.=" and $key_type like '%$keyword%'";
 			}
 		}
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
-			$where .= " and `customer_manager` in ($sons) ";
-			if(!empty($pools)){
-				$cids = explode(',', $pools);
-				$where .= " or `c_id` in ($pools)";
-			}
-			if(!empty($cidshare)){
-				$where .= " or `c_id` in ($cidshare)";
+		//接收由id组成的字符串（1,2,3,4）
+		$ids=sget('ids','s');//
+		if($ids)  $where.=" and `id` in ".$ids;
+        if($this->moreChoice == 0){
+			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+				$where .= " and `customer_manager` in ($sons) ";
+				if(!empty($pools)){
+					$cids = explode(',', $pools);
+					$where .= " or `c_id` in ($pools)";
+				}
+				if(!empty($cidshare)){
+					$where .= " or `c_id` in ($cidshare)";
+				}
 			}
 		}
 		$list=$this->db->where($where)
@@ -84,9 +91,10 @@ class followAction extends adminBaseAction {
 			$list['data'][$k]['next_follow_time']=$v['next_follow_time']>1000 ? date("Y-m-d H:i:s",$v['next_follow_time']) : '-';
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['follow_up_way'] = L('follow_up_way')[$v['follow_up_way']]; 
+			$list['data'][$k]['follow_up_way'] = L('follow_up_way')[$v['follow_up_way']];
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 			$list['data'][$k]['name'] = M('user:customerContact')->getColByName($v['user_id']);
+			$list['data'][$k]['input_admin'] = M('rbac:adm')->getNameByUser($v['input_admin']);
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -104,10 +112,12 @@ class followAction extends adminBaseAction {
     		$data['next_follow_time']=strtotime($data['next_follow_time']);
 		if($data['cid'] > 0) $data=(array('c_id'=>$data['cid'],)+$data);
 		$result = $this->db->add($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['name'],'customer_manager'=>$_SESSION['adminid'],));
+		//更新最新的更新时间
+		$this->db->model('customer')->where("c_id = {$data['c_id']}")->update(array('last_follow'=>CORE_TIME,));
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
-	
+
 	/**
 	 * 获取联系人信息
 	 * @access public

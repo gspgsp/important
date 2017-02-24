@@ -2,6 +2,7 @@
 <div id="admInfo" title="" style="padding:10px;" showModal="true" allowResize="true" allowDrag="true">
   <div id="addForm" class="form" >
 		<table style="width:100%;">
+		<input class="mini-hidden" value='<?php echo $_SESSION["collection_token"]?>' name="collection_token">
 		<input class="mini-hidden" name="order_type"  value="{$type}"/>
 		<input class="mini-hidden" name="order_sn"  value="{$order_sn}"/>
 		<input class="mini-hidden" name="uncollected_price"  value="{$uncollected_price}"/>
@@ -25,7 +26,7 @@
 				<td>客户名称</td>
 				<td><input name="" class="mini-textbox" maxlength="12" value="{$c_name}" style="width:150px;"allowInput="false"/></td>
 			</tr>
-			
+
 			<tr>
 				<td>合同金额</td>
 				<td><input name="total_price" class="mini-textbox" maxlength="12" {if $total_price}value="{$total_price}"{else}value="{$price}"{/if} style="width:150px;" allowInput="false"/></td>
@@ -43,7 +44,7 @@
 				<td>申请金额<span style="color:red">*</span></td>
 				<td><input name="collected_price" id="check_price" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true"/></td>
 			</tr>
-			{else}		
+			{else}
 			<tr>
 				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
 				<td><input name="un_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" allowInput="false"/></td>
@@ -91,7 +92,7 @@
 					<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
 					<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
 				{/if}
-				
+
 				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</td>
 			</tr>
@@ -106,15 +107,15 @@ mini.parse();
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
 //默认隐藏账户余额
-$('#account').hide(); 
+$('#account').hide();
 //增加后提交数据(保存)
 function submitForm() {
 	form.validate();
   	if (form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
-	//输入的值必须大于0，小于总金额	
-	if(parseFloat(o.collected_price) <= 0 || parseFloat(o.collected_price) >parseFloat(o.total_price)){ 
+	//输入的值必须大于0，小于总金额
+	if(parseFloat(o.collected_price) <= 0 || parseFloat(o.collected_price) >parseFloat(o.total_price)){
 		alert("请输入正确的数值");
 		return;
 	}
@@ -129,7 +130,7 @@ function submitForm() {
 		if (parseFloat(o.collected_price >o.un_price)) {alert("请输入正确的数值");return;}
 
 	}
-	
+
 	var type="{$type}";
 	var finance='{$finance}';
 	if (finance==1) {
@@ -153,7 +154,7 @@ function submitForm() {
 				return false;
 			}
 		},"POST","json");
-  	   
+
  	},"POST","json");
 
 }
@@ -163,7 +164,7 @@ var account_price =0;
 function changeaccount(e){
 	var val = e.value;//1,2
 	$.post('/product/collection/changeaccount',{data:val},function(data){
-		form.unmask();	
+		form.unmask();
 		if(data.err!='0'){
 			account_price = data.sum;
 			mini.get('account_price').setValue(data.sum);
@@ -200,9 +201,9 @@ function GetData() {
 	return row;
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");

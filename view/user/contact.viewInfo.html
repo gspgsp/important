@@ -1,53 +1,112 @@
 {layout file="public:mini_layout"}
 <div style="padding:5px;">
-<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
-	<div title="基本信息">
-		<table border="0" cellpadding="1" cellspacing="2">
-		  <tr>
-			  <td>归属公司：</td>
-			  <td>
-				{$c_info.c_name}
-			  </td>
-			  <td ></td>
-			  <td></td>
-		  </tr>
-		  <tr>
-			<td >姓名：</td>
-			<td>{$info.name}</td>
-			<td>性别：</td>
-			<td>{$sex.$info.sex}</td>
-		  </tr>
-		  <tr>
-			<td style="width:80px;">手机：</td>
-			<td style="width:210px;">{$info.mobile}</td>
-			<td>电话：</td>
-			<td>{$info.tel}</td>
-		  </tr>
-		  <tr>
-			<td style="width:80px;">QQ号：</td>
-			<td style="width:210px;">{$info.qq}</td>
-			<td>传真：</td>
-			<td>{$info.fax}</td>
-		  </tr>
-		  <tr>
-			<td>邮件：</td>
-			<td>{$info.email}</td>
-			<td></td>
-			<td></td>
-		  </tr>
-		  <tr>
-			<td>备注：</td>
-			<td colspan="3">
-			{$info.remark}
-			</td>
-		  </tr>
-		  <tr>
-			<td>状态：</td>
-			<td>{$status.$info.status}</td>
-		  </tr>
-		</table>
+	<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
+		<div title="基本信息">
+			<fieldset style="border:solid 1px #aaa;padding:3px;">
+				<legend >基本信息</legend>
+				<div style="padding:5px;">
+					<table border="0" cellpadding="1" cellspacing="2">
+						<tr>
+							<td>归属公司：</td>
+							<td>
+								{$c_info.c_name}
+							</td>
+							<td ></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td >姓名：</td>
+							<td>{$info.name}</td>
+							<td>性别：</td>
+							<td>{$sex.$info.sex}</td>
+						</tr>
+						<tr>
+							<td style="width:80px;">手机：</td>
+							<td style="width:210px;">{$info.mobile}</td>
+							<td>电话：</td>
+							<td>{$info.tel}</td>
+						</tr>
+						<tr>
+							<td style="width:80px;">QQ号：</td>
+							<td style="width:210px;">{$info.qq}</td>
+							<td>传真：</td>
+							<td>{$info.fax}</td>
+						</tr>
+						<tr>
+							<td style="width:80px;">关注牌号：</td>
+							<td style="width:210px;">{$info.model}</td>
+						</tr>
+						<tr>
+							<td style="width:200px;">塑料圈会员初审备注：</td>
+							<td style="width:210px;">{$info.remarks}</td>
+						</tr>
+						<tr>
+							<td>邮件：</td>
+							<td>{$info.email}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>备注：</td>
+							<td colspan="3">
+								{$info.remark}
+							</td>
+						</tr>
+						<tr>
+							<td>状态：</td>
+							<td>{$status.$info.status}</td>
+						</tr>
+					</table>
+			</fieldset>
+			<fieldset style="border:solid 1px #aaa;padding:3px;">
+				<legend >扩展信息</legend>
+				<div style="padding:5px;">
+					<table>
+						<tr>
+							<td style="width:85px;">登录：</td>
+							<td style="width:110px;">
+								（{$info.visit_count}）次
+							</td>
+							<td style="width:85px;">注册渠道：</td>
+							<td style="width:200px;">
+								{$user_chanel.$res.reg_chanel}
+							</td>
+						</tr>
+						<tr>
+							<td style="width:85px;">登录时间：</td>
+							<td style="width:200px;">
+								{if $info.last_login neq 0}{$info.last_login|date:Y-m-d H:i:s}（最后）{else}--{/if}
+							</td>
+							<td style="width:65px;">登录IP：</td>
+							<td style="width:110px;">
+								{if $info.last_ip}{$info.last_ip}（最后）{else}--{/if}
+							</td>
+						</tr>
+						<tr>
+							<td style="width:85px;">注册时间：</td>
+							<td style="width:200px;">
+								{$res.reg_time|date:Y-m-d H:i:s}
+							</td>
+							<td style="width:85px;">注册IP：</td>
+							<td style="width:110px;">
+								{$res.reg_ip}
+							</td>
+						</tr>
+						<tr>
+							<td style="width:85px;">目前积分：</td>
+							<td style="width:110px;">
+								{$res.points}
+							</td>
+							<td style="width:85px;">默认：</td>
+							<td style="width:200px;">
+								{if $is_default eq 1}是{else}否{/if}
+							</td>
+						</tr>
+					</table>
+				</div>
+			</fieldset>
 		</div>
-		
+
 		<div title="详细资料">
 			<div style="height:385px">
 				<table width="100%">
@@ -87,7 +146,7 @@
 						<td>注册资本：</td>
 						<td>
 							{$c_info.registered_capital}
-						万
+							万
 						</td>
 					</tr>
 					<tr>
@@ -106,10 +165,10 @@
 						<td>客户渠道：</td>
 						<td>{$chanel.$c_info.chanel}</td>
 						<td>状态：</td>
-						<td>{$status.$c_info.status}</td>
+						<td>{$cstatus.$c_info.status}</td>
 					</tr>
 					<tr>
-						<td>附件地址：</td>	
+						<td>附件地址：</td>
 						<td>{if $c_info.file_url}<a href="{$c_info.file_url1}">查看</a> {else}--{/if}</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
@@ -139,10 +198,10 @@
 						<td>法人姓名：</td>
 						<td>{$c_info.legal_person}</td>
 						<td>身份证照片：</td>
-						<td>{if $c_info.legal_idcard_pic}<a href="{$c_info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>	
+						<td>{if $c_info.legal_idcard_pic}<a href="{$c_info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>
 					</tr>
 				</table>
 			</div>
-		</div>	
-</div>
+		</div>
+	</div>
 </div>

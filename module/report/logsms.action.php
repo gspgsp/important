@@ -19,17 +19,17 @@ class logsmsAction extends adminBaseAction {
 	public function init(){
 		$action=sget('action','s');
 		$sms_channels = L('sms_channels');
+		$uid = sget('uid','i',0);
 		if($action=='grid'){
 			//分页
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
 			$sortField = sget("sortField",'s','input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
-
 			$where=" 1 ";
 			$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 			$where.=getTimeFilter($sTime); //时间筛选
-
+			$uid == 0 ?: $where .=" and `user_id` = $uid ";
 			$stype = sget('stype','i',0); //类型
 			if($stype>0){
 				$where.=" and stype='$stype' ";
@@ -38,18 +38,16 @@ class logsmsAction extends adminBaseAction {
 			if($status>0){
 				$where.=" and status=".($status-1);
 			}
-
 			//关键词
 			$key_type=sget('key_type','s','mobile');
 			$keyword=sget('keyword','s');
 			if(!empty($keyword)){
 				if($key_type=='msg'){
-					$where.=" and msg like '%$keyword%' ";	
+					$where.=" and msg like '%$keyword%' ";
 				}else{			
 					$where.=" and $key_type='$keyword' ";
 				}
-			}			
-			
+			}
 			$list=$this->db->where($where)
 						->page($page+1,$size)
 						->order("$sortField $sortOrder")
@@ -62,7 +60,6 @@ class logsmsAction extends adminBaseAction {
 				$list['data'][$k]['mobile']=$val['mobile'];
 				//短信内容
 				$list['data'][$k]['msg']=$val['msg'];
-				$list['data'][$k]['user_ip']=get_ip();
 				//请求时间
 				$list['data'][$k]['input_time']=$val['input_time']>1000 ? date("Y-m-d H:i:s",$val['input_time']) : '-';
 				$list['data'][$k]['stype']=$this->stype[$val['stype']];
@@ -72,8 +69,8 @@ class logsmsAction extends adminBaseAction {
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
 		}
-		
 		$this->assign('channels',$sms_channels);
+		$this->assign('uid',$uid);
 		$this->assign('page_title','短信发送列表');
 		$this->display('logsms.list.html');
 	}

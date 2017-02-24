@@ -63,6 +63,7 @@ class imageAction extends action {
 		}
 		$data['err'] = $error;
 		$data['img'] = $result[0]['savename'];
+		$data['sm_img']=$result[0]['thumb'][$thumb];
 		return $data;
 	}
 	

@@ -99,6 +99,9 @@ class purchaseLogAction extends adminBaseAction {
 			//$keyword=M('product:order')->getOidByCname($keyword);
 			$keyword=M('product:order')->getIdByCname($keyword);
 			$where.=" and `o_id` in ($keyword) ";
+		}elseif(!empty($keyword) && $key_type=='customer_manager'){
+			$aids = implode(',', M('rbac:adm')->getIdByName($keyword));
+			$where.=" and `customer_manager`  in ($aids) ";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
 		}
@@ -114,8 +117,9 @@ class purchaseLogAction extends adminBaseAction {
 				->getPage();
 		//$tot=0;
 		//p($list);
-		foreach($list['data'] as &$v){		
-			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
+		foreach($list['data'] as &$v){
+			$v['min_price'] = M('product:factory')->minPrice($v['p_id'],$v['input_time'],2);
+			$pinfo=M("product:product")->getFnameByPid($v['p_id']);
 			$v['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$v['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
 			$v['order_name']=M("product:order")->getColByName($v['o_id']);
@@ -137,15 +141,11 @@ class purchaseLogAction extends adminBaseAction {
 				//开票申请与审核的小计
 				$v['sum'] = $v['unit_price']*$v['number'];
 			}
-			//$tot=$tot+$v['sum'];
 		}
-		//$to='mn';
-		//$this->assign('to',$to);
-		//$this->assign('tot',$tot);
 		$msg="";
 		if($list['count']>0){
 			$sum=$this->db->select("sum(number) as wsum, sum(remainder) as msum")->where($where)->getRow();
-			$msg="[筛选结果]数量:【".$sum['wsum']."】未入数量:【".$sum['wsum']."】";
+			$msg="[筛选结果]数量:【".$sum['wsum']."】未入数量:【".$sum['msum']."】";
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->assign('doact',$doact);

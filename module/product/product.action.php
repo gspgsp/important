@@ -59,6 +59,7 @@ class productAction extends adminBaseAction {
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选显示类别
 		$this->doact=='check' ? $where.= '  `status` in (3,4)' : $where.=' `status` in (1,2)';
+		if($this->ischecked=='checked')  $where.= '  and `status` =1';
 		//产品分类
 		$product_type=sget('product_type','s');
 		if(!empty($product_type)) $where.=" and `product_type` = '$product_type' ";
@@ -76,6 +77,7 @@ class productAction extends adminBaseAction {
 				$where.=" and $key_type like '%$keyword%' ";
 			}
 		}
+		// p($where);
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
@@ -85,9 +87,11 @@ class productAction extends adminBaseAction {
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['model']=strtoupper($v['model']);
-			$list['data'][$k]['product_type'] = L('product_type')[$v['product_type']]; 
+			$list['data'][$k]['product_type'] = L('product_type')[$v['product_type']];
 			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
 			$list['data'][$k]['f_name'] = M('product:factory')->getFnameById($v['f_id']);
+			$list['data'][$k]['price_s'] = M('product:factory')->getNeighborSprice($v['id']);
+			$list['data'][$k]['price_p'] = M('product:factory')->getNeighborPprice($v['id']);
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
@@ -99,7 +103,7 @@ class productAction extends adminBaseAction {
 		$pid=sget('pid','i',0);
 		$info=$this->db->getPk($pid); //查询产品信息
 		if(empty($info)){
-			$this->error('错误的产品信息');	
+			$this->error('错误的产品信息');
 		}
 		$info['f_name']=M('product:factory')->getFnameById($info['f_id']);
 		$this->assign('info',$info);
@@ -122,7 +126,7 @@ class productAction extends adminBaseAction {
 			$result = $this->db->where("id=$id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
 		}else{
 			if(M('product:product')->getPidByModel($data['model'],$data['f_id'])) $this->error('相关产品已存在');
-			
+
 			$result = $this->db->add($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['name'],));
 		}
 		if(!$result) $this->error('操作失败');
@@ -137,7 +141,7 @@ class productAction extends adminBaseAction {
 		$ids=sget('ids','s');
 		if(empty($ids)){
 			$this->error('操作有误');
-		}	
+		}
 		$ids=explode(',', $ids);
 		foreach ($ids as $k => $v) {
 			if(M('product:purchase')->getColById($v)){
@@ -145,7 +149,7 @@ class productAction extends adminBaseAction {
 				continue;
 			}else{
 				$result=$this->db->where("id = ($v)")->delete();
-				
+
 			}
 		}
 		if($list) $this->json_output(array('err'=>0,'result'=>$list));
@@ -206,17 +210,18 @@ class productAction extends adminBaseAction {
 		$status = $this->db->select('status')->wherePk($changeid)->getOne() == 1  ? 2 : 1;
 		if($check_status == 3)   $status=1;
 		$f_id = $this->db->select('f_id')->wherePk($changeid)->getOne();//获取厂家编号
-		$this->db->startTrans();
+		// $this->db->startTrans();
 		$res = $this->db->wherePk($changeid)->update(array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],'status'=>$status,));
 		$factoryModel=M('product:factory')->where("fid={$f_id}")->update(array('status'=>$status==1?1:2,));//审核通过 厂家由锁定变为正常
-		if($this->db->commit()){
+		if($res){
 		    $cache=cache::startMemcache();
 		    $cache->delete('product');
 		    $this->success('操作成功');
 			$this->success('操作成功');
 		}else{
-		    $this->db->rollback();
-		    $this->error('操作失败');
+			showtrace();
+			$this->db->rollback();
+			$this->error('操作失败');
 		}
 // 		if($res){
 // 			$cache=cache::startMemcache();
@@ -274,7 +279,7 @@ class productAction extends adminBaseAction {
 				//p($_infoData);
 				$this->db->model('product')->add($_infoData);
 			}
-			
+
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
@@ -285,7 +290,7 @@ class productAction extends adminBaseAction {
 	 * 产品更换
 	 */
 	public function replaceProduct(){
-		$this->is_ajax=true; //指定为Ajax输出		
+		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //传递的参数
 		$o_pid = sget('o_pid','s'); //未通过审核的产品ID
 		$check_pid = $data['id'] ; //已审核的产品ID

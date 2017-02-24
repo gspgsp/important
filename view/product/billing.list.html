@@ -1,9 +1,9 @@
 {layout file="public:mini_layout"}
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
-		<tr>	 
+		<tr>
 			<td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
 			</td>
 			<td style="float:right;">
 			    <form id="soform">
@@ -17,8 +17,7 @@
 				</select> -->
 				<select name="order_name" id="order_name">
 					<option value="" selected="selected">=合同主题=</option>
-					<option value="1">中晨</option>
-					<option value="2">梓辰</option>					
+					{html_options options=$company_account}
 				</select>
 				<select name="invoice_one_status" id="invoice_one_status">
 					<option value="" selected="selected">=开票状态=</option>
@@ -30,7 +29,7 @@
 					<option value="invoice_sn">发票号</option>
 					<option value="order_sn">订单号</option>
 					<option value="total_price">订单金额</option>
-					
+
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -49,7 +48,7 @@
 		<div field="o_id" width="30" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单ID</div>
 		<div field="invoice_sn" width="60" headerAlign="center" align="center" align="center">发票号</div>
 		<div field="billing_sn" width="60" headerAlign="center" align="center" align="center">开票号</div>
-		<div field="order_sn" width="80" headerAlign="center" align="center" align="center">订单号</div>
+		<div field="order_sn" renderer="tips" width="80" headerAlign="center" align="center" align="center">订单号</div>
 		<div field="c_name" width="120" headerAlign="center" align="center" align="center">公司名</div>
 		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
 		<div field="billing_price" width="40" headerAlign="center" align="center" align="center">本次开票金额</div>
@@ -57,11 +56,11 @@
 		<!-- <div field="tax_price" width="40" headerAlign="center" align="center" align="center">税额</div> -->
 		<!-- <div field="rise" width="40" headerAlign="center" align="center" align="center">抬头</div> -->
 		<div field="order_name" width="30" headerAlign="center" align="center" align="center">合同主题</div>
-		<div field="accessory" width="25" headerAlign="center" align="center" align="center" renderer="down">附件</div>		
+		<div field="accessory" width="25" headerAlign="center" align="center" align="center" renderer="down">附件</div>
 		<!-- <div field="bile_type" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center">票据类型</div> -->
 
 		<div field="invoice_status" renderer="setInv" width="40" headerAlign="center" align="center" allowSort="true">{if $type eq '1'}销售开票状态{else}采购开票状态{/if}</div>
-		
+
 		<!-- <div field="paying_info" width="90" headerAlign="center" >付款信息<span style="color:red">*</span>
 			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
 		</div>
@@ -78,10 +77,10 @@
 		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
 		<!-- <div field="update_admin" width="30" headerAlign="center" align="center">修改者</div> -->
 		{if $type eq 1}
-			<div width="40" headerAlign="center" renderer="relevance" align="center">关联采购</div>	
+			<div width="40" headerAlign="center" renderer="relevance" align="center">关联采购</div>
 		{/if}
 		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
-		
+
 	</div>
   </div>
  </div>
@@ -111,6 +110,16 @@ function onLoadHandle(e) {
 	return s;
 }
 
+//备注含有“退款”或者“赔偿”，订单号标红
+function tips(e) {
+	var record = e.record,s='',order_sn = record.order_sn,remark=record.remark;
+	var reg= new RegExp("退款|破损");
+	if (remark && reg.test(remark)) {
+		return '<span style="color:red;">'+order_sn+'</span>';
+	}
+	return order_sn;
+}
+
 //追加操作，关联销售订单
 function relevance(e){
 	var record = e.record,oid=record.o_id,s='';
@@ -135,9 +144,9 @@ function viewOrdInfo(oid,o_type,sale){
 	mini.open({
 		url: "/product/order/info?oid="+oid+'&o_type='+o_type+'&sale='+sale,
 		showMaxButton:true,
-		title: "查看订单相关信息", 
+		title: "查看订单相关信息",
 		width: 800, height:430
-	});		
+	});
 }
 
 //追加操作，退款和下载按钮
@@ -151,7 +160,7 @@ function viewhander(e){
 	}else{
 		s="-";
 	}
-	
+
 	return s;
 }
 
@@ -201,7 +210,7 @@ function saveData() {
   var data = grid.getChanges();
   var json = mini.encode(data);
   if(json.length<10) return false;
-  
+
   grid.loading("保存中，请稍后......");
   var callback=function(data){
 	grid.unmask();

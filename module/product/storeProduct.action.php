@@ -17,11 +17,10 @@ class storeproductAction extends adminBaseAction
 			$sortField = sget("sortField",'s','input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			//搜索条件
-			$where=" 1 ";
+			$where=" 1 and sp.`remainder` > 0 ";
 			//关键词
 			$key_type=sget('key_type','s','s_name');
 			$keyword=sget('keyword','s');
-
 			if(!empty($keyword)){
 				if ($key_type == 's_name') {
 					$sid=M('product:store')->getSidBySname("$keyword");
@@ -56,8 +55,15 @@ class storeproductAction extends adminBaseAction
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 				$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 				$list['data'][$k]['f_name']=M('product:product')->getFnameByPid($v['p_id'])['f_name'];
+				$list['data'][$k]['price']=M('product:product')->getPrice($v['p_id']);
 			}
-			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+			$msg="";
+			if($list['count']>0){
+				$sum=$this->db->from('store_product sp')->join('product pro','sp.p_id=pro.id')->join('store s','s.id=sp.s_id')->where($where)->select('sum(sp.remainder) as wsum')->getRow();
+				$total_price = M('product:product')->getPrice();
+				$msg="剩余总吨:【".$sum['wsum']."】总价：【".$total_price."】";
+			}
+			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 			$this->json_output($result);
 		}
 		$this->assign('doact',$doact);

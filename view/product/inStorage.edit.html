@@ -19,7 +19,9 @@
 					<td><input name="purchase_type" class="mini-combobox" data='{:setMiniConfig|$purchase_type}' value="{$order_info.purchase_type}" textField="name" valueField="id" style="width:120px;" required="true"/>
 					</td>	
 					<!-- <td>物流公司<font style="color:red;"> * </font></td>
-					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="true"/></td>	 -->		
+					<td><input name="ship_id" class="mini-combobox" data='{:setMiniConfig|$ship_company}' value="{$data.ship_company}" textField="name" valueField="id" style="width:120px;" required="true"/></td>	 -->
+					<td>业务模式<font style="color:red;"> * </font></td>
+					<td>{if $order_info.business_model eq 1}利润{else}撮合{/if}</td>			
 				</tr>
 				<tr>
 					<td>选择仓库<font style="color:red;"> * </font></td>

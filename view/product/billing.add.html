@@ -138,19 +138,12 @@
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
 			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div>
 			
-			{if $finance}
 			<div field="b_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
 			<div field="un_number" width="50" headerAlign="center" align="center">未开票数量</div>
 			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
-			{else}
-			<div field="b_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
-				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
-			</div>
-			<div field="un_number" width="50" headerAlign="center" align="center">未开票数量</div>
-			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
-			{/if}
+			
 			<div field="unit_price" id="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			{if $type =='1'}
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
@@ -159,8 +152,12 @@
 			<!-- <div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div> -->
 			{/if}
 			<div field="sum" id="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
+			<div name="exact" field="exact" id="exact">小计精确值</div> 
 			<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
 
+		</div>
+		<div style="display: none">
+			<div id="exact"></div>
 		</div>
 
 	</div>
@@ -183,27 +180,35 @@ search();
 function onKeyEnter(e) {
 	search();
 }
+   
+//隐藏列
+grid.hideColumn("exact");
+
 
 //修改数量改变值方法
 function onValidation(e){
-	var number=parseFloat(e.value);
+	var number=e.value;
 	var index=grid.getSelected()._index;//行号
+	e.sender.setValue(parseFloat(number).toFixed(4));
+
 	noStockData=grid.getData();
-	if( !number || number<=0){
+	if( !number || parseFloat(number)<=0){
 		number=1;
 		e.sender.setValue(number);
 	}
-	if(number>noStockData[index].un_number){
+	if(parseFloat(number)>parseFloat(noStockData[index].un_number)){
 		number=noStockData[index].un_number;
 		e.sender.setValue(number);
 	}
 
-	noStockData[index].b_number=number;
-	noStockData[index].sum=parseFloat(noStockData[index].unit_price*number).toFixed(2);
+	noStockData[index].b_number=parseFloat(number);
+	noStockData[index].sum=parseFloat(noStockData[index].unit_price*number).toFixed(2);//用于显示
+	noStockData[index].exact=parseFloat(noStockData[index].unit_price*number);//精确数据，用于计算
 	grid.setData(noStockData);
 	var total=0;
-	for (var i = 0; i < noStockData.length; i++) {
-		total+=parseFloat(noStockData[i].sum);
+	data=grid.getData();
+	for (var i = 0; i < data.length; i++) {
+		total+=parseFloat(data[i].exact);
 	}
 	mini.get('billing_price').setValue(total.toFixed(2));
  }
@@ -234,7 +239,6 @@ function submitForm(billing) {
 	if (form.isValid() == false) return;
 	//提交数据
 	var data=grid.getData();
-	console.log(data);
 	if(data.length==0){
 		$("#returnMsg").text("明细不能为空");
 		return;

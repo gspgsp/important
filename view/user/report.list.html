@@ -4,6 +4,8 @@
 		<tr>
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
+				<!-- <a href="__UPLOAD__/zip/month_quotas.zip" class="mini-button" iconCls="icon-download" plain="true">模板下载</a>
+				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel()">excel导入</a> -->
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
 			</td>
@@ -18,19 +20,22 @@
                     <option value="this_week">本周</option>
                     <option value="last_week">上周</option>
                     <option value="this_month">本月</option>
-                    <option value="last_month">本月</option>
+                    <option value="last_month">上月</option>
                 </select>
 
-				<!-- <select name="depart">
-                    <option value="">=所属部门=</option>
-                	{html_options options=$depart}
-                </select> -->
+				<select name="team_id">
+					<option selected="selected">战队名称</option>
+					{html_options options=$team}
+				</select>
 
 				管理员名字
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-				<span id="searchMsg"></span></form>
+				</form>
 			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><span id="searchMsg"></span></td>
 		</tr>
 	</table>
 </div>
@@ -39,40 +44,39 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="name" width="40" headerAlign="center" align="center">管理员</div>
-			<!-- <div field="depart" width="40" headerAlign="center" align="center">所属部门</div> -->
-			<div field="sale_num" width="40" headerAlign="center" align="center"><span style="color:red">*</span>销售吨位
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="sales" width="40" headerAlign="center" align="center"><span style="color:red">*</span>销售金额
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="buy_num" width="40" headerAlign="center" align="center"><span style="color:red">*</span>采购吨位
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="buys" width="40" headerAlign="center" align="center"><span style="color:red">*</span>采购金额
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="old_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>成交老客户量
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="new_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>成交新客户量
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="day_call" width="40" headerAlign="center" align="center"><span style="color:red">*</span>日电话量
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="month_call" width="40" headerAlign="center" align="center"><span style="color:red">*</span>月电话量
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
-			<div field="profit" width="40" headerAlign="center"  align="center"><span style="color:red">*</span>合计利润
-				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
-			</div>
 			<div field="report_date" width="40" headerAlign="center" allowSort="true" align="center">考核月份
-				<!-- <input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/> -->
 			</div>
+			<div field="name" width="30" headerAlign="center" align="center">业务员</div>
+			<div field="depart_name" width="30" headerAlign="center" align="center">战队</div>
+			<div field="team_goal" width="30" headerAlign="center" align="center"><span style="color:red">*</span>月团队销售目标
+				<input class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="sale_num" width="30" headerAlign="center" align="center"><span style="color:red">*</span>月销售吨位
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="profit" width="30" headerAlign="center" align="center"><span style="color:red">*</span>月销售利润
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			 <div field="buy_num" width="30" headerAlign="center" align="center"><span style="color:red">*</span>月采购吨位
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="new_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>月成交新客户量
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="old_user" width="40" headerAlign="center" align="center"><span style="color:red">*</span>月成交老客户量
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="day_call" width="30" headerAlign="center" align="center"><span style="color:red">*</span>日电话量
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="month_call" width="30" headerAlign="center" align="center"><span style="color:red">*</span>月电话量
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<div field="income" width="30" headerAlign="center" align="center"><span style="color:red">*</span>期望收入
+				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="50"/>
+			</div>
+			<!-- <div field="input_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">输入时间</div> -->
 			<div field="update_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">修改时间</div>
-			<div field="collection_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">采集时间</div>
 			
 		</div>
 	</div>
@@ -94,7 +98,7 @@ function onKeyEnter(e) {
 }
 
 function add(){
-	var width=300, height=320;
+	var width=300, height=400;
 	title="新增绩效考核";
 	mini.open({
 		url: "/user/report/addreport",
@@ -145,5 +149,70 @@ function onComfirm() {
 function onCancel() {
 	CloseWindow("cancel");
 }
-
+//导入excel
+function inputExcel(){
+	mini.showMessageBox({
+		title: "excel导入",
+		buttons: ["ok", "cancel"],
+		html: '<p style="margin-left:50px;">\
+				<label><strong>选择Excel文件</strong> <br /><input type="file" name="check_file" id="manual_check_file" />\
+			  </p>',
+		callback: function (action) {
+			if(action=='ok'){
+				var messageid = mini.loading("正在处理...", "处理中");
+				$.ajaxFileUpload({
+					url:'/user/report/inputExcel',
+					fileElementId:"manual_check_file",
+					dataType: 'json',
+					success: function (data, status) {
+						// consloe.log(data);
+						if(data.msg){
+							mini.showMessageBox({
+								showHeader: false,
+								width: width,
+								title: '处理失败',
+								buttons: ["ok"],
+								html: data.msg,
+								iconCls: iconCls
+							});
+							grid.reload();
+							mini.hideMessageBox(messageid);
+							return false;
+						}
+						if(!data.err){
+							mini.alert(data.result);
+							grid.reload();
+						}else{
+							var iconCls = 'mini-messagebox-info',html = "Excel导入。",title="处理成功",width=200;
+							if(data.result){
+								width=400;
+								title="月度指标导入完成，但部分数据有问题，请核实！";
+								iconCls = 'mini-messagebox-warning';
+								html = '异常交易员信息如下：<br /><div style="height:250px;overflow:scroll;"><span>失败'+data.err+'条数据</span><br/>';
+								$.each(data.result,function(k,v){
+									html += k+" "+v+"<br />";
+								});
+								html+="</div>";
+							}
+							mini.showMessageBox({
+								showHeader: false,
+								width: width,
+								title: title,
+								buttons: ["ok"],
+								html: html,
+								iconCls: iconCls
+							});
+							grid.reload();
+						}
+						mini.hideMessageBox(messageid);
+					},
+					error: function (data, status, e){
+						mini.hideMessageBox(messageid);
+						alert(e);
+					}
+				});
+			}
+		}
+	});
+}
 </script>

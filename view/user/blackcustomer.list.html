@@ -34,7 +34,7 @@
 				</select>       
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-                 			<span id="searchMsg"></span>
+							<span id="searchMsg"></span>
 			</form>
 			</td>
 
@@ -113,6 +113,43 @@ function GetData() {
 	var row = grid.getSelected();
 	return row;
 }
+function onLoadFllow(e){
+	var record = e.record,s='',uid=record.c_id;
+	return s = '<a href ="javascript:del('+uid+')">彻底删除</a>|<a href="javascript:restore('+uid+')">还原到私海</a>';
+}
+//删除数据
+function del(cid) {
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/blackcustomer/del',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+//删除数据
+function restore(cid) {
+	mini.confirm("确定还原到私海吗？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/blackcustomer/restore',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+
 
 
 

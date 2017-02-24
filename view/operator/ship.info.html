@@ -11,6 +11,24 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 	<div title="订单处理">
 		<table width="100%" id="form_view">
 			<tr>
+				<td class="c">联系人：</td>
+				<td>{if $info.name }{$info.name}{else}
+					<input type="text" class="mini-textbox" name="info[name]"  value="信息不正确"/>
+					{/if}</td>
+			</tr>
+			<tr>
+				<td class="c">联系方式：</td>
+				<td>{if $info.mobile }{$info.mobile}{else}
+					<input type="text" class="mini-textbox" name="info[mobile]"  value="信息不正确"/>
+					{/if}</td>
+			</tr>
+			<tr>
+				<td class="c">联系人公司：</td>
+				<td>{if $info.c_name }{$info.c_name}{else}
+					<input type="text" class="mini-textbox" name="info[c_name]"  value="信息不正确"/>
+					{/if}</td>
+			</tr>
+			<tr>
 			<td class="c">物流公司：</td>
 			<td>
 			{if $info.express}{$ship_company.$info.express}{else}
@@ -52,7 +70,7 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 <script type="text/javascript">
 mini.parse();
 var form = new mini.Form("#infoForm");
-function submitForm(){
+	function submitForm(){
 	form.validate();
 	if(form.isValid() == false) return;
 	form.loading("数据提交中，请稍后......");

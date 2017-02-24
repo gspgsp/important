@@ -7,7 +7,7 @@ class adminBaseAction extends action {
 	protected $db=NULL;
 	protected $debug=FALSE;
 	public function __construct() {
-		startAdminSession();		
+		startAdminSession();
 		parent::__construct();
 		$this->sys=M('system:setting')->getSetting();
 
@@ -22,6 +22,7 @@ class adminBaseAction extends action {
 		load::L('sys'); //加载语言相
 		$this->assign('mini_list',1);
 		$this->assign('_today',date("Y-m-d"));
+		$this->assign('admin_id',$this->admin_id);
 		$this->assign('_first',date("Y-m").'-01');
 		$this->assign('_yesterday',date("Y-m-d",time()-86400));
 	}
@@ -37,24 +38,24 @@ class adminBaseAction extends action {
 			return true;
 		}
 		$this->isAjax(); //检查是否AJax提交
-		
+
 		if(!M('rbac:rbac')->checkAccess($this->admin_id)){ //未通过验证
         	$this->error('您没有权限操作');
 		}
 	}
-	
+
     /**
      * 清楚Memcache的某个键值
      */
 	protected function clearMCache($key=''){
 		if(empty($key)){
-			return false;	
+			return false;
 		}
 		$cache=cache::startMemcache();
 		$cates=$cache->delete($key);
 		return true;
 	}
-	
+
 	protected function _vlog(){
 		$remark=$_REQUEST;
 		unset($remark['m'],$remark['c'],$remark['a']);
@@ -68,13 +69,13 @@ class adminBaseAction extends action {
 		}else{
 			$remark='';
 		}
-		
+
 		//新增日志记录
 		$data=array(
-			'admin_id'=>$this->admin_id,		
-			'input_time'=>CORE_TIME,		
-			'ip'=>get_ip(),		
-			'action'=>'/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A,		
+			'admin_id'=>$this->admin_id,
+			'input_time'=>CORE_TIME,
+			'ip'=>get_ip(),
+			'action'=>'/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A,
 			'remark'=>substr($remark,0,500), //只取500条字符
 		);
 		$this->db->model('log_admin')->add($data);
@@ -92,6 +93,25 @@ class adminBaseAction extends action {
 			return false;
 		}
 
+	}
+	//检测交易员考核目标是否定过，没定目标，不让操作
+	public function getReportData(){
+		$roleid = M('rbac:rbac')
+				->model('adm_role_user as user')
+				->leftjoin('adm_role as role','user.role_id = role.id')
+				->select('role.pid')
+				->where("user.`user_id` = {$_SESSION['adminid']}")
+				->getOne();
+		if($roleid == 22){   //交易员所在团队id的父id都是22，故写死为22
+			$month_date = strtotime(date('Y-m',time())) ;
+			$res = $this->db->model('report_user')
+				->select('admin_id')
+				->where('admin_id = '.$_SESSION['adminid'].' and report_date = "'.$month_date.'"')
+				->getOne();
+			if(empty($res)){
+				$this->error('您当月指标未设置,请先设置当月指标','/user/report/init');
+			}
+		}
 	}
 }
 ?>

@@ -13,7 +13,7 @@ class indexAction extends adminBaseAction
 		$team_id = spost('team_id','i','');
 		
 		if(empty($start_time) && empty($end_time) && empty($time_type)){
-			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m-d', time())));
+			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m', time())));
 			// $start_time=date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-1,date('Y'))); //起始日期昨天0点
 			$end_time = date('Y-m-d H:i:s',strtotime('now'));
 		}
@@ -41,7 +41,7 @@ class indexAction extends adminBaseAction
 		$team_id = spost('team_id','i','');
 		
 		if(empty($start_time) && empty($end_time) && empty($time_type)){
-			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m-d', time())));
+			$start_time = date('Y-m-d H:i:s',strtotime(date('Y-m', time())));
 			//$start_time=date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-1,date('Y'))); //起始日期昨天0点
 			$end_time = date('Y-m-d H:i:s',strtotime('now'));
 		}
@@ -73,6 +73,7 @@ class indexAction extends adminBaseAction
 		if(!empty($time_type)){
 			$type = $time_type;
 		}
+		// p($type);die;
 		//根据条件读数据 参数1:采购/销售;参数2:时间类型;参数3：开始时间;参数4：结束时间;参数5：团队/个人;参数6：查询order字段参数7：团队id(查询团队不用传);	
 		$return_data = $this->data = M('order:reportView')->getDataByTime($order_type,$type,$start_time,$end_time,'team',$order_by_time_field);
 		// p($return_data);die();
@@ -86,8 +87,10 @@ class indexAction extends adminBaseAction
 			$team[] = $value['name'];
 			$price_data[] = $value['price']/10000;
 			$num_data[] = $value['num']/1;
-			$profit_data[] = $value['profit']/10000;
+			$collectiond_data[] = $value['collectiond']/10000;
+			$profit_data[] = round($value['profit']/10000,2);
 		}
+		// p($profit_data);die;
 		$time_min = date('Y-m-d',$return_data['time'][0]);
 		$time_max = date('Y-m-d',$return_data['time'][1]);
 		$title = $time_min.'~'.$time_max;
@@ -95,12 +98,14 @@ class indexAction extends adminBaseAction
 		//判断订单类型，输出不同的文案
 		if($order_type == 1){
 			$pur_or_sale_name = '已收款';
+			$profit_column = array('name'=>'利润','data'=>$profit_data);
 		}else{
 			$pur_or_sale_name = '已付款';
+			$profit_column = array();
 		}
 		$option_arr = array(
 			'chart'=>array('type'=>'column','plotBorderWidth'=>1),
-			'colors'=>array('#8bbc21','#126AED','#F75E29'),
+			'colors'=>array('#8bbc21','#126AED','#F75E29','#00FF00'),
 			'title'=>array('text'=>$title,'margin'=>30),
 			'subtitle'=>array('text'=>$subtitle,'style'=>array('color'=>'#FF00FF','fontSize'=>'22',)),
 			'xAxis'=>array('categories'=>$team,'title'=>array('text'=>null)),
@@ -110,9 +115,9 @@ class indexAction extends adminBaseAction
 				'labels'=>array('overflow'=>'justify')),
 			'tooltip'=>array('valueSuffix'=>'','shared'=>true),
 			'plotOptions'=>array('bar'=>array('dataLabels'=>array('enabled'=>true))),
-			'legend'=>array('layout'=>'vertical','align'=>'left','verticalAlign'=>'top','floating'=>true,'backgroundColor'=>'#FFFFFF','borderWidth'=>0,'shadow'=>true),
+			'legend'=>array('layout'=>'vertical','align'=>'left','verticalAlign'=>'top','floating'=>true,'backgroundColor'=>'#FFFFFF','borderWidth'=>0,'shadow'=>true,'x'=>0,'y'=>-15),
 			'credits'=>array('enabled'=>false),
-        	'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data),array('name'=>$pur_or_sale_name,'data'=>$profit_data)),
+        	'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data),array('name'=>$pur_or_sale_name,'data'=>$collectiond_data),$profit_column),
 		);
 		$this->ajaxReturn('1',json_encode($option_arr));
 	}
@@ -140,7 +145,7 @@ class indexAction extends adminBaseAction
 			$name[] = $value['name'];
 			$price_data[] = $value['price']/10000;
 			$num_data[] = $value['num']/1;
-			$profit_data[] = $value['profit']/10000;
+			$collectiond_data[] = $value['collectiond']/10000;
 		}
 		$time_min = date('Y-m-d',$return_data['time'][0]);
 		$time_max = date('Y-m-d',$return_data['time'][1]);
@@ -197,7 +202,7 @@ class indexAction extends adminBaseAction
 				'plotOptions'=>array('bar'=>array('dataLabels'=>array('enabled'=>true))),
 				'legend'=>array('layout'=>'vertical','align'=>'left','verticalAlign'=>'top','floating'=>true,'backgroundColor'=>'#FFFFFF','borderWidth'=>0,'shadow'=>true),
 				'credits'=>array('enabled'=>false),
-        		'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data),array('name'=>$pur_or_sale_name,'data'=>$profit_data)),
+        		'series'=>array(array('name'=>'总额','data'=>$price_data),array('name'=>'总吨数','data'=>$num_data),array('name'=>$pur_or_sale_name,'data'=>$collectiond_data)),
 			);
 		}
 		$this->ajaxReturn('1',json_encode($option_arr));

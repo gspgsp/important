@@ -56,6 +56,8 @@ class userLogErrAction extends adminBaseAction {
 				$list['data'][$k]['ip']=$val['ip'];
 				//操作描述
 				$list['data'][$k]['chanel']=$user_chanel[$val['chanel']];
+				//会员名
+				$list['data'][$k]['name']= M('user:customerContact')->getColByName($val['user_id']);
 				
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');

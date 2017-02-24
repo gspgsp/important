@@ -4,6 +4,7 @@
 		<tr>
 			{if $doact neq 'search'}
 			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-tip">价格红色 表示本订单较最近一次该牌号成交价的差价大于1%</a>
 				<!-- <a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a> -->
 				<!-- <span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
@@ -24,6 +25,7 @@
 				</select>
 				<select name="key_type">
 					<option value="c_id">客户名称</option>
+					<option value="customer_manager">交易员</option>
 					<option value="o_sn">订单号</option>
 					<option value="p_id">牌号</option>
 					<option value="remark">备注</option>
@@ -50,9 +52,10 @@
 			<div field="f_name" width="80" headerAlign="center" align="center">厂家</div>
 			<div field="number" width="50" headerAlign="center" allowSort="true" align="center">数量【吨】</div>
 			<div field="remainder" width="50" headerAlign="center" allowSort="true" align="center">未入数量</div>
-			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
+			<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center"  renderer="tips">单价</div>
+			<div action="h_price" width="30" headerAlign="center" allowSort="true" align="center" renderer="do_p">历史价</div>
 			<div field="in_storage_status" width="80" headerAlign="center" allowSort="true" align="center">入库状态</div>
-			<div field="remark" width="100" headerAlign="center" allowSort="true" align="center">备注</div>
+			<div field="remark" width="70" headerAlign="center" allowSort="true" align="center">备注</div>
 			<div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
 			<div field="cmanager" width="45" headerAlign="center" align="center">创建人</div>
 		</div>
@@ -104,6 +107,26 @@ function add(){
 			}
 		}
 	});	
+}
+function tips(e) {
+	var record = e.record,s='',unit_price = record.unit_price,min_price = record.min_price;
+	if(unit_price > parseFloat(min_price*1.01) && min_price != 0){
+		return '<span style="color:red;">'+unit_price+'</span>';
+	}
+	return unit_price;
+}
+function do_p(e){
+	var record = e.record,id=record.p_id,o_id=record.o_id;
+	var s='<a href="javascript:History_p('+id+","+o_id+');">查看</a>';
+	return s;
+}
+function History_p(id,o_id){
+		mini.open({
+		url: " /order/purchase/init?p_id="+id+"&o_id="+o_id,
+		title: "产品历史成交价",
+		width: 1250,
+		height: 550,
+	});
 }
 // //双击弹出
 // function onRowDblClick(e) {

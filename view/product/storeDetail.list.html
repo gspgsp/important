@@ -2,11 +2,15 @@
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
-		{if $doact neq 'search'}
+		<!-- {if $doact neq 'search' && $id eq 0}
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
 			</td>
-		{/if}
+		{/if} -->
+			<td style="float:left;">
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存期望价格</a> 
+				<span id="searchMsg" style="color:red;"></span>
+			</td>
 			<td style="float:right;">
 			<form id="soform">
 				<select name="sTime">
@@ -19,39 +23,62 @@
 					<option value="1">有库存</option>
 					<option value="2">虚拟入库</option>
 				</select>
+				<select name="controlled_number">
+					<option value="1" selected="selected">是</option>
+					<option value="2">否</option>
+				</select>
+				<select name="pay_status">
+					<option value="">=付款=</option>
+					<option value="1">待付款</option>
+					<option value="2">部分付</option>
+					<option value="3">全部付款</option>
+				</select>
 				<select name="key_type">
+					<option value="p_id">牌号</option>
+					<option value="order_sn">订单号</option>
 					<option value="store_id">仓库</option>
 					<option value="store_aid">入库人</option>
-					<option value="p_id">牌号</option>
-					<option value="lot_num">批次</option>
-					<option value="unit_price">采购价</option>	
+					<option value="unit_price">采购价</option>
+					<option value="customer_manager">交易员</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-				<span id="searchMsg"></span></form>
+				</form>
 			</td>
 		</tr>
 	</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/storeDetail/init?action=grid&do={$doact}"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/storeDetail/init?action=grid&do={$doact}&pid={$pid}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" >
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="id" width="30" headerAlign="center" align="center" allowSort="true"  renderer="onLoadLogDetail">查看</div>
 			<div field="store_name" width="45" headerAlign="center" align="center" allowSort="true">仓库</div>
-			<div field="admin_name" width="30" headerAlign="center" align="center" allowSort="true">入库人</div>
-			<div field="purchase_id" width="130" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
+			{if $exits eq 1}
+			<div field="cname" width="95" headerAlign="center" align="center" allowSort="true">供应商</div>
+			{/if}
+			<div field="purchase_id" width="90" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle">订单号</div>
 			<div field="model" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
-			<div field="lot_num" width="60" headerAlign="center" align="center" allowSort="true">批次</div>
+			<div field="f_name" width="60" headerAlign="center" align="center" allowSort="true">厂家</div>
 			<div field="unit_price" width="60" headerAlign="center" align="center" allowSort="true">采购价</div>
+			<div field="expect_price" width="35" headerAlign="center" allowSort="true" align="center">期望售价
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
 			<div field="number" width="40" headerAlign="center" align="center" allowSort="true">进货数量</div>
 			<div field="remainder" width="40" headerAlign="center" align="center" allowSort="true">剩余数量</div>
 			<div field="controlled_number" width="40" headerAlign="center" align="center" allowSort="true">可用数量</div>
+			<div field="business_model" width="40" headerAlign="center" align="center">订单模式</div>
+			<div field="collection" width="40" headerAlign="center" align="center" allowSort="true">付款数目</div>
 			<div field="lock_number" width="40" headerAlign="center" align="center" allowSort="true">锁定数量</div>
-			<div field="input_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">入库时间</div>
-			<div field="update_time" width="80" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">最后操作时间</div>
-			<div field="update_admin" width="45" headerAlign="center" align="center">操作者</div>
+			<div field="customer_manager" width="40" headerAlign="center" align="center" allowSort="true">交易员</div>
+			<div field="input_time" width="70" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">入库时间</div>
+			{if $pid eq 0}
+			<div field="update_time" width="70" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">最后操作时间</div>
+			{/if}
+			<div field="id" width="30" headerAlign="center" align="center" allowSort="true"  renderer="onLoadLogDetail">查看</div>
+			<!-- <div field="admin_name" width="45" headerAlign="center" align="center">操作者</div> -->
+			<div field="admin_name" width="30" headerAlign="center" align="center" allowSort="true">入库人</div>
+
 		</div>
 	</div>
 </div></div>
@@ -86,14 +113,14 @@ function viewLogInfo(id){
 	mini.open({
 		url: "/product/storeDetail/logDetail?id="+id,
 		showMaxButton:true,
-		title: "查看订单相关信息", 
+		title: "查看订单相关信息",
 		width: 950, height:450
 	});
 }
 
 //追加操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn;
+	var record = e.record,s='',o_id = record.o_id,order_sn = record.order_sn;
 	s += '<a href="javascript:viewOrdInfo('+o_id+')">'+order_sn+'</a> ';
 	return s;
 }
@@ -102,9 +129,9 @@ function viewOrdInfo(oid){
 	mini.open({
 		url: "/product/order/info?oid="+oid,
 		showMaxButton:true,
-		title: "查看订单相关信息", 
+		title: "查看订单相关信息",
 		width: 800, height:450
-	});		
+	});
 }
 //追加查看产品按钮
 function onLoadProduct(e){
@@ -117,9 +144,9 @@ function viewProInfo(pid){
 	mini.open({
 		url: "/product/product/info?pid="+pid,
 		showMaxButton:true,
-		title: "产品相关信息", 
+		title: "产品相关信息",
 		width: 250, height:250
-	});		
+	});
 }
 //删除
 function remove() {
@@ -192,5 +219,21 @@ function onComfirm() {
 //取消
 function onCancel() {
 	CloseWindow("cancel");
+}
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/product/storeDetail/saveData',{data:json},callback,"POST","json");
 }
 </script>

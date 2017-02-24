@@ -2,16 +2,18 @@
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>	
+			<td style="float:left;">
+				<span id="searchMsg"></span>
+			</td>
 			<td style="float:right;">
 			  <form id="soform">				
 				<select name="key_type">
+					<option value="model">牌号</option>
 					<option value="s_name">仓库名字</option>
 					<option value="f_name">厂家名字</option>
-					<option value="model">牌号</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-				<span id="searchMsg"></span>
 			  </form>
 			</td>
 		</tr>
@@ -21,11 +23,13 @@
   <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/storeProduct/init?action=grid"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 	<div property="columns">
-		<div field="id" width="30" headerAlign="center" align="center" align="center">ID</div>
+		<div field="p_id" width="30" headerAlign="center" align="center" align="center" renderer="LoadHandle">明细</div>
 		<div field="store_name" width="90" headerAlign="center" align="center">仓库名字</div>
 		<div field="f_name" width="90" headerAlign="center" align="center">厂家名字</div>
 		<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-		<div field="remainder" width="90" headerAlign="center" align="center">货品数量</div>
+		<div field="number" width="90" headerAlign="center" align="center">入库数量</div>
+		<div field="remainder" width="90" headerAlign="center" align="center">剩余数量</div>
+		<div field="price" width="90" headerAlign="center" align="center">货品总价</div>
 		<div field="input_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >添加时间</div>
 		<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
 		<div field="update_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
@@ -82,6 +86,25 @@ search();
 function onKeyEnter(e) {
   search();
 }
+
+//追加操作按钮
+function LoadHandle(e) {
+	var record = e.record,s='',p_id = record.p_id;
+	s += '<a href="javascript:viewLogs('+p_id+')">详细</a> ';
+	return s;
+}
+//查看订单相关信息
+function viewLogs(id){
+	mini.open({
+		url: "/product/storeDetail/init?id="+id,
+		showMaxButton:true,
+		title: "查看明细相关信息", 
+		width: 1200, height:520
+	});		
+}
+
+
+
 
 //追加操作按钮
 function onLoadHandle(e) {

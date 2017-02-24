@@ -4,9 +4,18 @@
 		<input class="mini-hidden" name="ctype" value="{$ctype}"/>
 		<input class="mini-hidden" name="id" value="{$id}"/>
 		<table border="0" cellpadding="1" cellspacing="2">
+		   <tr>
+ 			<td>平台自购：</td>
+		   	<td>
+		   	<input type="hidden" valeue="{$cc_id}" />
+		   	<div id="rbl" class="mini-radiobuttonlist" repeatItems="1" repeatLayout="table" repeatDirection="vertical"
+		   			textField="text" valueField="c_id" value="{$cc_id}"  data="[{c_id: 5041, text: '中晨'},{c_id: 4016, text:'梓辰'},{c_id: 0,text:'其他'}]" >
+           </div>  
+		   	</td>
+		   </tr>
 			<tr>
 				<td>客户：</td>
-				<td><input name="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" allowInput="false"  style="width:170px" id="usrId"  text="{$c_name}"/></td>
+				<td><input name="c_id" id="c_id" class="mini-buttonedit" onbuttonclick="cstChoose" valueField="c_id"  value="{$data.c_id}" allowInput="false"  style="width:170px" id="usrId"  text="{$c_name}"/></td>
 				<td ></td>
 				<td></td>
 			</tr>
@@ -88,6 +97,47 @@
 <script type="text/javascript">
 mini.parse();
 var form = new mini.Form("#infoForm");
+
+var rbl = mini.get("rbl");
+rbl.on("valuechanged", function (e) {
+    if(this.getValue()=="0"){//其他
+    	mini.get("c_id").enable();     
+    	mini.get("name").enable();   
+		var cname = mini.get("name");
+	    cname.setValue("");
+		cname.setText("");
+		var c_id = mini.get("c_id");
+		c_id.setValue("");
+		c_id.setText("");
+    }else{//自动填充 中晨或梓辰 
+    	console.log(this.getValue());
+    	mini.get("c_id").disable();     
+    	mini.get("name").disable();   
+    	var obj =new Object();
+    	obj.c_id=this.getValue();
+    	var json = mini.encode(obj);
+    	$.post('/product/purchase/getcustom',{data:json},function(data){
+    		//console.log(data);
+    		if(data.err=="0"){
+				var users = mini.getData('/user/follow/get_my_contact?c_id='+data.msg.c_id);
+    			var cname = mini.get("name");
+			    cname.setValue(users[0].id);
+				cname.setText(users[0].name);
+    			var c_id = mini.get("c_id");
+				c_id.setValue(data.msg.c_id);
+				c_id.setText(data.msg.c_name);
+    		}else{
+    			var cname = mini.get("name");
+			    cname.setValue("");
+				cname.setText("");
+    			var c_id = mini.get("c_id");
+				c_id.setValue("");
+				c_id.setText("");
+    		}
+    		form.unmask();
+    	},'json');
+    }
+});
 
 function submitForm(){
 	form.validate();
