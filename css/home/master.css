@@ -21,7 +21,7 @@ a:hover{ text-decoration:none; color:#ee4822;}
 
 .xian{width:1px;height:40px;background-color:#e2e2e2;float:left;}
 
-.top{ background-color:#ffffff; border-bottom:#e2e2e2 1px solid;}
+.top{ border-bottom:#e2e2e2 1px solid;}
 .topk{ width:1200px; line-height:40px; height:40px;  margin:0 auto;}
 .topa{ width:500px; float:left;font-size: 12px;}
 .topb{ float:right; text-align:right;font-size: 12px;}
@@ -648,6 +648,7 @@ width:257px;
 .yabraba {line-height:17px; height:17px; color:#444444;}
 .yabrabb {line-height:17px; height:17px; color:#878787;}
 .yabrabc {line-height:17px; height:17px; color:#ee4822;}
+.related-info li{ width:425px; line-height:26px; float:left;}
 /*注册*/
 .ybbbg {padding:40px 0; background:#f7f7f7;}
 .ybbt {padding-bottom:20px; background:url(../../images/home/zuline.jpg) center 30px  repeat-x; width:1200px; height:auto; margin:0 auto;}
@@ -715,6 +716,8 @@ width:257px;
 .ycblbd {height:40px;border:1px solid #eee;padding:0px 10px;line-height:40px;background:#f7f7f7;}
 /*.ycblbd {padding:0; width:98px; background:#f7f7f7; height:38px; border:solid 1px #ddd; line-height:38px; margin-right:12px; color:#525252;}*/
 .ycblbe {padding:0; width:98px; background:#f7f7f7; height:38px; border:solid 1px #ddd; line-height:38px; margin-right:134px; color:#525252;}
+.show-wrap{ position:relative;}
+.show-wrap .suggest{border:1px solid #ddd; border-top:none; clear:both; width:348px; height:auto; background:#fff; overflow: hidden; position:absolute; left:122px; top:38px; display: none;}
 
 /*委托*/
 .ydbg {background:#f7f7f7; padding:30px 0 40px 0;}
@@ -1231,15 +1234,9 @@ width:257px;
 #sstitletwo .fourp{width:50px;}
 
 
-#sitebtn2{padding:10px;border:1px solid #2ba3f1;color:#2ba3f1;padding-left: 20px;padding-right: 20px}=======
+#sitebtn2{padding:10px;border:1px solid #2ba3f1;color:#2ba3f1;padding-left: 20px;padding-right: 20px}
 
 
-#sstitletwo{font-size: 12px; height:36px;line-height:36px;background-color:#f1fbff;width:254px;border-bottom:1px solid #f9e6d7;color:#bcb7b2;float:right;}
-#sstitletwo p {float:left;}
-#sstitletwo .onep{width:50px;}
-#sstitletwo .twop{width:80px;}
-#sstitletwo .threep{width:71px;}
-#sstitletwo .fourp{width:50px;}>>>>>>> .r143
 
 
 
@@ -1335,16 +1332,6 @@ text-align:center; overflow:hidden; background:url(../../images/home/BgBtn.png) 
 
 
 /* CSS Document */
-*{ margin:0; padding:0;}
-img{ border:none;}
-input{ outline:medium;}
-ul,ol,li{ list-style:none;}
-body{ font-family:"Microsoft YaHei"; font-size:12px; color:#444; background:#f5f5f5;}
-
-a{ text-decoration:none; color:#444;}
-.flt{ float:left;}
-.frt{ float:right;}
-
 /*sel-condt begin*/
 .big-client .sel-condt{ width:1198px; height:45px; line-height:45px; overflow:hidden; border:1px solid #e1e1e1; border-bottom:none; margin:0 auto; margin-top:20px; background:#fff;}
 .big-client .sel-condt-name{ margin:0 15px 0 20px; float:left;}
@@ -1354,7 +1341,7 @@ a{ text-decoration:none; color:#444;}
 /*sel-condt end*/
 
 /*filter begin*/
-.big-client .filter{ width:1198px; height:auto; overflow:hidden; margin:0 auto; margin-bottom:20px; border:1px solid #e1e1e1; background:#fff;}
+.big-client .filter{ width:1218px; height:auto; overflow:hidden; margin:0 auto; margin-bottom:20px; border:1px solid #e1e1e1; background:#fff;}
 .big-client .filter-tr{ height:auto; overflow:hidden; border-bottom:1px solid #e1e1e1;}
 .big-client .filter-tr .filter-name{ width:123px; height:69px; line-height:69px; padding:0 0 0 20px; float:left;}
 .big-client .filter-tr .filter-all{ width:84px; height:69px; line-height:69px; overflow:hidden; float:left; cursor:pointer;}
@@ -1393,7 +1380,7 @@ a{ text-decoration:none; color:#444;}
 /*filter end*/
 
 /*result begin*/
-.big-client .result{ width:1198px; height:auto; overflow:hidden; margin:0 auto; border:1px solid #e1e1e1; background:#fff;}
+.big-client .result{ width:1218px; height:auto; overflow:hidden; margin:0 auto; margin-bottom:45px; border:1px solid #e1e1e1; background:#fff;}
 .big-client .result .condt{ font-size:14px; height:58px; line-height:58px; overflow:hidden; background:#f7f7f7;}
 .big-client .result .condt div,.result .condt p,.result .condt input{ float:left;}
 .big-client .result .condt .total{ width:158px; padding:0 0 0 22px;}

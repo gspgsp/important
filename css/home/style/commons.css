@@ -7,19 +7,34 @@ body.member{ background: url(../img/memberBg.png) center top no-repeat;}
 
 a{ text-decoration:none;}
 .member .mem-inner{ width:1200px; height:auto; margin:0 auto;}
-.member .member-con{ height:auto; background:#fc6621; padding-bottom: 30px; overflow:hidden;}
-.member .memlt{ width:516px; height:380px; overflow:hidden; float:left; margin:60px 0 0 48px;}
-.member .memrt{ width:430px; height:515px; overflow:hidden; float:left; margin:60px 0 0 76px;}
-.member .logo{ margin:0 0 25px 90px;}
-.member .opt{ width:362px; height:315px; padding:38px 34px 0 34px; overflow:hidden; background:#f4f5f8;}
-.member .opt .opt-wrap{ width:360px; height:42px; overflow:hidden; border:1px solid #d0d0d3; border-radius:6px; background:#fff; box-shadow:inset 3px 3px 5px #e9e9e9;}
+.member .member-con{ height:564px; background:url(../img/loginBg.jpg) no-repeat; overflow:hidden;}
+.member .memlt{ width:544px; height:476px; overflow:hidden; float:left; margin:60px 0 0 48px;}
+.member .memrt{ width:430px; height:515px; overflow:hidden; float:left; margin:50px 0 0 76px;}
+.member .logo{ margin:0 0 15px 90px;}
+.member .opt{ width:362px; height:365px; padding:38px 34px 0 34px; overflow:hidden; background:#f4f5f8;}
+.member .opt .login-tab{ font-size:16px; height:24px; overflow:hidden; line-height:24px; margin:0 0 20px 0;}
+.member .opt .login-tab li{ color:#888; font-weight:bold; float:left; cursor:pointer; padding:0 30px; margin:0 30px 0 0; text-align:center;}
+.member .opt .tips-error{ color:red; height:28px; line-height:28px; display:block;}
+#tabz1{ border-right:1px solid #aaa; background:url(../img/loginIcon1.png) no-repeat;}
+#tabz1.hover{ color:#fc6621; background:url(../img/loginIcon3.png) no-repeat;}
+#tabz2{ background:url(../img/loginIcon2.png) no-repeat; position:relative;}
+#tabz2 span{ position:absolute; right:-10px; width:32px; height:19px; background:url(../img/new.gif) no-repeat;}
+#tabz2.hover{ color:#267bd3; background:url(../img/loginIcon4.png) no-repeat;}
+#con-tabz-2 .btn input{ background:#267bd3;}
+.member .opt .opt-wrap{ width:360px; height:42px; overflow:hidden; border:1px solid #d0d0d3; border-radius:6px; background:#fff; box-shadow:inset 3px 3px 5px #e9e9e9; margin:0 0 12px 0;}
+.member .opt .opt-wrap2{ width:360px; height:36px; line-height:36px; overflow:hidden;}
+.member .opt .pwd2 input{ width:225px;}
+.member .opt .pwd2 span{ display:inline-block; width:86px; height:32px; line-height:32px; text-align:center; color:#fff;  border-radius:4px;}
+.member .opt .pwd2 span.enable{ background:#267bd3; cursor:pointer;}
+.member .opt .pwd2 span.disabled{ background:#aaa;}
 .member .opt input{ font-family:"微软雅黑"; width:310px; height:16px; line-height:16px; margin:12px 0 0 10px;}
-.member .opt .opt-msg{ color:#f00; width:360px; height:28px; line-height:28px; overflow:hidden;}
-.member .opt .opt-msg p{ height:28px; background:url(../img/memberSpirit.png) no-repeat 0 -144px; margin:0 0 0 12px; padding:0 0 0 21px; display:none;}
+.member .opt .inp_p2 input{ width:90px; height:34px; line-height:34px; margin:0 10px 0 0; padding:0 0 0 10px; border:1px solid #d0d0d3;border-radius:3px; float:left;}
+.member .opt .inp_p2 img{ float:left; cursor:pointer;}
 .member .opt .login .icon{ width:18px; height:42px; overflow:hidden; float:left; background:url(../img/memberSpirit.png) no-repeat; margin:0 0 0 10px;}
 .member .opt .login .mobile .icon{ background-position:0 0;}
-.member .opt .login .pwd .icon{ background-position:0 -42px;}
-.member .opt .login .related{ height:14px; line-height:14px; overflow:hidden; margin:0 0 20px 0;}
+.member .opt .login .mobile2 .icon{ background:url(../img/iconPhone.png) no-repeat left center;}
+.member .opt .login .pwd .icon,.member .opt .login .pwd2 .icon{ background-position:0 -42px;}
+.member .opt .login .related{ height:14px; line-height:14px; overflow:hidden; margin:0 0 15px 0;}
 .member .opt .login .related .reg{ float:left; cursor:pointer;}
 .member .opt .login .related .reg a{ color:#267bd3;}
 .member .opt .login .related .reg a:hover{ text-decoration:underline;}

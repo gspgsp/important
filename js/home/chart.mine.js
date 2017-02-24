@@ -2,7 +2,7 @@
 //路径配置
 require.config({
   paths: {
-	  echarts: 'http://statics.myplas.com/js/home/dist' 
+	  echarts: 'http://statics.myplas.com/js/home/dist'
 	  }
 });
 //使用
@@ -13,22 +13,21 @@ require(
   ],
   function (ec) {
 	  // 基于准备好的dom，初始化echarts图表
-	var myChart1 = ec.init(document.getElementById('oil-blt-con'));
-	var myChart2 = ec.init(document.getElementById('oil-wti-con'));
-	var conTaba1 = ec.init(document.getElementById('con-taba-1'));
-	var conTaba2 = ec.init(document.getElementById('con-taba-2'));
-	var conTaba3 = ec.init(document.getElementById('con-taba-3'));
-	var conTaba4 = ec.init(document.getElementById('con-taba-4'));
-	var conTaba5 = ec.init(document.getElementById('con-taba-5'));
-	var conTaba6 = ec.init(document.getElementById('con-taba-6'));
+	var conTaba2 = ec.init(document.getElementById('con-taba-2'));   //WTI
+	var conTaba3 = ec.init(document.getElementById('con-taba-3'));   //布油
+	//var conTaba4 = ec.init(document.getElementById('con-taba-4'));   //LDPE
+	//var conTaba5 = ec.init(document.getElementById('con-taba-5'));   //LLDPE
+	//var conTaba6 = ec.init(document.getElementById('con-taba-6'));   //PP
+	//var conTaba7 = ec.init(document.getElementById('con-taba-7'));   //PVC
+	//var conTaba8 = ec.init(document.getElementById('con-taba-8'));   //HDPE
 
-
-	 /*********布伦特油开始*******/
+	/*********WTI开始*******/
 	 option1 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'30px',width:'100%',heigth:'200px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'200px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
@@ -45,8 +44,8 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 15,
-				  		textStyle:{
+				  	    margin: 0,
+				 		textStyle:{
 							color:'#2d76a0'
 						}
 				  },
@@ -100,13 +99,15 @@ require(
 			  }
 		  ]
 	  };
-	  /*********布伦特油结束*******/
-	  /*********WTI开始*******/
+	  /*********WTI结束*******/
+
+	 /*********布伦特油开始*******/
 	 option2 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'30px',width:'100%',heigth:'200px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'200px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
@@ -123,8 +124,8 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  	    margin: 15,
-				 		textStyle:{
+				  		margin: 0,
+				  		textStyle:{
 							color:'#2d76a0'
 						}
 				  },
@@ -178,18 +179,19 @@ require(
 			  }
 		  ]
 	  };
-	  /*********WTI结束*******/
+	  /*********布伦特油结束*******/
 
 	  /********HDPE开始*******/
-	  option3 = {
+	  /*option3 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'4px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
-				  splitLine:{show: true,lineStyle:{color:['#e4e4e4']}},//显示网格
+				  splitLine:{show: false,lineStyle:{color:['#e4e4e4']}},//去掉网格
 				  type : 'category',
 				  axisTick:{ show:false}, //隐藏轴标记
 				  boundaryGap : false,
@@ -202,9 +204,9 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 15,
+				  		margin: 0,
 				  		textStyle:{
-							color:'#fc6621'
+							color:'#2d76a0'
 						}
 				  },
 				  data : quotation.HDPE.date
@@ -237,10 +239,10 @@ require(
 			  {
 				  name:'价格',
 				  type:'line',
-				  symbol:'', //去掉折线上的圆点
+				  symbol:'none', //去掉折线上的圆点
 				  itemStyle: {
 					  normal: {
-						  lineStyle:{ color:'#fc6621',width:1}
+						  lineStyle:{ color:'#007aff',width:1}
 					  }
 				  },
 				  data:quotation.HDPE.price,
@@ -256,19 +258,20 @@ require(
 				  }
 			  }
 		  ]
-	  };
+	  };*/
 	  /********HDPE结束*******/
 
 	   /********LDPE开始*******/
-	  option4 = {
+	  /*option4 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'4px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
-				  splitLine:{show: true,lineStyle:{color:['#e4e4e4']}},//显示网格
+				  splitLine:{show:false,lineStyle:{color:['#e4e4e4']}},//去掉网格
 				  type : 'category',
 				  axisTick:{ show:false}, //隐藏轴标记
 				  boundaryGap : false,
@@ -281,9 +284,9 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 15,
+				  		margin: 0,
 				  		textStyle:{
-							color:'#fc6621'
+							color:'#2d76a0'
 						}
 				  },
 				  data : quotation.LDPE.date
@@ -297,7 +300,7 @@ require(
 				  max: ""+quotation.LDPE.max+"",
 				  min: ""+quotation.LDPE.min+"",
 				  type : 'value',
-				  splitNumber:5,
+				  splitNumber:4,
 				  axisLine: {
 					  show: false,
 					  lineStyle: {
@@ -316,10 +319,10 @@ require(
 			  {
 				  name:'价格',
 				  type:'line',
-				  symbol:'', //去掉折线上的圆点
+				  symbol:'none', //去掉折线上的圆点
 				  itemStyle: {
 					  normal: {
-						  lineStyle:{ color:'#fc6621',width:1}
+						  lineStyle:{ color:'#007aff',width:1}
 					  }
 				  },
 				  data:quotation.LDPE.price,
@@ -335,19 +338,20 @@ require(
 				  }
 			  }
 		  ]
-	  };
+	  };*/
 	  /********LDPE结束*******/
 
 	   /********LLDPE开始*******/
-	  option5 = {
+	  /*option5 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'4px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
-				  splitLine:{show: true,lineStyle:{color:['#e4e4e4']}},//显示网格
+				  splitLine:{show: false,lineStyle:{color:['#e4e4e4']}},//去掉网格
 				  type : 'category',
 				  axisTick:{ show:false}, //隐藏轴标记
 				  boundaryGap : false,
@@ -360,9 +364,9 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 15,
+				  		margin: 0,
 				  		textStyle:{
-							color:'#fc6621'
+							color:'#2d76a0'
 						}
 				  },
 				  data : quotation.LLDPE.date
@@ -395,10 +399,10 @@ require(
 			  {
 				  name:'价格',
 				  type:'line',
-				  symbol:'', //去掉折线上的圆点
+				  symbol:'none', //去掉折线上的圆点
 				  itemStyle: {
 					  normal: {
-						  lineStyle:{ color:'#fc6621',width:1}
+						  lineStyle:{ color:'#007aff',width:1}
 					  }
 				  },
 				  data:quotation.LLDPE.price,
@@ -414,19 +418,20 @@ require(
 				  }
 			  }
 		  ]
-	  };
+	  };*/
 	  /********LLDPE结束*******/
 
 	   /********均聚PP开始*******/
-	  option6 = {
+	  /*option6 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'4px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
-				  splitLine:{show: true,lineStyle:{color:['#e4e4e4']}},//显示网格
+				  splitLine:{show:false,lineStyle:{color:['#e4e4e4']}},//去掉网格
 				  type : 'category',
 				  axisTick:{ show:false}, //隐藏轴标记
 				  boundaryGap : false,
@@ -439,9 +444,9 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 15,
+				  		margin: 0,
 				  		textStyle:{
-							color:'#fc6621'
+							color:'#2d76a0'
 						}
 				  },
 				  data : quotation.均聚PP.date
@@ -474,10 +479,10 @@ require(
 			  {
 				  name:'价格',
 				  type:'line',
-				  symbol:'', //去掉折线上的圆点
+				  symbol:'none', //去掉折线上的圆点
 				  itemStyle: {
 					  normal: {
-						  lineStyle:{ color:'#fc6621',width:1}
+						  lineStyle:{ color:'#007aff',width:1}
 					  }
 				  },
 				  data:quotation.均聚PP.price,
@@ -493,19 +498,20 @@ require(
 				  }
 			  }
 		  ]
-	  };
+	  };*/
 	  /********PP结束*******/
 
 	   /********PVC开始*******/
-	  option7 = {
+	  /*option7 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'4px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
-				  splitLine:{show: true,lineStyle:{color:['#e4e4e4']}},//显示网格
+				  splitLine:{show:false,lineStyle:{color:['#e4e4e4']}},//去掉网格
 				  type : 'category',
 				  axisTick:{ show:false}, //隐藏轴标记
 				  boundaryGap : false,
@@ -518,9 +524,9 @@ require(
 					  }
 				  },
 				  axisLabel : {
-				  		margin: 15,
+				  		margin: 0,
 				  		textStyle:{
-							color:'#fc6621'
+							color:'#2d76a0'
 						}
 				  },
 				  data : quotation.PVC.date
@@ -553,10 +559,10 @@ require(
 			  {
 				  name:'价格',
 				  type:'line',
-				  symbol:'', //去掉折线上的圆点
+				  symbol:'none', //去掉折线上的圆点
 				  itemStyle: {
 					  normal: {
-						  lineStyle:{ color:'#fc6621',width:1}
+						  lineStyle:{ color:'#007aff',width:1}
 					  }
 				  },
 				  data:quotation.PVC.price,
@@ -572,18 +578,20 @@ require(
 				  }
 			  }
 		  ]
-	  };
+	  };*/
 	  /********PVC结束*******/
-	  ///********共聚PP开始*******/
-	  option8 = {
+
+	  /********共聚pp开始*******/
+	  /*option8 = {
 		  tooltip : {
+		  	  show:false,
 			  trigger: 'axis'
 		  },
-		  grid:{x:0,y:'4px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
+		  grid:{x:0,y:'20px',width:'100%',heigth:'149px'},  //设置折线图左上角的起点位置,以及宽高
 		  calculable : true,
 		  xAxis : [
 			  {
-				  splitLine:{show: true,lineStyle:{color:['#e4e4e4']}},//显示网格
+				  splitLine:{show:false,lineStyle:{color:['#e4e4e4']}},//去掉网格
 				  type : 'category',
 				  axisTick:{ show:false}, //隐藏轴标记
 				  boundaryGap : false,
@@ -596,9 +604,9 @@ require(
 					  }
 				  },
 				  axisLabel : {
-					  margin: 15,
+					  margin:0,
 					  textStyle:{
-						  color:'#fc6621'
+						  color:'#2d76a0'
 					  }
 				  },
 				  data : quotation.共聚PP.date
@@ -631,10 +639,10 @@ require(
 			  {
 				  name:'价格',
 				  type:'line',
-				  symbol:'', //去掉折线上的圆点
+				  symbol:'none', //去掉折线上的圆点
 				  itemStyle: {
 					  normal: {
-						  lineStyle:{ color:'#fc6621',width:1}
+						  lineStyle:{ color:'#007aff',width:1}
 					  }
 				  },
 				  data:quotation.共聚PP.price,
@@ -650,20 +658,20 @@ require(
 				  }
 			  }
 		  ]
-	  };
+	  };*/
 	  ///********共聚PP结束*******/
 
 
 	  //为echarts对象加载数据
-	  myChart1.setOption(option1);
-	  myChart2.setOption(option2);
-	  conTaba1.setOption(option3);
-	  conTaba2.setOption(option4);
-	  conTaba3.setOption(option5);
-	  conTaba4.setOption(option6);
-	  conTaba5.setOption(option8);
-	  conTaba6.setOption(option7);
-	  
+	  /*myChart1.setOption(option1);
+	  myChart2.setOption(option2);*/
+	  conTaba2.setOption(option1);      //WTI
+	  conTaba3.setOption(option2);      //布油
+	  //conTaba4.setOption(option4);      //LDPE
+	  //conTaba5.setOption(option5);      //LLDPE
+	  //conTaba6.setOption(option6);      //PP
+	  //conTaba7.setOption(option7);      //PVC
+	  //conTaba8.setOption(option3);      //HDPE
   }
 );
 /*设置折线图结束*/

@@ -24,16 +24,17 @@
 .mall-offer .result li{ height:39px; line-height:39px; border-top:1px solid #eee;}
 .mall-offer .result li.result-title{ border-top:none; background:#f3e7bd;}
 .mall-offer .result li.result-title div{ background:url(../../images/home/icons.png) no-repeat;}
-.mall-offer .result li.result-title .brand{ background-position:8px 0;}
-.mall-offer .result li.result-title .grade{ background-position:0 -76px;}
+.mall-offer .result li.result-title .brand{ background-position:4px 0;}
+.mall-offer .result li.result-title .grade{ background-position:0 -76px;}   
 .mall-offer .result li.result-title .level{ background:none;}
 .mall-offer .result li.result-title .xian-qi{ background:none;}
-.mall-offer .result li.result-title .factory{ background-position:32px -152px;}
+.mall-offer .result li.result-title .factory{ background-position:28px -152px;}
 .mall-offer .result li.result-title .amount{ background-position:0 -228px;}
 .mall-offer .result li.result-title .price{ background-position:20px -304px;}
 .mall-offer .result li.result-title .change{ background-position:0 -646px;}
 .mall-offer .result li.result-title .address{ background-position:0 -380px;}
-.mall-offer .result li.result-title .company{ background-position:70px -684px;}
+.mall-offer .result li.result-title .place{ background:none;}
+.mall-offer .result li.result-title .company{ background-position:65px -684px;}
 .mall-offer .result li.result-title .time{ background-position:10px -456px;}
 .mall-offer .result li.result-title .opt{ background-position:10px -532px;}
 .mall-offer .result li.result-con .xian-qi span{ display:block; width:23px; height:23px; background:url(../../images/home/mallOfferSpirit.png) no-repeat; margin:8px 0 0 3px;}
@@ -54,30 +55,32 @@
 .mall-offer .result li.result-con .change.tie b{ width:16px; height:6px; background-position:0 -83px; margin-top:17px;}
 .mall-offer .result li.result-con .change span{ float:left;}
 .mall-offer .result li.result-con .company{ cursor:pointer; position:relative;}
-.mall-offer .result li.result-con .company span{ display:block; width:190px; height:39px; overflow:hidden;}
+.mall-offer .result li.result-con .company span{ display:block; width:180px; height:39px; overflow:hidden;}
 .mall-offer .result li.result-con .company .company-detail{width: 287px; height: 98px; overflow:hidden; background:#fff; text-align:left; text-indent:19px; border:1px solid #fc6621; position:absolute; top:-30px; left:-50px; z-index:999; display:none;}
-.mall-offer .result li.result-con .company .company-detail h5{ color:#fc6621;}
+.mall-offer .result li.result-con .company .company-detail h5,.mall-offer .result li.result-con .company:hover .company-detail h5 a{ color:#fc6621;}
 .mall-offer .result li.result-con .company .company-detail p{ line-height:15px;}
 .mall-offer .result li.result-con .company:hover .company-detail{ display:block;}
 .mall-offer .result li.result-con .company b{ position:absolute; right:0; top:16px; width:6px; height:6px; background:url(../../images/home/mallOfferSpirit.png) no-repeat -25px -15px;}
 .mall-offer .result li.result-con .opt{ background:url(../../images/home/mallOfferSpirit.png) no-repeat 0 -190px;}
 .mall-offer .result li div{ height:39px; float:left; text-align:center;}
-.mall-offer .result li .brand{ width:71px; overflow:hidden;}
+.mall-offer .result li .brand{ width:61px; overflow:hidden;}
 .mall-offer .result li .grade{ width:61px; overflow:hidden;}
 .mall-offer .result li .level{ width:58px; overflow:hidden;}
 .mall-offer .result li .xian-qi{ width:30px; overflow:hidden; background:none;}
-.mall-offer .result li .factory{ width:121px; overflow:hidden;}
+.mall-offer .result li .factory{ width:111px; overflow:hidden;}
 .mall-offer .result li .amount{ width:56px; overflow:hidden;}
 .mall-offer .result li .price{ width:96px; overflow:hidden; position:relative;}
 .mall-offer .result li .change{ width:52px; overflow:hidden;}
-.mall-offer .result li .address{ width:72px; overflow:hidden;}
-.mall-offer .result li .company{ width:196px;}
+.mall-offer .result li .address{ width:60px; overflow:hidden;}
+.mall-offer .result li .place{ width:52px; overflow:hidden;}
+.mall-offer .result li .company{ width:186px;}
 .mall-offer .result li .time{ width:100px; overflow:hidden;}
 .mall-offer .result li .opt{ width:70px; overflow:hidden;}
 .mall-offer .result li .opt a{ color:#fff; display:block; width:70px;}
 .mall-offer .result li:hover{ background:#fffee1;}
 
-.mall-offer .right{ width: 248px; height: auto; overflow: hidden; float: right; background:#fff; padding: 0 0 35px 0; border:1px solid #fc6621;}
+.mall-offer .right{ width: 250px; height: auto; overflow: hidden; float: right; background:#fff;}
+.mall-offer .right .right-top{ width:248px; height:auto; overflow:hidden; padding: 0 0 35px 0; margin:0 0 19px 0; border:1px solid #fc6621;}
 .mall-offer .right h3{ font-size: 14px; color: #333; font-weight:bold; text-align: center; height: 48px; line-height: 48px; }
 .mall-offer .right .cart{ color: #333; margin:0 0 0 19px; }
 .mall-offer .right .cart li{ width: 160px; height: 34px; background: #fffee1; padding: 14px 25px; margin: 0 0 29px 0; position: relative;}
@@ -165,7 +168,7 @@
 
 .buy-wrap .order-confirm table{ font-size:12px; border-collapse: collapse;}
 .buy-wrap .order-confirm table tr td{ height:40px;}
-.buy-wrap .order-confirm table input{ width:229px; height:4px; padding:10px 0 10px 10px; border:1px solid #bbb;}
+.buy-wrap .order-confirm table input{ width:229px; height:12px; padding:10px 0 10px 10px; border:1px solid #bbb;}
 .buy-wrap .order-confirm table input.readonly{ color:#a8a8a7; background:#ebebe5;}
 .buy-wrap .order-confirm table select{ font-size: 12px; width:80px; height:24px; color: #666;}
 .buy-wrap .order-confirm table textarea{ width:858px; height:52px; padding:10px; border:1px solid #bbb;}
@@ -173,3 +176,27 @@
 .buy-wrap .order-confirm .other.hide{ display:none;}
 .buy-wrap .order-confirm .other span{ margin:0 0 0 10px;}
 .buy-wrap .order-confirm .other input{ width:100px; height:24px; padding:0 0 0 10px;}
+
+/*details begin*/
+.mail-detail .other{ color:#767676; height:30px; line-height:30px; margin:10px 0 6px 0; overflow:hidden;}
+.mail-detail .other b{ font-weight:normal;}
+.mail-detail .other span{ margin:0 25px 0 0;}
+.mail-detail .tips span{ margin:0 6px; color:#fc6621; font-weight:bold;}
+.mail-detail .download{ width:106px; height:33px; line-height:33px;}
+.mail-detail .download input{ color:#fff; font-size:16px; display:block; width:106px; height:33px; margin:20px 0 0 0; border-radius:2px; background:#fc6621; cursor:pointer;}
+.mail-detail .link{ height:30px; line-height:30px; overflow:hidden; margin:10px 0 0 0;}
+.mail-detail .link p{ color:#767676; float:left; margin:0 10px 0 0;}
+.mail-detail .link .copy{ color:#fff; width:100px; height:30px; text-align:center; background:#fc6621; border-radius:30px; float:left; cursor:pointer;}
+.mail-detail h3{ font-size:18px; color:#fc6621; margin:10px 0 10px 0;}
+.mail-detail .detail-con{ width:1218px; height:auto; overflow:hidden; border:1px solid #ddd; border-bottom:none; margin:0 0 30px 0;}
+.mail-detail .detail-con li{ height:39px; line-height:39px; overflow:hidden; border-bottom:1px solid #ddd;}
+.mail-detail .detail-con li p{ float:left; text-align:center;}
+.mail-detail .detail-con li p.breed,.mail-detail .detail-con li p.grade,.mail-detail .detail-con li p.area{ width:120px;}
+.mail-detail .detail-con li p.amount,.mail-detail .detail-con li p.price{ width:100px;}
+.mail-detail .detail-con li p.factory{ width:270px;}
+.mail-detail .detail-con li p.storage{ width:200px;}
+.mail-detail .detail-con li p.time1,.mail-detail .detail-con li p.time2{ width:90px;}
+.mail-detail .detail-con li.detail-title{ background:#f3e7bd;}
+.mail-detail .detail-con li.detail-li .price{ color:#f00; font-weight:bold;}
+.mail-detail .detail-con li.detail-li p.color-gray{ color:#999;}
+/*details end*/
