@@ -38,6 +38,8 @@ class customerContactModel extends model{
 		}else{    
 			$uid = $info['info_user_id']>0 ? $info['info_user_id'] : 0;
 			$cid = $info['c_id']>0 ? $info['c_id'] : 0;
+			$info['business_licence'] = empty($info['business_licence']) ? $info['business_licence1'] : $info['business_licence'];
+			$info['business_licence_pic'] = empty($info['business_licence_pic']) ? $info['business_licence_pic1'] : $info['business_licence_pic'];
 			//开始验证添加的企业（公司名字)
 			if(!empty($param['c_name'])){
 				if(!M('user:customer')->curUnique('c_name',$param['c_name'],$cid)){
@@ -112,6 +114,8 @@ class customerContactModel extends model{
 				'is_default'=>1,
 			); 
 		}
+		// 给客户初始一个默认值0
+		$customer_id = 0;
 		$_data = array(
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
@@ -122,12 +126,23 @@ class customerContactModel extends model{
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
+
+		if($info['is_credit']>0){
+			$data['credit_time'] =  CORE_TIME ;
+		}
+
+
 		if($info['ctype']==1 && $info['user_id']>0){
 			//更新联系人
 			$result = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->update($info+$data);
 		}else if($info['ctype']==3 && $info['info_user_id']>0 && $info['c_id']>0){
+			$old_info = $this->model('customer')->where("c_id = ".$info['c_id'])->getRow();
 			//更新公司信息和联系人
 			$result = ($this->model('customer_contact')->where("user_id = ".$info['info_user_id'])->update($info_ext+$data) && $this->model('customer')->where("c_id = ".$info['c_id'])->update($info+$data));
+			//新增客户流转记录日志----S
+			$remarks = "对客户操作：更新修改客户信息";// 更新客户信息
+			M('user:customerLog')->addLog($info['c_id'],'change',serialize($old_info),serialize($info),1,$remarks);
+			//新增客户流转记录日志----E
 		}else{
 			// 添加客户和联系人
 			if($info['ctype']==1){
@@ -140,17 +155,17 @@ class customerContactModel extends model{
 					$customer_id = $this->getLastID();
 					$this->model('customer_contact')->where("user_id=$contact_id")->update(array('c_id'=>$customer_id,));
 				if($this->commit()){
-					return array('err'=>0,'msg'=>'添加成功');
+					return array('err'=>0,'msg'=>'添加成功','c_id'=>$customer_id);
 				}else{
 					$this->rollback();
 					return array('err'=>1,'msg'=>'数据添加失败');
 				};
-			} 
+			}
 		}
-		
 		if($result>0){
 			return array('err'=>0,'msg'=>'添加成功');
 		}
+
 		return array('err'=>1,'msg'=>'数据添加失败');
 		
 	}
@@ -202,11 +217,11 @@ class customerContactModel extends model{
 	public function getCustomerInFoById($userid){
 		return $this->from('customer_contact con')
 					->leftjoin('customer as cus','con.c_id=cus.c_id')
-					->leftjoin('admin as adm','adm.admin_id=cus.customer_manager')
+					->leftjoin('admin as adm','adm.admin_id=con.customer_manager')
 					->leftjoin('contact_info as cin','cin.user_id=con.user_id')
 					->leftjoin('user_msg as msg','msg.user_id=con.user_id')
 					->where("con.user_id=$userid and msg.is_read=1 and msg.utype=0")
-					->select('con.last_login,con.name as u_name ,con.input_time,cus.c_name,cus.identification,adm.mobile,adm.name as adm_name,adm.pic,cin.thumb,cin.points,count(msg.id) as number')
+					->select('con.last_login,con.name as u_name ,con.input_time,cus.c_name,cus.identification,adm.mobile,adm.name as adm_name,adm.pic,cin.thumb,cin.thumbqq,cin.points,count(msg.id) as number')
 			        ->getRow();
 		}
 
@@ -292,6 +307,39 @@ class customerContactModel extends model{
 	//邮箱验证规则
 	private function _ismyEmail($str){
 		return strlen($email) > 6 && preg_match("/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/", $email);
+	}
+	//根据用户的ID获取用户的名字
+	public function getNameByUserId($userid = 1,$col='name'){
+		return $this->model('customer_contact')->select("$col")->where(" `user_id` = $userid")->getOne();
+	}
+	//根据用户id获取用户的用户的交易员姓名
+	public function getCusNameByUserId($userid = 1){
+		$cid = $this->select('customer_manager')->where("user_id = $userid")->getOne();
+		return $this->model('admin')->select('name')->where("admin_id = $cid")->getOne();
+	}
+	/**
+	 * 获取塑料圈会员的牌号信息
+	 * @author gsp <[<email address>]>
+	 * @return [type] [description]
+	 */
+	public function getContactModel($userid){
+		$where = "user_id = $userid and type = 1 and is_enable = 1";
+		$nameArr = $this->model('suggestion_model')->where($where)->select('user_id,name')->getRow();
+		$cusArr = $this->from('customer_contact con')
+		->leftjoin('customer cus','cus.c_id=con.c_id')
+		->where('con.user_id ='.$userid)
+		->select('cus.c_name,cus.c_id')
+		->getRow();
+		return empty($nameArr)?$cusArr:array_merge($cusArr,$nameArr);
+	}
+	/**
+	 * 获取塑料圈会员到公海的审核状态
+	 * @author gsp <[<email address>]>
+	 * @param  [type] $userid [description]
+	 * @return [type]         [description]
+	 */
+	public function getContactTrialStatus($userid){
+		return $this->where('user_id ='.$userid)->select('is_trial')->getOne();
 	}
 
 }

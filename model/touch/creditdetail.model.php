@@ -10,7 +10,7 @@ class creditdetailModel extends model
 	//获取对应用户的积分明细
 	public function getCreditDetail($uid){
 
-		$list = $this->model('points_bill')->select('id,points,type,addtime')->where('uid='.$uid)->getPage();
-		return $list['data'];
+		$list = $this->model('points_bill')->select('id,points,type,addtime')->where('uid='.$uid)->order('addtime desc')->getAll();
+		return $list;
 	}
 }

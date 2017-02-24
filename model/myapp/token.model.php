@@ -1,6 +1,6 @@
 <?php
 /**
-*app token类
+*app token类-gsp
 */
 class tokenModel extends model
 {

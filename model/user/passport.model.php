@@ -69,12 +69,13 @@ class passportModel extends model{
 			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
 		}
 		//判断是否分配交易员
-		$cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager,status')->getRow();
-
-		if($cinfo['status']==1) return array('err'=>7,'msg'=>'账号等待审核中，请稍候再试');
-		if($cinfo['status']==3) return array('err'=>8,'msg'=>'账号审核未通过，请联系客服');
+//		$cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager,status')->getRow();
+		$cinfo=$this->model('customer_contact')->where("mobile={$uinfo['mobile']}")->select('customer_manager,status')->getRow();
 
 		if(!$cinfo['customer_manager']) return array('err'=>6,'msg'=>'正在等待分配交易员，请稍候再试');
+		if($cinfo['status']==2) return array('err'=>9,'msg'=>'账号被冻结，请联系客服');
+//		if($cinfo['status']==1) return array('err'=>7,'msg'=>'账号等待审核中，请稍候再试');
+		if($cinfo['status']==3) return array('err'=>8,'msg'=>'账号审核未通过，请联系客服');
 
 
 		//密文 
@@ -111,6 +112,89 @@ class passportModel extends model{
 		}	
 		$this->_loginSuccess($uinfo,$chanel);
 		return array('err'=>0,'msg'=>'登录成功','user'=>$uinfo);
+	}
+	
+	/**
+	 * 用户登陆
+	 * @access public
+	 * @param string $mobile 登录名
+	 * @param string $password 明文密码
+	 * @param int $chanel渠道:1web,2app,3wap,4微信
+	 * @return array(err,msg)
+	 */
+	public function login2($username='',$password='',$chanel=1){
+	    //IP黑名单
+	    $black=M('system:blackIp')->checkIp(get_ip());
+	    if(!empty($black)){
+	        return array('err'=>9,'msg'=>'IP已限制访问，请与客服联系');
+	    }
+	
+	    if(empty($username) || empty($password)){
+	        return array('err'=>1,'msg'=>'用户信息不完整');
+	    }
+	
+	    $where='';
+	    if(is_mobile($username)) {
+	        $where="mobile='$username'";
+	    }else{
+	        $this->_loginError(0,$username,1,$password,$chanel);
+	        return array('err'=>1,'msg'=>'用户信息不完整');
+	    }
+	
+	    //查找数据库
+	    $uinfo=$this->where($where)->getRow();
+	    if(empty($uinfo)){
+	        $this->_loginError(0,$username,2,$password,$chanel);
+	        return array('err'=>2,'msg'=>'错误的账号');
+	    }
+	
+	    //判断账号是否锁定
+	    if($uinfo['login_unlock_time'] > CORE_TIME){
+	        return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
+	    }
+	    //判断是否分配交易员
+	    $cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager,status')->getRow();
+	
+	    if($cinfo['status']==1) return array('err'=>7,'msg'=>'账号等待审核中，请稍候再试');
+	    if($cinfo['status']==3) return array('err'=>8,'msg'=>'账号审核未通过，请联系客服');
+	
+	    if(!$cinfo['customer_manager']) return array('err'=>6,'msg'=>'正在等待分配交易员，请稍候再试');
+	
+	
+// 	    //密文
+// 	    if(empty($uinfo['salt'])){
+// 	        $npassword = md5($password);
+// 	    }else{
+// 	        $npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
+// 	    }
+	    if($uinfo['password']!==$password){
+	        $this->_loginError($uinfo['user_id'],$username,3,$password,$chanel);
+	        $_data = array();
+	        $_data['login_fail_count'] = $uinfo['login_fail_count'] >= 10 ? 1 : $uinfo['login_fail_count']+1;
+	        $msg = '密码不正确，连续输错10次将被锁定';
+	
+	        if($_data['login_fail_count'] == 10){
+	            $_data['login_unlock_time'] = CORE_TIME + 14400;
+	            $msg = '已输错10次密码，账号将锁定4小时';
+	        }
+	        $this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($_data);
+	        return array('err'=>3,'msg'=>$msg);
+	    }
+	
+	    //状态:1正常,2冻结,3关闭
+	    if(in_array($uinfo['status'],array(2,3))){
+	        return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服');
+	    }
+	
+	    //用户成功登录（对老用户做处理）
+	    if(empty($uinfo['salt'])){
+	        $up = array();
+	        $up['salt']=randstr(6);
+	        $up['password']= M('system:sysUser')->genPassword($password.$up['salt']);
+	        $this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($up);
+	    }
+	    $this->_loginSuccess($uinfo,$chanel);
+	    return array('err'=>0,'msg'=>'登录成功','user'=>$uinfo);
 	}
 
 	/**
@@ -266,21 +350,39 @@ class passportModel extends model{
 		$token=$this->encrypt($user_id,$user['password']);
 		//cookie::set(C('SESSION_TOKEN'), $token); //C('SESSION_TTL')
 		//写入session
-		$_SESSION['userid']=$user_id;
-		$_SESSION['uinfo']=array(
-							'name'=>$user['name'],	
-							'c_id'=>$user['c_id'],	 
-							'c_name'=>$cinfo['c_name'],	 
-							'customer_manager'=>$cinfo['customer_manager'],	 
-							'qq'=>$user['qq'],	 
-							'mobile'=>$user['mobile'],	 
-							'email'=>$user['email'],
-							'status'=>$user['status'],
-							'last_login'=>$user['last_login'],
-							'last_ip'=>$user['last_ip'],
-							'invite_code'=>operationAlphaID($user_id,true),
-						) + (array)$uinfo;
-		$_SESSION['token'] = M('myapp:token')->insert($user_id,$user);
+		$arr = array(
+				'name'=>$user['name'],	
+				'c_id'=>$user['c_id'],	 
+				'c_name'=>$cinfo['c_name'],	 
+				'customer_manager'=>$cinfo['customer_manager'],	 
+				'qq'=>$user['qq'],	 
+				'mobile'=>$user['mobile'],	 
+				'email'=>$user['email'],
+				'status'=>$user['status'],
+				'last_login'=>$user['last_login'],
+				'last_ip'=>$user['last_ip'],
+				'invite_code'=>operationAlphaID($user_id,true),
+			) + (array)$uinfo;
+		$cache=cache::startRedis();
+		$cache->set('userid_'.SESS_ID,$user_id);
+		$cache->set('uinfo_'.SESS_ID,json_encode($arr));
+		$_SESSION['userid']=$cache->get('userid_'.SESS_ID);
+		$_SESSION['uinfo']=json_decode($cache->get('uinfo_'.SESS_ID));
+// 		$_SESSION['userid']=$user_id;
+// 		$_SESSION['uinfo']=array(
+// 				'name'=>$user['name'],	
+// 				'c_id'=>$user['c_id'],	 
+// 				'c_name'=>$cinfo['c_name'],	 
+// 				'customer_manager'=>$cinfo['customer_manager'],	 
+// 				'qq'=>$user['qq'],	 
+// 				'mobile'=>$user['mobile'],	 
+// 				'email'=>$user['email'],
+// 				'status'=>$user['status'],
+// 				'last_login'=>$user['last_login'],
+// 				'last_ip'=>$user['last_ip'],
+// 				'invite_code'=>operationAlphaID($user_id,true),
+// 			) + (array)$uinfo;
+		 $_SESSION['token'] = M('myapp:token')->insert($user_id,$user);
 		return true;
 	}
 	

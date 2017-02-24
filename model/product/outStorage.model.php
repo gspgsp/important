@@ -17,4 +17,10 @@ class outStorageModel extends model{
 	public function getNameBySid($store_aid){
 		return $this->model('admin')->select('name')->where("admin_id = '$store_aid'")->getOne();
 	}
+	/**
+	 * 根据销售明细id返回sign状态
+	 */
+	public function getFildById($o_id = 0,$pid=0,$fild ='sign'){
+		return $this->model('out_log')->select($fild)->where("`o_id` = $o_id and `p_id` = $pid")->getOne();
+	}
 }

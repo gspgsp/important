@@ -72,7 +72,14 @@ class dfftPayment{
 	public function _getSign($data)
 	{
 	    header("content-type:text/html; charset=utf-8");
-	    require_once("http://127.0.0.1:8080/JavaBridge/java/Java.inc");
+// 	    require_once("http://127.0.0.1:8080/JavaBridge/java/Java.inc");
+	    $inc = file_get_contents('http://127.0.0.1:8080/JavaBridge/java/Java.inc');
+	    $filename = $_SERVER['DOCUMENT_ROOT']."/Javatest/Java/Java.inc";
+	    if (file_exists($filename)) {//存在
+	    } else {
+	        file_put_contents($filename,$inc);
+	    }
+	    require_once($_SERVER['DOCUMENT_ROOT']."/Javatest/Java/Java.inc");
 	    java_require($_SERVER['DOCUMENT_ROOT']."/Javatest/Java"); //一定要把刚才生成的jar文件放到这个require的目录下面
 	    $signUtil = Java('com.easterpay.base.util.SignUtil');
 	    $result = $signUtil->signDataDetached($this->certificatepath,$this->certificatepassword,$data);    //打印签名密文
@@ -84,7 +91,14 @@ class dfftPayment{
 	 */
 	public function _base64Verify($data='',$sign=''){
 	    header("content-type:text/html; charset=utf-8");
-	    require_once("http://127.0.0.1:8080/JavaBridge/java/Java.inc");
+// 	    require_once("http://127.0.0.1:8080/JavaBridge/java/Java.inc");
+	    $inc = file_get_contents('http://127.0.0.1:8080/JavaBridge/java/Java.inc');
+	    $filename = $_SERVER['DOCUMENT_ROOT']."/Javatest/Java/Java.inc";
+	    if (file_exists($filename)) {//存在
+	    } else {
+	        file_put_contents($filename,$inc);
+	    }
+	    require_once($_SERVER['DOCUMENT_ROOT']."/Javatest/Java/Java.inc");
 	    java_require($_SERVER['DOCUMENT_ROOT']."/Javatest/Java"); //一定要把刚才生成的jar文件放到这个require的目录下面
 	    $signUtil = Java('com.easterpay.base.util.SignUtil');
 	    //验证签名 可以尝试改下字符串 查看结果       

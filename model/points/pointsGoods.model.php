@@ -11,7 +11,7 @@ class pointsGoodsModel extends Model{
     //积分兑换
 	public function getGoods(){
         return  $this->from('points_goods as pg')
-            ->where('pg.status=1')
+            ->where('pg.status=1 and pg.is_mobile=0')
             ->order('pg.points desc')
             ->select('pg.id,pg.goods_id,pg.name,pg.thumb,pg.points')
             ->limit('3')

@@ -1,12 +1,14 @@
 <?php
 /**
- * 管理员模型 
+ * 管理员模型
  */
 class admModel extends model{
+	private $cache=NULL; //缓存
 	public function __construct() {
 		parent::__construct(C('db_default'), 'admin');
+		$this->cache=cache::startMemcache();
 	}
-	
+
 	/*
 	 * 取得当前用户的所有权限列表
 	 * @access public
@@ -74,5 +76,83 @@ class admModel extends model{
 		$nodes=$this->model('admin')->select('admin_id')->where("name='$name'")->getOne();
 		return $nodes;
 	}
+	/**
+	 * 根据管理员id获取部门name
+	 * @Author   yezhongbao
+	 * @DateTime 2016-09-07T13:44:30+0800
+	 * @param    [int] $admin_id [管理员id]
+	 * @return   [string] [部门名称]
+	 */
+	public function getPartByID($admin_id){
+		$part = $this->model('adm_role_user as user')
+					->join('adm_role as role','role.id = user.role_id')
+					->where("user.user_id='$admin_id'")
+					->select('role.name,role.id')
+					->getRow();
+		return $part;
+	}
+
+	/**
+	 * [getNameByUser 根据管理员帐号获取其名字]
+	 * @Author   xianghui
+	 * @DateTime 2017-01-12T09:15:05+0800
+	 * @param    [string] $username [管理员账号]
+	 * @return   [string][用户汉语名字]
+	 */
+	public function getNameByUser($username){
+		$name=$this->model('admin')->select('name')->where("username='$username'")->getOne();
+		return $name;
+	}
+	/**
+	 * 传递管理员id获取该管理员对应的强开规则
+	 */
+	public function getRuleById($adm = 0,$filds="`private_customer_nums`"){
+		$rule =array();
+		if ($adm != 0) {
+			$rid = $this->model('dismiss_rule_admin')->select("rule_id")->where("`admin_id` = $adm")->getOne();
+			if($rid){
+				$rule = $this->model('dismiss_rule')->select($filds)->where("`id` = $rid")->getRow();
+			}
+		}
+		return $rule;
+		
+	}
+	/**
+	 * 根据用户id判断用户是不是业务员
+	 */
+	public function judgeSaleById($adm=0){
+		$role_ids = $this->model('adm_role')->select('id')->where("pid = 22")->getCol();//获取销售角色id
+		$exit = $this->model('adm_role_user')->select('user_id')->where("role_id in (".join(',',$role_ids).")")->getOne();
+		return empty($exit) ? 0 : 1;
+	}
+	/**
+	 * 获取战队情况
+	 * 根据角色的id
+	 */
+	public function getTeam(){
+		$_key='getTeam_new';
+		$data=$this->cache->get($_key);
+		if(empty($data)){
+			$data =$this->model('adm_role')->where('pid=22')->getAll();
+			if(!empty($data)){
+				$this->cache->set($_key,$data,86400*3); //加入缓存
+			}
+		}
+		return $data;
+	}
+	/**
+	 * 根据战队id获取战队人员并以字符串返回
+	 */
+	public function getTeamMembers($teamid = 1){
+		$_key='getTeamMembers'.$teamid;
+		$data=$this->cache->get($_key);
+		if(empty($data)){
+			$data =$this->model('adm_role_user')->select('user_id')->where("role_id=$teamid")->getCol();
+			if(!empty($data)){
+				$data = join(',',$data);
+				$this->cache->set($_key,$data,86400*3); //加入缓存
+			}
+		}
+		return $data;
+	}
 }
-?>

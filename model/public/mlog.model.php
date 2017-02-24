@@ -14,7 +14,18 @@ class mlogModel extends model{
 	 * @param int $user_id 用户ID
      * @return bool
 	*/
-	public function chanel($chanel_id=0,$user_id=0){
+	public function chanel($chanel_id=0,$user_id=0,$platform=''){
+	    $request='GET';//默认为GET
+	    $content='';//请求内容 默认为空
+	    //判断是get还是post
+	    if(isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'GET')){
+	        $request='GET';
+	        $content=json_encode($_GET);
+	    }
+	    if(isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'POST')){
+	        $request='POST';
+	        $content=json_encode($_POST);
+	    }
 		$_data=array(
 			'chanel_id'=>$chanel_id,
 			'user_id'=>$user_id,
@@ -23,6 +34,11 @@ class mlogModel extends model{
 			'ip'=>get_ip(),
 			'uv_hash'=>genUV(),
 			'method'=>__A__,
+		    'platform'=>$platform,
+		    'url'=>get_url(),
+		    'broswer'=>($platform=='pc'?getBroswer():''),
+		    'request'=>$request,
+		    'content'=>$content,
 		);
 		if(C('DB_REDIS_STAT')){
 			$sql=$this->model('log_chanel')->addSql($_data);

@@ -31,6 +31,9 @@ class myDelegateModel extends model
             $chDeRes['c_name'] = M('user:customer')->getCinfoById($data['c_id'])['c_name'];//公司名
             $chDeRes['input_time'] = date("Y-m-d",$data['input_time']);//发布时间
             $chDeRes['delivertime'] = $data['cargo_type'] ==1 ? '现货':'期货';//交货时间
+            //交易员
+            $chDeRes['cus_manager'] = $this->model('admin')->where('admin_id='.$contact['customer_manager'])->select('name')->getOne();//交易员
+            $chDeRes['cus_mobile'] = $this->model('admin')->where('admin_id='.$contact['customer_manager'])->select('mobile')->getOne();//交易员联系方式
             //联系人
             $chDeRes['con_name'] = $contact['name'];
             $chDeRes['mobile'] = $contact['mobile'];

@@ -24,10 +24,10 @@ class resourcelibModel extends model{
 	}
 
 
-	public function getSearch($type,$ids)
+	public function getSearch($ids)
 	{
 		$ids = implode(',' ,$ids);
-		return $this->where("type={$type} and id in ($ids)")->getAll();
+		return $this->where(" id in ($ids)")->order('input_time desc')->getAll();
 	}
 
 
@@ -65,6 +65,22 @@ class resourcelibModel extends model{
 			->getAll();
 	}
 
-	
-	
+	/**
+	 *公司门户网站-资源库
+	 *
+	 */
+	public function getResource($page=0, $pageSize=0, $type='',$userId){
+		$where = "uid={$userId} ";
+		if($type!==''){
+			$where.= " AND type=$type";
+		}else{
+			$where.= " AND type in (0,1)";
+		}
+		$pages = $page*$pageSize;
+		$ids = $this->select('id')->where($where)->order('input_time desc')->limit("$pages, $pageSize")->getCol();
+		$ids = implode(',', $ids);
+		$where = "id in ($ids)";
+		return $this->where($where)->order('input_time desc')->getAll();
+	}
+
 }

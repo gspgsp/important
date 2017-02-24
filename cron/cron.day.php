@@ -35,7 +35,8 @@ class cronDay{
 	 */
 	public function start(){
 		$this->dbProcess(); //处理数据库日志
-		$this->get_oil_price();
+		$this->get_oil_price();//获取原油价格
+		$this->profit();//计算每一笔的销售订单的利润
 	}
 	//采集原油和布伦特价格
 	public function get_oil_price(){
@@ -77,5 +78,27 @@ class cronDay{
 		//把log_sms前一日的数据移到log_sms_history
 		$this->db->query('insert into '.$this->db->table('log_sms_history').' select * from '.$this->db->table('log_sms').' where status > 0 AND input_time < '.$time_stamp);
 		$this->db->query('delete from '.$this->db->table('log_sms').' where status > 0 AND input_time < '.$time_stamp);
+
+               array('input_time'=>time(),'user_id'=>$id,'ending'=>$ending,'weight'=>$weight,'price'=>$province,'status'=>$status,'`starting`'=>$starting)) ;
+$this->db->query('insert into '.$this->db->table('ship_collect')." (`input_time`,`user_id`,`ending`,`weight`,`price`,`status`,`starting`) VALUES (".time().", $id, $ending, $weight, $province, $status, $starting)")
+	}
+	/**
+	 * 计算每笔销售订单明细的利润
+	 * @Author   cuiyinming
+	 * @DateTime 2016-09-19T11:09:24+0800
+	 * @return   [type]                   [description]
+	 */
+	private function profit(){
+		set_time_limit(0);
+		$time_stamp = strtotime("-10day 23:59:59");
+		$list = $this->db->model('sale_log')->where("input_time > $time_stamp and inlog_id > 0 and `profit` = 0 ")->getAll();
+		foreach ($list as $k => $v) {
+			//根据sale_log查询关联inlog的采购价格
+			$p_price = $this->db->model('in_log')->select('unit_price')->where("id = {$v['inlog_id']}")->getOne();
+			// 计算利润
+			if($p_price>0){
+				$this->db->model('sale_log')->wherePk($v['id'])->update(array('profit'=>($v['unit_price']-$p_price)*$v['number'],));
+			}
+		}
 	}
 }

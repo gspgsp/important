@@ -29,6 +29,13 @@ class customerModel extends model{
 		return empty($result) ? '-' : $result;
 	}
 	/**
+	 * 更具多个字段取出一行的值
+	 */
+	public function getRowByName($value=0,$col='c_name',$condition='c_id'){
+		$result =  $this->model('customer')->select("$col")->where("$condition='$value'")->getRow();
+		return empty($result) ? '-' : $result;
+	}
+	/**
 	 * 根据联系人id 取出所有的所属公司信息
 	 */
 	public function getInfoByUid($uid=0){
@@ -38,7 +45,7 @@ class customerModel extends model{
 		}
 		return empty($result) ? array() : $result;
 	}
-	
+
 	/**
 	 * 根据模糊客户名称 搜索出对应得字段信息
 	 */
@@ -147,5 +154,72 @@ class customerModel extends model{
 	// private function is_idcard($idcard) {
 	// 	return  preg_match('/^(\s)*(\d{15}|\d{18}|\d{17}x)(\s)*$/i', $idcard);
 	// }
+	/**
+	 * 获取当前业务员今日开发的客户
+	 * @Author   yezhongbao
+	 * @DateTime 2017-01-09T11:47:52+0800
+	 * @param    [type]                   $customer_manager [description]
+	 * @return   [type]                                     [description]
+	 */
+	public function getTodayNewClientsByCustomerManager($customer_manager){
+		$today_begin = strtotime(date('Y-m-d',time()));
+		$now = time();
+		$where = 'input_time > '.$today_begin.' and input_time < '.$now.' and customer_manager = '.$customer_manager;
+		$counts = $this->select('c_id')->where($where)->getCol();
+		if($counts){
+			$res['num'] = count($counts);
+			$res['c_id'] = '('.implode(',', $counts).')';
+		}else{
+			$res['num'] = 0;
+			$res['c_id'] = "('')";
+		}
+		return $res;
+	}
+	/**
+	 * 获取当前业务员今日成交的客户
+	 * @Author   yezhongbao
+	 * @DateTime 2017-01-09T11:48:49+0800
+	 * @param    integer                  $customer_manager [description]
+	 * @return   [type]                                     [description]
+	 */
+	public function getTodayNewClientsOrderNums($customer_manager = 0){
+		$today_begin = strtotime(date('Y-m-d',time()));
+		$now = time();
+		$where = 'order_type=1 and collection_status = 3 and payd_time >'.$today_begin.' and payd_time < '.$now.' and customer_manager = '.$customer_manager;
+		$countsArr = $this->model('order')
+							->select('distinct(c_id)')
+							->where($where)
+							->getCol();
+		if($countsArr){
+			$res['num']=count($countsArr);
+			$res['c_id']='('.implode(',', $countsArr).')';
+		}else{
+			$res['num']=0;
+			$res['c_id']="('')";
+		}
+		return $res;
+	}
+	/**
+	 * 每日跟进客户数
+	 * @Author   yezhongbao
+	 * @DateTime 2017-01-09T14:50:24+0800
+	 * @param    integer                  $customer_manager [description]
+	 * @return   [type]                                     [description]
+	 */
+	public function getTodayFollowCustomers($customer_manager = 0){
+		$today_begin = strtotime(date('Y-m-d',time()));
+		$countsArr = $this->model('customer_follow')
+			           ->select('id')
+			 		   ->where('customer_manager = '.$customer_manager.' and input_time >'.$today_begin)
+			           ->getCol();
+		if($countsArr){
+			$res['num']=count($countsArr);
+			$res['id']='('.implode(',', $countsArr).')';
+		}else{
+			$res['num']=0;
+			$res['id']="('')";
+		}
+		return $res;
+	}
 
 }

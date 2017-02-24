@@ -1,4 +1,4 @@
-<?php 
+<?php
 //收付款模型
 class collectionModel extends model{
 	public function __construct() {

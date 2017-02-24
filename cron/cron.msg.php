@@ -49,7 +49,7 @@ class cronMsg{
 		$log = array();
 		$sms_setting = M('system:setting')->get('sms');
 
-		$sms=M('system:sysSMS')->select('id,mobile,msg,chanel')->where('status=0 and stype<90 AND input_time <= '.time())->limit($this->nlimit)->getAll();
+		$sms=M('system:sysSMS')->select('id,mobile,msg,chanel')->where('status=0 and stype<100 AND input_time <= '.time())->limit($this->nlimit)->getAll();
 		if(empty($sms)){
 			return false;
 		}

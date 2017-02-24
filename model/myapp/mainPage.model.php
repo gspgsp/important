@@ -1,6 +1,6 @@
 <?php
 /**
-*应用首页模型-app
+*应用首页模型-app-gsp
 */
 class mainPageModel extends model
 {
@@ -11,7 +11,7 @@ class mainPageModel extends model
     //获取今日头条、原油价格
     public function getInfos($type){
         if($type == 1){
-            $result = $this->model('info')->select('id,title,input_time')->where("cate_id in (29,30,31,32,33)")->order('input_time desc')->limit('0,5')->getAll();
+            $result = $this->model('news_content')->select('id,title,input_time')->where("cate_id in (1,2,13,14,15,21,9,11)")->order('input_time desc')->limit('0,5')->getAll();
             foreach ($result as $key => $value) {
                 $result[$key]['input_time'] = date("Y-m-d",$value['input_time']);
             }
@@ -54,44 +54,25 @@ class mainPageModel extends model
     //获取所有的原油价格
     //原油价格数据处理方法(获取涨跌)
     //获取搜索结果数据(4种方式)
-    public function getAllSearchRes($keywords,$page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
-        //筛选产品类型
-        $p_types = array('1'=>'HDPE','2'=>'LDPE','3'=>'LLDPE','4'=>'PP','5'=>'PVC');
-        if(in_array($keywords, $p_types)){
-            $keyValue = $this->_getProKey($p_types,$keywords);
-        }
-        $where="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}'";
-
-            $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
-            ->join('product pro','pur.p_id=pro.id')
-            ->join('factory fa','pro.f_id=fa.fid')
-            ->where($where)
-            ->page($page,$size)
-            ->order("$sortField $sortOrder")
-            ->getPage();
-            foreach ($data['data'] as $key => $value) {
-                $data['data'][$key]['product_type'] = L('product_type')[$value['product_type']];
-                $data['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data['data'][$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time']);
-            }
-            return $data;
-    }
     //获取排序后的数据
     public function getSortedData($keywords,$stype,$page=1,$size=8){
+        //筛选
+        $tf = time()-604800;
+        $where = " pur.shelve_type=1 and pur.unit_price>0 and pur.input_time>$tf ";
         //筛选产品类型
         $p_types = array('1'=>'HDPE','2'=>'LDPE','3'=>'LLDPE','4'=>'PP','5'=>'PVC');
         if(in_array($keywords, $p_types)){
             $keyValue = $this->_getProKey($p_types,$keywords);
         }
-        $where="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}'";
+        $where.=" and (fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}')";
         if($stype == 1){
-            $sortField = 'unit_price';
+            $sortField = 'pur.unit_price';
             $sortOrder = 'desc';
         }elseif ($stype == 2) {
-            $sortField = 'unit_price';
+            $sortField = 'pur.unit_price';
             $sortOrder = 'asc';
         }elseif ($stype == 3) {
-            $sortField = 'input_time';
+            $sortField = 'pur.input_time';
             $sortOrder = 'desc';
         }
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
@@ -157,7 +138,7 @@ class mainPageModel extends model
             ->where($where)
             ->getRow();
             $contact = M('user:customerContact')->getListByUserid($data['user_id']);
-            $own = M('user:customerContact')->getListByUserid($userid);
+            if(!empty($userid)) $own = M('user:customerContact')->getListByUserid($userid);
         if($otype == 1){
             //产品信息
             $chDeRes['product_type'] = L('product_type')[$data['product_type']];
@@ -232,7 +213,7 @@ class mainPageModel extends model
         array_push($types, $type8);
         $type9['name'] = '工程塑料';
         $type9['type'] = 'MABS';
-        $type9['model'] = array('TR557INP');
+        $type9['model'] = array('TR557 INP');
         array_push($types, $type9);
         return empty($types)?false:$types;
     }
@@ -281,30 +262,60 @@ class mainPageModel extends model
         return $typeData;
     }
     //点击三个关键字出结果
-    public function getKeyWordsData($protype,$apply,$factory,$region){
-        $where = "pro.product_type=$protype";
-        if(in_array($apply, L('process_level'))){
+    public function getKeyWordsData($protype,$apply,$factory,$region,$keywords,$ctype,$otype,$page,$size,$source){
+        if($source==1){
+            $where = "pro.product_type=$protype";
+            if(in_array($apply, L('process_level'))){
             $applyValue = $this->_getProKey(L('process_level'),$apply);
+            }
+            if(!empty($apply)){
+                $where .= " and pro.process_type=$applyValue";//应用的下标值
+            }elseif (!empty($factory)) {
+                $where .= " and fa.f_name=$factory";
+            }elseif (!empty($region)) {
+                $lid = $this->_getIdByProvince($region);
+                $where .= " and pur.provinces=$lid";
+            }
+        }elseif($source==2){
+            //筛选产品类型
+            // $p_types = array(1=>'HDPE',2=>'LDPE',3=>'LLDPE',4=>'均聚PP',5=>'PVC',6=>'共聚PP',7=>'ABS',8=>'PC',9=>'MABS');
+            $p_types = L('product_type');
+            if(in_array($keywords, $p_types)){
+                $keyValue = $this->_getProKey($p_types,$keywords);
+            }
+            $where="fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.product_type='{$keyValue}'";
         }
-        if(!empty($apply)){
-            $where .= " and pro.process_type=$applyValue";//应用的下标值
-        }elseif (!empty($factory)) {
-            $where .= " and fa.f_name=$factory";
-        }elseif (!empty($region)) {
-            $lid = $this->model('lib_region')->select('id')->where("name='$region'")->getOne();
-            $where .= " and pur.provinces=$lid";
+        //公共排序条件
+        $tf = time()-604800;
+        if($ctype==3){
+            $where .= " and pur.shelve_type=1 and pur.unit_price>0 and pur.input_time>$tf ";
+        }elseif ($ctype==1 || $ctype==2) {
+            $where .= " and pur.type=$ctype and pur.shelve_type=1 and pur.unit_price>0 and pur.input_time>$tf ";
         }
-        $data = $this->model('purchase')->select('pur.id,pur.p_id,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
+        //价格，时间，排序方式
+        if($otype==1){
+            $sortField = 'pur.unit_price';
+            $sortOrder='asc';
+        }elseif ($otype==2) {
+            $sortField = 'pur.unit_price';
+            $sortOrder='desc';
+        }elseif ($otype==3) {
+            $sortField='pur.input_time';
+            $sortOrder='desc';
+        }
+        //取数据
+        $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.number,pur.provinces,pro.model,pro.product_type,pur.unit_price,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
             ->join('factory fa','pro.f_id=fa.fid')
+            ->page($page,$size)
             ->where($where)
-            ->order("pur.input_time desc")
-            ->getAll();
+            ->order("$sortField $sortOrder")
+            ->getPage();
             //数据处理
-            foreach ($data as $key => $value) {
-                $data[$key]['product_type'] = L('product_type')[$value['product_type']];
-                $data[$key]['input_time'] = date("Y-m-d",$value['input_time']);
-                $data[$key]['twoData'] = $this->_getOperateRes($value['p_id'],$value['input_time']);
+            foreach ($data['data'] as &$value) {
+                $value['product_type'] = L('product_type')[$value['product_type']];
+                $value['input_time'] = date("Y-m-d H:i:s",$value['input_time']);
+                $value['provinces'] = $this->_getProvinceById($value['provinces']);
             }
         return $data;
     }
@@ -316,44 +327,6 @@ class mainPageModel extends model
         }
     }
     //大户报价数据
-    public function getLargeBidData($otype,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
-        if($otype==1){
-            $sortField = 'price';
-            $sortOrder='asc';
-        }elseif ($otype==2) {
-            $sortField = 'price';
-            $sortOrder='desc';
-        }elseif ($otype==3) {
-            $sortField='input_time';
-            $sortOrder='desc';
-        }
-        $largrBid = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
-            ->page($page,$size)
-            ->order("$sortField $sortOrder")
-            ->getPage();
-            foreach ($largrBid['data'] as $key => $value) {
-                $largrBid['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
-                $largrBid['data'][$key]['newBig'] = $this->_getLargeBidRes($value['id']);
-            }
-        return $largrBid;
-    }
-    //大户报价下三角数据(直接集成到上面)
-    private function _getLargeBidRes($id){
-        $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
-        $newBig = array();
-        $data = $this->model('big_offers')->where("model='{$bigOff['model']}' and factory='{$bigOff['factory']}'")->order('input_time desc')->limit('0,2')->getAll();
-        foreach ($data as $key => $value) {
-            $bigCli = $this->model('big_client')->where('id='.$value['cid'])->select('gsname,phone')->getRow();
-            $newBig[$key]['id'] = $id;
-            $newBig[$key]['gsname'] = $bigCli['gsname'];
-            $newBig[$key]['phone'] = $bigCli['phone'];
-            $newBig[$key]['price'] = $value['price'];
-            $newBig[$key]['num'] = $value['num'];
-            $newBig[$key]['address'] = $value['address'];
-            unset($bigCli);
-        }
-        return $newBig;
-    }
     //获取筛选条件
     public function getLargeChoseData(){
         $company = $this->model('big_client')->select('gsname')->order('lasttime desc')->limit('0,20')->getAll();
@@ -366,32 +339,48 @@ class mainPageModel extends model
             );
         return $choseData;
     }
-    //获取大客户点击确定筛选结果
-    public function getLargeChoseRes($company,$factory,$address,$page=1,$size=8,$sortField='input_time',$sortOrder='desc'){
-        $where = "1";
-        if(!empty($company)){
-            $where .= " and bic.company='{$company}'";//应用的下标值
-        }elseif (!empty($factory)) {
-            $where .= " and bio.factory='{$factory}'";
-        }elseif (!empty($address)) {
-            $where .= " and bio.address='{$address}'";
+    //获取大客户点击确定筛选结果以及户报价数据
+    public function getLargeChoseRes($ctype,$company,$factory,$address,$otype,$page=1,$size=10,$sortField='input_time',$sortOrder='desc'){
+        $tf = time()-604800;
+        $where = "bio.price>0 and bio.input_time>$tf";
+        //在为2的时候才有条件，为1的时候直接出结果
+        if($ctype==2){
+            if(!empty($company)){
+                $where .= " and bic.gsname='{$company}'";//应用的下标值
+            }
+            if (!empty($factory)) {
+                $where .= " and bio.factory='{$factory}'";
+            }
+            if (!empty($address)) {
+                $where .= " and bio.address='{$address}'";
+            }
         }
-        $choseRes = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
+        //公共排序
+        if($otype==1){
+            $sortField = 'bio.price';
+            $sortOrder='asc';
+        }elseif ($otype==2) {
+            $sortField = 'bio.price';
+            $sortOrder='desc';
+        }elseif ($otype==3) {
+            $sortField='bio.input_time';
+            $sortOrder='desc';
+        }
+        $choseRes = $this->model('big_offers')->select('bio.id,bio.cid,bio.type,bio.num,bio.address,bio.model,bio.factory,bio.price,bio.input_time')->from('big_offers bio')
             ->join('big_client bic','bio.cid=bic.id')
             ->page($page,$size)
             ->where($where)
             ->order("$sortField $sortOrder")
             ->getPage();
-        foreach ($choseRes['data'] as $key => $value) {
-            $choseRes['data'][$key]['input_time'] = $value['input_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
-            $choseRes['data'][$key]['twoData'] = $this->_getLargeBidRes($value['id']);
+        foreach ($choseRes['data'] as &$value) {
+            $value['input_time'] = date("Y-m-d H:i:s",$value['input_time']);
         }
         return $choseRes;
     }
     //获取大客户详情数据(查看)1查看,2委托洽谈
     public function getBigBidDetailData($otype,$id,$userid){
         $bigOff = $this->model('big_offers')->where('id='.$id)->getRow();
-        $bigOff['input_time'] = $bigOff['input_time']>1000 ? date("Y-m-d",$bigOff['input_time']):'-';
+        $bigOff['input_time'] = date("Y-m-d H:i:s",$bigOff['input_time']);
         if($otype == 1){
            $bigCli = $this->model('big_client')->where('id='.$bigOff['cid'])->select('gsname,phone,cjphone')->getRow();
            $bigOff['gsname'] = $bigCli['gsname'];
@@ -437,7 +426,7 @@ class mainPageModel extends model
     }
     //获取供求(公海的商城报价和采购单) 1求(采)购 2报价
     //获取供求的筛选条件
-    public function getSupplyConditionData(){
+    public function getSupplyConditionData($ptype){
         //产品类型获取
         $product_type = array();
         $arr = array();
@@ -447,8 +436,16 @@ class mainPageModel extends model
             $product_type[] = $arr;
             unset($arr);
         }
-        $model = $this->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
-        $factory = $this->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
+        if($ptype>0){
+            $product = $this->model('product')->select('model,f_id')->where('product_type='.$ptype)->order('input_time desc')->limit('0,10')->getAll();
+            foreach ($product as $key => $value) {
+                $model[] = $value['model'];
+                $factory[] = $this->model('factory')->select('f_name')->where('fid='.$value['f_id'])->getOne();
+            }
+        }else{
+            $model = $this->model('product')->select('model')->order('input_time desc')->limit('0,10')->getAll();
+            $factory = $this->model('factory')->select('f_name')->order('input_time desc')->limit('0,10')->getAll();
+        }
         $region = array('上海','江苏','浙江','山东','广东','山西','福建','四川','重庆','安徽','辽宁','吉林','湖北','湖南','河南','江西','广西','海南');
         $cargoPro = array(
             '现货',
@@ -458,8 +455,17 @@ class mainPageModel extends model
         return $typeData;
     }
     //获取供求(公海的商城报价和采购单) 1求(采)购 2报价以及根据供求的筛选条件渲染数据
-    public function getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype,$page=1,$size=10){
-        $where = "pur.type=$type and pur.shelve_type=1";
+    public function getSupplyCondDatas($model,$f_name,$product_type,$provinces,$cargo_type,$type,$otype,$page=1,$size=10,$ttype=0){
+        if($ttype==1){//来源于touch端,只显示当天的数据
+            if($type==1){
+                $where = "pur.type=$type and pur.shelve_type=1 and pur.unit_price>0 and pur.status in (2,3,4)";
+            }elseif ($type==2) {
+                $td = strtotime(date('Y-m-d',time()));
+                $where = "pur.type=$type and pur.shelve_type=1 and pur.unit_price>0 and pur.input_time>$td and pur.status in (2,3,4)";
+            }
+         }elseif ($ttype==0) {
+            $where = "pur.type=$type and pur.sync in (0,1,2,3,4,5) and pur.shelve_type=1 and pur.unit_price>0 and pur.status in (2,3,4) and pro.product_type>0 ";
+         }
         if($otype==1){
             $sortField = 'pur.unit_price';
             $sortOrder='asc';
@@ -472,17 +478,19 @@ class mainPageModel extends model
         }
         if(!empty($model)){
             $where.=" and pro.model like '%{$model}%' ";
-        }elseif (!empty($f_name)) {
+        }
+        if (!empty($f_name)) {
             $where.=" and fa.f_name like '%{$f_name}%' ";
-        }elseif (!empty($product_type)) {
+        }
+        if (!empty($product_type)) {
             $where.=" and pro.product_type =$product_type ";
-        }elseif (!empty($provinces)) {
+        }
+        if (!empty($provinces)) {
             $id = $this->_getIdByProvince($provinces);
             $where.=" and pur.provinces =$id ";
-        }elseif (!empty($cargo_type)) {
+        }
+        if (!empty($cargo_type)) {
             $where.=" and pur.cargo_type =$cargo_type ";
-        }elseif ($type==1) {
-            $where.=" and pur.status>2 and pur.status<5 ";
         }
         $data = $this->model('purchase')->select('pur.id,pur.p_id,pur.provinces,pur.status,pur.user_id,pur.cargo_type,pur.type,pro.model,pro.product_type,pur.unit_price,pur.number,fa.f_name,pur.input_time')->from('purchase pur')
             ->join('product pro','pur.p_id=pro.id')
@@ -494,13 +502,17 @@ class mainPageModel extends model
             foreach ($data['data'] as &$value) {
                 $value['product_type'] = L('product_type')[$value['product_type']];
                 $value['provinces'] = $this->_getProvinceById($value['provinces']);
-                $value['input_time'] = date("Y-m-d H:i:s",$value['input_time']);//格式一
                 if($value['type']==1){
+                    $cus_contact = M('user:customerContact')->getListByUserid($value['user_id']);
                     $value['cargo_type'] = $value['cargo_type']==1?"现":"期";
                     $value['operate'] = $value['status']==3?"我要供货":"交易成功";//操作
                     $value['status']=L('purchase_status')[$value['status']];
-                    $value['user_id']=M('user:customerContact')->getListByUserid($value['user_id'])['name'];//获取联系人
+                    $value['user_id']=$cus_contact['name'];//获取联系人
+                    $value['cus_manager'] = $this->model('admin')->where('admin_id='.$cus_contact['customer_manager'])->select('name')->getOne();//交易员
+                    $value['cus_mobile'] = $this->model('admin')->where('admin_id='.$cus_contact['customer_manager'])->select('mobile')->getOne();//交易员联系方式
                     $value['input_time'] = date("Y-m-d H:i",$value['input_time']);//格式二
+                }elseif ($value['type']==2) {
+                    $value['input_time'] = date("Y-m-d H:i:s",$value['input_time']);//格式一
                 }
             }
             return $data;
@@ -514,34 +526,58 @@ class mainPageModel extends model
         return $this->model('lib_region')->select('id')->where("name='{$name}'")->getOne();
     }
     //获取资源库数据
-    public function getResourceData($type,$page=1,$size=30){
-        if($type==1){
-            $resData = $this->model('resourcelib')->where('type=0')->page($page,$size)->order('input_time desc')->getPage();
-        }elseif ($type==2) {
-            $resData = $this->model('resourcelib')->where('type=1')->page($page,$size)->order('input_time desc')->getPage();
-        }else{
-            $resData = $this->model('resourcelib')->page($page,$size)->order('input_time desc')->getPage();
+    public function getResourceData($keywords,$type,$page=1,$size=30){
+        $where="1";
+        if(!empty($keywords)){
+            $where.= " and (realname like '%{$keywords}%' or company like '%{$keywords}%' or content like '%{$keywords}%') ";
         }
-        $resData['qq_image'] = $this->model('contact_info')->select('thumb')->where('user_id='.$resData['uid'])->getOne();
-        return $resData;
-    }
-    //获取资源库搜索数据
-    public function getResSearchData($keywords,$type,$page,$size){
-        $where = " realname like '%{$keywords}%' or company like '%{$keywords}%' or content like '%{$keywords}%' ";
         if($type==1){
             $where.=" and type=0 ";
             $searchData = $this->model('resourcelib')->where($where)->page($page,$size)->order('input_time desc')->getPage();
         }elseif ($type==2) {
             $where.=" and type=1 ";
             $searchData = $this->model('resourcelib')->where($where)->page($page,$size)->order('input_time desc')->getPage();
-        }else{
+        }elseif ($type==3) {
             $searchData = $this->model('resourcelib')->where($where)->page($page,$size)->order('input_time desc')->getPage();
         }
+        $searchData['qq_image'] = $this->model('contact_info')->select('thumb')->where('user_id='.$searchData['uid'])->getOne();
         return $searchData;
     }
+    //获取资源库搜索数据
     //点击委托洽谈保存提交数据
     public function savaComissionData($comData){
         if($this->model('sale_buy')->add($comData)) return true;
         return false;
+    }
+    //获取塑料头条的日信息
+    public function getPlasticDayInfo($cid,$page=1,$size=20,$sortField='input_time',$sortOrder='desc'){
+        $where = 1;
+        switch ($cid) {
+            case 29:
+                $where .= " and cate_id in (1,2) ";
+                break;
+            case 30:
+                $where .= " and cate_id in (13,14,15) ";
+                break;
+            case 31:
+                $where .= " and cate_id=9 ";
+            break;
+            case 32:
+                $where .= " and cate_id=11 ";
+                break;
+            case 33:
+                $where .= " and cate_id=21 ";
+                break;
+        }
+        $list = $this->model('news_content')->select('id,title,img,cate_id,content,description,source_from,input_time,update_time')->where($where)
+            ->page($page,$size)
+            ->order("$sortField $sortOrder")
+            ->getPage();
+            foreach ($list['data'] as $key => $value) {
+                $list['data'][$key]['input_time'] = date("Y-m-d",$value['input_time']);
+                $list['data'][$key]['update_time'] = $value['update_time']>1000 ? date("Y-m-d",$value['input_time']):'-';
+                $list['data'][$key]['source'] = $value['source_from'];
+            }
+        return $list;
     }
 }

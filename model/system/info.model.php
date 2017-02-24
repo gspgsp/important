@@ -61,12 +61,19 @@ class infoModel extends model{
 	//底部文章
 	public function getFooterCate(){
 		$cate=M('system:cate')->getCateBySpell('help');
+		array_pop($cate);
 		foreach ($cate as $key => $value) {
 			$cate[$key]['son']=$this->getListByCate($value['cate_id']);
 		}
 		return $cate;
 	}
-
+    //底部关于我们
+	public function aboutUs(){
+        $cate=M('system:cate')->getCateBySpell('help');
+        $cate=array_pop($cate);
+		$cate['son']=$this->getListByCate($cate['cate_id']);
+        return $cate;
+	}
 
 }
 ?>

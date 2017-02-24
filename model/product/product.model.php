@@ -71,5 +71,17 @@ class productModel extends model{
 		$result = $this->select('id')->where($where)->getOne();
 		return $result>0 ? $result : 0;
 	}
+	/**
+	 * 根据货品数量查询到仓库该货品的货品价值
+	 * p_id为商品id
+	 */
+	public function getPrice($p_id=0){
+		if($p_id>0){
+			$where = "`p_id` =  $p_id and `remainder` > 0 ";
+		}else{
+			$where = "`remainder` > 0 ";
+		}
+		return $this->select("sum(unit_price*remainder) as tr_price")->from('in_log')->where($where)->getOne();
+	}
 
 }

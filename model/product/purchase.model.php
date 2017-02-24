@@ -19,19 +19,43 @@ class purchaseModel extends model{
 		return $this->from('purchase pur')
 			->join('product pro','pur.p_id=pro.id')
 			->join('factory fa','pro.f_id=fa.fid')
-			->join('lib_region reg','pur.provinces=reg.id')
+//			->join('lib_region reg','pur.provinces=reg.id')
 			->where("pur.id={$id}")
-			->select('pur.id,pur.user_id,pur.type,pur.cargo_type,pur.unit_price,pur.number,pur.store_house,pro.model,pro.product_type,fa.f_name,reg.name as city')
+			->select('pur.id,pur.user_id,pur.type,pur.cargo_type,pur.unit_price,pur.number,pur.store_house,pro.model,pro.product_type,fa.f_name,pur.`store_house`')
 			->getRow();
 	}
 	/**
 	 * 获取交易订单的所有信息
 	 */
 	public function getPurchaseInfo($id=0){
-		return $this->select('p.*,pd.model, pd.f_id as pdf_id, pd.product_type, pd.process_type, pd.status as pdstatus, pd.remark as pdremark, f.f_name')->from('purchase p')->leftjoin('product pd','p.p_id=pd.id')->leftjoin('factory f','f.fid = pd.f_id')->where("p.id = $id")->getRow();
+		return $this->select('p.*,pd.model, pd.f_id as pdf_id, pd.product_type, pd.process_type, pd.status as pdstatus, pd.remark as pdremark, f.f_name')
+                        ->from('purchase p')->leftjoin('product pd','p.p_id=pd.id')
+                        ->leftjoin('factory f','f.fid = pd.f_id')
+                        ->where("p.id = $id")
+                        ->getRow();
 	}
 
 	public function getPurPage($where=1,$page=1,$pageSize=10){
+		return $this->from('purchase pur')
+			->join('product pro','pur.p_id=pro.id')
+			->join('factory fa','pro.f_id=fa.fid')
+//			->join('lib_region reg','pur.provinces=reg.id')
+			->where($where)
+			->order('pur.input_time desc')
+			->page($page,$pageSize)
+			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house')
+			->getPage();
+
+	}
+
+	/**
+	 * 获取最新现货资源
+	 * @param int $where
+	 * @param int $page
+	 * @param int $pageSize
+	 * @return mixed
+     */
+	public function getpur($where=1, $page=1, $pageSize=3){
 		return $this->from('purchase pur')
 			->join('product pro','pur.p_id=pro.id')
 			->join('factory fa','pro.f_id=fa.fid')
@@ -42,7 +66,6 @@ class purchaseModel extends model{
 			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.provinces,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,reg.name as cityname')
 			->getPage();
 	}
-
 
 	/**
 	 * 根据条件查询我的购货信息
@@ -113,9 +136,79 @@ class purchaseModel extends model{
 			->limit('1')
 			->getAll();
 	}
-	//根据订单号获取订单的id
+
+	/**
+	 * 根据订单号获取订单的id
+	 * @param string $sn
+	 * @return mixed
+	 * @Author: yuanjiaye
+     */
 	public function getoidBysn($sn= ''){
 		return $this->model('order')->select('o_id')->where("order_sn = '$sn'")->getOne();
+	}
+
+	/**
+	 * 根据厂家联系人（user_id）获取厂家报价信息
+	 * @param int $where
+	 * @param int $page
+	 * @param int $pageSize
+	 * @return mixed
+	 * @Author: yuanjiaye
+     */
+	public function getPurchaseByUserId($where=1, $page=1, $pageSize=10){
+
+		return $this->from('purchase as pur ')
+					->leftjoin('product as pro','pur.p_id=pro.id')
+					->leftjoin('factory as fac','pro.f_id=fac.fid')
+					->leftjoin('lib_region as reg','pur.provinces=reg.id')
+					->where($where)
+					->order('pur.input_time desc')
+					->page($page,$pageSize)
+					->select('pro.product_type,pro.model,fac.f_name,pur.number,pur.unit_price,reg.name,pur.cargo_type,pur.bargain,pur.input_time,pur.store_house')
+					->getPage();
+
+	}
+
+	/**
+	 * 根据公司c_id 获取该公司报价信息
+	 * @param int $where
+	 * @return mixed
+	 * @Author: yuanjiaye
+     */
+	public function getPurchasePrice($where=1){
+		return $this->from('purchase as pur ')
+			->leftjoin('product as pro','pur.p_id=pro.id')
+			->leftjoin('factory as fac','pro.f_id=fac.fid')
+			->leftjoin('lib_region as reg','pur.provinces=reg.id')
+			->where($where)
+			->order('pur.input_time desc')
+			->select('pro.product_type,pro.model,fac.f_name,pur.number,pur.unit_price,reg.name,pur.cargo_type,pur.bargain,pur.input_time,pur.store_house')
+			->limit('8')
+			->getAll();
+	}
+
+	/**
+	 *根据采购及报价表（id）来获取信息
+	 * @param int $where
+	 * @param int $page
+	 * @param int $pageSize
+	 * @return mixed
+	 * @Author: zhanpeng
+	 */
+	public function getPurchaseLeftById($where=1,$page='',$size=''){
+		 $this->select('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.type,pur.content,pur.input_time')->from('purchase pur')
+				->leftjoin('product pro','pur.p_id=pro.id')
+				->leftjoin('factory fa','pro.f_id=fa.fid')
+				->where($where)
+				->order('pur.input_time desc');
+		if(empty($page)&&empty($size)){
+			return $this->getRow();
+		}elseif(!empty($page)&&!empty($size)){
+			return $this->page($page,$size)->getPage();
+		}else{
+			return false;
+		}
+
 	}
 
 

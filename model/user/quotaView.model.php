@@ -36,5 +36,26 @@ class quotaViewModel extends model
 					 ->getAll();
 		return $data;
 	}
+	public function getExcelData($time_type)
+	{
+		switch ($time_type) {
+			case 'this_month':
+				$report_date=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),1,date("Y"))) );
+				break;
+			case 'last_month':
+				$report_date=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m")-1,1,date("Y"))) );
+				break;
+		}
+		$data = $this->from('report_user as re')
+					 ->select('ro.name as team,adm.name,re.sale_num,re.saled_num,re.buy_num,re.buyd_num')
+					 ->leftjoin('adm_role_user as u','re.admin_id=u.user_id')
+					 ->leftjoin('admin as adm','adm.admin_id=re.admin_id')
+					 ->leftjoin('adm_role as ro','ro.id=u.role_id')
+					 ->where('re.report_date='.$report_date)
+					 ->order('ro.name')
+					 ->getAll();
+					 // echo $this->getLastSql();die();
+		return $data;
+	}
 }
 ?>

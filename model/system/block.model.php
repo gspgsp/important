@@ -12,7 +12,7 @@ class blockModel extends model{
 	/*
 	 * 获取所有广告位
 	 * @access public
-     * @return array
+     	 * @return array
 	 */
 	public function getPosition(){
 		$_key='blockPos';
@@ -36,7 +36,6 @@ class blockModel extends model{
 	 */
 	public function getBlock($position=0,$num=1){
 		if(empty($position)) return array();
-		
 		$_key='blockPos_'.$position;
 		$data=$this->cache->get($_key);
 		if(empty($data)){
@@ -59,5 +58,34 @@ class blockModel extends model{
 		}
 		return $data;
 	}
+
+    /**
+     * 公共底部友情链接
+     * @param int $postions
+     */
+    public function getFriendshipLink($positions=3){
+        if(empty($positions)) return array();
+        $_key='blockPos_'.$positions;
+        $data=$this->cache->get($_key);
+        if(empty($data)){
+            $where='position='.$positions.' and status=1 and input_time<='.CORE_TIME.' and (end_time=0 OR end_time>='.CORE_TIME.')';
+            $arr=$this->model('block')->select('content')->where($where)->order('sort_order asc')->getAll();
+            $expire=0;
+            foreach($arr as $k=>$v){
+                $cont=json_decode($v['content'],true);
+                if(count($cont)==1 && isset($cont['self']) && count($cont['self'])==1){
+                    $data[$k]=$cont['self'][0];
+                }else{
+                    $data[$k]=$cont;
+                }
+                $expire=$expire>0 ? min($expire,$v['time']) : $v['time'];
+            }
+           if(!empty($data)){
+                $this->cache->set($_key,$data,$expire);//存缓存
+           }
+        }
+        return $data;
+
+    }
 }
 ?>

@@ -191,27 +191,19 @@ function validCompanyBankNo($bankno){
 
 //根据手机号查询用户所在城市
 function getCityByMobile($mobile=''){
-	$mobile=substr($mobile,0,7).mt_rand(1000,9990);
-
-	//财付通接口
-	$_info=file_get_contents("http://life.tenpay.com/cgi-bin/mobile/MobileQueryAttribution.cgi?chgmobile=".$mobile);
-	$_info=gbk2utf($_info);
-	if(strstr($_info,'<retcode>0</retcode>')){
-		$province=xmlNode($_info,'province');
-		$city=xmlNode($_info,'city');
-		if($province==$city){
-			$city='';
-		}		
-		return $province.$city.xmlNode($_info,'supplier');
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, 'http://apis.juhe.cn/mobile/get?phone='.$mobile.'&key=d34abb87b2619a4614773abe03e28bc2');
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	$output = curl_exec($ch);
+	curl_close($ch);
+	$ch = curl_init();
+	$res = json_decode($output,true);
+	if(!empty($res['result'])){
+		return $res['result'];
+	}else{
+		return '';
 	}
-	
-	//淘宝接口
-	$_info=file_get_contents("http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=".$mobile);
-	$_info=gbk2utf($_info);
-	if(strstr($_info,'carrier')){
-		return substr($_info,strpos($_info,'carrier')+15,-6);
-	}
-	return '';
 }
 
 //根据ip查询用户所在城市
@@ -315,5 +307,18 @@ function shortenURL($long_url){
 	$data = json_decode(file_get_contents($api_url));
 	return is_object($data) && $data->urls ? $data->urls[0]->url_short : $long_url;
 }
-
+function getTimeFilterByDateTime($field="",$start='startTime',$end='endTime'){
+	$string='';	
+	$starTime=sget($start,'s'); //开始时间
+	$endTime=sget($end,'s');  //结束时间
+	if(!empty($starTime)){
+		if(strlen($starTime)==10) $starTime.=" 00:00:00";
+		$string.=" and $field>='".$starTime."'";
+	}
+	if(!empty($endTime)){
+		if(strlen($endTime)==10) $endTime.=" 23:59:59";
+		$string.=" and $field<='".$endTime."'";	
+	}
+	return $string;
+}
 ?>

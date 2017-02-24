@@ -12,25 +12,25 @@ class creditshopModel extends model
 	public function getCreditShop($gtype){
 		//1=>'家居',2=>'数码',空，全部
 		if($gtype == 1){
-			$list = $this->model('points_goods')->where('cate_id='.$gtype)->select('id,cate_id,thumb,image,name,points')->getAll();
+			$list = $this->model('points_goods')->where("cate_id=$gtype and status=1")->select('id,cate_id,thumb,image,name,points,type')->getAll();
 		}elseif ($gtype == 2) {
-			$list = $this->model('points_goods')->where('cate_id='.$gtype)->select('id,cate_id,thumb,image,name,points')->getAll();
+			$list = $this->model('points_goods')->where("cate_id=$gtype and status=1")->select('id,cate_id,thumb,image,name,points,type')->getAll();
 		}else{
-			$list = $this->model('points_goods')->select('id,cate_id,thumb,image,name,points')->getAll();
+			$list = $this->model('points_goods')->where("status=1")->select('id,cate_id,thumb,image,name,points,type')->getAll();
 		}
-		$index = mt_rand(0,count($list)-1);
-		if($index>count($list)-4){
-			$recommand = array_slice($list,0,4);
-		}else{
-			$recommand = array_slice($list,$index,4);
-		}
+		// $index = mt_rand(0,count($list)-1);
+		// if($index>count($list)-4){
+		// 	$recommand = array_slice($list,0,4);
+		// }else{
+		// 	$recommand = array_slice($list,$index,4);
+		// }
 		//返回四条推荐商品
-		return $recommand;
+		return $list;
 	}
 	//返回商品详情页
 	public function getShopDetail($gid){
-		$list = $this->model('points_goods')->where('id='.$gid)->select('id,thumb,image,name,points')->getRow();
-		if(empty($list)) return array('err'=>1,'msg'=>'没有该商品');
+		$list = $this->model('points_goods')->where('id='.$gid)->select('id,thumb,image,name,points,cate_id,type')->getRow();
+		if(empty($list)) return array('err'=>20,'msg'=>'没有该商品');
 		return $list;
 	}
 }

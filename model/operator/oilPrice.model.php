@@ -13,6 +13,7 @@ class oilPriceModel extends model{
 		$cache->delete('oil_b');
 	}
 
+
 	/**
 	 * [get_index 原油指数]
 	 * @param  [type] $type [原油类型]

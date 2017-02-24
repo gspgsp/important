@@ -61,17 +61,16 @@ class sysSMSModel extends model{
 	 * @return bool
 	 */
 	public function sendBatch(array $mobiles,$msg='',$stype=1,$input_time=CORE_TIME){
-		$sql_string = 'INSERT INTO '.$this->ftable.'(user_id,mobile,msg,stype,input_time,chanel) VALUES';
+		$sql_string = 'INSERT INTO '.$this->ftable.'(user_id,mobile,msg,stype,user_ip,input_time,chanel) VALUES';
 
 		$msg = addslashes($msg);
 		foreach($mobiles as $v){
 			if(!is_numeric($v['mobile']) && strlen($v['mobile']) >= 11) continue;
-
+			$user_ip = get_ip();
 			$user_id = intval($v['user_id']);
 			$mobile = $v['mobile'];
-			$sql_string .= "('$user_id','$mobile','$msg','$stype',$input_time,'{$this->channel}'),";
+			$sql_string .= "('$user_id','$mobile','$msg','$stype','$user_ip',$input_time,'{$this->channel}'),";
 		}
-
 		$sql_string = rtrim($sql_string,',');
 		return $this->execute($sql_string);
 	}
@@ -96,22 +95,22 @@ class sysSMSModel extends model{
 	
 	/*
 	 * 生成动态码信息
-     * @access public
+        * @access public
 	 * @param string $mobile 手机号
-     * @return (err,msg)
+        * @return (err,msg)
 	 */
 	public function genDynamicCode($mobile,$stype=0){
 		//有效期300秒
 		if(isset($_SESSION['mcode']) && isset($_SESSION['mctime'])){
 			if(CORE_TIME-$_SESSION['mctime']<60){
-				return array('err'=>1,'msg'=>'动态码已发送成功，请稍候再试');	
+				return array('err'=>1,'msg'=>'动态码已发送成功，请稍候再试');
 			}
 			if(strpos($_SESSION['mcode'],$mobile)>0 && (CORE_TIME-$_SESSION['mctime'])<300){
 				$mcode=substr($_SESSION['mcode'],0,6);
 			}
 		}
 		if(empty($mcode)){
-			$mcode=mt_rand(100820,999560);	
+			$mcode=mt_rand(100820,999560);
 		}
 		
 		$msg=sprintf(L('sms_template.dynamic_code'),$mcode);
@@ -121,6 +120,37 @@ class sysSMSModel extends model{
 		$_SESSION['mctime']=CORE_TIME;
 		return array('err'=>0,'msg'=>$msg);
 	}
+
+	/*
+    * 塑料圈app生成动态码信息
+       * @access public
+    * @param string $mobile 手机号
+       * @return (err,msg)
+    */
+	public function qAppDynamicCode($mobile,$stype=0){
+		$cache=cache::startMemcache();
+		$mcode=$cache->get($mobile.'mcode');
+		$mctype=$cache->get($mobile.'mctype');
+		$mctime=$cache->get($mobile.'mctime');
+		//有效期300秒
+		if(isset($mcode) && isset($mctype)){
+			if(CORE_TIME-($mctime)<15){
+				return array('err'=>1,'msg'=>'动态码已发送成功，请稍候再试');
+			}
+			if(strpos($mcode,$mobile)>0 && (CORE_TIME-$mctime)<300){
+				$mcode=substr($mcode,0,6);
+			}
+		}
+		if(empty($mcode)){
+			$mcode=mt_rand(100820,999560);
+			$cache->set($mobile.'mcode',$mcode.'.'.$mobile,300);
+			$cache->set($mobile.'mctime',CORE_TIME,300);
+			$cache->set($mobile.'mctype',$stype,300);
+		}
+		$msg=sprintf(L('sms_template.dynamic_code'),$mcode);
+		return array('err'=>0,'msg'=>$msg);
+	}
+
 
 	/*
 	 * 检查动态码
@@ -147,7 +177,39 @@ class sysSMSModel extends model{
 		}
 		return array('err'=>1,'msg'=>'手机动态码输入不正确，请重新输入');	
 	}
-	
+
+	/*
+     * 塑料圈app检查动态码
+     * @access public
+     * @param string $mobile 手机号
+     * @return (err,msg)
+     */
+	public function qAppChkDynamicCode($mobile='',$mcode='',$stype=0){
+		$cache=cache::startMemcache();
+		$mcode1=$cache->get($mobile.'mcode');
+		$mctype=$cache->get($mobile.'mctype');
+		$mctime=$cache->get($mobile.'mctime');
+		if(isset($mcode1) && isset($mctime)){
+			if((CORE_TIME-($cache->get($mobile.'mctime')))>300){
+				return array('err'=>1,'msg'=>'手机动态码已失效');
+			}
+			if($stype && $stype != $cache->get($mobile.'mctype')){
+				//return array('err'=>1,'msg'=>'手机动态码不正确');
+			}
+
+			wlog(CACHE_PATH.'sms/code.log',date("Y-m-d H:i:s")."@".$mcode.'.'.$mobile.' = '.json_encode($_SESSION)."--".get_ip()."\r\n\r\n");
+
+			if($mcode1==$mcode.'.'.$mobile){
+				$cache->delete($mobile.'mcode');
+				$cache->delete($mobile.'mctime');
+				$cache->delete($mobile.'mctype');
+				return array('err'=>0,'msg'=>'验证通过');
+			}
+		}
+		return array('err'=>1,'msg'=>'手机动态码输入不正确，请重新输入');
+	}
+
+
 	/*
 	 * 发送手机短信
      * @access public
