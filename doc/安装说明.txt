@@ -1,0 +1,41 @@
+1.zookeeper、storm文件同步至服务器，并且解压到/opt/目录下
+  cd /opt
+  tar xzvf zookeeper-3.4.9.tar.gz
+  tar xzvf storm-1.0.2.tar.gz
+  
+2.创建storm的数据目录
+  mkdir /srv/storm
+  mkdir /srv/zookeeper
+
+3.创建storm的运行账户【根据需要，也可root运行】
+  useradd storm
+  chown -R storm.storm /srv/storm
+  chown -R storm.storm /opt/apache-storm-1.0.2
+
+4.创建zookeeper的运行账户【根据需要，也可root运行】
+  useradd zookeeper
+  chown -R zookeeper.zookeeper /srv/zookeeper
+  chown -R zookeeper.zookeeper /opt/apache-zookeeper-3.4.9
+
+5.调整环境变量
+  nano -w /etc/profile
+ 
+# 加入storm环境变量
+export STORM_HOME=/opt/apache-storm-1.0.2
+export PATH=$STORM_HOME/bin:$PATH
+
+6.启动zookeeper、storm
+  /opt/apache-zookeeper-3.4.9/zoo.sh start
+  /opt/apache-storm-1.0.2/boot.sh
+  jps -> kill
+
+7.打开页面查看状态
+  http://218.244.158.7:9090    查看运行的状态，IP注意改成服务器地址
+
+8.1-7正常以后，发布计算任务
+  storm jar suggestion-1.0.2.jar org.magicwall.topoplogy.SuggestionTopology suggestion102
+
+9.配置
+测试环境采用的jar内建的配置文件，但是在生产环境中，需要独立放置配置文件
+/opt/suggestion/conf/redis.properties
+/opt/suggestion/conf/mysql.properties

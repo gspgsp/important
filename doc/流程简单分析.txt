@@ -1,0 +1,126 @@
+1.订购分析数据；
+  purchase:订购表， type=0 全部 type=1采购 type=2 供给
+                    input_time/update_time 当天和历史
+
+  model: 产品表
+  fans: 关注表
+  
+  供求信息发布以后，将消息写入一份到redis队列
+  关注的牌号/人发生变化以后，写入一份到redis队列中去
+  搜索信息提交以后，写入一份到redis队列中去
+
+ 后台接收后处理成牌号压入到关注的牌号中去
+ 1.自己的关注牌号变化->关注自己的人的分析关注牌号变化；
+ 2.自己的关注人变化->根据关注人算出分析关注牌号变化；
+ 3.发布供求关系，重新计算推荐；
+ 4.自己搜索->自己的分析关注牌号变化；
+ 5.分析关注牌号变化，重新计算推荐；
+
+2.智能推荐相关信息表
+/**
+  推荐牌号列表
+  p2p_suggest_model
+  **/
+CREATE TABLE p2p_suggestion_model
+(
+    id BIGINT COMMENT '牌号自动编号',
+    user_id BIGINT COMMENT '用户ID',
+    friend_id BIGINT COMMENT '被关注人用户ID，如果不是关注人，则为0',
+    `name` VARCHAR(127) COMMENT '牌号名称',
+    `type` ENUM("ME", "FRIEND", "SEARCH") COMMENT '牌号来源',
+    `comment` VARCHAR(510) COMMENT '牌号备注',
+    create_time TIMESTAMP COMMENT '牌号创建时间',
+    update_time TIMESTAMP COMMENT '牌号更新时间',
+    is_enable BOOLEAN COMMENT '是否有效'
+);
+ALTER TABLE p2p_model COMMENT = '牌号列表';
+
+
+/**
+  用户搜索历史
+  p2p_suggestion_search_model
+  **/
+CREATE TABLE p2p_suggestion_search_model
+(
+    id BIGINT PRIMARY KEY COMMENT '用户搜索牌号历史ID' AUTO_INCREMENT,
+    user_id BIGINT COMMENT '搜索人的ID',
+    model VARCHAR(63) COMMENT '牌号',
+    attention_type ENUM("SALE", "BUY", "ALL") COMMENT '搜索类型',
+    search_times INT COMMENT '搜索的次数',
+    create_time TIMESTAMP COMMENT '创建的时间',
+    update_time TIMESTAMP COMMENT '更新的时间'
+);
+ALTER TABLE crm_model_search COMMENT = '用户搜索历史中提取出来的牌号';
+
+/**
+  关注的个人
+  p2p_weixin_fans
+  **/
+
+/**
+  推荐信息表
+  p2p_suggestion_purchase
+  **/
+CREATE TABLE p2p_product_suggestion
+(
+    id BIGINT COMMENT '自动编号增加',
+    user_id BIGINT COMMENT '用户ID',
+    model VARCHAR(127) COMMENT '牌号',
+    `type` ENUM('SALE','BUY') NULL COMMENT '买入/卖出'
+    purchase_id BIGINT COMMENT '商品的ID',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '原始关注时间',
+    `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新关注时间'
+);
+ALTER TABLE p2p_product_suggestion COMMENT = '推荐记录表';
+
+/**
+  新增队列 Redis
+  suggestion_purchase
+  队列格式： user_id:purchase_id:todo               purchase_id：购买或者销售的编号
+ *                                                  todo可选：A/D, 其中A为新增;D为删除;
+  **/
+
+/**
+  好友关注队列变化 Redis
+  suggestion_fans
+  队列格式： user_id:focus_id:todo		    如果F，则foucus_id采用*占位，使用全表刷新
+                                                    todo可选：A/D/F, 其中A为新增;D为删除;F为刷新;
+  **/
+
+/**
+  自己关注牌号变化 Redis
+  suggestion_model
+  队列格式： user_id:model:type:foucus_id:todo      如果是整体删除/刷新(todo=D/F)，则model为*表示全部;
+                                                    如果自己的牌号，则foucus_id采用*占位;
+                                                    type可选：BUY, SELL, *，其中*表示全部，目前只有*
+						              但是在bolt计算后的变化，会明确BUY, SELL
+                                                    todo可选：A/D/F,, 其中A为新增;D为删除;
+						    如果F的话，那么model_id,type,focus_id均为*
+  **/
+
+
+3.接口测试方法
+  A.初始化
+    刷新用户推荐信息: 推送 "1:*:*:*:*:F" 至 suggest_model, 则刷新用户id为1的牌号；        【PASS】
+    刷新用户关注:     推送 "1:*:F" 至 suggest_fans, 则刷新用户id为1的关注牌号；           【PASS】
+
+  B.关注变化
+    新增关注： 推送 "1:2:A" 至 suggestion_fans，则新增用户1对2的关注
+    取消关注： 推送 "1:2:D" 至 suggestion_fans，则删除用户1对2的关注
+
+  C.牌号变化
+    新增牌号： 推送 "1:BL3:*:*:A" 至 suggestion_model, 则新增自己关注的牌号BL3            【PASS】
+               推送 "1:BL3:*:2:A" 至 suggestion_model, 则新增用户2关注的牌号BL3
+               推送 "1:BL3:SELL:*:A" 至 suggestion_model, 则新增自己关注的销售牌号BL3
+
+    取消牌号： 推送 "1:BL3:*:*:D" 至 suggestion_model, 则取消自己关注的牌号BL3            【PASS】
+               推送 "1:BL3:*:2:D" 至 suggestion_model, 则取消用户2关注的牌号BL3
+               推送 "1:BL3:BUY:*:D" 至 suggestion_model, 则取消自己关注的订购牌号BL3
+
+  D.关注供求变化
+    推送供求:  推送 "1:32:A" 至 suggestion_purchase, 则新增自己关注的供求变化32
+
+    
+4.显示推荐信息
+  推送至队列 API
+  获取接口 WEBAPI /suggestion/getSuggestionList?[SESSIONID]=xxx
