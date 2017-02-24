@@ -75,5 +75,7 @@ class infoModel extends model{
         return $cate;
 	}
 
+	
+
 }
 ?>
