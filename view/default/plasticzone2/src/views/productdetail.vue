@@ -295,7 +295,7 @@ module.exports = {
 				_this.type=res.info.type;
 				_this.gid=res.info.id;
 			}
-    	},function(){  
+    	},function(){
     		
     	});
 	}

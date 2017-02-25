@@ -40,7 +40,7 @@
 			</li>
 			<li><i class="releaseicon" v-on:click="toReleaseshow"></i></li>
 			<li>
-				<router-link :to="{name:'headline'}" :class="{'footerOn':isHeadline}"><i class="foot5"></i><br>发现</router-link>
+				<a v-on:click="toHeadline" :class="{'footerOn':isHeadline}"><i class="foot5"></i><br>发现</a>
 			</li>
 			<li>
 				<!--<router-link :to="{name:'myzone'}" :class="{'footerOn':isMyzone}"><i class="foot4"></i><br>我的</router-link>-->
@@ -159,7 +159,22 @@ module.exports = {
 					});
 				});				
 			}
+		},
+		toHeadline:function(){
+			var _this=this;
+			if (window.localStorage.getItem("token")) {
+					_this.$router.push({
+						name: 'headline'
+					});				
+			} else{
+				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
+					_this.$router.push({
+						name: 'login'
+					});
+				});				
+			}
 		}
+
 	},
 	mounted: function() {
 		var _this = this;

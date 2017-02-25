@@ -83,7 +83,7 @@
 		</div>
 	</li>
 	<li v-show="!condition" style="text-align: center;">
-			没有相关数据
+			{{errmsg}}
 	</li>
 </ul>
 <div v-show="condition" style="text-align: center; padding: 5px 0 15px 0;">
@@ -158,6 +158,7 @@ data: function() {
 		isMyzone: false,
 		isHeadline: false,
 		isReleaseshow: false,
+		errmsg:"",
 		buy: [],
 		supply: []
 	}
@@ -214,6 +215,7 @@ methods: {
 				_this.release = res.data;
 			}else if(res.err==2||res.err==5){
 				_this.condition = false;
+				_this.errmsg=res.msg;
 			}
 		}, function() {
 
@@ -295,6 +297,7 @@ methods: {
 				_this.release = res.data;
 			}else if(res.err==2||res.err==5){
 				_this.condition = false;
+				_this.errmsg=res.msg;
 			}
 		}, function() {
 
@@ -346,6 +349,7 @@ methods: {
 				});
 			}else if(res.err==2||res.err==5){
 			_this.condition = false;
+			_this.errmsg=res.msg;
 		}
 
 		}, function() {
@@ -391,6 +395,7 @@ methods: {
 				});
 			}else if(res.err==2||res.err==5){
 			_this.condition = false;
+			_this.errmsg=res.msg;
 		}
 
 		}, function() {
@@ -436,6 +441,7 @@ methods: {
 				});
 			}else if(res.err==2||res.err==5){
 			_this.condition = false;
+			_this.errmsg=res.msg;
 		}
 
 		}, function() {
@@ -482,6 +488,7 @@ methods: {
 				});
 			}else if(res.err==2||res.err==5){
 			_this.condition = false;
+			_this.errmsg=res.msg;
 		}
 
 		}, function() {
@@ -660,6 +667,7 @@ mounted: function() {
 			});
 		}else if(res.err==2||res.err==5||res.err==3){
 			_this.condition = false;
+			_this.errmsg=res.msg;
 		}
 
 	}, function() {

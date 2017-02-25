@@ -18,7 +18,7 @@
 	</div>
 	<ul class="searchli">
 		<li v-for="c in creditli">
-			<router-link :to="{name:'credit2',params:{id:c.user_id}}">{{c.c_name}}</router-link></li>
+			<router-link :to="{name:'credit2',params:{id:c.contact_id}}">{{c.c_name}}</router-link></li>
 		<li>	
 	</ul>
 </div>

@@ -27,16 +27,11 @@
     </div>
 	<div v-show="!creditshow" style="text-align: center; padding: 20px;">
     	{{msg}}
-    </div>
-	<footerbar></footerbar>
+   </div>
     </div>
 </template>
 <script>
-	import footer from "../components/footer";
 	module.exports={
-		components:{
-			'footerbar':footer
-		},
         data:function () {
             return {
             	c_name:"",
@@ -70,6 +65,7 @@
 				dataType: 'JSON'
 			}).then(function(res) {
 				if(res.err==0){
+					_this.creditshow=true;
 					_this.c_name=res.data.c_name;
 	            	_this.credit_level=res.data.credit_level;
 	            	_this.credit_limit=res.data.credit_limit/10000;
