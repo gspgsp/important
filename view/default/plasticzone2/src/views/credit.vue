@@ -71,7 +71,7 @@
 				
 			}
 			$.ajax({
-				type: "get",
+				type: "post",
 				url: "/api/qapi1_1/creditCertificate",
 				data: {
 					token: window.localStorage.getItem("token")
