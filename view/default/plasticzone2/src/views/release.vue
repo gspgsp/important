@@ -197,8 +197,8 @@ methods: {
 				break;
 		}
 		$.ajax({
-			url: '/api/qapi1/getReleaseMsg',
-			type: 'get',
+			url: '/api/qapi1_1/getReleaseMsg',
+			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),
 				page: _this.page,
