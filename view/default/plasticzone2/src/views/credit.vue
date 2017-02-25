@@ -56,7 +56,7 @@
 			},
 			sharehide: function() {
 				this.share = false;
-				this.share3 = false;
+				this.share3 = false; 
 			},
 			toCreditintro:function(){
 				this.$router.push({name:"creditintro"});
