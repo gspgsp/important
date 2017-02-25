@@ -10,7 +10,7 @@ class newsSubscribeModel extends model
     public function getSubscribeByUserid($user_id=0){
         if($user_id<1) return ;
         $tmp=$this->select('news_cate_id')->where("user_id=$user_id and is_enable=1")->getCol();
-        return $tmp;
+        return $tmp; 
     }
 
     public function setSubscribeByUserid($user_id=0,$cate_id=array()){
