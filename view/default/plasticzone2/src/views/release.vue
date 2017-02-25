@@ -215,7 +215,7 @@ methods: {
 				_this.release = res.data;
 			}else if(res.err==2||res.err==5){
 				_this.condition = false;
-				_this.errmsg=res.msg;
+				_this.errmsg=res.msg; 
 			}
 		}, function() {
 
