@@ -23,7 +23,7 @@ class plasticAttentionModel extends model
             $allow_send = $this->getUserSet($focused_id);
             if(empty($allow_send)) $allow_send = array('focus'=>0,'repeat'=>0);
             //开启事务获得id
-            $this->model('weixin_fans');
+            $this->model('weixin_fans')->startTrans();
             if($allow_send['focus']==0 && $count<1){
                 $this->sendRemindMsg($userid,$focused_id,1);
             }
