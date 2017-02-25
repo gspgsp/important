@@ -279,8 +279,8 @@ methods: {
 		_this.condition = true;
 		this.page=1;
 		$.ajax({
-			url: '/api/qapi1/getReleaseMsg',
-			type: 'get',
+			url: '/api/qapi1_1/getReleaseMsg',
+			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),
 				page: _this.page,
@@ -325,8 +325,8 @@ methods: {
 		} catch( err ) {}
 
 		$.ajax({
-			url: '/api/qapi1/getReleaseMsg',
-			type: 'get',
+			url: '/api/qapi1_1/getReleaseMsg',
+			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),
 				page: _this.page,
@@ -370,8 +370,8 @@ methods: {
 		this.sortfield1="";
 		this.sortfield2="AUTO";
 		$.ajax({
-			url: '/api/qapi1/getReleaseMsg',
-			type: 'get',
+			url: '/api/qapi1_1/getReleaseMsg',
+			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),
 				page: _this.page,
@@ -416,8 +416,8 @@ methods: {
 		this.sortfield1="";
 		this.sortfield2="CONCERN";
 		$.ajax({
-			url: '/api/qapi1/getReleaseMsg',
-			type: 'get',
+			url: '/api/qapi1_1/getReleaseMsg',
+			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),
 				page: _this.page,
@@ -463,8 +463,8 @@ methods: {
 		this.sortfield1="";
 		this.sortfield2="DEMANDORSUPPLY";
 		$.ajax({
-			url: '/api/qapi1/getReleaseMsg',
-			type: 'get',
+			url: '/api/qapi1_1/getReleaseMsg',
+			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),
 				page: _this.page,
@@ -504,8 +504,8 @@ methods: {
 		this.isCircle = true;
 		this.page=1;
 		$.ajax({
-			url: '/api/qapi1/getReleaseMsg',
-			type: 'get',
+			url: '/api/qapi1_1/getReleaseMsg',
+			type: 'post',
 			data: {
 				keywords: "",
 				page: _this.page,
@@ -542,8 +542,8 @@ methods: {
 			_this.page++;
 			_this.moreTxt="加载中..."
 			$.ajax({
-				type: "get",
-				url: "/api/qapi1/getReleaseMsg",
+				type: "post",
+				url: "/api/qapi1_1/getReleaseMsg",
 				data: {
 					keywords: _this.keywords.toLocaleUpperCase(),
 					page: _this.page,
@@ -596,8 +596,8 @@ mounted: function() {
 	});
 	
 	$.ajax({
-		type: "get",
-		url: "/api/qapi1/supplyDemandList",
+		type: "post",
+		url: "/api/qapi1_1/supplyDemandList",
 		data: {
 			page: 1,
 			token: window.localStorage.getItem("token"),
@@ -619,8 +619,8 @@ mounted: function() {
 	});
 
 	$.ajax({
-		type: "get",
-		url: "/api/qapi1/supplyDemandList",
+		type: "post",
+		url: "/api/qapi1_1/supplyDemandList",
 		data: {
 			page: 1,
 			token: window.localStorage.getItem("token"),
@@ -643,8 +643,8 @@ mounted: function() {
 
 	
 	$.ajax({
-		url: '/api/qapi1/getReleaseMsg',
-		type: 'get',
+		url: '/api/qapi1_1/getReleaseMsg',
+		type: 'post',
 		data: {
 			keywords: _this.keywords.toLocaleUpperCase(),
 			page: _this.page,
