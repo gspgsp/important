@@ -137,7 +137,7 @@
 						});
 				}else if(res.err==2){
 					_this.creditshow=false;
-					_this.msg=res.msg;
+					_this.msg=res.msg;   
 					
 				}
 			}, function() {
