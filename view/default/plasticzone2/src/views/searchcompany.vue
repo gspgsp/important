@@ -11,8 +11,10 @@
 	<p style="text-align: center;">企业名称查询<br>自动关联企业相关数据</p>
 	<div class="searchfname">
 		<div class="searchfnameWrap">
-			<input type="text" v-model="fname" style=" width: 135px; float: left; border: none; padding: 5px 7px; background: none; font-size: 12px;" placeholder="请输入企业全称" />
+		<div style=" width: auto; margin-right: 80px;">
+			<input type="text" v-model="fname" style=" width: 100%; float: left; border: none; padding: 5px 7px; background: none; font-size: 12px;" placeholder="请输入企业全称" />
 			<div class="searchbtn" v-on:click="search">查授信额度</div>
+		</div>	
 		</div>
 		<a class="qcc" href="http://www.qichacha.com/">查企业信息</a>
 	</div>

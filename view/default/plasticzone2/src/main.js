@@ -87,6 +87,7 @@ var router=new VueRouter({
 	routes
 });
 
+var url='/api/qapi1_1';
 
 var app=new Vue({
 	router
