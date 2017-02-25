@@ -5,6 +5,7 @@
     	我的信用信息
     	<a class="detailShare" href="javascript:;" v-on:click="shareshow"></a>
     </header>
+    <div v-show="creditshow">
     <div class="creditwrap">
     	<div class="notice"></div>
     	<h3 style=" font-size: 18px; color: #333333; text-align: center; margin: 10px 0;">热烈祝贺{{c_name}}</h3>
@@ -25,6 +26,10 @@
 		<span class="orange" v-on:click="shareshow">分享给别人</span>&nbsp;&nbsp;&nbsp;
 		<span class="green" v-on:click="toCreditintro">?授信说明</span>
 	</div>
+	</div>
+	<div v-show="!creditshow" style="text-align: center; padding: 20px;">
+    	{{msg}}
+   </div>
 	<div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
 	<div class="tip" v-show="share3"></div>
     </div>
@@ -39,7 +44,9 @@
             	user_id:"",
             	share: false,
 				share3: false,
-				is_credit:""
+				is_credit:"",
+				creditshow:true,
+            	msg:""
             }
         },
         methods:{
@@ -65,7 +72,7 @@
 			}
 			$.ajax({
 				type: "get",
-				url: "/api/qapi1/creditCertificate",
+				url: "/api/qapi1_1/creditCertificate",
 				data: {
 					token: window.localStorage.getItem("token")
 				},
@@ -128,6 +135,10 @@
 						},function(){
 							
 						});
+				}else if(res.err==2){
+					_this.creditshow=false;
+					_this.msg=res.msg;
+					
 				}
 			}, function() {
 		
