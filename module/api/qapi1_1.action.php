@@ -1516,6 +1516,9 @@ class qapi1_1Action extends null2Action
             $data['input_time'] = $this->checkTime($data['input_time']);
             $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
             $data['content'] = stripslashes($data['content']);
+            //添加缓存之后，页面显示效果  阅读数+1
+            $data['pv']=$data['pv']+1;
+            $data['true_pv']=$data['true_pv']+1;
             //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
             //$str= preg_replace("/border="0"",'',$str);
             $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
@@ -1633,11 +1636,16 @@ class qapi1_1Action extends null2Action
                     }
                 }
                 $allNum = array();
+                $today=strtotime(date("Y-m-d"));
                 foreach ($tmp_new_cate_id as $value) {
                     $tmp = M("qapp:news")->getCateSons($value); //获取子分类
                     if (!empty($tmp)) {
+                        if(count($tmp)>=1){
+                            shuffle($tmp);
+                            array_splice($tmp,1);
+                        }
                         foreach ($tmp as $value1) {
-                            $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value1")->order("input_time desc")->limit(6)->getCol();
+                            $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value1 and input_time>$today")->order("input_time desc")->limit(6)->getCol();
                             if (count($all) > $completeNum) {
                                 shuffle($all);
                                 array_splice($all, $completeNum);
@@ -1645,7 +1653,7 @@ class qapi1_1Action extends null2Action
                             }
                         }
                     } else {
-                        $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value")->order("input_time desc")->limit(6)->getCol();
+                        $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value and input_time>$today")->order("input_time desc")->limit(6)->getCol();
                         if (count($all) > $completeNum) {
                             shuffle($all);
                             $stmp=array_rand($all,$completeNum);
@@ -1674,6 +1682,7 @@ class qapi1_1Action extends null2Action
                     shuffle($tmp);
                     $left = $this->newsSubscribe - count($allNum);
                     $stmp=array_rand($tmp,$left);
+                    if(!is_array($stmp)) $stmp=array($stmp);
                     $atmp=array();
                     foreach($stmp as $row){
                         $atmp[]=$tmp[$row];

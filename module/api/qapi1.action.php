@@ -1502,6 +1502,9 @@ class qapi1Action extends null2Action
             $time = $data['input_time'];
             $data['input_time'] = $this->checkTime($data['input_time']);
             $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
+            //添加缓存之后，页面显示效果  阅读数+1
+            $data['pv']=$data['pv']+1;
+            $data['true_pv']=$data['true_pv']+1;
             $data['content'] = stripslashes($data['content']);
             //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
             //$str= preg_replace("/border="0"",'',$str);
@@ -1512,7 +1515,7 @@ class qapi1Action extends null2Action
             if($data['type']=='public'){
                 $arr=array('pe','pp','pvc');
                 $tmp=array_rand($arr,1);
-                $data['type']=$arr[$tmp];
+                $data['type']='pp';
             }
             $data['type']=strtoupper($data['type']);
             //取出上一篇和下一篇input_time desc,sort_order desc  上一篇是最新的
