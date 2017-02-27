@@ -143,13 +143,13 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function addSupplier(){
-        $c_id=sget('id','i');
+        $supplier_id=sget('id','i');
         $cType=sget('ctype','i'); //用户类型
-
         $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));
         $this->assign('sex',L('sex'));    // 性别
         $this->assign('ctype',$cType);    //人员类型
-        if($c_id<1){
+        //**************************
+        if($supplier_id<1){
             if($cType==1){                                          //单页面新增供应商联系人
                 $this->assign('page_title','新增个人联系人-1');
                 $this->assign('status_1',L('status_1'));            // 供应商联系人状态
@@ -166,28 +166,24 @@ class supplierAction extends adminBaseAction{
             }
             exit;
         }
+        //***************************
         //查询公司信息
-
-        $info=$this->db->getPk($c_id);
+        $info=$this->db->getPk($supplier_id);
         if(empty($info)){
             $this->error('错误的公司信息');
         }
-        if($info['origin']){
-            $areaArr = explode('|', $info['origin']);
-            $info['company_province'] = $areaArr[1];
-            $info['company_city']=$areaArr[0];
-        }
-        $info['file_url1'] = FILE_URL.'/upload/'.$info['file_url'];
-        $info['business_licence_pic1'] = FILE_URL.'/upload/'.$info['business_licence_pic'];
-        $info['organization_pic1'] = FILE_URL.'/upload/'.$info['organization_pic'];
-        $info['tax_registration_pic1'] = FILE_URL.'/upload/'.$info['tax_registration_pic'];
-        $info['legal_idcard_pic1'] = FILE_URL.'/upload/'.$info['legal_idcard_pic'];
+        $info['business_licence_pic'] = FILE_URL.'/upload/'.$info['business_licence_pic'];     // 营业执照图片
+        $info['organization_code_pic'] = FILE_URL.'/upload/'.$info['organization_code_pic'];   // 组织机构代码证图片
+        $info['tax_registration_pic'] = FILE_URL.'/upload/'.$info['tax_registration_pic'];     // 税务登记证图片
+        $info['legal_person_pic_1'] = FILE_URL.'/upload/'.$info['legal_person_pic_1'];         // 身份证图片(正面)
+        $info['legal_person_pic_2'] = FILE_URL.'/upload/'.$info['legal_person_pic_2'];         // 身份证图片(反面)
+        $info['social_credit_code_pic'] = FILE_URL.'/upload/'.$info['social_credit_code_pic']; // 三证合一图片
         //联系人详情
-        $this->assign('c_id',$c_id);//分配公司id信息
+        $this->assign('c_id',$supplier_id);                      //供应商id
         $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
         $this->assign('type',L('supplier_type'));                  //供应商类型
-        $this->assign('status',L('status'));                       // 状态
-        $this->assign('credit_level',L('credit_level'));          //信用等级
+        $this->assign('status',L('status'));                       // 供应商状态
+        $this->assign('credit_level',L('credit_level'));           //信用等级
         $this->assign('info',$info);
         $this->display('show_supplier.html');
 
@@ -225,80 +221,59 @@ class supplierAction extends adminBaseAction{
                     'legal_person_pic_1' => $data['legal_person_pic_1'],         // 身份证 正面
                     'legal_person_pic_2' => $data['legal_person_pic_2'],         // 法人身份证 反面
                     'company_tel'  =>  trim($data['company_tel']),                     // 公司固话
-                    'invoice_tel'  =>  $data['invoice_tel'],                     // 开票电话
-                    'invoice_bank' =>  $data['invoice_bank'],                    //  开票银行
-                    'invoice_account' => $data['invoice_account'],                  // 开票账户
-                    'invoice_address' > $data['invoice_address'],                   // 开票地址
+                    'invoice_tel'  =>  trim($data['invoice_tel']),                     // 开票电话
+                    'invoice_bank' =>  trim($data['invoice_bank']),                    //  开票银行
+                    'invoice_account' => trim($data['invoice_account']),                  // 开票账户
+                    'invoice_address' > trim($data['invoice_address']),                   // 开票地址
                     'province'   => $data['province'],                              //　省份
                     'city'      =>  $data['company_city'],                          // 城市
-                    'zip_code'   => $data['zip_code'],                              // 邮编
+                    'zip_code'   => trim($data['zip_code']),                              // 邮编
                     'fund_date'  => $data['fund_date'],                             //成立时间
-                    'register_capital'  => $data['register_capital'],               // 注册资本
+                    'register_capital'  => trim($data['register_capital']),               // 注册资本
                     'credit_level'  => $data['credit_level'],                       // 信用等级
                     'status'=>   $data['status'],                                   //审核状态
-                    'business_licence_code' => $data['business_licence_code'],      // 营业执照号码
+                    'merge_three'=>$data['cards'],                                             // 是否三证合一
+                    'business_licence_code' => trim($data['business_licence_code']),      // 营业执照号码
                     'business_licence_pic'  => $data['business_licence_pic'],       // 营业执照照片
-                    'organization_code'     => $data['organization_code'],          //组织机构代码
+                    'organization_code'     => trim($data['organization_code']),          //组织机构代码
                     'organization_code_pic' => $data['organization_code_pic'],      // 组织机构代码照片
-                    'tax_registration'      => $data['tax_registration'],           // 税务登记证号码
+                    'tax_registration'      => trim($data['tax_registration']),           // 税务登记证号码
                     'tax_registration_pic'  => $data['tax_registration_pic'],       // 税务登记证照片
-                    'tax_id'     => $data['tax_id'],                                // 纳税人识别号
+                    'tax_id'     => trim($data['tax_id']),                                // 纳税人识别号
                     'social_credit_code' => $data['social_credit_code'],            // 社会统一信证码
                     'social_credit_code_pic' => $data['social_credit_code_pic'],    // 三证合一照片
                     'create_time' => time(),                                        // 创建时间
-                    'create_name' => $_SESSION['name'],                            // 创建者
+                    'create_name' => trim($_SESSION['name']),                            // 创建者
                 );
                 $param_2= array(
-                    'contact_name' => $data['contact_name'], // 供应商联系人name
+                    'contact_name' => trim($data['contact_name']), // 供应商联系人name
+                    'supplier_name'=>trim($data['supplier_name']),  //  供应商名称
                     'sex'   => $data['sex'],                 // 性别
-                    'mobile_tel'=> $data['mobile_tel'],       // 联系人手机
-                    'contact_tel' => $data['contact_tel'],  // 联系人固话
-                    'qq'  =>  $data['qq'],                  //联系人QQ
-                    'comm_fax' => $data['comm_fax'],        // 传真
-                    'comm_email' => $data['comm_email'],    // 联系人邮箱
+                    'mobile_tel'=> trim($data['mobile_tel']),       // 联系人手机
+                    'contact_tel' => trim($data['contact_tel']),  // 联系人固话
+                    'qq'  =>  trim($data['qq']),                  //联系人QQ
+                    'comm_fax' => trim($data['comm_fax']),        // 传真
+                    'comm_email' => trim($data['comm_email']),    // 联系人邮箱
                     'default'=>1,                           // 是否默认联系人   1：是 2：否
                     'create_time' => time(),               // 创建时间
-                    'create_name' => $_SESSION['name'],    // 创建者
+                    'create_name' => trim($_SESSION['name']),    // 创建者
                     'status'=> $data['status_1'],          // 状态
                 );
 
             }
-                    $info=$this->db->add($param_1);
+                    $info=$this->db->add($param_1);                             // 返回受影响行数
+                    if($info!=1) $this->db->getError('供应商新增失败');
                     if($info){
-                        $res=$this->db->getLastID();
+                        $param_2['supplier_id']=$this->db->getLastID();          //  返回自增id
                     }
-                    p($res);
-                    
-//                    if($info){
-//                        $res=$this->db->model('logistics_supplier')->where('legal_person_code='.$data['legal_person_code'])->getOne();
-//                        p($res);
-//                    }
-//                    $param_2['supplier_id']=$res['supplier_id'];
-//
-//                    $this->db->model('logistics_contact')->add($param_2);
+                    $res=$this->db->model('logistics_contact')->add($param_2);   // 返回受影响行数
+                    if($res!=1) $this->db->getError('供应商新增失败');
 
-
-//            $this->db->getAll($sql);
-//            $result=M('operator:logistics_supplier')->supplierAdd($param,$data);
-//            if($result['err']>0){
-//                // showtrace();
-//                $this->error($result['msg']);
-//            }
             $this->db->commit();
         }catch (\Exception $e){
             $this->db->rollback();
         }
 
-
-
-
-
-        //新增客户流转记录日志----S
-//        if(isset($result['c_id']) && $result['c_id']>0){
-//            $remarks = "客户注册:".date('Y-m-d H:i:s',time());
-//            M('user:customerLog')->addLog($result['c_id'],'register','不存在','注册',1,$remarks);
-//        }
-        //新增客户流转记录日志----E
         $this->success('操作成功');
     }
 
