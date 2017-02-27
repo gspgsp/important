@@ -65,7 +65,7 @@
         var supplier_contact = mini.encode(o);
         $("#returnMsg").text('');
         form.loading("数据提交中，请稍后......");
-        $.post('/operator/supplier/addContact',{data:supplier_contact},function(data){
+        $.post('/operator/supplier/addSubmit',{data:supplier_contact},function(data){
             form.unmask();
             $("#returnMsg").text(data.msg);
             if(data.err=='0'){
