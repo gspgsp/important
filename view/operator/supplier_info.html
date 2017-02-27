@@ -4,11 +4,11 @@
         <div title="客户详细信息">
             <div style="height:540px">
                 <table width="100%">
-                    <caption><strong>基本信息</strong></caption>
+                    <caption><strong>基本----信息</strong></caption>
                     <tr>
                         <td>供应商名称：</td>
                         <td>
-                            {$info.c_name}
+                            {$info.supplier_name}
                         </td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
@@ -23,14 +23,6 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <!--<tr>-->
-                        <!--<td>填写牌号：</td>-->
-                        <!--<td colspan="3"><span style="color:red;">(手机端填写)</span>{$info.need_product}</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td>所需牌号：</td>-->
-                        <!--<td colspan="3"><span style="color:red;">(系统生成)</span>{$info.need_product_adm}</td>-->
-                    <!--</tr>-->
                     <tr>
                         <td>备注：</td>
                         <td>{$info.need_product}</td>
@@ -38,10 +30,6 @@
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <!-- <td>邮政编码：</td>
-                        <td>
-                            {$info.zip}
-                        </td> -->
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>信用等级：</td>
@@ -83,7 +71,7 @@
                     </tr>
                 </table>
                 <table width="100%">
-                    <caption><strong>扩展信息</strong></caption>
+                    <caption><strong>扩展-----信息</strong></caption>
                     {if $info.merge_three neq 1}
                     <tr>
                         <td>营业执照号：</td>
