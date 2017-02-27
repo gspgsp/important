@@ -267,7 +267,6 @@ class supplierAction extends adminBaseAction{
             }
 
                     $info=$this->db->add($param_1);                                  // 返回受影响行数
-                       p($info);
                     if($info==1){
                         $param['supplier_id']=$this->db->getLastID();               //  返回自增id
                         $param_2['supplier_id']=$param['supplier_id'];
