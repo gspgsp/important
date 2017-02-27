@@ -150,11 +150,13 @@ class supplierAction extends adminBaseAction{
         $this->assign('ctype',$cType);    //人员类型
         //**************************
         if($supplier_id<1){
-            if($cType==1){                                          //单页面新增供应商联系人
+            if($cType==1){
+                $this->assign('ctype',$cType);                      //单页面新增供应商联系人
                 $this->assign('page_title','新增个人联系人-1');
                 $this->assign('status_1',L('status_1'));            // 供应商联系人状态
                 $this->display('supplier_contact.html');
             }elseif($cType==3){                                     //新增供应商
+                $this->assign('ctype',$cType);
                 $this->assign('is_pur',sget('supplier'));           //添加客户的入口
                 $this->assign('type',L('supplier_type'));           //供应商类型
                 $this->assign('status_1',L('status_1'));            // 供应商联系人状态
@@ -190,7 +192,7 @@ class supplierAction extends adminBaseAction{
     }
 
     /**
-     * 新增供应商和联系人
+     * 提交过来的新增供应商和联系人信息
      *
      */
     public function addSubmit() {
@@ -232,7 +234,7 @@ class supplierAction extends adminBaseAction{
                     'register_capital'  => trim($data['register_capital']),               // 注册资本
                     'credit_level'  => $data['credit_level'],                       // 信用等级
                     'status'=>   $data['status'],                                   //审核状态
-                    'merge_three'=>$data['cards'],                                             // 是否三证合一
+                    'merge_three'=>$data['cards'],                                  // 是否三证合一
                     'business_licence_code' => trim($data['business_licence_code']),      // 营业执照号码
                     'business_licence_pic'  => $data['business_licence_pic'],       // 营业执照照片
                     'organization_code'     => trim($data['organization_code']),          //组织机构代码
@@ -243,7 +245,7 @@ class supplierAction extends adminBaseAction{
                     'social_credit_code' => $data['social_credit_code'],            // 社会统一信证码
                     'social_credit_code_pic' => $data['social_credit_code_pic'],    // 三证合一照片
                     'create_time' => time(),                                        // 创建时间
-                    'create_name' => trim($_SESSION['name']),                            // 创建者
+                    'create_name' => trim($_SESSION['name']),                        // 创建者
                 );
                 $param_2= array(
                     'contact_name' => trim($data['contact_name']), // 供应商联系人name
