@@ -117,8 +117,9 @@
     <script type="text/javascript">
         mini.parse();
         var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
-        var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow");
+        var investGrid=mini.get("investGrid");
         function changeTab(e){
+            console.log(e);
             var tab=e.tab;
             if(tab.title=='联系人列表'){
                 var data=investGrid.getData();
