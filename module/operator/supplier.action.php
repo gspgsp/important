@@ -272,7 +272,7 @@ class supplierAction extends adminBaseAction{
                         $param_2['supplier_id']=$param['supplier_id'];
                         $res=$this->db->model('logistics_contact')->add($param_2);   // 返回受影响行数
                         p($res);
-                        if($res!=1) $this->db->getError('供应商新增失败');
+                        if($res!=1) $this->db->getError('供应商联系人新增失败');
                     }else{
                         $this->db->getError('供应商新增失败');
                     }
