@@ -221,6 +221,12 @@ class supplierAction extends adminBaseAction{
                 'create_name' => trim($_SESSION['name']),     // 创建者
                 'status'=> $data['status_1'],                // 状态
             );
+            $info=$this->db->model('logistics_contact')->add($param);
+            if($info==1){
+                $this->success('添加成功');
+            }else{
+                $this->error('添加失败');
+            }
         }
         // 新增供应商和联系
         $this->db->startTrans();
@@ -275,7 +281,6 @@ class supplierAction extends adminBaseAction{
                 );
 
             }
-
                     $info=$this->db->add($param_1);                                  // 返回受影响行数
                     if($info==1){
                         $param['supplier_id']=$this->db->getLastID();               //  返回自增id
@@ -290,7 +295,6 @@ class supplierAction extends adminBaseAction{
         }catch (\Exception $e){
             $this->db->rollback();
         }
-
         $this->success('操作成功');
     }
 
