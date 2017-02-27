@@ -130,7 +130,7 @@ methods: {
 			if(res.err == 0) {
 				_this.condition = true;
 				_this.member = res.member;
-				_this.name = res.persons;
+				_this.name = res.persons; 
 			} else if(res.err == 2) {
 				_this.condition = false;
 			}
