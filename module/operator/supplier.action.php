@@ -197,10 +197,12 @@ class supplierAction extends adminBaseAction{
      */
     public function addSubmit() {
         $this->is_ajax=true;
+        
         $data = sdata();
         $data['supplier_name'] = trim($data['supplier_name']);
         $utype = $data['ctype'];    // ctype   1：新增供应商联系人   3：新增供应商
-
+        p($utype);
+        p($data);die;
         if($utype==1){              //单独新增供应商联系人
             if(empty($data['mobile']) && empty($data['tel'])) $this->error('手机或者电话至少填写一个');
             //验证联系人信息
