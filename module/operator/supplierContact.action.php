@@ -86,7 +86,6 @@ class supplierContactAction extends adminBaseAction {
             $list['data'][$k]['create_admin'] = M('rbac:adm')->getNameByUser($v['create_name']);  // 创建人
             $list['data'][$k]['update_admin'] = M('rbac:adm')->getNameByUser($v['update_name']);  // 跟新人
         }
-        p($list);
         $result=array('total'=>$list['count'],'data'=>$list['data']);
         $this->json_output($result);
     }
