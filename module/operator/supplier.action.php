@@ -197,13 +197,13 @@ class supplierAction extends adminBaseAction{
      */
     public function addSubmit() {
         $this->is_ajax=true;
-        
+
         $data = sdata();
         $data['supplier_name'] = trim($data['supplier_name']);
-        $utype = $data['ctype'];    // ctype   1：新增供应商联系人   3：新增供应商
-        p($utype);
-        p($data);die;
-        if($utype==1){              //单独新增供应商联系人
+        $ctype = $data['ctype'];    // ctype   1：新增供应商联系人   3：新增供应商
+//        p($ctype);
+//        p($data);die;
+        if($ctype==1){              //单独新增供应商联系人
             if(empty($data['mobile']) && empty($data['tel'])) $this->error('手机或者电话至少填写一个');
             //验证联系人信息
             $param=array(
@@ -215,7 +215,7 @@ class supplierAction extends adminBaseAction{
         // 新增供应商和联系
         $this->db->startTrans();
         try{
-            if($utype==3){
+            if($ctype==3){
                 if(empty($data['mobile_tel']) && empty($data['contact_tel'])) $this->error('手机或者电话至少填写一个');
                 //验证公司信息
                 $param_1=array(                                                  // logistics_supplier 表
@@ -268,7 +268,8 @@ class supplierAction extends adminBaseAction{
                     $info=$this->db->add($param_1);                             // 返回受影响行数
                     if($info!=1) $this->db->getError('供应商新增失败');
                     if($info){
-                        $param_2['supplier_id']=$this->db->getLastID();          //  返回自增id
+                        $param['supplier_id']=$this->db->getLastID();          //  返回自增id
+                        $param_2['supplier_id']=$param['supplier_id'];
                     }
                     $res=$this->db->model('logistics_contact')->add($param_2);   // 返回受影响行数
                     if($res!=1) $this->db->getError('供应商新增失败');
