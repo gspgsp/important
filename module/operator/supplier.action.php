@@ -139,8 +139,8 @@ class supplierAction extends adminBaseAction{
     }
 
     /**
-     * 新增供应商按钮
-     *
+     * 1、新增供应商按钮
+     * 2、查看供应商信息
      */
     public function addSupplier(){
         $supplier_id=sget('id','i');
@@ -167,7 +167,7 @@ class supplierAction extends adminBaseAction{
             exit;
         }
         //***************************
-        //查询公司信息
+        //查询供应商信息
         $info=$this->db->getPk($supplier_id);
         if(empty($info)){
             $this->error('错误的公司信息');
