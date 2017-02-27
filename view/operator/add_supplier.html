@@ -15,34 +15,34 @@
                     <tr>
                         <td style="width:100px;"> 供应商客户名称：<font style="color:red;">*</font></td>
                         <td style="width:200px;">
-                            <input id="supplier_name" name="supplier_name" class="mini-textbox"  maxlength="50"  style="width:200px;" required="true" value=" "/>
+                            <input id="supplier_name" name="supplier_name" class="mini-textbox"  maxlength="50"  style="width:200px;" required="true" value=""/>
                         </td>
                         <td style="width:50px;"><button onClick="checkUnique()">查重</button></td>
                         <td><span id="chkMsg" style="padding-left:5px; color:#F00;"></span></td>
                     </tr>
                     <tr>
                         <td>法人姓名：</td>
-                        <td><input name="legal_person" class="mini-textbox" style="width:70px;" maxlength="6" value=""/></td>
+                        <td><input name="legal_person" required="true" class="mini-textbox" style="width:70px;" maxlength="6" value=""/></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>法人身份证：</td>
-                        <td><input name="legal_person_code" class="mini-textbox" style="width:250px;" value=""/></td>
+                        <td><input name="legal_person_code" required="true" class="mini-textbox" style="width:250px;" value="" /></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>身份证照片（正面）：</td>
                         <td colspan="3">
-                            <input id="img_url5"  name="legal_person_pic_1" class="mini-textbox" value="" style="width:200px"/>
-                            <input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);">
+                            <input id="img_url5"  name="legal_person_pic_1" required="true" class="mini-textbox" value="" style="width:200px"/>
+                            <input id="upfileId5" type="file" name="upFile"  onChange="fileUpload(5);">
                         </td>
                     </tr>
                     <tr>
                         <td>身份证照片（反面）：</td>
                         <td colspan="3">
-                            <input id="img_url6"  name="legal_person_pic_2" class="mini-textbox" value="" style="width:200px"/>
+                            <input id="img_url6"  name="legal_person_pic_2"required="true" class="mini-textbox" value="" style="width:200px"/>
                             <input id="upfileId6" type="file" name="upFile" onChange="fileUpload(6);">
                         </td>
                     </tr>
@@ -61,7 +61,7 @@
                     </tr>
                     <tr>
                         <td>所在省市</td>
-                        <td><input name="province" id="c_1_0" style="width:80px;"  class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.infoExt.company_province}" showNullItem="true"/>
+                        <td><input name="province" id="c_1_0" style="width:80px;"  class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.infoExt.company_province}" showNullItem="true" />
                             <input name="company_city" id="c_2_0" class="mini-combobox" url="{if $user.infoExt.company_province}/user/user/getRegion?pid={$user.infoExt.company_province}{/if}" value="{$user.infoExt.company_city}" style="width:80px;" textField="name" valueField="id" />
                         </td>
                         <td>邮编</td>
@@ -179,7 +179,7 @@
                         </tr>
                         <tr>
                             <td style="width:80px;">联系人手机：<font style="color:red;">*</font></td>
-                            <td style="width:210px;"><input name="mobile_tel" class="mini-textbox" maxlength="11" value="" style="width:150px;"/></td>
+                            <td style="width:210px;"><input name="mobile_tel" class="mini-textbox" maxlength="11" value="" style="width:150px;" onvalidation="onValidMobile"/></td>
                             <td>联系人固定电话：<font style="color:red;">*</font></td>
                             <td><input name="contact_tel" class="mini-textbox" style="width:150px;"  vtype="rangeLength:6,14"/></td>
                         </tr>
@@ -343,9 +343,9 @@
     function checkUnique(){
         var supplier_name = mini.get('supplier_name').getValue().trim();
         var urlstr = '/operator/supplier/supplierUnique';
+        if(supplier_name=='') alert('供应商客户名称不能为空');
 //        var urlstr = '/user/customer/curUnique';
         $.post(urlstr,{data:supplier_name},function(data){
-            console.log(data); return false;
             if(data.err=='0'){
                 $("#chkMsg").text(data.msg);
             }else{
