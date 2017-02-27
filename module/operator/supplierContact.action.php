@@ -76,7 +76,7 @@ class supplierContactAction extends adminBaseAction {
 //            }
 //        }
         $list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-
+        showTrace();
         foreach($list['data'] as $k=>$v){
 
             $list['data'][$k]['id'] =$v['id'];                             //  供应商联系人id
