@@ -249,6 +249,7 @@ class supplierAction extends adminBaseAction{
                     'invoice_address' > trim($data['invoice_address']),                   // 开票地址
                     'province'   => $data['province'],                              //　省份
                     'city'      =>  $data['company_city'],                          // 城市
+                    'address'  => $data['address'],                                 //  公司地址
                     'zip_code'   => trim($data['zip_code']),                              // 邮编
                     'fund_date'  => $data['fund_date'],                             //成立时间
                     'register_capital'  => trim($data['register_capital']),               // 注册资本
