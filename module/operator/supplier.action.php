@@ -221,6 +221,7 @@ class supplierAction extends adminBaseAction{
                 'create_name' => trim($_SESSION['name']),     // 创建者
                 'status'=> $data['status_1'],                // 状态
             );
+            p($param);
             $info=$this->db->model('logistics_contact')->add($param);
             if($info==1){
                 $this->success('添加成功');
