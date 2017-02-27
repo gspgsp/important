@@ -75,15 +75,12 @@ class supplierContactAction extends adminBaseAction {
 //            }
 //        }
         $list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-        
         foreach($list['data'] as $k=>$v){
             $list['data'][$k]['id'] =$v['id'];                             // 联系人id
             $list['data'][$k]['contact_name'] =$v['contact_name'];         // 供应商联系人
             $list['data'][$k]['sex']=L('sex')[$v['sex']];                  // 性别
+            $list['data'][$k]['status']=L('status_1')[$v['status']];
             $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
-//            $list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $v['name'];
-//            $list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $v['mobile'];
-//            $list['data'][$k]['c_id']= M('user:customer')->getColByName($v['c_id']);
             $list['data'][$k]['create_time']=$v['create_time']>1000 ? date("Y-m-d H:i:s",$v['create_time']) : '-';     // 创建时间
             $list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';   // 更新时间
             $list['data'][$k]['create_admin'] = M('rbac:adm')->getNameByUser($v['create_name']);  // 创建人
