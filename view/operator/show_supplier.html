@@ -1,55 +1,25 @@
 {layout file="public:mini_layout"}
 <div style="padding:5px;">
     <div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
-        <div title="客户详细信息">
+        <div title="客户详123细信息">
             <div style="height:540px">
-                <table width="100%">
-                    <caption><strong>基本信息</strong></caption>
+                <table width="80%">
+                    <caption><strong>供应商基本信息</strong></caption>
                     <tr>
-                        <td>客户名称：</td>
+                        <td>供应商名称：</td>
                         <td>
-                            {$info.c_name}
+                            {$info.supplier_name}
                         </td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>法人身份证：</td>
-                        <td>{$info.legal_idcard}</td>
+                        <td>法人姓名：</td>
+                        <td>{$info.legal_person}</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>填写牌号：</td>
-                        <td colspan="3"><span style="color:red;">(手机端填写)</span>{$info.need_product}</td>
-                    </tr>
-                    <tr>
-                        <td>所需牌号：</td>
-                        <td colspan="3"><span style="color:red;">(系统生成)</span>{$info.need_product_adm}</td>
-                    </tr>
-                    <tr>
-                        <td>主营商品：</td>
-                        <td>{$info.main_product}</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>月用量：</td>
-                        <td>{$info.month_consum}</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>备注：</td>
-                        <td>{$info.need_product}</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <!-- <td>邮政编码：</td>
-                        <td>
-                            {$info.zip}
-                        </td> -->
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>信用等级：</td>
@@ -61,228 +31,84 @@
                         </td>
                         <td>注册资本：</td>
                         <td>
-                            {$info.registered_capital}
+                            {$info.register_capital}
                             万
                         </td>
                     </tr>
                     <tr>
                         <td>所在省市</td>
-                        <td>{$regionList.$info.company_province},{$regionList.$info.company_city}</td>
+                        <td>{$regionList.$info.province},{$regionList.$info.city}</td>
                         <td>公司地址：</td>
                         <td>{$info.address}</td>
                     </tr>
                     <tr>
-                        <td>客户类型：</td>
+                        <td>供应商类型：</td>
                         <td>{$type.$info.type}</td>
-                        <!-- <td>客户级别：</td>
-                        <td>{$level.$info.level}</td> -->
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>客户渠道：</td>
-                        <td>{$chanel.$info.chanel}</td>
-                        <td>状态：</td>
+                        <td>供应商状态：</td>
                         <td>{$status.$info.status}</td>
-                    </tr>
-                    <tr>
-                        <td>附件地址：</td>
-                        <td>{if $info.file_url}<a href="{$info.file_url1}">查看</a> {else}--{/if}</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
-                <table width="100%">
-                    <caption><strong>扩展信息</strong></caption>
+                <table width="80%">
+                    <caption><strong>供应商扩展---信息</strong></caption>
                     {if $info.merge_three neq 1}
                     <tr>
-                        <td>营业执照号：</td>
-                        <td>{$info.business_licence}</td>
-                        <td>执照照片：</td>
-                        <td>{if $info.business_licence_pic}<a href="{$info.business_licence_pic1}">查看</a> {else}--{/if}</td>
+
+                        <td>法人身份证照(反面)：</td>
+                        <td>{if $info.legal_person_pic_1}<a href="{$info.legal_person_pic_1}">查看</a> {else}--{/if}</td>
+                        <td>身份证照片照(反面)：</td>
+                        <td>{if $info.legal_person_pic_2}<a href="{$info.legal_person_pic_2}">查看</a> {else}--{/if}</td>
                     </tr>
                     <tr>
-                        <td>组织代码：</td>
+                        <td>营业执照号：</td>
+                        <td>{$info.business_licence_code}</td>
+                        <td>营业执照图片：</td>
+                        <td>{if $info.business_licence_pic}<a href="{$info.business_licence_pic}">查看</a> {else}--{/if}</td>
+                    </tr>
+                    <tr>
+                        <td>组织机构代码：</td>
                         <td>{$info.organization_code}</td>
-                        <td>组织图片：</td>
-                        <td>{if $info.organization_pic}<a href="{$info.organization_pic1}">查看</a> {else}--{/if}</td>
+                        <td>组织机构图片：</td>
+                        <td>{if $info.organization_code_pic}<a href="{$info.organization_code_pic}">查看</a> {else}--{/if}</td>
                     </tr>
                     <tr>
                         <td>税务登记码：</td>
                         <td>{$info.tax_registration}</td>
-                        <td>税务图片：</td>
-                        <td>{if $info.tax_registration_pic}<a href="{$info.tax_registration_pic1}">查看</a> {else}--{/if}</td>
+                        <td>税务登记证照：</td>
+                        <td>{if $info.tax_registration_pic}<a href="{$info.tax_registration_pic}">查看</a> {else}--{/if}</td>
                     </tr>
                     {else}
                     <tr>
                         <td>统一社会信用代码：</td>
-                        <td>{$info.business_licence}</td>
+                        <td>{$info.social_credit_code}</td>
                         <td>证件图片：</td>
-                        <td>{if $info.business_licence_pic}<a href="{$info.business_licence_pic1}">查看</a> {else}--{/if}</td>
+                        <td>{if $info.social_credit_code_pic}<a href="{$info.social_credit_code_pic}">查看</a> {else}--{/if}</td>
                     </tr>
                     {/if}
-                    <tr>
-                        <td>法人姓名：</td>
-                        <td>{$info.legal_person}</td>
-                        <td>身份证照片：</td>
-                        <td>{if $info.legal_idcard_pic}<a href="{$info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>
-                    </tr>
                 </table>
             </div>
         </div>
-        <div title="联系人列表">
-            <div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" idField="id"  url="/user/contact/init?action=grid&c_id={$c_id}" sizeList="[10,20,50,100]" pageSize="20">
+        <div title="联系人2342列表">
+            <!--$c_id 供应商id-->
+            <div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" idField="id"  url="/operator/supplierContact/init?action=grid&supplier_id={$c_id}" sizeList="[10,20,50,100]" pageSize="20">
                 <div property="columns">
-                    <div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
-                    <div field="name" width="50" headerAlign="center" align="center">联系人</div>
+                    <div field="id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">供应商联系人ID</div>
+                    <div field="contact_name" width="50" headerAlign="center" align="center">供应商联系人</div>
                     <div field="is_default" width="50" headerAlign="center" align="center">是/否默认联系人</div>
-                    <div field="c_id" width="80" headerAlign="center" align="center">公司</div>
+                    <div field="supplier_name" width="80" headerAlign="center" align="center">公司</div>
                     <div field="sex" width="60" headerAlign="center"  align="center">性别</div>
-                    <div field="mobile" width="80" headerAlign="center" align="center">手机号</div>
+                    <div field="mobile_tel" width="80" headerAlign="center" align="center">联系人手机号</div>
                     <div field="qq" width="80" headerAlign="center" align="center">qq号</div>
-                    <div field="email" width="80" headerAlign="center" align="center">邮箱</div>
-                    <div field="customer_manager" width="80" headerAlign="center" align="center">交易员</div>
-                    <div field="depart" width="80" headerAlign="center" align="center">所属部门</div>
-                    <div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
+                    <div field="comm_email" width="80" headerAlign="center" align="center">邮箱</div>
+                    <div field="seed" width="80" headerAlign="center" align="center">联系人种子</div>
+                    <div field="create_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
+                    <div field="create_name" width="80" headerAlign="center" align="center">创建人</div>
+                    <div field="update_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">更新时间</div>
+                    <div field="update_name" width="80" headerAlign="center" align="center">修改人</div>
                     <div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
                         <input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />
                     </div>
-                </div>
-            </div>
-        </div>
-        <div title="跟进列表">
-            <div id="gridCell" class="mini-datagrid" style="width:auto;height:540px;" url="/user/follow/init?action=grid&c_id={$c_id}"  idField="id"
-                 sizeList="[10,20,50,100]" pageSize="20">
-                <div property="columns">
-                    <div field="name" width="30" headerAlign="center" allowSort="true" align="center">联系人</div>
-                    <div field="remark" width="120" headerAlign="center" allowSort="true" align="center">跟进内容</div>
-                    <div field="follow_up_way" width="30" headerAlign="center" allowSort="true" align="center">跟进方式</div>
-                    <div field="follow_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">跟进时间</div>
-                </div>
-            </div>
-        </div>
-        <div title="采购记录">
-            <div class="mini-toolbar" style="margin:3px 3px 0;">
-                <table style="width:100%;">
-                    <tr>
-                        <td style="float:right;">
-                            <form id="soform">
-                                <span id="searchMsg"></span>
-                                <select name="sTime">
-                                    <option value="input_time">创建时间</option>
-                                    <option value="update_tim出e">更新时间</option>
-                                    <option value="sign_time">签订日期</option>
-                                    <option value="pickup_time">提货日期</option>
-                                    <option value="delivery_time">送货日期</option>
-                                    <option value="payment_time">付款日期</option>
-
-                                </select>
-                                <input name="startTime" class="mini-datepicker" style="width:95px;"/> -
-                                <input name="endTime" class="mini-datepicker" style="width:95px;"/>
-                                <select name="key_type">
-                                    <option value="order_sn">订单号</option>
-                                    <option value="c_id">客户名称</option>
-                                    <option value="input_admin">交易员</option>
-                                </select>
-                                <input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
-                                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-                                <span id="searchMsg"></span></form>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="buy_log" class="mini-datagrid" style="width:auto;height:540px;"url="/product/order/init?action=grid&order_type=2&c_id={$info.c_id}"  idField="id"
-                 sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true">
-                <div property="columns">
-                    <div field="order_sn" width="120" headerAlign="center" align="center" allowSort="true" renderer="see_order">订单号</div>
-                    <div field="order_name" width="30" headerAlign="center" align="center">抬头</div>
-                    <div field="total_num" width="40" headerAlign="center" align="center" allowSort="true">总数</div>
-                    <div field="total_price" width="60" headerAlign="center" align="center" allowSort="true">总金额</div>
-                    <div field="in_storage_status" width="45" headerAlign="center" align="center" >入库状态</div>
-                    <div field="out_storage_status" width="45" headerAlign="center" align="center">出库状态</div>
-                    <div field="invoice_status" width="45" headerAlign="center" align="center" >开票状态</div>
-                    <div field="remark" width="45" headerAlign="center" align="center" >备注</div>
-                    <div field="financial_records" width="45" headerAlign="center" align="center">财务记录</div>
-                    <div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
-                    <div field="cmanager" width="40" headerAlign="center" align="center">交易员</div>
-                    <div name="action" width="35" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>
-                </div>
-            </div>
-        </div>
-        <div title="销售记录">
-            <div class="mini-toolbar" style="margin:3px 3px 0;">
-                <table style="width:100%;">
-                    <tr>
-                        <td style="float:right;">
-                            <form id="soform1">
-                                <span id="searchMsg1"></span>
-                                <select name="sTime">
-                                    <option value="input_time">创建时间</option>
-                                    <option value="update_tim出e">更新时间</option>
-                                    <option value="sign_time">签订日期</option>
-                                    <option value="pickup_time">提货日期</option>
-                                    <option value="delivery_time">送货日期</option>
-                                    <option value="payment_time">付款日期</option>
-
-                                </select>
-                                <input name="startTime" class="mini-datepicker" style="width:95px;"/> -
-                                <input name="endTime" class="mini-datepicker" style="width:95px;"/>
-                                <select name="key_type">
-                                    <option value="order_sn">订单号</option>
-                                    <option value="c_id">客户名称</option>
-                                    <option value="input_admin">交易员</option>
-                                </select>
-                                <input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter1"/>
-                                <a class="mini-button" iconCls="icon-search" onclick="search2()">查询</a>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="sale_log" class="mini-datagrid" style="width:auto;height:540px;"url="/product/order/init?action=grid&order_type=1&c_id={$info.c_id}"  idField="id"
-                 sizeList="[10,20,50,100]" pageSize="20"  allowCellWrap="true">
-                <div property="columns">
-                    <div field="order_sn" width="120" headerAlign="center" align="center" allowSort="true" renderer="see_order">订单号</div>
-                    <div field="order_name" width="30" headerAlign="center" align="center">抬头</div>
-                    <div field="total_num" width="40" headerAlign="center" align="center" allowSort="true">总数</div>
-                    <div field="total_price" width="60" headerAlign="center" align="center" allowSort="true">总金额</div>
-                    <div field="out_storage_status" width="45" headerAlign="center" align="center">出库状态</div>
-                    <div field="invoice_status" width="45" headerAlign="center" align="center" >开票状态</div>
-                    <div field="remark" width="45" headerAlign="center" align="center" >备注</div>
-                    <div field="financial_records" width="45" headerAlign="center" align="center">财务记录</div>
-                    <div field="input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
-                    <div field="cmanager" width="40" headerAlign="center" align="center">交易员</div>
-                    <div name="action" width="35" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onJoin">关联</div>
-                </div>
-            </div>
-        </div>
-        <div title="流转记录">
-            <div class="mini-toolbar" style="margin:3px 3px 0;">
-                <table style="width:100%;">
-                    <tr>
-                        <td style="white-space:nowrap;"><form id="soform">
-                            <span>请求时间</span>
-                            <input name="startTime" class="mini-datepicker" style="width:100px;"/>
-                            -
-                            <input name="endTime" class="mini-datepicker" style="width:100px;"/>
-                            <input name="c_name" class="mini-textbox" emptyText="请输入公司名字" style="width:140px;" onenter="onKeyEnter"/>
-                            <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a> <span id="searchMsg"></span>
-                        </form></td>
-                    </tr>
-                </table>
-            </div>
-            <div id="c_follow" class="mini-datagrid" style="width:auto;height:540px;"url="/report/record/init?action=grid&c_id={$info.c_id}"  idField="id"
-                 sizeList="[10,20,50,100]" pageSize="20"  allowCellWrap="true">
-                <div property="columns">
-                    <div field="id" width="40" headerAlign="center" align="center">ID</div>
-                    <div field="action_type" width="100" headerAlign="center" allowSort="true" align="center">操作类型</div>
-                    <div field="old_value" width="120" headerAlign="center" align="center">操作之前</div>
-                    <div field="new_value" width="120" headerAlign="center"align="center">操作之后</div>
-                    <div field="success" width="50" headerAlign="center" allowSort="true" align="center">是否成功</div>
-                    <div field="input_time" width="70" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">请求时间</div>
-                    <div field="operator" width="60" headerAlign="center" align="center">操作员</div>
-                    <div field="user_ip" width="60" headerAlign="center" allowSort="true" align="center">用户IP</div>
-                    <div field="description" width="220" headerAlign="center" allowSort="true">操作描述</div>
                 </div>
             </div>
         </div>
@@ -297,30 +123,6 @@
                 var data=investGrid.getData();
                 if(data.length<1){
                     investGrid.load();
-                }
-            }
-            if(tab.title=='跟进列表'){
-                var data=gridCell.getData();
-                if(data.length<1){
-                    gridCell.load();
-                }
-            }
-            if(tab.title=='采购记录'){
-                var data=buy_log.getData();
-                if(data.length<1){
-                    buy_log.load();
-                }
-            }
-            if(tab.title=='销售记录'){
-                var data=sale_log.getData();
-                if(data.length<1){
-                    sale_log.load();
-                }
-            }
-            if(tab.title=='流转记录'){
-                var data=c_follow.getData();
-                if(data.length<1){
-                    c_follow.load();
                 }
             }
         }
