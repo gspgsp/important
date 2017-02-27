@@ -258,13 +258,14 @@ class supplierAction extends adminBaseAction{
                     'qq'  =>  trim($data['qq']),                  //联系人QQ
                     'comm_fax' => trim($data['comm_fax']),        // 传真
                     'comm_email' => trim($data['comm_email']),    // 联系人邮箱
-                    'default'=>1,                           // 是否默认联系人   1：是 2：否
+                    'is_default'=>'1',                           // 是否默认联系人   1：是 2：否
                     'create_time' => time(),               // 创建时间
                     'create_name' => trim($_SESSION['name']),    // 创建者
                     'status'=> $data['status_1'],          // 状态
                 );
 
             }
+
                     $info=$this->db->add($param_1);                                  // 返回受影响行数
                        p($info);
                     if($info==1){
