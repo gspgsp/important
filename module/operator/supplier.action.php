@@ -202,21 +202,23 @@ class supplierAction extends adminBaseAction{
     public function addSubmit() {
         $this->is_ajax=true;
         $data = sdata();
-        p($data);die;
         $data['supplier_name'] = trim($data['supplier_name']);
         $ctype = $data['ctype'];    // ctype   1：新增供应商联系人   3：新增供应商
         if($ctype==1){              //单独新增供应商联系人
             if(empty($data['mobile_tel']) && empty($data['contact_tel'])) $this->error('手机或者电话至少填写一个');
             //验证联系人信息
+            $data['supplier_name']=$this->db->mdoel()->where('supplier_id='.$data['supplier_id'])->select('supplier_name');
+            p($data);
             $param=array(
                 'mobile_tel'=>$data['mobile_tel'],
                 'contact_tel'=> $data['contact_tel'],
                 'comm_email' => trim($data['comm_email']),    // 联系人邮箱
                 'sex'=> $data['sex'],
                 'qq'=>$data['qq'],
-                'create_time' => time(),               // 创建时间
-                'create_name' => trim($_SESSION['name']),    // 创建者
-                'status'=> $data['status_1'],          // 状态
+                'is_default'=>'2',                           // 是否默认联系人   1：是 2：否
+                'create_time' => time(),                      // 创建时间
+                'create_name' => trim($_SESSION['name']),     // 创建者
+                'status'=> $data['status_1'],                // 状态
             );
         }
         // 新增供应商和联系
