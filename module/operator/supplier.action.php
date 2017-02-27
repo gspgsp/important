@@ -210,7 +210,7 @@ class supplierAction extends adminBaseAction{
             $var=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->getRow();
             $param=array(
                 'supplier_id'=> $data['supplier_id'],
-                'supplier_name'=> $var['supplier_name'],
+                'contact_name'=> $var['supplier_name'],
                 'mobile_tel'=>$data['mobile_tel'],
                 'contact_tel'=> $data['contact_tel'],
                 'comm_email' => trim($data['comm_email']),    // 联系人邮箱
@@ -219,6 +219,7 @@ class supplierAction extends adminBaseAction{
                 'is_default'=>'2',                           // 是否默认联系人   1：是 2：否
                 'create_time' => time(),                      // 创建时间
                 'create_name' => trim($_SESSION['name']),     // 创建者
+                'remark'=> $data['remark'],
                 'status'=> $data['status_1'],                // 状态
             );
             p($param);
@@ -278,6 +279,7 @@ class supplierAction extends adminBaseAction{
                     'is_default'=>'1',                           // 是否默认联系人   1：是 2：否
                     'create_time' => time(),               // 创建时间
                     'create_name' => trim($_SESSION['name']),    // 创建者
+                    'remark'=> $data['remark'],
                     'status'=> $data['status_1'],          // 状态
                 );
 
