@@ -216,7 +216,7 @@ class supplierAction extends adminBaseAction{
                 'comm_email' => trim($data['comm_email']),    // 联系人邮箱
                 'sex'=> $data['sex'],
                 'qq'=>$data['qq'],
-                'is_default'=>'2',                           // 是否默认联系人   1：是 2：否
+                'is_default'=>'0',                           // 是否默认联系人   1：是 0：否
                 'create_time' => time(),                      // 创建时间
                 'create_name' => trim($_SESSION['name']),     // 创建者
                 'remark'=> $data['remark'],
