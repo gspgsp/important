@@ -265,11 +265,13 @@ class supplierAction extends adminBaseAction{
                 );
 
             }
-                    $info=$this->db->add($param_1);                             // 返回受影响行数
+                    $info=$this->db->add($param_1);                                  // 返回受影响行数
+                       p($info);
                     if($info==1){
-                        $param['supplier_id']=$this->db->getLastID();          //  返回自增id
+                        $param['supplier_id']=$this->db->getLastID();               //  返回自增id
                         $param_2['supplier_id']=$param['supplier_id'];
                         $res=$this->db->model('logistics_contact')->add($param_2);   // 返回受影响行数
+                        p($res);
                         if($res!=1) $this->db->getError('供应商新增失败');
                     }else{
                         $this->db->getError('供应商新增失败');
