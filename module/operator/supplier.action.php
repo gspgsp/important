@@ -39,6 +39,8 @@ class supplierAction extends adminBaseAction{
         $page = sget("pageIndex",'i',0); //页码
         $size = sget("pageSize",'i',20); //每页数
 //        $pt = sget("pt",'i',2);
+        $doact=sget('do');
+        $this->assign('doact',$doact);
         $sortField = sget("sortField",'s','supplier_id'); //排序字段
         $sortOrder = sget("sortOrder",'s','desc');        //排序
         $where = ' 1 ';
@@ -197,12 +199,9 @@ class supplierAction extends adminBaseAction{
      */
     public function addSubmit() {
         $this->is_ajax=true;
-
         $data = sdata();
         $data['supplier_name'] = trim($data['supplier_name']);
         $ctype = $data['ctype'];    // ctype   1：新增供应商联系人   3：新增供应商
-//        p($ctype);
-//        p($data);die;
         if($ctype==1){              //单独新增供应商联系人
             if(empty($data['mobile']) && empty($data['tel'])) $this->error('手机或者电话至少填写一个');
             //验证联系人信息
