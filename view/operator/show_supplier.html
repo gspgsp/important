@@ -129,7 +129,7 @@
         }
         //编辑联系人
         function onLoadHandle(e) {
-            var record = e.record,uid=record.user_id, s='';
+            var record = e.record,uid=record.id, s='';
             s += '<a href="javascript:viewContactInfo('+uid+')">'+uid+'</a> ';
 
             return s;
