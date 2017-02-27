@@ -207,7 +207,7 @@ class supplierAction extends adminBaseAction{
         if($ctype==1){              //单独新增供应商联系人
             if(empty($data['mobile_tel']) && empty($data['contact_tel'])) $this->error('手机或者电话至少填写一个');
             //验证联系人信息
-            $data['supplier_name']=$this->db->mdoel('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->select('supplier_name');
+            $data['supplier_name']=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->select('supplier_name');
             p($data);
             $param=array(
                 'mobile_tel'=>$data['mobile_tel'],
