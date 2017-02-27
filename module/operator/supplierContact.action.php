@@ -42,6 +42,7 @@ class supplierContactAction extends adminBaseAction {
         //搜索条件
         $where="1";
         $supplier_id=sget('supplier_id','i',0);     // 供应商id
+        p($supplier_id);
         if($supplier_id !=0){
             $where.=" and `supplier_id` = $supplier_id ";
         }
