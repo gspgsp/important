@@ -110,11 +110,12 @@
                     var data = iframe.contentWindow.GetData();
                     data = mini.clone(data);    //必须
                     if (data) {
+                        console.log(data);
 //                        btn.setValue(data.c_id);
                         btn.setValue(data.supplier_id);
 //                        btn.setText(data.c_name);
                         btn.setText(data.supplier_name);
-                        $("#"+btn.id+"\\$value").val(data.c_id);
+                        $("#"+btn.id+"\\$value").val(data.supplier_id);
                     }
                 }
             }
