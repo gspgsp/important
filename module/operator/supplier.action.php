@@ -30,6 +30,7 @@ class supplierAction extends adminBaseAction{
             $this->_save();exit;
         }
 
+        $this->assign('choose',sget('choose','s')); //单选传参
 //        $doact=sget('do');
 //        $this->assign('doact',$doact);
         $this->display('supplier.html');
