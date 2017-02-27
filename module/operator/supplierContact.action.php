@@ -75,9 +75,9 @@ class supplierContactAction extends adminBaseAction {
 //            }
 //        }
         $list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
+        p();
         foreach($list['data'] as $k=>$v){
-
-            $list['data'][$k]['id'] =$v['id'];                             //  供应商联系人id
+            $list['data'][$k]['id'] =$v['id'];                             // 联系人id
             $list['data'][$k]['contact_name'] =$v['contact_name'];         // 供应商联系人
             $list['data'][$k]['sex']=L('sex')[$v['sex']];                  // 性别
             $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
