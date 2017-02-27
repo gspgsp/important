@@ -11,7 +11,7 @@ class supplierAction extends adminBaseAction{
     public function __init(){
         $this->debug=false;
         $this->db=M('public:common')->model('logistics_supplier');
-        $this->doact = sget('do','s','search');
+        $this->doact = sget('do','s');
     }
 
     /**
@@ -30,8 +30,8 @@ class supplierAction extends adminBaseAction{
             $this->_save();exit;
         }
 
-        $doact=sget('do');
-        $this->assign('doact',$doact);
+//        $doact=sget('do');
+//        $this->assign('doact',$doact);
         $this->display('supplier.html');
 
     }
