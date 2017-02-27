@@ -184,6 +184,22 @@ class qapi1Action extends null2Action
                         'quan_type' => $quan_type,
                     );
                     if (!$user_model->where("mobile=" . $mobile)->update($_user)) throw new Exception("系统错误 reg:105");
+                    //老用户也要检测contact_info 表的信息,防止后台乱添加用户
+                    $mobile_area = getCityByMobile($mobile);
+                    $_info = array(
+                        'user_id' => $old_user['user_id'],
+                        'reg_ip' => get_ip(),
+                        'reg_time' => CORE_TIME,
+                        'thumbcard' => '',
+                        'reg_chanel' => $chanel,
+                        'region' => empty($region) ? '' : $region,
+                        'mobile_province'=>empty($mobile_area['province'])?'':$mobile_area['province'],
+                        'mobile_area'=>empty($mobile_area['city'])?'':$mobile_area['city'],
+                        'quan_type'=> $quan_type,
+                    );
+                    if(!$this->db->model('contact_info')->select('user_id')->where("user_id={$old_user['user_id']}")->getOne()){
+                        if (!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
+                    }
                 } else {
                     $is_default = empty($customer) ? 1 : 0;
                     $_user = array(
@@ -226,6 +242,7 @@ class qapi1Action extends null2Action
                         'quan_type'=> $quan_type,
                     );
                     if (!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
+                    //这一步少不了，$c_id之前不知道
                     if (!$customer) {
                         if (!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=" . $user_id)) throw new Exception("系统错误 reg:104");
                     }

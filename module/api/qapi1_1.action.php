@@ -196,6 +196,22 @@ class qapi1_1Action extends null2Action
                         'quan_type' => $quan_type,
                     );
                     if (!$user_model->where("mobile=" . $mobile)->update($_user)) throw new Exception("系统错误 reg:105");
+                    //老用户也要检测contact_info 表的信息,防止后台乱添加用户少了信息
+                    $mobile_area = getCityByMobile($mobile);
+                    $_info = array(
+                        'user_id' => $old_user['user_id'],
+                        'reg_ip' => get_ip(),
+                        'reg_time' => CORE_TIME,
+                        'thumbcard' => '',
+                        'reg_chanel' => $chanel,
+                        'region' => empty($region) ? '' : $region,
+                        'mobile_province'=>empty($mobile_area['province'])?'':$mobile_area['province'],
+                        'mobile_area'=>empty($mobile_area['city'])?'':$mobile_area['city'],
+                        'quan_type'=> $quan_type,
+                    );
+                    if(!$this->db->model('contact_info')->select('user_id')->where("user_id={$old_user['user_id']}")->getOne()){
+                        if (!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
+                    }
                 } else {
                     $is_default = empty($customer) ? 1 : 0;
                     $_user = array(
@@ -238,6 +254,7 @@ class qapi1_1Action extends null2Action
                         'quan_type'=> $quan_type,
                     );
                     if (!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
+                    //这一步少不了，$c_id之前不知道
                     if (!$customer) {
                         if (!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=" . $user_id)) throw new Exception("系统错误 reg:104");
                     }
@@ -255,6 +272,7 @@ class qapi1_1Action extends null2Action
             $this->success('完善成功');
         }
     }
+
 
 
     /**
@@ -1507,7 +1525,7 @@ class qapi1_1Action extends null2Action
             if($data['type']=='public'){
                 $arr=array('pe','pp','pvc');
                 $tmp=array_rand($arr,1);
-                $data['type']=$arr[$tmp];
+                $data['type']='pp';
             }
             $data['type']=strtoupper($data['type']);
             //取出上一篇和下一篇input_time desc,sort_order desc  上一篇是最新的
@@ -1619,7 +1637,7 @@ class qapi1_1Action extends null2Action
                     $tmp = M("qapp:news")->getCateSons($value); //获取子分类
                     if (!empty($tmp)) {
                         foreach ($tmp as $value1) {
-                            $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value1")->order("input_time desc")->limit(20)->getCol();
+                            $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value1")->order("input_time desc")->limit(6)->getCol();
                             if (count($all) > $completeNum) {
                                 shuffle($all);
                                 array_splice($all, $completeNum);
@@ -1627,7 +1645,7 @@ class qapi1_1Action extends null2Action
                             }
                         }
                     } else {
-                        $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value")->order("input_time desc")->limit(20)->getCol();
+                        $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value")->order("input_time desc")->limit(6)->getCol();
                         if (count($all) > $completeNum) {
                             shuffle($all);
                             $stmp=array_rand($all,$completeNum);
@@ -1647,8 +1665,8 @@ class qapi1_1Action extends null2Action
                     }
                 }else{
                     //取出排行榜文章
-                    $chartsData = M('qapp:news')->charts('', '', '', 30, 3);
-                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 30, 0);
+                    $chartsData = M('qapp:news')->charts('', '', '', 6, 1);
+                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 0);
                     $tmp = array();
                     foreach ($chartsData as $row) {
                         $tmp[] = $row['id'];
