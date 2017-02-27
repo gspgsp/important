@@ -113,6 +113,7 @@
             </div>
         </div>
     </div>
+</div>
     <script type="text/javascript">
         mini.parse();
         var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
@@ -152,20 +153,7 @@
             var record = e.record,s='',o_id = record.o_id,sn = record.order_sn;
             return '<a href="javascript:viewOrdInfo('+o_id+')">'+sn+'</a> ';
         }
-        //查看订单相关信息
-        function viewOrdInfo(oid,o_type){
-            mini.open({
-                url: "/application/order/info?oid="+oid+'&o_type='+o_type,
-                showMaxButton:true,
-                title: "查看订单相关信息",
-                width: 800, height:460
-            });
-        }
-        function search() {
-            buy_log.load($("#soform").serializeObject(),function(e){
-                $("#searchMsg").html(e.msg);
-            });
-        }
+
         function search2() {
             sale_log.load($("#soform1").serializeObject(),function(e){
                 $("#searchMsg1").html(e.msg);
