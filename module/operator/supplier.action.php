@@ -325,20 +325,6 @@ class supplierAction extends adminBaseAction{
 
 
     /**
-     *查看供应商信息
-     *
-     */
-//    public function showSupplier(){
-//
-//
-//
-//
-//
-//        $this->display('supplier_info.html');
-//    }
-
-
-    /**
      * 修改供应商信息
      *
      */
