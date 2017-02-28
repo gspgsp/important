@@ -165,9 +165,9 @@ class newsModel extends model {
             if($type!='public'&&$type!=''){
                 $where.=' and type in ("'.$type.'","public")';
             }
-            if($day){
+            if($day>0){
                 $now=CORE_TIME;
-                $before=$now-86400*3;
+                $before=strtotime(date("Y-m-d"))-86400*($day-1);
                 $where.=" and input_time between $before and $now";
             }
             $data=$this->model('news_content')->where($where)->select('id,title,description,cate_id,author,input_time,type,pv')->order('sort_order desc,pv  desc')->limit($limit)->getAll();
