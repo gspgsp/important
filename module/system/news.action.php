@@ -118,6 +118,8 @@
 				if($id>0){
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->wherePk($id)->update($data);
+					$cache = cache::startMemcache();
+					$cache->delete('news_'.$id);
 				}else{	
 					if($repeat<1){
 						$data['content']=str_ireplace(array('我的塑料网','PE','PP','PVC'), array('<a target="_blank" href="http://www.myplas.com">我的塑料网</a>（www.myplas.com）','<a target="_blank" href="/pe.html">PE</a>','<a target="_blank" href="/pp.html">PP</a>','<a target="_blank" href="/pvc.html">PVC</a>'), $data['content']);
