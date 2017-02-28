@@ -11,7 +11,7 @@
                     <tr>
                         <td>供应商名称：</td>
                         <td>
-                            <input name="c_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.c_name}"/>
+                            <input name="supplier_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.supplier_name}"/>
                         </td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
@@ -20,32 +20,32 @@
                         <td>法人姓名：</td>
                         <td><input name="legal_person" class="mini-textbox" style="width:70px;" maxlength="6"  value="{$user.legal_person}"/></td>
                         <td>法人身份证：</td>
-                        <td><input name="legal_idcard" class="mini-textbox" style="width:250px;"  value="{$user.legal_idcard}"/></td>
+                        <td><input name="legal_person_code" class="mini-textbox" style="width:250px;"  value="{$user.legal_person_code}"/></td>
                     </tr>
                     <tr>
                         <td>身份证照片(正面)：</td>
                         <td colspan="3">
-                            <input id="img_url5"  name="legal_idcard_pic" class="mini-textbox" value="{$user.legal_idcard_pic}" style="width:200px"/>
+                            <input id="img_url5"  name="legal_person_pic_1" class="mini-textbox" value="{$user.legal_person_pic_1}" style="width:200px"/>
                             <input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);">
                         </td>
                         <td>身份证照片（反面）：</td>
                         <td colspan="3">
-                            <input id="img_url6"  name="legal_idcard_pic" class="mini-textbox" value="{$user.legal_idcard_pic}" style="width:200px"/>
+                            <input id="img_url6"  name="legal_person_pic_2" class="mini-textbox" value="{$user.legal_person_pic_2}" style="width:200px"/>
                             <input id="upfileId6" type="file" name="upFile" onChange="fileUpload(6);">
                         </td>
                     </tr>
                     </tr>
                     <tr>
                         <td>所在省市</td>
-                        <td><input name="company_province" id="place_1_0" style="width:80px;" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('place')" data='{:setMiniConfig|$regionList}' value="{$user.company_province}" showNullItem="true"/>
-                            <input name="company_city" id="place_2_0" url="{if $user.company_province neq ''}/user/user/getRegion?pid={$user.company_province}{/if}" value="{$user.company_city}" class="mini-combobox" style="width:80px;" textField="name" valueField="id" />            </td>
+                        <td><input name="province" id="place_1_0" style="width:80px;" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('place')" data='{:setMiniConfig|$regionList}' value="{$user.province}" showNullItem="true"/>
+                            <input name="city" id="place_2_0" url="{if $user.province neq ''}/user/user/getRegion?pid={$user.province}{/if}" value="{$user.city}" class="mini-combobox" style="width:80px;" textField="name" valueField="id" />            </td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
                          <td>邮政编码：</td>
                          <td>
-                           <input name="zip" class="mini-textbox" value="{$user.zip}" style="width:100px;" maxlength="6"  vtype="zip"/>
+                           <input name="zip_code" class="mini-textbox" value="{$user.zip_code}" style="width:100px;" maxlength="6"  vtype="zip"/>
                          </td>
                         <td>公司地址：</td>
                         <td><input name="address" class="mini-textbox" style="width:250px;" required="true" value="{$user.address}"/></td>
@@ -56,7 +56,7 @@
                         </td>
                         <td>注册资本：</td>
                         <td>
-                            <input name="registered_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.registered_capital|default:}"/>
+                            <input name="register_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.register_capital}"/>
                             元
                         </td>
                     </tr>
@@ -64,34 +64,28 @@
                 <table>
                     <caption><strong>扩展信息</strong></caption>
                     <tr>
-                        <td>客户类型：</td>
+                        <td>供应商类型：</td>
                         <td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}'  textfield="name" valuefield="id"/></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <!--   <tr>
-                        <td>客户级别：</td>
-                        <td><input name="level" class="mini-combobox" style="width:150px;" value="{$user.level}" data='{:setMiniConfig|$level}'  textfield="name" valuefield="id"/></td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                      </tr> -->
                     <tr>
                         <td>营业执照号：</td>
-                        <td><input class="mini-textbox" style="width:250px;" name="business_licence" value="{$user.business_licence}"/>
+                        <td><input class="mini-textbox" style="width:250px;" name="business_licence_code" value="{$user.business_licence_code}"/>
                         </td>
-                        <td>执照照片：</td>
+                        <td>营业执照图片：</td>
                         <td>
                             <input id="img_url1"  name="business_licence_pic" class="mini-textbox" value="{$user.business_licence_pic}" style="width:70px"/>
                             <input id="upfileId1" type="file" name="upFile" onChange="fileUpload(1);">
                         </td>
                     </tr>
                     <tr>
-                        <td>组织代码：</td>
+                        <td>组织机构代码：</td>
                         <td><input class="mini-textbox" style="width:250px;" name="organization_code" value="{$user.organization_code}"/>
                         </td>
-                        <td>组织图片：</td>
+                        <td>组织机构图片：</td>
                         <td>
-                            <input id="img_url2"  name="organization_pic" class="mini-textbox" value="{$user.organization_pic}" style="width:70px"/>
+                            <input id="img_url2"  name="organization_code_pic" class="mini-textbox" value="{$user.organization_code_pic}" style="width:70px"/>
                             <input id="upfileId2" type="file" name="upFile" onChange="fileUpload(2);">
                         </td>
                     </tr>
@@ -112,7 +106,7 @@
                     </tr>
                     <tr>
                         <td>状态：</td>
-                        <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' textfield="name" valuefield="id" value="{$user.status|default:1}"/></td>
+                        <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' textfield="name" valuefield="id" value="{$user.status}"/></td>
                     </tr>
                 </table>
             </div>
