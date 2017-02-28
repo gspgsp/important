@@ -322,6 +322,7 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function edit(){
+        p($_GET['id']);
 
 
         $this->display('supplier_info.html');
