@@ -618,6 +618,7 @@ class qapi1Action extends null2Action
             if (empty($data['data']) && $page == 1&&$sortField2=='CONCERN') $this->json_output(array('err' => 2, 'msg' => '您未关注塑料圈用户，暂无供求信息！'));
             if (empty($data['data']) && $page == 1&&$sortField2=='DEMANDORSUPPLY') $this->json_output(array('err' => 2, 'msg' => '您未发布任何供求信息！'));
             if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+            if (empty($data['data']) ) $this->json_output(array('err' => 2, 'msg' => '没有更多数据'));
             $this->_checkLastPage($data['count'], $size, $page);
             $this->json_output(array('err' => 0, 'data' => $data['data']));
         }

@@ -29,6 +29,10 @@
  * 2017年2月22日 11:39:38
  * 修改了报价推荐的返回，现在不补最新的报价了
  *
+ * 2017年2月28日17:26:54
+ * 修改了getSubscribe 头条推荐的参数，
+ * 完全推荐当天的数据
+ *
  */
 class qapi1_1Action extends null2Action
 {
@@ -196,18 +200,7 @@ class qapi1_1Action extends null2Action
      * (中间供求信息)获取供求发布(详情)的消息回复
      */
     public function getReleaseMsgDetailReply(){
-        if ($_GET) {
-            $this->checkAccount();
-            $id = sget('id', 'i');
-            $user_id = sget('user_id', 'i');
-            $page = sget('page','i',1);
-            $size = sget('size','i',5);
-            if ($id < 1 || $user_id < 1) $this->_errCode(6);
-            $data=M('qapp:plasticRelease')->getReleaseMsgDetailReply($id,$user_id,$page,$size);
-            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关的数据'));
-            $this->_checkLastPage($data['count'], $size, $page);
-            $this->_errCode(0,$data);
-        }
+        $this->defaultCode->getReleaseMsgDetailReply();
     }
 
 
@@ -491,42 +484,7 @@ class qapi1_1Action extends null2Action
     //回复供求消息
     public function saveMsg()
     {
-        $this->is_ajax = true;
-        if ($_GET) {
-            $user_id = $this->checkAccount();
-            // $user_id = sget('user_id','i',0)//回复人id
-            $pur_id = sget('pur_id', 'i', 0);//purchase表的消息id
-            $send_id = sget('send_id', 'i', 0);//purchase表发报价或采购人的(pur.user_id)
-            $content = sget('content', 's');//回复的内容
-            if (empty($content)) $this->json_output(array('err' => 6, 'msg' => '回复内容不能为空'));
-
-            //robot表插入消息
-            $where = "pur.id=$pur_id";
-            $detail = M('product:purchase')->getPurchaseLeftById($where,null,null);//p($detail);showTrace();exit;
-            $value = $detail;
-            if(empty($value['content'])){
-                if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
-                    $value['contents'] = '';
-                }else{
-                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
-                }
-            }elseif(!empty($value['content'])){
-                if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
-                    $value['contents'] = $value['content'];
-                }else{
-                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'].'/'.$value['content'];
-                }
-            }
-            $value['input_time'] = date("m-d H:i",$value['input_time']);
-            $tmpContent="您于 ".$value['input_time']." 发布的";
-            if($value['type']==1) $tmpContent.="求购";
-            elseif($value['type']==2) $tmpContent.="供给";
-            $tmpContent.="信息:".$value['contents']."收到一条回复:$content";
-            M("qapp:robotMsg")->saveRobotMsg($pur_id,$send_id,$send_id,$tmpContent,$type=2);
-            //$tmpContent.=M("public:common")->model('customer_contact')->select('name')->where("user_id=".$user_id)->getOne();
-            $result = M('qapp:plasticRepeat')->saveMsg($user_id, $pur_id, $send_id, $content);
-            if ($result) $this->json_output(array('err' => 0, 'msg' => '回复消息保存成功'));
-        }
+        $this->defaultCode->saveMsg();
     }
 
     //获取我的供给或求购
@@ -661,54 +619,13 @@ class qapi1_1Action extends null2Action
     //保存我的资料
     public function saveSelfInfo()
     {
-        $this->is_ajax = true;
-        if ($_GET) {
-            $user_id = $this->checkAccount();
-            $type = sget('type', 'i');//类型 1 地址 2 性别 3 主营牌号  4关注的牌号 5 所属区域
-            if($type==4){
-                $field = sget('field','s');
-                if(empty($field)) $this->json_output(array('err'=>6,'msg'=>'输入不能为空'));
-                $field = $this->clearStr($field);
-                $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$field);
-                $field=explode(",",$field);
-                $field=array_map('strtoupper',$field);
-                foreach($field as $key=>$row){
-                    if(empty($row)) unset($field[$key]);
-                }
-                $field=array_unique($field);
-                //$field=explode(",",array_map('strtoupper',$field));
-                if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
-            }else{
-                $field = sget('field', 's');
-                if($type==5) {
-                    if(!empty($filed)){
-                        if (!in_array($field, array('EC', 'NC', 'SC'))) $this->_errCode(6);
-                    }
-                }
-
-            }
-            $result = M('qapp:plasticSave')->saveSelfInfo($user_id, $type, $field);
-            if (!$result) $this->json_output(array('err' => 2, 'msg' => '保存资料失败'));
-            $this->json_output(array('err' => 0, 'msg' => '保存资料成功'));
-        }
+        $this->defaultCode->saveSelfInfo();
     }
 
     //获取ta的求购或供给
     public function getTaPur()
     {
-        $this->is_ajax = true;
-        if ($_GET) {
-            $user_id = $this->checkAccount();
-            $keywords = sget('keywords', 's');//这里传空值P
-            $page = sget('page', 'i', 1);
-            $size = sget('size', 'i', 10);
-            $type = sget('type', 'i', 1);//1采购 2报价
-            $userid = sget('userid', 'i');//当前联系人的id
-            $data = M('qapp:plasticRelease')->getReleaseMsg2($keywords, $page, $size, $userid, $type);
-            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关的数据'));
-            $this->_checkLastPage($data['count'], $size, $page);
-            $this->json_output(array('err' => 0, 'data' => $data['data']));
-        }
+        $this->defaultCode->getTaPur();
     }
 
     //关注或取消关注
@@ -1640,51 +1557,7 @@ class qapi1_1Action extends null2Action
      * 供求信息置顶之供求信息列表
      */
     public function supplyDemandList(){
-        $this->is_ajax = true;
-        if ($_GET) {
-            $user_id = $this->checkAccount();
-            $page = sget('page', 'i', 1);
-            $size = sget('size', 'i', 5);
-            $type = sget('type', 'i');// 0全部  1采购 2报价
-            $own_id = sget('user_id','i',0);
-            if(!empty($own_id)){
-                $where = " pur.sync = 6 and pur.user_id=$own_id ";
-            }else{
-                $where = " pur.sync = 6 and pur.user_id=$user_id ";
-            }
-            if(!empty($type)) $where.=" and pur.type=$type";
-            $data = $this->db->select('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.type,pur.content,pur.input_time')->from('purchase pur')
-                ->leftjoin('product pro','pur.p_id=pro.id')
-                ->leftjoin('factory fa','pro.f_id=fa.fid')
-                ->page($page,$size)
-                ->where($where)
-                ->order('pur.input_time desc')
-                ->getPage();
-            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关的数据'));
-            $this->_checkLastPage($data['count'], $size, $page);
-            $arr=array();
-            foreach($data['data'] as $k => &$value){
-                $value['input_time']=$this->checkTime($value['input_time']);
-                if(empty($value['content'])){
-                    if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
-                        $value['contents'] = '';
-                    }else{
-                        $value['contents'] .= '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
-                    }
-                }elseif(!empty($value['content'])){
-                    if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
-                        $value['contents'] = $value['content'];
-                    }else{
-                        $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'].'/'.$value['content'];
-                    }
-                }
-                $arr[$k]['type']=$value['type'];
-                $arr[$k]['input_time']=$value['input_time'];
-                $arr[$k]['p_id']=$value['id'];
-                $arr[$k]['content'] = mb_substr(strip_tags($value['contents']), 0, 50, 'utf-8') . '...';
-            }
-            $this->json_output(array('err' => 0, 'data' => $arr));
-        }
+        $this->defaultCode->supplyDemandList();
     }
 
     //分享我的供给或其求购
