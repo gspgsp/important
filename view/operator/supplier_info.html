@@ -9,7 +9,7 @@
                 <table width="100%">
                     <caption><strong>基本--2--信息</strong></caption>
                     <tr>
-                        <td>客户名称：</td>
+                        <td>供应商名称：</td>
                         <td>
                             <input name="c_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.c_name}"/>
                         </td>
@@ -19,27 +19,21 @@
                     <tr>
                         <td>法人姓名：</td>
                         <td><input name="legal_person" class="mini-textbox" style="width:70px;" maxlength="6"  value="{$user.legal_person}"/></td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
                         <td>法人身份证：</td>
                         <td><input name="legal_idcard" class="mini-textbox" style="width:250px;"  value="{$user.legal_idcard}"/></td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>身份证照片：</td>
+                        <td>身份证照片(正面)：</td>
                         <td colspan="3">
                             <input id="img_url5"  name="legal_idcard_pic" class="mini-textbox" value="{$user.legal_idcard_pic}" style="width:200px"/>
                             <input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);">
                         </td>
+                        <td>身份证照片（反面）：</td>
+                        <td colspan="3">
+                            <input id="img_url6"  name="legal_idcard_pic" class="mini-textbox" value="{$user.legal_idcard_pic}" style="width:200px"/>
+                            <input id="upfileId6" type="file" name="upFile" onChange="fileUpload(6);">
+                        </td>
                     </tr>
-                    <tr>
-                        <td>所需牌号：</td>
-                        <td><input name="need_product" class="mini-textbox" style="width:250px;" required="true" value="{$user.need_product}"/></td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>所在省市</td>
@@ -48,62 +42,23 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <!--    <tr>
+                    <tr>
                          <td>邮政编码：</td>
                          <td>
                            <input name="zip" class="mini-textbox" value="{$user.zip}" style="width:100px;" maxlength="6"  vtype="zip"/>
                          </td>
-                         <td>&nbsp;</td>
-                         <td>&nbsp;</td>
-                       </tr> -->
+                        <td>公司地址：</td>
+                        <td><input name="address" class="mini-textbox" style="width:250px;" required="true" value="{$user.address}"/></td>
+                       </tr>
                     <tr>
                         <td>成立日期：</td>
                         <td><input  class="mini-datepicker"  name="fund_date" value="{$user.fund_date}"/>
                         </td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
                         <td>注册资本：</td>
                         <td>
                             <input name="registered_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.registered_capital|default:}"/>
                             元
                         </td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>实到资本：</td>
-                        <td>
-                            <input name="true_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.true_capital|default:}"/>
-                            元
-                        </td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>预信用额度：</td>
-                        <td>
-                            <input name="pre_credit_limit" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.credit_limit|default:}"/>
-                            元
-                        </td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>信用额度：</td>
-                        <td>
-                            <input name="credit_limit" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.credit_limit|default:}"/>
-                            元
-                        </td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>公司地址：</td>
-                        <td><input name="address" class="mini-textbox" style="width:250px;" required="true" value="{$user.address}"/></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                 </table>
                 <table>
@@ -120,12 +75,6 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                       </tr> -->
-                    <tr>
-                        <td>客户渠道：</td>
-                        <td><input name="chanel" class="mini-combobox" style="width:150px;" value="{$user.chanel}" data='{:setMiniConfig|$chanel}' required="true" textfield="name" valuefield="id"/></td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
                     <tr>
                         <td>营业执照号：</td>
                         <td><input class="mini-textbox" style="width:250px;" name="business_licence" value="{$user.business_licence}"/>
@@ -164,12 +113,6 @@
                     <tr>
                         <td>状态：</td>
                         <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' textfield="name" valuefield="id" value="{$user.status|default:1}"/></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                     </tr>
                 </table>
             </div>
