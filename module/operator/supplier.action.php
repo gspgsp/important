@@ -325,9 +325,39 @@ class supplierAction extends adminBaseAction{
             $this->is_ajax=true;
             $supplier_id=sget('id','i');
             $info=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->getAll();
-            p($info);
-
-        $this->display('supplier_info.html');
+            $list=array();
+            foreach ($info as $k=> $v){
+                $list['supplier_name']=$v['supplier_name'];  // 供应商名称
+                $list['legal_person']= $v['legal_person'];   // 供应商法人
+                $list['company_tel']= $v['company_tel']; // 公司电话
+                $list['type'] =$v['type'];           // 类型
+                $list['province'] =$v['province'];    // 省份
+                $list['city'] =$v['city'];      // 城市
+                $list['address'] = $v['address']; // 公司地址
+                $list['zip_code'] =$v['zip_code']; // 邮编
+                $list['fund_date'] = $v['fund_date']; // 成立时间
+                $list['register_capital'] =$v['register_capital']; // 注册资本
+                $list['credit_level'] = $v['credit_level']; // 信用等级
+                $list['status'] = $v['status'];// 状态
+                $list['merge_three'] =$v['merge_three']; // 是否三证合一  1：是 0:否
+                $list['business_licence_code'] =$v['business_licence_code'];// 营业执照
+                $list['business_licence_pic'] =$v['business_licence_pic']; // 营业执照图片
+                $list['organization_code']= $v['organization_code']; // 组织机构代码
+                $list['organization_code_pic'] = $v['organization_code_pic']; // 组织机构代码图片
+                $list['tax_registration'] = $v['tax_registration'];//税务登记证号
+                $list['tax_registration_pic'] =$v['tax_registration_pic']; // 税务登记证图片
+                $list['legal_person_code'] = $v['legal_person_code'];  // 法人身份证号码
+                $list['legal_person_pic_1'] =$v['legal_person_pic_1'];// 身份证图片(正面)
+                $list['legal_person_pic_2'] =$v['legal_person_pic_2']; // 身份证图片(反面)
+                $list['tax_id']= $v['tax_id'];// 纳税人识别号
+                $list['invoice_address'] =$v['invoice_address']; // 开票地址
+                $list['invoice_tel'] =$v['invoice_tel'];// 开票电话
+                $list['invoice_account']= $v['invoice_account'];// 开票账户
+                $list['social_credit_code'] =$v['social_credit_code'];// 社会统一信用代码
+                $list['social_credit_code_pic'] =$v['social_credit_code_pic'];// 社会统一信用代码图片
+            }
+             $this->assign('info',$list);
+             $this->display('supplier_info.html');
     }
 
     /**
