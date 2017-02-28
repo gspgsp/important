@@ -322,8 +322,10 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function edit(){
-        p($_GET['id']);
-
+            $this->is_ajax=true;
+            $supplier_id=sget('id','i');
+            $info=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->getAll();
+            p($info);
 
         $this->display('supplier_info.html');
     }
