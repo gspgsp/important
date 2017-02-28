@@ -13,11 +13,12 @@
                         <td>
                             <input name="supplier_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.supplier_name}"/>
                         </td>
-
                     </tr>
                     <tr>
                         <td style="width:200px;">法人姓名：</td>
                         <td><input name="legal_person" class="mini-textbox" style="width:100px;" maxlength="10"  value="{$user.legal_person}"/></td>
+                    </tr>
+                    <tr>
                         <td>法人身份证：</td>
                         <td><input name="legal_person_code" class="mini-textbox" style="width:250px;"  value="{$user.legal_person_code}"/></td>
                     </tr>
@@ -27,6 +28,8 @@
                             <input id="img_url5"  name="legal_person_pic_1" class="mini-textbox" value="{$user.legal_person_pic_1}" style="width:200px"/>
                             <input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);">
                         </td>
+                    </tr>
+                    <tr>
                         <td>身份证照片（反面）：</td>
                         <td colspan="3">
                             <input id="img_url6"  name="legal_person_pic_2" class="mini-textbox" value="{$user.legal_person_pic_2}" style="width:200px"/>
@@ -38,21 +41,23 @@
                         <td>所在省市</td>
                         <td><input name="province" id="place_1_0" style="width:80px;" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('place')" data='{:setMiniConfig|$regionList}' value="{$user.province}" showNullItem="true"/>
                             <input name="city" id="place_2_0" url="{if $user.province neq ''}/user/user/getRegion?pid={$user.province}{/if}" value="{$user.city}" class="mini-combobox" style="width:80px;" textField="name" valueField="id" />            </td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                          <td>邮政编码：</td>
                          <td>
                            <input name="zip_code" class="mini-textbox" value="{$user.zip_code}" style="width:100px;" maxlength="6"  vtype="zip"/>
                          </td>
+                    </tr>
+                    <tr>
                         <td>公司地址：</td>
                         <td><input name="address" class="mini-textbox" style="width:250px;" required="true" value="{$user.address}"/></td>
-                       </tr>
+                    </tr>
                     <tr>
                         <td>成立日期：</td>
                         <td><input  class="mini-datepicker"  name="fund_date" value="{$user.fund_date}"/>
                         </td>
+                    </tr>
+                    <tr>
                         <td>注册资本：</td>
                         <td>
                             <input name="register_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.register_capital}"/>
