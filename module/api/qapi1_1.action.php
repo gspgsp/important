@@ -1566,49 +1566,12 @@ class qapi1_1Action extends null2Action
      * 二次发布
      */
     public function secondPub(){
-        if($_GET){
-            $id = sget('id','i');
-            if(empty($id)) $this->_errCode(6);
-            $this->checkAccount();
-            $where = " pur.sync = 6 and pur.id=$id ";
-            $data=M("product:purchase")->getPurchaseLeftById($where);
-            if(empty($data['content'])){
-                if($data['unit_price']==0.00&&empty($data['model'])&&empty($data['f_name'])&&empty($data['store_house'])){
-                    $this->json_output(array('err'=>1,'msg'=>'此记录输入有误，请手动补充'));
-                }
-                $data['f_type']=1;//格式化输出
-            }elseif(!empty($data['content'])){
-                if($data['unit_price']==0.00||empty($data['model'])||empty($data['f_name'])||empty($data['store_house'])){
-                    $data['f_type']=2;//未格式化输出
-                }else{
-                    $data['f_type']=1;//格式化输出
-                }
-            }
-            if(empty($data)) $this->_errCode(2);
-            $this->_errCode(0,$data);
-        }
+        $this->defaultCode->secondPub();
     }
 
     //关注。粉丝的头像
     public function headPicture(){
-        if($_GET){
-            $user_id = $this->checkAccount();
-            //我的粉丝
-            $data = M('plasticzone:plasticIntroduction')->getMyFuns($user_id, 1);
-           $myfans=array();
-            foreach($data['data'] as $row){
-                $myfans[]=$row['user_id']['thumb'];
-                if(count($myfans)>=9) break;
-            }
-            //我的关注
-            $data = M('plasticzone:plasticIntroduction')->getMyFuns($user_id, 2);
-            $myconcerns=array();
-            foreach($data['data'] as $row){
-                $myconcerns[]=$row['focused_id']['thumb'];
-                if(count($myconcerns)>=9) break;
-            }
-            $this->json_output(array('err'=>0,'myfans'=>$myfans,'myconcerns'=>$myconcerns));
-        }
+        $this->defaultCode->headPicture();
     }
 
     /**
