@@ -905,58 +905,7 @@ class qapi1_1Action extends null2Action
      */
     public function getCateList()
     {
-        if ($_GET) {
-            $this->is_ajax = true;
-            $page = sget('page', 'i', 1);
-            $size = sget('size', 'i', 10);
-            $cate_id = sget('cate_id', 'i');
-            $this->checkAccount();
-            $cache = cache::startMemcache();
-            if($page<=2){
-                $data=array();
-                if(!$data['data']=$cache->get('qcateListInfo'.$page.'_'.$cate_id)){
-                    $data = M("qapp:news")->getqAppCateList('public', $cate_id,array(), $page, $size);
-                    if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
-                    $this->_checkLastPage($data['count'], $size, $page);
-                    //截取示例文章文字
-                    foreach ($data['data'] as $key => &$v) {
-                        //$v['content']=$this->cleanhtml(strip_tags($v['content']),'');
-                        $data['data'][$key]['description'] = mb_substr(strip_tags($v['description']), 0, 50, 'utf-8') . '...';
-                        //取出右键导航分类名称
-                        $data['data'][$key]['cate_name'] = $this->cates[$cate_id];
-                        $data['data'][$key]['input_time'] = $this->checkTime($v['input_time']);
-                        if($v['type']=='public'){
-                            $arr=array('pe','pp','pvc');
-                            $tmp=array_rand($arr,1);
-                            $v['type']='pp';
-                        }
-                        $v['type']=strtoupper($v['type']);
-                        //unset($v['content']);
-                    }
-                    $cache->set('qcateListInfo'.$page.'_'.$cate_id,$data['data'],300);
-                }
-            }else{
-                $data = M("qapp:news")->getqAppCateList('public', $cate_id, array(),$page, $size);
-                if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
-                $this->_checkLastPage($data['count'], $size, $page);
-                //截取示例文章文字
-                foreach ($data['data'] as $key => &$v) {
-                    //$v['content']=$this->cleanhtml(strip_tags($v['content']),'');
-                    $data['data'][$key]['description'] = mb_substr(strip_tags($v['description']), 0, 50, 'utf-8') . '...';
-                    //取出右键导航分类名称
-                    $data['data'][$key]['cate_name'] = $this->cates[$cate_id];
-                    $data['data'][$key]['input_time'] = $this->checkTime($v['input_time']);
-                    if($v['type']=='public'){
-                        $arr=array('pe','pp','pvc');
-                        $tmp=array_rand($arr,1);
-                        $v['type']='pp';
-                    }
-                    $v['type']=strtoupper($v['type']);
-                    //unset($v['content']);
-                }
-            }
-            $this->json_output(array('err' => 0, 'info' => $data['data']));
-        }
+        $this->defaultCode->getCateList();
     }
 
     /**
@@ -964,42 +913,7 @@ class qapi1_1Action extends null2Action
      */
     public function getDetailInfo()
     {
-        if ($_GET) {
-            $this->is_ajax = true;
-            $id = sget('id', i);
-            $this->checkAccount(0);
-            if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
-            M("news:news")->updateqAppPv($id);
-            $cache = cache::startMemcache();
-            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)){
-                $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
-            }
-            $cache->set('qcateDetailInfo' .  '_' . $id, $data, 3600);
-            $time = $data['input_time'];
-            $data['input_time'] = $this->checkTime($data['input_time']);
-            $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
-            $data['content'] = stripslashes($data['content']);
-            //添加缓存之后，页面显示效果  阅读数+1
-            $data['pv']=$data['pv']+1;
-            $data['true_pv']=$data['true_pv']+1;
-            //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
-            //$str= preg_replace("/border="0"",'',$str);
-            $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
-            //$data['content']=$this->cleanhtml(($data['content']),'<img><a><br /><table></table><tr></tr><td></td>');
-            //取出右键导航分类名称
-            $data['cate_name'] = $this->cates[$data['cate_id']];
-            if($data['type']=='public'){
-                $arr=array('pe','pp','pvc');
-                $tmp=array_rand($arr,1);
-                $data['type']='pp';
-            }
-            $data['type']=strtoupper($data['type']);
-            //取出上一篇和下一篇input_time desc,sort_order desc  上一篇是最新的
-            //取出上一篇和下一篇
-            $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
-            $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            $this->json_output(array('err' => 0, 'info' => $data));
-        }
+        $this->defaultCode->getDetailInfo();
     }
 
     /**
