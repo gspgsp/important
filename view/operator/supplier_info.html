@@ -24,14 +24,14 @@
                     </tr>
                     <tr>
                         <td>身份证照片(正面)：</td>
-                        <td colspan="3">
+                        <td>
                             <input id="img_url5"  name="legal_person_pic_1" class="mini-textbox" value="{$user.legal_person_pic_1}" style="width:200px"/>
                             <input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);">
                         </td>
                     </tr>
                     <tr>
                         <td>身份证照片（反面）：</td>
-                        <td colspan="3">
+                        <td>
                             <input id="img_url6"  name="legal_person_pic_2" class="mini-textbox" value="{$user.legal_person_pic_2}" style="width:200px"/>
                             <input id="upfileId6" type="file" name="upFile" onChange="fileUpload(6);">
                         </td>
@@ -66,7 +66,6 @@
                     </tr>
                 </table>
                 <table>
-                    <caption><strong>扩展信息</strong></caption>
                     <tr>
                         <td>供应商类型：</td>
                         <td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}'  textfield="name" valuefield="id"/></td>
