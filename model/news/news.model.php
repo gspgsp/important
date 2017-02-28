@@ -31,6 +31,7 @@
 				}
 				$arr[$v['spell']]['hot']=$this->model('news_content')->select('id,title,content,input_time,type')->where($where.' and cate_id='.$v['cate_id'].' and hot=1')->order('input_time desc,sort_order desc')->getRow();
 				$arr[$v['spell']]['hot']['content']=mb_substr(strip_tags($arr[$v['spell']]['hot']['content']),0,$num,'utf-8').'...';
+
 			}
 			return $arr;
 		}
@@ -84,13 +85,18 @@
 
 		//通过id获取文章详情
 		public function getNews($id){
-			$data=$this->model('news_content')->where('id='.$id)->getRow();
-
-			//取出右键导航分类名称
-			$data['cate_name']=$this->model('news_cate')->select('cate_name')->where('cate_id='.$data['cate_id'])->getOne();
-			//取出上一篇和下一篇
-			$data['lastOne']=$this->model('news_content')->where('cate_id='.$data['cate_id'].' and id <'.$id)->select('id,title')->order('id desc')->limit(1)->getRow();
-			$data['nextOne']=$this->model('news_content')->where('cate_id='.$data['cate_id'].' and id >'.$id)->select('id,title')->order('id asc')->limit(1)->getRow();
+			$cache = cache::startMemcache();
+			$name='news_'.$id;
+			$data=$cache->get($name);
+			if (empty($data)) {
+				$data=$this->model('news_content')->where('id='.$id)->getRow();
+				//取出右键导航分类名称
+				$data['cate_name']=$this->model('news_cate')->select('cate_name')->where('cate_id='.$data['cate_id'])->getOne();
+				//取出上一篇和下一篇
+				$data['lastOne']=$this->model('news_content')->where('cate_id='.$data['cate_id'].' and id <'.$id)->select('id,title')->order('id desc')->limit(1)->getRow();
+				$data['nextOne']=$this->model('news_content')->where('cate_id='.$data['cate_id'].' and id >'.$id)->select('id,title')->order('id asc')->limit(1)->getRow();
+				$cache->set($name,$data,86400);
+			}
 			//取出内链文章
 			$result=$this->model('news_content')->query("select `id` from p2p_news_content where cate_id=".$data['cate_id']." and id != ".$id." order by rand() limit 10");
 			while($re = mysql_fetch_row($result))
@@ -176,5 +182,7 @@
 			//p($tmp);exit;
 			return $tmp;
 		}
+
+
 	}
  ?>
