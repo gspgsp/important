@@ -182,46 +182,46 @@
                     </tr>
                 </table>
             </div>
-            <div title="联系人基本信息">
-                <div style="height:385px">
-                    <table border="0" cellpadding="1" cellspacing="2">
-                        <tr>
-                            <td >姓名：</td>
-                            <td><input name="info_name" class="mini-textbox" style="width:150px;" required="true" vtype="rangeLength:2,30" value="{$info_ext.name}" /></td>
-                            <td>性别：</td>
-                            <td><input class="mini-combobox" name="info_sex" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{$info_ext.sex}"/></td>
-                        </tr>
-                        <tr>
-                            <td style="width:80px;">手机：</td>
-                            <td style="width:210px;"><input name="info_mobile" class="mini-textbox" maxlength="11" value="{$info_ext.mobile}" style="width:150px;" required="true" onvalidation="onValidMobile"/></td>
-                            <td>电话：</td>
-                            <td><input name="info_tel" class="mini-textbox" style="width:150px;"  value="{$info_ext.tel}" vtype="rangeLength:6,14"/></td>
-                        </tr>
-                        <tr>
-                            <td style="width:80px;">QQ号：</td>
-                            <td style="width:210px;"><input name="info_qq" class="mini-textbox" maxlength="12" value="{$info_ext.qq}" style="width:150px;"/></td>
-                            <td>传真：</td>
-                            <td><input name="info_fax" class="mini-textbox" style="width:150px;" value="{$info_ext.fax}"  vtype="rangeLength:6,14"/></td>
-                        </tr>
-                        <tr>
-                            <td>邮件：</td>
-                            <td><input name="info_email" class="mini-textbox" style="width:150px;"  value="{$info_ext.email}" vtype="email"/></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>备注：</td>
-                            <td colspan="3">
-                                <input name="info_remark" class="mini-textarea" value="{$info_ext.remark}" style="width:403px; height:50px;"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>状态：</td>
-                            <td><input class="mini-combobox" name="info_status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$info_ext.status}"/></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+            <!--<div title="联系人基本信息">-->
+                <!--<div style="height:385px">-->
+                    <!--<table border="0" cellpadding="1" cellspacing="2">-->
+                        <!--<tr>-->
+                            <!--<td >姓名：</td>-->
+                            <!--<td><input name="info_name" class="mini-textbox" style="width:150px;" required="true" vtype="rangeLength:2,30" value="{$info_ext.name}" /></td>-->
+                            <!--<td>性别：</td>-->
+                            <!--<td><input class="mini-combobox" name="info_sex" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{$info_ext.sex}"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td style="width:80px;">手机：</td>-->
+                            <!--<td style="width:210px;"><input name="info_mobile" class="mini-textbox" maxlength="11" value="{$info_ext.mobile}" style="width:150px;" required="true" onvalidation="onValidMobile"/></td>-->
+                            <!--<td>电话：</td>-->
+                            <!--<td><input name="info_tel" class="mini-textbox" style="width:150px;"  value="{$info_ext.tel}" vtype="rangeLength:6,14"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td style="width:80px;">QQ号：</td>-->
+                            <!--<td style="width:210px;"><input name="info_qq" class="mini-textbox" maxlength="12" value="{$info_ext.qq}" style="width:150px;"/></td>-->
+                            <!--<td>传真：</td>-->
+                            <!--<td><input name="info_fax" class="mini-textbox" style="width:150px;" value="{$info_ext.fax}"  vtype="rangeLength:6,14"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>邮件：</td>-->
+                            <!--<td><input name="info_email" class="mini-textbox" style="width:150px;"  value="{$info_ext.email}" vtype="email"/></td>-->
+                            <!--<td></td>-->
+                            <!--<td></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>备注：</td>-->
+                            <!--<td colspan="3">-->
+                                <!--<input name="info_remark" class="mini-textarea" value="{$info_ext.remark}" style="width:403px; height:50px;"/>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>状态：</td>-->
+                            <!--<td><input class="mini-combobox" name="info_status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$info_ext.status}"/></td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</div>-->
+            <!--</div>-->
         </div><input name="utype" class="mini-textbox" style="display:none" value="3" vtype="utype"/>
         <div align="center" style="margin-top:10px;">
             <a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
