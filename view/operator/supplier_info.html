@@ -72,6 +72,7 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
+                    {if $user.merge_three neq 1}
                     <tr>
                         <td>营业执照号：</td>
                         <td><input class="mini-textbox" style="width:160px;" name="business_licence_code" value="{$user.business_licence_code}"/>
@@ -88,7 +89,7 @@
                         </td>
                         <td>组织机构图片：</td>
                         <td>
-                            <input id="img_url2"  name="organization_code_pic" class="mini-textbox" value="{$user.legal_person_pic_1}" style="width:120px"/>
+                            <input id="img_url2"  name="organization_code_pic" class="mini-textbox" value="{$user.organization_code_pic}" style="width:120px"/>
                             <input id="upfileId2" type="file" name="upFile" onChange="fileUpload(2);">
                         </td>
                     </tr>
@@ -98,10 +99,22 @@
                         </td>
                         <td>税务图片：</td>
                         <td>
-                            <input id="img_url3"  name="tax_registration_pic" class="mini-textbox" value="{{$user.legal_person_pic_1}" style="width:120px"/>
+                            <input id="img_url3"  name="tax_registration_pic" class="mini-textbox" value="{$user.tax_registration_pic}" style="width:120px"/>
                             <input id="upfileId3" type="file" name="upFile" onChange="fileUpload(3);">
                         </td>
                     </tr>
+                    {else}
+                    <tr>
+                        <td>社会统一信证码：</td>
+                        <td><input class="mini-textbox" style="width:160px;" name="social_credit_code" value="{$user.social_credit_code}"/>
+                        </td>
+                        <td>社会统一信证图片：</td>
+                        <td>
+                            <input id="img_url4"  name="social_credit_code_pic" class="mini-textbox" value="{$user.social_credit_code_pic}" style="width:120px"/>
+                            <input id="upfileId4" type="file" name="upFile" onChange="fileUpload(4);">
+                        </td>
+                    </tr>
+                    {/if}
                     <tr>
                         <td>信用等级：</td>
                         <td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' textfield="name" valuefield="id" value="{$user.credit_level}"/>
