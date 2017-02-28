@@ -334,7 +334,7 @@ class supplierAction extends adminBaseAction{
                 $list['legal_person']= $v['legal_person'];   // 供应商法人
                 $list['legal_person_code'] = $v['legal_person_code'];  // 法人身份证号码
                 $list['company_tel']= $v['company_tel']; // 公司电话
-                $list['type'] =$v['type'];           // 类型
+                $list['supplier_type'] =$v['type'];           // 类型
                 $list['province'] =$v['province'];    // 省份
                 $list['city'] =$v['city'];      // 城市
                 $list['address'] = $v['address']; // 公司地址
