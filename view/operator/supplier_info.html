@@ -39,8 +39,8 @@
                     </tr>
                     <tr>
                         <td>所在省市</td>
-                        <td><input name="province" id="c_1_0" style="width:80px;"  class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.infoExt.province}" showNullItem="true" />
-                            <input name="city" id="c_2_0" class="mini-combobox" url="{if $user.infoExt.province}/user/user/getRegion?pid={$user.infoExt.province}{/if}" value="{$user.infoExt.city}" style="width:80px;" textField="name" valueField="id" />
+                        <td><input name="province" id="c_1_0" style="width:80px;"  class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.province}" showNullItem="true" />
+                            <input name="city" id="c_2_0" class="mini-combobox" url="{if $user.province}/user/user/getRegion?pid={$user.province}{/if}" value="{$user.city}" style="width:80px;" textField="name" valueField="id" />
                         </td>
                     </tr>
                     <tr>
