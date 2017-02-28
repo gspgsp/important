@@ -312,8 +312,15 @@ class supplierAction extends adminBaseAction{
     public function editSubmit(){
         $this->is_ajax=true;
         $data = sdata();
-        p($data);die;
-
+        if($data['supplier_id']<1) $this->error('信息错误');
+        $data['update_time']=time();
+        $data['update_name']=$_SESSION['name'];
+        $res=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->update($data);
+        if($res){
+            if($res!=1) $this->error('状态更新失败');
+        }else{
+            $this->success('更新成功');
+        }
     }
 
 
@@ -388,7 +395,7 @@ class supplierAction extends adminBaseAction{
     }
 
     /**
-     * 审核供应商
+     * 审核供应商状态
      *
      */
     public  function chkSubmit(){
