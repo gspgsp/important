@@ -329,7 +329,7 @@ class supplierAction extends adminBaseAction{
     }
 
     /**
-     * 审核供应商状态
+     * 审核供应商状态（页面）
      *
      */
     public function chkPage(){
@@ -339,6 +339,25 @@ class supplierAction extends adminBaseAction{
         $this->assign('status',L('status'));// 联系人用户状态
         $this->display('supplier.chk.html');
     }
+
+    /**
+     * 审核供应商
+     *
+     */
+    public  function chkSubmit(){
+        $supplier_id =sget('supplier_id','i',0);
+        $status = sget('status','i');
+        $remark= sget('remark','i','');
+        if($supplier_id<1) $this->error('信息错误');
+        $data['status']=$status;
+        $data['remark']=$remark;
+        $data['update_time']=time();
+        $data['update_name']=$_SESSION['name'];
+        $res=$this->db->model()->where('supplier_id='.$supplier_id)->update($data);
+        p($res);
+
+    }
+
 
 
     /**
