@@ -6,7 +6,7 @@
     .bg{background: #ecedef;}
 </style>
 <form id="infoForm" class="form">
-    <input type="hidden" name="id" value="{$id}"/>
+    <input type="hidden" name="supplier_id" value="{$id}"/>
     <div title="基本信息">
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
@@ -41,7 +41,7 @@
         form.validate();
         if(form.isValid() == false) return;
         form.loading("数据提交中，请稍后......");
-        $.post('/user/customer/chkSubmit',$("#infoForm").serialize(),function(data){
+        $.post('/operator/supplier/chkSubmit',$("#infoForm").serialize(),function(data){
             form.unmask();
             $("#returnMsg").text(data.msg);
             if(data.err=='0'){
