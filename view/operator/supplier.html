@@ -152,7 +152,7 @@
     // 编辑供应商信息(修改)
     function onLoadFllow(e) {
         var record = e.record,supplier_id=record.supplier_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli;
-        s += '|<a href="javascript:onEdit('+supplier_id+')">改</a>';
+        s += '<a href="javascript:onEdit('+supplier_id+')">改</a>';
 //        if(status == 2 && customer_manager ==''){
 //            s += '<a href="javascript:allotO('+cid+')">分配</a>|<a href="javascript:Retrieve('+cid+')">捡回</a>';
 //
