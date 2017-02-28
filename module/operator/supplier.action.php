@@ -303,10 +303,10 @@ class supplierAction extends adminBaseAction{
     }
 
 
-//    /**
-//     *查看供应商信息
-//     *
-//     */
+    /**
+     *查看供应商信息
+     *
+     */
 //    public function showSupplier(){
 //
 //
