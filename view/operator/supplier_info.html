@@ -153,7 +153,6 @@
         {else}
         var urlstr = '/operator/supplier/editSubmit';
         {/if}
-        console.log(json);return false;
         $.post(urlstr,{data:json},function(data){
             form.unmask();
             $("#returnMsg").text(data.msg);
