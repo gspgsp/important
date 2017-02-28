@@ -312,7 +312,7 @@ class supplierAction extends adminBaseAction{
     public function editSubmit(){
         $this->is_ajax=true;
         $data = sdata();
-        p($data);
+        p($data);die;
 
     }
 
