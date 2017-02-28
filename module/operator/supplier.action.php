@@ -328,6 +328,18 @@ class supplierAction extends adminBaseAction{
         $this->display('supplier_info.html');
     }
 
+    /**
+     * 审核供应商状态
+     *
+     */
+    public function chkPage(){
+        $id = sget('id','i',0);
+        if($id<1) $this->error('信息错误');
+        $this->assign('id',$id);
+        $this->assign('status',L('status'));// 联系人用户状态
+        $this->display('supplier.chk.html');
+    }
+
 
     /**
      *供应商查寻重复
