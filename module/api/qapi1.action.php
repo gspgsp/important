@@ -2228,23 +2228,7 @@ class qapi1Action extends null2Action
         return $data['thumb'];
     }
 
-    public function s2(){
-        //echo '<pre>';
-        //var_dump($_SERVER["HTTP_REFERER"]) ;
-        //echo '<hr/>';
-        var_dump(getCityByMobile(18827516572));
-        echo '<hr />';
-        var_dump($_SERVER[REQUEST_URI]);
-        echo '<hr />';
-        $arr=M('qapp:plasticPerson')->getPersonInfo(3858);
-        $tmp=M('qapp:plasticPerson')->model('api')->limit(10);
-        $this->points=M('system:setting')->get('points')['points'];
-//        p($arr);
-//        p($tmp);
-//        p($this->points);
-        $this->json_output($_SERVER);
 
-    }
 
     /*
      * app更新消息

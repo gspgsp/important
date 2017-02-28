@@ -1198,29 +1198,7 @@ class qapi1_1Action extends null2Action
      * 塑料圈app之退货规定
      */
     public function returnRule(){
-        if($_GET){
-            $this->is_ajax = true;
-            $this->checkAccount();
-            $v=array();
-            $v['rule'] = '<span>兑换商品若出现以下情况，我的塑料网允许退换货：</span><br />';
-            $v['rule'] .= '<span>1）商品本身有质量问题，影响使用</span><br />';
-            $v['rule'] .= '<span>2）兑换的商品在运输过程中出现损毁</span><br />';
-            $v['rule'] .= '<span>用户可在签收后7日内拨打我的塑料网客服热线400-6129-965，申请退换货，退回时，请务必将原包装、内附赠品及说明书和相关文件一并寄回。</span><br />';
-            $v['rule'] .= '<br />';
-            $v['rule'] .= '<span>若出现以下情况，我的塑料网有权不予进行商品退换货：</span><br />';
-            $v['rule'] .= '<span>1)非我的塑料网积分商城的兑换商品</span><br />';
-            $v['rule'] .= '<span>2)不正常使用商品造成的质量问题</span><br />';
-            $v['rule'] .= '<span>3)超过我的塑料网积分商城承诺的7天退换货有效时间</span><br />';
-            $v['rule'] .= '<span>4)将商品存储、暴露在不适宜环境中造成的损坏</span><br />';
-            $v['rule'] .= '<span>5)因未经授权的修理、改动、不正确的安装造成损坏</span><br />';
-            $v['rule'] .= '<span>6)不可抗力导致礼品损坏</span><br />';
-            $v['rule'] .= '<span>7)商品的正常磨损</span><br />';
-            $v['rule'] .= '<span>8)在退换货之前未与我的塑料网客服取得联系，进行过退换货登记</span><br />';
-            $v['rule'] .= '<span>9)退回商品包装或其他附属物不完整或有毁损</span><br />';
-            $v['rule'] .= '<br />';
-            $v['rule'] .= '<span>注：商品图片及文字仅供参考，具体以实物为准。</span><br />';
-            $this->json_output(array('err'=> 0 , 'rule'=>$v['rule']));
-        }
+        $this->defaultCode->returnRule();
     }
 
     /*
@@ -1423,25 +1401,7 @@ class qapi1_1Action extends null2Action
      * 积分记录
      */
     public function pointSupplyList(){
-        $this->is_ajax = true;
-        if($_GET){
-            $user_id=$this->checkAccount();
-            $page = sget('page', 'i', 1);
-            $size = sget('size', 'i', 10);
-            //$data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id and type in (2,3,5,6)")->order('id desc')->page($page,$size)->getPage();
-            $data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id")->order('id desc')->page($page,$size)->getPage();
-            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
-            $this->_checkLastPage($data['count'], $size, $page);
-            //我的积分
-            $points = M('qapp:pointsBill')->getUerPoints($user_id);
-            $points = empty($points) ? 0 : $points;
-            foreach($data['data'] as $k => &$v){
-                $v['typename'] = $this->pointsType[$v['type']];
-                $v['addtime'] = $this->checkTime($v['addtime']);
-                unset($v['type']);
-            }
-            $this->json_output(array('err'=>0,'data'=>$data['data'],'pointsAll'=>$points));
-        }
+        $this->defaultCode->pointSupplyList();
     }
 
     /*
@@ -1464,7 +1424,6 @@ class qapi1_1Action extends null2Action
             }
             $this->json_output(array('err'=>0,'info'=>$data['data']));
         }
-
     }
 
     /*
@@ -1778,46 +1737,7 @@ class qapi1_1Action extends null2Action
      * app更新消息
      */
     public function updateApp(){
-        $this->is_ajax = true;
-        if ($_POST) {
-            $user_id = $this->checkAccount();
-            $appName="塑料圈app";//app名字
-            $version=sget('version','s');//版本号
-            $sysType=sget('sysType','i');//1 anzhuo 2 ios
-            $deviceNum=sget('deviceNum','s');//设备号
-            $appupdate=M('system:setting')->get('appupdate');
-
-            $sysVersion=$appupdate['version'];
-            $serverFlag=$appupdate['serverFlag'];//是否显示公告
-            $lastForce=$appupdate['lastForce'];//是否强制更新
-            if(empty($sysType)) $this->_errCode(6);
-            if($sysType==1){
-                $updateUrl=$appupdate['and_updateurl']; //apk下载地址
-                $upgradeInfo=$appupdate['and_upgradeinfo'];//版本的更新描述
-            }elseif($sysType==2){
-                $updateUrl=$appupdate['ios_updateurl']; //apk下载地址
-                $upgradeInfo=$appupdate['ios_upgradeinfo'];//版本的更新描述
-            }
-
-            $versionArray=explode('.',$version);
-            $sysVersionArray=explode('.',$sysVersion);
-
-
-            if($versionArray[0]>$sysVersionArray[0]){
-                $lastForce="0";
-            }elseif(($versionArray[0]==$sysVersionArray[0])&&($versionArray[1]>=$sysVersionArray[1])){
-                $lastForce="0";
-            }elseif($versionArray[1]==$sysVersionArray[1]){
-                if(isset($versionArray[2])&&isset($sysVersionArray[2])){
-                    if($versionArray[2]>=$sysVersionArray[2]) {
-                        $lastForce="0";//是否强制更新
-                    }
-                }
-            }
-
-            $this->json_output(array('err'=>0,'data'=>compact('serverFlag','lastForce','updateUrl','upgradeInfo')));
-
-        }
+       $this->defaultCode->updateApp();
     }
 
 
