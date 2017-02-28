@@ -321,8 +321,10 @@ class supplierAction extends adminBaseAction{
      * 修改供应商信息
      *
      */
-    public function editSubmit(){
+    public function edit(){
 
+
+        $this->display('supplier_info.html');
     }
 
 
