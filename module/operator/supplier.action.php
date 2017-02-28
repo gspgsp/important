@@ -333,9 +333,9 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function chkPage(){
-        $id = sget('id','i',0);
-        if($id<1) $this->error('信息错误');
-        $this->assign('id',$id);
+        $supplier_id = sget('id','i',0);
+        if($supplier_id<1) $this->error('信息错误');
+        $this->assign('id',$supplier_id);
         $this->assign('status',L('status'));// 联系人用户状态
         $this->display('supplier.chk.html');
     }
