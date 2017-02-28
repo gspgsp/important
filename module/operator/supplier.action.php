@@ -355,10 +355,12 @@ class supplierAction extends adminBaseAction{
         $data['update_time']=time();
         $data['update_name']=$_SESSION['name'];
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->update($data);
-        p($res);
+        if($res){
+            if($res!=1) $this->error('状态更新失败');
+        }else{
+            $this->success('更新成功');
+        }
     }
-
-
 
     /**
      *供应商查寻重复
