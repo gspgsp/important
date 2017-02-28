@@ -374,6 +374,8 @@ class qapi1Action extends null2Action
                 //$this->success('登录成功');
                 if(!M("qapp:pointsBill")->select('id')->where("addtime >".strtotime(date("Y-m-d"))." and type=2 and uid={$result['user']['user_id']}")->order("id desc")->getOne()){
                     $user_id=$result['user']['user_id'];
+                    $tmp = M('public:common')->model('contact_info')->where("user_id=$user_id")->getRow();
+                    if(empty($tmp)) $this->json_output(array('err'=>101,'msg'=>'注册信息不完整，请联系客服或重新注册'));
                     $spoints=$this->points['login'];
                     if (!$arr = M("qapp:pointsBill")->addPoints($spoints, $user_id, 2)) $this->json_output(array('err'=>101,'msg'=>'系统错误'));
                 }
@@ -612,7 +614,10 @@ class qapi1Action extends null2Action
             $size = sget('size', 'i', 10);
             $data = M('qapp:plasticRelease')->getReleaseMsg($keywords, $page, $size, $type,$sortField1,$sortField2 ,$user_id);
             if($data=='tempErr') $this->_errCode(5);
-            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
+            if (empty($data['data']) && $page == 1&&$sortField2=='AUTO') $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
+            if (empty($data['data']) && $page == 1&&$sortField2=='CONCERN') $this->json_output(array('err' => 2, 'msg' => '您未关注塑料圈用户，暂无供求信息！'));
+            if (empty($data['data']) && $page == 1&&$sortField2=='DEMANDORSUPPLY') $this->json_output(array('err' => 2, 'msg' => '您未发布任何供求信息！'));
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
             $this->_checkLastPage($data['count'], $size, $page);
             $this->json_output(array('err' => 0, 'data' => $data['data']));
         }
@@ -1498,13 +1503,13 @@ class qapi1Action extends null2Action
             if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)){
                 $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
             }
+            //添加缓存之后，页面显示效果  阅读数+1
+            $data['pv']=$data['pv']+1;
+            $data['true_pv']=$data['true_pv']+1;
             $cache->set('qcateDetailInfo' .  '_' . $id, $data, 3600);
             $time = $data['input_time'];
             $data['input_time'] = $this->checkTime($data['input_time']);
             $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
-            //添加缓存之后，页面显示效果  阅读数+1
-            $data['pv']=$data['pv']+1;
-            $data['true_pv']=$data['true_pv']+1;
             $data['content'] = stripslashes($data['content']);
             //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
             //$str= preg_replace("/border="0"",'',$str);
