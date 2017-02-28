@@ -348,7 +348,6 @@ class supplierAction extends adminBaseAction{
         $supplier_id =sget('supplier_id','i',0);
         $status = sget('status','i');
         $remark= sget('remark','i','');
-        if($supplier_id<1) $this->error('信息错误');
         $data=array();
         $data['status']=$status;
         $data['remark']=$remark;
