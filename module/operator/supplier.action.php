@@ -329,6 +329,7 @@ class supplierAction extends adminBaseAction{
             foreach ($info as $k=> $v){
                 $list['supplier_name']=$v['supplier_name'];  // 供应商名称
                 $list['legal_person']= $v['legal_person'];   // 供应商法人
+                $list['legal_person_code'] = $v['legal_person_code'];  // 法人身份证号码
                 $list['company_tel']= $v['company_tel']; // 公司电话
                 $list['type'] =$v['type'];           // 类型
                 $list['province'] =$v['province'];    // 省份
@@ -346,7 +347,6 @@ class supplierAction extends adminBaseAction{
                 $list['organization_code_pic'] = $v['organization_code_pic']; // 组织机构代码图片
                 $list['tax_registration'] = $v['tax_registration'];//税务登记证号
                 $list['tax_registration_pic'] =$v['tax_registration_pic']; // 税务登记证图片
-                $list['legal_person_code'] = $v['legal_person_code'];  // 法人身份证号码
                 $list['legal_person_pic_1'] =$v['legal_person_pic_1'];// 身份证图片(正面)
                 $list['legal_person_pic_2'] =$v['legal_person_pic_2']; // 身份证图片(反面)
                 $list['tax_id']= $v['tax_id'];// 纳税人识别号
