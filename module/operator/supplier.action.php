@@ -305,6 +305,17 @@ class supplierAction extends adminBaseAction{
         $this->success('操作成功');
     }
 
+    /**
+     * 编辑保存供应商信息
+     *
+     */
+    public function editSubmit(){
+        $this->is_ajax=true;
+        $data = sdata();
+        p($data);
+
+    }
+
 
     /**
      *查看供应商信息
