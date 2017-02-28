@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td>所在省市</td>
-                        <td><input name="province" id="c_1_0" style="width:80px;"  class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.infoExt.company_province}" showNullItem="true" />
+                        <td><input name="province" id="c_1_0" style="width:80px;"  class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.province}" showNullItem="true" />
                             <input name="city" id="c_2_0" class="mini-combobox" url="{if $user.province}/user/user/getRegion?pid={$user.province}{/if}" value="{$user.city}" style="width:80px;" textField="name" valueField="id" />
                         </td>
                     </tr>
@@ -143,7 +143,7 @@
 
         //提交数据
         var o = form.getData();
-        var json = mini.encode(o);
+        var supplier_info = mini.encode(o);
         $("#returnMsg").text('');
         form.loading("数据提交中，请稍后......");
         {if $user.supplier_id eq ''}
@@ -151,7 +151,7 @@
         {else}
         var urlstr = '/operator/supplier/editSubmit';
         {/if}
-        $.post(urlstr,{data:json},function(data){
+        $.post(urlstr,{data:supplier_info},function(data){
             form.unmask();
             $("#returnMsg").text(data.msg);
             if(data.err=='0'){
