@@ -1,0 +1,55 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+    #infoForm{margin:0px auto; padding:6px;}
+    td.dt{width:80px; text-align:right; font-weight:bold;}
+    #returnMsg{ display:none; border:3px solid #F00; padding:5px; background:#FFC;}
+    .bg{background: #ecedef;}
+</style>
+<form id="infoForm" class="form">
+    <input type="hidden" name="id" value="{$id}"/>
+    <div title="基本信息">
+        <div style="padding-left:11px;padding-bottom:5px;">
+            <table style="table-layout:fixed;">
+                <tr>
+                    <td class="bg" >审核</td>
+                    <td >
+                        <input name="status" value="1" class="mini-combobox" style="width:100px;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="text-align:center;padding:10px; ">
+        <a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+        <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>
+        <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+    </div>
+</form>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+    mini.parse();
+    var form = new mini.Form("#infoForm");
+    function submitForm(){
+        form.validate();
+        if(form.isValid() == false) return;
+        form.loading("数据提交中，请稍后......");
+        $.post('/user/customer/chkSubmit',$("#infoForm").serialize(),function(data){
+            form.unmask();
+            $("#returnMsg").text(data.msg);
+            if(data.err=='0'){
+                CloseWindow("save");
+            }else{
+                return false;
+            }
+        },'json');
+    }
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+</script>
