@@ -116,7 +116,7 @@ class supplierAction extends adminBaseAction{
               $list['data'][$k]['create_time']=date('y-m-d H:i:s',$v['create_time']);  // 创建时间
               $list['data'][$k]['update_time']=date('y-m-d H:i:s',$v['update_time']);  // 更新时间
               $list['data'][$k]['supplier_name']=$v['supplier_name'];    // 供应商名称
-              $list['data'][$k]['remark']= $v['remark']==NULL ?'--':$v['remark'];   // 备注
+              $list['data'][$k]['remark']= ($v['remark']==NULL ?'--':$v['remark']);   // 备注
 
 //            $list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
 //            $list['data'][$k]['level']=L('company_level')[$v['level']];
