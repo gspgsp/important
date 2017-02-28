@@ -158,7 +158,7 @@ var _hmt = _hmt || [];
 <!--footer end-->
 <!--friend-links begin-->
 <div class="friend-links link3">
-	<div class="friend-links-inner w1220">
+	<div class="friend-links-inner height w1220">
 		<ul>
 			<li>友情链接:</li>
 			{foreach from=$friendshipLink item= value key==key}
@@ -166,7 +166,7 @@ var _hmt = _hmt || [];
 			{/foreach}
 		</ul>
 		<!--links-more begin-->
-		<p class="links-more"><a href="http://www.myplas.com/page/8364.html" target="_blank">+</a></p>
+		<p class="links-more">+</p>
 		<!--links-more end-->
 	</div>
 </div>
@@ -293,6 +293,20 @@ $(function(){
 			}
 			if($(window).scrollTop()<300){
 				$(".go-top").hide();
+			}
+		});
+
+		//友情链接
+		$(".links-more").bind("click",function(){
+		    var linksInner = $(".friend-links-inner");
+		    var moreThis = $(this);
+		    if(linksInner.hasClass("height")){
+                linksInner.removeClass("height").addClass("auto");
+                moreThis.html("-");
+			}
+			else{
+                linksInner.removeClass("auto").addClass("height");
+                moreThis.html("+");
 			}
 		});
 });
