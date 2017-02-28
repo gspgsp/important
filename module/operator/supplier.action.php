@@ -254,7 +254,7 @@ class supplierAction extends adminBaseAction{
                     'city'      =>  $data['company_city'],                          // 城市
                     'address'  => $data['address'],                                 //  公司地址
                     'zip_code'   => trim($data['zip_code']),                              // 邮编
-                    'fund_date'  => $data['fund_date'],                             //成立时间
+                    'fund_date'  => strtotime($data['fund_date']),                             //成立时间
                     'register_capital'  => trim($data['register_capital']),               // 注册资本
                     'credit_level'  => $data['credit_level'],                       // 信用等级
                     'status'=>   $data['status'],                                   //审核状态
