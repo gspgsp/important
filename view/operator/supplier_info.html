@@ -148,11 +148,11 @@
         var json = mini.encode(o);
         $("#returnMsg").text('');
         form.loading("数据提交中，请稍后......");
-        {if $user.supplier_id eq ''}
-        var urlstr = '/operator/supplier/addSubmit';
-        {else}
+//        {if $user.supplier_id eq ''}
+//        var urlstr = '/operator/supplier/addSubmit';
+//        {else}
         var urlstr = '/operator/supplier/editSubmit';
-        {/if}
+//        {/if}
         $.post(urlstr,{data:json},function(data){
             form.unmask();
             $("#returnMsg").text(data.msg);
