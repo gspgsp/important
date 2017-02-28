@@ -222,7 +222,6 @@ class supplierAction extends adminBaseAction{
                 'remark'=> $data['remark'],
                 'status'=> $data['status_1'],                // 状态
             );
-            p($param);
             $info=$this->db->model('logistics_contact')->add($param);
             if($info==1){
                 $this->success('添加成功');
@@ -303,18 +302,18 @@ class supplierAction extends adminBaseAction{
     }
 
 
-    /**
-     *查看供应商信息
-     *
-     */
-    public function showSupplier(){
-
-
-
-
-
-        $this->display('supplier_info.html');
-    }
+//    /**
+//     *查看供应商信息
+//     *
+//     */
+//    public function showSupplier(){
+//
+//
+//
+//
+//
+//        $this->display('supplier_info.html');
+//    }
 
 
     /**
