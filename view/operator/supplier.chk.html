@@ -43,11 +43,11 @@
         form.loading("数据提交中，请稍后......");
         $.post('/operator/supplier/chkSubmit',$("#infoForm").serialize(),function(data){
             form.unmask();
-            $("#returnMsg").text(data.msg);
+//            $("#returnMsg").text(data.msg);
             if(data.err=='0'){
                 CloseWindow("save");
             }else{
-                return false;
+                $("#returnMsg").text(data.msg); return false;
             }
         },'json');
     }
