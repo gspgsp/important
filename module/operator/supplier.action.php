@@ -341,6 +341,7 @@ class supplierAction extends adminBaseAction{
             $info=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->getAll();
             $list=array();
             foreach ($info as $k=> $v){
+                $list['supplier_id']= $v['supplier_id'];     // 供应商id
                 $list['supplier_name']=$v['supplier_name'];  // 供应商名称
                 $list['legal_person']= $v['legal_person'];   // 供应商法人
                 $list['legal_person_code'] = $v['legal_person_code'];  // 法人身份证号码
