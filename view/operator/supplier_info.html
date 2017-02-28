@@ -4,7 +4,7 @@
         <div class="mini-tabs" activeIndex="0" plain="false">
             <div title="基本信息">
                 <input class="mini-hidden" name="ctype" value="{$ctype}"/>
-                <input class="mini-hidden" name="c_id" value="{$user.c_id}"/>
+                <input class="mini-hidden" name="supplier_id" value="{$user.supplier_id}"/>
                 <input class="mini-hidden" name="info_user_id" value="{$info_ext.user_id}"/>
                 <table width="100%">
                     <caption><strong>基本--3--信息</strong></caption>
@@ -148,10 +148,10 @@
         var json = mini.encode(o);
         $("#returnMsg").text('');
         form.loading("数据提交中，请稍后......");
-        {if $user.user_id eq ''}
-        var urlstr = '/user/customer/addSubmit';
+        {if $user.supplier_id eq ''}
+        var urlstr = '/operator/supplier/addSubmit';
         {else}
-        var urlstr = '/user/customer/editSubmit';
+        var urlstr = '/operator/supplier/editSubmit';
         {/if}
         $.post(urlstr,{data:json},function(data){
             form.unmask();
