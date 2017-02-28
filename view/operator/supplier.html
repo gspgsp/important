@@ -152,13 +152,14 @@
         }
         return s;
     }
-    //审核用户
-    function chk(supplier_id){
+
+    // 审核供应商状态
+    function chk(cid){
         mini.open({
-            url: "/operator/supplier/chkPage?id="+supplier_id,
+            url: "/operator/supplier/chkPage?id="+cid,
             showMaxButton:true,
             title: "审核用户",
-            width:300, height:400,
+            width: 400, height:200,
             ondestroy: function (action) {
                 if(action=='save'){ //重新加载
                     grid.reload();
@@ -166,7 +167,6 @@
             }
         });
     }
-
 
     //编辑物流供应商
     function onLoadHandle(e) {
@@ -207,20 +207,7 @@
     }
 
 
-    // 审核供应商状态
-    function chk(cid){
-        mini.open({
-            url: "/operator/supplier/chkPage?id="+cid,
-            showMaxButton:true,
-            title: "审核用户",
-            width: 400, height:200,
-            ondestroy: function (action) {
-                if(action=='save'){ //重新加载
-                    grid.reload();
-                }
-            }
-        });
-    }
+
 
     //发送短信
     function send(){
