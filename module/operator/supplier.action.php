@@ -10,6 +10,9 @@ class supplierAction extends adminBaseAction{
 
     public function __init(){
         $this->debug=false;
+        $this->assign('status',L('status'));// 供应商状态
+        $this->assign('type',L('supplier_type'));//工厂类型
+        $this->assign('level',L('credit_level'));//信用等级
         $this->db=M('public:common')->model('logistics_supplier');
         $this->doact = sget('do','s');
     }
