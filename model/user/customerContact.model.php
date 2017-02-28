@@ -10,7 +10,7 @@ class customerContactModel extends model{
 	//添加用户联系人或者是公司
 	public function customerAdd($param=array(),$info=array()){
 		if($info['ctype']==1){
-			$uid = $info['user_id']>0 ? $info['user_id'] : 0;
+			$uid = $info['info_user_id']>0 ? $info['info_user_id'] : 0;
 			if(!empty($param['mobile'])){
 				if(!is_mobile($param['mobile'])){
 					return array('err'=>1,'msg'=>'您的手机号码格式不正确');
@@ -32,7 +32,7 @@ class customerContactModel extends model{
 			if(!empty($param['qq'])){
 				if(strlen($param['qq'])>16) return  array('err'=>1,'msg'=>'QQ号码长度错误');
 				if(!$this->usrUnique('qq',$param['qq'],$uid)){
-					return array('err'=>1,'msg'=>'qq号码已存在');
+					return array('err'=>1,'msg'=>'qq号码已存在111');
 				}
 			}
 		}else{    
@@ -95,7 +95,7 @@ class customerContactModel extends model{
 			if(!empty($param['info_qq'])){
 				if(strlen($param['info_qq'])>16) return  array('err'=>1,'msg'=>'QQ号码长度错误');
 				if(!$this->usrUnique('qq',$param['info_qq'],$uid)){
-					return array('err'=>1,'msg'=>'qq号码已存在');
+					return array('err'=>1,'msg'=>'qq号码已存在234');
 				}
 			}
 			// 组合区域

@@ -10,7 +10,7 @@ class settingModel extends model{
 	/*
 	 * 获取系统设置
 	 * @access public
-     * @return array
+	 * @return array
 	 */
 	public function getSetting(){
 		$_key='setting';
