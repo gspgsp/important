@@ -149,6 +149,32 @@
 
         return s;
     }
+    // 编辑供应商信息(修改)
+    function onLoadFllow(e) {
+        var record = e.record,supplier_id=record.supplier_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli;
+        s += '|<a href="javascript:onEdit('+supplier_id+')">改</a>';
+//        if(status == 2 && customer_manager ==''){
+//            s += '<a href="javascript:allotO('+cid+')">分配</a>|<a href="javascript:Retrieve('+cid+')">捡回</a>';
+//
+//        }else if(status == 1 && customer_manager ==''){
+//            s += '<a href="javascript:chk('+cid+')">审核</a>';
+//            s += '|<a href="javascript:removeRow('+cid+')">黑名单</a>';
+//        }else{
+//            if(customer_manager !=''){
+//                s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>';
+//                if(supplier==0){
+//                    s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:setSea('+cid+')">公海</a>';
+//                }
+//                s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
+//            }
+//            if(bli>0){
+//                s +='|<a href="javascript:changeMessage('+cid+')">票</a>';
+//            }
+//        }
+        return s;
+    }
+
+
 
 
 
@@ -274,10 +300,10 @@
         return row;
     }
 
-    function onEdit(e) {
+    function onEdit(supplier_id) {
         var row = grid.getSelected();
         if (row) {
-            var width=740,height=700,title='编辑-----客户信息';
+            var width=740,height=700,title='编辑客户信息';
             urlStr="/operator/supplier/edit?id="+row.supplier_id+'&ctype=3';
             mini.open({
                 url: urlStr,
