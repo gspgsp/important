@@ -354,8 +354,7 @@ class supplierAction extends adminBaseAction{
         $data['remark']=$remark;
         $data['update_time']=time();
         $data['update_name']=$_SESSION['name'];
-        p($data);
-        $this->db->model()->where('supplier_id='.$supplier_id)->update($data);
+        $this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->update($data);
         showTrace();
 
     }
