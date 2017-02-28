@@ -345,16 +345,19 @@ class supplierAction extends adminBaseAction{
      *
      */
     public  function chkSubmit(){
+        $this->is_ajax=true;
         $supplier_id =sget('supplier_id','i',0);
         $status = sget('status','i');
         $remark= sget('remark','i','');
         if($supplier_id<1) $this->error('信息错误');
+        $data=array();
         $data['status']=$status;
         $data['remark']=$remark;
         $data['update_time']=time();
         $data['update_name']=$_SESSION['name'];
-        $res=$this->db->model()->where('supplier_id='.$supplier_id)->update($data);
-        p($res);
+        p($data);
+        $this->db->model()->where('supplier_id='.$supplier_id)->update($data);
+        showTrace();
 
     }
 
