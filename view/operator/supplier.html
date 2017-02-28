@@ -143,47 +143,28 @@
     function onRowDblClick(e) {
         onEdit();
     }
-    //分配客户
-    function allotView(e){
-        var record = e.record,s='', cid = record.c_id;
-
-        return s;
-    }
     // 编辑供应商信息(修改)
     function onLoadFllow(e) {
-        var record = e.record,supplier_id=record.supplier_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli;
+        var record = e.record,supplier_id=record.supplier_id, status=record.status,s='';
         s += '<a href="javascript:onEdit('+supplier_id+')">改</a>';
-//        if(status == 2 && customer_manager ==''){
-//            s += '<a href="javascript:allotO('+cid+')">分配</a>|<a href="javascript:Retrieve('+cid+')">捡回</a>';
-//
-//        }else if(status == 1 && customer_manager ==''){
-//            s += '<a href="javascript:chk('+cid+')">审核</a>';
-//            s += '|<a href="javascript:removeRow('+cid+')">黑名单</a>';
-//        }else{
-//            if(customer_manager !=''){
-//                s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>';
-//                if(supplier==0){
-//                    s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:setSea('+cid+')">公海</a>';
-//                }
-//                s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
-//            }
-//            if(bli>0){
-//                s +='|<a href="javascript:changeMessage('+cid+')">票</a>';
-//            }
-//        }
+        if(status!=2){
+            s += '<a href="javascript:chk('+supplier_id+')">审核</a>';
+        }
         return s;
     }
-
-
-
-
-
-    //分配客户
-    var allotInfo = mini.get("allotInfo");
-    var form = new mini.Form("#replaceForm");
-    function allotO(cid) {
-        mini.get(c_id).setValue(cid)
-        allotInfo.show();
+    //审核用户
+    function chk(cid){
+        mini.open({
+            url: "/oerator/supplier/chkpage?id="+supplier_id,
+            showMaxButton:true,
+            title: "审核用户",
+            width: 190, height:160,
+            ondestroy: function (action) {
+                if(action=='save'){ //重新加载
+                    grid.reload();
+                }
+            }
+        });
     }
 
 
