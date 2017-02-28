@@ -213,40 +213,7 @@
             }
         });
     }
-    //开票资料显示
-    function changeMessage(id) {
-        var btn = this;
-        mini.open({
-            url: "/user/customer_billing/billingInfo?id="+id,
-            title: "显示开票资料",
-            width: 377,
-            height: 310,
-            onload: function () {
-                var iframe = this.getIFrameEl();
-            },
-            ondestroy: function (action) {
-                if(action=='save'){ //重新加载
-                    grid.reload();
-                }
-            }
-        });
-    }
-    //会员回收
-    function setSea(cid) {
-        mini.confirm("确定回收该用户？", "提示",	function(action){
-                if(action!='ok') return;
-                var callback=function(data){
-                    if(data.err!='0'){
-                        alert(data.msg);
-                        return false;
-                    }else{
-                        grid.reload();
-                    }
-                }
-                utils.ajax('/user/customer/setsea',{ids:cid},callback,"POST","json");
-            }
-        );
-    }
+
     //发送短信
     function send(){
         var rows = grid.getSelecteds(),_ids=new Array();
@@ -271,15 +238,7 @@
             }
         });
     }
-    //打开跟进客户信息页面
-    function viewFinfo(c_id){
-        mini.open({
-            url: "/user/follow/info?id="+c_id,
-            showMaxButton:true,
-            title: "新增客户跟进",
-            width: 300, height:320
-        });
-    }
+
 
 
 
@@ -318,7 +277,7 @@
     function onEdit(e) {
         var row = grid.getSelected();
         if (row) {
-            var width=740,height=700,title='编辑客户信息';
+            var width=740,height=700,title='编辑-----客户信息';
             urlStr="/user/customer/edit?id="+row.c_id+'&ctype=3';
             mini.open({
                 url: urlStr,
