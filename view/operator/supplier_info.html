@@ -15,7 +15,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:200px;">法人姓名：</td>
+                        <td>法人姓名：</td>
                         <td><input name="legal_person" class="mini-textbox" style="width:100px;" maxlength="10"  value="{$user.legal_person}"/></td>
                     </tr>
                     <tr>
@@ -106,8 +106,6 @@
                         <td>信用等级：</td>
                         <td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' textfield="name" valuefield="id" value="{$user.credit_level}"/>
                         </td>
-                    </tr>
-                    <tr>
                         <td>状态：</td>
                         <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' textfield="name" valuefield="id" value="{$user.status}"/></td>
                     </tr>
