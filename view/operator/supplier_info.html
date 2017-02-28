@@ -1,201 +1,328 @@
 {layout file="public:mini_layout"}
 <div style="padding:5px;">
-    <div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
-        <div title="客户详细信息">
-            <div style="height:540px">
+    <div id="infoForm" class="form">
+        <div class="mini-tabs" activeIndex="0" plain="false">
+            <div title="基本信息">
+                <input class="mini-hidden" name="ctype" value="{$ctype}"/>
+                <input class="mini-hidden" name="c_id" value="{$user.c_id}"/>
+                <input class="mini-hidden" name="info_user_id" value="{$info_ext.user_id}"/>
                 <table width="100%">
-                    <caption><strong>基本----信息</strong></caption>
+                    <caption><strong>基本--1--信息</strong></caption>
                     <tr>
-                        <td>供应商名称：</td>
+                        <td>客户名称：</td>
                         <td>
-                            {$info.supplier_name}
+                            <input name="c_name" class="mini-textbox" style="width:250px;" maxlength="50" required="true" value="{$user.c_name}"/>
                         </td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>法人姓名：</td>
-                        <td>{$info.legal_person}</td>
+                        <td><input name="legal_person" class="mini-textbox" style="width:70px;" maxlength="6"  value="{$user.legal_person}"/></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>法人身份证：</td>
-                        <td>{$info.legal_idcard}</td>
+                        <td><input name="legal_idcard" class="mini-textbox" style="width:250px;"  value="{$user.legal_idcard}"/></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>备注：</td>
-                        <td>{$info.need_product}</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>信用等级：</td>
-                        <td>{$credit_level.$info.credit_level}</td>
-                    </tr>
-                    <tr>
-                        <td>成立日期：</td>
-                        <td>{$info.fund_date}
+                        <td>身份证照片：</td>
+                        <td colspan="3">
+                            <input id="img_url5"  name="legal_idcard_pic" class="mini-textbox" value="{$user.legal_idcard_pic}" style="width:200px"/>
+                            <input id="upfileId5" type="file" name="upFile" onChange="fileUpload(5);">
                         </td>
-                        <td>注册资本：</td>
-                        <td>
-                            {$info.registered_capital}
-                            万
-                        </td>
+                    </tr>
+                    <tr>
+                        <td>所需牌号：</td>
+                        <td><input name="need_product" class="mini-textbox" style="width:250px;" required="true" value="{$user.need_product}"/></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>所在省市</td>
-                        <td>{$regionList.$info.company_province},{$regionList.$info.company_city}</td>
+                        <td><input name="company_province" id="place_1_0" style="width:80px;" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('place')" data='{:setMiniConfig|$regionList}' value="{$user.company_province}" showNullItem="true"/>
+                            <input name="company_city" id="place_2_0" url="{if $user.company_province neq ''}/user/user/getRegion?pid={$user.company_province}{/if}" value="{$user.company_city}" class="mini-combobox" style="width:80px;" textField="name" valueField="id" />            </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <!--    <tr>
+                         <td>邮政编码：</td>
+                         <td>
+                           <input name="zip" class="mini-textbox" value="{$user.zip}" style="width:100px;" maxlength="6"  vtype="zip"/>
+                         </td>
+                         <td>&nbsp;</td>
+                         <td>&nbsp;</td>
+                       </tr> -->
+                    <tr>
+                        <td>成立日期：</td>
+                        <td><input  class="mini-datepicker"  name="fund_date" value="{$user.fund_date}"/>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>注册资本：</td>
+                        <td>
+                            <input name="registered_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.registered_capital|default:}"/>
+                            元
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>实到资本：</td>
+                        <td>
+                            <input name="true_capital" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.true_capital|default:}"/>
+                            元
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>预信用额度：</td>
+                        <td>
+                            <input name="pre_credit_limit" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.credit_limit|default:}"/>
+                            元
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>信用额度：</td>
+                        <td>
+                            <input name="credit_limit" class="mini-textbox" style="width:100px;" required="true" onvalidation="onValidFullMoney" value="{$user.credit_limit|default:}"/>
+                            元
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
                         <td>公司地址：</td>
-                        <td>{$info.address}</td>
-                    </tr>
-                    <tr>
-                        <td>客户类型：</td>
-                        <td>{$type.$info.type}</td>
-                        <!-- <td>客户级别：</td>
-                        <td>{$level.$info.level}</td> -->
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>状态：</td>
-                        <td>{$status.$info.status}</td>
-                    </tr>
-                    <tr>
-                        <td>附件地址：</td>
-                        <td>{if $info.file_url}<a href="{$info.file_url1}">查看</a> {else}--{/if}</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td><input name="address" class="mini-textbox" style="width:250px;" required="true" value="{$user.address}"/></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </table>
-                <table width="100%">
-                    <caption><strong>扩展-----信息</strong></caption>
-                    {if $info.merge_three neq 1}
+                <table>
+                    <caption><strong>扩展信息</strong></caption>
+                    <tr>
+                        <td>客户类型：</td>
+                        <td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}'  textfield="name" valuefield="id"/></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <!--   <tr>
+                        <td>客户级别：</td>
+                        <td><input name="level" class="mini-combobox" style="width:150px;" value="{$user.level}" data='{:setMiniConfig|$level}'  textfield="name" valuefield="id"/></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                      </tr> -->
+                    <tr>
+                        <td>客户渠道：</td>
+                        <td><input name="chanel" class="mini-combobox" style="width:150px;" value="{$user.chanel}" data='{:setMiniConfig|$chanel}' required="true" textfield="name" valuefield="id"/></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
                     <tr>
                         <td>营业执照号：</td>
-                        <td>{$info.business_licence}</td>
+                        <td><input class="mini-textbox" style="width:250px;" name="business_licence" value="{$user.business_licence}"/>
+                        </td>
                         <td>执照照片：</td>
-                        <td>{if $info.business_licence_pic}<a href="{$info.business_licence_pic1}">查看</a> {else}--{/if}</td>
+                        <td>
+                            <input id="img_url1"  name="business_licence_pic" class="mini-textbox" value="{$user.business_licence_pic}" style="width:70px"/>
+                            <input id="upfileId1" type="file" name="upFile" onChange="fileUpload(1);">
+                        </td>
                     </tr>
                     <tr>
                         <td>组织代码：</td>
-                        <td>{$info.organization_code}</td>
+                        <td><input class="mini-textbox" style="width:250px;" name="organization_code" value="{$user.organization_code}"/>
+                        </td>
                         <td>组织图片：</td>
-                        <td>{if $info.organization_pic}<a href="{$info.organization_pic1}">查看</a> {else}--{/if}</td>
+                        <td>
+                            <input id="img_url2"  name="organization_pic" class="mini-textbox" value="{$user.organization_pic}" style="width:70px"/>
+                            <input id="upfileId2" type="file" name="upFile" onChange="fileUpload(2);">
+                        </td>
                     </tr>
                     <tr>
                         <td>税务登记码：</td>
-                        <td>{$info.tax_registration}</td>
+                        <td><input class="mini-textbox" style="width:250px;" name="tax_registration" value="{$user.tax_registration}"/>
+                        </td>
                         <td>税务图片：</td>
-                        <td>{if $info.tax_registration_pic}<a href="{$info.tax_registration_pic1}">查看</a> {else}--{/if}</td>
+                        <td>
+                            <input id="img_url3"  name="tax_registration_pic" class="mini-textbox" value="{$user.tax_registration_pic}" style="width:70px"/>
+                            <input id="upfileId3" type="file" name="upFile" onChange="fileUpload(3);">
+                        </td>
                     </tr>
-                    {else}
                     <tr>
-                        <td>统一社会信用代码：</td>
-                        <td>{$info.business_licence}</td>
-                        <td>证件图片：</td>
-                        <td>{if $info.business_licence_pic}<a href="{$info.business_licence_pic1}">查看</a> {else}--{/if}</td>
+                        <td>信用等级：</td>
+                        <td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' textfield="name" valuefield="id" value="{$user.credit_level}"/>
+                        </td>
+                        <td>附件地址：</td>
+                        <td>
+                            <input id="img_url0"  name="file_url" class="mini-textbox" value="{$user.file_url}" style="width:70px"/>
+                            <input id="upfileId0" type="file" name="upFile" onChange="fileUpload(0);">
+                        </td>
                     </tr>
-                    {/if}
                     <tr>
-                        <td>法人身份证照片（正面）：</td>
-                        <td>{if $info.legal_idcard_pic_1}<a href="{$info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>
-                        <td>法人身份证照片（反面）：</td>
-                        <td>{if $info.legal_idcard_pic_2}<a href="{$info.legal_idcard_pic1}">查看</a> {else}--{/if}</td>
+                        <td>是否授信：</td>
+                        <td><input class="mini-combobox" name="is_credit" style="width:100px;" data='{:setMiniConfig|$credit}' required="true" textfield="name" valuefield="id" value="{$user.is_credit|default:0}"/></td>
+                    </tr>
+                    <tr>
+                        <td>状态：</td>
+                        <td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$status}' textfield="name" valuefield="id" value="{$user.status|default:1}"/></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                 </table>
             </div>
-        </div>
-        <div title="联系人列表">
-            <div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" idField="id"  url="/user/contact/init?action=grid&c_id={$c_id}" sizeList="[10,20,50,100]" pageSize="20">
-                <div property="columns">
-                    <div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
-                    <div field="name" width="50" headerAlign="center" align="center">联系人</div>
-                    <div field="is_default" width="50" headerAlign="center" align="center">是/否默认联系人</div>
-                    <div field="c_id" width="80" headerAlign="center" align="center">公司</div>
-                    <div field="sex" width="60" headerAlign="center"  align="center">性别</div>
-                    <div field="mobile" width="80" headerAlign="center" align="center">手机号</div>
-                    <div field="qq" width="80" headerAlign="center" align="center">qq号</div>
-                    <div field="email" width="80" headerAlign="center" align="center">邮箱</div>
-                    <div field="customer_manager" width="80" headerAlign="center" align="center">交易员</div>
-                    <div field="depart" width="80" headerAlign="center" align="center">所属部门</div>
-                    <div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
-                    <div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
-                        <input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />
-                    </div>
+            <div title="联系人基本信息">
+                <div style="height:385px">
+                    <table border="0" cellpadding="1" cellspacing="2">
+                        <tr>
+                            <td >姓名：</td>
+                            <td><input name="info_name" class="mini-textbox" style="width:150px;" required="true" vtype="rangeLength:2,30" value="{$info_ext.name}" /></td>
+                            <td>性别：</td>
+                            <td><input class="mini-combobox" name="info_sex" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{$info_ext.sex}"/></td>
+                        </tr>
+                        <tr>
+                            <td style="width:80px;">手机：</td>
+                            <td style="width:210px;"><input name="info_mobile" class="mini-textbox" maxlength="11" value="{$info_ext.mobile}" style="width:150px;" required="true" onvalidation="onValidMobile"/></td>
+                            <td>电话：</td>
+                            <td><input name="info_tel" class="mini-textbox" style="width:150px;"  value="{$info_ext.tel}" vtype="rangeLength:6,14"/></td>
+                        </tr>
+                        <tr>
+                            <td style="width:80px;">QQ号：</td>
+                            <td style="width:210px;"><input name="info_qq" class="mini-textbox" maxlength="12" value="{$info_ext.qq}" style="width:150px;"/></td>
+                            <td>传真：</td>
+                            <td><input name="info_fax" class="mini-textbox" style="width:150px;" value="{$info_ext.fax}"  vtype="rangeLength:6,14"/></td>
+                        </tr>
+                        <tr>
+                            <td>邮件：</td>
+                            <td><input name="info_email" class="mini-textbox" style="width:150px;"  value="{$info_ext.email}" vtype="email"/></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <input name="info_remark" class="mini-textarea" value="{$info_ext.remark}" style="width:403px; height:50px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>状态：</td>
+                            <td><input class="mini-combobox" name="info_status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$info_ext.status}"/></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
+        </div><input name="utype" class="mini-textbox" style="display:none" value="3" vtype="utype"/>
+        <div align="center" style="margin-top:10px;">
+            <a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+            <a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
         </div>
     </div>
-    <script type="text/javascript">
-        mini.parse();
-        var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
-        var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow");
-        function changeTab(e){
-            var tab=e.tab;
-            if(tab.title=='联系人列表'){
-                var data=investGrid.getData();
-                if(data.length<1){
-                    investGrid.load();
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+    mini.parse();
+    var form = new mini.Form("#infoForm");
+
+    function submitForm(){
+        form.validate();
+        if(form.isValid() == false) return;
+
+        //提交数据
+        var o = form.getData();
+        var json = mini.encode(o);
+        $("#returnMsg").text('');
+        form.loading("数据提交中，请稍后......");
+        {if $user.user_id eq ''}
+        var urlstr = '/user/customer/addSubmit';
+        {else}
+        var urlstr = '/user/customer/editSubmit';
+        {/if}
+        $.post(urlstr,{data:json},function(data){
+            form.unmask();
+            $("#returnMsg").text(data.msg);
+            if(data.err=='0'){
+                CloseWindow("save");
+            }else{
+                return false;
+            }
+        },'json');
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+
+    function onValidMobile(e){
+        if (e.isValid) {
+            if(!utils.isMobile(e.value)){
+                e.errorText = "错误的手机号";
+                e.isValid = false;
+            }
+        }
+    }
+    function onValidZip(e){
+        if (e.isValid) {
+            if(!utils.isZip(e.value)){
+                e.errorText = "错误的邮编";
+                e.isValid = false;
+            }
+        }
+    }
+    //验证身份证
+    function onIDCardsValidation(e) {
+        if (e.isValid) {
+            var pattern = /\d*/;
+            if (e.value.length < 15 || e.value.length > 18 || pattern.test(e.value) == false) {
+                e.errorText = "必须输入15~18位数字";
+                e.isValid = false;
+            }
+        }
+    }
+    function setReg(name,val){
+        var deptCombo = mini.get(name+"_1_0");
+        var positionCombo = mini.get(name+"_2_0");
+        onDeptChanged(deptCombo,positionCombo,val);
+    }
+    function onDeptChanged(deptCombo,positionCombo,val) {
+        var id = deptCombo.getValue();
+
+        positionCombo.setValue("");
+        var url = "/user/user/getRegion?pid=" + id
+        positionCombo.setUrl(url);
+    }
+    function fileUpload(id) {
+        $.ajaxFileUpload({
+                url:'/system/sysUpload/images?model={$action}',
+                secureuri:false,
+                fileElementId:'upfileId'+id,
+                dataType: 'json',
+                success: function (data, status) {
+                    if(data.err=='0'){
+                        mini.get("img_url"+id).setValue(data.msg);
+                    }
+                },
+                error: function (data, status, e){
+                    $("#picResult").html(e);
                 }
             }
-
-
-        }
-        //编辑联系人
-        function onLoadHandle(e) {
-            var record = e.record,uid=record.user_id, s='';
-            s += '<a href="javascript:viewContactInfo('+uid+')">'+uid+'</a> ';
-
-            return s;
-        }
-        //追加关联
-        function onJoin(e) {
-            var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
-
-            if(store_o_id > 0 && join_id == 0){
-                s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
-            }else if(store_o_id == 0 && join_id > 0){
-                s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
-            }else if(o_id == join_id && join_id>0 && store_o_id>0){
-                s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
-            }else if(o_id == store_o_id && join_id>0 && store_o_id>0){
-                s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
-            }
-            return s;
-        }
-        function see_order(e){
-            var record = e.record,s='',o_id = record.o_id,sn = record.order_sn;
-            return '<a href="javascript:viewOrdInfo('+o_id+')">'+sn+'</a> ';
-        }
-        //查看订单相关信息
-        function viewOrdInfo(oid,o_type){
-            mini.open({
-                url: "/application/order/info?oid="+oid+'&o_type='+o_type,
-                showMaxButton:true,
-                title: "查看订单相关信息",
-                width: 800, height:460
-            });
-        }
-        function search() {
-            buy_log.load($("#soform").serializeObject(),function(e){
-                $("#searchMsg").html(e.msg);
-            });
-        }
-        function search2() {
-            sale_log.load($("#soform1").serializeObject(),function(e){
-                $("#searchMsg1").html(e.msg);
-            });
-        }
-        search();
-        search2();
-        function onKeyEnter(e) {
-            search();
-        }
-        function onKeyEnter1(e) {
-            search2();
-        }
-
-    </script>
+        )
+        return false;
+    }
+</script>
