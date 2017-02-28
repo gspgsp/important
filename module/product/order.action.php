@@ -601,6 +601,8 @@ class orderAction extends adminBaseAction {
 				}
 			}
 			if($this->db->commit()){
+				//添加订单可视化
+				M('order:orderLog')->addLog($o_id);
 				$this->success();
 			}else{
 				$this->db->rollback();
@@ -628,9 +630,10 @@ class orderAction extends adminBaseAction {
 				unset($data['sales_type']);
 				if( !$re=$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($_data+$data+array('node_flow'=>'+=1','order_remark'=>$data['order_remark'],)) ) throw new Exception("物流审核失败");
 				if( !$re2=$this->db->model('purchase_log')->where(' o_id = '.$data['o_id'])->update(array('order_status'=>2,)+$_data) ) throw new Exception("订单明细审核状态更新失败");
+				//添加订单可视化订单审核过
+				M('order:orderLog')->addLog($data['o_id'],1,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
 			}elseif($data['s_or_p'] == '' && $data['order_status'] == '2'){
 				//销售审核通过即锁库存 2:通过  ,  3:不通过
-				//检查来源
 				$order_source  = $this->db->model('order')->select('order_source')->where(' o_id = '.$data['o_id'])->getOne();
 					if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update("order_status = 2 , node_flow=node_flow+1, order_remark='{$data['order_remark']}'") ) throw new Exception("订单审核失败");
 					if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 2') ) throw new Exception("订单明细审核状态更新失败");
@@ -642,6 +645,8 @@ class orderAction extends adminBaseAction {
 							}
 						}
 					}
+				//添加订单可视化订单审核过
+				M('order:orderLog')->addLog($data['o_id'],1,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
 			}
 			 if($data['order_status'] == '3'){
 				if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update('order_status = 3') ) throw new Exception("订单审核失败");
@@ -650,6 +655,8 @@ class orderAction extends adminBaseAction {
 				}else{
 					if( !$this->db->model('sale_log')->where(' o_id = '.$data['o_id'])->update('order_status = 3') ) throw new Exception("订单明细审核状态更新失败");
 				}
+				//添加订单可视化订单审不通过
+				M('order:orderLog')->addLog($data['o_id'],3,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
 			}
 
 		} catch (Exception $e) {
@@ -677,7 +684,8 @@ class orderAction extends adminBaseAction {
 			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");
 			$transport_status = $data['transport_status'] == '2' ? '1' : '2';
 			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update(array('is_join_check'=>$transport_status)+$_data) ) throw new Exception("关联的销售订单接收采购订单状态更新失败");
-
+			//添加订单可视化 1审核过 2审核不过
+			M('order:orderLog')->addLog($data['o_id'],$transport_status = $transport_status==2 ? 3 : 2,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
@@ -763,6 +771,8 @@ class orderAction extends adminBaseAction {
 				$this->db->model('order')->where("o_id = $v")->delete();
 				$this->db->model('purchase_log')->where("o_id = $v")->delete();
 			}
+			//添加订单可视化订单撤销
+			M('order:orderLog')->addLog($v,3);
 		}
 
 		if($this->db->commit()){
@@ -771,5 +781,11 @@ class orderAction extends adminBaseAction {
 			$this->db->rollback();
 			$this->error('撤销失败');
 		}
+	}
+	/**
+	 * 获取订单流程的页面展示
+	 */
+	public function getFlow(){
+		$this->display('order.flow.html');
 	}
 }
