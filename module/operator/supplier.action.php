@@ -356,7 +356,7 @@ class supplierAction extends adminBaseAction{
                 $list['social_credit_code'] =$v['social_credit_code'];// 社会统一信用代码
                 $list['social_credit_code_pic'] =$v['social_credit_code_pic'];// 社会统一信用代码图片
             }
-             $this->assign('info',$list);
+             $this->assign('user',$list);
              $this->display('supplier_info.html');
     }
 
