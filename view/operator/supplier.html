@@ -164,12 +164,12 @@
     //编辑物流供应商
     function onLoadHandle(e) {
         var record = e.record,supplier_id=record.supplier_id, supplier_name=record.supplier_name, s='';
-        s += '<a href="javascript:showSupplier('+supplier_id+')">'+supplier_name+'</a> ';
+        s += '<a href="javascript:addSuppliers('+supplier_id+')">'+supplier_name+'</a> ';
         return s;
     }
 
     //查看供应商相关信息
-    function showSupplier(supplier_id){
+    function addSuppliers(supplier_id){
         mini.open({
             url: "/operator/supplier/addSupplier?id="+supplier_id,
             showMaxButton:true,
@@ -278,7 +278,7 @@
         var row = grid.getSelected();
         if (row) {
             var width=740,height=700,title='编辑-----客户信息';
-            urlStr="/user/customer/edit?id="+row.c_id+'&ctype=3';
+            urlStr="/operator/supplier/edit?id="+row.c_id+'&ctype=3';
             mini.open({
                 url: urlStr,
                 title: title, width: width, height:height,
