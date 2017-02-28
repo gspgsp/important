@@ -148,7 +148,7 @@
         var record = e.record,supplier_id=record.supplier_id, status=record.status,s='';
         s += '<a href="javascript:onEdit('+supplier_id+')">改</a>';
         if(status!=2){
-            s += '<a href="javascript:chk('+supplier_id+')">审核</a>';
+            s += '|<a href="javascript:chk('+supplier_id+')">审核</a>';
         }
         return s;
     }
