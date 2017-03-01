@@ -152,6 +152,7 @@
         var urlstr = '/operator/supplier/editSubmit';
         {/if}
         $.post(urlstr,{data:supplier_info},function(data){
+            console.log(data);return false;
             form.unmask();
             $("#returnMsg").text(data.msg);
             if(data.err=='0'){
