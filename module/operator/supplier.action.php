@@ -312,7 +312,7 @@ class supplierAction extends adminBaseAction{
     public function editSubmit(){
         $this->is_ajax=true;
         $data = sdata();
-        if($data['supplier_id']<1) $this->error('信息错误');
+        if($data['supplier_id']>1) $this->error('信息错误');
         $data['update_time']=time();
         $data['update_name']=$_SESSION['name'];
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->update($data);
