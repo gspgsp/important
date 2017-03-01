@@ -266,12 +266,12 @@ module.exports = {
 	},
 	mounted: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
     		type:"get",
     		url:"/api/qapi1/getProductInfo",
