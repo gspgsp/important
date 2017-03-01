@@ -222,4 +222,20 @@ class customerModel extends model{
 		return $res;
 	}
 
+
+    /**
+     * @param $o_id
+     * @param $money
+     * @param $status    状态
+     * @param $pay_time  完成时间(先销售审核 在物流审核)
+     */
+    public function updateCreditLimit($o_id, $status,$pay_time){
+        $var=$this->db->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getAll();
+
+        return $var;
+//        $info=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id='.$c_id)->getOne();
+        
+
+    }
+
 }
