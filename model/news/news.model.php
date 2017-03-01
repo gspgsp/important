@@ -97,6 +97,7 @@
 				$data['nextOne']=$this->model('news_content')->where('cate_id='.$data['cate_id'].' and id >'.$id)->select('id,title')->order('id asc')->limit(1)->getRow();
 				$cache->set($name,$data,86400);
 			}
+			
 			//取出内链文章
 			$result=$this->model('news_content')->query("select `id` from p2p_news_content where cate_id=".$data['cate_id']." and id != ".$id." order by rand() limit 10");
 			while($re = mysql_fetch_row($result))
@@ -179,10 +180,7 @@
 				$i++;
 
 			}
-			//p($tmp);exit;
 			return $tmp;
 		}
-
-
 	}
  ?>
