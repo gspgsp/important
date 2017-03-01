@@ -274,7 +274,7 @@
         var row = grid.getSelected();
         if (row) {
             var width=740,height=700,title='编辑供应商信息';
-            urlStr="/operator/supplier/editSubmit?id="+row.supplier_id;
+            urlStr="/operator/supplier/edit?id="+row.supplier_id;
             mini.open({
                 url: urlStr,
                 title: title, width: width, height:height,
