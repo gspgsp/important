@@ -1,0 +1,114 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+*{ margin:0; padding:0;}
+.views{ color:#666; font-size:12px; width:100%; height:auto; overflow:hidden;}
+.views .view{ width:25%; height:auto; overflow:hidden; float:left; border-right:1px solid #ccc;}
+.views .view.last{ width:24%; border-right:none;}
+.views .view h3{ color:#333; font-weight:700; font-size:14px;font-family: 'Yahei'; text-align:center; height:40px; line-height:40px;border-bottom: 1px solid #ccc;margin-bottom: 20px;}
+.views .view .track{ color:#fff; text-align:center; width:80px; height:30px; line-height:30px; margin:10px auto;border-radius: 4px;}
+.views .view .track.done{ background:#3cae3c;}
+.views .view .track.doing{ background:#f93838;}
+.views .view .track.undetermined{ background:#a2a1a1;}
+.views .view .info{ height:80px; overflow:hidden; line-height:20px; text-indent:20px;}
+</style>
+</head>
+
+<body>
+<div class="views">
+	<!--view begin-->
+	<div class="view">
+		<h3>信息流</h3>
+		<p class="track done">订单创建</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 马良</li>
+		</ul>
+		<p class="track done">助理审核</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 马良</li>
+			<li>耗时：12时30分4秒</li>
+		</ul>
+		<p class="track doing">合同回传</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 马良</li>
+			<li>耗时：12时30分4秒</li>
+		</ul>
+		<p class="track doing">订单取消</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 马良</li>
+		</ul>
+	</div>
+	<!--view end-->
+	<!--view begin-->
+	<div class="view">
+		<h3>物流</h3>
+		<p class="track doing">已派车</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>耗时：12时30分4秒</li>
+		</ul>
+		<p class="track doing">POD签收</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>耗时：12时30分4秒</li>
+		</ul>
+		<p class="track doing">发票寄送</p>
+		<ul class="info"></ul>
+		<p class="track doing">发票签收</p>
+		<ul class="info"></ul>
+	</div>
+	<!--view end-->
+	<!--view begin-->
+	<div class="view">
+		<h3>资金流</h3>
+		<p class="track doing">部分收款</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>总额：5000,000元</li>
+			<li>本次收款：4000,000元</li>
+			<li>余额：1000,000元</li>
+		</ul>
+		<p class="track doing">部分收款</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>总额：5000,000元</li>
+			<li>本次收款：4000,000元</li>
+			<li>余额：1000,000元</li>
+		</ul>
+		<p class="track doing">全部收款</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>总额：5000,000元</li>
+			<li>本次收款：5000,000元</li>
+			<li>余额：0元</li>
+		</ul>
+		<!--  <p class="track undetermined">供应链金融(待定)</p> -->
+		 <!-- <ul class="info"></ul> -->
+	</div>
+	<!--view end-->
+	<!--view begin-->
+	<div class="view last">
+		<h3>发票</h3>
+		<p class="track doing">部分开票</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>总额：5000,000元</li>
+			<li>本次开票：4000,000元</li>
+			<li>余额：1000,000元</li>
+		</ul>
+		<p class="track doing">部分开票</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>总额：5000,000元</li>
+			<li>本次开票：4000,000元</li>
+			<li>余额：1000,000元</li>
+		</ul>
+		<p class="track doing">全部开票</p>
+		<ul class="info">
+			<li>2017/02/23 13:45:40 杜丽燕</li>
+			<li>总额：5000,000元</li>
+			<li>本次开票：5000,000元</li>
+			<li>余额：0元</li>
+		</ul>
+	</div>
+	<!--view end-->
+</div>
