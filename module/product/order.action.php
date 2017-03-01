@@ -676,7 +676,7 @@ class orderAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
         $var=M('user:customer')->updateCreditLimit($data['o_id']);
-        showTrace();
+        p($var);die;
 		if(empty($data)) $this->error('错误的操作');
 		$_data=array(
 			'update_time'=>CORE_TIME,
