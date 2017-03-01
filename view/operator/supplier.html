@@ -273,8 +273,8 @@
     function onEdit(supplier_id) {
         var row = grid.getSelected();
         if (row) {
-            var width=740,height=700,title='编辑客户信息';
-            urlStr="/operator/supplier/edit?id="+row.supplier_id+'&ctype=3';
+            var width=740,height=700,title='编辑供应商信息';
+            urlStr="/operator/supplier/editSubmit?id="+row.supplier_id+'&ctype=3';
             mini.open({
                 url: urlStr,
                 title: title, width: width, height:height,
