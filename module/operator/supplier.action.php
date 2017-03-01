@@ -317,9 +317,9 @@ class supplierAction extends adminBaseAction{
         $data['update_name']=$_SESSION['name'];
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->update($data);
         if($res){
-            if($res!=1) json_output(array('err'=>1,'msg'=>'信息跟新失败'));
+            if($res!=1) $this->json_output(array('err'=>1,'msg'=>'信息跟新失败'));
         }else{
-            json_output(array('err'=>0,'msg'=>'更新成功'));
+            $this->json_output(array('err'=>0,'msg'=>'更新成功'));
         }
     }
 
@@ -396,9 +396,9 @@ class supplierAction extends adminBaseAction{
         $data['update_name']=$_SESSION['name'];
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->update($data);
         if($res){
-            if($res!=1) json_output(array('err'=>1,'msg'=> '信息跟新失败'));
+            if($res!=1) $this->json_output(array('err'=>1,'msg'=> '信息跟新失败'));
         }else{
-            json_output(array('err'=>0,'msg'=>'更新成功'));
+            $this->json_output(array('err'=>0,'msg'=>'更新成功'));
         }
     }
 
