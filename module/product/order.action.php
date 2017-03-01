@@ -675,6 +675,8 @@ class orderAction extends adminBaseAction {
 	public function transportcheck(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+        $var=M('user:customer')->updateCreditLimit($data['o_id']);
+        showTrace();
 		if(empty($data)) $this->error('错误的操作');
 		$_data=array(
 			'update_time'=>CORE_TIME,
@@ -686,6 +688,7 @@ class orderAction extends adminBaseAction {
 			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update(array('is_join_check'=>$transport_status)+$_data) ) throw new Exception("关联的销售订单接收采购订单状态更新失败");
 			//添加订单可视化 1审核过 2审核不过
 			M('order:orderLog')->addLog($data['o_id'],$transport_status = $transport_status==2 ? 3 : 2,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
+
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
