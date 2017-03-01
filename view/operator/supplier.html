@@ -147,7 +147,7 @@
     // 编辑供应商信息(修改)
     function onLoadFllow(e) {
         var record = e.record,supplier_id=record.supplier_id, status=record.status,s='';
-        s += '<a href="javascript:onEdit('+supplier_id+')">编辑</a>';
+        s += '<a href="javascript:onEdits('+supplier_id+')">编辑</a>';
         if(status!=2){
             s += '|<a href="javascript:chk('+supplier_id+')">审核</a>';
         }
@@ -239,21 +239,21 @@
 
 
     //行内编辑后保存数据
-    function saveTags(){
-        var data = grid.getChanges();
-        var json = mini.encode(data);
-        if(json.length<10) return false;
-        grid.loading("保存中，请稍后......");
-        var callback=function(data){
-            if(data.error>0){
-                alert(data.content);
-                return false;
-            }else{
-                grid.reload();
-            }
-        }
-        utils.ajax('/user/customer/saveTags',{data:json},callback,"POST","json");
-    }
+//    function saveTags(){
+//        var data = grid.getChanges();
+//        var json = mini.encode(data);
+//        if(json.length<10) return false;
+//        grid.loading("保存中，请稍后......");
+//        var callback=function(data){
+//            if(data.error>0){
+//                alert(data.content);
+//                return false;
+//            }else{
+//                grid.reload();
+//            }
+//        }
+//        utils.ajax('/user/customer/saveTags',{data:json},callback,"POST","json");
+//    }
     //筛选数据
     function CloseWindow(action) {
         if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
@@ -270,7 +270,7 @@
         return row;
     }
 
-    function onEdit(supplier_id) {
+    function onEdits(supplier_id) {
         var row = grid.getSelected();
         if (row) {
             var width=740,height=700,title='编辑供应商信息';
