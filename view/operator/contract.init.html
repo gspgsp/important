@@ -1,0 +1,240 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+			 <a class="mini-button" iconCls="icon-add" onclick="transport_contract()" plain="true">新增</a>
+			 <a class="mini-button" iconCls="icon-edit" onclick="transport_contract_edit()" plain="true">编辑</a>
+             <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">销毁</a>
+            </td>
+				<td style="float:right">
+					<form id="soform">
+					<select name="sTime">
+					<option value="">=时间=</option>
+					<option value="create_time">创建时间</option>
+					<option value="update_time">更新时间</option>
+					<option value="contract_time">合同日期</option>
+					<option value="delivery_time">送货日期</option>
+				</select>
+				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+				<!--<select name="status" id="soStatus">
+						<option value="">=状态=</option>
+						<option value="0">禁用</option>
+						<option value="1">正常</option>
+					</select>-->
+						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+						<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+						<span id="searchMsg"></span>
+					</form>
+						</td>
+				</tr>
+		</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"
+						url="/operator/contract/init?action=grid{if $isPublic eq '1'}&isPublic={$isPublic}{/if}"  idField="admin_id" multiSelect="true" sizeList="[10,20,50,100]" pageSize="20">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="logistics_contract_id" width="30" align="center" headerAlign="center">合同号</div>
+			<div field="second_part_company_name" width="80" align="center" headerAlign="center" >乙方公司名称</div>
+			<div field="goods_name" width="50" align="center" headerAlign="center">货物名称</div>
+			<div field="start_place" width="70" align="center" headerAlign="center">提货地点</div>
+			<div field="contract_time" width="70" align="center" headerAlign="center">合同日期</div>
+			<div field="delivery_time" width="70" align="center" headerAlign="center">提货日期</div>
+			<div field="plate_number" width="50" align="center" headerAlign="center" >车号</div>
+			<div field="driver_name" width="50" align="center" headerAlign="center">司机姓名</div>
+			<div field="driver_idcard" width="50" align="center" headerAlign="center" >身份证号码</div>
+			<div field="second_part_contact_id" width="50" headerAlign="center" align="center">乙方联系人</div>
+			<div field="second_part_contact_tel" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">乙方联系方式</div>
+			<div field="second_part_contact_fax" width="50" headerAlign="center" align="center">乙方传真号</div>
+			<div field="status" width="50"  renderer="onStatusRender">状态</div>
+			<div name="action" width="40" headerAlign="center" renderer="onLoadHandle">操作</div>
+		</div>
+	</div>
+</div>
+{if $doact eq 'search' || $isPublic eq '0' }
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+				<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+				<span style="display:inline-block;width:25px;"></span>
+				<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+{/if}
+
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+/*var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");*/
+//生成运输合同
+function transport_contract(){
+	mini.open({
+		url: "/operator/transport/add?order_type=2",
+		showMaxButton:true,
+		title: '新增物流订单', width: 845, height: 650,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//生成运输合同
+function transport_contract_edit(){
+	var row = grid.getSelected();
+	var lc_id =row.logistics_contract_id;
+	mini.open({
+		url: "/operator/transport/edit?type=edit&lc_id="+lc_id,
+		showMaxButton:true,
+		title: '新增物流订单', width: 845, height: 650,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+
+function fileUpload() {
+	$.ajaxFileUpload({
+		url:'/system/sysUpload/images?model={$action}',
+			secureuri:false,
+			fileElementId:'upfileId',
+			dataType: 'json',
+			success: function (data, status) {
+				if(data.err=='0'){
+					mini.get("img_url").setValue(data.msg);
+					imgResize();
+				}
+			},
+			error: function (data, status, e){
+				$("#picResult").html(e);
+			}
+		}
+	)
+	return false;
+}
+
+//销毁合同
+function remove() {
+    var rows = grid.getSelecteds(),_ids=new Array();
+    if(rows.length<1) return;
+    for(var i=0;i<rows.length;i++){
+        var _id=parseInt(rows[i].logistics_contract_id);
+        if(_id<1){
+            grid.removeRow(rows[i],false);
+        }else{
+            _ids.push(_id);
+        }
+    }
+    var ids=_ids.join(',');
+    if(ids=='') return;
+    mini.confirm("确定销毁合同？", "提示", function(action){
+        if(action!='ok') return;
+        var callback=function(data){
+            grid.reload();
+            alert(data.msg)
+            return false;
+        }
+        utils.ajax('/operator/contract/remove',{ids:ids},callback,"POST","json");
+    });
+}
+function imgResize(){
+	$("#picDisplay img").load(function(){
+		if(this.width>80) this.width = 80;
+	});
+}
+//运输合同审核状态
+function onStatusRender(e) {
+    var s='';
+    record = e.record;
+    if(record.status=='1'){
+        s+='审核通过';
+    }else{
+        s += '<a href="javascript:onContractReview()">未审核</a>&nbsp;&nbsp;';
+        s += '</br><a href="javascript:edit()"> 修改</a>';
+    }
+    return s;
+}
+
+//加载：追加按钮
+function onLoadHandle(e) {
+	var record = e.record; //record.id
+
+	var logistics_contract_id = record.logistics_contract_id;
+	if(record.is_super=='1'){
+		return '-';
+	}
+	return '<a class="mini-button" iconCls="icon-save"  plain="true" href="javascript:pdfRender('+logistics_contract_id+')">生成PDF文件</a> ';
+}
+function pdfRender(logistics_contract_id){
+	alert(logistics_contract_id);
+	mini.open({
+		url: "/operator/transport/pdfRender?lc_id="+logistics_contract_id,
+		showMaxButton:true,
+		title: '新增物流订单', width: 845, height: 650,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+function onLoadSuper(e){
+	var record = e.record; //record.id
+	if(record.is_super=='1'){
+		return '是';
+	}
+	return '否';
+}
+
+function onLoadDepart(e){
+	var record = e.record.depart;
+	return $("#soDepart").find("option[value="+record+"]").text();
+}
+//设置管理员角色
+function setRole(){
+	var row = grid.getSelected();
+	mini.open({
+		url: '/rbac/access/role?id='+row.admin_id,
+		showMaxButton:true,
+		title: "设置【"+row.username+"】角色", width: 300, height:300
+	});
+}
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onComfirm() {
+	CloseWindow("ok");
+}
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+
+function onDeptChanged(e) {
+	var id = mini.get("second_part_company_name").getValue();
+	var second_part_contact_id = mini.get("second_part_contact_id");
+    second_part_contact_id.setValue("");
+    var url = "/operator/contract/get_contact_list?company_id=" + id
+    second_part_contact_id.setUrl(url);
+}
+function getcontact()
+{
+	var contact = mini.get('second_part_contact_id').getValue();
+	var url = "/operator/contract/get_contact_info?contact_id=" + contact;
+	$.post(url,'',function(data){
+		mini.get('second_part_contact_tel').setValue(data.contact_tel);
+		mini.get('second_part_contact_fax').setValue(data.comm_fax);
+	},'json');
+}
+</script>

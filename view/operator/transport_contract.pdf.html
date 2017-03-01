@@ -1,0 +1,115 @@
+<style type="text/css">
+	.hidden {display:none;}
+	table{
+		border: none;
+	}
+	tr{
+		border: none;
+	}
+	th{
+		border: none;
+	}
+	td{
+		border: none;
+	}
+	div{
+		border: none;
+	}
+</style>
+<link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
+<div style="padding:5px; " >
+	<div id="infoForm" class="form">
+<!--
+		<input class="mini-hidden" value="{$infoq.logistics_contract_id}" name="logistics_contract_id" />
+-->
+		<div  style="padding:5px; " >
+				<center>运输合同</center>
+				<div id="editForm1" style="padding:5px; ">
+					<table id="table1" width="100%" >
+						<tr>
+							<td>甲方：</td>
+							<td>上海中晨电子股份有限公司</td>
+							<td>合同日期： </td>
+							<td>{$infoq.contract_time}
+							</td>
+						</tr>
+						<tr>
+							<td>乙方</td>
+							<td>{$infoq.supplier_name}
+							</td>
+							<td>签订地点：</td>
+							<td>上海虹口区欧阳路568号17楼
+							</td>
+						</tr>
+						<tr>
+							<td>货物:</td>
+							<td>{$infoq.goods_name}
+							</td>
+						</tr>
+						<tr>
+							<td>提货地点：</td>
+							<td>{$infoq.start_place}
+							</td>
+						</tr>
+						<tr>
+							<td>送货地点:</td>
+							<td>{$infoq.end_place}
+							</td>
+						</tr>
+						<tr>
+							<td>送货日期:</td>
+							<td>{$infoq.delivery_time}
+							</td>
+						</tr>
+						<tr>
+							<td>合同责任：</td>
+						</tr>
+						<tr>
+							<td colspan="3">乙方必须于甲方的制定期限内，将货物送到甲方的制定地点。</td>
+						</tr>
+						<tr>
+							<td>注意事项：</td>
+						</tr>
+						<tr>
+							<td colspan="3">乙方必须保证甲方的货物，安全无破损无超市无变质的情况。若出现以上的情况，乙方必须负责赔偿甲方的损失。</td>
+						</tr>
+						<tr>
+							<td>备注：</td>
+							<td>合同传真件有效
+							</td>
+						</tr>
+						<tr>
+							<td>车号：</td>
+							<td>{$infoq.plate_number}
+							</td>
+							</tr><tr>
+							<td>司机姓名：</td>
+							<td>{$infoq.driver_name}
+							</td>		</tr><tr><td>身份证号码：</td>
+							<td>{$infoq.driver_idcard}
+							</td>
+						</tr>
+						<tr>
+							<td>运输费用:</td>
+							<td>{$infoq.delivery_fee}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div>购货方(甲方)</div>
+								<div>TEL:021-61673571</div>
+								<div>FAX:021-61673516</div>
+								<div>委托代理人:杜丽燕</div>
+							</td>
+							<td>
+								<div>购货方(乙方)</div>
+								<div >TEL:{$infoq.second_part_contact_tel}</div>
+								<div >FAX:{$infoq.second_part_contact_fax}</div>
+								<div>委托代理人:{$infoq.second_part_contact_id}</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+		</div>
+</div>
+
