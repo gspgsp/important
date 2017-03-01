@@ -55,7 +55,7 @@
         <li {if $nav=='pe'} class="hover" {/if}><a href="/pe.html">PE/聚乙烯</a></li>
         <li {if $nav=='pp'} class="hover" {/if}><a href="/pp.html">PP粒料/聚丙烯粒料</a></li>
         <li {if $nav=='pvc'} class="hover" {/if}><a href="/pvc.html">PVC/聚氯乙烯</a></li>
-        <li {if $nav=='vip'} class="hover" {/if}><a href="JavaScript:accessControl({$smarty.session.userid})">行情内参</a></li>
+        <li {if $nav=='vip'} class="hover" {/if}><a href="/vip.html">行情内参</a></li>
     </ul>
 </div>
 <!--headline-nav end-->
@@ -93,7 +93,6 @@
 {/if}
 <!--headline-index end-->
 {__CONTENT__}
-</div>
 <!--headline-floor6 end-->
 <!--footer begin-->
 <div class="footer">
@@ -266,33 +265,5 @@ BizQQWPA.addCustom({aty: '0', a: '0', nameAccount: 4000677611, selector: 'BizQQW
 <script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="__JS__/home/layer-v1.8.5/layer.min.js"></script>
 <script type="text/javascript" src="__JS__/home/common.js"></script>
-<script type="text/javascript">
-    function accessControl(userid){
-        if (typeof(userid)=='undefined' || userid<=0) {
-            setTime('您好，请您先登录!');
-        }else{
-             $.post('/news/index/accessControl?id='+userid, '', function (data){
-                if(data.err==1){
-                     setTime('您好，请您先登录!');
-                }else if(data.err==2 || data.err==3){
-                     setTime(data.msg,"/news/index/vipIntroduce");
-                }else{
-                    setTime(data.msg,"/vip.html",1);
-                }
-             },'json');            
-        }
-    }
-    function setTime(msg,str='',type=0){
-             if(type==1){layer.msg(msg,6,2000);}
-             else{layer.msg(msg);}
-             setTimeout(function(){
-                if(str==''){
-                    loginbox(-1);
-                }else{
-                    window.parent.location = str;
-                }            
-             },1500); 
-    }
-</script>
 </body>
 </html>

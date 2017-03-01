@@ -18,7 +18,23 @@
                 <span>来源：{$data[source_from]}</span>
                 <span>阅读量：{$data[pageViews]}</span>
             </div>
-                <p>{$data[content]}</p>
+                {if $status==4}
+                    <p>{$data[content]}</p>
+                {else}
+                <br><br><br>           
+                <p style="text-align:center;color:red;font-size:16px;">
+                {if $status==1}
+                本文资讯已被锁定，请您先进行登录操作，谢谢配合！</p>
+                <script type="text/javascript">$(function(){loginbox(-1);})</script>
+                {elseif $status==2}
+                本文资讯为收费资讯，请您先开通会员，谢谢配合！
+                <a href="/news/index/vipIntroduce" target="_blank">&ensp;>>点此进入会员开通介绍</a></p>
+                {elseif $status==3}
+                对不起，您的该类目会员已到期！为避免影响您的资讯查看，请您续费会员！
+                <a href="/news/index/vipIntroduce" target="_blank">&ensp;>>点此进入会员开通介绍</a></p>               
+                {/if}
+                <br><br><br>
+                {/if}
                 <br />
             <div class="relate link6">
                         {if $data[nextOne]}
