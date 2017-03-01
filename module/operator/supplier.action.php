@@ -414,6 +414,7 @@ class supplierAction extends adminBaseAction{
         $supplier_name=sget('supplier_name','i');
         if($supplier_name){
             $info=M('operator:logistics_supplier')->supplierUnique($supplier_name);
+            showTrace();
             if($info) $this->error("存在相同的公司名称");
             $this->success('此公司名不重复，可添加');
         }
