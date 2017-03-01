@@ -7,9 +7,7 @@
 		//取出首页数据
 		public function init(){
 			$type=sget('type','s','');
-			if ($type == 'vip') {
-				$this->chkLogin();
-			}else{
+			if ($type != 'vip'){
 				//取出广告
 				$this->sszcBanner=$this->getAD(8);
 				$this->zcssBanner=$this->getAD(9);
@@ -28,7 +26,8 @@
 			//导航栏选中状态
 			$this->nav=$type;
 			//取出首页数据
-			$data=$this->db->getIndex($type);			
+			$data=$this->db->getIndex($type);	
+					
 			//由于首页和pvc页面相同，pe和pp页面相同，所以为了区分，通过type进行区分判断该显示哪一块
 			if(empty($type))$type='public';
 			if($type=='pp')$type='pe';	
@@ -36,6 +35,7 @@
 				'data'=>$data,
 				'type'=>$type,
 			));
+
 			$this->display('index');
 		}
 
@@ -130,15 +130,64 @@
 			//获取排行榜文章
 			$cate_id=M('public:common')->model('news_cate')->select('cate_id')->where('spell="'.$cate.'"')->getOne();
 			$chartsData=$this->db->charts($type,$cate_id);
-			//p($data);exit;
 			//更新文章访问量
 			$data['pageViews']=$this->db->updatePv($id);
 			$this->seo = array('title'=>$data['title'],'key'=>$data['keywords'],'desc'=>$data['description']);
 			//获取微信接口配置
 			$this->wxApi=A('plasticzone:plastic')->headlineApi();
-			//p($this->wxApi);exit;
+			//文章状态设置
+			$status=4;
 			//详情页导航
 			if ($type=='vip') {
+				$row=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->select('user_id,name,mobile,headline_vip,cate_id')->getRow();
+				if ($_SESSION['userid']<1) {
+					$status=1;
+				}elseif($row['headline_vip']!=1 || !strstr($row['cate_id'],$cate_id)){
+					$status=2;
+				}else{
+					$cache = cache::startMemcache();
+					$name=$row['user_id'].'_time_'.$cate_id;
+					$total_time=$cache->get($name);
+					if (empty($total_time)) {
+						$total_time=$this->db->model('customer_headline')->where('user_id='.$_SESSION['userid'].' and cate_id='.$cate_id)->select('total_time')->order('id desc')->getOne();
+						$cache->set($name,$total_time,2);
+					}
+					if ($total_time<=CORE_TIME) {
+						$info['user_id']=$row['user_id'];
+						$info['c_name']=$row['name'];
+						$info['mobile']=$row['mobile'];
+						$info['sale_name']='--';
+						$info['input_time']=CORE_TIME;
+						$info['type']=5;
+						$info['cate_id']=$cate_id;
+						$info['total_time']=$total_time;
+						$result=$this->db->model('customer_headline')->add($info);
+						if ($result) {
+							$cate_arr=explode(',', $row['cate_id']);
+							foreach ($cate_arr as $k => $v) {
+								if ($v == $cate_id) {
+									unset($cate_arr[$k]);
+								}
+							}
+							if (empty($cate_arr)) {
+								$update_contact=array('headline_vip'=>0,'cate_id'=>'','opening_date'=>0);
+							}else{
+								$cate_id=implode(',', $cate_arr);
+								$update_contact=array('headline_vip'=>1,'cate_id'=>$cate_id);
+							}
+							$result2=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->update($update_contact);
+							if ($result2) {
+								$this->success("<br /><br /><br />尊敬的客户，您的会员信息已过期，浏览权限已被关闭！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
+							}else{
+								$this->error("<br /><br /><br />尊敬的客户，您的会员信息已经过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
+							}
+						}else{
+							$this->error("尊敬的客户，您的该类目会员已自动过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a>");
+						}
+						$status=3;
+					}
+				}
+				//p($status);exit;
 				$this->upperType='行情内参';
 			}else{
 				$this->upperType=strtoupper($type);
@@ -148,6 +197,7 @@
 				'chartsData'=>$chartsData,
 				'cate'=>$cate,
 				'type'	=>$type,
+				'status'=>$status
 			));
 			$this->display('detail');
 		}
