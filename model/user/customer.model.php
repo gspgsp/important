@@ -209,9 +209,9 @@ class customerModel extends model{
 	public function getTodayFollowCustomers($customer_manager = 0){
 		$today_begin = strtotime(date('Y-m-d',time()));
 		$countsArr = $this->model('customer_follow')
-			           ->select('id')
-			 		   ->where('customer_manager = '.$customer_manager.' and input_time >'.$today_begin)
-			           ->getCol();
+					   ->select('id')
+					   ->where('customer_manager = '.$customer_manager.' and input_time >'.$today_begin)
+					   ->getCol();
 		if($countsArr){
 			$res['num']=count($countsArr);
 			$res['id']='('.implode(',', $countsArr).')';
@@ -223,36 +223,35 @@ class customerModel extends model{
 	}
 
 
-    /**
-     * @param $o_id      销售订单id
-     * @param $status    状态（物流,财务）
-     * @param $pay_time  完成时间(先销售审核 在物流审核)
-     * @param $money     (财务申请金额)
-     */
-    public function updateCreditLimit($o_id,$status,$wps,$money='')
-    {
-        if ($wps == '-') {    // 减可用额度
-            // 客户c_id , total_price 订单金额
-            $var = $this->db->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
-            $info = $this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $var['c_id'])->getRow();
-            $arr = array();
-            if ($status) {    // 物流审核通过
-                $arr['available_credit_limit'] = ($info['credit_limit'] - $var['total_price']);
-            }
-            $res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
-            return $res;
-        }
+	/**
+	 * @param $o_id      销售订单id
+	 * @param $status    状态（物流,财务）
+	 * @param $pay_time  完成时间(先销售审核 在物流审核)
+	 * @param $money     (财务申请金额)
+	 */
+	public function updateCreditLimit($o_id,$status,$wps,$money=''){
+		if ($wps == '-') {// 减可用额度
+			// 客户c_id , total_price 订单金额
+			$var = $this->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
+			$info = $this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $var['c_id'])->getRow();
+			$arr = array();
+			if ($status) {    // 物流审核通过
+				$arr['available_credit_limit'] = ($info['credit_limit'] - $var['total_price']);
+			}
+			$res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
+			return $res;
+		}
 
-        if($wps=='+'){   // 多笔付款 还回
-            $arrs=$this->db->model('collection')->select('c_id')->where('o_id='.$o_id)->getRow();
-            $res=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $arrs['c_id'])->getRow();
-            if($status==1){
-                $arr['available_credit_limit'] = ($res['available_credit_limit'] + $money);
-                $res = $this->model('customer')->where('c_id='.$res['c_id'])->update($arr);
-                return $res;
-            }
-        }
-    }
+		if($wps=='+'){// 多笔付款 还回
+			$arrs=$this->model('collection')->select('c_id')->where('o_id='.$o_id)->getRow();
+			$res=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $arrs['c_id'])->getRow();
+			if($status){
+				$arr['available_credit_limit'] = ($res['available_credit_limit'] + $money);
+				$res = $this->model('customer')->where('c_id='.$arrs['c_id'])->update($arr);
+				return $res;
+			}
+		}
+	}
 
 
 }
