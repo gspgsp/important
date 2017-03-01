@@ -48,7 +48,7 @@
 			<div field="second_part_contact_id" width="50" headerAlign="center" align="center">乙方联系人</div>
 			<div field="second_part_contact_tel" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">乙方联系方式</div>
 			<div field="second_part_contact_fax" width="50" headerAlign="center" align="center">乙方传真号</div>
-			<div field="status" width="50"  renderer="onStatusRender">状态</div>
+			<div field="status" width="50"  renderer="onStatusRender">审核状态</div>
 			<div name="action" width="40" headerAlign="center" renderer="onLoadHandle">操作</div>
 		</div>
 	</div>
@@ -149,17 +149,30 @@ function imgResize(){
 }
 //运输合同审核状态
 function onStatusRender(e) {
-    var s='';
-    record = e.record;
+	var s='',record = e.record,logistics_contract_id=record.logistics_contract_id;
     if(record.status=='1'){
         s+='审核通过';
     }else{
-        s += '<a href="javascript:onContractReview()">未审核</a>&nbsp;&nbsp;';
-        s += '</br><a href="javascript:edit()"> 修改</a>';
+        s += '<a href="javascript:onContractReview('+logistics_contract_id+')">未审核</a>&nbsp;&nbsp;';
+        s += '</br><a href="javascript:transport_contract_edit()"> 修改</a>';
     }
     return s;
 }
-
+//审核运输合同
+function onContractReview(logistics_contract_id){
+	var width=845, height=650;
+	title="运输合同审核";
+	mini.open({
+		url: "/operator/contract/contract_review?logistics_contract_id="+logistics_contract_id,
+		showMaxButton:true,
+	    title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
 //加载：追加按钮
 function onLoadHandle(e) {
 	var record = e.record; //record.id

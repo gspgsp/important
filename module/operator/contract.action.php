@@ -154,5 +154,28 @@ class contractAction extends adminBaseAction {
 			$this->error('删除操作失败');
 		}
 	}
+	/**
+	 * 审核运输合同
+	 * @access public
+	 */
+	public function contract_review($logistics_contract_id){
+	    $this->logistics_contract_id = sget('logistics_contract_id','');
+	    $this->display('contract.review.html');
+	}
+	/**
+	 * 变更合同状态
+	 * @access public
+	 */
+	public function change_status(){
+	    $this->is_ajax=true; //指定为Ajax输出
+	    $logistics_contract_id=sget('logistics_contract_id','i');
+	    $last_edit_id=$_SESSION['adminid'];
+	    if(!empty($logistics_contract_id)){
+	        $this->db->where("logistics_contract_id=".$logistics_contract_id)->update(array('status'=>1,'last_edit_id'=>$last_edit_id));
+	        $this->success('操作成功');
+	    }else{
+	        $this->error('操作有误');
+	    }
+	}
 }
 ?>
