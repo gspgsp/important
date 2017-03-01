@@ -109,6 +109,8 @@ class plasticPersonalInfoModel extends model
         if(empty($data)) return $data;
         if(empty($data['credit_time'])) $data['credit_time']=strtotime(date("2017-1-1 00:00:00"));//为空默认授信日期
         $data['credit_level']="AAAAA";
+        $data['credit_limit']=$data['credit_limit']*10000;
+        $data['pre_credit_limit']=$data['pre_credit_limit']*10000;
         if($data['credit_limit']==0){
             if($data['pre_credit_limit']>0){
                 $data['is_credit'] = 2; //预授信
