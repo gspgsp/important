@@ -272,7 +272,7 @@ class collectionAction extends adminBaseAction
 	*/
 	public function ajaxSave(){
 		$data=sdata();
-		$o_id = sget('o_id','i',0);
+		$o_id = sget('o_id','i',0);  // 订单号
 		if ($data['collection_token'] != $_SESSION['collection_token']) {
 			$this->error("非法提交数据");
 			unset($_SESSION['collection_token']);
@@ -287,7 +287,7 @@ class collectionAction extends adminBaseAction
 		//保存收付款相关信息
 		if(empty($data['uncollected_price'])){
 			$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
-			$m = $data['total_price']-$data['collected_price'];
+			$m = $data['total_price']-$data['collected_price'];  // $data['collected_price'] 申请金额
 		}else{
 			$m = $data['uncollected_price']-$data['collected_price'];
 		}
@@ -336,6 +336,11 @@ class collectionAction extends adminBaseAction
 						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
 					}
 				}
+				// ***********多笔付款 提升 可用额度**********************
+                // $o_id 订单id; $data['finance'] 财务已审核状态； data['collected_price']；申请金额
+                $wps='+';
+                $res= M('user:customer')->updateCreditLimit($o_id,$data['finance'],$wps,$data['collected_price']);
+                if($res!=1) throw new Exception('可用额度还原失败');
 
 			}else{
 				$data['uncollected_price'] = $m;
