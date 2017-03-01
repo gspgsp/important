@@ -188,6 +188,7 @@ class supplierAction extends adminBaseAction{
         $info['legal_person_pic_1'] = FILE_URL.'/upload/'.$info['legal_person_pic_1'];         // 身份证图片(正面)
         $info['legal_person_pic_2'] = FILE_URL.'/upload/'.$info['legal_person_pic_2'];         // 身份证图片(反面)
         $info['social_credit_code_pic'] = FILE_URL.'/upload/'.$info['social_credit_code_pic']; // 三证合一图片
+        $info['fund_date']= substr($info['fund_date'],0,10);
         //联系人详情
         $this->assign('c_id',$supplier_id);                      //供应商id
         $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
