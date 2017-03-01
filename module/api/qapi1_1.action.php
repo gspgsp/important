@@ -29,14 +29,10 @@
  * 2017年2月22日 11:39:38
  * 修改了报价推荐的返回，现在不补最新的报价了
  *
- * 2017年2月28日17:26:54
- * 修改了getSubscribe 头条推荐的参数，
- * 完全推荐当天的数据
- *
  */
 class qapi1_1Action extends null2Action
 {
-    protected $db, $err, $cates,$catesAll,$pointsType,$orderStatus,$rePoints,$points,$newsSubscribe,$newsSubscribeDefault,$defaultCode;
+    protected $db, $err, $cates,$catesAll,$pointsType,$orderStatus,$rePoints,$points,$newsSubscribe,$newsSubscribeDefault;
 
     public function __init()
     {
@@ -89,13 +85,11 @@ class qapi1_1Action extends null2Action
         $this->newsSubscribe=6;
 
         $this->newsSubscribeDefault=array('21','20','2','11');
-
-        $this->defaultCode=A("api:qapi1");//默认的方法
     }
 
     public function init()
     {
-        echo '<div style="margin-top:80px;text-align:center;font-size:50px">This is plasticZone app API center v1_1</div>';
+        echo '<div style="margin-top:80px;text-align:center;font-size:50px">This is plasticZone app API center</div>';
     }
 
     /**
@@ -103,7 +97,25 @@ class qapi1_1Action extends null2Action
      */
     public function register()
     {
-        $this->defaultCode->register();
+        $cache = cache::startMemcache();
+        $this->is_ajax = true;
+        $mobile = sget('mobile', 's');
+        if (!$this->_chkmobile($mobile)) $this->error($this->err);
+        $password = sget('password', 's');
+        $password = $this->clearStr($password);
+        if (strlen($password) < 6) $this->error('密码格式不正确,至少6位');
+        $mcode = sget('code', 's');
+        $result = M('system:sysSMS')->qAppChkDynamicCode($mobile, $mcode);
+        if ($result['err'] > 0) {
+            $this->error($result['msg']);
+        }
+        $user_model = M('system:sysUser');
+        $salt = randstr(6);
+        $passwordSalt = $user_model->genPassword($password . $salt);
+        $cache->set($mobile . 'check_reg_ok', true, 300);
+        $cache->set($mobile . 'password', $passwordSalt, 300);
+        $cache->set($mobile . 'salt', $salt, 300);
+        $this->success('注册成功');
     }
 
     /**
@@ -112,7 +124,153 @@ class qapi1_1Action extends null2Action
      */
     public function reginfo()
     {
-        $this->defaultCode->reginfo();
+        $this->is_ajax = true;
+        $mobile = sget('mobile', 's');
+        if (!$this->_chkmobile($mobile)) $this->error($this->err);
+        $cache = cache::startMemcache();
+        if (!$cache->get($mobile . 'check_reg_ok')) $this->error('令牌已过期，请重新注册');
+        if ($_GET) {
+            $name=sget('name', 's');
+            if(mb_strlen($name,'UTF8')<2) $this->error('请输入二位字以上的姓名');
+            if (!sget('qq', 's','')) $this->error('请输入qq号码');
+            if (!is_qq(sget('qq', 's'))) $this->error('请输入有效的qq号码');
+            $c_name = sget('c_name', 's');
+            $region = sget('region', 's', '');
+            $chanel = (int)sget('chanel','i',6);
+            $quan_type = sget('quan_type','i');//sget()函数要理解一下，里面有个empty函数
+            $name = $this->clearStr($name);
+            $c_name = $this->clearStr($c_name);
+            if(mb_strlen($c_name,'UTF8')<5) $this->error('请输入完整的公司名');
+            $regison = $this->clearStr($region);
+            if (!$c_name) $this->error('请输入公司名称');
+            $cus_model = $this->db->model('customer');
+            $customer = $cus_model->select('c_id')->where("c_name='$c_name'")->getOne();//获取公司的id
+            $user_model = M('system:sysUser');
+            $user_model->startTrans();
+            try {
+                $c_id = $customer;
+                if (!$customer) {
+                    $_customer = array(
+                        'c_name' => $c_name,
+                        'chanel' =>$chanel,
+                        'input_time' => CORE_TIME,
+                        'customer_manager' => 859,//交易员
+                        'quan_type' => $quan_type,
+                    );
+                    if (!$cus_model->add($_customer)) throw new Exception("系统错误 reg:101");
+                    $c_id = $cus_model->getLastID();
+                }
+                //查看是否为老用户
+                $old_user = $this->db->model('customer_contact')->select('user_id,parent_mobile')->where("mobile=" . $mobile)->getRow();
+                $salt = $cache->get($mobile . 'salt');
+                $password = $cache->get($mobile . 'password');
+                $parent_mobile = sget('parent_mobile', 's');
+                if ($mobile == $parent_mobile) throw new Exception("引荐人不能是自己，先有蛋，还是先有鸡，这是个问题");
+                if (empty($parent_mobile)||$parent_mobile=='undefined') {
+                    $parent_mobile = '';
+                } else {
+                    if (!$this->db->from('customer_contact')->select('user_id')->where('mobile=' . $parent_mobile)->getOne()) throw new Exception("引荐人错误，请重新选择引荐人，或者独自踏上征途。");
+
+                }
+                /*
+                 * 其实这一步可以省了，因为现在的已经注册过的，不能重新注册了，只能找回密码了
+                 * 现在这一步，还是不能省，因为现在成哥又要能重新注册了，
+                 * 主要原因是公司名不能删除
+                 * 现在还有一个bug，
+                 * 也不能算是bug，
+                 * 一切都是以手机号来区分的
+                 * 而且没有加密，会出现问题的
+                 * 暂时没有时间，以后会修改吧
+                 */
+                if ($old_user['user_id']) {
+                    $_user = array(
+                        'salt' => $salt,
+                        'password' => $password,
+                        'name' => $name,
+                        'qq' => sget('qq', 's',''),
+                        'parent_mobile' => empty($old_user['parent_mobile']) ? '' : $old_user['parent_mobile'],
+                        'c_id' => $c_id,
+                        'sex' => sget('sex', 'i', 0),
+                        'chanel' => $chanel,
+                        'update_time' => CORE_TIME,
+                        'quan_type' => $quan_type,
+                    );
+                    if (!$user_model->where("mobile=" . $mobile)->update($_user)) throw new Exception("系统错误 reg:105");
+                    //老用户也要检测contact_info 表的信息,防止后台乱添加用户少了信息
+                    $mobile_area = getCityByMobile($mobile);
+                    $_info = array(
+                        'user_id' => $old_user['user_id'],
+                        'reg_ip' => get_ip(),
+                        'reg_time' => CORE_TIME,
+                        'thumbcard' => '',
+                        'reg_chanel' => $chanel,
+                        'region' => empty($region) ? '' : $region,
+                        'mobile_province'=>empty($mobile_area['province'])?'':$mobile_area['province'],
+                        'mobile_area'=>empty($mobile_area['city'])?'':$mobile_area['city'],
+                        'quan_type'=> $quan_type,
+                    );
+                    if(!$this->db->model('contact_info')->select('user_id')->where("user_id={$old_user['user_id']}")->getOne()){
+                        if (!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
+                    }
+                } else {
+                    $is_default = empty($customer) ? 1 : 0;
+                    $_user = array(
+                        'mobile' => $mobile,
+                        'salt' => $salt,
+                        'password' => $password,
+                        'name' => $name,
+                        'qq' => sget('qq', 's'),
+                        'c_id' => $c_id,
+                        'sex' => sget('sex', 'i', 0),
+                        'customer_manager'=>859,//交易员
+                        'input_time' => CORE_TIME,
+                        'is_default' => $is_default,
+                        'parent_mobile' => $parent_mobile,
+                        'chanel' => $chanel ,
+                        'quan_type' => $quan_type,
+                    );
+                    if (!$user_model->add($_user)) throw new Exception("系统错误 reg:102");
+                    $user_id = $user_model->getLastID();
+                    //throw new Exception('test');
+                    //直接关注和加积分
+                    if (!empty($_user['parent_mobile'])) {
+                        $focused_id = $this->db->model('customer_contact')->where("mobile=" . $_user['parent_mobile'])->select('user_id')->getOne();
+                        if(!M("plasticzone:plasticAttention")->getAttention($user_id, $focused_id)) throw new Exception("系统错误 reg:111");
+                        if(!M("qapp:pointsBill")->addPoints($this->rePoints, $focused_id, 12)){
+                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                            throw new Exception("系统错误 reg:112");
+                        }
+                    }
+                    $mobile_area = getCityByMobile($mobile);
+                    $_info = array(
+                        'user_id' => $user_id,
+                        'reg_ip' => get_ip(),
+                        'reg_time' => CORE_TIME,
+                        'thumbcard' => '',
+                        'reg_chanel' => $chanel,
+                        'region' => empty($region) ? '' : $region,
+                        'mobile_province'=>empty($mobile_area['province'])?'':$mobile_area['province'],
+                        'mobile_area'=>empty($mobile_area['city'])?'':$mobile_area['city'],
+                        'quan_type'=> $quan_type,
+                    );
+                    if (!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");
+                    //这一步少不了，$c_id之前不知道
+                    if (!$customer) {
+                        if (!$this->db->model('customer')->where("c_id=$c_id")->update("contact_id=" . $user_id)) throw new Exception("系统错误 reg:104");
+                    }
+                    //新增用户默认排序最前
+                    $this->db->model('weixin_ranking')->add(array('user_id' => $user_id, 'pm' => 0, 'rownum' => 0,));
+                }
+            } catch (Exception $e) {
+                $user_model->rollback();
+                $this->error($e->getMessage());
+            }
+            $user_model->commit();
+            $cache->delete($mobile . 'password');
+            $cache->delete($mobile . 'salt');
+            $cache->delete($mobile . 'check_reg_ok');
+            $this->success('完善成功');
+        }
     }
 
 
@@ -122,10 +280,48 @@ class qapi1_1Action extends null2Action
      */
     public function finfMyPwd()
     {
-        $this->defaultCode->finfMyPwd();
+        if ($_GET) {
+            $this->is_ajax = true;
+            $mobile = sget('mobile', 's');
+            if (!$this->_chkmobile($mobile, 1)) $this->error($this->err);
+            $password = sget('password', 's');
+            if (strlen($password) < 6) $this->error('密码格式不正确,至少6位');
+            $mcode = sget('code', 's');
+            $result = M('system:sysSMS')->qAppChkDynamicCode($mobile, $mcode);
+            if ($result['err'] > 0) {
+                $this->error($result['msg']);
+            }
+            $user_model = M('system:sysUser');
+            $salt = randstr(6);
+            $passwordSalt = $user_model->genPassword($password . $salt);
+
+            //用户重置密码
+            $result = $user_model->where('mobile=' . $mobile)->update(array('password' => $passwordSalt, 'salt' => $salt));
+            //$this->getDBError();
+            if (!$result) {
+                $this->error('密码重置失败，请稍后重试');
+            } else {
+                $this->success('密码重置成功');
+            }
+        }
     }
 
 
+//    /**
+//     * 验证密码
+//     */
+//    private function _chkpass($pass, $repass)
+//    {
+//        if (strlen($pass) < 6) {
+//            $this->err = '密码格式不正确';
+//            return false;
+//        }
+//        if ($pass != $repass) {
+//            $this->err = '两次密码不一致';
+//            return false;
+//        }
+//        return true;
+//    }
 
     /**
      * 发送手机验证码
@@ -135,7 +331,34 @@ class qapi1_1Action extends null2Action
      */
     public function sendmsg()
     {
-        $this->defaultCode->sendmsg();
+        $this->is_ajax = true;
+        //验证手机
+        $mobile = sget('mobile', 's');
+        $type = sget('type', 's', '0');//方式
+        if (!$this->_chkmobile($mobile, $type)) {
+            $this->error($this->err);
+        }
+        $sms = M('system:sysSMS');
+        //检查注册的限制
+        $result = $sms->chkRegLimit($mobile, get_ip());
+        if (empty($result)) {
+            $this->error($sms->getError());
+        }
+        //请求动态码
+        $result = $sms->qAppDynamicCode($mobile);
+        if ($result['err'] > 0) { //请求错误
+            $this->error($result['msg']);
+        }
+        $msg = $result['msg']; //短信内容
+        if (empty($type)) {
+            //发送手机动态码(注册)
+            $sms->send(0, $mobile, $msg, 1);
+        } else {
+            //发送手机动态码（找回密码）
+            $sms->send(0, $mobile, $msg, 2);
+        }
+
+        $this->success('发送成功');
     }
 
     //登录
@@ -143,14 +366,50 @@ class qapi1_1Action extends null2Action
     //区分不了东西了，其实没什么大不了，app每天的登录记录是出现在取首页数据的时候
     public function login()
     {
-        $this->defaultCode->login();
+        if ($_GET) {
+            $this->is_ajax = true;
+            $username = sget('username', 's');
+            $password = sget('password', 's');
+            $chanel =(int)sget('chanel','s',6);
+            $username = $this->clearStr($username);
+            $password = $this->clearStr($password);
+            if (!$this->_chkmobile($username, 1)) {
+                $this->error($this->err);
+            } elseif (strlen($password) < 6) {
+                $this->error('密码长度应该大于6个字符');
+            }
+            $result = M('user:passport')->login($username, $password, $chanel);
+            if ($result['err'] > 0) {
+                $this->error($result['msg']);
+            } else {
+                $token = M('qapp:appToken')->insert($result['user']['user_id'], $result['user']);
+                //$cache=cache::startMemcache();
+                //$this->success('登录成功');
+                if(!M("qapp:pointsBill")->select('id')->where("addtime >".strtotime(date("Y-m-d"))." and type=2 and uid={$result['user']['user_id']}")->order("id desc")->getOne()){
+                    $user_id=$result['user']['user_id'];
+                    $tmp = M('public:common')->model('contact_info')->where("user_id=$user_id")->getRow();
+                    if(empty($tmp)) $this->json_output(array('err'=>101,'msg'=>'注册信息不完整，请联系客服或重新注册'));
+                    $spoints=$this->points['login'];
+                    if (!$arr = M("qapp:pointsBill")->addPoints($spoints, $user_id, 2)) $this->json_output(array('err'=>101,'msg'=>'系统错误'));
+                }
+                $this->json_output(array('err' => 0, 'msg' => '登录成功', 'dataToken' => $token, 'user_id' => $result['user']['user_id']));
+            }
+        }
     }
 
 
     //退出登录
     public function logOut()
     {
-        $this->defaultCode->logOut();
+        if ($_GET) {
+            $this->checkAccount();
+            $this->is_ajax = true;
+            $token = sget('token', 's');
+            $cache = cache::startMemcache();
+            $cache->delete($token);
+            M('qapp:appToken')->destory($token);
+            $this->json_output(array('err' => 0, 'msg' => '退出成功'));
+        }
     }
 
 
@@ -158,27 +417,223 @@ class qapi1_1Action extends null2Action
     //获取首页数据
     public function getPlasticPerson()
     {
-        $this->defaultCode->getPlasticPerson();
+        $this->is_ajax = true;
+        if ($_GET) {
+            //a b c d e f ...获取联系人(可以取消，现在这个功能不需要了)
+            $letter = sget('letter', 's');
+            //搜素关键字
+            $keywords = sget('keywords', 's');
+            $keywords = $this->clearStr($keywords);
+            $user_id = $this->checkAccount(0);
+            $page = sget('page', 'i', 1);
+            //$size = sget('size', 'i', 10);
+            $size=10;
+            $sortField = sget('sortField','s','default');
+            $sortOrder = sget('sortOrder','s','desc');
+            $chanel =(int)sget('chanel','i',6);
+            $quan_type = sget('quan_type','i');
+            if($sortField!='default'&&$sortField!='input_time') $this->json_output(array('err'=>1,'msg'=>'sortField参数错误'));
+            if(!in_array($sortOrder,array('desc','asc'))) $this->json_output(array('err'=>1,'msg'=>'sortOrder参数错误'));
+
+
+            /**
+             * 加搜索记录
+             * sort_field  'DEFAULT','INPUT_TIME','NC','SC','CC','ALL','AUTO','CONCERN','DEMANDORSUPPLY'
+             * 首页默认排序default  注册时间排序input_time 华北nc  华南sc  华中cc
+             * 全国站all  智能推荐auto  我的关注concern  我的供求 demandorsupply
+             *
+             *sort_order   'ALL','SALE','BUY','ASC','DESC'
+             *all 不分求购还是供给  sale 供给  buy 求购  asc 注册时间正序 desc  注册时间倒序
+             */
+
+            if($sortField=='default'&&empty($keywords)){
+            }else{
+                $arr=array(
+                    'user_id'=>$user_id,
+                    'sort_field'=>strtoupper($sortField),
+                    'sort_order'=>strtoupper($sortOrder),
+                    'content'=>$keywords,
+                    'input_time'=>CORE_TIME,
+                );
+                M('qapp:plasticSearch')->addSearch($arr);
+            }
+
+            //加缓存提交效率
+            //备注，修改时，文档和代码需要修改
+            $cache=cache::startMemcache();
+            $data=array();
+            if(empty($keywords)){
+                if($page<4){//前三页
+                    if($user_id>0){
+                        if(!$data['data']=$cache->get('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size)){
+                            $data = M('qapp:plasticPerson')->getPlasticPerson($user_id, $letter, $keywords, $page, $size,$sortField,$sortOrder);
+                            $cache->set('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size,$data['data'],60);//1分钟缓存
+                        }
+                    }else{
+                        if(!$data['data']=$cache->get('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size)){
+                            $data = M('qapp:plasticPerson')->getPlasticPerson($user_id, $letter, $keywords, $page, $size,$sortField,$sortOrder);
+                            $cache->set('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size,$data['data'],60);//1分钟缓存
+                        }
+                    }
+                }else{
+                    $data = M('qapp:plasticPerson')->getPlasticPerson($user_id, $letter, $keywords, $page, $size,$sortField,$sortOrder);
+                }
+            }else{
+                $data = M('qapp:plasticPerson')->getPlasticPerson($user_id, $letter, $keywords, $page, $size,$sortField,$sortOrder);
+            }
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+            $this->_checkLastPage($data['count'], $size, $page);
+            if ($page >= 3 && $user_id <= 0) $this->json_output(array('err' => 1, 'msg' => '想要查看更多，请登录', 'count' => $data['count']));
+            if($user_id > 0){
+                $dayTime=strtotime(date("Y-m-d"));
+                if($page==1&&!$this->db->from('log_login')->select('input_time')->where("input_time >".$dayTime." and chanel =6 and quan_type = $quan_type and user_id=$user_id")->getOne()){
+
+                    $arr=array(
+                        'user_id' => $user_id,
+                        'input_time' => CORE_TIME,
+                        'ip'  => get_ip(),
+                        'chanel' => $chanel,
+                        'quan_type' => $quan_type,
+                    );
+                    $this->db->model("log_login")->add($arr);
+                };
+            }//showTrace();exit;
+            if ($page == 1) {
+                $members = M('qapp:plasticPersonalInfo')->getAllMembers();
+                $members = empty($members) ? 0 : $members;
+                $this->json_output(array('err' => 0, 'persons' => $data['data'], 'member' => $members));
+            }
+            $this->json_output(array('err' => 0, 'persons' => $data['data']));
+        }
     }
 
     //我的塑料圈
     public function myZone()
     {
-        $this->defaultCode->myZone();
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            //我的求购
+            $s_in_count = M('qapp:plasticPersonalInfo')->getConut($user_id, 1, 6);//purchase表
+            $s_in_count = empty($s_in_count) ? 0 : $s_in_count;
+            //我的报价
+            $s_out_count = M('qapp:plasticPersonalInfo')->getConut($user_id, 2, 6);//purchase表
+            $s_out_count = empty($s_out_count) ? 0 : $s_out_count;
+            //我的积分
+            $points = M('qapp:pointsBill')->getUerPoints($user_id);
+            $points = empty($points) ? 0 : $points;
+            //我的留言
+            $leaveword = M('qapp:plasticMsgCount')->getMsgCount($user_id, 1);
+            if (!$user_id > 0 || !$leaveword > 0) $leaveword = 0;
+            //我的未读消息
+            $message = M('qapp:plasticMsgCount')->getRobotCount($user_id);
+            if (!$user_id > 0 || !$message > 0) $message = 0;
+            //我的引荐
+            $data = M('qapp:plasticIntroduction')->getqAppMyIntroduction($user_id);
+            $introduction = empty($data['count']) ? 0 : $data['count'];
+            //我的粉丝
+            $data = M('qapp:plasticMsgCount')->getMyFunsCount($user_id, 1);
+            $myfans = empty($data) ? 0 : $data;
+            //我的关注
+            $data = M('qapp:plasticMsgCount')->getMyFunsCount($user_id, 2);
+            $myconcerns = empty($data) ? 0 : $data;
+            //获取我的塑料圈个人信息
+            $headimgurl = '';
+            $data = M('qapp:plasticPersonalInfo')->getMyPlastic($user_id, $headimgurl);
+//            var_dump($user_id);
+//            var_dump($data);exit;
+            if (empty($data)) $this->json_output(array('err' => 2, 'msg' => '没有相关资料'));
+            $data = empty($data) ? array('err' => 2, 'msg' => '没有相关资料') : $data;
+            $this->json_output(array(
+                's_in_count' => $s_in_count,//我的求购
+                's_out_count' => $s_out_count,//我的供给
+                'points' => $points,//我的积分
+                'leaveword' => $leaveword,//我的留言
+                'message' => $message,//我的未读消息
+                'introduction' => $introduction,//我的引荐
+                'myfans' => $myfans,//我的粉丝
+                'myconcerns' => $myconcerns,//我的关注
+               'data' => $data,//我的个人信息
+            ));
+        }
     }
 
 
     //获取我的引荐(引荐数)
     public function getMyIntroduction()
     {
-        $this->defaultCode->getMyIntroduction();
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            $page = sget('page', 'i', 1);
+            $size = sget('size', 'i', 10);
+            $data = M('qapp:plasticIntroduction')->getqAppMyIntroduction($user_id, $page, $size);
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关的数据', 'count' => 0));
+            $this->_checkLastPage($data['count'], $size, $page);
+            //unset($data['data'][2]);
+//            echo '<pre>';
+//            var_dump($data);exit;
+            $this->json_output(array('err' => 0, 'data' => $data['data'], 'count' => $data['count']));
+        }
     }
 
 
     //(中间供求信息)获取供求发布和消息回复
     public function getReleaseMsg()
     {
-        $this->defaultCode->getReleaseMsg();
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            //筛选条件
+            $keywords = sget('keywords', 's');
+            $keywords = $this->clearStr($keywords);
+            $type = sget('type', 'i', 0);//0 全部 1 求购 2 供给
+            $sortField1 = strtoupper(sget('sortField1','s'));
+            $sortField2 = strtoupper(sget('sortField2','s'));
+            //$sortField =array('AUTO','NC');
+            $fieldNum='';
+            $fieldNum.=$sortField1;
+            if(empty($sortField1)){
+                if(empty($sortField2)){
+                    $fieldNum='';
+                }else{
+                    $fieldNum=$sortField2;
+                }
+            }else{
+                if(!empty($sortField2)) $fieldNum.=','.$sortField2;
+            }
+
+
+            if($type==0){
+                $sortOrder = 'All';
+            }elseif($type==1){
+                $sortOrder = 'BUY';
+            }elseif($type==2){
+                $sortOrder = 'SALE';
+            }
+            /**
+             * 加上搜索记录
+             */
+            $arr = array(
+                    'user_id' => $user_id,
+                    'sort_field' => $fieldNum,
+                    'sort_order' => $sortOrder,
+                    'content' => $keywords,
+                    'input_time' => CORE_TIME,
+            );
+            M('qapp:plasticSearch')->addSearch($arr);
+            //普通条件
+            $page = sget('page', 'i', 1);
+            $size = sget('size', 'i', 10);
+            $data = M('qapp:plasticRelease')->getReleaseMsg($keywords, $page, $size, $type,$sortField1,$sortField2 ,$user_id);
+            if($data=='tempErr') $this->_errCode(5); if (empty($data['data']) && $page == 1&&$sortField2=='AUTO') $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
+            if (empty($data['data']) && $page == 1&&$sortField2=='CONCERN') $this->json_output(array('err' => 2, 'msg' => '您未关注塑料圈用户，暂无供求信息！'));
+            if (empty($data['data']) && $page == 1&&$sortField2=='DEMANDORSUPPLY') $this->json_output(array('err' => 2, 'msg' => '您未发布任何供求信息！'));
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+            if (empty($data['data']) ) $this->json_output(array('err' => 2, 'msg' => '没有更多数据'));
+            $this->_checkLastPage($data['count'], $size, $page);
+            $this->json_output(array('err' => 0, 'data' => $data['data']));
+        }
     }
 
 
@@ -200,7 +655,18 @@ class qapi1_1Action extends null2Action
      * (中间供求信息)获取供求发布(详情)的消息回复
      */
     public function getReleaseMsgDetailReply(){
-        $this->defaultCode->getReleaseMsgDetailReply();
+        if ($_GET) {
+            $this->checkAccount();
+            $id = sget('id', 'i');
+            $user_id = sget('user_id', 'i');
+            $page = sget('page','i',1);
+            $size = sget('size','i',5);
+            if ($id < 1 || $user_id < 1) $this->_errCode(6);
+            $data=M('qapp:plasticRelease')->getReleaseMsgDetailReply($id,$user_id,$page,$size);
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关的数据'));
+            $this->_checkLastPage($data['count'], $size, $page);
+            $this->_errCode(0,$data);
+        }
     }
 
 
@@ -484,7 +950,42 @@ class qapi1_1Action extends null2Action
     //回复供求消息
     public function saveMsg()
     {
-        $this->defaultCode->saveMsg();
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            // $user_id = sget('user_id','i',0)//回复人id
+            $pur_id = sget('pur_id', 'i', 0);//purchase表的消息id
+            $send_id = sget('send_id', 'i', 0);//purchase表发报价或采购人的(pur.user_id)
+            $content = sget('content', 's');//回复的内容
+            if (empty($content)) $this->json_output(array('err' => 6, 'msg' => '回复内容不能为空'));
+
+            //robot表插入消息
+            $where = "pur.id=$pur_id";
+            $detail = M('product:purchase')->getPurchaseLeftById($where,null,null);//p($detail);showTrace();exit;
+            $value = $detail;
+            if(empty($value['content'])){
+                if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
+                    $value['contents'] = '';
+                }else{
+                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
+                }
+            }elseif(!empty($value['content'])){
+                if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
+                    $value['contents'] = $value['content'];
+                }else{
+                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'].'/'.$value['content'];
+                }
+            }
+            $value['input_time'] = date("m-d H:i",$value['input_time']);
+            $tmpContent="您于 ".$value['input_time']." 发布的";
+            if($value['type']==1) $tmpContent.="求购";
+            elseif($value['type']==2) $tmpContent.="供给";
+            $tmpContent.="信息:".$value['contents']."收到一条回复:$content";
+            M("qapp:robotMsg")->saveRobotMsg($pur_id,$send_id,$send_id,$tmpContent,$type=2);
+            //$tmpContent.=M("public:common")->model('customer_contact')->select('name')->where("user_id=".$user_id)->getOne();
+            $result = M('qapp:plasticRepeat')->saveMsg($user_id, $pur_id, $send_id, $content);
+            if ($result) $this->json_output(array('err' => 0, 'msg' => '回复消息保存成功'));
+        }
     }
 
     //获取我的供给或求购
@@ -619,13 +1120,54 @@ class qapi1_1Action extends null2Action
     //保存我的资料
     public function saveSelfInfo()
     {
-        $this->defaultCode->saveSelfInfo();
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            $type = sget('type', 'i');//类型 1 地址 2 性别 3 主营牌号  4关注的牌号 5 所属区域
+            if($type==4){
+                $field = sget('field','s');
+                if(empty($field)) $this->json_output(array('err'=>6,'msg'=>'输入不能为空'));
+                $field = $this->clearStr($field);
+                $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$field);
+                $field=explode(",",$field);
+                $field=array_map('strtoupper',$field);
+                foreach($field as $key=>$row){
+                    if(empty($row)) unset($field[$key]);
+                }
+                $field=array_unique($field);
+                //$field=explode(",",array_map('strtoupper',$field));
+                if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
+            }else{
+                $field = sget('field', 's');
+                if($type==5) {
+                    if(!empty($filed)){
+                        if (!in_array($field, array('EC', 'NC', 'SC'))) $this->_errCode(6);
+                    }
+                }
+
+            }
+            $result = M('qapp:plasticSave')->saveSelfInfo($user_id, $type, $field);
+            if (!$result) $this->json_output(array('err' => 2, 'msg' => '保存资料失败'));
+            $this->json_output(array('err' => 0, 'msg' => '保存资料成功'));
+        }
     }
 
     //获取ta的求购或供给
     public function getTaPur()
     {
-        $this->defaultCode->getTaPur();
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            $keywords = sget('keywords', 's');//这里传空值P
+            $page = sget('page', 'i', 1);
+            $size = sget('size', 'i', 10);
+            $type = sget('type', 'i', 1);//1采购 2报价
+            $userid = sget('userid', 'i');//当前联系人的id
+            $data = M('qapp:plasticRelease')->getReleaseMsg2($keywords, $page, $size, $userid, $type);
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关的数据'));
+            $this->_checkLastPage($data['count'], $size, $page);
+            $this->json_output(array('err' => 0, 'data' => $data['data']));
+        }
     }
 
     //关注或取消关注
@@ -905,7 +1447,58 @@ class qapi1_1Action extends null2Action
      */
     public function getCateList()
     {
-        $this->defaultCode->getCateList();
+        if ($_GET) {
+            $this->is_ajax = true;
+            $page = sget('page', 'i', 1);
+            $size = sget('size', 'i', 10);
+            $cate_id = sget('cate_id', 'i');
+            $this->checkAccount();
+            $cache = cache::startMemcache();
+            if($page<=2){
+                $data=array();
+                if(!$data['data']=$cache->get('qcateListInfo'.$page.'_'.$cate_id)){
+                    $data = M("qapp:news")->getqAppCateList('public', $cate_id,array(), $page, $size);
+                    if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+                    $this->_checkLastPage($data['count'], $size, $page);
+                    //截取示例文章文字
+                    foreach ($data['data'] as $key => &$v) {
+                        //$v['content']=$this->cleanhtml(strip_tags($v['content']),'');
+                        $data['data'][$key]['description'] = mb_substr(strip_tags($v['description']), 0, 50, 'utf-8') . '...';
+                        //取出右键导航分类名称
+                        $data['data'][$key]['cate_name'] = $this->cates[$cate_id];
+                        $data['data'][$key]['input_time'] = $this->checkTime($v['input_time']);
+                        if($v['type']=='public'){
+                            $arr=array('pe','pp','pvc');
+                            $tmp=array_rand($arr,1);
+                            $v['type']='pp';
+                        }
+                        $v['type']=strtoupper($v['type']);
+                        //unset($v['content']);
+                    }
+                    $cache->set('qcateListInfo'.$page.'_'.$cate_id,$data['data'],300);
+                }
+            }else{
+                $data = M("qapp:news")->getqAppCateList('public', $cate_id, array(),$page, $size);
+                if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+                $this->_checkLastPage($data['count'], $size, $page);
+                //截取示例文章文字
+                foreach ($data['data'] as $key => &$v) {
+                    //$v['content']=$this->cleanhtml(strip_tags($v['content']),'');
+                    $data['data'][$key]['description'] = mb_substr(strip_tags($v['description']), 0, 50, 'utf-8') . '...';
+                    //取出右键导航分类名称
+                    $data['data'][$key]['cate_name'] = $this->cates[$cate_id];
+                    $data['data'][$key]['input_time'] = $this->checkTime($v['input_time']);
+                    if($v['type']=='public'){
+                        $arr=array('pe','pp','pvc');
+                        $tmp=array_rand($arr,1);
+                        $v['type']='pp';
+                    }
+                    $v['type']=strtoupper($v['type']);
+                    //unset($v['content']);
+                }
+            }
+            $this->json_output(array('err' => 0, 'info' => $data['data']));
+        }
     }
 
     /**
@@ -913,7 +1506,42 @@ class qapi1_1Action extends null2Action
      */
     public function getDetailInfo()
     {
-        $this->defaultCode->getDetailInfo();
+        if ($_GET) {
+            $this->is_ajax = true;
+            $id = sget('id', i);
+            $this->checkAccount(0);
+            if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
+            M("news:news")->updateqAppPv($id);
+            $cache = cache::startMemcache();
+            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)){
+                $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
+            }
+            $cache->set('qcateDetailInfo' .  '_' . $id, $data, 3600);
+            $time = $data['input_time'];
+            $data['input_time'] = $this->checkTime($data['input_time']);
+            $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
+            $data['content'] = stripslashes($data['content']);
+            //添加缓存之后，页面显示效果  阅读数+1
+            $data['pv']=$data['pv']+1;
+            $data['true_pv']=$data['true_pv']+1;
+            //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
+            //$str= preg_replace("/border="0"",'',$str);
+            $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
+            //$data['content']=$this->cleanhtml(($data['content']),'<img><a><br /><table></table><tr></tr><td></td>');
+            //取出右键导航分类名称
+            $data['cate_name'] = $this->cates[$data['cate_id']];
+            if($data['type']=='public'){
+                $arr=array('pe','pp','pvc');
+                $tmp=array_rand($arr,1);
+                $data['type']='pp';
+            }
+            $data['type']=strtoupper($data['type']);
+            //取出上一篇和下一篇input_time desc,sort_order desc  上一篇是最新的
+            //取出上一篇和下一篇
+            $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
+            $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
+            $this->json_output(array('err' => 0, 'info' => $data));
+        }
     }
 
     /**
@@ -1050,8 +1678,8 @@ class qapi1_1Action extends null2Action
                     }
                 }else{
                     //取出排行榜文章
-                    $chartsData = M('qapp:news')->charts('', '', '', 6, 1);//当天
-                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 3);//前三天
+                    $chartsData = M('qapp:news')->charts('', '', '', 6, 1);
+                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 0);
                     $tmp = array();
                     foreach ($chartsData as $row) {
                         $tmp[] = $row['id'];
@@ -1198,7 +1826,29 @@ class qapi1_1Action extends null2Action
      * 塑料圈app之退货规定
      */
     public function returnRule(){
-        $this->defaultCode->returnRule();
+        if($_GET){
+            $this->is_ajax = true;
+            $this->checkAccount();
+            $v=array();
+            $v['rule'] = '<span>兑换商品若出现以下情况，我的塑料网允许退换货：</span><br />';
+            $v['rule'] .= '<span>1）商品本身有质量问题，影响使用</span><br />';
+            $v['rule'] .= '<span>2）兑换的商品在运输过程中出现损毁</span><br />';
+            $v['rule'] .= '<span>用户可在签收后7日内拨打我的塑料网客服热线400-6129-965，申请退换货，退回时，请务必将原包装、内附赠品及说明书和相关文件一并寄回。</span><br />';
+            $v['rule'] .= '<br />';
+            $v['rule'] .= '<span>若出现以下情况，我的塑料网有权不予进行商品退换货：</span><br />';
+            $v['rule'] .= '<span>1)非我的塑料网积分商城的兑换商品</span><br />';
+            $v['rule'] .= '<span>2)不正常使用商品造成的质量问题</span><br />';
+            $v['rule'] .= '<span>3)超过我的塑料网积分商城承诺的7天退换货有效时间</span><br />';
+            $v['rule'] .= '<span>4)将商品存储、暴露在不适宜环境中造成的损坏</span><br />';
+            $v['rule'] .= '<span>5)因未经授权的修理、改动、不正确的安装造成损坏</span><br />';
+            $v['rule'] .= '<span>6)不可抗力导致礼品损坏</span><br />';
+            $v['rule'] .= '<span>7)商品的正常磨损</span><br />';
+            $v['rule'] .= '<span>8)在退换货之前未与我的塑料网客服取得联系，进行过退换货登记</span><br />';
+            $v['rule'] .= '<span>9)退回商品包装或其他附属物不完整或有毁损</span><br />';
+            $v['rule'] .= '<br />';
+            $v['rule'] .= '<span>注：商品图片及文字仅供参考，具体以实物为准。</span><br />';
+            $this->json_output(array('err'=> 0 , 'rule'=>$v['rule']));
+        }
     }
 
     /*
@@ -1401,7 +2051,25 @@ class qapi1_1Action extends null2Action
      * 积分记录
      */
     public function pointSupplyList(){
-        $this->defaultCode->pointSupplyList();
+        $this->is_ajax = true;
+        if($_GET){
+            $user_id=$this->checkAccount();
+            $page = sget('page', 'i', 1);
+            $size = sget('size', 'i', 10);
+            //$data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id and type in (2,3,5,6)")->order('id desc')->page($page,$size)->getPage();
+            $data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id")->order('id desc')->page($page,$size)->getPage();
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+            $this->_checkLastPage($data['count'], $size, $page);
+            //我的积分
+            $points = M('qapp:pointsBill')->getUerPoints($user_id);
+            $points = empty($points) ? 0 : $points;
+            foreach($data['data'] as $k => &$v){
+                $v['typename'] = $this->pointsType[$v['type']];
+                $v['addtime'] = $this->checkTime($v['addtime']);
+                unset($v['type']);
+            }
+            $this->json_output(array('err'=>0,'data'=>$data['data'],'pointsAll'=>$points));
+        }
     }
 
     /*
@@ -1424,13 +2092,58 @@ class qapi1_1Action extends null2Action
             }
             $this->json_output(array('err'=>0,'info'=>$data['data']));
         }
+
     }
 
     /*
      * 供求信息置顶之供求信息列表
      */
     public function supplyDemandList(){
-        $this->defaultCode->supplyDemandList();
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            $page = sget('page', 'i', 1);
+            $size = sget('size', 'i', 5);
+            $type = sget('type', 'i');// 0全部  1采购 2报价
+            $own_id = sget('user_id','i',0);
+            if(!empty($own_id)){
+                $where = " pur.sync = 6 and pur.user_id=$own_id ";
+            }else{
+                $where = " pur.sync = 6 and pur.user_id=$user_id ";
+            }
+            if(!empty($type)) $where.=" and pur.type=$type";
+            $data = $this->db->select('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.type,pur.content,pur.input_time')->from('purchase pur')
+                ->leftjoin('product pro','pur.p_id=pro.id')
+                ->leftjoin('factory fa','pro.f_id=fa.fid')
+                ->page($page,$size)
+                ->where($where)
+                ->order('pur.input_time desc')
+                ->getPage();
+            if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关的数据'));
+            $this->_checkLastPage($data['count'], $size, $page);
+            $arr=array();
+            foreach($data['data'] as $k => &$value){
+                $value['input_time']=$this->checkTime($value['input_time']);
+                if(empty($value['content'])){
+                    if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
+                        $value['contents'] = '';
+                    }else{
+                        $value['contents'] .= '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
+                    }
+                }elseif(!empty($value['content'])){
+                    if($value['unit_price']==0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])){
+                        $value['contents'] = $value['content'];
+                    }else{
+                        $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'].'/'.$value['content'];
+                    }
+                }
+                $arr[$k]['type']=$value['type'];
+                $arr[$k]['input_time']=$value['input_time'];
+                $arr[$k]['p_id']=$value['id'];
+                $arr[$k]['content'] = mb_substr(strip_tags($value['contents']), 0, 50, 'utf-8') . '...';
+            }
+            $this->json_output(array('err' => 0, 'data' => $arr));
+        }
     }
 
     //分享我的供给或其求购
@@ -1566,12 +2279,49 @@ class qapi1_1Action extends null2Action
      * 二次发布
      */
     public function secondPub(){
-        $this->defaultCode->secondPub();
+        if($_GET){
+            $id = sget('id','i');
+            if(empty($id)) $this->_errCode(6);
+            $this->checkAccount();
+            $where = " pur.sync = 6 and pur.id=$id ";
+            $data=M("product:purchase")->getPurchaseLeftById($where);
+            if(empty($data['content'])){
+                if($data['unit_price']==0.00&&empty($data['model'])&&empty($data['f_name'])&&empty($data['store_house'])){
+                    $this->json_output(array('err'=>1,'msg'=>'此记录输入有误，请手动补充'));
+                }
+                $data['f_type']=1;//格式化输出
+            }elseif(!empty($data['content'])){
+                if($data['unit_price']==0.00||empty($data['model'])||empty($data['f_name'])||empty($data['store_house'])){
+                    $data['f_type']=2;//未格式化输出
+                }else{
+                    $data['f_type']=1;//格式化输出
+                }
+            }
+            if(empty($data)) $this->_errCode(2);
+            $this->_errCode(0,$data);
+        }
     }
 
     //关注。粉丝的头像
     public function headPicture(){
-        $this->defaultCode->headPicture();
+        if($_GET){
+            $user_id = $this->checkAccount();
+            //我的粉丝
+            $data = M('plasticzone:plasticIntroduction')->getMyFuns($user_id, 1);
+           $myfans=array();
+            foreach($data['data'] as $row){
+                $myfans[]=$row['user_id']['thumb'];
+                if(count($myfans)>=9) break;
+            }
+            //我的关注
+            $data = M('plasticzone:plasticIntroduction')->getMyFuns($user_id, 2);
+            $myconcerns=array();
+            foreach($data['data'] as $row){
+                $myconcerns[]=$row['focused_id']['thumb'];
+                if(count($myconcerns)>=9) break;
+            }
+            $this->json_output(array('err'=>0,'myfans'=>$myfans,'myconcerns'=>$myconcerns));
+        }
     }
 
     /**
@@ -1700,7 +2450,46 @@ class qapi1_1Action extends null2Action
      * app更新消息
      */
     public function updateApp(){
-       $this->defaultCode->updateApp();
+        $this->is_ajax = true;
+        if ($_POST) {
+            $user_id = $this->checkAccount();
+            $appName="塑料圈app";//app名字
+            $version=sget('version','s');//版本号
+            $sysType=sget('sysType','i');//1 anzhuo 2 ios
+            $deviceNum=sget('deviceNum','s');//设备号
+            $appupdate=M('system:setting')->get('appupdate');
+
+            $sysVersion=$appupdate['version'];
+            $serverFlag=$appupdate['serverFlag'];//是否显示公告
+            $lastForce=$appupdate['lastForce'];//是否强制更新
+            if(empty($sysType)) $this->_errCode(6);
+            if($sysType==1){
+                $updateUrl=$appupdate['and_updateurl']; //apk下载地址
+                $upgradeInfo=$appupdate['and_upgradeinfo'];//版本的更新描述
+            }elseif($sysType==2){
+                $updateUrl=$appupdate['ios_updateurl']; //apk下载地址
+                $upgradeInfo=$appupdate['ios_upgradeinfo'];//版本的更新描述
+            }
+
+            $versionArray=explode('.',$version);
+            $sysVersionArray=explode('.',$sysVersion);
+
+
+            if($versionArray[0]>$sysVersionArray[0]){
+                $lastForce="0";
+            }elseif(($versionArray[0]==$sysVersionArray[0])&&($versionArray[1]>=$sysVersionArray[1])){
+                $lastForce="0";
+            }elseif($versionArray[1]==$sysVersionArray[1]){
+                if(isset($versionArray[2])&&isset($sysVersionArray[2])){
+                    if($versionArray[2]>=$sysVersionArray[2]) {
+                        $lastForce="0";//是否强制更新
+                    }
+                }
+            }
+
+            $this->json_output(array('err'=>0,'data'=>compact('serverFlag','lastForce','updateUrl','upgradeInfo')));
+
+        }
     }
 
 
