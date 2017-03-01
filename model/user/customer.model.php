@@ -228,7 +228,7 @@ class customerModel extends model{
      * @param $transport_status    物流状态
      * @param $pay_time  完成时间(先销售审核 在物流审核)
      */
-    public function updateCreditLimit($o_id, $transport_status,$pay_time){
+    public function updateCreditLimit($o_id, $transport_status,$pay_time=''){
         // 客户c_id ,订单金额
         $var=$this->db->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
         $info=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id='.$var['c_id'])->getRow();
