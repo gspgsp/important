@@ -38,18 +38,24 @@
 			<div field="mobile" width="50" headerAlign="center" align="center">手机号</div>
 			<div field="qq" width="50" headerAlign="center" align="center">qq号</div>
 			<div field="visit_count" width="30" headerAlign="center" align="center" allowSort="true">登录次</div>
-			<div field="sale_name" width="50" headerAlign="center" align="center" renderer="onManager">最新会员经办人</div>
-			<div field="opening_date" width="60" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center" allowSort="true">最新操作日期</div>
-			<div field="closing_date" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">会员截止日期</div>
+			<!-- <div field="sale_name" width="50" headerAlign="center" align="center" renderer="onManager">最新会员经办人</div>
+ -->			<div field="opening_date" width="60" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center" allowSort="true">最新操作日期</div>
+			<!-- <div field="closing_date" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">会员截止日期</div> -->
 			<div field="headline_vip" width="40" headerAlign="center" renderer="onStatus" align="center">状态</div>
 			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onOperate">操作</div>
 		</div>
 	</div>
 </div>
-<div id="open_member" class="mini-window" title="开通会员" style="width:300px; height:150px;" showModal="true" allowResize="true" allowDrag="true">
+<div id="open_member" class="mini-window" title="开通会员" style="width:800px; height:200px;" showModal="true" allowResize="true" allowDrag="true">
 	<div id="replaceForm" class="form" >
 		<table style="width:100%;">
 			<input id="user_id" class="mini-hidden" name="user_id">
+			<tr>
+				<td width="80">开通类型</td>
+				<td>
+					<input name="cate_id" vtype="int" class="mini-checkboxlist" textField="textField" valueField="valueField" data='{:json_encode|$cate}' required="true" />
+				</td>
+			</tr>
 			<tr>
 				<td>开通时间:</td>
 				<td>
@@ -71,29 +77,36 @@
 		</table>
 	</div>
 </div>
-<div id="del_member" class="mini-window" title="删除会员" style="width:450px; height:180px;" showModal="true" allowResize="true" allowDrag="true">
+<div id="del_member" class="mini-window" title="删除会员" style="width:600px; height:260px;" showModal="true" allowResize="true" allowDrag="true">
 	<div id="delForm" class="form" >
 		<table style="width:100%;">
 			<input id="uid" class="mini-hidden" name="user_id">
 			<tr>
-				<td colspan="3">
-					操作人：&ensp;<input name="sale_name" width="80" class="mini-textbox" required="true" value="" />
-				</td>
-			</tr>
-			<tr>
-				<td>删除类型选择：</td>
+				<td width="100">删除方式：</td>
 				<td  style="text-align:left;">
-					<input id="del_type" name="del_type" vtype="int" class="mini-radiobuttonlist" required="true"  onvaluechanged="delChange()"  textField="name" valueField="sid" data='[{"sid":"1","name":"一键删除"},{"sid":"2","name":"年数删除"}]' />
-				</td>
-				<td id="del_hidden" style="display:none;">
-					<input name="year_num" class="mini-spinner"  minValue="1" maxValue="30"/>&ensp;/年
+					<input id="del_type" name="type" vtype="int" class="mini-radiobuttonlist" required="true"  onvaluechanged="delChange()"  textField="name" valueField="sid" data='[{"sid":"2","name":"一键删除"},{"sid":"4","name":"分类删除"}]' width="180" />
 				</td>
 			</tr>
+			<tr height="10" class="del_hidden" style="display:none;"></tr>
+			<tr class="del_hidden" style="display:none;">
+				<td>删除分类：</td>
+				<td>
+					<input name="cate_id" id="cate_id" vtype="int" class="mini-checkboxlist" textField="textField" valueField="valueField" data='{:json_encode|$cate}' required="true" />
+				</td>
+			</tr>
+			<tr height="15"></tr>			
 			<tr>
-				<td colspan="3" id="del_text" style="text-align:center; color:red;"></td>
+				<td>操作人：</td>
+				<td>
+					<input name="sale_name" width="100" class="mini-textbox" required="true" value="" />
+				</td>
+			</tr>
+			<tr height="10"></tr>
+			<tr>
+				<td colspan="2" id="del_text" style="text-align:center; color:red;"></td>
 			</tr>
 			<tr>
-			<td style="text-align:center;padding-top:20px;" colspan="3">
+			<td style="text-align:center;padding-top:20px;" colspan="2">
 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:sdelMember()">删除</a>
 			</td>
 			</tr>
@@ -137,7 +150,7 @@ function onStatus(e){
 function onOperate(e){
 	var record = e.record,userid=record.user_id,vip=record.headline_vip,s='';
 	if (vip == 1) {
-		s += '<a href="javascript:openMember('+userid+')">续费会员</a> | <a href="javascript:memberViewflow('+userid+')">开通记录</a> | <a href="javascript:delMember('+userid+')">删除会员</a>';	
+		s += '<a href="javascript:openMember('+userid+')">续费会员</a> | <a href="javascript:memberViewflow('+userid+')">操作记录</a> | <a href="javascript:delMember('+userid+')">删除会员</a>';	
 	}else{
 		s += '<a href="javascript:openMember('+userid+')">开通会员</a>';
 	}
@@ -204,9 +217,9 @@ function submitMember(){
 	}
 	utils.ajax('/user/headline/addMember',{data:json},callback,"POST","json");
 }
-//会员开通流程
+//会员操作流程查看
 function memberViewflow(userid){
-	var width=1000, height=300,title="会员开通记录";
+	var width=1200, height=400,title="会员操作记录";
 	mini.open({
 		url: "/user/headline/memberViewflow?userid="+userid,
 		allowResize:true,
@@ -226,18 +239,27 @@ var del_member = mini.get("del_member");
 var form2 = new mini.Form("#delForm");
 //删除会员操作
 function delMember(userid){
+	form2.clear();
+	$.post('/user/headline/getCateId', {user_id: userid}, function(data) {
+		if (data.err==1) {
+			mini.get(cate_id).setValue(data.val);
+		}else{
+			mini.alert(data.msg);
+			form2.clear();
+		}
+	},'json');
 	mini.get(uid).setValue(userid);
 	del_member.show();	
 }
 //删除选择切换
 function delChange(){
 	var id=mini.get('del_type').getValue();
-	if(id == 1){
-		$('#del_text').html('一键删除是把该客户的会员信息一键清空！');
-		$('#del_hidden').css({'display':'none'});
+	if(id == 2){
+		$('#del_text').html('提示：一键删除是把该客户开通的所有分类一键清空！');
+		$('.del_hidden').hide();
 	}else{
-		$('#del_text').html('年数删除是把该客户的会员年数进行相减操作！');
-		$('#del_hidden').css({'display':'block'});
+		$('#del_text').html('提示：分类删除是把该客户开通的分类进行选择性删除！对勾表示客户已开通的分类。');
+		$('.del_hidden').show();
 	}
 }
 //提交会员开通信息
