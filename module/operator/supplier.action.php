@@ -312,16 +312,14 @@ class supplierAction extends adminBaseAction{
     public function editSubmit(){
         $this->is_ajax=true;
         $data = sdata();
-        if($data['supplier_id']>1) $this->error('信息错误');
+        if($data['supplier_id']<1) $this->error('信息错误');
         $data['update_time']=time();
         $data['update_name']=$_SESSION['name'];
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->update($data);
         if($res){
-            if($res!=1)
-
-            $this->error('信息跟新失败');
+                $this->json_output(array('err'=>0,'msg'=>'更新成功'));
         }else{
-            $this->success('成功');
+            $this->json_output(array('err'=>1,'msg'=>'更新失败'));
         }
     }
 
@@ -398,9 +396,9 @@ class supplierAction extends adminBaseAction{
         $data['update_name']=$_SESSION['name'];
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->update($data);
         if($res){
-            if($res!=1) $this->json_output(array('err'=>1,'msg'=> '信息跟新失败'));
-        }else{
             $this->json_output(array('err'=>0,'msg'=>'更新成功'));
+        }else{
+            $this->json_output(array('err'=>1,'msg'=>'更新失败'));
         }
     }
 
