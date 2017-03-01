@@ -224,18 +224,20 @@ class customerModel extends model{
 
 
     /**
-     * @param $o_id
-     * @param $money
-     * @param $status    状态
+     * @param $o_id      销售订单id
+     * @param $transport_status    物流状态
      * @param $pay_time  完成时间(先销售审核 在物流审核)
      */
-    public function updateCreditLimit($o_id, $status,$pay_time){
-        $var=$this->db->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getAll();
-
-        return $var;
-//        $info=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id='.$c_id)->getOne();
-        
-
+    public function updateCreditLimit($o_id, $transport_status,$pay_time){
+        // 客户c_id ,订单金额
+        $var=$this->db->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
+        $info=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id='.$var['c_id'])->getRow();
+        $arr=array();
+        if($transport_status){    // 物流审核通过
+            $arr['available_credit_limit']=($info['credit_limit']-$var['total_price']);
+        }
+        $res=$this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
+        return $res;
     }
 
 }
