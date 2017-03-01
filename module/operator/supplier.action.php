@@ -234,10 +234,12 @@ class supplierAction extends adminBaseAction{
                 $this->error('添加失败');
             }
         }
-        // 新增供应商和联系
+        // 新增供应商和联系人
         $this->db->startTrans();
         try{
             if($ctype==3){
+                $var=$this->db->model('logistics_supplier')->where('supplier_name='.$data['supplier_name'])->select('supplier_name')->getAll();
+
                 if(empty($data['mobile_tel']) && empty($data['contact_tel'])) $this->error('手机或者电话至少填写一个');
                 //验证公司信息
                 $param_1=array(                                                  // logistics_supplier 表
