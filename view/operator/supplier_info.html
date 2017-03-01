@@ -153,8 +153,7 @@
         {/if}
         $.post(urlstr,{data:supplier_info},function(data){
             form.unmask();
-            console.log(data);return false;
-//            $("#returnMsg").text(data.msg);
+            $("#returnMsg").text(data.msg);
             if(data.err=='0'){
                 CloseWindow("save");
             }else{
