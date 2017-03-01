@@ -15,7 +15,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('order_status',L('order_status')); //订单审核
 		$this->assign('transport_status',L('transport_status')); //物流审核
 		$this->assign('out_storage_status',L('out_storage_status')); //发货状态
-		$this->assign('invoice_status',L('invoice_status')); 		//开票状态
+		$this->assign('invoice_status',L('invoice_status'));        //开票状态
 		$this->assign('invoice_one_status',L('invoice_one_status'));    //单笔明细开票状态
 		$this->assign('price_type',L('price_type')); //价格单位
 		$this->assign('in_storage_status',L('in_storage_status')); //入库状态
@@ -23,8 +23,8 @@ class orderAction extends adminBaseAction {
 		$this->assign('company_account',L('company_account')); //交易公司账户
 		$this->assign('sales_type',L('sales_type')); //销售类型
 		$this->assign('purchase_type',L('purchase_type')); //采购类型
-		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
-		$this->assign('billing_type',L('billing_type'));    	//开票类型
+		$this->assign('bile_type',L('bile_type'));              //票据类型
+		$this->assign('billing_type',L('billing_type'));        //开票类型
 		$this->assign('c_fax',L('c_fax'));  //联系传真
 		$this->assign('pay_remark',L('pay_remark'));  //联系传真
 		$this->assign('admin_id',$_SESSION['admin_id']);
@@ -686,11 +686,10 @@ class orderAction extends adminBaseAction {
 			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update(array('is_join_check'=>$transport_status)+$_data) ) throw new Exception("关联的销售订单接收采购订单状态更新失败");
 			//添加订单可视化 1审核过 2审核不过
 			M('order:orderLog')->addLog($data['o_id'],$transport_status = $transport_status==2 ? 3 : 2,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
-			$wps='-';
-			if($transport_status==1){
-               $res= M('user:customer')->updateCreditLimit($data['o_id'],$transport_status,$wps=='-');
-               if($res!=1) throw new Exception('可用额度更新失败');
-            }
+			if($transport_status==2){
+				$res= M('user:customer')->updateCreditLimit($data['o_id'],$transport_status,'-');
+				if($res!=1) throw new Exception('可用额度更新失败');
+			}
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}

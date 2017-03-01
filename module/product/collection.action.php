@@ -221,49 +221,49 @@ class collectionAction extends adminBaseAction
 // 					$this->assign('total_price',$res[0]['total_price']);
 // 					$this->assign('uncollected_price',$res[0]['uncollected_price']);
 // 					$this->assign('remark',$res[0]['remark']);//备注
-				    $collected_price =  $this->db->model('collection')->select("IFNULL(SUM(collected_price),0) AS collected_price")->where("o_id='".$data[0][o_id]."'")->getOne();
-				    $uncollected_price = $data[0]['total_price'] -  $collected_price;
-				    $this->assign('total_price',$data[0]['total_price']);
-				    $this->assign('uncollected_price',$uncollected_price);
-				    $this->assign('remark',$res[0]['remark']);//备注
+					$collected_price =  $this->db->model('collection')->select("IFNULL(SUM(collected_price),0) AS collected_price")->where("o_id='".$data[0][o_id]."'")->getOne();
+					$uncollected_price = $data[0]['total_price'] -  $collected_price;
+					$this->assign('total_price',$data[0]['total_price']);
+					$this->assign('uncollected_price',$uncollected_price);
+					$this->assign('remark',$res[0]['remark']);//备注
 				}
 			}
 			$this->display('collection.add.html');
 
 	}
 
-    /**
+	/**
 	* 检查收付款状态
 	*/
 	public function chkCollecteprice(){
 		$this->is_ajax=true; //指定为Ajax输出
-	    $data=sdata();
-	    if(empty($data)) $this->error('信息错误');
-	    $status = $this->db->model('collection')->select('collection_status')->where("o_id=".$data['o_id'])->order('id desc')->getOne();
-	    $has_price = $this->db->model('collection')->select("sum(collected_price) as has_price")->where("o_id=".$data['o_id'])->getOne();
-	    //$status不等于2表示没有提交申请或者没有审核，此两种状态都可以提交
-	    if($data['finance']){
-	    	if($status==2){
+		$data=sdata();
+		if(empty($data)) $this->error('信息错误');
+		$status = $this->db->model('collection')->select('collection_status')->where("o_id=".$data['o_id'])->order('id desc')->getOne();
+		$has_price = $this->db->model('collection')->select("sum(collected_price) as has_price")->where("o_id=".$data['o_id'])->getOne();
+		//$status不等于2表示没有提交申请或者没有审核，此两种状态都可以提交
+		if($data['finance']){
+			if($status==2){
 				$this->error('重复审核');
 			}else{
 				$this->success('没有重复审核');
 			}
-	    }else{
-	    	if ((float)$data['total_price']<(float)$has_price) {
-	    	//总金额小于已付款金额
-	    		$this->error('提交数据有误');
-	    	}
-	    	if($status==1){
+		}else{
+			if ((float)$data['total_price']<(float)$has_price) {
+			//总金额小于已付款金额
+				$this->error('提交数据有误');
+			}
+			if($status==1){
 				$this->error('重复提交');
 			}else{
 				$this->success('没有重复提交');
 			}
 			if($status==2){
-			    $this->error('重复审核');
+				$this->error('重复审核');
 			}else{
-			    $this->success('没有重复审核');
+				$this->success('没有重复审核');
 			}
-	    }
+		}
 
 	}
 
@@ -337,11 +337,8 @@ class collectionAction extends adminBaseAction
 					}
 				}
 				// ***********多笔付款 提升 可用额度**********************
-                // $o_id 订单id; $data['finance'] 财务已审核状态； data['collected_price']；申请金额
-                $wps='+';
-                $res= M('user:customer')->updateCreditLimit($o_id,$data['finance'],$wps,$data['collected_price']);
-                if($res!=1) throw new Exception('可用额度还原失败');
-
+				// $o_id 订单id; $data['finance'] 财务已审核状态； data['collected_price']；申请金额
+				M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'+',$data['collected_price']) OR $this->error('可用额度还原失败');
 			}else{
 				$data['uncollected_price'] = $m;
 				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
@@ -373,15 +370,15 @@ class collectionAction extends adminBaseAction
 // 			'collected_price'=>'0',
 // 			'uncollected_price'=>$arr[0]['uncollected_price']+$data['c_price'],
 // 			'refund_amount'=>$data['c_price'],
-		    'total_price'=>-$arr['total_price'],
-		    'collected_price'=>-$arr['collected_price'],
-		    'uncollected_price'=>-$arr['uncollected_price'],
-		    'refund_amount'=>$data['c_price'],
+			'total_price'=>-$arr['total_price'],
+			'collected_price'=>-$arr['collected_price'],
+			'uncollected_price'=>-$arr['uncollected_price'],
+			'refund_amount'=>$data['c_price'],
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 			'collection_status'=>2,
 			);
-            //退款可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
+			//退款可能变化的值 [pay_method] => 4   [payment_time] => 0     [account] => 1
 //  		$update=array_merge($arr[0],$arr2);
 		$update=array_merge($arr,$arr2);
 		//判断是不是第一笔收付款记录
@@ -416,10 +413,10 @@ class collectionAction extends adminBaseAction
 				$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']));
 				//修改account账户信息，1是销售，收款
 				if($arr['order_type']==1){
-				    $this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum-".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
+					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum-".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
 				}else{
-				    $money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
-			        $this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
+					$money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
+					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
 				}
 			} catch (Exception $e) {
 				$this->db->rollback();
@@ -522,43 +519,43 @@ class collectionAction extends adminBaseAction
 	 * 东方付通退款确认
 	 */
 	public function refundOk(){
-	    $this->is_ajax=true; //指定为Ajax输出
-	    $data = sdata(); //获取UI传递的参数
-	    if(empty($data)) $this->error('错误的操作');
-	    $arr = $this->db->model('collection')->where("id='".$data['id']."'")->getRow();
-	    $this->db->startTrans();//开启事务
-	    try {
-	        if(!$this->db->model('collection')->wherePK($data['id'])->update( array('refund_amount'=>$data['total_price'])) )throw new Exception("修改退款金额失败");
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->error('错误的操作');
+		$arr = $this->db->model('collection')->where("id='".$data['id']."'")->getRow();
+		$this->db->startTrans();//开启事务
+		try {
+			if(!$this->db->model('collection')->wherePK($data['id'])->update( array('refund_amount'=>$data['total_price'])) )throw new Exception("修改退款金额失败");
 // 	        //根据撤销付款金额与总金额的大小，判断订单付款状态
 // 	        $arrtmp=array('collection_status'=>1,);
 // 	        if(!$this->db->model('order')->wherePK($data['oid'])->update($arrtmp+array('update_time'=>CORE_TIME,)) )throw new Exception("修改订单表退款状态失败");
-	        //以下增加没有同步账户和资金流水的bug 20160825
-	        //添加account_log账户明细信息,默认设计账户类型就是账户id
-	        $arr['account']=1;
-	        $add_data['account_id']=$arr['account'];
-	        $add_data['money']=-$arr['collected_price'];
-	        $add_data['remark']=$arr['remark'];
-	        $add_data['type']=$arr['order_type']==1?1:2;
-	        $add_data['order_id']=$arr['o_id'];
-	        $add_data['order_type']=$arr['order_type'];
-	        $this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']));
-	        //修改account账户信息，1是销售，收款
-	        if($arr['order_type']==1){
-	            $this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum-".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
-	        }else{
-	            $money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
-	            $this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
-	        }
-	    } catch (Exception $e) {
-	        $this->db->rollback();
-	        $this->error($e->getMessage());
-	    }
+			//以下增加没有同步账户和资金流水的bug 20160825
+			//添加account_log账户明细信息,默认设计账户类型就是账户id
+			$arr['account']=1;
+			$add_data['account_id']=$arr['account'];
+			$add_data['money']=-$arr['collected_price'];
+			$add_data['remark']=$arr['remark'];
+			$add_data['type']=$arr['order_type']==1?1:2;
+			$add_data['order_id']=$arr['o_id'];
+			$add_data['order_type']=$arr['order_type'];
+			$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']));
+			//修改account账户信息，1是销售，收款
+			if($arr['order_type']==1){
+				$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum-".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
+			}else{
+				$money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
+				$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
+			}
+		} catch (Exception $e) {
+			$this->db->rollback();
+			$this->error($e->getMessage());
+		}
 
-	    if($this->db->commit()){
-	       $this->success('操作成功');
-	    }else{
-	        $this->db->rollback();
-	        $this->error('生成失败:'.$this->db->getDbError());
-	    }
+		if($this->db->commit()){
+		   $this->success('操作成功');
+		}else{
+			$this->db->rollback();
+			$this->error('生成失败:'.$this->db->getDbError());
+		}
 	}
 }
