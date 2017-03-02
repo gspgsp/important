@@ -146,7 +146,11 @@
 				if($type!='public'){
 					$where.=' and type in ("'.$type.'","public")';	
 				}
-				$data=$this->model('news_content')->where($where." and DATE_FORMAT(FROM_UNIXTIME(`input_time`,'%Y-%m-%d'),'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')")->select('id,title,content,cate_id,author,input_time,type,pv')->order('sort_order desc,pv  desc')->limit(10)->getAll();
+				//取出同一月份的10条数据用于排行
+				$data=$this->model('news_content')->where($where." and DATE_FORMAT(FROM_UNIXTIME(`input_time`,'%Y-%m-%d'),'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')")->select('id,title,cate_id,type')->order('sort_order desc,pv  desc')->limit(10)->getAll();
+				if (count($data)<5) {
+					$data=$this->model('news_content')->where($where." and DATE_FORMAT(FROM_UNIXTIME(`input_time`,'%Y-%m-%d'),'%Y')=DATE_FORMAT(CURDATE(),'%Y')")->select('id,title,cate_id,type')->order('sort_order desc,pv  desc')->limit(10)->getAll();
+				}
 			}
 			//文章排行编号从1开始并进行补零
 			foreach ($data as $key => $value) {
