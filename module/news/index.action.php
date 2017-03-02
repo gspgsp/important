@@ -118,7 +118,6 @@
                         
 		//取出详情页数据
 		public function detail(){
-			p($_SESSION);exit;
 			$type=sget('type','s');
 			//导航栏选中状态
 				$this->nav=$type;
