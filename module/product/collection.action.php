@@ -347,8 +347,6 @@ class collectionAction extends adminBaseAction
                     // $o_id 订单id; $data['finance'] 财务已审核状态； data['collected_price']；申请金额
                     M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'-',$data['collected_price']) OR $this->error('可用额度还原失败');
 				}
-
-
 			}else{
 				$data['uncollected_price'] = $m;
 				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
