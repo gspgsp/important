@@ -432,7 +432,7 @@ class collectionAction extends adminBaseAction
 				}
                 //******销售红充（减掉 可用额度）*******
                 M('user:customer')->updateCreditLimit($data['oid'],3,'-',$data['c_price']) OR $this->error('可用额度抵消失败');
-				
+
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());
