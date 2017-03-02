@@ -135,3 +135,8 @@ a{ text-decoration:none;}
 .headline-main .neilian li{width:370px; float: left; color:#999;  text-align:left; background:url(../img/headlineSpirit.png) no-repeat 0 -34px; padding:4px 0 7px 14px;}
 .headline-main .neilian h2{ color:#ee4822; font-size:16px; font-weight:bold; padding-top:10px; height:25px; line-height:25px;}
 a{color:#666;}
+
+/*详情页免责声明*/
+.yabld {padding:0 31px 31px 31px; border:solid 1px #dddddd; margin:20px 0 20px 0; background:#fff;}
+.yabldt {color:#ee4822; font-size:16px; font-weight:bold; padding-top:15px; height:25px; line-height:25px;}
+.yabld p {color:#666; line-height:22px;}
