@@ -364,6 +364,7 @@ class collectionAction extends adminBaseAction
 	public function changeRed(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+        p($data);die;
 		if(empty($data)) $this->error('错误的操作');
 // 		$arr = M('product:collection')->getLastInfo($name='o_id',$value=$data['oid']);
 		$arr = $this->db->model('collection')->where("id='".$data['id']."'")->getRow();
@@ -376,7 +377,7 @@ class collectionAction extends adminBaseAction
 // 			'uncollected_price'=>$arr[0]['uncollected_price']+$data['c_price'],
 // 			'refund_amount'=>$data['c_price'],
 			'total_price'=>-$arr['total_price'],
-			'collected_price'=>-$arr['collected_price'],
+			'collected_price'=>-$arr['collected_price'],   // 退还金额
 			'uncollected_price'=>-$arr['uncollected_price'],
 			'refund_amount'=>$data['c_price'],
 			'update_time'=>CORE_TIME,
