@@ -317,8 +317,6 @@ class orderAction extends adminBaseAction {
 			 }else{
 				$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
                 $var = M("user:customer")->getRowByCredit($info['c_id']);//根据cid 取出 信用额度、可用额度
-
-
 			 }
 		}
         $info['credit_limit']=$var['credit_limit'];
@@ -330,6 +328,7 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['partner']=M('rbac:adm')->getUserByCol($info['partner']);
 		$info['creater']=M('rbac:adm')->getUserByCol($info['customer_manager']);
+		p($info);
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 		if($o_type ==1){
