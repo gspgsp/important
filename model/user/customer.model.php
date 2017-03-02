@@ -35,6 +35,16 @@ class customerModel extends model{
 		$result =  $this->model('customer')->select("$col")->where("$condition='$value'")->getRow();
 		return empty($result) ? '-' : $result;
 	}
+
+    /**
+     * 根据cid获取客户信用额度
+     *
+     */
+    public function getRowByCredit($c_id){
+        $result=$this->model('customer')->select("credit_limit,available_credit_limit")->where("c_id=".$c_id)->getRow();
+        return $result;
+    }
+
 	/**
 	 * 根据联系人id 取出所有的所属公司信息
 	 */
