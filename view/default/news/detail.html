@@ -1,5 +1,4 @@
 {layout file="public:news_warp"}
-{insert_css files='home/master.css'}
 <!--headline-crumb begin-->
 <div class="headline-crumb w1220"><a target="_blank" href="/" style="color:#fc6621;">塑料头条</a>&nbsp;》{if $type !=='public'}<a target="_blank"  href="/{$type}.html" style="color:#fc6621;">{$upperType}</a>&nbsp;》{/if}<a target="_blank"  href="/{$type}{$cate}.html" style="color:#fc6621;">{$data[cate_name]}</a>&nbsp;》<a target="_blank"  href="/{$type}/{$cate}/{$data[id]}.html" style="color:#fc6621;">{$data[title]}</a></div>
 <!--headline-crumb end-->
@@ -62,7 +61,7 @@
         </div>            
            
     </div>
-    <div class="clear"></div>
+    <div style="clear:both"></div>
     <!-- 內链begin -->
     <br />
     <div class="neilian"  style="background:#fff;border:solid 1px #dddddd;">
@@ -129,74 +128,36 @@
   wx.ready(function () {
         //分享到朋友圈
         wx.onMenuShareTimeline({
-            title: "{$data[title]}", // 分享标题
-            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
-            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
-            success: function () { 
-                // 用户确认分享后执行的回调函数
-            },
-            cancel: function () { 
-                // 用户取消分享后执行的回调函数
-            }
+            wxCommon();
         });
-
         //分享给朋友
         wx.onMenuShareAppMessage({
-            title: "{$data[title]}", // 分享标题
-            desc: '我的塑料网', // 分享描述
-            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
-            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
-            type: '', // 分享类型,music、video或link，不填默认为link
-            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-            success: function () { 
-                // 用户确认分享后执行的回调函数
-            },
-            cancel: function () { 
-                // 用户取消分享后执行的回调函数
-            }
+            wxCommon();
         });
-
         //分享到QQ
         wx.onMenuShareQQ({
-            title: "{$data[title]}", // 分享标题
-            desc: '我的塑料网', // 分享描述
-            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
-            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
-            success: function () { 
-               // 用户确认分享后执行的回调函数
-            },
-            cancel: function () { 
-               // 用户取消分享后执行的回调函数
-            }
+            wxCommon();
         });
-
         //分享到腾讯微博
         wx.onMenuShareWeibo({
-            title: "{$data[title]}", // 分享标题
-            desc: '我的塑料网', // 分享描述
-            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
-            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
-            success: function () { 
-               // 用户确认分享后执行的回调函数
-            },
-            cancel: function () { 
-                // 用户取消分享后执行的回调函数
-            }
+               wxCommon();
         });
-
         //分享到QQ空间
         wx.onMenuShareQZone({
-            title: "{$data[title]}", // 分享标题
-            desc: '我的塑料网', // 分享描述
-            link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
-            imgUrl: "__NEWS__/img/weixin.png", // 分享图标
-            success: function () { 
-               // 用户确认分享后执行的回调函数
-            },
-            cancel: function () { 
-                // 用户取消分享后执行的回调函数
-            }
-        });    
-  });
-
+                wxCommon();
+        });
+        //微信分享公用方法
+        function wxCommon(){
+                    title: "{$data[title]}", // 分享标题
+                    desc: '我的塑料网', // 分享描述
+                    link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
+                    imgUrl: "__NEWS__/img/weixin.png", // 分享图标
+                    success: function () { 
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () { 
+                        // 用户取消分享后执行的回调函数
+                    }
+                });  
+        }
 </script>
