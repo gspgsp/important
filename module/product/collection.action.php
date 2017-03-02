@@ -272,6 +272,7 @@ class collectionAction extends adminBaseAction
 	*/
 	public function ajaxSave(){
 		$data=sdata();
+		p($data);die;
 		$o_id = sget('o_id','i',0);  // 订单号
 		if ($data['collection_token'] != $_SESSION['collection_token']) {
 			$this->error("非法提交数据");
