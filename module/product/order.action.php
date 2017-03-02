@@ -186,7 +186,7 @@ class orderAction extends adminBaseAction {
 			$v['cmanager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			//获取采购订单开票状态
 			$v['is_supper'] = $_SESSION['adminid']==1 ? 1 : 0;
-			if($order_type ==1){//销售订单
+			if($order_type ==1){ //销售订单
 			//判断当前单子是否全部收款
 				$ifqbsk = $this->db->model('order')->select("count(0)")->where("o_id={$v['o_id']} AND collection_status=3")->getOne();
 				//获取关联的订单号
