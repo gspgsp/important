@@ -675,7 +675,6 @@ class orderAction extends adminBaseAction {
 	public function transportcheck(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-        p($data);die;
 		if(empty($data)) $this->error('错误的操作');
 		$_data=array(
 			'update_time'=>CORE_TIME,
