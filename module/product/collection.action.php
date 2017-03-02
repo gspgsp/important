@@ -272,7 +272,6 @@ class collectionAction extends adminBaseAction
 	*/
 	public function ajaxSave(){
 		$data=sdata();
-		p($data);die;
 		$o_id = sget('o_id','i',0);  // 订单号
 		if ($data['collection_token'] != $_SESSION['collection_token']) {
 			$this->error("非法提交数据");
@@ -331,10 +330,10 @@ class collectionAction extends adminBaseAction
 
 				//修改account账户信息，1是销售，收款
 
-				if($data['order_type']==1){
+				if($data['order_type']==1){   // 销售收款
 					if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
 
-				}else{
+				}else{      // 采购付款
 					$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
 					if ($data['collected_price']>$money) {
 						$this->error('余额不足');
