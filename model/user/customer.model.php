@@ -225,7 +225,7 @@ class customerModel extends model{
 
 	/**
 	 * @param $o_id      销售订单id
-	 * @param $status    状态（物流,财务）
+	 * @param $status    状态（销售物流审:2,销售财务审(多笔):1,销售红充审:3）
 	 * @param $pay_time  完成时间(先销售审核 在物流审核)
 	 * @param $money     (财务申请金额)
 	 */
@@ -235,17 +235,23 @@ class customerModel extends model{
 			$var = $this->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
 			$info = $this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $var['c_id'])->getRow();
 			$arr = array();
-			if ($status) {    // 物流审核通过
+            // 销售物流审
+			if ($status==2) {
 				$arr['available_credit_limit'] = ($info['credit_limit'] - $var['total_price']);
 			}
-			$res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
+            //销售红充审
+			if($status==3){
+                $arr['available_credit_limit'] = ($info['available_credit_limit'] - $money);
+            }
+
+            $res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
 			return $res;
 		}
 
 		if($wps=='+'){// 多笔付款 还回
 			$arrs=$this->model('collection')->select('c_id')->where('o_id='.$o_id)->getRow();
 			$res=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $arrs['c_id'])->getRow();
-			if($status){
+			if($status==1){
 				$arr['available_credit_limit'] = ($res['available_credit_limit'] + $money);
 				$res = $this->model('customer')->where('c_id='.$arrs['c_id'])->update($arr);
 				return $res;
