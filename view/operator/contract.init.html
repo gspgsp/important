@@ -150,12 +150,21 @@ function imgResize(){
 //运输合同审核状态
 function onStatusRender(e) {
 	var s='',record = e.record,logistics_contract_id=record.logistics_contract_id;
-    if(record.status=='1'){
+    if(record.status=='3'){
         s+='审核通过';
-    }else{
+    }else if(record.status=='2')
+	{
+		s+='审核未通过';
+		s += '</br><a href="javascript:transport_contract_edit()"> 编辑</a>';
+	}else if(record.status=='1'){
+		"{if $role eq 24}"
         s += '<a href="javascript:onContractReview('+logistics_contract_id+')">未审核</a>&nbsp;&nbsp;';
-        s += '</br><a href="javascript:transport_contract_edit()"> 修改</a>';
-    }
+		"{else}"
+        s += '</br><a href="javascript:transport_contract_edit()"> 编辑</a>';
+		"{/if}"
+    }else if(record.status=='0'){
+		s+='禁用';
+	}
     return s;
 }
 //审核运输合同

@@ -73,6 +73,7 @@ class contractAction extends adminBaseAction {
 		$this->company_json=setMiniConfig(arrayKeyValues(M('public:common')->model('logistics_supplier')->select("supplier_id as id,supplier_name as name")->getAll(),'id','name'));
 		$this->name_json=setMiniConfig(arrayKeyValues(M('public:common')->model('logistics_contact')->select("id,contact_name as name")->getAll(),'id','name'));
 		$this->assign('page_title','管理员列表');
+		$this->assign('role',$this->role['role_id']);
 		$this->display('contract.init.html');
 	}
 	/**
@@ -114,8 +115,7 @@ class contractAction extends adminBaseAction {
 	{
 		$company_id = sget('company_id','s');
 		$contacts   = M("operator:logisticsContact")->where("supplier_id=".$company_id)->getAll();
-		//$order_info_new = M('public:common')->model('sale_log slg')->leftjoin("purchase p","p.id=slg.purchase_id")->where('slg.o_id='.$order_id)->getAll();
-		//var_dump($order_info_new);
+
 		foreach($contacts as $contact)
 		{
 			$contact_name_info[]= array('id'=>$contact['id'],'name'=>$contact['contact_name'],'tel'=>$contact['contact_tel'],'fax'=>$contact['comm_fax']);

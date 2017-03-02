@@ -126,7 +126,7 @@ class transportAction extends adminBaseAction
     {
         $company_id = sget('company_id', 's');
         $contacts = M("operator:logisticsContact")->where("supplier_id=" . $company_id)->getAll();
-        $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("purchase p", "p.id=slg.purchase_id")->where('slg.o_id=' . $order_id)->getAll();
+        //$order_info_new = M('public:common')->model('sale_log slg')->leftjoin("purchase p", "p.id=slg.purchase_id")->where('slg.o_id=' . $order_id)->getAll();
         //var_dump($order_info_new);
         foreach ($contacts as $contact) {
             $contact_name_info[] = array('id' => $contact['id'], 'name' => $contact['contact_name'], 'tel' => $contact['contact_tel'], 'fax' => $contact['comm_fax']);

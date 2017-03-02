@@ -65,13 +65,13 @@
 						</tr>
 						<tr>
 							<td>车号：</td>
-							<td>							<input name="plate_number"  id="plate_number" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td>							<input name="plate_number"  id="plate_number" class="mini-textbox" style="width:125px;" maxlength="6"  required="true" value=""/>
 							</td>
 							</tr><tr>
 							<td>司机姓名：</td>
 							<td>							<input name="driver_name" id="driver_name" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
 							</td>		</tr><tr><td>身份证号码：</td>
-							<td>							<input name="driver_idcard" id="driver_idcard" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td>							<input name="driver_idcard" id="driver_idcard" class="mini-textbox" style="width:125px;" maxlength="18"  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
@@ -88,8 +88,8 @@
 							</td>
 							<td>
 								<div>购货方(乙方)</div>
-								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/></div>
-								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/></div>
+								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" class="mini-textbox" style="width:125px;" maxlength="11"  required="true" value=""/></div>
+								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax" class="mini-textbox" style="width:125px;" maxlength="11"  required="true" value=""/></div>
 								<div>委托代理人:<input name="second_part_contact_id" onvaluechanged="getcontact" class="mini-combobox" style="width:125px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
 							</td>
 						</tr>
@@ -124,6 +124,22 @@
 	gridCell.setData(noStockData);
 	totalCount(noStockData);
 	"{/if}"
+	mini.get('plate_number').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 6) {
+				e.errorText = "车牌号必须为6位";
+				e.isValid = false;
+			}
+		}
+	});
+	mini.get('driver_idcard').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 18) {
+				e.errorText = "身份证号必须为18位";
+				e.isValid = false;
+			}
+		}
+	});
 	function submitForm(){
 		form.validate();
 		if(form.isValid() == false) return;

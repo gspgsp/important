@@ -21,7 +21,7 @@
 						<tr>
 							<td>乙方</td>
 							<td>
-								<input name="second_part_company_id" value='{$infoq.second_part_company_id}' onvaluechanged="getcompany" class="mini-combobox" style="width:125px;" id="second_part_company_id" value="" data='{$customer_info}'   required="true" textField="name" valueField="id" />
+								<input name="second_part_company_id" value='{$infoq.second_part_company_id}' onvaluechanged="getcompany" class="mini-combobox" style="width:125px;" id="second_part_company_id" data='{$customer_info}'   required="true" textField="name" valueField="id" />
 							</td>
 							<td>签订地点：</td>
 							<td>上海虹口区欧阳路568号17楼
@@ -125,8 +125,22 @@
 	gridCell.setData(noStockData);
 	totalCount(noStockData);
 	"{/if}"
-
-
+	mini.get('plate_number').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 6) {
+				e.errorText = "车牌号必须为6位";
+				e.isValid = false;
+			}
+		}
+	});
+	mini.get('driver_idcard').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 18) {
+				e.errorText = "身份证号必须为18位";
+				e.isValid = false;
+			}
+		}
+	});
 	function submitForm(){
 		form.validate();
 		if(form.isValid() == false) return;
