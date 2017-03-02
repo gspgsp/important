@@ -316,7 +316,7 @@ class orderAction extends adminBaseAction {
 				$c_name =  '*******';
 			 }else{
 				$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
-                $var = M("user:customer")->getRowByCredit($info['c_id']);//根据cid 取出 信用额度、可用额度
+                $var = M("user:customer")->getRowByName($info['c_id'],"credit_limit,available_credit_limit");//根据cid 取出 信用额度、可用额度
 			 }
 		}
         $info['credit_limit']=$var['credit_limit'];
