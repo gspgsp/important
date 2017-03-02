@@ -23,92 +23,135 @@
 		<input class="mini-hidden" value="{$infoq.logistics_contract_id}" name="logistics_contract_id" />
 -->
 		<div  style="padding:5px; " >
-				<center>运输合同</center>
-				<div id="editForm1" style="padding:5px; ">
-					<table id="table1" width="100%" >
-						<tr>
-							<td>甲方：</td>
-							<td>上海中晨电子股份有限公司</td>
-							<td>合同日期： </td>
-							<td>{$infoq.contract_time}
-							</td>
+					<table width="635" border="0" align="center" bgcolor="#fff">
+							<tr ><td>&nbsp;</td></tr>
+							<tr >
+								<td colspan="2" align="center"><h1>运输合同书</h1></td>
+							</tr>
+							<tr height="20"><td>&nbsp;</td></tr>
+							<tr align="left">
+								<td width="380" height="20">甲方：上海中晨电子商务股份有限公司</td>
+								<td height="20">合同日期：{$infoq.contract_time}</td>
+							</tr>
+							<tr  align="left">
+								<td  width="380" height="20">乙方：{$infoq.supplier_name}</td>
+								<td height="20">签约地点：上海虹口欧阳路568号17楼</td>
+							</tr>
+							<tr  align="left">
+								<td height="20"></td>
+							</tr>
+							<tr align="left">
+								<td colspan="2" height="20" width="600">甲、乙双方经协商，根据《中华人民共和国合同法》相关规定，就以下产品的购销等有关事宜，签订本合同</td>
+							</tr>
+						</table>
 						</tr>
-						<tr>
-							<td>乙方</td>
-							<td>{$infoq.supplier_name}
-							</td>
-							<td>签订地点：</td>
-							<td>上海虹口区欧阳路568号17楼
-							</td>
-						</tr>
-						<tr>
-							<td>货物:</td>
-							<td>{$infoq.goods_name}
-							</td>
-						</tr>
-						<tr>
-							<td>提货地点：</td>
-							<td>{$infoq.start_place}
-							</td>
-						</tr>
-						<tr>
-							<td>送货地点:</td>
-							<td>{$infoq.end_place}
-							</td>
-						</tr>
-						<tr>
-							<td>送货日期:</td>
-							<td>{$infoq.delivery_time}
-							</td>
-						</tr>
-						<tr>
-							<td>合同责任：</td>
-						</tr>
-						<tr>
-							<td colspan="3">乙方必须于甲方的制定期限内，将货物送到甲方的制定地点。</td>
-						</tr>
-						<tr>
-							<td>注意事项：</td>
-						</tr>
-						<tr>
-							<td colspan="3">乙方必须保证甲方的货物，安全无破损无超市无变质的情况。若出现以上的情况，乙方必须负责赔偿甲方的损失。</td>
-						</tr>
-						<tr>
-							<td>备注：</td>
-							<td>合同传真件有效
-							</td>
-						</tr>
-						<tr>
-							<td>车号：</td>
-							<td>{$infoq.plate_number}
-							</td>
-							</tr><tr>
-							<td>司机姓名：</td>
-							<td>{$infoq.driver_name}
-							</td>		</tr><tr><td>身份证号码：</td>
-							<td>{$infoq.driver_idcard}
-							</td>
-						</tr>
-						<tr>
-							<td>运输费用:</td>
-							<td>{$infoq.delivery_fee}
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div>购货方(甲方)</div>
-								<div>TEL:021-61673571</div>
-								<div>FAX:021-61673516</div>
-								<div>委托代理人:杜丽燕</div>
-							</td>
-							<td>
-								<div>购货方(乙方)</div>
-								<div >TEL:{$infoq.second_part_contact_tel}</div>
-								<div >FAX:{$infoq.second_part_contact_fax}</div>
-								<div>委托代理人:{$infoq.second_part_contact_id}</div>
-							</td>
-						</tr>
-					</table>
+							<tr  align="left">
+								<td height="20"></td>
+							</tr>
+						<table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="40"  height="20" style="line-height:20px;">一、</td>
+								<td width="100"  height="20" style="line-height:20px;">货物：</td>
+								<td  width="465"  height="20" style="line-height:20px;">{$infoq.goods_name}</td>
+							</tr>
+						</table>
+						<table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="40"  height="20" style="line-height:20px;">二、</td>
+								<td width="100" align="left"  height="20" style="line-height:20px;">提货地点：</td>
+								<td>{$infoq.start_place}</td>
+							</tr>
+						</table>
+			           <table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="40"  height="20" style="line-height:20px;">三、</td>
+								<td width="100" align="left"  height="20" style="line-height:20px;">送货地点：</td>
+								<td width="505" height="20" style="line-height:20px;">{$infoq.end_place}</td>
+							</tr>
+						</table>
+						<table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="40" height="20" style="line-height:20px;">四、</td>
+								<td width="100" height="20" style="line-height:20px;">送货日期：</td>
+								<td>{$infoq.delivery_time}</td>
+							</tr>				
+						</table>
+			            <table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="40" height="20" style="line-height:20px;">五、</td>
+								<td width="100" height="20" style="line-height:20px;">合同责任：</td>
+								<td width="505" height="20" style="line-height:20px;">乙方必须于甲方的指定期限内，将货物送到甲方的指定地点。</td>
+							</tr>				
+						</table>
+						<table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="100" height="20" style="line-height:20px;">注意事项：</td>								
+							</tr>						
+						</table>
+			           <table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="665" height="20" style="line-height:20px;">乙方必须保证甲方的货物，安全、无破损、无潮湿、无变质等情况。
+			    若出现以上情况，乙方必须负责赔偿甲方的损失。</td>
+							</tr>						
+						</table>
+						<table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="40" height="20" style="line-height:20px;">六、</td>
+								<td width="100" height="20" style="line-height:20px;">备注：</td>
+								<td width="505" height="20" style="line-height:20px;">	合同传真件有效。</td>
+							</tr>
+						</table>
+						<table width="635" align="left" bgcolor="#fff">
+							 <tr>
+								<td width="40" height="20" style="line-height:20px;">七、</td>
+								<td width="100" height="20" style="line-height:20px;">车号：</td>
+								<td width="505" height="20" style="line-height:20px;">{$infoq.plate_number}</td>
+							</tr>
+			                 <tr>
+								<td width="40" height="20" style="line-height:20px;"></td>
+								<td width="100" height="20" style="line-height:20px;">司机姓名：</td>
+								<td width="505" height="20" style="line-height:20px;">{$infoq.driver_name}</td>
+							 </tr>							
+			                 <tr>
+								<td width="40" height="20" style="line-height:20px;"></td>
+								<td width="100" height="20" style="line-height:20px;">身份证号码：</td>
+								<td width="505" height="20" style="line-height:20px;">{$infoq.driver_idcard}</td>
+							</tr>							
+						</table>
+						<table width="635" align="left" bgcolor="#fff">
+							<tr>
+								<td width="40" height="20" style="line-height:20px;">八、</td>
+								<td width="100"height="20" style="line-height:20px;">运输费用：</td>
+								<td width="505" height="20" style="line-height:20px;">{$infoq.delivery_fee}</td>
+							</tr>
+						</table>
+        			    <tr  align="left">
+        								<td height="20"></td>
+        							</tr>
+        				<tr>
+        				<td height="20" style="line-height:20px;" width="110">购货方（甲方）</td>
+        				<td width="280" ></td>
+        				<td height="20" style="line-height:20px;"  width="110">供货方（乙方）</td>      
+        				<td ></td>
+        			   </tr>
+        			   <tr>
+        				<td height="20" style="line-height:20px;" width="110">TEL：</td>
+        				<td width="280" height="20" style="line-height:20px;">021-61673571</td>
+        				<td height="20" style="line-height:20px;" width="110">TEL：</td>
+        				<td width="280" height="20" style="line-height:20px;">{$infoq.second_part_contact_tel}</td>
+        			   </tr>
+        			   <tr>
+        				<td height="20" style="line-height:20px;" width="110">FAX：</td>
+        				<td width="280" height="20" style="line-height:20px;">021-61673516</td>
+        				<td height="20" style="line-height:20px;" width="110">FAX：</td>
+        				<td width="280" height="20" style="line-height:20px;">{$infoq.second_part_contact_fax}</td>
+        			   </tr>
+        			   <tr>
+        				<td height="20" style="line-height:20px;" width="110">委托代理人：</td>
+        				<td width="280" height="20" style="line-height:20px;">杜丽燕</td>
+        				<td height="20" style="line-height:20px;" width="110">委托代理人：</td>
+        				<td width="280" height="20" style="line-height:20px;">{$infoq.second_part_contact_id}</td>
+        			</tr>   
 				</div>
 		</div>
 </div>
