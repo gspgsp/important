@@ -8,10 +8,10 @@
 							<tr height="20"><td>&nbsp;</td></tr>
 							<tr>
 								<td align="left"width="80" height="20">甲方：上海中晨电子商务股份有限公司</td>
-								<td align="right"width="505" height="20">合同日期：xxxxxxxxxxxxxxxxxxxxxxxx</td>
+								<td align="right"width="505" height="20">合同日期：{$info.contract_time}</td>
 							</tr>
 							<tr>
-								<td align="left"width="80" height="20">乙方：xxxxxxxxxxxxxxxxxxx</td>
+								<td align="left"width="80" height="20">乙方：{$info.supplier_name}</td>
 								<td align="right"width="505" height="20">签约地点：上海虹口欧阳路568号17楼</td>
 							</tr>
 							<tr  align="center">
@@ -21,19 +21,19 @@
 								<td colspan="5" height="20" width="100%">甲、乙双方经协商，根据《中华人民共和国合同法》相关规定，就以下产品的购销等有关事宜，签订本合同</td>
 							</tr>
 							<tr>
-								<td width="100" height="20" style="line-height:20px;width:100">一、货物 : 塑料粒子11T/3518BCB</td>
+								<td width="100" height="20" style="line-height:20px;width:100">一、货物 : {$info.goods_name}</td>
 							</tr>
 							<tr>
-								<td width="30"  height="20" style="line-height:20px;">二、提货地点：12/17提 宝安公路1877号</td>
+								<td width="30"  height="20" style="line-height:20px;">二、提货地点：{$info.start_place}</td>
 							</tr>
 							<tr>
-								<td width="505"  height="20" style="line-height:20px;">三、送货地点：宜兴市官林镇三木工业园区  张 15251960360</td>
+								<td width="505"  height="20" style="line-height:20px;">三、送货地点：{$info.end_place}</td>
 							</tr>
 							<tr>
-								<td width="30" height="20" style="line-height:20px;">四、送货日期：2015年12月18日</td>
+								<td width="30" height="20" style="line-height:20px;">四、送货日期：{$info.delivery_time}</td>
 							</tr>				
 							<tr>
-								<td width="30" height="20" style="line-height:20px;">五、合同责任：乙方必须于甲方的指定期限内，将货物送到甲方的指定地点。</td>
+								<td width="800" height="20" style="line-height:20px;">五、合同责任：乙方必须于甲方的指定期限内，将货物送到甲方的指定地点。</td>
 							</tr>				
 							<tr>
 								<td width="100" height="20" style="line-height:20px;">注意事项：</td>								
@@ -46,16 +46,16 @@
 								<td width="30" height="20" style="line-height:20px;">六、备注：合同传真件有效。</td>
 							</tr>
 							 <tr>
-								<td width="30" height="20" style="line-height:20px;">七、车号：</td>
+								<td width="30" height="20" style="line-height:20px;">七、车号：{$info.plate_number}</td>
 							</tr>
 			                 <tr>
-								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;司机姓名：</td>
+								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;司机姓名：{$info.driver_name}</td>
 							 </tr>
 			                 <tr>
-								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证号码：</td>
+								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证号码：{$info.driver_idcard}</td>
 							</tr>							
 							<tr>
-								<td width="30" height="20" style="line-height:20px;">八、运输费用：105元/吨（含税）+装车费另计。</td>
+								<td width="30" height="20" style="line-height:20px;">八、运输费用：{$info.delivery_fee}</td>
 							</tr>
         			    <tr  align="left">
         								<td height="20"></td>
@@ -65,22 +65,18 @@
         				<td height="20" style="line-height:20px;"  width="110">供货方（乙方）</td>      
         			   </tr>
         			   <tr>
-        				<td height="20" style="line-height:20px;" width="110">法人：李铁道</td>
-        				<td height="20" style="line-height:20px;" width="110">法人：</td>
-        			   </tr>
-        			   <tr>
-        				<td height="20" style="line-height:20px;" width="110">TEL：</td>
-        				<td height="20" style="line-height:20px;" width="110">TEL：</td>
+        				<td height="20" style="line-height:20px;" width="110">TEL：021-61673571</td>
+        				<td height="20" style="line-height:20px;" width="110">TEL：{$info.second_part_contact_tel}</td>
         				<td align="left"></td>
         			   </tr>
         			   <tr>
-        				<td height="20" style="line-height:20px;" width="110">FAX：</td>
-        				<td height="20" style="line-height:20px;" width="110">FAX：</td>
+        				<td height="20" style="line-height:20px;" width="110">FAX：021-61673516</td>
+        				<td height="20" style="line-height:20px;" width="110">FAX：{$info.second_part_contact_fax}</td>
         				<td align="left"></td>
         			</tr> 
         			<tr>
-        				<td height="20" style="line-height:20px;" width="110">委托代理人：</td>
-        				<td height="20" style="line-height:20px;" width="110">委托代理人：</td>
+        				<td height="20" style="line-height:20px;" width="110">委托代理人：杜丽燕</td>
+        				<td height="20" style="line-height:20px;" width="110">委托代理人：{$info.second_part_contact_id}</td>
         				<td align="left"></td>
         			</tr>
         			<tr>
