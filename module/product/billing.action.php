@@ -303,11 +303,14 @@ class billingAction extends adminBaseAction
 		}else{
 			$nus = $this->db->model('purchase_log')->where("o_id={$data['o_id']} and b_number !=0")->select("count(id)")->getOne();
 		}
+
 		$detail = $data['detail'];
 		unset($data['detail']);
 		$data['payment_time']=strtotime($data['payment_time']);
 		$this->db->startTrans();
 		if($data['finance']==1){
+			//获取财务审核开票的时间
+			$spend_time = CORE_TIME-$this->db->model('billing')->select('input_time')->where('id='.$data['id'])->getOne();
 			//财务审核开票信息
 			$_data = array(
 				'update_time'=>CORE_TIME,
@@ -347,6 +350,10 @@ class billingAction extends adminBaseAction
 					}else{
 						$istatus = 2;
 					}
+
+    				$unBillingPrice = $data['unbilling_price']-$data['billing_price'];
+					if(!M('order:orderLog')->addLog($data['o_id'],$istatus,3,$spend_time,$data['total_price'],$data['total_price']-$unBillingPrice,$unBillingPrice)) $this->error("更新可视化失败");
+
 					$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
 					$this->success('操作成功');
 				}else{
@@ -558,6 +565,9 @@ class billingAction extends adminBaseAction
 				$invoice_status=2;
 			}
 			$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>$invoice_status,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
+
+			//新增可视化节点
+			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$data['total_price'],$data['total_price']-$data['billing_price']-$data['unbilling_price'],$data['billing_price']+$data['unbilling_price']);
 
 		} catch (Exception $e) {
 			$billingModel->rollback();

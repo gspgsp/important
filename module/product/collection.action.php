@@ -291,16 +291,21 @@ class collectionAction extends adminBaseAction
 		}else{
 			$m = $data['uncollected_price']-$data['collected_price'];
 		}
-
+// p($data);die;
 		$this->db->startTrans();//开启事务
 
 			if($data['finance'] ==1){
+				//获取审核耗时。财务审核耗时由当前时间减去销售申请时间
+				$spend_time = CORE_TIME-$this->db->model('collection')->select('input_time')->where('id='.$data['id'])->getOne();
+
 				if($m>0){
-					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
+					if(!M('order:orderLog')->addLog($data['o_id'],2,2,$spend_time,$data['total_price'],$data['total_price']-$m,$m)) $this->error("更新可视化失败");
 				}
 
 				if($m==0){
-					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'payd_time'=>$data['payment_time'],'update_time'=>CORE_TIME))) $this->error("跟新订单交易状态失败");
+					if(!M('order:orderLog')->addLog($data['o_id'],3,2,$spend_time,$data['total_price'],$data['total_price'],0)) $this->error("更新可视化失败");
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'payd_time'=>$data['payment_time'],'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
 					$cid = $this->db->model('order')->select('c_id')->where('o_id='.$data['o_id'])->getOne();
 					$this->db->model('customer')->where("c_id = $cid")->update(array('last_sale'=>$data['payment_time'],'last_no_sale'=>$data['payment_time']));
 				}
@@ -402,6 +407,9 @@ class collectionAction extends adminBaseAction
 					$this->error("数据错误，请联系管理员");
 				}
 				if(!$this->db->model('order')->wherePK($data['oid'])->update($arrtmp+array('update_time'=>CORE_TIME,'payd_time'=>'',)) )throw new Exception("修改订单表退款状态失败");
+
+				if(!M('order:orderLog')->addLog($data['o_id'],$arrtmp['collection_status'],2,0,$arr['total_price'],$has_price-$data['c_price'],$arr['collected_price']+$arr['uncollected_price'])) $this->error("更新可视化失败");
+
 				//以下增加没有同步账户和资金流水的bug 20160825
 				//添加account_log账户明细信息,默认设计账户类型就是账户id
 				$add_data['account_id']=$arr['account'];
