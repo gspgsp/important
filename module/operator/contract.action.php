@@ -24,9 +24,8 @@ class contractAction extends adminBaseAction {
 			$size = sget("pageSize",'i',20); //每页数
 			$sortField = sget("sortField",'s','logistics_contract_id'); //排序字段
 			$sortOrder = sget("sortOrder",'s','asc'); //排序
-			$startTime = sget("startTime");
-			$endTime = sget("endTime");
-
+			$startTime = strtotime(sget("startTime"));
+			$endTime = strtotime(sget("endTime"));
 			$where='1';
 
 			//区分是否是普通物流人员
@@ -41,12 +40,18 @@ class contractAction extends adminBaseAction {
 			}
 			//时间搜索
 			$sTime = sget('sTime','s','');
+			if($sTime=='create_time'){
+			    $where.=" and create_time>='$startTime' and create_time<='$endTime'";
+			}
+			if($sTime=='update_time'){
+			    $where.=" and update_time>='$startTime' and update_time<='$endTime'";
+			}
 			if($sTime=='contract_time'){
 				$where.=" and contract_time>='$startTime' and contract_time<='$endTime'";
 			}
 			if($sTime=='delivery_time'){
 				$where.=" and delivery_time>='$startTime' and delivery_time<='$endTime'";
-			}
+			}			
 			//关键词
 			$key_type=sget('key_type','s','username');
 			$keyword=sget('keyword','s');
@@ -64,8 +69,14 @@ class contractAction extends adminBaseAction {
 				$map1=$list['data'][$k]['second_part_contact_id'];
 				$company=M('public:common')->model('logistics_supplier')->where("supplier_id in ($map)")->select("supplier_name")->getAll();
 				$company1=M('public:common')->model('logistics_contact')->where("id in ($map1)")->select("contact_name")->getAll();
+				$name1=M('public:common')->model('admin')->where('admin_id='.$list['data'][$k]['created_by'])->select('name')->getAll();
+				$name2=M('public:common')->model('admin')->where('admin_id='.$list['data'][$k]['last_edited_by'])->select('name')->getAll();
 				$list['data'][$k]['second_part_company_name']=$company['0']['supplier_name'];
 				$list['data'][$k]['second_part_contact_name']=$company1['0']['contact_name'];
+				$list['data'][$k]['create_time']=!empty($v['create_time'])?date("Y-m-d H:i:s",$v['create_time']):'-';
+				$list['data'][$k]['update_time']=!empty($v['update_time'])?date("Y-m-d H:i:s",$v['update_time']):'-';
+				$list['data'][$k]['created_name']=$name1['0']['name'];
+				$list['data'][$k]['last_edited_name']=$name2['0']['name'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -121,14 +132,11 @@ class contractAction extends adminBaseAction {
 	{
 		$company_id = sget('company_id','s');
 		$contacts   = M("operator:logisticsContact")->where("supplier_id=".$company_id)->getAll();
-
 		foreach($contacts as $contact)
 		{
 			$contact_name_info[]= array('id'=>$contact['id'],'name'=>$contact['contact_name'],'tel'=>$contact['contact_tel'],'fax'=>$contact['comm_fax']);
 		}
-
 		$this->json_output($contact_name_info);
-
 	}
 	/**
 	 * 获得物流公司联系人详情数据详情
@@ -136,12 +144,9 @@ class contractAction extends adminBaseAction {
 	 * @return html
 	 */
 	public function get_contact_info()
-	{
-	
-	    $contact_id = sget('contact_id','s');
-	
-	    $contact    = M("operator:logisticsContact")->where("id=".$contact_id)->getRow();
-	
+	{	
+	    $contact_id = sget('contact_id','s');	
+	    $contact    = M("operator:logisticsContact")->where("id=".$contact_id)->getRow();	
 	    $this->json_output($contact);
 	}
 
@@ -184,13 +189,14 @@ class contractAction extends adminBaseAction {
 	public function change_status(){
 	    $this->is_ajax=true; //指定为Ajax输出
 	    $logistics_contract_id=sget('logistics_contract_id','i');
+	    $status=sget('status','i');
 		$_data = array(
-			'status'=>0,
+			'status'=>$status,
 			'last_edited_by'=>$this->admin_id,
 			'update_time'=>time()
 		);
 	    if(!empty($logistics_contract_id)){
-	        $this->db->where("logistics_contract_id=".$logistics_contract_id)->update(array('status'=>1,'last_edit_id'=>$last_edit_id));
+	        $this->db->where("logistics_contract_id=".$logistics_contract_id)->update($_data);
 	        $this->success('操作成功');
 	    }else{
 	        $this->error('操作有误');

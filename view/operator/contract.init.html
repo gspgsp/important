@@ -18,11 +18,13 @@
 				</select>
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
-				<!--<select name="status" id="soStatus">
+				<select name="status" id="soStatus">
 						<option value="">=状态=</option>
 						<option value="0">禁用</option>
-						<option value="1">正常</option>
-					</select>-->
+						<option value="1">待审核</option>
+						<option value="3">审核通过</option>
+						<option value="2">审核不通过</option>
+					</select>
 						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 						<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 						<span id="searchMsg"></span>
@@ -39,16 +41,20 @@
 			<div field="logistics_contract_id" width="30" align="center" headerAlign="center">合同号</div>
 			<div field="second_part_company_name" width="80" align="center" headerAlign="center" >乙方公司名称</div>
 			<div field="goods_name" width="50" align="center" headerAlign="center">货物名称</div>
-			<div field="start_place" width="70" align="center" headerAlign="center">提货地点</div>
-			<div field="contract_time" width="70" align="center" headerAlign="center">合同日期</div>
-			<div field="delivery_time" width="70" align="center" headerAlign="center">提货日期</div>
+			<div field="start_place" width="70" align="center" headerAlign="center">提货地点</div>			
 			<div field="plate_number" width="50" align="center" headerAlign="center" >车号</div>
 			<div field="driver_name" width="50" align="center" headerAlign="center">司机姓名</div>
 			<div field="driver_idcard" width="50" align="center" headerAlign="center" >身份证号码</div>
 			<div field="second_part_contact_id" width="50" headerAlign="center" align="center">乙方联系人</div>
 			<div field="second_part_contact_tel" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">乙方联系方式</div>
 			<div field="second_part_contact_fax" width="50" headerAlign="center" align="center">乙方传真号</div>
-			<div field="status" width="50"  renderer="onStatusRender">审核状态</div>
+			<div field="contract_time" width="70" align="center" headerAlign="center">合同日期</div>
+			<div field="delivery_time" width="70" align="center" headerAlign="center">提货日期</div>
+			<div field="create_time" width="70" align="center" headerAlign="center"dateFormat="yyyy-MM-dd HH:mm" >创建时间</div>
+			<div field="update_time" width="70" align="center" headerAlign="center"dateFormat="yyyy-MM-dd HH:mm" >更新时间</div>
+			<div field="status" width="50"  renderer="onStatusRender"align="center" >审核状态</div>
+			<div field="created_name" width="70" align="center" headerAlign="center">创建人</div>
+			<div field="last_edited_name" width="70" align="center" headerAlign="center">操作人</div>
 			<div name="action" width="40" headerAlign="center" renderer="onLoadHandle">操作</div>
 		</div>
 	</div>
@@ -158,8 +164,9 @@ function onStatusRender(e) {
 		s += '</br><a href="javascript:transport_contract_edit()"> 编辑</a>';
 	}else if(record.status=='1'){
 		"{if $role eq 24}"
-        s += '<a href="javascript:onContractReview('+logistics_contract_id+')">未审核</a>&nbsp;&nbsp;';
+        s += '<a href="javascript:onContractReview('+logistics_contract_id+')">待审核</a>&nbsp;&nbsp;';
 		"{else}"
+		s += '待审核';
         s += '</br><a href="javascript:transport_contract_edit()"> 编辑</a>';
 		"{/if}"
     }else if(record.status=='0'){
