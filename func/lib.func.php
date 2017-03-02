@@ -85,7 +85,6 @@ function createItemNO($ctype='001',$itemId){
 	$NO .=sprintf("%08d", $itemId);
 	return $NO;
 }
-
 /*
  * 检查银行卡号是否合法
  * @param string $bankno 银行卡号
