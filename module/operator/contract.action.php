@@ -9,10 +9,11 @@ class contractAction extends adminBaseAction {
 		$this->db=M('public:common')->model('transport_contract');
 		$this->doact = sget('do','s');
 		$this->public = sget('isPublic','i',0);
+		$this->role = M('rbac:rbac')->model('adm_role_user')->where("`user_id` = {$this->admin_id}")->getRow();
 	}
 	
 	/**
-	 * 所有管理员
+	 * 合同列表首页
 	 * @access public 
 	 * @return html
 	 */
@@ -25,7 +26,14 @@ class contractAction extends adminBaseAction {
 			$sortOrder = sget("sortOrder",'s','asc'); //排序
 			$startTime = sget("startTime");
 			$endTime = sget("endTime");
+
 			$where='1';
+
+			//区分是否是普通物流人员
+			if($this->role['role_id'] == 25)
+			{
+				$where .= " and `created_by` = {$this->role['user_id']}";
+			}
 			//状态搜索
 			$status = sget('status','s','');
 			if($status!==''){
@@ -60,7 +68,6 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['second_part_contact_name']=$company1['0']['contact_name'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
-			file_put_contents('/tmp/xielei.txt',print_r($result['data'],true),FILE_APPEND);
 			$this->json_output($result);
 		}
 		$this->company_json=setMiniConfig(arrayKeyValues(M('public:common')->model('logistics_supplier')->select("supplier_id as id,supplier_name as name")->getAll(),'id','name'));
@@ -69,7 +76,7 @@ class contractAction extends adminBaseAction {
 		$this->display('contract.init.html');
 	}
 	/**
-	 * Ajax保持数据
+	 * Ajax提交
 	 * @access public 
 	 */
 	public function ajaxSave(){

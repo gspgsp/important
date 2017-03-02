@@ -15,7 +15,7 @@ class indexAction extends adminBaseAction {
 		$this->assign('frameTab', true);//是否使用frame标签
 		
 		$menu=M('rbac:rbac')->_getMyMenu();
-		$this->assign('menu', $menu);		
+		$this->assign('menu', $menu);
 		
 		$this->assign('page_title','管理系统');
 		$this->display('index');

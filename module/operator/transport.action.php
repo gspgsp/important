@@ -64,8 +64,6 @@ class transportAction extends adminBaseAction
     {
         $order_id = sget('order_id', 's');
 
-        //file_put_contents('/tmp/xielei.txt',print_r("\n".$order_id."\n",true),FILE_APPEND);
-
         if (!empty($order_id)) {
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
@@ -181,7 +179,6 @@ class transportAction extends adminBaseAction
     public function editSubmit()
     {
         $data = $_POST;
-        file_put_contents('/tmp/xielei.txt', print_r($data, true), FILE_APPEND);
         if (empty($data['logistics_contract_id'])) {
             $arr = ['err' => 1, 'msg' => '物流公司信息错误'];
             $this->json_output($arr);
@@ -190,11 +187,6 @@ class transportAction extends adminBaseAction
             $arr = ['err' => 1, 'msg' => '物流公司信息错误'];
             $this->json_output($arr);
         }
-        /*if(empty($data['second_part_contact_id'])||empty($data['contact_time']))
-        {
-            $arr = ['err'=>1,'msg'=>'必填项目未填'];
-            $this->json_output($arr);
-        }*/
 
         $data['status'] = 1;
         $data['update_time'] = time();
