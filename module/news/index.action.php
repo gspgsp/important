@@ -118,6 +118,7 @@
                         
 		//取出详情页数据
 		public function detail(){
+			p($_SESSION);exit;
 			$type=sget('type','s');
 			//导航栏选中状态
 				$this->nav=$type;
@@ -138,54 +139,64 @@
 			//文章状态设置
 			$status=4;
 			//详情页导航
-			if ($type=='vip') {
-				$row=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->select('user_id,name,mobile,headline_vip,cate_id')->getRow();
+			if ($type=='vip') {				
 				if ($_SESSION['userid']<1) {
 					$status=1;
-				}elseif($row['headline_vip']!=1 || !strstr($row['cate_id'],$cate_id)){
-					$status=2;
 				}else{
-					$cache = cache::startMemcache();
-					$name=$row['user_id'].'_time_'.$cate_id;
-					$total_time=$cache->get($name);
-					if (empty($total_time)) {
-						$total_time=$this->db->model('customer_headline')->where('user_id='.$_SESSION['userid'].' and cate_id='.$cate_id)->select('total_time')->order('id desc')->getOne();
-						$cache->set($name,$total_time,2);
-					}
-					if ($total_time<=CORE_TIME) {
-						$info['user_id']=$row['user_id'];
-						$info['c_name']=$row['name'];
-						$info['mobile']=$row['mobile'];
-						$info['sale_name']='--';
-						$info['input_time']=CORE_TIME;
-						$info['type']=5;
-						$info['cate_id']=$cate_id;
-						$info['total_time']=$total_time;
-						$result=$this->db->model('customer_headline')->add($info);
-						if ($result) {
-							$cate_arr=explode(',', $row['cate_id']);
-							foreach ($cate_arr as $k => $v) {
-								if ($v == $cate_id) {
-									unset($cate_arr[$k]);
-								}
-							}
-							if (empty($cate_arr)) {
-								$update_contact=array('headline_vip'=>0,'cate_id'=>'','opening_date'=>0);
-							}else{
-								$cate_id=implode(',', $cate_arr);
-								$update_contact=array('headline_vip'=>1,'cate_id'=>$cate_id);
-							}
-							$result2=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->update($update_contact);
-							if ($result2) {
-								$this->success("<br /><br /><br />尊敬的客户，您的会员信息已过期，浏览权限已被关闭！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
-							}else{
-								$this->error("<br /><br /><br />尊敬的客户，您的会员信息已经过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
-							}
+					$row=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->select('user_id,name,mobile,headline_vip,cate_id,free_time')->getRow();
+					if($row['free_time']>0 && $row['free_time']<=CORE_TIME){
+						if($row['headline_vip']!=1 || !strstr($row['cate_id'],$cate_id)){
+							$status=2;
 						}else{
-							$this->error("尊敬的客户，您的该类目会员已自动过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a>");
+							$cache = cache::startMemcache();
+							$name=$row['user_id'].'_time_'.$cate_id;
+							$total_time=$cache->get($name);
+							if (empty($total_time)) {
+								$total_time=$this->db->model('customer_headline')->where('user_id='.$_SESSION['userid'].' and cate_id='.$cate_id)->select('total_time')->order('id desc')->getOne();
+								$cache->set($name,$total_time,2);
+							}
+							if ($total_time<=CORE_TIME) {
+								$info['user_id']=$row['user_id'];
+								$info['c_name']=$row['name'];
+								$info['mobile']=$row['mobile'];
+								$info['sale_name']='--';
+								$info['input_time']=CORE_TIME;
+								$info['type']=5;
+								$info['cate_id']=$cate_id;
+								$info['total_time']=$total_time;
+								$result=$this->db->model('customer_headline')->add($info);
+								if ($result) {
+									$cate_arr=explode(',', $row['cate_id']);
+									foreach ($cate_arr as $k => $v) {
+										if ($v == $cate_id) {
+											unset($cate_arr[$k]);
+										}
+									}
+									if (empty($cate_arr)) {
+										$update_contact=array('headline_vip'=>0,'cate_id'=>'','opening_date'=>0);
+									}else{
+										$cate_id=implode(',', $cate_arr);
+										$update_contact=array('headline_vip'=>1,'cate_id'=>$cate_id);
+									}
+									$result2=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->update($update_contact);
+									if ($result2) {
+										$this->success("<br /><br /><br />尊敬的客户，您的会员信息已过期，浏览权限已被关闭！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
+									}else{
+										$this->error("<br /><br /><br />尊敬的客户，您的会员信息已经过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
+									}
+								}else{
+									$this->error("尊敬的客户，您的该类目会员已自动过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a>");
+								}
+								$status=3;
+							}
 						}
-						$status=3;
-					}
+					}elseif($row['free_time']==0) {
+						$free_time=CORE_TIME+L('free_time')[1]*86400;
+						$ok=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->update(array('free_time'=>$free_time));
+						if ($ok) {
+							$status=6;
+						}
+					}					
 				}
 				//p($status);exit;
 				$this->upperType='行情内参';

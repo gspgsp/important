@@ -19,6 +19,9 @@
             </div>
                 {if $status==4}
                     <p>{$data[content]}</p>
+                {elseif $status==6}
+                    <p>{$data[content]}</p>
+                    <script type="text/javascript">$(function(){layer.msg("恭喜您获得了7天会员特权！请尽情浏览行情内参信息！",6,3000);})</script>
                 {else}
                 <br><br><br>           
                 <p id="status">
