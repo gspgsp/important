@@ -326,7 +326,6 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['partner']=M('rbac:adm')->getUserByCol($info['partner']);
 		$info['creater']=M('rbac:adm')->getUserByCol($info['customer_manager']);
-		p($info);
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 		if($o_type ==1){
