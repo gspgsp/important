@@ -152,7 +152,7 @@
 							$total_time=$cache->get($name);
 							if (empty($total_time)) {
 								$total_time=$this->db->model('customer_headline')->where('user_id='.$_SESSION['userid'].' and cate_id='.$cate_id)->select('total_time')->order('id desc')->getOne();
-								$cache->set($name,$total_time,2);
+								$cache->set($name,$total_time,86400);
 							}
 							if ($total_time<=CORE_TIME) {
 								$info['user_id']=$row['user_id'];
