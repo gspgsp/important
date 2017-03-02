@@ -364,7 +364,6 @@ class collectionAction extends adminBaseAction
 	public function changeRed(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
-        p($data);die;
 		if(empty($data)) $this->error('错误的操作');
 // 		$arr = M('product:collection')->getLastInfo($name='o_id',$value=$data['oid']);
 		$arr = $this->db->model('collection')->where("id='".$data['id']."'")->getRow();
@@ -377,7 +376,7 @@ class collectionAction extends adminBaseAction
 // 			'uncollected_price'=>$arr[0]['uncollected_price']+$data['c_price'],
 // 			'refund_amount'=>$data['c_price'],
 			'total_price'=>-$arr['total_price'],
-			'collected_price'=>-$arr['collected_price'],   // 退还金额
+			'collected_price'=>-$arr['collected_price'],
 			'uncollected_price'=>-$arr['uncollected_price'],
 			'refund_amount'=>$data['c_price'],
 			'update_time'=>CORE_TIME,
@@ -420,9 +419,12 @@ class collectionAction extends adminBaseAction
 				$add_data['order_id']=$arr['o_id'];
 				$add_data['order_type']=$arr['order_type'];
 				$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']));
-				//修改account账户信息，1是销售，收款
+				//修改account账户信息，1是销售收款
 				if($arr['order_type']==1){
 					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum-".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
+					//******销售红充（减掉 可用额度）*******
+                    M('user:customer')->updateCreditLimit($data['oid'],3,'-',$data['c_price']) OR $this->error('可用额度抵消失败');
+
 				}else{
 					$money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
 					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
