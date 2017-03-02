@@ -100,8 +100,14 @@ class contractAction extends adminBaseAction {
 			'second_part_contact_fax'=>$data['second_part_contact_fax'],
 		);
 		if(!empty($data['logistics_contract_id'])){
+			$_data['status'] = 1;
+			$_data['update_time'] = time();
+			$_data['last_edited_by'] = $this->admin_id;
 			$this->db->wherePk($data['logistics_contract_id'])->update($_data);
 		}else{
+			$_data['status'] = 1;
+			$_data['create_time'] = time();
+			$_data['created_by'] = $this->admin_id;
 			$this->db->add($_data);
 		}
 		$this->success('操作成功');
@@ -149,13 +155,13 @@ class contractAction extends adminBaseAction {
 		if(empty($ids)){
 			$this->error('操作有误');
 		}
-		$ids=explode(',', $ids);
-		foreach ($ids as $k => $v) {
-			$result=$this->db->where("logistics_contract_id = ($v)")->delete();
-		}
+		$_data = array(
+			'status'=>0,
+			'last_edited_by'=>$this->admin_id,
+			'update_time'=>time()
+		);
+		$result=$this->db->where("logistics_contract_id in (".$ids.")")->update($_data);
 		if($result){
-			$cache=cache::startMemcache();
-			$cache->delete('contract');
 			$this->success('操作成功');
 		}else{
 			$this->error('删除操作失败');
@@ -165,9 +171,9 @@ class contractAction extends adminBaseAction {
 	 * 审核运输合同
 	 * @access public
 	 */
-	public function contract_review($logistics_contract_id){
-	    $this->logistics_contract_id = sget('logistics_contract_id','');	   
-	    $info =M('public:common')->model('transport_contract')->leftJoin('logistics_supplier ls', 'second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . sget('logistics_contract_id',''))->getRow();
+	public function contract_review(){
+	    $this->logistics_contract_id = sget('logistics_contract_id','i');
+	    $info =M('public:common')->model('transport_contract')->leftJoin('logistics_supplier ls', 'second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . sget('logistics_contract_id','i'))->getRow();
 	    $this->assign('info',$info);
 	    $this->display('contract.review.html');
 	}
@@ -178,7 +184,11 @@ class contractAction extends adminBaseAction {
 	public function change_status(){
 	    $this->is_ajax=true; //指定为Ajax输出
 	    $logistics_contract_id=sget('logistics_contract_id','i');
-	    $last_edit_id=$_SESSION['adminid'];
+		$_data = array(
+			'status'=>0,
+			'last_edited_by'=>$this->admin_id,
+			'update_time'=>time()
+		);
 	    if(!empty($logistics_contract_id)){
 	        $this->db->where("logistics_contract_id=".$logistics_contract_id)->update(array('status'=>1,'last_edit_id'=>$last_edit_id));
 	        $this->success('操作成功');
