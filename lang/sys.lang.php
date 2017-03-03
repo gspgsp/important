@@ -49,6 +49,12 @@ return array(
         3=>'综合',
         10=>'其它'
     ),
+    //供应商联系人状态
+    'supplier_contact_type'=>array(
+        1=>'有效',
+        2=>'无效',
+
+    ),
 	//客户级别
 	'company_level'=>array(
 		1=>'A级100万以上',
