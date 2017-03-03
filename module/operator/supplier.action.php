@@ -158,13 +158,13 @@ class supplierAction extends adminBaseAction{
             if($cType==1){
                 $this->assign('ctype',$cType);                      //单页面新增供应商联系人
                 $this->assign('page_title','新增个人联系人-1');
-                $this->assign('status_1',L('status_1'));            // 供应商联系人状态
+                $this->assign('supplier_contact_type',L('supplier_contact_type'));            // 供应商联系人状态
                 $this->display('supplier_contact.html');
             }elseif($cType==3){                                     //新增供应商
                 $this->assign('ctype',$cType);
                 $this->assign('is_pur',sget('supplier'));           //添加客户的入口
                 $this->assign('type',L('supplier_type'));           //供应商类型
-                $this->assign('status_1',L('status_1'));            // 供应商联系人状态
+                $this->assign('supplier_contact_type',L('supplier_contact_type'));            // 供应商联系人状态
                 $this->assign('status',L('status'));                // 供应商状态
                 $this->assign('credit_level',L('credit_level'));    //信用等级
                 $this->assign('page_title','新增企业用户-2');
