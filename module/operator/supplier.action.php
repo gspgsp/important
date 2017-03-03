@@ -222,7 +222,7 @@ class supplierAction extends adminBaseAction{
                 'create_time' => time(),                      // 创建时间
                 'create_name' => trim($_SESSION['name']),     // 创建者
                 'remark'=> $data['remark'],
-                'status'=> $data['status_1'],                // 状态
+                'status'=> $data['supplier_contact_type'],                // 状态
             );
             $info=$this->db->model('logistics_contact')->add($param);
             if($info==1){
@@ -285,7 +285,7 @@ class supplierAction extends adminBaseAction{
                     'create_time' => time(),               // 创建时间
                     'create_name' => trim($_SESSION['name']),    // 创建者
                     'remark'=> $data['remark'],
-                    'status'=> $data['status_1'],          // 状态
+                    'status'=> $data['supplier_contact_type'],          // 状态
                 );
 
             }
