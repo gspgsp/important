@@ -38,7 +38,10 @@
             </div>
             <div field="type" width="120" headerAlign="center" type="checkboxlistcolumn" autoShowPopup="true">类别                        
                 <input property="editor" class="mini-checkboxlist" data="dType" />
-            </div>                
+            </div> 
+            <div field="hot" width="80" headerAlign="center" type="comboboxcolumn" autoShowPopup="true">热门展示
+                <input property="editor" class="mini-combobox" style="width:100%;" data="dHot" />     
+            </div>               
         </div>
     </div>
 </div>
@@ -48,6 +51,7 @@ var grid = mini.get("gridCell");
 grid.load();
 var dStatus=[{ id: 1, text: '可用' }, { id: 0, text: '禁用'}];
 var dType=[{id:1,text:'PE'},{id:2,text:'PP'},{id:3,text:'PVC'},{id:4,text:'VIP'},{id:5,text:'首页'}];
+var dHot=[{id:1,text:'需要'},{id:0,text:'不需'}];
 //查看下一级
 function onLoadHandle(e) {
 	var record = e.record; //record.id

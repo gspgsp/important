@@ -144,7 +144,7 @@ function add(id){
     mini.open({
         url: "/system/notice/{$action}?action=info&cate_id={$cate_id}&id="+id,
         showMaxButton:true,
-        title: '信息编辑', width: 850, height:550,
+        title: '信息编辑', width: 850, height:650,
         ondestroy: function (action) {
             if(action=='save'){ //重新加载
                 grid.reload();
