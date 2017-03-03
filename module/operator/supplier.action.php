@@ -76,18 +76,14 @@ class supplierAction extends adminBaseAction{
 //        // 关键词
         $key_type=sget('key_type','s','supplier_id');
         $keyword=sget('keyword','s');
-        
-//        if(!empty($keyword)){
-//            if($key_type=='c_name'){
-//                $cidshare = M('user:customer')->getcidByCname($keyword);
-//                $where.=" and $key_type like '%$keyword%' ";
-//            }elseif($key_type=='customer_manager'){
-//                $adms = join(',',M('rbac:adm')->getIdByName($keyword));
-//                $where.=" and $key_type in ($adms) ";
-//            }else{
-//                $where.=" and $key_type='$keyword' ";
-//            }
-//        }
+
+        if(!empty($keyword)){
+            if($key_type=='supplier_id'){
+                $where.=" and $key_type='$keyword' ";
+            }else{
+                $where.=" and $key_type='$keyword' ";
+            }
+        }
 //        //接收由cid组成的字符串（1,2,3,4）
 //        $cids=sget('cids','s');//
 //        if($cids)  $where.=" and `c_id` in ".$cids;
