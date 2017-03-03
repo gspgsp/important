@@ -62,23 +62,24 @@ class transportAction extends adminBaseAction
      */
     public function add()
     {
-        $order_id = sget('order_id', 's');
+        $order_id = sget('order_id', 'i');
+        $customer = M("operator:logisticsSupplier")->select('supplier_id as id,supplier_name as name')->getAll();
 
         if (!empty($order_id)) {
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
-            $customer = M("operator:logisticsSupplier")->select('supplier_id as id,supplier_name as name')->getAll();
             $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
-            //var_dump($order_info_new);
-            $model = M('public:common');
-            $sql = $model->getLastSql();
+            $model = M('public:common')->getLastSql();
+            $v['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
+            file_put_contents('/tmp/xielei.txt',print_r($model,true),FILE_APPEND);
 
             $this->assign('page_title', '添加物流合同');
             $order_info['sign_time'] = date('Y-m-d');
             $this->assign('info', $order_info);
             $this->assign('order_info', $order_info_new);
-            $this->assign('customer_info', json_encode($customer));
         }
+        $this->assign('customer_info', json_encode($customer));
+
         $this->display('transport_contract.add.html');
 
     }
@@ -213,6 +214,20 @@ class transportAction extends adminBaseAction
         $contact = M("operator:logisticsContact")->where("id=" . $contact_id)->getRow();
 
         $this->json_output($contact);
+    }
+    /**
+     * 获得物流公司详情数据详情
+     * @access public
+     * @return json
+     */
+    public function get_supplier_info()
+    {
+
+        $supplier_id = sget('supplier_id', 'i');
+
+        $supplier = M("operator:logisticsSupplier")->where("supplier_id=" . $supplier_id)->getRow();
+
+        $this->json_output($supplier);
     }
 
     /**

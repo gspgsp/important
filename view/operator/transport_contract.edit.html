@@ -165,6 +165,10 @@
 	{
 		var id = mini.get('second_part_company_id').getValue();
 		var contact = mini.get('second_part_contact_id');
+		var url0 = "/operator/transport/get_supplier_info?supplier_id=" + id;
+		$.post(url0,'',function(data){
+			mini.get('second_part_contact_fax').setValue(data.company_fax);
+		},'json');
 		contact.setValue("");
 		var url = "/operator/transport/get_contact_list?company_id=" + id;
 		contact.setUrl(url);
@@ -175,7 +179,7 @@
 		var url = "/operator/transport/get_contact_info?contact_id=" + contact;
 		$.post(url,'',function(data){
 			mini.get('second_part_contact_tel').setValue(data.contact_tel);
-			mini.get('second_part_contact_fax').setValue(data.comm_fax);
+			//mini.get('second_part_contact_fax').setValue(data.comm_fax);
 		},'json');
 	}
 	//单选显示不同明细方式

@@ -43,7 +43,7 @@
 						</tr>
 						<tr>
 							<td>送货日期</td>
-							<td>							<input  class="mini-datepicker"  name="delivery_time"  id="contract_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$info.sign_time}"/>
+							<td>							<input  class="mini-datepicker"  name="delivery_time"  id="delivery_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$info.sign_time}"/>
 							</td>
 						</tr>
 						<tr>
@@ -113,7 +113,6 @@
 	var noStockData;
 	var totalCounts={num:0,price:0};
 	var t_price=0;
-	var cid = mini.get("usrId").getValue();
 	var gridCell ;
 	"{if $order_type eq 2}"
 	gridCell=mini.get('gridCell3');
@@ -149,7 +148,6 @@
 		$("#returnMsg").text('');
 		form.loading("数据提交中，请稍后......");
 		var urlstr = '/operator/transport/addSubmit';
-		alert(urlstr);
 		$.post(urlstr,o,function(data){
 			form.unmask();
 			$("#returnMsg").text(data.msg);
@@ -164,6 +162,10 @@
 	{
 		var id = mini.get('second_part_company_id').getValue();
 		var contact = mini.get('second_part_contact_id');
+		var url0 = "/operator/transport/get_supplier_info?supplier_id=" + id;
+		$.post(url0,'',function(data){
+			mini.get('second_part_contact_fax').setValue(data.company_fax);
+		},'json');
 		contact.setValue("");
 		var url = "/operator/transport/get_contact_list?company_id=" + id;
 		contact.setUrl(url);
@@ -174,7 +176,7 @@
 		var url = "/operator/transport/get_contact_info?contact_id=" + contact;
 		$.post(url,'',function(data){
 			mini.get('second_part_contact_tel').setValue(data.contact_tel);
-			mini.get('second_part_contact_fax').setValue(data.comm_fax);
+			//mini.get('second_part_contact_fax').setValue(data.comm_fax);
 		},'json');
 	}
 	//单选显示不同明细方式
