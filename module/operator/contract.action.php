@@ -23,9 +23,7 @@ class contractAction extends adminBaseAction {
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
 			$sortField = sget("sortField",'s','logistics_contract_id'); //排序字段
-			$sortOrder = sget("sortOrder",'s','asc'); //排序
-			$startTime = strtotime(sget("startTime"));
-			$endTime = strtotime(sget("endTime"));
+			$sortOrder = sget("sortOrder",'s','asc'); //排序	
 			$where='1';
 
 			//区分是否是普通物流人员
@@ -41,24 +39,25 @@ class contractAction extends adminBaseAction {
 			//时间搜索
 			$sTime = sget('sTime','s','');
 			if($sTime=='create_time'){
+            $startTime = strtotime(sget("startTime"));
+			$endTime = strtotime(sget("endTime"));
 			    $where.=" and create_time>='$startTime' and create_time<='$endTime'";
 			}
 			if($sTime=='update_time'){
+			    $startTime = strtotime(sget("startTime"));
+			    $endTime = strtotime(sget("endTime"));
 			    $where.=" and update_time>='$startTime' and update_time<='$endTime'";
 			}
 			if($sTime=='contract_time'){
+			    $startTime = sget("startTime");
+			    $endTime = sget("endTime");
 				$where.=" and contract_time>='$startTime' and contract_time<='$endTime'";
 			}
 			if($sTime=='delivery_time'){
+			    $startTime = sget("startTime");
+			    $endTime = sget("endTime");
 				$where.=" and delivery_time>='$startTime' and delivery_time<='$endTime'";
 			}			
-			//关键词
-			$key_type=sget('key_type','s','username');
-			$keyword=sget('keyword','s');
-			if(!empty($keyword)){
-				$where.=" and $key_type='$keyword' ";
-			}
-
 			$list=$this->db->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
