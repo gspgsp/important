@@ -35,6 +35,9 @@
             </div>
             <div field="spell" width="120" headerAlign="center">别名                        
                 <input property="editor" class="mini-textbox" style="width:100%;"/>
+            </div>
+            <div field="type" width="120" headerAlign="center" type="checkboxlistcolumn" autoShowPopup="true">类别                        
+                <input property="editor" class="mini-checkboxlist" data="dType" />
             </div>                
         </div>
     </div>
@@ -44,7 +47,7 @@ mini.parse();
 var grid = mini.get("gridCell");
 grid.load();
 var dStatus=[{ id: 1, text: '可用' }, { id: 0, text: '禁用'}];
-
+var dType=[{id:1,text:'PE'},{id:2,text:'PP'},{id:3,text:'PVC'},{id:4,text:'VIP'},{id:5,text:'首页'}];
 //查看下一级
 function onLoadHandle(e) {
 	var record = e.record; //record.id
