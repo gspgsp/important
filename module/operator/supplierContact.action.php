@@ -79,7 +79,7 @@ class supplierContactAction extends adminBaseAction {
             $list['data'][$k]['id'] =$v['id'];                             // 联系人id
             $list['data'][$k]['contact_name'] =$v['contact_name'];         // 供应商联系人
             $list['data'][$k]['sex']=L('sex')[$v['sex']];                  // 性别
-            $list['data'][$k]['status']=L('status_1')[$v['status']];
+            $list['data'][$k]['status']=L('supplier_contact_type')[$v['status']];       // 联系人状态
             $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
             $list['data'][$k]['create_time']=$v['create_time']>1000 ? date("Y-m-d H:i:s",$v['create_time']) : '-';     // 创建时间
             $list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';   // 更新时间
@@ -139,14 +139,10 @@ class supplierContactAction extends adminBaseAction {
      */
     public function viewInfo(){
         $this->is_ajax=true;
-        $user_id=sget('id','i');
+        $user_id=sget('supplier_id','i');
         if($user_id>0){
             $info=$this->db->wherePk($user_id)->getRow();
             $extra = $this->db->model('contact_info')->where("user_id = $user_id")->getRow();
-            //关注牌号
-            $models=$this->db->model('suggestion_model')->where("user_id=$user_id")->select('name')->getCol();
-            $model['model']=(count($models)>1)?implode('、',$models):$models;
-            $model['model']=implode('、',$models);
             $c_info = M('user:customer')->getInfoByUid("$user_id"); // 根据公司id查询公司名字
             if($c_info['origin']){
                 $areaArr = explode('|', $c_info['origin']);
@@ -154,12 +150,6 @@ class supplierContactAction extends adminBaseAction {
                 $c_info['company_city']=$areaArr[0];
             }
         }
-        $meg = array_merge($info,$model);
-        $c_info['file_url1'] = FILE_URL.'/upload/'.$c_info['file_url'];
-        $c_info['business_licence_pic1'] = FILE_URL.'/upload/'.$c_info['business_licence_pic'];
-        $c_info['organization_pic1'] = FILE_URL.'/upload/'.$c_info['organization_pic'];
-        $c_info['tax_registration_pic1'] = FILE_URL.'/upload/'.$c_info['tax_registration_pic'];
-        $c_info['legal_idcard_pic1'] = FILE_URL.'/upload/'.$c_info['legal_idcard_pic'];
         //联系人详情
         $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
         $this->assign('type',L('company_type'));//工厂类型
@@ -176,97 +166,4 @@ class supplierContactAction extends adminBaseAction {
         $this->display('contact.viewInfo.html');
 
     }
-    /**
-     * 查看联系人牌号以及公司信息
-     * @author gsp <[<email address>]>
-     * @return [type] [description]
-     */
-    public function viewModel(){
-        $this->is_ajax=true;
-        $user_id=sget('id','i');
-        if($user_id>0){
-            $usermodel = M('user:customerContact')->getContactModel($user_id);//会员牌号 公司
-        }
-        $this->assign('user_id',$user_id);
-        $this->assign('usermodel',$usermodel);
-        $this->display('contact.modelinfo.html');
-    }
-
-    /**
-     * 会员登录密码修改
-     * @access public
-     */
-    public function modifyPasswd(){
-        $user_id=sget('id','i');
-        if($user_id<1){
-            $this->error('错误的用户信息');
-        }
-        $user=$this->db->model('customer_contact')->getPk($user_id);
-        if(empty($user)){
-            $this->error('错误的用户信息');
-        }
-        $this->assign('user',$user);
-        $this->assign('page_title','会员登录密码修改');
-        $this->display('user.modPasswd.html');
-    }
-    /**
-     * 更新用户密码
-     * @access public
-     * @return html
-     */
-    public function passWdSubmit() {
-        $this->is_ajax=true; //指定为Ajax输出
-        $data = sdata(); //获取UI传递的参数
-        $user_id=(int)$data['user_id'];
-        if(empty($user_id)){
-            $this->error('错误的用户信息');
-        }
-        //用户原信息
-        $info=$this->db->model('customer_contact')->getPk($user_id);
-        if(empty($info)){
-            $this->error('错误的用户信息');
-        }
-
-        //需要更新的信息
-        $basic=array();
-        if(!empty($data['password'])){
-            if(strlen($data['password'])<8){
-                $this->error('密码应为8-20位');
-            }
-            //更新密码
-            $basic['salt']=randstr(6);
-            $basic['password']=M('system:sysUser')->genPassword($data['password'].$basic['salt']);
-        }
-
-        //开始更新数据
-        if(!empty($basic)){
-            $msg = sprintf(L('sms_template.passwd_edit_success'),$data['password']);
-            $this->db->model('customer_contact')->wherePk($user_id)->update($basic);
-
-            //管理员重置密码，写日志
-            $remarks = "管理员重置用户密码";
-            M('user:applyLog')->addLog($user_id,'reset_passwd','',$data['password'],1,$remarks);
-            //发送手机短信
-            M('system:sysSMS')->send($user_id,$info['mobile'],$msg,2);
-        }
-
-        $this->success('操作成功');
-    }
-    //分配注册客户的交易员
-    function allotCustomer(){
-        $this->is_ajax=true; //指定为Ajax输出
-        $data = sdata(); //获取UI传递的参数
-        $c_id = sget('cid','i',0); //未通过审核的产品ID
-        if($c_id<1) $this->error('错误的分配信息');
-        $_data=array(
-            'update_time'=>CORE_TIME,
-            'update_admin'=>$_SESSION['name'],
-        );
-        // 查询下分配的管理员所属的部门
-        $result = $this->db->where(" user_id = '$c_id'")->update($_data+array('customer_manager'=>$data['id'],));
-        if(!$result) $this->error('操作失败');
-        $this->success('操作成功');
-    }
-
-
 }

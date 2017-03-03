@@ -187,7 +187,7 @@ class supplierAction extends adminBaseAction{
         $info['social_credit_code_pic'] = FILE_URL.'/upload/'.$info['social_credit_code_pic']; // 三证合一图片
         $info['fund_date']= substr($info['fund_date'],0,10);
         //联系人详情
-        $this->assign('c_id',$supplier_id);                      //供应商id
+        $this->assign('c_id',$supplier_id);                        //供应商id
         $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
         $this->assign('type',L('supplier_type'));                  //供应商类型
         $this->assign('status',L('status'));                       // 供应商状态
