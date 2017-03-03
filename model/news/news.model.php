@@ -28,8 +28,6 @@
 				}
 			}
 			$cates=$this->model('news_cate')->select('cate_id,cate_name,spell')->where("find_in_set('".$c_type."',type)")->getAll();
-			//p($cates);exit;
-			//showTrace();exit;
 			$time=strtotime(date('Y-m-d'));		
 			foreach ($cates as $v) {
 				$arr[$v['spell']]=$this->model('news_content')->select('id,title,hot,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit('15')->getAll();
