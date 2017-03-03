@@ -161,6 +161,7 @@ class transportAction extends adminBaseAction
 
         $data['status'] = 1;
         $data['create_time'] = time();
+        $data['created_by'] = $this->admin_id;
         $res = M('public:common')->model('transport_contract')->add($data);
 
         if ($res) {
@@ -191,12 +192,13 @@ class transportAction extends adminBaseAction
 
         $data['status'] = 1;
         $data['update_time'] = time();
+        $data['last_edited_by'] = $this->admin_id;
         $res = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);
 
         if ($res) {
             $arr = ['err' => 0, 'msg' => '合同生效'];
         } else {
-            $arr = ['err' => 0, 'msg' => '程序错误'];
+            $arr = ['err' => 1, 'msg' => '程序错误'];
         }
         $this->json_output($arr);
     }
@@ -298,7 +300,7 @@ class transportAction extends adminBaseAction
         $pdf->AddPage();
         $pdf->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
         // 输出pdf
-        $pdf->Output("pdf_{$logistics_contract_id}.pdf", 'I');
+        $pdf->Output("pdf_{$lc_id}.pdf", 'I');
         //$contact = M("operator:logisticsContact")->where("id=" . $contact_id)->getRow();
 
         //$this->json_output($contact);
