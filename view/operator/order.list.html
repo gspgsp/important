@@ -445,7 +445,7 @@ function onLoadDetail(e){
 		/*if(see=='1'){
 			s+='<a href="javascript:salecompact('+oid+')">运输合同</a>';
 		}*/
-		s+='&nbsp;<a href="javascript:transport_contract('+oid+')">生成物流合同</a>';
+		s+='&nbsp;<a href="javascript:transport_contract('+oid+')">生成运输合同</a>';
 
 	}else{   //采购
 		if(order_status =='3' || transport_status =='3')  return;
@@ -475,7 +475,7 @@ function onLoadDetail(e){
 		/*if(see=='1'){
 			s+='<a href="javascript:salecompact('+oid+')">运输合同</a>';
 		}*/
-		s+='&nbsp;<a href="javascript:transport_contract('+oid+')">生成物流合同</a>';
+		s+='&nbsp;<a href="javascript:transport_contract('+oid+')">生成运输合同</a>';
 	}
 	return s;
 }
@@ -484,7 +484,7 @@ function transport_contract(o_id){
 	mini.open({
 		url: "/operator/transport/add?order_type=2&order_id="+o_id,
 		showMaxButton:true,
-		title: '新增物流订单', width: 845, height: 650,
+		title: '新增运输合同', width: 845, height: 650,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();

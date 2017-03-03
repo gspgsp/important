@@ -95,7 +95,7 @@ function transport_contract_edit(){
 	mini.open({
 		url: "/operator/transport/edit?type=edit&lc_id="+lc_id,
 		showMaxButton:true,
-		title: '新增物流订单', width: 845, height: 650,
+		title: '编辑运输合同', width: 845, height: 650,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -182,7 +182,7 @@ function pdfRender(logistics_contract_id){
 	mini.open({
 		url: "/operator/transport/pdfRender?lc_id="+logistics_contract_id,
 		showMaxButton:true,
-		title: '物流合同', width: 845, height: 650,
+		title: '运输合同', width: 845, height: 650,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
