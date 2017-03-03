@@ -38,11 +38,9 @@ class transportAction extends adminBaseAction
      */
     public function init()
     {
-        // var_dump($_SESSION);
         $doact = sget('do', 's');
         $action = sget('action', 's');
         $order_type = sget('order_type', 's');
-        //$action='grid';
         if ($action == 'grid') { //获取列表
             $this->_grid();
             exit;
