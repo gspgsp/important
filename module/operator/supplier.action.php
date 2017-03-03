@@ -249,6 +249,7 @@ class supplierAction extends adminBaseAction{
                     'legal_person_pic_1' => $data['legal_person_pic_1'],         // 身份证 正面
                     'legal_person_pic_2' => $data['legal_person_pic_2'],         // 法人身份证 反面
                     'company_tel'  =>  trim($data['company_tel']),                     // 公司固话
+                    'company_fax'  =>  trim($data['company_fax']),                    //公司传真
                     'invoice_tel'  =>  trim($data['invoice_tel']),                     // 开票电话
                     'invoice_bank' =>  trim($data['invoice_bank']),                    //  开票银行
                     'invoice_account' => trim($data['invoice_account']),                  // 开票账户
@@ -342,6 +343,7 @@ class supplierAction extends adminBaseAction{
                 $list['legal_person']= $v['legal_person'];   // 供应商法人
                 $list['legal_person_code'] = $v['legal_person_code'];  // 法人身份证号码
                 $list['company_tel']= $v['company_tel']; // 供应商电话
+                $list['company_fax']= $v['company_fax']; // 供应商传真
                 $list['supplier_type'] =$v['type'];           // 类型
                 $list['province'] =$v['province'];    // 省份
                 $list['city'] =$v['city'];      // 城市
