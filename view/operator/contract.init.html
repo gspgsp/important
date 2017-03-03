@@ -86,6 +86,12 @@ function transport_contract(){
 function transport_contract_edit(){
 	var row = grid.getSelected();
 	var lc_id =row.logistics_contract_id;
+	var status = row.status;
+	if(status == 0)
+	{
+		alert("被废除的合同无法编辑");
+		return;
+	}
 	mini.open({
 		url: "/operator/transport/edit?type=edit&lc_id="+lc_id,
 		showMaxButton:true,
