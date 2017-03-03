@@ -74,8 +74,9 @@ class supplierAction extends adminBaseAction{
 //        $identification = sget("identification",'s',''); //认证
 //        if($identification!='') $where.=" and identification='$identification' ";
 //        // 关键词
-//        $key_type=sget('key_type','s','c_id');
-//        $keyword=sget('keyword','s');
+        $key_type=sget('key_type','s','supplier_id');
+        $keyword=sget('keyword','s');
+        p($key_type);p($keyword);
 //        if(!empty($keyword)){
 //            if($key_type=='c_name'){
 //                $cidshare = M('user:customer')->getcidByCname($keyword);
