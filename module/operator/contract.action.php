@@ -76,6 +76,7 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['update_time']=!empty($v['update_time'])?date("Y-m-d H:i:s",$v['update_time']):'-';
 				$list['data'][$k]['created_name']=$name1['0']['name'];
 				$list['data'][$k]['last_edited_name']=$name2['0']['name'];
+				$list['data'][$k]['part_company_name']='中晨';
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
