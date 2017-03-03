@@ -27,7 +27,7 @@
 					$c_type=$k;
 				}
 			}
-			$cates=$this->model('news_cate')->select('cate_id,cate_name,spell')->where("find_in_set('".$c_type."',type)")->getAll();
+			$cates=$this->model('news_cate')->select('cate_id,spell,hot')->where("find_in_set('".$c_type."',type)")->getAll();
 			$time=strtotime(date('Y-m-d'));		
 			foreach ($cates as $v) {
 				$arr[$v['spell']]=$this->model('news_content')->select('id,title,hot,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit('15')->getAll();
@@ -36,9 +36,10 @@
 						$arr[$v['spell']][$k]['today']=true;
 					}
 				}
-				$arr[$v['spell']]['hot']=$this->model('news_content')->select('id,title,content,input_time,type')->where($where.' and cate_id='.$v['cate_id'].' and hot=1')->order('input_time desc,sort_order desc')->getRow();
-				$arr[$v['spell']]['hot']['content']=mb_substr(strip_tags($arr[$v['spell']]['hot']['content']),0,$num,'utf-8').'...';
-
+				if($v['hot']==1){
+					$arr[$v['spell']]['hot']=$this->model('news_content')->select('id,title,content,input_time,type')->where($where.' and cate_id='.$v['cate_id'].' and hot=1')->order('input_time desc,sort_order desc')->getRow();
+					$arr[$v['spell']]['hot']['content']=mb_substr(strip_tags($arr[$v['spell']]['hot']['content']),0,$num,'utf-8').'...';
+				}
 			}
 			return $arr;
 		}
