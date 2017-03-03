@@ -142,7 +142,6 @@ function remove() {
         if(action!='ok') return;
         var callback=function(data){
             grid.reload();
-            alert(data.msg)
             return false;
         }
         utils.ajax('/operator/contract/remove',{ids:ids},callback,"POST","json");
@@ -200,7 +199,6 @@ function onLoadHandle(e) {
 	return '<a class="mini-button" iconCls="icon-save"  plain="true" href="javascript:pdfRender('+logistics_contract_id+')">生成PDF文件</a> ';
 }
 function pdfRender(logistics_contract_id){
-	alert(logistics_contract_id);
 	mini.open({
 		url: "/operator/transport/pdfRender?lc_id="+logistics_contract_id,
 		showMaxButton:true,

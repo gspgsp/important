@@ -150,7 +150,6 @@
 		$("#returnMsg").text('');
 		form.loading("数据提交中，请稍后......");
 		var urlstr = '/operator/transport/editSubmit';
-		alert(urlstr);
 		$.post(urlstr,o,function(data){
 			form.unmask();
 			$("#returnMsg").text(data.msg);
