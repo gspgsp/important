@@ -537,5 +537,13 @@ return array(
 	'free_time'=>array(
 		1=>7,
 	),
+	//塑料头条布局模块分类
+	'cate_type'=>array(
+		1=>'pe',
+		2=>'pp',
+		3=>'pvc',
+		4=>'vip',
+		5=>'public',
+	),
 	
 );

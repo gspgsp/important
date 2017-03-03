@@ -8,22 +8,31 @@
 		//通过分类id来获取各自分类的文章
 		public function getIndex($type=''){
 			$arr=array();
-			$where='status=1';
+			$where='status=1';			
 			if($type=='vip'){
 				$num=93;
-				$cates=$this->model('news_cate')->select('cate_id,cate_name,spell')->where('pid=33')->getAll();
 				$where.=' and type="vip"' ;
 			}else{
-				$num=67;
-				$cates=$this->model('news_cate')->select('cate_id,cate_name,spell')->getAll();
+				$num=67;				
 				if(!empty($type)){
 					$where.=' and type in("'.$type.'","public")' ;
 				}				
 			}
-
+			$cate_type=L('cate_type');
+			if (empty($type)) {
+				$type='public';
+			}
+			foreach ($cate_type as $k => $v) {
+				if ($type==$v) {
+					$c_type=$k;
+				}
+			}
+			$cates=$this->model('news_cate')->select('cate_id,cate_name,spell')->where("find_in_set('".$c_type."',type)")->getAll();
+			//p($cates);exit;
+			//showTrace();exit;
 			$time=strtotime(date('Y-m-d'));		
 			foreach ($cates as $v) {
-				$arr[$v['spell']]=$this->model('news_content')->select('id,title,hot,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit('20')->getAll();
+				$arr[$v['spell']]=$this->model('news_content')->select('id,title,hot,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit('15')->getAll();
 				foreach ($arr[$v['spell']] as $k=>$v2) {
 					if($v2['input_time']-$time>=0){
 						$arr[$v['spell']][$k]['today']=true;
