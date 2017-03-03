@@ -23,14 +23,14 @@
         <div class="con-tab">
         	<ul id="con-tab-1" class="newsli">
             	{foreach from=$data[zts] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zts/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                         {/foreach}
             </ul>
             <ul id="con-tab-2" class="newsli" style="display:none;">
                         {foreach from=$data[sydt] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/sydt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                         {/foreach}
@@ -80,7 +80,7 @@
         <!--bor-tit end-->
         <ul class="today">
                         {foreach from=$data[jrjd] key=key item=v}
-                            {if !empty($v.id) && $key<=9 && $key!=='hot'}
+                            {if !empty($v.id) && $key<=9}
                             <li><span>{$v.input_time|date:H:i}</span><a target="_blank"  href="/{$v.type}/jrjd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:12}</a></li>
                             {/if}
                         {/foreach}
@@ -299,7 +299,7 @@
                 <!--bor-tit end-->
                 <ul class="newsli" style="line-height:32px;">
                         {foreach from=$data[wpkd] key=key item=v}
-                                {if !empty($v) && $key!=='hot' }
+                                {if !empty($v)}
                                 <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/wpkd/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                         {/foreach}
@@ -347,7 +347,7 @@
         <!--bor-tit end-->
         <ul class="newsli" style="line-height:34px;">
                 {foreach from=$data[hyyw] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/hyyw/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
@@ -387,7 +387,7 @@
         <!--bor-tit end-->
         <ul class="newsli"  style="line-height:34px;">
                 {foreach from=$data[qhzx] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qhzx/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
@@ -412,7 +412,7 @@
             <h4>下游</h4>
             <ul>
                 {foreach from=$data[xy] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/xy/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -424,7 +424,7 @@
             <h4>库存</h4>
             <ul>
                 {foreach from=$data[kc] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/kc/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -436,7 +436,7 @@
             <h4>产量</h4>
             <ul>
                 {foreach from=$data[cl] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/cl/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -448,7 +448,7 @@
             <h4>网拍</h4>
             <ul>
                 {foreach from=$data[wp] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/wp/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -460,7 +460,7 @@
             <h4>排产</h4>
             <ul>
                 {foreach from=$data[pc] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pc/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -472,7 +472,7 @@
             <h4>进出口</h4>
             <ul>
                 {foreach from=$data[jck] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/jck/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -485,7 +485,7 @@
         	<h4>下游</h4>
             <ul>
                 {foreach from=$data[xy] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/xy/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -498,7 +498,7 @@
         	<h4>产量</h4>
             <ul>
                 {foreach from=$data[cl] key=key item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/cl/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -510,7 +510,7 @@
         	<h4>装置检修</h4>
             <ul>
                 {foreach from=$data[zzjx] key=key item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zzjx/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:11}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -522,7 +522,7 @@
             <h4>进口</h4>
             <ul>
                 {foreach from=$data[jk] key=key  item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/jk/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -534,7 +534,7 @@
         	<h4>出口</h4>
             <ul>
                 {foreach from=$data[ck] key=key item=v}
-                            {if !empty($v) && $key !== 'hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ck/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
@@ -550,7 +550,7 @@
 {else}
 
 <!--vip-tile-big begin-->
-<div class="vip-title-big vip-auction w1220"><h2>神华竞拍/损失产量</h2></div>
+<div class="vip-title-big vip-auction w1220"><h2>竞拍/损失产量/期货</h2></div>
 <!--vip-tile-big end-->
 <!--vip-wrap begin-->
 <div class="vip-wrap w1220">
@@ -566,7 +566,7 @@
         <div class="vip-con link6">
             <ul class="vipli">
                 {foreach from=$data[shjp] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/shjp/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
@@ -575,31 +575,48 @@
         <!--vip-con end-->
     </div>
     <!--left end-->
-    <!--right begin-->
-    <div class="right frt">
+    <!--cen begin-->
+    <div class="left  cen flt">
         <!--vip-title begin-->
         <div class="vip-title">
-            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sscl.html">损失产量</a></h3>
-            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sscl.html">更多</a></p>
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}shjp.html">损失产量</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}shjp.html">更多</a></p>
         </div>
         <!--vip-title end-->
         <!--vip-con begin-->
         <div class="vip-con link6">
-
-            <h4><a target="_blank"  href="/{$data[sscl][hot].type}/sscl/{$data[sscl][hot].id}.html" title="{$data[sscl][hot].title}">{$data[sscl][hot].title|truncate:25}</a></h4>
-            <p>{$data[sscl][hot].content}</p>
-
-            <ul class="vipli two">
-                        {foreach from=$data[sscl] item=v}
-                                    {if $v.id != $data[sscl][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/sscl/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
-                                    {/if}
-                        {/foreach}
+            <ul class="vipli">
+                {foreach from=$data[shjp] key=key item=v}
+                            {if !empty($v)}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/shjp/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
             </ul>
         </div>
         <!--vip-con end-->
     </div>
-    <!--right end-->
+    <!--left end-->
+    <!--left begin-->
+    <div class="left  flt">
+        <!--vip-title begin-->
+        <div class="vip-title">
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qhpd.html">期货频道</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}qhpd.html">更多</a></p>
+        </div>
+        <!--vip-title end-->
+        <!--vip-con begin-->
+        <div class="vip-con link6">
+            <ul class="vipli">
+                {foreach from=$data[qhpd] key=key item=v}
+                            {if !empty($v)}
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qhpd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                            {/if}
+                {/foreach}
+            </ul>
+        </div>
+        <!--vip-con end-->
+    </div>
+    <!--left end-->
 </div>
 <!--vip-wrap end-->
 <!--vip-tile-big begin-->
@@ -619,7 +636,7 @@
         <div class="vip-con link6">
             <ul class="vipli">
                 {foreach from=$data[penc] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/penc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
@@ -673,7 +690,7 @@
         <div class="vip-con link6">
             <ul class="vipli">
                 {foreach from=$data[ppnc] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ppnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
@@ -727,7 +744,7 @@
         <div class="vip-con link6">
             <ul class="vipli">
                 {foreach from=$data[pvcnc] key=key item=v}
-                            {if !empty($v) && $key!=='hot'}
+                            {if !empty($v)}
                                     <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvcnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
@@ -764,6 +781,6 @@
     <!--right end-->
 </div>
 <!--vip-wrap end-->
-
+<br>
 {/if}
 
