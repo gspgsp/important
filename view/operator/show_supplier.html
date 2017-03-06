@@ -129,16 +129,16 @@
         }
         //编辑联系人
         function onLoadHandle(e) {
-            var record = e.record,supplier_id=record.id, s='';
-            s += '<a href="javascript:contactInfo('+supplier_id+')">'+supplier_id+'</a> ';
+            var record = e.record,supplier_contact=record.id, s='';
+            s += '<a href="javascript:contactInfo('+supplier_contact+')">'+supplier_contact+'</a> ';
             return s;
         }
         // 查看联系人信息
-        function contactInfo(supplier_id){
+        function contactInfo(supplier_contact){
             mini.open({
-                url: "/operator/supplierContact/viewInfo?id="+supplier_id,
+                url: "/operator/supplierContact/viewInfo?supplier_contact="+supplier_contact,
                 showMaxButton:true,
-                title: "查看联系人用户相关信息---11",
+                title: "查看联系人用户相关信息",
                 width: 550, height:480
             });
         }
