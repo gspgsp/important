@@ -409,7 +409,6 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function supplierUnique(){
-        $this->is_ajax=true;
         $supplier_name=sdata();
         p($supplier_name);die;
         if(!empty($supplier_name)){
