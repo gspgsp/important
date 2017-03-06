@@ -27,10 +27,10 @@
 					$c_type=$k;
 				}
 			}
-			$cates=$this->model('news_cate')->select('cate_id,spell,hot')->where("find_in_set('".$c_type."',type)")->getAll();
+			$cates=$this->model('news_cate')->select('cate_id,spell,hot,limit')->where("find_in_set('".$c_type."',type)")->getAll();
 			$time=strtotime(date('Y-m-d'));		
 			foreach ($cates as $v) {
-				$arr[$v['spell']]=$this->model('news_content')->select('id,title,hot,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit('15')->getAll();
+				$arr[$v['spell']]=$this->model('news_content')->select('id,title,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit($v['limit'])->getAll();
 				foreach ($arr[$v['spell']] as $k=>$v2) {
 					if($v2['input_time']-$time>=0){
 						$arr[$v['spell']][$k]['today']=true;
