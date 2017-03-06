@@ -28,7 +28,7 @@
 						</tr>
 						<tr>
 							<td>认默认联系：</td>
-							<td><input class="mini-combobox" name="is_default" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{info.is_default}"/></td>
+							<td><input class="mini-combobox" name="is_default" style="width:100px;" data='{:setMiniConfig|$is_default}' required="true" textField="name" valueField="id" value="{info.is_default}"/></td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -52,7 +52,7 @@
 						</tr>
 						<tr>
 							<td>状1态：</td>
-							<td><input class="mini-combobox" name="supplier_contact_type" style="width:100px;" data='{:setMiniConfig|$supplier_contact_type}' required="true" textField="name" valueField="id" value="{info.status}"/></td>
+							<td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$supplier_contact_type}' textfield="name" valuefield="id" value="{$user.status}"/></td>
 						</tr>
 					</table>
 				</div>
