@@ -140,29 +140,29 @@ class supplierContactAction extends adminBaseAction {
     public function viewInfo(){
         $this->is_ajax=true;
         $user_id=sget('supplier_id','i');
-        if($user_id>0){
-            $info=$this->db->wherePk($user_id)->getRow();
-            $extra = $this->db->model('contact_info')->where("user_id = $user_id")->getRow();
-            $c_info = M('user:customer')->getInfoByUid("$user_id"); // 根据公司id查询公司名字
-            if($c_info['origin']){
-                $areaArr = explode('|', $c_info['origin']);
-                $c_info['company_province'] = $areaArr[1];
-                $c_info['company_city']=$areaArr[0];
-            }
-        }
-        //联系人详情
-        $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
-        $this->assign('type',L('company_type'));//工厂类型
-        $this->assign('level',L('company_level'));//客户类别
-        $this->assign('chanel',L('company_chanel'));//客户渠道
-        $this->assign('credit_level',L('credit_level'));//信用等级
-        $this->assign('c_info',$c_info);
-        $this->assign('res',$extra);
-        $this->assign('info',$meg);
-        $this->assign('status',L('contact_status'));
-        $this->assign('cstatus',L('status'));
-        $this->assign('sex',L('sex'));
-        $this->assign('page_title','联系人列表');
+//        if($user_id>0){
+//            $info=$this->db->wherePk($user_id)->getRow();
+//            $extra = $this->db->model('contact_info')->where("user_id = $user_id")->getRow();
+//            $c_info = M('user:customer')->getInfoByUid("$user_id"); // 根据公司id查询公司名字
+//            if($c_info['origin']){
+//                $areaArr = explode('|', $c_info['origin']);
+//                $c_info['company_province'] = $areaArr[1];
+//                $c_info['company_city']=$areaArr[0];
+//            }
+//        }
+//        //联系人详情
+//        $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
+//        $this->assign('type',L('company_type'));//工厂类型
+//        $this->assign('level',L('company_level'));//客户类别
+//        $this->assign('chanel',L('company_chanel'));//客户渠道
+//        $this->assign('credit_level',L('credit_level'));//信用等级
+//        $this->assign('c_info',$c_info);
+//        $this->assign('res',$extra);
+//        $this->assign('info',$meg);
+//        $this->assign('status',L('contact_status'));
+//        $this->assign('cstatus',L('status'));
+//        $this->assign('sex',L('sex'));
+//        $this->assign('page_title','联系人列表');
         $this->display('contact.viewInfo.html');
 
     }
