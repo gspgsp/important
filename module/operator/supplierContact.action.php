@@ -165,7 +165,7 @@ class supplierContactAction extends adminBaseAction {
 //        $this->assign('sex',L('sex'));
 //        $this->assign('page_title','联系人列表');
         $this->assign('supplier_id',$user_id);
-        $this->display('contact.viewInfo_1.html');
+        $this->display('contact.viewInfo.html');
 
     }
 }
