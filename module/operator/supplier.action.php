@@ -411,11 +411,11 @@ class supplierAction extends adminBaseAction{
     public function supplierUnique(){
         $this->is_ajax=true;
         $supplier_name=sget('supplier_name','i');
-        p($supplier_name);
+        p($supplier_name);die;
         if(!empty($supplier_name)){
-            p($supplier_name);
+
             $info=$this->db->select('supplier_name')->where('supplier_name='.$supplier_name)->getRow();
-            showTrace();
+
             if($info) {
                 $this->error("供应商已存在");
             }else{
