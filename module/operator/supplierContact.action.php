@@ -140,6 +140,7 @@ class supplierContactAction extends adminBaseAction {
     public function viewInfo(){
         $this->is_ajax=true;
         $user_id=sget('supplier_id','i');
+        p($user_id);
 //        if($user_id>0){
 //            $info=$this->db->wherePk($user_id)->getRow();
 //            $extra = $this->db->model('contact_info')->where("user_id = $user_id")->getRow();
