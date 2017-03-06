@@ -356,7 +356,16 @@ class RedisCluster{
         return $this->getRedis()->exec();
     }
     /**
-     * 查询redis服务器状态
+     * 删除缓存
+     * @access public
+     * @param string $name 缓存变量名
+     * @return boolen
+     */
+    public function delete($name) {
+        return $this->getRedis()->delete($name);
+    }
+    /**
+     * 查询当前redis服务器状态
      *
      * @access  public
      * @return  array
