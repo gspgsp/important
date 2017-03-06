@@ -134,12 +134,30 @@
             return s;
         }
         // 查看联系人信息
-        function contactInfo(supplier_contact){
-            mini.open({
+//        function contactInfo(supplier_contact){
+//            mini.open({
 //                url: "/operator/supplierContact/viewInfo?supplier_contact="+supplier_contact,
+//                showMaxButton:true,
+//                title: "查看联系人用户相关信息",
+//                width: 550, height:480
+//            });
+//        }
+
+        //查看联系人信息
+        function contactInfo(id){      // ctype   1：新增供应商联系人   3：新增供应商和联系人
+            if(id){
+                var width=550,height=480;
+                title='查看联系人用户信息';
+            }
+            mini.open({
+                url: "/operator/supplierContact/viewInfo?supplier_contact="+supplier_contact,
                 showMaxButton:true,
-                title: "查看联系人用户相关信息",
-                width: 550, height:480
+                title: title, width: width, height:height,
+                ondestroy: function (action) {
+                    if(action=='save'){ //重新加载
+                        grid.reload();
+                    }
+                }
             });
         }
 
