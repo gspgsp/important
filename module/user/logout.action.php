@@ -19,7 +19,7 @@ class logoutAction extends homeBaseAction{
 			unset($_SESSION);
 			unset($_COOKIE);
 			session_destroy();
-			$cache=cache::startRedis();
+			$cache= E('RedisCluster',APP_LIB.'class');
 			$cache->delete('userid_'.SESS_ID);
 			$cache->delete('uinfo_'.SESS_ID);
 			M('user:passport')->setSession();

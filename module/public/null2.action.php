@@ -17,7 +17,7 @@ class null2Action extends action {
 		$this->view->cache_dir .= $theme_path;
 		if(!is_robot()){ //非机器人访问
 		    startHomeSession();
-		    $cache=cache::startRedis();
+			$cache= E('RedisCluster',APP_LIB.'class');
 		    $_SESSION['userid']=($cache->get('userid_'.SESS_ID)==false?0:$cache->get('userid_'.SESS_ID));
 		    $_SESSION['uinfo']=($cache->get('uinfo_'.SESS_ID)==false?null:json_decode($cache->get('uinfo_'.SESS_ID)));
 		    $this->user_id=$_SESSION['userid'];
