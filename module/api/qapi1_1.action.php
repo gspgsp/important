@@ -2224,6 +2224,12 @@ class qapi1_1Action extends null2Action
             case 6:
                 $this->json_output(array('err'=>6,'msg'=>'参数错误'));
                 break;
+            case 7:
+                $this->json_output(array('err'=>7,'msg'=>'服务器繁忙,请稍后再试！'));
+                break;
+            case 8:
+                $this->json_output(array('err'=>7,'msg'=>'服务正在维护,请稍后再试！'));
+                break;
             case 100:
                 $this->json_output(array('err'=>100,'msg'=>'积分不足,请多努力!'));
                 break;
@@ -2556,51 +2562,16 @@ class qapi1_1Action extends null2Action
      * 获取企查查的东西的接口东西
      */
 
-    public function getQiChaCha($keywords){
-        $apiKey = M('system:setting')->get('creditlimit')['creditlimit']['creditcode'];
-        file_put_contents('sss.php','离离原上草，一岁一枯荣。野火烧不尽，春风吹又生。远芳侵古道，晴翠接荒城。又送王孙去，萋萋满别情。');
-//        $ch = curl_init();
-//        curl_setopt($ch, CURLOPT_URL, "http://i.yjapi.com/ECI/GetDetailsByName?key=$apiKey&keyword=苏州朗动网络科技有限公司");
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//        curl_setopt($ch, CURLOPT_HEADER, 0);
-//        $output = curl_exec($ch);
-//        curl_close($ch);
-//        $ch = curl_init();
-//        $res = json_decode($output,true);
-        $output=file_get_contents('qiyexinyong.txt');
-        $res = json_decode($output,true);
-        $temp=$res['Result'];
-        if(!empty($res['Result'])){
-            $arr=array(
-
-                'name'=>'',
-                'register_no'=>'',
-                'belong_org'=>$temp['BelongOrg'],
-                'oper_name'=>$temp['OperName'],
-                'start_date'=>strtotime($temp['StartDate']),
-                'end_date'=>strtotime($temp['EndDate']),
-                'status'=>$temp['status'],
-                'province'=>$temp['Province'],
-                'update_date'=>strtotime($temp['UpdatedDate']),
-                'credit_code'=>$temp['CreditCode'],
-                'register_cpai'=>$temp['RegistCapi'],
-                'econkind'=>$temp['EconKind'],
-                'address'=>$temp['Address'],
-                'scope'=>$temp['Scope'],
-                'term_start'=>strtotime($temp['TermStart']),
-                'term_end'=>strtotime($temp['TeamEnd']),
-                'check_date'=>strtotime($temp['CheckDate']),
-                'phone_number'=>$temp['PhoneNumber'],
-                'email'=>'',
-                'website_name'=>'',
-                'website_url'=>saddslashes($temp['']),
-                'input_time'=>CORE_TIME,
-            );
-            M("qapp:partnersBase")->insertAll($res['Result']['Partners']);;
-            //return $res['result'];
-        }else{
-            return ;
+    public function getQiChaCha(){
+        if($_POST['token']&&$_POST['name']){
+            $user_id = $this->checkAccount();
+            $name = sget('name','s');
+            $name=$this->clearStr($name);
+            if(empty($name)) $this->_errCode(6);
+            $tmp=M('qapp:customerBase')->selectOrNot($name);
+            $this->json_output($tmp);
         }
+        $this->_errCode(6);
     }
 
 
