@@ -130,7 +130,11 @@
 						<td>授信额度：</td>
 						<td>{$info.credit_limit}</td>
 						<td>可用额度：</td>
+						{if $info.available_credit_limit  lt $info.total_price}
+						<td><font style="color:red;">{$info.available_credit_limit}</font></td>
+						{else}
 						<td>{$info.available_credit_limit}</td>
+						{/if}
 					</tr>
 					<tr>
 						<td>附加条款：</td>
