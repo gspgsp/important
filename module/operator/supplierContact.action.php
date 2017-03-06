@@ -138,7 +138,7 @@ class supplierContactAction extends adminBaseAction {
      *
      */
     public function viewInfo(){
-        $this->is_ajax=true;
+//        $this->is_ajax=true;
         $user_id=sget('supplier_contact','i');
         p($user_id);die;
 //        if($user_id>0){
