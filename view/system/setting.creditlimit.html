@@ -12,9 +12,22 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>企查查数据强制更新: </th>
+                    <td>
+                        <label><input type="radio" name="creditlimit[forcedupdate]" value="1" {if $creditlimit.forcedupdate}checked="checked"{/if}/>启用</label>
+                        <label><input type="radio" name="creditlimit[forcedupdate]" value="0" {if empty($creditlimit.forcedupdate)} checked="checked"{/if}/>禁用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>企查查数据自动更新时间</th>
+                    <td>
+                        <input name="creditlimit[updatetime]" value="{$creditlimit.updatetime}" class="mini-textbox"  />天
+                    </td>
+                </tr>
+                <tr>
                     <th>信用额度: </th>
                     <td>
-                        <input name="creditlimit[ord]" value="{$creditlimit.ord}" class="mini-textbox" style="width:380px" />
+                        <input name="creditlimit[ord]" value="{$creditlimit.ord}" class="mini-textbox" />
                     </td>
                 </tr>
                 <tr>
