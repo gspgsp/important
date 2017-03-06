@@ -349,6 +349,7 @@
         var data = mini.get('supplier_name').getValue();
         var urlstr = '/operator/supplier/supplierUnique';
         if(data=='') alert('供应商客户名称不能为空');
+        console.log(data);
         $.post(urlstr,{data:data},function(data){
             if(data.err=='0'){
                 $("#chkMsg").text(data.msg);
