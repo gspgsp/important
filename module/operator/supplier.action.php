@@ -409,8 +409,8 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function supplierUnique(){
-        $supplier_name=sdata();
-        p($supplier_name);die;
+        $data=spost('data','i');
+        p($data);die;
         if(!empty($supplier_name)){
 
             $info=$this->db->select('supplier_name')->where('supplier_name='.$supplier_name)->getRow();
