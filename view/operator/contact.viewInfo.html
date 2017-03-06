@@ -7,6 +7,8 @@
 		<div class="mini-tabs" activeIndex="0" plain="false">
 			<div title="联系人基本信息">
 				<div style="height:385px">
+					<input class="mini-hidden" name="id" value="{$info.id}"/>
+					<input class="mini-hidden" name="supplier_id" value="{$info.supplier_id}"/>
 					<table border="0" cellpadding="1" cellspacing="2">
 						<tr>
 							<td>供应商名称：</td>
@@ -15,7 +17,7 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td >姓名：<font style="color:red;">*</font></td>
+							<td >联系人姓名：<font style="color:red;">*</font></td>
 							<td><input name="contact_name" class="mini-textbox" style="width:150px;" required="true" value="{$info.contact_name}" vtype="rangeLength:2,30"/></td>
 							<td>性别：<font style="color:red;">*</font></td>
 							<td><input class="mini-combobox" name="sex" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{info.sex}"/></td>
@@ -51,7 +53,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>状1态：</td>
+							<td>状态：</td>
 							<td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$supplier_contact_type}' textfield="name" valuefield="id" value="{$user.status}"/></td>
 						</tr>
 					</table>
