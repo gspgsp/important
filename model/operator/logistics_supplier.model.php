@@ -20,7 +20,7 @@ class logistics_supplierModel extends Model{
      * @return mixed
      */
     public function supplierUnique($supplier_name){
-    return  $info=$this->db->model('logistics_supplier')->where('supplier_name='.$supplier_name)->select('supplier_name')->getAll();
+    return  $info=$this->db->model('logistics_supplier')->where('supplier_name='.$supplier_name)->select('supplier_name')->getRoW();
 
     }
 
