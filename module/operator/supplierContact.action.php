@@ -95,79 +95,47 @@ class supplierContactAction extends adminBaseAction {
      * Ajax删除节点s
      * @access private
      */
-    private function _remove(){
-        $this->is_ajax=true; //指定为Ajax输出
-        $ids=sget('ids','s');
-        if(empty($ids)){
-            $this->error('操作有误');
-        }
-        $data = explode(',',$ids);
-        if(is_array($data)){
-            foreach ($data as $k => $v) {
-                $res = M('user:customer')->getColByName($v,"c_id","contact_id");
-                if($res>0){
-                    $this->error('主联系人不能删除');
-                }
-            }
-        }
-        $result=$this->db->where("user_id in ($ids)")->update(array('status'=>9));
-        if($result){
-            $this->success('操作成功');
-        }else{
-            $this->error('数据处理失败');
-        }
-    }
+//    private function _remove(){
+//        $this->is_ajax=true; //指定为Ajax输出
+//        $ids=sget('ids','s');
+//        if(empty($ids)){
+//            $this->error('操作有误');
+//        }
+//        $data = explode(',',$ids);
+//        if(is_array($data)){
+//            foreach ($data as $k => $v) {
+//                $res = M('user:customer')->getColByName($v,"c_id","contact_id");
+//                if($res>0){
+//                    $this->error('主联系人不能删除');
+//                }
+//            }
+//        }
+//        $result=$this->db->where("user_id in ($ids)")->update(array('status'=>9));
+//        if($result){
+//            $this->success('操作成功');
+//        }else{
+//            $this->error('数据处理失败');
+//        }
+//    }
 
-    public function info(){
-        $this->is_ajax=true;
-        $user_id=sget('id','i');
-        if($user_id>0){
-            $info=$this->db->wherePk($user_id)->getRow();
-            if($info['c_id']>0) $c_name = M('user:customer')->getColByName("$info[c_id],c_name"); // 根据公司id查询公司名字
-        }
-        //联系人详情
-        $this->assign('c_name',$c_name);
-        $this->assign('info',$info);
-        $this->assign('status',L('contact_status'));
-        $this->assign('sex',L('sex'));
-        $this->assign('page_title','联系人列表');
-        $this->display('contact.edit.html');
-
-    }
 
     /**
      * 查看联系人及相关信息
      *
      */
     public function viewInfo(){
-//        $this->is_ajax=true;
+        $this->is_ajax=true;
         $contact_id=sget('supplier_contact','i');
         $var=$this->db->select('id,supplier_id,supplier_name,contact_name,sex,status,contact_tel,mobile_tel,qq,comm_fax,is_default,remark')->where('id='.$contact_id)->getRow();
-//        if($user_id>0){
-//            $info=$this->db->wherePk($user_id)->getRow();
-//            $extra = $this->db->model('contact_info')->where("user_id = $user_id")->getRow();
-//            $c_info = M('user:customer')->getInfoByUid("$user_id"); // 根据公司id查询公司名字
-//            if($c_info['origin']){
-//                $areaArr = explode('|', $c_info['origin']);
-//                $c_info['company_province'] = $areaArr[1];
-//                $c_info['company_city']=$areaArr[0];
-//            }
-//        }
-//        //联系人详情
-//        $this->assign('regionList', arrayKeyValues(M('system:region')->get_reg(),'id','name'));//第一级省市
-//        $this->assign('type',L('company_type'));//工厂类型
-//        $this->assign('level',L('company_level'));//客户类别
-//        $this->assign('chanel',L('company_chanel'));//客户渠道
-//        $this->assign('credit_level',L('credit_level'));//信用等级
-//        $this->assign('c_info',$c_info);
-//        $this->assign('res',$extra);
-//        $this->assign('info',$meg);
-//        $this->assign('status',L('contact_status'));
-//        $this->assign('cstatus',L('status'));
-//        $this->assign('sex',L('sex'));
-//        $this->assign('page_title','联系人列表');
         $this->assign('info',$var);
         $this->display('contact.viewInfo.html');
 
     }
+
+    public function ajaxSave(){
+        $this->is_ajax=true;
+        $data = sdata();
+        p($data);
+    }
+
 }
