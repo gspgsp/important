@@ -346,10 +346,9 @@
 
    //物流供应商去重
     function checkUnique(){
-        var supplier_name = mini.get('supplier_name').getValue().trim();
+        var supplier_name = mini.get('supplier_name').getValue();
         var urlstr = '/operator/supplier/supplierUnique';
         if(supplier_name=='') alert('供应商客户名称不能为空');
-//        var urlstr = '/user/customer/curUnique';
         $.post(urlstr,{data:supplier_name},function(data){
             if(data.err=='0'){
                 $("#chkMsg").text(data.msg);
