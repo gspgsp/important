@@ -409,7 +409,7 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function supplierUnique(){
-        $data=$_REQUEST('data');
+        $data=$_REQUEST();
         p($data);die;
         if(!empty($supplier_name)){
 
