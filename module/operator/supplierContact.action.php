@@ -126,7 +126,7 @@ class supplierContactAction extends adminBaseAction {
     public function viewInfo(){
         $this->is_ajax=true;
         $contact_id=sget('supplier_contact','i');
-        $var=$this->db->select('id,supplier_id,supplier_name,contact_name,sex,status,contact_tel,mobile_tel,qq,comm_fax,is_default,remark')->where('id='.$contact_id)->getRow();
+        $var=$this->db->select('id,supplier_id,supplier_name,contact_name,sex,status,contact_tel,mobile_tel,qq,comm_fax,is_default,remark,comm_email')->where('id='.$contact_id)->getRow();
         $this->assign('info',$var);
         $this->display('contact.viewInfo.html');
 
