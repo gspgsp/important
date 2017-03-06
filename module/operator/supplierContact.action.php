@@ -140,8 +140,7 @@ class supplierContactAction extends adminBaseAction {
     public function viewInfo(){
 //        $this->is_ajax=true;
         $contact_id=sget('supplier_contact','i');
-        $var=$this->db->select('id,supplier_id,contact_name,sex,status,contact_tel,mobile_tel,qq,comm_fax,is_default,remark')->where('id='.$contact_id)->getRow();
-        p($var);
+        $var=$this->db->select('id,supplier_id,supplier_name,contact_name,sex,status,contact_tel,mobile_tel,qq,comm_fax,is_default,remark')->where('id='.$contact_id)->getRow();
 //        if($user_id>0){
 //            $info=$this->db->wherePk($user_id)->getRow();
 //            $extra = $this->db->model('contact_info')->where("user_id = $user_id")->getRow();
@@ -165,7 +164,7 @@ class supplierContactAction extends adminBaseAction {
 //        $this->assign('cstatus',L('status'));
 //        $this->assign('sex',L('sex'));
 //        $this->assign('page_title','联系人列表');
-        $this->assign('supplier_id',$user_id);
+        $this->assign('info',$var);
         $this->display('contact.viewInfo.html');
 
     }
