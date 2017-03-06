@@ -155,6 +155,8 @@ grid.on("drawcell", function (e) {
         column = e.column,
         field = e.field,
         value = e.value;
+    console.log(record);
+//    console.log(column);
     if (column.field == "available_credit_limit") {
         //console.log(record);
         if (e.value<0) {
