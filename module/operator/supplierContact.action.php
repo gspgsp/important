@@ -11,7 +11,9 @@ class supplierContactAction extends adminBaseAction {
         $this->debug = false;
         $this->assign('user_chanel',L('user_chanel'));
         $this->db=M('public:common')->model('logistics_contact');
-        $this->assign('status',L('status_1'));  // 联系人用户状态
+        $this->assign('supplier_contact_type',L('supplier_contact_type'));  // 联系人用户状态
+        $this->assign('is_default',L('is_default'));
+        $this->assign('sex',L('sex'));
         $this->doact = sget('do','s');
     }
     /**
