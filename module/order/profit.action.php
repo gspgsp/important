@@ -105,7 +105,7 @@ class profitAction extends adminBaseAction {
 			o.`payd_time` AS s_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
 			o.`join_id` AS p_oid,
@@ -120,7 +120,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.`payd_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id` AND sale.`purchase_id` = pu.`id`
@@ -143,7 +143,7 @@ class profitAction extends adminBaseAction {
 			o.`payd_time` AS s_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
 			o.`store_o_id` AS p_oid,
@@ -158,7 +158,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.payd_time FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id`  AND sale.`purchase_id` = pu.`id`
@@ -302,7 +302,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.`payd_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id` AND sale.`purchase_id` = pu.`id`
@@ -325,7 +325,7 @@ class profitAction extends adminBaseAction {
 			o.`payd_time` AS s_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
 			o.`store_o_id` AS p_oid,
@@ -340,7 +340,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.payd_time FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id`  AND sale.`purchase_id` = pu.`id`
@@ -363,7 +363,7 @@ class profitAction extends adminBaseAction {
 			o.`payd_time` AS s_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
 			o.`join_id` AS p_oid,
@@ -378,7 +378,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.`payd_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` and sale.`p_id` = pu.`p_id` and sale.`purchase_id` = pu.`id`
@@ -401,7 +401,7 @@ class profitAction extends adminBaseAction {
 			o.`payd_time` AS s_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
 			o.`store_o_id` AS p_oid,
@@ -416,7 +416,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.payd_time FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` and sale.`p_id` = pu.`p_id`  and sale.`purchase_id` = pu.`id`
