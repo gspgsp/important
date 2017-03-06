@@ -140,7 +140,6 @@ class supplierContactAction extends adminBaseAction {
         $this->is_ajax=true;
         $data = sdata();
         if(empty($data['contact_name']))  $this->error('联系人姓名不能为空');
-        if(empty($data['sex']))  $this->error('联系人性别不能为空');
         if(empty($data['mobile_tel']))  $this->error('联系人联系手机');
         if(empty($data['comm_email']))  $this->error('联系人邮箱不能为空');
         if(empty($data['status']))  $this->error('联系人状态不能为空');
