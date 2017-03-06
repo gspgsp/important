@@ -40,7 +40,8 @@
 			<div field="logistics_contract_id" width="30" align="center" headerAlign="center">合同号</div>
 			<div field="part_company_name" width="80" align="center" headerAlign="center" >甲方公司</div>
 			<div field="second_part_company_name" width="80" align="center" headerAlign="center" >乙方公司</div>
-			<div field="goods_name" width="50" align="center" headerAlign="center">货物名称</div>
+			<div field="goods_class" width="50" align="center" headerAlign="center">货物牌号</div>
+			<div field="goods_num" width="50" align="center" headerAlign="center">货物数量</div>
 			<div field="start_place" width="70" align="center" headerAlign="center">提货地点</div>	
 			<div field="delivery_fee" width="50" align="center" headerAlign="center" >运输费用</div>		
 			<div field="plate_number" width="50" align="center" headerAlign="center" >车号</div>			
@@ -69,12 +70,12 @@ grid.load();
 
 /*var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");*/
-//生成运输合同
+//新增运输合同
 function transport_contract(){
 	mini.open({
 		url: "/operator/transport/add?order_type=2",
 		showMaxButton:true,
-		title: '新增物流订单', width: 845, height: 650,
+		title: '新增运输合同', width: 845, height: 650,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -82,7 +83,7 @@ function transport_contract(){
 		}
 	});
 }
-//生成运输合同
+//编辑运输合同
 function transport_contract_edit(){
 	var row = grid.getSelected();
 	var lc_id =row.logistics_contract_id;
@@ -96,6 +97,21 @@ function transport_contract_edit(){
 		url: "/operator/transport/edit?type=edit&lc_id="+lc_id,
 		showMaxButton:true,
 		title: '编辑运输合同', width: 845, height: 650,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//回传运输合同
+function contract_back_add(){
+	var row = grid.getSelected();
+	var lc_id =row.logistics_contract_id;
+	mini.open({
+		url: "/operator/transport/contract_back_add?logistics_contract_id="+lc_id,
+		showMaxButton:true,
+		title: '回传运输合同', width: 549, height: 222,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -136,7 +152,12 @@ function imgResize(){
 function onStatusRender(e) {
 	var s='',record = e.record,logistics_contract_id=record.logistics_contract_id;
     if(record.status=='3'){
-        s+='审核通过';
+    	"{if $role eq 24}"
+        s+='审核通过';       
+        s += '</br><a href="javascript:contract_back_add()">回传信息</a>';
+        "{else}"
+        s+='审核通过';  
+        "{/if}"
     }else if(record.status=='2')
 	{
 		s+='审核未通过';

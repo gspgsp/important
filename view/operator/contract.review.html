@@ -7,11 +7,11 @@
 							</tr>
 							<tr height="20"><td>&nbsp;</td></tr>
 							<tr>
-								<td align="left"width="80" height="20">甲方：上海中晨电子商务股份有限公司</td>
+								<td align="left"width="80" height="20">甲方(委托方)：上海中晨电子商务股份有限公司</td>
 								<td align="right"width="505" height="20">合同日期：{$info.contract_time}</td>
 							</tr>
 							<tr>
-								<td align="left"width="80" height="20">乙方：{$info.supplier_name}</td>
+								<td align="left"width="80" height="20">乙方(承运方)：{$info.supplier_name}</td>
 								<td align="right"width="505" height="20">签约地点：上海虹口欧阳路568号17楼</td>
 							</tr>
 							<tr  align="center">
@@ -21,7 +21,10 @@
 								<td colspan="5" height="20" width="100%">甲、乙双方经协商，根据《中华人民共和国合同法》相关规定，就以下产品的购销等有关事宜，签订本合同</td>
 							</tr>
 							<tr>
-								<td width="100" height="20" style="line-height:20px;width:100">一、货物 : {$info.goods_name}</td>
+								<td width="100" height="20" style="line-height:20px;width:100">一、货物牌号 : {$info.goods_class}</td>
+							</tr>
+							<tr>
+								<td width="100" height="20" style="line-height:20px;width:100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;货物数量 : {$info.goods_num}</td>
 							</tr>
 							<tr>
 								<td width="30"  height="20" style="line-height:20px;">二、提货地点：{$info.start_place}</td>
@@ -46,23 +49,23 @@
 								<td width="30" height="20" style="line-height:20px;">六、备注：合同传真件有效。</td>
 							</tr>
 							 <tr>
-								<td width="30" height="20" style="line-height:20px;">七、车号：{$info.plate_number}</td>
+								<td width="30" height="20" style="line-height:20px;">七、车号：</td>
 							</tr>
 			                 <tr>
-								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;司机姓名：{$info.driver_name}</td>
+								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;司机姓名：</td>
 							 </tr>
 			                 <tr>
-								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证号码：{$info.driver_idcard}</td>
+								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证号码：</td>
 							</tr>							
 							<tr>
-								<td width="30" height="20" style="line-height:20px;">八、运输费用：{$info.delivery_fee}</td>
+								<td width="30" height="20" style="line-height:20px;">八、运输费用(含税)：{$info.delivery_fee}</td>
 							</tr>
         			    <tr  align="left">
         								<td height="20"></td>
         							</tr>
         				<tr>
-        				<td height="20" style="line-height:20px;" width="110">购货方（甲方）</td>
-        				<td height="20" style="line-height:20px;"  width="110">供货方（乙方）</td>      
+        				<td height="20" style="line-height:20px;" width="110">甲方</td>
+        				<td height="20" style="line-height:20px;"  width="110">乙方</td>      
         			   </tr>
         			   <tr>
         				<td height="20" style="line-height:20px;" width="110">TEL：021-61673571</td>

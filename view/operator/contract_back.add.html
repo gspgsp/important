@@ -1,0 +1,95 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+	.hidden {display:none;}
+</style>
+<link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
+<div style="padding:5px; " >
+	<div id="infoForm" class="form">
+		<div  style="padding:5px; " >
+			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+				<legend>运输合同回传信息</legend>
+				<div id="editForm1" style="padding:5px; ">
+					<table id="table1" width="100%" >
+					<td><input name="logistics_contract_id" value="{$logistics_contract_id}" id="logistics_contract_id" class="mini-hidden" style="width:125px;" maxlength="8"  required="true" /></td>
+					<td><input name="type" value="{$type}" id="type" class="mini-hidden" style="width:125px;" maxlength="8"  required="true" /></td>
+						<tr>
+							<td>车号：</td>
+							<td><input name="plate_number" value="" id="plate_number" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" /></td>
+							</tr><tr>
+							<td>司机姓名：</td>
+							<td><input name="driver_name" value="" id="driver_name" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" /></td>		
+							</tr><tr>
+							<td>身份证号码：</td>
+							<td><input name="driver_idcard" value="" id="driver_idcard" class="mini-textbox" style="width:125px;" maxlength="18"  required="true" /></td>
+						</tr>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+</div>
+<div align="center" style="margin-top:10px;">
+	<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+	<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+	mini.parse();
+	$('#partnertitle').hide();
+	$('#partner').hide();
+	var form = new mini.Form("#infoForm");
+	var noStockData;
+	var totalCounts={num:0,price:0};
+	var t_price=0;
+	var gridCell ;
+/*     mini.get('plate_number').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 6) {
+				e.errorText = "车牌号必须为6位";
+				e.isValid = false;
+			}
+		}
+	}); */
+	mini.get('driver_idcard').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 18) {
+				e.errorText = "身份证号必须为18位";
+				e.isValid = false;
+			}
+		}
+	});
+	function submitForm(){
+		form.validate();
+		if(form.isValid() == false) return;
+		
+		//提交数据
+		var o = form.getData(true);
+		var json = mini.encode(o);
+		$("#returnMsg").text('');
+		form.loading("数据提交中，请稍后......");
+		var urlstr = '/operator/transport/contract_back_add';
+		$.post(urlstr,o,function(data){
+			form.unmask();
+			$("#returnMsg").text(data.msg);
+			if(data.err=='0'){
+				CloseWindow("save");
+			}else{
+				return false;
+			}
+		},'json');
+	}
+	function CloseWindow(action) {
+		if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+		else window.close();
+	}
+	function onCancel(e) {
+		CloseWindow("cancel");
+	}
+	function onValidation(e){
+		unit_price=mini.get('change_price').getValue();
+		index=e.sender.ownerRowID;
+		noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);
+		totalCount(noStockData);
+	}
+</script>

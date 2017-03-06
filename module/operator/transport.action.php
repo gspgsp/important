@@ -54,7 +54,7 @@ class transportAction extends adminBaseAction
     }
 
     /**
-     *物流合同增加有页面
+     *物流合同增加页面
      * @access public
      * @return html
      */
@@ -97,7 +97,6 @@ class transportAction extends adminBaseAction
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $customer = M("operator:logisticsSupplier")->select('supplier_id as id,supplier_name as name')->getAll();
             $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
-            //var_dump($order_info_new);
             $model = M('public:common');
             $sql = $model->getLastSql();
 
@@ -114,6 +113,26 @@ class transportAction extends adminBaseAction
             $this->json_output($arr);
         }
 
+    }
+    /**
+     *物流合同回传页面
+     * @access public
+     * @return html
+     */
+    public function contract_back_add()
+    {
+        $data=$_POST;
+        $logistics_contract_id=sget('logistics_contract_id','i');
+        if(!empty($data['type'])){
+        $data['update_time'] = time();
+        $data['last_edited_by'] = $this->admin_id;
+        $res = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);
+        $this->success('操作成功');
+       }
+        $this->type='1';
+        $this->logistics_contract_id=$logistics_contract_id;
+        $this->display('contract_back.add.html');
+    
     }
 
     /**
@@ -281,7 +300,7 @@ class transportAction extends adminBaseAction
 
         E('TCPdf', APP_LIB . 'extend');
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $pdf->SetTitle('上海中晨物流合同');
+        $pdf->SetTitle('上海中晨运输合同');
         $pdf->SetHeaderData('config/pdflogo.jpg', 180, '', '', array(0, 33, 43), array(0, 64, 128));
         // 设置默认等宽
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);

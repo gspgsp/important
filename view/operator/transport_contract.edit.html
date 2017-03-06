@@ -12,14 +12,14 @@
 				<div id="editForm1" style="padding:5px; ">
 					<table id="table1" width="100%" >
 						<tr>
-							<td><font style="color:red;">甲方：</font></td>
+							<td><font style="color:red;">甲方(委托方)：</font></td>
 							<td>上海中晨电子股份有限公司</td>
 							<td>合同日期： </td>
 							<td><input  class="mini-datepicker"  name="contract_time"  id="contract_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$infoq.contract_time}"/>
 							</td>
 						</tr>
 						<tr>
-							<td>乙方</td>
+							<td>乙方(承运方)：</td>
 							<td>
 								<input name="second_part_company_id" value='{$infoq.second_part_company_id}' onvaluechanged="getcompany" class="mini-combobox" style="width:125px;" id="second_part_company_id" data='{$customer_info}'   required="true" textField="name" valueField="id" />
 							</td>
@@ -28,36 +28,41 @@
 							</td>
 						</tr>
 						<tr>
-							<td>货物:</td>
-							<td>							<input name="goods_name" value="{$infoq.goods_name}" id="goods_name" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" />
+							<td>货物牌号:</td>
+							<td><input name="goods_class" value="{$infoq.goods_class}" id="goods_class" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>货物数量:</td>
+							<td><input name="goods_num" value="{$infoq.goods_num}" id="goods_num" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" />
 							</td>
 						</tr>
 						<tr>
 							<td>提货地点：</td>
-							<td>							<input name="start_place" value='{$infoq.goods_name}' id="start_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td><input name="start_place" value='{$infoq.start_place}' id="start_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
-							<td>送货地点</td>
-							<td>							<input name="end_place" value='{$infoq.goods_name}' id="end_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td>送货地点：</td>
+							<td><input name="end_place" value='{$infoq.end_place}' id="end_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
-							<td>送货日期</td>
-							<td>							<input  class="mini-datepicker"  name="delivery_time"  value='{$infoq.delivery_time}' id="delivery_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$infoq.delivery_time}"/>
+							<td>送货日期：</td>
+							<td><input  class="mini-datepicker"  name="delivery_time"  value='{$infoq.delivery_time}' id="delivery_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$infoq.delivery_time}"/>
 							</td>
 						</tr>
 						<tr>
 							<td>合同责任：</td>
 						</tr>
 						<tr>
-							<td colspan="3">乙方必须于甲方的制定期限内，将货物送到甲方的制定地点。</td>
+							<td colspan="3">乙方必须于甲方的指定期限内，将货物送到甲方的指定地点。</td>
 						</tr>
 						<tr>
 							<td>注意事项：</td>
 						</tr>
 						<tr>
-							<td colspan="3">乙方必须保证甲方的货物，安全无破损无超市无变质的情况。若出现以上的情况，乙方必须负责赔偿甲方的损失。</td>
+							<td colspan="4">乙方必须保证甲方的货物，安全、无破损、无潮湿、无变质等情况。若出现以上的情况，乙方必须负责赔偿甲方的损失。</td>
 						</tr>
 						<tr>
 							<td>备注：</td>
@@ -66,29 +71,28 @@
 						</tr>
 						<tr>
 							<td>车号：</td>
-							<td>							<input name="plate_number"  id="plate_number" value='{$infoq.plate_number}' class="mini-textbox" style="width:125px;" maxlength="6"  required="true" value=""/>
-							</td>
+							<td></td>
 							</tr><tr>
 							<td>司机姓名：</td>
-							<td>							<input name="driver_name" id="driver_name" value='{$infoq.driver_name}' class="mini-textbox" style="width:125px;" maxlength="50"  required="true" value=""/>
-							</td>		</tr><tr><td>身份证号码：</td>
-							<td>							<input name="driver_idcard" id="driver_idcard" value='{$infoq.driver_idcard}' class="mini-textbox" style="width:125px;" maxlength="18"  required="true" value=""/>
-							</td>
+							<td></td>		
+							</tr><tr>
+							<td>身份证号码：</td>
+							<td></td>
 						</tr>
 						<tr>
-							<td>运输费用</td>
-							<td>							<input name="delivery_fee" id="delivery_fee" value="{$infoq.delivery_fee}" class="mini-textbox" style="width:125px;" maxlength="50"  required="true" value=""/>
+							<td>运输费用（含税）：</td>
+							<td><input name="delivery_fee" id="delivery_fee" value="{$infoq.delivery_fee}" class="mini-textbox" style="width:125px;" maxlength="50"  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<div>购货方(甲方)</div>
+								<div>甲方</div>
 								<div>TEL:021-61673571</div>
 								<div>FAX:021-61673516</div>
 								<div>委托代理人:杜丽燕</div>
 							</td>
 							<td>
-								<div>购货方(乙方)</div>
+								<div>乙方</div>
 								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" value='{$infoq.second_part_contact_tel}' class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/></div>
 								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax"  value='{$infoq.second_part_contact_fax}' class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/></div>
 								<div>委托代理人:<input name="second_part_contact_id" id="second_part_contact_id" value='{$infoq.second_part_contact_id}' onvaluechanged="getcontact" class="mini-combobox" style="width:125px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
@@ -181,61 +185,6 @@
 			//mini.get('second_part_contact_fax').setValue(data.comm_fax);
 		},'json');
 	}
-	//单选显示不同明细方式
-	function changordertype(e){
-		var val = e.value;
-		var addSaleType = mini.get("addSaleType");
-		// var sales_type= mini.get("sales_type");
-		noStockData=[]; //切换订单类型时清空
-		//1为销库存,else为不销库存,通过界面的单选按钮切换
-		if(val == 1){
-			gridCell=mini.get('gridCell1');
-			$("#returnMsg").text('');
-			addSaleType.on("click",consumeStoreDetil).un("click",message).un("click",saleDetil);
-			$('#partnertitle').hide();
-			$('#partner').hide();
-			$("#sale").hide();
-			$("#consumeStore").show();
-		}else{
-			gridCell=mini.get('gridCell2');
-			$("#returnMsg").text('');
-			addSaleType.on("click",saleDetil).un("click",message).un("click",consumeStoreDetil);
-			$('#partnertitle').show();
-			$('#partner').show();
-			$("#consumeStore").hide();
-			$("#sale").show();
-		}
-	}
-	//是否代采
-	function Event(){
-		var val = mini.get('pur_id').getValue();
-		if(val == 2){
-			$(".cg").removeClass('hidden');
-			mini.get('h_pur_cid').setRequired(true);
-		}else{
-			$(".cg").addClass('hidden');
-			mini.get('h_pur_cid').setRequired(false);
-		}
-
-	}
-	function look_price(e) {
-		var record = e.record,p_id=record.p_id, price_p=record.price_p, s='';
-		s += '<a href="javascript:proHistory('+p_id+')">查看</a>&nbsp;<font style="color:red;">'+price_p+'</font>&nbsp;元';
-		return s;
-	}
-	function proHistory(product_id){
-		mini.open({
-			url: " /order/purchase/init?p_id="+product_id,
-			title: "产品历史成交价",
-			width: 1250,
-			height: 550,
-		});
-	}
-	function onLoadDetail(e){
-		var index=e.record._index;
-		s='<a href="javascript:delDetail('+index+')">删除</a>';
-		return s;
-	}
 	function delDetail(index){
 		noStockData.splice(index,1);
 		gridCell.setData(noStockData);
@@ -262,241 +211,6 @@
 	function onCancel(e) {
 		CloseWindow("cancel");
 	}
-	//强制选择归属公司
-	function usrChoose(e){
-		var btn = this;
-		mini.open({
-			url: "/user/customer/init?do=search&input_admin={$input_admin}&choose=1&pt={$order_type}&privated=0",
-			title: "选择公司",
-			width: 1500,
-			height: 600,
-			onload: function () {
-				var data=e.sender.getValue();
-				top['win'].setDvalue(data);  //去调用子页面的方法。
-			},
-			ondestroy: function (action) {
-				if (action == "ok") {
-					var iframe = this.getIFrameEl();
-					var data = iframe.contentWindow.GetData();
-					data = mini.clone(data);    //必须
-					if (data) {
-						btn.setValue(data.c_id);
-						btn.setText(data.c_name);
-					}
-				}
-			}
-		});
-	}
-	//强制选择归属订单
-	function ordChoose(e){
-		var btn = this;
-		mini.open({
-			url: "/product/order/init?do=search",
-			title: "选择订单",
-			width: 1250,
-			height: 550,
-			onload: function () {
-				var data=e.sender.getValue();
-				top['win'].setDvalue(data);  //去调用子页面的方法。
-			},
-			ondestroy: function (action) {
-				if (action == "ok") {
-					var iframe = this.getIFrameEl();
-					var data = iframe.contentWindow.GetData();
-					data = mini.clone(data);    //必须
-					if (data) {
-						btn.setValue(data.o_id);
-						btn.setText(data.order_name);
-					}
-				}
-			}
-		});
-	}
-	//强制选择归属产品
-	function proChoose(e){
-		var btn = this;
-		mini.open({
-			url: "/product/product/init?ischecked=checked",
-			title: "选择产品",
-			width: 1250,
-			height: 550,
-			onload: function () {
-				var data=e.sender.getValue();
-				top['win'].setDvalue(data);  //去调用子页面的方法。
-			},
-			ondestroy: function (action) {
-				if (action == "ok") {
-					var iframe = this.getIFrameEl();
-					var data = iframe.contentWindow.GetData();
-					data = mini.clone(data);    //必须
-					if (data) {
-						btn.setValue(data.id);
-						btn.setText(data.model);
-					}
-				}
-			}
-		});
-	}
-	//追加销售明细(销库存)
-	function consumeStoreDetil(){
-		var require_num  = parseInt(mini.get("require_number").getValue());
-		var btn = this;
-		mini.open({
-			url: "/product/saleLog/info?choose=1&require_num="+require_num,
-			title: "新增销售明细",
-			width: 950,
-			height: 530,
-			onload: function () {
-				var data=e.sender.getValue();
-				top['win'].setDvalue(data);  //去调用子页面的方法。
-			},
-			ondestroy: function (action) {
-				if (action == "ok") {
-					var iframe = this.getIFrameEl();
-					var data = iframe.contentWindow.GetData();
-					data = mini.clone(data);    //必须
-					data = eval("(" + data + ")");
-					if (data) {
-						obj={};
-						obj.store_name=data.store_name;
-						obj.model=data.model;
-						obj.f_name=data.f_name;
-						obj.p_id=data.p_id;
-						obj.o_id=data.o_id;
-						obj.store_id=data.store_id;
-						obj.purchase_id=data.purchase_id;
-						obj.lot_num=data.lot_num;
-						obj.unit_price=data.unit_price;
-						obj.require_number=data.require_number;
-						obj.compare=data.unit_price < (data.history_price*0.99) ? 0 : 1;  //比较现在的不能比最近销售价格低1%
-						obj.remark=data.remark;
-						obj.inlog_id=data.inlog_id;
-						obj.m_p_price=data.m_p_price;
-						obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
-						for(var i =0;i<noStockData.length;i++){ //遍历所有明细的采购ID是否相同 目前只允许销一个采购id的 产品库存
-							if(noStockData[i].o_id != obj.o_id){
-								alert('目前支持销同一采购单的产品！');
-								return;
-							}
-						}
-						noStockData.push(obj);
-						gridCell.setData(noStockData);
-						totalCount(noStockData);
-					}
-				}
-			}
-		});
-	}
-	function totalCount(noStockData){ //计算总价
-		totalCounts={num:0,price:0};
-		for (var i = 0; i < noStockData.length; i++) {
-			totalCounts.num=parseFloat(totalCounts.num)+parseFloat(noStockData[i].require_number);
-			totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
-		};
-		$(".total-money").find('input').val(totalCounts.price);
-		$(".total-amount").find('input').val(totalCounts.num);
-	}
-	//追加销售明细(不销库存)
-	function saleDetil(){
-		var btn = this;
-		mini.open({
-			url: "/product/saleLog/info?&choose=1&nostore=1",
-			title: "新增销售明细",
-			width: 250,
-			height: 250,
-			onload: function () {
-				// var data=e.sender.getValue();
-				// top['win'].setDvalue(data);  //去调用子页面的方法。
-			},
-			ondestroy: function (action) {
-				if (action == "ok") {
-					var iframe = this.getIFrameEl();
-					var data = iframe.contentWindow.GetData();
-					data = mini.clone(data);    //必须
-					data = eval("(" + data + ")");
-					if (data) {
-						console.log(data);
-						obj={};
-						obj.model=data.model;
-						obj.f_name=data.f_name;
-						obj.p_id=data.p_id;
-						obj.remark=data.remark;
-						obj.unit_price=data.unit_price;
-						obj.compare=data.unit_price < (data.history_price*0.99) ? 0 : 1;  //比较现在的不能比最近销售价格低1%
-						obj.require_number=data.require_number;
-						obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
-						noStockData.push(obj);
-						gridCell.setData(noStockData);
-						totalCount(noStockData);
-					}
-				}
-			}
-		});
-	}
-
-	//追加采购明细
-	function addPurDetil(e){
-		var btn = this;
-		mini.open({
-			url: "/product/purchaseLog/info?&choose=1",
-			title: "新增采购明细",
-			width: 330,
-			height: 320,
-			onload: function () {
-				var data=e.sender.getValue();
-				top['win'].setDvalue(data);  //去调用子页面的方法。
-			},
-			ondestroy: function (action) {
-				if (action == "ok") {
-					var iframe = this.getIFrameEl();
-					var data = iframe.contentWindow.GetData();
-					data = mini.clone(data);    //必须
-					data = eval("(" + data + ")");
-					if (data) {
-						obj={};
-						obj.model=data.model;
-						obj.f_name=data.f_name;
-						obj.unit_price=data.unit_price;
-						obj.number=data.number;
-						obj.p_id=data.p_id;
-						obj.c_id=data.c_id;
-						obj.compare=data.unit_price < (data.history_price*0.99) ? 0 : 1;  //比较现在的不能比最近销售价格低1%
-						obj.remark=data.remark;
-						obj.require_number=data.number;
-						obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
-						noStockData.push(obj);
-						gridCell.setData(noStockData);
-						totalCount(noStockData);
-					}
-				}
-			}
-		});
-	}
-	//添加协助者
-	function allotCustomer(){
-		var btn = this;
-		mini.open({
-			url: "rbac/adm/init?isPublic=1&do=search",
-			title: "分配客户",
-			width: 1200,
-			height: 550,
-			onload: function () {
-				var iframe = this.getIFrameEl();
-				iframe.contentWindow.SetData();
-			},
-			ondestroy: function (action) {
-				if (action == "ok") {
-					var iframe = this.getIFrameEl();
-					var data = iframe.contentWindow.GetData();
-					data = mini.clone(data);    //必须
-					if (data) {
-						btn.setValue(data.admin_id);
-						btn.setText(data.name);
-					}
-				}
-			}
-		});
-	}
 	function onValidation(e){
 		unit_price=mini.get('change_price').getValue();
 		index=e.sender.ownerRowID;
@@ -509,8 +223,5 @@
 			return '<span style="color:red;">'+unit_price+'</span>';
 		}
 		return unit_price;
-	}
-	function message(){
-		$("#returnMsg").text('请选择是否销库存');
 	}
 </script>
