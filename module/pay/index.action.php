@@ -12,13 +12,21 @@ class indexAction extends homeBaseAction
 
     public function init()
     {    
-        
-//         $this->redis = new Redis();
-//         $this->redis->connect('127.0.0.1', 6379);
-//         p($this->redis->get('aa'));
-        $cache=cache::startRedis();
-        p($cache->get('aa'));
-        die;
+        $RedisCluster = E('RedisCluster',APP_LIB.'class');
+        $RedisCluster->set("aabbcc","123456");
+        $ss=$RedisCluster->get("aabbcc");
+        p($ss);
+        $RedisCluster->lpush("rr","1");
+        $RedisCluster->lpush("rr","2");
+        $RedisCluster->lpush("rr","3");
+        p($RedisCluster->rpop("rr"));
+        p($RedisCluster->rpop("rr"));
+        p($RedisCluster->rpop("rr"));
+             
+//         $cache=cache::startRedis();
+//         p($cache->get('aa'));
+//         p($cache->status());
+//         die;
 //         phpinfo();
 //         ini_set("display_errors", "On");
 //         error_reporting(E_ALL | E_STRICT);
