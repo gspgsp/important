@@ -148,25 +148,25 @@ var grid = mini.get("gridCell");
 grid.load();
 var supplier = parseInt({$supplier});
 var cooperation = parseInt({$cooperation});
-
-grid.on("drawcell", function (e) {
-
-    var record = e.record,
-        column = e.column,
-        field = e.field,
-        value = e.value;
-    console.log(record);
-//    console.log(column);
-    if (column.field == "available_credit_limit") {
-        //console.log(record);
-        if (e.value<0) {
-            //e.rowStyle = "background:#FF00BA";
-            e.cellStyle = "background:#FF00BA"
-        } else {
-            e.rowStyle = "";
-        }
-    }
-}
+//
+//grid.on("drawcell", function (e) {
+//
+//    var record = e.record,
+//        column = e.column,
+//        field = e.field,
+//        value = e.value;
+//    console.log(record);
+////    console.log(column);
+//    if (column.field == "available_credit_limit") {
+//        //console.log(record);
+//        if (e.value<0) {
+//            //e.rowStyle = "background:#FF00BA";
+//            e.cellStyle = "background:#FF00BA"
+//        } else {
+//            e.rowStyle = "";
+//        }
+//    }
+//}
 
 
 function search() {
