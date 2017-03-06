@@ -204,6 +204,7 @@ class supplierAction extends adminBaseAction{
     public function addSubmit() {
         $this->is_ajax=true;
         $data = sdata();
+        p($data);die;
         $data['supplier_name'] = trim($data['supplier_name']);
         $ctype = $data['ctype'];    // ctype   1：新增供应商联系人   3：新增供应商
         if($ctype==1){              //单独新增供应商联系人
