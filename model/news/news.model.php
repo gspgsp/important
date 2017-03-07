@@ -7,41 +7,47 @@
 
 		//通过分类id来获取各自分类的文章
 		public function getIndex($type=''){
-			$arr=array();
-			$where='status=1';			
-			if($type=='vip'){
-				$num=93;
-				$where.=' and type="vip"' ;
-			}else{
-				$num=67;				
-				if(!empty($type)){
-					$where.=' and type in("'.$type.'","public")' ;
-				}				
-			}
-			$cate_type=L('cate_type');
-			if (empty($type)) {
-				$type='public';
-			}
-			foreach ($cate_type as $k => $v) {
-				if ($type==$v) {
-					$c_type=$k;
+			$cache = cache::startMemcache();
+			$name='news_'.$type;
+			if (empty($type)) {$name='news_public';}
+			$data=$cache->get($name);
+			if (empty($data)) {
+				$where='status=1';			
+				if($type=='vip'){
+					$num=93;
+					$where.=' and type="vip"' ;
+				}else{
+					$num=67;				
+					if(!empty($type)){
+						$where.=' and type in("'.$type.'","public")' ;
+					}				
 				}
-			}
-			$cates=$this->model('news_cate')->select('cate_id,spell,hot,limit')->where("find_in_set('".$c_type."',type)")->getAll();
-			$time=strtotime(date('Y-m-d'));		
-			foreach ($cates as $v) {
-				$arr[$v['spell']]=$this->model('news_content')->select('id,title,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit($v['limit'])->getAll();
-				foreach ($arr[$v['spell']] as $k=>$v2) {
-					if($v2['input_time']-$time>=0){
-						$arr[$v['spell']][$k]['today']=true;
+				$cate_type=L('cate_type');
+				if (empty($type)) {
+					$type='public';
+				}
+				foreach ($cate_type as $k => $v) {
+					if ($type==$v) {
+						$c_type=$k;
 					}
 				}
-				if($v['hot']==1){
-					$arr[$v['spell']]['hot']=$this->model('news_content')->select('id,title,content,input_time,type')->where($where.' and cate_id='.$v['cate_id'].' and hot=1')->order('input_time desc,sort_order desc')->getRow();
-					$arr[$v['spell']]['hot']['content']=mb_substr(strip_tags($arr[$v['spell']]['hot']['content']),0,$num,'utf-8').'...';
+				$cates=$this->model('news_cate')->select('cate_id,spell,hot,limit')->where("find_in_set('".$c_type."',type)")->getAll();
+				$time=strtotime(date('Y-m-d'));		
+				foreach ($cates as $v) {
+					$data[$v['spell']]=$this->model('news_content')->select('id,title,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit($v['limit'])->getAll();
+					foreach ($data[$v['spell']] as $k=>$v2) {
+						if($v2['input_time']-$time>=0){
+							$data[$v['spell']][$k]['today']=true;
+						}
+					}
+					if($v['hot']==1){
+						$data[$v['spell']]['hot']=$this->model('news_content')->select('id,title,content,input_time,type')->where($where.' and cate_id='.$v['cate_id'].' and hot=1')->order('input_time desc,sort_order desc')->getRow();
+						$data[$v['spell']]['hot']['content']=mb_substr(strip_tags($data[$v['spell']]['hot']['content']),0,$num,'utf-8').'...';
+					}
 				}
-			}
-			return $arr;
+				$cache->set($name,$data,86400);	
+			}			
+			return $data;
 		}
 
 		//通过类型和分类来获取列表页文章
