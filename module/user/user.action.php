@@ -208,6 +208,11 @@ class userAction extends adminBaseAction {
 		}
 		$this->json_output($list);
 	}
+
+	public function getProvince(){
+        $regList = M('system:region')->getProvinceCache();
+        p($regList);
+    }
 	/**
 	* 会员登录密码修改
 	* @access public
