@@ -211,8 +211,17 @@ class userAction extends adminBaseAction {
 
 	public function getProvince(){
         $regList = M('system:region')->getProvinceCache();
-        p($regList);
+//        p($regList);
+        $list = array();
+        $pid = sget('pid','i');
+        foreach($regList as $k=>$v){
+            if($v['pid']==$pid){
+                $list[]=array('id'=> $v['id'],'name' => $v['name']);
+            }
+        }
+        $this->json_output($list);
     }
+
 	/**
 	* 会员登录密码修改
 	* @access public
