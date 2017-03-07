@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: $ yjy
+ * User:  yjy
  * Date: 2017/2/23
  * Time: 9:07
  * 物流供应商管理
