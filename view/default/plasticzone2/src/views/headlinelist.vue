@@ -4,6 +4,14 @@
 	<a class="back" href="javascript:window.history.back();"></a>
 	{{cate}}
 </header>
+<h3 class="plasticfind">
+<div style="float: left;" v-on:click="search">塑料头条</div>
+<div class="plasticSearch">
+<form action="javascript:;">
+<input type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
+</form>
+</div>
+</h3>
 <div class="plasticnav">
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
@@ -87,7 +95,8 @@ data: function() {
 		cateid: "",
 		page: 1,
 		isCircle: false,
-		isArrow: false
+		isArrow: false,
+		keywords:""
 	}
 },
 methods: {
@@ -97,27 +106,81 @@ methods: {
 	getList: function(id) {
 		var _this = this;
 		this.cateid = id;
+		if (id==999) {
+			$.ajax({
+				type: "get",
+				url: '/api/qapi1/getCateList',
+				data: {
+					token: window.localStorage.getItem("token"),
+					subscribe: 2
+				},
+				dataType: 'JSON'
+			}).then(function(res) {
+				if(res.err == 0) {
+					_this.items = res.info;
+				} else if(res.err == 1) {
+					mui.alert("", res.msg, function() {
+						_this.$router.push({ name: 'login' });
+					});
+				}
+			}, function() {
+	
+			});			
+		} else{
+			$.ajax({
+				type: "get",
+				url: '/api/qapi1/getCateList',
+				data: {
+					page: 1,
+					size: 10,
+					cate_id: id,
+					token: window.localStorage.getItem("token")
+				},
+				dataType: 'JSON'
+			}).then(function(res) {
+				console.log(res);
+				if(res.err == 0) {
+					_this.items = res.info;
+				} else if(res.err == 1) {
+					mui.alert("", res.msg, function() {
+						_this.$router.push({ name: 'login' });
+					});
+				}
+			}, function() {
+	
+			});
+			
+		}
+
+	},
+	search: function() {
+	var _this = this;
+	if(this.keywords) {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
+		} catch(err) {}
+
 		$.ajax({
-			type: "get",
-			url: '/api/qapi1/getCateList',
+			url: '/api/qapi1_1/getSubscribe',
+			type: 'post',
 			data: {
+				keywords: _this.keywords,
 				page: 1,
-				size: 10,
-				cate_id: id,
+				subscribe: 1,
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
-			if(res.err == 0) {
-				_this.items = res.info;
-			} else if(res.err == 1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({ name: 'login' });
-				});
-			}
-		}, function() {
+			}).then(function(res) {
+				if(res.err == 0) {
+					_this.items = res.data.slice(0, 1);
+				}
+			}, function() {
 
-		});
+			});
+		} else {
+
+		}
 	},
 	changeCate: function(id) {
 		switch(id) {
@@ -230,8 +293,16 @@ methods: {
 				this.cate = "独家解读";
 				break;
 			case 999:
+				this.getList(id);
+				this.$nextTick(function() {
+					var swiper = new Swiper('.swiper-container', {
+						slidesPerView: 4,
+						spaceBetween: 15,
+						freeMode: true
+					});
+					swiper.slideTo(0, 1000, false);
+				});
 				this.cate = "推荐";
-				swiper.slideTo(0, 1000, false);
 				break;
 		}
 
