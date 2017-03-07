@@ -30,7 +30,7 @@ function loginbox(type){
       title: false,
       fix:true,
       iframe: {src : "/user/login/loginbox?type="+type},
-      area: ['360px', '340px']
+      area: ['360px', '360px']
   });
 }
 
