@@ -659,7 +659,6 @@ class orderAction extends adminBaseAction {
 				//添加订单可视化订单审不通过
 				M('order:orderLog')->addLog($data['o_id'],3,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
 			}
-
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
@@ -791,6 +790,28 @@ class orderAction extends adminBaseAction {
 	 * 获取订单流程的页面展示
 	 */
 	public function getFlow(){
+		$oid = sget('o_id','i',0);
+		//信息
+		$this->assign('info1',M('order:orderLog')->getLog($oid,0,0));
+		$this->assign('info2',M('order:orderLog')->getLog($oid,0,1));
+		$this->assign('info3',M('order:orderLog')->getLog($oid,0,2));
+		$this->assign('info4',M('order:orderLog')->getLog($oid,0,3));
+		//物流
+		$this->assign('ship1',M('order:orderLog')->getLog($oid,1,0));
+		$this->assign('ship2',M('order:orderLog')->getLog($oid,1,1));
+		$this->assign('ship3',M('order:orderLog')->getLog($oid,1,2));
+		$this->assign('ship4',M('order:orderLog')->getLog($oid,1,3));
+		//资金
+		$this->assign('fund1',M('order:orderLog')->getLog($oid,2,0));
+		$this->assign('fund2',M('order:orderLog')->getLog($oid,2,1));
+		$this->assign('fund3',M('order:orderLog')->getLog($oid,2,2));
+		$this->assign('fund4',M('order:orderLog')->getLog($oid,2,3));
+		//发票
+		$this->assign('tick1',M('order:orderLog')->getLog($oid,3,0));
+		$this->assign('tick2',M('order:orderLog')->getLog($oid,3,1));
+		$this->assign('tick3',M('order:orderLog')->getLog($oid,3,2));
+		$this->assign('tick4',M('order:orderLog')->getLog($oid,3,3));
+//		//订单创建
 		$this->display('order.flow.html');
 	}
 }
