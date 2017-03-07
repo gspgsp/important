@@ -4,6 +4,65 @@
     <a class="back" href="javascript:window.history.back();"></a>
     	{{cate}}
 </header>
+<!--<h3 class="plasticfind">
+塑料头条
+</h3>
+<div class="plasticnav">
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:999}}">
+        	推荐
+        	</router-link>
+		</div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:2}}">
+        	塑料上游
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:1}}">
+        	早盘预报
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:9}}">
+        	企业动态
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:4}}">
+        	中晨塑说
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link class="on" :to="{name:'headlinelist',params:{id:5}}">
+        	美金市场
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:21}}">
+        	期货资讯
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:11}}">
+        	装置动态
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:13}}">
+        	期刊报告
+        	</router-link>
+        </div>
+        <div class="swiper-slide">
+        	<router-link :to="{name:'headlinelist',params:{id:22}}">
+        	独家解读
+        	</router-link>
+        </div>
+    </div>
+</div>
+</div>-->
 <ul class="headlineUl3">
 	<li v-for="i in items">
 		<router-link :to="{name:'headlinedetail',params:{id:i.id}}">
@@ -182,6 +241,15 @@ module.exports={
 			});
     		
     	}
+    	
+//  	this.$nextTick(function(){
+//	    	var swiper = new Swiper('.swiper-container', {
+//		        slidesPerView: 4,
+//		        spaceBetween: 15,
+//		        freeMode: true
+//		    });
+//		    swiper.slideTo(5, 1000, false);;
+//		});
     			
 		$(window).scroll(function() {
             var scrollTop = $(this).scrollTop();
