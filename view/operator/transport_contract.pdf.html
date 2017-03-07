@@ -5,6 +5,8 @@
 	}
 	tr{
 		border: none;
+		font-family : 宋体;
+        font-size : 13px;
 	}
 	th{
 		border: none;
@@ -26,22 +28,22 @@
 					<table width="635" border="0" align="center" bgcolor="#fff">
 							<tr ><td>&nbsp;</td></tr>
 							<tr >
-								<td colspan="2" align="center"><h1>运输合同书</h1></td>
+								<td colspan="2" align="center"><h1>运输合同</h1></td>
 							</tr>
+							<tr height="20"><td>&nbsp;</td></tr>
+							<tr height="20"><td>&nbsp;</td></tr>
 							<tr height="20"><td>&nbsp;</td></tr>
 							<tr align="left">
 								<td width="380" height="20">甲方(委托方)：上海中晨电子商务股份有限公司</td>
 								<td height="20">合同日期：{$infoq.contract_time}</td>
 							</tr>
+							<tr height="20"><td>&nbsp;</td></tr>
 							<tr  align="left">
 								<td  width="380" height="20">乙方(承运方)：{$infoq.supplier_name}</td>
 								<td height="20">签约地点：上海虹口欧阳路568号17楼</td>
 							</tr>
 							<tr  align="left">
 								<td height="20"></td>
-							</tr>
-							<tr align="left">
-								<td colspan="2" height="20" width="600">甲、乙双方经协商，根据《中华人民共和国合同法》相关规定，就以下产品的购销等有关事宜，签订本合同</td>
 							</tr>
 						</table>
 						</tr>
@@ -54,12 +56,14 @@
 								<td width="100"  height="20" style="line-height:20px;">货物牌号：</td>
 								<td  width="465"  height="20" style="line-height:20px;">{$infoq.goods_class}</td>
 							</tr>
+							<tr height="20"><td>&nbsp;</td></tr>
 							<tr>
 								<td width="40"  height="20" style="line-height:20px;"></td>
 								<td width="100"  height="20" style="line-height:20px;">货物数量：</td>
 								<td  width="465"  height="20" style="line-height:20px;">{$infoq.goods_num}</td>
 							</tr>
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
 								<td width="40"  height="20" style="line-height:20px;">二、</td>
@@ -67,6 +71,7 @@
 								<td>{$infoq.start_place}</td>
 							</tr>
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 			           <table width="635" align="left" bgcolor="#fff">
 							<tr>
 								<td width="40"  height="20" style="line-height:20px;">三、</td>
@@ -74,6 +79,7 @@
 								<td width="505" height="20" style="line-height:20px;">{$infoq.end_place}</td>
 							</tr>
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
 								<td width="40" height="20" style="line-height:20px;">四、</td>
@@ -81,24 +87,35 @@
 								<td>{$infoq.delivery_time}</td>
 							</tr>				
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 			            <table width="635" align="left" bgcolor="#fff">
 							<tr>
 								<td width="40" height="20" style="line-height:20px;">五、</td>
-								<td width="100" height="20" style="line-height:20px;">合同责任：</td>
+								<td width="100" height="20" style="line-height:20px;">合同责任：</td>							
+							</tr>	
+							<tr height="20"><td>&nbsp;</td></tr>	
+							<tr>
 								<td width="505" height="20" style="line-height:20px;">乙方必须于甲方的指定期限内，将货物送到甲方的指定地点。</td>
-							</tr>				
+							</tr>		
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
 								<td width="100" height="20" style="line-height:20px;">注意事项：</td>								
 							</tr>						
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 			           <table width="635" align="left" bgcolor="#fff">
 							<tr>
-								<td width="665" height="20" style="line-height:20px;">乙方必须保证甲方的货物，安全、无破损、无潮湿、无变质等情况。
-			    若出现以上情况，乙方必须负责赔偿甲方的损失。</td>
+								<td width="620" height="20" style="line-height:20px;">乙方必须保证甲方的货物，安全、无破损、无潮湿、无变质等情况。
+			    若出现以</td>
+							</tr>
+							<tr height="20"><td>&nbsp;</td></tr>
+							<tr>
+								<td width="620" height="20" style="line-height:20px;">上情况，乙方必须负责赔偿甲方的损失。</td>
 							</tr>						
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
 								<td width="40" height="20" style="line-height:20px;">六、</td>
@@ -106,57 +123,55 @@
 								<td width="505" height="20" style="line-height:20px;">	合同传真件有效。</td>
 							</tr>
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 						<table width="635" align="left" bgcolor="#fff">
 							 <tr>
 								<td width="40" height="20" style="line-height:20px;">七、</td>
 								<td width="100" height="20" style="line-height:20px;">车号：</td>
-								<td width="505" height="20" style="line-height:20px;"></td>
-							</tr>
-			                 <tr>
-								<td width="40" height="20" style="line-height:20px;"></td>
 								<td width="100" height="20" style="line-height:20px;">司机姓名：</td>
-								<td width="505" height="20" style="line-height:20px;"></td>
-							 </tr>							
-			                 <tr>
 								<td width="40" height="20" style="line-height:20px;"></td>
 								<td width="100" height="20" style="line-height:20px;">身份证号码：</td>
-								<td width="505" height="20" style="line-height:20px;"></td>
-							</tr>							
+							</tr>						
 						</table>
+						<tr height="20"><td>&nbsp;</td></tr>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
 								<td width="40" height="20" style="line-height:20px;">八、</td>
 								<td width="150"height="20" style="line-height:20px;">运输费用(含税)：</td>
 								<td width="505" height="20" style="line-height:20px;">{$infoq.delivery_fee}</td>
 							</tr>
-						</table>
-        			    <tr  align="left">
-        								<td height="20"></td>
-        							</tr>
-        				<tr>
+						</table>						
+        			    <tr  align="left"><td height="20"></td></tr>
+        			    <tr  align="left"><td height="20"></td></tr>
+        			    <table width="635" align="left" bgcolor="#fff">
+        				<tr>     				
         				<td height="20" style="line-height:20px;" width="110">甲方</td>
         				<td width="280" ></td>
         				<td height="20" style="line-height:20px;"  width="110">乙方</td>      
         				<td ></td>
         			   </tr>
+        			   <tr height="20"><td>&nbsp;</td></tr>
         			   <tr>
         				<td height="20" style="line-height:20px;" width="110">TEL：</td>
         				<td width="280" height="20" style="line-height:20px;">021-61673571</td>
         				<td height="20" style="line-height:20px;" width="110">TEL：</td>
         				<td width="280" height="20" style="line-height:20px;">{$infoq.second_part_contact_tel}</td>
         			   </tr>
+        			   <tr height="20"><td>&nbsp;</td></tr>
         			   <tr>
         				<td height="20" style="line-height:20px;" width="110">FAX：</td>
         				<td width="280" height="20" style="line-height:20px;">021-61673516</td>
         				<td height="20" style="line-height:20px;" width="110">FAX：</td>
         				<td width="280" height="20" style="line-height:20px;">{$infoq.second_part_contact_fax}</td>
         			   </tr>
+        			   <tr height="20"><td>&nbsp;</td></tr>
         			   <tr>
         				<td height="20" style="line-height:20px;" width="110">委托代理人：</td>
         				<td width="280" height="20" style="line-height:20px;">杜丽燕</td>
         				<td height="20" style="line-height:20px;" width="110">委托代理人：</td>
         				<td width="280" height="20" style="line-height:20px;">{$infoq.second_part_contact_id}</td>
         			</tr>   
+        			</table>		
 				</div>
 		</div>
 </div>
