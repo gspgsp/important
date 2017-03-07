@@ -30,11 +30,18 @@ class orderLogModel extends model{
 	/**
 	 * 获取可视化的信息
 	 */
-	public function getLog($o_id = 0){
-		$_key='getLog_'.$o_id;
-		$data=$this->cache->get($_key);
+	public function getLog($o_id = 0,$type=0,$step=-1){
+		// $_key='getLog_'.$o_id.'_'.$type.'_'.$step;
+		$where = "`o_id` = $o_id and `type` = $type";
+		if($step > -1) $where .= " and `step` = $step ";
+		// $data=$this->cache->get($_key);
 		if(empty($data)){
-			$data=$this->where("o_id = $o_id")->getAll();
+			$data=$this->where($where)->getAll();
+			if($data){
+				foreach ($data as &$v) {
+					$v['spend_time'] = $v['spend_time'] == 0 ?: Sec2Time($v['spend_time']);
+				}
+			}
 			$this->cache->set($_key,$data); //加入缓存
 		}
 		return $data;
