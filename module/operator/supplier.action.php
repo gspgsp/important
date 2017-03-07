@@ -412,6 +412,7 @@ class supplierAction extends adminBaseAction{
         $data=$_POST['data'];
         if(!empty($data)){
             $info=$this->db->select('supplier_name')->where('supplier_name='.$data)->getRow();
+            p($info);die;
             if($info) {
                 $this->error("此供应商已存在");
             }else{
