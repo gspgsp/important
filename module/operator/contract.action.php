@@ -23,7 +23,7 @@ class contractAction extends adminBaseAction {
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
 			$sortField = sget("sortField",'s','logistics_contract_id'); //排序字段
-			$sortOrder = sget("sortOrder",'s','asc'); //排序	
+			$sortOrder = sget("sortOrder",'s','desc'); //排序	
 			$where='1';
 
 			//区分是否是普通物流人员
