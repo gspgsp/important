@@ -49,31 +49,7 @@ class supplierAction extends adminBaseAction{
         $sortField = sget("sortField",'s','supplier_id'); //排序字段
         $sortOrder = sget("sortOrder",'s','desc');        //排序
         $where = ' 1 ';
-//        $where .= ' and `status` != 10 ';
-//        // 筛选合作客户
-//        if(sget('cooperation','i',0) == 1) $where .= ' and `is_sale` = 1 and `customer_manager` > 0  ';
-//        // 筛选供应商
-//        if(sget('supplier','i',0) == 1) $where .= ' and `is_pur` = 1  and `customer_manager` > 0';
-//        //私海客户
-//        if(sget('privated','i',0) == 1) $where .= ' and `is_pur` = 0 and  `is_sale` = 0  and `customer_manager` > 0 ';
-//        // if($pt ==2) $where .= ' and `status` != 9 and  `status` != 8';
-//        // pt主要标示黄名单客户的一些信息（8代表黄明单）
-//        if($pt ==2) $where .= ' and `status` != 9 and  `status` != 8 ';
-//        if($pt ==1) $where .= ' and `status` != 9 and chanel != 6 ';
-//        $where .= $this->public == 0 ? ' and `customer_manager` != 0 ' : ' and `customer_manager` = 0 ';
-//        $sTime = sget("sTime",'s','input_time'); //搜索时间类型
-//        $where.=getTimeFilter($sTime); //时间筛选
-//        $status = sget("status",'s',''); //状态
-//        if($status!='') $where.=" and status='$status' ";
-//        $type = sget("type",'s',''); //状态
-//        if($type!='') $where.=" and type='$type' ";//type 客户类型
-//        $invoice = sget("invoice",'i',''); //开票资料状态
-//        if($invoice != 0) $where .=" and invoice=$invoice ";//type 客户类型
-//        $level = sget("level",'s',''); //状态
-//        if($level!='') $where.=" and level='$level' ";//level 客户级别
-//        $identification = sget("identification",'s',''); //认证
-//        if($identification!='') $where.=" and identification='$identification' ";
-//        // 关键词
+        // 关键词
         $key_type=sget('key_type','s','supplier_id');
         $keyword=sget('keyword','s');
 
@@ -84,30 +60,7 @@ class supplierAction extends adminBaseAction{
                 $where.=" and $key_type='$keyword' ";
             }
         }
-//        //接收由cid组成的字符串（1,2,3,4）
-//        $cids=sget('cids','s');//
-//        if($cids)  $where.=" and `c_id` in ".$cids;
-        //筛选自己的客户
-//        if($this->public == 0 && $this->moreChoice == 0){
-//            if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-//                $sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-//                $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
-//                $where .= " and `customer_manager` in ($sons) ";
-//                if(!empty($cidshare)){
-//                    // if(empty($keyword)){
-//                    $where .= " or `c_id` in ($cidshare)";
-//                    // }
-//                }else{
-//                    if(!empty($pools)){
-//                        $cids = explode(',', $pools);
-//                        $where .= " or `c_id` in ($pools)";
-//                    }
-//                }
-//            }
-//        }
         $list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-
-        // p($where);
         foreach($list['data'] as $k=>$v){
 //            $list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 
@@ -117,26 +70,6 @@ class supplierAction extends adminBaseAction{
               $list['data'][$k]['update_time']=date('y-m-d H:i:s',$v['update_time']);  // 更新时间
               $list['data'][$k]['supplier_name']=$v['supplier_name'];    // 供应商名称
               $list['data'][$k]['remark']= ($v['remark']==NULL ?'--':$v['remark']);   // 备注
-
-//            $list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
-//            $list['data'][$k]['level']=L('company_level')[$v['level']];
-//            $list['data'][$k]['depart']=C('depart')[$v['depart']];
-//            // $list['data'][$k]['identification']=L('identification')[$v['identification']];//认证
-//            $list['data'][$k]['type']=L('company_type')[$v['type']];
-//            $list['data'][$k]['input_time']=$v['input_time']>1000 ? date("y-m-d H:i",$v['input_time']) : '-';
-//            $list['data'][$k]['update_time']=$v['update_time']>1000 ? date("y-m-d H:i",$v['update_time']) : '-';
-//            $list['data'][$k]['chk'] = $this->_accessChk();
-//            //获取联系人的姓名和手机号
-//            $contact = $this->db->model('customer_contact')->select('name,mobile,tel')->where('user_id='.$v['contact_id'])->getRow();
-//            $list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $contact['name'];
-//            $list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $contact['mobile'];
-//            $list['data'][$k]['tel'] = in_array($v['c_id'],$cids) ? '******' : $contact['tel'];
-//            //获取最新一次跟踪消息
-//            $message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();
-//            $list['data'][$k]['remark'] = $message;
-//            $list['data'][$k]['bli'] = $this->db->model('customer_billing')->select('id')->where("`c_id`={$v['c_id']}")->getOne();
-//            $list['data'][$k]['invoice'] =  $v['invoice']==2 ? '是' : '否';
-
         }
 //        $this->assign('isPublic',$this->public);
         $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
@@ -215,14 +148,14 @@ class supplierAction extends adminBaseAction{
                 'contact_name'=> $var['supplier_name'],
                 'mobile_tel'=>$data['mobile_tel'],
                 'contact_tel'=> $data['contact_tel'],
-                'comm_email' => trim($data['comm_email']),    // 联系人邮箱
+                'comm_email' => trim($data['comm_email']),     // 联系人邮箱
                 'sex'=> $data['sex'],
                 'qq'=>$data['qq'],
-                'is_default'=>'0',                           // 是否默认联系人   1：是 0：否
-                'create_time' => time(),                      // 创建时间
-                'create_name' => trim($_SESSION['name']),     // 创建者
+                'is_default'=>'0',                             // 是否默认联系人   1：是 0：否
+                'create_time' => time(),                       // 创建时间
+                'create_name' => trim($_SESSION['name']),      // 创建者
                 'remark'=> $data['remark'],
-                'status'=> $data['supplier_contact_type'],                // 状态
+                'status'=> $data['supplier_contact_type'],     // 状态
             );
             $info=$this->db->model('logistics_contact')->add($param);
             if($info==1){
@@ -235,8 +168,8 @@ class supplierAction extends adminBaseAction{
         $this->db->startTrans();
         try{
             if($ctype==3){
-                $var=$this->db->model('logistics_supplier')->where('supplier_name='.$data['supplier_name'])->select('supplier_name')->getAll();
-
+                $var=$this->db->model('logistics_supplier')->select('supplier_name')->where('supplier_name='.$data['supplier_name'])->getCol();
+                if($var) $this->error("此供应商已存在");
                 if(empty($data['mobile_tel']) && empty($data['contact_tel'])) $this->error('手机或者电话至少填写一个');
                 //验证公司信息
                 $param_1=array(                                                  // logistics_supplier 表
@@ -419,5 +352,4 @@ class supplierAction extends adminBaseAction{
             }
         }
     }
-
 }
