@@ -215,7 +215,6 @@ class userAction extends adminBaseAction {
      */
     public function getProvince(){
         $regList = M('system:region')->getProvinceCache();
-//        p($regList);
         $list = array();
         $pid = sget('pid','i');
         foreach($regList as $k=>$v){
