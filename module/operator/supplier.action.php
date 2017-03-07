@@ -409,14 +409,11 @@ class supplierAction extends adminBaseAction{
      *
      */
     public function supplierUnique(){
-        $data=$_REQUEST();
-        p($data);die;
-        if(!empty($supplier_name)){
-
-            $info=$this->db->select('supplier_name')->where('supplier_name='.$supplier_name)->getRow();
-
+        $data=$_POST('data');
+        if(!empty($data)){
+            $info=$this->db->select('supplier_name')->where('supplier_name='.$data)->getRow();
             if($info) {
-                $this->error("供应商已存在");
+                $this->error("此供应商已存在");
             }else{
                 $this->success('此公司名不重复，可添加');
             }
