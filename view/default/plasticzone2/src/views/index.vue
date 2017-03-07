@@ -16,7 +16,7 @@
 	</div>
 </div>
 <a href="http://x.eqxiu.com/s/NSganpY2?eqrcode=1&winzoom=1&from=groupmessage&isappinstalled=0">
-<img style="width: 100%; margin: 5px 0 0 0;" src="http://static.myplas.com/myapp/img/slqbanner.jpg">
+<img style="width: 100%; margin: 5px 0 0 0;" src="http://statics.myplas.com/myapp/img/slqbanner.jpg">
 </a>
 <!--<div class="payfans">
 	<router-link :to="{name:'mypay'}">
