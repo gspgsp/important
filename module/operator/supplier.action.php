@@ -325,7 +325,7 @@ class supplierAction extends adminBaseAction{
         $remark= sget('remark','i','');
         $data=array();
         $data['status']=$status;
-        $data['remark']=$remark;
+        $data['remark']= empty($remark)==''?'--':$remark;
         $data['update_time']=time();
         $data['update_name']=$_SESSION['name'];
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->update($data);
