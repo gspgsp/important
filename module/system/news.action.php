@@ -115,10 +115,10 @@
 				//获取id，用来判断是更新数据还是添加数据
 				$id=sget('id','i');
 				$repeat=sget('repeat','i');
+				$cache = cache::startMemcache();
 				if($id>0){
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->wherePk($id)->update($data);
-					$cache = cache::startMemcache();
 					$cache->delete('news_'.$id);
 				}else{	
 					if($repeat<1){
@@ -129,6 +129,7 @@
 					$data['input_time']=CORE_TIME;
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->add($data);
+					$cache->delete('news_'.$data['type']);
 				}
 				if($result){
 					$this->success('操作成功');
