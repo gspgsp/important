@@ -678,6 +678,7 @@ class orderAction extends adminBaseAction {
 		if(empty($data)) $this->error('错误的操作');
 		$_data=array(
 			'update_time'=>CORE_TIME,
+			'transport_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
 		try {
