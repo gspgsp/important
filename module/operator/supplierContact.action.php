@@ -47,35 +47,7 @@ class supplierContactAction extends adminBaseAction {
         if($supplier_id !=0){
             $where.=" and `supplier_id` = $supplier_id ";
         }
-//        //筛选状态
-//        $status=sget('status','i',0);
-//        if($status !=0)  $where.=" and `status` =".$status;
-//        //筛选时间
-//        $sTime = sget("sTime",'s','input_time'); //搜索时间类型
-//        $where.=getTimeFilter($sTime); //时间筛选
-//        //关键词搜索
-//        $key_type=sget('key_type','s','name');
-//        $keyword=sget('keyword','s');
-//        if(!empty($keyword) && $key_type=='name' ){
-//            $where.=" and `$key_type`  like '%$keyword%' ";
-//        }elseif(!empty($keyword) && $key_type=='c_id'){
-//            $keyword=M('user:customer')->getLikeCidByCname($keyword);
-//            $where.=" and `$key_type`  in ('$keyword') ";
-//        }elseif(!empty($keyword)){
-//            $where.=" and `$key_type`  = '$keyword' ";
-//        }
-//        if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-//            $sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-//            $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
-//            $where .= " and `customer_manager` in ($sons) ";
-//            if(!empty($pools)){
-//                $cids = explode(',', $pools);
-//                $where .= " or `c_id` in ($pools)";
-//            }
-//            if(!empty($cidshare)){
-//                $where .= " or `c_id` in ($cidshare)";
-//            }
-//        }
+
         $list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
         foreach($list['data'] as $k=>$v){
             $list['data'][$k]['id'] =$v['id'];                             // 联系人id
@@ -91,32 +63,7 @@ class supplierContactAction extends adminBaseAction {
         $result=array('total'=>$list['count'],'data'=>$list['data']);
         $this->json_output($result);
     }
-    /**
-     * Ajax删除节点s
-     * @access private
-     */
-//    private function _remove(){
-//        $this->is_ajax=true; //指定为Ajax输出
-//        $ids=sget('ids','s');
-//        if(empty($ids)){
-//            $this->error('操作有误');
-//        }
-//        $data = explode(',',$ids);
-//        if(is_array($data)){
-//            foreach ($data as $k => $v) {
-//                $res = M('user:customer')->getColByName($v,"c_id","contact_id");
-//                if($res>0){
-//                    $this->error('主联系人不能删除');
-//                }
-//            }
-//        }
-//        $result=$this->db->where("user_id in ($ids)")->update(array('status'=>9));
-//        if($result){
-//            $this->success('操作成功');
-//        }else{
-//            $this->error('数据处理失败');
-//        }
-//    }
+
 
 
     /**

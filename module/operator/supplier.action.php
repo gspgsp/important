@@ -16,7 +16,6 @@ class supplierAction extends adminBaseAction{
         $this->db=M('public:common')->model('logistics_supplier');
         $this->doact = sget('do','s');
     }
-
     /**
      * 供应商列表
      *
