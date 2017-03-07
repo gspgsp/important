@@ -215,7 +215,7 @@ class userAction extends adminBaseAction {
         $list = array();
         $pid = sget('pid','i');
         foreach($regList as $k=>$v){
-            if($v['pid']==$pid){
+            if($v['id']==$pid){
                 $list[]=array('id'=> $v['id'],'name' => $v['name']);
             }
         }
