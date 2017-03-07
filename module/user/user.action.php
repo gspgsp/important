@@ -209,7 +209,11 @@ class userAction extends adminBaseAction {
 		$this->json_output($list);
 	}
 
-	public function getProvince(){
+    /**
+     * 获取省份列表
+     *
+     */
+    public function getProvince(){
         $regList = M('system:region')->getProvinceCache();
 //        p($regList);
         $list = array();
