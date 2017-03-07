@@ -1,8 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User:  yjy
- * Date: 2017/2/23
+ * User:  yjyaddSupplier
  * Time: 9:07
  * 物流供应商管理
  */
@@ -185,7 +184,8 @@ class supplierAction extends adminBaseAction{
                     'invoice_address' > trim($data['invoice_address']),                   // 开票地址
                     'province'   => $data['province'],                              //　省份
                     'city'      =>  $data['company_city'],                          // 城市
-                    'address'  => $data['address'],                                 //  公司地址
+                    'address'  =>  trim($data['address']),                                 //  公司地址
+                    'main_line' => trim($data['main_line']),                           // 主营线路
                     'zip_code'   => trim($data['zip_code']),                              // 邮编
                     'fund_date'  => strtotime($data['fund_date']),                             //成立时间
                     'register_capital'  => trim($data['register_capital']),               // 注册资本
@@ -277,6 +277,7 @@ class supplierAction extends adminBaseAction{
                 $list['province'] =$v['province'];    // 省份
                 $list['city'] =$v['city'];      // 城市
                 $list['address'] = $v['address']; // 公司地址
+                $list['main_line'] = $v['main_line']; // 主营线路
                 $list['zip_code'] =$v['zip_code']; // 邮编
                 $list['fund_date'] = $v['fund_date']; // 成立时间
                 $list['register_capital'] =$v['register_capital']; // 注册资本
