@@ -1627,6 +1627,14 @@ class qapi1_1Action extends null2Action
                 $result = $sphinx->query("$keywords", 'news');
                 $ids = array_keys($result['matches']);
                 if (!empty($ids)) $data['data'] = M('qapp:news')->search($ids);
+                foreach($data['data'] as &$row){
+                    $row['input_time']=date("Y-m-d",$row['input_time']);
+                    $row['description'] = mb_substr(strip_tags($row['description']), 0, 50, 'utf-8') . '...';
+                    if($row['type']=='public'){
+                        $data['type']='pp';
+                    }
+                    $row['type']=strtoupper($row['type']);
+                }
                 if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
                 $this->_checkLastPage($data['count'], $page_size, $page);
                 $this->json_output(array('err' => 0, $data = $data['data']));
@@ -2664,13 +2672,24 @@ class qapi1_1Action extends null2Action
 
 
 
-//
-//    public function janfly(){
-//        $cate_id=sget('cate_id','i');
-//        $callback=sget('callback','s');
-//        $arr=array('err'=>0,'cate_id'=>$cate_id);
-//        echo $callback.'('.json_encode($arr).')';
-//    }
+
+    public function janfly(){
+        function em_getallheaders()
+        {
+            foreach ($_SERVER as $name => $value)
+            {
+                if (substr($name, 0, 5) == 'HTTP_')
+                {
+                    $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                }
+            }
+            return $headers;
+        }
+        echo '<pre>';
+        //var_dump(em_getallheaders());
+        throw_exception("No support db:");
+//        $this->json_output(array('err'=>0,'data'=>em_getallheaders()));
+    }
 
 
 
