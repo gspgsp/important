@@ -189,7 +189,6 @@ module.exports = {
 			},  
 			dataType: 'JSON'
 		}).then(function(res) {
-			console.log(res);
 			if(res.err == 0) {
 				_this.buy = res.data;
 			} else if(res.err == 1) {
@@ -212,7 +211,6 @@ module.exports = {
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
-			console.log(res);
 			if(res.err == 0) {
 				_this.supply = res.data;
 			} else if(res.err == 1) {

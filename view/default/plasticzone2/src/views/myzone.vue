@@ -116,7 +116,6 @@ module.exports={
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-				console.log(res);
 				if(res.err==1){
 					mui.alert("",res.msg,function(){
 						_this.$router.push({ path: 'login' });
@@ -197,7 +196,6 @@ module.exports={
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
-			console.log(res);
 			if(res.err==1){
 				mui.alert("",res.msg,function(){
 					_this.$router.push({ path: 'login' });

@@ -4,7 +4,10 @@
     塑料发现
 </header>
 <h3 class="plasticfind">
-塑料头条
+<div style="float: left;">塑料头条</div>
+<div class="plasticSearch">
+	<input type="text" placeholder="搜你想搜的" />
+</div>
 </h3>
 <div class="plasticnav">
 <div class="subscribe" v-on:click="subscribe"></div>
@@ -312,9 +315,7 @@ module.exports={
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
-			console.log(res.data);
 			if(res.err==0){
-				//_this.items=res.data
 				_this.items=res.data.slice(0,1);
 			}else{
 				

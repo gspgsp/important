@@ -46,40 +46,6 @@
 	<input type="button" class="confirm2" v-on:click="cargosubmit" style="background: #ff5000;" value="确定">
 </p>
 </div>
-
-<div class="proInput" v-show="proinput2show">
-<p>请选择日期:</p>	
-<input type="date" style=" margin: 20px 0 20px 0;" v-model="timeCon"/>
-<p style="text-align: center; margin: 20px 0 0 0;">
-	<input type="button" class="cancel2" v-on:click="cancel" value="取消">
-	<input type="button" class="confirm2" v-on:click="cargosubmit2" style="background: #ff5000;" value="确定">
-</p>
-</div>
-
-<div class="proInput" style="height: 280px; margin: -140px 0 0 -150px;" v-show="proinput3show">
-<p>请选择需要置顶的时间段:</p>
-<label>时段：</label>
-<select v-model="hours">
-	<option v-bind:value="9">9</option>
-	<option v-bind:value="10">10</option>
-	<option v-bind:value="11">11</option>
-	<option v-bind:value="12">12</option>
-	<option v-bind:value="13">13</option>
-	<option v-bind:value="14">14</option>
-	<option v-bind:value="15">15</option>
-	<option v-bind:value="16">16</option>
-	<option v-bind:value="17">17</option>
-	<option v-bind:value="18">18</option>
-</select><br><br>
-<p>请选择需要置顶的供求信息:</p>
-<select style=" width: 100%; font-size: 12px;" v-model="selected">
-	<option v-for="p in pur" v-bind:value="p.id">{{p.contents}}</option>
-</select>
-<p style="text-align: center; margin: 10px 0 0 0;">
-	<input type="button" class="cancel2" v-on:click="cancel" value="取消">
-	<input type="button" class="confirm2" v-on:click="cargosubmit3" style="background: #ff5000;" value="确定">
-</p>
-</div>
 <div class="layer" v-show="layershow"></div>
 </div>
 </template>
@@ -94,22 +60,13 @@ module.exports = {
 			img:"",
 			ordertype:"",
 			proinputshow:false,
-			proinput2show:false,
-			proinput3show:false,
 			layershow:false,
             times:60,
             validCode:"获取验证码",
             phone:"",
             receiver:"",
             address:"",
-            vcode:"",
-            gid:"",
-            timeCon:"",
-            pur:[],
-            selected:"",
-            hours:"",
-            mins:"",
-            tag:""
+            vcode:""
 		}
 	},
 	methods: {
@@ -118,8 +75,6 @@ module.exports = {
 		},
 		cancel:function(){
 			this.proinputshow=false;
-			this.proinput2show=false;
-			this.proinput3show=false;
 			this.layershow=false;
 		},
 		exchange:function(){
@@ -129,33 +84,9 @@ module.exports = {
 					if (_this.type==0) {
 						_this.proinputshow=true;
 						_this.layershow=true;
-					} else if(_this.type==1){
-						_this.proinput2show=true;
-						_this.layershow=true;						
-					}else if(_this.type==2){
-						_this.proinput3show=true;
-						_this.layershow=true;
-						$.ajax({
-					        type: 'get',
-					        url: "/api/qapi1/supplyDemandList",
-					        data: {
-					        	token: window.localStorage.getItem("token")
-					        },
-					        dataType:'json',
-					        success:function(res){
-					            console.log(res);
-					            if(res.err==0){
-					            	_this.pur=res.data;
-					           }
-					        },
-					        error:function () {
-					
-					        }
-					    });
-
 					}
 				}else{
-					console.log(0)
+					
 				}
 			});
 		},
@@ -191,77 +122,6 @@ module.exports = {
 	    	},function(){
 	    		
 	    	});	
-		},
-		cargosubmit2:function(){
-			var _this=this;
-			$.ajax({
-	    		type:"get",
-	    		url:"/api/qapi1/exchangeSupplyOrDemand",
-	    		data:{
-	    			type:1,
-	    			goods_id:_this.gid,
-					year:_this.timeCon.split("-")[0],
-					month:_this.timeCon.split("-")[1],
-					d:_this.timeCon.split("-")[2],
-					token: window.localStorage.getItem("token")
-	    		},
-	    		dataType: 'JSON'
-	    	}).then(function(res){
-	    		console.log(res);
-			    if(res.err==0){
-					mui.alert("",res.msg,function(){
-						window.location.reload();
-					});				
-				}else if(res.err==1){
-					mui.alert("",res.msg,function(){
-						_this.$router.push({ name: 'login' });
-					});        					
-				}else{
-					mui.alert("",res.msg,function(){
-						window.location.reload();
-					});				
-				}
-	    	},function(){
-	    		
-	    	});	
-		},
-		cargosubmit3:function(){
-			var _this=this;
-			if(this.selected&&this.hours){
-				$.ajax({
-		    		type:"get",
-		    		url:"/api/qapi1/exchangeSupplyOrDemand",
-		    		data:{
-		    			type:2,
-		    			purchase_id:_this.selected,
-		    			goods_id:_this.gid,
-						hour:_this.hours,
-						token: window.localStorage.getItem("token")
-		    		},
-		    		dataType: 'JSON'
-		    	}).then(function(res){
-		    		console.log(res.err);
-			    if(res.err==0){
-					mui.alert("",res.msg,function(){
-						window.location.reload();
-					});				
-				}else if(res.err==1){
-					mui.alert("",res.msg,function(){
-						_this.$router.push({ name: 'login' });
-					});        					
-				}else{
-					mui.alert("",res.msg,function(){
-						window.location.reload();
-					});				
-				}
-		    	},function(res){
-		    		console.log(res);
-		    	});
-			}else{
-				mui.alert("","请把信息填写完整",function(){
-					
-				});
-			}
 		}
 	},
 	mounted: function() {

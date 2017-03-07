@@ -35,12 +35,12 @@ module.exports = {
 	},
 	mounted: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch(err) {
+
+		}
 		$.ajax({
 			url: '/api/qapi1/getRobotMsg',
 			type: 'get',
@@ -51,10 +51,10 @@ module.exports = {
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
-			if(res.err==0){
+			if(res.err == 0) {
 				_this.resMsg = res.data;
 			}
-		},function() {
+		}, function() {
 
 		});
 	}

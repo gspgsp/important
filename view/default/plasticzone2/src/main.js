@@ -37,7 +37,6 @@ import Credit from "./views/credit";
 import Credit2 from "./views/credit2";
 import Searchcompany from "./views/searchcompany";
 import Creditintro from "./views/creditintro";
-import Errorpage from "./views/error";
 
 Vue.use(VueRouter);
 
@@ -79,7 +78,6 @@ var routes=[
 	{path:'/creditintro',name:'creditintro',component:Creditintro},
 	{path:'/credit2/:id',name:'credit2',component:Credit2},
 	{path:'/searchcompany',name:'searchcompany',component:Searchcompany},
-	{path:'/errorpage',name:'errorpage',component:Errorpage},
 	{path: '/', redirect: { name: 'index' }}
 ];
 
