@@ -187,7 +187,7 @@ class newsModel extends model {
     //根据关键词获取文章
     public function search($ids){
         $ids = implode(',', $ids);
-        return $this->model('news_content')->where("id in (".$ids.")")->order('input_time desc')->getAll();
+        return $this->model('news_content')->select('id,author,cate_id,description,title,type,input_time')->where("id in (".$ids.")")->order('input_time desc')->getAll();
     }
 
     //官网首页5F调用数据
