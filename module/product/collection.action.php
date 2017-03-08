@@ -411,8 +411,7 @@ class collectionAction extends adminBaseAction
 					$this->error("数据错误，请联系管理员");
 				}
 				if(!$this->db->model('order')->wherePK($data['oid'])->update($arrtmp+array('update_time'=>CORE_TIME,'payd_time'=>'',)) )throw new Exception("修改订单表退款状态失败");
-
-				if(!M('order:orderLog')->addLog($data['o_id'],$arrtmp['collection_status'],2,0,$arr['total_price'],$has_price-$data['c_price'],$arr['collected_price']+$arr['uncollected_price'])) $this->error("更新可视化失败");
+				if(!M('order:orderLog')->addLog($data['oid'],$arrtmp['collection_status'],2,0,$arr['total_price'],$has_price-$data['c_price'],$arr['total_price']-$has_price+$data['c_price'])) $this->error("更新可视化失败");
 
 				//以下增加没有同步账户和资金流水的bug 20160825
 				//添加account_log账户明细信息,默认设计账户类型就是账户id

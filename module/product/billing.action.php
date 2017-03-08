@@ -540,6 +540,7 @@ class billingAction extends adminBaseAction
 		$billingModel->startTrans();
 		try {
 			$billingModel->where("id=$id")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
+			$priarr = $billingModel->where("id=$id")->select('billing_price,unbilling_price')->getRow();
 			$billingModel->add($data);
 			foreach ($list as $key => $value) {
 				unset($value['id']);
@@ -548,15 +549,15 @@ class billingAction extends adminBaseAction
 				$value['input_admin']=$_SESSION['username'];
 				$value['update_time']='';
 				$value['update_admin']='';
-
 				$billingLogModel->add($value);
 				if($data['billing_type']==1){
 					$saleLogModel->where("id={$value['l_id']}")->update("b_number=b_number+{$value['b_number']}");
-					$billingNumber+=$saleLogModel->where("id={$value['l_id']}")->select("number-b_number")->getOne();
-					$billingNumbe+=$billingNumber;
+					$billingNumber+=(int)$saleLogModel->where("id={$value['l_id']}")->select("number-b_number")->getOne();
+					$pri+=(int)$saleLogModel->where("id={$value['l_id']}")->select("(number-b_number)*unit_price")->getOne();
 				}else{
 					$purchaseLogModel->where("id={$value['l_id']}")->update("b_number=b_number+{$value['b_number']}");
-					$billingNumber+=$purchaseLogModel->where("id={$value['l_id']}")->select("number-b_number")->getOne();
+					$billingNumber+=(int)$purchaseLogModel->where("id={$value['l_id']}")->select("number-b_number")->getOne();
+					$pri+=(int)$purchaseLogModel->where("id={$value['l_id']}")->select("(number-b_number)*unit_price")->getOne();
 				}
 			}
 			if($billingNumber==0){
@@ -567,7 +568,7 @@ class billingAction extends adminBaseAction
 			$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>$invoice_status,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
 
 			//新增可视化节点
-			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$data['total_price'],$data['total_price']-$data['billing_price']-$data['unbilling_price'],$data['billing_price']+$data['unbilling_price']);
+			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$data['total_price'],$pri,$data['total_price']-$pri);
 
 		} catch (Exception $e) {
 			$billingModel->rollback();
