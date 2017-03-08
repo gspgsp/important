@@ -310,14 +310,24 @@
 <!--headline-floor3 end-->
 <!--headline-floor4 begin-->
 {if $type != 'public'}
-<div class="headline-floor headline-floor4 w1220"  style="height:152px;">
+<div class="headline-floor headline-floor4 w1220">
 {else}
 <div class="headline-floor headline-floor4 w1220">
 {/if}
 	<!--ad2 begin-->
 	<div class="ad2 bor">
 {if $type != 'public'}
-                    <a href="{$cMiddleBanner[0].url}" target="_blank"><img src="__UPLOAD__/{$cMiddleBanner[0].img}" title="{$cMiddleBanner[0].title}" alt="{$cMiddleBanner[0].title}" width="1220" height="151" /></a>
+                   <!--  <a href="{$cMiddleBanner[0].url}" target="_blank"><img src="__UPLOAD__/{$cMiddleBanner[0].img}" title="{$cMiddleBanner[0].title}" alt="{$cMiddleBanner[0].title}" width="1220" height="151" /></a> -->
+                    <!--ads2 begin-->
+                    <div class="ads2">
+                        <ul>
+                            <li><a href="{$cMiddle1Banner[0].url}" target="_blank"><img src="__UPLOAD__/{$cMiddle1Banner[0].img}" title="{$cMiddle1Banner[0].title}" alt="{$cMiddle1Banner[0].title}" width="296" height="151" /></a></li>
+                            <li><a href="{$cMiddle2Banner[0].url}" target="_blank"><img src="__UPLOAD__/{$cMiddle2Banner[0].img}" title="{$cMiddle2Banner[0].title}" alt="{$cMiddle2Banner[0].title}" width="296" height="151" /></a></li>
+                            <li><a href="{$cMiddle3Banner[0].url}" target="_blank"><img src="__UPLOAD__/{$cMiddle3Banner[0].img}" title="{$cMiddle3Banner[0].title}" alt="{$cMiddle3Banner[0].title}" width="296" height="151" /></a></li>
+                            <li class="last"><a href="{$cMiddle4Banner[0].url}" target="_blank"><img src="__UPLOAD__/{$cMiddle4Banner[0].img}" title="{$cMiddle4Banner[0].title}" alt="{$cMiddle4Banner[0].title}" width="296" height="151" /></a></li>
+                        </ul>
+                    </div>
+                    <!--ads2 end-->
 {else}
             <!--bor-tit begin-->
             <div class="bor-tit">

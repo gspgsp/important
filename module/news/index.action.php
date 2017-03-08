@@ -19,6 +19,10 @@
 				$this->bottomRightBanner=$this->getAD(15);
 				$this->cLeftTopBanner=$this->getAD(17);
 				$this->cMiddleBanner=$this->getAD(16);
+				$this->cMiddle1Banner=$this->getAD(18);
+				$this->cMiddle2Banner=$this->getAD(19);
+				$this->cMiddle3Banner=$this->getAD(20);
+				$this->cMiddle4Banner=$this->getAD(21);
 				//前台显示星期
 				$arr=array('星期一','星期二','星期三','星期四','星期五','星期六','星期日',);
 				$this->date=$arr[date('N')-1].'&nbsp;&nbsp;'.date('Y-m-d',time());
