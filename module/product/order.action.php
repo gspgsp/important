@@ -687,6 +687,7 @@ class orderAction extends adminBaseAction {
 			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update(array('is_join_check'=>$transport_status)+$_data) ) throw new Exception("关联的销售订单接收采购订单状态更新失败");
 			//添加订单可视化 1审核过 2审核不过
 			M('order:orderLog')->addLog($data['o_id'],$transport_status = $transport_status==2 ? 3 : 2,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
+
 			if($transport_status==2){
 				$res= M('user:customer')->updateCreditLimit($data['o_id'],$transport_status,'-');
 				if($res!=1) throw new Exception('可用额度更新失败');
