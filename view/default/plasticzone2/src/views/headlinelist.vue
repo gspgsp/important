@@ -109,8 +109,8 @@ methods: {
 		this.cateid = id;
 		if (id==999) {
 			$.ajax({
-				type: "get",
-				url: '/api/qapi1/getCateList',
+				type: "post",
+				url: '/api/qapi1_1/getSubscribe',
 				data: {
 					token: window.localStorage.getItem("token"),
 					subscribe: 2
