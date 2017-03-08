@@ -4,8 +4,9 @@
 塑料发现
 </header>
 <h3 class="plasticfind">
-<div style="float: left;" v-on:click="search">塑料头条</div>
+<div style="float: left;">塑料头条</div>
 <div class="plasticSearch">
+<i class="searchIcon" style="position: absolute; top: 14px; left: 5px;"></i>
 <form action="javascript:;">
 <input type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </form>
