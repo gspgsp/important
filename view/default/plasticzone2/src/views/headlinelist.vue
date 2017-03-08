@@ -173,7 +173,7 @@ methods: {
 			dataType: 'JSON'
 			}).then(function(res) {
 				if(res.err == 0) {
-					_this.items = res.data.slice(0, 1);
+					_this.items = res.data;
 				}
 			}, function() {
 
