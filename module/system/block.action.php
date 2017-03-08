@@ -133,6 +133,38 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
+	 * 塑料头条子频道中间位置1banner
+	 */
+	public function cMiddle1Banner(){
+		$this->position = 18;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条子频道中间位置2banner
+	 */
+	public function cMiddle2Banner(){
+		$this->position = 19;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条子频道中间位置3banner
+	 */
+	public function cMiddle3Banner(){
+		$this->position = 20;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条子频道中间位置4banner
+	 */
+	public function cMiddle4Banner(){
+		$this->position = 21;
+		$this->init();
+	}
+
+	/**
 	 * 合作伙伴
 	 */
 	public function partners(){
