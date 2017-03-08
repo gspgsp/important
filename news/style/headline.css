@@ -77,7 +77,8 @@ a{ text-decoration:none;}
 .headline-floor3 .left-wrap.pe{ width:318px; height:342px; overflow:hidden;}
 .headline-floor3 .center-wrap{ width:558px; height:342px; margin:0 10px;}
 .headline-floor3 .right-wrap{ width:318px; height:342px;}
-.headline-floor4,.headline-floor5,.headline-floor6{ height:260px; overflow:hidden;}
+.headline-floor4{ height:auto; overflow:hidden;}
+.headline-floor5,.headline-floor6{ height:260px; overflow:hidden;}
 .headline-floor5 .left-wrap,.headline-floor5 .right-wrap{ width:318px; height:258px; overflow:hidden;}
 .headline-floor5 .center-wrap{ width:558px; height:258px; overflow:hidden; margin:0 10px;}
 .headline-floor6 .left-wrap{ width:1220px; height:258px; overflow:hidden;}
@@ -136,8 +137,11 @@ a{ text-decoration:none;}
 .headline-floor3 .con-taba ul li:hover{ border-color:#fc6621; color:#fc6621;}
 /*headline-floor3 end*/
 
-.headline-floor4 .ad2{ width:1218px; height:258px; overflow:hidden;}
+.headline-floor4 .ad2{ width:1218px; height:auto; overflow:hidden;}
 .headline-floor4 .ad2-con{ width:1218px; height:217px; overflow:hidden; background:#ccc;}
+.headline-floor4 .ads2{ height: 151px; overflow:hidden;}
+.headline-floor4 .ads2 li{ width:296px; height:151px; overflow:hidden; float:left; background: #ccc; margin:0 10px 0 0;}
+.headline-floor4 .ads2 li.last{ margin-right:0;}
 
 /*.headline-floor6 begin*/
 .headline-floor6 .unscramble{ height:217px; overflow:hidden; border-right:1px solid #dedede; float:left;}
