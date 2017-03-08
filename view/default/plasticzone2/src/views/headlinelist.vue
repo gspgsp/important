@@ -118,7 +118,7 @@ methods: {
 				dataType: 'JSON'
 			}).then(function(res) {
 				if(res.err == 0) {
-					_this.items = res.info;
+					_this.items = res.data;
 				} else if(res.err == 1) {
 					mui.alert("", res.msg, function() {
 						_this.$router.push({ name: 'login' });
