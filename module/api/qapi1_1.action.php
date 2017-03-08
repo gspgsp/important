@@ -1637,7 +1637,7 @@ class qapi1_1Action extends null2Action
                 }
                 if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
                 $this->_checkLastPage($data['count'], $page_size, $page);
-                $this->json_output(array('err' => 0, $data = $data['data']));
+                $this->json_output(array('err' => 0, 'data'=>$data['data']));
             } elseif ($subscribe == 2) {
                 //现在所有的推荐就是
                 $tmp_new_cate_id = M("qapp:newsSubscribe")->getSubscribeByUserid($user_id);
