@@ -512,9 +512,9 @@ class qapi1_1Action extends null2Action
             if ($page == 1) {
                 $members = M('qapp:plasticPersonalInfo')->getAllMembers();
                 $members = empty($members) ? 0 : $members;
-                $this->json_output(array('err' => 0, 'persons' => $data['data'], 'member' => $members));
+                $this->json_output(array('err' => 0, 'persons' => $data['data'], 'member' => $members,'data'=>CORE_TIME));
             }
-            $this->json_output(array('err' => 0, 'persons' => $data['data']));
+            $this->json_output(array('err' => 0, 'persons' => $data['data'],'data'=>CORE_TIME));
         }
     }
 
