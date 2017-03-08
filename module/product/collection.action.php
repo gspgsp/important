@@ -343,10 +343,10 @@ class collectionAction extends adminBaseAction
 					}else{
 						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
 					}
+                    // ***********多笔付款 提升 可用额度**********************
+                    M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'+',$data['collected_price']) OR $this->error('可用额度还原失败');
 
 				}
-                // ***********多笔付款 提升 可用额度**********************
-                M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'+',$data['collected_price']) OR $this->error('可用额度还原失败');
 
 			}else{
 				$data['uncollected_price'] = $m;
@@ -429,9 +429,9 @@ class collectionAction extends adminBaseAction
 				}else{
 					$money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
 					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
+                    //******红充（减掉 可用额度）*******
+                    M('user:customer')->updateCreditLimit($data['oid'],3,'-',$data['c_price']) OR $this->error('可用额度抵消失败');
 				}
-                //******销售红充（减掉 可用额度）*******
-                M('user:customer')->updateCreditLimit($data['oid'],3,'-',$data['c_price']) OR $this->error('可用额度抵消失败');
 
 			} catch (Exception $e) {
 				$this->db->rollback();
