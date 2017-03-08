@@ -166,6 +166,9 @@ module.exports = {
 						case "22":
 							_this.cate = "独家解读";
 							break;
+						default:
+							_this.cate="塑料发现"
+							break;
 					}
 
 				}, function() {
