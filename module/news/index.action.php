@@ -177,6 +177,7 @@
 									}
 									if (empty($cate_arr)) {
 										$update_contact=array('headline_vip'=>0,'cate_id'=>'','opening_date'=>0);
+										$this->db->model('customer_tel_sale')->where('mobile'=$c_row['mobile'])->update(array('member_status'=>0,'update_time'=>CORE_TIME));
 									}else{
 										$cate_id=implode(',', $cate_arr);
 										$update_contact=array('headline_vip'=>1,'cate_id'=>$cate_id);
