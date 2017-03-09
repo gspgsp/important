@@ -57,8 +57,8 @@
 			{if $isPublic neq '1' && $helper neq 1}
 				<a class="mini-button" iconCls="icon-user" onclick="exchange()">批量替换交易员</a>
 				<a class="mini-button" iconCls="icon-addnew" onclick="share()">共享</a>
-				{if $cooperation neq 1}
 				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a>
+				{if $cooperation neq 1}
 				<a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a>
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a>
 				{/if}
@@ -373,15 +373,19 @@ function viewFinfo(c_id){
 
 //查看编辑用户信息
 function add(id,ctype){
+	 var c_id = 0;
 	if(ctype==1){
 		var width=525,height=340;
 		title='新增公司联系人';
+		if(grid.getSelected() != null){
+			c_id = grid.getSelected().c_id;
+		}
 	}else if(ctype==3){
 		var width=740,height=700;
 		title='新增公司';
 	}
 	mini.open({
-		url: "/user/customer/info?id="+id+"&ctype="+ctype+"&supplier={$supplier}",
+		url: "/user/customer/info?id="+id+"&ctype="+ctype+"&supplier={$supplier}&u_add="+c_id,
 		showMaxButton:true,
 		title: title, width: width, height:height,
 		ondestroy: function (action) {

@@ -1,12 +1,12 @@
 {layout file="public:mini_layout"}
-<div style="padding:100px;">
+<div style="padding:10px;">
 	<div id="infoForm" class="form">
 		<input class="mini-hidden" name="ctype" value="{$ctype}"/>
 		<input class="mini-hidden" name="user_id" value="{$info.user_id}"/>
 		<table border="0" cellpadding="1" cellspacing="2">
 			<tr>
 					<td>归属公司：</td>
-					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="c_id"  value="{$info.c_id}" allowInput="false"  style="width:170px" id="usrId"/></td>
+					<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="c_id"  value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:140px" id="usrId"/></td>
 					<td ></td>
 					<td></td>
 			</tr>
@@ -59,7 +59,7 @@ var form = new mini.Form("#infoForm");
 function submitForm(){
 	form.validate();
 	if(form.isValid() == false) return;
-	
+
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);
@@ -76,9 +76,9 @@ function submitForm(){
 	},'json');
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");
@@ -116,6 +116,6 @@ function usrChoose(e){
 				}
 			}
 		}
-	});         
+	});
 }
 </script>
