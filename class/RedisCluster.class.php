@@ -6,6 +6,7 @@
  * @date 2017-03-06
  *
  */
+
 class RedisCluster{
 	// 是否使用 M/S 的读写集群方案
 	private $_isUseCluster = false;
