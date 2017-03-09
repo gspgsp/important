@@ -67,9 +67,8 @@ class transportAction extends adminBaseAction
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
-            $model = M('public:common')->getLastSql();
-            $v['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
-            file_put_contents('/tmp/xielei.txt',print_r($model,true),FILE_APPEND);
+            //$model = M('public:common')->getLastSql();
+            //$v['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
 
             $this->assign('page_title', '添加物流合同');
             $order_info['sign_time'] = date('Y-m-d');
