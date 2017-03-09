@@ -293,28 +293,19 @@ class customerBaseModel extends model
             'input_admin'=>'SCRIPT',
             );
              */
-
-        }else{
-            $apiKey = $this->apiKey;//获取企查查接口数据key
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://i.yjapi.com/ECI/GetDetailsByName?key=$apiKey&keyword=$name");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            $output = curl_exec($ch);
-            curl_close($ch);
-            $ch = curl_init();
-            $res = json_decode($output,true);
-            if($res['Status']==201){
-                return array('err'=>2,'msg'=>'没有相关数据');
-            }elseif($res['Status']==200){
-                $this->insertAll($res);
-                usleep(20);
-                if(!$oneRow=$this->checkName($name)){
-                    return false;
-                }
-            }else{
-                return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
+            /**
+             * 2017年3月9日17:23:56
+             * 其实下面的这个在insertAll也有判断，算作双保险吧，其实是我逻辑             *
+             */
+            $forcedTime=$this->updateTime;
+            if($this->forcedUpdate){//强制更新
+                $this->getQichacha($name);
+            }elseif((isset($oneRow['update_time'])&&CORE_TIME>($oneRow['update_time']+$forcedTime*86400))||(isset($oneRow['input_time'])&&CORE_TIME>($oneRow['input_time']+$forcedTime*86400))){
+               //过期更新
+                $this->getQichacha($name);
             }
+        }else{
+            $this->getQichacha($name);
         }
         if(isset($oneRow['id'])&&$oneRow['id']>0){
             return $this->selectAll($oneRow['id']);
@@ -327,6 +318,29 @@ class customerBaseModel extends model
             return $oneRow;
         }
         return false;
+    }
+
+    public function getQichacha($name){
+        $apiKey = $this->apiKey;//获取企查查接口数据key
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://i.yjapi.com/ECI/GetDetailsByName?key=$apiKey&keyword=$name");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $ch = curl_init();
+        $res = json_decode($output,true);
+        if($res['Status']==201){
+            return array('err'=>2,'msg'=>'没有相关数据');
+        }elseif($res['Status']==200){
+            $this->insertAll($res);
+            usleep(20);
+            if(!$oneRow=$this->checkName($name)){
+                return false;
+            }
+        }else{
+            return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
+        }
     }
 
     public function checkTime($time){
