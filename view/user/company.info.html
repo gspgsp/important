@@ -108,12 +108,14 @@
 				</table>
 				<table>
 					<caption><strong>扩展信息</strong></caption>
+					{if $see}
 					<tr>
 						<td>客户类型：</td>
 						<td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}'  textfield="name" valuefield="id"/></td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
+					{/if}
 				<!--   <tr>
 						<td>客户级别：</td>
 						<td><input name="level" class="mini-combobox" style="width:150px;" value="{$user.level}" data='{:setMiniConfig|$level}'  textfield="name" valuefield="id"/></td>

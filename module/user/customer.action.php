@@ -313,13 +313,13 @@ class customerAction extends adminBaseAction {
 				$cids = array_values(explode(',', $pools));
 			}
 		}
-		//获取可以修改贸易商类型的人员权限(根据人员id <赵飞、饶伟平、王凯晨、刘京、季雯琼、杨杰、沈辉、王春华、孙朝晖、张玉超、范小勇、李红颖、许在文>)
-		$see = in_array($_SESSION['adminid'],array(1,10,11,730,734,735,737,772,774,775,847,912,955,968));
-		$this->assign('see',$see);
 		$info_ext['name'] = in_array($info_ext['c_id'],$cids) ? '*' :  $info_ext['name'];
 		$info_ext['mobile'] = in_array($info_ext['c_id'],$cids) ? '*' :  $info_ext['mobile'];
 		$this->assign('info_ext',$info_ext); //分陪l联系人信息
 		$this->assign('ctype',3);
+		//获取可以修改贸易商类型的人员权限(根据人员id <赵飞、饶伟平、王凯晨、刘京、季雯琼、杨杰、沈辉、王春华、孙朝晖、张玉超、范小勇、李红颖、许在文>)
+		$see = in_array($_SESSION['adminid'],array(1,10,11,730,734,735,737,772,774,775,847,912,955,968));
+		$this->assign('see',$see);
 		// p(arrayKeyValues(M('system:region')->get_regions(1),'id','name'));
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
 		$this->assign('type',L('company_type'));//工厂类型

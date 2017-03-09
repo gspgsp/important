@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 出库详情管理
  */
@@ -77,23 +77,23 @@ class outStorageAction extends adminBaseAction {
 			$_data['p_id']=$v['p_id']; //产品id
 			$_data['store_id']=$v['store_id']; //仓库id
 			$_data['store_aid']=$v['store_aid']; //仓库管理员id
-			$_data['unit_price']=$v['unit_price']; 
+			$_data['unit_price']=$v['unit_price'];
 			$_data['number']=$v['out_number'];
 			//新增出库明细
 			$out_id = $this->db->model('out_log')->select('id')->where("`sale_log_id` = {$v['id']}")->getOne();
 			if($out_id>0){ //判断此出库订单的明细之前有没有出过库
-				// 判断出货数量与详情数量 
+				// 判断出货数量与详情数量
 				$out_storage_status = $v['remainder'] == $v['out_number'] ? 3 : 2;
 				//更新此次入库数
 				$this->db->model('out_log')->where("id = $out_id")->update(array('number'=>'+='.$v['out_number'],'out_storage_status'=>$out_storage_status,'ship'=>'+='.$data['ship'],));
-				$inlog_id=$out_id; 
+				$inlog_id=$out_id;
 			}else{ //如果没有新增入库明细
-				// 判断出货数量与详情数量 
+				// 判断出货数量与详情数量
 				$out_storage_status = $v['remainder'] == $v['out_number'] ? 3 : 2;
 				//新增入库明细
 				$this->db->model('out_log')->add($_data+$basic_info+array('sale_log_id'=>$v['id'],'out_time'=>$data['out_time'],'ship'=>$data['ship'],'store_id'=>$data['store_id'],'store_aid'=>$data['store_aid'],'out_storage_status'=>$out_storage_status,));
 				//获取新增入库单ID
-				$inlog_id=$this->db->getLastID(); 
+				$inlog_id=$this->db->getLastID();
 			}
 			//更新销售明细中的未发数量
 			$this->db->model('sale_log')->where(' id = '.$_data['detial'])->update(' remainder = remainder-'.$v['out_number']);
@@ -128,10 +128,9 @@ class outStorageAction extends adminBaseAction {
 		}
 		if($this->db->commit()){
 			//添加订单可视化订单审不通过
-			M('order:orderLog')->addLog($data['o_id'],0,1,CORE_TIME-intval($this->db->model('order_flow')->select('input_time')->where("o_id = {$data['o_id']} and type = 0 and step = 3")->getOne()));
+			M('order:orderLog')->addLog($data['o_id'],0,1,CORE_TIME-intval($this->db->model('order_flow')->select('input_time')->where("o_id = {$data['o_id']} and type = 0 and step = 2")->getOne()));
 			 $this->success('操作成功');
 		}else{
-			showtrace();
 			$this->db->rollback();
 			$this->error('操作失败');
 		}
@@ -150,13 +149,13 @@ class outStorageAction extends adminBaseAction {
 	}
 	/**
 	 * Ajax删除流水
-	 * @access private 
+	 * @access private
 	 */
 	public function remove(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$data = explode(',',$ids);
 		if(is_array($data)){
@@ -174,7 +173,7 @@ class outStorageAction extends adminBaseAction {
 
 	/**
 	 * 编辑已存在的数据
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function save(){
@@ -186,7 +185,7 @@ class outStorageAction extends adminBaseAction {
 		}
 		foreach($data as $k=>$v){
 			$_data=array(
-				'number'=>$v['number'],		 
+				'number'=>$v['number'],
 			);
 			$diff_num=M("product:outStorage")->checkNum($v['sale_id'],$v['number']); //订单和出库数量比较
 			if(!$diff_num) $this->error('数量有误');
@@ -230,7 +229,7 @@ class outStorageAction extends adminBaseAction {
 					$number -= $out;
 					$chk = $number == 0 ? 1 : 0;
 			}
-			
+
 		}
 		return true;
 	}
@@ -271,11 +270,11 @@ class outStorageAction extends adminBaseAction {
 	// 				$chk = $number == 0 ? 1 : 0;
 
 	// 		}
-			
+
 	// 	}
 	// 	// return $return;
 	// 	return true;
 	// }
 
-	
+
 }

@@ -804,16 +804,16 @@ class orderAction extends adminBaseAction {
 		$this->assign('ship3',M('order:orderLog')->getLog($oid,1,2));
 		$this->assign('ship4',M('order:orderLog')->getLog($oid,1,3));
 		//资金
-		$this->assign('fund1',M('order:orderLog')->getLog($oid,2,0));
 		$this->assign('fund2',M('order:orderLog')->getLog($oid,2,1));
 		$this->assign('fund3',M('order:orderLog')->getLog($oid,2,2));
 		$this->assign('fund4',M('order:orderLog')->getLog($oid,2,3));
 		//发票
-		$this->assign('tick1',M('order:orderLog')->getLog($oid,3,0));
 		$this->assign('tick2',M('order:orderLog')->getLog($oid,3,1));
 		$this->assign('tick3',M('order:orderLog')->getLog($oid,3,2));
 		$this->assign('tick4',M('order:orderLog')->getLog($oid,3,3));
-//		//订单创建
+		//订单类型 1销售 2采购
+		$this->assign('type',M('product:order')->getColByName($oid,'order_type'));
+		//订单创建
 		$this->display('order.flow.html');
 	}
 }

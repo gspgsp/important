@@ -113,6 +113,7 @@
 				<td>确定已收到货吗 ?</td>
 				<input name="id"  class="mini-hidden" id="o_id3" value="">
 				<input name="sign"  class="mini-hidden" id="sign" value="">
+				<input name="oid"  class="mini-hidden" id="conf_oid" value="">
 			</tr>
 			<tr>
 				<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
@@ -175,11 +176,11 @@ function viewProInfo(pid){
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.id, ship = record.ship, sign = record.sign;
+	var record = e.record,s='',oid = record.id,o_id = record.o_id, ship = record.ship, sign = record.sign;
 		s += '<a href="javascript:outStorage('+oid+')">录发货</a>';
 		s+='&nbsp;&nbsp;<a href="javascript:salecompact('+oid+')">证明</a>';
 		if (sign=='未收货') {
-			s+='&nbsp;&nbsp;<a href="javascript:receiveInfo('+oid+')">确认</a>';
+			s+='&nbsp;&nbsp;<a href="javascript:receiveInfo('+oid+','+o_id+')">确认</a>';
 		}
 
 
@@ -188,9 +189,10 @@ function onLoadDetail(e){
 
 //确认收货记录
 var financial = mini.get("receivecheck");
-function receiveInfo(oid){
-	mini.get('o_id3').setValue(oid);
+function receiveInfo(id,o_id){
+	mini.get('o_id3').setValue(id);
 	mini.get('sign').setValue(1);
+	mini.get('conf_oid').setValue(o_id);
 	financial.show();
 }
 

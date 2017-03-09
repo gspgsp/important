@@ -21,10 +21,10 @@ return array(
 		border:1px solid black;
 		border-collapse:collapse;
 		text-align:center;
-	     }
-	     .secend{
-	     	border:1px solid black;
-	     }
+		 }
+		 .secend{
+			border:1px solid black;
+		 }
 	</style>
 	<h1>销售合同书(%s)</h1>
 	<p><span>供方(甲方):&nbsp;%s</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>合同编号:&nbsp;%s</span></p>
