@@ -24,17 +24,17 @@ class orderLogModel extends model{
 		$user_ip = get_ip();
 		$input_time = CORE_TIME;
 		$input_admin = $_SESSION['username'];
-		$this->cache->delete('getLog_'.$o_id);
+		$this->cache->delete('getLog_'.$o_id.'_'.$type.'_'.$step);
 		return $this->add(compact('o_id','step','type','total','payed','lefted','spend_time','input_time','user_ip','input_admin'));
 	}
 	/**
 	 * 获取可视化的信息
 	 */
 	public function getLog($o_id = 0,$type=0,$step=-1){
-		// $_key='getLog_'.$o_id.'_'.$type.'_'.$step;
+		$_key='getLog_'.$o_id.'_'.$type.'_'.$step;
 		$where = "`o_id` = $o_id and `type` = $type";
 		if($step > -1) $where .= " and `step` = $step ";
-		// $data=$this->cache->get($_key);
+		$data=$this->cache->get($_key);
 		if(empty($data)){
 			$data=$this->where($where)->order('input_time desc')->limit(1)->getAll();
 			if($data){
