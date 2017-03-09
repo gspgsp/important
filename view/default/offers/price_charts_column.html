@@ -1,0 +1,82 @@
+{layout file="public:main_layout"}
+{insert_css files='home/mailloffer.css'}
+<div id="main" style="width: 960px;height:400px;"></div>
+<div id="column" style="width: 960px;height:400px;"></div>
+
+<script type="text/javascript" src="__JS__/echarts.js"></script>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+
+
+    option = {
+        title: {
+            text: '价格走势图',
+            subtext: '{$type.model}'+'--'+'{$type.f_id}'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['价格','销量']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: JSON.parse('{$x_ray}')
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '价格',
+                min: 0,
+                max: 15,
+                interval: 3,
+                axisLabel: {
+                    formatter: '{value} 千元'
+                }
+            },
+            {
+                type: 'value',
+                name: '销量',
+                min: 0,
+                max: 500,
+                interval: 50,
+                axisLabel: {
+                    formatter: '{value} 吨'
+                }
+            }
+        ],
+        series: [
+            {
+                name:'价格',
+                type:'line',
+                data:JSON.parse('{$price}')
+            },
+            {
+                name:'销量',
+                type:'bar',
+                yAxisIndex: 1,
+                data:JSON.parse('{$num}')
+            },
+            /*{
+                name: '平均温度',
+                type: 'line',
+                yAxisIndex: 1,
+                data: JSON.parse('{$rand}')
+            }*/
+        ]
+    };
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>

@@ -16,7 +16,8 @@ class indexAction extends homeBaseAction{
 		$this->cartList=Cart::getGoods();
 		$cityWhere='pid=1';
 		$factoryWhere=1;
-		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)";
+		//$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)";
+		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
 
 		if($keywords=sget('keywords','s','')){
 			$where.=" and (pro.model like '%{$keywords}%' or fa.f_name like '%{$keywords}%')";
@@ -128,7 +129,6 @@ class indexAction extends homeBaseAction{
 		$pageSize=20;//分页
 
 		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
-
 		foreach($list['data'] as $key=>$value){
 			$str=mb_strlen($value['store_house'],'utf-8');
 			if($str>4){
@@ -162,7 +162,6 @@ class indexAction extends homeBaseAction{
 		//获取用户信息
 
 		$contactList=M("user:customerContact")->getContactByuserid($uids);
-
 		foreach ($contactList as $key => $value) {
 			$customerTemp[$value['user_id']]=$value;
 		}
@@ -183,7 +182,6 @@ class indexAction extends homeBaseAction{
 		    'keywords'=>'塑料报价，塑料原料报价，塑料原料价格，塑料价格，聚乙烯价格，聚丙烯价格，聚氯乙烯价格，PVC塑料，PE塑料，PP塑料',
 		    'description'=>'我的塑料网商城报价栏目拥有海量塑料原料现货或期货报价，免费提供塑料原料价格查询，资深塑料交易员全程为您服务',
 			'status'=>1);
-
 		$this->assign('list',$list);
 		$this->display('index');
 	}
@@ -378,6 +376,141 @@ class indexAction extends homeBaseAction{
 		$qian=array(" ","　","\t","\r");
 		$hou=array("","","","");
 		return str_replace($qian,$hou,$str);
+	}
+
+	/**
+	 * 价格行情图页面
+	 * @param $arr
+	 * @param $num
+	 * @return array
+	 * @Author:xielei
+	 */
+	public function price_charts()
+	{
+
+		$model = sget('model','s');
+		$f_id  = sget('f_id','i');
+
+		$res = $this->db->model('product')->where(" model = '{$model}' and f_id = {$f_id}")->getAll();
+		if(empty($res)){
+			$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
+			$this->assign('x_ray',json_encode(array(date("Y-m-d"))));
+			$this->assign('price',json_encode(array()));
+			$this->assign('num',json_encode(array()));
+			$this->assign('price_col',array('top'=>12,'bottom'=>0,'interval'=>3));
+			$this->assign('num_col',array('top'=>1000,'bottom'=>0,'interval'=>500));
+			$this->assign('valid','false');
+			$this->display('price_charts');
+			die();
+		}
+		$product_ids = array_column($res,'id');
+		$res = $this->db->model('sale_log')->where(' p_id in ('.join(',',$product_ids).')')->order('unit_price','desc')->getAll();
+		if(empty($res)){
+			$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
+			$this->assign('x_ray',json_encode(array(date("Y-m-d"))));
+			$this->assign('price',json_encode(array()));
+			$this->assign('num',json_encode(array()));
+			$this->assign('price_col',array('top'=>12,'bottom'=>0,'interval'=>3));
+			$this->assign('num_col',array('top'=>1000,'bottom'=>0,'interval'=>500));
+			$this->assign('valid','false');
+			$this->display('price_charts');
+			die();
+		}
+		$bottom_price = $res[0];
+		$bottom =round($bottom_price['unit_price']/1000-1);
+
+		$top_price = end($res);
+		$top = round($top_price['unit_price']/1000+1);
+
+		$interval = round(($top-$bottom)/5);
+
+		$tmp =array();
+		foreach($res as $v)
+		{
+			$time = date('Y-m-d',$v['input_time']);
+			$tmp[$time][]= $v;
+		}
+		unset($time);
+		$time_arr = array_keys($tmp);
+		sort($time_arr);
+		//计算时间
+		$start_day = strtotime($time_arr[0]);
+		$end_day   = strtotime(end($time_arr));
+		$show_time = array();
+		$count = floor(($end_day-$start_day)/(24*60*60));
+		for($i = 0; $i<$count ;$i++)
+		{
+			$day=$start_day+24*60*60*$i;
+			$day_info= getdate($day);
+			if($day_info['wday']!=0&&$day_info['wday']!=6)
+			{
+				$show_time[] = date("Y-m-d",$day);
+			}
+		}
+		$diff_arr = array_diff($show_time,$time_arr);
+		foreach($diff_arr as $time0)
+		{
+			$tmp[$time0]=array(array('input_time'=>time(),'unit_price'=>0,'number'=>0));
+		}
+
+		unset($v);
+		unset($time0);
+		ksort($tmp);
+		$x_ray = array();
+		$price = array();
+		$num   = array();
+		foreach($tmp as $time=>$val)
+		{
+			$tmp_price = array();
+			$tmp_num   = 0;
+			$tmp_val   = self::my_sort($val,'input_time');
+			foreach($tmp_val as $value)
+			{
+				$tmp_price[] = (float)$value['unit_price']/1000;
+				$tmp_num    += (float)$value['number'];
+			}
+			unset($value);
+
+			$format_arr = array();
+			$format_arr[0] = $tmp_price[0];
+			$format_arr[1] = end($tmp_price);
+			sort($tmp_price);
+			$format_arr[2] = $tmp_price[0];
+			$format_arr[3] = end($tmp_price);
+
+			$x_ray[] = $time;
+			$price[] = $format_arr;
+			$num[]   = $tmp_num;
+		}
+		unset($val);
+
+		$top0 = ceil(max($num));
+		$interval0 = round(($top0)/3);
+		$this->assign('list',$res);
+		$this->assign('x_ray',json_encode($x_ray));
+		$this->assign('price',json_encode($price));
+		$this->assign('num',json_encode($num));
+		$this->assign('valid','true');
+		$this->assign('price_col',array('top'=>$top,'bottom'=>$bottom,'interval'=>$interval));
+		$this->assign('num_col',array('top'=>$top0,'bottom'=>0,'interval'=>$interval0));
+		$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
+		$this->display('price_charts');
+	}
+
+	private function my_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){
+		if(is_array($arrays)){
+			foreach ($arrays as $array){
+				if(is_array($array)){
+					$key_arrays[] = $array[$sort_key];
+				}else{
+					return false;
+				}
+			}
+		}else{
+			return false;
+		}
+		array_multisort($key_arrays,$sort_order,$sort_type,$arrays);
+		return $arrays;
 	}
 
 
