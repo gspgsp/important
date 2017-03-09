@@ -4,7 +4,7 @@
  * Create: xqj@2016-09-23
  */
 #59 23 * * * * /usr/bin/php
- 
+
 require_once 'config.php';
 
 $cron = new cronPlasticzone;
@@ -21,7 +21,7 @@ class cronPlasticzone{
 
 	/**
 	 * 构造函数
-	 * @access public 
+	 * @access public
 	 */
 	public function __construct() {
 		$this->otime=time();
@@ -31,7 +31,7 @@ class cronPlasticzone{
 
 	/**
 	 * 启动需要批处理的任务项目
-	 * @access public 
+	 * @access public
 	 */
 	public function start(){
 		$this->ranking();//计算塑料圈用户的排名
@@ -44,14 +44,14 @@ class cronPlasticzone{
 	private function ranking(){
 		set_time_limit(0);
 	    $sql="SELECT rank.*,@rownum:=@rownum+1 AS rownum FROM
-        (SELECT aa.user_id,COUNT(b.id)*0.5 + aa.pm AS  pm FROM 
+        (SELECT aa.user_id,COUNT(b.id)*0.5 + aa.pm AS  pm FROM
         (
         SELECT a.user_id, (SELECT IFNULL(COUNT(user_id),0)*0.3 FROM p2p_purchase WHERE user_id=a.user_id AND TYPE=1 AND sync=6) + (SELECT IFNULL(COUNT(user_id),0)*0.2 FROM p2p_purchase WHERE user_id=a.user_id AND TYPE=2 AND sync=6) pm
         FROM p2p_customer_contact  a
         LEFT JOIN p2p_purchase c ON c.user_id=a.user_id
         WHERE chanel=6 AND a.c_id NOT IN (SELECT c_id  FROM p2p_customer WHERE c_name LIKE '%中晨%')
         GROUP BY a.user_id
-        UNION ALL 
+        UNION ALL
         SELECT a.user_id, 0 pm
         FROM p2p_customer_contact  a
         LEFT JOIN p2p_purchase c ON c.user_id=a.user_id

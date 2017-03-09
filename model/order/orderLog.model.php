@@ -36,7 +36,7 @@ class orderLogModel extends model{
 		if($step > -1) $where .= " and `step` = $step ";
 		// $data=$this->cache->get($_key);
 		if(empty($data)){
-			$data=$this->where($where)->getAll();
+			$data=$this->where($where)->order('input_time desc')->limit(1)->getAll();
 			if($data){
 				foreach ($data as &$v) {
 					$v['spend_time'] = $v['spend_time'] == 0 ?: Sec2Time($v['spend_time']);

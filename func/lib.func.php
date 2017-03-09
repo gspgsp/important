@@ -7,7 +7,7 @@
 function desEncrypt($string){
 	$des=new desSecurity(C('DES_PASSCODE'));
 	return $des->encrypt($string);
-}	
+}
 
 /*
  * 解密签名串
@@ -52,7 +52,7 @@ function getSystemParam($key=''){
 function chkVcode($name='',$value=''){
 	$name='vc_'.$name;
 	if(isset($_SESSION[$name]) && $_SESSION[$name]==$value){
-		return true;	
+		return true;
 	}
 	return false;
 }
@@ -63,8 +63,8 @@ function unsetVcode($name=''){
 /*
  * 隐藏字符
  * @param string $str 银行卡号
- * $lcon 卡号的前几位，$rcon卡后的后几位，$count隐藏的位数 
- * @return str 
+ * $lcon 卡号的前几位，$rcon卡后的后几位，$count隐藏的位数
+ * @return str
 */
 function hideStr($str='',$lcon=0,$rcon=0){
 	$newStr="";
@@ -90,7 +90,7 @@ function createItemNO($ctype='001',$itemId){
  * @param string $bankno 银行卡号
  * 1.将未带校验位的 15（或18）位卡号从右依次编号 1 到 15（18），位于奇数位号上的数字乘以 2。
  * 2.将奇位乘积的个十位全部相加，再加上所有偶数位上的数字。
- * 3.将加法和加上校验位能被 10 整除。   
+ * 3.将加法和加上校验位能被 10 整除。
  * @return array('err','msg')
 */
 function validBankNo($bankno){
@@ -98,28 +98,28 @@ function validBankNo($bankno){
 	if ($strLen < 16 || $strLen > 19) {
 		return array('err'=>1,'msg'=>'银行卡号长度不正确');
 	}
-	
+
 	if(!preg_match('/^\d*$/',$bankno)){
 		return array('err'=>1,'msg'=>'银行卡号必须全为数字');
 	}
 	//开头6位
-	$strBin=array(10,18,30,35,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99); 
+	$strBin=array(10,18,30,35,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99);
 	$vkey = substr($bankno,0,2);
-	
-	if(!in_array($vkey,$strBin)){ 
+
+	if(!in_array($vkey,$strBin)){
 		return array('err'=>1,'msg'=>'银行卡号开头6位不符合规范');
 	}
-	
-	$lastNum = substr($bankno,-1);//取出最后一位（与luhm进行比较）	
+
+	$lastNum = substr($bankno,-1);//取出最后一位（与luhm进行比较）
 	$first15Num = substr($bankno,0,strlen($bankno)-1); //前15或18位
 	$newArr = array();
-	
+
 	for($i=strlen($first15Num)-1;$i>-1;$i--){    //前15或18位倒序存进数组
 		array_push($newArr,$first15Num{$i});
 	}
 	$arrJiShu = array();  //奇数位*2的积 <9
 	$arrJiShu2 = array(); //奇数位*2的积 >9
-	 
+
 	$arrOuShu=array();  //偶数位数组
 	for($j=0;$j<count($newArr);$j++){
 		if(($j+1)%2==1){//奇数位
@@ -131,14 +131,14 @@ function validBankNo($bankno){
 			array_push($arrOuShu,$newArr[$j]);
 		}
 	}
-	 
+
 	$jishu_child1=array();//奇数位*2 >9 的分割之后的数组个位数
 	$jishu_child2=array();//奇数位*2 >9 的分割之后的数组十位数
 	for($h=0;$h<count($arrJiShu2);$h++){
 		array_push($jishu_child1,intval($arrJiShu2[$h]%10));
 		array_push($jishu_child2,intval($arrJiShu2[$h]/10));
-	}       
-	 
+	}
+
 	$sumJiShu=0; //奇数位*2 < 9 的数组之和
 	$sumOuShu=0; //偶数位数组之和
 	$sumJiShuChild1=0; //奇数位*2 >9 的分割之后的数组个位数之和
@@ -153,19 +153,19 @@ function validBankNo($bankno){
 	for($p=0;$p<count($jishu_child1);$p++){
 		$sumJiShuChild1=$sumJiShuChild1+$jishu_child1[$p];
 		$sumJiShuChild2=$sumJiShuChild2+$jishu_child2[$p];
-	}     
+	}
 	//计算总和
 	$sumTotal=$sumJiShu+$sumOuShu+$sumJiShuChild1+$sumJiShuChild2;
-	 
+
 	//计算Luhm值
-	$k= intval($sumTotal%10)==0?10:intval($sumTotal%10);       
+	$k= intval($sumTotal%10)==0?10:intval($sumTotal%10);
 	$luhm= 10-$k;
-	 
+
 	if($lastNum==$luhm){
 		return array('err'=>0,'msg'=>'验证通过');
 	}else{
 		return array('err'=>1,'msg'=>'银行卡号不正确，请重新输入！');
-	}       
+	}
 }
 
 /*
@@ -180,7 +180,7 @@ function validCompanyBankNo($bankno){
 	if ($strLen < 9 || $strLen > 26) {
 		return array('err'=>1,'msg'=>'银行卡号长度不正确');
 	}
-	
+
 	if(!preg_match('/^\d*$/',$bankno)){
 		return array('err'=>1,'msg'=>'银行卡号必须全为数字');
 	}
@@ -212,7 +212,7 @@ function getCityByIP($ip=''){
 	if(!empty($ip)){
 		return gbk2utf($_info);
 	}
-	
+
 	//淘宝接口
 	$_info=file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);
 	$_info=json_decode($_info,true);
@@ -223,7 +223,7 @@ function getCityByIP($ip=''){
 }
 //对数字进行加减处理
 function operationAlphaID($in,$plus = false){
-	if ($plus) { 
+	if ($plus) {
 		$out = alphaID($in+10000000);
 	} else {
 		$out = alphaID($in,true)-10000000;
@@ -253,7 +253,7 @@ function getAge($birthday) {
 				$day = substr($day, 0, 2); //get the first two chars in case of '2000-11-03 12:12:00'
 			}
 		}
-	
+
 		$age = date('Y') - $year;
 		if (date('m') < $month || (date('m') == $month && date('d') < $day)) $age--;
 	}
@@ -261,28 +261,28 @@ function getAge($birthday) {
 }
 
 //抽奖概率
-function getProbRand($proArr) { 
-    $result = ''; 
- 
-    //概率数组的总概率精度 
-    $proSum = array_sum($proArr); 
- 
-    //概率数组循环 
-    foreach ($proArr as $key => $proCur) { 
-        $randNum = mt_rand(1, $proSum); 
-        if ($randNum <= $proCur) { 
-            $result = $key; 
-            break; 
-        } else { 
-            $proSum -= $proCur; 
-        } 
-    } 
-    unset ($proArr); 
- 
-    return $result; 
-} 
+function getProbRand($proArr) {
+	$result = '';
 
-//将序列数组转为关联数组 
+	//概率数组的总概率精度
+	$proSum = array_sum($proArr);
+
+	//概率数组循环
+	foreach ($proArr as $key => $proCur) {
+		$randNum = mt_rand(1, $proSum);
+		if ($randNum <= $proCur) {
+			$result = $key;
+			break;
+		} else {
+			$proSum -= $proCur;
+		}
+	}
+	unset ($proArr);
+
+	return $result;
+}
+
+//将序列数组转为关联数组
 //如array(array('key'=>1,'value'=>mixed),array('key'=>2,'value'=>mixed)) to array('1'=>mixed,'2'=>mixed)
 function arrayKeyValues(array $arr,$key,$value=''){
 	$data = array();
@@ -307,7 +307,7 @@ function shortenURL($long_url){
 	return is_object($data) && $data->urls ? $data->urls[0]->url_short : $long_url;
 }
 function getTimeFilterByDateTime($field="",$start='startTime',$end='endTime'){
-	$string='';	
+	$string='';
 	$starTime=sget($start,'s'); //开始时间
 	$endTime=sget($end,'s');  //结束时间
 	if(!empty($starTime)){
@@ -316,8 +316,46 @@ function getTimeFilterByDateTime($field="",$start='startTime',$end='endTime'){
 	}
 	if(!empty($endTime)){
 		if(strlen($endTime)==10) $endTime.=" 23:59:59";
-		$string.=" and $field<='".$endTime."'";	
+		$string.=" and $field<='".$endTime."'";
 	}
 	return $string;
 }
+/**
+ * 把时间间隔转化为描述时间
+ */
+function Sec2Time($time){
+	$t = '';
+	if(is_numeric($time)){
+	$value = array(
+	  "years" => 0, "days" => 0, "hours" => 0,
+	  "minutes" => 0, "seconds" => 0,
+	);
+	if($time >= 31556926){
+	  $value["years"] = floor($time/31556926);
+	  $time = ($time%31556926);
+	  $t .= $value["years"]."年" ;
+	}
+	if($time >= 86400){
+	  $value["days"] = floor($time/86400);
+	  $time = ($time%86400);
+	  $t .= $value["days"]."天";
+	}
+	if($time >= 3600){
+	  $value["hours"] = floor($time/3600);
+	  $time = ($time%3600);
+	  $t .= $value["hours"]."时";
+
+	}
+	if($time >= 60){
+	  $value["minutes"] = floor($time/60);
+	  $time = ($time%60);
+	  $t .= $value["minutes"]."分";
+	}
+	$value["seconds"] = floor($time);
+	$t .= $value["seconds"]."秒";
+	return $t;
+	 }else{
+	return (bool) FALSE;
+	}
+ }
 ?>
