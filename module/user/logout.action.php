@@ -4,14 +4,14 @@
  */
 class logoutAction extends homeBaseAction{
 
-	
+
     public function __init(){
 		$this->debug=false;
     }
-	
+
 	/**
 	 * 退出登录
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function init(){
@@ -19,7 +19,7 @@ class logoutAction extends homeBaseAction{
 			unset($_SESSION);
 			unset($_COOKIE);
 			session_destroy();
-			$cache= E('RedisCluster',APP_LIB.'class');
+			$cache= new RedisCluster();
 			$cache->delete('userid_'.SESS_ID);
 			$cache->delete('uinfo_'.SESS_ID);
 			M('user:passport')->setSession();

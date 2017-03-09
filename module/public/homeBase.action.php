@@ -17,9 +17,12 @@ class homeBaseAction extends action {
 		$this->plastic_points = M('system:setting')->get('points')['points'];
 		if(!is_robot()){ //非机器人访问
 			startHomeSession();
-			$cache= E('RedisCluster',APP_LIB.'class');
-			$_SESSION['userid']=($cache->get('userid_'.SESS_ID)==false?0:$cache->get('userid_'.SESS_ID));
-			$_SESSION['uinfo']=($cache->get('uinfo_'.SESS_ID)==false?null:json_decode($cache->get('uinfo_'.SESS_ID)));
+			ini_set('display_errors', 'On');
+			$cache = new RedisCluster();
+			// p($cache->get('userid_'.SESS_ID));die;
+			// $_SESSION['userid']=($cache->get('userid_'.SESS_ID)==false?0:$cache->get('userid_'.SESS_ID));
+			// $_SESSION['uinfo']=($cache->get('uinfo_'.SESS_ID)==false?null:json_decode($cache->get('uinfo_'.SESS_ID)));
+			// die;
 			$this->user_id=$_SESSION['userid'];
 			//$this->dataToken=$_SESSION['token'];
 			setReferer($this->user_id);

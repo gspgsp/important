@@ -29,4 +29,3 @@ return array(
 		APP_LIB.'lang/sys.lang.php',
     ),
 );
-?>

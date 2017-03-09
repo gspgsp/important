@@ -192,4 +192,3 @@ function setOption($type='',$id=1){
 	$data=L($type);
 	return $data[$id];
 }
-?>

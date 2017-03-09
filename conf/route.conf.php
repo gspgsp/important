@@ -31,7 +31,7 @@ return array(
 
 	//子(泛)域名路由规则
 	'SUB_DOMAIN'	   => true,
-	'SUB_DOMAIN_NAME'  => '.myplas.com', //默认域名后缀
+	'SUB_DOMAIN_NAME'  => '.wdsln.com', //默认域名后缀
 	//子域名部署规则
 	'SUB_DOMAIN_RULES' => array(
 		//'m'=>array('touch'),
@@ -43,4 +43,3 @@ return array(
 		'vip'=>'pointshop/index/init',
 	), 
 );
-?>

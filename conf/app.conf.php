@@ -20,4 +20,3 @@ return array(
 		'TMPL_ERROR'     => 'jump.html', //默认错误跳转模板
     	'TMPL_SUCCESS'   => 'jump.html', //默认成功跳转模板	
 );
-?>
