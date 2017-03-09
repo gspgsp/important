@@ -300,7 +300,7 @@ class customerBaseModel extends model
             $forcedTime=$this->updateTime;
             if($this->forcedUpdate){//强制更新
                 $this->getQichacha($name);
-            }elseif((isset($oneRow['update_time'])&&CORE_TIME>($oneRow['update_time']+$forcedTime*86400))||(isset($oneRow['input_time'])&&CORE_TIME>($oneRow['input_time']+$forcedTime*86400))){
+            }elseif(($oneRow['update_time']>0&&CORE_TIME>($oneRow['update_time']+$forcedTime*86400))||($oneRow['input_time']>0&&CORE_TIME>($oneRow['input_time']+$forcedTime*86400))){
                //过期更新
                 $this->getQichacha($name);
             }
