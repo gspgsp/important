@@ -16,6 +16,7 @@ class homeBaseAction extends action {
 		//调用配置项
 		$this->plastic_points = M('system:setting')->get('points')['points'];
 		if(!is_robot()){ //非机器人访问
+		    
 			startHomeSession();
 			ini_set('display_errors', 'On');
 			$cache = new RedisCluster();
