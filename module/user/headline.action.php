@@ -117,6 +117,7 @@ class headlineAction extends adminBaseAction {
 			}
 			$result2=$this->db->model('customer_contact')->wherePk($info['user_id'])->update(array('headline_vip'=>1,'opening_date'=>CORE_TIME,'cate_id'=>$cate_id.$temp.$cate_str));		
 			if($result2){
+				$this->db->model('customer_tel_sale')->where('mobile'=$c_row['mobile'])->update(array('member_status'=>1,'update_time'=>CORE_TIME));
 				$this->success('操作成功');
 			}else{
 				$this->error('操作失败');	
