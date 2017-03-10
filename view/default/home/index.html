@@ -703,7 +703,7 @@
     <div class="floor-title">
         <!--left begin-->
         <div class="left flt">
-            <span>1F 供求信息</span>
+            <span>1F 供货信息</span>
             <b>实时成交价：</b>
             <ul id="news-text">
                 {foreach from=$deals item=value key=key}
@@ -755,18 +755,6 @@
                     <div class="place">{if $value.cityname}{$value.cityname}{else}&nbsp;{/if}</div>
                     <div class="time">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</div>
                     <div class="opt"><a href="/offers">查看</a></div>
-                </li>
-                {else}
-                <li class="demand">
-                    <div class="breed"><span></span>{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
-                    <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
-                    <div class="level">{if $value.process_type}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
-                    <div class="factory">{if $value.f_name}{$value.f_name}{else}&nbsp;{/if}</div>
-                    <div class="amount">{if $value.number==0.00}&nbsp;{else}{:floatval|$value.number}{/if}</div>
-                    <div class="price">￥{if $value.unit_price}{:floatval|$value.unit_price}{else}&nbsp;{/if}</div>
-                    <div class="place">{if $value.cityname}{$value.cityname}{else}&nbsp;{/if}</div>
-                    <div class="time">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</div>
-                    <div class="opt"><a href="/purchase">供货</a></div>
                 </li>
                 {/if}
                 {/foreach}
@@ -820,19 +808,20 @@
 	<!--floor-title begin-->
     <div class="floor-title link3">
         <span>2F</span> 
-        <a href="/client" target="_blank">大户报价</a>
+        <a href="/" target="_blank">求购信息</a>
         <div class="floor-ad-lt ads"><img src="__IMG__/home/floorAdLt.png"><span>广告</span></div>
         <div class="floor-ad-rt ads"><img src="__IMG__/home/floorAdRt.png"><span>广告</span></div>
     </div>
     <!--floor-title end-->
-     <!--large-bid begin-->
-    <div class="large-bid info">
+     <!--supply-demand begin-->
+    <div class="supply-demand supply-demand2 info">
     	<!--left begin-->
         <div class="left flt">
-        	<!--info-title begin-->
-        	<ul class="info-title color3">
-            	<li class="breed">品种</li>
+            <!--info-title begin-->
+            <ul class="info-title color3">
+                <li class="breed">品种</li>
                 <li class="grade">牌号</li>
+                <li class="level">加工级别</li>
                 <li class="factory">厂家</li>
                 <li class="amount">数量（吨）</li>
                 <li class="price">价格（元 / 吨）</li>
@@ -843,35 +832,110 @@
             <!--info-title end-->
             <!--info-con begin-->
             <ul class="info-con color6">
-                {foreach from=$bigOffers item=value}
-            	<li>
-                	<div class="breed">{$value.type}</div>
-                    <div class="grade">{$value.model}</div>
-                    <div class="factory">{$value.factory}</div>
-                    <div class="amount">{$value.num}</div>
-                    <div class="price">￥{$value.price}</div>
-                    <div class="place">{$value.address}</div>
-                    <div class="time">{$value.input_time|date:H:i}</div>
-                    <div class="opt"><a href="/client?type={$value.type}&model={$value.model}">查看</a></div>
+                {foreach from=$purBuy item=value}
+                {if $value.type==1}
+                <li class="demand">
+                    <div class="breed"><span></span>{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
+                    <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
+                    <div class="level">{if $value.process_type}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
+                    <div class="factory">{if $value.f_name}{$value.f_name}{else}&nbsp;{/if}</div>
+                    <div class="amount">{if $value.number==0.00}&nbsp;{else}{:floatval|$value.number}{/if}</div>
+                    <div class="price">￥{if $value.unit_price}{:floatval|$value.unit_price}{else}&nbsp;{/if}</div>
+                    <div class="place">{if $value.cityname}{$value.cityname}{else}&nbsp;{/if}</div>
+                    <div class="time">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</div>
+                    <div class="opt"><a href="/purchase">供货</a></div>
                 </li>
+                {/if}
                 {/foreach}
             </ul>
             <!--info-con end-->
-            <div class="more"><a href="/client"></a></div>
+            <div class="more"><a href="/offers"></a></div>
+            <!--<div class="more"><a href="/opus/index/t/1"></a></div>-->
         </div>
         <!--left end-->
         <!--right begin-->
-   	 	<div class="right frt">
-       		<ul>
-                {foreach from=$bigClient item=value}
-            	<li><a href="/client?cid={$value.id}" title="{$value.gsname}"><span></span><img src="__UPLOAD__/{$value.logo}" width="73" height="38"/></a></li>
-                {/foreach}
-          	</ul>
-            <div class="more"><a href="/client"></a></div>
+   	 	<div class="right new-order frt">
+            <div class="big-title">最新订单</div>
+            <div class="new-order-title">
+                <p class="col1">买家</p>
+                <p class="col2">手机号</p>
+                <p class="col3">采购内容</p>
+                <p class="col4">时间</p>
+            </div>
+            <!--new-order-con begin-->
+            <div class="new-order-con">
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+                <div class="cols">
+                    <p class="col1">张**</p>
+                    <p class="col2">177********</p>
+                    <p class="col3">LDPE 2426H 神华榆</p>
+                    <p class="col4">11:30</p>
+                </div>
+            </div>
+            <!--new-order-con end-->
         </div>
         <!--right end-->
     </div>
-    <!--large-bid end-->
+    <!--supply-demand end-->
 </div>
 <!--floor2 end-->
 <!--floor3 begin-->
