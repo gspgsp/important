@@ -443,6 +443,8 @@ class qapi1_1Action extends null2Action
             $sortOrder = sget('sortOrder','s','desc');
             $chanel =(int)sget('chanel','i',6);
             $quan_type = sget('quan_type','i');
+            $version = sget('version','s');//版本号
+            $platform=$this->checkPlatform()['platform'];
             if($sortField!='default'&&$sortField!='input_time') $this->json_output(array('err'=>1,'msg'=>'sortField参数错误'));
             if(!in_array($sortOrder,array('desc','asc'))) $this->json_output(array('err'=>1,'msg'=>'sortOrder参数错误'));
 
@@ -457,16 +459,18 @@ class qapi1_1Action extends null2Action
              *all 不分求购还是供给  sale 供给  buy 求购  asc 注册时间正序 desc  注册时间倒序
              */
 
-            if($sortField=='default'&&empty($keywords)){
-            }else{
+            if(!empty($keywords)){
                 $arr=array(
                     'user_id'=>$user_id,
                     'sort_field'=>strtoupper($sortField),
                     'sort_order'=>strtoupper($sortOrder),
                     'content'=>$keywords,
+                    'version'=>$version,
+                    'ip'=>get_ip(),
+                    'chanel'=>$platform,
                     'input_time'=>CORE_TIME,
                 );
-                M('qapp:plasticSearch')->addSearch($arr);
+                M('qapp:plasticSearch')->add($arr);
             }
 
             //加缓存提交效率
@@ -601,6 +605,8 @@ class qapi1_1Action extends null2Action
             $type = sget('type', 'i', 0);//0 全部 1 求购 2 供给
             $sortField1 = strtoupper(sget('sortField1','s'));
             $sortField2 = strtoupper(sget('sortField2','s'));
+            $version = sget('version','s');//版本号
+            $platform=$this->checkPlatform()['platform'];
             //$sortField =array('AUTO','NC');
             $fieldNum='';
             $fieldNum.=$sortField1;
@@ -630,9 +636,12 @@ class qapi1_1Action extends null2Action
                     'sort_field' => $fieldNum,
                     'sort_order' => $sortOrder,
                     'content' => $keywords,
+                    'version'=>$version,
+                    'ip'=>get_ip(),
+                    'chanel'=>$platform,
                     'input_time' => CORE_TIME,
             );
-            M('qapp:plasticSearch')->addSearch($arr);
+            M('qapp:plasticSearch')->add($arr);
             //普通条件
             $page = sget('page', 'i', 1);
             $size = sget('size', 'i', 10);
