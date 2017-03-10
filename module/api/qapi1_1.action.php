@@ -1409,6 +1409,35 @@ class qapi1_1Action extends null2Action
         }
     }
 
+//    /**
+//     * 检查浏览器
+//     * @return string
+//     */
+//    public function checkBrowser(){
+//        $agent=$_SERVER["HTTP_USER_AGENT"];
+//        if(strpos($agent,'MSIE')!==false || strpos($agent,'rv:11.0')) //ie11判断
+//            return "ie";
+//        else if(strpos($agent,'Firefox')!==false)
+//            return "firefox";
+//        else if(strpos($agent,'Chrome')!==false)
+//            return "chrome";
+//        else if(strpos($agent,'Opera')!==false)
+//            return 'opera';
+//        else if((strpos($agent,'Chrome')==false)&&strpos($agent,'Safari')!==false)
+//            return 'safari';
+//        else
+//            return 'unknown';
+//    }
+
+    /**
+     * 检查平台来源
+     * @return json
+     */
+    public function checkPlatform(){
+       return get_platform();
+    }
+
+
 
     public function somes()
     {
@@ -1617,7 +1646,33 @@ class qapi1_1Action extends null2Action
             $page_size = 10;
             //获取搜索值
             $keywords = sget('keywords', 's');
+            $version = sget('version','s');//版本号
+            $keywords = $this->clearStr($keywords);
             if ($keywords&&$subscribe==1) {
+
+                /**
+                 * 加搜索记录
+                 * sort_field  'DEFAULT','INPUT_TIME','NC','SC','CC','ALL','AUTO','CONCERN','DEMANDORSUPPLY'
+                 * 首页默认排序default  注册时间排序input_time 华北nc  华南sc  华中cc
+                 * 全国站all  智能推荐auto  我的关注concern  我的供求 demandorsupply
+                 *
+                 *sort_order   'ALL','SALE','BUY','ASC','DESC'
+                 *all 不分求购还是供给  sale 供给  buy 求购  asc 注册时间正序 desc  注册时间倒序
+                 */
+                $chanel=$this->checkPlatform()['platform'];
+                if(!empty($keywords)){
+                    $arr=array(
+                        'user_id'=>$user_id,
+                        'sort_field'=>strtoupper('news'),
+                        'sort_order'=>'',
+                        'content'=>$keywords,
+                        'version'=>$version,
+                        'ip'=>get_ip(),
+                        'chanel'=>$chanel,
+                        'input_time'=>CORE_TIME,
+                    );
+                    M('qapp:plasticSearch')->add($arr);
+                }
                 //Sphinx取出关键词搜索数据
                 $sphinx = new SphinxClient;
                 $sphinx->SetServer('localhost', 9312);
