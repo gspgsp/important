@@ -3,7 +3,7 @@
 <script type="text/javascript">
     var oil1 = {:json_encode|$oil1};        //WIT
     var oil2 = {:json_encode|$oil2};        //布油
-    var quotation = {:json_encode|$quotation};   
+    var quotation = {:json_encode|$quotation};
 </script>
 
 <!--banner begin-->
@@ -517,7 +517,7 @@
                   <ul>
                         {foreach from=$readjust item=value}
                        <li class="{if $value.type==1}up{elseif $value.type==2}down{else $value.type==3}tie{/if}">
-        
+
                             <h3><span>{$value.cj}</span>{$value.ph}</h3>
                             <div class="data">
                                 <div class="data-lt"><span></span>{$value.price}</div>
@@ -575,7 +575,7 @@
                 <li id="taba7" onmouseover="setTab('taba',7,8)"><span>PVC</span><b></b>/</li>
                 <li id="taba8" onmouseover="setTab('taba',8,8)"><span>HDPE</span><b></b></li> -->
             </ul>
-        </div> 
+        </div>
         <!--taba begin-->
         <div class="taba">
             <!--con-taba-1 begin-->
@@ -743,8 +743,7 @@
             <!--info-title end-->
             <!--info-con begin-->
             <ul class="info-con color6">
-                {foreach from=$purBuy item=value}
-                {if $value.type==2}
+                {foreach from=$purSale item=value}
             	<li class="supply">
                 	<div class="breed"><span></span>{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
                     <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
@@ -756,7 +755,6 @@
                     <div class="time">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</div>
                     <div class="opt"><a href="/offers">查看</a></div>
                 </li>
-                {/if}
                 {/foreach}
             </ul>
             <!--info-con end-->
@@ -807,7 +805,7 @@
 <div class="floor floor2 w1220">
 	<!--floor-title begin-->
     <div class="floor-title link3">
-        <span>2F</span> 
+        <span>2F</span>
         <a href="/" target="_blank">求购信息</a>
         <div class="floor-ad-lt ads"><img src="__IMG__/home/floorAdLt.png"><span>广告</span></div>
         <div class="floor-ad-rt ads"><img src="__IMG__/home/floorAdRt.png"><span>广告</span></div>
@@ -833,7 +831,6 @@
             <!--info-con begin-->
             <ul class="info-con color6">
                 {foreach from=$purBuy item=value}
-                {if $value.type==1}
                 <li class="demand">
                     <div class="breed"><span></span>{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
                     <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
@@ -845,7 +842,6 @@
                     <div class="time">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</div>
                     <div class="opt"><a href="/purchase">供货</a></div>
                 </li>
-                {/if}
                 {/foreach}
             </ul>
             <!--info-con end-->
@@ -909,7 +905,7 @@
 </div>
 <!--floor2 end-->
 <!--floor3 begin-->
-<div class="floor floor3 w1220"> 
+<div class="floor floor3 w1220">
 	<!--floor-title begin-->
     <div class="floor-title link3">
         <span>3F</span> <a href="/ship" target="_blank">中晨物流</a>
@@ -931,7 +927,7 @@
                     <p>运费：{$value.price}元</p>
                 </li>
                 {/foreach}
-            </ul> 
+            </ul>
             <!--rount end-->
             <h2>物流<span>优势</span></h2>
             <!--advantage begin-->
@@ -1214,7 +1210,7 @@ $(function(){
         subFrom.show();
         if(subTo.is(":visible")) subTo.hide();
 
-        //如果错误提示是显示的,则隐藏掉 
+        //如果错误提示是显示的,则隐藏掉
 
         if(addrFrom.find(".error-msg").is(":visible")) addrFrom.find(".error-msg").hide();
 
@@ -1345,7 +1341,7 @@ $(function(){
 
 function setCon(myThis){
 
-     myThis.value = myThis.value.replace(/[^\d.]/g,""); 
+     myThis.value = myThis.value.replace(/[^\d.]/g,"");
 }
 
 function rush(){
