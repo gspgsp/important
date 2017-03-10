@@ -13,16 +13,23 @@
 				$this->zcssBanner=$this->getAD(9);
 				$this->sjjdBanner=$this->getAD(10);
 				$this->jpfxBanner=$this->getAD(11);
-				$this->middleLeftBanner=$this->getAD(12);
-				$this->middleRightBanner=$this->getAD(13);
-				$this->middleBanner=$this->getAD(14);
-				$this->bottomRightBanner=$this->getAD(15);
-				$this->cLeftTopBanner=$this->getAD(17);
-				$this->cMiddleBanner=$this->getAD(16);
-				$this->cMiddle1Banner=$this->getAD(18);
-				$this->cMiddle2Banner=$this->getAD(19);
-				$this->cMiddle3Banner=$this->getAD(20);
-				$this->cMiddle4Banner=$this->getAD(21);
+				if (empty($type)) {
+					$this->middleLeftBanner=$this->getAD(12);
+					$this->middleRightBanner=$this->getAD(13);
+					$this->middleBanner=$this->getAD(14);	
+				}else{
+					$arr=L('headline_ads')[$type];
+					$this->cLeftTopBanner=$this->getAD($arr[0]);
+					$this->cMiddle1Banner=$this->getAD($arr[1]);
+					$this->cMiddle2Banner=$this->getAD($arr[2]);
+					$this->cMiddle3Banner=$this->getAD($arr[3]);
+					$this->cMiddle4Banner=$this->getAD($arr[4]);
+					if($type=='pvc'){
+						$this->middleLeftBanner=$this->getAD(27);
+						$this->middleRightBanner=$this->getAD(28);
+					}
+				}
+				// $this->cMiddleBanner=$this->getAD(16);
 				//前台显示星期
 				$arr=array('星期一','星期二','星期三','星期四','星期五','星期六','星期日',);
 				$this->date=$arr[date('N')-1].'&nbsp;&nbsp;'.date('Y-m-d',time());
@@ -177,7 +184,7 @@
 									}
 									if (empty($cate_arr)) {
 										$update_contact=array('headline_vip'=>0,'cate_id'=>'','opening_date'=>0);
-										$this->db->model('customer_tel_sale')->where('mobile'=$c_row['mobile'])->update(array('member_status'=>0,'update_time'=>CORE_TIME));
+										$this->db->model('customer_tel_sale')->where('mobile='.$c_row['mobile'])->update(array('member_status'=>0,'update_time'=>CORE_TIME));
 									}else{
 										$cate_id=implode(',', $cate_arr);
 										$update_contact=array('headline_vip'=>1,'cate_id'=>$cate_id);
