@@ -197,15 +197,17 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
 	 * @return mixed
 	 * @Author: yuanjiaye
 	 */
-	public function getTrad(){
-		return $this->model('sale_log as s')
-			->join('product as pro','s.p_id=pro.id')
-			->join('factory as fac','pro.f_id=fac.fid')
-			->order('s.input_time desc')
-			->select('s.input_time,s.update_time,s.unit_price,pro.product_type,pro.model,fac.f_name')
-			->limit('10')
-			->getAll();
-	}
+   public function getTrad(){
+       return  $this->model('order as os')
+           ->join('sale_log as s','s.o_id=os.o_id')
+           ->join('product as pro','pro.id=s.p_id')
+           ->join('factory as fac','fac.fid=pro.f_id')
+           ->order('os.o_id desc')
+           ->select('os.`o_id`,s.`number`,pro.`model`,pro.`product_type`,fac.`f_name`,os.`input_time`,s.`unit_price`')
+           ->limit('20')
+           ->getAll();
+
+}
 	/**
 	 * 根据客户id获取该客户的所有订单信息
 	 * @Author   yezhongbao
