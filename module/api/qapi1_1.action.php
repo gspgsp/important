@@ -646,7 +646,8 @@ class qapi1_1Action extends null2Action
             $page = sget('page', 'i', 1);
             $size = sget('size', 'i', 10);
             $data = M('qapp:plasticRelease')->getReleaseMsg($keywords, $page, $size, $type,$sortField1,$sortField2 ,$user_id);
-            if($data=='tempErr') $this->_errCode(5); if (empty($data['data']) && $page == 1&&$sortField2=='AUTO') $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
+            if($data=='tempErr') $this->_errCode(5);
+            if (empty($data['data']) && $page == 1&&$sortField2=='AUTO'&&empty($keywords)) $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
             if (empty($data['data']) && $page == 1&&$sortField2=='CONCERN') $this->json_output(array('err' => 2, 'msg' => '您未关注塑料圈用户，暂无供求信息！'));
             if (empty($data['data']) && $page == 1&&$sortField2=='DEMANDORSUPPLY') $this->json_output(array('err' => 2, 'msg' => '您未发布任何供求信息！'));
             if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
@@ -2751,8 +2752,9 @@ class qapi1_1Action extends null2Action
         }
         echo '<pre>';
         //var_dump(em_getallheaders());
-        throw_exception("No support db:");
+        //throw_exception("No support db:");
 //        $this->json_output(array('err'=>0,'data'=>em_getallheaders()));
+        http_status(404);
     }
 
 
