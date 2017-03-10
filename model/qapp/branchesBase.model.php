@@ -15,7 +15,7 @@ class branchesBaseModel extends model
             return false;
         }
         $this->startTrans();
-        foreach($branches as $row){
+        foreach($branches as $row){  
             if(!$this->add(array(
                 'c_id'=>$c_id,
                 'reg_no'=>$row['RegNo'],

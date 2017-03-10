@@ -15,7 +15,7 @@ class changeRecordsBaseModel extends model
             return false;
         }
         $this->startTrans();
-        foreach($changeRecords as $row){
+        foreach($changeRecords as $row){  
             if(!$this->add(array(
                 'c_id'=>$c_id,
                 'project_name'=>$row['ProjectName'],

@@ -15,7 +15,7 @@ class employeesBaseModel extends model
             return false;
         }
         $this->startTrans();
-        foreach($employees as $row){
+        foreach($employees as $row){  
             if(!$this->add(array(
                 'c_id'=>$c_id,
                 'name'=>$row['Name'],

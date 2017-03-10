@@ -17,7 +17,7 @@ class partnersBaseModel extends model
         }
         $this->startTrans();
         foreach($partners as $row){
-            if(!$this->add(array(
+            if(!$this->add(array(  
                 'c_id'=>$c_id,
                 'stock_name'=>$row['StockName'],
                 'stock_type'=>$row['StockType'],

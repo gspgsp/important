@@ -13,7 +13,7 @@ class customerBaseModel extends model
         $this->updateTime = (int)$tmp['updatetime'];
     }
 
-    public function insertAll($res=[]){
+    public function insertAll($res=[]){   
         /**
          * $arr=array(
         'name'=>$temp['Name'],
