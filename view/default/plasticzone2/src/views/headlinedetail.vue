@@ -86,7 +86,7 @@ module.exports = {
 					});
 					wx.onMenuShareAppMessage({
 						title: _this.type+_this.title,
-						desc: "塑料圈-塑料人的通讯录",
+						desc: "我的塑料网-塑料圈通讯录",
 						link: "http://q.myplas.com/#/headlinedetail/"+_this.id,
 						imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
 						type: '',

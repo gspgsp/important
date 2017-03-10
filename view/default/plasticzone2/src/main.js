@@ -37,6 +37,8 @@ import Credit from "./views/credit";
 import Credit2 from "./views/credit2";
 import Searchcompany from "./views/searchcompany";
 import Creditintro from "./views/creditintro";
+import Qichacha from "./views/qichacha";
+import Qccresult from "./views/qccresult";
 
 Vue.use(VueRouter);
 
@@ -78,6 +80,8 @@ var routes=[
 	{path:'/creditintro',name:'creditintro',component:Creditintro},
 	{path:'/credit2/:id',name:'credit2',component:Credit2},
 	{path:'/searchcompany',name:'searchcompany',component:Searchcompany},
+	{path:'/qichacha',name:'qichacha',component:Qichacha},
+	{path:'/qccresult',name:'qccresult',component:Qccresult},
 	{path: '/', redirect: { name: 'index' }}
 ];
 

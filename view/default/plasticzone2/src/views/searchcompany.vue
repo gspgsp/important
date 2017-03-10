@@ -16,7 +16,8 @@
 			<div class="searchbtn" v-on:click="search">查授信额度</div>
 		</div>	
 		</div>
-		<a class="qcc" href="http://www.qichacha.com/">查企业信息</a>
+		<a href="http://www.qichacha.com/" class="qcc">查企业信息</a>
+		<!--<router-link class="qcc" :to="{name:'qichacha'}">查企业信息</router-link>-->
 	</div>
 	<ul class="searchli">
 		<li v-for="c in creditli">

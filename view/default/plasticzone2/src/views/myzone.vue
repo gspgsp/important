@@ -242,7 +242,7 @@ module.exports={
 			});
 			wx.ready(function(){
 				wx.onMenuShareTimeline({
-					title: "塑料圈-塑料人的行业通讯录", 
+					title: "我的塑料网-塑料圈通讯录", 
 					link: 'http://q.myplas.com/#/index?invite='+window.localStorage.getItem("username"), 
 					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', 
 					success: function () {
@@ -253,7 +253,7 @@ module.exports={
 					}
 				});
 				wx.onMenuShareAppMessage({
-					title: "塑料圈通讯录",
+					title: "我的塑料网-塑料圈通讯录",
 					desc: "塑料圈-塑料人的行业通讯录 认识那么久啦！ 加入塑料圈通讯录 关注我吧",
 					link: 'http://q.myplas.com/#/index?invite='+window.localStorage.getItem("username"), 
 					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', 

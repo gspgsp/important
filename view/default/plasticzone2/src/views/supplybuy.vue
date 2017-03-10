@@ -60,7 +60,7 @@ module.exports = {
 				}
 			});
 			wx.onMenuShareAppMessage({
-				title: "塑料圈通讯录",
+				title: "我的塑料网-塑料圈通讯录",
 				desc: _this.contents,
 				link: 'http://q.myplas.com/#/supplybuy/' + _this.id + '?invite=' + tel,
 				imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
