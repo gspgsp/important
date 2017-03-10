@@ -17,7 +17,7 @@
     </div>
     <ul class="searchli">
 		<li v-for="c in creditli">
-			<router-link :to="{name:'qccresult'}">{{c.c_name}}</router-link></li>
+			<router-link :to="{name:'qccresult',query:{cname:c.c_name}}">{{c.c_name}}</router-link></li>
 		<li>	
 	</ul>
     </div>

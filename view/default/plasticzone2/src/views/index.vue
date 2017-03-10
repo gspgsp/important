@@ -301,7 +301,6 @@ mounted: function() {
 	try {
 	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 	    piwikTracker.trackPageView();
-	    
 	} catch( err ) {
 		
 	}
