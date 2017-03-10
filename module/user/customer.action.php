@@ -249,6 +249,10 @@ class customerAction extends adminBaseAction {
 		if($c_id<1){
 			if($cType==1){
 				$this->assign('page_title','新增个人联系人');
+				//如果带过来的信息有u_add则自动带信息过来
+				if($u_add = sget('u_add','i',0)){
+					$this->assign('info',$this->db->model('customer')->select("`c_name`,`c_id`")->where("c_id = $u_add")->getRow());
+				}
 				$this->display('contact.add.html');
 			}elseif($cType==3){
 				$this->assign('is_pur',sget('supplier'));//添加客户的入口
