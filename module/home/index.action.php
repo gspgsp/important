@@ -29,38 +29,21 @@ class indexAction extends homeBaseAction{
 		//供求信息
 		$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)")['data'];
 
-
-
-		//实时成交价格信息
-//			$deal=$this->db->model('order')->select('o_id')->where(' invoice_status=3 and collection_status=3 and order_type=1')->order('update_time desc')->limit('3')->getAll();
-//			$arr=array();
-//			foreach($deal as $k=>$v){
-//				$arr[]=$this->db->model('sale_log as slo')
-//					->join('product as pro','slo.p_id=pro.id')
-//					->join('factory as f','f.fid=pro.f_id')
-//					->select('slo.input_time,pro.product_type,pro.model,f.f_name,slo.unit_price')
-//					->where("slo.o_id={$v['o_id']}")
-//					->getAll();
-//			}
-//		foreach($arr as $k=>$v){
-//			foreach($v as $kk=>$vv){
-//				$brr[] = $vv;
-//			}
-//		}
-		$this->deals=M('product:order')->getTrad();
+   //实时成交订单和最新订单
+   $this->deals=M('product:order')->getTrad();
 
 		//即时抢货
-		$grabList=$this->db->model('resourcelib')->select('content,user_qq,user_nick,qq_image,input_time,realname')->where('type=0')->limit(3)->order("input_time desc")->getAll();
-		if($this->user_id<=0){
-			foreach ($grabList as $key => $value) {
-				$grabList[$key]['user_qqs'] = str_pad(substr($value['user_qq'], 0, 4), strlen($value['user_qq']), '*');
-			}
-		}
+   $grabList=$this->db->model('resourcelib')->select('content,user_qq,user_nick,qq_image,input_time,realname')->where('type=0')        ->limit(3)->order("input_time desc")->getAll();
+        if($this->user_id<=0){
+        foreach ($grabList as $key => $value) {
+            $grabList[$key]['user_qqs'] = str_pad(substr($value['user_qq'], 0, 4), strlen($value['user_qq']), '*');
+        }
+    }
 		$this->assign('grabList',$grabList);
 		
-		$readjust=M('operator:dynamic')->getList();
-		//调价动态(行情中心)
-		$readjust=$this->setReadjust($readjust);
+   $readjust=M('operator:dynamic')->getList();
+    //调价动态(行情中心)
+   $readjust=$this->setReadjust($readjust);
 
 		$this->assign('readjust', $readjust);
 		

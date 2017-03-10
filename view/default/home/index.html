@@ -857,79 +857,49 @@
    	 	<div class="right new-order frt">
             <div class="big-title">最新订单</div>
             <div class="new-order-title">
-                <p class="col1">买家</p>
-                <p class="col2">手机号</p>
-                <p class="col3">采购内容</p>
+                <p class="col1">类型</p>
+                <p class="col2">采购内容</p>
+                <p class="col3">数量</p>
                 <p class="col4">时间</p>
             </div>
             <!--new-order-con begin-->
             <div class="new-order-con">
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
+                <!--无间断滚动开始-->
+                <div id="demo">
+                    <div id="indemo">
+                        <!--demo1 begin-->
+                        <div id="demo1">
+                            {foreach from=$deals item=value}
+                            <div class="cols">
+                                <p class="col1">{:witchType|$value.product_type}</p>
+                                <p class="col2"> {$value.model}  {$value.f_name}</p>
+                                <p class="col3">{$value.number}</p>
+                                <p class="col4">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</p>
+                            </div>
+                            {/foreach}
+                        </div>
+                        <!--demo1 end-->
+                        <div id="demo2"></div>
+                    </div>
                 </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
-                <div class="cols">
-                    <p class="col1">张**</p>
-                    <p class="col2">177********</p>
-                    <p class="col3">LDPE 2426H 神华榆</p>
-                    <p class="col4">11:30</p>
-                </div>
+                <!--无间断滚动结束-->
+                <script type="text/javascript">
+                    var speed=40; //数字越大速度越慢
+                    var tab=document.getElementById("demo");
+                    var tab1=document.getElementById("demo1");
+                    var tab2=document.getElementById("demo2");
+                    tab2.innerHTML=tab1.innerHTML;
+                    function Marquee(){
+                        if(tab2.offsetHeight-tab.scrollTop<=0)
+                            tab.scrollTop-=tab1.offsetHeight;
+                        else{
+                            tab.scrollTop++;
+                        }
+                    }
+                    var MyMar=setInterval(Marquee,speed);
+                    tab.onmouseover=function() {clearInterval(MyMar)};
+                    tab.onmouseout=function() {MyMar=setInterval(Marquee,speed)};
+                </script>
             </div>
             <!--new-order-con end-->
         </div>
