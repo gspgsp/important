@@ -346,7 +346,7 @@ class customerBaseModel extends model
         }else{
             return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
         }
-    } 
+    }
 
     public function checkTime($time){
         if($time>0){
