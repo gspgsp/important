@@ -120,7 +120,7 @@
 							});
 							wx.onMenuShareAppMessage({
 								title: "热烈祝贺"+_this.c_name+"获得企业信用等级证书"+_this.credit_limit+"万",
-								desc: "塑料圈通讯录",
+								desc: "我的塑料网-塑料圈通讯录",
 								link: 'http://q.myplas.com/#/credit2/' + _this.user_id,
 								imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
 								type: '',
