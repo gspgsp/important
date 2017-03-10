@@ -403,7 +403,12 @@ class indexAction extends homeBaseAction{
 			$this->display('price_charts');
 			die();
 		}
-		$product_ids = array_column($res,'id');
+		foreach($res as $val)
+		{
+			$product_ids[]=$val['id'];
+		}
+		unset($val);
+		//$product_ids = array_column($res,'id');
 		$res = $this->db->model('sale_log')->where(' p_id in ('.join(',',$product_ids).')')->order('unit_price','desc')->getAll();
 		if(empty($res)){
 			$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
