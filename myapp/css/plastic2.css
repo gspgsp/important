@@ -644,3 +644,11 @@ body{ background: #efeff4;}
 
 .plasticSearch{ margin: 0 0 0 75px; position: relative;}
 .plasticSearch input{ margin: 0; text-indent: 15px; padding: 5px 7px; font-weight: normal; font-size: 12px; height: 30px; line-height: 30px;}
+
+.slqBanner{ padding: 0 12px; overflow: hidden;}
+.slqCompanySearch{ border: 1px solid #4fa19f; margin: 0 12px; position: relative; background: #FFFFFF;}
+.slqCompanySearch input{ margin: 0; border: none; font-size: 12px; background: #FFFFFF; border-radius: none;}
+.slqSearchBtn{ position: absolute; right: 0; top: 0; width: 60px; height: 40px; line-height: 40px; font-size: 14px; background: #1e61c5; color: #FFFFFF; text-align: center;}
+.qccWrap{ padding: 20px 13px;}
+.qccTitle{ background: #aab8ea; height: 32px; border-radius: 4px 4px 0 0; padding: 0 7px; line-height: 32px; color: #333333; font-weight: normal; margin: 0; font-size: 17px;}
+.qccTitle span{ border-left: 3px solid #ff4f00; padding-left: 10px;}
