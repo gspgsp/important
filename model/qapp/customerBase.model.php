@@ -307,7 +307,7 @@ class customerBaseModel extends model
             }
         }else{
             $tmp = $this->getQichacha($name);
-        }
+        } 
         if(is_array($tmp)) return $tmp;
         $oneRow['id'] = $tmp;
         if(isset($oneRow['id'])&&$oneRow['id']>0){
