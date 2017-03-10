@@ -370,7 +370,7 @@ a{ text-decoration:none;}
 /*floor2 begin*/
 .supply-demand2 .right .big-title{ font-size:14px; width:358px; height:38px; line-height:38px; overflow:hidden; margin:0 0 0 20px; border-bottom:1px solid #ddd;}
 .supply-demand2 .right.new-order{ height:478px; overflow:hidden;}
-.supply-demand2 .right.new-order .new-order-title{ width:358px; height:35px; line-height:35px; overflow:hidden; margin:0 0 0 20px; border-bottom:1px solid #ddd; background:#eee;}
+.supply-demand2 .right.new-order .new-order-title{ width:358px; height:35px; line-height:35px; overflow:hidden; margin:0 0 12px 20px; border-bottom:1px solid #ddd; background:#eee;}
 .supply-demand2 .right.new-order  p{ line-height:35px; float:left; text-align:center;}
 .supply-demand2 .right.new-order  p.col1{ width:70px;}
 .supply-demand2 .right.new-order  p.col2{ width:78px;}
@@ -378,6 +378,9 @@ a{ text-decoration:none;}
 .supply-demand2 .right.new-order  p.col4{ width:80px;}
 .supply-demand2 .right.new-order .new-order-con{ width:358px; height:auto; overflow:hidden; margin:0 0 0 20px;}
 .supply-demand2 .right.new-order .cols{ height:35px; line-height:35px; overflow:hidden;}
+.supply-demand2 .right.new-order #demo { overflow:hidden; width:358px; height:350px;}
+.supply-demand2 .right.new-order #indemo { height:800%;}
+
 
 .large-bid{ height:auto; overflow:hidden;}
 .large-bid .left,.large-bid .right{ height:275px; position:relative;}
