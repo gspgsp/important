@@ -688,7 +688,7 @@ class orderAction extends adminBaseAction {
 			//添加订单可视化 1审核过 2审核不过
 			M('order:orderLog')->addLog($data['o_id'],$transport_status = $transport_status==2 ? 3 : 2,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
 
-			if($transport_status==2){
+			if($transport_status==2 && (M('product:order')->getColByName($data['o_id'],'order_type')==2)){
 				$res= M('user:customer')->updateCreditLimit($data['o_id'],$transport_status,'-');
 				if($res!=1) throw new Exception('可用额度更新失败');
 			}
