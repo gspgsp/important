@@ -36,14 +36,14 @@ class customerModel extends model{
 		return empty($result) ? '-' : $result;
 	}
 
-    /**
-     * 根据cid获取客户信用额度
-     *
-     */
-    public function getRowByCredit($c_id){
-        $result=$this->model('customer')->select("credit_limit,available_credit_limit")->where("c_id=".$c_id)->getRow();
-        return $result;
-    }
+	/**
+	 * 根据cid获取客户信用额度
+	 *
+	 */
+	public function getRowByCredit($c_id){
+		$result=$this->model('customer')->select("credit_limit,available_credit_limit")->where("c_id=".$c_id)->getRow();
+		return $result;
+	}
 
 	/**
 	 * 根据联系人id 取出所有的所属公司信息
@@ -245,16 +245,15 @@ class customerModel extends model{
 			$var = $this->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
 			$info = $this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $var['c_id'])->getRow();
 			$arr = array();
-            // 销售物流审
+			// 销售物流审
 			if ($status==2) {
 				$arr['available_credit_limit'] = ($info['credit_limit'] - $var['total_price']);
 			}
-            //销售红充审
+			//销售红充审
 			if($status==3){
-                $arr['available_credit_limit'] = ($info['available_credit_limit'] - $money);
-            }
-
-            $res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
+				$arr['available_credit_limit'] = ($info['available_credit_limit'] - $money);
+			}
+			$res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
 			return $res;
 		}
 

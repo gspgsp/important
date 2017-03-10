@@ -1,4 +1,4 @@
-<?php 
+<?php
 //订单模型
 class purchaseModel extends model{
 	public function __construct() {
@@ -39,14 +39,26 @@ class purchaseModel extends model{
 		return $this->from('purchase pur')
 			->join('product pro','pur.p_id=pro.id')
 			->join('factory fa','pro.f_id=fa.fid')
-//			->join('lib_region reg','pur.provinces=reg.id')
+			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house')
 			->where($where)
 			->order('pur.input_time desc')
 			->page($page,$pageSize)
-			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house')
 			->getPage();
 
 	}
+
+	public function getPurLimit($where='1'){
+		return $this->from('purchase pur')
+			->join('product pro','pur.p_id=pro.id')
+			->join('factory fa','pro.f_id=fa.fid')
+			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house')
+			->where($where)
+			->order('pur.input_time desc')
+			->limit(10)
+			->getAll();
+
+	}
+
 
 	/**
 	 * 获取最新现货资源
