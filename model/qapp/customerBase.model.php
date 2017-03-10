@@ -308,7 +308,8 @@ class customerBaseModel extends model
         }else{
             $tmp = $this->getQichacha($name);
         }
-        if(!empty($tmp)) return $tmp;
+        if(is_array($tmp)) return $tmp;
+        $oneRow['id'] = $tmp;
         if(isset($oneRow['id'])&&$oneRow['id']>0){
             return $this->selectAll($oneRow['id']);
         }
@@ -339,6 +340,8 @@ class customerBaseModel extends model
             usleep(20);
             if(!$oneRow=$this->checkName($name)){
                 return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
+            }else{
+                return $oneRow['id'];
             }
         }else{
             return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
