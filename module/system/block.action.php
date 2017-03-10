@@ -60,7 +60,7 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
-	 * 塑料头条banner
+	 * 塑料头条塑市早茶banner
 	 */
 	public function sszcBanner(){
 		$this->position = 8;
@@ -68,7 +68,7 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
-	 * 塑料头条banner
+	 * 塑料头条中晨塑说banner
 	 */
 	public function zcssBanner(){
 		$this->position = 9;
@@ -76,7 +76,7 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
-	 * 塑料头条banner
+	 * 塑料头条数据解读banner
 	 */
 	public function sjjdBanner(){
 		$this->position = 10;
@@ -84,7 +84,7 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
-	 * 塑料头条banner
+	 * 塑料头条竞拍分析banner
 	 */
 	public function jpfxBanner(){
 		$this->position = 11;
@@ -93,23 +93,23 @@ class blockAction extends adminBaseAction {
 
 
 	/**
-	 * 塑料头条banner
+	 * 塑料头条首页中左banner
 	 */
-	public function middleLeftBanner(){
+	public function indexLeftBanner(){
 		$this->position = 12;
 		$this->init();
 	}
 
 	/**
-	 * 塑料头条banner
+	 * 塑料头条首页中右banner
 	 */
-	public function middleRightBanner(){
+	public function indexRightBanner(){
 		$this->position = 13;
 		$this->init();
 	}
 
 	/**
-	 * 塑料头条首页中间banner
+	 * 塑料头条首页中晨事件banner
 	 */
 	public function middleBanner(){
 		$this->position = 14;
@@ -117,50 +117,138 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
-	 * 塑料头条子频道左上位置banner
+	 * 塑料头条PE中左位置banner
 	 */
-	public function cLeftTopBanner(){
-		$this->position = 17;
-		$this->init();
-	}
-
-	/**
-	 * 塑料头条子频道中间位置banner
-	 */
-	public function cMiddleBanner(){
+	public function peLeftBanner(){
 		$this->position = 16;
 		$this->init();
 	}
 
 	/**
-	 * 塑料头条子频道中间位置1banner
+	 * 塑料头条PE中1位置banner
 	 */
-	public function cMiddle1Banner(){
+	public function peMiddle1Banner(){
+		$this->position = 17;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PE中2位置banner
+	 */
+	public function peMiddle2Banner(){
 		$this->position = 18;
 		$this->init();
 	}
 
 	/**
-	 * 塑料头条子频道中间位置2banner
+	 * 塑料头条PE中3位置banner
 	 */
-	public function cMiddle2Banner(){
+	public function peMiddle3Banner(){
 		$this->position = 19;
 		$this->init();
 	}
 
 	/**
-	 * 塑料头条子频道中间位置3banner
+	 * 塑料头条PE中4banner
 	 */
-	public function cMiddle3Banner(){
+	public function peMiddle4Banner(){
 		$this->position = 20;
 		$this->init();
 	}
 
 	/**
-	 * 塑料头条子频道中间位置4banner
+	 * 塑料头条PP中左位置banner
 	 */
-	public function cMiddle4Banner(){
+	public function ppLeftBanner(){
 		$this->position = 21;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PP中1位置banner
+	 */
+	public function ppMiddle1Banner(){
+		$this->position = 22;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PP中2位置banner
+	 */
+	public function ppMiddle2Banner(){
+		$this->position = 23;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PP中3位置banner
+	 */
+	public function ppMiddle3Banner(){
+		$this->position = 24;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PP中4banner
+	 */
+	public function ppMiddle4Banner(){
+		$this->position = 25;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PVC中左上位置banner
+	 */
+	public function pvcLeftTopBanner(){
+		$this->position = 26;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PVC中左下位置banner
+	 */
+	public function pvcLeftBottomBanner(){
+		$this->position = 27;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PVC中右位置banner
+	 */
+	public function pvcRightBanner(){
+		$this->position = 28;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PVC中1位置banner
+	 */
+	public function pvcMiddle1Banner(){
+		$this->position = 29;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PVC中2位置banner
+	 */
+	public function pvcMiddle2Banner(){
+		$this->position = 30;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PVC中3位置banner
+	 */
+	public function pvcMiddle3Banner(){
+		$this->position = 31;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条PVC中4banner
+	 */
+	public function pvcMiddle4Banner(){
+		$this->position = 32;
 		$this->init();
 	}
 
@@ -366,6 +454,12 @@ class blockAction extends adminBaseAction {
 			$this->error('数据处理失败');
 		}
 	}
-	
+	/**
+	 * 头条栏位整合
+	 */
+	public function headlineBlock(){
+		$this->display('headline.block.html');
+	}
+		
 }
 ?>
