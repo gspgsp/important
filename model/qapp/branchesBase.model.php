@@ -37,7 +37,7 @@ class branchesBaseModel extends model
             return false;
         }
         $this->startTrans();
-        $this->where("c_id=$c_id")->update(array('is_enable'=>0,'update_time'=>CORE_TIME,'update_admin'=>'SCRIPT'));
+        $this->where("c_id=$c_id and is_enable=1")->update(array('is_enable'=>0,'update_time'=>CORE_TIME,'update_admin'=>'SCRIPT'));
         if($this->insertAll($branches,$c_id)){
             $this->commit();
             return true;

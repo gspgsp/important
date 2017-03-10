@@ -299,15 +299,16 @@ class customerBaseModel extends model
              */
             $forcedTime=$this->updateTime;
             if($this->forcedUpdate){//强制更新
-                return $this->getQichacha($name);
+                $tmp = $this->getQichacha($name);
 
             }elseif(($oneRow['update_time']>0&&CORE_TIME>($oneRow['update_time']+$forcedTime*86400))||($oneRow['input_time']>0&&CORE_TIME>($oneRow['input_time']+$forcedTime*86400))){
                //过期更新
-                return $this->getQichacha($name);
+                $tmp = $this->getQichacha($name);
             }
         }else{
-            return $this->getQichacha($name);
+            $tmp = $this->getQichacha($name);
         }
+        if(!empty($tmp)) return $tmp;
         if(isset($oneRow['id'])&&$oneRow['id']>0){
             return $this->selectAll($oneRow['id']);
         }
