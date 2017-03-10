@@ -60,7 +60,7 @@ class indexAction extends homeBaseAction{
 		$this->bigOffers=M('product:bigOffers')->getOfferList("1","of.input_time desc",1,5)['data'];
 
 		//3F中晨物流 12小时缓存 S 方法
-		$this->shipList = M('operator:ship_price')->get_index_ship(3);
+        $this->shipList = M('operator:ship_price')->get_index_ship(3);
 
 		//新闻资讯
 		$this->articleList = M('news:news')->getHomeNews();
