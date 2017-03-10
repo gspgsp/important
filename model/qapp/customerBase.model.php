@@ -299,13 +299,14 @@ class customerBaseModel extends model
              */
             $forcedTime=$this->updateTime;
             if($this->forcedUpdate){//强制更新
-                $this->getQichacha($name);
+                return $this->getQichacha($name);
+
             }elseif(($oneRow['update_time']>0&&CORE_TIME>($oneRow['update_time']+$forcedTime*86400))||($oneRow['input_time']>0&&CORE_TIME>($oneRow['input_time']+$forcedTime*86400))){
                //过期更新
-                $this->getQichacha($name);
+                return $this->getQichacha($name);
             }
         }else{
-            $this->getQichacha($name);
+            return $this->getQichacha($name);
         }
         if(isset($oneRow['id'])&&$oneRow['id']>0){
             return $this->selectAll($oneRow['id']);
@@ -336,7 +337,7 @@ class customerBaseModel extends model
             $this->insertAll($res);
             usleep(20);
             if(!$oneRow=$this->checkName($name)){
-                return false;
+                return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
             }
         }else{
             return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
