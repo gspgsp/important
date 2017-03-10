@@ -4,10 +4,10 @@
     	<a class="back" href="javascript:window.history.back();"></a>
     	查询企业信息
     </header>
-    <img width="100%" src="http://static.online.com/myapp/img/plasticzonecha.jpg">
+    <img width="100%" src="http://statics.myplas.com/myapp/img/plasticzonecha.jpg">
     <div class="slqBanner">
-    	<img width="123" height="26" style="float: left; margin: 46px 0 0 0;" src="http://static.online.com/myapp/img/slqCompanyBanner.jpg" />
-    	<img width="138" height="69" style="float: right;" src="http://static.online.com/myapp/img/slqQueryBanner.jpg" />
+    	<img width="123" height="26" style="float: left; margin: 46px 0 0 0;" src="http://statics.myplas.com/myapp/img/slqCompanyBanner.jpg" />
+    	<img width="138" height="69" style="float: right;" src="http://statics.myplas.com/myapp/img/slqQueryBanner.jpg" />
     </div>
     <div class="slqCompanySearch">
 		<div style=" margin: 0 60px 0 0;">
