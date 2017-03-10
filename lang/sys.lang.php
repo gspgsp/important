@@ -545,5 +545,11 @@ return array(
 		4=>'vip',
 		5=>'public',
 	),
+	//塑料头条广告位识别读取
+	'headline_ads'=>array(
+		'pe'=>array(16,17,18,19,20),
+		'pp'=>array(21,22,23,24,25),
+		'pvc'=>array(26,29,30,31,32),
+	),
 	
 );
