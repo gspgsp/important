@@ -27,7 +27,7 @@ class indexAction extends homeBaseAction{
 		}
 		$this->assign('newPurs',$newPurs);
 		//供求信息
-		$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)")['data'];
+		$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4)")['data'];
 
    //实时成交订单和最新订单
    $this->deals=M('product:order')->getTrad();

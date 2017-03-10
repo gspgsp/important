@@ -872,7 +872,7 @@
                             {foreach from=$deals item=value}
                             <div class="cols">
                                 <p class="col1">{:witchType|$value.product_type}</p>
-                                <p class="col2"> {$value.model}  {$value.f_name}</p>
+                                <p class="col2">{$value.model}  {$value.f_name}</p>
                                 <p class="col3">{$value.number}</p>
                                 <p class="col4">{if $value.input_time}{$value.input_time|date:H:i}{else}&nbsp;{/if}</p>
                             </div>
