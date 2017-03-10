@@ -30,6 +30,7 @@ class indexAction extends homeBaseAction{
 		$this->purBuy=M('product:purchase')->getPurPage("pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)")['data'];
 
 
+
 		//实时成交价格信息
 //			$deal=$this->db->model('order')->select('o_id')->where(' invoice_status=3 and collection_status=3 and order_type=1')->order('update_time desc')->limit('3')->getAll();
 //			$arr=array();
