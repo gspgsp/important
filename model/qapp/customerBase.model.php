@@ -300,24 +300,30 @@ class customerBaseModel extends model
             $forcedTime=$this->updateTime;
             if($this->forcedUpdate){//强制更新
                 $tmp = $this->getQichacha($name);
-
             }elseif(($oneRow['update_time']>0&&CORE_TIME>($oneRow['update_time']+$forcedTime*86400))||($oneRow['input_time']>0&&CORE_TIME>($oneRow['input_time']+$forcedTime*86400))){
                //过期更新
                 $tmp = $this->getQichacha($name);
             }
         }else{
             $tmp = $this->getQichacha($name);
-        } 
-        if(is_array($tmp)) return $tmp;
-        $oneRow['id'] = $tmp;
+        }
+        if(is_array($tmp)){
+            return $tmp;
+        }elseif(is_string($tmp)){
+            $oneRow['id'] = $tmp;
+        }
         if(isset($oneRow['id'])&&$oneRow['id']>0){
             return $this->selectAll($oneRow['id']);
         }
     }
 
     public function checkName($name){
+        $tmpName=md5($name);
+        static $arr;
+        if(isset($arr[$tmpName])) return $arr[$tmpName];
         $oneRow=$this->select("id,input_time,update_time")->where("name='$name'")->getRow();
         if(!empty($oneRow)){
+            $arr[$tmpName]=$oneRow;
             return $oneRow;
         }
         return false;
@@ -339,7 +345,7 @@ class customerBaseModel extends model
             $this->insertAll($res);
             usleep(20);
             if(!$oneRow=$this->checkName($name)){
-                return array('err'=>8,'msg'=>'服务正在维护,请稍后再试！');
+                return array('err'=>8,'msg'=>'服务繁忙,请稍后再试！');
             }else{
                 return $oneRow['id'];
             }
