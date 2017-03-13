@@ -46,7 +46,8 @@
 					}
 				}
 				$cache->set($name,$data,86400);	
-			}			
+			}
+			p($data);exit;			
 			return $data;
 		}
 
