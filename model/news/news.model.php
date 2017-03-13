@@ -7,7 +7,7 @@
 
 		//通过分类id来获取各自分类的文章
 		public function getIndex($type=''){
-			$cache = cache::startMemcache();
+			$cache= E('RedisCluster',APP_LIB.'class');
 			$name='news_'.$type;
 			if (empty($type)) {$name='news_public';}
 			$data=$cache->get($name);
@@ -31,10 +31,10 @@
 						$c_type=$k;
 					}
 				}
-				$cates=$this->model('news_cate')->select('cate_id,spell,hot,limit')->where("find_in_set('".$c_type."',type)")->getAll();
+				$cates=$this->model('news_cate')->select('cate_id,spell,hot,limits')->where("find_in_set('".$c_type."',type)")->getAll();
 				$time=strtotime(date('Y-m-d'));		
 				foreach ($cates as $v) {
-					$data[$v['spell']]=$this->model('news_content')->select('id,title,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit($v['limit'])->getAll();
+					$data[$v['spell']]=$this->model('news_content')->select('id,title,input_time,type')->where($where.' and cate_id='.$v['cate_id'])->order('input_time desc,sort_order desc')->limit($v['limits'])->getAll();
 					foreach ($data[$v['spell']] as $k=>$v2) {
 						if($v2['input_time']-$time>=0){
 							$data[$v['spell']][$k]['today']=true;
@@ -99,7 +99,7 @@
 
 		//通过id获取文章详情
 		public function getNews($id){
-			$cache = cache::startMemcache();
+			$cache= E('RedisCluster',APP_LIB.'class');
 			$name='news_'.$id;
 			$data=$cache->get($name);
 			if (empty($data)) {
