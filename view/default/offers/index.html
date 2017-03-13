@@ -136,7 +136,7 @@
             <!-- 联营 -->
             <li class="result-con">
             	<div class="brand">{:witchType|$value.product_type}</div>
-                <div class="grade" ><a href="/offers/index/price_charts?model={$value.model}&f_id={$value.f_id}">{$value.model}</a></div>
+                <div class="grade" onclick="show_chart('{$value.model}','{$value.f_id}')"><a href="javascript:void(0);">{$value.model}</a></div>
                 <div class="level">{:setOption|process_level,$value.process_type}</div>
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
@@ -239,7 +239,37 @@
     <!--right end-->
 </div>
 <script type="text/javascript">
-    
+    function show_chart(model,f_id)
+    {
+        $.post('/offers/index/is_price_data_exist',{model:model,f_id:f_id},function(data){
+            if(data.err==0){
+                $.layer({
+                    type: 2,
+                    border: [0],
+                    title: '价格走势图',
+                    fixed: false, //不固定
+                    iframe: {src: '/offers/index/price_charts?model='+model+'&f_id='+f_id},
+                    area: ['1200px', '635px'],
+                    maxmin: false,
+                });
+            }else{
+                layer.msg(data.msg);
+                return;
+            }
+        },'json');
+        /*$.layer({
+            type: 2,
+            shadeClose: true,
+            title: '价格走势图',
+            closeBtn: [1, true],
+            shade: [0.8, '#000'],
+            border: [0],
+            offset: ['20px',''],
+            area: ['1218px', '700px'],
+            iframe: {src: '/offers/index/price_charts?model='+model+'&f_id='+f_id}
+        });*/
+
+    }
     function doTalk(id)
     {
         var user=$("#user_name").html();

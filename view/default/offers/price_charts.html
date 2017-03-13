@@ -1,16 +1,19 @@
-{layout file="public:main_layout"}
+{layout file="public:none_header_layout"}
 {insert_css files='home/mailloffer.css'}
-<div class="mall-offer w1220">
-    <div id="info" style="width: 100%;height:20px;"></div>
-    <div id="main" style="width: 100%;height:600px;"></div>
+<div class="mall-offer">
+<!--
+    <div id="info" style="width: 900px;height:20px;"></div>
+-->
+    <div id="main" style="width: 1200px;height:600px;"></div>
 </div>
 <script type="text/javascript" src="__JS__/echarts.js"></script>
 <script>
     var valid = '{$valid}';
-    if(valid == 'false')
+    /*if(valid == 'false')
     {
         $("#info").text("本产品无数据记录");
-    }
+    }*/
+    //$(".top,.header,.footer").hide();
     var myChart = echarts.init(document.getElementById('main'));
 
     //app.title = '2015 年上证指数';

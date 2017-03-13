@@ -502,6 +502,32 @@ class indexAction extends homeBaseAction{
 		$this->display('price_charts');
 	}
 
+	public function is_price_data_exist()
+	{
+		$model = sget('model','s');
+		$f_id  = sget('f_id','i');
+
+		$res = $this->db->model('product')->where(" model = '{$model}' and f_id = {$f_id}")->getAll();
+		if(empty($res)){
+			$arr = array('err'=>1,'msg'=>'价格数据记录为空');
+			$this->json_output($arr);
+			die();
+		}
+		foreach($res as $val)
+		{
+			$product_ids[]=$val['id'];
+		}
+		unset($val);
+		//$product_ids = array_column($res,'id');
+		$res = $this->db->model('sale_log')->where(' p_id in ('.join(',',$product_ids).')')->order('unit_price','desc')->getAll();
+		if(empty($res)){
+			$arr = array('err'=>1,'msg'=>'价格数据记录为空');
+		}else{
+			$arr = array('err'=>0,'msg'=>'价格数据记录正确');
+		}
+		$this->json_output($arr);
+	}
+
 	private function my_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){
 		if(is_array($arrays)){
 			foreach ($arrays as $array){
