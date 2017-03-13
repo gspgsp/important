@@ -47,7 +47,7 @@
 				}
 				$cache->set($name,$data,86400);	
 			}
-			file_put_contents('./content.txt',print_r($data,true),FILE_APPEND);
+			file_put_contents('./content.txt',print_r($data,true).'--'.date("Y-m-d H:i:s")."\n",FILE_APPEND);
 			return $data;
 		}
 
