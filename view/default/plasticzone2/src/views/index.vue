@@ -286,7 +286,6 @@ methods: {
 beforeRouteEnter:function(to,from,next){
 	next(function(){
 		$(window).scrollTop(window.localStorage.getItem("scrollTop"));
-		console.log("enter",$(window).scrollTop());		
 	});
 },
 beforeRouteLeave:function(to,from,next){
@@ -294,7 +293,6 @@ beforeRouteLeave:function(to,from,next){
 		
 	});
 	window.localStorage.setItem("scrollTop",$(window).scrollTop());
-	console.log("leave",$(window).scrollTop());
 },
 mounted: function() {
 	var _this = this;

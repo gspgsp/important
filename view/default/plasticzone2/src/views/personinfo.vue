@@ -123,8 +123,7 @@ module.exports = {
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-					console.log(">>>",res.msg);
-	            	window.location.reload();
+					_this.$router.go(0);
 			}, function() {
 
 			});
@@ -133,12 +132,12 @@ module.exports = {
 	activated: function() {
 		var _this = this;
 		$(window).scrollTop(0);
-	try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
 			url: '/api/qapi1/getZoneFriend',
 			type: 'get',
