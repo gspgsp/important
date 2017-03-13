@@ -1,5 +1,5 @@
 <template>
-	<div class="buyWrap">
+	<div class="buyWrap" style="padding: 0;">
     <header id="bigCustomerHeader">
     	<a class="back" href="javascript:window.history.back();"></a>
     	查询结果
