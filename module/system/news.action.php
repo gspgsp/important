@@ -114,11 +114,11 @@
 				//获取id，用来判断是更新数据还是添加数据
 				$id=sget('id','i');
 				$repeat=sget('repeat','i');
-				$cache = cache::startMemcache();
+				$cache= E('RedisCluster',APP_LIB.'class');
 				if($id>0){
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->wherePk($id)->update($data);
-					$cache->delete('news_'.$id);
+					$cache->remove('news_'.$id);
 				}else{	
 					if($repeat<1){
 						$data['content']=str_ireplace(array('我的塑料网','PE','PP','PVC'), array('<a target="_blank" href="http://www.myplas.com">我的塑料网</a>（www.myplas.com）','<a target="_blank" href="/pe.html">PE</a>','<a target="_blank" href="/pp.html">PP</a>','<a target="_blank" href="/pvc.html">PVC</a>'), $data['content']);
@@ -127,9 +127,9 @@
 					$data['input_time']=CORE_TIME;
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->add($data);
-					$cache->delete('news_'.$data['type']);
+					$cache->remove('news_'.$data['type']);
 					if ($data['type']!='public') {
-						$cache->delete('news_public');
+						$cache->remove('news_public');
 					}
 				}
 				if($result){
