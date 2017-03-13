@@ -9,7 +9,7 @@
 		
 		//列表页
 		public function lst(){
-			$action=sget('action','s');
+			$action=sget('action','s');   
 			//准备where搜索条件
 			$where=' 1 ';
 				//判断分类查询
