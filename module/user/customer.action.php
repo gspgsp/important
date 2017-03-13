@@ -161,6 +161,8 @@ class customerAction extends adminBaseAction {
 			}elseif($key_type=='customer_manager'){
 				$adms = join(',',M('rbac:adm')->getIdByName($keyword));
 				$where.=" and $key_type in ($adms) ";
+			}elseif($key_type=='need_product'){
+				$where.=" and `need_product_adm` like '%$keyword%' ";
 			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
