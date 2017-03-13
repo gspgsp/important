@@ -111,7 +111,7 @@
 					{if $see}
 					<tr>
 						<td>客户类型：</td>
-						<td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}'  textfield="name" valuefield="id"/></td>
+						<td><input name="type" class="mini-combobox" style="width:150px;" required="true" value="{$user.type}" data='{:setMiniConfig|$type}'  textfield="name" valuefield="id"/></td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
@@ -162,7 +162,7 @@
 						<td>信用等级：</td>
 						<td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' textfield="name" valuefield="id" value="{$user.credit_level}"/>
 						</td>
-						<td>附件地址：</td>  
+						<td>附件地址：</td>
 						<td>
 							<input id="img_url0"  name="file_url" class="mini-textbox" value="{$user.file_url}" style="width:70px"/>
 							<input id="upfileId0" type="file" name="upFile" onChange="fileUpload(0);">
@@ -241,7 +241,7 @@ var form = new mini.Form("#infoForm");
 function submitForm(){
 	form.validate();
 	if(form.isValid() == false) return;
-	
+
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);
@@ -263,9 +263,9 @@ function submitForm(){
 	},'json');
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");
