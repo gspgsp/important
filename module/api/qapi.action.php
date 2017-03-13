@@ -68,7 +68,8 @@ class qapiAction extends null2Action
      */
     public function register()
     {
-        $cache = cache::startMemcache();
+        //$cache = cache::startMemcache();
+        $cache= E('RedisCluster',APP_LIB.'class');
         $this->is_ajax = true;
         $mobile = sget('mobile', 's');
         if (!$this->_chkmobile($mobile)) $this->error($this->err);
@@ -97,7 +98,8 @@ class qapiAction extends null2Action
         $this->is_ajax = true;
         $mobile = sget('mobile', 's');
         if (!$this->_chkmobile($mobile)) $this->error($this->err);
-        $cache = cache::startMemcache();
+        //$cache = cache::startMemcache();
+        $cache= E('RedisCluster',APP_LIB.'class');
         if (!$cache->get($mobile . 'check_reg_ok')) $this->error('已过期，请重新注册');
         if ($_GET) {
             if (!$name=sget('name', 's')) $this->error('请输入姓名');

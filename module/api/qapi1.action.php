@@ -85,7 +85,8 @@ class qapi1Action extends null2Action
      */
     public function register()
     {
-        $cache = cache::startMemcache();
+        //$cache = cache::startMemcache();
+        $cache= E('RedisCluster',APP_LIB.'class');
         $this->is_ajax = true;
         $mobile = sget('mobile', 's');
         if (!$this->_chkmobile($mobile)) $this->error($this->err);
@@ -115,7 +116,8 @@ class qapi1Action extends null2Action
         $this->is_ajax = true;
         $mobile = sget('mobile', 's');
         if (!$this->_chkmobile($mobile)) $this->error($this->err);
-        $cache = cache::startMemcache();
+        //$cache = cache::startMemcache();
+        $cache= E('RedisCluster',APP_LIB.'class');
         if (!$cache->get($mobile . 'check_reg_ok')) $this->error('令牌已过期，请重新注册');
         if ($_GET) {
             $name=sget('name', 's');
