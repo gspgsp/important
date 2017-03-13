@@ -47,7 +47,7 @@
 				}
 				$cache->set($name,$data,86400);	
 			}
-			p($data);exit;			
+			file_put_contents('./content.txt',print_r($data,true),FILE_APPEND);
 			return $data;
 		}
 
