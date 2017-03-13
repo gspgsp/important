@@ -57,6 +57,7 @@ class qapi1_1Action extends null2Action
             '9' => '企业动态',
             '4' => '中晨塑说',
             '12' => '期刊报告',
+            '22' => '独家解读',
         );
         $data=M("public:common")->model("news_cate")->select("cate_id,cate_name")->where("status=1")->getAll();
         $this->catesAll=arrayKeyValues($data,'cate_id','cate_name');
@@ -1556,17 +1557,24 @@ class qapi1_1Action extends null2Action
      */
     public function getDetailInfo()
     {
-        if ($_GET) {
+        if ($_POST) {
             $this->is_ajax = true;
             $id = sget('id', i);
             $this->checkAccount(0);
             if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
-            M("news:news")->updateqAppPv($id);
+            M("qapp:news")->updateqAppPv($id);
             $cache = cache::startMemcache();
             if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)){
                 $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
             }
-            $cache->set('qcateDetailInfo' .  '_' . $id, $data, 3600);
+
+            /**
+             * 九个频道，每个推荐一条
+             */
+            foreach($this->cates as $key=>$row){
+                $_tmp=M("qapp:news")->getNewsOrderByPv('',$key,'',1,5)[0];
+                if(!empty($_tmp)) $data['subscribe'][]=$_tmp;
+            }
             $time = $data['input_time'];
             $data['input_time'] = $this->checkTime($data['input_time']);
             $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
@@ -1590,6 +1598,7 @@ class qapi1_1Action extends null2Action
             //取出上一篇和下一篇
             $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
             $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
+            $cache->set('qcateDetailInfo' .  '_' . $id, $data, 3600);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
     }
