@@ -66,7 +66,7 @@ function get_platform(){
         return array('channel_name'=>'unknow','platform'=>'unknow');
     }
     //判断塑料圈
-    if  ((strpos($_SERVER['HTTP_REFERER'], 'plasticzone') !== false)||((strpos(get_url(), 'qapi1') !== false)||(strpos(get_url(), 'plasticzone') !== false))||(preg_match('/(plastic)/i', strtolower($_SERVER['HTTP_USER_AGENT'])))) {
+    if  ((strpos($_SERVER['HTTP_REFERER'], 'plasticzone') !== false)||((strpos(get_url(), 'qapi') !== false)||(strpos(get_url(), 'plasticzone') !== false))||(preg_match('/(plastic)/i', strtolower($_SERVER['HTTP_USER_AGENT'])))) {
         //判断微信
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
             return array('channel_name'=>'plastic','platform'=>'weixin');
