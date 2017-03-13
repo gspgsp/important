@@ -102,4 +102,73 @@ class purchaseAction extends adminBaseAction {
 		$result=array('total'=>count($list_count),'data'=>$list,'msg'=>$msg);
 		$this->json_output($result);
 	}
+	/**
+	 * 采购走势图
+	 * @param $p_id
+	 * @return json
+	 * @Author: yumeilin
+	 */
+	public function graph(){
+	    $p_id=sget('p_id','i');
+	    $list=M('public:common')->model('purchase_log')->where('p_id='.$p_id)->select('input_time,update_time,number,unit_price')->order('input_time')->getAll();
+	    foreach($list as $k=>$v){
+	        $list[$k]['time']=date("Y-m-d",$v['input_time']);
+	    }
+	    //获取销量数据
+	    $price=array();
+	    $time=array();
+	    $time_u=array();
+	    $le_l=count($list);
+	    for($i=0;$i<$le_l;$i++){
+	        $time[$i]=$list[$i]['time'];
+	    }
+	    $time_a=array_unique($time);
+	    foreach($time_a as $k=>$v){
+	        array_push($time_u,$time_a[$k]);
+	    }
+	    $le_t=count($time_u);
+	    $num=0;
+	    for($i=0;$i<$le_t;$i++){
+	        for($j=0;$j<$le_l;$j++){
+	            if($list[$j]['time']==$time_u[$i]){
+	                $num+=$list[$j]['number'];
+	            }
+	        }
+	        $a[$i]=$num;
+	        $num=0;
+	    }
+	    //获取价格数据
+	    $highest=0;
+	    $lowest=10000000;
+	    for($i=0;$i<$le_t;$i++){
+	        for($j=0;$j<$le_l;$j++){
+	            if($list[$j]['time']==$time_u[$i]){
+	                array_push($price,$list[$j]['unit_price']);	              
+	                if($list[$j]['unit_price']>=$highest){	                   
+	                    $highest=$list[$j]['unit_price'];
+	                }
+	                if($list[$j]['unit_price']<=$lowest){
+	                    $lowest=$list[$j]['unit_price'];
+	                }
+	            }
+	        }
+	        $c[$i]['open']=(int)reset($price);
+	        $c[$i]['close']=(int)end($price);
+	        $c[$i]['lowest']=(int)$lowest;
+	        $c[$i]['highest']=(int)$highest;
+	        $price=array();
+	        $highest=0;
+	        $lowest=10000000000;
+	    }
+	    foreach($c as $k=>$v){
+	        $c[$k]=array_values($v);
+	    }
+	    $cc=json_encode($c);
+	    $aa =json_encode($a);
+	    $bb=json_encode($time_u);
+	    $this->assign('aa',$aa);
+	    $this->assign('bb',$bb);
+	    $this->assign('cc',$cc);
+	    $this->display('purchase.graph.html');
+	}
 }
