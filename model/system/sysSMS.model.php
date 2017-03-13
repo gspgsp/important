@@ -128,7 +128,8 @@ class sysSMSModel extends model{
        * @return (err,msg)
     */
 	public function qAppDynamicCode($mobile,$stype=0){
-		$cache=cache::startMemcache();
+		//$cache=cache::startMemcache();
+		$cache= E('RedisCluster',APP_LIB.'class');
 		$mcode=$cache->get($mobile.'mcode');
 		$mctype=$cache->get($mobile.'mctype');
 		$mctime=$cache->get($mobile.'mctime');
@@ -185,7 +186,8 @@ class sysSMSModel extends model{
      * @return (err,msg)
      */
 	public function qAppChkDynamicCode($mobile='',$mcode='',$stype=0){
-		$cache=cache::startMemcache();
+		//$cache=cache::startMemcache();
+		$cache= E('RedisCluster',APP_LIB.'class');
 		$mcode1=$cache->get($mobile.'mcode');
 		$mctype=$cache->get($mobile.'mctype');
 		$mctime=$cache->get($mobile.'mctime');
