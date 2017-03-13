@@ -38,7 +38,7 @@
 			$this->nav=$type;
 			//取出首页数据
 			$data=$this->db->getIndex($type);	
-					
+			//P($data);EXIT;		
 			//由于首页和pvc页面相同，pe和pp页面相同，所以为了区分，通过type进行区分判断该显示哪一块
 			if(empty($type))$type='public';
 			if($type=='pp')$type='pe';	
@@ -158,7 +158,7 @@
 						if($row['headline_vip']!=1 || !strstr($row['cate_id'],$cate_id)){
 							$status=2;
 						}else{
-							$cache = cache::startMemcache();
+							$cache= E('RedisCluster',APP_LIB.'class');
 							$name=$row['user_id'].'_time_'.$cate_id;
 							$total_time=$cache->get($name);
 							if (empty($total_time)) {

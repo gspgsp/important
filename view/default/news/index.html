@@ -659,24 +659,36 @@
     <div class="right frt">
         <!--vip-title begin-->
         <div class="vip-title">
-            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pecjsj.html">成交数据</a></h3>
-            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pecjsj.html">更多</a></p>
+            <h3 class="cjsj">成交数据&ensp;&ensp;&ensp;<span id="tabc1" onmouseover="setTab2('tabc',1,2,'pemore')" class="hover"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pehb.html">华北</a></span>&ensp;|</a>&ensp;<span id="tabc2" onmouseover="setTab2('tabc',2,2,'pemore')"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pehd.html">华东</a></span></h3>
+            <p id="pemore1"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pehb.html">更多</a></p>
+            <p id="pemore2" style="display:none;"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pehd.html">更多</a></p>
         </div>
         <!--vip-title end-->
         <!--vip-con begin-->
         <div class="vip-con link6">
+	             <div id="con-tabc-1">
+		           <h4><a target="_blank"  href="/{$data[pehb][hot].type}/pehb/{$data[pehb][hot].id}.html" title="{$data[pehb][hot].title}">{$data[pehb][hot].title|truncate:25}</a></h4>
+		            <p>{$data[pehb][hot].content}</p>
+		            <ul class="vipli two">
+		                        {foreach from=$data[pehb] item=v}
+		                                    {if $v.id != $data[pehb][hot][id]}
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pehb/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    {/if}
+		                        {/foreach}
+		            </ul>
+	             </div>
 
-           <h4><a target="_blank"  href="/{$data[pecjsj][hot].type}/pecjsj/{$data[pecjsj][hot].id}.html" title="{$data[pecjsj][hot].title}">{$data[pecjsj][hot].title|truncate:25}</a></h4>
-            <p>{$data[pecjsj][hot].content}</p>
-
-            <ul class="vipli two">
-                        {foreach from=$data[pecjsj] item=v}
-                                    {if $v.id != $data[pecjsj][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pecjsj/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
-                                    {/if}
-                        {/foreach}
-            </ul>
-
+	            <div id="con-tabc-2">
+		            	<h4><a target="_blank"  href="/{$data[pehd][hot].type}/pehd/{$data[pehd][hot].id}.html" title="{$data[pehd][hot].title}">{$data[pehd][hot].title|truncate:25}</a></h4>
+		            <p>{$data[pehd][hot].content}</p>
+		            <ul class="vipli two">
+		                        {foreach from=$data[pehd] item=v}
+		                                    {if $v.id != $data[pehd][hot][id]}
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pehd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    {/if}
+		                        {/foreach}
+		            </ul>
+	             </div>
         </div>
         <!--vip-con end-->
     </div>
@@ -712,26 +724,38 @@
     <!--right begin-->
     <div class="right frt">
         <!--vip-title begin-->
-        <div class="vip-title">
-            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppcjsj.html">成交数据</a></h3>
-            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppcjsj.html">更多</a></p>
-        </div>
+        	<div class="vip-title">
+	            <h3 class="cjsj">成交数据&ensp;&ensp;&ensp;<span id="tabd1" onmouseover="setTab2('tabd',1,2,'ppmore')" class="hover"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pphb.html">华北</a></span>&ensp;|</a>&ensp;<span id="tabd2" onmouseover="setTab2('tabd',2,2,'ppmore')"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pphd.html">华东</a></span></h3>
+	            <p id="ppmore1"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pphb.html">更多</a></p>
+	            <p id="ppmore2" style="display:none;"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pphd.html">更多</a></p>
+        	</div>
         <!--vip-title end-->
         <!--vip-con begin-->
-        <div class="vip-con link6">
+        	<div class="vip-con link6">
+	             <div id="con-tabd-1">
+		           <h4><a target="_blank"  href="/{$data[pphb][hot].type}/pphb/{$data[pphb][hot].id}.html" title="{$data[pphb][hot].title}">{$data[pphb][hot].title|truncate:25}</a></h4>
+		            <p>{$data[pphb][hot].content}</p>
+		            <ul class="vipli two">
+		                        {foreach from=$data[pphb] item=v}
+		                                    {if $v.id != $data[pphb][hot][id]}
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pphb/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    {/if}
+		                        {/foreach}
+		            </ul>
+	             </div>
 
-           <h4><a target="_blank"  href="/{$data[ppcjsj][hot].type}/ppcjsj/{$data[ppcjsj][hot].id}.html" title="{$data[ppcjsj][hot].title}">{$data[ppcjsj][hot].title|truncate:25}</a></h4>
-            <p>{$data[ppcjsj][hot].content}</p>
-
-            <ul class="vipli two">
-                        {foreach from=$data[ppcjsj] item=v}
-                                    {if $v.id != $data[ppcjsj][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ppcjsj/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
-                                    {/if}
-                        {/foreach}
-            </ul>
-
-        </div>
+	            <div id="con-tabd-2">
+		            	<h4><a target="_blank"  href="/{$data[pphd][hot].type}/pphd/{$data[pphd][hot].id}.html" title="{$data[pphd][hot].title}">{$data[pphd][hot].title|truncate:25}</a></h4>
+		            <p>{$data[pphd][hot].content}</p>
+		            <ul class="vipli two">
+		                        {foreach from=$data[pphd] item=v}
+		                                    {if $v.id != $data[pphd][hot][id]}
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pphd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    {/if}
+		                        {/foreach}
+		            </ul>
+	             </div>
+        	</div>
         <!--vip-con end-->
     </div>
     <!--right end-->
@@ -766,26 +790,38 @@
     <!--right begin-->
     <div class="right frt">
         <!--vip-title begin-->
-        <div class="vip-title">
-            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvccjsj.html">成交数据</a></h3>
-            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvccjsj.html">更多</a></p>
-        </div>
+             <div class="vip-title">
+	            <h3 class="cjsj">成交数据&ensp;&ensp;&ensp;<span id="tabe1" onmouseover="setTab2('tabe',1,2,'pvcmore')" class="hover"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvchb.html">华北</a></span>&ensp;|</a>&ensp;<span id="tabe2" onmouseover="setTab2('tabe',2,2,'pvcmore')"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvchd.html">华东</a></span></h3>
+	            <p id="pvcmore1"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvchb.html">更多</a></p>
+	            <p id="pvcmore2" style="display:none;"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pvchd.html">更多</a></p>
+        	</div>
         <!--vip-title end-->
         <!--vip-con begin-->
-        <div class="vip-con link6">
+        	<div class="vip-con link6">
+	             <div id="con-tabe-1">
+		           <h4><a target="_blank"  href="/{$data[pvchb][hot].type}/pvchb/{$data[pvchb][hot].id}.html" title="{$data[pvchb][hot].title}">{$data[pvchb][hot].title|truncate:25}</a></h4>
+		            <p>{$data[pvchb][hot].content}</p>
+		            <ul class="vipli two">
+		                        {foreach from=$data[pvchb] item=v}
+		                                    {if $v.id != $data[pvchb][hot][id]}
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvchb/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    {/if}
+		                        {/foreach}
+		            </ul>
+	             </div>
 
-           <h4><a target="_blank"  href="/{$data[pvccjsj][hot].type}/pvccjsj/{$data[pvccjsj][hot].id}.html" title="{$data[pvccjsj][hot].title}">{$data[pvccjsj][hot].title|truncate:25}</a></h4>
-            <p>{$data[pvccjsj][hot].content}</p>
-
-            <ul class="vipli two">
-                        {foreach from=$data[pvccjsj] item=v}
-                                    {if $v.id != $data[pvccjsj][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvccjsj/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
-                                    {/if}
-                        {/foreach}
-            </ul>
-
-        </div>
+	            <div id="con-tabe-2">
+		            	<h4><a target="_blank"  href="/{$data[pvchd][hot].type}/pvchd/{$data[pvchd][hot].id}.html" title="{$data[pvchd][hot].title}">{$data[pvchd][hot].title|truncate:25}</a></h4>
+		            <p>{$data[pvchd][hot].content}</p>
+		            <ul class="vipli two">
+		                        {foreach from=$data[pvchd] item=v}
+		                                    {if $v.id != $data[pvchd][hot][id]}
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvchd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    {/if}
+		                        {/foreach}
+		            </ul>
+	             </div>
+        	</div>
         <!--vip-con end-->
     </div>
     <!--right end-->
