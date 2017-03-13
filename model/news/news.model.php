@@ -45,10 +45,9 @@
 						$data[$v['spell']]['hot']['content']=mb_substr(strip_tags($data[$v['spell']]['hot']['content']),0,$num,'utf-8').'...';
 					}
 				}
-				$cache->set($name,$data,86400);	
+				$cache->set($name,json_encode($data),86400);	
 			}
-			file_put_contents('./content.txt',print_r($data,true).'--'.date("Y-m-d H:i:s")."\n",FILE_APPEND);
-			return $data;
+			return json_decode($data,true);
 		}
 
 		//通过类型和分类来获取列表页文章
