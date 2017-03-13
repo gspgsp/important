@@ -16,7 +16,7 @@
 				if($type=='vip'){
 					$num=93;
 					$where.=' and type="vip"' ;
-				}else{
+				}else{ 
 					$num=67;				
 					if(!empty($type)){
 						$where.=' and type in("'.$type.'","public")' ;

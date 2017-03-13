@@ -6,7 +6,7 @@ class blockModel extends model{
 	private $cache=NULL; //缓存
 	public function __construct() {
 		parent::__construct(C('db_default'), 'block');
-		$this->cache= E('RedisCluster',APP_LIB.'class');
+		$this->cache= E('RedisCluster',APP_LIB.'class'); 
 	}
 	
 	/*
