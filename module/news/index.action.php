@@ -2,7 +2,7 @@
 	class indexAction extends homeBaseAction {
 		public function __init(){
 			$this->db=M('news:news');
-		}
+		} 
 
 		//取出首页数据
 		public function init(){
