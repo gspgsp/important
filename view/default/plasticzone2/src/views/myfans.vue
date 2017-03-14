@@ -44,23 +44,24 @@ module.exports = {
 	},
 	mounted: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		
-	}
 		$.ajax({
-			url: '/api/qapi1/getMyFuns',
-			type: 'get',
-			data: {
+			type:"get",
+			url:"/api/qapi1/getMyFuns",
+			data:{
 				page: _this.page,
 				size: 100,
 				type: 1,
-				token: window.localStorage.getItem("token")
+				token: window.localStorage.getItem("token")				
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
+		}).done(function(res){
 			if(res.err == 2) {
 				_this.condition = false;
 			} else if(res.err == 1) {
@@ -73,9 +74,13 @@ module.exports = {
 				_this.condition = true;
 				_this.name = res.data;
 			}
-		}, function() {
-
+			
+		}).fail(function(res){
+			
+		}).always(function(){
+			
 		});
+		
 	}
 }
 </script>

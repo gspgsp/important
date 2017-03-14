@@ -118,8 +118,8 @@ module.exports = {
 			var _this = this;
 			if(id) {
 				$.ajax({
-					type: "get",
-					url: '/api/qapi1/getDetailInfo',
+					type: "post",
+					url: '/api/qapi1_1/getDetailInfo',
 					data: {
 						token: window.localStorage.getItem("token"),
 						id: id
@@ -186,8 +186,8 @@ module.exports = {
 			console.log(id);
 			if(id) {
 				$.ajax({
-					type: "get",
-					url: '/api/qapi1/getDetailInfo',
+					type: "post",
+					url: '/api/qapi1_1/getDetailInfo',
 					data: {
 						token: window.localStorage.getItem("token"),
 						id: id
@@ -263,8 +263,8 @@ module.exports = {
 		}
 
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/getDetailInfo",
+			type: "post",
+			url: "/api/qapi1_1/getDetailInfo",
 			data: {
 				id: _this.$route.params.id,
 				token: window.localStorage.getItem("token")

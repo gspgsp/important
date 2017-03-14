@@ -1,48 +1,52 @@
 import Vue from '../node_modules/vue/dist/vue.min';
 import VueRouter from '../node_modules/vue-router/dist/vue-router.min';
-import Index from './views/index';
-import Login from './views/login';
-import Register from './views/register';
-import Resetpwd from './views/resetpwd';
-import Completeinfo from "./views/completeinfo";
-import Headline from './views/headline';
-import Headlinelist from "./views/headlinelist";
-import Headlinedetail from "./views/headlinedetail";
-import Personinfo from "./views/personinfo";
-import Supplybuy from "./views/supplybuy";
-import Release from './views/release';
-import Releasedetail from './views/releasedetail';
-import Releasebsbuy from "./views/releasebsbuy";
-import Releasebssupply from "./views/releasebssupply";
-import Releasesupply from './views/releasesupply';
-import Releasebuy from './views/releasebuy';
-import Myzone from './views/myzone';
-import Myinfo from "./views/myinfo";
-import Myinvite from './views/myinvite';
-import Myfans from './views/myfans';
-import Mypay from './views/mypay';
-import Mysupply from "./views/mysupply";
-import Mybuy from "./views/mybuy";
-import Mymsg from './views/mymsg';
-import Mymsg2 from './views/mymsg2';
-import Help from "./views/help";
-import Protocol from "./views/protocol";
-import Pointsrule from "./views/pointsrule";
-import Mypoints from "./views/mypoints";
-import Pointsrecord from "./views/pointsrecord";
-import Pointsdetail from "./views/pointsdetail";
-import Productdetail from "./views/productdetail";
-import Supplybuydetail from "./views/supplybuydetail";
-import Credit from "./views/credit";
-import Credit2 from "./views/credit2";
-import Searchcompany from "./views/searchcompany";
-import Creditintro from "./views/creditintro";
-import Qichacha from "./views/qichacha";
-import Qccresult from "./views/qccresult";
 
 Vue.use(VueRouter);
 
-var routes=[
+//var url='/api/qapi1_1';
+const Index = r => require.ensure([], () => r(require('./views/index.vue')), 'index')
+const Login = r => require.ensure([], () => r(require('./views/login.vue')), 'login')
+const Register= r => require.ensure([], () => r(require('./views/register.vue')), 'register')
+const Resetpwd= r => require.ensure([], () => r(require('./views/resetpwd.vue')), 'resetpwd')
+const Completeinfo= r => require.ensure([], () => r(require('./views/completeinfo.vue')), 'completeinfo')
+const Headline= r => require.ensure([], () => r(require('./views/headline.vue')), 'headline')
+const Release= r => require.ensure([], () => r(require('./views/release.vue')), 'release')
+const Releasedetail= r => require.ensure([], () => r(require('./views/releasedetail.vue')), 'releasedetail')
+const Myzone= r => require.ensure([], () => r(require('./views/myzone.vue')), 'myzone')
+const Myinfo= r => require.ensure([], () => r(require('./views/myinfo.vue')), 'myinfo')
+const Mypoints= r => require.ensure([], () => r(require('./views/mypoints.vue')), 'mypoints')
+const Pointsrule= r => require.ensure([], () => r(require('./views/pointsrule.vue')), 'pointsrule')
+const Pointsrecord= r => require.ensure([], () => r(require('./views/pointsrecord.vue')), 'pointsrecord')
+const Pointsdetail= r => require.ensure([], () => r(require('./views/pointsdetail.vue')), 'pointsdetail')
+const Productdetail= r => require.ensure([], () => r(require('./views/productdetail.vue')), 'productdetail')
+const Releasesupply= r => require.ensure([], () => r(require('./views/releasesupply.vue')), 'releasesupply')
+const Releasebuy= r => require.ensure([], () => r(require('./views/releasebuy.vue')), 'releasebuy')
+const Releasebsbuy= r => require.ensure([], () => r(require('./views/releasebsbuy.vue')), 'releasebsbuy')
+const Releasebssupply= r => require.ensure([], () => r(require('./views/releasebssupply.vue')), 'releasebssupply')
+const Myinvite= r => require.ensure([], () => r(require('./views/myinvite.vue')), 'myinvite')
+const Myfans= r => require.ensure([], () => r(require('./views/myfans.vue')), 'myfans')
+const Mypay= r => require.ensure([], () => r(require('./views/mypay.vue')), 'mypay')
+const Mysupply= r => require.ensure([], () => r(require('./views/mysupply.vue')), 'mysupply')
+const Mybuy= r => require.ensure([], () => r(require('./views/mybuy.vue')), 'mybuy')
+const Mymsg= r => require.ensure([], () => r(require('./views/mymsg.vue')), 'mymsg')
+const Mymsg2= r => require.ensure([], () => r(require('./views/mymsg2.vue')), 'mymsg2')
+const Headlinelist= r => require.ensure([], () => r(require('./views/headlinelist.vue')), 'headlinelist')
+const Personinfo= r => require.ensure([], () => r(require('./views/personinfo.vue')), 'personinfo')
+const Supplybuy= r => require.ensure([], () => r(require('./views/supplybuy.vue')), 'supplybuy')
+const Headlinedetail= r => require.ensure([], () => r(require('./views/headlinedetail.vue')), 'headlinedetail')
+const Supplybuydetail= r => require.ensure([], () => r(require('./views/supplybuydetail.vue')), 'supplybuydetail')
+const Help= r => require.ensure([], () => r(require('./views/help.vue')), 'help')
+const Protocol= r => require.ensure([], () => r(require('./views/protocol.vue')), 'protocol')
+const Credit= r => require.ensure([], () => r(require('./views/credit.vue')), 'credit')
+const Creditintro= r => require.ensure([], () => r(require('./views/creditintro.vue')), 'creditintro')
+const Credit2= r => require.ensure([], () => r(require('./views/credit2.vue')), 'credit2')
+const Searchcompany= r => require.ensure([], () => r(require('./views/searchcompany.vue')), 'searchcompany')
+const Qichacha= r => require.ensure([], () => r(require('./views/qichacha.vue')), 'qichacha')
+const Qccresult= r => require.ensure([], () => r(require('./views/qccresult.vue')), 'qccresult')
+const Error= r => require.ensure([], () => r(require('./views/error.vue')), 'error')
+
+var  router = new VueRouter({
+  routes: [
 	{path:'/index',name:'index',component:Index},
 	{path:'/login',name:'login',component:Login},
 	{path:'/register',name:'register',component:Register},
@@ -83,14 +87,11 @@ var routes=[
 	{path:'/qichacha',name:'qichacha',component:Qichacha},
 	{path:'/qccresult',name:'qccresult',component:Qccresult},
 	{path: '/', redirect: { name: 'index' }}
-];
-
-var router=new VueRouter({
-	routes
-});
-
-var url='/api/qapi1_1';
+  ]
+})
 
 var app=new Vue({
 	router
 }).$mount('#app');
+
+

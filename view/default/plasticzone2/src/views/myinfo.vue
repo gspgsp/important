@@ -368,8 +368,6 @@ module.exports = {
 				},
 				dataType: 'json',
 				success: function(res) {
-					console.log(2);
-					console.log(res);
 					if(res.err == 0) {
 						mui.alert("", "上传成功", function() {
 							_this.cardImg = res.url;
@@ -382,20 +380,20 @@ module.exports = {
 
 				},
 				error: function(data, status, e) {
-					console.log(3);
+
 				}
 			});
 		}
 
 	},
-	mounted: function() {
+	activated: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
 			url: '/api/qapi1/getSelfInfo',
 			type: 'get',
