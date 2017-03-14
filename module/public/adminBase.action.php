@@ -10,6 +10,16 @@ class adminBaseAction extends action {
 		startAdminSession();
 		parent::__construct();
 		$this->sys=M('system:setting')->getSetting();
+		
+		$this->cache= E('RedisCluster',APP_LIB.'class');
+		$_SESSION['depart']=($this->cache->get('depart_'.SESS_ID)==false?0:$this->cache->get('depart_'.SESS_ID));
+		$_SESSION['adminid']=($this->cache->get('adminid_'.SESS_ID)==false?0:$this->cache->get('adminid_'.SESS_ID));
+		$_SESSION['name']=($this->cache->get('name_'.SESS_ID)==false?0:$this->cache->get('name_'.SESS_ID));
+		$_SESSION['username']=($this->cache->get('username_'.SESS_ID)==false?0:$this->cache->get('username_'.SESS_ID));
+		$_SESSION['call_no']=($this->cache->get('call_no_'.SESS_ID)==false?0:$this->cache->get('call_no_'.SESS_ID));
+		$_SESSION['call_pwd']=($this->cache->get('call_pwd_'.SESS_ID)==false?0:$this->cache->get('call_pwd_'.SESS_ID));
+		$_SESSION['is_super']=($this->cache->get('is_super_'.SESS_ID)==false?0:$this->cache->get('is_super_'.SESS_ID));
+
 
 		//用户权限检查
   		$this->admin_id = $_SESSION['adminid'];

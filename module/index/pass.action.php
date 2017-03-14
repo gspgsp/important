@@ -32,6 +32,16 @@ class passAction extends action {
      * @access public
      */
     public function logout(){
+        //  删除redis
+        $this->cache= E('RedisCluster',APP_LIB.'class');
+        $this->cache->delete("depart_".SESS_ID);
+        $this->cache->delete("adminid_".SESS_ID);
+        $this->cache->delete("name_".SESS_ID);
+        $this->cache->delete("username_".SESS_ID);
+        $this->cache->delete("call_no_".SESS_ID);
+        $this->cache->delete("call_pwd_".SESS_ID);
+        $this->cache->delete("is_super_".SESS_ID);
+        
 		$this->setSession();
 		$this->forward('/');	
     }
@@ -88,6 +98,9 @@ class passAction extends action {
 		
 		//用户成功登录
 		$this->_loginSuccess($user,1);
+		
+		$this->cache= E('RedisCluster',APP_LIB.'class');
+		$this->cache->set('userid_'.SESS_ID,$user);
 		
 		$this->setSession($user);
 		$this->success('登录成功');
@@ -191,13 +204,30 @@ class passAction extends action {
 		//$authcy =  md5($_SERVER["HTTP_USER_AGENT"].$uinfo['password'].'isAdmin');
 		//$atime = 86400 * 7; //记住密码
 		//cookie::set('admincy', desEncrypt($uinfo['admin_id']."|".$authcy), $atime);
-		$_SESSION['depart']=$uinfo['depart'];
-		$_SESSION['adminid']=$uinfo['admin_id'];
-		$_SESSION['name']=$uinfo['username'];
-		$_SESSION['username']=$uinfo['name'];
-		$_SESSION['call_no']=$uinfo['call_no'];
-		$_SESSION['call_pwd']=$uinfo['call_pwd'];
-		$_SESSION['is_super']=$uinfo['is_super'];
+// 		$_SESSION['depart']=$uinfo['depart'];
+// 		$_SESSION['adminid']=$uinfo['admin_id'];
+// 		$_SESSION['name']=$uinfo['username'];
+// 		$_SESSION['username']=$uinfo['name'];
+// 		$_SESSION['call_no']=$uinfo['call_no'];
+// 		$_SESSION['call_pwd']=$uinfo['call_pwd'];
+// 		$_SESSION['is_super']=$uinfo['is_super'];
+		$this->cache= E('RedisCluster',APP_LIB.'class');
+		$this->cache->set("depart_".SESS_ID,$uinfo['depart']);
+		$this->cache->set("adminid_".SESS_ID,$uinfo['admin_id']);
+		$this->cache->set("name_".SESS_ID,$uinfo['username']);
+		$this->cache->set("username_".SESS_ID,$uinfo['name']);
+		$this->cache->set("call_no_".SESS_ID,$uinfo['call_no']);
+		$this->cache->set("call_pwd_".SESS_ID,$uinfo['call_pwd']);
+		$this->cache->set("is_super_".SESS_ID,$uinfo['is_super']);
+		$_SESSION['depart']=$this->cache->get("depart_".SESS_ID);
+		$_SESSION['adminid']=$this->cache->get("adminid_".SESS_ID);
+		$_SESSION['name']=$this->cache->get("name_".SESS_ID);
+		$_SESSION['username']=$this->cache->get("username_".SESS_ID);
+		$_SESSION['call_no']=$this->cache->get("call_no_".SESS_ID);
+		$_SESSION['call_pwd']=$this->cache->get("call_pwd_".SESS_ID);
+		$_SESSION['is_super']=$this->cache->get("is_super_".SESS_ID);
+
+		
 		$this->db->model('admin')->wherePk($uinfo['admin_id'])->update(array('login_times'=>"+=1",'last_login'=>CORE_TIME,'user_ip'=>get_ip()));
 		return $uinfo;	
 	}
