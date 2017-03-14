@@ -68,7 +68,7 @@ function CloseWindow(action) {
 //点击牌号事件
 function onClickPurchase(e) {	
 	 var record = e.record, p_id=record.p_id, model=record.model,s='';	 
-     s += '<a href="javascript:PurchaseGraph('+p_id+')">'+model+'</a> ';
+     s += '<a title="查看采购成交走势图"  href="javascript:PurchaseGraph('+p_id+')">'+model+'</a> ';
      return s;
 }
 //采购成交走势图
