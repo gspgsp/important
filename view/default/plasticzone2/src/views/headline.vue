@@ -325,43 +325,48 @@ activated: function() {
 	
 	}
 
-$.ajax({
-	type: "post",
-	url: '/api/qapi1_1/getSelectCate',
-	data: {
-		token: window.localStorage.getItem("token"),
-		type: 2
-	},
-	dataType: 'JSON'
-}).then(function(res) {
-	if(res.err == 0) {
-		_this.mySubscribe = res.data;
-		_this.subchecked = res.data;
-	} else {
+	$.ajax({
+		type: "post",
+		url: '/api/qapi1_1/getSelectCate',
+		data: {
+			token: window.localStorage.getItem("token"),
+			type: 2
+		},
+		dataType: 'JSON'
+	}).then(function(res) {
+		if(res.err == 0) {
+			_this.mySubscribe = res.data;
+			_this.subchecked = res.data;
+		} else {
+	
+		}
+	}, function() {
+	
+	});
 
-	}
-}, function() {
-
-});
-
-$.ajax({
-	type: "post",
-	url: '/api/qapi1_1/getSubscribe',
-	data: {
-		token: window.localStorage.getItem("token"),
-		subscribe: 2
-	},
-	dataType: 'JSON'
-}).then(function(res) {
-	if(res.err == 0) {
-		_this.items = res.data.slice(0, 1);
-	} else {
-
-	}
-}, function() {
-
-});
-this.$nextTick(function() {
+	$.ajax({
+		type: "post",
+		url: '/api/qapi1_1/getSubscribe',
+		data: {
+			token: window.localStorage.getItem("token"),
+			subscribe: 2
+		},
+		dataType: 'JSON'
+	}).then(function(res) {
+		if(res.err == 0) {
+			_this.items = res.data.slice(0, 1);
+		} else if(res.err == 1) {
+			mui.alert("", res.msg, function() {
+				_this.$router.push({
+					name: 'login'
+				});
+			});
+		}
+	}, function() {
+	
+	});
+	
+	this.$nextTick(function() {
 	var swiper = new Swiper('.swiper-container', {
 				slidesPerView: 4,
 				spaceBetween: 15,
