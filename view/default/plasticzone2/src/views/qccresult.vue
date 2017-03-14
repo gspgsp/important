@@ -111,7 +111,7 @@
 					_this.belong_org=res.data.belong_org,
 					_this.address=res.data.address,
 					_this.scope=res.data.scope
-				} else if(res.err==2||res.err==8){
+				} else if(res.err>0){
 					_this.show1=false;
 					_this.show2=true;
 					_this.msg=res.msg;
