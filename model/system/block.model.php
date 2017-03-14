@@ -58,7 +58,7 @@ class blockModel extends model{
 				$this->cache->set($_key,json_encode($data),$expire); //加入缓存
 			}
 		}else{
-		    $data = json_decode($data);
+		    $data = json_decode($data,true);
 		}
 		return $data;
 	}
@@ -88,7 +88,7 @@ class blockModel extends model{
                 $this->cache->set($_key,json_encode($data),$expire);//存缓存
            }
         }else{
-		    $data = json_decode($data);
+		    $data = json_decode($data,true);
 		}
         return $data;
 
