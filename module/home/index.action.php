@@ -93,5 +93,3 @@ class indexAction extends homeBaseAction{
 		$this->display('agreement.html');
 	}
 }
-
-

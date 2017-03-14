@@ -29,9 +29,9 @@
 
 	        	<table class="table1">
 	            	<tr>
+						<th>牌号</th>
+						<th>厂家</th>
 	                	<th>品种</th>
-	                    <th>牌号</th>
-	                    <th>厂家</th>
 	                    <th>加工级别</th>
 	                    <th>数量（吨）</th>
 	                    <th>价格（元／吨）</th>
@@ -41,6 +41,8 @@
 	                    <th>操作</th>
 	                </tr>
 	                <tr>
+						<td><input type="text" onblur="getLevel(this,0)" class="required" name="data[0][model]" value=""/></td>
+						<td><input type="text" class="required" name="data[0][f_name]" value=""/></td>
 	                	<td>
 	                    	<select name="data[0][product_type]" class="required">
 								<option value="">请选择</option>
@@ -49,8 +51,6 @@
 	                        	{/foreach}
 	                        </select>
 	                    </td>
-	                    <td><input type="text" onblur="getLevel(this,0)" class="required" name="data[0][model]" value=""/></td>
-	                    <td><input type="text" class="required" name="data[0][f_name]" value=""/></td>
 	                    <td class="level">
 	                    	<select class="required" name="data[0][process_level]">
 	                    		<option value="">请选择</option>
