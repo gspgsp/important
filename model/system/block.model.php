@@ -22,7 +22,9 @@ class blockModel extends model{
 			foreach($arr as $k=>$v){
 				$data[$v['id']]=array('name'=>$v['name'],'content'=>json_decode($v['content'],true));
 			}
-			$this->cache->set($_key,$data); //加入缓存
+			$this->cache->set($_key,json_encode($data)); //加入缓存
+		}else{
+		    $data=json_decode($data,true);
 		}
 		return $data;
 	}
