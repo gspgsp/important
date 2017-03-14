@@ -46,8 +46,10 @@
 					}
 				}
 				$cache->set($name,json_encode($data),86400);	
+			}else{
+				$data=json_decode($data,true);
 			}
-			return json_decode($data,true);
+			return $data;
 		}
 
 		//通过类型和分类来获取列表页文章
@@ -109,7 +111,9 @@
 				//取出上一篇和下一篇
 				$data['lastOne']=$this->model('news_content')->where('cate_id='.$data['cate_id'].' and id <'.$id)->select('id,title')->order('id desc')->limit(1)->getRow();
 				$data['nextOne']=$this->model('news_content')->where('cate_id='.$data['cate_id'].' and id >'.$id)->select('id,title')->order('id asc')->limit(1)->getRow();
-				$cache->set($name,$data,86400);
+				$cache->set($name,json_encode($data),86400);
+			}else{
+				$data=json_decode($data,true);
 			}
 			
 			//取出内链文章
