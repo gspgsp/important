@@ -53,8 +53,10 @@ class blockModel extends model{
 				$expire=$expire>0 ? min($expire,$v['time']) : $v['time'];
 			}
 			if(!empty($data)){
-				$this->cache->set($_key,$data,$expire); //加入缓存
+				$this->cache->set($_key,json_encode($data),$expire); //加入缓存
 			}
+		}else{
+		    $data = json_decode($data);
 		}
 		return $data;
 	}
