@@ -1,5 +1,5 @@
 <template>
-<div class="buyWrap" style="padding: 45px 0 70px 0;">
+<div class="buyWrap" style="padding: 45px 0 60px 0;">
 	<header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0;">
 		<a class="back" href="javascript:window.history.back();"></a>
 		{{cate}}
@@ -15,6 +15,13 @@
 		</div>
 		<span class="pre" v-on:click="pre(lastOne)"></span>
 		<span class="nex" v-on:click="nex(nextOne)"></span>
+		<h3 style="width: 100%; padding: 10px 0; clear: both; font-size: 14px; font-weight: normal; margin: 0;">热门回顾</h3>
+		<ul class="searchli" style="padding: 0;">
+			<li v-for="s in subscribe">
+				<a href="javascript:;" v-on:click="nex(s.id)">{{s.title}}</a>
+			<li>	
+		</ul>
+
 	</div>
 	<footerbar></footerbar>
 <div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
@@ -38,6 +45,7 @@ module.exports = {
 			time: "",
 			pv: "",
 			type:"",
+			subscribe:[],
 		    share:false,
         	share3:false,
         	share4:false
@@ -116,6 +124,7 @@ module.exports = {
     	},
 		pre: function(id) {
 			var _this = this;
+			window.scrollTo(0,0);
 			if(id) {
 				$.ajax({
 					type: "post",
@@ -138,6 +147,7 @@ module.exports = {
 					_this.author=res.info.author;
 					_this.lastOne=res.info.lastOne;
 					_this.nextOne=res.info.nextOne;
+					_this.subscribe=res.info.subscribe.slice(0,8);
 					switch(_this.cate_id) {
 						case "1":
 							_this.cate = "早盘预测";
@@ -182,8 +192,7 @@ module.exports = {
 		},
 		nex: function(id) {
 			var _this = this;
-			console.log("nex");
-			console.log(id);
+			window.scrollTo(0,0);
 			if(id) {
 				$.ajax({
 					type: "post",
@@ -210,6 +219,7 @@ module.exports = {
 					_this.author=res.info.author;
 					_this.lastOne=res.info.lastOne;
 					_this.nextOne=res.info.nextOne;
+					_this.subscribe=res.info.subscribe.slice(0,8);
 					switch(_this.cate_id) {
 						case "1":
 							_this.cate = "早盘预测";
@@ -261,7 +271,7 @@ module.exports = {
 		} catch( err ) {
 			
 		}
-
+		window.scrollTo(0,0);
 		$.ajax({
 			type: "post",
 			url: "/api/qapi1_1/getDetailInfo",
@@ -283,6 +293,7 @@ module.exports = {
 				_this.author=res.info.author;
 				_this.lastOne=res.info.lastOne;
 				_this.nextOne=res.info.nextOne;
+				_this.subscribe=res.info.subscribe.slice(0,8);
 				_this.$nextTick(function(){
 					if(_this.$el.getElementsByTagName('table').length){
 						_this.$el.getElementsByTagName('table')[0].style.width="100%";

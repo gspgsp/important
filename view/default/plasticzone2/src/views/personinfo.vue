@@ -61,12 +61,10 @@
 	</div>
 	<footerbar></footerbar>
 	<div class="imgLayer" v-show="avatorCheck" v-on:click="check">
-		<div class="avatorCheck" :style="{background: 'url(' + thumb + ') no-repeat center'}" style=" background-size: contain;"></div>
+		<div class="avatorCheck" v-bind:style="{backgroundImage: 'url(' + thumb + ')'}"></div>
 	</div>
 	<div class="imgLayer" v-show="cardCheck" v-on:click="cardcheck">
-		<div class="avatorCheck">
-			<img v-bind:src="cardImg">
-		</div>
+		<div class="avatorCheck" v-bind:style="{backgroundImage: 'url(' + cardImg + ')'}"></div>
 	</div>
 	<div class="layer" v-show="show"></div>
 </div>
