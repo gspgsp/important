@@ -5,299 +5,319 @@
 <style type="text/css">
 	.requires{border:1px solid red !important;}
 </style>
+<script>
+   function getInfo(that,index){
+       var fac_key=$(that).parent().prev().find('input').val();
+       var model= $(that).parents('tr').find('.factory select').val();
+       if(!model || !fac_key) return;
+       $.post('/user/myoffers/getPinfo?model='+fac_key+'&fid='+model,function (data) {
+           var html = "";
+           var str='';
+           if(data){
+			   html+='<option value="'+data.product_type+'">'+data.product_type_1+'</option>';  //品种
+			   str+='<option value="'+data.process_type+'">'+data.process_type_1+'</option>';   // 加工级别
+               $(that).parents('tr').find('.product_type select').html(html);
+               $(that).parents('tr').find('.level select').html('');
+               $(that).parents('tr').find('.level select').html(str);
+           }
+       },'json');
+
+   }
+</script>
 
 <div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
 <div class="user-wrap w1220">
-    {include file="public:user_left"}
-    <div class="right frt">
-    	<h3>个人中心-{$name}</h3>
-        <ul class="tabe">
-        	<li id="tabe1" onclick="setTab('tabe',1,2)" class="hover"><p>现货</p><span></span></li>
-            <li id="tabe2" onclick="setTab('tabe',2,2)" style="border-right:none;"><p>期货</p><span></span></li>
-        </ul>
-        <!--con-tabe-1 begin-->
-        <div id="con-tabe-1" class="con-tabe">
-        	<form class="purchaseForm">
-	            <div class="opt">
-	                <ul>
-	                    <li class="add-quote-1">添加</li>
-	                    {if $type==2}
-	                    <li><a href="/user/myoffers/offers_excels">Excel批量导入报价</a></li>
-	                    {/if}
-	                </ul>
-	            </div>
+	{include file="public:user_left"}
+	<div class="right frt">
+		<h3>个人中心-{$name}</h3>
+		<ul class="tabe">
+			<li id="tabe1" onclick="setTab('tabe',1,2)" class="hover"><p>现货</p><span></span></li>
+			<li id="tabe2" onclick="setTab('tabe',2,2)" style="border-right:none;"><p>期货</p><span></span></li>
+		</ul>
+		<!--con-tabe-1 begin-->
+		<div id="con-tabe-1" class="con-tabe">
+			<form class="purchaseForm">
+				<div class="opt">
+					<ul>
+						<li class="add-quote-1">添加</li>
+						{if $type==2}
+						<!--<li><a href="/user/myoffers/offers_excels">Excel批量导入报价</a></li>-->
+						{/if}
+					</ul>
+				</div>
 
-	        	<table class="table1">
-	            	<tr>
+				<table class="table1">
+					<tr>
 						<th>牌号</th>
 						<th>厂家</th>
-	                	<th>品种</th>
-	                    <th>加工级别</th>
-	                    <th>数量（吨）</th>
-	                    <th>价格（元／吨）</th>
-	                    <th>是否实价</th>
-	                    <th>省份</th>
-	                    <th>交货地</th>
-	                    <th>操作</th>
-	                </tr>
-	                <tr>
-						<td><input type="text" onblur="getLevel(this,0)" class="required" name="data[0][model]" value=""/></td>
-						<td><input type="text" class="required" name="data[0][f_name]" value=""/></td>
-	                	<td>
-	                    	<select name="data[0][product_type]" class="required">
+						<th>品种</th>
+						<th>加工级别</th>
+						<th>数量（吨）</th>
+						<th>价格（元／吨）</th>
+						<th>是否实价</th>
+						<th>省份</th>
+						<th>交货地</th>
+						<th>操作</th>
+					</tr>
+					<tr>
+						<td><input type="text"id="models" onblur="getLevel(this,0)" class="required" name="data[0][model]" value=""/></td>
+						<td class="factory">
+							<select name="data[0][f_name]" class="required" onchange="getInfo(this,1)">
+							<option value="">请选择</option>
+							</select>
+						</td>
+						<td class="product_type"><!--品种类型-->
+							<select name="data[0][product_type]" class="required">
 								<option value="">请选择</option>
-	                    		{foreach from=$product_type item=value key=key}
-	                        	<option value="{$key}">{$value}</option>
-	                        	{/foreach}
-	                        </select>
-	                    </td>
-	                    <td class="level">
-	                    	<select class="required" name="data[0][process_level]">
-	                    		<option value="">请选择</option>
-	                    		{foreach from=$process_level item=value key=key}
-	                    		<option value="{$key}">{$value}</option>
-	                    		{/foreach}
-	                    	</select>
-	                    </td>
-	                    <td><input type="text"  class="required" name="data[0][number]" value=""/></td>
-	                    <td><input type="text"  class="required" name="data[0][price]" value=""/></td>
-	                    <td>
-	                    	<select name="data[0][bargain]">
-	                        	<option value="1">否</option>
-	                            <option value="2">是</option>
-	                        </select>
-	                    </td>
-	                    <td>
-	                    	<select class="required" name="data[0][provinces]">
-	                        	<option value="">请选择</option>
-	                        	{foreach from=$area item=value}
-	                            <option value="{$value.id}">{$value.name}</option>
-	                            {/foreach}
-	                        </select>
-	                    </td>
-	                    <td><input type="text" class="required" name="data[0][store_house]" value=""/></td>
-	                    <td class="del"><span class="del-btn">删除</span></td>
-	                </tr>
-	            </table>
-	            <div class="btn">
-	            	<input type="hidden" name="cargo_type" value="1">
-	            	<input type="hidden" name="type" value="{$type}">
-	            	<input type="submit" value="发布" class="release"/>
-	            </div>
-        	</form>
+							</select>
+						</td>
+						<td class="level">   <!--加工级别-->
+							<select class="required" name="data[0][process_level]">
+								<option value="">请选择</option>
+							</select>
+						</td>
+						<td><input type="text"  class="required" name="data[0][number]" value=""/></td>
+						<td><input type="text"  class="required" name="data[0][price]" value=""/></td>
+						<td>
+							<select name="data[0][bargain]">
+								<option value="1">否</option>
+								<option value="2">是</option>
+							</select>
+						</td>
+						<td>
+							<select class="required" name="data[0][provinces]">
+								<option value="">请选择</option>
+								{foreach from=$area item=value}
+								<option value="{$value.id}">{$value.name}</option>
+								{/foreach}
+							</select>
+						</td>
+						<td><input type="text" class="required" name="data[0][store_house]" value=""/></td>
+						<td class="del"><span class="del-btn">删除</span></td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="hidden" name="cargo_type" value="1">
+					<input type="hidden" name="type" value="{$type}">
+					<input type="submit" value="发布" class="release"/>
+				</div>
+			</form>
 
-        </div>
-        <!--con-tabe-1 end-->
-        <!--con-tabe-2 begin-->
-        <div id="con-tabe-2" class="con-tabe" style="display:none;">
-        	<!--opt begin-->
-        	<form class="purchaseForm">
-	            <div class="opt">
-	                <ul>
-	                    <li class="add-quote-2">添加</a></li>
-	                    {if $type==2}
-	                    <li><a href="/user/myoffers/offers_excels">Excel批量导入报价</a></li>
-	                    {/if}
-	                </ul>
-	            </div>
-	            <!--opt end-->
-	        	<table class="table2">
-	            	<tr>
-	                	<th>品种</th>
-	                    <th>牌号</th>
-	                    <th>厂家</th>
-	                    <th>加工级别</th>
-	                    <th>数量（吨）</th>
-	                    <th>价格（元／吨）</th>
-	                    <th>是否实价</th>
-	                    <th>省份</th>
-	                    <th>交货地</th>
-	                    <th>交货日期</th>
-	                    <th>操作</th>
-	                </tr>
-	                <tr>
-	            		<td>
-	            	    	<select name="data[0][product_type]" class="required">
+		</div>
+		<!--con-tabe-1 end-->
+		<!--con-tabe-2 begin-->
+		<div id="con-tabe-2" class="con-tabe" style="display:none;">
+			<!--opt begin-->
+			<form class="purchaseForm">
+				<div class="opt">
+					<ul>
+						<li class="add-quote-2">添加</a></li>
+						{if $type==2}
+						<!--<li><a href="/user/myoffers/offers_excels">Excel批量导入报价</a></li>-->
+						{/if}
+					</ul>
+				</div>
+				<!--opt end-->
+				<table class="table2">
+					<tr>
+						<th>牌号</th>
+						<th>厂家</th>
+						<th>品种</th>
+						<th>加工级别</th>
+						<th>数量（吨）</th>
+						<th>价格（元／吨）</th>
+						<th>是否实价</th>
+						<th>省份</th>
+						<th>交货地</th>
+						<th>交货日期</th>
+						<th>操作</th>
+					</tr>
+					<tr>
+						<td><input type="text" onblur="getLevel(this,0)" class="required" name="data[0][model]" value=""/></td>
+						<td class="factory">
+							<select name="data[0][f_name]" class="required" onchange="getInfo(this,1)">
 								<option value="">请选择</option>
-	            	    		{foreach from=$product_type item=value key=key}
-	            	        	<option value="{$key}">{$value}</option>
-	            	        	{/foreach}
-	            	        </select>
-	            	    </td>
-	                    <td><input type="text" onblur="getLevel(this,0)" class="required" name="data[0][model]" value=""/></td>
-	            	    <td><input type="text" class="required" name="data[0][f_name]" value=""/></td>
-	            	    <td class="level">
-	                    	<select class="required" class="required" name="data[0][process_level]">
-	                    		<option value="">请选择</option>
-	                    		{foreach from=$process_level item=value key=key}
-	                    		<option value="{$key}">{$value}</option>
-	                    		{/foreach}
-	                    	</select>
-	                    </td>
-	            	    <td><input type="text" class="required" name="data[0][number]" value=""/></td>
-	            	    <td><input type="text" class="required" name="data[0][price]" value=""/></td>
-	            	    <td>
-	            	    	<select name="data[0][bargain]">
-	            	        	<option value="1">否</option>
-	            	            <option value="2">是</option>
-	            	        </select>
-	            	    </td>
-	            	    <td>
-	            	    	<select class="required" name="data[0][provinces]">
-	            	        	<option value="">请选择</option>
-	            	        	{foreach from=$area item=value}
-	            	            <option value="{$value.id}">{$value.name}</option>
-	            	            {/foreach}
-	            	        </select>
-	            	    </td>
-		                <td><input type="text" class="required" name="data[0][store_house]" value=""/></td>
-	                    <td>
-	                		<select name="data[0][period]">
-	                			{foreach from=$period item=value key=key}
-	                	    	<option value="{$key}">{$value}</option>
-	                	    	{/foreach}
-	                	    </select>
-	                    </td>
-	                    <td class="del"><span class="del-btn">删除</span></td>
-	                </tr>
-	            </table>
-	             <div class="btn">
-		            <input type="hidden" name="cargo_type" value="2">
-	            	<input type="hidden" name="type" value="{$type}">
-	            	<input type="submit" value="发布" class="release"/>
-	            </div>
-        	</form>
-        </div>
-        <!--con-tabe-2 end-->
-    </div>
+							</select>
+						</td>
+						<td class="product_type"><!--品种类型-->
+							<select name="data[0][product_type]" class="required">
+								<option value="">请选择</option>
+							</select>
+						</td>
+						<td class="level">   <!--加工级别-->
+							<select class="required" name="data[0][process_level]">
+								<option value="">请选择</option>
+							</select>
+						</td>
+						<td><input type="text" class="required" name="data[0][number]" value=""/></td>
+						<td><input type="text" class="required" name="data[0][price]" value=""/></td>
+						<td>
+							<select name="data[0][bargain]">
+								<option value="1">否</option>
+								<option value="2">是</option>
+							</select>
+						</td>
+						<td>
+							<select class="required" name="data[0][provinces]">
+								<option value="">请选择</option>
+								{foreach from=$area item=value}
+								<option value="{$value.id}">{$value.name}</option>
+								{/foreach}
+							</select>
+						</td>
+						<td><input type="text" class="required" name="data[0][store_house]" value=""/></td>
+						<td>
+							<select name="data[0][period]">
+								{foreach from=$period item=value key=key}
+								<option value="{$key}">{$value}</option>
+								{/foreach}
+							</select>
+						</td>
+						<td class="del"><span class="del-btn">删除</span></td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="hidden" name="cargo_type" value="2">
+					<input type="hidden" name="type" value="{$type}">
+					<input type="submit" value="发布" class="release"/>
+				</div>
+			</form>
+		</div>
+		<!--con-tabe-2 end-->
+	</div>
 </div>
 
-<script type="text/html" id="levelTemp">
-	<select class="required"  name="data[<%=data%>][process_level]">
-		<option value="">请选择</option>
-		{foreach from=$process_level item=value key=key}
-		<option value="{$key}">{$value}</option>
-		{/foreach}
-	</select>
-</script>
-<script type="text/html" id="levelTemp2">
-	<div class=""><%=msg.name%></div>
-	<input type="hidden" value="<%=msg.id%>" name="data[<%=data%>][process_level]">
-</script>
+<!--<script type="text/html" id="levelTemp">-->
+	<!--<select class="required"  name="data[<%=data%>][process_level]">-->
+		<!--<option value="">请选择</option>-->
+	<!--</select>-->
+<!--</script>-->
+<!--<script type="text/html" id="levelTemp2">-->
+	<!--<div class=""><%=msg.name%></div>-->
+	<!--<input type="hidden" value="<%=msg.id%>" name="data[<%=data%>][process_level]">-->
+<!--</script>-->
 
 <script type="text/html" id="purchaseTemp">
 	<tr>
+		<td><input type="text" onblur="getLevel(this,<%=data%>)"  class="required" name="data[<%=data%>][model]" value=""/></td>
+		<td class="factory">
+			<select name="data[<%=data%>][f_name]" class="required" onchange="getInfo(this,<%=data%>)">
+				<option value="">请选择</option>
+			</select>
+		</td>
+		<td class="product_type"><!--品种类型-->
+			<select name="data[<%=data%>][product_type]" class="required">
+				<option value="">请选择</option>
+			</select>
+		</td>
+		<td class="level">
+			<select class="required" name="data[<%=data%>][process_level]">
+				<option value="">请选择</option>
+			</select>
+		</td>
+		<td><input type="text" class="required" name="data[<%=data%>][number]" value=""/></td>
+		<td><input type="text" class="required" name="data[<%=data%>][price]" value=""/></td>
 		<td>
-	    	<select class="required" name="data[<%=data%>][product_type]">
+			<select name="data[<%=data%>][bargain]">
+				<option value="1">否</option>
+				<option value="2">是</option>
+			</select>
+		</td>
+		<td>
+			<select class="required" name="data[<%=data%>][provinces]">
 				<option value="">请选择</option>
-	    		{foreach from=$product_type item=value key=key}
-	        	<option value="{$key}">{$value}</option>
-	        	{/foreach}
-	        </select>
-	    </td>
-	    <td><input type="text" onblur="getLevel(this,<%=data%>)" class="required" name="data[<%=data%>][model]" value=""/></td>
-		<!--<td><input type="text" onblur="getLevel(this,<%=data%>)" class="required" name="data[<%=data%>][model]" value=""/></td>-->
-	    <td><input type="text" class="required" name="data[<%=data%>][f_name]" value=""/></td>
-	    <td class="level">
-			<select class="required"  name="data[<%=data%>][process_level]">
-				<option value="">请选择</option>
-				{foreach from=$process_level item=value key=key}
+				{foreach from=$area item=value}
+				<option value="{$value.id}">{$value.name}</option>
+				{/foreach}
+			</select>
+		</td>
+		<td><input type="text" class="required" name="data[<%=data%>][store_house]" value=""/></td>
+		<%if (type==2){%>
+		<td>
+			<select name="data[<%=data%>][period]">
+				{foreach from=$period item=value key=key}
 				<option value="{$key}">{$value}</option>
 				{/foreach}
 			</select>
-	    </td>
-	    <td><input type="text" class="required" name="data[<%=data%>][number]" value=""/></td>
-	    <td><input type="text" class="required" name="data[<%=data%>][price]" value=""/></td>
-	    <td>
-	    	<select name="data[<%=data%>][bargain]">
-	        	<option value="1">否</option>
-	            <option value="2">是</option>
-	        </select>
-	    </td>
-	    <td>
-	    	<select class="required" name="data[<%=data%>][provinces]">
-	            <option value="">请选择</option>
-	        	{foreach from=$area item=value}
-	            <option value="{$value.id}">{$value.name}</option>
-	            {/foreach}
-	        </select>
-	    </td>
-	    <td><input type="text" class="required" name="data[<%=data%>][store_house]" value=""/></td>
-	    <%if (type==2){%>
-	    <td>
-	    	<select name="data[<%=data%>][period]">
-	    		{foreach from=$period item=value key=key}
-	        	<option value="{$key}">{$value}</option>
-	        	{/foreach}
-	        </select>
-	    </td>
-	    <%}%>
-	    <td class="del"><span class="del-btn">删除</span></td>
+		</td>
+		<%}%>
+		<td class="del"><span class="del-btn">删除</span></td>
 	</tr>
 </script>
 
 <script type="text/javascript">
-var i=0;
+    var i=0;
 
-$(function(){
-	var table1=$(".table1");  //现货
-	var table2=$(".table2");  //期货
-	$('.add-quote-1').bind('click',function(){
-		i++;
-		var html=template('purchaseTemp',{data:i,type:1});
-		if(table1.find("tr").length<=10) table1.append(html);
-	});
-	$('.add-quote-2').bind('click',function(){
-		i++;
-		var html=template('purchaseTemp',{data:i,type:2});
-		if(table2.find("tr").length<=10) table2.append(html);
-	});
-	var purchaseForm=$(".purchaseForm");
-	purchaseForm.submit(function(){
-		var flag=true;
-		$(this).find('.required').each(function(k,v){
-			if($(this).val()==''){
-				$(this).addClass('requires');
-				flag=false;
-			}
-		});
-		if(!flag) return false;
-		var data=$(this).serialize();
-		// console.log(data);
-		$.post('/user/mypurchase/pub',data,function(res){
-			if(res.err==0){
-				alert('发布成功');
-				window.location.reload();
-			}else if(res.err>0){
-				alert(res.msg);
-			}else{
-				window.location.reload();
-			}
-		},'json');
-		return false;
-	});
-	$("form input,select").live('focus',function(){
-		$(this).removeClass('requires');
-	});
-	$(".del-btn").live('click',function(){
-		if($(this).parents('table').find('tr').length>2){
-			$(this).parents('tr').remove();
-		}
-	});
+    $(function(){
+        var table1=$(".table1");  //现货
+        var table2=$(".table2");  //期货
+        $('.add-quote-1').bind('click',function(){
+            i++;
+            var html=template('purchaseTemp',{data:i,type:1});
+            if(table1.find("tr").length<=10) table1.append(html);
+        });
+        $('.add-quote-2').bind('click',function(){
+            i++;
+            var html=template('purchaseTemp',{data:i,type:2});
+            if(table2.find("tr").length<=10) table2.append(html);
+        });
+        var purchaseForm=$(".purchaseForm");
+        purchaseForm.submit(function(){
+            var flag=true;
+            $(this).find('.required').each(function(k,v){
+                if($(this).val()==''){
+                    $(this).addClass('requires');
+                    flag=false;
+                }
+            });
+            if(!flag) return false;
+            var data=$(this).serialize();
+            // console.log(data);
+            $.post('/user/mypurchase/pub',data,function(res){
+                if(res.err==0){
+                    alert('发布成功');
+                    window.location.reload();
+                }else if(res.err>0){
+                    alert(res.msg);
+                }else{
+                    window.location.reload();
+                }
+            },'json');
+            return false;
+        });
+        $("form input,select").live('focus',function(){
+            $(this).removeClass('requires');
+        });
+        $(".del-btn").live('click',function(){
+            if($(this).parents('table').find('tr').length>2){
+                $(this).parents('tr').remove();
+            }
+        });
 
-})
+    })
 
-function getLevel(that,index){
-	var model=$(that).val().trim();
-	if(!model) return;
-	$.post('/user/mypurchase/getLevel',{model:model},function (data){
-		var html="";
-		if(data.err==0){
-			html=template('levelTemp2',{data:index,msg:data.msg});
-		}else{
-			html=template('levelTemp',{data:index});
-		}
-		$(that).parents('tr').find('.level').html(html);
-	},'json');
-}
+    function getLevel(that,index){
+        var model=$(that).val().trim();
+        if(!model) return;
+//	$.post('/user/mypurchase/getLevel',{model:model},function (data){
+//		var html="";
+//		if(data.err==0){
+//			html=template('levelTemp2',{data:index,msg:data.msg});
+//		}else{
+//			html=template('levelTemp',{data:index});
+//		}
+//		$(that).parents('tr').find('.level').html(html);
+//	},'json');
+        $.post('/user/myoffers/getfaclist',{model:model},function (data) {
+            var html = "";
+            if(data){
+                $.each(data,function(i,item){
+                    html+='<option value="'+item.fid+'">'+item.f_name+'</option>';
+                });
+//                $('.factory select').html(html);
+//                html=template('levelTemp2',{data:index,msg:data.msg});
+            }
+            $(that).parents('tr').find('.factory select').html(html);
+        },'json');
+    }
 </script>

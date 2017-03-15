@@ -174,7 +174,7 @@ class indexAction extends homeBaseAction{
 				$list[$key]['customer']=$this->db->from('purchase pur')
 					->join('admin as ad','pur.customer_manager=ad.admin_id')
 					->select('ad.name,ad.mobile')
-					->where("pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)")
+					->where("pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(0,1,2,7)")
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}

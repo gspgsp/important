@@ -260,10 +260,28 @@ class myoffersAction extends userBaseAction{
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));
-
 		$this->display('supply_table');
-
 	}
-
+	/**
+	 * 根据牌号异步获取厂家名称
+	 */
+	public function getfaclist(){
+		$this->is_ajax=true;
+		$model=sget('model','s');
+		$getfaclist=M('product:product')->getFacByModel($model);
+		$this->json_output($getfaclist);
+	}
+	/**
+	 * 根据牌号和厂家id获取唯一的商品信息
+	 */
+	public function getPinfo(){
+		$this->is_ajax = true;
+		$model = sget('model','s');
+		$fid = sget('fid','i',0);
+		$data=M('product:product')->getPinfo($model,$fid);
+		$data['product_type_1']=L('product_type')[$data['product_type']];
+		$data['process_type_1']=L('process_level')[$data['process_type']];
+		$this->json_output($data);
+	}
 
 }
