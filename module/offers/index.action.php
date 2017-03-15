@@ -16,8 +16,8 @@ class indexAction extends homeBaseAction{
 		$this->cartList=Cart::getGoods();
 		$cityWhere='pid=1';
 		$factoryWhere=1;
-		//$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(1,2,7)";
-		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
+		$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(0,1,2,6,7)";
+		//$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
 
 		if($keywords=sget('keywords','s','')){
 			$where.=" and (pro.model like '%{$keywords}%' or fa.f_name like '%{$keywords}%')";
@@ -129,6 +129,7 @@ class indexAction extends homeBaseAction{
 		$pageSize=20;//分页
 
 		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
+
 		foreach($list['data'] as $key=>$value){
 			$str=mb_strlen($value['store_house'],'utf-8');
 			if($str>4){
@@ -177,6 +178,7 @@ class indexAction extends homeBaseAction{
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}
+
 		$this->seo =array(
 			'title'=>$seotype.$seoprocess.$seotitle.$seofa. $keywords.$key_model.$key_name.' 商城报价',
 		    'keywords'=>'塑料报价，塑料原料报价，塑料原料价格，塑料价格，聚乙烯价格，聚丙烯价格，聚氯乙烯价格，PVC塑料，PE塑料，PP塑料',
@@ -390,9 +392,40 @@ class indexAction extends homeBaseAction{
 
 		$model = sget('model','s');
 		$f_id  = sget('f_id','i');
+		$cache= E('RedisCluster',APP_LIB.'class');
+		$cache_info = $cache->get('PRICE_CHART:'.$model.'_'.$f_id);
+		if(!empty($cache_info))
+		{
+			$data = json_decode($cache_info,true);
+			if($data['is_empty'])
+			{
+				$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
+				$this->assign('x_ray',json_encode(array(date("Y-m-d"))));
+				$this->assign('price',json_encode(array()));
+				$this->assign('num',json_encode(array()));
+				$this->assign('price_col',array('top'=>12,'bottom'=>0,'interval'=>3));
+				$this->assign('num_col',array('top'=>1000,'bottom'=>0,'interval'=>500));
+				$this->assign('valid','false');
+				$this->display('price_charts');
+				die();
 
+			}else{
+
+				$this->assign('list',$data['list']);
+				$this->assign('x_ray',json_encode($data['x_ray']));
+				$this->assign('price',json_encode($data['price']));
+				$this->assign('num',json_encode($data['num']));
+				$this->assign('valid','true');
+				$this->assign('price_col',array('top'=>$data['top'],'bottom'=>$data['bottom'],'interval'=>$data['interval']));
+				$this->assign('num_col',array('top'=>$data['top0'],'bottom'=>0,'interval'=>$data['interval0']));
+				$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
+				$this->display('price_charts');
+				die();
+			}
+		}
 		$res = $this->db->model('product')->where(" model = '{$model}' and f_id = {$f_id}")->getAll();
 		if(empty($res)){
+			$cache->set('PRICE_CHART:'.$model.'_'.$f_id,json_encode(array('is_empty'=>1)),60*60);
 			$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
 			$this->assign('x_ray',json_encode(array(date("Y-m-d"))));
 			$this->assign('price',json_encode(array()));
@@ -411,6 +444,7 @@ class indexAction extends homeBaseAction{
 		//$product_ids = array_column($res,'id');
 		$res = $this->db->model('sale_log')->where(' p_id in ('.join(',',$product_ids).')')->order('unit_price','desc')->getAll();
 		if(empty($res)){
+			$cache->set('PRICE_CHART:'.$model.'_'.$f_id,json_encode(array('is_empty'=>true)),60*60);
 			$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
 			$this->assign('x_ray',json_encode(array(date("Y-m-d"))));
 			$this->assign('price',json_encode(array()));
@@ -491,6 +525,19 @@ class indexAction extends homeBaseAction{
 
 		$top0 = ceil(max($num));
 		$interval0 = round(($top0)/3);
+		$cache_arr = array(
+			'list'=>$res,
+			'x_ray'=>$x_ray,
+			'price'=>$price,
+			'num'=>$num,
+			'top'=>$top,
+			'bottom'=>$bottom,
+			'interval'=>$interval,
+			'top0'=>$top0,
+			'interval0'=>$interval0,
+			'is_empty'=>false
+		);
+		$cache->set('PRICE_CHART:'.$model.'_'.$f_id,json_encode($cache_arr),60*60);
 		$this->assign('list',$res);
 		$this->assign('x_ray',json_encode($x_ray));
 		$this->assign('price',json_encode($price));
