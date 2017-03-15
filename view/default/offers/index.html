@@ -136,7 +136,7 @@
             <!-- 联营 -->
             <li class="result-con">
             	<div class="brand">{:witchType|$value.product_type}</div>
-                <div class="grade"><a href="javascript:;">{$value.model}</a></div>
+                <div class="grade"><a href="javascript:void(0);">{$value.model}</a></div>
                 <div class="level">{:setOption|process_level,$value.process_type}</div>
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
@@ -240,13 +240,13 @@
 </div>
 <script type="text/javascript">
 
-    var model ='{$value.model}';
-    var f_id = '{$value.f_id}';
-    $(".grade").click(function(model,f_id)
+    var model0 ='{$value.model}';
+    var f_id0 = '{$value.f_id}';
+    $(".grade").click(function()
     {
         $(".grade").unbind("hover");
         $(".xubox_layer").remove();
-        $.post('/offers/index/is_price_data_exist',{model:model,f_id:f_id},function(data){
+        $.post('/offers/index/is_price_data_exist',{model:model0 ,f_id:f_id0},function(data){
             if(data.err==0){
                 $.layer({
                     type: 2,
@@ -254,7 +254,7 @@
                     title: '价格走势图',
                     shade: false,
                     fixed: false, //不固定
-                    iframe: {src: '/offers/index/price_charts?model='+model+'&f_id='+f_id},
+                    iframe: {src: '/offers/index/price_charts?model='+model0+'&f_id='+f_id0},
                     area: ['1200px', '635px'],
                     maxmin: false,
                     close:function(){
