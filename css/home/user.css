@@ -296,6 +296,7 @@
 .user-wrap .right .con-tabe table th,.user-wrap .right .con-taby table th{ background:#f5f5f5; font-weight:normal;}
 .user-wrap .right .con-tabe table th,.user-wrap .right .con-tabe table td,.user-wrap .right .con-taby table th,.user-wrap .right .con-taby table td{ height:38px; border:1px solid #ccc; text-align:center;}
 .user-wrap .right .con-tabe table input{ width:90px; height:14px; padding:5px 0 5px 10px; border:1px solid #ccc;}
+.user-wrap .right .con-tabe table .factory select{ width:100px;}
 .user-wrap .right .con-tabe table .del span{ cursor:pointer;}
 .user-wrap .right .con-tabe .opt{ height:32px; overflow:hidden; margin:0 22px 10px 0; float:right;}
 .user-wrap .right .con-tabe .opt li{ font-size:14px; float:left; min-width:56px; height:32px; line-height:32px; text-align:center; background:#267bd3; color:#fff; display:block; padding:0 17px; margin:0 0 0 20px; border-radius:2px; cursor:pointer;}
