@@ -574,6 +574,7 @@ class qapi1_1Action extends null2Action
                'data' => $data,//我的个人信息
             ));
         }
+        $this->_errCode(6);
     }
 
 
@@ -600,7 +601,7 @@ class qapi1_1Action extends null2Action
     public function getReleaseMsg()
     {
         $this->is_ajax = true;
-        if ($_GET) {
+        if ($_POST) {
             $user_id = $this->checkAccount();
             //筛选条件
             $keywords = sget('keywords', 's');
@@ -1566,41 +1567,40 @@ class qapi1_1Action extends null2Action
             if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
             M("qapp:news")->updateqAppPv($id);
             $cache = cache::startMemcache();
-            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)){
+            //if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
                 $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
-            }
-
-            /**
-             * 九个频道，每个推荐一条
-             */
-            foreach($this->cates as $key=>$row){
-                $_tmp=M("qapp:news")->getNewsOrderByPv('',$key,'',1,5)[0];
-                if(!empty($_tmp)) $data['subscribe'][]=$_tmp;
-            }
-            $time = $data['input_time'];
-            $data['input_time'] = $this->checkTime($data['input_time']);
-            $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
-            $data['content'] = stripslashes($data['content']);
-            //添加缓存之后，页面显示效果  阅读数+1
-            $data['pv']=$data['pv']+1;
-            $data['true_pv']=$data['true_pv']+1;
-            //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
-            //$str= preg_replace("/border="0"",'',$str);
-            $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
-            //$data['content']=$this->cleanhtml(($data['content']),'<img><a><br /><table></table><tr></tr><td></td>');
-            //取出右键导航分类名称
-            $data['cate_name'] = $this->cates[$data['cate_id']];
-            if($data['type']=='public'){
-                $arr=array('pe','pp','pvc');
-                $tmp=array_rand($arr,1);
-                $data['type']='pp';
-            }
-            $data['type']=strtoupper($data['type']);
-            //取出上一篇和下一篇input_time desc,sort_order desc  上一篇是最新的
-            //取出上一篇和下一篇
-            $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
-            $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            $cache->set('qcateDetailInfo' .  '_' . $id, $data, 3600);
+                /**
+                 * 九个频道，每个推荐一条
+                 */
+                foreach ($this->cates as $key => $row) {
+                    $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 5)[0];
+                    if (!empty($_tmp)) $data['subscribe'][] = $_tmp;
+                }
+                $time = $data['input_time'];
+                $data['input_time'] = $this->checkTime($data['input_time']);
+                $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
+                $data['content'] = stripslashes($data['content']);
+                //添加缓存之后，页面显示效果  阅读数+1
+                $data['pv'] = $data['pv'] + 1;
+                $data['true_pv'] = $data['true_pv'] + 1;
+                //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
+                //$str= preg_replace("/border="0"",'',$str);
+                $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
+                //$data['content']=$this->cleanhtml(($data['content']),'<img><a><br /><table></table><tr></tr><td></td>');
+                //取出右键导航分类名称
+                $data['cate_name'] = $this->cates[$data['cate_id']];
+                if ($data['type'] == 'public') {
+                    $arr = array('pe', 'pp', 'pvc');
+                    $tmp = array_rand($arr, 1);
+                    $data['type'] = 'pp';
+                }
+                $data['type'] = strtoupper($data['type']);
+                //取出上一篇和下一篇input_time desc,sort_order desc  上一篇是最新的
+                //取出上一篇和下一篇
+                $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
+                $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
+            //}
+            $cache->set('qcateDetailInfo' .  '_' . $id, '');
             $this->json_output(array('err' => 0, 'info' => $data));
         }
     }
@@ -2765,7 +2765,14 @@ class qapi1_1Action extends null2Action
         //var_dump(em_getallheaders());
         //throw_exception("No support db:");
 //        $this->json_output(array('err'=>0,'data'=>em_getallheaders()));
-        http_status(404);
+        //http_status(404);
+        //$_SERVER['ALL_HTTP'] = isset($_SERVER['ALL_HTTP']) ?  $_SERVER['ALL_HTTP']: '';
+//        $_SERVER['HTTP_USER_AGENT'];
+//        echo '<pre>';
+//        var_dump($_SERVER['HTTP_USER_AGENT']);
+//        echo '<hr />';
+//        var_dump($_SERVER['ALL_HTTP']);
+        var_dump(M("system:block")->getBlock(3,6));
     }
 
 
