@@ -394,7 +394,7 @@ class indexAction extends homeBaseAction{
 		$f_id  = sget('f_id','i');
 		$cache= E('RedisCluster',APP_LIB.'class');
 		$cache_info = $cache->get('PRICE_CHART:'.$model.'_'.$f_id);
-		if(!empty($cache_info))
+		if(!empty($cache_info)&&!is_null($cache_info))
 		{
 			$data = json_decode($cache_info,true);
 			if($data['is_empty'])
@@ -410,7 +410,6 @@ class indexAction extends homeBaseAction{
 				die();
 
 			}else{
-
 				$this->assign('list',$data['list']);
 				$this->assign('x_ray',json_encode($data['x_ray']));
 				$this->assign('price',json_encode($data['price']));

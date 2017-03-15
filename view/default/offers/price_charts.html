@@ -9,10 +9,11 @@
 <script type="text/javascript" src="__JS__/echarts.js"></script>
 <script>
     var valid = '{$valid}';
-    /*if(valid == 'false')
+    var title0 = '{$type.model}价格走势图';
+    if(valid == 'false')
     {
-        $("#info").text("本产品无数据记录");
-    }*/
+        title0 = title0 + '(暂无数据)';
+    }
     //$(".top,.header,.footer").hide();
     var myChart = echarts.init(document.getElementById('main'));
 
@@ -20,7 +21,7 @@
 
     var option = {
         title: {
-            text: '{$type.model}价格走势图',
+            text: title0,
             textStyle:{color:'#fff'}
         },
         backgroundColor: '#21202D',
