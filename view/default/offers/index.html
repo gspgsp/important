@@ -136,7 +136,7 @@
             <!-- 联营 -->
             <li class="result-con">
             	<div class="brand">{:witchType|$value.product_type}</div>
-                <div class="grade" onclick="show_chart('{$value.model}','{$value.f_id}')"><a href="javascript:void(0);">{$value.model}</a></div>
+                <div class="grade"><a href="javascript:void(0);">{$value.model}</a></div>
                 <div class="level">{:setOption|process_level,$value.process_type}</div>
                 <div class="xian-qi {if $value.cargo_type==1}xian{else}qi{/if}"><span></span></div>
                 <div class="factory">{$value.f_name}</div>
@@ -239,7 +239,9 @@
     <!--right end-->
 </div>
 <script type="text/javascript">
-    function show_chart(model,f_id)
+    var model ='{$value.model}';
+    var f_id = '{$value.f_id}';
+    $(".grade").click(function(model,f_id)
     {
         $(".grade").unbind("hover");
         $(".xubox_layer").remove();
@@ -270,7 +272,7 @@
                 return;
             }
         },'json');
-    }
+    })
 
     $(".grade").hover(function(){
         layer.tips('点击查看价格走势', $(this),{
