@@ -35,7 +35,7 @@ class purchaseModel extends model{
                         ->getRow();
 	}
 
-	public function getPurPage($where=1,$page=1,$pageSize=20){
+	public function getPurPage($where=1,$page=1,$pageSize=10){
 		return $this->from('purchase pur')
 			->join('product pro','pur.p_id=pro.id')
 			->join('factory fa','pro.f_id=fa.fid')

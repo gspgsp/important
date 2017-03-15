@@ -84,4 +84,13 @@ class productModel extends model{
 		return $this->select("sum(unit_price*remainder) as tr_price")->from('in_log')->where($where)->getOne();
 	}
 
+	/**
+	 * 获取商品类型和加工级别
+	 * @param $model 牌号
+	 * @param $fid   厂家id
+	 */
+	public function getPinfo($model, $fid){
+		return $this->model('product')->where("`f_id` = '$fid' and `model` = '$model'")->getRow();
+	}
+
 }
