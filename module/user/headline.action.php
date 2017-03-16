@@ -97,7 +97,10 @@ class headlineAction extends adminBaseAction {
 			$info['total_time']=$info['end_time'];
 			$info['cate_id']=$v3;
 			$result=$this->db->model('customer_headline')->add($info);
-			$cache = cache::startMemcache();
+			if ($result) {
+				$result=$this->db->model('customer_headline')->where('user_id='.$info['user_id'].' and cate_id='.$v3)->update(array('total_time'=>$info['total_time']));
+			}
+			$cache = E('RedisCluster',APP_LIB.'class');
 			$cache->delete($info['user_id'].'_time_'.$info['cate_id']);
 		}		
 		if($result){
@@ -117,7 +120,7 @@ class headlineAction extends adminBaseAction {
 			}
 			$result2=$this->db->model('customer_contact')->wherePk($info['user_id'])->update(array('headline_vip'=>1,'opening_date'=>CORE_TIME,'cate_id'=>$cate_id.$temp.$cate_str));		
 			if($result2){
-				$this->db->model('customer_tel_sale')->where('mobile'=$c_row['mobile'])->update(array('member_status'=>1,'update_time'=>CORE_TIME));
+				$this->db->model('customer_tel_sale')->where('mobile='.$c_row['mobile'])->update(array('member_status'=>1,'update_time'=>CORE_TIME));
 				$this->success('操作成功');
 			}else{
 				$this->error('操作失败');	
@@ -220,5 +223,23 @@ class headlineAction extends adminBaseAction {
 		}else{
 			$this->json_output(array('err'=>0,'msg'=>'无法获取该客户的信息！'));
 		}	
+	}
+	/**
+	 * 会员过期预警
+	 */
+	public function warningMember(){
+		$this->is_ajax=true;
+		$name=sget('name','s');
+		$cate_id=$this->db->model('news_cate')->where('pid=33')->select('cate_id,cate_name')->getAll();
+		$time=CORE_TIME+(86400*7);
+		foreach ($cate_id as $v) {
+			$row=$this->db->model('customer_headline')->where(' id in (select max(id) from p2p_customer_headline where sale_name="'.$name.'" and total_time between '.CORE_TIME.' and '.$time.' and cate_id='.$v['cate_id'].' group by user_id)')->getRow();
+			if ($row['id']>0) {
+				$row['cate_name']=$v['cate_name'];
+				$arr[]=$row;
+			}
+		}
+		$this->assign('data',$arr);
+		$this->display('headline.overdue.html');
 	}
 }

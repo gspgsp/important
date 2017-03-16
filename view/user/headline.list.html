@@ -2,6 +2,13 @@
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
+			<td>
+				<form id="overForm">
+					会员过期预警：
+					<input name="sale_name" id="sale_name" class="mini-textbox" emptyText="请输入销售员名字" style="width:120px;" onenter="onKeyEnter2"/>
+					<a class="mini-button" iconCls="icon-search" onclick="overdueSearch()">查询</a>
+				</form>
+			</td>
 			<td style="float:right;">
 				<form id="soform">
 					日期查询：&ensp; 
@@ -281,5 +288,27 @@ function sdelMember(){
 		}
 	}
 	utils.ajax('/user/headline/delMember',{data:json},callback,"POST","json");
+}
+function onKeyEnter2(){
+	overdueSearch();
+}
+//会员过期预警搜索
+function overdueSearch(){
+	var name=mini.get('sale_name').getValue();
+	if(name==''){alert('请先输入销售员名字！');return;}
+	var width=1243, height=400,title="会员过期预警";
+	mini.open({
+		url: "/user/headline/warningMember?name="+name,
+		allowResize:true,
+		showMaxButton:true,
+		title: title,
+		width: width, 
+		height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
 }
 </script>
