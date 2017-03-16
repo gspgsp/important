@@ -392,6 +392,7 @@ class blockAction extends adminBaseAction {
 		}else{
 			$this->db->model('block')->add($_data);
 		}
+		$this->cache->delete('blockPos_'.$position);
 		$this->clearMCache('blockPos_'.$position);
 		$this->success('操作成功');
 	}
