@@ -68,13 +68,13 @@ function CloseWindow(action) {
 //点击牌号事件
 function onClickBusiness(e) {	
 	 var record = e.record, p_id=record.p_id, model=record.model,s='';	 
-     s += '<a title="查看销售成交走势图" href="javascript:BusinessGraph('+p_id+')">'+model+'</a> ';
+     s += '<a title="查看销售成交走势图" href="javascript:BusinessGraph('+p_id+',\''+model+'\')">'+model+'</a> ';
      return s;
 }
 //销售成交走势图
- function BusinessGraph(p_id){	
+ function BusinessGraph(p_id,model){	
     mini.open({
-        url: "/order/Business/graph?p_id="+p_id,        
+        url: "/order/Business/graph?p_id="+p_id+"&model="+model,        
         showMaxButton:true,
         title: "销售成交走势图",
         width: 1200, height:795

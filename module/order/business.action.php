@@ -109,6 +109,24 @@ class businessAction extends adminBaseAction {
 	 */
 	public function graph(){
 	    $p_id=sget('p_id','i');
+	    $model=sget('model','s');
+	    $cache= E('RedisCluster',APP_LIB.'class');
+	    $graph_cache = $cache->get('GRAPH_B:'.$p_id);
+	    if(!empty($graph_cache)){
+	        $data=json_decode($graph_cache,true);
+	        $c=$data['list'];
+	        $a=$data['num'];
+	        $b=$data['date'];
+	        $cc=json_encode($c);
+	        $aa =json_encode($a);
+	        $bb=json_encode($b);
+	        $this->assign('aa',$aa);
+	        $this->assign('bb',$bb);
+	        $this->assign('cc',$cc);
+	        $this->assign('model',$model);
+	        $this->display('business.graph.html');
+	        die();
+	    }
 	    $list=M('public:common')->model('purchase_log')->where('p_id='.$p_id)->select('input_time,update_time,number,unit_price')->order('input_time')->getAll();
 	    foreach($list as $k=>$v){
 	        $list[$k]['time']=date("Y-m-d",$v['input_time']);
@@ -162,12 +180,19 @@ class businessAction extends adminBaseAction {
 	    foreach($c as $k=>$v){
 	        $c[$k]=array_values($v);
 	    }
+	    $cache_to=array(
+	        'list'=>$c,
+	        'num'=>$a,
+	        'date'=>$time_u
+	    );
+	    $cache->set('GRAPH_B:'.$p_id,json_encode($cache_to),60*60);
 	    $cc=json_encode($c);
 	    $aa =json_encode($a);
 	    $bb=json_encode($time_u);
 	    $this->assign('aa',$aa);
 	    $this->assign('bb',$bb);
 	    $this->assign('cc',$cc);
+	    $this->assign('model',$model);
 	    $this->display('business.graph.html');
 	}
 }
