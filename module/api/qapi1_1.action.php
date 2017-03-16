@@ -1567,13 +1567,19 @@ class qapi1_1Action extends null2Action
             if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
             M("qapp:news")->updateqAppPv($id);
             $cache = cache::startMemcache();
-            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
+            //if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
                 $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
                 /**
                  * 九个频道，每个推荐一条
                  */
                 foreach ($this->cates as $key => $row) {
-                    $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 5)[0];
+                    $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 10)[0];
+                    $_tmp['cate_name']=$this->catesAll[$_tmp['cate_id']];
+                    $_tmp['input_time'] = $this->checkTime($_tmp['input_time']);
+                    if($_tmp['type'] == 'public'){
+                        $_tmp['type'] == 'pp';
+                    }
+                    $_tmp['type'] = strtoupper($_tmp['type']);
                     if (!empty($_tmp)) $data['subscribe'][] = $_tmp;
                 }
                 $time = $data['input_time'];
@@ -1588,7 +1594,7 @@ class qapi1_1Action extends null2Action
                 $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
                 //$data['content']=$this->cleanhtml(($data['content']),'<img><a><br /><table></table><tr></tr><td></td>');
                 //取出右键导航分类名称
-                $data['cate_name'] = $this->cates[$data['cate_id']];
+                $data['cate_name'] = $this->catesAll[$data['cate_id']];
                 if ($data['type'] == 'public') {
                     $arr = array('pe', 'pp', 'pvc');
                     $tmp = array_rand($arr, 1);
@@ -1599,8 +1605,8 @@ class qapi1_1Action extends null2Action
                 //取出上一篇和下一篇
                 $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
                 $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            }
-            $cache->set('qcateDetailInfo' .  '_' . $id, '');
+            //}
+            $cache->set('qcateDetailInfo' .  '_' . $id, $data,3600);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
     }
