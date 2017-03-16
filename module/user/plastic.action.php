@@ -91,6 +91,7 @@ class plasticAction extends adminBaseAction {
 			$list['data'][$k]['depart']=C('depart')[$v['depart']];
 			$list['data'][$k]['sex']=L('sex')[$v['sex']];
 			$list['data'][$k]['c_id']= M('user:customer')->getColByName($v['c_id']);
+			$list['data'][$k]['customer_id']= $v['c_id'];
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['parent_mobile']=$v['parent_mobile']=='undefined' ? '-' : $v['parent_mobile'];//联系人手机
@@ -107,24 +108,31 @@ class plasticAction extends adminBaseAction {
 	 */
 	private function _remove(){
 		$this->is_ajax=true; //指定为Ajax输出
-		$ids=sget('ids','s');
-		if(empty($ids)){
+		$cids=sget('cids','s');
+		if(empty($cids)){
 			$this->error('操作有误');
 		}
-		$data = explode(',',$ids);
-		if(is_array($data)){
-			foreach ($data as $k => $v) {
-				$res = M('user:customer')->getColByName($v,"c_id","contact_id");
-				if($res>0){
-					$this->error('主联系人不能删除');
-				}
-			}
-		}
-		$result=$this->db->where("user_id in ($ids)")->delete();
-		if($result){
+		$u_ids = $this->db->where("c_id in ($cids)")->select('user_id')->getAll();
+		$u_ids=implode(array_column($u_ids,'user_id'),',');
+		// p($u_ids);
+		// die;
+//删除联系人
+		$result1 = $this->db->where("user_id in ($u_ids)")->delete();
+//删除联系人详细信息
+		$result2 = M("user:contactInfo")->where("user_id in ($u_ids)")->delete();
+//删除公司信息
+		$result3 = M("user:customer")->where("c_id in ($cids)")->delete();
+		// $this->db->startTrans();
+		// try {
+		// } catch (Exception $e) {
+		// 	$this->db->rollback();
+		// 	$this->error($e->getMessage());
+		// }
+		// $this->db->commit();
+		if($result1 && $result2 && $result3){
 			$this->success('操作成功');
 		}else{
-			$this->error('数据处理失败');
+			$this->error('删除操作失败');
 		}
 	}
 
@@ -534,7 +542,7 @@ class plasticAction extends adminBaseAction {
 				foreach ($list as &$v) {
 					$v['model'] = $v['model'].'--'.$this->db->model('factory')->select("f_name")->where("`fid` = {$v['f_id']}")->getOne();
 				}
-				
+
 			}
 			json_output($list);
 		}
