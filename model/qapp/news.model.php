@@ -257,7 +257,7 @@ class newsModel extends model {
                 $before=strtotime(date("Y-m-d"))-86400*($day-1);
                 $where.=" and input_time between $before and $now";
             }
-            return $data=$this->model('news_content')->where($where)->select('id,title,cate_id')->order('sort_order desc,pv  desc')->limit($limit)->getAll();
+            return $data=$this->model('news_content')->where($where)->select('id,title,cate_id,input_time,type')->order('sort_order desc,pv  desc')->limit($limit)->getAll();
         }
 
     }
