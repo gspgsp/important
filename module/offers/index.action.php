@@ -394,9 +394,12 @@ class indexAction extends homeBaseAction{
 		$f_id  = sget('f_id','i');
 		$cache= E('RedisCluster',APP_LIB.'class');
 		$cache_info = $cache->get('PRICE_CHART:'.$model.'_'.$f_id);
+		file_put_contents('/tmp/xielei.txt',print_r($cache_info,true)."111\n",FILE_APPEND);
+
 		if(!empty($cache_info)&&!is_null($cache_info))
 		{
 			$data = json_decode($cache_info,true);
+			file_put_contents('/tmp/xielei.txt',print_r($data,true)."222\n",FILE_APPEND);
 			if($data['is_empty'])
 			{
 				$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
@@ -423,6 +426,7 @@ class indexAction extends homeBaseAction{
 			}
 		}
 		$res = $this->db->model('product')->where(" model = '{$model}' and f_id = {$f_id}")->getAll();
+		file_put_contents('/tmp/xielei.txt',print_r($res,true)."222\n",FILE_APPEND);
 		if(empty($res)){
 			$cache->set('PRICE_CHART:'.$model.'_'.$f_id,json_encode(array('is_empty'=>1)),60*60);
 			$this->assign('type',array('model'=>$model,'f_id'=>$f_id));
@@ -454,6 +458,8 @@ class indexAction extends homeBaseAction{
 			$this->display('price_charts');
 			die();
 		}
+		file_put_contents('/tmp/xielei.txt',print_r($res,true)."555\n",FILE_APPEND);
+
 		$bottom_price = $res[0];
 		$bottom =round($bottom_price['unit_price']/1000-1);
 
@@ -536,6 +542,8 @@ class indexAction extends homeBaseAction{
 			'interval0'=>$interval0,
 			'is_empty'=>false
 		);
+		file_put_contents('/tmp/xielei.txt',print_r($cache_arr,true)."666\n",FILE_APPEND);
+
 		$cache->set('PRICE_CHART:'.$model.'_'.$f_id,json_encode($cache_arr),60*60);
 		$this->assign('list',$res);
 		$this->assign('x_ray',json_encode($x_ray));
