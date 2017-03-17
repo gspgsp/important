@@ -24,7 +24,7 @@
 			<li v-for="s in subscribe">
 				<p>
 					<a href="javascript:;" v-on:click="toPage(s.id)">
-						{{s.cate_name}}{{s.title}}
+						[{{s.cate_name}}]&nbsp;{{s.title}}
 					</a>
 				</p>
 				<span>{{s.input_time}}</span>
