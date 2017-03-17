@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors', 'On');
 /**
  * 客户信息管理
  */
@@ -189,7 +188,6 @@ class customerAction extends adminBaseAction {
 			}
 		}
 		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-		// p($where);
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			$list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
@@ -202,9 +200,10 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['chk'] = $this->_accessChk();
 			//获取联系人的姓名和手机号
 			$contact = $this->db->model('customer_contact')->select('name,mobile,tel')->where('user_id='.$v['contact_id'])->getRow();
-			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $contact['name'];
-			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $contact['mobile'];
-			$list['data'][$k]['tel'] = in_array($v['c_id'],$cids) ? '******' : $contact['tel'];
+			//超管+李总+业务员+物流自己可以看电话，其余都是打星
+			$see = $this->_getSee($v['customer_manager']);
+			$list['data'][$k]['mobile'] = $this->_hidestr($contact['mobile'],$see);
+			$list['data'][$k]['tel'] = $this->_hidestr($contact['tel'],$see);
 			//获取最新一次跟踪消息
 			$message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();
 			$list['data'][$k]['remark'] = $message;
@@ -762,6 +761,39 @@ class customerAction extends adminBaseAction {
 		}else{
 			$this->error('数据处理失败');
 		}
+	}
+	/**
+	 * [hidestr description]隐藏电话号码信息
+	 * @Author   cuiyinming               QQ:1203116460
+	 * @DateTime 2017-03-15T17:07:02+0800
+	 * @param    string                   $str          [description]
+	 * @param    integer                  $see          [description]
+	 * @param    integer                  $len          [description]
+	 * @return   [type]                                 [description]
+	 */
+	private function _hidestr($str='',$see=0,$len=4){
+		$hide ='';
+		if($see==1) return $str;
+		for ($i=0; $i < $len; $i++) {
+			$hide .= '*';
+		}
+		$str = empty($str) ? '' : substr($str,0,strlen($str)-$len).$hide;
+		return $str;
+	}
+	/**
+	 * 获取可查看信息的权限
+	 * @Author   cuiyinming               QQ:1203116460
+	 * @DateTime 2017-03-15T17:08:52+0800
+	 * @return   [type] //超管+李总+业务员+物流自己可以看电话，其余都是打星
+	 */
+	private function _getSee($customer=0){
+		$uid = $_SESSION['adminid'];
+		//超管与李总
+		if($uid == 1 || $uid == 726) return $see = 1;
+		//判断交易员是否是自己的
+		if($customer == $uid) return $see = 1;
+		//判断当前用户是否是物流人员
+		if($this->db->model('adm_role_user')->where("role_id in (24,25) and user_id = $uid")->getAll()) return $see = 1;
 	}
 
 }
