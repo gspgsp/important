@@ -99,7 +99,7 @@
 		{if $fund4}
 			<li>{if $fund4[0]['input_time']}{$fund4[0].input_time|date: Y/m/d h:i:s}&nbsp;&nbsp;&nbsp;{$fund4[0].input_admin}{/if}</li>
 			<li>总额：{$fund4[0].total}元</li>
-			<li>共计收款：{$fund4[0].payed}元</li>
+			<li>共计{if $type eq 1}收{else}付{/if}款：{$fund4[0].payed}元</li>
 			<li>余额：{$fund4[0].lefted}元</li>
 		{/if}
 		</ul>
