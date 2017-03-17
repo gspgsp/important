@@ -35,13 +35,12 @@ class contactAction extends adminBaseAction {
         $size = sget("pageSize",'i',20); //每页数
         $sortField = sget("sortField",'s','input_time'); //排序字段
         $sortOrder = sget("sortOrder",'s','desc'); //排序
+        $filte = sget('filte','i',0);
         //搜索条件
         $where=" status != 9 ";
         $c_id=sget('c_id','i',0);
         if($c_id !=0){
             $where.=" and `c_id` = $c_id ";
-        }else{
-            $where .= " and chanel = 5 ";
         }
         //筛选状态
         $status=sget('status','i',0);
@@ -65,8 +64,10 @@ class contactAction extends adminBaseAction {
             $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
             $where .= " and `customer_manager` in ($sons) ";
             if(!empty($pools)){
-                $cids = explode(',', $pools);
-                $where .= " or `c_id` in ($pools)";
+                if($filte != 1){
+                    $cids = explode(',', $pools);
+                    $where .= " or `c_id` in ($pools)";
+                }
             }
             if(!empty($cidshare)){
                 $where .= " or `c_id` in ($cidshare)";
