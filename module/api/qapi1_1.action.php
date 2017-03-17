@@ -1606,7 +1606,7 @@ class qapi1_1Action extends null2Action
                 //取出上一篇和下一篇
                 $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
                 $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            }
+            } 
             $cache->set('qcateDetailInfo' .  '_' . $id, $data,3600);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
