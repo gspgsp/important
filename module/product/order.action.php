@@ -190,16 +190,7 @@ class orderAction extends adminBaseAction {
 			//判断当前单子是否全部收款
 				$ifqbsk = $this->db->model('order')->select("count(0)")->where("o_id={$v['o_id']} AND collection_status=3")->getOne();
 				//获取关联的订单号
-				$row_tmp = $this->db->model('order')->select("o_id,join_id,store_o_id,invoice_status")->where("o_id={$v['o_id']}")->getRow();
-				if($row_tmp['store_o_id'] > 0 && $row_tmp['join_id'] == 0){
-					$content_id = $row_tmp['store_o_id'];
-				}else if($row_tmp['store_o_id'] == 0 && $row_tmp['join_id'] > 0){
-					$content_id = $row_tmp['join_id'];
-				}else if(($row_tmp['join_id']>0) && ($row_tmp['store_o_id']>0)&&($row_tmp['o_id'] == $row_tmp['join_id'])){
-					$content_id = $row_tmp['store_o_id'];
-				}else if(($row_tmp['join_id']>0) && ($row_tmp['store_o_id']>0)&&($row_tmp['o_id'] == $row_tmp['store_o_id'])){
-					$content_id = $row_tmp['join_id'];
-				}
+				$content_id = M('product:order')->getAssociationID($o_id);
 				if($content_id>0){
 					//通过获取到的关联订单号=>来获取关联订单的开票状态是否全部开票
 					$ifqbkp = $this->db->model('order')->select("count(0)")->where("o_id={$content_id}  AND invoice_status=3")->getOne();

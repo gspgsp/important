@@ -145,81 +145,76 @@ class billingAction extends adminBaseAction
 		$o_id = spost('o_id','s');
 		$order_type = spost('order_type','s');
 		//如果不是超管
-		if($_SESSION['adminid'] != 1){
-		    if($order_type=='1'){
+		if($_SESSION['adminid'] != 11){
+		    if($order_type=='1'){//销售
 	    	    //判断当前单子是否全部收款
 	    	    $ifqbsk = $this->db->model('order')->select("count(0)")->where("o_id={$o_id} AND collection_status=3")->getOne();
 	    	    //获取关联的订单号
-	    	    $row_tmp = $this->db->model('order')->select("o_id,join_id,store_o_id,invoice_status")->where("o_id={$o_id}")->getRow();
-	    	        if($row_tmp['store_o_id'] > 0 && $row_tmp['join_id'] == 0){
-	    	            $content_id = $row_tmp['store_o_id'];
-	    	        }else if($row_tmp['store_o_id'] == 0 && $row_tmp['join_id'] > 0){
-	    	            $content_id = $row_tmp['join_id'];
-	    	        }else if($row_tmp['o_id'] == $row_tmp['join_id'] && $row_tmp['join_id']>0 && $row_tmp['store_o_id']>0){
-	    	            $content_id = $row_tmp['store_o_id'];
-	    	        }else if($row_tmp['o_id'] == $row_tmp['store_o_id'] && $row_tmp['join_id']>0 && $row_tmp['store_o_id']>0){
-	    	            $content_id = $row_tmp['join_id'];
-	    	        }
+	    	    $content_id = M('product:order')->getAssociationID($o_id);
+	    	    //如果付款备注标有“破损”，销售不能开票
+	    	    $msg_arr = $this->db->model('collection')->select('remark')->where("o_id={$o_id}")->getAll();
+	    	    $msg_str = implode(array_column($msg_arr,'remark'));
+	    	    $res = preg_match("/破损/",$msg_str);
+	    	    $roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 
-	    	        if($content_id>0){
-	        	        //通过获取到的关联订单号=>来获取关联订单的开票状态是否全部开票
-	        	        $ifqbkp = $this->db->model('order')->select("count(0)")->where("o_id={$content_id}  AND invoice_status=3")->getOne();
+	    	    //筛选财务
+				if(in_array($roleid, array('30','26','27'))){
+					$res = 0;
+				}
+				if($res){
+					$v['msg']='改单存在破损，开票请联系财务处理！';
+				}
+    	        if($content_id>0){
+        	        //通过获取到的关联订单号=>来获取关联订单的开票状态是否全部开票
+        	        $ifqbkp = $this->db->model('order')->select("count(0)")->where("o_id={$content_id}  AND invoice_status=3")->getOne();
+        	        if($ifqbsk!=1 || $ifqbkp!=1){
+        	            $v['msg']='当前订单没有全部收款或关联订单没有全部开票!';
+        	        }
+    	        }else{
+    	            $v['msg']='当前订单没有关联订单信息!';
+    	        }
 
-	        	        if($ifqbsk==1&&$ifqbkp==1){
-	        // 	            $v['msg']=1;
-	        	        }else{
-	        	            $v['msg']='当前订单没有全部收款或关联订单没有全部开票!';
-	        	        }
-	    	        }else{
-	    	// 	            $v['msg']=1;
-	    	            $v['msg']='当前订单没有关联订单信息!';
-	    	        }
-
-	                //还需要判断开票表p2p_billing
-	                //1.没有开票记录待开票
-	                if($row_tmp['invoice_status']==1){
-	    // 	            $v['msg']=1;
-	    	            $i = 0;
-	//     	            $v['msg']='已提交未确认!';
-	    	            $bfkps = $this->db->model('billing')->where("o_id={$o_id} AND invoice_status<>3")->getAll();
-	    	            foreach ($bfkps as $k){
-	    	                if($k['invoice_status']<>2){
-	    	                    $v['msg']='已提交未确认!';
-	    	                    break;
-	    	                }else{
-	    	                    $i = $i +1;
-	    	                }
-	    	            }
-	    	            if(($i==count($bfkps))){
-	    	                // 	  $v['msg']=1;
-	    	            }
-	    	        }
-	    	        //2.部分开票
-	    	        if($row_tmp['invoice_status']==2){
-	    	            $i = 0;
-	//     	            $v['pur_status']=0;
-	    	            $bfkps = $this->db->model('billing')->where("o_id={$o_id} AND invoice_status<>3")->getAll();
-	    	            foreach ($bfkps as $k){
-	    	                if($k['invoice_status']<>2){
-	    	                    $v['msg']='部分开票有未完成!';
-	    	                    break;
-	    	                }else{
-	    	                    $i = $i +1;
-	    	                }
-	    	            }
-	    	            if($i!=0&&($i==count($bfkps))){
-	    // 	                $v['msg']=1;
-	    	            }
-	    	        }
-	    	        //3.全部开票
-	    	        if($row_tmp['invoice_status']==3){
-	    	            $v['msg']='已全部开票,开票已完成!';
-	    	        }
-	    	        if(empty($v['msg'])){
-	    	           $this->success('操作成功');
-	    	        }else{
-	    	            $this->error($v['msg']);
-	    	        }
+                //还需要判断开票表p2p_billing
+                //1.没有开票记录待开票
+                if($row_tmp['invoice_status']==1){
+    	            $i = 0;
+    	            $bfkps = $this->db->model('billing')->where("o_id={$o_id} AND invoice_status<>3")->getAll();
+    	            foreach ($bfkps as $k){
+    	                if($k['invoice_status']<>2){
+    	                    $v['msg']='已提交未确认!';
+    	                    break;
+    	                }else{
+    	                    $i = $i +1;
+    	                }
+    	            }
+    	            if(($i==count($bfkps))){
+    	                // 	  $v['msg']=1;
+    	            }
+    	        }
+    	        //2.部分开票
+    	        if($row_tmp['invoice_status']==2){
+    	            $i = 0;
+    	            $bfkps = $this->db->model('billing')->where("o_id={$o_id} AND invoice_status<>3")->getAll();
+    	            foreach ($bfkps as $k){
+    	                if($k['invoice_status']<>2){
+    	                    $v['msg']='部分开票有未完成!';
+    	                    break;
+    	                }else{
+    	                    $i = $i +1;
+    	                }
+    	            }
+    	            if($i!=0&&($i==count($bfkps))){
+    	            }
+    	        }
+    	        //3.全部开票
+    	        if($row_tmp['invoice_status']==3){
+    	            $v['msg']='已全部开票,开票已完成!';
+    	        }
+    	        if(empty($v['msg'])){
+    	           $this->success('操作成功');
+    	        }else{
+    	            $this->error($v['msg']);
+    	        }
 		    }else{
 		        $this->success('操作成功');
 		    }
