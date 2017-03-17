@@ -278,7 +278,7 @@ class customerAction extends adminBaseAction {
 			$info['company_city']=$areaArr[0];
 		}
 		/**20170317添加团队领导隐藏客户姓名*S*/
-		if(_leader() && $v['customer_manager'] != $_SESSION['adminid'])  $info['c_name'] = substrCut($info['c_name']);
+		if(_leader() && $info['customer_manager'] != $_SESSION['adminid'])  $info['c_name'] = substrCut($info['c_name']);
 		/**20170317添加团队领导隐藏客户姓名*E*/
 		$info['file_url1'] = FILE_URL.'/upload/'.$info['file_url'];
 		$info['business_licence_pic1'] = FILE_URL.'/upload/'.$info['business_licence_pic'];
