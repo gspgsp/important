@@ -1576,8 +1576,8 @@ class qapi1_1Action extends null2Action
                     $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 10)[0];
                     $_tmp['cate_name']=$this->catesAll[$_tmp['cate_id']];
                     $_tmp['input_time'] = $this->checkTime($_tmp['input_time']);
-                    if($_tmp['type'] == 'public'){
-                        $_tmp['type'] == 'pp';
+                    if($_tmp['type'] == 'public'||$_tmp['type'] == 'vip'){
+                        $_tmp['type'] = 'pp';
                     }
                     $_tmp['type'] = strtoupper($_tmp['type']);
                     if (!empty($_tmp)) $data['subscribe'][] = $_tmp;
