@@ -1567,8 +1567,9 @@ class qapi1_1Action extends null2Action
             if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
             M("qapp:news")->updateqAppPv($id);
             $cache = cache::startMemcache();
-            //if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
+            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
                 $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
+                if(empty($data)) $this->_errCode(2);
                 /**
                  * 九个频道，每个推荐一条
                  */
@@ -1605,7 +1606,7 @@ class qapi1_1Action extends null2Action
                 //取出上一篇和下一篇
                 $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
                 $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            //}
+            }
             $cache->set('qcateDetailInfo' .  '_' . $id, $data,3600);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
