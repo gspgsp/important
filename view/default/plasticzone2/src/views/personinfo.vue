@@ -66,7 +66,6 @@
 	<div class="imgLayer" v-show="cardCheck" v-on:click="cardcheck">
 		<div class="avatorCheck" v-bind:style="{backgroundImage: 'url(' + cardImg + ')'}"></div>
 	</div>
-	<div class="layer" v-show="show"></div>
 </div>
 </template>
 <script>
@@ -90,7 +89,6 @@ module.exports = {
 			id: "",
 			avatorCheck: false,
 			cardCheck: false,
-			show: false,
 			user_id: "",
 			content: "",
 			is_pass: "",
@@ -121,7 +119,7 @@ module.exports = {
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-					_this.$router.go(0);
+					window.location.reload();
 			}, function() {
 
 			});
@@ -191,9 +189,7 @@ module.exports = {
 			if(res.err == 0) {
 				_this.buylist=res.data;
 			} else if(res.err == 1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({ name: 'login' });
-				});
+				
 			}else if(res.err == 2){
 				_this.buylist=[];
 			}
@@ -217,9 +213,7 @@ module.exports = {
 			if(res.err == 0) {
 				_this.supplylist=res.data;
 			} else if(res.err == 1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({ name: 'login' });
-				});
+				
 			}else if(res.err == 2){
 				_this.supplylist=[];
 			}

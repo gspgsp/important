@@ -13,15 +13,23 @@
 		<div class="headlinetxt">
 			<div v-html="content"></div>
 		</div>
-		<span class="pre" v-on:click="pre(lastOne)"></span>
-		<span class="nex" v-on:click="nex(nextOne)"></span>
-		<h3 style="width: 100%; padding: 10px 0; clear: both; font-size: 14px; font-weight: normal; margin: 0;">热门回顾</h3>
-		<ul class="searchli" style="padding: 0;">
+		<div style="overflow: hidden;">
+		<span class="pre" v-on:click="toPage(lastOne)"></span>
+		<span class="nex" v-on:click="toPage(nextOne)"></span>
+		</div>
+		<div style="width: 61px; height: 23px; text-align: center; line-height: 23px; color: #999; border: 1px solid #999; border-radius: 2px; clear: both; font-size: 12px; margin: 10px 0;">
+			热门回顾
+		</div>
+		<ul id="tj" class="searchli" style="padding: 0; color: #999;">
 			<li v-for="s in subscribe">
-				<a href="javascript:;" v-on:click="nex(s.id)">{{s.title}}</a>
+				<p>
+					<a href="javascript:;" v-on:click="toPage(s.id)">
+						{{s.cate_name}}{{s.title}}
+					</a>
+				</p>
+				<span>{{s.input_time}}</span>
 			<li>	
 		</ul>
-
 	</div>
 	<footerbar></footerbar>
 <div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
@@ -122,7 +130,7 @@ module.exports = {
     		this.share3=false;
     		this.share4=false;
     	},
-		pre: function(id) {
+		toPage: function(id) {
 			var _this = this;
 			window.scrollTo(0,0);
 			if(id) {
@@ -190,78 +198,6 @@ module.exports = {
 				});
 			}
 		},
-		nex: function(id) {
-			var _this = this;
-			window.scrollTo(0,0);
-			if(id) {
-				$.ajax({
-					type: "post",
-					url: '/api/qapi1_1/getDetailInfo',
-					data: {
-						token: window.localStorage.getItem("token"),
-						id: id
-					},
-					dataType: 'JSON'
-				}).then(function(res) {
-					console.log("cur");
-					console.log(res.info.id);
-					console.log("pre");
-					console.log(res.info.lastOne);
-					console.log("nex");
-					console.log(res.info.nextOne);
-					_this.id=res.info.id;
-					_this.title=res.info.title;
-					_this.cate_id=res.info.cate_id;
-					_this.content=res.info.content;
-					_this.time=res.info.input_time;
-					_this.type=res.info.type;
-					_this.pv=res.info.pv;
-					_this.author=res.info.author;
-					_this.lastOne=res.info.lastOne;
-					_this.nextOne=res.info.nextOne;
-					_this.subscribe=res.info.subscribe.slice(0,8);
-					switch(_this.cate_id) {
-						case "1":
-							_this.cate = "早盘预测";
-							break;
-						case "2":
-							_this.cate = "塑料上游";
-							break;
-						case "4":
-							_this.cate = "中晨塑说";
-							break;
-						case "5":
-							_this.cate = "美金市场";
-							break;
-						case "9":
-							_this.cate = "企业动态";
-							break;
-						case "11":
-							_this.cate = "装置动态";
-							break;
-						case "13":
-							_this.cate = "期刊报告";
-							break;
-						case "21":
-							_this.cate = "期货资讯";
-							break;
-						case "22":
-							_this.cate = "独家解读";
-							break;
-						default:
-							_this.cate="塑料发现";
-							break;							
-					}
-
-				}, function() {
-
-				});
-			} else {
-				mui.alert("", "没有相关文章", function() {
-
-				});
-			}
-		}
 	},
 	activated: function() {
 		var _this = this;
