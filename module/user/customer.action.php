@@ -204,6 +204,8 @@ class customerAction extends adminBaseAction {
 			$see = $this->_getSee($v['customer_manager']);
 			$list['data'][$k]['mobile'] = $this->_hidestr($contact['mobile'],$see);
 			$list['data'][$k]['tel'] = $this->_hidestr($contact['tel'],$see);
+			//对客户名称打星(战队领导才打星号)
+			if(_leader() && $v['customer_manager'] != $_SESSION['adminid']) $list['data'][$k]['c_name'] = substrCut($v['c_name']);
 			//获取最新一次跟踪消息
 			$message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();
 			$list['data'][$k]['remark'] = $message;
@@ -275,6 +277,9 @@ class customerAction extends adminBaseAction {
 			$info['company_province'] = $areaArr[1];
 			$info['company_city']=$areaArr[0];
 		}
+		/**20170317添加团队领导隐藏客户姓名*S*/
+		if(_leader() && $v['customer_manager'] != $_SESSION['adminid'])  $info['c_name'] = substrCut($info['c_name']);
+		/**20170317添加团队领导隐藏客户姓名*E*/
 		$info['file_url1'] = FILE_URL.'/upload/'.$info['file_url'];
 		$info['business_licence_pic1'] = FILE_URL.'/upload/'.$info['business_licence_pic'];
 		$info['organization_pic1'] = FILE_URL.'/upload/'.$info['organization_pic'];
@@ -305,6 +310,9 @@ class customerAction extends adminBaseAction {
 			$info['company_province'] = $areaArr[0];
 			$info['company_city']=$areaArr[1];
 		}
+		/**封堵李总不能让领导看见姓名的要求*S*/
+		if(_leader() && $info['customer_manager'] != $_SESSION['adminid']) $this->error('团队领导不能修改下面员工的客户信息');
+		/**封堵李总不能让领导看见姓名的要求*E*/
 		if(empty($info)) $this->error('错误的公司信息');
 		// 根据公司查询联系人信息
 		$info_ext = $this->db->model('customer_contact')->getPk($info['contact_id']);
