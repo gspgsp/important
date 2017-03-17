@@ -411,16 +411,22 @@ function absLength($str){
  */
 function substrCut($user_name){
     $strlen     = mb_strlen($user_name, 'utf-8');
-    $firstStr     = mb_substr($user_name, 0, 1, 'utf-8');
-    $lastStr     = mb_substr($user_name, -1, 1, 'utf-8');
+    $str_len     = mb_strlen($user_name, 'utf-8')-4;
+    $firstStr     = mb_substr($user_name, 0, 2, 'utf-8');
+    $lastStr     = mb_substr($user_name,$str_len, 4, 'utf-8');
     return $strlen == 2 ? $firstStr . str_repeat('*', mb_strlen($user_name, 'utf-8') - 1) : $firstStr . str_repeat("*", $strlen - 2) . $lastStr;
 }
 
 /**
  * 判断是不是战队领导
- * 这个是为了处理20170317 李总针对团队领导隐藏客户姓名的需求
+ * 这个是为了处理20170317 李总针对
  */
-function _leader(){
+function _leader($cname = '',$customer_manager = 0,$share){
 	$uid = $_SESSION['adminid'];
-	return in_array($uid,array(1,968,955,912,992,735,701,775,774,737,734,730,772,784));
+	$exit =  in_array($uid,array(1,968,955,912,992,735,701,775,774,737,734,730,772,784));
+	if($exit && $customer_manager != $uid && $customer_manager != 0  && $share){
+		return substrCut($cname);
+	}else{
+		return $cname;
+	}
 }

@@ -267,6 +267,18 @@ class customerModel extends model{
 			}
 		}
 	}
+	/**
+	 * 判断当前客户是不是被共享的
+	 * @Author   cuiyinming
+	 * @DateTime 2017-03-17T20:02:40+0800
+	 * @param    integer                  $cid [description]
+	 * @return   [type]                        [description]
+	 */
+	public function judgeShare($cid=0){
+		$uid = $_SESSION['adminid'];
+		$exit = $this->model('customer_pool')->where("`customer_manager` = $uid AND `c_id` = $cid")->getRow();
+		return empty($exit) ? false : true;
+	}
 
 
 }
