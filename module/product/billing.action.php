@@ -145,7 +145,7 @@ class billingAction extends adminBaseAction
 		$o_id = spost('o_id','s');
 		$order_type = spost('order_type','s');
 		//如果不是超管
-		if($_SESSION['adminid'] != 11){
+		if($_SESSION['adminid'] !=1){
 		    if($order_type=='1'){//销售
 	    	    //判断当前单子是否全部收款
 	    	    $ifqbsk = $this->db->model('order')->select("count(0)")->where("o_id={$o_id} AND collection_status=3")->getOne();
