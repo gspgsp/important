@@ -112,7 +112,7 @@ class businessAction extends adminBaseAction {
 	    $model=sget('model','s');
 	    $cache= E('RedisCluster',APP_LIB.'class');
 	    $graph_cache = $cache->get('GRAPH_B:'.$p_id);
-	    if(!empty($graph_cache)){
+	    if(!empty($graph_cache)&&!is_null($graph_cache)){
 	        $data=json_decode($graph_cache,true);
 	        $c=$data['list'];
 	        $a=$data['num'];
