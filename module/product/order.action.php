@@ -513,6 +513,21 @@ class orderAction extends adminBaseAction {
 		if($info['h_pur']==2){
 			$info['h_pur_cname']  = M('user:customer')->getColByName($info['h_pur_cid'],"c_name");
 		}
+		/**处理采购订单生成时候的信息卸载问题***S***/
+		unset($info['freight_price']);
+		unset($info['transport_type']);
+		unset($info['payment_way']);
+		unset($info['payment_time']);
+		unset($info['transport_status']);
+		unset($info['remark']);
+		unset($info['pickup_time']);
+		unset($info['sign_place']);
+		unset($info['delivery_time']);
+		unset($info['pay_method']);
+		unset($info['c_fax']);
+		unset($info['sign_time']);
+		unset($info['pickuplocation']);
+		/**处理采购订单生成时候的信息卸载问题****E****/
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('detail',json_encode($detailinfo));//明细数据
 		$this->assign('order_sn',$order_sn);
