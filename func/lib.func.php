@@ -358,4 +358,69 @@ function Sec2Time($time){
 	return (bool) FALSE;
 	}
  }
-?>
+/*
+utf-8编码下截取中文字符串,参数可以参照substr函数
+@param $str 要进行截取的字符串
+@param $start 要进行截取的开始位置，负数为反向截取
+@param $end 要进行截取的长度
+*/
+function utf8Substr($str,$start=0) {
+	if(empty($str)){
+		return false;
+	}
+	if (function_exists('mb_substr')){
+		if(func_num_args() >= 3) {
+			$end = func_get_arg(2);
+			return mb_substr($str,$start,$end,'utf-8');
+		}else{
+			mb_internal_encoding("UTF-8");
+			return mb_substr($str,$start);
+		}
+	}else {
+		$null = "";
+		preg_match_all("/./u", $str, $ar);
+		if(func_num_args() >= 3) {
+			$end = func_get_arg(2);
+			return join($null, array_slice($ar[0],$start,$end));
+		}else {
+			return join($null, array_slice($ar[0],$start));
+		}
+	}
+}
+/**
+* 可以统计中文字符串长度的函数
+* @param $str 要计算长度的字符串
+* @param $type 计算长度类型，0(默认)表示一个中文算一个字符，1表示一个中文算两个字符
+*
+*/
+function absLength($str){
+	if(empty($str)){
+		return 0;
+	}
+	if(function_exists('mb_strlen')){
+		return mb_strlen($str,'utf-8');
+	}else {
+		preg_match_all("/./u", $str, $ar);
+		return count($ar[0]);
+	}
+}
+/**
+ * 只保留字符串首尾字符，隐藏中间用*代替（两个字符时只显示第一个）
+ * @param string $user_name 姓名
+ * @return string 格式化后的姓名
+ */
+function substrCut($user_name){
+    $strlen     = mb_strlen($user_name, 'utf-8');
+    $firstStr     = mb_substr($user_name, 0, 1, 'utf-8');
+    $lastStr     = mb_substr($user_name, -1, 1, 'utf-8');
+    return $strlen == 2 ? $firstStr . str_repeat('*', mb_strlen($user_name, 'utf-8') - 1) : $firstStr . str_repeat("*", $strlen - 2) . $lastStr;
+}
+
+/**
+ * 判断是不是战队领导
+ * 这个是为了处理20170317 李总针对团队领导隐藏客户姓名的需求
+ */
+function _leader(){
+	$uid = $_SESSION['adminid'];
+	return in_array($uid,array(1,968,955,912,992,735,701,775,774,737,734,730,772,784));
+}
