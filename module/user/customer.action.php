@@ -205,7 +205,7 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['mobile'] = $this->_hidestr($contact['mobile'],$see);
 			$list['data'][$k]['tel'] = $this->_hidestr($contact['tel'],$see);
 			//对客户名称打星(战队领导才打星号)
-			if(_leader() && $v['customer_manager'] != $_SESSION['adminid']) $list['data'][$k]['c_name'] = substrCut($v['c_name']);
+			$list['data'][$k]['c_name']  = _leader($v['c_name'], $v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
 			//获取最新一次跟踪消息
 			$message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();
 			$list['data'][$k]['remark'] = $message;
@@ -278,7 +278,7 @@ class customerAction extends adminBaseAction {
 			$info['company_city']=$areaArr[0];
 		}
 		/**20170317添加团队领导隐藏客户姓名*S*/
-		if(_leader() && $info['customer_manager'] != $_SESSION['adminid'])  $info['c_name'] = substrCut($info['c_name']);
+		$info['c_name']  = _leader($info['c_name'], $info['customer_manager'],!M('user:customer')->judgeShare($info['c_id']));
 		/**20170317添加团队领导隐藏客户姓名*E*/
 		$info['file_url1'] = FILE_URL.'/upload/'.$info['file_url'];
 		$info['business_licence_pic1'] = FILE_URL.'/upload/'.$info['business_licence_pic'];

@@ -83,17 +83,12 @@ class contactAction extends adminBaseAction {
 			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $v['mobile'];
 			$cname = M('user:customer')->getColByName($v['c_id']);
 			/**封堵李总不能让领导看见姓名的要求*S*/
-			if(_leader() && $v['customer_manager'] != $_SESSION['adminid']){
-				$list['data'][$k]['c_id'] = substrCut($cname);
-			}else{
-				$list['data'][$k]['c_id'] = $cname;
-			}
+			$list['data'][$k]['c_id'] = _leader($cname, $v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
 			/**封堵李总不能让领导看见姓名的要求*E*/
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['input_admin'] = M('rbac:adm')->getNameByUser($v['input_admin']);
 		}
-
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
