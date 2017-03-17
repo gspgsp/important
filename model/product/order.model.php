@@ -295,7 +295,7 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
 	 */
 	public function getAllCustomerManagerTodayNum($today_start=0,$today_end=0){
 		$where = ' where o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$today_start.' and o.input_time < '.$today_end;
-		$num = $this->model('adm_role_user') 
+		$num = $this->model('adm_role_user')
 			 ->getAll('SELECT aa.customer_manager,aa.role_id AS team_id,aa.name AS team_name, SUM(aa.total_num) AS total_num,0 AS call_num FROM (
 				SELECT user.`user_id` AS customer_manager,user.role_id, role.`name`,0 AS total_num FROM p2p_adm_role_user AS `user`
 				LEFT JOIN p2p_adm_role AS role ON user.`role_id` = role.id
@@ -349,6 +349,26 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
 		$cids = $this->model('customer')->select('c_id')->where("c_name like '%$cname%'")->getCol();
 		$oids = $this->model('order')->select('o_id')->where("order_type = 1 and c_id in ( ".implode(',', $cids).")")->getCol();
 		return implode(',', $oids);
+	}
+/**
+ * [getAssociationID 获取关联id，采购获取销售id，销售获取采购id]
+ * @Author   xianghui
+ * @DateTime 2017-03-17T09:56:44+0800
+ * @return   [type]                   [description]
+ */
+	public function getAssociationID($o_id){
+		if (!$o_id) return false;
+		$row_tmp = $this->model('order')->select("o_id,join_id,store_o_id,invoice_status")->where("o_id={$o_id}")->getRow();
+        if($row_tmp['store_o_id'] > 0 && $row_tmp['join_id'] == 0){
+            $content_id = $row_tmp['store_o_id'];
+        }else if($row_tmp['store_o_id'] == 0 && $row_tmp['join_id'] > 0){
+            $content_id = $row_tmp['join_id'];
+        }else if($row_tmp['o_id'] == $row_tmp['join_id'] && $row_tmp['join_id']>0 && $row_tmp['store_o_id']>0){
+            $content_id = $row_tmp['store_o_id'];
+        }else if($row_tmp['o_id'] == $row_tmp['store_o_id'] && $row_tmp['join_id']>0 && $row_tmp['store_o_id']>0){
+            $content_id = $row_tmp['join_id'];
+        }
+        return $content_id;
 	}
 
 }
