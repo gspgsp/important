@@ -127,8 +127,14 @@ class purchaseAction extends adminBaseAction {
 	        $this->assign('model',$model);
 	        $this->display('purchase.graph.html');	        
 	        die();
-	    }
-	    $list=M('public:common')->model('purchase_log')->where('p_id='.$p_id)->select('input_time,update_time,number,unit_price')->order('input_time')->getAll();
+	    }	    
+	    $where =" where 1 AND pro.model ='$model'AND o.order_type = 2 AND o.`order_status` = 2 AND o.`transport_status` = 2";
+	    $list = M('public:common')->model('purchase_log')->order('input_time')->getAll('SELECT log.`number`,log.`unit_price`,log.`input_time`,log.`update_time`
+			FROM p2p_purchase_log AS log
+			LEFT JOIN `p2p_order` AS o ON o.`o_id` = log.`o_id`
+			LEFT JOIN `p2p_product` AS pro ON log.`p_id` = pro.`id`
+			LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
+			'.$where." order by input_time");
 	    foreach($list as $k=>$v){
 	        $list[$k]['time']=date("Y-m-d",$v['input_time']);
 	    }
