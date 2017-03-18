@@ -127,7 +127,7 @@ class businessAction extends adminBaseAction {
 	        $this->display('business.graph.html');
 	        die();
 	    }
-	    $list=M('public:common')->model('purchase_log')->where('p_id='.$p_id)->select('input_time,update_time,number,unit_price')->order('input_time')->getAll();
+	    $list=M('public:common')->model('sale_log')->where('p_id='.$p_id)->select('input_time,update_time,number,unit_price')->order('input_time')->getAll();
 	    foreach($list as $k=>$v){
 	        $list[$k]['time']=date("Y-m-d",$v['input_time']);
 	    }
