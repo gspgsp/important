@@ -161,7 +161,7 @@ class orderAction extends adminBaseAction {
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		//echo $_SESSION['adminid'];
-		//p($list);die;
+		// p($list);die;
 		foreach($list['data'] as &$v){
 			$v['c_name']=  ($v['partner'] == $_SESSION['adminid'] && $v['customer_manager'] != $_SESSION['adminid']) ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
 			$v['c_status']= M("user:customer")->getColByName($v['c_id'],'status');//根据cid获取用户状态吗
@@ -180,6 +180,7 @@ class orderAction extends adminBaseAction {
 			$v['payments_status']= ( $v['order_type'] == '1' ? L('collection_g_status')[$v['collection_status']] :  L('collection_p_status')[$v['collection_status']] ) ;
 			$v['order_type']=L('order_type')[$v['order_type']];
 			$v['out_storage_status']=L('out_storage_status')[$v['out_storage_status']];
+			$row_tmp['invoice_status']=$v['invoice_status'];
 			$v['invoice_status']=L('invoice_status')[$v['invoice_status']];
 			$v['type_status']= L('order_status')[$v['order_status']].'|'.L('transport_status')[$v['transport_status']];
 			$v['node_flow'] = $this->_accessChk($this->db->model('order')->select('node_flow')->where("`o_id` ={$v['o_id']} ")->getOne());
@@ -258,6 +259,7 @@ class orderAction extends adminBaseAction {
 			$order_type=='1'?$collection_name='收款':$collection_name='付款';
 			$msg="[筛选结果]总额:【".price_format($sum['msum'])."】总吨:【".$sum['wsum']."】".$collection_name.":【".price_format($collection)."】";
 		}
+		$i_s = $this->assign($row_tmp['invoice_status']);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->json_output($result);
 	}

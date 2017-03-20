@@ -144,6 +144,7 @@ class billingAction extends adminBaseAction
 		if(!$_POST) $this->error('操作失败');
 		$o_id = spost('o_id','s');
 		$order_type = spost('order_type','s');
+		$row_tmp['invoice_status'] = $this->db->model('order')->select("invoice_status")->where("o_id={$o_id}")->getOne();
 		//如果不是超管
 		if($_SESSION['adminid'] !=1){
 		    if($order_type=='1'){//销售
@@ -154,14 +155,13 @@ class billingAction extends adminBaseAction
 	    	    //如果付款备注标有“破损”，销售不能开票
 	    	    $msg_arr = $this->db->model('collection')->select('remark')->where("o_id={$o_id}")->getAll();
 	    	    $msg_str = implode(array_column($msg_arr,'remark'));
-	    	    $res = preg_match("/破损/",$msg_str);
+	    	    $resu = preg_match("/破损/",$msg_str);
 	    	    $roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
-
-	    	    //筛选财务
-				if(in_array($roleid, array('30','26','27'))){
-					$res = 0;
-				}
-				if($res){
+	    	    //筛选财务,$res为0就属于财务
+	    	    if ( in_array($roleid, array('30','26','27')) ) {
+	    	    	$res=0;
+	    	    }
+				if($resu==1 && $res==0){
 					$v['msg']='改单存在破损，开票请联系财务处理！';
 				}
     	        if($content_id>0){
@@ -207,9 +207,12 @@ class billingAction extends adminBaseAction
     	            }
     	        }
     	        //3.全部开票
+    	       // p($row_tmp['invoice_status']);
+    	        //die;
     	        if($row_tmp['invoice_status']==3){
     	            $v['msg']='已全部开票,开票已完成!';
     	        }
+
     	        if(empty($v['msg'])){
     	           $this->success('操作成功');
     	        }else{
