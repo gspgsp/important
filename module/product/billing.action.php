@@ -154,13 +154,15 @@ class billingAction extends adminBaseAction
 	    	    $content_id = M('product:order')->getAssociationID($o_id);
 	    	    //如果付款备注标有“破损”，销售不能开票
 	    	    $msg_arr = $this->db->model('collection')->select('remark')->where("o_id={$o_id}")->getAll();
-	    	    $msg_str = implode(array_column($msg_arr,'remark'));
-	    	    $resu = preg_match("/破损/",$msg_str);
-	    	    $roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
-	    	    //筛选财务,$res为0就属于财务
-	    	    if ( in_array($roleid, array('30','26','27')) ) {
-	    	    	$res=0;
+	    	    if(!empty($msg_arr)){
+	    	    	foreach ($msg_arr as $value) {
+	    	    		$arr[]=$value['remark'];
+	    	    	}
 	    	    }
+	    	    $resu = preg_match("/破损/",implode($arr));
+	    	    $roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+	    	    //筛选财务,$res=1就属于财务
+	    	    $res = in_array($roleid, array('30','26','27'))?1:0;
 				if($resu==1 && $res==0){
 					$v['msg']='改单存在破损，开票请联系财务处理！';
 				}
@@ -180,8 +182,6 @@ class billingAction extends adminBaseAction
     	            $i = 0;
     	            $bfkps = $this->db->model('billing')->where("o_id={$o_id} AND invoice_status<>3")->getAll();
     	            $nom = count($bfkps);
-    	            // p($bfkps);
-    	            // die;
     	            foreach ($bfkps as $k){
     	                if($k['invoice_status']<>2){
     	                    $v['msg']='已提交未确认!';
