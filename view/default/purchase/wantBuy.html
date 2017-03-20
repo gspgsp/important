@@ -1,0 +1,215 @@
+{layout file="public:main_layout"}
+{insert_js files='home/laydate/laydate.js'}
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>我要供货</title>
+	<style type="text/css">
+		*{ margin:0; padding:0;}
+		input,select,textarea{ font-family:"微软雅黑"; color:#666; outline:medium;}
+		body{ font-size:12px; font-family:"微软雅黑"; color:#666;}
+		.want-crumb{ font-size:14px; color:#333; width:1220px; height:14px; line-height:14px; overflow:hidden; margin:0 auto; margin-bottom:26px;}
+		.want-supply{ width:1218px; height:auto; border:1px solid #ccc; overflow:hidden; margin:0 auto;}
+		.want-supply h3{ font-weight:normal; font-size:14px; width:1140px; height:40px; line-height:40px; overflow:hidden; border-bottom:1px solid #ccc; margin:0 auto;}
+		.want-supply .want-inner{ width:645px; height:auto; overflow:hidden; margin:0 auto;}
+		.want-supply .want-inner .summary{ width:645px; height:60px; line-height:60px; overflow:hidden; margin:0 0 0 38px;}
+		.want-supply .want-inner .summary p{ float:left; margin:0 20px 0 0;}
+		.want-supply .want-inner .summary p b{ color:#fc6621;}
+		.want-supply .want-inner .form{ width:645px; height:auto; overflow:hidden;}
+		.want-supply .want-inner .form .form-tr{ width:645px; height:auto; overflow:hidden;}
+		.want-supply .want-inner .form-tr .tr{ width:645px; height:40px; line-height:40px; overflow:hidden;}
+		.want-supply .want-inner .form-tr .tr div{ height:40px; float:left;}
+		.want-supply .want-inner .form-tr .tr input,.want-supply .left .form-tr .tr select{ width:175px; height:26px; border:1px solid #ccc; margin:6px 5px 0 20px; padding:0 0 0 10px;}
+		.want-supply .want-inner .form-tr .tr select{ width:187px; height:26px; border:1px solid #ccc; margin:6px 0 0 20px;}
+		.want-supply .want-inner .form-tr .tr .name{ width:100px; text-align:right;}
+		.want-supply .want-inner .form-tr .tr .name span{ margin:0 13px;}
+		.want-supply .want-inner .form-tr .tr .name b{ margin:0 3px;}
+		.want-supply .want-inner .form-tr .tr .val{ width:208px;}
+		.want-supply .want-inner .form-tr .tr .val .provinces{ width:75px; overflow:hidden;}
+		.want-supply .want-inner .form-tr .tr .val .provinces.city{ margin:0 0 0 0;}
+		.want-supply .want-inner .form-tr .tr.remark{ height:94px;}
+		.want-supply .want-inner .form-tr .tr.remark .name{ width:100px; height:94px;}
+		.want-supply .want-inner .form-tr .tr.remark .val{ width:522px; height:94px;}
+		.want-supply .want-inner .form-tr .tr.remark .val textarea{ width:380px; height:60px; overflow:hidden; border:1px solid #ccc; padding:10px; margin:6px 0 0 20px;}
+		.want-supply .want-inner .form .tip{ height:40px; line-height:40px; margin:0 0 0 38px;}
+		.want-supply .want-inner .form .opt{ width:240px; height:40px; overflow:hidden; margin:80px auto;}
+		.want-supply .want-inner .form .opt input{ color:#fff; font-size:14px; display:inline-block; width:100px; height:35px; overflow:hidden; border:none; background:#267bd3; border-radius:3px; float:left; cursor:pointer;}
+		.want-supply .want-inner .form .opt input.back{ background:#999; margin:0 0 0 40px;}
+	</style>
+</head>
+
+<body>
+<!--want-crumb begin-->
+<div class="want-crumb">首页-采购单</div>
+<!--want-crumb end-->
+<!--want-supply begin-->
+<div class="want-supply">
+	<h3>我要<span>供货</span></h3>
+	<!--want-inner begin-->
+	<div class="want-inner">
+		<!--summary begin-->
+		<div class="summary">
+			<p><b>采购内容：</b><span>{:setOption|cargo_type,$info.cargo_type}  {:setOption|product_type,$info.product_type} {$info.f_name} {:setOption|process_level,$info.process_type} {$info.number}吨</span></p>
+			<p><b>交货地：</b><span>{$info.store_house}</span></p>
+			<p><b>预期价格：</b><span>{$info.unit_price}元/吨</span></p>
+		</div>
+
+		<!--summary end-->
+		<!--form begin-->
+		<div class="form">
+			<form name=""  id="talkForm" onSubmit="return false;" method="post" action="">
+				<!--form-tr begin-->
+				<div class="form-tr">
+					<!--tr begin-->
+					<div class="tr">
+						<div class="name" name="model">牌<span></span>号：</div>
+						<div class="val"><input type="text" disabled="disabled" value="{$info.model}"/></div>
+						<div class="name" name="factory">厂<span></span>家：</div>
+						<div class="val"><input type="text" disabled="disabled" value="{$info.f_name}"/></div>
+					</div>
+					<!--tr end-->
+					<!--tr begin-->
+					<div class="tr">
+						<div class="name">价<span></span>格：</div>
+						<div class="val">
+							<input type="text" name="price" id="price" value="" />元
+						</div>
+						<div class="name">运输方式：</div>
+						<div class="val">
+							<select name="ship_type">
+								{foreach from=$transport_type item=value key=key}
+								<option value="{$key}">{$value}</option>
+								{/foreach}
+							</select>
+						</div>
+					</div>
+					<!--tr end-->
+					<!--tr begin-->
+					<div class="tr">
+						<div class="name" name="delivery_date">交货日期：</div>
+						<div class="val"><input type="text" id="date1" datatype="*"  class="req" name="delivery_date"/></div>
+						<div class="name" name="place">交<b></b>货<b></b>地：</div>
+						<div class="val">
+							<select class="provinces" name="delivery_place" id="provinces"  onchange="getRegion(this,1)">
+								<option value="">请选择</option>
+								{foreach from=$area item=value}
+								<option value="{$value.id}">{$value.name}</option>
+								{/foreach}
+							</select>
+							<select class="provinces city" name="city">
+								<option value="">请选择</option>
+							</select>
+						</div>
+					</div>
+					<!--tr end-->
+					<!--tr begin-->
+					<div class="tr">
+						<div class="name">数<span></span>量：</div>
+						<div class="val">
+							<input type="text" class="number" name="number"  disabled="disabled" value="{$info.number}"/>吨
+						</div>
+						<div class="name" name="process_level">加工级别：</div>
+						<div class="val"><input type="text" disabled="disabled" value="{:setOption|process_level,$info.process_type}"/></div>
+					</div>
+					<!--tr end-->
+					<!--tr begin-->
+					<div class="tr remark" name="remark">
+						<div class="name">备<span></span>注：</div>
+						<div class="val" >
+							<textarea name="remark"></textarea>
+						</div>
+					</div>
+					<!--tr end-->
+				</div>
+				<!--form-tr end-->
+				<div class="tip">注：不合理的报价会被系统屏蔽。</div>
+				<!--opt begin-->
+				<div class="opt">
+					<input type="submit"  onclick="submitFrom()" value="提交报价"/>
+					<a href="/"><input type="button" class="back" value="返回上页"/></a>
+				</div>
+				<!--opt end-->
+				<div>
+					<input type="hidden" name="pur_id" value="{$info.id}"/>
+					<input type="hidden" name="user_id" value="{$info.user_id}">
+				</div>
+			</form>
+		</div>
+		<!--form end-->
+	</div>
+	<!--want-inner end-->
+</div>
+<!--want-supply end-->
+</body>
+<script>
+	// 时间插件
+	$(function(){
+		laydate({
+			elem: '#date1',
+			event: 'focus',
+			min: laydate.now()
+		});
+		laydate({
+			elem: '#date2',
+			event: 'focus',
+			min: laydate.now()
+		});
+	})
+
+	// 获取地区表数据
+	function getRegion(that,index){
+		var provice=$(that).val().trim();
+		var html='';
+		$.post('/user/myoffers/getRegion',{pid:provice}, function(data){
+				if(data){
+					$.each(data,function(i,item){
+						html+='<option value="'+item.id+'">'+item.name+'</option>';
+					});
+				}
+				$('.city').html(html);
+			},
+			'json');
+	}
+	// 提交表单
+	function submitFrom(){
+		var price=$('#price').val().trim();               // 价格
+		var provinces=$('#provinces').val().trim();       //省份
+		var date1= $('#date1').val();              // 交货日期
+					// 有效期
+		if (isNaN(price)) {
+			alert("你输入的价格不正确");
+			$('#price').focus();
+			return false;
+		}
+		if(price==''|| price==0){
+			alert("你输入的价格不正确");
+			$('#price').focus();
+			return false;
+		}
+		if(provinces==''){
+			alert("请选择交货地");
+			$('#provinces').focus();
+			return false;
+		}
+		if(date1==''){
+			alert("请选择交货日期");
+			$('#date1').focus();
+			return false;
+		}
+
+		var data=$("#talkForm").serialize();
+
+		$.post('/offers/talk/addorder',data, function(data){
+			if(data.err==0){
+				window.location.href="/offers/talk/msg";
+//            layer.msg(data.msg);
+//            window.history.back();
+			}else{
+				layer.msg(data.msg);
+			}
+		},'json');
+	}
+
+
+</script>
