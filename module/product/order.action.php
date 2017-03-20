@@ -259,7 +259,6 @@ class orderAction extends adminBaseAction {
 			$order_type=='1'?$collection_name='收款':$collection_name='付款';
 			$msg="[筛选结果]总额:【".price_format($sum['msum'])."】总吨:【".$sum['wsum']."】".$collection_name.":【".price_format($collection)."】";
 		}
-		$i_s = $this->assign($row_tmp['invoice_status']);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 		$this->json_output($result);
 	}

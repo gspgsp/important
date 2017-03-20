@@ -179,6 +179,9 @@ class billingAction extends adminBaseAction
                 if($row_tmp['invoice_status']==1){
     	            $i = 0;
     	            $bfkps = $this->db->model('billing')->where("o_id={$o_id} AND invoice_status<>3")->getAll();
+    	            $nom = count($bfkps);
+    	            // p($bfkps);
+    	            // die;
     	            foreach ($bfkps as $k){
     	                if($k['invoice_status']<>2){
     	                    $v['msg']='已提交未确认!';
@@ -187,8 +190,8 @@ class billingAction extends adminBaseAction
     	                    $i = $i +1;
     	                }
     	            }
-    	            if(($i==count($bfkps))){
-    	                // 	  $v['msg']=1;
+    	            if($i==$nom){
+    	                // $v['msg']=1;
     	            }
     	        }
     	        //2.部分开票

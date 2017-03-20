@@ -371,7 +371,7 @@ function onLoadDetail(e){
 	var record = e.record,s='',oid = record.o_id,see = record.see,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,purstatus=record.pur_status,is_super=record.is_supper,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
-		if(is_super==1){
+		if(is_super==1 && i_status !=='全部开票'){
 			s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>|';
 		}else if (purstatus==1 && is_super !=1) {
 			s+='<a href="javascript:addInvoice('+oid+','+order_type+')">开票</a>|';
