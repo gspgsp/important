@@ -368,6 +368,9 @@ a{ text-decoration:none;}
 /*floor1 end*/
 
 /*floor2 begin*/
+.supply-demand2.info .info-con li .breed span{ background:url(../../images/home/mallOfferSpirit.png) no-repeat;}
+.supply-demand2.info .info-con li.demand .breed span.xian{ background-position:-67px -49px;}
+.supply-demand2.info .info-con li.demand .breed span.qi{ background-position:-44px -49px;}
 .supply-demand2 .right .big-title{ font-size:14px; width:358px; height:38px; line-height:38px; overflow:hidden; margin:0 0 0 20px; border-bottom:1px solid #ddd;}
 .supply-demand2 .right.new-order{ height:478px; overflow:hidden;}
 .supply-demand2 .right.new-order .new-order-title{ width:358px; height:35px; line-height:35px; overflow:hidden; margin:0 0 12px 20px; border-bottom:1px solid #ddd; background:#eee;}
