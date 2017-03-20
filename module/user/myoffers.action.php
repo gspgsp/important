@@ -15,7 +15,7 @@ class myoffersAction extends userBaseAction{
 		$this->act="myoffers";
 		$this->name="报价发布";
 		$this->type=2;
-		
+
 		$this->product_type=L('product_type');//产品类型
 		$this->period=L('period');//期货周期
 		$this->process_level=L('process_level');//加工级别
@@ -192,7 +192,6 @@ class myoffersAction extends userBaseAction{
 						'input_time'=>CORE_TIME,           //创建时间
 						'status'=>3,                       //审核状态
 					);
-
 					$productModel->add($_product);
 					$_model=$productModel->getLastID();
 
@@ -241,7 +240,6 @@ class myoffersAction extends userBaseAction{
 
 		$this->display('supply');
 	}
-
 	/**
 	 *(我的供货)报价列表
      */
@@ -284,4 +282,23 @@ class myoffersAction extends userBaseAction{
 		$this->json_output($data);
 	}
 
+	/**
+	 * 获取地区列表
+	 * @$pid 省份 id
+	 * @access public
+	 * @return html
+	 */
+	public function getRegion($pid=0){
+		//地区列表
+		$regList = M('system:region')->get_allRegions();
+		//print_r($regList);
+		$list = array();
+		$pid = sget('pid','i');
+		foreach($regList as $k=>$v){
+			if($v['pid']==$pid){
+				$list[]=array('id'=> $v['id'],'name' => $v['name']);
+			}
+		}
+		$this->json_output($list);
+	}
 }

@@ -23,7 +23,7 @@
 				    	<input type="text" name="keyword" placeholder="牌号，厂家" class="import flt"/>
 				        <input type="submit" value="订单查询" class="submit flt"/>
 				        <input type="hidden" id="page" name="page" value="{$page}">
-				        <input type="hidden" id="" name="type" value="{$type}">
+				        <input type="hidden" id="type" name="type" value="{$type}">
 				    </div>
 				    <!--query end-->
 				    <!--<div class="other hide flt">订单筛选条件</div>-->
@@ -105,7 +105,6 @@ $(function(){
 			layer.msg('请勾选要操作的信息');
 			return;
 		}
-		console.log(mid);
 		$.post('/user/mypurchase/offshelf',{ids:mid},function(data){
 			if(data.err==0){
 				filterForm.submit();
@@ -116,6 +115,7 @@ $(function(){
 
 	var listForm=$("#listForm");
 
+	// 上架
 	$("#reshelf").click(function(){
 		var mid=[];
 		var chObj=$(".checkb");
@@ -124,13 +124,15 @@ $(function(){
 				mid.push($(v).val());
 			}
 		});
+
 		if(!mid.length){
 			layer.msg('请勾选要操作的信息');
 			return;
 		}
-		var data=listForm.serialize();
-		console.log(data);
-		$.post('/user/mypurchase/reshelf',data,function(data){
+
+		var type=$('.type').val();
+        var data=listForm.serialize();
+		$.post('/user/mypurchase/reshelf?type='+type,data,function(data){
 			if(data.err==0){
 				filterForm.submit();
 				layer.msg(data.msg);
@@ -141,7 +143,7 @@ $(function(){
 	});
 
 
-
+// 加载 求购管理列表
 	$("#table_box").load('/user/mypurchase/tables',{type:"{$type}",page:"{$page}"});
 	var filterForm=$("#filterForm");
 	filterForm.on('submit',function(){

@@ -117,9 +117,6 @@ class indexAction extends homeBaseAction{
 		$page=sget('page','i',1);
 		$pageSize=15;//分页数
 		$orders=M('product:order')->getPurs($where,$page,$pageSize);
-
-
-
 		$this->pages=pages($orders['count'],$page,$pageSize);
 		//****************************************
 		$this->seo = array(
@@ -158,6 +155,19 @@ class indexAction extends homeBaseAction{
 		}
 	}
 
-
-
+	/**
+	 * 根据报价id 发布求购
+	 *
+	 */
+	public function wantBuy(){
+		$purId=sget('purid','i');
+		$var=$this->db->model('purchase as pur')
+			->leftjoin('product as pro','pur.p_id=pro.id')
+			->leftjoin('factory as fac','fac.fid=pro.f_id')
+			->select('pur.id,pur.p_id,pro.model,pur.user_id,pur.c_id,pur.number,pur.cargo_type,pur.store_house,pro.product_type,pro.process_type,pur.unit_price,fac.f_name')->where('pur.id='.$purId)->getRow();
+		$this->area=M('system:region')->get_regions(1);//地区
+		$this->transport_type=L('transport_type');
+		$this->assign('info',$var);
+		$this->display('wantBuy.html');
+	}
 }

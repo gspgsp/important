@@ -1,4 +1,7 @@
 <table class="table1">
+    <tr>
+        <div><input hidden="hidden" class="type" name="type" value="{$type}"/></div>
+    </tr>
 	<tr>
     	<th class="all"><input class="w20" type="checkbox" id="all2"/></th>
     	<th>品种</th>
@@ -8,7 +11,7 @@
         <th>数量（吨）</th>
         <th>价格（元／吨）</th>
         <th>是否实价</th>
-        <th>省份</th>
+        <th>交货地</th>
         <th>现期货</th>
         <th>交货周期</th>
         <th>状态</th>
@@ -16,7 +19,7 @@
         <th>{if $type==1}报价{else}洽谈{/if}</th>
     </tr>
     {foreach from=$list.data item=value key=key}
-    <tr>
+    <tr >
     	<td><input class="w20 checkb" name="data[{$value.id}][on]" value="{$value.id}" type="checkbox"/></td>
     	<td>{:setOption|product_type,$value.product_type}</td>
         <td>{$value.model}</td>
@@ -25,7 +28,7 @@
         <td><input type="text" readonly name="data[{$value.id}][num]" value="{:floatval|$value.number}"/></td>
         <td><input type="text" readonly name="data[{$value.id}][price]" value="{:floatval|$value.unit_price}"/></td>
         <td>{:setOption|bargain,$value.bargain}</td>
-        <td>{$value.cityname}</td>
+        <td>{$value.city}</td>
         <td>{:setOption|cargo_type,$value.cargo_type}</td>
         <td>{if $value.period}{:setOption|period,$value.period}{else}--{/if}</td>
         <td>{:setOption|shelve_type,$value.shelve_type}</td>

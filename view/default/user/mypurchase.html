@@ -85,14 +85,18 @@
 							</select>
 						</td>
 						<td>
-							<select class="required" name="data[0][provinces]">
+							<select class="required" name="data[0][provinces]"  onchange="getRegion(this,1)">
 								<option value="">请选择</option>
 								{foreach from=$area item=value}
 								<option value="{$value.id}">{$value.name}</option>
 								{/foreach}
 							</select>
 						</td>
-						<td><input type="text" class="required" name="data[0][store_house]" value=""/></td>
+						<td class="city">
+							<select name="data[0][store_house]" class="required">
+								<option value="">请选择</option>
+							</select>
+						</td>
 						<td class="del"><span class="del-btn">删除</span></td>
 					</tr>
 				</table>
@@ -158,14 +162,21 @@
 							</select>
 						</td>
 						<td>
-							<select class="required" name="data[0][provinces]">
+							<select class="required" name="data[0][provinces]"  onchange="getRegion(this,1)">
 								<option value="">请选择</option>
 								{foreach from=$area item=value}
 								<option value="{$value.id}">{$value.name}</option>
 								{/foreach}
 							</select>
 						</td>
-						<td><input type="text" class="required" name="data[0][store_house]" value=""/></td>
+						<!--<td>-->
+							<!--<input type="text" class="required" name="data[0][store_house]" value=""/>-->
+						<!--</td>-->
+						<td class="city">
+							<select name="data[0][store_house]" class="required">
+								<option value="">请选择</option>
+							</select>
+						</td>
 						<td>
 							<select name="data[0][period]">
 								{foreach from=$period item=value key=key}
@@ -224,14 +235,21 @@
 			</select>
 		</td>
 		<td>
-			<select class="required" name="data[<%=data%>][provinces]">
+			<select class="required" name="data[<%=data%>][provinces]"  onchange="getRegion(this,<%=data%>)">
 				<option value="">请选择</option>
 				{foreach from=$area item=value}
 				<option value="{$value.id}">{$value.name}</option>
 				{/foreach}
 			</select>
 		</td>
-		<td><input type="text" class="required" name="data[<%=data%>][store_house]" value=""/></td>
+		<!--<td>-->
+			<!--<input type="text" class="required" name="data[<%=data%>][store_house]" value=""/>-->
+		<!--</td>-->
+		<td class="city">
+			<select name="data[<%=data%>][store_house]" class="required">
+				<option value="">请选择</option>
+			</select>
+		</td>
 		<%if (type==2){%>
 		<td>
 			<select name="data[<%=data%>][period]">
@@ -320,4 +338,18 @@
             $(that).parents('tr').find('.factory select').html(html);
         },'json');
     }
+	function getRegion(that,index){
+		var provice=$(that).val().trim();
+		var html='';
+		$.post('/user/myoffers/getRegion',{pid:provice}, function(data){
+                if(data){
+                    $.each(data,function(i,item){
+                        html+='<option value="'+item.id+'">'+item.name+'</option>';
+                    });
+                }
+                $(that).closest('tr').find('.city select').html(html);
+			},
+			'json');
+
+	}
 </script>

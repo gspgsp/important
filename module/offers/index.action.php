@@ -129,8 +129,8 @@ class indexAction extends homeBaseAction{
 		$pageSize=20;//分页
 
 		$list=M('product:purchase')->getPurPage($where,$page,$pageSize);
-
 		foreach($list['data'] as $key=>$value){
+			$list['data'][$key]['city']=(!empty($value['region_name']))?$value['region_name']:$value['store_house'];
 			$str=mb_strlen($value['store_house'],'utf-8');
 			if($str>4){
 				$value['store_house']=(mb_substr($value['store_house'],0,3,'utf-8')).'...';
@@ -150,10 +150,10 @@ class indexAction extends homeBaseAction{
 			}else{
 				$list['data'][$key]['cus_man'] = $cus_man;
 			}
-//			p($cus_man);
 		}
 		$this->pages = pages($list['count'], $page, $pageSize);
 		$list=$list['data'];
+
 		foreach ($list as $key => $value) {
 			if($value['is_union']==0){
 				$uids[]=$value['user_id'];
@@ -161,12 +161,11 @@ class indexAction extends homeBaseAction{
 		}
 		$uids=array_unique($uids);
 		//获取用户信息
+		$contactList=M("user:customerContact")->getContactByUserId($uids);
 
-		$contactList=M("user:customerContact")->getContactByuserid($uids);
 		foreach ($contactList as $key => $value) {
 			$customerTemp[$value['user_id']]=$value;
 		}
-
 		foreach ($list as $key => $value) {
 			if($value['is_union']==0){
 				$list[$key]['customer']=$customerTemp[$value['user_id']];
@@ -178,7 +177,6 @@ class indexAction extends homeBaseAction{
 					->getRow()+array('c_name'=>'商城自营');
 			}
 		}
-
 		$this->seo =array(
 			'title'=>$seotype.$seoprocess.$seotitle.$seofa. $keywords.$key_model.$key_name.' 商城报价',
 		    'keywords'=>'塑料报价，塑料原料报价，塑料原料价格，塑料价格，聚乙烯价格，聚丙烯价格，聚氯乙烯价格，PVC塑料，PE塑料，PP塑料',

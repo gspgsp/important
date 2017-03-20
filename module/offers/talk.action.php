@@ -11,12 +11,12 @@ class talkAction extends homeBaseAction{
 		if($this->user_id<=0) $this->forward('/user/login');
 		$id=sget('id','i',0);
 		$data=M('product:purchase')->getPurchaseById($id);
-
-		$this->title=$data['type']==1?'我要供货':'委托洽谈'; 
-
+		$this->title=$data['type']==1?'我要供货':'委托洽谈';
 		$contact=M('user:customerContact')->getContactByuserid($data['user_id']);
 		if(!$contact) $contact=array();
 
+		$var=$this->db->model('lib_region')->select('id,name')->where('id='.$data['store_house'])->getRow();
+		$data['city']=(!empty($var['name']))?$var['name']:$data['store_house'];
 		//运输方式
 		$this->ship_type=L('ship_type');
 		//配送地点
@@ -26,7 +26,6 @@ class talkAction extends homeBaseAction{
 		$data['product_type']=$product_type[$data['product_type']];
 
 		$data=$data+$contact;
-
 		$this->assign('data',$data);
 		$this->display('talk.html');
 	}
@@ -38,16 +37,17 @@ class talkAction extends homeBaseAction{
 			$this->is_ajax=true;
 			$data=saddslashes($_POST);
 			if($this->user_id==$data['user_id']) $this->error('采购人和供货人不能相同');
-			if(!$data['number']||!$data['price']||!$data['delivery_date']||!$data['p_id']||!$data['delivery_place']||!$data['ship_type']) $this->error('信息填写不完整');
-			$p_id=$data['p_id'];
+			if(!$data['price']||!$data['delivery_date']||!$data['pur_id']||!$data['city']||!$data['ship_type']) $this->error('信息填写不完整');
+			$pur_id=$data['pur_id'];
 			$model=M('product:purchase');
-			$purData=$model->getPurchaseById($p_id);
+			$purData=$model->getPurchaseById($pur_id);
 			if( !$purData ) $this->error('请求错误,信息不存在');
-			$data['p_id']=$p_id;//报价id
-			$data['c_id']=$_SESSION['uinfo']['c_id'];//   供货方客户id
-			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];//供货方交易员id
+			$data['p_id']=$pur_id;//报价id
+			$data['c_id']=$_SESSION['uinfo']['c_id'];                          //供货方客户id
+			$data['customer_manager']=$_SESSION['uinfo']['customer_manager'];  //供货方交易员id
 			$data['delivery_date']=strtotime($data['delivery_date']);
-			$data['delivery_place']=$data['delivery_place'].'|';    //交货地
+//			$data['delivery_place']=$data['delivery_place'].'|';               //交货地
+			$data['delivery_place']=$data['city'];
 			$data['ship_type']=$data['ship_type'];
 			$data['input_time']=CORE_TIME;
 			$data['status']=1;
@@ -75,7 +75,6 @@ class talkAction extends homeBaseAction{
 	{
 		if(!$_SESSION['order_success'] || $this->user_id<=0) $this->forward('/');
 		$_SESSION['order_success']=null;
-
 		$customer_manager=$this->db->model('admin')
 			->where("admin_id={$_SESSION['uinfo']['customer_manager']}")
 			->select('admin_id,name,mobile')

@@ -144,7 +144,7 @@
                 <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span>{if $value.bargain==1}<b class="price1">议价</b>{else}<b class="price2">实价</b>{/if}</div>
                 <!-- <div class="change tie"><b></b><span>100</span></div> -->
                 <div class="address">{$value.area}</div>
-                <div class="place">{$value.store_house}</div>
+                <div class="place">{$value.city}</div>
                 {if $value.cus_man neq '0'}
                 <div class="company">
                 	<span>{$value.customer.c_name}</span>
@@ -185,7 +185,7 @@
                 <div class="price"><i>￥</i><span>{:floatval|$value.unit_price}</span>{if $value.bargain==1}<b class="price1">议价</b>{else}<b class="price2">实价</b>{/if}</div>
                 <!-- <div class="change tie"><b></b><span>100</span></div> -->
                 <div class="address">{$value.area}</div>
-                <div class="place">{$value.store_house}</div>
+                <div class="place">{$value.city}</div>
                 <div class="company">
                     <span>{$value.customer.c_name}</span>
                     <div class="company-detail">
