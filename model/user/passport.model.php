@@ -345,7 +345,6 @@ class passportModel extends model{
 
 		//用户对应公司的信息
 		$cinfo=$this->model('customer')->where("c_id={$user['c_id']}")->select('c_id,c_name,customer_manager')->getRow();
-
 		//将数据写入cookie
 		$token=$this->encrypt($user_id,$user['password']);
 		//cookie::set(C('SESSION_TOKEN'), $token); //C('SESSION_TTL')
@@ -354,7 +353,7 @@ class passportModel extends model{
 				'name'=>$user['name'],
 				'c_id'=>$user['c_id'],
 				'c_name'=>$cinfo['c_name'],
-				'customer_manager'=>$cinfo['customer_manager'],
+				'customer_manager'=>$user['customer_manager'],
 				'qq'=>$user['qq'],
 				'mobile'=>$user['mobile'],
 				'email'=>$user['email'],

@@ -35,11 +35,19 @@ class purchaseModel extends model{
                         ->getRow();
 	}
 
-	public function getPurPage($where=1,$page=1,$pageSize=10){
+	/**
+	 * 获取个人中心报价、采购管理数据
+	 * @param int $where
+	 * @param int $page
+	 * @param int $pageSize
+	 * @return mixed
+	 */
+	public function getPurPage($where=1, $page=1, $pageSize=10){
 		return $this->from('purchase pur')
 			->join('product pro','pur.p_id=pro.id')
+			->leftjoin('lib_region r','pur.store_house=r.id')
 			->join('factory fa','pro.f_id=fa.fid')
-			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house')
+			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house,r.name as region_name')
 			->where($where)
 			->order('pur.input_time desc')
 			->page($page,$pageSize)
@@ -49,9 +57,10 @@ class purchaseModel extends model{
 
 	public function getPurLimit($where='1'){
 		return $this->from('purchase pur')
+			->leftjoin('lib_region r','pur.store_house=r.id')
 			->join('product pro','pur.p_id=pro.id')
 			->join('factory fa','pro.f_id=fa.fid')
-			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house')
+			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house,r.name as region_name')
 			->where($where)
 			->order('pur.input_time desc')
 			->limit(10)
