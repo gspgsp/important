@@ -17,26 +17,24 @@
     //$(".top,.header,.footer").hide();
     var myChart = echarts.init(document.getElementById('main'));
 
-    //app.title = '2015 年上证指数';
-
     var option = {
         title: {
             text: title0,
-            textStyle:{color:'#fff'}
+            textStyle:{color:'#444444'}
         },
-        backgroundColor: '#21202D',
+        backgroundColor: '#FFFFFF',
         legend: {
             data: ['价格范围', '销量'],
-            inactiveColor: '#fff',
+            inactiveColor: '#444444',
             textStyle: {
-                color: '#fff'
+                color: '#444444'
             }
         },
         grid: [{
             show:true,
             left: 50,
             right: 50,
-            backgroundColor: 'rgba(0.6, 0.6, 0.6, 0.6)',
+            backgroundColor: '#FFFFFF',
             height: '50%'
         }, {
             left: 50,
@@ -58,69 +56,69 @@
         xAxis: [{
             type: 'category',
             data: JSON.parse('{$x_ray}'),
-            axisLine: {lineStyle: {color: 'red', width: 2}},
-            axisLabel:{textStyle:{color:'#fff'}},
-            nameTextStyle:{color:'#fff'},
+            axisLine: {lineStyle: {color: '#444444', width: 2}},
+            axisLabel:{textStyle:{color:'#444444'}},
+            nameTextStyle:{color:'#444444'},
             splitLine: {
                 show: true,
                 lineStyle: {
                     // 使用深浅的间隔色
-                    color: ['red']
+                    color: ['#DDDDDD']
                 }
             }
         }, {
             gridIndex: 1,
             type: 'category',
             data: JSON.parse('{$x_ray}'),
-            axisLine: {lineStyle: {color: 'red', width: 2}},
-            axisLabel:{textStyle:{color:'#fff'}},
-            nameTextStyle:{color:'#fff'},
+            axisLine: {lineStyle: {color: '#444444', width: 2}},
+            axisLabel:{textStyle:{color:'#444444'}},
+            nameTextStyle:{color:'#444444'},
             splitLine: {
                 show: true,
                 lineStyle: {
                     // 使用深浅的间隔色
-                    color: ['red']
+                    color: ['#DDDDDD']
                 }
             }
         }],
         yAxis: [
             {
                 type: 'value',
-                name: '价格(千元)',
+                name: '价格(千元/吨)',
                 min: {$price_col.bottom},
                 max: {$price_col.top},
                 interval: {$price_col.interval},
                 scale: true,
                 axisLine: {
-                    lineStyle: {color: 'red', width: 2},
-                    formatter: '{value} 千元'
+                    lineStyle: {color: '#444444', width: 2},
+                    formatter: '{value} 千元/吨'
                 },
-                axisLabel:{textStyle:{color:'#fff'}},
-                nameTextStyle:{color:'#fff'},
+                axisLabel:{textStyle:{color:'#444444'}},
+                nameTextStyle:{color:'#444444'},
                 splitLine: {
                     show: true,
                     lineStyle: {
                         // 使用深浅的间隔色
-                        color: ['red']
+                        color: ['#DDDDDD']
                     }
                 }
             }, {
                 type: 'value',
-                name: '价格(千元)',
+                name: '价格(千元／吨)',
                 min: {$price_col.bottom},
                 max: {$price_col.top},
                 interval: {$price_col.interval},
                 scale: true,
                 axisLine: {
-                    lineStyle: {color: 'red', width: 2},
+                    lineStyle: {color: '#444444', width: 2},
                 },
-                axisLabel:{textStyle:{color:'#fff'}},
-                nameTextStyle:{color:'#fff'},
+                axisLabel:{textStyle:{color:'#444444'}},
+                nameTextStyle:{color:'#444444'},
                 splitLine: {
                     show: true,
                     lineStyle: {
                         // 使用深浅的间隔色
-                        color: ['red']
+                        color: ['#DDDDDD']
                     }
                 }
             }, {
@@ -130,17 +128,17 @@
                 min: 0,
                 max: {$num_col.top},
                 interval: {$num_col.interval},
-                axisLabel:{textStyle:{color:'#fff'}},
-                nameTextStyle:{color:'#fff'},
+                axisLabel:{textStyle:{color:'#444444'}},
+                nameTextStyle:{color:'#444444'},
                 axisLine: {
-                    lineStyle: {color: 'red', width: 2},
+                    lineStyle: {color: '#444444', width: 2},
                     formatter: '{value} 吨'
                 },
                 splitLine: {
                     show: true,
                     lineStyle: {
                         // 使用深浅的间隔色
-                        color: ['red']
+                        color: ['#DDDDDD']
                     }
                 }
             }, {
@@ -151,16 +149,16 @@
                 max: {$num_col.top},
                 interval: {$num_col.interval},
                 scale: true,
-                axisLabel:{textStyle:{color:'#fff'}},
-                nameTextStyle:{color:'#fff'},
+                axisLabel:{textStyle:{color:'#444444'}},
+                nameTextStyle:{color:'#444444'},
                 axisLine: {
-                    lineStyle: {color: 'red', width: 2},
+                    lineStyle: {color: '#444444', width: 2},
                 },
                 splitLine: {
                     show: true,
                     lineStyle: {
                         // 使用深浅的间隔色
-                        color: ['red']
+                        color: ['#DDDDDD']
                     }
                 }
             }
@@ -202,10 +200,10 @@
                 data: JSON.parse('{$price}'),
                 itemStyle: {
                     normal: {
-                        color: '#FD1050',
-                        color0: '#0CF49B',
-                        borderColor: '#FD1050',
-                        borderColor0: '#0CF49B'
+                        color: '#ef232a',
+                        color0: '#14b143',
+                        borderColor: '#ef232a',
+                        borderColor0: '#14b143'
                     }
                 }
             },{
