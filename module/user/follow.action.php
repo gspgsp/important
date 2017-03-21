@@ -93,6 +93,9 @@ class followAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['follow_up_way'] = L('follow_up_way')[$v['follow_up_way']];
 			$list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
+			//对客户名称打星(战队领导才打星号)
+			$list['data'][$k]['c_name']  = _leader(M('user:customer')->getColByName($v['c_id']),M('user:customer')->getColByName($v['c_id'],'customer_manager'),!M('user:customer')->judgeShare($v['c_id']));
+			//获取最新一次跟踪消息
 			$list['data'][$k]['name'] = M('user:customerContact')->getColByName($v['user_id']);
 			$list['data'][$k]['input_admin'] = M('rbac:adm')->getNameByUser($v['input_admin']);
 		}

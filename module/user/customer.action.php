@@ -211,7 +211,6 @@ class customerAction extends adminBaseAction {
 			$list['data'][$k]['remark'] = $message;
 			$list['data'][$k]['bli'] = $this->db->model('customer_billing')->select('id')->where("`c_id`={$v['c_id']}")->getOne();
 			$list['data'][$k]['invoice'] =  $v['invoice']==2 ? '是' : '否';
-
 		}
 		$this->assign('isPublic',$this->public);
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
@@ -561,12 +560,13 @@ class customerAction extends adminBaseAction {
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 		);
+		//查询原始的交易员
+		$old_manager = M('user:customer')->getColByName($c_id,'customer_manager');
 		//增加每人最多每天领取10个人的限制
 		$limit = M('system:setting')->get('limit');
 		$_key='max_allot_'.$data['id'];  $cache=cache::startMemcache();
-
 		$max_allot=intval($cache->get($_key));
-		if($_key != 'max_allot_894'){
+		if($_key != 'max_allot_894' && $old_manager == 0){
 			if($max_allot>intval($limit['limit']['allot']-1)) $this->error('每日领取公海客户最多为'.$limit['limit']['allot'].'人，请明天在来领取');
 		}
 		//强开开关
@@ -585,8 +585,7 @@ class customerAction extends adminBaseAction {
 		   if($sum > $rule_num && $rule_num != 0) $this->error("根据公司规则，您的客户上限为".$my_rule['private_customer_nums']."人,目前已经超过，故不能分配，请找领导吧");
 		}
 		//新增客户流转记录日志----S
-		//查询原始交易员
-		$old_manager = M('user:customer')->getColByName($c_id,'customer_manager');
+		//根据上面查询的原始交易员判断新的信息
 		if($old_manager == '-' || $old_manager==0){
 			$old_manager_name = '没有原始交易员';
 		}else{
