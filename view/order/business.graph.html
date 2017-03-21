@@ -1,186 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <script type="text/javascript" src="__JS__/echarts.js"></script>
+<script src="__JS__/miniui/boot.js" type="text/javascript"></script>
+<script src="__JS__/miniui/miniui/miniui.js" type="text/javascript"></script>
+<!-- <script src="__JS__/jquery/utils.js" type="text/javascript"></script> -->
+<script src="__JS__/miniui/ad.common.js" type="text/javascript"></script>
+<!-- <script src="__JS__/socket.io.js" type="text/javascript"></script> -->
+</head>
 <body>
 <h2>{$model}销售成交走势图</h2>
-<div id="main" style="width: 100%;height:700px;"></div>
+<div id="info" class="form" >
+	<table style="width:60%;">
+		<tr>
+			<td style="float:right;">
+			    <span id="searchMsg"></span>
+			    交易日期
+				<!-- <select name="date_year"  id="myYear" class="mini-combobox"></select> -->	
+				<!-- <option  value="20" select=selected>{$now_year}</option> -->
+				<!--{html_options options=$year_item}</select>-->
+				<input id="date_year" name="date_year" class="mini-combobox" textField="key" valueField="value" value="all"
+					   url="/order/business/chart_year?model={$model}"  showNullItem="false" />
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm('m')">每日数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm2">每周数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm3">每半个月数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm4">每月数据查询</a>
+			</td>
+		</tr>
+	</table>
+</div>
+<div style="width: 900px;height: 500px" id="main"></div>
 <script type="text/javascript">
-     // 基于准备好的dom，初始化echarts图表
-    var myChart = echarts.init(document.getElementById('main')); 
-	// 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)	
-	var option = {
-	    /* title: {
-	        text: '采购成交走势图',
-	        left: 95
-	    }, */
-	    tooltip: {
-	        trigger: 'axis',
-	        axisPointer: {
-	            type: 'line'
-	        }
-	    },
-	    legend: {
-	        data: ['价格', '销售额',]
-	    },
-	    dataZoom: [
-	               {
-	                   show: true,
-	                   realtime: true,
-	                   start: 30,
-	                   end: 70,
-	                   xAxisIndex: [0, 1]
-	               },
-	               {
-	                   type: 'inside',
-	                   realtime: true,
-	                   start: 30,
-	                   end: 70,
-	                   xAxisIndex: [0, 1]
-	               }
-	           ],
-	    grid: [{
-	        left: '10%',
-	        right: '10%',
-	        bottom:'50%'
-	    },
-	    {
-	        left: '10%',
-	        right: '10%',
-	        height:'20%',
-	        top: '60%'
-	    }],
-	    xAxis: [{
-	        type: 'category',
-	        data: {$bb},
-	        scale: true,
-	        boundaryGap : false,
-	        axisLine: {onZero: false},
-	        splitLine: {show: true},
-	        splitNumber: 20,
-	        min: 'dataMin',
-	        max: 'dataMax'
-	    },
-	    {   
-	        gridIndex: 1,
-	        type: 'category',
-	        data: {$bb},
-	        scale: true,
-	        boundaryGap : false,
-	        axisLine: {onZero: false},
-	        splitLine: {show: true},
-	        splitNumber: 20,
-	        min: 'dataMin',
-	        max: 'dataMax'
-	    }],
-	    yAxis: [{
-	    	name : '销售价格(元)',
-	        scale: true,
-	        splitLine: {show: true},
-	        splitArea: {
-	            show: false
-	        }
-	    },
-	    {   gridIndex: 1,
-	    	name:'销售数量(吨)',
-	    	splitLine: {show: true},
-	        scale: true,
-	        splitArea: {
-	            show: false
-	        }
-	    }],
-	    series: [
-	         {
-	            name: '价格',	           
-	            type: 'candlestick',
-	            data: {$cc},
-	            markPoint: {
-	                label: {
-	                    normal: {
-	                        formatter: function (param) {
-	                            return param != null ? Math.round(param.value) : '';
-	                        }
-	                    }
-	                },
-	                data: [
-	                    /* {
-	                        name: 'XX标点',
-	                        coord: ['2013/5/31', 2300],
-	                        value: 2300,
-	                        itemStyle: {
-	                            normal: {color: 'rgb(41,60,85)'}
-	                        }
-	                    }, */
-	                    {
-	                        name: 'highest value',
-	                        type: 'max',
-	                        valueDim: 'highest'
-	                    },
-	                    {
-	                        name: 'lowest value',
-	                        type: 'min',
-	                        valueDim: 'lowest'
-	                    },
-	                    {
-	                        name: 'average value on close',
-	                        type: 'average',
-	                        valueDim: 'close'
-	                    }
-	                ],
-	                tooltip: {
-	                    formatter: function (param) {
-	                        return param.name + '<br>' + (param.data.coord || '');
-	                    }
-	                }
-	            },
-	            markLine: {
-	                symbol: ['none', 'none'],
-	                data: [
-	                    [
-	                        {
-	                            name: 'from lowest to highest',
-	                            type: 'min',
-	                            valueDim: 'lowest',
-	                            symbol: 'circle',
-	                            symbolSize: 10,
-	                            label: {
-	                                normal: {show: false},
-	                                emphasis: {show: false}
-	                            }
-	                        },
-	                        {
-	                            type: 'max',
-	                            valueDim: 'highest',
-	                            symbol: 'circle',
-	                            symbolSize: 10,
-	                            label: {
-	                                normal: {show: false},
-	                                emphasis: {show: false}
-	                            }
-	                        }
-	                    ],
-	                    {
-	                        name: 'min line on close',
-	                        type: 'min',
-	                        valueDim: 'close'
-	                    },
-	                    {
-	                        name: 'max line on close',
-	                        type: 'max',
-	                        valueDim: 'close'
-	                    }
-	                ]
-	            }
-	        },
-	        {
-	            name: '销售额',
-	            type: 'bar',
-	            itemStyle:{normal:{color:'#ee30a7'}},
-	            xAxisIndex: 1,
-	            yAxisIndex: 1,	           
-	            data: {$aa},
-	            smooth: true,
-	        },	
-	    ]
-	};
-	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option);
+	//提交表单
+	mini.parse();
+	function submitForm(type) {
+        var form = new mini.Form("#info");
+        var data = form.getData();//获取表单多个控件的数据
+		data.type = type;
+		data.model='{$model}';
+        var json = mini.encode(data);   //序列化成JSON
+
+         $.ajax({
+            url: "/order/business/graph_w",
+            type: "post",
+            data: data,
+			success: function (ret) {
+                console.log("提交成功，返回结果:" + ret);
+				 var data0 = JSON.parse(ret);
+				console.log(data0);
+				console.log(data0.aa);
+				console.log(data0.bb);
+				console.log(data0.cc);
+				console.log(data0.dd);
+				console.log(JSON.stringify(data0.y1));
+
+				// 基于准备好的dom，初始化echarts图表
+                var myChart = echarts.init(document.getElementById('main')); 
+            	// 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)	
+            	var option = {
+            	    /* title: {
+            	        text: '采购成交走势图',
+            	        left: 95
+            	    }, */
+            	    tooltip: {
+            	        trigger: 'axis',
+            	        axisPointer: {
+            	            type: 'line'
+            	        }
+            	    },
+            	    legend: {
+            	        data: ['价格', '销售额',JSON.stringify(data0.tip)]
+            	    },
+            	    dataZoom: [
+            	               {
+            	                   show: true,
+            	                   realtime: true,
+            	                   start: 30,
+            	                   end: 70,
+            	                   xAxisIndex: [0, 1]
+            	               },
+            	               {
+            	                   type: 'inside',
+            	                   realtime: true,
+            	                   start: 30,
+            	                   end: 70,
+            	                   xAxisIndex: [0, 1]
+            	               }
+            	           ],
+            	    grid: [{
+            	        left: '10%',
+            	        right: '10%',
+            	        bottom:'50%'
+            	    },
+            	    {
+            	        left: '10%',
+            	        right: '10%',
+            	        height:'20%',
+            	        top: '60%'
+            	    }],
+            	    xAxis: [{
+            	        type: 'category',
+            	        //data: {$bb},
+            	        data: data0.bb,
+            	        scale: true,
+            	        boundaryGap : false,
+            	        axisLine: {onZero: false},
+            	        splitLine: {show: true},
+            	        splitNumber: 20,
+            	        min: 'dataMin',
+            	        max: 'dataMax'
+            	    },
+            	    {   
+            	        gridIndex: 1,
+            	        type: 'category',
+            	        data: data0.bb,
+            	        scale: true,
+            	        boundaryGap : false,
+            	        axisLine: {onZero: false},
+            	        splitLine: {show: true},
+            	        splitNumber: 20,
+            	        min: 'dataMin',
+            	        max: 'dataMax'
+            	    }],
+            	    yAxis: [{
+            	    	name : '销售价格(元)',
+            	        scale: true,
+            	        splitLine: {show: true},
+            	        splitArea: {
+            	            show: false
+            	        }
+            	    },
+            	    {   gridIndex: 1,
+            	    	name:'销售数量(吨)',
+            	    	splitLine: {show: true},
+            	        scale: true,
+            	        splitArea: {
+            	            show: false
+            	        }
+            	    }],
+            	    series: [
+						{
+							name:'最高气温',
+							type:'line',
+							data:data0.aa,
+							markPoint : {
+								data : [
+									{type : 'max', name: '最大值'},
+									{type : 'min', name: '最小值'}
+								]
+							},
+							markLine : {
+								data : [
+									{type : 'average', name: '平均值'}
+								]
+							}
+						},
+            	        {
+            	            name: '{$tip}',
+            	            type: 'line',
+            	            data: data0.dd,
+            	            smooth: true,
+            	            lineStyle: {
+            	                normal: {opacity: 0.5}
+            	            }
+            	        },
+            	        {
+            	            name: '销售额',
+            	            type: 'bar',
+            	            itemStyle:{normal:{color:'#ee30a7'}},
+            	            xAxisIndex: 1,
+            	            yAxisIndex: 1,	           
+            	            //data: {$aa},
+            	            data: JSON.stringify(data0.y1),
+            	            smooth: true,
+            	        },	
+            	    ]
+            	};
+            	// 使用刚指定的配置项和数据显示图表。
+            	myChart.setOption(option);
+            }
+        });
+        // return result;
+    }
 </script>
 </body>
+</html>
