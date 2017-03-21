@@ -24,6 +24,7 @@ class storeDetailAction extends adminBaseAction {
 		$this->assign('exits',$exits);
 		$this->assign('pid',sget('id','i',0));
 		$this->assign('doact',$doact);
+		$this->assign('company_account',L('company_account')); //交易公司账户
 		$this->assign('page_title','订单管理列表');
 		$this->display('storeDetail.list.html');
 	}
@@ -36,27 +37,30 @@ class storeDetailAction extends adminBaseAction {
 	private function _grid(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
-		$sortField = sget("sortField",'s','input_time'); //排序字段
+		$sortField = sget("sortField",'s','il.input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
 		$isAddSale=sget("isAddSale",'i',0); //虚拟入库的库存屏蔽
-		$where.= $isAddSale==1? " `join_id` = 0" : " 1 "  ;//虚拟入库的库存屏蔽
+		$where.= $isAddSale==1? " il.`join_id` = 0" : " 1 "  ;//虚拟入库的库存屏蔽
 		//筛选商品
 		$pid = sget('pid','i',0);
-		if($pid>0) $where .= "  and `p_id` =  $pid and `remainder` > 0 ";
+		if($pid>0) $where .= "  and il.`p_id` =  $pid and il.`remainder` > 0 ";
 		//是否可售
 		$controlled_number = sget('controlled_number','i',0);
-		if($controlled_number==1) $where .= "  and (`remainder` -  `lock_number`) > 0 ";
+		if($controlled_number==1) $where .= "  and (il.`remainder` -  il.`lock_number`) > 0 ";
 		//筛选状态
 		if(sget('remainder','i') ==2 ){ //join_id 代表关联了销售订单id  (虚拟入库的库存)
-			$where.=" and `join_id` > 0";
+			$where.=" and il.`join_id` > 0";
 		}
+		//抬头
+		$company = sget('company_account','i',0);
+		if( $company != 0 ) $where .=" and o.`order_name` =  $company ";
 		//筛选订单是不是开票
 		$pay_status = sget('pay_status','i',0);
 		if($pay_status > 0){
-			$where.=" and `pay_status`  =  $pay_status";
+			$where.=" and il.`pay_status`  =  $pay_status ";
 		}
-		if($isAddSale==1) $where.=" and `controlled_number` > 0 "; //销库存时之显示可用数量大于0的产品
+		if($isAddSale==1) $where.=" and il.`controlled_number` > 0 "; //销库存时之显示可用数量大于0的产品
 		//筛选时间
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
@@ -65,25 +69,25 @@ class storeDetailAction extends adminBaseAction {
 		$keyword=sget('keyword','s');
 		if(!empty($keyword) && $key_type=='store_id'  ){
 			$keyword=M('product:store')->getSidBySname($keyword);
-			$where.=" and `$key_type` in ('$keyword') ";
+			$where.=" and il.`$key_type` in ('$keyword') ";
 		}elseif(!empty($keyword) && $key_type=='store_aid'){
 			$keyword=M('product:store_admin')->getSaidByName($keyword);
-			$where.=" and `$key_type` in ('$keyword') ";
+			$where.=" and il.`$key_type` in ('$keyword') ";
 		}elseif(!empty($keyword) && $key_type=='p_id' ){
 			$keyword=M('product:product')->getpidByPname($keyword);
-			$where.=" and `$key_type` in ($keyword) ";
+			$where.=" and il.`$key_type` in ($keyword) ";
 		}elseif(!empty($keyword) && $key_type=='order_sn' ){
 			$keyword=M('product:order')->getIdsBySn($keyword);
-			$where.=" and `o_id` in ($keyword) ";
+			$where.=" and il.`o_id` in ($keyword) ";
 		}elseif(!empty($keyword) && $key_type=='customer_manager' ){
 			$admin_id = M('rbac:adm')->getIdByName($keyword);
 			//根据id去查订单
 			$oids = M('product:order')->getIdsByAId(join($admin_id,','));
-			$where.=" and `o_id` in ($oids) ";
+			$where.=" and il.`o_id` in ($oids) ";
 		}elseif(!empty($keyword)){
-			$where.=" and `$key_type`  like '%$keyword%' ";
+			$where.=" and il.`$key_type`  like '%$keyword%' ";
 		}
-		$list=$this->db->where($where)
+		$list=$this->db->select('il.*')->from('in_log il')->leftjoin('order o','o.o_id = il.o_id')->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
@@ -105,11 +109,11 @@ class storeDetailAction extends adminBaseAction {
 		$msg="";
 		if($list['count']>0){
 			// 计算付款金额
-			$log=$this->db->where($where)->order("$sortField $sortOrder")->getAll();
+			$log=$this->db->select('il.*')->from('in_log il')->leftjoin('order o','o.o_id = il.o_id')->where($where)->order("$sortField $sortOrder")->getAll();
 			foreach ($log as $value) {
 				$pay += M("product:order")->getCollection($value['o_id']);
 			}
-			$sum=$this->db->select("sum(remainder) as wsum, sum(number) as usum, sum(lock_number) as lnumber")->where($where)->getRow();
+			$sum=$this->db->select('il.*')->from('in_log il')->leftjoin('order o','o.o_id = il.o_id')->select("sum(remainder) as wsum, sum(number) as usum, sum(lock_number) as lnumber")->where($where)->getRow();
 			$msg="剩余总吨:【".$sum['wsum']."】进货数：【".$sum['usum']."】锁定数：【".$sum['lnumber']."】可售数：【".($sum['wsum']-$sum['lnumber'])."】当前页付款总额：".$pay;
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);

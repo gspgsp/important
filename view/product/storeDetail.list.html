@@ -13,9 +13,13 @@
 			</td>
 			<td style="float:right;">
 			<form id="soform">
+				<select name="company_account">
+					<option value="" selected="selected">= 抬头 =</option>
+					{html_options options=$company_account}
+				</select>
 				<select name="sTime">
-					<option value="input_time">入库时间</option>
-					<option value="update_time">更新时间</option>
+					<option value="il.input_time">入库时间</option>
+					<option value="il.update_time">更新时间</option>
 				</select>
 				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
