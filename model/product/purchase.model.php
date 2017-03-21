@@ -36,7 +36,7 @@ class purchaseModel extends model{
 	}
 
 	/**
-	 * 获取个人中心报价、采购管理数据
+	 * 获取个人中心采购需求、导航栏采购单
 	 * @param int $where
 	 * @param int $page
 	 * @param int $pageSize
@@ -116,9 +116,9 @@ class purchaseModel extends model{
      */
 	public function getInfo(){
 	    return $this->from('purchase as pur')
-					->leftjoin('lib_region as reg','pur.provinces=reg.id')
+					->leftjoin('lib_region as reg','pur.store_house=reg.id')
 					->leftjoin('product as p','p.id=pur.p_id')
-					->where('pur.status=2 and pur.type=1')
+					->where('pur.status=2 and pur.type=1 and pur.shelve_type=1')
 					->order('pur.input_time DESC')
 					->select('pur.id,pur.p_id,p.product_type,p.model,pur.number,pur.unit_price ,reg.name,pur.input_time,pur.type,pur.cargo_type')
 					->limit('6')
