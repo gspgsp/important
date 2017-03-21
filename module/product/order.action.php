@@ -160,10 +160,11 @@ class orderAction extends adminBaseAction {
 			}
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
-		//echo $_SESSION['adminid'];
-		// p($list);die;
 		foreach($list['data'] as &$v){
 			$v['c_name']=  ($v['partner'] == $_SESSION['adminid'] && $v['customer_manager'] != $_SESSION['adminid']) ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
+			//对客户名称打星(战队领导才打星号,对已经处理数据进行二次加工)
+			// $v['c_name']  = _leader($v['c_name'],$v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
+			//获取最新一次跟踪消息
 			$v['c_status']= M("user:customer")->getColByName($v['c_id'],'status');//根据cid获取用户状态吗
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
@@ -308,7 +309,6 @@ class orderAction extends adminBaseAction {
 				$c_name =  '*******';
 			 }else{
 				$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
-
 			 }
 		}
 		$info['order_name']=L('company_account')[$info['order_name']];
@@ -800,6 +800,7 @@ class orderAction extends adminBaseAction {
 	 */
 	public function getFlow(){
 		$oid = sget('o_id','i',0);
+		$content_id = M('product:order')->getAssociationID($oid);
 		//信息
 		$this->assign('info1',M('order:orderLog')->getLog($oid,0,0));
 		$this->assign('info2',M('order:orderLog')->getLog($oid,0,1));
@@ -814,10 +815,16 @@ class orderAction extends adminBaseAction {
 		$this->assign('fund2',M('order:orderLog')->getLog($oid,2,1));
 		$this->assign('fund3',M('order:orderLog')->getLog($oid,2,2));
 		$this->assign('fund4',M('order:orderLog')->getLog($oid,2,3));
+		//关联信息
+		$this->assign('re_fund3',M('order:orderLog')->getLog($content_id,2,2));
+		$this->assign('re_fund4',M('order:orderLog')->getLog($content_id,2,3));
 		//发票
 		$this->assign('tick2',M('order:orderLog')->getLog($oid,3,1));
 		$this->assign('tick3',M('order:orderLog')->getLog($oid,3,2));
 		$this->assign('tick4',M('order:orderLog')->getLog($oid,3,3));
+		//关联信息
+		$this->assign('re_tick3',M('order:orderLog')->getLog($content_id,3,2));
+		$this->assign('re_tick4',M('order:orderLog')->getLog($content_id,3,3));
 		//订单类型 1销售 2采购
 		$this->assign('type',M('product:order')->getColByName($oid,'order_type'));
 		//订单创建

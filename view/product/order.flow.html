@@ -103,13 +103,38 @@
 			<li>余额：{$fund4[0].lefted}元</li>
 		{/if}
 		</ul>
+		<h3>关联单子</h3>
+		{if $re_fund3}
+		{foreach from=$re_fund3 item=val name=n key=k}
+			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}收{else}付{/if}款</p>
+			<ul class="info">
+			{if $val}
+				<li>{$val.input_time|date: Y/m/d h:i:s}&nbsp;&nbsp;&nbsp;{$val.input_admin}</li>
+				<li>总额：{$val.total}元</li>
+				<li>累计{if $type eq 1}收{else}付{/if}款：{$val.payed}元</li>
+				<li>余额：{$val.lefted}元</li>
+			{/if}
+			</ul>
+		{/foreach}
+		{else}
+			<p class="track {if $re_fund4}done{else}doing{/if}">全部{if $type eq 1}收{else}付{/if}款</p>
+			<ul class="info">
+			{if $re_fund4}
+				<li>{if $re_fund4[0]['input_time']}{$re_fund4[0].input_time|date: Y/m/d h:i:s}&nbsp;&nbsp;&nbsp;{$re_fund4[0].input_admin}{/if}</li>
+				<li>总额：{$re_fund4[0].total}元</li>
+				<li>共计{if $type eq 1}收{else}付{/if}款：{$re_fund4[0].payed}元</li>
+				<li>余额：{$re_fund4[0].lefted}元</li>
+			{/if}
+			</ul>
+		{/if}
+		
 	</div>
 	<!--view end-->
 	<!--view begin-->
 	<div class="view last">
-		<h3>发票</h3>
+		<h3 style="border-top:#333">发票</h3>
 		{if $tick3}
-		{foreach from=$fund3 item=val name=n key=k}
+		{foreach from=$tick3 item=val name=n key=k}
 			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}开{else}收{/if}票</p>
 			<ul class="info">
 			{if $val}
@@ -135,6 +160,31 @@
 			<li>余额：{$tick4[0].lefted}元</li>
 		{/if}
 		</ul>
+		<h3  style="border-top:#333">关联单子</h3>
+		{if $re_tick3}
+		{foreach from=$re_tick3 item=val name=n key=k}
+			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}开{else}收{/if}票</p>
+			<ul class="info">
+			{if $val}
+				<li>{$val.input_time|date: Y/m/d h:i:s}&nbsp;&nbsp;&nbsp;{$val.input_admin}</li>
+				<li>总额：{$val.total}元</li>
+				<li>本次{if $type eq 1}开{else}收{/if}票：{$val.payed}元</li>
+				<li>余额：{$val.lefted}</li>
+			{/if}
+			</ul>
+		{/foreach}
+		{else}
+		<p class="track {if $re_tick4}done{else}doing{/if}">全部{if $type eq 1}开{else}收{/if}票</p>
+		<ul class="info">
+		{if $re_tick4}
+			<li>{if $re_tick4[0]['input_time']}{$re_tick4[0].input_time|date: Y/m/d h:i:s}&nbsp;&nbsp;&nbsp;{$re_tick4[0].input_admin}{/if}</li>
+			<li>总额：{$re_tick4[0].total}元</li>
+			<li>本次{if $type eq 1}开{else}收{/if}票：{$re_tick4[0].payed}元</li>
+			<li>余额：{$re_tick4[0].lefted}元</li>
+		{/if}
+		</ul>
+		{/if}
+
 	</div>
 	<!--view end-->
 </div>
