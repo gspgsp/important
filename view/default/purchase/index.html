@@ -73,7 +73,7 @@
             </div>
             </form>
         </div>
-      <!--  <div class="require color3">
+      <div class="require color3">
         	<h3>采购需求列表</h3>
             <div class="require-wrap">
                 <ul class="require-list">
@@ -105,46 +105,7 @@
                             <div class="other color9">
                                 <p class="time">{$value.customer.name} 发布于 {$value.input_time|date:Y-m-d H:i}</p>
                                 <p class="linkman">跟进交易员：{$value.customer.adname} {$value.customer.admobile}</p>
-                                <!-- <p class="qq"><a href="javascript:;"><img src="__IMG__/home/purchaseOrderQQ.jpg" width="27" height="20"/></a></p>
-                            </div>
-                        </div>
-                    </li>
-                    {/foreach}
-                </ul>
-                <div class="page">
-                    {$pages}
-                </div>
-            </div>
-        </div>     --->
-
-        <div class="require color3">
-            <h3>采购完成订单</h3>
-            <div class="require-wrap">
-                <ul class="require-list">
-                    {foreach from=$list.data item=value}
-                    <li>
-                        <div class="left">
-                            {if $value.status==2}
-                            <p>洽谈中...</p>
-                            <a href="javascript:doTalk({$value.id});" class="yes">我要供货</a>
-                            {else}
-                            <p>交易完成</p>
-                            <a href="javascript:;" class="no">交易完成</a>
-                            {/if}
-                        </div>
-                        <div class="right">
-                            <div class="require-top">
-                                <span>{:witchType|$value.product_type}</span>
-                                <span>{$value.model}</span>
-                                <span>{$value.f_name}</span>
-                                <span>{$value.number}吨</span>
-
-                            </div>
-                            <div class="price"><b>成交价格</b><span>¥{$value.unit_price}</span></div>
-                            <div class="other color9">
-                                <p class="time"> 成交时间 {$value.update_time|date:Y-m-d H:i}</p>
-
-                                <!-- <p class="qq"><a href="javascript:;"><img src="__IMG__/home/purchaseOrderQQ.jpg" width="27" height="20"/></a></p> -->
+                                <!-- -->
                             </div>
                         </div>
                     </li>

@@ -51,7 +51,7 @@
 		<!--summary begin-->
 		<div class="summary">
 			<p><b>采购内容：</b><span>{:setOption|cargo_type,$info.cargo_type}  {:setOption|product_type,$info.product_type} {$info.f_name} {:setOption|process_level,$info.process_type} {$info.number}吨</span></p>
-			<p><b>交货地：</b><span>{$info.store_house}</span></p>
+			<p><b>交货地：</b><span>{$info.city_name}</span></p>
 			<p><b>预期价格：</b><span>{$info.unit_price}元/吨</span></p>
 		</div>
 
@@ -126,8 +126,8 @@
 				<div class="tip">注：不合理的报价会被系统屏蔽。</div>
 				<!--opt begin-->
 				<div class="opt">
-					<input type="submit"  onclick="submitFrom()" value="提交报价"/>
-					<a href="/"><input type="button" class="back" value="返回上页"/></a>
+					<input type="submit"  onclick="submitFrom()" value="提交"/>
+					<a href="/"><input type="button" class="back" value="返回"/></a>
 				</div>
 				<!--opt end-->
 				<div>
