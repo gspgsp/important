@@ -1,0 +1,68 @@
+ {layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="addWork()">添加</a>
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				创建日期：
+				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+			</form>	
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/notice/notice/init?action=grid&do={$doact}"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="id" width="20" headerAlign="center" align="center" allowSort="true">编号</div>
+			<div field="title" width="30" headerAlign="center" align="center" >标题</div>
+			<div field="input_admin" width="25" headerAlign="center" align="center" allowSort="true">创建人</div>
+			<div field="update_admin" width="30" headerAlign="center" align="center" allowSort="true">修改人</div>
+			<div field="input_time" width="30" headerAlign="center" align="center" allowSort="true" >创建时间</div>
+			<div field="update_time" width="40" headerAlign="center" align="center" allowSort="true">修改时间</div>
+			<div field="status" width="45" headerAlign="center" align="center" allowSort="true">状态</div>
+			<div field="doaction" width="75" headerAlign="center" align="center" renderer="onLoadDetail">操作</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onLoadDetail(e) {
+	var record = e.record,s='',id = record.id;
+	s+='&nbsp;<a href="javascript:viewWorkInfo('+id+',1)">查看</a>';
+	/* s+='&nbsp;|&nbsp;<a href="javascript:viewWorkInfo('+id+',2)">修改</a>'; */
+	return s;
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//新增公告
+function addWork(){
+	mini.open({
+		url: "/notice/notice/add",
+		showMaxButton:true,
+		title: '新增公告', width: 630, height: 650, 
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+</script>
