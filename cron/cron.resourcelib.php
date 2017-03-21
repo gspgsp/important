@@ -35,7 +35,7 @@ class cronResourcelib{
 	 */
 	public function start(){
 		$this->ranking();//计算塑料圈用户的排名
-		$thie->SavePurchase();
+		$this->SavePurchase();
 	}
 	/**
 	 * 处理资源库手机号和QQ号同步
