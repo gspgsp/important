@@ -356,7 +356,11 @@ a{ text-decoration:none;}
 .supply-demand .right li .rob-lt .rob-info{ line-height:20px; height:40px; overflow:hidden; margin:0 0 0 48px;}
 .supply-demand .right li .rob-rt{ width:50px; height:50px; background:url(../../images/home/spirit.png) no-repeat 0 -81px; margin:19px 0 0 0;}
 .supply-demand .right li .rob-rt p{ color:#fff; text-align:center; margin:30px 0 0 0;}
-.supply-demand.info .breed{ background-position:8px 0; width: 75px;}
+.supply-demand.info .breed{ width: 75px;}
+.supply-demand.info .info-con li.supply .breed span{ background:url(../../images/home/mallOfferSpirit.png) no-repeat;}
+.supply-demand.info .info-con li.supply .breed span.xian{ background-position:-67px -49px;}
+.supply-demand.info .info-con li.supply .breed span.qi{ background-position:-44px -49px;}
+
 .supply-demand.info .grade{ background-position:10px -76px; width: 82px;}
 .supply-demand.info .level{ background:none; width: 60px;}
 .supply-demand.info .factory{ background-position:58px -152px; width: 177px;}
