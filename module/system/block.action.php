@@ -253,20 +253,69 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
-	 * 塑料头条详情页1banner
+	 * 塑料头条pe详情页1banner
 	 */
-	public function detail1Banner(){
+	public function detailpe1Banner(){
+		$this->position = 33;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条pe详情页2banner
+	 */
+	public function detailpe2Banner(){
 		$this->position = 34;
 		$this->init();
 	}
 
 	/**
-	 * 塑料头条详情页2banner
+	 * 塑料头条pp详情页1banner
 	 */
-	public function detail2Banner(){
+	public function detailpp1Banner(){
 		$this->position = 35;
 		$this->init();
 	}
+
+	/**
+	 * 塑料头条pp详情页2banner
+	 */
+	public function detailpp2Banner(){
+		$this->position = 36;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条pvc详情页1banner
+	 */
+	public function detailpvc1Banner(){
+		$this->position = 37;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条pvc详情页2banner
+	 */
+	public function detailpvc2Banner(){
+		$this->position = 38;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条vip详情页1banner
+	 */
+	public function detailvip1Banner(){
+		$this->position = 39;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条vip详情页2banner
+	 */
+	public function detailvip2Banner(){
+		$this->position = 40;
+		$this->init();
+	}
+	
 	/**
 	 * 合作伙伴
 	 */
