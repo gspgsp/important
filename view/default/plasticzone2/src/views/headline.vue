@@ -306,7 +306,7 @@ search: function() {
 			dataType: 'JSON'
 			}).then(function(res) {
 				if(res.err == 0) {
-					_this.items = res.data.slice(0, 4);
+					_this.items = res.data.slice(0, 3);
 				}
 			}, function() {
 
@@ -333,15 +333,17 @@ activated: function() {
 			type: 2
 		},
 		dataType: 'JSON'
-	}).then(function(res) {
+	}).done(function(res){
 		if(res.err == 0) {
 			_this.mySubscribe = res.data;
 			_this.subchecked = res.data;
 		} else {
 	
-		}
-	}, function() {
-	
+		}		
+	}).fail(function(){
+		
+	}).always(function(){
+		
 	});
 
 	$.ajax({
@@ -352,18 +354,27 @@ activated: function() {
 			subscribe: 2
 		},
 		dataType: 'JSON'
-	}).then(function(res) {
+	}).done(function(res){
 		if(res.err == 0) {
-			_this.items = res.data.slice(0, 1);
+			_this.items = res.data.slice(0, 3);
 		} else if(res.err == 1) {
-			mui.alert("", res.msg, function() {
-				_this.$router.push({
-					name: 'login'
-				});
+			weui.alert(res.msg, {
+				title: '塑料圈通讯录',
+				buttons: [{
+					label: '确定',
+					type: 'parimary',
+					onClick: function() {
+						_this.$router.push({
+							name: 'login'
+						});
+					}
+				}]
 			});
-		}
-	}, function() {
-	
+		}		
+	}).fail(function(){
+		
+	}).always(function(){
+		
 	});
 	
 	this.$nextTick(function() {
@@ -372,7 +383,7 @@ activated: function() {
 				spaceBetween: 15,
 				freeMode: true
 			});
-		});
+	});
 
 	}
 }

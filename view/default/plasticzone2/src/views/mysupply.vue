@@ -33,7 +33,6 @@
 	<li v-show="!condition" style="text-align: center; height: 60px; line-height: 60px;">
 		没有相关数据
 	</li>
-
 </ul>
 <footerbar></footerbar>
 

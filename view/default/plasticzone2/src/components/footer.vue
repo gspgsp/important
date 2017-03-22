@@ -79,11 +79,18 @@ module.exports = {
 						query: {id: pid}
 					});				
 			} else{
-				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
-					_this.$router.push({
-						name: 'login'
-					});
-				});				
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
+				});			
 			}	
 		},
 		toReleasebssupply2:function(pid){
@@ -95,10 +102,17 @@ module.exports = {
 						query: {id: pid}
 					});				
 			} else{
-				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
-					_this.$router.push({
-						name: 'login'
-					});
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
 				});				
 			}	
 		},
@@ -110,10 +124,17 @@ module.exports = {
 						name: 'releasebsbuy'
 					});				
 			} else{
-				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
-					_this.$router.push({
-						name: 'login'
-					});
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
 				});				
 			}	
 		},
@@ -125,11 +146,18 @@ module.exports = {
 						name: 'releasebssupply'
 					});				
 			} else{
-				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
-					_this.$router.push({
-						name: 'login'
-					});
-				});				
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
+				});					
 			}			
 		},
 		toRelease:function(){
@@ -139,11 +167,18 @@ module.exports = {
 						name: 'release'
 					});				
 			} else{
-				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
-					_this.$router.push({
-						name: 'login'
-					});
-				});				
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
+				});					
 			}
 		},
 		toMyzone:function(){
@@ -153,10 +188,17 @@ module.exports = {
 						name: 'myzone'
 					});				
 			} else{
-				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
-					_this.$router.push({
-						name: 'login'
-					});
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
 				});				
 			}
 		},
@@ -167,10 +209,17 @@ module.exports = {
 						name: 'headline'
 					});				
 			} else{
-				mui.alert("", "您未登录塑料圈,无法查看企业及个人信息", function() {
-					_this.$router.push({
-						name: 'login'
-					});
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
 				});				
 			}
 		}

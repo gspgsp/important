@@ -394,6 +394,7 @@ module.exports = {
 		} catch( err ) {
 			
 		}
+		
 		$.ajax({
 			url: '/api/qapi1/getSelfInfo',
 			type: 'get',
@@ -403,8 +404,6 @@ module.exports = {
 			dataType: 'JSON'
 		}).then(function(res) {
 			if(res.err == 0) {
-				console.log(res);
-				console.log(res.data.sex);
 				_this.name = res.data.name;
 				_this.c_name = res.data.c_name;
 				_this.address = res.data.address;

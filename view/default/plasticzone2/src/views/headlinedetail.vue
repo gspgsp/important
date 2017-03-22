@@ -134,6 +134,9 @@ module.exports = {
 			var _this = this;
 			window.scrollTo(0,0);
 			if(id) {
+				var loading = weui.loading('加载中', {
+				    className: 'custom-classname'
+				});
 				$.ajax({
 					type: "post",
 					url: '/api/qapi1_1/getDetailInfo',
@@ -142,9 +145,8 @@ module.exports = {
 						id: id
 					},
 					dataType: 'JSON'
-				}).then(function(res) {
-					console.log("pre");
-					console.log(id);
+				}).done(function(res){
+					loading.hide(function(){});
 					_this.id=res.info.id;
 					_this.title=res.info.title;
 					_this.cate_id=res.info.cate_id;
@@ -187,14 +189,22 @@ module.exports = {
 						default:
 							_this.cate="塑料发现";
 							break;
-					}
-
-				}, function() {
-
-				});
+					}					
+				}).fail(function(){
+					
+				}).always(function(){
+					
+				})
 			} else {
-				mui.alert("", "没有相关文章", function() {
+				weui.alert("没有相关文章", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
 
+						}
+					}]
 				});
 			}
 		},
@@ -207,6 +217,7 @@ module.exports = {
 		} catch( err ) {
 			
 		}
+
 		window.scrollTo(0,0);
 		$.ajax({
 			type: "post",
@@ -268,9 +279,18 @@ module.exports = {
 						break;
 				}
 			}else if(res.err==1){
-				mui.alert("",res.msg,function(){
-					_this.$router.push({ name: 'login' });
-				});							
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});						
 			}
 		}, function() {
 

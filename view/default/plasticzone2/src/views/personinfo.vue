@@ -165,8 +165,17 @@ module.exports = {
 					_this.isMobile=false;
 				}
 			} else if(res.err == 1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({ name: 'login' });
+				weui.alert(res.msg, {
+				    title: '塑料圈通讯录',
+				    buttons: [{
+				        label: '确定',
+				        type: 'parimary',
+				        onClick: function(){
+							_this.$router.push({
+								name: 'login'
+							});				        	
+				        }
+				    }]
 				});
 			}
 		}, function() {

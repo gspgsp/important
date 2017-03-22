@@ -15,10 +15,10 @@
 		<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
 	</div>
 </div>
-<a href="http://x.eqxiu.com/s/NSganpY2?eqrcode=1&winzoom=1&from=groupmessage&isappinstalled=0">
+<!--<a href="http://x.eqxiu.com/s/NSganpY2?eqrcode=1&winzoom=1&from=groupmessage&isappinstalled=0">
 <img style="width: 100%; margin: 5px 0 0 0;" src="http://statics.myplas.com/myapp/img/slqbanner.jpg">
-</a>
-<!--<div class="payfans">
+</a>-->
+<div class="payfans">
 	<router-link :to="{name:'mypay'}">
 		<div style=" display: inline-block; margin: 4px 0 0 0;">
 			<div class="payfansImg"></div><span>我关注的人</span>
@@ -29,7 +29,7 @@
 			<div class="payfansImg2"></div><span>关注我的人</span>
 		</div>
 	</router-link>
-</div>-->
+</div>
 <ul id="nameUl">
 	<li v-show="condition" v-for="n in name">
 		<div style="width: 55px; height: 55px; float: left; position: relative;">
