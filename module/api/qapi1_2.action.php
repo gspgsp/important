@@ -388,7 +388,7 @@ class qapi1_2Action extends null2Action
     public function login()
     {
     	//p($_GET);p($_POST);exit;
-    	$this->json_output(array('get'=>$_GET,'post'=>$_POST));
+    	//$this->json_output(array('get'=>$_GET,'post'=>$_POST));
         if ($_POST['username']) {
             $this->is_ajax = true;
             $username = sget('username', 's');
@@ -2820,18 +2820,18 @@ class qapi1_2Action extends null2Action
     }
 
 
-    public function json_output($result=array()) {
-        //header('Content-Type:text/html; charset=utf-8');
-        header('Content-type: application/json; charset=utf-8');
-        $result=json_encode($result);
-        $jsoncallback=sget('jsoncallback');
-        if(!empty($jsoncallback)){
-            $result=$jsoncallback."($result)";
-        }
-        echo $result;
-        if($this->debug || isset($_GET[C('SHOW_DEBUG')])) log::showTrace();
-        die();
-    }
+//    public function json_output($result=array()) {
+//        //header('Content-Type:text/html; charset=utf-8');
+//        header('Content-type: application/json; charset=utf-8');
+//        $result=json_encode($result);
+//        $jsoncallback=sget('jsoncallback');
+//        if(!empty($jsoncallback)){
+//            $result=$jsoncallback."($result)";
+//        }
+//        echo $result;
+//        if($this->debug || isset($_GET[C('SHOW_DEBUG')])) log::showTrace();
+//        die();
+//    }
 
 
 
