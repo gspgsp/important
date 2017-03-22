@@ -130,6 +130,12 @@
 		//取出详情页数据
 		public function detail(){
 			$type=sget('type','s');
+			if(!empty($type)){
+				$stype='detail_'.$type;
+				$arr=L('headline_ads')[$type];
+				$this->detail1banner=$this->getAD($arr[0]);
+				$this->detail2banner=$this->getAD($arr[1]);
+			}
 			//导航栏选中状态
 				$this->nav=$type;
 			$cate=sget('cate','s');

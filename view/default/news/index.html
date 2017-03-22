@@ -589,16 +589,16 @@
     <div class="left  cen flt">
         <!--vip-title begin-->
         <div class="vip-title">
-            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}shjp.html">损失产量</a></h3>
-            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}shjp.html">更多</a></p>
+            <h3><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sscl.html">损失产量</a></h3>
+            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}sscl.html">更多</a></p>
         </div>
         <!--vip-title end-->
         <!--vip-con begin-->
         <div class="vip-con link6">
             <ul class="vipli">
-                {foreach from=$data[shjp] key=key item=v}
+                {foreach from=$data[sscl] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/shjp/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/sscl/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
             </ul>
