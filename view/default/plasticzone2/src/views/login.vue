@@ -51,7 +51,7 @@ module.exports = {
 					password: _this.pwd
 				},
 				dataType: 'JSON'
-			}).then(function(res) {
+			}).done(function(res) {
 				if(res.err == 0) {
 					window.localStorage.setItem("token", res.dataToken);
 					window.localStorage.setItem("userid", res.user_id);
@@ -59,23 +59,34 @@ module.exports = {
 						name: 'index'
 					});
 				} else {
-					mui.alert("", res.msg, function() {
-
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
 					});
 				}
-			}, function() {
-
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
 
 		}
 	},
 	mounted: function() {
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch(err) {
+
+		}
 		var lousername = window.localStorage.getItem("username") || "";
 		var lopassword = window.localStorage.getItem("password") || "";
 		this.mobile = lousername;

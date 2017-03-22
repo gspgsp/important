@@ -31,6 +31,11 @@
 			<li>	
 		</ul>
 	</div>
+	<div style="padding: 10px 0; background: #FFFFFF;">
+	<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q">
+	<img width="100%" src="../assets/download.png">
+	</a>
+	</div>
 	<footerbar></footerbar>
 <div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
 <div class="tip" v-show="share3"></div>
@@ -227,8 +232,7 @@ module.exports = {
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
-			console.log(res);
+		}).done(function(res) {
 			if(res.err==0){
 				_this.id=res.info.id;
 				_this.title=res.info.title;
@@ -292,8 +296,10 @@ module.exports = {
 					}]
 				});						
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			
 		});
 	}
 }

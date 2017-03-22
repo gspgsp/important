@@ -77,7 +77,7 @@
 					token: window.localStorage.getItem("token")
 				},
 				dataType: 'JSON'
-			}).then(function(res) {
+			}).done(function(res) {
 				if(res.err==0){
 					_this.creditshow=true;
 					_this.c_name=res.data.c_name;
@@ -141,8 +141,10 @@
 					_this.msg=res.msg;   
 					
 				}
-			}, function() {
-		
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
         	
         }    

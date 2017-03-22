@@ -68,7 +68,7 @@ module.exports = {
 				link_id: _this.$route.params.id
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
+		}).done(function(res) {
 			if(res.err == 0) {
 				_this.creditshow = true;
 				_this.c_name = res.data.c_name;
@@ -132,8 +132,10 @@ module.exports = {
 				_this.msg = res.msg;
 
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			
 		});
 
 	}

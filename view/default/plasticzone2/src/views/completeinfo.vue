@@ -1,10 +1,10 @@
 <template>
-	<div class="buyWrap">
-    <header id="bigCustomerHeader">
-    	<a class="back" href="javascript:window.history.back();"></a>
-    	完善信息
-    </header>
-    <div class="registerWrap">
+<div class="buyWrap">
+	<header id="bigCustomerHeader">
+		<a class="back" href="javascript:window.history.back();"></a>
+		完善信息
+	</header>
+	<div class="registerWrap">
 		<div class="registerBox">
 			<input type="text" v-model="name" placeholder="请输入姓名" />
 		</div>
@@ -20,75 +20,104 @@
 			<input type="radio" value="1" v-model="sexradio" />&nbsp;女
 		</div>
 	</div>
-		<div class="registerBtn">
-			<input type="button" v-bind:disabled="isDisable" v-on:click="complete" value="提交" />
-		</div>
-    </div>
+	<div class="registerBtn">
+		<input type="button" v-bind:disabled="isDisable" v-on:click="complete" value="提交" />
+	</div>
+</div>
 </template>
 <script>
-	module.exports={
-        data:function () {
-            return {
-            	name:"",
-            	c_name:"",
-            	qq:"",
-            	isDisable:false,
-            	sexradio:0
-            }
-        },
-        methods:{
-            complete:function () {
-            	var _this=this;
-            	var region="";
-            	this.isDisable=true;
-            	//alert(window.localStorage.invite);
-				if (this.c_name.length<6) {
-					mui.alert("","公司名至少填写6个字符",function(){
-						_this.isDisable=false;
-					});
-				}else if(this.name.length>4){
-					mui.alert("","姓名不能超过4个字符",function(){
-						_this.isDisable=false;
-					});					
-				}else{
-					$.ajax({
-						url: '/api/qapi1/reginfo',
-						type: 'get',
-						data: {
-							mobile:window.localStorage.getItem("mobile"),
-							name: _this.name,
-							c_name: _this.c_name,
-							qq: _this.qq,
-							chanel: 6,
-							sex: _this.sexradio,
-							parent_mobile: window.localStorage.invite,
-							quan_type:0,
-							region: "wx"
-						},
-						dataType: 'JSON'
-					}).then(function(res) {
-						if(res.err == 0) {
-							mui.alert("",res.msg,function(){
-								_this.$router.push({ name: 'login' });
-		                	});
-						} else {
-							mui.alert("",res.json().msg,function(){
-		                		_this.isDisable=false;
-		                	});
+module.exports = {
+	data: function() {
+		return {
+			name: "",
+			c_name: "",
+			qq: "",
+			isDisable: false,
+			sexradio: 0
+		}
+	},
+	methods: {
+		complete: function() {
+			var _this = this;
+			var region = "";
+			this.isDisable = true;
+			if(this.c_name.length < 6) {
+				weui.alert("公司名至少填写6个字符", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.isDisable = false;
 						}
-					}, function() {
+					}]
+				});
+			} else if(this.name.length > 4) {
+				weui.alert("姓名不能超过4个字符", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.isDisable = false;
+						}
+					}]
+				});
+			} else {
+				$.ajax({
+					url: '/api/qapi1/reginfo',
+					type: 'get',
+					data: {
+						mobile: window.localStorage.getItem("mobile"),
+						name: _this.name,
+						c_name: _this.c_name,
+						qq: _this.qq,
+						chanel: 6,
+						sex: _this.sexradio,
+						parent_mobile: window.localStorage.invite,
+						quan_type: 0,
+						region: "wx"
+					},
+					dataType: 'JSON'
+				}).done(function(res){
+					if(res.err == 0) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									_this.$router.push({ name: 'login' });
+								}
+							}]
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									_this.isDisable = false;
+								}
+							}]
+						});
+					}					
+				}).fail(function(){
+					
+				}).always(function(){
+					
+				});
+			}
+		}
+	},
+	mounted: function() {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch(err) {
 
-					});
-                }
-           }
-        },
-        mounted:function () {
-        		try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
+		}
 	}
-        }    
-	}
+}
 </script>

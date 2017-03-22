@@ -100,8 +100,17 @@ data: function() {
 methods: {
 	toLogin:function(){
 		if (window.localStorage.getItem("token")) {
-			mui.alert("", "你已登录塑料圈", function() {
-				
+			weui.alert("你已登录塑料圈", {
+				title: '塑料圈通讯录',
+				buttons: [{
+					label: '确定',
+					type: 'parimary',
+					onClick: function() {
+						_this.$router.push({
+							name: 'login'
+						});
+					}
+				}]
 			});
 		} else{
 			this.$router.push({name: 'login'});
@@ -128,8 +137,7 @@ methods: {
 				sortField: _this.sortField
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
-			console.log(res);
+		}).done(function(res) {
 			if(res.err == 0) {
 				_this.condition = true;
 				_this.member = res.member;
@@ -137,8 +145,10 @@ methods: {
 			} else if(res.err == 2) {
 				_this.condition = false;
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			
 		});
 	},
 	sortorder: function() {
@@ -161,8 +171,7 @@ methods: {
 				sortOrder: _this.sortOrder
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
-			console.log(res);
+		}).done(function(res) {
 			if(res.err == 0) {
 				_this.condition = true;
 				_this.member = res.member;
@@ -170,8 +179,10 @@ methods: {
 			} else if(res.err == 2) {
 				_this.condition = false;
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			
 		});
 
 	},
@@ -202,10 +213,7 @@ methods: {
 				_this.name = res.persons;
 				_this.isCircle = false;
 				window.scrollTo(0, 0);
-				mui.toast('更新成功', {
-					duration: 'long',
-					type: 'div'
-				});
+				weui.topTips('更新成功', 3000);
 			} else if(res.err == 2) {
 				_this.condition = false;
 			}
@@ -232,15 +240,17 @@ methods: {
 					size: 10
 				},
 				dataType: 'JSON'
-			}).then(function(res) {
+			}).done(function(res) {
 				if(res.err == 0) {
 					_this.condition = true;
 					_this.name = res.persons;
 				} else if(res.err == 2) {
 					_this.condition = false;
 				}
-			}, function() {
-
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
 		} else {
 			window.location.reload();
@@ -270,10 +280,17 @@ methods: {
 					_this.moreTxt="加载更多数据";
 				} else if(res.err == 1) {
 					_this.moreTxt="加载更多数据";
-					mui.alert("", res.msg, function() {
-						_this.$router.push({
-							name: 'login'
-						});
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
 					});
 				} else if(res.err == 2) {
 					_this.condition = false;
@@ -313,8 +330,7 @@ mounted: function() {
 			type: 1
 		},  
 		dataType: 'JSON'
-	}).then(function(res) {
-		console.log(res);
+	}).done(function(res) {
 		if(res.err == 0) {
 			_this.buy = res.data;
 		} else if(res.err == 1) {
@@ -322,8 +338,10 @@ mounted: function() {
 		} else if(res.err == 2) {
 			_this.buy = [];
 		}
-	}, function() {
-
+	}).fail(function(){
+		
+	}).always(function(){
+		
 	});
 
 	$.ajax({
@@ -336,8 +354,7 @@ mounted: function() {
 			type: 2
 		},
 		dataType: 'JSON'
-	}).then(function(res) {
-		console.log(res);
+	}).done(function(res) {
 		if(res.err == 0) {
 			_this.supply = res.data;
 		} else if(res.err == 1) {
@@ -345,8 +362,10 @@ mounted: function() {
 		} else if(res.err == 2) {
 			_this.supply = [];
 		}
-	}, function() {
-
+	}).fail(function(){
+		
+	}).always(function(){
+		
 	});
 
 	$.ajax({
@@ -359,8 +378,7 @@ mounted: function() {
 			size: 10
 		},
 		dataType: 'JSON'
-	}).then(function(res) {
-		console.log(res);
+	}).done(function(res) {
 		if(res.err == 0) {
 			_this.condition = true;
 			_this.member = res.member;
@@ -368,8 +386,10 @@ mounted: function() {
 		} else if(res.err == 2) {
 			_this.condition = false;
 		}
-	}, function() {
-
+	}).fail(function(){
+		
+	}).always(function(){
+		
 	});
 
 	$(window).scroll(function() {

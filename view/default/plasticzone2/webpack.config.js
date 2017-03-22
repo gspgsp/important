@@ -40,7 +40,7 @@ module.exports = {
         //install css-loader style-loader sass-loader node-sass --save-dev
             { test: /\.scss$/, loader: 'style!css!sass?sourceMap'},
         // 图片转化，小于8K自动转化为base64的编码
-            { test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader'},
+            { test: /\.(png|jpg|gif|svg)$/, loader: 'url',query: { limit: 200000,name: '[name].[ext]?[hash:7]'}},
         //html模板编译？
             { test: /\.(html|tpl)$/, loader: 'html-loader' }
         ]

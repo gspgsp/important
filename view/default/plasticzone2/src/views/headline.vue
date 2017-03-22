@@ -304,12 +304,14 @@ search: function() {
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
-			}).then(function(res) {
+			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.data.slice(0, 3);
 				}
-			}, function() {
-
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
 		} else {
 
@@ -382,7 +384,7 @@ activated: function() {
 				slidesPerView: 4,
 				spaceBetween: 15,
 				freeMode: true
-			});
+		});
 	});
 
 	}

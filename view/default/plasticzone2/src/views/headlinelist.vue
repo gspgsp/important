@@ -116,7 +116,7 @@ methods: {
 					subscribe: 2
 				},
 				dataType: 'JSON'
-			}).then(function(res) {
+			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.data;
 				} else if(res.err == 1) {
@@ -124,9 +124,11 @@ methods: {
 						_this.$router.push({ name: 'login' });
 					});
 				}
-			}, function() {
-	
-			});			
+			}).fail(function(){
+				
+			}).always(function(){
+				
+			});
 		} else{
 			$.ajax({
 				type: "get",
@@ -138,8 +140,7 @@ methods: {
 					token: window.localStorage.getItem("token")
 				},
 				dataType: 'JSON'
-			}).then(function(res) {
-				console.log(res);
+			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.info;
 				} else if(res.err == 1) {
@@ -147,8 +148,10 @@ methods: {
 						_this.$router.push({ name: 'login' });
 					});
 				}
-			}, function() {
-	
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
 			
 		}
@@ -172,12 +175,14 @@ methods: {
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
-			}).then(function(res) {
+			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.data; 
 				}
-			}, function() {
-
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
 		} else {
 
@@ -320,22 +325,19 @@ methods: {
 					subscribe: 2
 				},
 				dataType: 'JSON'
-			}).then(function(res) {
-				console.log(res.data);
+			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.data;
 					_this.isCircle = false;
 					window.scrollTo(0, 0);
-					mui.toast('刷新成功', {
-						duration: 'long',
-						type: 'div'
-					});
-
+					weui.topTips('更新成功', 3000);
 				} else {
 
 				}
-			}, function() {
-
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
 
 		} else {
@@ -349,19 +351,18 @@ methods: {
 					token: window.localStorage.getItem("token")
 				},
 				dataType: 'JSON'
-			}).then(function(res) {
+			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.info;
 					_this.isCircle = false;
 					window.scrollTo(0, 0);
-					mui.toast('刷新成功', {
-						duration: 'long',
-						type: 'div'
-					});
+					weui.topTips('更新成功', 3000);
 				}
 
-			}, function() {
-
+			}).fail(function(){
+				
+			}).always(function(){
+				
 			});
 		}
 
@@ -427,15 +428,16 @@ activated: function() {
 				subscribe: 2
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
-			console.log(res.data);
+		}).done(function(res) {
 			if(res.err == 0) {
 				_this.items = res.data
 			} else {
 
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			
 		});
 	} else {
 		$.ajax({
@@ -448,17 +450,27 @@ activated: function() {
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
-			console.log(res);
+		}).done(function(res) {
 			if(res.err == 0) {
 				_this.items = res.info;
 			} else if(res.err == 1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({ name: 'login' });
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
 				});
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			
 		});
 
 	}
@@ -469,7 +481,6 @@ activated: function() {
 			spaceBetween: 15,
 			freeMode: true
 		});
-
 	});
 
 	$(window).scroll(function() {
@@ -499,16 +510,22 @@ activated: function() {
 					_this.condition = true;
 					_this.items = _this.items.concat(res.info);
 				} else if(res.err == 1) {
-					mui.alert("", res.msg, function() {
-						_this.$router.push({ name: 'login' });
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
 					});
 				} else if(res.err == 2) {
 					_this.condition = false;
 				} else if(res.err == 3) {
-					mui.toast(res.msg, {
-						duration: 'long',
-						type: 'div'
-					});
+					weui.topTips(res.msg, 3000);
 				}
 			}, function() {
 
@@ -518,7 +535,7 @@ activated: function() {
 },
 deactivated: function() {
 	$(window).unbind('scroll');
-	}
+}
 
 }
 </script>
