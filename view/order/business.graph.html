@@ -22,38 +22,45 @@
 				<!--{html_options options=$year_item}</select>-->
 				<input id="date_year" name="date_year" class="mini-combobox" textField="key" valueField="value" value="all"
 					   url="/order/business/chart_year?model={$model}"  showNullItem="false" />
-				<a class="mini-button" iconcls="icon-search" onclick="submitForm('m')">每日数据查询</a>
-				<a class="mini-button" iconcls="icon-search" onclick="submitForm2">每周数据查询</a>
-				<a class="mini-button" iconcls="icon-search" onclick="submitForm3">每半个月数据查询</a>
-				<a class="mini-button" iconcls="icon-search" onclick="submitForm4">每月数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm('y')">每日数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm('w')">每周数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm('h')">每半个月数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm('m')">每月数据查询</a>
 			</td>
 		</tr>
 	</table>
 </div>
-<div style="width: 900px;height: 500px" id="main"></div>
+<div style="width: 1200px;height: 650px" id="main"></div>
 <script type="text/javascript">
 	//提交表单
 	mini.parse();
+	submitForm();
 	function submitForm(type) {
         var form = new mini.Form("#info");
         var data = form.getData();//获取表单多个控件的数据
-		data.type = type;
+		//data.type = type;
+        alert(data.date_year);
+		var can=type;
+		var graph='graph_'+can;
+		var url='/order/business/'+graph;
 		data.model='{$model}';
-        var json = mini.encode(data);   //序列化成JSON
-
+		data.p_id='{$p_id}';
+        //var json = mini.encode(data);   //序列化成JSON
          $.ajax({
-            url: "/order/business/graph_w",
+            url: url,
             type: "post",
             data: data,
 			success: function (ret) {
                 console.log("提交成功，返回结果:" + ret);
-				 var data0 = JSON.parse(ret);
-				console.log(data0);
+				var data = JSON.parse(ret);
+				/* console.log(data0);
 				console.log(data0.aa);
 				console.log(data0.bb);
 				console.log(data0.cc);
 				console.log(data0.dd);
-				console.log(JSON.stringify(data0.y1));
+				console.log(JSON.stringify(data0.y1)); */
+				//var data = eval("("+ret+")");
+                //console.log(data.aa);
 
 				// 基于准备好的dom，初始化echarts图表
                 var myChart = echarts.init(document.getElementById('main')); 
@@ -70,7 +77,7 @@
             	        }
             	    },
             	    legend: {
-            	        data: ['价格', '销售额',JSON.stringify(data0.tip)]
+            	        data: ['价格', '销售额',data.tip]
             	    },
             	    dataZoom: [
             	               {
@@ -101,8 +108,7 @@
             	    }],
             	    xAxis: [{
             	        type: 'category',
-            	        //data: {$bb},
-            	        data: data0.bb,
+            	        data: data.bb,
             	        scale: true,
             	        boundaryGap : false,
             	        axisLine: {onZero: false},
@@ -114,7 +120,7 @@
             	    {   
             	        gridIndex: 1,
             	        type: 'category',
-            	        data: data0.bb,
+            	        data: data.bb,           	       
             	        scale: true,
             	        boundaryGap : false,
             	        axisLine: {onZero: false},
@@ -140,26 +146,92 @@
             	        }
             	    }],
             	    series: [
-						{
-							name:'最高气温',
-							type:'line',
-							data:data0.aa,
-							markPoint : {
-								data : [
-									{type : 'max', name: '最大值'},
-									{type : 'min', name: '最小值'}
-								]
-							},
-							markLine : {
-								data : [
-									{type : 'average', name: '平均值'}
-								]
-							}
-						},
+            	         {
+            	            name: '价格',	           
+            	            type: 'candlestick',
+            	            data:data.cc,
+            	            markPoint: {
+            	                label: {
+            	                    normal: {
+            	                        formatter: function (param) {
+            	                            return param != null ? Math.round(param.value) : '';
+            	                        }
+            	                    }
+            	                },
+            	                data: [
+            	                    /* {
+            	                        name: 'XX标点',
+            	                        coord: ['2013/5/31', 2300],
+            	                        value: 2300,
+            	                        itemStyle: {
+            	                            normal: {color: 'rgb(41,60,85)'}
+            	                        }
+            	                    }, */
+            	                    {
+            	                        name: 'highest value',
+            	                        type: 'max',
+            	                        valueDim: 'highest'
+            	                    },
+            	                    {
+            	                        name: 'lowest value',
+            	                        type: 'min',
+            	                        valueDim: 'lowest'
+            	                    },
+            	                    {
+            	                        name: 'average value on close',
+            	                        type: 'average',
+            	                        valueDim: 'close'
+            	                    }
+            	                ],
+            	                tooltip: {
+            	                    formatter: function (param) {
+            	                        return param.name + '<br>' + (param.data.coord || '');
+            	                    }
+            	                }
+            	            },
+            	            markLine: {
+            	                symbol: ['none', 'none'],
+            	                data: [
+            	                    [
+            	                        {
+            	                            name: 'from lowest to highest',
+            	                            type: 'min',
+            	                            valueDim: 'lowest',
+            	                            symbol: 'circle',
+            	                            symbolSize: 10,
+            	                            label: {
+            	                                normal: {show: false},
+            	                                emphasis: {show: false}
+            	                            }
+            	                        },
+            	                        {
+            	                            type: 'max',
+            	                            valueDim: 'highest',
+            	                            symbol: 'circle',
+            	                            symbolSize: 10,
+            	                            label: {
+            	                                normal: {show: false},
+            	                                emphasis: {show: false}
+            	                            }
+            	                        }
+            	                    ],
+            	                    {
+            	                        name: 'min line on close',
+            	                        type: 'min',
+            	                        valueDim: 'close'
+            	                    },
+            	                    {
+            	                        name: 'max line on close',
+            	                        type: 'max',
+            	                        valueDim: 'close'
+            	                    }
+            	                ]
+            	            }
+            	        },
             	        {
-            	            name: '{$tip}',
+            	            name: data.tip,
             	            type: 'line',
-            	            data: data0.dd,
+            	            data: data.dd,
             	            smooth: true,
             	            lineStyle: {
             	                normal: {opacity: 0.5}
@@ -172,7 +244,7 @@
             	            xAxisIndex: 1,
             	            yAxisIndex: 1,	           
             	            //data: {$aa},
-            	            data: JSON.stringify(data0.y1),
+            	            data:data.aa,
             	            smooth: true,
             	        },	
             	    ]
@@ -181,7 +253,6 @@
             	myChart.setOption(option);
             }
         });
-        // return result;
     }
 </script>
 </body>
