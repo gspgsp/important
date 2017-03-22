@@ -240,7 +240,8 @@ class purchaseAction extends adminBaseAction {
 		//$utype = $data['ctype'];
 		$data['origin']= $data['company_province'].'|'.$data['company_city'];//组合区域
 		$data['provinces'] =  $data['company_province'];
-		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
+		$data['store_house']= $data['company_city'];
+//		if($data['company_province']>0) $data['area'] = M('system:region')->get_area($data['company_province']);//获取华东华南归属
 		$model = trim($data['model']);
 		//公共数据
 		$_data = array(
