@@ -108,7 +108,7 @@ class headlineAction extends adminBaseAction {
 		}
 		if($result){
 			$cates=implode(',', $arr);
-			$result=$this->db->model('headline_sale')->add(array('h_id'=>$cates,'total_price'=>$total_price,'input_time'=>CORE_TIME,'sale_man'=>$info['sale_name']));
+			$result=$this->db->model('headline_sale')->add(array('h_id'=>$cates,'total_price'=>$total_price,'input_time'=>CORE_TIME,'sale_man'=>$info['sale_name'],'cate_id'=>implode(',', $cate)));
 			if($result){
 				$cate_id=$this->db->model('customer_contact')->wherePk($info['user_id'])->select('cate_id')->getOne();
 				if (!empty($cate_id)) {
@@ -290,6 +290,59 @@ class headlineAction extends adminBaseAction {
 			$this->json_output($result);
 		}	
 		$this->display('memberOpen.list.html');
+	}
+	/**
+	 * 销售额度查询
+	 */
+	function totalSale(){
+		$action=sget('action','s');
+		if($action=='grid'){
+		//准备where搜索条件，默认必须是会员
+			$where=' 1 ';
+		//搜索时间类型和时间筛选
+			$time_condition=getTimeFilter('input_time'); 
+			$where.=$time_condition; 
+		//关键词类型搜索
+			$keyword=sget('keyword','s');
+			if (!empty($keyword)) {	
+				$where.=" and sale_man='".$keyword."'";
+			}
+		 //准备分页参数
+			$pageIndex=sget('pageIndex','i',0);
+			$pageSize=sget('pageSize','i',20);
+			$sortField=sget('sortField','s','input_time');
+			$sortOrder=sget('sortOrder','s','desc');
+			//查询数据
+			$list=$this->db->model('headline_sale')
+					->where($where)
+					->page($pageIndex+1,$pageSize)
+					->order("$sortField $sortOrder")
+					->getPage();
+			foreach($list['data'] as $k=>$v){
+				$arr=explode(',', $v['cate_id']);
+				foreach ($arr as $k2 => $v2) {
+					$list['data'][$k]['cate_name'][$k2]=$this->db->model('news_cate')->select('cate_name')->where('cate_id='.$v2)->getOne();
+				}
+				$list['data'][$k]['cate_name']=implode(',',$list['data'][$k]['cate_name']);		
+				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			}
+			$result=array('total'=>$list['count'],'data'=>$list['data']);
+			$this->json_output($result);
+		}	
+		$this->display('totalSale.list.html');
+	}
+	/**
+	 * 结算金额界面查看开通记录
+	 */
+	public function viewRows(){
+		$id=sget('id','i');
+		if ($id>0) {
+			$h_id=$this->db->model('headline_sale')->select('h_id')->where('id='.$id)->getOne();
+			$data=$this->db->model('customer_headline')->select('c_name,mobile,sale_name,start_time,end_time,input_time,type,year_num,cate_id')->where('id in ('.$h_id.')')->order('id desc')->getAll();
+		}
+		$this->assign('data',$data);
+		$this->display('openMember.view.html');
+
 	}
 	
 }
