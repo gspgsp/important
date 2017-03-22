@@ -3,7 +3,8 @@
 	<table style="width:100%;">
 		<tr>
 			<td style="white-space:nowrap;">
-				<a class="mini-button" iconCls="icon-add" onclick="addWork()">添加</a>
+				<a class="mini-button" iconCls="icon-add" onclick="addWork()"plain="true" >新增</a>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
 			</td>
 			<td style="float:right;">
 			<form id="soform">
@@ -24,10 +25,10 @@
 			<div field="id" width="20" headerAlign="center" align="center" allowSort="true">编号</div>
 			<div field="title" width="30" headerAlign="center" align="center" >标题</div>
 			<div field="input_admin" width="25" headerAlign="center" align="center" allowSort="true">创建人</div>
-			<div field="update_admin" width="30" headerAlign="center" align="center" allowSort="true">修改人</div>
-			<div field="input_time" width="30" headerAlign="center" align="center" allowSort="true" >创建时间</div>
-			<div field="update_time" width="40" headerAlign="center" align="center" allowSort="true">修改时间</div>
-			<div field="status" width="45" headerAlign="center" align="center" allowSort="true">状态</div>
+			<!-- <div field="update_admin" width="30" headerAlign="center" align="center" allowSort="true">修改人</div> -->
+			<div field="input_time" width="30" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
+			<!-- <div field="update_time" width="40" headerAlign="center" align="center" allowSort="true"dateFormat="yyyy-MM-dd HH:mm">修改时间</div> -->
+			<div field="status" width="45" headerAlign="center" align="center" allowSort="true"renderer="onStatusRender">状态</div>
 			<div field="doaction" width="75" headerAlign="center" align="center" renderer="onLoadDetail">操作</div>
 		</div>
 	</div>
@@ -41,6 +42,31 @@ function search() {
 		$("#searchMsg").html(e.msg);
 	});
 }
+//删除公告
+function remove() {
+    var rows = grid.getSelecteds(),_ids=new Array();
+    if(rows.length<1) return;
+    for(var i=0;i<rows.length;i++){
+        var _id=parseInt(rows[i].id);
+        if(_id<1){
+            grid.removeRow(rows[i],false);
+        }else{
+            _ids.push(_id);
+        }
+    }
+    var ids=_ids.join(',');
+    console.log(ids);
+    if(ids=='') return;
+    mini.confirm("确定删除公告？", "提示", function(action){
+        if(action!='ok') return;
+        var callback=function(data){
+            grid.reload();
+            return false;
+        }
+        utils.ajax('/notice/notice/remove',{ids:ids},callback,"POST","json");
+    });
+}
+//操作
 function onLoadDetail(e) {
 	var record = e.record,s='',id = record.id;
 	s+='&nbsp;<a href="javascript:viewWorkInfo('+id+')">查看</a>';
@@ -64,7 +90,7 @@ function addWork(){
 	mini.open({
 		url: "/notice/notice/add",
 		showMaxButton:true,
-		title: '新增公告', width: 630, height: 650, 
+		title: '新增公告', width: 530, height: 450, 
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
@@ -72,6 +98,17 @@ function addWork(){
 		}
 	});	
 }
+//运输合同审核状态
+function onStatusRender(e) {
+	var s='',record = e.record;
+    if(record.status=='1'){
 
+        s+='正常';       
+    }else if(record.status=='0')
+	{
+		s+='删除';
+	}
+    return s;
+}
 
 </script>
