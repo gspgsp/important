@@ -117,6 +117,7 @@ a{ text-decoration:none;}
 .headline-main .right ul li span{ font-style:italic; line-height:18px; text-align:center; padding:3px 5px; margin:0 8px 0 0; background:#ccc; color:#666;}
 .headline-main .right ul li span.front{ background:#267bd3; color:#fff;}
 .headline-main .right ul li:hover a{ text-decoration:underline;}
+.headline-main .ads{width:318px;height:160px;background:#fff;border:solid 1px #dddddd;position:absolute;right:0px;}
 /*list end*/
 
 /*detail begin*/
