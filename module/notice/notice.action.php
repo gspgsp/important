@@ -33,14 +33,13 @@
          */
         public function _grid()
         {
-
             $page = sget("pageIndex", 'i', 0); //页码
             $size = sget("pageSize", 'i', 20); //每页数
             $sortField = sget("sortField", 's', 'input_time'); //排序字段
             $sortOrder = sget("sortOrder", 's', 'desc'); //排序
             $where.= "1";
             // 筛选时间
-            //$where.=" and `status`= 1 ";
+            $where.=" and `status` >= 1 ";
             $sTime = sget("sTime",'s','input_time'); //搜索时间类型
             $where.=getTimeFilter($sTime); //时间筛选 
             $orderby = "$sortField $sortOrder , status desc ";
