@@ -132,7 +132,7 @@
 			$type=sget('type','s');
 			if(!empty($type)){
 				$stype='detail_'.$type;
-				$arr=L('headline_ads')[$type];
+				$arr=L('headline_ads')[$stype];
 				$this->detail1banner=$this->getAD($arr[0]);
 				$this->detail2banner=$this->getAD($arr[1]);
 			}
