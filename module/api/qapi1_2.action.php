@@ -387,7 +387,8 @@ class qapi1_2Action extends null2Action
     //区分不了东西了，其实没什么大不了，app每天的登录记录是出现在取首页数据的时候
     public function login()
     {
-    	p($_GET);p($_POST);exit;
+    	//p($_GET);p($_POST);exit;
+    	$this->json_output(array($_GET,$_POST));exit;
         if ($_POST['username']) {
             $this->is_ajax = true;
             $username = sget('username', 's');
