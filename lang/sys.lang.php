@@ -550,11 +550,11 @@ return array(
 		'pe'=>array(16,17,18,19,20),
 		'pp'=>array(21,22,23,24,25),
 		'pvc'=>array(26,29,30,31,32),
-		'detail_public'=>array(34,35),
-		'detail_pe'=>array(34,35),
-		'detail_pp'=>array(34,35),
-		'detail_pvc'=>array(34,35),
-		'detail_vip'=>array(34,35),
+		'detail_public'=>array(33,34),
+		'detail_pe'=>array(33,34),
+		'detail_pp'=>array(35,36),
+		'detail_pvc'=>array(37,38),
+		'detail_vip'=>array(39,40),
 	),
 	
 );
