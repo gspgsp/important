@@ -59,4 +59,13 @@ class noticeAction extends adminBaseAction {
 	public function add(){
 	    $this->display('notice.add.html');
 	}
+	/**
+	 * 查看公告
+	 */
+	public function info(){
+	    $id=sget('id','i'); 
+	    $list=$this->db->where('id='.$id)->select('path')->getOne();
+        //p($list);
+	    $this->display('notice.info.html');
+	}
 }
