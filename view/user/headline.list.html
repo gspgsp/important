@@ -2,12 +2,16 @@
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
-			<td>
+			<td width="400">
 				<form id="overForm">
 					会员过期预警：
 					<input name="sale_name" id="sale_name" class="mini-textbox" emptyText="请输入销售员名字" style="width:120px;" onenter="onKeyEnter2"/>
 					<a class="mini-button" iconCls="icon-search" onclick="overdueSearch()">查询</a>
 				</form>
+			</td>
+			<td>
+				<a class="mini-button" iconCls="icon-search" onclick="memberOpen()">查看开通记录</a>
+				<a class="mini-button" iconCls="icon-search" onclick="totalSale()">结算</a>
 			</td>
 			<td style="float:right;">
 				<form id="soform">
@@ -53,7 +57,7 @@
 		</div>
 	</div>
 </div>
-<div id="open_member" class="mini-window" title="开通会员" style="width:800px; height:200px;" showModal="true" allowResize="true" allowDrag="true">
+<div id="open_member" class="mini-window" title="开通会员" style="width:800px; height:220px;" showModal="true" allowResize="true" allowDrag="true">
 	<div id="replaceForm" class="form" >
 		<table style="width:100%;">
 			<input id="user_id" class="mini-hidden" name="user_id">
@@ -73,6 +77,13 @@
 				<td>会员经办人:</td>
 				<td>
 					<input name="sale_name" width="80" class="mini-textbox" required="true" value="" />
+					
+				</td>
+			</tr>
+			<tr>
+				<td>总金额:</td>
+				<td>
+					<input name="total_price" width="80" class="mini-textbox" required="true" vtype="int" />
 					
 				</td>
 			</tr>
@@ -299,6 +310,40 @@ function overdueSearch(){
 	var width=1243, height=400,title="会员过期预警";
 	mini.open({
 		url: "/user/headline/warningMember?name="+name,
+		allowResize:true,
+		showMaxButton:true,
+		title: title,
+		width: width, 
+		height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//会员开通记录
+function memberOpen(){
+	var width=1400, height=700,title="会员开通记录";
+	mini.open({
+		url: "/user/headline/memberList",
+		allowResize:true,
+		showMaxButton:true,
+		title: title,
+		width: width, 
+		height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//销售额度
+function totalSale(){
+	var width=1400, height=700,title="销售额度查询";
+	mini.open({
+		url: "/user/headline/memberList",
 		allowResize:true,
 		showMaxButton:true,
 		title: title,

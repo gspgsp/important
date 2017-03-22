@@ -83,8 +83,10 @@ class headlineAction extends adminBaseAction {
 		$info['mobile']=$c_row['mobile'];		
 		$info['input_time']=CORE_TIME;		
 		$cate=explode(',', $info['cate_id']);
+		$total_price=$info['total_price'];
+		unset($info['total_price']);
 		unset($info['cate_id']);
-		foreach ($cate as $v3) {
+		foreach ($cate as $k=>$v3) {
 			$row=$this->db->model('customer_headline')->where('user_id='.$info['user_id'].' and cate_id='.$v3)->select('end_time')->order('id desc')->getOne();
 			if($row != 0 && $row>CORE_TIME){
 				$info['start_time']=$row;
@@ -97,34 +99,42 @@ class headlineAction extends adminBaseAction {
 			$info['total_time']=$info['end_time'];
 			$info['cate_id']=$v3;
 			$result=$this->db->model('customer_headline')->add($info);
+			$arr[$k]=$this->db->model('customer_headline')->select('id')->where('user_id='.$info['user_id'].' and sale_name="'.$info['sale_name'].'" and cate_id='.$v3)->order('id desc')->getOne();
 			if ($result) {
 				$result=$this->db->model('customer_headline')->where('user_id='.$info['user_id'].' and cate_id='.$v3)->update(array('total_time'=>$info['total_time']));
 			}
 			$cache = E('RedisCluster',APP_LIB.'class');
 			$cache->delete($info['user_id'].'_time_'.$info['cate_id']);
-		}		
+		}
 		if($result){
-			$cate_id=$this->db->model('customer_contact')->wherePk($info['user_id'])->select('cate_id')->getOne();
-			if (!empty($cate_id)) {
-				foreach ($cate as $k => $v2) {
-					if (strstr($cate_id,$v2)) {
-						unset($cate[$k]);
+			$cates=implode(',', $arr);
+			$result=$this->db->model('headline_sale')->add(array('h_id'=>$cates,'total_price'=>$total_price,'input_time'=>CORE_TIME,'sale_man'=>$info['sale_name']));
+			if($result){
+				$cate_id=$this->db->model('customer_contact')->wherePk($info['user_id'])->select('cate_id')->getOne();
+				if (!empty($cate_id)) {
+					foreach ($cate as $k => $v2) {
+						if (strstr($cate_id,$v2)) {
+							unset($cate[$k]);
+						}
 					}
 				}
-			}
-			$cate_str=implode(',', $cate);
-			if (!empty($cate_id) && !empty($cate_str)) {
-				$temp=',';
+				$cate_str=implode(',', $cate);
+				if (!empty($cate_id) && !empty($cate_str)) {
+					$temp=',';
+				}else{
+					$temp='';
+				}
+				$result2=$this->db->model('customer_contact')->wherePk($info['user_id'])->update(array('headline_vip'=>1,'opening_date'=>CORE_TIME,'cate_id'=>$cate_id.$temp.$cate_str));		
+				if($result2){
+					$this->db->model('customer_tel_sale')->where('mobile='.$c_row['mobile'])->update(array('member_status'=>1,'update_time'=>CORE_TIME));
+					$this->success('操作成功');
+				}else{
+					$this->error('操作失败');	
+				}				
 			}else{
-				$temp='';
+				$this->error('操作失败');
 			}
-			$result2=$this->db->model('customer_contact')->wherePk($info['user_id'])->update(array('headline_vip'=>1,'opening_date'=>CORE_TIME,'cate_id'=>$cate_id.$temp.$cate_str));		
-			if($result2){
-				$this->db->model('customer_tel_sale')->where('mobile='.$c_row['mobile'])->update(array('member_status'=>1,'update_time'=>CORE_TIME));
-				$this->success('操作成功');
-			}else{
-				$this->error('操作失败');	
-			}	
+	
 		}else{
 			$this->error('操作失败');
 		}
@@ -242,4 +252,44 @@ class headlineAction extends adminBaseAction {
 		$this->assign('data',$arr);
 		$this->display('headline.overdue.html');
 	}
+	/**
+	 * 会员开通列表
+	 */
+	public function memberList(){
+		$action=sget('action','s');
+		if($action=='grid'){
+		//准备where搜索条件，默认必须是会员
+			$where=' `type` !=5 ';
+		//搜索时间类型和时间筛选
+			$time_condition=getTimeFilter('input_time'); 
+			$where.=$time_condition; 
+		//关键词类型搜索
+			$keyword=sget('keyword','s');
+			if (!empty($keyword)) {	
+				$where.=" and sale_name='".$keyword."'";
+			}
+		 //准备分页参数
+			$pageIndex=sget('pageIndex','i',0);
+			$pageSize=sget('pageSize','i',20);
+			$sortField=sget('sortField','s','input_time');
+			$sortOrder=sget('sortOrder','s','desc');
+			//查询数据
+			$list=$this->db->model('customer_headline')
+					->where($where)
+					->select("c_name,mobile,sale_name,start_time,end_time,input_time,type,year_num,cate_id")
+					->page($pageIndex+1,$pageSize)
+					->order("$sortField $sortOrder")
+					->getPage();
+			foreach($list['data'] as $k=>$v){
+				$list['data'][$k]['cate_name']= $this->db->model('news_cate')->where('cate_id='.$v['cate_id'])->select('cate_name')->getOne();
+				$list['data'][$k]['start_time']=$v['start_time']>1000 ? date("Y-m-d H:i:s",$v['start_time']) : '-';
+				$list['data'][$k]['end_time']=$v['end_time']>1000 ? date("Y-m-d H:i:s",$v['end_time']) : '-';
+				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			}
+			$result=array('total'=>$list['count'],'data'=>$list['data']);
+			$this->json_output($result);
+		}	
+		$this->display('memberOpen.list.html');
+	}
+	
 }

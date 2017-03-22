@@ -253,6 +253,21 @@ class blockAction extends adminBaseAction {
 	}
 
 	/**
+	 * 塑料头条详情页1banner
+	 */
+	public function detail1Banner(){
+		$this->position = 34;
+		$this->init();
+	}
+
+	/**
+	 * 塑料头条详情页2banner
+	 */
+	public function detail2Banner(){
+		$this->position = 35;
+		$this->init();
+	}
+	/**
 	 * 合作伙伴
 	 */
 	public function partners(){

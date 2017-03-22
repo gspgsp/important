@@ -1,12 +1,12 @@
 {layout file="public:mini_layout"}
 <style type="text/css">
-table{border-collapse: collapse; text-align: center;}
+table{width:420px;border-collapse: collapse; text-align: center;}
 td{width:200px;border:2px solid #ccc;}
-#head td{font-weight:bold;}
+.head td{font-weight:bold;}
 </style>
-<div>
+<div style="position:relative;">
 	<table>				
-		<tr id="head">	
+		<tr class="head">	
 			<td>ID</td>
 			<td>广告位</td>	
 		</tr>
@@ -106,5 +106,19 @@ td{width:200px;border:2px solid #ccc;}
 			<td>24</td>
 			<td><a href="/system/block/pvcMiddle4Banner">PVC中4</a></td>
 		</tr>	
+	</table>
+	<table style="position:absolute;left:430px;top:0px;">
+		<tr class="head">	
+			<td>ID</td>
+			<td>广告位</td>	
+		</tr>
+		<tr>
+			<td>25</td>
+			<td><a href="/system/block/detail1Banner">PE详情1</a></td>
+		</tr>
+		<tr>
+			<td>26</td>
+			<td><a href="/system/block/detail2Banner">PE详情2</a></td>
+		</tr>		
 	</table>
 </div>
