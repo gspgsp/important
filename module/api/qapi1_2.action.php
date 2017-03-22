@@ -388,7 +388,7 @@ class qapi1_2Action extends null2Action
     public function login()
     {
     	//p($_GET);p($_POST);exit;
-    	$this->json_output(array($_GET,$_POST));exit;
+    	$this->json_output(array('get'=>$_GET,'post'=>$_POST));
         if ($_POST['username']) {
             $this->is_ajax = true;
             $username = sget('username', 's');
