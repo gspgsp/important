@@ -26,17 +26,19 @@ class indexAction extends homeBaseAction{
 			$newPurs[$key]['pickup_location']=str_pad(mb_substr($value['pickup_location'],0,2,'utf-8'),4,'...');
 		}
 		$this->assign('newPurs',$newPurs);
-		//求购信息
-		$purBuy=M('product:purchase')->getPurLimit("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 1 and pur.cargo_type=1");
-		foreach($purBuy as $key=>$value){
-			$purBuy[$key]['city']=(!empty($value['region_name']))?$value['region_name']:$value['store_house'];
-		}
-		//供货信息
-		$purSale=M('product:purchase')->getPurLimit("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 2 ");
-
+		//1F供货信息(报价)
+		$purSale=M('product:purchase')->getPurLimit("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 2");
 		foreach($purSale as $key=>$value){
 			$purSale[$key]['city']=(!empty($value['region_name']))?$value['region_name']:$value['store_house'];
 		}
+
+		//2F求购信息(采购)
+		$purBuy=M('product:purchase')->getPurLimit("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 1");
+		foreach($purBuy as $key=>$value){
+			$purBuy[$key]['city']=(!empty($value['region_name']))?$value['region_name']:$value['store_house'];
+		}
+
+
 
    //实时成交订单和最新订单
    $this->deals=M('product:order')->getTrad();

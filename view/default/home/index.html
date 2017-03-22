@@ -744,8 +744,9 @@
             <!--info-con begin-->
             <ul class="info-con color6">
                 {foreach from=$purSale item=value}
+
             	<li class="supply">
-                	<div class="breed"><span class="xian"></span>{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
+                	<div class="breed">{ if $value.cargo_type eq 1}<span class="xian"></span>{else } <span class="qi"></span> {/if}{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
                     <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
                     <div class="level">{if $value.process_type}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
                     <div class="factory">{if $value.f_name}{$value.f_name}{else}&nbsp;{/if}</div>
@@ -832,7 +833,7 @@
             <ul class="info-con color6">
                 {foreach from=$purBuy item=value}
                 <li class="demand">
-                    <div class="breed"><span class="qi"></span>{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
+                    <div class="breed">{ if $value.cargo_type eq 1}<span class="xian"></span>{else } <span class="qi"></span> {/if}{if $value.product_type}{:witchType|$value.product_type}{else}&nbsp;{/if}</div>
                     <div class="grade">{if $value.model}{$value.model}{else}&nbsp;{/if}</div>
                     <div class="level">{if $value.process_type}{:setOption|process_level,$value.process_type}{else}&nbsp;{/if}</div>
                     <div class="factory">{if $value.f_name}{$value.f_name}{else}&nbsp;{/if}</div>
