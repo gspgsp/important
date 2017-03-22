@@ -24,7 +24,9 @@
 			</div>
 		</div>	
 		</div>
-
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconcls="icon-ok" onclick="add_button()">添加文件上传按钮</a>
+		</div>
 		<div align="center" style="margin-top:10px;">
 			<a class="mini-button" iconcls="icon-ok" onclick="updateForm">确定</a>
 			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
@@ -73,6 +75,14 @@ function updateForm(){
 			return false;
 		}
 	},'json');
+}
+
+function add_button()
+{
+	var i = $("#upfileId1").parent().children("input").length+1;
+
+	$("#upfileId1").parent().append('<input id="upfileId'+i+'" type="file" name="upFile" data-path="" onChange="fileUpload('+i+');"><span style="color: #761c19"></span>');
+
 }
 //关闭窗口
 function CloseWindow(action) {            
