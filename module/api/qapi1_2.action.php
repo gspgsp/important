@@ -2820,6 +2820,20 @@ class qapi1_2Action extends null2Action
     }
 
 
+    public function json_output($result=array()) {
+        //header('Content-Type:text/html; charset=utf-8');
+        header('Content-type: application/json; charset=utf-8');
+        $result=json_encode($result);
+        $jsoncallback=sget('jsoncallback');
+        if(!empty($jsoncallback)){
+            $result=$jsoncallback."($result)";
+        }
+        echo $result;
+        if($this->debug || isset($_GET[C('SHOW_DEBUG')])) log::showTrace();
+        die();
+    }
+
+
 
 
 
