@@ -43,11 +43,12 @@
  */
 class qapi1_1Action extends null2Action
 {
-    protected $db, $err, $cates,$catesAll,$pointsType,$orderStatus,$rePoints,$points,$newsSubscribe,$newsSubscribeDefault;
+    protected $db, $err, $cates,$catesAll,$pointsType,$orderStatus,$rePoints,$points,$newsSubscribe,$newsSubscribeDefault,$cache;
 
     public function __init()
     {
         $this->db = M('public:common');
+        $this->cache= E('RedisCluster',APP_LIB.'class');
         $this->cates = array(
             '21' => '期货资讯',
             '20'=>'美金市场',
@@ -59,8 +60,12 @@ class qapi1_1Action extends null2Action
             '12' => '期刊报告',
             '22' => '独家解读',
         );
-        $data=M("public:common")->model("news_cate")->select("cate_id,cate_name")->where("status=1")->getAll();
-        $this->catesAll=arrayKeyValues($data,'cate_id','cate_name');
+        if(!$this->catesAll = $this->cache->get('qappInitCatesAll')){
+            $data=M("public:common")->model("news_cate")->select("cate_id,cate_name")->where("status=1")->getAll();
+            $this->catesAll=arrayKeyValues($data,'cate_id','cate_name');
+            $this->cache->set('qappInitCatesAll',$this->catesAll);
+        }
+
         $this->pointsType = array(
             1 => '签到',
             2 => '登陆',
@@ -81,7 +86,7 @@ class qapi1_1Action extends null2Action
             4 => '订单取消',
             5 => '订单完成',
         );
-        $this->points=M('system:setting')->get('points')['points'];
+        $this->points=M('system:setting')->get('points')['points']; //这个是加了缓存的
         /**
          *       Array
         (
@@ -1606,7 +1611,7 @@ class qapi1_1Action extends null2Action
                 //取出上一篇和下一篇
                 $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
                 $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            } 
+            }
             $cache->set('qcateDetailInfo' .  '_' . $id, $data,3600);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
@@ -1781,6 +1786,7 @@ class qapi1_1Action extends null2Action
                 }else{
                     //取出排行榜文章
                     $chartsData = M('qapp:news')->charts('', '', '', 6, 1);
+                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 3);
                     if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 0);
                     $tmp = array();
                     foreach ($chartsData as $row) {
@@ -2782,6 +2788,39 @@ class qapi1_1Action extends null2Action
         //var_dump(M("system:block")->getBlock(3,6));
         //var_dump(M("system:region")->getProvinceCache());
         var_dump(M('operator:market')->get_quotation_index());
+    }
+
+    public function getQQNews(){//qq头条  47
+        $page = sget('page', 'i', 1);
+        $size = sget('size', 'i', 6);
+        $cate_id = sget('cate_id', 'i',47);
+        if($page<=0||$size<=0||$cate_id<=0){
+            $this->_errCode(6);
+        }
+//        if($data['data'] = json_decode($this->cache->get('qappQQNews'))){
+//            $this->json_output(array('err'=>0,'data'=>$data['data']));
+//        }
+        $data=M('qapp:news')->getQQCateList('',$cate_id,'',$page,$size);
+        if($page>3) $this->_errCode(3);
+        if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+        $this->_checkLastPage($data['count'], $size, $page);
+        $_tmp=array();
+        foreach($data['data'] as &$row){
+            $_sm_img = $row['sm_img'];
+            $row['content'] = strip_tags($row['content']);
+            if(empty($row['content'])) continue;
+            if(!$_tmp=M('qapp:news')->getQQNews($row['content'])) continue;
+            $row=array_merge($row,$_tmp);
+            $row['sm_img'] = FILE_URL."/upload/".$_sm_img;
+            $row['input_time'] = $this->checkTime($row['input_time']);
+            $row['author'] = '上海中晨';
+            if(mb_strlen(strip_tags($row['title']))>25) $row['title']=mb_substr(strip_tags($row['title']), 0, 25, 'utf-8') . '...';
+            unset($row['content']);
+        }
+        if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+        $this->_checkLastPage(count($data['data']), $size, $page);
+        $this->cache->set('qappQQNews',json_encode($data['data']),7200);
+        $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
 
 
