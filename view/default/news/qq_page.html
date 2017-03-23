@@ -12,13 +12,15 @@
 <body>
 <div id="app">
 	<div class="toutiaoHeader">塑料圈通讯录-&nbsp;<span class="toutiaoSlogan"></span></div>
-	<ul class="toutiaoUl">
+	<ul class="toutiaoUl" v-if="newsShow">
 		<li v-for="n in newsLi">
+			<a href="http://q.myplas.com/#/headlinedetail/"+n.id+"'">
 			<div class="toutiaoImg">
 				<img src="img/temp.jpg" v-bind:src="n.sm_img" />
 			</div>
 			<h3>【{{n.type}}】{{n.title}}</h3>
-			<p><span>热</span>&nbsp;&nbsp;&nbsp;{{n.author}}&nbsp;&nbsp;&nbsp;1980阅读&nbsp;&nbsp;&nbsp;{{n.input_time}}</p>
+			<p><span>热</span>&nbsp;&nbsp;&nbsp;{{n.author}}&nbsp;&nbsp;&nbsp;{{n.pv}}阅读&nbsp;&nbsp;&nbsp;{{n.input_time}}</p>
+			</a>
 		</li>
 	</ul>
 </div>
@@ -28,7 +30,8 @@
 	var vm = new Vue({
 		el: '#app',
 		data: {
-			newsLi:[]
+			newsLi:[],
+			newsShow:false
 		},
 		mounted: function(){
 			var _this=this;
@@ -41,6 +44,7 @@
 				dataType: 'JSON'
 			}).done(function(res){
 				if(res.err==0){
+					_this.newsShow=true;
 					_this.newsLi=res.data;	
 				}
 			}).fail(function(){
