@@ -1,6 +1,6 @@
 <template>
 <div style="padding: 45px 0 70px 0;">
-<header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0;">
+<header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0; z-index: 100;">
 	<a class="back" href="javascript:window.history.back();"></a>
 	{{cate}}
 </header>

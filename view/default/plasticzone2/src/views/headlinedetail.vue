@@ -5,6 +5,14 @@
 		{{cate}}
 		<a class="detailShare" href="javascript:;" v-on:click="shareshow()"></a>
 	</header>
+	
+	<div class="loadingPage" v-show="loadingShow">
+		<div class="loadingWrap">
+			<div class="slqLoading"></div>
+			<div class="slqLoadingTxt">数据加载中,请稍候...</div>
+		</div>
+	</div>
+	
 	<div class="headlinecontent" style="overflow: hidden; background: #FFFFFF;">
 		<div class="headlinetitle">
 			<h3>{{type}} {{title}}</h3>
@@ -58,11 +66,18 @@ module.exports = {
 			time: "",
 			pv: "",
 			type:"",
+			loadingShow:false,
 			subscribe:[],
 		    share:false,
         	share3:false,
         	share4:false
 		}
+	},
+	beforeRouteEnter:function(to,from,next){
+		next(function(vm){
+			vm.loadingShow=true;
+		});
+		
 	},
 	watch:{
 		title:function(){
@@ -234,6 +249,7 @@ module.exports = {
 			dataType: 'JSON'
 		}).done(function(res) {
 			if(res.err==0){
+				_this.loadingShow=false;
 				_this.id=res.info.id;
 				_this.title=res.info.title;
 				_this.cate_id=res.info.cate_id;

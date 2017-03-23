@@ -104,7 +104,7 @@ mounted: function() {
 			type: 2,
 			page: _this.page,
 			token: window.localStorage.getItem("token"),
-			size: 100
+			size: 50
 		},
 		dataType: 'JSON'
 	}).then(function(res) {
