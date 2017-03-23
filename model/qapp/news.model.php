@@ -300,7 +300,7 @@ class newsModel extends model {
 
 
     public function getQQNews($id){
-        $data=$this->model('news_content')->select('id,sm_img,title,description,hot,keywords,input_time,type,cate_id')->where('id='.$id.' and status = 1')->getRow();
+        $data=$this->model('news_content')->select('id,sm_img,title,description,hot,keywords,input_time,type,cate_id,pv')->where('id='.$id.' and status = 1')->getRow();
         if(empty($data)) return false;
         //取出右键导航分类名称
         $data['cate_name']=$this->model('news_cate')->select('cate_name')->where('cate_id='.$data['cate_id'])->getOne();
