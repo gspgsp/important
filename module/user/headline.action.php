@@ -318,6 +318,7 @@ class headlineAction extends adminBaseAction {
 					->page($pageIndex+1,$pageSize)
 					->order("$sortField $sortOrder")
 					->getPage();
+			$num=0;
 			foreach($list['data'] as $k=>$v){
 				$arr=explode(',', $v['cate_id']);
 				foreach ($arr as $k2 => $v2) {
@@ -325,8 +326,10 @@ class headlineAction extends adminBaseAction {
 				}
 				$list['data'][$k]['cate_name']=implode(',',$list['data'][$k]['cate_name']);		
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+				$num+=$v['total_price'];
 			}
-			$result=array('total'=>$list['count'],'data'=>$list['data']);
+			$msg='[  总金额：'.$num.'  ]';
+			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
 			$this->json_output($result);
 		}	
 		$this->display('totalSale.list.html');
@@ -338,7 +341,10 @@ class headlineAction extends adminBaseAction {
 		$id=sget('id','i');
 		if ($id>0) {
 			$h_id=$this->db->model('headline_sale')->select('h_id')->where('id='.$id)->getOne();
-			$data=$this->db->model('customer_headline')->select('c_name,mobile,sale_name,start_time,end_time,input_time,type,year_num,cate_id')->where('id in ('.$h_id.')')->order('id desc')->getAll();
+			$data=$this->db->model('customer_headline')->select('id,c_name,mobile,sale_name,start_time,end_time,input_time,year_num,cate_id')->where('id in ('.$h_id.')')->order('id desc')->getAll();
+			foreach($data as $k=>$v){
+				$data[$k]['cate_name']=$this->db->model('news_cate')->where('cate_id='.$v['cate_id'])->select('cate_name')->getOne();
+			}
 		}
 		$this->assign('data',$data);
 		$this->display('openMember.view.html');
