@@ -6,6 +6,10 @@
 
 		//取出首页数据
 		public function init(){
+			//如果用户是从移动端，则转到移动页面
+			if(M('public:common')->is_mobile_request()){
+				$this->display('qq_page');exit;
+			}
 			$type=sget('type','s','');
 			if ($type != 'vip'){
 				//取出广告
