@@ -116,7 +116,7 @@ function edit() {
 }
 //删除数据
 function removeRow() {
-    var rows = grid.getSelecteds(),_ids=new Array();
+    var rows  = grid.getSelecteds(),_ids=new Array();
     if(rows.length<1) return;
     for(var i=0;i<rows.length;i++){
         _ids[i]=parseInt(rows[i].id);
