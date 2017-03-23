@@ -35,7 +35,7 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 					<td class="dt">图片</td>
 					<td>
 						<input id="img_url"  name="info[img]" class="mini-textbox" value="{$info.img}" style="width:300px"/>
-						<input id="upfileId" type="file" name="upFile" onChange="fileUpload();">
+						<input id="upfileId" type="file" name="upFile" onChange="fileUpload(thumb_size);">
 					</td>
 				</tr>
 				
@@ -178,37 +178,50 @@ KindEditor.ready(function(K) {
   editor1 = K.create('textarea[id="content"]', {uploadJson : '/system/sysUpload/images?from=kind',afterCreate : function() {},afterChange:function (e) { this.sync() }});
 });
 
+
+
 $(function(){
-	imgResize();	   
+	var id= mini.get('oneLevel').getValue();
+	if(id==47) {
+		$("#img").removeClass('hidden');
+	}
+	imgResize();
 })
 
-function fileUpload() {
+function fileUpload(thumb_size) {
 	$("#picLoading").ajaxStart(function(){
 		$(this).show();
 	}).ajaxComplete(function() {
 		$(this).hide();
 	});
+	var id= mini.get('oneLevel').getValue();
+	if(id==47){
+		$("#img").removeClass('hidden');
+		thumb_size='224x146';
+	}
 	$.ajaxFileUpload({
-		url:"/system/sysUpload/images?model={$action}&thumb_size=80x100",
-			secureuri:false,
-			fileElementId:'upfileId',
-			dataType: 'json',
-			success: function (data, status) {
-				if(data.err=='0'){
-					console.log(data);
-					mini.get("img_url").setValue(data.msg.img);
-					mini.get("sm_img").setValue(data.msg.sm_img);
-					$("#picDisplay").html('').append("<img src='__UPLOAD__/"+data.msg.img+"'>");
-					imgResize();
+				url:"/system/sysUpload/images?model={$action}&thumb_size="+thumb_size,
+				secureuri:false,
+				fileElementId:'upfileId',
+				dataType: 'json',
+				success: function (data, status) {
+					if(data.err=='0'){
+						console.log(data);
+						mini.get("img_url").setValue(data.msg.img);
+						mini.get("sm_img").setValue(data.msg.sm_img);
+						$("#picDisplay").html('').append("<img src='__UPLOAD__/"+data.msg.img+"'>");
+						console.log(data.msg.sm_img);
+						imgResize();
+					}
+				},
+				error: function (data, status, e){
+					$("#picResult").html(e);
 				}
-			},
-			error: function (data, status, e){
-				$("#picResult").html(e);
 			}
-		}
 	)
 	return false;
 }
+
 function imgResize(){
 	$("#picDisplay img").load(function(){
 		if(this.width>80) this.width = 80;				 
