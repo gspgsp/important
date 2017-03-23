@@ -423,7 +423,7 @@ function substrCut($user_name){
  */
 function _leader($cname = '',$customer_manager = 0,$share){
 	$uid = $_SESSION['adminid'];
-	$exit =  in_array($uid,array(1,968,955,912,992,735,701,775,774,737,734,730,772,784));
+	$exit =  in_array($uid,array(968,955,912,992,735,701,775,774,737,734,730,772,784));
 	if($exit && $customer_manager != $uid && $customer_manager != 0  && $share){
 		return substrCut($cname);
 	}else{
