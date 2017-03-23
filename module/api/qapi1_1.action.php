@@ -2779,7 +2779,7 @@ class qapi1_1Action extends null2Action
             if(empty($row['content'])) continue;
             if(!$_tmp=M('qapp:news')->getQQNews($row['content'])) continue;
             $row=array_merge($row,$_tmp);
-            $row['sm_img'] = FILE_URL."/upload/".$_sm_img;
+            if(!empty($row['sm_img'])) $row['sm_img'] = FILE_URL."/upload/".$_sm_img;
             $row['input_time'] = $this->checkTime($row['input_time']);
             $row['author'] = '上海中晨';
             if(mb_strlen(strip_tags($row['title']))>25) $row['title']=mb_substr(strip_tags($row['title']), 0, 25, 'utf-8') . '...';
