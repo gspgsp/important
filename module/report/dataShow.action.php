@@ -264,6 +264,12 @@ class dataShowAction extends adminBaseAction {
 		$urlArr = explode('#', $res['path']);
 		$file['url'] = array_filter($urlArr);
 		$file_url = array_combine($file['name'],$file['url']);
+		//过滤只要图片url
+		foreach ($file_url as $key => $value) {
+			if(!strrpos($key, 'jpg') && !strrpos($key, 'jpeg') && !strrpos($key, 'png') && !strrpos($key, 'bmp')){
+				unset($file_url[$key]);
+			}
+		}
 		$this->assign('file_url',$file_url);
 		$this->assign('name',$name);
 		$this->assign('info',$res);
