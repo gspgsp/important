@@ -286,24 +286,6 @@
 
 		}
 
-		//行情内参权限控制
-		public function accessControl(){		
-			$this->is_ajax=true;
-			$userid=sget('id','i',0);
-			if($userid>0){
-				$vip=$this->db->model('customer_contact')->select('headline_vip,closing_date')->where('user_id='.$userid)->getRow();
-				if ($vip['headline_vip']==0) {
-					json_output(array('err'=>2,'msg'=>'您好，您所查看资讯为收费咨询，请您先注册会员！'));
-				}elseif($vip['closing_date']>0 && $vip['closing_date']<=CORE_TIME){
-					json_output(array('err'=>3,'msg'=>'尊敬的客户，您的会员已到期！'));
-				}else{
-					json_output(array('err'=>4,'msg'=>'尊敬的会员，请您尽情浏览行情内参信息！'));
-				}
-			}else{
-				json_output(array('err'=>1,'msg'=>'您好，请您先登录！'));
-			}	
-		}
-
 		//跳转行情内参介绍页面
 		public function vipIntroduce(){
 			$this->nav='vip';
