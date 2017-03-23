@@ -152,16 +152,21 @@ class newsModel extends model {
             $data=$this->model('news_content')->where('title like "%'.$keywords.'%" or content like "%'.$keywords.'%"')->select('id,title,content,cate_id,author,input_time,type,pv')->order('sort_order desc,pv  desc')->limit($limit)->getAll();
         }else{
             $where="1";
-            if($cate_id==22 && $type!='pvc' && $type!='public'){
-                $where.=' and cate_id in (22,23,24,25,26,27,28,32)';
-            }elseif($cate_id==22 && $type=='pvc'){
-                $where.='and cate_id in (22,23,25,26,27,29,30,32)';
-            }elseif($cate_id==22 && $type=='public'){
-                $where.=' and cate_id in (22,23,24,25,26,27,28,29,30,32)';
-            }elseif($cate_id>0){
-                $where.='and cate_id ='.$cate_id;
+            if(!is_array($cate_id)&&$cate_id>0){
+                $where.=' and cate_id ='.$cate_id;
             }
-
+            if(is_array($cate_id)){
+                $_tmp=array();
+                foreach($cate_id as $row){
+                    $_cates=(array)$this->getCateSons($row);
+                    if(empty($_cates)){
+                        $_tmp[]=$row;
+                    }else{
+                        $_tmp=array_merge($_tmp,$_cates);
+                    }
+                }
+                $where.=' and cate_id in ('.implode(',',$_tmp).')';
+            }
             if($type!='public'&&$type!=''){
                 $where.=' and type in ("'.$type.'","public")';
             }
