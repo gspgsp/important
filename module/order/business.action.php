@@ -102,14 +102,14 @@ class businessAction extends adminBaseAction {
 		$this->json_output($result);
 	}
 	/**
-	 * 当前年每日销售走势图
+	 * 销售走势图
 	 * @param $p_id
 	 * @return json
 	 * @Author: yumeilin
 	 */
-	public function graph(){
+	public function graph_a(){
 	    $p_id=sget('p_id','i');
-	    $model=sget('model','s');	    
+	    $model=sget('model','s');
 	    //$cache= E('RedisCluster',APP_LIB.'class');
 	    //$graph_cache = $cache->get('GRAPH_B:'.$p_id);
 	    if(!empty($graph_cache)&&!is_null($graph_cache)){
@@ -132,26 +132,18 @@ class businessAction extends adminBaseAction {
 			FROM p2p_sale_log AS log
 			LEFT JOIN `p2p_order` AS o ON o.`o_id` = log.`o_id`
 			LEFT JOIN `p2p_product` AS pro ON log.`p_id` = pro.`id`
-			LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`		
+			LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 			'.$where." order by input_time");
 	    foreach($list as $k=>$v){
 	        $list[$k]['time']=date("Y-m-d",$v['input_time']);
 	    }
-	   //p($list);
-	    $year_list=array();
-	    foreach($list as $k=>$v){
-	        if(date("Y-m",$v['input_time'])==$date_year){
-	           array_push($year_list,$list[$k]);
-	        }	        
-	    }
-	    //p($year_list);
 	    //获取销量数据
 	    $price=array();
 	    $time=array();
 	    $time_u=array();
-	    $le_l=count($year_list);
+	    $le_l=count($list);
 	    for($i=0;$i<$le_l;$i++){
-	        $time[$i]=$year_list[$i]['time'];
+	        $time[$i]=$list[$i]['time'];
 	    }
 	    $time_a=array_unique($time);
 	    foreach($time_a as $k=>$v){
@@ -161,35 +153,30 @@ class businessAction extends adminBaseAction {
 	    $num=0;$y=0;$a_price=0;
 	    for($i=0;$i<$le_t;$i++){
 	        for($j=0;$j<$le_l;$j++){
-	            if($year_list[$j]['time']==$time_u[$i]){
-	                $num+=$year_list[$j]['number'];
-	                $a_price+=$year_list[$j]['unit_price'];
+	            if($list[$j]['time']==$time_u[$i]){
+	                $num+=$list[$j]['number'];
+	                $a_price+=$list[$j]['unit_price'];
 	                ++$y;
 	            }
 	        }
-	        //p($a_price);
-	       // p($y);
-	        $a[$i]=$num;
-	        //$ad=number_format($a_price/$y,false);	   
 	        $d[$i]=(int)sprintf("%.0f",$a_price/$y);
-	        //p($ad);
-	        //p($d[$i]);
+	        $a[$i]=$num;
 	        $num=0;
 	        $a_price=0;
-	        $y=0;
+	        $y=0;	        
 	    }
 	    //获取价格数据
 	    $highest=0;
 	    $lowest=10000000;
 	    for($i=0;$i<$le_t;$i++){
 	        for($j=0;$j<$le_l;$j++){
-	            if($year_list[$j]['time']==$time_u[$i]){
-	                array_push($price,$year_list[$j]['unit_price']);
-	                if($year_list[$j]['unit_price']>=$highest){
-	                    $highest=$year_list[$j]['unit_price'];
+	            if($list[$j]['time']==$time_u[$i]){
+	                array_push($price,$list[$j]['unit_price']);
+	                if($list[$j]['unit_price']>=$highest){
+	                    $highest=$list[$j]['unit_price'];
 	                }
-	                if($year_list[$j]['unit_price']<=$lowest){
-	                    $lowest=$year_list[$j]['unit_price'];
+	                if($list[$j]['unit_price']<=$lowest){
+	                    $lowest=$list[$j]['unit_price'];
 	                }
 	            }
 	        }
@@ -210,24 +197,18 @@ class businessAction extends adminBaseAction {
 	        'date'=>$time_u
 	    );
 	    //$cache->set('GRAPH_B:'.$p_id,json_encode($cache_to),60*60);
-	    //p($d);
-	    $year_item=array();
-	    for($i=1997;$i<=2037;$i++){
-	        array_push($year_item,$i);
-	    }
-	    $this->assign('year_item',$year_item);
-	    $dd=json_encode($d);	    
-	    //p($dd);
 	    $cc=json_encode($c);
 	    $aa =json_encode($a);
-	    //p($aa);
 	    $bb=json_encode($time_u);
-	    $this->assign('tip','每日平均价格');
-	    $this->assign('dd',$dd);
 	    $this->assign('aa',$aa);
 	    $this->assign('bb',$bb);
 	    $this->assign('cc',$cc);
+	    $this->assign('p_id',$p_id);
 	    $this->assign('model',$model);
+	    if(sget('date_year','s')=='all'){
+	        $this->json_output(array('tip'=>'每日平均价格','aa'=>$a,'bb'=>$time_u,'cc'=>$c,'dd'=>$d,'model'=>$model));
+	        exit();
+	    }
 	    $this->display('business.graph.html');
 	}
 	/**
@@ -358,7 +339,7 @@ class businessAction extends adminBaseAction {
 	    $this->assign('aa',$aa);
 	    $this->assign('bb',$bb);
 	    $this->assign('cc',$cc);
-	    $this->assign('model',$model);
+	    $this->assign('model',$model);	    
 	    $this->json_output(array('tip'=>'每日平均价格','aa'=>$a,'bb'=>$time_u,'cc'=>$c,'dd'=>$d,'model'=>$model));
  	}	
 	/**
