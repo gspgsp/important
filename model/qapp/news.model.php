@@ -263,6 +263,46 @@ class newsModel extends model {
     }
 
 
+    //通过类型和分类来获取列表也文章
+    public function getQQCateList($type,$cate_id,$ids=array(),$page=1,$page_size=0){
+        $where="1";
+        if($cate_id==22){
+            $where.=' and cate_id in (22,23,24,25,26,27,28,29,30,32)';
+        }elseif($cate_id == 12){
+            $where.=' and cate_id in (13,14,15)';
+        }elseif($cate_id>0){
+            $where.=' and cate_id ='.$cate_id;
+        }
+        if($type!='public'&&$type!=""){
+            $where.=' and type in ("'.$type.'","public")';
+        }
+        $order="input_time desc,sort_order desc";
+        if(!empty($ids)){
+            $str=implode(",",$ids);
+            $where.=" and id in ($str)";
+            $order="sort_order desc";
+        }
+        $this->model('news_content')->where($where)->select('id,title,description,cate_id,content,sm_img')->order("$order");
+        if($page&&$page_size){
+            return $this->page($page,$page_size)->getPage();
+//				$this->page($page,$page_size)->getPage();
+//				showTrace();exit;
+        }elseif ($page_size) {
+            $this->limit($page_size);
+        }
+        return $this->getAll();
+    }
+
+
+    public function getQQNews($id){
+        $data=$this->model('news_content')->select('id,sm_img,title,description,hot,keywords,input_time,type,cate_id')->where('id='.$id.' and status = 1')->getRow();
+        if(empty($data)) return false;
+        //取出右键导航分类名称
+        $data['cate_name']=$this->model('news_cate')->select('cate_name')->where('cate_id='.$data['cate_id'])->getOne();
+        return $data;
+    }
+
+
 
 
 
