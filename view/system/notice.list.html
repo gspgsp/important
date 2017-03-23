@@ -46,16 +46,14 @@
 <div class="mini-fit" style="padding:1px 3px 3px;">
     <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
         url="/system/notice/{$action}?action=grid&do={$doact}"
-        showFilterRow="true" idField="id" multiSelect="true"
-        {if $doact neq 'search'}onrowdblclick="onRowDblClick" allowCellSelect="true" allowCellEdit="true"{/if}
-        >
+        showFilterRow="true" idField="id" multiSelect="true" allowCellWrap="true">
         <div property="columns">
             <div type="checkcolumn"></div>
             <div field="id" width="30" headerAlign="center" align="center" allowSort="true">ID</div>
             <div field="title" width="50" headerAlign="center">标题
                 <input property="editor" class="mini-textbox" style="width:100%;"/>
             </div>
-            <div field="accessory" width="120" headerAlign="center" renderer="onLoadShowPic">附件</div>
+            <div field="accessory" width="50" headerAlign="center" renderer="onLoadShowPic">附件</div>
             <div field="content" width="220" headerAlign="center" renderer="check_rule">详细内容
                 <input property="editor" class="mini-textbox" style="width:100%;"/>
             </div>
