@@ -1,48 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no" />
-    <title>塑料圈通讯录-塑料头条</title>
-    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
-    <link rel="stylesheet" href="__MYAPP__/css/mui.min.css" />
-    <link rel="stylesheet" href="__MYAPP__/css/news.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no" />
+<title>塑料圈通讯录-塑料头条</title>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<link rel="stylesheet" href="__MYAPP__/css/mui.min.css" />
+<link rel="stylesheet" href="__MYAPP__/css/news.css" />
 </head>
 <body>
+<div id="app">
 	<div class="toutiaoHeader">塑料圈通讯录-&nbsp;<span class="toutiaoSlogan"></span></div>
 	<ul class="toutiaoUl">
-		<li>
+		<li v-for="n in newsLi">
 			<div class="toutiaoImg">
-				<img src="img/temp.jpg" />
+				<img src="img/temp.jpg" v-bind:src="n.sm_img" />
 			</div>
-			<h3>【PP】上游早报：原油及PP单体3月14日收盘价格</h3>
-			<p><span>热</span>&nbsp;&nbsp;&nbsp;我的塑料网&nbsp;&nbsp;&nbsp;1980阅读&nbsp;&nbsp;&nbsp;3-17 11:17</p>
-		</li>
-		<li>
-			<div class="toutiaoImg">
-				<img src="img/temp.jpg" />
-			</div>
-			<h3>PE上游早报：原油及PE单体3月14日收盘价格</h3>
-			<p><span>热</span>&nbsp;&nbsp;&nbsp;我的塑料网&nbsp;&nbsp;&nbsp;1980阅读&nbsp;&nbsp;&nbsp;3-17 11:17</p>
-		</li>
-		<li>
-			<h3>PP3月14日美油惨遭七连阴累计跌去......</h3>
-			<p><span>热</span>&nbsp;&nbsp;&nbsp;我的塑料网&nbsp;&nbsp;&nbsp;1980阅读&nbsp;&nbsp;&nbsp;3-17 11:17</p>
-		</li>
-		<li>
-			<div class="toutiaoImg">
-				<img src="img/temp.jpg" />
-			</div>
-			<h3>PE上游早报：原油及PE单体3月14日收盘价格</h3>
-			<p><span>热</span>&nbsp;&nbsp;&nbsp;我的塑料网&nbsp;&nbsp;&nbsp;1980阅读&nbsp;&nbsp;&nbsp;3-17 11:17</p>
-		</li>
-		<li>
-			<div class="toutiaoImg">
-				<img src="img/temp.jpg" />
-			</div>
-			<h3>PE上游早报：原油及PE单体3月14日收盘价格</h3>
-			<p><span>热</span>&nbsp;&nbsp;&nbsp;我的塑料网&nbsp;&nbsp;&nbsp;1980阅读&nbsp;&nbsp;&nbsp;3-17 11:17</p>
+			<h3>【{{n.type}}】{{n.title}}</h3>
+			<p><span>热</span>&nbsp;&nbsp;&nbsp;{{n.author}}&nbsp;&nbsp;&nbsp;1980阅读&nbsp;&nbsp;&nbsp;{{n.input_time}}</p>
 		</li>
 	</ul>
+</div>
+<script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+<script>
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			newsLi:[]
+		},
+		mounted: function(){
+			var _this=this;
+			$.ajax({
+				type:"get",
+				url:"/api/qapi1_1/getQQNews",
+				data: {
+					size:20
+				},
+				dataType: 'JSON'
+			}).done(function(res){
+				if(res.err==0){
+					_this.newsLi=res.data;	
+				}
+			}).fail(function(){
+				
+			}).always(function(){
+				
+			});
+		}
+	})
+</script>
 </body>
+
 </html>
