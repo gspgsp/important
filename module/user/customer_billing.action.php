@@ -11,7 +11,7 @@ class customer_billingAction extends adminBaseAction
 		// foreach ($res as $key => $v) {
 		// 	$this->db->model('customer_billing')->where('c_id='.$v['c_id'])->update(array('customer_manager'=>$v['customer_manager'],));
 		// }
-		
+
 	}
 	/**
 	 *
@@ -61,7 +61,7 @@ class customer_billingAction extends adminBaseAction
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			// $where = " 1 ";
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-			// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 			$where .= " and `customer_manager` in ($sons) ";
 			$res=$this->db->model('customer')->where($where)->select('c_id')->getCol();
 		}
@@ -96,7 +96,7 @@ class customer_billingAction extends adminBaseAction
 		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 		$this->json_output($result);
 
-		
+
 	}
 
 	/**
@@ -146,7 +146,7 @@ class customer_billingAction extends adminBaseAction
 			$data['status'] ='2';
 			$result = $this->db->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['name'],));
 		}
-		
+
 		if(!$result) $this->error('操作失败');
 		$cache=cache::startMemcache();
 		$cache->delete('customer_billing');
@@ -162,7 +162,7 @@ class customer_billingAction extends adminBaseAction
 
 	/**
 	 * 保存行内编辑仓库数据
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function save(){
@@ -173,7 +173,7 @@ class customer_billingAction extends adminBaseAction
 		foreach($data as $v){
 			$_id=$v['id'];
 			if($_id>0){
-				$update=array(					
+				$update=array(
 					// 'input_time'  =>strtotime($v['input_time']),
 					'remark'=>$v['remark'],
 					'update_time'  =>CORE_TIME,
