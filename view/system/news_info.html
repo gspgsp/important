@@ -35,7 +35,7 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 					<td class="dt">图片</td>
 					<td>
 						<input id="img_url"  name="info[img]" class="mini-textbox" value="{$info.img}" style="width:300px"/>
-						<input id="upfileId" type="file" name="upFile" onChange="fileUpload(thumb_size);">
+						<input id="upfileId" type="file" name="upFile" onChange="fileUpload('80x100');">
 					</td>
 				</tr>
 				
@@ -229,6 +229,9 @@ function imgResize(){
 }
 function getSecondLevel(){
 	var id= mini.get('oneLevel').getValue();
+	if(id==47){
+		$("#img").removeClass('hidden');
+	}
 	$.ajax({
 	     type: 'post',
 	     url: '/system/news/getCate?pid='+id ,
