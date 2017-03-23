@@ -139,7 +139,9 @@ class inStorageAction extends adminBaseAction {
 			$this->db->model('order')->where(' o_id = '.$_data['o_id'])->update('in_storage_status = 3 , update_admin = "'. $_SESSION['name'].'" , update_time='.CORE_TIME);
 		}
 		if($this->db->commit()){
-			 $this->success('操作成功');	
+			//添加订单可视化订单审不通过
+			M('order:orderLog')->addLog($data['o_id'],0,1,CORE_TIME-intval($this->db->model('order_flow')->select('input_time')->where("o_id = {$data['o_id']} and type = 0 and step = 2")->getOne()));
+			$this->success('操作成功');	
 		}else{
 			$this->db->rollback();
 			$this->error('操作失败');
