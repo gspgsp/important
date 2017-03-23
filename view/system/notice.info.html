@@ -89,7 +89,7 @@ function submitForm(id){
   form.validate();
   if(form.isValid() == false) return;
   form.loading("数据提交中，请稍后......");
-  $.post('/system/notice/init?action=submit#id=id',
+  $.post('/system/notice/submit?id=id',
     $("#infoForm").serialize(),
     function(data){
       form.unmask();

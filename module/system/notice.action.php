@@ -23,16 +23,17 @@ class noticeAction extends adminBaseAction {
         $action=sget('action','s');
         if($action=='grid'){ //获取列表
             $this->_grid();exit;
-        }elseif($action=='info'){ //获取添加页面详情
-            $this->_info();exit;
-        }elseif($action=='submit'){ //提交内容
-            $this->_submit();exit;
-        }elseif($action=='remove'){ //删除
-            $this->_remove();exit;
-        }elseif($action=='save'){ //编辑行内数据
-            $action=sget('action','s');
-            $this->_save();exit;
         }
+        // elseif($action=='info'){ //获取添加页面详情
+        //     $this->_info();exit;
+        // }elseif($action=='submit'){ //提交内容
+        //     $this->_submit();exit;
+        // }elseif($action=='remove'){ //删除
+        //     $this->_remove();exit;
+        // }elseif($action=='save'){ //编辑行内数据
+        //     $action=sget('action','s');
+        //     $this->_save();exit;
+        // }
 
         $this->assign('page_title','公告管理');
         $this->display('notice.list.html');
@@ -91,7 +92,7 @@ class noticeAction extends adminBaseAction {
      * @access private
      * @return html
      */
-    private function _info(){
+    public function info(){
         $this->is_ajax=true;
         $this->assign('mini_list',0);
 
@@ -117,7 +118,7 @@ class noticeAction extends adminBaseAction {
      * @access private
      * @return html
      */
-    private function _submit() {
+    public function submit() {
         $this->is_ajax=true;
         $_info=sget('info','a');
         $_id=sget('id','i');
@@ -148,7 +149,7 @@ class noticeAction extends adminBaseAction {
      * Ajax删除节点s
      * @access private
      */
-    private function _remove(){
+    public function remove(){
         $this->is_ajax=true; //指定为Ajax输出
         $ids=sget('ids','s');
         if(empty($ids)){
@@ -167,7 +168,7 @@ class noticeAction extends adminBaseAction {
      * @access public
      * @return html
      */
-    private function _save(){
+    public function save(){
         $this->is_ajax=true; //指定为Ajax输出
         $data = sdata(); //获取UI传递的参数
         $sql=array();
