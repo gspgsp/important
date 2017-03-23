@@ -26,7 +26,7 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
                 <td>
                 <input id="file_url"  name="info[accessory]" class="mini-textbox" value="" style="width:200px"/>
                 <input id="url_str"  name="info[path]" class="mini-textbox" value="" style="display:none;"/>
-                <input id="upfileId" type="file" name="upFile" style="width:70px" onChange="fileUpload();">
+                <input id="upfileId" type="file" name="upFile" style="width:70px" onChange="fileUpload(this);">
                 </td>
                     <!-- <td rowspan="4" width="150">
                     <span style="display:none;" id="picLoading">loading...</span>
@@ -125,7 +125,10 @@ function fileUpload(filePathArr) {
     // }).ajaxComplete(function() {
     //     $(this).hide();
     // });
-    $.ajaxFileUpload({
+
+    var fileend = filePathArr.value.split('.')['1'];
+    if(fileend=='jpg'||fileend=='jpeg'||fileend=='png'||fileend=='bmp') {
+        $.ajaxFileUpload({
         url:'/system/notice/upload',
             secureuri:false,
             fileElementId:'upfileId',
@@ -156,7 +159,10 @@ function fileUpload(filePathArr) {
                 $("#picResult").html(e);
             }
         })
-    return false;
+    }else{
+        alert('不支持此类型文件上传')
+        return false;
+    }
 }
 function imgResize(){
     $("#picDisplay img").load(function(){

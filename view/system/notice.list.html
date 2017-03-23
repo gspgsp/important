@@ -184,16 +184,16 @@ function onLoadShowPic(e) {
                     m=path_arr[index];
                 })
                 return s += '<a href="javascript:;" onmouseover="showPic(\''+m+'\',this)" onmouseout="hidePic()">看图片</a><br>';
-
-            }else{
-                if (value!='') {
-                    var n='';
-                    $.each(path_arr,function(i,v){
-                        n=path_arr[index];
-                    })
-                    return s += value+'&nbsp&nbsp&nbsp&nbsp<a href="'+"__UPLOAD__/"+n+'">下载</a><br>';
-                }
             }
+            // }else{
+            //     if (value!='') {
+            //         var n='';
+            //         $.each(path_arr,function(i,v){
+            //             n=path_arr[index];
+            //         })
+            //         return s += value+'&nbsp&nbsp&nbsp&nbsp<a href="'+"__UPLOAD__/"+n+'">下载</a><br>';
+            //     }
+            // }
         });
     }
     return s;
@@ -208,7 +208,7 @@ function showPic(url,obj){
     var width = $(window).innerWidth();
     var left = $(obj).offset().left;
     var top = $(obj).offset().top;
-    $('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="100px" src="'+"__UPLOAD__/"+url+'" />');
+    $('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="500px" src="'+"__UPLOAD__/"+url+'" />');
 }
 function hidePic(){
     $('#picShow').hide();
