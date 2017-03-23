@@ -24,7 +24,7 @@
 					   url="/order/business/chart_year?model={$model}"  showNullItem="false" />
 				<a class="mini-button" iconcls="icon-search" onclick="submitForm('y')">每日数据查询</a>
 				<a class="mini-button" iconcls="icon-search" onclick="submitForm('w')">每周数据查询</a>
-				<a class="mini-button" iconcls="icon-search" onclick="submitForm('h')">每半个月数据查询</a>
+				<a class="mini-button" iconcls="icon-search" onclick="submitForm('h')">每15天数据查询</a>
 				<a class="mini-button" iconcls="icon-search" onclick="submitForm('m')">每月数据查询</a>
 			</td>
 		</tr>
@@ -34,7 +34,7 @@
 <script type="text/javascript">
 	//提交表单
 	mini.parse();
-	submitForm();
+	submitForm('a');
 	function submitForm(type) {
         var form = new mini.Form("#info");
         var data = form.getData();//获取表单多个控件的数据
@@ -43,6 +43,7 @@
 		var can=type;
 		var graph='graph_'+can;
 		var url='/order/business/'+graph;
+		alert(url);
 		data.model='{$model}';
 		data.p_id='{$p_id}';
         //var json = mini.encode(data);   //序列化成JSON
@@ -146,7 +147,7 @@
             	        }
             	    }],
             	    series: [
-            	         {
+/*             	         {
             	            name: '价格',	           
             	            type: 'candlestick',
             	            data:data.cc,
@@ -159,14 +160,14 @@
             	                    }
             	                },
             	                data: [
-            	                    /* {
+            	                     {
             	                        name: 'XX标点',
             	                        coord: ['2013/5/31', 2300],
             	                        value: 2300,
             	                        itemStyle: {
             	                            normal: {color: 'rgb(41,60,85)'}
             	                        }
-            	                    }, */
+            	                    },
             	                    {
             	                        name: 'highest value',
             	                        type: 'max',
@@ -227,7 +228,7 @@
             	                    }
             	                ]
             	            }
-            	        },
+            	        }, */
             	        {
             	            name: data.tip,
             	            type: 'line',
@@ -243,7 +244,6 @@
             	            itemStyle:{normal:{color:'#ee30a7'}},
             	            xAxisIndex: 1,
             	            yAxisIndex: 1,	           
-            	            //data: {$aa},
             	            data:data.aa,
             	            smooth: true,
             	        },	
