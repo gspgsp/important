@@ -85,12 +85,13 @@ class profitAction extends adminBaseAction {
 		}
 		$orderby = " order by $sortField $sortOrder";
 		//筛选过滤自己的订单信息
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11){
 			if(!in_array($roleid, array('30','26','27'))){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 				$where .= " and (`s_customer_manager` = {$_SESSION['adminid']} or `p_customer_manager` = {$_SESSION['adminid']})  ";
 			}
 		}
+		// p($where);die;
 		$list = $this->db->getAll('SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
@@ -265,7 +266,7 @@ class profitAction extends adminBaseAction {
 		}
 		$orderby = " order by $sortField $sortOrder";
 		//筛选过滤自己的订单信息
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10){
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11){
 			if(!in_array($roleid, array('30','26','27'))){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 				$where .= " and (`s_customer_manager` in ($sons) or `p_customer_manager` = {$_SESSION['adminid']})  ";
