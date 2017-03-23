@@ -599,6 +599,8 @@ class customerAction extends adminBaseAction {
 		// 查询下分配的管理员所属的部门
 		$depart = M('rbac:adm')->getUserByCol($data['id'],'depart');
 		$result = $this->db->where(" c_id = '$c_id'")->update(array('customer_manager'=>$data['id'],'depart'=>$depart,'last_follow'=>CORE_TIME,'last_sale'=>CORE_TIME,'last_no_sale'=>CORE_TIME,)+$_data);
+		//修改开票资料的交易员
+		$this->db->model('customer_billing')->where(" c_id = '$c_id'")->update(array('customer_manager'=>$data['id']));
 		if(!$result) $this->error('操作失败');
 		// 每日剩余结束时间
 		$mem_time =strtotime(date('Ymd')) + 86400-time();
