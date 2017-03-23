@@ -14,7 +14,7 @@
 	<div class="toutiaoHeader">塑料圈通讯录-&nbsp;<span class="toutiaoSlogan"></span></div>
 	<ul class="toutiaoUl" v-if="newsShow">
 		<li v-for="n in newsLi">
-			<a href="http://q.myplas.com/#/headlinedetail/"+n.id+"'">
+			<a v-bind:href="'http://q.myplas.com/#/headlinedetail/'+n.id">
 			<div class="toutiaoImg">
 				<img src="img/temp.jpg" v-bind:src="n.sm_img" />
 			</div>
@@ -31,7 +31,8 @@
 		el: '#app',
 		data: {
 			newsLi:[],
-			newsShow:false
+			newsShow:false,
+			url1:"1"
 		},
 		mounted: function(){
 			var _this=this;
