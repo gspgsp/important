@@ -60,11 +60,11 @@ class qapi1_1Action extends null2Action
             '12' => '期刊报告',
             '22' => '独家解读',
         );
-        if(!$this->catesAll = $this->cache->get('qappInitCatesAll')){
+        if(!$this->catesAll = unserialize($this->cache->get('qappInitCatesAll'))){
             $data=M("public:common")->model("news_cate")->select("cate_id,cate_name")->where("status=1")->getAll();
             $this->catesAll=arrayKeyValues($data,'cate_id','cate_name');
-            $this->cache->set('qappInitCatesAll',$this->catesAll);
-        }
+            $this->cache->set('qappInitCatesAll',serialize($this->catesAll),3600);
+       }
 
         $this->pointsType = array(
             1 => '签到',
@@ -1428,25 +1428,6 @@ class qapi1_1Action extends null2Action
         }
     }
 
-//    /**
-//     * 检查浏览器
-//     * @return string
-//     */
-//    public function checkBrowser(){
-//        $agent=$_SERVER["HTTP_USER_AGENT"];
-//        if(strpos($agent,'MSIE')!==false || strpos($agent,'rv:11.0')) //ie11判断
-//            return "ie";
-//        else if(strpos($agent,'Firefox')!==false)
-//            return "firefox";
-//        else if(strpos($agent,'Chrome')!==false)
-//            return "chrome";
-//        else if(strpos($agent,'Opera')!==false)
-//            return 'opera';
-//        else if((strpos($agent,'Chrome')==false)&&strpos($agent,'Safari')!==false)
-//            return 'safari';
-//        else
-//            return 'unknown';
-//    }
 
     /**
      * 检查平台来源
@@ -1572,14 +1553,16 @@ class qapi1_1Action extends null2Action
             if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
             M("qapp:news")->updateqAppPv($id);
             $cache = cache::startMemcache();
-            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
+            //if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
                 $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
                 if(empty($data)) $this->_errCode(2);
                 /**
                  * 九个频道，每个推荐一条
                  */
                 foreach ($this->cates as $key => $row) {
-                    $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 10)[0];
+                    $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 3)[0];
+                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 7)[0];
+                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 0)[0];
                     $_tmp['cate_name']=$this->catesAll[$_tmp['cate_id']];
                     $_tmp['input_time'] = $this->checkTime($_tmp['input_time']);
                     if($_tmp['type'] == 'public'||$_tmp['type'] == 'vip'){
@@ -1611,7 +1594,7 @@ class qapi1_1Action extends null2Action
                 //取出上一篇和下一篇
                 $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
                 $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            }
+            //}
             $cache->set('qcateDetailInfo' .  '_' . $id, $data,3600);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
@@ -1785,9 +1768,9 @@ class qapi1_1Action extends null2Action
                     }
                 }else{
                     //取出排行榜文章
-                    $chartsData = M('qapp:news')->charts('', '', '', 6, 1);
-                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 3);
-                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 0);
+                    $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 6, 1);
+                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 10, 3);
+                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 10, 0);
                     $tmp = array();
                     foreach ($chartsData as $row) {
                         $tmp[] = $row['id'];
@@ -2758,10 +2741,6 @@ class qapi1_1Action extends null2Action
         return $url;
     }
 
-
-
-
-
     public function janfly(){
         function em_getallheaders()
         {
@@ -2775,18 +2754,7 @@ class qapi1_1Action extends null2Action
             return $headers;
         }
         echo '<pre>';
-        //var_dump(em_getallheaders());
-        //throw_exception("No support db:");
-//        $this->json_output(array('err'=>0,'data'=>em_getallheaders()));
-        //http_status(404);
-        //$_SERVER['ALL_HTTP'] = isset($_SERVER['ALL_HTTP']) ?  $_SERVER['ALL_HTTP']: '';
-//        $_SERVER['HTTP_USER_AGENT'];
-//        echo '<pre>';
-//        var_dump($_SERVER['HTTP_USER_AGENT']);
-//        echo '<hr />';
-//        var_dump($_SERVER['ALL_HTTP']);
-        //var_dump(M("system:block")->getBlock(3,6));
-        //var_dump(M("system:region")->getProvinceCache());
+
         var_dump(M('operator:market')->get_quotation_index());
     }
 
@@ -2797,7 +2765,7 @@ class qapi1_1Action extends null2Action
         if($page<=0||$size<=0||$cate_id<=0){
             $this->_errCode(6);
         }
-//        if($data['data'] = json_decode($this->cache->get('qappQQNews'))){
+//        if($data['data'] = unserialize($this->cache->get('qappQQNews'))){
 //            $this->json_output(array('err'=>0,'data'=>$data['data']));
 //        }
         $data=M('qapp:news')->getQQCateList('',$cate_id,'',$page,$size);
@@ -2819,7 +2787,7 @@ class qapi1_1Action extends null2Action
         }
         if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
         $this->_checkLastPage(count($data['data']), $size, $page);
-        $this->cache->set('qappQQNews',json_encode($data['data']),7200);
+        $this->cache->set('qappQQNews',serialize($data['data']),7200);
         $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
 
