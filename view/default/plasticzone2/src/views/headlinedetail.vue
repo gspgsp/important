@@ -249,7 +249,9 @@ module.exports = {
 			dataType: 'JSON'
 		}).done(function(res) {
 			if(res.err==0){
-				_this.loadingShow=false;
+				setTimeout(function(){
+					_this.loadingShow=false;
+				},1000)
 				_this.id=res.info.id;
 				_this.title=res.info.title;
 				_this.cate_id=res.info.cate_id;
