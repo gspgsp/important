@@ -270,16 +270,24 @@
 				echo '丁公子，你URL时间戳格式不正确！';
 			}else{
 				$data=$this->db->model('news_content')->select('id,cate_id,type')->where('input_time between '.$sTime.' and '.$eTime.' and status=1')->getAll();
-				$str='&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;【1】<br /><br />';
+				$urls=array();
 				foreach ($data as $k => $v) {
 					$spell=$this->db->model('news_cate')->select('spell')->where('cate_id='.$v['cate_id'])->getOne();
-					$str.='news.myplas.com/'.$v['type'].'/'.$spell.'/'.$v['id'].'.html<br />';
-					$num=($k+1)/20;
-					if (is_int($num)) {
-						$str.='<br />&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;【'.($num+1).'】<br /><br />';				
-					}				
+					$urls[$k]='news.myplas.com/'.$v['type'].'/'.$spell.'/'.$v['id'].'.html';				
 				}
-				echo $str;				
+				p($urls);exit;
+				$api = 'http://data.zz.baidu.com/urls?site=news.myplas.com&token=Iw7ntA4oWY4KHdVD';
+				$ch = curl_init();
+				$options =  array(
+				    CURLOPT_URL => $api,
+				    CURLOPT_POST => true,
+				    CURLOPT_RETURNTRANSFER => true,
+				    CURLOPT_POSTFIELDS => implode("\n", $urls),
+				    CURLOPT_HTTPHEADER => array('Content-Type: text/plain'),
+				);
+				curl_setopt_array($ch, $options);
+				$result = curl_exec($ch);
+				echo $result;			
 			}
 		}
 
