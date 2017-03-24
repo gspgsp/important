@@ -7,7 +7,8 @@ class dailyAction extends adminBaseAction {
 		$this->debug = false;
 		$this->db=M('public:common')->model('sale_log');
 		$this->doact = sget('do','s');
-		$this->assign('depart',C('depart'));//所属部门
+		$this->assign('depart',L('depart'));//所属部门
+		$this->assign('company_account',L('company_account'));//抬头
 		$this->assign('team',L('team')); //战队名称
 	}
 	/**
@@ -45,6 +46,11 @@ class dailyAction extends adminBaseAction {
 			}else{
 				$where.=" and p_team_id = '$team_id' ";	
 			}
+		}
+		//抬头
+		$company_account=sget('company_account','i');
+		if(!empty($company_account)){
+			$where.=" and `s_ordname` = '$company_account'";
 		}
 		//筛选时间
 		$sTime = sget("sTime",'s'); //搜索时间类型
@@ -109,6 +115,7 @@ class dailyAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`join_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_ordname,
@@ -147,6 +154,7 @@ class dailyAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`store_o_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_ordname,
@@ -185,6 +193,7 @@ class dailyAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`join_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_ordname,
@@ -223,6 +232,7 @@ class dailyAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`store_o_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_ordname,

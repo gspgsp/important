@@ -7,7 +7,8 @@ class profitAction extends adminBaseAction {
 		$this->debug = false;
 		$this->db=M('public:common')->model('sale_log');
 		$this->doact = sget('do','s');
-		$this->assign('depart',C('depart'));//所属部门
+		$this->assign('depart',L('depart'));//所属部门
+		$this->assign('company_account',L('company_account'));//抬头
 		$this->assign('team',L('team')); //战队名称
 	}
 	/**
@@ -55,6 +56,11 @@ class profitAction extends adminBaseAction {
 		}else{
 			$where.=getTimeFilter('p_input_time'); //时间筛选
 			$sortField = sget("sortField",'s','p_input_time'); //排序字段
+		}
+		//抬头
+		$company_account=sget('company_account','i');
+		if(!empty($company_account)){
+			$where.=" and `s_ordname` = '$company_account'";
 		}
 		//关键词搜索
 		$skey_type=sget('skey_type','s','s_uname');
@@ -109,6 +115,7 @@ class profitAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`join_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_ordname,
@@ -147,6 +154,7 @@ class profitAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`store_o_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_ordname,
@@ -186,17 +194,18 @@ class profitAction extends adminBaseAction {
 		$str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
 			$str .= '<tr><td>销售单号</td><td>客户</td><td>抬头</td><td>牌号</td>
 						<td>厂家</td><td>数量</td><td>未发数量</td><td>单价</td>
-						<td>小计</td><td>销售员</td><td>销售时间</td><td>运费</td>
-						<td>毛利润</td><td>采购单号</td><td>供应商</td><td>数量</td>
-						<td>未入数量</td><td>单价</td><td>小计</td><td>采购员</td>
-						<td>采购时间</td>
+						<td>小计</td><td>销售员</td><td>销售完款时间</td><td>运费</td>
+						<td>净利润</td><td>毛利润</td><td>采购单号</td><td>供应商</td>
+						<td>数量</td><td>未入数量</td><td>单价</td><td>小计</td>
+						<td>采购员</td><td>采购完款时间</td>
 					</tr>';
 			foreach($list as $k=>$v){
 				$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['s_sn']."</td><td>".$v['s_name']."</td>
 				<td>".$v['s_ordname']."</td><td>".$v['s_model']."</td><td>".$v['s_fname']."</td><td>".$v['s_num']."</td>
 				<td>".$v['s_rem']."</td><td>".$v['s_price']."</td><td>".$v['s_xj']."</td><td>".$v['s_uname']."</td>
-				<td style='vnd.ms-excel.numberformat:@'>".$v['s_input_time']."</td><td>".$v['ship']."</td><td>".$v['profit']."</td>
-				<td style='vnd.ms-excel.numberformat:@'>".$v['p_sn']."</td><td>".$v['p_name']."</td><td>".$v['p_num']."</td>
+				<td style='vnd.ms-excel.numberformat:@'>".$v['s_input_time']."</td><td>".$v['ship']."</td>
+				<td>".$v['profit']."</td><td>".$v['gross']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['p_sn']."</td>
+				<td>".$v['p_name']."</td><td>".$v['p_num']."</td>
 				<td>".$v['p_rem']."</td><td>".$v['p_price']."</td><td>".$v['p_xj']."</td><td>".$v['p_uname']."</td>
 				<td style='vnd.ms-excel.numberformat:@'>".$v['p_input_time']."</td>
 				</tr>";
@@ -228,6 +237,11 @@ class profitAction extends adminBaseAction {
 			}else{
 				$where.=" and p_team_id = '$team_id' ";	
 			}
+		}
+		//抬头
+		$company_account=sget('company_account','i');
+		if(!empty($company_account)){
+			$where.=" and `s_ordname` = '$company_account'";
 		}
 		//筛选时间
 		$sTime = sget("sTime",'s'); //搜索时间类型
@@ -291,6 +305,7 @@ class profitAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`join_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_ordname,
@@ -329,6 +344,7 @@ class profitAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`store_o_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_ordname,
@@ -367,6 +383,7 @@ class profitAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`join_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_ordname,
@@ -405,6 +422,7 @@ class profitAction extends adminBaseAction {
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
+		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
 			o.`store_o_id` AS p_oid,
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_ordname,

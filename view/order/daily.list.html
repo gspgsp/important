@@ -4,6 +4,10 @@
 		<tr>
 			<td style="float:right;">
 			<form id="soform" method="get" action="/order/profit/download">
+				<select name="company_account">
+					<option selected="selected">抬头</option>
+					{html_options options=$company_account}
+				</select>
 				<select name="team">
 						<option value="sale_team">销售战队</option>
 						<option value="pur_team">采购战队</option>
@@ -60,6 +64,7 @@
 			<div field="s_input_time" width="75" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">销售回传时间</div>
 			<div field="ship" width="50" headerAlign="center" align="center" allowSort="true">运费</div>
 			<div field="profit" width="50" headerAlign="center" align="center" allowSort="true">净利润</div>
+			<div field="gross" width="50" headerAlign="center" align="center" allowSort="true">毛利</div>
 			<div field="p_sn" width="100" headerAlign="center" align="center" allowSort="true">采购单号</div>
 			<div field="p_name" width="70" headerAlign="center" align="center" >供应商</div>
 			<div field="p_num" width="40" headerAlign="center" align="center" allowSort="true">数量</div>
