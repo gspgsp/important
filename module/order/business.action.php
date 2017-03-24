@@ -601,7 +601,7 @@ class businessAction extends adminBaseAction {
 	    $this->json_output(array('tip'=>'每周平均价格','aa'=>$a,'bb'=>$time_u,'cc'=>$c,'dd'=>$d,'model'=>$model));
 	}
 	/**
-	 * 固定年每周销售走势图
+	 * 固定年每15天销售走势图
 	 * @param $p_id
 	 * @return json
 	 * @Author: yumeilin
@@ -746,7 +746,7 @@ class businessAction extends adminBaseAction {
 	    $this->assign('bb',$bb);
 	    $this->assign('cc',$cc);
 	    $this->assign('model',$model);
-		$this->json_output(array('tip'=>'每15天平均价格','aa'=>$a,'bb'=>$time_u,'cc'=>$c,'dd'=>$d,'model'=>$model));
+		$this->json_output(array('tip'=>'每15天平均价格','aa'=>$a,'bb'=>$b,'cc'=>$c,'dd'=>$d,'model'=>$model));
 	}
 
 
