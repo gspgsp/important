@@ -660,7 +660,7 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 #tj span{ position: absolute; line-height: 15px; top: 0; right: 0;}
 
 .loadingPage{background: #FFFFFF; z-index: 5000; position: fixed; top: 45px; bottom: 0; left: 0; right: 0;}
-.loadingWrap{ width: 120px; height: 150px; text-align: center; background: none; position: fixed; left: 50%; top: 160px; margin-left: -60px;}
+.loadingWrap{ width: 120px; height: 90px; text-align: center; background: none; position: fixed; left: 50%; top: 160px; margin-left: -60px;}
 .slqLoading{ width: 60px; height: 60px; -webkit-animation:rotating 2.5s linear infinite; display: inline-block; background: url(../img/loadingPage.png) no-repeat; background-size: 100% 100%;}
 .slqLoadingTxt{ font-size: 13px; color: #666666;}
 
