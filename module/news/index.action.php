@@ -41,8 +41,7 @@
 			//导航栏选中状态
 			$this->nav=$type;
 			//取出首页数据
-			$data=$this->db->getIndex($type);	
-			//P($data);EXIT;		
+			$data=$this->db->getIndex($type);		
 			//由于首页和pvc页面相同，pe和pp页面相同，所以为了区分，通过type进行区分判断该显示哪一块
 			if(empty($type))$type='public';
 			if($type=='pp')$type='pe';	
@@ -50,7 +49,6 @@
 				'data'=>$data,
 				'type'=>$type,
 			));
-
 			$this->display('index');
 		}
 
@@ -283,7 +281,6 @@
 				}
 				echo $str;				
 			}
-
 		}
 
 		//跳转行情内参介绍页面
