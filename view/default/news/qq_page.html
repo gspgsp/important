@@ -24,15 +24,15 @@
 		</li>
 	</ul>
 </div>
+
 <script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+<script type="text/javascript" src="__MYAPP__/js/vue.min.js"></script>
 <script>
 	var vm = new Vue({
 		el: '#app',
 		data: {
 			newsLi:[],
-			newsShow:false,
-			url1:"1"
+			newsShow:false
 		},
 		mounted: function(){
 			var _this=this;
@@ -40,7 +40,7 @@
 				type:"get",
 				url:"/api/qapi1_1/getQQNews",
 				data: {
-					size:20
+					size:9
 				},
 				dataType: 'JSON'
 			}).done(function(res){
