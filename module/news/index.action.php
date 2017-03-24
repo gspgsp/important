@@ -275,7 +275,6 @@
 					$spell=$this->db->model('news_cate')->select('spell')->where('cate_id='.$v['cate_id'])->getOne();
 					$urls[$k]='news.myplas.com/'.$v['type'].'/'.$spell.'/'.$v['id'].'.html';				
 				}
-				p($urls);exit;
 				$api = 'http://data.zz.baidu.com/urls?site=news.myplas.com&token=Iw7ntA4oWY4KHdVD';
 				$ch = curl_init();
 				$options =  array(
