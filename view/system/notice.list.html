@@ -206,7 +206,7 @@ function showPic(url,obj){
     var width = $(window).innerWidth();
     var left = $(obj).offset().left;
     var top = $(obj).offset().top;
-    $('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="500px" src="'+"__UPLOAD__/"+url+'" />');
+    $('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="100%" src="'+"__UPLOAD__/"+url+'" />');
 }
 function hidePic(){
     $('#picShow').hide();
