@@ -185,7 +185,7 @@ a{ text-decoration:none;}
 /*vip-wrap begin*/
 .vip-title-big{ height:56px; overflow:hidden; background:url(../img/VipTit1.jpg) repeat-x 0 31px; margin-top:31px; margin-bottom:5px;}
 .vip-title-big h2{ color:#fff; font-size:27px; text-indent:30px; width:164px; height:56px; line-height:36px; overflow:hidden; background:url(../img/VipTit2.jpg) no-repeat;}
-.vip-title-big.vip-auction h2{ text-indent:24px; width:284px; background:url(../img/VipTit3.jpg) no-repeat;}
+.vip-title-big.vip-auction h2{ text-indent:24px;}
 .vip-wrap{ height:275px; overflow:hidden;}
 .vip-wrap .left{ width:400px; height:275px; overflow:hidden;}
 .vip-wrap .cen{ margin:0 10px;}
