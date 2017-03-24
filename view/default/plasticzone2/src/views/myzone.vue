@@ -79,6 +79,7 @@
 			退出登录
 		</li>
 	</ul>
+	<loadingPage :loading="loadingShow"></loadingPage>
 	<footerbar></footerbar>
 	<div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
 	<div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
@@ -87,9 +88,11 @@
 </template>
 <script>
 import footer from "../components/footer";
+import loadingPage from "../components/loadingPage";
 module.exports = {
 	components: {
-		'footerbar': footer
+		'footerbar': footer,
+		'loadingPage':loadingPage
 	},
 	data: function() {
 		return {
@@ -110,7 +113,13 @@ module.exports = {
 			share: false,
 			share3: false,
 			isCircle: false,
+			loadingShow:""
 		}
+	},
+	beforeRouteEnter:function(to,from,next){
+		next(function(vm){
+			vm.loadingShow=true;
+		});
 	},
 	methods: {
 		circle: function() {
@@ -234,6 +243,9 @@ module.exports = {
 					}]
 				});
 			} else {
+				setTimeout(function(){
+					_this.loadingShow=false;
+				},500)
 				_this.name = res.data.name;
 				_this.c_name = res.data.c_name;
 				_this.mobile = res.data.mobile;

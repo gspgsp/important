@@ -319,13 +319,14 @@ search: function() {
 	}
 },
 activated: function() {
-	var _this = this;
 	try {
 		var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 		piwikTracker.trackPageView();
 	} catch(err) {
 	
 	}
+	var _this = this;
+	window.scrollTo(0,0);
 
 	$.ajax({
 		type: "post",

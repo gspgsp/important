@@ -5,14 +5,6 @@
 		{{cate}}
 		<a class="detailShare" href="javascript:;" v-on:click="shareshow()"></a>
 	</header>
-	
-	<div class="loadingPage" v-show="loadingShow">
-		<div class="loadingWrap">
-			<div class="slqLoading"></div>
-			<div class="slqLoadingTxt">数据加载中,请稍候...</div>
-		</div>
-	</div>
-	
 	<div class="headlinecontent" style="overflow: hidden; background: #FFFFFF;">
 		<div class="headlinetitle">
 			<h3>{{type}} {{title}}</h3>
@@ -44,6 +36,7 @@
 	<img width="100%" src="../assets/download.png">
 	</a>
 	</div>
+	<loadingPage :loading="loadingShow"></loadingPage>
 	<footerbar></footerbar>
 <div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
 <div class="tip" v-show="share3"></div>
@@ -51,9 +44,11 @@
 </template>
 <script>
 import footer from "../components/footer";
+import loadingPage from "../components/loadingPage";
 module.exports = {
 	components:{
-    	'footerbar':footer
+    	'footerbar':footer,
+    	'loadingPage':loadingPage
    },
 	data: function() {
 		return {
@@ -66,18 +61,17 @@ module.exports = {
 			time: "",
 			pv: "",
 			type:"",
-			loadingShow:false,
 			subscribe:[],
 		    share:false,
         	share3:false,
-        	share4:false
+        	share4:false,
+        	loadingShow:""
 		}
 	},
 	beforeRouteEnter:function(to,from,next){
 		next(function(vm){
 			vm.loadingShow=true;
 		});
-		
 	},
 	watch:{
 		title:function(){
@@ -237,7 +231,7 @@ module.exports = {
 		} catch( err ) {
 			
 		}
-
+		
 		window.scrollTo(0,0);
 		$.ajax({
 			type: "post",
@@ -251,7 +245,7 @@ module.exports = {
 			if(res.err==0){
 				setTimeout(function(){
 					_this.loadingShow=false;
-				},1000)
+				},500)
 				_this.id=res.info.id;
 				_this.title=res.info.title;
 				_this.cate_id=res.info.cate_id;
