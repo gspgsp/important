@@ -44,16 +44,16 @@
 	}
  </style>
 <!-- <link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/> -->
-	<div class="container">
+	<div class="container" ondragstart="window.event.returnValue=false" oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false">
 			<div class="title">{$info.title}</div>
 			<div class="content">{$info.content}</div>
 			<div class="admin">{$info.input_admin}</div>
 			<div class="time">{$info.input_time}</div>
 			<div class="file">附件:</div>
 			<div class="file_url">
-			
 				{foreach from=$file_url item=v key=k}
-					{$k}<a class="download" href="__UPLOAD__/{$v}">查看</a><br/>
+					{$k}<br>
+					<img class="download" src="__UPLOAD__/{$v}"/><br/>
 				{/foreach}
 			</div>
 
