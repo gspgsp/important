@@ -236,6 +236,7 @@ module.exports = {
 		$.ajax({
 			type: "post",
 			url: "/api/qapi1_1/getDetailInfo",
+			timeout: 10000,
 			data: {
 				id: _this.$route.params.id,
 				token: window.localStorage.getItem("token")
