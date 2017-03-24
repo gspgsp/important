@@ -498,7 +498,7 @@ class businessAction extends adminBaseAction {
 	        'num'=>$a,
 	        'date'=>$time_u
 	    );
-	    $cache->set('GRAPH_M:'.$model,json_encode($cache_to),60*60);
+	    $cache->set('GRAPH_W:'.$model,json_encode($cache_to),60*60);
 	    $this->json_output(array('tip'=>'每周平均价格','aa'=>$a,'bb'=>$time_u,'dd'=>$d));
 	}
 	/**
