@@ -5,9 +5,7 @@
 <script type="text/javascript" src="__JS__/echarts.js"></script>
 <script src="__JS__/miniui/boot.js" type="text/javascript"></script>
 <script src="__JS__/miniui/miniui/miniui.js" type="text/javascript"></script>
-<!-- <script src="__JS__/jquery/utils.js" type="text/javascript"></script> -->
 <script src="__JS__/miniui/ad.common.js" type="text/javascript"></script>
-<!-- <script src="__JS__/socket.io.js" type="text/javascript"></script> -->
 </head>
 <body>
 <h2>{$model}销售成交走势图</h2>
@@ -16,10 +14,7 @@
 		<tr>
 			<td style="float:right;">
 			    <span id="searchMsg"></span>
-			    交易日期
-				<!-- <select name="date_year"  id="myYear" class="mini-combobox"></select> -->	
-				<!-- <option  value="20" select=selected>{$now_year}</option> -->
-				<!--{html_options options=$year_item}</select>-->
+			    交易年份
 				<input id="date_year" name="date_year" class="mini-combobox" textField="key" valueField="value" value="all"
 					   url="/order/business/chart_year?model={$model}"  showNullItem="false" />
 				<a class="mini-button" iconcls="icon-search" onclick="submitForm('y')">每日数据查询</a>
@@ -38,8 +33,6 @@
 	function submitForm(type) {
         var form = new mini.Form("#info");
         var data = form.getData();//获取表单多个控件的数据
-		//data.type = type;
-        alert(data.date_year);
         if(data.date_year=='all'&&type!=='a'){       
         	alert('请先选择年份');
         	return false;
@@ -47,10 +40,8 @@
 		var can=type;
 		var graph='graph_'+can;
 		var url='/order/business/'+graph;
-		alert(url);
 		data.model='{$model}';
 		data.p_id='{$p_id}';
-        //var json = mini.encode(data);   //序列化成JSON
          $.ajax({
             url: url,
             type: "post",
@@ -58,15 +49,6 @@
 			success: function (ret) {
                 console.log("提交成功，返回结果:" + ret);
 				var data = JSON.parse(ret);
-				/* console.log(data0);
-				console.log(data0.aa);
-				console.log(data0.bb);
-				console.log(data0.cc);
-				console.log(data0.dd);
-				console.log(JSON.stringify(data0.y1)); */
-				//var data = eval("("+ret+")");
-                //console.log(data.aa);
-
 				// 基于准备好的dom，初始化echarts图表
                 var myChart = echarts.init(document.getElementById('main')); 
             	// 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)	
