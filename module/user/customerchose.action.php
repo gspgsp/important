@@ -49,7 +49,7 @@ class customerchoseAction extends adminBaseAction {
 		$where = ' 1  and `status` != 10 and `customer_manager` > 0 ';
 		// pt主要标示黄名单客户的一些信息（8代表黄明单）
 		if($pt ==2) $where .= ' and `status` != 9 and  `status` != 8 ';
-		if($pt ==1) $where .= ' and `status` != 9 and chanel != 6 ';
+		if($pt ==1) $where .= ' and `status` != 9 ';
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
 		$status = sget("status",'s',''); //状态
