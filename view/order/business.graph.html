@@ -40,6 +40,10 @@
         var data = form.getData();//获取表单多个控件的数据
 		//data.type = type;
         alert(data.date_year);
+        if(data.date_year=='all'&&type!=='a'){       
+        	alert('请先选择年份');
+        	return false;
+        }
 		var can=type;
 		var graph='graph_'+can;
 		var url='/order/business/'+graph;
@@ -84,15 +88,15 @@
             	               {
             	                   show: true,
             	                   realtime: true,
-            	                   start: 30,
-            	                   end: 70,
+            	                   start: 0,
+            	                   end: 100,
             	                   xAxisIndex: [0, 1]
             	               },
             	               {
             	                   type: 'inside',
             	                   realtime: true,
-            	                   start: 30,
-            	                   end: 70,
+            	                   start: 0,
+            	                   end: 100,
             	                   xAxisIndex: [0, 1]
             	               }
             	           ],
