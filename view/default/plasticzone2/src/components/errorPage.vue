@@ -1,8 +1,9 @@
 <template>
-<div class="loadingPage" v-show="loading">
-	<div class="loadingWrap">
-		<div class="slqLoading"></div>
-		<div class="slqLoadingTxt">数据加载中,请稍候...</div>
+<div class="errorPage" v-show="loading">
+	<div class="errorWrap"></div>
+	<div class="errorTxt">
+		<a class="blue" href="javascript:window.location.reload();">重新刷新</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="orange" href="http://q.myplas.com/">返回首页</a>
 	</div>
 </div>
 </template>

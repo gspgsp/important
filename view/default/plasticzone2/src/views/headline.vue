@@ -3,6 +3,10 @@
 <header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0; z-index: 10;">
 塑料发现
 </header>
+
+<loadingPage :loading="loadingShow"></loadingPage>
+<errorPage :loading="loadingHide"></errorPage>
+
 <h3 class="plasticfind">
 <div style="float: left;">塑料头条</div>
 <div class="plasticSearch">
@@ -198,9 +202,12 @@
 </template>
 <script>
 import footer from "../components/footer";
+import loadingPage from "../components/loadingPage";
+import errorPage from "../components/errorPage";
 module.exports = {
 	components: {
-		'footerbar': footer
+		'footerbar': footer,
+		'loadingPage':loadingPage
 },
 data: function() {
 	return {
@@ -214,8 +221,19 @@ data: function() {
 		plasticlevel: false,
 		plasticsx: false,
 		plasticsq: false,
-		keywords:""
+		keywords:"",
+		loadingShow: "",
+		loadingHide: ""
 	}
+},
+beforeRouteEnter: function(to, from, next) {
+	next(function(vm) {
+		vm.loadingShow = true;
+	});
+},
+beforeRouteLeave: function(to, from, next) {
+	next(function() {});
+	this.loadingHide = false;
 },
 methods: {
 	hide: function() {
@@ -352,6 +370,7 @@ activated: function() {
 	$.ajax({
 		type: "post",
 		url: '/api/qapi1_1/getSubscribe',
+		timeout:15000,
 		data: {
 			token: window.localStorage.getItem("token"),
 			subscribe: 2
@@ -375,9 +394,9 @@ activated: function() {
 			});
 		}		
 	}).fail(function(){
-		
+		_this.loadingHide = true;
 	}).always(function(){
-		
+		_this.loadingShow = false;
 	});
 	
 	this.$nextTick(function() {

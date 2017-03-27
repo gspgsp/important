@@ -51,6 +51,7 @@
 <div style="text-align: center; padding: 5px 0 15px 0;">
 	<input class="more" v-on:click="more" type="button" v-model="moreTxt">
 </div>
+<loadingPage :loading="loadingShow"></loadingPage>
 <footerbar></footerbar>
 <div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
 <div class="arrow" v-show="isArrow" v-on:click="arrow"></div>
@@ -63,9 +64,11 @@
 </template>
 <script>
 import footer from "../components/footer";
+import loadingPage from "../components/loadingPage";
 module.exports = {
 components:{
-	'footerbar':footer
+	'footerbar':footer,
+	'loadingPage':loadingPage
 },
 data: function() {
 	return {
@@ -91,7 +94,8 @@ data: function() {
 		isHeadline: false,
 		isReleaseshow: false,
 		buy: [],
-		supply: []
+		supply: [],
+		loadingShow: ""
 	}
 },
 methods: {
@@ -310,6 +314,7 @@ beforeRouteLeave:function(to,from,next){
 },
 mounted: function() {
 	var _this = this;
+	this.loadingShow = true;
 	try {
 	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 	    piwikTracker.trackPageView();
@@ -386,7 +391,7 @@ mounted: function() {
 	}).fail(function(){
 		
 	}).always(function(){
-		
+		_this.loadingShow = false;
 	});
 
 	$(window).scroll(function() {
