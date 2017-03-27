@@ -90,7 +90,7 @@ class dailyAction extends adminBaseAction {
 		}
 		$orderby = " order by $sortField $sortOrder";
 		//筛选过滤自己的订单信息
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10){
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991){
 			if(!in_array($roleid, array('30','26','27'))){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 				$where .= " and (`s_customer_manager` in ($sons) or `p_customer_manager` = {$_SESSION['adminid']})  ";
