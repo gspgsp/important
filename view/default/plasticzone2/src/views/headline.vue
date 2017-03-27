@@ -207,7 +207,8 @@ import errorPage from "../components/errorPage";
 module.exports = {
 	components: {
 		'footerbar': footer,
-		'loadingPage':loadingPage
+		'loadingPage':loadingPage,
+		'errorPage':errorPage
 },
 data: function() {
 	return {

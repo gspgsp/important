@@ -4,6 +4,10 @@
 	<a class="back" href="javascript:window.history.back();"></a>
 	{{cate}}
 </header>
+
+<loadingPage :loading="loadingShow"></loadingPage>
+<errorPage :loading="loadingHide"></errorPage>
+
 <h3 class="plasticfind">
 <div style="float: left;">塑料头条</div>
 <div class="plasticSearch">
@@ -85,9 +89,13 @@
 </template>
 <script>
 import footer from "../components/footer";
+import loadingPage from "../components/loadingPage";
+import errorPage from "../components/errorPage";
 module.exports = {
 	components: {
-		'footerbar': footer
+		'footerbar': footer,
+		'loadingPage':loadingPage,
+		'errorPage':errorPage
 },
 data: function() {
 	return {
@@ -97,8 +105,19 @@ data: function() {
 		page: 1,
 		isCircle: false,
 		isArrow: false,
-		keywords:""
+		keywords:"",
+		loadingShow: "",
+		loadingHide: ""
 	}
+},
+beforeRouteEnter: function(to, from, next) {
+	next(function(vm) {
+		vm.loadingShow = true;
+	});
+},
+beforeRouteLeave: function(to, from, next) {
+	next(function() {});
+	this.loadingHide = false;
 },
 methods: {
 	arrow: function() {
@@ -423,6 +442,7 @@ activated: function() {
 		$.ajax({
 			type: "post",
 			url: '/api/qapi1_1/getSubscribe',
+			timeout:15000,
 			data: {
 				token: window.localStorage.getItem("token"),
 				subscribe: 2
@@ -435,14 +455,15 @@ activated: function() {
 
 			}
 		}).fail(function(){
-			
+			_this.loadingHide = true;
 		}).always(function(){
-			
+			_this.loadingShow = false;
 		});
 	} else {
 		$.ajax({
 			type: "get",
 			url: '/api/qapi1/getCateList',
+			timeout:15000,
 			data: {
 				page: 1,
 				size: 10,
@@ -468,9 +489,9 @@ activated: function() {
 				});
 			}
 		}).fail(function(){
-			
+			_this.loadingHide = true;
 		}).always(function(){
-			
+			_this.loadingShow = false;
 		});
 
 	}
