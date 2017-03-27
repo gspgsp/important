@@ -21,9 +21,9 @@
                        url="/order/business/chart_year?model={$model}" showNullItem="false"/>
                 <a class="mini-button" iconcls="icon-search" onclick="submitForm('daily')">每日数据查询</a>
                 <a class="mini-button" iconcls="icon-search" onclick="submitForm('weekly')">每周数据查询</a>
-<!--
-                <a class="mini-button" iconcls="icon-search" onclick="submitForm('monthly')">每15天数据查询</a>
--->
+                <!--
+                                <a class="mini-button" iconcls="icon-search" onclick="submitForm('monthly')">每15天数据查询</a>
+                -->
                 <a class="mini-button" iconcls="icon-search" onclick="submitForm('monthly')">每月数据查询</a>
             </td>
         </tr>
@@ -103,18 +103,17 @@
                         left: '10%',
                         right: '10%',
                         bottom: '50%'
-                    },
-                        {
-                            left: '10%',
-                            right: '10%',
-                            height: '20%',
-                            top: '60%'
-                        }],
+                    }, {
+                        left: '10%',
+                        right: '10%',
+                        height: '20%',
+                        top: '60%'
+                    }],
                     /*visualMap: {
-                        show: true,
-                        dimension: 0,
-                        pieces: data.visualmap
-                    },*/
+                     show: true,
+                     dimension: 0,
+                     pieces: data.visualmap
+                     },*/
                     xAxis: [{
                         type: 'category',
                         data: data.bb,
@@ -125,19 +124,18 @@
                         splitNumber: 1,
                         min: 'dataMin',
                         max: 'dataMax'
-                    },
-                        {
-                            gridIndex: 1,
-                            type: 'category',
-                            data: data.bb,
-                            scale: true,
-                            boundaryGap: true,
-                            axisLine: {onZero: false},
-                            splitLine: {show: true},
-                            splitNumber: 1,
-                            min: 'dataMin',
-                            max: 'dataMax'
-                        }],
+                    }, {
+                        gridIndex: 1,
+                        type: 'category',
+                        data: data.bb,
+                        scale: true,
+                        boundaryGap: true,
+                        axisLine: {onZero: false},
+                        splitLine: {show: true},
+                        splitNumber: 1,
+                        min: 'dataMin',
+                        max: 'dataMax'
+                    }],
                     yAxis: [{
                         name: '销售价格(千元)',
                         scale: true,
@@ -146,14 +144,14 @@
                             show: true
                         }
                     }, {
-                            gridIndex: 1,
-                            name: '销售额(吨)',
-                            splitLine: {show: true},
-                            scale: true,
-                            splitArea: {
-                                show: true
-                            }
-                        }],
+                        gridIndex: 1,
+                        name: '销售额(吨)',
+                        splitLine: {show: true},
+                        scale: true,
+                        splitArea: {
+                            show: true
+                        }
+                    }],
                     series: [
                         {
                             name: data.tip,
@@ -168,7 +166,7 @@
                             },
                             itemStyle: {normal: {label: {show: true}}},
                             markArea: {
-                                silent:true,
+                                silent: true,
                                 data: data.markline,
                             }
                         },
