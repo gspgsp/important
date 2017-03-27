@@ -147,6 +147,10 @@ class customerContactModel extends model{
 			// 添加客户和联系人
 			if($info['ctype']==1){
 				$result =  $this->model('customer_contact')->add($info+$_data+array('chanel'=>5,));
+				$contract_id = $this->getLastID();
+				//查询如果没有联系人
+				$find = $this->model('customer_contact')->where("c_id = {$info['c_id']}")->getRow();
+				if(!$find) $this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$contract_id));
 			}else{
 				$this->startTrans();
 					$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>5,));
