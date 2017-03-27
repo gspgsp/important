@@ -99,6 +99,7 @@ class storeDetailAction extends adminBaseAction {
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
 			$list['data'][$k]['model']=strtoupper(M("product:product")->getModelById($v['p_id']));//获取牌号
 			$list['data'][$k]['f_name']=M("product:product")->getFnameByid($v['p_id']);
+			$list['data'][$k]['unit_price'] =  (M("product:order")->getColByOid($v['p_id'],'customer_manager') == $_SESSION['adminid'] OR in_array($_SESSION['adminid'],array(1,726,10,11))) ? $v['unit_price'] : '***';//只有李总超管饶卫平赵飞可以看到
 			$list['data'][$k]['admin_name']=M("product:inStorage")->getNameBySid($v['store_aid']); //获得入库人姓名
 			$list['data'][$k]['customer_manager']=M("product:order")->getNameBySid($v['o_id']); //获得交易员姓名
 			$list['data'][$k]['cname']=M("product:order")->getCnameByOid($v['o_id']); //获得客户姓名
