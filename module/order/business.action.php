@@ -101,18 +101,23 @@ class businessAction extends adminBaseAction {
 		$result=array('total'=>count($list_count),'data'=>$list,'msg'=>$msg);
 		$this->json_output($result);
 	}
+
+
+
 	/**
 	 * 全部销售数据走势图(不分年)
 	 * @param $p_id,$model
-	 * @return json
+	 * @return json html
 	 * @Author: yumeilin
 	 */
-	public function graph_a(){
-	    $p_id=sget('p_id','i');
+	public function graph(){
+		$date_year=sget('date_year','i');
+		$type = sget('type','s');
+		$p_id=sget('p_id','i');
 	    $model=sget('model','s');
 	    //启动redis缓存
 	    $cache= E('RedisCluster',APP_LIB.'class');
-	    $graph_cache = $cache->get('GRAPH_A:'.$model);
+	    //$graph_cache = $cache->get('GRAPH_A:'.$model);
 	    if(!empty($graph_cache)&&!is_null($graph_cache)){
 	        $data=json_decode($graph_cache,true);
 	        $d=$data['aver'];
@@ -120,7 +125,7 @@ class businessAction extends adminBaseAction {
 	        $b=$data['date'];
 	        $this->assign('p_id',$p_id);
 	        $this->assign('model',$model);
-	        if(sget('date_year','s')=='all'){
+	        if($this->isAjax()){
 	            $this->json_output(array('tip'=>'每日平均价格','aa'=>$a,'bb'=>$b,'dd'=>$d));
 	            die();
 	        }
@@ -128,16 +133,136 @@ class businessAction extends adminBaseAction {
 	        die();
 	    }
 	    $where =" where 1 AND pro.model ='$model'AND o.order_type = 1 AND o.`order_status` = 2 AND o.`transport_status` = 2";
+		if(!empty($date_year))
+		{
+			$start_day = mktime(00,00,00,1,1,$date_year);
+			$end_day   = mktime(00,00,00,12,31,$date_year);
+			$where .= " AND log.input_time < {$end_day} AND log.input_time > {$start_day}  ";
+		}
 	    $list = M('public:common')->model('sale_log')->order('input_time')->getAll('SELECT log.`number`,log.`unit_price`,log.`input_time`,log.`update_time`
 			FROM p2p_sale_log AS log
 			LEFT JOIN `p2p_order` AS o ON o.`o_id` = log.`o_id`
 			LEFT JOIN `p2p_product` AS pro ON log.`p_id` = pro.`id`
-			LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
-			'.$where." order by input_time");
+			'.$where." order by log.input_time");
+		file_put_contents('/tmp/xielei.txt',print_r(M('public:common')->getLastSql(),true),FILE_APPEND);
 	    foreach($list as $k=>$v){
 	        $list[$k]['time']=date("Y-m-d",$v['input_time']);
 	    }
-	    //获取销量数据
+		$tmp =array();
+		foreach($list as $v)
+		{
+			$time = date('Y-m-d',$v['input_time']);
+			$tmp[$time][]= $v;
+		}
+		unset($time);
+		$time_arr = array_keys($tmp);
+		sort($time_arr);
+		//计算时间
+		$start_day = strtotime($time_arr[0]);
+		$end_day   = strtotime(end($time_arr));
+		$show_time = array();
+		$count = floor(($end_day-$start_day)/(24*60*60));
+		for($i = 0; $i<$count ;$i++)
+		{
+			$day=$start_day+24*60*60*$i;
+			$day_info= getdate($day);
+			if($day_info['wday']!=0&&$day_info['wday']!=6)
+			{
+				$show_time[] = date("Y-m-d",$day);
+			}
+		}
+		$diff_arr = array_diff($show_time,$time_arr);
+		foreach($diff_arr as $time0)
+		{
+			$tmp[$time0]=array(array('input_time'=>time(),'unit_price'=>0,'number'=>0,'time'=>$time0));
+		}
+		unset($v);
+		unset($time0);
+		ksort($tmp);
+		$x_ray = array();
+		$price = array();
+		$num   = array();
+		foreach($tmp as $time=>$val)
+		{
+			$tmp_price = 0;
+			$tmp_num   = 0;
+			$tmp_val   = self::my_sort($val,'input_time');
+			foreach($tmp_val as $value)
+			{
+				$tmp_price  += (float)$value['unit_price']/1000;
+				$tmp_num    += (float)$value['number'];
+			}
+			unset($value);
+
+			$price[] = $tmp_price/count($val);
+			$num[]   = $tmp_num;
+			$x_ray[] = $time;
+			/*$price[] = 1000;
+			$num[]   = 0;
+			$x_ray[] = $time;*/
+
+		}
+		unset($val);
+		$markline = $visualmap =array();
+		$visualmap = array();
+		foreach($price as $k => $p)
+		{
+			static $count =0;
+			if(empty($p) && empty($count) &&empty($price[$k+1]))
+			{
+				$markline[] = array(array('name'=>'无成交','xAxis'=>$x_ray[$k],'itemStyle'=>array('normal'=>array('color'=>'#AAAAAA','opacity'=>40),'emphasis'=>array('color'=>'green','opacity'=>40))));
+				if(empty($visualmap))
+				{
+					$visualmap[] = array('lte'=>$x_ray[$k],'color'=>'red');
+				}
+				$visualmap[] = array('gt'=>$x_ray[$k],'color'=>'green');
+
+
+				$count++;
+
+			}elseif(empty($p) && !empty($count) &&!empty($price[$k+1])){
+				$tmp = end($markline);
+				array_pop($markline);
+
+				$tmp[] = array('xAxis'=>$x_ray[$k],'itemStyle'=>array('normal'=>array('color'=>'#AAAAAA','opacity'=>40),'emphasis'=>array('color'=>'green','opacity'=>40)));
+				array_push($markline,$tmp);
+
+				$tmp0 = end($visualmap);
+				array_pop($visualmap);
+				$tmp0['lte'] = $x_ray[$k];
+				array_push($visualmap,$tmp0);
+				$count--;
+			}
+		}
+		unset($k,$p);
+		$visualmap0 = array();
+		foreach($visualmap as $key =>$map)
+		{
+			if($map['gt']&&$map['lte'])
+			{
+				$visualmap0[] = $map;
+				$lte = $visualmap[$key+1]['gt'];
+				$gt = $visualmap[$key]['lte'];
+
+				$tmp = array('lte'=>$visualmap[$key+1]['gt'],'gt'=>$visualmap[$key]['lte'],'color'=>'red');
+				if(!in_array($tmp,$visualmap) && !empty($lte))
+				{
+					$visualmap0[] = $tmp;
+				}elseif(!in_array($tmp,$visualmap) && empty($lte)){
+					$visualmap0[] = array('gt'=>$visualmap[$key]['lte'],'color'=>'red');
+
+				}
+
+			}else{
+				$visualmap0[] = $map;
+			}
+		}
+		foreach($price as &$p)
+		{
+			if(empty($p)) $p = '-';
+		}
+
+	   /* //获取销量数据
 	    $price=array();
 	    $time=array();
 	    $time_u=array();
@@ -164,7 +289,7 @@ class businessAction extends adminBaseAction {
 	        $num=0;
 	        $a_price=0;
 	        $y=0;	        
-	    }
+	    }*/
 	    //获取价格数据
 /* 	    $highest=0;
 	    $lowest=10000000;
@@ -192,15 +317,17 @@ class businessAction extends adminBaseAction {
 	        $c[$k]=array_values($v);
 	    } */
 	    $cache_to=array(
-	        'aver'=>$d,
-	        'num'=>$a,
-	        'date'=>$time_u
+	        'aver'=>$price,
+	        'num'=>$num,
+	        'date'=>$x_ray,
+			'markline'=>$markline,
+		    'visualmap'=>$visualmap0
 	    );
 	    $cache->set('GRAPH_A:'.$model,json_encode($cache_to),60*60);	 
 	    $this->assign('p_id',$p_id);
 	    $this->assign('model',$model);
-	    if(sget('date_year','s')=='all'){
-	        $this->json_output(array('tip'=>'每日平均价格','aa'=>$a,'bb'=>$time_u,'dd'=>$d));
+	    if($this->isAjax()){
+	        $this->json_output(array('tip'=>'每日平均价格','aa'=>$num,'bb'=>$x_ray,'dd'=>$price,'markline'=>$markline,'visualmap'=>$visualmap0));
 	        exit();
 	    }
 	    $this->display('business.graph.html');
@@ -368,6 +495,8 @@ class businessAction extends adminBaseAction {
 	        $a_price=0;
 	        $y=0;
 	    }
+
+
 	    //获取价格数据
 /* 	    $highest=0;
 	    $lowest=1000000000000000000;
@@ -641,12 +770,29 @@ class businessAction extends adminBaseAction {
 		$earlist = $this->db->model('sale_log')->where(' p_id in ('.join(',',$product_ids).')')->order('input_time')->getRow();
 		$last = $this->db->model('sale_log')->where(' p_id in ('.join(',',$product_ids).')')->order('input_time desc')->getRow();
 		$years = range(date("Y",$earlist['input_time']),date("Y",$last['input_time']));
-		$arr = array(array('value'=>'all','key'=>'全部'));
+		$arr = array(array('value'=>'0','key'=>'全部'));
 		foreach($years as $year)
 		{
 			$arr[] = array('value'=>$year,'key'=>$year);
 		}
 		$cache->set('CHART_YEAR:'.$model,json_encode($arr),7*24*60*60);
 		$this->json_output($arr);
+	}
+
+
+	private function my_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){
+		if(is_array($arrays)){
+			foreach ($arrays as $array){
+				if(is_array($array)){
+					$key_arrays[] = $array[$sort_key];
+				}else{
+					return false;
+				}
+			}
+		}else{
+			return false;
+		}
+		array_multisort($key_arrays,$sort_order,$sort_type,$arrays);
+		return $arrays;
 	}
 }
