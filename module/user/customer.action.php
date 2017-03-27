@@ -136,7 +136,7 @@ class customerAction extends adminBaseAction {
 		// if($pt ==2) $where .= ' and `status` != 9 and  `status` != 8';
 		// pt主要标示黄名单客户的一些信息（8代表黄明单）
 		if($pt ==2) $where .= ' and `status` != 9 and  `status` != 8 ';
-		if($pt ==1) $where .= ' and `status` != 9 and chanel != 6 ';
+		if($pt ==1) $where .= ' and `status` != 9 ';
 		$where .= $this->public == 0 ? ' and `customer_manager` != 0 ' : ' and `customer_manager` = 0 ';
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
