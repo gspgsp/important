@@ -147,7 +147,7 @@
             $model = sget('model', 's');
             //启动redis缓存
             $cache = E('RedisCluster', APP_LIB . 'class');
-            $graph_cache = $cache->get('GRAPH:'.$model.":".$type);
+            $graph_cache = $cache->get('GRAPH:'.$model.":".$type.":".$date_year);
             if (!empty($graph_cache) && !is_null($graph_cache)) {
                 $data = json_decode($graph_cache, true);
                 $d = $data['aver'];
@@ -268,7 +268,7 @@
                 'date'     => $x_ray,
                 'markline' => $markline,
             );
-            $cache->set('GRAPH:'.$model.":".$type, json_encode($cache_to), 60 * 60);
+            $cache->set('GRAPH:'.$model.":".$type.":".$date_year, json_encode($cache_to), 60 * 60);
             $this->assign('p_id', $p_id);
             $this->assign('model', $model);
             if ($this->isAjax()) {
