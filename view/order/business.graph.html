@@ -19,10 +19,12 @@
                 <input id="date_year" name="date_year" class="mini-combobox" textField="key" valueField="value"
                        value="all"
                        url="/order/business/chart_year?model={$model}" showNullItem="false"/>
-                <a class="mini-button" iconcls="icon-search" onclick="submitForm('y')">每日数据查询</a>
-                <a class="mini-button" iconcls="icon-search" onclick="submitForm('w')">每周数据查询</a>
-                <a class="mini-button" iconcls="icon-search" onclick="submitForm('h')">每15天数据查询</a>
-                <a class="mini-button" iconcls="icon-search" onclick="submitForm('m')">每月数据查询</a>
+                <a class="mini-button" iconcls="icon-search" onclick="submitForm('daily')">每日数据查询</a>
+                <a class="mini-button" iconcls="icon-search" onclick="submitForm('weekly')">每周数据查询</a>
+<!--
+                <a class="mini-button" iconcls="icon-search" onclick="submitForm('monthly')">每15天数据查询</a>
+-->
+                <a class="mini-button" iconcls="icon-search" onclick="submitForm('monthly')">每月数据查询</a>
             </td>
         </tr>
     </table>
@@ -31,27 +33,28 @@
 <script type="text/javascript">
     //提交表单
     mini.parse();
-    submitForm('a');
+    submitForm('daily');
     function submitForm(type) {
         var form = new mini.Form("#info");
         var data = form.getData();//获取表单多个控件的数据
-        if (data.date_year == 'all' && type !== 'a') {
+        if (data.date_year == 'all' && type !== 'daily') {
             alert('请先选择年份');
             return false;
         }
-        var can = type;
+        //var can = type;
         var graph = 'graph';
         var url = '/order/business/' + graph;
         data.model = '{$model}';
         data.p_id = '{$p_id}';
+        data.type = type;
         $.ajax({
             url: url,
             type: "GET",
             data: data,
             success: function (ret) {
-                console.log("提交成功，返回结果:" + ret);
+                //console.log("提交成功，返回结果:" + ret);
                 var data = JSON.parse(ret);
-                console.log(data.visualmap);
+                //console.log(data);
                 var sdata = [];
                 var nullStyle = {value: '-', lineStyle: {color: 'green'}};
                 $.each(data.dd, function (i, n) {
@@ -77,16 +80,6 @@
                             type: 'line'
                         }
                     },
-                    /*visualMap: {
-                        show: false,
-                        pieces: [{
-                            lt: 0.1,
-                            color: 'green'
-                        }, {
-                            gt: 0.1,
-                            color: 'red'
-                        }]
-                     },*/
                     legend: {
                         data: ['价格', '销售额', data.tip]
                     },
@@ -146,14 +139,13 @@
                             max: 'dataMax'
                         }],
                     yAxis: [{
-                        name: '销售价格(元)',
+                        name: '销售价格(千元)',
                         scale: true,
                         splitLine: {show: true},
                         splitArea: {
                             show: true
                         }
-                    },
-                        {
+                    }, {
                             gridIndex: 1,
                             name: '销售额(吨)',
                             splitLine: {show: true},
@@ -163,88 +155,6 @@
                             }
                         }],
                     series: [
-                        /*             	         {
-                         name: '价格',
-                         type: 'candlestick',
-                         data:data.cc,
-                         markPoint: {
-                         label: {
-                         normal: {
-                         formatter: function (param) {
-                         return param != null ? Math.round(param.value) : '';
-                         }
-                         }
-                         },
-                         data: [
-                         {
-                         name: 'XX标点',
-                         coord: ['2013/5/31', 2300],
-                         value: 2300,
-                         itemStyle: {
-                         normal: {color: 'rgb(41,60,85)'}
-                         }
-                         },
-                         {
-                         name: 'highest value',
-                         type: 'max',
-                         valueDim: 'highest'
-                         },
-                         {
-                         name: 'lowest value',
-                         type: 'min',
-                         valueDim: 'lowest'
-                         },
-                         {
-                         name: 'average value on close',
-                         type: 'average',
-                         valueDim: 'close'
-                         }
-                         ],
-                         tooltip: {
-                         formatter: function (param) {
-                         return param.name + '<br>' + (param.data.coord || '');
-                         }
-                         }
-                         },
-                         markLine: {
-                         symbol: ['none', 'none'],
-                         data: [
-                         [
-                         {
-                         name: 'from lowest to highest',
-                         type: 'min',
-                         valueDim: 'lowest',
-                         symbol: 'circle',
-                         symbolSize: 10,
-                         label: {
-                         normal: {show: false},
-                         emphasis: {show: false}
-                         }
-                         },
-                         {
-                         type: 'max',
-                         valueDim: 'highest',
-                         symbol: 'circle',
-                         symbolSize: 10,
-                         label: {
-                         normal: {show: false},
-                         emphasis: {show: false}
-                         }
-                         }
-                         ],
-                         {
-                         name: 'min line on close',
-                         type: 'min',
-                         valueDim: 'close'
-                         },
-                         {
-                         name: 'max line on close',
-                         type: 'max',
-                         valueDim: 'close'
-                         }
-                         ]
-                         }
-                         }, */
                         {
                             name: data.tip,
                             type: 'line',
