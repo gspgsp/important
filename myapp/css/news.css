@@ -8,3 +8,12 @@ html,body{ height: 100%; background: #f0f0f6;}
 .toutiaoUl li span{ color: #e64748; font-size: 0.266666rem; padding: 0.066666rem 0.08rem; border: 1px solid #e64748; border-radius: 0.053333rem;}
 .toutiaoImg{ float: right; width: 2.986666rem; height: 1.946666rem; border: 1px solid #D9D9D9;}
 .toutiaoImg img{ width: 2.986666rem; height: 1.946666rem;}
+.loadingPage{background: #FFFFFF; z-index: 5000; position: fixed; top: 1.2rem; bottom: 0; left: 0; right: 0;}
+.loadingWrap{ width: 3.2rem; height: 2.4rem; text-align: center; background: none; position: fixed; left: 50%; top: 4.266666rem; margin-left: -1.6rem;}
+.slqLoading{ width: 1.6rem; height: 1.6rem; -webkit-animation:rotating 2.5s linear infinite; display: inline-block; background: url(../img/loadingPage.png) no-repeat; background-size: 100% 100%;}
+.slqLoadingTxt{ font-size: 0.346666rem; color: #666666;}
+
+@-webkit-keyframes rotating{
+	from{ transform:rotate(0)}
+	to{ transform:rotate(360deg)}
+}
