@@ -146,6 +146,20 @@ class newsModel extends model {
 
     }
 
+
+    /**
+     * 塑料圈app更新阅读量
+     * @Author   zhanpeng
+     * @DateTime 2016-11-4 11:32:19
+     * @Param
+     * @return
+     */
+    public function updateqAppPvByNum($id,$pv,$true_pv){
+        //pv默认加200阅读量
+        $this->model('news_content')->query("update p2p_news_content set pv=$pv,true_pv=$true_pv where id=".$id);//确切数量更新
+
+    }
+
     //根据访问量进行排行
     public function charts($type,$cate_id,$keywords='',$limit=10,$day=0){
         if($keywords){
