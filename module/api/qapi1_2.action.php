@@ -1592,51 +1592,7 @@ class qapi1_2Action extends null2Action
      */
     public function getDetailInfo()
     {
-        if ($_POST) {
-            $this->is_ajax = true;
-            $id = sget('id', i);
-            $this->checkAccount(0);
-            if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
-            M("qapp:news")->updateqAppPv($id);
-            $cache = cache::startMemcache();
-            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)){
-                $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
-            }
-
-            /**
-             * 九个频道，每个推荐一条
-             */
-            foreach($this->cates as $key=>$row){
-                $_tmp=M("qapp:news")->getNewsOrderByPv('',$key,'',1,5)[0];
-                if(!empty($_tmp)) $data['subscribe'][]=$_tmp;
-            }
-            $time = $data['input_time'];
-            $data['input_time'] = $this->checkTime($data['input_time']);
-            $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
-            $data['content'] = stripslashes($data['content']);
-            //添加缓存之后，页面显示效果  阅读数+1
-            $data['pv']=$data['pv']+1;
-            $data['true_pv']=$data['true_pv']+1;
-            //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
-            //$str= preg_replace("/border="0"",'',$str);
-            $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
-            //$data['content']=$this->cleanhtml(($data['content']),'<img><a><br /><table></table><tr></tr><td></td>');
-            //取出右键导航分类名称
-            $data['cate_name'] = $this->cates[$data['cate_id']];
-            if($data['type']=='public'){
-                $arr=array('pe','pp','pvc');
-                $tmp=array_rand($arr,1);
-                $data['type']='pp';
-            }
-            $data['type']=strtoupper($data['type']);
-            //取出上一篇和下一篇input_time desc,sort_order desc  上一篇是最新的
-            //取出上一篇和下一篇
-            $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
-            $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            $cache->set('qcateDetailInfo' .  '_' . $id, $data, 3600);
-            $this->json_output(array('err' => 0, 'info' => $data));
-        }
-        $this->_errCode(6);
+        A("api:qapi1_1")->getDetailInfo();
     }
 
     /**
@@ -1690,165 +1646,7 @@ class qapi1_2Action extends null2Action
      */
     public function getSubscribe()
     {
-        if ($_POST) {
-            $this->is_ajax = true;
-            $user_id = $this->checkAccount();
-            $cache = cache::startMemcache();
-            header("Content-type: text/html; charset=utf-8");
-            //分页
-            $page = sget('page', 'i', 1);
-            $subscribe = sget('subscribe', 'i'); //1  关键字搜索   2  推荐
-            $page_size = 10;
-            //获取搜索值
-            $keywords = sget('keywords', 's');
-            $version = sget('version','s');//版本号
-            $keywords = $this->clearStr($keywords);
-            if ($keywords&&$subscribe==1) {
-
-                /**
-                 * 加搜索记录
-                 * sort_field  'DEFAULT','INPUT_TIME','NC','SC','CC','ALL','AUTO','CONCERN','DEMANDORSUPPLY'
-                 * 首页默认排序default  注册时间排序input_time 华北nc  华南sc  华中cc
-                 * 全国站all  智能推荐auto  我的关注concern  我的供求 demandorsupply
-                 *
-                 *sort_order   'ALL','SALE','BUY','ASC','DESC'
-                 *all 不分求购还是供给  sale 供给  buy 求购  asc 注册时间正序 desc  注册时间倒序
-                 */
-                $chanel=$this->checkPlatform()['platform'];
-                if(!empty($keywords)){
-                    $arr=array(
-                        'user_id'=>$user_id,
-                        'sort_field'=>strtoupper('news'),
-                        'sort_order'=>'',
-                        'content'=>$keywords,
-                        'version'=>$version,
-                        'ip'=>get_ip(),
-                        'chanel'=>$chanel,
-                        'input_time'=>CORE_TIME,
-                    );
-                    M('qapp:plasticSearch')->add($arr);
-                }
-                //Sphinx取出关键词搜索数据
-                $sphinx = new SphinxClient;
-                $sphinx->SetServer('localhost', 9312);
-                $sphinx->SetMatchMode(SPH_MATCH_BOOLEAN);
-                $sphinx->SetSortMode(SPH_SORT_EXTENDED, "input_time DESC, @id DESC");
-                $sphinx->setLimits(abs($page - 1) * $page_size, $page_size, 1000);
-                $result = $sphinx->query("$keywords", 'news');
-                $ids = array_keys($result['matches']);
-                if (!empty($ids)) $data['data'] = M('qapp:news')->search($ids);
-                foreach($data['data'] as &$row){
-                    $row['input_time']=date("Y-m-d",$row['input_time']);
-                    $row['description'] = mb_substr(strip_tags($row['description']), 0, 50, 'utf-8') . '...';
-                    if($row['type']=='public'){
-                        $data['type']='pp';
-                    }
-                    $row['type']=strtoupper($row['type']);
-                }
-                if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
-                $this->_checkLastPage($data['count'], $page_size, $page);
-                $this->json_output(array('err' => 0, 'data'=>$data['data']));
-            } elseif ($subscribe == 2) {
-                //现在所有的推荐就是
-                $tmp_new_cate_id = M("qapp:newsSubscribe")->getSubscribeByUserid($user_id);
-                if (empty($tmp_new_cate_id)) $tmp_new_cate_id = $this->newsSubscribeDefault;//默认频道
-                if (count($tmp_new_cate_id) >= $this->newsSubscribe) {
-                    if ($this->getArrayChance()) {
-                        shuffle($tmp_new_cate_id);
-                        array_splice($tmp_new_cate_id, $this->newsSubscribe);
-                        $completeNum=1;
-                    } else {
-                        shuffle($tmp_new_cate_id);
-                        array_splice($tmp_new_cate_id, ($this->newsSubscribe-1));
-                        $completeNum=2;
-                    }
-                }elseif(count($tmp_new_cate_id)==5||count($tmp_new_cate_id)==4){
-                    if($this->getArrayChance()){
-                        $completeNum=1;
-                    }else{
-                        $completeNum=2;
-                    }
-                }
-                $allNum = array();
-                $today=strtotime(date("Y-m-d"));
-                foreach ($tmp_new_cate_id as $value) {
-                    $tmp = M("qapp:news")->getCateSons($value); //获取子分类
-                    if (!empty($tmp)) {
-                        if(count($tmp)>=1){
-                            shuffle($tmp);
-                            array_splice($tmp,1);
-                        }
-                        foreach ($tmp as $value1) {
-                            $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value1 and input_time>$today")->order("input_time desc")->limit(6)->getCol();
-                            if (count($all) > $completeNum) {
-                                shuffle($all);
-                                array_splice($all, $completeNum);
-                                array_merge($allNum, $all);
-                            }
-                        }
-                    } else {
-                        $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value and input_time>$today")->order("input_time desc")->limit(6)->getCol();
-                        if (count($all) > $completeNum) {
-                            shuffle($all);
-                            $stmp=array_rand($all,$completeNum);
-                            if(!is_array($stmp)) $stmp=array($stmp);
-                            foreach($stmp as $row){
-                                $allNum[]=$all[$row];
-                            }
-                        }
-                    }
-                }
-                if(count($allNum)>=($this->newsSubscribe)){
-                    shuffle($allNum);
-                    $stmp=array_rand($allNum,6);
-                    $new_id=array();
-                    foreach($stmp as $row){
-                        $new_id[]=$allNum[$row];
-                    }
-                }else{
-                    //取出排行榜文章
-                    $chartsData = M('qapp:news')->charts('', '', '', 6, 1);
-                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('', '', '', 10, 0);
-                    $tmp = array();
-                    foreach ($chartsData as $row) {
-                        $tmp[] = $row['id'];
-                    }
-                    shuffle($tmp);
-                    $left = $this->newsSubscribe - count($allNum);
-                    $stmp=array_rand($tmp,$left);
-                    if(!is_array($stmp)) $stmp=array($stmp);
-                    $atmp=array();
-                    foreach($stmp as $row){
-                        $atmp[]=$tmp[$row];
-                    }
-                    $new_id = array_merge($allNum, $atmp);
-                }
-
-                //未写完，2017年2月15日18:22:45  明天再做
-
-                $size=$this->newsSubscribe;
-                $data = M("qapp:news")->getqAppCateList('public', '', $new_id,$page, $size);
-                if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
-                $this->_checkLastPage($data['count'], $size, $page);
-                //截取示例文章文字
-                foreach ($data['data'] as $key => &$v) {
-                    //$v['content']=$this->cleanhtml(strip_tags($v['content']),'');
-                    $data['data'][$key]['description'] = mb_substr(strip_tags($v['description']), 0, 50, 'utf-8') . '...';
-                    //取出右键导航分类名称
-                    $data['data'][$key]['cate_name'] = M("qapp:news")->getSubName($v['cate_id']);
-                    $data['data'][$key]['input_time'] = $this->checkTime($v['input_time']);
-                    if ($v['type'] == 'public') {
-                        $arr = array('pe', 'pp', 'pvc');
-                        $tmp = array_rand($arr, 1);
-                        $v['type'] = 'pp';
-                    }
-                    $v['type'] = strtoupper($v['type']);
-                    //unset($v['content']);
-                }shuffle($data['data']);
-                $this->json_output(array('err' => 0, 'data' => $data['data']));
-            }
-        }
-        $this->_errCode(6);
+        A("api:qapi1_1")->getSubscribe();
     }
 
 
@@ -2820,18 +2618,18 @@ class qapi1_2Action extends null2Action
     }
 
 
-//    public function json_output($result=array()) {
-//        //header('Content-Type:text/html; charset=utf-8');
-//        header('Content-type: application/json; charset=utf-8');
-//        $result=json_encode($result);
-//        $jsoncallback=sget('jsoncallback');
-//        if(!empty($jsoncallback)){
-//            $result=$jsoncallback."($result)";
-//        }
-//        echo $result;
-//        if($this->debug || isset($_GET[C('SHOW_DEBUG')])) log::showTrace();
-//        die();
-//    }
+    public function json_output($result=array()) {
+        //header('Content-Type:text/html; charset=utf-8');
+        header('Content-type: application/json; charset=utf-8');
+        $result=json_encode($result);
+        $jsoncallback=sget('jsoncallback');
+        if(!empty($jsoncallback)){
+            $result=$jsoncallback."($result)";
+        }
+        echo $result;
+        if($this->debug || isset($_GET[C('SHOW_DEBUG')])) log::showTrace();
+        die();
+    }
 
 
 

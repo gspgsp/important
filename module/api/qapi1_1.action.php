@@ -1487,7 +1487,6 @@ class qapi1_1Action extends null2Action
      */
     public function getCateList()
     {
-        if ($_GET) {
             $this->is_ajax = true;
             $page = sget('page', 'i', 1);
             $size = sget('size', 'i', 10);
@@ -1538,7 +1537,6 @@ class qapi1_1Action extends null2Action
                 }
             }
             $this->json_output(array('err' => 0, 'info' => $data['data']));
-        }
     }
 
     /**
@@ -1551,18 +1549,19 @@ class qapi1_1Action extends null2Action
             $id = sget('id', i);
             $this->checkAccount(0);
             if (empty($id)) $this->error(array('err' => 5, 'msg' => '参数错误，请稍后再试'));
-            M("qapp:news")->updateqAppPv($id);
             $cache = cache::startMemcache();
-            //if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
+            if(!$data = $cache->get('qcateDetailInfo' . '_' . $id)) {
                 $data = $this->db->model('news_content')->where('id=' . $id)->getRow();
                 if(empty($data)) $this->_errCode(2);
                 /**
                  * 九个频道，每个推荐一条
                  */
                 foreach ($this->cates as $key => $row) {
-                    $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 3)[0];
-                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 7)[0];
-                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 0)[0];
+                    $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 1)[0];
+                    if(empty($_tmp)) continue;
+//                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 3)[0];
+//                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 7)[0];
+//                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 0)[0];
                     $_tmp['cate_name']=$this->catesAll[$_tmp['cate_id']];
                     $_tmp['input_time'] = $this->checkTime($_tmp['input_time']);
                     if($_tmp['type'] == 'public'||$_tmp['type'] == 'vip'){
@@ -1571,13 +1570,17 @@ class qapi1_1Action extends null2Action
                     $_tmp['type'] = strtoupper($_tmp['type']);
                     if (!empty($_tmp)) $data['subscribe'][] = $_tmp;
                 }
+                if(!empty($data['subscribe'])){
+                    $_idss=array();
+                    foreach($data['subscribe'] as $key1=>$row1){
+                        $_idss[$key1]=$row1['id'];
+                    }
+                }
+                array_multisort($_idss,SORT_DESC,$data['subscribe']);
                 $time = $data['input_time'];
                 $data['input_time'] = $this->checkTime($data['input_time']);
                 $data['author'] = empty($data['author']) ? '中晨' : $data['author'];
                 $data['content'] = stripslashes($data['content']);
-                //添加缓存之后，页面显示效果  阅读数+1
-                $data['pv'] = $data['pv'] + 1;
-                $data['true_pv'] = $data['true_pv'] + 1;
                 //$data['content'] = preg_replace("/style=.+?[*|\"]/i", '', $data['content']);
                 //$str= preg_replace("/border="0"",'',$str);
                 $data['content'] = preg_replace("/width=.+?[*|\"]/i", '', $data['content']);
@@ -1594,10 +1597,15 @@ class qapi1_1Action extends null2Action
                 //取出上一篇和下一篇
                 $data['lastOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id >' . $id)->select('id')->order('id asc')->limit(1)->getOne();
                 $data['nextOne'] = $this->db->model('news_content')->where('cate_id=' . $data['cate_id'] . ' and id <' . $id)->select('id')->order('id desc')->limit(1)->getOne();
-            //}
+            }
+            //添加缓存之后，页面显示效果  阅读数+1
+            $data['pv'] = $data['pv'] + 1;
+            $data['true_pv'] = $data['true_pv'] + 1;
+            if(time()%3==0) M("qapp:news")->updateqAppPvByNum($id,$data['pv'],$data['true_pv']);
             $cache->set('qcateDetailInfo' .  '_' . $id, $data,3600);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
+        $this->_errCode(6);
     }
 
     /**
