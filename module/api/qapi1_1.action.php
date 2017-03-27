@@ -2788,12 +2788,12 @@ class qapi1_1Action extends null2Action
             if(empty($row['content'])) continue;
             if(!$_tmp=M('qapp:news')->getQQNews($row['content'])) continue;
             $row=array_merge($row,$_tmp);
-            if(!empty($row['sm_img'])) $row['sm_img'] = FILE_URL."/upload/".$_sm_img;
+            if(empty($row['sm_img'])) $row['sm_img'] = FILE_URL."/upload/".$_sm_img;
             $row['input_time'] = $this->checkTime($row['input_time']);
             $row['author'] = '上海中晨';
             if(mb_strlen(strip_tags($row['title']))>25) $row['title']=mb_substr(strip_tags($row['title']), 0, 25, 'utf-8') . '...';
             if ($row['type'] == 'public') {
-                $value['type'] = 'pp';
+                $row['type'] = 'pp';
             }
             $row['type'] = strtoupper($row['type']);
             $_id[$k]=$row['id'];
@@ -2802,7 +2802,7 @@ class qapi1_1Action extends null2Action
         array_multisort($_id,SORT_DESC,$data['data']);
         if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
         $this->_checkLastPage(count($data['data']), $size, $page);
-        $this->cache->set('qappQQNews',serialize($data['data']),7200);
+        $this->cache->set('qappQQNews',serialize($data['data']),300);
         $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
 
