@@ -1602,7 +1602,7 @@ class qapi1_1Action extends null2Action
             $data['pv'] = $data['pv'] + 1;
             $data['true_pv'] = $data['true_pv'] + 1;
             if(time()%3==0) M("qapp:news")->updateqAppPvByNum($id,$data['pv'],$data['true_pv']);
-            $cache->set('qcateDetailInfo' .  '_' . $id, $data,3600);
+            $cache->set('qcateDetailInfo' .  '_' . $id, $data,1800);
             $this->json_output(array('err' => 0, 'info' => $data));
         }
         $this->_errCode(6);
@@ -2773,9 +2773,9 @@ class qapi1_1Action extends null2Action
         if($page<=0||$size<=0||$cate_id<=0){
             $this->_errCode(6);
         }
-//        if($data['data'] = unserialize($this->cache->get('qappQQNews'))){
-//            $this->json_output(array('err'=>0,'data'=>$data['data']));
-//        }
+        if($data['data'] = unserialize($this->cache->get('qappQQNews'))){
+            $this->json_output(array('err'=>0,'data'=>$data['data']));
+        }
         $data=M('qapp:news')->getQQCateList('',$cate_id,'',$page,$size);
         if($page>3) $this->_errCode(3);
         if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
