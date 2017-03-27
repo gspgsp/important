@@ -5,6 +5,14 @@
 		{{cate}}
 		<a class="detailShare" href="javascript:;" v-on:click="shareshow()"></a>
 	</header>
+	
+	<div class="loadingPage">
+	<div class="loadingWrap">
+		<div class="slqLoading"></div>
+		<div class="slqLoadingTxt">数据加载中,请稍候...</div>
+	</div>
+	</div>
+	
 	<div class="headlinecontent" style="overflow: hidden; background: #FFFFFF;">
 		<div class="headlinetitle">
 			<h3>{{type}} {{title}}</h3>
@@ -18,7 +26,7 @@
 		<span class="nex" v-on:click="toPage(nextOne)"></span>
 		</div>
 		<div style="width: 61px; height: 23px; text-align: center; line-height: 23px; color: #999; border: 1px solid #999; border-radius: 2px; clear: both; font-size: 12px; margin: 10px 0;">
-			热门回顾
+			热门追踪
 		</div>
 		<ul id="tj" class="searchli" style="padding: 0; color: #999;">
 			<li v-for="s in subscribe">
@@ -160,7 +168,6 @@ module.exports = {
 					},
 					dataType: 'JSON'
 				}).done(function(res){
-					loading.hide(function(){});
 					_this.id=res.info.id;
 					_this.title=res.info.title;
 					_this.cate_id=res.info.cate_id;
@@ -207,7 +214,7 @@ module.exports = {
 				}).fail(function(){
 					
 				}).always(function(){
-					
+					loading.hide(function(){});
 				})
 			} else {
 				weui.alert("没有相关文章", {
@@ -236,7 +243,7 @@ module.exports = {
 		$.ajax({
 			type: "post",
 			url: "/api/qapi1_1/getDetailInfo",
-			timeout: 10000,
+			timeout: 15000,
 			data: {
 				id: _this.$route.params.id,
 				token: window.localStorage.getItem("token")
@@ -244,9 +251,6 @@ module.exports = {
 			dataType: 'JSON'
 		}).done(function(res) {
 			if(res.err==0){
-				setTimeout(function(){
-					_this.loadingShow=false;
-				},500)
 				_this.id=res.info.id;
 				_this.title=res.info.title;
 				_this.cate_id=res.info.cate_id;
@@ -312,7 +316,7 @@ module.exports = {
 		}).fail(function(){
 			
 		}).always(function(){
-			
+			_this.loadingShow=false;
 		});
 	}
 }

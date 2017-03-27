@@ -243,9 +243,6 @@ module.exports = {
 					}]
 				});
 			} else {
-				setTimeout(function(){
-					_this.loadingShow=false;
-				},500)
 				_this.name = res.data.name;
 				_this.c_name = res.data.c_name;
 				_this.mobile = res.data.mobile;
@@ -264,7 +261,7 @@ module.exports = {
 		}).fail(function() {
 
 		}).always(function() {
-		
+			_this.loadingShow=false;	
 		});
 
 		$.ajax({

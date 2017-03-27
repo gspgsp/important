@@ -12,7 +12,7 @@
 <body>
 <div id="app">
 	<div class="toutiaoHeader">塑料圈通讯录-&nbsp;<span class="toutiaoSlogan"></span></div>
-	<ul class="toutiaoUl" v-if="newsShow">
+	<ul class="toutiaoUl" v-show="newsShow">
 		<li v-for="n in newsLi">
 			<a v-bind:href="'http://q.myplas.com/#/headlinedetail/'+n.id">
 			<div class="toutiaoImg">
@@ -23,6 +23,12 @@
 			</a>
 		</li>
 	</ul>
+	<div class="loadingPage" v-show="loading">
+	<div class="loadingWrap">
+		<div class="slqLoading"></div>
+		<div class="slqLoadingTxt">数据加载中,请稍候...</div>
+	</div>
+</div>
 </div>
 
 <script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
@@ -32,7 +38,8 @@
 		el: '#app',
 		data: {
 			newsLi:[],
-			newsShow:false
+			newsShow:false,
+			loading:true
 		},
 		mounted: function(){
 			var _this=this;
@@ -46,7 +53,8 @@
 			}).done(function(res){
 				if(res.err==0){
 					_this.newsShow=true;
-					_this.newsLi=res.data;	
+					_this.newsLi=res.data;
+					_this.loading=false;
 				}
 			}).fail(function(){
 				

@@ -59,6 +59,7 @@
 			</ul>
 		</div>
 	</div>
+	<loadingPage :loading="loadingShow"></loadingPage>
 	<footerbar></footerbar>
 	<div class="imgLayer" v-show="avatorCheck" v-on:click="check">
 		<div class="avatorCheck" v-bind:style="{backgroundImage: 'url(' + thumb + ')'}"></div>
@@ -70,9 +71,11 @@
 </template>
 <script>
 import footer from "../components/footer";
+import loadingPage from "../components/loadingPage"
 module.exports = {
 	components: {
-		'footerbar': footer
+		'footerbar': footer,
+		'loadingPage':loadingPage
 	},
 	data: function() {
 		return {
@@ -95,7 +98,8 @@ module.exports = {
 			cardImg: "",
 			mobile2:"",
 			buylist:[],
-			supplylist:[]
+			supplylist:[],
+			loadingShow:""
 		}
 	},
 	methods: {
@@ -125,9 +129,14 @@ module.exports = {
 			});
 		}
 	},
+	beforeRouteEnter:function(to,from,next){
+		next(function(vm){
+			vm.loadingShow=true;
+		});
+	},
 	activated: function() {
 		var _this = this;
-		$(window).scrollTop(0);
+		window.scrollTo(0,0);
 		try {
 		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 		    piwikTracker.trackPageView();
@@ -142,8 +151,7 @@ module.exports = {
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
-			console.log(res);
+		}).done(function(res) {
 			if(res.err == 0) {
 				_this.name = res.data.name;
 				_this.c_name = res.data.c_name;
@@ -178,8 +186,10 @@ module.exports = {
 				    }]
 				});
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			_this.loadingShow=false;	
 		});
 		
 		$.ajax({
