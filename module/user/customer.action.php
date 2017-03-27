@@ -175,11 +175,11 @@ class customerAction extends adminBaseAction {
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 				$where .= " and `customer_manager` in ($sons) ";
-				if(!empty($cidshare)){
-					// if(empty($keyword)){
-						$where .= " or `c_id` in ($cidshare)";
-					// }
+				if(!empty($keyword) && $cidshare){
+					//我用这个用户的id去共享表查询下看有没有这个id
+					if(M('user:customer')->judgeShare($cidshare)) $where .= " or `c_id` in ($cidshare)";
 				}else{
+					// 默认列表显示全部的共享客户
 					if(!empty($pools)){
 						$cids = explode(',', $pools);
 						$where .= " or `c_id` in ($pools)";
@@ -204,6 +204,7 @@ class customerAction extends adminBaseAction {
 			$see = $this->_getSee($v['customer_manager']);
 			$list['data'][$k]['mobile'] = $this->_hidestr($contact['mobile'],$see);
 			$list['data'][$k]['tel'] = $this->_hidestr($contact['tel'],$see);
+			$list['data'][$k]['name'] = $contact['name'];
 			//对客户名称打星(战队领导才打星号)
 			$list['data'][$k]['c_name']  = _leader($v['c_name'], $v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
 			//获取最新一次跟踪消息
