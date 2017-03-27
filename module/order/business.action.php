@@ -138,11 +138,16 @@
                     $divid = 'Y-m-d';
                     break;
             }
+            $tip_format = array(
+                'daily'=>'每日',
+                'monthly'=>'每月',
+                'weekly'=>'每周',
+            );
             $p_id = sget('p_id', 'i');
             $model = sget('model', 's');
             //启动redis缓存
             $cache = E('RedisCluster', APP_LIB . 'class');
-            //$graph_cache = $cache->get('GRAPH_A:'.$model);
+            $graph_cache = $cache->get('GRAPH_A:'.$model);
             if (!empty($graph_cache) && !is_null($graph_cache)) {
                 $data = json_decode($graph_cache, true);
                 $d = $data['aver'];
@@ -153,7 +158,7 @@
                 $this->assign('p_id', $p_id);
                 $this->assign('model', $model);
                 if ($this->isAjax()) {
-                    $this->json_output(array('tip' => '每日平均价格', 'aa' => $a, 'bb' => $b, 'dd' => $d, 'markline' => $markline));
+                    $this->json_output(array('tip' => $tip_format[$type].'平均价格', 'aa' => $a, 'bb' => $b, 'dd' => $d, 'markline' => $markline));
                     die();
                 }
                 $this->display('business.graph.html');
@@ -208,12 +213,7 @@
                     $show_time = range($start_day, $end_day, 1);
                     break;
             }
-            /*file_put_contents('/tmp/xielei.txt',print_r($show_time,true),FILE_APPEND);
-            file_put_contents('/tmp/xielei.txt',print_r($time_arr,true),FILE_APPEND);*/
-
             $diff_arr = array_diff($show_time, $time_arr);
-            //file_put_contents('/tmp/xielei.txt',print_r($diff_arr,true),FILE_APPEND);
-
             foreach ($diff_arr as $time0) {
                 $tmp[$time0] = array(array('input_time' => time(), 'unit_price' => 0, 'number' => 0, 'time' => $time0));
             }
@@ -224,7 +224,6 @@
             $x_ray = array();
             $price = array();
             $num = array();
-            //file_put_contents('/tmp/xielei.txt', print_r($tmp, true), FILE_APPEND);
 
             foreach ($tmp as $time => $val) {
                 $tmp_price = 0;
@@ -240,11 +239,9 @@
                 $num[] = $tmp_num;
                 $x_ray[] = (string)$time;
             }
-            //file_put_contents('/tmp/xielei.txt',print_r($price,true),FILE_APPEND);
 
             unset($val);
             $markline = $visualmap = array();
-            file_put_contents('/tmp/xielei.txt',print_r($price,true),FILE_APPEND);
 
             foreach ($price as $k => $p) {
                 static $count = 0;
@@ -254,74 +251,17 @@
                 } elseif (empty($p) && !empty($count) && !empty($price[$k + 1])) {
                     $tmp = end($markline);
                     array_pop($markline);
-
                     $tmp[] = array('xAxis' => (string)$x_ray[$k], 'itemStyle' => array('normal' => array('color' => '#DDDDDD', 'opacity' => 0.8), 'emphasis' => array('color' => 'green', 'opacity' => 0.8)));
                     array_push($markline, $tmp);
-
                     $count--;
                 }
             }
             unset($k, $p);
-            file_put_contents('/tmp/xielei.txt',print_r($markline,true),FILE_APPEND);
 
             foreach ($price as &$p) {
                 if (empty($p)) $p = '-';
             }
 
-            /* //获取销量数据
-             $price=array();
-             $time=array();
-             $time_u=array();
-             $le_l=count($list);
-             for($i=0;$i<$le_l;$i++){
-                 $time[$i]=$list[$i]['time'];
-             }
-             $time_a=array_unique($time);
-             foreach($time_a as $k=>$v){
-                 array_push($time_u,$time_a[$k]);
-             }
-             $le_t=count($time_u);
-             $num=0;$y=0;$a_price=0;
-             for($i=0;$i<$le_t;$i++){
-                 for($j=0;$j<$le_l;$j++){
-                     if($list[$j]['time']==$time_u[$i]){
-                         $num+=$list[$j]['number'];
-                         $a_price+=$list[$j]['unit_price'];
-                         ++$y;
-                     }
-                 }
-                 $d[$i]=(int)sprintf("%.0f",$a_price/$y);
-                 $a[$i]=$num;
-                 $num=0;
-                 $a_price=0;
-                 $y=0;
-             }*/
-            //获取价格数据
-            /* 	    $highest=0;
-                    $lowest=10000000;
-                    for($i=0;$i<$le_t;$i++){
-                        for($j=0;$j<$le_l;$j++){
-                            if($list[$j]['time']==$time_u[$i]){
-                                array_push($price,$list[$j]['unit_price']);
-                                if($list[$j]['unit_price']>=$highest){
-                                    $highest=$list[$j]['unit_price'];
-                                }
-                                if($list[$j]['unit_price']<=$lowest){
-                                    $lowest=$list[$j]['unit_price'];
-                                }
-                            }
-                        }
-                        $c[$i]['open']=(int)reset($price);
-                        $c[$i]['close']=(int)end($price);
-                        $c[$i]['lowest']=(int)$lowest;
-                        $c[$i]['highest']=(int)$highest;
-                        $price=array();
-                        $highest=0;
-                        $lowest=1000000000;
-                    }
-                    foreach($c as $k=>$v){
-                        $c[$k]=array_values($v);
-                    } */
             $cache_to = array(
                 'aver'     => $price,
                 'num'      => $num,
@@ -332,7 +272,7 @@
             $this->assign('p_id', $p_id);
             $this->assign('model', $model);
             if ($this->isAjax()) {
-                $this->json_output(array('tip' => '每日平均价格', 'aa' => $num, 'bb' => $x_ray, 'dd' => $price, 'markline' => $markline));
+                $this->json_output(array('tip' =>  $tip_format[$type].'平均价格', 'aa' => $num, 'bb' => $x_ray, 'dd' => $price, 'markline' => $markline));
                 exit();
             }
             $this->display('business.graph.html');
