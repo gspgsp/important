@@ -668,3 +668,10 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 	from{ transform:rotate(0)}
 	to{ transform:rotate(360deg)}
 }
+
+.errorPage{background: #FFFFFF; z-index: 5000; text-align: center; position: fixed; top: 45px; bottom: 0; left: 0; right: 0;}
+.errorWrap{ width: 320px; height: 190px; margin: 80px 0 50px 0; display: inline-block; background: url(../img/errorPage.png) no-repeat; background-size: 100% 100%;}
+.errorTxt{}
+.errorTxt a{ display: inline-block; width: 120px; height: 40px; font-size: 17px; border-radius: 3px; line-height: 40px; color: #FFFFFF;}
+.errorTxt .blue{ background: #00c3f3;}
+.errorTxt .orange{ background: #ffa800;}
