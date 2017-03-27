@@ -1,0 +1,166 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<form id="soform">
+					<select name="team_id">
+					<option selected="selected">战队名称</option>
+						{html_options options=$team}
+					</select>
+					交易员
+					<input name="keyword" class="mini-textbox" style="width:70px;" onenter="onKeyEnter"/>
+					时间筛选
+					<input name="startTime" class="mini-datepicker"  value="{$startTime}" style="width:100px;"/>
+					<input name="endTime" class="mini-datepicker" value="{$endTime}" style="width:100px;"/>
+					<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" url="/report/dailyCollect/init?action=grid" showFilterRow="true" idField="id" multiSelect="true">
+		<div property="columns">
+			<div type="checkcolumn" width="10"></div>
+		 	<div name="team_name" field="team_name" width="30" headerAlign="center" allowSort="false" align="center">团队</div>   
+			<div field="name" width="30" headerAlign="center" allowSort="false" align="center">交易员</div>
+            <div field="new_clients" width="30" headerAlign="center" allowSort="false" align="center" renderer="new_clients">今日新增客户</div> 
+            <div field="follow_clients" width="30" headerAlign="center" allowSort="true" align="center" renderer="follow_clients" >今日跟进客户数</div>
+            <div field="clients_orders" width="30" headerAlign="center" allowSort="true" align="center" renderer="clients_orders">今日成交客户数</div>
+            <div field="today_sales" width="30" headerAlign="center" allowSort="true" align="center" renderer="today_sales">今日销售吨数</div>
+            <div field="today_buys" width="30" headerAlign="center" allowSort="true" align="center" renderer="today_buys">今日采购吨数</div>
+            <div field="profit" width="30" headerAlign="center" allowSort="true" align="center" renderer="profit">今日利润</div>
+            <div field="calls" width="30" headerAlign="center" allowSort="true" align="center" >今日电话</div>
+			<div field="finish_rate" width="30" headerAlign="center" allowSort="true" align="center" >目标完成率</div>
+			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">抓取时间</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+//查询
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//今日新增客户
+function new_clients(e) {
+    var record = e.record,s='',cids = record.new_clients_ids,new_clients = record.new_clients;
+    var c_ids = "'("+cids+")'";
+    s += '<a href="javascript:new_clients_num('+c_ids+')">'+new_clients+'</a> ';
+    return s;
+}
+function new_clients_num(cids){
+    if(o_ids == '(0)'){
+        return;
+    }
+    mini.open({
+      url: "/user/customer/customerList?moreChoice=1&cids="+cids,
+      showMaxButton:true,
+      title: "今日新增客户列表", 
+      width: 1200, height:430
+    });   
+}
+//今日跟进客户
+function follow_clients(e) {
+    var record = e.record,s='',clients = record.follow_clients_ids,follow_clients = record.follow_clients;
+    var follow_clients_ids = "'("+clients+")'";
+    s += '<a href="javascript:getTodayFollowCustomers('+follow_clients_ids+')">'+follow_clients+'</a> ';
+    return s;
+}
+function getTodayFollowCustomers(ids){
+    if(ids == "(0)"){
+        return;
+    }
+    mini.open({
+      url: "/user/follow/init?moreChoice=1&ids="+ids,
+      showMaxButton:true,
+      title: "客户跟进", 
+      width: 1200, height:430
+    });   
+}
+//今日成交客户数
+function clients_orders(e) {
+    var record = e.record,s='',clients = record.clients_orders_ids,clients_orders = record.clients_orders;
+    var clients_orders_ids = "'("+clients+")'";
+    s += '<a href="javascript:new_clients_order_num('+clients_orders_ids+')">'+clients_orders+'</a> ';
+    return s;
+}
+function new_clients_order_num(cids){
+    console.log(cids);
+    if(cids == "(0)"){
+        return;
+    }
+    mini.open({
+      url: "/user/customer/customerList?moreChoice=1&cids="+cids,
+      showMaxButton:true,
+      title: "今日成交客户列表", 
+      width: 1200, height:430
+    });  
+}
+//今日销售吨数
+function today_sales(e) {
+    var record = e.record,s='',oids = record.today_sales_oids,today_sales = record.today_sales;
+    var o_ids = "'("+oids+")'";
+    s += '<a href="javascript:today_sale_num('+o_ids+')">'+today_sales+'</a> ';
+    return s;
+}
+function today_sale_num(o_ids){
+   // console.log(o_ids);return;
+    if(o_ids == '(0)'){
+        return;
+    }
+    mini.open({
+      url: "/product/order/init?moreChoice=1&o_ids="+o_ids,
+      showMaxButton:true,
+      title: "销售订单", 
+      width: 1200, height:430
+    });   
+}
+//今日采购吨数
+function today_buys(e) {
+    var record = e.record,s='',oids = record.today_buys_oids,today_buys = record.today_buys;
+    var o_ids = "'("+oids+")'";
+    s += '<a href="javascript:today_buy_num('+o_ids+')">'+today_buys+'</a> ';
+    return s;
+}
+function today_buy_num(o_ids){
+   // console.log(o_ids);return;
+    if(o_ids == '(0)'){
+        return;
+    }
+    mini.open({
+      url: "/product/order/purchase?moreChoice=1&o_ids="+o_ids,
+      showMaxButton:true,
+      title: "采购订单", 
+      width: 1200, height:430
+    });  
+}
+//今日利润
+function profit(e) {
+    var record = e.record,s='',oids = record.profit_oids,profit = record.profit;
+    var o_ids = "'("+oids+")'";
+    s += '<a href="javascript:today_profit('+o_ids+')">'+profit+'</a> ';
+    return s;
+}
+function today_profit(o_ids){
+   // console.log(o_ids);return;
+    if(o_ids == '(0)'){
+        return;
+    }
+    mini.open({
+      url: "/product/order/init?moreChoice=1&o_ids="+o_ids,
+      showMaxButton:true,
+      title: "销售订单", 
+      width: 1200, height:430
+    });  
+}
+</script> 
