@@ -139,15 +139,15 @@
                     break;
             }
             $tip_format = array(
-                'daily'=>'每日',
-                'monthly'=>'每月',
-                'weekly'=>'每周',
+                'daily'   => '每日',
+                'monthly' => '每月',
+                'weekly'  => '每周',
             );
             $p_id = sget('p_id', 'i');
             $model = sget('model', 's');
             //启动redis缓存
             $cache = E('RedisCluster', APP_LIB . 'class');
-            $graph_cache = $cache->get('GRAPH:'.$model.":".$type.":".$date_year);
+            $graph_cache = $cache->get('GRAPH:' . $model . ":" . $type . ":" . $date_year);
             if (!empty($graph_cache) && !is_null($graph_cache)) {
                 $data = json_decode($graph_cache, true);
                 $d = $data['aver'];
@@ -158,7 +158,7 @@
                 $this->assign('p_id', $p_id);
                 $this->assign('model', $model);
                 if ($this->isAjax()) {
-                    $this->json_output(array('tip' => $tip_format[$type].'平均价格', 'aa' => $a, 'bb' => $b, 'dd' => $d, 'markline' => $markline));
+                    $this->json_output(array('tip' => $tip_format[$type] . '平均价格', 'aa' => $a, 'bb' => $b, 'dd' => $d, 'markline' => $markline));
                     die();
                 }
                 $this->display('business.graph.html');
@@ -235,7 +235,7 @@
                 }
                 unset($value);
 
-                $price[] = round($tmp_price / count($val),3);
+                $price[] = round($tmp_price / count($val), 3);
                 $num[] = $tmp_num;
                 $x_ray[] = (string)$time;
             }
@@ -246,7 +246,7 @@
             foreach ($price as $k => $p) {
                 static $count = 0;
                 if (empty($p) && empty($count) && empty($price[$k + 1])) {
-                    $markline[] = array(array('name' => '无成交', 'xAxis' =>(string) $x_ray[$k], 'itemStyle' => array('normal' => array('color' => '#DDDDDD', 'opacity' => 0.8), 'emphasis' => array('color' => 'green', 'opacity' => 0.8))));
+                    $markline[] = array(array('name' => '无成交', 'xAxis' => (string)$x_ray[$k], 'itemStyle' => array('normal' => array('color' => '#DDDDDD', 'opacity' => 0.8), 'emphasis' => array('color' => 'green', 'opacity' => 0.8))));
                     $count++;
                 } elseif (empty($p) && !empty($count) && !empty($price[$k + 1])) {
                     $tmp = end($markline);
@@ -268,11 +268,11 @@
                 'date'     => $x_ray,
                 'markline' => $markline,
             );
-            $cache->set('GRAPH:'.$model.":".$type.":".$date_year, json_encode($cache_to), 60 * 60);
+            $cache->set('GRAPH:' . $model . ":" . $type . ":" . $date_year, json_encode($cache_to), 60 * 60);
             $this->assign('p_id', $p_id);
             $this->assign('model', $model);
             if ($this->isAjax()) {
-                $this->json_output(array('tip' =>  $tip_format[$type].'平均价格', 'aa' => $num, 'bb' => $x_ray, 'dd' => $price, 'markline' => $markline));
+                $this->json_output(array('tip' => $tip_format[$type] . '平均价格', 'aa' => $num, 'bb' => $x_ray, 'dd' => $price, 'markline' => $markline));
                 exit();
             }
             $this->display('business.graph.html');
