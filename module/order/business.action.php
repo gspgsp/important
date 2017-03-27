@@ -167,7 +167,7 @@
             $where = " where 1 AND pro.model ='$model'AND o.order_type = 1 AND o.`order_status` = 2 AND o.`transport_status` = 2";
             if (!empty($date_year) && $date_year != 'all') {
                 $start_day = mktime(00, 00, 00, 1, 1, $date_year);
-                $end_day = mktime(00, 00, 00, 12, 31, $date_year);
+                $end_day = mktime(23, 59, 59, 12, 31, $date_year);
                 $where .= " AND log.input_time < {$end_day} AND log.input_time > {$start_day}  ";
             }
             $list = M('public:common')->model('sale_log')->order('input_time')->getAll('SELECT log.`number`,log.`unit_price`,log.`input_time`,log.`update_time`
