@@ -60,10 +60,16 @@ class customer_billingAction extends adminBaseAction
 		$res=array();
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			// $where = " 1 ";
-			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导1,896,895,894,881,7
 			// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
-			$pools = M('user:customer')->getCidByPoolCus('772'); //共享客户
-			$cid_str=$sons.','.$pools;
+			$pools = M('user:customer')->getCidByPoolCus('702'); //共享客户812,2093
+			foreach (explode(',',$pools) as $va) {
+				$son2 = M('rbac:rbac')->getSons($va);
+				if (!empty($son2)) {
+					$sons2 .=','.$son2;
+				}
+			}
+			$cid_str=$sons.$sons2;
 			$where .= " and `customer_manager` in ($cid_str) ";
 			$res=$this->db->model('customer')->where($where)->select('c_id')->getCol();
 		}
