@@ -59,29 +59,24 @@ class customer_billingAction extends adminBaseAction
 		//筛选自己的客户
 		$res=array();
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-			// $where = " 1 ";
-			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导1,896,895,894,881,7
-			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
-			foreach (explode(',',$pools) as $va) {
-				$son2 = M('rbac:rbac')->getSons($va);
-				if (!empty($son2)) {
-					$sons2 .=','.$son2;
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			$pools = M('user:customer')->getCidPoolCus($sons);
+			$where .= " and `customer_manager` in ($sons) ";
+			if(!empty($keyword) && $cids){
+				//我用这个用户的id去共享表查询下看有没有这个id
+				if(M('user:customer')->judgeShare($cids)) $where .= " or `c_id` in ($cids)";
+			}else{
+				// 默认列表显示全部的共享客户
+				if(!empty($pools)){
+					$cids = explode(',', $pools);
+					$where .= " or `c_id` in ($pools)";
 				}
 			}
-			$cid_str=$sons.$sons2;
-			$where .= " and `customer_manager` in ($cid_str) ";
-			$res=$this->db->model('customer')->where($where)->select('c_id')->getCol();
 		}
-		if ($res) {
-			$ids = implode(',', $res);
-			$where .=" and `c_id` in ($ids)";
-		}
-
 		$list=$this->db->model('customer_billing')->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
-
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
