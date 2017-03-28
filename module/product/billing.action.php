@@ -164,7 +164,7 @@ class billingAction extends adminBaseAction
 	    	    //筛选财务,$res=1就属于财务
 	    	    $res = in_array($roleid, array('30','26','27'))?1:0;
 				if($resu==1 && $res==0){
-					$v['msg']='改单存在破损，开票请联系财务处理！';
+					$v['msg']='该单存在破损，开票请联系财务处理！';
 				}
     	        if($content_id>0){
         	        //通过获取到的关联订单号=>来获取关联订单的开票状态是否全部开票
