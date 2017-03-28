@@ -114,6 +114,8 @@ class customerContactModel extends model{
 				'is_default'=>1,
 			); 
 		}
+		$info['c_name'] = str_replace(' ','',trim($info['c_name']));
+		$info['info_name'] = str_replace(' ','',trim($info['info_name']));
 		// 给客户初始一个默认值0
 		$customer_id = 0;
 		$_data = array(
@@ -126,12 +128,9 @@ class customerContactModel extends model{
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
-
 		if($info['is_credit']>0){
 			$data['credit_time'] =  CORE_TIME ;
 		}
-
-
 		if($info['ctype']==1 && $info['user_id']>0){
 			//更新联系人
 			$result = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->update($info+$data);
@@ -180,6 +179,8 @@ class customerContactModel extends model{
 	  * @return bool（true唯一）
 	 */
 	public function usrUnique($name='mobile',$value='',$user_id=0){
+		$name = trim($name);//去空格
+		$name = str_replace(' ', '', $name); //去中间空格
 		$where = "$name='$value'";
 		if($user_id){
 			$where .= " and user_id !='$user_id'";
