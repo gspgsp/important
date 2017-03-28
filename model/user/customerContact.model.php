@@ -42,25 +42,25 @@ class customerContactModel extends model{
 			$info['business_licence_pic'] = empty($info['business_licence_pic']) ? $info['business_licence_pic1'] : $info['business_licence_pic'];
 			//开始验证添加的企业（公司名字)
 			if(!empty($param['c_name'])){
-				if(!M('user:customer')->curUnique('c_name',$param['c_name'],$cid)){
+				if(!$this->curUnique('c_name',$param['c_name'],$cid)){
 					return array('err'=>1,'msg'=>'公司名称已经存在');
 				}
 			}
 			//chk营业执照
 			if(!empty($param['business_licence'])){
-				if(!M('user:customer')->curUnique('business_licence',$param['business_licence'],$cid)){
+				if(!$this->curUnique('business_licence',$param['business_licence'],$cid)){
 					return array('err'=>1,'msg'=>'公司营业执照号码已经存在');
 				}
 			}
 			//chk税务
 			if(!empty($param['tax_registration'])){
-				if(!M('user:customer')->curUnique('tax_registration',$param['tax_registration'],$cid)){
+				if(!$this->curUnique('tax_registration',$param['tax_registration'],$cid)){
 					return array('err'=>1,'msg'=>'税务代码已经存在');
 				}
 			}
 			//chk组织代码
 			if(!empty($param['organization_code'])){
-				if(!M('user:customer')->curUnique('organization_code',$param['organization_code'],$cid)){
+				if(!$this->curUnique('organization_code',$param['organization_code'],$cid)){
 					return array('err'=>1,'msg'=>'公司组织代码已经存在');
 				}
 			}
@@ -69,7 +69,7 @@ class customerContactModel extends model{
 				if(strlen($param['legal_idcard'])<15){
 					return array('err'=>1,'msg'=>'身份证号码不正确');
 				}
-				if(!M('user:customer')->curUnique('legal_idcard',$param['legal_idcard'],$cid)){
+				if(!$this->curUnique('legal_idcard',$param['legal_idcard'],$cid)){
 					return array('err'=>1,'msg'=>'法人身份证号码已存在');
 				}
 			}
@@ -179,8 +179,8 @@ class customerContactModel extends model{
 	  * @return bool（true唯一）
 	 */
 	public function usrUnique($name='mobile',$value='',$user_id=0){
-		$name = trim($name);//去空格
-		$name = str_replace(' ', '', $name); //去中间空格
+		$value = trim($value);//去空格
+		$value = str_replace(' ', '', $value); //去中间空格
 		$where = "$name='$value'";
 		if($user_id){
 			$where .= " and user_id !='$user_id'";
@@ -188,7 +188,19 @@ class customerContactModel extends model{
 		$exist=$this->model('customer_contact')->select('user_id')->where($where)->getOne();
 		return $exist>0 ? false : true;
 	}
-
+	/**
+	 * 检查客户信息是不是重复
+	 */
+	public function curUnique($name='c_name',$value='',$c_id=0){
+		$value = trim($value);//去空格
+		$value = str_replace(' ', '', $value); //去中间空格
+		$where = "$name='$value'";
+		if($c_id){
+			$where .= " and c_id !='$c_id'";
+		}
+		$exist=$this->model('customer')->select('c_id')->where($where)->getOne();
+		return $exist>0 ? false : true;
+	}
 	/*
 	 * 根据客户ID查出联系人
 	 */
