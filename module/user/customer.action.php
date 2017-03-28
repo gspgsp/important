@@ -705,6 +705,7 @@ class customerAction extends adminBaseAction {
 	//公司名去重
 	public function curUnique(){
 		$data = trim($_POST['data']);
+		$data = str_replace(' ', '', $data); //去中间空格
 		if(empty($data)) $this->error('请填写公司名称');
 		$res = M('user:customer')->curUnique('c_name',$data);
 
