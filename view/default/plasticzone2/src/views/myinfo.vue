@@ -107,8 +107,8 @@
 			<div class="card">
 				<img v-bind:src="cardImg">
 			</div>
-			<div class="card2">
-				<input id="upfileId" type="file" name="upFile" style="width:133px; height: 73px; opacity: 0; position: absolute; top: 0; left: 0;" v-on:change="uploadCard">
+			<div class="card2" id="uploaderCard">
+				<input type="file" name="upFile" style="width:133px; height: 73px; opacity: 0; position: absolute; top: 0; left: 0;">
 				<div class="card2upload" v-show="!cardshow"></div>
 				<div class="card2success" v-show="cardshow"></div>
 			</div>
@@ -148,7 +148,6 @@ module.exports = {
 			phshow: true,
 			sexradio: 0,
 			distinctradio: "EC",
-			cardshow: false,
 			cardImg: "",
 			active: "",
 			active2: "",
@@ -328,35 +327,7 @@ module.exports = {
 		},
 		edit4: function() {
 			this.phshow = false;
-		},
-		uploadCard: function() {
-			var _this = this;
-			$.ajaxFileUpload({
-				url: '/api/qapi1/saveCardImg',
-				secureuri: false,
-				fileElementId: 'upfileId',
-				data: {
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'json',
-				success: function(res) {
-					if(res.err == 0) {
-						mui.alert("", "上传成功", function() {
-							_this.cardImg = res.url;
-						});
-					} else {
-						mui.alert("", "上传失败", function() {
-
-						});
-					}
-
-				},
-				error: function(data, status, e) {
-
-				}
-			});
 		}
-
 	},
 	activated: function() {
 		var _this = this;
@@ -367,8 +338,44 @@ module.exports = {
 		} catch(err) {
 
 		}
+		
+		weui.uploader('#uploaderCard', {
+			url: '/api/qapi1/saveCardImg',
+			auto: true,
+			type: 'file',
+			fileVal: 'fileVal',
+			data: {
+				token: window.localStorage.getItem("token")
+			},
+			compress: {
+				width: 500,
+				height: 500,
+				quality: .5
+			},
+			onBeforeQueued: function(files) {
+				// `this` 是轮询到的文件, `files` 是所有文件
+				if(["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0) {
+					weui.alert('请上传图片');
+					return false; // 阻止文件添加
+				}
+				if(this.size > 5 * 1024 * 1024) {
+					weui.alert('请上传不超过5M的图片');
+					return false;
+				}
+			},
+			onQueued: function() {
+				console.log(this);
+			},
+			onSuccess: function(res) {
+				if(res.err == 0) {
+					_this.cardImg = res.url;
+				}
+			},
+			onError: function(err) {
+				console.log("error",this, err);
+			}
+		});
 
-		var uploadCount = 0;
 		weui.uploader('#uploader', {
 			url: '/api/qapi1/savePicToServer',
 			auto: true,
