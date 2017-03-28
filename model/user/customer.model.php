@@ -131,8 +131,15 @@ class customerModel extends model{
 		$result = $this->model('customer_pool')->select('c_id')->where($where)->getCol();
 		return implode(',',array_unique($result));
 	}
-
-
+	/**传入领导上下级字符串**/
+	public function getCidPoolCus($customer_manager=''){
+		$where = " 1 ";
+		if($customer_manager){
+			$where .= " and `customer_manager` in ($customer_manager) ";
+		}
+		$result = $this->model('customer_pool')->select('c_id')->where($where)->getCol();
+		return implode(',',array_unique($result));
+	}
 	/**
 	 *营业执照号验证
 	 */
@@ -274,9 +281,11 @@ class customerModel extends model{
 	 * @param    integer                  $cid [description]
 	 * @return   [type]                        [description]
 	 */
-	public function judgeShare($cid=0){
+	public function judgeShare($cid=''){
 		$uid = $_SESSION['adminid'];
-		$exit = $this->model('customer_pool')->where("`customer_manager` = $uid AND `c_id` = $cid")->getRow();
+		//根据当前用户查询的这个人是不是当前的这个人下属的客户
+		$sons = M('rbac:rbac')->getSons($uid);  //领导
+		$exit = $this->model('customer_pool')->where("`customer_manager` in ($sons) AND `c_id` in ($cid)")->getRow();
 		return empty($exit) ? false : true;
 	}
 
