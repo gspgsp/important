@@ -1395,7 +1395,7 @@ function doTalk(id)
 {
     var user=$("#user_name").html();
     if(!user){
-        loginbox('/');
+        loginbox('home');
         return;
     }
     window.location.href="/purchase/index/wantBuy?purid="+id;
