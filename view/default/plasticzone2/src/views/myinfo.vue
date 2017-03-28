@@ -8,8 +8,8 @@
 	</div>
 	<div class="personInfo">
 		<div style="width: 80px; height: 80px; position: relative; float: left;">
-			<div class="personAvator">
-				<input id="upAvatorId" type="file" name="upFile" style="width:80px; height: 80px; opacity: 0; position: absolute; top: 0; left: 0;" v-on:change="editAvator">
+			<div class="personAvator" id="uploader">
+				<input type="file" accept="image/*" capture="camera" multiple="" style="width:80px; height: 80px; opacity: 0; position: absolute; top: 0; left: 0;">
 				<img width="80" height="80" v-bind:src="thumb">
 			</div>
 			<i class="photo"></i>
@@ -50,25 +50,25 @@
 			</p>
 			<div style="position: relative;">
 				<div v-show="!zyshow" style=" position: absolute; top: -30px; left: 75px; border-radius: 5px; background: rgba(0,0,0,0.7); color: #FFFFFF; font-size: 12px; padding: 2px 5px;">不同牌号之间用空格分开</div>
-			<p><span style="color: #333333; font-size: 12px;">我的主营：</span>
-				<b v-show="zyshow">{{need_product}}</b>
-				<strong v-show="!zyshow" class="address">
+				<p><span style="color: #333333; font-size: 12px;">我的主营：</span>
+					<b v-show="zyshow">{{need_product}}</b>
+					<strong v-show="!zyshow" class="address">
 <input type="text" style="width: 160px; float: right; margin: 0 60px 0 0;" v-model="need_product" />
 <input type="button" value="提交" style="position: absolute; top: 3px;" v-on:click="zysubmit" />
 </strong>
-				<i class="editicon" v-show="zyshow" v-on:click="edit3"></i>
-			</p>
+					<i class="editicon" v-show="zyshow" v-on:click="edit3"></i>
+				</p>
 			</div>
 			<div style="position: relative;">
 				<div v-show="!phshow" style=" position: absolute; top: -30px; left: 75px; border-radius: 5px; background: rgba(0,0,0,0.7); color: #FFFFFF; font-size: 12px; padding: 2px 5px;">不同牌号之间用空格分开</div>
-			<p style=" border: none;"><span style="color: #333333; font-size: 12px;">关注的牌号：</span>
-				<b v-show="phshow">{{concern_model}}</b>
-				<strong v-show="!phshow" class="address">
+				<p style=" border: none;"><span style="color: #333333; font-size: 12px;">关注的牌号：</span>
+					<b v-show="phshow">{{concern_model}}</b>
+					<strong v-show="!phshow" class="address">
 <input type="text" style="width: 160px; float: right; margin: 0 60px 0 0;" v-model="need_ph" />
 <input type="button" value="提交" style="position: absolute; top: 3px;" v-on:click="phsubmit" />
 </strong>
-				<i class="editicon" v-show="phshow" v-on:click="edit4"></i>
-			</p>
+					<i class="editicon" v-show="phshow" v-on:click="edit4"></i>
+				</p>
 			</div>
 		</div>
 		<div class="mui-content">
@@ -147,14 +147,14 @@ module.exports = {
 			zyshow: true,
 			phshow: true,
 			sexradio: 0,
-			distinctradio:"EC",
+			distinctradio: "EC",
 			cardshow: false,
 			cardImg: "",
 			active: "",
 			active2: "",
 			active3: "",
 			level: "",
-			distinct:"",
+			distinct: "",
 			distinctshow: true
 		}
 	},
@@ -329,34 +329,6 @@ module.exports = {
 		edit4: function() {
 			this.phshow = false;
 		},
-		editAvator: function() {
-			var _this = this;
-			$.ajaxFileUpload({
-				url: '/api/qapi1/savePicToServer',
-				secureuri: false,
-				fileElementId: 'upAvatorId',
-				data: {
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'json',
-				success: function(res) {
-					console.log(res);
-					if(res.err == 0) {
-						mui.alert("", "上传成功", function() {
-							window.location.reload();
-						});
-					} else {
-						mui.alert("", "上传失败", function() {
-
-						});
-					}
-
-				},
-				error: function(data, status, e) {
-					console.log(status);
-				}
-			});
-		},
 		uploadCard: function() {
 			var _this = this;
 			$.ajaxFileUpload({
@@ -388,13 +360,51 @@ module.exports = {
 	},
 	activated: function() {
 		var _this = this;
+		window.scrollTo(0,0);
 		try {
-		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-		    piwikTracker.trackPageView();
-		} catch( err ) {
-			
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch(err) {
+
 		}
-		
+
+		var uploadCount = 0;
+		weui.uploader('#uploader', {
+			url: '/api/qapi1/savePicToServer',
+			auto: true,
+			type: 'file',
+			fileVal: 'fileVal',
+			data: {
+				token: window.localStorage.getItem("token")
+			},
+			compress: {
+				width: 500,
+				height: 500,
+				quality: .5
+			},
+			onBeforeQueued: function(files) {
+				// `this` 是轮询到的文件, `files` 是所有文件
+				if(["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0) {
+					weui.alert('请上传图片');
+					return false; // 阻止文件添加
+				}
+				if(this.size > 5 * 1024 * 1024) {
+					weui.alert('请上传不超过5M的图片');
+					return false;
+				}
+			},
+			onQueued: function() {
+				console.log(this);
+			},
+			onSuccess: function(res) {
+				console.log("success",this, res);
+				window.location.reload();
+			},
+			onError: function(err) {
+				console.log("error",this, err);
+			}
+		});
+
 		$.ajax({
 			url: '/api/qapi1/getSelfInfo',
 			type: 'get',
@@ -423,7 +433,7 @@ module.exports = {
 				_this.active2 = res.data.allow_send.repeat;
 				_this.active3 = res.data.allow_send.show;
 				_this.level = res.data.member_level;
-				_this.adistinct=res.data.adistinct
+				_this.adistinct = res.data.adistinct
 			} else if(res.err == 1) {
 				mui.alert("", res.msg, function() {
 					_this.$router.push({
