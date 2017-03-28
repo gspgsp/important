@@ -182,7 +182,6 @@ class customerAction extends adminBaseAction {
 				}else{
 					// 默认列表显示全部的共享客户
 					if(!empty($pools)){
-						$cids = explode(',', $pools);
 						$where .= " or `c_id` in ($pools)";
 					}
 				}
