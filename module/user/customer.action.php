@@ -173,7 +173,8 @@ class customerAction extends adminBaseAction {
 		if($this->public == 0 && $this->moreChoice == 0){
 			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-				$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
+				// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户(原来共享不存在上下级修改为存在上下级)
+				$pools = M('user:customer')->getCidPoolCus($sons);
 				$where .= " and `customer_manager` in ($sons) ";
 				if(!empty($keyword) && $cidshare){
 					//我用这个用户的id去共享表查询下看有没有这个id
