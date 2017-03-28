@@ -61,8 +61,7 @@ class customer_billingAction extends adminBaseAction
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			// $where = " 1 ";
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导1,896,895,894,881,7
-			// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
-			$pools = M('user:customer')->getCidByPoolCus('702'); //共享客户812,2093
+			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 			foreach (explode(',',$pools) as $va) {
 				$son2 = M('rbac:rbac')->getSons($va);
 				if (!empty($son2)) {
