@@ -117,14 +117,17 @@
 			</div>
 		</div>
 	</div>
+	<loadingPage :loading="loadingShow"></loadingPage>
 	<footerbar></footerbar>
 </div>
 </template>
 <script>
 import footer from "../components/footer";
+import loadingPage from "../components/loadingPage";
 module.exports = {
 	components: {
-		'footerbar': footer
+		'footerbar': footer,
+		'loadingPage': loadingPage
 	},
 	data: function() {
 		return {
@@ -154,8 +157,14 @@ module.exports = {
 			active3: "",
 			level: "",
 			distinct: "",
-			distinctshow: true
+			distinctshow: true,
+			loadingShow: ""
 		}
+	},
+	beforeRouteEnter: function(to, from, next) {
+		next(function(vm) {
+			vm.loadingShow = true;
+		});
 	},
 	methods: {
 		msgActive: function() {
@@ -364,7 +373,7 @@ module.exports = {
 				}
 			},
 			onQueued: function() {
-				console.log(this);
+				
 			},
 			onSuccess: function(res) {
 				if(res.err == 0) {
@@ -372,7 +381,16 @@ module.exports = {
 				}
 			},
 			onError: function(err) {
-				console.log("error",this, err);
+				weui.alert("上传失败", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+
+						}
+					}]
+				});
 			}
 		});
 
@@ -401,14 +419,22 @@ module.exports = {
 				}
 			},
 			onQueued: function() {
-				console.log(this);
+
 			},
 			onSuccess: function(res) {
-				console.log("success",this, res);
 				window.location.reload();
 			},
 			onError: function(err) {
-				console.log("error",this, err);
+				weui.alert("上传失败", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+
+						}
+					}]
+				});
 			}
 		});
 
@@ -419,7 +445,7 @@ module.exports = {
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
-		}).then(function(res) {
+		}).done(function(res) {
 			if(res.err == 0) {
 				_this.name = res.data.name;
 				_this.c_name = res.data.c_name;
@@ -442,14 +468,23 @@ module.exports = {
 				_this.level = res.data.member_level;
 				_this.adistinct = res.data.adistinct
 			} else if(res.err == 1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({
-						name: 'login'
-					});
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
 				});
 			}
-		}, function() {
-
+		}).fail(function(){
+			
+		}).always(function(){
+			_this.loadingShow = false;
 		});
 	}
 
