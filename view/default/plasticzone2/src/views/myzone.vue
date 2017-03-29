@@ -166,6 +166,7 @@ methods: {
 mounted: function() {
 	var _this = this;
 	window.scrollTo(0, 0);
+	this.loadingShow = true;
 	try {
 		var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 		piwikTracker.trackPageView();
