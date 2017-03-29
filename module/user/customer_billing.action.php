@@ -62,9 +62,10 @@ class customer_billingAction extends adminBaseAction
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 			$pools = M('user:customer')->getCidPoolCus($sons);
 			$where .= " and `customer_manager` in ($sons) ";
-			if(!empty($keyword) && $cids){
+
+			if(!empty($keyword) && $c_ids){//shousuo
 				//我用这个用户的id去共享表查询下看有没有这个id
-				if(M('user:customer')->judgeShare($cids)) $where .= " or `c_id` in ($cids)";
+				if(M('user:customer')->judgeShare($c_ids)) $where .= " or `c_id` in ($c_ids)";
 			}else{
 				// 默认列表显示全部的共享客户
 				if(!empty($pools)){
