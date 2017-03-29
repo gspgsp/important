@@ -1749,16 +1749,20 @@ class qapi1_1Action extends null2Action
                             shuffle($tmp);
                             array_splice($tmp,1);
                         }
-                        foreach ($tmp as $value1) {
+                        foreach ($tmp as $value1) {//添加缓存
+                            if(!$all=unserialize($this->cache->get('qappsdfsNewId'.$value1)))
                             $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value1 and input_time>$today")->order("input_time desc")->limit(6)->getCol();
+                            $this->cache->set('qappsdfsNewId'.$value1,serialize($all),1800);
                             if (count($all) > $completeNum) {
                                 shuffle($all);
                                 array_splice($all, $completeNum);
                                 array_merge($allNum, $all);
                             }
                         }
-                    } else {
-                        $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value and input_time>$today")->order("input_time desc")->limit(6)->getCol();
+                    } else {//添加缓存
+                        if(!$all=unserialize($this->cache->get('qappsdfsNewId'.$value1)))
+                            $all = M("public:common")->model("news_content")->select('id')->where("cate_id=$value and input_time>$today")->order("input_time desc")->limit(6)->getCol();
+                        $this->cache->set('qappsdfsNewId'.$value1,serialize($all),1800);
                         if (count($all) > $completeNum) {
                             shuffle($all);
                             $stmp=array_rand($all,$completeNum);
