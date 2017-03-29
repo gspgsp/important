@@ -8,6 +8,7 @@ class saleLogAction extends adminBaseAction {
 		$this->db=M('public:common')->model('sale_log');
 		$this->doact = sget('do','s');
 		$this->assign('price_type',L('price_type')); //价格单位
+		$this->assign('company_account',L('company_account')); //公司抬头
 		$this->assign('invoice_status',L('invoice_status')); //开票状态
 		$this->assign('out_storage_status',L('out_storage_status')); //出库状态
 	}

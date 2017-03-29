@@ -94,6 +94,7 @@ class storeDetailAction extends adminBaseAction {
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$list['data'][$k]['order_name'] = L('company_account')[M("product:order")->getColByOid($v['o_id'],'order_name')];
 			$list['data'][$k]['order_sn']=M("product:order")->getColByOid($v['o_id'],'order_sn');
 			$list['data'][$k]['business_model']= M("product:order")->getColByOid($v['o_id'],'business_model') == 1 ? '利润':'撮合';
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); //获取仓库名
