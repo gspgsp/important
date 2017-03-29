@@ -113,7 +113,6 @@ class saleLogAction extends adminBaseAction {
 			$list['data'][$k]['invoice_status'] = L('invoice_status')[$v['invoice_status']];
 			$list['data'][$k]['out_storage_status'] = L('out_storage_status')[$v['out_storage_status']];
 			$list['data'][$k]['sales_type'] = L('sales_type')[$v['sales_type']];
-			$list['data'][$k]['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
 			$list['data'][$k]['cmanager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			$list['data'][$k]['total'] = price_format($v['unit_price']*$v['number']);
 			//开票申请与审核时所需的值
