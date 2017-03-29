@@ -1,8 +1,11 @@
 <?php
 class newsModel extends model {
+    protected $cache,$randomTime;
     //初始化模型
     public function __construct(){
         parent::__construct(C('db_default'),'news_content');
+        $this->cache= E('RedisCluster',APP_LIB.'class');
+        $this->randomTime = mt_rand(10,20)*180;
     }
 
     //通过分类id来获取各自分类的文章
@@ -233,7 +236,18 @@ class newsModel extends model {
      * @return mixed
      */
     public function getCateSons($pid=0){
-        return $this->model("news_cate")->select("cate_id")->where("pid=$pid and status=1")->getCol();
+        if(!$all = unserialize($this->cache->get('qappNewCateList'))){
+            $all=$this->model("news_cate")->where("status = 1")->getAll();
+            $this->cache->set('qappNewCateList',serialize($all),$this->randomTime);
+        }
+        $_tmp=array();
+        foreach($all as $key =>$row){
+            if($row['pid']==$pid){
+                $_tmp[] = $row['cate_id'];
+            }
+        }
+        return $_tmp;
+        //return $this->model("news_cate")->select("cate_id")->where("pid=$pid and status=1")->getCol();
     }
 
     /**
