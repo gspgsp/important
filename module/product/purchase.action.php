@@ -16,7 +16,7 @@ class purchaseAction extends adminBaseAction {
 		$this->assign('ctype',sget('ctype'));//采购状态
 	}
 	/**
-	 * 会员列表
+	 * 会员列表 期货采购
 	 * @access public 
 	 * @return html
 	 */
@@ -112,21 +112,32 @@ class purchaseAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		foreach($list['data'] as $k=>$v){
-			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['product_type'] = L('product_type')[$v['product_type']];
-			$list['data'][$k]['f_id'] = $this->_getFactoryName($v['f_id']);
-			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
-			$list['data'][$k]['period'] = L('period')[$v['period']];
-			$list['data'][$k]['username'] = M('rbac:adm')->getUserByCol($v['customer_manager'],'name');
-
+		foreach($list['data'] as &$v){
+			//
+			$v['input_time'] = $v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$v['update_time'] = $v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			$v['product_type'] = L('product_type')[$v['product_type']];
+			$v['f_id'] = $this->_getFactoryName($v['f_id']);
+			$v['process_type'] = L('process_level')[$v['process_type']];
+			$v['period'] = L('period')[$v['period']];
+			$v['username'] = M('rbac:adm')->getUserByCol($v['customer_manager'],'name');
+			$v['c_name'] = M('user:customer')->getColByName($v['c_id']);
+			//
+			// $list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			// $list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
+			// $list['data'][$k]['product_type'] = L('product_type')[$v['product_type']];
+			// $list['data'][$k]['f_id'] = $this->_getFactoryName($v['f_id']);
+			// $list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
+			// $list['data'][$k]['period'] = L('period')[$v['period']];
+			// $list['data'][$k]['username'] = M('rbac:adm')->getUserByCol($v['customer_manager'],'name');
+			// $list['data'][$k]['c_name'] = M('user:customer')->getColByName($v['c_id']);
 			// if($v['origin']){
 			// 	$areaArr = explode('|', $v['origin']);
 			// 	$list['data'][$k]['origin'] = M('system:region')->get_name(array($areaArr[0],$areaArr[1]));
 			// }
 			if($v['provinces']>0){
-				$list['data'][$k]['provinces'] = M('system:region')->get_name($v['provinces']);
+				$v['provinces'] = M('system:region')->get_name($v['provinces']);
+				// $list['data'][$k]['provinces'] = M('system:region')->get_name($v['provinces']);
 			}
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
