@@ -43,7 +43,7 @@
  */
 class qapi1_1Action extends null2Action
 {
-    protected $db, $err, $cates,$catesAll,$pointsType,$orderStatus,$rePoints,$points,$newsSubscribe,$newsSubscribeDefault,$cache;
+    protected $db, $err, $cates,$catesAll,$pointsType,$orderStatus,$rePoints,$points,$newsSubscribe,$newsSubscribeDefault,$cache,$randomTime;
 
     public function __init()
     {
@@ -102,6 +102,8 @@ class qapi1_1Action extends null2Action
         $this->newsSubscribe=6;
 
         $this->newsSubscribeDefault=array('21','20','2','11');
+
+        $this->randomTime = mt_rand(10,20)*180;
     }
 
     public function init()
@@ -1776,9 +1778,12 @@ class qapi1_1Action extends null2Action
                     }
                 }else{
                     //取出排行榜文章
-                    $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 6, 1);
-                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 10, 3);
-                    if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 10, 0);
+                    if(!$chartsData = unserialize($this->cache->get('qappChartList'))){
+                        $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 6, 1);
+                        if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 10, 3);
+                        if (count($chartsData)<6) $chartsData = M('qapp:news')->charts('',$tmp_new_cate_id, '', 10, 0);
+                        $this->cache->set('qappChartList',serialize($chartsData),1800);
+                    }
                     $tmp = array();
                     foreach ($chartsData as $row) {
                         $tmp[] = $row['id'];
