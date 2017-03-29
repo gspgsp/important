@@ -86,22 +86,28 @@
             // 	}
             // }
             $list = $this->db->getAll('SELECT o.`order_sn`,o.`transport_type`,o.`pickup_location`,o.`is_futures`,pro.`model`,fac.`f_name`,o.`o_id`,log.`p_id`,log.`number`,log.`unit_price`,log.`input_time`,log.`customer_manager`,adm.`name`
-			FROM p2p_sale_log AS log
+			FROM p2p_sale_log AS `log`
 			LEFT JOIN `p2p_order` AS o ON o.`o_id` = log.`o_id`
 			LEFT JOIN `p2p_product` AS pro ON log.`p_id` = pro.`id`
 			LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 			LEFT JOIN `p2p_admin` AS adm ON adm.`admin_id` = log.`customer_manager`
 			' . $where . $orderby . ' limit ' . ($page) * $size . ',' . $size);
-            //showtrace();
+            // showtrace();
             $list_count = $this->db->getAll('SELECT o.`order_sn`,o.`transport_type`,o.`pickup_location`,o.`is_futures`,pro.`model`,fac.`f_name`,o.`o_id`,log.`p_id`,log.`number`,log.`unit_price`,log.`input_time`,log.`customer_manager`,adm.`name`
-			FROM p2p_sale_log AS log
+			FROM p2p_sale_log AS `log`
 			LEFT JOIN `p2p_order` AS o ON o.`o_id` = log.`o_id`
 			LEFT JOIN `p2p_product` AS pro ON log.`p_id` = pro.`id`
 			LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 			LEFT JOIN `p2p_admin` AS adm ON adm.`admin_id` = log.`customer_manager`' . $where . $limit);
             foreach ($list as &$value) {
                 $value['input_time'] = $value['input_time'] > 1000 ? date("Y-m-d H:i:s", $value['input_time']) : '-';
-                $value['transport_type'] = $value['transport_type'] == 1 ? '供方送到' : '需方自提';
+                if($value['transport_type'] == 1){
+                    $value['transport_type'] = '乙方自提';
+                }elseif ($value['transport_type'] == 2) {
+                    $value['transport_type'] = '甲方送货';
+                }elseif ($value['transport_type'] == 3) {
+                    $value['transport_type'] = '甲方代托运';
+                }
                 $value['is_futures'] = $value['is_futures'] == 1 ? '否' : '是';
             }
             $msg = "";
