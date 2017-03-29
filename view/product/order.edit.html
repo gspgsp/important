@@ -481,6 +481,8 @@ function consumeStoreDetil(){
 					gridCell.setData(noStockData);
 					totalCount(noStockData);
 				}
+				//根据订单自动带头信息
+				mini.get('order_name').setValue(data.o_name);
 			}
 		}
 	});

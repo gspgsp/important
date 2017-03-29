@@ -82,6 +82,7 @@
 				<input class="mini-hidden" id="m_o_id" name="o_id" value=""/>
 				<input class="mini-hidden" id="m_p_id" name="p_id" value=""/>
 				<input class="mini-hidden" id="m_p_price" name="m_p_price" value=""/>
+				<input class="mini-hidden" id="m_o_name" name="o_name" value=""/>
 				<input class="mini-hidden" id="m_f_name" name="f_name" value=""/>
 				<input class="mini-hidden" id="m_store_id" name="store_id" value=""/>
 				<input class="mini-hidden" id="hidden_remainder" name="remainder" value=""/>
@@ -175,7 +176,7 @@ function setsupport(e){
 	"{if $type eq 'edit'}"
 	return false;
 	"{/if}"
-	var record = e.record, id=record.id, purchase_id=record.purchase_id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number,o_id = record.o_id,f_name=record.f_name,price_s=record.price_s;
+	var record = e.record, id=record.id, purchase_id=record.purchase_id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number,o_id = record.o_id,f_name=record.f_name,price_s=record.price_s,o_name=record.order_name_id;
 	mini.get("model").setValue(model);
 	mini.get("m_f_name").setValue(f_name);
 	mini.get("store").setValue(store);
@@ -191,6 +192,7 @@ function setsupport(e){
 	mini.get("m_lock_number").setValue(locknum);
 	mini.get("history_price").setValue(price_s);
 	mini.get("controlled_number").setValue(controlled_number);
+	mini.get("m_o_name").setValue(o_name);
 	$('#s_price').html(price_s);
 	$('#s_title').show();
 	$('#s_val').show();
