@@ -675,3 +675,43 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .errorTxt a{ display: inline-block; width: 120px; height: 40px; font-size: 17px; border-radius: 3px; line-height: 40px; color: #FFFFFF;}
 .errorTxt .blue{ background: #00c3f3;}
 .errorTxt .orange{ background: #ffa800;}
+
+#J_Scroll {
+	position: absolute;
+	z-index: 1;
+	top: 45px;
+	bottom: 60px;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+}
+
+.xs-plugin-pulldown-container {
+	text-align: center;
+	width: 100%;
+	line-height: 50px;
+	font-size: 12px;
+	color: #666666;
+}
+
+.xs-plugin-pulldown-up .up {
+	display: inline;
+}
+
+.xs-plugin-pulldown-up .down {
+	display: none;
+}
+
+.xs-plugin-pulldown-down .up {
+	display: none;
+}
+
+.xs-plugin-pulldown-down .down {
+	display: inline;
+}
+
+.xs-plugin-pullup-container {
+	line-height: 40px;
+	text-align: center;
+}
+
