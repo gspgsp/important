@@ -117,14 +117,8 @@ data: function() {
 		is_pass: "",
 		share: false,
 		share3: false,
-		isCircle: false,
 		loadingShow: ""
 	}
-},
-beforeRouteEnter: function(to, from, next) {
-	next(function(vm) {
-		vm.loadingShow = true;
-	});
 },
 methods: {
 	shareshow: function() {
@@ -169,7 +163,8 @@ methods: {
 		});
 	}
 },
-activated: function() {
+mounted: function() {
+	var _this = this;
 	window.scrollTo(0, 0);
 	try {
 		var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
@@ -177,7 +172,6 @@ activated: function() {
 	} catch(err) {
 
 	}
-	var _this = this;
 
 	var xscroll = new XScroll({
 		renderTo: "#J_Scroll",
@@ -185,6 +179,7 @@ activated: function() {
 		lockX: true,
 		lockY: false
 	});
+	console.log(this.xscroll);
 	var pulldown = new XScroll.Plugins.PullDown({
 		autoRefresh: false
 	});
@@ -283,60 +278,6 @@ activated: function() {
 	}).always(function() {
 		_this.loadingShow = false;
 	});
-
-	$.ajax({
-		type: "post",
-		url: "/mobi/wxShare/getSignPackage",
-		data: {
-			targetUrl: window.location.href
-		},
-		dataType: 'JSON'
-	}).then(function(res) {
-		wx.config({
-			debug: false,
-			appId: res.signPackage.appId,
-			timestamp: res.signPackage.timestamp,
-			nonceStr: res.signPackage.noncestr,
-			signature: res.signPackage.signature,
-			jsApiList: [
-				'showOptionMenu',
-				'onMenuShareTimeline',
-				'onMenuShareAppMessage'
-			]
-		});
-		wx.ready(function() {
-			wx.onMenuShareTimeline({
-				title: "我的塑料网-塑料圈通讯录",
-				link: 'http://q.myplas.com/#/index?invite=' + window.localStorage.getItem("username"),
-				imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
-				success: function() {
-
-				},
-				cancel: function() {
-
-				}
-			});
-			wx.onMenuShareAppMessage({
-				title: "我的塑料网-塑料圈通讯录",
-				desc: "塑料圈-塑料人的行业通讯录 认识那么久啦！ 加入塑料圈通讯录 关注我吧",
-				link: 'http://q.myplas.com/#/index?invite=' + window.localStorage.getItem("username"),
-				imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
-				type: '',
-				dataUrl: '',
-					success: function() {
-
-					},
-					cancel: function() {
-
-					}
-				});
-
-			});
-		}, function() {
-
-		});
-
 	}
-
 }
 </script>
