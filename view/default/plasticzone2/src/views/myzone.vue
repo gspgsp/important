@@ -162,7 +162,7 @@ methods: {
 		});
 	}
 },
-mounted: function() {
+activated: function() {
 	var _this = this;
 	window.scrollTo(0, 0);
 	this.loadingShow = true;
