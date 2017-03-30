@@ -9,7 +9,6 @@ class indexAction extends userBaseAction{
 	 */
 	public function init()
 	{
-
 		if($this->user_id<0) $this->error('系统错误');
 		$this->act='index';
 		//个人信息
@@ -52,8 +51,8 @@ class indexAction extends userBaseAction{
 		$this->info3=M('product:unionOrder')->getOrder($this->user_id,1,'invoice_status');      //带开票
 		$this->info4=M('product:unionOrder')->getOrder($this->user_id,3);    //已取消
 		$this->assign('prices',$array);
-//		$this->assign('user2_index');
-		$this->display('index');
+		$this->assign('user2_index_1');
+//		$this->display('index');
 	}
 
 	/**
