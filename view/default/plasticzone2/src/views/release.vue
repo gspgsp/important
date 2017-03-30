@@ -86,9 +86,6 @@
 			{{errmsg}}
 	</li>
 </ul>
-<div v-show="condition" style="text-align: center; padding: 5px 0 15px 0;">
-	<input class="more" v-on:click="more" type="button" v-model="moreTxt">
-</div>
 <footerbar></footerbar>
 <div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
 <div class="arrow" v-show="isArrow" v-on:click="arrow"></div>
@@ -153,15 +150,22 @@ data: function() {
 		right4:false,
 		right5:false,
 		moreTxt:"加载更多数据",
-		isIndex: false,
-		isRelease: false,
-		isMyzone: false,
-		isHeadline: false,
-		isReleaseshow: false,
-		errmsg:"",
-		buy: [],
-		supply: []
+		errmsg:""
 	}
+},
+beforeRouteEnter:function(to,from,next){
+	next(function(vm){
+		$(window).on('scroll', function(){
+			vm.loadingMore();
+		});
+	});
+},
+beforeRouteLeave:function(to,from,next){
+	var _this=this;
+	next(function(){
+		
+	});
+	$(window).off('scroll');
 },
 methods: {
 	layershow:function(){
@@ -537,10 +541,13 @@ methods: {
 
 		});
 	},
-	more:function(){
+	loadingMore:function(){
 		var _this=this;
-			_this.page++;
-			_this.moreTxt="加载中..."
+        var scrollTop = $(window).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(window).height();
+        if (scrollTop + windowHeight == scrollHeight) {
+        	_this.page++;
 			$.ajax({
 				type: "post",
 				url: "/api/qapi1_1/getReleaseMsg",
@@ -558,16 +565,13 @@ methods: {
 				console.log(res);
 				if(res.err == 0) {
 					_this.release = _this.release.concat(res.data);
-					_this.moreTxt="加载更多数据";
 				} else if(res.err == 1) {
-					_this.moreTxt="加载更多数据";
 					mui.alert("", res.msg, function() {
 						_this.$router.push({
 							name: 'login'
 						});
 					});
 				} else if(res.err==3){
-					_this.moreTxt="加载更多数据";
 					mui.toast(res.msg,{
 					    duration:'long',
 					    type:'div' 
@@ -575,7 +579,9 @@ methods: {
 				}
 			}, function() {
 
-			});
+			});      	    		
+
+        }		
 	}
 },
 mounted: function() {
@@ -594,53 +600,6 @@ mounted: function() {
 			_this.isArrow = false;
 		}
 	});
-	
-	$.ajax({
-		type: "post",
-		url: "/api/qapi1_1/supplyDemandList",
-		data: {
-			page: 1,
-			token: window.localStorage.getItem("token"),
-			size: 5,
-			type: 1
-		},  
-		dataType: 'JSON'
-	}).then(function(res) {
-		console.log(res);
-		if(res.err == 0) {
-			_this.buy = res.data;
-		} else if(res.err == 1) {
-			_this.buy = [];
-		} else if(res.err == 2) {
-			_this.buy = [];
-		}
-	}, function() {
-
-	});
-
-	$.ajax({
-		type: "post",
-		url: "/api/qapi1_1/supplyDemandList",
-		data: {
-			page: 1,
-			token: window.localStorage.getItem("token"),
-			size: 5,
-			type: 2
-		},
-		dataType: 'JSON'
-	}).then(function(res) {
-		console.log(res);
-		if(res.err == 0) {
-			_this.supply = res.data;
-		} else if(res.err == 1) {
-			_this.supply = [];
-		} else if(res.err == 2) {
-			_this.supply = [];
-		}
-	}, function() {
-
-	});
-
 	
 	$.ajax({
 		url: '/api/qapi1_1/getReleaseMsg',

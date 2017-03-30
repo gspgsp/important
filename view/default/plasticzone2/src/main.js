@@ -19,6 +19,7 @@ const Pointsrule= r => require.ensure([], () => r(require('./views/pointsrule.vu
 const Pointsrecord= r => require.ensure([], () => r(require('./views/pointsrecord.vue')), 'pointsrecord')
 const Pointsdetail= r => require.ensure([], () => r(require('./views/pointsdetail.vue')), 'pointsdetail')
 const Productdetail= r => require.ensure([], () => r(require('./views/productdetail.vue')), 'productdetail')
+const Quickrelease= r => require.ensure([], () => r(require('./views/quickrelease.vue')), 'quickrelease')
 const Releasesupply= r => require.ensure([], () => r(require('./views/releasesupply.vue')), 'releasesupply')
 const Releasebuy= r => require.ensure([], () => r(require('./views/releasebuy.vue')), 'releasebuy')
 const Releasebsbuy= r => require.ensure([], () => r(require('./views/releasebsbuy.vue')), 'releasebsbuy')
@@ -64,6 +65,7 @@ var  router = new VueRouter({
 	{path:'/productdetail/:id',name:'productdetail',component:Productdetail},
 	{path:'/releasesupply/:id',name:'releasesupply',component:Releasesupply},
 	{path:'/releasebuy/:id',name:'releasebuy',component:Releasebuy},
+	{path:'/quickrelease',name:'quickrelease',component:Quickrelease},
 	{path:'/releasebsbuy',name:'releasebsbuy',component:Releasebsbuy},
 	{path:'/releasebssupply',name:'releasebssupply',component:Releasebssupply},
 	{path:'/myinvite',name:'myinvite',component:Myinvite},

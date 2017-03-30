@@ -4,85 +4,84 @@
 	我的塑料圈
 	<a class="detailShare" href="javascript:;" v-on:click="shareshow"></a>
 </header>
-<div id="J_Scroll">
-	<div class="xs-container">
-		<div class="xs-content">
-			<div class="myzoneHeader">
-				<div class="myzoneInfo">
-					<div style="width: 55px; height: 55px; margin: 0; float: left; position: relative;">
-						<div class="avator">
-							<img v-bind:src="thumb">
-						</div>
-						<i class="iconV" v-bind:class="{'v1':is_pass==1,'v2':is_pass==0}"></i>
+<div id="pullrefresh" style="top: 45px; bottom: 60px;" class="mui-content mui-scroll-wrapper">
+	<div class="mui-scroll">
+		<div class="myzoneHeader">
+			<div class="myzoneInfo">
+				<div style="width: 55px; height: 55px; margin: 0; float: left; position: relative;">
+					<div class="avator">
+						<img v-bind:src="thumb">
 					</div>
-					<div class="myzonetxt">
-						<p>{{c_name}}</p>
-						<p>{{name}} {{mobile}}</p>
-						<p>
-							<router-link :to="{name:'myinfo'}" style="color: #6b6767;"><span style="float: left;">更改用户信息</span><i class="iconinfo edit"></i>上传名片加V认证</router-link>
-						</p>
-					</div>
-					<div class="mui-clearfix"></div>
+					<i class="iconV" v-bind:class="{'v1':is_pass==1,'v2':is_pass==0}"></i>
 				</div>
-				<div class="myzonenum">
-					<span><router-link :to="{name:'mysupply'}">{{supply}}<br>供给</router-link></span>
-					<span><router-link :to="{name:'mybuy'}">{{buy}}<br>求购</router-link></span>
-					<span><router-link :to="{name:'mymsg'}">{{msg}}<br>留言</router-link></span>
-					<span><router-link :to="{name:'myinvite'}">{{invite}}<br>引荐</router-link></span>
-					<span><router-link :to="{name:'myfans'}">{{fans}}<br>粉丝</router-link></span>
-					<span><router-link :to="{name:'mypay'}">{{pay}}<br>关注</router-link></span>
-					<span><router-link :to="{name:'mypoints'}">{{points}}<br>积分</router-link></span>
+				<div class="myzonetxt">
+					<p>{{c_name}}</p>
+					<p>{{name}} {{mobile}}</p>
+					<p>
+						<router-link :to="{name:'myinfo'}" style="color: #6b6767;"><span style="float: left;">更改用户信息</span><i class="iconinfo edit"></i>上传名片加V认证</router-link>
+					</p>
 				</div>
+				<div class="mui-clearfix"></div>
 			</div>
-			<ul class="myzoneUl">
-				<li>
-					<router-link :to="{name:'mysupply'}"><i class="iconZone zone"></i>我的供给<span>{{supply}}</span>
-						<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
-				</li>
-				<li>
-					<router-link :to="{name:'mybuy'}"><i class="iconZone zone2"></i>我的求购<span>{{buy}}</span>
-						<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
-				</li>
-			</ul>
-			<ul class="myzoneUl">
-				<li>
-					<router-link :to="{name:'myinvite'}"><i class="iconZone zone4"></i>我的引荐<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i><span>{{invite}}</span></router-link>
-				</li>
-				<li>
-					<router-link :to="{name:'myfans'}"><i class="iconZone zone5"></i>我的粉丝<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i><span>{{fans}}</span></router-link>
-				</li>
-				<li>
-					<router-link :to="{name:'mypay'}"><i class="iconZone zone6"></i>我的关注<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i><span>{{pay}}</span></router-link>
-				</li>
-			</ul>
-			<ul class="myzoneUl">
-				<li>
-					<router-link :to="{name:'mymsg'}"><i class="iconZone zone3"></i>我的留言<span>未读留言{{msg}}</span>
-						<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
-				</li>
-				<li>
-					<router-link :to="{name:'mymsg2'}"><i class="iconZone zone9"></i>我的消息<span>未读消息{{msg2}}</span>
-						<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
-				</li>
-			</ul>
-			<ul class="myzoneUl">
-				<li>
-					<router-link :to="{name:'mypoints'}"><i class="iconZone zone7"></i>我的积分
-						<span>可兑换礼品</span><i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
-				</li>
-			</ul>
-			<ul class="myzoneUl">
-				<li>
-					<router-link :to="{name:'help'}"><i class="iconZone zone10"></i>帮助<span>常见问题及联系客服</span>
-						<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
-				</li>
-			</ul>
-			<ul class="myzoneUl">
-				<li style="text-align: center; color: #ff5000;" v-on:click="logout">
-					退出登录
-				</li>
-			</ul>
+			<div class="myzonenum">
+				<span><router-link :to="{name:'mysupply'}">{{supply}}<br>供给</router-link></span>
+				<span><router-link :to="{name:'mybuy'}">{{buy}}<br>求购</router-link></span>
+				<span><router-link :to="{name:'mymsg'}">{{msg}}<br>留言</router-link></span>
+				<span><router-link :to="{name:'myinvite'}">{{invite}}<br>引荐</router-link></span>
+				<span><router-link :to="{name:'myfans'}">{{fans}}<br>粉丝</router-link></span>
+				<span><router-link :to="{name:'mypay'}">{{pay}}<br>关注</router-link></span>
+				<span><router-link :to="{name:'mypoints'}">{{points}}<br>积分</router-link></span>
+			</div>
 		</div>
+		<ul class="myzoneUl">
+			<li>
+				<router-link :to="{name:'mysupply'}"><i class="iconZone zone"></i>我的供给<span>{{supply}}</span>
+					<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+			</li>
+			<li>
+				<router-link :to="{name:'mybuy'}"><i class="iconZone zone2"></i>我的求购<span>{{buy}}</span>
+					<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+			</li>
+		</ul>
+		<ul class="myzoneUl">
+			<li>
+				<router-link :to="{name:'myinvite'}"><i class="iconZone zone4"></i>我的引荐<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i><span>{{invite}}</span></router-link>
+			</li>
+			<li>
+				<router-link :to="{name:'myfans'}"><i class="iconZone zone5"></i>我的粉丝<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i><span>{{fans}}</span></router-link>
+			</li>
+			<li>
+				<router-link :to="{name:'mypay'}"><i class="iconZone zone6"></i>我的关注<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i><span>{{pay}}</span></router-link>
+			</li>
+		</ul>
+		<ul class="myzoneUl">
+			<li>
+				<router-link :to="{name:'mymsg'}"><i class="iconZone zone3"></i>我的留言<span>未读留言{{msg}}</span>
+					<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+			</li>
+			<li>
+				<router-link :to="{name:'mymsg2'}"><i class="iconZone zone9"></i>我的消息<span>未读消息{{msg2}}</span>
+					<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+			</li>
+		</ul>
+		<ul class="myzoneUl">
+			<li>
+				<router-link :to="{name:'mypoints'}"><i class="iconZone zone7"></i>我的积分
+					<span>可兑换礼品</span><i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+			</li>
+		</ul>
+		<ul class="myzoneUl">
+			<li>
+				<router-link :to="{name:'help'}"><i class="iconZone zone10"></i>帮助<span>常见问题及联系客服</span>
+					<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+			</li>
+		</ul>
+		<ul class="myzoneUl">
+			<li style="text-align: center; color: #ff5000;" v-on:click="logout">
+				退出登录
+			</li>
+		</ul>
+
 	</div>
 </div>
 <footerbar></footerbar>
@@ -174,18 +173,7 @@ mounted: function() {
 
 	}
 
-	var xscroll = new XScroll({
-		renderTo: "#J_Scroll",
-		scrollbarX: false,
-		lockX: true,
-		lockY: false
-	});
-	console.log(this.xscroll);
-	var pulldown = new XScroll.Plugins.PullDown({
-		autoRefresh: false
-	});
-	xscroll.plug(pulldown);
-	pulldown.on("loading", function(e) {
+	function pulldownRefresh() {
 		$.ajax({
 			url: '/api/qapi1/myZone',
 			type: 'get',
@@ -194,11 +182,6 @@ mounted: function() {
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
-			//scrollback to the top
-			pulldown.reset(function() {
-				//repaint
-				xscroll.render()
-			});
 			if(res.err == 1) {
 				weui.alert(res.msg, {
 					title: '塑料圈通讯录',
@@ -232,10 +215,21 @@ mounted: function() {
 
 		}).always(function() {
 			_this.loadingShow = false;
+			mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
 		});
 
-	})
-	xscroll.render();
+	}
+
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefresh',
+			down: {
+				callback: pulldownRefresh
+			}
+		}
+	});
+
+	mui('body').on('tap', 'a', function() { document.location.href = this.href; });
 
 	$.ajax({
 		url: '/api/qapi1/myZone',
@@ -254,31 +248,31 @@ mounted: function() {
 					onClick: function() {
 						_this.$router.push({
 							name: 'login'
-						});
-					}
-				}]
-			});
-		} else {
-			_this.name = res.data.name;
-			_this.c_name = res.data.c_name;
-			_this.mobile = res.data.mobile;
-			_this.mobile2 = res.data.mobile;
-			_this.thumb = res.data.thumb;
-			_this.is_pass = res.data.is_pass;
-			_this.buy = res.s_in_count;
-			_this.supply = res.s_out_count;
-			_this.points = res.points;
-			_this.msg = res.leaveword;
-			_this.msg2 = res.message;
-			_this.invite = res.introduction;
-			_this.fans = res.myfans;
-			_this.pay = res.myconcerns;
-		}
-	}).fail(function() {
+							});
+						}
+					}]
+				});
+			} else {
+				_this.name = res.data.name;
+				_this.c_name = res.data.c_name;
+				_this.mobile = res.data.mobile;
+				_this.mobile2 = res.data.mobile;
+				_this.thumb = res.data.thumb;
+				_this.is_pass = res.data.is_pass;
+				_this.buy = res.s_in_count;
+				_this.supply = res.s_out_count;
+				_this.points = res.points;
+				_this.msg = res.leaveword;
+				_this.msg2 = res.message;
+				_this.invite = res.introduction;
+				_this.fans = res.myfans;
+				_this.pay = res.myconcerns;
+			}
+		}).fail(function() {
 
-	}).always(function() {
-		_this.loadingShow = false;
-	});
+		}).always(function() {
+			_this.loadingShow = false;
+		});
 	}
 }
 </script>

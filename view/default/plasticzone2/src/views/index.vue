@@ -48,9 +48,6 @@
 		没有相关数据
 	</li>
 </ul>
-<div style="text-align: center; padding: 5px 0 15px 0;">
-	<input class="more" v-on:click="more" type="button" v-model="moreTxt">
-</div>
 <loadingPage :loading="loadingShow"></loadingPage>
 <footerbar></footerbar>
 <div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
@@ -87,14 +84,6 @@ data: function() {
 		txt: "综合排序",
 		on1:true,
 		on2:false,
-		moreTxt:"加载更多数据",
-		isIndex: false,
-		isRelease: false,
-		isMyzone: false,
-		isHeadline: false,
-		isReleaseshow: false,
-		buy: [],
-		supply: [],
 		loadingShow: ""
 	}
 },
@@ -257,10 +246,13 @@ methods: {
 			window.location.reload();
 		}
 	},
-	more:function(){
+	loadingMore:function(){
 		var _this=this;
-			_this.page++;
-			_this.moreTxt="加载中...";
+        var scrollTop = $(window).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(window).height();
+        if (scrollTop + windowHeight == scrollHeight) {
+        	_this.page++;
 			$.ajax({
 				type: "get",
 				url: "/api/qapi1/getPlasticPerson",
@@ -274,13 +266,10 @@ methods: {
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-				console.log(res);
 				if(res.err == 0) {
 					_this.condition = true;
 					_this.name = _this.name.concat(res.persons);
-					_this.moreTxt="加载更多数据";
 				} else if(res.err == 1) {
-					_this.moreTxt="加载更多数据";
 					weui.alert(res.msg, {
 						title: '塑料圈通讯录',
 						buttons: [{
@@ -298,18 +287,25 @@ methods: {
 				}
 			}, function() {
 
-			});
+			});        	    		
+
+        }		
 	}
 },
 beforeRouteEnter:function(to,from,next){
-	next(function(){
+	next(function(vm){
+		$(window).on('scroll', function(){
+			vm.loadingMore();
+		});
 		$(window).scrollTop(window.localStorage.getItem("scrollTop"));
 	});
 },
 beforeRouteLeave:function(to,from,next){
+	var _this=this;
 	next(function(){
 		
 	});
+	$(window).off('scroll');
 	window.localStorage.setItem("scrollTop",$(window).scrollTop());
 },
 mounted: function() {
@@ -321,54 +317,6 @@ mounted: function() {
 	} catch( err ) {
 		
 	}
-
-	$.ajax({
-		type: "get",
-		url: "/api/qapi1/supplyDemandList",
-		data: {
-			page: 1,
-			token: window.localStorage.getItem("token"),
-			size: 5,
-			type: 1
-		},  
-		dataType: 'JSON'
-	}).done(function(res) {
-		if(res.err == 0) {
-			_this.buy = res.data;
-		} else if(res.err == 1) {
-			_this.buy = [];
-		} else if(res.err == 2) {
-			_this.buy = [];
-		}
-	}).fail(function(){
-		
-	}).always(function(){
-		
-	});
-
-	$.ajax({
-		type: "get",
-		url: "/api/qapi1/supplyDemandList",
-		data: {
-			page: 1,
-			token: window.localStorage.getItem("token"),
-			size: 5,
-			type: 2
-		},
-		dataType: 'JSON'
-	}).done(function(res) {
-		if(res.err == 0) {
-			_this.supply = res.data;
-		} else if(res.err == 1) {
-			_this.supply = [];
-		} else if(res.err == 2) {
-			_this.supply = [];
-		}
-	}).fail(function(){
-		
-	}).always(function(){
-		
-	});
 
 	$.ajax({
 		type: "get",
