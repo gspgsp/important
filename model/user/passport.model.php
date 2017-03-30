@@ -59,6 +59,8 @@ class passportModel extends model{
 
 		//查找数据库
 		$uinfo=$this->where($where)->getRow();
+		$var=$this->model('customer')->where('c_id='.$uinfo['c_id'])->select('c_id,c_name,type')->getRow();
+		$uinfo['type']=$var['type'];
 		if(empty($uinfo)){
 			$this->_loginError(0,$username,2,$password,$chanel);
 			return array('err'=>2,'msg'=>'错误的账号');
@@ -143,6 +145,8 @@ class passportModel extends model{
 
 	    //查找数据库
 	    $uinfo=$this->where($where)->getRow();
+		$var=$this->model('customer')->where('c_id='.$uinfo['c_id'])->select('c_id,c_name,type')->getRow();
+		$uinfo['type']=$var['type'];
 	    if(empty($uinfo)){
 	        $this->_loginError(0,$username,2,$password,$chanel);
 	        return array('err'=>2,'msg'=>'错误的账号');
@@ -344,7 +348,7 @@ class passportModel extends model{
 
 
 		//用户对应公司的信息
-		$cinfo=$this->model('customer')->where("c_id={$user['c_id']}")->select('c_id,c_name,customer_manager')->getRow();
+		$cinfo=$this->model('customer')->where("c_id={$user['c_id']}")->select('c_id,c_name,customer_manager,type')->getRow();
 		//将数据写入cookie
 		$token=$this->encrypt($user_id,$user['password']);
 		//cookie::set(C('SESSION_TOKEN'), $token); //C('SESSION_TTL')
@@ -360,6 +364,7 @@ class passportModel extends model{
 				'status'=>$user['status'],
 				'last_login'=>$user['last_login'],
 				'last_ip'=>$user['last_ip'],
+				'type'=>$user['type'],
 				'invite_code'=>operationAlphaID($user_id,true),
 			) + (array)$uinfo;
 		$cache= new RedisCluster();
