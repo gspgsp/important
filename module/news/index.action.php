@@ -295,5 +295,11 @@
 			$this->nav='vip';
 			$this->display('vip_introduce');
 		}
+
+		//五日内更新访问量定时任务接口
+		public function pvAdd(){
+			$time=CORE_TIME-432000;
+			$this->db->model('news_content')->query('update p2p_news_content set pv=pv+210 where input_time>'.$time);
+		}
 	} 
  ?>
