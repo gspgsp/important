@@ -3,19 +3,17 @@
 	<footer id="footer">
 		<ul>
 			<li>
-				<!--<router-link :to="{name:'release'}" :class="{'footerOn':isRelease}"><i class="foot3"></i><br>供求</router-link>-->
-				<a v-on:click="toRelease" :class="{'footerOn':isRelease}"><i class="foot3"></i><br>供求</a>
+				<a href="javascript:;" v-on:click="toRelease" :class="{'footerOn':isRelease}"><i class="foot3"></i><br>供求</a>
 			</li>
 			<li>
 				<router-link :to="{name:'index'}" :class="{'footerOn':isIndex}"><i class="foot2"></i><br>通讯录</router-link>
 			</li>
 			<li><i class="releaseicon" v-on:click="toQuickRelease"></i></li>
 			<li>
-				<a v-on:click="toHeadline" :class="{'footerOn':isHeadline}"><i class="foot5"></i><br>发现</a>
+				<a href="javascript:;" v-on:click="toHeadline" :class="{'footerOn':isHeadline}"><i class="foot5"></i><br>发现</a>
 			</li>
 			<li>
-				<!--<router-link :to="{name:'myzone'}" :class="{'footerOn':isMyzone}"><i class="foot4"></i><br>我的</router-link>-->
-				<a v-on:click="toMyzone" :class="{'footerOn':isMyzone}"><i class="foot4"></i><br>我的</a>
+				<a href="javascript:;" v-on:click="toMyzone" :class="{'footerOn':isMyzone}"><i class="foot4"></i><br>我的</a>
 			</li>
 		</ul>
 	</footer>

@@ -229,7 +229,10 @@ mounted: function() {
 		}
 	});
 
-	mui('body').on('tap', 'a', function() { document.location.href = this.href; });
+	mui('body').on('tap', 'a', function(e) { 
+		document.location.href = this.href;
+		this.click();
+	});
 
 	$.ajax({
 		url: '/api/qapi1/myZone',
