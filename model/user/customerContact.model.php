@@ -152,6 +152,7 @@ class customerContactModel extends model{
 				if(!$find) $this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$contract_id));
 			}else{
 				$this->startTrans();
+					if(empty($info['type'])) $this->error('客户类型为必填选项'); 
 					$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>5,));
 					$contact_id = $this->getLastID();
 					$this->model('customer')->add($info+$_data+array('contact_id'=>$contact_id,));
@@ -168,9 +169,7 @@ class customerContactModel extends model{
 		if($result>0){
 			return array('err'=>0,'msg'=>'添加成功');
 		}
-
 		return array('err'=>1,'msg'=>'数据添加失败');
-		
 	}
 	/*
 	 * 检查唯一性
