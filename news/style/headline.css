@@ -32,7 +32,7 @@ a{ text-decoration:none;}
 /*headline-head end*/
 
 /*headline-nav begin*/
-.headline-nav{ font-size:14px; font-weight:bold; width:100%; height:46px; overflow:hidden; border-bottom:1px solid #fc6621;}
+.headline-nav{ font-size:16px; font-weight:bold; width:100%; height:46px; overflow:hidden; border-bottom:1px solid #fc6621;}
 .headline-nav li{ height:40px; text-align:center; float:left; margin:0 20px 0 0;}
 .headline-nav li a{ padding:0 20px; height:36px; line-height:36px; border:2px solid #fff; border-radius:40px; color:#fc6621; display:block;}
 .headline-nav li:hover a,.headline-nav li.hover a{ background:#ffe8de; border-color:#fc6621;}
