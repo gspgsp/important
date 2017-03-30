@@ -70,7 +70,7 @@
 			<tr>
 				<td>开通时间:</td>
 				<td>
-					<input name="year_num" width="80" class="mini-spinner"  minValue="1" maxValue="30"/>&ensp;/年
+					<input name="month_num" width="80" class="mini-spinner"  minValue="1" maxValue="30"/>&ensp;/月
 				</td>
 			</tr>
 			<tr>
@@ -237,7 +237,7 @@ function submitMember(){
 }
 //会员操作流程查看
 function memberViewflow(userid){
-	var width=1200, height=400,title="会员操作记录";
+	var width=1260, height=400,title="会员操作记录";
 	mini.open({
 		url: "/user/headline/memberViewflow?userid="+userid,
 		allowResize:true,

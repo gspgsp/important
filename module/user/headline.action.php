@@ -74,7 +74,7 @@ class headlineAction extends adminBaseAction {
 	public function addMember(){
 		$this->is_ajax=true;
 		$info=sdata();
-		if($info['user_id']==0 || $info['year_num']==0 || empty($info['sale_name'])){
+		if($info['user_id']==0 || $info['month_yum']==0 || empty($info['sale_name'])){
 			json_output(array('err'=>1,'msg'=>'填写信息出现错误！'));
 		}
 		//获取客户的名称，手机
@@ -95,7 +95,7 @@ class headlineAction extends adminBaseAction {
 				$info['start_time']=CORE_TIME;
 				$info['type']=1;
 			}
-			$info['end_time']=$info['start_time']+($info['year_num']*31536000);
+			$info['end_time']=$info['start_time']+($info['month_yum']*2592000);
 			$info['total_time']=$info['end_time'];
 			$info['cate_id']=$v3;
 			$result=$this->db->model('customer_headline')->add($info);
@@ -276,7 +276,7 @@ class headlineAction extends adminBaseAction {
 			//查询数据
 			$list=$this->db->model('customer_headline')
 					->where($where)
-					->select("c_name,mobile,sale_name,start_time,end_time,input_time,type,year_num,cate_id")
+					->select("c_name,mobile,sale_name,start_time,end_time,input_time,type,month_yum,cate_id")
 					->page($pageIndex+1,$pageSize)
 					->order("$sortField $sortOrder")
 					->getPage();
@@ -341,7 +341,7 @@ class headlineAction extends adminBaseAction {
 		$id=sget('id','i');
 		if ($id>0) {
 			$h_id=$this->db->model('headline_sale')->select('h_id')->where('id='.$id)->getOne();
-			$data=$this->db->model('customer_headline')->select('id,c_name,mobile,sale_name,start_time,end_time,input_time,year_num,cate_id')->where('id in ('.$h_id.')')->order('id desc')->getAll();
+			$data=$this->db->model('customer_headline')->select('id,c_name,mobile,sale_name,start_time,end_time,input_time,month_yum,cate_id')->where('id in ('.$h_id.')')->order('id desc')->getAll();
 			foreach($data as $k=>$v){
 				$data[$k]['cate_name']=$this->db->model('news_cate')->where('cate_id='.$v['cate_id'])->select('cate_name')->getOne();
 			}
