@@ -180,7 +180,7 @@
 		{if $re_tick4}
 		<p class="track {if $re_tick4}done{else}doing{/if}">全部{if $type eq 1}收{else}开{/if}票</p>
 		{else}
-		<p class="track {if $re_tick4}done{else}doing{/if}">部分{if $type eq 1}收{else}开{/if}票</p>
+		<p class="track {if $re_tick4}done{else}doing{/if}">待{if $type eq 1}收{else}开{/if}票</p>
 		{/if}
 		<ul class="info">
 		{if $re_tick4}
