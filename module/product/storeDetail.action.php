@@ -5,6 +5,7 @@
 class storeDetailAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
+		$this->cache=cache::startMemcache();
 		$this->db=M('public:common')->model('in_log');
 		$this->doact = sget('do','s');
 	}
@@ -246,7 +247,12 @@ class storeDetailAction extends adminBaseAction {
 				}
 				$this->error('该采购已经出库,请先撤销出库记录后在操作');
 			}
-
+			//循环回撤可视化
+			if($this->db->model('order_flow')->where("`o_id` = $o_id and `type` =  1 and `step` = 0")->getRow()){
+				$_key='getLog_'.$o_id.'_1_0';
+				$this->cache->delete($_key); //删除缓存
+				$this->db->model('order_flow')->where("`o_id` = $o_id and `type` =  1 and `step` = 0")->delete();
+			}
 		}
 		if($this->db->commit()){
 			$this->success('撤销成功');

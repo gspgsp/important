@@ -5,6 +5,7 @@
 class storeOutLogAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
+		$this->cache=cache::startMemcache();
 		$this->db=M('public:common')->model('out_log');
 		$this->doact = sget('do','s');
 	}
@@ -212,6 +213,12 @@ class storeOutLogAction extends adminBaseAction {
 			if($outlogs['inlogs_id'] > 0) $this->db->model('in_logs')->where("id = {$outlogs['inlogs_id']}")->update(array('remainder'=>'+='.$outlogs['number'],));
 			//把仓库的商品删除
 			$this->db->model('store_product')->where("`s_id`={$outlogs['store_id']} and `p_id` = {$outlogs['p_id']}")->update(array('number'=>'+='.$backnum,'remainder'=>'+='.$outlogs['number'],));
+			//循环回撤可视化
+			if($this->db->model('order_flow')->where("`o_id` =  '{$pinfo['o_id']}' and `type` =  1 and `step` = 0")->getRow()){
+				$_key='getLog_'.$pinfo['o_id'].'_1_0';
+				$this->cache->delete($_key); //删除缓存
+				$this->db->model('order_flow')->where("`o_id` = '{$pinfo['o_id']}' and `type` =  1 and `step` = 0")->delete();
+			}
 		}
 		if($this->db->commit()){
 			$this->success('撤销成功');
