@@ -31,6 +31,7 @@ class loginAction extends homeBaseAction{
 			}
 			$chanel=1; //web渠道
 			$result=M('user:passport')->login($username,$password,$chanel);
+
 			if($result['err']>0){
 				$this->error($result['msg']);
 			}else{
