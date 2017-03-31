@@ -1,5 +1,5 @@
 <?php
-function C1($className)
+function C($className)
 {
 	return LtObjectUtil::singleton($className);
 }
