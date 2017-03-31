@@ -75,7 +75,7 @@
 	<!--view begin-->
 	<div class="view">
 		<h3>资金流</h3>
-		{if $fund3}
+		{if $fund3 && $fund3[0]['step'] neq 1}
 		{foreach from=$fund3 item=val name=n key=k}
 			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}收{else}付{/if}款</p>
 			<ul class="info">
@@ -136,7 +136,7 @@
 	<!--view begin-->
 	<div class="view last">
 		<h3 style="border-top:#333">发票</h3>
-		{if $tick3}
+		{if $tick3 && $tick3[0]['step'] neq 1}
 		{foreach from=$tick3 item=val name=n key=k}
 			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}开{else}收{/if}票</p>
 			<ul class="info">

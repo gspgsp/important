@@ -812,15 +812,14 @@ class orderAction extends adminBaseAction {
 		$this->assign('ship3',M('order:orderLog')->getLog($oid,1,2));
 		$this->assign('ship4',M('order:orderLog')->getLog($oid,1,3));
 		//资金
-		$this->assign('fund2',M('order:orderLog')->getLog($oid,2,1));
-		$this->assign('fund3',M('order:orderLog')->getLog($oid,2,2));
+		$this->assign('fund3',M('order:orderLog')->getLog($oid,2,'1,2'));
 		$this->assign('fund4',M('order:orderLog')->getLog($oid,2,3));
+		// showtrace();
 		//关联信息
 		$this->assign('re_fund3',M('order:orderLog')->getLog($content_id,2,2));
 		$this->assign('re_fund4',M('order:orderLog')->getLog($content_id,2,3));
 		//发票
-		$this->assign('tick2',M('order:orderLog')->getLog($oid,3,1));
-		$this->assign('tick3',M('order:orderLog')->getLog($oid,3,2));
+		$this->assign('tick3',M('order:orderLog')->getLog($oid,3,'1,2'));
 		$this->assign('tick4',M('order:orderLog')->getLog($oid,3,3));
 		//关联信息
 		$this->assign('re_tick3',M('order:orderLog')->getLog($content_id,3,2));
