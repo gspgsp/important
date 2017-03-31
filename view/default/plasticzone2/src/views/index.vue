@@ -52,11 +52,6 @@
 <footerbar></footerbar>
 <div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
 <div class="arrow" v-show="isArrow" v-on:click="arrow"></div>
-<div class="filterwrap" v-show="filtershow">
-	<i class="right" v-bind:class="{on:on1}"></i><span v-on:click="sortfiled" v-bind:class="{on:on1}">综合排序</span>
-	<i class="right" v-bind:class="{on:on2}"></i><span v-on:click="sortorder" v-bind:class="{on:on2}">最近注册</span>
-</div>
-<div class="indexlayer" v-on:click="layershow" v-show="filtershow"></div>
 </div>
 </template>
 <script>
@@ -78,12 +73,9 @@ data: function() {
 		fans: [],
 		isCircle: false,
 		isArrow: false,
-		filtershow: false,
 		sortField: "default",
 		sortOrder: "desc",
 		txt: "综合排序",
-		on1:true,
-		on2:false,
 		loadingShow: ""
 	}
 },
@@ -106,78 +98,82 @@ methods: {
 			this.$router.push({name: 'login'});
 		}
 	},
-	layershow:function(){
-		this.filtershow = false;
-	},
-	sortfiled: function() {
-		var _this = this;
-		this.sortField = "default";
-		this.filtershow = false;
-		this.on1=true;
-		this.on2=false;
-		this.txt = "综合排序";
-		$.ajax({
-			type: "get",
-			url: "/api/qapi1/getPlasticPerson",
-			data: {
-				keywords: "",
-				page: 1,
-				token: window.localStorage.getItem("token"),
-				size: 10,
-				sortField: _this.sortField
-			},
-			dataType: 'JSON'
-		}).done(function(res) {
-			if(res.err == 0) {
-				_this.condition = true;
-				_this.member = res.member;
-				_this.name = res.persons; 
-			} else if(res.err == 2) {
-				_this.condition = false;
-			}
-		}).fail(function(){
-			
-		}).always(function(){
-			
-		});
-	},
-	sortorder: function() {
-		var _this = this;
-		this.sortField = "input_time";
-		this.sortOrder = "desc";
-		this.filtershow = false;
-		this.on1=false;
-		this.on2=true;
-		this.txt = "最近注册";
-		$.ajax({
-			type: "get",
-			url: "/api/qapi1/getPlasticPerson",
-			data: {
-				keywords: "",
-				page: 1,
-				token: window.localStorage.getItem("token"),
-				size: 10,
-				sortField: _this.sortField,
-				sortOrder: _this.sortOrder
-			},
-			dataType: 'JSON'
-		}).done(function(res) {
-			if(res.err == 0) {
-				_this.condition = true;
-				_this.member = res.member;
-				_this.name = res.persons;
-			} else if(res.err == 2) {
-				_this.condition = false;
-			}
-		}).fail(function(){
-			
-		}).always(function(){
-			
-		});
-
-	},
 	filterShow: function() {
-		this.filtershow = true;
+		var _this = this;
+		weui.actionSheet([
+		    {
+		        label: '综合排序',
+		        onClick: function () {
+					_this.sortField = "default";
+					_this.txt = "综合排序";
+					$.ajax({
+						type: "get",
+						url: "/api/qapi1/getPlasticPerson",
+						data: {
+							keywords: "",
+							page: 1,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							sortField: _this.sortField
+						},
+						dataType: 'JSON'
+					}).done(function(res) {
+						if(res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons; 
+						} else if(res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function(){
+						
+					}).always(function(){
+						
+					});
+		        }
+		    }, {
+		        label: '最近注册',
+		        onClick: function () {
+					_this.sortField = "input_time";
+					_this.sortOrder = "desc";
+					_this.txt = "最近注册";
+					$.ajax({
+						type: "get",
+						url: "/api/qapi1/getPlasticPerson",
+						data: {
+							keywords: "",
+							page: 1,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							sortField: _this.sortField,
+							sortOrder: _this.sortOrder
+						},
+						dataType: 'JSON'
+					}).done(function(res) {
+						if(res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if(res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function(){
+						
+					}).always(function(){
+						
+					});
+		        }
+		    }
+		], [
+		    {
+		        label: '取消',
+		        onClick: function () {
+		        	
+		        }
+		    }
+		], {
+		    className: 'custom-classname'
+		});
 	},
 	arrow: function() {
 		window.scrollTo(0, 0);
