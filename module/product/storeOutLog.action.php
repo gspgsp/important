@@ -275,7 +275,6 @@ class storeOutLogAction extends adminBaseAction {
 		}
 		//添加订单可视化订单审不通过
 		M('order:orderLog')->addLog($data['oid'],1,1,CORE_TIME-intval($this->db->model('order_flow')->select('input_time')->where("o_id = {$data['oid']} and type = 1 and step = 0")->getOne()));
-			 $this->success('操作成功');
 		$this->success('操作成功');
 	}
 }
