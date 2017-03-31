@@ -2819,7 +2819,7 @@ class qapi1_1Action extends null2Action
     public function alipaySome(){
 //       E('AopSdk',APP_LIB.'extend');
         require_file(APP_LIB.'extend/alipay-sdk-PHP/AopSdk.php');//p(get_included_files());
-        $aop = new AopClient();//p($aop);p(get_included_files());exit;
+        $aop = new AopClient();p($aop);p(get_included_files());exit;
         $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
         //$aop->appId = 'your app_id';2017033006485289
         $aop->appId = '2017033006485289';
