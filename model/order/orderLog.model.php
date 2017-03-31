@@ -30,11 +30,12 @@ class orderLogModel extends model{
 	/**
 	 * 获取可视化的信息
 	 */
-	public function getLog($o_id = 0,$type=0,$step=-1){
+	public function getLog($o_id = 0,$type=0,$step='-1'){
 		$_key='getLog_'.$o_id.'_'.$type.'_'.$step;
-		$where = "`o_id` = $o_id and `type` = $type";
-		if($step > -1) $where .= " and `step` = $step ";
-		$data=$this->cache->get($_key);
+		$where = "`o_id` = $o_id and `type` = $type ";
+		if($step > -1 && $type < 2 ) $where .= " and `step` = $step ";
+		if($type > 1) $where .= " and `step` in ($step) ";
+		// $data=$this->cache->get($_key);
 		if(empty($data)){
 			$data=$this->where($where)->order('input_time desc')->limit(1)->getAll();
 			if($data){
