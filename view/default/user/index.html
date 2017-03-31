@@ -50,7 +50,7 @@
     		<div class="user-main-detail order">
     			<div class="tit"><h2>最近三月订单信息</h2></div>
     			<ul>
-    				<li> 
+    				<li>
     					<!--classify begin-->
     					<div class="classify classify1 flt">
     						<p></p><span>自营商城订单</span>
@@ -199,12 +199,7 @@
     		<!--trader begin-->
     		<div class="trader"><!-- __IMG__/home/   ../../images/home/ -->
     			<div class="user-pic">
-					{if $data.pic}
-    				<img  width="88" height="88" src="__UPLOAD__/{$data.pic}"/>
-					{else}
-					<img width="88" height="88"  src="__IMG__/home/logos.png"/>
-					{/if}
-    				<img src="__IMG__/home/userPicMask.png"/>
+					官方微信公众号
     			</div>
     			<p>我是您的专属交易员  {$data.adm_name}</p>
 				<p>您有需要我帮助的请及时与我联系</p>
@@ -373,7 +368,7 @@
         perPage:4
     });
     var parent = track.container.parents(".track");
-     
+
     // 左右箭头
     track.install(new SilverTrack.Plugins.Navigator({
       prev: $("a.prev", parent),

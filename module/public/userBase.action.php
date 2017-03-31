@@ -7,6 +7,6 @@ class userBaseAction extends homeBaseAction{
 		if($this->user_id<=0){
 			$this->forward('/user/login');
 		}
+		$this->var=M('user:customerContact')->getCustomerInFoById($this->user_id);
 	}
-	
 }

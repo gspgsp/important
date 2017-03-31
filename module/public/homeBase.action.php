@@ -95,8 +95,6 @@ class homeBaseAction extends action {
 		$this->assign('on_4',$_GET['m']);
 		$this->assign('on_6',$_GET['m']);
 		$this->assign('on_7',$_GET['m']);
-
-
 	}
 
 	/*

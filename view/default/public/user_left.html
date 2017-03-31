@@ -1,59 +1,91 @@
-<div class="left flt">
-    <h2 class="msg">消息中心</h2>
-    <ul>
-        <li {if $act=='msg'}class="hover"{/if}><a href="/user/msg">消息列表</a></li>
-    </ul>
-    <h2 class="order">订单中心</h2>
-    <ul>
-        <li {if $act=='selforder'}class="hover"{/if}><a href="/user/selforder">自营商城订单</a></li>
-        <li {if $act=='unionorder'}class="hover"{/if}><a href="/user/unionorder">联营商城订单</a></li>
-    </ul>
-    <h2 class="supply">我的供应</h2>
-    <ul>
-        <li {if $act=='myoffers'}class="hover"{/if}><a href="/user/myoffers">报价发布</a></li>
-        <li {if $act=='offerlist'}class="hover"{/if}><a href="/user/myoffers/lists">报价管理</a></li>
-        <li {if $act=='supply'}class="hover"{/if}><a href="/user/myoffers/supply">我的供货</a></li>
-    </ul>
-    <h2 class="buy">我的求购</h2>
-    <ul>
-        <li {if $act=='mypurchase'}class="hover"{/if}><a href="/user/mypurchase">求购发布</a></li>
-        <li {if $act=='purchaselist'}class="hover"{/if}><a href="/user/mypurchase/lists">求购管理</a></li>
-        <li  {if $act=='wantBuy'}class="hover"{/if}><a href="/user/mypurchase/wantBuy">我的购货</a></li>
-    </ul>
-    <h2 class="finance">财务中心</h2>
-    <ul>
-        <li {if $act=='fundManager'}class="hover"{/if}><a href="/user/fundManager/fundManager">资金管理</a></li>
-        <li {if $act=='fundInfomation'}class="hover"{/if}><a href="/user/fundInfomation/fundInfomation">收支明细</a></li>
-        <li {if $act=='showMyVoucher'}class="hover"{/if}><a href="/user/myVoucher/showMyVoucher">我的抵用券</a></li>
-        <li {if $act=='creditDetail'}class="hover"{/if}><a href="/user/myPoints/creditDetail">积分兑换明细</a></li>
-        <li {if $act=='billInfo'}class="hover"{/if}><a href="/user/billInformation/billInfo">开票资料</a></li>
-    </ul>
-    <h2 class="follow">关注中心</h2>
-    <ul>
-        <li {if $act=='proAttentionValue'}class="hover"{/if}><a href="/user/productAttention/proAttentionValue">关注的产品</a></li>
-        <li {if $act=='cusAttentionList'}class="hover"{/if}><a href="/user/customerAttention/cusAttentionList">关注的商家</a></li>
-    </ul>
-    <h2 class="website">我的网站</h2>
-    <ul>
-        <li {if $act=='myHomepage'}class="hover"{/if}><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></li>
-        <li {if $act=='myProduct'}class="hover"{/if}><a href="/user/mainProduct/getMainProduct">主营产品</a></li>
-        <li {if $act=='myArticle'}class="hover"{/if}><a href="/user/myArticle/getMyArticle">我的资讯</a></li>
-    </ul>
-    <h2 class="set">账户设置</h2>
-    <ul>
-        <li {if $act=='myset'}class="hover"{/if}><a href="/user/myset">账户信息</a></li>
-        <li {if $act=='editAddress'}class="hover"{/if}><a href="/user/myset/editAddress">收货地址</a></li>
-        <li {if $act=='changepass'}class="hover"{/if}><a href="/user/changepass">修改密码</a></li>
-        <!--<li {if $act=='test'}class="hover"{/if}><a href="/user/test/test">test</a></li>-->
-    </ul>
-    <!--<h2 class="finance2">我的金融</h2>-->
-    <!--<ul>-->
-        <!--<li><a href="/user/financeCalc">费用试算</a></li>-->
-        <!--<li><a href="/user/ious">塑料白条</a></li>-->
-        <!--<li><a href="/user/mining">塑料代采</a></li>-->
-        <!--<li><a href="/user/financing">仓单融资</a></li>-->
-    <!--</ul>-->
+{insert_css files='home/user2.css'}
+<!--menus begin-->
+<div class="menus2 link6 flt">
+    <!--user-info begin-->
+    <div class="user-info">
+        <!--pic begin-->
+        <div class="pic">
+            {if $var.thumb neq ''}
+            <img width="94" height="94"  src="__UPLOAD__/{$var.thumb}"/>
+            {else}
+            <img  width="94" height="94" src="__IMG__/home/uesr_image_defaul.png">
+            {/if}
+        </div>
+        <p class="name">{$var.u_name}</p>
+        {if $var.identification eq 2}
+        <p class="authen yes">已认证 </p>
+        {else}
+        <p class="authen no">未认证 | <a href="/user/fundManager/fundManager">去认证</a></p>
+        {/if}
+        <p class="company">{$var.c_name}</p>
+        <p class="integral">积分 <span>{$var.points}</span></p>
+        <!--pic end-->
+    </div>
+    <!--user-info end-->
+    <!--menu begin-->
+    <div class="menu msg">
+        <h3>消息中心</h3>
+        <p><a href="/user/msg?status=1">消息列表</a><span>{$var.number}</span></p>
+    </div>
+    <!--menu begin-->
+    <!--menu begin-->
+    <div class="menu order">
+        <h3>订单中心</h3>
+        <p {if $act=='unionorder'}class="hover"{/if}><a href="/user/unionorder">商城订单</a></p>
+    </div>
+    <!--menu begin-->
+    <!--menu begin-->
+    { if $smarty.session.uinfo.type eq 1}
+    <div class="menu wantbuy">
+        <h3>我的求购</h3>
+        <p {if $act=='mypurchase'}class="hover"{/if}><a href="/user/mypurchase">求购发布</a></p>
+        <p {if $act=='purchaselist'}class="hover"{/if}><a href="/user/mypurchase/lists">求购管理</a></p>
+        <p {if $act=='wantBuy'}class="hover"{/if}><a href="/user/mypurchase/wantBuy">我的求购</a></p>
+    </div>
+    {else $smarty.session.uinfo.type eq 2}
+    <div class="menu supply">
+        <h3>我的供应</h3>
+        <p {if $act=='myoffers'}class="hover"{/if}><a href="/user/myoffers">报价发布</a></p>
+        <p {if $act=='offerlist'}class="hover"{/if}><a href="javascript:;">报价管理</a></p>
+        <p {if $act=='supply'}class="hover"{/if}><a href="/user/myoffers/supply">我的供货</a></p>
+    </div>
+    {/if}
+    <!--menu begin-->
+    <!--menu begin-->
+    <div class="menu finance">
+        <h3>财务中心</h3>
+        <p {if $act=='fundManager'}class="hover"{/if}><a href="/user/fundManager/fundManager">资金管理</a></p>
+        <p {if $act=='fundInfomation'}class="hover"{/if}><a href="/user/fundInfomation/fundInfomation">收支明细</a></p>
+        <p {if $act=='showMyVoucher'}class="hover"{/if}><a href="/user/myVoucher/showMyVoucher">我的抵用券</a></p>
+        <p {if $act=='creditDetail'}class="hover"{/if}><a href="/user/myPoints/creditDetail">积分商城</a></p>
+        <p {if $act=='billInfo'}class="hover"{/if}><a href="/user/billInformation/billInfo">开票资料</a></p>
+    </div>
+    <!--menu begin-->
+    <!--menu begin-->
+    <div class="menu concern">
+        <h3>关注中心</h3>
+        <p {if $act=='proAttentionValue'}class="hover"{/if}><a href="/user/productAttention/proAttentionValue">关注的产品</a></p>
+        <p {if $act=='cusAttentionList'}class="hover"{/if}><a href="/user/customerAttention/cusAttentionList">关注的商家</a></p>
+    </div>
+    <!--menu begin-->
+    <!--menu begin-->
+    <div class="menu website">
+        <h3>我的网站</h3>
+        <p {if $act=='myHomepage'}class="hover"{/if}><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></p>
+        <p {if $act=='myProduct'}class="hover"{/if}><a href="/user/mainProduct/getMainProduct">主营产品</a></p>
+        <p {if $act=='myArticle'}class="hover"{/if}><a href="/user/myArticle/getMyArticle">我的资讯</a></p>
+    </div>
+    <!--menu begin-->
+    <!--menu begin-->
+    <div class="menu set">
+        <h3>账户设置</h3>
+        <p {if $act=='myset'}class="hover"{/if}><a href="/user/myset">账户信息</a></p>
+        <p {if $act=='editAddress'}class="hover"{/if}><a href="/user/myset/editAddress">收货地址</a></p>
+        <p {if $act=='changepass'}class="hover"{/if}><a href="/user/changepass">修改密码</a></p>
+    </div>
+    <!--menu begin-->
 </div>
+<!--menus end-->
 
 
 

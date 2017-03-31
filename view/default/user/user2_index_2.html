@@ -1,266 +1,205 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+{layout file="public:main_layout"}
+{insert_css files='home/user2.css'}
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>用户中心首页</title>
-<link rel="stylesheet" type="text/css" href="style/user2.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户中心首页</title>
+    <!--<link rel="stylesheet" type="text/css" href="style/user2.css"/>-->
 </head>
 
 <body>
 <!--user2-tab begin-->
-<div class="user2-tab">
-	<ul>
-    	<li id="user2-tab1">我是买家</li>
-        <li id="user2-tab2" class="hover">我是卖家</li>
-    </ul>
-    <span></span>
-</div>
+<!--<div class="user2-tab">-->
+<!--<ul>-->
+<!--<li id="user2-tab1" class="hover">我是买家</li>-->
+<!--<li id="user2-tab2">我是卖家</li>-->
+<!--</ul>-->
+<!--<span></span>-->
+<!--</div>-->
 <!--user2-tab end-->
 <!--user2-wrap begin-->
 <div class="user2-wrap w1220">
-	<!--menus begin-->
-    <div class="menus link6 flt">
-    	<!--user-info begin-->
+    <!--menus begin-->
+    <div class="menus2 link6 flt">
+        <!--user-info begin-->
         <div class="user-info">
-        	<!--pic begin-->
-            <div class="pic"></div>
-            <p class="name">张若扬</p>
-            <p class="authen yes">已认证</p>
-            <p class="company">上海中晨电子商务股份有限公司</p>
-            <p class="integral">积分 <span>138800</span></p>
+            <!--pic begin-->
+            <div class="pic">
+                {if $data.thumb neq ''}
+                <img width="94" height="94"  src="__UPLOAD__/{$data.thumb}"/>
+                {else}
+                <img  width="94" height="94" src="__IMG__/home/user2-pic1.jpg">
+                {/if}
+            </div>
+            <p class="name">{$data.u_name}</p>
+            {if $data.identification eq 2}
+            <p class="authen yes">已认证 </p>
+            {else}
+            <p class="authen no">未认证 | <a href="/user/fundManager/fundManager">去认证</a></p>
+            {/if}
+            <p class="company">{$data.c_name}</p>
+            <p class="integral">积分 <span>{$data.points}</span></p>
             <!--pic end-->
         </div>
         <!--user-info end-->
-    	<!--menu begin-->
+        <!--menu begin-->
         <div class="menu msg">
-        	<h3>消息中心</h3>
-            <p><a href="javascript:;">消息列表</a><span>25</span></p>
+            <h3>消息中心</h3>
+            <p><a href="/user/msg?status=1">消息列表</a><span>{$data.number}</span></p>
         </div>
         <!--menu begin-->
         <!--menu begin-->
         <div class="menu order">
-        	<h3>订单中心</h3>
-            <p><a href="javascript:;">商城订单</a></p>
+            <h3>订单中心</h3>
+            <p {if $act=='unionorder'}class="hover"{/if}><a href="/user/unionorder">商城订单</a></p>
         </div>
         <!--menu begin-->
         <!--menu begin-->
+        <div class="menu wantbuy">
+            <h3>我的求购</h3>
+            <p {if $act=='mypurchase'}class="hover"{/if}><a href="/user/mypurchase">求购发布</a></p>
+            <p {if $act=='purchaselist'}class="hover"{/if}><a href="/user/mypurchase/lists">求购管理</a></p>
+            <p {if $act=='wantBuy'}class="hover"{/if}><a href="/user/mypurchase/wantBuy">我的求购</a></p>
+        </div>
         <div class="menu supply">
-        	<h3>我的供应</h3>
-            <p><a href="javascript:;">报价发布</a></p>
-            <p><a href="javascript:;">报价管理</a></p>
-            <p><a href="javascript:;">我的供货</a></p>
+            <h3>我的供应</h3>
+            <p {if $act=='myoffers'}class="hover"{/if}><a href="/user/myoffers">报价发布</a></p>
+            <p {if $act=='offerlist'}class="hover"{/if}><a href="javascript:;">报价管理</a></p>
+            <p {if $act=='supply'}class="hover"{/if}><a href="/user/myoffers/supply">我的供货</a></p>
         </div>
-        <!--menu begin--> 
+
+        <!--menu begin-->
         <!--menu begin-->
         <div class="menu finance">
-        	<h3>财务中心</h3>
-            <p><a href="javascript:;">资金管理</a></p>
-            <p><a href="javascript:;">收支明细</a></p>
-            <p><a href="javascript:;">我的抵用券</a></p>
-            <p><a href="javascript:;">积分商城</a></p>
-            <p><a href="javascript:;">开票资料</a></p>
+            <h3>财务中心</h3>
+            <p {if $act=='fundManager'}class="hover"{/if}><a href="/user/fundManager/fundManager">资金管理</a></p>
+            <p {if $act=='fundInfomation'}class="hover"{/if}><a href="/user/fundInfomation/fundInfomation">收支明细</a></p>
+            <p {if $act=='showMyVoucher'}class="hover"{/if}><a href="/user/myVoucher/showMyVoucher">我的抵用券</a></p>
+            <p {if $act=='creditDetail'}class="hover"{/if}><a href="/user/myPoints/creditDetail">积分商城</a></p>
+            <p {if $act=='billInfo'}class="hover"{/if}><a href="/user/billInformation/billInfo">开票资料</a></p>
         </div>
         <!--menu begin-->
         <!--menu begin-->
         <div class="menu concern">
-        	<h3>关注中心</h3>
-            <p><a href="javascript:;">关注的产品</a></p>
-            <p><a href="javascript:;">关注的商家</a></p>
+            <h3>关注中心</h3>
+            <p {if $act=='proAttentionValue'}class="hover"{/if}><a href="/user/productAttention/proAttentionValue">关注的产品</a></p>
+            <p {if $act=='cusAttentionList'}class="hover"{/if}><a href="/user/customerAttention/cusAttentionList">关注的商家</a></p>
         </div>
         <!--menu begin-->
         <!--menu begin-->
         <div class="menu website">
-        	<h3>我的网站</h3>
-            <p><a href="javascript:;">我的门户网站</a></p>
-            <p><a href="javascript:;">主营产品</a></p>
-            <p><a href="javascript:;">我的资讯</a></p>
+            <h3>我的网站</h3>
+            <p {if $act=='myHomepage'}class="hover"{/if}><a href="/user/myHomeWeb/getMyWeb">我的门户网站</a></p>
+            <p {if $act=='myProduct'}class="hover"{/if}><a href="/user/mainProduct/getMainProduct">主营产品</a></p>
+            <p {if $act=='myArticle'}class="hover"{/if}><a href="/user/myArticle/getMyArticle">我的资讯</a></p>
         </div>
-        <!--menu begin--> 
+        <!--menu begin-->
         <!--menu begin-->
         <div class="menu set">
-        	<h3>账户设置</h3>
-            <p><a href="javascript:;">账户信息</a></p>
-            <p><a href="javascript:;">收货地址</a></p>
-            <p><a href="javascript:;">修改密码</a></p>
+            <h3>账户设置</h3>
+            <p {if $act=='myset'}class="hover"{/if}><a href="/user/myset">账户信息</a></p>
+            <p {if $act=='editAddress'}class="hover"{/if}><a href="/user/myset/editAddress">收货地址</a></p>
+            <p {if $act=='changepass'}class="hover"{/if}><a href="/user/changepass">修改密码</a></p>
         </div>
-        <!--menu begin-->   
+        <!--menu begin-->
     </div>
     <!--menus end-->
     <!--main begin-->
     <div class="main flt">
-    	<!--order begin-->
+        <!--order begin-->
         <div class="order link6">
-        	<div class="title"><h3>最近订单信息</h3></div>
+            <div class="title"><h3>最近三月订单信息</h3></div>
             <ul class="con">
-            	<li><a href="javascript:;">待审核<span>10</span></a></li>
-                <li><a href="javascript:;">待付款<span>11</span></a></li>
-                <li><a href="javascript:;">待开票<span>13</span></a></li>
-                <li class="last"><a href="javascript:;">已取消<span>12</span></a></li>
+                <li><a href="user/unionorder?type=3">待审核<span>{$info1}</span></a></li>
+                <li><a href="javascript:;">待付款<span>{$info2}</span></a></li>
+                <li><a href="/user/unionorder?type=4">待开票<span>{$info3}</span></a></li>
+                <li class="last"><a href="/user/unionorder?type=6">已取消<span>{$info4}</span></a></li>
             </ul>
         </div>
         <!--order end-->
         <!--product begin-->
         <div class="product">
-        	<div class="title"><h3>关注产品信息</h3><a href="javascript:;">添加</a></div>
+            <div class="title"><h3>关注产品信息</h3><a href="/user/productAttention/proAttentionValue">添加</a></div>
             <!--con begin-->
             <ul class="con">
-            	<li>
-                	<p class="change increase">100</p>
-                    <p class="price">￥<span>9650</span></p>
-                    <p class="address">云林 / 9001 / 上海</p>
-                    <p class="date">2017-03-27 15:43</p>
-                </li>
+                {foreach from=$prices item=value key=key}
                 <li>
-                	<p class="change decrease">100</p>
-                    <p class="price">￥<span>9650</span></p>
-                    <p class="address">云林 / 9001 / 上海</p>
-                    <p class="date">2017-03-27 15:43</p>
+                    <p class="change increase">{$value.absprice}</p>
+                    <p class="price">￥<span>{if $value.unit_price>0}¥{$value.unit_price}{else}暂无报价{/if}</span></p>
+                    <p class="address">{$value.product_type}/{$value.model}/{$value.f_name}</p>
+                    <p class="date">{if $value.input_time>0}{$value.input_time|date:Y-m-d}{else}--{/if}</p>
                 </li>
-                <li>
-                	<p class="change decrease">100</p>
-                    <p class="price">￥<span>9650</span></p>
-                    <p class="address">云林 / 9001 / 上海</p>
-                    <p class="date">2017-03-27 15:43</p>
-                </li>
-                <li>
-                	<p class="change increase">100</p>
-                    <p class="price">￥<span>9650</span></p>
-                    <p class="address">云林 / 9001 / 上海</p>
-                    <p class="date">2017-03-27 15:43</p>
-                </li>
-                <li class="last">
-                	<p class="change increase">100</p>
-                    <p class="price">￥<span>9650</span></p>
-                    <p class="address">云林 / 9001 / 上海</p>
-                    <p class="date">2017-03-27 15:43</p>
-                </li>
+                {/foreach}
             </ul>
-			<!--con end-->
+            <!--con end-->
         </div>
         <!--product end-->
         <!--talk begin-->
         <div class="talk">
-        	<div class="title"><h3>洽谈采购需求</h3><a href="javascript:;">MORE</a></div>
+            <div class="title"><h3>洽谈采购需求</h3><a href="/purchase">MORE</a></div>
             <!--con begin-->
             <ul class="con">
-            	<li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
-                    <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
-                    </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
-                </li>
+                {foreach from=$rest item=val key=key}
                 <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
+                    <p class="wantbuy">求购{if $val.product_type}{:witchType|$val.product_type}{else}&nbsp;{/if} {$val.model} {$val.number}吨</p>
+                    <p class="price">￥{$val.unit_price}元</p>
                     <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
+                        <span class="address">{$val.name}</span>
+                        <span class="date">{$val.input_time|date:Y-m-d}</span>
                     </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
+                    <a href="/offers/talk?id={$val.id}"><span>我要供货<br/>我要供货</span></a>
                 </li>
+                {/foreach}
+            </ul>
+            <div class="title"><h3>洽谈报价需求</h3><a href="/offers">MORE</a></div>
+            <!--con begin-->
+            <ul class="con">
+                {foreach from=$pur_sale item=val key=key}
                 <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
+                    <p class="wantbuy">供货{if $val.product_type}{:witchType|$val.product_type}{else}&nbsp;{/if} {$val.model} {$val.number}吨</p>
+                    <p class="price">￥{$val.unit_price}元</p>
                     <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
+                        <span class="address">{$val.city}</span>
+                        <span class="date">{$val.input_time|date:Y-m-d}</span>
                     </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
+                    <a href="/offers"><span>查看<br/>查看</span></a>
                 </li>
-                <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
-                    <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
-                    </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
-                </li>
-                <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
-                    <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
-                    </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
-                </li>
-                <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
-                    <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
-                    </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
-                </li>
-                <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
-                    <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
-                    </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
-                </li>
-                <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
-                    <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
-                    </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
-                </li>
-                <li>
-                	<p class="wantbuy">求购HDPE F00952 25.0000吨</p>
-                    <p class="price">9680.00元</p>
-                    <p class="talk-other">
-                    	<span class="address">上海</span>
-                        <span class="date">2017-03-24</span>
-                    </p>
-                    <a href="javascript:;"><span>我要供货<br/>我要供货</span></a>
-                </li>
+                {/foreach}
             </ul>
             <!--con end-->
         </div>
         <!--talk end-->
         <!--other begin-->
         <div class="other">
-        	<!--resource begin-->
+            <!--resource begin-->
             <div class="resource flt">
-            	<div class="title"><h3>资源库信息</h3></div>
+                <div class="title"><h3>资源库信息</h3></div>
                 <!--summary begin-->
                 <div class="summary">
-                	<div class="summary1">
-                    	<p>今日发布求购</p>
-                        <span>94678</span>
+                    <div class="summary1">
+                        <p>今日发布求购</p>
+                        <span>{$count2[0][total]}</span>
                     </div>
                     <div class="summary2">
-                    	<p>今日发布供应</p>
-                        <span>94678</span>
+                        <p>今日发布供应</p>
+                        <span>{$count1[0][total]}</span>
                     </div>
                 </div>
                 <!--summary end-->
                 <!--forthwith begin-->
-                <div class="forthwith">
-                	<h4>实时资源</h4>
-                    <p>山东资润-牟云凤</p>
-					<p>出天津厂提222WT 15263375932</p>
+                <h4>实时资源</h4>
+                <div class="forthwith" id="refreshs">
+                    <p>{$ref[0][user_nick]}<br/>{$ref[0][contents]|truncate:40}</p>
                 </div>
                 <!--forthwith end-->
             </div>
             <!--resource end-->
             <!--release begin-->
             <div class="release frt">
-            	<div class="title"><h3>资源库信息</h3></div>
+                <div class="title"><h3>免费发布采购需求</h3></div>
                 <!--form begin-->
                 <div class="form">
-                	<form name="" method="post" action="">
-                    	<textarea placeholder="请输入您的真实需求，包括牌号、吨数等。"></textarea>
+                    <form name="" method="post" action="" class="add_form">
+                        <textarea placeholder="请输入您的真实需求，包括牌号、吨数等。"></textarea>
                         <input type="submit" class="submit frt" value="免费委托发布"/>
                     </form>
                 </div>
@@ -273,26 +212,32 @@
     <!--main end-->
     <!--sidebar begin-->
     <div class="sidebar frt">
-    	<!--dealer begin-->
+        <!--dealer begin-->
         <div class="dealer">
-    		<div class="title">您的专属交易员</div>
+            <div class="title">您的专属交易员</div>
             <!--con begin-->
             <div class="con">
-            	<!--pic begin-->
-                <div class="pic"></div>
+                <!--pic begin-->
+                <div class="pic">
+                    {if $data.pic}
+                    <img  width="88" height="88" src="__UPLOAD__/{$data.pic}"/>
+                    {else}
+                    <img  width="88" height="88" src="__IMG__/home/trade_image_defaul.png"/>
+                    {/if}
+                </div>
                 <!--pic end-->
-            	<p class="name">王凯晨</p>
-                <p class="mobile">17717531604</p>
+                <p class="name">{$data.adm_name}</p>
+                <p class="mobile">{$data.mobile}</p>
             </div>
             <!--con end-->
         </div>
         <!--dealer end-->
         <!--help begin-->
         <div class="help">
-	    	<div class="title">帮助中心</div>
+            <div class="title">帮助中心</div>
             <!--con begin-->
             <ul class="con">
-            	<li><p>购买流程</p><span>一键认购，快人一步</span></li>
+                <li><p>购买流程</p><span>一键认购，快人一步</span></li>
                 <li><p>物流配送</p><span>安全放心，使命必达</span></li>
                 <li><p>仓库自提</p><span>手续简化，说走就走</span></li>
             </ul>
@@ -301,13 +246,13 @@
         <!--help end-->
         <!--wx begin-->
         <div class="wx">
-        	<div class="title">官方微信公众号</div>
+            <div class="title">官方微信公众号</div>
             <!--con begin-->
             <div class="con">
-            	<div class="ewm"><img src="img/user2-wx.jpg" width="117" height="117"/></div>
+                <div class="ewm"><img src="__IMG__/home/userIndex4.jpg" width="117" height="117"/></div>
                 <p>了解行业资讯，在线查询最新同行报价</p>
             </div>
-			<!--con end-->
+            <!--con end-->
         </div>
         <!--wx end-->
     </div>
@@ -316,3 +261,47 @@
 <!--user2-wrap end-->
 </body>
 </html>
+
+<script>
+    //发布采购需求
+    $('.add_form').submit(function(){
+        var content = $('.add_form textarea').val().trim();
+        var type=1;
+        if(content == ''){
+            layer.msg('请填写发布内容');
+            return false;
+        }
+        $.post('/resource/index/release', {content:content,type:type}, function (data){
+            if(data.err>0){
+                if(data.err==1){
+                    loginbox('user');
+                }else{
+                    alert(data.msg);
+                }
+            }else{
+                layer.msg('发布成功');
+                window.location.reload();
+            }
+        },'json')
+        return false;
+    })
+
+    //资源库局部刷新
+    setInterval(function(){
+        $.ajax({
+            url:'/user/index/ajax',
+            type:'get',
+            dataType:'json',
+            cache:'false',
+            data:{status:1},
+            success:function(res){
+                var str='';
+                $.each(res,function(i,item){
+                    str='<p>'+ item.user_nick+'<br/>' +item.contents+'</p>';
+                })
+                $('#refreshs').html(str);
+            }
+        })
+    },10000);
+
+</script>

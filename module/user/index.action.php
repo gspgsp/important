@@ -11,7 +11,7 @@ class indexAction extends userBaseAction{
 	{
 		if($this->user_id<0) $this->error('系统错误');
 		$this->act='index';
-		//个人信息
+//		个人信息
 		$this->data=M('user:customerContact')->getCustomerInFoById($this->user_id);
 		//我的关注列表
 		$list = M('product:concernedProduct')->getConcernedList($this->user_id);
@@ -38,6 +38,12 @@ class indexAction extends userBaseAction{
 		$this->ref=M('resourcelib:resourcelib')->getNew();
 		//最新正在洽谈的求购信息
 		$this->rest=M('product:purchase')->getInfo();
+		//洽淡报价需求
+		$purSale=M('product:purchase')->getPurLimit("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 2",6);
+		foreach($purSale as $key=>$value){
+			$purSale[$key]['city']=(!empty($value['region_name']))?$value['region_name']:$value['store_house'];
+		}
+
 		//积分商品banner
 		$this->points=M('points:pointsGoods')->getGoods();
 		//近三个月的订单信息(自营)
@@ -51,8 +57,15 @@ class indexAction extends userBaseAction{
 		$this->info3=M('product:unionOrder')->getOrder($this->user_id,1,'invoice_status');      //带开票
 		$this->info4=M('product:unionOrder')->getOrder($this->user_id,3);    //已取消
 		$this->assign('prices',$array);
-//		$this->assign('user2_index_1');
-		$this->display('index');
+		$this->assign('pur_sale',$purSale);
+		if($_SESSION['uinfo']['type']!=3){
+			$this->display('user2_index_1');
+		}else{
+			$this->display('user2_index_2');
+		}
+
+
+//		$this->display('index');
 	}
 
 	/**
