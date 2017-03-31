@@ -2876,4 +2876,101 @@ JYANsUIrHRtaBDZPCrM5JWiOeFEWZgg6JEE0jDl/FZE+VM3kE+jZ';
 
 
 
+
+
+    public function alipayWebApi(){
+        $alipay_config=include_once(APP_LIB.'extend/alipay-janfly/alipay.config.php');
+        require_file(APP_LIB.'extend/alipay-janfly/lib/alipay_submit.class.php');
+
+        /**************************请求参数**************************/
+        //商户订单号，商户网站订单系统中唯一订单号，必填
+        $out_trade_no = 'test'.time().mt_rand(105,765);
+
+        //订单名称，必填
+        $subject = 'test测试商品';
+
+        //付款金额，必填
+        $total_fee = '0.01';
+
+        //商品描述，可空
+        $body = '即时到账测试';
+
+
+
+
+
+        /************************************************************/
+
+//构造要请求的参数数组，无需改动
+        $parameter = array(
+            "service"       => $alipay_config['service'],
+            "partner"       => $alipay_config['partner'],
+            "seller_id"  => $alipay_config['seller_id'],
+            "payment_type"	=> $alipay_config['payment_type'],
+            "notify_url"	=> $alipay_config['notify_url'],
+            "return_url"	=> $alipay_config['return_url'],
+
+            "anti_phishing_key"=>$alipay_config['anti_phishing_key'],
+            "exter_invoke_ip"=>$alipay_config['exter_invoke_ip'],
+            "out_trade_no"	=> $out_trade_no,
+            "subject"	=> $subject,
+            "total_fee"	=> $total_fee,
+            "body"	=> $body,
+            "_input_charset"	=> trim(strtolower($alipay_config['input_charset']))
+            //其他业务参数根据在线开发文档，添加参数.文档地址:https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.kiX33I&treeId=62&articleId=103740&docType=1
+            //如"参数名"=>"参数值"
+
+        );
+
+//建立请求
+        $alipaySubmit = new AlipaySubmit($alipay_config);
+        $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
+        echo $html_text;
+
+    }
+
+
+    public function alipayNotify(){
+        $alipay_config=include_once(APP_LIB.'extend/alipay-janfly/alipay.config.php');
+        require_file(APP_LIB.'extend/alipay-janfly/lib/alipay_notify.class.php');
+        p($alipay_config);
+        $alipayNotify = new alipayNotify($alipay_config);p($alipayNotify);exit;
+        $verify_result = $alipayNotify->verifyNotify();
+
+        $request = \yii::$app->request;
+        $params = $request->post();
+
+        \Yii::trace("alipay notify start", 'ordersCallback'); // 会自动记录post 参数
+
+        if($verify_result) {//验证成功
+
+
+            if($_POST['trade_status'] == 'TRADE_FINISHED' || $_POST['trade_status'] == 'TRADE_SUCCESS') {
+                $ay_info = new PayInfo();
+                $stmt = $pay_info->findOne($params['out_trade_no']);
+                if($stmt->payed == 0) {
+                    $stmt->payed = 1;
+                    $stmt->pay_time = date('Y-m-d H:i:s');
+                    $stmt->pay_channel = 'alipay';
+                    $stmt->update();
+                }
+
+                \Yii::trace("success", 'ordersCallback');
+            }
+
+            echo "success";     //请不要修改或删除  alipay 用
+        } else {
+            \Yii::trace("failure", 'ordersCallback');
+            echo "fail";
+            //log
+        }
+    }
+
+
+
+
+
+
+
+
 }
