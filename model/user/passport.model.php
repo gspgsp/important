@@ -12,7 +12,7 @@ class passportModel extends model{
 	 * 检查唯一性
 	 * @param string $name 检查类型
 	 * @param string $value 检查值
-     * @return bool
+	 * @return bool
 	 */
 	public function chkUnique($name='mobile',$value=''){
 		$exist=$this->model('customer_contact')->select('user_id')->where("$name='$value'")->getOne();
@@ -21,9 +21,9 @@ class passportModel extends model{
 
 	/*
 	 * 用户注册
-     * @access public
+	 * @access public
 	 * @param array $param 用户信息(mobile,email,password)
-     * @return bool
+	 * @return bool
 	 */
 	public function register($param=array()){
 		//系统共用模块进行注册
@@ -125,44 +125,44 @@ class passportModel extends model{
 	 * @return array(err,msg)
 	 */
 	public function login2($username='',$password='',$chanel=1){
-	    //IP黑名单
-	    $black=M('system:blackIp')->checkIp(get_ip());
-	    if(!empty($black)){
-	        return array('err'=>9,'msg'=>'IP已限制访问，请与客服联系');
-	    }
+		//IP黑名单
+		$black=M('system:blackIp')->checkIp(get_ip());
+		if(!empty($black)){
+			return array('err'=>9,'msg'=>'IP已限制访问，请与客服联系');
+		}
 
-	    if(empty($username) || empty($password)){
-	        return array('err'=>1,'msg'=>'用户信息不完整');
-	    }
+		if(empty($username) || empty($password)){
+			return array('err'=>1,'msg'=>'用户信息不完整');
+		}
 
-	    $where='';
-	    if(is_mobile($username)) {
-	        $where="mobile='$username'";
-	    }else{
-	        $this->_loginError(0,$username,1,$password,$chanel);
-	        return array('err'=>1,'msg'=>'用户信息不完整');
-	    }
+		$where='';
+		if(is_mobile($username)) {
+			$where="mobile='$username'";
+		}else{
+			$this->_loginError(0,$username,1,$password,$chanel);
+			return array('err'=>1,'msg'=>'用户信息不完整');
+		}
 
-	    //查找数据库
-	    $uinfo=$this->where($where)->getRow();
+		//查找数据库
+		$uinfo=$this->where($where)->getRow();
 		$var=$this->model('customer')->where('c_id='.$uinfo['c_id'])->select('c_id,c_name,type')->getRow();
 		$uinfo['type']=$var['type'];
-	    if(empty($uinfo)){
-	        $this->_loginError(0,$username,2,$password,$chanel);
-	        return array('err'=>2,'msg'=>'错误的账号');
-	    }
+		if(empty($uinfo)){
+			$this->_loginError(0,$username,2,$password,$chanel);
+			return array('err'=>2,'msg'=>'错误的账号');
+		}
 
-	    //判断账号是否锁定
-	    if($uinfo['login_unlock_time'] > CORE_TIME){
-	        return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
-	    }
-	    //判断是否分配交易员
-	    $cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager,status')->getRow();
+		//判断账号是否锁定
+		if($uinfo['login_unlock_time'] > CORE_TIME){
+			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
+		}
+		//判断是否分配交易员
+		$cinfo=$this->model('customer')->where("c_id={$uinfo['c_id']}")->select('customer_manager,status')->getRow();
 
-	    if($cinfo['status']==1) return array('err'=>7,'msg'=>'账号等待审核中，请稍候再试');
-	    if($cinfo['status']==3) return array('err'=>8,'msg'=>'账号审核未通过，请联系客服');
+		if($cinfo['status']==1) return array('err'=>7,'msg'=>'账号等待审核中，请稍候再试');
+		if($cinfo['status']==3) return array('err'=>8,'msg'=>'账号审核未通过，请联系客服');
 
-	    if(!$cinfo['customer_manager']) return array('err'=>6,'msg'=>'正在等待分配交易员，请稍候再试');
+		if(!$cinfo['customer_manager']) return array('err'=>6,'msg'=>'正在等待分配交易员，请稍候再试');
 
 
 // 	    //密文
@@ -171,34 +171,34 @@ class passportModel extends model{
 // 	    }else{
 // 	        $npassword=M('system:sysUser')->genPassword($password.$uinfo['salt']);
 // 	    }
-	    if($uinfo['password']!==$password){
-	        $this->_loginError($uinfo['user_id'],$username,3,$password,$chanel);
-	        $_data = array();
-	        $_data['login_fail_count'] = $uinfo['login_fail_count'] >= 10 ? 1 : $uinfo['login_fail_count']+1;
-	        $msg = '密码不正确，连续输错10次将被锁定';
+		if($uinfo['password']!==$password){
+			$this->_loginError($uinfo['user_id'],$username,3,$password,$chanel);
+			$_data = array();
+			$_data['login_fail_count'] = $uinfo['login_fail_count'] >= 10 ? 1 : $uinfo['login_fail_count']+1;
+			$msg = '密码不正确，连续输错10次将被锁定';
 
-	        if($_data['login_fail_count'] == 10){
-	            $_data['login_unlock_time'] = CORE_TIME + 14400;
-	            $msg = '已输错10次密码，账号将锁定4小时';
-	        }
-	        $this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($_data);
-	        return array('err'=>3,'msg'=>$msg);
-	    }
+			if($_data['login_fail_count'] == 10){
+				$_data['login_unlock_time'] = CORE_TIME + 14400;
+				$msg = '已输错10次密码，账号将锁定4小时';
+			}
+			$this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($_data);
+			return array('err'=>3,'msg'=>$msg);
+		}
 
-	    //状态:1正常,2冻结,3关闭
-	    if(in_array($uinfo['status'],array(2,3))){
-	        return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服');
-	    }
+		//状态:1正常,2冻结,3关闭
+		if(in_array($uinfo['status'],array(2,3))){
+			return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服');
+		}
 
-	    //用户成功登录（对老用户做处理）
-	    if(empty($uinfo['salt'])){
-	        $up = array();
-	        $up['salt']=randstr(6);
-	        $up['password']= M('system:sysUser')->genPassword($password.$up['salt']);
-	        $this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($up);
-	    }
-	    $this->_loginSuccess($uinfo,$chanel);
-	    return array('err'=>0,'msg'=>'登录成功','user'=>$uinfo);
+		//用户成功登录（对老用户做处理）
+		if(empty($uinfo['salt'])){
+			$up = array();
+			$up['salt']=randstr(6);
+			$up['password']= M('system:sysUser')->genPassword($password.$up['salt']);
+			$this->model('customer_contact')->where("user_id={$uinfo['user_id']}")->update($up);
+		}
+		$this->_loginSuccess($uinfo,$chanel);
+		return array('err'=>0,'msg'=>'登录成功','user'=>$uinfo);
 	}
 
 	/**
@@ -259,10 +259,10 @@ class passportModel extends model{
 
 	/*
 	 * 生成签名串
-     * @access public
+	 * @access public
 	 * @param int $user_id 用户ID
 	 * @param string $password 用户密码
-     * @return string
+	 * @return string
 	 */
 	public function encrypt($user_id=0,$password=''){
 		//待加密参数
@@ -275,7 +275,7 @@ class passportModel extends model{
 	 * 解密签名串
 	 * @access public
 	 * @param string $string 签名串
-     * @return array
+	 * @return array
 	 */
 	public function decrypt($string=''){
 		$string=desDecrypt($string);
@@ -294,7 +294,7 @@ class passportModel extends model{
 	/*
 	 * 验证token
 	 * @access public
-     * @return user_id
+	 * @return user_id
 	 */
 	public function getToken($user_id=0){
 		$password=$this->model('customer_contact')->select('password')->wherePk($user['user_id'])->getOne();
@@ -305,7 +305,7 @@ class passportModel extends model{
 	 * 验证token
 	 * @access public
 	 * @param string $token 令牌
-     * @return user_id
+	 * @return user_id
 	 */
 	public function chkToken($token=''){
 		if(strlen($token)<30){
@@ -330,7 +330,7 @@ class passportModel extends model{
 	 * @access public
 	 * @param int user_id 用户ID
 	 * @param array user 用户信息
-     * @return bool
+	 * @return bool
 	*/
 	public function setSession($user_id=0,$user=array()){
 		if(empty($user_id)){ //用户退出登陆
@@ -345,10 +345,11 @@ class passportModel extends model{
 		}
 		//用户头像等信息
 		$uinfo=$this->model('contact_info')->wherePk($user_id)->getRow();
-
+		$number=$this->model('user_msg')->where("user_id={$user_id} and is_read=1")->select('count(id) number')->getRow();
 
 		//用户对应公司的信息
-		$cinfo=$this->model('customer')->where("c_id={$user['c_id']}")->select('c_id,c_name,customer_manager,type')->getRow();
+		$cinfo=$this->model('customer')->where("c_id={$user['c_id']}")->select('c_id,c_name,customer_manager,type,identification')->getRow();
+
 		//将数据写入cookie
 		$token=$this->encrypt($user_id,$user['password']);
 		//cookie::set(C('SESSION_TOKEN'), $token); //C('SESSION_TTL')
@@ -358,6 +359,8 @@ class passportModel extends model{
 				'c_id'=>$user['c_id'],
 				'c_name'=>$cinfo['c_name'],
 				'customer_manager'=>$user['customer_manager'],
+				'identification'=> $cinfo['identification'],
+				'number'=> $number['number'],
 				'qq'=>$user['qq'],
 				'mobile'=>$user['mobile'],
 				'email'=>$user['email'],
