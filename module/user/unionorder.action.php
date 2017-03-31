@@ -77,6 +77,7 @@ class unionorderAction extends userBaseAction{
 			->page($page,$size)
 			->order('input_time desc')
 			->getPage();
+//		    ->getAll();
 
 		$this->pages = pages($orderList['count'], $page, $size);
 		foreach ($orderList['data'] as &$value) {
