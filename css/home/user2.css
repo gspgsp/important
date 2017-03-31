@@ -1,0 +1,134 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input,button,textarea{ margin:0; padding:0; border:0;}
+a{ text-decoration:none;}
+ul,ol,li{ list-style:none;}
+h1,h2,h3,h4,h5{ font-weight:normal;}
+input,button,textarea,select{ color:#666; font-family:"微软雅黑"; outline:medium;}
+body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
+
+.flt{ float:left;}
+.frt{ float:right;}
+.link6 a{ color:#666;}
+.w1220{ width:1220px; height:auto; overflow:hidden; margin:0 auto;}
+
+/*user2-tab begin*/
+.user2-tab{ width:100%; height:44px; overflow:hidden; margin:13px 0; position:relative;}
+.user2-tab span{ position:absolute; left:0; top:22px; z-index:0; width:100%; height:1px; background:#f0f0f0;}
+.user2-tab ul{ width:262px; height:44px; overflow:hidden; margin:0 auto; position:relative; z-index:1;}
+.user2-tab li{ font-weight:bold; font-size:14px; text-align:center; width:128px; height:40px; line-height:40px; overflow:hidden; background:#fff; border:2px solid #ddd; float:left; cursor:pointer;}
+.user2-tab li.hover{ color:#fff; height:44px; border:none; background:#1e7de7 url(../../images/home/user2-spirit.png) no-repeat 0 0;}
+#user2-tab1{ border-right:none;}
+#user2-tab2{ border-left:none;}
+/*user2-tab end*/
+
+/*menus bein*/
+.user2-wrap{ height:auto; overflow:hidden;}
+.menus2{ text-align:center; width:167px; height:auto; padding:0 0 28px 0; overflow:hidden; background:#f0f0f0;}
+.menus2 .user-info{ text-align:center; height:205px; padding:15px 0 0 0; overflow:hidden;}
+.menus2 .user-info .pic{ width:90px; height:90px; overflow:hidden; border:2px solid #f60; border-radius:50%; margin:0 0 0 39px;}
+.menus2 .user-info .name{ color:#f60; font-size:14px; height:14px; margin:0 0 11px 0;}
+.menus2 .user-info .authen{ color:#fff; text-indent:10px; height:22px; line-height:22px; overflow:hidden; background:url(../../images/home/user2-spirit.png) no-repeat -132px 0; border-radius:30px; margin:0 auto; margin-bottom:11px; cursor:pointer;}
+.menus2 .user-info .authen.yes{ width:86px; background-color:#fb893c;}
+.menus2 .user-info .authen.no{ width:126px; background-color:#ccc;}
+.menus2 .user-info .company{ color:#777; height:12px; margin:0 0 10px 0;}
+.menus2 .menu{ width:132px; border-top:1px solid #ddd; margin:0 0 0 18px;}
+.menus2 .menu h3{ font-size:14px; height:14px; line-height:14px; margin:14px 0 14px 0; background:url(../../images/home/user2-spirit.png) no-repeat;}
+.menus2 .menu p{ height:12px; line-height:12px; margin:0 0 14px 0;}
+.menus2 .menu p a:hover{ color:#f60;}
+.menus2 .menu.msg p{ position:relative;}
+.menus2 .menu.msg p span{ position:absolute; top:-1px; right:10px; color:#fff; background:#ff5252; border-radius:30px; padding:1px 7px;}
+.menus2 .menu.msg h3{ background-position:0 -44px;}
+.menus2 .menu.order h3{ background-position:-132px -44px;}
+.menus2 .menu.wantbuy h3{ background-position:-0 -58px;}
+.menus2 .menu.finance h3{ background-position:-132px -58px;}
+.menus2 .menu.concern h3{ background-position:0 -72px;}
+.menus2 .menu.website h3{ background-position:-132px -72px;}
+.menus2 .menu.set h3{ background-position:0 -86px;}
+.menus2 .menu.supply h3{ background-position:-132px -86px;}
+/*menus end*/
+
+/*order begin*/
+.user2-wrap .main{ width:780px; height:auto; overflow:hidden; margin:0 0 35px 15px;}
+.user2-wrap .main .title{ width:100%; height:40px; line-height:40px; border-bottom:1px solid #ebebeb; margin:0 0 12px 0;}
+.user2-wrap .main .title h3{ font-size:14px; color:#1e7de7; text-align:center; width:115px; border-bottom:1px solid #1e7de7; float:left;}
+.user2-wrap .main .title a{ font-size:12px; color:#999; margin:0 8px 0 0; float:right;}
+.user2-wrap .main .title a:hover{ color:#666;}
+.user2-wrap .main .order{ width:100%; height:139px; overflow:hidden;}
+.user2-wrap .main .order .con{ font-size:14px; margin:38px 0 0 0;}
+.user2-wrap .main .order .con li{ height:20px; line-height:20px; border-right:1px solid #d0d0d0; padding:0 15px; float:left;}
+.user2-wrap .main .order .con li.last{ border-right:none;}
+.user2-wrap .main .order .con li span{ color:#ff6600; font-weight:bold; margin:0 0 0 8px;}
+/*order end*/
+
+/*product begin*/
+.user2-wrap .main .product{ height:200px; overflow:hidden; margin:0 0 15px 0;}
+.user2-wrap .main .product .con{ height:147px; overflow:hidden;}
+.user2-wrap .main .product .con li{ text-align:center; width:152px; height:147px; overflow:hidden; background:#e8f2fd; margin:0 5px 0 0; float:left;}
+.user2-wrap .main .product .con li .change{ font-size:14px; color:#999; text-align:left; height:16px; line-height:16px; margin:14px 0 8px 8px; padding:0 0 0 18px; background:url(../../images/home/user2-spirit.png) no-repeat;}
+.user2-wrap .main .product .con li .change.increase{ background-position:0 -100px;}
+.user2-wrap .main .product .con li .change.decrease{ background-position:0 -116px;}
+.user2-wrap .main .product .con li .price{ color:#f60; font-size:18px; height:28px; margin:0 0 22px 0;}
+.user2-wrap .main .product .con li .price span{ font-size:28px;}
+.user2-wrap .main .product .con li .address{ color:#888; font-weight:bold; height:12px; line-height:12px; margin:0 0 10px 0;}
+.user2-wrap .main .product .con li .date{ color:#999; height:12px; line-height:12px;}
+.user2-wrap .main .product .con li.last{ margin-right:0;}
+/*product end*/
+
+/*talk begin*/
+.user2-wrap .main .talk{ width:779px; height:auto; overflow:hidden; margin:0 0 15px 0;}
+.user2-wrap .main .talk .title{ margin-bottom:0;}
+.user2-wrap .main .talk .con{ width:779px; height:303px; overflow:hidden; border-left:1px solid #ebebeb;}
+.user2-wrap .main .talk .con li{ width:245px; height:128px; padding:22px 0 0 13px; overflow:hidden; border-bottom:1px solid #ebebeb; border-right:1px solid #ebebeb; float:left;}
+.user2-wrap .main .talk .con li .wantbuy{ font-size:14px; height:14px; margin:0 0 12px 0;}
+.user2-wrap .main .talk .con li .price{ font-size:14px; height:14px; color:#888; margin:0 0 10px 0;}
+.user2-wrap .main .talk .con li .talk-other{ color:#888;}
+.user2-wrap .main .talk .con li .talk-other span{ margin:0 17px 0 0; padding:0 0 0 17px; line-height:14px; display:inline-block; background:url(../../images/home/user2-spirit.png) no-repeat;}
+.user2-wrap .main .talk .con li .talk-other span.address{ background-position:0 -132px;}
+.user2-wrap .main .talk .con li .talk-other span.date{ background-position:-132px -132px;}
+.user2-wrap .main .talk .con li:hover a{ color:#fff; background:#f60; border-color:#f60;}
+.user2-wrap .main .talk .con li a{ color:#8f8f8f; text-align:center; display:block; width:76px; height:21px; line-height:21px; overflow:hidden; border:2px solid #bdbdbd; border-radius:30px; margin:21px auto;}
+.user2-wrap .main .talk .con li a span{ display:block; height:42px; transition:transform .2s;}
+.user2-wrap .main .talk .con li a:hover span{ -webkit-transform:translateY(-21px); -moz-transform:translateY(-21px); -ms-transform:translateY(-21px); -o-transform:translateY(-21px); transform:translateY(-21px);}
+/*talk end*/
+
+/*other begin*/
+.user2-wrap .main .other{ height:197px; overflow:hidden;}
+.user2-wrap .main .other .resource{ width:260px; height:197px; overflow:hidden;}
+.user2-wrap .main .other .release{ width:510px; height:197px; overflow:hidden;}
+.user2-wrap .main .other .summary{ width:260px; height:71px; overflow:hidden;}
+.user2-wrap .main .other .summary div{ text-align:center; width:130px; height:71px; overflow:hidden; float:left;}
+.user2-wrap .main .other .summary .summary1{ color:#1e7de7; background:#d2e5fa;}
+.user2-wrap .main .other .summary .summary2{ color:#f60; background:#ffe0cc;}
+.user2-wrap .main .other .summary p{ font-size:14px; font-weight:bold; height:14px; margin:17px 0 8px 0;}
+.user2-wrap .main .other .summary span{ font-size:16px;}
+.user2-wrap .main .other .forthwith{ width:260px; height:73px; overflow:hidden;}
+.user2-wrap .main .other .forthwith h4{ font-weight:bold; height:12px; margin:13px 0;}
+.user2-wrap .main .other .forthwith p{ height:12px; margin:0 0 6px 0;}
+.user2-wrap .main .other .form{ width:508px; height:142px; overflow:hidden; border:1px solid #d0d0d0;}
+.user2-wrap .main .other .form textarea{ width:486px; height:76px; overflow:hidden; margin:11px;}
+.user2-wrap .main .other .form .submit{ color:#fff; background:#f60; font-size:14px; width:115px; height:33px; line-height:33px; overflow:hidden; border-radius:30px; margin:0 11px 0 0; cursor:pointer;}
+/*other end*/
+
+/*dealer begin*/
+.sidebar{ width:203px; height:auto; overflow:hidden; float:right;}
+.sidebar .title{ color:#555; font-size:14px; width:100%; height:40px; line-height:40px; overflow:hidden; border-bottom:1px solid #ebebeb; margin:0 0 12px 0;}
+.sidebar .dealer{ height:214px; overflow:hidden; margin:0 0 12px 0;}
+.sidebar .dealer .con{ height:auto; overflow:hidden;}
+.sidebar .dealer .con .pic{ width:98px; height:98px; overflow:hidden; margin:5px 0 5px 51px; border:2px solid #ff9148; border-radius:50%;}
+.sidebar .dealer .con p{ height:12px; line-height:12px; margin:0 0 15px 0; padding:0 0 0 21px; background:url(../../images/home/user2-spirit.png) no-repeat;}
+.sidebar .dealer .con p.name{ background-position:0 -146px;}
+.sidebar .dealer .con p.mobile{ background-position:0 -158px;}
+/*dealer end*/
+
+/*help begin*/
+.sidebar .help{ height:272px; overflow:hidden; margin:0 0 12px 0;}
+.sidebar .help .con li{ width:183px; height:70px; overflow:hidden; background:#f6f6f6; margin:0 0 5px 0; padding:0 0 0 20px;}
+.sidebar .help .con li p{ font-size:14px; height:12px; margin:19px 0 8px 0;}
+.sidebar .help .con li span{ color:#888;}
+/*help end*/
+
+/*wx begin*/
+.sidebar .wx{ height:204px; overflow:hidden;}
+.sidebar .wx .con{ height:auto; overflow:hidden;}
+.sidebar .wx .con .ewm{ width:117px; height:117px; overflow:hidden; margin:0 0 18px 43px;}
+.sidebar .wx .con p{ height:12px; line-height:12px;}
+/*wx end*/
