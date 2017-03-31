@@ -88,7 +88,7 @@ class supplierAction extends adminBaseAction{
         if($supplier_id<1){
             if($cType==1){
                 $this->assign('ctype',$cType);                      //单页面新增供应商联系人
-                $this->assign('page_title','新增个人联系人-1');
+                $this->assign('page_title','新增个人联系人');
                 $this->assign('supplier_contact_type',L('supplier_contact_type'));            // 供应商联系人状态
                 $this->display('supplier_contact.html');
             }elseif($cType==3){                                     //新增供应商
@@ -98,7 +98,7 @@ class supplierAction extends adminBaseAction{
                 $this->assign('supplier_contact_type',L('supplier_contact_type'));            // 供应商联系人状态
                 $this->assign('status',L('status'));                // 供应商状态
                 $this->assign('credit_level',L('credit_level'));    //信用等级
-                $this->assign('page_title','新增企业用户-2');
+                $this->assign('page_title','新增企业用户');
 
                 $this->display('add_supplier.html');
             }
@@ -143,7 +143,8 @@ class supplierAction extends adminBaseAction{
             $var=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->getRow();
             $param=array(
                 'supplier_id'=> $data['supplier_id'],
-                'contact_name'=> $var['supplier_name'],
+                'contact_name'=> $data['contact_name'],
+	            'supplier_name'=> $var['supplier_name'],
                 'mobile_tel'=>$data['mobile_tel'],
                 'contact_tel'=> $data['contact_tel'],
                 'comm_email' => trim($data['comm_email']),     // 联系人邮箱
@@ -152,6 +153,8 @@ class supplierAction extends adminBaseAction{
                 'is_default'=>'0',                             // 是否默认联系人   1：是 0：否
                 'create_time' => time(),                       // 创建时间
                 'create_name' => trim($_SESSION['name']),      // 创建者
+	            'update_name'=>trim($_SESSION['name']),
+	            'update_time'=> CORE_TIME,
                 'remark'=> $data['remark'],
                 'status'=> $data['supplier_contact_type'],     // 状态
             );
@@ -203,6 +206,8 @@ class supplierAction extends adminBaseAction{
                     'social_credit_code_pic' => $data['social_credit_code_pic'],    // 三证合一照片
                     'create_time' => time(),                                        // 创建时间
                     'create_name' => trim($_SESSION['name']),                        // 创建者
+	                'update_name'=>trim($_SESSION['name']),
+	                'update_time'=> CORE_TIME,
                 );
                 $param_2= array(
                     'contact_name' => trim($data['contact_name']), // 供应商联系人name
@@ -218,6 +223,8 @@ class supplierAction extends adminBaseAction{
                     'create_name' => trim($_SESSION['name']),    // 创建者
                     'remark'=> $data['remark'],
                     'status'=> $data['supplier_contact_type'],          // 状态
+	                'update_name'=>trim($_SESSION['name']),
+	                'update_time'=> CORE_TIME,
                 );
 
             }
@@ -247,7 +254,10 @@ class supplierAction extends adminBaseAction{
         $data = sdata();
         if($data['supplier_id']<1) $this->error('信息错误');
         $data['update_time']=time();
+	    $data['fund_date']=strtotime($data['fund_date']);
         $data['update_name']=$_SESSION['name'];
+        $data['type']=$data['supplier_type'];
+
         $res=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->update($data);
         if($res){
                 $this->json_output(array('err'=>0,'msg'=>'更新成功'));
@@ -273,7 +283,7 @@ class supplierAction extends adminBaseAction{
                 $list['legal_person_code'] = $v['legal_person_code'];  // 法人身份证号码
                 $list['company_tel']= $v['company_tel']; // 供应商电话
                 $list['company_fax']= $v['company_fax']; // 供应商传真
-                $list['supplier_type'] =$v['type'];           // 类型
+                $list['supplier_type'] =$v['type'];          // 类型
                 $list['province'] =$v['province'];    // 省份
                 $list['city'] =$v['city'];      // 城市
                 $list['address'] = $v['address']; // 公司地址

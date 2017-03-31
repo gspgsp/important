@@ -264,7 +264,7 @@
         var supplier_info = mini.encode(o);
         $("#returnMsg").text('');
         form.loading("数据提交中，请稍后......");
-        {if $user.user_id eq ''}                       // user_id 应为 供应商id
+        {if $user.user_id eq ''}                         // user_id 应为 供应商id
         var urlstr = '/operator/supplier/addSubmit';     // 没有供应商 新增走add
         {else}
         var urlstr = '/operator/supplier/editSubmit';      // 供应商id 不为空（）
