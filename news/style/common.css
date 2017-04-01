@@ -469,9 +469,16 @@ a{ text-decoration:none;}
 
 /*friend-links begin*/
 .friend-links{ color:#333; background:#f7f7f7; padding-bottom:20px;}
-.friend-links ul{ height:auto; line-height:40px; overflow:hidden; border-top:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc;}
+.friend-links-inner{ line-height:40px; overflow:hidden; border-top:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc;}
+.friend-links-inner.height{ height:40px;}
+.friend-links-inner.auto{ height:auto;}
+.friend-links ul{ width:1170px; height:auto; overflow:hidden; float:left;}
 .friend-links li{ float:left; margin:0 15px 0 0;}
 .friend-links li a:hover{ text-decoration:underline;}
+.friend-links .links-more{ float:left; width:24px; height:24px; line-height:24px; border:2px solid #ccc; border-radius:50%; text-align:center; font-size:16px; margin:6px 0 0 0;
+    cursor:pointer;}
+.friend-links .links-more a{ color:#777;}
+.friend-links .links-more a:hover{ color:#333;}
 /*friend-links end*/
 
 /*zt-contact begin*/
