@@ -115,10 +115,12 @@ class contactAction extends adminBaseAction {
 					$this->error('主联系人不能删除');
 				}
 				$cid = M('user:customerContact')->getColByName($v,'c_id');
+				//查出信息
+				$dinfo =  M('user:customerContact')->getListByUserid($v);
 				//新增客户流转记录日志----S
 				if($cid > 0){
 					$remarks = "客户联系人删除:".date('Y-m-d H:i:s',time());
-					M('user:customerLog')->addLog($cid,'register','存在','删除',1,$remarks);
+					M('user:customerLog')->addLog($cid,'register','存在['.serialize($dinfo).']','删除',1,$remarks);
 				}
 				//新增客户流转记录日志----E
 			}
