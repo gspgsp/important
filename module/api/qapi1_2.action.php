@@ -1399,49 +1399,45 @@ class qapi1_2Action extends null2Action
     }
 
     //保存我的资料
-    public function saveSelfInfo ()
+    public function saveSelfInfo()
     {
         $this->is_ajax = true;
-        if ($_POST) {
-            $user_id = $this->checkAccount ();
-            $type    = sget ('type', 'i');//类型 1 地址 2 性别 3 主营牌号  4关注的牌号 5 所属区域
-            if ($type == 4) {
-                $field = sget ('field', 's');
-                if (empty($field)) {
-                    $this->json_output (array( 'err' => 6, 'msg' => '输入不能为空' ));
-                }
-                $field = $this->clearStr ($field);
-                $field = preg_replace ("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/", ',', $field);
-                $field = explode (",", $field);
-                $field = array_map ('strtoupper', $field);
-                foreach ($field as $key => $row) {
-                    if (empty($row)) {
-                        unset($field[$key]);
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            $data = sget('data','a');
+            if(empty($data)) $this->_errCode(6);
+            foreach($data as $key=>&$row){
+                if($key=='address'){
+                    $row=$this->clearStr($row);
+                    if(empty($row)) $this->json_output(array('err'=>4,'msg'=>'ggg'));
+                }elseif($key=='sex'){
+                    if(empty($row)||!in_array($row,array('1','2'))) $this->_errCode(1);
+                    $row=(int)$row;
+                }elseif($key=='major'){
+                    $row=$this->clearStr($row);
+                    if(empty($row)) $this->_errCode(6);
+                }elseif($key=='concern'){
+                    if(empty($row)) $this->json_output(array('err'=>6,'msg'=>'输入不能为空'));
+                    $row = $this->clearStr($row);
+                    $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$row);
+                    $field=explode(",",$field);
+                    $field=array_map('strtoupper',$field);
+                    foreach($field as $key=>$row){
+                        if(empty($row)) unset($field[$key]);
                     }
+                    $field=array_unique($field);
+                    //$field=explode(",",array_map('strtoupper',$field));
+                    if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
+                }elseif($key=='dist'){
+                    if(empty($row)||!in_array($field, array('EC', 'NC', 'SC'))) $this->_errCode(6);
                 }
-                $field = array_unique ($field);
-                //$field=explode(",",array_map('strtoupper',$field));
-                if (count ($field) > 10) {
-                    $this->json_output (array( 'err' => 6, 'msg' => '牌号个数不能超过十个' ));
-                }
-            } else {
-                $field = sget ('field', 's');
-                if ($type == 5) {
-                    if (!empty($filed)) {
-                        if (!in_array ($field, array( 'EC', 'NC', 'SC' ))) {
-                            $this->_errCode (6);
-                        }
-                    }
-                }
-
-            }
-            $result = M ('qapp:plasticSave')->saveSelfInfo ($user_id, $type, $field);
-            if (!$result) {
-                $this->json_output (array( 'err' => 2, 'msg' => '保存资料失败' ));
-            }
-            $this->json_output (array( 'err' => 0, 'msg' => '保存资料成功' ));
+            }p($data);
+            $result = M('qapp:plasticSave')->saveSelfInfo1_2($user_id,$data);
+            if ($result['err']>0) $this->json_output(array('err' => 2, 'msg' => $result['msg']));
+            p($result);showTrace();
+            $this->json_output(array('err' => 0, 'msg' => '保存资料成功'));
         }
-        $this->_errCode (6);
+        $this->_errCode(6);
     }
 
     //获取ta的求购或供给
