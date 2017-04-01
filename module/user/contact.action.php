@@ -83,12 +83,17 @@ class contactAction extends adminBaseAction {
 			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $v['mobile'];
 			$cname = M('user:customer')->getColByName($v['c_id']);
 			/**封堵李总不能让领导看见姓名的要求*S*/
-			$list['data'][$k]['c_id'] = _leader($cname, $v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
+			if(_leader() && $v['customer_manager'] != $_SESSION['adminid']){
+				$list['data'][$k]['c_id'] = substrCut($cname);
+			}else{
+				$list['data'][$k]['c_id'] = $cname;
+			}
 			/**封堵李总不能让领导看见姓名的要求*E*/
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['input_admin'] = M('rbac:adm')->getNameByUser($v['input_admin']);
 		}
+
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
@@ -109,6 +114,13 @@ class contactAction extends adminBaseAction {
 				if($res>0){
 					$this->error('主联系人不能删除');
 				}
+				$cid = M('user:customerContact')->getColByName($v,'c_id');
+				//新增客户流转记录日志----S
+				if($cid > 0){
+					$remarks = "客户联系人删除:".date('Y-m-d H:i:s',time());
+					M('user:customerLog')->addLog($cid,'register','存在','删除',1,$remarks);
+				}
+				//新增客户流转记录日志----E
 			}
 		}
 		$result=$this->db->where("user_id in ($ids)")->update(array('status'=>9));
