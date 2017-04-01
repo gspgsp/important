@@ -127,14 +127,20 @@
 <!--footer end-->
 <!--friend-links begin-->
 <div class="friend-links link3">
-    <ul class="w1220">
-        <li>友情链接:</li>
-        {foreach from=$friendshipLink item= value key==key}
-        <li><a href="{$value.url}" target="_blank">{$value.title}</a></li>
-        {/foreach}
-    </ul>
+    <div class="friend-links-inner height w1220">
+        <ul>
+            <li>友情链接:</li>
+            {foreach from=$friendshipLink item= value key==key}
+            <li><a href="{$value.url}" target="_blank">{$value.title}</a></li>
+            {/foreach}
+        </ul>
+        <!--links-more begin-->
+        <p class="links-more">+</p>
+        <!--links-more end-->
+    </div>
 </div>
 <!--friend-links end-->
+
 <!--footer-nav begin-->
 <!-- Piwik -->
 <script type="text/javascript">
@@ -259,6 +265,20 @@ $(function(){
                 $(".go-top").hide();
             }
         });
+
+             //友情链接
+            $(".links-more").bind("click",function(){
+                var linksInner = $(".friend-links-inner");
+                var moreThis = $(this);
+                if(linksInner.hasClass("height")){
+                    linksInner.removeClass("height").addClass("auto");
+                    moreThis.html("-");
+                }
+                else{
+                    linksInner.removeClass("auto").addClass("height");
+                    moreThis.html("+");
+                }
+            });
 });
 
 BizQQWPA.addCustom({aty: '0', a: '0', nameAccount: 4000677611, selector: 'BizQQWPA'});
