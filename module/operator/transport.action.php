@@ -177,7 +177,9 @@ class transportAction extends adminBaseAction
 
         $data['status'] = 1;
         $data['create_time'] = time();
+        $data['update_time'] = time();
         $data['created_by'] = $this->admin_id;
+        $data['last_edited_by'] = $this->admin_id;
         $res = M('public:common')->model('transport_contract')->add($data);
 
         if ($res) {
