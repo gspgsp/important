@@ -3293,59 +3293,46 @@ class qapi1_1Action extends null2Action
         var_dump (M ('operator:market')->get_quotation_index ());
     }
 
-    public function getQQNews ()
-    {//qq头条  47
-        $page    = sget ('page', 'i', 1);
-        $size    = sget ('size', 'i', 6);
-        $cate_id = sget ('cate_id', 'i', 47);
-        if ($page <= 0 || $size <= 0 || $cate_id <= 0) {
-            $this->_errCode (6);
+    public function getQQNews(){//qq头条  47
+        $page = sget('page', 'i', 1);
+        $size = sget('size', 'i', 6);
+        $cate_id = sget('cate_id', 'i',47);
+        if($page<=0||$size<=0||$cate_id<=0){
+            $this->_errCode(6);
         }
-        if ($data['data'] = unserialize ($this->cache->get ('qappQQNews'))) {
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+        if($data['data'] = unserialize($this->cache->get('qappQQNews'))){
+            $this->json_output(array('err'=>0,'data'=>$data['data']));
         }
-        $data = M ('qapp:news')->getQQCateList ('', $cate_id, '', $page, $size);
-        if ($page > 3) {
-            $this->_errCode (3);
-        }
-        if (empty($data['data']) && $page == 1) {
-            $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
-        }
-        $this->_checkLastPage ($data['count'], $size, $page);
-        $_tmp = array();
-        $_id  = array();
-        foreach ($data['data'] as $k => &$row) {
-            $_sm_img        = $row['sm_img'];
-            $row['content'] = strip_tags ($row['content']);
-            if (empty($row['content'])) {
-                continue;
-            }
-            if (!$_tmp = M ('qapp:news')->getQQNews ($row['content'])) {
-                continue;
-            }
-            $row = array_merge ($row, $_tmp);
-            if (empty($row['sm_img'])) {
-                $row['sm_img'] = FILE_URL."/upload/".$_sm_img;
-            }
-            $row['input_time'] = $this->checkTime ($row['input_time']);
-            $row['author']     = '上海中晨';
-            if (mb_strlen (strip_tags ($row['title'])) > 25) {
-                $row['title'] = mb_substr (strip_tags ($row['title']), 0, 25, 'utf-8').'...';
-            }
+        $data=M('qapp:news')->getQQCateList('',$cate_id,'',$page,$size);
+        if($page>3) $this->_errCode(3);
+        if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+        $this->_checkLastPage($data['count'], $size, $page);
+        $_tmp=array();
+        $_id=array();
+        foreach($data['data'] as $k=>&$row){
+            $_sm_img = $row['sm_img'];
+            $_title = $row['title'];
+            $row['content'] = strip_tags($row['content']);
+            if(empty($row['content'])) continue;
+            if(!$_tmp=M('qapp:news')->getQQNews($row['content'])) continue;
+            $row=array_merge($row,$_tmp);
+            $row['sm_img'] = FILE_URL."/upload/".$_sm_img;
+            $row['title'] =$_title;
+            $row['input_time'] = $this->checkTime($row['input_time']);
+            $row['author'] = '上海中晨';
+            if(mb_strlen(strip_tags($row['title']))>25) $row['title']=mb_substr(strip_tags($row['title']), 0, 25, 'utf-8') . '...';
             if ($row['type'] == 'public') {
                 $row['type'] = 'pp';
             }
-            $row['type'] = strtoupper ($row['type']);
-            $_id[$k]     = $row['id'];
+            $row['type'] = strtoupper($row['type']);
+            $_id[$k]=$row['id'];
             unset($row['content']);
         }
-        array_multisort ($_id, SORT_DESC, $data['data']);
-        if (empty($data['data']) && $page == 1) {
-            $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
-        }
-        $this->_checkLastPage (count ($data['data']), $size, $page);
-        $this->cache->set ('qappQQNews', serialize ($data['data']), 300);
-        $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+        array_multisort($_id,SORT_DESC,$data['data']);
+        if (empty($data['data']) && $page == 1) $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+        $this->_checkLastPage(count($data['data']), $size, $page);
+        $this->cache->set('qappQQNews',serialize($data['data']),300);
+        $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
 
 
