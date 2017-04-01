@@ -95,9 +95,9 @@
         <ul class="link6" id="charts">
                 {foreach from=$chartsData key=key item=v}
                         {if $key<=3}
-                            <li><span class="front">{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{if $v.prefix} [{$v.cate_name}] {/if}{$v.title}</a><!--（{$v.pv}）--></li>
+                            <li><span class="front">{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{$v.title}</a><!--（{$v.pv}）--></li>
                         {else}
-                            <li><span>{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{if $v.prefix} [{$v.cate_name}] {/if} {$v.title}</a><!--（{$v.pv}）--></li>
+                            <li><span>{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{$v.title}</a><!--（{$v.pv}）--></li>
                         {/if}
                 {/foreach}
         </ul>
