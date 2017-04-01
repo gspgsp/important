@@ -73,9 +73,9 @@ data: function() {
 		fans: [],
 		isCircle: false,
 		isArrow: false,
-		sortField: "default",
+		sortField: "input_time",
 		sortOrder: "desc",
-		txt: "综合排序",
+		txt: "最近注册",
 		loadingShow: ""
 	}
 },
@@ -106,12 +106,13 @@ methods: {
 		        onClick: function () {
 					_this.sortField = "default";
 					_this.txt = "综合排序";
+					_this.page=1;
 					$.ajax({
 						type: "get",
 						url: "/api/qapi1/getPlasticPerson",
 						data: {
 							keywords: "",
-							page: 1,
+							page: _this.page,
 							token: window.localStorage.getItem("token"),
 							size: 10,
 							sortField: _this.sortField
@@ -137,12 +138,13 @@ methods: {
 					_this.sortField = "input_time";
 					_this.sortOrder = "desc";
 					_this.txt = "最近注册";
+					_this.page=1;
 					$.ajax({
 						type: "get",
 						url: "/api/qapi1/getPlasticPerson",
 						data: {
 							keywords: "",
-							page: 1,
+							page: _this.page,
 							token: window.localStorage.getItem("token"),
 							size: 10,
 							sortField: _this.sortField,
@@ -253,8 +255,8 @@ methods: {
 				type: "get",
 				url: "/api/qapi1/getPlasticPerson",
 				data: {
-					chanel: 6,
-					quan_type: 0,
+					sortField: _this.sortField,
+					sortOrder: _this.sortOrder,
 					keywords: _this.keywords.toLocaleUpperCase(),
 					page: _this.page,
 					token: window.localStorage.getItem("token"),
@@ -321,7 +323,9 @@ mounted: function() {
 			keywords: "",
 			page: 1,
 			token: window.localStorage.getItem("token"),
-			size: 10
+			size: 10,
+			sortField: _this.sortField,
+			sortOrder: _this.sortOrder
 		},
 		dataType: 'JSON'
 	}).done(function(res) {
