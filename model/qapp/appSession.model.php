@@ -6,10 +6,11 @@
  */
 class appSessionModel extends model
 {
-    private $sessionId='';  //当前session ID
+    private $sessionId = '';  //当前session ID
 
-    public function __construct() {
-        $this->sessionId = $_SESSION[C('SESSION_NAME')];
+    public function __construct ()
+    {
+        $this->sessionId = $_SESSION[C ('SESSION_NAME')];
     }
 
     /**
@@ -17,7 +18,8 @@ class appSessionModel extends model
      * @access public
      * @return string
      */
-    public function getSessionValue(){
+    public function getSessionValue ()
+    {
         return $this->sessionId; // 返回session id
     }
 
@@ -26,7 +28,8 @@ class appSessionModel extends model
      * @access public
      * @return string
      */
-    public function getSessionAppend(){
-        return C('SESSION_NAME')."=".$this->getSessionValue(); // 返回session id的字符串
+    public function getSessionAppend ()
+    {
+        return C ('SESSION_NAME') . "=" . $this->getSessionValue (); // 返回session id的字符串
     }
 }
