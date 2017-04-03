@@ -291,7 +291,7 @@ class passportModel extends model{
 		return array('user_id'=>$user_id,'password'=>$password);
 	}
 
-	/*
+	/**
 	 * 验证token
 	 * @access public
 	 * @return user_id
@@ -301,7 +301,7 @@ class passportModel extends model{
 		return $this->encrypt($user_id,$password);
 	}
 
-	/*
+	/**
 	 * 验证token
 	 * @access public
 	 * @param string $token 令牌
@@ -325,13 +325,13 @@ class passportModel extends model{
 		return 0;
 	}
 
-	/*
+	/**
 	 * 用户登录设置SESSION和COOKIE
 	 * @access public
 	 * @param int user_id 用户ID
 	 * @param array user 用户信息
 	 * @return bool
-	*/
+	 */
 	public function setSession($user_id=0,$user=array()){
 		if(empty($user_id)){ //用户退出登陆
 			$GLOBALS['CORE_SESS']->destroy($this->ssid);
@@ -391,6 +391,16 @@ class passportModel extends model{
 // 			) + (array)$uinfo;
 		 $_SESSION['token'] = M('myapp:token')->insert($user_id,$user);
 		return true;
+	}
+
+	/**
+	 *
+	 *
+	 *
+	 */
+	public function get_log_login($user_id)
+	{
+
 	}
 
 }
