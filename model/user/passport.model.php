@@ -394,13 +394,34 @@ class passportModel extends model{
 	}
 
 	/**
-	 *
-	 *
-	 *
+	 * 获取连续登录信息
+	 * @access public
+	 * @param int user_id 用户ID
+	 * @return array
 	 */
 	public function get_log_login($user_id)
 	{
+		$data = $this->model('log_login')->where('userId = '.$user_id)->order('input_time desc')->getAll();
 
+		if(date('Ymd')==date('Ymd',$data[0]['input_time']))
+		{
+			$ret['today'] = 1;
+		}
+		$count = 0;
+
+		foreach($data as $key=> $info)
+		{
+			$today = date('Ymd',$info['input_time']);
+			$last_day = date('Ymd',$data[$key+1]['input_time']);
+			if($today-$last_day>1){
+				break;
+			}else{
+				$count++;
+			}
+		}
+		$ret['count'] = $count;
+
+		return $ret;
 	}
 
 }
