@@ -24,7 +24,7 @@ class scoreAction extends null2Action
 
     public function get_score_config()
     {
-        $token         = sget ('token', 's');
+        $token         = $this->param['token'];
         if (empty($token)) {
             $this->json_output(array('ok'=>1,'msg'=>'用户尚未登录'));
 
@@ -39,7 +39,6 @@ class scoreAction extends null2Action
         }
 
         $settings=M('system:setting')->getSetting();
-
         $score_settings= array_flip(array('score_per_day','score_login','score_recommend'));
 
         foreach($score_settings as $key => $value)
@@ -47,6 +46,7 @@ class scoreAction extends null2Action
 
             $score_settings[$key] = $settings[$key];
         }
+        $score_settings['login_today'] = $login_count['today'];
 
         $this->json_output($score_settings);
     }
