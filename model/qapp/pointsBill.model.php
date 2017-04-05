@@ -28,12 +28,12 @@ class pointsBillModel extends Model
     }
 
     // 增加积分 type 来源 5 积分兑换
-    public function addPoints ($num = 0, $uid = 0, $type = 0)
+    public function addPoints ($num = 0, $uid = 0, $type = 0 ,$share_type = 0)
     {
         $user = M ('public:common')->model ('contact_info');
         if ($info = $user->where ("user_id=$uid")->getRow ()) {
             if (!$user->where ("user_id=$uid")->update ("quan_points=quan_points+$num")) return false;
-            if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => $num, 'type' => $type))) return false;
+            if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => $num, 'type' => $type ,'share_type'=>$share_type))) return false;
 
             return true;
         } else {
