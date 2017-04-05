@@ -95,7 +95,7 @@
 				//取出该分类对应的分类ID，用于取出相对应的文章
 				$where=' 1 ';
 				if ($type=='vip') {
-					$where.='and pid=33';
+					$where.='and pid=36';
 					$this->upperType='行情内参';
 				}else{
 					$this->upperType=strtoupper($type);
