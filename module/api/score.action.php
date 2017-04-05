@@ -136,7 +136,7 @@ class scoreAction extends null2Action
     {
         if(empty($this->param))
         {
-            $this->json_output (array( 'ok' => 1, 'msg' => '加密成功' ));
+            $this->json_output (array( 'ok' => 1, 'msg' => '解密失败' ));
         }else{
             $ret = array_merge(array('ok'=>0),$this->param);
             $this->json_output ($ret);
