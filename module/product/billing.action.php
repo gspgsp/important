@@ -377,6 +377,8 @@ class billingAction extends adminBaseAction
 			//判断生成开票号,审核时才有
 			$date=date("Ymd").str_pad(mt_rand(0, 100), 3, '0', STR_PAD_LEFT);
 			$data['billing_type']==1?($data['billing_sn']= 'sk'.$date):($data['billing_sn']= 'pk'.$date);
+				$is = $this->db->model('billing')->select('invoice_status')->where('o_id='.$data['o_id'])->order('id desc')->getOne();
+				if($is==1) $this->error("开票申请不能重复提交");//如果开票的状态还是待开票，则报错
 				if(!$this->db->model('billing')->add($data)) $this->error("开票申请表头添加失败");
 				$parent_id=$this->db->getLastID();
 				foreach ($detail as $key => $value) {
