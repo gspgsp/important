@@ -14,11 +14,11 @@ class scoreAction extends null2Action
     {
         $data = spost('data', 's');
         if (!empty($data)) {
-            $mcrypt = E('mcrypt', APP_LIB . 'class');
+//            $mcrypt = E('mcrypt', APP_LIB . 'class');
+//
+//            $param = $mcrypt->decrypt($data);
 
-            $param = $mcrypt->decrypt($data);
-
-            $this->param = json_decode($param, true);
+            $this->param = json_decode($data, true);
         }
     }
 
@@ -220,7 +220,6 @@ class scoreAction extends null2Action
                 M ("qapp:pointsBill")->commit();
                 $this->json_output (array( 'err' => 5, 'msg' => '不定时上线,敬请期待！' ));
                 break;
-
         }
     }
 
