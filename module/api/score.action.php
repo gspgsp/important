@@ -12,14 +12,15 @@ class scoreAction extends null2Action
 
     public function __init()
     {
-        $data = spost('data', 's');
-        if (!empty($data)) {
+//        $data = spost('data', 's');p($data);exit;
+//        if (!empty($data)) {
 //            $mcrypt = E('mcrypt', APP_LIB . 'class');
 //
 //            $param = $mcrypt->decrypt($data);
 
-            $this->param = json_decode($data, true);
-        }
+//            $this->param = json_decode($data, true);
+//        }
+        $this->param = sget('sdata','a');
     }
 
 //    public function get_score_config()
@@ -59,16 +60,17 @@ class scoreAction extends null2Action
         $points = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
         $token = $this->param['token'];
         $_POST['token'] = $token;
-        $user_id = A("qapp:qapi1_2")->checkAccount();
+        $user_id = A("api:qapi1_2")->checkAccount();
         $type  = $this->param['type'];
         $_today= strtotime(date("Y-m-d"));
         M ("qapp:pointsBill")->startTrans();
         switch($type){
             case 1://拉新注册登录
-                $parent_mobile = $this->param['parent_mobile'];
+                $parent_mobile = (int)$this->param['parent_mobile'];
+                if(!is_mobile($parent_mobile)) $this->json_output(array('err'=>0,'msg'=>'引荐人错误'));
                 $focused_id = M("public:common")->from ('customer_contact')
                     ->select ('user_id')
-                    ->where ('mobile='.$parent_mobile)
+                    ->where ("mobile='$parent_mobile'")
                     ->getOne ();
                 if($focused_id>0){//引荐
                     if(!M ("qapp:pointsBill")->addPoints ($points['ref'], $focused_id, 12)){
@@ -109,9 +111,10 @@ class scoreAction extends null2Action
                 $size = 1;
                 foreach($_tmp as $key=>$row){
                     if($row['addtime']>(strtotime(date("Y-m-d"))-86400*($key+1))&&$row['addtime']<(strtotime(date("Y-m-d"))-86400*$key)) $size++;
+                    if($key==0&&$row['addtime']>strtotime(date("Y-m-d"))&&$row['addtime']<(strtotime(date("Y-m-d"))+86400)) $this->json_output(array('err'=>0,'msg'=>'今天已加过积分了'));
                 }
                 if(!M ("qapp:pointsBill")->addPoints ($points['login']*$size, $user_id, 2)){
-                    M ("qapp:pointsBill")->rollback();
+                    M ("qapp:pointsBill")->rollback();showTrace();
                     $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
                 }
                 M ("qapp:pointsBill")->commit();
@@ -184,7 +187,7 @@ class scoreAction extends null2Action
     public function decScore(){
         $token = $this->param['token'];
         $_POST['token'] = $token;
-        $user_id = A("qapp:qapi1_2")->checkAccount();
+        $user_id = A("api:qapi1_2")->checkAccount();
         $type  = $this->param['type'];
         $_today= strtotime(date("Y-m-d"));
         M ("qapp:pointsBill")->startTrans();
