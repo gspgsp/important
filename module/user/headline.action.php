@@ -60,7 +60,7 @@ class headlineAction extends adminBaseAction {
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
 		}
-		$newsCate=$this->db->model('news_cate')->select('cate_id,cate_name')->where('pid=33')->getAll();
+		$newsCate=$this->db->model('news_cate')->select('cate_id,cate_name')->where('pid=36')->getAll();
 		foreach ($newsCate as $k => $v2) {
 			$temp[$k]['valueField']=$v2['cate_id'];
 			$temp[$k]['textField']=$v2['cate_name'];
@@ -240,7 +240,7 @@ class headlineAction extends adminBaseAction {
 	public function warningMember(){
 		$this->is_ajax=true;
 		$name=sget('name','s');
-		$cate_id=$this->db->model('news_cate')->where('pid=33')->select('cate_id,cate_name')->getAll();
+		$cate_id=$this->db->model('news_cate')->where('pid=36')->select('cate_id,cate_name')->getAll();
 		$time=CORE_TIME+(86400*7);
 		foreach ($cate_id as $v) {
 			$row=$this->db->model('customer_headline')->where(' id in (select max(id) from p2p_customer_headline where sale_name="'.$name.'" and total_time between '.CORE_TIME.' and '.$time.' and cate_id='.$v['cate_id'].' group by user_id)')->getRow();
