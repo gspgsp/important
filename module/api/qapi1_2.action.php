@@ -33,22 +33,27 @@
  * 2017年3月1日09:44:03
  *
  * ps:问题是 聪明反被聪明误
- * A();  $_GET  m v c  传不过去
+ *
  *
  * 以后写版本一定要有问题，还没想好怎么做
  *
  *
  *
+ *2017-4-4 17:59:55 *
+ * 现在的注册和完善信息放在了一起了，
+ * 我偷个小懒，我把原来两个的接口合并在了一起了
+ *
  *
  */
 class qapi1_2Action extends null2Action
 {
-    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault;
+    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime,$randomMdTime;
 
     public function __init ()
     {
-        $this->db          = M ('public:common');
-        $this->cates       = array(
+        $this->db    = M ('public:common');
+        $this->cache = E ('RedisCluster', APP_LIB.'class');
+        $this->cates = array(
             '21' => '期货资讯',
             '20' => '美金市场',
             '2'  => '塑料上游',
@@ -59,12 +64,16 @@ class qapi1_2Action extends null2Action
             '12' => '期刊报告',
             '22' => '独家解读',
         );
-        $data              = M ("public:common")
-            ->model ("news_cate")
-            ->select ("cate_id,cate_name")
-            ->where ("status=1")
-            ->getAll ();
-        $this->catesAll    = arrayKeyValues ($data, 'cate_id', 'cate_name');
+        if (!$this->catesAll = unserialize ($this->cache->get ('qappInitCatesAll'))) {
+            $data           = M ("public:common")
+                ->model ("news_cate")
+                ->select ("cate_id,cate_name")
+                ->where ("status=1")
+                ->getAll ();
+            $this->catesAll = arrayKeyValues ($data, 'cate_id', 'cate_name');
+            $this->cache->set ('qappInitCatesAll', serialize ($this->catesAll), 3600);
+        }
+
         $this->pointsType  = array(
             1  => '签到',
             2  => '登陆',
@@ -85,7 +94,7 @@ class qapi1_2Action extends null2Action
             4 => '订单取消',
             5 => '订单完成',
         );
-        $this->points      = M ('system:setting')->get ('points')['points'];
+        $this->points      = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
         /**
          *       Array
          * (
@@ -101,6 +110,9 @@ class qapi1_2Action extends null2Action
         $this->newsSubscribe = 6;
 
         $this->newsSubscribeDefault = array( '21', '20', '2', '11' );
+
+        $this->randomTime = mt_rand (10, 20) * 180; // 1-2 h
+        $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
     }
 
     public function init ()
@@ -134,45 +146,31 @@ class qapi1_2Action extends null2Action
             $user_model   = M ('system:sysUser');
             $salt         = randstr (6);
             $passwordSalt = $user_model->genPassword ($password.$salt);
-            $cache->set ($mobile.'check_reg_ok', true, 300);
-            $cache->set ($mobile.'password', $passwordSalt, 300);
-            $cache->set ($mobile.'salt', $salt, 300);
-            $this->success ('注册成功');
-        }
-        $this->_errCode (6);
-    }
-
-    /**
-     * 注册信息补全页面
-     * 已经消除引荐人是自己的bug,而且引荐人一定要正确
-     */
-    public function reginfo ()
-    {
-        $this->is_ajax = true;
-        $mobile        = sget ('mobile', 's');
-        if (!$this->_chkmobile ($mobile)) {
-            $this->error ($this->err);
-        }
-        //$cache = cache::startMemcache();
-        $cache = E ('RedisCluster', APP_LIB.'class');
-        if (!$cache->get ($mobile.'check_reg_ok')) {
-            $this->error ('令牌已过期，请重新注册');
-        }
-        if ($_POST['mobile']) {
+            $cache->set ($mobile.'check_reg_ok', true, 1200);
+            $cache->set ($mobile.'password', $passwordSalt, 1200);
+            $cache->set ($mobile.'salt', $salt, 1200);
+            if (!$cache->get ($mobile.'check_reg_ok')) {
+                $this->error ('令牌已过期，请重新注册');
+            }
             $name = sget ('name', 's');
             if (mb_strlen ($name, 'UTF8') < 2) {
                 $this->error ('请输入二位字以上的姓名');
             }
-            if (!sget ('qq', 's', '')) {
-                $this->error ('请输入qq号码');
-            }
-            if (!is_qq (sget ('qq', 's'))) {
-                $this->error ('请输入有效的qq号码');
-            }
+//            if (!sget ('qq', 's', '')) {
+//                $this->error ('请输入qq号码');
+//            }
+//            if (!is_qq (sget ('qq', 's'))) {
+//                $this->error ('请输入有效的qq号码');
+//            }
             $c_name    = sget ('c_name', 's');
             $region    = sget ('region', 's', '');
             $chanel    = (int)sget ('chanel', 'i', 6);
             $quan_type = sget ('quan_type', 'i');//sget()函数要理解一下，里面有个empty函数
+            $origin = sget('origin','a');
+            $ctype = sget('c_type','i');  //'客户类型(1 工厂(卖家)、2 贸易(买家)、3 工贸一体(买卖一体))',
+            $_model = sget('model','a');  //牌号
+            if(empty($origin)||count($origin)!=2) $this->_errCode(6);
+            if(empty($ctype||!in_array($ctype,array('1','2','3')))) $this->_errCode(6);
             $name      = $this->clearStr ($name);
             $c_name    = $this->clearStr ($c_name);
             if (mb_strlen ($c_name, 'UTF8') < 5) {
@@ -182,10 +180,13 @@ class qapi1_2Action extends null2Action
             if (!$c_name) {
                 $this->error ('请输入公司名称');
             }
+            if(empty($_model)||count($_model)>10) $this->_errCode(6);
+            $_model = implode(',',$_model);
+
             $cus_model  = $this->db->model ('customer');
             $customer   = $cus_model->select ('c_id')
-                                    ->where ("c_name='$c_name'")
-                                    ->getOne ();//获取公司的id
+                ->where ("c_name='$c_name'")
+                ->getOne ();//获取公司的id
             $user_model = M ('system:sysUser');
             $user_model->startTrans ();
             try {
@@ -196,6 +197,9 @@ class qapi1_2Action extends null2Action
                         'chanel'           => $chanel,
                         'input_time'       => CORE_TIME,
                         'customer_manager' => 859,//交易员
+                        'origin'=>implode('|',$origin),
+                        'need_product'=>$_model,
+                        'type'=>$ctype,
                         'quan_type'        => $quan_type,
                     );
                     if (!$cus_model->add ($_customer)) {
@@ -205,9 +209,9 @@ class qapi1_2Action extends null2Action
                 }
                 //查看是否为老用户
                 $old_user      = $this->db->model ('customer_contact')
-                                          ->select ('user_id,parent_mobile')
-                                          ->where ("mobile=".$mobile)
-                                          ->getRow ();
+                    ->select ('user_id,parent_mobile')
+                    ->where ("mobile=".$mobile)
+                    ->getRow ();
                 $salt          = $cache->get ($mobile.'salt');
                 $password      = $cache->get ($mobile.'password');
                 $parent_mobile = sget ('parent_mobile', 's');
@@ -218,9 +222,9 @@ class qapi1_2Action extends null2Action
                     $parent_mobile = '';
                 } else {
                     if (!$this->db->from ('customer_contact')
-                                  ->select ('user_id')
-                                  ->where ('mobile='.$parent_mobile)
-                                  ->getOne ()
+                        ->select ('user_id')
+                        ->where ('mobile='.$parent_mobile)
+                        ->getOne ()
                     ) {
                         throw new Exception("引荐人错误，请重新选择引荐人，或者独自踏上征途。");
                     }
@@ -250,7 +254,7 @@ class qapi1_2Action extends null2Action
                         'quan_type'     => $quan_type,
                     );
                     if (!$user_model->where ("mobile=".$mobile)
-                                    ->update ($_user)
+                        ->update ($_user)
                     ) {
                         throw new Exception("系统错误 reg:105");
                     }
@@ -268,12 +272,12 @@ class qapi1_2Action extends null2Action
                         'quan_type'       => $quan_type,
                     );
                     if (!$this->db->model ('contact_info')
-                                  ->select ('user_id')
-                                  ->where ("user_id={$old_user['user_id']}")
-                                  ->getOne ()
+                        ->select ('user_id')
+                        ->where ("user_id={$old_user['user_id']}")
+                        ->getOne ()
                     ) {
                         if (!$this->db->model ('contact_info')
-                                      ->add ($_info)
+                            ->add ($_info)
                         ) {
                             throw new Exception("系统错误 reg:103");
                         }
@@ -303,9 +307,9 @@ class qapi1_2Action extends null2Action
                     //直接关注和加积分
                     if (!empty($_user['parent_mobile'])) {
                         $focused_id = $this->db->model ('customer_contact')
-                                               ->where ("mobile=".$_user['parent_mobile'])
-                                               ->select ('user_id')
-                                               ->getOne ();
+                            ->where ("mobile=".$_user['parent_mobile'])
+                            ->select ('user_id')
+                            ->getOne ();
                         if (!M ("plasticzone:plasticAttention")->getAttention ($user_id, $focused_id)) {
                             throw new Exception("系统错误 reg:111");
                         }
@@ -327,22 +331,22 @@ class qapi1_2Action extends null2Action
                         'quan_type'       => $quan_type,
                     );
                     if (!$this->db->model ('contact_info')
-                                  ->add ($_info)
+                        ->add ($_info)
                     ) {
                         throw new Exception("系统错误 reg:103");
                     }
                     //这一步少不了，$c_id之前不知道
                     if (!$customer) {
                         if (!$this->db->model ('customer')
-                                      ->where ("c_id=$c_id")
-                                      ->update ("contact_id=".$user_id)
+                            ->where ("c_id=$c_id")
+                            ->update ("contact_id=".$user_id)
                         ) {
                             throw new Exception("系统错误 reg:104");
                         }
                     }
                     //新增用户默认排序最前
                     $this->db->model ('weixin_ranking')
-                             ->add (array( 'user_id' => $user_id, 'pm' => 0, 'rownum' => 0, ));
+                        ->add (array( 'user_id' => $user_id, 'pm' => 0, 'rownum' => 0, ));
                 }
             } catch (Exception $e) {
                 $user_model->rollback ();
@@ -352,7 +356,8 @@ class qapi1_2Action extends null2Action
             $cache->delete ($mobile.'password');
             $cache->delete ($mobile.'salt');
             $cache->delete ($mobile.'check_reg_ok');
-            $this->success ('完善成功');
+            $this->success ('注册成功');
+
         }
         $this->_errCode (6);
     }
@@ -459,8 +464,6 @@ class qapi1_2Action extends null2Action
     //区分不了东西了，其实没什么大不了，app每天的登录记录是出现在取首页数据的时候
     public function login ()
     {
-        //p($_GET);p($_POST);exit;
-        //$this->json_output(array('get'=>$_GET,'post'=>$_POST));
         if ($_POST['username']) {
             $this->is_ajax = true;
             $username      = sget ('username', 's');
@@ -1409,9 +1412,9 @@ class qapi1_2Action extends null2Action
             foreach($data as $key=>&$row){
                 if($key=='address'){
                     $row=$this->clearStr($row);
-                    if(empty($row)) $this->json_output(array('err'=>4,'msg'=>'ggg'));
+                    if(empty($row)) $this->_errCode(6);
                 }elseif($key=='sex'){
-                    if(empty($row)||!in_array($row,array('1','2'))) $this->_errCode(1);
+                    if(!in_array($row,array('1','0'))) $this->_errCode(6);
                     $row=(int)$row;
                 }elseif($key=='major'){
                     $row=$this->clearStr($row);
@@ -1420,21 +1423,22 @@ class qapi1_2Action extends null2Action
                     if(empty($row)) $this->json_output(array('err'=>6,'msg'=>'输入不能为空'));
                     $row = $this->clearStr($row);
                     $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$row);
+                    //$field=explode(",",array_map('strtoupper',$field));
                     $field=explode(",",$field);
                     $field=array_map('strtoupper',$field);
-                    foreach($field as $key=>$row){
-                        if(empty($row)) unset($field[$key]);
+                    foreach($field as $key1=>$row1){
+                        if(empty($row1)) unset($field[$key1]);
                     }
                     $field=array_unique($field);
                     //$field=explode(",",array_map('strtoupper',$field));
                     if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
+                    $row=$field;
                 }elseif($key=='dist'){
-                    if(empty($row)||!in_array($field, array('EC', 'NC', 'SC'))) $this->_errCode(6);
+                    if(empty($row)||!in_array($row, array('EC', 'NC', 'SC'))) $this->_errCode(6);
                 }
-            }p($data);
+            }
             $result = M('qapp:plasticSave')->saveSelfInfo1_2($user_id,$data);
             if ($result['err']>0) $this->json_output(array('err' => 2, 'msg' => $result['msg']));
-            p($result);showTrace();
             $this->json_output(array('err' => 0, 'msg' => '保存资料成功'));
         }
         $this->_errCode(6);
@@ -3074,21 +3078,47 @@ class qapi1_2Action extends null2Action
     }
 
 
-    public function json_output ($result = array())
-    {
-        //header('Content-Type:text/html; charset=utf-8');
-        header ('Content-type: application/json; charset=utf-8');
-        $result       = json_encode ($result);
-        $jsoncallback = sget ('jsoncallback');
-        if (!empty($jsoncallback)) {
-            $result = $jsoncallback."($result)";
+    public function getRegion(){
+        $pid= sget('id','i',1);
+        $_tmp = unserialize($this->cache->get('getqappRegion'.$pid));
+        if(!empty($_tmp)) $this->json_output(array('err'=>0,'data'=>$_tmp));
+        $_tmp = M('system:region')->select('id,pid,name')->where('pid='.$pid)->getAll();
+        $_tmpRow = '';
+        foreach($_tmp as $key=>&$row){
+            if($row['name']=='上海'&&$row['pid']==1){
+                unset($row['pid']);
+                $_tmpRow=$row;
+                unset($_tmp[$key]);
+            }unset($row['pid']);
         }
-        echo $result;
-        if ($this->debug || isset($_GET[C ('SHOW_DEBUG')])) {
-            log::showTrace ();
-        }
-        die();
+        array_unshift($_tmp,$_tmpRow);
+        $this->cache->set('getqappRegion'.$pid,serialize($_tmp),$this->randomMdTime);
+        $this->json_output(array('err'=>0,'data'=>$_tmp));
     }
+
+    public function getModel(){
+        $keywords = sget('keywords','s');
+        $keywords = strtoupper($keywords);
+        if(empty($keywords)) $this->_errCode(6);
+        $_tmpModel=M('qapp:product')->select('model')->where('status=1 and model like "%'.$keywords.'%"')->limit(20)->getAll();
+        if(empty($_tmpModel)) $this->_errCode(2);
+        $this->json_output(array('err'=>0,'data'=>$_tmpModel));
+    }
+//    public function json_output ($result = array())
+//    {
+//        //header('Content-Type:text/html; charset=utf-8');
+//        header ('Content-type: application/json; charset=utf-8');
+//        $result       = json_encode ($result);
+//        $jsoncallback = sget ('jsoncallback');
+//        if (!empty($jsoncallback)) {
+//            $result = $jsoncallback."($result)";
+//        }
+//        echo $result;
+//        if ($this->debug || isset($_GET[C ('SHOW_DEBUG')])) {
+//            log::showTrace ();
+//        }
+//        die();
+//    }
 
 
 }
