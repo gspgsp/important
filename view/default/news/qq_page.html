@@ -8,6 +8,11 @@
 <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
 <link rel="stylesheet" href="__MYAPP__/css/mui.min.css" />
 <link rel="stylesheet" href="__MYAPP__/css/news.css" />
+<style>
+	a:hover{
+		text-decoration: none;
+	}
+</style>
 </head>
 <body>
 <div id="app">
@@ -30,7 +35,7 @@
 	</div>
 </div>
 </div>
-
+<script type="text/javascript" src="__MYAPP__/js/aes_2.js"></script>
 <script type="text/javascript" src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="__MYAPP__/js/vue.min.js"></script>
 <script>
@@ -43,6 +48,29 @@
 		},
 		mounted: function(){
 			var _this=this;
+			var pwd="ABCDEFGHIGKLMNOP";
+			function Encrypt(word){
+            	return CryptoJS.AES.encrypt(word,pwd).toString();
+        	}
+			
+			var mm = Encrypt('[id:1]');
+        	console.log(mm)
+			
+			$.ajax({
+				type:"get",
+				url:"/api/score/test",
+				data: {
+					data:mm
+				},
+				dataType: 'JSON'
+			}).done(function(res){
+				console.log(res);
+			}).fail(function(){
+				
+			}).always(function(){
+				
+			});
+			
 			$.ajax({
 				type:"get",
 				url:"/api/qapi1_1/getQQNews",
