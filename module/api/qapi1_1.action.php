@@ -3335,6 +3335,31 @@ class qapi1_1Action extends null2Action
         $this->json_output(array('err'=>0,'data'=>$data['data']));
     }
 
+    public function alipaySome(){
+        require_file(APP_LIB.'extend/alipay-sdk-PHP/AopSdk.php');
+        $aop = new AopClient();
+        $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+        $aop->appId = '2016080300158443';
+        $aop->rsaPrivateKey='MIIEpgIBAAKCAQEArsurTmGTZqkRgQjbegA0aCVJiGNeJx5CklpGBF6ccdq+6HShEPx7bcAbV3nOekJT3AgGfNJ4953O8Ok8rJhNFIdvQYy9OhkssVHQKr+P4W9wl7Q0G0IG59Rsr39utiYEraDYjG+U4anqrrMdmeh8cNCITjymAd/y6ovVjf6xDvpWrEECZVeAsXIqcLRuMsFMwdND9Pwte8I0bxICiS3uvZRmuBXKGVqeT0jVU3eLzNUMxPVO9XoAJCnhPQZZzMQlM8XpE2eXcUIEdxL7doW9wECjSfWv7aNMTnEwpDyf/JoLT7ajJq6+6lc4PElrogrIs/y/zXkLk8KOIxkeG9aY3wIDAQABAoIBAQCRln4WiNs29LbpnLEBis4buILooKs5NdEJCTusRAlWI3ZDM3E8Lq+3l/yt/XxnBHvIlr6glMXAqKZGrl2k/C2nXa7jEBBEJde90YDrOibjA+jp0mRcF8Ccs6fa/O7/s+bNn1z+i6mb0+Tuoa2UFbogVPBTCdzTTu6LQPEclfhvmd6pA62352AOtAK5j92SySxbMet6nV8N5EZP/+FO2Am32DJ7aGpQbRoNYdF7jrAEifhQfjeehVbLG6OIXD+pSYUoOrioVWRkNW1NF6EAKv1RCshUfQZ0KB+KxBMnAmcoTQmVlxuGuhpMeW/kMv4P+hEtavMPOm08j4uWv++Oy04BAoGBANqHIDIwyYBAsFRKHlxgNPatrpRJ939UNpWtA9eKDyQnrS3NacrvtxLyYZ/7RtCafy/Y8pTpaVBjXPQ2VxV01/Zbp6/DHxT2GE69iSiGpHIzmvdF4JpeNtxb0+fUA2pRfmiAQOfOr21+7ntwYDDhnfHmHm8iVRFDZtRhtQh5zC6BAoGBAMzEzBB3sH20tnYuALYfnh1i1nAIn6c1I8RoJmrvPleNtKxyv44Ah8c7MXHRfN5C9M6poMiQPUV9DIbOY4Q2Q0Cqs8A1GcRsFzJXSB5oMYWlpygo3PhwrJruQS+C4W8FnJkSQkKb7URGofFJeQ53MBmjDK08YzRBzB8tO0Wig9dfAoGBALyJvtZuzzrvFPL0K7OpcaiueqQIGRfrMVj7uAfbXmrkLH8K7c6f+YTISEA+DH/n+/ntJIYjx7AKumUdCQ9DCxzLQSbcotFz7c7pqg+j8vdw3K+gw0KMLKr8MxyeCABPpU9F8DnPUf2XeOxZLTSfQ6Uz1Ggv59MIIwzz67wPUYGBAoGBAI9oPCpESLyg9TBrI2BpYEjgUaIAyB9IXhZNgqpdh2G2ApTLgFApGu5zDDvUJQlcBys9LTeJnP+vhjhbDuMnRY5ifqTcC4G+2bgN3Jo/Cn+49gpwI+Fyt8+BkPF/TfZ9DaE+Yl1X6qFofj4H4No6qtspj9U7d5a/hf9HpD0uhfstAoGBANQt1zqcCMSevTFk0fOFSUGlLewZ+5DNmVrf66V44CbfrhVwGx/wtYglkuF8fBEP0tgxCrboZbX7z2LIyBCoIuvoMOMfjIzu8HD+825HBwpYYPgX4TR2nFdfH3wLeJ6X4NCNfpVhHHIlczO5kKu9FdzSSbB5tBGj3TnV30KldvaT';
+        $aop->alipayrsaPublicKey ='MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAslcnAaY80obGJtaM89ukAqi38QLxpMdVwhrtIT43BRZ1bggkNGT/L1IXm/ffA1rAxOPta2pauoKl3bNdK9ClvDISJ8Emvd/xP3Ggh09m7k1Xr9yExB0BgIqHvISJ/kdNPSpr2OxDBzHJ6ulzjE8cQ/W7465N9biG/lIjcwYXcdG70UTBfv+L74PQPWrryLS9M7Eu0eemML3pc1w5jwhbzNsUftmZiZTe5gUMG/a/7lXth3cGH4oeBlndfCnFDsiJYiv9bKCjgd0AwAAs/uL/6Q4eJS4jY5Ab66mrJ0rh+rEbdxC0MU3wh9kI3BaoQ5+5UccHrMC4151XEI6vDd0ciQIDAQAB';
+        $aop->apiVersion = '1.0';
+        $aop->postCharset='UTF-8';
+        $aop->format='json';
+        $aop->signType='RSA2';
+        $request = new AlipayTradeWapPayRequest ();
+        $request->setBizContent("{" .
+            "    \"body\":\"对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。\"," .
+            "    \"subject\":\"大乐透\"," .
+            "    \"out_trade_no\":\"70501111111S001111119\"," .
+            "    \"timeout_express\":\"90m\"," .
+            "    \"total_amount\":0.01," .
+            "    \"product_code\":\"QUICK_WAP_PAY\"" .
+            "  }");
+        $result = $aop->pageExecute ( $request);
+        echo $result;
+    }
+
+
 
 
 
