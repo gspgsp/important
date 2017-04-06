@@ -190,13 +190,9 @@ class saleBuyAction extends adminBaseAction {
 	public function view(){
 		$this->is_ajax=true;
 		$pid=sget('id','i'); //报价ID
-		// 根据采购id获得报价id
-		$id = M('product:purchase')->getColById($pid,'last_buy_sale','id'); //获得报价表的ID
-		//获取采购订单的区域
-		$provinces = M('product:purchase')->getColById($pid,'provinces','id'); //获得报价表的ID
-		$info=M('product:salebuy')->getSalebuyInfo($id);
-		//获取订单信息
-		$orderinfo = M('product:unionOrder')->getAllInfoById($id,'p_sale_id');
+		$chk = sget('chk','i',0);//是否审核
+        // 根据采购id获得报价id
+		$info=M('product:salebuy')->getSalebuyInfo($pid);
 		if(empty($info)) $this->error('错误的数据请求');
 		$info['saleminfo'] =M('rbac:adm')->getUserInfoById($info['customer_manager']); //卖交易员信息
 		$info['buyminfo'] =M('rbac:adm')->getUserInfoById($info['ptraderid']);//买交易员信息
@@ -205,19 +201,46 @@ class saleBuyAction extends adminBaseAction {
 		$info['salecinfo'] = M('user:customer')->getCinfoById($info['c_id']);
 		//获取买家公司信息
 		$info['buycinfo'] = M('user:customer')->getCinfoById($info['pc_id']);
-		// 处理交货地区信息
-		$info['porigin'] = M('system:region')->get_name($provinces);
-		//处理配货地点
-		$info['delivery_place'] = M('system:region')->get_name($info['delivery_place']);
+		$info['originarea'] = $info['porigin'];   //区域
+		// 处理地区信息
+		$info['porigin'] = M('system:region')->get_chinese_area($info['porigin']);
 		$this->assign('info',$info);
 		$this->assign('m_transport',L('transport_type')); //运输方式
 		$this->assign('pay_method',L('pay_method'));
-		$this->assign('orderinfo',$orderinfo);
-		$this->assign('id',$id);//报价表
-		$this->assign('pid',$pid); //采购表id
+		$this->assign('id',$info['purchaseid']);//（pruchare 的主键id）
+		$this->assign('pid',$pid); //（salebuy主键）
+		$this->assign('chk',$chk);
 		$this->assign('ship_type',L('ship_type'));
 		$this->assign('page_title','报价审核页面');
 		$this->display('salebuy.view.html');
+		// // 根据采购id获得报价id
+		// $id = M('product:purchase')->getColById($pid,'last_buy_sale','id'); //获得报价表的ID
+		// //获取采购订单的区域
+		// $provinces = M('product:purchase')->getColById($pid,'provinces','id'); //获得报价表的ID
+		// $info=M('product:salebuy')->getSalebuyInfo($id);
+		// //获取订单信息
+		// $orderinfo = M('product:unionOrder')->getAllInfoById($id,'p_sale_id');
+		// if(empty($info)) $this->error('错误的数据请求');
+		// $info['saleminfo'] =M('rbac:adm')->getUserInfoById($info['customer_manager']); //卖交易员信息
+		// $info['buyminfo'] =M('rbac:adm')->getUserInfoById($info['ptraderid']);//买交易员信息
+		// $info['product']=M('product:product')->getFnameByPid($info['pp_id']);//商品信息
+		// //获取卖家公司信息
+		// $info['salecinfo'] = M('user:customer')->getCinfoById($info['c_id']);
+		// //获取买家公司信息
+		// $info['buycinfo'] = M('user:customer')->getCinfoById($info['pc_id']);
+		// // 处理交货地区信息
+		// $info['porigin'] = M('system:region')->get_name($provinces);
+		// //处理配货地点
+		// $info['delivery_place'] = M('system:region')->get_name($info['delivery_place']);
+		// $this->assign('info',$info);
+		// $this->assign('m_transport',L('transport_type')); //运输方式
+		// $this->assign('pay_method',L('pay_method'));
+		// $this->assign('orderinfo',$orderinfo);
+		// $this->assign('id',$id);//报价表
+		// $this->assign('pid',$pid); //采购表id
+		// $this->assign('ship_type',L('ship_type'));
+		// $this->assign('page_title','报价审核页面');
+		// $this->display('salebuy.view.html');
 	}
 	/**
 	 * 获得订单详情并审核
