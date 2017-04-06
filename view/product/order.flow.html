@@ -65,21 +65,22 @@
 		{/if}
 		</ul>
 		{/if}
-
-		<!-- <p class="track doing">发票寄送</p>
-		<ul class="info"></ul>
-		<p class="track doing">发票签收</p>
-		<ul class="info"></ul> -->
 	</div>
 	<!--view end-->
 	<!--view begin-->
 	<div class="view">
 		<h3>资金流</h3>
-		{if $fund3 && $fund3[0]['step'] neq 1}
+		{if $fund3}
 		{foreach from=$fund3 item=val name=n key=k}
-			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}收{else}付{/if}款</p>
+			{if $val.step eq 3}
+			<p class="track done">全部{if $type eq 1}收{else}付{/if}款</p>
+			{elseif $val.step eq 2}
+			<p class="track done">部分{if $type eq 1}收{else}付{/if}款</p>
+			{elseif $val.step lt 2}
+			<p class="track doing">待{if $type eq 1}收{else}付{/if}款</p>
+			{/if}
 			<ul class="info">
-			{if $val}
+			{if $val && $val.step gt 1}
 				<li>{$val.input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$val.input_admin}</li>
 				<li>总额：{$val.total}元</li>
 				<li>累计{if $type eq 1}收{else}付{/if}款：{$val.payed}元</li>
@@ -87,55 +88,51 @@
 			{/if}
 			</ul>
 		{/foreach}
+		{else}
+			<p class="track doing">待{if $type eq 1}收{else}付{/if}款</p>
+			<ul class="info">
+			</ul>
 		{/if}
-		<p class="track {if $fund4}done{else}doing{/if}">全部{if $type eq 1}收{else}付{/if}款</p>
-		<ul class="info">
-		{if $fund4}
-			<li>{if $fund4[0]['input_time']}{$fund4[0].input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$fund4[0].input_admin}{/if}</li>
-			<li>总额：{$fund4[0].total}元</li>
-			<li>共计{if $type eq 1}收{else}付{/if}款：{$fund4[0].payed}元</li>
-			<li>余额：{$fund4[0].lefted}元</li>
-		{/if}
-		</ul>
 		<h3>关联单子</h3>
 		{if $re_fund3}
 		{foreach from=$re_fund3 item=val name=n key=k}
-			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}付{else}收{/if}款</p>
+			{if $val.step eq 3}
+			<p class="track done">全部{if $type eq 1}付{else}收{/if}款</p>
+			{elseif $val.step eq 2}
+			<p class="track done">部分{if $type eq 1}付{else}收{/if}款</p>
+			{elseif $val.step lt 2}
+			<p class="track doing">待{if $type eq 1}付{else}收{/if}款</p>
+			{/if}
 			<ul class="info">
-			{if $val}
+			{if $val && $val.step gt 1}
 				<li>{$val.input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$val.input_admin}</li>
 				<li>总额：{$val.total}元</li>
-				<li>累计{if $type eq 1}付{else}收{/if}款：{$val.payed}元</li>
+				<li>共计{if $type eq 1}付{else}收{/if}款：{$val.payed}元</li>
 				<li>余额：{$val.lefted}元</li>
 			{/if}
 			</ul>
 		{/foreach}
 		{else}
-			{if $re_fund4}
-			<p class="track {if $re_fund4}done{else}doing{/if}">全部{if $type eq 1}付{else}收{/if}款</p>
-			{else}
-			<p class="track {if $re_fund4}done{else}doing{/if}">待{if $type eq 1}付{else}收{/if}款</p>
-			{/if}
+			<p class="track doing">待{if $type eq 1}付{else}收{/if}款</p>
 			<ul class="info">
-			{if $re_fund4}
-				<li>{if $re_fund4[0]['input_time']}{$re_fund4[0].input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$re_fund4[0].input_admin}{/if}</li>
-				<li>总额：{$re_fund4[0].total}元</li>
-				<li>共计{if $type eq 1}付{else}收{/if}款：{$re_fund4[0].payed}元</li>
-				<li>余额：{$re_fund4[0].lefted}元</li>
-			{/if}
 			</ul>
 		{/if}
-
 	</div>
 	<!--view end-->
 	<!--view begin-->
 	<div class="view last">
 		<h3 style="border-top:#333">发票</h3>
-		{if $tick3 && $tick3[0]['step'] neq 1}
+		{if $tick3}
 		{foreach from=$tick3 item=val name=n key=k}
-			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}开{else}收{/if}票</p>
+			{if $val.step eq 3}
+			<p class="track done">全部{if $type eq 1}开{else}收{/if}票</p>
+			{elseif $val.step eq 2}
+			<p class="track done">部分{if $type eq 1}开{else}收{/if}票</p>
+			{elseif $val.step lt 2}
+			<p class="track doing">待{if $type eq 1}开{else}收{/if}款</p>
+			{/if}
 			<ul class="info">
-			{if $val}
+			{if $val && $val.step gt 1}
 				<li>{$val.input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$val.input_admin}</li>
 				<li>总额：{$val.total}元</li>
 				<li>本次{if $type eq 1}开{else}收{/if}票：{$val.payed}元</li>
@@ -143,22 +140,23 @@
 			{/if}
 			</ul>
 		{/foreach}
+		{else}
+			<p class="track doing">待{if $type eq 1}开{else}收{/if}票</p>
+			<ul class="info">
+			</ul>
 		{/if}
-		<p class="track {if $tick4}done{else}doing{/if}">全部{if $type eq 1}开{else}收{/if}票</p>
-		<ul class="info">
-		{if $tick4}
-			<li>{if $tick4[0]['input_time']}{$tick4[0].input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$tick4[0].input_admin}{/if}</li>
-			<li>总额：{$tick4[0].total}元</li>
-			<li>本次{if $type eq 1}开{else}收{/if}票：{$tick4[0].payed}元</li>
-			<li>余额：{$tick4[0].lefted}元</li>
-		{/if}
-		</ul>
 		<h3  style="border-top:#333">关联单子</h3>
 		{if $re_tick3}
 		{foreach from=$re_tick3 item=val name=n key=k}
-			<p class="track {if $val}done{else}doing{/if}">部分{if $type eq 1}收{else}开{/if}票</p>
+			{if $val.step eq 3}
+			<p class="track done">全部{if $type eq 1}收{else}开{/if}票</p>
+			{elseif $val.step eq 2}
+			<p class="track done">部分{if $type eq 1}收{else}开{/if}票</p>
+			{elseif $val.step lt 2}
+			<p class="track doing">待{if $type eq 1}收{else}开{/if}款</p>
+			{/if}
 			<ul class="info">
-			{if $val}
+			{if $val && $val.step gt 1}
 				<li>{$val.input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$val.input_admin}</li>
 				<li>总额：{$val.total}元</li>
 				<li>本次{if $type eq 1}收{else}开{/if}票：{$val.payed}元</li>
@@ -167,21 +165,10 @@
 			</ul>
 		{/foreach}
 		{else}
-		{if $re_tick4}
-		<p class="track {if $re_tick4}done{else}doing{/if}">全部{if $type eq 1}收{else}开{/if}票</p>
-		{else}
-		<p class="track {if $re_tick4}done{else}doing{/if}">待{if $type eq 1}收{else}开{/if}票</p>
+			<p class="track doing">待{if $type eq 1}收{else}开{/if}票</p>
+			<ul class="info">
+			</ul>
 		{/if}
-		<ul class="info">
-		{if $re_tick4}
-			<li>{if $re_tick4[0]['input_time']}{$re_tick4[0].input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$re_tick4[0].input_admin}{/if}</li>
-			<li>总额：{$re_tick4[0].total}元</li>
-			<li>本次{if $type eq 1}收{else}开{/if}票：{$re_tick4[0].payed}元</li>
-			<li>余额：{$re_tick4[0].lefted}元</li>
-		{/if}
-		</ul>
-		{/if}
-
 	</div>
 	<!--view end-->
 </div>
