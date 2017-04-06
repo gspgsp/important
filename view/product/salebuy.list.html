@@ -53,6 +53,7 @@
 			<div field="status" width="30" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$status}' />
 			</div>
+			<div action='do' width="40"  renderer="viewhander" align="center">操作</div>
 		</div>
 	</div>
 </div>
@@ -78,6 +79,41 @@ function onRowDblClick(e) {
 		add(id,1);
 	{/if}
 }
+
+function viewhander(e){
+	var record = e.record,id=record.id, status=record.status, s='';
+	s += '<a href="javascript:viewPinfo('+id+')">查看</a>';
+	// if(status == 1){
+	// 	s +='&nbsp;|&nbsp;<a href="javascript:chkOrder('+id+')">审核 </a>';
+	// }
+	return s;
+}
+function viewPinfo(id){
+	mini.open({
+		url:"/product/saleBuy/view?id="+id,
+		showMaxButton:true,
+		title:'销售单查看',width:750,height:630,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//弹出审核窗口
+function chkOrder(id){
+	mini.open({
+		url:"/product/saleBuy/view?id="+id+"&chk=1",
+		showMaxButton:true,
+		title:'销售单审核',width:750,height:630,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+
 //查看编辑用户信息
 function add(id,ctype){
 	var width=330,height=400;
