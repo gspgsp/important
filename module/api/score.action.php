@@ -12,24 +12,22 @@ class scoreAction extends null2Action
 
     public function __init()
     {
-        $data = spost('data', 's');
+        /*$data = spost('data', 's');
         if (!empty($data)) {
-           $mcrypt = E('mcrypt1', APP_LIB . 'class');
-
+            $mcrypt = E('mcrypt1', APP_LIB . 'class');
             $param = $mcrypt->decrypt($data);
-
-            $this->param = json_decode($param, true);
-        }
+            $_POST = json_decode($param, true);
+        }*/
     }
 
     public function test()
     {
-        $this->json_output($this->param);
+        $this->json_output($_POST);
     }
 
-    public function get_score_config()
+/*    public function get_score_config()
     {
-        $token         = $this->param['token'];
+        $token         = $_POST['token'];
         if (empty($token)) {
             $this->json_output(array('ok'=>1,'msg'=>'用户尚未登录'));
 
@@ -54,7 +52,7 @@ class scoreAction extends null2Action
         $score_settings['login_today'] = $login_count['today'];
 
         $this->json_output($score_settings);
-    }
+    }*/
 
     /**
      * 2017-4-5 11:48:04
@@ -62,15 +60,15 @@ class scoreAction extends null2Action
      */
     public function  addScore(){
         $points = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
-        $token = $this->param['token'];
+        $token = $_POST['token'];
         $_POST['token'] = $token;
         $user_id = A("api:qapi1_2")->checkAccount();
-        $type  = $this->param['type'];
+        $type  = $_POST['type'];
         $_today= strtotime(date("Y-m-d"));
         M ("qapp:pointsBill")->startTrans();
         switch($type){
             case 1://拉新注册登录
-                $parent_mobile = (int)$this->param['parent_mobile'];
+                $parent_mobile = (int)$_POST['parent_mobile'];
                 if(!is_mobile($parent_mobile)) $this->json_output(array('err'=>0,'msg'=>'引荐人错误'));
                 $focused_id = M("public:common")->from ('customer_contact')
                     ->select ('user_id')
@@ -125,7 +123,7 @@ class scoreAction extends null2Action
                 $this->json_output (array( 'err' => 0, 'msg' => '积分添加成功' ));
                 break;
             case 4://分享求购
-                $pur_type = $this->param['pur_type'];
+                $pur_type = $_POST['pur_type'];
                 $_today= strtotime(date("Y-m-d"));
                 $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =13 and share_type=1 and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) $this->json_output(array('err'=>0,'msg'=>'今天求购分享次数>5，不加积分'));
@@ -138,7 +136,7 @@ class scoreAction extends null2Action
                 $this->json_output (array( 'err' => 0, 'msg' => '积分添加成功' ));
                 break;
             case 5://分享供给
-                $pur_type = $this->param['pur_type'];
+                $pur_type = $_POST['pur_type'];
                 $_today= strtotime(date("Y-m-d"));
                 $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =13 and share_type=2 and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) $this->json_output(array('err'=>0,'msg'=>'今天供给分享次数>5，不加积分'));
@@ -189,16 +187,16 @@ class scoreAction extends null2Action
     }
 
     public function decScore(){
-        $token = $this->param['token'];
+        $token = $_POST['token'];
         $_POST['token'] = $token;
         $user_id = A("api:qapi1_2")->checkAccount();
-        $type  = $this->param['type'];
+        $type  = $_POST['type'];
         $_today= strtotime(date("Y-m-d"));
         M ("qapp:pointsBill")->startTrans();
         switch($type) {
             case 1://兑换商品
-                $points = $this->param['points'];
-                $gid = $this->param['gid'];
+                $points = $_POST['points'];
+                $gid = $_POST['gid'];
                 if(empty($gid)) $this->json_output(array('err'=>6,'msg'=>'参数错误'));
                 //decPoints ($num = 0, $uid = 0, $type = 0, $gid = 0)
                 if (!M("qapp:pointsBill")->decPoints($points, $user_id, 5 ,$gid)) {
@@ -211,7 +209,7 @@ class scoreAction extends null2Action
             case 2://查看通讯录
                 $points = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
                 $points = $points['see_list'];
-                $other_id = $this->param['other_id'];
+                $other_id = $_POST['other_id'];
                 if(!M("qapp:infoList")->add(array('user_id'=>$user_id,'other_id'=>$other_id,'input_time'=>CORE_TIME))){
                     M("qapp:pointsBill")->rollback();
                     $this->json_output(array('err' => 101, 'msg' => '系统错误'));

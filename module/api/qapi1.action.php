@@ -1887,6 +1887,18 @@ class qapi1Action extends null2Action
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
+            $supply_and_demand = M("qapp:plasticRelease")->getReleaseMsg('',1,5,0,'ALL','DEMANDORSUPPLY',$user_id);
+            if(empty($supply_and_demand['count']))
+            {
+                foreach($data['data'] as $key => $info)
+                {
+                    if($info['id']  == 35)
+                    {
+                        unset($data['data'][$key]);
+                        break;
+                    }
+                }
+            }
             foreach ($data['data'] as $k => &$v) {
                 if ($v['thumb']) {
                     $v['thumb'] = FILE_URL.'/upload/'.$v['thumb'];
@@ -1895,7 +1907,12 @@ class qapi1Action extends null2Action
                     $v['image'] = FILE_URL.'/upload/'.$v['image'];
                 }
             }
-            $this->json_output (array( 'err' => 0, 'info' => $data['data'], 'pointsAll' => $points ));
+            if(empty($supply_and_demand['count'])){
+                $ret = array( 'err' => 0, 'info' => $data['data'], 'pointsAll' => $points);
+            }else{
+                $ret = array( 'err' => 0, 'info' => $data['data'], 'pointsAll' => $points,'myMsg'=>$supply_and_demand['data'],'reflect_id'=>35);
+            }
+            $this->json_output ($ret);
         }
     }
 
