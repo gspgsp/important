@@ -210,9 +210,14 @@ class scoreAction extends null2Action
                 $points = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
                 $points = $points['see_list'];
                 $other_id = $_POST['other_id'];
+                $_tmp=M("qapp:infoList")->where("user_id= $user_id and other_id = $other_id")->order("info_list_id desc")->getOne();
                 if(!M("qapp:infoList")->add(array('user_id'=>$user_id,'other_id'=>$other_id,'input_time'=>CORE_TIME))){
                     M("qapp:pointsBill")->rollback();
                     $this->json_output(array('err' => 101, 'msg' => '系统错误'));
+                }
+                if($_tmp){
+                    M("qapp:pointsBill")->commit();
+                    $this->json_output(array('err' => 0, 'msg' => '已减过积分,此次不用了'));
                 }
                 if (!M("qapp:pointsBill")->decPoints($points, $user_id, 14)) {
                     M("qapp:pointsBill")->rollback();
