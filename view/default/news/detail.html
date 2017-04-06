@@ -3,9 +3,14 @@
 <div class="headline-crumb w1220"><a target="_blank" href="/" style="color:#fc6621;">塑料头条</a>&nbsp;》{if $type !=='public'}<a target="_blank"  href="/{$type}.html" style="color:#fc6621;">{$upperType}</a>&nbsp;》{/if}<a target="_blank"  href="/{$type}{$cate}.html" style="color:#fc6621;">{$data[cate_name]}</a>&nbsp;》<a target="_blank"  href="/{$type}/{$cate}/{$data[id]}.html" style="color:#fc6621;">{$data[title]}</a></div>
 <!--headline-crumb end-->
 <!--headline-main begin-->
+{if $type !== 'vip'}
 <div class="headline-main w1220" style="position:relative;">
+<div class="left flt"  style="background:#fff;border:solid 1px #dddddd;">
+{else}
+<div class="headline-main w1220" style="position:relative;width:1300px;">
+<div class="left flt"  style="background:#fff;border:solid 1px #dddddd;width:920px;">
+{/if}
 	<!--left begin-->
-    <div class="left flt"  style="background:#fff;border:solid 1px #dddddd;">
     	<!--detail begin-->
         <div class="detail">
             <div style="display:none;">
