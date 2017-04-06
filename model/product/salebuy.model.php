@@ -43,20 +43,30 @@ class salebuyModel extends model{
      */
 	public function getPurPage($where,$page=1,$pageSize=10){
 	     return 	$this->from('purchase as pur')
-					->join('sale_buy as sb ','pur.id=sb.p_id')
-					->join('customer as cus','sb.c_id=cus.c_id')
-					->join('lib_region as r','sb.delivery_place=r.id')
+						 ->join('sale_buy as sb ','pur.user_id=sb.user_id')
+						 ->join('customer as cus','sb.c_id=cus.c_id')
+						 ->join('lib_region as r','sb.delivery_place=r.id')
+			             ->join('union_order as un','un.sale_user_id=sb.user_id')
+						 ->join('product as pro','pur.p_id=pro.id')
+		                 ->join('factory as fac','fac.fid=pro.f_id')
+						 ->where($where.' and pur.last_buy_sale=sb.id')
+						 ->select('pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`, `un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`, `sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
+				         ->page($page,$pageSize)
+						 ->getPage();
+	}
+	public function get_purs($where,$page=1,$pageSize=10){
+		return $this->from('sale_buy as sb')
+					->join('purchase as pur','sb.id=pur.last_buy_sale')
+					->join('customer as cus','pur.c_id=cus.`c_id`')
+					->join('lib_region as r','sb.delivery_place=r.`id`')
+					->join('union_order as un','un.sale_user_id=sb.user_id')
 					->join('product as pro','pur.p_id=pro.id')
 					->join('factory as fac','fac.fid=pro.f_id')
-			 		->join('union_order as un','un.buy_user_id=sb.user_id')
-					->where($where.'and pur.last_buy_sale=sb.id')
-					->order('sb.input_time desc')
-					->select(' fac.`f_name`,pur.`id`,pur.`p_id`,pur.`type`,pro.`process_type`,pro.`product_type`,pro.`model`,pur.last_buy_sale,sb.id AS sb_id,sb.number,sb.price,un.`delivery_time`,sb.status,
-sb.ship_type,sb.remark,cus.c_name,r.name AS delivery_place')
-			 ->page($page,$pageSize)
+					->where($where)
+			        ->select(' pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`,`un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`,`sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
+					->page($page,$pageSize)
 					->getPage();
-
-
+//		           ->getAll();
 	}
 
 }

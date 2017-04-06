@@ -21,7 +21,7 @@ class purchaseModel extends model{
 			->join('factory fa','pro.f_id=fa.fid')
 //			->join('lib_region reg','pur.provinces=reg.id')
 			->where("pur.id={$id}")
-			->select('pur.id,pur.user_id,pur.type,pur.cargo_type,pur.unit_price,pur.number,pur.store_house,pro.model,pro.product_type,fa.f_name,pur.`store_house`')
+			->select('pur.id,pur.c_id,pur.user_id,pur.type,pur.p_id,pur.cargo_type,pur.unit_price,pur.number,pur.store_house,pro.model,pro.product_type,fa.f_name,pur.`store_house`')
 			->getRow();
 	}
 	/**
