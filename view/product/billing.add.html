@@ -2,11 +2,14 @@
 <div id="admInfo" title="" style="padding:10px;" showModal="true" allowResize="true" allowDrag="true">
   <div id="addForm" class="form" >
 		<table style="width:100%;">
+		<!-- 加token防止并发 -->
+		<input class="mini-hidden" value='<?php echo E('RedisCluster',APP_LIB.'class')->get("billing_token"); ?>' name="billing_token">
+
 		<input class="mini-hidden" name="billing_type"  value="{$type}"/>
 		<input class="mini-hidden" name="order_sn"  value="{$headData.order_sn}"/>
 		<input class="mini-hidden" name="o_id"  value="{$o_id}"/>
 		<input class="mini-hidden" name="c_id"  value="{$headData.c_id}"/>
-		
+
 		<!-- 审核所需字段 -->
 		<input class="mini-hidden" name="id"  value="{$id}"/>
 		<input class="mini-hidden" name="finance"  value="{$finance}"/>
@@ -38,7 +41,7 @@
 				<td>合同金额</td>
 				<td><input name="total_price" class="mini-textbox" maxlength="12" value="{$headData.total_price}" style="width:250px;" allowInput="false"/></td>
 			</tr>
-			
+
 			{if $finance}
 			<tr>
 				<td>未开票金额</td>
@@ -61,13 +64,13 @@
 				<td>未开票金额</td>
 				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$un_pay}" style="width:250px;" allowInput="false"/></td>
 			</tr>
-			
+
 			<tr>
 				<td>票据金额<span style="color:red">*</span></td>
 				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$un_pay}"style="width:250px;" required="true" allowInput="false"/></td>
 			</tr>
-			{/if}	
-			
+			{/if}
+
 			<tr>
 				<td>附件</td>
 				<td>
@@ -113,11 +116,11 @@
 					<td>开票银行</td>
 					<td><input name="invoice_bank" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_bank}" allowInput="false"/></td>
 					<td>开票帐号</td>
-					<td><input name="invoice_account" class="mini-textbox" style="width:240px;" value="{$invoice_account}" allowInput="false"/></td> 
+					<td><input name="invoice_account" class="mini-textbox" style="width:240px;" value="{$invoice_account}" allowInput="false"/></td>
 				</tr>
 				<tr>
 					<td>开票电话</td>
-					<td><input name="invoice_tel" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_tel}" allowInput="false"/></td> 
+					<td><input name="invoice_tel" class="mini-textbox" style="width:240px;" value="{$companyInfo.invoice_tel}" allowInput="false"/></td>
 				</tr>
 			</table>
 		</div>
@@ -134,16 +137,16 @@
 			<div field="type" width="50" headerAlign="center" align="center">类型</div>
 			{else}
 			<div field="type" width="50" headerAlign="center" align="center">类型</div>
-			{/if}			
+			{/if}
 			<div field="model" width="90" headerAlign="center" align="center">牌号</div>
 			<div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div>
-			
+
 			<div field="b_number" width="50" headerAlign="center" align="center">数量<span style="color:red">*</span>
 				<input property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
 			</div>
 			<div field="un_number" width="50" headerAlign="center" align="center">未开票数量</div>
 			<div field="number" width="50" headerAlign="center" align="center">订单数量</div>
-			
+
 			<div field="unit_price" id="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 			{if $type =='1'}
 			<div field="lot_num" width="50" headerAlign="center" allowSort="true" align="center">批次号</div>
@@ -152,7 +155,7 @@
 			<!-- <div field="f_name" width="50" headerAlign="center" allowSort="true" align="center">厂家</div> -->
 			{/if}
 			<div field="sum" id="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
-			<div name="exact" field="exact" id="exact">小计精确值</div> 
+			<div name="exact" field="exact" id="exact">小计精确值</div>
 			<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
 
 		</div>
@@ -180,7 +183,7 @@ search();
 function onKeyEnter(e) {
 	search();
 }
-   
+
 //隐藏列
 grid.hideColumn("exact");
 
@@ -215,7 +218,7 @@ function onValidation(e){
 
 //追加操作，删除按钮
 function viewhander(e){
-	var record = e.record,s='';	
+	var record = e.record,s='';
 	s += '<a href="javascript:removeRow()">删除</a>';
 	return s;
 }
@@ -244,7 +247,7 @@ function submitForm(billing) {
 		return;
 	}
 	var o = form.getData();
-	$.extend(o, {detail:data}); 
+	$.extend(o, {detail:data});
 	var json = mini.encode(o);
 
 	form.loading("数据提交中，请稍后......");
@@ -282,9 +285,9 @@ function GetData() {
 	return row;
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");

@@ -238,6 +238,10 @@ class billingAction extends adminBaseAction
 
 	//开票
 	public function transactionInfo(){
+		//开票表单验证token
+		$cache= E('RedisCluster',APP_LIB.'class');
+		$cache->set('billing_token',md5(rand(1,999)),$expire=10);
+
 		$o_id=sget('o_id','i',0);
 		if(empty($o_id)) $this->error('信息错误');
 		$this->type=sget('order_type','s');//type=1为销售订单，type=2为采购订单
@@ -298,6 +302,13 @@ class billingAction extends adminBaseAction
 	public function ajaxSave(){
 		$data = sdata();
 		$type = sget('do','i');//区分销售采购订单
+		$cache = E('RedisCluster',APP_LIB.'class');
+		$billing_token =$cache->get('billing_token');
+		//验证token
+		if ($data['billing_token'] != $billing_token) $this->error("非法提交数据");
+		$cache->remove('billing_token');
+		$billing_token='';
+
 		//获取未开完票的订单明细的个数$nus
 		if($type==1){//销售
 			$nus = $this->db->model('sale_log')->where("o_id={$data['o_id']} and b_number !=0")->select("count('id')")->getOne();
