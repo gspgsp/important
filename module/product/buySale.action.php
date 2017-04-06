@@ -265,9 +265,10 @@ class buySaleAction extends adminBaseAction {
 	public function chkSubmit(){
 		$this->is_ajax = true;
 		$data = sdata();
+
 		$id = $data['id'];  //purchase 的 id
 		$p_id = $data['p_id'];   //salebuy的id
-		$product_id = $data['pp_id'];   //purchase 的商品 id
+		$product_id = $data['pp_id'];   //chan 的商品 id
 		$pstatus = M('product:purchase')->getColById($id,'status','id'); //销售订单状态
 		//销售订单状态判断
 		if($pstatus !=2){
