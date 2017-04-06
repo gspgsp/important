@@ -201,7 +201,7 @@ class scoreAction extends null2Action
                 //decPoints ($num = 0, $uid = 0, $type = 0, $gid = 0)
                 if (!M("qapp:pointsBill")->decPoints($points, $user_id, 5 ,$gid)) {
                     M("qapp:pointsBill")->rollback();
-                    $this->json_output(array('err' => 101, 'msg' => '系统错误'));
+                    $this->json_output(array('err' => 100, 'msg' => '积分不足'));
                 }
                 M("qapp:pointsBill")->commit();
                 $this->json_output(array('err' => 0, 'msg' => '积分减少成功'));
@@ -221,7 +221,7 @@ class scoreAction extends null2Action
                 }
                 if (!M("qapp:pointsBill")->decPoints($points, $user_id, 14)) {
                     M("qapp:pointsBill")->rollback();
-                    $this->json_output(array('err' => 101, 'msg' => '系统错误'));
+                    $this->json_output(array('err' => 100, 'msg' => '积分不足'));
                 }
                 M("qapp:pointsBill")->commit();
                 $this->json_output(array('err' => 0, 'msg' => '积分减少成功'));

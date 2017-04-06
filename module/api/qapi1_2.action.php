@@ -1348,6 +1348,8 @@ class qapi1_2Action extends null2Action
         if ($_POST) {
             $user_id = $this->checkAccount ();
             $userid  = sget ('userid', 'i');//当前联系人的id
+            $_tmp=M("qapp:infoList")->where("user_id= $user_id and other_id = $userid")->order("info_list_id desc")->getOne();
+            if(!$_tmp) $this->_errCode (99);
             $data    = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
             if (empty($data)) {
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
@@ -2577,6 +2579,9 @@ class qapi1_2Action extends null2Action
             case 8:
                 $this->json_output (array( 'err' => 7, 'msg' => '服务正在维护,请稍后再试！' ));
                 break;
+            case 99:
+                $this->json_output (array( 'err' => 99, 'msg' => '未消耗积分，没有权限查看' ));
+                break;
             case 100:
                 $this->json_output (array( 'err' => 100, 'msg' => '积分不足,请多努力!' ));
                 break;
@@ -3109,6 +3114,8 @@ class qapi1_2Action extends null2Action
         if(empty($_tmpModel)) $this->_errCode(2);
         $this->json_output(array('err'=>0,'data'=>$_tmpModel));
     }
+
+
 //    public function json_output ($result = array())
 //    {
 //        //header('Content-Type:text/html; charset=utf-8');
