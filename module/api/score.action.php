@@ -12,15 +12,23 @@ class scoreAction extends null2Action
 
     public function __init()
     {
-//        $data = spost('data', 's');p($data);exit;
-//        if (!empty($data)) {
-//            $mcrypt = E('mcrypt', APP_LIB . 'class');
-//
-//            $param = $mcrypt->decrypt($data);
+        $data = spost('data', 's');
+        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
+        if (!empty($data)) {
+           $mcrypt = E('mcrypt1', APP_LIB . 'class');
+            file_put_contents('/tmp/xielei.txt',print_r($mcrypt,true)."\n",FILE_APPEND);
 
-//            $this->param = json_decode($data, true);
-//        }
-        $this->param = sget('sdata','a');
+            $param = $mcrypt->decrypt($data);
+            file_put_contents('/tmp/xielei.txt',print_r($param,true)."\n",FILE_APPEND);
+
+            $this->param = json_decode($param, true);
+            file_put_contents('/tmp/xielei.txt',print_r($this->param,true)."\n",FILE_APPEND);
+        }
+    }
+
+    public function test()
+    {
+        $this->json_output($this->param);
     }
 
 //    public function get_score_config()
