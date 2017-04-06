@@ -301,6 +301,6 @@ class LtAutoloader
 				$this->$method($libName, $file);
 			}
 		}
-		return true;
+		return true; 
 	}
 }
