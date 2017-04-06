@@ -117,7 +117,7 @@ class scoreAction extends null2Action
                     if($key==0&&$row['addtime']>strtotime(date("Y-m-d"))&&$row['addtime']<(strtotime(date("Y-m-d"))+86400)) $this->json_output(array('err'=>0,'msg'=>'今天已加过积分了'));
                 }
                 if(!M ("qapp:pointsBill")->addPoints ($points['login']*$size, $user_id, 2)){
-                    M ("qapp:pointsBill")->rollback();showTrace();
+                    M ("qapp:pointsBill")->rollback();
                     $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
                 }
                 M ("qapp:pointsBill")->commit();
