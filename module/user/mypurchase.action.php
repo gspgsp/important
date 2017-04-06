@@ -304,7 +304,7 @@ class mypurchaseAction extends userBaseAction{
 				$this->db->rollback();
 				$this->error('操作失败');
 			}
-			$this->db->commit();
+			$this->db->model('sale_buy')->commit();
 			$this->success('操作成功');
 
 		}
