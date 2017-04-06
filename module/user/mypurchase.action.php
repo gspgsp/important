@@ -257,7 +257,6 @@ class mypurchaseAction extends userBaseAction{
 			$this->db->startTrans();  //开启事物
 			try{
 				$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'status'=>3));
-
 //				$orderSn='UO'.genOrderSn();
 				$orderData=array();
 //				$orderData['order_name']="联营订单";
@@ -296,15 +295,16 @@ class mypurchaseAction extends userBaseAction{
 				if(!$orderDetail->where('o_id='.$var)->update($detail_data)) throw  new Exception('订单明细更新失败，请重试');
 				$model->where("p_id={$data['p_id']}")->update(array('status'=>8,'update_time'=>CORE_TIME));//更新其他报价为未选中
 				$model->where("id=$id")->update(array('status'=>3,'update_time'=>CORE_TIME));//更新选中状态
-				$this->db->commit();
+
+				$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
+				$msg=L('msg_template.union_order');
+				$msg=sprintf($msg,$modelName,$price,$var);
+				M("system:sysMsg")->sendMsg($data['user_id'],$msg,5);//联营订单站内信
 			}catch (Exception $e){
 				$this->db->rollback();
 				$this->error('操作失败');
 			}
-			$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
-			$msg=L('msg_template.union_order');
-			$msg=sprintf($msg,$modelName,$price,$var);
-			M("system:sysMsg")->sendMsg($data['user_id'],$msg,5);//联营订单站内信
+			$this->db->commit();
 			$this->success('操作成功');
 
 		}
