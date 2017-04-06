@@ -27,14 +27,16 @@
             </div>
             <table>
             	<tr>
-                	<td width="100">公司名称：</td>
+                    {if $data.type eq 1}
+                    <td width="100">公司名称(甲方)：</td>
+                    {elseif $data.type eq 2}
+                    <td width="100">公司名称(乙方)：</td>
+                    {else}
+                    <td width="100">公司名称：</td>
+                    {/if}
                     <td width="208">{$data.c_name}</td>
-                    <td width="100">联<i></i>系<i></i>人：</td>
-                    <td width="208">{$data.name}</td>
-                </tr>
-                <tr>
-                	<td>联系电话：</td>
-                    <td>{$data.mobile}</td>
+                    <!--<td width="100">联<i></i>系<i></i>人：</td>-->
+                    <!--<td width="208">{$data.name}</td>-->
                     <td>现货/期货：</td>
                     <td>
                         {if $data.cargo_type==1}
@@ -44,6 +46,7 @@
                         {/if}
                     </td>
                 </tr>
+
                 <tr>
                 	<td>品<b></b>种：</td>
                     <td>{$data.product_type}</td>
@@ -84,7 +87,18 @@
                 	<td>数<b></b>量<span class="red">*</span>：</td>
                     <td><input type="text" class="req" id="number" readonly="true" datatype="*" value="{$data.number}" name="number" data-id="{$data.number}"/>吨</td>
                     <td>预期价格<span class="red">*</span>：</td>
-                    <td><input type="text" class="req" datatype="*" value="{$data.unit_price}" name="price" data-id="{$data.user_id}"/>元／吨</td>
+                    <td><input type="text" class="req" datatype="*" value="{$data.unit_price}" name="price" data-id="{$data.user_id}" readonly="true"/>元／吨</td>
+                </tr>
+                <tr>
+                    <td>付款方式<span class="red">*</span>：</td>
+                    <td>
+                        <select datatype="*" name="pay_method" class="req">
+                            <option value="">请选择</option>
+                            {foreach from=$pay_method item=value key=key}
+                            <option value="{$key}">{$value}</option>
+                            {/foreach}
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>交<i></i>货<i></i>地：</td>
@@ -99,6 +113,7 @@
         <div class="buy-btn">
             <input type="hidden" name="pur_id" value="{$data.id}">
             <input type="hidden" name="user_id" value="{$data.user_id}">
+            <input type="hidden" name="type" value="{$data.type}">
         	<button onclick="submitFrom()">提交</button>
             <button><a class="btn" href="/offers">返回</a></button>
             

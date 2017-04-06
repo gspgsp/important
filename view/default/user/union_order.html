@@ -139,7 +139,7 @@
                         {if $value.transport_type==1}
                         <b>交货时间：</b><span>{$value.delivery_time|date:Y-m-d }</span>
                         {else}
-                        <b>交货时间：</b><span>{$value.pickup_time|date:Y-m-d }</span>
+                        <b>交货时间：</b><span>{$value.delivery_time|date:Y-m-d }</span>
                         {/if}
                     </li>
                     <li class="status">

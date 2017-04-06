@@ -247,56 +247,63 @@ class mypurchaseAction extends userBaseAction{
 		{
 			$this->is_ajax=true;
 			$model=$this->db->model('sale_buy');
-			$id=sget('id','i',0);//sale_buy的报价id(9760)
+			$id=sget('id','i',0);//sale_buy的报价id
 			$price=sget('price');//成交价格
 			if( !$data=$model->where("id=$id")->getRow() ) $this->error('信息不存在');//根据id信息未找到
 			$purModel=M('product:purchase');
 			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');//报价表与用户不匹配
 			if($purData['last_buy_sale']) $this->error('不能重复选定');
 			$orderModel=M('product:unionOrder');
-
+			$this->db->startTrans();  //开启事物
+			try{
 				$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'status'=>3));
-				$orderSn='UO'.genOrderSn();
-				$orderData=array();
-				$orderData['order_name']="联营订单";
-				$orderData['order_sn']=$orderSn;
-				$orderData['order_source']=1;
-				$orderData['sale_id']=$purData['c_id'];//卖家客户
-				$orderData['buy_id']=$data['c_id'];//买家客户
-				$orderData['sale_user_id']=$purData['user_id'];//卖家客户
-				$orderData['buy_user_id']=$data['user_id'];//买家客户
-				$orderData['p_sale_id']=$id;//sale_buy的报价id
-				$orderData['sign_time']=CORE_TIME;
-				$orderData['sign_place']='网站签约';
-				$orderData['deal_price']=$price;//成交价格
-				$orderData['total_price']=$price*$data['number'];//总金额
-				$orderData['customer_manager']=$purData['customer_manager'];//交易员
-				$orderData['pickup_location']=$data['delivery_place'];//提货地点
-				$orderData['delivery_location']=$data['delivery_place'];//送货地点
-				$orderData['transport_type']=$data['ship_type'];//运输方式
-				$orderData['deal_price']=$price;//成交价格
-				$orderData['pickup_time']=$data['delivery_date'];//提货时间
-				$orderData['delivery_time']=$data['delivery_date'];//送货时间
-				$orderData['input_time']=CORE_TIME;//成交时间
-				$orderModel->add($orderData);
-				$o_id=$orderModel->getLastID();
 
+//				$orderSn='UO'.genOrderSn();
+				$orderData=array();
+//				$orderData['order_name']="联营订单";
+//				$orderData['order_sn']=$orderSn;
+//				$orderData['order_source']=1;
+//				$orderData['sale_id']=$purData['c_id'];//卖家客户
+//				$orderData['buy_id']=$data['c_id'];//买家客户
+//				$orderData['sale_user_id']=$purData['user_id'];//卖家客户
+//				$orderData['buy_user_id']=$data['user_id'];//买家客户
+//				$orderData['p_sale_id']=$id;//sale_buy的报价id
+//				$orderData['sign_time']=CORE_TIME;
+//				$orderData['sign_place']='网站签约';
+//				$orderData['deal_price']=$price;//成交价格
+//				$orderData['total_price']=($price*$data['number']);//总金额
+//				$orderData['customer_manager']=$purData['customer_manager'];//交易员
+//				$orderData['pickup_location']=$data['delivery_place'];//提货地点
+//				$orderData['delivery_location']=$data['delivery_place'];//送货地点
+//				$orderData['transport_type']=$data['ship_type'];//运输方式
+				$orderData['deal_price']=$price;//成交价格
+				$orderData['total_price']=($price*$data['number']);//总金额
+//
+				$info=$orderModel->where('p_sale_id='.$id)->update($orderData);
+
+				if(!$info) throw  new Exception('订单选中失败，请重试一次');
+				$var=$orderModel->select('id')->where('p_sale_id='.$id)->getOne();
+//
 				$orderDetail=M('product:unionOrderDetail');
 				$detail_data=array(
-					'o_id'=>$o_id,
+					'o_id'=>$var,
 					'p_id'=>$purData['p_id'],
 					'number'=>$data['number'],
 					'unit_price'=>$price,
 					'input_time'=>CORE_TIME,
 				);
-				$orderDetail->add($detail_data);
 
+				if(!$orderDetail->where('o_id='.$var)->update($detail_data)) throw  new Exception('订单明细更新失败，请重试');
 				$model->where("p_id={$data['p_id']}")->update(array('status'=>8,'update_time'=>CORE_TIME));//更新其他报价为未选中
 				$model->where("id=$id")->update(array('status'=>3,'update_time'=>CORE_TIME));//更新选中状态
-
+				$this->db->commit();
+			}catch (Exception $e){
+				$this->db->rollback();
+				$this->error('操作失败');
+			}
 			$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
 			$msg=L('msg_template.union_order');
-			$msg=sprintf($msg,$modelName,$price,$o_id);
+			$msg=sprintf($msg,$modelName,$price,$var);
 			M("system:sysMsg")->sendMsg($data['user_id'],$msg,5);//联营订单站内信
 			$this->success('操作成功');
 

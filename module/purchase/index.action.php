@@ -164,11 +164,16 @@ class indexAction extends homeBaseAction{
 	 */
 	public function wantBuy(){
 		$purId=sget('purid','i');
+		$data=M('product:purchase')->getPurchaseById($purId);
+		if($_SESSION['uinfo']['type']==2 &&$data['type']==1 ) $this->error('买家不能进行此操作');
+		if($_SESSION['uinfo']['type']==1 &&$data['type']==2 ) $this->error('卖家不能进行此操作');
 		$var=$this->db->model('purchase as pur')
+			->join('customer as cus','cus.c_id=pur.c_id')
+			->join('customer_contact as con','cus.c_id=con.c_id')
 			->leftjoin('product as pro','pur.p_id=pro.id')
 			->leftjoin('factory as fac','fac.fid=pro.f_id')
 			->leftjoin('lib_region as r','r.id=pur.store_house')
-			->select('pur.id,pur.p_id,pro.model,pur.user_id,pur.c_id,pur.number,pur.cargo_type,pur.store_house,pro.product_type,pro.process_type,pur.unit_price,fac.f_name,r.name')->where('pur.id='.$purId)->getRow();
+			->select('pur.id,pur.p_id,pro.model,pur.user_id,pur.c_id,pur.number,pur.cargo_type,pur.store_house,pro.product_type,pro.process_type,pur.unit_price,pur.type,fac.f_name,r.name,cus.c_name,con.name as con_name')->where('pur.id='.$purId)->getRow();
 		$var['city_name']=(!empty($var['name']))?$var['name']:$var['store_house'];
 		$this->area=M('system:region')->get_regions(1);//地区
 		$this->transport_type=L('transport_type');

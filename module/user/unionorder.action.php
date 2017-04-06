@@ -78,12 +78,12 @@ class unionorderAction extends userBaseAction{
 			->order('input_time desc')
 			->getPage();
 //		    ->getAll();
-
 		$this->pages = pages($orderList['count'], $page, $size);
 		foreach ($orderList['data'] as &$value) {
 			$value['totalNum']=$this->db->model('union_order_detail')->where("o_id={$value['id']}")->select("sum(number)")->getOne();
 			$value['c_name']=$this->db->model('customer')->where("c_id={$value['sale_id']}")->select('c_name')->getOne();
 		}
+
 		$this->assign('orderList',$orderList);
 		$this->display('union_order');
 	}
@@ -100,9 +100,10 @@ class unionorderAction extends userBaseAction{
 		$order=$this->db->from('union_order o')
 			->join('admin ad','o.customer_manager=ad.admin_id')
 			->leftjoin('collection as col','o.id=col.o_id')
+			->leftjoin('lib_region as r','r.id=o.delivery_location')
 			->select('o.id,o.order_name,o.sale_id,o.customer_manager,o.total_price,o.pay_method
-			,o.sign_place,o.sign_time,o.pickup_location,o.delivery_location,o.collection_status,o.transport_type
-			,o.freight_price,o.pickup_time,o.delivery_time,o.order_sn,o.order_status,o.input_time,ad.name,ad.mobile,col.payment_time')
+			,o.sign_place,o.sign_time,o.pickup_location,,o.collection_status,o.transport_type
+			,o.freight_price,o.pickup_time,o.delivery_time,o.order_sn,o.order_status,o.input_time,ad.name,ad.mobile,col.payment_time,r.name')
 			->where("o.id=$id and buy_user_id={$this->user_id}")
 			->getRow();
 
@@ -116,7 +117,6 @@ class unionorderAction extends userBaseAction{
 		foreach ($sale_log as $key => &$value) {
 			$value['totalPrice']=$value['number']*$value['unit_price'];
 		}
-
 		$this->assign('order',$order);
 		$this->assign('sale_log',$sale_log);
 		$this->display('union_order.detail');

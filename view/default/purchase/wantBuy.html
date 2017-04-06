@@ -22,7 +22,7 @@
 		.want-supply .want-inner .form-tr .tr div{ height:40px; float:left;}
 		.want-supply .want-inner .form-tr .tr input,.want-supply .left .form-tr .tr select{ width:175px; height:26px; border:1px solid #ccc; margin:6px 5px 0 20px; padding:0 0 0 10px;}
 		.want-supply .want-inner .form-tr .tr select{ width:187px; height:26px; border:1px solid #ccc; margin:6px 0 0 20px;}
-		.want-supply .want-inner .form-tr .tr .name{ width:100px; text-align:right;}
+		.want-supply .want-inner .form-tr .tr .name{ width:108px; text-align:right;}
 		.want-supply .want-inner .form-tr .tr .name span{ margin:0 13px;}
 		.want-supply .want-inner .form-tr .tr .name b{ margin:0 3px;}
 		.want-supply .want-inner .form-tr .tr .val{ width:208px;}
@@ -61,6 +61,14 @@
 			<form name=""  id="talkForm" onSubmit="return false;" method="post" action="">
 				<!--form-tr begin-->
 				<div class="form-tr">
+					<!--tr begin-->
+					<div class="tr">
+						<div class="company" name="model">公司名称（乙方）：</div>
+						<div class="val">{$info.c_name}</div>
+						<div class="name" name="factory">联系人：</div>
+						<div class="val">{$info.con_name}</div>
+					</div>
+					<!--tr end-->
 					<!--tr begin-->
 					<div class="tr">
 						<div class="name" name="model">牌<span></span>号：</div>
@@ -114,6 +122,19 @@
 					</div>
 					<!--tr end-->
 					<!--tr begin-->
+					<div class="tr">
+
+						<div class="name">付款方式<span class="red">*</span>：</div>
+						<div class="val">
+							<select datatype="*" name="pay_method" class="req">
+								{foreach from=$transport_type item=value key=key}
+								<option value="{$key}">{$value}</option>
+								{/foreach}
+							</select>
+						</div>
+					</div>
+					<!--tr end-->
+					<!--tr begin-->
 					<div class="tr remark" name="remark">
 						<div class="name">备<span></span>注：</div>
 						<div class="val" >
@@ -133,6 +154,8 @@
 				<div>
 					<input type="hidden" name="pur_id" value="{$info.id}"/>
 					<input type="hidden" name="user_id" value="{$info.user_id}">
+					<input type="hidden" name="type" value="{$info.type}">
+					<input type="hidden" name="number" value="{$info.number}">
 				</div>
 			</form>
 		</div>

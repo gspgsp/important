@@ -63,7 +63,7 @@
         <div class="menu supply">
             <h3>我的供应</h3>
             <p {if $act=='myoffers'}class="hover"{/if}><a href="/user/myoffers">报价发布</a></p>
-            <p {if $act=='offerlist'}class="hover"{/if}><a href="javascript:;">报价管理</a></p>
+            <p {if $act=='offerlist'}class="hover"{/if}><a href="/user/myoffers/lists">报价管理</a></p>
             <p {if $act=='supply'}class="hover"{/if}><a href="/user/myoffers/supply">我的供货</a></p>
         </div>
 
@@ -220,9 +220,9 @@
                 <!--pic begin-->
                 <div class="pic">
                     {if $data.pic}
-                    <img  width="88" height="88" src="__UPLOAD__/{$data.pic}"/>
+                    <img  width="102" height="102" src="__UPLOAD__/{$data.pic}"/>
                     {else}
-                    <img  width="88" height="88" src="__IMG__/home/trade_image_defaul.png"/>
+                    <img  width="102" height="102" src="__IMG__/home/trade_image_defaul.png"/>
                     {/if}
                 </div>
                 <!--pic end-->
