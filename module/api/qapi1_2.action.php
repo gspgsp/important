@@ -2364,6 +2364,67 @@ class qapi1_2Action extends null2Action
         $this->_errCode (6);
     }
 
+
+    /**
+     * 新版兑换置顶
+     * @param goods_id
+     * @param num
+     * @param pur_id
+     *
+     * @return json
+     */
+    public function new_exchangeSupplyOrDemand()
+    {
+        $this->is_ajax = true;
+        if ($_GET) {
+            $user_id = $this->checkAccount();
+            /*if (!in_array ($type, array( 0, 1, 2 ))) {
+                $this->json_output (array( 'err' => 11, 'msg' => 'type参数错误' ));
+            }*/
+            $goods_id = sget('goods_id', 'i');   //所需要的商品的id
+            $num = sget('num', 'i');   //所需要的商品的id
+            $pur_id = sget('pur_id', 'i', 0);
+
+            if ($goods_id < 1) {
+                $this->json_output(array('err' => 12, 'msg' => 'goods_id参数错误'));
+            }
+
+            $pointsOrder = M("points:pointsOrder");
+            $is_exist = $pointsOrder->get_supply_demand_top($goods_id);
+            if ($is_exist) {
+                $this->json_output(array('err' => 12, 'msg' => '有人抢先一步'));
+            }
+            $pointsRow = M('public:common')
+                ->from("points_goods")
+                ->select("points,name,cate_id")
+                ->where("status = 1 and receive_num < num and id = $goods_id")
+                ->getRow();
+            $point = (int)$pointsRow['points'];
+
+            $_orderData = array(
+                'status' => 5,
+                'create_time' => CORE_TIME,
+                'order_id' => $this->buildOrderId(),
+                'goods_id' => $goods_id,
+                'uid' => $user_id,
+                'usepoints' => $point * $num,
+                'remark' => $pointsRow['name'],
+                'num' => $num,
+                'pur_id' => $pur_id,
+                'outpu_time'=>CORE_TIME + $num*24*60*60,
+            );
+            if ($goods_id < 10) {
+                $_orderData['status'] = 1;
+            }
+            if (!$pointsOrder->add($_orderData)) {
+                //throw new Exception('系统错误，无法兑换。code:101');
+                $this->json_output(array('err' => 101, 'msg' => '系统错误，无法兑换。'));
+            }
+            $this->json_output(array('err' => 0));
+        }
+
+    }
+
     //生产订单号
     protected function buildOrderId ()
     {
