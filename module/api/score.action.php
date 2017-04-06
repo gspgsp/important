@@ -13,16 +13,12 @@ class scoreAction extends null2Action
     public function __init()
     {
         $data = spost('data', 's');
-        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
         if (!empty($data)) {
            $mcrypt = E('mcrypt1', APP_LIB . 'class');
-            file_put_contents('/tmp/xielei.txt',print_r($mcrypt,true)."\n",FILE_APPEND);
 
             $param = $mcrypt->decrypt($data);
-            file_put_contents('/tmp/xielei.txt',print_r($param,true)."\n",FILE_APPEND);
 
             $this->param = json_decode($param, true);
-            file_put_contents('/tmp/xielei.txt',print_r($this->param,true)."\n",FILE_APPEND);
         }
     }
 
@@ -31,34 +27,34 @@ class scoreAction extends null2Action
         $this->json_output($this->param);
     }
 
-//    public function get_score_config()
-//    {
-//        $token         = $this->param['token'];
-//        if (empty($token)) {
-//            $this->json_output(array('ok'=>1,'msg'=>'用户尚未登录'));
-//
-//        } else {
-//            $user_id = M ('qapp:appToken')->chkToken ($token);
-//            if (empty($user_id)) {
-//                $this->json_output(array('ok'=>1,'msg'=>'登录信息错误'));
-//            }
-//
-//            $login_count = M('user:passport')->get_log_login($user_id);
-//
-//        }
-//
-//        $settings=M('system:setting')->getSetting();
-//        $score_settings= array_flip(array('score_per_day','score_login','score_recommend'));
-//
-//        foreach($score_settings as $key => $value)
-//        {
-//
-//            $score_settings[$key] = $settings[$key];
-//        }
-//        $score_settings['login_today'] = $login_count['today'];
-//
-//        $this->json_output($score_settings);
-//    }
+    public function get_score_config()
+    {
+        $token         = $this->param['token'];
+        if (empty($token)) {
+            $this->json_output(array('ok'=>1,'msg'=>'用户尚未登录'));
+
+        } else {
+            $user_id = M ('qapp:appToken')->chkToken ($token);
+            if (empty($user_id)) {
+                $this->json_output(array('ok'=>1,'msg'=>'登录信息错误'));
+            }
+
+            $login_count = M('user:passport')->get_log_login($user_id);
+
+        }
+
+        $settings=M('system:setting')->getSetting();
+        $score_settings= array_flip(array('score_per_day','score_login','score_recommend'));
+
+        foreach($score_settings as $key => $value)
+        {
+
+            $score_settings[$key] = $settings[$key];
+       }
+        $score_settings['login_today'] = $login_count['today'];
+
+        $this->json_output($score_settings);
+    }
 
     /**
      * 2017-4-5 11:48:04
