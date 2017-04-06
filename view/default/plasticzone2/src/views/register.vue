@@ -52,10 +52,12 @@
 			</div>
 			<div class="registerBox">
 				<strong><span>*</span>主营品种:</strong>
-				<input type="text" placeholder="请输入您的主营品种" v-model="model" />
-				<select v-on:click="searchModel" style=" position: absolute; left: 210px; top: 10px; width: 20px;">
-					<option v-for="m in modelArr" v-bind:value="m.model">{{m.model}}</option>
-				</select>
+				<input type="text" placeholder="请输入您的主营品种进行匹配" v-model="model" v-on:input="suggestTxt" />
+				<div class="suggest" v-show="suggestShow">
+					<ul>
+						<li v-for="m in modelArr">{{m.model}}</li>
+					</ul>
+				</div>
 			</div>
 			<div class="registerBox">
 				<strong><span>*</span>企业类型:</strong>
@@ -73,14 +75,6 @@
 	<div class="registerBtn">
 		<input type="button" v-on:click="reg" value="提交注册信息" />
 	</div>
-	
-	<input list="cars" />
-<datalist id="cars">
-	<option value="BMW">
-	<option value="Ford">
-	<option value="Volvo">
-</datalist>
-	
 </div>
 </template>
 <script>
@@ -101,28 +95,37 @@ module.exports = {
 			selected: 0,
 			selected2: 0,
 			model: "",
-			modelArr: []
+			modelArr: [],
+			suggestShow:false
 		}
 	},
 	methods: {
-		searchModel: function() {
+		suggestTxt:function(){
 			var _this = this;
-			$.ajax({
-				url: '/api/qapi1_2/getModel',
-				type: 'post',
-				data: {
-					keywords: _this.model
-				},
-				dataType: 'JSON'
-			}).done(function(res) {
-				if(res.err == 0) {
-					_this.modelArr = res.data;
-				}
-			}).fail(function() {
-
-			}).always(function() {
-
-			});
+			if (_this.model==0) {
+				_this.suggestShow=false;
+			} else{
+				$.ajax({
+					url: '/api/qapi1_2/getModel',
+					type: 'post',
+					data: {
+						keywords: _this.model
+					},
+					dataType: 'JSON'
+				}).done(function(res) {
+					if(res.err == 0) {
+						_this.suggestShow=true;
+						_this.modelArr = res.data;
+					}else if(res.err==2){
+						_this.modelArr=[{model: "未搜到您所输入的品种"}];
+					}
+				}).fail(function() {
+	
+				}).always(function() {
+	
+				});					
+			}
+		
 		},
 		sendCode: function() {
 			var _this = this;
