@@ -66,7 +66,7 @@ class plasticPersonModel extends model
     {
         $operMobi = array('13900000001', '13900000002', '13900000003', '13900000004', '13900000005', '13900000006', '13900000007', '13900000008', '13900000009');
         $operMobi = implode (',', $operMobi);
-        $where = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi)";
+        $where = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial = 1 and con.is_trial = 0 ";
         $userids = array();
         if ($sortField == 'default') {
             $orderStr = '';
