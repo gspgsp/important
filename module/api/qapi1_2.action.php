@@ -316,7 +316,11 @@ class qapi1_2Action extends null2Action
                         if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
                             //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
                             throw new Exception("系统错误 reg:112");
-                        }
+                        }//引荐加积分
+                        if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
+                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                            throw new Exception("系统错误 reg:112");
+                        }//注册加积分
                     }
                     $mobile_area = getCityByMobile ($mobile);
                     $_info       = array(
@@ -1405,7 +1409,7 @@ class qapi1_2Action extends null2Action
     public function saveSelfInfo()
     {
         $this->is_ajax = true;
-        if ($_GET) {
+        if ($_POST) {
             $user_id = $this->checkAccount();
             $data = sget('data','a');
             if(empty($data)) $this->_errCode(6);
@@ -1571,7 +1575,7 @@ class qapi1_2Action extends null2Action
      *
      * @return int|string
      */
-    protected function checkAccount ($type = 1)
+    public function checkAccount ($type = 1)
     {
         $this->is_ajax = true;
         $token         = sget ('token', 's');
@@ -3091,7 +3095,7 @@ class qapi1_2Action extends null2Action
                 unset($_tmp[$key]);
             }unset($row['pid']);
         }
-        array_unshift($_tmp,$_tmpRow);
+        if(!empty($_tmpRow)) array_unshift($_tmp,$_tmpRow);
         $this->cache->set('getqappRegion'.$pid,serialize($_tmp),$this->randomMdTime);
         $this->json_output(array('err'=>0,'data'=>$_tmp));
     }
