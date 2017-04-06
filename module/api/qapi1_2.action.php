@@ -633,16 +633,34 @@ class qapi1_2Action extends null2Action
                          ->add ($arr);
             };
         }//showTrace();exit;
+        $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
+        //var_dump($goods_id);
+        $pointsOrder = M("points:pointsOrder");
+
+        $contact_id= $pointsOrder->get_supply_demand_top($goods_id);
+
+        if($contact_id){
+            $top = M ('qapp:plasticPersonalInfo')->getMyPlastic($contact_id);
+        }
         if ($page == 1) {
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
             $members = empty($members) ? 0 : $members;
-            $this->json_output (array( 'err'     => 0,
-                                       'persons' => $data['data'],
-                                       'member'  => $members,
-                                       'data'    => CORE_TIME
-            ));
+
+            $arr= array( 'err'     => 0,
+                'persons' => $data['data'],
+                'member'  => $members,
+                'data'    => CORE_TIME
+            );
+            if(!empty($top)){
+                $arr['top']=$top;
+            }
+            $this->json_output ($arr);
         }
-        $this->json_output (array( 'err' => 0, 'persons' => $data['data'], 'data' => CORE_TIME ));
+        $arr = array( 'err' => 0, 'persons' => $data['data'], 'data' => CORE_TIME );
+        if(!empty($top)){
+            $arr['top']=$top;
+        }
+        $this->json_output ($arr);
     }
 
     //我的塑料圈
@@ -800,7 +818,20 @@ class qapi1_2Action extends null2Action
                 $this->json_output (array( 'err' => 2, 'msg' => '没有更多数据' ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =2 and status =1")->getOne();
+            $pointsOrder = M("points:pointsOrder");
+
+            $pur_id= $pointsOrder->get_supply_demand_top($goods_id);
+
+            $arr = array( 'err' => 0, 'data' => $data['data']);
+
+            if($pur_id){
+
+                $top = M("qapp:plasticMyMsg")->getPk($pur_id);
+                $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
+            }
+
+            $this->json_output ($arr);
         }
         $this->_errCode (6);
     }
