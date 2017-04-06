@@ -22,7 +22,7 @@ class pointsOrderModel extends Model
         } else {
             $orderModel = M('points:pointsOrder');
 
-            $info = $orderModel->select("*")->where("outpu_time > " . time() . " and status = 5 and goods_id =" . $goods_id)->order("outpu_time desc")->getOne();
+            $info = $orderModel->where("outpu_time > " . time() . " and status = 5 and goods_id =" . $goods_id)->order("outpu_time desc")->getRow();
 
             if (!empty($info)) {
 
