@@ -87,11 +87,6 @@
 			{/if}
 			</ul>
 		{/foreach}
-		{else}
-			<p class="track doing">待{if $type eq 1}收{else}付{/if}款</p>
-			<ul class="info">
-				<li></li>
-			</ul>
 		{/if}
 		<p class="track {if $fund4}done{else}doing{/if}">全部{if $type eq 1}收{else}付{/if}款</p>
 		<ul class="info">
@@ -148,11 +143,6 @@
 			{/if}
 			</ul>
 		{/foreach}
-		{else}
-			<p class="track doing">待{if $type eq 1}开{else}收{/if}票</p>
-			<ul class="info">
-				<li></li>
-			</ul>
 		{/if}
 		<p class="track {if $tick4}done{else}doing{/if}">全部{if $type eq 1}开{else}收{/if}票</p>
 		<ul class="info">
