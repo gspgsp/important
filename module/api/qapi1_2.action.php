@@ -2105,18 +2105,19 @@ class qapi1_2Action extends null2Action
      */
     public function pointsRule ()
     {
-        if ($_POST) {
-            $this->is_ajax = true;
-            $this->checkAccount ();
-            $salePoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-            $purPoints  = intval (M ('system:setting')->get ('points')['points']['pur']);
-            $rule       = '';
-            $rule .= '<span>1. 每日发布报价/求购一条，增加'.$salePoints.'/'.$purPoints.'积分</span><br />';
-            $rule .= '<span>2. 与我的塑料网成交后自动累计积分，买的多送的多</span><br />';
-            $rule .= '<span>3. 积分商城积分兑换的商品不但免费还免运费</span>';
-            $this->json_output (array( 'err' => 0, 'rule' => $rule ));
-        }
-        $this->_errCode (6);
+        $this->display('plasticzone/points_rule.html');
+//        if ($_POST) {
+//            $this->is_ajax = true;
+//            $this->checkAccount ();
+//            $salePoints = intval (M ('system:setting')->get ('points')['points']['sale']);
+//            $purPoints  = intval (M ('system:setting')->get ('points')['points']['pur']);
+//            $rule       = '';
+//            $rule .= '<span>1. 每日发布报价/求购一条，增加'.$salePoints.'/'.$purPoints.'积分</span><br />';
+//            $rule .= '<span>2. 与我的塑料网成交后自动累计积分，买的多送的多</span><br />';
+//            $rule .= '<span>3. 积分商城积分兑换的商品不但免费还免运费</span>';
+//            $this->json_output (array( 'err' => 0, 'rule' => $rule ));
+//        }
+//        $this->_errCode (6);
     }
 
     /*
