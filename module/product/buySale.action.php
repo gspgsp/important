@@ -82,9 +82,9 @@ class buySaleAction extends adminBaseAction {
 				$result = M('user:customer')->getInfoByCname('c_name',$keyword);
 				$result = implode($result,',');
 				if($key_type == 'saleid'){
-					$where.=" and sb.c_id in ($result) ";
+					$where.=" and p.c_id in ($result) ";//因为purchase表存的是卖家的c_id
 				}else{
-					$where.=" and p.c_id in ($result) ";
+					$where.=" and sb.c_id in ($result) ";//因为salebuy表存的是买家的c_id
 				}
 				
 			}else{
