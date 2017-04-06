@@ -145,9 +145,9 @@ class sysSMSModel extends model{
 		if(empty($mcode)){
 			$mcode=mt_rand(100820,999560);
 			$cache->set($mobile.'mcode',$mcode.'.'.$mobile,300);
-			$cache->set($mobile.'mctime',CORE_TIME,300);
-			$cache->set($mobile.'mctype',$stype,300);
 		}
+		$cache->set($mobile.'mctime',CORE_TIME,300);
+		$cache->set($mobile.'mctype',$stype,300);
 		$msg=sprintf(L('sms_template.dynamic_code'),$mcode);
 		return array('err'=>0,'msg'=>$msg);
 	}
