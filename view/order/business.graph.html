@@ -34,10 +34,14 @@
     //提交表单
     mini.parse();
     submitForm('daily');
-    function submitForm(type) {
+    function submitForm(type) {   	
         var form = new mini.Form("#info");
         var data = form.getData();//获取表单多个控件的数据
         if (data.date_year == 'all' && type !== 'daily') {
+            alert('请先选择年份');
+            return false;
+        }
+        if (data.date_year == '0' && type !== 'daily') {
             alert('请先选择年份');
             return false;
         }
