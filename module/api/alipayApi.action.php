@@ -4,7 +4,7 @@ class alipayApiAction extends null2Action{
 
     public function __init(){}
 
-    public function alipaySome(){ 
+    public function alipaySome(){ p(ddd);exit;
         require_file(APP_LIB.'extend/alipay-sdk-PHP/AopSdk.php');
         $aop = new AopClient();
         $aop->gatewayUrl = 'https://openapi.alipaydev.com/gateway.do';
