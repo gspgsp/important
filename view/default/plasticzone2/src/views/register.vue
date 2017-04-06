@@ -73,6 +73,14 @@
 	<div class="registerBtn">
 		<input type="button" v-on:click="reg" value="提交注册信息" />
 	</div>
+	
+	<input list="cars" />
+<datalist id="cars">
+	<option value="BMW">
+	<option value="Ford">
+	<option value="Volvo">
+</datalist>
+	
 </div>
 </template>
 <script>
