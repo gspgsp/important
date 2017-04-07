@@ -10,20 +10,25 @@ class customerContactModel extends model{
 	//添加用户联系人或者是公司
 	public function customerAdd($param=array(),$info=array()){
 		if($info['ctype']==1){
-			$uid = $info['info_user_id']>0 ? $info['info_user_id'] : 0;
+			$uid = 0;
+			if($info['info_user_id'] > 0){
+				$uid = $info['info_user_id'];
+			}else if($info['user_id'] > 0){
+				$uid = $info['user_id'];
+			}
 			if(!empty($param['mobile'])){
 				if(!is_mobile($param['mobile'])){
 					return array('err'=>1,'msg'=>'您的手机号码格式不正确');
 				}
 				if(!$this->usrUnique('mobile',$param['mobile'],$uid)){
-					return array('err'=>1,'msg'=>'手机号已存在');
+					return array('err'=>1,'msg'=>'手机号已存在22');
 				}
 			}
 			//email检查
 			if(!empty($param['email'])){
 				if(!is_email($param['email'])){
 					return array('err'=>1,'msg'=>'email格式不正确');
-				}	
+				}
 				if(!$this->usrUnique('email',$param['email'],$uid)){
 					return array('err'=>1,'msg'=>'email已存在');
 				}
@@ -35,7 +40,7 @@ class customerContactModel extends model{
 					return array('err'=>1,'msg'=>'qq号码已存在111');
 				}
 			}
-		}else{    
+		}else{
 			$uid = $info['info_user_id']>0 ? $info['info_user_id'] : 0;
 			$cid = $info['c_id']>0 ? $info['c_id'] : 0;
 			$info['business_licence'] = empty($info['business_licence']) ? $info['business_licence1'] : $info['business_licence'];
@@ -77,7 +82,7 @@ class customerContactModel extends model{
 			if(!empty($param['info_mobile'])){
 				if(!is_mobile($param['info_mobile'])){
 					return array('err'=>1,'msg'=>'您的手机号码格式不正确');
-				}	
+				}
 				if(!$this->usrUnique('mobile',$param['info_mobile'],$uid)){
 					return array('err'=>1,'msg'=>'手机号已存在');
 				}
@@ -86,7 +91,7 @@ class customerContactModel extends model{
 			if(!empty($param['info_email'])){
 				if(!is_email($param['info_email'])){
 					return array('err'=>1,'msg'=>'email格式不正确');
-				}	
+				}
 				if(!$this->usrUnique('email',$param['info_email'],$uid)){
 					return array('err'=>1,'msg'=>'email已存在');
 				}
@@ -112,7 +117,7 @@ class customerContactModel extends model{
 				'remark'=>$info['info_remark'],
 				'status'=>$info['info_status'],
 				'is_default'=>1,
-			); 
+			);
 		}
 		$info['c_name'] = str_replace(' ','',trim($info['c_name']));
 		$info['info_name'] = str_replace(' ','',trim($info['info_name']));
@@ -132,8 +137,11 @@ class customerContactModel extends model{
 			$data['credit_time'] =  CORE_TIME ;
 		}
 		if($info['ctype']==1 && $info['user_id']>0){
+			$yanshi = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->getRow();
 			//更新联系人
 			$result = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->update($info+$data);
+				$remarks = "客户联系人修改:".date('Y-m-d H:i:s',time());
+				M('user:customerLog')->addLog($info['c_id'],'register',serialize($yanshi),serialize($info+$_data),1,$remarks);
 		}else if($info['ctype']==3 && $info['info_user_id']>0 && $info['c_id']>0){
 			$old_info = $this->model('customer')->where("c_id = ".$info['c_id'])->getRow();
 			//更新公司信息和联系人
@@ -150,9 +158,13 @@ class customerContactModel extends model{
 				//查询如果没有联系人
 				$find = $this->model('customer_contact')->where("c_id = {$info['c_id']}")->getRow();
 				if(!$find) $this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$contract_id));
+				//新增客户流转记录日志----S
+				$remarks = "客户联系人新增:".date('Y-m-d H:i:s',time());
+				M('user:customerLog')->addLog($info['c_id'],'register','不存在',serialize($info+$_data),1,$remarks);
+				//新增客户流转记录日志----E
 			}else{
 				$this->startTrans();
-					if(empty($info['type'])) $this->error('客户类型为必填选项'); 
+					if(empty($info['type'])) $this->error('客户类型为必填选项');
 					$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>5,));
 					$contact_id = $this->getLastID();
 					$this->model('customer')->add($info+$_data+array('contact_id'=>$contact_id,));
