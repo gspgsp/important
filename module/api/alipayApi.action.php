@@ -4,7 +4,7 @@ class alipayApiAction extends null2Action{
 
     public function __init(){}
 
-    public function alipaySome(){ 
+    public function alipaySome(){
         require_file(APP_LIB.'extend/alipay-sdk-PHP/AopSdk.php');
         $aop = new AopClient();
         $aop->gatewayUrl = 'https://openapi.alipaydev.com/gateway.do';
@@ -16,7 +16,7 @@ class alipayApiAction extends null2Action{
         $aop->format='json';
         $aop->signType='RSA2';
         $request = new AlipayTradeWapPayRequest ();
-        $request->setReturnUrl("http://www.nsuliao.com/api/qapi1_1/init");
+        $request->setReturnUrl("http://test.myplas.com/api/qapi1_1/init");
         $sno='so'.time().'sssss';
         $request->setBizContent("{" .
             "    \"body\":\"对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。\"," .
