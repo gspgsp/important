@@ -2647,7 +2647,7 @@ class qapi1_1Action extends null2Action
 
             if($goods_info['type']==1&&empty($pur_id))
             {
-                $this->json_output(array('err' => 12, 'msg' => '参数错误'));
+                $this->json_output(array('err' => 21, 'msg' => '请选择您要置顶的供求信息'));
             }
 
             $user = M ('public:common')->model ('contact_info');
