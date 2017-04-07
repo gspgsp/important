@@ -4,6 +4,7 @@
  */
 class customerAction extends adminBaseAction {
 	public function __init(){
+		ini_set('display_errors','On');
 		$this->debug = false;
 		$this->assign('status',L('status'));// 联系人用户状态
 		$this->assign('type',L('company_type'));//工厂类型
@@ -160,6 +161,15 @@ class customerAction extends adminBaseAction {
 			}elseif($key_type=='customer_manager'){
 				$adms = join(',',M('rbac:adm')->getIdByName($keyword));
 				$where.=" and $key_type in ($adms) ";
+				$sons = explode(',',M('rbac:rbac')->getSons($_SESSION['adminid']));  //领导
+				$pass = in_array($adms,$sons);
+				if(!M('rbac:adm')->getIdByName($keyword) && $_SESSION['adminid'] != 1){
+					$this->error('<font style="color:red">查询的交易员不存在！</font>');
+				}else if(count(M('rbac:adm')->getIdByName($keyword)) > 1 && $_SESSION['adminid'] != 1){
+					$this->error('<font style="color:red">暂时不支持模糊查询交易员</font>');
+				}else if($_SESSION['adminid'] != $adms && $_SESSION['adminid'] != 1 && 	!$pass){
+					$this->error('<font style="color:red">只支持查询自己及下属哦！</font>');
+				}
 			}elseif($key_type=='need_product'){
 				$where.=" and `need_product_adm` like '%$keyword%' ";
 			}else{
@@ -171,7 +181,7 @@ class customerAction extends adminBaseAction {
 		if($cids)  $where.=" and `c_id` in ".$cids;
 		//筛选自己的客户
 		if($this->public == 0 && $this->moreChoice == 0){
-			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $key_type != 'customer_manager'){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 				// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户(原来共享不存在上下级修改为存在上下级)
 				$pools = M('user:customer')->getCidPoolCus($sons);
