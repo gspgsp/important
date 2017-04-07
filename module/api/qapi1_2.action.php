@@ -1473,6 +1473,7 @@ class qapi1_2Action extends null2Action
                     $row = $this->clearStr($row);
                     $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$row);
                     //$field=explode(",",array_map('strtoupper',$field));
+                    if(!is_string($row)) $this->json_output(array('err'=>1,'msg'=>'格式错误'));
                     $field=explode(",",$field);
                     $field=array_map('strtoupper',$field);
                     foreach($field as $key1=>$row1){
