@@ -2076,11 +2076,13 @@ class qapi1_2Action extends null2Action
                     }
                 }
             }*/
+            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
+
             foreach ($data['data'] as $k => &$v) {
-                if($v['id'] == 35 && !empty($supply_and_demand['count']))
+                if(!empty($goods_id)&&$v['id'] == $goods_id && !empty($supply_and_demand['count']))
                 {
                     $v['myMsg']=  $supply_and_demand['data'];
-                }elseif($v['id'] == 35 && empty($supply_and_demand['count']))
+                }else
                 {
                     $v['myMsg'] = array();
                 }

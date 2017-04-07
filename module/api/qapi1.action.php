@@ -1910,11 +1910,13 @@ class qapi1Action extends null2Action
             }
             $this->_checkLastPage($data['count'], $size, $page);
             $supply_and_demand = M("qapp:plasticRelease")->getReleaseMsg('', 1, 5, 0, 'ALL', 'DEMANDORSUPPLY', $user_id);
+            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
+
             foreach ($data['data'] as $k => &$v) {
-                if($v['id'] == 35 && !empty($supply_and_demand['count']))
+                if(!empty($goods_id)&&$v['id'] == $goods_id && !empty($supply_and_demand['count']))
                 {
                     $v['myMsg']=  $supply_and_demand['data'];
-                }elseif($v['id'] == 35 && empty($supply_and_demand['count']))
+                }else
                 {
                     $v['myMsg'] = array();
                 }
