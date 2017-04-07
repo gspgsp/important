@@ -2044,7 +2044,7 @@ class qapi1_2Action extends null2Action
             $size          = sget ('size', 'i', 10);
             $data          = M ("points:pointsGoods")
                 ->select ('id,cate_id,thumb,name,points')
-                ->where ("status = 1 and receive_num < num")
+                ->where ("status = 1 and receive_num < num and is_mobile =1")
                 ->order ('id desc')
                 ->page ($page, $size)
                 ->getPage ();
