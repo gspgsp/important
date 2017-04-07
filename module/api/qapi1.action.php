@@ -2300,14 +2300,21 @@ class qapi1Action extends null2Action
             $num = sget('num', 'i');   //所需要的商品的id
             $pur_id = sget('pur_id', 'i', 0);
 
-            if ($goods_id < 1) {
-                $this->json_output(array('err' => 12, 'msg' => 'goods_id参数错误'));
+            if ($goods_id < 1||$num<1) {
+                $this->json_output(array('err' => 12, 'msg' => '参数错误'));
             }
+            $goods_info =M ('public:common')->model ('points_goods')->where("id= $goods_id")->getRow();
 
+            $user = M ('public:common')->model ('contact_info');
+            if ($info = $user->where ("user_id=$user_id")->getRow ()) {
+                if (($info['quan_points'] - $num*$goods_info['points']) < 0) {
+                    $this->json_output(array('err' => 15, 'msg' => '积分不足'));
+                }
+            }
             $pointsOrder = M("points:pointsOrder");
             $is_exist = $pointsOrder->get_supply_demand_top($goods_id);
             if ($is_exist) {
-                $this->json_output(array('err' => 12, 'msg' => '有人抢先一步'));
+                $this->json_output(array('err' => 13, 'msg' => '有人抢先一步'));
             }
             $pointsRow = M('public:common')
                 ->from("points_goods")
@@ -2335,7 +2342,7 @@ class qapi1Action extends null2Action
                 //throw new Exception('系统错误，无法兑换。code:101');
                 $this->json_output(array('err' => 101, 'msg' => '系统错误，无法兑换。'));
             }
-            $this->json_output(array('err' => 0));
+            $this->json_output(array('err' => 0,'msg'=>'购买成功'));
         }
 
     }
