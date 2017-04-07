@@ -1454,11 +1454,18 @@ class qapi1_2Action extends null2Action
     public function saveSelfInfo()
     {
         $this->is_ajax = true;
-        if ($_POST) {var_dump($_POST);
+        if ($_POST) {
             $user_id = $this->checkAccount();
-            $data = sget('data','s');
-            $data=json_decode($data);p($data);exit;
-            if(empty($data)) $this->_errCode(6);
+            $_tmpAddress = sget('address','s');
+            $_tmpSex = sget('sex','s');
+            $_tmpMajor = sget('major','s');
+            $_tmpConcern = sget('concern','s');
+            $_tmpDist = sget('dist','s');
+            $data['address'] = $_tmpAddress;
+            $data['sex'] = $_tmpSex;
+            $data['major'] = $_tmpMajor;
+            $data['concern'] = $_tmpConcern;
+            $data['dist'] = $_tmpDist;
             foreach($data as $key=>&$row){
                 if($key=='address'){
                     $row=$this->clearStr($row);
