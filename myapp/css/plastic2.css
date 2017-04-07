@@ -199,6 +199,8 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .registerBox select{ padding: 0 0 0 10px; margin: 0; width: 65px; text-align: center; font-size: 13px; border: 1px solid #D9D9D9!important;}
 .registerInput:focus{ outline: none;}
 .suggest{ width: 160px; height: 140px; overflow-y: scroll; position: absolute; left: 80px; bottom: 42px; background: #FFFFFF; border: 1px solid #D9D9D9;}
+.label{ width: 100%;}
+.label span{ margin: 10px 5px 0 0; background: #ff5000; line-height: 20px; display: inline-block; font-size: 13px; border-radius: 4px; padding: 3px 5px; color: #FFFFFF;}
 .suggest ul{ list-style: none;}
 .suggest ul li{ padding: 0 10px; height: 25px; line-height: 25px;}
 
@@ -484,23 +486,39 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .pre{ width: 69px; height: 24px; float: left; background: url(../img/pre.png) no-repeat; background-size: 100% 100%;}
 .nex{ width: 69px; height: 24px; float: right; background: url(../img/nex.png) no-repeat; background-size: 100% 100%;}
 
-.mypoints{ width: 100%; height: 65px; background: #FFFFFF; padding: 10px 20px 0 20px; border-bottom: 1px solid #d6d7dc;}
-.mypoints a{ font-size: 13px; margin: 0 5px 0 0; text-decoration: underline;}
-.pointstitle{ width: 100%; height: 35px; line-height: 35px; padding:  0 12px; margin: 0; font-weight: normal; font-size: 15px; color: #267bd2;}
-.points{ font-size: 17px;}
-.pointsnum{ font-size: 24px; color: #ff6600;}
-.iconpoints{ width: 24px; height: 28px; float: left; margin: 0 10px 0 0; background: url(../img/mypoints.png) no-repeat; background-size: 100% 100%;}
+.mypoints{ width: 100%; height: 45px; background: #FFFFFF; border-top: 1px solid #d6d7dc; border-bottom: 1px solid #d6d7dc;}
+.mypoints a{ float: left; margin: 6px 0 0 0; border-right: 1px solid #d6d7dc; font-size: 14px; color: #666666; width: 33.3333333%; text-align: center; height: 30px; line-height: 30px;}
+.mypoints a:last-of-type{ border-right: none;}
+.mypoints a span{ color: #ff5000;}
+.shopIcon{ width: 20px; height: 20px; display: inline-block; position: relative; top: 5px;} 
+.shopIcon.iconPoints{ background: url(../img/mypoints.png) no-repeat; background-size: 100% 100%;}
+.shopIcon.iconRecord{ background: url(../img/myrecord.png) no-repeat; background-size: 100% 100%;}
+.shopIcon.iconIntro{ background: url(../img/myintro.png) no-repeat; background-size: 100% 100%;}
+.pointsWrap{ padding: 12px;}
+.pointsTitle{ width: 100%; height: 20px; line-height: 20px;}
 
 .rule{ font-size: 13px; color: #666666; padding: 35px;}
-#productUl{ margin: 0; padding: 0; border-top: 1px solid #d6d7dc; list-style: none; overflow: hidden;}
-#productUl li{ width: 50%; height: auto; border-bottom: 1px solid #d6d7dc; padding: 10px; background: #FFFFFF; float: left;}
-#productUl li:nth-of-type(odd){ border-right: 1px solid #d6d7dc;}
-#productUl li:nth-of-type(even){ border-right: 1px solid #FFFFFF;}
-#productUl li:last-of-type{ border-right: 1px solid #d6d7dc;}
-#productUl li h3{ font-size: 13px; height: 26px; overflow: hidden; margin: 0; color: #323232; font-weight: normal;}
-#productUl li p{ margin: 5px 0 0 0; color: #646464; font-size: 12px;}
-#productUl li p span.red{ color: #ff6600; font-size: 17px; margin: 0 20px 0 0;}
-#productUl li img{ width: 100%;}
+#productUl{ margin: 0; padding: 0; margin: 10px 0 0 0; list-style: none; overflow: hidden;}
+#productUl li{ width: 100%; height: auto; overflow: hidden; border-radius: 3px; margin: 0 0 10px 0; border: 1px solid #d6d7dc; background: #FFFFFF;}
+.productNum{ width: 100%; height: 45px; font-size: 13px; padding: 0 10px; color: #999999; line-height: 45px; border-top: 1px solid #D9D9D9;}
+.productMsg{ width: 100%; height: auto; font-size: 13px; padding: 0 10px; color: #999999; line-height: 30px; border-top: 1px solid #D9D9D9;}
+.proMsgLi div{ padding: 5px 20px 5px 20px; position: relative; margin: 0 10px; color: #999999; border-bottom: 1px dashed #666666; font-size: 12px; line-height: 20px;}
+.proMsgLi div:last-of-type{ border-bottom: none;}
+.proMsgLi div span{ color: #333333;}
+.proMsgLi input[type='radio']{ position: absolute; left: 0; top: 20px;}
+.productCost{ width: 100%; padding: 0 10px; height: 50px; border-top: 1px solid #d6d7dc; line-height: 50px; font-size: 15px;}
+.cost{ float: right; margin: 0 20px 0 0; color: #fe5a50;}
+.exchange{ float: right; margin: 9px 0 0 0; background: #fe5a50; color: #FFFFFF; border-radius: 3px; width: 97px; height: 32px; line-height: 32px; text-align: center;}
+.productNum span{ color: #ff5000;}
+.productCost span{ color: #ff5000;}
+.productMsg span{ color: #ff5000;}
+.proSelect{ width: 96px; height: 32px; margin: 6px 0 0 0; border-radius: 3px; float: right; line-height: 32px; border: 1px solid #d6d7dc;}
+.proSelect strong{ float: left; border-right: 1px solid #d6d7dc; line-height: 31px; text-align: center; font-weight: normal; width: 33.33333%;}
+.proSelect strong:last-of-type{ border-right: none;}
+#productUl li img{ width: 100px; height: 100px; float: left;}
+.proTxt{ padding: 25px 0 0 0; font-size: 13px; color: #333333; line-height: 25px;}
+.proTxt span{ color: #ff5000;}
+.proAmount{ position: absolute; right: 10px; top: 52px; font-size: 13px; color: #999999;}
 
 #pointsrecord{ margin: 0; padding: 0; list-style: none;}
 #pointsrecord li{ width: 100%; height: 195px; margin: 0 0 10px 0; border: 1px solid #d6d7dc; border-left: none; border-right: none; background: #FFFFFF;}
@@ -513,18 +531,16 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .recordstatus span{ float: right;}
 .recordstatus b{ color: #ff6600; font-size: 17px; font-weight: normal;}
 
-.detailtitle{ width: 100%; height: 65px; line-height: 65px; padding: 0 12px; font-size: 17px; color: #ff4f00; background: #FFFFFF; border-bottom: 1px solid #d6d7dc;}
-.detailtitle span{ font-size: 30px; margin: 0 10px 0 0;}
-.topoints{ font-size: 15px; color: #FFFFFF; float: right; text-align: center; width: 90px; height: 35px; margin: 15px 0 0 0; line-height: 32px; background: #ffb502; border-radius: 7px; border-bottom: 4px solid #ff9102;}
-.detailtitle2{ width: 100%; height: 40px; line-height: 40px; font-size: 17px; color: #267bd3; padding: 0 15px;}
-#detailul{ margin: 0; padding: 0 12px; list-style: none; background: #FFFFFF; border: 1px solid #d6d7dc; border-left: none; border-right: none;}
-#detailul li{ width: 100%; height: 55px; padding: 5px 10px 0 10px; border-bottom: 1px solid #d6d7dc; font-size: 13px;}
-#detailul li:last-of-type{ border-bottom: none;}
-#detailul li span{ font-size: 12px; color: #969696;}
-#detailul li b{ font-size: 15px; color: #323232; font-weight: normal;}
-#detailul li strong{ float: right; font-weight: normal; margin: -8px 0 0 0;}
-#detailul li strong.green{ color: #45ae73;}
-#detailul li strong.red{ color: #ff0000;}
+.detailtitle{ width: 100%; height: 44px; line-height: 44px; padding: 0 12px; font-size: 15px; color: #333333; background: #FFFFFF; border-top: 1px solid #d6d7dc; border-bottom: 1px solid #d6d7dc;}
+.detailtitle span{ color: #ff5000;}
+.detailtitle2{ width: 100%; height: 43px; margin: 10px 0 0 0; border-top: 1px solid #d6d7dc; line-height: 43px; background: #FFFFFF; font-size: 15px; color: #3333333; padding: 0 12px;}
+#sdTable{ width: 100%; background: #FFFFFF; font-size: 13px; border-top: 1px solid #d6d7dc; border-bottom: 1px solid #d6d7dc; text-align: center;}
+#sdTable th{ height: 35px; font-weight: normal; color: #666666;}
+#sdTable td{ height: 45px; border-top: 1px solid #d6d7dc; color: #666666;}
+
+.shopBanner{ width: 100%;}
+.shopBanner img{ display: block;}
+
 
 .productwrap{ width: 100%; height: 250px; background: #FFFFFF; text-align: center; border-bottom: 1px solid #D9D9D9;}
 .productwrap img{ width: 230px; height: 230px; display: inline-block; margin: 10px 0 0 0;}
