@@ -3220,6 +3220,7 @@ class qapi1_2Action extends null2Action
     }
 
     public function getphpInfo(){
+        p('ggg');
         echo phpinfo();
     }
 
