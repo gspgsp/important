@@ -223,9 +223,9 @@ class storeDetailAction extends adminBaseAction {
 				// 查询采购订单明细的状态
 				$pinfo = $this->db->model('purchase_log')->where("id = {$inlogs['purchase_id']}")->getRow();
 				if($pinfo['number']==( $pinfo['remainder']+$inlogs['number'])){
-					$in_status = 2;
-				}else{
 					$in_status = 1;
+				}else{
+					$in_status = 2;
 				}
 				//如果订单状态是全部入库则修改入库状态为部分入库（并更剩余未入数量）
 				$this->db->model('purchase_log')->where("id = {$inlogs['purchase_id']}")->update(array('remainder'=>'+='.$inlogs['number'],'in_storage_status'=>$in_status,'update_time'=>CORE_TIME,));
