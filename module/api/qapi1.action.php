@@ -695,17 +695,19 @@ class qapi1Action extends null2Action
 
 
     //(中间供求信息)获取供求发布和消息回复
-    public function getReleaseMsg()
+    public function getReleaseMsg ()
     {
         $this->is_ajax = true;
-        if ($_GET) {
-            $user_id = $this->checkAccount();
+        if ($_POST) {
+            $user_id = $this->checkAccount ();
             //筛选条件
-            $keywords = sget('keywords', 's');
-            $keywords = $this->clearStr($keywords);
-            $type = sget('type', 'i', 0);//0 全部 1 求购 2 供给
-            $sortField1 = strtoupper(sget('sortField1', 's'));
-            $sortField2 = strtoupper(sget('sortField2', 's'));
+            $keywords   = sget ('keywords', 's');
+            $keywords   = $this->clearStr ($keywords);
+            $type       = sget ('type', 'i', 0);//0 全部 1 求购 2 供给
+            $sortField1 = strtoupper (sget ('sortField1', 's'));
+            $sortField2 = strtoupper (sget ('sortField2', 's'));
+            $version    = sget ('version', 's');//版本号
+            $platform   = $this->checkPlatform ()['platform'];
             //$sortField =array('AUTO','NC');
             $fieldNum = '';
             $fieldNum .= $sortField1;
@@ -717,7 +719,7 @@ class qapi1Action extends null2Action
                 }
             } else {
                 if (!empty($sortField2)) {
-                    $fieldNum .= ',' . $sortField2;
+                    $fieldNum .= ','.$sortField2;
                 }
             }
 
@@ -733,38 +735,56 @@ class qapi1Action extends null2Action
              * 加上搜索记录
              */
             $arr = array(
-                'user_id' => $user_id,
+                'user_id'    => $user_id,
                 'sort_field' => $fieldNum,
                 'sort_order' => $sortOrder,
-                'content' => $keywords,
+                'content'    => $keywords,
+                'version'    => $version,
+                'ip'         => get_ip (),
+                'chanel'     => $platform,
                 'input_time' => CORE_TIME,
             );
-            M('qapp:plasticSearch')->addSearch($arr);
+            M ('qapp:plasticSearch')->add ($arr);
             //普通条件
-            $page = sget('page', 'i', 1);
-            $size = sget('size', 'i', 10);
-            $data = M('qapp:plasticRelease')->getReleaseMsg($keywords, $page, $size, $type, $sortField1, $sortField2, $user_id);
+            $page = sget ('page', 'i', 1);
+            $size = sget ('size', 'i', 10);
+            $data = M ('qapp:plasticRelease')->getReleaseMsg ($keywords, $page, $size, $type, $sortField1, $sortField2, $user_id);
             if ($data == 'tempErr') {
-                $this->_errCode(5);
+                $this->_errCode (5);
             }
-            if (empty($data['data']) && $page == 1 && $sortField2 == 'AUTO') {
-                $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
+            if (empty($data['data']) && $page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
+                $this->json_output (array( 'err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！' ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'CONCERN') {
-                $this->json_output(array('err' => 2, 'msg' => '您未关注塑料圈用户，暂无供求信息！'));
+                $this->json_output (array( 'err' => 2, 'msg' => '您未关注塑料圈用户，暂无供求信息！' ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'DEMANDORSUPPLY') {
-                $this->json_output(array('err' => 2, 'msg' => '您未发布任何供求信息！'));
+                $this->json_output (array( 'err' => 2, 'msg' => '您未发布任何供求信息！' ));
             }
             if (empty($data['data']) && $page == 1) {
-                $this->json_output(array('err' => 2, 'msg' => '没有相关数据'));
+                $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
             }
             if (empty($data['data'])) {
-                $this->json_output(array('err' => 2, 'msg' => '没有更多数据'));
+                $this->json_output (array( 'err' => 2, 'msg' => '没有更多数据' ));
             }
-            $this->_checkLastPage($data['count'], $size, $page);
-            $this->json_output(array('err' => 0, 'data' => $data['data']));
+            $this->_checkLastPage ($data['count'], $size, $page);
+            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =2 and status =1")->getOne();
+            $pointsOrder = M("points:pointsOrder");
+
+            $pur_id= $pointsOrder->get_supply_demand_top($goods_id);
+
+            $arr = array( 'err' => 0, 'data' => $data['data']);
+
+            //只有在有置顶头条并且页面是首页或者智能推荐时候有效
+            if($pur_id &&($sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
+
+                $top = M("qapp:plasticMyMsg")->getPk($pur_id);
+                $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
+            }
+
+            $this->json_output ($arr);
         }
+        $this->_errCode (6);
     }
 
 

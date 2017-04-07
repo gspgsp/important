@@ -809,8 +809,23 @@ class qapi1_1Action extends null2Action
                 $this->json_output (array( 'err' => 2, 'msg' => '没有更多数据' ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =2 and status =1")->getOne();
+            $pointsOrder = M("points:pointsOrder");
+
+            $pur_id= $pointsOrder->get_supply_demand_top($goods_id);
+
+            $arr = array( 'err' => 0, 'data' => $data['data']);
+
+            //只有在有置顶头条并且页面是首页或者智能推荐时候有效
+            if($pur_id &&($sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
+
+                $top = M("qapp:plasticMyMsg")->getPk($pur_id);
+                $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
+            }
+
+            $this->json_output ($arr);
         }
+        $this->_errCode (6);
     }
 
 
