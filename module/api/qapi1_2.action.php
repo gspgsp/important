@@ -1456,7 +1456,8 @@ class qapi1_2Action extends null2Action
         $this->is_ajax = true;
         if ($_POST) {
             $user_id = $this->checkAccount();
-            $data = sget('data','a');p($data);exit;
+            $data = sget('data','s');
+            $data=json_decode($data);p($data);exit;
             if(empty($data)) $this->_errCode(6);
             foreach($data as $key=>&$row){
                 if($key=='address'){
