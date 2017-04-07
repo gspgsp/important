@@ -835,7 +835,8 @@ class qapi1_2Action extends null2Action
 
             $arr = array( 'err' => 0, 'data' => $data['data']);
 
-            if($pur_id){
+            //只有在有置顶头条并且页面是首页或者智能推荐时候有效
+            if($pur_id &&($sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
 
                 $top = M("qapp:plasticMyMsg")->getPk($pur_id);
                 $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
@@ -1454,6 +1455,9 @@ class qapi1_2Action extends null2Action
     public function saveSelfInfo()
     {
         $this->is_ajax = true;
+        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
+
         if ($_POST) {
             $user_id = $this->checkAccount();
             $_tmpAddress = sget('address','s');
@@ -2063,15 +2067,29 @@ class qapi1_2Action extends null2Action
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            foreach ($data['data'] as $k => &$v) {
-                if ($v['thumb']) {
-                    $v['thumb'] = FILE_URL.'/upload/'.$v['thumb'];
-                }
-                if ($v['image']) {
-                    $v['image'] = FILE_URL.'/upload/'.$v['image'];
+            $supply_and_demand = M("qapp:plasticRelease")->getReleaseMsg('', 1, 5, 0, 'ALL', 'DEMANDORSUPPLY', $user_id);
+            if (empty($supply_and_demand['count'])) {
+                foreach ($data['data'] as $key => $info) {
+                    if ($info['id'] == 35) {
+                        unset($data['data'][$key]);
+                        break;
+                    }
                 }
             }
-            $this->json_output (array( 'err' => 0, 'info' => $data['data'], 'pointsAll' => $points ));
+            foreach ($data['data'] as $k => &$v) {
+                if ($v['thumb']) {
+                    $v['thumb'] = FILE_URL . '/upload/' . $v['thumb'];
+                }
+                if ($v['image']) {
+                    $v['image'] = FILE_URL . '/upload/' . $v['image'];
+                }
+            }
+            if (empty($supply_and_demand['count'])) {
+                $ret = array('err' => 0, 'info' => $data['data'], 'pointsAll' => $points);
+            } else {
+                $ret = array('err' => 0, 'info' => $data['data'], 'pointsAll' => $points, 'myMsg' => $supply_and_demand['data'], 'reflect_id' => 35);
+            }
+            $this->json_output($ret);
         }
         $this->_errCode (6);
     }
