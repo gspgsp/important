@@ -96,6 +96,23 @@ class plasticAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['parent_mobile']=$v['parent_mobile']=='undefined' ? '-' : $v['parent_mobile'];//联系人手机
 			$list['data'][$k]['thumbcard']=$v['thumbcard']=='' ? '-' : $v['thumbcard'];//联系人头像
+			//主营牌号 月用量 关注牌号
+			$customer = M('user:customer')->getCinfoById($v['c_id']);
+			$list['data'][$k]['main_product']=$customer['main_product'];
+			$list['data'][$k]['month_consum']=$customer['month_consum'];
+			//关注的牌号
+			$where1 = "user_id = {$v['user_id']} and is_enable = 1 and is_concern = 1 and type = 1 ";
+			$focus_mode = $this->db->model('suggestion_model')->select('name')->where($where1)->getAll();
+			if(!empty($focus_mode)){
+				$n_focus_mode = array();
+				foreach ($focus_mode as $value) {
+					array_push($n_focus_mode, $value['name']);
+				}
+				$s_focus_mode = implode(' ',$n_focus_mode);
+				$list['data'][$k]['focus_mode'] = $s_focus_mode;
+			}else{
+				$list['data'][$k]['focus_mode'] = '';
+			}
 
 		}
 		$this->assign('do',$this->doact);
