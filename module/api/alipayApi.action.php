@@ -37,10 +37,12 @@ class alipayApiAction extends null2Action{
 
 
     public function alipayReturnUrl(){
+        header('Refresh:3,Url=http://test.myplas.com');
+        $this->display('plasticzone/alipay_return.html');
+    }
+
+    public function alipayNotifyUrl(){
         $this->cache->set('ssssalipay',serialize($_POST));
-        //file_put_contents('./alipayReturnUrl.txt',serialize($_POST));
-        header('Location:http://www.nsuliao.com/offers');
-        ///p($_GET);exit;
     }
 
     public function alipayQuery(){
