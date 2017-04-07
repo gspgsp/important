@@ -1910,15 +1910,14 @@ class qapi1Action extends null2Action
             }
             $this->_checkLastPage($data['count'], $size, $page);
             $supply_and_demand = M("qapp:plasticRelease")->getReleaseMsg('', 1, 5, 0, 'ALL', 'DEMANDORSUPPLY', $user_id);
-            if (empty($supply_and_demand['count'])) {
-                foreach ($data['data'] as $key => $info) {
-                    if ($info['id'] == 35) {
-                        unset($data['data'][$key]);
-                        break;
-                    }
-                }
-            }
             foreach ($data['data'] as $k => &$v) {
+                if($v['id'] == 35 && !empty($supply_and_demand['count']))
+                {
+                    $v['myMsg']=  $supply_and_demand['data'];
+                }elseif($v['id'] == 35 && empty($supply_and_demand['count']))
+                {
+                    unset($data['data'][$key]);
+                }
                 if ($v['thumb']) {
                     $v['thumb'] = FILE_URL . '/upload/' . $v['thumb'];
                 }
@@ -1926,11 +1925,8 @@ class qapi1Action extends null2Action
                     $v['image'] = FILE_URL . '/upload/' . $v['image'];
                 }
             }
-            if (empty($supply_and_demand['count'])) {
-                $ret = array('err' => 0, 'info' => $data['data'], 'pointsAll' => $points);
-            } else {
-                $ret = array('err' => 0, 'info' => $data['data'], 'pointsAll' => $points, 'myMsg' => $supply_and_demand['data'], 'reflect_id' => 35);
-            }
+            $ret = array('err' => 0, 'info' => $data['data'], 'pointsAll' => $points);
+
             $this->json_output($ret);
         }
     }

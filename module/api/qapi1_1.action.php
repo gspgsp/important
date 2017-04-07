@@ -2258,15 +2258,25 @@ class qapi1_1Action extends null2Action
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
+            $supply_and_demand = M("qapp:plasticRelease")->getReleaseMsg('', 1, 5, 0, 'ALL', 'DEMANDORSUPPLY', $user_id);
             foreach ($data['data'] as $k => &$v) {
+                if($v['id'] == 35 && !empty($supply_and_demand['count']))
+                {
+                    $v['myMsg']=  $supply_and_demand['data'];
+                }elseif($v['id'] == 35 && empty($supply_and_demand['count']))
+                {
+                    unset($data['data'][$key]);
+                }
                 if ($v['thumb']) {
-                    $v['thumb'] = FILE_URL.'/upload/'.$v['thumb'];
+                    $v['thumb'] = FILE_URL . '/upload/' . $v['thumb'];
                 }
                 if ($v['image']) {
-                    $v['image'] = FILE_URL.'/upload/'.$v['image'];
+                    $v['image'] = FILE_URL . '/upload/' . $v['image'];
                 }
             }
-            $this->json_output (array( 'err' => 0, 'info' => $data['data'], 'pointsAll' => $points ));
+            $ret = array('err' => 0, 'info' => $data['data'], 'pointsAll' => $points);
+
+            $this->json_output($ret);
         }
     }
 
