@@ -21,9 +21,9 @@ a{ text-decoration:none;}
 /*headline-head begin*/
 .headline-head{ height:100px; overflow:hidden;}
 .headline-head .logo{ width:363px; height:52px; overflow:hidden; margin:28px 0 0 0;}
-.headline-head .logo .logo1{ width:201px; height:52px; overflow:hidden;}
-.headline-head .logo .logo2{ width:161px; height:38px; border-left:1px solid #323232; margin:10px 0 0 0; overflow:hidden;}
-.headline-head .logo .logo2 img{ margin:2px 0 0 20px;}
+.headline-head .logo .logo1{ width:52px;/*width: 201px;*/ height:52px; overflow:hidden;}
+.headline-head .logo .logo2{ width:161px; height:38px; /*border-left:1px solid #323232;*/ margin:10px 0 0 0; overflow:hidden;}
+.headline-head .logo .logo2 img{ /*margin:2px 0 0 20px;*/margin:0 0 0 20px;}
 .headline-head .search{ width:542px; height:36px; line-height:36px; overflow:hidden; border:2px solid #fc6621; margin:30px 0 0 0;}
 .headline-head .search .search-icon{ width:20px; height:19px; overflow:hidden; margin:9px 0 0 10px;}
 .headline-head .search input{ height:36px; line-height:36px;}
