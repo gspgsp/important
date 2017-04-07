@@ -14,9 +14,10 @@ class pointsOrderModel extends Model
 
     public function get_supply_demand_top($goods_id)
     {
-        $cache = E('RedisCluster', APP_LIB . 'class');
+        //$cache = E('RedisCluster', APP_LIB . 'class');
         $key = 'msg_top:' . $goods_id;
-        $pur_id = $cache->get($key);
+        //$pur_id = $cache->get($key);
+        $pur_id = 0;
         if (!empty($pur_id)) {
             return $pur_id;
         } else {
@@ -26,7 +27,7 @@ class pointsOrderModel extends Model
 
             if (!empty($info)) {
 
-                $cache->set($key, $info['pur_id'], $info['outpu_time'] - time());
+                //$cache->set($key, $info['pur_id'], $info['outpu_time'] - time());
                 return $info['pur_id'];
             } else {
                 return false;
