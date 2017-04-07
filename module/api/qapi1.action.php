@@ -779,7 +779,7 @@ class qapi1Action extends null2Action
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
             if($pur_id &&($sortField1 == 'ALL'||$sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
 
-                $top = M("qapp:plasticMyMsg")->model('purchase')->where("id = $pur_id")->getRow();
+                $top = M("qapp:plasticMyMsg")->getReleaseMsgDetail($pur_id);
 
                 $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
             }
