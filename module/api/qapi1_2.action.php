@@ -650,7 +650,7 @@ class qapi1_2Action extends null2Action
         $contact_id= $pointsOrder->get_supply_demand_top($goods_id);
 
         if($contact_id){
-            $top =  M ('plasticzone:plasticPersonalInfo')->getPersonalInfo ($contact_id, $contact_id);
+            $top= M ('qapp:plasticPersonalInfo')->getMyOwnInfo($contact_id);
         }
         if ($page == 1) {
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();

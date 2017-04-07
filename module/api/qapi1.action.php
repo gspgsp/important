@@ -584,10 +584,11 @@ class qapi1Action extends null2Action
                         ->add($arr);
                 };
             }//showTrace();exit;
-            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
+            //1 supply and demand 2 contact
+            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =2 and status =1")->getOne();
+
             //var_dump($goods_id);
             $pointsOrder = M("points:pointsOrder");
-
             $contact_id= $pointsOrder->get_supply_demand_top($goods_id);
 
             if($contact_id){
