@@ -329,4 +329,43 @@ class plasticPersonalInfoModel extends model
             return substr ($_info, strpos ($_info, 'carrier') + 9, -6);
         }
     }
+
+    public function getMyOwnInfo($user_id)
+    {
+        $data = $this->select ('con.user_id,con.name,con.c_id,con.is_pass,con.mobile,con.sex,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.need_product,cus.address')
+            ->from ('customer_contact con')
+            ->leftjoin ('contact_info info', 'con.user_id=info.user_id')
+            ->leftjoin ('customer cus', 'con.c_id=cus.c_id')
+            ->where ("con.user_id=$user_id")
+            ->getRow ();
+        // $data['thumb'] = FILE_URL."/upload/".$data['thumb'];
+        if (!A ("api:qapi1")->checkPhoneShow ($data['user_id'])) {
+            $data['mobile'] = substr ($data['mobile'], 0, 7) . "****";
+        }
+        if (empty($data['thumbqq'])) {
+            if (strstr ($data['thumb'], 'http')) {
+                $data['thumb'] = $data['thumb'];
+            } else {
+                if (empty($data['thumb'])) {
+                    $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                } else {
+                    $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
+                }
+            }
+
+            // $value['thumb']= FILE_URL."/upload/".$value['thumb'];
+        } else {
+            $data['thumb'] = $data['thumbqq'];
+        }
+        $data['sex'] = L ('sex')[$data['sex']];
+        //ta的求购或报价数量
+        $buy = $this->getConut ($user_id, 1);
+        $sale = $this->getConut ($user_id, 2);
+        $data['buy'] = empty($buy) ? 0 : $buy;//求购
+        $data['sale'] = empty($sale) ? 0 : $sale;//报价
+        //关注的状态
+
+        return $data;
+
+    }
 }
