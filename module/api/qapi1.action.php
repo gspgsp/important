@@ -591,7 +591,7 @@ class qapi1Action extends null2Action
             $contact_id= $pointsOrder->get_supply_demand_top($goods_id);
 
             if($contact_id){
-                $top = M ('qapp:plasticPersonalInfo')->getMyPlastic($contact_id);
+                $top= M ('qapp:plasticPersonalInfo')->getMyOwnInfo($contact_id);
             }
             if ($page == 1) {
                 $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
@@ -2329,6 +2329,9 @@ class qapi1Action extends null2Action
             if($goods_info['type']==1&&empty($pur_id))
             {
                 $this->json_output(array('err' => 21, 'msg' => '请选择您要置顶的供求信息'));
+            }
+            if($goods_info['type']==2){
+                $pur_id = $user_id;
             }
 
             $user = M ('public:common')->model ('contact_info');
