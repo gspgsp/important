@@ -2467,6 +2467,10 @@ class qapi1_2Action extends null2Action
                 $this->json_output(array('err' => 12, 'msg' => '参数错误'));
             }
             $goods_info =M ('public:common')->model ('points_goods')->where("id= $goods_id")->getRow();
+            if($goods_info['type']==1&&empty($pur_id))
+            {
+                $this->json_output(array('err' => 12, 'msg' => '参数错误'));
+            }
 
             $user = M ('public:common')->model ('contact_info');
             if ($info = $user->where ("user_id=$user_id")->getRow ()) {
