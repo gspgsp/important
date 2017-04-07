@@ -2265,7 +2265,7 @@ class qapi1_1Action extends null2Action
                     $v['myMsg']=  $supply_and_demand['data'];
                 }elseif($v['id'] == 35 && empty($supply_and_demand['count']))
                 {
-                    unset($data['data'][$key]);
+                    $v['myMsg'] = array();
                 }
                 if ($v['thumb']) {
                     $v['thumb'] = FILE_URL . '/upload/' . $v['thumb'];
