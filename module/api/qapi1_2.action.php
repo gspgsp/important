@@ -2076,6 +2076,8 @@ class qapi1_2Action extends null2Action
                     }
                 }
             }*/
+
+            //type 1 是供求 2 是通讯录
             $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
 
             foreach ($data['data'] as $k => &$v) {
