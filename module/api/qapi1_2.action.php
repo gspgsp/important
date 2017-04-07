@@ -2418,8 +2418,8 @@ class qapi1_2Action extends null2Action
             $num = sget('num', 'i');   //所需要的商品的id
             $pur_id = sget('pur_id', 'i', 0);
 
-            if ($goods_id < 1) {
-                $this->json_output(array('err' => 12, 'msg' => 'goods_id参数错误'));
+            if ($goods_id < 1||$num<1) {
+                $this->json_output(array('err' => 12, 'msg' => '参数错误'));
             }
 
             $pointsOrder = M("points:pointsOrder");
