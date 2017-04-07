@@ -332,16 +332,20 @@ class plasticPersonalInfoModel extends model
 
     public function getMyOwnInfo($user_id)
     {
-        $data = $this->select ('con.user_id,con.name,con.c_id,con.is_pass,con.mobile,con.sex,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.need_product,cus.address')
+        $data = $this->select ('con.member_level,con.user_id,con.name,con.c_id,con.is_pass,con.mobile,con.sex,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.need_product,cus.address')
             ->from ('customer_contact con')
             ->leftjoin ('contact_info info', 'con.user_id=info.user_id')
             ->leftjoin ('customer cus', 'con.c_id=cus.c_id')
+            ->rightjoin('weixin_ranking d','con.user_id=d.user_id')
             ->where ("con.user_id=$user_id")
             ->getRow ();
+
         // $data['thumb'] = FILE_URL."/upload/".$data['thumb'];
         if (!A ("api:qapi1")->checkPhoneShow ($data['user_id'])) {
             $data['mobile'] = substr ($data['mobile'], 0, 7) . "****";
         }
+        $data['member_level'] = L ('member_level')[$data['member_level']];//军衔
+
         if (empty($data['thumbqq'])) {
             if (strstr ($data['thumb'], 'http')) {
                 $data['thumb'] = $data['thumb'];
