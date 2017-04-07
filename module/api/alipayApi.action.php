@@ -20,8 +20,8 @@ class alipayApiAction extends null2Action{
 
     public function alipaySome(){
         $request = new AlipayTradeWapPayRequest ();
-        //$request->setReturnUrl("http://www.nsuliao.com/api/alipayApi/alipayReturnUrl");
-        $request->setNotifyUrl("http://test.myplas.com/api/alipayApi/alipayReturnUrl");
+        $request->setReturnUrl("http://www.nsuliao.com/api/alipayApi/alipayReturnUrl");
+        $request->setNotifyUrl("http://test.myplas.com/api/alipayApi/alipayNotifyUrl");
         $sno='so'.time().'sssss';
         $request->setBizContent("{" .
             "    \"body\":\"对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。\"," .
