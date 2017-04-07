@@ -47,7 +47,7 @@
  */
 class qapi1_2Action extends null2Action
 {
-    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime,$randomMdTime;
+    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime,$randomMdTime,$shareType;
 
     public function __init ()
     {
@@ -78,7 +78,7 @@ class qapi1_2Action extends null2Action
             1  => '签到',
             2  => '登陆',
             3  => '发布报价',
-            4  => '订单取消积分返还',
+            4  => '订单取消塑豆返还',
             5  => '兑换礼品',
             6  => '发布采购',
             7  => '注册完善信息送',
@@ -86,6 +86,16 @@ class qapi1_2Action extends null2Action
             9  => '资源库发布',
             10 => '资源库搜索',
             11 => '塑料圈',
+            12 => '塑料圈引荐',
+            13 => '塑料圈分享',
+            14 => '查看通讯录',
+            15 => '查看文章',
+        );
+        $this->shareType = array(
+            1 => '求购分享',
+            2 => '供给分享',
+            3 => '文章分享',
+            4 => '引荐分享',
         );
         $this->orderStatus = array(
             1 => '已兑换，待确认',
@@ -3207,6 +3217,10 @@ class qapi1_2Action extends null2Action
         $_tmpModel=M('qapp:product')->select('model')->where('status=1 and model like "%'.$keywords.'%"')->limit(20)->getAll();
         if(empty($_tmpModel)) $this->_errCode(2);
         $this->json_output(array('err'=>0,'data'=>$_tmpModel));
+    }
+
+    public function getphpInfo(){
+        echo phpinfo();
     }
 
 
