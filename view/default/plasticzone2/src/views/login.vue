@@ -4,15 +4,17 @@
 		<router-link :to="{name:'index'}" class="back"></router-link>
 		登录
 	</header>
-	<div class="registerWrap">
+	<div class="registerInput">
 		<div class="registerBox">
-			<input id="username" class="registerInput" maxlength="11" type="tel" v-model="mobile" placeholder="请输入手机号码">
-		</div>
+			<strong>手机号码:</strong>
+			<input type="tel" maxlength="11" v-model="mobile" placeholder="请输入您的手机号码" />
+		</div>	
 		<div class="registerBox">
-			<input id="password" class="registerInput" maxlength="20" type="password" v-model="pwd" placeholder="请输入密码">
+			<strong>密码:</strong>
+			<input type="password" maxlength="20" v-model="pwd" placeholder="请输入密码" />
 		</div>
 	</div>
-	<div style=" padding: 0 20px">
+	<div style=" padding: 0 20px; margin: 10px 0 0 0;">
 		<input type="checkbox" v-model="checked" />&nbsp;<label style="color: #999999;">记住密码</label>
 	</div>
 	<div class="registerBtn">
@@ -55,6 +57,37 @@ module.exports = {
 				if(res.err == 0) {
 					window.localStorage.setItem("token", res.dataToken);
 					window.localStorage.setItem("userid", res.user_id);
+					console.log(window.localStorage.invite);
+					if(window.localStorage.invite!=="undefined"){
+						$.ajax({
+							type:"post",
+							url:"/api/score/addScore",
+							data:{
+								token:window.localStorage.getItem("token"),
+								parent_mobile:window.localStorage.invite,
+								type:'1'
+							},
+							dataType: 'JSON'
+						}).done(function(res){
+							
+						}).fail(function(){
+							
+						});						
+					}else{
+						$.ajax({
+							type:"post",
+							url:"/api/score/addScore",
+							data:{
+								token:window.localStorage.getItem("token"),
+								type:'3'
+							},
+							dataType: 'JSON'
+						}).done(function(res){
+							
+						}).fail(function(){
+							
+						});						
+					}
 					_this.$router.push({
 						name: 'index'
 					});

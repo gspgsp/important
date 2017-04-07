@@ -8,7 +8,6 @@ const Index = r => require.ensure([], () => r(require('./views/index.vue')), 'in
 const Login = r => require.ensure([], () => r(require('./views/login.vue')), 'login')
 const Register= r => require.ensure([], () => r(require('./views/register.vue')), 'register')
 const Resetpwd= r => require.ensure([], () => r(require('./views/resetpwd.vue')), 'resetpwd')
-const Completeinfo= r => require.ensure([], () => r(require('./views/completeinfo.vue')), 'completeinfo')
 const Headline= r => require.ensure([], () => r(require('./views/headline.vue')), 'headline')
 const Release= r => require.ensure([], () => r(require('./views/release.vue')), 'release')
 const Releasedetail= r => require.ensure([], () => r(require('./views/releasedetail.vue')), 'releasedetail')
@@ -52,7 +51,6 @@ var  router = new VueRouter({
 	{path:'/login',name:'login',component:Login},
 	{path:'/register',name:'register',component:Register},
 	{path:'/resetpwd',name:'resetpwd',component:Resetpwd},
-	{path:'/completeinfo',name:'completeinfo',component:Completeinfo},
 	{path:'/headline',name:'headline',component:Headline},
 	{path:'/release',name:'release',component:Release},
 	{path:'/releasedetail',name:'releasedetail',component:Releasedetail},

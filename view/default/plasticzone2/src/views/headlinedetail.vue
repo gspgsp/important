@@ -119,7 +119,19 @@ watch: {
 					link: "http://q.myplas.com/#/headlinedetail/" + _this.id,
 					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
 					success: function() {
-
+						$.ajax({
+							type:"post",
+							url:"/api/score/addScore",
+							data:{
+								token:window.localStorage.getItem("token"),
+								type:'6'
+							},
+							dataType: 'JSON'
+						}).done(function(res){
+							
+						}).fail(function(){
+							
+						});
 					},
 					cancel: function() {
 
@@ -133,7 +145,19 @@ watch: {
 					type: '',
 					dataUrl: '',
 					success: function() {
-
+						$.ajax({
+							type:"post",
+							url:"/api/score/addScore",
+							data:{
+								token:window.localStorage.getItem("token"),
+								type:'6'
+							},
+							dataType: 'JSON'
+						}).done(function(res){
+							
+						}).fail(function(){
+							
+						});
 					},
 					cancel: function() {
 

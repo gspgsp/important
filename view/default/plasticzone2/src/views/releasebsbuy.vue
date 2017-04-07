@@ -104,6 +104,19 @@ module.exports = {
 					dataType: 'JSON'
 				}).then(function(res) {
 					if(res.err == 0) {
+						$.ajax({
+							type:"post",
+							url:"/api/score/addScore",
+							data:{
+								token:window.localStorage.getItem("token"),
+								type:'7'
+							},
+							dataType: 'JSON'
+						}).done(function(res){
+							
+						}).fail(function(){
+							
+						});
 						mui.toast('发布成功', {
 							duration: 'long',
 							type: 'div'

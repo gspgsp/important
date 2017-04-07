@@ -2,20 +2,27 @@
 <div>
 <header id="bigCustomerHeader">
 	<a class="back" href="javascript:window.history.back();"></a>
-	积分明细
+	我的塑豆
 </header>
 <div class="detailtitle">
-	<span>{{points}}</span>积分<router-link :to="{name:'mypoints'}" class="topoints">兑换</router-link>
+	总塑豆 <span>120</span>
+	<div style="float: right;">今日塑豆 <span>20</span></div>
 </div>
 <div class="detailtitle2">
 	积分收支明细
 </div>
-<ul id="detailul">
-	<li v-for="d in detail">
-		<span>{{d.addtime}}</span><br><b>{{d.typename}}</b>
-		<strong v-bind:class="d.points>=0?'green':'red'">{{d.points}}</strong>
-	</li>
-</ul>
+<table id="sdTable" cellpadding="0" cellspacing="0">
+	<tr>
+		<th width="20%">塑豆</th>
+		<th width="50%" style="text-align: left;">描述</th>
+		<th width="30%">时间</th>
+	</tr>
+	<tr v-for="d in detail">
+		<td><span style=" color:#ff5000;">{{d.points}}</span></td>
+		<td style="text-align: left;">今日登陆赠送10塑豆</td>
+		<td>{{d.addtime}}</td>
+	</tr>
+</table>
 </div>
 </template>
 <script>
@@ -28,19 +35,19 @@ module.exports = {
 	},
 	mounted: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
     		type:"get",
     		url:"/api/qapi1/pointSupplyList",
     		data:{
     			token: window.localStorage.getItem("token"),
     			page:1,
-    			size:10
+    			size:50
     		},
     		dataType: 'JSON'
     	}).then(function(res){

@@ -296,7 +296,7 @@ module.exports = {
 					break;
 			}
 			$.ajax({
-				url: '/api/qapi1_1/getReleaseMsg',
+				url: '/api/qapi1_2/getReleaseMsg',
 				type: 'post',
 				data: {
 					keywords: _this.keywords.toLocaleUpperCase(),
@@ -435,7 +435,7 @@ module.exports = {
 		
 		_this.loadingShow = true;
 		$.ajax({
-			url: '/api/qapi1_1/getReleaseMsg',
+			url: '/api/qapi1_2/getReleaseMsg',
 			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),

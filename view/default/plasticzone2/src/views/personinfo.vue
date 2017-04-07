@@ -144,10 +144,10 @@ module.exports = {
 			
 		}
 		$.ajax({
-			url: '/api/qapi1/getZoneFriend',
-			type: 'get',
+			url: '/api/qapi1_2/getZoneFriend',
+			type: 'post',
 			data: {
-				userid: this.$route.params.id,
+				userid: _this.$route.params.id,
 				token: window.localStorage.getItem("token")
 			},
 			dataType: 'JSON'
@@ -185,6 +185,73 @@ module.exports = {
 				        }
 				    }]
 				});
+			} else if(res.err==99){
+				weui.confirm(res.msg, function () {
+						$.ajax({
+							url: '/api/score/decScore',
+							type: 'post',
+							data: {
+								type:2,
+								other_id: _this.$route.params.id,
+								token: window.localStorage.getItem("token")
+							},
+							dataType: 'JSON'
+						}).then(function(res) {
+							if(res.err == 0) {
+								$.ajax({
+									url: '/api/qapi1_2/getZoneFriend',
+									type: 'post',
+									data: {
+										userid: _this.$route.params.id,
+										token: window.localStorage.getItem("token")
+									},
+									dataType: 'JSON'
+								}).then(function(res) {
+									console.log(res);
+									if(res.err == 0) {
+										_this.name = res.data.name;
+										_this.c_name = res.data.c_name;
+										_this.address = res.data.address;
+										_this.mobile = res.data.mobile;
+										_this.mobile2 = "tel:"+res.data.mobile;
+										_this.need_product = res.data.need_product;
+										_this.status = res.data.status;
+										_this.thumb = res.data.thumb;
+										_this.buy = res.data.buy;
+										_this.sale = res.data.sale;
+										_this.sex = res.data.sex;
+										_this.id = res.data.user_id;
+										_this.is_pass = res.data.is_pass;
+										_this.cardImg=res.data.thumbcard;
+										if (_this.mobile.indexOf("*")=="-1") {
+											_this.isMobile=true;
+										} else{
+											_this.isMobile=false;
+										}
+									}
+								}, function() {
+						
+								});
+							} else if(res.err==100){
+								weui.alert(res.msg, {
+								    title: '塑料圈通讯录',
+								    buttons: [{
+								        label: '确定',
+								        type: 'parimary',
+								        onClick: function(){
+											window.location.back();		        	
+								        }
+								    }]
+								});								
+							}
+						}, function() {
+				
+						});
+				    }, function () {
+				        window.location.back();
+				    }, {
+				        title: '塑料圈通讯录'
+				    });			
 			}
 		}).fail(function(){
 			
@@ -196,7 +263,7 @@ module.exports = {
 			url: '/api/qapi1/getTaPur',
 			type: 'get',
 			data: {
-				userid: this.$route.params.id,
+				userid: _this.$route.params.id,
 				page:1,
 				size:5,
 				type:1,
@@ -220,7 +287,7 @@ module.exports = {
 			url: '/api/qapi1/getTaPur',
 			type: 'get',
 			data: {
-				userid: this.$route.params.id,
+				userid: _this.$route.params.id,
 				page:1,
 				size:5,
 				type:2,

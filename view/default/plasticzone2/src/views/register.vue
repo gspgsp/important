@@ -29,11 +29,11 @@
 		<div class="registerInput">
 			<div class="registerBox">
 				<strong><span>*</span>姓名:</strong>
-				<input type="text" placeholder="请输入您的姓名" />
+				<input type="text" v-model="name" placeholder="请输入您的姓名" />
 			</div>
 			<div class="registerBox">
 				<strong><span>*</span>公司名称:</strong>
-				<input type="text" placeholder="请输入您的公司全称" />
+				<input type="text" v-model="c_name" placeholder="请输入您的公司全称" />
 			</div>
 			<div class="registerBox">
 				<strong><span>*</span>公司所在地:</strong>
@@ -52,12 +52,15 @@
 			</div>
 			<div class="registerBox">
 				<strong><span>*</span>主营品种:</strong>
-				<input type="text" placeholder="请输入您的主营品种进行匹配" v-model="model" v-on:input="suggestTxt" />
+				<input type="text" placeholder="请输入您的主营品种进行匹配" v-model="model" v-on:blur="blurLabel" v-on:input="suggestTxt" />
 				<div class="suggest" v-show="suggestShow">
 					<ul>
-						<li v-for="m in modelArr">{{m.model}}</li>
+						<li v-on:click="chooseLi(m.model)" v-for="m in modelArr">{{m.model}}</li>
 					</ul>
 				</div>
+			</div>
+			<div class="label">
+				<span v-for="l in label" v-on:click="deleteLabel(l)">{{l}}</span>
 			</div>
 			<div class="registerBox">
 				<strong><span>*</span>企业类型:</strong>
@@ -96,10 +99,47 @@ module.exports = {
 			selected2: 0,
 			model: "",
 			modelArr: [],
+			label:[],
 			suggestShow:false
 		}
 	},
 	methods: {
+		chooseLi:function(e){
+			if (e==="未搜到您所输入的品种") {
+				
+			} else{
+				if (this.label.length<=9) {
+					if (this.label.indexOf(e)==-1) {
+						this.label.push(e);
+						this.suggestShow=false;
+						this.model="";					
+					} else{
+						this.suggestShow=false;
+						this.model="";					
+					}				
+				} else{
+					weui.alert("最多选择10种品种", {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								
+							}
+						}]
+					});				
+				}
+			}
+		},
+		deleteLabel:function(e){
+			this.label.splice(this.label.indexOf(e), 1);
+		},
+		blurLabel:function(){
+			var _this=this;
+			setTimeout(function(){
+				_this.suggestShow=false;
+			},100);					
+		},
 		suggestTxt:function(){
 			var _this = this;
 			if (_this.model==0) {
@@ -125,7 +165,6 @@ module.exports = {
 	
 				});					
 			}
-		
 		},
 		sendCode: function() {
 			var _this = this;
@@ -140,8 +179,15 @@ module.exports = {
 					dataType: 'JSON'
 				}).then(function(res) {
 					if(res.err == 0) {
-						mui.alert('', res.msg, function() {
-
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									
+								}
+							}]
 						});
 
 						var countStart = setInterval(function() {
@@ -153,16 +199,30 @@ module.exports = {
 						}, 1000);
 
 					} else if(res.err == 1) {
-						mui.alert('', res.msg, function() {
-
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									
+								}
+							}]
 						});
 					}
 				}, function() {
 
 				});
 			} else {
-				mui.alert('', "请填写手机号", function() {
-
+				weui.alert("请填写手机号", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							
+						}
+					}]
 				});
 			}
 		},
@@ -176,30 +236,43 @@ module.exports = {
 						mobile: _this.mobile,
 						password: _this.password,
 						code: _this.code,
-						name: "",
-						c_name: "",
+						name: _this.name,
+						c_name: _this.c_name,
 						chanel: 6,
 						quan_type: 0,
 						parent_mobile: window.localStorage.invite,
-						origin: ['11', '11'],
-						model: ['231']
+						origin: [_this.selected,_this.selected2],
+						model: _this.label
 					},
 					dataType: 'JSON'
 				}).then(function(res) {
 					if(res.err == 0) {
-						_this.$router.push({ name: 'completeinfo' });
-						window.localStorage.setItem("mobile", _this.mobile);
+						_this.$router.push({ name: 'login' });
 					} else {
-						mui.alert('', res.msg, function() {
-
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									
+								}
+							}]
 						});
 					}
 				}, function() {
 
 				});
 			} else {
-				mui.alert('', "请先同意用户服务协议", function() {
-
+				weui.alert("请先同意用户服务协议", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							
+						}
+					}]
 				});
 			}
 		},
@@ -232,7 +305,6 @@ module.exports = {
 		}
 
 		var _this = this;
-
 		$.ajax({
 			url: '/api/qapi1_2/getRegion',
 			type: 'post',

@@ -53,7 +53,19 @@ module.exports = {
 				link: 'http://q.myplas.com/#/supplybuy/' + _this.id + '?invite=' + tel,
 				imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
 				success: function() {
-
+					$.ajax({
+						type:"post",
+						url:"/api/score/addScore",
+						data:{
+							token:window.localStorage.getItem("token"),
+							type:'4'
+						},
+						dataType: 'JSON'
+					}).done(function(res){
+						
+					}).fail(function(){
+						
+					});
 				},
 				cancel: function() {
 
@@ -67,7 +79,19 @@ module.exports = {
 				type: '',
 				dataUrl: '',
 				success: function() {
-
+					$.ajax({
+						type:"post",
+						url:"/api/score/addScore",
+						data:{
+							token:window.localStorage.getItem("token"),
+							type:'5'
+						},
+						dataType: 'JSON'
+					}).done(function(res){
+						
+					}).fail(function(){
+						
+					});
 				},
 				cancel: function() {
 
@@ -78,11 +102,11 @@ module.exports = {
 	activated: function() {
 		var _this = this;
 			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+			    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			    piwikTracker.trackPageView();
+			} catch( err ) {
+				
+			}
 		$.ajax({
 			type: "get",
 			url: "/api/qapi1/shareMyPur",
