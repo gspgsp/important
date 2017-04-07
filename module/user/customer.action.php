@@ -202,11 +202,23 @@ class customerAction extends adminBaseAction {
 			$contact = $this->db->model('customer_contact')->select('name,mobile,tel')->where('user_id='.$v['contact_id'])->getRow();
 			//超管+李总+业务员+物流自己可以看电话，其余都是打星
 			$see = $this->_getSee($v['customer_manager']);
-			$list['data'][$k]['mobile'] = $this->_hidestr($contact['mobile'],$see);
-			$list['data'][$k]['tel'] = $this->_hidestr($contact['tel'],$see);
+			if($this->public==0){
+				$list['data'][$k]['mobile'] = $this->_hidestr($contact['mobile'],$see);
+			}else{
+				$list['data'][$k]['mobile'] = $contact['mobile'];
+			}
+			//公海不做操作
+			if($this->public==0){
+				$list['data'][$k]['tel'] = $this->_hidestr($contact['tel'],$see);
+			}else{
+				$list['data'][$k]['tel'] = $contact['tel'];
+			}
+
 			$list['data'][$k]['name'] = $contact['name'];
 			//对客户名称打星(战队领导才打星号)
-			$list['data'][$k]['c_name']  = _leader($v['c_name'], $v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
+			if($this->public==0){
+				$list['data'][$k]['c_name']  = _leader($v['c_name'], $v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
+			}
 			//获取最新一次跟踪消息
 			$message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();
 			$list['data'][$k]['remark'] = $message;
@@ -261,10 +273,7 @@ class customerAction extends adminBaseAction {
 				$this->assign('is_pur',sget('supplier'));//添加客户的入口
 				$this->assign('type',L('company_type'));//工厂类型
 				$this->assign('level',L('company_level'));//客户类别
-				$cc = L('company_chanel');
-				unset($cc[1]);//去掉我的塑料网渠道
-				unset($cc[6]);//去掉塑料圈渠道
-				$this->assign('chanel',$cc);//客户渠道
+				$this->assign('chanel',L('company_chanel'));//客户渠道
 				$this->assign('credit_level',L('credit_level'));//信用等级
 				$this->assign('page_title','新增企业用户');
 				$this->display('company.add.html');
@@ -281,7 +290,9 @@ class customerAction extends adminBaseAction {
 			$info['company_city']=$areaArr[0];
 		}
 		/**20170317添加团队领导隐藏客户姓名*S*/
-		$info['c_name']  = _leader($info['c_name'], $info['customer_manager'],!M('user:customer')->judgeShare($info['c_id']));
+		if($info['customer_manager'] > 0){
+			$info['c_name']  = _leader($info['c_name'], $info['customer_manager'],!M('user:customer')->judgeShare($info['c_id']));
+		}
 		/**20170317添加团队领导隐藏客户姓名*E*/
 		$info['file_url1'] = FILE_URL.'/upload/'.$info['file_url'];
 		$info['business_licence_pic1'] = FILE_URL.'/upload/'.$info['business_licence_pic'];
