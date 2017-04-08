@@ -659,6 +659,8 @@ class qapi1_2Action extends null2Action
                 }
             }
             unset($val);
+        }else{
+            $top = (object)array();
         }
         if ($page == 1) {
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
@@ -841,8 +843,6 @@ class qapi1_2Action extends null2Action
 
             $pur_id= $pointsOrder->get_supply_demand_top($goods_id);
 
-            $arr = array( 'err' => 0, 'data' => $data['data']);
-
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
             if($pur_id &&($sortField1 == 'ALL'||$sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
 
@@ -866,6 +866,11 @@ class qapi1_2Action extends null2Action
                     ->leftjoin ('contact_info info', 'info.user_id=pur.user_id')
                     ->where("pur.id = $pur_id")->getRow();*/
                 $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
+            }else{
+                $top = (object)array();
+
+                $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
+
             }
 
             $this->json_output ($arr);
