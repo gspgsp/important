@@ -57,8 +57,7 @@ module.exports = {
 				if(res.err == 0) {
 					window.localStorage.setItem("token", res.dataToken);
 					window.localStorage.setItem("userid", res.user_id);
-					console.log(window.localStorage.invite);
-					if(window.localStorage.invite!=="undefined"){
+					if(window.localStorage.invite){
 						$.ajax({
 							type:"post",
 							url:"/api/score/addScore",
@@ -69,24 +68,49 @@ module.exports = {
 							},
 							dataType: 'JSON'
 						}).done(function(res){
-							
+							if (res.err==0) {
+								window.localStorage.setItem("invite","");
+							} else{
+								
+							}
 						}).fail(function(){
 							
 						});						
 					}else{
-						$.ajax({
-							type:"post",
-							url:"/api/score/addScore",
-							data:{
-								token:window.localStorage.getItem("token"),
-								type:'3'
-							},
-							dataType: 'JSON'
-						}).done(function(res){
-							
-						}).fail(function(){
-							
-						});						
+						if (window.localStorage.getItem("commReg")==2) {
+							$.ajax({
+								type:"post",
+								url:"/api/score/addScore",
+								data:{
+									token:window.localStorage.getItem("token"),
+									type:'2'
+								},
+								dataType: 'JSON'
+							}).done(function(res){
+								if (res.err==0) {
+									window.localStorage.setItem("commReg","");
+								} else{
+									
+								}
+							}).fail(function(){
+								
+							});							
+						} else{
+							$.ajax({
+								type:"post",
+								url:"/api/score/addScore",
+								data:{
+									token:window.localStorage.getItem("token"),
+									type:'3'
+								},
+								dataType: 'JSON'
+							}).done(function(res){
+								
+							}).fail(function(){
+								
+							});								
+						}
+					
 					}
 					_this.$router.push({
 						name: 'index'

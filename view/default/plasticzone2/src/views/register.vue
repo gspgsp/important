@@ -247,6 +247,7 @@ module.exports = {
 					dataType: 'JSON'
 				}).then(function(res) {
 					if(res.err == 0) {
+						window.localStorage.setItem("commReg",2)
 						_this.$router.push({ name: 'login' });
 					} else {
 						weui.alert(res.msg, {
