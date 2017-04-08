@@ -1395,8 +1395,10 @@ class qapi1_2Action extends null2Action
         if ($_POST) {
             $user_id = $this->checkAccount ();
             $userid  = sget ('userid', 'i');//当前联系人的id
-            $_tmp=M("qapp:infoList")->where("user_id= $user_id and other_id = $userid")->order("info_list_id desc")->getOne();
-            if(!$_tmp) $this->_errCode (99);
+            if($user_id!=$userid){
+                $_tmp=M("qapp:infoList")->where("user_id= $user_id and other_id = $userid")->order("info_list_id desc")->getOne();
+                if(!$_tmp) $this->_errCode (99);
+            }
             //添加记录
             M("qapp:infoList")->add(array('user_id'=>$user_id,'other_id'=>$userid,'input_time'=>CORE_TIME));
             $data    = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
