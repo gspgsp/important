@@ -2713,7 +2713,7 @@ class qapi1_2Action extends null2Action
             $share_id = sget ('id', 'i');
             $type     = sget ('type', 'i', 1);//分享类容类型  1采购 2报价 3 文章
             $user_id  = $this->checkAccount ();//分享人的id
-            $share    = intval (M ('system:setting')->get ('points')['points']['share']);
+            $share    = '';
             if (!M ('qapp:plasticShare')->saveShareLog ($share_id, $type, $user_id, $share)) {
                 $this->json_output (array( 'err' => 6, 'msg' => '分享失败' ));
             }
