@@ -248,7 +248,7 @@ module.exports = {
 				
 						});
 				    }, function () {
-				        window.location.back();
+				        window.history.back();
 				    }, {
 				        title: '塑料圈通讯录'
 				    });			
