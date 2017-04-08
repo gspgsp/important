@@ -2517,7 +2517,7 @@ class qapi1_2Action extends null2Action
             $pointsOrder = M("points:pointsOrder");
             $is_exist = $pointsOrder->get_supply_demand_top($goods_id);
             if ($is_exist) {
-                $this->json_output(array('err' => 13, 'msg' => '有人抢先一步'));
+                $this->json_output(array('err' => 13, 'msg' => '有人抢先一步,如有需要，请联系客服400-6129-965'));
             }
             $pointsRow = M('public:common')
                 ->from("points_goods")
