@@ -8,7 +8,7 @@
 		<div class="registerBox">
 			<strong>手机号码:</strong>
 			<input type="tel" maxlength="11" v-model="mobile" placeholder="请输入您的手机号码" />
-		</div>	
+		</div>
 		<div class="registerBox">
 			<strong>密码:</strong>
 			<input type="password" maxlength="20" v-model="pwd" placeholder="请输入密码" />
@@ -45,96 +45,110 @@ module.exports = {
 				window.localStorage.setItem("username", "");
 				window.localStorage.setItem("password", "");
 			}
-			$.ajax({
-				url: '/api/qapi1_2/login',
-				type: 'post',
-				data: {
-					username: _this.mobile,
-					password: _this.pwd
-				},
-				dataType: 'JSON'
-			}).done(function(res) {
-				if(res.err == 0) {
-					window.localStorage.setItem("token", res.dataToken);
-					window.localStorage.setItem("userid", res.user_id);
-					if(window.localStorage.getItem("inviteReg")==1){
-						$.ajax({
-							type:"post",
-							url:"/api/score/addScore",
-							data:{
-								token:window.localStorage.getItem("token"),
-								parent_mobile:window.localStorage.invite,
-								type:'1'
-							},
-							dataType: 'JSON'
-						}).done(function(res){
-							if (res.err==0) {
-								window.localStorage.setItem("inviteReg","");
-							} else{
-								
-							}
-						}).fail(function(){
-							
-						});						
-					}else{
-						if (window.localStorage.getItem("commReg")==2) {
+			if(this.mobile && this.password) {
+				$.ajax({
+					url: '/api/qapi1_2/login',
+					type: 'post',
+					data: {
+						username: _this.mobile,
+						password: _this.pwd
+					},
+					dataType: 'JSON'
+				}).done(function(res) {
+					if(res.err == 0) {
+						window.localStorage.setItem("token", res.dataToken);
+						window.localStorage.setItem("userid", res.user_id);
+						if(window.localStorage.getItem("inviteReg") == 1) {
 							$.ajax({
-								type:"post",
-								url:"/api/score/addScore",
-								data:{
-									token:window.localStorage.getItem("token"),
-									type:'2'
+								type: "post",
+								url: "/api/score/addScore",
+								data: {
+									token: window.localStorage.getItem("token"),
+									parent_mobile: window.localStorage.invite,
+									type: '1'
 								},
 								dataType: 'JSON'
-							}).done(function(res){
-								if (res.err==0) {
-									window.localStorage.setItem("commReg","");
-								} else{
-									
+							}).done(function(res) {
+								if(res.err == 0) {
+									window.localStorage.setItem("inviteReg", "");
+								} else {
+
 								}
-							}).fail(function(){
-								
-							});							
-						} else{
-							$.ajax({
-								type:"post",
-								url:"/api/score/addScore",
-								data:{
-									token:window.localStorage.getItem("token"),
-									type:'3'
-								},
-								dataType: 'JSON'
-							}).done(function(res){
-								
-							}).fail(function(){
-								
-							});								
-						}
-					
-					}
-					_this.$router.push({
-						name: 'index'
-					});
-				} else {
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function() {
-								_this.$router.push({
-									name: 'login'
+							}).fail(function() {
+
+							});
+						} else {
+							if(window.localStorage.getItem("commReg") == 2) {
+								$.ajax({
+									type: "post",
+									url: "/api/score/addScore",
+									data: {
+										token: window.localStorage.getItem("token"),
+										type: '2'
+									},
+									dataType: 'JSON'
+								}).done(function(res) {
+									if(res.err == 0) {
+										window.localStorage.setItem("commReg", "");
+									} else {
+
+									}
+								}).fail(function() {
+
+								});
+							} else {
+								$.ajax({
+									type: "post",
+									url: "/api/score/addScore",
+									data: {
+										token: window.localStorage.getItem("token"),
+										type: '3'
+									},
+									dataType: 'JSON'
+								}).done(function(res) {
+
+								}).fail(function() {
+
 								});
 							}
-						}]
-					});
-				}
-			}).fail(function(){
-				
-			}).always(function(){
-				
-			});
 
+						}
+						_this.$router.push({
+							name: 'index'
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					}
+				}).fail(function() {
+
+				}).always(function() {
+
+				});
+			} else {
+				weui.alert("手机号和密码不能为空", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
 		}
 	},
 	mounted: function() {
