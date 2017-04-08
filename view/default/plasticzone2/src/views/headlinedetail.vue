@@ -121,6 +121,21 @@ watch: {
 					success: function() {
 						$.ajax({
 							type:"post",
+							url:"/api/qapi1_2/saveShareLog",
+							data:{
+								token:window.localStorage.getItem("token"),
+								type:3,
+								id:_this.id
+							},
+							dataType: 'JSON'
+						}).done(function(res){
+							
+						}).fail(function(){
+							
+						});
+						
+						$.ajax({
+							type:"post",
 							url:"/api/score/addScore",
 							data:{
 								token:window.localStorage.getItem("token"),
@@ -145,6 +160,21 @@ watch: {
 					type: '',
 					dataUrl: '',
 					success: function() {
+						$.ajax({
+							type:"post",
+							url:"/api/qapi1_2/saveShareLog",
+							data:{
+								token:window.localStorage.getItem("token"),
+								type:3,
+								id:_this.id
+							},
+							dataType: 'JSON'
+						}).done(function(res){
+							
+						}).fail(function(){
+							
+						});
+						
 						$.ajax({
 							type:"post",
 							url:"/api/score/addScore",

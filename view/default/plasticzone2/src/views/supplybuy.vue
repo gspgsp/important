@@ -55,6 +55,21 @@ module.exports = {
 				success: function() {
 					$.ajax({
 						type:"post",
+						url:"/api/qapi1_2/saveShareLog",
+						data:{
+							token:window.localStorage.getItem("token"),
+							type:1,
+							id:_this.id
+						},
+						dataType: 'JSON'
+					}).done(function(res){
+						
+					}).fail(function(){
+						
+					});
+					
+					$.ajax({
+						type:"post",
 						url:"/api/score/addScore",
 						data:{
 							token:window.localStorage.getItem("token"),
@@ -79,6 +94,21 @@ module.exports = {
 				type: '',
 				dataUrl: '',
 				success: function() {
+					$.ajax({
+						type:"post",
+						url:"/api/qapi1_2/saveShareLog",
+						data:{
+							token:window.localStorage.getItem("token"),
+							type:2,
+							id:_this.id
+						},
+						dataType: 'JSON'
+					}).done(function(res){
+						
+					}).fail(function(){
+						
+					});
+					
 					$.ajax({
 						type:"post",
 						url:"/api/score/addScore",
