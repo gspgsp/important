@@ -323,14 +323,14 @@ class qapi1_2Action extends null2Action
                         if (!M ("plasticzone:plasticAttention")->getAttention ($user_id, $focused_id)) {
                             throw new Exception("系统错误 reg:111");
                         }
-                        if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
-                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-                            throw new Exception("系统错误 reg:112");
-                        }//引荐加积分
-                        if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
-                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-                            throw new Exception("系统错误 reg:112");
-                        }//注册加积分
+//                        if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
+//                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+//                            throw new Exception("系统错误 reg:112");
+//                        }//引荐加积分
+//                        if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
+//                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+//                            throw new Exception("系统错误 reg:112");
+//                        }//注册加积分
                     }
                     $mobile_area = getCityByMobile ($mobile);
                     $_info       = array(
@@ -512,9 +512,9 @@ class qapi1_2Action extends null2Action
                         $this->json_output (array( 'err' => 101, 'msg' => '注册信息不完整，请联系客服或重新注册' ));
                     }
                     $spoints = $this->points['login'];
-                    if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 2)) {
-                        $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
-                    }
+//                    if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 2)) {
+//                        $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
+//                    }
                 }
                 $this->json_output (array( 'err'       => 0,
                                            'msg'       => '登录成功',
@@ -997,31 +997,31 @@ class qapi1_2Action extends null2Action
                         throw new Exception("系统错误 pubpur:3");
                     }
                     $pur_id = $pur_model->getLastID ();
-                    if ($type == 2) {//报价
-                        $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-                        if (!M ("qapp:pointsBill")
-                            ->select ('id')
-                            ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
-                            ->order ("id desc")
-                            ->getOne ()
-                        ) {
-                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
-                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                            }
-                        }
-                    } elseif ($type == 1) {//采购
-                        $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
-                        if (!M ("qapp:pointsBill")
-                            ->select ('id')
-                            ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
-                            ->order ("id desc")
-                            ->getOne ()
-                        ) {
-                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
-                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                            }
-                        }
-                    }
+//                    if ($type == 2) {//报价
+//                        $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
+//                        if (!M ("qapp:pointsBill")
+//                            ->select ('id')
+//                            ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
+//                            ->order ("id desc")
+//                            ->getOne ()
+//                        ) {
+//                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
+//                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+//                            }
+//                        }
+//                    } elseif ($type == 1) {//采购
+//                        $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
+//                        if (!M ("qapp:pointsBill")
+//                            ->select ('id')
+//                            ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
+//                            ->order ("id desc")
+//                            ->getOne ()
+//                        ) {
+//                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
+//                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+//                            }
+//                        }
+//                    }
                 } catch (Exception $e) {
                     $pur_model->rollback ();
                     $this->json_output (array( 'err' => 3, 'msg' => '插入数据失败' ));
@@ -1140,31 +1140,31 @@ class qapi1_2Action extends null2Action
                     }
                     $pur_model->commit ();
                 }
-                if ($type == 2) {//报价
-                    $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-                    if (!M ("qapp:pointsBill")
-                        ->select ('id')
-                        ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
-                        ->order ("id desc")
-                        ->getOne ()
-                    ) {
-                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
-                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                        }
-                    }
-                } elseif ($type == 1) {//采购
-                    $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
-                    if (!M ("qapp:pointsBill")
-                        ->select ('id')
-                        ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
-                        ->order ("id desc")
-                        ->getOne ()
-                    ) {
-                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
-                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                        }
-                    }
-                }
+//                if ($type == 2) {//报价
+//                    $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
+//                    if (!M ("qapp:pointsBill")
+//                        ->select ('id')
+//                        ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
+//                        ->order ("id desc")
+//                        ->getOne ()
+//                    ) {
+//                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
+//                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+//                        }
+//                    }
+//                } elseif ($type == 1) {//采购
+//                    $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
+//                    if (!M ("qapp:pointsBill")
+//                        ->select ('id')
+//                        ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
+//                        ->order ("id desc")
+//                        ->getOne ()
+//                    ) {
+//                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
+//                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+//                        }
+//                    }
+//                }
 
                 //robot表插入消息
                 $tmpFuns    = M ("qapp:plasticIntroduction")->getMyFunsId ($user_id, 1);
