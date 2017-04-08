@@ -29,7 +29,7 @@
 			<span><router-link :to="{name:'myinvite'}">{{invite}}<br>引荐</router-link></span>
 			<span><router-link :to="{name:'myfans'}">{{fans}}<br>粉丝</router-link></span>
 			<span><router-link :to="{name:'mypay'}">{{pay}}<br>关注</router-link></span>
-			<span><router-link :to="{name:'mypoints'}">{{points}}<br>积分</router-link></span>
+			<span><router-link :to="{name:'mypoints'}">{{points}}<br>塑豆</router-link></span>
 		</div>
 	</div>
 	<ul class="myzoneUl">
@@ -65,7 +65,7 @@
 	</ul>
 	<ul class="myzoneUl">
 		<li>
-			<router-link :to="{name:'mypoints'}"><i class="iconZone zone7"></i>我的积分
+			<router-link :to="{name:'mypoints'}"><i class="iconZone zone7"></i>我的塑豆
 				<span>可兑换礼品</span><i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
 		</li>
 	</ul>
