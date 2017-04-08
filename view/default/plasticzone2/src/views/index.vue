@@ -28,7 +28,24 @@
 	</router-link>
 </div>
 <ul id="nameUl">
-	<li v-show="condition" v-for="n in name">
+	<li id="top">
+		<div style=" width: 100%; overflow: hidden; background: #FFFFFF;">
+		<div style="width: 55px; height: 55px; float: left; position: relative;">
+			<div class="avator">
+				<img v-bind:src="top.thumb">
+			</div>
+			<i class="iconV" v-bind:class="{'v1':top.is_pass==1,'v2':top.is_pass==0}"></i>
+		</div>
+		<div class="nameinfo">
+		<router-link :to="{name:'personinfo',params:{id:top.user_id}}">
+			<p class="first"><i class="icon wxGs"></i><span v-html="top.c_name"></span><i class="icon wxName"></i><span v-html="top.name"></span>&nbsp;{{top.sex}}</p>
+			<p class="second"><span>供给:{{top.sale_count}} 求购:{{top.buy_count}}</span>&nbsp;<span>粉丝:{{top.fans}} 等级:{{top.member_level}}</span></p>
+			<p class="second">主营：<span style="color: #666666;" v-html="top.need_product"></span></p>
+			<i class="icon2 rightArrow"></i>
+		</router-link>
+		</div>
+	</li>
+	<li class="static" v-show="condition" v-for="n in name">
 		<div style="width: 55px; height: 55px; float: left; position: relative;">
 			<div class="avator">
 				<img v-bind:src="n.thumb">
@@ -76,7 +93,8 @@ data: function() {
 		sortField: "input_time",
 		sortOrder: "desc",
 		txt: "最近注册",
-		loadingShow: ""
+		loadingShow: "",
+		top:""
 	}
 },
 methods: {
@@ -185,12 +203,14 @@ methods: {
 		this.isCircle = true;
 		$.ajax({
 			type: "get",
-			url: "/api/qapi1/getPlasticPerson",
+			url: "/api/qapi1_2/getPlasticPerson",
 			data: {
 				keywords: "",
 				page: 1,
 				token: window.localStorage.getItem("token"),
-				size: 10
+				size: 10,
+				sortField: _this.sortField,
+				sortOrder: _this.sortOrder
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
@@ -294,6 +314,13 @@ beforeRouteEnter:function(to,from,next){
 	next(function(vm){
 		$(window).on('scroll', function(){
 			vm.loadingMore();
+			var scrollTop = $(this).scrollTop();
+			var liWidth=$(".static").width();
+			if (scrollTop > 90) {
+				$("#top").css({'position':'fixed','top':'90px','width':liWidth+'px'});
+			} else{
+				$("#top").css({'position':'static','top':'0'});
+			}
 		});
 		$(window).scrollTop(window.localStorage.getItem("scrollTop"));
 	});
@@ -304,6 +331,7 @@ beforeRouteLeave:function(to,from,next){
 		
 	});
 	$(window).off('scroll');
+	//$("#top").css({'position':'static','top':'0'});
 	window.localStorage.setItem("scrollTop",$(window).scrollTop());
 },
 mounted: function() {
@@ -315,10 +343,10 @@ mounted: function() {
 	} catch( err ) {
 		
 	}
-
+	
 	$.ajax({
 		type: "get",
-		url: "/api/qapi1/getPlasticPerson",
+		url: "/api/qapi1_2/getPlasticPerson",
 		data: {
 			keywords: "",
 			page: 1,
@@ -333,6 +361,7 @@ mounted: function() {
 			_this.condition = true;
 			_this.member = res.member;
 			_this.name = res.persons;
+			_this.top=res.top;
 		} else if(res.err == 2) {
 			_this.condition = false;
 		}
@@ -346,6 +375,7 @@ mounted: function() {
 		var scrollTop = $(this).scrollTop();
 		var scrollHeight = $(document).height();
 		var windowHeight = $(this).height();
+
 		if(scrollTop > 600) {
 			_this.isArrow = true;
 		} else {

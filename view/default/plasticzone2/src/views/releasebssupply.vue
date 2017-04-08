@@ -95,7 +95,7 @@ module.exports = {
 			data.push(arr);
 			if(this.type && this.store_house && this.model && this.f_name && this.price || this.remark) {
 				$.ajax({
-					url: '/api/qapi1/pub',
+					url: '/api/qapi1_2/pub',
 					type: 'post',
 					data: {
 						data:data,

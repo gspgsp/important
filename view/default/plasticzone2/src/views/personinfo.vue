@@ -239,7 +239,7 @@ module.exports = {
 								        label: '确定',
 								        type: 'parimary',
 								        onClick: function(){
-											window.location.back();		        	
+											window.history.back();		        	
 								        }
 								    }]
 								});								
