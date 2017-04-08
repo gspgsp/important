@@ -2738,7 +2738,7 @@ class qapi1_2Action extends null2Action
                 $this->json_output (array( 'err' => 7, 'msg' => '服务正在维护,请稍后再试！' ));
                 break;
             case 99:
-                $this->json_output (array( 'err' => 99, 'msg' => '未消耗积分，没有权限查看' ));
+                $this->json_output (array( 'err' => 99, 'msg' => '是否消耗积分查看' ));
                 break;
             case 100:
                 $this->json_output (array( 'err' => 100, 'msg' => '积分不足,请多努力!' ));
