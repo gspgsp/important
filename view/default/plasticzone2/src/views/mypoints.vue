@@ -55,7 +55,7 @@
 				<div v-for="m in p2.myMsg">
 					<input type="radio" name="msg" v-bind:value="m.id" v-model="selected">
 					{{m.input_time}}<br>
-					供给求购：<span>{{m.contents}}</span>
+					供求：<span>{{m.contents}}</span>
 				</div>
 			</div>		
 			<div class="productCost">共<span>{{pro2.num}}</span>件
