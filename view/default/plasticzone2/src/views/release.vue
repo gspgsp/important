@@ -439,7 +439,7 @@ module.exports = {
 				_this.page++;
 				$.ajax({
 					type: "post",
-					url: "/api/qapi1_1/getReleaseMsg",
+					url: "/api/qapi1_2/getReleaseMsg",
 					data: {
 						keywords: _this.keywords.toLocaleUpperCase(),
 						page: _this.page,

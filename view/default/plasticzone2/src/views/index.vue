@@ -274,8 +274,8 @@ methods: {
         if (scrollTop + windowHeight == scrollHeight) {
         	_this.page++;
 			$.ajax({
-				type: "get",
-				url: "/api/qapi1/getPlasticPerson",
+				type: "post",
+				url: "/api/qapi1_2/getPlasticPerson",
 				data: {
 					sortField: _this.sortField,
 					sortOrder: _this.sortOrder,
