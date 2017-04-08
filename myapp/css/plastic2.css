@@ -228,7 +228,9 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 
 #name{ margin: 0; padding: 0; list-style: none; position: fixed; left: 5px; top: 50%; margin: -182px 0 0 0; text-align: center; color: #646464; font-size: 12px; line-height: 14px;}
 #nameUl{ padding: 0 10px; border-top: 1px solid #d9d9d9; list-style: none; margin: 0; background: #FFFFFF; font-size: 14px;}
-#nameUl li{ padding: 10px 0; overflow: hidden; border-bottom: 1px solid #D9D9D9;}
+#nameUl li{ padding: 10px 0; background: #FFFFFF; z-index: 10; overflow: hidden; border-bottom: 1px solid #D9D9D9;}
+
+
 .avator{ width: 55px; height: 55px; border-radius: 6px; background: url(../img/logos.jpg) no-repeat; background-size: 100% 100%; float: left; border: 1px solid #f88f5f; overflow: hidden;}
 .avator img{ width: 55px; height: 55px;}
 .nameinfo{ width: auto; margin: 0 10px 0 65px; position: relative;}
@@ -497,7 +499,10 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .pointsWrap{ padding: 12px;}
 .pointsTitle{ width: 100%; height: 20px; line-height: 20px;}
 
-.rule{ font-size: 13px; color: #666666; padding: 35px;}
+.rule{ font-size: 12px; margin: 0 0 10px 0; color: #666666; border-bottom: 1px solid #D9D9D9; border-top: 1px solid #D9D9D9; padding: 0 10px; background: #FFFFFF; overflow: hidden;}
+.ruleTitle{ width: 100%; font-size: 15px; color: #000000; border-bottom: 1px solid #D9D9D9; height: 35px; line-height: 35px;}
+.rule p{ color: #666666; font-size: 12px; margin: 0;}
+
 #productUl{ margin: 0; padding: 0; margin: 10px 0 0 0; list-style: none; overflow: hidden;}
 #productUl li{ width: 100%; height: auto; overflow: hidden; border-radius: 3px; margin: 0 0 10px 0; border: 1px solid #d6d7dc; background: #FFFFFF;}
 .productNum{ width: 100%; height: 45px; font-size: 13px; padding: 0 10px; color: #999999; line-height: 45px; border-top: 1px solid #D9D9D9;}
@@ -741,4 +746,4 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 	line-height: 40px;
 	text-align: center;
 }
-
+#top{ width: 100%; box-sizing: border-box;}
