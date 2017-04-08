@@ -838,8 +838,8 @@ class qapi1_2Action extends null2Action
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
             if($pur_id &&($sortField1 == 'ALL'||$sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
 
-                $top = M("qapp:plasticRealse")->model('purchase')->where("id = $pur_id")->getRow();
-                $top = M("qapp:plasticRealse")->model ('purchase')->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.input_time,pur.type,pur.content')->from ('purchase pur')
+                $top = M("qapp:plasticRelease")->model('purchase')->where("id = $pur_id")->getRow();
+                $top = M("qapp:plasticRelease")->model ('purchase')->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.input_time,pur.type,pur.content')->from ('purchase pur')
                     ->leftjoin ('product pro', 'pur.p_id=pro.id')
                     ->leftjoin ('factory fa', 'pro.f_id=fa.fid')
                     ->leftjoin ('contact_info info', 'info.user_id=pur.user_id')
