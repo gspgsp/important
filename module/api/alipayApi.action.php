@@ -47,11 +47,11 @@ class alipayApiAction extends null2Action{
                 $_tmp = 'sss'.CORE_TIME.'name';
                 $this->cache->set($_tmp,serialize($_POST));
                 file_put_contents(APP_LIB."extend/notifyurl_log/$_tmp.txt",serialize($_POST));
-                echo 'success';
-            }else{
-                $_tmp = 'sss'.CORE_TIME.'name';
-                $this->cache->set($_tmp,serialize($_POST));
+                echo 'success';die();
             }
+        }else{
+            $_tmp = 'sss'.CORE_TIME.'name';
+            $this->cache->set($_tmp,serialize($_POST));
         }
 
     }
