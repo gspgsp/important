@@ -846,8 +846,8 @@ class qapi1_2Action extends null2Action
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
             if($pur_id &&($sortField1 == 'ALL'||$sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
 
-                $top = M ('qapp:plasticRelease')->getReleaseMsgDetail($pur_id,$user_id,$user_id);
-                $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo($user_id);
+                $top = M ('qapp:plasticRelease')->getReleaseMsgDetail($pur_id);
+                $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo($top['user_id']);
                 $_tmp = $top['info'];
                 unset($top['info']);
                 $top =  array_merge($top,$_tmp,$personal);
