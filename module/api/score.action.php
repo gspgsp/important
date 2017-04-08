@@ -113,7 +113,7 @@ class scoreAction extends null2Action
                 $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =2")->order("id desc")->limit(4)->getAll();
                 $size = 1;
                 foreach($_tmp as $key=>$row){
-                    if($row['addtime']>(strtotime(date("Y-m-d"))-86400*($key+1))&&$row['addtime']<(strtotime(date("Y-m-d"))-86400*$key)) $size++;
+                    if($row['addtime']>(strtotime(date("Y-m-d"))-86400*$key)&&$row['addtime']<(strtotime(date("Y-m-d"))-86400*($key-1))) $size++;
                     if($key==0&&$row['addtime']>strtotime(date("Y-m-d"))&&$row['addtime']<(strtotime(date("Y-m-d"))+86400)) $this->json_output(array('err'=>0,'msg'=>'今天已加过积分了'));
                 }
                 if(!M ("qapp:pointsBill")->addPoints ($points['login']*$size, $user_id, 2)){
