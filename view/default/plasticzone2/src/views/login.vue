@@ -57,7 +57,7 @@ module.exports = {
 				if(res.err == 0) {
 					window.localStorage.setItem("token", res.dataToken);
 					window.localStorage.setItem("userid", res.user_id);
-					if(window.localStorage.invite){
+					if(window.localStorage.getItem("inviteReg")==1){
 						$.ajax({
 							type:"post",
 							url:"/api/score/addScore",
@@ -69,7 +69,7 @@ module.exports = {
 							dataType: 'JSON'
 						}).done(function(res){
 							if (res.err==0) {
-								window.localStorage.setItem("invite","");
+								window.localStorage.setItem("inviteReg","");
 							} else{
 								
 							}

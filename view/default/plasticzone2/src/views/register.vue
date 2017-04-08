@@ -247,7 +247,11 @@ module.exports = {
 					dataType: 'JSON'
 				}).then(function(res) {
 					if(res.err == 0) {
-						window.localStorage.setItem("commReg",2)
+						if (window.localStorage.getItem("invite")!="undefined") {
+							window.localStorage.setItem("inviteReg",1)
+						} else{
+							window.localStorage.setItem("commReg",2)
+						}
 						_this.$router.push({ name: 'login' });
 					} else {
 						weui.alert(res.msg, {
@@ -304,7 +308,7 @@ module.exports = {
 		} catch(err) {
 
 		}
-
+		//console.log(window.localStorage.getItem("invite"));
 		var _this = this;
 		$.ajax({
 			url: '/api/qapi1_2/getRegion',
