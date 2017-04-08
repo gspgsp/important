@@ -45,7 +45,7 @@ module.exports = {
 				window.localStorage.setItem("username", "");
 				window.localStorage.setItem("password", "");
 			}
-			if(this.mobile && this.password) {
+			if(this.mobile && this.pwd) {
 				$.ajax({
 					url: '/api/qapi1_2/login',
 					type: 'post',
