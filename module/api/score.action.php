@@ -124,7 +124,7 @@ class scoreAction extends null2Action
                 $this->json_output (array( 'err' => 0, 'msg' => '积分添加成功' ));
                 break;
             case 4://分享求购
-                $pur_type = $_POST['pur_type'];
+                $pur_type = 1;
                 $_today= strtotime(date("Y-m-d"));
                 $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =13 and share_type=1 and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) $this->json_output(array('err'=>0,'msg'=>'今天求购分享次数>5，不加积分'));
@@ -137,7 +137,7 @@ class scoreAction extends null2Action
                 $this->json_output (array( 'err' => 0, 'msg' => '积分添加成功' ));
                 break;
             case 5://分享供给
-                $pur_type = $_POST['pur_type'];
+                $pur_type = 2;
                 $_today= strtotime(date("Y-m-d"));
                 $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =13 and share_type=2 and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) $this->json_output(array('err'=>0,'msg'=>'今天供给分享次数>5，不加积分'));
