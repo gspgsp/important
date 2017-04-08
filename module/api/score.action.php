@@ -69,8 +69,8 @@ class scoreAction extends null2Action
         M ("qapp:pointsBill")->startTrans();
         switch($type){
             case 1://拉新注册登录
-                $parent_mobile = (int)$_POST['parent_mobile'];
-                if(!is_mobile($parent_mobile)) $this->json_output(array('err'=>0,'msg'=>'引荐人错误'));
+                $parent_mobile = $_POST['parent_mobile']+0;
+                if(!is_mobile($parent_mobile)) $this->json_output(array('err'=>1,'msg'=>'引荐人错误'));
                 $focused_id = M("public:common")->from ('customer_contact')
                     ->select ('user_id')
                     ->where ("mobile='$parent_mobile'")
