@@ -1740,9 +1740,9 @@ class qapi1_2Action extends null2Action
                              ->getRow ()
             ) {
                 if (($info['quan_points'] - $num) < 0) {
-                    $this->json_output (array( 'err' => 100, 'msg' => '积分不足,请多努力!' ));
+                    $this->json_output (array( 'err' => 100, 'msg' => '塑豆不足,请多努力!' ));
                 }
-                $this->json_output (array( 'err' => 0, 'msg' => '积分足够兑换' ));
+                $this->json_output (array( 'err' => 0, 'msg' => '塑豆足够兑换' ));
             }
         } elseif ($outType == 1) {
             $num  = (int)$num;
@@ -2485,7 +2485,7 @@ class qapi1_2Action extends null2Action
             $user = M ('public:common')->model ('contact_info');
             if ($info = $user->where ("user_id=$user_id")->getRow ()) {
                 if (($info['quan_points'] - $num*$goods_info['points']) < 0) {
-                    $this->json_output(array('err' => 15, 'msg' => '积分不足'));
+                    $this->json_output(array('err' => 15, 'msg' => '塑豆不足'));
                 }
             }
             $pointsOrder = M("points:pointsOrder");
@@ -2740,10 +2740,10 @@ class qapi1_2Action extends null2Action
                 $this->json_output (array( 'err' => 7, 'msg' => '服务正在维护,请稍后再试！' ));
                 break;
             case 99:
-                $this->json_output (array( 'err' => 99, 'msg' => '是否消耗积分查看' ));
+                $this->json_output (array( 'err' => 99, 'msg' => "是否消耗{$this->points['see_list']}塑豆查看" ));
                 break;
             case 100:
-                $this->json_output (array( 'err' => 100, 'msg' => '积分不足,请多努力!' ));
+                $this->json_output (array( 'err' => 100, 'msg' => '塑豆不足,请多努力!' ));
                 break;
             case 101:
                 $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
