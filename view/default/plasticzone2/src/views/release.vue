@@ -364,7 +364,11 @@ module.exports = {
 			}).done(function(res) {
 				if(res.err == 0) {
 					_this.release = res.data;
-					_this.top=res.top;
+					if(JSON.stringify(res.top)=='{}'){
+						_this.top=null
+					}else{
+						_this.top=res.top;
+					}					
 				} else if(res.err == 2 || res.err == 5 || res.err == 3) {
 					_this.condition = false;
 					_this.errmsg = res.msg;

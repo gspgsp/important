@@ -362,7 +362,11 @@ mounted: function() {
 			_this.condition = true;
 			_this.member = res.member;
 			_this.name = res.persons;
-			_this.top=res.top;
+			if(JSON.stringify(res.top)=='{}'){
+				_this.top=null
+			}else{
+				_this.top=res.top;
+			}
 		} else if(res.err == 2) {
 			_this.condition = false;
 		}
