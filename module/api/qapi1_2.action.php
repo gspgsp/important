@@ -2569,7 +2569,7 @@ class qapi1_2Action extends null2Action
             $size    = sget ('size', 'i', 10);
             //$data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id and type in (2,3,5,6)")->order('id desc')->page($page,$size)->getPage();
             $data = M ("qapp:pointsBill")
-                ->select ('id,addtime,type,points')
+                ->select ('id,addtime,type,points,share_type')
                 ->where ("uid = $user_id")
                 ->order ('id desc')
                 ->page ($page, $size)
@@ -2583,6 +2583,10 @@ class qapi1_2Action extends null2Action
             $points = empty($points) ? 0 : $points;
             foreach ($data['data'] as $k => &$v) {
                 $v['typename'] = $this->pointsType[$v['type']];
+                if($v['type']==13){
+                    $v['typename'] = $this->shareType[$v['share_type']];
+                }
+
                 $v['addtime']  = $this->checkTime ($v['addtime']);
                 unset($v['type']);
             }
@@ -2707,7 +2711,7 @@ class qapi1_2Action extends null2Action
     {
         if ($_POST) {
             $share_id = sget ('id', 'i');
-            $type     = sget ('type', 'i', 1);//分享类容类型  1采购 2报价
+            $type     = sget ('type', 'i', 1);//分享类容类型  1采购 2报价 3 文章
             $user_id  = $this->checkAccount ();//分享人的id
             $share    = intval (M ('system:setting')->get ('points')['points']['share']);
             if (!M ('qapp:plasticShare')->saveShareLog ($share_id, $type, $user_id, $share)) {
