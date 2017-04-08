@@ -747,3 +747,6 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 	text-align: center;
 }
 #top{ width: 100%; box-sizing: border-box;}
+#releaseTop{ z-index: 100;}
+.toFixed{ width: 57px; height: 18px; bottom: 0; right: 3px; line-height: 18px; border-radius: 3px; text-align: center; font-size: 12px; position: absolute; border: 1px solid #fe5a50; color: #fe5a50;}
+.releaseFix{ width: 58px; height: 43px; right: 0; top: 0; position: absolute; background: url(../img/releaseFix.png) no-repeat; background-size: 100% 100%;}
