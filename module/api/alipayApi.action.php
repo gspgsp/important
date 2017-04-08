@@ -20,7 +20,7 @@ class alipayApiAction extends null2Action{
 
     public function alipaySome(){
         $request = new AlipayTradeWapPayRequest ();
-        //$request->setReturnUrl("http://test.myplas.com/api/alipayApi/alipayReturnUrl");
+        $request->setReturnUrl("http://test.myplas.com/api/alipayApi/alipayReturnUrl");
         $request->setNotifyUrl("http://test.myplas.com/api/alipayApi/alipayNotifyUrl");
         $sno='so'.time().'sssss';
         $request->setBizContent("{" .
