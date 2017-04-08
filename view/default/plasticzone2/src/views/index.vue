@@ -28,8 +28,8 @@
 	</router-link>
 </div>
 <ul id="nameUl">
-	<li id="top">
-		<div style=" width: 100%; overflow: hidden; background: #FFFFFF;">
+	<li id="top" v-if="top">
+		<div style=" width: 100%; overflow: hidden; position: relative; background: #FFFFFF;">
 		<div style="width: 55px; height: 55px; float: left; position: relative;">
 			<div class="avator">
 				<img v-bind:src="top.thumb">
@@ -43,6 +43,8 @@
 			<p class="second">主营：<span style="color: #666666;" v-html="top.need_product"></span></p>
 			<i class="icon2 rightArrow"></i>
 		</router-link>
+		</div>
+		<span class="toFixed">已置顶</span>
 		</div>
 	</li>
 	<li class="static" v-show="condition" v-for="n in name">
@@ -331,7 +333,6 @@ beforeRouteLeave:function(to,from,next){
 		
 	});
 	$(window).off('scroll');
-	//$("#top").css({'position':'static','top':'0'});
 	window.localStorage.setItem("scrollTop",$(window).scrollTop());
 },
 mounted: function() {

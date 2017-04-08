@@ -22,6 +22,49 @@
 		</div>
 	</div>
 	<ul id="releaseUl">
+		<li id="releaseTop" v-if="top">
+			<div style=" width: 100%; overflow: hidden; position: relative; background: #FFFFFF;">
+			<span class="releaseFix"></span>
+			<router-link :to="{name:'personinfo',params:{id:top.user_id}}" style="display: block; height: 35px; overflow: hidden;">
+				<div class="myreleaseInfo">
+					<div style="width: 30px; height: 30px; float: left; position: relative;">
+						<div class="avator">
+							<img v-bind:src="top.thumb">
+						</div>
+						<i class="iconV" v-bind:class="{'v1':top.is_pass==null||top.is_pass==1,'v2':top.is_pass==0}"></i>
+					</div>
+					<div class="myreleasetxt">
+						<p style="line-height: 30px;">{{top.c_name}}&nbsp;{{top.name}}</p>
+					</div>
+				</div>
+			</router-link>
+			<div class="myreleasetxt2">
+				<router-link :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id}}">
+					<p>
+						<strong v-if="top.type==2" style=" color: #63769d;">
+							<i class="iconSale"></i>供给</strong>
+						<strong v-else style="color: #ea8010;">
+							<i class="iconBuy"></i>求购
+						</strong>
+						<strong v-html="top.contents"></strong>
+					</p>
+				</router-link>
+				<p style="color: #999999;">
+					{{top.input_time}}
+					<span style="margin: 0 0 0 3px; color: #999999;">
+				<router-link style=" color: #999999;" :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id,tab:2}}">
+				<i class="releasereplyicon"></i>回复<i style="color: #63769d; font-style: normal;">({{top.saysCount}})</i>
+				</router-link>
+			</span>
+					<span style=" color: #999999;">
+				<router-link style=" color: #999999;" :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id,tab:1}}">
+				<i class="releasesaleicon"></i>出价<i style="color: #63769d; font-style: normal;">({{top.deliverPriceCount}})</i>
+				</router-link>
+			</span>
+				</p>
+			</div>
+			</div>
+		</li>
 		<li v-show="condition" v-for="r in release">
 			<router-link :to="{name:'personinfo',params:{id:r.user_id}}" style="display: block; height: 35px; overflow: hidden;">
 				<div class="myreleaseInfo">
@@ -40,44 +83,44 @@
 				<router-link :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id}}">
 					<p>
 						<strong v-if="r.type==2" style=" color: #63769d;">
-					<i class="iconSale"></i>供给</strong>
+				<i class="iconSale"></i>供给</strong>
 						<strong v-else style="color: #ea8010;">
-					<i class="iconBuy"></i>求购
-				</strong>
+				<i class="iconBuy"></i>求购
+			</strong>
 						<strong v-html="r.contents"></strong>
 					</p>
 				</router-link>
 				<p style="color: #999999;">
 					{{r.input_time}}
 					<span v-show="mine" style="margin: 0 0 0 3px; color: #999999;">
-					<router-link style=" color: #999999;" :to="{name:'supplybuy',params:{id:r.id}}">
-					<i class="releaseshareicon"></i>分享
-					</router-link>
-				</span>
+				<router-link style=" color: #999999;" :to="{name:'supplybuy',params:{id:r.id}}">
+				<i class="releaseshareicon"></i>分享
+				</router-link>
+			</span>
 					<span v-show="mine" style="margin: 0 0 0 3px; color: #999999;">
-					<router-link v-show="r.type==1" style=" color: #999999;" :to="{name:'releasebsbuy',query: { id: r.id}}">
-					<i class="releaseresendicon"></i>重发
-					</router-link>
-					<router-link v-show="r.type==2" style=" color: #999999;" :to="{name:'releasebssupply',query: { id: r.id}}">
-					<i class="releaseresendicon"></i>重发
-					</router-link>
-				</span>
+				<router-link v-show="r.type==1" style=" color: #999999;" :to="{name:'releasebsbuy',query: { id: r.id}}">
+				<i class="releaseresendicon"></i>重发
+				</router-link>
+				<router-link v-show="r.type==2" style=" color: #999999;" :to="{name:'releasebssupply',query: { id: r.id}}">
+				<i class="releaseresendicon"></i>重发
+				</router-link>
+			</span>
 					<span style="margin: 0 0 0 3px; color: #999999;">
-					<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
-					<i class="releasereplyicon"></i>回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
-					</router-link>
-					<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
-					<i class="releasereplyicon"></i>看回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
-					</router-link>
-				</span>
+				<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
+				<i class="releasereplyicon"></i>回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
+				</router-link>
+				<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
+				<i class="releasereplyicon"></i>看回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
+				</router-link>
+			</span>
 					<span style=" color: #999999;">
-					<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
-					<i class="releasesaleicon"></i>出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
-					</router-link>
-					<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
-					<i class="releasesaleicon"></i>看出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
-					</router-link>
-				</span>
+				<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
+				<i class="releasesaleicon"></i>出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
+				</router-link>
+				<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
+				<i class="releasesaleicon"></i>看出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
+				</router-link>
+			</span>
 				</p>
 			</div>
 		</li>
@@ -127,13 +170,23 @@ module.exports = {
 			mine: false,
 			on1: true,
 			errmsg: "",
-			loadingShow: ""
+			loadingShow: "",
+			top: ""
 		}
 	},
 	beforeRouteEnter: function(to, from, next) {
 		next(function(vm) {
 			$(window).on('scroll', function() {
 				vm.loadingMore();
+				var scrollTop = $(this).scrollTop();
+				var reliWidth=$("body").width();
+				console.log(reliWidth);
+				if (scrollTop > 90) {
+					$("#releaseTop").css({'position':'fixed','top':'90px','width':reliWidth+'px'});
+				} else{
+					$("#releaseTop").css({'position':'static','top':'0'});
+				}
+
 			});
 		});
 	},
@@ -246,52 +299,52 @@ module.exports = {
 				className: 'custom-classname'
 			});
 		},
-		getRelease:function(cate){
-			window.scrollTo(0,0);
-			var _this=this;
+		getRelease: function(cate) {
+			window.scrollTo(0, 0);
+			var _this = this;
 			var loading = weui.loading('加载中', {
 				className: 'custom-classname'
 			});
-			switch (cate){
+			switch(cate) {
 				case 'all':
-					_this.filter1=true;
-					_this.filter2=false;
-					_this.filter3=false;
-					_this.filter4=false;
+					_this.filter1 = true;
+					_this.filter2 = false;
+					_this.filter3 = false;
+					_this.filter4 = false;
 					_this.sortfield1 = "ALL";
 					_this.sortfield2 = "";
 					_this.condition = true;
-					_this.page=1;
+					_this.page = 1;
 					break;
 				case 'recommend':
-					_this.filter1=false;
-					_this.filter2=true;
-					_this.filter3=false;
-					_this.filter4=false;
+					_this.filter1 = false;
+					_this.filter2 = true;
+					_this.filter3 = false;
+					_this.filter4 = false;
 					_this.sortfield1 = "";
 					_this.sortfield2 = "AUTO";
 					_this.condition = true;
-					_this.page=1;
+					_this.page = 1;
 					break;
 				case 'attention':
-					_this.filter1=false;
-					_this.filter2=false;
-					_this.filter3=true;
-					_this.filter4=false;
+					_this.filter1 = false;
+					_this.filter2 = false;
+					_this.filter3 = true;
+					_this.filter4 = false;
 					_this.sortfield1 = "";
 					_this.sortfield2 = "CONCERN";
 					_this.condition = true;
-					_this.page=1;
+					_this.page = 1;
 					break;
 				case 'supplydemand':
-					_this.filter1=false;
-					_this.filter2=false;
-					_this.filter3=false;
-					_this.filter4=true;
+					_this.filter1 = false;
+					_this.filter2 = false;
+					_this.filter3 = false;
+					_this.filter4 = true;
 					_this.sortfield1 = "";
 					_this.sortfield2 = "DEMANDORSUPPLY";
 					_this.condition = true;
-					_this.page=1;
+					_this.page = 1;
 				default:
 					break;
 			}
@@ -311,13 +364,15 @@ module.exports = {
 			}).done(function(res) {
 				if(res.err == 0) {
 					_this.release = res.data;
+					_this.top=res.top;
 				} else if(res.err == 2 || res.err == 5 || res.err == 3) {
 					_this.condition = false;
 					_this.errmsg = res.msg;
+					_this.top=null;
 				}
-			}).fail(function(){
-				
-			}).always(function(){
+			}).fail(function() {
+
+			}).always(function() {
 				loading.hide(function() {});
 			});
 		},
@@ -432,7 +487,7 @@ module.exports = {
 				_this.isArrow = false;
 			}
 		});
-		
+
 		_this.loadingShow = true;
 		$.ajax({
 			url: '/api/qapi1_2/getReleaseMsg',
@@ -450,6 +505,7 @@ module.exports = {
 		}).done(function(res) {
 			if(res.err == 0) {
 				_this.release = res.data;
+				_this.top = res.top;
 			} else if(res.err == 1) {
 				weui.alert(res.msg, {
 					title: '塑料圈通讯录',
@@ -468,9 +524,9 @@ module.exports = {
 				_this.errmsg = res.msg;
 			}
 
-		}).fail(function(){
-			
-		}).always(function(){
+		}).fail(function() {
+
+		}).always(function() {
 			_this.loadingShow = false;
 		});
 
