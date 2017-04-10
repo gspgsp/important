@@ -356,7 +356,7 @@ class customerContactModel extends model{
 		$cusArr = $this->from('customer_contact con')
 		->leftjoin('customer cus','cus.c_id=con.c_id')
 		->where('con.user_id ='.$userid)
-		->select('cus.c_name,cus.c_id')
+		->select('cus.c_name,cus.c_id,cus.type')
 		->getRow();
 		return empty($nameArr)?$cusArr:array_merge($cusArr,$nameArr);
 	}
