@@ -37,9 +37,10 @@ class indexAction extends userBaseAction{
 		//实时资讯
 		$this->ref=M('resourcelib:resourcelib')->getNew();
 		//最新正在洽谈的求购信息
-		$this->rest=M('product:purchase')->getInfo();
+		$rest=$this->rest=M('product:purchase')->get_info("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 1 and pur.sync in(0,1,2,7) and pur.last_buy_sale=''",6);
+
 		//洽淡报价需求
-		$purSale=M('product:purchase')->getPurLimit("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 2",6);
+		$purSale=M('product:purchase')->getPurLimit("pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 2 and pur.sync in(0,1,2,7) and pur.last_buy_sale=''",6);
 		foreach($purSale as $key=>$value){
 			$purSale[$key]['city']=(!empty($value['region_name']))?$value['region_name']:$value['store_house'];
 		}

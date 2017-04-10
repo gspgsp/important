@@ -20,9 +20,7 @@
             $this->cartList = Cart::getGoods();
             $cityWhere = 'pid=1';
             $factoryWhere = 1;
-            $where = "pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(0,1,2,7)";
-            //$where="pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4)";
-
+            $where = "pur.type=2 and pur.shelve_type=1 and pur.status in (2,3,4) and pur.sync in(0,1,2,7) and pur.last_buy_sale=''";
             if ($keywords = sget('keywords', 's', '')) {
                 $where .= " and (pro.model like '%{$keywords}%' or fa.f_name like '%{$keywords}%')";
             }

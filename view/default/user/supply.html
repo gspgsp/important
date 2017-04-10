@@ -8,24 +8,23 @@
 
 <div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
 <div class="user-wrap w1220">
-    {include file="public:user_left"}
+	{include file="public:user_left"}
 	<div class="right frt">
 		<h3>个人中心-我的供货</h3>
 		<ul class="taby">
-        	<li id="taby1" value="0" onclick="setTab('taby',1,4)" class="hover"><p>全部</p><span></span></li>
-            <li id="taby2"  value="2" onclick="setTab('taby',2,4)"><p>待确认</p><span></span></li>
-            <li id="taby3"  value="3" onclick="setTab('taby',3,4)"><p>已成交</p><span></span></li>
-            <li id="taby4"  value="8" onclick="setTab('taby',4,4)" style="border-right:none;"><p>未成交</p><span></span></li>
-        </ul>
-        <!--con-taby begin-->
-        <div class="con-taby">
-        	<!--filter begin-->
-        	<div class="filter">
-        		<form id="filterForm" method="get" action="">
+			<li id="taby1" value="0" onclick="setTab('taby',1,4)" ><p>全部</p><span></span></li>
+			<li id="taby2"  value="2" onclick="setTab('taby',2,4)" class="hover"><p>已完成</p><span></span></li>
+			<li id="taby3"  value="3" onclick="setTab('taby',3,4)"><p>已取消</p><span></span></li>
+		</ul>
+		<!--con-taby begin-->
+		<div class="con-taby">
+			<!--filter begin-->
+			<div class="filter">
+				<form id="filterForm">
 
-        		</form>
-        	</div>
-        	<!--filter end-->
+				</form>
+			</div>
+			<!--filter end-->
 
 			<div id="con-tabe-1" class="con-tabe">
 				<form id="listForm">
@@ -35,25 +34,23 @@
 				</form>
 			</div>
 
-        </div>
-        <!--con-taby end-->
+		</div>
+		<!--con-taby end-->
 	</div>
 </div>
 
 
 <script>
-    $(function(){
-        $('.taby li').click(function(){
-            var val=$(this).val();
+	$(function(){
+		$('.taby li').click(function(){
+			var val=$(this).val();
 			if(val==0){
 				window.location.reload();
 			}
 			$("#table_box2").load('/user/myoffers/subblyTable',{type:"{$type}",page:"{$page}",status:val});
-        })
+		})
 
-    })
-
-
+	})
 
 	$("#table_box2").load('/user/myoffers/subblyTable',{type:"{$type}",page:"{$page}"});
 	var filterForm=$("#filterForm");

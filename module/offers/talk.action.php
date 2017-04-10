@@ -52,9 +52,10 @@ class talkAction extends homeBaseAction{
 			$data['pay_method']=$data['pay_method'];                           // 支付方式
 			$data['input_time']=CORE_TIME;
 			$data['update_time']=CORE_TIME;
-			$data['status']=($purData['type']==1)?1:2;
-
+//			$data['status']=($purData['type']==1)?1:2;
+			$data['status']=2;
 //			$data['user_id']=$this->user_id;
+			$data['c_user_id']=$_SESSION['userid'];
 			$data['user_id']=$data['user_id'];
 			// 发布者id
 			$data['sn']='UO'.genOrderSn();
@@ -62,7 +63,7 @@ class talkAction extends homeBaseAction{
 			try{
 				if(!($this->db->model('sale_buy')->add($data))) throw new Exception('下单失败，请重新下单');
 				$id=$this->db->model('sale_buy')->getLastID();               // buy_sale (id)
-				if($data['status']==2){
+				if($purData['type']==2){
 					$arr=array(
 						'order_name'=>'采购ID为【'.$id.'】销售ID为【'.$pur_id.'】',
 						'total_price'=>$data['number']*$data['price'],      //  总价
@@ -104,7 +105,7 @@ class talkAction extends homeBaseAction{
 					//创建子订单详情
 					if(!$this->db->model('union_order_detail')->add($product)) throw  new Exception('订单生成失败');
 				}
-				if($data['status']==1){
+				if($purData['type']==1){
 					$arr=array(
 						'order_name'=>'采购ID为【'.$id.'】销售ID为【'.$pur_id.'】',
 						'total_price'=>$data['number']*$data['price'],      //  总价
@@ -157,6 +158,7 @@ class talkAction extends homeBaseAction{
 
 //			$model->where("id=$p_id")->update("supply_count=supply_count+1");
 			// //发送站内信
+
 			$name=$purData['type']==1?'采购':'报价';
 			$msgType=$purData['type']==1?2:3;
 			$msg=L('msg_template.offers');

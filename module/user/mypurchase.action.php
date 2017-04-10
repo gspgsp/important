@@ -131,7 +131,6 @@ class mypurchaseAction extends userBaseAction{
 			$fac_model=M('product:factory');
 			$pro_model=M('product:product');
 			$data=saddslashes($data);
-
 			foreach ($data as $key => $value) {
 				if($value['number']==0) $this->error('发布数量不能为0!');
 				if($value['price']==0) $this->error('发布价格不能为0!');
@@ -153,6 +152,7 @@ class mypurchaseAction extends userBaseAction{
 					'status'=>$type==1?1:2,                                    //状态，报价不需要审核，采购需要审核
 					'input_time'=>CORE_TIME,                                   //创建时间
 				);
+
 					$pur_model->startTrans();
 					try {
 						$_product=array(
@@ -171,7 +171,6 @@ class mypurchaseAction extends userBaseAction{
 						$pur_model->rollback();
 						$this->error($e->getMessage());
 					}
-
 					$pur_model->commit();
 			}
 			$this->success('提交成功');
@@ -229,16 +228,16 @@ class mypurchaseAction extends userBaseAction{
 			$list=$this->db->from('purchase pur')
 				->join('sale_buy sb','pur.id=sb.p_id')
 				->join('customer cus','sb.c_id=cus.c_id')
+				->join('customer_contact as con ','sb.c_user_id=con.user_id')
 				->leftjoin('lib_region r','sb.delivery_place=r.id')
 				->where("sb.p_id=$id and sb.status in(2,3)")
-				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place')
+				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place,con.name,con.mobile')
 				->getAll();
+			p($list);
 			$this->assign('list',$list);
 			$this->display('offerlist');
 		}
 	}
-
-
 
 	// 选定报价
 	public function selected()
@@ -251,44 +250,25 @@ class mypurchaseAction extends userBaseAction{
 			$price=sget('price');//成交价格
 			if( !$data=$model->where("id=$id")->getRow() ) $this->error('信息不存在');//根据id信息未找到
 			$purModel=M('product:purchase');
-			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');//报价表与用户不匹配
+			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');                           //报价表与用户不匹配
 			if($purData['last_buy_sale']) $this->error('不能重复选定');
 			$orderModel=M('product:unionOrder');
-			$this->db->startTrans();  //开启事物
+			$this->db->startTrans();
 			try{
-				$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'status'=>3));
-//				$orderSn='UO'.genOrderSn();
+				$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'update_time'=>CORE_TIME,'status'=>3));
 				$orderData=array();
-//				$orderData['order_name']="联营订单";
-//				$orderData['order_sn']=$orderSn;
-//				$orderData['order_source']=1;
-//				$orderData['sale_id']=$purData['c_id'];//卖家客户
-//				$orderData['buy_id']=$data['c_id'];//买家客户
-//				$orderData['sale_user_id']=$purData['user_id'];//卖家客户
-//				$orderData['buy_user_id']=$data['user_id'];//买家客户
-//				$orderData['p_sale_id']=$id;//sale_buy的报价id
-//				$orderData['sign_time']=CORE_TIME;
-//				$orderData['sign_place']='网站签约';
-//				$orderData['deal_price']=$price;//成交价格
-//				$orderData['total_price']=($price*$data['number']);//总金额
-//				$orderData['customer_manager']=$purData['customer_manager'];//交易员
-//				$orderData['pickup_location']=$data['delivery_place'];//提货地点
-//				$orderData['delivery_location']=$data['delivery_place'];//送货地点
-//				$orderData['transport_type']=$data['ship_type'];//运输方式
-				$orderData['deal_price']=$price;//成交价格
+				$orderData['deal_price']=$price;                   //成交价格
 				$orderData['total_price']=($price*$data['number']);//总金额
-//
+				$orderData['order_status']=2;                           // 订单状态  2、审核通过
 				$info=$orderModel->where('p_sale_id='.$id)->update($orderData);
-
 				if(!$info) throw  new Exception('订单选中失败，请重试一次');
 				$var=$orderModel->select('id')->where('p_sale_id='.$id)->getOne();
-//
 				$orderDetail=M('product:unionOrderDetail');
 				$detail_data=array(
 					'o_id'=>$var,
 					'p_id'=>$purData['p_id'],
 					'number'=>$data['number'],
-					'unit_price'=>$price,
+					'unit_price'=>$orderData['deal_price'],
 					'input_time'=>CORE_TIME,
 				);
 

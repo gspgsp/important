@@ -38,13 +38,16 @@
 <table style="margin: 0;" class="table1">
 	<tr>
     	<th class="all"></th>
-    	<th>供应商名称</th>
+    	<th>客户名称</th>
+        <th>客户联系人</th>
+        <th>联系电话</th>
         <th>报价（元/吨）</th>
         <th>数量（吨）</th>
         <th>配送地点</th>
         <th>配送日期</th>
         <th>配送方式</th>
         <th>备注</th>
+        <th>操作</th>
     </tr>
     {foreach from=$list item=value}
     <tr>
@@ -56,12 +59,15 @@
             {/if}
         </td>
         <td>{$value.c_name}</td>
+        <td>{$value.name}</td>
+        <td>{$value.mobile}</td>
         <td>{$value.price}</td>
         <td>{$value.number}</td>
         <td>{$value.delivery_place}</td>
         <td>{$value.delivery_date|date:Y-m-d}</td>
         <td>{:setOption|ship_type,$value.ship_type}</td>
         <td>{$value.remark}</td>
+        <td>取消</td>
     </tr>
     {/foreach}
 </table>
@@ -69,9 +75,9 @@
     <div class="inpu_box" >
         <span>成交价：</span>
         <input type="text" class="inpu" name="price" >
-        <a class="but" id="xd" href="javasript:;" >选定</a>
+        <a class="but" id="xd">选定</a>
     </div>
-    <a class="but" id="closeBtn" href="javasript:;">关闭</a>
+    <a class="but" id="closeBtn">关闭</a>
 </div>
 
 <script type="text/javascript">
