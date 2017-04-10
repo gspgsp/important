@@ -39,7 +39,7 @@
  *
  *
  *
- *2017-4-4 17:59:55 *
+ * 2017-4-4 17:59:55 *
  * 现在的注册和完善信息放在了一起了，
  * 我偷个小懒，我把原来两个的接口合并在了一起了
  *
@@ -132,6 +132,7 @@ class qapi1_2Action extends null2Action
 
     /**
      * 注册
+     * @api {get} /user/:id
      */
     public function register ()
     {
@@ -2089,7 +2090,7 @@ class qapi1_2Action extends null2Action
             $page          = sget ('page', 'i', 1);
             $size          = sget ('size', 'i', 10);
             $data          = M ("points:pointsGoods")
-                ->select ('id,cate_id,thumb,name,points')
+                ->select ('id,cate_id,thumb,name,points,type')
                 ->where ("status = 1 and receive_num < num and is_mobile =1")
                 ->order ('id desc')
                 ->page ($page, $size)
