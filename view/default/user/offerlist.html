@@ -67,7 +67,7 @@
         <td>{$value.delivery_date|date:Y-m-d}</td>
         <td>{:setOption|ship_type,$value.ship_type}</td>
         <td>{$value.remark}</td>
-        <td>取消</td>
+        <td class="button" data-val="{$value.id}">取消</td>
     </tr>
     {/foreach}
 </table>
@@ -107,12 +107,31 @@
         }
         $.post('/user/mypurchase/selected',{id:id,price:price},function(data){
             if(data.err==0){
-                alert('选定成功');
+                alert('选定成功,选定后不可取消');
                 window.location.reload();
             }else{
                 alert(data.msg);
             }
         },'json');
+    })
+
+    //取消按钮
+    $(function(){
+        $('.button').click(function(){
+            if($(".table1").text().indexOf('已选定')>=0){
+                alert('无效操作,选定后不能取消'); return;
+            }
+            if(confirm('确定取消该报价吗?')){
+                var id=$('.button').attr('data-val');
+                $.get('/user/myoffers/ajax_submit',{id:id},function(data){
+                    if(data.err==0){
+                        alert('取消成功');
+                    }else{
+                        alert('请再次尝试'); return;
+                    }
+                },'json')
+            }
+        })
     })
 
 </script>

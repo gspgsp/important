@@ -53,14 +53,14 @@
 		</div>
 		<!--menu begin-->
 		<!--menu begin-->
-		{ if $smarty.session.uinfo.type eq 2}
+		{ if $smarty.session.uinfo.type eq 1}
 		<div class="menu wantbuy">
 			<h3>我的求购</h3>
 			<p {if $act=='mypurchase'}class="hover"{/if}><a href="/user/mypurchase">求购发布</a></p>
 			<p {if $act=='purchaselist'}class="hover"{/if}><a href="/user/mypurchase/lists">求购管理</a></p>
 			<p {if $act=='wantBuy'}class="hover"{/if}><a href="/user/mypurchase/wantBuy">我的求购</a></p>
 		</div>
-		{else $smarty.session.uinfo.type eq 1}
+		{else $smarty.session.uinfo.type eq 2}
 		<div class="menu supply">
 			<h3>我的供应</h3>
 			<p {if $act=='myoffers'}class="hover"{/if}><a href="/user/myoffers">报价发布</a></p>
@@ -137,7 +137,7 @@
 		<!--product end-->
 		<!--talk begin-->
 		<div class="talk">
-			{ if $smarty.session.uinfo.type eq 1}
+			{ if $smarty.session.uinfo.type eq 2}
 			<div class="title"><h3>洽谈采购需求</h3><a href="/purchase">MORE</a></div>
 			<!--con begin-->
 			<ul class="con">
@@ -153,7 +153,7 @@
 				</li>
 				{/foreach}
 			</ul>
-			{else $smarty.session.uinfo.type eq 2}
+			{else $smarty.session.uinfo.type eq 1}
 			<div class="title"><h3>洽谈报价需求</h3><a href="/offers">MORE</a></div>
 			<!--con begin-->
 			<ul class="con">

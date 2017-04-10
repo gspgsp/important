@@ -233,7 +233,6 @@ class mypurchaseAction extends userBaseAction{
 				->where("sb.p_id=$id and sb.status in(2,3)")
 				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place,con.name,con.mobile')
 				->getAll();
-			p($list);
 			$this->assign('list',$list);
 			$this->display('offerlist');
 		}

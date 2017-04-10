@@ -60,7 +60,7 @@ class myoffersAction extends userBaseAction{
 	/**
 	 * 批量导入报价excel表页面
 	 *
-     */
+	 */
 	public function offers_excels(){
 
 		$this->act="myoffers";
@@ -71,7 +71,7 @@ class myoffersAction extends userBaseAction{
 	/**
 	 * 处理excel文件
 	 *
-     */
+	 */
 	public function doExcel()
 	{
 		if($_POST)
@@ -167,7 +167,7 @@ class myoffersAction extends userBaseAction{
 					$f_data=array(
 						'f_name'=>$value['B'],
 						'input_time'=>CORE_TIME,
-					    'status'=>2,
+						'status'=>2,
 					);
 
 					$factoryModel->add($f_data);
@@ -234,14 +234,14 @@ class myoffersAction extends userBaseAction{
 	/**
 	 * 我的供货(报价)
 	 *
-     */
+	 */
 	public function supply(){
 		$this->act='supply';
 		$this->display('supply');
 	}
 	/**
 	 *(我的供货)报价列表
-     */
+	 */
 	public function subblyTable(){
 		$type=2;//报价
 		$where="un.sale_user_id=$this->user_id and pur.type=$type";
@@ -263,6 +263,28 @@ class myoffersAction extends userBaseAction{
 		$this->assign('count',ceil($list['count']/$size));
 		$this->display('supply_table');
 	}
+
+	/**
+	 *ajax  异步取消报价管理
+	 *
+	 */
+	public function ajax_submit(){
+		$this->is_ajax=true;
+		if(sget('id','i','')){
+			$id=saddslashes(sget('id'));
+			$this->db->model('sale_buy')->startTrans();
+			if(!$this->db->model('sale_buy')->where('id='.$id)->update('status=9 and update_time='.CORE_TIME))
+				$this->error('取消失败,001');
+			if(!$this->db->model('union_order')->where('p_sale_id='.$id)->udate('order_status=3 and update_time='.CORE_TIME)) $this->error('取消失败,002');
+			if($this->db->model('sale_buy')->commit()){
+				$this->success('取消成功');
+			}else{
+				$this->rollback();
+				$this->error('取消失败');
+			}
+		}
+	}
+
 	/**
 	 * 根据牌号异步获取厂家名称
 	 */

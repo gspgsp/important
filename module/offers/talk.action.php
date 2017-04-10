@@ -13,8 +13,8 @@ class talkAction extends homeBaseAction{
 		if($this->user_id<=0) $this->forward('/user/login');
 		$id=sget('id','i',0);
 		$data=M('product:purchase')->getPurchaseById($id);
-		if($_SESSION['uinfo']['type']==2 &&$data['type']==1 ) $this->error('买家不能进行此操作');
-		if($_SESSION['uinfo']['type']==1 &&$data['type']==2 ) $this->error('卖家不能进行此操作');
+		if($_SESSION['uinfo']['type']==2 && $data['type']==2 ) $this->error('卖家不能进行此操作');
+		if($_SESSION['uinfo']['type']==1 &&$data['type']==1 ) $this->error('买家不能进行此操作');
 		$this->title=$data['type']==1?'我要供货':'委托洽谈';
 		$contact=M('user:customerContact')->getContactByuserid($data['user_id']);
 		if(!$contact) $contact=array();
