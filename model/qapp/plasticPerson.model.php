@@ -92,6 +92,9 @@ class plasticPersonModel extends model
         if (!empty($keywords)) {
             $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
         }
+        //测试20
+
+        //$where .= " or cus.c_id in(21,24,27,53,65,75,76,89,90,95,99,107,110,112,117,141) or cus.c_id =28160";
 // 	    $data =	$this->select('con.user_id,con.name,con.c_id,con.mobile,con.member_level,con.sex,info.thumb,cus.c_name,cus.need_product')
 //     			->from('customer_contact con')
 // 	    		->join('contact_info info','con.user_id=info.user_id')
