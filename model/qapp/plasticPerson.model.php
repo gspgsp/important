@@ -100,7 +100,7 @@ class plasticPersonModel extends model
 // 		    	->where($where)
 // 		    	->order("$sortField $sortOrder")
 // 		        ->getPage();
-        $sql = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`
+        $sql = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
 
 			FROM `p2p_customer_contact` `con`
 			JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
@@ -135,6 +135,16 @@ class plasticPersonModel extends model
             } else {
                 $value['thumb'] = $value['thumbqq'];
             }
+            if(mb_strlen($value['main_product'])>10)
+            {
+                $value['main_product'] = mb_substr($value['main_product'],0,7,'utf-8')."***";
+            }
+            if(mb_strlen($value['month_consum'])>7)
+            {
+                $value['month_consum'] = mb_substr($value['month_consum'],0,4,'utf-8')."***";
+            }
+            //$value['main_product'] =
+
             $funs = $this->getFuns ($value['user_id']);
             $value['fans'] = empty($funs) ? 0 : $funs;//粉丝数
             $value['member_level'] = L ('member_level')[$value['member_level']];//军衔
