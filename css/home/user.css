@@ -68,7 +68,7 @@
 .user-wrap .right .order-con .order li.status em.status3{ background-position:-36px -584px;}
 .user-wrap .right .order-con .order li.status em.status4{ background-position:-54px -584px;}
 .user-wrap .right .order-con .order li.status b,.user-wrap .right .order-con .order li.status span{ float:left;}
-.user-wrap .right .order-con .order li.remark b{ display:inline-block; width:36px;}
+.user-wrap .right .order-con .order li.remark b{ display:inline-block; width:40px;}
 .user-wrap .right .order-con .order li.remark span{ display:inline-block; width:250px; height:36px; overflow:hidden;}
 .user-wrap .right .order-con .opt{ line-height:22px;}
 .user-wrap .right .order-con .amount,.user-wrap .right .order-con .cost,.user-wrap .right .order-con .total{ width:93px; height:194px; line-height:194px; float:left; text-align:center;} 
