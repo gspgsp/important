@@ -365,9 +365,10 @@ class plasticPersonalInfoModel extends model
         //ta的求购或报价数量
         $buy = $this->getConut ($user_id, 1);
         $sale = $this->getConut ($user_id, 2);
-        $data['buy'] = empty($buy) ? 0 : $buy;//求购
-        $data['sale'] = empty($sale) ? 0 : $sale;//报价
+        $data['buy_count'] = empty($buy) ? 0 : $buy;//求购
+        $data['sale_count'] = empty($sale) ? 0 : $sale;//报价
         //关注的状态
+        $data['fans'] = M ('qapp:plasticPerson')->getFuns ($data['user_id']);
 
         return $data;
 
