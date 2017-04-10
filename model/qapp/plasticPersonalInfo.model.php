@@ -330,6 +330,7 @@ class plasticPersonalInfoModel extends model
         }
     }
 
+
     public function getMyOwnInfo($user_id)
     {
         $data = $this->select ('con.member_level,con.user_id,con.name,con.c_id,con.is_pass,con.mobile,con.sex,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.need_product,cus.address,cus.main_product,cus.month_consum,cus.type')
