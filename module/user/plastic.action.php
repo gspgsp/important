@@ -481,6 +481,7 @@ class plasticAction extends adminBaseAction {
                 'c_name'=>$data['c_name'],                 //公司名
                 'month_consum'=>$data['month_consum'],     // 月用量
                 'main_product'=> $data['main_product'],    //主营产品
+                'type'=>$data['cus_type'],
                 'update_time'=>CORE_TIME,
             );
             if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
@@ -516,6 +517,7 @@ class plasticAction extends adminBaseAction {
                     'c_name'=>$data['c_name'],                 //公司名
                     'month_consum'=>$data['month_consum'],     // 月用量
                     'main_product'=> $data['main_product'],    //主营产品
+                    'type'=>$data['cus_type'],
                     'update_time'=>CORE_TIME,
                 );
                 if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
