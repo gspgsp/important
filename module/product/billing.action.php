@@ -240,8 +240,7 @@ class billingAction extends adminBaseAction
 	public function transactionInfo(){
 		//开票表单验证token
 		$cache= E('RedisCluster',APP_LIB.'class');
-		$cache->set('billing_token',md5(rand(1,999)),$expire=10);
-
+		$cache->set('billing_token',md5(rand(1,999)));
 		$o_id=sget('o_id','i',0);
 		if(empty($o_id)) $this->error('信息错误');
 		$this->type=sget('order_type','s');//type=1为销售订单，type=2为采购订单
@@ -302,13 +301,6 @@ class billingAction extends adminBaseAction
 	public function ajaxSave(){
 		$data = sdata();
 		$type = sget('do','i');//区分销售采购订单
-		$cache = E('RedisCluster',APP_LIB.'class');
-		$billing_token =$cache->get('billing_token');
-		//验证token
-		if ($data['billing_token'] != $billing_token) $this->error("非法提交数据");
-		$cache->remove('billing_token');
-		$billing_token='';
-
 		//获取未开完票的订单明细的个数$nus
 		if($type==1){//销售
 			$nus = $this->db->model('sale_log')->where("o_id={$data['o_id']} and b_number !=0")->select("count('id')")->getOne();
@@ -374,6 +366,14 @@ class billingAction extends adminBaseAction
 				}
 		}else{
 			//业务员提交申请开票
+
+			//验证token
+			$cache = E('RedisCluster',APP_LIB.'class');
+			$billing_token =$cache->get('billing_token');
+			if ($data['billing_token'] != $billing_token) $this->error("非法提交数据");
+			$cache->remove('billing_token');
+			$billing_token='';
+
 			$data['input_time']=CORE_TIME;
 			$data['input_admin']=$_SESSION['username'];
 			$data['order_name']	=$data['title'];
@@ -582,6 +582,7 @@ class billingAction extends adminBaseAction
 			$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>$invoice_status,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
 
 			//新增可视化节点
+			//addLog($o_id=0,$step=0,$type=0,$spend_time=0,$total=0,$payed=0,$lefted=0)
 			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$data['total_price'],$pri,$data['total_price']-$pri);
 
 		} catch (Exception $e) {
