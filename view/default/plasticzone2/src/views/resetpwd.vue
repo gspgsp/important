@@ -18,7 +18,7 @@
 			</div>
 			<div class="registerBox"><strong><span>*</span>手机验证码:</strong>
 				<input maxlength="6" type="tel" v-model="code" placeholder="请输入收到的验证码">
-				<button class="validCode">{{validCode}}</button>
+				<button class="validCode" v-on:click="sendCode">{{validCode}}</button>
 			</div>
 		</div>
 	</div>
