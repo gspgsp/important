@@ -130,10 +130,6 @@ class qapi1_2Action extends null2Action
         echo '<div style="margin-top:80px;text-align:center;font-size:50px">This is plasticZone app API center</div>';
     }
 
-    /**
-     * 注册
-     * @api {get} /user/:id
-     */
     public function register ()
     {
         if ($_POST['mobile']) {
