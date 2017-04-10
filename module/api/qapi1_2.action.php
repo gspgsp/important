@@ -173,9 +173,9 @@ class qapi1_2Action extends null2Action
             $region    = sget ('region', 's', '');
             $chanel    = (int)sget ('chanel', 'i', 6);
             $quan_type = sget ('quan_type', 'i');//sget()函数要理解一下，里面有个empty函数
-            $origin = sget('origin','a');
+            //$origin = sget('origin','a');
             $ctype = sget('c_type','i');  //'客户类型(1 工厂(卖家)、2 贸易(买家)、3 工贸一体(买卖一体))',
-            $_model = sget('model','a');  //牌号
+            //$_model = sget('model','a');  //牌号
             if(empty($origin)||count($origin)!=2) $this->_errCode(6);
             if(empty($ctype)) $this->_errCode(6);
             if(!in_array($ctype,array('1','2','3'))) $this->_errCode(6);
@@ -188,8 +188,8 @@ class qapi1_2Action extends null2Action
             if (!$c_name) {
                 $this->error ('请输入公司名称');
             }
-            if(empty($_model)||count($_model)>10) $this->_errCode(6);
-            $_model = implode(',',$_model);
+            //if(empty($_model)||count($_model)>10) $this->_errCode(6);
+            //$_model = implode(',',$_model);
 
             $cus_model  = $this->db->model ('customer');
             $customer   = $cus_model->select ('c_id')
@@ -205,8 +205,8 @@ class qapi1_2Action extends null2Action
                         'chanel'           => $chanel,
                         'input_time'       => CORE_TIME,
                         'customer_manager' => 859,//交易员
-                        'origin'=>implode('|',$origin),
-                        'need_product'=>$_model,
+                        //'origin'=>implode('|',$origin),
+                        //'need_product'=>$_model,
                         'type'=>$ctype,
                         'quan_type'        => $quan_type,
                     );
