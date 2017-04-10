@@ -229,45 +229,60 @@ module.exports = {
 		reg: function() {
 			var _this = this;
 			if(this.checked) {
-				$.ajax({
-					url: '/api/qapi1_2/register',
-					type: 'post',
-					data: {
-						mobile: _this.mobile,
-						password: _this.password,
-						code: _this.code,
-						name: _this.name,
-						c_name: _this.c_name,
-						chanel: 6,
-						quan_type: 0,
-						parent_mobile: window.localStorage.invite,
-						origin: [_this.selected,_this.selected2],
-						model: _this.label
-					},
-					dataType: 'JSON'
-				}).then(function(res) {
-					if(res.err == 0) {
-						if (window.localStorage.getItem("invite")!="undefined") {
-							window.localStorage.setItem("inviteReg",1)
-						} else{
-							window.localStorage.setItem("commReg",2)
+				if (this.label.length==0) {
+					weui.alert("至少选择一个输入后匹配的品种", {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								
+							}
+						}]
+					});					
+				} else{
+					$.ajax({
+						url: '/api/qapi1_2/register',
+						type: 'post',
+						data: {
+							mobile: _this.mobile,
+							password: _this.password,
+							code: _this.code,
+							name: _this.name,
+							c_name: _this.c_name,
+							chanel: 6,
+							quan_type: 0,
+							parent_mobile: window.localStorage.invite,
+							origin: [_this.selected,_this.selected2],
+							model: _this.label,
+							c_type:_this.c_type
+						},
+						dataType: 'JSON'
+					}).then(function(res) {
+						if(res.err == 0) {
+							if (window.localStorage.getItem("invite")!="undefined") {
+								window.localStorage.setItem("inviteReg",1)
+							} else{
+								window.localStorage.setItem("commReg",2)
+							}
+							_this.$router.push({ name: 'login' });
+						} else {
+							weui.alert(res.msg, {
+								title: '塑料圈通讯录',
+								buttons: [{
+									label: '确定',
+									type: 'parimary',
+									onClick: function() {
+										
+									}
+								}]
+							});
 						}
-						_this.$router.push({ name: 'login' });
-					} else {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function() {
-									
-								}
-							}]
-						});
-					}
-				}, function() {
+					}, function() {
+	
+					});					
+				}
 
-				});
 			} else {
 				weui.alert("请先同意用户服务协议", {
 					title: '塑料圈通讯录',

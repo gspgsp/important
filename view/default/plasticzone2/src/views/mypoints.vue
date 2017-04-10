@@ -122,7 +122,7 @@ module.exports = {
 			    		url:"/api/score/decScore",
 			    		data:{
 			    			token: window.localStorage.getItem("token"),
-			    			type:1,
+			    			type:2,
 			    			points:_this.pro.cost,
 			    			gid:_this.pro.id
 			    		},
