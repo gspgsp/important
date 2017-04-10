@@ -1,0 +1,34 @@
+{layout file="public:main_layout"}
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>注册成功</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/reg2.css"/>
+</head>
+
+<body>
+<!--reg2-header begin-->
+<!-- <div class="reg2-header">
+	<h1><a href="javascript:;"><img src="img/reg2-logo.jpg" width="238" height="69" alt="我的塑料网"/></a></h1>
+    <h2>帐号注册</h2>
+    <p><img src="img/reg2-progress.jpg" width="228" height="53"/></p>
+</div> -->
+<!--reg2-header end-->
+<!--reg2-success begin-->
+<div class="reg2-success">
+	<h2>注册成功</h2>
+   	<h3>恭喜您完成注册</h3>
+    <p>尊敬的用户，您已成功注册我的塑料网，请<a class="change"href="javascript:;">点击登录</a>！</p>
+    <input type="button" id="button"value="立即登录" />
+</div>
+<!--reg2-success end-->
+</body>
+<script>
+$(function(){
+	$('.change').click(function(){
+		window.location.href="/user/login";
+	});
+	$('#button').click(function(){
+		window.location.href="/user/login";
+	});
+});
+</script>
