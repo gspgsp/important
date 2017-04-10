@@ -5,7 +5,7 @@
 	塑豆商城
 </header>
 <div class="shopBanner">
-	<img width="100%" src="../assets/shopBanner.jpg">
+	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner.jpg">
 </div>
 <div class="mypoints">
 	<a style="width: 50%;" href="javascript:;"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</a>
