@@ -50,7 +50,7 @@ class salebuyModel extends model{
 						 ->join('product as pro','pur.p_id=pro.id')
 		                 ->join('factory as fac','fac.fid=pro.f_id')
 						 ->where($where.' and pur.last_buy_sale=sb.id')
-						 ->select('pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`, `un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`, `sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
+						 ->select('pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`,un.id as un_order_id, `un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`, `sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
 				         ->page($page,$pageSize)
 						 ->getPage();
 	}
@@ -63,10 +63,9 @@ class salebuyModel extends model{
 					->join('product as pro','pur.p_id=pro.id')
 					->join('factory as fac','fac.fid=pro.f_id')
 					->where($where)
-			        ->select(' pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`,`un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`,`sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
+			        ->select(' pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`,un.id as un_order_id,`un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`,`sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
 					->page($page,$pageSize)
 					->getPage();
-//		           ->getAll();
 	}
 
 }

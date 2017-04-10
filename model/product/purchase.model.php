@@ -70,6 +70,23 @@ class purchaseModel extends model{
 
 
 	/**
+	 * 获取洽谈中的采购信息
+	 *
+	 */
+	public function get_info($where,$limit=6){
+		return $this->from('purchase pur')
+			->leftjoin('lib_region r','pur.store_house=r.id')
+			->join('product pro','pur.p_id=pro.id')
+			->join('factory fa','pro.f_id=fa.fid')
+			->select('pur.id,pur.supply_count,pur.bargain,pur.user_id,pur.shelve_type,pur.is_union,pur.unit_price,pur.c_id,pur.number,pur.status,pur.cargo_type,pur.period,pur.input_time,pur.type,pro.model,pro.f_id,pro.product_type,pro.process_type,fa.f_name,pur.store_house,r.name as region_name')
+			->where($where)
+			->order('pur.input_time desc')
+			->limit($limit)
+			->getAll();
+
+	}
+
+	/**
 	 * 获取最新现货资源
 	 * @param int $where
 	 * @param int $page
@@ -108,22 +125,6 @@ class purchaseModel extends model{
 				->page($page, $pageSize)
 				->select('c.c_name,s.number,s.price,s.delivery_date,s.status,s.update_time,s.remark, pur.store_house,pur.cargo_type,reg.name,p.product_type,p.model,p.process_type, f.f_name,u.id AS oid')
 				->getPage();
-	}
-
-	/**
-	 * 获取洽谈中的采购信息
-	 *
-     */
-	public function getInfo(){
-	    return $this->from('purchase as pur')
-					->leftjoin('lib_region as reg','pur.store_house=reg.id')
-					->leftjoin('product as p','p.id=pur.p_id')
-					->where('pur.status=2 and pur.type=1 and pur.shelve_type=1')
-					->order('pur.input_time DESC')
-					->select('pur.id,pur.p_id,p.product_type,p.model,pur.number,pur.unit_price ,reg.name,pur.input_time,pur.type,pur.cargo_type')
-					->limit('6')
-					->getAll();
-
 	}
 
 
