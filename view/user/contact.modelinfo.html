@@ -33,6 +33,12 @@
 				<td >备注：</td>
 				<td><input name="remarks" class="mini-textbox" style="width:300px;" required="false" value=""/></td>
 			</tr>
+			<tr>
+				<td >客户类型：</td>
+				<td>
+				 	<input name="cus_type" class="mini-radiobuttonlist" style="width: 200px;padding-left: 60px;" required="true"  data="[{id: 1, text: '工厂'}, {id: 2, text: '贸易'},{id: 3, text: '工贸一体'}]" value="{$usermodel.type}" />
+				</td>
+			</tr>
 		</table>
 		<div align="center" style="margin-top:10px;">
 			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">初审通过</a>
