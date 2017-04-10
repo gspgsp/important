@@ -39,8 +39,9 @@
 		<div class="nameinfo">
 		<router-link :to="{name:'personinfo',params:{id:top.user_id}}">
 			<p class="first"><i class="icon wxGs"></i><span v-html="top.c_name"></span><i class="icon wxName"></i><span v-html="top.name"></span>&nbsp;{{top.sex}}</p>
-			<p class="second"><span>供给:{{top.sale_count}} 求购:{{top.buy_count}}</span>&nbsp;<span>粉丝:{{top.fans}} 等级:{{top.member_level}}</span></p>
-			<p class="second">主营：<span style="color: #666666;" v-html="top.need_product"></span></p>
+			<p class="second">
+				<span v-if="top.type==3||top.type==1">产品:{{top.main_product}} 月用量:{{top.month_consum}}</span>
+			<p class="second">供给:{{top.sale_count}} 求购:{{top.buy_count}} 主营：<span style="color: #666666;" v-html="top.need_product"></span></p>
 			<i class="icon2 rightArrow"></i>
 		</router-link>
 		</div>
@@ -57,8 +58,10 @@
 		<div class="nameinfo">
 			<router-link :to="{name:'personinfo',params:{id:n.user_id}}">
 				<p class="first"><i class="icon wxGs"></i><span v-html="n.c_name"></span><i class="icon wxName"></i><span v-html="n.name"></span>&nbsp;{{n.sex}}</p>
-				<p class="second"><span>供给:{{n.sale_count}} 求购:{{n.buy_count}}</span>&nbsp;<span>粉丝:{{n.fans}} 等级:{{n.member_level}}</span></p>
-				<p class="second">主营：<span style="color: #666666;" v-html="n.need_product"></span></p>
+				<p class="second">
+					<span v-if="n.type==3||n.type==1">产品:{{n.main_product}} 月用量:{{n.month_consum}}</span>
+				</p>
+				<p class="second">供给:{{n.sale_count}} 求购:{{n.buy_count}} 主营：<span style="color: #666666;" v-html="n.need_product"></span></p>
 				<i class="icon2 rightArrow"></i>
 			</router-link>
 		</div>
