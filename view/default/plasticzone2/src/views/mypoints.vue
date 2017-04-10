@@ -110,7 +110,7 @@ module.exports = {
 	    		url:"/api/qapi1_2/new_exchangeSupplyOrDemand",
 	    		data:{
 	    			token: window.localStorage.getItem("token"),
-	    			goods_id:"35",
+	    			goods_id:_this.pro.id,
 	    			num:_this.pro.num,
 	    			pur_id:""
 	    		},
@@ -191,7 +191,7 @@ module.exports = {
 			    			token: window.localStorage.getItem("token"),
 			    			type:1,
 			    			points:_this.pro.cost,
-			    			gid:"35"
+			    			gid:_this.pro2.id
 			    		},
 			    		dataType: 'JSON'
 			    	}).then(function(res){
