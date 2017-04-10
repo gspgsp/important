@@ -57,9 +57,9 @@ class plasticShareModel extends model
             'input_time' => CORE_TIME,
         );
         if ($this->add ($_log)) {
-            if ($share_count < 1) {
-                M ('qapp:pointsBill')->addPoints ($share, $user_id, 13, 1);
-            }
+//            if ($share_count < 1) {
+//                M ('qapp:pointsBill')->addPoints ($share, $user_id, 13, 1);
+//            }
 
             return true;
         } else {
