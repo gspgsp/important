@@ -1,0 +1,73 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input,button,textarea{ margin:0; padding:0; border:0;}
+a{ text-decoration:none;}
+ul,ol,li{ list-style:none;}
+h1,h2,h3,h4,h5{ font-weight:normal;}
+input,button,textarea,select{ color:#666; font-family:"微软雅黑"; outline:medium; border:none;}
+body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
+
+.flt{ float:left;}
+.frt{ float:right;}
+.icon-alert{ background:url(../images/reg2/reg2-spirit.png) no-repeat 0 -128px;}
+
+/*reg2-header begin*/
+.reg2-header{ width:1220px; height:69px; overflow:hidden; margin:0 auto; margin-top:15px;}
+.reg2-header h1{ width:238px; height:69px; overflow:hidden; margin:0 30px 0 20px; float:left;}
+.reg2-header h2{ line-height:69px; float:left;}
+.reg2-header p{ width:228px; height:53px; overflow:hidden; margin:9px 0 0 0; float:right;}
+/*reg2-header end*/
+
+/*reg2-wrap begin*/
+.reg2-wrap,.reg2-success{ width:1218px; height:1150px; overflow:hidden; border:1px solid #d6d7dc; margin:16px auto;}
+.reg2-wrap h2,.reg2-success h2{ font-size:22px; color:#4dafea; font-weight:bold; text-indent:20px; height:40px; line-height:40px; overflow:hidden; border-bottom:1px solid #d6d7dc;}
+.reg2-wrap .main{ font-size:14px; color:#333; height:auto; overflow:hidden;}
+.reg2-wrap .main .form{ width:875px; padding:0 19px;}
+.reg2-wrap .main .form h3{ font-weight:bold; width:829px; height:30px; line-height:30px; border-bottom:1px solid #d9d9d9; background:#f9f9f9 url(../images/reg2/reg2-spirit.png) no-repeat 0 0; margin:20px 0 20px 0; padding:0 0 0 46px;}
+.reg2-wrap .main .form .tr{ width:875px; height:30px; line-height:30px; overflow:hidden; margin:0 0 36px 0;}
+.reg2-wrap .main .form .tr div{ float:left;}
+.reg2-wrap .main .form .tr .name{/*  font-weight:bold; */ text-align:right; width:98px; margin:0 20px 0 0;}
+.reg2-wrap .main .form .tr .name span{ color:#e64748;}
+.reg2-wrap .main .form .tr .val{ width:210px; height:28px; overflow:hidden; border:1px solid #d6d7dc;}
+.reg2-wrap .main .form .tr .val input{ width:200px; height:14px; padding:7px 0 7px 10px; box-shadow:1px 3px 4px #e9e9e9 inset;}
+.reg2-wrap .main .form .tr .sel{ width:66px; height:28px; overflow:hidden; border:1px solid #d6d7dc; margin:0 10px 0 0; border-radius:4px;}
+.reg2-wrap .main .form .tr .sel select{ width:66px; height:28px; box-shadow:1px 3px 4px #e9e9e9 inset;}
+.reg2-wrap .main .form .tr .val.code{ width:110px; margin:0 6px 0 0;}
+.reg2-wrap .main .form .tr .num-code{ width:94px; height:30px; overflow:hidden; margin:0 14px 0 0;}
+.reg2-wrap .main .form .tr .change a{ color:#267bd3;}
+.reg2-wrap .main .form .tr .get-code{ text-align:center; font-size:12px; width:94px; height:30px; line-height:30px;}
+.reg2-wrap .main .form .tr .get-code.enable{ color:#fff; background:#4dafea; cursor:pointer;}
+.reg2-wrap .main .form .tr .get-code.disabled{ color:#888; background:#ddd;}
+.reg2-wrap .main .form .tr.company{ height:102px; overflow:hidden;}
+.reg2-wrap .main .form .tr.company .textarea{ width:348px; height:100px; overflow:hidden; border:1px solid #d6d7dc;}
+.reg2-wrap .main .form .tr.company .textarea textarea{ width:332px; height:84px; overflow:hidden; background:#f7f7f7; padding:8px;}
+.reg2-wrap .main .form .tr .radio{ height:15px; line-height:14px; overflow:hidden; margin:8px 0 0 0;}
+.reg2-wrap .main .form .tr .radio input{ margin:0 5px 0 0;}
+.reg2-wrap .main .form .tr .radio label{ margin:0 10px 0 0;}
+.reg2-wrap .main .form .tr .error-msg{ color:#f60; font-weight:bold; font-size:12px; height:28px; line-height:28px; margin:0 0 0 10px; padding:0 0 0 20px;}
+.reg2-wrap .main .form .summary{ width:875px; height:92px; overflow:hidden; margin:0 0 36px 0;}
+.reg2-wrap .main .form .summary .name{ /* font-weight:bold; */ width:98px; float:left; text-align:right; margin:0 20px 0 0;}
+.reg2-wrap .main .form .summary .name span{ color:#e64748;}
+.reg2-wrap .main .form .summary .val{ width:400px; height:90px; border:1px solid #d6d7dc; float:left;}
+.reg2-wrap .main .form .summary .val textarea{ width:380px; height:70px; margin:10px;}
+.reg2-wrap .main .form .agreement{ height:28px; line-height:28px; margin:0 0 36px 118px;}
+.reg2-wrap .main .form .agreement label{ cursor:pointer;}
+.reg2-wrap .main .form .agreement a{ color:#4dafea;}
+.reg2-wrap .main .form .submit{ color:#fff; font-size:16px; width:152px; height:40px; background:#fc6621; border-radius:3px; margin:0 0 0 133px; cursor:pointer;}
+.reg2-wrap .main .aside{ width:264px; height:1150px; padding:140px 20px 0 20px; overflow:hidden; border-left:1px solid #d6d7dc;}
+.reg2-wrap .main .aside h3{ font-size:24px; height:24px; line-height:24px; margin:0 0 40px 0;}
+.reg2-wrap .main .aside h3 span{ color:#4dafea;}
+.reg2-wrap .main .aside .tip{ line-height:24px; margin:0 0 48px 0;}
+.reg2-wrap .main .aside .opt{ font-size:16px; width:264px; height:42px; line-height:42px; margin:0 0 20px 0; overflow:hiddenl; border-radius:3px;}
+.reg2-wrap .main .aside .opt a{ color:#fff; display:block;}
+.reg2-wrap .main .aside .opt.opt1{ text-align:center; background:#fc6621;}
+.reg2-wrap .main .aside .opt.opt2{ text-indent:119px; background:#4dafea url(../images/reg2/reg2-spirit.png) no-repeat 0 -86px; margin:0 0 36px 0;}
+.reg2-wrap .main .aside .tel{ font-size:16px; color:#666; border-top:1px solid #d6d7dc; padding:35px 0 0 0;}
+.reg2-wrap .main .aside .tel span{ color:#fc6621;}
+/*reg2-wrap end*/
+
+/*reg2-success begin*/
+.reg2-success{ text-align:center; height:auto; overflow:hidden;}
+.reg2-success h3{ color:#fc6621; font-size:20px; text-align:center; width:689px; height:60px; line-height:60px; overflow:hidden; padding:0 0 27px 0; margin:0 auto; margin-top:85px; margin-bottom:47px; background:url(../images/reg2/reg2-spirit.png) no-repeat 206px -184px; border-bottom:dashed 1px #b4b4b4;}
+.reg2-success p{ color:#333; font-size:14px; margin:0 0 36px 0;}
+.reg2-success p a{ color:#267bd3;}
+.reg2-success input{ color:#fff; font-size:16px; width:116px; height:40px; overflow:hidden; background:url(../images/reg2/reg2-spirit.png) no-repeat 0 -272px; margin:0 0 226px 0; cursor:pointer;}
+/*reg2-success end*/
