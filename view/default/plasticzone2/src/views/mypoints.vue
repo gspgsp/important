@@ -76,11 +76,13 @@ module.exports = {
 			p2:"",
 			points:0,
 			pro:{
+				id:"",
 				cost:100,
 				num:1,
 				price:0
 			},
 			pro2:{
+				id:"",
 				cost:100,
 				num:1,
 				price:0
@@ -122,7 +124,7 @@ module.exports = {
 			    			token: window.localStorage.getItem("token"),
 			    			type:1,
 			    			points:_this.pro.cost,
-			    			gid:"35"
+			    			gid:_this.pro.id
 			    		},
 			    		dataType: 'JSON'
 			    	}).then(function(res){
@@ -175,7 +177,7 @@ module.exports = {
 	    		url:"/api/qapi1_2/new_exchangeSupplyOrDemand",
 	    		data:{
 	    			token: window.localStorage.getItem("token"),
-	    			goods_id:"12",
+	    			goods_id:_this.pro2.id,
 	    			num:_this.pro.num,
 	    			pur_id:_this.selected
 	    		},
@@ -259,6 +261,8 @@ module.exports = {
 					_this.p2=res.info[1];
 					_this.pro.price=res.info[0].points;
 					_this.pro2.price=res.info[1].points;
+					_this.pro.id=res.info[0].id;
+					_this.pro2.id=res.info[1].id;
 					_this.points=res.pointsAll;
 				}
 	    	},function(){
