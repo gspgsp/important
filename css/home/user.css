@@ -26,9 +26,9 @@
 .user-wrap .right .run-tab input.btn{ font-size:12px; width:80px; height:28px; line-height:24px; overflow:hidden; margin:13px 0 0 37px; background:#267bd3; border-radius:2px; color:#fff; cursor:pointer;}
 
 .user-wrap .right .filter{ margin:0 0 0 23px;}
-.user-wrap .right .filter .filter-top{ height:44px; line-height:44px; margin:0 0 18px 0; overflow:hidden;}
-.user-wrap .right .filter .filter-top .query{ width:400px; height:44px; margin:0 49px 0 0; overflow:hidden;}
-.user-wrap .right .filter .filter-top .query input.import{ font-size:14px; width:288px; height:14px; padding:14px 0 14px 9px;border-left:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-top:1px solid #d6d7dc;}
+.user-wrap .right .filter .filter-top{ height:44px; line-height:44px; margin:15px 0 18px 0; overflow:hidden;}
+.user-wrap .right .filter .filter-top .query{ width:410px; height:44px; margin:0 49px 0 0; overflow:hidden;}
+.user-wrap .right .filter .filter-top .query input.import{ font-size:14px; width:288px; height:13px; padding:14px 0 14px 9px;border-left:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-top:1px solid #d6d7dc;}
 .user-wrap .right .filter .filter-top .query input.submit{ font-size:14px; width:102px; height:44px; background:#267bd3; color:#fff; cursor:pointer;}
 .user-wrap .right .filter .filter-top .other{ color:#fc6621; font-size:16px; padding:0 127px 0 0; background:url(../../images/home/order.png) no-repeat right 0; cursor:pointer;}
 .user-wrap .right .filter .filter-top .other.show{ background-position:127px 0;}

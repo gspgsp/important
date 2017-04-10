@@ -33,7 +33,7 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 .menus2 .menu{ width:132px; border-top:1px solid #ddd; margin:0 0 0 18px;}
 .menus2 .menu h3{ font-size:14px; height:14px; line-height:14px; margin:14px 0 14px 0; background:url(../../images/home/user2-spirit.png) no-repeat;}
 .menus2 .menu p{ height:12px; line-height:12px; margin:0 0 14px 0;}
-.menus2 .menu p a:hover{ color:#f60;}
+.menus2 .menu p:hover a,.menus2 .menu p.hover a{ color:#f60;}
 .menus2 .menu.msg p{ position:relative;}
 .menus2 .menu.msg p span{ position:absolute; top:-1px; right:10px; color:#fff; background:#ff5252; border-radius:30px; padding:1px 7px;}
 .menus2 .menu.msg h3{ background-position:0 -44px;}
@@ -62,7 +62,7 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 /*product begin*/
 .user2-wrap .main .product{ height:200px; overflow:hidden; margin:0 0 15px 0;}
 .user2-wrap .main .product .con{ height:147px; overflow:hidden;}
-.user2-wrap .main .product .con li{ text-align:center; width:152px; height:147px; overflow:hidden; background:#e8f2fd; margin:0 5px 0 0; float:left;}
+.user2-wrap .main .product .con li{ text-align:center; width:152px; height:147px; overflow:hidden; background:#e8f2fd; margin:0 5px 0 0; float:left; position:relative;}
 .user2-wrap .main .product .con li .change{ font-size:14px; color:#999; text-align:left; height:16px; line-height:16px; margin:14px 0 8px 8px; padding:0 0 0 18px; background:url(../../images/home/user2-spirit.png) no-repeat;}
 .user2-wrap .main .product .con li .change.increase{ background-position:0 -100px;}
 .user2-wrap .main .product .con li .change.decrease{ background-position:0 -116px;}
@@ -71,12 +71,14 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 .user2-wrap .main .product .con li .address{ color:#888; font-weight:bold; height:12px; line-height:12px; margin:0 0 10px 0;}
 .user2-wrap .main .product .con li .date{ color:#999; height:12px; line-height:12px;}
 .user2-wrap .main .product .con li.last{ margin-right:0;}
+.user2-wrap .main .product .con li b{ color:#fff; font-weight:normal; position:absolute; right:5px; top:5px; padding:2px 9px; background:rgba(30,125,231,.6); border-radius:30px;  cursor:pointer; display:none;}
+.user2-wrap .main .product .con li:hover b{ display:block;}
 /*product end*/
 
 /*talk begin*/
 .user2-wrap .main .talk{ width:779px; height:auto; overflow:hidden; margin:0 0 15px 0;}
 .user2-wrap .main .talk .title{ margin-bottom:0;}
-.user2-wrap .main .talk .con{ width:779px; height:303px; overflow:hidden; border-left:1px solid #ebebeb;}
+.user2-wrap .main .talk .con{ width:779px; height:auto; overflow:hidden; border-left:1px solid #ebebeb;}
 .user2-wrap .main .talk .con li{ width:245px; height:128px; padding:22px 0 0 13px; overflow:hidden; border-bottom:1px solid #ebebeb; border-right:1px solid #ebebeb; float:left;}
 .user2-wrap .main .talk .con li .wantbuy{ font-size:14px; height:14px; margin:0 0 12px 0;}
 .user2-wrap .main .talk .con li .price{ font-size:14px; height:14px; color:#888; margin:0 0 10px 0;}
@@ -103,7 +105,7 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 .user2-wrap .main .other .forthwith{ width:260px; height:73px; overflow:hidden;}
 .user2-wrap .main .other .forthwith h4{ font-weight:bold; height:12px; margin:13px 0;}
 .user2-wrap .main .other .forthwith p{ height:12px; margin:0 0 6px 0;}
-.user2-wrap .main .other .form{ width:508px; height:142px; overflow:hidden; border:1px solid #d0d0d0;}
+.user2-wrap .main .other .form{ width:508px; height:140px; overflow:hidden; border:1px solid #d0d0d0;}
 .user2-wrap .main .other .form textarea{ width:486px; height:76px; overflow:hidden; margin:11px;}
 .user2-wrap .main .other .form .submit{ color:#fff; background:#f60; font-size:14px; width:115px; height:33px; line-height:33px; overflow:hidden; border-radius:30px; margin:0 11px 0 0; cursor:pointer;}
 /*other end*/
