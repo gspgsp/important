@@ -176,9 +176,9 @@ class qapi1_2Action extends null2Action
             //$origin = sget('origin','a');
             $ctype = sget('c_type','i');  //'客户类型(1 工厂(卖家)、2 贸易(买家)、3 工贸一体(买卖一体))',
             //$_model = sget('model','a');  //牌号
-            if(empty($origin)||count($origin)!=2) $this->_errCode(6);
+//            if(empty($origin)||count($origin)!=2) $this->_errCode(6);
             if(empty($ctype)) $this->_errCode(6);
-            if(!in_array($ctype,array('1','2','3'))) $this->_errCode(6);
+           if(!in_array($ctype,array('1','2','3'))) $this->_errCode(6);
             $name      = $this->clearStr ($name);
             $c_name    = $this->clearStr ($c_name);
             if (mb_strlen ($c_name, 'UTF8') < 5) {
