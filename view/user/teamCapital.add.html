@@ -1,0 +1,105 @@
+{layout file="public:mini_layout"}
+<div id="admInfo" title="新增战队配额" style="padding:5px;" showModal="true" allowResize="true" allowDrag="true">
+  <div id="addForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id" value="{$info.id}"/>
+			<tr>
+				<td>战队<span style="color:red">*</span></td>
+				<td><input name="team_id" class="mini-combobox" style="width:125px;" id="team_id" value="{$info.team_id}" data='
+				{:setMiniConfig|$team}'   required="true" textfield="name" valuefield="id"/></td>
+			</tr>
+			<tr>
+				<td>总额度<span style="color:red">*</span></td>
+				<td><input name="total_money" class="mini-textbox" style="width:100px" required="true" value="{$info.total_money}"/>&nbsp;&nbsp;元</td>
+			</tr>
+			<tr>
+				<td>月份<span style="color:red">*</span></td>
+				<td><input  class="mini-datepicker"  name="input_date"  required="true" format="yyyy-MM" ondrawdate="onDrawDate" value="{$info.input_date}"/></td>
+			</tr>
+		
+			<tr>
+			{if $action eq 'update'}
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-ok" onclick="updateForm">提交</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			{/if}
+			{if $action eq 'add'}
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="4">
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			{/if}
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//时间插件
+function onDrawDate(e) {
+        var date = e.date;
+        var d = new Date();
+
+        if (date.getTime() != d.getTime()) {
+            e.allowSelect = false;
+        }
+}
+//搜索或刷新
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+
+//增加客户强开规则(保存)
+function submitForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	// console.log(o);return;
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/user/teamCapital/ajaxSave',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+//修改客户强开规则
+function updateForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/user/teamCapital/updateSave',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function GetData() {
+	var row = form.getSelected();
+	return row;
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>
