@@ -341,7 +341,7 @@ class plasticPersonalInfoModel extends model
             ->where ("con.user_id=$user_id")
             ->getRow ();
 
-        // $data['thumb'] = FILE_URL."/upload/".$data['thumb'];
+        // $data['thumb'] = FILE_URL."/upload/".$data['thumb'];--
         if (!A ("api:qapi1")->checkPhoneShow ($data['user_id'])) {
             $data['mobile'] = substr ($data['mobile'], 0, 7) . "****";
         }
