@@ -169,7 +169,7 @@ class plasticPersonalInfoModel extends model
     //查看我的资料(合并)
     public function getSelfInfo ($userid)
     {
-        $data = $this->select ('con.user_id,con.name,con.c_id,con.mobile,info.adistinct,con.sex,con.member_level,info.thumb,info.thumbqq,info.thumbcard,info.allow_send,cus.c_name,cus.need_product,cus.address')
+        $data = $this->select ('con.user_id,con.name,con.c_id,con.mobile,info.adistinct,con.sex,con.member_level,info.thumb,info.thumbqq,info.thumbcard,info.allow_send,cus.c_name,cus.need_product,cus.address,cus.type,cus.month_consum,cus.main_product')
             ->from ('customer_contact con')
             ->join ('contact_info info', 'con.user_id=info.user_id')
             ->join ('customer cus', 'con.c_id=cus.c_id')

@@ -155,6 +155,29 @@ class plasticSaveModel extends model
                 return array('err'=>7,'msg'=>'系统繁忙');
             }
         }
+        if(isset($data['type'])&&(!empty($data['type']))){
+            $where = "c_id=".$cus_con['c_id'];
+            if(false===$this->where($where)->update(array('type'=>$data['type']))){
+                $this->rollback();
+                return array('err'=>7,'msg'=>'系统繁忙');
+            }
+        }
+
+        if(isset($data['month_consum'])&&(!empty($data['month_consum']))){
+            $where = "c_id=".$cus_con['c_id'];
+            if(false===$this->where($where)->update(array('month_consum'=>$data['month_consum']))){
+                $this->rollback();
+                return array('err'=>7,'msg'=>'系统繁忙');
+            }
+        }
+
+        if(isset($data['main_product'])&&(!empty($data['main_product']))){
+            $where = "c_id=".$cus_con['c_id'];
+            if(false===$this->where($where)->update(array('main_product'=>$data['main_product']))){
+                $this->rollback();
+                return array('err'=>7,'msg'=>'系统繁忙');
+            }
+        }
         $this->commit();
         return array('err'=>0,'msg'=>'success');
     }
