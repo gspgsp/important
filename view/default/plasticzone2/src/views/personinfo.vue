@@ -172,6 +172,9 @@ module.exports = {
 				_this.id = res.data.user_id;
 				_this.is_pass = res.data.is_pass;
 				_this.cardImg=res.data.thumbcard;
+				_this.type = res.data.type;
+				_this.main_product = res.data.main_product;
+				_this.month_consum = res.data.month_consum;
 				if (_this.mobile.indexOf("*")=="-1") {
 					_this.isMobile=true;
 				} else{
