@@ -31,6 +31,10 @@ class teamCapitalLogAction extends adminBaseAction {
 			}
 			$team_id=sget('team_id','i');
 			if($team_id)  $where.=" and `team_id` = '$team_id' ";
+
+			$order_sn=sget('order_sn','s');
+			if($order_sn)  $where.=" and `order_sn` = '$order_sn' ";
+			
 			//筛选时间
 			$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 			$where.=getTimeFilter($sTime); //时间筛选
