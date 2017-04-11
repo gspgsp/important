@@ -66,7 +66,7 @@ class plasticPersonModel extends model
     {
         $operMobi = array('13900000001', '13900000002', '13900000003', '13900000004', '13900000005', '13900000006', '13900000007', '13900000008', '13900000009');
         $operMobi = implode (',', $operMobi);
-        $where = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and (con.is_trial = 1 or con.is_trial = 2) ";
+        $where = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and (con.is_trial = 1 or con.is_trial = 0) ";
         $userids = array();
         if ($sortField == 'default') {
             $orderStr = '';
@@ -111,51 +111,53 @@ class plasticPersonModel extends model
 			RIGHT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id
 			WHERE " . $where . " ORDER BY " . $orderStr . "d.top desc, d.top_time desc, d.rownum ASC  limit " . ($page - 1) * $size . "," . $size;
         $data = $this->db->getAll ($sql);//p($sortOrder);showTrace();exit;
+        file_put_contents('/tmp/xielei.txt',print_r($sql,true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
+
         $data['data'] = $data;
-        foreach ($data['data'] as &$value) {
-            if ($user_id <= 0) {
-                $value['name'] = mb_substr ($value['name'], 0, 1, "utf-8") . '***';
-                //$value['mobile'] = substr($value['mobile'],0,7).'****';
-            }
-            //,(SELECT IFNULL(count(id),0) FROM p2p_weixin_fans fan WHERE fan.focused_id=con.user_id AND  fan.STATUS=1) fans
-            $value['name'] = sstripslashes ($value['name']);
-            $value['c_name'] = sstripslashes ($value['c_name']);
-            $value['need_product'] = sstripslashes ($value['need_product']);
-            $value['name'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-            $value['c_name'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-            $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
-            // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
-            if (empty($value['thumbqq'])) {
-                if (strstr ($value['thumb'], 'http')) {
-                    $value['thumb'] = $value['thumb'];
-                } else {
-                    if (empty($value['thumb'])) {
-                        $value['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
-                    } else {
-                        $value['thumb'] = FILE_URL . "/upload/" . $value['thumb'];
-                    }
+        if(!empty($data)) {
+            foreach ($data['data'] as &$value) {
+                if ($user_id <= 0) {
+                    $value['name'] = mb_substr($value['name'], 0, 1, "utf-8") . '***';
+                    //$value['mobile'] = substr($value['mobile'],0,7).'****';
                 }
-            } else {
-                $value['thumb'] = $value['thumbqq'];
-            }
-            if(mb_strlen($value['main_product'])>10)
-            {
-                $value['main_product'] = mb_substr($value['main_product'],0,7,'utf-8')."***";
-            }
-            if(mb_strlen($value['month_consum'])>7)
-            {
-                $value['month_consum'] = mb_substr($value['month_consum'],0,4,'utf-8')."***";
-            }
-            //$value['main_product'] =
+                //,(SELECT IFNULL(count(id),0) FROM p2p_weixin_fans fan WHERE fan.focused_id=con.user_id AND  fan.STATUS=1) fans
+                $value['name'] = sstripslashes($value['name']);
+                $value['c_name'] = sstripslashes($value['c_name']);
+                $value['need_product'] = sstripslashes($value['need_product']);
+                $value['name'] = str_replace($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                $value['c_name'] = str_replace($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                $value['need_product'] = str_replace($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
+                if (empty($value['thumbqq'])) {
+                    if (strstr($value['thumb'], 'http')) {
+                        $value['thumb'] = $value['thumb'];
+                    } else {
+                        if (empty($value['thumb'])) {
+                            $value['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                        } else {
+                            $value['thumb'] = FILE_URL . "/upload/" . $value['thumb'];
+                        }
+                    }
+                } else {
+                    $value['thumb'] = $value['thumbqq'];
+                }
+                if (mb_strlen($value['main_product']) > 10) {
+                    $value['main_product'] = mb_substr($value['main_product'], 0, 7, 'utf-8') . "***";
+                }
+                if (mb_strlen($value['month_consum']) > 7) {
+                    $value['month_consum'] = mb_substr($value['month_consum'], 0, 4, 'utf-8') . "***";
+                }
+                //$value['main_product'] =
 
-            $funs = $this->getFuns ($value['user_id']);
-            $value['fans'] = empty($funs) ? 0 : $funs;//粉丝数
-            $value['member_level'] = L ('member_level')[$value['member_level']];//军衔
-            $value['sex'] = L ('sex')[$value['sex']];//性别
-            $value['buy_count'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 1);
-            $value['sale_count'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 2);
+                $funs = $this->getFuns($value['user_id']);
+                $value['fans'] = empty($funs) ? 0 : $funs;//粉丝数
+                $value['member_level'] = L('member_level')[$value['member_level']];//军衔
+                $value['sex'] = L('sex')[$value['sex']];//性别
+                $value['buy_count'] = M('qapp:plasticPersonalInfo')->getConut($value['user_id'], 1);
+                $value['sale_count'] = M('qapp:plasticPersonalInfo')->getConut($value['user_id'], 2);
+            }
         }
-
 //         //排序
 //         foreach ($data['data'] as $key=>$value){
 // //           $id[$key] = $value['user_id'];
