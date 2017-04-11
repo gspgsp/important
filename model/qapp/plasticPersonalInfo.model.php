@@ -188,6 +188,7 @@ class plasticPersonalInfoModel extends model
                 $data['adistinct'] = '华东';
                 break;
         }
+        if(empty($data['type'])) $data['type']=2;
 //         //ta的求购或报价数量
         $buy = $this->getConut ($userid, 1);
         $sale = $this->getConut ($userid, 2);
