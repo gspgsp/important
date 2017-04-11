@@ -103,7 +103,7 @@ class plasticPersonModel extends model
 // 		    	->where($where)
 // 		    	->order("$sortField $sortOrder")
 // 		        ->getPage();
-        $sql = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
+        $sql = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`,`con`.`sex`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
 
 			FROM `p2p_customer_contact` `con`
 			JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
@@ -151,7 +151,7 @@ class plasticPersonModel extends model
                 $funs = $this->getFuns($value['user_id']);
                 $value['fans'] = empty($funs) ? 0 : $funs;//粉丝数
                 $value['member_level'] = L('member_level')[$value['member_level']];//军衔
-                $value['sex'] = L('sex')[$value['sex']];//性别
+                //$value['sex'] = L('sex')[$value['sex']];//性别
                 $value['buy_count'] = M('qapp:plasticPersonalInfo')->getConut($value['user_id'], 1);
                 $value['sale_count'] = M('qapp:plasticPersonalInfo')->getConut($value['user_id'], 2);
             }
