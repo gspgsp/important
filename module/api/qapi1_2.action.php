@@ -1535,9 +1535,6 @@ class qapi1_2Action extends null2Action
     public function saveSelfInfo()
     {
         $this->is_ajax = true;
-        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
-        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
-
         if ($_POST) {
             $user_id = $this->checkAccount();
             $_tmpAddress = sget('address','s');
