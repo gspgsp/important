@@ -27,6 +27,7 @@ class plasticPersonalInfoModel extends model
                 $data['thumb'] = $data['thumb'];
             } else {
                 if (empty($data['thumb'])) {
+
                     if(empty($data['sex']))
                     {
                         $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";

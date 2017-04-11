@@ -135,7 +135,6 @@ class plasticPersonModel extends model
                         if (empty($value['thumb'])) {
                             if(empty($value['sex']))
                             {
-
                                 $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
                             }else{
                                 $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
