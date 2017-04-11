@@ -376,7 +376,20 @@ class qapi1_2Action extends null2Action
 
 
     /**
-     * 重置密码
+     * @api {post} /api/api1_2/finfMyPwd 找回密码
+     * @apiName  finfMyPwd
+     * @apiGroup User
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     *
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"密码重置成功"
+     *      }
+     *
+     *
      */
     public function finfMyPwd ()
     {
@@ -614,10 +627,16 @@ class qapi1_2Action extends null2Action
             }
         } else {
             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
+
         }
+
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+        }elseif(empty($data['data']) && $page > 1){
+
+            $this->json_output (array( 'err' => 3, 'msg' => '没有更多记录了' ));
         }
+
         $this->_checkLastPage ($data['count'], $size, $page);
         if ($page >= 3 && $user_id <= 0) {
             $this->json_output (array( 'err' => 1, 'msg' => '想要查看更多，请登录', 'count' => $data['count'] ));
@@ -1425,7 +1444,7 @@ class qapi1_2Action extends null2Action
             }
             //添加记录
             M("qapp:infoList")->add(array('user_id'=>$user_id,'other_id'=>$userid,'input_time'=>CORE_TIME));
-            $data    = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
+            $data    = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($userid);
             if (empty($data)) {
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
             }
@@ -1486,8 +1505,6 @@ class qapi1_2Action extends null2Action
     public function saveSelfInfo()
     {
         $this->is_ajax = true;
-        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
-        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
 
         if ($_POST) {
             $user_id = $this->checkAccount();

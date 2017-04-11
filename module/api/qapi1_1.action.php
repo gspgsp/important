@@ -1364,7 +1364,7 @@ class qapi1_1Action extends null2Action
         if ($_GET) {
             $user_id = $this->checkAccount ();
             $userid  = sget ('userid', 'i');//当前联系人的id
-            $data    = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
+            $data    = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($user_id, $userid);
             if (empty($data)) {
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
             }
