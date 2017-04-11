@@ -430,6 +430,13 @@ function _leader($cname = '',$customer_manager = 0,$share){
 		return $cname;
 	}
 }
+/**
+ * 获取上个月的开始时间戳
+ * @Author   yezhongbao
+ * @DateTime 2017-04-11T09:37:17+0800
+ * @param    integer                  $month [description]
+ * @return   [type]                          [description]
+ */
 function getLastMonthStartTime($month=0){
 	$year = date('Y');
 	$last_month = date('m') - 1;
