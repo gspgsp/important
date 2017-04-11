@@ -215,7 +215,9 @@ class plasticReleaseModel extends model
 //            if(empty($value['deliverPrice'])){
 //                $value['deliverPrice']=$value['unit_price'];
 //            }
-                $value['deliverPriceCount'] = M ('qapp:plasticQuote')->getPurchasePrice ($value['id'], $value['user_id'])['count'];
+
+                $_tmp = M ('qapp:plasticQuote')->getPurchasePrice ($value['id'], $value['user_id']);
+                $value['deliverPriceCount'] = empty($_tmp['count'])?0:$_tmp['count'];
             }
         }
         //重新赋索引，为的是在json格式传的时候，来进行数组拼接的，
