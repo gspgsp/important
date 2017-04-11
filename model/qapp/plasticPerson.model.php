@@ -111,8 +111,6 @@ class plasticPersonModel extends model
 			RIGHT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id
 			WHERE " . $where . " ORDER BY " . $orderStr . "d.top desc, d.top_time desc, d.rownum ASC  limit " . ($page - 1) * $size . "," . $size;
         $data = $this->db->getAll ($sql);//p($sortOrder);showTrace();exit;
-        file_put_contents('/tmp/xielei.txt',print_r($sql,true)."\n",FILE_APPEND);
-        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
 
         $data['data'] = $data;
         if(!empty($data)) {
