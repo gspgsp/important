@@ -30,6 +30,8 @@
 				<a v-show="isMobile" class="telephone" v-bind:href="mobile2"></a>
 			</p>
 			<p style="border-bottom: 1px solid #D1D1D1;">我的主营：{{need_product}}</p>
+			<p v-if="type==3||type==1" style="border-bottom: 1px solid #D1D1D1;">产品：{{main_product}}</p>
+			<p v-if="type==3||type==1" style="border-bottom: 1px solid #D1D1D1;">月用量：{{month_consum}}</p>
 			<div class="registerBox" style="height: auto; padding: 10px 0; margin: 0; line-height: 0; text-align: center;">
 				<div class="card" v-on:click="cardcheck">
 					<img v-bind:src="cardImg">
@@ -97,6 +99,9 @@ module.exports = {
 			is_pass: "",
 			cardImg: "",
 			mobile2:"",
+			type:"",
+			main_product:"",
+			month_consum:"",
 			buylist:[],
 			supplylist:[],
 			loadingShow:""
@@ -222,6 +227,9 @@ module.exports = {
 										_this.sex = res.data.sex;
 										_this.id = res.data.user_id;
 										_this.is_pass = res.data.is_pass;
+										_this.type = res.data.type;
+										_this.main_product = res.data.main_product;
+										_this.month_consum = res.data.month_consum;
 										_this.cardImg=res.data.thumbcard;
 										if (_this.mobile.indexOf("*")=="-1") {
 											_this.isMobile=true;
