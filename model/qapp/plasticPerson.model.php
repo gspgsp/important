@@ -129,6 +129,7 @@ class plasticPersonModel extends model
                 // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                 if (empty($value['thumbqq'])) {
                     if (strstr($value['thumb'], 'http')) {
+
                         $value['thumb'] = $value['thumb'];
                     } else {
                         if (empty($value['thumb'])) {

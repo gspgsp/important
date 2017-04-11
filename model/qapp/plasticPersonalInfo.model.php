@@ -27,7 +27,12 @@ class plasticPersonalInfoModel extends model
                 $data['thumb'] = $data['thumb'];
             } else {
                 if (empty($data['thumb'])) {
-                    $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                    if(empty($value['sex']))
+                    {
+                        $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                    }else{
+                        $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                    }
                 } else {
                     $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                 }
