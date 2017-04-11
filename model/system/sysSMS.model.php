@@ -138,16 +138,16 @@ class sysSMSModel extends model{
 			if(CORE_TIME-($mctime)<15){
 				return array('err'=>1,'msg'=>'动态码已发送成功，请稍候再试');
 			}
-			if(strpos($mcode,$mobile)>0 && (CORE_TIME-$mctime)<300){
+			if(strpos($mcode,$mobile)>0 && (CORE_TIME-$mctime)<600){
 				$mcode=substr($mcode,0,6);
 			}
 		}
 		if(empty($mcode)){
 			$mcode=mt_rand(100820,999560);
-			$cache->set($mobile.'mcode',$mcode.'.'.$mobile,300);
+			$cache->set($mobile.'mcode',$mcode.'.'.$mobile,600);
 		}
-		$cache->set($mobile.'mctime',CORE_TIME,300);
-		$cache->set($mobile.'mctype',$stype,300);
+		$cache->set($mobile.'mctime',CORE_TIME,600);
+		$cache->set($mobile.'mctype',$stype,600);
 		$msg=sprintf(L('sms_template.dynamic_code'),$mcode);
 		return array('err'=>0,'msg'=>$msg);
 	}
@@ -192,7 +192,7 @@ class sysSMSModel extends model{
 		$mctype=$cache->get($mobile.'mctype');
 		$mctime=$cache->get($mobile.'mctime');
 		if(isset($mcode1) && isset($mctime)){
-			if((CORE_TIME-($cache->get($mobile.'mctime')))>300){
+			if((CORE_TIME-($cache->get($mobile.'mctime')))>600){
 				return array('err'=>1,'msg'=>'手机动态码已失效');
 			}
 			if($stype && $stype != $cache->get($mobile.'mctype')){
