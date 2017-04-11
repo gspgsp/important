@@ -204,13 +204,14 @@ class mypurchaseAction extends userBaseAction{
 				->join('sale_buy sb','pur.id=sb.p_id')
 				->join('customer cus','sb.c_id=cus.c_id')
 				->leftjoin('lib_region r','sb.delivery_place=r.id')
-				->where("sb.p_id={$v['id']} and sb.status in(2,3)")
+				->where("sb.p_id={$v['id']} and sb.status in(2,3,5)")
 				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place')
 				->getAll();
 
 			$list['data'][$key]['counts']=count($info);
 			$list['data'][$key]['city']= (!empty($v['region_name']))?$v['region_name']:$v['store_house'];
 		}
+
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));
@@ -233,7 +234,6 @@ class mypurchaseAction extends userBaseAction{
 				->where("sb.p_id=$id and sb.status in(2,3,4)")
 				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.status,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place,con.name,con.mobile')
 				->getAll();
-
 			$this->assign('list',$list);
 			$this->display('offerlist');
 		}
@@ -254,14 +254,18 @@ class mypurchaseAction extends userBaseAction{
 			if($purData['last_buy_sale']) $this->error('不能重复选定');
 			$orderModel=M('product:unionOrder');
 			$this->db->startTrans();
-			try{
+			$arrs=array(
+				'price'=>$price,
+				'update_time'=>CORE_TIME,
+			);
+				if(!$this->db->model('sale_buy')->where('id='.$id)->update($arrs)) $this->error('修改价格失败');
 				$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->update(array('last_buy_sale'=>$id,'update_time'=>CORE_TIME,'status'=>3));
 				$orderData=array();
 				$orderData['deal_price']=$price;                   //成交价格
 				$orderData['total_price']=($price*$data['number']);//总金额
 				$orderData['order_status']=2;                           // 订单状态  2、审核通过
 				$info=$orderModel->where('p_sale_id='.$id)->update($orderData);
-				if(!$info) throw  new Exception('订单选中失败，请重试一次');
+				if(!$info) $this->error('订单选中失败，请重试一次');
 				$var=$orderModel->select('id')->where('p_sale_id='.$id)->getOne();
 				$orderDetail=M('product:unionOrderDetail');
 				$detail_data=array(
@@ -272,7 +276,7 @@ class mypurchaseAction extends userBaseAction{
 					'input_time'=>CORE_TIME,
 				);
 
-				if(!$orderDetail->where('o_id='.$var)->update($detail_data)) throw  new Exception('订单明细更新失败，请重试');
+				if(!$orderDetail->where('o_id='.$var)->update($detail_data)) $this->error('订单明细更新失败，请重试');
 				$model->where("p_id={$data['p_id']}")->update(array('status'=>8,'update_time'=>CORE_TIME));//更新其他报价为未选中
 				$model->where("id=$id")->update(array('status'=>3,'update_time'=>CORE_TIME));//更新选中状态
 
@@ -280,13 +284,13 @@ class mypurchaseAction extends userBaseAction{
 				$msg=L('msg_template.union_order');
 				$msg=sprintf($msg,$modelName,$price,$var);
 				M("system:sysMsg")->sendMsg($data['user_id'],$msg,5);//联营订单站内信
-			}catch (Exception $e){
+
+			if($this->db->model('sale_buy')->commit()){
+				$this->success('操作成功');
+			}else{
 				$this->db->rollback();
 				$this->error('操作失败');
 			}
-			$this->db->model('sale_buy')->commit();
-			$this->success('操作成功');
-
 		}
 	}
 
