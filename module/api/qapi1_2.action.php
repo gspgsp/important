@@ -657,16 +657,12 @@ class qapi1_2Action extends null2Action
             }
         } else {
             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
-            file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
 
         }
-        file_put_contents('/tmp/xielei.txt',print_r($page,true)."\n",FILE_APPEND);
 
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
         }elseif(empty($data['data']) && $page > 1){
-            file_put_contents('/tmp/xielei.txt',print_r($page,true)."\n",FILE_APPEND);
-
             $this->json_output (array( 'err' => 3, 'msg' => '没有更多记录了' ));
         }
 
@@ -706,6 +702,7 @@ class qapi1_2Action extends null2Action
                 if($val['user_id']==$top['user_id'])
                 {
                     unset($data['data'][$key]);
+                    $data['data'] = array_values($data['data']);
                 }
             }
             unset($val);
