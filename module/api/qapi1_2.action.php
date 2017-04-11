@@ -904,6 +904,7 @@ class qapi1_2Action extends null2Action
                     if($val['id']==$top['id'])
                     {
                         unset($data['data'][$key]);
+                        $data['data'] = array_values($data['data']);
                     }
                 }
                 unset($val);
