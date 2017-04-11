@@ -254,7 +254,8 @@ module.exports = {
 							quan_type: 0,
 							parent_mobile: window.localStorage.invite,
 							origin: [_this.selected,_this.selected2],
-							model: _this.label
+							model: _this.label,
+							c_type:_this.c_type
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
