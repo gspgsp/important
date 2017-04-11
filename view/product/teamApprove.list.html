@@ -1,0 +1,174 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="float:right;">
+			    <form id="soform">
+			    <span id="searchMsg"></span>
+			    申请日期
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				<select name="pay_method" id="pay_method">
+					<option value="" selected="selected">=交易方式=</option>
+					{html_options options=$pay_method}
+				</select>
+				<select name="title" id="invoice_status">
+					<option value="" selected="selected">=付款主题=</option>
+					{html_options options=$company_account}
+				</select>
+				<select name="key_type">
+					<option value="c_name">公司名称</option>
+					<option value="admin">交易员</option>
+					<option value="order_sn">订单号</option>
+					<option value="total_price">订单金额</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span>
+			  </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/teamApprove/init?action=grid" idField="fid"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="o_id" width="30" headerAlign="center" align="center" renderer="onLoadHandle">订单ID</div>
+		<div field="order_sn"  renderer="tips" width="80" headerAlign="center" align="center" align="center">订单号</div>
+		<div field="c_name" width="100" headerAlign="center" align="center" align="center">公司名</div>
+		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
+
+		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">本次付款金额</div>
+		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未付款金额</div>
+		<div field="title" width="30" headerAlign="center" align="center" align="center">付款主题</div>
+		<div field="pay_method" renderer="setPay" width="30" headerAlign="center" align="center">付款方式</div>
+		<div field="remark" width="60" headerAlign="center" >备注<span style="color:red">*</span>
+			<input property="editor" class="mini-textarea" style="width:100%;" minHeight="50"/>
+		</div>
+		<div field="apply_admin" width="30" headerAlign="center" align="center">申请人</div>
+		<div width="50" headerAlign="center" align="center" renderer="avaliable_money" >战队配资状况</div>
+		<div field="apply_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">申请时间</div>
+		<div field="review_admin" width="30" headerAlign="center" align="center">处理人</div>
+		<div field="review_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">处理时间</div>
+		<div width="40" headerAlign="center" renderer="relevance" align="center">关联销售</div>
+		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
+	</div>
+  </div>
+ </div>
+ <div></div>
+{if $doact eq 'search'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+{/if}
+
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+//追加订单id的操作按钮
+function onLoadHandle(e) {
+	var record = e.record,s='',oid = record.o_id,remark=record.remark;
+	var o_type={$type};
+	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
+	return s;
+}
+
+//追加操作，关联销售订单
+function relevance(e){
+	var record = e.record,oid=record.o_id,s='';
+	var order_type = 2;
+	//传值表示是查看销售订单
+	var sale = 1;
+		s += '<a href="javascript:viewOrdInfo('+oid+','+order_type+','+sale+')">查看</a>';
+	return s;
+}
+
+//查看订单相关信息
+function viewOrdInfo(oid,o_type,sale){
+	mini.open({
+		url: "/application/order/viewInfo?oid="+oid+'&o_type='+o_type+'&sale='+sale,
+		showMaxButton:true,
+		title: "查看订单相关信息",
+		width: 800, height:430
+	});
+}
+//查看当前可用额度
+function avaliable_money(e){
+	var record = e.record,customer_manager=record.customer_manager,s='';
+		s += '<a href="javascript:viewTeamCapitalInfo('+customer_manager+')">查看</a>';
+	return s;
+}
+
+function viewTeamCapitalInfo(customer_manager){
+	mini.open({
+		url: "/product/teamApprove/viewInfo?customer_manager="+customer_manager,
+		showMaxButton:true,
+		title: "查看战队相关信息",
+		width: 400, height:300
+	});
+}
+//追加操作，退款和下载按钮
+function viewhander(e){
+	var record = e.record, t_id= record.t_id,id= record.id,status= record.status,s='';
+	if(status == 0){
+		s = '<a href="javascript:changeStatus('+id+','+t_id+',1)">通过</a> | <a href="javascript:changeStatus('+id+','+t_id+',2)">据批</a>';
+	}else if(status == 1){
+		s = '已通过';
+	}else{
+		s = '已据批';
+	}
+	return s;
+}
+function changeStatus(id,t_id,status){
+	if(status == 1){
+		var msg = '通过';
+	}else{
+		var msg = '据批';
+	}
+	mini.confirm("您确定<font color='red'>"+msg+"</font>吗？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+	  			if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/product/teamApprove/check',{id:id,t_id:t_id,status:status},callback,"POST","json");
+		}
+	);
+}
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>
