@@ -399,6 +399,7 @@ class plasticAction extends adminBaseAction {
 		foreach($data as $v){
 			$update=array(
 				'is_pass'=>$v['is_pass'],
+				'remarks'=>$v['remarks'],
 				'update_time'=>CORE_TIME,
 			);
 			$this->db->wherePk($v['user_id'])->update($update);
