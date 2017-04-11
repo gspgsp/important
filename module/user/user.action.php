@@ -97,10 +97,18 @@ class userAction extends adminBaseAction {
 		$data = explode(',',$ids);
 		if(is_array($data)){
 			foreach ($data as $k => $v) {
-				$res = M('user:customer')->getColByName($v,"c_id","contact_id");
-				if($res>0){
-					$this->error('主联系人不能删除');
+				//默认联系人对应的公司的c_id
+				// $res = M('user:customer')->getColByName($v,"c_id","contact_id");
+				$con = M('user:customerContact')->getListByUserid($v);
+				$c_id =  $con['c_id'];
+				$is_default = $con['is_default'];
+				if($c_id > 0 && $is_default > 0) {
+					$contacts = $this->db->where("c_id = {$c_id}")->select('user_id')->getAll();
+					if(count($contacts) > 1)	$this->json_output(array('err'=>3,'c_id'=>$c_id,'user_id'=>$v));
 				}
+				// if($res >0){
+				// 	$this->error('主联系人不能删除');
+				// }
 			}
 		}
 		$result=$this->db->where("user_id in ($ids)")->delete();
@@ -110,7 +118,72 @@ class userAction extends adminBaseAction {
 			$this->error('数据处理失败');
 		}
 	}
-
+	/**
+	 * 获取所有联系人信息页面
+	 * @auth gsp
+	 * @return [type] [description]
+	 */
+	public function uerdel(){
+		$action=sget('action','s');
+		$user_id=sget('user_id','i',0);//当前用户的id
+		$c_id = sget('c_id','i',0);//当前公司的id
+		if($action=='contact'){ //获取列表
+			$this->_contact();exit;
+		}
+		$this->assign('c_id',$c_id);
+        $this->assign('cur_uid',$user_id);
+		$this->assign('page_title','重定义公司主要联系人');
+		$this->display('contact.del.html');
+	}
+	/**
+	 * 获取所有联系人信息
+	 * @auth gsp
+	 * @return [type] [description]
+	 */
+	private function _contact(){
+		$this->is_ajax=true;
+		$c_id = sget('c_id','i',0);//当前公司的id
+       	$user_id = sget('cur_uid','i',0);//获取当前用户的id
+        $page = sget("pageIndex",'i',0); //页码
+		$size = sget("pageSize",'i',20); //每页数
+		$sortField = sget("sortField",'s','user_id'); //排序字段
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		$list = $this->db->where("c_id = $c_id and user_id != $user_id")
+					->select('user_id,name,sex,tel,mobile,is_default')
+					->page($page+1,$size)
+					->order("$sortField $sortOrder")
+					->getPage();
+		foreach ($list['data'] as &$value) {
+			$value['sex'] = L('sex')[$value['sex']];
+			$value['is_default'] = L('is_default')[$value['is_default']];
+		}
+		$this->assign('do',$this->doact);
+		$result=array('total'=>$list['count'],'data'=>$list['data']);
+		$this->json_output($result);
+	}
+	/**
+	 * 删除当前用户
+	 * @auth gsp
+	 */
+	public function deleteCurtCon(){
+		$this->is_ajax=true;
+		$cur_uid = sget('cur_uid','i',0);
+		$ids = sget('ids','i',0);
+		if($cur_uid > 0 && $ids > 0){
+			$arr = array(
+				'is_default'=>1,
+				'update_time'=>CORE_TIME,
+				'update_admin'=>'admin'
+				);
+			$this->db->where("user_id = {$cur_uid}")->delete();
+			$result = $this->db->where("user_id = {$ids}")->update($arr);
+			if($result){
+				$this->success('操作成功');
+			}else{
+				$this->error('数据处理失败');
+			}
+		}
+	}
 	public function info(){
 		$this->is_ajax=true;
 		$user_id=sget('id','i');
