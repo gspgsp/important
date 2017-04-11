@@ -138,7 +138,7 @@ class registerAction extends homeBaseAction{
         $this->display('register_success.html');
 	    $_SESSION['register_success']=null;
 	    }else{
-	        $this->error('您访问的页面不存在');
+	        $this->error('您访问的页面不存在','/');
 	    }
 	}
     /**
