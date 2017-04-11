@@ -125,11 +125,41 @@ class qapi1_2Action extends null2Action
         $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
     }
 
+    /**
+     * @api {get} /api/api1_2/init 初始化页面
+     * @apiName  init
+     * @apiGroup User
+     *
+     * @apiSuccessExample Success-Response:
+     *     <div style="margin-top:80px;text-align:center;font-size:50px">This is plasticZone app API center</div>
+     *
+     */
     public function init ()
     {
         echo '<div style="margin-top:80px;text-align:center;font-size:50px">This is plasticZone app API center</div>';
     }
 
+    /**
+     * @api {post} /api/api1_2/register 注册
+     * @apiName  register
+     * @apiGroup User
+     *
+     * @apiParam {String} mobile      Optional Firstname of the User.
+     * @apiParam {String} lastname     Mandatory Lastname.
+     * @apiParam {String} country="DE" Mandatory with default value "DE".
+     * @apiParam {Number} [age=18]     Optional Age with default 18.
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "msg":"注册成功"
+     *      }
+     *
+     *
+     */
     public function register ()
     {
         if ($_POST['mobile']) {
@@ -627,12 +657,15 @@ class qapi1_2Action extends null2Action
             }
         } else {
             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
+            file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
 
         }
+        file_put_contents('/tmp/xielei.txt',print_r($page,true)."\n",FILE_APPEND);
 
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
         }elseif(empty($data['data']) && $page > 1){
+            file_put_contents('/tmp/xielei.txt',print_r($page,true)."\n",FILE_APPEND);
 
             $this->json_output (array( 'err' => 3, 'msg' => '没有更多记录了' ));
         }
@@ -1444,7 +1477,7 @@ class qapi1_2Action extends null2Action
             }
             //添加记录
             M("qapp:infoList")->add(array('user_id'=>$user_id,'other_id'=>$userid,'input_time'=>CORE_TIME));
-            $data    = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($userid);
+            $data    = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
             if (empty($data)) {
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
             }
@@ -1505,6 +1538,8 @@ class qapi1_2Action extends null2Action
     public function saveSelfInfo()
     {
         $this->is_ajax = true;
+        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
 
         if ($_POST) {
             $user_id = $this->checkAccount();
