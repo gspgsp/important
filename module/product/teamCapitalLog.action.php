@@ -27,7 +27,7 @@ class teamCapitalLogAction extends adminBaseAction {
 			//关键词
 			$keyword=sget('keyword','s');
 			if(!empty($keyword)){
-				$where.=" and admin_name='$keyword' ";
+				$where.=" and input_admin='$keyword' ";
 			}
 			$team_id=sget('team_id','i');
 			if($team_id)  $where.=" and `team_id` = '$team_id' ";
