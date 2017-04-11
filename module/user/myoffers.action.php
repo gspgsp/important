@@ -269,13 +269,12 @@ class myoffersAction extends userBaseAction{
 	 *
 	 */
 	public function ajax_submit(){
-		$this->is_ajax=true;
+
 		if(sget('id','i','')){
 			$id=saddslashes(sget('id'));
 			$this->db->model('sale_buy')->startTrans();
-			if(!$this->db->model('sale_buy')->where('id='.$id)->update('status=9 and update_time='.CORE_TIME))
-				$this->error('取消失败,001');
-			if(!$this->db->model('union_order')->where('p_sale_id='.$id)->udate('order_status=3 and update_time='.CORE_TIME)) $this->error('取消失败,002');
+			if(!$this->db->model('sale_buy')->where('id='.$id)->update('status=9 and update_time='.CORE_TIME)) $this->error('取消失败,001');
+			if(!$this->db->model('union_order')->where('p_sale_id='.$id)->update('order_status=3 and update_time='.CORE_TIME)) $this->error('取消失败,002');
 			if($this->db->model('sale_buy')->commit()){
 				$this->success('取消成功');
 			}else{

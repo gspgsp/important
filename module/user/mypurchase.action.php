@@ -65,58 +65,58 @@ class mypurchaseAction extends userBaseAction{
 	//重新上架
 	public function reshelf()
 	{
-	    $this->is_ajax=true;
-	    $type=sget('type','i');
+		$this->is_ajax=true;
+		$type=sget('type','i');
 
-	    if($data=$_POST['data'])
-	    {
-	        $this->db->startTrans();//开启事务
-	        try {
-	            $model=$this->db->model('purchase');
-	            foreach ($data as $key => $value) {
-	                if($value['on']){
-	                    $_data=$model->getPk($value['on']);
-	                    $_data['supply_count']=0;
-	                    $_data['last_buy_sale']=0;
-	                    $_data['input_time']=CORE_TIME;
-	                    $_data['update_time']=CORE_TIME;
-	                    $_data['shelve_type']=1;
-	                    $_data['number']=$value['num'];
-	                    $_data['unit_price']=$value['price'];
-	                    $_data['status']=$type==1?1:2;//报价直接审核通过，采购需要后台审核(1:采购 2:报价)
-	                    $model->where("id=".$_data['id'] ." and user_id=$this->user_id")->update($_data);
-	                }
-	            }
-	        } catch (Exception $e) {
-	            $this->db->rollback();
-	            $this->error($e->getMessage());
-	        }
-	        $this->db->commit();
-	        $this->success('操作成功');
-	    }else{
-	        $this->error('信息不存在');
-	    }
+		if($data=$_POST['data'])
+		{
+			$this->db->startTrans();//开启事务
+			try {
+				$model=$this->db->model('purchase');
+				foreach ($data as $key => $value) {
+					if($value['on']){
+						$_data=$model->getPk($value['on']);
+						$_data['supply_count']=0;
+						$_data['last_buy_sale']=0;
+						$_data['input_time']=CORE_TIME;
+						$_data['update_time']=CORE_TIME;
+						$_data['shelve_type']=1;
+						$_data['number']=$value['num'];
+						$_data['unit_price']=$value['price'];
+						$_data['status']=$type==1?1:2;//报价直接审核通过，采购需要后台审核(1:采购 2:报价)
+						$model->where("id=".$_data['id'] ." and user_id=$this->user_id")->update($_data);
+					}
+				}
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+			$this->db->commit();
+			$this->success('操作成功');
+		}else{
+			$this->error('信息不存在');
+		}
 	}
 
-    //通过牌号 获取加工级别
-    public function getLevel()
-    {
-        if($_POST)
-        {
-            $this->is_ajax=true;
-            $model=sget('model','s','');
-            $process_type=$this->db->model('product')
-                ->where("model='{$model}'")
-                ->select('process_type')
-                ->getOne();
-            if(empty($process_type)) $this->error('无数据');
-            $_data=array(
-                'id'=>$process_type,
-                'name'=>setOption('process_level',$process_type),
-            );
-            $this->success($_data);
-        }
-    }
+	//通过牌号 获取加工级别
+	public function getLevel()
+	{
+		if($_POST)
+		{
+			$this->is_ajax=true;
+			$model=sget('model','s','');
+			$process_type=$this->db->model('product')
+				->where("model='{$model}'")
+				->select('process_type')
+				->getOne();
+			if(empty($process_type)) $this->error('无数据');
+			$_data=array(
+				'id'=>$process_type,
+				'name'=>setOption('process_level',$process_type),
+			);
+			$this->success($_data);
+		}
+	}
 
 	//采购发布(报价发布)
 	public function pub()
@@ -230,9 +230,10 @@ class mypurchaseAction extends userBaseAction{
 				->join('customer cus','sb.c_id=cus.c_id')
 				->join('customer_contact as con ','sb.c_user_id=con.user_id')
 				->leftjoin('lib_region r','sb.delivery_place=r.id')
-				->where("sb.p_id=$id and sb.status in(2,3)")
-				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place,con.name,con.mobile')
+				->where("sb.p_id=$id and sb.status in(2,3,4)")
+				->select('pur.last_buy_sale,sb.id,sb.number,sb.price,sb.status,sb.delivery_date,sb.delivery_place,sb.ship_type,sb.input_time,sb.remark,cus.c_name,r.name as delivery_place,con.name,con.mobile')
 				->getAll();
+
 			$this->assign('list',$list);
 			$this->display('offerlist');
 		}
@@ -292,7 +293,7 @@ class mypurchaseAction extends userBaseAction{
 	/**
 	 * 我的购货
 	 *
-     */
+	 */
 
 	public function wantBuy(){
 
@@ -303,7 +304,7 @@ class mypurchaseAction extends userBaseAction{
 
 	/**采购table
 	 *
-     */
+	 */
 	public function buyTable(){
 
 		$type=1;//采购
