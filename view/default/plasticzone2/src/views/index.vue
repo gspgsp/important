@@ -40,12 +40,12 @@
 		<router-link :to="{name:'personinfo',params:{id:top.user_id}}">
 			<p class="first"><i class="icon wxGs"></i><span v-html="top.c_name"></span><i class="icon wxName"></i><span v-html="top.name"></span>&nbsp;{{top.sex}}</p>
 			<p class="second">
-			<span v-if="top.type==3||top.type==1">产品:{{top.main_product}} 月用量:{{top.month_consum}}</span>
-			<p v-if="top.type==3||top.type==1" class="second">
+			<span v-if="top.type==='3'||top.type==='1'">产品:{{top.main_product}} 月用量:{{top.month_consum}}</span>
+			<p v-if="top.type==='3'||top.type==='1'" class="second">
 				供:{{top.sale_count}} 求:{{top.buy_count}} 
 				需求：<span style="color: #666666;" v-html="top.need_product"></span>
 			</p>
-			<p v-if="top.type==0||top.type==2" class="second">
+			<p v-if="top.type==='0'||top.type==='2'" class="second">
 				供:{{top.sale_count}} 求:{{top.buy_count}} 
 				主营：<span style="color: #666666;" v-html="top.need_product"></span>
 			</p>
@@ -66,13 +66,13 @@
 			<router-link :to="{name:'personinfo',params:{id:n.user_id}}">
 				<p class="first"><i class="icon wxGs"></i><span v-html="n.c_name"></span><i class="icon wxName"></i><span v-html="n.name"></span>&nbsp;{{n.sex}}</p>
 				<p class="second">
-					<span v-if="n.type==3||n.type==1">产品:{{n.main_product}} 月用量:{{n.month_consum}}</span>
+					<span v-if="n.type==='3'||n.type==='1'">产品:{{n.main_product}} 月用量:{{n.month_consum}}</span>
 				</p>
-				<p v-if="n.type==3||n.type==1" class="second">
+				<p v-if="n.type==='3'||n.type=='1'" class="second">
 					供:{{n.sale_count}} 求:{{n.buy_count}} 
 					需求：<span style="color: #666666;" v-html="n.need_product"></span>
 				</p>
-				<p v-if="n.type==0||n.type==2" class="second">
+				<p v-if="n.type==='0'||n.type==='2'" class="second">
 					供:{{n.sale_count}} 求:{{n.buy_count}} 
 					主营：<span style="color: #666666;" v-html="n.need_product"></span>
 				</p>
