@@ -258,7 +258,8 @@ class plasticReleaseModel extends model
         $status = $this->model ('weixin_fans')->select ('status')->where ("user_id=$user_id and focused_id=$own_id")->getOne ();
         // p(M('qapp:plasticPersonalInfo')->getConut(3858,1));exit;
 //        $status = M("qapp:plasticPersonalInfo")->getAttentionStatus($user_id,$own_id);
-        $value['deliverPriceCount'] = M ('qapp:plasticQuote')->getPurchasePrice ($id, $own_id)['count'];
+        $_tmp= M ('qapp:plasticQuote')->getPurchasePrice ($id, $own_id);
+        $value['deliverPriceCount'] = empty($_tmp['count'])?0:$_tmp['count'];
         $data['status'] = $status == 1 ? '已关注' : '关注';
         $value['info'] = $data;
         $detail = $value;
