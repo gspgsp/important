@@ -430,3 +430,12 @@ function _leader($cname = '',$customer_manager = 0,$share){
 		return $cname;
 	}
 }
+function getLastMonthStartTime($month=0){
+	$year = date('Y');
+	$last_month = date('m') - 1;
+	if($month == 1){
+		$last_month = 12;
+		$year = $year - 1;
+	}
+	 return mktime(0, 0, 0, $last_month, 1, $year);
+}
