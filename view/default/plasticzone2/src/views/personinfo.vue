@@ -29,8 +29,9 @@
 			<p>联系电话：{{mobile}}
 				<a v-show="isMobile" class="telephone" v-bind:href="mobile2"></a>
 			</p>
-			<p style="border-bottom: 1px solid #D1D1D1;">我的主营：{{need_product}}</p>
-			<p v-if="type==3||type==1" style="border-bottom: 1px solid #D1D1D1;">产品：{{main_product}}</p>
+			<p v-if="type==0||type==2" style="border-bottom: 1px solid #D1D1D1;">我的主营：{{need_product}}</p>
+			<p v-if="type==3||type==1" style="border-bottom: 1px solid #D1D1D1;">我的需求：{{need_product}}</p>
+			<p v-if="type==3||type==1" style="border-bottom: 1px solid #D1D1D1;">生产产品：{{main_product}}</p>
 			<p v-if="type==3||type==1" style="border-bottom: 1px solid #D1D1D1;">月用量：{{month_consum}}</p>
 			<div class="registerBox" style="height: auto; padding: 10px 0; margin: 0; line-height: 0; text-align: center;">
 				<div class="card" v-on:click="cardcheck">
