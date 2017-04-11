@@ -120,12 +120,33 @@ function removeRow() {
 	if(ids=='') return;
 	mini.confirm("确定删除内容？", "提示",	function(action){
 			if(action!='ok') return;
+			// var callback=function(data){
+			// 	if(data.err!='0'){
+			// 		alert(data.msg);
+			// 		return false;
+			// 	}else{
+			// 		grid.reload();
+			// 	}
+			// }
 			var callback=function(data){
-				if(data.err!='0'){
+				if(data.err == 3){
+					var width=1200,height=550;
+					title='重定义公司主要联系人';
+					mini.open({
+						url: "/user/user/uerdel?c_id="+data.c_id+"&user_id="+data.user_id,
+						showMaxButton:true,
+						title: title, width: width, height:height,
+						ondestroy: function (action) {
+							if(action=='save'){ //重新加载
+								grid.reload();
+							}
+						}
+					});
+				}else if (data.err == 0) {
+					grid.reload();
+				}else{
 					alert(data.msg);
 					return false;
-				}else{
-					grid.reload();
 				}
 			}
 			utils.ajax('/user/user/init?action=remove',{ids:ids},callback,"POST","json");
