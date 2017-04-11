@@ -26,7 +26,7 @@ class plasticPersonalInfoModel extends model
             if (strstr ($data['thumb'], 'http')) {
                 $data['thumb'] = $data['thumb'];
             } else {
-                if (empty($data['thumb'])) {
+                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg") {
 
                     if(empty($data['sex']))
                     {
