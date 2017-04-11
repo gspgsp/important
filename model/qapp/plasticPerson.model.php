@@ -151,7 +151,9 @@ class plasticPersonModel extends model
                 $funs = $this->getFuns($value['user_id']);
                 $value['fans'] = empty($funs) ? 0 : $funs;//粉丝数
                 $value['member_level'] = L('member_level')[$value['member_level']];//军衔
-                //$value['sex'] = L('sex')[$value['sex']];//性别
+                $value['gender'] = $value['sex'];
+                $value['sex'] = L('sex')[$value['sex']];//性别
+
                 $value['buy_count'] = M('qapp:plasticPersonalInfo')->getConut($value['user_id'], 1);
                 $value['sale_count'] = M('qapp:plasticPersonalInfo')->getConut($value['user_id'], 2);
             }
