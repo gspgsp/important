@@ -75,7 +75,7 @@ class registerAction extends homeBaseAction{
 					$_customer=array(
 						'c_name'=>$c_name,
 						'type'=>sget('type','i'),
-						'need_product'=>sget('need_product','s'),
+						'main_product'=>sget('main_product','s'),
 						'com_intro'=>sget('com_intro','s'),
 						'chanel'=>1,
 						'origin'=>implode('|',$origin),

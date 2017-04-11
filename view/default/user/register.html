@@ -124,7 +124,7 @@
                 <!--tr begin-->
                 <div class="tr">
                     <div class="name">主营品种：<span>*</span></div>
-                    <div class="val"><input type="text" autocomplete="off"placeholder="主要经营产品种类" value="{$reg_data_list.need_product}" name="need_product"/></div>
+                    <div class="val"><input type="text" autocomplete="off"placeholder="主要经营品类" value="{$reg_data_list.main_product}" name="main_product"/></div>
                     <div class="error-msg"></div>
                 </div>
                 <!--tr end-->
@@ -242,7 +242,7 @@ $(function(){
 			},
 			c_name:"required",
 			province:"required",
-			need_product:"required",
+			main_product:"required",
 			type:"required",
 			protocol:"required"
 		},
@@ -273,7 +273,7 @@ $(function(){
 			},
 			c_name:"公司名称不能为空",
 			province:"省份不能为空",
-			need_product:"主营品种不能为空",
+			main_product:"主营品种不能为空",
 			type:"请选择企业类型",
 			protocol:"请查看并且勾选《我的塑料网用户服务协议》"	
 	    },
