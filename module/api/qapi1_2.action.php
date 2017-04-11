@@ -204,7 +204,7 @@ class qapi1_2Action extends null2Action
             $chanel    = (int)sget ('chanel', 'i', 6);
             $quan_type = sget ('quan_type', 'i');//sget()函数要理解一下，里面有个empty函数
             //$origin = sget('origin','a');
-            $ctype = sget('c_type','i');  //'客户类型(1 工厂(卖家)、2 贸易(买家)、3 工贸一体(买卖一体))',
+            $ctype = sget('c_type','i');  //'客户类型(1 工厂(买家)、2 贸易(卖家)、3 工贸一体(买卖一体))',
             //$_model = sget('model','a');  //牌号
 //            if(empty($origin)||count($origin)!=2) $this->_errCode(6);
             if(empty($ctype)) $this->_errCode(6);
@@ -1535,6 +1535,7 @@ class qapi1_2Action extends null2Action
     public function saveSelfInfo()
     {
         $this->is_ajax = true;
+
         if ($_POST) {
             $user_id = $this->checkAccount();
             $_tmpAddress = sget('address','s');
@@ -1542,27 +1543,31 @@ class qapi1_2Action extends null2Action
             $_tmpMajor = sget('major','s');
             $_tmpConcern = sget('concern','s');
             $_tmpDist = sget('dist','s');
+            $_tmpType = sget('type','s');
+            $_tmpMonthConsum = sget('month_consum','s');
+            $_tmpMainProduct = sget('main_product','s');
             $data['address'] = $_tmpAddress;
             $data['sex'] = $_tmpSex;
             $data['major'] = $_tmpMajor;
             $data['concern'] = $_tmpConcern;
             $data['dist'] = $_tmpDist;
+            $data['month_consum'] = $_tmpMonthConsum;
+            $data['type'] = $_tmpType;
+            $data['main_product'] = $_tmpMainProduct;
             foreach($data as $key=>&$row){
                 if($key=='address'){
                     $row=$this->clearStr($row);
-                    if(empty($row)) $this->_errCode(6);
                 }elseif($key=='sex'){
                     if(!in_array($row,array('1','0'))) $this->_errCode(6);
                     $row=(int)$row;
                 }elseif($key=='major'){
                     $row=$this->clearStr($row);
-                    if(empty($row)) $this->_errCode(6);
                 }elseif($key=='concern'){
-                    if(empty($row)) $this->json_output(array('err'=>6,'msg'=>'输入不能为空'));
                     $row = $this->clearStr($row);
                     $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$row);
                     //$field=explode(",",array_map('strtoupper',$field));
                     if(!is_string($row)) $this->json_output(array('err'=>1,'msg'=>'格式错误'));
+                    if(empty($field)) return;
                     $field=explode(",",$field);
                     $field=array_map('strtoupper',$field);
                     foreach($field as $key1=>$row1){
@@ -1574,6 +1579,14 @@ class qapi1_2Action extends null2Action
                     $row=$field;
                 }elseif($key=='dist'){
                     if(empty($row)||!in_array($row, array('EC', 'NC', 'SC'))) $this->_errCode(6);
+                }elseif($key=='type'){
+                    if(empty($row)||(!in_array($row,array('1','2','3')))) $this->_errCode(6);
+                }elseif($key=='month_consum'){
+                    $row=$this->clearStr($row);
+                    if(mb_strlen($row>15)) $this->json_output(array('err'=>1,'msg'=>'字符过长'));
+                }elseif($key=='main_product'){
+                    $row = $this->clearStr($row);
+                    if(mb_strlen($row>25)) $this->json_output(array('err'=>1,'msg'=>'字符过长'));
                 }
             }
             $result = M('qapp:plasticSave')->saveSelfInfo1_2($user_id,$data);
