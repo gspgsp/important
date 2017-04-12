@@ -161,8 +161,9 @@ class talkAction extends homeBaseAction{
 
 			$name=$purData['type']==1?'采购':'报价';
 			$msgType=$purData['type']==1?2:3;
+			$action=$purData['type']==1?'mypurchase':'myoffers';
 			$msg=L('msg_template.offers');
-			$msg=sprintf($msg,$name,$purData['id'],$purData['model'],$purData['unit_price'],$_SESSION['uinfo']['name'],$purData['id'],$purData['type']);
+			$msg=sprintf($msg,$name,$purData['id'],$purData['model'],$purData['unit_price'],$_SESSION['uinfo']['name'],$action,$purData['id'],$purData['type']);
 			M("system:sysMsg")->sendMsg($purData['user_id'],$msg,$msgType);
 			$_SESSION['order_success']=true;
 			$this->success('提交成功');
