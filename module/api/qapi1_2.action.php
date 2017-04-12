@@ -176,7 +176,7 @@ class qapi1_2Action extends null2Action
                 $this->error ('密码格式不正确,至少6位');
             }
             $mcode  = sget ('code', 's');
-
+            if(empty($mcode)) $this->error ('请获取验证码');
             $user_model   = M ('system:sysUser');
             $salt         = randstr (6);
             $passwordSalt = $user_model->genPassword ($password.$salt);
