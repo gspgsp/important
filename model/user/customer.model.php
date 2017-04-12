@@ -260,7 +260,7 @@ class customerModel extends model{
 			if($status==3){
 				$arr['available_credit_limit'] = ($info['available_credit_limit'] - $money);
 			}
-			$res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr);
+			$res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr+array('update_time'=>CORE_TIME));
 			return $res;
 		}
 
@@ -269,7 +269,7 @@ class customerModel extends model{
 			$res=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $arrs['c_id'])->getRow();
 			if($status==1){
 				$arr['available_credit_limit'] = ($res['available_credit_limit'] + $money);
-				$res = $this->model('customer')->where('c_id='.$arrs['c_id'])->update($arr);
+				$res = $this->model('customer')->where('c_id='.$arrs['c_id'])->update($arr+array('update_time'=>CORE_TIME));
 				return $res;
 			}
 		}
