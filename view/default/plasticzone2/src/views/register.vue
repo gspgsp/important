@@ -37,8 +37,8 @@
 			</div>
 			<div class="registerBox">
 				<strong><span>*</span>企业类型:</strong>
-				<input name="firm" type="radio" value="1" v-model="c_type" /><label>贸易商</label>
-				<input name="firm" type="radio" value="2" v-model="c_type" /><label>工厂</label>
+				<input name="firm" type="radio" value="1" v-model="c_type" /><label>工厂</label>
+				<input name="firm" type="radio" value="2" v-model="c_type" /><label>贸易商</label>
 				<input name="firm" type="radio" value="3" v-model="c_type" /><label>工贸一体</label>
 			</div>
 		</div>
@@ -131,7 +131,7 @@ module.exports = {
 		},
 		reg: function() {
 			var _this = this;
-			if(this.checked) {
+			if(this.checked&&this.password&&this.name&&this.c_name) {
 				$.ajax({
 					url: '/api/qapi1_2/register',
 					type: 'post',
@@ -171,7 +171,7 @@ module.exports = {
 
 				});
 			} else {
-				weui.alert("请先同意用户服务协议", {
+				weui.alert("请把信息填写完整", {
 					title: '塑料圈通讯录',
 					buttons: [{
 						label: '确定',
