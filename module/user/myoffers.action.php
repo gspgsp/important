@@ -57,6 +57,119 @@ class myoffersAction extends userBaseAction{
 	}
 
 
+
+	/**
+	 * 我的供货(报价)
+	 *
+	 */
+	public function supply(){
+		$this->act='supply';
+		$this->display('supply');
+	}
+	/**
+	 *(我的供货)报价列表
+	 */
+	public function subblyTable(){
+		$type=sget('type','i',1);//1 采购 2报价
+		$this->assign('type',$type);
+//		$type=2;//报价
+		$where="un.sale_user_id=$this->user_id and pur.type=$type";
+		$where_1=" sb.c_id={$_SESSION['uinfo']['c_id']} AND pur.last_buy_sale=sb.id AND pur.type=1";
+		//收索条件
+
+		if($status=sget('status','s','')){
+
+			$where.=" and un.order_status=".$status;
+			$where_1.=" and un.order_status=".$status;
+
+		}
+		$page=sget('page','i',1);
+		$size=10;
+		$list=M('product:salebuy')->getPurPage($where,$page,$size);
+
+		$lists=M('product:salebuy')->get_purs($where_1,$page,$size);
+
+		$list['count']=$list['count']+$lists['count'];
+		$list['data']=array_merge($lists['data'],$list['data']);
+		$list=array_unique($list);
+
+		$this->assign('list',$list);
+		$this->assign('page',$page);
+		$this->assign('count',ceil($list['count']/$size));
+		$this->display('supply_table');
+	}
+
+	/**
+	 *ajax  异步取消报价管理
+	 *
+	 */
+	public function ajax_submit(){
+
+		if(sget('id','i','')){
+			$id=saddslashes(sget('id'));
+			$this->db->model('sale_buy')->startTrans();
+			$arr=array(
+				'status'=>9,
+				'update_time'=>CORE_TIME,
+			);
+			$array=array(
+				'order_status'=>3,
+				'update_time'=>CORE_TIME,
+			);
+			if(!$this->db->model('sale_buy')->where('id='.$id)->update($arr)) $this->error('取消失败,001');
+			if(!$this->db->model('union_order')->where('p_sale_id='.$id)->update($array)) $this->error('取消失败,002');
+			if($this->db->model('sale_buy')->commit()){
+				$this->success('取消成功');
+			}else{
+				$this->rollback();
+				$this->error('取消失败');
+			}
+		}
+	}
+
+	/**
+	 * 根据牌号异步获取厂家名称
+	 */
+	public function getfaclist(){
+		$this->is_ajax=true;
+		$model=sget('model','s');
+		$getfaclist=M('product:product')->getFacByModel($model);
+		$this->json_output($getfaclist);
+	}
+	/**
+	 * 根据牌号和厂家id获取唯一的商品信息
+	 */
+	public function getPinfo(){
+		$this->is_ajax = true;
+		$model = sget('model','s');
+		$fid = sget('fid','i',0);
+		$data=M('product:product')->getPinfo($model,$fid);
+		$data['product_type_1']=L('product_type')[$data['product_type']];
+		$data['process_type_1']=L('process_level')[$data['process_type']];
+		$this->json_output($data);
+	}
+
+	/**
+	 * 获取地区列表
+	 * @$pid 省份 id
+	 * @access public
+	 * @return html
+	 */
+	public function getRegion($pid=0){
+		//地区列表
+		$regList = M('system:region')->get_allRegions();
+		//print_r($regList);
+		$list = array();
+		$pid = sget('pid','i');
+		foreach($regList as $k=>$v){
+			if($v['pid']==$pid){
+				$list[]=array('id'=> $v['id'],'name' => $v['name']);
+			}
+		}
+		$this->json_output($list);
+	}
+
+
 	/**
 	 * 批量导入报价excel表页面
 	 *
@@ -229,114 +342,5 @@ class myoffersAction extends userBaseAction{
 				$this->success('导入成功');
 			}
 		}
-	}
-
-	/**
-	 * 我的供货(报价)
-	 *
-	 */
-	public function supply(){
-		$this->act='supply';
-		$this->display('supply');
-	}
-	/**
-	 *(我的供货)报价列表
-	 */
-	public function subblyTable(){
-		$type=2;//报价
-		$where="un.sale_user_id=$this->user_id and pur.type=$type";
-		$where_1=" sb.c_id={$_SESSION['uinfo']['c_id']} AND pur.last_buy_sale=sb.id AND pur.type=1";
-		//收索条件
-
-		if($status=sget('status','s','')){
-
-			$where.=" and un.order_status=".$status;
-			$where_1.=" and un.order_status=".$status;
-
-		}
-		$page=sget('page','i',1);
-		$size=10;
-		$list=M('product:salebuy')->getPurPage($where,$page,$size);
-
-		$lists=M('product:salebuy')->get_purs($where_1,$page,$size);
-
-		$list['count']=$list['count']+$lists['count'];
-		$list['data']=array_merge($lists['data'],$list['data']);
-		$list=array_unique($list);
-
-		$this->assign('list',$list);
-		$this->assign('page',$page);
-		$this->assign('count',ceil($list['count']/$size));
-		$this->display('supply_table');
-	}
-
-	/**
-	 *ajax  异步取消报价管理
-	 *
-	 */
-	public function ajax_submit(){
-
-		if(sget('id','i','')){
-			$id=saddslashes(sget('id'));
-			$this->db->model('sale_buy')->startTrans();
-			$arr=array(
-				'status'=>9,
-				'update_time'=>CORE_TIME,
-			);
-			$array=array(
-				'order_status'=>3,
-				'update_time'=>CORE_TIME,
-			);
-			if(!$this->db->model('sale_buy')->where('id='.$id)->update($arr)) $this->error('取消失败,001');
-			if(!$this->db->model('union_order')->where('p_sale_id='.$id)->update($array)) $this->error('取消失败,002');
-			if($this->db->model('sale_buy')->commit()){
-				$this->success('取消成功');
-			}else{
-				$this->rollback();
-				$this->error('取消失败');
-			}
-		}
-	}
-
-	/**
-	 * 根据牌号异步获取厂家名称
-	 */
-	public function getfaclist(){
-		$this->is_ajax=true;
-		$model=sget('model','s');
-		$getfaclist=M('product:product')->getFacByModel($model);
-		$this->json_output($getfaclist);
-	}
-	/**
-	 * 根据牌号和厂家id获取唯一的商品信息
-	 */
-	public function getPinfo(){
-		$this->is_ajax = true;
-		$model = sget('model','s');
-		$fid = sget('fid','i',0);
-		$data=M('product:product')->getPinfo($model,$fid);
-		$data['product_type_1']=L('product_type')[$data['product_type']];
-		$data['process_type_1']=L('process_level')[$data['process_type']];
-		$this->json_output($data);
-	}
-
-	/**
-	 * 获取地区列表
-	 * @$pid 省份 id
-	 * @access public
-	 * @return html
-	 */
-	public function getRegion($pid=0){
-		//地区列表
-		$regList = M('system:region')->get_allRegions();
-		//print_r($regList);
-		$list = array();
-		$pid = sget('pid','i');
-		foreach($regList as $k=>$v){
-			if($v['pid']==$pid){
-				$list[]=array('id'=> $v['id'],'name' => $v['name']);
-			}
-		}
-		$this->json_output($list);
 	}
 }

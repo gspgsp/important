@@ -37,11 +37,12 @@
 		<!--</td>-->
 	</tr>
 	{/foreach}
+
 </table>
 
 <div id="Pagination" class="pages"></div>
 
-
+<div id="offersList" style="display: none;">
 
 <script type="text/javascript">
 
@@ -56,19 +57,19 @@
 
 	// 完成订单
 	$(function(){
-	    $('.button').click(function () {
-	        if(confirm('确定交易完成了吗?')){
-                var id=$('.button').attr('data-val');
-                $.get('/user/unionorder/ajax_submit',{id:id},function(data){
-                    if(data.err== 0){
-                        alert('订单已完成');
-                    }else{
-                        alert(data.msg);
-                        return ;
-                    }
-                },'json')
+		$('.button').click(function () {
+			if(confirm('确定交易完成了吗?')){
+				var id=$('.button').attr('data-val');
+				$.get('/user/unionorder/ajax_submit',{id:id},function(data){
+					if(data.err== 0){
+						alert('订单已完成');
+					}else{
+						alert(data.msg);
+						return ;
+					}
+				},'json')
 			}
-        })
+		})
 	})
 
 </script>

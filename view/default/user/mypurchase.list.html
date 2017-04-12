@@ -131,6 +131,7 @@ $(function(){
 		}
 
 		var type=$('.type').val();
+		console.log()
         var data=listForm.serialize();
 		$.post('/user/mypurchase/reshelf?type='+type,data,function(data){
 			if(data.err==0){
