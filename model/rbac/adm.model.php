@@ -155,4 +155,57 @@ class admModel extends model{
 		}
 		return $data;
 	}
+	/**
+	 * 根据业务员id获取该战队当月配资状况
+	 * @Author   yezhongbao
+	 * @DateTime 2017-04-01T09:45:30+0800
+	 * @param    integer                  $customer_manager [description]
+	 * @return   [type]                                     [description]
+	 */
+	public function getThisMonthTemaCapitalByCustomer($customer_manager = 0){
+		$month_start = strtotime(date('Y-m',time()));
+		$role_id = $this->model('adm_role_user as `role_user`')
+						->select('`role`.id')
+						->leftjoin('adm_role as `role`','`role_user`.role_id = `role`.id')
+						->where('`role_user`.user_id = '.$customer_manager.' and `role`.pid = 22')
+						->getOne();
+		//根据业务员id查询角色是否是战队角色，如果没有结果说明是非战队人员
+		if(!$role_id){
+			return $this->getThisMonthTemaCapitalBySpecialTeamId();
+		}
+		$res = $this->model('adm_role_user as `user`')
+						   ->select('c.*')
+						   ->leftjoin('adm_role as role','role.id = `user`.role_id')
+						   ->rightjoin('team_capital as c','c.team_id = role.id and c.input_date='.$month_start)
+						   ->where("`user_id` = ".$customer_manager)
+						   ->getRow();
+	   return empty($res)?array():$res;
+	}
+	/**
+	 * 根据特殊战队id查询该战队当月配资状况（特殊战队就是非战队人员，统归为特殊战队 team_id = 1）
+	 * @Author   yezhongbao
+	 * @DateTime 2017-04-01T10:05:37+0800
+	 * @return   [type]                   [description]
+	 */
+	public function getThisMonthTemaCapitalBySpecialTeamId(){
+		$month_start = strtotime(date('Y-m',time()));
+		$res = $this->model('team_capital')
+				   ->where("`team_id` = 1 and input_date = ".$month_start."")
+				   ->getRow();
+	   return empty($res)?array():$res;
+	}
+	/**
+	 * 根据交易员id，获取战队id，如果找不到战队id，则战队id=1，作为非战队人员分类
+	 * @Author   yezhongbao
+	 * @DateTime 2017-04-01T15:44:17+0800
+	 * @return   [type]                   [description]
+	 */
+	public function getCustomerManagerTeamId($customer_manager = 0){
+		$role_id = $this->model('adm_role_user as `user`')
+						->select('role.id')
+						->leftjoin('adm_role as role','role.id = `user`.role_id')
+						->where('role.pid = 22 and `user`.user_id='.$customer_manager)
+						->getOne();
+		return !$role_id ? 1:$role_id;
+	}
 }
