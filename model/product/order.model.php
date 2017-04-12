@@ -370,5 +370,57 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
         }
         return $content_id;
 	}
+/**
+ * 根据销售订单id和采购订单id获取交易员所在战队状况
+ * @Author   yezhongbao
+ * @DateTime 2017-04-01T14:04:51+0800
+ * @param    integer                  $sale_oid [description]
+ * @param    integer                  $buy_oid  [description]
+ * @return   [type]                             [description]
+ */
+	public function getCustomerManagerTeamStatusByOid($sale_oid = 0,$buy_oid = 0){
+		$sale_customer_manager = $this->model('order')->select('customer_manager')->where('o_id = '.$sale_oid)->getOne();
+		$buy_customer_manager = $this->model('order')->select('customer_manager')->where('o_id = '.$buy_oid)->getOne();
+		$sale_team_id = M('rbac:adm')->getCustomerManagerTeamId($sale_customer_manager);
+		$buy_team_id = M('rbac:adm')->getCustomerManagerTeamId($buy_customer_manager);
+		return array('sale_team_id'=>$sale_team_id,'buy_team_id'=>$buy_team_id);
+	}
+	/**
+	 * 根据销售订单id获取该订单的成本价(只适用于有采购单的销售单，若采购单未生成，则不能用该方法)
+	 * @Author   yezhongbao
+	 * @DateTime 2017-04-07T15:19:49+0800
+	 * @param    integer                  $oid [description]
+	 * @return   [type]                        [description]
+	 */
+	public function getSaleCost($oid = 0){
+		$res = $this->model('order')->getOne('SELECT SUM(`s`.`number` * `p`.`unit_price`) AS `price` FROM (SELECT `purchase_id`,`number` FROM `p2p_sale_log`WHERE `o_id` = '.$oid.') AS `s` LEFT JOIN `p2p_purchase_log` AS `p` ON `p`.`id` = `s`.`purchase_id`');
+		return !$res?0:$res;
+	}
+	/**
+	 * 获取关联订单id，该方法使用范围要求：销售单为现销现采，采购为销售采购模式，并且订单双审中有一个不通过，则不显示
+	 * @Author   yezhongbao
+	 * @DateTime 2017-04-10T09:51:01+0800
+	 * @param    [type]                   $o_id [description]
+	 * @return   [type]                         [description]
+	 */
+	public function getPurOidOrSaleOid($o_id){
+		if (!$o_id) return false;
+		$row_tmp = $this->model('order')->select("o_id,join_id,store_o_id")->where("o_id={$o_id}")->getRow();
+        if($row_tmp['store_o_id'] > 0 && $row_tmp['join_id'] == 0){
+            $content_id = $row_tmp['store_o_id'];
+        }else if($row_tmp['store_o_id'] == 0 && $row_tmp['join_id'] > 0){
+            $content_id = $row_tmp['join_id'];
+        }else if($row_tmp['o_id'] == $row_tmp['join_id'] && $row_tmp['join_id']>0 && $row_tmp['store_o_id']>0){
+            $content_id = $row_tmp['store_o_id'];
+        }else if($row_tmp['o_id'] == $row_tmp['store_o_id'] && $row_tmp['join_id']>0 && $row_tmp['store_o_id']>0){
+            $content_id = $row_tmp['join_id'];
+        }
+        if($content_id){
+			$sale_oid = $this->model('order')->select("o_id")->where("o_id={$content_id} and order_status != 3 and transport_status != 3")->getOne();
+			return $sale_oid ? $sale_oid: 0;
+        }else{
+        	return 0;
+        }
+	}
 
 }
