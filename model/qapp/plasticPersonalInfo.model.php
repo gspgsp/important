@@ -26,8 +26,8 @@ class plasticPersonalInfoModel extends model
             if (strstr ($data['thumb'], 'http')) {
                 $data['thumb'] = $data['thumb'];
             } else {
-                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg") {
-
+                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                {
                     if(empty($data['sex']))
                     {
                         $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
@@ -99,8 +99,14 @@ class plasticPersonalInfoModel extends model
             if (strstr ($data['thumb'], 'http')) {
                 $data['thumb'] = $data['thumb'];
             } else {
-                if (empty($data['thumb'])) {
-                    $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                {
+                    if(empty($data['sex']))
+                    {
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                    }else{
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                    }
                 } else {
                     $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                 }
@@ -219,8 +225,14 @@ class plasticPersonalInfoModel extends model
             if (strstr ($data['thumb'], 'http')) {
                 $data['thumb'] = $data['thumb'];
             } else {
-                if (empty($data['thumb'])) {
-                    $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                {
+                    if(empty($data['sex']))
+                    {
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                    }else{
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                    }
                 } else {
                     $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                 }
@@ -358,8 +370,14 @@ class plasticPersonalInfoModel extends model
             if (strstr ($data['thumb'], 'http')) {
                 $data['thumb'] = $data['thumb'];
             } else {
-                if (empty($data['thumb'])) {
-                    $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                {
+                    if(empty($data['sex']))
+                    {
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                    }else{
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                    }
                 } else {
                     $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                 }
