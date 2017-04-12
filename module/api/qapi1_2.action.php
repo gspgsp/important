@@ -1579,7 +1579,7 @@ class qapi1_2Action extends null2Action
                     if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
                     $row=$field;
                 }elseif($key=='dist'){
-                    if(empty($row)||!in_array($row, array('EC', 'NC', 'SC'))) $this->_errCode(6);
+                    if(empty($row)||(!in_array($row, array('EC', 'NC', 'SC')))) $this->_errCode(6);
                 }elseif($key=='type'){
                     if(empty($row)||(!in_array($row,array('1','2','3')))) $this->_errCode(6);
                 }elseif($key=='month_consum'){
