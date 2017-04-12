@@ -264,7 +264,9 @@ methods: {
 					keywords: _this.keywords.toLocaleUpperCase(),
 					page: _this.page,
 					token: window.localStorage.getItem("token"),
-					size: 10
+					size: 10,
+					sortField: _this.sortField,
+					sortOrder: _this.sortOrder
 				},
 				dataType: 'JSON'
 			}).done(function(res) {

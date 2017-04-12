@@ -260,7 +260,9 @@ module.exports = {
 				
 						});
 				    }, function () {
-				        window.history.back();
+			    		_this.$router.push({
+							name: 'pointsrule'
+						});
 				    }, {
 				        title: '塑料圈通讯录'
 				    });			

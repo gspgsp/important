@@ -4,6 +4,8 @@
 		<header id="bigCustomerHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
 			我的资料
+			<span v-if="isDisabled" v-on:click="editor" style="position: absolute; right: 10px; font-size: 14px;">编辑</span>
+			<span v-if="!isDisabled" v-on:click="save" style="position: absolute; right: 10px; font-size: 14px;">保存</span>
 		</header>
 	</div>
 	<div class="personInfo">
@@ -20,57 +22,72 @@
 		<div class="personNum">
 			发布供给：<span style=" color: #63769d;">{{sale}}条</span> 发布需求：<span style=" color: #63769d;">{{buy}}条</span>
 		</div>
-		<div class="personInfoList2" style="margin: 20px 0 0 0;">
-			<p><span style="color: #333333; font-size: 12px;">地址：</span>
-				<b v-show="addressshow">{{address}}</b>
-				<strong v-show="!addressshow" class="address">
-<input type="text" v-model="address" />
-<input type="button" value="提交" style="position: absolute; top: 3px;" v-on:click="addresssubmit" />
-</strong>
-				<i class="editicon" v-on:click="edit" v-show="addressshow"></i>
-			</p>
-			<p><span style="color: #333333; font-size: 12px;">性别：</span>
-				<b v-show="sexshow">{{sex}}</b>
-				<b v-show="!sexshow">
-<input type="radio" value="0" v-model="sexradio" />&nbsp;男&nbsp;
-<input type="radio" value="1" v-model="sexradio" />&nbsp;女
-<input type="button" value="提交" v-on:click="sexsubmit" />
-</b>
-				<i class="editicon" v-on:click="edit2" v-show="sexshow"></i>
-			</p>
-			<p><span style="color: #333333; font-size: 12px;">所属地区：</span>
-				<b v-show="distinctshow">{{adistinct}}</b>
-				<b v-show="!distinctshow">
-<input type="radio" value="EC" v-model="distinctradio" />&nbsp;华东&nbsp;
-<input type="radio" value="NC" v-model="distinctradio" />&nbsp;华北&nbsp;
-<input type="radio" value="SC" v-model="distinctradio" />&nbsp;华南&nbsp;
-<input type="button" value="提交" v-on:click="distinctsubmit" />
-</b>
-				<i class="editicon" v-on:click="edit5" v-show="distinctshow"></i>
-			</p>
-			<div style="position: relative;">
-				<div v-show="!zyshow" style=" position: absolute; top: -30px; left: 75px; border-radius: 5px; background: rgba(0,0,0,0.7); color: #FFFFFF; font-size: 12px; padding: 2px 5px;">不同牌号之间用空格分开</div>
-				<p><span style="color: #333333; font-size: 12px;">我的主营：</span>
-					<b v-show="zyshow">{{need_product}}</b>
-					<strong v-show="!zyshow" class="address">
-<input type="text" style="width: 160px; float: right; margin: 0 60px 0 0;" v-model="need_product" />
-<input type="button" value="提交" style="position: absolute; top: 3px;" v-on:click="zysubmit" />
-</strong>
-					<i class="editicon" v-show="zyshow" v-on:click="edit3"></i>
-				</p>
-			</div>
-			<div style="position: relative;">
-				<div v-show="!phshow" style=" position: absolute; top: -30px; left: 75px; border-radius: 5px; background: rgba(0,0,0,0.7); color: #FFFFFF; font-size: 12px; padding: 2px 5px;">不同牌号之间用空格分开</div>
-				<p style=" border: none;"><span style="color: #333333; font-size: 12px;">关注的牌号：</span>
-					<b v-show="phshow">{{concern_model}}</b>
-					<strong v-show="!phshow" class="address">
-<input type="text" style="width: 160px; float: right; margin: 0 60px 0 0;" v-model="need_ph" />
-<input type="button" value="提交" style="position: absolute; top: 3px;" v-on:click="phsubmit" />
-</strong>
-					<i class="editicon" v-show="phshow" v-on:click="edit4"></i>
-				</p>
-			</div>
-		</div>
+		<table class="myinfotb" cellpadding="0" cellspacing="0">
+			<tr>
+				<td width="30%" style="padding: 0 0 0 15px;">地址：</td>
+				<td style="padding: 0 15px 0 0;">
+					<input v-bind:disabled="isDisabled" type="text" v-model="address" />
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 0 0 0 15px;">性别：</td>
+				<td style="padding: 0 15px 0 0;">
+					<span v-if="isDisabled">{{sex}}</span>
+					<span v-if="!isDisabled">
+						<input type="radio" value="0" v-model="sexradio" />&nbsp;男&nbsp;
+						<input type="radio" value="1" v-model="sexradio" />&nbsp;女
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 0 0 0 15px;">所属地区：</td>
+				<td style="padding: 0 15px 0 0;">
+					<span v-if="isDisabled">{{adistinct}}</span>
+					<span v-if="!isDisabled">
+						<input type="radio" value="EC" v-model="distinctradio" />&nbsp;华东&nbsp;
+						<input type="radio" value="NC" v-model="distinctradio" />&nbsp;华北&nbsp;
+						<input type="radio" value="SC" v-model="distinctradio" />&nbsp;华南&nbsp;
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 0 0 0 15px;">企业类型：</td>
+				<td style="padding: 0 15px 0 0;">
+					<span v-if="isDisabled">
+						{{c_nametype}}
+					</span>
+					<span v-if="!isDisabled">
+						<input type="radio" value="1" v-model="c_type" />&nbsp;工厂&nbsp;
+						<input type="radio" value="2" v-model="c_type" />&nbsp;贸易商&nbsp;
+						<input type="radio" value="3" v-model="c_type" />&nbsp;工贸一体&nbsp;
+					</span>					
+				</td>
+			</tr>
+			<!--<tr v-if="!isDisabled">
+				<td style="padding: 0 0 0 15px;">产品：</td>
+				<td style="padding: 0 15px 0 0;">
+					<input v-bind:disabled="isDisabled" type="text" v-model="address" />
+				</td>
+			</tr>
+			<tr v-if="!isDisabled">
+				<td style="padding: 0 0 0 15px;">月用量：</td>
+				<td style="padding: 0 15px 0 0;">
+					<input v-bind:disabled="isDisabled" type="text" v-model="address" />
+				</td>
+			</tr>-->
+			<tr>
+				<td style="padding: 0 0 0 15px;">我的主营：</td>
+				<td style="padding: 0 15px 0 0;">
+					<input v-bind:disabled="isDisabled" type="text" v-model="need_product" />
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 0 0 0 15px;">关注的牌号：</td>
+				<td style="padding: 0 15px 0 0;">
+					<input v-bind:disabled="isDisabled" type="text" v-model="need_ph" />
+				</td>
+			</tr>
+		</table>
 		<div class="mui-content">
 			<ul id="shortmsg" class="mui-table-view">
 				<li class="mui-table-view-cell">
@@ -103,7 +120,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="registerBox" style="height: auto; padding: 10px 0; margin: 10px 0 0 0; line-height: 0; text-align: center;">
+		<div class="registerBox" style="height: auto; background: #FFFFFF; padding: 10px 0; margin: 10px 0 0 0; line-height: 0; text-align: center;">
 			<div class="card">
 				<img v-bind:src="cardImg">
 			</div>
@@ -135,6 +152,8 @@ module.exports = {
 			buy: "",
 			sale: "",
 			c_name: "",
+			c_type:"",
+			c_nametype:"",
 			mobile: "",
 			address: "",
 			sex: "",
@@ -145,10 +164,6 @@ module.exports = {
 			need_ph: "",
 			rank: "",
 			total: "",
-			sexshow: true,
-			addressshow: true,
-			zyshow: true,
-			phshow: true,
 			sexradio: 0,
 			distinctradio: "EC",
 			cardImg: "",
@@ -157,8 +172,8 @@ module.exports = {
 			active3: "",
 			level: "",
 			distinct: "",
-			distinctshow: true,
-			loadingShow: ""
+			loadingShow: "",
+			isDisabled:true
 		}
 	},
 	beforeRouteEnter: function(to, from, next) {
@@ -167,12 +182,48 @@ module.exports = {
 		});
 	},
 	methods: {
+		editor:function(){
+			this.isDisabled=false;
+		},
+		save:function(){
+			var _this=this;
+			this.isDisabled=true;
+			$.ajax({
+				url: '/api/qapi1_2/saveSelfInfo',
+				type: 'post',
+				data: {
+					token: window.localStorage.getItem("token"),
+					address:_this.address,
+					sex:_this.sexradio,
+					major:_this.need_product,
+					concern:_this.need_ph,
+					dist:_this.distinctradio,
+					type:1,
+					month_consum:'',
+					main_product:''
+				},
+				dataType: 'JSON'
+			}).then(function(res) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							window.location.reload();
+						}
+					}]
+				});
+			}, function() {
+
+			});
+		},
 		msgActive: function() {
 			var _this = this;
 			this.active == 0 ? this.active = 1 : this.active = 0;
 			$.ajax({
-				url: '/api/qapi1/favorateSet',
-				type: 'get',
+				url: '/api/qapi1_2/favorateSet',
+				type: 'post',
 				data: {
 					type: 0,
 					is_allow: _this.active,
@@ -180,9 +231,7 @@ module.exports = {
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
+
 			}, function() {
 
 			});
@@ -191,8 +240,8 @@ module.exports = {
 			var _this = this;
 			this.active2 == 0 ? this.active2 = 1 : this.active2 = 0;
 			$.ajax({
-				url: '/api/qapi1/favorateSet',
-				type: 'get',
+				url: '/api/qapi1_2/favorateSet',
+				type: 'post',
 				data: {
 					type: 1,
 					is_allow: _this.active2,
@@ -200,9 +249,7 @@ module.exports = {
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
+
 			}, function() {
 
 			});
@@ -211,8 +258,8 @@ module.exports = {
 			var _this = this;
 			this.active3 == 0 ? this.active3 = 1 : this.active3 = 0;
 			$.ajax({
-				url: '/api/qapi1/favorateSet',
-				type: 'get',
+				url: '/api/qapi1_2/favorateSet',
+				type: 'post',
 				data: {
 					type: 2,
 					is_allow: _this.active3,
@@ -220,122 +267,10 @@ module.exports = {
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
+
 			}, function() {
 
 			});
-		},
-		edit: function() {
-			this.addressshow = false;
-		},
-		edit2: function() {
-			this.sexshow = false;
-		},
-		edit5: function() {
-			this.distinctshow = false;
-		},
-		addresssubmit: function() {
-			var _this = this;
-			$.ajax({
-				url: '/api/qapi1/saveSelfInfo',
-				type: 'get',
-				data: {
-					type: 1,
-					field: _this.address,
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'JSON'
-			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
-			}, function() {
-
-			});
-		},
-		sexsubmit: function() {
-			var _this = this;
-			$.ajax({
-				url: '/api/qapi1/saveSelfInfo',
-				type: 'get',
-				data: {
-					type: 2,
-					field: _this.sexradio,
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'JSON'
-			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
-			}, function() {
-
-			});
-		},
-		distinctsubmit: function() {
-			var _this = this;
-			$.ajax({
-				url: '/api/qapi1/saveSelfInfo',
-				type: 'get',
-				data: {
-					type: 5,
-					field: _this.distinctradio,
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'JSON'
-			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
-			}, function() {
-
-			});
-		},
-		zysubmit: function() {
-			var _this = this;
-			$.ajax({
-				url: '/api/qapi1/saveSelfInfo',
-				type: 'get',
-				data: {
-					type: 3,
-					field: _this.need_product,
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'JSON'
-			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
-			}, function() {
-
-			});
-		},
-		phsubmit: function() {
-			var _this = this;
-			$.ajax({
-				url: '/api/qapi1/saveSelfInfo',
-				type: 'get',
-				data: {
-					type: 4,
-					field: _this.need_ph,
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'JSON'
-			}).then(function(res) {
-				mui.alert("", res.msg, function() {
-					window.location.reload();
-				});
-			}, function() {
-
-			});
-		},
-		edit3: function() {
-			this.zyshow = false;
-		},
-		edit4: function() {
-			this.phshow = false;
 		}
 	},
 	activated: function() {
@@ -439,8 +374,8 @@ module.exports = {
 		});
 
 		$.ajax({
-			url: '/api/qapi1/getSelfInfo',
-			type: 'get',
+			url: '/api/qapi1_2/getSelfInfo',
+			type: 'post',
 			data: {
 				token: window.localStorage.getItem("token")
 			},
@@ -466,7 +401,15 @@ module.exports = {
 				_this.active2 = res.data.allow_send.repeat;
 				_this.active3 = res.data.allow_send.show;
 				_this.level = res.data.member_level;
-				_this.adistinct = res.data.adistinct
+				_this.adistinct = res.data.adistinct;
+				_this.c_type=res.data.type;
+				if(_this.c_type=="0"||_this.c_type=="2"){
+					_this.c_nametype="贸易商";
+				}else if(_this.c_type=="1"){
+					_this.c_nametype="工厂";
+				}else{
+					_this.c_nametype="工贸一体";
+				}
 			} else if(res.err == 1) {
 				weui.alert(res.msg, {
 					title: '塑料圈通讯录',
