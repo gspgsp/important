@@ -176,10 +176,7 @@ class qapi1_2Action extends null2Action
                 $this->error ('密码格式不正确,至少6位');
             }
             $mcode  = sget ('code', 's');
-            $result = M ('system:sysSMS')->qAppChkDynamicCode ($mobile, $mcode);
-            if ($result['err'] > 0) {
-                $this->error ($result['msg']);
-            }
+
             $user_model   = M ('system:sysUser');
             $salt         = randstr (6);
             $passwordSalt = $user_model->genPassword ($password.$salt);
@@ -218,6 +215,11 @@ class qapi1_2Action extends null2Action
             if (!$c_name) {
                 $this->error ('请输入公司名称');
             }
+            $result = M ('system:sysSMS')->qAppChkDynamicCode ($mobile, $mcode);
+            if ($result['err'] > 0) {
+                $this->error ($result['msg']);
+            }
+
             //if(empty($_model)||count($_model)>10) $this->_errCode(6);
             //$_model = implode(',',$_model);
 
