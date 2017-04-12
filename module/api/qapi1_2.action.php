@@ -1564,7 +1564,7 @@ class qapi1_2Action extends null2Action
                     if(!in_array($row,array('1','0'))) $this->_errCode(6);
                     $row=(int)$row;
                 }elseif($key=='major'){
-                    $row=$this->clearStr($row);
+                    $field=$this->clearStr($row);
                     if(!is_string($row)) $this->json_output(array('err'=>1,'msg'=>'格式错误'));
                     if(!empty($field)){
                         $field=explode(",",$field);
@@ -1603,10 +1603,10 @@ class qapi1_2Action extends null2Action
                     if(empty($row)||(!in_array($row,array('1','2','3')))) $this->_errCode(6);
                 }elseif($key=='month_consum'){
                     $row=$this->clearStr($row);
-                    if(mb_strlen($row>15)) $this->json_output(array('err'=>1,'msg'=>'字符过长'));
+                    if(mb_strlen($row)>15) $this->json_output(array('err'=>1,'msg'=>'1字符过长'));
                 }elseif($key=='main_product'){
                     $row = $this->clearStr($row);
-                    if(mb_strlen($row>25)) $this->json_output(array('err'=>1,'msg'=>'字符过长'));
+                    if(mb_strlen($row)>25) $this->json_output(array('err'=>1,'msg'=>'2字符过长'));
                 }
             }
             $result = M('qapp:plasticSave')->saveSelfInfo1_2($user_id,$data);
