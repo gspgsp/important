@@ -152,13 +152,14 @@
 						{elseif $value.order_status eq 4}
                         <em class="status1"></em><b>订单状态：</b><span>已完成</span>
 						{/if}
-
-						{if $value.order_status eq 3 }
-
+						{if $value.order_status eq 3}
 						{else}
 						<em class="status2"></em><b>发货状态：</b><span>{:setOption|goods_status,$value.goods_status}</span>
+						{/if}
 					</li>
 					<li class="status">
+						{if $value.order_status eq 3}
+						{else}
 						<em class="status3"></em><b>开票状态：</b><span>{:setOption|invoice_status,$value.invoice_status}</span>
 						<em class="status4"></em><b>付款状态：</b><span>{:setOption|collection_p_status,$value.collection_status}</span>
 						{/if}

@@ -211,7 +211,6 @@ class mypurchaseAction extends userBaseAction{
 			$list['data'][$key]['counts']=count($info);
 			$list['data'][$key]['city']= (!empty($v['region_name']))?$v['region_name']:$v['store_house'];
 		}
-
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));
@@ -328,7 +327,4 @@ class mypurchaseAction extends userBaseAction{
 		$this->assign('count',ceil($list['count']/$size));
 		$this->display('buytable');
 	}
-
-
-
 }
