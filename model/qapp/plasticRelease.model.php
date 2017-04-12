@@ -176,8 +176,7 @@ class plasticReleaseModel extends model
                 $value['c_name'] = $this->model ('customer')->select ('c_name')->where ('c_id=' . $cus_con['c_id'])->getOne ();
                 if (empty($value['c_name'])) unset($data['data'][$key]);
                 $value['is_pass'] = $cus_con['is_pass'];
-                $thumb = $this->model ('contact_info')->select ('thumb,thumbqq,sex,mobile_province')->where ('user_id=' . $value['user_id'])->getRow ();
-
+                $thumb = $this->model ('contact_info')->select ('info.thumb,info.thumbqq,con.sex,info.mobile_province')->from('contact_info info')->leftjoin('customer_contact con','con.user_id=info.user_id')->where ('info.user_id=' . $value['user_id'])->getRow ();
                 if (empty($thumb['thumbqq'])) {
                     if (strstr ($thumb['thumb'], 'http')) {
                         $thumb['thumb'] = $thumb['thumb'];
@@ -354,7 +353,9 @@ class plasticReleaseModel extends model
             $value['f_name'] = $this->model ('factory')->select ('f_name')->where ('fid=' . $fid)->getOne ();
             // $thumb = $this->model('contact_info')->select('thumb')->where('user_id='.$value['user_id'])->getOne();
             // $value['thumb'] = FILE_URL."/upload/".$thumb;
-            $thumb = $this->model ('contact_info')->select ('thumb,thumbqq,sex')->where ('user_id=' . $value['user_id'])->getRow ();
+            //$thumb = $this->model ('contact_info')->select ('thumb,thumbqq,sex')->where ('user_id=' . $value['user_id'])->getRow ();
+            $thumb = $this->model ('contact_info')->select ('info.thumb,info.thumbqq,con.sex')->from('contact_info info')->leftjoin('customer_contact con','con.user_id=info.user_id')->where ('info.user_id=' . $value['user_id'])->getRow ();
+
             if (empty($thumb['thumbqq'])) {
                 if (strstr ($thumb['thumb'], 'http')) {
                     $thumb['thumb'] = $thumb['thumb'];
