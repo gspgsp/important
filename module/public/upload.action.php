@@ -175,6 +175,8 @@ class uploadAction extends action {
 		if(empty($data['err'])){
 			$file = $data['file'];
 				if($type==1){
+					$ass=$this->save_path['path'].$data['file'][0]['savename'];
+					$this->reImg2($ass,260,160);
 					$arr = array(
 							'thumbcard'=>FILE_URL.'/upload/'.$data['file'][0]['savename'],
 							'update_time'=>CORE_TIME,
