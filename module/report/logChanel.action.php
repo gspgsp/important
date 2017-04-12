@@ -90,7 +90,7 @@ class logChanelAction extends adminBaseAction {
 			$data=$this->db->from('log_chanel a')
 					  ->leftjoin('customer_contact c','a.user_id=c.user_id')
 					  ->select('a.id,a.user_id,a.input_time,a.url,a.platform,c.name,c.mobile')
-					  ->where($where.' and a.user_id != 0 and a.url like "http://news.myplas.com/vip/%"')
+					  ->where($where.' and a.user_id != 0 and a.from_url like "http://news.myplas.com/vip%"')
 					  ->page($page+1,$size)
 					  ->order("$sortField $sortOrder")
 					  ->getPage();
