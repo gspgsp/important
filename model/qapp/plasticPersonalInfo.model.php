@@ -188,7 +188,6 @@ class plasticPersonalInfoModel extends model
             ->where ("con.user_id=$userid")
             ->getRow ();
         // $data['thumb'] = FILE_URL."/upload/".$data['thumb'];
-        $data['sex'] = L ('sex')[$data['sex']];
         switch ($data['adistinct']) {
             case 'NC':
                 $data['adistinct'] = '华北';
@@ -241,6 +240,7 @@ class plasticPersonalInfoModel extends model
         } else {
             $data['thumb'] = $data['thumbqq'];
         }
+        $data['sex'] = L ('sex')[$data['sex']];
 
         return $data;
     }
