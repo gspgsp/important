@@ -247,17 +247,23 @@ class myoffersAction extends userBaseAction{
 		$where="un.sale_user_id=$this->user_id and pur.type=$type";
 		$where_1=" sb.c_id={$_SESSION['uinfo']['c_id']} AND pur.last_buy_sale=sb.id AND pur.type=1";
 		//收索条件
+
 		if($status=sget('status','s','')){
-			$where.=" and un.status={$status} ";
-			$where_1.=" and un.status={$status} ";
+
+			$where.=" and un.order_status=".$status;
+			$where_1.=" and un.order_status=".$status;
+
 		}
 		$page=sget('page','i',1);
 		$size=10;
 		$list=M('product:salebuy')->getPurPage($where,$page,$size);
+
 		$lists=M('product:salebuy')->get_purs($where_1,$page,$size);
+
 		$list['count']=$list['count']+$lists['count'];
 		$list['data']=array_merge($lists['data'],$list['data']);
 		$list=array_unique($list);
+
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));
