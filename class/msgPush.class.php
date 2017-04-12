@@ -16,10 +16,15 @@ class msgPush{
 		$to_uid = '';
 		// 推送的url地址，上线时改成自己的服务器地址
 		$push_api_url = "http://www.myplas.com:2121/";
+// 		$post_data = array(
+// 		    'type' => 'publish',
+// 		    'content' => '上海中晨,全力以赴!',
+// 		    'to' => $to_uid,
+// 		);
 		$post_data = array(
-		    'type' => 'publish',
-		    'content' => '上海中晨,全力以赴!',
-		    'to' => $to_uid,
+		    'type' => $type,
+		    'content' => $content,
+		    'to' => $to,
 		);
 		$ch = curl_init ();
 		curl_setopt ( $ch, CURLOPT_URL, $push_api_url );
