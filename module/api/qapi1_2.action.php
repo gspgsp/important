@@ -2847,7 +2847,7 @@ class qapi1_2Action extends null2Action
                 $this->json_output (array( 'err' => 7, 'msg' => '服务正在维护,请稍后再试！' ));
                 break;
             case 99:
-                $this->json_output (array( 'err' => 99, 'msg' => "是否消耗{$this->points['see_list']}塑豆查看" ));
+                $this->json_output (array( 'err' => 99, 'msg' => "是否消耗{$this->points['see_list']}塑豆查看?" ));
                 break;
             case 100:
                 $this->json_output (array( 'err' => 100, 'msg' => '塑豆不足,请多努力!' ));
