@@ -176,14 +176,20 @@ class plasticReleaseModel extends model
                 $value['c_name'] = $this->model ('customer')->select ('c_name')->where ('c_id=' . $cus_con['c_id'])->getOne ();
                 if (empty($value['c_name'])) unset($data['data'][$key]);
                 $value['is_pass'] = $cus_con['is_pass'];
-                $thumb = $this->model ('contact_info')->select ('thumb,thumbqq,mobile_province')->where ('user_id=' . $value['user_id'])->getRow ();
+                $thumb = $this->model ('contact_info')->select ('thumb,thumbqq,sex,mobile_province')->where ('user_id=' . $value['user_id'])->getRow ();
 
                 if (empty($thumb['thumbqq'])) {
                     if (strstr ($thumb['thumb'], 'http')) {
                         $thumb['thumb'] = $thumb['thumb'];
                     } else {
-                        if (empty($thumb['thumb'])) {
-                            $thumb['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                        if (empty($thumb['thumb'])||$thumb['thumb']=="16/09/02/logos.jpg")
+                        {
+                            if(empty($thumb['sex']))
+                            {
+                                $thumb['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                            }else{
+                                $thumb['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                            }
                         } else {
                             $thumb['thumb'] = FILE_URL . "/upload/" . $thumb['thumb'];
                         }
@@ -293,8 +299,14 @@ class plasticReleaseModel extends model
                 if (strstr ($data['thumb'], 'http')) {
                     $data['thumb'] = $data['thumb'];
                 } else {
-                    if (empty($data['thumb'])) {
-                        $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                    if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                    {
+                        if(empty($data['sex']))
+                        {
+                            $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        }else{
+                            $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        }
                     } else {
                         $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                     }
@@ -342,13 +354,19 @@ class plasticReleaseModel extends model
             $value['f_name'] = $this->model ('factory')->select ('f_name')->where ('fid=' . $fid)->getOne ();
             // $thumb = $this->model('contact_info')->select('thumb')->where('user_id='.$value['user_id'])->getOne();
             // $value['thumb'] = FILE_URL."/upload/".$thumb;
-            $thumb = $this->model ('contact_info')->select ('thumb,thumbqq')->where ('user_id=' . $value['user_id'])->getRow ();
+            $thumb = $this->model ('contact_info')->select ('thumb,thumbqq,sex')->where ('user_id=' . $value['user_id'])->getRow ();
             if (empty($thumb['thumbqq'])) {
                 if (strstr ($thumb['thumb'], 'http')) {
                     $thumb['thumb'] = $thumb['thumb'];
                 } else {
-                    if (empty($thumb['thumb'])) {
-                        $thumb['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                    if (empty($thumb['thumb'])||$thumb['thumb']=="16/09/02/logos.jpg")
+                    {
+                        if(empty($thumb['sex']))
+                        {
+                            $thumb['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        }else{
+                            $thumb['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        }
                     } else {
                         $thumb['thumb'] = FILE_URL . "/upload/" . $thumb['thumb'];
                     }
