@@ -94,6 +94,7 @@ class plasticSaveModel extends model
 
         if(isset($data['major'])&&!empty($data['major'])){
             $where = "c_id=".$cus_con['c_id'];
+            $data['major'] = implode('|',$data['major']);
             if(false===$this->where($where)->update(array('need_product'=>$data['major']))){
                 $this->rollback();
                 return array('err'=>7,'msg'=>'系统繁忙');
