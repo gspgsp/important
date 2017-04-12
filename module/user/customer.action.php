@@ -142,7 +142,12 @@ class customerAction extends adminBaseAction {
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
 		$status = sget("status",'s',''); //状态
-		if($status!='') $where.=" and status='$status' ";
+		if($status!=''){
+			$where.=" and status='$status' ";
+		}else{
+			//xianghui,公海客户默认显示已审核
+			if(sget('isPublic','i',0) == 1) $where .= ' and `status` = 2';
+		}
 		$type = sget("type",'s',''); //状态
 		if($type!='') $where.=" and type='$type' ";//type 客户类型
 		$invoice = sget("invoice",'i',''); //开票资料状态
