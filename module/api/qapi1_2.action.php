@@ -1565,21 +1565,38 @@ class qapi1_2Action extends null2Action
                     $row=(int)$row;
                 }elseif($key=='major'){
                     $row=$this->clearStr($row);
+                    if(!is_string($row)) $this->json_output(array('err'=>1,'msg'=>'格式错误'));
+                    if(!empty($field)){
+                        $field=explode(",",$field);
+                        $field=array_map('strtoupper',$field);
+                        foreach($field as $key1=>$row1){
+                            if(empty($row1)) unset($field[$key1]);
+                        }
+                        $field=array_unique($field);
+                        //$field=explode(",",array_map('strtoupper',$field));
+                        if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
+                        $row=$field;
+                    }else{
+                        unset($data[$key]);
+                    }
                 }elseif($key=='concern'){
                     $row = $this->clearStr($row);
                     $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$row);
                     //$field=explode(",",array_map('strtoupper',$field));
                     if(!is_string($row)) $this->json_output(array('err'=>1,'msg'=>'格式错误'));
-                    if(empty($field)) return;
-                    $field=explode(",",$field);
-                    $field=array_map('strtoupper',$field);
-                    foreach($field as $key1=>$row1){
-                        if(empty($row1)) unset($field[$key1]);
+                    if(!empty($field)){
+                        $field=explode(",",$field);
+                        $field=array_map('strtoupper',$field);
+                        foreach($field as $key1=>$row1){
+                            if(empty($row1)) unset($field[$key1]);
+                        }
+                        $field=array_unique($field);
+                        //$field=explode(",",array_map('strtoupper',$field));
+                        if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
+                        $row=$field;
+                    }else{
+                        unset($data[$key]);
                     }
-                    $field=array_unique($field);
-                    //$field=explode(",",array_map('strtoupper',$field));
-                    if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
-                    $row=$field;
                 }elseif($key=='dist'){
                     if(empty($row)||(!in_array($row, array('EC', 'NC', 'SC')))) $this->_errCode(6);
                 }elseif($key=='type'){
