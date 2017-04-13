@@ -123,7 +123,7 @@ class mypurchaseAction extends userBaseAction{
 	{
 		if($_SESSION['userid']<1) $this->error('您还未登录，请登录后从试该操作');
 		if($data=$_POST['data'])
-		{	
+		{
 			$this->is_ajax=true;
 			$cargo_type=sget('cargo_type','i',1);     //现货、期货
 			$type=sget('type','i',1);                 //采购1、报价2
@@ -132,8 +132,10 @@ class mypurchaseAction extends userBaseAction{
 			$pro_model=M('product:product');
 			$data=saddslashes($data);
 			foreach ($data as $key => $value) {
-				if($value['number']==0) $this->error('发布数量不能为0!');
-				if($value['price']==0) $this->error('发布价格不能为0!');
+				$value['number']=is_numeric($value['number']);
+				$value['price']=is_numeric($value['price']);
+				if($value['number']==0 || $value['number']=='') $this->error('数量格式不正确!');
+				if($value['price']==0 || $value['price']=='') $this->error('价格格式不正确');
 				if($value['product_type']==null || $value['product_type']==0) $this->error('该品种不可以,请重新选择');
 				if($value['process_level']==null || $value['process_level']==0) $this->error('该加工级别不可以,请重新选择');
 				$_data=array(
