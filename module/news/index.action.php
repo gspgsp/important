@@ -302,5 +302,13 @@
 			$time=CORE_TIME-432000;
 			$this->db->model('news_content')->query('update p2p_news_content set pv=pv+210 where input_time>'.$time);
 		}
+
+		/**
+		 * 定时清除行情内参日志历史
+		 */
+		public function clearHistory(){
+			$time=CORE_TIME-2592000;
+			$this->db->model('log_news')->where('input_time<'.$time)->delete();
+		}
 	} 
  ?>
