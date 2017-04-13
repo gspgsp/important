@@ -84,7 +84,7 @@ class myoffersAction extends userBaseAction{
 
 		}
 		$page=sget('page','i',1);
-		$size=10;
+		$size=2;
 		$list=M('product:salebuy')->getPurPage($where,$page,$size);
 
 		$lists=M('product:salebuy')->get_purs($where_1,$page,$size);

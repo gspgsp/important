@@ -246,6 +246,7 @@ class mypurchaseAction extends userBaseAction{
 			$model=$this->db->model('sale_buy');
 			$id=sget('id','i',0);//sale_buy的报价id
 			$price=sget('price');//成交价格
+			if(is_numeric($price)==false || $price<=0 ) $this->error('非法输入');
 			if( !$data=$model->where("id=$id")->getRow() ) $this->error('信息不存在');//根据id信息未找到
 			$purModel=M('product:purchase');
 			if( !$purData=$purModel->where("id={$data['p_id']} and user_id=$this->user_id")->getRow() ) $this->error('信息不存在');                           //报价表与用户不匹配
