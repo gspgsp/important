@@ -43,6 +43,7 @@ const Credit2= r => require.ensure([], () => r(require('./views/credit2.vue')), 
 const Searchcompany= r => require.ensure([], () => r(require('./views/searchcompany.vue')), 'searchcompany')
 const Qichacha= r => require.ensure([], () => r(require('./views/qichacha.vue')), 'qichacha')
 const Qccresult= r => require.ensure([], () => r(require('./views/qccresult.vue')), 'qccresult')
+const Recharge= r => require.ensure([], () => r(require('./views/recharge.vue')), 'recharge')
 const Error= r => require.ensure([], () => r(require('./views/error.vue')), 'error')
 
 var  router = new VueRouter({
@@ -86,6 +87,7 @@ var  router = new VueRouter({
 	{path:'/searchcompany',name:'searchcompany',component:Searchcompany},
 	{path:'/qichacha',name:'qichacha',component:Qichacha},
 	{path:'/qccresult',name:'qccresult',component:Qccresult},
+	{path:'/recharge',name:'recharge',component:Recharge},
 	{path: '/', redirect: { name: 'index' }}
   ]
 })

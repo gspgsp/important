@@ -15,8 +15,11 @@
 		<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
 	</div>
 </div>
-<div class="payfans">
-	<router-link :to="{name:'mypay'}">
+<div class="payfans" style="background: #0078fe;">
+	<router-link style="width: 100%;" :to="{name:'pointsrule'}">
+	<img width="100%" src="http://statics.myplas.com/myapp/img/toShop.jpg" />
+	</router-link>
+	<!--<router-link :to="{name:'mypay'}">
 		<div style=" display: inline-block; margin: 4px 0 0 0;">
 			<div class="payfansImg"></div><span>我关注的人</span>
 		</div>
@@ -25,7 +28,7 @@
 		<div style=" display: inline-block; margin: 4px 0 0 0;">
 			<div class="payfansImg2"></div><span>关注我的人</span>
 		</div>
-	</router-link>
+	</router-link>-->
 </div>
 <ul id="nameUl">
 	<li id="top" v-if="top">

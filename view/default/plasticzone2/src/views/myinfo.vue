@@ -31,7 +31,7 @@
 			</tr>
 			<tr>
 				<td style="padding: 0 0 0 15px;">性别：</td>
-				<td style="padding: 0 15px 0 0;">
+				<td style="padding: 0 15px 0 7px;">
 					<span v-if="isDisabled">{{sex}}</span>
 					<span v-if="!isDisabled">
 						<input type="radio" value="0" v-model="sexradio" />&nbsp;男&nbsp;
@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
 				<td style="padding: 0 0 0 15px;">所属地区：</td>
-				<td style="padding: 0 15px 0 0;">
+				<td style="padding: 0 15px 0 7px;">
 					<span v-if="isDisabled">{{adistinct}}</span>
 					<span v-if="!isDisabled">
 						<input type="radio" value="EC" v-model="distinctradio" />&nbsp;华东&nbsp;
@@ -52,29 +52,31 @@
 			</tr>
 			<tr>
 				<td style="padding: 0 0 0 15px;">企业类型：</td>
-				<td style="padding: 0 15px 0 0;">
+				<td style="padding: 0 15px 0 7px;">
 					<span v-if="isDisabled">
 						{{c_nametype}}
 					</span>
 					<span v-if="!isDisabled">
-						<input type="radio" value="1" v-model="c_type" />&nbsp;工厂&nbsp;
-						<input type="radio" value="2" v-model="c_type" />&nbsp;贸易商&nbsp;
-						<input type="radio" value="3" v-model="c_type" />&nbsp;工贸一体&nbsp;
+						<input type="radio" value="1" v-on:change="ctypeShow" v-model="c_type" />&nbsp;工厂&nbsp;
+						<input type="radio" value="2" v-on:change="ctypeShow" v-model="c_type" />&nbsp;贸易商&nbsp;
+						<input type="radio" value="3" v-on:change="ctypeShow" v-model="c_type" />&nbsp;工贸一体&nbsp;
 					</span>					
 				</td>
 			</tr>
-			<!--<tr v-if="!isDisabled">
+			<tr v-if="isType">
 				<td style="padding: 0 0 0 15px;">产品：</td>
-				<td style="padding: 0 15px 0 0;">
-					<input v-bind:disabled="isDisabled" type="text" v-model="address" />
+				<td style="padding: 0 15px 0 7px;">
+					<span v-if="isDisabled">{{main_product}}</span>
+					<input v-if="!isDisabled" v-bind:disabled="isDisabled" type="text" v-model="main_product" />
 				</td>
 			</tr>
-			<tr v-if="!isDisabled">
+			<tr v-if="isType">
 				<td style="padding: 0 0 0 15px;">月用量：</td>
-				<td style="padding: 0 15px 0 0;">
-					<input v-bind:disabled="isDisabled" type="text" v-model="address" />
+				<td style="padding: 0 15px 0 7px;">
+					<span v-if="isDisabled">{{month_consum}}</span>
+					<input v-if="!isDisabled" v-bind:disabled="isDisabled" type="text" v-model="month_consum" />
 				</td>
-			</tr>-->
+			</tr>
 			<tr>
 				<td style="padding: 0 0 0 15px;">我的主营：</td>
 				<td style="padding: 0 15px 0 0;">
@@ -161,10 +163,13 @@ module.exports = {
 			thumb: "",
 			concern_model: "",
 			need_product: "",
+			main_product:"",
+			month_consum:"",
+			isType:"",
 			need_ph: "",
 			rank: "",
 			total: "",
-			sexradio: 0,
+			sexradio: "",
 			distinctradio: "EC",
 			cardImg: "",
 			active: "",
@@ -185,6 +190,13 @@ module.exports = {
 		editor:function(){
 			this.isDisabled=false;
 		},
+		ctypeShow:function(){
+			if(this.c_type=="1"||this.c_type=="3"){
+				this.isType=true;
+			}else{
+				this.isType=false;
+			}		
+		},
 		save:function(){
 			var _this=this;
 			this.isDisabled=true;
@@ -198,9 +210,9 @@ module.exports = {
 					major:_this.need_product,
 					concern:_this.need_ph,
 					dist:_this.distinctradio,
-					type:1,
-					month_consum:'',
-					main_product:''
+					type:_this.c_type,
+					month_consum:_this.month_consum,
+					main_product:_this.main_product
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -282,7 +294,7 @@ module.exports = {
 		} catch(err) {
 
 		}
-		
+
 		weui.uploader('#uploaderCard', {
 			url: '/api/qapi1/saveCardImg',
 			auto: true,
@@ -388,6 +400,8 @@ module.exports = {
 				_this.mobile = res.data.mobile;
 				_this.need_ph = res.data.concern_model;
 				_this.need_product = res.data.need_product;
+				_this.main_product = res.data.main_product;
+				_this.month_consum = res.data.month_consum;
 				_this.status = res.data.status;
 				_this.concern_model = res.data.concern_model;
 				_this.thumb = res.data.thumb;
@@ -403,12 +417,19 @@ module.exports = {
 				_this.level = res.data.member_level;
 				_this.adistinct = res.data.adistinct;
 				_this.c_type=res.data.type;
+				if (_this.sex=="男") {
+					_this.sexradio=0;
+				} else{
+					_this.sexradio=1;
+				}
 				if(_this.c_type=="0"||_this.c_type=="2"){
 					_this.c_nametype="贸易商";
 				}else if(_this.c_type=="1"){
 					_this.c_nametype="工厂";
+					_this.isType=true;
 				}else{
 					_this.c_nametype="工贸一体";
+					_this.isType=true;
 				}
 			} else if(res.err == 1) {
 				weui.alert(res.msg, {
