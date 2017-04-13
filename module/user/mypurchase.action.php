@@ -154,7 +154,6 @@ class mypurchaseAction extends userBaseAction{
 					'status'=>$type==1?1:2,                                    //状态，报价不需要审核，采购需要审核
 					'input_time'=>CORE_TIME,                                   //创建时间
 				);
-				p($_data);die;
 					$pur_model->startTrans();
 					try {
 						$_product=array(
