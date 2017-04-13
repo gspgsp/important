@@ -11,6 +11,7 @@ class customerAction extends adminBaseAction {
 		$this->assign('level',L('company_level'));//客户级别
 		$this->assign('identification',L('identification'));//客户级别
 		$this->assign('credit',L('is_credit'));//授信状态
+		$this->assign('company_chanel',L('company_chanel'));//客户来源渠道
 		$this->db=M('public:common')->model('customer');
 		$this->doact = sget('do','s');
 		$this->pt = sget('pt','i',2);
@@ -150,6 +151,8 @@ class customerAction extends adminBaseAction {
 		}
 		$type = sget("type",'s',''); //状态
 		if($type!='') $where.=" and type='$type' ";//type 客户类型
+		$company_chanel = sget("company_chanel",'s',''); //渠道来源筛选
+		if($company_chanel!='') $where.=" and chanel = '$company_chanel' ";//type 渠道来源筛选
 		$invoice = sget("invoice",'i',''); //开票资料状态
 		if($invoice != 0) $where .=" and invoice=$invoice ";//type 客户类型
 		$level = sget("level",'s',''); //状态
@@ -196,12 +199,13 @@ class customerAction extends adminBaseAction {
 					if(M('user:customer')->judgeShare($cidshare)) $where .= " or `c_id` in ($cidshare)";
 				}else{
 					// 默认列表显示全部的共享客户
-					if(!empty($pools)){
+					if(!empty($pools) && $key_type != 'need_product'){
 						$where .= " or `c_id` in ($pools)";
 					}
 				}
 			}
 		}
+		// p($where);
 		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
