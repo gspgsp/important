@@ -52,6 +52,6 @@
 			$this->assign('page_title','头条内参检测');
 			$this->display('logNews.html');
 		}
-
+		
 	}
  ?>
