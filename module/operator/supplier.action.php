@@ -289,7 +289,7 @@ class supplierAction extends adminBaseAction{
                 $list['address'] = $v['address']; // 公司地址
                 $list['main_line'] = $v['main_line']; // 主营线路
                 $list['zip_code'] =$v['zip_code']; // 邮编
-                $list['fund_date'] = $v['fund_date']; // 成立时间
+                $list['fund_date'] = date('Y-m-d',$v['fund_date']); // 成立时间
                 $list['register_capital'] =$v['register_capital']; // 注册资本
                 $list['credit_level'] = $v['credit_level']; // 信用等级
                 $list['status'] = $v['status'];// 状态
