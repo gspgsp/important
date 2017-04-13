@@ -3382,9 +3382,36 @@ class qapi1_2Action extends null2Action
         $this->json_output(array('err'=>0,'data'=>$_tmpModel));
     }
 
-    public function getphpInfo(){
-        p('ggg');
-        echo phpinfo();
+    public function checkVersion(){
+        $version  = sget('version','s');
+        $platform = sget('platform','s');
+        if(!in_array($platform,array('ios','android','h5'))||empty($version)){
+            $this->json_output(array('err'=>4,'msg'=>'参数错误'));
+        }
+        $version = explode('.',$version);
+        $version = array_splice($version,0,3);
+        if(count($version)!=3){
+            $this->json_output(array('err'=>2,'msg'=>'不规范的版本格式，不予支持'));
+        }
+
+        $settings = M('system:setting')->getSetting();
+        $newest_version = $settings['qapp_newest_version'];
+        $newest_qapp_url = $settings['qapp_newest_url'];
+
+        if(empty($newest_version)||empty($newest_qapp_url)){
+            $this->json_output(array('err'=>3,'msg'=>'系统错误'));
+        }
+        $newest_version = explode('.',$newest_version);
+        if($version[0]<$newest_version[0]){
+            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','url'=>$newest_qapp_url[$platform]));
+        }elseif($version[1]<$newest_version[1]){
+            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','url'=>$newest_qapp_url[$platform]));
+        }elseif($version[2]<$newest_version[2]){
+            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','url'=>$newest_qapp_url[$platform]));
+        }else{
+            $this->json_output(array('err'=>0,'msg'=>'当前版本是最新版本，棒棒哒'));
+        }
+
     }
 
 
