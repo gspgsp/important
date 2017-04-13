@@ -132,10 +132,8 @@ class mypurchaseAction extends userBaseAction{
 			$pro_model=M('product:product');
 			$data=saddslashes($data);
 			foreach ($data as $key => $value) {
-				if(is_numeric($value['number'])==false) $this->error('非法输入');
-				if(is_numeric($value['price'])==false) $this->error('非法输入');
-				if($value['number']==0 ) $this->error('数量格式不正确!');
-				if($value['price']==0 ) $this->error('价格格式不正确');
+				if($value['number']==0 || is_numeric($value['number'])==false) $this->error('数量格式不正确!');
+				if($value['price']==0 || is_numeric($value['price'])==false) $this->error('价格格式不正确');
 				if($value['product_type']==null || $value['product_type']==0) $this->error('该品种不可以,请重新选择');
 				if($value['process_level']==null || $value['process_level']==0) $this->error('该加工级别不可以,请重新选择');
 				$_data=array(
