@@ -265,23 +265,22 @@ class mypurchaseAction extends userBaseAction{
 				$orderData['order_status']=2;                           // 订单状态  2、审核通过
 				$info=$orderModel->where('p_sale_id='.$id)->update($orderData);
 				if(!$info) $this->error('订单选中失败，请重试一次');
-				$var=$orderModel->select('id')->where('p_sale_id='.$id)->getOne();
+				$un_order_id=$orderModel->select('id')->where('p_sale_id='.$id)->getOne();
 				$orderDetail=M('product:unionOrderDetail');
 				$detail_data=array(
-					'o_id'=>$var,
-					'p_id'=>$purData['p_id'],
+					'o_id'=>$un_order_id,
+//					'p_id'=>$purData['p_id'],
 					'number'=>$data['number'],
 					'unit_price'=>$orderData['deal_price'],
 					'input_time'=>CORE_TIME,
 				);
-
-				if(!$orderDetail->where('o_id='.$var)->update($detail_data)) $this->error('订单明细更新失败，请重试');
+				if(!$orderDetail->where('o_id='.$un_order_id)->update($detail_data)) $this->error('订单明细更新失败，请重试');
 				$model->where("p_id={$data['p_id']}")->update(array('status'=>8,'update_time'=>CORE_TIME));//更新其他报价为未选中
 				$model->where("id=$id")->update(array('status'=>3,'update_time'=>CORE_TIME));//更新选中状态
 
 				$modelName=$this->db->model('product')->where("id={$purData['p_id']}")->select('model')->getOne();
 				$msg=L('msg_template.union_order');
-				$msg=sprintf($msg,$modelName,$price,$var);
+				$msg=sprintf($msg,$modelName,$price,$un_order_id);
 				M("system:sysMsg")->sendMsg($data['user_id'],$msg,5);//联营订单站内信
 
 			if($this->db->model('sale_buy')->commit()){

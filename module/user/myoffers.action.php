@@ -73,18 +73,24 @@ class myoffersAction extends userBaseAction{
 //		$type=sget('type','i',1);//1 采购 2报价
 		$type=2;//报价
 		$this->assign('type',$type);
-		$where="un.sale_user_id=$this->user_id and pur.type=$type";
+//		$where="un.sale_user_id=$this->user_id and pur.type={$type} and pur.last_buy_sale=un.id";
+
+		$where="un.sale_user_id=$this->user_id and pur.type={$type}";
 		$where_1=" sb.c_id={$_SESSION['uinfo']['c_id']} AND pur.last_buy_sale=sb.id AND pur.type=1";
 		//收索条件
 
 		if($status=sget('status','s','')){
 			$where.=" and un.order_status=".$status;
-			$where_1.=" and un.order_status=".$status;
+//			$where_1.=" and un.order_status=".$status;
 		}
 		$page=sget('page','i',1);
 		$size=10;
 		$list=M('product:salebuy')->getPurPage($where,$page,$size);
+//		showTrace();
+		p($list);
+		$list=array_unique($list);
 		$lists=M('product:salebuy')->get_purs($where_1,$page,$size);
+//		p($lists);
 		$list['count']=$list['count']+$lists['count'];
 		$list['data']=array_merge($lists['data'],$list['data']);
 		$list=array_unique($list);
