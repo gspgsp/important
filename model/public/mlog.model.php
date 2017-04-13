@@ -40,7 +40,6 @@ class mlogModel extends model{
 		    'request'=>$request,
 		    'content'=>$content,
 		);
-		//p($_data);exit;
 		if(C('DB_REDIS_STAT')){
 			$sql=$this->model('log_chanel')->addSql($_data);
 			return $this->push($sql);
