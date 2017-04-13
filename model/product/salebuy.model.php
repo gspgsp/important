@@ -42,17 +42,32 @@ class salebuyModel extends model{
 	 *
      */
 	public function getPurPage($where,$page=1,$pageSize=10){
-	     return 	$this->from('purchase as pur')
-						 ->join('sale_buy as sb ','pur.user_id=sb.user_id')
-						 ->join('customer as cus','sb.c_id=cus.c_id')
-						 ->join('lib_region as r','sb.delivery_place=r.id')
-			             ->join('union_order as un','un.sale_user_id=sb.user_id')
-						 ->join('product as pro','pur.p_id=pro.id')
-		                 ->join('factory as fac','fac.fid=pro.f_id')
-						 ->where($where.' and pur.last_buy_sale=sb.id')
-						 ->select('pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`,un.id as un_order_id, `un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`, `sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
-				         ->page($page,$pageSize)
-						 ->getPage();
+		return      $this->from('union_order as un')
+			->leftjoin('union_order_detail as un_det','un.id=un_det.o_id')
+			->leftjoin('sale_buy as sb','sb.user_id=un.sale_user_id')
+//			->leftjoin('purchase as pur','sb.user_id=pur.user_id')
+			->leftjoin('purchase as pur','un.id=pur.last_buy_sale')
+			->leftjoin('product as pro','pur.p_id=pro.id')
+			->leftjoin('factory as fac','fac.fid=pro.f_id')
+			->leftjoin('lib_region as r','sb.delivery_place=r.id')
+			->select('un.id as un_order_id,pur.id,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`')
+			->where($where)
+			->page($page,$pageSize)
+			->getPage();
+
+
+
+//	     return 	$this->from('purchase as pur')
+//						 ->leftjoin('sale_buy as sb ','pur.user_id=sb.user_id')
+//						 ->leftjoin('customer as cus','sb.c_id=cus.c_id')
+//						 ->leftjoin('lib_region as r','sb.delivery_place=r.id')
+//			             ->leftjoin('union_order as un','un.sale_user_id=sb.user_id')
+//						 ->leftjoin('product as pro','pur.p_id=pro.id')
+//		                 ->leftjoin('factory as fac','fac.fid=pro.f_id')
+//						 ->where($where.' and pur.last_buy_sale=sb.id')
+//						 ->select('pur.id, `pur`.`p_id`,pur.last_buy_sale,sb.c_id,sb.user_id,`sb`.`number`,un.id as un_order_id, `un`.`deal_price`,`un`.`total_price`, `un`.`delivery_time`, `un`.`order_status`, `sb`.`ship_type`, `sb`.`remark`,`sb`.`id` AS `sb_id`,`cus`.`c_name`,`r`.`name` AS `delivery_place`,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.remark')
+//				         ->page($page,$pageSize)
+//						 ->getPage();
 	}
 	public function get_purs($where,$page=1,$pageSize=10){
 		return $this->from('sale_buy as sb')
