@@ -50,7 +50,7 @@ class customercheckAction extends adminBaseAction {
                 $list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
                 $list['data'][$k]['status']=$this->chkstatus($v['customer_manager'],$v['is_sale'],$v['is_pur']);
                 //$list['data'][$k]['status']=L('status')[$v['type']];// 联系人用户状态
-                // $list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
+                $list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
                 // $list['data'][$k]['depart']=C('depart')[$v['depart']];
             }
             $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
