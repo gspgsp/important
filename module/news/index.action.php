@@ -136,7 +136,7 @@
 				$stype='detail_'.$type;
 				$arr=L('headline_ads')[$stype];
 				$this->detail1banner=$this->getAD($arr[0]);
-				$this->detail2banner=$this->getAD($arr[1]);
+				// $this->detail2banner=$this->getAD($arr[1]);
 			}
 			//导航栏选中状态
 				$this->nav=$type;
@@ -217,7 +217,8 @@
 						if ($ok) {
 							$status=6;
 						}
-					}					
+					}
+					$this->db->model('log_news')->add(array('user_id'=>$_SESSION['userid'],'news_id'=>$id,'input_time'=>CORE_TIME));
 				}
 				//p($status);exit;
 				$this->upperType='行情内参';
