@@ -19,6 +19,8 @@ class plasticzoneActivityAction extends adminBaseAction{
         $this->assign('goods_cate',L('goods_category')); //商品分类
         $this->assign('points_type',$this->pointsType);//积分来源
         $this->assign('share_type', $this->shareType);//分享来源
+        $this->assign('startTime', date('Y-m-d',time())); //开始时间
+        $this->assign('endTime',date('Y-m-d',time())); //结束时间
 
         $this->db=M('public:common')->model('points_bill');
         $this->doact = sget('do','s');
@@ -62,6 +64,8 @@ class plasticzoneActivityAction extends adminBaseAction{
         $key_type = sget('key_type','s');//关键字分类
         $keyword=sget('keyword','s');//关键词
         $customer_type = sget('customer_type','s');//客户分类
+        $sTime = sget("sTime",'s','addtime'); //搜索时间类型
+        $where.=getTimeFilter($sTime); //时间筛选
         switch($key_type){
             case 'id':
                 $keyword=(int)$keyword;
