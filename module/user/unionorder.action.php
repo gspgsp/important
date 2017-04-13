@@ -133,9 +133,8 @@ class unionorderAction extends userBaseAction{
 			$id=saddslashes(sget('id'));
 			$un_model=$this->db->model('union_order');
 			$un_model->startTrans();
-			$var=$un_model->where('id='.$id)->select('order_status,p_sale_id')->getRow();
-
-			if($var['order_status']==4) $this->error('不能重复此操作');
+			$info=$un_model->where('id='.$id)->select('order_status,p_sale_id')->getRow();
+			if($info['order_status']==4) $this->error('不能重复此操作');
 			$arr=array(
 				'order_status'=>4,
 				'goods_status'=>3,
@@ -149,7 +148,7 @@ class unionorderAction extends userBaseAction{
 			);
 			if(!$un_model->where("id=".$id)->update($arr)) $this->error('订单表更新失败');
 			if(!$this->db->model('union_order_detail')->where('o_id='.$id)->update($arrs)) $this->error('订单详情表更新失败');
-			if(!$this->db->model('sale_buy')->where('id='.$var['p_sale_id'])->update('status=5 and update_time='.CORE_TIME)) $this->error('sale_buy 更新失败');
+			if(!$this->db->model('sale_buy')->where('id='.$info['p_sale_id'])->update('status=5 and update_time='.CORE_TIME)) $this->error('sale_buy 更新失败');
 			if($un_model->commit()){
 				$this->success('操作成功');
 			}else{

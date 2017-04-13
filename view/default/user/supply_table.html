@@ -59,7 +59,7 @@
 	$(function(){
 		$('.button').click(function () {
 			if(confirm('确定交易完成了吗?')){
-				var id=$('.button').attr('data-val');
+				var id=$(this).attr('data-val');
 				$.get('/user/unionorder/ajax_submit',{id:id},function(data){
 					if(data.err== 0){
 						alert('订单已完成');
