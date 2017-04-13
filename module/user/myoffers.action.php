@@ -70,18 +70,16 @@ class myoffersAction extends userBaseAction{
 	 *(我的供货)报价列表
 	 */
 	public function subblyTable(){
-		$type=sget('type','i',1);//1 采购 2报价
+//		$type=sget('type','i',1);//1 采购 2报价
+		$type=2;//报价
 		$this->assign('type',$type);
-//		$type=2;//报价
 		$where="un.sale_user_id=$this->user_id and pur.type=$type";
 		$where_1=" sb.c_id={$_SESSION['uinfo']['c_id']} AND pur.last_buy_sale=sb.id AND pur.type=1";
 		//收索条件
 
 		if($status=sget('status','s','')){
-
 			$where.=" and un.order_status=".$status;
 			$where_1.=" and un.order_status=".$status;
-
 		}
 		$page=sget('page','i',1);
 		$size=10;
