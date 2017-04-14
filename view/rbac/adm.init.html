@@ -16,22 +16,22 @@
 					<select name="depart" id="soDepart">
 						<option value="">=部门=</option>
 						{html_options options=$depart}
-					</select>       
+					</select>
 					<select name="key_type">
 						<option value="name">姓名</option>
 						<option value="username">用户名</option>
 						<option value="seat_phone">座机号</option>
-					</select>  
-						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+					</select>
+						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 						<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 						<span id="searchMsg"></span>
 					</form>
 						</td>
 				</tr>
-		</table>           
+		</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"
 						url="/rbac/adm/init?action=grid{if $isPublic eq '1'}&isPublic={$isPublic}{/if}"  idField="admin_id" multiSelect="true" {if $doact neq 'search' && $isPublic neq '1'} allowCellEdit="true" allowCellSelect="true"{/if}
 						sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick">
 		<div property="columns">
@@ -66,7 +66,7 @@
 				<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
 </div>
 {/if}
-<div id="admInfo" class="mini-window" title="设置管理员" style="width:250px;" 
+<div id="admInfo" class="mini-window" title="设置管理员" style="width:250px;"
 		showModal="true" allowResize="true" allowDrag="true"
 		>
 		<div id="addForm" class="form" >
@@ -87,6 +87,14 @@
 						<tr>
 							<td style="width:100px;">座机号：</td>
 							<td><input name="seat_phone" class="mini-textbox" style="width:100px;" /></td>
+						</tr>
+						<tr>
+							<td style="width:100px;">固话：</td>
+							<td><input name="tel" class="mini-textbox" style="width:100px;" /></td>
+						</tr>
+						<tr>
+							<td style="width:100px;">传真：</td>
+							<td><input name="fax" class="mini-textbox" style="width:100px;" /></td>
 						</tr>
 						<tr>
 							<td style="width:70px;">密码：</td>
@@ -114,7 +122,7 @@
 						<tr>
 							<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
 								 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
-							</td>                
+							</td>
 						</tr>
 				</table>
 		</div>
@@ -152,7 +160,7 @@ function fileUpload() {
 }
 function imgResize(){
 	$("#picDisplay img").load(function(){
-		if(this.width>80) this.width = 80;				 
+		if(this.width>80) this.width = 80;
 	});
 }
 function onRowDblClick(e) {
@@ -166,7 +174,7 @@ function onRowDblClick(e) {
 function edit() {
 	var row = grid.getSelected();
 	if (row) {
-		mini.getbyName('admin_id').setValue(row.admin_id);	
+		mini.getbyName('admin_id').setValue(row.admin_id);
 		mini.getbyName('name').setValue(row.name);
 		mini.getbyName('mobile').setValue(row.mobile);
 		mini.getbyName('depart').setValue(row.depart);
@@ -175,6 +183,8 @@ function edit() {
 		mini.getbyName('status').setValue(row.status);
 		mini.getbyName('pid').setValue(row.pid);
 		mini.getbyName('pic').setValue(row.pic);
+		mini.getbyName('tel').setValue(row.tel);
+		mini.getbyName('fax').setValue(row.fax);
 		admInfo.show();
 	}
 }
@@ -183,7 +193,7 @@ function edit() {
 function submitForm() {
 	form.validate();
 	if (form.isValid() == false) return;
-	
+
 	var o = form.getData();
 	grid.loading("数据提交中，请稍后......");
 	var json = mini.encode(o);
@@ -195,7 +205,7 @@ function submitForm() {
 			return false;
 		}else{
 			grid.reload();
-			admInfo.hide(); 
+			admInfo.hide();
 		}
 	}
 	utils.ajax('/rbac/adm/ajaxSave',{data:json},callback,"POST","json");
@@ -213,7 +223,7 @@ function onLoadHandle(e) {
 function onLoadSuper(e){
 	var record = e.record; //record.id
 	if(record.is_super=='1'){
-		return '是';	
+		return '是';
 	}
 	return '否';
 }
@@ -229,7 +239,7 @@ function setRole(){
 		url: '/rbac/access/role?id='+row.admin_id,
 		showMaxButton:true,
 		title: "设置【"+row.username+"】角色", width: 300, height:300
-	});		
+	});
 }
 
 //筛选数据
