@@ -13,18 +13,18 @@
 			<form id="filterForm" method="get">
 				<div>
 					<input type="hidden" id="page" name="page" value="{$page}">
-					<input type="hidden" id="type" name="type" value="{$type}">
+					<input type="hidden" id="type" name="status" value="2">
 				</div>
 				<ul class="taby">
 					<li id="taby1" value="0" onclick="setTab('taby',1,4)" class="hover"><p>全部</p><span></span></li>
-					<li id="taby2" value="4" onclick="setTab('taby',2,4)"><p>已完成</p><span></span></li>
+					<li id="taby2" value="2" onclick="setTab('taby',2,4)"><p>已审核</p><span></span></li>
 					<li id="taby3"  value="3" onclick="setTab('taby',3,4)"><p>已取消</p><span></span></li>
 				</ul>
 				<!--con-taby begin-->
 
 			</form>
 		</div>
-				<!--filter end-->
+		<!--filter end-->
 
 		<div id="con-tabe-1" class="con-tabe">
 			<form id="listForm">
@@ -34,28 +34,28 @@
 			</form>
 		</div>
 	</div>
-		<!--con-taby end-->
+	<!--con-taby end-->
 </div>
 
 
 <script>
-	$(function(){
-		$('.taby li').click(function(){
-			var val=$(this).val();
-			if(val==0){
-				window.location.reload();
-			}
-			$("#table_box2").load('/user/myoffers/subblyTable',{type:"{$type}",page:"{$page}",status:val});
-		})
+    $(function(){
+        $('.taby li').click(function(){
+            var val=$(this).val();
+            if(val==0){
+                window.location.reload();
+            }
+            $("#table_box2").load('/user/myoffers/subblyTable',{type:"{$type}",page:"{$page}",status:val});
+        })
 
-	})
+    })
 
-	$("#table_box2").load('/user/myoffers/subblyTable',{type:"{$type}",page:"{$page}"});
-	var filterForm=$("#filterForm");
-	filterForm.on('submit',function(){
-		var data=filterForm.serialize();
-		$("#table_box2").load('/user/myoffers/subblyTable',data);
-		return false;
-	});
+    $("#table_box2").load('/user/myoffers/subblyTable',{type:"{$type}",page:"{$page}"});
+    var filterForm=$("#filterForm");
+    filterForm.on('submit',function(){
+        var data=filterForm.serialize();
+        $("#table_box2").load('/user/myoffers/subblyTable',data);
+        return false;
+    });
 
 </script>
