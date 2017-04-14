@@ -522,11 +522,12 @@ class plasticAction extends adminBaseAction {
                     'update_time'=>CORE_TIME,
                     'remarks' => $data['remarks']              //塑料圈会员初审备注
                 );
-
+				//干嘛写了又不把牌号加上去 --xielei --04/14
 				$cusArray=array(
                     'c_name'=>$data['c_name'],                 //公司名
                     'month_consum'=>$data['month_consum'],     // 月用量
                     'main_product'=> $data['main_product'],    //主营产品
+					'need_product'=>join(',',$data['model_1']),
                     'type'=>$data['cus_type'],
                     'update_time'=>CORE_TIME,
                 );
