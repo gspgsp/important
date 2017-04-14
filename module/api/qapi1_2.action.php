@@ -3382,6 +3382,25 @@ class qapi1_2Action extends null2Action
         $this->json_output(array('err'=>0,'data'=>$_tmpModel));
     }
 
+    /**
+     * APP检查更新接口
+     * @api {get} /api/api1_2/checkVersion APP检查更新接口
+     * @apiName  checkVersion
+     * @apiGroup User
+     *
+     * @apiParam   {String} version  3.0.0
+     * @apiParam   {String} platform  ios andriod h5
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  url   apk下载地址
+     *
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"密码重置成功"
+     *      }
+     */
     public function checkVersion(){
         $version  = sget('version','s');
         $platform = sget('platform','s');
