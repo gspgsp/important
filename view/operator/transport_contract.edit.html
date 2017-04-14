@@ -87,9 +87,9 @@
 						<tr>
 							<td>
 								<div>甲方</div>
-								<div>TEL:021-61673571</div>
-								<div>FAX:021-61673516</div>
-								<div>委托代理人:杜丽燕</div>
+								<div>TEL:<input name="first_part_contact_tel" class="mini-textbox" style="width:125px;"  required="true" value="{$infoq.first_part_contact_tel}"/></div>
+								<div>FAX:<input name="first_part_contact_fax" class="mini-textbox" style="width:125px;"  required="true" value="{$infoq.first_part_contact_fax}"/></div>
+								<div>委托代理人:<input name="first_part_contact_name " class="mini-textbox" style="width:125px;" required="true" value="{$infoq.first_part_contact_name}"  /></div>
 							</td>
 							<td>
 								<div>乙方</div>
@@ -170,7 +170,7 @@
 		var contact = mini.get('second_part_contact_id');
 		var url0 = "/operator/transport/get_supplier_info?supplier_id=" + id;
 		$.post(url0,'',function(data){
-			mini.get('second_part_contact_fax').setValue(data.company_fax);
+			//mini.get('second_part_contact_fax').setValue(data.company_fax);
 		},'json');
 		contact.setValue("");
 		var url = "/operator/transport/get_contact_list?company_id=" + id;
@@ -182,7 +182,7 @@
 		var url = "/operator/transport/get_contact_info?contact_id=" + contact;
 		$.post(url,'',function(data){
 			mini.get('second_part_contact_tel').setValue(data.mobile_tel);
-			//mini.get('second_part_contact_fax').setValue(data.comm_fax);
+			mini.get('second_part_contact_fax').setValue(data.comm_fax);
 		},'json');
 	}
 	function delDetail(index){

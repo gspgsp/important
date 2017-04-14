@@ -28,22 +28,22 @@
 						</tr>
 						<tr>
 							<td>货物牌号:</td>
-							<td><input name="goods_class"  id="goods_class" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td><input name="goods_class"  id="goods_class" class="mini-textbox" style="width:125px;"required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
 							<td>货物数量:</td>
-							<td><input name="goods_num"  id="goods_num" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td><input name="goods_num"  id="goods_num" class="mini-textbox" style="width:125px;"  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
 							<td>提货地点：</td>
-							<td><input name="start_place" id="start_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td><input name="start_place" id="start_place" class="mini-textbox" style="width:125px;" required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
 							<td>送货地点：</td>
-							<td><input name="end_place" id="end_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/>
+							<td><input name="end_place" id="end_place" class="mini-textbox" style="width:125px;" required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
@@ -86,14 +86,14 @@
 						<tr>
 							<td>
 								<div>甲方</div>
-								<div>TEL:021-61673571</div>
-								<div>FAX:021-61673516</div>
-								<div>委托代理人:杜丽燕</div>
+								<div>TEL:<input name="first_part_contact_tel"   class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.tel}"/></div>
+								<div>FAX:<input name="first_part_contact_fax"  class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.fax}"/></div>
+								<div>委托代理人:<input name="first_part_contact_name " class="mini-textbox" style="width:125px;" required="true" value="{$first_part_info.name}"  /></div>
 							</td>
 							<td>
 								<div>乙方</div>
-								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" class="mini-textbox" style="width:125px;" maxlength="11"  required="true" value=""/></div>
-								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax" class="mini-textbox" style="width:125px;" maxlength="11"  required="true" value=""/></div>
+								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" class="mini-textbox" style="width:125px;" required="true" value=""/></div>
+								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax" class="mini-textbox" style="width:125px;"  required="true" value=""/></div>
 								<div>委托代理人:<input name="second_part_contact_id" onvaluechanged="getcontact" class="mini-combobox" style="width:125px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
 							</td>
 						</tr>
@@ -168,7 +168,7 @@
 		var contact = mini.get('second_part_contact_id');
 		var url0 = "/operator/transport/get_supplier_info?supplier_id=" + id;
 		$.post(url0,'',function(data){
-			mini.get('second_part_contact_fax').setValue(data.company_fax);
+			//mini.get('second_part_contact_fax').setValue(data.company_fax);
 		},'json');
 		contact.setValue("");
 		var url = "/operator/transport/get_contact_list?company_id=" + id;
@@ -180,7 +180,7 @@
 		var url = "/operator/transport/get_contact_info?contact_id=" + contact;
 		$.post(url,'',function(data){
 			mini.get('second_part_contact_tel').setValue(data.mobile_tel);
-			//mini.get('second_part_contact_fax').setValue(data.comm_fax);
+			mini.get('second_part_contact_fax').setValue(data.comm_fax);
 		},'json');
 	}
 	function CloseWindow(action) {

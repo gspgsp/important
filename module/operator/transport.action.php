@@ -37,7 +37,7 @@ class transportAction extends adminBaseAction
      * @return html
      */
     public function init()
-    {
+    {//p($_SESSION);
         $doact = sget('do', 's');
         $action = sget('action', 's');
         $order_type = sget('order_type', 's');
@@ -61,22 +61,19 @@ class transportAction extends adminBaseAction
     public function add()
     {
         $order_id = sget('order_id', 'i');
-        $customer = M("operator:logisticsSupplier")->select('supplier_id as id,supplier_name as name')->getAll();
-
+        $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
+        $first_part_info=M('rbac:adm')->where('admin_id='.$_SESSION['adminid'])->select('name,tel')->getRow();
         if (!empty($order_id)) {
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
-            //$model = M('public:common')->getLastSql();
-            //$v['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
-
             $this->assign('page_title', '添加物流合同');
             $order_info['sign_time'] = date('Y-m-d');
             $this->assign('info', $order_info);
-            $this->assign('order_info', $order_info_new);
+            $this->assign('order_info', $order_info_new);           
         }
         $this->assign('customer_info', json_encode($customer));
-
+        $this->assign('first_part_info',$first_part_info);
         $this->display('transport_contract.add.html');
 
     }
@@ -94,7 +91,7 @@ class transportAction extends adminBaseAction
             $info = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $lc_id)->getRow();
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
-            $customer = M("operator:logisticsSupplier")->select('supplier_id as id,supplier_name as name')->getAll();
+            $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
             $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
             $model = M('public:common');
             $sql = $model->getLastSql();
