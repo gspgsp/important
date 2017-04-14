@@ -466,6 +466,9 @@ class plasticAction extends adminBaseAction {
         $is_trial=sget('is_trial','i','0');
         $data['is_trial'] = $is_trial=='0'?'1':$is_trial;
 		$type=4;// 关注牌号
+		if(empty($data['cus_type'])){
+			$this->json_output(array('err' => 99, 'msg' => '客户类型为必填项'));
+		}
         // 牌号为空
         if(empty($data['model_1'])){
             $c_id = $this->db->model('customer_contact as con')->leftjoin('customer as cus','cus.c_id = con.c_id')
@@ -485,7 +488,12 @@ class plasticAction extends adminBaseAction {
                 'type'=>$data['cus_type'],
                 'update_time'=>CORE_TIME,
             );
-            if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
+			if($data['cus_type']==2){
+				$cusArray['update_time'] = strtotime("2017-01-01 12:00:00");
+				$conArr['update_time'] = strtotime("2017-01-01 12:00:00");
+			}
+
+			if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
 
                 if(!M('user:customerContact')->where("user_id = {$data['user_id']}")->update($conArr)) throw new Exception("系统错误 reg:112");
 
@@ -514,14 +522,20 @@ class plasticAction extends adminBaseAction {
                     'update_time'=>CORE_TIME,
                     'remarks' => $data['remarks']              //塑料圈会员初审备注
                 );
-                $cusArray=array(
+
+				$cusArray=array(
                     'c_name'=>$data['c_name'],                 //公司名
                     'month_consum'=>$data['month_consum'],     // 月用量
                     'main_product'=> $data['main_product'],    //主营产品
                     'type'=>$data['cus_type'],
                     'update_time'=>CORE_TIME,
                 );
-                if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
+				if($data['cus_type']==2){
+					$cusArray['update_time'] = strtotime("2017-01-01 12:00:00");
+					$conArr['update_time'] = strtotime("2017-01-01 12:00:00");
+				}
+
+				if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
 //                if($is_trial == 0){
                     if(!M('user:customerContact')->where("user_id = {$data['user_id']}")->update($conArr)) throw new Exception("系统错误 reg:112");
 //                }
