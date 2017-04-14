@@ -159,6 +159,7 @@ class admAction extends adminBaseAction {
 		}
 		//用户名是否存在
 		$exist=$this->db->model('admin')->where("username='$data[uername]'".$where)->getOne();
+		// showtrace();
 		if($exist){
 			$this->error('该管理员账户已存在');
 		}
@@ -168,6 +169,8 @@ class admAction extends adminBaseAction {
 			'depart'=>(int)$data['depart'],
 			'username'=>$data['username'],
 			'seat_phone'=>$data['seat_phone'],
+			'fax'=>$data['fax'],
+			'tel'=>$data['tel'],
 			'pid'=>$data['pid'],
 			'pic'=>$data['pic'],
 		);
