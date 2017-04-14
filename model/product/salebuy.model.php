@@ -55,20 +55,21 @@ class salebuyModel extends model{
 					->page($page,$pageSize)
 					->getPage();
 	}
-//	public function get_purs($where,$page=1,$pageSize=10){
-//		return $this->from('union_order as un')
-//			->leftjoin('union_order_detail as un_det','un.id=un_det.o_id')
-//			->leftjoin('sale_buy as sb','sb.id=un.p_sale_id')
+	public function get_purs($where,$page=1,$pageSize=10){
+		return $this->from('union_order as un')
+			->leftjoin('union_order_detail as un_det','un.id=un_det.o_id')
+			->leftjoin('sale_buy as sb','sb.id=un.p_sale_id')
 //			->leftjoin('customer as cus','cus.c_id=sb.c_id')
-//			->leftjoin('purchase as pur','un.id=pur.last_buy_sale')
-//			->leftjoin('product as pro','pur.p_id=pro.id')
-//			->leftjoin('factory as fac','fac.fid=pro.f_id')
-//			->leftjoin('lib_region as r','sb.delivery_place=r.id')
-//			->select('un.id as un_order_id,pur.id,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.c_id,sb.user_id,sb.number,un.deal_price,un.total_price,cus.c_name,un.delivery_time,sb.ship_type,r.name as delivery_place,un.order_status,sb.remark')
-//			->where($where)
-//			->page($page,$pageSize)
-//			->getPage();
-//	}
+			->leftjoin('customer as cus','cus.c_id=un.buy_id')
+			->leftjoin('purchase as pur','un.id=pur.last_buy_sale')
+			->leftjoin('product as pro','pur.p_id=pro.id')
+			->leftjoin('factory as fac','fac.fid=pro.f_id')
+			->leftjoin('lib_region as r','sb.delivery_place=r.id')
+			->select('un.id as un_order_id,pur.id,`pro`.`process_type`,`pro`.`product_type`, `pro`.`model`, `fac`.`f_name`,sb.c_id,sb.user_id,sb.number,un.deal_price,un.total_price,cus.c_name,un.delivery_time,sb.ship_type,r.name as delivery_place,un.order_status,sb.remark')
+			->where($where)
+			->page($page,$pageSize)
+			->getPage();
+	}
 
 }
 
