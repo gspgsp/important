@@ -70,7 +70,7 @@ class myoffersAction extends userBaseAction{
 	 *(我的供货)报价列表
 	 */
 	public function subblyTable(){
-		
+
 		$type=sget('type','i',1);//1 采购 2报价
 		$type=2;//报价
 		$this->assign('type',$type);
@@ -84,7 +84,7 @@ class myoffersAction extends userBaseAction{
 		$page=sget('page','i',1);
 		$size=10;
 		$list=M('product:salebuy')->getPurPage($where,$page,$size);
-		$lists=M('product:salebuy')->get_purs($where_1,$page,$size);
+		$lists=M('product:salebuy')->getPurPage($where_1,$page,$size);
 		$list['count']=$list['count']+$lists['count'];
 		$list['data']=array_merge($lists['data'],$list['data']);
 		$list=array_unique($list);
