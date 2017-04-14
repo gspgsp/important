@@ -14,7 +14,7 @@
 			</tr>
 			<tr>
 				<td>可用额度<span style="color:red">*</span></td>
-				<td><input name="available_money" class="mini-textbox" style="width:100px" required="true" value="{$info.available_money}"/>&nbsp;&nbsp;元</td>
+				<td><input class="available_money" name="available_money" class="mini-textbox" style="width:100px" required="true" value="{$info.available_money}"/>&nbsp;&nbsp;元</td>
 			</tr>
 			<tr>
 				<td>已用额度<span style="color:red">*</span></td>
@@ -37,5 +37,8 @@ function onDrawDate(e) {
         if (date.getTime() != d.getTime()) {
             e.allowSelect = false;
         }
+}
+if($(".available_money").val() <= 0){
+		$('.available_money').css('color','#ff4343');
 }
 </script>
