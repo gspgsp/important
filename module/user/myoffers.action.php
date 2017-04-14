@@ -71,20 +71,20 @@ class myoffersAction extends userBaseAction{
 	 */
 	public function subblyTable(){
 
-		$type=sget('type','i',1);//1 采购 2报价
+		$type=sget('type','i',2);//1 采购 2报价
 		$type=2;//报价
 		$this->assign('type',$type);
-		$where="un.sale_user_id=$this->user_id and pur.type={$type} and pur.last_buy_sale=un.id";
-		$where_1=" sb.c_id={$_SESSION['uinfo']['c_id']} AND pur.last_buy_sale=sb.id AND pur.type=1";
+		$where="un.sale_user_id=$this->user_id and un.type={$type} and pur.last_buy_sale=un.id";
+		$where_1=" sb.c_id={$_SESSION['uinfo']['c_id']} AND pur.last_buy_sale=sb.id AND un.type={$type}";
 		//收索条件
 		if($status=sget('status','s','')){
 			$where.=" and un.order_status=".$status;
 			$where_1.=" and un.order_status=".$status;
 		}
 		$page=sget('page','i',1);
-		$size=10;
+		$size=5;
 		$list=M('product:salebuy')->getPurPage($where,$page,$size);
-		$lists=M('product:salebuy')->getPurPage($where_1,$page,$size);
+		$lists=M('product:salebuy')->get_purs($where_1,$page,$size);
 		$list['count']=$list['count']+$lists['count'];
 		$list['data']=array_merge($lists['data'],$list['data']);
 		$list=array_unique($list);

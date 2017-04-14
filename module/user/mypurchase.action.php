@@ -49,133 +49,6 @@ class mypurchaseAction extends userBaseAction{
 	}
 
 
-	//下架操作
-	public function offshelf(){
-		if($_POST)
-		{
-			$this->is_ajax=true;
-			if(!$ids=sget('ids')) $this->error('信息不存在');
-			$this->db->model('purchase')
-			->where("user_id=$this->user_id and id in (".implode(',',$ids).")")
-			->update(array('shelve_type'=>2,'update_time'=>CORE_TIME));
-			$this->success('操作成功');
-		}
-	}
-
-	//重新上架
-	public function reshelf()
-	{
-		$this->is_ajax=true;
-		$type=sget('type','i');
-
-		if($data=$_POST['data'])
-		{
-			$this->db->startTrans();//开启事务
-			try {
-				$model=$this->db->model('purchase');
-				foreach ($data as $key => $value) {
-					if($value['on']){
-						$_data=$model->getPk($value['on']);
-						$_data['supply_count']=0;
-						$_data['last_buy_sale']=0;
-						$_data['input_time']=CORE_TIME;
-						$_data['update_time']=CORE_TIME;
-						$_data['shelve_type']=1;
-						$_data['number']=$value['num'];
-						$_data['unit_price']=$value['price'];
-						$_data['status']=$type==1?1:2;//报价直接审核通过，采购需要后台审核(1:采购 2:报价)
-						$model->where("id=".$_data['id'] ." and user_id=$this->user_id")->update($_data);
-					}
-				}
-			} catch (Exception $e) {
-				$this->db->rollback();
-				$this->error($e->getMessage());
-			}
-			$this->db->commit();
-			$this->success('操作成功');
-		}else{
-			$this->error('信息不存在');
-		}
-	}
-
-	//通过牌号 获取加工级别
-	public function getLevel()
-	{
-		if($_POST)
-		{
-			$this->is_ajax=true;
-			$model=sget('model','s','');
-			$process_type=$this->db->model('product')
-				->where("model='{$model}'")
-				->select('process_type')
-				->getOne();
-			if(empty($process_type)) $this->error('无数据');
-			$_data=array(
-				'id'=>$process_type,
-				'name'=>setOption('process_level',$process_type),
-			);
-			$this->success($_data);
-		}
-	}
-
-	//采购发布(报价发布)
-	public function pub()
-	{
-		if($_SESSION['userid']<1) $this->error('您还未登录，请登录后从试该操作');
-		if($data=$_POST['data'])
-		{
-			$this->is_ajax=true;
-			$cargo_type=sget('cargo_type','i',1);     //现货、期货
-			$type=sget('type','i',1);                 //采购1、报价2
-			$pur_model=M('product:purchase');
-			$fac_model=M('product:factory');
-			$pro_model=M('product:product');
-			$data=saddslashes($data);
-			foreach ($data as $key => $value) {
-				if($value['number']==0 || is_numeric($value['number'])==false) $this->error('数量格式不正确!');
-				if($value['price']==0 || is_numeric($value['price'])==false) $this->error('价格格式不正确');
-				if($value['product_type']==null || $value['product_type']==0) $this->error('该品种不可以,请重新选择');
-				if($value['process_level']==null || $value['process_level']==0) $this->error('该加工级别不可以,请重新选择');
-				$_data=array(
-					'user_id'=>$this->user_id,                                 //用户id
-					'c_id'=>$_SESSION['uinfo']['c_id'],                        //客户id
-					'customer_manager'=>$_SESSION['uinfo']['customer_manager'],//交易员
-					'number'=>$value['number'],                                //吨数
-					'unit_price'=>$value['price'],                             //单价
-					'provinces'=>$value['provinces'],                          //省份id
-					'origin'=>$value['provinces'].'|'.$value['provinces'],     //后台显示交货地用
-					'store_house'=>$value['store_house'],                      //仓库(交货地)
-					'cargo_type'=>$cargo_type,                                 //现货期货
-					'period'=>$value['period'],                                //期货周期
-					'bargain'=>$value['bargain'],                              //是否实价
-					'type'=>$type,                                             //采购、报价
-					'status'=>$type==1?1:2,                                    //状态，报价不需要审核，采购需要审核
-					'input_time'=>CORE_TIME,                                   //创建时间
-				);
-					$pur_model->startTrans();
-					try {
-						$_product=array(
-							'model'=>$value['model'],                   //牌号
-							'product_type'=>$value['product_type'],     //产品类型
-							'process_type'=>$value['process_level'],    //加工级别
-							'f_id'=>$value['f_name'],                   //厂家id
-							'input_time'=>CORE_TIME,                    //创建时间
-							'status'=>1,                                //审核状态
-						);
-						if(!$pro_model->add($_product)) throw new Exception("系统错误 pubpur:102");
-						$pid=$pro_model->getLastID();
-						$_data['p_id']=$pid;
-						if(!$pur_model->add($_data)) throw new Exception("系统错误 pubpur:103");
-					} catch (Exception $e) {
-						$pur_model->rollback();
-						$this->error($e->getMessage());
-					}
-					$pur_model->commit();
-			}
-			$this->success('提交成功');
-		}
-	}
-
 	public function tables()
 	{
 		$type=sget('type','i',1);//1 采购 2报价
@@ -325,5 +198,133 @@ class mypurchaseAction extends userBaseAction{
 		$this->assign('page',$page);
 		$this->assign('count',ceil($list['count']/$size));
 		$this->display('buytable');
+	}
+
+
+	//下架操作
+	public function offshelf(){
+		if($_POST)
+		{
+			$this->is_ajax=true;
+			if(!$ids=sget('ids')) $this->error('信息不存在');
+			$this->db->model('purchase')
+				->where("user_id=$this->user_id and id in (".implode(',',$ids).")")
+				->update(array('shelve_type'=>2,'update_time'=>CORE_TIME));
+			$this->success('操作成功');
+		}
+	}
+
+	//重新上架
+	public function reshelf()
+	{
+		$this->is_ajax=true;
+		$type=sget('type','i');
+
+		if($data=$_POST['data'])
+		{
+			$this->db->startTrans();//开启事务
+			try {
+				$model=$this->db->model('purchase');
+				foreach ($data as $key => $value) {
+					if($value['on']){
+						$_data=$model->getPk($value['on']);
+						$_data['supply_count']=0;
+						$_data['last_buy_sale']=0;
+						$_data['input_time']=CORE_TIME;
+						$_data['update_time']=CORE_TIME;
+						$_data['shelve_type']=1;
+						$_data['number']=$value['num'];
+						$_data['unit_price']=$value['price'];
+						$_data['status']=$type==1?1:2;//报价直接审核通过，采购需要后台审核(1:采购 2:报价)
+						$model->where("id=".$_data['id'] ." and user_id=$this->user_id")->update($_data);
+					}
+				}
+			} catch (Exception $e) {
+				$this->db->rollback();
+				$this->error($e->getMessage());
+			}
+			$this->db->commit();
+			$this->success('操作成功');
+		}else{
+			$this->error('信息不存在');
+		}
+	}
+
+	//通过牌号 获取加工级别
+	public function getLevel()
+	{
+		if($_POST)
+		{
+			$this->is_ajax=true;
+			$model=sget('model','s','');
+			$process_type=$this->db->model('product')
+				->where("model='{$model}'")
+				->select('process_type')
+				->getOne();
+			if(empty($process_type)) $this->error('无数据');
+			$_data=array(
+				'id'=>$process_type,
+				'name'=>setOption('process_level',$process_type),
+			);
+			$this->success($_data);
+		}
+	}
+
+	//采购发布(报价发布)
+	public function pub()
+	{
+		if($_SESSION['userid']<1) $this->error('您还未登录，请登录后从试该操作');
+		if($data=$_POST['data'])
+		{
+			$this->is_ajax=true;
+			$cargo_type=sget('cargo_type','i',1);     //现货、期货
+			$type=sget('type','i',1);                 //采购1、报价2
+			$pur_model=M('product:purchase');
+			$fac_model=M('product:factory');
+			$pro_model=M('product:product');
+			$data=saddslashes($data);
+			foreach ($data as $key => $value) {
+				if($value['number']==0 || is_numeric($value['number'])==false) $this->error('数量格式不正确!');
+				if($value['price']==0 || is_numeric($value['price'])==false) $this->error('价格格式不正确');
+				if($value['product_type']==null || $value['product_type']==0) $this->error('该品种不可以,请重新选择');
+				if($value['process_level']==null || $value['process_level']==0) $this->error('该加工级别不可以,请重新选择');
+				$_data=array(
+					'user_id'=>$this->user_id,                                 //用户id
+					'c_id'=>$_SESSION['uinfo']['c_id'],                        //客户id
+					'customer_manager'=>$_SESSION['uinfo']['customer_manager'],//交易员
+					'number'=>$value['number'],                                //吨数
+					'unit_price'=>$value['price'],                             //单价
+					'provinces'=>$value['provinces'],                          //省份id
+					'origin'=>$value['provinces'].'|'.$value['provinces'],     //后台显示交货地用
+					'store_house'=>$value['store_house'],                      //仓库(交货地)
+					'cargo_type'=>$cargo_type,                                 //现货期货
+					'period'=>$value['period'],                                //期货周期
+					'bargain'=>$value['bargain'],                              //是否实价
+					'type'=>$type,                                             //采购、报价
+					'status'=>$type==1?1:2,                                    //状态，报价不需要审核，采购需要审核
+					'input_time'=>CORE_TIME,                                   //创建时间
+				);
+				$pur_model->startTrans();
+				try {
+					$_product=array(
+						'model'=>$value['model'],                   //牌号
+						'product_type'=>$value['product_type'],     //产品类型
+						'process_type'=>$value['process_level'],    //加工级别
+						'f_id'=>$value['f_name'],                   //厂家id
+						'input_time'=>CORE_TIME,                    //创建时间
+						'status'=>1,                                //审核状态
+					);
+					if(!$pro_model->add($_product)) throw new Exception("系统错误 pubpur:102");
+					$pid=$pro_model->getLastID();
+					$_data['p_id']=$pid;
+					if(!$pur_model->add($_data)) throw new Exception("系统错误 pubpur:103");
+				} catch (Exception $e) {
+					$pur_model->rollback();
+					$this->error($e->getMessage());
+				}
+				$pur_model->commit();
+			}
+			$this->success('提交成功');
+		}
 	}
 }
