@@ -30,6 +30,10 @@ class admAction extends adminBaseAction {
 			if(!empty($depart)){
 				$where.=" and `depart`='$depart' ";
 			}
+			$status = sget("status",'s',''); //状态
+			if($status!=''){
+				$where.=" and status='$status' ";
+			}
 			//关键词
 			$key_type=sget('key_type','s','username');
 			$keyword=sget('keyword','s');
@@ -49,6 +53,7 @@ class admAction extends adminBaseAction {
 		}
 		$lock = sget('lock','s');
 		$this->assign('isPublic',1);
+		$this->status = 1;
 		$this->assign('lock',$lock);
 		$this->depart=C('depart'); //所属部门
 		$this->depart_json=setMiniConfig($this->depart);
@@ -76,6 +81,10 @@ class admAction extends adminBaseAction {
 			$depart = sget('depart','i','');
 			if(!empty($depart)){
 				$where.=" and `depart`='$depart' ";
+			}
+			$status = sget("status",'s',''); //状态
+			if($status!=''){
+				$where.=" and status='$status' ";
 			}
 			//关键词
 			$key_type=sget('key_type','s','username');

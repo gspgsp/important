@@ -32,7 +32,7 @@
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"
-						url="/rbac/adm/init?action=grid{if $isPublic eq '1'}&isPublic={$isPublic}{/if}"  idField="admin_id" multiSelect="true" {if $doact neq 'search' && $isPublic neq '1'} allowCellEdit="true" allowCellSelect="true"{/if}
+						url="/rbac/adm/init?action=grid{if $isPublic eq '1'}&isPublic={$isPublic}{/if}{if $status eq 1}&status={$status}{/if}"  idField="admin_id" multiSelect="true" {if $doact neq 'search' && $isPublic neq '1'} allowCellEdit="true" allowCellSelect="true"{/if}
 						sizeList="[10,20,50,100]" pageSize="20" onrowdblclick="onRowDblClick">
 		<div property="columns">
 			<div type="checkcolumn"></div>
