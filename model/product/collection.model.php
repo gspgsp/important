@@ -13,6 +13,15 @@ class collectionModel extends model{
 	public function getLastInfo($name='o_id',$value=''){
 		$where = "$name='$value'";
 		$ids = $this->model('collection')->select ('id')->where($where)->getAll();
+		if($res = $this->model('collection')->select ('id')->where("o_id =".$value*(-1))->getAll()){
+			$ids = array_merge($ids,$res);
+		}
+		if(!$ids){
+			$res = $this->model('collection')->select ('id')->where("o_id =".$value*(-1)." and collection_status = 1")->getOne();
+			if($res){
+				return '1';
+			}
+		}
 		if(!empty($ids)){
 			$last_id = max(array_values($ids))['id'];
 			$exist=$this->model('collection')->select('*')->where("id= $last_id")->getAll();
