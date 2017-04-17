@@ -13,7 +13,7 @@ class plasticReleaseModel extends model
 
     public function getReleaseMsg ($keywords, $page, $size, $type, $sortField1, $sortField2, $user_id)
     {
-        $where = "pur.sync = 6";
+        $where = "pur.sync = 6 and cus.status not in(3,4) and con.status = 1";
         //$where ="1";
         /**
          *
@@ -121,10 +121,12 @@ class plasticReleaseModel extends model
             $where2 .= " and info.mobile_province not in($str) ";
         }
 
-        $this->model ('purchase')->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.input_time,pur.type,pur.content')->from ('purchase pur')
+        $this->model ('purchase')->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.input_time,pur.type,pur.content,cus.c_name,con.name,info.thumb,info.thumbqq,con.sex,info.mobile_province')->from ('purchase pur')
             ->leftjoin ('product pro', 'pur.p_id=pro.id')
             ->leftjoin ('factory fa', 'pro.f_id=fa.fid')
-            ->leftjoin ('contact_info info', 'info.user_id=pur.user_id');
+            ->leftjoin ('contact_info info', 'info.user_id=pur.user_id')
+            ->leftjoin ('customer_contact con','con.user_id =pur.user_id ')
+            ->leftjoin ('customer cus','cus.c_id = con.c_id');
         if ($sortField2 == 'AUTO') {
             $size = 20;
             $where .= " and sug_pur.user_id=$user_id";
@@ -169,14 +171,15 @@ class plasticReleaseModel extends model
         //p($data);showTrace();exit;
         if (!empty($data['data'])) {
             foreach ($data['data'] as $key => &$value) {
-                $cus_con = M ('user:customerContact')->getListByUserid ($value['user_id']);
+                //$cus_con = M ('user:customerContact')->getListByUserid ($value['user_id']);
                 $value['input_time'] = date ("m-d H:i", $value['input_time']);
-                $value['name'] = $cus_con['name'];
+                //$value['name'] = $cus_con['name'];
                 if (empty($value['name'])) unset($data['data'][$key]);
-                $value['c_name'] = $this->model ('customer')->select ('c_name')->where ('c_id=' . $cus_con['c_id'])->getOne ();
+                //$value['c_name'] = $this->model ('customer')->select ('c_name')->where ('c_id=' . $cus_con['c_id'])->getOne ();
                 if (empty($value['c_name'])) unset($data['data'][$key]);
-                $value['is_pass'] = $cus_con['is_pass'];
-                $thumb = $this->model ('contact_info')->select ('info.thumb,info.thumbqq,con.sex,info.mobile_province')->from('contact_info info')->leftjoin('customer_contact con','con.user_id=info.user_id')->where ('info.user_id=' . $value['user_id'])->getRow ();
+                //$value['is_pass'] = $cus_con['is_pass'];
+                //$thumb = $this->model ('contact_info')->select ('info.thumb,info.thumbqq,con.sex,info.mobile_province')->from('contact_info info')->leftjoin('customer_contact con','con.user_id=info.user_id')->where ('info.user_id=' . $value['user_id'])->getRow ();
+                $thumb=$value;
                 if (empty($thumb['thumbqq'])) {
                     if (strstr ($thumb['thumb'], 'http')) {
                         $thumb['thumb'] = $thumb['thumb'];
@@ -227,7 +230,6 @@ class plasticReleaseModel extends model
         }
         //重新赋索引，为的是在json格式传的时候，来进行数组拼接的，
         $data['data'] = array_values ($data['data']);
-
         //p($data);showTrace();exit;
         return $data;
     }

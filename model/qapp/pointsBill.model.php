@@ -5,6 +5,7 @@
  */
 class pointsBillModel extends Model
 {
+    protected $is_mobile   =  false;
 
     public function __construct ()
     {
@@ -19,7 +20,11 @@ class pointsBillModel extends Model
         if ($info = $user->where ("user_id=$uid")->getRow ()) {
             if (($info['quan_points'] - $num) < 0) return false;
             if (!$user->where ("user_id=$uid")->update ("quan_points=quan_points-$num")) return false;
-            if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => -$num, 'type' => $type, 'gid' => $gid))) return false;
+            if($this->is_mobile){
+                if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => -$num, 'type' => $type, 'gid' => $gid,'is_mobile'=>1))) return false;
+            }else{
+                if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => -$num, 'type' => $type, 'gid' => $gid))) return false;
+            }
 
             return true;
         } else {
@@ -33,7 +38,11 @@ class pointsBillModel extends Model
         $user = M ('public:common')->model ('contact_info');
         if ($info = $user->where ("user_id=$uid")->getRow ()) {
             if (!$user->where ("user_id=$uid")->update ("quan_points=quan_points+$num")) return false;
-            if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => $num, 'type' => $type ,'share_type'=>$share_type))) return false;
+            if($this->is_mobile){
+                if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => $num, 'type' => $type ,'share_type'=>$share_type,'is_mobile'=>1))) return false;
+            }else{
+                if (!$this->add (array('addtime' => time (), 'uid' => $uid, 'points' => $num, 'type' => $type ,'share_type'=>$share_type))) return false;
+            }
 
             return true;
         } else {
@@ -47,5 +56,11 @@ class pointsBillModel extends Model
         $list = $this->model ('contact_info')->select ('quan_points')->where ('user_id=' . $uid)->getOne ();
 
         return $list;
+    }
+
+
+    public function setMoblie($bool){
+        $this->is_mobile = (bool)$bool;
+        return true;
     }
 }
