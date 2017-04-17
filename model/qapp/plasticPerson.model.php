@@ -72,20 +72,20 @@ class plasticPersonModel extends model
     {
         $operMobi = array('13900000001', '13900000002', '13900000003', '13900000004', '13900000005', '13900000006', '13900000007', '13900000008', '13900000009');
         $operMobi = implode (',', $operMobi);
-        $where = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1";
+        $where = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and (con.is_trial = 1 or con.is_trial = 2) and con.status = 1";
         $userids = array();
         if ($sortField == 'default') {
             $orderStr = '';
         } else {
             if ($sortOrder == 'desc')
-                $orderStr = 'con.update_time desc, ';
+                $orderStr = 'con.input_time desc, ';
             else
-                $orderStr = 'con.update_time asc, ';
+                $orderStr = 'con.input_time asc, ';
         }
 //        $sortField = 'con.input_time';
 //        $sortOrder = 'desc';
         if (!empty($letter)) {
-            $users = $this->select ('user_id,name')->order ('update_time desc')->getAll ();
+            $users = $this->select ('user_id,name')->order ('input_time desc')->getAll ();
             foreach ($users as $key => $value) {
                 $firstPy = $this->getFirstChar ($value['name']);
                 if (strcasecmp ($letter, $firstPy) == 0) {
@@ -109,15 +109,14 @@ class plasticPersonModel extends model
 // 		    	->where($where)
 // 		    	->order("$sortField $sortOrder")
 // 		        ->getPage();
-
         $sql = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`,`con`.`sex`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
-            FROM `p2p_customer_contact` `con`
-			LEFT JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
-			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id
-			LEFT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id
-			WHERE " . $where . " ORDER BY " . $orderStr . "d.top desc, d.top_time desc, d.rownum ASC  limit " . ($page - 1) * $size . "," . $size;
 
-        $data = $this->db->getAll ($sql);//p($sortOrder);showTrace();exit;
+			FROM `p2p_customer_contact` `con`
+			JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
+			JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id
+			RIGHT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id
+			WHERE " . $where . " ORDER BY " . $orderStr . "d.top desc, d.top_time desc, d.rownum ASC  limit " . ($page - 1) * $size . "," . $size;
+        $data = $this->db->getAll ($sql);p($sortOrder);showTrace();exit;
 
         $data['data'] = $data;
         if(!empty($data)) {
