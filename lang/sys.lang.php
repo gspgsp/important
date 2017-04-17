@@ -182,5 +182,21 @@ return array(
 		1=>'已授信',
 		3=>'拒绝',
 	),
+	//战队配资操作类型
+	'team_capital_type'=>array(
+		'sale_come'=>'财务收款',
+		'sale_red'=>'财务收款红冲',
+		'buy_red'=>'财务付款红冲',
+		'buy_pay'=>'采购付款申请',
+		'un_buy_pay'=>'采购付款申请到特批',
+		'buy_pay_pass'=>'特批通过',
+		'buy_pay_unpass'=>'特批不通过',
+		'buy_pay_del'=>'付款申请删除',
+		'sale_transport_pass'=>'销售物流通过',
+		'buy_transport_pass'=>'采购物流通过',
+		'buy_transport_unpass'=>'采购物流不通过',
+		'sale_invalid'=>'销售单作废',
+		'buy_invalid'=>'采购单作废',
+	),
 );
 ?>
