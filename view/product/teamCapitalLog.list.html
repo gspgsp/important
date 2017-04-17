@@ -8,6 +8,10 @@
 					<option selected="selected">战队名称</option>
 						{html_options options=$team}
 					</select>
+					<select name="action_type">
+					<option selected="selected" value="">操作类型</option>
+						{html_options options=$team_capital_type}
+					</select>
 					操作人
 					<input name="keyword" class="mini-textbox" style="width:70px;" onenter="onKeyEnter"/>
 					订单号
@@ -27,7 +31,9 @@
 			<div type="checkcolumn" width="10"></div>
             <div field="team_name" width="35" headerAlign="center" align="center">团队</div>   
             <div field="order_sn" width="50" headerAlign="center" allowSort="true" align="center" >订单号</div>
+            <div field="action_type" width="50" headerAlign="center" align="center" >操作类型</div>
             <div field="old_value" width="50" headerAlign="center" align="center" >处理前数据</div>
+            <div field="price" width="50" headerAlign="center" align="center" >操作金额</div>
             <div field="new_value" width="50" headerAlign="center" align="center" >处理后数据</div>
             <div field="description" width="150" headerAlign="center" align="center" >描述</div>
 			<div field="input_admin" width="30" headerAlign="center" allowSort="false" align="center">操作人</div>
