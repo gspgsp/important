@@ -366,6 +366,10 @@ class customerAction extends adminBaseAction {
 		//获取可以修改贸易商类型的人员权限(根据人员id <赵飞、饶伟平、王凯晨、刘京、季雯琼、杨杰、沈辉、王春华、孙朝晖、张玉超、范小勇、李红颖、许在文>)
 		$see = in_array($_SESSION['adminid'],array(1,10,11,730,734,735,737,772,774,775,847,912,955,968));
 		$this->assign('see',$see);
+		//授信限制
+		$users = $this->db->model('adm_role_user')->select('user_id')->where("`role_id` in (2,57,24)")->getCol();
+		$see1 = in_array($_SESSION['adminid'],array_merge($users,array(1,726)));
+		$this->assign('see1',$see1);
 		// p(arrayKeyValues(M('system:region')->get_regions(1),'id','name'));
 		$this->assign('regionList', arrayKeyValues(M('system:region')->get_regions(1),'id','name'));//第一级省市
 		$this->assign('type',L('company_type'));//工厂类型
