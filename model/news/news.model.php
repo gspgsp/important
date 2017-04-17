@@ -14,7 +14,7 @@
 			if (empty($data)) {
 				$where='status=1';			
 				if($type=='vip'){
-					$num=93;
+					$num=39;
 					$where.=' and type="vip"' ;
 				}else{ 
 					$num=67;				
