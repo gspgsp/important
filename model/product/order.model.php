@@ -379,6 +379,9 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
  * @return   [type]                             [description]
  */
 	public function getCustomerManagerTeamStatusByOid($sale_oid = 0,$buy_oid = 0){
+		if(!$sale_oid || !$buy_oid){
+			return array('sale_team_id'=>0,'buy_team_id'=>0);
+		}
 		$sale_customer_manager = $this->model('order')->select('customer_manager')->where('o_id = '.$sale_oid)->getOne();
 		$buy_customer_manager = $this->model('order')->select('customer_manager')->where('o_id = '.$buy_oid)->getOne();
 		$sale_team_id = M('rbac:adm')->getCustomerManagerTeamId($sale_customer_manager);
@@ -397,7 +400,7 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
 		return !$res?0:$res;
 	}
 	/**
-	 * 获取关联订单id，该方法使用范围要求：销售单为现销现采，采购为销售采购模式，并且订单双审中有一个不通过，则不显示
+	 * 获取关联订单id，该方法使用范围要求：销售单为现销现采,或者销库存，采购为销售采购模式，并且订单双审中有一个不通过，则不显示
 	 * @Author   yezhongbao
 	 * @DateTime 2017-04-10T09:51:01+0800
 	 * @param    [type]                   $o_id [description]
@@ -422,5 +425,16 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
         	return 0;
         }
 	}
-
+	/**
+	 * 根据采购o_id获取销售单数据集合，主要针对，一采多销
+	 * @Author   yezhongbao
+	 * @DateTime 2017-04-13T15:17:16+0800
+	 * @param    integer                  $pur_oid [description]
+	 * @return   [type]                            [description]
+	 */
+	public function getSaleResByPurOid($pur_oid = 0){
+		if (!$pur_oid) return false;
+		$res = $this->model('order')->where("store_o_id={$pur_oid} and order_type = 1 and order_status !=3 and transport_status !=3")->getAll();
+		return empty($res)?array():$res;
+	}
 }
