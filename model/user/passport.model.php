@@ -66,6 +66,10 @@ class passportModel extends model{
 			return array('err'=>2,'msg'=>'错误的账号');
 		}
 
+		if(in_array($var['status'],array(3,4))){
+			return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服4006129965');
+		}
+
 		//判断账号是否锁定
 		if($uinfo['login_unlock_time'] > CORE_TIME){
 			return array('err'=>4,'msg'=>'您的账号已被锁定，请稍候再试');
@@ -100,9 +104,9 @@ class passportModel extends model{
 			return array('err'=>3,'msg'=>$msg);
 		}
 
-		//状态:1正常,2冻结,3关闭
-		if(in_array($uinfo['status'],array(2,3))){
-			return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服');
+		//状态:1正常,2冻结,3关闭 4已作废
+		if(in_array($uinfo['status'],array(2,3,4))){
+			return array('err'=>4,'msg'=>'您的帐号已被冻结，请联系客服4006129965');
 		}
 
 		//用户成功登录（对老用户做处理）
