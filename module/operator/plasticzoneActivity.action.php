@@ -65,6 +65,16 @@ class plasticzoneActivityAction extends adminBaseAction{
         $keyword=sget('keyword','s');//关键词
         $customer_type = sget('customer_type','s');//客户分类
         $sTime = sget("sTime",'s','addtime'); //搜索时间类型
+        $type = sget('type','i');  //积分来源
+        $share_type = sget('share_type','i');//分享来源
+        $gid = sget('gid','i'); //商品名称id
+
+        if(!empty($type)) $where .= " and b.type = $type";
+        if(!empty($share_type)) $where.=" and b.share_type = $share_type";
+        if(!empty($gid)) $where.=" and b.gid=$gid";
+
+
+
         $where.=getTimeFilter($sTime); //时间筛选
         switch($key_type){
             case 'id':
