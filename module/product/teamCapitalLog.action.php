@@ -7,6 +7,7 @@ class teamCapitalLogAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
 		$this->assign('team',L('team')+array('1'=>'其他')); //战队名称
+		$this->assign('team_capital_type',L('team_capital_type')); //操作类型
 		$this->db=M('public:common')->model('log_team_capital');
 	}
 	/**
@@ -32,6 +33,9 @@ class teamCapitalLogAction extends adminBaseAction {
 			$team_id=sget('team_id','i');
 			if($team_id)  $where.=" and `team_id` = '$team_id' ";
 
+			$action_type=sget('action_type','s');
+			if($action_type)  $where.=" and `action_type` = '$action_type' ";
+			
 			$order_sn=sget('order_sn','s');
 			if($order_sn)  $where.=" and `order_sn` = '$order_sn' ";
 			
@@ -44,6 +48,7 @@ class teamCapitalLogAction extends adminBaseAction {
 						->getPage();
 			foreach($list['data'] as $k=>$val){
 				$list['data'][$k]['order_sn'] = M('product:order')->getColByOid($val['o_id'],'order_sn');
+				$list['data'][$k]['action_type'] = L('team_capital_type')[$val['action_type']];
 				$list['data'][$k]['input_time']=$val['input_time']>1000 ? date("Y-m-d H:i:s",$val['input_time']) : '-';
 				$list['data'][$k]['team_name']=$this->db->model('adm_role')->select('name')->where("id = {$val['team_id']}")->getOne();
 				if(!$list['data'][$k]['team_name']){
