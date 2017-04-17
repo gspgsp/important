@@ -21,12 +21,13 @@ class teamCapitalModel extends model{
 	 * @param string $new_value   新值
 	 * @param string $remarks        备注描述
 	 */
-	public function addLog($o_id,$team_id,$action_type,$old_value='',$new_value='',$success=1,$description=''){
+	public function addLog($o_id,$team_id,$action_type,$old_value='',$new_value='',$success=1,$pirce = 0,$description=''){
 		$input_time = CORE_TIME;
 		$old_value = addslashes($old_value);
 		$new_value = addslashes($new_value);
+		$price = addslashes($pirce);
 		$input_admin = $_SESSION['username'];
 		$order_sn = M('product:order')->getColByName($o_id,'order_sn');
-		return $this->model('log_team_capital')->add(compact('o_id','order_sn','team_id','action_type','old_value','new_value','input_time','success','description','input_admin'));
+		return $this->model('log_team_capital')->add(compact('o_id','order_sn','team_id','action_type','old_value','new_value','input_time','success','price','description','input_admin'));
 	}
 }
