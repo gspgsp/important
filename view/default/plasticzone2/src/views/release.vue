@@ -6,7 +6,7 @@
 			<div style="padding: 7px 0 0 0;">
 				<div class="releasesearch" style="text-align: left;">
 					<form action="javascript:;">
-						<i v-on:click="search" class="searchIcon"></i><input v-on:keydown.enter="search" type="text" placeholder="请输入厂家或牌号" v-model="keywords" />
+						<input v-on:keydown.enter="search" type="text" placeholder="请输入厂家或牌号" v-model="keywords" />
 					</form>
 				</div>
 			</div>

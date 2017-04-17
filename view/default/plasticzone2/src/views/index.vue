@@ -15,7 +15,7 @@
 		<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
 	</div>
 </div>
-<div class="payfans" style="background: #0078fe;">
+<div class="payfans" style="background: #ff854d;">
 	<router-link style="width: 100%;" :to="{name:'mypoints'}">
 	<img width="100%" src="http://statics.myplas.com/myapp/img/toShop.jpg" />
 	</router-link>
