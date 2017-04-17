@@ -10,7 +10,7 @@
 <h3 class="plasticfind">
 <div style="float: left;">塑料头条</div>
 <div class="plasticSearch">
-<i class="searchIcon" style="position: absolute; top: 14px; left: 5px;"></i>
+<i class="searchIcon" style="position: absolute; top: 14px; left: 5px; margin: 0;"></i>
 <form action="javascript:;">
 <input type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </form>
