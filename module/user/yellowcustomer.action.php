@@ -15,7 +15,7 @@ class yellowcustomerAction extends adminBaseAction {
 	}
 	/**
 	 * 会员列表
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function init(){
@@ -28,7 +28,7 @@ class yellowcustomerAction extends adminBaseAction {
 	}
 	/**
 	 * Ajax获取列表内容
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	public function _grid(){
@@ -42,17 +42,32 @@ class yellowcustomerAction extends adminBaseAction {
 		$status = sget("status",'s',''); //状态
 		if($status!='') $where.=" and status='$status' ";
 		$type = sget("type",'s',''); //状态
-		if($type!='') $where.=" and type='$type' ";//type 客户类型	
+		if($type!='') $where.=" and type='$type' ";//type 客户类型
 		$level = sget("level",'s',''); //状态
 		if($level!='') $where.=" and level='$level' ";//level 客户级别
 		$identification = sget("identification",'s',''); //认证
-		if($identification!='') $where.=" and identification='$identification' ";	
+		if($identification!='') $where.=" and identification='$identification' ";
 		// 关键词
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='legal_person' || $key_type=='c_name'){
+			if($key_type=='c_name'){
+				$cidshare = M('user:customer')->getcidByCname($keyword);
 				$where.=" and $key_type like '%$keyword%' ";
+			}elseif($key_type=='customer_manager'){
+				$adms = join(',',M('rbac:adm')->getIdByName($keyword));
+				$where.=" and $key_type in ($adms) ";
+				$sons = explode(',',M('rbac:rbac')->getSons($_SESSION['adminid']));  //领导
+				$pass = in_array($adms,$sons);
+				if(!M('rbac:adm')->getIdByName($keyword) && $_SESSION['adminid'] != 1){
+					$this->error('<font style="color:red">查询的交易员不存在！</font>');
+				}else if(count(M('rbac:adm')->getIdByName($keyword)) > 1 && $_SESSION['adminid'] != 1){
+					$this->error('<font style="color:red">暂时不支持模糊查询交易员</font>');
+				}else if($_SESSION['adminid'] != $adms && $_SESSION['adminid'] != 1 && 	!$pass){
+					$this->error('<font style="color:red">只支持查询自己及下属哦！</font>');
+				}
+			}elseif($key_type=='need_product'){
+				$where.=" and `need_product_adm` like '%$keyword%' ";
 			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
@@ -83,7 +98,7 @@ class yellowcustomerAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$data = explode(',',$ids);
 		if(is_array($data)){
