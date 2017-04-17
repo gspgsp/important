@@ -36,6 +36,18 @@ module.exports = {
 
 		}
 	},
+	beforeRouteEnter: function(to, from, next) {
+		next(function(vm) {
+
+		});
+		document.title = "积分规则";
+	},
+	beforeRouteLeave: function(to, from, next) {
+		next(function() {
+
+		});
+		document.title = "塑料圈通讯录";
+	},
 	mounted: function() {
 		try {
 		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
