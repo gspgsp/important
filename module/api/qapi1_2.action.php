@@ -220,6 +220,8 @@ class qapi1_2Action extends null2Action
                 $this->error ($result['msg']);
             }
 
+            $china_area = M('system:region')->get_system_region_by_phone($mobile);
+
             //if(empty($_model)||count($_model)>10) $this->_errCode(6);
             //$_model = implode(',',$_model);
 
@@ -239,7 +241,8 @@ class qapi1_2Action extends null2Action
                         'customer_manager' => 859,//交易员
                         //'origin'=>implode('|',$origin),
                         //'need_product'=>$_model,
-                        'type'=>$ctype,
+                        'type'             =>$ctype,
+                        'china_area'       =>$china_area,
                         'quan_type'        => $quan_type,
                     );
                     if (!$cus_model->add ($_customer)) {
@@ -605,7 +608,15 @@ class qapi1_2Action extends null2Action
         $quan_type = sget ('quan_type', 'i');
         $version   = sget ('version', 's');//版本号
         $platform  = $this->checkPlatform ()['platform'];
-        if ($sortField != 'default' && $sortField != 'input_time') {
+        $region    = sget('region','i',0);
+
+        //0 全部 1 华东 2 华北 3 华南 4 其他
+        if(!in_array($region,array(0,1,2,3,4)))
+        {
+            $this->json_output (array( 'err' => 1, 'msg' => 'region参数错误' ));
+        }
+        if ($sortField != 'default' && $sortField != 'input_time')
+        {
             $this->json_output (array( 'err' => 1, 'msg' => 'sortField参数错误' ));
         }
         if (!in_array ($sortOrder, array( 'desc', 'asc' ))) {
@@ -641,26 +652,30 @@ class qapi1_2Action extends null2Action
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
         $data  = array();
-//        if (empty($keywords)) {
-//            if ($page < 4) {//前三页
-//                if ($user_id > 0) {
-//                    if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size)) {
-//                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
-//                        $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size, $data['data'], 60);//1分钟缓存
-//                    }
-//                } else {
-//                    if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size)) {
-//                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
-//                        $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size, $data['data'], 60);//1分钟缓存
-//                    }
-//                }
-//            } else {
-//                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
-//            }
-//        } else {
-            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
+/*        $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
+        M("system:setting")->del_cache($key);
+        $key = 'qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
+        M("system:setting")->del_cache($key);*/
 
- //       }
+        if (empty($keywords)) {
+            if ($page < 4) {//前三页
+                if ($user_id > 0) {
+                    if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region)) {
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+                        $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
+                    }
+                } else {
+                    if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region)) {
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+                        $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region, $data['data'], 60);//1分钟缓存
+                    }
+                }
+            } else {
+                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+            }
+        } else {
+            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+        }
 
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
@@ -715,14 +730,36 @@ class qapi1_2Action extends null2Action
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
             $members = empty($members) ? 0 : $members;
 
-            $arr= array( 'err'     => 0,
+            $arr= array(
+                'err'     => 0,
                 'persons' => $data['data'],
                 'member'  => $members,
+                'is_show_banner'=>0,
+                'is_show_focus'=>1,
+                'is_show_cover'=>0,
                 'data'    => CORE_TIME
             );
             if(!empty($top)){
                 $arr['top']=$top;
             }
+            //是否显示banner
+            M("system:setting")->del_cache("setting");
+            $setting = M("system:setting")->getSetting();
+            //var_dump($setting['qapp_banner']);
+            if(!empty($setting['qapp_banner'])&&!empty($setting['qapp_banner']['start_time']&&!empty($setting['qapp_banner']['end_time'])&&!empty($setting['qapp_banner']['url'])&&CORE_TIME>$setting['qapp_banner']['start_time']&&CORE_TIME<$setting['qapp_banner']['end_time'])){
+                    $arr['is_show_banner'] = 1;
+                    $arr['is_show_focus'] = 0;
+                    $arr['banner_url'] = $setting['qapp_banner']['url'];
+                    $arr['banner_jump_url'] = $setting['qapp_banner']['jump_url'];
+
+            }
+            //是否显示cover photo 未来待定
+            if(!empty($setting['qapp_cover'])&&!empty($setting['qapp_cover']['start_time']&&!empty($setting['qapp_cover']['end_time'])&&!empty($setting['qapp_cover']['url'])&&CORE_TIME>$setting['qapp_cover']['start_time']&&CORE_TIME<$setting['qapp_cover']['end_time'])){
+                $arr['is_show_cover'] = 1;
+                $arr['cover_url'] = $setting['qapp_banner']['url'];
+                $arr['cover_jump_url'] = $setting['qapp_banner']['jump_url'];
+            }
+
             $this->json_output ($arr);
         }
         $arr = array( 'err' => 0, 'persons' => $data['data'], 'data' => CORE_TIME );
