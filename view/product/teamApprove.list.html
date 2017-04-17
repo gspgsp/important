@@ -35,7 +35,7 @@
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 	<div property="columns">
 		<div type="checkcolumn"></div>
-		<div field="o_id" width="30" headerAlign="center" align="center" renderer="onLoadHandle">订单ID</div>
+		<div field="oid" width="30" headerAlign="center" align="center" renderer="onLoadHandle">订单ID</div>
 		<div field="order_sn"  renderer="tips" width="80" headerAlign="center" align="center" align="center">订单号</div>
 		<div field="c_name" width="100" headerAlign="center" align="center" align="center">公司名</div>
 		<div field="total_price" width="40" headerAlign="center" align="center" align="center">总金额</div>
@@ -82,7 +82,7 @@ function onKeyEnter(e) {
 
 //追加订单id的操作按钮
 function onLoadHandle(e) {
-	var record = e.record,s='',oid = record.o_id,remark=record.remark;
+	var record = e.record,s='',oid = record.oid,remark=record.remark;
 	var o_type={$type};
 	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
 	return s;
@@ -90,7 +90,7 @@ function onLoadHandle(e) {
 
 //追加操作，关联销售订单
 function relevance(e){
-	var record = e.record,oid=record.o_id,s='';
+	var record = e.record,oid=record.oid,s='';
 	var order_type = 2;
 	//传值表示是查看销售订单
 	var sale = 1;
