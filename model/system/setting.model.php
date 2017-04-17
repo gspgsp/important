@@ -46,5 +46,21 @@ class settingModel extends model{
 		}
 		return $data;
 	}
+
+	public function del_cache($key)
+	{
+		if(empty($key))
+		{
+			return false;
+		}
+		$cache=cache::startMemcache();
+		$data=$cache->get($key);
+		if(!empty($data))
+		{
+			$cache->delete($key);
+		}
+
+		return true;
+	}
 }
 ?>

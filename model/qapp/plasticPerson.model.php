@@ -68,19 +68,19 @@ class plasticPersonModel extends model
     }
 
     //获取所有的联系人
-    public function getPlasticPerson ($user_id, $letter, $keywords, $page = 1, $size = 10, $sortField = null, $sortOrder = null)
+    public function getPlasticPerson ($user_id, $letter, $keywords, $page = 1, $size = 10, $sortField = null, $sortOrder = null,$region=0)
     {
         $operMobi = array('13900000001', '13900000002', '13900000003', '13900000004', '13900000005', '13900000006', '13900000007', '13900000008', '13900000009');
         $operMobi = implode (',', $operMobi);
         $where = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
         $userids = array();
         if ($sortField == 'default') {
-            $orderStr = '';
+            $orderStr = ' NULL ';
         } else {
             if ($sortOrder == 'desc')
-                $orderStr = 'con.update_time desc,';
+                $orderStr = 'con.update_time desc';
             else
-                $orderStr = 'con.update_time asc,';
+                $orderStr = 'con.update_time asc';
         }
 //        $sortField = 'con.input_time';
 //        $sortOrder = 'desc';
@@ -98,6 +98,13 @@ class plasticPersonModel extends model
         if (!empty($keywords)) {
             $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
         }
+
+        if(!empty($region)){
+            //0 全部 1 华东 2 华北 3 华南 4 其他
+            $region_setting = array(1=>'华东',2=>'华北',3=>'华北',4=>'其他');
+            $region = $region_setting[$region];
+            $where .= " and china_area = '{$region}' ";
+        }
         //测试20
 
         //$where .= " or cus.c_id in(21,24,27,53,65,75,76,89,90,95,99,107,110,112,117,141) or cus.c_id =28160";
@@ -114,10 +121,9 @@ class plasticPersonModel extends model
             FROM `p2p_customer_contact` `con`
 			LEFT JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
 			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id
-			WHERE " . $where . " ORDER BY " . $orderStr . "con.member_level desc   limit " . ($page - 1) * $size . "," . $size;
+			WHERE " . $where . " ORDER BY " . $orderStr . " limit " . ($page - 1) * $size . "," . $size;
 
-        $data = $this->db->getAll ($sql);//p($sortOrder);showTrace();exit;
-
+        $data = $this->db->getAll ($sql);
         $data['data'] = $data;
         if(!empty($data)) {
             foreach ($data['data'] as &$value) {
