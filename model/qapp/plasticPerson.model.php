@@ -116,7 +116,7 @@ class plasticPersonModel extends model
 			JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id
 			RIGHT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id
 			WHERE " . $where . " ORDER BY " . $orderStr . "d.top desc, d.top_time desc, d.rownum ASC  limit " . ($page - 1) * $size . "," . $size;
-        $data = $this->db->getAll ($sql);p($sortOrder);showTrace();exit;
+        $data = $this->db->getAll ($sql);//p($sortOrder);showTrace();exit;
 
         $data['data'] = $data;
         if(!empty($data)) {
