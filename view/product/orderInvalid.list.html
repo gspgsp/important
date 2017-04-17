@@ -1,0 +1,116 @@
+{layout file="public:mini_layout"}
+<div style="margin:3px 3px 0;">
+  <table width="90%" align="center">
+      <form id="soform">
+        <tr>
+            <td colspan="0">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="60px">订单号：</td>
+            <td align="left">
+                <input type="text" style="width:200px;" name="order_sn" id = "order_sn" value="" />
+                <a class="mini-button" style="width:60px;" iconCls="icon-search" onclick="search()">确定</a>
+                <a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+            </td>
+        </tr>
+        <tr>
+            <td height="24">&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>&nbsp;</td>
+            <td><span id="searchMsg"></span></td>
+        </tr>
+      </form>
+  </table>
+</div>
+{if $doact neq 'search'}
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true" url="/product/orderInvalid/init?action=grid&do={$doact}" idField="o_id">
+        <div property="columns">
+            <div field="o_id" width="100" headerAlign="center" align="center">订单id</div>
+            <div field="order_sn" width="200" headerAlign="center" renderer="onLoadHandle" align="center">订单号</div>
+            <div renderer="invalid" width="60" headerAlign="center" align="center">操作</div>
+        </div>
+    </div>
+</div>
+{/if}
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+function search() {
+    grid.load($("#soform").serializeObject(),function(e){
+        $("#searchMsg").html(e.msg);
+    });
+}
+function onKeyEnter(e) {
+    search();
+}
+
+function CloseWindow(action) {
+    if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+    else window.close();
+}
+function onComfirm() {
+    CloseWindow("ok");
+}
+function onCancel() {
+    CloseWindow("cancel");
+}
+function GetData() {
+    var row = grid.getSelected();
+    return row;
+}
+//作废处理
+function invalid(e){
+    var record = e.record,oid=record.o_id,transport_status=record.transport_status,order_status = record.order_status,s='';
+    //作废标准，上下家都得双审完毕
+    if (transport_status == 2 && order_status == 2) {
+        s += '<a href="javascript:invalid_order('+oid+')">作废</a>';
+        return s;
+    }else{
+        s='不符合作废要求';
+        return s;
+    }
+}
+//作废处理
+function invalid_order(oid){
+    var data = {o_id:oid};
+    var json = mini.encode(data);
+    mini.confirm("确定作废该订单？", "提示", function(action){
+    if(action!='ok') return;
+    var callback=function(data){
+        if(data.err=='0'){
+            grid.reload();
+        }else{
+            alert(data.msg)
+            return false;
+        }
+    }
+    utils.ajax('/product/orderInvalid/invalid',{data:json},callback,"POST","json");
+  });
+
+}
+//追加操作按钮
+function onLoadHandle(e) {
+    var record = e.record,s='',o_id = record.o_id,s='',order_sn = record.order_sn,order_type = record.order_type;
+    s += '<a href="javascript:viewOrdInfo('+o_id+','+order_type+')">'+order_sn+'</a> ';
+    return s;
+}
+//查看订单相关信息
+function viewOrdInfo(oid,o_type){
+    mini.open({
+        url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+        showMaxButton:true,
+        title: "查看订单相关信息",
+        width: 800, height:500,
+        ondestroy: function(action){
+            if(action=='save'){ //重新加载
+                grid.reload();
+            }
+        }
+    });
+}
+</script>
