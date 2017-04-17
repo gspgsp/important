@@ -154,8 +154,17 @@ module.exports = {
 						} else {
 							window.localStorage.setItem("commReg", 2)
 						}
-						_this.$router.push({ name: 'login' });
-					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									_this.$router.push({ name: 'login' });
+								}
+							}]
+						});
+					} else { 
 						weui.alert(res.msg, {
 							title: '塑料圈通讯录',
 							buttons: [{

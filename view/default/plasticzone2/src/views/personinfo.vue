@@ -251,7 +251,9 @@ module.exports = {
 								        label: '确定',
 								        type: 'parimary',
 								        onClick: function(){
-											window.history.back();		        	
+								    		_this.$router.push({
+												name: 'pointsrule'
+											});													        	
 								        }
 								    }]
 								});								
@@ -260,9 +262,7 @@ module.exports = {
 				
 						});
 				    }, function () {
-			    		_this.$router.push({
-							name: 'pointsrule'
-						});
+				    	window.history.back();
 				    }, {
 				        title: '塑料圈通讯录'
 				    });			
@@ -285,7 +285,6 @@ module.exports = {
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
-			console.log(res);
 			if(res.err == 0) {
 				_this.buylist=res.data;
 			} else if(res.err == 1) {
@@ -309,7 +308,6 @@ module.exports = {
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
-			console.log(res);
 			if(res.err == 0) {
 				_this.supplylist=res.data;
 			} else if(res.err == 1) {

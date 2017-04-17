@@ -16,19 +16,29 @@
 module.exports = {
 	data: function() {
 		return {
-			
+
 		}
 	},
-	methods:{
+	beforeRouteEnter: function(to, from, next) {
+		next(function(vm) {
 
+		});
+		document.title = "充值";
+	},
+	beforeRouteLeave: function(to, from, next) {
+		next(function() {
+
+		});
+		document.title = "塑料圈通讯录";
 	},
 	mounted: function() {
 		try {
-		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-		    piwikTracker.trackPageView();
-		} catch( err ) {
-			
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch(err) {
+
 		}
+
 	}
 }
 </script>

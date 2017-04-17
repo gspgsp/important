@@ -235,6 +235,7 @@ module.exports = {
 		} catch( err ) {
 			
 		}
+				
 		$.ajax({
     		type:"post",
     		url:"/api/qapi1_2/getProductList",

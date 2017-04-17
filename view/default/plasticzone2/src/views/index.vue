@@ -16,7 +16,7 @@
 	</div>
 </div>
 <div class="payfans" style="background: #0078fe;">
-	<router-link style="width: 100%;" :to="{name:'pointsrule'}">
+	<router-link style="width: 100%;" :to="{name:'mypoints'}">
 	<img width="100%" src="http://statics.myplas.com/myapp/img/toShop.jpg" />
 	</router-link>
 	<!--<router-link :to="{name:'mypay'}">
@@ -32,7 +32,7 @@
 </div>
 <ul id="nameUl">
 	<li id="top" v-if="top">
-		<div style=" width: 100%; overflow: hidden; position: relative; background: #FFFFFF;">
+		<div style=" width: 100%; position: relative;">
 		<div style="width: 55px; height: 55px; float: left; position: relative;">
 			<div class="avator">
 				<img v-bind:src="top.thumb">
@@ -258,7 +258,9 @@ methods: {
 			try {
 			    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 			    piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
-			} catch( err ) {}
+			} catch( err ) {
+				
+			}
 			
 			$.ajax({
 				url: '/api/qapi1/getPlasticPerson',
