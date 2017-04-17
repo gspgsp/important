@@ -129,8 +129,8 @@ class plasticAction extends adminBaseAction {
 		if(empty($cids)){
 			$this->error('操作有误');
 		}
-		$u_ids = $this->db->where("c_id in ($cids)")->select('user_id')->getAll();
-		$u_ids=implode(array_column($u_ids,'user_id'),',');
+		$u_ids = $this->db->where("c_id in ($cids)")->select('user_id')->getCol();
+		$u_ids=implode($u_ids,',');
 		// p($u_ids);
 		// die;
 //删除联系人
