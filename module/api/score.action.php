@@ -9,9 +9,10 @@
 class scoreAction extends null2Action
 {
     private $param;
-
+    private $is_mobile = false;
     public function __init()
     {
+        $this->is_mobile = true;
         /*$data = spost('data', 's');
         if (!empty($data)) {
             $mcrypt = E('mcrypt1', APP_LIB . 'class');
@@ -66,7 +67,9 @@ class scoreAction extends null2Action
         $user_id = A("api:qapi1_2")->checkAccount();
         $type  = $_POST['type'];
         $_today= strtotime(date("Y-m-d"));
+        M("qapp:pointsBill")->setMoblie($this->is_mobile);
         M ("qapp:pointsBill")->startTrans();
+
         switch($type){
             case 1://拉新注册登录
                 $parent_mobile = $_POST['parent_mobile']+0;
@@ -114,6 +117,11 @@ class scoreAction extends null2Action
                 $size = 1;
                 foreach($_tmp as $key=>$row){
                     if($row['addtime']>(strtotime(date("Y-m-d"))-86400*($key+1))&&$row['addtime']<(strtotime(date("Y-m-d"))-86400*$key)) $size++;
+//                    if($row['addtime']>(strtotime(date("Y-m-d"))-86400*($key+1))&&$row['addtime']<(strtotime(date("Y-m-d"))-86400*$key)){
+//                            $size++;
+//                    }else{
+//                        p('you are false');
+//                    }
                     if($key==0&&$row['addtime']>strtotime(date("Y-m-d"))&&$row['addtime']<(strtotime(date("Y-m-d"))+86400)) $this->json_output(array('err'=>0,'msg'=>'今天已加过积分了'));
                 }
                 if(!M ("qapp:pointsBill")->addPoints ($points['login']*$size, $user_id, 2)){
@@ -180,8 +188,14 @@ class scoreAction extends null2Action
                 $this->json_output (array( 'err' => 0, 'msg' => '积分添加成功' ));
                 break;
             case 9://充值加积分
+                $points = sget('points','i');
+                if(empty($points)) $this->json_output(array('err'=>1,'msg'=>'积分数值错误'));
+                if(!M ("qapp:pointsBill")->addPoints ($points, $user_id, 16)){
+                    M ("qapp:pointsBill")->rollback();
+                    $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
+                }
                 M ("qapp:pointsBill")->commit();
-                $this->json_output (array( 'err' => 5, 'msg' => '不定时上线,敬请期待！' ));
+                $this->json_output (array( 'err' => 5, 'msg' => '积分添加成功' ));
                 break;
 
         }
@@ -193,6 +207,7 @@ class scoreAction extends null2Action
         $user_id = A("api:qapi1_2")->checkAccount();
         $type  = $_POST['type'];
         $_today= strtotime(date("Y-m-d"));
+        M("qapp:pointsBill")->setMoblie($this->is_mobile);
         M ("qapp:pointsBill")->startTrans();
         switch($type) {
             case 1://兑换商品

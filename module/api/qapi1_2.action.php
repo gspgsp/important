@@ -1545,7 +1545,7 @@ class qapi1_2Action extends null2Action
             $_tmpSex = sget('sex','s');
             $_tmpMajor = sget('major','s');
             $_tmpConcern = sget('concern','s');
-            $_tmpDist = sget('dist','s');
+            $_tmpDist = sget('dist','s','EC');
             $_tmpType = sget('type','s');
             $_tmpMonthConsum = sget('month_consum','s');
             $_tmpMainProduct = sget('main_product','s');
@@ -1598,7 +1598,7 @@ class qapi1_2Action extends null2Action
                         unset($data[$key]);
                     }
                 }elseif($key=='dist'){
-                    if(empty($row)||(!in_array($row, array('EC', 'NC', 'SC')))) $this->_errCode(6);
+                    if(empty($row)||(!in_array($row, array('EC', 'NC', 'SC','OT')))) $this->_errCode(6);
                 }elseif($key=='type'){
                     if(empty($row)||(!in_array($row,array('1','2','3')))) $this->_errCode(6);
                 }elseif($key=='month_consum'){
