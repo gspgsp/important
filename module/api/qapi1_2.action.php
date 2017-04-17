@@ -641,26 +641,26 @@ class qapi1_2Action extends null2Action
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
         $data  = array();
-        if (empty($keywords)) {
-            if ($page < 4) {//前三页
-                if ($user_id > 0) {
-                    if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
-                        $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size, $data['data'], 60);//1分钟缓存
-                    }
-                } else {
-                    if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
-                        $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size, $data['data'], 60);//1分钟缓存
-                    }
-                }
-            } else {
-                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
-            }
-        } else {
+//        if (empty($keywords)) {
+//            if ($page < 4) {//前三页
+//                if ($user_id > 0) {
+//                    if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size)) {
+//                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
+//                        $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.$size, $data['data'], 60);//1分钟缓存
+//                    }
+//                } else {
+//                    if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size)) {
+//                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
+//                        $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.$size, $data['data'], 60);//1分钟缓存
+//                    }
+//                }
+//            } else {
+//                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
+//            }
+//        } else {
             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder);
 
-        }
+ //       }
 
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
@@ -690,7 +690,7 @@ class qapi1_2Action extends null2Action
                 $this->db->model ("log_login")
                          ->add ($arr);
             };
-        }//showTrace();exit;
+        }
         $goods_id =$this->db->model("points_goods")->select('id')->where(" type =2 and status =1")->getOne();
 
         //var_dump($goods_id);
@@ -1545,7 +1545,7 @@ class qapi1_2Action extends null2Action
             $_tmpSex = sget('sex','s');
             $_tmpMajor = sget('major','s');
             $_tmpConcern = sget('concern','s');
-            $_tmpDist = sget('dist','s');
+            $_tmpDist = sget('dist','s','EC');
             $_tmpType = sget('type','s');
             $_tmpMonthConsum = sget('month_consum','s');
             $_tmpMainProduct = sget('main_product','s');
@@ -1598,7 +1598,7 @@ class qapi1_2Action extends null2Action
                         unset($data[$key]);
                     }
                 }elseif($key=='dist'){
-                    if(empty($row)||(!in_array($row, array('EC', 'NC', 'SC')))) $this->_errCode(6);
+                    if(empty($row)||(!in_array($row, array('EC', 'NC', 'SC','OT')))) $this->_errCode(6);
                 }elseif($key=='type'){
                     if(empty($row)||(!in_array($row,array('1','2','3')))) $this->_errCode(6);
                 }elseif($key=='month_consum'){
@@ -1764,6 +1764,13 @@ class qapi1_2Action extends null2Action
             if ($user_id <= 0) {
                 $this->json_output (array( 'err' => 1, 'msg' => '您未登录塑料圈,无法查看企业及个人信息' ));
             }
+
+            $_tmpRow = M("public:common")->select("cus.status,con.status as con_status")
+                ->from("customer cus")
+                ->leftjoin("customer_contact con",'con.c_id=cus.c_id')
+                ->where("con.user_id=$user_id")
+                ->getRow();
+            if(in_array($_tmpRow['status'],array(3,4)) || in_array($_tmpRow['con_status'],array(2,3,4))) $this->json_output(array('err'=>1,'msg'=>'您账号已冻结，如有疑问请咨询客服：4006129965'));
         }
 
         return $user_id;
