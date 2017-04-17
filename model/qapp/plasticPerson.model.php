@@ -78,9 +78,9 @@ class plasticPersonModel extends model
             $orderStr = '';
         } else {
             if ($sortOrder == 'desc')
-                $orderStr = 'con.update_time desc';
+                $orderStr = 'con.update_time desc,';
             else
-                $orderStr = 'con.update_time asc';
+                $orderStr = 'con.update_time asc,';
         }
 //        $sortField = 'con.input_time';
 //        $sortOrder = 'desc';
@@ -114,7 +114,7 @@ class plasticPersonModel extends model
             FROM `p2p_customer_contact` `con`
 			LEFT JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
 			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id
-			WHERE " . $where . " ORDER BY " . $orderStr . "   limit " . ($page - 1) * $size . "," . $size;
+			WHERE " . $where . " ORDER BY " . $orderStr . "con.member_level desc   limit " . ($page - 1) * $size . "," . $size;
 
         $data = $this->db->getAll ($sql);//p($sortOrder);showTrace();exit;
 
