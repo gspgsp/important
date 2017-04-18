@@ -202,6 +202,194 @@ class plasticAction extends adminBaseAction {
 
 	}
 	/**
+	 * 获取塑料圈会员相关信息
+	 * @auth gsp
+	 * @return [type] [description]
+	 */
+	public function contactInfos(){
+		$this->is_ajax=true;
+		$user_id = sget('id','i',0);//当前用户的id
+        $chtype = sget('chtype','i',0);
+        $isEdit = sget('isEdit','i',0);
+        if($user_id>0){
+			$usermodel = M('user:customerContact')->getContactModel($user_id,'3');//会员牌号 公司
+		}
+		$this->assign('status',L('contact_status'));
+		$this->assign('sex',L('sex'));
+		$this->assign('page_title','联系人列表');
+		$this->assign('usermodel',$usermodel);
+		$this->assign('chtype',$chtype);
+		$this->assign('isEdit',$isEdit);
+		$this->display('plastic.edit.html');
+	}
+	/**
+	 * 核查公司
+	 * @auth gsp
+	 * @return [type] [description]
+	 */
+	public function checkCompany(){
+		$this->is_ajax=true;
+		$user_id = sget('user_id','i',0);
+		$c_name = sget('c_name','s','');
+		$cus = $this->db->model('customer')->where("c_name = '{$c_name}'")->select('c_id,c_name,status')->getAll();
+		if(!empty($cus)){
+			foreach ($cus as $key => $value) {
+				$tem[] = $value['c_id'];
+			}
+			$cids = implode(',',$tem);
+			$this->json_output(array('err'=>0,'msg'=>'公司存在','cids'=>$cids));
+		}else{
+			$this->json_output(array('err'=>2,'msg'=>'公司不存在'));
+		}
+	}
+	/**
+	 * 获取公司
+	 * @auth gsp
+	 * @return [type] [description]
+	 */
+	public function getCompanys(){
+		$cids = sget('cids','s','');
+		$action=sget('action','s');
+		if($action=='company'){ //获取列表
+			$this->_company();exit;
+		}
+		$this->assign('cids',$cids);
+		$this->display('plastic.cus.html');
+	}
+	/**
+	 * 获取数据
+	 * @auth gsp
+	 * @return [type] [description]
+	 */
+	private function _company(){
+		$cids = sget('cids','s','');
+		$cus = $this->db->model('customer')->where("c_id in($cids)")->select('c_id,c_name,status,customer_manager,is_sale,is_pur')->getAll();
+		foreach ($cus as &$value) {
+			// $value['status'] = A('user:customercheck')->chkstatus($value['customer_manager'],$value['is_sale'],$value['is_pur']);
+			$value['status'] = $this->_chkstatus($value['customer_manager'],$value['is_sale'],$value['is_pur']);
+		}
+		$this->json_output(array('total'=>1,'data'=>$cus));
+	}
+	/**
+	 * 检查状态
+	 * @param  [type] $c    [description]
+	 * @param  [type] $sale [description]
+	 * @param  [type] $pur  [description]
+	 * @return [type]       [description]
+	 */
+	private function  _chkstatus($c,$sale,$pur){
+        $str='';
+        $str .= $c==0 ? '公海客户':'';
+        if($c>0 && ($sale==1 && $pur==1)){
+            $str .='已合作客户+已合作供应商';
+        }
+        elseif($c>0 && ($sale==1 && $pur!=1)){
+            $str .='已合作客户';
+        }
+        elseif($c>0 && ($sale!=1 && $pur==1)){
+            $str .='已合作供应商';
+        }
+        elseif($c>0 && ($sale!=1 && $pur!=1)){
+            $str .='私海客户';
+        }
+        return $str;
+    }
+    /**
+     * 保存审核的数据
+     * @return [type] [description]
+     */
+    public function savePlasticData(){
+    	$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)) $this->json_output(array('err'=>2,'msg'=>'提交数据不能为空'));
+		$con = array(
+				'name'=>$data['name'],
+				'sex'=>$data['sex'],
+				'mobile'=>$data['mobile'],
+				'tel'=>$data['tel'],
+				'qq'=>$data['qq'],
+				'fax'=>$data['fax'],
+				'email'=>$data['email'],
+				'remarks'=>$data['remark'],
+				'status'=>$data['status'],
+				'is_trial'=>$data['chtype'],
+				'update_time'=>CORE_TIME,
+				'update_admin'=>'admin'
+				);
+		$cus = array(
+			'c_name'=>$data['c_name'],
+			'main_product'=>$data['main_product'],
+			'month_consum'=>$data['month_consum'],
+			'type'=>$data['cus_type'],
+			'update_time'=>CORE_TIME,
+			'update_admin'=>'admin'
+			);
+		if($data['cus_type'] == 2) $con['update_time'] = 1483243920;
+		//处理牌号
+		$data['model_1'] = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|( )|(，)|(\.)/",',',$data['model_1']);
+        $data['model_1']=explode(",",$data['model_1']);
+        $data['model_1']=array_map('strtoupper',$data['model_1']);
+        foreach($data['model_1'] as $key=>$row){
+            if(empty($row)) unset($data['model_1'][$key]);
+        }
+        if(!empty($data['model_1'])){
+        	// $data['model_1'] = implode(' ',$data['model_1']);
+        	$sug = array(
+        	'user_id'=>$data['info_user_id'],
+			'type'=>1,
+			'is_concern'=>1,
+			'create_time'=>date("Y-m-d H:i:m",CORE_TIME),
+			'name'=>implode(' ',$data['model_1'])
+			);
+        }
+		$this->db->model('customer_contact')->startTrans();
+		try {
+			if($data['stype'] == 0){//存在
+				if($data['c_id'] == $data['nc_id']){
+					if(!$this->db->model('customer_contact')->where("user_id = {$data['info_user_id']}")->update($con)) throw new Exception(" 用户更新失败 101");
+					if(!$this->db->model('customer')->where("c_id = {$data['c_id']}")->update($cus)) throw new Exception(" 客户更新失败 102");
+				}else{
+					$con['c_id'] = $data['nc_id'];
+					if(!$this->db->model('customer_contact')->where("user_id = {$data['info_user_id']}")->update($con)) throw new Exception(" 用户更新失败 103");
+					if(!$this->db->model('customer')->where("c_id = {$data['nc_id']}")->update($cus)) throw new Exception(" 客户更新失败 104");
+				}
+			}else{//不存在
+				if(!$this->db->model('customer_contact')->where("user_id = {$data['info_user_id']}")->update($con)) throw new Exception(" 用户更新失败 105");
+				if(!$this->db->model('customer')->where("c_id = {$data['c_id']}")->update($cus)) throw new Exception(" 客户更新失败 106");
+			}
+			if(!empty($data['model_1'])){
+				if(!$this->db->model('suggestion_model')->add($sug)) throw new Exception(" 新增牌号失败 101");
+			}
+		} catch (Exception $e) {
+			$this->db->model('customer_contact')->rollback();
+			$this->error($e->getMessage());
+		}
+		$this->db->model('customer_contact')->commit();
+		$this->success('编辑/初审成功');
+    }
+    /**
+     * 拒绝审核通过
+     * auth gsp
+     * @return [type] [description]
+     */
+    public function rejectContact(){
+    	$this->is_ajax=true; //指定为Ajax输出
+    	$user_id = sget('user_id','i',0);
+    	$is_trial = sget('is_trial','i',3);
+    	if(!empty($user_id)){
+    		$con = array(
+    			'is_trial'=>$is_trial,
+    			'update_time'=>CORE_TIME,
+				'update_admin'=>'admin'
+    			);
+    		if($this->db->where("user_id = $user_id")->update($con)){
+    			$this->json_output(array('err'=>0,'msg'=>'更新成功'));
+    		}else{
+    			$this->json_output(array('err'=>2,'msg'=>'更新失败'));
+    		}
+    	}
+    }
+	/**
 	 * 解锁会员
 	 */
 	function deblocking(){
