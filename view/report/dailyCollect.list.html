@@ -8,6 +8,13 @@
 					<option selected="selected">战队名称</option>
 						{html_options options=$team}
 					</select>
+          <select name="position">
+            <option selected="selected">人员分组</option>
+            <option value="4">业务员</option>
+            <option value="3">主管</option>
+            <option value="2">经理</option>
+            <option value="1">总监</option>
+          </select>
 					交易员
 					<input name="keyword" class="mini-textbox" style="width:70px;" onenter="onKeyEnter"/>
 					时间筛选
@@ -25,14 +32,14 @@
 			<div type="checkcolumn" width="10"></div>
 		 	<div name="team_name" field="team_name" width="30" headerAlign="center" allowSort="false" align="center">团队</div>   
 			<div field="name" width="30" headerAlign="center" allowSort="false" align="center">交易员</div>
+            <div field="today_sales" width="30" headerAlign="center" allowSort="true" align="center" renderer="today_sales">今日成交吨数</div>
+            <div field="calls" width="30" headerAlign="center" allowSort="true" align="center" >今日电话</div>
             <div field="new_clients" width="30" headerAlign="center" allowSort="true" align="center" renderer="new_clients">今日新增客户</div> 
             <div field="follow_clients" width="30" headerAlign="center" allowSort="true" align="center" renderer="follow_clients" >今日跟进客户数</div>
             <div field="clients_orders" width="30" headerAlign="center" allowSort="true" align="center" renderer="clients_orders">今日成交客户数</div>
-            <div field="today_sales" width="30" headerAlign="center" allowSort="true" align="center" renderer="today_sales">今日销售吨数</div>
-            <div field="today_buys" width="30" headerAlign="center" allowSort="true" align="center" renderer="today_buys">今日采购吨数</div>
             <div field="profit" width="30" headerAlign="center" allowSort="true" align="center" renderer="profit">今日利润</div>
-            <div field="calls" width="30" headerAlign="center" allowSort="true" align="center" >今日电话</div>
 			<div field="finish_rate" width="30" headerAlign="center" allowSort="true" align="center" >目标完成率</div>
+            <div field="today_buys" width="30" headerAlign="center" allowSort="true" align="center" renderer="today_buys">今日采购吨数</div>
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">抓取时间</div>
 		</div>
 	</div>
