@@ -397,7 +397,6 @@ class plasticReleaseModel extends model
             //网友说
             $value['says'] = M ('plasticzone:plasticMyMsg')->_getLiuYan ($value['id']);
         }
-
         return $data;
     }
 
