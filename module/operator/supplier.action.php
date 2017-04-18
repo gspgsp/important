@@ -199,7 +199,8 @@ class supplierAction extends adminBaseAction{
                     'fund_date'  => strtotime($data['fund_date']),                             //成立时间
                     'register_capital'  => trim($data['register_capital']),               // 注册资本
                     'credit_level'  => $data['credit_level'],                       // 信用等级
-                    'status'=>   $data['status'],                                   //审核状态
+                    'status'=>   $data['status'],     
+                    'type'=>   $data['type'],                //供应商类型
                     'merge_three'=>$data['cards'],                                  // 是否三证合一
                     'business_licence_code' => trim($data['business_licence_code']),      // 营业执照号码
                     'business_licence_pic'  => $data['business_licence_pic'],       // 营业执照照片
