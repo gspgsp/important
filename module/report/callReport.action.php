@@ -9,10 +9,10 @@ class callReportAction extends adminBaseAction
         $adminid=$_SESSION['adminid'];
         //获取当前的用户的pid，判断时候有下级成员来进行权限控制
         $pid=$this->db->model('admin')->select('pid')->where("admin_id=$adminid")->getOne();
-        if(!$pid){
-            $listone=$this->db->model('phone_name')->getAll("select aname from p2p_phone_name where role_id > 33");
-            $listtwo=$this->db->model('adm_role')->getAll('select name from p2p_adm_role where pid=22');
-        }else{
+        if(!$pid){//超管
+            $listone=$this->db->model('phone_name')->getAll("select aname from p2p_phone_name where role_id > 33");//类似都是销售人员
+            $listtwo=$this->db->model('adm_role')->getAll('select name from p2p_adm_role where pid=22');//销售团队
+        }else{//非超管
             //获取管理员列表
             $adminlist=$this->db->model('admin')->select('admin_id,name,pid')->getAll();
             $tree=$this->tree($adminlist,$adminid);
@@ -27,12 +27,12 @@ class callReportAction extends adminBaseAction
                 $where.=" and a.user_id in ($treetrue) ";
                 $where1="admin_id in ($treetrue)";
             }
-            $listone=$this->db->model('admin')->select('name as aname')->where($where1)->getAll();
-            $listtwo=$this->db->model('adm_role_user `a`')
+            $listone=$this->db->model('admin')->select('name as aname')->where($where1)->getAll();//下属人员的名字
+            $listtwo=$this->db->from('adm_role_user `a`')
                     ->join('adm_role ar','a.role_id=ar.id')
                     ->select('ar.name as name')
                     ->where($where)
-                    ->getAll();
+                    ->getAll();//角色名（战队名字）
             $listtwo=$this->a_array_unique($listtwo);
         }
         $this->assign('listone',$listone);
@@ -145,6 +145,18 @@ class callReportAction extends adminBaseAction
                     //打入有效次数
                     $sql5="select count(id) as in_eff_num from p2p_api where phone='{$row['seat_phone']}' and callstatus='in' and time>0 and ctime>{$startTime} and ctime<{$endTime}";
                     $rs5=$this->db->model('api')->getAll($sql5);
+
+                    //呼出匹配数量
+                    $sql6="SELECT count(a.id) as sum,sum(a.time) as out_match_time
+                            FROM `p2p_api` `a`
+                            JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
+                            LEFT JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
+                            LEFT JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
+                            WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null";
+                    $rs6=$this->db->model('api')->getAll($sql6);
+
+
+
                     $a['intime']=$rs4[0]['in_time'];
                     $dayc=floor($a['intime']/86400);
                     $hourc=floor($a['intime']/60/60%24);
@@ -159,21 +171,12 @@ class callReportAction extends adminBaseAction
                         $str="-";
                     }
                     $rs4[0]['in_time']=$str;
-                    $a['outime']=$rs2[0]['out_time'];
-                    $dayc=floor($a['outime']/86400);
-                    $hourc=floor($a['outime']/60/60%24);
-                    $minc=floor($a['outime']/60%60);
-                    $sc=floor($a['outime']%60);
-                    $str1='';
-                    $str1.=empty($dayc)?'':$dayc.'天';
-                    $str1.=empty($hourc)?'':$hourc.'时';
-                    $str1.=empty($minc)?'':$minc.'分钟';
-                    $str1.=empty($sc)?'':$sc.'秒';
-                    if(empty($str1)){
-                        $str1="-";
-                    }
-                    $rs2[0]['out_time']=$str1;
 
+
+                $_tmpTime_match_ratio=$rs6[0]['out_match_time']/$rs2[0]['out_time'];
+
+                $rs2[0]['out_time'] = $this->returnSomeTime($rs2[0]['out_time']);
+                $rs6[0]['out_match_time'] = $this->returnSomeTime($rs6[0]['out_match_time']);
                     if(!empty($keyword)){
                         if($key_type=='in_num'){
                             if($rs4[0]['in_num']<$keyword) continue;
@@ -193,6 +196,10 @@ class callReportAction extends adminBaseAction
                             'out_num'=>$rs2[0]['out_num'],//拨出次数
                             'out_time'=>$rs2[0]['out_time'],//拨出时间
                             'out_eff_num'=>$rs3[0]['out_eff_num'],//有效次数
+                            'out_match_num'=>$rs6[0]['sum'],//客户匹配数量
+                            'company_match_ratio'=>sprintf(" %.4f",$rs6[0]['sum']/$rs2[0]['out_num'] ),//公司匹配率
+                            'out_match_time'=>$rs6[0]['out_match_time'],    //匹配时长
+                            'time_match_ratio'=>sprintf("%.4f",$_tmpTime_match_ratio),//匹配时长率
                             'in_num'=>$rs4[0]['in_num'],
                             'in_time'=>$rs4[0]['in_time'],
                             'in_eff_num'=>$rs5[0]['in_eff_num'],
@@ -310,6 +317,24 @@ class callReportAction extends adminBaseAction
          }
          $this->display('callIn.list.html');
      }
+
+    public function returnSomeTime($b=0){
+        $a['outime'] = $b;
+        $dayc=floor($a['outime']/86400);
+        $hourc=floor($a['outime']/60/60%24);
+        $minc=floor($a['outime']/60%60);
+        $sc=floor($a['outime']%60);
+        $str1='';
+        $str1.=empty($dayc)?'':$dayc.'天';
+        $str1.=empty($hourc)?'':$hourc.'时';
+        $str1.=empty($minc)?'':$minc.'分钟';
+        $str1.=empty($sc)?'':$sc.'秒';
+        if(empty($str1)){
+            $str1="-";
+        }
+        return $str1;
+    }
+
          
      public function callout()
      {
@@ -386,8 +411,11 @@ class callReportAction extends adminBaseAction
              }
                  $phonelist = $this->db->model('api')->from('api as a')
                      ->join('phone_name as c', 'a.phone=c.seat_phone')
+                     //->leftjoin('customer_contact con','(con.mobile+0)=(a.remark+0) or (con.tel+0)=(a.remark+0)')
+                     ->leftjoin('customer_contact con','con.mobile=a.remark')
+                     ->leftjoin('customer as cus','cus.c_id=con.c_id')
                      ->where($where)
-                     ->select("a.*,c.aname,c.cname")
+                     ->select("a.*,c.aname,c.admin_id,c.cname,cus.c_name")
                      ->page($page + 1, $size)
                      ->order("$sortField $sortOrder")
                      ->getPage();
@@ -401,8 +429,26 @@ class callReportAction extends adminBaseAction
                      } else {
                          $row['ending'] = '拨号成功';
                      }
-                 }//p($page);p($size);p($phone_status);
-                 $result = array('total' => $phonelist['count'], 'data' => $phonelist['data']);//showTrace();
+                     if(empty($row['c_name'])) $row['c_name']='-';
+                     $_tmpAdmin=$this->db->model('adm_role_user')->where("user_id=$adminid")->getAll();
+                     $_tmpBool = True;
+                     foreach($_tmpAdmin as $row1){
+                         if($row1['role_id']==2){
+                             $_tmpBool = True; break;
+                         }
+                         $_tmpBool = False;
+                     }
+
+                     if(!$_tmpBool && $row['admin_id']!=$adminid){
+                         if(count($row['remark'])<5){
+                             $row['remark'] = substr_replace($row['remark'],'****',-2);
+                         }else{
+                             $row['remark'] = substr_replace($row['remark'],'****',-4);
+                         }
+                     }
+
+                 }
+                 $result = array('total' => $phonelist['count'], 'data' => $phonelist['data']);
                  $this->json_output($result);
              }
             $this->assign('sdf',33);
