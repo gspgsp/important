@@ -153,6 +153,7 @@ class supplierAction extends adminBaseAction{
 	            'supplier_name'=> $var['supplier_name'],
                 'mobile_tel'=>$data['mobile_tel'],
                 'contact_tel'=> $data['contact_tel'],
+                'comm_fax'=> $data['comm_fax'], //联系人传真
                 'comm_email' => trim($data['comm_email']),     // 联系人邮箱
                 'sex'=> $data['sex'],
                 'qq'=>$data['qq'],
