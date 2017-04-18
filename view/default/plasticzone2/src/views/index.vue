@@ -12,12 +12,13 @@
 				<i class="searchIcon" v-on:click="search"></i><input v-on:keydown.enter="search" type="text" placeholder="请输入公司、姓名、牌号查询" v-model="keywords" />
 			</form>
 		</div>
+		<span class="filter" style="right: 60px;" v-on:click="filterShow2">{{txt2}}<i class="downarrow"></i></span>
 		<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
 	</div>
 </div>
 <div class="payfans" style="background: #ff854d;">
 	<router-link style="width: 100%;" :to="{name:'mypoints'}">
-	<img width="100%" src="http://statics.myplas.com/myapp/img/toShop.jpg" />
+		<img width="100%" src="http://statics.myplas.com/myapp/img/toShop.jpg" />
 	</router-link>
 	<!--<router-link :to="{name:'mypay'}">
 		<div style=" display: inline-block; margin: 4px 0 0 0;">
@@ -112,9 +113,11 @@ data: function() {
 		fans: [],
 		isCircle: false,
 		isArrow: false,
+		region:0,
 		sortField: "input_time",
 		sortOrder: "desc",
 		txt: "最近注册",
+		txt2: "全部",
 		loadingShow: "",
 		top:""
 	}
@@ -148,13 +151,14 @@ methods: {
 					_this.txt = "综合排序";
 					_this.page=1;
 					$.ajax({
-						type: "get",
-						url: "/api/qapi1/getPlasticPerson",
+						type: "post",
+						url: "/api/qapi1_2/getPlasticPerson",
 						data: {
 							keywords: "",
 							page: _this.page,
 							token: window.localStorage.getItem("token"),
 							size: 10,
+							region:_this.region,
 							sortField: _this.sortField
 						},
 						dataType: 'JSON'
@@ -180,13 +184,193 @@ methods: {
 					_this.txt = "最近注册";
 					_this.page=1;
 					$.ajax({
-						type: "get",
-						url: "/api/qapi1/getPlasticPerson",
+						type: "post",
+						url: "/api/qapi1_2/getPlasticPerson",
 						data: {
 							keywords: "",
 							page: _this.page,
 							token: window.localStorage.getItem("token"),
 							size: 10,
+							region:_this.region,
+							sortField: _this.sortField,
+							sortOrder: _this.sortOrder
+						},
+						dataType: 'JSON'
+					}).done(function(res) {
+						if(res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if(res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function(){
+						
+					}).always(function(){
+						
+					});
+		        }
+		    }
+		], [
+		    {
+		        label: '取消',
+		        onClick: function () {
+		        	
+		        }
+		    }
+		], {
+		    className: 'custom-classname'
+		});
+	},
+	filterShow2: function() {
+		var _this = this;
+		weui.actionSheet([
+		    {
+		        label: '全部',
+		        onClick: function () {
+					_this.region = 0;
+					_this.txt2 = "全部";
+					_this.page=1;
+					$.ajax({
+						type: "post",
+						url: "/api/qapi1_2/getPlasticPerson",
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region:_this.region,
+							sortField: _this.sortField
+						},
+						dataType: 'JSON'
+					}).done(function(res) {
+						if(res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons; 
+						} else if(res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function(){
+						
+					}).always(function(){
+						
+					});
+		        }
+		    }, {
+		        label: '华东',
+		        onClick: function () {
+					_this.region = 1;
+					_this.txt2 = "华东";
+					_this.page=1;
+					$.ajax({
+						type: "post",
+						url: "/api/qapi1_2/getPlasticPerson",
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region:_this.region,
+							sortField: _this.sortField,
+							sortOrder: _this.sortOrder
+						},
+						dataType: 'JSON'
+					}).done(function(res) {
+						if(res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if(res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function(){
+						
+					}).always(function(){
+						
+					});
+		        }
+		    },{
+		        label: '华南',
+		        onClick: function () {
+					_this.region = 2;
+					_this.txt2 = "华南";
+					_this.page=1;
+					$.ajax({
+						type: "post",
+						url: "/api/qapi1_2/getPlasticPerson",
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region:_this.region,
+							sortField: _this.sortField,
+							sortOrder: _this.sortOrder
+						},
+						dataType: 'JSON'
+					}).done(function(res) {
+						if(res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if(res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function(){
+						
+					}).always(function(){
+						
+					});
+		        }
+		    },{
+		        label: '华北',
+		        onClick: function () {
+					_this.region = 3;
+					_this.txt2 = "华北";
+					_this.page=1;
+					$.ajax({
+						type: "post",
+						url: "/api/qapi1_2/getPlasticPerson",
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region:_this.region,
+							sortField: _this.sortField,
+							sortOrder: _this.sortOrder
+						},
+						dataType: 'JSON'
+					}).done(function(res) {
+						if(res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if(res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function(){
+						
+					}).always(function(){
+						
+					});
+		        }
+		    },{
+		        label: '其他',
+		        onClick: function () {
+					_this.region = 4;
+					_this.txt2 = "其他";
+					_this.page=1;
+					$.ajax({
+						type: "post",
+						url: "/api/qapi1_2/getPlasticPerson",
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region:_this.region,
 							sortField: _this.sortField,
 							sortOrder: _this.sortOrder
 						},
@@ -263,13 +447,14 @@ methods: {
 			}
 			
 			$.ajax({
-				url: '/api/qapi1/getPlasticPerson',
-				type: 'get',
+				url: '/api/qapi1_2/getPlasticPerson',
+				type: 'post',
 				data: {
 					keywords: _this.keywords.toLocaleUpperCase(),
 					page: _this.page,
 					token: window.localStorage.getItem("token"),
 					size: 10,
+					region:_this.region,
 					sortField: _this.sortField,
 					sortOrder: _this.sortOrder
 				},
@@ -305,6 +490,7 @@ methods: {
 					sortOrder: _this.sortOrder,
 					keywords: _this.keywords.toLocaleUpperCase(),
 					page: _this.page,
+					region:_this.region,
 					token: window.localStorage.getItem("token"),
 					size: 10
 				},
@@ -377,6 +563,7 @@ mounted: function() {
 			page: 1,
 			token: window.localStorage.getItem("token"),
 			size: 10,
+			region:_this.region,
 			sortField: _this.sortField,
 			sortOrder: _this.sortOrder
 		},
