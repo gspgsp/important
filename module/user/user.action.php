@@ -427,7 +427,7 @@ class userAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$user_id = sget('uid','i',0);
 		$result = $this->db->select('con.user_id,con.is_default,con.is_trial,cus.c_id,cus.customer_manager')->from('customer_contact con')->leftjoin('customer cus','cus.c_id = con.c_id')->where('con.user_id ='.$user_id)->getRow();
-		if(!empty($result) && $result['customer_manager'] >0){
+		if(!empty($result)){
 			$data = array(
 				'customer_manager'=>0,
 				'update_time'=>CORE_TIME,
@@ -440,7 +440,9 @@ class userAction extends adminBaseAction {
 			$this->db->startTrans();
 			try{
 				if(!$this->db->model('customer_contact')->where('user_id = '.$user_id)->update($conData)) throw new Exception("系统错误 reg:114");
-				if(!$this->db->model('customer')->where('c_id = '.$result['c_id'])->update($data)) throw new Exception("系统错误 reg:113");
+				if($result['customer_manager'] = 0){
+					if(!$this->db->model('customer')->where('c_id = '.$result['c_id'])->update($data)) throw new Exception("系统错误 reg:113");
+				}
 			}catch (Exception $e){
 				$this->db->rollback();
 				$this->error($e->getMessage());
