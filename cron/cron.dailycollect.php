@@ -220,7 +220,7 @@ class cronDailycollect{
 						 ->getAll("SELECT aa.today_sales,aa.today_sales_oids,bb.customer_manager,bb.name,bb.team_id FROM (
 			SELECT GROUP_CONCAT(`o_id`) AS today_sales_oids, SUM(`total_num`) AS today_sales,customer_manager
 			FROM p2p_order
-			WHERE order_type = 1 AND order_status = 2 AND transport_status = 2 AND input_time > ".$today_start."
+			WHERE order_type = 1 AND order_status = 2 AND transport_status != 3 AND input_time > ".$today_start."
 			GROUP BY customer_manager) AS aa
 		RIGHT JOIN (
 			SELECT admin.`admin_id` AS customer_manager,admin.`name`,role.`id` as team_id FROM p2p_admin AS admin
