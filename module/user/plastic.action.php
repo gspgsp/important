@@ -296,11 +296,13 @@ class plasticAction extends adminBaseAction {
     }
     /**
      * 保存审核的数据
+     * @auth gsp
      * @return [type] [description]
      */
     public function savePlasticData(){
     	$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		if($data['cus_type'] == 0) $this->json_output(array('err'=>3,'msg'=>'客户类型必选!'));
 		if(empty($data)) $this->json_output(array('err'=>2,'msg'=>'提交数据不能为空'));
 		$con = array(
 				'name'=>$data['name'],
@@ -347,14 +349,17 @@ class plasticAction extends adminBaseAction {
 			if($data['stype'] == 0){//存在
 				if($data['c_id'] == $data['nc_id']){
 					if(!$this->db->model('customer_contact')->where("user_id = {$data['info_user_id']}")->update($con)) throw new Exception(" 用户更新失败 101");
+					if(!empty($data['model_1'])) $cus['need_product'] = $this->getLinkUserConcern($data['c_id'],$data['model_1']);
 					if(!$this->db->model('customer')->where("c_id = {$data['c_id']}")->update($cus)) throw new Exception(" 客户更新失败 102");
 				}else{
 					$con['c_id'] = $data['nc_id'];
 					if(!$this->db->model('customer_contact')->where("user_id = {$data['info_user_id']}")->update($con)) throw new Exception(" 用户更新失败 103");
+					if(!empty($data['model_1'])) $cus['need_product'] = $this->getLinkUserConcern($data['nc_id'],$data['model_1']);
 					if(!$this->db->model('customer')->where("c_id = {$data['nc_id']}")->update($cus)) throw new Exception(" 客户更新失败 104");
 				}
 			}else{//不存在
 				if(!$this->db->model('customer_contact')->where("user_id = {$data['info_user_id']}")->update($con)) throw new Exception(" 用户更新失败 105");
+				if(!empty($data['model_1'])) $cus['need_product'] = $this->getLinkUserConcern($data['c_id'],$data['model_1']);
 				if(!$this->db->model('customer')->where("c_id = {$data['c_id']}")->update($cus)) throw new Exception(" 客户更新失败 106");
 			}
 			if(!empty($data['model_1'])){
@@ -369,7 +374,7 @@ class plasticAction extends adminBaseAction {
     }
     /**
      * 拒绝审核通过
-     * auth gsp
+     * @auth gsp
      * @return [type] [description]
      */
     public function rejectContact(){
@@ -387,6 +392,23 @@ class plasticAction extends adminBaseAction {
     		}else{
     			$this->json_output(array('err'=>2,'msg'=>'更新失败'));
     		}
+    	}
+    }
+    /**
+     * 获取同一个公司所有用户关注的牌号
+     * @auth gsp
+     * [getLinkUserConcern description]
+     * @return [type] [description]
+     */
+    public function getLinkUserConcern($c_id,$modea){
+    	$res = explode(' ',M('user:customer')->getCinfoById($c_id)['need_product']);
+    	if(!empty($res)){
+    		$res=array_filter($res,create_function('$v','return !empty($v);'));
+	    	$arr = array_diff($modea,$res);
+	    	$newArr = array_merge($arr,$res);
+	    	return implode(' ',$newArr);
+    	}else{
+    		return implode(' ',$modea);
     	}
     }
 	/**
