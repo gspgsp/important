@@ -84,9 +84,9 @@
 						<td><input name="remarks" class="mini-textbox" style="width:300px;" required="false" value=""/></td>
 					</tr> -->
 					<tr>
-						<td width="82px;">客户类型：</td>
+						<td width="82px;">客户类型：<span style="color: red">*</span></td>
 						<td>
-						 	<input name="cus_type" class="mini-radiobuttonlist" style="width: 200px;padding-left: 60px;" required="true"  data="[{id: 1, text: '工厂'}, {id: 2, text: '贸易'},{id: 3, text: '工贸一体'}]" value="{$usermodel.type}" />
+						 	<input name="cus_type" class="mini-radiobuttonlist" style="width: 200px;padding-left: 60px;" required="true"  data="[{id: 1, text: '工厂'}, {id: 2, text: '贸易'},{id: 3, text: '工贸一体'}]" value="{$usermodel.type}"/>
 						</td>
 					</tr>
 				</table>
@@ -118,7 +118,6 @@ var form = new mini.Form("#infoForm");
 function submitForm(){
 	// form.validate();
 	// if(form.isValid() == false) return;
-
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);
