@@ -97,8 +97,10 @@
 				if ($type=='vip') {
 					$where.='and pid=36';
 					$this->upperType='行情内参';
+					$num=39;
 				}else{
 					$this->upperType=strtoupper($type);
+					$num=100;
 				}
 				$cate_id=M('public:common')->model('news_cate')->select('cate_id')->where($where.' and spell="'.$cate.'"')->getOne();	
 				//取出列表页数据
@@ -110,7 +112,7 @@
 			}
 			//截取示例文章文字
 				foreach ($data['data'] as $key=>$v) {
-						$data['data'][$key]['content']=mb_substr(strip_tags($v['content']),0,100,'utf-8');
+						$data['data'][$key]['content']=mb_substr(strip_tags($v['content']),0,$num,'utf-8');
 						//取出右键导航分类名称
 						$data['data'][$key]['cate_name']=$this->db->model('news_cate')->select('cate_name')->where('cate_id="'.$v['cate_id'].'"')->getOne();
 						//判断是否有前缀
@@ -138,7 +140,7 @@
 				$this->detail1banner=$this->getAD($arr[0]);
 				// $this->detail2banner=$this->getAD($arr[1]);
 			}
-			//导航栏选中状态
+			//导航栏选中状态 
 				$this->nav=$type;
 			$cate=sget('cate','s');
 			$id=sget('id','i');
