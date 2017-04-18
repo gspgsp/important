@@ -1,6 +1,6 @@
 {layout file="public:mini_layout"}
 <div class="mini-toolbar" style="margin:3px 3px 0;">
-	<table style="width:100%;">
+	<table style="width:100%;">		
 		<tr>
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a>
@@ -53,7 +53,7 @@
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
-		url="/user/plastic/init?action=grid&do={$doact}" onrowdblclick="onRowDblClick" showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"  contextMenu="#gridMenu" headerContextMenu="#headerMenu">
+		url="/user/plastic/init?action=grid&do={$doact}" onrowdblclick="onRowDblClick" showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"  contextMenu="#gridMenu" headerContextMenu="#headerMenu" data-chtype="{$is_trial}">
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
@@ -167,14 +167,38 @@ function onLoadHandle(e) {
 
 function onRowDblClick(e) {
 	var record = e.record,uid=record.user_id, s='';
-	editContact(uid);
+	if($('select[name="trial_type"]').val() == 1){
+		editContact(uid,1,0);
+	}else if($('select[name="trial_type"]').val() == 2){
+		editContact(uid,2,0);
+	}else if($('select[name="trial_type"]').val() == 3){
+		editContact(uid,3,0);
+	}else{
+		editContact(uid,0,0);
+	}
 }
 
-function editContact(uid){
+// function editContact(uid){
+// 	var row = grid.getSelected();
+// 	if (row) {
+// 		var width=525,height=340,title='用户信息';
+// 		urlStr="/user/user/info?id="+uid;
+// 		mini.open({
+// 			url: urlStr,
+// 			title: title, width: width, height:height,
+// 			ondestroy: function (action) {
+// 				if(action=='save'){ //重新加载
+// 					grid.reload();
+// 				}
+// 			}
+// 		});
+// 	}
+// }
+function editContact(uid,chtype,isEdit){
 	var row = grid.getSelected();
 	if (row) {
-		var width=525,height=340,title='用户信息';
-		urlStr="/user/user/info?id="+uid;
+		var width=740,height=500,title='初审和编辑会员及客户信息';
+		urlStr="/user/plastic/contactInfos?id="+uid+"&chtype="+chtype+"&isEdit="+isEdit;
 		mini.open({
 			url: urlStr,
 			title: title, width: width, height:height,
@@ -186,7 +210,6 @@ function editContact(uid){
 		});
 	}
 }
-
 /**
  * 审核塑料圈客户信息
  * @author gsp
@@ -196,7 +219,7 @@ function editContact(uid){
 function ftrial(e){
 	var record = e.record,uid=record.user_id,s='';
 	if(record.is_trial == 0){
-		s += '<a href="javascript:viewModelAndCompany('+uid+')">初审</a>';
+		s += '<a href="javascript:editContact('+uid+',1,1)">初审</a>';
 	}else if(record.is_trial == 1){
 		s += '<a href="javascript:doTrial('+uid+')">转公海</a>';
 	}else if(record.is_trial == 3){
@@ -215,7 +238,7 @@ function doTrial(uid){
 		function(action){
 		if(action!='ok') return;
 		var callback=function(data){
-			if(data.err!='0'){
+			if(data.err!= 0){
 				alert(data.msg);
 				return false;
 			}else{
