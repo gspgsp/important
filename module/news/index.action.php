@@ -97,7 +97,7 @@
 				if ($type=='vip') {
 					$where.='and pid=36';
 					$this->upperType='行情内参';
-					$num=39;
+					$num=34;
 				}else{
 					$this->upperType=strtoupper($type);
 					$num=100;
