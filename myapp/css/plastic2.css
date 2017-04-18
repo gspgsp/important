@@ -35,7 +35,7 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 
 .indexsearch{ text-align: center; height: 45px; position: relative; background: #efeff4; padding: 8px 12px 0 12px; border-bottom: 1px solid #d9d9d9;}
 .indexsearch input[type=text]{ width: 170px; height: 28px; float: left; display: inline-block; border: none !important; margin: 0; text-align: left; padding: 5px 7px; font-size: 12px; color: #999;}
-.indexsearchwrap{ width: auto; margin: 0 90px 0 0; background: #FFFFFF; height: 30px; border-radius: 3px; border: 1px solid #CCCCCC;}
+.indexsearchwrap{ width: auto; margin: 0 100px 0 0; background: #FFFFFF; height: 30px; border-radius: 3px; border: 1px solid #CCCCCC;}
 .searchIcon{ width: 15px; height: 15px; float: left; margin: 6px 0 0 5px; background: url(../img/searchIcon.png) no-repeat; background-size: 100% 100%;}
 
 #searchbox{ width: 50px; margin: 0; line-height: 19px; position: absolute; right: 10px; top: 8px; color: #666666; padding: 5px;}
@@ -55,7 +55,7 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 	100%{ transform:rotate(360deg); }
 }
 
-.filter{ position: absolute; color: #666666; font-size: 13px; width: 80px; line-height: 25px; right: 10px; top: 10px;}
+.filter{ position: absolute; color: #666666; font-size: 13px; width: 65px; line-height: 25px; right: 5px; top: 10px;}
 
 .filterwrap{ width: 100%; position: fixed; top: 90px; z-index: 15; right:0; background: #efeff4; color: #333333;}
 .filterwrap span{ width: 100%; display: block; border-bottom: 1px solid #d9d9d9; padding: 0 30px; font-size: 13px; line-height: 45px;}
@@ -500,7 +500,17 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 
 .rule{ font-size: 12px; margin: 0 0 10px 0; color: #666666; border-bottom: 1px solid #D9D9D9; border-top: 1px solid #D9D9D9; padding: 0 10px; background: #FFFFFF; overflow: hidden;}
 .ruleTitle{ width: 100%; font-size: 15px; color: #000000; border-bottom: 1px solid #D9D9D9; height: 35px; line-height: 35px;}
+.ruleTitle2{ width: 100%; font-size: 15px; color: #000000; text-align: center; height: 35px; line-height: 35px;}
 .rule p{ color: #666666; font-size: 12px; margin: 0;}
+.ruleTb{ width: 100%; position: relative; font-size: 12px; color: #666666; background: #fbfbfb;}
+.ruleTb td{ height: 30px; border: 1px solid #c7c7c7; padding: 0 8px;}
+.ruleBanner{ width: 100%; font-size: 13px; color: #ffffff; padding: 0 10px; position: absolute; height: 26px; top: 10px; background: url(../img/ruleBanner.png) no-repeat; background-size: 100% 100%;}
+.ruleBanner:before{ content: ""; position: absolute; left: -9px; width: 9px; height: 30px; background: url(../img/ruleBannerLeft.png) no-repeat; background-size: 100% 100%;}
+.ruleBanner:after{ content: ""; position: absolute; right: -9px; width: 9px; height: 30px; background: url(../img/ruleBannerRight.png) no-repeat; background-size: 100% 100%;}
+.ruleBanner2{ width: 100%; font-size: 13px; color: #ffffff; padding: 0 10px; position: absolute; height: 26px; top: 10px; background: url(../img/ruleBanner2.png) no-repeat; background-size: 100% 100%;}
+.ruleBanner2:before{ content: ""; position: absolute; left: -9px; width: 9px; height: 30px; background: url(../img/ruleBanner2Left.png) no-repeat; background-size: 100% 100%;}
+.ruleBanner2:after{ content: ""; position: absolute; right: -9px; width: 9px; height: 30px; background: url(../img/ruleBanner2Right.png) no-repeat; background-size: 100% 100%;}
+
 
 #productUl{ margin: 0; padding: 0; margin: 10px 0 0 0; list-style: none; overflow: hidden;}
 #productUl li{ width: 100%; height: auto; overflow: hidden; border-radius: 3px; margin: 0 0 10px 0; border: 1px solid #d6d7dc; background: #FFFFFF;}
