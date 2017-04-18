@@ -179,7 +179,7 @@
 		var contact = mini.get('second_part_contact_id').getValue();
 		var url = "/operator/transport/get_contact_info?contact_id=" + contact;
 		$.post(url,'',function(data){
-			mini.get('second_part_contact_tel').setValue(data.mobile_tel);
+			mini.get('second_part_contact_tel').setValue(data.contact_tel);
 			mini.get('second_part_contact_fax').setValue(data.comm_fax);
 		},'json');
 	}
