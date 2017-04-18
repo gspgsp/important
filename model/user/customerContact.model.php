@@ -350,15 +350,25 @@ class customerContactModel extends model{
 	 * @author gsp <[<email address>]>
 	 * @return [type] [description]
 	 */
-	public function getContactModel($userid){
+	public function getContactModel($userid,$limit='1'){
 		$where = "user_id = $userid and type = 1 and is_enable = 1";
-		$nameArr = $this->model('suggestion_model')->where($where)->select('user_id,name')->getRow();
+		$nameArr = $this->model('suggestion_model')->where($where)->select('user_id,name')->limit($limit)->getAll();
 		$cusArr = $this->from('customer_contact con')
 		->leftjoin('customer cus','cus.c_id=con.c_id')
 		->where('con.user_id ='.$userid)
-		->select('cus.c_name,cus.c_id,cus.type')
+		->select('con.name as con_name,con.sex,con.mobile,con.tel,con.qq,con.fax,con.email,con.remarks,con.status,cus.c_name,cus.c_id,cus.type,cus.main_product,cus.month_consum')
 		->getRow();
-		return empty($nameArr)?$cusArr:array_merge($cusArr,$nameArr);
+		if($limit == '1'){
+			return empty($nameArr)?$cusArr:array_merge($cusArr,$nameArr[0]);
+		}else{
+			if(!empty($nameArr)){
+				foreach ($nameArr as $value) {
+					$cusArr['sgs_name'] .= $value['name'].' ';
+				}
+			}
+			$cusArr['user_id'] = $userid;
+			return $cusArr;
+		}
 	}
 	/**
 	 * 获取塑料圈会员到公海的审核状态
