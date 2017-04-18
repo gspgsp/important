@@ -901,9 +901,20 @@ class qapi1_2Action extends null2Action
                 'input_time' => CORE_TIME,
             );
             M ('qapp:plasticSearch')->add ($arr);
+
+
             //普通条件
             $page = sget ('page', 'i', 1);
             $size = sget ('size', 'i', 10);
+            // 检测是否有标准格式供求
+
+            /*if ($page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
+                //$has_standard = M ('qapp:plasticRelease')->checkStandard($user_id);
+                if(!$has_standard) {
+
+                    $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
+                }
+            }*/
             $data = M ('qapp:plasticRelease')->getReleaseMsg ($keywords, $page, $size, $type, $sortField1, $sortField2, $user_id);
             if ($data == 'tempErr') {
                 $this->_errCode (5);
@@ -3477,7 +3488,32 @@ class qapi1_2Action extends null2Action
 
     }
 
+       /* public function test()
+        {
+            $id= $_GET['id'];
+            $contacts = $this->db->model('customer_contact')->where("c_id=" . $id)->getAll();
+            var_dump($contacts);
 
+            foreach ($contacts as $contact) {
+                if(!empty($contact['mobile'])) {
+                    $region = M("system:region")->get_system_region_by_phone($contact['mobile']);
+
+                    if (!empty($region)) {
+                        $this->db->model('customer')->where("c_id=" . $id)->update(array('china_area' => $region));
+                        break;
+                    }
+                }
+                if(!empty($contact['tel'])) {
+                    $region = M("system:region")->get_system_region_by_phone($contact['tel']);
+                    if (!empty($region)) {
+                        $this->db->model('customer')->where("c_id=" . $id)->update(array('china_area' => $region));
+                        echo 111;
+                        var_dump($this->db->getLastSql());
+                        break;
+                    }
+                }
+            }
+        }*/
 //    public function json_output ($result = array())
 //    {
 //        //header('Content-Type:text/html; charset=utf-8');
