@@ -12,6 +12,9 @@ class supplierAction extends adminBaseAction{
         $this->assign('status',L('status'));// 供应商状态
         $this->assign('supplier_type',L('supplier_type'));//工厂类型
         $this->assign('credit_level',L('credit_level'));//信用等级
+        $this->assign('supplier_contact_type',L('supplier_contact_type'));  // 联系人用户状态
+        $this->assign('is_default',L('is_default'));
+        $this->assign('sex',L('sex'));
         $this->db=M('public:common')->model('logistics_supplier');
         $this->doact = sget('do','s');
     }
@@ -55,21 +58,24 @@ class supplierAction extends adminBaseAction{
             if($key_type=='supplier_id'){
                 $where.=" and $key_type='$keyword' ";
             }else{
-                $where.=" and $key_type='$keyword' ";
+                $where.=" and `$key_type` like '%$keyword%' ";
             }
         }
         $list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
         foreach($list['data'] as $k=>$v){
-//            $list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
-
+              $s_id=$v['supplier_id'];
+              $s_contact=M('public:common')->model('logistics_contact')->select('contact_name,contact_tel,mobile_tel')->where("`supplier_id` = $s_id  and `is_default`= 1")->getRow();
               $list['data'][$k]['type']=L('supplier_type')[$v['type']];  //  供应商类型
               $list['data'][$k]['status']=L('status')[$v['status']];     // 供应商状态
               $list['data'][$k]['create_time']=date('y-m-d H:i:s',$v['create_time']);  // 创建时间
               $list['data'][$k]['update_time']=date('y-m-d H:i:s',$v['update_time']);  // 更新时间
               $list['data'][$k]['supplier_name']=$v['supplier_name'];    // 供应商名称
-              $list['data'][$k]['remark']= ($v['remark']==NULL ?'--':$v['remark']);   // 备注
+              /* $list['data'][$k]['remark']= ($v['remark']==NULL ?'--':$v['remark']); */
+              $list['data'][$k]['remark']= $v['remark']; // 备注
+              $list['data'][$k]['contact_name']=$s_contact['contact_name']; //主联系人姓名
+              $list['data'][$k]['contact_tel']=$s_contact['contact_tel']; //主联系人固定电话
+              $list['data'][$k]['mobile_tel']=$s_contact['mobile_tel']; //主联系人手机
         }
-//        $this->assign('isPublic',$this->public);
         $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
         $this->json_output($result);
     }
@@ -246,24 +252,67 @@ class supplierAction extends adminBaseAction{
     }
 
     /**
-     * 编辑保存供应商信息
+     * 编辑保存供应商及供应商联系人信息
      *
      */
     public function editSubmit(){
         $this->is_ajax=true;
         $data = sdata();
         if($data['supplier_id']<1) $this->error('信息错误');
-        $data['update_time']=time();
-	    $data['fund_date']=strtotime($data['fund_date']);
-        $data['update_name']=$_SESSION['name'];
-        $data['type']=$data['supplier_type'];
-
-        $res=$this->db->model('logistics_supplier')->where('supplier_id='.$data['supplier_id'])->update($data);
-        if($res){
-                $this->json_output(array('err'=>0,'msg'=>'更新成功'));
-        }else{
-            $this->json_output(array('err'=>1,'msg'=>'更新失败'));
+        $this->db->startTrans();//开启事务
+        try {
+             $logistics_supplier=array(
+                 'supplier_name'=>$data['supplier_name'],
+                 'legal_person'=>$data['legal_person'],
+                 'company_tel'=>$data['company_tel'],
+                 'company_fax'=>$data['company_fax'],
+                 'legal_person_code'=>$data['legal_person_code'],
+                 'legal_person_pic_1'=>$data['legal_person_pic_1'],
+                 'legal_person_pic_2'=>$data['legal_person_pic_2'],
+                 'province'=>$data['province'],
+                 'city'=>$data['city'],
+                 'zip_code'=>$data['zip_code'],
+                 'address'=>$data['address'],
+                 'main_line'=>$data['main_line'],
+                 'fund_date'=>strtotime($data['fund_date']),
+                 'register_capital'=>$data['register_capital'],
+                 'type'=>$data['supplier_type'],
+                 'business_licence_code'=>$data['business_licence_code'],
+                 'business_licence_pic'=>$data['business_licence_pic'],
+                 'organization_code'=>$data['organization_code'],
+                 'organization_code_pic'=>$data['organization_code_pic'],
+                 'tax_registration'=>$data['tax_registration'],
+                 'tax_registration_pic'=>$data['tax_registration_pic'],
+                 'social_credit_code'=>$data['social_credit_code'],
+                 'social_credit_code_pic'=>$data['social_credit_code_pic'],
+                 'credit_level'=>$data['credit_level'],
+                 'status'=>$data['status'],                
+                 );
+             $logistics_supplier['update_time']=time();
+             $logistics_supplier['update_name']=$_SESSION['name'];
+            if(!$this->db->where('supplier_id='.$data['supplier_id'])->update($logistics_supplier)) throw new Exception("系统错误 更新失败:100");
+            file_put_contents('D:/text.txt', '3',FILE_APPEND);
+            $logistics_contact=array(
+                'contact_name'=>$data['contact_name'],
+                'sex'=>$data['sex'],
+                'mobile_tel'=>$data['mobile_tel'],
+                'is_default'=>$data['is_default'],
+                'qq'=>$data['qq'],
+                'comm_fax'=>$data['comm_fax'],
+                'comm_email'=>$data['comm_email'],               
+                'remark'=>$data['remark'],
+                'status'=>$data['supplier_contact_type'],
+            );
+            $logistics_contact['update_time']=time();
+            $logistics_contact['update_name']=$_SESSION['name'];
+            if(!(M('public:common')->model('logistics_contact')->where('supplier_id='.$data['supplier_id'])->update($logistics_contact))) throw new Exception("系统错误 更新失败:101");    
+        } catch (Exception $e) {
+            $this->db->rollback();
+            $this->error($e->getMessage());
         }
+        $this->db->commit();//提交事务
+        $this->json_output(array('err'=>0,'msg'=>'更新成功'));
+
     }
 
 
@@ -274,7 +323,8 @@ class supplierAction extends adminBaseAction{
     public function edit(){
             $this->is_ajax=true;
             $supplier_id=sget('id','i');
-            $info=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->getAll();
+            $info=$this->db->model('logistics_supplier')->where('supplier_id='.$supplier_id)->getAll();          
+            $var=M('public:common')->model('logistics_contact')->select('id,supplier_id,supplier_name,contact_name,sex,status,contact_tel,mobile_tel,qq,comm_fax,is_default,remark,comm_email')->where("`is_default`=1 and `supplier_id` in ('$supplier_id')")->getRow();            
             $list=array();
             foreach ($info as $k=> $v){
                 $list['supplier_id']= $v['supplier_id'];     // 供应商id
@@ -309,6 +359,7 @@ class supplierAction extends adminBaseAction{
                 $list['social_credit_code'] =$v['social_credit_code'];// 社会统一信用代码
                 $list['social_credit_code_pic'] =$v['social_credit_code_pic'];// 社会统一信用代码图片
             }
+             $this->assign('info',$var);
              $this->assign('user',$list);
              $this->display('supplier_info.html');
     }

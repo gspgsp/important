@@ -17,7 +17,7 @@
                         <td><input name="legal_person" class="mini-textbox" style="width:100px;" maxlength="10"  value="{$user.legal_person}"/></td>
                     </tr>
                     <tr>
-                        <td>供应商电话：</td>
+                        <td>供应商固话：</td>
                         <td><input name="company_tel" class="mini-textbox" style="width:200px;" maxlength="50"  value="{$user.company_tel}"/></td>
                     </tr>
                     <tr>
@@ -135,6 +135,60 @@
                     </tr>
                 </table>
             </div>
+            <div title="联系人基本信息">
+				<div style="height:385px">
+					<input class="mini-hidden" name="id" value="{$info.id}"/>
+					<input class="mini-hidden" name="supplier_id" value="{$info.supplier_id}"/>
+					<table border="0" cellpadding="1" cellspacing="2">
+						<tr>
+							<td>供应商名称：</td>
+							<td>{$info.supplier_name}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td >联系人姓名：<font style="color:red;">*</font></td>
+							<td><input name="contact_name" class="mini-textbox" style="width:150px;" required="true" value="{$info.contact_name}" vtype="rangeLength:2,30"/></td>
+							<td>性别：<font style="color:red;">*</font></td>
+							<td><input class="mini-combobox" name="sex" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{$info.sex}"/></td>
+						</tr>
+						<tr>
+							<td style="width:80px;">联系人手机：<font style="color:red;">*</font></td>
+							<td style="width:210px;"><input name="mobile_tel" class="mini-textbox" maxlength="11" value="{$info.mobile_tel}" style="width:150px;" onvalidation="onValidMobile"/></td>
+							<td>联系人固定电话：<font style="color:red;">*</font></td>
+							<td><input name="contact_tel" class="mini-textbox" value="{$info.contact_tel}" style="width:150px;"  vtype="rangeLength:6,14"/></td>
+						</tr>
+						<tr>
+							<td>是否为主联系人：</td>
+							<td><input class="mini-combobox" name="is_default" style="width:100px;" data='{:setMiniConfig|$is_default}' required="true" textField="name" valueField="id" value="{$info.is_default}"/></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td style="width:80px;">QQ号：</td>
+							<td style="width:210px;"><input name="qq" class="mini-textbox" maxlength="30" value="{$info.qq}" style="width:150px;"/></td>
+							<td>传真：</td>
+							<td><input name="comm_fax" class="mini-textbox" style="width:150px;" value="{$info.comm_fax}" vtype="rangeLength:6,14"/></td>
+						</tr>
+						<tr>
+							<td>邮箱地址：</td>
+							<td><input name="comm_email" class="mini-textbox" value="{$info.comm_email}" style="width:150px;"  vtype="email"/></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>备注：</td>
+							<td colspan="3">
+								<input name="remark" class="mini-textarea" value="{$info.remark}" style="width:403px; height:50px;"/>
+							</td>
+						</tr>
+						<tr>
+							<td>状态：</td>
+							<td><input class="mini-combobox" name="supplier_contact_type" style="width:100px;" data='{:setMiniConfig|$supplier_contact_type}' textfield="name" valuefield="id" value="{$info.status}"/></td>
+						</tr>
+					</table>
+				</div>
+			</div>
         </div>
         <div align="center" style="margin-top:10px;">
             <a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
