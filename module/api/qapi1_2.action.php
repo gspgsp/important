@@ -745,8 +745,9 @@ class qapi1_2Action extends null2Action
             //是否显示banner
             M("system:setting")->del_cache("setting");
             $setting = M("system:setting")->getSetting();
+            $time000 = CORE_TIME;
             //var_dump($setting['qapp_banner']);
-            if(!empty($setting['qapp_banner'])&&!empty($setting['qapp_banner']['start_time']&&!empty($setting['qapp_banner']['end_time'])&&!empty($setting['qapp_banner']['url'])&&CORE_TIME>$setting['qapp_banner']['start_time']&&CORE_TIME<$setting['qapp_banner']['end_time'])){
+            if(!empty($setting['qapp_banner'])&&!empty($setting['qapp_banner']['start_time']&&!empty($setting['qapp_banner']['end_time'])&&!empty($setting['qapp_banner']['url'])&&$time000>$setting['qapp_banner']['start_time']&&$time000<$setting['qapp_banner']['end_time'])){
                     $arr['is_show_banner'] = 1;
                     $arr['is_show_focus'] = 0;
                     $arr['banner_url'] = $setting['qapp_banner']['url'];
@@ -754,7 +755,7 @@ class qapi1_2Action extends null2Action
 
             }
             //是否显示cover photo 未来待定
-            if(!empty($setting['qapp_cover'])&&!empty($setting['qapp_cover']['start_time']&&!empty($setting['qapp_cover']['end_time'])&&!empty($setting['qapp_cover']['url'])&&CORE_TIME>$setting['qapp_cover']['start_time']&&CORE_TIME<$setting['qapp_cover']['end_time'])){
+            if(!empty($setting['qapp_cover'])&&!empty($setting['qapp_cover']['start_time']&&!empty($setting['qapp_cover']['end_time'])&&!empty($setting['qapp_cover']['url'])&&$time000>$setting['qapp_cover']['start_time']&&$time000<$setting['qapp_cover']['end_time'])){
                 $arr['is_show_cover'] = 1;
                 $arr['cover_url'] = $setting['qapp_banner']['url'];
                 $arr['cover_jump_url'] = $setting['qapp_banner']['jump_url'];
