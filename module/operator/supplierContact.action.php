@@ -88,16 +88,24 @@ class supplierContactAction extends adminBaseAction {
 		$data = sdata();
 		if(empty($data['contact_name']))  $this->error('联系人姓名不能为空');
 		if(empty($data['mobile_tel']))  $this->error('联系人联系手机');
-		if(empty($data['comm_email']))  $this->error('联系人邮箱不能为空');
-		if(empty($data['status']))  $this->error('联系人状态不能为空');
+		/* if(empty($data['comm_email']))  $this->error('联系人邮箱不能为空'); */
+		if(empty($data['status']))  $this->error('联系人状态不能为空');		
 		$data['update_name']=$_SESSION['name'];
 		$data['update_time']=time();
-		if($this->db->where('id='.$data['id'])->update($data)){
+		if($data['is_default']=='1'){
+		$supplier_id = $data['supplier_id'];
+		if($this->db->where("`supplier_id`=$supplier_id and `is_default`=1")->update('is_default=0')&&$this->db->where('id='.$data['id'])->update($data)){
 			$this->success('编辑成功');
 		}else{
 			$this->error('编辑失败');
 		}
-
+	}else{
+	    if($this->db->where('id='.$data['id'])->update($data)){
+	        $this->success('编辑成功');
+	    }else{
+	        $this->error('编辑失败');
+	      }
+		}
 	}
 
 }

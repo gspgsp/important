@@ -296,7 +296,6 @@ class supplierAction extends adminBaseAction{
                 'contact_name'=>$data['contact_name'],
                 'sex'=>$data['sex'],
                 'mobile_tel'=>$data['mobile_tel'],
-                'is_default'=>$data['is_default'],
                 'qq'=>$data['qq'],
                 'comm_fax'=>$data['comm_fax'],
                 'comm_email'=>$data['comm_email'],               

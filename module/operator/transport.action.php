@@ -37,7 +37,7 @@ class transportAction extends adminBaseAction
      * @return html
      */
     public function init()
-    {//p($_SESSION);
+    {
         $doact = sget('do', 's');
         $action = sget('action', 's');
         $order_type = sget('order_type', 's');
@@ -139,9 +139,7 @@ class transportAction extends adminBaseAction
     public function get_contact_list()
     {
         $company_id = sget('company_id', 's');
-        $contacts = M("operator:logisticsContact")->where("supplier_id=" . $company_id)->getAll();
-        //$order_info_new = M('public:common')->model('sale_log slg')->leftjoin("purchase p", "p.id=slg.purchase_id")->where('slg.o_id=' . $order_id)->getAll();
-        //var_dump($order_info_new);
+        $contacts = M("operator:logisticsContact")->where("`supplier_id`=$company_id and `status`=1")->getAll();
         foreach ($contacts as $contact) {
             $contact_name_info[] = array('id' => $contact['id'], 'name' => $contact['contact_name'], 'tel' => $contact['contact_tel'], 'fax' => $contact['comm_fax']);
         }
@@ -286,8 +284,8 @@ class transportAction extends adminBaseAction
     {
         $lc_id = sget('lc_id', 'i');
         if (!empty($lc_id)) {
-            $info = M('public:common')->model('transport_contract lc')->leftJoin('logistics_supplier ls', 'lc.second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . $lc_id)->getRow();
-
+            $info = M('public:common')->model('transport_contract lc')->leftJoin('logistics_supplier ls', 'lc.second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . $lc_id)->
+             leftJoin('logistics_contact lx', 'lc.second_part_contact_id=lx.id')->getRow();
             $this->assign('infoq', $info);
             $str = $this->fetch('transport_contract.pdf.html');
 

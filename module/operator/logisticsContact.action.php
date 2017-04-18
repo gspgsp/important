@@ -57,7 +57,6 @@ class logisticsContactAction extends adminBaseAction {
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['input_admin'] = M('rbac:adm')->getNameByUser($v['input_admin']);
 		}
-		//p($list);
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
