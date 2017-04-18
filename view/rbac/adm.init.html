@@ -17,6 +17,10 @@
 						<option value="">=部门=</option>
 						{html_options options=$depart}
 					</select>
+					<select name="position" id="soPosition">
+						<option value="">=职位=</option>
+						{html_options options=$position}
+					</select>
 					<select name="key_type">
 						<option value="name">姓名</option>
 						<option value="username">用户名</option>
@@ -44,6 +48,7 @@
 			<div field="mobile" width="70" align="center" headerAlign="center">手机号</div>
 			<div field="seat_phone" width="70" align="center" headerAlign="center">座机号</div>
 			<div field="depart" width="50" align="center" headerAlign="center" renderer="onLoadDepart">部门</div>
+			<div field="position" width="50" align="center" headerAlign="center" renderer="onposition">职位</div>
 			<div field="leader" width="50" align="center" headerAlign="center">领导</div>
 			<div field="status" width="50" align="center" headerAlign="center" renderer="LoadStatus">状态</div>
 			<div field="last_login" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">最后登录</div>
@@ -103,6 +108,10 @@
 						<tr>
 							<td style="width:70px;">所属部门：</td>
 							<td><input name="depart" class="mini-combobox"  data='{$depart_json}' textField="name" valueField="id" style="width:100px;" required="true"/></td>
+						</tr>
+						<tr>
+							<td style="width:70px;">职位：</td>
+							<td><input name="position" class="mini-combobox"  data='{$position_json}' textField="name" valueField="id" style="width:100px;" required="true"/></td>
 						</tr>
 						<tr>
 							<td style="width:70px;">头&nbsp;&nbsp;像：</td>
@@ -185,6 +194,7 @@ function edit() {
 		mini.getbyName('pic').setValue(row.pic);
 		mini.getbyName('tel').setValue(row.tel);
 		mini.getbyName('fax').setValue(row.fax);
+		mini.getbyName('position').setValue(row.position);
 		admInfo.show();
 	}
 }
@@ -231,6 +241,10 @@ function onLoadSuper(e){
 function onLoadDepart(e){
 	var record = e.record.depart;
 	return $("#soDepart").find("option[value="+record+"]").text();
+}
+function onposition(e){
+	var record = e.record.position;
+	return $("#soPosition").find("option[value="+record+"]").text();
 }
 //设置管理员角色
 function setRole(){

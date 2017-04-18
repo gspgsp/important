@@ -9,6 +9,7 @@ class admAction extends adminBaseAction {
 		$this->db=M('rbac:adm');
 		$this->doact = sget('do','s');
 		$this->public = sget('isPublic','i',0);
+		$this->position = L('position');
 	}
 
 	/**
@@ -34,6 +35,10 @@ class admAction extends adminBaseAction {
 			if($status!=''){
 				$where.=" and status='$status' ";
 			}
+			$position = sget("position",'i',0); //职位
+			if($position > 0){
+				$where.=" and `position` ='$position' ";
+			}
 			//关键词
 			$key_type=sget('key_type','s','username');
 			$keyword=sget('keyword','s');
@@ -57,6 +62,7 @@ class admAction extends adminBaseAction {
 		$this->assign('lock',$lock);
 		$this->depart=C('depart'); //所属部门
 		$this->depart_json=setMiniConfig($this->depart);
+		$this->position_json=setMiniConfig($this->position);
 		$this->leader_json=setMiniConfig(arrayKeyValues($this->db->select("admin_id as id,name")->getAll(),'id','name'));
 		$this->assign('page_title','管理员列表');
 		$this->display('adm.init.html');
@@ -86,6 +92,10 @@ class admAction extends adminBaseAction {
 			if($status!=''){
 				$where.=" and status='$status' ";
 			}
+			$position = sget("position",'i',0); //职位
+			if($position > 0){
+				$where.=" and `position` ='$position' ";
+			}
 			//关键词
 			$key_type=sget('key_type','s','username');
 			$keyword=sget('keyword','s');
@@ -108,6 +118,7 @@ class admAction extends adminBaseAction {
 		$this->assign('lock',$lock);
 		$this->depart=C('depart'); //所属部门
 		$this->depart_json=setMiniConfig($this->depart);
+		$this->position_json=setMiniConfig($this->position);
 		$this->leader_json=setMiniConfig(arrayKeyValues($this->db->select("admin_id as id,name")->getAll(),'id','name'));
 		$this->assign('page_title','管理员列表');
 		$this->display('adm.init.html');
@@ -182,6 +193,7 @@ class admAction extends adminBaseAction {
 			'tel'=>$data['tel'],
 			'pid'=>$data['pid'],
 			'pic'=>$data['pic'],
+			'position'=>$data['position'],
 		);
 		if(!empty($data['password'])){
 			$_data['password']=md5($data['password']);
