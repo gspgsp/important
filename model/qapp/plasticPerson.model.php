@@ -101,7 +101,7 @@ class plasticPersonModel extends model
 
         if(!empty($region)){
             //0 全部 1 华东 2 华北 3 华南 4 其他
-            $region_setting = array(1=>'华东',2=>'华北',3=>'华北',4=>'其他');
+            $region_setting = array(1=>'华东',2=>'华北',3=>'华南',4=>'其他');
             $region = $region_setting[$region];
             $where .= " and china_area = '{$region}' ";
         }
