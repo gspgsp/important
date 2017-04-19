@@ -746,6 +746,10 @@ class qapi1_2Action extends null2Action
                 'is_show_banner'=>0,
                 'is_show_focus'=>1,
                 'is_show_cover'=>0,
+                'banner_url'=> '',
+                'banner_jump_url'=> '',
+                'cover_url'=> '',
+                'cover_jump_url'=> '',
                 'data'    => CORE_TIME
             );
             if(!empty($top)){
