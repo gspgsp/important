@@ -627,6 +627,16 @@ class qapi1_2Action extends null2Action
         $version   = sget ('version', 's');//版本号
         $platform  = $this->checkPlatform ()['platform'];
         $region    = sget ('region', 'i', 0);
+        $c_type    = sget ('c_type', 'i', 2);
+
+        // 1 工厂 2 贸易商 3 工贸一体 4 物流商
+        if(!in_array($c_type,array(1,2)))
+        {
+            $this->json_output (array(
+                'err' => 1,
+                'msg' => 'c_type参数错误',
+            ));
+        }
 
         //0 全部 1 华东 2 华北 3 华南 4 其他
         if (!in_array ($region, array(
@@ -696,21 +706,21 @@ class qapi1_2Action extends null2Action
         if (empty($keywords)) {
             if ($page < 4) {//前三页
                 if ($user_id > 0) {
-                    if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
+                    if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region,$c_type);
                         $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 } else {
-                    if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
+                    if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region,$c_type);
                         $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region, $data['data'], 60);//1分钟缓存
                     }
                 }
             } else {
-                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
+                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region,$c_type);
             }
         } else {
-            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
+            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region,$c_type);
         }
 
         if (empty($data['data']) && $page == 1) {
