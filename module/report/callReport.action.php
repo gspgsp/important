@@ -146,12 +146,12 @@ class callReportAction extends adminBaseAction
                     $sql5="select count(id) as in_eff_num from p2p_api where phone='{$row['seat_phone']}' and callstatus='in' and time>0 and ctime>{$startTime} and ctime<{$endTime}";
                     $rs5=$this->db->model('api')->getAll($sql5);
 
-                    //呼出匹配数量
-                    $sql6="SELECT count(a.id) as sum,sum(a.time) as out_match_time
+                    //呼出匹配数量和匹配时间
+                    $sql6="SELECT count(distinct a.id) as sum,sum(a.time) as out_match_time
                             FROM `p2p_api` `a`
                             JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
-                            LEFT JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
-                            LEFT JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
+                            JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
+                            JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
                             WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null";
                     $rs6=$this->db->model('api')->getAll($sql6);
 
@@ -419,7 +419,20 @@ class callReportAction extends adminBaseAction
                      ->page($page + 1, $size)
                      ->order("$sortField $sortOrder")
                      ->getPage();
-                 foreach ($phonelist['data'] as &$row) {
+
+             $_tmpAdmin=$this->db->model('adm_role_user')->where("user_id=$adminid")->getAll();
+
+             $_tmpBool = True;
+             foreach($_tmpAdmin as $row1){
+                 if($row1['role_id']==2){
+                     $_tmpBool = True; break;
+                 }
+                 $_tmpBool = False;
+             }
+
+                $_newPhoneList=array();
+                $ids = array();
+                 foreach ($phonelist['data'] as $k=>&$row) {
                      $start = $row['ctime'] - $row['time'];
                      $start = date('Y-m-d H:i:s', $start);
                      $row['start'] = $start;
@@ -430,14 +443,6 @@ class callReportAction extends adminBaseAction
                          $row['ending'] = '拨号成功';
                      }
                      if(empty($row['c_name'])) $row['c_name']='-';
-                     $_tmpAdmin=$this->db->model('adm_role_user')->where("user_id=$adminid")->getAll();
-                     $_tmpBool = True;
-                     foreach($_tmpAdmin as $row1){
-                         if($row1['role_id']==2){
-                             $_tmpBool = True; break;
-                         }
-                         $_tmpBool = False;
-                     }
 
                      if(!$_tmpBool && $row['admin_id']!=$adminid){
                          if(count($row['remark'])<5){
@@ -446,9 +451,24 @@ class callReportAction extends adminBaseAction
                              $row['remark'] = substr_replace($row['remark'],'****',-4);
                          }
                      }
+                    if(!isset($ids[$row['id']])){
+                        $ids[$row['id']] = $row['id'];
+                        $_newPhoneList[] =$row;
+                    }
 
                  }
-                 $result = array('total' => $phonelist['count'], 'data' => $phonelist['data']);
+
+             $phonelistall = $this->db->model('api')->from('api as a')
+                 ->join('phone_name as c', 'a.phone=c.seat_phone')
+                 //->leftjoin('customer_contact con','(con.mobile+0)=(a.remark+0) or (con.tel+0)=(a.remark+0)')
+                 ->leftjoin('customer_contact con','con.mobile=a.remark')
+                 ->leftjoin('customer as cus','cus.c_id=con.c_id')
+                 ->where($where)
+                 ->select("count(distinct(a.id)) as wss")
+                 ->order("$sortField $sortOrder")
+                 ->getOne();
+
+                 $result = array('total' => $phonelistall, 'data' => $_newPhoneList);
                  $this->json_output($result);
              }
             $this->assign('sdf',33);
