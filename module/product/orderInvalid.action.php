@@ -46,9 +46,23 @@ class orderInvalidAction extends adminBaseAction {
         $this->is_ajax=true; //指定为Ajax输出
         $data = sdata(); //获取UI传递的参数
         if(empty($data)) $this->error('错误的操作');
-        $this->db->startTrans(); //开启事务
         $order_res = M('product:order')->getOinfoById($data['o_id']);//订单结果集
-        //作废处理规则，销售单作废：现销现采，有采购，采购双审，不同战队---回销扣采
+        //判断作废前的一系列操作是否完结，款，票，出入库
+        //查票
+        $bill_where = ' o_id = '.$data['o_id'].' AND invoice_status = 1 ';
+        if($order_res['invoice_status'] != 1) $this->error('该订单的票据尚未处理完毕，订单作废失败！'); 
+        if($this->db->model('billing')->where($bill_where)->getRow()) $this->error('该订单尚有票据申请未处理完毕，订单作废失败！');
+        //查款
+        if($order_res['collection_status'] != 1) $this->error('该订单的款项尚未处理完毕，订单作废失败！'); 
+        $coll_where = '( o_id = '.$data['o_id'].' AND collection_status = 1)OR (o_id = '.$data['o_id']*(-1).' AND collection_status = 1)';
+        if($this->db->model('collection')->where($coll_where)->getRow()) $this->error('该订单尚有收/付款申请未处理完毕，订单作废失败！');
+        //出库
+        if($order_res['order_type'] == 1 && $order_res['out_storage_status'] != 1) $this->error('该订单的出库状态尚未处理完毕，订单作废失败！'); 
+        //入库
+        if($order_res['order_type'] == 2 && $order_res['in_storage_status'] != 1) $this->error('该订单的入库状态尚未处理完毕，订单作废失败！'); 
+        $this->db->startTrans(); //开启事务
+        //作废处理规则，销售单作废：现销现采，un_pur = 0，不同战队---回销扣采
+        //作废处理规则，销售单作废：现销现采，un_pur = 1,有采购，采购双审，不同战队---回销扣采
         //作废处理规则，销售单作废：销库存，不同战队---回销扣采
         //作废处理规则，采购单作废：销售采购，销售双审，不同战队---回销扣采
         //作废处理规则，采购单作废：备货采购，销售双审，不同战队---回销扣采
@@ -58,21 +72,22 @@ class orderInvalidAction extends adminBaseAction {
                 $pur_res = M('product:order')->getOinfoById($buy_oid);//采购订单结果集
                 $team_ids = M('product:order')->getCustomerManagerTeamStatusByOid($data['o_id'],$buy_oid);
                 if($team_ids['sale_team_id'] != $team_ids['buy_team_id']){
-                    if( ($pur_res['order_status'] == 2 && $order_res['sales_type'] == 2 && $pur_res['transport_status'] == 2) || $order_res['sales_type'] == 1){
+                    if($order_res['un_pur'] == 0 || ($order_res['un_pur'] == 1 && $pur_res['order_status'] == 2 && $pur_res['transport_status'] == 2 && $order_res['sales_type'] == 2 ) || $order_res['sales_type'] == 1){
                         $buy_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($pur_res['customer_manager']);
                         if(!$buy_team_capital) $this->error('采购订单业务员所在战队的配资指标未设，处理失败');
                         $sale_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($order_res['customer_manager']);
                         if(!$sale_team_capital) $this->error('关联销售订单业务员所在战队的配资指标未设，处理失败');
-                        $sale_capital = M('user:teamCapital')->comeMoney($sale_team_capital,$pur_res['total_price']);//销售战队+资金占用
-                        $buy_capital = M('user:teamCapital')->goMoney($buy_team_capital,$pur_res['total_price']);//采购战队-资金占用
+                        $sale_cost = M('product:order')->getSaleCost($order_res['o_id']);//销售单采购金额（成本价格）
+                        $sale_capital = M('user:teamCapital')->comeMoney($sale_team_capital,$sale_cost);//销售战队+资金占用
+                        $buy_capital = M('user:teamCapital')->goMoney($buy_team_capital,$sale_cost);//采购战队-资金占用
                         if(!$sale_capital || !$buy_capital) $this->error('战队配资处理失败');
                         //新增战队配资变动日志----S
                         $sale_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($order_res['customer_manager']);
                         $buy_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($pur_res['customer_manager']);
                         $sale_remarks = "销售订单作废，增加销售战队额度";
                         $buy_remarks = "销售订单作废，削减采购战队额度";
-                        M('user:teamCapital')->addLog($order_res['o_id'],$sale_team_capital['team_id'],'sale_invalid',$sale_team_capital['available_money'],$sale_team_capital_now['available_money'],1,$pur_res['total_price'],$sale_remarks);
-                        M('user:teamCapital')->addLog($pur_res['o_id'],$buy_team_capital['team_id'],'sale_invalid',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$pur_res['total_price'],$buy_remarks);
+                        M('user:teamCapital')->addLog($order_res['o_id'],$sale_team_capital['team_id'],'sale_invalid',$sale_team_capital['available_money'],$sale_team_capital_now['available_money'],1,$sale_cost,$sale_remarks);
+                        M('user:teamCapital')->addLog($pur_res['o_id'],$buy_team_capital['team_id'],'sale_invalid',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$sale_cost,$buy_remarks);
                             //新增战队配资变动日志----E
                     }
                 }
@@ -115,7 +130,7 @@ class orderInvalidAction extends adminBaseAction {
                                 if(!$sale_team_capital) $this->error('关联销售订单业务员所在战队的配资指标未设，处理失败');
                                 $sale_cost = M('product:order')->getSaleCost($value['o_id']);//销售单采购金额（成本价格）
                                 $sale_capital = M('user:teamCapital')->comeMoney($sale_team_capital,$sale_cost);//销售战队+资金占用
-                                $buy_capital = M('user:teamCapital')->goMoney($buy_team_capital,$order_res['total_price']);//采购战队-资金占用
+                                $buy_capital = M('user:teamCapital')->goMoney($buy_team_capital,$sale_cost);//采购战队-资金占用
                                 if(!$sale_capital || !$buy_capital) $this->error('战队配资处理失败');
                                 //新增战队配资变动日志----S
                                 $sale_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_res['customer_manager']);
@@ -123,7 +138,7 @@ class orderInvalidAction extends adminBaseAction {
                                 $sale_remarks = "备货采购订单作废，增加销售战队额度";
                                 $buy_remarks = "备货采购订单作废，削减采购战队额度";
                                 M('user:teamCapital')->addLog($sale_res['o_id'],$sale_team_capital['team_id'],'buy_invalid',$sale_team_capital['available_money'],$sale_team_capital_now['available_money'],1,$sale_cost,$sale_remarks);
-                                M('user:teamCapital')->addLog($order_res['o_id'],$buy_team_capital['team_id'],'buy_invalid',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$order_res['total_price'],$buy_remarks);
+                                M('user:teamCapital')->addLog($order_res['o_id'],$buy_team_capital['team_id'],'buy_invalid',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$sale_cost,$buy_remarks);
                             //新增战队配资变动日志----E
                             }
                         }
