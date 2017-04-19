@@ -627,7 +627,7 @@ class qapi1_2Action extends null2Action
         $version   = sget ('version', 's');//版本号
         $platform  = $this->checkPlatform ()['platform'];
         $region    = sget ('region', 'i', 0);
-        $c_type    = sget ('c_type', 'i', 2);
+        $c_type    = sget ('c_type', 'i', 0);
 
         // 1 工厂 2 贸易商 3 工贸一体 4 物流商
         if (!in_array ($c_type, array(
