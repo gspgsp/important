@@ -201,11 +201,11 @@ class qapi1_2Action extends null2Action
             $chanel    = (int)sget ('chanel', 'i', 6);
             $quan_type = sget ('quan_type', 'i');//sget()函数要理解一下，里面有个empty函数
             //$origin = sget('origin','a');
-            $ctype = sget('c_type','i');  //'客户类型(1 工厂(买家)、2 贸易(卖家)、3 工贸一体(买卖一体))',
+            $ctype = sget('c_type','i');  //'客户类型(1 工厂(买家)、2 贸易(卖家)、3 工贸一体(买卖一体))4物流',
             //$_model = sget('model','a');  //牌号
 //            if(empty($origin)||count($origin)!=2) $this->_errCode(6);
             if(empty($ctype)) $this->_errCode(6);
-           if(!in_array($ctype,array('1','2','3'))) $this->_errCode(6);
+           if(!in_array($ctype,array('1','2','3','4'))) $this->_errCode(6);
             $name      = $this->clearStr ($name);
             $c_name    = $this->clearStr ($c_name);
             if (mb_strlen ($c_name, 'UTF8') < 5) {
@@ -282,6 +282,10 @@ class qapi1_2Action extends null2Action
                  * 一切都是以手机号来区分的
                  * 而且没有加密，会出现问题的
                  * 暂时没有时间，以后会修改吧
+				 *2017-4-19 09:27:54
+                 * 还是没有关闭重新注册
+                 *
+                 * 重新注册，会员状态清零
                  */
                 if ($old_user['user_id']) {
                     $_user = array(
@@ -294,6 +298,7 @@ class qapi1_2Action extends null2Action
                         'sex'           => sget ('sex', 'i', 0),
                         'chanel'        => $chanel,
                         'update_time'   => CORE_TIME,
+						'is_trial'=>0,//公海状态清零
                         'quan_type'     => $quan_type,
                     );
                     if (!$user_model->where ("mobile=".$mobile)
