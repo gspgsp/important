@@ -143,6 +143,7 @@ class customerContactModel extends model{
 				$remarks = "客户联系人修改:".date('Y-m-d H:i:s',time());
 				M('user:customerLog')->addLog($info['c_id'],'register',serialize($yanshi),serialize($info+$_data),1,$remarks);
 		}else if($info['ctype']==3 && $info['info_user_id']>0 && $info['c_id']>0){
+			if(empty($info['type'])) return array('err'=>1,'msg'=>'客户类型为必填选项');
 			$old_info = $this->model('customer')->where("c_id = ".$info['c_id'])->getRow();
 			//更新公司信息和联系人
 			$result = ($this->model('customer_contact')->where("user_id = ".$info['info_user_id'])->update($info_ext+$data) && $this->model('customer')->where("c_id = ".$info['c_id'])->update($info+$data));
@@ -164,7 +165,7 @@ class customerContactModel extends model{
 				//新增客户流转记录日志----E
 			}else{
 				$this->startTrans();
-					if(empty($info['type'])) $this->error('客户类型为必填选项');
+					if(empty($info['type'])) return array('err'=>1,'msg'=>'客户类型为必填选项');
 					$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>5,));
 					$contact_id = $this->getLastID();
 					$this->model('customer')->add($info+$_data+array('contact_id'=>$contact_id,));
