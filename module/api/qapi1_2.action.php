@@ -922,7 +922,7 @@ class qapi1_2Action extends null2Action
                 $has_standard = M ('qapp:plasticRelease')->checkStandard($user_id);
                 if(empty($has_standard))
                 {
-                    $this->json_output(array('err' => 3, 'msg' => '您未在塑料圈发送标准格式供求，暂无推荐！'));
+                    $this->json_output(array('err' => 7, 'msg' => '您未在塑料圈发送标准格式供求，暂无推荐！'));
                 }
             }
             //检测是否有塑料圈关注的人
@@ -952,7 +952,7 @@ class qapi1_2Action extends null2Action
                 $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
             }
             if (empty($data['data'])) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有更多数据' ));
+                $this->json_output (array( 'err' => 3, 'msg' => '没有更多数据' ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
             $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
