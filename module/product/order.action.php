@@ -159,6 +159,7 @@ class orderAction extends adminBaseAction {
 				}
 			}
 		}
+		// p($where);
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		foreach($list['data'] as &$v){
 			$v['c_name']=  ($v['partner'] == $_SESSION['adminid'] && $v['customer_manager'] != $_SESSION['adminid']) ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
