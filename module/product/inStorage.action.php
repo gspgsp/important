@@ -254,7 +254,7 @@ class inStorageAction extends adminBaseAction {
 			 $this->success('操作成功');
 		}else{
 			$this->db->rollback();
-			showtrace();
+			// showtrace();
 			$this->error('操作失败');
 		}
 
