@@ -631,6 +631,7 @@ class qapi1_2Action extends null2Action
 
         // 1 工厂 2 贸易商 3 工贸一体 4 物流商
         if (!in_array ($c_type, array(
+            0,
             1,
             2,
         ))
