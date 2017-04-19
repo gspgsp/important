@@ -286,6 +286,10 @@ class transportAction extends adminBaseAction
         if (!empty($lc_id)) {
             $info = M('public:common')->model('transport_contract lc')->leftJoin('logistics_supplier ls', 'lc.second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . $lc_id)->
              leftJoin('logistics_contact lx', 'lc.second_part_contact_id=lx.id')->getRow();
+            $date_type=explode('-',$info['contract_time']);
+            $info['contract_time']=$date_type['0'].' 年 '.trim($date_type['1'], '0').' 月 '.$date_type['2'].' 日';
+            $delivery_type=explode('-',$info['delivery_time']);
+            $info['delivery_time']=$delivery_type['0'].' 年 '.trim($delivery_type['1'], '0').' 月 '.$delivery_type['2'].' 日';
             $this->assign('infoq', $info);
             $str = $this->fetch('transport_contract.pdf.html');
 
@@ -296,18 +300,21 @@ class transportAction extends adminBaseAction
 
         E('TCPdf', APP_LIB . 'extend');
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $pdf->SetTitle('上海中晨运输合同');
-        $pdf->SetHeaderData('config/pdflogo.jpg', 180, '', '', array(0, 33, 43), array(0, 64, 128));
+        //$pdf->SetTitle('上海中晨运输合同');
+        //$pdf->SetHeaderData('config/pdflogo.jpg', 180, '', '', array(0, 33, 43), array(0, 64, 128));
         // 设置默认等宽
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
         // 设置间距
-        $pdf->SetMargins(15, 20, 15);
+        $pdf->SetMargins(20, 20, 10);
         $pdf->SetHeaderMargin(3);
         $pdf->SetFooterMargin(10);
         // 设置分页
-        $pdf->SetAutoPageBreak(TRUE, 25);
-        $pdf->setImageScale(1.25);
+        $pdf->SetAutoPageBreak(TRUE);
+        $pdf->setImageScale(1.32);
         $pdf->setFontSubsetting(true);
+        //删除预定义的打印 页眉/页尾       
+        $pdf->setPrintHeader(false);      
+        $pdf->setPrintFooter(false);
         // 设置中文字体
         $pdf->SetFont('stsongstdlight', '', 10);
         $pdf->AddPage();

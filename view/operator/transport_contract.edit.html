@@ -29,22 +29,22 @@
 						</tr>
 						<tr>
 							<td>货物牌号:</td>
-							<td><input name="goods_class" value="{$infoq.goods_class}" id="goods_class" class="mini-textbox" style="width:250px;" maxlength="8"  required="true" />
+							<td><input name="goods_class" value="{$infoq.goods_class}" id="goods_class" class="mini-textbox" style="width:350px;" maxlength=""  required="true" />
 							</td>
 						</tr>
 						<tr>
 							<td>货物数量:</td>
-							<td><input name="goods_num" value="{$infoq.goods_num}" id="goods_num" class="mini-textbox" style="width:250px;" maxlength="8"  required="true" />
+							<td><input name="goods_num" value="{$infoq.goods_num}" id="goods_num" class="mini-textbox" style="width:350px;" maxlength=""  required="true" />
 							</td>
 						</tr>
 						<tr>
 							<td>提货地点：</td>
-							<td><input name="start_place" value='{$infoq.start_place}' id="start_place" class="mini-textbox" style="width:250px;" maxlength="8"  required="true" value=""/>
+							<td><input name="start_place" value='{$infoq.start_place}' id="start_place" class="mini-textbox" style="width:350px;" maxlength=""  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
 							<td>送货地点：</td>
-							<td><input name="end_place" value='{$infoq.end_place}' id="end_place" class="mini-textbox" style="width:250px;" maxlength="8"  required="true" value=""/>
+							<td><input name="end_place" value='{$infoq.end_place}' id="end_place" class="mini-textbox" style="width:350px;" maxlength=""  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
@@ -81,7 +81,7 @@
 						</tr>
 						<tr>
 							<td>运输费用（含税）：</td>
-							<td><input name="delivery_fee" id="delivery_fee" value="{$infoq.delivery_fee}" class="mini-textbox" style="width:250px;" maxlength="50"  required="true" value=""/>
+							<td><input name="delivery_fee" id="delivery_fee" value="{$infoq.delivery_fee}" class="mini-textbox" style="width:350px;" maxlength=""  required="true" value=""/>
 							</td>
 						</tr>
 						<tr>
@@ -93,8 +93,8 @@
 							</td>
 							<td>
 								<div>乙方</div>
-								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" value='{$infoq.second_part_contact_tel}' class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/></div>
-								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax"  value='{$infoq.second_part_contact_fax}' class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value=""/></div>
+								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" value='{$infoq.second_part_contact_tel}' class="mini-textbox" style="width:125px;" maxlength=""  required="true" value=""/></div>
+								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax"  value='{$infoq.second_part_contact_fax}' class="mini-textbox" style="width:125px;" maxlength=""  required="true" value=""/></div>
 								<div>委托代理人:<input name="second_part_contact_id" id="second_part_contact_id" value='{$infoq.second_part_contact_id}' onvaluechanged="getcontact" class="mini-combobox" style="width:125px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
 							</td>
 						</tr>
