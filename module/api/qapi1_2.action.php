@@ -775,7 +775,6 @@ class qapi1_2Action extends null2Action
         }
         $this->json_output ($arr);
     }
-
     //我的塑料圈
     public function myZone ()
     {
@@ -915,22 +914,32 @@ class qapi1_2Action extends null2Action
             $size = sget ('size', 'i', 10);
             // 检测是否有标准格式供求
 
-            /*if ($page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
-                //$has_standard = M ('qapp:plasticRelease')->checkStandard($user_id);
-                if(!$has_standard) {
-
-                    $this->json_output(array('err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！'));
+            if ($page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
+                $has_standard = M ('qapp:plasticRelease')->checkStandard($user_id);
+                if(empty($has_standard))
+                {
+                    $this->json_output(array('err' => 3, 'msg' => '您未在塑料圈发送标准格式供求，暂无推荐！'));
                 }
-            }*/
+            }
+            //检测是否有塑料圈关注的人
+            if ($page == 1 && $sortField2 == 'CONCERN') {
+                $has_concern = M ('qapp:plasticIntroduction')->getMyFuns ($user_id, 2, 1, $size);
+                if(empty($has_concern['data']))
+                {
+                    $this->json_output (array( 'err' => 5, 'msg' => '您未关注塑料圈用户，暂无供求信息！' ));
+                }
+            }
+            //获取供求详细数据
             $data = M ('qapp:plasticRelease')->getReleaseMsg ($keywords, $page, $size, $type, $sortField1, $sortField2, $user_id);
+
             if ($data == 'tempErr') {
                 $this->_errCode (5);
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
-                $this->json_output (array( 'err' => 2, 'msg' => '您未在塑料圈发送标准格式供求或者该牌号未匹配，暂无推荐！' ));
+                $this->json_output (array( 'err' => 4, 'msg' => '您关注的该牌号暂未匹配，暂无推荐！' ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'CONCERN') {
-                $this->json_output (array( 'err' => 2, 'msg' => '您未关注塑料圈用户，暂无供求信息！' ));
+                $this->json_output (array( 'err' => 2, 'msg' => '您关注的塑料圈用户暂无供求信息！' ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'DEMANDORSUPPLY') {
                 $this->json_output (array( 'err' => 2, 'msg' => '您未发布任何供求信息！' ));
@@ -965,11 +974,7 @@ class qapi1_2Action extends null2Action
                     }
                 }
                 unset($val);
-               /* $top = M("qapp:plasticRelease")->model ('purchase')->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.input_time,pur.type,pur.content')->from ('purchase pur')
-                    ->leftjoin ('product pro', 'pur.p_id=pro.id')
-                    ->leftjoin ('factory fa', 'pro.f_id=fa.fid')
-                    ->leftjoin ('contact_info info', 'info.user_id=pur.user_id')
-                    ->where("pur.id = $pur_id")->getRow();*/
+
                 $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
             }else{
                 $top = (object)array();
