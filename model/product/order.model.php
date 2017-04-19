@@ -252,7 +252,7 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
 		// $today_start = 1473728400;
 		$today_end = time();
 		//销售-where1 采购-where2
-		$where1 = 'order_type = 1 and order_status = 2 and transport_status = 2 and input_time > '.$today_start.' and input_time < '.$today_end.' and customer_manager = '.$customer_manager;
+		$where1 = 'order_type = 1 and order_status = 2 and transport_status != 3 and input_time > '.$today_start.' and input_time < '.$today_end.' and customer_manager = '.$customer_manager;
 		$where2 = 'order_type = 2 and order_status = 2 and transport_status = 2 and input_time > '.$today_start.' and input_time < '.$today_end.' and customer_manager = '.$customer_manager;
 		// $select = 'sum(total_num) as num';
 		$select = 'o_id,total_num';
