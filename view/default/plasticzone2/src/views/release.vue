@@ -24,48 +24,48 @@
 	<ul id="releaseUl">
 		<li id="releaseTop" v-if="top">
 			<div style=" width: 100%; overflow: hidden; position: relative; background: #FFFFFF;">
-			<span class="releaseFix"></span>
-			<router-link :to="{name:'personinfo',params:{id:top.user_id}}" style="display: block; height: 35px; overflow: hidden;">
-				<div class="myreleaseInfo">
-					<div style="width: 30px; height: 30px; float: left; position: relative;">
-						<div class="avator">
-							<img v-bind:src="top.thumb">
+				<span class="releaseFix"></span>
+				<router-link :to="{name:'personinfo',params:{id:top.user_id}}" style="display: block; height: 35px; overflow: hidden;">
+					<div class="myreleaseInfo">
+						<div style="width: 30px; height: 30px; float: left; position: relative;">
+							<div class="avator">
+								<img v-bind:src="top.thumb">
+							</div>
+							<i class="iconV" v-bind:class="{'v1':top.is_pass==null||top.is_pass==1,'v2':top.is_pass==0}"></i>
 						</div>
-						<i class="iconV" v-bind:class="{'v1':top.is_pass==null||top.is_pass==1,'v2':top.is_pass==0}"></i>
+						<div class="myreleasetxt">
+							<p style="line-height: 30px;">{{top.c_name}}&nbsp;{{top.name}}</p>
+						</div>
 					</div>
-					<div class="myreleasetxt">
-						<p style="line-height: 30px;">{{top.c_name}}&nbsp;{{top.name}}</p>
-					</div>
-				</div>
-			</router-link>
-			<div class="myreleasetxt2">
-				<router-link :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id}}">
-					<p>
-						<strong v-if="top.type==2" style=" color: #63769d;">
-							<i class="iconSale"></i>供给</strong>
-						<strong v-else style="color: #ea8010;">
-							<i class="iconBuy"></i>求购
-						</strong>
-						<strong v-html="top.contents"></strong>
+				</router-link>
+				<div class="myreleasetxt2">
+					<router-link :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id}}">
+						<p>
+							<strong v-if="top.type==2" style=" color: #63769d;">
+				<i class="iconSale"></i>供给</strong>
+							<strong v-else style="color: #ea8010;">
+				<i class="iconBuy"></i>求购
+			</strong>
+							<strong v-html="top.contents"></strong>
+						</p>
+					</router-link>
+					<p style="color: #999999;">
+						{{top.input_time}}
+						<span style="margin: 0 0 0 3px; color: #999999;">
+	<router-link style=" color: #999999;" :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id,tab:2}}">
+	<i class="releasereplyicon"></i>回复<i style="color: #63769d; font-style: normal;">({{top.saysCount}})</i>
+	</router-link>
+</span>
+						<span style=" color: #999999;">
+	<router-link style=" color: #999999;" :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id,tab:1}}">
+	<i class="releasesaleicon"></i>出价<i style="color: #63769d; font-style: normal;">({{top.deliverPriceCount}})</i>
+	</router-link>
+</span>
 					</p>
-				</router-link>
-				<p style="color: #999999;">
-					{{top.input_time}}
-					<span style="margin: 0 0 0 3px; color: #999999;">
-				<router-link style=" color: #999999;" :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id,tab:2}}">
-				<i class="releasereplyicon"></i>回复<i style="color: #63769d; font-style: normal;">({{top.saysCount}})</i>
-				</router-link>
-			</span>
-					<span style=" color: #999999;">
-				<router-link style=" color: #999999;" :to="{name:'releasedetail', query:{id: top.id,userid:top.user_id,tab:1}}">
-				<i class="releasesaleicon"></i>出价<i style="color: #63769d; font-style: normal;">({{top.deliverPriceCount}})</i>
-				</router-link>
-			</span>
-				</p>
-			</div>
+				</div>
 			</div>
 		</li>
-		<li v-show="condition" v-for="r in release">
+		<li v-for="r in release">
 			<router-link :to="{name:'personinfo',params:{id:r.user_id}}" style="display: block; height: 35px; overflow: hidden;">
 				<div class="myreleaseInfo">
 					<div style="width: 30px; height: 30px; float: left; position: relative;">
@@ -83,51 +83,76 @@
 				<router-link :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id}}">
 					<p>
 						<strong v-if="r.type==2" style=" color: #63769d;">
-				<i class="iconSale"></i>供给</strong>
+	<i class="iconSale"></i>供给</strong>
 						<strong v-else style="color: #ea8010;">
-				<i class="iconBuy"></i>求购
-			</strong>
+	<i class="iconBuy"></i>求购
+</strong>
 						<strong v-html="r.contents"></strong>
 					</p>
 				</router-link>
 				<p style="color: #999999;">
 					{{r.input_time}}
 					<span v-show="mine" style="margin: 0 0 0 3px; color: #999999;">
-				<router-link style=" color: #999999;" :to="{name:'supplybuy',params:{id:r.id}}">
-				<i class="releaseshareicon"></i>分享
-				</router-link>
-			</span>
+	<router-link style=" color: #999999;" :to="{name:'supplybuy',params:{id:r.id}}">
+	<i class="releaseshareicon"></i>分享
+	</router-link>
+</span>
 					<span v-show="mine" style="margin: 0 0 0 3px; color: #999999;">
-				<router-link v-show="r.type==1" style=" color: #999999;" :to="{name:'releasebsbuy',query: { id: r.id}}">
-				<i class="releaseresendicon"></i>重发
-				</router-link>
-				<router-link v-show="r.type==2" style=" color: #999999;" :to="{name:'releasebssupply',query: { id: r.id}}">
-				<i class="releaseresendicon"></i>重发
-				</router-link>
-			</span>
+	<router-link v-show="r.type==1" style=" color: #999999;" :to="{name:'releasebsbuy',query: { id: r.id}}">
+	<i class="releaseresendicon"></i>重发
+	</router-link>
+	<router-link v-show="r.type==2" style=" color: #999999;" :to="{name:'releasebssupply',query: { id: r.id}}">
+	<i class="releaseresendicon"></i>重发
+	</router-link>
+</span>
 					<span style="margin: 0 0 0 3px; color: #999999;">
-				<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
-				<i class="releasereplyicon"></i>回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
-				</router-link>
-				<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
-				<i class="releasereplyicon"></i>看回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
-				</router-link>
-			</span>
+	<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
+	<i class="releasereplyicon"></i>回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
+	</router-link>
+	<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:2}}">
+	<i class="releasereplyicon"></i>看回复<i style="color: #63769d; font-style: normal;">({{r.saysCount}})</i>
+	</router-link>
+</span>
 					<span style=" color: #999999;">
-				<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
-				<i class="releasesaleicon"></i>出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
-				</router-link>
-				<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
-				<i class="releasesaleicon"></i>看出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
-				</router-link>
-			</span>
+	<router-link v-show="!mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
+	<i class="releasesaleicon"></i>出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
+	</router-link>
+	<router-link v-show="mine" style=" color: #999999;" :to="{name:'releasedetail', query:{id: r.id,userid:r.user_id,tab:1}}">
+	<i class="releasesaleicon"></i>看出价<i style="color: #63769d; font-style: normal;">({{r.deliverPriceCount}})</i>
+	</router-link>
+</span>
 				</p>
 			</div>
 		</li>
-		<li v-show="!condition" style="text-align: center;">
-			{{errmsg}}
-		</li>
 	</ul>
+	<div class="releaseMsg" v-if="condition==7">
+		<div class="releaseMsgHead"></div>
+		<div class="releaseTxt">{{errmsg}}</div>
+		<router-link :to="{name:'quickrelease'}">去发布</router-link>
+		<div class="releaseMsgIntro"></div>
+	</div>
+	<div class="releaseMsg" v-if="condition==8">
+		<div class="releaseMsgHead"></div>
+		<div class="releaseTxt">{{errmsg}}</div>
+		<router-link :to="{name:'quickrelease'}">去发布</router-link>
+	</div>
+	<div class="releaseMsg" v-if="condition==2">
+		<div class="releaseMsgHead2"></div>
+		<div class="releaseTxt">{{errmsg}}</div>
+	</div>
+	<div class="releaseMsg" v-if="condition==6">
+		<div class="releaseMsgHead2"></div>
+		<div class="releaseTxt">{{errmsg}}</div>
+	</div>
+	<div class="releaseMsg" v-if="condition==9">
+		<div class="releaseMsgHead3"></div>
+		<div class="releaseTxt">{{errmsg}}</div>
+		<router-link :to="{name:'index'}">去关注</router-link>
+	</div>
+	<div class="releaseMsg" v-if="condition==4">
+		<div class="releaseMsgHead2"></div>
+		<div class="releaseTxt">{{errmsg}}</div>
+	</div>
 	<loadingPage :loading="loadingShow"></loadingPage>
 	<footerbar></footerbar>
 	<div class="arrow" v-show="isArrow" v-on:click="arrow"></div>
@@ -164,7 +189,7 @@ module.exports = {
 			filter2: true,
 			filter3: false,
 			filter4: false,
-			condition: true,
+			condition: null,
 			txt2: "全部",
 			filtershow: false,
 			mine: false,
@@ -179,12 +204,19 @@ module.exports = {
 			$(window).on('scroll', function() {
 				vm.loadingMore();
 				var scrollTop = $(this).scrollTop();
-				var reliWidth=$("body").width();
+				var reliWidth = $("body").width();
 				console.log(reliWidth);
-				if (scrollTop > 90) {
-					$("#releaseTop").css({'position':'fixed','top':'90px','width':reliWidth+'px'});
-				} else{
-					$("#releaseTop").css({'position':'static','top':'0'});
+				if(scrollTop > 90) {
+					$("#releaseTop").css({
+						'position': 'fixed',
+						'top': '90px',
+						'width': reliWidth + 'px'
+					});
+				} else {
+					$("#releaseTop").css({
+						'position': 'static',
+						'top': '0'
+					});
 				}
 
 			});
@@ -206,7 +238,7 @@ module.exports = {
 					_this.txt2 = '全部';
 					_this.selected = 0;
 					$.ajax({
-						url: '/api/qapi1_1/getReleaseMsg',
+						url: '/api/qapi1_2/getReleaseMsg',
 						type: 'post',
 						data: {
 							keywords: _this.keywords.toLocaleUpperCase(),
@@ -222,9 +254,36 @@ module.exports = {
 						console.log(res)
 						if(res.err == 0) {
 							_this.release = res.data;
-						} else if(res.err == 2 || res.err == 5 || res.err == 3) {
-							_this.condition = false;
+						} else if(res.err == 2) {
+							_this.condition = res.err;
 							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 4) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 9) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 6) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 7) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 8) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
 						}
 					}, function() {
 
@@ -236,7 +295,7 @@ module.exports = {
 					_this.txt2 = '供给';
 					_this.selected = 2;
 					$.ajax({
-						url: '/api/qapi1_1/getReleaseMsg',
+						url: '/api/qapi1_2/getReleaseMsg',
 						type: 'post',
 						data: {
 							keywords: _this.keywords.toLocaleUpperCase(),
@@ -249,12 +308,38 @@ module.exports = {
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
-						console.log(res)
 						if(res.err == 0) {
 							_this.release = res.data;
-						} else if(res.err == 2 || res.err == 5 || res.err == 3) {
-							_this.condition = false;
+						} else if(res.err == 2) {
+							_this.condition = res.err;
 							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 4) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 9) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 6) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 7) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 8) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
 						}
 					}, function() {
 
@@ -266,7 +351,7 @@ module.exports = {
 					_this.txt2 = '求购';
 					_this.selected = 1;
 					$.ajax({
-						url: '/api/qapi1_1/getReleaseMsg',
+						url: '/api/qapi1_2/getReleaseMsg',
 						type: 'post',
 						data: {
 							keywords: _this.keywords.toLocaleUpperCase(),
@@ -279,12 +364,38 @@ module.exports = {
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
-						console.log(res)
 						if(res.err == 0) {
 							_this.release = res.data;
-						} else if(res.err == 2 || res.err == 5 || res.err == 3) {
-							_this.condition = false;
+						} else if(res.err == 2) {
+							_this.condition = res.err;
 							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 4) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 9) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 6) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 7) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if(res.err == 8) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
 						}
 					}, function() {
 
@@ -311,7 +422,7 @@ module.exports = {
 					_this.filter2 = false;
 					_this.filter3 = false;
 					_this.filter4 = false;
-					_this.mine=false;
+					_this.mine = false;
 					_this.sortfield1 = "ALL";
 					_this.sortfield2 = "";
 					_this.condition = true;
@@ -322,7 +433,7 @@ module.exports = {
 					_this.filter2 = true;
 					_this.filter3 = false;
 					_this.filter4 = false;
-					_this.mine=false;
+					_this.mine = false;
 					_this.sortfield1 = "";
 					_this.sortfield2 = "AUTO";
 					_this.condition = true;
@@ -333,7 +444,7 @@ module.exports = {
 					_this.filter2 = false;
 					_this.filter3 = true;
 					_this.filter4 = false;
-					_this.mine=false;
+					_this.mine = false;
 					_this.sortfield1 = "";
 					_this.sortfield2 = "CONCERN";
 					_this.condition = true;
@@ -344,7 +455,7 @@ module.exports = {
 					_this.filter2 = false;
 					_this.filter3 = false;
 					_this.filter4 = true;
-					_this.mine=true;
+					_this.mine = true;
 					_this.sortfield1 = "";
 					_this.sortfield2 = "DEMANDORSUPPLY";
 					_this.condition = true;
@@ -368,15 +479,41 @@ module.exports = {
 			}).done(function(res) {
 				if(res.err == 0) {
 					_this.release = res.data;
-					if(JSON.stringify(res.top)=='{}'){
-						_this.top=null
-					}else{
-						_this.top=res.top;
-					}					
-				} else if(res.err == 2 || res.err == 5 || res.err == 3) {
-					_this.condition = false;
+					if(JSON.stringify(res.top) == '{}') {
+						_this.top = null
+					} else {
+						_this.top = res.top;
+					}
+				} else if(res.err == 2) {
+					_this.condition = res.err;
 					_this.errmsg = res.msg;
-					_this.top=null;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 4) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 9) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 6) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 7) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 8) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
 				}
 			}).fail(function() {
 
@@ -396,7 +533,7 @@ module.exports = {
 			} catch(err) {}
 
 			$.ajax({
-				url: '/api/qapi1_1/getReleaseMsg',
+				url: '/api/qapi1_2/getReleaseMsg',
 				type: 'post',
 				data: {
 					keywords: _this.keywords.toLocaleUpperCase(),
@@ -418,11 +555,37 @@ module.exports = {
 							name: 'login'
 						});
 					});
-				} else if(res.err == 2 || res.err == 5) {
-					_this.condition = false;
+				} else if(res.err == 2) {
+					_this.condition = res.err;
 					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 4) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 9) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 6) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 7) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if(res.err == 8) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
 				}
-
 			}, function() {
 
 			});
@@ -527,11 +690,32 @@ module.exports = {
 						}
 					}]
 				});
-			} else if(res.err == 2 || res.err == 5 || res.err == 3) {
-				_this.condition = false;
+			} else if(res.err == 2) {
+				_this.condition = res.err;
 				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if(res.err == 4) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if(res.err == 5) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if(res.err == 6) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if(res.err == 7) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if(res.err == 8) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.release = [];
+				_this.top = null;
 			}
-
 		}).fail(function() {
 
 		}).always(function() {

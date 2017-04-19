@@ -45,6 +45,7 @@
 			<p class="first"><i class="icon wxGs"></i><span v-html="top.c_name"></span><i class="icon wxName"></i><span v-html="top.name"></span>&nbsp;{{top.sex}}</p>
 			<p class="second">
 			<span v-if="top.type==='3'||top.type==='1'">产品:{{top.main_product}} 月用量:{{top.month_consum}}</span>
+			</p>
 			<p v-if="top.type==='3'||top.type==='1'" class="second">
 				供:{{top.sale_count}} 求:{{top.buy_count}} 
 				需求：<span style="color: #666666;" v-html="top.need_product"></span>
@@ -291,10 +292,10 @@ methods: {
 					});
 		        }
 		    },{
-		        label: '华南',
+		        label: '华北',
 		        onClick: function () {
 					_this.region = 2;
-					_this.txt2 = "华南";
+					_this.txt2 = "华北";
 					_this.page=1;
 					$.ajax({
 						type: "post",
@@ -324,10 +325,10 @@ methods: {
 					});
 		        }
 		    },{
-		        label: '华北',
+		        label: '华南',
 		        onClick: function () {
 					_this.region = 3;
-					_this.txt2 = "华北";
+					_this.txt2 = "华南";
 					_this.page=1;
 					$.ajax({
 						type: "post",
