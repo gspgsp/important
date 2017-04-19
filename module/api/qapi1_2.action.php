@@ -3481,19 +3481,20 @@ class qapi1_2Action extends null2Action
         }
 
         $settings = M('system:setting')->getSetting();
-        $newest_version = $settings['qapp_newest_version'];
+        $newest_version0 = $settings['qapp_newest_version'];
         $newest_qapp_url = $settings['qapp_newest_url'];
 
-        if(empty($newest_version)||empty($newest_qapp_url)){
+        if(empty($newest_version0)||empty($newest_qapp_url)){
             $this->json_output(array('err'=>3,'msg'=>'系统错误'));
         }
-        $newest_version = explode('.',$newest_version);
+        $newest_version = explode('.',$newest_version0);
+
         if($version[0]<$newest_version[0]){
-            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','url'=>$newest_qapp_url[$platform]));
+            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','new_version'=>$newest_version0,'url'=>$newest_qapp_url[$platform]));
         }elseif($version[1]<$newest_version[1]){
-            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','url'=>$newest_qapp_url[$platform]));
+            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','new_version'=>$newest_version0,'url'=>$newest_qapp_url[$platform]));
         }elseif($version[2]<$newest_version[2]){
-            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','url'=>$newest_qapp_url[$platform]));
+            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','new_version'=>$newest_version0,'url'=>$newest_qapp_url[$platform]));
         }else{
             $this->json_output(array('err'=>0,'msg'=>'当前版本是最新版本，棒棒哒'));
         }
