@@ -88,7 +88,7 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/order/init?action=grid&do={$doact}&type={$order_type}&order_sn={$order_sn}&o_ids={$o_ids}&moreChoice={$moreChoice}"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/order/init?action=grid&do={$doact}&type={$order_type}&order_sn={$order_sn}&o_ids={$o_ids}&moreChoice={$moreChoice}{if $unid}&unid={$unid}{/if}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
@@ -251,12 +251,13 @@ function onTransportStatus(e) {
 }
 //追加关联
 function onJoin(e) {
-	var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
-
+	var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type,more=record.more;
 		if(store_o_id > 0 && join_id == 0){
 			s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
-		}else if(store_o_id == 0 && join_id > 0){
+		}else if(store_o_id == 0 && join_id > 0 && more == 0){
 			s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
+		}else if(store_o_id == 0 && join_id > 0 && more > 1){
+			s += '<a href="javascript:viewUniInfo('+o_id+')">关联(多)</a> ';
 		}else if(o_id == join_id && join_id>0 && store_o_id>0){
 			s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
 		}else if(o_id == store_o_id && join_id>0 && store_o_id>0){
@@ -624,6 +625,20 @@ function viewOrdInfo(oid,o_type){
 		showMaxButton:true,
 		title: "查看订单相关信息",
 		width: 800, height:500,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//查看多笔关联订单的信息
+function viewUniInfo(oid){
+	mini.open({
+		url: "/product/order/init?unid="+oid,
+		showMaxButton:true,
+		title: "查看订单相关信息",
+		width: 1200, height:500,
 		ondestroy: function(action){
 			if(action=='save'){ //重新加载
 				grid.reload();

@@ -45,6 +45,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('order_type',1);
 		$this->assign('order_sn',sget('order_sn','s'));
 		$this->assign('o_ids',sget('o_ids','s'));
+		$this->assign('unid',sget('unid','i',0));
 		$this->assign('doact',$doact);
 		$this->assign('page_title','订单管理列表');
 		$this->display('order.list.html');
@@ -86,6 +87,9 @@ class orderAction extends adminBaseAction {
 		//筛选状态
 		$order_sn=sget('order_sn','s');
 		if($order_sn)  $where.=" and `order_sn` = '$order_sn' ";
+		//一笔采购对应多笔销售订单进行关联
+		$unid = sget('unid','i',0);
+		if($unid)  $where.=" and `store_o_id` = '$unid' ";
 		if(sget('type','i',0) !=0) $order_type=sget('type','i',0);//订单类型
 		if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
 		if($order_type !=0)  $where.=" and `order_type` =".$order_type;
@@ -159,7 +163,6 @@ class orderAction extends adminBaseAction {
 				}
 			}
 		}
-		// p($where);
 		$list=$this->db->where($where)->page($page+1,$size)->order($orderby)->getPage();
 		foreach($list['data'] as &$v){
 			$v['c_name']=  ($v['partner'] == $_SESSION['adminid'] && $v['customer_manager'] != $_SESSION['adminid']) ?  '*******' : M("user:customer")->getColByName($v['c_id']);//根据cid取客户名
@@ -242,6 +245,10 @@ class orderAction extends adminBaseAction {
 				if($row_tmp['invoice_status']==3){
 					$v['pur_status']=0;
 				}
+			}
+			//对采购订单单独追加订单多笔查看功能
+			if($order_type == 2){
+				$v['more'] = $this->db->model('order')->select("count(0) as more")->where("store_o_id = {$v['o_id']}")->getOne();
 			}
 			$v['see'] =  ($v['customer_manager'] == $_SESSION['adminid'] ||  in_array($v['customer_manager'], explode(',', $sons)) || $_SESSION['adminid']  == '1') ? '1':'0';
 			//获取单笔订单收付款状态
