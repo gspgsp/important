@@ -178,7 +178,9 @@ class contractAction extends adminBaseAction {
 	 */
 	public function contract_review(){
 	    $this->logistics_contract_id = sget('logistics_contract_id','i');
-	    $info =M('public:common')->model('transport_contract')->leftJoin('logistics_supplier ls', 'second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . sget('logistics_contract_id','i'))->getRow();
+	    //$info =M('public:common')->model('transport_contract')->leftJoin('logistics_supplier ls', 'second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . sget('logistics_contract_id','i'))->getRow();
+	    $info = M('public:common')->model('transport_contract lc')->leftJoin('logistics_supplier ls', 'lc.second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . sget('logistics_contract_id','i'))->
+	    leftJoin('logistics_contact lx', 'lc.second_part_contact_id=lx.id')->getRow();
 	    $this->assign('info',$info);
 	    $this->display('contract.review.html');
 	}
