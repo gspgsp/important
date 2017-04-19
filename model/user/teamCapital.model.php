@@ -5,12 +5,12 @@ class teamCapitalModel extends model{
 		parent::__construct(C('db_default'), 'team_capital');
 	}
 	public function goMoney($team_capital = array(),$go_money){
-		$result = $this->where('id='.$team_capital['id'])->update(array('available_money'=>$team_capital['available_money']-$go_money,'used_money'=>$team_capital['used_money']+$go_money,'update_time'=>time()));
+		$result = $this->model('team_capital')->where('id='.$team_capital['id'])->update(array('available_money'=>$team_capital['available_money']-$go_money,'used_money'=>$team_capital['used_money']+$go_money,'update_time'=>time()));
 		return $result;
 
 	}
 	public function comeMoney($team_capital = array(),$come_money){
-		$result = $this->where('id='.$team_capital['id'])->update(array('available_money'=>$team_capital['available_money']+$come_money,'used_money'=>$team_capital['used_money']-$come_money,'update_time'=>time()));
+		$result = $this->model('team_capital')->where('id='.$team_capital['id'])->update(array('available_money'=>$team_capital['available_money']+$come_money,'used_money'=>$team_capital['used_money']-$come_money,'update_time'=>time()));
 		return $result;
 	}
 	/**
