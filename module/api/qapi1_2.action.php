@@ -47,7 +47,7 @@
  */
 class qapi1_2Action extends null2Action
 {
-    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime,$randomMdTime,$shareType;
+    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime, $randomMdTime, $shareType;
 
     public function __init ()
     {
@@ -65,11 +65,8 @@ class qapi1_2Action extends null2Action
             '22' => '独家解读',
         );
         if (!$this->catesAll = unserialize ($this->cache->get ('qappInitCatesAll'))) {
-            $data           = M ("public:common")
-                ->model ("news_cate")
-                ->select ("cate_id,cate_name")
-                ->where ("status=1")
-                ->getAll ();
+            $data           = M ("public:common")->model ("news_cate")->select ("cate_id,cate_name")->where ("status=1")
+                                                 ->getAll ();
             $this->catesAll = arrayKeyValues ($data, 'cate_id', 'cate_name');
             $this->cache->set ('qappInitCatesAll', serialize ($this->catesAll), 3600);
         }
@@ -91,7 +88,7 @@ class qapi1_2Action extends null2Action
             14 => '查看通讯录',
             15 => '查看文章',
         );
-        $this->shareType = array(
+        $this->shareType   = array(
             1 => '求购分享',
             2 => '供给分享',
             3 => '文章分享',
@@ -119,9 +116,14 @@ class qapi1_2Action extends null2Action
 
         $this->newsSubscribe = 6;
 
-        $this->newsSubscribeDefault = array( '21', '20', '2', '11' );
+        $this->newsSubscribeDefault = array(
+            '21',
+            '20',
+            '2',
+            '11',
+        );
 
-        $this->randomTime = mt_rand (10, 20) * 180; // 1-2 h
+        $this->randomTime   = mt_rand (10, 20) * 180; // 1-2 h
         $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
     }
 
@@ -175,8 +177,10 @@ class qapi1_2Action extends null2Action
             if (strlen ($password) < 6) {
                 $this->error ('密码格式不正确,至少6位');
             }
-            $mcode  = sget ('code', 's');
-            if(empty($mcode)) $this->error ('请获取验证码');
+            $mcode = sget ('code', 's');
+            if (empty($mcode)) {
+                $this->error ('请获取验证码');
+            }
             $user_model   = M ('system:sysUser');
             $salt         = randstr (6);
             $passwordSalt = $user_model->genPassword ($password.$salt);
@@ -190,24 +194,34 @@ class qapi1_2Action extends null2Action
             if (mb_strlen ($name, 'UTF8') < 2) {
                 $this->error ('请输入二位字以上的姓名');
             }
-//            if (!sget ('qq', 's', '')) {
-//                $this->error ('请输入qq号码');
-//            }
-//            if (!is_qq (sget ('qq', 's'))) {
-//                $this->error ('请输入有效的qq号码');
-//            }
+            //            if (!sget ('qq', 's', '')) {
+            //                $this->error ('请输入qq号码');
+            //            }
+            //            if (!is_qq (sget ('qq', 's'))) {
+            //                $this->error ('请输入有效的qq号码');
+            //            }
             $c_name    = sget ('c_name', 's');
             $region    = sget ('region', 's', '');
             $chanel    = (int)sget ('chanel', 'i', 6);
             $quan_type = sget ('quan_type', 'i');//sget()函数要理解一下，里面有个empty函数
             //$origin = sget('origin','a');
-            $ctype = sget('c_type','i');  //'客户类型(1 工厂(买家)、2 贸易(卖家)、3 工贸一体(买卖一体))4物流',
+            $ctype = sget ('c_type', 'i');  //'客户类型(1 工厂(买家)、2 贸易(卖家)、3 工贸一体(买卖一体))4物流',
             //$_model = sget('model','a');  //牌号
-//            if(empty($origin)||count($origin)!=2) $this->_errCode(6);
-            if(empty($ctype)) $this->_errCode(6);
-           if(!in_array($ctype,array('1','2','3','4'))) $this->_errCode(6);
-            $name      = $this->clearStr ($name);
-            $c_name    = $this->clearStr ($c_name);
+            //            if(empty($origin)||count($origin)!=2) $this->_errCode(6);
+            if (empty($ctype)) {
+                $this->_errCode (6);
+            }
+            if (!in_array ($ctype, array(
+                '1',
+                '2',
+                '3',
+                '4',
+            ))
+            ) {
+                $this->_errCode (6);
+            }
+            $name   = $this->clearStr ($name);
+            $c_name = $this->clearStr ($c_name);
             if (mb_strlen ($c_name, 'UTF8') < 5) {
                 $this->error ('请输入完整的公司名');
             }
@@ -220,15 +234,13 @@ class qapi1_2Action extends null2Action
                 $this->error ($result['msg']);
             }
 
-            $china_area = M('system:region')->get_system_region_by_phone($mobile);
+            $china_area = M ('system:region')->get_system_region_by_phone ($mobile);
 
             //if(empty($_model)||count($_model)>10) $this->_errCode(6);
             //$_model = implode(',',$_model);
 
             $cus_model  = $this->db->model ('customer');
-            $customer   = $cus_model->select ('c_id')
-                ->where ("c_name='$c_name'")
-                ->getOne ();//获取公司的id
+            $customer   = $cus_model->select ('c_id')->where ("c_name='$c_name'")->getOne ();//获取公司的id
             $user_model = M ('system:sysUser');
             $user_model->startTrans ();
             try {
@@ -238,11 +250,12 @@ class qapi1_2Action extends null2Action
                         'c_name'           => $c_name,
                         'chanel'           => $chanel,
                         'input_time'       => CORE_TIME,
-                        'customer_manager' => 859,//交易员
+                        'customer_manager' => 859,
+                        //交易员
                         //'origin'=>implode('|',$origin),
                         //'need_product'=>$_model,
-                        'type'             =>$ctype,
-                        'china_area'       =>$china_area,
+                        'type'             => $ctype,
+                        'china_area'       => $china_area,
                         'quan_type'        => $quan_type,
                     );
                     if (!$cus_model->add ($_customer)) {
@@ -251,10 +264,8 @@ class qapi1_2Action extends null2Action
                     $c_id = $cus_model->getLastID ();
                 }
                 //查看是否为老用户
-                $old_user      = $this->db->model ('customer_contact')
-                    ->select ('user_id,parent_mobile')
-                    ->where ("mobile=".$mobile)
-                    ->getRow ();
+                $old_user      = $this->db->model ('customer_contact')->select ('user_id,parent_mobile')
+                                          ->where ("mobile=".$mobile)->getRow ();
                 $salt          = $cache->get ($mobile.'salt');
                 $password      = $cache->get ($mobile.'password');
                 $parent_mobile = sget ('parent_mobile', 's');
@@ -264,10 +275,8 @@ class qapi1_2Action extends null2Action
                 if (empty($parent_mobile) || $parent_mobile == 'undefined') {
                     $parent_mobile = '';
                 } else {
-                    if (!$this->db->from ('customer_contact')
-                        ->select ('user_id')
-                        ->where ('mobile='.$parent_mobile)
-                        ->getOne ()
+                    if (!$this->db->from ('customer_contact')->select ('user_id')->where ('mobile='.$parent_mobile)
+                                  ->getOne ()
                     ) {
                         throw new Exception("引荐人错误，请重新选择引荐人，或者独自踏上征途。");
                     }
@@ -298,16 +307,15 @@ class qapi1_2Action extends null2Action
                         'sex'           => sget ('sex', 'i', 0),
                         'chanel'        => $chanel,
                         'update_time'   => CORE_TIME,
-						'is_trial'=>0,//公海状态清零
+                        'is_trial'      => 0,
+                        //公海状态清零
                         'quan_type'     => $quan_type,
                     );
-                    if (!$user_model->where ("mobile=".$mobile)
-                        ->update ($_user)
-                    ) {
+                    if (!$user_model->where ("mobile=".$mobile)->update ($_user)) {
                         throw new Exception("系统错误 reg:105");
                     }
 
-                    $stype=2;//老用户
+                    $stype = 2;//老用户
                     //老用户也要检测contact_info 表的信息,防止后台乱添加用户少了信息
                     $mobile_area = getCityByMobile ($mobile);
                     $_info       = array(
@@ -321,14 +329,10 @@ class qapi1_2Action extends null2Action
                         'mobile_area'     => empty($mobile_area['city']) ? '' : $mobile_area['city'],
                         'quan_type'       => $quan_type,
                     );
-                    if (!$this->db->model ('contact_info')
-                        ->select ('user_id')
-                        ->where ("user_id={$old_user['user_id']}")
-                        ->getOne ()
+                    if (!$this->db->model ('contact_info')->select ('user_id')->where ("user_id={$old_user['user_id']}")
+                                  ->getOne ()
                     ) {
-                        if (!$this->db->model ('contact_info')
-                            ->add ($_info)
-                        ) {
+                        if (!$this->db->model ('contact_info')->add ($_info)) {
                             throw new Exception("系统错误 reg:103");
                         }
                         $stype = 1; //新用户
@@ -343,7 +347,8 @@ class qapi1_2Action extends null2Action
                         'qq'               => sget ('qq', 's'),
                         'c_id'             => $c_id,
                         'sex'              => sget ('sex', 'i', 0),
-                        'customer_manager' => 859,//交易员
+                        'customer_manager' => 859,
+                        //交易员
                         'input_time'       => CORE_TIME,
                         'is_default'       => $is_default,
                         'parent_mobile'    => $parent_mobile,
@@ -357,21 +362,19 @@ class qapi1_2Action extends null2Action
                     //throw new Exception('test');
                     //直接关注和加积分
                     if (!empty($_user['parent_mobile'])) {
-                        $focused_id = $this->db->model ('customer_contact')
-                            ->where ("mobile=".$_user['parent_mobile'])
-                            ->select ('user_id')
-                            ->getOne ();
+                        $focused_id = $this->db->model ('customer_contact')->where ("mobile=".$_user['parent_mobile'])
+                                               ->select ('user_id')->getOne ();
                         if (!M ("plasticzone:plasticAttention")->getAttention ($user_id, $focused_id)) {
                             throw new Exception("系统错误 reg:111");
                         }
-//                        if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
-//                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-//                            throw new Exception("系统错误 reg:112");
-//                        }//引荐加积分
-//                        if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
-//                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-//                            throw new Exception("系统错误 reg:112");
-//                        }//注册加积分
+                        //                        if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
+                        //                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                        //                            throw new Exception("系统错误 reg:112");
+                        //                        }//引荐加积分
+                        //                        if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
+                        //                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                        //                            throw new Exception("系统错误 reg:112");
+                        //                        }//注册加积分
                     }
                     $mobile_area = getCityByMobile ($mobile);
                     $_info       = array(
@@ -385,23 +388,21 @@ class qapi1_2Action extends null2Action
                         'mobile_area'     => empty($mobile_area['city']) ? '' : $mobile_area['city'],
                         'quan_type'       => $quan_type,
                     );
-                    if (!$this->db->model ('contact_info')
-                        ->add ($_info)
-                    ) {
+                    if (!$this->db->model ('contact_info')->add ($_info)) {
                         throw new Exception("系统错误 reg:103");
                     }
                     //这一步少不了，$c_id之前不知道
                     if (!$customer) {
-                        if (!$this->db->model ('customer')
-                            ->where ("c_id=$c_id")
-                            ->update ("contact_id=".$user_id)
-                        ) {
+                        if (!$this->db->model ('customer')->where ("c_id=$c_id")->update ("contact_id=".$user_id)) {
                             throw new Exception("系统错误 reg:104");
                         }
                     }
                     //新增用户默认排序最前
-                    $this->db->model ('weixin_ranking')
-                        ->add (array( 'user_id' => $user_id, 'pm' => 0, 'rownum' => 0, ));
+                    $this->db->model ('weixin_ranking')->add (array(
+                        'user_id' => $user_id,
+                        'pm'      => 0,
+                        'rownum'  => 0,
+                    ));
                 }
             } catch (Exception $e) {
                 $user_model->rollback ();
@@ -412,7 +413,11 @@ class qapi1_2Action extends null2Action
             $cache->delete ($mobile.'salt');
             $cache->delete ($mobile.'check_reg_ok');
             //$this->success ('注册成功');
-            $this->json_output(array('err'=>0,'msg'=>'注册成功','stype'=>$stype));
+            $this->json_output (array(
+                'err'   => 0,
+                'msg'   => '注册成功',
+                'stype' => $stype,
+            ));
 
         }
         $this->_errCode (6);
@@ -456,8 +461,10 @@ class qapi1_2Action extends null2Action
             $salt         = randstr (6);
             $passwordSalt = $user_model->genPassword ($password.$salt);
             //用户重置密码
-            $result = $user_model->where ('mobile='.$mobile)
-                                 ->update (array( 'password' => $passwordSalt, 'salt' => $salt ));
+            $result = $user_model->where ('mobile='.$mobile)->update (array(
+                'password' => $passwordSalt,
+                'salt'     => $salt,
+            ));
             //$this->getDBError();
             if (!$result) {
                 $this->error ('密码重置失败，请稍后重试');
@@ -552,29 +559,28 @@ class qapi1_2Action extends null2Action
                 $token = M ('qapp:appToken')->insert ($result['user']['user_id'], $result['user']);
                 //$cache=cache::startMemcache();
                 //$this->success('登录成功');
-                if (!M ("qapp:pointsBill")
-                    ->select ('id')
-                    ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=2 and uid={$result['user']['user_id']}")
-                    ->order ("id desc")
-                    ->getOne ()
+                if (!M ("qapp:pointsBill")->select ('id')
+                                          ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=2 and uid={$result['user']['user_id']}")
+                                          ->order ("id desc")->getOne ()
                 ) {
                     $user_id = $result['user']['user_id'];
-                    $tmp     = M ('public:common')
-                        ->model ('contact_info')
-                        ->where ("user_id=$user_id")
-                        ->getRow ();
+                    $tmp     = M ('public:common')->model ('contact_info')->where ("user_id=$user_id")->getRow ();
                     if (empty($tmp)) {
-                        $this->json_output (array( 'err' => 101, 'msg' => '注册信息不完整，请联系客服或重新注册' ));
+                        $this->json_output (array(
+                            'err' => 101,
+                            'msg' => '注册信息不完整，请联系客服或重新注册',
+                        ));
                     }
                     $spoints = $this->points['login'];
-//                    if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 2)) {
-//                        $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
-//                    }
+                    //                    if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 2)) {
+                    //                        $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
+                    //                    }
                 }
-                $this->json_output (array( 'err'       => 0,
-                                           'msg'       => '登录成功',
-                                           'dataToken' => $token,
-                                           'user_id'   => $result['user']['user_id']
+                $this->json_output (array(
+                    'err'       => 0,
+                    'msg'       => '登录成功',
+                    'dataToken' => $token,
+                    'user_id'   => $result['user']['user_id'],
                 ));
             }
         }
@@ -592,7 +598,10 @@ class qapi1_2Action extends null2Action
             $cache         = cache::startMemcache ();
             $cache->delete ($token);
             M ('qapp:appToken')->destory ($token);
-            $this->json_output (array( 'err' => 0, 'msg' => '退出成功' ));
+            $this->json_output (array(
+                'err' => 0,
+                'msg' => '退出成功',
+            ));
         }
         $this->_errCode (6);
     }
@@ -617,19 +626,37 @@ class qapi1_2Action extends null2Action
         $quan_type = sget ('quan_type', 'i');
         $version   = sget ('version', 's');//版本号
         $platform  = $this->checkPlatform ()['platform'];
-        $region    = sget('region','i',0);
+        $region    = sget ('region', 'i', 0);
 
         //0 全部 1 华东 2 华北 3 华南 4 其他
-        if(!in_array($region,array(0,1,2,3,4)))
-        {
-            $this->json_output (array( 'err' => 1, 'msg' => 'region参数错误' ));
+        if (!in_array ($region, array(
+            0,
+            1,
+            2,
+            3,
+            4,
+        ))
+        ) {
+            $this->json_output (array(
+                'err' => 1,
+                'msg' => 'region参数错误',
+            ));
         }
-        if ($sortField != 'default' && $sortField != 'input_time')
-        {
-            $this->json_output (array( 'err' => 1, 'msg' => 'sortField参数错误' ));
+        if ($sortField != 'default' && $sortField != 'input_time') {
+            $this->json_output (array(
+                'err' => 1,
+                'msg' => 'sortField参数错误',
+            ));
         }
-        if (!in_array ($sortOrder, array( 'desc', 'asc' ))) {
-            $this->json_output (array( 'err' => 1, 'msg' => 'sortOrder参数错误' ));
+        if (!in_array ($sortOrder, array(
+            'desc',
+            'asc',
+        ))
+        ) {
+            $this->json_output (array(
+                'err' => 1,
+                'msg' => 'sortOrder参数错误',
+            ));
         }
 
 
@@ -661,45 +688,54 @@ class qapi1_2Action extends null2Action
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
         $data  = array();
-/*        $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
-        M("system:setting")->del_cache($key);
-        $key = 'qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
-        M("system:setting")->del_cache($key);*/
+        /*        $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
+                M("system:setting")->del_cache($key);
+                $key = 'qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
+                M("system:setting")->del_cache($key);*/
 
         if (empty($keywords)) {
             if ($page < 4) {//前三页
                 if ($user_id > 0) {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
                         $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 } else {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
                         $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region, $data['data'], 60);//1分钟缓存
                     }
                 }
             } else {
-                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
             }
         } else {
-            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder,$region);
+            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region);
         }
 
         if (empty($data['data']) && $page == 1) {
-            $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
-        }elseif(empty($data['data']) && $page > 1){
-            $this->json_output (array( 'err' => 3, 'msg' => '没有更多记录了' ));
+            $this->json_output (array(
+                'err' => 2,
+                'msg' => '没有相关数据',
+            ));
+        } elseif (empty($data['data']) && $page > 1) {
+            $this->json_output (array(
+                'err' => 3,
+                'msg' => '没有更多记录了',
+            ));
         }
 
         $this->_checkLastPage ($data['count'], $size, $page);
         if ($page >= 3 && $user_id <= 0) {
-            $this->json_output (array( 'err' => 1, 'msg' => '想要查看更多，请登录', 'count' => $data['count'] ));
+            $this->json_output (array(
+                'err'   => 1,
+                'msg'   => '想要查看更多，请登录',
+                'count' => $data['count'],
+            ));
         }
         if ($user_id > 0) {
             $dayTime = strtotime (date ("Y-m-d"));
-            if ($page == 1 && !$this->db->from ('log_login')
-                                        ->select ('input_time')
+            if ($page == 1 && !$this->db->from ('log_login')->select ('input_time')
                                         ->where ("input_time >".$dayTime." and chanel =6 and quan_type = $quan_type and user_id=$user_id")
                                         ->getOne ()
             ) {
@@ -711,78 +747,79 @@ class qapi1_2Action extends null2Action
                     'chanel'     => $chanel,
                     'quan_type'  => $quan_type,
                 );
-                $this->db->model ("log_login")
-                         ->add ($arr);
+                $this->db->model ("log_login")->add ($arr);
             };
         }
-        $goods_id =$this->db->model("points_goods")->select('id')->where(" type =2 and status =1")->getOne();
+        $goods_id = $this->db->model ("points_goods")->select ('id')->where (" type =2 and status =1")->getOne ();
 
         //var_dump($goods_id);
-        $pointsOrder = M("points:pointsOrder");
-        $contact_id= $pointsOrder->get_supply_demand_top($goods_id);
+        $pointsOrder = M ("points:pointsOrder");
+        $contact_id  = $pointsOrder->get_supply_demand_top ($goods_id);
 
-        if($contact_id){
-            $top= M ('qapp:plasticPersonalInfo')->getMyOwnInfo($contact_id);
-            foreach($data['data'] as $key=>&$val)
-            {
-                if($val['user_id']==$top['user_id'])
-                {
+        if ($contact_id) {
+            $top = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($contact_id);
+            foreach ($data['data'] as $key => &$val) {
+                if ($val['user_id'] == $top['user_id']) {
                     unset($data['data'][$key]);
-                    $data['data'] = array_values($data['data']);
+                    $data['data'] = array_values ($data['data']);
                 }
             }
             unset($val);
-        }else{
+        } else {
             $top = (object)array();
         }
         if ($page == 1) {
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
             $members = empty($members) ? 0 : $members;
 
-            $arr= array(
-                'err'     => 0,
-                'persons' => $data['data'],
-                'member'  => $members,
-                'is_show_banner'=>0,
-                'is_show_focus'=>1,
-                'is_show_cover'=>0,
-                'banner_url'=> '',
-                'banner_jump_url'=> '',
-                'cover_url'=> '',
-                'cover_jump_url'=> '',
-                'data'    => CORE_TIME
+            $arr = array(
+                'err'             => 0,
+                'persons'         => $data['data'],
+                'member'          => $members,
+                'is_show_banner'  => 0,
+                'is_show_focus'   => 1,
+                'is_show_cover'   => 0,
+                'banner_url'      => '',
+                'banner_jump_url' => '',
+                'cover_url'       => '',
+                'cover_jump_url'  => '',
+                'data'            => CORE_TIME,
             );
-            if(!empty($top)){
-                $arr['top']=$top;
+            if (!empty($top)) {
+                $arr['top'] = $top;
             }
             //是否显示banner
-            M("system:setting")->del_cache("setting");
-            $setting = M("system:setting")->getSetting();
-            $time000 = CORE_TIME;
+            M ("system:setting")->del_cache ("setting");
+            $setting = M ("system:setting")->getSetting ();
             //var_dump($setting['qapp_banner']);
 
-            if(!empty($setting['qapp_banner'])&&!empty($setting['qapp_banner']['start_time'])&&!empty($setting['qapp_banner']['end_time'])&&!empty($setting['qapp_banner']['url'])&&$time000>$setting['qapp_banner']['start_time']&&$time000<$setting['qapp_banner']['end_time']){
-                    $arr['is_show_banner'] = 1;
-                    $arr['is_show_focus'] = 0;
-                    $arr['banner_url'] = $setting['qapp_banner']['url'];
-                    $arr['banner_jump_url'] = $setting['qapp_banner']['jump_url'];
+            if (!empty($setting['qapp_banner']) && !empty($setting['qapp_banner']['start_time']) && !empty($setting['qapp_banner']['end_time']) && !empty($setting['qapp_banner']['url']) && CORE_TIME > $setting['qapp_banner']['start_time'] && CORE_TIME < $setting['qapp_banner']['end_time']) {
+                $arr['is_show_banner']  = 1;
+                $arr['is_show_focus']   = 0;
+                $arr['banner_url']      = $setting['qapp_banner']['url'];
+                $arr['banner_jump_url'] = $setting['qapp_banner']['jump_url'];
 
             }
             //是否显示cover photo 未来待定
-            if(!empty($setting['qapp_cover'])&&!empty($setting['qapp_cover']['start_time'])&&!empty($setting['qapp_cover']['end_time'])&&!empty($setting['qapp_cover']['url'])&&$time000>$setting['qapp_cover']['start_time']&&$time000<$setting['qapp_cover']['end_time']){
-                $arr['is_show_cover'] = 1;
-                $arr['cover_url'] = $setting['qapp_banner']['url'];
+            if (!empty($setting['qapp_cover']) && !empty($setting['qapp_cover']['start_time']) && !empty($setting['qapp_cover']['end_time']) && !empty($setting['qapp_cover']['url']) && CORE_TIME > $setting['qapp_cover']['start_time'] && CORE_TIME < $setting['qapp_cover']['end_time']) {
+                $arr['is_show_cover']  = 1;
+                $arr['cover_url']      = $setting['qapp_banner']['url'];
                 $arr['cover_jump_url'] = $setting['qapp_banner']['jump_url'];
             }
 
             $this->json_output ($arr);
         }
-        $arr = array( 'err' => 0, 'persons' => $data['data'], 'data' => CORE_TIME );
-        if(!empty($top)){
-            $arr['top']=$top;
+        $arr = array(
+            'err'     => 0,
+            'persons' => $data['data'],
+            'data'    => CORE_TIME,
+        );
+        if (!empty($top)) {
+            $arr['top'] = $top;
         }
         $this->json_output ($arr);
     }
+
     //我的塑料圈
     public function myZone ()
     {
@@ -823,19 +860,34 @@ class qapi1_2Action extends null2Action
             //            var_dump($user_id);
             //            var_dump($data);exit;
             if (empty($data)) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关资料',
+                ));
             }
-            $data = empty($data) ? array( 'err' => 2, 'msg' => '没有相关资料' ) : $data;
+            $data = empty($data) ? array(
+                'err' => 2,
+                'msg' => '没有相关资料',
+            ) : $data;
             $this->json_output (array(
-                's_in_count'   => $s_in_count,//我的求购
-                's_out_count'  => $s_out_count,//我的供给
-                'points'       => $points,//我的积分
-                'leaveword'    => $leaveword,//我的留言
-                'message'      => $message,//我的未读消息
-                'introduction' => $introduction,//我的引荐
-                'myfans'       => $myfans,//我的粉丝
-                'myconcerns'   => $myconcerns,//我的关注
-                'data'         => $data,//我的个人信息
+                's_in_count'   => $s_in_count,
+                //我的求购
+                's_out_count'  => $s_out_count,
+                //我的供给
+                'points'       => $points,
+                //我的积分
+                'leaveword'    => $leaveword,
+                //我的留言
+                'message'      => $message,
+                //我的未读消息
+                'introduction' => $introduction,
+                //我的引荐
+                'myfans'       => $myfans,
+                //我的粉丝
+                'myconcerns'   => $myconcerns,
+                //我的关注
+                'data'         => $data,
+                //我的个人信息
             ));
         }
         $this->_errCode (6);
@@ -852,13 +904,21 @@ class qapi1_2Action extends null2Action
             $size    = sget ('size', 'i', 10);
             $data    = M ('qapp:plasticIntroduction')->getqAppMyIntroduction ($user_id, $page, $size);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据', 'count' => 0 ));
+                $this->json_output (array(
+                    'err'   => 2,
+                    'msg'   => '没有相关的数据',
+                    'count' => 0,
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
             //unset($data['data'][2]);
             //            echo '<pre>';
             //            var_dump($data);exit;
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'], 'count' => $data['count'] ));
+            $this->json_output (array(
+                'err'   => 0,
+                'data'  => $data['data'],
+                'count' => $data['count'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -923,18 +983,22 @@ class qapi1_2Action extends null2Action
             // 检测是否有标准格式供求
 
             if ($page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
-                $has_standard = M ('qapp:plasticRelease')->checkStandard($user_id);
-                if(empty($has_standard))
-                {
-                    $this->json_output(array('err' => 7, 'msg' => '您未在塑料圈发送标准格式供求，暂无推荐！'));
+                $has_standard = M ('qapp:plasticRelease')->checkStandard ($user_id);
+                if (empty($has_standard)) {
+                    $this->json_output (array(
+                        'err' => 7,
+                        'msg' => '您未在塑料圈发送标准格式供求，暂无推荐！',
+                    ));
                 }
             }
             //检测是否有塑料圈关注的人
             if ($page == 1 && $sortField2 == 'CONCERN') {
                 $has_concern = M ('qapp:plasticIntroduction')->getMyFuns ($user_id, 2, 1, $size);
-                if(empty($has_concern['data']))
-                {
-                    $this->json_output (array( 'err' => 5, 'msg' => '您未关注塑料圈用户，暂无供求信息！' ));
+                if (empty($has_concern['data'])) {
+                    $this->json_output (array(
+                        'err' => 9,
+                        'msg' => '您未关注塑料圈用户，暂无供求信息！',
+                    ));
                 }
             }
             //获取供求详细数据
@@ -944,50 +1008,72 @@ class qapi1_2Action extends null2Action
                 $this->_errCode (5);
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
-                $this->json_output (array( 'err' => 4, 'msg' => '您关注的该牌号暂未匹配，暂无推荐！' ));
+                $this->json_output (array(
+                    'err' => 4,
+                    'msg' => '您关注的该牌号暂未匹配，暂无推荐！',
+                ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'CONCERN') {
-                $this->json_output (array( 'err' => 6, 'msg' => '您关注的塑料圈用户暂无供求信息！' ));
+                $this->json_output (array(
+                    'err' => 6,
+                    'msg' => '您关注的塑料圈用户暂无供求信息！',
+                ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'DEMANDORSUPPLY') {
-                $this->json_output (array( 'err' => 2, 'msg' => '您未发布任何供求信息！' ));
+                $this->json_output (array(
+                    'err' => 8,
+                    'msg' => '您未发布任何供求信息！',
+                ));
             }
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关数据',
+                ));
             }
             if (empty($data['data'])) {
-                $this->json_output (array( 'err' => 3, 'msg' => '没有更多数据' ));
+                $this->json_output (array(
+                    'err' => 3,
+                    'msg' => '没有更多数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
-            $pointsOrder = M("points:pointsOrder");
+            $goods_id    = $this->db->model ("points_goods")->select ('id')->where (" type =1 and status =1")
+                                    ->getOne ();
+            $pointsOrder = M ("points:pointsOrder");
 
-            $pur_id= $pointsOrder->get_supply_demand_top($goods_id);
+            $pur_id = $pointsOrder->get_supply_demand_top ($goods_id);
 
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
-            if($pur_id &&($sortField1 == 'ALL'||$sortField2 == 'AUTO'|| $sortField2 == 'DEMANDORSUPPLY')){
+            if ($pur_id && ($sortField1 == 'ALL' || $sortField2 == 'AUTO' || $sortField2 == 'DEMANDORSUPPLY')) {
 
-                $top = M ('qapp:plasticRelease')->getReleaseMsgDetail($pur_id);
-                $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo($top['user_id']);
-                $_tmp = $top['info'];
+                $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($pur_id);
+                $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($top['user_id']);
+                $_tmp     = $top['info'];
                 unset($top['info']);
-                $top =  array_merge($top,$_tmp,$personal);
+                $top = array_merge ($top, $_tmp, $personal);
 
-                foreach($data['data'] as $key=>&$val)
-                {
-                    if($val['id']==$top['id'])
-                    {
+                foreach ($data['data'] as $key => &$val) {
+                    if ($val['id'] == $top['id']) {
                         unset($data['data'][$key]);
-                        $data['data'] = array_values($data['data']);
+                        $data['data'] = array_values ($data['data']);
                     }
                 }
                 unset($val);
 
-                $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
-            }else{
+                $arr = array(
+                    'err'  => 0,
+                    'data' => $data['data'],
+                    'top'  => $top,
+                );
+            } else {
                 $top = (object)array();
 
-                $arr = array( 'err' => 0, 'data' => $data['data'],'top'=>$top );
+                $arr = array(
+                    'err'  => 0,
+                    'data' => $data['data'],
+                    'top'  => $top,
+                );
 
             }
 
@@ -1031,7 +1117,10 @@ class qapi1_2Action extends null2Action
             }
             $data = M ('qapp:plasticRelease')->getReleaseMsgDetailReply ($id, $user_id, $page, $size);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
             $this->_errCode (0, $data);
@@ -1052,20 +1141,30 @@ class qapi1_2Action extends null2Action
             $type    = sget ('type', 'i');// 1 求购 2 供给
             $price   = sget ('price', 'f');
             if ($price <= 0 || $price > 50000) {
-                $this->json_output (array( 'err' => 6, 'msg' => '价格输入不正常，请重新输入' ));
+                $this->json_output (array(
+                    'err' => 6,
+                    'msg' => '价格输入不正常，请重新输入',
+                ));
             }
             $price = sprintf ("%.2f", $price);
-            $arr   = array( 'pur_id'     => $id,
-                            'send_id'    => $user_id,
-                            'user_id'    => $rev_id,
-                            'type'       => $type,
-                            'price'      => $price,
-                            'input_time' => CORE_TIME
+            $arr   = array(
+                'pur_id'     => $id,
+                'send_id'    => $user_id,
+                'user_id'    => $rev_id,
+                'type'       => $type,
+                'price'      => $price,
+                'input_time' => CORE_TIME,
             );
             if (M ('qapp:plasticQuote')->setPurchasePrice ($arr)) {
-                $this->json_output (array( 'err' => 0, 'msg' => '发布成功' ));
+                $this->json_output (array(
+                    'err' => 0,
+                    'msg' => '发布成功',
+                ));
             }
-            $this->json_output (array( 'err' => 5, 'msg' => '发布失败' ));
+            $this->json_output (array(
+                'err' => 5,
+                'msg' => '发布失败',
+            ));
         }
         $this->_errCode (6);
     }
@@ -1084,7 +1183,10 @@ class qapi1_2Action extends null2Action
             $data   = M ('qapp:plasticQuote')->getPurchasePrice ($id, $rev_id, $page, $size);
             $this->_errCode (0, $data);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
         }
@@ -1118,22 +1220,27 @@ class qapi1_2Action extends null2Action
             $pur_model = M ('product:purchase');
             $fac_model = M ('product:factory');
             $pro_model = M ('product:product');
-            $soms      = M ('plasticzone:plasticPerson')
-                ->select ('c_id,customer_manager')
-                ->where ('user_id='.$user_id)
-                ->getRow ();
+            $soms      = M ('plasticzone:plasticPerson')->select ('c_id,customer_manager')->where ('user_id='.$user_id)
+                                                        ->getRow ();
             $content   = str_replace (PHP_EOL, '', $content);
             //判断是否只有content
             if (empty($data[0]['model']) && empty($data[0]['f_name']) && empty($data[0]['store_house'])) {
                 $_content = array(
-                    'user_id'    => $user_id,//用户id
-                    'c_id'       => $soms['c_id'],//客户id
-                    'status'     => $type == 1 ? 1 : 2,//状态，报价不需要审核，采购需要审核
-                    'sync'       => 6,//报价来源平台
-                    'type'       => $type,//采购、报价
+                    'user_id'    => $user_id,
+                    //用户id
+                    'c_id'       => $soms['c_id'],
+                    //客户id
+                    'status'     => $type == 1 ? 1 : 2,
+                    //状态，报价不需要审核，采购需要审核
+                    'sync'       => 6,
+                    //报价来源平台
+                    'type'       => $type,
+                    //采购、报价
                     'quan_type'  => $quan_type,
-                    'content'    => $content,//客户直接填写的求购内容
-                    'input_time' => CORE_TIME,//创建时间
+                    'content'    => $content,
+                    //客户直接填写的求购内容
+                    'input_time' => CORE_TIME,
+                    //创建时间
                 );
                 $pur_model->startTrans ();
                 try {
@@ -1141,45 +1248,45 @@ class qapi1_2Action extends null2Action
                         throw new Exception("系统错误 pubpur:3");
                     }
                     $pur_id = $pur_model->getLastID ();
-//                    if ($type == 2) {//报价
-//                        $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-//                        if (!M ("qapp:pointsBill")
-//                            ->select ('id')
-//                            ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
-//                            ->order ("id desc")
-//                            ->getOne ()
-//                        ) {
-//                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
-//                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-//                            }
-//                        }
-//                    } elseif ($type == 1) {//采购
-//                        $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
-//                        if (!M ("qapp:pointsBill")
-//                            ->select ('id')
-//                            ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
-//                            ->order ("id desc")
-//                            ->getOne ()
-//                        ) {
-//                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
-//                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-//                            }
-//                        }
-//                    }
+                    //                    if ($type == 2) {//报价
+                    //                        $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
+                    //                        if (!M ("qapp:pointsBill")
+                    //                            ->select ('id')
+                    //                            ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
+                    //                            ->order ("id desc")
+                    //                            ->getOne ()
+                    //                        ) {
+                    //                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
+                    //                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+                    //                            }
+                    //                        }
+                    //                    } elseif ($type == 1) {//采购
+                    //                        $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
+                    //                        if (!M ("qapp:pointsBill")
+                    //                            ->select ('id')
+                    //                            ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
+                    //                            ->order ("id desc")
+                    //                            ->getOne ()
+                    //                        ) {
+                    //                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
+                    //                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+                    //                            }
+                    //                        }
+                    //                    }
                 } catch (Exception $e) {
                     $pur_model->rollback ();
-                    $this->json_output (array( 'err' => 3, 'msg' => '插入数据失败' ));
+                    $this->json_output (array(
+                        'err' => 3,
+                        'msg' => '插入数据失败',
+                    ));
                 }
                 $pur_model->commit ();
 
                 //robot表插入消息
                 $tmpFuns    = M ("qapp:plasticIntroduction")->getMyFunsId ($user_id, 1);
                 $tmpContent = "您关注的";
-                $tmpContent .= M ("public:common")
-                    ->model ('customer_contact')
-                    ->select ('name')
-                    ->where ("user_id=".$user_id)
-                    ->getOne ();
+                $tmpContent .= M ("public:common")->model ('customer_contact')->select ('name')
+                                                  ->where ("user_id=".$user_id)->getOne ();
                 $tmpContent .= "发布了1条";
                 if ($type == 1) {
                     $tmpContent .= "求购";
@@ -1198,13 +1305,10 @@ class qapi1_2Action extends null2Action
             //
             foreach ($data as $key => $value) {
                 //是否已有该产品
-                $model = $this->db->from ('product p')
-                                  ->join ('factory f', 'p.f_id=f.fid');
+                $model = $this->db->from ('product p')->join ('factory f', 'p.f_id=f.fid');
                 //                 $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
                 $where          = "p.model='{$value['model']}'  and f.f_name='{$value['f_name']}'";
-                $pid            = $model->where ($where)
-                                        ->select ('p.id')
-                                        ->getOne ();
+                $pid            = $model->where ($where)->select ('p.id')->getOne ();
                 $value['price'] = sprintf ("%.2f", $value['price']);
                 $value['model'] = $this->clearStr ($value['model']);
                 $value['model'] = trim ($value['model']);
@@ -1213,23 +1317,35 @@ class qapi1_2Action extends null2Action
                     $value['model'] = '';
                 }
                 $_data = array(
-                    'user_id'          => $user_id,//用户id
-                    'c_id'             => $soms['c_id'],//客户id
-                    'model'            => $value['model'],//牌号
-                    'customer_manager' => $soms['customer_manager'],//交易员
+                    'user_id'          => $user_id,
+                    //用户id
+                    'c_id'             => $soms['c_id'],
+                    //客户id
+                    'model'            => $value['model'],
+                    //牌号
+                    'customer_manager' => $soms['customer_manager'],
+                    //交易员
                     //'number' => $value['number'],//吨数
-                    'unit_price'       => $value['price'],//单价
-                    'provinces'        => $value['provinces'],//省份id
-                    'store_house'      => $value['store_house'],//仓库
+                    'unit_price'       => $value['price'],
+                    //单价
+                    'provinces'        => $value['provinces'],
+                    //省份id
+                    'store_house'      => $value['store_house'],
+                    //仓库
                     //'period' => $value['period'],//期货周期
                     //'bargain' => $value['bargain'],//是否实价
-                    'type'             => $type,//采购、报价
-                    'sync'             => 6,//报价来源平台
+                    'type'             => $type,
+                    //采购、报价
+                    'sync'             => 6,
+                    //报价来源平台
                     'quan_type'        => $quan_type,
-                    'status'           => $type == 1 ? 1 : 2,//状态，报价不需要审核，采购需要审核
-                    'input_time'       => CORE_TIME,//创建时间
+                    'status'           => $type == 1 ? 1 : 2,
+                    //状态，报价不需要审核，采购需要审核
+                    'input_time'       => CORE_TIME,
+                    //创建时间
                     // 'remark' => $remark,//备注
-                    'content'          => $content,//客户直接填写的求购内容
+                    'content'          => $content,
+                    //客户直接填写的求购内容
                 );
 
                 if ($pid) {
@@ -1247,14 +1363,14 @@ class qapi1_2Action extends null2Action
                     $pur_model->startTrans ();
                     try {
                         // 是否已有厂家
-                        $f_id = $fac_model->where ("f_name='{$value['f_name']}'")
-                                          ->select ('fid')
-                                          ->getOne ();
+                        $f_id = $fac_model->where ("f_name='{$value['f_name']}'")->select ('fid')->getOne ();
                         if (!$f_id) {
                             //创建新厂家
                             $_factory = array(
-                                'f_name'     => $value['f_name'],//厂家名称
-                                'input_time' => CORE_TIME,//创建时间
+                                'f_name'     => $value['f_name'],
+                                //厂家名称
+                                'input_time' => CORE_TIME,
+                                //创建时间
                             );
                             if (!$fac_model->add ($_factory)) {
                                 throw new Exception("系统错误 pubpur:101");
@@ -1262,12 +1378,18 @@ class qapi1_2Action extends null2Action
                             $f_id = $fac_model->getLastID ();
                         }
                         $_product = array(
-                            'model'        => $value['model'],//牌号
-                            'product_type' => $value['product_type'],//产品类型
-                            'process_type' => $value['process_level'],//加工级别
-                            'input_time'   => CORE_TIME,//创建时间
-                            'f_id'         => $f_id,//厂家id
-                            'status'       => 3,//审核状态
+                            'model'        => $value['model'],
+                            //牌号
+                            'product_type' => $value['product_type'],
+                            //产品类型
+                            'process_type' => $value['process_level'],
+                            //加工级别
+                            'input_time'   => CORE_TIME,
+                            //创建时间
+                            'f_id'         => $f_id,
+                            //厂家id
+                            'status'       => 3,
+                            //审核状态
                         );
                         if (!$pro_model->add ($_product)) {
                             throw new Exception("系统错误 pubpur:102");
@@ -1284,40 +1406,37 @@ class qapi1_2Action extends null2Action
                     }
                     $pur_model->commit ();
                 }
-//                if ($type == 2) {//报价
-//                    $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-//                    if (!M ("qapp:pointsBill")
-//                        ->select ('id')
-//                        ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
-//                        ->order ("id desc")
-//                        ->getOne ()
-//                    ) {
-//                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
-//                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-//                        }
-//                    }
-//                } elseif ($type == 1) {//采购
-//                    $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
-//                    if (!M ("qapp:pointsBill")
-//                        ->select ('id')
-//                        ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
-//                        ->order ("id desc")
-//                        ->getOne ()
-//                    ) {
-//                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
-//                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-//                        }
-//                    }
-//                }
+                //                if ($type == 2) {//报价
+                //                    $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
+                //                    if (!M ("qapp:pointsBill")
+                //                        ->select ('id')
+                //                        ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
+                //                        ->order ("id desc")
+                //                        ->getOne ()
+                //                    ) {
+                //                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
+                //                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+                //                        }
+                //                    }
+                //                } elseif ($type == 1) {//采购
+                //                    $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
+                //                    if (!M ("qapp:pointsBill")
+                //                        ->select ('id')
+                //                        ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
+                //                        ->order ("id desc")
+                //                        ->getOne ()
+                //                    ) {
+                //                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
+                //                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+                //                        }
+                //                    }
+                //                }
 
                 //robot表插入消息
                 $tmpFuns    = M ("qapp:plasticIntroduction")->getMyFunsId ($user_id, 1);
                 $tmpContent = "您关注的";
-                $tmpContent .= M ("public:common")
-                    ->model ('customer_contact')
-                    ->select ('name')
-                    ->where ("user_id=".$user_id)
-                    ->getOne ();
+                $tmpContent .= M ("public:common")->model ('customer_contact')->select ('name')
+                                                  ->where ("user_id=".$user_id)->getOne ();
                 $tmpContent .= "发布了1条";
                 if ($type == 1) {
                     $tmpContent .= "求购";
@@ -1348,9 +1467,7 @@ class qapi1_2Action extends null2Action
                     'create_time' => date ("Y-m-d H:i:s"),
                     'pur_type'    => $data[0]['type'],
                 );
-                M ("public:common")
-                    ->model ('suggestion_model')
-                    ->add ($suggestion_model_arr);
+                M ("public:common")->model ('suggestion_model')->add ($suggestion_model_arr);
             }
 
 
@@ -1405,7 +1522,10 @@ class qapi1_2Action extends null2Action
             $send_id = sget ('send_id', 'i', 0);//purchase表发报价或采购人的(pur.user_id)
             $content = sget ('content', 's');//回复的内容
             if (empty($content)) {
-                $this->json_output (array( 'err' => 6, 'msg' => '回复内容不能为空' ));
+                $this->json_output (array(
+                    'err' => 6,
+                    'msg' => '回复内容不能为空',
+                ));
             }
 
             //robot表插入消息
@@ -1437,7 +1557,10 @@ class qapi1_2Action extends null2Action
             //$tmpContent.=M("public:common")->model('customer_contact')->select('name')->where("user_id=".$user_id)->getOne();
             $result = M ('qapp:plasticRepeat')->saveMsg ($user_id, $pur_id, $send_id, $content);
             if ($result) {
-                $this->json_output (array( 'err' => 0, 'msg' => '回复消息保存成功' ));
+                $this->json_output (array(
+                    'err' => 0,
+                    'msg' => '回复消息保存成功',
+                ));
             }
         }
         $this->_errCode (6);
@@ -1454,10 +1577,16 @@ class qapi1_2Action extends null2Action
             $type    = sget ('type', 'i');//1采购 2报价
             $data    = M ('qapp:plasticMyMsg')->getMyMsg ($user_id, $page, $size, $type);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data['data'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -1486,10 +1615,16 @@ class qapi1_2Action extends null2Action
             $size    = sget ('size', 'i', 10);
             $data    = M ('qapp:plasticMyMsg')->getMyComment ($user_id, $page, $size, 6);//塑料圈app
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data['data'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -1504,10 +1639,16 @@ class qapi1_2Action extends null2Action
             $size    = sget ('size', 'i', 10);
             $data    = M ('qapp:robotMsg')->getRobotMsg ($user_id, $page, $size);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data['data'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -1523,10 +1664,18 @@ class qapi1_2Action extends null2Action
             $size    = sget ('size', 'i', 10);
             $data    = M ('qapp:plasticIntroduction')->getMyFuns ($user_id, $type, $page, $size);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据', 'count' => 0 ));
+                $this->json_output (array(
+                    'err'   => 2,
+                    'msg'   => '没有相关的数据',
+                    'count' => 0,
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'], 'count' => $data['count'] ));
+            $this->json_output (array(
+                'err'   => 0,
+                'data'  => $data['data'],
+                'count' => $data['count'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -1539,17 +1688,30 @@ class qapi1_2Action extends null2Action
         if ($_POST) {
             $user_id = $this->checkAccount ();
             $userid  = sget ('userid', 'i');//当前联系人的id
-            if($user_id!=$userid){
-                $_tmp=M("qapp:infoList")->where("user_id= $user_id and other_id = $userid")->order("info_list_id desc")->getOne();
-                if(!$_tmp) $this->_errCode (99);
+            if ($user_id != $userid) {
+                $_tmp = M ("qapp:infoList")->where ("user_id= $user_id and other_id = $userid")
+                                           ->order ("info_list_id desc")->getOne ();
+                if (!$_tmp) {
+                    $this->_errCode (99);
+                }
             }
             //添加记录
-            M("qapp:infoList")->add(array('user_id'=>$user_id,'other_id'=>$userid,'input_time'=>CORE_TIME));
-            $data    = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
+            M ("qapp:infoList")->add (array(
+                'user_id'    => $user_id,
+                'other_id'   => $userid,
+                'input_time' => CORE_TIME,
+            ));
+            $data = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
             if (empty($data)) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关资料',
+                ));
             }
-            $this->json_output (array( 'err' => 0, 'data' => $data ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data,
+            ));
         }
         $this->_errCode (6);
     }
@@ -1579,9 +1741,15 @@ class qapi1_2Action extends null2Action
             $headimgurl = sget ('headimgurl', 's');
             $data       = M ('qapp:plasticPersonalInfo')->getMyPlastic ($user_id, $headimgurl);
             if (empty($data)) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关资料',
+                ));
             }
-            $this->json_output (array( 'err' => 0, 'data' => $data ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data,
+            ));
         }
         $this->_errCode (6);
     }
@@ -1595,93 +1763,162 @@ class qapi1_2Action extends null2Action
             $user_id = $this->checkAccount ();
             $data    = M ('qapp:plasticPersonalInfo')->getSelfInfo ($user_id);
             if (empty($data)) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关资料' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关资料',
+                ));
             }
-            $this->json_output (array( 'err' => 0, 'data' => $data ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data,
+            ));
         }
         $this->_errCode (6);
     }
 
     //保存我的资料
-    public function saveSelfInfo()
+    public function saveSelfInfo ()
     {
         $this->is_ajax = true;
 
         if ($_POST) {
-            $user_id = $this->checkAccount();
-            $_tmpAddress = sget('address','s');
-            $_tmpSex = sget('sex','s');
-            $_tmpMajor = sget('major','s');
-            $_tmpConcern = sget('concern','s');
-            $_tmpDist = sget('dist','s','EC');
-            $_tmpType = sget('type','s');
-            $_tmpMonthConsum = sget('month_consum','s');
-            $_tmpMainProduct = sget('main_product','s');
-            $data['address'] = $_tmpAddress;
-            $data['sex'] = $_tmpSex;
-            $data['major'] = $_tmpMajor;
-            $data['concern'] = $_tmpConcern;
-            $data['dist'] = $_tmpDist;
+            $user_id              = $this->checkAccount ();
+            $_tmpAddress          = sget ('address', 's');
+            $_tmpSex              = sget ('sex', 's');
+            $_tmpMajor            = sget ('major', 's');
+            $_tmpConcern          = sget ('concern', 's');
+            $_tmpDist             = sget ('dist', 's', 'EC');
+            $_tmpType             = sget ('type', 's');
+            $_tmpMonthConsum      = sget ('month_consum', 's');
+            $_tmpMainProduct      = sget ('main_product', 's');
+            $data['address']      = $_tmpAddress;
+            $data['sex']          = $_tmpSex;
+            $data['major']        = $_tmpMajor;
+            $data['concern']      = $_tmpConcern;
+            $data['dist']         = $_tmpDist;
             $data['month_consum'] = $_tmpMonthConsum;
-            $data['type'] = $_tmpType;
+            $data['type']         = $_tmpType;
             $data['main_product'] = $_tmpMainProduct;
-            foreach($data as $key=>&$row){
-                if($key=='address'){
-                    $row=$this->clearStr($row);
-                }elseif($key=='sex'){
-                    if(!in_array($row,array('1','0'))) $this->_errCode(6);
-                    $row=(int)$row;
-                }elseif($key=='major'){
-                    $field=$this->clearStr($row);
-                    if(!is_string($row)) $this->json_output(array('err'=>1,'msg'=>'格式错误'));
-                    if(!empty($field)){
-                        $field=explode(",",$field);
-                        $field=array_map('strtoupper',$field);
-                        foreach($field as $key1=>$row1){
-                            if(empty($row1)) unset($field[$key1]);
+            foreach ($data as $key => &$row) {
+                if ($key == 'address') {
+                    $row = $this->clearStr ($row);
+                } elseif ($key == 'sex') {
+                    if (!in_array ($row, array(
+                        '1',
+                        '0',
+                    ))
+                    ) {
+                        $this->_errCode (6);
+                    }
+                    $row = (int)$row;
+                } elseif ($key == 'major') {
+                    $field = $this->clearStr ($row);
+                    if (!is_string ($row)) {
+                        $this->json_output (array(
+                            'err' => 1,
+                            'msg' => '格式错误',
+                        ));
+                    }
+                    if (!empty($field)) {
+                        $field = explode (",", $field);
+                        $field = array_map ('strtoupper', $field);
+                        foreach ($field as $key1 => $row1) {
+                            if (empty($row1)) {
+                                unset($field[$key1]);
+                            }
                         }
-                        $field=array_unique($field);
+                        $field = array_unique ($field);
                         //$field=explode(",",array_map('strtoupper',$field));
-                        if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
-                        $row=$field;
-                    }else{
+                        if (count ($field) > 10) {
+                            $this->json_output (array(
+                                'err' => 6,
+                                'msg' => '牌号个数不能超过十个',
+                            ));
+                        }
+                        $row = $field;
+                    } else {
                         unset($data[$key]);
                     }
-                }elseif($key=='concern'){
-                    $row = $this->clearStr($row);
-                    $field = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/",',',$row);
+                } elseif ($key == 'concern') {
+                    $row   = $this->clearStr ($row);
+                    $field = preg_replace ("/(\n)|(\s)|(\t)|(\')|(')|(，)|( )|(\.)/", ',', $row);
                     //$field=explode(",",array_map('strtoupper',$field));
-                    if(!is_string($row)) $this->json_output(array('err'=>1,'msg'=>'格式错误'));
-                    if(!empty($field)){
-                        $field=explode(",",$field);
-                        $field=array_map('strtoupper',$field);
-                        foreach($field as $key1=>$row1){
-                            if(empty($row1)) unset($field[$key1]);
+                    if (!is_string ($row)) {
+                        $this->json_output (array(
+                            'err' => 1,
+                            'msg' => '格式错误',
+                        ));
+                    }
+                    if (!empty($field)) {
+                        $field = explode (",", $field);
+                        $field = array_map ('strtoupper', $field);
+                        foreach ($field as $key1 => $row1) {
+                            if (empty($row1)) {
+                                unset($field[$key1]);
+                            }
                         }
-                        $field=array_unique($field);
+                        $field = array_unique ($field);
                         //$field=explode(",",array_map('strtoupper',$field));
-                        if(count($field)>10) $this->json_output(array('err'=>6,'msg'=>'牌号个数不能超过十个'));
-                        $row=$field;
-                    }else{
+                        if (count ($field) > 10) {
+                            $this->json_output (array(
+                                'err' => 6,
+                                'msg' => '牌号个数不能超过十个',
+                            ));
+                        }
+                        $row = $field;
+                    } else {
                         unset($data[$key]);
                     }
-                }elseif($key=='dist'){
-                    if(empty($row)||(!in_array($row, array('EC', 'NC', 'SC','OT')))) $this->_errCode(6);
-                }elseif($key=='type'){
-                    if(empty($row)||(!in_array($row,array('1','2','3')))) $this->_errCode(6);
-                }elseif($key=='month_consum'){
-                    $row=$this->clearStr($row);
-                    if(mb_strlen($row)>15) $this->json_output(array('err'=>1,'msg'=>'1字符过长'));
-                }elseif($key=='main_product'){
-                    $row = $this->clearStr($row);
-                    if(mb_strlen($row)>25) $this->json_output(array('err'=>1,'msg'=>'2字符过长'));
+                } elseif ($key == 'dist') {
+                    if (empty($row) || (!in_array ($row, array(
+                            'EC',
+                            'NC',
+                            'SC',
+                            'OT',
+                        )))
+                    ) {
+                        $this->_errCode (6);
+                    }
+                } elseif ($key == 'type') {
+                    if (empty($row) || (!in_array ($row, array(
+                            '1',
+                            '2',
+                            '3',
+                        )))
+                    ) {
+                        $this->_errCode (6);
+                    }
+                } elseif ($key == 'month_consum') {
+                    $row = $this->clearStr ($row);
+                    if (mb_strlen ($row) > 15) {
+                        $this->json_output (array(
+                            'err' => 1,
+                            'msg' => '1字符过长',
+                        ));
+                    }
+                } elseif ($key == 'main_product') {
+                    $row = $this->clearStr ($row);
+                    if (mb_strlen ($row) > 25) {
+                        $this->json_output (array(
+                            'err' => 1,
+                            'msg' => '2字符过长',
+                        ));
+                    }
                 }
             }
-            $result = M('qapp:plasticSave')->saveSelfInfo1_2($user_id,$data);
-            if ($result['err']>0) $this->json_output(array('err' => 2, 'msg' => $result['msg']));
-            $this->json_output(array('err' => 0, 'msg' => '保存资料成功'));
+            $result = M ('qapp:plasticSave')->saveSelfInfo1_2 ($user_id, $data);
+            if ($result['err'] > 0) {
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => $result['msg'],
+                ));
+            }
+            $this->json_output (array(
+                'err' => 0,
+                'msg' => '保存资料成功',
+            ));
         }
-        $this->_errCode(6);
+        $this->_errCode (6);
     }
 
     //获取ta的求购或供给
@@ -1697,10 +1934,16 @@ class qapi1_2Action extends null2Action
             $userid   = sget ('userid', 'i');//当前联系人的id
             $data     = M ('qapp:plasticRelease')->getReleaseMsg2 ($keywords, $page, $size, $userid, $type);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data['data'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -1738,7 +1981,10 @@ class qapi1_2Action extends null2Action
             $content = sget ('content', 's');
             $result  = M ('plasticzone:plasticRepeat')->saveZoneMsg ($user_id, $userId, $content);
             if ($result) {
-                $this->json_output (array( 'err' => 0, 'msg' => '消息发送成功' ));
+                $this->json_output (array(
+                    'err' => 0,
+                    'msg' => '消息发送成功',
+                ));
             }
         }
         $this->_errCode (6);
@@ -1755,10 +2001,16 @@ class qapi1_2Action extends null2Action
             $type    = sget ('type', 'i', 1);//1:我接受的 2:我发送的
             $data    = M ('qapp:plasticMyMsg')->getZoneContactMsg ($user_id, $type, $page, $size);
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data['data'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -1826,19 +2078,36 @@ class qapi1_2Action extends null2Action
         }
         if (empty($type)) {
             if ($user_id < 0) {
-                $this->json_output (array( 'err' => 1, 'msg' => '账号错误' ));
+                $this->json_output (array(
+                    'err' => 1,
+                    'msg' => '账号错误',
+                ));
             }
         } else {
             if ($user_id <= 0) {
-                $this->json_output (array( 'err' => 1, 'msg' => '您未登录塑料圈,无法查看企业及个人信息' ));
+                $this->json_output (array(
+                    'err' => 1,
+                    'msg' => '您未登录塑料圈,无法查看企业及个人信息',
+                ));
             }
 
-            $_tmpRow = M("public:common")->select("cus.status,con.status as con_status")
-                ->from("customer cus")
-                ->leftjoin("customer_contact con",'con.c_id=cus.c_id')
-                ->where("con.user_id=$user_id")
-                ->getRow();
-            if(in_array($_tmpRow['status'],array(3,4)) || in_array($_tmpRow['con_status'],array(2,3,4))) $this->json_output(array('err'=>1,'msg'=>'您账号已冻结，如有疑问请咨询客服：4006129965'));
+            $_tmpRow = M ("public:common")->select ("cus.status,con.status as con_status")->from ("customer cus")
+                                          ->leftjoin ("customer_contact con", 'con.c_id=cus.c_id')
+                                          ->where ("con.user_id=$user_id")->getRow ();
+            if (in_array ($_tmpRow['status'], array(
+                    3,
+                    4,
+                )) || in_array ($_tmpRow['con_status'], array(
+                    2,
+                    3,
+                    4,
+                ))
+            ) {
+                $this->json_output (array(
+                    'err' => 1,
+                    'msg' => '您账号已冻结，如有疑问请咨询客服：4006129965',
+                ));
+            }
         }
 
         return $user_id;
@@ -1890,9 +2159,15 @@ class qapi1_2Action extends null2Action
     {
         if ($count > 0) {
             if ($count % $size == 0 && ceil ($count / $size) < $page) {
-                $this->json_output (array( 'err' => 3, 'msg' => '没有更多数据' ));
+                $this->json_output (array(
+                    'err' => 3,
+                    'msg' => '没有更多数据',
+                ));
             } elseif ($count % $size != 0 && ceil ($count / $size) < $page) {
-                $this->json_output (array( 'err' => 3, 'msg' => '没有更多数据' ));
+                $this->json_output (array(
+                    'err' => 3,
+                    'msg' => '没有更多数据',
+                ));
             }
         }
     }
@@ -1904,30 +2179,32 @@ class qapi1_2Action extends null2Action
         $user_id       = $this->checkAccount ();
         if ($outType == 0) {
             $goods_id  = sget ('goods_id', 'i');
-            $pointsRow = M ('public:common')
-                ->from ("points_goods")
-                ->select ("points,name,cate_id")
-                ->where ("status = 1 and receive_num < num and id = $goods_id")
-                ->getRow ();
+            $pointsRow = M ('public:common')->from ("points_goods")->select ("points,name,cate_id")
+                                            ->where ("status = 1 and receive_num < num and id = $goods_id")->getRow ();
             $num       = (int)$pointsRow['points'];
             if ($pointsRow['cate_id'] == 7) {
-                $this->json_output (array( 'err' => 119, 'msg' => '活动时间已过，请关注我们《塑料圈》公众号，参与更多活动' ));
+                $this->json_output (array(
+                    'err' => 119,
+                    'msg' => '活动时间已过，请关注我们《塑料圈》公众号，参与更多活动',
+                ));
             }
             $user = M ('public:common')->model ('contact_info');
-            if ($info = $user->where ("user_id=$user_id")
-                             ->getRow ()
-            ) {
+            if ($info = $user->where ("user_id=$user_id")->getRow ()) {
                 if (($info['quan_points'] - $num) < 0) {
-                    $this->json_output (array( 'err' => 100, 'msg' => '塑豆不足,请多努力!' ));
+                    $this->json_output (array(
+                        'err' => 100,
+                        'msg' => '塑豆不足,请多努力!',
+                    ));
                 }
-                $this->json_output (array( 'err' => 0, 'msg' => '塑豆足够兑换' ));
+                $this->json_output (array(
+                    'err' => 0,
+                    'msg' => '塑豆足够兑换',
+                ));
             }
         } elseif ($outType == 1) {
             $num  = (int)$num;
             $user = M ('public:common')->model ('contact_info');
-            if ($info = $user->where ("user_id=$user_id")
-                             ->getRow ()
-            ) {
+            if ($info = $user->where ("user_id=$user_id")->getRow ()) {
                 if (($info['quan_points'] - $num) < 0) {
                     return false;
                 }
@@ -2032,7 +2309,11 @@ class qapi1_2Action extends null2Action
                 // $value['content']=$this->cleanhtml($str,'<p>');
                 $value['description'] = mb_substr (strip_tags ($value['description']), 0, 60, 'utf-8').'...';
                 if ($value['type'] == 'public') {
-                    $arr           = array( 'pe', 'pp', 'pvc' );
+                    $arr           = array(
+                        'pe',
+                        'pp',
+                        'pvc',
+                    );
                     $tmp           = array_rand ($arr, 1);
                     $value['type'] = $arr[$tmp];
                 }
@@ -2046,7 +2327,7 @@ class qapi1_2Action extends null2Action
                 'data' => array(
                     'topLine' => $this->cates,
                     'info'    => $info,
-                )
+                ),
             ));
         }
         $this->_errCode (6);
@@ -2069,7 +2350,10 @@ class qapi1_2Action extends null2Action
                 if (!$data['data'] = $cache->get ('qcateListInfo'.$page.'_'.$cate_id)) {
                     $data = M ("qapp:news")->getqAppCateList ('public', $cate_id, array(), $page, $size);
                     if (empty($data['data']) && $page == 1) {
-                        $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                        $this->json_output (array(
+                            'err' => 2,
+                            'msg' => '没有相关数据',
+                        ));
                     }
                     $this->_checkLastPage ($data['count'], $size, $page);
                     //截取示例文章文字
@@ -2080,7 +2364,11 @@ class qapi1_2Action extends null2Action
                         $data['data'][$key]['cate_name']  = $this->cates[$cate_id];
                         $data['data'][$key]['input_time'] = $this->checkTime ($v['input_time']);
                         if ($v['type'] == 'public') {
-                            $arr       = array( 'pe', 'pp', 'pvc' );
+                            $arr       = array(
+                                'pe',
+                                'pp',
+                                'pvc',
+                            );
                             $tmp       = array_rand ($arr, 1);
                             $v['type'] = 'pp';
                         }
@@ -2092,7 +2380,10 @@ class qapi1_2Action extends null2Action
             } else {
                 $data = M ("qapp:news")->getqAppCateList ('public', $cate_id, array(), $page, $size);
                 if (empty($data['data']) && $page == 1) {
-                    $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                    $this->json_output (array(
+                        'err' => 2,
+                        'msg' => '没有相关数据',
+                    ));
                 }
                 $this->_checkLastPage ($data['count'], $size, $page);
                 //截取示例文章文字
@@ -2103,7 +2394,11 @@ class qapi1_2Action extends null2Action
                     $data['data'][$key]['cate_name']  = $this->cates[$cate_id];
                     $data['data'][$key]['input_time'] = $this->checkTime ($v['input_time']);
                     if ($v['type'] == 'public') {
-                        $arr       = array( 'pe', 'pp', 'pvc' );
+                        $arr       = array(
+                            'pe',
+                            'pp',
+                            'pvc',
+                        );
                         $tmp       = array_rand ($arr, 1);
                         $v['type'] = 'pp';
                     }
@@ -2111,7 +2406,10 @@ class qapi1_2Action extends null2Action
                     //unset($v['content']);
                 }
             }
-            $this->json_output (array( 'err' => 0, 'info' => $data['data'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'info' => $data['data'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -2163,7 +2461,10 @@ class qapi1_2Action extends null2Action
                     $this->_errCode (6);
                 }
                 if (M ("qapp:newsSubscribe")->setSubscribeByUserid ($user_id, $cate_id)) {
-                    $this->json_output (array( 'err' => 0, 'msg' => '成功' ));
+                    $this->json_output (array(
+                        'err' => 0,
+                        'msg' => '成功',
+                    ));
                 }
                 $this->_errCode (101);
             } elseif ($type == 2) {
@@ -2171,9 +2472,15 @@ class qapi1_2Action extends null2Action
                 if (empty($tmp)) {
                     $tmp = $this->newsSubscribeDefault;
                 }
-                $this->json_output (array( 'err' => 0, 'data' => $tmp ));
+                $this->json_output (array(
+                    'err'  => 0,
+                    'data' => $tmp,
+                ));
             } elseif ($type == 3) {
-                $this->json_output (array( 'err' => 0, 'data' => $this->cates ));
+                $this->json_output (array(
+                    'err'  => 0,
+                    'data' => $this->cates,
+                ));
             }
         }
         $this->_errCode (6);
@@ -2207,15 +2514,26 @@ class qapi1_2Action extends null2Action
     public function cleanhtml ($str, $tags = '<img><a>')
     {//过滤时默认保留html中的<a><img>标签
         $search = array(
-            '@<script[^>]*?>.*?</script>@si',  // Strip out javascript
+            '@<script[^>]*?>.*?</script>@si',
+            // Strip out javascript
             /*  '@<[\/\!]*?[^<>]*?>@si',            // Strip out HTML tags*/
             "'<style[^>]*?>.*?</style>'si",
             /*'@<style[^>]*?>.*?</style>@si',    // Strip style tags properly*/
-            '@<![\s\S]*?--[ \t\n\r]*>@',         // Strip multi-line comments including CDATA
+            '@<![\s\S]*?--[ \t\n\r]*>@',
+            // Strip multi-line comments including CDATA
         );
-        $array  = array( '', '', '' );
+        $array  = array(
+            '',
+            '',
+            '',
+        );
         $str    = preg_replace ($search, $array, $str);
-        $str    = str_replace (array( "\r\n", "\r", "\n", "&nbsp;" ), "", $str);
+        $str    = str_replace (array(
+            "\r\n",
+            "\r",
+            "\n",
+            "&nbsp;",
+        ), "", $str);
         $str    = strip_tags ($str, $tags);
 
         return $str;
@@ -2239,20 +2557,20 @@ class qapi1_2Action extends null2Action
             $user_id       = $this->checkAccount ();
             $page          = sget ('page', 'i', 1);
             $size          = sget ('size', 'i', 10);
-            $data          = M ("points:pointsGoods")
-                ->select ('id,cate_id,thumb,name,points,type')
-                ->where ("status = 1 and receive_num < num and is_mobile =1")
-                ->order ('id desc')
-                ->page ($page, $size)
-                ->getPage ();
+            $data          = M ("points:pointsGoods")->select ('id,cate_id,thumb,name,points,type')
+                                                     ->where ("status = 1 and receive_num < num and is_mobile =1")
+                                                     ->order ('id desc')->page ($page, $size)->getPage ();
             //我的积分
             $points = M ('qapp:pointsBill')->getUerPoints ($user_id);
             $points = empty($points) ? 0 : $points;
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $supply_and_demand = M("qapp:plasticRelease")->getReleaseMsg('', 1, 5, 0, 'ALL', 'DEMANDORSUPPLY', $user_id);
+            $supply_and_demand = M ("qapp:plasticRelease")->getReleaseMsg ('', 1, 5, 0, 'ALL', 'DEMANDORSUPPLY', $user_id);
             /*if (empty($supply_and_demand['count'])) {
                 foreach ($data['data'] as $key => $info) {
                     if ($info['id'] == 35) {
@@ -2263,26 +2581,28 @@ class qapi1_2Action extends null2Action
             }*/
 
             //type 1 是供求 2 是通讯录
-            $goods_id =$this->db->model("points_goods")->select('id')->where(" type =1 and status =1")->getOne();
+            $goods_id = $this->db->model ("points_goods")->select ('id')->where (" type =1 and status =1")->getOne ();
 
             foreach ($data['data'] as $k => &$v) {
-                if(!empty($goods_id)&&$v['id'] == $goods_id && !empty($supply_and_demand['count']))
-                {
-                    $v['myMsg']=  $supply_and_demand['data'];
-                }else
-                {
+                if (!empty($goods_id) && $v['id'] == $goods_id && !empty($supply_and_demand['count'])) {
+                    $v['myMsg'] = $supply_and_demand['data'];
+                } else {
                     $v['myMsg'] = array();
                 }
                 if ($v['thumb']) {
-                    $v['thumb'] = FILE_URL . '/upload/' . $v['thumb'];
+                    $v['thumb'] = FILE_URL.'/upload/'.$v['thumb'];
                 }
                 if ($v['image']) {
-                    $v['image'] = FILE_URL . '/upload/' . $v['image'];
+                    $v['image'] = FILE_URL.'/upload/'.$v['image'];
                 }
             }
-                $ret = array('err' => 0, 'info' => $data['data'], 'pointsAll' => $points);
+            $ret = array(
+                'err'       => 0,
+                'info'      => $data['data'],
+                'pointsAll' => $points,
+            );
 
-            $this->json_output($ret);
+            $this->json_output ($ret);
         }
         $this->_errCode (6);
     }
@@ -2298,7 +2618,10 @@ class qapi1_2Action extends null2Action
                 'SC' => '华南',
                 'NC' => '华北',
             );
-            $this->json_output (array( 'err' => 0, 'data' => $data ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data,
+            ));
         }
         $this->_errCode (6);
     }
@@ -2313,12 +2636,13 @@ class qapi1_2Action extends null2Action
             $this->checkAccount ();
             $id = sget ('id', i);//商品的id
             if ($id < 1) {
-                $this->json_output (array( 'err' => 1, 'msg' => 'id参数错误' ));
+                $this->json_output (array(
+                    'err' => 1,
+                    'msg' => 'id参数错误',
+                ));
             }
-            $arr    = $this->db->from ("points_goods")
-                               ->select ('id,cate_id,thumb,image,name,points,type')
-                               ->where ("status = 1 and receive_num < num and id = $id")
-                               ->getRow ();
+            $arr    = $this->db->from ("points_goods")->select ('id,cate_id,thumb,image,name,points,type')
+                               ->where ("status = 1 and receive_num < num and id = $id")->getRow ();
             $result = array();
             preg_match_all ("/(?:\（)(.*)(?:\）)/i", $arr['name'], $result);
             $str = (int)$result[1][0];
@@ -2329,7 +2653,10 @@ class qapi1_2Action extends null2Action
                 $arr['thumb'] = FILE_URL.'/upload/'.$arr['thumb'];
             }
             //if (empty($arr['content'])) $arr['content'] = "<span>本置顶卡可使您的信息在供求信息版面置顶" . $str . "分钟</span><br />备注:<br />1.同一时间内最多一条信息置顶;";
-            $this->json_output (array( 'err' => 0, 'info' => $arr ));
+            $this->json_output (array(
+                'err'  => 0,
+                'info' => $arr,
+            ));
         }
         $this->_errCode (6);
     }
@@ -2360,7 +2687,10 @@ class qapi1_2Action extends null2Action
             $v['rule'] .= '<span>9)退回商品包装或其他附属物不完整或有毁损</span><br />';
             $v['rule'] .= '<br />';
             $v['rule'] .= '<span>注：商品图片及文字仅供参考，具体以实物为准。</span><br />';
-            $this->json_output (array( 'err' => 0, 'rule' => $v['rule'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'rule' => $v['rule'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -2370,19 +2700,19 @@ class qapi1_2Action extends null2Action
      */
     public function pointsRule ()
     {
-        $this->display('plasticzone/points_rule.html');
-//        if ($_POST) {
-//            $this->is_ajax = true;
-//            $this->checkAccount ();
-//            $salePoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-//            $purPoints  = intval (M ('system:setting')->get ('points')['points']['pur']);
-//            $rule       = '';
-//            $rule .= '<span>1. 每日发布报价/求购一条，增加'.$salePoints.'/'.$purPoints.'积分</span><br />';
-//            $rule .= '<span>2. 与我的塑料网成交后自动累计积分，买的多送的多</span><br />';
-//            $rule .= '<span>3. 积分商城积分兑换的商品不但免费还免运费</span>';
-//            $this->json_output (array( 'err' => 0, 'rule' => $rule ));
-//        }
-//        $this->_errCode (6);
+        $this->display ('plasticzone/points_rule.html');
+        //        if ($_POST) {
+        //            $this->is_ajax = true;
+        //            $this->checkAccount ();
+        //            $salePoints = intval (M ('system:setting')->get ('points')['points']['sale']);
+        //            $purPoints  = intval (M ('system:setting')->get ('points')['points']['pur']);
+        //            $rule       = '';
+        //            $rule .= '<span>1. 每日发布报价/求购一条，增加'.$salePoints.'/'.$purPoints.'积分</span><br />';
+        //            $rule .= '<span>2. 与我的塑料网成交后自动累计积分，买的多送的多</span><br />';
+        //            $rule .= '<span>3. 积分商城积分兑换的商品不但免费还免运费</span>';
+        //            $this->json_output (array( 'err' => 0, 'rule' => $rule ));
+        //        }
+        //        $this->_errCode (6);
     }
 
     /*
@@ -2392,10 +2722,8 @@ class qapi1_2Action extends null2Action
     public function exchangeTime ($type = 1)
     {
         $this->is_ajax = true;
-        $arr           = $this->db->model ('corn')
-                                  ->where ("type = $type and status_e = 0 ")
-                                  ->select ('user_id,exe_time_s,exe_time_e,purchase')
-                                  ->getAll ();
+        $arr           = $this->db->model ('corn')->where ("type = $type and status_e = 0 ")
+                                  ->select ('user_id,exe_time_s,exe_time_e,purchase')->getAll ();
 
         return $arr;
     }
@@ -2409,20 +2737,29 @@ class qapi1_2Action extends null2Action
         if ($_POST) {
             $type    = sget ('type', 'i');//  0 实物  1 通讯录 2 供求信息
             $user_id = $this->checkAccount ();
-            if (!in_array ($type, array( 0, 1, 2 ))) {
-                $this->json_output (array( 'err' => 11, 'msg' => 'type参数错误' ));
+            if (!in_array ($type, array(
+                0,
+                1,
+                2,
+            ))
+            ) {
+                $this->json_output (array(
+                    'err' => 11,
+                    'msg' => 'type参数错误',
+                ));
             }
             $goods_id = sget ('goods_id', 'i');   //所需要的商品的id
             if ($goods_id < 1) {
-                $this->json_output (array( 'err' => 12, 'msg' => 'goods_id参数错误' ));
+                $this->json_output (array(
+                    'err' => 12,
+                    'msg' => 'goods_id参数错误',
+                ));
             }
             $pointsModel = M ("qapp:pointsBill");
             $pointsModel->startTrans ();
             try {
-                $pointsRow = $pointsModel->from ("points_goods")
-                                         ->select ("points,name,cate_id")
-                                         ->where ("status = 1 and receive_num < num and id = $goods_id")
-                                         ->getRow ();
+                $pointsRow = $pointsModel->from ("points_goods")->select ("points,name,cate_id")
+                                         ->where ("status = 1 and receive_num < num and id = $goods_id")->getRow ();
                 $points    = (int)$pointsRow['points'];
                 if ($pointsRow['cate_id'] == 7) {
                     throw new Exception("系统错误 pubpur:119");
@@ -2448,7 +2785,15 @@ class qapi1_2Action extends null2Action
                         throw new Exception("系统错误 pubpur:117");
                     }
                     $stime = sget ('stime', 'i', 0);//开始的时间
-                    if (!in_array ($stime, array( 0, 10, 20, 30, 40, 50 ))) {
+                    if (!in_array ($stime, array(
+                        0,
+                        10,
+                        20,
+                        30,
+                        40,
+                        50,
+                    ))
+                    ) {
                         throw new Exception("系统错误 pubpur:103");
                     }
                     if ($hour == date ("H") && $stime < date ("i")) {
@@ -2458,7 +2803,12 @@ class qapi1_2Action extends null2Action
                     if (!$time) {
                         throw new Exception("系统错误 pubpur:104");
                     }
-                    if (!in_array ($time, array( 10, 30, 60 ))) {
+                    if (!in_array ($time, array(
+                        10,
+                        30,
+                        60,
+                    ))
+                    ) {
                         throw new Exception("系统错误 pubpur:104");
                     }
                     $purchase_id = sget ('purchase_id', 'i', 25895);//供求信息id
@@ -2576,7 +2926,10 @@ class qapi1_2Action extends null2Action
                     }
                     //}
                 }
-                if (in_array ($type, array( 1, 2 ))) {
+                if (in_array ($type, array(
+                    1,
+                    2,
+                ))) {
                     $purchase_id = isset($purchase_id) ? $purchase_id : 0;
                     if ($type == 2) {
                         $type = 1;
@@ -2591,9 +2944,7 @@ class qapi1_2Action extends null2Action
                         'input_time' => CORE_TIME,
                         'purchase'   => $purchase_id,
                     );
-                    if (!$this->db->model ('corn')
-                                  ->add ($sqlArray)
-                    ) {
+                    if (!$this->db->model ('corn')->add ($sqlArray)) {
                         throw new Exception("系统错误 pubpur:111");
                     }//$this->error('兑换失败');
                 }
@@ -2636,68 +2987,82 @@ class qapi1_2Action extends null2Action
      *
      * @return json
      */
-    public function new_exchangeSupplyOrDemand()
+    public function new_exchangeSupplyOrDemand ()
     {
         $this->is_ajax = true;
         if ($_GET) {
-            $user_id = $this->checkAccount();
+            $user_id = $this->checkAccount ();
             /*if (!in_array ($type, array( 0, 1, 2 ))) {
                 $this->json_output (array( 'err' => 11, 'msg' => 'type参数错误' ));
             }*/
-            $goods_id = sget('goods_id', 'i');   //所需要的商品的id
-            $num = sget('num', 'i');   //所需要的商品的id
-            $pur_id = sget('pur_id', 'i', 0);
+            $goods_id = sget ('goods_id', 'i');   //所需要的商品的id
+            $num      = sget ('num', 'i');   //所需要的商品的id
+            $pur_id   = sget ('pur_id', 'i', 0);
 
-            if ($goods_id < 1||$num<1) {
-                $this->json_output(array('err' => 12, 'msg' => '参数错误'));
+            if ($goods_id < 1 || $num < 1) {
+                $this->json_output (array(
+                    'err' => 12,
+                    'msg' => '参数错误',
+                ));
             }
-            $goods_info =M ('public:common')->model ('points_goods')->where("id= $goods_id")->getRow();
-            if($goods_info['type']==1&&empty($pur_id))
-            {
-                $this->json_output(array('err' => 21, 'msg' => '请选择您要置顶的供求信息'));
+            $goods_info = M ('public:common')->model ('points_goods')->where ("id= $goods_id")->getRow ();
+            if ($goods_info['type'] == 1 && empty($pur_id)) {
+                $this->json_output (array(
+                    'err' => 21,
+                    'msg' => '请选择您要置顶的供求信息',
+                ));
             }
-            if($goods_info['type']==2){
+            if ($goods_info['type'] == 2) {
                 $pur_id = $user_id;
             }
 
             $user = M ('public:common')->model ('contact_info');
             if ($info = $user->where ("user_id=$user_id")->getRow ()) {
-                if (($info['quan_points'] - $num*$goods_info['points']) < 0) {
-                    $this->json_output(array('err' => 15, 'msg' => '塑豆不足'));
+                if (($info['quan_points'] - $num * $goods_info['points']) < 0) {
+                    $this->json_output (array(
+                        'err' => 15,
+                        'msg' => '塑豆不足',
+                    ));
                 }
             }
-            $pointsOrder = M("points:pointsOrder");
-            $is_exist = $pointsOrder->get_supply_demand_top($goods_id);
+            $pointsOrder = M ("points:pointsOrder");
+            $is_exist    = $pointsOrder->get_supply_demand_top ($goods_id);
             if ($is_exist) {
-                $this->json_output(array('err' => 13, 'msg' => '有人抢先一步,如有需要，请联系客服400-6129-965'));
+                $this->json_output (array(
+                    'err' => 13,
+                    'msg' => '有人抢先一步,如有需要，请联系客服400-6129-965',
+                ));
             }
-            $pointsRow = M('public:common')
-                ->from("points_goods")
-                ->select("points,name,cate_id")
-                ->where("status = 1 and receive_num < num and id = $goods_id")
-                ->getRow();
-            $point = (int)$pointsRow['points'];
+            $pointsRow = M ('public:common')->from ("points_goods")->select ("points,name,cate_id")
+                                            ->where ("status = 1 and receive_num < num and id = $goods_id")->getRow ();
+            $point     = (int)$pointsRow['points'];
 
             $_orderData = array(
-                'status' => 5,
+                'status'      => 5,
                 'create_time' => CORE_TIME,
-                'order_id' => $this->buildOrderId(),
-                'goods_id' => $goods_id,
-                'uid' => $user_id,
-                'usepoints' => $point * $num,
-                'remark' => $pointsRow['name'],
-                'num' => $num,
-                'pur_id' => $pur_id,
-                'outpu_time'=>CORE_TIME + $num*24*60*60,
+                'order_id'    => $this->buildOrderId (),
+                'goods_id'    => $goods_id,
+                'uid'         => $user_id,
+                'usepoints'   => $point * $num,
+                'remark'      => $pointsRow['name'],
+                'num'         => $num,
+                'pur_id'      => $pur_id,
+                'outpu_time'  => CORE_TIME + $num * 24 * 60 * 60,
             );
             if ($goods_id < 10) {
                 $_orderData['status'] = 1;
             }
-            if (!$pointsOrder->add($_orderData)) {
+            if (!$pointsOrder->add ($_orderData)) {
                 //throw new Exception('系统错误，无法兑换。code:101');
-                $this->json_output(array('err' => 101, 'msg' => '系统错误，无法兑换。'));
+                $this->json_output (array(
+                    'err' => 101,
+                    'msg' => '系统错误，无法兑换。',
+                ));
             }
-            $this->json_output(array('err' => 0,'msg'=>'购买成功'));
+            $this->json_output (array(
+                'err' => 0,
+                'msg' => '购买成功',
+            ));
         }
 
     }
@@ -2705,7 +3070,7 @@ class qapi1_2Action extends null2Action
     //生产订单号
     protected function buildOrderId ()
     {
-        return date ('Ymd').substr (implode (NULL, array_map ('ord', str_split (substr (uniqid (), 7, 13), 1))), 0, 8);
+        return date ('Ymd').substr (implode (null, array_map ('ord', str_split (substr (uniqid (), 7, 13), 1))), 0, 8);
     }
 
 
@@ -2720,14 +3085,13 @@ class qapi1_2Action extends null2Action
             $page    = sget ('page', 'i', 1);
             $size    = sget ('size', 'i', 10);
             //$data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id and type in (2,3,5,6)")->order('id desc')->page($page,$size)->getPage();
-            $data = M ("qapp:pointsBill")
-                ->select ('id,addtime,type,points,share_type')
-                ->where ("uid = $user_id")
-                ->order ('id desc')
-                ->page ($page, $size)
-                ->getPage ();
+            $data = M ("qapp:pointsBill")->select ('id,addtime,type,points,share_type')->where ("uid = $user_id")
+                                         ->order ('id desc')->page ($page, $size)->getPage ();
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
             //我的积分
@@ -2735,14 +3099,18 @@ class qapi1_2Action extends null2Action
             $points = empty($points) ? 0 : $points;
             foreach ($data['data'] as $k => &$v) {
                 $v['typename'] = $this->pointsType[$v['type']];
-                if($v['type']==13){
+                if ($v['type'] == 13) {
                     $v['typename'] = $this->shareType[$v['share_type']];
                 }
 
-                $v['addtime']  = $this->checkTime ($v['addtime']);
+                $v['addtime'] = $this->checkTime ($v['addtime']);
                 unset($v['type']);
             }
-            $this->json_output (array( 'err' => 0, 'data' => $data['data'], 'pointsAll' => $points ));
+            $this->json_output (array(
+                'err'       => 0,
+                'data'      => $data['data'],
+                'pointsAll' => $points,
+            ));
         }
         $this->_errCode (6);
     }
@@ -2758,23 +3126,23 @@ class qapi1_2Action extends null2Action
             $page       = sget ('page', 'i', 1);
             $size       = sget ('size', 'i', 10);
             $orderModel = M ('points:pointsOrder');
-            $data       = $orderModel->where ("uid = $user_id")
-                                     ->order ("id desc")
-                                     ->page ($page, $size)
-                                     ->getPage ();
+            $data       = $orderModel->where ("uid = $user_id")->order ("id desc")->page ($page, $size)->getPage ();
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
             foreach ($data['data'] as $k => &$v) {
-                $v['name']        = M ("points:pointsGoods")
-                    ->where ("id =".$v['goods_id'])
-                    ->select ('name')
-                    ->getOne ();
+                $v['name']        = M ("points:pointsGoods")->where ("id =".$v['goods_id'])->select ('name')->getOne ();
                 $v['create_time'] = date ("Y-m-d H:i", $v['create_time']);
                 $v['status']      = $this->orderStatus[$v['status']];
             }
-            $this->json_output (array( 'err' => 0, 'info' => $data['data'] ));
+            $this->json_output (array(
+                'err'  => 0,
+                'info' => $data['data'],
+            ));
         }
         $this->_errCode (6);
     }
@@ -2800,15 +3168,14 @@ class qapi1_2Action extends null2Action
                 $where .= " and pur.type=$type";
             }
             $data = $this->db->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.type,pur.content,pur.input_time')
-                             ->from ('purchase pur')
-                             ->leftjoin ('product pro', 'pur.p_id=pro.id')
-                             ->leftjoin ('factory fa', 'pro.f_id=fa.fid')
-                             ->page ($page, $size)
-                             ->where ($where)
-                             ->order ('pur.input_time desc')
-                             ->getPage ();
+                             ->from ('purchase pur')->leftjoin ('product pro', 'pur.p_id=pro.id')
+                             ->leftjoin ('factory fa', 'pro.f_id=fa.fid')->page ($page, $size)->where ($where)
+                             ->order ('pur.input_time desc')->getPage ();
             if (empty($data['data']) && $page == 1) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
             $arr = array();
@@ -2832,7 +3199,10 @@ class qapi1_2Action extends null2Action
                 $arr[$k]['p_id']       = $value['id'];
                 $arr[$k]['content']    = mb_substr (strip_tags ($value['contents']), 0, 50, 'utf-8').'...';
             }
-            $this->json_output (array( 'err' => 0, 'data' => $arr ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $arr,
+            ));
         }
         $this->_errCode (6);
     }
@@ -2853,9 +3223,16 @@ class qapi1_2Action extends null2Action
         $headimgurl = '';
         $info       = M ('qapp:plasticPersonalInfo')->getMyPlastic ($info['user_id'], $headimgurl);
         if (empty($data)) {
-            $this->json_output (array( 'err' => 2, 'msg' => '没有相关的数据' ));
+            $this->json_output (array(
+                'err' => 2,
+                'msg' => '没有相关的数据',
+            ));
         }
-        $this->json_output (array( 'err' => 0, 'data' => $data, 'info' => $info ));
+        $this->json_output (array(
+            'err'  => 0,
+            'data' => $data,
+            'info' => $info,
+        ));
     }
 
     //验证是否分享成功日志
@@ -2867,9 +3244,15 @@ class qapi1_2Action extends null2Action
             $user_id  = $this->checkAccount ();//分享人的id
             $share    = '';
             if (!M ('qapp:plasticShare')->saveShareLog ($share_id, $type, $user_id, $share)) {
-                $this->json_output (array( 'err' => 6, 'msg' => '分享失败' ));
+                $this->json_output (array(
+                    'err' => 6,
+                    'msg' => '分享失败',
+                ));
             }
-            $this->json_output (array( 'err' => 0, 'msg' => '分享成功' ));
+            $this->json_output (array(
+                'err' => 0,
+                'msg' => '分享成功',
+            ));
         }
         $this->_errCode (6);
     }
@@ -2896,93 +3279,183 @@ class qapi1_2Action extends null2Action
         switch ($code) {
             case 0:
                 if (empty($data)) {
-                    $this->json_output (array( 'err' => 0, 'msg' => 'success' ));
+                    $this->json_output (array(
+                        'err' => 0,
+                        'msg' => 'success',
+                    ));
                 }
-                $this->json_output (array( 'err' => 0, 'data' => $data ));
+                $this->json_output (array(
+                    'err'  => 0,
+                    'data' => $data,
+                ));
                 break;
             case 1:
-                $this->json_output (array( 'err' => 1, 'msg' => '失效,请重新登录' ));
+                $this->json_output (array(
+                    'err' => 1,
+                    'msg' => '失效,请重新登录',
+                ));
                 break;
             case 2:
-                $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关数据',
+                ));
                 break;
             case 3:
-                $this->json_output (array( 'err' => 3, 'msg' => '没有更多数据' ));
+                $this->json_output (array(
+                    'err' => 3,
+                    'msg' => '没有更多数据',
+                ));
                 break;
             case 5:
-                $this->json_output (array( 'err' => 5, 'msg' => '不定时上线,敬请期待！' ));
+                $this->json_output (array(
+                    'err' => 5,
+                    'msg' => '不定时上线,敬请期待！',
+                ));
                 break;
             case 6:
-                $this->json_output (array( 'err' => 6, 'msg' => '参数错误' ));
+                $this->json_output (array(
+                    'err' => 6,
+                    'msg' => '参数错误',
+                ));
                 break;
             case 7:
-                $this->json_output (array( 'err' => 7, 'msg' => '服务器繁忙,请稍后再试！' ));
+                $this->json_output (array(
+                    'err' => 7,
+                    'msg' => '服务器繁忙,请稍后再试！',
+                ));
                 break;
             case 8:
-                $this->json_output (array( 'err' => 7, 'msg' => '服务正在维护,请稍后再试！' ));
+                $this->json_output (array(
+                    'err' => 7,
+                    'msg' => '服务正在维护,请稍后再试！',
+                ));
                 break;
             case 99:
-                $this->json_output (array( 'err' => 99, 'msg' => "是否消耗{$this->points['see_list']}塑豆查看?" ));
+                $this->json_output (array(
+                    'err' => 99,
+                    'msg' => "是否消耗{$this->points['see_list']}塑豆查看?",
+                ));
                 break;
             case 100:
-                $this->json_output (array( 'err' => 100, 'msg' => '塑豆不足,请多努力!' ));
+                $this->json_output (array(
+                    'err' => 100,
+                    'msg' => '塑豆不足,请多努力!',
+                ));
                 break;
             case 101:
-                $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
+                $this->json_output (array(
+                    'err' => 101,
+                    'msg' => '系统错误',
+                ));
                 break;
             case 102:
-                $this->json_output (array( 'err' => 102, 'msg' => '小时参数错误' ));
+                $this->json_output (array(
+                    'err' => 102,
+                    'msg' => '小时参数错误',
+                ));
                 break;
             case 103:
-                $this->json_output (array( 'err' => 103, 'msg' => '分钟参数错误' ));
+                $this->json_output (array(
+                    'err' => 103,
+                    'msg' => '分钟参数错误',
+                ));
                 break;
             case 104:
-                $this->json_output (array( 'err' => 104, 'msg' => '兑换时长参数不正确' ));
+                $this->json_output (array(
+                    'err' => 104,
+                    'msg' => '兑换时长参数不正确',
+                ));
                 break;
             case 105:
-                $this->json_output (array( 'err' => 105, 'msg' => 'purchase_id参数错误' ));
+                $this->json_output (array(
+                    'err' => 105,
+                    'msg' => 'purchase_id参数错误',
+                ));
                 break;
             case 106:
-                $this->json_output (array( 'err' => 106, 'msg' => '选择时间段错误,已被人预定过了' ));
+                $this->json_output (array(
+                    'err' => 106,
+                    'msg' => '选择时间段错误,已被人预定过了',
+                ));
                 break;
             case 107:
-                $this->json_output (array( 'err' => 107, 'msg' => '年份参数错误' ));
+                $this->json_output (array(
+                    'err' => 107,
+                    'msg' => '年份参数错误',
+                ));
                 break;
             case 108:
-                $this->json_output (array( 'err' => 108, 'msg' => '月份参数错误' ));
+                $this->json_output (array(
+                    'err' => 108,
+                    'msg' => '月份参数错误',
+                ));
                 break;
             case 109:
-                $this->json_output (array( 'err' => 109, 'msg' => '日子参数错误,只能选今天和以后7天的，不能大于该月的日子' ));
+                $this->json_output (array(
+                    'err' => 109,
+                    'msg' => '日子参数错误,只能选今天和以后7天的，不能大于该月的日子',
+                ));
                 break;
             case 111:
-                $this->json_output (array( 'err' => 111, 'msg' => '兑换失败' ));
+                $this->json_output (array(
+                    'err' => 111,
+                    'msg' => '兑换失败',
+                ));
                 break;
             case 112:
-                $this->json_output (array( 'err' => 112, 'msg' => '收货人错误' ));
+                $this->json_output (array(
+                    'err' => 112,
+                    'msg' => '收货人错误',
+                ));
                 break;
             case 113:
-                $this->json_output (array( 'err' => 113, 'msg' => '手机号错误' ));
+                $this->json_output (array(
+                    'err' => 113,
+                    'msg' => '手机号错误',
+                ));
                 break;
             case 114:
-                $this->json_output (array( 'err' => 114, 'msg' => '收货地址错误' ));
+                $this->json_output (array(
+                    'err' => 114,
+                    'msg' => '收货地址错误',
+                ));
                 break;
             case 115:
-                $this->json_output (array( 'err' => 115, 'msg' => '白驹过隙，时间一去不复返，不能停留在逝去的时光里' ));
+                $this->json_output (array(
+                    'err' => 115,
+                    'msg' => '白驹过隙，时间一去不复返，不能停留在逝去的时光里',
+                ));
                 break;
             case 116:
-                $this->json_output (array( 'err' => 116, 'msg' => 'App内暂时不进行现金兑换，请于微信内搜索《塑料圈》进行兑换' ));
+                $this->json_output (array(
+                    'err' => 116,
+                    'msg' => 'App内暂时不进行现金兑换，请于微信内搜索《塑料圈》进行兑换',
+                ));
                 break;
             case 117:
-                $this->json_output (array( 'err' => 117, 'msg' => '当前时间段已过，请提前一小时兑换' ));
+                $this->json_output (array(
+                    'err' => 117,
+                    'msg' => '当前时间段已过，请提前一小时兑换',
+                ));
                 break;
             case 118:
-                $this->json_output (array( 'err' => 118, 'msg' => '名额已完,下次请早' ));
+                $this->json_output (array(
+                    'err' => 118,
+                    'msg' => '名额已完,下次请早',
+                ));
                 break;
             case 119:
-                $this->json_output (array( 'err' => 119, 'msg' => '活动时间已过，请关注我们《塑料圈》公众号，参与更多活动' ));
+                $this->json_output (array(
+                    'err' => 119,
+                    'msg' => '活动时间已过，请关注我们《塑料圈》公众号，参与更多活动',
+                ));
                 break;
             default:
-                $this->json_output (array( 'err' => 999, 'msg' => '未知错误编码' ));
+                $this->json_output (array(
+                    'err' => 999,
+                    'msg' => '未知错误编码',
+                ));
         }
     }
 
@@ -3001,7 +3474,10 @@ class qapi1_2Action extends null2Action
             $data  = M ("product:purchase")->getPurchaseLeftById ($where);
             if (empty($data['content'])) {
                 if ($data['unit_price'] == 0.00 && empty($data['model']) && empty($data['f_name']) && empty($data['store_house'])) {
-                    $this->json_output (array( 'err' => 1, 'msg' => '此记录输入有误，请手动补充' ));
+                    $this->json_output (array(
+                        'err' => 1,
+                        'msg' => '此记录输入有误，请手动补充',
+                    ));
                 }
                 $data['f_type'] = 1;//格式化输出
             } elseif (!empty($data['content'])) {
@@ -3042,7 +3518,11 @@ class qapi1_2Action extends null2Action
                     break;
                 }
             }
-            $this->json_output (array( 'err' => 0, 'myfans' => $myfans, 'myconcerns' => $myconcerns ));
+            $this->json_output (array(
+                'err'        => 0,
+                'myfans'     => $myfans,
+                'myconcerns' => $myconcerns,
+            ));
         }
         $this->_errCode (6);
     }
@@ -3067,9 +3547,15 @@ class qapi1_2Action extends null2Action
             } //模糊查询没有page，报错
             $data = M ("qapp:plasticPersonalInfo")->getCompanyCredit ($fname, $type, $page);
             if (empty($data)) {
-                $this->json_output (array( 'err' => 2, 'msg' => '没有此公司或此公司尚未被授信！' ));
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有此公司或此公司尚未被授信！',
+                ));
             }
-            $this->json_output (array( 'err' => 0, 'data' => $data ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $data,
+            ));
         }
         if (empty($link_id) || $link_id == 'undefined') {
             if ($user_id <= 0) {
@@ -3081,9 +3567,15 @@ class qapi1_2Action extends null2Action
         //获取自己的
         $data = M ("qapp:plasticPersonalInfo")->getMyCredit ($user_id);
         if (empty($data)) {
-            $this->json_output (array( 'err' => 2, 'msg' => '没有此公司或此公司尚未被授信！' ));
+            $this->json_output (array(
+                'err' => 2,
+                'msg' => '没有此公司或此公司尚未被授信！',
+            ));
         }
-        $this->json_output (array( 'err' => 0, 'data' => $data ));
+        $this->json_output (array(
+            'err'  => 0,
+            'data' => $data,
+        ));
     }
 
 
@@ -3098,7 +3590,10 @@ class qapi1_2Action extends null2Action
                 $this->_errCode (6);
             }
             $tmpStr = desEncrypt ($encrypt_id);
-            $this->json_output (array( 'err' => 0, 'data' => $tmpStr ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $tmpStr,
+            ));
         }
         $this->_errCode (6);
     }
@@ -3115,7 +3610,10 @@ class qapi1_2Action extends null2Action
                 $this->_errCode (6);
             }
             $tmpStr = desDecrypt ($decrypt_id);
-            $this->json_output (array( 'err' => 0, 'data' => $tmpStr ));
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $tmpStr,
+            ));
         }
         $this->_errCode (6);
     }
@@ -3228,8 +3726,9 @@ class qapi1_2Action extends null2Action
                 }
             }
 
-            $this->json_output (array( 'err'  => 0,
-                                       'data' => compact ('serverFlag', 'lastForce', 'updateUrl', 'upgradeInfo')
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => compact ('serverFlag', 'lastForce', 'updateUrl', 'upgradeInfo'),
             ));
 
         }
@@ -3259,7 +3758,7 @@ class qapi1_2Action extends null2Action
             "timestamp" => $timestamp,
             "url"       => $url,
             "signature" => $signature,
-            "rawString" => $string
+            "rawString" => $string,
         );
 
         return $signPackage;
@@ -3430,31 +3929,52 @@ class qapi1_2Action extends null2Action
     }
 
 
-    public function getRegion(){
-        $pid= sget('id','i',1);
-        $_tmp = unserialize($this->cache->get('getqappRegion'.$pid));
-        if(!empty($_tmp)) $this->json_output(array('err'=>0,'data'=>$_tmp));
-        $_tmp = M('system:region')->select('id,pid,name')->where('pid='.$pid)->getAll();
-        $_tmpRow = '';
-        foreach($_tmp as $key=>&$row){
-            if($row['name']=='上海'&&$row['pid']==1){
-                unset($row['pid']);
-                $_tmpRow=$row;
-                unset($_tmp[$key]);
-            }unset($row['pid']);
+    public function getRegion ()
+    {
+        $pid  = sget ('id', 'i', 1);
+        $_tmp = unserialize ($this->cache->get ('getqappRegion'.$pid));
+        if (!empty($_tmp)) {
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $_tmp,
+            ));
         }
-        if(!empty($_tmpRow)) array_unshift($_tmp,$_tmpRow);
-        $this->cache->set('getqappRegion'.$pid,serialize($_tmp),$this->randomMdTime);
-        $this->json_output(array('err'=>0,'data'=>$_tmp));
+        $_tmp    = M ('system:region')->select ('id,pid,name')->where ('pid='.$pid)->getAll ();
+        $_tmpRow = '';
+        foreach ($_tmp as $key => &$row) {
+            if ($row['name'] == '上海' && $row['pid'] == 1) {
+                unset($row['pid']);
+                $_tmpRow = $row;
+                unset($_tmp[$key]);
+            }
+            unset($row['pid']);
+        }
+        if (!empty($_tmpRow)) {
+            array_unshift ($_tmp, $_tmpRow);
+        }
+        $this->cache->set ('getqappRegion'.$pid, serialize ($_tmp), $this->randomMdTime);
+        $this->json_output (array(
+            'err'  => 0,
+            'data' => $_tmp,
+        ));
     }
 
-    public function getModel(){
-        $keywords = sget('keywords','s');
-        $keywords = strtoupper($keywords);
-        if(empty($keywords)) $this->_errCode(6);
-        $_tmpModel=M('qapp:product')->select('model')->where('status=1 and model like "%'.$keywords.'%"')->limit(20)->getAll();
-        if(empty($_tmpModel)) $this->_errCode(2);
-        $this->json_output(array('err'=>0,'data'=>$_tmpModel));
+    public function getModel ()
+    {
+        $keywords = sget ('keywords', 's');
+        $keywords = strtoupper ($keywords);
+        if (empty($keywords)) {
+            $this->_errCode (6);
+        }
+        $_tmpModel = M ('qapp:product')->select ('model')->where ('status=1 and model like "%'.$keywords.'%"')
+                                       ->limit (20)->getAll ();
+        if (empty($_tmpModel)) {
+            $this->_errCode (2);
+        }
+        $this->json_output (array(
+            'err'  => 0,
+            'data' => $_tmpModel,
+        ));
     }
 
     /**
@@ -3476,80 +3996,113 @@ class qapi1_2Action extends null2Action
      *      "msg":"密码重置成功"
      *      }
      */
-    public function checkVersion(){
-        $version  = sget('version','s');
-        $platform = sget('platform','s');
-        if(!in_array($platform,array('ios','android','h5'))||empty($version)){
-            $this->json_output(array('err'=>4,'msg'=>'参数错误'));
+    public function checkVersion ()
+    {
+        $version  = sget ('version', 's');
+        $platform = sget ('platform', 's');
+        if (!in_array ($platform, array(
+                'ios',
+                'android',
+                'h5',
+            )) || empty($version)
+        ) {
+            $this->json_output (array(
+                'err' => 4,
+                'msg' => '参数错误',
+            ));
         }
-        $version = explode('.',$version);
-        $version = array_splice($version,0,3);
-        if(count($version)!=3){
-            $this->json_output(array('err'=>2,'msg'=>'不规范的版本格式，不予支持'));
+        $version = explode ('.', $version);
+        $version = array_splice ($version, 0, 3);
+        if (count ($version) != 3) {
+            $this->json_output (array(
+                'err' => 2,
+                'msg' => '不规范的版本格式，不予支持',
+            ));
         }
 
-        $settings = M('system:setting')->getSetting();
+        $settings        = M ('system:setting')->getSetting ();
         $newest_version0 = $settings['qapp_newest_version'];
         $newest_qapp_url = $settings['qapp_newest_url'];
 
-        if(empty($newest_version0)||empty($newest_qapp_url)){
-            $this->json_output(array('err'=>3,'msg'=>'系统错误'));
+        if (empty($newest_version0) || empty($newest_qapp_url)) {
+            $this->json_output (array(
+                'err' => 3,
+                'msg' => '系统错误',
+            ));
         }
-        $newest_version = explode('.',$newest_version0);
+        $newest_version = explode ('.', $newest_version0);
 
-        if($version[0]<$newest_version[0]){
-            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','new_version'=>$newest_version0,'url'=>$newest_qapp_url[$platform]));
-        }elseif($version[1]<$newest_version[1]){
-            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','new_version'=>$newest_version0,'url'=>$newest_qapp_url[$platform]));
-        }elseif($version[2]<$newest_version[2]){
-            $this->json_output(array('err'=>1,'msg'=>'当前版本已经停止支持，请迅速更新','new_version'=>$newest_version0,'url'=>$newest_qapp_url[$platform]));
-        }else{
-            $this->json_output(array('err'=>0,'msg'=>'当前版本是最新版本，棒棒哒'));
+        if ($version[0] < $newest_version[0]) {
+            $this->json_output (array(
+                'err'         => 1,
+                'msg'         => '当前版本已经停止支持，请迅速更新',
+                'new_version' => $newest_version0,
+                'url'         => $newest_qapp_url[$platform],
+            ));
+        } elseif ($version[1] < $newest_version[1]) {
+            $this->json_output (array(
+                'err'         => 1,
+                'msg'         => '当前版本已经停止支持，请迅速更新',
+                'new_version' => $newest_version0,
+                'url'         => $newest_qapp_url[$platform],
+            ));
+        } elseif ($version[2] < $newest_version[2]) {
+            $this->json_output (array(
+                'err'         => 1,
+                'msg'         => '当前版本已经停止支持，请迅速更新',
+                'new_version' => $newest_version0,
+                'url'         => $newest_qapp_url[$platform],
+            ));
+        } else {
+            $this->json_output (array(
+                'err' => 0,
+                'msg' => '当前版本是最新版本，棒棒哒',
+            ));
         }
 
     }
 
-       /* public function test()
-        {
-            $id= $_GET['id'];
-            $contacts = $this->db->model('customer_contact')->where("c_id=" . $id)->getAll();
-            var_dump($contacts);
+    /* public function test()
+     {
+         $id= $_GET['id'];
+         $contacts = $this->db->model('customer_contact')->where("c_id=" . $id)->getAll();
+         var_dump($contacts);
 
-            foreach ($contacts as $contact) {
-                if(!empty($contact['mobile'])) {
-                    $region = M("system:region")->get_system_region_by_phone($contact['mobile']);
+         foreach ($contacts as $contact) {
+             if(!empty($contact['mobile'])) {
+                 $region = M("system:region")->get_system_region_by_phone($contact['mobile']);
 
-                    if (!empty($region)) {
-                        $this->db->model('customer')->where("c_id=" . $id)->update(array('china_area' => $region));
-                        break;
-                    }
-                }
-                if(!empty($contact['tel'])) {
-                    $region = M("system:region")->get_system_region_by_phone($contact['tel']);
-                    if (!empty($region)) {
-                        $this->db->model('customer')->where("c_id=" . $id)->update(array('china_area' => $region));
-                        echo 111;
-                        var_dump($this->db->getLastSql());
-                        break;
-                    }
-                }
-            }
-        }*/
-//    public function json_output ($result = array())
-//    {
-//        //header('Content-Type:text/html; charset=utf-8');
-//        header ('Content-type: application/json; charset=utf-8');
-//        $result       = json_encode ($result);
-//        $jsoncallback = sget ('jsoncallback');
-//        if (!empty($jsoncallback)) {
-//            $result = $jsoncallback."($result)";
-//        }
-//        echo $result;
-//        if ($this->debug || isset($_GET[C ('SHOW_DEBUG')])) {
-//            log::showTrace ();
-//        }
-//        die();
-//    }
+                 if (!empty($region)) {
+                     $this->db->model('customer')->where("c_id=" . $id)->update(array('china_area' => $region));
+                     break;
+                 }
+             }
+             if(!empty($contact['tel'])) {
+                 $region = M("system:region")->get_system_region_by_phone($contact['tel']);
+                 if (!empty($region)) {
+                     $this->db->model('customer')->where("c_id=" . $id)->update(array('china_area' => $region));
+                     echo 111;
+                     var_dump($this->db->getLastSql());
+                     break;
+                 }
+             }
+         }
+     }*/
+    //    public function json_output ($result = array())
+    //    {
+    //        //header('Content-Type:text/html; charset=utf-8');
+    //        header ('Content-type: application/json; charset=utf-8');
+    //        $result       = json_encode ($result);
+    //        $jsoncallback = sget ('jsoncallback');
+    //        if (!empty($jsoncallback)) {
+    //            $result = $jsoncallback."($result)";
+    //        }
+    //        echo $result;
+    //        if ($this->debug || isset($_GET[C ('SHOW_DEBUG')])) {
+    //            log::showTrace ();
+    //        }
+    //        die();
+    //    }
 
 
 }
