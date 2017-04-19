@@ -88,7 +88,7 @@
 								<div>甲方</div>
 								<div>TEL:<input name="first_part_contact_tel"   class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.tel}"/></div>
 								<div>FAX:<input name="first_part_contact_fax"  class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.fax}"/></div>
-								<div>委托代理人:<input name="first_part_contact_name " class="mini-textbox" style="width:125px;" required="true" value="{$first_part_info.name}"  /></div>
+								<div>委托代理人:<input name="first_part_contact_name" class="mini-textbox" style="width:125px;" required="true" value="{$first_part_info.name}"  /></div>
 							</td>
 							<td>
 								<div>乙方</div>
@@ -149,6 +149,7 @@
 		//提交数据
 		var o = form.getData(true);
 		var json = mini.encode(o);
+		console.log(json);
 		$("#returnMsg").text('');
 		form.loading("数据提交中，请稍后......");
 		var urlstr = '/operator/transport/addSubmit';

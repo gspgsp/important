@@ -62,7 +62,7 @@ class transportAction extends adminBaseAction
     {
         $order_id = sget('order_id', 'i');
         $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
-        $first_part_info=M('rbac:adm')->where('admin_id='.$_SESSION['adminid'])->select('name,tel')->getRow();
+        $first_part_info=M('rbac:adm')->where('admin_id='.$_SESSION['adminid'])->select('name,tel,fax')->getRow();
         if (!empty($order_id)) {
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
@@ -174,7 +174,7 @@ class transportAction extends adminBaseAction
         $data['create_time'] = time();
         $data['update_time'] = time();
         $data['created_by'] = $this->admin_id;
-        $data['last_edited_by'] = $this->admin_id;
+        $data['last_edited_by'] = $this->admin_id;        
         $res = M('public:common')->model('transport_contract')->add($data);
 
         if ($res) {
