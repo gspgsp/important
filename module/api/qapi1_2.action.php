@@ -532,7 +532,7 @@ class qapi1_2Action extends null2Action
     //现在默认的login的都是塑料圈web的方式，但是会出现问题的
     //区分不了东西了，其实没什么大不了，app每天的登录记录是出现在取首页数据的时候
     public function login ()
-    {var_dump($_GET);var_dump($_POST);exit;
+    {
         if ($_POST['username']) {
             $this->is_ajax = true;
             $username      = sget ('username', 's');
