@@ -415,7 +415,7 @@ class callReportAction extends adminBaseAction
                      ->leftjoin('customer_contact con','con.mobile=a.remark')
                      ->leftjoin('customer as cus','cus.c_id=con.c_id')
                      ->where($where)
-                     ->select("a.*,c.aname,c.admin_id,c.cname,cus.c_name")
+                     ->select("distinct(a.id) as wss,a.*,c.aname,c.admin_id,c.cname,cus.c_name")
                      ->page($page + 1, $size)
                      ->order("$sortField $sortOrder")
                      ->getPage();
