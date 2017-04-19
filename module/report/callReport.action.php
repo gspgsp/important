@@ -155,6 +155,32 @@ class callReportAction extends adminBaseAction
                             WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null";
                     $rs6=$this->db->model('api')->getAll($sql6);
 
+                    //匹配时间
+                    $sql7="SELECT a.id,a.time,a.phone
+                            FROM `p2p_api` `a`
+                            JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
+                            JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
+                            JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
+                            WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null";
+
+                    $rs7=$this->db->model('api')->getAll($sql7);
+                    $rs6[0]['out_match_time']= 0;
+                    $ids2=array();
+                    $newArr2=array();
+                    foreach($rs7 as $row7){
+                        if(!isset($ids2[$row7['id']])){
+                            $ids2[$row7['id']]=$row7['id'];
+                            $newArr2[]=$row7;
+                        }
+                    }
+                    //if($row['seat_phone']=='214'){p($rs7);p($newArr2);showTrace();exit;}
+                    foreach($newArr2 as $ese){
+                        $rs6[0]['out_match_time'] += $ese['time'];
+                    }
+
+
+
+
 
 
                     $a['intime']=$rs4[0]['in_time'];
