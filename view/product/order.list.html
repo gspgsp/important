@@ -254,10 +254,10 @@ function onJoin(e) {
 	var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type,more=record.more;
 		if(store_o_id > 0 && join_id == 0){
 			s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
-		}else if(store_o_id == 0 && join_id > 0 && more == 0){
-			s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
 		}else if(store_o_id == 0 && join_id > 0 && more > 1){
 			s += '<a href="javascript:viewUniInfo('+o_id+')">关联(多)</a> ';
+		}else if(store_o_id == 0 && join_id > 0){
+			s += '<a href="javascript:viewOrdInfo('+join_id+')">关联</a> ';
 		}else if(o_id == join_id && join_id>0 && store_o_id>0){
 			s += '<a href="javascript:viewOrdInfo('+store_o_id+')">关联</a> ';
 		}else if(o_id == store_o_id && join_id>0 && store_o_id>0){
