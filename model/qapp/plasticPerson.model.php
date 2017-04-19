@@ -68,7 +68,7 @@ class plasticPersonModel extends model
     }
 
     //获取所有的联系人
-    public function getPlasticPerson ($user_id, $letter, $keywords, $page = 1, $size = 10, $sortField = null, $sortOrder = null,$region=0)
+    public function getPlasticPerson ($user_id, $letter, $keywords, $page = 1, $size = 10, $sortField = null, $sortOrder = null,$region=0,$c_type=2)
     {
         $operMobi = array('13900000001', '13900000002', '13900000003', '13900000004', '13900000005', '13900000006', '13900000007', '13900000008', '13900000009');
         $operMobi = implode (',', $operMobi);
@@ -81,6 +81,13 @@ class plasticPersonModel extends model
                 $orderStr = 'con.update_time desc';
             else
                 $orderStr = 'con.update_time asc';
+        }
+        if($c_type == 2)
+        {
+            $where .= " and cus.type = 2";
+        }elseif($c_type == 1)
+        {
+            $where .= " and cus.type in (1,3)";
         }
 //        $sortField = 'con.input_time';
 //        $sortOrder = 'desc';
