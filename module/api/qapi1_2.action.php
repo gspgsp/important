@@ -939,7 +939,7 @@ class qapi1_2Action extends null2Action
                 $this->json_output (array( 'err' => 4, 'msg' => '您关注的该牌号暂未匹配，暂无推荐！' ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'CONCERN') {
-                $this->json_output (array( 'err' => 2, 'msg' => '您关注的塑料圈用户暂无供求信息！' ));
+                $this->json_output (array( 'err' => 6, 'msg' => '您关注的塑料圈用户暂无供求信息！' ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'DEMANDORSUPPLY') {
                 $this->json_output (array( 'err' => 2, 'msg' => '您未发布任何供求信息！' ));
