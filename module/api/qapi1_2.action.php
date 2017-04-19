@@ -306,6 +306,8 @@ class qapi1_2Action extends null2Action
                     ) {
                         throw new Exception("系统错误 reg:105");
                     }
+
+                    $stype=2;//老用户
                     //老用户也要检测contact_info 表的信息,防止后台乱添加用户少了信息
                     $mobile_area = getCityByMobile ($mobile);
                     $_info       = array(
@@ -329,6 +331,7 @@ class qapi1_2Action extends null2Action
                         ) {
                             throw new Exception("系统错误 reg:103");
                         }
+                        $stype = 1; //新用户
                     }
                 } else {
                     $is_default = empty($customer) ? 1 : 0;
@@ -408,7 +411,8 @@ class qapi1_2Action extends null2Action
             $cache->delete ($mobile.'password');
             $cache->delete ($mobile.'salt');
             $cache->delete ($mobile.'check_reg_ok');
-            $this->success ('注册成功');
+            //$this->success ('注册成功');
+            $this->json_output(array('err'=>0,'msg'=>'注册成功','stype'=>$stype));
 
         }
         $this->_errCode (6);
