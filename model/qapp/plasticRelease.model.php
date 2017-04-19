@@ -400,6 +400,25 @@ class plasticReleaseModel extends model
         return $data;
     }
 
+
+    /**
+     * 检测用户是否有标准格式供求
+     * @param $uid
+     * @return bool
+     */
+    public function checkStandard($uid)
+    {
+        $num = $this->model ('purchase')->select("count(*) as num")->where("model != '' and user_id = ".$uid)->getOne();
+
+        if($num >0)
+        {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
     //获取公司
     //获取姓名
     //获取当前类型的键
