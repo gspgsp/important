@@ -123,7 +123,7 @@ class teamApproveAction extends adminBaseAction
 			//新增战队配资变动日志----S
 			$team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($coll_res['customer_manager']);
 			$remarks = "领导特批通过，削减采购战队额度";
-			M('user:teamCapital')->addLog($coll_res['o_id'],$team_capital['team_id'],'buy_pay_pass',$team_capital['available_money'],$team_capital_now['available_money'],1,$remarks);
+			M('user:teamCapital')->addLog($coll_res['o_id'],$team_capital['team_id'],'buy_pay_pass',$team_capital['available_money'],$team_capital_now['available_money'],1,$coll_res['collected_price'],$remarks);
 			//新增战队配资变动日志----E
 		}else{//不通过，该状态
 			$coll_res = $this->db->model('collection')->where("id=".$id)->getRow();//获取付款申请数据
@@ -131,7 +131,7 @@ class teamApproveAction extends adminBaseAction
 			$this->db->model('collection')->where("id=".$id)->update('collection_status=3,update_time='.time());//修改付款申请状态为3:已取消
 			//新增战队配资变动日志----S
 			$remarks = "领导特批不通过";
-			M('user:teamCapital')->addLog($coll_res['o_id']*(-1),$team_capital['team_id'],'buy_pay_unpass',$team_capital['available_money'],$team_capital['available_money'],1,$remarks);
+			M('user:teamCapital')->addLog($coll_res['o_id']*(-1),$team_capital['team_id'],'buy_pay_unpass',$team_capital['available_money'],$team_capital['available_money'],1,$coll_res['collected_price'],$remarks);
 			//新增战队配资变动日志----E
 		}
 		//修改审批状态
