@@ -197,9 +197,9 @@ class callReportAction extends adminBaseAction
                             'out_time'=>$rs2[0]['out_time'],//拨出时间
                             'out_eff_num'=>$rs3[0]['out_eff_num'],//有效次数
                             'out_match_num'=>$rs6[0]['sum'],//客户匹配数量
-                            'company_match_ratio'=>sprintf(" %.4f",$rs6[0]['sum']/$rs2[0]['out_num'] ),//公司匹配率
+                            'company_match_ratio'=>(sprintf(" %.4f",$rs6[0]['sum']/$rs2[0]['out_num'] )*100).'%',//公司匹配率
                             'out_match_time'=>$rs6[0]['out_match_time'],    //匹配时长
-                            'time_match_ratio'=>sprintf("%.4f",$_tmpTime_match_ratio),//匹配时长率
+                            'time_match_ratio'=>(sprintf("%.4f",$_tmpTime_match_ratio)*100).'%',//匹配时长率
                             'in_num'=>$rs4[0]['in_num'],
                             'in_time'=>$rs4[0]['in_time'],
                             'in_eff_num'=>$rs5[0]['in_eff_num'],
