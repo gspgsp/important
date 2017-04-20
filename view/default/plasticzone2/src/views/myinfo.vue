@@ -47,6 +47,7 @@
 						<input type="radio" value="EC" v-model="distinctradio" />&nbsp;华东&nbsp;
 						<input type="radio" value="NC" v-model="distinctradio" />&nbsp;华北&nbsp;
 						<input type="radio" value="SC" v-model="distinctradio" />&nbsp;华南&nbsp;
+						<input type="radio" value="OT" v-model="distinctradio" />&nbsp;华南&nbsp;
 					</span>
 				</td>
 			</tr>
