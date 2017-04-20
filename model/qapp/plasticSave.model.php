@@ -158,10 +158,13 @@ class plasticSaveModel extends model
         }
         if(isset($data['type'])&&(!empty($data['type']))){
             $where = "c_id=".$cus_con['c_id'];
+            //贸易商  update_time 变成  20170101
+            $_tmpTime=strtotime('2017-01-01');
             if(false===$this->where($where)->update(array('type'=>$data['type']))){
                 $this->rollback();
                 return array('err'=>7,'msg'=>'系统繁忙');
             }
+            if($data['type']==2) M('user:customerContact')->where("user_id = $userid")->update(array('update_time'=>$_tmpTime));
         }
 
         if(isset($data['month_consum'])&&(!empty($data['month_consum']))){

@@ -198,6 +198,9 @@ class plasticPersonalInfoModel extends model
             case "EC":
                 $data['adistinct'] = '华东';
                 break;
+            default:
+                $data['adistinct'] = '其他';
+                break;
         }
         if(empty($data['type'])) $data['type']=2;
 //         //ta的求购或报价数量
