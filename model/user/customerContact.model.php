@@ -139,6 +139,11 @@ class customerContactModel extends model{
 		if($info['ctype']==1 && $info['user_id']>0){
 			$yanshi = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->getRow();
 			//更新联系人
+			// p($info);die;
+			if($info['is_default'] == 1){
+				$this->model('customer_contact')->where("c_id = {$info['c_id']} and user_id != {$info['user_id']}")->update(array('is_default'=>0));
+				$this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$info['user_id']));
+			}
 			$result = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->update($info+$data);
 				$remarks = "客户联系人修改:".date('Y-m-d H:i:s',time());
 				M('user:customerLog')->addLog($info['c_id'],'register',serialize($yanshi),serialize($info+$_data),1,$remarks);
