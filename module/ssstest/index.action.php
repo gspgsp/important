@@ -22,4 +22,9 @@ class indexAction extends homeBaseAction{
 	public function time3(){
 		echo '2017-4-20 16:27:34';
 	}
+
+
+	public function time4(){
+		echo '2017-4-20 16:49:37';
+	}
 }
