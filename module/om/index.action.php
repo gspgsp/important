@@ -147,6 +147,10 @@ class indexAction extends homeBaseAction{
 	    
 // 		$this->display('index.html');
 	}
+
+	public function eat(){
+		echo 'this is a eat';
+	}
 }
 
 
