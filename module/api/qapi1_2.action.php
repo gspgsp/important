@@ -1059,7 +1059,7 @@ class qapi1_2Action extends null2Action
             $pur_id = $pointsOrder->get_supply_demand_top ($goods_id);
 
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
-            if ($pur_id && ($sortField1 == 'ALL' || $sortField2 == 'AUTO' || $sortField2 == 'DEMANDORSUPPLY')) {
+            if ($pur_id && ($sortField1 == 'ALL' || $sortField2 == 'AUTO')) {
 
                 $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($pur_id);
                 $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($top['user_id']);
