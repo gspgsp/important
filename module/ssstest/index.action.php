@@ -18,8 +18,4 @@ class indexAction extends homeBaseAction{
 	public function time1(){
 		echo '2017-4-20 16:19:47';
 	}
-
-	public function time2(){
-		echo '2017-4-20 16:20:23';
-	}
 }
