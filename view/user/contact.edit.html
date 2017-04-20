@@ -38,6 +38,12 @@
 		<td></td>
 	  </tr>
 	  <tr>
+	  	<td>默认联系人：<font style="color:red;">*</font></td>
+	  	<td><input name="is_default" class="mini-combobox" style="width:150px;" value="{$info.is_default}" data='{:setMiniConfig|array(0=>'否',1=>'是')}' required="true" textfield="name" valuefield="id"/></td>
+	  	<td></td>
+	  	<td></td>
+	  </tr>
+	  <tr>
 		<td>备注：</td>
 		<td colspan="3">
 		  <input name="remark" class="mini-textarea" style="width:403px; height:50px;" value="{$info.remark}"/>
@@ -65,7 +71,7 @@ var form = new mini.Form("#infoForm");
 function submitForm(){
   form.validate();
   if(form.isValid() == false) return;
-  
+
   //提交数据
   var o = form.getData();
   var json = mini.encode(o);
@@ -82,9 +88,9 @@ function submitForm(){
   },'json');
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
   if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-  else window.close();            
+  else window.close();
 }
 function onCancel(e) {
   CloseWindow("cancel");
@@ -122,7 +128,7 @@ function usrChoose(e){
 				}
 			}
 		}
-	});         
+	});
 }
 
 </script>
