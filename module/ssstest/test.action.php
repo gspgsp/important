@@ -6,4 +6,8 @@ class testAction extends homeBaseAction{
     {
         echo 'this is ssstest test init';
     }
+
+    public function sleep(){
+        echo 'this is ssstest test sleep';
+    }
 }
