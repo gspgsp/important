@@ -57,9 +57,9 @@
 						{{c_nametype}}
 					</span>
 					<span v-if="!isDisabled">
-						<input type="radio" value="1" v-on:change="ctypeShow" v-model="c_type" />&nbsp;工厂&nbsp;
-						<input type="radio" value="2" v-on:change="ctypeShow" v-model="c_type" />&nbsp;贸易商&nbsp;
-						<input type="radio" value="3" v-on:change="ctypeShow" v-model="c_type" />&nbsp;工贸一体&nbsp;
+						<input type="radio" value="1" v-on:change="ctypeShow" v-model="c_type" />&nbsp;塑料制品企业&nbsp;
+						<input type="radio" value="2" v-on:change="ctypeShow" v-model="c_type" />&nbsp;原料供应商&nbsp;
+						<input type="radio" value="4" v-on:change="ctypeShow" v-model="c_type" />&nbsp;物流服务商&nbsp;
 					</span>					
 				</td>
 			</tr>

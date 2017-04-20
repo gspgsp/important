@@ -524,6 +524,9 @@ methods: {
 	}
 },
 beforeRouteEnter:function(to,from,next){
+	if(from.name=="login"){
+		console.log("from login");
+	}
 	next(function(vm){
 		$(window).on('scroll', function(){
 			vm.loadingMore();

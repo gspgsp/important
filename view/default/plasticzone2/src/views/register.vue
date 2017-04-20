@@ -39,7 +39,7 @@
 				<strong><span>*</span>企业类型:</strong>
 				<input name="firm" type="radio" value="1" v-model="c_type" /><label>塑料制品企业</label>
 				<input name="firm" type="radio" value="2" v-model="c_type" /><label>原料供应商</label>
-				<input name="firm" type="radio" value="4" v-model="c_type" /><label>服务商</label>
+				<input name="firm" type="radio" value="4" v-model="c_type" /><label>物流服务商</label>
 			</div>
 		</div>
 	</div>
