@@ -142,7 +142,7 @@ function GetData() {
 function onLoadFllow(e) {
 	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli;
 		if(customer_manager !=''){
-			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>';
+			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>|';
 			s +='<a href="javascript:setSea('+cid+')">公海</a>';
 			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
 		}
