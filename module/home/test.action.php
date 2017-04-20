@@ -255,7 +255,8 @@
 		 $this->db->model('product')->where("id  in ($s)")->update(array('temp'=>1));
 	}
 	public function svn(){
-		echo '123789';
+		echo '12387789';
 		echo '456';
+		echo '789';
 	}
 }
