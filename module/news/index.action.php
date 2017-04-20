@@ -272,7 +272,7 @@
 			if (empty($sTime) || empty($eTime)) {
 				echo '丁公子，你URL时间戳格式不正确！';
 			}else{
-				$data=$this->db->model('news_content')->select('id,cate_id,type')->where('input_time between '.$sTime.' and '.$eTime.' and status=1')->getAll();
+				$data=$this->db->model('news_content')->select('id,cate_id,type')->where('input_time between '.$sTime.' and '.$eTime.' and status=1 and type != "vip"')->getAll();
 				$urls=array();
 				foreach ($data as $k => $v) {
 					$spell=$this->db->model('news_cate')->select('spell')->where('cate_id='.$v['cate_id'])->getOne();
