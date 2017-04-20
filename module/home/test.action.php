@@ -239,7 +239,7 @@
 			}
 		}
 	}
-		
+
 
 	public function product(){
 		set_time_limit(0);
@@ -247,7 +247,7 @@
 		// foreach ($products as $k => $v) {
 		// 	$exit  = $this->db->model('sale_log')->where("p_id = $v")->getRow();
 		// 	if(!empty($exit)){
-		// 		
+		//
 		// 	}
 		// }
 		$exit  = $this->db->model('sale_log')->select("p_id")->getCol();
@@ -255,6 +255,6 @@
 		 $this->db->model('product')->where("id  in ($s)")->update(array('temp'=>1));
 	}
 	public function svn(){
-		
+		echo '123';
 	}
 }
