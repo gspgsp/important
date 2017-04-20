@@ -16,7 +16,7 @@ class blackcustomerAction extends adminBaseAction {
 
 	/**
 	 * 会员列表
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function init(){
@@ -31,7 +31,7 @@ class blackcustomerAction extends adminBaseAction {
 
 	/**
 	 * Ajax获取列表内容
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	public function _grid(){
@@ -46,17 +46,32 @@ class blackcustomerAction extends adminBaseAction {
 		$status = sget("status",'s',''); //状态
 		if($status!='') $where.=" and status='$status' ";
 		$type = sget("type",'s',''); //状态
-		if($type!='') $where.=" and type='$type' ";//type 客户类型	
+		if($type!='') $where.=" and type='$type' ";//type 客户类型
 		$level = sget("level",'s',''); //状态
 		if($level!='') $where.=" and level='$level' ";//level 客户级别
 		$identification = sget("identification",'s',''); //认证
-		if($identification!='') $where.=" and identification='$identification' ";	
+		if($identification!='') $where.=" and identification='$identification' ";
 		// 关键词
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='legal_person' || $key_type=='c_name'){
+			if($key_type=='c_name'){
+				$cidshare = M('user:customer')->getcidByCname($keyword);
 				$where.=" and $key_type like '%$keyword%' ";
+			}elseif($key_type=='customer_manager'){
+				$adms = join(',',M('rbac:adm')->getIdByName($keyword));
+				$where.=" and $key_type in ($adms) ";
+				$sons = explode(',',M('rbac:rbac')->getSons($_SESSION['adminid']));  //领导
+				$pass = in_array($adms,$sons);
+				if(!M('rbac:adm')->getIdByName($keyword) && $_SESSION['adminid'] != 1){
+					$this->error('<font style="color:red">查询的交易员不存在！</font>');
+				}else if(count(M('rbac:adm')->getIdByName($keyword)) > 1 && $_SESSION['adminid'] != 1){
+					$this->error('<font style="color:red">暂时不支持模糊查询交易员</font>');
+				}else if($_SESSION['adminid'] != $adms && $_SESSION['adminid'] != 1 && 	!$pass){
+					$this->error('<font style="color:red">只支持查询自己及下属哦！</font>');
+				}
+			}elseif($key_type=='need_product'){
+				$where.=" and `need_product_adm` like '%$keyword%' ";
 			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
@@ -86,7 +101,7 @@ class blackcustomerAction extends adminBaseAction {
 	}
 	/**
 	 * 批量设置客户状态
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function saveTags(){
@@ -127,12 +142,12 @@ class blackcustomerAction extends adminBaseAction {
 				$this->assign('credit_level',L('credit_level'));//信用等级
 				$this->assign('page_title','新增企业用户');
 				$this->display('company.add.html');
-			}		
+			}
 			exit;
 		}
 		$info=$this->db->getPk($user_id); //查询公司信息
 		if(empty($info)){
-			$this->error('错误的公司信息');	
+			$this->error('错误的公司信息');
 		}
 		if($info['origin']){
 			$areaArr = explode('|', $info['origin']);
@@ -155,7 +170,7 @@ class blackcustomerAction extends adminBaseAction {
 		$this->assign('sex',L('sex'));
 		$this->display('customer.viewInfo.html');
     }
-	
+
 	 /**
      * 会员详细信息
      * @access public
@@ -186,14 +201,14 @@ class blackcustomerAction extends adminBaseAction {
 		$this->assign('user',$info); //分陪公司信息
 		$this->display('company.info.html');
    	}
-	
+
 	/**
 	 * 获取地区列表
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function getRegion($pid=0){
-		//地区列表			
+		//地区列表
 		$regList = M('system:region')->get_allRegions();
 		//print_r($regList);
 		$list = array();
@@ -205,10 +220,10 @@ class blackcustomerAction extends adminBaseAction {
 		}
 		$this->json_output($list);
 	}
-	
+
 	/**
 	 * 新增公司及其联系人信息
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function addSubmit() {
@@ -218,24 +233,24 @@ class blackcustomerAction extends adminBaseAction {
 		if($utype==1){
 			//验证联系人信息
 			$param=array(
-				'mobile'=>$data['mobile'],		 
-				'email'=>$data['email'],		 
-				'qq'=>$data['qq'],	 
+				'mobile'=>$data['mobile'],
+				'email'=>$data['email'],
+				'qq'=>$data['qq'],
 			);
 		}else{
 			//验证公司信息
 			$param=array(
-				'c_name'=>$data['c_name'],		 
-				'business_licence'=>$data['business_licence'],		 
-				'organization_code'=>$data['organization_code'],	 
-				'tax_registration'=>$data['tax_registration'],	
+				'c_name'=>$data['c_name'],
+				'business_licence'=>$data['business_licence'],
+				'organization_code'=>$data['organization_code'],
+				'tax_registration'=>$data['tax_registration'],
 				'legal_idcard'=>$data['legal_idcard'],
 				'info_mobile'=>$data['info_mobile'],
 				'info_qq'=>$data['info_qq'],
 				'info_email'=>$data['info_email'],
 			);
 		}
-		$result=M('user:customerContact')->customerAdd($param,$data);	
+		$result=M('user:customerContact')->customerAdd($param,$data);
 		if($result['err']>0){
 			$this->error($result['msg']);
 		}
@@ -254,7 +269,7 @@ class blackcustomerAction extends adminBaseAction {
 		);
 		// 查询下分配的管理员所属的部门
 		$depart = M('rbac:adm')->getUserByCol($data['id'],'depart');
-		$result = $this->db->where(" c_id = '$c_id'")->update($_data+array('customer_manager'=>$data['id'],'depart'=>$depart,));	
+		$result = $this->db->where(" c_id = '$c_id'")->update($_data+array('customer_manager'=>$data['id'],'depart'=>$depart,));
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
@@ -268,13 +283,15 @@ class blackcustomerAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$data = explode(',',$ids);
 		if(is_array($data)){
 			foreach ($data as $k => $v) {
 				$res = M('user:customer')->getColByName($v,"c_id","c_id");
 				if($res>0){
+					//核查是否有关联订单
+					if($this->db->model('order')->where("`c_id`= $v")->getRow()) $this->error('存在关联订单不能删除');
 					//删除联系人
 					$this->db->model('customer_contact')->where("`c_id`=$v")->delete();
 					//新增客户流转记录日志----S
@@ -300,7 +317,7 @@ class blackcustomerAction extends adminBaseAction {
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$data = explode(',',$ids);
 		if(is_array($data)){
