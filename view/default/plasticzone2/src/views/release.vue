@@ -152,6 +152,7 @@
 	<div class="releaseMsg" v-if="condition==4">
 		<div class="releaseMsgHead2"></div>
 		<div class="releaseTxt">{{errmsg}}</div>
+		<div class="releaseMsgIntro"></div>
 	</div>
 	<loadingPage :loading="loadingShow"></loadingPage>
 	<footerbar></footerbar>
