@@ -254,4 +254,7 @@
 		$s = join(',',array_unique($exit));
 		 $this->db->model('product')->where("id  in ($s)")->update(array('temp'=>1));
 	}
+	public function svn(){
+		
+	}
 }
