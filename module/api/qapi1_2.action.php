@@ -1001,7 +1001,7 @@ class qapi1_2Action extends null2Action
                 if (empty($has_standard)) {
                     $this->json_output (array(
                         'err' => 7,
-                        'msg' => '您未在塑料圈发送标准格式供求，暂无推荐！',
+                        'msg' => '您最近5天内未发布标准格式供求信息,暂无推荐！赶紧点击按钮去发布哦～',
                     ));
                 }
             }
@@ -1011,7 +1011,7 @@ class qapi1_2Action extends null2Action
                 if (empty($has_concern['data'])) {
                     $this->json_output (array(
                         'err' => 9,
-                        'msg' => '您未关注塑料圈用户，暂无供求信息！',
+                        'msg' => '您尚未在系统中关注任何用户，暂无推荐！赶紧点击“通讯录-查看个人信息”页面-【关注】按钮去关注吧！',
                     ));
                 }
             }
@@ -1024,7 +1024,7 @@ class qapi1_2Action extends null2Action
             if (empty($data['data']) && $page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
                 $this->json_output (array(
                     'err' => 4,
-                    'msg' => '您关注的该牌号暂未匹配，暂无推荐！',
+                    'msg' => '系统暂未为您匹配到相应的牌号，暂无推荐！',
                 ));
             }
             if (empty($data['data']) && $page == 1 && $sortField2 == 'CONCERN') {
