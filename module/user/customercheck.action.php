@@ -68,19 +68,21 @@ class customercheckAction extends adminBaseAction {
 	public function  chkstatus($c,$sale,$pur,$status){
 		$str='';
 		$str .= $c==0 ? '公海客户':'';
-		if($c>0 && ($sale==1 && $pur==1 && $status != 9)){
+		if($c>0 && ($sale==1 && $pur==1 && $status != 9 && $status != 8)){
 			$str .='已合作客户+已合作供应商';
 		}
-		elseif($c>0 && ($sale==1 && $pur!=1 && $status != 9)){
+		elseif($c>0 && ($sale==1 && $pur!=1 && $status != 9 && $status != 8)){
 			$str .='已合作客户';
 		}
-		elseif($c>0 && ($sale!=1 && $pur==1 && $status != 9)){
+		elseif($c>0 && ($sale!=1 && $pur==1 && $status != 9 && $status != 8)){
 			$str .='已合作供应商';
 		}
-		elseif($c>0 && ($sale!=1 && $pur!=1 && $status != 9)){
+		elseif($c>0 && ($sale!=1 && $pur!=1 && $status != 9 && $status != 8)){
 			$str .='私海客户';
 		}elseif($c>0 && ($status == 9)){
 			$str .='黑名单';
+		}elseif($c>0 && ($status == 8)){
+			$str .='黄名单';
 		}
 		return $str;
 	}
