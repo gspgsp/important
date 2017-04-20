@@ -144,7 +144,7 @@ class pdfAction extends adminBaseAction {
 							<tr>
 								<td width="30" height="20" style="line-height:20px;">九、</td>
 								<td width="100" height="20" style="line-height:20px;">其他约定：</td>
-								<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方开始给乙方百分十七的增值税发票。</td>
+								<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方开始给乙方百分之十七的增值税发票。</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -293,7 +293,7 @@ class pdfAction extends adminBaseAction {
 							<tr>
 								<td width="30" height="20" style="line-height:20px;">十、</td>
 								<td width="100" height="20" style="line-height:20px;">其他约定：</td>
-								<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方应向乙方开具百分之十七的增值税发票。</td>
+								<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方应向乙方开具百分之十七之的增值税发票。</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -445,7 +445,7 @@ class pdfAction extends adminBaseAction {
 							<tr>
 								<td width="30" height="20" style="line-height:20px;">九、</td>
 								<td width="100" height="20" style="line-height:20px;">其他约定：</td>
-								<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方开始给乙方百分十七的增值税发票。</td>
+								<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方开始给乙方百分之十七的增值税发票。</td>
 							</tr>
 							<tr>
 								<td></td>
