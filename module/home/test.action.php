@@ -256,5 +256,6 @@
 	}
 	public function svn(){
 		echo '123';
+		echo '456';
 	}
 }
