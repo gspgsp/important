@@ -255,14 +255,7 @@
 		 $this->db->model('product')->where("id  in ($s)")->update(array('temp'=>1));
 	}
 	public function svn(){
-<<<<<<< .mine
-		echo '12387';
-||||||| .r3971
-		echo '123789';
-=======
-		echo '12387789';
->>>>>>> .r3972
-		echo '456';
-		echo '789';
+		echo '1';
+		echo '2';
 	}
 }
