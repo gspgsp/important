@@ -292,6 +292,8 @@ class blackcustomerAction extends adminBaseAction {
 				if($res>0){
 					//核查是否有关联订单
 					if($this->db->model('order')->where("`c_id`= $v")->getRow()) $this->error('存在关联订单不能删除');
+					if($this->db->model('union_order')->where("`sale_id`= $v OR `buy_id` = $v")->getRow()) $this->error('存在关联联营不能删除');
+					if($this->db->model('sale_buy')->where("`c_id`= $v")->getRow()) $this->error('存在针对采购的报价不能删除');
 					//删除联系人
 					$this->db->model('customer_contact')->where("`c_id`=$v")->delete();
 					//新增客户流转记录日志----S
