@@ -34,8 +34,8 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .searchSearch2 input::-webkit-input-placeholder{ color: #969696;}
 
 .indexsearch{ text-align: center; height: 45px; position: relative; background: #efeff4; padding: 8px 12px 0 12px; border-bottom: 1px solid #d9d9d9;}
-.indexsearch input[type=text]{ width: 170px; height: 28px; float: left; display: inline-block; border: none !important; margin: 0; text-align: left; padding: 5px 7px; font-size: 12px; color: #999;}
-.indexsearchwrap{ width: auto; margin: 0 100px 0 0; background: #FFFFFF; height: 30px; border-radius: 3px; border: 1px solid #CCCCCC;}
+.indexsearch input[type=text]{ width: 169px; height: 28px; float: left; display: inline-block; border: none !important; margin: 0; text-align: left; padding: 5px; font-size: 12px; color: #999;}
+.indexsearchwrap{ width: auto; margin: 0 105px 0 0; background: #FFFFFF; height: 30px; border-radius: 3px; border: 1px solid #CCCCCC;}
 .searchIcon{ width: 15px; height: 15px; float: left; margin: 6px 0 0 5px; background: url(../img/searchIcon.png) no-repeat; background-size: 100% 100%;}
 
 #searchbox{ width: 50px; margin: 0; line-height: 19px; position: absolute; right: 10px; top: 8px; color: #666666; padding: 5px;}
