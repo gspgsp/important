@@ -292,7 +292,11 @@ class customerAction extends adminBaseAction {
 				$this->assign('is_pur',sget('supplier'));//添加客户的入口
 				$this->assign('type',L('company_type'));//工厂类型
 				$this->assign('level',L('company_level'));//客户类别
-				$this->assign('chanel',L('company_chanel'));//客户渠道
+				$chanel = L('company_chanel');
+				unset($chanel[1]);
+				unset($chanel[2]);
+				unset($chanel[6]);
+				$this->assign('chanel',$chanel);//客户渠道
 				$this->assign('credit_level',L('credit_level'));//信用等级
 				$this->assign('page_title','新增企业用户');
 				$this->display('company.add.html');

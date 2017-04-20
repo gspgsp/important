@@ -107,7 +107,8 @@ function identificationStatus(e) {
 }
 
 //分配客户
-
+var allotInfo = mini.get("allotInfo");
+var form = new mini.Form("#replaceForm");
 function allotO(cid) {
 	mini.get(c_id).setValue(cid)
 	allotInfo.show();

@@ -71,7 +71,7 @@
 					<tr>
 						<td>注册资本：</td>
 						<td>
-							<input name="registered_capital" class="mini-textbox" style="width:100px;"  value="{$user.registered_capital|default:}"/>
+							<input name="registered_capital" class="mini-textbox" style="width:100px;"  value="{$user.registered_capital|default:0}"/>
 						万
 						</td>
 						<td>&nbsp;</td>
@@ -88,7 +88,7 @@
 					<caption><strong>扩展信息</strong></caption>
 					<tr>
 						<td>客户类型：<font style="color:red;">*</font></td>
-						<td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type}" data='{:setMiniConfig|$type}' required="true" textfield="name" valuefield="id"/></td>
+						<td><input name="type" class="mini-combobox" style="width:150px;" value="{$user.type|default:1}" data='{:setMiniConfig|$type}' required="true" textfield="name" valuefield="id"/></td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
@@ -100,7 +100,7 @@
 					</tr> -->
 					<tr>
 						<td>客户渠道：<font style="color:red;">*</font></td>
-						<td><input name="chanel" class="mini-combobox" style="width:150px;" value="{$user.chanel}" data='{:setMiniConfig|$chanel}' required="true" textfield="name" valuefield="id"/></td>
+						<td><input name="chanel" class="mini-combobox" style="width:150px;" value="{$user.chanel|default:3}" data='{:setMiniConfig|$chanel}' required="true" textfield="name" valuefield="id"/></td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
@@ -154,7 +154,7 @@
 						<td>信用等级：<font style="color:red;">*</font></td>
 						<td><input class="mini-combobox" name="credit_level" data='{:setMiniConfig|$credit_level}' required="true" textfield="name" valuefield="id" value="{$user.credit_level}"/>
 						</td>
-						<td>附件地址：</td>	
+						<td>附件地址：</td>
 						<td>
 							<input id="img_url0"  name="file_url" class="mini-textbox" value="{$user.file_url}" style="width:70px"/>
 							<input id="upfileId0" type="file" name="upFile" onChange="fileUpload(0);">
@@ -237,7 +237,7 @@ function changeEvent(){
 		mini.get('img_url1').setValue('');
 		mini.get('img_url2').setValue('');
 		mini.get('img_url3').setValue('');
-		
+
 	}else{
 		$(".three").removeClass('hidden');
 		$("#one").addClass('hidden');
@@ -252,7 +252,7 @@ function changeEvent(){
 function submitForm(){
 	form.validate();
 	if(form.isValid() == false) return;
-	
+
 	//提交数据
 	var o = form.getData();
 	var json = mini.encode(o);
@@ -274,9 +274,9 @@ function submitForm(){
 	},'json');
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");
