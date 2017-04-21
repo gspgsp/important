@@ -261,7 +261,9 @@ $(function(){
     		//console.log(data);
     		if(data.err=='0'){
     			/*$("#factory select").val('');*/
-        		layer.msg(data.msg,2,1);
+        		layer.msg(data.msg,2,1, function () {
+        			alert( "aaa" );
+        		});
     		}else{
     			layer.msg(data.msg);
     		}	
