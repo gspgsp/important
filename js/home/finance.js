@@ -427,7 +427,7 @@ var selectSearch =function(that){
 			$(data.factory).each(function(k,v){
                 html +='<option value="'+v.fid+'">'+v.f_name+'</option>';
 			});
-			$("#factory select").empty();
+			$("#factory select").html('');
 			$("#factory select").html(html);
 		}else{
 			layer.msg(data.msg);
