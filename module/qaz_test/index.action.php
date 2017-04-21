@@ -17,4 +17,8 @@ class indexAction extends homeBaseAction{
         echo 'this is time3';
     }
 
+    public function time4(){
+        echo 'this is time4';
+    }
+
 }
