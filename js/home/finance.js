@@ -260,7 +260,7 @@ $(function(){
     	$.post('/user/financeCalc/Apply',{data:JSON.stringify(arr)},function(data){
     		//console.log(data);
     		if(data.err=='0'){
-        		layer.msg(data.msg);
+        		layer.msg(data.msg,2,1);
     		}else{
     			layer.msg(data.msg);
     		}	
