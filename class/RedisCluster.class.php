@@ -131,7 +131,7 @@ class RedisCluster{
 	 */
 	public function getRedis($isMaster=true,$slaveOne=true){
 		// 是否启用读写分离
-		if(!$_isUseCluster){
+		if(!$this->_isUseCluster){
 			return $this->_getMasterRedis();
 		}else{
 			return $this->_getSlaveRedis();
@@ -312,6 +312,12 @@ class RedisCluster{
 	 */
 	public function lrange($key,$start,$end){
 		return $this->getRedis()->lrange($key,$start,$end);
+	}
+	/**
+	 * llen
+	 */
+	public function llen($key){
+		return $this->getRedis()->llen($key);
 	}
 	/**
 	 *  set hash opeation
