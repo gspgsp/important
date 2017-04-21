@@ -8,7 +8,7 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 .flt{ float:left;}
 .frt{ float:right;}
 .link6 a{ color:#666;}
-.w1220{ width:1220px; height:auto; overflow:hidden; margin:0 auto;}
+.w1220{ width:1220px; height:auto; overflow:hidden; margin:15px auto;}
 
 /*user2-tab begin*/
 .user2-tab{ width:100%; height:44px; overflow:hidden; margin:13px 0; position:relative;}
@@ -134,3 +134,41 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 .sidebar .wx .con .ewm{ width:117px; height:117px; overflow:hidden; margin:0 0 18px 43px;}
 .sidebar .wx .con p{ height:12px; line-height:12px;}
 /*wx end*/
+
+
+.order2-wrap{ width:1033px; height:auto; overflow:hidden;}
+
+/*order2-tab begin*/
+.order2-tab{ font-size:14px; height:40px; line-height:40px; border-bottom:1px solid #ebebeb;}
+.order2-tab ul{ width:575px; height:auto; overflow:hidden;}
+.order2-tab ul li{ text-align:center; width:85px; float:left;}
+.order2-tab ul li.hover{ color:#1e7de7; border-bottom:1px solid #1e7de7;}
+.order2-tab .search{ width:304px; height:30px; overflow:hidden; margin:5px 0 0 0;}
+.order2-tab .search input{ display:block; float:left;}
+.order2-tab .search .import{ width:200px; height:28px; line-height:28px; border:1px solid #d6d7dc; background:#f7f7f7; padding:0 0 0 10px; margin:0 10px 0 0;}
+.order2-tab .search .sumbit{ color:#fff; text-align:center; width:80px; height:30px; overflow:hidden; background:#f60; border-radius:3px; cursor:pointer;}
+/*order2-tab end*/
+
+.order2-result p{ text-align:center; width:10%; float:left;}
+.order2-result p.num{ width:14%;}
+.order2-result p.breed,.order2-result p.grade{ width:8%;}
+.order2-title{ font-weight:bold; color:#888; width:1033px; height:45px; line-height:45px; overflow:hidden; background:#e8f2fd; margin:8px 0 0 0;}
+
+/*order2-list begin*/
+.order2-list{ width:1033px; height:auto; overflow:hidden; border-bottom:1px solid #ebebeb;}
+.order2-list.height1{ height:80px; line-height:80px; overflow:hidden;}
+.order2-list.height2{ height:100px; line-height:100px; overflow:hidden;}
+.order2-list.height2 p.status span{ margin:18px 0 0 0;}
+.order2-list:hover{ background:#f4f9ff;}
+.order2-list p.status{ color:#888; line-height:12px;}
+.order2-list p.status span{ display:block; margin:8px 0 0 0;}
+.order2-list p.status span b{ font-weight:normal; display:block; margin:0 0 7px 0;}
+.order2-list p.opt span{ margin:6px 0 0 0; display:block;}
+.order2-list p.opt a{ text-align:center; width:75px; height:21px; line-height:21px; border:2px solid; border-radius:30px; margin:5px 0 0 7px; display:block; float:left;}
+.order2-list p.opt a.opt1{ color:#f60; border-color:#f60;}
+.order2-list p.opt a.opt1:hover{ color:#fff; background:#f60;}
+.order2-list p.opt a.opt2{ color:#bdbdbd; border-color:#bdbdbd;}
+.order2-list p.opt a.opt2:hover{ color:#999; border-color:#999;}
+.order2-list p.opt a.opt-pay{ color:#bdbdbd; border-color:#bdbdbd;}
+.order2-list p.opt a.opt-pay:hover{ color:#999; border-color:#999;}
+/*order2-list end*/
