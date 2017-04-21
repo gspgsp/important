@@ -633,7 +633,7 @@ class qapi1_2Action extends null2Action
         $region    = sget ('region', 'i', 0);
         $c_type    = sget ('c_type', 'i',0);
 
-        // 1 工厂 2 贸易商 3 工贸一体 4 服务商   0全部
+        // 1 工厂 2 贸易商 3 工贸一体 4 服务商  5 其他  0全部
         if (!empty($c_type)&&$page!=1&&!in_array ($c_type, array(
             0,
             1,
