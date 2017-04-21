@@ -1269,7 +1269,7 @@ class qapi1_2Action extends null2Action
      */
     public function pub ()
     {
-        $this->is_ajax = true;$this->json_output(array('err'=>0,'data'=>$_POST,'data2'=>$_GET,'data3'=>$_POST['data'],'data4'=>$_POST['data'][0],'data5'=>$_POST['data'][0]['content'],'data6'=>$_POST['data'][0]['store_house']));
+        $this->is_ajax = true;
         if ($data = $_POST['data']) {
             $user_id = $this->checkAccount ();
             $data    = saddslashes ($data);
