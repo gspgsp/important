@@ -156,15 +156,15 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 
 /*order2-list begin*/
 .order2-list{ width:1033px; height:auto; overflow:hidden; border-bottom:1px solid #ebebeb;}
-.order2-list.height1{ height:80px; line-height:80px; overflow:hidden;}
-.order2-list.height2{ height:100px; line-height:100px; overflow:hidden;}
-.order2-list.height2 p.status span{ margin:18px 0 0 0;}
+.order2-list.height1{ height:90px; line-height:90px; overflow:hidden;}
+.order2-list.height2{ height:110px; line-height:110px; overflow:hidden;}
+.order2-list.height2 p.status span{ margin:20px 0 0 0;}
 .order2-list:hover{ background:#f4f9ff;}
 .order2-list p.status{ color:#888; line-height:12px;}
-.order2-list p.status span{ display:block; margin:8px 0 0 0;}
+.order2-list p.status span{ display:block; margin:10px 0 0 0;}
 .order2-list p.status span b{ font-weight:normal; display:block; margin:0 0 7px 0;}
 .order2-list p.opt span{ margin:6px 0 0 0; display:block;}
-.order2-list p.opt a{ text-align:center; width:75px; height:21px; line-height:21px; border:2px solid; border-radius:30px; margin:5px 0 0 7px; display:block; float:left;}
+.order2-list p.opt a{ text-align:center; width:75px; height:21px; line-height:21px; border:2px solid; border-radius:30px; margin:7px 0 0 7px; display:block; float:left;}
 .order2-list p.opt a.opt1{ color:#f60; border-color:#f60;}
 .order2-list p.opt a.opt1:hover{ color:#fff; background:#f60;}
 .order2-list p.opt a.opt2{ color:#bdbdbd; border-color:#bdbdbd;}
