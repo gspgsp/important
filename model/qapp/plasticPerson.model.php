@@ -76,8 +76,8 @@ class plasticPersonModel extends model
         return $value;
     }
 
-    //获取所有的联系人
-    public function getPlasticPerson ($user_id, $letter, $keywords, $page = 1, $size = 10, $sortField = null, $sortOrder = null, $region = 0, $c_type = 2)
+    //获取0420所有的联系人getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type)
+    public function getPlasticPerson ($user_id, $letter, $keywords, $page = 1, $size = 10, $sortField = null, $sortOrder = 'desc', $region = 0, $c_type = 2)
     {
         $operMobi = array(
             '13900000001',
@@ -93,20 +93,22 @@ class plasticPersonModel extends model
         $operMobi = implode (',', $operMobi);
         $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
         $userids  = array();
+        $orderStr = '';
         if ($sortField == 'default') {
             $orderStr = ' NULL ';
         } else {
             if ($sortOrder == 'desc') {
-                $orderStr = 'con.update_time desc';
+                $orderStr = ' con.update_time desc ';
             } else {
-                $orderStr = 'con.update_time asc';
+                $orderStr = ' con.update_time asc ';
             }
         }
-        if ($c_type == 2) {
-            $where .= " and cus.type = 2";
-        } elseif ($c_type == 1) {
-            $where .= " and cus.type in (1,3)";
+        if (!empty($c_type)) {
+            $where .= " and cus.type = {$c_type} ";
+        } else {
+            $orderStr = 'cus.type asc,d.top desc, d.top_time desc, d.rownum ASC ';
         }
+
         //        $sortField = 'con.input_time';
         //        $sortOrder = 'desc';
         if (!empty($letter)) {
@@ -123,7 +125,6 @@ class plasticPersonModel extends model
         if (!empty($keywords)) {
             $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
         }
-
         if (!empty($region)) {
             //0 全部 1 华东 2 华北 3 华南 4 其他
             $region_setting = array(
@@ -147,13 +148,13 @@ class plasticPersonModel extends model
         // 		    	->order("$sortField $sortOrder")
         // 		        ->getPage();
 
+        $wexin_join = empty($c_type)?' LEFT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id ':'';
         $sql = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`,`con`.`sex`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
             FROM `p2p_customer_contact` `con`
 			LEFT JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
-			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id
-			WHERE ".$where." ORDER BY ".$orderStr." limit ".($page - 1) * $size.",".$size;
-
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id ".$wexin_join." WHERE ".$where." ORDER BY ".$orderStr." limit ".($page - 1) * $size.",".$size;
         $data         = $this->db->getAll ($sql);
+
         $data['data'] = $data;
         if (!empty($data)) {
             foreach ($data['data'] as &$value) {
@@ -193,7 +194,6 @@ class plasticPersonModel extends model
                 if (mb_strlen ($value['month_consum']) > 7) {
                     $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
                 }
-                //$value['main_product'] =
 
                 $funs                  = $this->getFuns ($value['user_id']);
                 $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
@@ -205,12 +205,6 @@ class plasticPersonModel extends model
                 $value['sale_count'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 2);
             }
         }
-        //         //排序
-        //         foreach ($data['data'] as $key=>$value){
-        // //           $id[$key] = $value['user_id'];
-        //           $fans[$key] = $value['fans'];
-        //         }
-        //         array_multisort($fans,SORT_NUMERIC,SORT_DESC,$data['data']);
         return $data;
     }
 
