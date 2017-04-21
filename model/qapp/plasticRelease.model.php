@@ -416,10 +416,10 @@ class plasticReleaseModel extends model
             $where .= " and model != '' and input_time > ".$time;
         }
         //检测五天内是否有供求信息
-        if($type ==1)
+        if($type ==2)
         {
             $time = time() - 5*24*60*60;
-            $where .= " input_time > ".$time;
+            $where .= " and input_time > ".$time;
         }
         $num = $this->model ('purchase')->select("count(*) as num")->where($where)->getOne();
         if($num >0)
