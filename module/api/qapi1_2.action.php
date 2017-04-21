@@ -703,7 +703,6 @@ class qapi1_2Action extends null2Action
             );
             M ('qapp:plasticSearch')->add ($arr);
         }
-
         //加缓存提交效率
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
@@ -717,28 +716,41 @@ class qapi1_2Action extends null2Action
             if ($page < 4) {//前三页
                 if ($user_id > 0) {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
-
+                        if(empty($c_type))
+                        {
+                            $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+                        }else {
                             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
-
+                        }
                         $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 } else {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
-
+                        if(empty($c_type))
+                        {
+                            $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+                        }else {
                             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
-
+                        }
                         $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region, $data['data'], 60);//1分钟缓存
                     }
                 }
             } else {
-
+                if(empty($c_type))
+                {
+                    $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+                }else {
                     $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
-
+                }
             }
         } else {
             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
         }
 
+        if(empty($c_type))
+        {
+            $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+        }
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array(
                 'err' => 2,
