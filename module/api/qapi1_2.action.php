@@ -403,6 +403,7 @@ class qapi1_2Action extends null2Action
                         'pm'      => 0,
                         'rownum'  => 0,
                     ));
+                    $stype = 1; //新用户
                 }
             } catch (Exception $e) {
                 $user_model->rollback ();
@@ -726,7 +727,6 @@ class qapi1_2Action extends null2Action
         } else {
             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
         }
-
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array(
                 'err' => 2,
@@ -1898,6 +1898,7 @@ class qapi1_2Action extends null2Action
                             '1',
                             '2',
                             '3',
+                            '4',
                         )))
                     ) {
                         $this->_errCode (6);
