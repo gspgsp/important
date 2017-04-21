@@ -33,7 +33,7 @@ a{ text-decoration:none;}
 .finance .finance-input .tr.grade .suggest li{ line-height:25px; cursor:pointer;}
 .finance .finance-input .tr.grade .suggest li:hover{ background:#ccc;}
 .finance .finance-input .tr.grade .suggest li a,.finance .finance-input .tr.grade .suggest li span{ display:block;}
-.finance .finance-input .btn input{ font-size:14px; color:#fff; width:90px; height:26px; border-radius:2px; margin:5px 0 0 30px; cursor:pointer;}
+.finance .finance-input .btn input{ font-size:14px; color:#fff; width:90px; height:26px; border-radius:2px; margin:5px 0 0 96px; cursor:pointer;}
 .finance .finance-input.finance-input2 .btn input{ background:#037fff;}
 .finance .finance-input.finance-input3 .btn input{ background:#fc6621;}
 .finance .finance-input.finance-input4 .btn input{ background:#ea2700;}
