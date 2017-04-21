@@ -27,19 +27,4 @@ class indexAction extends homeBaseAction{
 	public function time4(){
 		echo '2017-4-20 16:49:37';
 	}
-
-	public function time5(){
-		echo "2017-4-20 16:50:36";
-	}
-	public function time6(){
-		echo '2017-4-20 16:51:14';
-	}
-
-	public function time7(){
-		echo "2017-4-20 16:51:34";
-	}
-
-	public function time8(){
-		echo '2017-4-20 17:08:36';
-	}
 }
