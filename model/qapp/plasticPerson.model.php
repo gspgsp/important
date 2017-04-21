@@ -213,7 +213,7 @@ class plasticPersonModel extends model
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "AllPlasticPersonList".":"."$keywords".":".$region;
-        //$cache->remove ("AllPlasticPersonList");
+        $cache->remove ("AllPlasticPersonList");
 
         $list  = $cache->get ("AllPlasticPersonList");
 
