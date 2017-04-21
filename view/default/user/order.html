@@ -15,8 +15,6 @@
                 <li {if $type=="1"} class="hover"{/if} onclick="yy(1)">全部订单</li>
                 <li {if $type=="2"} class="hover"{/if}  id="order_status_2" value="1" onclick="yy(2)" >已审核</li>
                 <li {if $type=="3"} class="hover"{/if} id="order_status_1" value="2" onclick="yy(3)">待审核</li>
-                <li {if $type=="4"} class="hover"{/if} id="invoice_status_1" value="3" onclick="yy(4)">待开票</li>
-                <li {if $type=="5"} class="hover"{/if} id="collection_status_1" value="4" onclick="yy(5)">待付款</li>
                 <li {if $type=="6"} class="hover"{/if} id="order_status_3" value="5" onclick="yy(6)">已取消</li>
             </ul>
             <!--search begin-->
@@ -56,26 +54,16 @@
 
 
             <p class="status">
-            	<span>
+                <span>
                     {if $value.order_status eq 1}
-                    <b>等待对方审核</b>
+                    等待对方审核
                     {elseif $value.order_status eq 2}
-                     <b>已审核</b>
+                    已审核
                     {elseif $value.order_status eq 3}
-                    <b>(对方)已取消</b>
+                    (对方)已取消
                     {elseif $value.order_status eq 4}
-                    <b>已完成</b>
+                    已完成
                     {/if}
-                    {if $value.order_status eq 3}
-                    {else}
-                     <b>{:setOption|goods_status,$value.goods_status}</b>
-                    {/if}
-                    {if $value.order_status eq 3}
-						{else}
-                    <b>{:setOption|invoice_status,$value.invoice_status}</b>
-                     <b>{:setOption|collection_p_status,$value.collection_status}</b>
-                    {/if}
-
                 </span>
             </p>
 
