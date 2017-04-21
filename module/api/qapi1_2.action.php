@@ -1944,6 +1944,7 @@ class qapi1_2Action extends null2Action
                             '1',
                             '2',
                             '3',
+                            '4',
                         )))
                     ) {
                         $this->_errCode (6);
