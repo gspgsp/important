@@ -335,7 +335,7 @@ $(function(){
 	                percent.focus();
 	                return errorStr;
 	            }else{
-	            	var checkNum =/^(\d|[1-9]\d|100)$/;
+	            	var checkNum =/^(\d|[1-9]\d|\d{0,2}\.\d{1,2}|100)$/;
 	            	if(!checkNum.test(percent.val())){
 	            		errorStr="请输入正确的保证金比例";
 	            		percent.focus();
