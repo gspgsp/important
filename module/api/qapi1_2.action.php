@@ -638,7 +638,8 @@ class qapi1_2Action extends null2Action
             0,
             1,
             2,
-            4
+            4,
+            5
         ))
         ) {
             $this->json_output (array(
