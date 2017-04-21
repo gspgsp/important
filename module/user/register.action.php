@@ -109,7 +109,6 @@ class registerAction extends homeBaseAction{
 				    'update_time'=>CORE_TIME,
 					'reg_chanel'=>1,
 				);
-				
 				//1.如果是新公司contact_id就为当前申请人user_id
 				//2.否则为已存在公司的申请人user_id
 				if(!$this->db->model('contact_info')->add($_info)) throw new Exception("系统错误 reg:103");

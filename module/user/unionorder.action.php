@@ -32,6 +32,7 @@ class unionorderAction extends userBaseAction{
 		if($type=sget('type','s','')){
 			//全部订单
 			if($type==1){
+				$this->type=$type;
 				$where;
 			}
 			//已审核
@@ -72,7 +73,10 @@ class unionorderAction extends userBaseAction{
 		$orderList=$this->db->model('union_order as `un`')
 			->leftjoin('collection as col','un.id=col.o_id')
 			->leftjoin('sale_buy as sb','sb.id=un.p_sale_id')
-			->select('un.id,un.type,un.order_name,un.order_sn,un.sale_user_id,un.buy_user_id,un.sale_id,un.buy_id,un.deal_price,un.total_price,un.pay_method,un.customer_manager,un.transport_type,un.collection_status,un.pickup_time,un.delivery_time,un.freight_price,un.input_time,un.order_status,un.goods_status,un.invoice_status,sb.remark,col.uncollected_price,col.payment_time')
+			->leftjoin('union_order_detail as un_det','un.id=un_det.o_id')
+			->leftjoin('product as pro','pro.id=un_det.p_id')
+			->leftjoin('factory as fac','fac.fid=pro.f_id')
+			->select('un.id,un.type,un.order_name,un.order_sn,un.sale_user_id,un.buy_user_id,un.sale_id,un.buy_id,un.deal_price,un.total_price,un.pay_method,un.customer_manager,un.transport_type,un.collection_status,un.pickup_time,un.delivery_time,un.freight_price,un.input_time,un.order_status,un.goods_status,un.invoice_status,sb.remark,col.uncollected_price,col.payment_time,pro.model,pro.product_type,fac.f_name')
 			->where($where)
 			->page($page,$size)
 			->order('input_time desc')
@@ -84,7 +88,8 @@ class unionorderAction extends userBaseAction{
 		}
 
 		$this->assign('orderList',$orderList);
-		$this->display('union_order');
+//		$this->display('union_order');
+		$this->display('order');
 	}
 
 
