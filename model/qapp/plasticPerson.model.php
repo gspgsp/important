@@ -148,12 +148,12 @@ class plasticPersonModel extends model
         // 		    	->order("$sortField $sortOrder")
         // 		        ->getPage();
 
-        $wexin_join = empty($c_type)?' LEFT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id ':'';
-        $sql = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`,`con`.`sex`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
+        $wexin_join = empty($c_type) ? ' LEFT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id ' : '';
+        $sql        = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`,`con`.`sex`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
             FROM `p2p_customer_contact` `con`
 			LEFT JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
 			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id ".$wexin_join." WHERE ".$where." ORDER BY ".$orderStr." limit ".($page - 1) * $size.",".$size;
-        $data         = $this->db->getAll ($sql);
+        $data       = $this->db->getAll ($sql);
 
         $data['data'] = $data;
         if (!empty($data)) {
@@ -205,7 +205,166 @@ class plasticPersonModel extends model
                 $value['sale_count'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 2);
             }
         }
+
         return $data;
+    }
+
+    public function getAllPlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
+    {
+        $cache = E ('RedisCluster', APP_LIB.'class');
+        $key   = "AllPlasticPersonList".":"."$keywords".":".$region;
+        //$cache->remove ("AllPlasticPersonList");
+
+        $list  = $cache->get ("AllPlasticPersonList");
+
+        if (empty($list)) {
+            $operMobi = array(
+                '13900000001',
+                '13900000002',
+                '13900000003',
+                '13900000004',
+                '13900000005',
+                '13900000006',
+                '13900000007',
+                '13900000008',
+                '13900000009',
+            );
+            $operMobi = implode (',', $operMobi);
+            $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
+
+            if (!empty($keywords)) {
+                $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
+            }
+            if (!empty($region)) {
+                //0 全部 1 华东 2 华北 3 华南 4 其他
+                $region_setting = array(
+                    1 => '华东',
+                    2 => '华北',
+                    3 => '华南',
+                    4 => '其他',
+                );
+                $region         = $region_setting[$region];
+                $where .= " and china_area = '{$region}' ";
+            }
+            //测试20
+
+            //$where .= " or cus.c_id in(21,24,27,53,65,75,76,89,90,95,99,107,110,112,117,141) or cus.c_id =28160";
+            // 	    $data =	$this->select('con.user_id,con.name,con.c_id,con.mobile,con.member_level,con.sex,info.thumb,cus.c_name,cus.need_product')
+            //     			->from('customer_contact con')
+            // 	    		->join('contact_info info','con.user_id=info.user_id')
+            // 	    		->join('customer cus','con.c_id=cus.c_id')
+            // 		    	->page($page,$size)
+            // 		    	->where($where)
+            // 		    	->order("$sortField $sortOrder")
+            // 		        ->getPage();
+            $type_where = " and cus.type = 1 ";
+            $sql1       = "SELECT `con`.`user_id`
+            FROM `p2p_customer_contact` `con`
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc";
+            $data1      = $this->db->getAll ($sql1);
+            $type_where = " and cus.type = 2 ";
+            $sql2       = $sql1 = "SELECT `con`.`user_id`
+            FROM `p2p_customer_contact` `con`
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id
+			LEFT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id WHERE ".$where." ".$type_where." ORDER BY d.top desc, d.top_time desc, d.rownum ASC ";
+            $data2      = $this->db->getAll ($sql2);
+
+            $type_where = " and cus.type in (3,4,5) ";
+            $sql3       = $sql1 = "SELECT `con`.`user_id`
+            FROM `p2p_customer_contact` `con`
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc ";
+            $data3      = $this->db->getAll ($sql3);
+
+            $cache->remove ($key);
+            foreach ($data1 as $id) {
+                $cache->rpush ($key, $id['user_id']);
+            }
+            foreach ($data2 as $id) {
+                $cache->rpush ($key, $id['user_id']);
+            }
+            foreach ($data3 as $id) {
+                $cache->rpush ($key, $id['user_id']);
+            }
+            //缓存5分钟
+            $cache->set ("AllPlasticPersonList",1,300);
+
+        }
+
+        $len = $cache->llen($key);
+        if($len>$page * $size) {
+
+            $uids = $cache->lrange ($key, ($page - 1) * $size, $page * $size);
+        }elseif($len<=$page * $size && $len >($page - 1) * $size)
+        {
+            $uids = $cache->lrange ($key, ($page - 1) * $size, $len);
+        }else{
+            return false;
+        }
+        if (empty($uids)) {
+            return false;
+        } else {
+            $ids = implode (',', $uids);
+            $where = " `con`.user_id in (".$ids.")";
+            $sql   = "SELECT `con`.`user_id`, `con`.`name`, `con`.`c_id`,`con`.`sex`, `con`.`member_level`, `con`.`sex`, `con`.`is_pass`,`info`.thumb,`info`.thumbqq, `cus`.`c_name`, `cus`.`need_product`,`cus`.`month_consum`, `cus`.`main_product`,`cus`.`type`
+            FROM `p2p_customer_contact` `con`
+			LEFT JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where. " ORDER BY FIELD(`con`.`user_id`, {$ids})";
+            $data  = $this->db->getAll ($sql);
+            $data['data'] = $data;
+            if (!empty($data)) {
+                foreach ($data['data'] as &$value) {
+                    if ($user_id <= 0) {
+                        $value['name'] = mb_substr ($value['name'], 0, 1, "utf-8").'***';
+                        //$value['mobile'] = substr($value['mobile'],0,7).'****';
+                    }
+                    //,(SELECT IFNULL(count(id),0) FROM p2p_weixin_fans fan WHERE fan.focused_id=con.user_id AND  fan.STATUS=1) fans
+                    $value['name']         = sstripslashes ($value['name']);
+                    $value['c_name']       = sstripslashes ($value['c_name']);
+                    $value['need_product'] = sstripslashes ($value['need_product']);
+                    $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                    $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                    $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
+                    if (empty($value['thumbqq'])) {
+                        if (strstr ($value['thumb'], 'http')) {
+
+                            $value['thumb'] = $value['thumb'];
+                        } else {
+                            if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
+                                if (empty($value['sex'])) {
+                                    $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                                } else {
+                                    $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                                }
+                            } else {
+                                $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
+                            }
+                        }
+                    } else {
+                        $value['thumb'] = $value['thumbqq'];
+                    }
+                    if (mb_strlen ($value['main_product']) > 10) {
+                        $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
+                    }
+                    if (mb_strlen ($value['month_consum']) > 7) {
+                        $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
+                    }
+
+                    $funs                  = $this->getFuns ($value['user_id']);
+                    $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
+                    $value['member_level'] = L ('member_level')[$value['member_level']];//军衔
+                    $value['gender']       = $value['sex'];
+                    $value['sex']          = L ('sex')[$value['sex']];//性别
+
+                    $value['buy_count']  = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 1);
+                    $value['sale_count'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 2);
+                }
+            }
+
+            return $data;
+        }
+
+
     }
 
     //获取粉丝数
