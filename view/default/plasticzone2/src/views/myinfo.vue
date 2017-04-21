@@ -192,7 +192,7 @@ module.exports = {
 			this.isDisabled=false;
 		},
 		ctypeShow:function(){
-			if(this.c_type=="1"||this.c_type=="3"){
+			if(this.c_type=="1"){
 				this.isType=true;
 			}else{
 				this.isType=false;
