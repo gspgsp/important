@@ -15,7 +15,7 @@
 .user-wrap .left ul li a{ color:#777;}
 .user-wrap .left ul li a:hover,.user-wrap .left ul li.hover a{ color:#fc6621;}
 .user-wrap .right{ width:1046px; height:auto; overflow:hidden; border:1px solid #d6d7dc;}
-.user-wrap .right h3{ font-size:12px; color:#333; text-indent:23px; height:48px; line-height:48px; border-bottom:1px solid #d6d7dc; position:relative;}
+.user-wrap .right h3{ font-size:12px; color:#333; text-indent:23px; height:48px; line-height:48px; margin-bottom:10px; border-bottom:1px solid #d6d7dc; position:relative;}
 .user-wrap .right h3 a{ font-size:14px; color:#267bd3; position:absolute; right:23px; top:0; background:url(../../../static/images/home/img/finance.png) no-repeat 0 -315px;} 
 .user-wrap .right .run-tab{ width:1046px; height:54px; line-height:54px; border-bottom:1px solid #d6d7dc; margin:0 0 20px 0;}
 .user-wrap .right .run-tab ul{ width:420px; margin:0 50px 0 23px; overflow:hidden; float:left;}

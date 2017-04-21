@@ -8,7 +8,7 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 .flt{ float:left;}
 .frt{ float:right;}
 .link6 a{ color:#666;}
-.w1220{ width:1220px; height:auto; overflow:hidden; margin:15px auto;}
+.w1220{ width:1220px; height:auto; overflow:hidden;}
 
 /*user2-tab begin*/
 .user2-tab{ width:100%; height:44px; overflow:hidden; margin:13px 0; position:relative;}
@@ -22,15 +22,15 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 
 /*menus bein*/
 .user2-wrap{ height:auto; overflow:hidden;}
-.menus2{ text-align:center; width:167px; height:auto; padding:0 0 28px 0; overflow:hidden; background:#f0f0f0;}
-.menus2 .user-info{ text-align:center; height:205px; padding:15px 0 0 0; overflow:hidden;}
-.menus2 .user-info .pic{ width:90px; height:90px; overflow:hidden; border:2px solid #f60; border-radius:50%; margin:0 0 0 39px;}
+.menus2{ text-align:center; width:132px; height:auto; padding:0 18px 28px 18px; overflow:hidden; background:#f0f0f0;}
+.menus2 .user-info{ text-align:center; height:auto; padding:15px 0 18px 0; overflow:hidden;}
+.menus2 .user-info .pic{ width:90px; height:90px; overflow:hidden; border:2px solid #f60; border-radius:50%; margin:0 auto;}
 .menus2 .user-info .name{ color:#f60; font-size:14px; height:14px; margin:0 0 11px 0;}
 .menus2 .user-info .authen{ color:#fff; text-indent:10px; height:22px; line-height:22px; overflow:hidden; background:url(../../images/home/user2-spirit.png) no-repeat -132px 0; border-radius:30px; margin:0 auto; margin-bottom:11px; cursor:pointer;}
 .menus2 .user-info .authen.yes{ width:86px; background-color:#fb893c;}
 .menus2 .user-info .authen.no{ width:126px; background-color:#ccc;}
-.menus2 .user-info .company{ color:#777; height:12px; margin:0 0 10px 0;}
-.menus2 .menu{ width:132px; border-top:1px solid #ddd; margin:0 0 0 18px;}
+.menus2 .user-info .company{ color:#777; height:auto; overflow:hidden; margin:0 0 8px 0;}
+.menus2 .menu{ width:132px; border-top:1px solid #ddd;}
 .menus2 .menu h3{ font-size:14px; height:14px; line-height:14px; margin:14px 0 14px 0; background:url(../../images/home/user2-spirit.png) no-repeat;}
 .menus2 .menu p{ height:12px; line-height:12px; margin:0 0 14px 0;}
 .menus2 .menu p:hover a,.menus2 .menu p.hover a{ color:#f60;}
@@ -141,7 +141,7 @@ body{ font-family:"微软雅黑"; font-size:12px; background:#fff; color:#666;}
 /*order2-tab begin*/
 .order2-tab{ font-size:14px; height:40px; line-height:40px; border-bottom:1px solid #ebebeb;}
 .order2-tab ul{ width:575px; height:auto; overflow:hidden;}
-.order2-tab ul li{ text-align:center; width:85px; float:left;}
+.order2-tab ul li{ text-align:center; width:85px; float:left; cursor:pointer;}
 .order2-tab ul li.hover{ color:#1e7de7; border-bottom:1px solid #1e7de7;}
 .order2-tab .search{ width:304px; height:30px; overflow:hidden; margin:5px 0 0 0;}
 .order2-tab .search input{ display:block; float:left;}
