@@ -260,9 +260,8 @@ $(function(){
     	$.post('/user/financeCalc/Apply',{data:JSON.stringify(arr)},function(data){
     		//console.log(data);
     		if(data.err=='0'){
-        		layer.msg(data.msg,2,1, function () {
-        			alert("bbb");
-        			$("#factory select").html('');
+        		layer.msg(data.msg,2,1,function () {
+        			location.reload();
         		});
     		}else{
     			layer.msg(data.msg);
