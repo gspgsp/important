@@ -260,6 +260,7 @@ $(function(){
     	$.post('/user/financeCalc/Apply',{data:JSON.stringify(arr)},function(data){
     		//console.log(data);
     		if(data.err=='0'){
+    			$("#factory select").html('');
         		layer.msg(data.msg,2,1);
     		}else{
     			layer.msg(data.msg);
@@ -427,7 +428,6 @@ var selectSearch =function(that){
 			$(data.factory).each(function(k,v){
                 html +='<option value="'+v.fid+'">'+v.f_name+'</option>';
 			});
-			$("#factory select").html('');
 			$("#factory select").html(html);
 		}else{
 			layer.msg(data.msg);
