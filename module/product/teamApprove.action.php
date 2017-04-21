@@ -131,7 +131,7 @@ class teamApproveAction extends adminBaseAction
 			$this->db->model('collection')->where("id=".$id)->update('collection_status=3,update_time='.time());//修改付款申请状态为3:已取消
 			//新增战队配资变动日志----S
 			$remarks = "领导特批不通过";
-			M('user:teamCapital')->addLog($coll_res['o_id']*(-1),$team_capital['team_id'],'buy_pay_unpass',$team_capital['available_money'],$team_capital['available_money'],1,$coll_res['collected_price'],$remarks);
+			M('user:teamCapital')->addLog($coll_res['o_id']*(-1),$team_capital['team_id'],'buy_pay_unpass',$team_capital['available_money'],$team_capital['available_money'],1,0,$remarks);
 			//新增战队配资变动日志----E
 		}
 		//修改审批状态
