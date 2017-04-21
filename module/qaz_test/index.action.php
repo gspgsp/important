@@ -13,10 +13,6 @@ class indexAction extends homeBaseAction{
         echo 'this is time2';
     }
 
-    public function time3(){
-        echo 'this is time3';
-    }
-
     public function test5(){
         echo '2017-4-21 12:19:39';
     }
