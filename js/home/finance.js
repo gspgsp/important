@@ -349,7 +349,7 @@ $(function(){
 	                rzbl.focus();
 	                return errorStr;
 	            }else{
-	            	var checkNum =/^(\d|[1-7]\d|80)$/;
+	            	var checkNum =/^(\d|[1-7]\d|[0-7]\d{0,2}\.\d{1,2}|80)$/;
 	            	if(!checkNum.test(rzbl.val())){
 	            		errorStr="请输入正确的融资比例";
 	            		rzbl.focus();
