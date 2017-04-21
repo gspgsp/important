@@ -21,4 +21,8 @@ class indexAction extends homeBaseAction{
         echo '2017年4月21日 12:21:10';
     }
 
+    public function time7(){
+        echo '2017-4-21 13:33:02';
+    }
+
 }
