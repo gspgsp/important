@@ -1257,8 +1257,8 @@ class qapi1_2Action extends null2Action
      */
     public function pub ()
     {
-        $this->is_ajax = true;
-        if ($data = $_POST['data']) {var_dump($data);exit;
+        $this->is_ajax = true;$this->json_output(array('err'=>0,'data'=>$_POST,'data2'=>$_GET));exit;
+        if ($data = $_POST['data']) {
             $user_id = $this->checkAccount ();
             $data    = saddslashes ($data);
             $content = $data[0]['content'];//客户直接填写的求购内容，无格式
