@@ -744,13 +744,14 @@ class qapi1_2Action extends null2Action
                 }
             }
         } else {
-            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+            if(empty($c_type))
+            {
+                $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+            }else {
+                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+            }
         }
 
-        if(empty($c_type))
-        {
-            $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
-        }
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array(
                 'err' => 2,
@@ -790,7 +791,6 @@ class qapi1_2Action extends null2Action
         }
         $goods_id = $this->db->model ("points_goods")->select ('id')->where (" type =2 and status =1")->getOne ();
 
-        //var_dump($goods_id);
         $pointsOrder = M ("points:pointsOrder");
         $contact_id  = $pointsOrder->get_supply_demand_top ($goods_id);
 
@@ -858,7 +858,6 @@ class qapi1_2Action extends null2Action
                 $arr['cover_url']      = $setting['qapp_banner']['url'];
                 $arr['cover_jump_url'] = $setting['qapp_banner']['jump_url'];
             }
-
             $this->json_output ($arr);
         }
         $arr = array(
