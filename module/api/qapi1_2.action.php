@@ -146,11 +146,15 @@ class qapi1_2Action extends null2Action
      * @apiName  register
      * @apiGroup User
      *
-     * @apiParam {String} mobile      Optional Firstname of the User.
-     * @apiParam {String} lastname     Mandatory Lastname.
-     * @apiParam {String} country="DE" Mandatory with default value "DE".
-     * @apiParam {Number} [age=18]     Optional Age with default 18.
-     *
+     * @apiParam {String} mobile       手机号.
+     * @apiParam {String} password     密码.
+     * @apiParam {String} code         验证码
+     * @apiParam {Number} c_name       公司名称
+     * @apiParam {Number} name         姓名
+     * @apiParam {Number} region       区域
+     * @apiParam {Number} chanel       区域
+     * @apiParam {Number} region       区域
+     * @apiParam {Number} region       区域
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
      *
@@ -403,7 +407,6 @@ class qapi1_2Action extends null2Action
                         'pm'      => 0,
                         'rownum'  => 0,
                     ));
-                    $stype = 1; //新用户
                 }
             } catch (Exception $e) {
                 $user_model->rollback ();
@@ -628,13 +631,14 @@ class qapi1_2Action extends null2Action
         $version   = sget ('version', 's');//版本号
         $platform  = $this->checkPlatform ()['platform'];
         $region    = sget ('region', 'i', 0);
-        $c_type    = sget ('c_type', 'i', 0);
+        $c_type    = sget ('c_type', 'i',0);
 
-        // 1 工厂 2 贸易商 3 工贸一体 4 物流商
-        if (!in_array ($c_type, array(
+        // 1 工厂 2 贸易商 3 工贸一体 4 服务商   0全部
+        if (!empty($c_type)&&$page!=1&&!in_array ($c_type, array(
             0,
             1,
             2,
+            4
         ))
         ) {
             $this->json_output (array(
@@ -703,7 +707,7 @@ class qapi1_2Action extends null2Action
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
         $data  = array();
-        /*        $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
+        /*      $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
                 M("system:setting")->del_cache($key);
                 $key = 'qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
                 M("system:setting")->del_cache($key);*/
@@ -712,21 +716,28 @@ class qapi1_2Action extends null2Action
             if ($page < 4) {//前三页
                 if ($user_id > 0) {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+
+                            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+
                         $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 } else {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+
+                            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+
                         $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region, $data['data'], 60);//1分钟缓存
                     }
                 }
             } else {
-                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+
+                    $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
+
             }
         } else {
             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
         }
+
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array(
                 'err' => 2,
@@ -785,7 +796,20 @@ class qapi1_2Action extends null2Action
         if ($page == 1) {
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
             $members = empty($members) ? 0 : $members;
+            // 第一页检测客户角色
+            $ret_ctype = 0;
 
+            if($user_id>0)
+            {
+                $cus_ctype = M("qapp:plasticPersonalInfo")->getCusType($user_id);
+                if($cus_ctype == 1){
+                    $ret_ctype = 2;
+                }elseif($cus_ctype == 2){
+                    $ret_ctype = 1;
+                }elseif($cus_ctype == 4){
+                    $ret_ctype = 2;
+                }
+            }
             $arr = array(
                 'err'             => 0,
                 'persons'         => $data['data'],
@@ -798,6 +822,7 @@ class qapi1_2Action extends null2Action
                 'cover_url'       => '',
                 'cover_jump_url'  => '',
                 'data'            => CORE_TIME,
+                'show_ctype'       => $ret_ctype
             );
             if (!empty($top)) {
                 $arr['top'] = $top;
@@ -997,7 +1022,15 @@ class qapi1_2Action extends null2Action
             // 检测是否有标准格式供求
 
             if ($page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
-                $has_standard = M ('qapp:plasticRelease')->checkStandard ($user_id);
+                $has_purchase = M ('qapp:plasticRelease')->checkPurchase ($user_id,2);
+                if(empty($has_purchase))
+                {
+                    $this->json_output (array(
+                        'err' => 7,
+                        'msg' => '您最近5天内未发布供求信息,暂无推荐！赶紧点击按钮去发布哦～',
+                    ));
+                }
+                $has_standard = M ('qapp:plasticRelease')->checkPurchase ($user_id,1);
                 if (empty($has_standard)) {
                     $this->json_output (array(
                         'err' => 7,
@@ -1898,7 +1931,6 @@ class qapi1_2Action extends null2Action
                             '1',
                             '2',
                             '3',
-                            '4',
                         )))
                     ) {
                         $this->_errCode (6);
