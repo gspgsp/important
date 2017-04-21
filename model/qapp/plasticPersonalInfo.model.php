@@ -402,4 +402,25 @@ class plasticPersonalInfoModel extends model
         return $data;
 
     }
+
+    public function getCusType($uid)
+    {
+        $data = $this->select ('con.user_id,cus.type')
+                     ->from ('customer_contact con')
+                     ->leftjoin ('customer cus', 'con.c_id=cus.c_id')
+                     ->where ("con.user_id=$uid")
+                     ->getRow ();
+        if(empty($data))
+        {
+            return false;
+        }else{
+            if($data['type'] == 3)
+            {
+                $data['type'] = 1;
+            }
+            return $data['type'];
+        }
+
+    }
+
 }

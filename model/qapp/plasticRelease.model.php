@@ -406,10 +406,22 @@ class plasticReleaseModel extends model
      * @param $uid
      * @return bool
      */
-    public function checkStandard($uid)
+    public function checkPurchase($uid,$type=0)
     {
-        $num = $this->model ('purchase')->select("count(*) as num")->where("model != '' and user_id = ".$uid)->getOne();
-
+        $where = " user_id = ".$uid;
+        //检测五天内是否有标准格式供求信息
+        if($type ==1)
+        {
+            $time = time() - 5*24*60*60;
+            $where .= " and model != '' and input_time > ".$time;
+        }
+        //检测五天内是否有供求信息
+        if($type ==1)
+        {
+            $time = time() - 5*24*60*60;
+            $where .= " input_time > ".$time;
+        }
+        $num = $this->model ('purchase')->select("count(*) as num")->where($where)->getOne();
         if($num >0)
         {
             return true;
