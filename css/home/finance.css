@@ -98,7 +98,7 @@ a{ text-decoration:none;}
 /*page2 end*/
 
 html,body{overflow-x:hidden;}
-#bannerSlidePlayer{position:absolute;width:100%;left:0;top:102px;}
+#bannerSlidePlayer{position:absolute;width:100%;left:0;top:122px;}
 .main_image{overflow:hidden;position:relative;height:426px}
 .main_image li{float:left;width:100%;height:426px;overflow:hidden!important}
 .main_image li a{display:block;height:426px;position:relative;overflow:hidden}
