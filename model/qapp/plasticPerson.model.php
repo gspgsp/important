@@ -213,9 +213,9 @@ class plasticPersonModel extends model
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "AllPlasticPersonList".":"."$keywords".":".$region;
-        $cache->remove ("AllPlasticPersonList");
+        //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
 
-        $list  = $cache->get ("AllPlasticPersonList");
+        $list  = $cache->get ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
 
         if (empty($list)) {
             $operMobi = array(
@@ -276,6 +276,7 @@ class plasticPersonModel extends model
             $data3      = $this->db->getAll ($sql3);
 
             $cache->remove ($key);
+            //showTrace();
             foreach ($data1 as $id) {
                 $cache->rpush ($key, $id['user_id']);
             }
@@ -285,8 +286,10 @@ class plasticPersonModel extends model
             foreach ($data3 as $id) {
                 $cache->rpush ($key, $id['user_id']);
             }
+
+            //showTrace();
             //缓存5分钟
-            $cache->set ("AllPlasticPersonList",1,300);
+            $cache->set ("AllPlasticPersonList".'-'.$keywords.'-'.$region,1,300);
 
         }
 
