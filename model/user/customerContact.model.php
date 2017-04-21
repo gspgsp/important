@@ -162,8 +162,11 @@ class customerContactModel extends model{
 				$result =  $this->model('customer_contact')->add($info+$_data+array('chanel'=>5,));
 				$contract_id = $this->getLastID();
 				//查询如果没有联系人
-				$find = $this->model('customer_contact')->where("c_id = {$info['c_id']}")->getRow();
-				if(!$find) $this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$contract_id));
+				// $find = $this->model('customer_contact')->where("c_id = {$info['c_id']}")->getRow();
+				if($info['is_default'] == 1){
+					$this->model('customer_contact')->where("c_id = {$info['c_id']} and user_id != $contract_id")->update(array('is_default'=>0));
+					$this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$contract_id));
+				}
 				//新增客户流转记录日志----S
 				$remarks = "客户联系人新增:".date('Y-m-d H:i:s',time());
 				M('user:customerLog')->addLog($info['c_id'],'register','不存在',serialize($info+$_data),1,$remarks);
