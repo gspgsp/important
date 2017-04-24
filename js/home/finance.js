@@ -14,7 +14,21 @@ $(function(){
         if(keyword != ''){
             timer = setTimeout(function(){
                 $.get('/finance/index/getmodel', {keyword:keyword}, function(data){
-                    if(data.length){
+               //      if(data.length){
+               //          var html = "";
+               //          $(data).each(function (k, v){
+               //              html +='<li><a onClick="selectSearch(this)"><span class="t2">'+v.model+'</span></a></li>';
+               //          })
+               //          $('.suggest').show();
+               //          $("#search_list").html(html);
+               //      }else{
+               //          $('.suggest').hide();
+               //          $("#search_list").html('');
+            			// $("#product_type").val('');
+            			// $("#product_type").attr('data-value','');
+            			// $("#factory select").html('');
+               //      }
+               		if(data.length){
                         var html = "";
                         $(data).each(function (k, v){
                             html +='<li><a onClick="selectSearch(this)"><span class="t2">'+v.model+'</span></a></li>';
@@ -171,7 +185,8 @@ $(function(){
 		//获取当前试算值并跳转试算界面
         var model = $(".tr.grade .val input").val(),//获取牌号
         product_type = $(".tr.breed .val input").val(),//获取品种
-        factory = $(".tr.factory .val").attr("value"),//获取厂家
+        // factory = $(".tr.factory .val").attr("value"),//获取厂家
+        factory = $(".tr.factory .val input").val(),//获取厂家
 //        price = $(".tr.price .val input").val(),//获取价格
 //        amount = $(".tr.amount .val input").val(),//获取数量
         total = $(".tr.sum .val input").val(),//获取金额
@@ -272,7 +287,7 @@ $(function(){
     var valid = function(){
         var grade = $(".tr.grade .val input"),//获取牌号
             breed = $(".tr.breed .val input"),//获取品种
-            factory = $(".tr.factory .val"),//获取厂家
+            factory = $(".tr.factory .val input"),//获取厂家
 //            price = $(".tr.price .val input"),//获取价格
 //            amount = $(".tr.amount .val input"),//获取数量
             total = $(".tr.sum .val input"),//获取金额
@@ -414,7 +429,7 @@ $(function(){
 		}
 });
 //选中当前牌号
-var selectSearch =function(that){
+/*var selectSearch =function(that){
     $('.suggest').hide();
     $("#model").val($(that).find("span").html());
     $("#search_list").html('');
@@ -434,7 +449,16 @@ var selectSearch =function(that){
 			layer.msg(data.msg);
 		}					   
 	},'json');
+}*/
+
+var selectSearch =function(that){
+    $('.suggest').hide();
+    $("#model").val($(that).find("span").html());
+    $("#search_list").html('');
 }
+
+
+
 
 
 
