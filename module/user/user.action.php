@@ -430,6 +430,7 @@ class userAction extends adminBaseAction {
 		if(!empty($result)){
 			$data = array(
 				'customer_manager'=>0,
+				'status'=>2,
 				'update_time'=>CORE_TIME,
 				'update_admin'=>'admin',
 				);
@@ -440,9 +441,9 @@ class userAction extends adminBaseAction {
 			$this->db->startTrans();
 			try{
 				if(!$this->db->model('customer_contact')->where('user_id = '.$user_id)->update($conData)) throw new Exception("系统错误 reg:114");
-				if($result['customer_manager'] = 0){
+				// if($result['customer_manager'] = 0){
 					if(!$this->db->model('customer')->where('c_id = '.$result['c_id'])->update($data)) throw new Exception("系统错误 reg:113");
-				}
+				// }
 			}catch (Exception $e){
 				$this->db->rollback();
 				$this->error($e->getMessage());
