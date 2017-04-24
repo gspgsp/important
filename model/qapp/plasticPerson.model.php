@@ -128,7 +128,7 @@ class plasticPersonModel extends model
             $where .= " and con.user_id in ($userids) ";
         }
         if (!empty($keywords)) {
-            $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
+            $where .= " and (`con`.`name` like '%{$keywords}%' or `cus`.`c_name` like '%{$keywords}%' or `cus`.`need_product` like '%{$keywords}%')";
         }
         if (!empty($region)) {
             //0 全部 1 华东 2 华北 3 华南 4 其他
@@ -238,7 +238,7 @@ class plasticPersonModel extends model
             $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
 
             if (!empty($keywords)) {
-                $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
+                $where .= " and (`con`.`name` like '%{$keywords}%' or `cus`.`c_name` like '%{$keywords}%' or `cus`.`need_product` like '%{$keywords}%')";
             }
             if (!empty($region)) {
                 //0 全部 1 华东 2 华北 3 华南 4 其他
@@ -415,7 +415,7 @@ class plasticPersonModel extends model
             $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
 
             if (!empty($keywords)) {
-                $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
+                $where .= " and (`con`.`name` like '%{$keywords}%' or `cus`.`c_name` like '%{$keywords}%' or `cus`.`need_product` like '%{$keywords}%')";
             }
             if (!empty($region)) {
                 //0 全部 1 华东 2 华北 3 华南 4 其他
@@ -569,7 +569,7 @@ class plasticPersonModel extends model
             $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
 
             if (!empty($keywords)) {
-                $where .= " and (con.name like '%{$keywords}%' or cus.c_name like '%{$keywords}%' or cus.need_product like '%{$keywords}%')";
+                $where .= " and (`con`.`name` like '%{$keywords}%' or `cus`.`c_name` like '%{$keywords}%' or `cus`.`need_product` like '%{$keywords}%')";
             }
             if (!empty($region)) {
                 //0 全部 1 华东 2 华北 3 华南 4 其他
