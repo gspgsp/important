@@ -58,14 +58,20 @@
                     </div>
                     <div class="tr breed">
                         <div class="name">品种</div>
-                        <div class="val"><input type="text" id="product_type" class="import" readonly="readonly" placeholder="请先输入牌号" value="{ if ($row) && ($finance_type=='3') }{$row.product_type}{else}{/if}"></div>
+                        <div class="val">
+                        <!-- <input type="text" id="product_type" class="import" readonly="readonly" placeholder="请先输入牌号" value="{ if ($row) && ($finance_type=='3') }{$row.product_type}{else}{/if}"> -->
+                        <input type="text" id="product_type" class="import" placeholder="请先输入品种" value="{ if ($row) && ($finance_type=='3') }{$row.product_type}{else}{/if}" />
+                        </div>
                     </div>
                     <!--tr end-->
                     <!--tr begin-->
                     <div class="tr factory">
                         <div class="name">厂家</div>
-                        <div id="factory" class="val" value="{ if ($row) && ($finance_type=='3') }{$row.factory}{else}{/if}">
+                        <!-- <div id="factory" class="val" value="{ if ($row) && ($finance_type=='3') }{$row.factory}{else}{/if}">
                             <select></select>
+                        </div> -->
+                        <div class="val">
+                        <input type="text" id="factory" class="import" placeholder="请先输入厂家" value="{ if ($row) && ($finance_type=='3') }{$row.factory}{else}{/if}" />
                         </div>
                     </div>
                     <!--tr end-->
