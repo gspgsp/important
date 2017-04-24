@@ -87,7 +87,7 @@ class qapi1_2Action extends null2Action
             13 => '塑料圈分享',
             14 => '查看通讯录',
             15 => '查看文章',
-            16 =>'现金充值', 
+            16 =>'现金充值',
         );
         $this->shareType   = array(
             1 => '求购分享',
@@ -1755,12 +1755,17 @@ class qapi1_2Action extends null2Action
                     $this->_errCode (99);
                 }
             }
-            //添加记录
-            M ("qapp:infoList")->add (array(
-                'user_id'    => $user_id,
-                'other_id'   => $userid,
-                'input_time' => CORE_TIME,
-            ));
+            /**
+             * 添加记录
+             * -4避免addScore第一次出现相同的记录
+            */
+            if($_tmp['input_time']< ( CORE_TIME - 4)){
+                M ("qapp:infoList")->add (array(
+                    'user_id'    => $user_id,
+                    'other_id'   => $userid,
+                    'input_time' => CORE_TIME,
+                ));
+            }
             $data = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
             if (empty($data)) {
                 $this->json_output (array(
@@ -3148,7 +3153,7 @@ class qapi1_2Action extends null2Action
             //$data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id and type in (2,3,5,6)")->order('id desc')->page($page,$size)->getPage();
             $data = M ("qapp:pointsBill")->select ('id,addtime,type,points,share_type')->where ("uid = $user_id")
                                          ->order ('id desc')->page ($page, $size)->getPage ();
-            if (empty($data['data']) && $page == 1) {
+            if ((empty($data['data']) && $page == 1) || $page>4) {
                 $this->json_output (array(
                     'err' => 2,
                     'msg' => '没有相关数据',
