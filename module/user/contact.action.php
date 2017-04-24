@@ -172,6 +172,15 @@ class contactAction extends adminBaseAction {
 			}
 		}
 		$meg = array_merge($info,$model);
+        $meg['customer_manager_name']=M('rbac:adm')->getUserByCol($meg['customer_manager']);//交易员
+        $meg['depart_name']=C('depart')[$meg['depart']];//所属部门
+        $meg['last_login']=$meg['last_login']>1000 ? date("Y-m-d H:i:s",$meg['last_login']) : '';//登陆时间
+        $meg['login_unlock_time']=$meg['login_unlock_time']>1000 ? date("Y-m-d H:i:s",$meg['login_unlock_time']) : '';//解锁时间
+        $meg['opening_date']=$meg['opening_date']>1000 ? date("Y-m-d H:i:s",$meg['opening_date']) : '';//头条开通时间
+        $meg['free_time']=$meg['free_time']>1000 ? date("Y-m-d H:i:s",$meg['free_time']) : '';//头条截止时间
+        $meg['input_time']=$meg['input_time']>1000 ? date("Y-m-d H:i:s",$meg['input_time']) : '';//创建时间
+        $meg['update_time']=$meg['update_time']>1000 ? date("Y-m-d H:i:s",$meg['update_time']) : '';//更新时间
+        $meg['chanel']=L('company_chanel')[$meg['chanel']];
 		$c_info['file_url1'] = FILE_URL.'/upload/'.$c_info['file_url'];
 		$c_info['business_licence_pic1'] = FILE_URL.'/upload/'.$c_info['business_licence_pic'];
 		$c_info['organization_pic1'] = FILE_URL.'/upload/'.$c_info['organization_pic'];
