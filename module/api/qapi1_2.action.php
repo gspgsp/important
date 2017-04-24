@@ -815,7 +815,7 @@ class qapi1_2Action extends null2Action
         $contact_id  = $pointsOrder->get_supply_demand_top ($goods_id);
         //showTrace();
         if ($contact_id) {
-            $top = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($contact_id);
+            $top = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($contact_id['pur_id']);
             foreach ($data['data'] as $key => &$val) {
                 if ($val['user_id'] == $top['user_id']) {
                     unset($data['data'][$key]);
