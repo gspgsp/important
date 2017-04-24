@@ -1750,14 +1750,14 @@ class qapi1_2Action extends null2Action
             $userid  = sget ('userid', 'i');//当前联系人的id
             if ($user_id != $userid) {
                 $_tmp = M ("qapp:infoList")->where ("user_id= $user_id and other_id = $userid")
-                                           ->order ("info_list_id desc")->getOne ();
+                                           ->order ("info_list_id desc")->getRow ();
                 if (!$_tmp) {
                     $this->_errCode (99);
                 }
             }
             /**
              * 添加记录
-             * -4避免addScore第一次出现相同的记录
+             * -4避免descScore第一次出现相同的记录
             */
             if($_tmp['input_time']< ( CORE_TIME - 4)){
                 M ("qapp:infoList")->add (array(
