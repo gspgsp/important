@@ -235,7 +235,7 @@ class scoreAction extends null2Action
                     M("qapp:pointsBill")->commit();
                     $this->json_output(array('err' => 0, 'msg' => '已减过积分,此次不用了'));
                 }
-                if (!M("qapp:pointsBill")->decPoints($points, $user_id, 14)) {
+                if (!M("qapp:pointsBill")->decPoints($points, $user_id, 14 ,$gid =$other_id )) {
                     M("qapp:pointsBill")->rollback();
                     $this->json_output(array('err' => 100, 'msg' => '积分不足'));
                 }

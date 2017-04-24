@@ -3175,9 +3175,9 @@ class qapi1_2Action extends null2Action
             $page    = sget ('page', 'i', 1);
             $size    = sget ('size', 'i', 10);
             //$data=M("qapp:pointsBill")->select('id,addtime,type,points')->where("uid = $user_id and type in (2,3,5,6)")->order('id desc')->page($page,$size)->getPage();
-            $data = M ("qapp:pointsBill")->select ('id,addtime,type,points,share_type')->where ("uid = $user_id")
+            $data = M ("qapp:pointsBill")->select ('id,addtime,type,points,share_type')->where ("uid = $user_id and is_mobile =1")
                                          ->order ('id desc')->page ($page, $size)->getPage ();
-            if ((empty($data['data']) && $page == 1) || $page>4) {
+            if ((empty($data['data']) && $page == 1) || $page>10) {
                 $this->json_output (array(
                     'err' => 2,
                     'msg' => '没有相关数据',
