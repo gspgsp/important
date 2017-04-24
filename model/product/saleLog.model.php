@@ -117,4 +117,13 @@ class saleLogModel extends model{
 				WHERE o.collection_status = 3 AND o.payd_time > '.$start.' AND sale.customer_manager = '.$customer_manager.' AND purchase_id <> 0');
 		return empty($res) ? 0 : $res;
 	}
+	public function getLastSalePriceByPid($p_id = 0){
+		$res = $this->model('sale_log as `s`')
+			->select('`s`.unit_price')
+			->leftjoin('order as `o`','`o`.o_id = `s`.o_id')
+			->where('`o`.order_status = 2 and `o`.transport_status = 2 and `s`.p_id = '.$p_id)
+			->order('`s`.o_id desc')
+			->getOne();
+		return empty($res) ? 0 : $res;
+	}
 }
