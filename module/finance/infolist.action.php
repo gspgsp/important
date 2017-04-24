@@ -34,11 +34,12 @@ class infolistAction extends adminBaseAction {
 		foreach ($applys['data'] as $key => $value) {
 			$res = json_decode($value['info'],true)[0];
 			$res['storage'] = $this->db->model('store')->where("id = {$res['storage']}")->select("store_name")->getOne();
-			$res['factory'] = $this->db->model('factory')->where("fid = {$res['factory']}")->select("f_name")->getOne();
+			// $res['factory'] = $this->db->model('factory')->where("fid = {$res['factory']}")->select("f_name")->getOne();
 			$res['finance_type'] = $res['finance_type']==1?'塑料代采':($res['finance_type']==2?'塑料白条':($res['finance_type']==3?'仓单融资':''));
 			$res['id'] = $value['id'];
 			$res['username'] = M('user:customerContact')->getColByName($value['contact_id']);
-			$res['c_id'] = $value['c_id'];
+			$res['mobile'] = M('user:customerContact')->getColByName($value['contact_id'],'mobile');
+			$res['c_id'] = $this->db->model('customer')->where("c_id = {$value['c_id']}")->select('c_name')->getOne();
 			$res['status'] = $value['status'] == 1?'待处理':($value['status'] == 2?'已转风控':'已拒绝');
 			$result[] = $res;
 		}
