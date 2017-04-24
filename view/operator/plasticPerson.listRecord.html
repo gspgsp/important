@@ -1,0 +1,270 @@
+{layout file="public:mini_layout"}
+<style>
+    #addForm td{width:50px;}
+</style>
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+                <!--<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">现金兑换塑豆</a>-->
+                <!--<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>-->
+                <!--<span class="separator"></span>-->
+                <!--<a class="mini-button" iconCls="icon-edit" plain="true" onclick="doEdit()">编辑</a>-->
+                <!--<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>-->
+            </td>
+            <td style="float:right;">
+                <form id="soform">
+                    <!--<select id="type" name="type" style="width:100px;">-->
+                        <!--<option value="" selected="selected">==积分来源==</option>-->
+                        <!--{html_options options=$points_type}-->
+                    <!--</select>-->
+                    <!--<select id="share_type" name="share_type">-->
+                        <!--<option value='' selected="selected">=分享来源=</option>-->
+                        <!--{html_options options=$share_type}-->
+                    <!--</select>-->
+                    <!--<select id="gid" name="gid" style="width:100px;">-->
+                        <!--<option value="" selected="selected">=商品名称=</option>-->
+                        <!--{html_options options=$goods_name}-->
+                    <!--</select>-->
+                    <!--<select id="customer_type" name="customer_type" style="width:100px;">-->
+                        <!--<option value="" selected="selected">=用户分类=</option>-->
+                        <!--<option value="all">全部</option>-->
+                        <!--<option value="pc">pc</option>-->
+                        <!--<option value="qapp">塑料圈</option>-->
+                    <!--</select>-->
+                    <input name="startTime" class="mini-datepicker" style="width:100px;" value="{$startTime}"/> -
+                    <input name="endTime" class="mini-datepicker" style="width:100px;" value="{$endTime}"/>
+                    <select id="key_type" name="key_type" style="width:100px;">
+                        <option value="" selected="selected">=关键字分类=</option>
+                        <option value="id">用户id</option>
+                        <option value="name">用户名</option>
+                        <!--<option value="mobile">用户手机号</option>-->
+                    </select>
+                    <input name="keyword" class="mini-textbox" emptyText="请输入" style="width:140px;" onenter="onKeyEnter"/>
+                    <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                    <span id="searchMsg"></span></form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+         url="/operator/plasticzoneActivity/getPlasticPersonList?action=grid&do={$doact}"
+         showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+    >
+        <div property="columns">
+            <div type="checkcolumn"></div>
+            <div field="info_list_id" width="35" headerAlign="center" align="center" allowSort="true">ID<span style="color:red">*</span></div>
+            <!--<div field="type" renderer="setCate1" width="80" headerAlign="center" align="center" allowSort="true" >积分来源<span style="color:red">*</span>-->
+                <!--<input  name="type" class="mini-combobox" data='{:setMiniConfig|$points_type}' textField="name" valueField="id" style="width:10px;" required="true"/>-->
+            <!--</div>-->
+            <div field="user_id" width="60" headerAlign="center" align="center" allowSort="true" >用户id<span style="color:red">*</span>
+            </div>
+            <div field="c_name" width="60"  align="center" headerAlign="center" allowSort="true">用户名</div>
+            <div field="other_id" width="60"  align="center" headerAlign="center" allowSort="true">被看人id<span style="color:red">*</span>
+                <!--<input class="mini-textbox" style="width:100%;"/>-->
+            </div>
+            <div field="d_name" width="60"  align="center" headerAlign="center" allowSort="true">被看人</div>
+            <!--<div field="mobile" width="60"  align="center" headerAlign="center" allowSort="true">用户手机号</div>-->
+            <!--<div field="cate_id" renderer="setCate" width="60" headerAlign="center" allowSort="true" align="center">商品分类<span style="color:red">*</span>-->
+            <!--<input property="editor" name="cate_id" class="mini-combobox" data='{:setMiniConfig|$goods_cate}' textField="name" valueField="id" style="width:90px;" required="true"/>-->
+            <!--</div>-->
+            <!--<div field="gid" renderer="setCate2" width="150" headerAlign="center"  align="center">商品名称-->
+                <!--<input  name="gid" class="mini-combobox" data='{:setMiniConfig|$goods_name}' textField="name" valueField="id" style="width:10px;" required="true"/>-->
+            <!--</div>-->
+            <!--<div field="share_type" renderer="setCate3" width="70" headerAlign="center"  align="center" allowSort="true">分享来源-->
+                <!--<input  name="share_type" class="mini-combobox" data='{:setMiniConfig|$share_type}' textField="name" valueField="id" style="width:90px;" required="true"/>-->
+            <!--</div>-->
+
+            <!--<div field="num" width="80" headerAlign="center" align="center">库存<span style="color:red">*</span>-->
+            <!--<input property="editor" class="mini-textbox" style="width:100%;"/>-->
+            <!--</div>-->
+            <!--<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态<span style="color:red">*</span>-->
+            <!--<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />-->
+            <!--</div>-->
+            <div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
+        </div>
+    </div>
+</div>
+<div id="picShow" style="display:none; background-color: #A4C6D5; border:1px solid #333333; padding:5px;"></div>
+
+<div id="addrecord" class="mini-window" title="记录添加" style="width:400px;"
+     showModal="true" allowResize="true" allowDrag="true"
+>
+    <div id="addForm" class="form" >
+        <table style="width:100%;">
+            <input class="mini-hidden" name="id"/>
+            <tr>
+                <td>用户id<span style="color:red">*</span></td>
+                <!--<td><input name="name" class="mini-textbox" style="width:100px;" required="true"/></td>-->
+                <td><input name="user_id" class="mini-buttonedit" onbuttonclick="usrChoose"  textField="user_id" valueField="user_id"  value="setValue" style="width:90px" id="user_id"/></td>
+            </tr>
+            <tr>
+                <td>用户名<span style="color:red">*</span></td>
+                <td><input name="name"  disabled="disabled"  style="width:90px" id="name"/></td>
+            </tr>
+            <tr>
+                <td>用户手机号</td>
+                <td><input name="mobile"   disabled="disabled"  style="width:90px" id="mobile"/></td>
+            </tr>
+            <tr>
+                <td>积分来源<span style="color:red">*</span></td>
+                <td><input name="type" class="mini-combobox" data='{:setMiniConfig|$points_type}' textField="name" valueField="id" style="width:150px;" required="true"/>
+                </td>
+            </tr>
+            <tr>
+                <td>现金￥<span style="color:red">*</span></td>
+                <td><input name="cash" class="mini-textbox" style="width:100px" required="true"/>元</td>
+            </tr>
+            <!--<tr>-->
+            <!--<td>积分数量<span style="color:red">*</span></td>-->
+            <!--<td><input name="cate_id" class="mini-combobox" data='{:setMiniConfig|$goods_category}' textField="name" valueField="id" style="width:90px;" required="true"/>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <tr>
+                <td>积分</td>
+                <td><input name="points" class="mini-textbox" style="width:170px" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+
+                    <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+    mini.parse();
+    var grid = mini.get("gridCell");
+    var dStatus=[{ id: 1, text: '上架' }, { id: 2, text: '下架'}];
+
+    function search() {
+        grid.load($("#soform").serializeObject(),function(e){
+            $("#searchMsg").html(e.msg);
+        });
+    }
+    search();
+    function onKeyEnter(e) {
+        search();
+    }
+    //设置分类1
+    function setCate1(e){
+        var record = parseInt(e.record.type); //record.id
+        return $("#type").find("option[value="+record+"]").text();
+    }
+    //设置分类2
+    function setCate2(e){
+        var record = parseInt(e.record.gid); //record.id
+        return $("#gid").find("option[value="+record+"]").text();
+    }
+    //设置分类3
+    function setCate3(e){
+        var record = parseInt(e.record.share_type); //record.id
+        return $("#share_type").find("option[value="+record+"]").text();
+    }
+    //设置分类
+    function setCate(e){
+        var record = parseInt(e.record.cate_id); //record.id
+        return $("#cate_id").find("option[value="+record+"]").text();
+    }
+    //删除数据
+    function removeRow() {
+        var rows = grid.getSelecteds(),_ids=new Array();
+        if(rows.length<1) return;
+        for(var i=0;i<rows.length;i++){
+            _ids[i]=parseInt(rows[i].id);
+        }
+        var ids=_ids.join(',');
+        if(ids=='') return;
+        mini.confirm("确定删除内容？", "提示",	function(action){
+                    if(action!='ok') return;
+                    var callback=function(data){
+                        if(data.err!='0'){
+                            alert(data.msg)
+                            return false;
+                        }else{
+                            grid.reload();
+                        }
+                    }
+                    // utils.ajax('/product/goods/{$action}?action=remove',{ids:ids},callback,"POST","json");
+                    utils.ajax('/product/goods/remove',{ids:ids},callback,"POST","json");
+                }
+        );
+    }
+
+
+    //弹出增加form表单
+    var addrecord = mini.get("addrecord");
+    var form = new mini.Form("#addForm");
+    function add() {
+        form.clear();
+        addrecord.show();
+    }
+    //增加后提交数据(保存)
+    function submitForm() {
+        form.validate();
+        if (form.isValid() == false) return;
+        var o = form.getData();
+        grid.loading("数据提交中，请稍后......");
+        var json = mini.encode(o);
+        var callback=function(data){
+            if(data.err!='0'){
+                grid.unmask();
+                alert(data.msg);
+                return false;
+            }else{
+                grid.reload();
+                addrecord.hide();
+            }
+        }
+        utils.ajax('/operator/plasticzoneActivity/save?do=add',{data:json},callback,"POST","json");
+    }
+
+
+
+
+
+
+
+    //强制选择归属公司
+    function usrChoose(e){
+        var btn = this;
+        var mobile = mini.get("mobile");
+        var name = mini.get("name");
+        mini.open({
+            url: "/user/contact/init?do=search",
+            title: "选择客户",
+            width: 1200,
+            height: 550,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+            },
+            ondestroy: function (action) {
+                if (action == "ok") {
+                    var iframe = this.getIFrameEl();
+                    var data = iframe.contentWindow.GetData();
+                    data = mini.clone(data);    //必须
+                    if (data) {
+                        console.log(data.user_id);
+                        console.log(data.mobile);
+                        console.log(data.name);
+                        $("#name").val(data.name);
+                        $("#mobile").val(data.mobile);
+                        btn.setValue(data.user_id);
+                        btn.setText(data.user_id);
+                    }
+                }
+            }
+        });
+    }
+
+
+
+
+
+</script>

@@ -79,7 +79,7 @@ class plasticzoneActivityAction extends adminBaseAction{
         switch($key_type){
             case 'id':
                 $keyword=(int)$keyword;
-                $where.=" and b.id=$keyword";
+                $where.=" and b.uid=$keyword";
                 break;
             case 'name':
                 $where.=" and c.name like '%$keyword%'";
@@ -92,10 +92,10 @@ class plasticzoneActivityAction extends adminBaseAction{
             case 'all':
                 break;
             case 'pc':
-                $where.=" and c.chanel != 6";
+                $where.=" and b.is_mobile =0";
                 break;
             case 'qapp':
-                $where.=" and c.chanel = 6";
+                $where.=" and b.is_mobile =1";
                 break;
         }
 
@@ -154,6 +154,7 @@ class plasticzoneActivityAction extends adminBaseAction{
             $points = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
             $data['cash'] = (int)$data['cash'];
             $_tmpPoints =(int)$data['cash']*$points['ratio'];
+            M ("qapp:pointsBill")->setMoblie(2);
             $result = M ("qapp:pointsBill")->addPoints ($_tmpPoints, $data['user_id'], 16);
             if($result){
                 $this->success('操作成功');
@@ -221,6 +222,70 @@ class plasticzoneActivityAction extends adminBaseAction{
             $this->error('数据处理失败');
         }
     }
+
+
+    /**
+     * 通讯录查看记录列表
+     * @access public
+     * @return html
+     */
+    public function getPlasticPersonList(){
+        $action=sget('action','s');
+        if($action=='grid'){ //获取列表
+            $this->_grid2();exit;
+            // }elseif($action=='remove'){ //删除列表数据
+            // 	$this->_remove();exit;
+            // }elseif($action=='save'){ //获取列表
+            // 	$this->_save();exit;
+        }
+        $this->assign('page_title','通讯录查看记录列表');
+        $this->display('plasticPerson.listRecord.html');
+    }
+
+
+    /**
+     * Ajax获取列表内容
+     * @access private
+     * @return html
+     */
+    private function _grid2(){
+        $page = sget("pageIndex",'i',0); //页码
+        $size = sget("pageSize",'i',20); //每页数
+        $sortField = sget("sortField",'s','input_time'); //排序字段
+        $sortOrder = sget("sortOrder",'s','desc'); //排序
+        //搜索条件
+        $where=" 1 ";
+        $key_type = sget('key_type','s');//关键字分类
+        $keyword=sget('keyword','s');//关键词
+        $sTime = sget("sTime",'s','b.input_time'); //搜索时间类型
+
+        $where.=getTimeFilter($sTime); //时间筛选
+        switch($key_type){
+            case 'id':
+                $keyword=(int)$keyword;
+                $where.=" and b.user_id=$keyword";
+                break;
+            case 'name':
+                $where.=" and c.name like '%$keyword%'";
+                break;
+        }
+
+        $list=$this->db->from("info_list b")
+            ->leftjoin('customer_contact c','c.user_id=b.user_id')
+            ->leftjoin('customer_contact d','d.user_id=b.other_id')
+            ->select('b.*,c.name as c_name,d.name as d_name')
+            ->where($where)
+            ->page($page+1,$size)
+            ->order("$sortField $sortOrder")
+            ->getPage();
+        foreach($list['data'] as $k=>$v){
+            $list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+        }
+        $result=array('total'=>$list['count'],'data'=>$list['data']);
+        $this->json_output($result);
+    }
+
+
 
 
 
