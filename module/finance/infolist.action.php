@@ -41,7 +41,7 @@ class infolistAction extends adminBaseAction {
 			$res['mobile'] = M('user:customerContact')->getColByName($value['contact_id'],'mobile');
 			$res['c_id'] = $this->db->model('customer')->where("c_id = {$value['c_id']}")->select('c_name')->getOne();
 			$res['status'] = $value['status'] == 1?'待处理':($value['status'] == 2?'已转风控':'已拒绝');
-			$res['product_type'] = strtoupper($value['product_type']);
+			$res['product_type'] = strtoupper($res['product_type']);
 			$result[] = $res;
 		}
 		$this->json_output(array('total'=>$applys['count'],'data'=>$result));
