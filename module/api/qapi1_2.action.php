@@ -708,10 +708,10 @@ class qapi1_2Action extends null2Action
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
         $data  = array();
-        /*      $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
+        $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type;
                 M("system:setting")->del_cache($key);
-                $key = 'qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region;
-                M("system:setting")->del_cache($key);*/
+                $key = 'qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type;
+                M("system:setting")->del_cache($key);
 
         if (empty($keywords)) {
             if ($page < 4) {//前三页
@@ -720,6 +720,12 @@ class qapi1_2Action extends null2Action
                         if(empty($c_type))
                         {
                             $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+                        }elseif($c_type==1)
+                        {
+                            $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
+                        }elseif($c_type==2)
+                        {
+                            $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
                         }else {
                             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
                         }
@@ -730,6 +736,12 @@ class qapi1_2Action extends null2Action
                         if(empty($c_type))
                         {
                             $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+                        }elseif($c_type==1)
+                        {
+                            $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
+                        }elseif($c_type==2)
+                        {
+                            $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
                         }else {
                             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
                         }
@@ -740,6 +752,12 @@ class qapi1_2Action extends null2Action
                 if(empty($c_type))
                 {
                     $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+                }elseif($c_type==1)
+                {
+                    $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
+                }elseif($c_type==2)
+                {
+                    $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
                 }else {
                     $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
                 }
@@ -748,6 +766,12 @@ class qapi1_2Action extends null2Action
             if(empty($c_type))
             {
                 $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+            }elseif($c_type==1)
+            {
+                $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
+            }elseif($c_type==2)
+            {
+                $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
             }else {
                 $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
             }
