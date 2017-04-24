@@ -28,7 +28,7 @@ class pointsOrderModel extends Model
             if (!empty($info)) {
 
                 //$cache->set($key, $info['pur_id'], $info['outpu_time'] - time());
-                return $info['pur_id'];
+                return $info;
             } else {
                 return false;
             }
