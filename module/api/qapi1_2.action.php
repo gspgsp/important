@@ -87,7 +87,7 @@ class qapi1_2Action extends null2Action
             13 => '塑料圈分享',
             14 => '查看通讯录',
             15 => '查看文章',
-            16 =>'现金充值',
+            16 =>'现金充值', 
         );
         $this->shareType   = array(
             1 => '求购分享',
