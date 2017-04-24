@@ -776,7 +776,6 @@ class qapi1_2Action extends null2Action
                 $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
             }
         }
-
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array(
                 'err' => 2,
