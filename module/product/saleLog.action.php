@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 销售订单详情管理
  */
@@ -38,7 +38,7 @@ class saleLogAction extends adminBaseAction {
 	}
 	/**
 	 * Ajax获取列表内容
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	private function _grid($type){
@@ -98,12 +98,12 @@ class saleLogAction extends adminBaseAction {
 				->order("$sortField $sortOrder")
 				->getPage();
 		foreach($list['data'] as $k=>$v){
-			$pinfo=M("product:product")->getFnameByPid($v['p_id']);			
+			$pinfo=M("product:product")->getFnameByPid($v['p_id']);
 			$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$list['data'][$k]['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
 			$list['data'][$k]['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名
-			$list['data'][$k]['order_name']=M("product:order")->getColByName($v['o_id']);
-			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']); 
+			$list['data'][$k]['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'])];
+			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']);
 			$list['data'][$k]['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
 			//比较价格较上次是否小于1%
 			$list['data'][$k]['min_price'] = M('product:factory')->minPrice($v['p_id'],$v['input_time']);
@@ -172,14 +172,14 @@ class saleLogAction extends adminBaseAction {
 
 		$info=$this->db->getPk($id); //查询订单信息
 		if(empty($info)){
-			$this->error('错误的订单信息');	
+			$this->error('错误的订单信息');
 		}
 		if($info['o_id']>0) $order_name = M('product:order')->getColByName("$info[o_id]");
 		if($info['p_id']>0) $model = M('product:product')->getModelById("$info[p_id]");
-		if($type !="edit") $info['p_info']=M('product:product')->getFnameByPid($info['p_id']); 
+		if($type !="edit") $info['p_info']=M('product:product')->getFnameByPid($info['p_id']);
 		if($type !="edit") $info['order_sn']=M('product:order')->getColByName($info['o_id'],'order_sn'); //根据pid取厂家名
 		if($type !="edit") $info['sales_type']=M('product:order')->getColByName($info['o_id'],'sales_type'); //根据pid取厂家名
-		
+
 		$info['count']=$info['number']*$info['unit_price'];
 		$info['c_name']=M("user:customer")->getColByName($info['c_id']);//根据cid取客户名
 		//根据pid取厂家名
@@ -202,7 +202,7 @@ class saleLogAction extends adminBaseAction {
 	}
 	/**
 	 * 新增及修改订单
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function addSubmit() {
@@ -211,8 +211,8 @@ class saleLogAction extends adminBaseAction {
 		$data['number'] = $data['require_number'];
 		$data['input_time'] = CORE_TIME;
 		$data['input_admin'] = $_SESSION['name'];
-		if(empty($data)) $this->error('错误的请求');	
-		$up_data = array(			
+		if(empty($data)) $this->error('错误的请求');
+		$up_data = array(
 				'update_time'=>CORE_TIME,
 				'update_admin'=>$_SESSION['name'],
 		);
@@ -228,17 +228,17 @@ class saleLogAction extends adminBaseAction {
 			$this->error($e->getMessage());
 		}
 		$this->db->commit();
-		$this->success('操作成功');	
+		$this->success('操作成功');
 	}
 	/**
 	 * Ajax删除
-	 * @access private 
+	 * @access private
 	 */
 	public function remove(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$data = explode(',',$ids);
 		if(is_array($data)){
