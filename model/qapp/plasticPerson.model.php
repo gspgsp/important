@@ -218,7 +218,7 @@ class plasticPersonModel extends model
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "AllPlasticPersonList".":"."$keywords".":".$region;
-        $cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
+        //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
 
         $list  = $cache->get ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
 
@@ -395,7 +395,7 @@ class plasticPersonModel extends model
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "1PlasticPersonList".":"."$keywords".":".$region;
-        $cache->remove ("1PlasticPersonList".'-'.$keywords.'-'.$region);
+        //$cache->remove ("1PlasticPersonList".'-'.$keywords.'-'.$region);
 
         $list  = $cache->get ("1PlasticPersonList".'-'.$keywords.'-'.$region);
 
@@ -549,7 +549,7 @@ class plasticPersonModel extends model
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "2PlasticPersonList".":"."$keywords".":".$region;
-        $cache->remove ("2PlasticPersonList".'-'.$keywords.'-'.$region);
+        //$cache->remove ("2PlasticPersonList".'-'.$keywords.'-'.$region);
 
         $list  = $cache->get ("2PlasticPersonList".'-'.$keywords.'-'.$region);
 
