@@ -64,6 +64,9 @@ grid.on("drawcell", function (e) {
         if(e.row.diff_rate < -10){
             e.cellStyle = "background:#00EC00";
         }
+        if(e.row.today_price == 0){
+            e.cellStyle = "background:#00EC00";
+        }
     }
  });
 grid.hideColumn("diff_rate");
