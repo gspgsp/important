@@ -698,11 +698,6 @@ class plasticAction extends adminBaseAction {
                 'type'=>$data['cus_type'],
                 'update_time'=>CORE_TIME,
             );
-			if($data['cus_type']==2){
-				$cusArray['update_time'] = strtotime("2017-01-01 12:00:00");
-				$conArr['update_time'] = strtotime("2017-01-01 12:00:00");
-			}
-
 			if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
 
                 if(!M('user:customerContact')->where("user_id = {$data['user_id']}")->update($conArr)) throw new Exception("系统错误 reg:112");
@@ -741,11 +736,6 @@ class plasticAction extends adminBaseAction {
                     'type'=>$data['cus_type'],
                     'update_time'=>CORE_TIME,
                 );
-				if($data['cus_type']==2){
-					$cusArray['update_time'] = strtotime("2017-01-01 12:00:00");
-					$conArr['update_time'] = strtotime("2017-01-01 12:00:00");
-				}
-
 				if(!M('user:customer')->where("c_id={$data['c_id']}")->update($cusArray)) throw new Exception('月用量更新失败');
 //                if($is_trial == 0){
                     if(!M('user:customerContact')->where("user_id = {$data['user_id']}")->update($conArr)) throw new Exception("系统错误 reg:112");
