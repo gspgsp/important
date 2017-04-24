@@ -33,7 +33,7 @@ class storeRiskAction extends adminBaseAction
 		$sortField = sget("sortField",'s','o.input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where =" 1 ";
+		$where =" 1 and `il`.remainder > 0";
 		//交易日期
 		$sTime = sget("sTime",'s','o.input_time'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
