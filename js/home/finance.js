@@ -301,15 +301,15 @@ $(function(){
                 grade.focus();
                 return errorStr;
             }
-            if(breed.val()==""){
-                errorStr="您没有填写品种";
-                return errorStr;
-            }
-            if(factory.attr("value")=="" || factory.attr("value")==undefined || factory.attr("value")=="全部"){
-                errorStr="您没有选择厂家";
-                factory.focus();
-                return errorStr;
-            }
+            // if(breed.val()==""){
+            //     errorStr="您没有填写品种";
+            //     return errorStr;
+            // }
+            // if(factory.attr("value")=="" || factory.attr("value")==undefined || factory.attr("value")=="全部"){
+            //     errorStr="您没有选择厂家";
+            //     factory.focus();
+            //     return errorStr;
+            // }
 //            if(price.val()==""){
 //                errorStr="您没有填写价格";
 //                price.focus();
