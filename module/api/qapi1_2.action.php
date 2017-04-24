@@ -708,6 +708,7 @@ class qapi1_2Action extends null2Action
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
         $data  = array();
+
         if (empty($keywords)) {
             if ($page < 4) {//前三页
                 if ($user_id > 0) {
@@ -1120,12 +1121,12 @@ class qapi1_2Action extends null2Action
                                     ->getOne ();
             $pointsOrder = M ("points:pointsOrder");
 
-            $pur_id = $pointsOrder->get_supply_demand_top ($goods_id);
+            $info0 = $pointsOrder->get_supply_demand_top ($goods_id);
 
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
-            if ($pur_id && ($sortField1 == 'ALL' || $sortField2 == 'AUTO')) {
+            if ($info0 && ($sortField1 == 'ALL' || $sortField2 == 'AUTO')) {
 
-                $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($pur_id);
+                $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($info0['pur_id'],$info0['uid']);
                 $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($top['user_id']);
                 $_tmp     = $top['info'];
                 unset($top['info']);
