@@ -98,9 +98,9 @@ class plasticPersonModel extends model
             $orderStr = ' NULL ';
         } else {
             if ($sortOrder == 'desc') {
-                $orderStr = ' con.update_time desc ';
+                $orderStr = ' con.input_time desc ';
             } else {
-                $orderStr = ' con.update_time asc ';
+                $orderStr = ' con.input_time asc ';
             }
         }
         if (!empty($c_type)) {
@@ -117,7 +117,7 @@ class plasticPersonModel extends model
         //        $sortField = 'con.input_time';
         //        $sortOrder = 'desc';
         if (!empty($letter)) {
-            $users = $this->select ('user_id,name')->order ('update_time desc')->getAll ();
+            $users = $this->select ('user_id,name')->order ('input_time desc')->getAll ();
             foreach ($users as $key => $value) {
                 $firstPy = $this->getFirstChar ($value['name']);
                 if (strcasecmp ($letter, $firstPy) == 0) {
@@ -265,12 +265,12 @@ class plasticPersonModel extends model
             $type_where = " and cus.type = 1 and cus.need_product != ''";
             $sql1       = "SELECT `con`.`user_id`
             FROM `p2p_customer_contact` `con`
-			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.update_time desc ";
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc ";
             $data1      = $this->db->getAll ($sql1);
             $type_where = " and cus.type = 1 and cus.need_product = ''";
             $sql2       = "SELECT `con`.`user_id`
             FROM `p2p_customer_contact` `con`
-			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.update_time desc ";
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc ";
             $data2      = $this->db->getAll ($sql2);
             $type_where = " and cus.type = 2 and cus.need_product != ''";
             $sql3       = "SELECT `con`.`user_id`
@@ -442,12 +442,12 @@ class plasticPersonModel extends model
             $type_where = " and cus.type = 1 and cus.need_product != ''";
             $sql1       = "SELECT `con`.`user_id`
             FROM `p2p_customer_contact` `con`
-			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.update_time desc ";
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc ";
             $data1      = $this->db->getAll ($sql1);
             $type_where = " and cus.type = 1 and cus.need_product = ''";
             $sql2       = "SELECT `con`.`user_id`
             FROM `p2p_customer_contact` `con`
-			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.update_time desc ";
+			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc ";
             $data2      = $this->db->getAll ($sql2);
 
 
