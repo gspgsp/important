@@ -572,7 +572,7 @@ class qapi1_2Action extends null2Action
                     if (empty($tmp)) {
                         $this->json_output (array(
                             'err' => 101,
-                            'msg' => '注册信息不完整，请联系客服或重新注册',
+                            'msg' => '注册信息不完整，请联系客服:4006129965或重新注册',
                         ));
                     }
                     $spoints = $this->points['login'];
