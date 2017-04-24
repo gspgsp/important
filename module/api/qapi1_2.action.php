@@ -708,11 +708,6 @@ class qapi1_2Action extends null2Action
         //备注，修改时，文档和代码需要修改
         $cache = cache::startMemcache ();
         $data  = array();
-        $key = 'qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type;
-                M("system:setting")->del_cache($key);
-                $key = 'qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type;
-                M("system:setting")->del_cache($key);
-
         if (empty($keywords)) {
             if ($page < 4) {//前三页
                 if ($user_id > 0) {
