@@ -123,7 +123,7 @@
 					if($repeat<1){
 						$data['content']=str_ireplace(array('我的塑料网','PE','PP','PVC'), array('<a target="_blank" href="http://www.myplas.com">我的塑料网</a>（www.myplas.com）','<a target="_blank" href="/pe.html">PE</a>','<a target="_blank" href="/pp.html">PP</a>','<a target="_blank" href="/pvc.html">PVC</a>'), $data['content']);
 					}
-					$data['pv']=rand(150,250);
+					$data['pv']=rand(500,600);
 					$data['input_time']=CORE_TIME;
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->add($data);
