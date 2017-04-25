@@ -292,21 +292,31 @@ class plasticPersonModel extends model
             $data5      = $this->db->getAll ($sql5);
 
             $cache->remove ($key);
-            //showTrace();
-            foreach ($data1 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+
+            if(!empty($data1)) {
+                foreach ($data1 as $id) {
+                    $cache->rpush ($key, $id['user_id']);
+                }
             }
-            foreach ($data2 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+            if(!empty($data2)) {
+                foreach ($data2 as $id) {
+                    $cache->rpush ($key, $id['user_id']);
+                }
             }
-            foreach ($data3 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+            if(!empty($data3)) {
+                foreach ($data3 as $id) {
+                    $cache->rpush ($key, $id['user_id']);
+                }
             }
-            foreach ($data4 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+            if($data4) {
+                foreach ($data4 as $id) {
+                    $cache->rpush ($key, $id['user_id']);
+                }
             }
-            foreach ($data5 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+            if($data5) {
+                foreach ($data5 as $id) {
+                    $cache->rpush ($key, $id['user_id']);
+                }
             }
             //showTrace();
             //缓存5分钟
