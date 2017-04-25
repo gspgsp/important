@@ -119,7 +119,7 @@ module.exports = {
 			isArrow: false,
 			region: 0,
 			c_type: 0,
-			txt: "分类",
+			txt: "所有分类",
 			txt2: "全国站",
 			loadingShow: "",
 			top: ""
@@ -149,10 +149,10 @@ module.exports = {
 		filterShow: function() {
 			var _this = this;
 			weui.actionSheet([{
-				label: '分类',
+				label: '所有分类',
 				onClick: function() {
 					_this.c_type = 0;
-					_this.txt = "分类";
+					_this.txt = "所有分类";
 					_this.page = 1;
 					$.ajax({
 						type: "post",
