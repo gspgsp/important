@@ -435,7 +435,17 @@ a{ text-decoration:none;}
 .supply-chain{ height:auto; overflow:hidden; border:1px solid #d6d7dc; border-top:none;}
 .supply-chain.info .left,.supply-chain.info .right{ border:none; }
 .supply-chain .left,.supply-chain .right{ height:397px;}
-.supply-chain .left h2{ font-size:18px; text-align:center; width:320px; height:58px; line-height:58px; background:url(../../images/home/spirit.png) no-repeat 0 -221px; margin:0 auto;}
+.supply-chain .left h2{ font-size:18px; height:18px; line-height:18px; margin:23px 0 24px 27px;}
+.supply-chain .left h2 span{ color:#fc6621;}
+.supply-chain .left ul{ width:780px; height:300px; overflow:hidden; margin:0 0 0 18px;}
+.supply-chain .left ul li{ text-align:center; width:238px; height:298px; overflow:hidden; margin:0 20px 0 0; border:1px solid #d6d7dc; float:left;}
+.supply-chain .left ul li .thumb{ width:144px; height:133px; overflow:hidden; margin:30px 0 21px 47px;}
+.supply-chain .left ul li p{ font-size:18px; height:18px; line-height:18px; margin:0 0 14px 0;}
+.supply-chain .left ul li span{ display:block; height:12px; line-height:12px;}
+.supply-chain .left ul li a{ color:#fff; font-size:14px; width:140px; height:36px; line-height:36px; overflow:hidden; margin:15px 0 0 49px; background:#fc6621; border-radius:30px; display:block;} 
+.supply-chain .left ul li a span{ height:72px; line-height:36px; overflow:hidden; display:block;-webkit-transition:.2s;-moz-transition:.2s;-ms-transition:.2s;-o-transition:.2s;transition:.2s;}
+.supply-chain .left ul li a:hover span{ -webkit-transform:translateY(-36px); -moz-transform:translateY(-36px); -ms-transform:translateY(-36px); -o-transform:translateY(-36px); transform:translateY(-36px); }
+/* .supply-chain .left h2{ font-size:18px; text-align:center; width:320px; height:58px; line-height:58px; background:url(../../images/home/spirit.png) no-repeat 0 -221px; margin:0 auto;}
 .supply-chain .left h2 span{ color:#fc6621;}
 .supply-chain .left .business{ height:81px;}
 .supply-chain .left .business li{ height:81px; line-height:81px; float:left;}
@@ -452,7 +462,7 @@ a{ text-decoration:none;}
 .supply-chain .left .business li span i{ font-style:normal; color:#fc6621;}
 .supply-chain .left .rount li p{ font-size:14px; margin:0 0 0 19px; line-height:34px;}
 .supply-chain .left .advantage{ margin:0 0 0 37px;} 
-.supply-chain .left .advantage li{ width:150px; margin:0 38px 0 0; border-color:#fc6621;}
+.supply-chain .left .advantage li{ width:150px; margin:0 38px 0 0; border-color:#fc6621;} */
 /*floor4 end*/
 
 /*floor5 begin*/
