@@ -82,7 +82,7 @@
 						<span style="color: #666666;" v-html="n.need_product"></span>
 					</p>
 					<p v-if="n.type==='4'">
-						主营：<span style="color: #666666;" v-html="n.main_product"></span>
+						主营产品：<span style="color: #666666;" v-html="n.main_product"></span>
 					</p>
 					<i class="icon2 rightArrow"></i>
 				</router-link>
