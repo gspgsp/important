@@ -668,7 +668,7 @@ function saveData() {
 //新增销售订单
 function addSale(){
 	mini.open({
-		url: "/product/order/info?order_type=1",
+		url: "/product/order/info?order_type=1{if $finance}&finance={$finance}{/if}",
 		showMaxButton:true,
 		title: '新增销售订单', width: 900, height: 650,
 		ondestroy: function (action) {
