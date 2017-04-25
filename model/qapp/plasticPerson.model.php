@@ -111,7 +111,7 @@ class plasticPersonModel extends model
                 $orderStr = 'd.top desc, d.top_time desc, d.rownum ASC ';
             }
         } else {
-            $orderStr = 'cus.type asc,d.top desc, d.top_time desc, d.rownum ASC ';
+            $orderStr = 'd.top desc, d.top_time desc, d.rownum ASC ';
         }
 
         //        $sortField = 'con.input_time';
@@ -394,10 +394,10 @@ class plasticPersonModel extends model
     public function get1PlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
-        $key   = "1PlasticPersonList".":"."$keywords".":".$region;
+        $key   = "1PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("1PlasticPersonList".'-'.$keywords.'-'.$region);
 
-        $list  = $cache->get ("1PlasticPersonList".'-'.$keywords.'-'.$region);
+        $list  = $cache->get ("1PlasticPersonList".'-'.md5($keywords)."-".md5($region));
 
         if (empty($list)) {
             $operMobi = array(
@@ -463,7 +463,7 @@ class plasticPersonModel extends model
 
             //showTrace();
             //缓存5分钟
-            $cache->set ("1PlasticPersonList".'-'.$keywords.'-'.$region,1,300);
+            $cache->set ("1PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
 
         }
 
@@ -548,10 +548,10 @@ class plasticPersonModel extends model
     public function get2PlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
-        $key   = "2PlasticPersonList".":"."$keywords".":".$region;
+        $key   = "2PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("2PlasticPersonList".'-'.$keywords.'-'.$region);
 
-        $list  = $cache->get ("2PlasticPersonList".'-'.$keywords.'-'.$region);
+        $list  = $cache->get ("2PlasticPersonList".'-'.md5($keywords)."-".md5($region));
 
         if (empty($list)) {
             $operMobi = array(
@@ -619,7 +619,7 @@ class plasticPersonModel extends model
 
             //showTrace();
             //缓存5分钟
-            $cache->set ("2PlasticPersonList".'-'.$keywords.'-'.$region,1,300);
+            $cache->set ("2PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
 
         }
 
