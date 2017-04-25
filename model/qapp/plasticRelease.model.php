@@ -121,7 +121,7 @@ class plasticReleaseModel extends model
             $where2 .= " and info.mobile_province not in($str) ";
         }
 
-        $this->model ('purchase')->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.input_time,pur.type,pur.content,cus.c_name,con.name,info.thumb,info.thumbqq,con.sex,info.mobile_province')->from ('purchase pur')
+        $this->model ('purchase')->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.input_time,pur.type,pur.content,cus.c_name,con.name,info.thumb,info.thumbqq,con.sex,info.mobile_province,con.is_pass')->from ('purchase pur')
             ->leftjoin ('product pro', 'pur.p_id=pro.id')
             ->leftjoin ('factory fa', 'pro.f_id=fa.fid')
             ->leftjoin ('contact_info info', 'info.user_id=pur.user_id')
