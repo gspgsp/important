@@ -637,7 +637,6 @@ class orderAction extends adminBaseAction {
 					}
 				}
 			}
-			showtrace();
 			if($this->db->commit()){
 				//添加订单可视化
 				M('order:orderLog')->addLog($o_id);
