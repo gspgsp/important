@@ -61,11 +61,11 @@ class collectionRiskAction extends adminBaseAction
 		//筛选过滤自己的订单信息
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 			if(!in_array($roleid, array('30','26','27'))){
-				$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
+				$where .= " and o.`customer_manager` in ($sons) ";
 			}
 		}
-
 		$list=$this->db->model('order as o')
 			->where($where)
 			->select("`o`.`o_id`,`o`.`order_sn`,`o`.`order_name`,`o`.`total_price`,IFNULL(SUM(`coll`.`collected_price`),0) AS `collected_price`,(`o`.`total_price` - IFNULL(SUM(`coll`.`collected_price`),0)) AS `uncollected_price`,`o`.`customer_manager`,`c`.`c_name`,`c`.`chanel`,CEIL((UNIX_TIMESTAMP()- `o`.`transport_time`)/86400) AS days,`o`.`input_time`")

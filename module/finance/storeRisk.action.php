@@ -63,20 +63,14 @@ class storeRiskAction extends adminBaseAction
 					break;
 			}
 		}
-// p($where);
-		//筛选领导级别
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-			$where .= " and `customer_manager` in ($sons) ";
-		}
 		//筛选过滤自己的订单信息
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
-			if(in_array($roleid, array('30','26','27'))){
-				$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
+			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+			if(!in_array($roleid, array('30','26','27'))){
+				$where .= " and o.`customer_manager` in ($sons) ";
 			}
 		}
-
 		$list=$this->db->model('in_log as `il`')
 			->where($where)
 			->select("`il`.*,`o`.`o_id`,`o`.`order_sn`,`o`.`customer_manager`,`c`.`c_name`,`o`.`input_time`")
@@ -96,13 +90,10 @@ class storeRiskAction extends adminBaseAction
 			$list['data'][$k]['f_name']=M("product:product")->getFnameByid($v['p_id']);
 			$list['data'][$k]['total_price'] = $v['unit_price']*$v['remainder'];
 			$sale_unit_price=M("product:saleLog")->getLastSalePriceByPid($v['p_id']);
-			// showtrace();
-			// p($sale_unit_price);
 			$today_price = $sale_unit_price * $v['remainder'];
 			$list['data'][$k]['today_price'] = $today_price;
 			$list['data'][$k]['diff'] = $sale_unit_price - $v['unit_price'];
 			$list['data'][$k]['diff_rate'] = round((($sale_unit_price - $v['unit_price'])/$sale_unit_price)*100 ,2);
-			// showtrace();
 			// $list['data'][$k]['unit_price'] =  (M("product:order")->getColByOid($v['p_id'],'customer_manager') == $_SESSION['adminid'] OR in_array($_SESSION['adminid'],array(1,726,10,11))) ? $v['unit_price'] : '***';//只有李总超管饶卫平赵飞可以看到
 		}
 		$msg="";

@@ -58,20 +58,14 @@ class billingRiskAction extends adminBaseAction
 					break;
 			}
 		}
-// p($where);
-		//筛选领导级别
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
-			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
-			$where .= " and `customer_manager` in ($sons) ";
-		}
 		//筛选过滤自己的订单信息
 		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
-			if(in_array($roleid, array('30','26','27'))){
-				$where .= " and (`customer_manager` in ($sons) or `partner` = {$_SESSION['adminid']})  ";
+			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+			if(!in_array($roleid, array('30','26','27'))){
+				$where .= " and o.`customer_manager` in ($sons) ";
 			}
 		}
-
 		$list=$this->db->model('order as o')
 			->where($where)
 			->select("`o`.`o_id`,`o`.`order_sn`,`o`.`order_name`,`o`.`total_price`,IFNULL(SUM(`coll`.`collected_price`),0) AS `collected_price`,IFNULL(SUM(b.`billing_price`),0) AS billing_price,IFNULL((o.`total_price` - SUM(b.`billing_price`)),0) AS unbilling_price,`o`.`customer_manager`,`c`.`c_name`,`c`.`chanel`,CEIL((UNIX_TIMESTAMP()- `o`.`payd_time`)/86400) AS days,`o`.`input_time`")
