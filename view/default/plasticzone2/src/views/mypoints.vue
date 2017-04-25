@@ -178,7 +178,7 @@ module.exports = {
 	    		data:{
 	    			token: window.localStorage.getItem("token"),
 	    			goods_id:_this.pro2.id,
-	    			num:_this.pro.num,
+	    			num:_this.pro2.num,
 	    			pur_id:_this.selected
 	    		},
 	    		dataType: 'JSON'
