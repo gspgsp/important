@@ -181,10 +181,10 @@ module.exports = {
 					});
 				}
 			}, {
-				label: '塑料制品厂',
+				label: '塑料制品企业',
 				onClick: function() {
 					_this.c_type = 1;
-					_this.txt = "塑料制品厂";
+					_this.txt = "塑料制品企业";
 					_this.page = 1;
 					$.ajax({
 						type: "post",
