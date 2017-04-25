@@ -20,7 +20,7 @@
             <div class="other">
             	<span>发布日期：{$data[input_time]|date:Y-m-d H:i:s}</span>
                 <span>来源：{$data[source_from]}</span>
-                <span>阅读量：{$data[pageViews]}</span>
+                <span style="color:red;">阅读量：{$data[pageViews]}</span>
             </div>
                 {if $status==4}
                     <p>{$data[content]}</p>
