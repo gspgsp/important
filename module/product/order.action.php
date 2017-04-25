@@ -69,6 +69,21 @@ class orderAction extends adminBaseAction {
 		$this->assign('page_title','订单管理列表');
 		$this->display('order.list.html');
 	}
+	//塑料金融订单
+	public function finance(){
+		$doact=sget('do','s');
+		$action=sget('action','s');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('order_type',1);
+		$this->assign('order_sn',sget('order_sn','s'));
+		$this->assign('o_ids',sget('o_ids','s'));
+		$this->assign('doact',$doact);
+		$this->assign('finance',1);
+		$this->assign('page_title','订单管理列表');
+		$this->display('order.list.html');
+	}
 	/**
 	 * Ajax获取列表内容
 	 */
@@ -83,7 +98,12 @@ class orderAction extends adminBaseAction {
 		}
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//筛选
-		$where.= "1";
+		$finance=sget('finance','i',0);
+		if($finance == 1){
+			$where.= "1 and `finance` =  1 ";
+		}else{
+			$where.= "1 and `finance` =  0 ";
+		}
 		//筛选状态
 		$order_sn=sget('order_sn','s');
 		if($order_sn)  $where.=" and `order_sn` = '$order_sn' ";
