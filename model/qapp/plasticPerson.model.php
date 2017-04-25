@@ -544,7 +544,7 @@ class plasticPersonModel extends model
 
     }
 
-    //塑料圈塑料制品企业排序
+    //塑料圈原材料供应商排序
     public function get2PlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
@@ -732,7 +732,6 @@ class plasticPersonModel extends model
 
         return preg_replace ("/[^a-z0-9".$pix."]*/", '', $_Res);
     }
-
     private function _Pinyin ($_Num, $_Data)
     {
         if ($_Num > 0 && $_Num < 160) {
@@ -749,7 +748,6 @@ class plasticPersonModel extends model
             return $k;
         }
     }
-
     //获取首字母
     public function getFirstChar ($str = '')
     {
