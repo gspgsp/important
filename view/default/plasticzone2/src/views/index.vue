@@ -119,8 +119,8 @@ module.exports = {
 			isArrow: false,
 			region: 0,
 			c_type: 0,
-			txt: "全部",
-			txt2: "全部",
+			txt: "分类",
+			txt2: "全国站",
 			loadingShow: "",
 			top: ""
 		}
@@ -149,10 +149,10 @@ module.exports = {
 		filterShow: function() {
 			var _this = this;
 			weui.actionSheet([{
-				label: '全部',
+				label: '分类',
 				onClick: function() {
 					_this.c_type = 0;
-					_this.txt = "全部";
+					_this.txt = "分类";
 					_this.page = 1;
 					$.ajax({
 						type: "post",
@@ -181,10 +181,10 @@ module.exports = {
 					});
 				}
 			}, {
-				label: '塑料制品企业',
+				label: '塑料制品厂',
 				onClick: function() {
 					_this.c_type = 1;
-					_this.txt = "塑料制品企业";
+					_this.txt = "塑料制品厂";
 					_this.page = 1;
 					$.ajax({
 						type: "post",
@@ -320,10 +320,10 @@ module.exports = {
 		filterShow2: function() {
 			var _this = this;
 			weui.actionSheet([{
-				label: '全部',
+				label: '全国站',
 				onClick: function() {
 					_this.region = 0;
-					_this.txt2 = "全部";
+					_this.txt2 = "全国站";
 					_this.page = 1;
 					$.ajax({
 						type: "post",
