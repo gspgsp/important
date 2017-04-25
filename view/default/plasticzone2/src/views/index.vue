@@ -633,7 +633,7 @@ module.exports = {
 						vm.name = res.persons;
 						vm.c_type = res.show_ctype;
 						if(vm.c_type == 0) {
-							vm.txt = "全部";
+							vm.txt = "所有分类";
 						} else if(vm.c_type == 1) {
 							vm.txt = "塑料制品企业";
 						} else if(vm.c_type == 2) {
@@ -713,7 +713,7 @@ module.exports = {
 				_this.name = res.persons;
 				_this.c_type = res.show_ctype;
 				if(_this.c_type == 0) {
-					_this.txt = "全部";
+					_this.txt = "所有分类";
 				} else if(_this.c_type == 1) {
 					_this.txt = "塑料制品企业";
 				} else if(_this.c_type == 2) {
