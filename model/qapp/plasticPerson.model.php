@@ -249,7 +249,7 @@ class plasticPersonModel extends model
                     4 => '其他',
                 );
                 $region         = $region_setting[$region];
-                $where .= " and china_area = '{$region}' ";
+                $where .= " and cus.china_area = '{$region}' ";
             }
             //测试20
 
@@ -426,7 +426,7 @@ class plasticPersonModel extends model
                     4 => '其他',
                 );
                 $region         = $region_setting[$region];
-                $where .= " and china_area = '{$region}' ";
+                $where .= " and cus.china_area = '{$region}' ";
             }
             //测试20
 
@@ -580,7 +580,7 @@ class plasticPersonModel extends model
                     4 => '其他',
                 );
                 $region         = $region_setting[$region];
-                $where .= " and china_area = '{$region}' ";
+                $where .= " and cus.china_area = '{$region}' ";
             }
             //测试20
 
