@@ -321,6 +321,7 @@ class orderAction extends adminBaseAction {
 			$info['pickup_location']="上海";
 			$info['sign_time']=date("Y-m-d",CORE_TIME);
 			$this->assign('info',$info);
+			$this->assign('finance',sget('finance','i',0));
 			$this->assign('order_type',$order_type);
 			$this->display('order.edit.html');
 			exit;
