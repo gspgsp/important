@@ -120,7 +120,13 @@ module.exports = {
 		});
 		document.title = "塑料圈通讯录";
 	},
-	mounted: function() {
+	activated: function() {
+		console.log('foo.ready',this.$route.query);
+		if (this.$route.query.platform=="ios") {
+			document.querySelector("#bigCustomerHeader").style.display="none";
+		} else if(this.$route.query.platform=="android"){
+			document.querySelector("#bigCustomerHeader").style.display="none";
+		}
 		try {
 		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 		    piwikTracker.trackPageView();
