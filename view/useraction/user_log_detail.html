@@ -1,0 +1,46 @@
+{layout file="public:mini_layout"}
+<!-- <div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            <form id="soform">
+                操作时间      
+            	<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+            	<select name="key_type">
+                    <option value="admin_name">管理员</option>
+                    <option value="admin_id">管理员ID</option>
+                    <option value="ip">IP</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span></form>
+            </td>
+        </tr>
+    </table>           
+</div> -->
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/useraction/userLog/showUserLogs?action=show&pid={$pid}" idField="id"
+        >
+        <div property="columns">    
+			<div type="indexcolumn" headerAlign="center" align="center">序号</div>
+			<div field="username" width="50" headerAlign="center" align="center" allowSort="true">管理员</div>
+            <div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">访问时间</div>
+			<div field="ip" width="100" headerAlign="center" align="center">ip</div>
+            <div field="device_name" width="50" headerAlign="center" align="center">访问设备</div>
+            <div field="device_version" width="150" headerAlign="center" align="center">浏览器版本类型</div>
+            <div field="device_num" width="125" headerAlign="center" align="center">设备名称</div>
+            <div field="action" width="180" headerAlign="center" align="center">访问方法</div>
+            <div field="title" width="80" headerAlign="center" align="center">节点名称</div>
+            <div field="remark" width="200" headerAlign="center" align="center">操作备注</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+</script>

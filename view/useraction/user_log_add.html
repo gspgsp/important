@@ -1,0 +1,59 @@
+{layout file="public:mini_layout"}
+<div style="padding:10px;">
+	<div id="infoForm" class="form">
+		<!-- <input class="mini-hidden" name="protype" value="{$product}"/> -->
+		<input class="mini-hidden" name="etype" value="{$etype}"/>
+		<table border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td>节点名称:</td>
+				<td><input id="node_name" name="node_name" class="text" style="width:180px;" required="true" allowInput="true"/></td>
+				<td ></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td >节点路由:</td>
+				<td><input id="node_url" name="node_url" class="text" value="" style="width:180px;" required="true" allowInput="true"/></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+function submitForm(){
+	// form.validate();
+	// if(form.isValid() == false) return;
+	
+	//提交数据
+	// var o = form.getData();
+	// var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/useraction/userLog/editLogData',{name:$('input[name="node_name"]').val(),url:$('input[name="node_url"]').val(),action:'save',type:$('input[name="etype"]').val()},function(res){
+		form.unmask();
+		$("#returnMsg").text(res.msg);
+		if(res.err == 0){
+			CloseWindow("save");
+		}else{
+			alert(res.msg);
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script>
