@@ -144,6 +144,58 @@ class settingAction extends adminBaseAction {
 		$this->assign('page_title','交易设置');
 		$this->display('setting.trade.html');
 	}
+
+
+	/**
+	 * 塑料圈更新设置
+	 * @access public
+	 * @return html
+	 */
+	public function qapp_update(){
+		$db=$this->db->model('setting');
+
+		$action=sget('action','s');
+		if($_POST){
+			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
+			$qapp_newest_tip=stripslashes($_POST['qapp_newest_tip']);
+			$qapp_newest_version=stripslashes($_POST['qapp_newest_version']);
+
+			$_data = array(
+				'qapp_newest_url'=>json_encode(array(
+					'ios'=>stripslashes($_POST['qapp_newest_url_ios']),
+					'android'=>stripslashes($_POST['qapp_newest_url_android']),
+				)),
+				'qapp_newest_tip'=>json_encode(array(
+					'ios'=>stripslashes($_POST['qapp_newest_tip_ios']),
+					'android'=>stripslashes($_POST['qapp_newest_tip_android']),
+				)),
+				'qapp_newest_version'=>stripslashes($_POST['qapp_newest_version'])
+
+			);
+			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_url','".$_data['qapp_newest_url']."')");
+			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_tip','".$_data['qapp_newest_tip']."')");
+			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_version','".$_data['qapp_newest_version']."')");
+
+			$this->clearMCache('setting');
+			$this->success('更新成功');
+		}
+
+		$setting=M('system:setting')->getSetting();
+		if(!empty($setting)){
+			$qapp_newest_url=$setting['qapp_newest_url'];
+			$qapp_newest_tip=$setting['qapp_newest_tip'];
+			$qapp_newest_version=$setting['qapp_newest_version'];
+		}else{
+			$qapp_newest_url=array();
+			$qapp_newest_tip=array();
+			$qapp_newest_version='';
+		}
+		$this->assign('qapp_newest_url',$qapp_newest_url);
+		$this->assign('qapp_newest_tip',$qapp_newest_tip);
+		$this->assign('qapp_newest_version',$qapp_newest_version);
+		$this->assign('page_title','塑料圈更新');
+		$this->display('setting.qapp_update.html');
+	}
 	/**
 	 * 其他设置项目
 	 * @return html

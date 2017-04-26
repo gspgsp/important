@@ -1,0 +1,42 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+    <h4>塑料圈更新设置</h4>
+    <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+        <div class="part">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr>
+                    <th>塑料圈更新设置: </th>
+                    <td>
+                        <p>最新版本：<input name="qapp_newest_version" value="{$qapp_newest_version}" class="mini-textbox" style="width:50px;"/> </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>更新地址: </th>
+                    <td>
+                        <p>IOS：<input name="qapp_newest_url_ios" value="{$qapp_newest_url.ios}" class="mini-textbox" style="width:500px;"/> </p>
+                        <p>android：<input name="qapp_newest_url_android" value="{$qapp_newest_url.android}" class="mini-textbox" style="width:500px;"/> </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>更新提示语: </th>
+                    <td>
+                        <p>IOS:<input name="qapp_newest_tip_ios" value="{$qapp_newest_tip.ios}" class="mini-textarea" style="height:100px;width:200px;" /></p>
+                        <p>android：<input name="qapp_newest_tip_android" value="{$qapp_newest_tip.android}" class="mini-textarea" style="height:100px;width:200px;" /></p>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="tblbtn">
+            <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+            <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+            <input type="reset" style="display:none;">
+            <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    mini.parse();
+</script>
