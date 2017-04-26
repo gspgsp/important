@@ -133,8 +133,8 @@ class newsModel extends model {
     //更新文章访问量
     public function updatePv($id){
         $pv_arr=$this->model('news_content')->where('id='.$id)->select('pv,true_pv')->getRow();
-        $this->model('news_content')->where('id='.$id)->update(array('pv'=>($pv_arr['pv']+1),'true_pv'=>($pv_arr['true_pv']+1)));
-        return $pv_arr['pv']+1;
+        $this->model('news_content')->where('id='.$id)->update(array('pv'=>($pv_arr['pv']+3),'true_pv'=>($pv_arr['true_pv']+1)));
+        return $pv_arr['pv']+3;
     }
     /**
      * 塑料圈app更新阅读量
@@ -145,7 +145,7 @@ class newsModel extends model {
      */
     public function updateqAppPv($id){
         //pv默认加200阅读量
-        $this->model('news_content')->query('update p2p_news_content set pv=pv+1,true_pv=true_pv+1 where id='.$id);//刷一次算一次页面
+        $this->model('news_content')->query('update p2p_news_content set pv=pv+3,true_pv=true_pv+1 where id='.$id);//刷一次算一次页面
 
     }
 
