@@ -4104,7 +4104,6 @@ class qapi1_2Action extends null2Action
                 'msg' => '不规范的版本格式，不予支持',
             ));
         }
-        M ('system:setting')->del_cache ('setting');
         $settings        = M ('system:setting')->getSetting ();
         $newest_version0 = $settings['qapp_newest_version'];
         $newest_qapp_url = $settings['qapp_newest_url'];
