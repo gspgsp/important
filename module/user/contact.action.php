@@ -22,6 +22,7 @@ class contactAction extends adminBaseAction {
 		}elseif($action=='remove'){ //获取列表
 			$this->_remove();exit;
 		}
+		$this->assign('c_id',sget('c_id','i',0));
 		$this->assign('page_title','资源库列表');
 		$this->display('contact.list.html');
 	}
@@ -39,7 +40,7 @@ class contactAction extends adminBaseAction {
 		//搜索条件
 		$where=" status != 9 ";
 		$c_id=sget('c_id','i',0);
-		if($c_id !=0){
+		if($c_id > 0){
 			$where.=" and `c_id` = $c_id ";
 		}
 		//筛选状态
@@ -217,7 +218,35 @@ class contactAction extends adminBaseAction {
 		$this->assign('usermodel',$usermodel);
 		$this->display('contact.modelinfo.html');
 	}
-
+	/**
+	 * 批量设置客户状态
+	 * @access public
+	 * @return html
+	 */
+	public function saveTags(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$data = sdata(); //获取UI传递的参数
+		if(empty($data)){
+			$this->error('错误的操作');
+		}
+		foreach($data as $v){
+			if($v['tel']){
+				if(strlen($v['tel']) > 14 || strlen($v['tel']) < 8) $this->error('固定电话号码长度有误');
+				if($this->_chkUnique($v['tel'],$v['user_id'],'tel')) $this->error('固定电话号码已经存在');
+			}
+			if($v['mobile']){
+				if(!is_mobile($v['mobile'])) $this->error('手机号码格式错误');
+				if($this->_chkUnique($v['mobile'],$v['user_id'])) $this->error('手机号码已经存在');
+			}
+			$update=array(
+				'mobile'=>$v['mobile'],
+				'tel'=>$v['tel'],
+				'update_time'=>CORE_TIME,
+			);
+			$this->db->wherePk($v['user_id'])->update($update);
+		}
+		$this->success('操作成功');
+	}
 	/**
 	 * 会员登录密码修改
 	 * @access public
@@ -234,6 +263,11 @@ class contactAction extends adminBaseAction {
 		$this->assign('user',$user);
 		$this->assign('page_title','会员登录密码修改');
 		$this->display('user.modPasswd.html');
+	}
+	//检查唯一性
+	private function _chkUnique($value='',$user_id=0,$name='mobile'){
+		$exist=$this->db->model('customer_contact')->select('user_id')->where("$name = '$value' and user_id != $user_id")->getOne();
+		return $exist > 0 ? true : false;
 	}
 	/**
 	 * 更新用户密码
