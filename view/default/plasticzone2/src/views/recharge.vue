@@ -1,5 +1,5 @@
 <template>
-<div class="buyWrap" style="padding: 45px 0 0 0;">
+<div class="buyWrap">
 	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
 		<header id="bigCustomerHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
