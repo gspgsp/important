@@ -4122,21 +4122,21 @@ class qapi1_2Action extends null2Action
                 'err'         => 1,
                 'msg'         => '当前版本已经停止支持，请迅速更新',
                 'new_version' => $newest_version0,
-                'url'         => $newest_qapp_url[$platform],
+                'url'         => FILE_URL.'/myapp/'.$newest_qapp_url[$platform],
             ));
         } elseif ($version[1] < $newest_version[1]) {
             $this->json_output (array(
                 'err'         => 1,
                 'msg'         => '当前版本已经停止支持，请迅速更新',
                 'new_version' => $newest_version0,
-                'url'         => $newest_qapp_url[$platform],
+                'url'         => FILE_URL.'/myapp/'.$newest_qapp_url[$platform],
             ));
         } elseif ($version[2] < $newest_version[2]) {
             $this->json_output (array(
                 'err'         => 1,
                 'msg'         => '当前版本已经停止支持，请迅速更新',
                 'new_version' => $newest_version0,
-                'url'         => $newest_qapp_url[$platform],
+                'url'         => FILE_URL.'/myapp/'.$newest_qapp_url[$platform],
             ));
         } else {
             $this->json_output (array(
