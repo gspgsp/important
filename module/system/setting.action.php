@@ -162,15 +162,14 @@ class settingAction extends adminBaseAction {
 
 			$_data = array(
 				'qapp_newest_url'=>json_encode(array(
-					'ios'=>stripslashes($_POST['qapp_newest_url_ios']),
-					'android'=>stripslashes($_POST['qapp_newest_url_android']),
+					'ios'=>$_POST['qapp_newest_url_ios'],
+					'android'=>$_POST['qapp_newest_url_android'],
 				)),
 				'qapp_newest_tip'=>json_encode(array(
-					'ios'=>stripslashes($_POST['qapp_newest_tip_ios']),
-					'android'=>stripslashes($_POST['qapp_newest_tip_android']),
+					'ios'=>$_POST['qapp_newest_tip_ios'],
+					'android'=>$_POST['qapp_newest_tip_android'],
 				)),
-				'qapp_newest_version'=>stripslashes($_POST['qapp_newest_version'])
-
+				'qapp_newest_version'=>$_POST['qapp_newest_version']
 			);
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_url','".$_data['qapp_newest_url']."')");
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_tip','".$_data['qapp_newest_tip']."')");
