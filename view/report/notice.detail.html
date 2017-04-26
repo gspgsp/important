@@ -43,72 +43,27 @@
 		margin-left: 20px;
 	}
  </style>
-<!-- <link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/> -->
 	<div class="container" ondragstart="window.event.returnValue=false" oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false">
 			<div class="title">{$info.title}</div>
 			<div class="content">{$info.content}</div>
 			<div class="admin">{$info.input_admin}</div>
 			<div class="time">{$info.input_time}</div>
-			<div class="file">附件:</div>
+			<div class="file">附件:点击图片旋转</div>
 			<div class="file_url">
 				{foreach from=$file_url item=v key=k}
 					{$k}<br>
-					<img class="download" src="__UPLOAD__/{$v}"/><br/>
+					<img id="target" class="download" title="点击图片旋转" src="__UPLOAD__/{$v}"/><br/>
 				{/foreach}
 			</div>
-
 	</div>
-<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
-<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
-<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
 <script type="text/javascript">
-mini.parse();
-var form = new mini.Form("#infoForm");
-function submitForm(){
-	form.validate();
-	if(form.isValid() == false) return;
-	//提交数据
-	var o = form.getData();
-	var json = mini.encode(o);
-	$("#returnMsg").text('');
-	form.loading("数据提交中，请稍后......");
-	var urlstr = '/six/sixWork/addSubmit';
-	$.post(urlstr,{data:json},function(data){
-		form.unmask();
-		if(data.err=='0'){
-			alert(data.msg);
-			CloseWindow("save");
-		}else{
-			return false;
-		}
-	},'json');
-}
-//修改
-function updateForm(){
-	form.validate();
-	if(form.isValid() == false) return;
-	//提交数据
-	var o = form.getData();
-	var json = mini.encode(o);
-	$("#returnMsg").text('');
-	form.loading("数据提交中，请稍后......");
-	var urlstr = '/six/sixWork/updateSubmit';
-	$.post(urlstr,{data:json},function(data){
-		form.unmask();
-		if(data.err=='0'){
-			alert(data.msg);
-			CloseWindow("save");
-		}else{
-			return false;
-		}
-	},'json');
-}
-//关闭窗口
-function CloseWindow(action) {            
-	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
-}
-function onCancel(e) {
-	CloseWindow("cancel");
-}
+ window.onload = function(){
+            var current = 0;
+            $(function(){
+            	$('.download').click(function(event) {
+            	  current = (current+90)%360;
+                this.style.transform = 'rotate('+current+'deg)';
+            	});
+            });
+        };
 </script>
