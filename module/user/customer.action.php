@@ -12,6 +12,7 @@ class customerAction extends adminBaseAction {
 		$this->assign('identification',L('identification'));//客户级别
 		$this->assign('credit',L('is_credit'));//授信状态
 		$this->assign('company_chanel',L('company_chanel'));//客户来源渠道
+		$this->assign('send_msg',L('msg'));//发短信
 		$this->db=M('public:common')->model('customer');
 		$this->doact = sget('do','s');
 		$this->pt = sget('pt','i',2);
