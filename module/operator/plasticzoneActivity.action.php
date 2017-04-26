@@ -164,7 +164,55 @@ class plasticzoneActivityAction extends adminBaseAction{
         }
     }
 
+    /**
+     * 塑料圈banner设置
+     * @access public
+     * @return html
+     */
+    public function qapp_banner(){
+        $db=$this->db->model('setting');
 
+        $action=sget('action','s');
+        if($_POST){
+            /*			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
+                        $qapp_newest_tip=stripslashes($_POST['qapp_newest_tip']);
+                        $qapp_newest_version=stripslashes($_POST['qapp_newest_version']);*/
+
+            $_data = array(
+                'qapp_banner'=>json_encode(array(
+                    'start_time'=>$_POST['qapp_banner_start_time'],
+                    'end_time'=>$_POST['qapp_banner_end_time'],
+                    'url'=>$_POST['qapp_banner_url'],
+                    'jump_url'=>$_POST['qapp_banner_jump_url'],
+                )),
+                'qapp_cover'=>json_encode(array(
+                    'start_time'=>$_POST['qapp_cover_start_time'],
+                    'end_time'=>$_POST['qapp_cover_end_time'],
+                    'url'=>$_POST['qapp_cover_url'],
+                    'jump_url'=>$_POST['qapp_cover_jump_url'],
+                ))
+            );
+            $db->execute("replace into ".$db->ftable." (code,value) values ('qapp_banner','".$_data['qapp_banner']."')");
+            $db->execute("replace into ".$db->ftable." (code,value) values ('qapp_cover','".$_data['qapp_cover']."')");
+
+            $this->clearMCache('setting');
+            $this->success('更新成功');
+        }
+
+        $setting=M('system:setting')->getSetting();
+        if(!empty($setting)){
+            $qapp_banner=$setting['qapp_banner'];
+            $qapp_cover=$setting['qapp_cover'];
+        }else{
+            $qapp_banner=array();
+            $qapp_cover=array();
+            $qapp_newest_version='';
+        }
+        $this->assign('qapp_banner',$qapp_banner);
+        $this->assign('qapp_cover',$qapp_cover);
+        $this->assign('page_title','塑料圈banner设置');
+        $this->display('qapp_banner.html');
+    }
 
     public function offTop(){
         $this->assign('page_title','置顶信息修改');

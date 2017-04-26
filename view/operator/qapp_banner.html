@@ -1,0 +1,52 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+    <h4>塑料圈更新设置</h4>
+    <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+        <div class="part">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr>
+                    <th>塑料圈banner设置: </th>
+                    <td>
+                        <p>开始时间：<input name="qapp_banner_start_time" value="{$qapp_banner.start_time}" class="mini-textbox" style="width:500px;"/> </p>
+                        <p>结束时间：<input name="qapp_banner_end_time" value="{$qapp_banner.end_time}" class="mini-textbox" style="width:500px;"/> </p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>塑料圈banner设置: </th>
+
+                    <td>
+                        <p>图片url：<input name="qapp_banner_url" value="{$qapp_banner.url}" class="mini-textbox" style="width:500px;"/> </p>
+                        <p>跳转URL：<input name="qapp_banner_jump_url" value="{$qapp_banner.jump_url}" class="mini-textbox" style="width:500px;"/> </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>塑料圈cover设置: </th>
+                    <td>
+                        <p>开始时间：<input name="qapp_cover_start_time" value="{$qapp_cover.start_time}" class="mini-textbox" style="width:500px;"/> </p>
+                        <p>结束时间：<input name="qapp_cover_end_time" value="{$qapp_cover.end_time}" class="mini-textbox" style="width:500px;"/> </p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>塑料圈cover设置: </th>
+                    <td>
+                        <p>图片url：<input name="qapp_cover_url" value="{$qapp_cover.url}" class="mini-textbox" style="width:500px;"/> </p>
+                        <p>跳转URL：<input name="qapp_cover_jump_url" value="{$qapp_cover.jump_url}" class="mini-textbox" style="width:500px;"/> </p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tblbtn">
+            <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+            <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+            <input type="reset" style="display:none;">
+            <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    mini.parse();
+</script>
