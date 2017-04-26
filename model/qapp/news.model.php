@@ -144,7 +144,7 @@ class newsModel extends model {
      * @return
      */
     public function updateqAppPv($id){
-        //pv默认加200阅读量
+        //pv默认加500阅读量
         $this->model('news_content')->query('update p2p_news_content set pv=pv+3,true_pv=true_pv+1 where id='.$id);//刷一次算一次页面
 
     }
