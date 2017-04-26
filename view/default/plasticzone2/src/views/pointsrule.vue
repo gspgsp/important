@@ -118,10 +118,8 @@ module.exports = {
 		next(function() {
 
 		});
-		document.title = "塑料圈通讯录";
 	},
 	activated: function() {
-		console.log('foo.ready',this.$route.query);
 		if (this.$route.query.platform=="ios") {
 			document.querySelector("#bigCustomerHeader").style.display="none";
 		} else if(this.$route.query.platform=="android"){

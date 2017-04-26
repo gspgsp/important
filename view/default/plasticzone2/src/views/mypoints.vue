@@ -226,6 +226,12 @@ module.exports = {
 		    	});		
 		}
 	},
+	beforeRouteEnter: function(to, from, next) {
+		next(function(vm) {
+
+		});
+		document.title = "塑料圈通讯录";
+	},
 	activated: function() {
 		var _this = this;
 		window.scrollTo(0,0);
