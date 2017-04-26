@@ -79,12 +79,21 @@ class adminBaseAction extends action {
 		}else{
 			$remark='';
 		}
-
+		//platform
+		$platf = '';
+		if($this->getBrowser() != 'unknown'){
+			$platf = 'web';
+		}else{
+			$platf = 'unknown';
+		}
 		//新增日志记录
 		$data=array(
 			'admin_id'=>$this->admin_id,
 			'input_time'=>CORE_TIME,
 			'ip'=>get_ip(),
+			'device_name'=>$platf,
+			'device_version'=>$this->getBrowser().'/'.$this->getBrowserVer(),
+			'device_num'=>gethostbyaddr(get_ip()),
 			'action'=>'/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A,
 			'remark'=>substr($remark,0,500), //只取500条字符
 		);
@@ -122,6 +131,47 @@ class adminBaseAction extends action {
 				$this->error('您当月指标未设置,请先设置当月指标','/user/report/init');
 			}
 		}
+	}
+	/**
+	 * 获取浏览器类型
+	 * @return [type] [description]
+	 */
+	public function getBrowser(){
+	    $agent=$_SERVER["HTTP_USER_AGENT"];
+	    if(strpos($agent,'MSIE')!==false || strpos($agent,'rv:11.0')) //ie11判断
+	    return "ie";
+	    else if(strpos($agent,'Firefox')!==false)
+	    return "firefox";
+	    else if(strpos($agent,'Chrome')!==false)
+	    return "chrome";
+	    else if(strpos($agent,'Opera')!==false)
+	    return 'opera';
+	    else if((strpos($agent,'Chrome')==false)&&strpos($agent,'Safari')!==false)
+	    return 'safari';
+	    else
+	    return 'unknown';
+	}
+	/**
+	 * 获取浏览器版本
+	 * @return [type] [description]
+	 */
+	public function getBrowserVer(){
+	    if (empty($_SERVER['HTTP_USER_AGENT'])){    //当浏览器没有发送访问者的信息的时候
+	        return 'unknow';
+	    }
+	    $agent= $_SERVER['HTTP_USER_AGENT'];
+	    if (preg_match('/MSIE\s([^\s|;]+)/i', $agent, $regs))
+	        return $regs[1];
+	    elseif (preg_match('/FireFox\/([^\s]+)/i', $agent, $regs))
+	        return $regs[1];
+	    elseif (preg_match('/Opera[\s|\/]([^\s]+)/i', $agent, $regs))
+	        return $regs[1];
+	    elseif (preg_match('/Chrome\/([^\s]+)/i', $agent, $regs))
+	        return $regs[1];
+	    elseif ((strpos($agent,'Chrome')==false)&&preg_match('/Safari\/([^\s]+)/i', $agent, $regs))
+	        return $regs[1];
+	    else
+	        return 'unknow';
 	}
 }
 ?>
