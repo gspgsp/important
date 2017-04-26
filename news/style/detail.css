@@ -122,6 +122,7 @@ a{ text-decoration:none;}
 
 /*detail begin*/
 .headline-main .left .detail h1{ font-weight:normal; font-size:20px; text-align:center; height:60px; line-height:60px; color: #fc6621;}
+.headline-main .left .detail a:hover{color: #fc6621;}
 .headline-main .left .detail .other{ color:#888; width:480px; margin:0 auto; margin-bottom:20px;}
 .headline-main .left .detail .other span{ margin:0 16px 0 0;}
 .headline-main .left .detail>p{ margin-bottom:10px; line-height:20px; text-indent:25px;}
