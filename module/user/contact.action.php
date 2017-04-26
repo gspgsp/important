@@ -101,7 +101,7 @@ class contactAction extends adminBaseAction {
 	 * Ajax删除节点s
 	 * @access private
 	 */
-	private function _remove(){
+	public function remove(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){

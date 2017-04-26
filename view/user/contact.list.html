@@ -118,7 +118,7 @@ function removeRow() {
 					grid.reload();
 				}
 			}
-			utils.ajax('/user/contact/init?action=remove',{ids:ids},callback,"POST","json");
+			utils.ajax('/user/contact/remove',{ids:ids},callback,"POST","json");
 		}
 	);
 }
