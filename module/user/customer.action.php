@@ -264,6 +264,11 @@ class customerAction extends adminBaseAction {
 			$update=array(
 				'status'=>$v['status'],
 				'identification'=>$v['identification'],
+				'month_consum'=>$v['month_consum'],
+				'need_product'=>$v['need_product'],
+				'need_product_adm'=>$v['need_product_adm'],
+				'msg'=>$v['msg'],
+				'update_time'=>CORE_TIME,
 			);
 			$this->db->wherePk($v['c_id'])->update($update);
 		}

@@ -235,7 +235,7 @@ function onLoadFllow(e) {
 		if(customer_manager !=''){
 			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>';
 			if(supplier==0){
-				s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:setSea('+cid+')">公海</a>';
+				s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:setSea('+cid+')">公海</a>|<a href="javascript:contract('+cid+')">联系人</a>';
 			}
 			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
 		}
@@ -309,6 +309,20 @@ function chk(cid){
 		showMaxButton:true,
 		title: "审核用户",
 		width: 190, height:160,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//获取联系人
+function contract(cid){
+	mini.open({
+		url: "/user/contact/init?c_id="+cid,
+		showMaxButton:true,
+		title: "客户联系人",
+		width: 990, height:460,
 		ondestroy: function (action) {
 			if(action=='save'){ //重新加载
 				grid.reload();
