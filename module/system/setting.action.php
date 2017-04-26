@@ -156,9 +156,9 @@ class settingAction extends adminBaseAction {
 
 		$action=sget('action','s');
 		if($_POST){
-			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
+/*			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
 			$qapp_newest_tip=stripslashes($_POST['qapp_newest_tip']);
-			$qapp_newest_version=stripslashes($_POST['qapp_newest_version']);
+			$qapp_newest_version=stripslashes($_POST['qapp_newest_version']);*/
 
 			$_data = array(
 				'qapp_newest_url'=>json_encode(array(
