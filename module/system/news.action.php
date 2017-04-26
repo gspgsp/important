@@ -121,7 +121,9 @@
 					$cache->delete('news_'.$id);
 				}else{	
 					if($repeat<1){
-						$data['content']=str_ireplace(array('我的塑料网','PE','PP','PVC'), array('<a target="_blank" href="http://www.myplas.com">我的塑料网</a>（www.myplas.com）','<a target="_blank" href="/pe.html">PE</a>','<a target="_blank" href="/pp.html">PP</a>','<a target="_blank" href="/pvc.html">PVC</a>'), $data['content']);
+						$pos=strpos($data['content'],'我的塑料网');
+						$data['content']=substr_replace($data['content'], '我的塑料网（www.myplas.com）', $pos,strlen('我的塑料网'));
+						$data['content']=str_ireplace(array('我的塑料网','PE','PP','PVC'), array('<a target="_blank" href="http://www.myplas.com">我的塑料网</a>','<a target="_blank" href="/pe.html">PE</a>','<a target="_blank" href="/pp.html">PP</a>','<a target="_blank" href="/pvc.html">PVC</a>'), $data['content']);
 					}
 					$data['pv']=rand(500,600);
 					$data['input_time']=CORE_TIME;
