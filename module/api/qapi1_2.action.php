@@ -4132,6 +4132,7 @@ class qapi1_2Action extends null2Action
                 'url'         => FILE_URL.'/myapp/'.$newest_qapp_url[$platform],
             ));
         } elseif ($version[2] < $newest_version[2]) {
+
             $this->json_output (array(
                 'err'         => 1,
                 'msg'         => '当前版本已经停止支持，请迅速更新',
