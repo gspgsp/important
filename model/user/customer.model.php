@@ -284,10 +284,18 @@ class customerModel extends model{
 	public function judgeShare($cid=''){
 		$uid = $_SESSION['adminid'];
 		//根据当前用户查询的这个人是不是当前的这个人下属的客户
-		$sons = M('rbac:rbac')->getSons($uid);  //领导
+		$sons = M('rbac:rbac')->getSons($uid);  //领导（领导可以看见下属的联系人和自己的）
+		// $sons = $uid;//领导只能看到别人共享给自己的
 		$exit = $this->model('customer_pool')->where("`customer_manager` in ($sons) AND `c_id` in ($cid)")->getRow();
 		return empty($exit) ? false : true;
 	}
-
+	/**
+	 * 判断当前客户是不是当前登录用的被共享用户
+	 */
+	public function judgeLogin($cid=0){
+		$uid = $_SESSION['adminid'];
+		$exit = $this->model('customer_pool')->where("`customer_manager` in ($uid) AND `c_id` in ($cid)")->getRow();
+		return empty($exit) ? false : true;
+	}
 
 }
