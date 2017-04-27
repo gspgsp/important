@@ -90,6 +90,13 @@ class userLogAction extends adminBaseAction
 			foreach ($list['data'] as &$value) {
 				$value['username']=$adminArr[$value['admin_id']];
 				$value['input_time']=$value['input_time']>1000 ? date("Y-m-d H:i:s",$value['input_time']) : '-';
+				if(preg_match('/^(pageIndex)/',$value['remark'],$matches)){
+					$value['acname'] = '翻页操作';
+				}elseif (preg_match('/^(startTime)|(sTime)|(status)/',$value['remark'],$matches)) {
+					$value['acname'] = '查询操作';
+				}else{
+					$value['acname'] = '';
+				}
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
