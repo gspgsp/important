@@ -328,7 +328,7 @@ class plasticPersonModel extends model
         $len = $cache->llen($key);
         if($len>$page * $size) {
 
-            $uids = $cache->lrange ($key, ($page - 1) * $size, $page * $size-1);
+            $uids = $cache->lrange ($key, ($page - 1) * $size, $page * $size);
         }elseif($len<=$page * $size && $len >($page - 1) * $size)
         {
             $uids = $cache->lrange ($key, ($page - 1) * $size, $len);
