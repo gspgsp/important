@@ -217,10 +217,11 @@ class plasticPersonModel extends model
     public function getAllPlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
-        $key   = "AllPlasticPersonList".":".md5($keywords).":".md5($region);
+        $key   = "AllPlasticPersonList".":".md5($keywords).":".$region;
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
 
-        $list  = $cache->get ("AllPlasticPersonList".'-'.md5($keywords)."-".md5($region));
+        $list  = $cache->get ("AllPlasticPersonList".'-'.md5($keywords)."-".$region);
+
 
         if (empty($list)) {
             $operMobi = array(
@@ -320,14 +321,14 @@ class plasticPersonModel extends model
             }
             //showTrace();
             //缓存5分钟
-            $cache->set ("AllPlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
+            $cache->set ("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
 
         }
 
         $len = $cache->llen($key);
         if($len>$page * $size) {
 
-            $uids = $cache->lrange ($key, ($page - 1) * $size, $page * $size);
+            $uids = $cache->lrange ($key, ($page - 1) * $size, $page * $size-1);
         }elseif($len<=$page * $size && $len >($page - 1) * $size)
         {
             $uids = $cache->lrange ($key, ($page - 1) * $size, $len);
