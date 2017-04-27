@@ -174,6 +174,6 @@ class userLogAction extends adminBaseAction
 	            break;
 	        }
 	    }
-	    return $client_ip;
+	    echo $client_ip;
 	}
 }
