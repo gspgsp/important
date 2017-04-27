@@ -1,9 +1,5 @@
 <template>
 <div>
-<header id="bigCustomerHeader">
-	<a class="back" href="javascript:window.history.back();"></a>
-	积分规则
-</header>
 <div class="shopBanner">
 	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner.jpg">
 </div>

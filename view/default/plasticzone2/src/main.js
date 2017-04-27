@@ -44,6 +44,8 @@ const Searchcompany= r => require.ensure([], () => r(require('./views/searchcomp
 const Qichacha= r => require.ensure([], () => r(require('./views/qichacha.vue')), 'qichacha')
 const Qccresult= r => require.ensure([], () => r(require('./views/qccresult.vue')), 'qccresult')
 const Recharge= r => require.ensure([], () => r(require('./views/recharge.vue')), 'recharge')
+const Recharge2= r => require.ensure([], () => r(require('./views/recharge2.vue')), 'recharge2')
+const Pointsrule2= r => require.ensure([], () => r(require('./views/pointsrule2.vue')), 'pointsrule2')
 const Error= r => require.ensure([], () => r(require('./views/error.vue')), 'error')
 
 var  router = new VueRouter({
@@ -88,6 +90,8 @@ var  router = new VueRouter({
 	{path:'/qichacha',name:'qichacha',component:Qichacha},
 	{path:'/qccresult',name:'qccresult',component:Qccresult},
 	{path:'/recharge',name:'recharge',component:Recharge},
+	{path:'/recharge2',name:'recharge2',component:Recharge2},
+	{path:'/pointsrule2',name:'pointsrule2',component:Pointsrule2},
 	{path: '/', redirect: { name: 'index' }}
   ]
 })

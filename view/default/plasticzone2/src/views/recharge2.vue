@@ -1,9 +1,5 @@
 <template>
 <div>
-	<header id="bigCustomerHeader">
-		<a class="back" href="javascript:window.history.back();"></a>
-		充值
-	</header>
 	<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge1.jpg">
 	<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge2.jpg">
 	<a href="tel:4006129965"><img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge3.jpg"></a>
