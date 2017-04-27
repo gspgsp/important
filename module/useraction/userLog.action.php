@@ -43,7 +43,6 @@ class userLogAction extends adminBaseAction
 				->getPage();
 		foreach ($list['data'] as &$value) {
 			$value['chkco'] = $this->getNode("action = '{$value['url']}'",1);
-			// $value['urls'] = json_encode(array_filter(explode('/',$value['url'])));
 
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -54,13 +53,16 @@ class userLogAction extends adminBaseAction
 	 * @return [type] [description]
 	 */
 	public function getNode($where = '1',$act = 0){
-		$nodes = $this->db->model('log_admin')->where($where)->getAll();
-		switch ($act) {
-			case 0:
-				return $nodes;
-			case 1:
-				return count($nodes);
-		}
+		$select = "count('id') as id_num";
+		$count = $this->db->model('log_admin')->where($where)->select($select)->group('action')->getOne();
+		return $count > 0 ? $count:0;
+		// $nodes = $this->db->model('log_admin')->where($where)->getAll();
+		// switch ($act) {
+		// 	case 0:
+		// 		return $nodes;
+		// 	case 1:
+		// 		return count($nodes);
+		// }
 	}
 	/**
 	 * 显示用户日志
@@ -154,23 +156,5 @@ class userLogAction extends adminBaseAction
 	public function getAdmNode($name,$url){
 		$id = $this->db->model('adm_node')->where("title = '{$name}' and name ='{$url}' and ntype = 1")->select('id')->getOne();
 		return $id;
-	}
-
-	public function getRealIpAddr()
-	{
-	if (!empty($_SERVER['HTTP_CLIENT_IP']))
-	{
-	$ip=$_SERVER['HTTP_CLIENT_IP'];
-	}
-	elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
-	//检查IP是从代理传递
-	{
-	$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-	}
-	else
-	{
-	$ip=$_SERVER['REMOTE_ADDR'];
-	}
-	echo  $ip;
 	}
 }
