@@ -130,12 +130,6 @@ class newsModel extends model {
         return $data;
     }
 
-    //更新文章访问量
-    public function updatePv($id){
-        $pv_arr=$this->model('news_content')->where('id='.$id)->select('pv,true_pv')->getRow();
-        $this->model('news_content')->where('id='.$id)->update(array('pv'=>($pv_arr['pv']+3),'true_pv'=>($pv_arr['true_pv']+1)));
-        return $pv_arr['pv']+3;
-    }
     /**
      * 塑料圈app更新阅读量
      * @Author   zhanpeng
