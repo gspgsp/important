@@ -28,9 +28,6 @@ class userLogAction extends adminBaseAction
 	 * @return html
 	 */
 	private function _grid(){
-		// p(gethostbyaddr(get_ip()));
-		// p($this->getBrowser());
-		// p($this->getBrowserVer());die;
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','id'); //排序字段
