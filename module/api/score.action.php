@@ -21,12 +21,6 @@ class scoreAction extends null2Action
         }*/
     }
 
-    public function test()
-    {
-        $redis = new Redis();
-        var_dump($redis);
-    }
-
 /*    public function get_score_config()
     {
         $token         = $_POST['token'];
