@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 6点工作制
  */
@@ -27,7 +27,7 @@ class sixWorkAction extends adminBaseAction {
 	 * Ajax获取列表内容
 	 */
 	public function _grid(){
-		
+
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
@@ -85,11 +85,10 @@ class sixWorkAction extends adminBaseAction {
 					->getRow('SELECT api.*,admin.name,admin.admin_id
 							FROM
 							  (SELECT COUNT(id) AS num,phone FROM `p2p_api` WHERE ctime > '.$today_start_time.' AND TIME > 0 AND callstatus="ou" GROUP BY phone)
-							AS api 
+							AS api
 							LEFT JOIN `p2p_admin` AS admin ON admin.seat_phone = api.`phone`
 							WHERE admin.name IS NOT NULL and admin.admin_id='.$_SESSION['adminid']
 						);
-					showtrace();
 		//获取当月毛利
 		$profit = M('product:saleLog')->getMonthProfitByCustomerManager($_SESSION['adminid']);
 		$info['profit'] = !empty($profit['profit'])?$profit['profit']:0;
@@ -130,7 +129,7 @@ class sixWorkAction extends adminBaseAction {
 	}
 	/**
 	 * 新增6点工作制
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function addSubmit() {

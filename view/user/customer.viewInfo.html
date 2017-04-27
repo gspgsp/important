@@ -135,7 +135,7 @@
 				<div property="columns">
 					<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
 					<div field="name" width="50" headerAlign="center" align="center">联系人</div>
-					<div field="is_default" width="50" headerAlign="center" align="center">是/否默认联系人</div>
+					<div field="is_default" width="50" headerAlign="center" align="center" renderer="defu">默认联系人</div>
 					<div field="c_id" width="80" headerAlign="center" align="center">公司</div>
 					<div field="sex" width="60" headerAlign="center"  align="center">性别</div>
 					<div field="mobile" width="80" headerAlign="center" align="center">手机号</div>
@@ -333,6 +333,15 @@
 			s += '<a href="javascript:viewContactInfo('+uid+')">'+uid+'</a> ';
 
 			return s;
+		}
+		//编辑联系人
+		function defu(e) {
+			var record = e.record,de=record.is_default;
+			if(de ==1){
+				return '是';
+			}else{
+				return '否';
+			}
 		}
 		//追加关联
 		function onJoin(e) {

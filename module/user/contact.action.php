@@ -8,6 +8,7 @@ class contactAction extends adminBaseAction {
 		$this->assign('user_chanel',L('user_chanel'));
 		$this->db=M('public:common')->model('customer_contact');
 		$this->assign('status',L('contact_status'));// 联系人用户状态
+		$this->assign('is_default',L('is_default'));// 默认联系人
 		$this->doact = sget('do','s');
 	}
 	/**
@@ -60,7 +61,7 @@ class contactAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $c_id==0){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 			$pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户
 			$where .= " and `customer_manager` in ($sons) ";
@@ -79,7 +80,7 @@ class contactAction extends adminBaseAction {
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
 			$list['data'][$k]['depart']=C('depart')[$v['depart']];
 			$list['data'][$k]['sex']=L('sex')[$v['sex']];
-			$list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
+			// $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
 			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $v['name'];
 			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $v['mobile'];
 			$cname = M('user:customer')->getColByName($v['c_id']);
@@ -226,6 +227,7 @@ class contactAction extends adminBaseAction {
 	public function saveTags(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
+		p($data);
 		if(empty($data)){
 			$this->error('错误的操作');
 		}
@@ -242,10 +244,26 @@ class contactAction extends adminBaseAction {
 				'mobile'=>$v['mobile'],
 				'tel'=>$v['tel'],
 				'update_time'=>CORE_TIME,
+				'is_default' => $v['is_default'],
 			);
-			$this->db->wherePk($v['user_id'])->update($update);
+			if($v['is_default'] ==  1){
+				$c_id = $this->db->model('customer_contact')->select('c_id')->where("`user_id` = {$v['user_id']}")->getOne();
+				$this->_set_default($v['user_id'],$c_id);
+			}
+			$this->db->model('customer_contact')->wherePk($v['user_id'])->update($update);
 		}
+		showtrace();
 		$this->success('操作成功');
+	}
+	/**
+	 * 把某一个联系人设置为默认联系人
+	 * @Author   cuiyinming               QQ:1203116460
+	 * @DateTime 2017-04-27T17:26:48+0800
+	 * @param    integer                  $uid          [description]
+	 */
+	private function _set_default($uid = 0,$cid=0){
+		$this->db->model('customer_contact')->where("`c_id` = $cid and `user_id` != $uid")->update(array('is_default'=>0));
+		$this->db->model('customer')->where("`c_id` = $cid")->update(array('contact_id'=>$uid,));
 	}
 	/**
 	 * 会员登录密码修改
@@ -313,7 +331,7 @@ class contactAction extends adminBaseAction {
 		$this->success('操作成功');
 	}
 	//分配注册客户的交易员
-	function allotCustomer(){
+	public function allotCustomer(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		$c_id = sget('cid','i',0); //未通过审核的产品ID
@@ -327,6 +345,5 @@ class contactAction extends adminBaseAction {
 		if(!$result) $this->error('操作失败');
 		$this->success('操作成功');
 	}
-
 
 }

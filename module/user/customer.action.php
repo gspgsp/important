@@ -206,7 +206,6 @@ class customerAction extends adminBaseAction {
 				}
 			}
 		}
-		// p($where);
 		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
@@ -238,6 +237,8 @@ class customerAction extends adminBaseAction {
 			//对客户名称打星(战队领导才打星号)
 			if($this->public==0){
 				$list['data'][$k]['c_name']  = _leader($v['c_name'], $v['customer_manager'],!M('user:customer')->judgeShare($v['c_id']));
+				//作为领导只有自己的和别人共享的才可以看到
+				$list['data'][$k]['c_name'] = _leader($v['c_name'], $v['customer_manager'],!M('user:customer')->judgeLogin($v['c_id']));
 			}
 			//获取最新一次跟踪消息
 			$message = $this->db->model('customer_follow')->select('remark')->where('c_id='.$v['c_id'])->order('input_time desc')->getOne();

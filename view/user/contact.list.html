@@ -51,13 +51,16 @@
 			<div field="mobile" width="80" headerAlign="center" allowSort="true" align="center" align="center">手机号
 				<input property="editor" class="mini-textbox" style="width:100%;" minHeight="60"/>
 			</div>
+			<div field="is_default" width="30" headerAlign="center"  type="comboboxcolumn" autoShowPopup="true" align="center">默认
+				<input property="editor" value="{$is_default}" class="mini-combobox" style="width:100%;" minHeight="60" textfield="name" valuefield="id"  data='{:setMiniConfig|$is_default}'/>
+			</div>
 			<div field="qq" width="80" headerAlign="center" align="center">qq号</div>
 			<div field="fax" width="80" headerAlign="center" align="center">传真</div>
 			<div field="email" width="80" headerAlign="center" align="center">邮箱</div>
 			<div field="visit_count" width="40" headerAlign="center" align="center" allowSort="true">登录次</div>
 			<div field="customer_manager" width="40" headerAlign="center" align="center">交易员</div>
-			<div field="depart" width="40" headerAlign="center" align="center">部门</div>
 			{if $c_id eq 0}
+			<div field="depart" width="40" headerAlign="center" align="center">部门</div>
 			<div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
 			<div field="input_admin" width="80" headerAlign="center" align="center">创建管理员</div>
 			<div field="update_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">更新时间</div>
@@ -167,7 +170,7 @@ function add(id,ctype){
 		title='新增公司联系人';
 	}
 	mini.open({
-		url: "/user/customer/info?id="+id+"&ctype="+ctype,
+		url: "/user/customer/info?id="+id+"&ctype="+ctype+"{if $c_id}&u_add={$c_id}{/if}",
 		showMaxButton:true,
 		title: title, width: width, height:height,
 		ondestroy: function (action) {
