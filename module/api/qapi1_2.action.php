@@ -866,7 +866,7 @@ class qapi1_2Action extends null2Action
                 $arr['top'] = $top;
             }
             //是否显示banner
-            M ("system:setting")->del_cache ("setting");
+            //M ("system:setting")->del_cache ("setting");
             $setting = M ("system:setting")->getSetting ();
             //var_dump($setting['qapp_banner']);
 
@@ -880,8 +880,8 @@ class qapi1_2Action extends null2Action
             //是否显示cover photo 未来待定
             if (!empty($setting['qapp_cover']) && !empty($setting['qapp_cover']['start_time']) && !empty($setting['qapp_cover']['end_time']) && !empty($setting['qapp_cover']['url']) && CORE_TIME > $setting['qapp_cover']['start_time'] && CORE_TIME < $setting['qapp_cover']['end_time']) {
                 $arr['is_show_cover']  = 1;
-                $arr['cover_url']      = $setting['qapp_banner']['url'];
-                $arr['cover_jump_url'] = $setting['qapp_banner']['jump_url'];
+                $arr['cover_url']      = $setting['qapp_cover']['url'];
+                $arr['cover_jump_url'] = $setting['qapp_cover']['jump_url'];
             }
             $this->json_output ($arr);
         }
