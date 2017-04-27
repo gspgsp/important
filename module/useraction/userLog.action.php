@@ -166,6 +166,6 @@ class userLogAction extends adminBaseAction
 	    else if(getenv("REMOTE_ADDR"))  
 	        $ip = getenv("REMOTE_ADDR");  
 	    else $ip = "Unknow";  
-	    return $ip;  
+	    echo  $ip;  
 	} 
 }
