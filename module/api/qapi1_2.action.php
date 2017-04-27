@@ -1132,7 +1132,7 @@ class qapi1_2Action extends null2Action
             if ($info0 && ($sortField1 == 'ALL' || $sortField2 == 'AUTO')) {
 
                 $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($info0['pur_id'],$info0['uid']);
-                $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($top['user_id']);
+                $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($info0['uid']);
                 $_tmp     = $top['info'];
                 unset($top['info']);
                 $top = array_merge ($top, $_tmp, $personal);
