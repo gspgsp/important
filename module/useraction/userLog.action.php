@@ -156,24 +156,16 @@ class userLogAction extends adminBaseAction
 		return $id;
 	}
 
-	public function get_proxy_ip(){
-	    $arr_ip_header = array(
-	        'HTTP_CDN_SRC_IP',
-	        'HTTP_PROXY_CLIENT_IP',
-	        'HTTP_WL_PROXY_CLIENT_IP',
-	        'HTTP_CLIENT_IP',
-	        'HTTP_X_FORWARDED_FOR',
-	        'REMOTE_ADDR',
-	    );
-	    $client_ip = 'unknown';
-	    foreach ($arr_ip_header as $key)
-	    {
-	        if (!empty($_SERVER[$key]) && strtolower($_SERVER[$key]) != 'unknown')
-	        {
-	            $client_ip = $_SERVER[$key];
-	            break;
-	        }
-	    }
-	    echo $client_ip;
-	}
+	public function getClientIP()  
+	{  
+	    global $ip;  
+	    if (getenv("HTTP_CLIENT_IP"))  
+	        $ip = getenv("HTTP_CLIENT_IP");  
+	    else if(getenv("HTTP_X_FORWARDED_FOR"))  
+	        $ip = getenv("HTTP_X_FORWARDED_FOR");  
+	    else if(getenv("REMOTE_ADDR"))  
+	        $ip = getenv("REMOTE_ADDR");  
+	    else $ip = "Unknow";  
+	    return $ip;  
+	} 
 }
