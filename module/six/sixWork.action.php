@@ -84,11 +84,12 @@ class sixWorkAction extends adminBaseAction {
 		$call = $this->db->model('api')
 					->getRow('SELECT api.*,admin.name,admin.admin_id
 							FROM
-							  (SELECT COUNT(id) AS num,phone FROM `p2p_api` WHERE ctime > '.$today_start_time.' AND TIME > 0 GROUP BY phone)
+							  (SELECT COUNT(id) AS num,phone FROM `p2p_api` WHERE ctime > '.$today_start_time.' AND TIME > 0 AND callstatus="ou" GROUP BY phone)
 							AS api 
 							LEFT JOIN `p2p_admin` AS admin ON admin.seat_phone = api.`phone`
 							WHERE admin.name IS NOT NULL and admin.admin_id='.$_SESSION['adminid']
 						);
+					showtrace();
 		//获取当月毛利
 		$profit = M('product:saleLog')->getMonthProfitByCustomerManager($_SESSION['adminid']);
 		$info['profit'] = !empty($profit['profit'])?$profit['profit']:0;
