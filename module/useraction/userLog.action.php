@@ -156,16 +156,21 @@ class userLogAction extends adminBaseAction
 		return $id;
 	}
 
-	public function getClientIP()  
-	{  
-	    global $ip;  
-	    if (getenv("HTTP_CLIENT_IP"))  
-	        $ip = getenv("HTTP_CLIENT_IP");  
-	    else if(getenv("HTTP_X_FORWARDED_FOR"))  
-	        $ip = getenv("HTTP_X_FORWARDED_FOR");  
-	    else if(getenv("REMOTE_ADDR"))  
-	        $ip = getenv("REMOTE_ADDR");  
-	    else $ip = "Unknow";  
-	    echo  $ip;  
-	} 
+	public function getRealIpAddr()
+	{
+	if (!empty($_SERVER['HTTP_CLIENT_IP']))
+	{
+	$ip=$_SERVER['HTTP_CLIENT_IP'];
+	}
+	elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+	//检查IP是从代理传递
+	{
+	$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+	}
+	else
+	{
+	$ip=$_SERVER['REMOTE_ADDR'];
+	}
+	return $ip;
+	}
 }
