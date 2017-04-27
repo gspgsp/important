@@ -171,6 +171,6 @@ class userLogAction extends adminBaseAction
 	{
 	$ip=$_SERVER['REMOTE_ADDR'];
 	}
-	return $ip;
+	echo  $ip;
 	}
 }
