@@ -93,7 +93,9 @@ class userLogAction extends adminBaseAction
 				if(preg_match('/^(pageIndex)/',$value['remark'],$matches)){
 					$value['acname'] = '翻页操作';
 				}elseif (preg_match('/^(startTime)|(sTime)|(status)/',$value['remark'],$matches)) {
-					$value['acname'] = '查询操作';
+					$value['acname'] = '搜索操作';
+				}elseif (preg_match('/^(do=search)/',$value['remark'],$matches)) {
+					$value['acname'] = '查看操作';
 				}else{
 					$value['acname'] = '';
 				}
