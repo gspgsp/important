@@ -2,6 +2,9 @@
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-tip">跌价超过10%，绿色显示。上涨的红色显示。</a>
+			</td>
 			<td style="float:right;">
 			    <form id="soform">
 			    <span id="searchMsg"></span>
@@ -30,20 +33,21 @@
 	<div property="columns">
 		<div type="checkcolumn"></div>
 		<div field="o_id" width="30" headerAlign="center" align="center" >ID</div>
-		<div field="order_sn"  renderer="tips" width="90" headerAlign="center" align="center" renderer="onLoadHandle">采购单号</div>
-		<div field="c_name" width="110" headerAlign="center" align="center" align="center">客户名称</div>
+		<div field="order_sn"  renderer="tips" width="70" headerAlign="center" align="center" renderer="onLoadHandle">采购单号</div>
+		<div field="c_name" width="100" headerAlign="center" align="center">客户名称</div>
 		<div field="customer_manager" width="30" headerAlign="center" align="center">采购员</div>
 		<!-- <div field="chanel" width="30" headerAlign="center" align="center" align="center">客户来源</div> -->
 		<!-- <div field="order_name" width="30" headerAlign="center" align="center" align="center">抬头</div> -->
-		<div field="model" width="30" headerAlign="center" align="center" align="center">牌号</div>
-		<div field="f_name" width="30" headerAlign="center" align="center" align="center">厂家</div>
-		<div field="remainder" width="40" headerAlign="center" align="center" align="center">剩余数量</div>
-		<div field="unit_price" width="40" headerAlign="center" align="center" align="center">采购单价</div>
-		<div field="total_price" width="40" headerAlign="center" align="center" align="center">采购金额</div>
-		<div field="today_price" width="40" headerAlign="center" align="center" align="center">今日货值</div>
-		<div field="diff" width="40" headerAlign="center" align="center" align="center">涨跌差异</div>
-		<div name="diff_rate" field="diff_rate" width="40" headerAlign="center" align="center" align="center">涨跌率</div>
-		<div field="input_time" width="60" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm" >采购日期</div>
+		<div field="model" width="30" headerAlign="center" align="center">牌号</div>
+		<div field="f_name" width="30" headerAlign="center" align="center">厂家</div>
+		<div field="remainder" width="40" headerAlign="center" align="center">剩余数量</div>
+		<div field="unit_price" width="40" headerAlign="center" align="center">采购单价</div>
+		<div field="sale" width="40" headerAlign="center" align="center">销售单价</div>
+		<div field="total_price" width="40" headerAlign="center" align="center">采购金额</div>
+		<div field="today_price" width="40" headerAlign="center" align="center">今日货值</div>
+		<div field="diff" width="40" headerAlign="center" align="center" allowSort="true">涨跌差异</div>
+		<div name="diff_rate" field="diff_rate" width="40" headerAlign="center" align="center">涨跌率</div>
+		<div field="o_input_time" width="60" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm" >采购日期</div>
 	</div>
   </div>
  </div>
@@ -57,7 +61,6 @@ grid.on("drawcell", function (e) {
         column = e.column,
         field = e.field,
         value = e.value;
-        // console.log(e);
     if (column.field == "diff") {
         if (e.value > 0) {
             e.cellStyle = "background:#FF00BA";
@@ -68,6 +71,11 @@ grid.on("drawcell", function (e) {
         if(e.row.today_price == 0){
             e.cellStyle = "background:#00EC00";
         }
+    }
+    if(column.field == 'sale'){
+    	if(!e.value){
+    		e.cellHtml = 0;
+    	}
     }
  });
 grid.hideColumn("diff_rate");
