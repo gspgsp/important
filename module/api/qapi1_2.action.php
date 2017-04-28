@@ -712,10 +712,13 @@ class qapi1_2Action extends null2Action
         if (empty($keywords)) {
             if ($page < 4) {//前三页
                 if ($user_id > 0) {
+
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
                         if(empty($c_type))
                         {
+
                             $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+
                         }elseif($c_type==1)
                         {
                             $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
@@ -792,6 +795,7 @@ class qapi1_2Action extends null2Action
                 'count' => $data['count'],
             ));
         }
+
         if ($user_id > 0) {
             $dayTime = strtotime (date ("Y-m-d"));
             if ($page == 1 && !$this->db->from ('log_login')->select ('input_time')
@@ -809,6 +813,7 @@ class qapi1_2Action extends null2Action
                 $this->db->model ("log_login")->add ($arr);
             };
         }
+
         $goods_id = $this->db->model ("points_goods")->select ('id')->where (" type =2 and status =1")->getOne ();
 
         $pointsOrder = M ("points:pointsOrder");
@@ -827,6 +832,7 @@ class qapi1_2Action extends null2Action
             $top = (object)array();
         }
         if ($page == 1) {
+
 
                 // 第一页检测客户角色
                 $ret_ctype = 0;
