@@ -862,7 +862,7 @@ class qapi1_2Action extends null2Action
                 'cover_url'       => '',
                 'cover_jump_url'  => '',
                 'data'            => CORE_TIME,
-                'show_ctype'       => $ret_ctype
+                'show_ctype'       => $c_type
             );
             if (!empty($top)) {
                 $arr['top'] = $top;
