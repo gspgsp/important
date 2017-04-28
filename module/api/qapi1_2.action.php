@@ -679,26 +679,7 @@ class qapi1_2Action extends null2Action
                 'msg' => 'sortOrder参数错误',
             ));
         }
-        if($page == 1) {
-            // 第一页检测客户角色
-            $ret_ctype = 0;
 
-            if ($user_id > 0) {
-                $cus_ctype = M ("qapp:plasticPersonalInfo")->getCusType ($user_id);
-                if ($cus_ctype == 1) {
-                    $ret_ctype = 2;
-                } elseif ($cus_ctype == 2) {
-                    $ret_ctype = 1;
-                } elseif ($cus_ctype == 4) {
-                    $ret_ctype = 2;
-                }
-            }
-
-            if(empty($c_type))
-            {
-                $c_type = $ret_ctype;
-            }
-        }
 
         /**
          * 加搜索记录
@@ -846,6 +827,21 @@ class qapi1_2Action extends null2Action
             $top = (object)array();
         }
         if ($page == 1) {
+
+                // 第一页检测客户角色
+                $ret_ctype = 0;
+
+                if ($user_id > 0) {
+                    $cus_ctype = M ("qapp:plasticPersonalInfo")->getCusType ($user_id);
+                    if ($cus_ctype == 1) {
+                        $ret_ctype = 2;
+                    } elseif ($cus_ctype == 2) {
+                        $ret_ctype = 1;
+                    } elseif ($cus_ctype == 4) {
+                        $ret_ctype = 2;
+                    }
+                }
+
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
             $members = empty($members) ? 0 : $members;
             $arr = array(
