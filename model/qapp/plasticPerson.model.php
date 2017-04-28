@@ -216,12 +216,12 @@ class plasticPersonModel extends model
 
     public function getAllPlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
+
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "AllPlasticPersonList".":".md5($keywords).":".$region;
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
 
         $list  = $cache->get ("AllPlasticPersonList".'-'.md5($keywords)."-".$region);
-
 
         if (empty($list)) {
             $operMobi = array(
@@ -326,6 +326,7 @@ class plasticPersonModel extends model
         }
 
         $len = $cache->llen($key);
+
         if($len>$page * $size) {
 
             $uids = $cache->lrange ($key, ($page - 1) * $size, $page * $size);
@@ -345,6 +346,8 @@ class plasticPersonModel extends model
 			LEFT JOIN `p2p_contact_info` `info` ON con.user_id=info.user_id
 			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where. " ORDER BY FIELD(`con`.`user_id`, {$ids})";
             $data  = $this->db->getAll ($sql);
+            /*var_dump($len);
+            showTrace();*/
             $data['data'] = $data;
             if (!empty($data)) {
                 foreach ($data['data'] as &$value) {
