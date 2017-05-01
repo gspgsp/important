@@ -229,6 +229,24 @@
 									<td>状态：</td>
 									<td><input class="mini-combobox" name="info_status" style="width:100px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="{$info_ext.status}"/></td>
 								</tr>
+								<tr style="height:20px;"></tr>
+								<tr>
+									<td id="e_m" style="color:red;"></td>								
+								</tr>
+								<tr>
+									<td id="e_a"></td>
+									<td id="e_name"></td>
+									<td id="e_e"></td>
+									<td id="ec_name"></td>
+								</tr>
+								<tr>
+									<td id="e_b"></td>
+									<td id="e_tel"></td>
+									<td id="e_c"></td>
+									<td id="e_mobile"></td>
+									<td id="e_d"></td>
+									<td id="e_customer_manager_name"></td>
+								</tr>
 							</table>
 				</div>
 			</div>
@@ -286,6 +304,19 @@ function submitForm(){
 	$.post(urlstr,{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
+		if(data.have=='1'){
+			$("#e_m").text('已存在手机号的信息：');
+			$("#e_a").text('联系人姓名：');
+			$("#e_name").text(data.name);
+			$("#e_e").text('所属公司：');
+			$("#ec_name").text(data.c_name);
+			$("#e_b").text('固定电话：');
+			$("#e_tel").text(data.tel);
+			$("#e_c").text('手机号：');
+			$("#e_mobile").text(data.mobile);
+			$("#e_d").text('所属交易员：');
+			$("#e_customer_manager_name").text(data.customer_manager_name);
+			}
 		if(data.err=='0'){
 			CloseWindow("save");
 		}else{
