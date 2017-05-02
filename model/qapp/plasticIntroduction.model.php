@@ -133,7 +133,7 @@ class plasticIntroductionModel extends model
     //根据不同类型获取粉丝或关注的相关
     public function get_funs ($id)
     {
-        $data = $this->select ('con.user_id,con.name,con.mobile,con.is_pass,cus.c_name,info.thumb,info.thumbqq')
+        $data = $this->select ('con.user_id,con.name,con.mobile,con.is_pass,cus.c_name,info.thumb,info.thumbqq,con.sex')
             ->from ('customer_contact con')
             ->leftjoin ('customer cus', 'con.c_id=cus.c_id')
             ->leftjoin ('contact_info info', 'con.user_id=info.user_id')
@@ -150,8 +150,15 @@ class plasticIntroductionModel extends model
             if (strstr ($data['thumb'], 'http')) {
                 $data['thumb'] = $data['thumb'];
             } else {
-                if (empty($data['thumb'])) {
-                    $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+
+                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                {
+                    if(empty($data['sex']))
+                    {
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                    }else{
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                    }
                 } else {
                     $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                 }
