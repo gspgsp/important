@@ -11,6 +11,8 @@
 		<!-- 审核所需字段 -->
 		<input class="mini-hidden" name="id"  value="{$id}"/>
 		<input class="mini-hidden" name="finance"  value="{$finance}"/>
+		<input class="mini-hidden" name="finance_type"  value="{$finance_type}"/>
+		<input class="mini-hidden" name="handling_charge"  value="{$handling_charge}"/>
 		<!-- $price 是保留字段，用于收付款改掉订单总价是的显示结果-->
 
 			<tr>
@@ -38,20 +40,25 @@
 			</tr>
 			<tr>
 				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
-				<td><input  name="uncollected_price"class="mini-textbox" maxlength="12" value="{$u_price}" style="width:150px;" allowInput="false"/></td>
+				{if $finance_type == '1'}
+					<td><input  name="uncollected_price"class="mini-textbox" maxlength="12" {if $handling_charge neq 0 && $u_price eq ''}value="0"{else}value="{$u_price}"{/if} style="width:150px;" id="u_p" allowInput="false"/></td>
+				{else}
+					<td><input  name="uncollected_price"class="mini-textbox" maxlength="12" value="{$u_price}" style="width:150px;" allowInput="false"/></td>
+				{/if}
+
 			</tr>
 			<tr>
 				<td>申请金额<span style="color:red">*</span></td>
-				<td><input name="collected_price" id="check_price" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true"/></td>
+				<td><input name="collected_price" id="check_price" onvaluechanged="add_handling_charge" class="mini-textbox" maxlength="12" value="{$c_price}" style="width:150px;" required="true"/></td>
 			</tr>
 			{else}
 			<tr>
 				<td>{if $type =='1'}未收款金额{else}未付款金额{/if}</td>
-				<td><input name="un_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" allowInput="false"/></td>
+				<td><input name="un_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq '' && $handling_charge neq ''}value="0"{elseif $uncollected_price eq '' &&  $handling_charge eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>{if $type =='1'}收款金额{else}付款金额{/if}<span style="color:red">*</span></td>
-				<td><input name="collected_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" required="true"/></td>
+				<td><input name="collected_price" class="mini-textbox" maxlength="12" {if $uncollected_price eq '' && $handling_charge neq ''}value="0"{elseif $uncollected_price eq '' &&  $handling_charge eq ''}value="{$price}"{else}value="{$uncollected_price}"{/if} style="width:150px;" required="true"/></td>
 			</tr>
 			{/if}
 			<tr>
@@ -63,10 +70,21 @@
 				<td><input name="pay_method" class="mini-combobox" data='{:setMiniConfig|$pay_method}' textField="name" value="{$p_method}"valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
 			{if $finance}
+				{if $finance_type == '1'}
+					<tr  id='handling' >
+						<td>手续费</td>
+						<td><input name="handling_charge" id="charge" class="mini-textbox" maxlength="12" value="" style="width:90px;" allowInput="false"/></td>
+					</tr>
+					<tr>
+						<td>是否完成<span style="color:red">*</span></td>
+						<td><input name="collection_status" class="mini-combobox" data='{:setMiniConfig|$collection_p_status}' textField="name" value="2"valueField="id" style="width:90px;" required="true"/></td>
+					</tr>
+				{/if}
 			<tr>
 				<td>交易账户<span style="color:red">*</span></td>
 				<td><input name="account" onvaluechanged="changeaccount" class="mini-combobox" data='{:setMiniConfig|$company_account}' textField="name" valueField="id" style="width:90px;" required="true"/></td>
 			</tr>
+
 			<tr id='account' >
 				<td>账户余额</td>
 				<td><input name="account_price" id="account_price" value="" textField="text" valueField="id" class="mini-textbox"    allowInput="false"  style="width:89px"/></td>
@@ -82,7 +100,7 @@
 			{/if}
 			<tr>
 				<td>备注</td>
-				<td><input name="remark" class="mini-textarea" value="{$remark}"style="width:300px; height:50px;"/></td>
+				<td><input name="remark" class="mini-textarea" value="{$remark}" style="width:300px; height:50px;"/></td>
 			</tr>
 			<tr>
 			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
@@ -106,35 +124,86 @@ mini.parse();
 //搜索或刷新
 var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");
+var u1 = "{$u_price}";
+var u2 ="{$uncollected_price}";
+
 //默认隐藏账户余额
 $('#account').hide();
+$('#handling').hide();
 //增加后提交数据(保存)
 function submitForm() {
 	form.validate();
   	if (form.isValid() == false) return;
 	//提交数据
 	var o = form.getData();
-	//输入的值必须大于0，小于总金额
-	if(parseFloat(o.collected_price) <= 0 || parseFloat(o.collected_price) >parseFloat(o.total_price)){
-		alert("请输入正确的数值");
-		return;
-	}
-	//uncollected_price不为空，就不是第一次申请审核，输入值得小于未收付款金额
-	if (parseFloat(o.uncollected_price) >'') {
-		if (parseFloat(o.collected_price) >parseFloat(o.uncollected_price)) {
-			alert("请输入正确的数值");return;
-		}
-	}
-	//un_price不为空，就不是第一次申请，输入值得小于未收付款金额
-	if(parseFloat(o.un_price) >''){
-		if (parseFloat(o.collected_price >o.un_price)) {alert("请输入正确的数值");return;}
-
-	}
-
+	var f_type="{$finance_type}";
 	var type="{$type}";
 	var finance='{$finance}';
+
+	if(f_type==1){
+		//输入的数字小于0报错
+		if(parseFloat(o.collected_price) < 0){alert("请输入正确的数值");return;}
+		if(parseFloat(o.collected_price) < parseFloat(o.uncollected_price) && (o.collection_status==3)){alert("请选择正确的付款状态");return;}
+		if (finance==1) {
+			var ch_price = mini.get('charge').value;//手续费,不修改为空
+			var u_p = mini.get('u_p').value;//未付款金额
+			var check_price = mini.get('check_price').value;//申请金额
+			// if(u_p==0 && check_price>0 && ch_price=="{$handling_charge}"){
+			// 	// o.handling_charge=parseFloat(check_price)+parseFloat(ch_price);
+			// 	o.handling_charge=parseFloat(check_price);
+			// 	o.collected_price='0';
+			// }
+			if("{$handling_charge}" == 0){//没有手续费
+				if(ch_price){
+					o.collected_price=check_price;
+					o.handling_charge=ch_price;
+				}else{
+					if((u_p-check_price)<0){//付款大于未收
+						o.collected_price=u_p;
+						o.handling_charge=check_price-u_p;
+					}else{//付款小于等于未收
+						o.collected_price=check_price;
+						o.handling_charge=0;
+					}
+				}
+			}else{//有手续费
+				if(ch_price){
+					o.collected_price=check_price;
+					o.handling_charge=ch_price;
+				}else{
+					if((u_p-check_price)<0){//付款大于未收
+						o.collected_price=u_p;
+						o.handling_charge=check_price-u_p;
+					}else{//付款小于等于未收
+						o.collected_price=check_price;
+						o.handling_charge=0;
+					}
+				}
+
+			}
+		}//审核结束
+		// console.log(o);return;
+
+	}else{
+		//输入的值必须大于0，小于总金额
+		if(parseFloat(o.collected_price) <= 0 || parseFloat(o.collected_price) >parseFloat(o.total_price)){
+			alert("请输入正确的数值");
+			return;
+		}
+		//uncollected_price不为空，就不是第一次申请审核，输入值得小于未收付款金额
+		if (parseFloat(o.uncollected_price) >'') {
+			if (parseFloat(o.collected_price) >parseFloat(o.uncollected_price)) {
+				alert("请输入正确的数值");return;
+			}
+		}
+		//un_price不为空，就不是第一次申请，输入值得小于未收付款金额
+		if(parseFloat(o.un_price) >''){
+			if (parseFloat(o.collected_price >o.un_price)) {alert("请输入正确的数值");return;}
+
+		}
+	}
+
 	if (finance==1) {
-		var check_price = mini.get('check_price').value;
 		if (type == 2 &&(parseFloat(check_price)>parseFloat(account_price))) {
 			alert('账户余额不足，不能付款');
 			return false;
@@ -158,7 +227,21 @@ function submitForm() {
  	},"POST","json");
 
 }
+function add_handling_charge(e){
+	// var ch_price = mini.get('charge').value;//手续费
+	var ch_price ="{$handling_charge}";//手续费
 
+	var u_p = mini.get('u_p').value;//未付款金额
+	var check_price = mini.get('check_price').value;//申请金额
+	if (u2){var m=u2;}else{var m=u1;}
+	var n = parseFloat(m)-parseFloat(e.value);
+	if(u_p-check_price<0){
+		// console.log(check_price-u_p);
+		mini.get('check_price').setValue(u_p);
+		mini.get('charge').setValue(check_price-u_p);
+	}
+	$('#handling').show();
+}
 //选择账户时显示不同账户余额
 var account_price =0;
 function changeaccount(e){

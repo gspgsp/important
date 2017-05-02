@@ -8,7 +8,11 @@ class collectionAction extends adminBaseAction
 		$this->db=M('public:common')->model('collection');
 		$this->assign('pay_method',L('pay_method'));		 	//付款方式
 		$this->assign('invoice_status',L('invoice_status'));    //开票状态
-		$this->assign('company_account',L('company_account'));  //交易公司账户order_type
+		$this->assign('company_account',L('company_account'));  //交易公司账户
+		//财务选择付款是否完成时的语言包
+		$cps = L('collection_p_status');
+		unset ($cps[1]);
+		$this->assign('collection_p_status',$cps);  //交易公司账户
 
 	}
 
@@ -188,40 +192,42 @@ class collectionAction extends adminBaseAction
 			$this->assign('input_admin',$username);
 		}
 		//传递表头信息
-		$this->assign('p_method',$data[0][pay_method]);
-		$this->assign('order_name',$data[0][order_name]);
-		$this->assign('c_name',$c_info[c_name]);
-		$this->assign('c_id',$data[0][c_id]);
+		$this->assign('p_method',$data[0]['pay_method']);
+		$this->assign('order_name',$data[0]['order_name']);
+		$this->assign('c_name',$c_info['c_name']);
+		$this->assign('c_id',$data[0]['c_id']);
 		$this->assign('type',$type);
 		$this->assign('o_id',$o_id);
 		$this->assign('price',$data[0]['total_price']);
-		$this->assign('order_sn',$data[0][order_sn]);
-
+		$this->assign('order_sn',$data[0]['order_sn']);
+		$this->assign('finance_type',$data[0]['finance']);
 		//获取是不是财务审核
 		$finance=sget('finance','i');
+		$handling_charge =  $this->db->model('collection')->select("IFNULL(SUM(handling_charge),0) AS handling_charge")->where("o_id='".$data[0]['o_id']."'")->getOne();
+		if($handling_charge==0)$handling_charge='';
+		$this->assign('handling_charge',$handling_charge);
+		//获取已付款金额
+		$collected_price =  $this->db->model('collection')->select("IFNULL(SUM(collected_price),0) AS collected_price")->where("o_id='".$data[0][o_id]."'")->getOne();
+
 
 			if ($finance ==1 ) {
 				//获取要审核的收付款的id，传送出信息
 				$id = sget('id','i',0);
 				$this->assign('finance',$finance);
 				$this->assign('id',$id);
-
-				$res = M('product:collection')->where('id='.$id)->getAll();
-
+				$res = M('product:collection')->where('id='.$id)->getRow();
+				// p($res);die;
+				// p($res);
 				if($res){
-					$un_price = $res[0]['collected_price']+$res[0]['uncollected_price'];
-					$this->assign('c_price',$res[0]['collected_price']);
+					$un_price = $res['total_price']-($collected_price-$res['collected_price']);
+					$this->assign('c_price',$res['collected_price']);
 					$this->assign('u_price',$un_price);
-					$this->assign('remark',$res[0]['remark']);//备注
+					$this->assign('remark',$res['remark']);//备注
 				}
 			}else{
 				//获取最后一条收付款信息
 				$res = M('product:collection')->getLastInfo($name='o_id',$value=$data[0][o_id]);
 				if($res){
-// 					$this->assign('total_price',$res[0]['total_price']);
-// 					$this->assign('uncollected_price',$res[0]['uncollected_price']);
-// 					$this->assign('remark',$res[0]['remark']);//备注
-					$collected_price =  $this->db->model('collection')->select("IFNULL(SUM(collected_price),0) AS collected_price")->where("o_id='".$data[0][o_id]."'")->getOne();
 					$uncollected_price = $data[0]['total_price'] -  $collected_price;
 					$this->assign('total_price',$data[0]['total_price']);
 					$this->assign('uncollected_price',$uncollected_price);
@@ -272,6 +278,7 @@ class collectionAction extends adminBaseAction
 	*/
 	public function ajaxSave(){
 		$data=sdata();
+		// p($data);die;
 		$o_id = sget('o_id','i',0);  // 订单号
 		if ($data['collection_token'] != $_SESSION['collection_token']) {
 			$this->error("非法提交数据");
@@ -286,10 +293,20 @@ class collectionAction extends adminBaseAction
 
 		//保存收付款相关信息
 		if(empty($data['uncollected_price'])){
-			$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');
+			//$this->db->model('order')->where('o_id='.$data['o_id'])->update('total_price ='.$data['total_price'].',invoice_status=1');//修改订单总金额取消了
 			$m = $data['total_price']-$data['collected_price'];  // $data['collected_price'] 申请金额
+			if ($m<0 && $data['finance_type']==1 &&$data['finance'] ==1) {
+				$data['collected_price']=$data['total_price'];
+				$data['handling_charge']=-$m;
+				$data['uncollected_price']=0;
+			}
 		}else{
 			$m = $data['uncollected_price']-$data['collected_price'];
+			if ($m<0 && $data['finance_type']==1 &&$data['finance'] ==1) {
+				$data['collected_price']=$data['uncollected_price'];
+				$data['handling_charge']=-$m;
+				$data['uncollected_price']=0;
+			}
 		}
 // p($data);die;
 		$this->db->startTrans();//开启事务
@@ -297,41 +314,59 @@ class collectionAction extends adminBaseAction
 			if($data['finance'] ==1){
 				//获取审核耗时。财务审核耗时由当前时间减去销售申请时间
 				$spend_time = CORE_TIME-$this->db->model('collection')->select('input_time')->where('id='.$data['id'])->getOne();
+				//供应链金融订单
+				if($data['finance_type']==1){
+					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>$data['collection_status'],'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
+					if($data['handling_charge']==''){
+						$data['uncollected_price']=$m;
+					}else{
+						$data['uncollected_price']=0;
+					}
+					// p($data);die;
+					if(!M('order:orderLog')->addLog($data['o_id'],$data['collection_status'],2,$spend_time,$data['total_price'],$data['total_price']-$data['uncollected_price'],$data['uncollected_price'])) $this->error("更新可视化失败");
+					$id = $data['id'];
+					unset($data['id']);
+					$data['collection_status'] = 2;
+					// p($data);die;
+					//更新收付款信息
+					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败6");
+					// showtrace();
+				}else{
 
-				if($m>0){
-					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
-					if(!M('order:orderLog')->addLog($data['o_id'],2,2,$spend_time,$data['total_price'],$data['total_price']-$m,$m)) $this->error("更新可视化失败");
-				}
+					//非供应链金融订单
+					if($m>0){
+						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>2,'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
+						if(!M('order:orderLog')->addLog($data['o_id'],2,2,$spend_time,$data['total_price'],$data['total_price']-$m,$m)) $this->error("更新可视化失败");
+					}
 
-				if($m==0){
-					if(!M('order:orderLog')->addLog($data['o_id'],3,2,$spend_time,$data['total_price'],$data['total_price'],0)) $this->error("更新可视化失败");
-					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'payd_time'=>$data['payment_time'],'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
-					$cid = $this->db->model('order')->select('c_id')->where('o_id='.$data['o_id'])->getOne();
-					$this->db->model('customer')->where("c_id = $cid")->update(array('last_sale'=>$data['payment_time'],'last_no_sale'=>$data['payment_time']));
+					if($m==0){
+						if(!M('order:orderLog')->addLog($data['o_id'],3,2,$spend_time,$data['total_price'],$data['total_price'],0)) $this->error("更新可视化失败");
+						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>3,'payd_time'=>$data['payment_time'],'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
+						$cid = $this->db->model('order')->select('c_id')->where('o_id='.$data['o_id'])->getOne();
+						$this->db->model('customer')->where("c_id = $cid")->update(array('last_sale'=>$data['payment_time'],'last_no_sale'=>$data['payment_time']));
+					}
+
+					$data['uncollected_price'] = $m;
+					$data['collection_status'] = 2;
+					$id = $data['id'];
+					unset($data['id']);
+					//更新收付款信息
+					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败1");
 				}
-				if($m<0){
-					$this->error("数据错误");
-				}
-				$data['uncollected_price'] = $m;
-				$data['collection_status'] = 2;
-				$id = $data['id'];
-				unset($data['id']);
-				//更新收付款信息
-				if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败");
-				//添加account_log账户明细信息,默认设计账户类型就是账户id
+				//添加company_account_log账户明细信息,默认设计账户类型就是账户id
 				$add_data['account_id']=$data['account'];
-				$add_data['money']=$data['collected_price'];
+				$add_data['money']=$data['collected_price']+$data['handling_charge'];//加上手续费，如果有的话
 				$add_data['remark']=$data['remark'];
-				$add_data['type']=$data['order_type']==1?1:2;
+				$add_data['type']=$data['order_type']==1?1:2;//1入账，2出账
 				$add_data['order_id']=$data['o_id'];
 				$add_data['order_type']=$data['order_type'];
 
-				if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+				if(!$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']))) $this->error("交易失败2");
 
 				//修改account账户信息，1是销售，收款
 
-				if($data['order_type']==1){   // 销售收款
-					if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
+				if($data['order_type']==1){   // 销售收款，收款需要加上手续费
+					if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".($data['collected_price']+$data['handling_charge']).",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败3");
                     // ***********多笔付款 提升 可用额度**********************
                     // $o_id 订单id; $data['finance'] 财务已审核状态； data['collected_price']；申请金额
 
@@ -341,7 +376,7 @@ class collectionAction extends adminBaseAction
 					if ($data['collected_price']>$money) {
 						$this->error('余额不足');
 					}else{
-						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败");
+						if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum-".$data['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败4");
 					}
                     // ***********多笔付款 提升 可用额度**********************
                     M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'+',$data['collected_price']) OR $this->error('可用额度还原失败');
@@ -349,8 +384,15 @@ class collectionAction extends adminBaseAction
 				}
 
 			}else{
-				$data['uncollected_price'] = $m;
-				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+				if($data['handling_charge']==''){
+					$data['uncollected_price']=$m;
+				}else{
+					$data['uncollected_price']=0;
+					$data['handling_charge']='';
+				}
+				// p($data);die;
+
+				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败5");
 			}
 		if($this->db->commit()){
 			$this->success('操作成功');
@@ -362,6 +404,20 @@ class collectionAction extends adminBaseAction
 	}
 
 	/**
+	 * [get_up_handling_charge description]
+	 * @Author   xianghui
+	 * @DateTime 2017-04-26T14:58:46+0800
+	 * @return   [type]                   [description]
+	 */
+	public function get_up_handling_charge($arr,$id){
+		if(empty($arr)) $this->error('错误的操作');
+		foreach ($arr as $key => $value) {
+			if ($value['id']<$id) {
+				return $value['handling_charge'];
+			}
+		}
+	}
+	/**
 	 * 充红
 	 * @access private
 	 */
@@ -371,6 +427,12 @@ class collectionAction extends adminBaseAction
 		if(empty($data)) $this->error('错误的操作');
 // 		$arr = M('product:collection')->getLastInfo($name='o_id',$value=$data['oid']);
 		$arr = $this->db->model('collection')->where("id='".$data['id']."'")->getRow();
+		//获取上一次的手续费金额
+		// $charge_id_arr = M('product:collection')->select('handling_charge,id')->where("order_sn='".$data['o_sn']."'")->order('id desc')->getAll();
+		// $up_handling_charge=$this->get_up_handling_charge($charge_id_arr,$data['id']);
+
+		//本次更新手续费=总手续费-本次红冲手续费
+		// $red_handling_charge=$charge_id_arr[0]['handling_charge']-($arr['handling_charge']-$up_handling_charge);
 		$arr2 = array(
 			'id'=>'',
 			'order_name'=>'退款',
@@ -382,6 +444,7 @@ class collectionAction extends adminBaseAction
 			'total_price'=>-$arr['total_price'],
 			'collected_price'=>-$arr['collected_price'],
 			'uncollected_price'=>-$arr['uncollected_price'],
+			'handling_charge'=>-$arr['handling_charge'],
 			'refund_amount'=>$data['c_price'],
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
@@ -394,7 +457,6 @@ class collectionAction extends adminBaseAction
 		// $times = count($this->db->model('collection')->select('id')->where("o_id='".$data['oid']."'")->getCol());
 		//查出已收付款金额
 		$has_price=$this->db->model('collection')->select("sum(collected_price)")->where("o_id='".$data['oid']."'")->getOne();
-
 		$this->db->startTrans();//开启事务
 			try {
 				if(!$this->db->model('collection')->add($update) )throw new Exception("新增退款失败");
@@ -416,7 +478,8 @@ class collectionAction extends adminBaseAction
 				//以下增加没有同步账户和资金流水的bug 20160825
 				//添加account_log账户明细信息,默认设计账户类型就是账户id
 				$add_data['account_id']=$arr['account'];
-				$add_data['money']=-$arr['collected_price'];
+				//减去红冲的手续费，如果有的话
+				$add_data['money']=-$arr['collected_price']-$arr['handling_charge'];
 				$add_data['remark']=$arr['remark'];
 				$add_data['type']=$arr['order_type']==1?1:2;
 				$add_data['order_id']=$arr['o_id'];
@@ -424,7 +487,8 @@ class collectionAction extends adminBaseAction
 				$this->db->model('company_account_log')->add($add_data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['username']));
 				//修改account账户信息，1是销售收款
 				if($arr['order_type']==1){
-					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum-".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
+					//销售减去手续费update("`sum`=sum+".($data['collected_price']+$data['handling_charge']).",
+					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum-".($arr['collected_price']+$arr['handling_charge']).",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
 				}else{
 					$money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
 					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
