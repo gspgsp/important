@@ -4003,6 +4003,7 @@ class qapi1_2Action extends null2Action
                 }
             }
 
+
             return $headers;
         }
 
