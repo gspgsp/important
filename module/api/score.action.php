@@ -164,8 +164,10 @@ class scoreAction extends null2Action
             case 7://发布求购
                 $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =6 and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) $this->json_output(array('err'=>0,'msg'=>'今天发布求购次数>5，不加积分'));
+                //   1 标准  2 不标准
+                $points['pur'] = $_POST['standard']==2?:$points['standard_pur'];
                 if(!M ("qapp:pointsBill")->addPoints ($points['pur'], $user_id, 6)){
-                    M ("qapp:pointsBill")->rollback();
+                    M ("qapp:pointsBill")->rollback();showTrace();exit;
                     $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
                 }
                 M ("qapp:pointsBill")->commit();
@@ -174,6 +176,8 @@ class scoreAction extends null2Action
             case 8://发布供给（报价）
                 $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =3 and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) $this->json_output(array('err'=>0,'msg'=>'今天发布供给次数>5，不加积分'));
+                //   1 标准  2 不标准
+                $points['sale'] = $_POST['standard']==2?:$points['standard_sale'];
                 if(!M ("qapp:pointsBill")->addPoints ($points['sale'], $user_id, 3)){
                     M ("qapp:pointsBill")->rollback();
                     $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
