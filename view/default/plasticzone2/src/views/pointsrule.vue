@@ -5,7 +5,7 @@
 	积分规则
 </header>
 <div class="shopBanner">
-	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner.jpg">
+	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner2.jpg">
 </div>
 <div class="rule" style="padding: 0 20px 10px 20px;">
 	<div class="ruleTitle2">塑豆规则</div>
