@@ -6,9 +6,7 @@
 			我的消息
 		</header>
 	</div>
-	<div class="mymsg2choose">
-		<span v-bind:class="{'on':0==tabIndex}">系统消息</span>
-	</div>
+
 	<ul class="mymsg2ul">
 		<li v-for="r in resMsg">
 			<div class="myreleaseInfo">
@@ -26,8 +24,7 @@
 module.exports = {
 	data: function() {
 		return {
-			resMsg: [],
-			tabIndex: 0
+			resMsg: []
 		}
 	},
 	methods: {

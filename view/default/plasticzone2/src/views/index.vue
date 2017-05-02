@@ -2,7 +2,7 @@
 <div class="buyWrap" style="padding: 90px 0 60px 0;">
 	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
 		<header id="bigCustomerHeader">
-			<!--<a class="headerMenu4" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>-->
+			<a class="headerMenu4" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
 			塑料圈通讯录({{member}}人)
 			<a v-on:click="toLogin" class="headerMenu"></a>
 		</header>
@@ -16,20 +16,17 @@
 			<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
 		</div>
 	</div>
-	<div class="payfans" style="background: #ff854d;">
-		<router-link style="width: 100%;" :to="{name:'mypoints'}">
-			<img width="100%" src="http://statics.myplas.com/myapp/img/toShop.jpg" />
+	<div class="payfans">
+		<router-link :to="{name:'mypay'}">
+			<div style=" display: inline-block; margin: 4px 0 0 0;">
+				<div class="payfansImg"></div><span>我关注的人</span>
+			</div>
 		</router-link>
-		<!--<router-link :to="{name:'mypay'}">
-	<div style=" display: inline-block; margin: 4px 0 0 0;">
-		<div class="payfansImg"></div><span>我关注的人</span>
-	</div>
-</router-link>
-<router-link :to="{name:'myfans'}">
-	<div style=" display: inline-block; margin: 4px 0 0 0;">
-		<div class="payfansImg2"></div><span>关注我的人</span>
-	</div>
-</router-link>-->
+		<router-link :to="{name:'myfans'}">
+			<div style=" display: inline-block; margin: 4px 0 0 0;">
+				<div class="payfansImg2"></div><span>关注我的人</span>
+			</div>
+		</router-link>
 	</div>
 	<ul id="nameUl">
 		<li id="top" v-if="top">
@@ -601,7 +598,7 @@ module.exports = {
 						});
 					} else if(res.err == 2) {
 						_this.condition = false;
-					} else if(res.err == 3){
+					} else if(res.err == 3) {
 						weui.topTips(res.msg, 3000);
 					}
 				}, function() {
@@ -612,7 +609,7 @@ module.exports = {
 		}
 	},
 	beforeRouteEnter: function(to, from, next) {
-		var _this=this;
+		var _this = this;
 		next(function(vm) {
 			if(from.name == "login") {
 				console.log("login");
@@ -654,7 +651,7 @@ module.exports = {
 				}).fail(function() {
 
 				}).always(function() {
-					
+
 				});
 			}
 			$(window).on('scroll', function() {

@@ -8,9 +8,9 @@
 	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner.jpg">
 </div>
 <div class="mypoints">
-	<a style="width: 50%;" href="javascript:;"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</a>
-	<!--<router-link :to="{name:'pointsrecord'}"><i class="shopIcon iconRecord"></i>兑换记录</router-link>-->
-	<router-link style="width: 50%;" :to="{name:'pointsrule'}"><i class="shopIcon iconIntro"></i>如何赚塑豆</router-link>
+	<a href="javascript:;"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</a>
+	<router-link :to="{name:'recharge'}"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
+	<router-link :to="{name:'pointsrule'}"><i class="shopIcon iconIntro"></i>如何赚塑豆</router-link>
 </div>
 <div class="pointsWrap">
 	<div class="pointsTitle">商品信息</div>

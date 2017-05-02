@@ -10,13 +10,12 @@
 	<h2 style="text-align: center; font-size: 30px; color: #333333; margin: 15px 0;">精准查询</h2>
 	<p style="text-align: center;">企业名称查询<br>自动关联企业相关数据</p>
 	<div class="searchfname">
-		<div class="searchfnameWrap">
+		<div class="searchfnameWrap" style="margin: 0;">
 		<div style=" width: auto; margin-right: 80px;">
 			<input type="text" v-model="fname" style=" width: 100%; float: left; border: none; padding: 5px 7px; background: none; font-size: 12px;" placeholder="请输入企业全称" />
 			<div class="searchbtn" v-on:click="search">查授信额度</div>
 		</div>	
 		</div>
-		<router-link class="qcc" :to="{name:'qichacha'}">查企业信息</router-link>
 	</div>
 	<ul class="searchli">
 		<li v-for="c in creditli">
