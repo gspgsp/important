@@ -167,7 +167,7 @@ class scoreAction extends null2Action
                 //   1 标准  2 不标准
                 $points['pur'] = $_POST['standard']==2?:$points['standard_pur'];
                 if(!M ("qapp:pointsBill")->addPoints ($points['pur'], $user_id, 6)){
-                    M ("qapp:pointsBill")->rollback();showTrace();exit;
+                    M ("qapp:pointsBill")->rollback();
                     $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
                 }
                 M ("qapp:pointsBill")->commit();
@@ -246,7 +246,6 @@ class scoreAction extends null2Action
                 break;
         }
     }
-
 
 
 }
