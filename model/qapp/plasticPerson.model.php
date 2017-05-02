@@ -48,16 +48,16 @@ class plasticPersonModel extends model
         $value['need_product'] = sstripslashes ($value['need_product']);
         if (empty($value['thumbqq'])) {
             if (strstr ($value['thumb'], 'http')) {
-                $value['thumb'] = $value['thumb'];
+
             } else {
-                if (empty($data['thumb']) || $data['thumb'] == "16/09/02/logos.jpg") {
+                if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                     if (empty($data['sex'])) {
-                        $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
                     } else {
-                        $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
                     }
                 } else {
-                    $data['thumb'] = FILE_URL."/upload/".$data['thumb'];
+                    $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                 }
             }
         } else {
@@ -178,7 +178,6 @@ class plasticPersonModel extends model
                 if (empty($value['thumbqq'])) {
                     if (strstr ($value['thumb'], 'http')) {
 
-                        $value['thumb'] = $value['thumb'];
                     } else {
                         if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                             if (empty($value['sex'])) {
