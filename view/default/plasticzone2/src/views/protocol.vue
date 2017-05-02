@@ -1,11 +1,9 @@
 <template>
-<div class="buyWrap" style="padding: 45px 0 0 0;">
-	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
-		<header id="bigCustomerHeader">
-			<a class="back" href="javascript:window.history.back();"></a>
-			注册协议
-		</header>
-	</div>
+<div class="buyWrap">
+	<header id="bigCustomerHeader">
+		<a class="back" href="javascript:window.history.back();"></a>
+		注册协议
+	</header>
 	<div style="padding: 10px; background: rgb(255, 255, 255); font-size: 12px;">
 		<p>本协议是您与塑料圈（简称"本站"，网址：http://q.myplas.com）所有者上海中晨电子商务股份有限公司（以下简称为"塑料圈"）之间就塑料圈所提供的服务(下称“服务”)等相关事宜所订立的契约，请您仔细阅读本注册协议，您点击"同意并继续"按钮后，本协议即构成对双方有约束力的法律文件。</p>
 		<p>1.用户服务条款的确认和接受</p>
