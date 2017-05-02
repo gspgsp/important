@@ -61,6 +61,7 @@ class transportAction extends adminBaseAction
     public function add()
     {
         $order_id = sget('order_id', 'i');
+        $c_id = sget('c_id','i');
         $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
         $first_part_info=M('rbac:adm')->where('admin_id='.$_SESSION['adminid'])->select('name,tel,fax')->getRow();
         if (!empty($order_id)) {
@@ -69,6 +70,7 @@ class transportAction extends adminBaseAction
             $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
             $this->assign('page_title', '添加物流合同');
             $order_info['sign_time'] = date('Y-m-d');
+            $order_info['c_id'] = $c_id;
             $this->assign('info', $order_info);
             $this->assign('order_info', $order_info_new);           
         }
@@ -89,6 +91,9 @@ class transportAction extends adminBaseAction
 
         if (!empty($lc_id)) {
             $info = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $lc_id)->getRow();
+            $fee_list=explode(',',$info['delivery_fee']);  
+            $info['delivery_price']=$fee_list['0'];$info['delivery_trans']=$fee_list['1'];$info['delivery_other']=$fee_list['2'];
+            $info['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$info['goods_num'].' 元';
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
@@ -174,13 +179,15 @@ class transportAction extends adminBaseAction
         $data['create_time'] = time();
         $data['update_time'] = time();
         $data['created_by'] = $this->admin_id;
-        $data['last_edited_by'] = $this->admin_id;        
+        $data['last_edited_by'] = $this->admin_id;
+        $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
         $res = M('public:common')->model('transport_contract')->add($data);
+        $yls = M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update('drive_end_place='.$data['end_place']);
 
-        if ($res) {
+        if ($res&&$yls) {
             $arr = ['err' => 0, 'msg' => '合同生效'];
         } else {
-            $arr = ['err' => 0, 'msg' => '程序错误'];
+            $arr = ['err' => 0, 'msg' => '新增失败'];
         }
         $this->json_output($arr);
     }
@@ -206,6 +213,7 @@ class transportAction extends adminBaseAction
         $data['status'] = 1;
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;
+        $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
         $res = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);
 
         if ($res) {
@@ -290,6 +298,8 @@ class transportAction extends adminBaseAction
             $info['contract_time']=$date_type['0'].' 年 '.trim($date_type['1'], '0').' 月 '.$date_type['2'].' 日';
             $delivery_type=explode('-',$info['delivery_time']);
             $info['delivery_time']=$delivery_type['0'].' 年 '.trim($delivery_type['1'], '0').' 月 '.$delivery_type['2'].' 日';
+            $fee_list=explode(',',$info['delivery_fee']);
+            $info['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.'+'.'上车费: '.(!empty($fee_list['1'])?$fee_list['1']:'0').'元/吨'.'+'.'其它: '.(!empty($fee_list['2'])?$fee_list['2']:'0').'元';
             $this->assign('infoq', $info);
             $str = $this->fetch('transport_contract.pdf.html');
 
@@ -300,7 +310,7 @@ class transportAction extends adminBaseAction
 
         E('TCPdf', APP_LIB . 'extend');
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        //$pdf->SetTitle('上海中晨运输合同');
+        $pdf->SetTitle('上海中晨运输合同');
         //$pdf->SetHeaderData('config/pdflogo.jpg', 180, '', '', array(0, 33, 43), array(0, 64, 128));
         // 设置默认等宽
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);

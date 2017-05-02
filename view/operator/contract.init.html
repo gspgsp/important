@@ -43,7 +43,8 @@
 			<div field="goods_class" width="50" align="center" headerAlign="center">货物牌号</div>
 			<div field="goods_num" width="50" align="center" headerAlign="center">货物数量</div>
 			<div field="start_place" width="70" align="center" headerAlign="center">提货地点</div>	
-			<div field="delivery_fee" width="50" align="center" headerAlign="center" >运输费用</div>		
+			<div field="delivery_fee_details" width="50" align="center" headerAlign="center" >运输费用详情</div>
+			<div field="delivery_fee_count" width="50" align="center" headerAlign="center" >运输费用</div>		
 			<div field="plate_number" width="50" align="center" headerAlign="center" >车号</div>			
 			<div field="driver_name" width="50" align="center" headerAlign="center">司机姓名</div>
 			<div field="driver_idcard" width="50" align="center" headerAlign="center" >身份证号码</div>
@@ -91,6 +92,11 @@ function transport_contract_edit(){
 	if(status == 0)
 	{
 		alert("被废除的合同无法编辑");
+		return;
+	}
+	if(status == 3)
+	{
+		alert("审核通过的合同无法编辑");
 		return;
 	}
 	mini.open({
@@ -163,7 +169,7 @@ function onStatusRender(e) {
 		s+='审核未通过';
 		s += '</br><a href="javascript:transport_contract_edit()"> 编辑</a>';
 	}else if(record.status=='1'){
-		"{if $role eq 24}"
+		"{if $role neq 24}"
         s += '<a href="javascript:onContractReview('+logistics_contract_id+')">待审核</a>&nbsp;&nbsp;';
 		"{else}"
 		s += '待审核';

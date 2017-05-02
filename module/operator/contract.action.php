@@ -77,6 +77,9 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['created_name']=$name1['0']['name'];
 				$list['data'][$k]['last_edited_name']=$name2['0']['name'];
 				$list['data'][$k]['part_company_name']='中晨';
+				$fee_list=explode(',',$list['data'][$k]['delivery_fee']);
+				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.'+'.'上车费: '.(!empty($fee_list['1'])?$fee_list['1']:'0').'元/吨'.'+'.'其它: '.(!empty($fee_list['2'])?$fee_list['2']:'0').'元';
+				$list['data'][$k]['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -181,6 +184,12 @@ class contractAction extends adminBaseAction {
 	    //$info =M('public:common')->model('transport_contract')->leftJoin('logistics_supplier ls', 'second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . sget('logistics_contract_id','i'))->getRow();
 	    $info = M('public:common')->model('transport_contract lc')->leftJoin('logistics_supplier ls', 'lc.second_part_company_id = ls.supplier_id')->where('logistics_contract_id=' . sget('logistics_contract_id','i'))->
 	    leftJoin('logistics_contact lx', 'lc.second_part_contact_id=lx.id')->getRow();
+	    $date_type=explode('-',$info['contract_time']);
+	    $info['contract_time']=$date_type['0'].' 年 '.trim($date_type['1'], '0').' 月 '.$date_type['2'].' 日';
+	    $delivery_type=explode('-',$info['delivery_time']);
+	    $info['delivery_time']=$delivery_type['0'].' 年 '.trim($delivery_type['1'], '0').' 月 '.$delivery_type['2'].' 日';
+	    $fee_list=explode(',',$info['delivery_fee']);
+	    $info['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.'+'.'上车费: '.(!empty($fee_list['1'])?$fee_list['1']:'0').'元/吨'.'+'.'其它: '.(!empty($fee_list['2'])?$fee_list['2']:'0').'元';
 	    $this->assign('info',$info);
 	    $this->display('contract.review.html');
 	}

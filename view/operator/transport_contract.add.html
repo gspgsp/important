@@ -5,12 +5,13 @@
 <link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
 <div style="padding:5px; " >
 	<div id="infoForm" class="form">
+	<input class="mini-hidden"  name="c_id" value="{$info.c_id}" />
 		<div  style="padding:5px; " >
 			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
 				<legend>运输合同</legend>
 				<div id="editForm1" style="padding:5px; ">
-					<table id="table1" width="100%" >
-						<tr>
+					<table id="table1" width="100%" >					
+						<tr>							
 							<td><font style="color:red;">甲方(委托方)：</font></td>
 							<td>上海中晨电子股份有限公司</td>
 							<td>合同日期： </td>
@@ -33,7 +34,7 @@
 						</tr>
 						<tr>
 							<td>货物数量:</td>
-							<td><input name="goods_num"  id="goods_num" class="mini-textbox" style="width:350px;"  required="true" value=""/>
+							<td><input name="goods_num"  id="goods_num" class="mini-textbox" style="width:100px;"  required="true" onvaluechanged="sum()"/> 吨
 							</td>
 						</tr>
 						<tr>
@@ -79,22 +80,27 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>运输费用(含税)：</td>
-							<td><input name="delivery_fee" id="delivery_fee" class="mini-textbox" style="width:350px;" maxlength="50"  required="true" value=""/>
-							</td>
+							<td>运输费用详情(含税)：</td>
+							<td>单价: <input name="delivery_price" id="delivery_price"class="mini-textbox" style="width:50px;" maxlength="50"  required="true" onvaluechanged="sum()"/> 元/吨 + 上车费:
+							               <input name="delivery_trans" id="delivery_trans"class="mini-textbox" style="width:50px;" maxlength="50"   onvaluechanged="sum()"/> 元/吨 + 其它:
+							               <input name="delivery_other" id="delivery_other"class="mini-textbox" style="width:50px;" maxlength="50"  onvaluechanged="sum()"/> 元</td>
+						</tr>
+						<tr>
+						<td>运输总费用(含税)：</td>
+						<td id="delivery_fee_count" onkeyup="sum()"></td>
 						</tr>
 						<tr>
 							<td>
 								<div>甲方</div>
 								<div>TEL:<input name="first_part_contact_tel"   class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.tel}"/></div>
 								<div>FAX:<input name="first_part_contact_fax"  class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.fax}"/></div>
-								<div>委托代理人:<input name="first_part_contact_name" class="mini-textbox" style="width:125px;" required="true" value="{$first_part_info.name}"  /></div>
+								<div>委托代理人:<input name="first_part_contact_name" class="mini-textbox" style="width:85px;" required="true" value="{$first_part_info.name}"  /></div>
 							</td>
 							<td>
 								<div>乙方</div>
 								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" class="mini-textbox" style="width:125px;" required="true" value=""/></div>
 								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax" class="mini-textbox" style="width:125px;"  required="true" value=""/></div>
-								<div>委托代理人:<input name="second_part_contact_id" onvaluechanged="getcontact" class="mini-combobox" style="width:125px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
+								<div>委托代理人:<input name="second_part_contact_id" onvaluechanged="getcontact" class="mini-combobox" style="width:85px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
 							</td>
 						</tr>
 					</table>
@@ -204,4 +210,13 @@
 		}
 		return unit_price;
 	}
+	//计算运输总费用
+    function sum(){
+    var goods_num=mini.get('goods_num').getValue();
+    var delivery_price=mini.get('delivery_price').getValue();
+	var delivery_trans=mini.get('delivery_trans').getValue();
+	var delivery_other=mini.get('delivery_other').getValue();
+	var delivery_fee_count=(delivery_price*1+delivery_trans*1)*goods_num+delivery_other*1;
+	$("#delivery_fee_count").text(delivery_fee_count+' 元');
+    }
 </script>

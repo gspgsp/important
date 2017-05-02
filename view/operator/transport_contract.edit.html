@@ -34,7 +34,7 @@
 						</tr>
 						<tr>
 							<td>货物数量:</td>
-							<td><input name="goods_num" value="{$infoq.goods_num}" id="goods_num" class="mini-textbox" style="width:350px;" maxlength=""  required="true" />
+							<td><input name="goods_num" value="{$infoq.goods_num}" id="goods_num" class="mini-textbox" style="width:100px;" maxlength=""  required="true" onvaluechanged="sum()"/> 吨
 							</td>
 						</tr>
 						<tr>
@@ -80,9 +80,14 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>运输费用（含税）：</td>
-							<td><input name="delivery_fee" id="delivery_fee" value="{$infoq.delivery_fee}" class="mini-textbox" style="width:350px;" maxlength=""  required="true" value=""/>
-							</td>
+							<td>运输费用详情(含税)：</td>
+							<td>单价: <input name="delivery_price" id="delivery_price"class="mini-textbox" style="width:50px;" maxlength="50"  required="true" onvaluechanged="sum()"value="{$infoq.delivery_price}" /> 元/吨 + 上车费:
+							               <input name="delivery_trans" id="delivery_trans"class="mini-textbox" style="width:50px;" maxlength="50"   onvaluechanged="sum()"value="{$infoq.delivery_trans}" /> 元/吨 + 其它:
+							               <input name="delivery_other" id="delivery_other"class="mini-textbox" style="width:50px;" maxlength="50"  onvaluechanged="sum()"value="{$infoq.delivery_other}" /> 元</td>
+						</tr>
+						<tr>
+						<td>运输总费用(含税)：</td>
+						<td id="delivery_fee_count" >{$infoq.delivery_fee_count}</td>
 						</tr>
 						<tr>
 							<td>
@@ -224,4 +229,13 @@
 		}
 		return unit_price;
 	}
+	//计算运输总费用
+    function sum(){
+    var goods_num=mini.get('goods_num').getValue();
+    var delivery_price=mini.get('delivery_price').getValue();
+	var delivery_trans=mini.get('delivery_trans').getValue();
+	var delivery_other=mini.get('delivery_other').getValue();
+	var delivery_fee_count=(delivery_price*1+delivery_trans*1)*goods_num+delivery_other*1;
+	$("#delivery_fee_count").text(delivery_fee_count+' 元');
+    }
 </script>

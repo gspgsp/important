@@ -361,7 +361,7 @@ function submitFinancial(){
 }
 //新增产品详情
 function onLoadDetail(e){
-	var record = e.record,s='',oid = record.o_id,see = record.see,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,purstatus=record.pur_status,is_super=record.is_supper,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
+	var record = e.record,s='',c_id = record.c_id,oid = record.o_id,see = record.see,order_type = record.order_type,order_status=record.order_status,transport_status=record.transport_status,c_status=record.collection_status,i_status=record.invoice_status,sales_type=record.sales_type,join_id=record.join_id,is_join_in=record.is_join_in,out_storage_status=record.out_storage_status,in_storage_status=record.in_storage_status,purstatus=record.pur_status,is_super=record.is_supper,one_c_status=record.one_c_status,one_b_status=record.one_b_status,financial_records=record.financial_records,is_join_check=record.is_join_check;
 	order_type = (order_type=='销售订单' ? '1' : '2');
 	if(order_type=='1'){	//销售
 		if(is_super==1){
@@ -445,7 +445,7 @@ function onLoadDetail(e){
 		/*if(see=='1'){
 			s+='<a href="javascript:salecompact('+oid+')">运输合同</a>';
 		}*/
-		s+='&nbsp;<a href="javascript:transport_contract('+oid+')">生成运输合同</a>';
+		s+='&nbsp;<a href="javascript:transport_contract('+oid+','+c_id+')">生成运输合同</a>';
 
 	}else{   //采购
 		if(order_status =='3' || transport_status =='3')  return;
@@ -475,14 +475,14 @@ function onLoadDetail(e){
 		/*if(see=='1'){
 			s+='<a href="javascript:salecompact('+oid+')">运输合同</a>';
 		}*/
-		s+='&nbsp;<a href="javascript:transport_contract('+oid+')">生成运输合同</a>';
+		s+='&nbsp;<a href="javascript:transport_contract('+oid+','+c_id+')">生成运输合同</a>';
 	}
 	return s;
 }
 //生成运输合同
-function transport_contract(o_id){
+function transport_contract(o_id,c_id){
 	mini.open({
-		url: "/operator/transport/add?order_type=2&order_id="+o_id,
+		url: "/operator/transport/add?order_type=2&order_id="+o_id+"&c_id="+c_id,
 		showMaxButton:true,
 		title: '新增运输合同', width: 845, height: 650,
 		ondestroy: function (action) {
