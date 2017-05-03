@@ -180,14 +180,14 @@ class plasticzoneActivityAction extends adminBaseAction{
 
             $_data = array(
                 'qapp_banner'=>json_encode(array(
-                    'start_time'=>$_POST['qapp_banner_start_time'],
-                    'end_time'=>$_POST['qapp_banner_end_time'],
+                    'start_time'=>strtotime($_POST['qapp_banner_start_time']),
+                    'end_time'=>strtotime($_POST['qapp_banner_end_time']),
                     'url'=>$_POST['qapp_banner_url'],
                     'jump_url'=>$_POST['qapp_banner_jump_url'],
                 )),
                 'qapp_cover'=>json_encode(array(
-                    'start_time'=>$_POST['qapp_cover_start_time'],
-                    'end_time'=>$_POST['qapp_cover_end_time'],
+                    'start_time'=>strtotime($_POST['qapp_cover_start_time']),
+                    'end_time'=>strtotime($_POST['qapp_cover_end_time']),
                     'url'=>$_POST['qapp_cover_url'],
                     'jump_url'=>$_POST['qapp_cover_jump_url'],
                 ))
