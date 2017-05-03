@@ -206,7 +206,7 @@ class customerAction extends adminBaseAction {
 				}
 			}
 		}
-		p($where);
+		// p($where);
 		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
