@@ -77,6 +77,7 @@ class orderLogModel extends model{
 		}
 		// 货物信息
 		$goods_str .= $ext.'请注意查收';
+		p($goods_str);
 		//处理发送给谁
 		$resives = $this->model('customer_contact')->where("`customer_manager` = {$o_info['customer_manager']} and `c_id` = {$o_info['c_id']}")->getAll();
 		if(empty($resives)){
