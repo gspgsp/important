@@ -15,8 +15,7 @@ td{width:60px;border:1px solid #ccc;}
 					<td>电话</td>	
 					<td>会员经办人</td>
 					<td>开通类目</td>
-					<td>操作类型</td>
-					<!-- <td>年数</td>	 -->		
+					<td>操作类型</td>	
 					<td>起始时间</td>					
 					<td>终止时间</td>
 					<td>操作时间</td>
@@ -30,7 +29,6 @@ td{width:60px;border:1px solid #ccc;}
 					<td>{$v[sale_name]}</td>
 					<td>{$v[cate_name]}</td>
 					<td>{if $v[type]==1}开通会员{elseif $v[type]==2}一键清空{elseif $v[type]==3}续费会员{elseif $v[type]==4}分类删减{else}会员自动到期{/if}</td>
-					<!-- <td>{if $v[year_num]==99}一键清空{else}{$v[year_num]}{/if}</td> -->
 					<td>{$v[start_time]}</td>
 					<td>{$v[end_time]}</td>
 					<td>{$v[input_time]|date:Y-m-d H:i:s}</td>

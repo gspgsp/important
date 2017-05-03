@@ -84,6 +84,11 @@ class headlineAction extends adminBaseAction {
 		$info['input_time']=CORE_TIME;		
 		$cate=explode(',', $info['cate_id']);
 		$total_price=$info['total_price'];
+		if (!empty($info['remark'])) {
+			$remark=$info['remark'];
+			unset($info['remark']);	
+			$cate[]=0;
+		}
 		unset($info['total_price']);
 		unset($info['cate_id']);
 		foreach ($cate as $k=>$v3) {
@@ -98,6 +103,9 @@ class headlineAction extends adminBaseAction {
 			$info['end_time']=$info['start_time']+($info['month_num']*2592000);
 			$info['total_time']=$info['end_time'];
 			$info['cate_id']=$v3;
+			if($v3==0){
+				$info['remark']=$remark;	
+			}
 			$result=$this->db->model('customer_headline')->add($info);
 			$arr[$k]=$this->db->model('customer_headline')->select('id')->where('user_id='.$info['user_id'].' and sale_name="'.$info['sale_name'].'" and cate_id='.$v3)->order('id desc')->getOne();
 			if ($result) {
@@ -150,7 +158,7 @@ class headlineAction extends adminBaseAction {
 		//获取对应ID记录
 		$data=$this->db->model('customer_headline')->where('user_id='.$userid)->order('id desc')->getAll();
 		foreach ($data as $k => $v) {				
-			$data[$k]['cate_name']=$this->db->model('news_cate')->wherePk($v['cate_id'])->select('cate_name')->getOne();
+			$data[$k]['cate_name']=$v['cate_id']==0 ? $v['remark'] : $this->db->model('news_cate')->wherePk($v['cate_id'])->select('cate_name')->getOne();
 			$data[$k]['start_time']=$v['start_time']>1000 ? date("Y-m-d H:i:s",$v['start_time']) : '--';
 			$data[$k]['end_time']=$v['end_time']>1000 ? date("Y-m-d H:i:s",$v['end_time']) : '--';
 			$data[$k]['total_time']=$v['total_time']>1000 ? date("Y-m-d H:i:s",$v['total_time']) : '已到期';
@@ -276,12 +284,12 @@ class headlineAction extends adminBaseAction {
 			//查询数据
 			$list=$this->db->model('customer_headline')
 					->where($where)
-					->select("c_name,mobile,sale_name,start_time,end_time,input_time,type,month_num,cate_id")
+					->select("c_name,mobile,sale_name,start_time,end_time,input_time,type,month_num,cate_id,remark")
 					->page($pageIndex+1,$pageSize)
 					->order("$sortField $sortOrder")
 					->getPage();
 			foreach($list['data'] as $k=>$v){
-				$list['data'][$k]['cate_name']= $this->db->model('news_cate')->where('cate_id='.$v['cate_id'])->select('cate_name')->getOne();
+				$list['data'][$k]['cate_name']= $v['cate_id']==0 ? $v['remark'] : $this->db->model('news_cate')->where('cate_id='.$v['cate_id'])->select('cate_name')->getOne();
 				$list['data'][$k]['start_time']=$v['start_time']>1000 ? date("Y-m-d H:i:s",$v['start_time']) : '-';
 				$list['data'][$k]['end_time']=$v['end_time']>1000 ? date("Y-m-d H:i:s",$v['end_time']) : '-';
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
@@ -322,7 +330,12 @@ class headlineAction extends adminBaseAction {
 			foreach($list['data'] as $k=>$v){
 				$arr=explode(',', $v['cate_id']);
 				foreach ($arr as $k2 => $v2) {
-					$list['data'][$k]['cate_name'][$k2]=$this->db->model('news_cate')->select('cate_name')->where('cate_id='.$v2)->getOne();
+					if($v2!=0){
+						$list['data'][$k]['cate_name'][$k2]=$this->db->model('news_cate')->select('cate_name')->where('cate_id='.$v2)->getOne();
+					}else{
+						$t_id=(int) substr($v['h_id'], strrpos($v['h_id'], ','));
+						$list['data'][$k]['cate_name'][$k2]=$this->db->model('customer_headline')->select('remark')->where('id='.$t_id)->getOne();
+					}	
 				}
 				$list['data'][$k]['cate_name']=implode(',',$list['data'][$k]['cate_name']);		
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
