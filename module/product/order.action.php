@@ -731,6 +731,8 @@ class orderAction extends adminBaseAction {
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
+		//发送手机动态码
+		M('order:orderLog')->sendMsg($data['o_id']);
 		$this->success('操作成功');
 	}
 	/**
