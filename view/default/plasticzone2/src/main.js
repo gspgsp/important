@@ -3,7 +3,6 @@ import VueRouter from '../node_modules/vue-router/dist/vue-router.min';
 
 Vue.use(VueRouter);
 
-//var url='/api/qapi1_1';
 const Index = r => require.ensure([], () => r(require('./views/index.vue')), 'index')
 const Login = r => require.ensure([], () => r(require('./views/login.vue')), 'login')
 const Register= r => require.ensure([], () => r(require('./views/register.vue')), 'register')
@@ -41,8 +40,6 @@ const Credit= r => require.ensure([], () => r(require('./views/credit.vue')), 'c
 const Creditintro= r => require.ensure([], () => r(require('./views/creditintro.vue')), 'creditintro')
 const Credit2= r => require.ensure([], () => r(require('./views/credit2.vue')), 'credit2')
 const Searchcompany= r => require.ensure([], () => r(require('./views/searchcompany.vue')), 'searchcompany')
-const Qichacha= r => require.ensure([], () => r(require('./views/qichacha.vue')), 'qichacha')
-const Qccresult= r => require.ensure([], () => r(require('./views/qccresult.vue')), 'qccresult')
 const Recharge= r => require.ensure([], () => r(require('./views/recharge.vue')), 'recharge')
 const Recharge2= r => require.ensure([], () => r(require('./views/recharge2.vue')), 'recharge2')
 const Pointsrule2= r => require.ensure([], () => r(require('./views/pointsrule2.vue')), 'pointsrule2')
@@ -87,8 +84,6 @@ var  router = new VueRouter({
 	{path:'/creditintro',name:'creditintro',component:Creditintro},
 	{path:'/credit2/:id',name:'credit2',component:Credit2},
 	{path:'/searchcompany',name:'searchcompany',component:Searchcompany},
-	{path:'/qichacha',name:'qichacha',component:Qichacha},
-	{path:'/qccresult',name:'qccresult',component:Qccresult},
 	{path:'/recharge',name:'recharge',component:Recharge},
 	{path:'/recharge2',name:'recharge2',component:Recharge2},
 	{path:'/pointsrule2',name:'pointsrule2',component:Pointsrule2},

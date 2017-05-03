@@ -68,18 +68,19 @@
 				<router-link :to="{name:'personinfo',params:{id:n.user_id}}">
 					<p class="first"><i class="icon wxGs"></i><span v-html="n.c_name"></span><i class="icon wxName"></i><span v-html="n.name"></span>&nbsp;{{n.sex}}</p>
 					<p class="second">
-						<span v-if="n.type==='1'">产品:{{n.main_product}} 月用量:{{n.month_consum}}</span>
+						<span v-if="n.type==='1'">产品:{{n.main_product}}</span>
+						<span v-if="n.type==='1'">月用量:{{n.month_consum}}</span>
 					</p>
 					<p v-if="n.type=='1'" class="second">
 						供:{{n.sale_count}} 求:{{n.buy_count}} 需求：
-						<span style="color: #666666;" v-html="n.need_product"></span>
+						<b style="color: #666666; font-weight: normal;" v-html="n.need_product"></b>
 					</p>
 					<p v-if="n.type==='2'" class="second">
 						供:{{n.sale_count}} 求:{{n.buy_count}} 主营：
-						<span style="color: #666666;" v-html="n.need_product"></span>
+						<b style="color: #666666; font-weight: normal;" v-html="n.need_product"></b>
 					</p>
 					<p v-if="n.type==='4'" style="color: #666666;">
-						主营产品：<span style="color: #666666;" v-html="n.main_product"></span>
+						主营产品：<b style="color: #666666; font-weight: normal;" v-html="n.main_product"></b>
 					</p>
 					<i class="icon2 rightArrow"></i>
 				</router-link>
