@@ -27,10 +27,10 @@
                         {html_options options=$goods_name}
                     </select>
                     <select id="customer_type" name="customer_type" style="width:100px;">
-                        <option value="" selected="selected">=用户分类=</option>
+                        <option value="" >=用户分类=</option>
                         <option value="all">全部</option>
                         <option value="pc">pc</option>
-                        <option value="qapp">塑料圈</option>
+                        <option value="qapp" selected="selected">塑料圈</option>
                     </select>
                     <input name="startTime" class="mini-datepicker" style="width:100px;" value="{$startTime}"/> -
                     <input name="endTime" class="mini-datepicker" style="width:100px;" value="{$endTime}"/>
@@ -42,6 +42,7 @@
                     </select>
                     <input name="keyword" class="mini-textbox" emptyText="请输入" style="width:140px;" onenter="onKeyEnter"/>
                     <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                    <br />
                     <span id="searchMsg"></span></form>
             </td>
         </tr>

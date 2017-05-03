@@ -98,8 +98,13 @@ class plasticzoneActivityAction extends adminBaseAction{
                 $where.=" and b.is_mobile =1";
                 break;
         }
-
-
+        $sql ="select sum(case when  b.points < 0 then b.points else 0 end) supply_num,
+               sum(case when b.points > 0 then b.points else 0 end) achieve_num,
+               count(DISTINCT b.uid) distinct_id
+                from p2p_points_bill b left join p2p_customer_contact c on c.user_id = b.uid
+                where $where
+        ";
+        $_tmpSome = $this->db->from('points_bill b')->getRow($sql);
         //$where.=" and addtime >".CORE_TIME;
 
         $list=$this->db->from("points_bill b")
@@ -116,7 +121,8 @@ class plasticzoneActivityAction extends adminBaseAction{
             $list['data'][$k]['share_type'] = empty($v['share_type'])?999:$v['share_type'];
             $list['data'][$k]['type'] = empty($v['type'])?999:$v['type'];
         }
-        $result=array('total'=>$list['count'],'data'=>$list['data']);
+        $msg="消耗塑豆：{$_tmpSome['supply_num']}&nbsp;&nbsp;&nbsp;获取塑豆：{$_tmpSome['achieve_num']}&nbsp;&nbsp;&nbsp;用户使用人数：{$_tmpSome['distinct_id']}&nbsp;&nbsp;&nbsp;用户使用次数：{$list['count']}&nbsp;";
+        $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
         $this->json_output($result);
     }
 
