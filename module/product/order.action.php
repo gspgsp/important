@@ -733,7 +733,7 @@ class orderAction extends adminBaseAction {
 			$this->error($e->getMessage());
 		}
 		//发送手机动态码
-		$type = $this->model('order')->select('order_type')->where(' o_id = '.$data['o_id'])->getOne();
+		$type = $this->db->model('order')->select('order_type')->where(' o_id = '.$data['o_id'])->getOne();
 		M('order:orderLog')->sendMsg($data['o_id'],$type);
 		showtrace();
 		$this->success('操作成功');
