@@ -55,7 +55,7 @@ class orderLogModel extends model{
 	 * @param    integer                  $msg          [短信内容]
 	 * @return   [type]                                 [订单类型 1为销售 2为采购]
 	 */
-	public function sendMsg($oid = 0,$type=1,$ext='现在已经将合同传给您'){
+	public function sendMsg($oid = 0,$type=1,$ext='现在已经将合同传给您,请注意查收'){
 		$o_info = $this->model('order')->where("o_id = $oid")->getRow();
 		$order_sn = $o_info['order_sn']; //订单的号码
 		// 根据订单号获取货物信息
@@ -76,8 +76,7 @@ class orderLogModel extends model{
 			}
 		}
 		// 货物信息
-		$goods_str .= $ext.'请注意查收';
-		p($goods_str);
+		$goods_str .= $ext;
 		//处理发送给谁
 		$resives = $this->model('customer_contact')->where("`customer_manager` = {$o_info['customer_manager']} and `c_id` = {$o_info['c_id']}")->getAll();
 		if(empty($resives)){
@@ -86,7 +85,7 @@ class orderLogModel extends model{
 		if(!empty($resives)){
 			foreach ($resives as $key => $value) {
 				if(!empty($value['mobile'])){
-					M('system:sysSMS')->sendMobileMsg($value['user_id'],$value['mobile'],$goods_str,8);
+					M('system:sysSMS')->send($value['user_id'],$value['mobile'],$goods_str,8);
 				}
 			}
 		}
