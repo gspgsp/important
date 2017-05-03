@@ -24,7 +24,7 @@ class infolistAction extends adminBaseAction {
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','id'); //排序字段
-		$sortOrder = sget("sortOrder",'s','asc'); //排序
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		
 		$where = "1";
 		$applys = $this->db->where($where)
@@ -42,6 +42,7 @@ class infolistAction extends adminBaseAction {
 			$res['c_id'] = $this->db->model('customer')->where("c_id = {$value['c_id']}")->select('c_name')->getOne();
 			$res['status'] = $value['status'] == 1?'待处理':($value['status'] == 2?'已转风控':'已拒绝');
 			$res['product_type'] = strtoupper($res['product_type']);
+			$res['input_time'] = $value['create_date'];
 			$result[] = $res;
 		}
 		$this->json_output(array('total'=>$applys['count'],'data'=>$result));
