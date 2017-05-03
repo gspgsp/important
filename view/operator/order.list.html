@@ -88,7 +88,7 @@
 	</table>
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
-	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/order/init?action=grid&do={$doact}&type={$order_type}&order_sn={$order_sn}&o_ids={$o_ids}&moreChoice={$moreChoice}{if $unid}&unid={$unid}{/if}{if $finance}&finance={$finance}{/if}"  idField="id"
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/operator/order/init?action=grid&do={$doact}&type={$order_type}&order_sn={$order_sn}&o_ids={$o_ids}&moreChoice={$moreChoice}{if $unid}&unid={$unid}{/if}{if $finance}&finance={$finance}{/if}"  idField="id"
 	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
@@ -488,13 +488,13 @@ function onLoadDetail(e){
 }
 //生成运输合同
 function createTransport(e){
-	var record = e.record,s='',oid = record.o_id,c_id = record.c_id;
-	return s ='<a href="javascript:transport_contract('+oid+','+c_id+')">生成运输合同</a>';
+	var record = e.record,s='',oid = record.o_id,c_id = record.c_id,order_name_id = record.order_name_id;
+	return s ='<a href="javascript:transport_contract('+oid+','+c_id+','+order_name_id+')">生成运输合同</a>';
 }
 //运输合同页面
-function transport_contract(o_id,c_id){
+function transport_contract(o_id,c_id,order_name_id){
 	mini.open({
-		url: "/operator/transport/add?order_type=2&order_id="+o_id+"&c_id="+c_id,
+		url: "/operator/transport/add?order_type=2&order_id="+o_id+"&c_id="+c_id+"&order_name_id="+order_name_id,
 		showMaxButton:true,
 		title: '新增运输合同', width: 845, height: 650,
 		ondestroy: function (action) {

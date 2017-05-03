@@ -194,6 +194,7 @@ class orderAction extends adminBaseAction {
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
 			$v['order_source']=L('order_source')[$v['order_source']];
+			$v['order_name_id']=$v['order_name'];
 			$v['order_name']=L('company_account')[$v['order_name']];
 			$v['pay_method'] =L('pay_method')[$v['pay_method']];
 			$v['in_storage_status']=L('in_storage_status')[$v['in_storage_status']];

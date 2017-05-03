@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
 <div style="padding:5px; " >
 	<div id="infoForm" class="form">
+	    <input class="mini-hidden"  name="c_id" value="{$infoq.c_id}" />
 		<input class="mini-hidden" value="{$infoq.logistics_contract_id}" name="logistics_contract_id" />
 		<div  style="padding:5px; " >
 			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
@@ -13,7 +14,7 @@
 					<table id="table1" width="100%" >
 						<tr>
 							<td><font style="color:red;">甲方(委托方)：</font></td>
-							<td>上海中晨电子股份有限公司</td>
+							<td><input name="order_name" id="order_name" class="mini-textbox" style="width:350px;" required="true" value="{$infoq.order_name}"/></td>
 							<td>合同日期： </td>
 							<td><input  class="mini-datepicker"  name="contract_time"  id="contract_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$infoq.contract_time}"/>
 							</td>
@@ -81,7 +82,7 @@
 						</tr>
 						<tr>
 							<td>运输费用详情(含税)：</td>
-							<td>单价: <input name="delivery_price" id="delivery_price"class="mini-textbox" style="width:50px;" maxlength="50"  required="true" onvaluechanged="sum()"value="{$infoq.delivery_price}" /> 元/吨 + 上车费:
+							<td>单价: <input name="delivery_price" id="delivery_price"class="mini-textbox" style="width:50px;" maxlength="50"  required="true" onvaluechanged="sum()"value="{$infoq.delivery_price}" /> 元/吨 + 装车费:
 							               <input name="delivery_trans" id="delivery_trans"class="mini-textbox" style="width:50px;" maxlength="50"   onvaluechanged="sum()"value="{$infoq.delivery_trans}" /> 元/吨 + 其它:
 							               <input name="delivery_other" id="delivery_other"class="mini-textbox" style="width:50px;" maxlength="50"  onvaluechanged="sum()"value="{$infoq.delivery_other}" /> 元</td>
 						</tr>
@@ -94,13 +95,13 @@
 								<div>甲方</div>
 								<div>TEL:<input name="first_part_contact_tel" class="mini-textbox" style="width:125px;"  required="true" value="{$infoq.first_part_contact_tel}"/></div>
 								<div>FAX:<input name="first_part_contact_fax" class="mini-textbox" style="width:125px;"  required="true" value="{$infoq.first_part_contact_fax}"/></div>
-								<div>委托代理人:<input name="first_part_contact_name" class="mini-textbox" style="width:125px;" required="true" value="{$infoq.first_part_contact_name}"  /></div>
+								<div>委托代理人:<input name="first_part_contact_name" class="mini-textbox" style="width:85px;" required="true" value="{$infoq.first_part_contact_name}"  /></div>
 							</td>
 							<td>
 								<div>乙方</div>
 								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" value='{$infoq.second_part_contact_tel}' class="mini-textbox" style="width:125px;" maxlength=""  required="true" value=""/></div>
 								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax"  value='{$infoq.second_part_contact_fax}' class="mini-textbox" style="width:125px;" maxlength=""  required="true" value=""/></div>
-								<div>委托代理人:<input name="second_part_contact_id" id="second_part_contact_id" value='{$infoq.second_part_contact_id}' onvaluechanged="getcontact" class="mini-combobox" style="width:125px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
+								<div>委托代理人:<input name="second_part_contact_id" id="second_part_contact_id" value='{$infoq.second_part_contact_id}' onvaluechanged="getcontact" class="mini-combobox" style="width:85px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
 							</td>
 						</tr>
 					</table>
@@ -134,22 +135,6 @@
 	gridCell.setData(noStockData);
 	totalCount(noStockData);
 	"{/if}"
-	mini.get('plate_number').on("validation", function (e) {
-		if (e.isValid) {
-			if (e.value.length != 6) {
-				e.errorText = "车牌号必须为6位";
-				e.isValid = false;
-			}
-		}
-	});
-	mini.get('driver_idcard').on("validation", function (e) {
-		if (e.isValid) {
-			if (e.value.length != 18) {
-				e.errorText = "身份证号必须为18位";
-				e.isValid = false;
-			}
-		}
-	});
 	function submitForm(){
 		form.validate();
 		if(form.isValid() == false) return;

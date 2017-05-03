@@ -62,6 +62,15 @@ class transportAction extends adminBaseAction
     {
         $order_id = sget('order_id', 'i');
         $c_id = sget('c_id','i');
+        $order_name_id = sget('order_name_id','i');
+        if($order_name_id=='1'){
+        $order_name='上海中晨电子商务股份有限公司';
+        }elseif($order_name_id=='2'){
+        $order_name='上海梓辰实业有限公司';
+        }else{
+        $order_name='嘉兴鼎辉信息科技有限公司';
+        }
+        $this->assign('order_name', $order_name);
         $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
         $first_part_info=M('rbac:adm')->where('admin_id='.$_SESSION['adminid'])->select('name,tel,fax')->getRow();
         if (!empty($order_id)) {
@@ -169,11 +178,6 @@ class transportAction extends adminBaseAction
             $arr = ['err' => 1, 'msg' => '物流公司信息错误'];
             $this->json_output($arr);
         }
-        /*if(empty($data['second_part_contact_id'])||empty($data['contact_time']))
-        {
-            $arr = ['err'=>1,'msg'=>'必填项目未填'];
-            $this->json_output($arr);
-        }*/
 
         $data['status'] = 1;
         $data['create_time'] = time();
@@ -181,15 +185,18 @@ class transportAction extends adminBaseAction
         $data['created_by'] = $this->admin_id;
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-        $res = M('public:common')->model('transport_contract')->add($data);
-        $yls = M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));
-
-        if ($res&&$yls) {
-            $arr = ['err' => 0, 'msg' => '合同生效'];
-        } else {
-            $arr = ['err' => 1, 'msg' => '新增失败'];
+        //启动事务
+        $this->db->startTrans();
+        try{
+          if(!M('public:common')->model('transport_contract')->add($data))  throw new Exception("合同新增失败：代码出错");
+          if(!M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place'])))
+              throw new Exception("合同新增失败：运货地址回传失败");
+        }catch (Exception $e){
+            $this->db->rollback();
+            $this->json_output(array('err' => 1, 'msg' => $e->getMessage()));
         }
-        $this->json_output($arr);
+        $this->db->commit();
+        $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
     }
 
 
@@ -214,14 +221,13 @@ class transportAction extends adminBaseAction
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-        $res = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);
 
-        if ($res) {
-            $arr = ['err' => 0, 'msg' => '合同生效'];
-        } else {
-            $arr = ['err' => 1, 'msg' => '程序错误'];
-        }
-        $this->json_output($arr);
+        if(M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']))){
+             $res=M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);
+             if($res) $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
+            }else{
+              $this->json_output(array('err' => 1, 'msg' =>'合同编辑失败：运货地址回传失败'));
+            }             
     }
 
     /**
@@ -299,7 +305,7 @@ class transportAction extends adminBaseAction
             $delivery_type=explode('-',$info['delivery_time']);
             $info['delivery_time']=$delivery_type['0'].' 年 '.trim($delivery_type['1'], '0').' 月 '.$delivery_type['2'].' 日';
             $fee_list=explode(',',$info['delivery_fee']);
-            $info['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.'+'.'上车费: '.(!empty($fee_list['1'])?$fee_list['1']:'0').'元/吨'.'+'.'其它: '.(!empty($fee_list['2'])?$fee_list['2']:'0').'元';
+            $info['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'');
             $this->assign('infoq', $info);
             $str = $this->fetch('transport_contract.pdf.html');
 

@@ -24,8 +24,8 @@ class contractAction extends adminBaseAction {
 			$size = sget("pageSize",'i',20); //每页数
 			$sortField = sget("sortField",'s','logistics_contract_id'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序	
-			$where='1';
-
+			$where='1';			
+			$where.=" and `status`> 0";
 			//区分是否是普通物流人员
 			if($this->role['role_id'] == 25)
 			{
@@ -78,7 +78,7 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['last_edited_name']=$name2['0']['name'];
 				$list['data'][$k]['part_company_name']='中晨';
 				$fee_list=explode(',',$list['data'][$k]['delivery_fee']);
-				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.'+'.'上车费: '.(!empty($fee_list['1'])?$fee_list['1']:'0').'元/吨'.'+'.'其它: '.(!empty($fee_list['2'])?$fee_list['2']:'0').'元';
+				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'');
 				$list['data'][$k]['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -189,7 +189,7 @@ class contractAction extends adminBaseAction {
 	    $delivery_type=explode('-',$info['delivery_time']);
 	    $info['delivery_time']=$delivery_type['0'].' 年 '.trim($delivery_type['1'], '0').' 月 '.$delivery_type['2'].' 日';
 	    $fee_list=explode(',',$info['delivery_fee']);
-	    $info['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.'+'.'上车费: '.(!empty($fee_list['1'])?$fee_list['1']:'0').'元/吨'.'+'.'其它: '.(!empty($fee_list['2'])?$fee_list['2']:'0').'元';
+	    $info['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'');
 	    $this->assign('info',$info);
 	    $this->display('contract.review.html');
 	}

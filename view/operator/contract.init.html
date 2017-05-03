@@ -20,10 +20,10 @@
 				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
 				<select name="status" id="soStatus">
 						<option value="">=状态=</option>
-						<option value="0">禁用</option>
+						<!-- <option value="0">禁用</option> -->
 						<option value="1">待审核</option>
 						<option value="3">审核通过</option>
-						<option value="2">审核不通过</option>
+						<option value="2">审核未通过</option>
 					</select>			
 						<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 						<span id="searchMsg"></span>
@@ -38,13 +38,13 @@
 		<div property="columns">
 			<div type="checkcolumn"></div>
 			<div field="logistics_contract_id" width="30" align="center" headerAlign="center">合同号</div>
-			<div field="part_company_name" width="80" align="center" headerAlign="center" >甲方公司</div>
+			<div field="order_name" width="80" align="center" headerAlign="center" >甲方公司</div>
 			<div field="second_part_company_name" width="80" align="center" headerAlign="center" >乙方公司</div>
 			<div field="goods_class" width="50" align="center" headerAlign="center">货物牌号</div>
 			<div field="goods_num" width="50" align="center" headerAlign="center">货物数量</div>
 			<div field="start_place" width="70" align="center" headerAlign="center">提货地点</div>
 			<div field="end_place" width="70" align="center" headerAlign="center">送货地点</div>	
-			<div field="delivery_fee_details" width="50" align="center" headerAlign="center" >运输费用详情</div>
+			<div name="action" width="100" headerAlign="center" renderer="feeDetails">运输费用详情</div>
 			<div field="delivery_fee_count" width="50" align="center" headerAlign="center" >运输总费用</div>		
 			<div field="plate_number" width="50" align="center" headerAlign="center" >车号</div>			
 			<div field="driver_name" width="50" align="center" headerAlign="center">司机姓名</div>
@@ -72,6 +72,15 @@ grid.load();
 
 /*var admInfo = mini.get("admInfo");
 var form = new mini.Form("#addForm");*/
+//运输费用详情
+function feeDetails(e) {
+	var s='',record = e.record,delivery_fee_details=record.delivery_fee_details;
+	var fee_list=delivery_fee_details.split("+");
+	for(i=0;i<fee_list.length;i++){
+		s+=fee_list[i]+'</br>'
+	}
+	return s;
+}
 //新增运输合同
 function transport_contract(){
 	mini.open({
@@ -170,7 +179,7 @@ function onStatusRender(e) {
 		s+='审核未通过';
 		s += '</br><a href="javascript:transport_contract_edit()"> 编辑</a>';
 	}else if(record.status=='1'){
-		"{if $role neq 24}"
+		"{if $role eq 24}"
         s += '<a href="javascript:onContractReview('+logistics_contract_id+')">待审核</a>&nbsp;&nbsp;';
 		"{else}"
 		s += '待审核';

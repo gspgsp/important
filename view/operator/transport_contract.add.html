@@ -13,7 +13,7 @@
 					<table id="table1" width="100%" >					
 						<tr>							
 							<td><font style="color:red;">甲方(委托方)：</font></td>
-							<td>上海中晨电子股份有限公司</td>
+							<td><input name="order_name" id="order_name" class="mini-textbox" style="width:350px;" required="true" value="{$order_name}"/></td>
 							<td>合同日期： </td>
 							<td><input  class="mini-datepicker"  name="contract_time"  id="contract_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$info.sign_time}"/>
 							</td>
@@ -81,7 +81,7 @@
 						</tr>
 						<tr>
 							<td>运输费用详情(含税)：</td>
-							<td>单价: <input name="delivery_price" id="delivery_price"class="mini-textbox" style="width:50px;" maxlength="50"  required="true" onvaluechanged="sum()"/> 元/吨 + 上车费:
+							<td>单价: <input name="delivery_price" id="delivery_price"class="mini-textbox" style="width:50px;" maxlength="50"  required="true" onvaluechanged="sum()"/> 元/吨 + 装车费:
 							               <input name="delivery_trans" id="delivery_trans"class="mini-textbox" style="width:50px;" maxlength="50"   onvaluechanged="sum()"/> 元/吨 + 其它:
 							               <input name="delivery_other" id="delivery_other"class="mini-textbox" style="width:50px;" maxlength="50"  onvaluechanged="sum()"/> 元</td>
 						</tr>
