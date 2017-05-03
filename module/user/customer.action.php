@@ -596,6 +596,10 @@ class customerAction extends adminBaseAction {
 		$result = $this->db->where(" c_id = '$c_id'")->update($_data+array('customer_manager'=>$_SESSION['adminid'],'depart'=>$depart,`last_follow`=>CORE_TIME,`last_sale`=>CORE_TIME,`last_no_sale`=>CORE_TIME,));
 		//hui捡回客户时，也修改开票资料的交易员
 		$this->db->model('customer_billing')->where(" c_id = '$c_id'")->update(array('customer_manager'=>$_SESSION['adminid']));
+		//根据数据更新客户对应的默认联系人对应的交易员
+		$main_user = $this->db->model('customer')->select('contact_id')->where(" c_id = '$c_id'")->getOne();
+		$this->db->model('customer_contact')->where("`user_id` = $main_user")->update(array('customer_manager'=>$_SESSION['adminid']));
+		$this->db->model('customer_contact')->where("`user_id` != $main_user and  `c_id` = '$c_id' and `is_default` = 1")->update(array('customer_manager'=>$_SESSION['adminid']));
 
 		if(!$result) $this->error('操作失败');
 		// 每日剩余结束时间
@@ -660,7 +664,10 @@ class customerAction extends adminBaseAction {
 		$result = $this->db->where(" c_id = '$c_id'")->update(array('customer_manager'=>$data['id'],'depart'=>$depart,'last_follow'=>CORE_TIME,'last_sale'=>CORE_TIME,'last_no_sale'=>CORE_TIME,)+$_data);
 		//hui分配公海客户时，也修改开票资料表的交易员
 		$this->db->model('customer_billing')->where(" c_id = '$c_id'")->update(array('customer_manager'=>$data['id']));
-
+		//根据数据更新客户对应的默认联系人对应的交易员
+		$main_user = $this->db->model('customer')->select('contact_id')->where(" c_id = '$c_id'")->getOne();
+		$this->db->model('customer_contact')->where("`user_id` = $main_user")->update(array('customer_manager'=>$data['id']));
+		$this->db->model('customer_contact')->where("`user_id` != $main_user and  `c_id` = '$c_id' and `is_default` = 1")->update(array('customer_manager'=>$data['id']));
 		if(!$result) $this->error('操作失败');
 		// 每日剩余结束时间
 		$mem_time =strtotime(date('Ymd')) + 86400-time();
@@ -756,6 +763,10 @@ class customerAction extends adminBaseAction {
 				M('user:customerLog')->addLog($v,'allocation',$old_manager_name,$customer_name,1,$remarks);
 				//新增客户流转记录日志----E
 				$result = $this->db->model('customer')->where("c_id = $v")->update(array('customer_manager'=>$data['id'],`last_follow`=>CORE_TIME,`last_sale`=>CORE_TIME,`last_no_sale`=>CORE_TIME,));
+				//根据数据更新客户对应的默认联系人对应的交易员
+				$main_user = $this->db->model('customer')->select('contact_id')->where("c_id = $v")->getOne();
+				$this->db->model('customer_contact')->where('`c_id` = $v and `user_id` = $main_user')->update(array('customer_manager'=>$data['id']));
+				$this->db->model('customer_contact')->where("`user_id` != $main_user and  `c_id` = $v and `is_default` = 1")->update(array('customer_manager'=>$data['id']));
 			}
 		}
 		if(!$result) $this->error('操作失败');
