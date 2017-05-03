@@ -79,7 +79,7 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['part_company_name']='中晨';
 				$fee_list=explode(',',$list['data'][$k]['delivery_fee']);
 				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.'+'.'上车费: '.(!empty($fee_list['1'])?$fee_list['1']:'0').'元/吨'.'+'.'其它: '.(!empty($fee_list['2'])?$fee_list['2']:'0').'元';
-				$list['data'][$k]['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num'];
+				$list['data'][$k]['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);

@@ -93,7 +93,7 @@ class transportAction extends adminBaseAction
             $info = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $lc_id)->getRow();
             $fee_list=explode(',',$info['delivery_fee']);  
             $info['delivery_price']=$fee_list['0'];$info['delivery_trans']=$fee_list['1'];$info['delivery_other']=$fee_list['2'];
-            $info['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$info['goods_num'].' 元';
+            $info['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$info['goods_num']+$fee_list['2'].' 元';
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
@@ -182,12 +182,12 @@ class transportAction extends adminBaseAction
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
         $res = M('public:common')->model('transport_contract')->add($data);
-        $yls = M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update('drive_end_place='.$data['end_place']);
+        $yls = M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));
 
         if ($res&&$yls) {
             $arr = ['err' => 0, 'msg' => '合同生效'];
         } else {
-            $arr = ['err' => 0, 'msg' => '新增失败'];
+            $arr = ['err' => 1, 'msg' => '新增失败'];
         }
         $this->json_output($arr);
     }
