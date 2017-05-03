@@ -709,6 +709,7 @@ class orderAction extends adminBaseAction {
 	 * @return html
 	 */
 	public function transportcheck(){
+		ini_set('display_errors','on');
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		if(empty($data)) $this->error('错误的操作');
