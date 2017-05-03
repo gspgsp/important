@@ -25,13 +25,18 @@ class plasticIntroductionModel extends model
             $value['buy'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 1);
             $value['sale'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 2);
             if (empty($value['thumbqq'])) {
-                if (strstr ($value['thumb'], 'http')) {
-                    $value['thumb'] = $value['thumb'];
-                } else {
-                    if (empty($value['thumb'])) {
-                        $value['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                if (!strstr ($value['thumb'], 'http')) {
+
+                    if (empty($value['thumb'])||$value['thumb']=="16/09/02/logos.jpg")
+                    {
+                        if(empty($value['sex']))
+                        {
+                            $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        }else{
+                            $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        }
                     } else {
-                        $value['thumb'] = FILE_URL . "/upload/" . $value['thumb'];
+                        $value['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                     }
                 }
             } else {
@@ -60,13 +65,18 @@ class plasticIntroductionModel extends model
             $value['sale'] = M ('qapp:plasticPersonalInfo')->getConut ($value['user_id'], 2, 6);//purchase表
             $value['mobile'] = substr ($value['mobile'], 0, 7) . '****';
             if (empty($value['thumbqq'])) {
-                if (strstr ($value['thumb'], 'http')) {
-                    $value['thumb'] = $value['thumb'];
-                } else {
-                    if (empty($value['thumb'])) {
-                        $value['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                if (!strstr ($value['thumb'], 'http')) {
+
+                    if (empty($value['thumb'])||$value['thumb']=="16/09/02/logos.jpg")
+                    {
+                        if(empty($value['sex']))
+                        {
+                            $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        }else{
+                            $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        }
                     } else {
-                        $value['thumb'] = FILE_URL . "/upload/" . $value['thumb'];
+                        $value['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                     }
                 }
 
@@ -129,7 +139,6 @@ class plasticIntroductionModel extends model
         return $data;
     }
 
-
     //根据不同类型获取粉丝或关注的相关
     public function get_funs ($id)
     {
@@ -147,9 +156,7 @@ class plasticIntroductionModel extends model
         $data['sale'] = M ('qapp:plasticPersonalInfo')->getConut ($id, 2);
         // $data['thumb'] = FILE_URL."/upload/".$data['thumb'];
         if (empty($data['thumbqq'])) {
-            if (strstr ($data['thumb'], 'http')) {
-                $data['thumb'] = $data['thumb'];
-            } else {
+            if (!strstr ($data['thumb'], 'http')) {
 
                 if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
                 {

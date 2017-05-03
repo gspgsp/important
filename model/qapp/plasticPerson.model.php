@@ -42,14 +42,11 @@ class plasticPersonModel extends model
             $data['mobile'] = substr ($data['mobile'], 0, 7)."****";
         }
         $value = $data;
-
         $value['name']         = sstripslashes ($value['name']);
         $value['c_name']       = sstripslashes ($value['c_name']);
         $value['need_product'] = sstripslashes ($value['need_product']);
         if (empty($value['thumbqq'])) {
-            if (strstr ($value['thumb'], 'http')) {
-
-            } else {
+            if (!strstr ($value['thumb'], 'http'))  {
                 if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                     if (empty($data['sex'])) {
                         $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
@@ -176,9 +173,7 @@ class plasticPersonModel extends model
                 $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
                 // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                 if (empty($value['thumbqq'])) {
-                    if (strstr ($value['thumb'], 'http')) {
-
-                    } else {
+                    if (!strstr ($value['thumb'], 'http'))  {
                         if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                             if (empty($value['sex'])) {
                                 $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
@@ -192,12 +187,12 @@ class plasticPersonModel extends model
                 } else {
                     $value['thumb'] = $value['thumbqq'];
                 }
-                if (mb_strlen ($value['main_product']) > 10) {
+                /*if (mb_strlen ($value['main_product']) > 10) {
                     $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
                 }
                 if (mb_strlen ($value['month_consum']) > 7) {
                     $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
-                }
+                }*/
 
                 $funs                  = $this->getFuns ($value['user_id']);
                 $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
@@ -363,10 +358,7 @@ class plasticPersonModel extends model
                     $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
-                        if (strstr ($value['thumb'], 'http')) {
-
-                            $value['thumb'] = $value['thumb'];
-                        } else {
+                        if (!strstr ($value['thumb'], 'http'))  {
                             if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                                 if (empty($value['sex'])) {
                                     $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
@@ -380,12 +372,12 @@ class plasticPersonModel extends model
                     } else {
                         $value['thumb'] = $value['thumbqq'];
                     }
-                    if (mb_strlen ($value['main_product']) > 10) {
+                    /*if (mb_strlen ($value['main_product']) > 10) {
                         $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
                     }
                     if (mb_strlen ($value['month_consum']) > 7) {
                         $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
-                    }
+                    }*/
 
                     $funs                  = $this->getFuns ($value['user_id']);
                     $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
@@ -516,10 +508,7 @@ class plasticPersonModel extends model
                     $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
-                        if (strstr ($value['thumb'], 'http')) {
-
-                            $value['thumb'] = $value['thumb'];
-                        } else {
+                        if (!strstr ($value['thumb'], 'http'))  {
                             if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                                 if (empty($value['sex'])) {
                                     $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
@@ -533,12 +522,12 @@ class plasticPersonModel extends model
                     } else {
                         $value['thumb'] = $value['thumbqq'];
                     }
-                    if (mb_strlen ($value['main_product']) > 10) {
+                    /*if (mb_strlen ($value['main_product']) > 10) {
                         $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
                     }
                     if (mb_strlen ($value['month_consum']) > 7) {
                         $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
-                    }
+                    }*/
 
                     $funs                  = $this->getFuns ($value['user_id']);
                     $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
@@ -672,10 +661,7 @@ class plasticPersonModel extends model
                     $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
-                        if (strstr ($value['thumb'], 'http')) {
-
-                            $value['thumb'] = $value['thumb'];
-                        } else {
+                        if (!strstr ($value['thumb'], 'http'))  {
                             if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                                 if (empty($value['sex'])) {
                                     $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
@@ -689,12 +675,12 @@ class plasticPersonModel extends model
                     } else {
                         $value['thumb'] = $value['thumbqq'];
                     }
-                    if (mb_strlen ($value['main_product']) > 10) {
+                   /* if (mb_strlen ($value['main_product']) > 10) {
                         $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
                     }
                     if (mb_strlen ($value['month_consum']) > 7) {
                         $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
-                    }
+                    }*/
 
                     $funs                  = $this->getFuns ($value['user_id']);
                     $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数

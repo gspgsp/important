@@ -23,9 +23,7 @@ class plasticPersonalInfoModel extends model
             $data['mobile'] = substr ($data['mobile'], 0, 7) . "****";
         }
         if (empty($data['thumbqq'])) {
-            if (strstr ($data['thumb'], 'http')) {
-                $data['thumb'] = $data['thumb'];
-            } else {
+            if (!strstr ($data['thumb'], 'http')){
                 if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
                 {
                     if(empty($data['sex']))
@@ -96,9 +94,7 @@ class plasticPersonalInfoModel extends model
         }
 
         if (empty($data['thumbqq'])) {
-            if (strstr ($data['thumb'], 'http')) {
-                $data['thumb'] = $data['thumb'];
-            } else {
+            if (!strstr ($data['thumb'], 'http'))  {
                 if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
                 {
                     if(empty($data['sex']))
@@ -224,9 +220,7 @@ class plasticPersonalInfoModel extends model
         $tmpModel = implode (',', $tmpStr);
         $data['concern_model'] = $tmpModel;
         if (empty($data['thumbqq'])) {
-            if (strstr ($data['thumb'], 'http')) {
-                $data['thumb'] = $data['thumb'];
-            } else {
+            if (!strstr ($data['thumb'], 'http')) {
                 if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
                 {
                     if(empty($data['sex']))
@@ -369,9 +363,7 @@ class plasticPersonalInfoModel extends model
         $data['member_level'] = L ('member_level')[$data['member_level']];//军衔
 
         if (empty($data['thumbqq'])) {
-            if (strstr ($data['thumb'], 'http')) {
-                $data['thumb'] = $data['thumb'];
-            } else {
+            if (!strstr ($data['thumb'], 'http')) {
                 if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
                 {
                     if(empty($data['sex']))
