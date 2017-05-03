@@ -202,7 +202,12 @@ class plasticzoneActivityAction extends adminBaseAction{
         $setting=M('system:setting')->getSetting();
         if(!empty($setting)){
             $qapp_banner=$setting['qapp_banner'];
+            $qapp_banner['start_time']=date("Y-m-d H:i:s",$qapp_banner['start_time']);
+            $qapp_banner['end_time']=date("Y-m-d H:i:s",$qapp_banner['end_time']);
+
             $qapp_cover=$setting['qapp_cover'];
+            $qapp_cover['start_time']=date("Y-m-d H:i:s",$qapp_cover['start_time']);
+            $qapp_cover['end_time']=date("Y-m-d H:i:s",$qapp_cover['end_time']);
         }else{
             $qapp_banner=array();
             $qapp_cover=array();
