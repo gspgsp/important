@@ -208,4 +208,15 @@ class admModel extends model{
 						->getOne();
 		return !$role_id ? 1:$role_id;
 	}
+	/**	
+	 * 根据业务员id获取业务员手机号
+	 * @Author   yezhongbao
+	 * @DateTime 2017-05-03T17:37:54+0800
+	 * @param    integer                  $admin_id [description]
+	 * @return   [type]                             [description]
+	 */
+	public function getPhoneByAdminId($admin_id = 0){
+		$mobile = $this->model('admin')->select('mobile')->where('admin_id = '.$admin_id)->getOne();
+		return empty($mobile)?'':$mobile;
+	}
 }
