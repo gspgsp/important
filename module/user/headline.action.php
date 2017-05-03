@@ -333,7 +333,7 @@ class headlineAction extends adminBaseAction {
 					if($v2!=0){
 						$list['data'][$k]['cate_name'][$k2]=$this->db->model('news_cate')->select('cate_name')->where('cate_id='.$v2)->getOne();
 					}else{
-						$t_id=(int) substr($v['h_id'], strrpos($v['h_id'], ','));
+						$t_id=intval(substr($v['h_id'], strrpos($v['h_id'], ',')+1));
 						$list['data'][$k]['cate_name'][$k2]=$this->db->model('customer_headline')->select('remark')->where('id='.$t_id)->getOne();
 					}	
 				}
@@ -353,10 +353,15 @@ class headlineAction extends adminBaseAction {
 	public function viewRows(){
 		$id=sget('id','i');
 		if ($id>0) {
-			$h_id=$this->db->model('headline_sale')->select('h_id')->where('id='.$id)->getOne();
-			$data=$this->db->model('customer_headline')->select('id,c_name,mobile,sale_name,start_time,end_time,input_time,month_num,cate_id')->where('id in ('.$h_id.')')->order('id desc')->getAll();
+			$arr=$this->db->model('headline_sale')->select('h_id,cate_id')->where('id='.$id)->getRow();
+			$data=$this->db->model('customer_headline')->select('id,c_name,mobile,sale_name,start_time,end_time,input_time,month_num,cate_id,remark')->where('id in ('.$arr['h_id'].')')->order('id desc')->getAll();
 			foreach($data as $k=>$v){
-				$data[$k]['cate_name']=$this->db->model('news_cate')->where('cate_id='.$v['cate_id'])->select('cate_name')->getOne();
+				if($v['cate_id']!=0){
+					$data[$k]['cate_name']=$this->db->model('news_cate')->where('cate_id='.$v['cate_id'])->select('cate_name')->getOne();
+				}else{
+					$t_id=intval(substr($arr['h_id'], strrpos($arr['h_id'], ',')+1));
+					$data[$k]['cate_name']=$this->db->model('customer_headline')->select('remark')->where('id='.$t_id)->getOne();
+				}
 			}
 		}
 		$this->assign('data',$data);
