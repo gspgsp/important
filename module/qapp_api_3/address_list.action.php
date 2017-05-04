@@ -5,9 +5,8 @@
  * Date: 17-5-3
  * Time: 上午10:33
  */
-class addressListAction extends null2Action
+class addressListAction extends baseAction
 {
-    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime, $randomMdTime, $shareType;
 
     public function __init ()
     {
