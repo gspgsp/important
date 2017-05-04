@@ -40,7 +40,7 @@ class cronOffersMsg{
 		for($i=0;$i<$nums;$i++){
 		// for($i=0;$i<1;$i++){
 			$this->sendOffersMsg($i);
-			// sleep(3);
+			sleep(2);
 		}
 	}
 	/**
@@ -56,7 +56,6 @@ class cronOffersMsg{
 			WHERE a.id=b.id AND a.grade=b.grade AND a.status = 2 and a.`input_time` > '.$today_time);
 		// showtrace();
 		//取出报价中的牌号这一列
-		echo $i;
 		if(empty($product)) return;
 		foreach ($product as $key1 => $value1) {
 			$product_arr[] = trim($value1['grade']);
@@ -115,7 +114,6 @@ class cronOffersMsg{
 		$date = date("m月d日",time());
 		foreach ($res as $key => $value) {
 			if(is_mobile($value['contact_mobile'])){
-				echo $c_id."<br>";
 				$msg = sprintf(L('offers_sms.offers'),$grade,$sale_price,$date,$value['name'],$value['mobile']);
 	    		M('system:sysSMS')->send($value['user_id'],$value['contact_mobile'],$msg,12);
 	    	}
