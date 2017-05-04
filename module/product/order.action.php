@@ -732,10 +732,11 @@ class orderAction extends adminBaseAction {
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
-		//发送手机动态码
+		//发送手机动态码(1.销售订单  2.采购订单',)
 		$type = $this->db->model('order')->select('order_type')->where(' o_id = '.$data['o_id'])->getOne();
-		M('order:orderLog')->sendMsg($data['o_id'],$type);
-		showtrace();
+		if(intval($type) ==  2){
+			M('order:orderLog')->sendMsg($data['o_id'],$type);
+		}
 		$this->success('操作成功');
 	}
 	/**
