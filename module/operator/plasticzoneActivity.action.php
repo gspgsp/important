@@ -35,6 +35,21 @@ class plasticzoneActivityAction extends adminBaseAction{
      */
     public function moneyExchange(){
         $action=sget('action','s');
+
+        $startTime = sget('startTime','s');
+        $endTime = sget('endTime','s');
+        $this->assign('startTime', empty($startTime)?date('Y-m-d',time()):$startTime); //开始时间
+        $this->assign('endTime',empty($endTime)?date('Y-m-d',time()):$endTime); //结束时间
+
+        $key_type = $_GET['key_type'];//关键字分类
+        $keyword = $_GET['keyword'] ;//关键词
+        //p($key_type);p($keyword);exit;
+        $this->assign('key_type',$key_type);
+        $this->assign('keyword',$keyword);
+
+        $supply_or_get = sget('supply_or_get','i');//  1  获取  2 消耗
+        $this->assign('supply_or_get',$supply_or_get);
+
         if($action=='grid'){ //获取列表
             $this->_grid();exit;
             // }elseif($action=='remove'){ //删除列表数据
@@ -61,19 +76,32 @@ class plasticzoneActivityAction extends adminBaseAction{
         $where=" 1 ";
         $status=sget('status','i');//状态
         $c_id=sget('cate_id','i');//商品分类id
-        $key_type = sget('key_type','s');//关键字分类
-        $keyword=sget('keyword','s');//关键词
+        $key_type = empty($_GET['key_type'])?sget('key_type','s'):$_GET['key_type'];//关键字分类
+        $keyword = empty($_GET['keyword'])?sget('keyword','s'):$_GET['keyword'];//关键词
         $customer_type = sget('customer_type','s');//客户分类
         $sTime = sget("sTime",'s','addtime'); //搜索时间类型
         $type = sget('type','i');  //积分来源
         $share_type = sget('share_type','i');//分享来源
         $gid = sget('gid','i'); //商品名称id
+        $supply_or_get = sget('supply_or_get','i');//  1  获取  2 消耗
+
+        if($supply_or_get==1){
+            $where.=" and b.points > 0 ";
+        }elseif($supply_or_get==2){
+            $where.=" and b.points <0";
+        }
+
+        $this->assign('supply_or_get',$supply_or_get);
+
+
 
         if(!empty($type)) $where .= " and b.type = $type";
         if(!empty($share_type)) $where.=" and b.share_type = $share_type";
         if(!empty($gid)) $where.=" and b.gid=$gid";
-
-
+//        echo '<pre>';
+//        var_dump($_GET);
+//        var_dump($_POST);
+//        p($key_type);p($keyword);exit;
 
         $where.=getTimeFilter($sTime); //时间筛选
         switch($key_type){
@@ -104,7 +132,7 @@ class plasticzoneActivityAction extends adminBaseAction{
                 from p2p_points_bill b left join p2p_customer_contact c on c.user_id = b.uid
                 where $where
         ";
-        $_tmpSome = $this->db->from('points_bill b')->getRow($sql);
+        $_tmpSome = $this->db->from('points_bill b')->getRow($sql);//showTrace();exit;
         //$where.=" and addtime >".CORE_TIME;
 
         $list=$this->db->from("points_bill b")
@@ -120,6 +148,10 @@ class plasticzoneActivityAction extends adminBaseAction{
             $list['data'][$k]['gid'] = empty($v['gid'])?999:$v['gid'];
             $list['data'][$k]['share_type'] = empty($v['share_type'])?999:$v['share_type'];
             $list['data'][$k]['type'] = empty($v['type'])?999:$v['type'];
+            if($v['type'] == 14){
+                $list['data'][$k]['other_name'] = $this->db->model('customer_contact')->select('name')->where("user_id={$v['gid']}")->getOne();
+                $list['data'][$k]['other_id'] =$v['gid'];
+            }
         }
         $msg="消耗塑豆：{$_tmpSome['supply_num']}&nbsp;&nbsp;&nbsp;获取塑豆：{$_tmpSome['achieve_num']}&nbsp;&nbsp;&nbsp;用户使用人数：{$_tmpSome['distinct_id']}&nbsp;&nbsp;&nbsp;用户使用次数：{$list['count']}&nbsp;";
         $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
@@ -143,6 +175,109 @@ class plasticzoneActivityAction extends adminBaseAction{
 //            $this->error('数据处理失败');
 //        }
 //    }
+
+    /**
+     * 单人塑豆消耗列表
+     * @access public
+     * @return html
+     */
+    public function personPointsList(){
+        $action=sget('action','s');
+        if($action=='grid'){ //获取列表
+            $this->_grid3();exit;
+            // }elseif($action=='remove'){ //删除列表数据
+            // 	$this->_remove();exit;
+            // }elseif($action=='save'){ //获取列表
+            // 	$this->_save();exit;
+        }
+        $this->assign('page_title','单人塑豆消耗列表');
+        $this->display('person_points_list.html');
+    }
+
+    /**
+     * Ajax获取列表内容
+     * @access private
+     * @return html
+     */
+    private function _grid3(){
+        $page = sget("pageIndex",'i',0); //页码
+        $size = sget("pageSize",'i',20); //每页数
+        $sortField = sget("sortField",'s','addtime'); //排序字段
+        $sortOrder = sget("sortOrder",'s','desc'); //排序
+        //搜索条件
+        $where=" 1 ";
+        $status=sget('status','i');//状态
+        $key_type = sget('key_type','s');//关键字分类
+        $keyword=sget('keyword','s');//关键词
+        $customer_type = sget('customer_type','s','qapp');//客户分类
+        $sTime = sget("sTime",'s','addtime'); //搜索时间类型
+
+        $where.=getTimeFilter($sTime); //时间筛选
+        switch($key_type){
+            case 'id':
+                $keyword=(int)$keyword;
+                $where.=" and b.uid=$keyword";
+                break;
+            case 'name':
+                $where.=" and c.name like '%$keyword%'";
+                break;
+            case 'mobile':
+                $where.=" and c.mobile like '%$keyword%'";
+                break;
+        }
+        switch($customer_type){
+            case 'all':
+                break;
+            case 'pc':
+                $where.=" and b.is_mobile =0";
+                break;
+            case 'qapp':
+                $where.=" and b.is_mobile =1";
+                break;
+        }
+        $sql ="select b.uid,d.quan_points,sum(case when  b.points < 0 then b.points else 0 end) supply_num,
+               sum(case when b.points > 0 then b.points else 0 end) achieve_num,
+               c.name as user_name,c.mobile
+                from p2p_points_bill b left join p2p_customer_contact c on c.user_id = b.uid
+                left join p2p_contact_info d on d.user_id = c.user_id
+                where $where group by b.uid order by $sortField $sortOrder limit ".$page*$size.",". $size;
+
+        $_tmpSome = $this->db->from('points_bill b')->getAll($sql);//p($_tmpSome);showTrace();exit;
+        //$where.=" and addtime >".CORE_TIME;
+
+//        $list=$this->db->from("points_bill b")
+//            ->leftjoin('customer_contact c','c.user_id=b.uid')
+//            ->select('b.*,c.name as user_name,c.mobile')
+//            ->where($where)
+//            ->page($page+1,$size)
+//            ->order("$sortField $sortOrder")
+//            ->getPage();
+//
+//        foreach($list['data'] as $k=>$v){
+//            $list['data'][$k]['addtime']=$v['addtime']>1000 ? date("Y-m-d H:i:s",$v['addtime']) : '-';
+//            $list['data'][$k]['gid'] = empty($v['gid'])?999:$v['gid'];
+//            $list['data'][$k]['share_type'] = empty($v['share_type'])?999:$v['share_type'];
+//            $list['data'][$k]['type'] = empty($v['type'])?999:$v['type'];
+//        }
+
+        $sql2 ="select sum(case when  b.points < 0 then b.points else 0 end) supply_num2,
+               sum(case when b.points > 0 then b.points else 0 end) achieve_num2,
+               count(DISTINCT b.uid) distinct_id,
+               count(b.id) sum_id
+                from p2p_points_bill b left join p2p_customer_contact c on c.user_id = b.uid
+                where $where
+        ";
+        $_tmpSome2 = $this->db->from('points_bill b')->getRow($sql2);//showTrace();
+
+
+        $list['count'] = count($_tmpSome);
+        $list['data'] = $_tmpSome;
+        $msg="消耗塑豆：{$_tmpSome2['supply_num2']}&nbsp;&nbsp;&nbsp;获取塑豆：{$_tmpSome2['achieve_num2']}&nbsp;&nbsp;&nbsp;用户使用人数：{$_tmpSome2['distinct_id']}&nbsp;&nbsp;&nbsp;用户使用次数：{$_tmpSome2['sum_id']}&nbsp;";
+        $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
+        $this->json_output($result);
+    }
+
+
 
     /**
      * 编辑已存在的数据

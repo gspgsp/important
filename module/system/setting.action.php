@@ -201,7 +201,6 @@ class settingAction extends adminBaseAction {
 	 */
 	public function _null($code){
 		$db=$this->db->model('setting');
-		
 		if($_POST){
 			M('system:setting')->add(array('code'=>$code,'value'=>addslashes(json_encode($_POST))),TRUE);
 			$this->clearMCache('setting_'.$code);
