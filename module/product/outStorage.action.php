@@ -67,7 +67,7 @@ class outStorageAction extends adminBaseAction {
 		);
 		$this->db->startTrans(); //开启事务
 		//获取订单中的发货时间和销售订单的关联采购joinid,用于区分后续扣库存操作
-		$info = $this->db->model('order')->select('delivery_time,join_id')->where(' o_id ='.$data['o_id'])->getRow();
+		$info = $this->db->model('order')->select('delivery_time,join_id,order_type')->where(' o_id ='.$data['o_id'])->getRow();
 		$data['out_time']=$info['delivery_time'];
 		$this->db->model('out_storage')->add($data+$basic_info);
 		$storage_id=$this->db->getLastID(); //获取新增出库单ID
@@ -129,6 +129,10 @@ class outStorageAction extends adminBaseAction {
 		if($this->db->commit()){
 			//添加订单可视化订单审不通过
 			M('order:orderLog')->addLog($data['o_id'],0,1,CORE_TIME-intval($this->db->model('order_flow')->select('input_time')->where("o_id = {$data['o_id']} and type = 0 and step = 2")->getOne()));
+			//添加成功后的发货短信信息发送
+			if(intval($info['order_type']) ==  1){
+				M('order:orderLog')->sendMsg($data['o_id'],$info['order_type'],',现在已全部发,货请您注意查收');
+			}
 			 $this->success('操作成功');
 		}else{
 			$this->db->rollback();
