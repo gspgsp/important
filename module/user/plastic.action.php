@@ -772,7 +772,7 @@ class plasticAction extends adminBaseAction {
 		$keywords=sget('key','s','');
 		if($keywords =='') return false;
 		if($keywords){
-			$list=$this->db->model('product')->where("model like '%$keywords%'")->select('id,model,f_id')->limit('5')->getAll();
+			$list=$this->db->model('product')->where("model like '%$keywords%'")->select('id,model,f_id')->limit('30')->getAll();
 			if($list){
 				foreach ($list as &$v) {
 					$v['model'] = $v['model'].'--'.$this->db->model('factory')->select("f_name")->where("`fid` = {$v['f_id']}")->getOne();
