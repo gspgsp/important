@@ -631,9 +631,10 @@ class qapi1_2Action extends null2Action
         $quan_type = sget ('quan_type', 'i');
         $version   = sget ('version', 's');//版本号
         $platform  = $this->checkPlatform ()['platform'];
-        $region    = sget ('region', 'i', 0);
+        $region    = sget ('region', 'i',0);
         $c_type    = sget ('c_type', 'i',0);
-
+        $region    = (int)$region;
+        $c_type    = (int)$c_type;
         // 1 工厂 2 贸易商 3 工贸一体 4 服务商  5 其他  0全部
         if (!empty($c_type)&&$page!=1&&!in_array ($c_type, array(
             0,
@@ -728,7 +729,7 @@ class qapi1_2Action extends null2Action
                         }else {
                             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
                         }
-                        $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
+                        $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type, $data['data'], 60);//1分钟缓存
                     }
                 } else {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
@@ -744,7 +745,7 @@ class qapi1_2Action extends null2Action
                         }else {
                             $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
                         }
-                        $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region, $data['data'], 60);//1分钟缓存
+                        $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region.':'.$c_type, $data['data'], 60);//1分钟缓存
                     }
                 }
             } else {
