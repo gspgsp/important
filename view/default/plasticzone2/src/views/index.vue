@@ -16,7 +16,7 @@
 			<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
 		</div>
 	</div>
-	<div v-if="isFocus" class="payfans">
+	<div class="payfans">
 		<router-link :to="{name:'mypay'}">
 			<div style=" display: inline-block; margin: 4px 0 0 0;">
 				<div class="payfansImg"></div><span>我关注的人</span>
@@ -28,11 +28,11 @@
 			</div>
 		</router-link>
 	</div>
-	<div v-else class="payfans" style="background: #ff854d;">
+	<!--<div v-else class="payfans" style="background: #ff854d;">
 		<a style="width: 100%;" v-bind:href="bannerLink">
 			<img width="100%" v-bind:src="bannerImg" />
 		</a>
-	</div>
+	</div>-->
 	<ul id="nameUl">
 		<li id="top" v-if="top">
 			<div style=" width: 100%; position: relative;">
