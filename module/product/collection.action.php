@@ -381,11 +381,11 @@ class collectionAction extends adminBaseAction
 					//处理多笔及单笔付款发送短信（仅针对采购）
 					if(intval($data['order_type']) ==  2){
 						if($m > 0){
-							$ext = '现在已付款'.($data['total_price']-$data['uncollected_price']-$data['collection_price']).'元,请注意查看';
+							$ext = '现在已付款'.($data['total_price']-$data['uncollected_price']).'元,请注意查看';
 						}else{
 							$ext = '现在已付款完成,请注意查看';
 						}
-							M('order:orderLog')->sendMsg($data['o_id'],$data['order_type'],$ext);
+						M('order:orderLog')->sendMsg($data['o_id'],$data['order_type'],$ext);
 					}
                     // ***********多笔付款 提升 可用额度**********************
                     M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'+',$data['collected_price']) OR $this->error('可用额度还原失败');

@@ -329,6 +329,16 @@ class billingAction extends adminBaseAction
 				// 	if(!$res) $this->error("发票号重复,请更换！");
 				// }
 				if(!$this->db->model('billing')->where("id={$data['id']}")->update($_data+$data)) $this->error("开票审核更新表头失败");
+				//处理多笔及单笔开票发送短信（仅针对销售）
+				if($type==1){
+					if($data['billing_price'] < $data['unbilling_price']){
+						$ext = '现在已开票'.($data['total_price']+$data['billing_price']-$data['unbilling_price']).'元,请注意查看';
+					}else{
+						$ext = '现在已开票完成,请注意查看';
+					}
+					M('order:orderLog')->sendMsg($data['o_id'],$type,$ext);
+				}
+
 				foreach ($detail as $v) {
 					if(!$this->db->model('billing_log')->where("id={$v['id']}")->update(array('update_time'=>CORE_TIME,'status'=>2,))) $this->error("开票明细更新失败");
 					if($type==1){//销售
