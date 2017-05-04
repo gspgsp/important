@@ -36,6 +36,7 @@ const Headlinedetail= r => require.ensure([], () => r(require('./views/headlined
 const Supplybuydetail= r => require.ensure([], () => r(require('./views/supplybuydetail.vue')), 'supplybuydetail')
 const Help= r => require.ensure([], () => r(require('./views/help.vue')), 'help')
 const Protocol= r => require.ensure([], () => r(require('./views/protocol.vue')), 'protocol')
+const Protocol2= r => require.ensure([], () => r(require('./views/protocol2.vue')), 'protocol2')
 const Credit= r => require.ensure([], () => r(require('./views/credit.vue')), 'credit')
 const Creditintro= r => require.ensure([], () => r(require('./views/creditintro.vue')), 'creditintro')
 const Credit2= r => require.ensure([], () => r(require('./views/credit2.vue')), 'credit2')
@@ -80,6 +81,7 @@ var  router = new VueRouter({
 	{path:'/supplybuydetail/:id',name:'supplybuydetail',component:Supplybuydetail},
 	{path:'/help',name:'help',component:Help},
 	{path:'/protocol',name:'protocol',component:Protocol},
+	{path:'/protocol2',name:'protocol2',component:Protocol2},
 	{path:'/credit',name:'credit',component:Credit},
 	{path:'/creditintro',name:'creditintro',component:Creditintro},
 	{path:'/credit2/:id',name:'credit2',component:Credit2},

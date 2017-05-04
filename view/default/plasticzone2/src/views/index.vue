@@ -16,7 +16,7 @@
 			<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
 		</div>
 	</div>
-	<div class="payfans">
+	<div v-if="isFocus" class="payfans">
 		<router-link :to="{name:'mypay'}">
 			<div style=" display: inline-block; margin: 4px 0 0 0;">
 				<div class="payfansImg"></div><span>我关注的人</span>
@@ -27,6 +27,11 @@
 				<div class="payfansImg2"></div><span>关注我的人</span>
 			</div>
 		</router-link>
+	</div>
+	<div v-else class="payfans" style="background: #ff854d;">
+		<a style="width: 100%;" v-bind:href="bannerLink">
+			<img width="100%" v-bind:src="bannerImg" />
+		</a>
 	</div>
 	<ul id="nameUl">
 		<li id="top" v-if="top">
@@ -45,11 +50,11 @@
 						</p>
 						<p v-if="top.type==='3'||top.type==='1'" class="second">
 							供:{{top.sale_count}} 求:{{top.buy_count}} 需求：
-							<span style="color: #666666;" v-html="top.need_product"></span>
+							<b style="color: #666666; font-weight: normal;" v-html="top.need_product"></b>
 						</p>
 						<p v-if="top.type==='0'||top.type==='2'" class="second">
 							供:{{top.sale_count}} 求:{{top.buy_count}} 主营：
-							<span style="color: #666666;" v-html="top.need_product"></span>
+							<b style="color: #666666; font-weight: normal;" v-html="top.need_product"></b>
 						</p>
 						<i class="icon2 rightArrow"></i>
 					</router-link>
@@ -120,7 +125,10 @@ module.exports = {
 			txt: "所有分类",
 			txt2: "全国站",
 			loadingShow: "",
-			top: ""
+			top: "",
+			isFocus:true,
+			bannerLink:"",
+			bannerImg:""
 		}
 	},
 	methods: {
@@ -706,6 +714,9 @@ module.exports = {
 			dataType: 'JSON'
 		}).done(function(res) {
 			if(res.err == 0) {
+				_this.isFocus=res.is_show_focus;
+				_this.bannerLink=res.banner_jump_url;
+				_this.bannerImg=res.banner_url;
 				_this.condition = true;
 				_this.member = res.member;
 				_this.name = res.persons;

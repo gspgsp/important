@@ -18,7 +18,7 @@
 				<router-link :to="{name:'personinfo',params:{id:n.user_id.user_id}}">
 					<p class="first"><i class="icon wxGs"></i>{{n.user_id.c_name}}</p>
 					<p class="second"><i class="icon wxName"></i>{{n.user_id.name}}<i class="icon wxMobile"></i>{{n.user_id.mobile}}</p>
-					<p class="second">&nbsp;发布供给：<span>{{n.user_id.sale}}</span>条 发布求购：<span>{{n.user_id.buy}}</span>条</p>
+					<p class="second">&nbsp;发布供给：<b style="font-weight: normal;">{{n.user_id.sale}}</b>条 发布求购：<b style="font-weight: normal;">{{n.user_id.buy}}</b>条</p>
 				</router-link>
 			</div>
 		</li>

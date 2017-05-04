@@ -1,9 +1,13 @@
 <template>
 <div>
-	<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge1.jpg">
-	<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge2.jpg">
-	<a href="tel:4006129965"><img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge3.jpg"></a>
+	<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge.jpg">
+	<img style="display: block; float: left;" width="50%" src="http://statics.myplas.com/myapp/img/recharge2.jpg">
+	<img style="display: block; float: left;" width="50%" src="http://statics.myplas.com/myapp/img/recharge3.jpg">
 	<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge4.jpg">
+	<a href="tel:4006129965">
+		<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge5.jpg">
+	</a>
+	<img style="display: block;" width="100%" src="http://statics.myplas.com/myapp/img/recharge6.jpg">
 </div>
 </template>
 <script>

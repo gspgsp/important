@@ -101,12 +101,12 @@
 	</router-link>
 </li>
 <li>
-	<a href="javascript:;" v-on:click="sxshow">
+	<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0">
 		<i class="plasticIcon picon3"></i><br>要授信
 	</a>
 </li>
 <li>
-	<a href="javascript:;" v-on:click="levelshow">
+	<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0">
 		<i class="plasticIcon picon4"></i><br>提额度
 	</a>
 </li>
@@ -116,13 +116,13 @@
 </h3>
 <ul class="plasticcredit2">
 <li>
-	<a href="javascript:;" v-on:click="defineshow"><i class="plasticIcon picon5"></i><br>产品定义</a>
+	<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"><i class="plasticIcon picon5"></i><br>产品定义</a>
 </li>
 <li>
-	<a href="javascript:;" v-on:click="rateshow"><i class="plasticIcon picon6"></i><br>费率</a>
+	<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"><i class="plasticIcon picon6"></i><br>费率</a>
 </li>
 <li>
-	<a href="javascript:;" v-on:click="sqshow"><i class="plasticIcon picon7"></i><br>我要申请</a>
+	<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"><i class="plasticIcon picon7"></i><br>我要申请</a>
 </li>
 </ul>
 <footerbar></footerbar>
@@ -169,35 +169,6 @@
 	<span class="subplasticbtn" v-on:click="subscribeClose">关闭</span>
 </div>
 </div>
-<div class="plasticdefine" v-show="plasticdefine">
-<div class="plasticdefineWrap">
-	<div v-on:click="hide" style=" position: absolute; right: 13px; top: 0; width: 30px; height: 40px;"></div>
-</div>
-</div>
-<div class="plasticsx" v-show="plasticsx">
-<div class="plasticsxWrap">
-	<div v-on:click="hide" style=" position: absolute; right: 13px; top: 0; width: 30px; height: 40px;"></div>
-	<a style=" position: absolute; width: 75px; height: 25px; right: 20px; top: 200px;" href="tel:4006129965"></a>
-	<a style=" position: absolute; width: 75px; height: 25px; right: 20px; top: 240px;" href="tel:02161070985"></a>
-</div>
-</div>
-<div class="plasticsq" v-show="plasticsq">
-<div class="plasticsqWrap">
-	<div v-on:click="hide" style=" position: absolute; right: 13px; top: 0; width: 30px; height: 40px;"></div>
-	<a style=" position: absolute; width: 75px; height: 25px; right: 20px; top: 200px;" href="tel:4006129965"></a>
-	<a style=" position: absolute; width: 75px; height: 25px; right: 20px; top: 240px;" href="tel:02161070985"></a>
-</div>
-</div>
-<div class="plasticrate" v-show="plasticrate">
-<div class="plasticrateWrap">
-	<div v-on:click="hide" style=" position: absolute; right: 13px; top: 0; width: 30px; height: 40px;"></div>
-</div>
-</div>
-<div class="plasticlevel" v-show="plasticlevel">
-<div class="plasticlevelWrap">
-	<div v-on:click="hide" style=" position: absolute; right: 13px; top: 0; width: 30px; height: 40px;"></div>
-</div>
-</div>
 </div>
 </template>
 <script>
@@ -217,11 +188,6 @@ data: function() {
 		mySubscribe: [],
 		subscribeshow: false,
 		subchecked: [],
-		plasticdefine: false,
-		plasticrate: false,
-		plasticlevel: false,
-		plasticsx: false,
-		plasticsq: false,
 		keywords:"",
 		loadingShow: "",
 		loadingHide: ""
@@ -237,28 +203,6 @@ beforeRouteLeave: function(to, from, next) {
 	this.loadingHide = false;
 },
 methods: {
-	hide: function() {
-		this.plasticdefine = false;
-		this.plasticrate = false;
-		this.plasticlevel = false;
-		this.plasticsx = false;
-		this.plasticsq = false;
-	},
-	sxshow: function() {
-		this.plasticsx = true;
-	},
-	sqshow: function() {
-		this.plasticsq = true;
-	},
-	levelshow: function() {
-		this.plasticlevel = true;
-	},
-	defineshow: function() {
-		this.plasticdefine = true;
-	},
-	rateshow: function() {
-		this.plasticrate = true;
-	},
 	subscribe: function() {
 		this.subscribeshow = true;
 	},

@@ -60,17 +60,20 @@ module.exports = {
 			user_id: "",
 			isDisable: false,
 			show1: true,
-			show2: false
+			show2: false,
+			standard:1
 		}
 	},
 	methods: {
 		spanshow1: function() {
 			this.show1 = true;
 			this.show2 = false;
+			this.standard=1;
 		},
 		spanshow2: function() {
 			this.show1 = false;
 			this.show2 = true;
+			this.standard=2;
 		},
 		checkNum: function() {
 			if(this.price < 1000 || this.price > 30000) {
@@ -99,7 +102,8 @@ module.exports = {
 					type: 'post',
 					data: {
 						data: data,
-						token: window.localStorage.getItem("token")
+						token: window.localStorage.getItem("token"),
+						standard:_this.standard
 					},
 					dataType: 'JSON'
 				}).then(function(res) {
