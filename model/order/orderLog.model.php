@@ -62,7 +62,7 @@ class orderLogModel extends model{
 		if(empty($order_sn)){
 			return;
 		}
-		$goods_str = '单号:'.$order_sn;
+		$goods_str = '编号'.$order_sn;
 		if($type == 1){
 			$goods = $this->model('sale_log')->where("`o_id` = $oid")->getAll();
 		}else{
