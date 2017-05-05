@@ -372,12 +372,12 @@ class plasticPersonModel extends model
                     } else {
                         $value['thumb'] = $value['thumbqq'];
                     }
-                    /*if (mb_strlen ($value['main_product']) > 10) {
-                        $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
+                    if (mb_strlen ($value['main_product']) > 12) {
+                        $value['main_product'] = mb_substr ($value['main_product'], 0, 9, 'utf-8')."...";
                     }
                     if (mb_strlen ($value['month_consum']) > 7) {
-                        $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
-                    }*/
+                        $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."...";
+                    }
 
                     $funs                  = $this->getFuns ($value['user_id']);
                     $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
@@ -522,12 +522,12 @@ class plasticPersonModel extends model
                     } else {
                         $value['thumb'] = $value['thumbqq'];
                     }
-                    /*if (mb_strlen ($value['main_product']) > 10) {
-                        $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
+                    if (mb_strlen ($value['main_product']) > 12) {
+                        $value['main_product'] = mb_substr ($value['main_product'], 0, 9, 'utf-8')."...";
                     }
                     if (mb_strlen ($value['month_consum']) > 7) {
-                        $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
-                    }*/
+                        $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."...";
+                    }
 
                     $funs                  = $this->getFuns ($value['user_id']);
                     $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
@@ -675,12 +675,12 @@ class plasticPersonModel extends model
                     } else {
                         $value['thumb'] = $value['thumbqq'];
                     }
-                   /* if (mb_strlen ($value['main_product']) > 10) {
-                        $value['main_product'] = mb_substr ($value['main_product'], 0, 7, 'utf-8')."***";
+                    if (mb_strlen ($value['main_product']) > 12) {
+                        $value['main_product'] = mb_substr ($value['main_product'], 0, 9, 'utf-8')."...";
                     }
                     if (mb_strlen ($value['month_consum']) > 7) {
-                        $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."***";
-                    }*/
+                        $value['month_consum'] = mb_substr ($value['month_consum'], 0, 4, 'utf-8')."...";
+                    }
 
                     $funs                  = $this->getFuns ($value['user_id']);
                     $value['fans']         = empty($funs) ? 0 : $funs;//粉丝数
