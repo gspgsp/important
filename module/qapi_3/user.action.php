@@ -9,7 +9,7 @@ class userAction extends baseAction
 {
 
     /**
-     * @api {get} /qapp_api_3/user/init 初始化页面
+     * @api {get} /qapi_3/user/init 初始化页面
      * @apiName  init
      * @apiGroup User
      *
@@ -23,7 +23,7 @@ class userAction extends baseAction
     }
 
     /**
-     * @api {post} /api/api1_2/register 注册
+     * @api {post} /qapi_3/user/register 注册
      * @apiName  register
      * @apiGroup User
      *
@@ -310,9 +310,13 @@ class userAction extends baseAction
 
 
     /**
-     * @api {post} /qapp_api_3/api1_2/finfMyPwd 找回密码
+     * @api {post} /qapi_3/user/finfMyPwd 找回密码
      * @apiName  finfMyPwd
      * @apiGroup User
+     *
+     * @apiParam {String} mobile       手机号.
+     * @apiParam {String} password     密码.
+     * @apiParam {String} code         验证码
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
@@ -360,15 +364,26 @@ class userAction extends baseAction
         $this->_errCode (6);
     }
 
+
     /**
      * 发送手机验证码
-     * @access public
+     * @api {post} /qapi_3/user/sendMsg 找回密码
+     * @apiName  finfMyPwd
+     * @apiGroup User
      *
-     * @param type int 0 zhuce  1 zhaohuimima
+     * @apiParam {String} mobile   手机号.
+     * @apiParam {Number} type     类型. 0 zhuce  1 zhaohuimima
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
      *
-     * @return html
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"发送成功"
+     *      }
+     *
      */
-    public function sendmsg ()
+    public function sendMsg ()
     {
         if ($_POST['mobile']) {
             $this->is_ajax = true;
@@ -403,6 +418,26 @@ class userAction extends baseAction
         $this->_errCode (6);
     }
 
+
+    /**
+     * 登录
+     * @api {post} /qapi_3/user/login 登录
+     * @apiName  login
+     * @apiGroup User
+     *
+     * @apiParam {String} username       用户名.
+     * @apiParam {String} password       密码.
+     * @apiParam {String} chanel         登录渠道
+     *
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"登录成功"
+     *      "dataToken":"rer2341234324234321",
+     *      "user_id": 3213
+     *      }
+     *
+     */
     //登录
     //现在默认的login的都是塑料圈web的方式，但是会出现问题的
     //区分不了东西了，其实没什么大不了，app每天的登录记录是出现在取首页数据的时候
@@ -455,8 +490,21 @@ class userAction extends baseAction
         $this->_errCode (6);
     }
 
-
-    //退出登录
+    /**
+     * 登出
+     * @api {post} /qapi_3/user/logout 找回密码
+     * @apiName  logout
+     * @apiGroup User
+     *
+     * @apiParam {String} token          token
+     *
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"退出成功"
+     *      }
+     *
+     */
     public function logout ()
     {
         if ($_POST['token']) {
