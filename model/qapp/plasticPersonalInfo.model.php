@@ -74,7 +74,7 @@ class plasticPersonalInfoModel extends model
     //获取我的塑料圈
     public function getMyPlastic ($userid, $headimgurl)
     {
-        $data = $this->select ('con.user_id,con.name,con.c_id,con.mobile,con.is_pass,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.credit_level,cus.credit_limit,cus.is_credit,,cus.pre_credit_limit,cus.credit_time')
+        $data = $this->select ('con.user_id,con.name,con.c_id,con.mobile,con.is_pass,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.credit_level,cus.credit_limit,cus.is_credit,,cus.pre_credit_limit,cus.credit_time,con.sex')
             ->from ('customer_contact con')
             ->join ('contact_info info', 'con.user_id=info.user_id')
             ->join ('customer cus', 'con.c_id=cus.c_id')
