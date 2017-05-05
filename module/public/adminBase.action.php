@@ -6,6 +6,7 @@ class adminBaseAction extends action {
 	protected $admin_id=0;
 	protected $db=NULL;
 	protected $debug=FALSE;
+	protected $request_url = '';
 	public function __construct() {
 		startAdminSession();
 		parent::__construct();
@@ -26,7 +27,9 @@ class adminBaseAction extends action {
 		$this->db=M('public:common');
 		$this->chkPriv();
 
+		$this->request_url = '/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A;
 		$this->_vlog();  //记录用户日志
+		$this->saveTime();
 
 		//默认为列表页面
 		load::L('sys'); //加载语言相
@@ -172,6 +175,65 @@ class adminBaseAction extends action {
 	        return $regs[1];
 	    else
 	        return 'unknow';
+	}
+	/**
+	 *记录次数
+	 *@auth gsp
+	 * @return [type] [description]
+	 */
+	public function saveTime(){
+		// $time = sget('time','s');
+		// $tag = sget('tag','s');
+		// if(!empty($time) && !empty($tag)){
+		// 	$time = explode(',',$time);
+		// 	$conti_time = $time['0'] + $time['1'] * 60 + $time['2'] * 3600;
+		// 	$where = " admin_id = ".$this->admin_id." and action = '$tag'";
+		// 	$m_time = $this->db->model('log_admin')->select('max(input_time) m_time')->where($where)->group('admin_id,action')->getOne();
+		// 	if(!empty($m_time)){
+		// 		$where .= " and input_time = $m_time";
+		// 		$arr = array(
+		// 			'conti_time'=>$conti_time,
+		// 			);
+		// 		$this->db->model('log_admin')->where($where)->update($arr);
+		// 	}
+		// }
+		// $time = sget('time','s');
+		$time = time();
+		// $tag = sget('tag','s');
+		$tag = $this->request_url;
+		if(!empty($time) && !empty($tag)){
+			$_url = "gsp_url";
+			$_time = "gsp_time";
+			$cache = cache::startMemcache();
+			$ly = $cache->get($_url);
+			$sj = $cache->get($_time);
+
+			if(empty($ly) && empty($sj)){
+				$cache->set($_url,$tag,3600);
+				$cache->set($_time,$time,3600);
+
+				$ly = $tag;
+				$sj = $time;
+			}
+			if($tag != $ly){
+				$conti_time = time() - $sj;
+				$cache->delete($_url);
+				$cache->set($_url,$tag,3600);
+
+				$cache->delete($_time);
+				$cache->set($_time,$time,3600);
+
+				$where = " admin_id = ".$this->admin_id." and action = '$ly'";
+				$m_time = $this->db->model('log_admin')->select('max(input_time) m_time')->where($where)->group('admin_id,action')->getOne();
+				if(!empty($m_time) && strlen($conti_time) != 10){
+					$where .= " and input_time = $m_time";
+					$arr = array(
+						'conti_time'=>$conti_time,
+						);
+					$this->db->model('log_admin')->where($where)->update($arr);
+				}
+			}
+		}
 	}
 }
 ?>
