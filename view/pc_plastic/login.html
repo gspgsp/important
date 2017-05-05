@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="style/style.css"/>
+</head>
+
+<body>
+<!--back begin-->
+<div class="back"><a href="right.html"></a>登录</div>
+<!--back end-->
+<!--login begin-->
+<div class="form-wrap login">
+	<form name="" method="post" action="" id="login-form">
+    	<!--error-msg begin-->
+    	<div class="error-msg">
+        	<p class="inner icon-alert"></p>
+        </div>
+    	<!--error-msg end-->
+        <div class="form-tr">
+        	<div class="name name-text">手机号</div>
+            <div class="val val-text"><input type="text" placeholder="请输入手机号" name="mobilenumber"/></div>
+        </div>
+        <div class="form-tr">
+        	<div class="name name-text">密<span></span>码</div>
+            <div class="val val-text"><input type="password" placeholder="请输入密码" name="setpwd"/></div>
+        </div>
+        <div class="form-tr check">
+        	<input type="checkbox" id="rem"/>
+            <label for="rem">记住密码</label>
+        </div>
+        <p class="go-reg">还没有账号？去<a href="register.html" target="right">免费注册</a></p>
+        <div class="form-tr">
+        	<button class="btn1">登录</button>
+        </div>
+        <p class="forget frt"><a href="forget-pwd.html">忘记密码？</a></p>
+    </form>
+</div>
+<!--login end-->
+</body>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/common.js"></script>
+</html>
