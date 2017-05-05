@@ -6,88 +6,8 @@
  * Time: 上午10:48
  */
 
-class releaseMsgAction extends null2Action
+class releaseMsgAction extends baseAction
 {
-    protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime, $randomMdTime, $shareType;
-
-    public function __init ()
-    {
-        $this->db    = M ('public:common');
-        $this->cache = E ('RedisCluster', APP_LIB.'class');
-        $this->cates = array(
-            '21' => '期货资讯',
-            '20' => '美金市场',
-            '2'  => '塑料上游',
-            '11' => '装置动态',
-            '1'  => '早盘预测',
-            '9'  => '企业动态',
-            '4'  => '中晨塑说',
-            '12' => '期刊报告',
-            '22' => '独家解读',
-        );
-        if (!$this->catesAll = unserialize ($this->cache->get ('qappInitCatesAll'))) {
-            $data           = M ("public:common")->model ("news_cate")->select ("cate_id,cate_name")->where ("status=1")
-                                                 ->getAll ();
-            $this->catesAll = arrayKeyValues ($data, 'cate_id', 'cate_name');
-            $this->cache->set ('qappInitCatesAll', serialize ($this->catesAll), 3600);
-        }
-
-        $this->pointsType  = array(
-            1  => '签到',
-            2  => '登陆',
-            3  => '发布报价',
-            4  => '订单取消塑豆返还',
-            5  => '兑换礼品',
-            6  => '发布采购',
-            7  => '注册完善信息送',
-            8  => 'app注册',
-            9  => '资源库发布',
-            10 => '资源库搜索',
-            11 => '塑料圈',
-            12 => '塑料圈引荐',
-            13 => '塑料圈分享',
-            14 => '查看通讯录',
-            15 => '查看文章',
-            16 => '现金充值',
-        );
-        $this->shareType   = array(
-            1 => '求购分享',
-            2 => '供给分享',
-            3 => '文章分享',
-            4 => '引荐分享',
-        );
-        $this->orderStatus = array(
-            1 => '已兑换，待确认',
-            2 => '已确认，待发货',
-            3 => '已发货',
-            4 => '订单取消',
-            5 => '订单完成',
-        );
-        $this->points      = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
-        /**
-         *       Array
-         * (
-         * [login] => 10
-         * [pur] => 20
-         * [sale] => 10
-         * [ref] => 50
-         * [share] => 30
-         * )
-         */
-        $this->rePoints = $this->points['ref'];
-
-        $this->newsSubscribe = 6;
-
-        $this->newsSubscribeDefault = array(
-            '21',
-            '20',
-            '2',
-            '11',
-        );
-
-        $this->randomTime   = mt_rand (10, 20) * 180; // 1-2 h
-        $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
-    }
 
     //(中间供求信息)获取供求发布和消息回复
     public function getReleaseMsg ()
@@ -779,4 +699,99 @@ class releaseMsgAction extends null2Action
         $this->_errCode (6);
     }
 
+
+    /*
+     * 二次发布
+     */
+    public function secondPub ()
+    {
+        if ($_POST) {
+            $id = sget ('id', 'i');
+            if (empty($id)) {
+                $this->_errCode (6);
+            }
+            $this->checkAccount ();
+            $where = " pur.sync = 6 and pur.id=$id ";
+            $data  = M ("product:purchase")->getPurchaseLeftById ($where);
+            if (empty($data['content'])) {
+                if ($data['unit_price'] == 0.00 && empty($data['model']) && empty($data['f_name']) && empty($data['store_house'])) {
+                    $this->json_output (array(
+                        'err' => 1,
+                        'msg' => '此记录输入有误，请手动补充',
+                    ));
+                }
+                $data['f_type'] = 1;//格式化输出
+            } elseif (!empty($data['content'])) {
+                if ($data['unit_price'] == 0.00 || empty($data['model']) || empty($data['f_name']) || empty($data['store_house'])) {
+                    $data['f_type'] = 2;//未格式化输出
+                } else {
+                    $data['f_type'] = 1;//格式化输出
+                }
+            }
+            if (empty($data)) {
+                $this->_errCode (2);
+            }
+            $this->_errCode (0, $data);
+        }
+        $this->_errCode (6);
+    }
+    /*
+     * 供求信息置顶之供求信息列表
+     */
+    public function supplyDemandList ()
+    {
+        $this->is_ajax = true;
+        if ($_POST) {
+            $user_id = $this->checkAccount ();
+            $page    = sget ('page', 'i', 1);
+            $size    = sget ('size', 'i', 5);
+            $type    = sget ('type', 'i');// 0全部  1采购 2报价
+            $own_id  = sget ('user_id', 'i', 0);
+            if (!empty($own_id)) {
+                $where = " pur.sync = 6 and pur.user_id=$own_id ";
+            } else {
+                $where = " pur.sync = 6 and pur.user_id=$user_id ";
+            }
+            if (!empty($type)) {
+                $where .= " and pur.type=$type";
+            }
+            $data = $this->db->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.type,pur.content,pur.input_time')
+                             ->from ('purchase pur')->leftjoin ('product pro', 'pur.p_id=pro.id')
+                             ->leftjoin ('factory fa', 'pro.f_id=fa.fid')->page ($page, $size)->where ($where)
+                             ->order ('pur.input_time desc')->getPage ();
+            if (empty($data['data']) && $page == 1) {
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关的数据',
+                ));
+            }
+            $this->_checkLastPage ($data['count'], $size, $page);
+            $arr = array();
+            foreach ($data['data'] as $k => &$value) {
+                $value['input_time'] = $this->checkTime ($value['input_time']);
+                if (empty($value['content'])) {
+                    if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])) {
+                        $value['contents'] = '';
+                    } else {
+                        $value['contents'] .= '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
+                    }
+                } elseif (!empty($value['content'])) {
+                    if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])) {
+                        $value['contents'] = $value['content'];
+                    } else {
+                        $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'].'/'.$value['content'];
+                    }
+                }
+                $arr[$k]['type']       = $value['type'];
+                $arr[$k]['input_time'] = $value['input_time'];
+                $arr[$k]['p_id']       = $value['id'];
+                $arr[$k]['content']    = mb_substr (strip_tags ($value['contents']), 0, 50, 'utf-8').'...';
+            }
+            $this->json_output (array(
+                'err'  => 0,
+                'data' => $arr,
+            ));
+        }
+        $this->_errCode (6);
+    }
 }
