@@ -3,37 +3,84 @@
 class indexAction extends adminBaseAction{
 
 	protected $model,$uname,$today,$db,$adminid;
+	private $nlimit=10; //每次处理个数
+
 	public function __init(){
 		$this->adminid=$_SESSION['adminid'];
 		$this->uname=$_SESSION['username'];
-		$this->db=M("public:common");
-		$this->model=M('wk:share');
+		$this->db=M("public:common")->model('offers_msg');
+		// $this->model=M('wk:share');
 		$this->today=strtotime(date('Y-m-d',time()));
 
 	}
 	public function init()
 	{
 		//最近发布时间
-		$times=$this->model->where("is_stock=0 and status='上架'")->order("input_time desc")->select('input_time')->getOne();
-		$this->assign('time', $times);
-
+		$offerList=$this->db->where('input_time>'.$this->today)->order("input_time desc")->limit(4)->getAll();
+		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
+		FROM p2p_offers_msg AS msg
+		WHERE `msg`.`input_time`> ".$this->today." ORDER BY msg.`input_time` DESC");
+		// showtrace();
+		$this->assign('offerList', $offerList);
+		// showtrace();
+		// p($offerList);die;
 		// 库存信息
-		$stockList=$this->model->where("is_stock=1")->order("input_time desc")->getAll();
-		$this->assign('stockList',$stockList);
+		// $stockList=$this->model->where("is_stock=1")->order("input_time desc")->getAll();
+		// showtrace();
+		// $this->assign('stockList',$stockList);
 		$this->display('index');
 	}
-
+	public function check(){
+		$id = sget('id','i');
+		$status = sget('status','i');
+		if(empty($id) || empty($status)){
+			$this->error('操作有误');
+		}
+		$res = $this->db->where('id='.$id)->update(array('status'=>$status,'update_time'=>time(),'update_admin'=>$this->uname));
+		if($res){
+			$this->success('操作成功');
+		}else{
+			$this->error('操作失败');
+		}
+	}
+	public function sendOffersMsg(){
+		$id = sget('id','i');
+		if(empty($id)){
+			$this->error('操作有误');
+		}
+		$res = $this->db->model('offers_msg')->where('id = '.$id)->getRow();
+		if($res['unlock_time'] > CORE_TIME){
+			$this->error('该条记录，您已发送，有效期1小时');
+		}
+		if($res['status'] != 2){
+			$this->error('审核通过的牌号才可发送短信');
+		}
+		// p($res);die;
+		$data['grade'] = $res['grade'];
+		$data['sale_price'] = $res['sale_price'];
+		$data['input_time'] = time();
+		$data['offers_id'] = $res['id'];
+		$data['status'] = 0;
+		$add_res = $this->db->model('offers_cron')->add($data);
+		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 3600));
+		if($add_res){
+			$this->success('发送成功');
+		}else{
+			$this->error('发送失败');
+		}
+	}
+	
 	//发布
 	public function addInfo()
 	{
+		// p($_POST);die;
 		if($_POST){
-			$id=sget('iid','i',0);
-			$content=trim($_POST['content']);
-			if($content==''){
+			// $id=sget('iid','i',0);
+			// $content=trim($_POST['content']);
+			// if($content==''){
 				$_data=$_POST;
-				$_data['ship_type']=isset($_POST['ship_type'])?'自提':'配送';
-				$_data['true_price']=isset($_POST['true_price'])?'实价':'可议价';
-				$_data['stock']=isset($_POST['stock'])?'期货':'现货';
+				// $_data['ship_type']=isset($_POST['ship_type'])?'自提':'配送';
+				// $_data['stock']=isset($_POST['stock'])?'期货':'现货';
 
 				//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
 				$grade=strtolower($_data['grade']);
@@ -41,160 +88,30 @@ class indexAction extends adminBaseAction{
 				if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
 				if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
 
-			}else{
-				$_data['content']=$content;
-			}
-			$_data['type']=isset($_POST['type'])?'求购':'供应';
+			// }else{
+				// $_data['content']=$content;
+			// }
+			// $_data['type']=isset($_POST['type'])?'求购':'供应';
 			$_data['input_time']=time();
-			$_data['date']=date('m-d H:i', time());
+			// $_data['date']=date('m-d H:i', time());
 			$_data['uid']=$this->adminid;
 			$_data['uname']=$this->uname;
-			$_data['status']='上架';
-
-			if($id){
-				$this->model->where("id=$id")->update($_data);
-			}else{
-				if(!$this->model->add($_data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
-			}
+			// $_data['person']=$_POST['person'];
+			$_data['person_phone']=M('rbac:adm')->getPhoneByAdminId($this->adminid);
+			$_data['status']=1;//1.待审核   2审核通过  3.不通过
+			// p($_data);die;
+			// if($id){
+				// $this->model->where("id=$id")->update($_data);
+			// }else{
+				if(!$this->db->model('offers_msg')->add($_data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
+			// }
 			exit(json_encode(array('err'=>0,'data'=>$_data)));
 		}
 	}
 
 
-//获取正常发布数据
-	public function loadMore()
-	{
-		$type=sget('type');
-		$p=sget('p','i',1);
-		$size=200;
-		if($type=='') return;
-		$list=$this->model->where("type='{$type}' and `content`='' and is_stock=0 and status='上架' and input_time>$this->today")->page($p,$size)->order('input_time desc')->getPage();
-		if($list['data']){
-			foreach ($list['data'] as $key => $value) {
-				$list['data'][$key]['date']=date('m-d H:i',$value['input_time']);
-			}
-		}else{
-			$list['data']=array();
-		}
-		exit(json_encode(array('list'=>$list['data'],'p'=>$p+1)));
-	}
 
-//获取文本内容数据
-	public function loadRemarkMore()
-	{
-		$type=sget('type');
-		$p=sget('p','i',1);
-		$size=200;
-		if($type=='') return;
-		$list=$this->model->where("`content`!='' and is_stock=0 and status='上架' and input_time>$this->today")->page($p,$size)->order('input_time desc')->getPage();
-		if($list['data']){
-			foreach ($list['data'] as $key => $value) {
-				$list['data'][$key]['date']=date('m-d H:i',$value['input_time']);
-			}
-		}else{
-			$list['data']=array();
-		}
-		exit(json_encode(array('list'=>$list['data'],'p'=>$p+1)));
-	}
 
-	// 置顶定时加载
-	public function topTimer()
-	{
-		$list=$this->model->where("`content` = '' and `is_top` = 1 and `status` ='上架' and type='供应' and `input_time` > $this->today")->order("input_time desc")->getAll();
-		if($list){
-			foreach ($list as $key => $value) {
-				$list[$key]['date']=date('m-d H:i',$value['input_time']);
-			}
-		}else{
-			$list=array();
-		}
-		exit(json_encode(array('list'=>$list)));
-	}
-
-	//加载库存
-	public function loadstock(){
-		$list=$this->model->where("is_stock=1")->order("input_time desc")->getAll();
-		if($list){
-			foreach ($list as $key => $value) {
-				$list[$key]['date']=date('m-d H:i',$value['input_time']);
-			}
-		}else{
-			$list=array();
-		}
-		exit(json_encode(array('list'=>$list)));
-	}
-
-	//加载我的报价
-	public function myload()
-	{
-		$p=sget('p','i',1);
-		$size=200;
-
-		$list=$this->model->where("is_stock=0 and uname='{$this->uname}'")->order('input_time desc,content asc')->page($p,$size)->getAll();
-		if($list){
-			foreach ($list as $key => $value) {
-				$list[$key]['date']=date('m-d H:i',$value['input_time']);
-			}
-		}else{
-			$list=array();
-		}
-		exit(json_encode(array('list'=>$list,'p'=>$p+1)));
-	}
-
-	// 双击获取相同牌号报价
-	public function get_grade_list()
-	{
-		$grade=sget('grade','s','');
-		$type=sget('type','s','');
-		$list=$this->model->where("is_stock=0 and status='上架' and grade='{$grade}' and type='{$type}' and input_time>{$this->today}")->order("price asc")->getAll();
-		
-		if($list){
-			foreach ($list as $key => $value) {
-				$list[$key]['date']=date('m-d H:i',$value['input_time']);
-			}
-		}else{
-			$list=array();
-		}
-		exit(json_encode($list));
-	}
-	// 上下架
-	public function changeStatus()
-	{
-		$id=sget('id','i',0);
-		if(!$data=$this->model->getPk($id)) return;
-		$status=$data['status']=='上架'?'下架':'上架';
-		$this->model->where("id=$id")->update(array('status'=>$status));
-		echo 1;exit;
-	}
-	// 置顶
-	public function chengeTop()
-	{
-		$id=sget('id','i',0);
-		if(!$data=$this->model->getPk($id)) return;
-		$is_top=$data['is_top']==0?1:0;
-		$this->model->where("id=$id")->update(array('is_top'=>$is_top));
-		echo 1;exit;
-	}
-
-	// 获取我的发布信息编辑
-	public function get_info()
-	{
-		$id=sget('id','i',0);
-		if(!$data=$this->model->getPk($id)) return;
-		$data['input_time']=date('m-d H:i',$data['input_time']);
-		exit(json_encode($data));
-	}
-
-	// 重新发布
-	public function repup2()
-	{
-		$data=$_POST['data'];
-		foreach ($data as $key => $value) {
-			$value['input_time']=time();
-			$this->model->where("id=$key")->update($value);
-		}
-		echo 1;exit;
-	}
 
 	// 报价上传
 	public function offerUpload()
@@ -206,23 +123,23 @@ class indexAction extends adminBaseAction{
 		$path=$savePath.$url;//文件路径
 		if(!is_file($path)) $this->error('文件不存在');
 		$excelData = $this->read($path);
-
 		foreach ($excelData as $key => $value) {
-			$_data['type']=$value['类型'];
 			$_data['grade']=$value['牌号'];
 			$_data['factory']=$value['厂家'];
 			$_data['num']=$value['数量'];
-			$_data['price']=$value['价格'];
-			$_data['true_price']=$value['实价'];
+			$_data['sale_price']=$value['销售价格'];
+			$_data['price']=$value['成本价'];
 			$_data['store']=$value['仓库'];
 			$_data['stock']=$value['期货'];
+			$_data['china_area']=$value['区域'];
 			$_data['remark']=$value['备注'];
 			$_data['supplier']=$value['供应商'];
+			$_data['person']=$value['责任人'];
+			$_data['person_phone']=$value['责任人手机'];
 			$_data['uname']=$this->uname;
 			$_data['uid']=$this->adminid;
 			$_data['input_time']=time();
-			$_data['is_stock']=0;
-			$this->model->add($_data);
+			$this->db->model('offers_msg')->add($_data);
 		}
 		$this->success('导入成功');
 	}

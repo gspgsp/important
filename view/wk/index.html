@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="renderer" content="webkit">
-	<title>工作台</title>
+ {layout file="public:mini_layout"}
 	<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap-datetimepicker.min.css">
-
-	<script type="text/javascript" src="__CSS__/bootstrap/js/jquery-1.12.3.min.js"></script>
-	<script type="text/javascript" src="__CSS__/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="__CSS__/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-	<script type="text/javascript" src="__CSS__/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script type="text/javascript" src="__JS__/home/template-native.js"></script>
 	<script type="text/javascript" src="__JS__/home/jquery.ajaxupload.js"></script>
-	<script type="text/javascript" src="__CSS__/bootstrap/js/jquery.page.js"></script>
 
 	<style type="text/css">
 	.offer{
@@ -40,21 +27,16 @@
 		width:100px;
 		height: auto;
 	}
+	.table th, .table td { 
+		text-align: center;
+		vertical-align: middle!important;
+	}
 	</style>
-</head>
-<body>
 	<div class="container-fluid">
 		<div class="row" >
 			<div class="alert alert-info" role="alert">用户：{$smarty.session.username}</div>
 		</div>
 		<div class="row" style="margin-top:10px;">
-			<div class="col-md-12 col-lg-4">
-				开始
-				<input size="16" type="text" value="{:date|'Y-m-d'}" id="start" readonly data-date-format="yyyy-mm-dd" class="form_datetime">
-				至
-				<input size="16" type="text" value="{:date|'Y-m-d'}" id="end" readonly data-date-format="yyyy-mm-dd" class="form_datetime">
-				<button type="button" id="excelOut" class="btn btn-primary btn-sm">报价单导出</button>
-			</div>
 			<div class="col-md-12 col-lg-8">
 				<form onSubmit="return searchSubmit()" class="form-inline">
 				  <div class="form-group">
@@ -72,374 +54,163 @@
 			</div>
 		</div>
 		<div style="padding:10px;"></div>
+		<!--left begin-->
 		<div class="row">
-			<div class="col-lg-6 col-xs-12">
+			<div class="col-md-3 ">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						发布信息
+						<!-- <div class="col-md-3 col-lg-4 pull-right">
+							<a href="__IMG__/wk/offer.xlsx" class="btn btn-info btn-xs">模板下载</a>
+							<button type="button" data-toggle="modal" data-target="#offerModal" class="btn btn-info btn-xs ">报价导入</button>
+						</div> -->
+					</div>
+					<form style="padding:10px;" id="addForm" onSubmit="return false;">
+						<div class="form-inline">
+							<!--row begin-->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control" name="grade" placeholder="牌号（必填）">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control" name="factory" placeholder="厂家（必填）">
+									</div>
+								</div>
+							</div>
+							<!--row end-->
+							<!--row begin-->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control"  name="num" placeholder="数量（必填）">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control" name="sale_price" placeholder="销售价格（必填）">
+									</div>
+								</div>
+							</div>
+							<!--row end-->
+							<!--row begin-->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control" name="price" placeholder="成本价格（必填）">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control" name="store" placeholder="仓库">
+									</div>
+								</div>
+							</div>
+							<!--row end-->
+							<!--row begin-->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<select class="form-control" name="china_area" id="china_area">
+											<option value="0">选择区域</option>
+											<option value="1">华东</option>
+											<option value="2">华北</option>
+											<option value="3">华南</option>
+											<option value="4">其他</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" class="form-control" name="supplier" placeholder="供应商">
+									</div>
+								</div>
+							</div>
+							<!--row end-->
+							<!--row begin-->
+							<div class="row">
+								<div class="col-md-12"><button onClick="release1()" type="button" class="btn btn-primary">发布</button></div>
+							</div>
+							<!--row end-->
+						</div>
+						<div style="padding:10px;"></div>
+					</form>
+				</div>
+			</div>
+			<!--left end-->
+			<!--right begin-->
+			<div class="col-lg-9 col-xs-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">最新报价</div>
 					<div class="offer" style="height: 400px;">
 						<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
 					        <thead>
 					            <tr>
-					                <th>牌号</th>
-					                <th>厂家</th>
-					                <th>数量</th>
-					                <th>价格</th>
-					                <th>实价</th>
-					                <th>配送</th>
-					                <th>仓库</th>
-					                <th>现/期</th>
-					                <th>备注</th>
-					                <th width="55">责任人</th>
-					                <th width="88">时间</th>
+					                <th align="center" width="80">牌号</th>
+					                <th align="center" width="120">厂家</th>
+					                <th align="center" width="80">数量</th>
+					                <th align="center" width="80">销售价格</th>
+					                <th align="center" width="80">成本价</th>
+					                <th align="center" width="50">仓库</th>
+					                <th align="center" width="50">区域</th>
+					                <th align="center" width="55">责任人</th>
+					                <th align="center" width="80">责任人手机</th>
+					                <th align="center" width="50">发送数量</th>
+					                <th align="center" width="80">审核</th>
+					                <th align="center" width="50">审核结果</th>
+					                <th align="center" width="50">发短信</th>
+					                <th align="center" width="80">发布时间</th>
 					            </tr>
 					        </thead>
 					        <tbody id="offerTop">
-					        	<foreach name="offerList" item="value" key="key">
-					        	<if condition="$value['content'] eq '' ">
+ 								{foreach from=$offerList item=value}
 					            <tr>
 					                <td>{$value.grade}</td>
 					                <td>{$value.factory}</td>
 					                <td>{$value.num}</td>
+					                <td>{$value.sale_price}</td>
 					                <td>{$value.price}</td>
-					                <td>{$value.true_price}</td>
-					            	<td>{$value.ship_type}</td>
 					                <td>{$value.store}</td>
-					                <td>{$value.stock}</td>
-					                <td>{$value.remark}</td>
+					                <td>{$value.china_area}</td>
 					                <td>{$value.uname}</td>
-					                <td>{$value.input_time|date='m-d H:i', ###}</td>
+					                <td>{$value.person_phone}</td>
+					                <td><a href="javascript:void(0)" onclick="valueInfo({$value.id},2)">{$value.count}</a></td>
+					                <td><a href="javascript:void(0)" onclick="check({$value.id},2)">通过</a> | <a href="javascript:void(0)" onclick="check({$value.id},3)">不通过</a></td>
+					                <!-- {if $value.status eq '1'} -->
+					                <!-- <td><a href="javascript:void(0)" onclick="check({$value.id},2)">通过</a> | <a href="javascript:void(0)" onclick="check({$value.id},3)">不通过</a></td> -->
+    								<!-- {else} -->
+    								<!-- <td> -->
+    									<!-- {if $value.status eq '2'}通过 -->
+    									<!-- {else}不通过 -->
+    									<!-- {/if} -->
+    								<!-- </td>  -->
+									<!-- {/if} -->
+					                <!-- </if> -->
+					                {if $value.status eq '1'}
+									<td><b>未审核</b></td>
+									{elseif $value.status eq '2'}
+									<td style="color:blue;"><b>已通过</b></td>
+									{else}
+									<td style="color:red;"><b>未通过</b></td>
+									{/if}
+
+					                <td><a href="javascript:void(0)" onclick="sendMsg({$value.id})">发短信</a></td>
+					                <td>{$value.input_time|date:m-d H:i}</td>
 					            </tr>
-					        	<else/>
-					            <tr>
-					                <td colspan="9">{$value.content}</td>
-					                <td>{$value.uname}</td>
-					                <td>{$value.input_time|date='m-d H:i', ###}</td>
-					            </tr>
-					        	</if>
-					        	</foreach>
-					        </tbody>
-					        <tbody id="offerTable">
-					        	<foreach name="offerList" item="value" key="key">
-					        	<if condition="$value['content'] eq '' ">
-					            <tr>
-					                <td>{$value.grade}</td>
-					                <td>{$value.factory}</td>
-					                <td>{$value.num}</td>
-					                <td>{$value.price}</td>
-					                <td>{$value.true_price}</td>
-					            	<td>{$value.ship_type}</td>
-					                <td>{$value.store}</td>
-					                <td>{$value.stock}</td>
-					                <td>{$value.remark}</td>
-					                <td>{$value.uname}</td>
-					                <td>{$value.input_time|date='m-d H:i', ###}</td>
-					            </tr>
-					        	<else/>
-					            <tr>
-					                <td colspan="9">{$value.content}</td>
-					                <td>{$value.uname}</td>
-					                <td>{$value.input_time|date='m-d H:i', ###}</td>
-					            </tr>
-					        	</if>
-					        	</foreach>
+         						{/foreach}     
 					        </tbody>
 					    </table>
-
-					    
-					</div>
-					<!-- <button onClick="loadMore('供应','loadoffer','offerTable')" id="loadoffer" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
-
-				</div>
-				<div class="panel panel-primary">
-					<div class="panel-heading">文本发布</div>
-					<div class="demand">						
-			            <table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
-					        <thead>
-					            <tr>
-					                <th>发布内容</th>
-					                <th width="55">责任人</th>
-					                <th width="88">时间</th>
-					            </tr>
-					        </thead>
-				        	<tbody id="remarkTable">
-				        		<foreach name="remarkList" item="value" key="key">
-						        	<if condition="$value['content'] neq '' ">
-						        		<tr>
-							                <td colspan="9">{$value.content}</td>
-							                <td>{$value.uname}</td>
-							                <td>{$value.input_time|date='m-d H:i', ###}</td>
-					            		</tr>
-
-						            </if>
-					            </foreach>       		
-				        	</tbody>
-			    		</table>
-					</div>
-						<!-- <button onClick="loadMore('求购','loadrdemand','demandTable')" id="loadrdemand" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
-				</div>
-			</div>
-
-			<div class="col-lg-6 col-xs-12">
-				<div class="">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							库存信息
-							<div class="col-md-3 col-lg-4 pull-right">
-								<a href="__IMG__/wk/stocks.xlsx" class="btn btn-info btn-xs">模板下载</a>
-								<button type="button" data-toggle="modal" data-target="#stockModal" class="btn btn-info btn-xs">库存导入</button>
-							</div>
-						</div>
-						<div class="stock" style="height: 400px;">
-							<table id="example" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
-						        <thead>
-						            <tr>
-						                <th>付款</th>
-						                <th>牌号</th>
-						                <th>厂家</th>
-						                <th>数量</th>
-						                <th>成本</th>
-						                <th>价格</th>
-						                <!-- <th>实价</th> -->
-						                <th>配送</th>
-						                <th>仓库</th>
-						                <!-- <th>现/期</th> -->
-						                <th>备注</th>
-						                <th>责任人</th>
-						                <th>时间</th>
-						            </tr>
-						        </thead>
-						        <tbody id="stockList">
-						        	{foreach from=$stockList item=value}
-						            <tr>
-					                    <td>{$value.pay}</td>
-					                    <td>{$value.grade}</td>
-					                    <td>{$value.factory}</td>
-					                    <td>{$value.num}</td>
-						                <th>{$value.cost}</th>
-					                    <td>{$value.price}</td>
-					                    <!-- <td>{$value.true_price}</td> -->
-					                	<td>{$value.ship_type}</td>
-					                    <td>{$value.store}</td>
-					                    <!-- <td>{$value.stock}</td> -->
-					                    <td>{$value.remark}</td>
-					                    <td>{$value.uname}</td>
-					                    <td>{$value.input_time|date:m-d H:i}</td>
-						            </tr>
-						            {/foreach}
-						        </tbody>
-						    </table>
-						</div>
-					</div>
-				</div>
-				<div class="">
-					<div class="panel panel-primary">
-						<div class="panel-heading">采购需求</div>
-						<div class="demand">
-							<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
-						        <thead>
-						            <tr>
-						                <th>牌号</th>
-						                <th>厂家</th>
-						                <th>数量</th>
-						                <th>价格</th>
-						                <th>实价</th>
-						                <th>配送</th>
-						                <th>仓库</th>
-						                <th>现/期</th>
-						                <th>备注</th>
-						                <th width="55">责任人</th>
-						                <th width="88">时间</th>
-						            </tr>
-						        </thead>
-						        <tbody id="demandTable">
-						        	<foreach name="demandList" item="value" key="key">
-						        	<if condition="$value['content'] eq '' ">
-						            <tr>
-						                <td>{$value.grade}</td>
-						                <td>{$value.factory}</td>
-						                <td>{$value.num}</td>
-						                <td>{$value.price}</td>
-						                <td>{$value.true_price}</td>
-						            	<td>{$value.ship_type}</td>
-						                <td>{$value.store}</td>
-						                <td>{$value.stock}</td>
-						                <td>{$value.remark}</td>
-						                <td>{$value.uname}</td>
-						                <td>{$value.input_time|date='m-d H:i', ###}</td>
-						            </tr>
-						        	<else/>
-						            <tr>
-						                <td colspan="9">{$value.content}</td>
-						                <td>{$value.uname}</td>
-						                <td>{$value.input_time|date='m-d H:i', ###}</td>
-						            </tr>
-						        	</if>
-						        	</foreach>
-						        </tbody>
-						    </table>
-						</div>
-					   	<!-- <button onClick="loadMore('求购','loadrdemand','demandTable')" id="loadrdemand" p="2" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						发布信息
-						<div class="col-md-3 col-lg-4 pull-right">
-							<a href="__IMG__/wk/offer.xlsx" class="btn btn-info btn-xs">模板下载</a>
-							<button type="button" data-toggle="modal" data-target="#offerModal" class="btn btn-info btn-xs ">报价导入</button>
-						</div>
-					</div>
-					<form style="padding:10px;" id="addForm" onSubmit="return false;">
-						<div class="form-inline">
-							<div class="checkbox">
-							    <label>
-							    	<input name="type" type="checkbox"> 求购
-							    </label>
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="grade" placeholder="牌号（必填）">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="factory" placeholder="厂家（必填）">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="num" placeholder="数量（必填）">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="price" placeholder="价格（必填）">
-							</div>
-							<div class="checkbox">
-							    <label>
-							    	<input name="true_price" type="checkbox"> 实价
-							    </label>
-							</div>
-							<div class="checkbox">
-							    <label>
-							    	<input name="ship_type" type="checkbox"> 自提
-							    </label>
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="store" placeholder="仓库（必填）">
-							</div>
-							<div class="checkbox">
-							    <label>
-							    	<input name="stock" type="checkbox"> 期货
-							    </label>
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="remark" placeholder="备注">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="supplier" placeholder="供应商">
-							</div>
-							<button onClick="release1()" type="button" class="btn btn-primary">发布</button>
-						</div>
-						<div style="padding:10px;"></div>
-					</form>
-					<form style="padding:10px;" id="contentForm" onSubmit="return false;">
-						<div class="form-inline">
-							<label for="exampleInputName2">文本发布：</label>
-							<textarea name="content" class="form-control" style="width:82%;" rows="2"></textarea>
-							<button type="button" onClick="release2()" class="btn btn-primary">发布</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">我发布的信息
-						<button type="button" onClick="repup2()" class="btn btn-primary btn-sm col-sm-offset-7">重新发布</button>
-					</div>
-					
-					<div class="mylist">
-						<form onSubmit="return false;" id="myTableForm">
-						<table id="myTable" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
-					        <thead>
-					            <tr>
-					                <th>&nbsp;</th>
-					                <th>类型</th>
-					                <th>牌号</th>
-					                <th>厂家</th>
-					                <th>数量</th>
-					                <th>价格</th>
-					                <th>实价</th>
-					                <th>配送</th>
-					                <th>仓库</th>
-					                <th>现/期</th>
-					                <th>备注</th>
-					                <th>供应商</th>
-					                <th>状态</th>
-					                <th>责任人</th>
-					                <th>时间</th>
-					                <th>操作</th>
-					            </tr>
-					        </thead>
-					        <tbody>
-					        </tbody>
-					    </table>
-					    </form>
-					</div>
-					<!-- <button onClick="myload(this)" p="2" id="myload" type="button" class="btn btn-default btn-sm btn-block">加载更多</button> -->
-					
-				</div>
-			</div>
-		</div>
+		<!--right end-->
 	</div>
 	<div style="padding-bottom: 50px;"></div>
 
 <!-- modal -->
-<div id="myModal" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">重新发布</h4>
-			</div>
-			<div class="modal-body">
-				<form style="padding:10px;" id="editForm" onSubmit="return false;">
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"> 关 闭 </button>
-				<button onClick="editpub()" type="button" class="btn btn-primary"> 发 布 </button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="stockModal" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">库存导入</h4>
-			</div>
-			<div class="modal-body">
-				<form style="padding:10px;" onSubmit="return stockUpload();" class="form-inline" method="post" enctype="multipart/form-data">
-					<div class="form-group">
-						<label for="exampleInputFile">上传文件</label>
-						<input type="text" class="form-control" name="file" id="url">
-					</div>
-					<div class="form-group">
-						<button type="button" id="permitP_btn" class="btn btn-default"> 选择文件 </button>
-					</div>
-					<button type="submit" class="btn btn-primary"> 发 布 </button>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"> 关 闭 </button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div id="offerModal" class="modal fade">
 	<div class="modal-dialog">
@@ -466,377 +237,52 @@
 		</div>
 	</div>
 </div>
-
-<div id="searchsModal" class="modal fade">
-	<div class="modal-dialog" style="width:800px;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">搜索结果</h4>
-			</div>
-			<div class="modal-body" style="min-height: 500px;overflow: auto;">
-					<table class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
-				        <thead>
-				            <tr>
-				                <th>类型</th>
-				                <th>牌号</th>
-				                <th>厂家</th>
-				                <th>数量</th>
-				                <th>价格</th>
-				                <th>实价</th>
-				                <th>配送</th>
-				                <th>仓库</th>
-				                <th>现/期</th>
-				                <th>备注</th>
-				                <th width="55">责任人</th>
-				                <th width="88">时间</th>
-				            </tr>
-				        </thead>
-				        <tbody id="searchList">
-				        </tbody>
-				    </table>
-					<div id="Pagination" class="pagination"></div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"> 关 闭 </button>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="gradeModal" class="modal fade">
-	<div class="modal-dialog" style="width:800px;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">牌号价格</h4>
-			</div>
-			<div class="modal-body" style="min-height: 500px;overflow: auto;">
-					<table class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
-				        <thead>
-				            <tr>
-				                <th>牌号</th>
-				                <th>厂家</th>
-				                <th>数量</th>
-				                <th>价格</th>
-				                <th>实价</th>
-				                <th>配送</th>
-				                <th>仓库</th>
-				                <th>现/期</th>
-				                <th>备注</th>
-				                <th width="55">责任人</th>
-				                <th width="88">时间</th>
-				            </tr>
-				        </thead>
-				        <tbody id="gradeList">
-				        </tbody>
-				    </table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"> 关 闭 </button>
-			</div>
-		</div>
-	</div>
-</div>
-<script type="text/html" id="trTemp">
-<%if (!data.content){%>
-	<tr onDblclick="get_grade('<%=data.grade%>','<%=data.type%>')" >
-	    <td style="color:red;"><%=data.grade%></td>
-	    <td><%=data.factory%></td>
-	    <td><%=data.num%></td>
-	    <td style="color:red;"><%=data.price%></td>
-	    <td><%=data.true_price%></td>
-	    <td><%=data.ship_type%></td>
-	    <td><%=data.store%></td>
-	    <td><%=data.stock%></td>
-	    <td><%=data.remark%></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-	<%}else{%>
-	<tr>
-	    <td colspan="9"><%=data.content%></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-<%}%>
-</script>
-
-<!-- 制作文本类容发布的tr表格 -->
-<script type="text/html" id="remarkTemp">
-	<tr>
-	    <td><%=data.content%></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-</script>
-
-<script type="text/html" id="topTemp">
-<%if (!data.content){%>
-	<tr onDblclick="get_grade('<%=data.grade%>','<%=data.type%>')" >
-	
-	    <td style="color:red;"><%=data.grade%></td>
-	    <td><%=data.factory%></td>
-	    <td><%=data.num%></td>
-	    <td style="color:red;"><%=data.price%></td>
-	    <td><%=data.true_price%></td>
-	    <td><%=data.ship_type%></td>
-	    <td><%=data.store%></td>
-	    <td><%=data.stock%></td>
-	    <td><%=data.remark%><span class="label label-danger">Top</span></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-	<%}else{%>
-	<tr>
-	    <td colspan="9"><%=data.content%></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-<%}%>
-</script>
-
-<script type="text/html" id="stockTemp">
-	<tr>
-	    <td><%=data.pay%></td>
-	    <td><%=data.grade%></td>
-	    <td><%=data.factory%></td>
-	    <td><%=data.num%></td>
-	    <td><%=data.cost%></td>
-	    <td><%=data.price%></td>
-	    <td><%=data.ship_type%></td>
-	    <td><%=data.store%></td>
-	    <td><%=data.remark%></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-</script>
-
-<script type="text/html" id="searchTemp">
-<%if (!data.content){%>
-	<tr>
-	    <td <%if (data.type=='求购'){%>class="red"<%}%> > <%=data.type%></td>
-	    <td><%=data.grade%></td>
-	    <td><%=data.factory%></td>
-	    <td><%=data.num%></td>
-	    <td><%=data.price%></td>
-	    <td><%=data.true_price%></td>
-	    <td><%=data.ship_type%></td>
-	    <td><%=data.store%></td>
-	    <td><%=data.stock%></td>
-	    <td><%=data.remark%></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-	<%}else{%>
-	<tr>
-	    <td><%=data.type%></td>
-	    <td colspan="9"><%=data.content%></td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.date%></td>
-	</tr>
-<%}%>
-</script>
-
-<script type="text/html" id="editTemp">
-	<div class="form-horizontal">
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<div class="checkbox">
-					<label>
-						<input name="type" <%if (data.type=='求购'){%>checked<%}%> type="checkbox"> 求购
-					</label>
-					<label>
-						<input name="ship_type" <%if (data.ship_type=='自提'){%>checked<%}%> type="checkbox"> 自提
-					</label>
-					<label>
-						<input name="true_price" <%if (data.true_price=='实价'){%>checked<%}%> type="checkbox"> 实价
-					</label>
-					<label>
-						<input name="stock" <%if (data.stock=='期货'){%>checked<%}%> type="checkbox"> 期货
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">牌号</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" value="<%=data.grade%>" name="grade" placeholder="">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">厂家</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" value="<%=data.factory%>" name="factory" placeholder="">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">数量</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" value="<%=data.num%>" name="num" placeholder="">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">价格</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" value="<%=data.price%>" name="price" placeholder="">
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">仓库</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" value="<%=data.store%>" name="store" placeholder="">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">备注</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" value="<%=data.remark%>" name="remark" placeholder="">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">供应商</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" value="<%=data.supplier%>" name="supplier" placeholder="">
-			</div>
-		</div>
-		<!-- <div class="form-group">
-			<label for="" class="col-sm-2 control-label">文本发布</label>
-			<div class="col-sm-10">
-				<textarea name="content" class="form-control" placeholder="" style="width:400px;" rows="4"><%=data.content%></textarea>
-			</div>
-		</div> -->
-		<input type="hidden" value="<%=data.id%>" name="iid">
-	</div>
-</script>
-
-<script type="text/html" id="mytrTemp">
-	<%if (data.content==''){%>
-		<tr>
-		    <td class="text-center">
-				<input onClick="editmy(<%=data.id%>,this)" type="checkbox" pid="<%=data.id%>">
-		    </td>
-		    <td>
-		    	<%=data.type%>
-		    </td>
-		    
-		    <td><%=data.grade%></td>
-		    <td><%=data.factory%></td>
-		    <td><%=data.num%></td>
-		    <td><%=data.price%></td>
-		    <td><%=data.true_price%></td>
-		    <td><%=data.ship_type%></td>
-		    <td><%=data.store%></td>
-		    <td><%=data.stock%></td>
-		    <td><%=data.remark%></td>
-		    <td><%=data.supplier%></td>
-		    <td><%=data.status%></td>
-		    <td><%=data.uname%></td>
-		    <td><%=data.date%></td>
-		    <td>
-				<a onClick="changeStatus(<%=data.id%>)" class="btn btn-danger btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
-
-			    <a onClick="changeTop(<%=data.id%>)" class="btn btn-danger btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
-		    </td>
-		</tr>
-		<%}else{%>
-		<tr>
-			<td class="text-center"></td>
-		    <!-- <td><%=data.type%></td> -->
-		    <td colspan="12"><%=data.content%></td>
-		    <!-- <td><%=data.supplier%></td>
-		    <td><%=data.status%></td> -->
-		    <td><%=data.uname%></td>
-		    <td><%=data.date%></td>
-		    <!-- <td>
-			    <a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
-			    <a onClick="changeTop(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
-		    </td> -->
-		</tr>
-	<%}%>
-</script>
-
-<script type="text/html" id="editMyTemp">
-	    <td class="text-center">
-			<input checked onClick="editmy(<%=data.id%>,this)" type="checkbox" pid="<%=data.id%>">
-	    </td>
-	    <td>
-			<select class="form-control selects" name="data[<%=data.id%>][type]">
-				<option <%if (data.type=='供应') {%>selected<%}%> vlaue="供应">供应</option>
-				<option <%if (data.type=='求购') {%>selected<%}%> value="求购">求购</option>
-			</select>
-	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.grade%>" name="data[<%=data.id%>][grade]" placeholder="牌号（必填）">
-	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.factory%>" name="data[<%=data.id%>][factory]" placeholder="厂家（必填）">
-	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.num%>" name="data[<%=data.id%>][num]" placeholder="数量（必填）">
-	    </td>
-	    <td width="10">
-	    	<input type="text" class="form-control inputs requirer" value="<%=data.price%>" name="data[<%=data.id%>][price]" placeholder="价格（必填）">
-	    </td>
-        <td>
-    		<select class="form-control selects" name="data[<%=data.id%>][true_price]">
-    			<option <%if (data.true_price=='实价') {%>selected<%}%> vlaue="实价">实价</option>
-    			<option <%if (data.true_price=='可议价') {%>selected<%}%> value="可议价">可议价</option>
-    		</select>
-        </td>
-        <td>
-    		<select class="form-control selects" name="data[<%=data.id%>][ship_type]">
-    			<option <%if (data.ship_type=='自提') {%>selected<%}%> vlaue="自提">自提</option>
-    			<option <%if (data.ship_type=='配送') {%>selected<%}%> value="配送">配送</option>
-    		</select>
-        </td>
-        <td width="10">
-        	<input type="text" class="form-control inputs requirer" value="<%=data.store%>" name="data[<%=data.id%>][store]" placeholder="仓库（必填）">
-        </td>
-        <td>
-    		<select class="form-control selects" name="data[<%=data.id%>][stock]">
-    			<option <%if (data.stock=='现货') {%>selected<%}%> vlaue="现货">现货</option>
-    			<option <%if (data.stock=='期货') {%>selected<%}%> value="期货">期货</option>
-    		</select>
-        </td>
-        <td width="10">
-        	<input type="text" class="form-control inputs " value="<%=data.remark%>" name="data[<%=data.id%>][remark]" placeholder="备注">
-        </td>
-        <td width="10">
-        	<input type="text" class="form-control inputs " value="<%=data.supplier%>" name="data[<%=data.id%>][supplier]" placeholder="供应商">
-        </td>
-        <td>
-    		<select class="form-control selects" name="data[<%=data.id%>][status]">
-    			<option <%if (data.status=='上架') {%>selected<%}%> vlaue="上架">上架</option>
-    			<option <%if (data.status=='下架') {%>selected<%}%> value="下架">下架</option>
-    		</select>
-        </td>
-	    <td><%=data.uname%></td>
-	    <td><%=data.input_time%></td>
-	    <td>
-			<a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a>
-		    <a onClick="changeTop(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.is_top=='0'){%>置顶<%}else{%>取消置顶<%}%></a>
-	    </td>
-</script>
- <!-- <a onClick="changeStatus(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;"><%if (data.status=='上架'){%>下架<%}else{%>上架<%}%></a> -->
-<!-- <a onClick="repup(<%=data.id%>)" class="btn btn-primary btn-xs" href="javascript:;">重新发布</a> -->
-
 <script type="text/javascript">
-
-    $(".form_datetime").datetimepicker({
-    	autoclose:true,
-    	todayBtn:true,
-    	todayHighlight:true,
-    	language:'zh-CN',
-    	minView:2,
-    });
-
-    $("#excelOut").click(function(){
-    	var start=$("#start").val();
-    	var end=$("#end").val();
-    	window.open("/wk/index/excelOutput?start="+start+"&end="+end);
-    })
-
+ mini.parse();
+ function check(id,status){
+	// grid.loading('数据处理中，请稍后......');
+	var callback = function(data){
+		if(data.err!='0'){
+			// grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			// grid.unmask();
+			alert(data.msg);
+			// grid.reload();
+			 window.location.reload();
+		}
+	}
+		utils.ajax('/wk/index/check',{id:id,status:status},callback,"POST","json");
+}
+//查看发送详情
+function valueInfo(id){
+	if(id == 0){
+		return;
+	}
+	mini.open({
+	  url: "/report/logsms/init?offers_id="+id,
+	  showMaxButton:true,
+	  title: "短信发送记录", 
+	  width: 1300, height:500
+	});
+}
+ function sendMsg(id){
+	// grid.loading('数据处理中，请稍后......');
+	var callback = function(data){
+		if(data.err!='0'){
+			// grid.unmask();
+			alert(data.msg);
+			// return false;
+		}else{
+			// grid.unmask();
+			alert(data.msg);
+			// grid.reload();
+			 window.location.reload();
+		}
+	}
+		utils.ajax('/wk/index/sendOffersMsg',{id:id},callback,"POST","json");
+}
 	//正常发布
 	function release1(){
 		var form=$("#addForm");
@@ -844,7 +290,10 @@
 		var factory=$('#addForm input[name="factory"]').val().trim();
 		var num=$('#addForm input[name="num"]').val().trim();
 		var price=$('#addForm input[name="price"]').val().trim();
-		var store=$('#addForm input[name="store"]').val().trim(); 
+		var sale_price=$('#addForm input[name="sale_price"]').val().trim();
+		// var china_area = $("#china_area ").get(0).selectedIndex;//索引
+		var china_area = $('#china_area option:selected') .text()
+		// console.log(china_area);return;
 		if(grade.length==0){
 			$('#addForm input[name="grade"]').addClass('requires');
 			return;
@@ -857,353 +306,37 @@
 			$('#addForm input[name="num"]').addClass('requires');
 			return;
 		}
+		if(sale_price.length==0){
+			$('#addForm input[name="sale_price"]').addClass('requires');
+			return;
+		}
 		if(price.length==0){
 			$('#addForm input[name="price"]').addClass('requires');
 			return;
 		}
-		if(store.length==0){
-			$('#addForm input[name="store"]').addClass('requires');
+		if(china_area == '选择区域'){
+			$('#china_area').addClass('requires');
 			return;
 		}
 		var data=form.serialize();
+		// console.log(data);return;
 		$.post('/wk/index/addInfo',data,function(data){
 			if(data.err>0){
 				alert(data.msg);
-
 			}else{
-
-				prependTr(data.data);
+				// prependTr(data.data);
 				document.getElementById('addForm').reset();
 				
 				alert('发布成功');
-				loadall();
-				myload();
+				// loadall();
+			 window.location.reload();
+
+				// myload();
 			}
 		},'json');
 		
 	}
-	// get_grade('123');双击获得相同牌号报价
-	function get_grade(grade,type){
-		$.get('/wk/index/get_grade_list',{grade:grade,type:type},function (data){
-			var html='';
-			$(data).each(function(k,v){
-				html+=template('trTemp',{data:v});
-			});
-			$("#gradeList").html(html);
-			$('#gradeModal').modal();
-		},'json');
 
-	}
-
-	var oldhtml=[];
-
-	// 获取我的发布信息编辑
-	function editmy(id,that)
-	{
-		if($(that).is(':checked')){
-			var old=$(that).parents('tr').html();
-			oldhtml[id]=old;
-			$.get('/wk/index/get_info',{id:id},function (data){
-				if(data){
-					var html=template('editMyTemp',{data:data});
-					$(that).parents('tr').html(html);
-				}
-				$("input,textarea").focus(function(){
-					$(this).removeClass('requires');
-				})
-			},'json');
-		}else{
-			var html=oldhtml[id];
-			$(that).parents('tr').html(html);
-		}
-	}
-
-	// 发布文本信息
-	function release2(){
-		var content=$("#contentForm textarea[name='content']").val().trim();
-		var type=$("#contentForm input[name='type']:checked").val();
-		if(content.length==0){
-			$("#contentForm textarea[name='content']").addClass('requires');
-			return;
-		}
-		$.post('/wk/index/addInfo',{content:content,type:type},function(data){
-			if(data.err>0){
-				alert(data.msg);
-			}else{
-				prependTr(data.data);
-				alert('发布成功');
-				myload();
-				loadall();
-			}
-		},'json');
-
-	}
-	
-	function editpub()
-	{
-		var content=$("#editForm textarea[name='content']").val().trim();
-		var grade=$("#editForm input[name='grade']").val().trim();
-		if(content==''&&grade==''){
-			$("#editForm input[name='grade']").addClass('requires');
-			return;
-		}else{
-			$("#editForm input[name='grade']").removeClass('requires');
-		}
-		var data=$("#editForm").serialize();
-		$.post('/wk/index/addInfo',data,function (data){
-			if(data.err>0){
-				alert(data.msg);
-			}else{
-				$('#myModal').modal('hide');
-				alert("发布成功!");
-				myload();
-				loadall();
-
-			}
-		})
-	}
-
-	function prependTr(data){
-		var html=template('trTemp',{data:data});
-		if(data.type=='供应'){
-			$("#offerTable").prepend(html);
-		}else{
-			$("#demandTable").prepend(html);
-		}
-		document.getElementById('addForm').reset();
-	}
-	$("input,textarea").focus(function(){
-		$(this).removeClass('requires');
-	})
-
-	function repup(id){
-		$.get('/wk/index/get_info',{id:id},function (data){
-			if(data){
-				var html=template('editTemp',{data:data});
-				$('#editForm').html(html);
-				$('#myModal').modal();
-				$("input,textarea").focus(function(){
-					$(this).removeClass('requires');
-				})
-			}
-		},'json');
-
-	}
-	//重新发布
-	function repup2()
-	{
-		var flag=true;
-		var data =$('#myTableForm').serialize();
-		if(!data){
-			alert('请勾选要重新发布的信息');
-			return;
-		}
-		$("#myTableForm .requirer").each(function(k,v){
-			if($(this).val().trim()==''){
-				$(this).addClass('requires');
-				flag=false;
-			}
-		});
-
-		if(!flag) return;
-
-		$.post('/wk/index/repup2',data,function (data){
-			if(data==1){
-				myload();
-				loadall();
-				alert('发布成功');
-			}
-		},'json');
-	}
-	//上下架
-	function changeStatus(id){
-		if(!confirm('确定要更改状态吗？')) return;
-		$.post('/wk/index/changeStatus',{id:id},function (data){
-			if(data){
-				alert('更改成功');
-				myload();
-				loadall();
-			}
-		},'json');
-	}
-
-	//置顶
-	function changeTop(id){
-		if(!confirm('确定要更改状态吗？')) return;
-		$.post('/wk/index/chengeTop',{id:id},function (data){
-			if(data){
-				alert('更改成功');
-				myload();
-				loadall();
-			}
-		},'json');
-	}
-	
-	function loadMore(type,btn,form,re){
-		var btn=$("#"+btn+"");
-		var p=btn.attr('p');
-		if(re) p=1;
-		btn.html('加载中..');
-		$.get('/wk/index/loadMore?rnd'+(Math.ceil(Math.random()*1000)),{type:type,p:p},function (data){
-			var html='';
-			$(data.list).each(function(k, v){
-				html+=template('trTemp', {data:v});
-			})										
-			if(re){
-				$("#"+form+"").html(html);
-			}else{
-				$("#"+form+"").append(html);
-			}
-			btn.attr('p',data.p);
-			btn.html('加载更多');
-		},'json');
-	}
-
-	function loadRemarkMore(type,btn,form,re){
-		var btn=$("#"+btn+"");
-		var p=btn.attr('p');
-		if(re) p=1;
-		btn.html('加载中..');
-		$.get('/wk/index/loadRemarkMore?rnd'+(Math.ceil(Math.random()*1000)),{type:type,p:p},function (data){
-			var html='';
-			$(data.list).each(function(k, v){
-				html+=template('remarkTemp', {data:v});
-			})
-										
-			if(re){
-				$("#"+form+"").html(html);
-			}else{
-				$("#"+form+"").append(html);
-			}
-			btn.attr('p',data.p);
-			btn.html('加载更多');
-		},'json');
-	}
-
-	var t="{$time}";
-
-	var timer1=setInterval(loadall,60000);
-	loadTop();
-
-	function loadTop(){
-		$.get('/wk/index/topTimer?rnd'+(Math.ceil(Math.random()*1000)),{t:t},function (data){
-			if(data.list.length){
-				var html="";
-				$(data.list).each(function(k,v){
-					html+=template('topTemp',{data:v});
-				});
-				$("#offerTop").html(html);
-			}else{
-				$("#offerTop").html('');
-			}
-
-		},'json');
-	}
-
-	loadMore('供应','loadoffer','offerTable',true);
-	loadRemarkMore('发布信息','loadoffer','remarkTable',true);
-	loadMore('求购','loadrdemand','demandTable',true);
-	function loadall(){
-		loadTop();
-		loadMore('供应','loadoffer','offerTable',true);
-		loadMore('求购','loadrdemand','demandTable',true);
-		loadRemarkMore('发布信息','loadoffer','remarkTable',true);
-	}
-
-	function loadstock(){
-		$.get('/wk/index/loadstock',{t:t},function (data){
-			if(data.list.length){
-				var html="";
-				$(data.list).each(function(k,v){
-					html+=template('stockTemp',{data:v});
-				});
-				$("#stockList").html(html);
-			}
-		},'json');
-	}
-	
-
-	function myload(that)
-	{
-		var p=$(that).attr('p');
-		$("#myload").html('加载中..');
-		$.get('/wk/index/myload',{p:p},function (data){
-			if(data.list.length){
-				var html='';
-				$(data.list).each(function(k, v){
-					html+=template('mytrTemp',{data:v});
-				});
-				if(p){
-					$("#myTable").find('tbody').append(html);
-					$(that).attr('p',data.p);
-				}else{
-					$("#myTable").find('tbody').html(html);
-					$("#myload").attr('p',2);
-					
-				}
-				$("#myload").html('加载更多');
-			}else{
-				$("#myload").html('加载更多');
-			}
-		},'json');
-	}
-	myload();
-
-	function searchSubmit(){
-
-		var timeline=$("#timeline").val();
-		var keyword=$("#keyword").val().trim();
-		if(keyword==''){
-			$("#keyword").addClass('requires');
-			return false;
-		}
-		$.post('/wk/index/searchs',{keyword:keyword,timeline:timeline,p:1},function (data){
-			if(data.list.length){
-				var html="";
-				$(data.list).each(function (k,v){
-					html+=template('searchTemp',{data:v});
-				})
-				$("#searchList").html(html);
-				$("#Pagination").createPage({
-					pageCount:data.count,
-					current:1,
-					backFn:function(p){
-						$.post('/wk/index/searchs',{keyword:keyword,timeline:timeline,p:p},function (data2){
-							if(data2.list.length){
-								var html="";
-								$(data2.list).each(function (k,v){
-									html+=template('searchTemp',{data:v});
-								})
-								$("#searchList").html(html);
-							}
-						},'json');
-						
-					}
-				});
-				$('#searchsModal').modal();
-			}else{
-				alert("未找到相应信息!");
-
-			}
-		},'json');
-		return false;
-	}
-
-
-
-	function stockUpload(){
-		var url=$("#url").val().trim();
-		if(url==''){
-			return false;
-		}
-		$.post('/wk/index/stockUpload',{url:url},function (data){
-			if(data.err==0){
-				alert("导入成功!");
-				window.location.reload();
-			}
-		},'json');
-		return false;
-	}
 	function offerUpload(){
 		var url=$("#url2").val().trim();
 		if(url==''){
@@ -1219,25 +352,6 @@
 	}
 
 jQuery(function(){
-    new AjaxUpload('#permitP_btn', {
-        action: '/system/sysUpload/upload',
-        name: 'file',
-        onSubmit: function(file, suffix) {
-            var patrn = /^(xls|xlsx)$/i;
-            if (!patrn.test(suffix)) {
-                alert('不支持上传 *.' + suffix + '格式的文件。');
-                return false;
-            }
-        },
-        onComplete: function(file, response) {
-            var result = jQuery.parseJSON(response);
-            if(!result.err) {
-                $('#url').val(result.url);
-            } else {
-               	alert('上传错误');
-            }
-        }
-    });
     new AjaxUpload('#permitP_btn2', {
         action: '/system/sysUpload/upload',
         name: 'file',
@@ -1258,9 +372,4 @@ jQuery(function(){
         }
     });
 });
-
-
-
 </script>
-</body>
-</html>
