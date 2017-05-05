@@ -28,8 +28,12 @@ html, body{
 <body>
 {__CONTENT__}
 <input id="admin_id" type="hidden" value="{$admin_id}" />
+<input id="url_m" type="hidden" value="{$smarty.get.m}" />
+<input id="url_c" type="hidden" value="{$smarty.get.c}" />
+<input id="url_a" type="hidden" value="{$smarty.get.a}" />
 <script type="text/javascript">
 $(function(){
+	// getLogCurTime();
 	$(".show-close").live("click",function(){
 		$(this).closest(".show-msg").remove();
 	});
@@ -121,6 +125,40 @@ socket.on('new_msg', function(msg){
      $(".show-msg").show();
 });
 
+</script>
+<script language="javascript">
+// var second = 0;
+// var minute = 0;
+// var hour = 0;
+// window.setInterval("OnlineStayTime();", 2000);
+// function OnlineStayTime() {
+// second++;
+// if (second == 60) {
+// second = 0;
+// minute++;
+// }
+// if (minute == 60) {
+// minute = 0;
+// hour++;
+// }
+// var _time = new Array(second,minute,hour);
+// var time=_time.join(',');
+// var tag = '/'+$("#url_m").val()+'/'+$("#url_c").val()+'/'+$("#url_a").val();
+// 	var callback=function(res){
+
+//     }
+// 	utils.ajax('/public/adminBase/saveTime',{time:time,tag:tag},callback,"POST","json");
+// }
+//
+function getLogCurTime(){
+	var tag = '/'+$("#url_m").val()+'/'+$("#url_c").val()+'/'+$("#url_a").val();
+	// var timestamp = Date.parse(new Date());
+	// var n_timest = timestamp/1000;
+	var callback=function(res){
+
+	}
+	utils.ajax('/public/adminBase/saveTime',{tag:tag},callback,"POST","json");
+}
 </script>
 </body>
 </html>
