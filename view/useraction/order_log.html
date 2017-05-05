@@ -1,0 +1,78 @@
+{layout file="public:mini_layout"}
+<!-- <div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+                <a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a> -->
+                <!-- <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> -->
+                <!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+            </td>
+        </tr>
+    </table>
+</div> -->
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true" url="/useraction/orderDo/init?action=grid" idField="o_id" showFilterRow="true" multiSelect="true" allowCellSelect="true" allowCellEdit="true">
+        <div property="columns">
+            <div type="checkcolumn" width="10"></div>
+            <div field="o_id" width="20" headerAlign="center" align="center">ID</div>
+            <div field="order_sn" width="60" headerAlign="center" align="center">
+            用户名
+            </div>
+            <!-- <div field="url" widts="100" headerAlign="center" align="center">节点路由
+            </div> -->
+            <div field="chkco" width="50" headerAlign="center" align="center">
+            访问次数
+            <!-- <input property="editor" class="mini-textbox" style="width:100%;"/> -->
+            </div>
+            <div field="conti_t" width="80" headerAlign="center" align="center">停留总时长(s)</div>
+            <div name="check_log" width="80" headerAlign="center" renderer="ftrial" align="center">操作</div>
+            <!-- <div field="create_date" width="100" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
+            <div field="modify_date" width="100" headerAlign="center" dateFormat="yy-MM-dd HH:mm" allowSort="true" align="center">修改时间</div> -->
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+/**
+ * 查看详情
+ * [ftrial description]
+ * @param  {[type]} e [description]
+ * @return {[type]}   [description]
+ */
+function ftrial(e){
+    var record = e.record,o_id=record.o_id,s='';
+    s += '<a href="javascript:showUserLogs('+o_id+')">查看详情</a>';
+    return s;
+}
+function showUserLogs(o_id){
+    var width=1150,height=520,title="订单操作详情";
+    mini.open({
+        url: "/useraction/orderDo/showUserLogs?o_id="+o_id,
+        showMaxButton:true,
+        title: title,
+        width: width,
+        height:height,
+        ondestroy: function (action) {
+            if(action=='save'){ //重新加载
+                grid.reload();
+            }
+        }
+    });
+}
+function CloseWindow(action) {
+    if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+    else window.close();
+}
+function onComfirm() {
+    CloseWindow("ok");
+}
+function onCancel() {
+    CloseWindow("cancel");
+}
+function GetData() {
+    var row = grid.getSelected();
+    return row;
+}
+</script>
