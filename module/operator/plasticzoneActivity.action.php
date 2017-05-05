@@ -151,6 +151,7 @@ class plasticzoneActivityAction extends adminBaseAction{
             if($v['type'] == 14){
                 $list['data'][$k]['other_name'] = $this->db->model('customer_contact')->select('name')->where("user_id={$v['gid']}")->getOne();
                 $list['data'][$k]['other_id'] =$v['gid'];
+                $list['data'][$k]['gid'] = 999;
             }
         }
         $msg="消耗塑豆：{$_tmpSome['supply_num']}&nbsp;&nbsp;&nbsp;获取塑豆：{$_tmpSome['achieve_num']}&nbsp;&nbsp;&nbsp;用户使用人数：{$_tmpSome['distinct_id']}&nbsp;&nbsp;&nbsp;用户使用次数：{$list['count']}&nbsp;";
