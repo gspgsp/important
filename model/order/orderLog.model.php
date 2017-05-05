@@ -55,7 +55,7 @@ class orderLogModel extends model{
 	 * @param    integer                  $msg          [短信内容]
 	 * @return   [type]                                 [订单类型 1为销售 2为采购]
 	 */
-	public function sendMsg($oid = 0,$type=1,$ext='  现在已经将合同传给您,请注意查收'){
+	public function sendMsg($oid = 0,$type=1,$ext='  现在已经将合同传给您,请注意查收。'){
 		$o_info = $this->model('order')->where("o_id = $oid")->getRow();
 		$order_sn = $o_info['order_sn']; //订单的号码
 		// 根据订单号获取货物信息
@@ -72,7 +72,7 @@ class orderLogModel extends model{
 			foreach ($goods as $k => $v) {
 				//查询牌号
 				$product = $this->model('product')->where("`id` = {$v['p_id']}")->getRow();
-				$goods_str .= '  '.$v['number'].'吨 '.$product['model'];
+				$goods_str .= '  '.round($v['number']).'吨 '.$product['model'];
 			}
 		}
 		// 货物信息
