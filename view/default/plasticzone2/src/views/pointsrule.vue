@@ -30,7 +30,7 @@
 		</tr>
 		<tr>
 			<td style="background: #ffdecc; color: #ff0000;">分享塑料头条至微信朋友圈</td>
-			<td style="background: #ffdecc; color: #ff0000;">10塑豆</td>
+			<td style="background: #ffdecc; color: #ff0000;">30塑豆</td>
 		</tr>
 		<tr>
 			<td>发布求购</td>

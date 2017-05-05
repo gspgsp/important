@@ -102,8 +102,7 @@ module.exports = {
 					type: 'post',
 					data: {
 						data: data,
-						token: window.localStorage.getItem("token"),
-						standard:_this.standard
+						token: window.localStorage.getItem("token")
 					},
 					dataType: 'JSON'
 				}).then(function(res) {
@@ -113,7 +112,8 @@ module.exports = {
 							url:"/api/score/addScore",
 							data:{
 								token:window.localStorage.getItem("token"),
-								type:'7'
+								type:'7',
+								standard:_this.standard
 							},
 							dataType: 'JSON'
 						}).done(function(res){

@@ -1,7 +1,7 @@
 <template>
 <div>
 <div class="shopBanner">
-	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner.jpg">
+	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner2.jpg">
 </div>
 <div class="rule" style="padding: 0 20px 10px 20px;">
 	<div class="ruleTitle2">塑豆规则</div>
@@ -20,20 +20,28 @@
 			<td>100塑豆</td>
 		</tr>
 		<tr>
-			<td rowspan="5">2、分享推广类</td>
-			<td>分享供求信息</td>
-			<td>30塑豆</td>
+			<td rowspan="7">2、分享推广类</td>
+			<td style="background: #ffdecc; color: #ff0000;">分享供求信息至微信朋友圈</td>
+			<td style="background: #ffdecc; color: #ff0000;">30塑豆</td>
 		</tr>
 		<tr>
-			<td>分享塑料头条</td>
-			<td>10塑豆</td>
+			<td style="background: #ffdecc; color: #ff0000;">分享塑料头条至微信朋友圈</td>
+			<td style="background: #ffdecc; color: #ff0000;">30塑豆</td>
 		</tr>
 		<tr>
 			<td>发布求购</td>
-			<td>5塑豆</td>
+			<td>10塑豆</td>
+		</tr>
+		<tr>
+			<td>发布标准求购</td>
+			<td>20塑豆</td>
 		</tr>
 		<tr>
 			<td>发布供给</td>
+			<td>5塑豆</td>
+		</tr>
+		<tr>
+			<td>发布标准供给</td>
 			<td>10塑豆</td>
 		</tr>
 		<tr>
@@ -92,7 +100,6 @@
 	<p>3、所有塑豆均不能兑换现金，不能退换，只能用于塑料圈或者我的塑料网消费。</p>
 	<p style="color: #ff5000;">4、微信浏览器内不支持支付宝转账。</p>
 </div>
-
 </div>
 </template>
 <script>
