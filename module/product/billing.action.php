@@ -332,7 +332,7 @@ class billingAction extends adminBaseAction
 				//处理多笔及单笔开票发送短信（仅针对销售）
 				if($type==1){
 					// if($data['billing_price'] < $data['unbilling_price']){
-						$ext = '  现在已开票'.($data['total_price']+$data['billing_price']-$data['unbilling_price']).'元,请注意查收。';
+						$ext = ',现在已开票'.($data['total_price']+$data['billing_price']-$data['unbilling_price']).'元,请注意查收。';
 					// }else{
 					// 	$ext = '现在已开票完成,请注意查看';
 					// }
