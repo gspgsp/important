@@ -72,7 +72,7 @@ class orderLogModel extends model{
 			foreach ($goods as $k => $v) {
 				//查询牌号
 				$product = $this->model('product')->where("`id` = {$v['p_id']}")->getRow();
-				$goods_str .= '  '.round($v['number']).'吨 '.$product['model'];
+				$goods_str .= '  '.round($v['number'],2).'吨 '.$product['model'];
 			}
 		}
 		// 货物信息
