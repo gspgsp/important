@@ -24,10 +24,10 @@ class sysSMSModel extends model{
 	 * @param string $msg 短信内容
 	 * @param int $stype 类型:1注册2更新密码3支付密码4交易类,8提醒类,10促销类
 	 * @param int $input_time 发送时间
+	 * @param int $offers_ids_str 该变量只针对报价发送短信，其他渠道请忽略
      * @return bool
 	 */
-	public function send($user_id=0,$mobile='',$msg='',$stype=1,$input_time=0){
-
+	public function send($user_id=0,$mobile='',$msg='',$stype=1,$input_time=0,$offers_ids_str=0){
 		if(!$input_time){
 			//提醒类短信发送时间限制
 			$input_time=CORE_TIME;
@@ -47,7 +47,8 @@ class sysSMSModel extends model{
 			'stype'=>(int)$stype,	
 			'input_time'=>$input_time,
 			'user_ip'=>get_ip(),
-			'chanel'=>$this->channel
+			'chanel'=>$this->channel,
+			'offers_ids_str'=>$offers_ids_str
 		);
 
 		return $this->model('log_sms')->add($_data);
