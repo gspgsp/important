@@ -45,17 +45,17 @@
 			{if $finance}
 			<tr>
 				<td>未开票金额</td>
-				<td><input name="unbilling_price" class="mini-textbox" maxlength="12" value="{$headData.unbilling_price}"style="width:250px;" allowInput="false"/></td>
+				<td><input name="unbilling_price" class="mini-textbox" id="unbilling_price" maxlength="12" value="{$headData.unbilling_price}"style="width:250px;" allowInput="false"/></td>
 			</tr>
 			<tr>
 				<td>申请票据金额<span style="color:red">*</span></td>
 				<td><input id="billing_price" name="billing_price" class="mini-textbox" maxlength="12" value="{$headData.billing_price}" style="width:250px;" required="true" allowInput="false"/></td>
 			</tr>
-			<!-- <tr>
-				<td>税额<span style="color:red">*</span></td>
-				<td><input name="tax_price" class="mini-textbox" maxlength="12" value="" style="width:150px;" required="true"/></td>
+			<tr id="tax_price">
+				<td>手续费<span style="color:red">*</span></td>
+				<td><input name="tax_price" class="mini-textbox" id="handling_charge" maxlength="12" value="" style="width:150px;" allowInput="false"/></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>票据类型<span style="color:red">*</span></td>
 				<td><input name="bile_type" class="mini-combobox" data='{:setMiniConfig|$bile_type}' textField="name" valueField="id" style="width:150px;" required="true"/></td>
 			</tr> -->
@@ -187,6 +187,16 @@ function onKeyEnter(e) {
 //隐藏列
 grid.hideColumn("exact");
 
+//隐藏手续费
+$('#tax_price').hide();
+var ch_price ="{$handling_charge}";//手续费
+var un_price = mini.get('unbilling_price').value;
+var bi_price = mini.get('billing_price').value;
+if(un_price==bi_price && ch_price>0){
+	mini.get('handling_charge').setValue(ch_price);
+	$('#tax_price').show();
+}
+
 
 //修改数量改变值方法
 function onValidation(e){
@@ -214,6 +224,13 @@ function onValidation(e){
 		total+=parseFloat(data[i].exact);
 	}
 	mini.get('billing_price').setValue(total.toFixed(2));
+	if(parseFloat(un_price) == parseFloat(total.toFixed(2) && ch_price>0) ){
+		mini.get('handling_charge').setValue(ch_price);
+		$('#tax_price').show();
+	}else{
+		mini.get('handling_charge').setValue(0);
+		$('#tax_price').hide();
+	}
  }
 
 //追加操作，删除按钮

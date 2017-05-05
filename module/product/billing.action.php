@@ -253,6 +253,10 @@ class billingAction extends adminBaseAction
 
 		//开票申请与审核时添加最后收付款的时间
 		$res = M('product:collection')->getLastInfo($name='o_id',$value="$o_id");
+		//获取手续费
+		$handling_charge =  $this->db->model('collection')->select("IFNULL(SUM(handling_charge),0) AS handling_charge")->where("o_id='".$o_id."'")->getOne();
+
+		$this->assign('handling_charge',$handling_charge);
 		$this->assign('payment_time',date("Y-m-d H:i:s",$res[0]['payment_time']));
 		if ($finance ==1 ) {
 			//开票审核
@@ -559,6 +563,7 @@ class billingAction extends adminBaseAction
 		$data['update_time']='';
 		$data['update_admin']='';
 		$data['invoice_status']=3;
+		$data['tax_price']=(-$data['tax_price']);
 		$data['unbilling_price']=$data['unbilling_price']+$data['billing_price'];
 
 		$billingModel->startTrans();
