@@ -22,12 +22,6 @@ class indexAction extends adminBaseAction{
 		WHERE `msg`.`input_time`> ".$this->today." ORDER BY msg.`input_time` DESC");
 		// showtrace();
 		$this->assign('offerList', $offerList);
-		// showtrace();
-		// p($offerList);die;
-		// 库存信息
-		// $stockList=$this->model->where("is_stock=1")->order("input_time desc")->getAll();
-		// showtrace();
-		// $this->assign('stockList',$stockList);
 		$this->display('index');
 	}
 	public function check(){
