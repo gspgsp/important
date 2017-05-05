@@ -331,11 +331,11 @@ class billingAction extends adminBaseAction
 				if(!$this->db->model('billing')->where("id={$data['id']}")->update($_data+$data)) $this->error("开票审核更新表头失败");
 				//处理多笔及单笔开票发送短信（仅针对销售）
 				if($type==1){
-					if($data['billing_price'] < $data['unbilling_price']){
-						$ext = '现在已开票'.($data['total_price']+$data['billing_price']-$data['unbilling_price']).'元,请注意查看';
-					}else{
-						$ext = '现在已开票完成,请注意查看';
-					}
+					// if($data['billing_price'] < $data['unbilling_price']){
+						$ext = '  现在已开票'.($data['total_price']+$data['billing_price']-$data['unbilling_price']).'元,请注意查收。';
+					// }else{
+					// 	$ext = '现在已开票完成,请注意查看';
+					// }
 					M('order:orderLog')->sendMsg($data['o_id'],$type,$ext);
 				}
 

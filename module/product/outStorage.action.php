@@ -131,7 +131,7 @@ class outStorageAction extends adminBaseAction {
 			M('order:orderLog')->addLog($data['o_id'],0,1,CORE_TIME-intval($this->db->model('order_flow')->select('input_time')->where("o_id = {$data['o_id']} and type = 0 and step = 2")->getOne()));
 			//添加成功后的发货短信信息发送
 			if(intval($info['order_type']) ==  1){
-				M('order:orderLog')->sendMsg($data['o_id'],$info['order_type'],',现在已全部发,货请您注意查收');
+				M('order:orderLog')->sendMsg($data['o_id'],$info['order_type'],',现在已全部发货,请您注意查收。');
 			}
 			 $this->success('操作成功');
 		}else{
