@@ -253,10 +253,6 @@ class billingAction extends adminBaseAction
 
 		//开票申请与审核时添加最后收付款的时间
 		$res = M('product:collection')->getLastInfo($name='o_id',$value="$o_id");
-		//获取手续费
-		$handling_charge =  $this->db->model('collection')->select("IFNULL(SUM(handling_charge),0) AS handling_charge")->where("o_id='".$o_id."'")->getOne();
-
-		$this->assign('handling_charge',$handling_charge);
 		$this->assign('payment_time',date("Y-m-d H:i:s",$res[0]['payment_time']));
 		if ($finance ==1 ) {
 			//开票审核
@@ -336,7 +332,7 @@ class billingAction extends adminBaseAction
 				//处理多笔及单笔开票发送短信（仅针对销售）
 				if($type==1){
 					// if($data['billing_price'] < $data['unbilling_price']){
-						$ext = ',现在已开票'.($data['total_price']+$data['billing_price']-$data['unbilling_price']).'元,请注意查收。';
+						$ext = ',现已开发票'.($data['total_price']+$data['billing_price']-$data['unbilling_price']).'元,请您查收。';
 					// }else{
 					// 	$ext = '现在已开票完成,请注意查看';
 					// }
@@ -563,7 +559,6 @@ class billingAction extends adminBaseAction
 		$data['update_time']='';
 		$data['update_admin']='';
 		$data['invoice_status']=3;
-		$data['tax_price']=(-$data['tax_price']);
 		$data['unbilling_price']=$data['unbilling_price']+$data['billing_price'];
 
 		$billingModel->startTrans();
