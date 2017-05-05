@@ -9,6 +9,7 @@ class logsmsAction extends adminBaseAction {
 		$this->db=M('public:common')->model('log_sms');
 		$this->stype=L('ui_sms_type');
 		$this->status=array(1=>'待发',2=>'成功',3=>'失败');
+		$this->assign('offers_id',sget('offers_id','i'));
 	}
 
 	/**
@@ -38,6 +39,9 @@ class logsmsAction extends adminBaseAction {
 			if($status>0){
 				$where.=" and status=".($status-1);
 			}
+			
+			$offers_id=sget('offers_id','i');//
+			if($offers_id)  $where.=" and FIND_IN_SET ($offers_id,offers_ids_str) ";
 			//关键词
 			$key_type=sget('key_type','s','mobile');
 			$keyword=sget('keyword','s');

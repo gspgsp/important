@@ -40,8 +40,7 @@
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
-				url="/report/logsms/init?action=grid&uid={$uid}" idField="id"
-				>
+				url="/report/logsms/init?action=grid&uid={$uid}&offers_id={$offers_id}" idField="id">
 		<div property="columns">
 			{if $uid eq 0}
 			<div name="action" width="20" headerAlign="center" align="right" renderer="onLoadHandle">操作</div>
