@@ -270,7 +270,7 @@ class plasticzoneActivityAction extends adminBaseAction{
         $_tmpSome2 = $this->db->from('points_bill b')->getRow($sql2);//showTrace();
 
 
-        $list['count'] = count($_tmpSome);
+        $list['count'] = $_tmpSome2['distinct_id'];
         $list['data'] = $_tmpSome;
         $msg="消耗塑豆：{$_tmpSome2['supply_num2']}&nbsp;&nbsp;&nbsp;获取塑豆：{$_tmpSome2['achieve_num2']}&nbsp;&nbsp;&nbsp;用户使用人数：{$_tmpSome2['distinct_id']}&nbsp;&nbsp;&nbsp;用户使用次数：{$_tmpSome2['sum_id']}&nbsp;";
         $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
