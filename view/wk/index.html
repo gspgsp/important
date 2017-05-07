@@ -31,6 +31,16 @@
 		text-align: center;
 		vertical-align: middle!important;
 	}
+	
+	.col-md-3 { padding-left:0; padding-right: 0; overflow: hidden;}
+	.row{ margin-left:0; margin-right: 0; overflow: hidden;}
+	.row .col-md-6{ padding:0 10px; margin: 15px 0;}
+	.row .col-md-6 .form-group{ width: 100%;}
+	.row .col-md-6 .form-group input{ width: 100%;}
+	.col-md-6 .form-group select.form-control{ width: 100%;}
+	.col-lg-9.col-xs-12{ padding-right: 0;}
+	.col-md-12 button.btn.btn-primary{ padding:6px 30px; margin-top: 20px;}
+
 	</style>
 	<div class="container-fluid">
 		<div class="row" >
@@ -56,8 +66,8 @@
 		<div style="padding:10px;"></div>
 		<!--left begin-->
 		<div class="row">
-			<div class="col-md-3 ">
-				<div class="panel panel-primary">
+			<div class="col-md-3 " >
+				<div class="panel panel-primary" style="height:400px;">
 					<div class="panel-heading">
 						发布信息
 						<!-- <div class="col-md-3 col-lg-4 pull-right">
@@ -65,8 +75,8 @@
 							<button type="button" data-toggle="modal" data-target="#offerModal" class="btn btn-info btn-xs ">报价导入</button>
 						</div> -->
 					</div>
-					<form style="padding:10px;" id="addForm" onSubmit="return false;">
-						<div class="form-inline">
+					<form style="padding:10px 0;" id="addForm" onSubmit="return false;">
+						<div class="form-inline" style="width:100%;">
 							<!--row begin-->
 							<div class="row">
 								<div class="col-md-6">
@@ -114,7 +124,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<select class="form-control" name="china_area" id="china_area">
-											<option value="0">选择区域</option>
+											<option value="0">选择区域(必填)</option>
 											<option value="1">华东</option>
 											<option value="2">华北</option>
 											<option value="3">华南</option>
@@ -131,7 +141,7 @@
 							<!--row end-->
 							<!--row begin-->
 							<div class="row">
-								<div class="col-md-12"><button onClick="release1()" type="button" class="btn btn-primary">发布</button></div>
+								<div class="col-md-12" style="text-align:center;"><button onClick="release1()" type="button" class="btn btn-primary">发布</button></div>
 							</div>
 							<!--row end-->
 						</div>
@@ -144,7 +154,7 @@
 			<div class="col-lg-9 col-xs-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">最新报价</div>
-					<div class="offer" style="height: 400px;">
+					<div class="offer" style="height: 360px;">
 						<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
 					        <thead>
 					            <tr>
@@ -314,7 +324,7 @@ function valueInfo(id){
 			$('#addForm input[name="price"]').addClass('requires');
 			return;
 		}
-		if(china_area == '选择区域'){
+		if(china_area == '选择区域(必填)'){
 			$('#china_area').addClass('requires');
 			return;
 		}
