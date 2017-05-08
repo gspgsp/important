@@ -1141,7 +1141,9 @@ class qapi1_2Action extends null2Action
 
                 $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($info0['pur_id'],$info0['uid']);
                 $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($info0['uid']);
+                unset($personal['type']);
                 $_tmp     = $top['info'];
+                //showTrace();
                 unset($top['info']);
                 $top = array_merge ($top, $_tmp, $personal);
 
