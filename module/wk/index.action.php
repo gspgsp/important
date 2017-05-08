@@ -60,8 +60,10 @@ class indexAction extends adminBaseAction{
 	}
 	public function select(){
 		$data = trim($_POST['keyword']);
-		$offerList = $this->db->getAll("SELECT * FROM p2p_offers_msg AS msg
+		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
+		FROM p2p_offers_msg AS msg
 		WHERE `msg`.`input_time`> ".$this->today." and msg.grade = '".$data."' ORDER BY msg.`input_time` DESC");
+
 		$this->assign('offerList', $offerList);
 		$this->assign('select', 'select');
 		$this->display('index');
@@ -84,6 +86,7 @@ class indexAction extends adminBaseAction{
 			$_data['person_phone']=M('rbac:adm')->getPhoneByAdminId($this->adminid);
 			$_data['status']=1;//1.待审核   2审核通过  3.不通过
 			if(!$this->db->model('offers_msg')->add($_data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
+			exit(json_encode(array('err'=>0,'data'=>$_data)));
 		}
 	}
 	// 报价上传
