@@ -10,6 +10,7 @@ class userAction extends baseAction
 
     /**
      * @api {get} /qapi_3/user/init 初始化页面
+     * @apiVersion 3.1.0
      * @apiName  init
      * @apiGroup User
      *
@@ -24,6 +25,7 @@ class userAction extends baseAction
 
     /**
      * @api {post} /qapi_3/user/register 注册
+     * @apiVersion 3.1.0
      * @apiName  register
      * @apiGroup User
      *
@@ -311,6 +313,7 @@ class userAction extends baseAction
 
     /**
      * @api {get} /qapi_3/user/finfMyPwd 找回密码
+     * @apiVersion 3.1.0
      * @apiName  finfMyPwd
      * @apiGroup User
      *
@@ -367,12 +370,14 @@ class userAction extends baseAction
 
     /**
      * 发送手机验证码
-     * @api {get} /qapi_3/user/sendMsg 找回密码
-     * @apiName  finfMyPwd
+     * @api {get} /qapi_3/user/sendMsg 发送验证码
+     * @apiVersion 3.1.0
+     * @apiName  sendMsg
      * @apiGroup User
      *
      * @apiParam {String} mobile   手机号.
      * @apiParam {Number} type     类型. 0 zhuce  1 zhaohuimima
+     *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
      *
@@ -422,6 +427,7 @@ class userAction extends baseAction
     /**
      * 登录
      * @api {get} /qapi_3/user/login 登录
+     * @apiVersion 3.1.0
      * @apiName  login
      * @apiGroup User
      *
@@ -492,7 +498,8 @@ class userAction extends baseAction
 
     /**
      * 登出
-     * @api {post} /qapi_3/user/logout 找回密码
+     * @api {post} /qapi_3/user/logout 登出
+     * @apiVersion 3.1.0
      * @apiName  logout
      * @apiGroup User
      *
