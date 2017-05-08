@@ -309,10 +309,11 @@ class interfaceAction extends adminBaseAction {
 	 */
 	public function setsea(){
 		if($_POST){
-			$id = $_POST['id'];
+			$id = $_POST['cid'];
 			$reason = $_POST['reason'];
 			if(empty($reason)) $this->error('放回公海原因不能为空的哦');
 			$this->db->model('customer')->where("c_id = $id")->update(array('reason'=>$reason));
+			$this->success('放回公海成功');
 		}
 		$this->id = sget('id','i') OR $this->error('传参错误');
 		$this->display('customer.sea.html');
