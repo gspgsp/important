@@ -61,7 +61,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
     }
-  }), _vm._v("\n\t\t\t塑料圈通讯录(" + _vm._s(_vm.member) + "人)\n\t\t\t"), _c('a', {
+  }), _vm._v("\n\t\t\t塑料圈通讯录.(" + _vm._s(_vm.member) + "人)\n\t\t\t"), _c('a', {
     staticClass: "headerMenu",
     on: {
       "click": _vm.toLogin
