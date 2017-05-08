@@ -132,6 +132,7 @@ class qapi1_2Action extends null2Action
 
     /**
      * @api {get} /api/api1_2/init 初始化页面
+     * @apiVersion 3.0.*
      * @apiName  init
      * @apiGroup User
      *
@@ -146,6 +147,7 @@ class qapi1_2Action extends null2Action
 
     /**
      * @api {post} /api/api1_2/register 注册
+     * @apiVersion 3.0.*
      * @apiName  register
      * @apiGroup User
      *
@@ -433,6 +435,7 @@ class qapi1_2Action extends null2Action
 
     /**
      * @api {post} /api/api1_2/finfMyPwd 找回密码
+     * @apiVersion 3.0.*
      * @apiName  finfMyPwd
      * @apiGroup User
      *
@@ -4075,11 +4078,12 @@ class qapi1_2Action extends null2Action
     /**
      * APP检查更新接口
      * @api {get} /api/api1_2/checkVersion APP检查更新接口
+     * @apiVersion 3.0.*
      * @apiName  checkVersion
      * @apiGroup User
      *
      * @apiParam   {String} version  3.0.0
-     * @apiParam   {String} platform  ios andriod h5
+     * @apiParam   {String} platform  ios/andriod/h5
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {String}  err   错误码
