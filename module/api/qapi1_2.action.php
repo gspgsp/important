@@ -4082,7 +4082,7 @@ class qapi1_2Action extends null2Action
      * @api {get} /api/api1_2/checkVersion APP检查更新接口
      * @apiVersion 3.0.0
      * @apiName  checkVersion
-     * @apiGroup User
+     * @apiGroup Common
      *
      * @apiParam   {String} version  3.0.1
      * @apiParam   {String} platform  ios/andriod/h5
