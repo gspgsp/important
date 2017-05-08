@@ -1,0 +1,42 @@
+{layout file="public:mini_layout"}
+<form id="infoForm" class="form" method="POST">
+<input type="hidden" name="cid" value="{$id}" />
+	<div style="margin:50px;">
+		<table style="width:100%;">
+			<tr>
+				<td style="text-align:left;">请说明放回公海原因：</td>
+				<td colspan="6">
+					<input name="reason" class="mini-textarea" style="width:350px;height:100px;" required="true" value="" maxlength="200" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="text-align:center;padding:10px;">
+		<a class="mini-button" iconCls="icon-ok" onclick="submitForm" style="width:60px;margin-right:20px;">确定</a>
+		<a class="mini-button" iconCls="icon-cancel" onclick="onCancel" style="width:60px;">取消</a>
+	</div>
+</form>
+<script>
+mini.parse();
+var form = new mini.Form("#infoForm");
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	form.loading("数据提交中，请稍后......");
+	$.post(window.location.href,$.extend({},$("#infoForm").serializeObject(),$("#infoForm").data()),function(data){
+	  form.unmask();
+	  mini.alert(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }
+	},'json');
+}
+
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>
