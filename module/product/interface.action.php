@@ -312,7 +312,7 @@ class interfaceAction extends adminBaseAction {
 		if($_POST){
 			$id = $_POST['cid'];
 			$reason = $_POST['reason'];
-			if(empty($reason)) $this->error('放回公海原因不能为空的哦');
+			if(empty($reason)) $this->error('释放公海原因不能为空的哦');
 			//新增客户流转记录日志----S
 			$remarks = "对客户操作：还原为公海客户,释放原因：".$reason;// 审核用户
 			M('user:customerLog')->addLog($ids,'check','私海客户','还原为公海客户',1,$remarks);
