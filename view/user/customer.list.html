@@ -236,7 +236,7 @@ function onLoadFllow(e) {
 		if(customer_manager !=''){
 			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>';
 			if(supplier==0){
-				s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:setSea('+cid+')">公海</a>|<a href="javascript:contract('+cid+')">联系人</a>';
+				s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:new_setSea('+cid+')">公海</a>|<a href="javascript:contract('+cid+')">联系人</a>';
 			}
 			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
 		}
@@ -364,6 +364,18 @@ function setSea(cid) {
 			utils.ajax('/user/customer/setsea',{ids:cid},callback,"POST","json");
 		}
 	);
+}
+//发送短信
+function new_setSea(cid){
+	mini.open({
+	url: "/product/interface/setsea?id="+cid,
+	title: '把客户放回公海', width: 550, height:400,
+	ondestroy: function (action) {
+	  if(action=='save'){ //重新加载
+		grid.reload();
+	  }
+	}
+	});
 }
 //发送短信
 function send(){
