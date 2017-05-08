@@ -3,7 +3,7 @@
  * 管理员列表
  */
 class contractAction extends adminBaseAction {
-	public function __init(){	    
+	public function __init(){
 		$this->debug = false;
 		$this->action = sget('action','');
 		$this->db=M('public:common')->model('transport_contract');
@@ -117,7 +117,7 @@ class contractAction extends adminBaseAction {
 	        $_data=array(
 	            'delivery_fee'=>$v['delivery_price'].','.$v['delivery_trans'].','.$v['delivery_other'],
 	            'update_time'=>CORE_TIME,
-	            'last_edited_by'=>$_SESSION['name'],
+	            'last_edited_by'=>$_SESSION['adminid'],
 	        );
 	        $sql[]=$this->db->wherePk($v['logistics_contract_id'])->updateSql($_data);
 	    }
