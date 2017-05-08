@@ -9,8 +9,8 @@
 </div>
 <div class="mypoints">
 	<a href="javascript:;"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</a>
-	<router-link :to="{name:'recharge'}"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
-	<router-link :to="{name:'pointsrule'}"><i class="shopIcon iconIntro"></i>如何赚塑豆</router-link>
+	<router-link :to="{name:'recharge'}" style=" color: #ff5000;"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
+	<router-link :to="{name:'pointsrule'}" style=" color: #ff5000;"><i class="shopIcon iconIntro"></i>如何赚塑豆</router-link>
 </div>
 <div class="pointsWrap">
 	<div class="pointsTitle">商品信息</div>

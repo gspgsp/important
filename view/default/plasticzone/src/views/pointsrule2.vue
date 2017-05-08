@@ -21,7 +21,7 @@
 		</tr>
 		<tr>
 			<td rowspan="7">2、分享推广类</td>
-			<td style="background: #ffdecc; color: #ff0000;">分享供求信息至微信朋友圈</td>
+			<td style="background: #ffdecc; color: #ff0000;">分享自己的供求信息至微信朋友圈</td>
 			<td style="background: #ffdecc; color: #ff0000;">30塑豆</td>
 		</tr>
 		<tr>
@@ -50,7 +50,7 @@
 		</tr>
 		<tr>
 			<td>3、拉新类</td>
-			<td>拉新1个</td>
+			<td>拉新一个用户</td>
 			<td>50塑豆</td>
 		</tr>
 		<tr>
