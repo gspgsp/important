@@ -369,7 +369,7 @@ function setSea(cid) {
 function new_setSea(cid){
 	mini.open({
 	url: "/product/interface/setsea?id="+cid,
-	title: '把客户放回公海', width: 550, height:400,
+	title: '把客户放回公海', width: 500, height:300,
 	ondestroy: function (action) {
 	  if(action=='save'){ //重新加载
 		grid.reload();
