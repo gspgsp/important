@@ -3,24 +3,19 @@
 class indexAction extends adminBaseAction{
 
 	protected $model,$uname,$today,$db,$adminid;
-	private $nlimit=10; //每次处理个数
-
 	public function __init(){
 		$this->adminid=$_SESSION['adminid'];
 		$this->uname=$_SESSION['username'];
 		$this->db=M("public:common")->model('offers_msg');
-		// $this->model=M('wk:share');
 		$this->today=strtotime(date('Y-m-d',time()));
 
 	}
 	public function init()
 	{
 		//最近发布时间
-		$offerList=$this->db->where('input_time>'.$this->today)->order("input_time desc")->limit(4)->getAll();
 		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
 		FROM p2p_offers_msg AS msg
 		WHERE `msg`.`input_time`> ".$this->today." ORDER BY msg.`input_time` DESC");
-		// showtrace();
 		$this->assign('offerList', $offerList);
 		$this->display('index');
 	}
@@ -63,50 +58,36 @@ class indexAction extends adminBaseAction{
 			$this->error('发送失败');
 		}
 	}
-	
+	public function select(){
+		$data = trim($_POST['keyword']);
+		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
+		FROM p2p_offers_msg AS msg
+		WHERE `msg`.`input_time`> ".$this->today." and msg.grade = '".$data."' ORDER BY msg.`input_time` DESC");
+		// showtrace();
+		$this->assign('offerList', $offerList);
+		$this->assign('select', 'select');
+		$this->display('index');
+	}
 	//发布
 	public function addInfo()
 	{
-		// p($_POST);die;
 		if($_POST){
-			// $id=sget('iid','i',0);
-			// $content=trim($_POST['content']);
-			// if($content==''){
-				$_data=$_POST;
-				// $_data['ship_type']=isset($_POST['ship_type'])?'自提':'配送';
-				// $_data['stock']=isset($_POST['stock'])?'期货':'现货';
+			$_data=$_POST;
+			//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
+			$grade=strtolower($_data['grade']);
+			$factory=$_data['factory'];
+			if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
+			if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
 
-				//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
-				$grade=strtolower($_data['grade']);
-				$factory=$_data['factory'];
-				if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
-				if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
-
-			// }else{
-				// $_data['content']=$content;
-			// }
-			// $_data['type']=isset($_POST['type'])?'求购':'供应';
 			$_data['input_time']=time();
-			// $_data['date']=date('m-d H:i', time());
 			$_data['uid']=$this->adminid;
 			$_data['uname']=$this->uname;
-			// $_data['person']=$_POST['person'];
 			$_data['person_phone']=M('rbac:adm')->getPhoneByAdminId($this->adminid);
 			$_data['status']=1;//1.待审核   2审核通过  3.不通过
-			// p($_data);die;
-			// if($id){
-				// $this->model->where("id=$id")->update($_data);
-			// }else{
-				if(!$this->db->model('offers_msg')->add($_data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
-			// }
+			if(!$this->db->model('offers_msg')->add($_data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
 			exit(json_encode(array('err'=>0,'data'=>$_data)));
 		}
 	}
-
-
-
-
-
 	// 报价上传
 	public function offerUpload()
 	{
@@ -141,7 +122,6 @@ class indexAction extends adminBaseAction{
 	//库存导入
 	public function stockUpload()
 	{
-
 		$this->is_ajax=true;
 		$url=sget('url','s','');//上传文件名
 		$savePath=C('upload_local.path');//文件保存路径
@@ -291,6 +271,4 @@ class indexAction extends adminBaseAction{
 		$allpage=ceil($list['count']/$size);
 		exit(json_encode(array('list'=>$list['data'],'count'=>$allpage,'p'=>$p)));
 	}
-
-
 }
