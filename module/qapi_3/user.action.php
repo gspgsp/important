@@ -310,7 +310,7 @@ class userAction extends baseAction
 
 
     /**
-     * @api {post} /qapi_3/user/finfMyPwd 找回密码
+     * @api {get} /qapi_3/user/finfMyPwd 找回密码
      * @apiName  finfMyPwd
      * @apiGroup User
      *
@@ -367,7 +367,7 @@ class userAction extends baseAction
 
     /**
      * 发送手机验证码
-     * @api {post} /qapi_3/user/sendMsg 找回密码
+     * @api {get} /qapi_3/user/sendMsg 找回密码
      * @apiName  finfMyPwd
      * @apiGroup User
      *
@@ -421,7 +421,7 @@ class userAction extends baseAction
 
     /**
      * 登录
-     * @api {post} /qapi_3/user/login 登录
+     * @api {get} /qapi_3/user/login 登录
      * @apiName  login
      * @apiGroup User
      *
