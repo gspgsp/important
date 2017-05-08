@@ -318,7 +318,6 @@ class interfaceAction extends adminBaseAction {
 			M('user:customerLog')->addLog($ids,'check','私海客户','还原为公海客户',1,$remarks);
 			//新增客户流转记录日志----E
 			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>1,));
-			showtrace();
 			$this->success('操作成功');
 		}
 		$this->display('customer.sea.html');
