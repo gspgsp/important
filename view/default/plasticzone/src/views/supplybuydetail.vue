@@ -38,7 +38,7 @@
 </template>
 <script>
 var footer = require("../components/footer");
-module.exports = {
+export default{
 	components: {
 		'footerbar': footer
 },

@@ -7,7 +7,7 @@
 </div>
 </template>
 <script>
-module.exports = {
+export default{
 	props:['loading']
 }
 </script>

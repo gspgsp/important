@@ -21,7 +21,7 @@
 	</ul>
 </template>
 <script>
-	module.exports={
+	export default{
         props:['name','condition']
 	}
 </script>

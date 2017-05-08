@@ -13,7 +13,7 @@
 <script>
 import footer from "../components/footer";
 import myrelation from "../components/myrelation";
-module.exports = {
+export default{
 	components: {
 		'footerbar': footer,
 		'myrelation': myrelation

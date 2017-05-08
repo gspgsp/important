@@ -39,8 +39,8 @@
 </div>
 </template>
 <script>
-var footer = require("../components/footer");
-module.exports = {
+import footer from "../components/footer";
+export default{
 	components: {
 		'footerbar': footer
 },

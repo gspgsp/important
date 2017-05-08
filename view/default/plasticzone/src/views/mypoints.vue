@@ -69,7 +69,7 @@
 </div>
 </template>
 <script>
-module.exports = {
+export default{
 	data: function() {
 		return {
 			p1:"",

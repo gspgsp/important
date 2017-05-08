@@ -33,7 +33,7 @@
 </template>
 <script>
 import footer from "../components/footer";
-module.exports = {
+export default{
 	components: {
 		'footerbar': footer
 	},

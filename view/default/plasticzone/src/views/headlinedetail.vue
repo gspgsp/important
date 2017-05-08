@@ -29,7 +29,7 @@
 				</a>
 			</p>
 			<span>{{s.input_time}}</span>
-			<li>
+		</li>
 	</ul>
 </div>
 <div style="padding: 10px 0; background: #FFFFFF;">
@@ -50,7 +50,7 @@
 import footer from "../components/footer";
 import loadingPage from "../components/loadingPage";
 import errorPage from "../components/errorPage";
-module.exports = {
+export default{
 	components: {
 		'footerbar': footer,
 		'loadingPage': loadingPage,

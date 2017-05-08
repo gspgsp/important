@@ -20,12 +20,12 @@
 	<ul class="searchli">
 		<li v-for="c in creditli">
 			<router-link :to="{name:'credit2',params:{id:c.contact_id}}">{{c.c_name}}</router-link></li>
-		<li>	
+		</li>	
 	</ul>
 </div>
 </template>
 <script>
-module.exports = {
+export default{
 	data: function() {
 		return {
 			fname:"",

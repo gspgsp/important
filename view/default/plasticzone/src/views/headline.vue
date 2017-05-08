@@ -175,7 +175,7 @@
 import footer from "../components/footer";
 import loadingPage from "../components/loadingPage";
 import errorPage from "../components/errorPage";
-module.exports = {
+export default{
 	components: {
 		'footerbar': footer,
 		'loadingPage':loadingPage,
