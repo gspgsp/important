@@ -220,7 +220,7 @@ class interfaceAction extends adminBaseAction {
 		}
 	}
 	/**
-	 * 保存不规范数据 
+	 * 保存不规范数据
 	*/
 	public function shows(){
 		$id = sget('id','i',0);
@@ -242,7 +242,7 @@ class interfaceAction extends adminBaseAction {
 		$tm = ((intval(count($data))-1)/3)+1;
 		$arr = array();
 		if($tm>1){
-			for ($i=1; $i < $tm; $i++) { 
+			for ($i=1; $i < $tm; $i++) {
 				$arr[$i]['pid'] = $data['pid'.$i];
 				$arr[$i]['price'] =$data['price'.$i];
 				$arr[$i]['store'] =$data['store'.$i];
@@ -267,7 +267,7 @@ class interfaceAction extends adminBaseAction {
 	}
 	/**
 	 * 发送短信
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function send(){
@@ -305,8 +305,15 @@ class interfaceAction extends adminBaseAction {
 		$this->display('sms.send.html');
 	}
 	/**
+	 * setsea修改版本的回收客户
+	 */
+	public function setsea(){
+		$this->id = sget('id','i') OR $this->error('传参错误');
+		$this->display('customer.sea.html');
+	}
+	/**
 	 * 给客户发送短信
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function customer_send(){
