@@ -308,14 +308,22 @@ class interfaceAction extends adminBaseAction {
 	 * setsea修改版本的回收客户
 	 */
 	public function setsea(){
+		$this->id = sget('id','i') OR $this->error('传参错误');
 		if($_POST){
 			$id = $_POST['cid'];
 			$reason = $_POST['reason'];
 			if(empty($reason)) $this->error('放回公海原因不能为空的哦');
-			$this->db->model('customer')->where("c_id = $id")->update(array('reason'=>$reason));
-			$this->success('放回公海成功');
+			//新增客户流转记录日志----S
+			$remarks = "对客户操作：还原为公海客户,释放原因：".$reason;// 审核用户
+			M('user:customerLog')->addLog($ids,'check','私海客户','还原为公海客户',1,$remarks);
+			//新增客户流转记录日志----E
+			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>1,));
 		}
-		$this->id = sget('id','i') OR $this->error('传参错误');
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
 		$this->display('customer.sea.html');
 	}
 	/**
