@@ -3,7 +3,7 @@
 	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
 		<header id="bigCustomerHeader">
 			<a class="headerMenu4" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
-			塑料圈通讯录({{member}}人)
+			塑料圈通讯录.({{member}}人)
 			<a v-on:click="toLogin" class="headerMenu"></a>
 		</header>
 		<div class="indexsearch">
