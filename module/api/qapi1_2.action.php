@@ -4084,7 +4084,7 @@ class qapi1_2Action extends null2Action
      * @apiName  checkVersion
      * @apiGroup User
      *
-     * @apiParam   {String} version  3.0.0
+     * @apiParam   {String} version  3.0.1
      * @apiParam   {String} platform  ios/andriod/h5
      *
      * @apiSuccess {String}  msg   描述
