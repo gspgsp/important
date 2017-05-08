@@ -17,7 +17,6 @@ html, body{
 	{/if}
 
 }
-
 .show-msg{ width:300px; height:200px; background:#fff; border:1px solid #ccc; position:absolute; right:0; bottom:0; display:none;}
 .show-msg .show-title{ width:300px; height:30px; line-height:30px; background:#eee; border-bottom:1px solid #ccc; overflow:hidden;}
 .show-msg .show-title p{ float:left; margin:0 0 0 15px;}
@@ -51,9 +50,9 @@ function viewUinfo(user_id){
 	mini.open({
 		url: "/user/user/info?id="+user_id,
 		showMaxButton:true,
-		title: "查看用户信息", 
+		title: "查看用户信息",
 		width: 900, height:650
-	});		
+	});
 }
 
 //查看企业相关信息
@@ -61,9 +60,9 @@ function viewCinfo(c_id){
 	mini.open({
 		url: "/user/customer/info?id="+c_id,
 		showMaxButton:true,
-		title: "查看企业用户相关信息", 
+		title: "查看企业用户相关信息",
 		width: 1200, height:650
-	});		
+	});
 }
 
 //查看企业联系人相关信息
@@ -71,9 +70,9 @@ function viewContactInfo(u_id){
 	mini.open({
 		url: "/user/contact/viewInfo?id="+u_id,
 		showMaxButton:true,
-		title: "查看联系人用户相关信息", 
+		title: "查看联系人用户相关信息",
 		width: 550, height:480
-	});		
+	});
 }
 //查看公司和牌号
 
@@ -81,7 +80,7 @@ function viewModelAndCompany(uid){
 	mini.open({
 		url: "/user/contact/viewModel?id="+uid,
 		showMaxButton:true,
-		title: "查看联系人牌号以及公司信息", 
+		title: "查看联系人牌号以及公司信息",
 		width: 400, height:350,
 		ondestroy: function (action) {
 				if(action=='save'){ //重新加载
@@ -103,9 +102,9 @@ function LoadStatus(e) {
 	return $("#soStatus").find("option[value="+record+"]").text();
 }
 //验证浏览器是否支持WebSocket协议
-if (!window.WebSocket) { 
-	alert("WebSocket not supported by this browser!"); 
-} 
+if (!window.WebSocket) {
+	alert("WebSocket not supported by this browser!");
+}
 // 初始化io对象
 var socket = io('http://www.myplas.com:2120');
 // uid 可以为网站用户的uid，作为例子这里用session_id代替
@@ -124,32 +123,6 @@ socket.on('new_msg', function(msg){
      $("body").append(str);
      $(".show-msg").show();
 });
-
-</script>
-<script language="javascript">
-// var second = 0;
-// var minute = 0;
-// var hour = 0;
-// window.setInterval("OnlineStayTime();", 2000);
-// function OnlineStayTime() {
-// second++;
-// if (second == 60) {
-// second = 0;
-// minute++;
-// }
-// if (minute == 60) {
-// minute = 0;
-// hour++;
-// }
-// var _time = new Array(second,minute,hour);
-// var time=_time.join(',');
-// var tag = '/'+$("#url_m").val()+'/'+$("#url_c").val()+'/'+$("#url_a").val();
-// 	var callback=function(res){
-
-//     }
-// 	utils.ajax('/public/adminBase/saveTime',{time:time,tag:tag},callback,"POST","json");
-// }
-//
 function getLogCurTime(){
 	var tag = '/'+$("#url_m").val()+'/'+$("#url_c").val()+'/'+$("#url_a").val();
 	// var timestamp = Date.parse(new Date());
