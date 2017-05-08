@@ -10,8 +10,24 @@ class creditAction extends baseAction
 
     /**
      * 获取企查查的东西的接口东西
+     * @api {get} /qapi_3/credit/getQiChaCha 获取企查查的东西的接口东西
+     * @apiVersion 3.1.0
+     * @apiName  checkVersion
+     * @apiGroup Common
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} name   企业名称 上海中辰电子商务有限公司
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  url   apk下载地址
+     *
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"密码重置成功"
+     *      }
      */
-
     public function getQiChaCha ()
     {
         if ($_POST['token'] && $_POST['name']) {
