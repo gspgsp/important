@@ -1,24 +1,188 @@
-webpackJsonp([26],{
+webpackJsonp([36],{
 
-/***/ 93:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 140:
+/***/ (function(module, exports, __webpack_require__) {
 
-	eval("var __vue_exports__, __vue_options__\nvar __vue_styles__ = {}\n\n/* script */\n__vue_exports__ = __webpack_require__(94)\n\n/* template */\nvar __vue_template__ = __webpack_require__(95)\n__vue_options__ = __vue_exports__ = __vue_exports__ || {}\nif (\n  typeof __vue_exports__.default === \"object\" ||\n  typeof __vue_exports__.default === \"function\"\n) {\nif (Object.keys(__vue_exports__).some(function (key) { return key !== \"default\" && key !== \"__esModule\" })) {console.error(\"named exports are not supported in *.vue files.\")}\n__vue_options__ = __vue_exports__ = __vue_exports__.default\n}\nif (typeof __vue_options__ === \"function\") {\n  __vue_options__ = __vue_options__.options\n}\n__vue_options__.__file = \"D:\\\\xampp\\\\htdocs\\\\workspace2\\\\www\\\\view\\\\default\\\\plasticzone2\\\\src\\\\views\\\\mymsg2.vue\"\n__vue_options__.render = __vue_template__.render\n__vue_options__.staticRenderFns = __vue_template__.staticRenderFns\n\n/* hot reload */\nif (false) {(function () {\n  var hotAPI = require(\"vue-hot-reload-api\")\n  hotAPI.install(require(\"vue\"), false)\n  if (!hotAPI.compatible) return\n  module.hot.accept()\n  if (!module.hot.data) {\n    hotAPI.createRecord(\"data-v-8998e354\", __vue_options__)\n  } else {\n    hotAPI.reload(\"data-v-8998e354\", __vue_options__)\n  }\n})()}\nif (__vue_options__.functional) {console.error(\"[vue-loader] mymsg2.vue: functional components are not supported and should be defined in plain js files using render functions.\")}\n\nmodule.exports = __vue_exports__\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvdmlld3MvbXltc2cyLnZ1ZT8yNWY2Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7O0FBRUE7QUFDQTs7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLHNEQUFzRCxtREFBbUQsSUFBSTtBQUM3RztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBO0FBQ0EsWUFBaUI7QUFDakI7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsR0FBRztBQUNIO0FBQ0E7QUFDQSxDQUFDO0FBQ0QsaUNBQWlDOztBQUVqQyIsImZpbGUiOiI5My5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBfX3Z1ZV9leHBvcnRzX18sIF9fdnVlX29wdGlvbnNfX1xudmFyIF9fdnVlX3N0eWxlc19fID0ge31cblxuLyogc2NyaXB0ICovXG5fX3Z1ZV9leHBvcnRzX18gPSByZXF1aXJlKFwiISFiYWJlbC1sb2FkZXIhdnVlLWxvYWRlci9saWIvc2VsZWN0b3I/dHlwZT1zY3JpcHQmaW5kZXg9MCEuL215bXNnMi52dWVcIilcblxuLyogdGVtcGxhdGUgKi9cbnZhciBfX3Z1ZV90ZW1wbGF0ZV9fID0gcmVxdWlyZShcIiEhdnVlLWxvYWRlci9saWIvdGVtcGxhdGUtY29tcGlsZXI/aWQ9ZGF0YS12LTg5OThlMzU0IXZ1ZS1sb2FkZXIvbGliL3NlbGVjdG9yP3R5cGU9dGVtcGxhdGUmaW5kZXg9MCEuL215bXNnMi52dWVcIilcbl9fdnVlX29wdGlvbnNfXyA9IF9fdnVlX2V4cG9ydHNfXyA9IF9fdnVlX2V4cG9ydHNfXyB8fCB7fVxuaWYgKFxuICB0eXBlb2YgX192dWVfZXhwb3J0c19fLmRlZmF1bHQgPT09IFwib2JqZWN0XCIgfHxcbiAgdHlwZW9mIF9fdnVlX2V4cG9ydHNfXy5kZWZhdWx0ID09PSBcImZ1bmN0aW9uXCJcbikge1xuaWYgKE9iamVjdC5rZXlzKF9fdnVlX2V4cG9ydHNfXykuc29tZShmdW5jdGlvbiAoa2V5KSB7IHJldHVybiBrZXkgIT09IFwiZGVmYXVsdFwiICYmIGtleSAhPT0gXCJfX2VzTW9kdWxlXCIgfSkpIHtjb25zb2xlLmVycm9yKFwibmFtZWQgZXhwb3J0cyBhcmUgbm90IHN1cHBvcnRlZCBpbiAqLnZ1ZSBmaWxlcy5cIil9XG5fX3Z1ZV9vcHRpb25zX18gPSBfX3Z1ZV9leHBvcnRzX18gPSBfX3Z1ZV9leHBvcnRzX18uZGVmYXVsdFxufVxuaWYgKHR5cGVvZiBfX3Z1ZV9vcHRpb25zX18gPT09IFwiZnVuY3Rpb25cIikge1xuICBfX3Z1ZV9vcHRpb25zX18gPSBfX3Z1ZV9vcHRpb25zX18ub3B0aW9uc1xufVxuX192dWVfb3B0aW9uc19fLl9fZmlsZSA9IFwiRDpcXFxceGFtcHBcXFxcaHRkb2NzXFxcXHdvcmtzcGFjZTJcXFxcd3d3XFxcXHZpZXdcXFxcZGVmYXVsdFxcXFxwbGFzdGljem9uZTJcXFxcc3JjXFxcXHZpZXdzXFxcXG15bXNnMi52dWVcIlxuX192dWVfb3B0aW9uc19fLnJlbmRlciA9IF9fdnVlX3RlbXBsYXRlX18ucmVuZGVyXG5fX3Z1ZV9vcHRpb25zX18uc3RhdGljUmVuZGVyRm5zID0gX192dWVfdGVtcGxhdGVfXy5zdGF0aWNSZW5kZXJGbnNcblxuLyogaG90IHJlbG9hZCAqL1xuaWYgKG1vZHVsZS5ob3QpIHsoZnVuY3Rpb24gKCkge1xuICB2YXIgaG90QVBJID0gcmVxdWlyZShcInZ1ZS1ob3QtcmVsb2FkLWFwaVwiKVxuICBob3RBUEkuaW5zdGFsbChyZXF1aXJlKFwidnVlXCIpLCBmYWxzZSlcbiAgaWYgKCFob3RBUEkuY29tcGF0aWJsZSkgcmV0dXJuXG4gIG1vZHVsZS5ob3QuYWNjZXB0KClcbiAgaWYgKCFtb2R1bGUuaG90LmRhdGEpIHtcbiAgICBob3RBUEkuY3JlYXRlUmVjb3JkKFwiZGF0YS12LTg5OThlMzU0XCIsIF9fdnVlX29wdGlvbnNfXylcbiAgfSBlbHNlIHtcbiAgICBob3RBUEkucmVsb2FkKFwiZGF0YS12LTg5OThlMzU0XCIsIF9fdnVlX29wdGlvbnNfXylcbiAgfVxufSkoKX1cbmlmIChfX3Z1ZV9vcHRpb25zX18uZnVuY3Rpb25hbCkge2NvbnNvbGUuZXJyb3IoXCJbdnVlLWxvYWRlcl0gbXltc2cyLnZ1ZTogZnVuY3Rpb25hbCBjb21wb25lbnRzIGFyZSBub3Qgc3VwcG9ydGVkIGFuZCBzaG91bGQgYmUgZGVmaW5lZCBpbiBwbGFpbiBqcyBmaWxlcyB1c2luZyByZW5kZXIgZnVuY3Rpb25zLlwiKX1cblxubW9kdWxlLmV4cG9ydHMgPSBfX3Z1ZV9leHBvcnRzX19cblxuXG5cbi8vLy8vLy8vLy8vLy8vLy8vL1xuLy8gV0VCUEFDSyBGT09URVJcbi8vIC4vc3JjL3ZpZXdzL215bXNnMi52dWVcbi8vIG1vZHVsZSBpZCA9IDkzXG4vLyBtb2R1bGUgY2h1bmtzID0gMjYiXSwic291cmNlUm9vdCI6IiJ9");
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "buyWrap",
+    staticStyle: {
+      "padding": "45px 0 0 0"
+    }
+  }, [_vm._m(0), _vm._v(" "), _c('ul', {
+    staticClass: "mymsg2ul"
+  }, _vm._l((_vm.resMsg), function(r) {
+    return _c('li', [_c('div', {
+      staticClass: "myreleaseInfo"
+    }, [_c('div', {
+      staticClass: "myreleasetxt3",
+      staticStyle: {
+        "margin": "0"
+      }
+    }, [_c('div', {
+      staticClass: "mymsgwrap"
+    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(r.content) + "\n\t\t\t\t\t")])])])])
+  }))])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "position": "fixed",
+      "top": "0",
+      "left": "0",
+      "width": "100%",
+      "z-index": "10"
+    }
+  }, [_c('header', {
+    attrs: {
+      "id": "bigCustomerHeader"
+    }
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t\t\t我的消息\n\t\t")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b4b5910c", module.exports)
+  }
+}
 
-/***/ },
+/***/ }),
 
-/***/ 94:
-/***/ function(module, exports) {
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
 
-	eval("'use strict';\n\nmodule.exports = {\n\tdata: function data() {\n\t\treturn {\n\t\t\tresMsg: []\n\t\t};\n\t},\n\tmethods: {},\n\tmounted: function mounted() {\n\t\tvar _this = this;\n\t\ttry {\n\t\t\tvar piwikTracker = Piwik.getTracker(\"http://wa.myplas.com/piwik.php\", 2);\n\t\t\tpiwikTracker.trackPageView();\n\t\t} catch (err) {}\n\t\t$.ajax({\n\t\t\turl: '/api/qapi1/getRobotMsg',\n\t\t\ttype: 'get',\n\t\t\tdata: {\n\t\t\t\tpage: 1,\n\t\t\t\ttoken: window.localStorage.getItem(\"token\"),\n\t\t\t\tsize: 100\n\t\t\t},\n\t\t\tdataType: 'JSON'\n\t\t}).then(function (res) {\n\t\t\tif (res.err == 0) {\n\t\t\t\t_this.resMsg = res.data;\n\t\t\t}\n\t\t}, function () {});\n\t}\n};//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vbXltc2cyLnZ1ZT9lYmUwIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBdUJBO3VCQUVBOztXQUdBO0FBRkE7QUFHQTtVQUdBOzZCQUNBO2NBQ0E7TUFDQTt5RUFDQTtnQkFDQTtnQkFFQSxDQUNBOztRQUVBO1NBQ0E7O1VBRUE7dUNBQ0E7VUFFQTtBQUpBO2FBS0E7QUFSQSx5QkFTQTtxQkFDQTt1QkFDQTtBQUNBO2lCQUVBLENBQ0E7QUFDQTtBQWpDQSIsImZpbGUiOiI5NC5qcyIsInNvdXJjZXNDb250ZW50IjpbIjx0ZW1wbGF0ZT5cbjxkaXYgY2xhc3M9XCJidXlXcmFwXCIgc3R5bGU9XCJwYWRkaW5nOiA0NXB4IDAgMCAwO1wiPlxuXHQ8ZGl2IHN0eWxlPVwicG9zaXRpb246IGZpeGVkOyB0b3A6IDA7IGxlZnQ6IDA7IHdpZHRoOiAxMDAlOyB6LWluZGV4OiAxMDtcIj5cblx0XHQ8aGVhZGVyIGlkPVwiYmlnQ3VzdG9tZXJIZWFkZXJcIj5cblx0XHRcdDxhIGNsYXNzPVwiYmFja1wiIGhyZWY9XCJqYXZhc2NyaXB0OndpbmRvdy5oaXN0b3J5LmJhY2soKTtcIj48L2E+XG5cdFx0XHTmiJHnmoTmtojmga9cblx0XHQ8L2hlYWRlcj5cblx0PC9kaXY+XG5cblx0PHVsIGNsYXNzPVwibXltc2cydWxcIj5cblx0XHQ8bGkgdi1mb3I9XCJyIGluIHJlc01zZ1wiPlxuXHRcdFx0PGRpdiBjbGFzcz1cIm15cmVsZWFzZUluZm9cIj5cblx0XHRcdFx0PGRpdiBjbGFzcz1cIm15cmVsZWFzZXR4dDNcIiBzdHlsZT1cIm1hcmdpbjogMDtcIj5cblx0XHRcdFx0XHQ8ZGl2IGNsYXNzPVwibXltc2d3cmFwXCI+XG5cdFx0XHRcdFx0XHR7e3IuY29udGVudH19XG5cdFx0XHRcdFx0PC9kaXY+XG5cdFx0XHRcdDwvZGl2PlxuXHRcdFx0PC9kaXY+XG5cdFx0PC9saT5cblx0PC91bD5cbjwvZGl2PlxuPC90ZW1wbGF0ZT5cbjxzY3JpcHQ+XG5tb2R1bGUuZXhwb3J0cyA9IHtcblx0ZGF0YTogZnVuY3Rpb24oKSB7XG5cdFx0cmV0dXJuIHtcblx0XHRcdHJlc01zZzogW11cblx0XHR9XG5cdH0sXG5cdG1ldGhvZHM6IHtcblxuXHR9LFxuXHRtb3VudGVkOiBmdW5jdGlvbigpIHtcblx0XHR2YXIgX3RoaXMgPSB0aGlzO1xuXHRcdHRyeSB7XG5cdFx0XHR2YXIgcGl3aWtUcmFja2VyID0gUGl3aWsuZ2V0VHJhY2tlcihcImh0dHA6Ly93YS5teXBsYXMuY29tL3Bpd2lrLnBocFwiLCAyKTtcblx0XHRcdHBpd2lrVHJhY2tlci50cmFja1BhZ2VWaWV3KCk7XG5cdFx0fSBjYXRjaChlcnIpIHtcblxuXHRcdH1cblx0XHQkLmFqYXgoe1xuXHRcdFx0dXJsOiAnL2FwaS9xYXBpMS9nZXRSb2JvdE1zZycsXG5cdFx0XHR0eXBlOiAnZ2V0Jyxcblx0XHRcdGRhdGE6IHtcblx0XHRcdFx0cGFnZTogMSxcblx0XHRcdFx0dG9rZW46IHdpbmRvdy5sb2NhbFN0b3JhZ2UuZ2V0SXRlbShcInRva2VuXCIpLFxuXHRcdFx0XHRzaXplOiAxMDBcblx0XHRcdH0sXG5cdFx0XHRkYXRhVHlwZTogJ0pTT04nXG5cdFx0fSkudGhlbihmdW5jdGlvbihyZXMpIHtcblx0XHRcdGlmKHJlcy5lcnIgPT0gMCkge1xuXHRcdFx0XHRfdGhpcy5yZXNNc2cgPSByZXMuZGF0YTtcblx0XHRcdH1cblx0XHR9LCBmdW5jdGlvbigpIHtcblxuXHRcdH0pO1xuXHR9XG59XG48L3NjcmlwdD5cblxuXG4vLyBXRUJQQUNLIEZPT1RFUiAvL1xuLy8gbXltc2cyLnZ1ZT8wZmIxNDgzOCJdLCJzb3VyY2VSb290IjoiIn0=");
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(75),
+  /* template */
+  __webpack_require__(140),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\mymsg2.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] mymsg2.vue: functional components are not supported with templates, they should use render functions.")}
 
-/***/ },
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b4b5910c", Component.options)
+  } else {
+    hotAPI.reload("data-v-b4b5910c", Component.options)
+  }
+})()}
 
-/***/ 95:
-/***/ function(module, exports, __webpack_require__) {
+module.exports = Component.exports
 
-	eval("module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;\n  return _h('div', {\n    staticClass: \"buyWrap\",\n    staticStyle: {\n      \"padding\": \"45px 0 0 0\"\n    }\n  }, [_vm._m(0), \" \", _h('ul', {\n    staticClass: \"mymsg2ul\"\n  }, [_vm._l((_vm.resMsg), function(r) {\n    return _h('li', [_h('div', {\n      staticClass: \"myreleaseInfo\"\n    }, [_h('div', {\n      staticClass: \"myreleasetxt3\",\n      staticStyle: {\n        \"margin\": \"0\"\n      }\n    }, [_h('div', {\n      staticClass: \"mymsgwrap\"\n    }, [\"\\n\\t\\t\\t\\t\\t\\t\" + _vm._s(r.content) + \"\\n\\t\\t\\t\\t\\t\"])])])])\n  })])])\n},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;\n  return _h('div', {\n    staticStyle: {\n      \"position\": \"fixed\",\n      \"top\": \"0\",\n      \"left\": \"0\",\n      \"width\": \"100%\",\n      \"z-index\": \"10\"\n    }\n  }, [_h('header', {\n    attrs: {\n      \"id\": \"bigCustomerHeader\"\n    }\n  }, [_h('a', {\n    staticClass: \"back\",\n    attrs: {\n      \"href\": \"javascript:window.history.back();\"\n    }\n  }), \"\\n\\t\\t\\t我的消息\\n\\t\\t\"])])\n}]}\nmodule.exports.render._withStripped = true\nif (false) {\n  module.hot.accept()\n  if (module.hot.data) {\n     require(\"vue-hot-reload-api\").rerender(\"data-v-8998e354\", module.exports)\n  }\n}//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvdmlld3MvbXltc2cyLnZ1ZT82NWUzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLGdCQUFnQixtQkFBbUIsYUFBYTtBQUNoRDtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsR0FBRztBQUNIO0FBQ0EsR0FBRztBQUNIO0FBQ0E7QUFDQSxLQUFLO0FBQ0w7QUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUFLO0FBQ0w7QUFDQSxLQUFLO0FBQ0wsR0FBRztBQUNILENBQUMsK0JBQStCLGFBQWE7QUFDN0M7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEdBQUc7QUFDSDtBQUNBO0FBQ0E7QUFDQSxHQUFHO0FBQ0g7QUFDQTtBQUNBLGdEQUFnRDtBQUNoRDtBQUNBLEdBQUc7QUFDSCxDQUFDO0FBQ0Q7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJmaWxlIjoiOTUuanMiLCJzb3VyY2VzQ29udGVudCI6WyJtb2R1bGUuZXhwb3J0cz17cmVuZGVyOmZ1bmN0aW9uICgpe3ZhciBfdm09dGhpczt2YXIgX2g9X3ZtLiRjcmVhdGVFbGVtZW50O1xuICByZXR1cm4gX2goJ2RpdicsIHtcbiAgICBzdGF0aWNDbGFzczogXCJidXlXcmFwXCIsXG4gICAgc3RhdGljU3R5bGU6IHtcbiAgICAgIFwicGFkZGluZ1wiOiBcIjQ1cHggMCAwIDBcIlxuICAgIH1cbiAgfSwgW192bS5fbSgwKSwgXCIgXCIsIF9oKCd1bCcsIHtcbiAgICBzdGF0aWNDbGFzczogXCJteW1zZzJ1bFwiXG4gIH0sIFtfdm0uX2woKF92bS5yZXNNc2cpLCBmdW5jdGlvbihyKSB7XG4gICAgcmV0dXJuIF9oKCdsaScsIFtfaCgnZGl2Jywge1xuICAgICAgc3RhdGljQ2xhc3M6IFwibXlyZWxlYXNlSW5mb1wiXG4gICAgfSwgW19oKCdkaXYnLCB7XG4gICAgICBzdGF0aWNDbGFzczogXCJteXJlbGVhc2V0eHQzXCIsXG4gICAgICBzdGF0aWNTdHlsZToge1xuICAgICAgICBcIm1hcmdpblwiOiBcIjBcIlxuICAgICAgfVxuICAgIH0sIFtfaCgnZGl2Jywge1xuICAgICAgc3RhdGljQ2xhc3M6IFwibXltc2d3cmFwXCJcbiAgICB9LCBbXCJcXG5cXHRcXHRcXHRcXHRcXHRcXHRcIiArIF92bS5fcyhyLmNvbnRlbnQpICsgXCJcXG5cXHRcXHRcXHRcXHRcXHRcIl0pXSldKV0pXG4gIH0pXSldKVxufSxzdGF0aWNSZW5kZXJGbnM6IFtmdW5jdGlvbiAoKXt2YXIgX3ZtPXRoaXM7dmFyIF9oPV92bS4kY3JlYXRlRWxlbWVudDtcbiAgcmV0dXJuIF9oKCdkaXYnLCB7XG4gICAgc3RhdGljU3R5bGU6IHtcbiAgICAgIFwicG9zaXRpb25cIjogXCJmaXhlZFwiLFxuICAgICAgXCJ0b3BcIjogXCIwXCIsXG4gICAgICBcImxlZnRcIjogXCIwXCIsXG4gICAgICBcIndpZHRoXCI6IFwiMTAwJVwiLFxuICAgICAgXCJ6LWluZGV4XCI6IFwiMTBcIlxuICAgIH1cbiAgfSwgW19oKCdoZWFkZXInLCB7XG4gICAgYXR0cnM6IHtcbiAgICAgIFwiaWRcIjogXCJiaWdDdXN0b21lckhlYWRlclwiXG4gICAgfVxuICB9LCBbX2goJ2EnLCB7XG4gICAgc3RhdGljQ2xhc3M6IFwiYmFja1wiLFxuICAgIGF0dHJzOiB7XG4gICAgICBcImhyZWZcIjogXCJqYXZhc2NyaXB0OndpbmRvdy5oaXN0b3J5LmJhY2soKTtcIlxuICAgIH1cbiAgfSksIFwiXFxuXFx0XFx0XFx05oiR55qE5raI5oGvXFxuXFx0XFx0XCJdKV0pXG59XX1cbm1vZHVsZS5leHBvcnRzLnJlbmRlci5fd2l0aFN0cmlwcGVkID0gdHJ1ZVxuaWYgKG1vZHVsZS5ob3QpIHtcbiAgbW9kdWxlLmhvdC5hY2NlcHQoKVxuICBpZiAobW9kdWxlLmhvdC5kYXRhKSB7XG4gICAgIHJlcXVpcmUoXCJ2dWUtaG90LXJlbG9hZC1hcGlcIikucmVyZW5kZXIoXCJkYXRhLXYtODk5OGUzNTRcIiwgbW9kdWxlLmV4cG9ydHMpXG4gIH1cbn1cblxuXG4vLy8vLy8vLy8vLy8vLy8vLy9cbi8vIFdFQlBBQ0sgRk9PVEVSXG4vLyAuL34vdnVlLWxvYWRlci9saWIvdGVtcGxhdGUtY29tcGlsZXIuanM/aWQ9ZGF0YS12LTg5OThlMzU0IS4vfi92dWUtbG9hZGVyL2xpYi9zZWxlY3Rvci5qcz90eXBlPXRlbXBsYXRlJmluZGV4PTAhLi9zcmMvdmlld3MvbXltc2cyLnZ1ZVxuLy8gbW9kdWxlIGlkID0gOTVcbi8vIG1vZHVsZSBjaHVua3MgPSAyNiJdLCJzb3VyY2VSb290IjoiIn0=");
 
-/***/ }
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 75:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			resMsg: []
+		};
+	},
+	methods: {},
+	mounted: function mounted() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: '/api/qapi1/getRobotMsg',
+			type: 'get',
+			data: {
+				page: 1,
+				token: window.localStorage.getItem("token"),
+				size: 100
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.resMsg = res.data;
+			}
+		}, function () {});
+	}
+});
+
+/***/ })
 
 });
