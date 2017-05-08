@@ -39,8 +39,9 @@
 	.row .col-md-6 .form-group input{ width: 100%;}
 	.col-md-6 .form-group select.form-control{ width: 100%;}
 	.col-lg-9.col-xs-12{ padding-right: 0;}
-	.col-md-12 button.btn.btn-primary{ padding:6px 30px; margin-top: 20px;}
-
+	.back{ text-decoration:none; color: #fff; background: #337ab7;display: inline-block;padding: 6px 12px; margin-bottom: 0;
+ 		font-size: 14px;font-weight: 400;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;    background-image: none;border: 1px solid transparent;border-radius: 4px;background-image: none;border: 1px solid transparent;border-radius: 4px;}
+	.back:hover{ text-decoration:none; background: #337ab7; color: #fff;}
 	</style>
 	<div class="container-fluid">
 		<div class="row" >
@@ -48,18 +49,22 @@
 		</div>
 		<div class="row" style="margin-top:10px;">
 			<div class="col-md-12 col-lg-8">
-				<form onSubmit="return searchSubmit()" class="form-inline">
-				  <div class="form-group">
+				<!-- <form onSubmit="return searchSubmit()" class="form-inline"> -->
+				<form action="/wk/index/select" method="post" class="form-inline">
+				  <!-- <div class="form-group">
 				    <select id="timeline" class="form-control">
 				      <option value="1">全部</option>
 				      <option value="2">供应</option>
 				      <option value="3">采购</option>
 				    </select>
-				  </div>
+				  </div> -->
 				  <div class="form-group">
-				    <input type="text" style="width:450px;" class="form-control" id="keyword" name="keyword" id="" placeholder="输入牌号搜索">
+				    <input type="text" style="width:350px;" class="form-control" id="keyword" name="keyword" id="" placeholder="输入牌号搜索">
 				  </div>
 				  <button type="submit" id="searchs" class="btn btn-primary"> 搜 索 </button>
+				  {if !empty($select)}
+				  	<a class="back" href="/wk">返回报价列表页</a>
+				  {/if}
 				</form>
 			</div>
 		</div>
@@ -141,7 +146,7 @@
 							<!--row end-->
 							<!--row begin-->
 							<div class="row">
-								<div class="col-md-12" style="text-align:center;"><button onClick="release1()" type="button" class="btn btn-primary">发布</button></div>
+								<div class="col-md-12" style="text-align:center;"><button onClick="release1()" type="button" class="btn btn-primary" style=" padding:6px 30px; margin-top: 20px;">发布</button></div>
 							</div>
 							<!--row end-->
 						</div>
