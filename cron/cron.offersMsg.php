@@ -129,8 +129,8 @@ class cronOffersMsg{
 			$sale_price_arr[] = $v['sale_price'];
 		}
 		$offers_ids_str =implode(',',$id_arr);
-		$grade =implode(',',$grade_arr);
-		$sale_price =implode('元/吨,',$sale_price_arr).'元/吨';
+		$grade =implode('、',$grade_arr);
+		$sale_price =implode('元/吨、',$sale_price_arr).'元/吨';
 
 		$date = date("m月d日",time());
 		foreach ($res as $key => $value) {
