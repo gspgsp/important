@@ -54,9 +54,8 @@ class cronsendOffersMsg{
 		$nums = ceil($count/$this->nlimit);
 		foreach ($res as $key => $value) {
 			for($i=0;$i<$nums;$i++){
-			// for($i=0;$i<1;$i++){
 				$this->getCustomerContact($i,$value);
-				// sleep(1);
+				sleep(1);
 			}
 			$this->db->model('offers_cron')->where('id='.$value['id'])->update(array('status'=>2));
 		}
@@ -91,7 +90,7 @@ class cronsendOffersMsg{
 			LEFT JOIN p2p_admin AS adm ON c1.`customer_manager` = adm.`admin_id`
 			LEFT JOIN `p2p_adm_role_user` AS `user` ON `user`.`user_id` = c1.`customer_manager`
 			LEFT JOIN p2p_adm_role AS role ON role.`id` = `user`.`role_id`
-			WHERE c1.`status` = 1 AND c1.`customer_manager` > 0 AND role.`pid` = 22 AND adm.`status` = 1 AND c1.`name` <> '' AND c1.`mobile` <> '' and c1.`c_id` = ".$c_id);
+			WHERE c1.`status` = 1 AND c1.`customer_manager` > 0 AND role.`pid` = 22 AND adm.`status` = 1 AND adm.`mobile` <> '' and c1.`name` <> '' AND c1.`mobile` <> '' and c1.`c_id` = ".$c_id);
 		// showtrace();
 		if(!$res){
 			return;

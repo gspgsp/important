@@ -39,17 +39,8 @@ class cronOffersMsg{
 		$this->nlimit=1000; //每次发送1000条
 		$nums = ceil($count/$this->nlimit);
 		for($i=0;$i<$nums;$i++){
-		// for($i=0;$i<10;$i++){
-			// $pagestartime=microtime();
-			 // $starttime = explode(' ',microtime());
 			$this->sendOffersMsg($i);
-			// sleep(1);
-			// $endtime = explode(' ',microtime());
- 		// 	$thistime = $endtime[0]+$endtime[1]-($starttime[0]+$starttime[1]);
- 		// 	$thistime = round($thistime,3);
- 		// 	echo "本网页执行耗时：".$thistime." 秒。<br>";
-			// echo "页面运行时间: $timecost 秒<br>";
-
+				sleep(1);
 		}
 	}
 	
@@ -117,7 +108,7 @@ class cronOffersMsg{
 			LEFT JOIN p2p_admin AS adm ON c1.`customer_manager` = adm.`admin_id`
 			LEFT JOIN `p2p_adm_role_user` AS `user` ON `user`.`user_id` = c1.`customer_manager`
 			LEFT JOIN p2p_adm_role AS role ON role.`id` = `user`.`role_id`
-			WHERE c1.`status` = 1 AND c1.`customer_manager` > 0 AND role.`pid` = 22 AND adm.`status` = 1 AND c1.`name` <> '' AND c1.`mobile` <> '' and c1.`c_id` = ".$c_id);
+			WHERE c1.`status` = 1 AND c1.`customer_manager` > 0 AND role.`pid` = 22 AND adm.`status` = 1 AND adm.`mobile` <> '' AND c1.`name` <> '' AND c1.`mobile` <> '' and c1.`c_id` = ".$c_id);
 		// showtrace();
 		if(!$res){
 			return;
