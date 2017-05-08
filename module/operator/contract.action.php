@@ -3,7 +3,7 @@
  * 管理员列表
  */
 class contractAction extends adminBaseAction {
-	public function __init(){
+	public function __init(){	    
 		$this->debug = false;
 		$this->action = sget('action','');
 		$this->db=M('public:common')->model('transport_contract');
@@ -19,6 +19,9 @@ class contractAction extends adminBaseAction {
 	 */
 	public function init(){
 		$action=sget('action');
+		if($action=='save'){ //获取列表
+		    $this->_save();exit;
+		}
 		if($action=='grid'){
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
@@ -35,6 +38,12 @@ class contractAction extends adminBaseAction {
 			$status = sget('status','s','');
 			if($status!==''){
 				$where.=" and `status`= $status";
+			}
+			//关键词搜索
+			$key_type=sget('key_type','s');
+			$keyword=sget('keyword','s');
+			if(!empty($keyword)){
+			    $where.=" and order_sn like '%$keyword%' ";
 			}
 			//时间搜索
 			$sTime = sget('sTime','s','');
@@ -75,9 +84,11 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['create_time']=!empty($v['create_time'])?date("Y-m-d H:i:s",$v['create_time']):'-';
 				$list['data'][$k]['update_time']=!empty($v['update_time'])?date("Y-m-d H:i:s",$v['update_time']):'-';
 				$list['data'][$k]['created_name']=$name1['0']['name'];
-				$list['data'][$k]['last_edited_name']=$name2['0']['name'];
-				$list['data'][$k]['part_company_name']='中晨';
+				$list['data'][$k]['last_edited_name']=$name2['0']['name'];				
 				$fee_list=explode(',',$list['data'][$k]['delivery_fee']);
+				$list['data'][$k]['delivery_price']=$fee_list['0'];
+				$list['data'][$k]['delivery_trans']=$fee_list['1'];
+				$list['data'][$k]['delivery_other']=$fee_list['2'];
 				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
 				$list['data'][$k]['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
 			}
@@ -89,6 +100,33 @@ class contractAction extends adminBaseAction {
 		$this->assign('page_title','管理员列表');
 		$this->assign('role',$this->role['role_id']);
 		$this->display('contract.init.html');
+	}
+	/**
+	 * 编辑已存在的数据
+	 * @access public
+	 * @return html
+	 */
+	private function _save(){
+	    $this->is_ajax=true; //指定为Ajax输出
+	    $data = sdata(); //获取UI传递的参数
+	    $sql=array();
+	    if(empty($data)){
+	        $this->error('操作数据为空');
+	    }
+	    foreach($data as $k=>$v){
+	        $_data=array(
+	            'delivery_fee'=>$v['delivery_price'].','.$v['delivery_trans'].','.$v['delivery_other'],
+	            'update_time'=>CORE_TIME,
+	            'last_edited_by'=>$_SESSION['name'],
+	        );
+	        $sql[]=$this->db->wherePk($v['logistics_contract_id'])->updateSql($_data);
+	    }
+	    $result=$this->db->commitTrans($sql);
+	    if($result){
+	        $this->success('操作成功');
+	    }else{
+	        $this->error('数据处理失败');
+	    }
 	}
 	/**
 	 * Ajax提交

@@ -61,25 +61,23 @@ class transportAction extends adminBaseAction
     public function add()
     {
         $order_id = sget('order_id', 'i');
-        $c_id = sget('c_id','i');
-        $order_name_id = sget('order_name_id','i');
-        if($order_name_id=='1'){
-        $order_name='上海中晨电子商务股份有限公司';
-        }elseif($order_name_id=='2'){
-        $order_name='上海梓辰实业有限公司';
-        }else{
-        $order_name='嘉兴鼎辉信息科技有限公司';
-        }
-        $this->assign('order_name', $order_name);
+        $order_type = sget('order_type','i');                
         $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
         $first_part_info=M('rbac:adm')->where('admin_id='.$_SESSION['adminid'])->select('name,tel,fax')->getRow();
         if (!empty($order_id)) {
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
+            if($order_info['order_name']=='1'){
+                $order_name='上海中晨电子商务股份有限公司';
+            }elseif($order_info['order_name']=='2'){
+                $order_name='上海梓辰实业有限公司';
+            }else{
+                $order_name='嘉兴鼎辉信息科技有限公司';
+            }
             $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
             $this->assign('page_title', '添加物流合同');
             $order_info['sign_time'] = date('Y-m-d');
-            $order_info['c_id'] = $c_id;
+            $this->assign('order_name', $order_name);
             $this->assign('info', $order_info);
             $this->assign('order_info', $order_info_new);           
         }
@@ -163,7 +161,7 @@ class transportAction extends adminBaseAction
     }
 
     /**
-     * 获得物流公司联系人详情数据详情
+     * 新增提交数据
      * @access public
      * @return html
      */
@@ -185,23 +183,18 @@ class transportAction extends adminBaseAction
         $data['created_by'] = $this->admin_id;
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-        //启动事务
-        $this->db->startTrans();
-        try{
-          if(!M('public:common')->model('transport_contract')->add($data))  throw new Exception("合同新增失败：代码出错");
-          if(!M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place'])))
-              throw new Exception("合同新增失败：运货地址回传失败");
-        }catch (Exception $e){
-            $this->db->rollback();
-            $this->json_output(array('err' => 1, 'msg' => $e->getMessage()));
-        }
-        $this->db->commit();
-        $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
+        $result=M('public:common')->model('transport_contract')->add($data);//新增合同
+        M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));//回传客户送货地址
+        if($result){
+             $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
+        }else{
+            $this->json_output(array('err' => 1, 'msg' =>'新增失败'));
+        }      
     }
 
 
     /**
-     * 获得物流公司联系人详情数据详情
+     * 编辑提交数据
      * @access public
      * @return html
      */
@@ -221,12 +214,12 @@ class transportAction extends adminBaseAction
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-
-        if(M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']))){
-             $res=M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);
-             if($res) $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
-            }else{
-              $this->json_output(array('err' => 1, 'msg' =>'合同编辑失败：运货地址回传失败'));
+        M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place'],'update_time'=>time()));
+        $res=M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);      
+        if($res){ 
+             $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
+         }else{
+             $this->json_output(array('err' => 1, 'msg' =>'合同编辑失败'));
             }             
     }
 

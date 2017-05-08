@@ -488,13 +488,14 @@ function onLoadDetail(e){
 }
 //生成运输合同
 function createTransport(e){
-	var record = e.record,s='',oid = record.o_id,c_id = record.c_id,order_name_id = record.order_name_id;
-	return s ='<a href="javascript:transport_contract('+oid+','+c_id+','+order_name_id+')">生成运输合同</a>';
+	var record = e.record,s='',oid = record.o_id;
+	var order_type = {$order_type};
+	return s ='<a href="javascript:transport_contract('+oid+','+order_type+')">生成运输合同</a>';
 }
 //运输合同页面
-function transport_contract(o_id,c_id,order_name_id){
+function transport_contract(o_id,order_type){
 	mini.open({
-		url: "/operator/transport/add?order_type=2&order_id="+o_id+"&c_id="+c_id+"&order_name_id="+order_name_id,
+		url: "/operator/transport/add?order_id="+o_id+"&order_type="+order_type,
 		showMaxButton:true,
 		title: '新增运输合同', width: 845, height: 650,
 		ondestroy: function (action) {

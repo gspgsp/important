@@ -6,6 +6,9 @@
 <div style="padding:5px; " >
 	<div id="infoForm" class="form">
 	<input class="mini-hidden"  name="c_id" value="{$info.c_id}" />
+	<input class="mini-hidden"  name="order_sn" value="{$info.order_sn}" />
+	<input class="mini-hidden"  name="o_id" value="{$info.o_id}" />
+	<input class="mini-hidden"  name="order_type" value="{$info.order_type}" />
 		<div  style="padding:5px; " >
 			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
 				<legend>运输合同</legend>
@@ -133,7 +136,7 @@
 	gridCell.setData(noStockData);
 	totalCount(noStockData);
 	"{/if}"
-	mini.get('plate_number').on("validation", function (e) {
+/* 	mini.get('plate_number').on("validation", function (e) {
 		if (e.isValid) {
 			if (e.value.length != 6) {
 				e.errorText = "车牌号必须为6位";
@@ -148,7 +151,7 @@
 				e.isValid = false;
 			}
 		}
-	});
+	}); */
 	function submitForm(){
 		form.validate();
 		if(form.isValid() == false) return;

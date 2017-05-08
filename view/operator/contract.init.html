@@ -6,6 +6,7 @@
 			 <!-- <a class="mini-button" iconCls="icon-add" onclick="transport_contract()" plain="true">新增</a> -->
 			 <a class="mini-button" iconCls="icon-edit" onclick="transport_contract_edit()" plain="true">编辑</a>
              <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">销毁</a>
+             <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>
             </td>
 				<td style="float:right">
 					<form id="soform">
@@ -24,7 +25,11 @@
 						<option value="1">待审核</option>
 						<option value="3">审核通过</option>
 						<option value="2">审核未通过</option>
-					</select>			
+					</select>
+					<select name="key_type">
+					<option value="order_sn">订单号</option>
+				    </select>
+					    <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>			
 						<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
 						<span id="searchMsg"></span>
 					</form>
@@ -34,17 +39,31 @@
 </div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
 	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"
-						url="/operator/contract/init?action=grid{if $isPublic eq '1'}&isPublic={$isPublic}{/if}"  idField="admin_id" multiSelect="true" sizeList="[10,20,50,100]" pageSize="20">
+						url="/operator/contract/init?action=grid{if $isPublic eq '1'}&isPublic={$isPublic}{/if}"  idField="admin_id" multiSelect="true" sizeList="[10,20,50,100]" pageSize="20"
+						showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
 		<div property="columns">
 			<div type="checkcolumn"></div>
-			<div field="logistics_contract_id" width="30" align="center" headerAlign="center">合同号</div>
+			<div field="logistics_contract_id" width="30" align="center" headerAlign="center">编号</div>
+			<div field="order_sn" width="120" headerAlign="center" align="center" allowSort="true" renderer="onLoadOrder">订单号</div>
 			<div field="order_name" width="80" align="center" headerAlign="center" >甲方公司</div>
 			<div field="second_part_company_name" width="80" align="center" headerAlign="center" >乙方公司</div>
 			<div field="goods_class" width="50" align="center" headerAlign="center">货物牌号</div>
 			<div field="goods_num" width="50" align="center" headerAlign="center">货物数量</div>
 			<div field="start_place" width="70" align="center" headerAlign="center">提货地点</div>
 			<div field="end_place" width="70" align="center" headerAlign="center">送货地点</div>	
-			<div name="action" width="100" headerAlign="center" renderer="feeDetails">运输费用详情</div>
+			<!-- <div name="action" width="100" headerAlign="center" renderer="feeDetails">运输费用详情</div> -->
+			<div field="delivery_price" width="50" headerAlign="center" allowSort="true" align="center">单价
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="delivery_trans" width="50" headerAlign="center" allowSort="true" align="center">装车费
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="delivery_other" width="50" headerAlign="center" allowSort="true" align="center">其它
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<!-- <div field="delivery_price" width="50" align="center" headerAlign="center" >单价</div>
+			<div field="delivery_trans" width="50" align="center" headerAlign="center" >装车费</div>
+			<div field="delivery_other" width="50" align="center" headerAlign="center" >其它</div> -->
 			<div field="delivery_fee_count" width="50" align="center" headerAlign="center" >运输总费用</div>		
 			<div field="plate_number" width="50" align="center" headerAlign="center" >车号</div>			
 			<div field="driver_name" width="50" align="center" headerAlign="center">司机姓名</div>
@@ -204,6 +223,43 @@ function onContractReview(logistics_contract_id){
 			}
 		}
 	});
+}
+//查看订单相关信息
+function onLoadOrder(e) {
+	var record = e.record,s='',o_id = record.o_id,order_sn = record.order_sn,order_type = record.order_type;
+	//var order_type = {$order_type};
+	s += '<a href="javascript:viewOrdInfo('+o_id+','+order_type+')">'+order_sn+'</a> ';
+	return s;
+}
+//查看订单相关信息
+function viewOrdInfo(oid,o_type){
+	mini.open({
+		url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+		showMaxButton:true,
+		title: "查看订单相关信息",
+		width: 800, height:500,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/operator/contract/init?action=save',{data:json},callback,"POST","json");
 }
 //加载：追加按钮
 function onLoadHandle(e) {
