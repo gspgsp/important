@@ -10,11 +10,11 @@ class commonAction extends baseAction
 
     /**
      * APP检查更新接口
-     * @api {get} /api/api1_2/checkVersion APP检查更新接口
+     * @api {get} /qapi_3/common/checkVersion APP检查更新接口
      * @apiName  checkVersion
      * @apiGroup User
      *
-     * @apiParam   {String} version  3.0.0
+     * @apiParam   {String} version  3.1.0
      * @apiParam   {String} platform  ios andriod h5
      *
      * @apiSuccess {String}  msg   描述
