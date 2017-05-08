@@ -30,7 +30,7 @@ class creditAction extends baseAction
      */
     public function getQiChaCha ()
     {
-        if ($_POST['token'] && $_POST['name']) {
+        //if ($_POST['token'] && $_POST['name']) {
             $user_id = $this->checkAccount ();
             $name    = sget ('name', 's');
             $name    = $this->clearStr ($name);
@@ -38,9 +38,10 @@ class creditAction extends baseAction
                 $this->_errCode (6);
             }
             $tmp = M ('qapp:customerBase')->selectOrNot ($name);
+
             $this->json_output ($tmp);
-        }
-        $this->_errCode (6);
+        //}
+        //$this->_errCode (6);
     }
 
     /**
