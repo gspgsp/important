@@ -7,9 +7,14 @@ class indexAction extends homeBaseAction
 
 		$this->display('../pc_plastic/index.html');
 	}
-	// index middle
+	// 中间
 	public function middle(){
 		$this->display('../pc_plastic/center.html');
+	}
+	//右边
+	public  function right()
+	{
+		$this->display('../pc_plastic/right.html');
 	}
 	// 供求
 	public function buy_sell()
