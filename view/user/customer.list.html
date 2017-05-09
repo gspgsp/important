@@ -238,7 +238,7 @@ function onLoadFllow(e) {
 			if(supplier==0){
 				s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:new_setSea('+cid+')">公海</a>|<a href="javascript:contract('+cid+')">联系人</a>';
 			}
-			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
+			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>|<a href="javascript:useLess('+cid+')">废</a>';
 		}
 		if(bli>0){
 			s +='|<a href="javascript:changeMessage('+cid+')">票</a>';
@@ -351,7 +351,7 @@ function changeMessage(id) {
 }
 //会员回收
 function setSea(cid) {
-	mini.confirm("确定回收该用户？", "提示",	function(action){
+	mini.confirm("确定回收该用户？", "提示",function(action){
 			if(action!='ok') return;
 			var callback=function(data){
 				if(data.err!='0'){
@@ -365,6 +365,23 @@ function setSea(cid) {
 		}
 	);
 }
+//会员作废
+function useLess(cid) {
+	mini.confirm("确定作废该用户？","提示",function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/customer/useless',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+
 //新版的回收到公海
 function new_setSea(cid){
 	mini.open({

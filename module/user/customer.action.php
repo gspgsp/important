@@ -545,6 +545,24 @@ class customerAction extends adminBaseAction {
 			$this->error('数据处理失败');
 		}
 	}
+	//作废客户
+	public function useless(){
+		$this->is_ajax=true; //指定为Ajax输出
+		$ids=sget('ids','s');
+		if(empty($ids)){
+			$this->error('操作有误');
+		}
+		//新增客户流转记录日志----S
+		$remarks = "对客户操作：作废客户";// 审核用户
+		M('user:customerLog')->addLog($ids,'check','私海客户','作废用户',1,$remarks);
+		//新增客户流转记录日志----E
+		$result=$this->db->model('customer')->where("c_id in ($ids)")->update(array('customer_manager'=>0,'depart'=>0,'status'=>4,));
+		if($result){
+			$this->success('操作成功');
+		}else{
+			$this->error('数据处理失败');
+		}
+	}
 	//捡回客户
 	public function retrieve(){
 		$this->is_ajax=true;
