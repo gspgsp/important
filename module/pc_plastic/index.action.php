@@ -13,6 +13,9 @@ class indexAction extends homeBaseAction
 //		echo '3333';
 //		$this->display('../pc_plastic/buy_sell.html');
 //	}
+	public function middle(){
+		$this->display('../pc_plastic/center.html');
+	}
 
 	public function login()
 	{
