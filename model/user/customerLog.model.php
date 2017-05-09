@@ -20,7 +20,7 @@ class customerLogModel extends model{
 		$input_time = CORE_TIME;
 		$old_value = addslashes($old_value);
 		$new_value = addslashes($new_value);
-		$operator = $_SESSION['name'];
+		$operator = $_SESSION['username'];
 		return $this->add(compact('c_id','action_type','old_value','new_value','input_time','user_ip','success','description','operator'));
 	}
 }
