@@ -722,8 +722,8 @@ class customerAction extends adminBaseAction {
 		$exits = $this->db->model('customer_pool')->where("`customer_manager` = {$data['id']} and `c_id` = {$data['c_id']}")->getRow();
 		if($exits) $this->error('共享记录已经存在');
 		//处理工厂客户不能共享问题(1为工厂，工厂客户不能共享)
-		$ty = intval($this->db->model('customer')->select("`type`")->where("`c_id` = {$data['c_id']}")->getOne());
-		if($ty == 1) $this->error("根据公司规定，工厂客户不能共享，找领导去吧");
+		// $ty = intval($this->db->model('customer')->select("`type`")->where("`c_id` = {$data['c_id']}")->getOne());
+		// if($ty == 1) $this->error("根据公司规定，工厂客户不能共享，找领导去吧");
 		//新增客户流转记录日志----S
 		$old_cusid = M('user:customer')->getColByName($data['c_id'],'customer_manager');
 		$old_cus = M('rbac:adm')->getUserByCol($old_cusid);//查询共享给人姓名
