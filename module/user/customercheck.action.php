@@ -63,7 +63,7 @@ class customercheckAction extends adminBaseAction {
 	 * [chkstatus description]
 	 * @Author   xianghui
 	 * @DateTime 2017-02-06T14:00:57+0800
-	 * @return   [type]                   [description]
+	 * @return   [type]  [description]
 	 */
 	public function  chkstatus($c,$sale,$pur,$status){
 		$str='';
