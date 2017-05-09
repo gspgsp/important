@@ -1,5 +1,4 @@
-<template>
-<div>	
+<template>	
 <header id="bigCustomerHeader">
 	<a class="back" href="javascript:window.history.back();"></a>
 	商品详情
@@ -40,17 +39,54 @@
 <div class="proInput" v-show="proinputshow">
 <p><span>收件人:</span><input id="receiver" class="proText" type="text" v-model="receiver"></p>
 <p><span>手机号:</span><input id="phone" class="proText" type="number" v-model="phone"></p>
-<p><span>联系地址:</span><input id="address" class="proText" type="text" v-model="address"></p> 
+<p><span>联系地址:</span><input id="address" class="proText" type="text" v-model="address"></p>
+<p style="position: relative;">
+	<span>验证码:</span><input id="code" style="font-size: 12px; width: 100px;" class="proText2" type="text" placeholder="输入验证码" v-model="vcode">
+	<button class="validCode" v-on:click="sendmsg" style="width: 72px; border-radius: 0; background: #ff5000; height: 25px; right: 25px; line-height: 25px; position: absolute; top: 0;">{{validCode}}</button>
+</p>
 <p style="text-align: center; margin: 20px 0 0 0;">
 	<input type="button" class="cancel2" v-on:click="cancel" value="取消">
 	<input type="button" class="confirm2" v-on:click="cargosubmit" style="background: #ff5000;" value="确定">
 </p>
 </div>
-<div class="layer" v-show="layershow"></div>
+
+<div class="proInput" v-show="proinput2show">
+<p>请选择日期:</p>	
+<input type="date" style=" margin: 20px 0 20px 0;" v-model="timeCon"/>
+<p style="text-align: center; margin: 20px 0 0 0;">
+	<input type="button" class="cancel2" v-on:click="cancel" value="取消">
+	<input type="button" class="confirm2" v-on:click="cargosubmit2" style="background: #ff5000;" value="确定">
+</p>
 </div>
+
+<div class="proInput" style="height: 280px; margin: -140px 0 0 -150px;" v-show="proinput3show">
+<p>请选择需要置顶的时间段:</p>
+<label>时段：</label>
+<select v-model="hours">
+	<option v-bind:value="9">9</option>
+	<option v-bind:value="10">10</option>
+	<option v-bind:value="11">11</option>
+	<option v-bind:value="12">12</option>
+	<option v-bind:value="13">13</option>
+	<option v-bind:value="14">14</option>
+	<option v-bind:value="15">15</option>
+	<option v-bind:value="16">16</option>
+	<option v-bind:value="17">17</option>
+	<option v-bind:value="18">18</option>
+</select><br><br>
+<p>请选择需要置顶的供求信息:</p>
+<select style=" width: 100%; font-size: 12px;" v-model="selected">
+	<option v-for="p in pur" v-bind:value="p.id">{{p.contents}}</option>
+</select>
+<p style="text-align: center; margin: 10px 0 0 0;">
+	<input type="button" class="cancel2" v-on:click="cancel" value="取消">
+	<input type="button" class="confirm2" v-on:click="cargosubmit3" style="background: #ff5000;" value="确定">
+</p>
+</div>
+<div class="layer" v-show="layershow"></div>
 </template>
 <script>
-export default{
+module.exports = {
 	data: function() {
 		return {
 			thumb:"",
@@ -60,13 +96,22 @@ export default{
 			img:"",
 			ordertype:"",
 			proinputshow:false,
+			proinput2show:false,
+			proinput3show:false,
 			layershow:false,
             times:60,
             validCode:"获取验证码",
             phone:"",
             receiver:"",
             address:"",
-            vcode:""
+            vcode:"",
+            gid:"",
+            timeCon:"",
+            pur:[],
+            selected:"",
+            hours:"",
+            mins:"",
+            tag:""
 		}
 	},
 	methods: {
@@ -75,7 +120,39 @@ export default{
 		},
 		cancel:function(){
 			this.proinputshow=false;
+			this.proinput2show=false;
+			this.proinput3show=false;
 			this.layershow=false;
+		},
+		sendmsg:function(){
+			var _this=this;
+			this.times=60;
+		    $.ajax({
+		        type: 'POST',
+		        url: "/touch/sign/sendmsg",
+		        data: {
+		        	'mobile':_this.phone
+		        },
+		        dataType:'json',
+		        success:function(res){
+		            if(res.err!=0){
+		            	mui.toast(res.msg);
+		            }else{
+		                var countStart=setInterval(function(){
+		                    _this.validCode=_this.times-- +'秒后重发';
+		                    console.log(_this.times);
+		                    if(_this.times<0){
+		                        clearInterval(countStart);
+		                        _this.validCode="获取验证码";
+		                    }
+		                },1000);
+		            }
+		        },
+		        error:function () {
+		
+		        }
+		    });
+			
 		},
 		exchange:function(){
 			var _this = this;
@@ -84,76 +161,155 @@ export default{
 					if (_this.type==0) {
 						_this.proinputshow=true;
 						_this.layershow=true;
+					} else if(_this.type==1){
+						_this.proinput2show=true;
+						_this.layershow=true;						
+					}else if(_this.type==2){
+						_this.proinput3show=true;
+						_this.layershow=true;
+						$.ajax({
+					        type: 'POST',
+					        url: "/plasticzone/plastic/getTopPur",
+					        data: {
+					        	topType:1
+					        },
+					        dataType:'json',
+					        success:function(res){
+					            console.log(res);
+					            _this.$set("pur",res.data);
+					        },
+					        error:function () {
+					
+					        }
+					    });
+
 					}
 				}else{
-					
+					console.log(0)
 				}
 			});
 		},
 		cargosubmit:function(){
 			var _this=this;
 			$.ajax({
-	    		type:"get",
-	    		url:"/api/qapi1/exchangeSupplyOrDemand",
+	    		type:"post",
+	    		url:"/plasticzone/plastic/addOrder",
 	    		data:{
-	    			type:0,
-    				goods_id:_this.gid,
+	    			orderType:1,
+    				gid:_this.gid,
     				receiver:_this.receiver,
     				phone:_this.phone,
     				address:_this.address,
-    				token: window.localStorage.getItem("token")
+    				vcode:_this.vcode
 	    		},
 	    		dataType: 'JSON'
 	    	}).then(function(res){
-	    		console.log(res.err);
-			    if(res.err==0){
-					mui.alert("",res.msg,function(){
-						window.location.reload();
-					});				
-				}else if(res.err==1){
-					mui.alert("",res.msg,function(){
-						_this.$router.push({ name: 'login' });
+	    		console.log(res);
+			    if(res.err==1){
+					mui.alert("","您未登录塑料圈,无法查看企业及个人信息",function(){
+						_this.$route.router.go({name:"login"});
 					});        					
 				}else{
 					mui.alert("",res.msg,function(){
 						window.location.reload();
-					});				
+					});        					
 				}
 	    	},function(){
 	    		
 	    	});	
+		},
+		cargosubmit2:function(){
+			var _this=this;
+			$.ajax({
+	    		type:"post",
+	    		url:"/plasticzone/plastic/addOrder",
+	    		data:{
+	    			orderType:2,
+	    			topType:0,
+	    			pid:_this.selected,
+	    			gid:_this.gid,
+					timeCon:Date.parse(new Date(_this.timeCon))/1000,
+					remark:_this.name,
+					timeType:1
+	    		},
+	    		dataType: 'JSON'
+	    	}).then(function(res){
+	    		console.log(res);
+			    if(res.err==1){
+					mui.alert("","您未登录塑料圈,无法查看企业及个人信息",function(){
+						_this.$route.router.go({name:"login"});
+					});        					
+				}else{
+					mui.alert("",res.msg,function(){
+						window.location.reload();
+					});        					
+				}
+	    	},function(){
+	    		
+	    	});	
+		},
+		cargosubmit3:function(){
+			var _this=this;
+			if(this.selected&&this.hours){
+				$.ajax({
+		    		type:"post",
+		    		url:"/plasticzone/plastic/addOrder",
+		    		data:{
+		    			orderType:2,
+		    			topType:1,
+		    			pid:_this.selected,
+		    			gid:_this.gid,
+						timeStar:parseInt(_this.hours*3600),
+						remark:_this.name,
+						timeType:0
+		    		},
+		    		dataType: 'JSON'
+		    	}).then(function(res){
+		    		console.log(res);
+				    if(res.err==1){
+						mui.alert("","您未登录塑料圈,无法查看企业及个人信息",function(){
+							_this.$route.router.go({name:"login"});
+						});        					
+					}else{
+						mui.alert("",res.msg,function(){
+							window.location.reload();
+						});        					
+					}
+		    	},function(){
+		    		
+		    	});	
+
+			}else{
+				mui.alert("","请把信息填写完整",function(){
+					
+				});
+			}
 		}
 	},
-	mounted: function() {
+	ready: function() {
 		var _this = this;
-		try {
-		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-		    piwikTracker.trackPageView();
-		} catch( err ) {
-			
-		}
 		$.ajax({
-    		type:"get",
-    		url:"/api/qapi1/getProductInfo",
+    		type:"post",
+    		url:"/plasticzone/plastic/getCreditdetail",
     		data:{
-    			id: _this.$route.params.id,
-	    		token: window.localStorage.getItem("token")
+    			gid:_this.$route.params.id
     		},
     		dataType: 'JSON'
     	}).then(function(res){
     		console.log(res);
 		    if(res.err==1){
-				mui.alert("",res.msg,function(){
-					_this.$router.push({ name: 'login' });
+				mui.alert("","您未登录塑料圈,无法查看企业及个人信息",function(){
+					_this.$route.router.go({name:"login"});
 				});        					
 			}else{
-				_this.thumb=res.info.thumb;
-				_this.img=res.info.image;
-				_this.points=res.info.points;
-				_this.name=res.info.name;
-				_this.ordertype=res.info.cate_id;
-				_this.type=res.info.type;
-				_this.gid=res.info.id;
+				_this.$set("thumb",res.thumb);
+				_this.$set("img",res.image);
+				_this.$set("points",res.points);
+				_this.$set("name",res.name);
+				_this.$set("ordertype",res.cate_id);
+				_this.$set("type",res.type);
+				_this.$set("gid",res.id);
+				_this.$set("tag",res.tag);
 			}
     	},function(){
     		
