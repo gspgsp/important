@@ -119,6 +119,34 @@ class plasticIntroductionModel extends model
         return $data;
     }
 
+    //获取我的粉丝和我的关注
+    public function getAllMyFuns ($userid, $type)
+    {
+        $where = "status=1";
+        switch ($type) {//1粉丝2关注
+            case 1:
+                $where .= " and focused_id=$userid ";
+                break;
+            case 2:
+                $where .= " and user_id=$userid ";
+                break;
+        }
+        $data = $this->model ('weixin_fans')->select ('user_id,focused_id')
+                     ->where ($where)
+                     ->order ("input_time desc")
+                     ->getAll ();
+
+        foreach ($data as &$value) {
+            if ($type == 1) {
+                $value['user_id'] = $this->get_funs ($value['user_id']);//粉丝
+            } elseif ($type == 2) {
+                $value['focused_id'] = $this->get_funs ($value['focused_id']);//关注
+            }
+        }
+
+        return $data;
+    }
+
     //获取我的粉丝id
     public function getMyFunsId ($userid, $type)
     {

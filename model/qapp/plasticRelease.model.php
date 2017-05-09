@@ -48,10 +48,9 @@ class plasticReleaseModel extends model
         if ($sortField2 == 'CONCERN') {
             //$type   1粉丝 2关注
             $f_type = 2;
-            $data = M ('qapp:plasticIntroduction')->getMyFuns ($user_id, $f_type, $page, $size);
-
+            $data = M ('qapp:plasticIntroduction')->getAllMyFuns ($user_id, $f_type);
             $tmp = array();//关注人的id；
-            foreach ($data['data'] as $key => $value) {
+            foreach ($data as $key => $value) {
                 if(!empty($value['focused_id']['user_id'])) {
                     $tmp[] = $value['focused_id']['user_id'];
                 }
