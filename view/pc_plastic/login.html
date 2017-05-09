@@ -1,14 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>登录</title>
-<link rel="stylesheet" type="text/css" href="style/style.css"/>
-</head>
-
-<body>
 <!--back begin-->
-<div class="back"><a href="right.html"></a>登录</div>
+<div class="back"><a href="javascript:;"></a>登录</div>
 <!--back end-->
 <!--login begin-->
 <div class="form-wrap login">
@@ -30,16 +21,38 @@
         	<input type="checkbox" id="rem"/>
             <label for="rem">记住密码</label>
         </div>
-        <p class="go-reg">还没有账号？去<a href="register.html" target="right">免费注册</a></p>
+        <p class="go-reg">还没有账号？去<a href="javascript:;">免费注册</a></p>
         <div class="form-tr">
         	<button class="btn1">登录</button>
         </div>
-        <p class="forget frt"><a href="forget-pwd.html">忘记密码？</a></p>
+        <p class="forget frt"><a href="javascript:;">忘记密码？</a></p>
     </form>
 </div>
 <!--login end-->
-</body>
 <script src="js/jquery-1.8.3.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/common.js"></script>
-</html>
+<script src="js/other.js"></script>
+<script>
+$( function () {
+	var right = $( ".right" ),
+		reg = $( ".go-reg a" ),
+		forgetPwd = $( ".forget a" ),
+		defaultPage = $( ".back a" );
+		
+	//跳转到注册	
+	reg.bind( "click", function () {
+		right.load( "register.html" );
+	} );
+	
+	//跳转到忘记密码
+	forgetPwd.bind( "click", function () {
+		right.load( "forget-pwd.html" );
+	} );
+	
+	//跳转到默认页面
+	defaultPage.bind( "click", function () {
+		right.load( "right.html" );
+	} );
+} );
+</script>

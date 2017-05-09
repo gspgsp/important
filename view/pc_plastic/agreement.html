@@ -1,14 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>服务协议</title>
-<link rel="stylesheet" type="text/css" href="style/style.css"/>
-</head>
-
-<body>
 <!--back begin-->
-<div class="back"><a href="register.html"></a>注册协议</div>
+<div class="back"><a href="javascript:;"></a>注册协议</div>
 <!--back end-->
 <!--agreement begin-->
 <div class="agreement">
@@ -67,5 +58,19 @@
     <p>10.5 塑料圈在法律允许最大范围对本协议拥有解释权与修改权。</p>
 </div>
 <!--agreement end-->
-</body>
-</html>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/other.js"></script>
+<script>
+$( function () {
+	var right = $( ".right" ),
+		reg = $( ".back a" );
+		
+	//跳转到注册页面	
+	reg.bind( "click", function () {
+		right.load( "register.html" );
+	} );
+	
+	//跳转到服务协议
+	
+} );
+</script>
