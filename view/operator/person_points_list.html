@@ -61,8 +61,10 @@
             <!--<div field="type" renderer="setCate1" width="80" headerAlign="center" align="center" allowSort="true" >积分来源<span style="color:red">*</span>-->
                 <!--<input  name="type" class="mini-combobox" data='{:setMiniConfig|$points_type}' textField="name" valueField="id" style="width:10px;" required="true"/>-->
             <!--</div>-->
-            <div field="user_name" width="60"  align="center" headerAlign="center" allowSort="true">用户名</div>
+            <div field="user_name" width="60"  align="center" headerAlign="center" allowSort="true" renderer="onLoadHandle3">用户名</div>
             <div field="mobile" width="60"  align="center" headerAlign="center" allowSort="true">用户手机号</div>
+            <div field="list_user_num" width="0"  align="center" headerAlign="center" allowSort="true">通讯查看数量</div>
+            <div field="array_uid" width="0"  align="center" headerAlign="center" allowSort="true">被看人id集合</div>
             <div field="supply_num" width="60" headerAlign="center" align="center" allowSort="true" renderer="onLoadHandle1">消耗塑豆<span style="color:red">*</span>
             </div>
             <div field="achieve_num" width="60"  align="center" headerAlign="center" allowSort="true" renderer="onLoadHandle2">获得塑豆<span style="color:red">*</span>
@@ -167,13 +169,19 @@
         return s;
     }
 
+    function onLoadHandle3(e) {
+        var record = e.record,uid=record.uid, user_name=record.user_name, s='';
+        s += '<a href="javascript:viewCReport3('+uid+')">'+user_name+'</a> ';
+        return s;
+    }
+
     //查看用户消耗塑豆相关情况   1  获取   2  消耗
     function viewCReport1(c_id){
         var tmpArr=$("#soform").serializeObject();
         var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
         console.log(startTime,endTime);
         mini.open({
-            url: "/operator/plasticzoneActivity/moneyExchange?key_type=id&keyword="+c_id+"&supply_or_get=2&startTime="+startTime+"&endTime="+endTime,
+            url: "/operator/plasticzoneActivity/moneyExchange?key_type=uid&keyword="+c_id+"&supply_or_get=2&startTime="+startTime+"&endTime="+endTime,
             showMaxButton:true,
             title: "查看用户消耗塑豆相关情况",
             width: 1200, height:650
@@ -186,7 +194,20 @@
         var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
         console.log(startTime,endTime);
         mini.open({
-            url: "/operator/plasticzoneActivity/moneyExchange?key_type=id&keyword="+c_id+"&supply_or_get=1&startTime="+startTime+"&endTime="+endTime,
+            url: "/operator/plasticzoneActivity/moneyExchange?key_type=uid&keyword="+c_id+"&supply_or_get=1&startTime="+startTime+"&endTime="+endTime,
+            showMaxButton:true,
+            title: "查看用户获取塑豆相关情况",
+            width: 1200, height:650
+        });
+    }
+
+    //查看用户消耗塑豆相关情况   1  获取   2  消耗
+    function viewCReport3(c_id){
+        var tmpArr=$("#soform").serializeObject();
+        var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
+        console.log(startTime,endTime);
+        mini.open({
+            url: "/operator/plasticzoneActivity/moneyExchange?key_type=uid&keyword="+c_id+"&supply_or_get=3&startTime="+startTime+"&endTime="+endTime,
             showMaxButton:true,
             title: "查看用户获取塑豆相关情况",
             width: 1200, height:650

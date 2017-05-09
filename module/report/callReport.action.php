@@ -147,7 +147,7 @@ class callReportAction extends adminBaseAction
                     $rs5=$this->db->model('api')->getAll($sql5);
 
                     //呼出匹配数量和匹配时间
-                    $sql6="SELECT count(distinct a.id) as sum,sum(a.time) as out_match_time
+                    $sql6="SELECT count(distinct a.id) as sum,sum(a.time) as out_match_time,count(distinct cus.c_id) out_eff_match_num
                             FROM `p2p_api` `a`
                             JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
                             JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
@@ -224,13 +224,14 @@ class callReportAction extends adminBaseAction
                             'out_eff_num'=>$rs3[0]['out_eff_num'],//有效次数
                             'out_match_num'=>$rs6[0]['sum'],//客户匹配数量
                             'company_match_ratio'=>(sprintf(" %.4f",$rs6[0]['sum']/$rs2[0]['out_num'] )*100).'%',//公司匹配率
+                            'out_eff_match_num' => $rs6[0]['out_eff_match_num'],
                             'out_match_time'=>$rs6[0]['out_match_time'],    //匹配时长
                             'time_match_ratio'=>(sprintf("%.4f",$_tmpTime_match_ratio)*100).'%',//匹配时长率
                             'in_num'=>$rs4[0]['in_num'],
                             'in_time'=>$rs4[0]['in_time'],
                             'in_eff_num'=>$rs5[0]['in_eff_num'],
                     );
-            }//showTrace();
+            }
             $result=array('total'=>$phonelist['count'],'data'=>$tmp);
             $this->json_output($result);
          }
