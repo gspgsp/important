@@ -1,7 +1,7 @@
-<?php 
+<?php
 	class newsCateModel extends model {
 		public function __construct(){
-			parent::__construct(C('db_default'),'news_cate');	
+			parent::__construct(C('db_default'),'news_cate');
 		}
 
 		 //通过一个分类ID取出所有子分类
@@ -19,7 +19,7 @@
 							$arr[$v['spell']]['childrens'][$v2['spell']]=$v2;
 						}
 					}
-				}	
+				}
 			}
 			return $arr;
 		}
@@ -58,7 +58,7 @@
 				if($v['pid']==$id){
 					$arr[]=$v['cate_id'];
 					$this->getChildrensId($data,$v['cate_id']);
-				}	
+				}
 			}
 			return $arr;
 		}
@@ -93,7 +93,17 @@
 			}
 			return $arr;
 		}
-
-	}
-
- ?>
+		/**
+		 * 获取全部的分类信息
+		 */
+		public function getAllCate(){
+		$_key=__METHOD__.':'.'getAllCate';
+		$cache=cache::startMemcache();
+		$data=$cache->get($_key);
+			if(empty($data)){
+				$data=$this->select('cate_id,cate_name,pid,spell')->getAll();
+				$cache->set($_key,$data,86400); //加入缓存
+			}
+			return $data;
+		}
+}
