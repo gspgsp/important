@@ -268,7 +268,7 @@ class customerAction extends adminBaseAction {
 				'identification'=>$v['identification'],
 				'month_consum'=>$v['month_consum'],
 				'need_product'=>$v['need_product'],
-				'need_product_adm'=>$v['need_product_adm'],
+				'main_product'=>$v['main_product'],
 				'msg'=>$v['msg'],
 				'update_time'=>CORE_TIME,
 			);

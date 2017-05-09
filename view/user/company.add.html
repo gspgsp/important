@@ -46,6 +46,22 @@
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
+						<td>主营产品：</td>
+						<td><input name="main_product" class="mini-textbox" style="width:250px;"  value="{$user.main_product}"/></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="color:red">注意：</td>
+						<td style="color:red">塑料制品企业(原工厂)需要填所需牌号、主营产品，原材料供应商(原贸易商、工贸一体)需要填所需牌号，物流服务商需要填主营产品；所需牌号尽量以填写真实牌号，尽量避免使用汉字，以英文逗号分隔。</td>
+					</tr>
+					<tr>
+						<td>月用量：</td>
+						<td><input name="month_consum" class="mini-textbox" style="width:250px;"  value="{$user.month_consum}"/></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
 						<td>所在省市</td>
 						<td><input name="company_province" id="c_1_0" style="width:80px;"  class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$user.infoExt.company_province}" showNullItem="true"/>
 							<input name="company_city" id="c_2_0" class="mini-combobox" url="{if $user.infoExt.company_province}/user/user/getRegion?pid={$user.infoExt.company_province}{/if}" value="{$user.infoExt.company_city}" style="width:80px;" textField="name" valueField="id" />
