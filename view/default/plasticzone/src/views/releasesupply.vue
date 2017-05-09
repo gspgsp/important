@@ -21,10 +21,10 @@
     </div>
     <ul class="releaseTa">
     	<li v-show="condition" v-for="r in release">
-    		<font style="color: #999999;">{{r.input_time}}</font><br>
-    		<font v-if="r.type==2"><i class="myicon2 iconSupply"></i>供给</font>
-    		<font v-else>求购</font>
-    		<font style="color: #333333; line-height: 23px;">{{r.contents}}</font>
+    		<span style="color: #999999;">{{r.input_time}}</span><br>
+    		<span v-if="r.type==2"><i class="myicon2 iconSupply"></i>供给</span>
+    		<span v-else>求购</span>
+    		<span style="color: #333333; line-height: 23px;">{{r.contents}}</span>
     	</li>
     	<li v-show="!condition" style="text-align: center; line-height: 50px;">
 			没有相关数据
@@ -35,8 +35,8 @@
     </div>
 </template>
 <script>
-var footer=require("../components/footer");
-	module.exports={
+import footer from "../components/footer";
+	export default{
         components:{
         	'footerbar':footer
         },
@@ -58,93 +58,58 @@ var footer=require("../components/footer");
             	condition:true
             }
         },
-        methods:{
-
-        },
-        ready:function () {
+        activated:function () {
         	var _this=this;
-        	
-        	$(window).scroll(function() {
-	            var scrollTop = $(this).scrollTop();
-	            var scrollHeight = $(document).height();
-	            var windowHeight = $(this).height();
-	            if (scrollTop + windowHeight == scrollHeight) {
-	            	_this.page++;
-		           	_this.$http.post('/plasticzone/plastic/getTaPur',{
-		           		userid:_this.$route.params.id,page:_this.page,size:10,type:2
-	        		}).then(function(res){
-	        			console.log(res.json());
-	        			if(res.json().err==3){
-	        				mui.toast(res.json().msg);
-	        			}else if(res.json().err==1){
-	        				mui.alert("",res.json().msg,function(){
-	        					_this.$route.router.go({name:"login"});
-	        				});
-	        			}else{
-	        				_this.release=_this.release.concat(res.json().data);
-	        			}
-	        			
-	        		},function(){
-	        			
-	        		});
+        		try {
+	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+	    piwikTracker.trackPageView();
+	} catch( err ) {
+		
+	}
+    		$.ajax({
+				url: '/api/qapi1/getTaPur',
+				type: 'get',
+				data: {
+					userid:_this.$route.params.id,
+					type:2,
+					page: _this.page,
+					token: window.localStorage.getItem("token"),
+					size: 10
+				},
+				dataType: 'JSON'
+			}).then(function(res) {
+				if(res.err==2){
+        			_this.condition=false;
+        		}else if(res.err==0){
+        			_this.condition=true;
+        			_this.release=res.data;
+        		} 
 
-	            }
-        	});      	
+			}, function() {
 
-        	
-        	this.$http.post('/plasticzone/plastic/getMsgCount',{}).then(function(res){
-        		console.log(res.json());
-        		if(res.json().count==0){
-        			this.countShow=false;
-        		}else{
-        			this.countShow=true;
-        			this.count=res.json().count;
-        			
-        		}
-        	},function(res){
-        		
-        	});
-        	
-        	console.log(this.$route.params.id);
-        	this.$http.post('/plasticzone/plastic/getTaPur', {
-        		userid:this.$route.params.id,page:this.page,size:10,type:2
-        	}).then(function(res){
-        		console.log(res.json());
-        		if(res.json().err==1){
-        			_this.$route.router.go({name:"login"});
-        		}else if(res.json().err==2){
-        			this.condition=false;
-        		}else{
-        			this.condition=true;
-        			this.$set('release',res.json().data);
-        		}       		
-        	},function(res){
-        		
-        	});
-        	       	       
-            this.$http.post('/plasticzone/plastic/getZoneFriend',{
-            	userid:this.$route.params.id
-            }).then(function (res) {
-            	console.log(res.json());
-            	if(res.json().err==1){
-        			mui.alert("","您未登录塑料圈,无法查看企业及个人信息",function(){
-        				_this.$route.router.go({name:"login"});
-        			});        					
-        		}else{
-	            	this.$set('name',res.json().data.name);
-	            	this.$set('c_name',res.json().data.c_name);
-	            	this.$set('mobile',res.json().data.mobile);
-	            	this.$set('thumb',res.json().data.thumb);
-	            	this.$set('sex',res.json().data.sex);
-	            	this.$set('is_pass',res.json().data.is_pass);
-        		}
-            },function (res) {
+			});
+			
+			$.ajax({
+				url: '/api/qapi1/getZoneFriend',
+				type: 'get',
+				data: {
+					userid:_this.$route.params.id,
+					token: window.localStorage.getItem("token"),
+					size: 10
+				},
+				dataType: 'JSON'
+			}).then(function(res) {					
+            	_this.name=res.data.name;
+            	_this.c_name=res.data.c_name;
+            	_this.mobile=res.data.mobile;
+            	_this.thumb=res.data.thumb;
+            	_this.sex=res.data.sex;
+            	_this.is_pass=res.data.is_pass;
+			}, function() {
 
-            });        	
-        },
-        destroyed:function(){
-        	$(window).unbind('scroll');
-        }  
+			});
+       	       	              	
+        } 
 
 	}
 </script>

@@ -1,20 +1,19 @@
 <template>
-	<div class="buyWrap">
-    	<div class="error"></div>
-    	<a v-link="{name:'index'}" class="goindex"></a>
-    </div>
+<div class="buyWrap">
+	<div class="error"></div>
+	<router-link :to="{name:'index'}" class="goindex"></router-link>
+</div>
 </template>
 <script>
-	module.exports={
-        el:"#app",
-        data:function () {
-            return {
-            
-            }
-        },
-        ready:function () {
+export default{
+	data: function() {
+		return {
 
-        }
-    
+		}
+	},
+	mounted: function() {
+
 	}
+
+}
 </script>

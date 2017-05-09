@@ -1,4 +1,5 @@
 <template>
+<div>
 <header id="bigCustomerHeader">
 	<a class="back" href="javascript:window.history.back();"></a>
 	兑换记录
@@ -23,36 +24,40 @@
 		</div>
 	</li>
 </ul>
+</div>
 </template>
 <script>
-module.exports = {
+export default{
 	data: function() {
 		return {
 			record:[]
 		}
 	},
-	methods: {
-
-	},
-	ready: function() {
+	mounted: function() {
 		var _this = this;
+			try {
+	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+	    piwikTracker.trackPageView();
+	} catch( err ) {
+		
+	}
 		$.ajax({
-    		type:"post",
-    		url:"/plasticzone/plastic/getCreditRecord",
+    		type:"get",
+    		url:"/api/qapi1/exchangeList",
     		data:{
-    			
+    			token: window.localStorage.getItem("token"),
+    			page:1,
+    			size:10    			
     		},
     		dataType: 'JSON'
     	}).then(function(res){
     		console.log(res);
-		    if(res.err==1){
-				mui.alert("","您未登录塑料圈,无法查看企业及个人信息",function(){
-					_this.$route.router.go({name:"login"});
-				});        					
-			}else if(res.err==0){
-				_this.$set("record",res.record);
-			}else if(res.err==2){
-				_this.record=[];
+		    if(res.err==0){
+		    	_this.record=res.info;
+			}else if(res.err==1){
+				mui.alert("",res.msg,function(){
+					_this.$router.push({ path: 'login' });
+				});        									
 			}
     	},function(){
     		
