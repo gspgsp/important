@@ -568,6 +568,7 @@ class customerAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$c_id = sget('cid','i',0); //通过审核后的客户cid
 		if($c_id<1) $this->error('错误的分配信息');
+		if(intval(M('user:customer')->getColByName($c_id,'status'))==4) $this->error('作废客户不能再次捡回');
 		$_data=array(
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
@@ -642,6 +643,7 @@ class customerAction extends adminBaseAction {
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
+		if(intval(M('user:customer')->getColByName($c_id,'status'))==4) $this->error('作废客户不能再次捡回');
 		//查询原始的交易员
 		$old_manager = M('user:customer')->getColByName($c_id,'customer_manager');
 		//增加每人最多每天领取10个人的限制
