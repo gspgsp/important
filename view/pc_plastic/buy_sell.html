@@ -33,23 +33,23 @@
     </div>
     <!--buy-sell-search end-->
     <!--buy-sell-tab begin-->
-    <div class="buy-sell-tab">
+    <ul class="buy-sell-tab">
         <li id="tab1" onclick="setTab('tab',1,4)" class="hover"><a href="javascript:;">全部</a></li>
         <li id="tab2" onclick="setTab('tab',2,4)"><a href="javascript:;">智能推荐</a></li>
         <li id="tab3" onclick="setTab('tab',3,4)"><a href="javascript:;">我的关注</a></li>
         <li id="tab4" onclick="setTab('tab',4,4)"><a href="javascript:;">我的供求</a></li>
-    </div>
+    </ul>
     <!--buy-sell-tab end-->
 </div>
 <!--buy-sell-fixed end-->
 <!--buy-sell-con begin-->
 <div class="buy-sell-con">
 	<!--con-tab-1 begin-->
-    <div id="con-tab-1">
+    <div id="con-tab-1" class="tab-con">
     	<!--list begin-->
         <ul>
         	<li>
-            	<div class="w96 sell">
+            	<div class="w96 settop sell">
                     <!--thumb begin-->
                     <div class="thumb">
                         <div class="pic flt"><img src="img/male.jpg"><div class="authen no">V</div></div>
@@ -73,6 +73,9 @@
                         <!--feedback end-->
                     </div>
                     <!--other end-->
+                    <!--set-top begin-->
+                    <div class="set-top"></div>
+                    <!--set-top end-->
                 </div>
             </li>
             <li>
@@ -242,13 +245,45 @@
     </div>
     <!--con-tab-1 end-->
     <!--con-tab-2 begin-->
-    <div id="con-tab-2" style="display:none;">bbb</div>
+    <div id="con-tab-2" class="tab-con" style="display:none;">
+    	<!--no-results begin-->
+        <div class="no-results">
+        	<!--thumb begin-->
+            <div class="thumb flt">
+            	<img src="img/buy-sell2.png" width="216" height="134"/>
+            	<span>系统暂未为您匹配到相应的牌号，暂无推荐！</span>
+            </div>
+            <!--thumb end-->
+            <!--explain begin-->
+            <div class="explain frt">
+                <h4>说明：</h4>
+                <p>1、智能推荐会根据您发布的信息为您匹配相关牌号的供求信息；</p>
+                <p>2、若无匹配信息，则目前不存在此牌号的信息。</p>
+            </div>
+            <!--explain end-->
+        </div>
+        <!--no-results end-->
+    </div>
     <!--con-tab-2 end-->
     <!--con-tab-3 begin-->
-    <div id="con-tab-3" style="display:none;">ccc</div>
+    <div id="con-tab-3" class="tab-con" style="display:none;">
+    	<!--no-results begin-->
+        <div class="no-results">
+        	<img src="img/buy-sell2.png" width="216" height="134"/>
+            <span>您关注的用户暂无任何供求！</span>
+        </div>
+        <!--no-results end-->
+    </div>
     <!--con-tab-3 end-->
     <!--con-tab-4 begin-->
-    <div id="con-tab-4" style="display:none;">ddd</div>
+    <div id="con-tab-4" class="tab-con" style="display:none;">
+    	<!--no-results begin-->
+        <div class="no-results">
+        	<img src="img/buy-sell4.png" width="237" height="134"/>
+            <span>您未发布任何供求信息！</span>
+        </div>
+        <!--no-results end-->
+    </div>
     <!--con-tab-4 end-->
 </div>
 <!--buy-sell-con end-->
