@@ -26,9 +26,20 @@ class indexAction extends homeBaseAction
 		$this->display('');
 	}
 
+	// 登录
 	public function login()
 	{
 		$this->display('../pc_plastic/login.html');
+	}
+
+	public function forget_pwd()
+	{
+		$this->display('../pc_plastic/forget_pwd.html');
+	}
+
+	public function register()
+	{
+		$this->display('../pc_plastic/register.html');
 	}
 
 }
