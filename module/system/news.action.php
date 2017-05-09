@@ -1,15 +1,15 @@
-<?php 
+<?php
 	class newsAction extends adminBaseAction {
 		public function __init(){
 			$this->db=M('public:common');
 			$this->action=ROUTE_A;
-			$this->cate=$this->db->model('news_cate')->select('cate_id,cate_name,pid,spell')->getAll();
+			$this->cate=M('news:newsCate')->getAllCate();
 			$this->cateTree=M('news:newsCate')->getTree($this->cate);
 		}
-		
+
 		//列表页
 		public function lst(){
-			$action=sget('action','s');   
+			$action=sget('action','s');
 			//准备where搜索条件
 			$where=' 1 ';
 				//判断分类查询
@@ -55,7 +55,7 @@
 				$list=array('total'=>$data['count'],'data'=>$data['data']);
 				$this->json_output($list);
 			}
-			
+
 			$this->display('news_list');
 		}
 
@@ -96,13 +96,13 @@
 					            $tags[] = $val['word'];
 					        }
 					        $tags=implode(',', $tags);
-					        $pscws->close();     
+					        $pscws->close();
 					    $info['keywords'] = $tags;
 					    if(empty($info['description'])){
 					    	$tmp=str_replace(array(" ","　","\t","\n","\r"),'',strip_tags($keywords));
 						$info['description'] = mb_substr($tmp, 0,100,'utf-8');
 					    }
-					    
+
 				}else{
 					if(empty($info['description'])){
 						$tmp=str_replace(array(" ","　","\t","\n","\r"),'',strip_tags($info['content']));
@@ -119,7 +119,7 @@
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->wherePk($id)->update($data);
 					$cache->delete('news_'.$id);
-				}else{	
+				}else{
 					if($repeat<1){
 						$pos=strpos($data['content'],'我的塑料网');
 						$data['content']=substr_replace($data['content'], '我的塑料网（www.myplas.com）', $pos,strlen('我的塑料网'));
@@ -140,11 +140,11 @@
 					$this->error('操作失败');
 				}
 			}
-			
+
 			$this->cate=$this->db->model('news_cate')->select('cate_id,cate_name,pid')->where('pid=0')->getAll();
 			$this->display('news_info');
 		}
-		
+
 		//根据父级分类得到子分类
 		public function getCate(){
 			$pid=sget('pid','i');
@@ -166,7 +166,7 @@
 				$this->error('数据处理失败！');
 			}
 		}
-		
+
 		//保存行内修改数据
 		public function save(){
 			$this->is_ajax=true;
