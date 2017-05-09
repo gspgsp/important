@@ -1,1 +1,721 @@
-webpackJsonp([21],{145:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("div",{staticClass:"buyWrap",staticStyle:{padding:"0px 0 70px 0"}},[t._m(0),t._v(" "),i("div",{staticClass:"releasedetail"},[i("span",{staticStyle:{width:"auto",padding:"0 5px",height:"25px",color:"#ea8010","border-radius":"3px",position:"absolute",right:"10px",top:"10px","text-align":"center","font-size":"13px","line-height":"25px",border:"1px solid #ea8010"},on:{click:t.pay}},[t._v("\n"+t._s(t.status)+"\n")]),t._v(" "),i("div",{staticClass:"myreleaseInfo"},[i("div",{staticStyle:{width:"30px",height:"30px",float:"left",position:"relative"}},[i("div",{staticClass:"avator"},[i("img",{attrs:{src:t.thumb}})]),t._v(" "),i("i",{staticClass:"iconV",class:{v1:1==t.is_pass,v2:0==t.is_pass}})]),t._v(" "),i("div",{staticClass:"myreleasetxt"},[i("p",{staticStyle:{height:"30px","line-height":"15px"}},[t._v("\n\t\t\t\t"+t._s(t.c_name)+" "+t._s(t.name)),i("br"),t._v(" 粉丝："+t._s(t.fans)+" 等级："+t._s(t.level)+"\n\t\t\t")])])]),t._v(" "),i("div",{staticClass:"myreleasetxt2"},[i("p",[2==t.type?i("strong",{staticStyle:{color:"#63769d"}},[i("i",{staticClass:"iconSale"}),t._v("供给\n")]):i("strong",{staticStyle:{color:"#ea8010"}},[i("i",{staticClass:"iconBuy"}),t._v("求购\n")]),t._v(" "),i("strong",[t._v(t._s(t.content))])]),t._v(" "),i("p",{staticStyle:{color:"#999999"}},[t._v("\n\t\t\t"+t._s(t.time)+"\n\t\t\t"),i("span",{directives:[{name:"show",rawName:"v-show",value:t.mine,expression:"mine"}],staticStyle:{margin:"0 0 0 10px",float:"right",color:"#999999"}},[i("i",{staticClass:"releasereplyicon"}),t._v("回复"),i("i",{staticStyle:{color:"#63769d","font-style":"normal"}},[t._v("("+t._s(t.saysCount)+")")])]),t._v(" "),i("span",{directives:[{name:"show",rawName:"v-show",value:t.mine,expression:"mine"}],staticStyle:{color:"#999999",float:"right"}},[i("i",{staticClass:"releasesaleicon"}),t._v("出价"),i("i",{staticStyle:{color:"#63769d","font-style":"normal"}},[t._v("("+t._s(t.deliverPriceCount)+")")])])])])]),t._v(" "),i("div",{staticClass:"bidreply"},[i("div",{staticStyle:{"text-align":"center",padding:"5px 0 10px 0"}},[i("div",{staticStyle:{width:"100%","text-align":"center"}},[i("div",{staticClass:"releasebschoose"},[i("span",{class:{releasebson:t.show1},on:{click:t.spanshow1}},[t._v("出价消息")]),t._v(" "),i("span",{class:{releasebson:t.show2},on:{click:t.spanshow2}},[t._v("回复消息")])])])]),t._v(" "),i("div",{directives:[{name:"show",rawName:"v-show",value:t.show1,expression:"show1"}]},[i("table",{staticClass:"releasetb",attrs:{cellpadding:"0",cellspacing:"0"}},[t._m(1),t._v(" "),t._l(t.price,function(e){return i("tr",[i("td",[i("div",{staticClass:"myreleaseInfo",staticStyle:{display:"inline-block",width:"150px",margin:"5px 0 0 0"}},[i("div",{staticStyle:{width:"30px",height:"30px",float:"left",position:"relative"}},[i("div",{staticClass:"avator"},[i("img",{attrs:{src:e.info.thumb}})]),t._v(" "),i("i",{staticClass:"iconV",class:{v1:1==e.info.is_pass,v2:0==e.info.is_pass}})]),t._v(" "),i("div",{staticClass:"myreleasetxt"},[i("p",{staticStyle:{width:"110px",overflow:"hidden","white-space":"nowrap","text-overflow":"ellipsis","line-height":"15px"}},[t._v("\n\t\t\t\t\t\t\t\t"+t._s(e.info.c_name)+" "+t._s(e.info.name)+"\n\t\t\t\t\t\t\t")]),t._v(" "),i("p",{staticStyle:{"text-align":"left",color:"#999999"}},[t._v("\n\t\t\t\t\t\t\t\t"+t._s(e.input_time)+"\n\t\t\t\t\t\t\t")])])])]),t._v(" "),i("td",{staticClass:"orange"},[t._v(t._s(e.price))]),t._v(" "),i("td",[i("a",{directives:[{name:"show",rawName:"v-show",value:"-1"==e.info.mobile.indexOf("*"),expression:"p.info.mobile.indexOf('*')=='-1'? true : false"}],staticClass:"telephone2",staticStyle:{margin:"5px 0 0 0"},attrs:{href:"tel:"+e.info.mobile}})])])})],2),t._v(" "),i("div",{directives:[{name:"show",rawName:"v-show",value:t.mine,expression:"mine"}],staticClass:"replymsg"},[i("div",{staticStyle:{width:"auto","margin-right":"60px"}},[i("form",[i("i",{staticClass:"writeicon",on:{click:t.deliver}}),t._v(" "),i("input",{directives:[{name:"model",rawName:"v-model",value:t.deliverprice,expression:"deliverprice"}],attrs:{type:"number",placeholder:"期待你的出价"},domProps:{value:t.deliverprice},on:{input:function(e){e.target.composing||(t.deliverprice=e.target.value)},blur:function(e){t.$forceUpdate()}}})])]),t._v(" "),i("span",{staticClass:"releasedetailbtn",on:{click:t.deliver}},[t._v("出价")])])]),t._v(" "),i("div",{directives:[{name:"show",rawName:"v-show",value:t.show2,expression:"show2"}]},[i("ul",{staticClass:"replyul"},t._l(t.reply,function(e){return i("li",[i("div",{staticClass:"myreleaseInfo"},[i("div",{staticStyle:{width:"30px",height:"30px",float:"left",position:"relative"}},[i("div",{staticClass:"avator"},[i("img",{attrs:{src:e.info.thumb}})]),t._v(" "),i("i",{staticClass:"iconV",class:{v1:1==e.info.is_pass,v2:0==e.info.is_pass}})]),t._v(" "),i("div",{staticClass:"myreleasetxt"},[i("p",{staticStyle:{height:"30px","line-height":"15px"}},[t._v("\n\t\t\t\t\t\t\t"+t._s(e.info.c_name)+" "+t._s(e.info.name)),i("br"),t._v(" "+t._s(e.input_time)+"\n\t\t\t\t\t\t")])])]),t._v(" "),i("div",{staticClass:"myreleasetxt2"},[i("p",[i("strong",{staticStyle:{margin:"0 0 0 40px"}},[t._v(t._s(e.content))])])])])})),t._v(" "),i("div",{directives:[{name:"show",rawName:"v-show",value:t.mine,expression:"mine"}],staticClass:"replymsg"},[i("div",{staticStyle:{width:"auto","margin-right":"60px"}},[i("form",[i("i",{staticClass:"writeicon",on:{click:t.replyMsg}}),t._v(" "),i("input",{directives:[{name:"model",rawName:"v-model",value:t.msg,expression:"msg"}],attrs:{type:"text",placeholder:"期待你的回复"},domProps:{value:t.msg},on:{input:function(e){e.target.composing||(t.msg=e.target.value)}}})])]),t._v(" "),i("span",{staticClass:"releasedetailbtn",on:{click:t.replyMsg}},[t._v("回复")])])])])])},staticRenderFns:[function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("header",{attrs:{id:"bigCustomerHeader"}},[i("a",{staticClass:"back",attrs:{href:"javascript:window.history.back();"}}),t._v("\n\t详情\n")])},function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("tr",[i("th",[t._v("出价人")]),t._v(" "),i("th",[t._v("出价")]),t._v(" "),i("th",[t._v("操作")])])}]}},39:function(t,e,i){var a=i(46)(i(96),i(145),null,null);t.exports=a.exports},46:function(t,e){t.exports=function(t,e,i,a){var s,n=t=t||{},o=typeof t.default;"object"!==o&&"function"!==o||(s=t,n=t.default);var r="function"==typeof n?n.options:n;if(e&&(r.render=e.render,r.staticRenderFns=e.staticRenderFns),i&&(r._scopeId=i),a){var l=Object.create(r.computed||null);Object.keys(a).forEach(function(t){var e=a[t];l[t]=function(){return e}}),r.computed=l}return{esModule:s,exports:n,options:r}}},96:function(t,e,i){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={data:function(){return{content:"",id:"",saysCount:"",name:"",c_name:"",thumb:"",is_pass:"",deliverPriceCount:"",type:"",show1:!0,show2:!1,fans:"",level:"",price:[],deliverprice:"",reply:[],msg:"",deliverbtn:!1,replybtn:!1,right:0,right2:0,mine:!0,userinfoid:""}},methods:{spanshow1:function(){this.show1=!0,this.show2=!1},spanshow2:function(){this.show1=!1,this.show2=!0},replyMsg:function(){var t=this;$.ajax({url:"/api/qapi1/saveMsg",type:"get",data:{pur_id:t.id,content:t.msg,send_id:t.user_id,token:window.localStorage.getItem("token")},dataType:"JSON"}).then(function(e){0==e.err?$.ajax({url:"/api/qapi1/getReleaseMsgDetailReply",type:"get",data:{id:t.$route.query.id,user_id:t.$route.query.userid,token:window.localStorage.getItem("token"),page:1,size:10},dataType:"JSON"}).then(function(e){console.log(e),0==e.err&&(t.reply=e.data.data,t.msg="")},function(){}):mui.alert("",e.msg,function(){window.location.reload()})},function(){})},deliver:function(){var t=this;$.ajax({url:"/api/qapi1/deliverPrice",type:"get",data:{id:t.$route.query.id,rev_id:t.$route.query.userid,token:window.localStorage.getItem("token"),type:t.type,price:t.deliverprice},dataType:"JSON"}).then(function(e){console.log(e),0==e.err?$.ajax({url:"/api/qapi1/getDeliverPrice",type:"get",data:{id:t.$route.query.id,rev_id:t.$route.query.userid,token:window.localStorage.getItem("token"),page:1,size:10},dataType:"JSON"}).then(function(e){console.log(e),0==e.err&&(t.price=e.data.data,t.deliverprice="")},function(){}):1==e.err?mui.alert("",e.msg,function(){t.$router.push({name:"login"})}):mui.alert("",e.msg,function(){window.location.reload()})},function(){})},pay:function(){var t=this;$.ajax({url:"/api/qapi1/focusOrCancel",type:"get",data:{focused_id:t.user_id,token:window.localStorage.getItem("token")},dataType:"JSON"}).then(function(t){console.log(">>>",t.msg),window.location.reload()},function(){})}},activated:function(){var t=this;window.scrollTo(0,0);try{Piwik.getTracker("http://wa.myplas.com/piwik.php",2).trackPageView()}catch(t){}$.ajax({url:"/api/qapi1/getReleaseMsgDetail",type:"get",data:{id:t.$route.query.id,user_id:t.$route.query.userid,token:window.localStorage.getItem("token")},dataType:"JSON"}).then(function(e){console.log(e),0==e.err?(t.id=e.data.id,t.user_id=e.data.user_id,t.content=e.data.contents,t.saysCount=e.data.saysCount,t.time=e.data.input_time,t.type=e.data.type,t.name=e.data.info.name,t.fans=e.data.info.fans,t.level=e.data.info.member_level,t.c_name=e.data.info.c_name,t.status=e.data.info.status,t.is_pass=e.data.info.is_pass,t.thumb=e.data.info.thumb,t.deliverPriceCount=e.data.deliverPriceCount,t.userinfoid=e.data.info.user_id,t.$route.query.userid==window.localStorage.getItem("userid")?t.mine=!1:t.mine=!0,1==t.$route.query.tab?(t.show1=!0,t.show2=!1):(t.show1=!1,t.show2=!0)):1==e.err&&mui.alert("",e.msg,function(){t.$router.push({name:"login"})})},function(){}),$.ajax({url:"/api/qapi1/getDeliverPrice",type:"get",data:{id:t.$route.query.id,rev_id:t.$route.query.userid,token:window.localStorage.getItem("token"),page:1,size:10},dataType:"JSON"}).then(function(e){console.log(e),0==e.err?t.price=e.data.data:1==e.err?mui.alert("",e.msg,function(){t.$router.push({name:"login"})}):2==e.err&&(t.price=[])},function(){}),$.ajax({url:"/api/qapi1/getReleaseMsgDetailReply",type:"get",data:{id:t.$route.query.id,user_id:t.$route.query.userid,token:window.localStorage.getItem("token"),page:1,size:10},dataType:"JSON"}).then(function(e){console.log(e),0==e.err?t.reply=e.data.data:1==e.err?mui.alert("",e.msg,function(){t.$router.push({name:"login"})}):2==e.err&&(t.reply=[])},function(){})}}}});
+webpackJsonp([21],{
+
+/***/ 145:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "buyWrap",
+    staticStyle: {
+      "padding": "0px 0 70px 0"
+    }
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "releasedetail"
+  }, [_c('span', {
+    staticStyle: {
+      "width": "auto",
+      "padding": "0 5px",
+      "height": "25px",
+      "color": "#ea8010",
+      "border-radius": "3px",
+      "position": "absolute",
+      "right": "10px",
+      "top": "10px",
+      "text-align": "center",
+      "font-size": "13px",
+      "line-height": "25px",
+      "border": "1px solid #ea8010"
+    },
+    on: {
+      "click": _vm.pay
+    }
+  }, [_vm._v("\n" + _vm._s(_vm.status) + "\n")]), _vm._v(" "), _c('div', {
+    staticClass: "myreleaseInfo"
+  }, [_c('div', {
+    staticStyle: {
+      "width": "30px",
+      "height": "30px",
+      "float": "left",
+      "position": "relative"
+    }
+  }, [_c('div', {
+    staticClass: "avator"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.thumb
+    }
+  })]), _vm._v(" "), _c('i', {
+    staticClass: "iconV",
+    class: {
+      'v1': _vm.is_pass == 1, 'v2': _vm.is_pass == 0
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "myreleasetxt"
+  }, [_c('p', {
+    staticStyle: {
+      "height": "30px",
+      "line-height": "15px"
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.c_name) + " " + _vm._s(_vm.name)), _c('br'), _vm._v(" 粉丝：" + _vm._s(_vm.fans) + " 等级：" + _vm._s(_vm.level) + "\n\t\t\t")])])]), _vm._v(" "), _c('div', {
+    staticClass: "myreleasetxt2"
+  }, [_c('p', [(_vm.type == 2) ? _c('strong', {
+    staticStyle: {
+      "color": "#63769d"
+    }
+  }, [_c('i', {
+    staticClass: "iconSale"
+  }), _vm._v("供给\n")]) : _c('strong', {
+    staticStyle: {
+      "color": "#ea8010"
+    }
+  }, [_c('i', {
+    staticClass: "iconBuy"
+  }), _vm._v("求购\n")]), _vm._v(" "), _c('strong', [_vm._v(_vm._s(_vm.content))])]), _vm._v(" "), _c('p', {
+    staticStyle: {
+      "color": "#999999"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.time) + "\n\t\t\t"), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.mine),
+      expression: "mine"
+    }],
+    staticStyle: {
+      "margin": "0 0 0 10px",
+      "float": "right",
+      "color": "#999999"
+    }
+  }, [_c('i', {
+    staticClass: "releasereplyicon"
+  }), _vm._v("回复"), _c('i', {
+    staticStyle: {
+      "color": "#63769d",
+      "font-style": "normal"
+    }
+  }, [_vm._v("(" + _vm._s(_vm.saysCount) + ")")])]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.mine),
+      expression: "mine"
+    }],
+    staticStyle: {
+      "color": "#999999",
+      "float": "right"
+    }
+  }, [_c('i', {
+    staticClass: "releasesaleicon"
+  }), _vm._v("出价"), _c('i', {
+    staticStyle: {
+      "color": "#63769d",
+      "font-style": "normal"
+    }
+  }, [_vm._v("(" + _vm._s(_vm.deliverPriceCount) + ")")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "bidreply"
+  }, [_c('div', {
+    staticStyle: {
+      "text-align": "center",
+      "padding": "5px 0 10px 0"
+    }
+  }, [_c('div', {
+    staticStyle: {
+      "width": "100%",
+      "text-align": "center"
+    }
+  }, [_c('div', {
+    staticClass: "releasebschoose"
+  }, [_c('span', {
+    class: {
+      releasebson: _vm.show1
+    },
+    on: {
+      "click": _vm.spanshow1
+    }
+  }, [_vm._v("出价消息")]), _vm._v(" "), _c('span', {
+    class: {
+      releasebson: _vm.show2
+    },
+    on: {
+      "click": _vm.spanshow2
+    }
+  }, [_vm._v("回复消息")])])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show1),
+      expression: "show1"
+    }]
+  }, [_c('table', {
+    staticClass: "releasetb",
+    attrs: {
+      "cellpadding": "0",
+      "cellspacing": "0"
+    }
+  }, [_vm._m(1), _vm._v(" "), _vm._l((_vm.price), function(p) {
+    return _c('tr', [_c('td', [_c('div', {
+      staticClass: "myreleaseInfo",
+      staticStyle: {
+        "display": "inline-block",
+        "width": "150px",
+        "margin": "5px 0 0 0"
+      }
+    }, [_c('div', {
+      staticStyle: {
+        "width": "30px",
+        "height": "30px",
+        "float": "left",
+        "position": "relative"
+      }
+    }, [_c('div', {
+      staticClass: "avator"
+    }, [_c('img', {
+      attrs: {
+        "src": p.info.thumb
+      }
+    })]), _vm._v(" "), _c('i', {
+      staticClass: "iconV",
+      class: {
+        'v1': p.info.is_pass == 1, 'v2': p.info.is_pass == 0
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "myreleasetxt"
+    }, [_c('p', {
+      staticStyle: {
+        "width": "110px",
+        "overflow": "hidden",
+        "white-space": "nowrap",
+        "text-overflow": "ellipsis",
+        "line-height": "15px"
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(p.info.c_name) + " " + _vm._s(p.info.name) + "\n\t\t\t\t\t\t\t")]), _vm._v(" "), _c('p', {
+      staticStyle: {
+        "text-align": "left",
+        "color": "#999999"
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(p.input_time) + "\n\t\t\t\t\t\t\t")])])])]), _vm._v(" "), _c('td', {
+      staticClass: "orange"
+    }, [_vm._v(_vm._s(p.price))]), _vm._v(" "), _c('td', [_c('a', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (p.info.mobile.indexOf('*') == '-1' ? true : false),
+        expression: "p.info.mobile.indexOf('*')=='-1'? true : false"
+      }],
+      staticClass: "telephone2",
+      staticStyle: {
+        "margin": "5px 0 0 0"
+      },
+      attrs: {
+        "href": 'tel:' + p.info.mobile
+      }
+    })])])
+  })], 2), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.mine),
+      expression: "mine"
+    }],
+    staticClass: "replymsg"
+  }, [_c('div', {
+    staticStyle: {
+      "width": "auto",
+      "margin-right": "60px"
+    }
+  }, [_c('form', [_c('i', {
+    staticClass: "writeicon",
+    on: {
+      "click": _vm.deliver
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deliverprice),
+      expression: "deliverprice"
+    }],
+    attrs: {
+      "type": "number",
+      "placeholder": "期待你的出价"
+    },
+    domProps: {
+      "value": (_vm.deliverprice)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.deliverprice = $event.target.value
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('span', {
+    staticClass: "releasedetailbtn",
+    on: {
+      "click": _vm.deliver
+    }
+  }, [_vm._v("出价")])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show2),
+      expression: "show2"
+    }]
+  }, [_c('ul', {
+    staticClass: "replyul"
+  }, _vm._l((_vm.reply), function(r) {
+    return _c('li', [_c('div', {
+      staticClass: "myreleaseInfo"
+    }, [_c('div', {
+      staticStyle: {
+        "width": "30px",
+        "height": "30px",
+        "float": "left",
+        "position": "relative"
+      }
+    }, [_c('div', {
+      staticClass: "avator"
+    }, [_c('img', {
+      attrs: {
+        "src": r.info.thumb
+      }
+    })]), _vm._v(" "), _c('i', {
+      staticClass: "iconV",
+      class: {
+        'v1': r.info.is_pass == 1, 'v2': r.info.is_pass == 0
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "myreleasetxt"
+    }, [_c('p', {
+      staticStyle: {
+        "height": "30px",
+        "line-height": "15px"
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(r.info.c_name) + " " + _vm._s(r.info.name)), _c('br'), _vm._v(" " + _vm._s(r.input_time) + "\n\t\t\t\t\t\t")])])]), _vm._v(" "), _c('div', {
+      staticClass: "myreleasetxt2"
+    }, [_c('p', [_c('strong', {
+      staticStyle: {
+        "margin": "0 0 0 40px"
+      }
+    }, [_vm._v(_vm._s(r.content))])])])])
+  })), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.mine),
+      expression: "mine"
+    }],
+    staticClass: "replymsg"
+  }, [_c('div', {
+    staticStyle: {
+      "width": "auto",
+      "margin-right": "60px"
+    }
+  }, [_c('form', [_c('i', {
+    staticClass: "writeicon",
+    on: {
+      "click": _vm.replyMsg
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.msg),
+      expression: "msg"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "期待你的回复"
+    },
+    domProps: {
+      "value": (_vm.msg)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.msg = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('span', {
+    staticClass: "releasedetailbtn",
+    on: {
+      "click": _vm.replyMsg
+    }
+  }, [_vm._v("回复")])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('header', {
+    attrs: {
+      "id": "bigCustomerHeader"
+    }
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t详情\n")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("出价人")]), _vm._v(" "), _c('th', [_vm._v("出价")]), _vm._v(" "), _c('th', [_vm._v("操作")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e80881aa", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(96),
+  /* template */
+  __webpack_require__(145),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\releasedetail.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] releasedetail.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e80881aa", Component.options)
+  } else {
+    hotAPI.reload("data-v-e80881aa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 96:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			content: "",
+			id: "",
+			saysCount: "",
+			name: "",
+			c_name: "",
+			thumb: "",
+			is_pass: "",
+			deliverPriceCount: "",
+			type: "",
+			show1: true,
+			show2: false,
+			fans: "",
+			level: "",
+			price: [],
+			deliverprice: "",
+			reply: [],
+			msg: "",
+			deliverbtn: false,
+			replybtn: false,
+			right: 0,
+			right2: 0,
+			mine: true,
+			userinfoid: ""
+		};
+	},
+	methods: {
+		spanshow1: function spanshow1() {
+			this.show1 = true;
+			this.show2 = false;
+		},
+		spanshow2: function spanshow2() {
+			this.show1 = false;
+			this.show2 = true;
+		},
+		replyMsg: function replyMsg() {
+			var _this = this;
+			$.ajax({
+				url: '/api/qapi1/saveMsg',
+				type: 'get',
+				data: {
+					pur_id: _this.id,
+					content: _this.msg,
+					send_id: _this.user_id,
+					token: window.localStorage.getItem("token")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				if (res.err == 0) {
+					$.ajax({
+						url: '/api/qapi1/getReleaseMsgDetailReply',
+						type: 'get',
+						data: {
+							id: _this.$route.query.id,
+							user_id: _this.$route.query.userid,
+							token: window.localStorage.getItem("token"),
+							page: 1,
+							size: 10
+						},
+						dataType: 'JSON'
+					}).then(function (res) {
+						console.log(res);
+						if (res.err == 0) {
+							_this.reply = res.data.data;
+							_this.msg = "";
+						}
+					}, function () {});
+				} else {
+					mui.alert("", res.msg, function () {
+						window.location.reload();
+					});
+				}
+			}, function () {});
+		},
+		deliver: function deliver() {
+			var _this = this;
+			$.ajax({
+				url: '/api/qapi1/deliverPrice',
+				type: 'get',
+				data: {
+					id: _this.$route.query.id,
+					rev_id: _this.$route.query.userid,
+					token: window.localStorage.getItem("token"),
+					type: _this.type,
+					price: _this.deliverprice
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				console.log(res);
+				if (res.err == 0) {
+					$.ajax({
+						url: '/api/qapi1/getDeliverPrice',
+						type: 'get',
+						data: {
+							id: _this.$route.query.id,
+							rev_id: _this.$route.query.userid,
+							token: window.localStorage.getItem("token"),
+							page: 1,
+							size: 10
+						},
+						dataType: 'JSON'
+					}).then(function (res) {
+						console.log(res);
+						if (res.err == 0) {
+							_this.price = res.data.data;
+							_this.deliverprice = "";
+						}
+					}, function () {});
+				} else if (res.err == 1) {
+					mui.alert("", res.msg, function () {
+						_this.$router.push({
+							name: 'login'
+						});
+					});
+				} else {
+					mui.alert("", res.msg, function () {
+						window.location.reload();
+					});
+				}
+			}, function () {});
+		},
+		pay: function pay() {
+			var _this = this;
+			$.ajax({
+				url: '/api/qapi1/focusOrCancel',
+				type: 'get',
+				data: {
+					focused_id: _this.user_id,
+					token: window.localStorage.getItem("token")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				console.log(">>>", res.msg);
+				window.location.reload();
+			}, function () {});
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		window.scrollTo(0, 0);
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: '/api/qapi1/getReleaseMsgDetail',
+			type: 'get',
+			data: {
+				id: _this.$route.query.id,
+				user_id: _this.$route.query.userid,
+				token: window.localStorage.getItem("token")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				_this.id = res.data.id;
+				_this.user_id = res.data.user_id;
+				_this.content = res.data.contents;
+				_this.saysCount = res.data.saysCount;
+				_this.time = res.data.input_time;
+				_this.type = res.data.type;
+				_this.name = res.data.info.name;
+				_this.fans = res.data.info.fans;
+				_this.level = res.data.info.member_level;
+				_this.c_name = res.data.info.c_name;
+				_this.status = res.data.info.status;
+				_this.is_pass = res.data.info.is_pass;
+				_this.thumb = res.data.info.thumb;
+				_this.deliverPriceCount = res.data.deliverPriceCount;
+				_this.userinfoid = res.data.info.user_id;
+				if (_this.$route.query.userid == window.localStorage.getItem("userid")) {
+					_this.mine = false;
+				} else {
+					_this.mine = true;
+				}
+				if (_this.$route.query.tab == 1) {
+					_this.show1 = true;
+					_this.show2 = false;
+				} else {
+					_this.show1 = false;
+					_this.show2 = true;
+				}
+			} else if (res.err == 1) {
+				mui.alert("", res.msg, function () {
+					_this.$router.push({
+						name: 'login'
+					});
+				});
+			}
+		}, function () {});
+
+		$.ajax({
+			url: '/api/qapi1/getDeliverPrice',
+			type: 'get',
+			data: {
+				id: _this.$route.query.id,
+				rev_id: _this.$route.query.userid,
+				token: window.localStorage.getItem("token"),
+				page: 1,
+				size: 10
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				_this.price = res.data.data;
+			} else if (res.err == 1) {
+				mui.alert("", res.msg, function () {
+					_this.$router.push({
+						name: 'login'
+					});
+				});
+			} else if (res.err == 2) {
+				_this.price = [];
+			}
+		}, function () {});
+
+		$.ajax({
+			url: '/api/qapi1/getReleaseMsgDetailReply',
+			type: 'get',
+			data: {
+				id: _this.$route.query.id,
+				user_id: _this.$route.query.userid,
+				token: window.localStorage.getItem("token"),
+				page: 1,
+				size: 10
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				_this.reply = res.data.data;
+			} else if (res.err == 1) {
+				mui.alert("", res.msg, function () {
+					_this.$router.push({
+						name: 'login'
+					});
+				});
+			} else if (res.err == 2) {
+				_this.reply = [];
+			}
+		}, function () {});
+	}
+});
+
+/***/ })
+
+});
