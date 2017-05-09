@@ -7,7 +7,7 @@ html,body{ font-family:"微软雅黑"; font-size:14px; background:#f2f2f2; color
 a{ text-decoration:none;}
 .flt{ float:left;}
 .frt{ float:right;}
-.icon-alert{ background:url(../img/spirit.png) no-repeat 0 -274px;}
+.icon-alert{ background:url(../../images/pc_plastic/spirit.png) no-repeat 0 -274px;}
 .icon-search{ color:#fff; display:block; width:60px; height:30px; line-height:30px; text-align:center; overflow:hidden; background:#ff5000; float:right; cursor:pointer;}
 .error-msg{ color:#f60; font-size:12px; height:28px; line-height:28px; padding:0 0 0 18px; margin:0 0 0 5px;}
 .w96{ width:96%; height:auto; overflow:hidden; margin:0 auto; margin-bottom:10px;}
