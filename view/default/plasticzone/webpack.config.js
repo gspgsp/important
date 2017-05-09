@@ -26,14 +26,14 @@ module.exports = {
 	    filename: '[name].js',
 	    chunkFilename: "[name].js",
 	    //[name]这里是webpack提供的根据路口文件自动生成的名字
-	    publicPath:'__MYAPP__/plastic2/'
+	    publicPath:'http://www.online.com/myapp/plastic2/' //本地
 	    //publicPath:'http://pic.myplas.com/myapp/plastic2/' //测试
 	    //publicPath:'http://statics.myplas.com/myapp/plastic2/' //正式
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			filename: 'index.html',
-			template:'index.html',
+			filename: path.join(__dirname, '../../../../www/view/default/plasticzone/index.html'),
+			template:'index_dev.html',
 			hash:true,
 			inject:true
 		})
