@@ -28,7 +28,7 @@ a{ text-decoration:none;}
 .left ul{ margin:36px 0 0 0;}
 .left li{ height:55px; margin:0 0 40px 0;}
 .left li a{ display:block;}
-.left li span{ display:block; width:34px; height:28px; overflow:hidden; background:url(../img/spirit.png) no-repeat; margin:0 auto; margin-bottom:13px;}
+.left li span{ display:block; width:34px; height:28px; overflow:hidden; background:url(../../images/pc_plastic/spirit.png) no-repeat; margin:0 auto; margin-bottom:13px;}
 .left li span.menu1{ background-position:0 0;}
 .left li span.menu2{ background-position:0 -28px;}
 .left li span.menu3{ background-position:0 -56px;}
@@ -47,7 +47,7 @@ a{ text-decoration:none;}
 .address-list .fixed{ width:310px; height:308px; overflow:hidden; background:#fff; position:fixed; left:70px; top:0; z-index:9999;} 
 .address-list h2{ font-size:16px; height:51px; line-height:51px; text-align:center; color:#fff; background:#ff5000; position:relative;}
 .address-list h2 span{ margin:0 5px 0 0;}
-.address-list h2 a{ position:absolute; width:20px; height:20px; overflow:hidden; background:url(../img/spirit.png) no-repeat 0 -112px; margin:15px 0 0 0;}
+.address-list h2 a{ position:absolute; width:20px; height:20px; overflow:hidden; background:url(../../images/pc_plastic/spirit.png) no-repeat 0 -112px; margin:15px 0 0 0;}
 .address-list .search{ width:290px; height:auto; overflow:hidden; margin:10px;}
 .address-list .search .search-top{ width:290px; height:30px; margin:0 0 10px 0;}
 .address-list .search .search-top select{ width:140px; height:30px; border:1px solid #bfbfbf; float:left;}
@@ -62,8 +62,8 @@ a{ text-decoration:none;}
 .address-list .list li .info{ font-size:12px; width:242px; height:auto; overflow:hidden;}
 .address-list .list li .info p{ height:14px; line-height:14px; overflow:hidden; margin:0 0 10px 0;}
 .address-list .list li .info p span{ display:inline-block; height:14px; float:left;}
-.address-list .list li .info .company{ color:#333; width:140px; height:14px; line-height:14px; overflow:hidden; background:url(../img/icons.png) no-repeat 0 -184px; padding:0 0 0 18px;}
-.address-list .list li .info .name{ background:url(../img/icons.png) no-repeat 0 -198px; padding:0 0 0 16px;}
+.address-list .list li .info .company{ color:#333; width:140px; height:14px; line-height:14px; overflow:hidden; background:url(../../images/pc_plastic/icons.png) no-repeat 0 -184px; padding:0 0 0 18px;}
+.address-list .list li .info .name{ background:url(../../images/pc_plastic/icons.png) no-repeat 0 -198px; padding:0 0 0 16px;}
 .address-list .list li .info .supply,.address-list .list li .info .demand{ margin:0 8px 0 0;}
 .address-list .list li .info .product,.address-list .list li .info .amount{ color:#63769d; margin:0 8px 0 0;}
 .address-list .list li .set-top{ font-size:12px; color:#fe5a50; text-align:center; width:52px; height:18px; line-height:18px; overflow:hidden; background:#fff; border:1px solid #fe5a50; border-radius:2px; position:absolute; right:20px; top:32px;}
@@ -76,8 +76,8 @@ a{ text-decoration:none;}
 .concern a{ color:#6d6d6d;}
 .concern p,.concern span{ float:left;}
 .concern .thumb{ width:44px; height:44px; overflow:hidden; border:1px solid #ff5000; border-radius:3px; margin:9px 10px 0 10px;}
-.concern .thumb1{ background:url(../img/concern1.png) no-repeat center;}
-.concern .thumb2{ background:url(../img/concern2.png) no-repeat center;}
+.concern .thumb1{ background:url(../../images/pc_plastic/concern1.png) no-repeat center;}
+.concern .thumb2{ background:url(../../images/pc_plastic/concern2.png) no-repeat center;}
 /*concern end*/
 
 /*default begin*/
@@ -86,7 +86,7 @@ a{ text-decoration:none;}
 .default .default-bot{ width:440px; height:188px; overflow:hidden;}
 .default .default-bot .opt{ width:220px; height:auto; overflow:hidden; margin:22px 0 0 0;}
 .default .default-bot .opt p{ width:220px; height:60px; line-height:60px; overflow:hidden; margin:0 0 20px 0;}
-.default .default-bot .opt p a{ font-size:20px; text-indent:63px; display:block; width:216px; height:56px; border:2px solid; border-radius:50px; background:url(../img/spirit.png) no-repeat;}
+.default .default-bot .opt p a{ font-size:20px; text-indent:63px; display:block; width:216px; height:56px; border:2px solid; border-radius:50px; background:url(../../images/pc_plastic/spirit.png) no-repeat;}
 .default .default-bot .opt p.opt1 a{ color:#666; border-color:#666; background-position:28px -132px;}
 .default .default-bot .opt p.opt2 a{ color:#fc6621; border-color:#fc6621; background-position:26px -188px;}
 .default .default-bot .ewm{ font-size:18px; text-align:center; width:160px; height:188px; overflow:hidden;}
@@ -96,9 +96,9 @@ a{ text-decoration:none;}
 /*back begin*/
 .right{ overflow:auto;}
 .back{ font-size:20px; color:#333; width:100%; height:50px; line-height:50px; text-align:center; overflow:hidden; border-bottom:1px solid #d9d9d9; background:#f2f2f2; position:fixed; left:380px; top:0; z-index:9999;}
-.back a{ display:inline-block; width:12px; height:20px; background:url(../img/icons.png) no-repeat -18px -234px; float:left; margin:16px 0 0 20px;}
+.back a{ display:inline-block; width:12px; height:20px; background:url(../../images/pc_plastic/icons.png) no-repeat -18px -234px; float:left; margin:16px 0 0 20px;}
 .back.buy-sell-back{ color:#fff; background:#ff5000;}
-.back.buy-sell-back a{ background:url(../img/spirit.png) no-repeat -46px -348px;}
+.back.buy-sell-back a{ background:url(../../images/pc_plastic/spirit.png) no-repeat -46px -348px;}
 /*back end*/
 
 /*login begin*/
@@ -128,7 +128,7 @@ a{ text-decoration:none;}
 
 /*reg begin*/
 .reg{ width:520px; height:auto; overflow:hidden; margin:0 auto; padding:90px 0 0 0;}
-.reg h3{ font-size:14px; font-weight:bold; width:434px; height:30px; line-height:30px; border-bottom:1px solid #d9d9d9; background:#f9f9f9 url(../img/spirit.png) no-repeat 0 -244px; margin:20px 0 20px 0; padding:0 0 0 46px;}
+.reg h3{ font-size:14px; font-weight:bold; width:434px; height:30px; line-height:30px; border-bottom:1px solid #d9d9d9; background:#f9f9f9 url(../../images/pc_plastic/spirit.png) no-repeat 0 -244px; margin:20px 0 20px 0; padding:0 0 0 46px;}
 .reg .tr{ width:875px; height:30px; line-height:30px; overflow:hidden; margin:0 0 20px 0;}
 .reg .tr div{ float:left;}
 .reg .tr .name{ font-weight:bold; text-align:right; width:98px; margin:0 20px 0 0;}
@@ -156,7 +156,7 @@ a{ text-decoration:none;}
 /*agreement end*/
 
 /*find-pwd begin*/
-.find-pwd .name-icon{ width:46px; background-image:url(../img/spirit.png); background-repeat:no-repeat;}
+.find-pwd .name-icon{ width:46px; background-image:url(../../images/pc_plastic/spirit.png); background-repeat:no-repeat;}
 .find-pwd .mobile .name-icon{ background-position:0 -302px;}
 .find-pwd .pwd .name-icon{ background-position:-46px -302px;}
 .find-pwd .code .name-icon{ background-position:0 -348px;}
@@ -180,8 +180,8 @@ a{ text-decoration:none;}
 
 .triangle{ position:relative;}
 .triangle .point{ position:absolute;}
-.triangle .point1{ left:32px; top:-12px; width:20px; height:13px; background:url(../img/icons.png) no-repeat 0 -262px;}
-.triangle .point2{ width:18px; height:13px; background:url(../img/icons.png) no-repeat -122px -262px; top:-12px; left:108px}
+.triangle .point1{ left:32px; top:-12px; width:20px; height:13px; background:url(../../images/pc_plastic/icons.png) no-repeat 0 -262px;}
+.triangle .point2{ width:18px; height:13px; background:url(../../images/pc_plastic/icons.png) no-repeat -122px -262px; top:-12px; left:108px}
 
 /*company-info begin*/
 .company-info{ height:auto; overflow:hidden; border:1px solid #d9d9d9; border-radius:2px; background:#fff; margin-bottom:12px;}
@@ -198,7 +198,7 @@ a{ text-decoration:none;}
 .buy-sell li{ height:48px; padding:5px 0 0 0; overflow:hidden; border-bottom:1px solid #d9d9d9;}
 .buy-sell li:last-child{ border-bottom:none;}
 .buy-sell li span{ font-size:12px; color:#999; margin:0 0 0 19px;}
-.buy-sell li p{ height:14px; line-height:14px; background:url(../img/icons.png) no-repeat; padding:0 0 0 22px; margin:7px 0 0 19px;}
+.buy-sell li p{ height:14px; line-height:14px; background:url(../../images/pc_plastic/icons.png) no-repeat; padding:0 0 0 22px; margin:7px 0 0 19px;}
 .buy-sell li b{ font-weight:normal;}
 .buy .title{ background:#edcda6;}
 .buy .title h3{ border-left-color:#ff5000;}
@@ -237,7 +237,7 @@ a{ text-decoration:none;}
 .buy-sell-con li .settop{ position:relative;}
 .buy-sell-con li .thumb{ height:49px; overflow:hidden; margin:10px 0 7px 0;}
 .buy-sell-con li .thumb span{ float:left; color:#62759e; margin:12px 0 0 10px;}
-.buy-sell-con li .info{ height:14px; line-height:14px; overflow:hidden; margin:0 0 10px 0; background:url(../img/icons.png) no-repeat; padding:0 0 0 22px;} 
+.buy-sell-con li .info{ height:14px; line-height:14px; overflow:hidden; margin:0 0 10px 0; background:url(../../images/pc_plastic/icons.png) no-repeat; padding:0 0 0 22px;}
 .buy-sell-con li .sell .info span{ color:#62759e;}
 .buy-sell-con li .sell .info{ background-position:-30px -248px;}
 .buy-sell-con li .buy .info span{ color:#ffa200;}
@@ -245,18 +245,18 @@ a{ text-decoration:none;}
 .buy-sell-con li .other{ height:16px; line-height:16px; overflow:hidden;}
 .buy-sell-con li .other .time{ font-size:12px; color:#999;}
 .buy-sell-con li .other .feedback{ height:16px; line-height:16px; overflow:hidden;}
-.buy-sell-con li .other .feedback p{ margin:0 14px 0 0; padding:0 0 0 24px; float:left; background:url(../img/spirit.png) no-repeat;}
+.buy-sell-con li .other .feedback p{ margin:0 14px 0 0; padding:0 0 0 24px; float:left; background:url(../../images/pc_plastic/spirit.png) no-repeat;}
 .buy-sell-con li .other .feedback p.bid{ background-position:0 -394px;}
 .buy-sell-con li .other .feedback p.reply{ background-position:0 -410px;}
 .buy-sell-con li .other .feedback p a{ color:#6d6d6d;}
 .buy-sell-con li .other .feedback p a span{ color:#63769d;}
-.buy-sell-con li .set-top{ position:absolute; top:10px; right:0; width:68px; height:50px; overflow:hidden; background:url(../img/buy-sell1.png) no-repeat;}
+.buy-sell-con li .set-top{ position:absolute; top:10px; right:0; width:68px; height:50px; overflow:hidden; background:url(../../images/pc_plastic/buy-sell1.png) no-repeat;}
 
 .tab-con .no-results{ font-size:16px; width:100%; height:auto; overflow:hidden; margin:64px 0 0 0;}
 .tab-con .no-results span{ display:block; text-align:center;}
 .tab-con .no-results img{ display:block; margin:0 auto; margin-bottom:22px;}
 #con-tab-2 .no-results .thumb{ width:50%; height:auto; overflow:hidden;}
-#con-tab-2 .no-results .explain{ width:50%; height:auto; line-height:32px; overflow:hidden; margin:60px 0 0 0; background:url(../img/buy-sell3.png) right top no-repeat;}
+#con-tab-2 .no-results .explain{ width:50%; height:auto; line-height:32px; overflow:hidden; margin:60px 0 0 0; background:url(../../images/pc_plastic/buy-sell3.png) right top no-repeat;}
 /*buy-sell-con end*/
 
 /*release begin*/
@@ -313,7 +313,7 @@ a{ text-decoration:none;}
 .discovery h2{ color:#fff; font-size:16px; text-align:center; width:100%; height:51px; line-height:51px; overflow:hidden; background:#ff5000;}
 .discovery ul{ color:#333; width:100%; height:auto; overflow:hidden; margin:0 0 10px 0; border-bottom:1px solid #d6d7dc; border-top:1px solid #d6d7dc; background:#fff;}
 .discovery li{ text-indent:42px; width:96%; height:50px; line-height:50px; border-bottom:1px solid #d6d7dc; margin:0 0 0 4%;}
-.discovery li.title{ width:100%; margin:0; background:url(../img/spirit.png) no-repeat;}
+.discovery li.title{ width:100%; margin:0; background:url(../../images/pc_plastic/spirit.png) no-repeat;}
 .discovery .discovery1 li.title{ background-position:10px -426px;}
 .discovery .discovery2 li.title{ background-position:10px -526px;}
 .discovery .discovery3 li.title{ background-position:10px -576px;}
@@ -365,7 +365,7 @@ a{ text-decoration:none;}
 .headline2-other .related li a:hover{ text-decoration:underline;}
 .headline2-other .ewm{ width:376px; height:376px; overflow:hidden; margin:20px auto;}
 .headline2-other .prev-next{ height:31px; line-height:31px; overflow:hidden; margin:0 0 10px 0;}
-.headline2-other .prev-next p a{ background:url(../img/spirit.png) no-repeat;}
+.headline2-other .prev-next p a{ background:url(../../images/pc_plastic/spirit.png) no-repeat;}
 .headline2-other p.prev a{ background-position:0 -626px; padding:0 0 0 37px;}
 .headline2-other p.next a{ background-position:47px -657px; padding:0 37px 0 0;}
 .headline2-other .prev-next a{ color:#267bd3; display:block;}
@@ -388,7 +388,7 @@ a{ text-decoration:none;}
 .credit1 h5{ font-size:16px; height:16px; line-height:16px; margin:0 0 20px 0;}
 .credit1 h5 span{ color:#ff5000;}
 .credit1 p{ text-indent:30px; line-height:24px; margin:0 0 24px 0;}
-.credit1 .certificate{ color:#000; width:424px; height:302px; overflow:hidden; background:url(../img/discovery3.jpg) no-repeat; margin:0 auto;}
+.credit1 .certificate{ color:#000; width:424px; height:302px; overflow:hidden; background:url(../../images/pc_plastic/discovery3.jpg) no-repeat; margin:0 auto;}
 .credit1 .certificate .title{ text-align:center; font-size:17px; margin:126px 0 0 0;}
 .credit1 .certificate .con{ font-size:12px; width:250px; height:auto; overflow:hidden; margin:6px auto;}
 .credit1 a{ color:#fff; font-size:16px; text-align:center; display:block; width:140px; height:36px; line-height:36px; overflow:hidden; background:#618490; margin:30px auto; border-radius:5px;}
@@ -413,7 +413,7 @@ a{ text-decoration:none;}
 /*credit3 end*/
 
 /*my-summary begin*/
-.my-summary{ width:310px; height:139px; overflow:hidden; background:url(../img/myinfoBg.jpg) no-repeat; margin:0 0 10px 0;}
+.my-summary{ width:310px; height:139px; overflow:hidden; background:url(../../images/pc_plastic/myinfoBg.jpg) no-repeat; margin:0 0 10px 0;}
 .my-summary-top{ height:61px; overflow:hidden; margin:19px 0 0 10px;}
 .my-summary-top .pic{ width:63px; height:63px; margin:0 10px 0 0;}
 .my-summary-top .pic img{ width:57px; height:57px;}
@@ -423,7 +423,7 @@ a{ text-decoration:none;}
 .my-summary-top .person-info .opt span{ display:inline-block;}
 .my-summary-top .person-info .opt b{ font-weight:normal; font-family:"黑体"; display:inline-block; height:12px; line-height:12px;}
 .my-summary-top .person-info .opt .change{ cursor:pointer;}
-.my-summary-top .person-info .opt .change b{ width:12px; height:12px; background:url(../img/icons.png) no-repeat -39px -336px; margin:0 0 0 4px;}
+.my-summary-top .person-info .opt .change b{ width:12px; height:12px; background:url(../../images/pc_plastic/icons.png) no-repeat -39px -336px; margin:0 0 0 4px;}
 .my-summary-bot{ font-size:12px; color:#fff; width:310px; height:44px; overflow:hidden; background:rgba(145,144,145,.5); margin:15px 0 0 0;}
 .my-summary-bot ul{ height:30px; overflow:hidden; margin:7px 0 0 0;}
 .my-summary-bot ul li{ width:43px; height:30px; text-align:center; border-right:1px solid #cbcaca; float:left;}
@@ -432,7 +432,7 @@ a{ text-decoration:none;}
 /*my-info begin*/
 .my-info li{ line-height:43px; margin-bottom:10px;}
 .my-info li .item{ height:43px; background:#fff; margin-bottom:1px; overflow:hidden; cursor:pointer;} 
-.my-info li .item .icon{ width:30px; height:30px; overflow:hidden; background:url(../img/icons.png) no-repeat; margin:7px 10px 0 10px; float:left;}
+.my-info li .item .icon{ width:30px; height:30px; overflow:hidden; background:url(../../images/pc_plastic/icons.png) no-repeat; margin:7px 10px 0 10px; float:left;}
 .my-info li .item .icon1{ background-position:0 -276px;}
 .my-info li .item .icon2{ background-position:-30px -276px;}
 .my-info li .item .icon3{ background-position:-60px -276px;}
@@ -444,6 +444,6 @@ a{ text-decoration:none;}
 .my-info li .item .icon9{ background-position:0 -336px;}
 .my-info li .item p{ width:64px; font-size:16px; float:left;}
 .my-info li .item .text{ width:170px; float:left; text-align:right;}
-.my-info li .item .arrow{ width:9px; height:16px; overflow:hidden; background:url(../img/icons.png) no-repeat -30px -336px; margin:15px 10px 0 0; float:right;}
+.my-info li .item .arrow{ width:9px; height:16px; overflow:hidden; background:url(../../images/pc_plastic/icons.png) no-repeat -30px -336px; margin:15px 10px 0 0; float:right;}
 .my-info li.quit{ font-size:16px; color:#ff5000; text-align:center;}
 /*my-info begin*/
