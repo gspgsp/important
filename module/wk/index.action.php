@@ -16,7 +16,7 @@ class indexAction extends adminBaseAction{
 		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
 		FROM p2p_offers_msg AS msg
 		WHERE `msg`.`input_time`> ".$this->today." ORDER BY msg.`input_time` DESC");
-		showtrace();
+		// showtrace();
 		$this->assign('offerList', $offerList);
 		$this->display('index');
 	}
