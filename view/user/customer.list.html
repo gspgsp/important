@@ -225,20 +225,24 @@ function onLoadHandle(e) {
 
 //跟进客户
 function onLoadFllow(e) {
-	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli;
+	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli,issale=record.is_sale;
 	if(status == 2 && customer_manager ==''){
-		s += '<a href="javascript:allotO('+cid+')">分配</a>|<a href="javascript:Retrieve('+cid+')">捡回</a>';
+		s += '<a href="javascript:allotO('+cid+')">分配</a>|<a href="javascript:Retrieve('+cid+')">捡回</a>|<a href="javascript:useLess('+cid+')">废</a>';
 
 	}else if(status == 1 && customer_manager ==''){
 		s += '<a href="javascript:chk('+cid+')">审核</a>';
 		s += '|<a href="javascript:removeRow('+cid+')">黑名单</a>';
 	}else{
 		if(customer_manager !=''){
+			//只有公海私海才可以作废
+			if(issale!=1 && supplier!=1){
+				s += '<a href="javascript:useLess('+cid+')">废</a>|'
+			}
 			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>';
 			if(supplier==0){
 				s +='|<a href="javascript:yellow('+cid+')">黄名单</a>|<a href="javascript:new_setSea('+cid+')">公海</a>|<a href="javascript:contract('+cid+')">联系人</a>';
 			}
-			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>|<a href="javascript:useLess('+cid+')">废</a>';
+			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
 		}
 		if(bli>0){
 			s +='|<a href="javascript:changeMessage('+cid+')">票</a>';
