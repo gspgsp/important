@@ -7,7 +7,7 @@ class pushsmsAction extends adminBaseAction {
 	protected $db;
 	public function __init(){
 		$this->db=M('public:common')->model('log_sms_history');//短信发送记录表
-		$this->status=array(1=>'待发',2=>'成功',3=>'失败');//短信发送状态
+		$this->status=array(0=>'待发',1=>'成功',2=>'失败');//短信发送状态
 	}
 	/**
 	 *
@@ -52,7 +52,7 @@ class pushsmsAction extends adminBaseAction {
 					->order("$sortField $sortOrder")
 					->getPage();
 		$list2=M('public:common')->model('customer_contact ct')
-            		->select('ls.msg,ls.input_time,ls.status,ls.user_id,ct.name,ct.mobile,ct.customer_manager,ad.name')
+            		->select('ls.msg,ls.input_time,ls.status,ls.user_id,ct.name as cn_name,ct.mobile,ct.customer_manager,ad.name')
             		->rightjoin('log_sms ls','ct.user_id=ls.user_id')
             		->leftjoin('admin ad','ad.admin_id = ct.customer_manager')->where($where)
             		->page($page+1,$size)
