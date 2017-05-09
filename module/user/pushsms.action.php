@@ -34,7 +34,7 @@ class pushsmsAction extends adminBaseAction {
 		//条件筛选查询
 		$where=" 1 ";
 		//客户联系人筛选
-		$where.="and ct.c_id=$c_id and ls.stype=12";
+		$where.="and ct.c_id=$c_id and stype=12";
 		//时间搜索
 		//$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.= getTimeFilter('ls.input_time'); //时间筛选
