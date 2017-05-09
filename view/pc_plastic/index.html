@@ -9,41 +9,48 @@
 <body>
 <!--main begin-->
 <div class="main">
-    <!--left begin-->
-    <div class="left flt">
-    	<div class="blank"></div>
-        <!--pic begin-->
-        <div class="pic">
-            <img src="__IMG__/pc_plastic/female.jpg"/>
-            <div class="authen no">V</div>
-        </div>
-        <!--pic end-->
-        <ul>
-            <li id="left1" class="hover"><a href="javascript:;"><span class="menu1"></span>通讯录</a></li>
-            <li id="left2"><a href="javascript:;" target="right"><span class="menu2"></span>供求</a></li>
-            <li id="left3"><a href="javascript:;"><span class="menu3"></span>塑料头条</a></li>
-            <li id="left4"><a href="javascript:;"><span class="menu4"></span>我的</a></li>
-        </ul>
-    </div>
-    <!--left end-->
-    <!--center begin-->
-    <!--center begin-->
-    <div class="center flt"></div>
-    <!--center end-->
+	<!--left begin-->
+	<div class="left flt">
+		<div class="blank"></div>
+		<!--pic begin-->
+		<div class="pic">
+			<img src="__IMG__/pc_plastic/female.jpg"/>
+			<div class="authen no">V</div>
+		</div>
+		<!--pic end-->
+		<ul>
+			<li id="left1" class="hover"><a href="javascript:;"><span class="menu1"></span>通讯录</a></li>
+			<li id="left2"><a href="javascript:;" target="right"><span class="menu2"></span>供求</a></li>
+			<li id="left3"><a href="javascript:;"><span class="menu3"></span>塑料头条</a></li>
+			<li id="left4"><a href="javascript:;"><span class="menu4"></span>我的</a></li>
+		</ul>
+	</div>
+	<!--left end-->
+	<!--center begin-->
+	<!--center begin-->
+	<div class="center flt"></div>
+	<!--center end-->
 </div>
 <!--main end-->
 </body>
 <script src="__JS__/pc_plastic/jquery-1.8.3.min.js"></script>
 <script>
-    // index middle
+	// index middle
 $(function(){
 	$(".center").load("http://test.myplas.com/pc_plastic/index/middle");
-
 } );
-
+// 供求
 $('#left2').click(function(){
-    load('http://test.myplas.com/pc_plastic/index/buy_sell');
+    $(".center").load('http://test.myplas.com/pc_plastic/index/buy_sell');
 })
 
+//塑料头条
+$('#left3').click(function(){
+    $(".center").load('http://test.myplas.com/pc_plastic/index/buy_sell');
+})
+ // 我的
+$('#left4').click(function(){
+    $(".center").load('http://test.myplas.com/pc_plastic/index/buy_sell');
+})
 </script>
 </html>
