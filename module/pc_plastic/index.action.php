@@ -19,11 +19,16 @@ class indexAction extends homeBaseAction
 	// 供求
 	public function buy_sell()
 	{
-		$this->display('../pc_plastic/buy_sell');
+		$this->display('../pc_plastic/buy_sell.html');
 	}
 	public function tou_tiao()
 	{
 		$this->display('');
+	}
+
+	public function login()
+	{
+		$this->display('../pc_plastic/login.html');
 	}
 
 }
