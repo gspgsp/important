@@ -327,7 +327,7 @@
 	<script type="text/javascript">
 		mini.parse();
 		var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
-		var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow"),, sms_log  =mini.get("sms_log");
+		var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow"), sms_log  =mini.get("sms_log");
 		function changeTab(e){
 			var tab=e.tab;
 			if(tab.title=='联系人列表'){
@@ -419,6 +419,11 @@
 		function search2() {
 			sale_log.load($("#soform1").serializeObject(),function(e){
 				$("#searchMsg1").html(e.msg);
+			});
+		}
+		function search3() {
+			sms_log.load($("#soform2").serializeObject(),function(e){
+				$("#searchMsg2").html(e.msg);
 			});
 		}
 		search();
