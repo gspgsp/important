@@ -42,4 +42,9 @@ class indexAction extends homeBaseAction
 		$this->display('../pc_plastic/register.html');
 	}
 
+	public function agreement()
+	{
+		$this->display('../pc_plastic/agreement.html');
+	}
+
 }
