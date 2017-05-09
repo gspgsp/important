@@ -96,7 +96,7 @@ a{ text-decoration:none;}
 
 /*back begin*/
 .back{ font-size:20px; color:#333; width:100%; height:50px; line-height:50px; text-align:center; overflow:hidden; border-bottom:1px solid #d9d9d9; background:#f2f2f2; position:fixed; left:0; top:0;}
-.back a{ display:inline-block; width:12px; height:20px; background:url(../img/icons.png) no-repeat -18px -234px; float:left; margin:16px 0 0 20px;}
+.back a{ display:inline-block; width:12px; height:20px; background:url(../../images/pc_plastic/icons.png) no-repeat -18px -234px; float:left; margin:16px 0 0 20px;}
 .back.buy-sell-back{ color:#fff; background:#ff5000;}
 .back.buy-sell-back a{ background:url(../../images/pc_plastic/spirit.png) no-repeat -46px -348px;}
 /*back end*/
