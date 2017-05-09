@@ -7,30 +7,14 @@ class indexAction extends homeBaseAction
 
 		$this->display('../pc_plastic/index.html');
 	}
-
-//	public function buy_sell()
-//	{
-//		echo '3333';
-//		$this->display('../pc_plastic/buy_sell.html');
-//	}
+	// index middle
 	public function middle(){
 		$this->display('../pc_plastic/center.html');
 	}
-
-	public function login()
+	//
+	public function buy_sell()
 	{
-//		 $ch=curl_init();
-//		 curl_setopt($ch,CURLPOT_URL,'http://test.myplas.com/api/qapi1/login');
-//		 curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-//		 curl_setopt($ch,CURLPOT_HEADER,0);
-//		 $output=curl_exec($ch);
-//		 curl_close($ch);
-
-		$this->display('../pc_plastic/login.html');
-
+		echo '22';
 	}
-	public function center()
-	{
 
-	}
 }
