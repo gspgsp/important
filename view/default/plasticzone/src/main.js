@@ -1,8 +1,12 @@
-import Vue from '../node_modules/vue/dist/vue.min';
-import VueRouter from '../node_modules/vue-router/dist/vue-router.min';
+//import Vue from '../node_modules/vue/dist/vue.min';
+//import VueRouter from '../node_modules/vue-router/dist/vue-router.min';
+
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+
 
 Vue.use(VueRouter);
-
 const Index = r => require.ensure([], () => r(require('./views/index.vue')), 'index')
 const Login = r => require.ensure([], () => r(require('./views/login.vue')), 'login')
 const Register= r => require.ensure([], () => r(require('./views/register.vue')), 'register')
@@ -46,7 +50,7 @@ const Recharge2= r => require.ensure([], () => r(require('./views/recharge2.vue'
 const Pointsrule2= r => require.ensure([], () => r(require('./views/pointsrule2.vue')), 'pointsrule2')
 const Error= r => require.ensure([], () => r(require('./views/error.vue')), 'error')
 
-var  router = new VueRouter({
+var router = new VueRouter({
   routes: [
 	{path:'/index',name:'index',component:Index},
 	{path:'/login',name:'login',component:Login},
@@ -96,5 +100,4 @@ var  router = new VueRouter({
 var app=new Vue({
 	router
 }).$mount('#app');
-
 
