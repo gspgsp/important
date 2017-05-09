@@ -77,6 +77,9 @@ class customercheckAction extends adminBaseAction {
 		elseif($c>0 && ($sale!=1 && $pur==1 && $status != 9 && $status != 8)){
 			$str .='已合作供应商';
 		}
+		elseif($c>0 && ($sale==2 || $pur==2 || $status == 10)){
+			$str .='黑名单待审核';
+		}
 		elseif($c>0 && ($sale!=1 && $pur!=1 && $status != 9 && $status != 8)){
 			$str .='私海客户';
 		}elseif($c>0 && ($status == 9)){
