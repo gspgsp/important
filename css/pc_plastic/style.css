@@ -1,0 +1,268 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input,select,button,textarea{ margin:0; padding:0; border:0;}
+ul,ol,li{ list-style:none;}
+h1,h2,h3,h4{ font-weight:normal;}
+input,select{ color:#6d6d6d; font-family:"微软雅黑"; outline:none;}
+html,body{ font-family:"微软雅黑"; font-size:14px; height:100%; background:#f2f2f2; color:#6d6d6d;}
+
+a{ text-decoration:none;}
+.flt{ float:left;}
+.frt{ float:right;}
+.icon-alert{ background:url(../images/spirit.png) no-repeat 0 -274px;}
+.icon-search{ color:#fff; display:block; width:60px; height:30px; line-height:30px; text-align:center; overflow:hidden; background:#ff5000; float:right; cursor:pointer;}
+.error-msg{ color:#f60; font-size:12px; height:28px; line-height:28px; padding:0 0 0 18px; margin:0 0 0 5px;}
+.w96{ width:96%; height:auto; overflow:hidden; margin:0 auto; margin-bottom:10px;}
+
+::-webkit-scrollbar{ width:5px; height:5px; background-color:#F5F5F5;}    
+::-webkit-scrollbar-track{ -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3); border-radius:10px; background-color:#F5F5F5;}/*定义滚动条轨道*/
+::-webkit-scrollbar-thumb{ border-radius:10px; -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3); background-color:#bbb;}/*定义滑块*/ 
+
+.pic{ width:44px; height:44px; position:relative;}
+.pic img{ width:44px; height:44px; overflow:hidden; display:block; border:1px solid #ff5000; border-radius:4px;}
+.pic .authen{ font-family:Arial; font-weight:bold; font-size:9px; color:#fff; width:14px; height:14px; line-height:14px; text-align:center; border-radius:50%; border:1px solid #f4f3f4; position:absolute; right:-4px; bottom:-4px;}
+.pic .authen.no{ background:#808080;}
+.pic .authen.yes{ background:#ffb600;}
+
+/*left begin*/
+.main{ width:100%; height:100%;}
+.main .left{ width:70px; height:100%; background:#262626; text-align:center;}
+.main .left .blank{ height:65px;}
+.main .left .pic{ margin:0 auto 36px auto;}
+.main .left ul{ margin:0 0 0 0;}
+.main .left li{ height:55px; margin:0 0 40px 0;}
+.main .left li a{ display:block;}
+.main .left li span{ display:block; width:34px; height:28px; overflow:hidden; background:url(../img/spirit.png) no-repeat; margin:0 auto; margin-bottom:13px;}
+.main .left li span.menu1{ background-position:0 0;}
+.main .left li span.menu2{ background-position:0 -28px;}
+.main .left li span.menu3{ background-position:0 -56px;}
+.main .left li span.menu4{ background-position:0 -84px;}
+.main .left li.hover a,.left li:hover a{ color:#ff5000;}
+.main .left li.hover span.menu1,.left li:hover span.menu1{ background-position:-34px 0;}
+.main .left li.hover span.menu2,.left li:hover span.menu2{ background-position:-34px -28px;}
+.main .left li.hover span.menu3,.left li:hover span.menu3{ background-position:-34px -56px;}
+.main .left li.hover span.menu4,.left li:hover span.menu4{ background-position:-34px -84px;}
+.main .left a{ color:#787878;}
+/*left end*/
+
+/*center begin*/
+.main .center{ width:310px; height:100%; padding:308px 0 0 0; background:#e6e6e6;}
+/*.address-list .fixed{ width:310px; height:308px; overflow:hidden; background:#fff; position:fixed; left:70px; top:0; z-index:9999;}*/
+.address-list h2{ font-size:16px; height:51px; line-height:51px; text-align:center; color:#fff; background:#ff5000; position:relative;}
+.address-list h2 span{ margin:0 5px 0 0;}
+.address-list h2 a{ position:absolute; width:20px; height:20px; overflow:hidden; background:url(../../images/pc_plastic/spirit.png) no-repeat 0 -112px; margin:15px 0 0 0;}
+.address-list .search{ width:290px; height:auto; overflow:hidden; margin:10px;}
+.address-list .search .search-top{ width:290px; height:30px; margin:0 0 10px 0;}
+.address-list .search .search-top select{ width:140px; height:30px; border:1px solid #bfbfbf; float:left;}
+.address-list .search .search-top select.select1{ margin:0 10px 0 0;}
+.address-list .search .search-bot{ width:290px; height:30px; overflow:hidden; background:#fff;}
+.address-list .search .search-bot input{ font-family:"微软雅黑"; color:#6d6d6d; width:220px; height:14px; padding:7px 0 7px 9px; border:1px solid #bfbfbf; border-right:none; overflow:hidden; float:left;}
+.address-list .list.settop{ margin:10px 0 0 0; border-top:1px solid #ccc;}
+.address-list .list{ color:#666; width:100%; height:auto; overflow:hidden; background:#fff;}
+.address-list .list li{ width:300px; height:67px; padding:11px 0; margin:0 0 0 13px; overflow:hidden; border-bottom:1px solid #ccc; position:relative;}
+.address-list .list li a{ color:#6d6d6d; display:block;}
+.address-list .list li .pic{ margin:9px 10px 0 0;}
+.address-list .list li .info{ font-size:12px; width:242px; height:auto; overflow:hidden;}
+.address-list .list li .info p{ height:14px; line-height:14px; overflow:hidden; margin:0 0 10px 0;}
+.address-list .list li .info p span{ display:inline-block; height:14px; float:left;}
+.address-list .list li .info .company{ color:#333; width:140px; height:14px; line-height:14px; overflow:hidden; background:url(../../images/pc_plastic/icons.png) no-repeat 0 -184px; padding:0 0 0 18px;}
+.address-list .list li .info .name{ background:url(../../images/pc_plastic/icons.png) no-repeat 0 -198px; padding:0 0 0 16px;}
+.address-list .list li .info .supply,.address-list .list li .info .demand{ margin:0 8px 0 0;}
+.address-list .list li .info .product,.address-list .list li .info .amount{ color:#63769d; margin:0 8px 0 0;}
+.address-list .list li .set-top{ font-size:12px; color:#fe5a50; text-align:center; width:52px; height:18px; line-height:18px; overflow:hidden; background:#fff; border:1px solid #fe5a50; border-radius:2px; position:absolute; right:20px; top:32px;}
+/*center end*/
+
+.banner{ width:309px; height:66px; overflow:hidden;}
+
+/*concern begin*/
+.concern{ width:309px; height:64px; line-height:64px; overflow:hidden; background:#fff; border-top:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc;}
+.concern a{ color:#6d6d6d;}
+.concern p,.concern span{ float:left;}
+.concern .thumb{ width:44px; height:44px; overflow:hidden; border:1px solid #ff5000; border-radius:3px; margin:9px 10px 0 10px;}
+.concern .thumb1{ background:url(../../images/pc_plastic/concern1.png) no-repeat center;}
+.concern .thumb2{ background:url(../../images/pc_plastic/concern2.png) no-repeat center;}
+/*concern end*/
+
+/*default begin*/
+.default{ width:440px; height:auto; overflow:hidden; margin:0 auto; margin-top:76px;}
+.default .default-top{ width:440px; height:170px; overflow:hidden; margin:0 0 64px 0;}
+.default .default-bot{ width:440px; height:188px; overflow:hidden;}
+.default .default-bot .opt{ width:220px; height:auto; overflow:hidden; margin:22px 0 0 0;}
+.default .default-bot .opt p{ width:220px; height:60px; line-height:60px; overflow:hidden; margin:0 0 20px 0;}
+.default .default-bot .opt p a{ font-size:20px; text-indent:63px; display:block; width:216px; height:56px; border:2px solid; border-radius:50px; background:url(../img/spirit.png) no-repeat;}
+.default .default-bot .opt p.opt1 a{ color:#666; border-color:#666; background-position:28px -132px;}
+.default .default-bot .opt p.opt2 a{ color:#fc6621; border-color:#fc6621; background-position:26px -188px;}
+.default .default-bot .ewm{ font-size:18px; text-align:center; width:160px; height:188px; overflow:hidden;}
+.default .default-bot .ewm img{ display:block; margin:0 0 7px 0;}
+/*default end*/
+
+/*back begin*/
+.back{ font-size:20px; color:#333; width:100%; height:50px; line-height:50px; text-align:center; overflow:hidden; border-bottom:1px solid #d9d9d9; background:#f2f2f2; position:fixed; left:0; top:0;}
+.back a{ display:inline-block; width:12px; height:20px; background:url(../img/icons.png) no-repeat -18px -234px; float:left; margin:16px 0 0 20px;}
+.back.buy-sell-back{ color:#fff; background:#ff5000;}
+.back.buy-sell-back a{ background:url(../../images/pc_plastic/spirit.png) no-repeat -46px -348px;}
+/*back end*/
+
+/*login begin*/
+.form-wrap{ font-size:18px; width:324px; height:auto; overflow:hidden; margin:0 auto; padding:90px 0 0 0;}
+.form-wrap .error-msg{ margin:0 0 10px 0; padding:0;}
+.form-wrap .error-msg .inner{ padding:0 0 0 18px;}
+.form-wrap a{ color:#fe6e27; font-size:14px;}
+.form-tr{ height:46px; line-height:46px; overflow:hidden; margin:0 0 10px 0;}
+.form-tr .name{ height:46px; float:left; color:#fff; background:#888; text-align:center;}
+.form-tr .name-text{ width:100px;}
+.form-tr .name span{ margin:0 7px;}
+.form-tr .val{ width:223px; height:44px; overflow:hidden; float:left; background:#fff; border-top:1px solid #d6d7dc; border-bottom:1px solid #d6d7dc; border-right:1px solid #d6d7dc;}
+.form-tr .val-text{ width:223px;}
+.form-tr .val-icon{ width:277px;}
+.form-tr.code .val-icon{ width:148px;}
+.form-tr .get-code{ width:120px; height:46px; float:right; text-align:center;}
+.form-tr .get-code.enable{ background:#fff; color:#fe6e27; cursor:pointer;}
+.form-tr .get-code.disabled{ background:#ccc; color:#fff;}
+.form-tr .val input{ font-size:18px; width:260px; height:18px; padding:14px 0 14px 18px;}
+.form-tr.check{ font-size:14px;}
+.form-tr.check input{ float:left; margin:16px 5px 0 0;}
+.form-tr.check label{ float:left;}
+.form-tr button{ font-size:20px; font-family:"微软雅黑"; width:322px; height:44px; border:1px solid #fe6e27; background:none; cursor:pointer;}
+.form-tr button.btn1{ background:#fe6e27; color:#fff;}
+.form-wrap.login .go-reg{ color:#888; font-size:12px; margin:0 0 10px 0;}
+/*login end*/
+
+/*reg begin*/
+.reg{ width:520px; height:auto; overflow:hidden; margin:0 auto; padding:90px 0 0 0;}
+.reg h3{ font-size:14px; font-weight:bold; width:434px; height:30px; line-height:30px; border-bottom:1px solid #d9d9d9; background:#f9f9f9 url(../../images/pc_plastic/spirit.png) no-repeat 0 -244px; margin:20px 0 20px 0; padding:0 0 0 46px;}
+.reg .tr{ width:875px; height:30px; line-height:30px; overflow:hidden; margin:0 0 20px 0;}
+.reg .tr div{ float:left;}
+.reg .tr .name{ font-weight:bold; text-align:right; width:98px; margin:0 20px 0 0;}
+.reg .tr .name span{ color:#e64748;}
+.reg .tr .val{ width:210px; height:28px; overflow:hidden; border:1px solid #d6d7dc;}
+.reg .tr .val input{ width:200px; height:14px; padding:7px 0 7px 10px; box-shadow:1px 3px 4px #e9e9e9 inset;}
+.reg .tr .val.code{ width:110px; margin:0 6px 0 0;}
+.reg .tr .num-code{ width:94px; height:30px; overflow:hidden; margin:0 14px 0 0;}
+.reg .tr .get-code{ text-align:center; font-size:12px; width:94px; height:30px; line-height:30px;}
+.reg .tr .get-code.enable{ color:#fff; background:#4dafea; cursor:pointer;}
+.reg .tr .get-code.disabled{ color:#888; background:#ddd;}
+.reg .tr .radio{ height:14px; line-height:14px; overflow:hidden; margin:8px 0 0 0;}
+.reg .tr .radio input{ margin:0 5px 0 0;}
+.reg .tr .radio label{ margin:0 8px 0 0;}
+.reg .reg-agreement{ width:520px; height:28px; line-height:28px; margin:0 0 36px 20px;}
+.reg .reg-agreement label{ cursor:pointer;}
+.reg .reg-agreement a{ color:#fe6e27;}
+.reg .submit{ color:#fff; font-size:16px; width:324px; height:46px; background:#ff5000; margin:0 0 0 118px; cursor:pointer;}
+/*reg end*/
+
+/*agreement begin*/
+.agreement{ width:90%; height:auto; line-height:25px; overflow:hidden; margin:0 auto; padding:90px 0 0 0;}
+.agreement h3{ font-weight:bold; margin:0 0 20px 0;}
+.agreement p{ margin:0 0 10px 0; text-indent:30px;}
+/*agreement end*/
+
+/*find-pwd begin*/
+.find-pwd .name-icon{ width:46px; background-image:url(../../images/pc_plastic/spirit.png); background-repeat:no-repeat;}
+.find-pwd .mobile .name-icon{ background-position:0 -302px;}
+.find-pwd .pwd .name-icon{ background-position:-46px -302px;}
+.find-pwd .code .name-icon{ background-position:0 -348px;}
+.find-pwd .get-code{ width:118px; height:44px; float:right; text-align:center; border:1px solid #d6d7dc;}
+/*find-pwd end*/
+
+/*summary begin*/
+.summary{ padding:0 0 6px 0; margin-top:40px; margin-bottom:16px; position:relative;}
+.summary .info-person p{ margin:6px 0 0 0;}
+.summary .info-person .name{ color:#000; font-size:20px;}
+.summary .info-person .name span{ margin:0 0 0 18px;}
+.summary .info-person b{ color:#63769d; font-weight:normal;}
+.summary .pic{ width:88px; height:84px; margin:0 15px 0 0;}
+.summary .pic img{ width:82px; height:82px;}
+.summary .pic .authen{ font-size:18px; width:26px; height:26px; line-height:26px; right:-6px; bottom:-6px;}
+.summary .opt{ font-size:16px; height:31px; overflow:hidden; position:absolute; right:0; top:0; width:81px; height:33px; line-height:31px; text-align:center; border-radius:4px; margin:0 10px 0 0; float:left; cursor:pointer;}
+.summary .opt a{ color:#fff; display:block;}
+.summary .opt.yes a{ background:#ffb600; box-shadow:0 2px 3px #c28b00;}
+.summary .opt.no a{ background:#aaa; box-shadow:0 2px 3px #777;}
+/*summary end*/
+
+.triangle{ position:relative;}
+.triangle .point{ position:absolute;}
+.triangle .point1{ left:32px; top:-12px; width:20px; height:13px; background:url(../../images/pc_plastic/icons.png) no-repeat 0 -262px;}
+.triangle .point2{ width:18px; height:13px; background:url(../../images/pc_plastic/icons.png) no-repeat -122px -262px; top:-12px; left:108px}
+
+/*company-info begin*/
+.company-info{ height:auto; overflow:hidden; border:1px solid #d9d9d9; border-radius:2px; background:#fff; margin-bottom:12px;}
+.company-info ul{ width:60%; height:auto; min-height:86px; line-height:28px; overflow:hidden; padding:12px 0 12px 2%; border-right:1px solid #d9d9d9;}
+.company-info .card{ width:36%; height:auto; overflow:hidden;}
+.company-info .card img{ width:139px; height:86px; display:block; margin:3% auto;}
+/*company-info end*/
+
+/*buy-sell begin*/
+.buy-sell{ border:1px solid #d9d9d9; background:#fff;}
+.buy-sell .title{ height:32px; line-height:32px; border-bottom:1px solid #d9d9d9;}
+.buy-sell .title h3{ height:14px; line-height:14px; border-left:2px solid; margin:9px; padding:0 0 0 4px; float:left;}
+.buy-sell .title a{ font-size:12px; float:right; margin:0 9px 0 0;}
+.buy-sell li{ height:48px; padding:5px 0 0 0; overflow:hidden; border-bottom:1px solid #d9d9d9;}
+.buy-sell li:last-child{ border-bottom:none;}
+.buy-sell li span{ font-size:12px; color:#999; margin:0 0 0 19px;}
+.buy-sell li p{ height:14px; line-height:14px; background:url(../../images/pc_plastic/icons.png) no-repeat; padding:0 0 0 22px; margin:7px 0 0 19px;}
+.buy-sell li b{ font-weight:normal;}
+.buy .title{ background:#edcda6;}
+.buy .title h3{ border-left-color:#ff5000;}
+.buy .title a{ color:#ff5000;}
+.buy li p{ background-position:-30px -234px;}
+.buy li b{ color:#ec8000;}
+.sell .title{ background:#b8d2e3;}
+.sell .title h3{ border-left-color:#267bd3;}
+.sell .title a{ color:#267bd3;}
+.sell li p{ background-position:-30px -248px;}
+.sell li b{ color:#62759e;}
+/*buy-sell end*/
+
+.buy-sell-fixed{ width:100%; height:101px; overflow:hidden; position:fixed; left:0; top:0; z-index:9999;}
+
+/*buy-sell-search begin*/
+.buy-sell-search{ width:100%; height:32px; padding:11px 0 8px 0; overflow:hidden; background:#ff5000;}
+.buy-sell-search .select{ width:8%; height:32px; border-radius:4px; overflow:hidden;}
+.buy-sell-search .select select{ width:100%; height:32px;}
+.buy-sell-search .search{ width:90%; height:32px; overflow:hidden; border-radius:2px; background:#fff;}
+.buy-sell-search .search .import{ height:14px; padding:9px 0 9px 9px;}
+.buy-sell-search .search .submit{ color:#fff; width:80px; height:32px; line-height:32px; text-align:center; background:#732400; cursor:pointer;}
+/*buy-sell-search end*/
+
+/*buy-sell-tab begin*/
+.buy-sell-tab{ width:100%; height:49px; line-height:48px; background:#fff; border-bottom:1px solid #d6d7dc;}
+.buy-sell-tab li{ text-align:center; width:25%; float:left;}
+.buy-sell-tab li.hover a{ color:#ff5000; border-bottom:2px solid #ff5000;}
+.buy-sell-tab li a{ color:#6d6d6d; display:block;}
+/*buy-sell-tab end*/
+
+/*buy-sell-con begin*/
+.buy-sell-con{ width:100%; height:auto; overflow:hidden;}
+.buy-sell-con .tab-con{ padding:101px 0 0 0;}
+.buy-sell-con li{ width:100%; height:119px; overflow:hidden; border-bottom:1px solid #d9d9d9; background:#fff; margin:0 0 10px 0;}
+.buy-sell-con li .settop{ position:relative;}
+.buy-sell-con li .thumb{ height:49px; overflow:hidden; margin:10px 0 7px 0;}
+.buy-sell-con li .thumb span{ float:left; color:#62759e; margin:12px 0 0 10px;}
+.buy-sell-con li .info{ height:14px; line-height:14px; overflow:hidden; margin:0 0 10px 0; background:url(../../images/pc_plastic/icons.png) no-repeat; padding:0 0 0 22px;}
+.buy-sell-con li .sell .info span{ color:#62759e;}
+.buy-sell-con li .sell .info{ background-position:-30px -248px;}
+.buy-sell-con li .buy .info span{ color:#ffa200;}
+.buy-sell-con li .buy .info{ background-position:-30px -234px;}
+.buy-sell-con li .other{ height:16px; line-height:16px; overflow:hidden;}
+.buy-sell-con li .other .time{ font-size:12px; color:#999;}
+.buy-sell-con li .other .feedback{ height:16px; line-height:16px; overflow:hidden;}
+.buy-sell-con li .other .feedback p{ margin:0 14px 0 0; padding:0 0 0 24px; float:left; background:url(../../images/pc_plastic/spirit.png) no-repeat;}
+.buy-sell-con li .other .feedback p.bid{ background-position:0 -394px;}
+.buy-sell-con li .other .feedback p.reply{ background-position:0 -410px;}
+.buy-sell-con li .other .feedback p a{ color:#6d6d6d;}
+.buy-sell-con li .other .feedback p a span{ color:#63769d;}
+.buy-sell-con li .set-top{ position:absolute; top:10px; right:0; width:68px; height:50px; overflow:hidden; background:url(../../images/pc_plastic/buy-sell1.png) no-repeat;}
+
+.tab-con .no-results{ font-size:16px; width:100%; height:auto; overflow:hidden; margin:64px 0 0 0;}
+.tab-con .no-results span{ display:block; text-align:center;}
+.tab-con .no-results img{ display:block; margin:0 auto; margin-bottom:22px;}
+#con-tab-2 .no-results .thumb{ width:50%; height:auto; overflow:hidden;}
+#con-tab-2 .no-results .explain{ width:50%; height:auto; line-height:32px; overflow:hidden; margin:60px 0 0 0; background:url(../../images/pc_plastic/buy-sell3.png) right top no-repeat;}
+/*buy-sell-con end*/
+
+/*buy-sell-con2 begin*/
+.buy-sell-con2{ padding:50px 0 0 0;}
+/*buy-sell-con2 end*/
+
+/*feedback-wrap begin*/
+.feedback-wrap{ width:100%; height:auto; overflow:hidden; background:#fff; border-top:1px solid #d9d9d9;}
+/*feedback-wrap end*/
