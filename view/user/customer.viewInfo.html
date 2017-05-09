@@ -288,12 +288,46 @@
 				</div>
 			</div>
 		</div>
+		<div title="报价推送">
+			<div class="mini-toolbar" style="margin:3px 3px 0;">
+				<table style="width:100%;">
+					<tr>
+						<td style="float:right;">
+							<form id="soform2">
+								<span id="searchMsg2"></span>
+								<select name="sTime">
+									<option value="input_time">发送时间</option>
+								</select>
+								<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
+								<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+								<select name="key_type">								   
+								    <option value="name">交易员</option>														
+								</select>
+								<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:100px;" onenter="onKeyEnter2"/>
+								<a class="mini-button" iconCls="icon-search" onclick="search3()">查询</a>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="sms_log" class="mini-datagrid" style="width:auto;height:540px;"url="/user/pushsms/init?action=grid&order_type=1&c_id={$info.c_id}"  idField="id"
+				 sizeList="[10,20,50,100]" pageSize="20"  allowCellWrap="true">
+				<div property="columns">
+					<div field="cn_name" width="30" headerAlign="center" align="center" allowSort="true" renderer="daiding">姓名</div>
+					<div field="mobile" width="30" headerAlign="center" align="center">手机号</div>
+					<div field="msg" width="80" headerAlign="center" align="center" allowSort="true">短信内容</div>
+					<div field="sms_status" width="20" headerAlign="center" align="center" allowSort="true">状态</div>
+					<div field="customer_manager_name" width="30" headerAlign="center" align="center" allowSort="true">交易员</div>
+					<div field="input_time" width="30" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">发送时间</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 	<script type="text/javascript">
 		mini.parse();
 		var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
-		var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow");
+		var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow"),, sms_log  =mini.get("sms_log");
 		function changeTab(e){
 			var tab=e.tab;
 			if(tab.title=='联系人列表'){
@@ -324,6 +358,12 @@
 				var data=c_follow.getData();
 				if(data.length<1){
 					c_follow.load();
+				}
+			}
+			if(tab.title=='报价推送'){
+				var data=sms_log.getData();
+				if(data.length<1){
+					sms_log.load();
 				}
 			}
 		}
@@ -383,11 +423,15 @@
 		}
 		search();
 		search2();
+		search3();
 		function onKeyEnter(e) {
 			search();
 		}
 		function onKeyEnter1(e) {
 			search2();
+		}
+		function onKeyEnter2(e) {
+			search3();
 		}
 
 	</script>
