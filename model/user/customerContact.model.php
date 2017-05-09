@@ -20,9 +20,9 @@ class customerContactModel extends model{
 				if(!is_mobile($param['mobile'])){
 					return array('err'=>1,'msg'=>'您的手机号码格式不正确');
 				}
-				if(!$this->usrUnique('mobile',$param['mobile'],$uid)){
-					return array('err'=>1,'msg'=>'手机号已存在22');
-				}
+				// if(!$this->usrUnique('mobile',$param['mobile'],$uid)){
+				// 	return array('err'=>1,'msg'=>'手机号已存在22');
+				// }
 			}
 			//email检查
 			if(!empty($param['email'])){
@@ -83,9 +83,9 @@ class customerContactModel extends model{
 				if(!is_mobile($param['info_mobile'])){
 					return array('err'=>1,'msg'=>'您的手机号码格式不正确');
 				}
-				if(!$this->usrUnique('mobile',$param['info_mobile'],$uid)){
-					return array('err'=>1,'msg'=>'手机号已存在');
-				}
+				// if(!$this->usrUnique('mobile',$param['info_mobile'],$uid)){
+				// 	return array('err'=>1,'msg'=>'手机号已存在');
+				// }
 			}
 			//email检查
 			if(!empty($param['info_email'])){
@@ -180,6 +180,12 @@ class customerContactModel extends model{
 					$customer_id = $this->getLastID();
 					$this->model('customer_contact')->where("user_id=$contact_id")->update(array('c_id'=>$customer_id,));
 				if($this->commit()){
+					//追加新增客户的短信发送问题
+					if(!empty($info_ext['mobile'])){
+						$mobile=M("rbac:adm")->getPhoneByAdminId($_SESSION['adminid']);
+						$msg = sprintf(L('customer_add_msg.tips'),$_SESSION['username'],$mobile);
+						M('system:sysSMS')->send($customer_id,$info_ext['mobile'],$msg,8);
+					}
 					return array('err'=>0,'msg'=>'添加成功','c_id'=>$customer_id);
 				}else{
 					$this->rollback();
@@ -388,5 +394,4 @@ class customerContactModel extends model{
 	public function getContactTrialStatus($userid){
 		return $this->where('user_id ='.$userid)->select('is_trial')->getOne();
 	}
-
 }
