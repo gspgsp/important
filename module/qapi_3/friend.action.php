@@ -7,7 +7,289 @@
  */
 class friendAction extends baseAction
 {
-    //获取首页数据
+    /**
+     * 获取通讯录首页数据
+     * @api {get} /qapi_3/friend/getPlasticPerson 获取通讯录首页数据
+     * @apiVersion 3.1.0
+     * @apiName  getPlasticPerson
+     * @apiGroup friend
+     *
+     * @apiParam   {String} letter 联系人首字母 已废弃字段
+     * @apiParam   {String} keywords   关键词
+     * @apiParam   {Number} page   页码
+     * @apiParam   {String} sortField   排序字段
+     * @apiParam   {String} sortOrder   排序字段 默认DESC
+     * @apiParam   {String} channel   数据类型 已废弃 默认为6
+     * @apiParam   {String} quan_type   关键词
+     * @apiParam   {Number} region   区域 华东华南华北其他
+     * @apiParam   {String} c_type   客户类型 全部 塑料制品业厂 原材料供应商 物流服务商 其他
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {int}  member   APP总人数
+     * @apiSuccess {bool}  is_show_banner   是否显示banner 1显示 0不显示
+     * @apiSuccess {json}  is_show_focus   是否显示我关注的人 1显示 0不显示
+     * @apiSuccess {json}  is_show_cover   是否显示封面蒙层   1显示 0不显示
+     * @apiSuccess {String}  banner_url      banner显示的图片地址
+     * @apiSuccess {String}  banner_jump_url   banner的跳转地址 平台需要在之后拼接？platform=ios/android
+     * @apiSuccess {String}  cover_url      cover显示的图片地址
+     * @apiSuccess {String}  cover_jump_url   cover的跳转地址 平台需要在之后拼接？platform=ios/android
+     * @apiSuccess {String}  data   系统执行时间
+     * @apiSuccess {int}  show_ctype   显示企业类型
+     * @apiSuccess {json}  top   置顶展示信息
+     *
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *   "err": 0,
+     *   "persons": [
+     *   {
+     *   "user_id": "58159",
+     *   "name": "杨西娟",
+     *   "c_id": "54609",
+     *   "sex": "女",
+     *   "member_level": "列兵",
+     *   "is_pass": "0",
+     *   "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+        "thumbqq": "",
+        "c_name": "兰州海西塑料模具制造有限公司",
+        "need_product": "K8003",
+        "month_consum": "100吨",
+        "main_product": "采购 PP",
+        "type": "1",
+        "fans": "1",
+        "gender": "1",
+        "buy_count": "2",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "58124",
+        "name": "薛克",
+        "c_id": "54583",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+        "thumbqq": "",
+        "c_name": "徐州向阳包装有限公司",
+        "need_product": "2426H",
+        "month_consum": "700吨",
+        "main_product": "采购 PE",
+        "type": "1",
+        "fans": 0,
+        "gender": "0",
+        "buy_count": "0",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "57454",
+        "name": "王先生",
+        "c_id": "53953",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+        "thumbqq": "",
+        "c_name": "鹏程塑业有限公司",
+        "need_product": "5110 7000F",
+        "month_consum": "10吨",
+        "main_product": "采购 PP PE",
+        "type": "1",
+        "fans": "5",
+        "gender": "0",
+        "buy_count": "1",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "57264",
+        "name": "李亚",
+        "c_id": "53765",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+        "thumbqq": "",
+        "c_name": "个体经营者",
+        "need_product": "塑料袋",
+        "month_consum": "30吨",
+        "main_product": "采购 PP PE",
+        "type": "1",
+        "fans": "1",
+        "gender": "0",
+        "buy_count": "0",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "57161",
+        "name": "高海生",
+        "c_id": "53663",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+        "thumbqq": "",
+        "c_name": "海云洁具公司",
+        "need_product": "222WT",
+        "month_consum": "40吨",
+        "main_product": "采购 PP PE",
+        "type": "1",
+        "fans": "2",
+        "gender": "0",
+        "buy_count": "0",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "56997",
+        "name": "陈进虎",
+        "c_id": "53499",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+        "thumbqq": "",
+        "c_name": "安徽展翼塑业有限公司",
+        "need_product": "TN26",
+        "month_consum": "50吨",
+        "main_product": "采购PP PE",
+        "type": "1",
+        "fans": "2",
+        "gender": "0",
+        "buy_count": "0",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "56918",
+        "name": "詹元喜",
+        "c_id": "53427",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+        "thumbqq": "",
+        "c_name": "宿迁市联升管业有限公司",
+        "need_product": "BL3",
+        "month_consum": "300吨",
+        "main_product": "采购 PP PE",
+        "type": "1",
+        "fans": "5",
+        "gender": "0",
+        "buy_count": "0",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "56703",
+        "name": "王金星",
+        "c_id": "53213",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/upload/17/05/03/5909a7713f3a2.jpg",
+        "thumbqq": "http://statics.myplas.com/upload/17/05/03/5909a7713f3a2.jpg",
+        "c_name": "山东华宏化工有限公司",
+        "need_product": "4157",
+        "month_consum": "50吨",
+        "main_product": "采购PE",
+        "type": "1",
+        "fans": "3",
+        "gender": "0",
+        "buy_count": "0",
+        "sale_count": "13"
+        },
+        {
+        "user_id": "56656",
+        "name": "哈妹",
+        "c_id": "4016",
+        "sex": "女",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+        "thumbqq": "",
+        "c_name": "上海梓辰实业有限公司",
+        "need_product": "AP3N，7000F",
+        "month_consum": "120吨",
+        "main_product": "模型",
+        "type": "1",
+        "fans": 0,
+        "gender": "1",
+        "buy_count": "0",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "56122",
+        "name": "彭小姐",
+        "c_id": "52642",
+        "sex": "女",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+        "thumbqq": "",
+        "c_name": "东莞市嘉上实业有限公司",
+        "need_product": "5502 5621D 50100",
+        "month_consum": "100吨",
+        "main_product": "采购 PP PE",
+        "type": "1",
+        "fans": "2",
+        "gender": "1",
+        "buy_count": "1",
+        "sale_count": "0"
+        },
+        {
+        "user_id": "56086",
+        "name": "张骞",
+        "c_id": "52611",
+        "sex": "男",
+        "member_level": "列兵",
+        "is_pass": "0",
+        "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+        "thumbqq": "",
+        "c_name": "台州市宜人塑料制品有限公司",
+        "need_product": "7726",
+        "month_consum": "120吨",
+        "main_product": "采购 PP",
+        "type": "1",
+        "fans": "4",
+        "gender": "0",
+        "buy_count": "0",
+        "sale_count": "0"
+        }
+        ],
+        "member": 16850,
+        "is_show_banner": 1,
+        "is_show_focus": 0,
+        "is_show_cover": 0,
+        "banner_url": "http://statics.myplas.com/myapp/img/toShop.jpg",
+        "banner_jump_url": "http://q.myplas.com/#/pointsrule2",
+        "cover_url": "",
+        "cover_jump_url": "",
+        "data": 1494293886,
+        "show_ctype": 0,
+        "top": {
+        "member_level": "列兵",
+        "user_id": "57194",
+        "name": "王成",
+        "c_id": "53695",
+        "is_pass": "0",
+        "mobile": "13805493986",
+        "sex": "男",
+        "thumb": "http://statics.myplas.com/upload/17/05/04/590b0a6cd4b0c.jpg",
+        "thumbqq": "http://statics.myplas.com/upload/17/05/04/590b0a6cd4b0c.jpg",
+        "thumbcard": "http://statics.myplas.com/upload/17/05/04/590b0a956262d.jpg",
+        "c_name": "临沂成宇塑料包装有限公司",
+        "need_product": "真空袋，复合彩印袋",
+        "address": "山东临沂市束河南街天瑞国际大厦",
+        "main_product": "塑料包装袋",
+        "month_consum": "0.00",
+        "type": "1",
+        "buy_count": 0,
+        "sale_count": "15",
+        "fans": "3"
+        }
+        }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     */
     public function getPlasticPerson ()
     {
         $this->is_ajax = true;
@@ -292,9 +574,89 @@ class friendAction extends baseAction
         }
         $this->json_output ($arr);
     }
-
-
-    //获取ta的求购或供给
+    /**
+     * 获取ta的求购或供给
+     * @api {get} /qapi_3/friend/getTaPur  获取ta的求购或供给
+     * @apiVersion 3.1.0
+     * @apiName  getTaPur
+     * @apiGroup friend
+     *
+     * @apiParam   {String} keywords  关键词 默认为空
+     * @apiParam   {int} page   页码      默认1
+     * @apiParam   {int} size   每页数量  默认10
+     * @apiParam   {int} type   类型      1采购 2报价
+     * @apiParam   {int} user_id   userid  上海中辰电子商务有限公司
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+             {
+        "err": 0,
+        "data": [
+        {
+        "id": "73494",
+        "p_id": "8907",
+        "user_id": "9266",
+        "model": "500F",
+        "unit_price": "12500.00",
+        "store_house": "上海",
+        "f_name": "沙特",
+        "input_time": "02-22 11:04",
+        "type": "2",
+        "content": "",
+        "name": "成平",
+        "is_pass": "0",
+        "c_name": "上海梓辰实业有限公司",
+        "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
+        "contents": "价格12500.00元左右/500F/沙特/上海",
+        "says": []
+        },
+        {
+        "id": "73461",
+        "p_id": "8039",
+        "user_id": "9266",
+        "model": "7042",
+        "unit_price": "30000.00",
+        "store_house": "上海",
+        "f_name": "上海",
+        "input_time": "02-22 10:23",
+        "type": "2",
+        "content": "",
+        "name": "成平",
+        "is_pass": "0",
+        "c_name": "上海梓辰实业有限公司",
+        "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
+        "contents": "价格30000.00元左右/7042/上海/上海",
+        "says": []
+        },
+        {
+        "id": "25302",
+        "p_id": "5666",
+        "user_id": "9266",
+        "model": "7000F",
+        "unit_price": "9550.00",
+        "store_house": "上海",
+        "f_name": "泰国石化",
+        "input_time": "09-29 18:22",
+        "type": "2",
+        "content": "特价",
+        "name": "成平",
+        "is_pass": "0",
+        "c_name": "上海梓辰实业有限公司",
+        "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
+        "contents": "价格9550.00元左右/7000F/泰国石化/上海/特价",
+        "says": []
+        }
+        ]
+        }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     */
     public function getTaPur ()
     {
         $this->is_ajax = true;
@@ -320,8 +682,21 @@ class friendAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-    //关注或取消关注
+    /**
+     * 关注或取消关注
+     * @api {get} /qapi_3/friend/focusOrCancel    关注或取消关注
+     * @apiVersion 3.1.0
+     * @apiName  focusOrCancel
+     * @apiGroup friend
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} focused_id 当前联系人的id
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
+     */
     public function focusOrCancel ()
     {
         $this->is_ajax = true;
@@ -333,7 +708,28 @@ class friendAction extends baseAction
         }
         $this->_errCode (6);
     }
-    //塑料圈联系人的-发送消息
+    /**
+     * 塑料圈联系人的-发送消息
+     * @api {get} /qapi_3/friend/sendZoneContactMsg   塑料圈联系人的-发送消息
+     * @apiVersion 3.1.0
+     * @apiName  sendZoneContactMsg
+     * @apiGroup friend
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} userId     接受消息人的id
+     * @apiParam   {String} content  content
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+         *{
+        "err": 0,
+        "msg": "消息发送成功"
+        }
+     *
+     */
     public function sendZoneContactMsg ()
     {
         $this->is_ajax = true;

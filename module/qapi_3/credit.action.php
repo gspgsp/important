@@ -9,11 +9,11 @@ class creditAction extends baseAction
 {
 
     /**
-     * 获取企查查的东西的接口东西
-     * @api {get} /qapi_3/credit/getQiChaCha 获取企查查的东西的接口东西
+     * 获取企查查的接口
+     * @api {get} /qapi_3/credit/getQiChaCha 获取企查查的接口
      * @apiVersion 3.1.0
-     * @apiName  checkVersion
-     * @apiGroup Common
+     * @apiName  getQiChaCha
+     * @apiGroup Credit
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} name   企业名称 上海中辰电子商务有限公司
@@ -22,15 +22,20 @@ class creditAction extends baseAction
      * @apiSuccess {String}  err   错误码
      * @apiSuccess {String}  url   apk下载地址
      *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample {json} Success-Response:
      *      {
      *      "err":0
      *      "msg":"密码重置成功"
      *      }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
      */
     public function getQiChaCha ()
     {
-        //if ($_POST['token'] && $_POST['name']) {
+        if ($_POST['token'] && $_POST['name']) {
             $user_id = $this->checkAccount ();
             $name    = sget ('name', 's');
             $name    = $this->clearStr ($name);
@@ -38,14 +43,24 @@ class creditAction extends baseAction
                 $this->_errCode (6);
             }
             $tmp = M ('qapp:customerBase')->selectOrNot ($name);
-
             $this->json_output ($tmp);
-        //}
-        //$this->_errCode (6);
+        }
+        $this->_errCode (6);
     }
 
     /**
      * 获取证书
+     * @api {get} /qapi_3/credit/creditCertificate 获取证书
+     * @apiVersion 3.1.0
+     * @apiName  creditCertificate
+     * @apiGroup Credit
+     *
+     * @apiParam   {String} fname  token qwre3123123121swqsq
+     * @apiParam   {Number} link_id  token qwre3123123121swqsq
+     * @apiParam   {Number} page   页码
+     * @apiParam   {Number} type   1 精确  2 模糊
+     * @apiParam   {String} name   企业名称 上海中辰电子商务有限公司
+     *
      */
     public function creditCertificate ()
     {

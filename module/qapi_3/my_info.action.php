@@ -7,8 +7,62 @@
  */
 class myInfoAction extends baseAction
 {
-
-    //我的塑料圈
+    /**
+     * 我的塑料圈
+     * @api {get} /qapi_3/myInfo/myZone   我的塑料圈
+     * @apiVersion 3.1.0
+     * @apiName  myZone
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  s_in_count  供给
+     * @apiSuccess {String}  s_out_count  求购
+     * @apiSuccess {String}  points  塑豆
+     * @apiSuccess {String}  leaveword  留言
+     * @apiSuccess {String}  message  我的消息
+     * @apiSuccess {String}  introduction  我的引荐
+     * @apiSuccess {String}  myfans  我的粉丝
+     * @apiSuccess {String}  myconcerns  我的关注
+     * @apiSuccess {String}  data  我的信息数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+            {
+            "s_in_count": "1",
+            "s_out_count": 0,
+            "points": "880",
+            "leaveword": 0,
+            "message": 0,
+            "introduction": 0,
+            "myfans": 0,
+            "myconcerns": 3,
+            "data": {
+            "user_id": "40418",
+            "name": "谢磊",
+            "c_id": "5041",
+            "mobile": "18321871909",
+            "is_pass": "0",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": "",
+            "thumbcard": "",
+            "c_name": "上海中晨电子商务股份有限公司",
+            "credit_level": "AAAAA",
+            "credit_limit": "600.00",
+            "is_credit": "1",
+            "pre_credit_limit": "600.00",
+            "credit_time": "1488357059",
+            "sex": "0"
+            }
+            }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     *
+     */
     public function myZone ()
     {
         $this->is_ajax = true;
@@ -80,8 +134,62 @@ class myInfoAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-    //塑料圈联系人的-我的消息（yuepao）
+    /**
+     * 塑料圈联系人的-我的消息（yuepao）
+     * @api {get} /qapi_3/myInfo/getZoneContactMsg   塑料圈联系人的-我的消息（yuepao）
+     * @apiVersion 3.1.0
+     * @apiName  getZoneContactMsg
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  s_in_count  供给
+     * @apiSuccess {String}  s_out_count  求购
+     * @apiSuccess {String}  points  塑豆
+     * @apiSuccess {String}  leaveword  留言
+     * @apiSuccess {String}  message  我的消息
+     * @apiSuccess {String}  introduction  我的引荐
+     * @apiSuccess {String}  myfans  我的粉丝
+     * @apiSuccess {String}  myconcerns  我的关注
+     * @apiSuccess {String}  data  我的信息数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+    {
+    "s_in_count": "1",
+    "s_out_count": 0,
+    "points": "880",
+    "leaveword": 0,
+    "message": 0,
+    "introduction": 0,
+    "myfans": 0,
+    "myconcerns": 3,
+    "data": {
+    "user_id": "40418",
+    "name": "谢磊",
+    "c_id": "5041",
+    "mobile": "18321871909",
+    "is_pass": "0",
+    "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+    "thumbqq": "",
+    "thumbcard": "",
+    "c_name": "上海中晨电子商务股份有限公司",
+    "credit_level": "AAAAA",
+    "credit_limit": "600.00",
+    "is_credit": "1",
+    "pre_credit_limit": "600.00",
+    "credit_time": "1488357059",
+    "sex": "0"
+    }
+    }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     *
+     */
     public function getZoneContactMsg ()
     {
         $this->is_ajax = true;
