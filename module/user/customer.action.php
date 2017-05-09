@@ -450,7 +450,7 @@ class customerAction extends adminBaseAction {
 		}
 		$result=M('user:customerContact')->customerAdd($param,$data);
 		if($result['err']>0){
-		    if($result['msg']=='手机号已存在'){
+		    if($result['msg']=='手机号已存在'||$result['msg']=='手机号已存在22'){
 		        //显示已经存在的手机号
 		        $mobile_exit=M('public:common')->model('customer_contact cc')->select('cc.name, t.c_name,cc.tel,cc.mobile,cc.customer_manager')->leftjoin('customer t', 'cc.c_id=t.c_id')->where('cc.mobile='.$data['info_mobile'])->getRow();
 		        $mobile_exit['customer_manager_name']=M('rbac:adm')->getUserByCol($mobile_exit['customer_manager']);
