@@ -38,8 +38,10 @@
 	// index middle
 $(function(){
 	$(".center").load("http://test.myplas.com/pc_plastic/index/middle");
-    $(".left1").load("http://test.myplas.com/pc_plastic/index/middle");
 } );
+$('#left1').click(function(){
+    $(".center").load("http://test.myplas.com/pc_plastic/index/middle");
+});
 // 供求
 $('#left2').click(function(){
     $(".center").load('http://test.myplas.com/pc_plastic/index/buy_sell');
