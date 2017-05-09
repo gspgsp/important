@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link rel="stylesheet" type="text/css" href="style/style.css"/>
+<link rel="stylesheet" type="text/css" href="__CSS__/pc_plastic/style.css"/>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
     <div class="left flt">
     	<!--pic begin-->
         <div class="pic">
-            <img src="img/female.jpg"/>
+            <img src="__IMG__/pc_plastic/female.jpg"/>
             <div class="authen no">V</div>
         </div>
         <!--pic end-->
@@ -26,7 +26,7 @@
     <div class="center flt"></div>
     <div class="right flt"></div>
 </body>
-<script src="js/jquery-1.8.3.min.js"></script>
+<script src="__JS__/pc_plastic/jquery-1.8.3.min.js"></script>
 <script>
 $( function () {
 	var left = $( ".left" ),
@@ -50,8 +50,8 @@ $( function () {
 		setW( left, center, right );
 	} );
 	
-	center.load( "center.html" );
-	right.load( "right.html" );
+	center.load( "http://test.myplas.com/pc_plastic/index/middle" );
+	right.load( "http://test.myplas.com/pc_plastic/index/right" );
 	
 	//点击左侧菜单
 	left.find( "li" ).bind( "click", function () {
