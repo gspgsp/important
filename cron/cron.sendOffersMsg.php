@@ -98,7 +98,7 @@ class cronsendOffersMsg{
 		$date = date("m月d日",time());
 		foreach ($res as $key => $value) {
 			if(is_mobile($value['contact_mobile'])){
-				$msg = sprintf(L('offers_sms.offers'),$offers_info['grade'],$offers_info['sale_price'],$date,$value['name'],$value['mobile']);
+				$msg = sprintf(L('offers_sms.offers'),$offers_info['grade'],$offers_info['sale_price'].'元/吨',$date,$value['name'],$value['mobile']);
 	    		M('system:sysSMS')->send($value['user_id'],$value['contact_mobile'],$msg,12,0,$offers_info['offers_id']);
 	    	}
 		}
