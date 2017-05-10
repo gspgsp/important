@@ -7,7 +7,7 @@ class indexAction extends homeBaseAction
 	protected $api;
 	public function __init()
 	{
-		$this->api = "qapi_3";
+		$this->api = "qapi_1";
 	}
 	// 通讯录
 	public function init()
@@ -20,7 +20,7 @@ class indexAction extends homeBaseAction
 		if($_GET['type']==0){
 			header('Content-type:text/html;charset=utf-8');
 			$token= "dc7e2474c867a5d553b985b59274579e";
-			$url="http://test.myplas.com/api/qapi1/getPlasticPerson?token=".$token;
+			$url="http://test.myplas.com/api/".$api."/getPlasticPerson?token=".$token;
 			$params = array(
 				"keywords" => "",
 				"page" => "",
@@ -29,10 +29,9 @@ class indexAction extends homeBaseAction
 				"c_type" => "",
 			);
 			$postJson=urldecode(json_encode($params));
-			echo $postJson;
 			$res=$this->http_curl($url,'get','json',$postJson);
-			echo '<pre>';
-			var_dump($res);
+			return $res;
+
 		}
 		$this->display('../pc_plastic/center.html');
 	}
