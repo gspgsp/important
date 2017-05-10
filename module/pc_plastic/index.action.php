@@ -17,23 +17,23 @@ class indexAction extends homeBaseAction
 	}
 	// 中间
 	public function middle(){
-		if($_GET['type']==0){
-			header('Content-type:text/html;charset=utf-8');
-//			$token= "dc7e2474c867a5d553b985b59274579e";
-			$url="http://test.myplas.com/".$api."/friend/getPlasticPerson";
-			$params = array(
-				"keywords" => "",
-				"page" => "",
-				"sortField" => "",
-				"sortOrder" => "",
-				"quan_type" => "",
-				"region" => "",
-				"c_type" => "",
-			);
-			$postJson=urldecode(json_encode($params));
-			$res=$this->http_curl($url,'post','json',$postJson);
-			var_dump($res);
-		}
+//		if($_GET['type']==0){
+//			header('Content-type:text/html;charset=utf-8');
+////			$token= "dc7e2474c867a5d553b985b59274579e";
+//			$url="http://test.myplas.com/".$api."/friend/getPlasticPerson";
+//			$params = array(
+//				"keywords" => "",
+//				"page" => "",
+//				"sortField" => "",
+//				"sortOrder" => "",
+//				"quan_type" => "",
+//				"region" => "",
+//				"c_type" => "",
+//			);
+//			$postJson=urldecode(json_encode($params));
+//			$res=$this->http_curl($url,'post','json',$postJson);
+//			var_dump($res);
+//		}
 		$this->display('../pc_plastic/center.html');
 	}
 	// 右边
