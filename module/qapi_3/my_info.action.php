@@ -214,10 +214,28 @@ class myInfoAction extends baseAction
         $this->_errCode (6);
     }
 
-
-
-
-    //关注。粉丝的头像
+    /**
+     *  关注。粉丝的头像
+     * @api {get} /qapi_3/myInfo/headPicture   关注。粉丝的头像
+     * @apiVersion 3.1.0
+     * @apiName  headPicture
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     *
+     * @apiSuccess {int}  err   描述
+     * @apiSuccess {json}  myfans   错误码
+     * @apiSuccess {json}  myconcerns  供给
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     *
+     */
     public function headPicture ()
     {
         if ($_POST) {
@@ -248,8 +266,38 @@ class myInfoAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-    //保存我的资料
+    /**
+     * 保存我的资料
+     * @api {post} /qapi_3/myInfo/saveSelfInfo   保存我的资料
+     * @apiVersion 3.1.0
+     * @apiName  saveSelfInfo
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} address  地址
+     * @apiParam   {String} sex     性别 0男1女
+     * @apiParam   {String} major  所需牌号  对应need_product
+     * @apiParam   {String} concern
+     * @apiParam   {String} dist
+     * @apiParam   {String} type
+     * @apiParam   {String} month_consum  月用量
+     * @apiParam   {String} main_product  工厂的主营产品
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+         *{
+        "err": 0,
+        "msg": "保存资料成功"
+        }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     *
+     */
     public function saveSelfInfo ()
     {
         $this->is_ajax = true;
