@@ -18,15 +18,23 @@ class indexAction extends homeBaseAction
 	// 中间
 	public function middle(){
 
+			$region=(isset($_POST['region']))?$_POST['region']:'0';
+		    $c_type=(isset($_POST['c_type']))?$_POST['c_type']:'0';
+		    $keywords=(isset($_POST['keywords']))?$_POST['keywords']:'';
+		    var_dump($region);var_dump($c_type);var_dump($keywords);
 			header('Content-type:text/html;charset=utf-8');
 			$token= "dc7e2474c867a5d553b985b59274579e";
 			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson?token='.$token;
 			$params = array(
-				"keywords" => "",
+				"keywords" => $keywords,
+				"region"=>$region,
+				"c_type" => $c_type,
 				"page" => "",
+				"sortField1"=>"",
+
 				"quan_type" =>"",
 				"region" => "",
-				"c_type" => "",
+
 			);
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'get','json',$postJson);
