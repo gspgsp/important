@@ -546,8 +546,28 @@ class myInfoAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-    //偏好设置-发送短信
+    /**
+     * 偏好设置-发送短信
+     * @api {post} /qapi_3/myInfo/favorateSet   偏好设置-发送短信
+     * @apiVersion 3.1.0
+     * @apiName  favorateSet
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} type  0 关注 1 回复 2是否公开电话
+     * @apiParam   {String} is_allow  0:允许 1:不允许
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+            {
+            "err": 0,
+            "msg": "偏好设置成功"
+            }
+     *
+     *
+     */
     public function favorateSet ()
     {
         $this->is_ajax = true;
