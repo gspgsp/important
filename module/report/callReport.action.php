@@ -147,7 +147,11 @@ class callReportAction extends adminBaseAction
                     $rs5=$this->db->model('api')->getAll($sql5);
 
                     //呼出匹配数量和匹配时间
-                    $sql6="SELECT count(distinct a.id) as sum,sum(a.time) as out_match_time,count(distinct cus.c_id) out_eff_match_num
+                    $sql6="SELECT count(distinct a.id) as sum,sum(a.time) as out_match_time,(select count(distinct c_id) from (select cus.c_id FROM `p2p_api` `a`
+                            JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
+                            JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
+                            JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
+                            WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null group by a.id) adfs) out_eff_match_num
                             FROM `p2p_api` `a`
                             JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
                             JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
