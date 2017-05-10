@@ -17,7 +17,7 @@ class indexAction extends homeBaseAction
 	}
 	// 中间
 	public function middle(){
-		if($_GET['type']==1){
+
 			header('Content-type:text/html;charset=utf-8');
 			$token= "dc7e2474c867a5d553b985b59274579e";
 			$url="http://test.myplas.com/api/qapi_1/getPlasticPerson?token=".$token;
@@ -54,8 +54,8 @@ class indexAction extends homeBaseAction
 //                </div>';
 //				}
 			}
-			return $template;
-		}
+
+
 		$this->display('../pc_plastic/center.html');
 	}
 	// 右边
