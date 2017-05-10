@@ -24,8 +24,6 @@ class indexAction extends homeBaseAction
 			$params = array(
 				"keywords" => "",
 				"page" => "",
-				"sortField" => "",
-				"sortOrder" => "",
 				"quan_type" => "",
 				"region" => "",
 				"c_type" => "",
