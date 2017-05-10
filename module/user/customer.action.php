@@ -4,7 +4,6 @@
  */
 class customerAction extends adminBaseAction {
 	public function __init(){
-		ini_set('display_errors','On');
 		$this->debug = false;
 		$this->assign('status',L('status'));// 联系人用户状态
 		$this->assign('type',L('company_type'));//工厂类型
