@@ -73,18 +73,18 @@ $( function () {
         c_type=$('#c_type').val();
 		
 	//跳转到登录	
-	login.bind( "click", function () {
+	login.bind( "click", function(){
 		right.load( "http://test.myplas.com/pc_plastic/index/login" );
 	} );
 	
 	//跳转到详情信息
-	info.bind( "click", function () {
+	info.bind( "click", function(){
 		var user_id=$( ".address-list .list li" ).data('val');
 		console.log(user_id);
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
 
-	search.bind('click',function () {
+	search.bind('click',function(){
 	    console.log(region);
         console.log(keywords);
         $.post();
