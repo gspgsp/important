@@ -75,7 +75,8 @@ $( function () {
 	
 	//跳转到信息
 	info.bind( "click", function () {
-		right.load( "http://test.myplas.com/pc_plastic/index/info" );
+	    var id=$( ".address-list .list li" ).data('val');
+		right.load( "http://test.myplas.com/pc_plastic/index/info?id="+id );
 	} );
 } );
 </script>
