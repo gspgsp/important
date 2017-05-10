@@ -32,6 +32,28 @@ class indexAction extends homeBaseAction
 			$res=$this->http_curl($url,'get','json',$postJson);
 			if($res['err']==0){
 				$template='';
+				$str='';
+				$str.='<li>
+                <!--pic begin-->
+                <div class="pic flt">
+                    <img src="'.$res["top"]["thumb"].'">
+                    <div class="authen no">V</div>
+                </div>
+                <div class="info flt">
+                    <p>
+                        <span class="company">上海企辉物流有限公司</span>
+                        <span class="name">张飞扬 女</span>
+                    </p>
+                    <p>
+                        <span class="supply">供：196</span>
+                        <span class="demand">求：34</span>
+                    </p>
+                    <p>主营:LDPE,LLDPE,HDPE,1000S,7042...</p>
+                </div>
+           
+                <div class="set-top">已置顶</div>
+              
+        	</li>';
 				foreach ($res['persons'] as $val){
 
 					$template.='<li><div class="pic flt">
@@ -54,8 +76,8 @@ class indexAction extends homeBaseAction
 				}
 
 			}
+		$this->assign('str',$str);
 		$this->assign('template',$template);
-
 		$this->display('../pc_plastic/center.html');
 	}
 	// 右边
