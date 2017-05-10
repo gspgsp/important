@@ -34,17 +34,6 @@ class indexAction extends homeBaseAction
 		$this->display('../pc_plastic/info_sell.html');
 	}
 
-
-	// 模块 2  供求
-	public function buy_sell()
-	{
-		$this->display('../pc_plastic/buy_sell.html');
-	}
-	public function tou_tiao()
-	{
-		$this->display('');
-	}
-
 	// 登录
 	public function login()
 	{
@@ -66,7 +55,19 @@ class indexAction extends homeBaseAction
 		$this->display('../pc_plastic/agreement.html');
 	}
 
-	//  模块 3  发现 center
+
+	/**
+	 *  模块 2  供求
+	 */
+	public function buy_sell()
+	{
+		$this->display('../pc_plastic/buy_sell.html');
+	}
+
+
+	/**
+	 * 模块 3  发现 center
+	 */
 	public function dis_center()
 	{
 		$this->display('../pc_plastic/center2.html');
