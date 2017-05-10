@@ -80,6 +80,7 @@ $( function () {
 	//跳转到详情信息
 	info.bind( "click", function () {
 		var user_id=$( ".address-list .list li" ).data('attr');
+		console.log(user_id);
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
 
