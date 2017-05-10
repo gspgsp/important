@@ -3,24 +3,23 @@
 	.hidden {display:none;}
 </style>
 <link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
-<div style="padding:5px; " >
 	<div id="infoForm" class="form">
 		<div  style="padding:5px; " >
-			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<fieldset style="width:400px;border:solid 1px #aaa;margin-top:8px;position:relative;">
 				<legend>运输合同回传信息</legend>
 				<div id="editForm1" style="padding:5px; ">
 					<table id="table1" width="100%" >
-					<td><input name="logistics_contract_id" value="{$logistics_contract_id}" id="logistics_contract_id" class="mini-hidden" style="width:125px;" maxlength="8"  required="true" /></td>
-					<td><input name="type" value="{$type}" id="type" class="mini-hidden" style="width:125px;" maxlength="8"  required="true" /></td>
+					<td><input name="logistics_contract_id" value="{$logistics_contract_id}" id="logistics_contract_id" class="mini-hidden" style="width:125px;" maxlength="8" /></td>
+					<td><input name="type" value="{$type}" id="type" class="mini-hidden" style="width:125px;" maxlength="8"  /></td>
 						<tr>
-							<td>车号：</td>
-							<td><input name="plate_number" value="" id="plate_number" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" /></td>
+							<td>车牌号：</td>
+							<td><input name="plate_number" value="" id="plate_number" class="mini-textbox" style="width:200px;" maxlength="" /></td>
 							</tr><tr>
 							<td>司机姓名：</td>
-							<td><input name="driver_name" value="" id="driver_name" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" /></td>		
+							<td><input name="driver_name" value="" id="driver_name" class="mini-textbox" style="width:200px;" maxlength="" /></td>		
 							</tr><tr>
 							<td>身份证号码：</td>
-							<td><input name="driver_idcard" value="" id="driver_idcard" class="mini-textbox" style="width:125px;" maxlength="18"  required="true" /></td>
+							<td><input name="driver_idcard" value="" id="driver_idcard" class="mini-textbox" style="width:200px;" maxlength="" /></td>
 						</tr>
 					</table>
 				</div>
@@ -51,14 +50,14 @@
 			}
 		}
 	}); */
-	mini.get('driver_idcard').on("validation", function (e) {
+	/* mini.get('driver_idcard').on("validation", function (e) {
 		if (e.isValid) {
 			if (e.value.length != 18) {
 				e.errorText = "身份证号必须为18位";
 				e.isValid = false;
 			}
 		}
-	});
+	}); */
 	function submitForm(){
 		form.validate();
 		if(form.isValid() == false) return;

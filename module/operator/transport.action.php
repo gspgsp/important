@@ -183,7 +183,9 @@ class transportAction extends adminBaseAction
         $data['created_by'] = $this->admin_id;
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
+        $ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
         $result=M('public:common')->model('transport_contract')->add($data);//新增合同
+        M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
         M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));//回传客户送货地址
         if($result){
              $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
@@ -214,7 +216,9 @@ class transportAction extends adminBaseAction
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
+        $ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
         M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place'],'update_time'=>time()));
+        M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
         $res=M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);      
         if($res){ 
              $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
@@ -224,7 +228,7 @@ class transportAction extends adminBaseAction
     }
 
     /**
-     * 获得物流公司联系人详情数据详情
+     * 获得物流公司联系人数据详情
      * @access public
      * @return json
      */
@@ -763,5 +767,29 @@ class transportAction extends adminBaseAction
         $this->assign('order_type', $order_type);
         $this->assign('o_id', $o_id);
         $this->display('order.viewInfo.html');
+    }
+    /**
+     * 运输合同备注修改
+     * @access public
+     */
+    public function save(){
+        $this->is_ajax=true; //指定为Ajax输出
+        $data = sdata(); //获取UI传递的参数
+        $sql=array();
+        if(empty($data)){
+            $this->error('操作数据为空');
+        }
+        foreach($data as $k=>$v){
+            $_data=array(
+                'tran_con_remark'=>$v['tran_con_remark'],               
+            );
+            $sql[]=$this->db->wherePk($v['o_id'])->updateSql($_data);
+        }
+        $result=$this->db->commitTrans($sql);
+        if($result){
+            $this->success('操作成功');
+        }else{
+            $this->error('数据处理失败');
+        }
     }
 }

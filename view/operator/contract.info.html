@@ -1,0 +1,233 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
+		<div title="合同详细信息">
+			<div style="height:100%">
+				<fieldset style="border:solid 1px #aaa;padding:3px;">
+					<legend >基本信息</legend>
+					<table width="100%">
+					<tr>
+						<td style="width:80px;">甲方公司：</td>
+						<td>
+							{$info.order_name}
+						</td>
+						<td>乙方公司：</td>
+						<td>{$info.second_part_company_name}</td>
+					</tr>
+					<tr>						
+						<td>订单编号：</td>
+						<td>{$info.order_sn}</td>
+						<td>货物牌号: </td>
+						<td>{$info.goods_class}</td>
+					</tr>
+					<tr>
+						<td>甲方联系人：</td>
+						<td>{$info.first_part_contact_name}</td>
+						<td>甲方联系方式：</td>
+						<td>{$info.first_part_contact_tel}</td>
+					</tr>
+					<tr>
+						<td>甲方传真：</td>
+						<td>{$info.first_part_contact_fax}</td>
+					</tr>
+					<tr>
+						<td>乙方联系人：</td>
+						<td>{$info.second_part_contact_name}</td>
+						<td>乙方联系方式：</td>
+						<td>{$info.second_part_contact_tel}</td>
+					</tr>
+					<tr>
+						<td>乙方传真：</td>
+						<td>{$info.second_part_contact_fax}</td>
+					</tr>
+					<tr>
+						<td>提货地点：</td>
+						<td>{$info.start_place}</td>
+						<td>送货地点：</td>
+						<td>{$info.end_place}</td>
+					</tr>
+					<tr>
+						<td>合同日期：</td>
+						<td>{$info.contract_time}</td>
+						<td>送货日期：</td>
+						<td>{$info.delivery_time}</td>
+					</tr>
+					<tr>
+						<td>货物数量：</td>
+						<td>{$info.goods_num}吨</td>
+						<td>单价：</td>
+						<td>{$info.delivery_price}</td>
+					</tr>
+					<tr>
+						<td>装车费 : </td>
+						<td>{$info.delivery_trans}</td>
+						<td>其它：</td>
+						<td>{$info.delivery_other}</td>
+					</tr>
+					<tr>
+						<td>总费用：</td>
+						<td>{$info.delivery_fee_count}</td>
+						<td>车牌号：</td>
+						<td>{$info.plate_number}</td>
+					</tr>
+					<tr>
+						<td>司机姓名：</td>
+						<td>{$info.driver_name}</td>
+						<td>身份证号 : </td>
+						<td>{$info.driver_idcard}</td>
+					</tr>					
+					<tr>
+						<td>创建时间：</td>
+						<td>{$info.create_time}</td>
+						<td>更新时间: </td>
+						<td>{$info.update_time}</td>
+					</tr>
+					<tr>
+						<td>创建人 : </td>
+						<td>{$info.created_name}</td>
+						<td>操作人 : </td>
+						<td>{$info.last_edited_name}</td>
+					</tr>
+					<tr>
+						<td>审核状态：</td>
+						<td><font style="color:red;">{$info.c_status}</font></td>
+					</tr>
+				</table>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	mini.parse();
+	var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
+	var investGrid=mini.get("investGrid");
+	var gridCell=mini.get("gridCell");
+	var billingCell=mini.get("billingCell");
+	var form = new mini.Form("#infoForm");
+	function changeTab(e){
+		var tab=e.tab;
+		if(tab.title=='详情列表'){
+			var data=investGrid.getData();
+			if(data.length<1){
+				investGrid.load();
+			}
+		}
+		if(tab.title=='收款列表' || tab.title=='付款列表'){
+			var data=gridCell.getData();
+			if(data.length<1){
+				gridCell.load();
+			}
+		}
+		if(tab.title=='开票列表'){
+			var data=billingCell.getData();
+			if(data.length<1){
+				billingCell.load();
+			}
+		}
+	}
+	//追加操作按钮
+	function onLoadHandle(e) {
+		var record = e.record,s='',id = record.id;
+		s += '<a href="javascript:viewOrdInfo('+id+')">'+id+'</a> ';
+		return s;
+	}
+	//查看明细相关信息
+	function viewOrdInfo(id){
+		mini.open({
+			url: "/product/saleLog/info?id="+id,
+			showMaxButton:true,
+			title: "查看明细相关信息",
+			width: 700, height:450
+		});
+	}
+	//设置收付款状态
+
+	function setInv(e){
+		//总订单开票状态
+		var inv= e.record.invoice_status;
+		return $("#invoice_status").find("option[value="+inv+"]").text();
+	}
+
+	function setInvone(e){
+		//单笔订单开票状态
+		var inv= e.record.invoice_status;
+		return $("#invoice_one_status").find("option[value="+inv+"]").text();
+	}
+	function setCol(e){
+		var col = e.record.collection_status;
+		return $("#collection_status").find("option[value="+col+"]").text();
+	}
+	function setPay(e){
+		var pay= e.record.pay_method;
+		return $("#pay_method").find("option[value="+pay+"]").text();
+	}
+
+	function setBile(e){
+		var pay= e.record.bile_type;
+		return $("#bile_type").find("option[value="+pay+"]").text();
+	}
+	function submitcheck(){
+	  form.validate();
+	  if(form.isValid() == false) return;
+	  form.loading("数据提交中，请稍后......");
+	  $.post('/product/order/chkInfoSubmit',$("#infoForm").serialize(),function(data){
+	      form.unmask();
+	      $("#returnMsg").text(data.msg);
+	      if(data.err=='0'){
+	          CloseWindow("save");
+	      }else{
+	          return false;
+	      }
+	  },'json');
+	}
+	function tips(e) {
+		var record = e.record,s='',unit_price = record.unit_price,min_price = record.min_price;
+		if(parseFloat(min_price*0.99) > unit_price){
+			return '<span style="color:red;">'+unit_price+'</span>';
+		}
+		return unit_price;
+	}
+	function trans_ch(e) {
+		var record = e.record,out_check = record.out_check;
+		if(out_check==1){
+			return '是';
+		}else{
+			return '否';
+		}
+	}
+	function do_p(e){
+		var record = e.record,id=record.p_id,o_id=record.o_id;
+		var s='<a href="javascript:History_p('+id+","+o_id+');">查看</a>';
+		return s;
+	}
+	function do_s(e){
+		var record = e.record,id=record.p_id,o_id=record.o_id;
+		var s='<a href="javascript:History_s('+id+","+o_id+');">查看</a>';
+		return s;
+	}
+	//展示10条历史成交价
+	function History_s(id,o_id){
+			mini.open({
+			url: " /order/business/init?p_id="+id+"&o_id="+o_id,
+			title: "产品历史成交价",
+			width: 1250,
+			height: 550,
+		});
+	}
+	function History_p(id,o_id){
+			mini.open({
+			url: " /order/purchase/init?p_id="+id+"&o_id="+o_id,
+			title: "产品历史成交价",
+			width: 1250,
+			height: 550,
+		});
+	}
+	function CloseWindow(action) {
+		if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+		else window.close();
+	}
+	function onCancel(e) {
+		CloseWindow("cancel");
+	}
+</script>

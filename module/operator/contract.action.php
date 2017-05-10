@@ -9,6 +9,7 @@ class contractAction extends adminBaseAction {
 		$this->db=M('public:common')->model('transport_contract');
 		$this->doact = sget('do','s');
 		$this->public = sget('isPublic','i',0);
+		$this->c_status=array('0'=>'删除','1'=>'待审核','2'=>'审核未通过','3'=>'审核通过');
 		$this->role = M('rbac:rbac')->model('adm_role_user')->where("`user_id` = {$this->admin_id}")->getRow();
 	}
 	
@@ -30,10 +31,10 @@ class contractAction extends adminBaseAction {
 			$where='1';			
 			$where.=" and `status`> 0";
 			//区分是否是普通物流人员
-			if($this->role['role_id'] == 25)
+			/* if($this->role['role_id'] == 25)
 			{
 				$where .= " and `created_by` = {$this->role['user_id']}";
-			}
+			} */
 			//状态搜索
 			$status = sget('status','s','');
 			if($status!==''){
@@ -90,7 +91,9 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['delivery_trans']=$fee_list['1'];
 				$list['data'][$k]['delivery_other']=$fee_list['2'];
 				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
-				$list['data'][$k]['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
+				$delivery_fee_count=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
+				//$list['data'][$k]['delivery_fee_count']=number_format(floor($delivery_fee_count*100)/100,2,'.','');
+				$list['data'][$k]['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -119,7 +122,9 @@ class contractAction extends adminBaseAction {
 	            'update_time'=>CORE_TIME,
 	            'last_edited_by'=>$_SESSION['adminid'],
 	        );
+	        $ship=($v['delivery_price']+$v['delivery_trans'])*$v['goods_num']+$v['delivery_other'];
 	        $sql[]=$this->db->wherePk($v['logistics_contract_id'])->updateSql($_data);
+	        M('public:common')->model('out_log')->where('o_id='.$v['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
 	    }
 	    $result=$this->db->commitTrans($sql);
 	    if($result){
@@ -230,6 +235,38 @@ class contractAction extends adminBaseAction {
 	    $info['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
 	    $this->assign('info',$info);
 	    $this->display('contract.review.html');
+	}
+	/**
+	 * 查看运输合同详情
+	 * @access public
+	 */
+	public function info(){
+	    $this->is_ajax=true;
+	    $logistics_contract_id=sget('id','i');
+	    if($logistics_contract_id>0){
+	        $info=$this->db->wherePk($logistics_contract_id)->getRow();
+	    }
+	    $second_part_company_name=M('public:common')->model('logistics_supplier')->where("supplier_id=".$info['second_part_company_id'])->select("supplier_name")->getRow();
+	    $second_part_contact_name=M('public:common')->model('logistics_contact')->where("id=".$info['second_part_contact_id'])->select("contact_name")->getRow();
+	    $info['c_status']=$this->c_status[$info['status']];
+	    $info['second_part_company_name']=$second_part_company_name['supplier_name'];
+	    $info['second_part_contact_name']=$second_part_contact_name['contact_name'];
+	    $fee_list=explode(',',$info['delivery_fee']);
+	    $info['delivery_price']=$fee_list['0'];
+	    $info['delivery_trans']=$fee_list['1'];
+	    $info['delivery_other']=$fee_list['2'];
+	    $delivery_fee_count=($fee_list['0']+$fee_list['1'])*$info['goods_num']+$fee_list['2'];
+	    $info['delivery_fee_count']=number_format(floor($delivery_fee_count*100)/100,2,'.','');
+	    $name1=M('public:common')->model('admin')->where('admin_id='.$info['created_by'])->select('name')->getAll();
+	    $name2=M('public:common')->model('admin')->where('admin_id='.$info['last_edited_by'])->select('name')->getAll();
+	    $info['created_name']=$name1['0']['name'];
+	    $info['last_edited_name']=$name2['0']['name'];
+	    $info['create_time']=!empty($info['create_time'])?date("Y-m-d H:i:s",$info['create_time']):'-';
+	    $info['update_time']=!empty($info['update_time'])?date("Y-m-d H:i:s",$info['update_time']):'-';
+	    $this->assign('info',$info);
+	    $this->assign('page_title','运输合同详情');
+	    $this->display('contract.info.html');
+	
 	}
 	/**
 	 * 变更合同状态
