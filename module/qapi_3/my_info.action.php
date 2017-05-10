@@ -681,7 +681,7 @@ class myInfoAction extends baseAction
 
     /**
      * 获取系统消息robot
-     * @api {post} /qapi_3/myInfo/getRobotMsg   获取系统消息robot)
+     * @api {post} /qapi_3/myInfo/getRobotMsg   获取系统消息robot
      * @apiVersion 3.1.0
      * @apiName  getRobotMsg
      * @apiGroup myInfo
@@ -776,8 +776,26 @@ class myInfoAction extends baseAction
         //$this->json_output(array('err'=>1,'msg'=>'test'));
         A ('public:upload')->saveqAppCardImg ('', 2, $user_id);
     }
-
-    //保存名片到服务器
+    /**
+     * 保存名片到服务器
+     * @api {post} /qapi_3/myInfo/saveCardImg   保存名片到服务器
+     * @apiVersion 3.1.0
+     * @apiName  saveCardImg
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   url   上传文件全路径
+     *
+     * @apiSuccessExample {json} Success-Response:
+             {
+            "err": 0,
+            "url": "http://statics.myplas.com/upload/17/05/10/5912d3e082152.jpg"
+            }
+     *
+     */
     public function saveCardImg ()
     {
         $this->is_ajax = true; //指定为Ajax输出
