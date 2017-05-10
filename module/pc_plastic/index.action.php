@@ -33,7 +33,7 @@ class indexAction extends homeBaseAction
 			if($res['err']==0){
 				$template='';
 				$str='';
-				$str.='<li>
+				$str.='<li data-val="'.$res["top"]["user_id"].'">
                 <!--pic begin-->
                 <div class="pic flt">
                     <img src="'.$res["top"]["thumb"].'">
