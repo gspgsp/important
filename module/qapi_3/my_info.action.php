@@ -215,8 +215,8 @@ class myInfoAction extends baseAction
     }
 
     /**
-     *  关注。粉丝的头像
-     * @api {get} /qapi_3/myInfo/headPicture   关注。粉丝的头像
+     *  关注/粉丝的头像
+     * @api {get} /qapi_3/myInfo/headPicture   关注/粉丝的头像
      * @apiVersion 3.1.0
      * @apiName  headPicture
      * @apiGroup myInfo
@@ -581,9 +581,78 @@ class myInfoAction extends baseAction
         $this->_errCode (6);
     }
 
+    /**
+     * 获取我的粉丝和我的关注(数)
+     * @api {post} /qapi_3/myInfo/getMyFuns   获取我的粉丝和我的关注(数)
+     * @apiVersion 3.1.0
+     * @apiName  getMyFuns
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} type  1粉丝2关注
+     * @apiParam   {String} page  页码
+     * @apiParam   {String} size  每页数据量
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     * @apiSuccess {Int}   count   总共
+     *
+     * @apiSuccessExample {json} Success-Response:
+                {
+                "err": 0,
+                "data": [
+                {
+                "user_id": {
+                "user_id": "39453",
+                "name": "崔永建",
+                "mobile": "1511716****",
+                "is_pass": "0",
+                "c_name": "甘肃龙昌石化集团有限公司",
+                "thumb": "http://statics.myplas.com/upload/17/02/08/589b2562a6552.JPG",
+                "thumbqq": "http://statics.myplas.com/upload/17/02/08/589b2562a6552.JPG",
+                "sex": "0",
+                "buy": "0",
+                "sale": "3"
+                },
+                "focused_id": "45782"
+                },
+                {
+                "user_id": {
+                "user_id": "53991",
+                "name": "王铭",
+                "mobile": "1881111****",
+                "is_pass": "0",
+                "c_name": "上海梓晨实业有限公司",
+                "thumb": "http://statics.myplas.com/upload/17/04/27/5901ccc540ba6.jpg",
+                "thumbqq": "http://statics.myplas.com/upload/17/04/27/5901ccc540ba6.jpg",
+                "sex": "0",
+                "buy": "0",
+                "sale": "0"
+                },
+                "focused_id": "45782"
+                },
+                {
+                "user_id": {
+                "user_id": "41497",
+                "name": "黄双",
+                "mobile": "1537841****",
+                "is_pass": "0",
+                "c_name": "上海中晨电子商务股份有限公司",
+                "thumb": "http://statics.myplas.com/upload/17/05/06/590d52b93c5d6.jpg",
+                "thumbqq": "http://statics.myplas.com/upload/17/05/06/590d52b93c5d6.jpg",
+                "sex": "0",
+                "buy": "0",
+                "sale": "0"
+                },
+                "focused_id": "45782"
+                }
+                ],
+                "count": "3"
+                }
+     *
+     *
+     */
 
-
-    //获取我的粉丝和我的关注(数)
     public function getMyFuns ()
     {
         $this->is_ajax = true;
