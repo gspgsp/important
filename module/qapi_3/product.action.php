@@ -8,16 +8,75 @@
 class productAction extends baseAction
 {
 
-    /*
-     * 塑料圈app兑换积分的接口
-     *  注册一人，暂时不送积分
-     * 引荐一个人50分
-     * 发布报价10分（不需要审核）、
-     * 发布采购20分（需要审核，但是直接加积分）
-     */
-
-    /*
+    /**
      * 塑料圈app之积分商品列表
+     * @api {post} /qapi_3/product/getProductList   塑料圈app之积分商品列表
+     * @apiVersion 3.1.0
+     * @apiName  getProductList
+     * @apiGroup product
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} page   页码      默认1
+     * @apiParam   {int} size   每页数量  默认10
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {int}   pointsAll  塑豆总数
+     * @apiSuccess {json}   info   信息
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+            "err": 0,
+            "info": [
+            {
+            "id": "13",
+            "cate_id": "9",
+            "thumb": "http://statics.myplas.com/upload/17/04/10/58eb2893b499d.jpg",
+            "name": "通讯录一天置顶卡",
+            "points": "100",
+            "type": "2",
+            "myMsg": []
+            },
+            {
+            "id": "12",
+            "cate_id": "9",
+            "thumb": "http://statics.myplas.com/upload/17/04/10/58eb2851bda6c.jpg",
+            "name": "供求信息一天置顶卡",
+            "points": "100",
+            "type": "1",
+            "myMsg": [
+            {
+            "id": "90126",
+            "p_id": "0",
+            "user_id": "40418",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "04-24 16:59",
+            "type": "1",
+            "content": "求购hf5110",
+            "c_name": "上海中晨电子商务股份有限公司",
+            "name": "谢磊",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": "",
+            "sex": "0",
+            "mobile_province": "上海",
+            "is_pass": "0",
+            "contents": "求购hf5110",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            }
+            ]
+            }
+            ],
+            "pointsAll": "90"
+            }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
      */
     public function getProductList ()
     {
@@ -363,12 +422,30 @@ class productAction extends baseAction
 
 
     /**
-     * 新版兑换置顶
-     * @param goods_id
-     * @param num
-     * @param pur_id
+     * 塑料圈app之兑换置顶信息
+     * @api {post} /qapi_3/product/newExchangeSupplyOrDemand   塑料圈app之兑换置顶信息
+     * @apiVersion 3.1.0
+     * @apiName  newExchangeSupplyOrDemand
+     * @apiGroup product
      *
-     * @return json
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} goods_id   所需要的商品的id
+     * @apiParam   {int} num   购买数量  默认1
+     * @apiParam   {int} pur_id   购买供求信息时候供求信息id
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "购买成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 13,
+     *       "msg": "有人抢先一步,如有需要，请联系客服400-6129-965"
+     *      }
      */
     public function newExchangeSupplyOrDemand ()
     {
