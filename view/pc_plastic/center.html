@@ -1,64 +1,64 @@
 <!--address-list begin-->
 <div class="address-list">
 	<!--fixed begin-->
-    <div class="fixed">
-        <h2>
-            <span>塑料人自己的通讯录(10000人)</span>
-            <a href="javascript:;"></a>
-        </h2>
-      <!--search begin-->
-        <div class="search">
-            <form name="" method="post" action="">
-                <!--search-top begin-->
-                <div class="search-top">
-                  <select class="select1">
-                        <option>全国站</option>
-                        <option>华东</option>
-                        <option>华北</option>
-                        <option>华南</option>
-                        <option>其他</option>
-                    </select>
-                  <select>
-                        <option>所有分类</option>
-                        <option>塑料制品企业</option>
-                        <option>原料供应商</option>
-                        <option>物流服务商</option>
-                        <option>其他</option>
-                    </select>
-                </div>
-                <!--search-top end-->
-                <!--search-bot begin-->
-                <div class="search-bot">
-                    <input type="text" placeholder="请输入公司、姓名、牌号查询">
-                    <span class="icon-search flt">搜索</span>
-                </div>
-                <!--search-bot end-->
-            </form>
-        </div>
-      <!--search end-->
-      <!--banner begin-->
-        <div class="banner"><img src="__IMG__/pc_plastic/banner.jpg" width="309" height="66"/></div>
-      <!--banner end-->
-      <!--concern begin-->
-        <!--<div class="concern">
-            <ul>
-                <li><a href="javascript:;"><p class="thumb thumb1"></p><span>我关注的人</span></a></li>
-                <li><a href="javascript:;"><p class="thumb thumb2"></p><span>关注我的人</span></a></li>
-            </ul>
-        </div>-->
-      <!--concern end-->
-          <!--set-top begin-->
-          <ul class="list settop">
-            {$str}
-        </ul>
-        <!--set-top end-->
-    </div>
-    <!--fixed end-->
-    <!--list begin-->
-    <ul class="list" style="padding:308px 0 0 0;">
-            {$template}
-    </ul>
-    <!--list end-->
+	<div class="fixed">
+		<h2>
+			<span>塑料人自己的通讯录(10000人)</span>
+			<a href="javascript:;"></a>
+		</h2>
+	  <!--search begin-->
+		<div class="search">
+			<form name="" method="post" action="http://test.myplas.com/pc_plastic/index/middle">
+				<!--search-top begin-->
+				<div class="search-top">
+				  <select class="select1" name="region">
+						<option value="0">全国站</option>
+						<option value="1">华东</option>
+						<option value="2">华北</option>
+						<option value="3">华南</option>
+						<option value="4">其他</option>
+					</select>
+				  <select name="c_type">
+						<option value="0">所有分类</option>
+						<option value="1">塑料制品企业</option>
+						<option value="2">原料供应商</option>
+						<option value="4">物流服务商</option>
+						<option value="5">其他</option>
+					</select>
+				</div>
+				<!--search-top end-->
+				<!--search-bot begin-->
+				<div class="search-bot">
+					<input type="text" name="keywords" placeholder="请输入公司、姓名、牌号查询" value="">
+					<span class="icon-search flt">搜索</span>
+				</div>
+				<!--search-bot end-->
+			</form>
+		</div>
+	  <!--search end-->
+	  <!--banner begin-->
+		<div class="banner"><img src="__IMG__/pc_plastic/banner.jpg" width="309" height="66"/></div>
+	  <!--banner end-->
+	  <!--concern begin-->
+		<!--<div class="concern">
+			<ul>
+				<li><a href="javascript:;"><p class="thumb thumb1"></p><span>我关注的人</span></a></li>
+				<li><a href="javascript:;"><p class="thumb thumb2"></p><span>关注我的人</span></a></li>
+			</ul>
+		</div>-->
+	  <!--concern end-->
+		  <!--set-top begin-->
+		  <ul class="list settop">
+			{$str}
+		</ul>
+		<!--set-top end-->
+	</div>
+	<!--fixed end-->
+	<!--list begin-->
+	<ul class="list" style="padding:308px 0 0 0;">
+			{$template}
+	</ul>
+	<!--list end-->
 </div>
 <!--address-list end-->
 <script src="__JS__/pc_plastic/jquery-1.8.3.min.js"></script>
@@ -75,8 +75,8 @@ $( function () {
 	
 	//跳转到信息
 	info.bind( "click", function () {
-	    var user_id=$( ".address-list .list li" ).data('attr');
-	    console.log(user_id);return;
+		var user_id=$( ".address-list .list li" ).data('attr');
+		console.log(user_id);return;
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
 } );
