@@ -68,7 +68,7 @@ $( function () {
 		login = $( ".address-list h2 a" ),
 		info = $( ".address-list .list li" ),
         search=$(".icon-search"),
-        keywords=$('#keywords').val(),
+        keywords,
         region=$('#region').val(),
         c_type=$('#c_type').val();
 		
@@ -85,7 +85,8 @@ $( function () {
 	} );
 
 	search.bind('click',function(){
-        alert(keywords);
+        keywords=$('#keywords').val();
+        console.log(keywords);
 
     });
 
