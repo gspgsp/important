@@ -162,13 +162,13 @@ class customerContactModel extends model{
 				$result =  $this->model('customer_contact')->add($info+$_data+array('chanel'=>5,));
 				$contract_id = $this->getLastID();
 				//查询如果没有联系人
+				// $find = $this->model('customer_contact')->where("c_id = {$info['c_id']}")->getRow();
 				//追加新增客户的短信发送问题
 				if(!empty($info['info_mobile'])){
 					$mobile=M("rbac:adm")->getPhoneByAdminId($_SESSION['adminid']);
 					$msg = sprintf(L('customer_add_msg.tips'),$_SESSION['username'],$mobile);
 					M('system:sysSMS')->send($contract_id,$info['info_mobile'],$msg,8);
 				}
-				// $find = $this->model('customer_contact')->where("c_id = {$info['c_id']}")->getRow();
 				if($info['is_default'] == 1){
 					$this->model('customer_contact')->where("c_id = {$info['c_id']} and user_id != $contract_id")->update(array('is_default'=>0));
 					$this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$contract_id));
