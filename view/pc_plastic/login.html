@@ -60,7 +60,7 @@ $( function () {
         var mobile=$('#mobile').val();
         var password=$('#password').val();
         var chanel=6;
-        $.get('http://test.myplas.com/pc_plastic/index/login',{mobile:mobile,password:password},function (data) {
+        $.get('http://test.myplas.com/pc_plastic/index/login',{mobile:mobile,password:password,chanel:chanel},function (data) {
             console.log(data);
         })
     });
