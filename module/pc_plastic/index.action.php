@@ -22,11 +22,11 @@ class indexAction extends homeBaseAction
 			$token= "dc7e2474c867a5d553b985b59274579e";
 			$url="http://test.myplas.com/api/qapi1/getPlasticPerson".$token;
 			$params = array(
-				"keywords" => "",
-				"page" => "",
-				"quan_type" => "",
-				"region" => "",
-				"c_type" => "",
+//				"keywords" => "",
+//				"page" => "",
+//				"quan_type" => "",
+//				"region" => "",
+//				"c_type" => "",
 			);
 			$postJson=urldecode(json_encode($params));
 			echo $postJson;
