@@ -227,8 +227,6 @@ class myInfoAction extends baseAction
      * @apiSuccess {json}  myfans   错误码
      * @apiSuccess {json}  myconcerns  供给
      *
-     * @apiSuccessExample {json} Success-Response:
-     *
      * @apiErrorExample {json} Error-Response:
      *     {
      *       "err": 2,
