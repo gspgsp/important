@@ -317,7 +317,7 @@ class interfaceAction extends adminBaseAction {
 			$remarks = "对客户操作：还原为公海客户,释放原因：".$reason;// 审核用户
 			M('user:customerLog')->addLog($id,'check','私海客户','还原为公海客户',1,$remarks);
 			//新增客户流转记录日志----E
-			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>2,'reason'=>$reason));
+			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>2,'reason'=>$reason,'update_time'=>CORE_TIME,));
 			$this->success('操作成功');
 		}
 		$this->display('customer.sea.html');
@@ -335,7 +335,7 @@ class interfaceAction extends adminBaseAction {
 			$remarks = "对客户操作：设置为作废客户,作废原因：".$reason;// 审核用户
 			M('user:customerLog')->addLog($id,'check','私海客户','设置为作废客户',1,$remarks);
 			//新增客户流转记录日志----E
-			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>4,));
+			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>4,'update_time'=>CORE_TIME,));
 			$this->success('操作成功');
 		}
 		$this->display('customer.useless.html');
