@@ -182,9 +182,11 @@ function add(id,ctype){
 //编辑联系人
 function onLoadHandle(e) {
 	var record = e.record,uid=record.user_id, name=record.name, s='';
-	s += '<a href="javascript:viewContactInfo('+uid+')">'+name+'</a> ';
-
-	return s;
+	if(name!="******"){
+		return s += '<a href="javascript:viewContactInfo('+uid+')">'+name+'</a> ';
+	}else{
+		return '******';
+	}
 }
 //编辑联系人
 // function onLoadCinfo(e) {

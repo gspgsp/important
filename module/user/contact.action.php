@@ -82,7 +82,10 @@ class contactAction extends adminBaseAction {
 			$list['data'][$k]['sex']=L('sex')[$v['sex']];
 			// $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
 			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $v['name'];
-			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) && $v['customer_manager'] == $_SESSION['adminid'] ? '******' : $v['mobile'];
+			if(in_array($v['c_id'],$cids) || $_SESSION['adminid'] !=$v['customer_manager']){
+				$list['data'][$k]['mobile'] = '******';
+				$list['data'][$k]['tel'] = '******';
+			}
 			$cname = M('user:customer')->getColByName($v['c_id']);
 			/**封堵李总不能让领导看见姓名的要求*S*/
 			if(_leader() && $v['customer_manager'] != $_SESSION['adminid']){
@@ -161,6 +164,11 @@ class contactAction extends adminBaseAction {
 		$user_id=sget('id','i');
 		if($user_id>0){
 			$info=$this->db->wherePk($user_id)->getRow();
+			// 处理打星
+			if($_SESSION['adminid'] != $info['customer_manager']){
+				$info['mobile'] = "******";
+				$info['tel'] = "******";
+			}
 			$extra = $this->db->model('contact_info')->where("user_id = $user_id")->getRow();
 			//关注牌号
 			$models=$this->db->model('suggestion_model')->where("user_id=$user_id")->select('name')->getCol();
