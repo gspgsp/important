@@ -7,7 +7,7 @@ class indexAction extends homeBaseAction
 	protected $api;
 	public function __init()
 	{
-		$this->api = "qapi1";
+		$this->api = "qapi1_2";
 	}
 	// 通讯录
 	public function init()
@@ -20,7 +20,7 @@ class indexAction extends homeBaseAction
 
 			header('Content-type:text/html;charset=utf-8');
 			$token= "dc7e2474c867a5d553b985b59274579e";
-			$url="http://test.myplas.com/api/qapi1/getPlasticPerson?token=".$token;
+			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson?token='.$token;
 			$params = array(
 				"keywords" => "",
 				"page" => "",
@@ -55,24 +55,24 @@ class indexAction extends homeBaseAction
               
         	</li>';
 				foreach ($res['persons'] as $val){
-
-					$template.='<li><div class="pic flt">
-                    <img src="'.$val["thumb"].'">
-                    <div class="authen no">V</div>
-                </div>
-                <!--pic end-->
-                <!--info begin-->
-                <div class="info flt">
-                    <p>
-                        <span class="company">'.$val["c_name"].'</span>
-                        <span class="name">'.$val["name"].' '.$val["sex"].'</span>
-                    </p>
-                    <p>
-                        <span class="supply">供：'.$val["buy_count"].'</span>
-                        <span class="demand">求：'.$val["sale_count"].'</span>
-                    </p>
-                    <p>主营:'.$val["need_product"].'</p>
-                </div></li>';
+					$template.='
+                     <li data-val="'.$val["user_id"].'">
+			                <div class="pic flt">
+			                    <img src="'.$val["thumb"].'">
+			                    <div class="authen no">V</div>
+			                </div>
+			                <div class="info flt">
+			                    <p>
+			                        <span class="company">'.$val["c_name"].'</span>
+			                        <span class="name">'.$val["name"].' '.$val["sex"].'</span>
+			                    </p>
+			                    <p>
+			                        <span class="supply">供：'.$val["buy_count"].'</span>
+			                        <span class="demand">求：'.$val["sale_count"].'</span>
+			                    </p>
+			                    <p>主营:'.$val["need_product"].'</p>
+			                </div>
+                     </li>';
 				}
 
 			}
@@ -80,16 +80,18 @@ class indexAction extends homeBaseAction
 		$this->assign('template',$template);
 		$this->display('../pc_plastic/center.html');
 	}
-	// 右边
-	public  function right()
-	{
-		$this->display('../pc_plastic/right.html');
-	}
-	// info
+
+	// 个人info 详情
 	public function info()
 	{
 		$this->display('../pc_plastic/info.html');
 	}
+	// 默认右边
+	public  function right()
+	{
+		$this->display('../pc_plastic/right.html');
+	}
+
 	// 求购信息
 	public function info_buy()
 	{
