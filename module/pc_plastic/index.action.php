@@ -23,7 +23,7 @@ class indexAction extends homeBaseAction
 		    $keywords=(isset($_POST['keywords']))?$_POST['keywords']:'';
 		    var_dump($region);var_dump($c_type);var_dump($keywords);
 			header('Content-type:text/html;charset=utf-8');
-			$token= $_SESSION['token'] ;  //  "dc7e2474c867a5d553b985b59274579e";
+			$token= 'dc7e2474c867a5d553b985b59274579e'; 
 			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson?token='.$token;
 			$params = array(
 				"keywords" => $keywords,
