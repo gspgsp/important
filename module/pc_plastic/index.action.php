@@ -2,6 +2,8 @@
 
 class indexAction extends homeBaseAction
 {
+
+	// 通讯录
 	public function init()
 	{
 
@@ -15,6 +17,21 @@ class indexAction extends homeBaseAction
 	public  function right()
 	{
 		$this->display('../pc_plastic/right.html');
+	}
+	// info
+	public function info()
+	{
+		$this->display('../pc_plastic/info.html');
+	}
+	// 求购信息
+	public function info_buy()
+	{
+		$this->display('../pc_plastic/info_buy.html');
+	}
+	// 供给信息
+	public function info_sell()
+	{
+		$this->display('../pc_plastic/info_sell.html');
 	}
 
 
