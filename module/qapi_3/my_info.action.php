@@ -679,8 +679,68 @@ class myInfoAction extends baseAction
         $this->_errCode (6);
     }
 
-
-    //获取系统消息robot
+    /**
+     * 获取系统消息robot
+     * @api {post} /qapi_3/myInfo/getRobotMsg   获取系统消息robot)
+     * @apiVersion 3.1.0
+     * @apiName  getRobotMsg
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} page  页码
+     * @apiParam   {String} size  每页数据量
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+             *{
+            "err": 0,
+            "data": [
+            {
+            "id": "25625",
+            "pur_id": "95813",
+            "pur_user_id": "55355",
+            "user_id": "40418",
+            "content": "您关注的肖生发布了1条供给信息，信息内容为:（56-16）不义气，无成功！『义成塑胶』专注ABS   PC/ABS   475  PC改性/配色/抽粒。现金求购：ABS  475   PC/ABS    PC系列一次水口，工厂余料。电询137 6321 ",
+            "input_time": "05-06 12:49:46",
+            "is_read": "0",
+            "type": "1"
+            },
+            {
+            "id": "25404",
+            "pur_id": "95570",
+            "pur_user_id": "55355",
+            "user_id": "40418",
+            "content": "您关注的肖生发布了1条供给信息，信息内容为:供应尼龙黑色基材料，台湾大白料，尼龙增强，增韧，耐寒，耐高温等改性料。联系电话13682440429",
+            "input_time": "05-05 12:42:58",
+            "is_read": "0",
+            "type": "1"
+            },
+            {
+            "id": "24344",
+            "pur_id": "94714",
+            "pur_user_id": "30017",
+            "user_id": "40418",
+            "content": "您关注的张贝贝发布了1条供给信息，信息内容为:上海出现货：\rN210 N220 Q281 Q281D  Q210  Q400\rT300 M1200HS Y2600T M250E GM160E M800E GM1600E M180R M700R M2600R F800E F800EDF H2800 \rMH602 YGH041 金菲TR480 5502 50100\r电话 021-3790",
+            "input_time": "05-02 13:02:48",
+            "is_read": "1",
+            "type": "1"
+            },
+            {
+            "id": "18898",
+            "pur_id": "86779",
+            "pur_user_id": "40418",
+            "user_id": "40418",
+            "content": "您于 04-08 11:44 发布的求购信息:价格8000.00元左右/7000F/上海/上海收到一条回复:你大约需要多少",
+            "input_time": "04-08 12:14:20",
+            "is_read": "1",
+            "type": "2"
+            }
+            ]
+            }
+     *
+     */
     public function getRobotMsg ()
     {
         $this->is_ajax = true;
@@ -726,7 +786,130 @@ class myInfoAction extends baseAction
         $result  = A ('public:upload')->saveqAppCardImg ('', 1, $user_id);
     }
 
-    //获取我的引荐(引荐数)
+
+    /**
+     *  获取我的引荐(引荐数)
+     * @api {post} /qapi_3/myInfo/getMyIntroduction   获取我的引荐(引荐数)
+     * @apiVersion 3.1.0
+     * @apiName  getMyIntroduction
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} page  页码
+     * @apiParam   {String} size  每页数据量
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+             *{
+            "err": 0,
+            "data": [
+            {
+            "user_id": "35942",
+            "name": "顾晓懿",
+            "mobile": "1377682****",
+            "is_pass": "0",
+            "c_name": "上海中晨电子商务股份有限公司",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35934",
+            "name": "朱彼德",
+            "mobile": "1505841****",
+            "is_pass": "0",
+            "c_name": "蓝鲸产品厂家直销",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35913",
+            "name": "张YAN",
+            "mobile": "1381021****",
+            "is_pass": "0",
+            "c_name": "群星集团公司",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35911",
+            "name": "上官",
+            "mobile": "1865390****",
+            "is_pass": "0",
+            "c_name": "临沂裕田塑料制品厂",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35905",
+            "name": "小段",
+            "mobile": "1370178****",
+            "is_pass": "0",
+            "c_name": "上海瑞藩实业有限公司",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35903",
+            "name": "孙永征",
+            "mobile": "1390539****",
+            "is_pass": "0",
+            "c_name": "山东临沂永征进出口有限公司",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35902",
+            "name": "罗立成",
+            "mobile": "1391325****",
+            "is_pass": "1",
+            "c_name": "江苏金塑德贸易有限公司",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35897",
+            "name": "谢坤衡",
+            "mobile": "1390633****",
+            "is_pass": "0",
+            "c_name": "莒县永达工贸有限公司",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "3",
+            "sale": "0"
+            },
+            {
+            "user_id": "35795",
+            "name": "PK",
+            "mobile": "1861633****",
+            "is_pass": "0",
+            "c_name": "中泰证券研究所",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            },
+            {
+            "user_id": "35584",
+            "name": "周思宇",
+            "mobile": "1361087****",
+            "is_pass": "0",
+            "c_name": "盘锦鑫宇盈塑料有限公司",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "buy": "0",
+            "sale": "0"
+            }
+            ],
+            "count": "26"
+            }
+     *
+     */
     public function getMyIntroduction ()
     {
         $this->is_ajax = true;
