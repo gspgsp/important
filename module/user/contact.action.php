@@ -82,7 +82,7 @@ class contactAction extends adminBaseAction {
 			$list['data'][$k]['sex']=L('sex')[$v['sex']];
 			// $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
 			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $v['name'];
-			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) ? '******' : $v['mobile'];
+			$list['data'][$k]['mobile'] = in_array($v['c_id'],$cids) && $v['customer_manager'] == $_SESSION['adminid'] ? '******' : $v['mobile'];
 			$cname = M('user:customer')->getColByName($v['c_id']);
 			/**封堵李总不能让领导看见姓名的要求*S*/
 			if(_leader() && $v['customer_manager'] != $_SESSION['adminid']){
