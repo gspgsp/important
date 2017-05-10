@@ -34,48 +34,61 @@ class indexAction extends homeBaseAction
 				$template='';
 				$str='';
 				$str.='<li data-val="'.$res["top"]["user_id"].'">
-                <!--pic begin-->
-                <div class="pic flt">
-                    <img src="'.$res["top"]["thumb"].'">
-                    <div class="authen no">V</div>
-                </div>
-                <div class="info flt">
-                    <p>
-                        <span class="company">上海企辉物流有限公司</span>
-                        <span class="name">张飞扬 女</span>
-                    </p>
-                    <p>
-                        <span class="supply">供：196</span>
-                        <span class="demand">求：34</span>
-                    </p>
-                    <p>主营:LDPE,LLDPE,HDPE,1000S,7042...</p>
-                </div>
-           
-                <div class="set-top">已置顶</div>
-              
-        	</li>';
+				<!--pic begin-->
+				<div class="pic flt">
+					<img src="'.$res["top"]["thumb"].'">
+					<div class="authen no">V</div>
+				</div>
+				<div class="info flt">
+					<p>
+						<span class="company">上海企辉物流有限公司</span>
+						<span class="name">张飞扬 女</span>
+					</p>
+					<p>
+						<span class="supply">供：196</span>
+						<span class="demand">求：34</span>
+					</p>
+					<p>主营:LDPE,LLDPE,HDPE,1000S,7042...</p>
+				</div>
+		   
+				<div class="set-top">已置顶</div>
+			  
+			</li>';
 				foreach ($res['persons'] as $val){
 					$template.='
-                     <li data-attr="1">
-			                <div class="pic flt">
-			                    <img src="'.$val["thumb"].'">
-			                    <div class="authen no">V</div>
-			                </div>
-			                <div class="info flt">
-			                    <p>
-			                        <span class="company">'.$val["c_name"].'</span>
-			                        <span class="name">'.$val["name"].' '.$val["sex"].'</span>
-			                    </p>
-			                    <p>
-			                        <span class="supply">供：'.$val["buy_count"].'</span>
-			                        <span class="demand">求：'.$val["sale_count"].'</span>
-			                    </p>
-			                    <p>主营:'.$val["need_product"].'</p>
-			                </div>
-                     </li>';
+					 <li data-attr="1">
+							<div class="pic flt">
+								<img src="'.$val["thumb"].'">
+								<div class="authen no">V</div>
+							</div>
+							<div class="info flt">
+								<p>
+									<span class="company">'.$val["c_name"].'</span>
+									<span class="name">'.$val["name"].' '.$val["sex"].'</span>
+								</p>
+								<p>
+									<span class="supply">供：'.$val["buy_count"].'</span>
+									<span class="demand">求：'.$val["sale_count"].'</span>
+								</p>
+								<p>主营:'.$val["need_product"].'</p>
+							</div>
+					 </li>';
 				}
 
 			}
+			if($res['err']==1){
+				$str='';
+				$str.=$res['msg']; return false;
+			}
+			if($res['err']==2){
+				$str='';
+				$str.=$res['msg']; return false;
+			}
+			if($res['error']==1){
+				$str='';
+				$str.=$res['msg']; return false;
+			}
+
 		$this->assign('str',$str);
 		$this->assign('template',$template);
 		$this->display('../pc_plastic/center.html');
