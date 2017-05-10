@@ -67,7 +67,7 @@ $( function () {
 	var right = $( ".right" ),
 		login = $( ".address-list h2 a" ),
 		info = $( ".address-list .list li" ),
-        search=$(".icon-search .flt"),
+        search=$(".icon-search"),
         keywords=$('#keywords').val(),
         region=$('#region').val(),
         c_type=$('#c_type').val();
@@ -79,7 +79,7 @@ $( function () {
 	
 	//跳转到详情信息
 	info.bind( "click", function(){
-		var user_id=$(".address-list .list li").attr('data-val');
+		var user_id=$(this).attr('data-val');
 		console.log(user_id);
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
