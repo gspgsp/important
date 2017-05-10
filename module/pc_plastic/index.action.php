@@ -41,7 +41,7 @@ class indexAction extends homeBaseAction
 			if($res['err']==0){
 				$template='';
 				$str='';
-				$str.='<li data-val="'.$res["top"]["user_id"].'">
+				$str.='<li data-attr="'.$res["top"]["user_id"].'">
 				<!--pic begin-->
 				<div class="pic flt">
 					<img src="'.$res["top"]["thumb"].'">
@@ -64,7 +64,7 @@ class indexAction extends homeBaseAction
 			</li>';
 				foreach ($res['persons'] as $val){
 					$template.='
-					 <li data-attr="1">
+					 <li data-attr="'.$val["user_id"].'">
 							<div class="pic flt">
 								<img src="'.$val["thumb"].'">
 								<div class="authen no">V</div>
