@@ -20,10 +20,15 @@ class dataShowAction extends adminBaseAction {
 		$cooperationCustomerRemind = $this->cooperationCustomerRemind();//合作客户强开提醒
 		$UnCooperationCustomerRemind = $this->UnCooperationCustomerRemind();//未合作客户强开提醒
 		$todayFollowCustomersNums = $this->getDismissRuleDayFollowCustomersByAdminId();//强开规则中规定的业务员当日要跟踪的客户数
-		$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($_SESSION['adminid']);//战队配资状况
+		// $team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($_SESSION['adminid']);//战队配资状况
 		// p(($UnCooperationCustomerRemind));die;
 		// p($getCooperationCustomer);die;
-		$this->assign('team_capital',$team_capital);
+		// $this->assign('team_capital',$team_capital);
+		$share = $this->share_apply();//共享申请
+		// p($share);die;
+		$this->assign('share',$share);
+		
+
 		$this->assign('notice',$notice);
 		//私海客户 数组和 个数
 		$this->assign('UnCooperationCustomerRemind',$UnCooperationCustomerRemind);
@@ -285,5 +290,25 @@ class dataShowAction extends adminBaseAction {
 				->where('admin.admin_id = '.$_SESSION['adminid'])
 				->getOne();
 				return empty($res)?0:$res;
+	}
+	public function share_apply(){
+		$res = $this->db->model('customer_share_apply')
+				->select('*')
+				->where('apply_to_uid = '.$_SESSION['adminid'].' and status = 1')
+				->getAll();
+				if(!empty($res)){
+					$ids = '';
+					foreach ($res as $key => $value) {
+						$ids.= $value['id'].',';
+					}
+					$data = "(".trim($ids,',').")";
+					$result=array('num'=>count($res),
+					  'ids'=>$data);
+					return $result;
+				}else{
+					$result=array('num'=>0,
+					  'ids'=>"('')");
+					return $result;
+				}
 	}
 }
