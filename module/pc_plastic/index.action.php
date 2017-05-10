@@ -20,7 +20,7 @@ class indexAction extends homeBaseAction
 		if($_GET['type']==0){
 			header('Content-type:text/html;charset=utf-8');
 //			$token= "dc7e2474c867a5d553b985b59274579e";
-			$url="http://test.myplas.com/".$api."/friend/getPlasticPerson";
+			$url="http://test.myplas.com/qapi_3/friend/getPlasticPerson";
 			$params = array(
 				"keywords" => "",
 				"page" => "",
