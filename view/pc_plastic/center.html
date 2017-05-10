@@ -69,8 +69,7 @@ $( function () {
 		info = $( ".address-list .list li" ),
         search=$(".icon-search"),
         keywords,
-        region=$('#region').val(),
-        c_type=$('#c_type').val();
+
 		
 	//跳转到登录	
 	login.bind( "click", function(){
@@ -85,7 +84,8 @@ $( function () {
 
 	search.bind('click',function(){
         keywords=$('#keywords').val();
-        console.log(keywords);
+        region=$('#region option:selected').val(); c_type=$('#c_type option:selected').val();
+        console.log(keywords);console.log(region);console.log(c_type);
 
     });
 
