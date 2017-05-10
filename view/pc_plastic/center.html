@@ -82,13 +82,15 @@ $( function () {
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
 
+	//搜索信息
 	search.bind('click',function(){
         keywords=$('#keywords').val();
-        region=$('#region option:selected').val(); c_type=$('#c_type option:selected').val();
-        console.log(keywords);console.log(region);console.log(c_type); return;
+        region=$('#region option:selected').val();
+        c_type=$('#c_type option:selected').val();
+        $.post("http://test.myplas.com/pc_plastic/index/info",{keywords:keywords,region:region,c_type:c_type},function () {
 
+        });
     });
-
 } );
 
 
