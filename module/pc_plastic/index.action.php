@@ -84,6 +84,18 @@ class indexAction extends homeBaseAction
 	// 个人info 详情
 	public function info()
 	{
+		if($_GET['user_id']){
+			header('Content-type:text/html;charset=utf-8');
+			$token= "3bf198c15c2b3b98bd41832df8445a89";
+			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend?token='.$token;
+			$params = array(
+				"userid" => $_GET['user_id'],
+			);
+			$postJson=urldecode(json_encode($params));
+			$res=$this->http_curl($url,'get','json',$postJson);
+			var_dump($res);
+		}
+
 		$this->display('../pc_plastic/info.html');
 	}
 	// 默认右边
