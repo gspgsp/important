@@ -56,7 +56,7 @@ class indexAction extends homeBaseAction
         	</li>';
 				foreach ($res['persons'] as $val){
 					$template.='
-                     <li data-val="1">
+                     <li data-attr="1">
 			                <div class="pic flt">
 			                    <img src="'.$val["thumb"].'">
 			                    <div class="authen no">V</div>
