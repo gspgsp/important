@@ -442,8 +442,70 @@ class myInfoAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-    //查看我的资料
+    /**
+     * 查看我的资料
+     * @api {post} /qapi_3/myInfo/saveSelfInfo   查看我的资料
+     * @apiVersion 3.1.0
+     * @apiName  saveSelfInfo
+     * @apiGroup myInfo
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data  个人信息数据
+     * @apiSuccess {String}   c_name   描述
+     * @apiSuccess {String}   address   描述
+     * @apiSuccess {String}   type   描述
+     * @apiSuccess {String}   month_consum   描述
+     * @apiSuccess {String}   main_product   描述
+     * @apiSuccess {String}   buy   描述
+     * @apiSuccess {String}   sale   描述
+     * @apiSuccess {String}   total   描述
+     * @apiSuccess {String}   rank   描述
+     * @apiSuccess {String}   fans   描述
+     * @apiSuccess {String}   concern_model   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+             * {
+            "err": 0,
+            "data": {
+            "user_id": "40418",
+            "name": "谢磊",
+            "c_id": "5041",
+            "mobile": "18321871909",
+            "adistinct": "华东",
+            "sex": "男",
+            "member_level": "列兵",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": "",
+            "thumbcard": "",
+            "allow_send": {
+            "focus": 0,
+            "repeat": 0,
+            "show": 0
+            },
+            "c_name": "上海中晨电子商务股份有限公司",
+            "need_product": "2102TX00|2119.2420D.1810D.S030.3003",
+            "address": "上海",
+            "type": "1",
+            "month_consum": "123",
+            "main_product": "pp",
+            "buy": "1",
+            "sale": 0,
+            "total": 16914,
+            "rank": "8723",
+            "fans": "0",
+            "concern_model": ""
+            }
+            }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关资料"
+     *      }
+     *
+     */
     public function getSelfInfo ()
     {
         $this->is_ajax = true;
