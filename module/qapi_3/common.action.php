@@ -10,7 +10,7 @@ class commonAction extends baseAction
 
     /**
      * APP检查更新接口
-     * @api {get} /qapi_3/common/checkVersion APP检查更新接口
+     * @api {post} /qapi_3/common/checkVersion APP检查更新接口
      * @apiVersion 3.1.0
      * @apiName  checkVersion
      * @apiGroup Common

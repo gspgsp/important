@@ -9,7 +9,7 @@ class friendAction extends baseAction
 {
     /**
      * 获取通讯录首页数据
-     * @api {get} /qapi_3/friend/getPlasticPerson 获取通讯录首页数据
+     * @api {post} /qapi_3/friend/getPlasticPerson 获取通讯录首页数据
      * @apiVersion 3.1.0
      * @apiName  getPlasticPerson
      * @apiGroup friend
@@ -576,7 +576,7 @@ class friendAction extends baseAction
     }
     /**
      * 获取ta的求购或供给
-     * @api {get} /qapi_3/friend/getTaPur  获取ta的求购或供给
+     * @api {post} /qapi_3/friend/getTaPur  获取ta的求购或供给
      * @apiVersion 3.1.0
      * @apiName  getTaPur
      * @apiGroup friend
@@ -684,7 +684,7 @@ class friendAction extends baseAction
     }
     /**
      * 关注或取消关注
-     * @api {get} /qapi_3/friend/focusOrCancel    关注或取消关注
+     * @api {post} /qapi_3/friend/focusOrCancel    关注或取消关注
      * @apiVersion 3.1.0
      * @apiName  focusOrCancel
      * @apiGroup friend
@@ -710,7 +710,7 @@ class friendAction extends baseAction
     }
     /**
      * 塑料圈联系人的-发送消息
-     * @api {get} /qapi_3/friend/sendZoneContactMsg   塑料圈联系人的-发送消息
+     * @api {post} /qapi_3/friend/sendZoneContactMsg   塑料圈联系人的-发送消息
      * @apiVersion 3.1.0
      * @apiName  sendZoneContactMsg
      * @apiGroup friend

@@ -9,7 +9,7 @@ class myInfoAction extends baseAction
 {
     /**
      * 我的塑料圈
-     * @api {get} /qapi_3/myInfo/myZone   我的塑料圈
+     * @api {post} /qapi_3/myInfo/myZone   我的塑料圈
      * @apiVersion 3.1.0
      * @apiName  myZone
      * @apiGroup myInfo
@@ -136,7 +136,7 @@ class myInfoAction extends baseAction
     }
     /**
      * 塑料圈联系人的-我的消息（yuepao）
-     * @api {get} /qapi_3/myInfo/getZoneContactMsg   塑料圈联系人的-我的消息（yuepao）
+     * @api {post} /qapi_3/myInfo/getZoneContactMsg   塑料圈联系人的-我的消息（yuepao）
      * @apiVersion 3.1.0
      * @apiName  getZoneContactMsg
      * @apiGroup myInfo
@@ -216,7 +216,7 @@ class myInfoAction extends baseAction
 
     /**
      *  关注/粉丝的头像
-     * @api {get} /qapi_3/myInfo/headPicture   关注/粉丝的头像
+     * @api {post} /qapi_3/myInfo/headPicture   关注/粉丝的头像
      * @apiVersion 3.1.0
      * @apiName  headPicture
      * @apiGroup myInfo

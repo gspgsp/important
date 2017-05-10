@@ -9,7 +9,7 @@ class userAction extends baseAction
 {
 
     /**
-     * @api {get} /qapi_3/user/init 初始化页面
+     * @api {post} /qapi_3/user/init 初始化页面
      * @apiVersion 3.1.0
      * @apiName  init
      * @apiGroup User
@@ -312,7 +312,7 @@ class userAction extends baseAction
 
 
     /**
-     * @api {get} /qapi_3/user/finfMyPwd 找回密码
+     * @api {post} /qapi_3/user/finfMyPwd 找回密码
      * @apiVersion 3.1.0
      * @apiName  finfMyPwd
      * @apiGroup User
@@ -370,7 +370,7 @@ class userAction extends baseAction
 
     /**
      * 发送手机验证码
-     * @api {get} /qapi_3/user/sendMsg 发送验证码
+     * @api {post} /qapi_3/user/sendMsg 发送验证码
      * @apiVersion 3.1.0
      * @apiName  sendMsg
      * @apiGroup User
@@ -426,7 +426,7 @@ class userAction extends baseAction
 
     /**
      * 登录
-     * @api {get} /qapi_3/user/login 登录
+     * @api {post} /qapi_3/user/login 登录
      * @apiVersion 3.1.0
      * @apiName  login
      * @apiGroup User
