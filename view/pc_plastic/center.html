@@ -77,11 +77,12 @@ $( function () {
 		right.load( "http://test.myplas.com/pc_plastic/index/login" );
 	} );
 	
-	//跳转到信息
+	//跳转到详情信息
 	info.bind( "click", function () {
 		var user_id=$( ".address-list .list li" ).data('attr');
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
+
 	search.bind('click',function () {
 	    console.log(region);
         console.log(keywords);
