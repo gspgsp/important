@@ -30,7 +30,7 @@
 				<!--search-bot begin-->
 				<div class="search-bot" >
 					<input type="text" id="keywords" name="keywords" placeholder="请输入公司、姓名、牌号查询">
-					<span class="icon-search flt">搜索</span>
+					<button class="icon-search flt">搜索</button>
 				</div>
 				<!--search-bot end-->
 			</form>
@@ -85,7 +85,7 @@ $( function () {
 	} );
 
 	search.bind('click',function(){
-        console.log(keywords);
+        alert(keywords);
 
     });
 
