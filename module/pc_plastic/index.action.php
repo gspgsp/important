@@ -158,7 +158,7 @@ class indexAction extends homeBaseAction
 				$this->json_output($res);
 			}
 		}
-		$this->display('../pc_plastic/login.html');
+//		$this->display('../pc_plastic/login.html');
 	}
 
 	public function forget_pwd()
