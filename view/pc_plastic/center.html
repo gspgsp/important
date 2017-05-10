@@ -8,17 +8,17 @@
 		</h2>
 	  <!--search begin-->
 		<div class="search">
-			<form name="" method="post" action="http://test.myplas.com/pc_plastic/index/middle">
+			<form name="" method="post" action="">
 				<!--search-top begin-->
 				<div class="search-top">
-				  <select class="select1" name="region">
+				  <select id="region" class="select1" name="region">
 						<option value="0">全国站</option>
 						<option value="1">华东</option>
 						<option value="2">华北</option>
 						<option value="3">华南</option>
 						<option value="4">其他</option>
 					</select>
-				  <select name="c_type">
+				  <select id="c_type" name="c_type">
 						<option value="0">所有分类</option>
 						<option value="1">塑料制品企业</option>
 						<option value="2">原料供应商</option>
@@ -28,8 +28,8 @@
 				</div>
 				<!--search-top end-->
 				<!--search-bot begin-->
-				<div class="search-bot">
-					<input type="text" name="keywords" placeholder="请输入公司、姓名、牌号查询" value="">
+				<div class="search-bot" >
+					<input type="text" id="keywords" name="keywords" placeholder="请输入公司、姓名、牌号查询" value="">
 					<span class="icon-search flt">搜索</span>
 				</div>
 				<!--search-bot end-->
@@ -79,5 +79,11 @@ $( function () {
 		console.log(user_id);return;
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
+
+	var keywords=$('#keywords').value(); region=$('#region').val(); c_type=$('#c_type').val();
+	$(".icon-search .flt").click(function () {
+	    console.log(keywords); console.log(region); console.log(c_type); return;
+        $.post();
+    })
 } );
 </script>
