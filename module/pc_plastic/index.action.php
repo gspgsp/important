@@ -135,7 +135,7 @@ class indexAction extends homeBaseAction
 	// 登录
 	public function login()
 	{
-		if($_GET['mobile'] &&$_GET['password']&&$_GET['chanel']){
+		if($_GET['mobile']&&$_GET['password']&&$_GET['chanel']){
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend';
 			$params = array(
