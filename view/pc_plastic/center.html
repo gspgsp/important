@@ -76,6 +76,7 @@ $( function () {
 	//跳转到信息
 	info.bind( "click", function () {
 	    var user_id=$( ".address-list .list li" ).data('val');
+	    console.log(user_id);return;
 		right.load( "http://test.myplas.com/pc_plastic/index/info?user_id="+user_id );
 	} );
 } );
