@@ -173,7 +173,24 @@ class toutiaoAction extends baseAction
     }
 
     /**
-     * 塑料头条-详情列表
+     * @api {post} /qapi_3/toutiao/getDetailInfo 塑料头条-详情列表
+     * @apiVersion 3.1.0
+     * @apiName  getDetailInfo
+     * @apiGroup toutiao
+     *
+     * @apiParam {String} token       token
+     * @apiParam {Number} id       文件id
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} info   信息
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "info":"xxx"
+     *      }
+     *
+     *
      */
     public function getDetailInfo ()
     {
