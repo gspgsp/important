@@ -83,11 +83,10 @@ class orderLogModel extends model{
 		$goods_str .= $ext;
 		//处理发送给谁
 		$resives = $this->model('customer_contact')->where("`customer_manager` = {$o_info['customer_manager']} and `c_id` = {$o_info['c_id']}")->getAll();
-		//查询客户是不是需要发送短信
-		$msg = $this->model('customer')->select("`msg`")->where("`c_id` = {$o_info['c_id']}")->getOne();
 		if(empty($resives)){
 			$resives = $this->model('customer_contact')->where("`is_default` = 1 and `c_id` = {$o_info['c_id']}")->getAll();
 		}
+		$msg = $this->model('customer')->select("`msg`")->where("`c_id` = {$o_info['c_id']}")->getOne();
 		if(!empty($resives) && (intval($msg)==2)){
 			foreach ($resives as $key => $value) {
 				if(!empty($value['mobile'])){
