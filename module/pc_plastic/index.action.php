@@ -11,6 +11,10 @@ class indexAction extends homeBaseAction
 	}
 	// 中间
 	public function middle(){
+		if($_GET['type']==0){
+			var_dump($_GET);
+		}
+
 		$this->display('../pc_plastic/center.html');
 	}
 	// 右边
