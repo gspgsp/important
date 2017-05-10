@@ -140,6 +140,23 @@ class indexAction extends homeBaseAction
 	// 登录
 	public function login()
 	{
+		if($_GET['mobile'] &&$_GET['password']){
+			header('Content-type:text/html;charset=utf-8');
+			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend';
+			$params = array(
+				"mobile" => $_GET['user_id'],
+				"password"=> $_GET['password']
+			);
+			$postJson=urldecode(json_encode($params));
+			$res=$this->http_curl($url,'get','json',$postJson);
+			var_dump($res);
+			if($res['err']==0){
+				$_SESSION['token']=$res['dataToken'];
+				$this->json_output($res);
+			}else{
+				$this->json_output($res);
+			}
+		}
 		$this->display('../pc_plastic/login.html');
 	}
 
