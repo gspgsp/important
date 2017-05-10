@@ -32,7 +32,7 @@ class indexAction extends homeBaseAction
 			echo $postJson;
 			$res=$this->http_curl($url,'get','json',$postJson);
 			echo '<pre>';
-			var_dump($res);
+
 			if($res['err']==0){
 				$template='';
 				foreach ($res['persons'] as $val){
@@ -44,14 +44,14 @@ class indexAction extends homeBaseAction
                 <!--info begin-->
                 <div class="info flt">
                     <p>
-                        <span class="company">{$val["c_name"]}</span>
-                        <span class="name">{$val["name"]} {$val["sex"]}</span>
+                        <span class="company">$val["c_name"]</span>
+                        <span class="name">$val["name"] $val["sex"]</span>
                     </p>
                     <p>
-                        <span class="supply">供：{$val["buy_count"]}</span>
-                        <span class="demand">求：{$val["sale_count"]}</span>
+                        <span class="supply">供：$val["buy_count"]</span>
+                        <span class="demand">求：$val["sale_count"]</span>
                     </p>
-                    <p>主营:{$val["need_product"]}</p>
+                    <p>主营:$val["need_product"]</p>
                 </div>';
 				}
 				echo $template;
