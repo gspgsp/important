@@ -13,7 +13,7 @@ class indexAction extends homeBaseAction
 	public function init()
 	{
 
-		$this->display('../../pc_plastic/index.html');
+		$this->display('../view/pc_plastic/index.html');
 	}
 	// 中间
 	public function middle(){
