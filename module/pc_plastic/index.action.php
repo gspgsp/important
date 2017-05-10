@@ -63,5 +63,16 @@ class indexAction extends homeBaseAction
 	{
 		$this->display('../pc_plastic/headline2.html');
 	}
+	// 查自己
+	public function credit_1()
+	{
+		$this->display('../pc_plastic/credit1.html');
+	}
+
+	// 查别人
+	public function credit_3()
+	{
+		$this->display('../pc_plastic/credit3.html');
+	}
 
 }
