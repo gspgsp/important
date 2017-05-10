@@ -16,7 +16,9 @@ class indexAction extends homeBaseAction
 	{
 		$this->display('../pc_plastic/right.html');
 	}
-	// 供求
+
+
+	// 模块 2  供求
 	public function buy_sell()
 	{
 		$this->display('../pc_plastic/buy_sell.html');
@@ -47,7 +49,12 @@ class indexAction extends homeBaseAction
 		$this->display('../pc_plastic/agreement.html');
 	}
 
-	// 发现
+	//  模块 3  发现 center
+	public function dis_center()
+	{
+		$this->display('../pc_plastic/center2.html');
+	}
+	// 头条
 	public function head_line()
 	{
 		$this->display('../pc_plastic/headline.html');
