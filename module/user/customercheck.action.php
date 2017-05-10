@@ -48,6 +48,7 @@ class customercheckAction extends adminBaseAction {
 			->getPage();
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
+				$list['data'][$k]['admin_id'] = $v['customer_manager'];
 				$list['data'][$k]['status']=$this->chkstatus($v['customer_manager'],$v['is_sale'],$v['is_pur'],$v['status']);
 				$list['data'][$k]['type']=L('company_type')[$v['type']];// 客户类型
 				$list['data'][$k]['chanel']=L('company_chanel')[$v['chanel']];//客户渠道
@@ -91,6 +92,31 @@ class customercheckAction extends adminBaseAction {
 			$str .='黄名单';
 		}
 		return $str;
+	}
+	public function share_apply(){
+		$c_id=sget('c_id','i',0);
+		$apply_to_uid=sget('apply_to_uid','i',0);
+		if(empty($c_id) || empty($apply_to_uid)) $this->error('信息错误');
+		//先查 是否申请过
+		$where = "apply_uid = ".$_SESSION['adminid']." and c_id = ".$c_id." and apply_to_uid = ".$apply_to_uid;
+		$find_res = $this->db->model('customer_share_apply')->select('id')->where($where)->getOne();
+		if($find_res){
+			$this->error('申请已发出，请联系相关业务员处理');
+		}
+		$user_res = $this->db->model('admin')->select('admin_id')->where("admin_id = {$apply_to_uid} and status = 0")->getOne();
+		if($res){
+			$this->error('该业务员已离职，请联系总监处理');
+		}
+		$data['c_id'] = $c_id;
+		$data['apply_to_uid'] = $apply_to_uid;
+		$data['apply_uid'] = $_SESSION['adminid'];
+		$data['input_time'] = CORE_TIME;
+		$add_res = $this->db->model('customer_share_apply')->add($data);
+		if($add_res){
+			$this->success('申请成功');
+		}else{
+			$this->error('申请失败');
+		}
 	}
 
 }

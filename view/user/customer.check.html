@@ -37,6 +37,7 @@
             <div field="credit_limit" width="60" headerAlign="center" align="center">信用额度</div>
             <div field="available_credit_limit" width="60" headerAlign="center" align="center">可用额度</div>
             <div field="customer_manager" width="60" headerAlign="center" align="center">交易员</div>
+            <div width="60" headerAlign="center" align="center" renderer="onLoadFllow">操作</div>
         </div>
     </div>
 </div>
@@ -68,5 +69,30 @@ function GetData() {
     var row = grid.getSelected();
     return row;
 }
-
+//操作
+function onLoadFllow(e) {
+    var record = e.record,c_id=record.c_id,admin_id = record.admin_id,s='';
+    // console.log(admin_id);return;
+    s += '<a href="javascript:operate('+c_id+','+admin_id+')">共享申请</a>';
+    return s;
+}
+function operate(c_id,admin_id){
+    // console.log(admin_id);return;
+    if(!admin_id){
+        alert('该客户是公海客户，无需申请共享');
+    }
+    grid.loading('数据处理中，请稍后......');
+    var callback = function(data){
+        if(data.err!='0'){
+            grid.unmask();
+            alert(data.msg);
+            return false;
+        }else{
+            grid.unmask();
+            alert(data.msg);
+            grid.reload();
+        }
+    }
+    utils.ajax('/user/customercheck/share_apply',{c_id:c_id,apply_to_uid:admin_id},callback,"POST","json");
+}
 </script>
