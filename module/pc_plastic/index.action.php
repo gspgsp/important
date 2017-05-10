@@ -3,6 +3,12 @@
 class indexAction extends homeBaseAction
 {
 
+	// 初始api 版本
+	protected $api;
+	public function __construct($api)
+	{
+		$this->api = "qapi_3";
+	}
 	// 通讯录
 	public function init()
 	{
@@ -12,9 +18,22 @@ class indexAction extends homeBaseAction
 	// 中间
 	public function middle(){
 		if($_GET['type']==0){
-			var_dump($_GET);
+			header('Content-type:text/html;charset=utf-8');
+//			$token= "dc7e2474c867a5d553b985b59274579e";
+			$url="http://test.myplas.com/".$api."/friend/getPlasticPerson";
+			$params = array(
+				"keywords" => "",
+				"page" => "",
+				"sortField" => "",
+				"sortOrder" => "",
+				"quan_type" => "",
+				"region" => "",
+				"c_type" => "",
+			);
+			$postJson=urldecode(json_encode($params));
+			$res=$this->http_curl($url,'post','json',$postJson);
+			var_dump($res);
 		}
-
 		$this->display('../pc_plastic/center.html');
 	}
 	// 右边
@@ -104,6 +123,41 @@ class indexAction extends homeBaseAction
 	public function my_info()
 	{
 		$this->display('../pc_plastic/center3.html');
+	}
+
+
+	/*
+	* $url 接口url string
+	* $type 请求类型 string
+	* $res 返回数据类型 string
+	* $arr post 请求参数
+	*
+	* */
+	function http_curl($url,$type='get',$res='json',$arr=''){
+		//1 初始化curl
+		$ch= curl_init();
+		//2 设置curl的参数
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);// 将页面以文件流的形式保存
+		if($type == 'post'){
+			curl_setopt($ch,CURLOPT_POST,1);
+			curl_setopt($ch,CURLOPT_POSTFIELDS,$arr);
+		}
+		//3 采集
+		$output= curl_exec($ch);
+		//4关闭
+		curl_close($ch);
+		if($res =='json'){
+			if(curl_errno($ch)){
+				//请求失败，返回错误信息
+				return curl_errno($ch);
+			}else{
+				//请求成功
+				return json_decode($output,true);//ture 或 1;将json转为数组
+			}
+		}else{
+			return json_decode($output,true);//ture 或 1;将json转为数组
+		}
 	}
 
 }
