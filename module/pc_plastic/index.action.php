@@ -29,14 +29,11 @@ class indexAction extends homeBaseAction
 				"c_type" => "",
 			);
 			$postJson=urldecode(json_encode($params));
-			echo $postJson;
 			$res=$this->http_curl($url,'get','json',$postJson);
-			echo '<pre>';
-
 			if($res['err']==0){
 				$template='';
 				foreach ($res['persons'] as $val){
-					$template='<a>'.$val.'</a>';
+
 					$template.='<div class="pic flt">
                     <img src="'.$val["thumb"].'">
                     <div class="authen no">V</div>
@@ -55,9 +52,9 @@ class indexAction extends homeBaseAction
                     <p>主营:'.$val["need_product"].'</p>
                 </div>';
 				}
-				echo $template;
-			}
 
+			}
+		$this->assign('template',$template);
 
 		$this->display('../pc_plastic/center.html');
 	}
