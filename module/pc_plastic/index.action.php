@@ -34,7 +34,7 @@ class indexAction extends homeBaseAction
 				$template='';
 				foreach ($res['persons'] as $val){
 
-					$template.='<div class="pic flt">
+					$template.='<li><div class="pic flt">
                     <img src="'.$val["thumb"].'">
                     <div class="authen no">V</div>
                 </div>
@@ -50,7 +50,7 @@ class indexAction extends homeBaseAction
                         <span class="demand">求：'.$val["sale_count"].'</span>
                     </p>
                     <p>主营:'.$val["need_product"].'</p>
-                </div>';
+                </div></li>';
 				}
 
 			}
