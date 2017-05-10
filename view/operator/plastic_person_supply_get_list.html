@@ -61,7 +61,7 @@
             <!--<div field="type" renderer="setCate1" width="80" headerAlign="center" align="center" allowSort="true" >积分来源<span style="color:red">*</span>-->
             <!--<input  name="type" class="mini-combobox" data='{:setMiniConfig|$points_type}' textField="name" valueField="id" style="width:10px;" required="true"/>-->
             <!--</div>-->
-            <div field="user_name" width="60"  align="center" headerAlign="center" allowSort="true">用户名</div>
+            <div field="user_name" width="60"  align="center" headerAlign="center" allowSort="true" renderer="onLoadHandle4">用户名</div>
             <div field="mobile" width="60"  align="center" headerAlign="center" allowSort="true">用户手机号</div>
             <div field="user_arr" width="0" headerAlign="center" align="center" allowSort="true" >观看人集合<span style="color:red">*</span>
             </div>
@@ -173,7 +173,12 @@
         s += '<a href="javascript:viewCReport3('+uid+','+user_arr+')">'+user_name+'</a> ';
         return s;
     }
-
+    function onLoadHandle4(e) {
+        var record = e.record,gid=record.gid,user_name=record.user_name, user_num=record.user_num,user_arr = record.user_arr, s='';
+        console.log(user_arr);
+        s += '<a href="javascript:viewCReport4('+gid+')">'+user_name+'</a> ';
+        return s;
+    }
 
 
     //查看用户消耗塑豆相关情况   1  获取   2  消耗
@@ -190,7 +195,18 @@
         });
     }
 
-
+    //针对被查看人的详细查看记录  `user_id` '用户id',`other_id`  '被看人id',
+    function viewCReport4(gid){
+        var tmpArr=$("#soform").serializeObject();
+        var startTime=tmpArr.startTime,endTime=tmpArr.endTime;
+        console.log(startTime,endTime);
+        mini.open({
+            url: "/operator/plasticzoneActivity/getPlasticPersonList?key_type=other_id&keyword="+gid+"&startTime="+startTime+"&endTime="+endTime,
+            showMaxButton:true,
+            title: "针对被查看人的详细查看记录",
+            width: 1200, height:650
+        });
+    }
 
 
     //设置分类1

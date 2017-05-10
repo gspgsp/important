@@ -111,6 +111,10 @@ class plasticzoneActivityAction extends adminBaseAction{
 
         $where.=getTimeFilter($sTime); //时间筛选
         switch($key_type){
+            case 'id':
+                $keyword=(int)$keyword;
+                $where.=" and b.uid=$keyword";
+                break;
             case 'uid':
                 $keyword=(int)$keyword;
                 $where.=" and b.uid=$keyword";
@@ -288,11 +292,12 @@ class plasticzoneActivityAction extends adminBaseAction{
                 where $where
         ";
         $_tmpSome2 = $this->db->from('points_bill b')->getRow($sql2);
-
-
+        $where3 = 1;
+        $where3.= getTimeFilter('input_time');
+        $_tmpSome3 = $this->db->from('info_list')->select('count(*)')->where($where3)->getOne();
         $list['count'] = $_tmpSome2['distinct_id'];
         $list['data'] = $_tmpSome;
-        $msg="消耗塑豆：{$_tmpSome2['supply_num2']}&nbsp;&nbsp;&nbsp;获取塑豆：{$_tmpSome2['achieve_num2']}&nbsp;&nbsp;&nbsp;用户塑豆获得人数：{$_tmpSome2['user_num_get_num2']}&nbsp;&nbsp;&nbsp;用户塑豆消耗人数：{$_tmpSome2['user_num_supply_num2']}&nbsp;&nbsp;&nbsp;塑豆获取次数：{$_tmpSome2['user_get_num2']}&nbsp;&nbsp;&nbsp;塑豆消耗次数：{$_tmpSome2['user_supply_num2']}&nbsp;&nbsp;&nbsp;";
+        $msg="消耗塑豆：{$_tmpSome2['supply_num2']}&nbsp;&nbsp;&nbsp;获取塑豆：{$_tmpSome2['achieve_num2']}&nbsp;&nbsp;&nbsp;用户塑豆获得人数：{$_tmpSome2['user_num_get_num2']}&nbsp;&nbsp;&nbsp;用户塑豆消耗人数：{$_tmpSome2['user_num_supply_num2']}&nbsp;&nbsp;&nbsp;塑豆获取次数：{$_tmpSome2['user_get_num2']}&nbsp;&nbsp;&nbsp;塑豆消耗次数：{$_tmpSome2['user_supply_num2']}&nbsp;&nbsp;&nbsp;通讯录查看次数:{$_tmpSome3}";
         $result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
         $this->json_output($result);
     }
@@ -445,6 +450,18 @@ class plasticzoneActivityAction extends adminBaseAction{
      */
     public function getPlasticPersonList(){
         $action=sget('action','s');
+        $startTime = sget('startTime','s');
+        $endTime = sget('endTime','s');
+        $this->assign('startTime', empty($startTime)?date('Y-m-d',time()):$startTime); //开始时间
+        $this->assign('endTime',empty($endTime)?date('Y-m-d',time()):$endTime); //结束时间
+
+        $key_type = $_GET['key_type'];//关键字分类
+        $keyword = $_GET['keyword'] ;//关键词
+        //p($key_type);p($keyword);exit;
+        $this->assign('key_type',$key_type);
+        $this->assign('keyword',$keyword);
+
+
         if($action=='grid'){ //获取列表
             $this->_grid2();exit;
             // }elseif($action=='remove'){ //删除列表数据
@@ -469,8 +486,9 @@ class plasticzoneActivityAction extends adminBaseAction{
         $sortOrder = sget("sortOrder",'s','desc'); //排序
         //搜索条件
         $where=" 1 ";
-        $key_type = sget('key_type','s');//关键字分类
-        $keyword=sget('keyword','s');//关键词
+        $key_type = empty($_GET['key_type'])?sget('key_type','s'):$_GET['key_type'];//关键字分类
+        $keyword = empty($_GET['keyword'])?sget('keyword','s'):$_GET['keyword'];//关键词
+
         $sTime = sget("sTime",'s','b.input_time'); //搜索时间类型
 
         $where.=getTimeFilter($sTime); //时间筛选
@@ -481,6 +499,10 @@ class plasticzoneActivityAction extends adminBaseAction{
                 break;
             case 'name':
                 $where.=" and c.name like '%$keyword%'";
+                break;
+            case 'other_id':
+                $keyword=(int)$keyword;
+                $where.=" and b.other_id=$keyword";
                 break;
         }
 
@@ -507,6 +529,10 @@ class plasticzoneActivityAction extends adminBaseAction{
      */
     public function pPSoGList(){
         $action=sget('action','s');
+        $startTime = sget('startTime','s');
+        $endTime = sget('endTime','s');
+        $this->assign('startTime', empty($startTime)?date('Y-m-d',time()):$startTime); //开始时间
+        $this->assign('endTime',empty($endTime)?date('Y-m-d',time()):$endTime); //结束时间
         if($action=='grid'){ //获取列表
             $this->_grid4();exit;
             // }elseif($action=='remove'){ //删除列表数据
