@@ -1,7 +1,7 @@
 <!--summary begin-->
 <div class="summary w96">
     <div class="pic flt">
-    	<img src="img/pic1.jpg"/>
+    	<img src="__IMG__/pc_plastic/pic1.jpg"/>
     	<div class="authen yes">V</div>
     </div>
     <div class="info-person flt">
@@ -35,7 +35,7 @@
         <li>生产产品：农地膜</li>
         <li>月用量：50吨</li>
     </ul>
-    <div class="card frt"><img src="img/pic2.png"></div>
+    <div class="card frt"><img src="__IMG__/pc_plastic/pic2.png"></div>
     <span class="point point1"></span>
 </div>
 <!--company-info end-->
@@ -83,7 +83,7 @@
     </ul>
 </div>
 <!--buy end-->
-<script src="js/jquery-1.8.3.min.js"></script>
+<script src="__JS__/pc_plastic/jquery-1.8.3.min.js"></script>
 <script>
 $( function () {
 	var right = $( ".right" ),
@@ -92,12 +92,12 @@ $( function () {
 		
 	//跳转到求购信息	
 	buyInfo.bind( "click", function () {
-		right.load( "info-buy.html" );
+		right.load( "http://test.myplas.com/pc_plastic/index/info_buy" );
 	} );	
 	
 	//跳转到供给信息	
 	sellInfo.bind( "click", function () {
-		right.load( "info-sell.html" );
+		right.load( "http://test.myplas.com/pc_plastic/index/info_sell" );
 	} );
 } );
 </script>
