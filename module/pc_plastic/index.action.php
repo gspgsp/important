@@ -23,7 +23,7 @@ class indexAction extends homeBaseAction
 		    $keywords=(isset($_POST['keywords']))?$_POST['keywords']:'';
 		    var_dump($region);var_dump($c_type);var_dump($keywords);
 			header('Content-type:text/html;charset=utf-8');
-			$token= "dc7e2474c867a5d553b985b59274579e";
+			$token= $_SESSION['token'] ;  //  "dc7e2474c867a5d553b985b59274579e";
 			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson?token='.$token;
 			$params = array(
 				"keywords" => $keywords,
@@ -31,10 +31,7 @@ class indexAction extends homeBaseAction
 				"c_type" => $c_type,
 				"page" => "",
 				"sortField1"=>"",
-
 				"quan_type" =>"",
-				"region" => "",
-
 			);
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'get','json',$postJson);
@@ -108,7 +105,7 @@ class indexAction extends homeBaseAction
 		if($_GET['user_id']){
 			var_dump($_GET['user_id']);
 			header('Content-type:text/html;charset=utf-8');
-			$token= "3bf198c15c2b3b98bd41832df8445a89";
+			$token= $_SESSION['token'];  // 3bf198c15c2b3b98bd41832df8445a89
 			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend?token='.$token;
 			$params = array(
 				"userid" => $_GET['user_id'],
