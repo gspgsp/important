@@ -31,7 +31,7 @@ class indexAction extends homeBaseAction
 				"c_type" => "",
 			);
 			$postJson=urldecode(json_encode($params));
-			$res=$this->http_curl($url,'post','json',$postJson);
+			$res=$this->http_curl($url,'get','json',$postJson);
 			var_dump($res);
 		}
 		$this->display('../pc_plastic/center.html');
