@@ -8,6 +8,25 @@
 class toutiaoAction extends baseAction
 {
 
+    /**
+     * @api {post} /qapi_3/toutiao/topLine 塑料头条
+     * @apiVersion 3.1.0
+     * @apiName  topLine
+     * @apiGroup toutiao
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} info   信息
+     *
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "info":"xxxxxx"
+     *      }
+     *
+     *
+     */
     /*
        * 下面的都是塑料头条的
        */
@@ -50,6 +69,28 @@ class toutiaoAction extends baseAction
         $this->_errCode (6);
     }
 
+    /**
+     * @api {post} /qapi_3/toutiao/getCateList 塑料头条-分类列表
+     * @apiVersion 3.1.0
+     * @apiName  getCateList
+     * @apiGroup toutiao
+     *
+     * @apiParam {String} token       token
+     * @apiParam {Number} page       页码
+     * @apiParam {Number} size         条数
+     * @apiParam {Number} cate_id       分类id
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} info   信息
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "info":"xxx"
+     *      }
+     *
+     *
+     */
     /**
      * 塑料头条-分类列表
      */
