@@ -3,12 +3,12 @@
 class indexAction extends homeBaseAction
 {
 
-//	// 初始api 版本
-//	protected $api;
-//	public function __construct($api)
-//	{
-//		$this->api = "qapi_3";
-//	}
+	// 初始api 版本
+	protected $api;
+	public function __init()
+	{
+		$this->api = "qapi_3";
+	}
 	// 通讯录
 	public function init()
 	{
