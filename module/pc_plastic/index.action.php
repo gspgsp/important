@@ -92,4 +92,13 @@ class indexAction extends homeBaseAction
 		$this->display('../pc_plastic/credit3.html');
 	}
 
+	/**
+	 * 我的  模块
+	 *
+	 */
+	public function my_info()
+	{
+		$this->display('../pc_plastic/center3.html');
+	}
+
 }
