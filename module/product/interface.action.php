@@ -317,10 +317,28 @@ class interfaceAction extends adminBaseAction {
 			$remarks = "对客户操作：还原为公海客户,释放原因：".$reason;// 审核用户
 			M('user:customerLog')->addLog($id,'check','私海客户','还原为公海客户',1,$remarks);
 			//新增客户流转记录日志----E
-			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>2,));
+			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>2,'reason'=>$reason));
 			$this->success('操作成功');
 		}
 		$this->display('customer.sea.html');
+	}
+	/**
+	 * 作废修改版本的作废客户
+	 */
+	public function useless(){
+		$this->id = sget('id','i') OR $this->error('传参错误');
+		if($_POST){
+			$id = $_POST['cid'];
+			$reason = $_POST['reason'];
+			if(empty($reason)) $this->error('作废原因不能为空的哦');
+			//新增客户流转记录日志----S
+			$remarks = "对客户操作：设置为作废客户,作废原因：".$reason;// 审核用户
+			M('user:customerLog')->addLog($id,'check','私海客户','设置为作废客户',1,$remarks);
+			//新增客户流转记录日志----E
+			$result=$this->db->model('customer')->where("c_id = $id")->update(array('customer_manager'=>0,'depart'=>0,'status'=>4,));
+			$this->success('操作成功');
+		}
+		$this->display('customer.useless.html');
 	}
 	/**
 	 * 给客户发送短信
