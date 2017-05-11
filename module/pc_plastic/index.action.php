@@ -152,10 +152,10 @@ class indexAction extends homeBaseAction
 				"username" => $_REQUEST['username'],
 				"password"=> $_REQUEST['password'],
 			);
+			$params=json_decode($params);
 //			$res=$this->http_curl($url,'post','json',$postJson);
 //			var_dump($res);return;
 //			$this->json_output($res);
-
 
 			$curl = curl_init();
 			//设置抓取的url
