@@ -2166,11 +2166,11 @@ class qapi1_2Action extends null2Action
     public function checkAccount ($type = 1)
     {
         $this->is_ajax = true;
-        $token         = sget ('token', 's');var_dump($_GET);var_dump($_POST);p($token);
+        $token         = sget ('token', 's');
         if (empty($token)) {
             $user_id = 0;
         } else {
-            $user_id = M ('qapp:appToken')->deUserId ($token);p($user_id);
+            $user_id = M ('qapp:appToken')->deUserId ($token);
             if (is_array ($user_id)) {
                 $user_id = 0;
             }
@@ -2187,7 +2187,7 @@ class qapi1_2Action extends null2Action
             if ($user_id <= 0) {
                 $this->json_output (array(
                     'err' => 1,
-                    'msg' => '您未登录塑料圈,无法查看企业及个人信息'.$user_id,
+                    'msg' => '您未登录塑料圈,无法查看企业及个人信息',
                 ));
             }
 
