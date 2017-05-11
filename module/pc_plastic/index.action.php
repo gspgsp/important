@@ -111,8 +111,8 @@ class indexAction extends homeBaseAction
 				'token'=>$token,
 				"userid" => $_GET['user_id'],
 			);
-
-			$postJson=urldecode(json_encode($params));
+			$postJson=json_encode($params);
+			var_dump($postJson);
 			$res=$this->http_curl($url,'post','json',$postJson);
 			var_dump($res);return;
 		}
@@ -154,9 +154,7 @@ class indexAction extends homeBaseAction
 				"password"=> $_REQUEST['password'],
 			);
 			$postJson=json_encode($params);
-			var_dump($postJson);
 			$res=$this->http_curl($url,'post','json',$postJson);
-			var_dump($res);return;
 			$this->json_output($res);
 		}
 	}
