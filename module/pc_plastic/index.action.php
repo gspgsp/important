@@ -100,6 +100,7 @@ class indexAction extends homeBaseAction
 	// 个人info 详情
 	public function info()
 	{
+		var_dump($_COOKIE);return;
 		if($_GET['user_id']){
 			var_dump($_GET['user_id']);
 			header('Content-type:text/html;charset=utf-8');
