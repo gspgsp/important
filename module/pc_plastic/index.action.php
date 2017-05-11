@@ -109,6 +109,7 @@ class indexAction extends homeBaseAction
 				"userid" => $_GET['user_id'],
 			);
 			$postJson=urldecode(json_encode($params));
+			var_dump($postJson);return;
 			$res=$this->http_curl($url,'get','json',$postJson);
 			var_dump($res);
 		}
@@ -141,18 +142,18 @@ class indexAction extends homeBaseAction
 
 	public function login_1()
 	{
-		var_dump($_REQUEST);return;
-		if($_POST['username']&&$_POST['password']){
 
+		if($_POST['username']&&$_POST['password']){
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/qapi1_2/login';
 			$params = array(
-				"username" => $_POST['username'],
-				"password"=> $_POST['password'],
+				"username" => $_REQUEST['username'],
+				"password"=> $_REQUEST['password'],
 			);
 			$postJson=urldecode(json_encode($params));
+			var_dump($postJson);
 			$res=$this->http_curl($url,'post','json',$postJson);
-
+			var_dump($res);return;
 			$this->json_output($res);
 		}
 	}
