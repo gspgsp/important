@@ -183,9 +183,9 @@ class transportAction extends adminBaseAction
         $data['created_by'] = $this->admin_id;
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-        $ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
+        //$ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
         $result=M('public:common')->model('transport_contract')->add($data);//新增合同
-        M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
+        //M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
         M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));//回传客户送货地址
         if($result){
              $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
@@ -216,9 +216,9 @@ class transportAction extends adminBaseAction
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-        $ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
+        //$ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
         M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place'],'update_time'=>time()));
-        M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
+        //M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
         $res=M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);      
         if($res){ 
              $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
