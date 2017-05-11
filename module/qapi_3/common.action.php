@@ -29,7 +29,7 @@ class commonAction extends baseAction
      * @apiSuccess {String}  navigator_version   浏览器版本
      * @apiSuccess {String}  manufacturer   设备制造商
      * @apiSuccess {String}  device_model   设备信息
-     * @apiSuccess {String}  screen   屏幕尺寸
+     * @apiSuccess {String}  screen   屏幕尺寸 如 5.5 6.0
      *
      * @apiSuccessExample Success-Response:
      *      {
