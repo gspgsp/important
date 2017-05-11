@@ -6,6 +6,7 @@ class customerApplyAction extends adminBaseAction
 {
 	public function __init(){
 		$this->db=M('public:common')->model('customer_share_apply');
+		$this->assign('type',L('company_type'));//工厂类型
 	}
 	/**
 	 *
@@ -56,8 +57,9 @@ class customerApplyAction extends adminBaseAction
 			$where .= " and (`apply_to_uid` = {$_SESSION['adminid']})  ";
 		}
 		$list=$this->db->where($where)
-					->select("*")
-					->from('customer_share_apply')
+					->select("a.*,c.type")
+					->from('customer_share_apply a')
+					->leftjoin('customer c','c.c_id = a.c_id')
 					->page($page+1,$size)
 					->order("input_time desc,status asc")
 					->getPage();
@@ -67,6 +69,7 @@ class customerApplyAction extends adminBaseAction
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['apply_name'] =M('rbac:adm')->getUserByCol($v['apply_uid']);
 			// $list['data'][$k]['update_name'] =M('rbac:adm')->getUserByCol($v['upd_uid']);
+			$list['data'][$k]['type']=L('company_type')[$v['type']];
 			$list['data'][$k]['c_name']=M('user:customer')->getColByName($value=$v['c_id'],$col='c_name',$condition='c_id');
 		}
 
