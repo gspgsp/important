@@ -173,7 +173,7 @@ class indexAction extends homeBaseAction
 			//关闭URL请求
 			curl_close($curl);
 			//显示获得的数据
-			print_r(json_encode($data,true));
+			var_dump(json_encode($data));
 		}
 	}
 
