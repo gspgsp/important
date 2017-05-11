@@ -79,7 +79,10 @@ class customerApplyAction extends adminBaseAction
 		if(empty($id)) $this->error('信息错误');
 		$find_res = $this->db->model('customer_share_apply')->select('*')->where("id = ".$id)->getRow();
 		$exits = $this->db->model('customer_pool')->where("`customer_manager` = {$find_res['apply_uid']} and `c_id` = {$find_res['c_id']}")->getRow();
-		if($exits) $this->error('共享记录已经存在');
+		if($exits){
+			$this->db->model('customer_share_apply')->where('id='.$id)->update(array('update_admin'=>$_SESSION['username'],'update_time'=>CORE_TIME,'status'=>2));
+			$this->error('共享记录已经存在');	
+		}
 		//处理工厂客户不能共享问题(1为工厂，工厂客户不能共享)
 		// $ty = intval($this->db->model('customer')->select("`type`")->where("`c_id` = {$data['c_id']}")->getOne());
 		// if($ty == 1) $this->error("根据公司规定，工厂客户不能共享，找领导去吧");
