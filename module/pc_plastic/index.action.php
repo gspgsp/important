@@ -152,28 +152,28 @@ class indexAction extends homeBaseAction
 				"username" => $_REQUEST['username'],
 				"password"=> $_REQUEST['password'],
 			);
-			$params=json_decode($params);
-//			$res=$this->http_curl($url,'post','json',$postJson);
-//			var_dump($res);return;
+
+			$res=$this->http_curl($url,'post','json',$params);
+			var_dump($res);return;
 //			$this->json_output($res);
 
-			$curl = curl_init();
-			//设置抓取的url
-			curl_setopt($curl, CURLOPT_URL, $url);
-			//设置头文件的信息作为数据流输出
-			curl_setopt($curl, CURLOPT_HEADER, 1);
-			//设置获取的信息以文件流的形式返回，而不是直接输出。
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			//设置post方式提交
-			curl_setopt($curl, CURLOPT_POST, 1);
-			//设置post数据
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-			//执行命令
-			$data = curl_exec($curl);
-			//关闭URL请求
-			curl_close($curl);
-			//显示获得的数据
-			var_dump(json_encode($data));
+//			$curl = curl_init();
+//			//设置抓取的url
+//			curl_setopt($curl, CURLOPT_URL, $url);
+//			//设置头文件的信息作为数据流输出
+//			curl_setopt($curl, CURLOPT_HEADER, 1);
+//			//设置获取的信息以文件流的形式返回，而不是直接输出。
+//			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+//			//设置post方式提交
+//			curl_setopt($curl, CURLOPT_POST, 1);
+//			//设置post数据
+//			curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+//			//执行命令
+//			$data = curl_exec($curl);
+//			//关闭URL请求
+//			curl_close($curl);
+//			//显示获得的数据
+//			var_dump(json_encode($data));
 		}
 	}
 
@@ -261,15 +261,16 @@ class indexAction extends homeBaseAction
 		}
 		$output= curl_exec($ch);
 		curl_close($ch);
-		if($res =='json'){
-			if(curl_errno($ch)){
-				//请求失败，返回错误信息
-				return curl_errno($ch);
-			}else{
-				return json_decode($output,true);
-			}
-		}else{
-			return json_decode($output,true);
-		}
+		var_dump($output);
+//		if($res =='json'){
+//			if(curl_errno($ch)){
+//				//请求失败，返回错误信息
+//				return curl_errno($ch);
+//			}else{
+//				return json_decode($output,true);
+//			}
+//		}else{
+//			return json_decode($output,true);
+//		}
 	}
 }
