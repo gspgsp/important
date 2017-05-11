@@ -145,8 +145,8 @@ class indexAction extends homeBaseAction
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/qapi1_2/login';
 			$params = array(
-				"username" => $_GET['mobile'],
-				"password"=> $_GET['password'],
+				"username" => $_POST['mobile'],
+				"password"=> $_POST['password'],
 			);
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'post','json',$postJson);
