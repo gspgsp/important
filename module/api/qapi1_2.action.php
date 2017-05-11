@@ -2166,7 +2166,7 @@ class qapi1_2Action extends null2Action
     public function checkAccount ($type = 1)
     {
         $this->is_ajax = true;
-        $token         = sget ('token', 's');
+        $token         = sget ('token', 's');p($token);
         if (empty($token)) {
             $user_id = 0;
         } else {
