@@ -26,8 +26,9 @@ class indexAction extends homeBaseAction
 		    $keywords=(isset($_POST['keywords']))?$_POST['keywords']:'';
 			header('Content-type:text/html;charset=utf-8');
 			$token=isset($_SESSION['token'])?$_SESSION['token']:'';
-			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson?token='.$token;
+			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson';
 			$params = array(
+				'token'=>$token,
 				"keywords" => $keywords,
 				"region"=>$region,
 				"c_type" => $c_type,
