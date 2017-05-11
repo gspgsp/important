@@ -15,7 +15,6 @@ class indexAction extends homeBaseAction
 		if($_GET['token']){
 			$_SESSION['token']=$_GET['token'];
 			$_SESSION['userid']=$_GET['user_id'];
-			var_dump($_SESSION);
 		}
 		$this->display('../pc_plastic/index.html');
 	}
@@ -110,7 +109,7 @@ class indexAction extends homeBaseAction
 			$params = array(
 				"userid" => $_GET['user_id'],
 			);
-			var_dump($url);return;
+
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'get','json',$postJson);
 			var_dump($res);
