@@ -2170,7 +2170,7 @@ class qapi1_2Action extends null2Action
         if (empty($token)) {
             $user_id = 0;
         } else {
-            $user_id = M ('qapp:appToken')->deUserId ($token);
+            $user_id = M ('qapp:appToken')->deUserId ($token);p($user_id);
             if (is_array ($user_id)) {
                 $user_id = 0;
             }
