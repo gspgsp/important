@@ -112,7 +112,6 @@ class indexAction extends homeBaseAction
 				"userid" => $_GET['user_id'],
 			);
 			$postJson=urldecode(json_encode($params));
-			var_dump($postJson);return;
 			$res=$this->http_curl($url,'get','json',$postJson);
 			var_dump($res);
 		}
