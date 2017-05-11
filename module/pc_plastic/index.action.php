@@ -155,7 +155,7 @@ class indexAction extends homeBaseAction
 			);
 			$postJson=json_encode($params);
 			var_dump($postJson);
-			$res=$this->http_curl($url,'POST','JSON',$postJson);
+			$res=$this->http_curl($url,'post','json',$postJson);
 			var_dump($res);return;
 			$this->json_output($res);
 		}
