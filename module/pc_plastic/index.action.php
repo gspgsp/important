@@ -135,6 +135,12 @@ class indexAction extends homeBaseAction
 	// 登录
 	public function login()
 	{
+
+		$this->display('../pc_plastic/login.html');
+	}
+
+	public function login_1()
+	{
 		if($_GET['mobile']&&$_GET['password']){
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/'.$this->api.'/login';
@@ -152,7 +158,6 @@ class indexAction extends homeBaseAction
 				$this->json_output($res);
 			}
 		}
-		$this->display('../pc_plastic/login.html');
 	}
 
 	public function forget_pwd()
