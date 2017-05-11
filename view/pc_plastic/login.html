@@ -59,7 +59,7 @@ $( function () {
 	$('.btn1').click(function(){
 		var mobile=$('#mobile').val();
 		var password=$('#password').val();
-		$.post('http://test.myplas.com/api/qapi1_2/login',{mobile:mobile,password:password},function (data) {
+		$.post('http://test.myplas.com/api/qapi1_2/login',{username:mobile,password:password},function (data) {
 		    console.log(data);
 			if(data.err==0){
 			    $_COOKIE['token']=data.dataToken;
