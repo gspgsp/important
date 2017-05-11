@@ -12,16 +12,16 @@ class indexAction extends homeBaseAction
 	// 通讯录
 	public function init()
 	{
-
+		if($_GET['token']){
+			$_SESSION['token']=$_GET['token'];
+			$_SESSION['userid']=$_GET['user_id'];
+			var_dump($_SESSION);
+		}
 		$this->display('../pc_plastic/index.html');
 	}
 	// 中间
 	public function middle(){
-			if($_GET['token']){
-				$_SESSION['token']=$_GET['token'];
-				$_SESSION['userid']=$_GET['user_id'];
-				var_dump($_SESSION);
-			}
+
 			$region=(isset($_POST['region']))?$_POST['region']:'0';
 		    $c_type=(isset($_POST['c_type']))?$_POST['c_type']:'0';
 		    $keywords=(isset($_POST['keywords']))?$_POST['keywords']:'';
