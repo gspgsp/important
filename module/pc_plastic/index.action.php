@@ -27,7 +27,7 @@ class indexAction extends homeBaseAction
 			header('Content-type:text/html;charset=utf-8');
 			$token=isset($_SESSION['token'])?$_SESSION['token']:'';
 			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson';
-			$params = array(
+		    $postJson = array(
 				'token'=>$token,
 				"keywords" => $keywords,
 				"region"=>$region,
@@ -36,7 +36,7 @@ class indexAction extends homeBaseAction
 				"sortField1"=>"",
 				"quan_type" =>"",
 			);
-			$postJson=urldecode(json_encode($params));
+//			$postJson=json_encode($postJson);
 			$res=$this->http_curl($url,'get','json',$postJson);
 			var_dump($res);
 			if($res['err']==0){
