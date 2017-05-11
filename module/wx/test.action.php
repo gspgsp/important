@@ -1074,6 +1074,9 @@ class testAction
        $resultStr = sprintf($textTpl, $postObj->FromUserName, $postObj->ToUserName,$time,$contentStr);
        echo $resultStr;
    }
+
+
+
    
  
 }

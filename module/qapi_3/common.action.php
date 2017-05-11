@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: sick
@@ -7,6 +8,55 @@
  */
 class commonAction extends baseAction
 {
+    /**
+     * ua检查更新接口
+     * @api {GET} /qapi_3/common/checkUA ua检查更新接口
+     * @apiVersion 3.1.0
+     * @apiName  checkUA
+     * @apiGroup Common
+     * @apiDescription 自定义的header为X-UA  拼接顺序为 平台（ios/android/h5/pc）|屏幕尺寸|user_id|token|uuid|包名|系统获取的操作系统名称|操作系统版本号|内核版本号|浏览器l版本号|设备厂商|设备名称信息
+     * .
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  platform   android ios h5 pc
+     * @apiSuccess {String}  user_id
+     * @apiSuccess {String}  token
+     * @apiSuccess {String}  uuid   设备唯一识别码
+     * @apiSuccess {String}  app_version   app包版本 如 89
+     * @apiSuccess {String}  os   操作系统名称  非内核
+     * @apiSuccess {String}  os_version   操作系统内核
+     * @apiSuccess {String}  core_version   操作系统内核版本
+     * @apiSuccess {String}  navigator   浏览器名称
+     * @apiSuccess {String}  navigator_version   浏览器版本
+     * @apiSuccess {String}  manufacturer   设备制造商
+     * @apiSuccess {String}  device_model   设备信息
+     * @apiSuccess {String}  screen   屏幕尺寸
+     *
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"密码重置成功"
+     *      }
+     */
+    public function checkUA ()
+    {
+        $arr = array(
+            'err'          => 0,
+            'platform'     => $this->platform,
+            'screen'       => $this->screen,
+            'user_id'      => $this->user_id,
+            'token'        => $this->token,
+            'uuid'         => $this->uuid,
+            'app_version'  => $this->app_version,
+            'os'           => $this->os,
+            'os_version'   => $this->os_version,
+            'core_version' => $this->core_version,
+            'navigator'    => $this->navigator,
+            'navigator_version'    => $this->navigator_version,
+            'manufacturer' => $this->manufacturer,
+            'device_model'  => $this->device_model,
+        );
+        $this->json_output ($arr);
+    }
 
     /**
      * APP检查更新接口

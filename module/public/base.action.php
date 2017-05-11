@@ -85,6 +85,7 @@ class baseAction extends null2Action
 
         $this->randomTime   = mt_rand (10, 20) * 180; // 1-2 h
         $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
+        $this->checkUA();
     }
     //http-->curl
     protected function http ($url)
@@ -114,7 +115,37 @@ class baseAction extends null2Action
         return $output;
     }
 
+     public function checkUA()
+     {
+         //$headers=getallheaders();
+         $ua = $_SERVER['HTTP_X_UA'];
+         if(empty($ua)){
+             $this->_errCode(120);
+         }else{
+             $_ua = explode('|',$ua);
+             if(empty($_ua)){
+                 $this->_errCode(120);
+             }
+             if(!in_array($_ua[0],array('ios','android','h5','pc')))
+             {
+                 $this->_errCode(120);
+             }
+         }
+         $this->platform= $_ua[0];
+         $this->screen= $_ua[1];
+         $this->user_id= $_ua[2];
+         $this->token= $_ua[3];
+         $this->uuid= $_ua[4];
+         $this->app_version= $_ua[5];
+         $this->os= $_ua[6];
+         $this->os_version= $_ua[7];
+         $this->core_version= $_ua[8];
+         $this->navigator= $_ua[9];
+         $this->navigator_version =$_ua[10];
+         $this->manufacturer= $_ua[11];
+         $this->device_model= $_ua[12];
 
+     }
 
     //判断账户
     /**
@@ -694,6 +725,12 @@ class baseAction extends null2Action
                 $this->json_output (array(
                     'err' => 119,
                     'msg' => '活动时间已过，请关注我们《塑料圈》公众号，参与更多活动',
+                ));
+                break;
+            case 120:
+                $this->json_output (array(
+                    'err' => 120,
+                    'msg' => '非法的网络请求，请自重',
                 ));
                 break;
             default:

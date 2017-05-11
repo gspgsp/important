@@ -66,6 +66,12 @@ class indexAction extends homeBaseAction
         }
     }
 
+    public function test()
+    {
+        echo 11111;
+        $this->display('test');
+    }
+
 }
 
 
