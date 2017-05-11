@@ -552,6 +552,7 @@ class billingAction extends adminBaseAction
 		if(!$data=$billingModel->where("id=$id")->getRow()) $this->error('信息不存在');
 
 		$list=$billingLogModel->where("parent_id=$id")->getAll();
+		$last_un_price=$billingModel->select("unbilling_price")->where("o_id=".$data['o_id'] and "invoice_status !=1")->order('id desc')->getOne();
 		unset($data['id']);
 		$data['billing_sn']="更正".$data['billing_sn'];
 		$data['input_time']=CORE_TIME;
@@ -559,12 +560,12 @@ class billingAction extends adminBaseAction
 		$data['update_time']='';
 		$data['update_admin']='';
 		$data['invoice_status']=3;
-		$data['unbilling_price']=$data['unbilling_price']+$data['billing_price'];
-
+		$data['unbilling_price']=$last_un_price+$data['billing_price'];
+// p($data['unbilling_price']);die;
 		$billingModel->startTrans();
 		try {
 			$billingModel->where("id=$id")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
-			$priarr = $billingModel->where("id=$id")->select('billing_price,unbilling_price')->getRow();
+			//$priarr = $billingModel->where("id=$id")->select('billing_price,unbilling_price')->getRow();
 			$billingModel->add($data);
 			foreach ($list as $key => $value) {
 				unset($value['id']);
