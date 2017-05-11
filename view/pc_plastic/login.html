@@ -61,6 +61,7 @@ $( function () {
 		var password=$('#password').val();
 		$.post('http://test.myplas.com/pc_plastic/index/login_1',{mobile:mobile,password:password},function (data) {
 			if(data.err==0){
+			    $_COOKIE['token']=data.dataToken;
 			    alert(data.dataToken);
 				alert(data.msg);
 				location.href='http://test.myplas.com/pc_plastic';
