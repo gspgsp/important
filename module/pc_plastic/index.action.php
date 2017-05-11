@@ -145,7 +145,7 @@ class indexAction extends homeBaseAction
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/'.$this->api.'/login';
 			$params = array(
-				"mobile" => $_GET['user_id'],
+				"username" => $_GET['user_id'],
 				"password"=> $_GET['password'],
 			);
 			$postJson=urldecode(json_encode($params));
