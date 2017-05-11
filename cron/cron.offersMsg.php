@@ -53,17 +53,53 @@ class cronOffersMsg{
 	public function sendOffersMsg($i){
 		$today_time = strtotime('today');
 		//发布报价的信息，去重，相同报价取最后一条
-		$product = $this->db->model('offers_msg')->getAll('SELECT a.`id`,a.`grade`,a.`sale_price` FROM p2p_offers_msg AS a,(SELECT MAX(id) AS id,grade FROM p2p_offers_msg GROUP BY grade) b
+		$product = $this->db->model('offers_msg')->getAll('SELECT a.`id`,a.`grade`,a.`sale_price`,a.`china_area` FROM p2p_offers_msg AS a,(SELECT MAX(id) AS id,grade FROM p2p_offers_msg GROUP BY grade) b
 			WHERE a.`id`=b.`id` AND a.`grade`=b.`grade` AND a.`status` = 2 and a.`input_time` > '.$today_time);
 		// showtrace();
 		//取出报价中的牌号这一列
 		if(empty($product)) return;
+		// p($product);
 		foreach ($product as $key1 => $value1) {
-			$product_arr[] = trim($value1['grade']);
+			switch ($value1['china_area']) {
+				case '华东':
+					$product_arr_huadong[] = trim($value1['grade']);
+					$id_arr_huadong[] = $value1['id'];
+					break;
+				case '华北':
+					$product_arr_huabei[] = trim($value1['grade']);
+					$id_arr_huabei[] = $value1['id'];
+					break;
+				case '华南':
+					$product_arr_huanan[] = trim($value1['grade']);
+					$id_arr_huanan[] = $value1['id'];
+					break;
+				default:
+					$product_arr_qita[] = trim($value1['grade']);
+					$id_arr_qita[] = $value1['id'];
+					break;
+			}
 		}
-		$res = $this->db->model('customer')->where("customer_manager>0 and status <> 9 and msg = 2 and (need_product <> '' OR need_product_adm <> '')")->select('c_id,c_name,need_product_adm,need_product')->limit($i*$this->nlimit.",".$this->nlimit)->getAll();
+		$this->diff_area($i,$product_arr_huadong,$id_arr_huadong,'华东');
+		$this->diff_area($i,$product_arr_huabei,$id_arr_huanan,'华北');
+		$this->diff_area($i,$product_arr_huanan,$id_arr_huadong,'华南');
+		$this->diff_area($i,$product_arr_qita,$id_arr_qita,'其他');
+	}
+	public function diff_area($i,$product_arr,$ids,$china_area){
+		// p($i);die;
+		if(empty($ids)){
+			$ids = "''";
+		}else{
+			$ids = implode(',', $ids);
+		}
+		$today_time = strtotime('today');
+		$product = $this->db->model('offers_msg')->getAll('SELECT a.`id`,a.`grade`,a.`sale_price`,a.`china_area` FROM p2p_offers_msg AS a,(SELECT MAX(id) AS id,grade FROM p2p_offers_msg GROUP BY grade) b
+			WHERE a.`id`=b.`id` AND a.`grade`=b.`grade` AND a.`status` = 2 and a.`input_time` > '.$today_time.' and a.id in ('.$ids.')');
+// showtrace();
+		// p($product);die;
+		$res = $this->db->model('customer')->where("customer_manager>0 and status <> 9 and msg = 2 and (need_product <> '' OR need_product_adm <> '') AND china_area = '".$china_area."'")->select('c_id,c_name,need_product_adm,need_product,china_area')->limit($i*$this->nlimit.",".$this->nlimit)->getAll();
 			// echo $this->db->getLastSql();
 			// showtrace();
+			// p($res);die;
 			$need_product = array();
 			foreach ($res as $key => $value) {
 				$need_product_temp =array();
@@ -82,6 +118,7 @@ class cronOffersMsg{
 				$same_product = array_values(array_intersect($need_product[$value['c_id']],$product_arr));//取交集
 				//如果相同牌号不为空，程序才执行
 				if(!empty($same_product)){
+				// p($need_product);
 					foreach ($same_product as $key2 => $value2) {
 						foreach ($product as $key3 => $value3) {
 							if(trim($value2) == trim($value3['grade'])){
@@ -95,6 +132,7 @@ class cronOffersMsg{
 					$same_product2 = $same_product1;
 					unset($same_product1);
 					$same_product2 = array_filter($same_product2);
+					// p($same_product2);die;
 					if(!empty($same_product2)){
 						$this->sendMsg($value['c_id'],$same_product2);
 						unset($same_product2);

@@ -61,8 +61,7 @@ class cronsendOffersMsg{
 		}
 	}
 	public function getCustomerContact($i,$offers_info){
-		// p($offers_info);die;
-		$res = $this->db->model('customer')->select('c_id,c_name,need_product_adm,need_product')->where("customer_manager>0 and status <> 9 and msg = 2 and (need_product <> '' OR need_product_adm <> '')")->limit($i*$this->nlimit.",".$this->nlimit)->getAll();
+		$res = $this->db->model('customer')->select('c_id,c_name,need_product_adm,need_product')->where("customer_manager>0 and status <> 9 and msg = 2 and (need_product <> '' OR need_product_adm <> '') AND china_area = '".$offers_info['china_area']."'")->limit($i*$this->nlimit.",".$this->nlimit)->getAll();
 		// p($res);
 		// showtrace();
 			foreach ($res as $key => $value) {
