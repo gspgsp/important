@@ -141,7 +141,7 @@ class indexAction extends homeBaseAction
 
 	public function login_1()
 	{
-		if($_GET['mobile']&&$_GET['password']){
+		if($_POST['mobile']&&$_POST['password']){
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/'.$this->api.'/login';
 			$params = array(
@@ -150,6 +150,7 @@ class indexAction extends homeBaseAction
 			);
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'get','json',$postJson);
+
 			if($res['err']==0){
 				$_SESSION['token']=$res['dataToken'];
 				$this->json_output($res);
