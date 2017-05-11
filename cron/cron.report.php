@@ -24,8 +24,10 @@ class cronReport{
 		$this->otime=time();
 		$this->logfile=CACHE_PATH.'log/cron/report.log'; //日志文件
 		$this->db=M('public:common');
-		$this->this_month_start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),1,date("Y"))) );
-		$this->next_month_start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m")+1,1,date("Y"))) );
+		// $this->this_month_start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),1,date("Y"))) );
+		$this->this_month_start=1470844800;
+		// $this->next_month_start=strtotime( date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m")+1,1,date("Y"))) );
+		$this->next_month_start=1472659200;;
 	}
 
 	/**
@@ -44,12 +46,16 @@ class cronReport{
 	{
 		
 		$res = $this->db->model('report_user')->where('report_date = '.$this->this_month_start)->getAll();
-		if(!$res){
-			echo "this month is ".date('F').", quota is not set for this month";die();
-		}
+		// if(!$res){
+		// 	echo "this month is ".date('F').", quota is not set for this month";die();
+		// }
 		$pur_and_sale_data = $this->get_pur_and_sale_data();//业务员完成销售采购总吨数和总金额统计
 		$old_and_new_user_data = $this->get_old_and_new_user();//业务员开发新老用户统计
 		$profit_data = $this->get_profit();//业务员销售利润统计
+		foreach ($profit_data as $key => $value) {
+			$profit_data['p'] += $value['profit'];
+		}
+		p($profit_data);die;
 		//合并销售采购总数统计 + 新老用户统计
 		$temp = array();
 		foreach ($pur_and_sale_data as $key => $value) {
@@ -233,24 +239,25 @@ class cronReport{
 							SELECT o.`o_id`, o.`join_id`, o.`customer_manager`,SUM(s.`number` * s.`unit_price`) AS s_price
 							FROM p2p_order AS o
 							JOIN p2p_sale_log AS s ON o.`o_id` = s.`o_id`
-							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1  AND o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start.'
+							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1 AND o.collection_status = 3 AND o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start.'
 							GROUP BY o.o_id
 							) AS sale
 							JOIN (
 							SELECT o.`o_id`, o.`join_id`, o.`customer_manager`,SUM(p.`number` * p.`unit_price`) AS p_price
 							FROM p2p_order AS o
 							JOIN p2p_purchase_log AS p ON o.`join_id` = p.`o_id`
-							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1  AND o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start.'
+							WHERE  1 AND o.sales_type = 2 AND o.order_type = 1 AND o.order_status = 2 AND o.transport_status = 2 AND o.is_join_check = 1 AND o.collection_status = 3  AND o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start.'
 							GROUP BY o.o_id
 							) AS pur
 							ON (sale.`o_id` = pur.`o_id`)
 							GROUP BY sale.`customer_manager`'
 						);
 				 		 // return $this->db->getLastSql();
+		// p($sale_pur_data);die();
 		
 		// 先采后销 pur_sale_data
 		$where = ' 1 ';
-		$where .= 'and o.sales_type = 1 and o.order_type = 1 and o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start;
+		$where .= 'and o.sales_type = 1 and o.order_type = 1 and o.order_status = 2 and o.transport_status = 2 and o.collection_status = 3 and o.input_time > '.$this->this_month_start.' and o.input_time < '.$this->next_month_start;
 		$pur_sale_data = $this->db->model('order as o')
 								 ->select('o.customer_manager, SUM((s.unit_price - s.purchase_price)*s.number) AS profit')
 								 ->leftjoin('sale_log as s','o.o_id=s.o_id')

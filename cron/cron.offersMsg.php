@@ -39,8 +39,9 @@ class cronOffersMsg{
 		$this->nlimit=1000; //每次发送1000条
 		$nums = ceil($count/$this->nlimit);
 		for($i=0;$i<$nums;$i++){
+		// for($i=0;$i<1;$i++){
 			$this->sendOffersMsg($i);
-				sleep(1);
+				// sleep(1);
 		}
 	}
 	
@@ -80,17 +81,21 @@ class cronOffersMsg{
 			}
 		}
 		$this->diff_area($i,$product_arr_huadong,$id_arr_huadong,'华东');
-		$this->diff_area($i,$product_arr_huabei,$id_arr_huanan,'华北');
-		$this->diff_area($i,$product_arr_huanan,$id_arr_huadong,'华南');
+		$this->diff_area($i,$product_arr_huabei,$id_arr_huabei,'华北');
+		$this->diff_area($i,$product_arr_huanan,$id_arr_huanan,'华南');
 		$this->diff_area($i,$product_arr_qita,$id_arr_qita,'其他');
 	}
 	public function diff_area($i,$product_arr,$ids,$china_area){
-		// p($i);die;
+		// p($product_arr);die;
 		if(empty($ids)){
-			$ids = "''";
+			return;
 		}else{
 			$ids = implode(',', $ids);
 		}
+		if(empty($product_arr)){
+			return;
+		}
+		// p($ids);
 		$today_time = strtotime('today');
 		$product = $this->db->model('offers_msg')->getAll('SELECT a.`id`,a.`grade`,a.`sale_price`,a.`china_area` FROM p2p_offers_msg AS a,(SELECT MAX(id) AS id,grade FROM p2p_offers_msg GROUP BY grade) b
 			WHERE a.`id`=b.`id` AND a.`grade`=b.`grade` AND a.`status` = 2 and a.`input_time` > '.$today_time.' and a.id in ('.$ids.')');
@@ -100,8 +105,8 @@ class cronOffersMsg{
 			// echo $this->db->getLastSql();
 			// showtrace();
 			// p($res);die;
-			$need_product = array();
 			foreach ($res as $key => $value) {
+				$need_product = array();
 				$need_product_temp =array();
 				$need_product_adm_temp =array();
 				$need_product_adm_temp=split(',',$value['need_product_adm']);
@@ -116,9 +121,10 @@ class cronOffersMsg{
 				$need_product[$value['c_id']]=array_filter(array_values(array_unique(array_merge($need_product_temp,$need_product_adm_temp))));
 				//所需牌号与发布报价的牌号交集
 				$same_product = array_values(array_intersect($need_product[$value['c_id']],$product_arr));//取交集
+				// p($same_product);die;
 				//如果相同牌号不为空，程序才执行
 				if(!empty($same_product)){
-				// p($need_product);
+				// p($same_product);die;
 					foreach ($same_product as $key2 => $value2) {
 						foreach ($product as $key3 => $value3) {
 							if(trim($value2) == trim($value3['grade'])){
@@ -132,7 +138,6 @@ class cronOffersMsg{
 					$same_product2 = $same_product1;
 					unset($same_product1);
 					$same_product2 = array_filter($same_product2);
-					// p($same_product2);die;
 					if(!empty($same_product2)){
 						$this->sendMsg($value['c_id'],$same_product2);
 						unset($same_product2);
@@ -141,7 +146,7 @@ class cronOffersMsg{
 			}
 	}
 	//根据客户id获取联系人
-	public function sendMsg($c_id,$offers_info){	 
+	public function sendMsg($c_id,$offers_info){
 		$res = $this->db->model('customer')->getAll("SELECT c1.`user_id`,c1.`name` as contact_name,c1.`c_id`,c1.`mobile` AS contact_mobile,customer_manager,adm.`name`,adm.`mobile` FROM `p2p_customer_contact` AS c1
 			LEFT JOIN p2p_admin AS adm ON c1.`customer_manager` = adm.`admin_id`
 			LEFT JOIN `p2p_adm_role_user` AS `user` ON `user`.`user_id` = c1.`customer_manager`
