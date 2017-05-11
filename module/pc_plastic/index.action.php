@@ -150,8 +150,9 @@ class indexAction extends homeBaseAction
 			);
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'get','json',$postJson);
-			var_dump($res); exit;
+			P($res);
 			if($res['err']==0){
+
 				$_SESSION['token']=$res['dataToken'];
 				$this->json_output($res);
 			}else{
