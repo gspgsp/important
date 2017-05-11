@@ -10,7 +10,7 @@ class commonAction extends baseAction
 {
     /**
      * ua检查更新接口
-     * @api {GET} /qapi_3/common/checkUA ua检查更新接口
+     * @api {GET} /qapi_3/common/checkUA 检查ua接口
      * @apiVersion 3.1.0
      * @apiName  checkUA
      * @apiGroup Common
