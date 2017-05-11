@@ -235,7 +235,10 @@ class indexAction extends homeBaseAction
 		$ch= curl_init();
 		//2 设置curl的参数
 		curl_setopt($ch,CURLOPT_URL,$url);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);// 将页面以文件流的形式保存
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		if($type='get'){
+			curl_setopt($ch,CURLOPT_HEADER,0);
+		}
 		if($type == 'post'){
 			curl_setopt($ch,CURLOPT_POST,1);
 			curl_setopt($ch,CURLOPT_POSTFIELDS,$arr);
@@ -244,17 +247,19 @@ class indexAction extends homeBaseAction
 		$output= curl_exec($ch);
 		//4关闭
 		curl_close($ch);
-		if($res =='json'){
-			if(curl_errno($ch)){
-				//请求失败，返回错误信息
-				return curl_errno($ch);
-			}else{
-				//请求成功
-				return json_decode($output,true);//ture 或 1;将json转为数组
-			}
-		}else{
-			return json_decode($output,true);//ture 或 1;将json转为数组
-		}
+
+		return $output;
+//		if($res =='json'){
+//			if(curl_errno($ch)){
+//				//请求失败，返回错误信息
+//				return curl_errno($ch);
+//			}else{
+//				//请求成功
+//				return json_decode($output,true);//ture 或 1;将json转为数组
+//			}
+//		}else{
+//			return json_decode($output,true);//ture 或 1;将json转为数组
+//		}
 	}
 
 }
