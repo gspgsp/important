@@ -152,10 +152,28 @@ class indexAction extends homeBaseAction
 				"username" => $_REQUEST['username'],
 				"password"=> $_REQUEST['password'],
 			);
-			$postJson=json_encode($params);
-			$res=$this->http_curl($url,'post','json',$postJson);
-			var_dump($res);return;
-			$this->json_output($res);
+//			$res=$this->http_curl($url,'post','json',$postJson);
+//			var_dump($res);return;
+//			$this->json_output($res);
+
+
+			$curl = curl_init();
+			//设置抓取的url
+			curl_setopt($curl, CURLOPT_URL, $url);
+			//设置头文件的信息作为数据流输出
+			curl_setopt($curl, CURLOPT_HEADER, 1);
+			//设置获取的信息以文件流的形式返回，而不是直接输出。
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			//设置post方式提交
+			curl_setopt($curl, CURLOPT_POST, 1);
+			//设置post数据
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+			//执行命令
+			$data = curl_exec($curl);
+			//关闭URL请求
+			curl_close($curl);
+			//显示获得的数据
+			print_r(json_encode($data,true));
 		}
 	}
 
@@ -231,9 +249,7 @@ class indexAction extends homeBaseAction
 	*
 	* */
 	function http_curl($url,$type='get',$res='json',$arr=''){
-		//1 初始化curl
 		$ch= curl_init();
-		//2 设置curl的参数
 		curl_setopt($ch,CURLOPT_URL,$url);
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
 		if($type='get'){
@@ -243,23 +259,17 @@ class indexAction extends homeBaseAction
 			curl_setopt($ch,CURLOPT_POST,1);
 			curl_setopt($ch,CURLOPT_POSTFIELDS,$arr);
 		}
-		//3 采集
 		$output= curl_exec($ch);
-		//4关闭
 		curl_close($ch);
-
-		return $output;
-//		if($res =='json'){
-//			if(curl_errno($ch)){
-//				//请求失败，返回错误信息
-//				return curl_errno($ch);
-//			}else{
-//				//请求成功
-//				return json_decode($output,true);//ture 或 1;将json转为数组
-//			}
-//		}else{
-//			return json_decode($output,true);//ture 或 1;将json转为数组
-//		}
+		if($res =='json'){
+			if(curl_errno($ch)){
+				//请求失败，返回错误信息
+				return curl_errno($ch);
+			}else{
+				return json_decode($output,true);
+			}
+		}else{
+			return json_decode($output,true);
+		}
 	}
-
 }
