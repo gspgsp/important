@@ -1778,6 +1778,7 @@ class qapi1_2Action extends null2Action
     //查看塑料圈好友资料
     public function getZoneFriend ()
     {
+    	var_dump($_REQUEST);return;
         $this->is_ajax = true;
         if ($_POST) {
             $user_id = $this->checkAccount ();
