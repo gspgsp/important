@@ -14,6 +14,7 @@ class indexAction extends homeBaseAction
 	{
 		if($_GET['token']){
 			$_SESSION['token']=$_GET['token'];
+			$_SESSION['user_id']=$_GET['user_id'];
 		}
 		$this->display('../pc_plastic/index.html');
 	}
