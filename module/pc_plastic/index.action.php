@@ -7,7 +7,7 @@ class indexAction extends homeBaseAction
 	protected $api;
 	public function __init()
 	{
-		$this->api = "qapi1_2";
+		$this->api = 'qapi1_2';
 	}
 	// 通讯录
 	public function init()
@@ -143,7 +143,7 @@ class indexAction extends homeBaseAction
 	{
 		if($_POST['mobile']&&$_POST['password']){
 			header('Content-type:text/html;charset=utf-8');
-			$url='http://test.myplas.com/api/'.$this->api.'/login';
+			$url='http://test.myplas.com/api/qapi1_2/login';
 			$params = array(
 				"username" => $_GET['mobile'],
 				"password"=> $_GET['password'],
