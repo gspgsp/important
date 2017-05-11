@@ -19,13 +19,12 @@ class indexAction extends homeBaseAction
 	public function middle(){
 			if($_GET['token']){
 				$_SESSION['token']=$_GET['token'];
-				$_SESSION['user_id']=$_GET['user_id'];
+				$_SESSION['userid']=$_GET['user_id'];
 				var_dump($_SESSION);
 			}
 			$region=(isset($_POST['region']))?$_POST['region']:'0';
 		    $c_type=(isset($_POST['c_type']))?$_POST['c_type']:'0';
 		    $keywords=(isset($_POST['keywords']))?$_POST['keywords']:'';
-		    var_dump($region);var_dump($c_type);var_dump($keywords);
 			header('Content-type:text/html;charset=utf-8');
 			$token=isset($_SESSION['token'])?$_SESSION['token']:'';
 			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson?token='.$token;
