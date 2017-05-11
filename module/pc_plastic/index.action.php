@@ -104,7 +104,7 @@ class indexAction extends homeBaseAction
 	public function info()
 	{
 		if($_GET['user_id']){
-			header('Content-type:text/html;charset=utf-8');
+//			header('Content-type:text/html;charset=utf-8');
 			$token=$_SESSION['token'];
 			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend';
 			$params = array(
