@@ -100,7 +100,6 @@ class indexAction extends homeBaseAction
 	// 个人info 详情
 	public function info()
 	{
-		var_dump($_COOKIE['token']);return;
 		if($_GET['user_id']){
 			var_dump($_GET['user_id']);
 			header('Content-type:text/html;charset=utf-8');
@@ -142,15 +141,16 @@ class indexAction extends homeBaseAction
 
 	public function login_1()
 	{
+		var_dump($_REQUEST);return;
 		if($_POST['username']&&$_POST['password']){
-			var_dump($_REQUEST);return;
+
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/qapi1_2/login';
 			$params = array(
 				"username" => $_POST['username'],
 				"password"=> $_POST['password'],
 			);
-			$postJson=json_encode($params);
+			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'post','json',$postJson);
 
 			$this->json_output($res);
