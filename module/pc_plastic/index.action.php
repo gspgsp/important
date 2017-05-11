@@ -12,7 +12,9 @@ class indexAction extends homeBaseAction
 	// 通讯录
 	public function init()
 	{
-
+		if($_GET['token']){
+			$_SESSION['token']=$_GET['token'];
+		}
 		$this->display('../pc_plastic/index.html');
 	}
 	// 中间
@@ -23,7 +25,7 @@ class indexAction extends homeBaseAction
 		    $keywords=(isset($_POST['keywords']))?$_POST['keywords']:'';
 		    var_dump($region);var_dump($c_type);var_dump($keywords);
 			header('Content-type:text/html;charset=utf-8');
-			$token= 'dc7e2474c867a5d553b985b59274579e';
+			$token=isset($_SESSION['token'])?$_SESSION['token']:'';
 			$url='http://test.myplas.com/api/'.$this->api.'/getPlasticPerson?token='.$token;
 			$params = array(
 				"keywords" => $keywords,

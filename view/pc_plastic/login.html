@@ -60,13 +60,11 @@ $( function () {
 		var mobile=$('#mobile').val();
 		var password=$('#password').val();
 		var cookie=Document.cookie;
-		$.post('http://test.myplas.com/pc_plastic/index/login_1',{username:mobile,password:password},function (data) {
+		$.post('http://test.myplas.com/api/qapi1_2/login',{username:mobile,password:password},function (data) {
 			if(data.err==0){
-                cookie= encodeURIComponent('token')+ "=" + encodeURIComponent(data.dataToken);
-
-			    alert(data.dataToken);
-				alert(data.msg);
-				location.href='http://test.myplas.com/pc_plastic';
+//                setCookie('token',data.dataToken);
+//                localStorage.setItem('token',data.dataToken);
+				location.href='http://test.myplas.com/pc_plastic/index/init?token='.data.dataToken;
 			}
 			if(data.err==1){alert(data.msg); return;}
 			if(data.err==3){alert(data.msg); return;}
@@ -76,5 +74,13 @@ $( function () {
             if(data.err==9){alert(data.msg); return;}
 		},'json')
 	});
+
+    function setCookie(name,value,expiredays)
+    {
+        var exdate=new Date()
+        exdate.setDate(exdate.getDate()+expiredays)
+        document.cookie=c_name+ "=" +escape(value)+
+            ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+    }
 } );
 </script>
