@@ -39,18 +39,20 @@ class indexAction extends adminBaseAction{
 			$this->error('操作有误');
 		}
 		$res = $this->db->model('offers_msg')->where('id = '.$id)->getRow();
+		// p($res);die;
 		if($res['unlock_time'] > CORE_TIME){
 			$this->error('该条记录，您已发送，有效期1小时');
 		}
 		if($res['status'] != 2){
 			$this->error('审核通过的牌号才可发送短信');
 		}
-		// p($res);die;
 		$data['grade'] = $res['grade'];
 		$data['sale_price'] = $res['sale_price'];
 		$data['input_time'] = time();
 		$data['offers_id'] = $res['id'];
+		$data['china_area'] = $res['china_area'];
 		$data['status'] = 0;
+		// p($data);die;
 		$add_res = $this->db->model('offers_cron')->add($data);
 		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 3600));
 		if($add_res){
