@@ -15,6 +15,7 @@ class indexAction extends homeBaseAction
 		if($_GET['token']){
 			$_SESSION['token']=$_GET['token'];
 			$_SESSION['user_id']=$_GET['user_id'];
+			var_dump($_SESSION);
 		}
 		$this->display('../pc_plastic/index.html');
 	}
@@ -104,7 +105,6 @@ class indexAction extends homeBaseAction
 	public function info()
 	{
 		if($_GET['user_id']){
-			var_dump($_GET['user_id']);
 			header('Content-type:text/html;charset=utf-8');
 			$token=$_SESSION['token'];  //
 			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend?token='.$token;
