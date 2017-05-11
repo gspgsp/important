@@ -108,12 +108,12 @@ class indexAction extends homeBaseAction
 			$token=$_SESSION['token'];
 			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend';
 			$params = array(
-				'token'=>$_SESSION['token'],
+				'token'=>$token,
 				"userid" => $_GET['user_id'],
 			);
 			var_dump($url);var_dump($params);
 			$postJson=urldecode(json_encode($params));
-			$res=$this->http_curl($url,'get','json',$postJson);
+			$res=$this->http_curl($url,'post','json',$postJson);
 			var_dump($res);return;
 		}
 
