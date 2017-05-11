@@ -136,7 +136,7 @@ class indexAction extends homeBaseAction
 	public function login()
 	{
 		if($_GET['mobile']&&$_GET['password']){
-			var_dump($_GET['mobile']);var_dump($_GET['password']);
+			var_dump($_GET['mobile']);var_dump($_GET['password']);return;
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend';
 			$params = array(
