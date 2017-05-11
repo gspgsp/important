@@ -44,6 +44,9 @@ class pushsmsAction extends adminBaseAction {
 		if(!empty($keyword)){
 		$where.=" and ad.name like '%$keyword%' ";
 		}
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0){
+			$where .= " and ct.`customer_manager` = {$_SESSION['adminid']}  ";
+		}
 		$list1=M('public:common')->model('customer_contact ct')
             		->select('ls.msg,ls.input_time,ls.status,ls.user_id,ct.name as cn_name,ct.mobile,ct.customer_manager,ad.name')
             		->rightjoin('log_sms_history ls','ct.user_id=ls.user_id')
@@ -58,6 +61,7 @@ class pushsmsAction extends adminBaseAction {
             		->page($page+1,$size)
             		->order("$sortField $sortOrder")
             		->getPage();
+            		// showtrace();
 		for($i=0;$i<count($list1['data']);$i++){
 		array_push($list2['data'],$list1['data'][$i]);
 		}
