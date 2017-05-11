@@ -103,7 +103,7 @@ class indexAction extends homeBaseAction
 		if($_GET['user_id']){
 			var_dump($_GET['user_id']);
 			header('Content-type:text/html;charset=utf-8');
-			$token= $_SESSION['token'];  // 3bf198c15c2b3b98bd41832df8445a89
+			$token='3bf198c15c2b3b98bd41832df8445a89 ';  //   $_SESSION['token']
 			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend?token='.$token;
 			$params = array(
 				"userid" => $_GET['user_id'],
@@ -159,6 +159,7 @@ class indexAction extends homeBaseAction
 		}
 	}
 
+	// 重置密码
 	public function forget_pwd()
 	{
 		$this->display('../pc_plastic/forget_pwd.html');
