@@ -59,8 +59,7 @@ $( function () {
     $('.btn1').click(function(){
         var mobile=$('#mobile').val();
         var password=$('#password').val();
-        var chanel=6;
-        $.get('http://test.myplas.com/pc_plastic/index/login',{mobile:mobile,password:password},function (data) {
+        $.post('http://test.myplas.com/pc_plastic/index/login',{mobile:mobile,password:password},function (data) {
             console.log(data);
         })
     });
