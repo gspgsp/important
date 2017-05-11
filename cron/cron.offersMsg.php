@@ -41,7 +41,7 @@ class cronOffersMsg{
 		for($i=0;$i<$nums;$i++){
 		// for($i=0;$i<1;$i++){
 			$this->sendOffersMsg($i);
-				// sleep(1);
+				sleep(1);
 		}
 	}
 	
