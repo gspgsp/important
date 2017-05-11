@@ -141,11 +141,11 @@ class indexAction extends homeBaseAction
 
 	public function login_1()
 	{
-		if($_POST['mobile']&&$_POST['password']){
+		if($_POST['username']&&$_POST['password']){
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/qapi1_2/login';
 			$params = array(
-				"username" => $_POST['mobile'],
+				"username" => $_POST['username'],
 				"password"=> $_POST['password'],
 			);
 
