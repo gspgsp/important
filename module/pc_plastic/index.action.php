@@ -151,7 +151,7 @@ class indexAction extends homeBaseAction
 
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'post','json',$postJson);
-			var_dump($res); return;
+			
 			$this->json_output($res);
 		}
 	}
@@ -247,10 +247,10 @@ class indexAction extends homeBaseAction
 				return curl_errno($ch);
 			}else{
 				//请求成功
-				return json_decode($output);//ture 或 1;将json转为数组
+				return json_decode($output,true);//ture 或 1;将json转为数组
 			}
 		}else{
-			return json_decode($output);//ture 或 1;将json转为数组
+			return json_decode($output,true);//ture 或 1;将json转为数组
 		}
 	}
 
