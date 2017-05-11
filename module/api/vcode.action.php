@@ -26,7 +26,7 @@ class vcodeAction extends homeBaseAction
         #$vcode->background = "#cccccc";
         ini_set ('display_errors', 'On');
         $vcode->doimage ();
-        $name            = 'vc_'.sget ('name', 's', 'vcode');
+        $name            = 'vc_'.sget ('name', 's', 'vcode');p($_SESSION);exit;
         $_SESSION[$name] = $vcode->get_code ();
         p ($vcode->get_code ());
     }

@@ -2187,7 +2187,7 @@ class qapi1_2Action extends null2Action
             if ($user_id <= 0) {
                 $this->json_output (array(
                     'err' => 1,
-                    'msg' => '您未登录塑料圈,无法查看企业及个人信息',
+                    'msg' => '您未登录塑料圈,无法查看企业及个人信息'.$user_id,
                 ));
             }
 
