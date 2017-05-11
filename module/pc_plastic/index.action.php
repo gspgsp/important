@@ -153,7 +153,7 @@ class indexAction extends homeBaseAction
 				"password"=> $_REQUEST['password'],
 			);
 
-			$res=$this->http_curl($url,'post','json',$params);
+			$res=$this->http_curl($url,'get','json',$params);
 			var_dump($res);return;
 			$this->json_output($res);
 
