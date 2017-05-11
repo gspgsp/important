@@ -105,14 +105,15 @@ class indexAction extends homeBaseAction
 		if($_GET['user_id']){
 			header('Content-type:text/html;charset=utf-8');
 			$token=$_SESSION['token'];
-			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend?token='.$token;
+			$url='http://test.myplas.com/api/'.$this->api.'/getZoneFriend';
 			$params = array(
+				'token'=>$_SESSION['token'],
 				"userid" => $_GET['user_id'],
 			);
-			var_dump($url);var_dump($params);return;
+			var_dump($url);var_dump($params);
 			$postJson=urldecode(json_encode($params));
 			$res=$this->http_curl($url,'get','json',$postJson);
-			var_dump($res);
+			var_dump($res);return;
 		}
 
 		$this->display('../pc_plastic/info.html');
