@@ -143,14 +143,14 @@ class indexAction extends homeBaseAction
 	public function login_1()
 	{
 		if($_POST['username']&&$_POST['password']){
+			var_dump($_REQUEST);return;
 			header('Content-type:text/html;charset=utf-8');
 			$url='http://test.myplas.com/api/qapi1_2/login';
 			$params = array(
 				"username" => $_POST['username'],
 				"password"=> $_POST['password'],
 			);
-
-			$postJson=(json_encode($params));
+			$postJson=json_encode($params);
 			$res=$this->http_curl($url,'post','json',$postJson);
 
 			$this->json_output($res);
