@@ -149,7 +149,7 @@ class indexAction extends homeBaseAction
 				"password"=> $_GET['password'],
 			);
 			$postJson=urldecode(json_encode($params));
-			$res=$this->http_curl($url,'get','json',$postJson);
+			$res=$this->http_curl($url,'post','json',$postJson);
 			$this->json_output($res);
 		}
 	}
