@@ -280,8 +280,27 @@ class toutiaoAction extends baseAction
         $this->_errCode (6);
     }
 
+
+
     /**
-     * 获取订阅频道
+     * @api {post} /qapi_3/toutiao/getSelectCate 塑料头条-获取订阅频道
+     * @apiVersion 3.1.0
+     * @apiName  getSelectCate
+     * @apiGroup toutiao
+     *
+     * @apiParam {String} token       token
+     * @apiParam {Number} id       文件id
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} info   信息
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "info":"xxx"
+     *      }
+     *
+     *
      */
     public function getSelectCate ()
     {
@@ -320,8 +339,31 @@ class toutiaoAction extends baseAction
         $this->_errCode (6);
     }
 
+
     /**
-     * 头条推荐
+     * @api {post} /qapi_3/toutiao/getSubscribe 塑料头条-头条推荐
+     * @apiVersion 3.1.0
+     * @apiName  getSubscribe
+     * @apiGroup toutiao
+     *
+     * @apiParam {String} token       token
+     * @apiParam {Number} page       页码
+     * @apiParam {Number} size         条数
+     * @apiParam {Number} subscribe       //1  关键字搜索   2  推荐
+     * @apiParam {String} keywords       搜索字
+     *
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} info   信息
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "data":"xxx"
+     *      }
+     *
+     *
      */
     public function getSubscribe ()
     {
