@@ -27,11 +27,11 @@
 		width:100px;
 		height: auto;
 	}
-	.table th, .table td { 
+	.table th, .table td {
 		text-align: center;
 		vertical-align: middle!important;
 	}
-	
+
 	.col-md-3 { padding-left:0; padding-right: 0; overflow: hidden;}
 	.row{ margin-left:0; margin-right: 0; overflow: hidden;}
 	.row .col-md-6{ padding:0 10px; margin: 15px 0;}
@@ -50,7 +50,7 @@
 		<div class="row" style="margin-top:10px;">
 			<div class="col-md-12 col-lg-8">
 				<!-- <form onSubmit="return searchSubmit()" class="form-inline"> -->
-				<form action="/wk/index/select" method="post" class="form-inline">
+				<form action="/wk/wk/select" method="post" class="form-inline">
 				  <!-- <div class="form-group">
 				    <select id="timeline" class="form-control">
 				      <option value="1">全部</option>
@@ -214,7 +214,7 @@
 					                <td><a href="javascript:void(0)" onclick="sendMsg({$value.id})">发短信</a></td>
 					                <td>{$value.input_time|date:m-d H:i}</td>
 					            </tr>
-         						{/foreach}     
+         						{/foreach}
 					        </tbody>
 					    </table>
 					</div>
@@ -268,7 +268,7 @@
 			 window.location.reload();
 		}
 	}
-		utils.ajax('/wk/index/check',{id:id,status:status},callback,"POST","json");
+		utils.ajax('/wk/wk/check',{id:id,status:status},callback,"POST","json");
 }
 //查看发送详情
 function valueInfo(id){
@@ -278,7 +278,7 @@ function valueInfo(id){
 	mini.open({
 	  url: "/report/logsms/init?offers_id="+id,
 	  showMaxButton:true,
-	  title: "短信发送记录", 
+	  title: "短信发送记录",
 	  width: 1300, height:500
 	});
 }
@@ -296,7 +296,7 @@ function valueInfo(id){
 			 window.location.reload();
 		}
 	}
-		utils.ajax('/wk/index/sendOffersMsg',{id:id},callback,"POST","json");
+		utils.ajax('/wk/wk/sendOffersMsg',{id:id},callback,"POST","json");
 }
 	//正常发布
 	function release1(){
@@ -347,13 +347,13 @@ function valueInfo(id){
 		}
 		var data=form.serialize();
 		// console.log(data);return;
-		$.post('/wk/index/addInfo',data,function(data){
+		$.post('/wk/wk/addInfo',data,function(data){
 			if(data.err>0){
 				alert(data.msg);
 			}else{
 				// prependTr(data.data);
 				document.getElementById('addForm').reset();
-				
+
 				alert('发布成功');
 				// loadall();
 			 window.location.reload();
@@ -361,7 +361,7 @@ function valueInfo(id){
 				// myload();
 			}
 		},'json');
-		
+
 	}
 
 	function offerUpload(){
@@ -369,7 +369,7 @@ function valueInfo(id){
 		if(url==''){
 			return false;
 		}
-		$.post('/wk/index/offerUpload',{url:url},function (data){
+		$.post('/wk/wk/offerUpload',{url:url},function (data){
 			if(data.err==0){
 				alert('导入成功');
 				window.location.reload();
