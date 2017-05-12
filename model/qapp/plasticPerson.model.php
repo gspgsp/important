@@ -214,10 +214,10 @@ class plasticPersonModel extends model
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "AllPlasticPersonList".":".md5($keywords).":".$region;
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
+        //缓存5分钟
+        $list  = $cache->setnx("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
 
-        $list  = $cache->get ("AllPlasticPersonList".'-'.md5($keywords)."-".$region);
-
-        if (empty($list)) {
+        if (!empty($list)) {
             $operMobi = array(
                 '13900000001',
                 '13900000002',
@@ -314,9 +314,6 @@ class plasticPersonModel extends model
                 }
             }
             //showTrace();
-            //缓存5分钟
-            $cache->set ("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
-
         }
 
         $len = $cache->llen($key);
@@ -401,10 +398,10 @@ class plasticPersonModel extends model
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "1PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("1PlasticPersonList".'-'.$keywords.'-'.$region);
+        //缓存5分钟
+        $list  = $cache->setnx ("1PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
 
-        $list  = $cache->get ("1PlasticPersonList".'-'.md5($keywords)."-".md5($region));
-
-        if (empty($list)) {
+        if (!empty($list)) {
             $operMobi = array(
                 '13900000001',
                 '13900000002',
@@ -552,10 +549,10 @@ class plasticPersonModel extends model
         $cache = E ('RedisCluster', APP_LIB.'class');
         $key   = "2PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("2PlasticPersonList".'-'.$keywords.'-'.$region);
+        //缓存5分钟
+        $list  = $cache->setnx ("2PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
 
-        $list  = $cache->get ("2PlasticPersonList".'-'.md5($keywords)."-".md5($region));
-
-        if (empty($list)) {
+        if (!empty($list)) {
             $operMobi = array(
                 '13900000001',
                 '13900000002',
