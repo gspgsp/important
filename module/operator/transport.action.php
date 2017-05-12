@@ -188,6 +188,20 @@ class transportAction extends adminBaseAction
         if(!empty($data['delivery_other'])&&!is_numeric($data['delivery_other'])){
             $this->json_output(array('err'=>1,'msg'=>'其它费用必须为数字！'));
         }
+        $o_list=M('public:common')->model('transport_contract')->select('goods_num')->where('order_sn=\''.$data['order_sn'].'\' and status=3')->getAll();
+        if($o_list){
+            $count_num=0;
+            foreach($o_list as $d){
+                $count_num+=$d['goods_num'];
+            }
+            $c_num=$count_num+$data['goods_num'];
+            if($c_num>$data['total_num']){
+                $this->json_output(array('err'=>1,'msg'=>'合同已存在！'));
+            }
+        }
+        if($data['goods_num']>$data['total_num']){
+            $this->json_output(array('err'=>1,'msg'=>'货物数量超出库存数！'));
+        }
         $data['status'] = 1;
         $data['create_time'] = time();
         $data['update_time'] = time();
@@ -232,7 +246,21 @@ class transportAction extends adminBaseAction
         if(!empty($data['delivery_other'])&&!is_numeric($data['delivery_other'])){
             $this->json_output(array('err'=>1,'msg'=>'其它费用必须为数字！'));
         }
-
+        $order_info = M('public:common')->model('order')->where('o_id=' . $data['o_id'])->getRow();
+        $o_list=M('public:common')->model('transport_contract')->select('goods_num')->where('o_id='.$data['o_id'].' and status=3')->getAll();
+        if($o_list){
+            $count_num=0;
+            foreach($o_list as $d){
+                $count_num+=$d['goods_num'];
+            }
+            $c_num=$count_num+$data['goods_num'];
+            if($c_num>$order_info['total_num']){
+                $this->json_output(array('err'=>1,'msg'=>'合同已存在！'));
+            }
+        }
+        if($data['goods_num']>$order_info['total_num']){
+            $this->json_output(array('err'=>1,'msg'=>'货物数量超出库存数！'));
+        }
         $data['status'] = 1;
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;

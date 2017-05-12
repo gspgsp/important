@@ -35,21 +35,10 @@ class contractAction extends adminBaseAction {
 			{
 				$where .= " and `created_by` = {$this->role['user_id']}";
 			} */			
-		    //物流领导所属关系
-			$pid=M('public:common')->model('admin')->select('admin_id,pid,name')->where('pid='.$_SESSION['adminid'])->getAll();
-			$admin_pid=array();
-			foreach($pid as $a){
-			    array_push($admin_pid, $a['admin_id']);
-			}
-			array_push($admin_pid,$_SESSION['adminid']);
-			$admin_list=implode($admin_pid,',');
-		    //物流经理
-		    if($_SESSION['adminid']==748){
-		        $where.=" and created_by >1";
-		    }
-		    //普通物流人员
+		    //物流领导所属关系			
 		    if($_SESSION['adminid']>0&&$_SESSION['adminid']!=1){
-		        $where.=" and created_by in ($admin_list)";
+		        $sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+		        $where.=" and created_by in ($sons)";
 		    }
 			//状态搜索
 			$status = sget('status','s','');
