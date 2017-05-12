@@ -224,7 +224,7 @@ function onValidation(e){
 		total+=parseFloat(data[i].exact);
 	}
 	mini.get('billing_price').setValue(total.toFixed(2));
-	if(parseFloat(un_price) == parseFloat(total.toFixed(2) && ch_price>0) ){
+	if(parseFloat(un_price) == parseFloat(total.toFixed(2)) && ch_price>0 ){
 		mini.get('handling_charge').setValue(ch_price);
 		$('#tax_price').show();
 	}else{
