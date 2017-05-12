@@ -132,7 +132,7 @@ function relevance(e){
 function join(e){
 	var record = e.record, rate_id = record.rate, s='';
 	if(rate_id > 1){
-		s += '<a href="javascript:OrdInfo('+rate+')">关联</a>';
+		s += '<a href="javascript:OrdInfo('+rate_id+')">关联</a>';
 	}
 	return s;
 }
@@ -146,10 +146,9 @@ function down(e){
 
 }
 //查看订单相关信息
-function OrdInfo(e){
-
+function OrdInfo(rate_id){
 	mini.open({
-		url: "/application/order/info?oid="+rate,
+		url: "/application/order/info?oid="+rate_id,
 		showMaxButton:true,
 		title: "查看订单相关信息",
 		width: 800, height:500,
