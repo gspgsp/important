@@ -50,12 +50,10 @@ class adminBaseAction extends action {
 		if($_SESSION['is_super']>0){ //超级管理员不检查
 			return true;
 		}
-		echo 123;
 		$this->isAjax(); //检查是否AJax提交
-		p($this->isAjax());
-		echo 456;
+		p(M('rbac:rbac')->checkAccess($this->admin_id));
 		if(!M('rbac:rbac')->checkAccess($this->admin_id)){ //未通过验证
-        	$this->error('您没有权限操作');
+			$this->error('您没有权限操作');
 		}
 		showtrace();
 	}
