@@ -105,6 +105,8 @@ class customerContactModel extends model{
 			}
 			// 组合区域
 			$info['origin'] = $info['company_province'].'|'.$info['company_city'];
+			//获取客户归属地域
+			$info['china_area'] = M('system:region')->get_system_region_by_phone($info['info_mobile']) ?: '其他';
 			//公司联系人信息
 			$info_ext = array(
 				'name'=>$info['info_name'],
