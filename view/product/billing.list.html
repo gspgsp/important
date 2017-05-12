@@ -132,9 +132,8 @@ function relevance(e){
 function join(e){
 	var record = e.record,rate = record.rate,s='';
 	if(rate > 1){
-		s += '<a href="javascript:OrdInfo('+oid+')">关联</a>';
+		s += '<a href="javascript:OrdInfo('+rate+')">关联</a>';
 	}
-
 	return s;
 }
 
