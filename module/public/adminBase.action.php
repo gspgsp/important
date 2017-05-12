@@ -25,6 +25,7 @@ class adminBaseAction extends action {
 		//用户权限检查
   		$this->admin_id = $_SESSION['adminid'];
 		$this->db=M('public:common');
+		showtrace();
 		$this->chkPriv();
 
 		$this->request_url = '/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A;
