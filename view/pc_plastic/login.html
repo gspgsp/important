@@ -66,7 +66,8 @@ $( function () {
                  localstroage.setItem('token',data.dataToken);
 				alert(data.msg);
                 alert(localstroage.getItem('token'));
-				location.href='http://test.myplas.com/pc_plastic/index/right';
+                $.post('');
+				location.href='http://test.myplas.com/pc_plastic/index/init';
 			}
 			if(data.err==1){alert(data.msg); return;}
 			if(data.err==3){alert(data.msg); return;}
