@@ -93,7 +93,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<input type="text" class="form-control"  name="num" placeholder="数量（必填）">
+										<input type="text" class="form-control"  name="num" placeholder="数量（必填）" onKeyPress="if((event.keyCode<48 || event.keyCode>57) && event.keyCode!=46 || /\.\d\d$/.test(value))event.returnValue=false">
 									</div>
 								</div>
 								<div class="col-md-6">
