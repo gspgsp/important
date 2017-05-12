@@ -94,7 +94,7 @@ class contactAction extends adminBaseAction {
 			$list['data'][$k]['sex']=L('sex')[$v['sex']];
 			// $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
 			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $v['name'];
-			if((in_array($v['c_id'],$cids) || $_SESSION['adminid'] !=$v['customer_manager']) && $_SESSION['adminid'] != 1){
+			if((in_array($v['c_id'],$cids) || $_SESSION['adminid'] !=$v['customer_manager']) && !in_array($_SESSION['adminid'],array(1,10,1007,11,726,877,9))){
 				$list['data'][$k]['mobile'] = '******';
 				$list['data'][$k]['tel'] = '******';
 			}
