@@ -48,16 +48,9 @@
 			<div class="alert alert-info" role="alert">用户：{$smarty.session.username}</div>
 		</div>
 		<div class="row" style="margin-top:10px;">
-			<div class="col-md-12 col-lg-8">
-				<!-- <form onSubmit="return searchSubmit()" class="form-inline"> -->
+			<div class="col-md-3"></div>
+			<div class="col-md-9">
 				<form action="/wk/wk/select" method="post" class="form-inline">
-				  <!-- <div class="form-group">
-				    <select id="timeline" class="form-control">
-				      <option value="1">全部</option>
-				      <option value="2">供应</option>
-				      <option value="3">采购</option>
-				    </select>
-				  </div> -->
 				  <div class="form-group">
 				    <input type="text" style="width:350px;" class="form-control" id="keyword" name="keyword" id="" placeholder="输入牌号搜索">
 				  </div>
@@ -105,7 +98,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<input type="text" class="form-control" name="sale_price" placeholder="销售价格（必填）">
+										<input type="text" class="form-control" name="price" placeholder="成本价格（必填）">
 									</div>
 								</div>
 							</div>
@@ -114,9 +107,10 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<input type="text" class="form-control" name="price" placeholder="成本价格（必填）">
+										<input type="text" class="form-control" name="sale_price" placeholder="销售价格（必填）">
 									</div>
 								</div>
+								
 								<div class="col-md-6">
 									<div class="form-group">
 										<input type="text" class="form-control" name="store" placeholder="仓库">
