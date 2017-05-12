@@ -130,8 +130,9 @@ function relevance(e){
 	return s;
 }
 function join(e){
-	var record = e.record,rate = record.rate,s='';
-	if(rate > 1){
+	var record = e.record,rate_id = record.rate,s='';
+	if(rate_id > 1){
+		alert(123);
 		s += '<a href="javascript:OrdInfo('+rate+')">关联</a>';
 	}
 	return s;
