@@ -49,6 +49,8 @@ $( function () {
 	$( window ).resize( function () {
 		setW( left, center, right );
 	} );
+
+	var token=window.localStorage.getItem('token');
 	
 	center.load( "http://test.myplas.com/pc_plastic/index/middle" );
 	right.load( "http://test.myplas.com/pc_plastic/index/right" );
