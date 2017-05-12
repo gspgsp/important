@@ -11,7 +11,7 @@ class adminBaseAction extends action {
 		startAdminSession();
 		parent::__construct();
 		$this->sys=M('system:setting')->getSetting();
-		
+
 		$this->cache= E('RedisCluster',APP_LIB.'class');
 		$_SESSION['depart']=($this->cache->get('depart_'.SESS_ID)==false?0:$this->cache->get('depart_'.SESS_ID));
 		$_SESSION['adminid']=($this->cache->get('adminid_'.SESS_ID)==false?0:$this->cache->get('adminid_'.SESS_ID));
@@ -50,11 +50,14 @@ class adminBaseAction extends action {
 		if($_SESSION['is_super']>0){ //超级管理员不检查
 			return true;
 		}
+		echo 123;
 		$this->isAjax(); //检查是否AJax提交
-
+		p($this->isAjax());
+		echo 456;
 		if(!M('rbac:rbac')->checkAccess($this->admin_id)){ //未通过验证
         	$this->error('您没有权限操作');
 		}
+		showtrace();
 	}
 
     /**
