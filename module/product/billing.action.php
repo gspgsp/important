@@ -342,9 +342,8 @@ class billingAction extends adminBaseAction
 					// }
 					M('order:orderLog')->sendMsg($data['o_id'],$type,$ext);
 				}
-
 				foreach ($detail as $v) {
-					if(!$this->db->model('billing_log')->where("id={$v['id']}")->update(array('update_time'=>CORE_TIME,'status'=>2,))) $this->error("开票明细更新失败");
+					if(!$this->db->model('billing_log')->where("id={$v['id']}")->update(array('update_time'=>CORE_TIME,'status'=>2,'b_number'=>$v['b_number'],))) $this->error("开票明细更新失败");
 					if($type==1){//销售
 						$b_number=$this->db->model('sale_log')->where("id={$v['l_id']}")->select('b_number')->getOne();
 						if($v['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
