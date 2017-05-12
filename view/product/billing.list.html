@@ -57,7 +57,7 @@
 		<!-- <div field="rise" width="40" headerAlign="center" align="center" align="center">抬头</div> -->
 		<div field="order_name" width="30" headerAlign="center" align="center" align="center">合同主题</div>
 		<div field="accessory" width="25" headerAlign="center" align="center" align="center" renderer="down">附件</div>
-		<!-- <div field="bile_type" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center">票据类型</div> -->
+		<div field="rate" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center" renderer="OrdInfo">关联</div>
 
 		<div field="invoice_status" renderer="setInv" width="40" headerAlign="center" align="center" allowSort="true">{if $type eq '1'}销售开票状态{else}采购开票状态{/if}</div>
 
@@ -138,7 +138,21 @@ function down(e){
 	return s;
 
 }
-
+//查看订单相关信息
+function OrdInfo(e){
+	var record = e.record,rate = record.rate;
+	mini.open({
+		url: "/application/order/info?oid="+rate,
+		showMaxButton:true,
+		title: "查看订单相关信息",
+		width: 800, height:500,
+		ondestroy: function(action){
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
 //查看订单相关信息
 function viewOrdInfo(oid,o_type,sale){
 	mini.open({
