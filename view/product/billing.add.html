@@ -190,10 +190,15 @@ grid.hideColumn("exact");
 //隐藏手续费
 $('#tax_price').hide();
 var ch_price ="{$handling_charge}";//手续费
+var has_price ="{$has_hand_charge}";//已开票手续费
 var un_price = mini.get('unbilling_price').value;
 var bi_price = mini.get('billing_price').value;
 if(un_price==bi_price && ch_price>0){
-	mini.get('handling_charge').setValue(ch_price);
+	if (has_price) {
+		mini.get('handling_charge').setValue("手续费已付");
+	}else{
+		mini.get('handling_charge').setValue(ch_price);
+	}
 	$('#tax_price').show();
 }
 
@@ -225,7 +230,12 @@ function onValidation(e){
 	}
 	mini.get('billing_price').setValue(total.toFixed(2));
 	if(parseFloat(un_price) == parseFloat(total.toFixed(2)) && ch_price>0 ){
-		mini.get('handling_charge').setValue(ch_price);
+		if (has_price) {
+			mini.get('handling_charge').setValue('手续费已付');
+		}else{
+			mini.get('handling_charge').setValue(ch_price);
+		}
+
 		$('#tax_price').show();
 	}else{
 		mini.get('handling_charge').setValue(0);
@@ -267,7 +277,6 @@ function submitForm(billing) {
 	var o = form.getData();
 	$.extend(o, {detail:data});
 	var json = mini.encode(o);
-
 	form.loading("数据提交中，请稍后......");
 	$.post('/product/billing/ajaxSave',{data:json,do:billing},function(data){
 		form.unmask();

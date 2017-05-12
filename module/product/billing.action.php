@@ -264,6 +264,9 @@ class billingAction extends adminBaseAction
 				->wherePk($id)
 				->select('rise as c_name,total_price,billing_price,unbilling_price,order_sn,order_name,c_id')
 				->getRow();
+			//获取已支付手续费
+			$has_hand_charge = $this->db->model('billing')->select("IFNULL(SUM(tax_price),0)")->where("o_id=".$o_id)->getOne();
+			$this->assign('has_hand_charge',$has_hand_charge);
 			$this->assign('headData',$headData);
 
 		}else{
@@ -304,6 +307,10 @@ class billingAction extends adminBaseAction
 
 	public function ajaxSave(){
 		$data = sdata();
+		if(empty($data)) $this->error('数据错误');
+		if ($data['tax_price']=='手续费已付') {
+			$data['tax_price']=0;
+		}
 		$type = sget('do','i');//区分销售采购订单
 		//获取未开完票的订单明细的个数$nus
 		if($type==1){//销售
@@ -385,6 +392,7 @@ class billingAction extends adminBaseAction
     				$n=$this->db->model('order_flow')->add($arr);
 
 					if(!$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username'])) ) $this->error('操作订单表失败');
+					$this->success('操作订单表失败');
 				}else{
 					$this->db->rollback();
 					$this->error('保存失败：'.$this->db->getDbError());
