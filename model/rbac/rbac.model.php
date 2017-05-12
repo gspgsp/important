@@ -1,6 +1,6 @@
 <?php
 /**
- * 角色权限管理 
+ * 角色权限管理
  */
 class rbacModel extends model{
 	public function __construct() {
@@ -17,20 +17,23 @@ class rbacModel extends model{
 		//不需要检查的排除
 		$no_auth_module=array('index','pass');
 		if(!empty($no_auth_module) && in_array(strtolower(ROUTE_C),$no_auth_module)){
-			return true;	
+			echo 4;
+			return true;
 		}
-		
+
 		//存在认证识别号，则进行进一步的访问决策
 		if(empty($_SESSION['is_super'])) { //非超管
 			//权限列表
+			echo 5;
 			$accessList = $this->getAccessList($admin_id);
 			$accessId=strtolower('/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A);
 			if(!isset($accessList[$accessId])) { //不在权限列表中
 				return false;
 			}
 		}
+		echo 6;
 		return true;
-	}	
+	}
 		/**
 		 * j检查用户当前的审核流程
 		 * @Author   cuiyinming
@@ -43,7 +46,7 @@ class rbacModel extends model{
 			// 查询当前用户的具有的该节点的权限流
 			return $this->select('node_flow')->model('adm_chk')->where("`adm_id`= $admin_id and `node_id` = $nodeid")->getCol();
 		}
-	
+
 	/*
 	 * 取得当前用户的所有权限列表
 	 * @access public
@@ -64,12 +67,12 @@ class rbacModel extends model{
 			}
 			//$_SESSION['role_access']=$access;
 		}else{
-			$access=$_SESSION['role_access'];	
+			$access=$_SESSION['role_access'];
 		}
 		return $access;
 	}
-	
-	
+
+
 	/**
 	 * 获取我的菜单
 	 * @access private
@@ -79,13 +82,13 @@ class rbacModel extends model{
 			//所有平级菜单
 			$arr=$this->select('id,name as url,title,pid,remark as role,level')->model('adm_node')->where('status=1 and ntype=1 and level>1')->order('pid asc,sort_order asc')->getAll();
 			$menu=$this->_menuTree($arr);
-			
+
 			if(empty($_SESSION['is_super'])){ //非超级用户:计算菜单权限
 				$access = $this->getAccessList($_SESSION['adminid']);
 				foreach($menu as $k1=>$v1){ //1级
 					foreach($v1['child'] as $k2=>$v2){ //2级
 						foreach($v2['child'] as $k3=>$v3){  //3级
-							//非首页模型+在权限中 // 
+							//非首页模型+在权限中 //
 							if(!strstr($v3['url'],'/index/index') && !array_key_exists(strtolower($v3['role']),$access)){ //不再允许权限中：放弃
 								unset($menu[$k1]['child'][$k2]['child'][$k3]);
 							}
@@ -99,30 +102,30 @@ class rbacModel extends model{
 					}
 				}
 			}
-			
+
 			$top=$left=array();
 			foreach($menu as $k1=>$v1){
 				$top[$v1['url']]=$v1['title'];
 				foreach($v1['child'] as $k2=>$v2){
 					foreach($v2['child'] as $k3=>$v3){
 						$left[$v1['url']][$v2['title']][]=array(
-							'name'=>$v3['title'],									
-							'file'=>$v3['url'],									
+							'name'=>$v3['title'],
+							'file'=>$v3['url'],
 						);
 					}
 				}
 			}
 			unset($menu);
-			
+
 			$menu['top']=$top;
 			$menu['left']=$left;
 			//$_SESSION['role_menu']=$menu;
 		}else{
-			$menu=$_SESSION['role_menu'];	
+			$menu=$_SESSION['role_menu'];
 		}
 		return $menu;
 	}
-	
+
 	/**
 	 * 生成菜单树
 	 * @param array $arr 平级菜单数组
@@ -147,7 +150,7 @@ class rbacModel extends model{
 	public function getSons($pid=0){
 		$infos = $this->select("admin_id,pid")->model('admin')->getAll();
 		return  $this->_get_tree_child($infos,$pid);
-	
+
 	}
 
 
