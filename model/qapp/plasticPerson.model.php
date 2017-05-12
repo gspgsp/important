@@ -461,12 +461,8 @@ class plasticPersonModel extends model
             foreach ($data2 as $id) {
                 $cache->rpush ($key, $id['user_id']);
             }
-
-
             //showTrace();
             //缓存5分钟
-            $cache->set ("1PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
-
         }
 
         $len = $cache->llen($key);
@@ -614,12 +610,8 @@ class plasticPersonModel extends model
             foreach ($data2 as $id) {
                 $cache->rpush ($key, $id['user_id']);
             }
-
-
             //showTrace();
             //缓存5分钟
-            $cache->set ("2PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
-
         }
 
         $len = $cache->llen($key);
