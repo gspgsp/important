@@ -367,7 +367,6 @@ class billingAction extends adminBaseAction
 					}else{
 						$istatus = 2;
 					}
-
     				$unBillingPrice = $data['unbilling_price']-$data['billing_price'];
 					if(!M('order:orderLog')->addLog($data['o_id'],$istatus,3,$spend_time,$data['total_price'],$data['total_price']-$unBillingPrice,$unBillingPrice)) $this->error("更新可视化失败");
 
@@ -563,6 +562,7 @@ class billingAction extends adminBaseAction
 		$data['update_time']='';
 		$data['update_admin']='';
 		$data['invoice_status']=3;
+		$data['tax_price']=-$data['tax_price'];
 		$data['unbilling_price']=$last_un_price+$data['billing_price'];
 // p($data['unbilling_price']);die;
 		$billingModel->startTrans();
