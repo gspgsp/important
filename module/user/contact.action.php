@@ -58,6 +58,18 @@ class contactAction extends adminBaseAction {
 		}elseif(!empty($keyword) && $key_type=='c_id'){
 			$keyword=M('user:customer')->getLikeCidByCname($keyword);
 			$where.=" and `$key_type`  in ('$keyword') ";
+		}elseif(!empty($keyword) && $key_type=='customer_manager'){
+			$adms = join(',',M('rbac:adm')->getIdByName($keyword));
+			$where.=" and $key_type in ($adms) ";
+			$sons = explode(',',M('rbac:rbac')->getSons($_SESSION['adminid']));  //领导
+			$pass = in_array($adms,$sons);
+			if(!M('rbac:adm')->getIdByName($keyword) && $_SESSION['adminid'] != 1){
+				$this->error('<font style="color:red">查询的交易员不存在！</font>');
+			}else if(count(M('rbac:adm')->getIdByName($keyword)) > 1 && $_SESSION['adminid'] != 1){
+				$this->error('<font style="color:red">暂时不支持模糊查询交易员</font>');
+			}else if($_SESSION['adminid'] != $adms && $_SESSION['adminid'] != 1 && 	!$pass){
+				$this->error('<font style="color:red">只支持查询自己及下属哦！</font>');
+			}
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  = '$keyword' ";
 		}
