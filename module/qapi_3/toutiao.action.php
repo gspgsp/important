@@ -341,7 +341,7 @@ class toutiaoAction extends baseAction
 
 
     /**
-     * @api {post} /qapi_3/toutiao/getSubscribe 塑料头条-头条推荐
+     * @api {post} /qapi_3/toutiao/getSubscribe 塑料头条-sss头条推荐
      * @apiVersion 3.1.0
      * @apiName  getSubscribe
      * @apiGroup toutiao
