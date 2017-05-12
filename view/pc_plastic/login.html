@@ -65,7 +65,7 @@ $( function () {
                  localstroage.setItem('token',data.dataToken);
 				alert(data.msg);
                 alert(localstroage.getItem('token'));
-				location.href='http://test.myplas.com/api/qapi1_2/getPlasticPerson='+data.dataToken+'&user_id='+data.user_id;
+//				location.href='http://test.myplas.com/api/qapi1_2/getPlasticPerson='+data.dataToken+'&user_id='+data.user_id;
 			}
 			if(data.err==1){alert(data.msg); return;}
 			if(data.err==3){alert(data.msg); return;}
