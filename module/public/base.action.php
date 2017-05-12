@@ -131,6 +131,7 @@ class baseAction extends null2Action
                  $this->_errCode(120);
              }
          }
+         file_put_contents('/tmp/xielei.txt',print_r($_ua,true),FILE_APPEND);
          $this->platform= $_ua[0];
          $this->screen= $_ua[1];
          $this->user_id= $_ua[2];
