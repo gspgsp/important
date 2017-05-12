@@ -12,10 +12,10 @@ class indexAction extends homeBaseAction
 	// 通讯录
 	public function init()
 	{
-		if($_GET['token']){
-			$_SESSION['token']=$_GET['token'];
-			$_SESSION['userid']=$_GET['user_id'];
-		}
+//		if($_GET['token']){
+//			$_SESSION['token']=$_GET['token'];
+//			$_SESSION['userid']=$_GET['user_id'];
+//		}
 		$this->display('../pc_plastic/index.html');
 	}
 	// 中间
@@ -83,19 +83,6 @@ class indexAction extends homeBaseAction
 				}
 
 			}
-			if($res['err']==1){
-				$str='';
-				$str.=$res['msg']; return false;
-			}
-			if($res['err']==2){
-				$str='';
-				$str.=$res['msg']; return false;
-			}
-			if($res['error']==1){
-				$str='';
-				$str.=$res['msg']; return false;
-			}
-
 		$this->assign('str',$str);
 		$this->assign('template',$template);
 		$this->display('../pc_plastic/center.html');
@@ -141,23 +128,6 @@ class indexAction extends homeBaseAction
 	{
 
 		$this->display('../pc_plastic/login.html');
-	}
-
-	public function login_1()
-	{
-		if($_POST['username']&&$_POST['password']){
-			header('Content-type:text/html;charset=utf-8');
-			$url='http://test.myplas.com/api/qapi1_2/login';
-			$params = array(
-				"username" => $_REQUEST['username'],
-				"password"=> $_REQUEST['password'],
-			);
-
-			$res=$this->http_curl($url,'get','json',$params);
-			var_dump($res);return;
-			$this->json_output($res);
-
-		}
 	}
 
 	// 重置密码
