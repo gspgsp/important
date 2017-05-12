@@ -255,6 +255,7 @@ function removeRow() {
 
 //增加后提交数据(保存)
 function submitForm(billing) {
+	// curUnique();
 	form.validate();
 	if (form.isValid() == false) return;
 	//提交数据
@@ -274,6 +275,7 @@ function submitForm(billing) {
 		if(data.err=='0'){
 			CloseWindow("save");
 		}else{
+			CloseWindow("save");
 			return false;
 		}
 	},'json');
@@ -311,18 +313,23 @@ function onCancel(e) {
 }
 
 //销售发票号去重,采购不去重
-{if $type =='1'}
-	$(function(){
-		$("#invoice_sn").bind("change",function(){
-			var sn = mini.get("invoice_sn").getValue();
-			var urlstr = '/product/billing/curUnique';
-			$.post(urlstr,{data:sn},function(data){
-				if(data.err=='1'){
-					alert(data.msg);
-				}
-			},'json');
-		});
-	});
-{/if}
+// function curUnique(){
+// 	{if $type =='1'}
+// 	$(function(){
+// 		$("#invoice_sn").bind("change",function(){
+// 			var sn = mini.get("invoice_sn").getValue();
+// 			var urlstr = '/product/billing/curUnique';
+// 			$.post(urlstr,{data:sn},function(data){
+// 				if(data.err=='1'){
+// 					alert(data.msg);
+// 					form.unmask();
+// 					return;
+// 				}
+// 			},'json');
+// 		});
+// 	});
+// 	{/if}
+// }
+// curUnique();
 
 </script>

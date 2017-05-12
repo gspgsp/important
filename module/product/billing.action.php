@@ -358,7 +358,8 @@ class billingAction extends adminBaseAction
 					}
 				}
 				if($this->db->commit()){
-					if($this->db->model('billing_log')->where("status=1 and parent_id={$data['id']}")->getRow()){
+					$m=$this->db->model('billing_log')->where("status=1 and parent_id={$data['id']}")->getRow();
+					if(!empty($m) ){
 						if(!$this->db->model('billing_log')->where("status=1 and parent_id={$data['id']}")->delete()) $this->error("开票明细删除失败");
 					}
 					//2是部分开票，3是全部开票
@@ -367,11 +368,23 @@ class billingAction extends adminBaseAction
 					}else{
 						$istatus = 2;
 					}
-    				$unBillingPrice = $data['unbilling_price']-$data['billing_price'];
-					if(!M('order:orderLog')->addLog($data['o_id'],$istatus,3,$spend_time,$data['total_price'],$data['total_price']-$unBillingPrice,$unBillingPrice)) $this->error("更新可视化失败");
 
-					$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
-					$this->success('操作成功');
+    				$unBillingPrice = $data['unbilling_price']-$data['billing_price'];
+    				$arr=array(
+    					'o_id'=>$data['o_id'],
+    					'step'=>$istatus,
+    					'type'=>3,
+    					'spend_time'=>$spend_time,
+    					'total'=>$data['total_price'],
+    					'payed'=>$data['total_price']-$unBillingPrice,
+    					'lefted'=>$unBillingPrice,
+    					'user_ip' => get_ip(),
+						'input_time' => CORE_TIME,
+    				);
+    				//更新可视化
+    				$n=$this->db->model('order_flow')->add($arr);
+
+					if(!$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username'])) ) $this->error('操作订单表失败');
 				}else{
 					$this->db->rollback();
 					$this->error('保存失败：'.$this->db->getDbError());
