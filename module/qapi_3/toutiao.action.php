@@ -9,7 +9,7 @@ class toutiaoAction extends baseAction
 {
 
     /**
-     * @api {post} /qapi_3/toutiao/topLine 塑料头条
+     * @api {post} /qapi_3/toutiao/topLine 塑料头条是滴是滴是收到货厉害i
      * @apiVersion 3.1.0
      * @apiName  topLine
      * @apiGroup toutiao
