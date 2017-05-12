@@ -51,11 +51,9 @@ class adminBaseAction extends action {
 			return true;
 		}
 		$this->isAjax(); //检查是否AJax提交
-		p(M('rbac:rbac')->checkAccess($this->admin_id));
 		if(!M('rbac:rbac')->checkAccess($this->admin_id)){ //未通过验证
 			$this->error('您没有权限操作');
 		}
-		showtrace();
 	}
 
     /**
