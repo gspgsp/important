@@ -120,7 +120,35 @@ class wechatAction extends baseAction
     }
 
 
-    //分享我的供给或其求购
+
+    /**
+     * @api {post} /qapi_3/wechat/shareMyPur weixin-分享我的供给或其求购
+     * @apiVersion 3.1.0
+     * @apiName  shareMyPur
+     * @apiGroup wechat
+     *
+     * @apiParam {String} token       token
+     * @apiParam {Number} id       purchase id
+     *
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} info   信息
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "data":"xxx",
+     *      "info":"xxx"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     *
+     *
+     */
     public function shareMyPur ()
     {
         $this->is_ajax = true;
@@ -148,7 +176,34 @@ class wechatAction extends baseAction
         ));
     }
 
-    //验证是否分享成功日志
+
+    /**
+     * @api {post} /qapi_3/wechat/saveShareLog weixin-分享记录日志
+     * @apiVersion 3.1.0
+     * @apiName  saveShareLog
+     * @apiGroup wechat
+     *
+     * @apiParam {Number} type       //分享类容类型  1采购 2报价 3 文章
+     * @apiParam {Number} id       分享内容id
+     *
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} info   信息
+     *
+     * @apiSuccessExample Success-Response:
+     *     {
+     *      "err":0
+     *      "msg":"分享成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 6,
+     *       "msg": "分享失败"
+     *      }
+     *
+     *
+     */
     public function saveShareLog ()
     {
         if ($_POST) {
