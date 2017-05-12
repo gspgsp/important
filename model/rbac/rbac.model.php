@@ -17,21 +17,18 @@ class rbacModel extends model{
 		//不需要检查的排除
 		$no_auth_module=array('index','pass');
 		if(!empty($no_auth_module) && in_array(strtolower(ROUTE_C),$no_auth_module)){
-			echo 4;
 			return true;
 		}
 
 		//存在认证识别号，则进行进一步的访问决策
 		if(empty($_SESSION['is_super'])) { //非超管
 			//权限列表
-			echo 5;
 			$accessList = $this->getAccessList($admin_id);
 			$accessId=strtolower('/'.ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A);
 			if(!isset($accessList[$accessId])) { //不在权限列表中
 				return false;
 			}
 		}
-		echo 6;
 		return true;
 	}
 		/**
