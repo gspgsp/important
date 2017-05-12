@@ -214,12 +214,13 @@
 		return unit_price;
 	}
 	//计算运输总费用
+	
     function sum(){
     var goods_num=mini.get('goods_num').getValue();
     var delivery_price=mini.get('delivery_price').getValue();
 	var delivery_trans=mini.get('delivery_trans').getValue();
 	var delivery_other=mini.get('delivery_other').getValue();
 	var delivery_fee_count=(delivery_price*1+delivery_trans*1)*goods_num+delivery_other*1;
-	$("#delivery_fee_count").text(delivery_fee_count+' 元');
+	$("#delivery_fee_count").text(delivery_fee_count.toFixed(2)+' 元');
     }
 </script>

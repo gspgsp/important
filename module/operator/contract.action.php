@@ -10,7 +10,7 @@ class contractAction extends adminBaseAction {
 		$this->doact = sget('do','s');
 		$this->public = sget('isPublic','i',0);
 		$this->c_status=array('0'=>'删除','1'=>'待审核','2'=>'审核未通过','3'=>'审核通过');
-		$this->role = M('rbac:rbac')->model('adm_role_user')->where("`user_id` = {$this->admin_id}")->getRow();
+		//$this->role = M('rbac:rbac')->model('adm_role_user')->where("`user_id` = {$this->admin_id}")->getRow();		
 	}
 	
 	/**
@@ -34,7 +34,18 @@ class contractAction extends adminBaseAction {
 			/* if($this->role['role_id'] == 25)
 			{
 				$where .= " and `created_by` = {$this->role['user_id']}";
-			} */
+			} */			
+		    //领导所属关系
+			$pid=M('public:common')->model('admin')->select('admin_id,pid,name')->where('pid=748')->getAll();
+			$admin_pid=array();
+			foreach($pid as $a){
+			    array_push($admin_pid, $a['admin_id']);
+			}
+			array_push($admin_pid,$_SESSION['adminid']);
+			$admin_list=implode($admin_pid,',');
+		    if($_SESSION['adminid'] > 0){
+		        $where.=" and created_by in ($admin_list)";
+		    }
 			//状态搜索
 			$status = sget('status','s','');
 			if($status!==''){
@@ -68,11 +79,11 @@ class contractAction extends adminBaseAction {
 			    $endTime = sget("endTime");
 				$where.=" and delivery_time>='$startTime' and delivery_time<='$endTime'";
 			}			
-			$list=$this->db->where($where)
+			$list=M('public:common')->model('transport_contract')->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-
+            //showTrace();
 			foreach($list['data'] as $k=>$v){
 				$map=$list['data'][$k]['second_part_company_id'];
 				$map1=$list['data'][$k]['second_part_contact_id'];
@@ -91,9 +102,9 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['delivery_trans']=$fee_list['1'];
 				$list['data'][$k]['delivery_other']=$fee_list['2'];
 				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
-				$list['data'][$k]['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
+				$delivery_fee_count=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
 				//$list['data'][$k]['delivery_fee_count']=number_format(floor($delivery_fee_count*100)/100,2,'.','');
-				//$list['data'][$k]['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
+				$list['data'][$k]['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
 			$this->json_output($result);
@@ -117,17 +128,36 @@ class contractAction extends adminBaseAction {
 	        $this->error('操作数据为空');
 	    }
 	    foreach($data as $k=>$v){
+	        if(!empty($v['delivery_price'])&&!is_numeric($v['delivery_price'])){
+	            $this->json_output(array('err'=>1,'msg'=>'货物单价必须为数字！'));
+	        }
+	        if(!empty($v['delivery_trans'])&&!is_numeric($v['delivery_trans'])){
+	            $this->json_output(array('err'=>1,'msg'=>'装车费必须为数字！'));
+	        }
+	        if(!empty($v['delivery_other'])&&!is_numeric($v['delivery_other'])){
+	            $this->json_output(array('err'=>1,'msg'=>'其它费用必须为数字！'));
+	        }
 	        $_data=array(
 	            'delivery_fee'=>$v['delivery_price'].','.$v['delivery_trans'].','.$v['delivery_other'],
 	            'update_time'=>CORE_TIME,
 	            'last_edited_by'=>$_SESSION['adminid'],
 	        );
-	        //$ship=($v['delivery_price']+$v['delivery_trans'])*$v['goods_num']+$v['delivery_other'];
 	        $sql[]=$this->db->wherePk($v['logistics_contract_id'])->updateSql($_data);
-	        //M('public:common')->model('out_log')->where('o_id='.$v['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
 	    }
 	    $result=$this->db->commitTrans($sql);
 	    if($result){
+	        foreach($data as $m=>$n){
+	            if($n['status']=='3'){
+	                $list=M('public:common')->model('transport_contract')->select('delivery_fee,goods_num')->where('order_sn=\''.$n['order_sn'].'\' and status=3')->getAll();       
+	                $count_fee=0;
+	                foreach($list as $k){
+	                    $fee_list=explode(',',$k['delivery_fee']);
+	                    $count=($fee_list['0']+$fee_list['1'])*$k['goods_num']+$fee_list['2'];
+	                    $count_fee+=number_format($count,'2','.','');
+	                }
+	                M('public:common')->model('out_log')->where('o_id='.$n['o_id'])->update(array('ship'=>$count_fee));//回传运输费用到出库信息
+	            }
+	        }
 	        $this->success('操作成功');
 	    }else{
 	        $this->error('数据处理失败');
@@ -256,7 +286,7 @@ class contractAction extends adminBaseAction {
 	    $info['delivery_trans']=$fee_list['1'];
 	    $info['delivery_other']=$fee_list['2'];
 	    $delivery_fee_count=($fee_list['0']+$fee_list['1'])*$info['goods_num']+$fee_list['2'];
-	    $info['delivery_fee_count']=number_format(floor($delivery_fee_count*100)/100,2,'.','');
+	    $info['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
 	    $name1=M('public:common')->model('admin')->where('admin_id='.$info['created_by'])->select('name')->getAll();
 	    $name2=M('public:common')->model('admin')->where('admin_id='.$info['last_edited_by'])->select('name')->getAll();
 	    $info['created_name']=$name1['0']['name'];
@@ -274,15 +304,27 @@ class contractAction extends adminBaseAction {
 	 */
 	public function change_status(){
 	    $this->is_ajax=true; //指定为Ajax输出
-	    $logistics_contract_id=sget('logistics_contract_id','i');
+	    $logistics_contract_id=sget('logistics_contract_id','i');	    
 	    $status=sget('status','i');
+	    $order_sn=sget('order_sn','s');
+	    $o_id=sget('o_id','i');
 		$_data = array(
 			'status'=>$status,
 			'last_edited_by'=>$this->admin_id,
 			'update_time'=>time()
 		);
-	    if(!empty($logistics_contract_id)){
-	        $this->db->where("logistics_contract_id=".$logistics_contract_id)->update($_data);
+		$res=$this->db->where("logistics_contract_id=".$logistics_contract_id)->update($_data);
+	    if($res){
+	        if($status=='3'){
+	        $list=M('public:common')->model('transport_contract')->select('delivery_fee,goods_num')->where('order_sn=\''.$order_sn.'\' and status=3')->getAll();
+	        $count_fee=0;
+	        foreach($list as $v){
+	            $fee_list=explode(',',$v['delivery_fee']);
+	            $count=($fee_list['0']+$fee_list['1'])*$v['goods_num']+$fee_list['2'];
+	            $count_fee+=number_format($count,'2','.','');
+	        }
+	        M('public:common')->model('out_log')->where('o_id='.$o_id)->update(array('ship'=>$count_fee));//回传运输费用到出库信息
+	        }
 	        $this->success('操作成功');
 	    }else{
 	        $this->error('操作有误');

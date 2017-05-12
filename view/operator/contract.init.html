@@ -262,8 +262,9 @@ function saveData() {
 	if(json.length<10) return false;
 	grid.loading("保存中，请稍后......");
 	var callback=function(data){
-		if(data.err!='0'){
+		if(data.err!='0'){			
 			alert(data.msg)
+			grid.reload();
 			return false;
 		}else{
 			grid.reload();

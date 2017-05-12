@@ -100,7 +100,7 @@ class transportAction extends adminBaseAction
             $info = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $lc_id)->getRow();
             $fee_list=explode(',',$info['delivery_fee']);  
             $info['delivery_price']=$fee_list['0'];$info['delivery_trans']=$fee_list['1'];$info['delivery_other']=$fee_list['2'];
-            $info['delivery_fee_count']=($fee_list['0']+$fee_list['1'])*$info['goods_num']+$fee_list['2'].' 元';
+            $info['delivery_fee_count']=number_format(($fee_list['0']+$fee_list['1'])*$info['goods_num']+$fee_list['2'],'2','.','').' 元';
             $this->db = M('public:common')->model('order');
             $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
@@ -176,16 +176,25 @@ class transportAction extends adminBaseAction
             $arr = ['err' => 1, 'msg' => '物流公司信息错误'];
             $this->json_output($arr);
         }
-
+        if(!empty($data['goods_num'])&&!is_numeric($data['goods_num'])){
+            $this->json_output(array('err'=>1,'msg'=>'货物数量必须为数字！'));
+        }
+        if(!empty($data['delivery_price'])&&!is_numeric($data['delivery_price'])){
+            $this->json_output(array('err'=>1,'msg'=>'货物单价必须为数字！'));
+        }
+        if(!empty($data['delivery_trans'])&&!is_numeric($data['delivery_trans'])){
+            $this->json_output(array('err'=>1,'msg'=>'装车费必须为数字！'));
+        }
+        if(!empty($data['delivery_other'])&&!is_numeric($data['delivery_other'])){
+            $this->json_output(array('err'=>1,'msg'=>'其它费用必须为数字！'));
+        }
         $data['status'] = 1;
         $data['create_time'] = time();
         $data['update_time'] = time();
         $data['created_by'] = $this->admin_id;
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-        //$ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
         $result=M('public:common')->model('transport_contract')->add($data);//新增合同
-        //M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
         M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));//回传客户送货地址
         if($result){
              $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
@@ -211,14 +220,24 @@ class transportAction extends adminBaseAction
             $arr = ['err' => 1, 'msg' => '物流公司信息错误'];
             $this->json_output($arr);
         }
+        if(!empty($data['goods_num'])&&!is_numeric($data['goods_num'])){
+            $this->json_output(array('err'=>1,'msg'=>'货物数量必须为数字！'));
+        }
+        if(!empty($data['delivery_price'])&&!is_numeric($data['delivery_price'])){
+            $this->json_output(array('err'=>1,'msg'=>'货物单价必须为数字！'));
+        }
+        if(!empty($data['delivery_trans'])&&!is_numeric($data['delivery_trans'])){
+            $this->json_output(array('err'=>1,'msg'=>'装车费必须为数字！'));
+        }
+        if(!empty($data['delivery_other'])&&!is_numeric($data['delivery_other'])){
+            $this->json_output(array('err'=>1,'msg'=>'其它费用必须为数字！'));
+        }
 
         $data['status'] = 1;
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
-        //$ship=($data['delivery_price']+$data['delivery_trans'])*$data['goods_num']+$data['delivery_other'];
-        M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place'],'update_time'=>time()));
-        //M('public:common')->model('out_log')->where('o_id='.$data['o_id'])->update(array('ship'=>$ship));//回传运输费用到出库信息
+        M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));
         $res=M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);      
         if($res){ 
              $this->json_output(array('err' => 0, 'msg' =>'合同生效'));
