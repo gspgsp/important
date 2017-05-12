@@ -36,7 +36,7 @@ class friendAction extends baseAction
      * @apiSuccess {String}  cover_jump_url   cover的跳转地址 平台需要在之后拼接？platform=ios/android
      * @apiSuccess {String}  data   系统执行时间
      * @apiSuccess {int}  show_ctype   显示企业类型
-     * @apiSuccess {json}  top   置顶展示信息
+     * @apiSuccess {json}  top   置顶展示信息111111111111111111111111111
      *
      * @apiSuccessExample {json} Success-Response:
      * {
