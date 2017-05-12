@@ -128,6 +128,7 @@ class billingAction extends adminBaseAction
 			$arr = M('product:billing')->getLastInfo($name='o_id',$value=$v['o_id']);
 			$red_status = $this->db->where('invoice_status =1 and o_id='.$arr[0]['o_id'])->getAll();
 			$list['data'][$k]['red_status']=empty($red_status)?0:1;
+			$list['data'][$k]['rate'] = M('product:order')->getAssociationID($v['o_id']);
 
 		}
 		$msg="";

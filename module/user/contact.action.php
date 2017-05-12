@@ -82,7 +82,7 @@ class contactAction extends adminBaseAction {
 			$list['data'][$k]['sex']=L('sex')[$v['sex']];
 			// $list['data'][$k]['is_default']=L('is_default')[$v['is_default']];
 			$list['data'][$k]['name'] = in_array($v['c_id'],$cids) ? '******' : $v['name'];
-			if(in_array($v['c_id'],$cids) || $_SESSION['adminid'] !=$v['customer_manager']){
+			if((in_array($v['c_id'],$cids) || $_SESSION['adminid'] !=$v['customer_manager']) && $_SESSION['adminid'] != 1){
 				$list['data'][$k]['mobile'] = '******';
 				$list['data'][$k]['tel'] = '******';
 			}
@@ -165,7 +165,7 @@ class contactAction extends adminBaseAction {
 		if($user_id>0){
 			$info=$this->db->wherePk($user_id)->getRow();
 			// 处理打星
-			if($_SESSION['adminid'] != $info['customer_manager']){
+			if($_SESSION['adminid'] != $info['customer_manager'] && $_SESSION['adminid'] != 1){
 				$info['mobile'] = "******";
 				$info['tel'] = "******";
 			}
