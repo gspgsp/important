@@ -9,7 +9,7 @@ class toutiaoAction extends baseAction
 {
 
     /**
-     * @api {post} /qapi_3/toutiao/topLine 塑料头条ssu6666666ssss2
+     * @api {post} /qapi_3/toutiao/topLine 塑料头条这儿是什么， 是滴是滴是滴是滴是滴哈迪斯的
      * @apiVersion 3.1.0
      * @apiName  topLine
      * @apiGroup toutiao
