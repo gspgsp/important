@@ -36,9 +36,9 @@ class indexAction extends homeBaseAction
 				"sortField1"=>"",
 				"quan_type" =>"",
 			);
-//			$postJson=json_encode($postJson);
+			$postJson=json_encode($postJson);
 			$res=$this->http_curl($url,'get','json',$postJson);
-			var_dump($res);
+
 			if($res['err']==0){
 				$template='';
 				$str='';
@@ -244,7 +244,6 @@ class indexAction extends homeBaseAction
 		}
 		$output= curl_exec($ch);
 		curl_close($ch);
-		var_dump($output);
 		if($res =='json'){
 			if(curl_errno($ch)){
 				//请求失败，返回错误信息
