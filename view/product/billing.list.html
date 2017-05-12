@@ -57,7 +57,7 @@
 		<!-- <div field="rise" width="40" headerAlign="center" align="center" align="center">抬头</div> -->
 		<div field="order_name" width="30" headerAlign="center" align="center" align="center">合同主题</div>
 		<div field="accessory" width="25" headerAlign="center" align="center" align="center" renderer="down">附件</div>
-		<div field="rate" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center" renderer="join">关联</div>
+		<div field="rate" width="45" headerAlign="center" allowSort="true" align="center" renderer="join">关联</div>
 
 		<div field="invoice_status" renderer="setInv" width="40" headerAlign="center" align="center" allowSort="true">{if $type eq '1'}销售开票状态{else}采购开票状态{/if}</div>
 
@@ -130,10 +130,8 @@ function relevance(e){
 	return s;
 }
 function join(e){
-	var record = e.record,rate_id = record.rate,s='';
-	alert(rate_id);
+	var record = e.record, rate_id = record.rate, s='';
 	if(rate_id > 1){
-		alert(123);
 		s += '<a href="javascript:OrdInfo('+rate+')">关联</a>';
 	}
 	return s;
