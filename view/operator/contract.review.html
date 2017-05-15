@@ -95,8 +95,8 @@ mini.parse();//把html标签解析成miniui控件对象
 var form = new mini.Form("#addForm");//加载表单数据
 //审核状态修改
 function submitForm(logistics_contract_id,status) {
-	var o = logistics_contract_id,b=status,a="{$info.order_sn}",c={$info.o_id};
-	$.post('/operator/contract/change_status',{logistics_contract_id:o,status:b,order_sn:a,o_id:c},function(data){
+	var o = logistics_contract_id,b=status,a="{$info.order_sn}",c={$info.o_id},d={$info.goods_num};
+	$.post('/operator/contract/change_status',{logistics_contract_id:o,status:b,order_sn:a,o_id:c,goods_num:d},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){

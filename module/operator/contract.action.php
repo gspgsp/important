@@ -132,6 +132,10 @@ class contractAction extends adminBaseAction {
 	            $this->json_output(array('err'=>1,'msg'=>'其它费用必须为数字！'));
 	        }
 	        $_data=array(
+	            'goods_num'=>number_format($v['goods_num'],'4','.',''),
+	            'delivery_price' => number_format($v['delivery_price'],'2','.',''),
+	            'delivery_trans' => number_format($v['delivery_trans'],'2','.',''),
+	            'delivery_other' => number_format($v['delivery_other'],'2','.',''),
 	            'delivery_fee'=>$v['delivery_price'].','.$v['delivery_trans'].','.$v['delivery_other'],
 	            'update_time'=>CORE_TIME,
 	            'last_edited_by'=>$_SESSION['adminid'],
@@ -302,11 +306,24 @@ class contractAction extends adminBaseAction {
 	    $status=sget('status','i');
 	    $order_sn=sget('order_sn','s');
 	    $o_id=sget('o_id','i');
+	    $goods_num=sget('goods_num','i');
 		$_data = array(
 			'status'=>$status,
 			'last_edited_by'=>$this->admin_id,
 			'update_time'=>time()
 		);
+		$l_list=M('public:common')->model('order')->where('o_id=' . $o_id)->getRow();
+		$o_list=M('public:common')->model('transport_contract')->select('goods_num')->where('order_sn=\''.$order_sn.'\' and status=3')->getAll();
+		if($o_list){
+		    $count_num=0;
+		    foreach($o_list as $d){
+		        $count_num+=$d['goods_num'];
+		    }
+		    $c_num=$count_num+$goods_num;
+		    if($c_num>$l_list['total_num']){
+		        $this->json_output(array('err'=>1,'msg'=>'订单运输合同已存在！'));
+		    }
+		}
 		$res=$this->db->where("logistics_contract_id=".$logistics_contract_id)->update($_data);
 	    if($res){
 	        if($status=='3'){

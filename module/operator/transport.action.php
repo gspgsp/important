@@ -196,17 +196,21 @@ class transportAction extends adminBaseAction
             }
             $c_num=$count_num+$data['goods_num'];
             if($c_num>$data['total_num']){
-                $this->json_output(array('err'=>1,'msg'=>'合同已存在！'));
+                $this->json_output(array('err'=>1,'msg'=>'订单运输合同已存在！'));
             }
         }
         if($data['goods_num']>$data['total_num']){
-            $this->json_output(array('err'=>1,'msg'=>'货物数量超出库存数！'));
+            $this->json_output(array('err'=>1,'msg'=>'货物数量超出订单总数量！'));
         }
         $data['status'] = 1;
         $data['create_time'] = time();
         $data['update_time'] = time();
         $data['created_by'] = $this->admin_id;
         $data['last_edited_by'] = $this->admin_id;
+        $data['goods_num']=number_format($data['goods_num'],'4','.','');
+        $data['delivery_price'] = number_format($data['delivery_price'],'2','.','');
+        $data['delivery_trans'] = number_format($data['delivery_trans'],'2','.','');
+        $data['delivery_other'] = number_format($data['delivery_other'],'2','.','');
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
         $result=M('public:common')->model('transport_contract')->add($data);//新增合同
         M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));//回传客户送货地址
@@ -255,15 +259,19 @@ class transportAction extends adminBaseAction
             }
             $c_num=$count_num+$data['goods_num'];
             if($c_num>$order_info['total_num']){
-                $this->json_output(array('err'=>1,'msg'=>'合同已存在！'));
+                $this->json_output(array('err'=>1,'msg'=>'订单运输合同已存在！'));
             }
         }
         if($data['goods_num']>$order_info['total_num']){
-            $this->json_output(array('err'=>1,'msg'=>'货物数量超出库存数！'));
+            $this->json_output(array('err'=>1,'msg'=>'货物数量超出订单总数量！'));
         }
         $data['status'] = 1;
         $data['update_time'] = time();
         $data['last_edited_by'] = $this->admin_id;
+        $data['goods_num']=number_format($data['goods_num'],'4','.','');
+        $data['delivery_price'] = number_format($data['delivery_price'],'2','.','');
+        $data['delivery_trans'] = number_format($data['delivery_trans'],'2','.','');
+        $data['delivery_other'] = number_format($data['delivery_other'],'2','.','');
         $data['delivery_fee']=$data['delivery_price'].','.$data['delivery_trans'].','.$data['delivery_other'];
         M('public:common')->model('customer')->where('c_id='.$data['c_id'])->update(array('drive_end_place'=>$data['end_place']));
         $res=M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $data['logistics_contract_id'])->update($data);      
