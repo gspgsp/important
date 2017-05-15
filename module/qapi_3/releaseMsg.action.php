@@ -9,7 +9,50 @@
 class releaseMsgAction extends baseAction
 {
 
-    //(中间供求信息)获取供求发布和消息回复
+
+    /**
+     * (中间供求信息)获取供求发布和消息回复
+     * @api {post} /qapi_3/releaseMsg/getReleaseMsg 获取通讯录首页数据
+     * @apiVersion 3.1.0
+     * @apiName  getReleaseMsg
+     * @apiGroup releaseMsg
+     *
+     * @apiParam   {String} letter 联系人首字母 已废弃字段
+     * @apiParam   {String} keywords   关键词
+     * @apiParam   {Number} page   页码
+     * @apiParam   {String} sortField   排序字段
+     * @apiParam   {String} sortOrder   排序字段 默认DESC
+     * @apiParam   {String} channel   数据类型 已废弃 默认为6
+     * @apiParam   {String} quan_type   关键词
+     * @apiParam   {Number} region   区域 华东华南华北其他
+     * @apiParam   {String} c_type   客户类型 全部 塑料制品业厂 原材料供应商 物流服务商 其他
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {int}  member   APP总人数
+     * @apiSuccess {bool}  is_show_banner   是否显示banner 1显示 0不显示
+     * @apiSuccess {json}  is_show_focus   是否显示我关注的人 1显示 0不显示
+     * @apiSuccess {json}  is_show_cover   是否显示封面蒙层   1显示 0不显示
+     * @apiSuccess {String}  banner_url      banner显示的图片地址
+     * @apiSuccess {String}  banner_jump_url   banner的跳转地址 平台需要在之后拼接？platform=ios/android
+     * @apiSuccess {String}  cover_url      cover显示的图片地址
+     * @apiSuccess {String}  cover_jump_url   cover的跳转地址 平台需要在之后拼接？platform=ios/android
+     * @apiSuccess {String}  data   系统执行时间
+     * @apiSuccess {int}  show_ctype   显示企业类型qqqqqqqqqqqqqqq
+     * @apiSuccess {json}  top   置顶展示信息111111111111111111111111111
+     *
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *   "err": 0,
+     *   "persons": []
+     * }
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     */
     public function getReleaseMsg ()
     {
         $this->is_ajax = true;
@@ -168,6 +211,12 @@ class releaseMsgAction extends baseAction
                     'top'  => $top,
                 );
 
+            }
+
+            if($page == 1 && $sortField1 == 'ALL'){
+                $stmp_releaseMsgNum = $this->cache->get('qappsreleaseMsgNum');
+                $this->cache->set('qappsreleaseMsgNum',$data['count']);
+                $arr['show_msg'] = $data['count'] >$stmp_releaseMsgNum ? '更新了'.($data['count'] - $stmp_releaseMsgNum).'条数据':'';
             }
 
             $this->json_output ($arr);
@@ -341,31 +390,11 @@ class releaseMsgAction extends baseAction
                         throw new Exception("系统错误 pubpur:3");
                     }
                     $pur_id = $pur_model->getLastID ();
-                    //                    if ($type == 2) {//报价
-                    //                        $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-                    //                        if (!M ("qapp:pointsBill")
-                    //                            ->select ('id')
-                    //                            ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
-                    //                            ->order ("id desc")
-                    //                            ->getOne ()
-                    //                        ) {
-                    //                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
-                    //                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                    //                            }
-                    //                        }
-                    //                    } elseif ($type == 1) {//采购
-                    //                        $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
-                    //                        if (!M ("qapp:pointsBill")
-                    //                            ->select ('id')
-                    //                            ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
-                    //                            ->order ("id desc")
-                    //                            ->getOne ()
-                    //                        ) {
-                    //                            if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
-                    //                                $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                    //                            }
-                    //                        }
-                    //                    }
+                    //非标准发布
+                    if (A("qapi_3:points")->addScoreByPur($type,2,$user_id)['err'] > 0) {
+                        $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+                    }
+
                 } catch (Exception $e) {
                     $pur_model->rollback ();
                     $this->json_output (array(
@@ -499,31 +528,10 @@ class releaseMsgAction extends baseAction
                     }
                     $pur_model->commit ();
                 }
-                //                if ($type == 2) {//报价
-                //                    $spoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-                //                    if (!M ("qapp:pointsBill")
-                //                        ->select ('id')
-                //                        ->where ("addtime >".strtotime (date ("Y-m-d"))."  and type=3 and uid=".$user_id)
-                //                        ->order ("id desc")
-                //                        ->getOne ()
-                //                    ) {
-                //                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 3)) {
-                //                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                //                        }
-                //                    }
-                //                } elseif ($type == 1) {//采购
-                //                    $spoints = intval (M ('system:setting')->get ('points')['points']['pur']);
-                //                    if (!M ("qapp:pointsBill")
-                //                        ->select ('id')
-                //                        ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=6 and uid=".$user_id)
-                //                        ->order ("id desc")
-                //                        ->getOne ()
-                //                    ) {
-                //                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 6)) {
-                //                            $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                //                        }
-                //                    }
-                //                }
+                //标准发布加积分
+                if (A("qapi_3:points")->addScoreByPur($type,1,$user_id)['err'] > 0) {
+                    $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+                }
 
                 //robot表插入消息
                 $tmpFuns    = M ("qapp:plasticIntroduction")->getMyFunsId ($user_id, 1);
