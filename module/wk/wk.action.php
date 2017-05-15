@@ -41,7 +41,7 @@ class wkAction extends adminBaseAction{
 		$res = $this->db->model('offers_msg')->where('id = '.$id)->getRow();
 		// p($res);die;
 		if($res['unlock_time'] > CORE_TIME){
-			$this->error('该条记录，您已发送，有效期1小时');
+			$this->error('该条记录，您已发送，20分钟内不可再次发送');
 		}
 		if($res['status'] != 2){
 			$this->error('审核通过的牌号才可发送短信');
@@ -51,10 +51,13 @@ class wkAction extends adminBaseAction{
 		$data['input_time'] = time();
 		$data['offers_id'] = $res['id'];
 		$data['china_area'] = $res['china_area'];
+		$data['factory'] = $res['factory'];
+		$data['store'] = $res['store'];
+		$data['remark'] = $res['remark'];
 		$data['status'] = 0;
 		// p($data);die;
 		$add_res = $this->db->model('offers_cron')->add($data);
-		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 3600));
+		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 1200));
 		if($add_res){
 			$this->success('发送成功');
 		}else{
@@ -83,6 +86,7 @@ class wkAction extends adminBaseAction{
 			if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
 
 			$_data['grade']=trim($_POST['grade']);
+			$_data['remark']=trim($_POST['remark']);
 			$_data['input_time']=time();
 			$_data['uid']=$this->adminid;
 			$_data['uname']=$this->uname;
