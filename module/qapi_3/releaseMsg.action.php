@@ -708,13 +708,8 @@ class releaseMsgAction extends baseAction
      * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
-     * @apiParam   {String} data[0[model]   牌号:2119
-     * @apiParam   {String} data[0[f_name]     公司名称:陶氏
-     * @apiParam   {String} data[0[store_house]   地点:上海
-     * @apiParam   {String} data[0[price]      价格:8888.00
-     * @apiParam   {String} data[0[type]       类型:1
-     * @apiParam   {String} data[0[pt]           吨位:1
-     * @apiParam   {String} data[0[content]:    内容
+     * @apiParamExample {json} Request-Example:
+     * data[0][model]=HF5100&data[0][f_name]=shanghai&data[0][store_house]=shanghai&data[0][price]=2000&data[0][type]=2&data[0][quan_type]=0&data[0][content]=&token=14b57d4fca253b982e715f65cd619649
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
