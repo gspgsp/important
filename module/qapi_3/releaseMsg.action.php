@@ -12,43 +12,254 @@ class releaseMsgAction extends baseAction
 
     /**
      * (中间供求信息)获取供求发布和消息回复
-     * @api {post} /qapi_3/releaseMsg/getReleaseMsg (中间供求信息)获取供求发布和消息回复
+     * @api {post} /qapi_3/releaseMsg/getReleaseMsg 获取通讯录首页数据
      * @apiVersion 3.1.0
      * @apiName  getReleaseMsg
      * @apiGroup releaseMsg
+     * @apiUse UAHeader
      *
-     * @apiParam   {String} letter 联系人首字母 已废弃字段
-     * @apiParam   {String} keywords   关键词
-     * @apiParam   {Number} page   页码
-     * @apiParam   {String} sortField   排序字段
-     * @apiParam   {String} sortOrder   排序字段 默认DESC
-     * @apiParam   {String} channel   数据类型 已废弃 默认为6
-     * @apiParam   {String} quan_type   关键词
-     * @apiParam   {Number} region   区域 华东华南华北其他
-     * @apiParam   {String} c_type   客户类型 全部 塑料制品业厂 原材料供应商 物流服务商 其他
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} type   0 全部 1 求购 2 供给
+     * @apiParam   {int} sortField1
+     * @apiParam   {int} sortField2
+     * @apiParam   {int} version
+     * @apiParam   {int} page   页码
+     * @apiParam   {int} size   每页显示数量
      *
-     * @apiSuccess {String}  msg   描述
      * @apiSuccess {int}  err   错误码
-     * @apiSuccess {int}  member   APP总人数
-     * @apiSuccess {bool}  is_show_banner   是否显示banner 1显示 0不显示
-     * @apiSuccess {json}  is_show_focus   是否显示我关注的人 1显示 0不显示
-     * @apiSuccess {json}  is_show_cover   是否显示封面蒙层   1显示 0不显示
-     * @apiSuccess {String}  banner_url      banner显示的图片地址
-     * @apiSuccess {String}  banner_jump_url   banner的跳转地址 平台需要在之后拼接？platform=ios/android
-     * @apiSuccess {String}  cover_url      cover显示的图片地址
-     * @apiSuccess {String}  cover_jump_url   cover的跳转地址 平台需要在之后拼接？platform=ios/android
-     * @apiSuccess {String}  data   系统执行时间
-     * @apiSuccess {int}  show_ctype   显示企业类型qqqqqqqqqqqqqqq
-     * @apiSuccess {json}  top   置顶展示信息111111111111111111111111111
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   top   指定信息
+     * @apiSuccess {String}   data   数据
      *
      * @apiSuccessExample {json} Success-Response:
-     * {
-     *   "err": 0,
-     *   "persons": []
-     * }
-     *
+             *     {
+            "err": 0,
+            "data": [
+            {
+            "id": "98174",
+            "p_id": "0",
+            "user_id": "20380",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:38",
+            "type": "2",
+            "content": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+            "c_name": "临沂泓盛达塑化",
+            "name": "赵清兵",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": null,
+            "sex": "0",
+            "mobile_province": null,
+            "is_pass": "0",
+            "contents": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98173",
+            "p_id": "0",
+            "user_id": "9942",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:37",
+            "type": "2",
+            "content": "天津出：中沙5502\r\n淄博出：7151U    M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n????????????????????????????墨西哥高压ZLF002\r\n临沂出：伊朗52518、BL3、美国低压拉丝副牌\r\n08P??????????????????????????墨西哥低压膜ZHF001、高压ZLF002\r\n电话：13954456191",
+            "c_name": "临沂市明泽进出口有限公司",
+            "name": "王瑞",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": null,
+            "sex": "0",
+            "mobile_province": null,
+            "is_pass": "0",
+            "contents": "天津出：中沙5502\r\n淄博出：7151U    M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n????????????????????????????墨西哥高压ZLF002\r\n临沂出：伊朗52518、BL3、美国低压拉丝副牌\r\n08P??????????????????????????墨西哥低压膜ZHF001、高压ZLF002\r\n电话：13954456191",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98172",
+            "p_id": "0",
+            "user_id": "29985",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:36",
+            "type": "2",
+            "content": "出PC1100 PC1220",
+            "c_name": "上海景程化工科技有限公司",
+            "name": "王玉",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": "",
+            "sex": "0",
+            "mobile_province": "山东",
+            "is_pass": "0",
+            "contents": "出PC1100 PC1220",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98171",
+            "p_id": "0",
+            "user_id": "28981",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:35",
+            "type": "2",
+            "content": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+            "c_name": "临沂市明泽进出口有限公司",
+            "name": "娄兴隆",
+            "thumb": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+            "thumbqq": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+            "sex": "0",
+            "mobile_province": "山东",
+            "is_pass": "0",
+            "contents": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98169",
+            "p_id": "0",
+            "user_id": "40199",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:33",
+            "type": "2",
+            "content": "P0M现货20吨，价格11600一吨不含税自提，欢迎来电17685866822微信同号",
+            "c_name": "青岛聚福工程塑胶有限公司",
+            "name": "唐勇松",
+            "thumb": "http://statics.myplas.com/upload/17/02/21/58abf0f570dc1.jpg",
+            "thumbqq": "http://statics.myplas.com/upload/17/02/21/58abf0f570dc1.jpg",
+            "sex": "0",
+            "mobile_province": "山东",
+            "is_pass": "0",
+            "contents": "P0M现货20吨，价格11600一吨不含税自提，欢迎来电17685866822微信同号",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98168",
+            "p_id": "0",
+            "user_id": "60738",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:33",
+            "type": "2",
+            "content": "本公司专业制作流延CPE      其具有透明度好，薄厚均匀，走机速度快",
+            "c_name": "河北精瑞包装材料有限",
+            "name": "姜女士",
+            "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+            "thumbqq": "",
+            "sex": "1",
+            "mobile_province": "河北",
+            "is_pass": "0",
+            "contents": "本公司专业制作流延CPE      其具有透明度好，薄厚均匀，走机速度快",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98167",
+            "p_id": "0",
+            "user_id": "32905",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:33",
+            "type": "2",
+            "content": "上海出：2426H(泰国) \r\n黄岛出：2426H(泰国)\r\n            FJ00952(沙特）    \r\n电话：13331051968",
+            "c_name": "北京秋硕金隆塑料制品有限公司",
+            "name": "王艳",
+            "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+            "thumbqq": "",
+            "sex": "1",
+            "mobile_province": "北京",
+            "is_pass": "0",
+            "contents": "上海出：2426H(泰国) \r\n黄岛出：2426H(泰国)\r\n            FJ00952(沙特）    \r\n电话：13331051968",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98166",
+            "p_id": "0",
+            "user_id": "41176",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:32",
+            "type": "2",
+            "content": "青岛出:\r\n高压:15803托姆\r\n       801YY马来大腾涂覆\r\n       2119伊朗\r\n       LDF0823巴西0.8重包\r\n    BF2021巴西溶质2不开口\r\n茂金属：3518CB\r\n拉丝276-73俄卢克石油\r\n??????????????W50A009A印度\r\n?",
+            "c_name": "临沂中诚贸易有限公司",
+            "name": "罗小莉",
+            "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+            "thumbqq": "",
+            "sex": "1",
+            "mobile_province": "山东",
+            "is_pass": "0",
+            "contents": "青岛出:\r\n高压:15803托姆\r\n       801YY马来大腾涂覆\r\n       2119伊朗\r\n       LDF0823巴西0.8重包\r\n    BF2021巴西溶质2不开口\r\n茂金属：3518CB\r\n拉丝276-73俄卢克石油\r\n??????????????W50A009A印度\r\n?",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98165",
+            "p_id": "0",
+            "user_id": "29810",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:30",
+            "type": "2",
+            "content": "上海出：阿塞15803  宝山现货\r\n上海求：伊朗2420H  宝山塑托现货一柜",
+            "c_name": "武汉汉帆塑料有限公司",
+            "name": "张剑",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": "",
+            "sex": "0",
+            "mobile_province": "湖北",
+            "is_pass": "0",
+            "contents": "上海出：阿塞15803  宝山现货\r\n上海求：伊朗2420H  宝山塑托现货一柜",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            },
+            {
+            "id": "98164",
+            "p_id": "0",
+            "user_id": "28981",
+            "model": null,
+            "unit_price": "0.00",
+            "store_house": "",
+            "f_name": null,
+            "input_time": "05-15 09:28",
+            "type": "2",
+            "content": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+            "c_name": "临沂市明泽进出口有限公司",
+            "name": "娄兴隆",
+            "thumb": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+            "thumbqq": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+            "sex": "0",
+            "mobile_province": "山东",
+            "is_pass": "0",
+            "contents": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+            "saysCount": 0,
+            "deliverPriceCount": 0
+            }
+            ],
+            "top": {}
+            }
      * @apiErrorExample {json} Error-Response:
-     *     {
+     *      {
      *       "err": 2,
      *       "msg": "没有相关数据"
      *      }
@@ -223,10 +434,60 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-
     /**
      * (中间供求信息)获取供求发布(详情)
+     * @api {post} /qapi_3/releaseMsg/getReleaseMsgDetail (中间供求信息)获取供求发布(详情)
+     * @apiVersion 3.1.0
+     * @apiName  getReleaseMsgDetail
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {Number} user_id  用户id
+     * @apiParam   {Number} id   信息ID
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *{
+    "err": 0,
+    "data": {
+    "id": "98174",
+    "p_id": "0",
+    "user_id": "20380",
+    "model": null,
+    "unit_price": "0.00",
+    "store_house": "",
+    "f_name": null,
+    "type": "2",
+    "content": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+    "input_time": "05-15 09:38",
+    "contents": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+    "b_and_s": "",
+    "deal_price": "",
+    "saysCount": 0,
+    "deliverPriceCount": 0,
+    "info": {
+    "name": "",
+    "c_name": "",
+    "need_product": "",
+    "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+    "fans": 0,
+    "member_level": null,
+    "sex": null,
+    "buy_count": "",
+    "sale_count": "",
+    "status": "关注"
+    }
+    }
+    }
+     *  @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 6,
+     *       "msg": "参数错误"
+     *      }
      */
     public function getReleaseMsgDetail ()
     {
@@ -245,6 +506,58 @@ class releaseMsgAction extends baseAction
 
     /**
      * (中间供求信息)获取供求发布(详情)的消息回复
+     * @api {post} /qapi_3/releaseMsg/getReleaseMsgDetailReply (中间供求信息)获取供求发布(详情)的消息回复
+     * @apiVersion 3.1.0
+     * @apiName  getReleaseMsgDetailReply
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {Number} user_id  用户id
+     * @apiParam   {Number} id   信息ID
+     * @apiParam   {int} page   页码
+     * @apiParam   {int} size   每页显示数量
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+    {
+    "err": 0,
+    "data": {
+    "count": "1",
+    "data": [
+    {
+    "id": "1740",
+    "rev_id": "3259",
+    "user_id": "37848",
+    "is_read": "0",
+    "content": "要埃克森的什么牌号？2045G   1018HA",
+    "input_time": "3小时前",
+    "info": {
+    "user_id": "37848",
+    "name": "高鹏",
+    "c_id": "28963",
+    "is_pass": "0",
+    "mobile": "18369517155",
+    "sex": "男",
+    "thumb": "http://statics.myplas.com/upload/17/05/03/5909ab447abc2.jpg",
+    "thumbqq": "http://statics.myplas.com/upload/17/05/03/5909ab447abc2.jpg",
+    "thumbcard": "",
+    "c_name": "临沂国际商品交易中心",
+    "need_product": "PP拉丝 7042 2102TN26 2100TN0 中沙6010 6098 9085 LD100AC F5606 F5608",
+    "address": "山东省临沂市兰山区"
+    }
+    }
+    ]
+    }
+    }
+     *  @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关的数据"
+     *      }
      */
     public function getReleaseMsgDetailReply ()
     {
@@ -269,10 +582,36 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-
     /**
      * 供求消息中的出价
+     * @api {post} /qapi_3/releaseMsg/deliverPrice 供求消息中的出价
+     * @apiVersion 3.1.0
+     * @apiName  deliverPrice
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {Number} rev_id  接收报价的人
+     * @apiParam   {Number} id   信息ID 对应purchase表的id
+     * @apiParam   {int} page   页码
+     * @apiParam   {int} size   每页显示数量
+     * @apiParam   {int} price  价格
+     * @apiParam   {int} type   1 求购 2 供给
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "发布成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 5,
+     *       "msg": "发布失败"
+     *      }
      */
     public function deliverPrice ()
     {
@@ -310,9 +649,34 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
-
     /**
      * 获取供求消息的出价
+     * @api {post} /qapi_3/releaseMsg/getDeliverPrice 获取供求消息的出价
+     * @apiVersion 3.1.0
+     * @apiName  getDeliverPrice
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {Number} rev_id  //接收出价的人(即发布purchase报价消息的人)
+     * @apiParam   {Number} id   信息ID 对应purchase表的id
+     * @apiParam   {int} page   页码
+     * @apiParam   {int} size   每页显示数量
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "发布成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 5,
+     *       "msg": "发布失败"
+     *      }
      */
     public function getDeliverPrice ()
     {
@@ -335,19 +699,36 @@ class releaseMsgAction extends baseAction
         $this->_errCode (6);
     }
 
-
-
-
-
-    //判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
     /**
-     *      data[0][model]:2119
-     * data[0][f_name]:陶氏
-     * data[0][store_house]:上海
-     * data[0][price]:8888.00
-     * data[0][type]:1
-     * data[0][pt]:1
-     * data[0][content]:
+     * 判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
+     * @api {post} /qapi_3/releaseMsg/pub 判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
+     * @apiVersion 3.1.0
+     * @apiName  pub
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} data[0][model]   牌号:2119
+     * @apiParam   {String} data[0][f_name]     公司名称:陶氏
+     * @apiParam   {String} data[0][store_house]   地点:上海
+     * @apiParam   {String} data[0][price]      价格:8888.00
+     * @apiParam   {String} data[0][type]       类型:1
+     * @apiParam   {String} data[0][pt]           吨位:1
+     * @apiParam   {String} data[0][content]:    内容
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "提交成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 5,
+     *       "msg": "发布失败"
+     *      }
      */
     public function pub ()
     {
@@ -576,7 +957,31 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
-
+    /**
+     * 删除回复
+     * @api {post} /qapi_3/releaseMsg/deleteRepeat 删除回复
+     * @apiVersion 3.1.0
+     * @apiName  pub
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} id     这条回复的ID
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "删除成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 6,
+     *       "msg": "参数错误"
+     *      }
+     */
     public function deleteRepeat ()
     {
         $this->is_ajax = true;
@@ -588,24 +993,32 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-
     /**
      * 回复供求消息
-     * @api {post} /qapi_3/releaseMsg/saveMsg    回复供求消息
+     * @api {post} /qapi_3/releaseMsg/saveMsg 回复供求消息
      * @apiVersion 3.1.0
      * @apiName  saveMsg
      * @apiGroup releaseMsg
+     * @apiUse UAHeader
      *
-     * @apiParam   {String} token   token qwre3123123121swqsq
-     * @apiParam   {int} pur_id  purchase表的消息id
-     * @apiParam   {int} send_id  purchase表发报价或采购人的(pur.user_id)
-     * @apiParam   {String} content 回复的内容
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} pur_id     purchase表的消息id
+     * @apiParam   {String} send_id     purchase表发报价或采购人的(pur.user_id)
+     * @apiParam   {String} content     回复的内容
      *
-     * @apiSuccess {String}  msg   描述
-     * @apiSuccess {String}  err   错误码
-     * @apiSuccess {String}  data  数据
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
      *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "回复消息保存成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 7,
+     *       "msg": "回复内容不能为空"
+     *      }
      */
     public function saveMsg ()
     {
@@ -661,23 +1074,50 @@ class releaseMsgAction extends baseAction
         $this->_errCode (6);
     }
 
-
     /**
      * 获取我的供给或求购
-     * @api {post} /qapi_3/releaseMsg/getMyMsg    获取我的供给或求购
+     * @api {post} /qapi_3/releaseMsg/getMyMsg 获取我的供给或求购
      * @apiVersion 3.1.0
      * @apiName  getMyMsg
      * @apiGroup releaseMsg
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
-     * @apiParam   {int} page 页码
-     * @apiParam   {int} size 数量
-     * @apiParam   {int} type 1采购 2报价
+     * @apiParam   {String} page     页数
+     * @apiParam   {String} size     煤业数量
+     * @apiParam   {String} type     1采购 2报价
      *
-     * @apiSuccess {String}  msg   描述
-     * @apiSuccess {String}  err   错误码
-     * @apiSuccess {String}  data  数据
+     * @apiSuccess {int}      err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
      *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+    "err": 0,
+    "data": [
+    {
+    "id": "90126",
+    "p_id": "0",
+    "user_id": "40418",
+    "model": null,
+    "unit_price": "0.00",
+    "store_house": "",
+    "f_name": null,
+    "type": "1",
+    "content": "求购hf5110",
+    "input_time": "04-24 16:59",
+    "b_and_s": "",
+    "deal_price": "",
+    "says": [],
+    "contents": "求购hf5110"
+    }
+    ]
+    }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关的数据"
+     *      }
      */
     public function getMyMsg ()
     {
@@ -702,8 +1142,31 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
-
-    //删除我的供给或求购
+    /**
+     * 删除我的供给或求购
+     * @api {post} /qapi_3/releaseMsg/deleteMyMsg 删除我的供给或求购
+     * @apiVersion 3.1.0
+     * @apiName  deleteMyMsg
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} id     当前我的报价或采购的id
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "删除成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 6,
+     *       "msg": "参数错误"
+     *      }
+     */
     public function deleteMyMsg ()
     {
         $this->is_ajax = true;
@@ -716,23 +1179,33 @@ class releaseMsgAction extends baseAction
         $this->_errCode (6);
     }
 
-
-
     /**
      * 获取我的(留言)
-     * @api {post} /qapi_3/releaseMsg/getMyComment    获取我的(留言)
+     * @api {post} /qapi_3/releaseMsg/getMyComment 获取我的(留言)
      * @apiVersion 3.1.0
      * @apiName  getMyComment
      * @apiGroup releaseMsg
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
-     * @apiParam   {int} page 页码
-     * @apiParam   {int} size 数量
+     * @apiParam   {String} id     当前我的报价或采购的id
+     * @apiParam   {String} page     页数
+     * @apiParam   {String} size     煤业数量
      *
-     * @apiSuccess {String}  msg   描述
-     * @apiSuccess {String}  err   错误码
-     * @apiSuccess {String}  data  数据
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
      *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "err": 0,
+     *       "msg": "删除成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关的数据"
+     *      }
      */
     public function getMyComment ()
     {
@@ -758,21 +1231,43 @@ class releaseMsgAction extends baseAction
     }
 
 
-
     /**
      * 二次发布
-     * @api {post} /qapi_3/releaseMsg/secondPub    二次发布
+     * @api {post} /qapi_3/releaseMsg/secondPub 二次发布
      * @apiVersion 3.1.0
      * @apiName  secondPub
      * @apiGroup releaseMsg
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
-     * @apiParam   {int} id 报价id
+     * @apiParam   {String} id     当前我的报价或采购的id
      *
-     * @apiSuccess {String}  msg   描述
-     * @apiSuccess {String}  err   错误码
-     * @apiSuccess {String}  data  数据
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
      *
+     * @apiSuccessExample {json} Success-Response:
+    {
+    "err": 0,
+    "data": {
+    "id": "90126",
+    "p_id": "0",
+    "user_id": "40418",
+    "model": null,
+    "unit_price": "0.00",
+    "store_house": "",
+    "f_name": null,
+    "type": "1",
+    "content": "求购hf5110",
+    "input_time": "1493024389",
+    "f_type": 2
+    }
+    }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 1,
+     *       "msg": "此记录输入有误，请手动补充"
+     *      }
      */
     public function secondPub ()
     {
