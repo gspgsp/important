@@ -98,32 +98,24 @@
 				</li>
 				<li class="mui-table-view-cell">
 					是否公开
-					<div class="mui-switch mui-switch-mini" v-on:click="msgActive3" v-bind:class="{'mui-active':!active3}">
-						<div class="mui-switch-handle"></div>
-					</div>
+					<input v-on:click="msgActive3" style=" position: absolute; right: 10px; top: 5px;" class="weui-switch" v-bind:checked="!active3" type="checkbox">
 				</li>
 			</ul>
 		</div>
-		<div class="mui-content">
-			<ul id="shortmsg" class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<span style="color: #333333;">手机短信设置</span>
-				</li>
-				<li class="mui-table-view-cell">
-					有人关注我，手机短信提醒
-					<div class="mui-switch mui-switch-mini" v-on:click="msgActive" v-bind:class="{'mui-active':!active}">
-						<div class="mui-switch-handle"></div>
-					</div>
-				</li>
-				<li class="mui-table-view-cell">
-					有人回复我的供求，手机短信提醒
-					<div class="mui-switch mui-switch-mini" v-on:click="msgActive2" v-bind:class="{'mui-active':!active2}">
-						<div class="mui-switch-handle"></div>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="registerBox" style="height: auto; background: #FFFFFF; padding: 10px 0; margin: 10px 0 0 0; line-height: 0; text-align: center;">
+		<ul id="shortmsg">
+			<li>
+				<span style="color: #333333;">手机短信设置</span>
+			</li>
+			<li>
+				有人关注我，手机短信提醒
+				<input v-on:click="msgActive" style=" position: absolute; right: 10px; top: 5px;" class="weui-switch" v-bind:checked="!active" type="checkbox">
+			</li>
+			<li>
+				有人回复我的供求，手机短信提醒
+				<input v-on:click="msgActive2" style=" position: absolute; right: 10px; top: 5px;" v-bind:checked="!active2" class="weui-switch" type="checkbox">
+			</li>
+		</ul>
+		<div class="registerBox" style="height: auto; background: #FFFFFF; border: 0; padding: 10px 0; margin: 10px 0 0 0; line-height: 0; text-align: center;">
 			<div class="card">
 				<img v-bind:src="cardImg">
 			</div>
@@ -235,12 +227,15 @@ export default{
 			var _this = this;
 			this.active == 0 ? this.active = 1 : this.active = 0;
 			$.ajax({
-				url: '/api/qapi1_2/favorateSet',
+				url: version+'/myInfo/favorateSet',
 				type: 'post',
 				data: {
 					type: 0,
 					is_allow: _this.active,
 					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -253,12 +248,15 @@ export default{
 			var _this = this;
 			this.active2 == 0 ? this.active2 = 1 : this.active2 = 0;
 			$.ajax({
-				url: '/api/qapi1_2/favorateSet',
+				url: version+'/myInfo/favorateSet',
 				type: 'post',
 				data: {
 					type: 1,
 					is_allow: _this.active2,
 					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -271,12 +269,15 @@ export default{
 			var _this = this;
 			this.active3 == 0 ? this.active3 = 1 : this.active3 = 0;
 			$.ajax({
-				url: '/api/qapi1_2/favorateSet',
+				url: version+'/myInfo/favorateSet',
 				type: 'post',
 				data: {
 					type: 2,
 					is_allow: _this.active3,
 					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -297,13 +298,10 @@ export default{
 		}
 
 		weui.uploader('#uploaderCard', {
-			url: '/api/qapi1/saveCardImg',
+			url: version+'/myInfo/saveCardImg',
 			auto: true,
 			type: 'file',
 			fileVal: 'fileVal',
-			data: {
-				token: window.localStorage.getItem("token")
-			},
 			compress: {
 				width: 500,
 				height: 500,
@@ -321,7 +319,11 @@ export default{
 				}
 			},
 			onQueued: function() {
-				
+
+			},
+			onBeforeSend:function(data,headers){
+				$.extend(data,{token: window.localStorage.getItem("token")});
+				$.extend(headers,{'X-UA': window.localStorage.getItem("XUA")});
 			},
 			onSuccess: function(res) {
 				if(res.err == 0) {
@@ -343,13 +345,10 @@ export default{
 		});
 
 		weui.uploader('#uploader', {
-			url: '/api/qapi1/savePicToServer',
+			url: version+'/myInfo/savePicToServer',
 			auto: true,
 			type: 'file',
 			fileVal: 'fileVal',
-			data: {
-				token: window.localStorage.getItem("token")
-			},
 			compress: {
 				width: 500,
 				height: 500,
@@ -369,6 +368,10 @@ export default{
 			onQueued: function() {
 
 			},
+			onBeforeSend:function(data,headers){
+				$.extend(data,{token: window.localStorage.getItem("token")});
+				$.extend(headers,{'X-UA': window.localStorage.getItem("XUA")});
+			},
 			onSuccess: function(res) {
 				window.location.reload();
 			},
@@ -387,10 +390,13 @@ export default{
 		});
 
 		$.ajax({
-			url: '/api/qapi1_2/getSelfInfo',
+			url: version+'/myInfo/getSelfInfo',
 			type: 'post',
 			data: {
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function(res) {

@@ -51,12 +51,15 @@ export default{
 		
 	}
 		$.ajax({
-			url: '/api/qapi1/getMyIntroduction',
-			type: 'get',
+			url: version+'/myInfo/getMyIntroduction',
+			type: 'post',
 			data: {
 				page:_this.page,
 				size:10,
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {

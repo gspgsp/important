@@ -77,8 +77,15 @@ export default{
 		},
 		checkNum: function() {
 			if(this.price < 1000 || this.price > 30000) {
-				mui.alert("", "输入的价格不合理", function() {
+				weui.alert("输入的价格不合理", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
 
+						}
+					}]
 				});
 			}
 		},
@@ -98,66 +105,68 @@ export default{
 			data.push(arr);
 			if(this.type && this.store_house && this.model && this.f_name && this.price || this.remark) {
 				$.ajax({
-					url: '/api/qapi1_2/pub',
+					url: version +'/releaseMsg/pub',
 					type: 'post',
 					data: {
 						data: data,
 						token: window.localStorage.getItem("token")
 					},
+					headers: {
+						'X-UA': headers
+					},
 					dataType: 'JSON'
 				}).then(function(res) {
 					if(res.err == 0) {
-						$.ajax({
-							type:"post",
-							url:"/api/score/addScore",
-							data:{
-								token:window.localStorage.getItem("token"),
-								type:'7',
-								standard:_this.standard
-							},
-							dataType: 'JSON'
-						}).done(function(res){
-							
-						}).fail(function(){
-							
-						});
-						mui.toast('发布成功', {
-							duration: 'long',
-							type: 'div'
-						});
 						_this.isDisable = false;
 						_this.$router.push({
 							name: 'release'
 						});						
 					} else {
-						mui.alert("", res.msg, function() {
-							window.location.reload();
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									window.location.reload();
+								}
+							}]
 						});
 					}
 				}, function() {
 
 				});
 			} else {
-				mui.alert("", "请把信息填写完整", function() {
-					_this.isDisable = false;
+				weui.alert("请把信息填写完整", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.isDisable = false;
+						}
+					}]
 				});
 			}
 		}
 	},
 	activated: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
-			url: '/api/qapi1/secondPub',
-			type: 'get',
+			url: version +'/releaseMsg/secondPub',
+			type: 'post',
 			data: {
 				id: _this.$route.query.id,
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
@@ -176,10 +185,17 @@ export default{
 					_this.remark=res.data.content;
 				}			
 			} else if(res.err == 1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({
-						name: 'login'
-					});
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
 				});
 			}
 		}, function() {

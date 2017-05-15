@@ -239,7 +239,7 @@ export default{
 					_this.txt2 = '全部';
 					_this.selected = 0;
 					$.ajax({
-						url: '/api/qapi1_2/getReleaseMsg',
+						url:version+"/releaseMsg/getReleaseMsg",
 						type: 'post',
 						data: {
 							keywords: _this.keywords.toLocaleUpperCase(),
@@ -249,6 +249,9 @@ export default{
 							sortField2: _this.sortfield2,
 							token: window.localStorage.getItem("token"),
 							size: 10
+						},
+						headers: {
+							'X-UA': headers
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
@@ -296,7 +299,7 @@ export default{
 					_this.txt2 = '供给';
 					_this.selected = 2;
 					$.ajax({
-						url: '/api/qapi1_2/getReleaseMsg',
+						url:version+"/releaseMsg/getReleaseMsg",
 						type: 'post',
 						data: {
 							keywords: _this.keywords.toLocaleUpperCase(),
@@ -306,6 +309,9 @@ export default{
 							sortField2: _this.sortfield2,
 							token: window.localStorage.getItem("token"),
 							size: 10
+						},
+						headers: {
+							'X-UA': headers
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
@@ -352,7 +358,7 @@ export default{
 					_this.txt2 = '求购';
 					_this.selected = 1;
 					$.ajax({
-						url: '/api/qapi1_2/getReleaseMsg',
+						url:version+"/releaseMsg/getReleaseMsg",
 						type: 'post',
 						data: {
 							keywords: _this.keywords.toLocaleUpperCase(),
@@ -362,6 +368,9 @@ export default{
 							sortField2: _this.sortfield2,
 							token: window.localStorage.getItem("token"),
 							size: 10
+						},
+						headers: {
+							'X-UA': headers
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
@@ -465,7 +474,7 @@ export default{
 					break;
 			}
 			$.ajax({
-				url: '/api/qapi1_2/getReleaseMsg',
+				url:version+"/releaseMsg/getReleaseMsg",
 				type: 'post',
 				data: {
 					keywords: _this.keywords.toLocaleUpperCase(),
@@ -475,6 +484,9 @@ export default{
 					sortField2: _this.sortfield2,
 					token: window.localStorage.getItem("token"),
 					size: 10
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -534,7 +546,7 @@ export default{
 			} catch(err) {}
 
 			$.ajax({
-				url: '/api/qapi1_2/getReleaseMsg',
+				url:version+"/releaseMsg/getReleaseMsg",
 				type: 'post',
 				data: {
 					keywords: _this.keywords.toLocaleUpperCase(),
@@ -544,6 +556,9 @@ export default{
 					sortField2: _this.sortfield2,
 					token: window.localStorage.getItem("token"),
 					size: 10
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -610,7 +625,7 @@ export default{
 				_this.page++;
 				$.ajax({
 					type: "post",
-					url: "/api/qapi1_2/getReleaseMsg",
+					url:version+"/releaseMsg/getReleaseMsg",
 					data: {
 						keywords: _this.keywords.toLocaleUpperCase(),
 						page: _this.page,
@@ -619,6 +634,9 @@ export default{
 						sortField2: _this.sortfield2,
 						token: window.localStorage.getItem("token"),
 						size: 10
+					},
+					headers: {
+						'X-UA': headers
 					},
 					dataType: 'JSON'
 				}).then(function(res) {
@@ -666,7 +684,7 @@ export default{
 
 		_this.loadingShow = true;
 		$.ajax({
-			url: '/api/qapi1_2/getReleaseMsg',
+			url:version+"/releaseMsg/getReleaseMsg",
 			type: 'post',
 			data: {
 				keywords: _this.keywords.toLocaleUpperCase(),
@@ -676,6 +694,9 @@ export default{
 				sortField2: _this.sortfield2,
 				token: window.localStorage.getItem("token"),
 				size: 10
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function(res) {

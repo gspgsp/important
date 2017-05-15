@@ -60,58 +60,53 @@ export default{
 		del: function(id) {
 			var _this = this;
 			weui.confirm('确定删除此条信息', {
-				title: '塑料圈通讯录',
-				buttons: [{
-					label: '取消',
-					type: 'default',
-					onClick: function() {
-
-					}
-				}, {
-					label: '确定',
-					type: 'primary',
-					onClick: function() {
-						$.ajax({
-							url: '/api/qapi1/deleteMyMsg',
-							type: 'get',
+			    title: '塑料圈通讯录',
+			    buttons: [{
+			        label: '取消',
+			        type: 'default',
+			        onClick: function(){
+			        	
+			        }
+			    }, {
+			        label: '确定',
+			        type: 'primary',
+			        onClick: function(){
+				        $.ajax({
+							url: version+"/releaseMsg/deleteMyMsg",
+							type: 'post',
 							data: {
 								id: id,
 								token: window.localStorage.getItem("token")
 							},
+							headers: {
+								'X-UA': headers
+							},
 							dataType: 'JSON'
-						}).done(function(res) {
+						}).then(function(res) {
 							if(res.err == 0) {
 								weui.alert(res.msg, {
-									title: '塑料圈通讯录',
-									buttons: [{
-										label: '确定',
-										type: 'parimary',
-										onClick: function() {
-											window.location.reload();
-										}
-									}]
+								    title: '塑料圈通讯录',
+								    buttons: [{
+								        label: '确定',
+								        type: 'primary',
+								        onClick: function(){ location.reload(); }
+								    }]
 								});
 							} else {
 								weui.alert("删除失败", {
-									title: '塑料圈通讯录',
-									buttons: [{
-										label: '确定',
-										type: 'parimary',
-										onClick: function() {
-											_this.$router.push({
-												name: 'login'
-											});
-										}
-									}]
+								    title: '塑料圈通讯录',
+								    buttons: [{
+								        label: '确定',
+								        type: 'primary',
+								        onClick: function(){ location.reload(); }
+								    }]
 								});
 							}
-						}).fail(function() {
-
-						}).always(function() {
-
+						}, function() {
+		
 						});
-					}
-				}]
+			        }
+			    }]
 			});
 		}
 	},
@@ -124,13 +119,16 @@ export default{
 
 		}
 		$.ajax({
-			url: '/api/qapi1/getMyMsg',
-			type: 'get',
+			url: version+"/releaseMsg/getMyMsg",
+			type: 'post',
 			data: {
 				type: 1,
 				page: _this.page,
 				token: window.localStorage.getItem("token"),
 				size: 50
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
@@ -149,7 +147,6 @@ export default{
 						}
 					}]
 				});
-
 			} else {
 				_this.condition = true;
 				_this.name = res.data;

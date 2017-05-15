@@ -121,25 +121,14 @@ watch: {
 					success: function() {
 						$.ajax({
 							type:"post",
-							url:"/api/qapi1_2/saveShareLog",
+							url:version+"/wechat/saveShareLog",
 							data:{
 								token:window.localStorage.getItem("token"),
 								type:3,
 								id:_this.id
 							},
-							dataType: 'JSON'
-						}).done(function(res){
-							
-						}).fail(function(){
-							
-						});
-						
-						$.ajax({
-							type:"post",
-							url:"/api/score/addScore",
-							data:{
-								token:window.localStorage.getItem("token"),
-								type:'6'
+							headers: {
+								'X-UA': headers
 							},
 							dataType: 'JSON'
 						}).done(function(res){
@@ -162,25 +151,14 @@ watch: {
 					success: function() {
 						$.ajax({
 							type:"post",
-							url:"/api/qapi1_2/saveShareLog",
+							url:version+"/wechat/saveShareLog",
 							data:{
 								token:window.localStorage.getItem("token"),
 								type:3,
 								id:_this.id
 							},
-							dataType: 'JSON'
-						}).done(function(res){
-							
-						}).fail(function(){
-							
-						});
-						
-						$.ajax({
-							type:"post",
-							url:"/api/score/addScore",
-							data:{
-								token:window.localStorage.getItem("token"),
-								type:'6'
+							headers: {
+								'X-UA': headers
 							},
 							dataType: 'JSON'
 						}).done(function(res){
@@ -218,11 +196,14 @@ methods: {
 			});
 			$.ajax({
 				type: "post",
-				url: '/api/qapi1_1/getDetailInfo',
+				url: version+"/toutiao/getDetailInfo",
 				timeout: 15000,
 				data: {
 					token: window.localStorage.getItem("token"),
 					id: id
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -300,11 +281,14 @@ activated: function() {
 	window.scrollTo(0, 0);
 	$.ajax({
 		type: "post",
-		url: "/api/qapi1_1/getDetailInfo",
+		url: version+"/toutiao/getDetailInfo",
 		timeout: 15000,
 		data: {
 			id: _this.$route.params.id,
 			token: window.localStorage.getItem("token")
+		},
+		headers: {
+			'X-UA': headers
 		},
 		dataType: 'JSON',
 		async:true

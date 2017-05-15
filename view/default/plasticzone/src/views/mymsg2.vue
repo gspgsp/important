@@ -39,12 +39,15 @@ export default{
 
 		}
 		$.ajax({
-			url: '/api/qapi1/getRobotMsg',
-			type: 'get',
+			url: version + "/myInfo/getRobotMsg",
+			type: 'post',
 			data: {
 				page: 1,
 				token: window.localStorage.getItem("token"),
 				size: 100
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {

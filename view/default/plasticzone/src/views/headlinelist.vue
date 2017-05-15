@@ -129,18 +129,30 @@ methods: {
 		if (id==999) {
 			$.ajax({
 				type: "post",
-				url: '/api/qapi1_1/getSubscribe',
+				url: version + '/toutiao/getSubscribe',
 				data: {
 					token: window.localStorage.getItem("token"),
 					subscribe: 2
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.data;
 				} else if(res.err == 1) {
-					mui.alert("", res.msg, function() {
-						_this.$router.push({ name: 'login' });
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
 					});
 				}
 			}).fail(function(){
@@ -150,21 +162,33 @@ methods: {
 			});
 		} else{
 			$.ajax({
-				type: "get",
-				url: '/api/qapi1/getCateList',
+				type: "post",
+				url: version + '/toutiao/getSelectCate',
 				data: {
 					page: 1,
 					size: 10,
 					cate_id: id,
 					token: window.localStorage.getItem("token")
 				},
+				headers: {
+					'X-UA': headers
+				},
 				dataType: 'JSON'
 			}).done(function(res) {
 				if(res.err == 0) {
 					_this.items = res.info;
 				} else if(res.err == 1) {
-					mui.alert("", res.msg, function() {
-						_this.$router.push({ name: 'login' });
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
 					});
 				}
 			}).fail(function(){
@@ -185,13 +209,16 @@ methods: {
 		} catch(err) {}
 
 		$.ajax({
-			url: '/api/qapi1_1/getSubscribe',
+			url: version + '/toutiao/getSubscribe',
 			type: 'post',
 			data: {
 				keywords: _this.keywords,
 				page: 1,
 				subscribe: 1,
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 			}).done(function(res) {
@@ -338,10 +365,13 @@ methods: {
 		if(this.$route.params.id == 999) {
 			$.ajax({
 				type: "post",
-				url: '/api/qapi1_1/getSubscribe',
+				url: version + '/toutiao/getSubscribe',
 				data: {
 					token: window.localStorage.getItem("token"),
 					subscribe: 2
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -361,13 +391,16 @@ methods: {
 
 		} else {
 			$.ajax({
-				type: "get",
-				url: '/api/qapi1/getCateList',
+				type: "post",
+				url: version+'/toutiao/getCateList',
 				data: {
 					page: 1,
 					size: 10,
 					cate_id: _this.$route.params.id,
 					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -441,11 +474,14 @@ activated: function() {
 	if(this.$route.params.id == 999) {
 		$.ajax({
 			type: "post",
-			url: '/api/qapi1_1/getSubscribe',
+			url: version + '/toutiao/getSubscribe',
 			timeout:15000,
 			data: {
 				token: window.localStorage.getItem("token"),
 				subscribe: 2
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
@@ -461,14 +497,17 @@ activated: function() {
 		});
 	} else {
 		$.ajax({
-			type: "get",
-			url: '/api/qapi1/getCateList',
+			type: "post",
+			url: version+'/toutiao/getCateList',
 			timeout:15000,
 			data: {
 				page: 1,
 				size: 10,
 				cate_id: _this.$route.params.id,
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
@@ -516,13 +555,16 @@ activated: function() {
 		if(scrollTop + windowHeight >= scrollHeight) {
 			_this.page++;
 			$.ajax({
-				type: "get",
-				url: "/api/qapi1/getCateList",
+				type: "post",
+				url: version+"/toutiao/getCateList",
 				data: {
 					page: _this.page,
 					size: 10,
 					cate_id: _this.$route.params.id,
 					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {

@@ -58,34 +58,54 @@ data: function() {
 methods: {
 	del: function(id) {
 		var _this = this;
-		mui.confirm('', '确定删除此条信息？', ['取消', '确定'], function(e) {
-			if(e.index == 1) {
-				$.ajax({
-					url: '/api/qapi1/deleteMyMsg',
-					type: 'get',
-					data: {
-						id: id,
-						token: window.localStorage.getItem("token")
-					},
-					dataType: 'JSON'
-				}).then(function(res) {
-					if(res.err == 0) {
-						mui.alert("", res.msg, function() {
-							window.location.reload();
-						});
-
-					} else {
-						mui.alert("", "删除失败", function() {
-
-						});
-					}
-				}, function() {
-
-				});
-
-			} else {
-
-			}
+		weui.confirm('确定删除此条信息', {
+		    title: '塑料圈通讯录',
+		    buttons: [{
+		        label: '取消',
+		        type: 'default',
+		        onClick: function(){
+		        	
+		        }
+		    }, {
+		        label: '确定',
+		        type: 'primary',
+		        onClick: function(){
+			        $.ajax({
+						url: version+"/releaseMsg/deleteMyMsg",
+						type: 'post',
+						data: {
+							id: id,
+							token: window.localStorage.getItem("token")
+						},
+						headers: {
+							'X-UA': headers
+						},
+						dataType: 'JSON'
+					}).then(function(res) {
+						if(res.err == 0) {
+							weui.alert(res.msg, {
+							    title: '塑料圈通讯录',
+							    buttons: [{
+							        label: '确定',
+							        type: 'primary',
+							        onClick: function(){ location.reload(); }
+							    }]
+							});
+						} else {
+							weui.alert("删除失败", {
+							    title: '塑料圈通讯录',
+							    buttons: [{
+							        label: '确定',
+							        type: 'primary',
+							        onClick: function(){ location.reload(); }
+							    }]
+							});
+						}
+					}, function() {
+	
+					});
+		        }
+		    }]
 		});
 	}
 },
@@ -98,23 +118,34 @@ mounted: function() {
 
 	}
 	$.ajax({
-		url: '/api/qapi1/getMyMsg',
-		type: 'get',
+		url: version+"/releaseMsg/getMyMsg",
+		type: 'post',
 		data: {
 			type: 2,
 			page: _this.page,
 			token: window.localStorage.getItem("token"),
 			size: 50
 		},
+		headers: {
+			'X-UA': headers
+		},
 		dataType: 'JSON'
 	}).then(function(res) {
 		if(res.err == 2) {
 			_this.condition = false;
 		} else if(res.err == 1) {
-			mui.alert("", res.msg, function() {
-				_this.$router.push({ path: 'login' });
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
 				});
-
 			} else {
 				_this.condition = true;
 				_this.name = res.data;

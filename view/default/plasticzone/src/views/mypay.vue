@@ -1,11 +1,9 @@
 <template>
-<div class="buyWrap" style="padding: 45px 0 70px 0;">
-	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
-		<header id="bigCustomerHeader">
-			<a class="back" href="javascript:window.history.back();"></a>
-			我的关注
-		</header>
-	</div>
+<div class="buyWrap" style="padding: 0 0 70px 0;">
+	<header id="bigCustomerHeader">
+		<a class="back" href="javascript:window.history.back();"></a>
+		我的关注
+	</header>
 	<myrelation v-bind:name="name" v-bind:condition="condition"></myrelation>
 	<footerbar></footerbar>
 </div>
@@ -27,20 +25,23 @@ export default{
 	},
 	mounted: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
-			url: '/api/qapi1/getMyFuns',
-			type: 'get',
+			url: version+"/myInfo/getMyFuns",
+			type: 'post',
 			data: {
 				page: _this.page,
 				size: 100,
 				type: 2,
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {

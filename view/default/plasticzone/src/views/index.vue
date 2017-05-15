@@ -104,7 +104,7 @@
 <script>
 import footer from "../components/footer";
 import loadingPage from "../components/loadingPage";
-export default{
+export default {
 	components: {
 		'footerbar': footer,
 		'loadingPage': loadingPage
@@ -126,9 +126,9 @@ export default{
 			txt2: "全国站",
 			loadingShow: "",
 			top: "",
-			isFocus:true,
-			bannerLink:"",
-			bannerImg:""
+			isFocus: true,
+			bannerLink: "",
+			bannerImg: ""
 		}
 	},
 	methods: {
@@ -162,7 +162,10 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -194,7 +197,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -226,7 +233,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -258,7 +269,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -290,7 +305,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -333,7 +352,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -365,7 +388,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -397,7 +424,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -429,7 +460,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -461,7 +496,11 @@ export default{
 					_this.page = 1;
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/getPlasticPerson",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': headers
+						},
+
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -501,8 +540,11 @@ export default{
 			var _this = this;
 			this.isCircle = true;
 			$.ajax({
-				type: "get",
-				url: "/api/qapi1_2/getPlasticPerson",
+				type: "post",
+				url: version + "/friend/getPlasticPerson",
+				headers: {
+					'X-UA': headers
+				},
 				data: {
 					keywords: "",
 					page: 1,
@@ -540,8 +582,12 @@ export default{
 				}
 
 				$.ajax({
-					url: '/api/qapi1_2/getPlasticPerson',
+					url: version + "/friend/getPlasticPerson",
 					type: 'post',
+					headers: {
+						'X-UA': headers
+					},
+
 					data: {
 						keywords: _this.keywords.toLocaleUpperCase(),
 						page: _this.page,
@@ -576,7 +622,10 @@ export default{
 				_this.page++;
 				$.ajax({
 					type: "post",
-					url: "/api/qapi1_2/getPlasticPerson",
+					url: version + "/friend/getPlasticPerson",
+					headers: {
+						'X-UA': headers
+					},
 					data: {
 						sortField: _this.sortField,
 						sortOrder: _this.sortOrder,
@@ -624,7 +673,11 @@ export default{
 				console.log("login");
 				$.ajax({
 					type: "get",
-					url: "/api/qapi1_2/getPlasticPerson",
+					url: version + "/friend/getPlasticPerson",
+					headers: {
+						'X-UA': headers
+					},
+
 					data: {
 						keywords: "",
 						page: 1,
@@ -702,8 +755,11 @@ export default{
 		}
 
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1_2/getPlasticPerson",
+			type: "post",
+			url: version + "/friend/getPlasticPerson",
+			headers: {
+				'X-UA': headers
+			},
 			data: {
 				keywords: "",
 				page: 1,
@@ -714,9 +770,9 @@ export default{
 			dataType: 'JSON'
 		}).done(function(res) {
 			if(res.err == 0) {
-				_this.isFocus=res.is_show_focus;
-				_this.bannerLink=res.banner_jump_url;
-				_this.bannerImg=res.banner_url;
+				_this.isFocus = res.is_show_focus;
+				_this.bannerLink = res.banner_jump_url;
+				_this.bannerImg = res.banner_url;
 				_this.condition = true;
 				_this.member = res.member;
 				_this.name = res.persons;

@@ -1,11 +1,9 @@
 <template>
-<div class="buyWrap" style="padding: 45px 0 70px 0;">
-	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
-		<header id="bigCustomerHeader">
-			<a class="back" href="javascript:window.history.back();"></a>
-			我的粉丝
-		</header>
-	</div>
+<div class="buyWrap" style="padding: 0 0 70px 0;">
+	<header id="bigCustomerHeader">
+		<a class="back" href="javascript:window.history.back();"></a>
+		我的粉丝
+	</header>
 	<ul id="nameUl">
 		<li v-show="condition" v-for="n in name">
 			<div style="width: 55px; height: 55px; float: left; position: relative;">
@@ -52,13 +50,16 @@ export default{
 		}
 		
 		$.ajax({
-			type:"get",
-			url:"/api/qapi1/getMyFuns",
+			type:"post",
+			url: version+"/myInfo/getMyFuns",
 			data:{
 				page: _this.page,
 				size: 100,
 				type: 1,
 				token: window.localStorage.getItem("token")				
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function(res){

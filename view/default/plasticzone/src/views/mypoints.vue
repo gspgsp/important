@@ -107,31 +107,19 @@ export default{
 			var _this=this;
 			$.ajax({
 	    		type:"post",
-	    		url:"/api/qapi1_2/new_exchangeSupplyOrDemand",
+	    		url:version+"/product/newExchangeSupplyOrDemand",
 	    		data:{
 	    			token: window.localStorage.getItem("token"),
 	    			goods_id:_this.pro.id,
 	    			num:_this.pro.num,
 	    			pur_id:""
 	    		},
+		    	headers: {
+					'X-UA': headers
+				},
 	    		dataType: 'JSON'
 		    }).then(function(res){
 			    if(res.err==0){
-					$.ajax({
-			    		type:"post",
-			    		url:"/api/score/decScore",
-			    		data:{
-			    			token: window.localStorage.getItem("token"),
-			    			type:1,
-			    			points:_this.pro.cost,
-			    			gid:_this.pro.id
-			    		},
-			    		dataType: 'JSON'
-			    	}).then(function(res){
-
-			    	},function(){
-			    		
-			    	});
 					weui.alert("兑换成功", {
 						title: '塑料圈通讯录',
 						buttons: [{
@@ -174,31 +162,19 @@ export default{
 			var _this=this;
 			$.ajax({
 	    		type:"post",
-	    		url:"/api/qapi1_2/new_exchangeSupplyOrDemand",
+	    		url:version+"/product/newExchangeSupplyOrDemand",
 	    		data:{
 	    			token: window.localStorage.getItem("token"),
 	    			goods_id:_this.pro2.id,
 	    			num:_this.pro2.num,
 	    			pur_id:_this.selected
 	    		},
+		    	headers: {
+					'X-UA': headers
+				},
 	    		dataType: 'JSON'
 		    }).then(function(res){
 			    if(res.err==0){
-					$.ajax({
-			    		type:"post",
-			    		url:"/api/score/decScore",
-			    		data:{
-			    			token: window.localStorage.getItem("token"),
-			    			type:1,
-			    			points:_this.pro.cost,
-			    			gid:_this.pro2.id
-			    		},
-			    		dataType: 'JSON'
-			    	}).then(function(res){
-
-			    	},function(){
-			    		
-			    	});
 					weui.alert("兑换成功", {
 						title: '塑料圈通讯录',
 						buttons: [{
@@ -244,12 +220,15 @@ export default{
 				
 		$.ajax({
     		type:"post",
-    		url:"/api/qapi1_2/getProductList",
+    		url:version+"/product/getProductList",
     		data:{
     			token: window.localStorage.getItem("token"),
     			page:1,
     			size:10
     		},
+    		headers: {
+				'X-UA': headers
+			},
     		dataType: 'JSON'
 	    }).then(function(res){
 			    if(res.err==1){

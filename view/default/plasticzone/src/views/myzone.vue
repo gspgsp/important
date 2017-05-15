@@ -1,10 +1,10 @@
 <template>
 <div>
-	<header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0; z-index: 5;">
+	<header id="bigCustomerHeader">
 		我的塑料圈
 		<a class="detailShare" href="javascript:;" v-on:click="shareshow"></a>
 	</header>
-	<div style="padding: 45px 0 70px 0;">
+	<div style="padding: 0 0 70px 0;">
 	<div class="myzoneHeader">
 		<div class="myzoneInfo">
 			<div style="width: 55px; height: 55px; margin: 0; float: left; position: relative;">
@@ -129,10 +129,13 @@ export default{
 		logout: function() {
 			var _this = this;
 			$.ajax({
-				url: '/api/qapi1/logOut',
-				type: 'get',
+				url: version+'/user/logout',
+				type: 'post',
 				data: {
 					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -171,10 +174,13 @@ export default{
 		}
 
 		$.ajax({
-			url: '/api/qapi1/myZone',
-			type: 'get',
+			url: version+'/myInfo/myZone',
+			type: 'post',
 			data: {
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function(res) {

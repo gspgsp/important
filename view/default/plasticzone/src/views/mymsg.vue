@@ -58,19 +58,22 @@ export default{
 	},
 	mounted: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
-			url: '/api/qapi1/getMyComment',
-			type: 'get',
+			url: version + "/releaseMsg/getMyComment",
+			type: 'post',
 			data: {
 				page: _this.page,
 				token: window.localStorage.getItem("token"),
 				size: 10
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
