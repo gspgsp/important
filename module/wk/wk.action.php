@@ -34,7 +34,7 @@ class wkAction extends adminBaseAction{
 		if(!$power_admin){
 				$this->error('您没有权限操作');
 		}
-		$count_res = $this->db->getAll("SELECT (SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
+		$count_res = $this->db->getOne("SELECT (SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
 		FROM p2p_offers_msg AS msg
 		WHERE `msg`.`input_time`> ".$this->today." and msg.id = ".$id);
 		if($count_res){
