@@ -767,8 +767,8 @@ class releaseMsgAction extends baseAction
                     }
                     $pur_id = $pur_model->getLastID ();
                     //非标准发布
-                    if (A("qapi_3:points")->addScoreByPur($type,2,$user_id)['err'] > 0) {
-                        $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
+                    if (A("api:points")->addScoreByPur($type,2,$user_id)['err'] > 0) {
+                        throw new Exception("系统错误 pubpur:3");
                     }
 
                 } catch (Exception $e) {
@@ -897,6 +897,11 @@ class releaseMsgAction extends baseAction
                         if (!$pur_model->add ($_data)) {
                             throw new Exception("系统错误 pubpur:103");
                         }
+                        //标准发布加积分
+                        if (A("api:points")->addScoreByPur($type,1,$user_id)['err'] > 0) {
+                            throw new Exception("系统错误 pubpur:103");
+                        }
+
                         $pur_id = $pur_model->getLastID ();
                     } catch (Exception $e) {
                         $pur_model->rollback ();
@@ -904,10 +909,7 @@ class releaseMsgAction extends baseAction
                     }
                     $pur_model->commit ();
                 }
-                //标准发布加积分
-                if (A("qapi_3:points")->addScoreByPur($type,1,$user_id)['err'] > 0) {
-                    $this->json_output (array( 'err' => 5, 'msg' => "系统错误 pubpur:103" ));
-                }
+
 
                 //robot表插入消息
                 $tmpFuns    = M ("qapp:plasticIntroduction")->getMyFunsId ($user_id, 1);
