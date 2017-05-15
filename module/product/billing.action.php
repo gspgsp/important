@@ -387,7 +387,7 @@ class billingAction extends adminBaseAction
     					'payed'=>$data['total_price']-$unBillingPrice,
     					'lefted'=>$unBillingPrice,
     					'user_ip' => get_ip(),
-						'input_time' => CORE_TIME,
+					'input_time' => CORE_TIME,
     				);
     				//更新可视化
     				$n=$this->db->model('order_flow')->add($arr);

@@ -319,18 +319,21 @@ class collectionAction extends adminBaseAction
 					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>$data['collection_status'],'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
 					if($data['handling_charge']==''){
 						$data['uncollected_price']=$m;
+						$Received_payment=$data['total_price']-$data['uncollected_price'];
 					}else{
 						$data['uncollected_price']=0;
+						$data['total_price']=$data['total_price']+$data['handling_charge'];
+						$Received_payment=$data['total_price']-$data['uncollected_price']+$data['handling_charge'];
 					}
 					// p($data);die;
-					if(!M('order:orderLog')->addLog($data['o_id'],$data['collection_status'],2,$spend_time,$data['total_price'],$data['total_price']-$data['uncollected_price'],$data['uncollected_price'])) $this->error("更新可视化失败");
+					if(!M('order:orderLog')->addLog($data['o_id'],$data['collection_status'],2,$spend_time,$data['total_price'],$Received_payment,$data['uncollected_price'])) $this->error("更新可视化失败");
 					$id = $data['id'];
 					unset($data['id']);
 					$data['collection_status'] = 2;
 					// p($data);die;
 					//更新收付款信息
 					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败6");
-					// showtrace();
+
 				}else{
 
 					//非供应链金融订单
