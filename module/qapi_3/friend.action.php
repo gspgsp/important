@@ -766,6 +766,7 @@ class friendAction extends baseAction
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} user_id     当前联系人的id
+     * @apiParam   {int} showType     是否消耗塑豆   点击确定  showType  为 5   第一次  传1  即可
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {String}  err   错误码
@@ -803,13 +804,28 @@ class friendAction extends baseAction
         if ($_POST) {
             $user_id = $this->checkAccount ();
             $userid  = sget ('user_id', 'i');//当前联系人的id
-            if ($user_id != $userid) {
-                $_tmp = M ("qapp:infoList")->where ("user_id= $user_id and other_id = $userid")
-                                           ->order ("info_list_id desc")->getRow ();
-                if (!$_tmp) {
-                    $this->_errCode (99);
+
+            $showType = sget('showType','i'); // 5  不显示 99
+            if($showType!=5){
+                if ($user_id != $userid) {
+                    $_tmp = M ("qapp:infoList")->where ("user_id= $user_id and other_id = $userid")
+                        ->order ("info_list_id desc")->getRow ();
+                    if (!$_tmp) {
+                        $this->_errCode (99);
+                    }
                 }
+            }else{
+               if(A("api:points")->desScoreByTongxulu($user_id, $userid)['err']>0){
+                   $this->json_output (array(
+                       'err' => 7,
+                       'msg' => '服务器繁忙,请稍后再试！',
+                   ));
+               }
             }
+
+
+
+
             /**
              * 添加记录
              * -4避免descScore第一次出现相同的记录
@@ -822,7 +838,7 @@ class friendAction extends baseAction
                 ));
             }
             $data = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
-            if (empty($data) || A("api:points")->desScoreByTongxulu($user_id, $userid)['err']>0) {
+            if (empty($data)) {
                 $this->json_output (array(
                     'err' => 2,
                     'msg' => '没有相关资料',
