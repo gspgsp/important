@@ -13,6 +13,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  myZone
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      *
@@ -140,6 +141,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getZoneContactMsg
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      *
@@ -220,6 +222,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  headPicture
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      *
@@ -270,6 +273,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  saveSelfInfo
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} address  地址
@@ -446,6 +450,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  saveSelfInfo
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      *
@@ -552,6 +557,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  favorateSet
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} type  0 关注 1 回复 2是否公开电话
@@ -587,6 +593,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getMyFuns
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} type  1粉丝2关注
      * @apiParam   {String} page  页码
@@ -685,6 +692,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getRobotMsg
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} page  页码
      * @apiParam   {String} size  每页数据量
@@ -764,10 +772,27 @@ class myInfoAction extends baseAction
         $this->_errCode (6);
     }
 
+
     /**
-     * @param $serverId jssdk文件上传返回的serverId
+     * 保存头像到服务器
+     * @api {post} /qapi_3/myInfo/savePicToServer   保存头像到服务器
+     * @apiVersion 3.1.0
+     * @apiName  savePicToServer
+     * @apiGroup myInfo
+     * @apiUse UAHeader
      *
-     * @return string
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   url   上传文件全路径
+     *
+     * @apiSuccessExample {json} Success-Response:
+            {
+            "err": 0,
+            "url": "http://statics.myplas.com/upload/17/05/10/5912d3e082152.jpg"
+            }
+     *
      */
     public function savePicToServer ()
     {
@@ -782,6 +807,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  saveCardImg
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      *
@@ -811,6 +837,7 @@ class myInfoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getMyIntroduction
      * @apiGroup myInfo
+     * @apiUse UAHeader
      *
      * @apiParam   {String} page  页码
      * @apiParam   {String} size  每页数据量

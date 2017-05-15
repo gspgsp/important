@@ -14,6 +14,7 @@ class productAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getProductList
      * @apiGroup product
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} page   页码      默认1
@@ -427,6 +428,7 @@ class productAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  newExchangeSupplyOrDemand
      * @apiGroup product
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} goods_id   所需要的商品的id

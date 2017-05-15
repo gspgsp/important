@@ -14,6 +14,7 @@ class creditAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getQiChaCha
      * @apiGroup Credit
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} name   企业名称 上海中辰电子商务有限公司
@@ -54,6 +55,7 @@ class creditAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  creditCertificate
      * @apiGroup Credit
+     * @apiUse UAHeader
      *
      * @apiParam   {String} fname  公司名称
      * @apiParam   {String} token qwre3123123121swqsq

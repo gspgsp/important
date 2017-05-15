@@ -126,6 +126,7 @@ class wechatAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  shareMyPur
      * @apiGroup wechat
+     * @apiUse UAHeader
      *
      * @apiParam {String} token       token
      * @apiParam {Number} id       purchase id
@@ -182,6 +183,7 @@ class wechatAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  saveShareLog
      * @apiGroup wechat
+     * @apiUse UAHeader
      *
      * @apiParam {Number} type       //分享类容类型  1采购 2报价 3 文章
      * @apiParam {Number} id       分享内容id

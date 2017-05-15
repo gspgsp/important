@@ -13,6 +13,7 @@ class friendAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getPlasticPerson
      * @apiGroup friend
+     * @apiUse UAHeader
      *
      * @apiParam   {String} letter 联系人首字母 已废弃字段
      * @apiParam   {String} keywords   关键词
@@ -584,6 +585,7 @@ class friendAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getTaPur
      * @apiGroup friend
+     * @apiUse UAHeader
      *
      * @apiParam   {String} keywords  关键词 默认为空
      * @apiParam   {int} page   页码      默认1
@@ -692,6 +694,7 @@ class friendAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  focusOrCancel
      * @apiGroup friend
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} focused_id 当前联系人的id
@@ -718,6 +721,7 @@ class friendAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  sendZoneContactMsg
      * @apiGroup friend
+     * @apiUse UAHeader
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} userId     接受消息人的id
@@ -752,13 +756,53 @@ class friendAction extends baseAction
         $this->_errCode (6);
     }
 
-    //查看塑料圈好友资料
+    /**
+     * 查看塑料圈好友资料
+     * @api {post} /qapi_3/friend/getZoneFriend   查看塑料圈好友资料
+     * @apiVersion 3.1.0
+     * @apiName  getZoneFriend
+     * @apiGroup friend
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} user_id     当前联系人的id
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+            {
+            "err": 0,
+            "data": {
+            "user_id": "56211",
+            "name": "林少剑",
+            "c_id": "52732",
+            "is_pass": "0",
+            "mobile": "13162719631",
+            "sex": "男",
+            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+            "thumbqq": "",
+            "thumbcard": "",
+            "c_name": "上海凰玺贸易有限公司",
+            "need_product": "赛科PE|PP料\n线性|0220KJ；0220AA\n中空HDPE.|5520FA；540AA\n拉丝丙|S1003；纤维丙S2040\n低融共聚K8003；高融共聚K7929",
+            "address": "",
+            "main_product": "贸易商 PP PE",
+            "month_consum": "100吨",
+            "type": "1",
+            "buy": 0,
+            "sale": "1",
+            "status": "关注"
+            }
+            }
+     *
+     */
     public function getZoneFriend ()
     {
         $this->is_ajax = true;
         if ($_POST) {
             $user_id = $this->checkAccount ();
-            $userid  = sget ('userid', 'i');//当前联系人的id
+            $userid  = sget ('user_id', 'i');//当前联系人的id
             if ($user_id != $userid) {
                 $_tmp = M ("qapp:infoList")->where ("user_id= $user_id and other_id = $userid")
                                            ->order ("info_list_id desc")->getRow ();

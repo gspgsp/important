@@ -13,6 +13,7 @@ class userAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  init
      * @apiGroup User
+     * @apiUse UAHeader
      *
      * @apiSuccessExample Success-Response:
      *     <div style="margin-top:80px;text-align:center;font-size:50px">This is plasticZone app API center</div>
@@ -28,6 +29,7 @@ class userAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  register
      * @apiGroup User
+     * @apiUse UAHeader
      *
      * @apiParam {String} mobile       手机号.
      * @apiParam {String} password     密码.
@@ -316,6 +318,7 @@ class userAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  finfMyPwd
      * @apiGroup User
+     * @apiUse UAHeader
      *
      * @apiParam {String} mobile       手机号.
      * @apiParam {String} password     密码.
@@ -374,6 +377,7 @@ class userAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  sendMsg
      * @apiGroup User
+     * @apiUse UAHeader
      *
      * @apiParam {String} mobile   手机号.
      * @apiParam {Number} type     类型. 0 zhuce  1 zhaohuimima
@@ -430,6 +434,7 @@ class userAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  login
      * @apiGroup User
+     * @apiUse UAHeader
      *
      * @apiParam {String} username       用户名.
      * @apiParam {String} password       密码.
@@ -502,6 +507,7 @@ class userAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  logout
      * @apiGroup User
+     * @apiUse UAHeader
      *
      * @apiParam {String} token          token
      *

@@ -13,6 +13,7 @@ class toutiaoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  topLine
      * @apiGroup toutiao
+     * @apiUse UAHeader
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
@@ -70,10 +71,12 @@ class toutiaoAction extends baseAction
     }
 
     /**
+     * 塑料头条-分类列表
      * @api {post} /qapi_3/toutiao/getCateList 塑料头条-分类列表
      * @apiVersion 3.1.0
      * @apiName  getCateList
      * @apiGroup toutiao
+     * @apiUse UAHeader
      *
      * @apiParam {String} token       token
      * @apiParam {Number} page       页码
@@ -90,9 +93,6 @@ class toutiaoAction extends baseAction
      *      }
      *
      *
-     */
-    /**
-     * 塑料头条-分类列表
      */
     public function getCateList ()
     {
@@ -173,10 +173,12 @@ class toutiaoAction extends baseAction
     }
 
     /**
+     * 塑料头条-详情列表
      * @api {post} /qapi_3/toutiao/getDetailInfo 塑料头条-详情列表
      * @apiVersion 3.1.0
      * @apiName  getDetailInfo
      * @apiGroup toutiao
+     * @apiUse UAHeader
      *
      * @apiParam {String} token       token
      * @apiParam {Number} id       文件id
@@ -287,6 +289,7 @@ class toutiaoAction extends baseAction
      * @apiVersion 3.1.0
      * @apiName  getSelectCate
      * @apiGroup toutiao
+     * @apiUse UAHeader
      *
      * @apiParam {String} token       token
      * @apiParam {Number} id       文件id
@@ -341,10 +344,12 @@ class toutiaoAction extends baseAction
 
 
     /**
+     *
      * @api {post} /qapi_3/toutiao/getSubscribe 塑料头条-sss头条推荐
      * @apiVersion 3.1.0
      * @apiName  getSubscribe
      * @apiGroup toutiao
+     * @apiUse UAHeader
      *
      * @apiParam {String} token       token
      * @apiParam {Number} page       页码
