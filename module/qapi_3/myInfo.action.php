@@ -131,6 +131,7 @@ class myInfoAction extends baseAction
                 //我的关注
                 'data'         => $data,
                 //我的个人信息
+                'help'         => array('http://statics.myplas.com/myapp/img/h1.jpg','http://statics.myplas.com/myapp/img/h2.jpg','http://statics.myplas.com/myapp/img/h3.jpg','http://statics.myplas.com/myapp/img/h4.jpg','http://statics.myplas.com/myapp/img/h5.jpg'),
             ));
         }
         $this->_errCode (6);
