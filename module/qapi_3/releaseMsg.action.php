@@ -12,7 +12,7 @@ class releaseMsgAction extends baseAction
 
     /**
      * (中间供求信息)获取供求发布和消息回复
-     * @api {post} /qapi_3/releaseMsg/getReleaseMsg 获取通讯录首页数据
+     * @api {post} /qapi_3/releaseMsg/getReleaseMsg (中间供求信息)获取供求发布和消息回复
      * @apiVersion 3.1.0
      * @apiName  getReleaseMsg
      * @apiGroup releaseMsg
@@ -589,7 +589,24 @@ class releaseMsgAction extends baseAction
         $this->_errCode (6);
     }
 
-    //回复供求消息
+
+    /**
+     * 回复供求消息
+     * @api {post} /qapi_3/releaseMsg/saveMsg    回复供求消息
+     * @apiVersion 3.1.0
+     * @apiName  saveMsg
+     * @apiGroup releaseMsg
+     *
+     * @apiParam   {String} token   token qwre3123123121swqsq
+     * @apiParam   {int} pur_id  purchase表的消息id
+     * @apiParam   {int} send_id  purchase表发报价或采购人的(pur.user_id)
+     * @apiParam   {String} content 回复的内容
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
+     */
     public function saveMsg ()
     {
         $this->is_ajax = true;
@@ -644,7 +661,24 @@ class releaseMsgAction extends baseAction
         $this->_errCode (6);
     }
 
-    //获取我的供给或求购
+
+    /**
+     * 获取我的供给或求购
+     * @api {post} /qapi_3/releaseMsg/getMyMsg    获取我的供给或求购
+     * @apiVersion 3.1.0
+     * @apiName  getMyMsg
+     * @apiGroup releaseMsg
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} page 页码
+     * @apiParam   {int} size 数量
+     * @apiParam   {int} type 1采购 2报价
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
+     */
     public function getMyMsg ()
     {
         $this->is_ajax = true;
@@ -683,7 +717,23 @@ class releaseMsgAction extends baseAction
     }
 
 
-    //获取我的(留言)
+
+    /**
+     * 获取我的(留言)
+     * @api {post} /qapi_3/releaseMsg/getMyComment    获取我的(留言)
+     * @apiVersion 3.1.0
+     * @apiName  getMyComment
+     * @apiGroup releaseMsg
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} page 页码
+     * @apiParam   {int} size 数量
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
+     */
     public function getMyComment ()
     {
         $this->is_ajax = true;
@@ -708,8 +758,21 @@ class releaseMsgAction extends baseAction
     }
 
 
-    /*
+
+    /**
      * 二次发布
+     * @api {post} /qapi_3/releaseMsg/secondPub    二次发布
+     * @apiVersion 3.1.0
+     * @apiName  secondPub
+     * @apiGroup releaseMsg
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {int} id 报价id
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  data  数据
+     *
      */
     public function secondPub ()
     {
@@ -743,7 +806,8 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
-    /*
+
+    /**
      * 供求信息置顶之供求信息列表
      */
     public function supplyDemandList ()
