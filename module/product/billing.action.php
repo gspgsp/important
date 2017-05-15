@@ -356,13 +356,10 @@ class billingAction extends adminBaseAction
 						$b_number=$this->db->model('sale_log')->where("id={$v['l_id']}")->select('b_number')->getOne();
 						if($v['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
 						if(!$this->db->model('sale_log')->where("id={$v['l_id']}")->update(array('b_number'=>'-='.$v['b_number'],))) $this->error("销售明细更新失败");
-
-
 					}else{
 						$b_number=$this->db->model('purchase_log')->where("id={$v['l_id']}")->select('b_number')->getOne();
 						if($v['b_number']>$b_number) $this->error("开票数量不能大于未开票数量");
 						if(!$this->db->model('purchase_log')->where("id={$v['l_id']}")->update(array('b_number'=>'-='.$v['b_number'],))) $this->error("采购明细更新失败");
-
 					}
 				}
 				if($this->db->commit()){
@@ -378,21 +375,26 @@ class billingAction extends adminBaseAction
 					}
 
     				$unBillingPrice = $data['unbilling_price']-$data['billing_price'];
-    				$arr=array(
-    					'o_id'=>$data['o_id'],
-    					'step'=>$istatus,
-    					'type'=>3,
-    					'spend_time'=>$spend_time,
-    					'total'=>$data['total_price'],
-    					'payed'=>$data['total_price']-$unBillingPrice,
-    					'lefted'=>$unBillingPrice,
-    					'user_ip' => get_ip(),
-					'input_time' => CORE_TIME,
-    				);
     				//更新可视化
-    				$n=$this->db->model('order_flow')->add($arr);
+	    				$arr=array(
+	    					'o_id'=>$data['o_id'],
+	    					'step'=>$istatus,
+	    					'type'=>3,
+	    					'spend_time'=>$spend_time,
+	    					'total'=>$data['total_price'],
+	    					'payed'=>$data['total_price']-$unBillingPrice,
+	    					'lefted'=>$unBillingPrice,
+	    					'user_ip' => get_ip(),
+						'input_time' => CORE_TIME,
+	    				);
+	    				if ($data['tax_price']>0) {
+	    					$arr['total']=$data['total_price']+$data['tax_price'];
+	    					$arr['payed']=$arr['total'];
+	    					$arr['lefted']=0;
+	    				}
+	    				$this->db->model('order_flow')->add($arr);
 
-					if(!$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username'])) ) $this->error('操作订单表失败');
+				if(!$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username'])) ) $this->error('操作订单表失败');
 					$this->success('操作订单表失败');
 				}else{
 					$this->db->rollback();
