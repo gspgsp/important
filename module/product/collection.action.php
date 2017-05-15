@@ -323,7 +323,7 @@ class collectionAction extends adminBaseAction
 					}else{
 						$data['uncollected_price']=0;
 						$data['total_price']=$data['total_price']+$data['handling_charge'];
-						$Received_payment=$data['total_price']-$data['uncollected_price']+$data['handling_charge'];
+						$Received_payment=$data['total_price'];
 					}
 					// p($data);die;
 					if(!M('order:orderLog')->addLog($data['o_id'],$data['collection_status'],2,$spend_time,$data['total_price'],$Received_payment,$data['uncollected_price'])) $this->error("更新可视化失败");
