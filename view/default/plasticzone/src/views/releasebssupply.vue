@@ -97,7 +97,7 @@ export default{
 				'model': this.model.toUpperCase(),
 				'f_name': this.f_name,
 				'store_house': this.store_house,
-				'price': this.price,
+				'price': this.price, 
 				'type': 2,
 				'quan_type': 0,
 				'content': this.remark
