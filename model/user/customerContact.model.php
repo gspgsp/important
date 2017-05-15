@@ -402,4 +402,23 @@ class customerContactModel extends model{
 	public function getContactTrialStatus($userid){
 		return $this->where('user_id ='.$userid)->select('is_trial')->getOne();
 	}
+	/**
+	 * 报价平台 根据业务员id查询联系人id
+	 * @Author   yezhongbao
+	 * @DateTime 2017-05-15T19:19:28+0800
+	 * @param    integer                  $customer_manager [description]
+	 * @param    integer                  $user_id          [description]
+	 * @return   [type]                                     [description]
+	 */
+	public function checkUserIdByCustomerManager($customer_manager = 0,$user_id = 0){
+		$res = $this->model('customer_contact')
+		->select('user_id')
+		->where('customer_manager = '.$customer_manager.' and user_id = '.$user_id)
+		->getOne();
+		if($res){
+			return '1';
+		}else{
+			return '0';
+		}
+	}
 }
