@@ -194,7 +194,7 @@ var has_price ="{$has_hand_charge}";//已开票手续费
 var un_price = mini.get('unbilling_price').value;
 var bi_price = mini.get('billing_price').value;
 if(un_price==bi_price && ch_price>0){
-	if (has_price) {
+	if (Number(has_price)) {
 		mini.get('handling_charge').setValue("手续费已付");
 	}else{
 		mini.get('handling_charge').setValue(ch_price);

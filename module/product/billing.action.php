@@ -266,6 +266,7 @@ class billingAction extends adminBaseAction
 				->getRow();
 			//获取已支付手续费
 			$has_hand_charge = $this->db->model('billing')->select("IFNULL(SUM(tax_price),0)")->where("o_id=".$o_id)->getOne();
+			// p($has_hand_charge);die;
 			$this->assign('has_hand_charge',$has_hand_charge);
 			$this->assign('headData',$headData);
 
