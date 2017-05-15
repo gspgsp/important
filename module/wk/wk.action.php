@@ -57,7 +57,6 @@ class wkAction extends adminBaseAction{
 		if(!$res){
 			$this->error('您没有权限操作');
 		}
-		// p($res);die;
 		if($res['unlock_time'] > CORE_TIME){
 			$this->error('该条记录，您已发送，20分钟内不可再次发送');
 		}
