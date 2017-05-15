@@ -10,6 +10,7 @@ class logsmsAction extends adminBaseAction {
 		$this->stype=L('ui_sms_type');
 		$this->status=array(1=>'待发',2=>'成功',3=>'失败');
 		$this->assign('offers_id',sget('offers_id','i'));
+		$this->assign('customer_manager',sget('customer_manager','i'));
 	}
 
 	/**
@@ -39,8 +40,8 @@ class logsmsAction extends adminBaseAction {
 			if($status>0){
 				$where.=" and status=".($status-1);
 			}
-			
-			$offers_id=sget('offers_id','i');//
+			$customer_manager=sget('customer_manager','i');//报价平台传来的业务员id
+			$offers_id=sget('offers_id','i');//报价平台传来的报价id
 			if($offers_id)  $where.=" and FIND_IN_SET ($offers_id,offers_ids_str) ";
 			//关键词
 			$key_type=sget('key_type','s','mobile');
@@ -69,6 +70,14 @@ class logsmsAction extends adminBaseAction {
 				$list['data'][$k]['stype']=$this->stype[$val['stype']];
 				$list['data'][$k]['status']=$this->status[$val['status']+1];
 				$list['data'][$k]['chanel']=$sms_channels[$val['chanel']];
+				if(!empty($customer_manager)){
+					if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991){
+						$res = M('user:customerContact')->checkUserIdByCustomerManager($_SESSION['adminid'],$val['user_id']);
+						if(!$res){
+							$list['data'][$k]['mobile']='***';
+						}
+					}
+				}
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
