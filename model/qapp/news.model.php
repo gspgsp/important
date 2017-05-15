@@ -98,7 +98,7 @@ class newsModel extends model {
             $where.=" and id in ($str)";
             $order="sort_order desc";
         }
-        $this->model('news_content')->where($where)->select('id,title,description,cate_id,author,input_time,type')->order("$order");
+        $this->model('news_content')->where($where)->select('id,title,description,cate_id,author,input_time,type,pv')->order("$order");
         if($page&&$page_size){
             return $this->page($page,$page_size)->getPage();
 //				$this->page($page,$page_size)->getPage();
@@ -203,7 +203,7 @@ class newsModel extends model {
     //根据关键词获取文章
     public function search($ids){
         $ids = implode(',', $ids);
-        return $this->model('news_content')->select('id,author,cate_id,description,title,type,input_time')->where("id in (".$ids.")")->order('input_time desc')->getAll();
+        return $this->model('news_content')->select('id,author,cate_id,description,title,type,input_time,pv')->where("id in (".$ids.")")->order('input_time desc')->getAll();
     }
 
     //官网首页5F调用数据
