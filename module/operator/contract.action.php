@@ -97,7 +97,6 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['delivery_other']=$fee_list['2'];
 				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
 				$delivery_fee_count=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
-				//$list['data'][$k]['delivery_fee_count']=number_format(floor($delivery_fee_count*100)/100,2,'.','');
 				$list['data'][$k]['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);

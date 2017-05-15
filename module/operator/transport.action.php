@@ -102,16 +102,16 @@ class transportAction extends adminBaseAction
             $info['delivery_price']=$fee_list['0'];$info['delivery_trans']=$fee_list['1'];$info['delivery_other']=$fee_list['2'];
             $info['delivery_fee_count']=number_format(($fee_list['0']+$fee_list['1'])*$info['goods_num']+$fee_list['2'],'2','.','').' 元';
             $this->db = M('public:common')->model('order');
-            $order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
+            //$order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
-            $order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
+            //$order_info_new = M('public:common')->model('sale_log slg')->leftjoin("product p", "p.id=slg.p_id")->where('slg.o_id=' . $order_id)->getRow();
             $model = M('public:common');
             $sql = $model->getLastSql();
 
             $this->assign('page_title', '编辑物流合同');
             $order_info['sign_time'] = date('Y-m-d');
             $this->assign('info', $order_info);
-            $this->assign('order_info', $order_info_new);
+            //$this->assign('order_info', $order_info_new);
             $this->assign('customer_info', json_encode($customer));
             $this->assign('infoq', $info);
             $this->display('transport_contract.edit.html');
