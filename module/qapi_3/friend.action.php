@@ -526,6 +526,9 @@ class friendAction extends baseAction
             }
 
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
+            $cacheMembers = $this->cache->get('qappsgetAllMember');
+            $this->cache->set('qappsgetAllMember',$members);
+            $stemp_info = $members > $cacheMembers?'更新了'.($members - $cacheMembers).'条新信息':'';
             $members = empty($members) ? 0 : $members;
             $arr = array(
                 'err'             => 0,
@@ -539,7 +542,8 @@ class friendAction extends baseAction
                 'cover_url'       => '',
                 'cover_jump_url'  => '',
                 'data'            => CORE_TIME,
-                'show_ctype'       => $c_type
+                'show_ctype'       => $c_type,
+                'show_msg'     =>  $stemp_info
             );
             if (!empty($top)) {
                 $arr['top'] = $top;
@@ -774,7 +778,7 @@ class friendAction extends baseAction
                 ));
             }
             $data = M ('qapp:plasticPersonalInfo')->getPersonalInfo ($user_id, $userid);
-            if (empty($data)) {
+            if (empty($data) || A("api:points")->desScoreByTongxulu($user_id, $userid)['err']>0) {
                 $this->json_output (array(
                     'err' => 2,
                     'msg' => '没有相关资料',
