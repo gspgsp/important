@@ -40,7 +40,7 @@ class wkAction extends adminBaseAction{
 		if($count_res){
 			$this->error('该牌号已发送短信，不可改变状态');
 		}
-		$res = $this->db->where('id='.$id)->update(array('status'=>$status,'update_time'=>time(),'update_admin'=>$this->uname));
+		$res = $this->db->model('offers_msg')->where('id='.$id)->update(array('status'=>$status,'update_time'=>time(),'update_admin'=>$this->uname));
 		if($res){
 			$this->success('操作成功');
 		}else{
