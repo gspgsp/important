@@ -26,6 +26,20 @@ class wkAction extends adminBaseAction{
 		if(empty($id) || empty($status)){
 			$this->error('操作有误');
 		}
+		$url = '/'.$_REQUEST['m'].'/'.$_REQUEST['c'].'/'.$_REQUEST['a'];
+		$power_admin = $this->db->model('offers_power as p')
+			->select('admin_id')
+			->leftjoin('offers_power_admin as a','a.type_id = p.type_id')
+			->where("p.model = '".$url."' and admin_id = ".$this->adminid)->getOne();
+		if(!$power_admin){
+				$this->error('您没有权限操作');
+		}
+		$count_res = $this->db->getAll("SELECT (SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
+		FROM p2p_offers_msg AS msg
+		WHERE `msg`.`input_time`> ".$this->today." and msg.id = ".$id);
+		if($count_res){
+			$this->error('该牌号已发送短信，不可改变状态');
+		}
 		$res = $this->db->where('id='.$id)->update(array('status'=>$status,'update_time'=>time(),'update_admin'=>$this->uname));
 		if($res){
 			$this->success('操作成功');
@@ -38,7 +52,11 @@ class wkAction extends adminBaseAction{
 		if(empty($id)){
 			$this->error('操作有误');
 		}
-		$res = $this->db->model('offers_msg')->where('id = '.$id)->getRow();
+		$res = $this->db->model('offers_msg')->select('*')->where('id = '.$id.' and uid = '.$this->adminid)->getRow();
+			// showtrace();
+		if(!$res){
+			$this->error('您没有权限操作');
+		}
 		// p($res);die;
 		if($res['unlock_time'] > CORE_TIME){
 			$this->error('该条记录，您已发送，20分钟内不可再次发送');
@@ -82,6 +100,14 @@ class wkAction extends adminBaseAction{
 	{
 		if($_POST){
 			$_data=$_POST;
+			$url = '/'.$_REQUEST['m'].'/'.$_REQUEST['c'].'/'.$_REQUEST['a'];
+			$power_admin = $this->db->model('offers_power as p')
+			->select('admin_id')
+			->leftjoin('offers_power_admin as a','a.type_id = p.type_id')
+			->where("p.model = '".$url."' and admin_id = ".$this->adminid)->getOne();
+			if(!$power_admin){
+				$this->error('您没有权限操作');
+			}
 			//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
 			$grade=strtolower($_data['grade']);
 			$factory=$_data['factory'];
@@ -97,6 +123,27 @@ class wkAction extends adminBaseAction{
 			$_data['status']=1;//1.待审核   2审核通过  3.不通过
 			if(!$this->db->model('offers_msg')->add($_data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
 			exit(json_encode(array('err'=>0,'data'=>$_data)));
+		}
+	}
+	//删除
+	public function del(){
+		$id = sget('id','i');
+		if(empty($id)){
+			$this->error('操作有误');
+		}
+		$res = $this->db->model('offers_msg')->select('*')->where('id = '.$id.' and uid = '.$this->adminid)->getRow();
+			// showtrace();
+		if(!$res){
+			$this->error('您没有权限操作');
+		}
+		if($res['status'] == 2){
+			$this->error('审核已通过，不能删除');	
+		}
+		$del_res = $this->db->model('offers_msg')->where('id = '.$id)->delete();
+		if($del_res){
+			$this->success('删除成功');
+		}else{
+			$this->error('删除失败');
 		}
 	}
 	// 报价上传

@@ -46,6 +46,7 @@
 	<div class="container-fluid">
 		<div class="row" >
 			<div class="alert alert-info" role="alert">用户：{$smarty.session.username}</div>
+			<input type="hidden" class="adminid" value="{$smarty.session.adminid}">
 		</div>
 		<div class="row" style="margin-top:10px;">
 			<div class="col-md-3"></div>
@@ -133,7 +134,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<input type="textarea" class="form-control" name="remark" placeholder="备注">
+										<input type="text" class="form-control" name="remark" placeholder="备注">
 									</div>
 								</div>
 							</div>
@@ -172,6 +173,7 @@
 					                <th align="center" width="50">审核结果</th>
 					                <th align="center" width="50">发短信</th>
 					                <th align="center" width="80">发布时间</th>
+					                <th align="center" width="40">删除</th>
 					            </tr>
 					        </thead>
 					        <tbody id="offerTop">
@@ -189,16 +191,6 @@
 					                <td>{$value.person_phone}</td>
 					                <td><a href="javascript:void(0)" onclick="valueInfo({$value.id},2)">{$value.count}</a></td>
 					                <td><a href="javascript:void(0)" onclick="check({$value.id},2)">通过</a> | <a href="javascript:void(0)" onclick="check({$value.id},3)">不通过</a></td>
-					                <!-- {if $value.status eq '1'} -->
-					                <!-- <td><a href="javascript:void(0)" onclick="check({$value.id},2)">通过</a> | <a href="javascript:void(0)" onclick="check({$value.id},3)">不通过</a></td> -->
-    								<!-- {else} -->
-    								<!-- <td> -->
-    									<!-- {if $value.status eq '2'}通过 -->
-    									<!-- {else}不通过 -->
-    									<!-- {/if} -->
-    								<!-- </td>  -->
-									<!-- {/if} -->
-					                <!-- </if> -->
 					                {if $value.status eq '1'}
 									<td><b>未审核</b></td>
 									{elseif $value.status eq '2'}
@@ -209,6 +201,7 @@
 
 					                <td><a href="javascript:void(0)" onclick="sendMsg({$value.id})">发短信</a></td>
 					                <td>{$value.input_time|date:m-d H:i}</td>
+					                <td><a href="javascript:void(0)" onclick="del({$value.id})">删除</a></td>
 					            </tr>
          						{/foreach}
 					        </tbody>
@@ -268,11 +261,12 @@
 }
 //查看发送详情
 function valueInfo(id){
+	var customer_manager = $('.adminid').val();
 	if(id == 0){
 		return;
 	}
 	mini.open({
-	  url: "/report/logsms/init?offers_id="+id,
+	  url: "/report/logsms/init?offers_id="+id+"&customer_manager="+customer_manager,
 	  showMaxButton:true,
 	  title: "短信发送记录",
 	  width: 1300, height:500
@@ -294,6 +288,22 @@ function valueInfo(id){
 	}
 		utils.ajax('/wk/wk/sendOffersMsg',{id:id},callback,"POST","json");
 }
+ function del(id){
+	// grid.loading('数据处理中，请稍后......');
+	var callback = function(data){
+		if(data.err!='0'){
+			// grid.unmask();
+			alert(data.msg);
+			// return false;
+		}else{
+			// grid.unmask();
+			alert(data.msg);
+			// grid.reload();
+			 window.location.reload();
+		}
+	}
+		utils.ajax('/wk/wk/del',{id:id},callback,"POST","json");
+}
 	//正常发布
 	function release1(){
 		var form=$("#addForm");
@@ -305,7 +315,10 @@ function valueInfo(id){
 		var store=$('#addForm input[name="store"]').val().trim();
 		// var china_area = $("#china_area ").get(0).selectedIndex;//索引
 		var china_area = $('#china_area option:selected') .text()
-		// console.log(china_area);return;
+		var remark=$('#addForm input[name="remark"]').val().trim();
+
+		// console.log(remark);
+		// console.log(remark.length);return;
 		if(grade.length==0){
 			$('#addForm input[name="grade"]').addClass('requires');
 			return;
@@ -348,6 +361,13 @@ function valueInfo(id){
 			return;
 		}else{
 			$('#china_area').removeClass('requires');
+		}
+		if(remark.length > 15){
+			$('#addForm input[name="remark"]').addClass('requires');
+			alert('备注最多15个字');
+			return;
+		}else{
+			$('#addForm input[name="remark"]').removeClass('requires');
 		}
 		var data=form.serialize();
 		// console.log(data);return;
