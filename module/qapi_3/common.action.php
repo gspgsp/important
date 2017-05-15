@@ -6,15 +6,14 @@
  * Date: 17-5-5
  * Time: 上午11:49
  */
+/**
+ * @apiDefine UAHeader
+ *
+ * @apiHeader {String} x-ua 拼接顺序为 平台（ios/android/h5/pc）|屏幕尺寸|user_id|token|uuid|包名|系统获取的操作系统名称|操作系统版本号|内核版本号|浏览器名称|浏览器版本号|设备厂商|设备名称信息
+ *
+ */
 class commonAction extends baseAction
 {
-    /**
-     * @apiDefine UAHeader
-     *
-     * @apiHeader {String} x-ua 拼接顺序为 平台（ios/android/h5/pc）|屏幕尺寸|user_id|token|uuid|包名|系统获取的操作系统名称|操作系统版本号|内核版本号|浏览器l版本号|设备厂商|设备名称信息
-     *
-     */
-
     /**
      * ua检查更新接口
      * @api {GET} /qapi_3/common/checkUA 检查ua接口
