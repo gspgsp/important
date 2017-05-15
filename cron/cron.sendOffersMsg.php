@@ -53,9 +53,10 @@ class cronsendOffersMsg{
 		$this->nlimit=1000; //每次查询1000条
 		$nums = ceil($count/$this->nlimit);
 		foreach ($res as $key => $value) {
+			// p($value);die;
 			for($i=0;$i<$nums;$i++){
 				$this->getCustomerContact($i,$value);
-				sleep(1);
+				// sleep(1);
 			}
 			$this->db->model('offers_cron')->where('id='.$value['id'])->update(array('status'=>2));
 		}
@@ -97,7 +98,12 @@ class cronsendOffersMsg{
 		$date = date("m月d日",time());
 		foreach ($res as $key => $value) {
 			if(is_mobile($value['contact_mobile'])){
-				$msg = sprintf(L('offers_sms.offers'),$offers_info['grade'],$offers_info['sale_price'].'元/吨',$date,$value['name'],$value['mobile']);
+				// p($offers_info);die;
+				if(!empty($offers_info['remark'])){
+					$offers_info['remark'] = trim($offers_info['remark'],'。').'。';
+				}
+				$msg = sprintf(L('offers_sms.offers'),$offers_info['factory'],$offers_info['grade'],$offers_info['store'],$offers_info['sale_price'].'元/吨',$value['name'],$value['mobile'],$offers_info['remark']);
+				// p($msg);die;
 	    		M('system:sysSMS')->send($value['user_id'],$value['contact_mobile'],$msg,12,0,$offers_info['offers_id']);
 	    	}
 		}
