@@ -514,13 +514,14 @@ class productAction extends baseAction
             if ($goods_id < 10) {
                 $_orderData['status'] = 1;
             }
-            if (!$pointsOrder->add ($_orderData)) {
+            if (!$pointsOrder->add ($_orderData) || A("api:points")->desScoreByProduct($point * $num , $user_id , $goods_id)['err'] > 0) {
                 //throw new Exception('系统错误，无法兑换。code:101');
                 $this->json_output (array(
                     'err' => 101,
                     'msg' => '系统错误，无法兑换。',
                 ));
             }
+
             $this->json_output (array(
                 'err' => 0,
                 'msg' => '购买成功',

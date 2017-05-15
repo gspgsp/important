@@ -94,6 +94,9 @@ class toutiaoAction extends baseAction
      *
      *
      */
+    /**
+     * 塑料头条-分类列表
+     */
     public function getCateList ()
     {
         if ($_POST) {

@@ -256,14 +256,14 @@ class userAction extends baseAction
                         if (!M ("plasticzone:plasticAttention")->getAttention ($user_id, $focused_id)) {
                             throw new Exception("系统错误 reg:111");
                         }
-                        //                        if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
-                        //                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-                        //                            throw new Exception("系统错误 reg:112");
-                        //                        }//引荐加积分
-                        //                        if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
-                        //                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-                        //                            throw new Exception("系统错误 reg:112");
-                        //                        }//注册加积分
+                                                if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
+                                                    //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                                                    throw new Exception("系统错误 reg:112");
+                                                }//引荐加积分
+                                                if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
+                                                    //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                                                    throw new Exception("系统错误 reg:112");
+                                                }//注册加积分
                     }
                     $mobile_area = getCityByMobile ($mobile);
                     $_info       = array(
@@ -486,9 +486,23 @@ class userAction extends baseAction
                         ));
                     }
                     $spoints = $this->points['login'];
-                    //                    if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints, $user_id, 2)) {
-                    //                        $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
-                    //                    }
+
+                    $_tmpsd = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =2")->order("id desc")->limit(4)->getAll();
+                    $size = 1;
+                    foreach($_tmpsd as $key=>$row){
+                        if($row['addtime']>(strtotime(date("Y-m-d"))-86400*($key+1))&&$row['addtime']<(strtotime(date("Y-m-d"))-86400*$key)) $size++;
+
+                        if($key==0&&$row['addtime']>strtotime(date("Y-m-d"))&&$row['addtime']<(strtotime(date("Y-m-d"))+86400)){
+                            $size = 0;
+                            break;
+                        }
+                    }
+                            if($size > 0){
+                                if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints*$size, $user_id, 2)) {
+                                    $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
+                                }
+                            }
+
                 }
                 $this->json_output (array(
                     'err'       => 0,

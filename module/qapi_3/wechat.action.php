@@ -211,9 +211,12 @@ class wechatAction extends baseAction
         if ($_POST) {
             $share_id = sget ('id', 'i');
             $type     = sget ('type', 'i', 1);//分享类容类型  1采购 2报价 3 文章
+            if(!in_array($type,array(1,2,3))){
+                $this->json_output(array('err'=>6,'msg'=>'参数错误'));
+            }
             $user_id  = $this->checkAccount ();//分享人的id
             $share    = '';
-            if (!M ('qapp:plasticShare')->saveShareLog ($share_id, $type, $user_id, $share)) {
+            if (!M ('qapp:plasticShare')->saveShareLog ($share_id, $type, $user_id, $share) || A("api:points")->addScoreByShare($type , $user_id)['err'] > 0) {
                 $this->json_output (array(
                     'err' => 6,
                     'msg' => '分享失败',
