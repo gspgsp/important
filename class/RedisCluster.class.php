@@ -195,6 +195,10 @@ class RedisCluster{
 		// $key => "key1" || array('key1','key2')
 		return $this->getRedis()->delete($key);
 	}
+
+	public function exists($key){
+		return $this->getRedis()->exists($key);
+	}
 	/**
 	 * 值加加操作,类似 ++$i ,如果 key 不存在时自动设置为 0 后进行加加操作
 	 *

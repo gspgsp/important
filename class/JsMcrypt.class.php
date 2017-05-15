@@ -5,7 +5,7 @@
  * Date: 4/5/17
  * Time: 7:09 AM
  */
-class mcrypt1{
+class JsMcrypt{
     private  $iv = '1234123412341324'; # converted JAVA byte code in to HEX and placed it here
     private  $key = 'ABCDEFGHIGKLMNOP'; #Same as in JAVA 16 32 64 LENGTH
 
@@ -21,4 +21,5 @@ class mcrypt1{
         $decrypted = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $this->key, $encryptedData, MCRYPT_MODE_CBC, $this->iv);
         return $decrypted;
     }
+    
 }
