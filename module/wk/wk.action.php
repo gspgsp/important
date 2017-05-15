@@ -46,6 +46,9 @@ class wkAction extends adminBaseAction{
 		if($res['status'] != 2){
 			$this->error('审核通过的牌号才可发送短信');
 		}
+		if($res['count'] == 3){
+			$this->error('该牌号信息，一天只能发送3次');
+		}
 		$data['grade'] = $res['grade'];
 		$data['sale_price'] = $res['sale_price'];
 		$data['input_time'] = time();
@@ -57,7 +60,7 @@ class wkAction extends adminBaseAction{
 		$data['status'] = 0;
 		// p($data);die;
 		$add_res = $this->db->model('offers_cron')->add($data);
-		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 1200));
+		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 1200,'count'=>$res['count']+1));
 		if($add_res){
 			$this->success('发送成功');
 		}else{
