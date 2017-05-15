@@ -798,6 +798,7 @@ class friendAction extends baseAction
             }
      *
      */
+    
     public function getZoneFriend ()
     {
         $this->is_ajax = true;
