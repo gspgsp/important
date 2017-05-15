@@ -113,7 +113,7 @@
 								
 								<div class="col-md-6">
 									<div class="form-group">
-										<input type="text" class="form-control" name="store" placeholder="仓库">
+										<input type="text" class="form-control" name="store" placeholder="仓库（必填）">
 									</div>
 								</div>
 							</div>
@@ -133,7 +133,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<input type="text" class="form-control" name="supplier" placeholder="供应商">
+										<input type="textarea" class="form-control" name="remark" placeholder="备注">
 									</div>
 								</div>
 							</div>
@@ -164,6 +164,7 @@
 					                <th align="center" width="80">成本价</th>
 					                <th align="center" width="50">仓库</th>
 					                <th align="center" width="50">区域</th>
+					                <th align="center" width="80">备注</th>
 					                <th align="center" width="55">责任人</th>
 					                <th align="center" width="80">责任人手机</th>
 					                <th align="center" width="50">发送数量</th>
@@ -183,6 +184,7 @@
 					                <td>{$value.price}</td>
 					                <td>{$value.store}</td>
 					                <td>{$value.china_area}</td>
+					                <td>{$value.remark}</td>
 					                <td>{$value.uname}</td>
 					                <td>{$value.person_phone}</td>
 					                <td><a href="javascript:void(0)" onclick="valueInfo({$value.id},2)">{$value.count}</a></td>
@@ -300,6 +302,7 @@ function valueInfo(id){
 		var num=$('#addForm input[name="num"]').val().trim();
 		var price=$('#addForm input[name="price"]').val().trim();
 		var sale_price=$('#addForm input[name="sale_price"]').val().trim();
+		var store=$('#addForm input[name="store"]').val().trim();
 		// var china_area = $("#china_area ").get(0).selectedIndex;//索引
 		var china_area = $('#china_area option:selected') .text()
 		// console.log(china_area);return;
@@ -321,17 +324,24 @@ function valueInfo(id){
 		}else{
 			$('#addForm input[name="num"]').removeClass('requires');
 		}
+		if(price.length==0){
+			$('#addForm input[name="price"]').addClass('requires');
+			return;
+		}else{
+			$('#addForm input[name="price"]').removeClass('requires');
+		}
 		if(sale_price.length==0){
 			$('#addForm input[name="sale_price"]').addClass('requires');
 			return;
 		}else{
 			$('#addForm input[name="sale_price"]').removeClass('requires');
 		}
-		if(price.length==0){
-			$('#addForm input[name="price"]').addClass('requires');
+		
+		if(store.length==0){
+			$('#addForm input[name="store"]').addClass('requires');
 			return;
 		}else{
-			$('#addForm input[name="price"]').removeClass('requires');
+			$('#addForm input[name="store"]').removeClass('requires');
 		}
 		if(china_area == '选择区域(必填)'){
 			$('#china_area').addClass('requires');
