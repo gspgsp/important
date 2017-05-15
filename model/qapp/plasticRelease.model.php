@@ -287,7 +287,7 @@ class plasticReleaseModel extends model
             } elseif ((int)($timeSub / (60)) > 0) {
                 $value['input_time'] = (int)($timeSub / (60)) . '分钟前';
             } else {
-                $value['input_time'] = $timeSub . '秒前';
+                $value['input_time'] = $timeSub>0?$timeSub . '秒前':'1秒前';
             }
             $data = $this->select ('con.user_id,con.name,con.c_id,con.is_pass,con.mobile,con.sex,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.need_product,cus.address')
                 ->from ('customer_contact con')
