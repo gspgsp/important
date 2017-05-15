@@ -425,8 +425,8 @@ class releaseMsgAction extends baseAction
             }
 
             if($page == 1 && $sortField1 == 'ALL'){
-                $stmp_releaseMsgNum = $this->cache->get('qappsreleaseMsgNum');
-                $this->cache->set('qappsreleaseMsgNum',$data['count']);
+                $stmp_releaseMsgNum = $this->cache->get('qappsreleaseMsgNum'.$user_id);
+                $this->cache->set('qappsreleaseMsgNum'.$user_id,$data['count'],1800);
                 $arr['show_msg'] = $data['count'] >$stmp_releaseMsgNum ? '更新了'.($data['count'] - $stmp_releaseMsgNum).'条数据':'';
             }
 
