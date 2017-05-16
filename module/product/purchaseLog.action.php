@@ -125,7 +125,7 @@ class purchaseLogAction extends adminBaseAction {
 			$v['order_name']=M("product:order")->getColByName($v['o_id']);
 			//非销售人员查看权限的限制
 			$see = M("rbac:adm")->toSee($v['customer_manager']);
-			if($v['customer_manager'] != $_SESSION['adminid']) && $_SESSION['adminid'] != 1 && $see !=1){
+			if(($v['customer_manager'] != $_SESSION['adminid']) && $_SESSION['adminid'] != 1 && $see !=1){
 				$v['c_name'] = "********";
 			}else{
 				$v['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名

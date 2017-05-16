@@ -4,7 +4,6 @@
  */
 class orderAction extends adminBaseAction {
 	public function __init(){
-		ini_set('display_errors','on');
 		$this->debug = false;
 		$this->db=M('public:common')->model('order');
 		$this->doact = sget('do','s');
