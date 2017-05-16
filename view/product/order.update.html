@@ -76,11 +76,14 @@
 					<tr>
 						<td>财务记录<font style="color:red;"> * </font></td>
 						<td><input name="financial_records" class="mini-combobox" style="width:125px;" value="{$info.financial_records}" data='{:setMiniConfig|$financial_records}'  required="true" textfield="name" valuefield="id"/></td>
+					</tr>
+					<tr>
 						<td>客户名称<font style="color:red;"> * </font></td>
 						<td>
 							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$info.c_name}"  style="width:125px;" id="usrId"/>
 						</td>
-
+						<td>联系人：</td>
+						<td><input id="contact_id" name="contact_id" value="{$info.contact_id}" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
 					</tr>
 					<tr>
 						<td>运费 : </td>
@@ -271,6 +274,7 @@ function changtransport(e){
 }
 //强制选择归属公司
 function usrChoose(e){
+	var cname = mini.get("contact_id");
 	var btn = this;
 		mini.open({
 		url: "/user/customer/init?do=search&input_admin={$input_admin}",
@@ -289,6 +293,11 @@ function usrChoose(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
+					cname.load('/user/follow/get_contacts?c_id='+data.c_id);
+					var contact_id = mini.get("contact_id");
+					if(parseInt(contact_id.data.length) < 1){
+						alert("您没有该客户的联系人，请先完善联系人信息在建单");
+					}
 				}
 			}
 		}
