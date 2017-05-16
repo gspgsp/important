@@ -387,7 +387,7 @@ class billingAction extends adminBaseAction
 	    					'user_ip' => get_ip(),
 						'input_time' => CORE_TIME,
 	    				);
-	    				//如果有手续费，代表货款已结清，多余金额为手续费，更新可视化为加过手续费的总额
+	    				//如果有手续费，代表这是开票最后一笔，多余金额为手续费，更新可视化为加过手续费的总额
 	    				if ($data['tax_price']>0) {
 	    					$arr['total']=$data['total_price']+$data['tax_price'];
 	    					$arr['payed']=$arr['total'];
