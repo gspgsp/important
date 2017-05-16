@@ -439,6 +439,11 @@ class orderAction extends adminBaseAction {
 		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
+		$info['contact'] = $arr;
+		$info['p_type']=$info['purchase_type'];
+		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
+		$info['partnername']= M('rbac:adm')->getUserByCol($info['partner']);
+		$info['pickuplocation'] = $info['pickup_location'];
 		$contact =  M('user:customerContact')->getCustomerManagerListByCid($info['c_id']);
 		if(!empty($contact)){
 			$arr = array();
@@ -446,11 +451,7 @@ class orderAction extends adminBaseAction {
 				$arr[$v['user_id']] =$v['name'];
 			}
 		}
-		$info['contact'] = $arr;
-		$info['p_type']=$info['purchase_type'];
-		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
-		$info['partnername']= M('rbac:adm')->getUserByCol($info['partner']);
-		$info['pickuplocation'] = $info['pickup_location'];
+		$this->assign('arr',$arr);
 		$this->assign('info',$info);//分配订单信息
 		$this->assign('detail',json_encode($detailinfo));//明细数据
 		$this->assign('order_sn',$order_sn);
