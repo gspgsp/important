@@ -227,7 +227,7 @@ class admModel extends model{
 	 * @return   [type]                   [description]
 	 */
 	public function toSee($customer_manager=0){
-		$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+		$roleid = $this->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 		//如果是财务部不蔽
 			// $see  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
 		// 新版修改为非销售人员按照上下级关系查看
