@@ -446,9 +446,8 @@ class orderAction extends adminBaseAction {
 			foreach ($contact as $k => $v) {
 				$arr[$v['user_id']] =$v['name'];
 			}
-			p($arr);
 		}
-		$info['contact'] = $contact;
+		$info['contact'] = $arr;
 		$info['p_type']=$info['purchase_type'];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
 		$info['partnername']= M('rbac:adm')->getUserByCol($info['partner']);
