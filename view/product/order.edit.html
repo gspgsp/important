@@ -99,7 +99,7 @@
 						</td>
 						{/if}
 						<td>联系人：</td>
-						<td><input name="contract_id" class="mini-textbox" style="width:125px;" maxlength="8" value="{$info.contract_id}"/>
+						<td><input id="contact_id" name="contact_id" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
 						</td>
 					</tr>
 					<tr>
@@ -368,6 +368,7 @@ function onCancel(e) {
 }
 //强制选择归属公司
 function usrChoose(e){
+	var cname = mini.get("contact_id");
 	var btn = this;
 		mini.open({
 		url: "/user/customerchose/init?do=search&pt={$order_type}",
@@ -386,6 +387,7 @@ function usrChoose(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
+					cname.load('/user/follow/get_contact_list?c_id='+data.c_id);
 				}
 			}
 		}

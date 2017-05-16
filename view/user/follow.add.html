@@ -16,7 +16,7 @@
 			<tr>
 				<td>联系人<span style="color:red">*</span></td>
 				<td><input name="user_id" class="mini-combobox" textField="name" valueField="id" data='{:setMiniConfig|$arr}'
-				  style="width:90px;" required="true"/></td>				
+				  style="width:90px;" required="true"/></td>
 			</tr>
 			{/if}
 			<tr>
@@ -79,9 +79,9 @@ function GetData() {
 	return row;
 }
 
-function CloseWindow(action) {            
+function CloseWindow(action) {
 	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
-	else window.close();            
+	else window.close();
 }
 function onCancel(e) {
 	CloseWindow("cancel");
