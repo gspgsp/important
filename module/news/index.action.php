@@ -133,7 +133,13 @@
                         
 		//取出详情页数据
 		public function detail(){
-			$type=sget('type','s');
+			// $id=sget('id','i');
+			//如果找不到，跳转404页面
+			if(!$id=sget('id','i')) {$this->forward('/page/index/notFind');exit;};
+			//获取文章详情数据
+			$data=sstripslashes($this->db->getNews($id));
+			// $type=sget('type','s');
+			$type=$data['type'];
 			if(!empty($type)){
 				$stype='detail_'.$type;
 				$arr=L('headline_ads')[$stype];
@@ -141,16 +147,12 @@
 				// $this->detail2banner=$this->getAD($arr[1]);
 			}
 			//导航栏选中状态 
-				$this->nav=$type;
-			$cate=sget('cate','s');
-			$id=sget('id','i');
-			//如果找不到，跳转404页面
-			if(!$id=sget('id','i')) {$this->forward('/page/index/notFind');exit;};
-			//获取文章详情数据
-			$data=sstripslashes($this->db->getNews($id));
+			$this->nav=$type;
+			// $cate=sget('cate','s');
+			$cate=M('public:common')->model('news_cate')->select('spell')->where('cate_id="'.$data['cate_id'].'"')->getOne();
 			//获取排行榜文章
-			$cate_id=M('public:common')->model('news_cate')->select('cate_id')->where('spell="'.$cate.'"')->getOne();
-			$chartsData=$this->db->charts($type,$cate_id);
+			// $cate_id=M('public:common')->model('news_cate')->select('cate_id')->where('spell="'.$cate.'"')->getOne();
+			$chartsData=$this->db->charts($type,$data['cate_id']);
 			//更新文章访问量
 			$data['pageViews']=$this->db->updatePv($id);
 			$this->seo = array('title'=>$data['title'],'key'=>$data['keywords'],'desc'=>$data['description']);
