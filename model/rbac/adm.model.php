@@ -5,7 +5,6 @@
 class admModel extends model{
 	private $cache=NULL; //缓存
 	public function __construct() {
-		ini_set('display_errors','On');
 		parent::__construct(C('db_default'), 'admin');
 		$this->cache=cache::startMemcache();
 	}
