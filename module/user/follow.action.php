@@ -129,6 +129,7 @@ class followAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$c_id=sget('c_id','i');
 		$contact=M('user:customerContact')->getListByCid($c_id);
+		$this->error('请填写联系人信息');
 		$this->json_output($contact);
 	}
 
