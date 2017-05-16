@@ -16,7 +16,11 @@ class wkAction extends adminBaseAction{
 		$offerList = $this->db->getAll("SELECT *,(count1+count2) AS counts FROM (SELECT *,(SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count1`,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count2`
 		FROM p2p_offers_msg AS msg) AS a
 		ORDER BY a.`input_time` DESC");
+		$start = date('Y-m-d' , strtotime("-2 day"));
+		$end = date('Y-m-d' , time());
+		$date = array('start'=>$start,'end'=>$end);
 		// showtrace();
+		$this->assign('date', $date);
 		$this->assign('offerList', $offerList);
 		$this->display('index');
 	}
@@ -99,13 +103,20 @@ class wkAction extends adminBaseAction{
 		}
 	}
 	public function select(){
-		$data = trim($_POST['keyword']);
+		$data = $_POST;
+		// $data = trim($_POST['keyword']);
+		$start = strtotime($data['start']);
+		$end = strtotime($data['end'])+86400;
+		$where = ' 1 ';
+		if(!empty(trim($data['keyword']))){
+			$where .=  " and msg.grade = '".trim($data['keyword'])."'";
+		}
 		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
 		FROM p2p_offers_msg AS msg
-		WHERE `msg`.`input_time`> ".$this->today." and msg.grade = '".$data."' ORDER BY msg.`input_time` DESC");
-
+		WHERE ".$where." and `msg`.`input_time`> ".$start." and `msg`.`input_time`< ".$end." ORDER BY msg.`input_time` DESC");
 		$this->assign('offerList', $offerList);
 		$this->assign('select', 'select');
+		$this->assign('date', array('start'=>$data['start'],'end'=>$data['end']));
 		$this->display('index');
 	}
 	//发布
