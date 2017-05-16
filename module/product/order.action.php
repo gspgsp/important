@@ -441,8 +441,14 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
 		$contact =  M('user:customerContact')->getCustomerManagerListByCid($info['c_id']);
-		p($contact);
-		$info['contact'] =
+		if(!empty($contact)){
+			$arr = array();
+			foreach ($contact as $k => $v) {
+				$arr[$v['user_id']] =$v['name'];
+			}
+			p($arr);
+		}
+		$info['contact'] = $contact;
 		$info['p_type']=$info['purchase_type'];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
 		$info['partnername']= M('rbac:adm')->getUserByCol($info['partner']);
