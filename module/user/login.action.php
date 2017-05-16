@@ -161,11 +161,23 @@ class loginAction extends homeBaseAction{
 		$this->assign('auth_info',$_SESSION['auth_info']);
 		$this->display('bindLogin');
 	}
-	
+
 	/**
 	 * 发送手机验证码
-	 * @access public
-	 * @return html
+	 * @api {post} /user/login/sendMobileMsg H5的短信密码快速登录接口
+	 * @apiVersion 3.1.0
+	 * @apiName  sendMobileMsg
+	 * @apiGroup api
+	 *
+	 * @apiParam {String} phonenum       手机号
+	 * @apiParam {String} phonevaild    动态码
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *      {
+	 *      "err":0
+	 *      "msg":""
+	 *      }
+	 *
 	 */
 	public function sendMobileMsg($codeType=""){
 	    $this->is_ajax=true; //指定为Ajax输出
