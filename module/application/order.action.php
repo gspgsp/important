@@ -68,7 +68,7 @@ class orderAction extends adminBaseAction {
 		// $join_manager=$this->db->select('customer_manager as cmer')->where("`o_id` = {$info['join_id']}")->getOne();
 		if(empty($info)) $this->error('错误的订单信息');
 		if($info['c_id']>0){
-			// $see = M("rbac:adm")->toSee($info['customer_manager']);
+			$see = M("rbac:adm")->toSee($info['customer_manager']);
 			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $see !=1){
 				$c_name =  '*******';
 			}else{
