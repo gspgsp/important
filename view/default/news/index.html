@@ -24,14 +24,14 @@
         	<ul id="con-tab-1" class="newsli">
             	{foreach from=$data[zts] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zts/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                         {/foreach}
             </ul>
             <ul id="con-tab-2" class="newsli" style="display:none;">
                         {foreach from=$data[sydt] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/sydt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                         {/foreach}
             </ul>
@@ -81,7 +81,7 @@
         <ul class="today">
                         {foreach from=$data[jrjd] key=key item=v}
                             {if !empty($v.id) && $key<=9}
-                            <li><span>{$v.input_time|date:H:i}</span><a target="_blank"  href="/{$v.type}/jrjd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:12}</a></li>
+                            <li><span>{$v.input_time|date:H:i}</span><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:12}</a></li>
                             {/if}
                         {/foreach}
         </ul>
@@ -109,7 +109,7 @@
             <ul class="newsli">
                         {foreach from=$data[hqgz] item=v}
                             {if $v.id != $data[hqgz][hot][id]}
-                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/hqgz/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
                             {/if}
                         {/foreach}
         	</ul>
@@ -132,7 +132,7 @@
             <ul class="newsli">
                         {foreach from=$data[zcss] item=v}
                             {if $v.id != $data[zcss][hot][id]}
-                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zcss/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
                             {/if}
                         {/foreach}
             </ul>
@@ -154,7 +154,7 @@
             <ul class="newsli" style="line-height:34px;">
                         {foreach from=$data[qydt] item=v}
                                 {if !empty($v)}
-                                <li {if $v.today}class="hover"{/if} class="qydt"><a target="_blank"  href="/{$v.type}/qydt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                <li {if $v.today}class="hover"{/if} class="qydt"><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                         {/foreach}
             </ul>
@@ -176,7 +176,7 @@
                 <ul class="newsli" style="line-height:35px;">
                             {foreach from=$data[qydt] item=v}
                                 {if !empty($v)}
-                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qydt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                             {/foreach}
                 </ul>
@@ -207,7 +207,7 @@
                 <ul class="newsli" style="line-height:32px;">
                         {foreach from=$data[zzdt] item=v}
                                 {if !empty($v)}
-                                <li {if $v.today}class="hover"{/if} class="zzdt"><a target="_blank"  href="/{$v.type}/zzdt/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                <li {if $v.today}class="hover"{/if} class="zzdt"><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                         {/foreach}
                 </ul>
@@ -245,7 +245,7 @@
                     <ul class="newsli" style="line-height:37px;">
                                 {foreach from=$data[rp] item=v}
                                     {if $v.id != $data[rp][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/rp/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
                                     {/if}
                                 {/foreach}
                     </ul>
@@ -262,7 +262,7 @@
                     <ul class="newsli" style="line-height:37px;">
                                 {foreach from=$data[zb] item=v}
                                     {if $v.id != $data[zb][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zb/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
                                     {/if}
                                 {/foreach}
                     </ul>
@@ -279,7 +279,7 @@
                     <ul class="newsli" style="line-height:37px;">
                                 {foreach from=$data[yb] item=v}
                                     {if $v.id != $data[yb][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/yb/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
                                     {/if}
                                 {/foreach}
                     </ul>
@@ -300,7 +300,7 @@
                 <ul class="newsli" style="line-height:32px;">
                         {foreach from=$data[wpkd] key=key item=v}
                                 {if !empty($v)}
-                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/wpkd/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                         {/foreach}
                 </ul>
@@ -358,7 +358,7 @@
         <ul class="newsli" style="line-height:34px;">
                 {foreach from=$data[hyyw] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/hyyw/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
         </ul>
@@ -381,7 +381,7 @@
                     <ul class="newsli">
                                 {foreach from=$data[mjsc] item=v}
                                     {if $v.id != $data[mjsc][hot][id]}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/mjsc/{$v.id}.html" title="{$v.title}"<span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"<span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:m-d}</li>
                                     {/if}
                                 {/foreach}
                     </ul>
@@ -398,7 +398,7 @@
         <ul class="newsli"  style="line-height:34px;">
                 {foreach from=$data[qhzx] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qhzx/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span class='limitFont'>{$v.title}</span></a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
         </ul>
@@ -423,7 +423,7 @@
             <ul>
                 {foreach from=$data[xy] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/xy/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -435,7 +435,7 @@
             <ul>
                 {foreach from=$data[kc] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/kc/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -447,7 +447,7 @@
             <ul>
                 {foreach from=$data[cl] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/cl/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -459,7 +459,7 @@
             <ul>
                 {foreach from=$data[wp] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/wp/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -471,7 +471,7 @@
             <ul>
                 {foreach from=$data[pc] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pc/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:8}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -483,7 +483,7 @@
             <ul>
                 {foreach from=$data[jck] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/jck/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:9}</span></a>[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -496,7 +496,7 @@
             <ul>
                 {foreach from=$data[xy] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/xy/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -509,7 +509,7 @@
             <ul>
                 {foreach from=$data[cl] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/cl/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -521,7 +521,7 @@
             <ul>
                 {foreach from=$data[zzjx] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/zzjx/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:11}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:11}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -533,7 +533,7 @@
             <ul>
                 {foreach from=$data[jk] key=key  item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/jk/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -545,7 +545,7 @@
             <ul>
                 {foreach from=$data[ck] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ck/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}"><span>{$v.title|truncate:13}</span></a>&nbsp;[{$v.input_time|date:m-d}]</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -577,7 +577,7 @@
             <ul class="vipli">
                 {foreach from=$data[shjp] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/shjp/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -605,7 +605,7 @@
                 <ul class="vipli">
                     {foreach from=$data[pesc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pesc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>
@@ -615,7 +615,7 @@
                 <ul class="vipli">
                     {foreach from=$data[ppsc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ppsc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>
@@ -625,7 +625,7 @@
                 <ul class="vipli">
                     {foreach from=$data[pvcsc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvcsc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>
@@ -652,7 +652,7 @@
                   <ul class="vipli">
                     {foreach from=$data[qhzb] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qhzb/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>  
@@ -662,7 +662,7 @@
                   <ul class="vipli">
                     {foreach from=$data[qhzk] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/qhzk/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>  
@@ -698,7 +698,7 @@
                 <ul class="vipli">
                     {foreach from=$data[lldnc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/lldnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>
@@ -708,7 +708,7 @@
                 <ul class="vipli">
                     {foreach from=$data[ldnc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ldnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>
@@ -718,7 +718,7 @@
                 <ul class="vipli">
                     {foreach from=$data[hdnc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/hdnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>
@@ -750,7 +750,7 @@
 		            <ul class="vipli two">
 		                        {foreach from=$data[pehb] item=v}
 		                                    {if $v.id != $data[pehb][hot][id]}
-		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pehb/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
 		                                    {/if}
 		                        {/foreach}
 		            </ul>
@@ -762,7 +762,7 @@
 		            <ul class="vipli two">
 		                        {foreach from=$data[pehd] item=v}
 		                                    {if $v.id != $data[pehd][hot][id]}
-		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pehd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
 		                                    {/if}
 		                        {/foreach}
 		            </ul>
@@ -774,7 +774,7 @@
                                       <ul class="vipli two">
                                                 {foreach from=$data[peqt] item=v}
                                                             {if $v.id != $data[peqt][hot][id]}
-                                                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/peqt/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+                                                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
                                                             {/if}
                                                 {/foreach}
                                       </ul>
@@ -808,7 +808,7 @@
                   <ul class="vipli">
                     {foreach from=$data[lsnc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/lsnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>  
@@ -818,7 +818,7 @@
                   <ul class="vipli">
                     {foreach from=$data[gjnc] key=key item=v}
                                 {if !empty($v)}
-                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/gjnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
                                 {/if}
                     {/foreach}
                 </ul>  
@@ -850,7 +850,7 @@
 		            <ul class="vipli two">
 		                        {foreach from=$data[pphb] item=v}
 		                                    {if $v.id != $data[pphb][hot][id]}
-		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pphb/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
 		                                    {/if}
 		                        {/foreach}
 		            </ul>
@@ -862,7 +862,7 @@
 		            <ul class="vipli two">
 		                        {foreach from=$data[pphd] item=v}
 		                                    {if $v.id != $data[pphd][hot][id]}
-		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pphd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
 		                                    {/if}
 		                        {/foreach}
 		            </ul>
@@ -874,7 +874,7 @@
                                         <ul class="vipli two">
                                                     {foreach from=$data[ppqt] item=v}
                                                                 {if $v.id != $data[ppqt][hot][id]}
-                                                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/ppqt/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+                                                                <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
                                                                 {/if}
                                                     {/foreach}
                                         </ul>
@@ -904,7 +904,7 @@
             <ul class="vipli">
                 {foreach from=$data[pvcnc] key=key item=v}
                             {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvcnc/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
+                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:Y-m-d}</li>
                             {/if}
                 {/foreach}
             </ul>
@@ -934,7 +934,7 @@
 		            <ul class="vipli two">
 		                        {foreach from=$data[pvchb] item=v}
 		                                    {if $v.id != $data[pvchb][hot][id]}
-		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvchb/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
 		                                    {/if}
 		                        {/foreach}
 		            </ul>
@@ -946,7 +946,7 @@
 		            <ul class="vipli two">
 		                        {foreach from=$data[pvchd] item=v}
 		                                    {if $v.id != $data[pvchd][hot][id]}
-		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvchd/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+		                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
 		                                    {/if}
 		                        {/foreach}
 		            </ul>
@@ -958,7 +958,7 @@
                                     <ul class="vipli two">
                                                 {foreach from=$data[pvcqt] item=v}
                                                             {if $v.id != $data[pvcqt][hot][id]}
-                                                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.type}/pvcqt/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
+                                                            <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:14}</a>{$v.input_time|date:m-d}&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</li>
                                                             {/if}
                                                 {/foreach}
                                     </ul>

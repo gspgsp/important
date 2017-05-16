@@ -1,6 +1,6 @@
 {layout file="public:news_warp"}
 <!--headline-crumb begin-->
-<div class="headline-crumb w1220"><a target="_blank" href="/" style="color:#fc6621;">塑料头条</a>&nbsp;》{if $type !=='public'}<a target="_blank"  href="/{$type}.html" style="color:#fc6621;">{$upperType}</a>&nbsp;》{/if}<a target="_blank"  href="/{$type}{$cate}.html" style="color:#fc6621;">{$data[cate_name]}</a>&nbsp;》<a target="_blank"  href="/{$type}/{$cate}/{$data[id]}.html" style="color:#fc6621;">{$data[title]}</a></div>
+<div class="headline-crumb w1220"><a target="_blank" href="/" style="color:#fc6621;">塑料头条</a>&nbsp;》{if $type !=='public'}<a target="_blank"  href="/{$type}.html" style="color:#fc6621;">{$upperType}</a>&nbsp;》{/if}<a target="_blank"  href="/{$type}{$cate}.html" style="color:#fc6621;">{$data[cate_name]}</a>&nbsp;》<a target="_blank"  href="/{$data[id]}.html" style="color:#fc6621;">{$data[title]}</a></div>
 <!--headline-crumb end-->
 <!--headline-main begin-->
 {if $type !== 'vip'}
@@ -45,10 +45,10 @@
                 <br />
             <div class="relate link6">
                         {if $data[nextOne]}
-                                <div class="item"><span>上一篇：</span><a target="_blank"  href="/{$type}/{$cate}/{$data[nextOne].id}.html" title="{$data[nextOne].title}">{$data[nextOne].title}</a></div>
+                                <div class="item"><span>上一篇：</span><a target="_blank"  href="/{$data[nextOne].id}.html" title="{$data[nextOne].title}">{$data[nextOne].title}</a></div>
                         {/if}
                         {if $data[lastOne]}
-                                <div class="item"><span>下一篇：</span><a target="_blank"  href="/{$type}/{$cate}/{$data[lastOne].id}.html" title="{$data[lastOne].title}">{$data[lastOne].title}</a></div>
+                                <div class="item"><span>下一篇：</span><a target="_blank"  href="/{$data[lastOne].id}.html" title="{$data[lastOne].title}">{$data[lastOne].title}</a></div>
                         {/if} <div class="yashowline">
                         <p>&nbsp;</p> 
                         <p class="yahere" style="text-indent:0px;">分享到：</p>
@@ -76,7 +76,7 @@
             <h2>相关内容</h2>
         <ul>
             {foreach from=$data[neilian] item=v}
-                <li><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" title="{$v.title}">{$v.title|truncate:23}</a></li>
+                <li><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:23}</a></li>
             {/foreach}
         </ul>
     </div>
@@ -100,9 +100,9 @@
         <ul class="link6" id="charts">
                 {foreach from=$chartsData key=key item=v}
                         {if $key<=3}
-                            <li><span class="front">{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{$v.title}</a><!--（{$v.pv}）--></li>
+                            <li><span class="front">{$key}</span><a target="_blank"  href="/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{$v.title}</a><!--（{$v.pv}）--></li>
                         {else}
-                            <li><span>{$key}</span><a target="_blank"  href="/{$type}/{$cate}/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{$v.title}</a><!--（{$v.pv}）--></li>
+                            <li><span>{$key}</span><a target="_blank"  href="/{$v.id}.html" class="limitFont5" style="text-decoration:none;" title="{$v.title}">{$v.title}</a><!--（{$v.pv}）--></li>
                         {/if}
                 {/foreach}
         </ul>
@@ -162,7 +162,7 @@
         function wxCommon(){
                     title: "{$data[title]}", // 分享标题
                     desc: '我的塑料网', // 分享描述
-                    link: "http://news.myplas.com/{$type}/{$cate}/{$data.id}.html", // 分享链接
+                    link: "http://news.myplas.com/{$data.id}.html", // 分享链接
                     imgUrl: "__NEWS__/img/weixin.png", // 分享图标
                     success: function () { 
                        // 用户确认分享后执行的回调函数

@@ -133,13 +133,7 @@
                         
 		//取出详情页数据
 		public function detail(){
-			// $id=sget('id','i');
-			//如果找不到，跳转404页面
-			if(!$id=sget('id','i')) {$this->forward('/page/index/notFind');exit;};
-			//获取文章详情数据
-			$data=sstripslashes($this->db->getNews($id));
-			// $type=sget('type','s');
-			$type=$data['type'];
+			$type=sget('type','s');
 			if(!empty($type)){
 				$stype='detail_'.$type;
 				$arr=L('headline_ads')[$stype];
@@ -147,12 +141,16 @@
 				// $this->detail2banner=$this->getAD($arr[1]);
 			}
 			//导航栏选中状态 
-			$this->nav=$type;
-			// $cate=sget('cate','s');
-			$cate=M('public:common')->model('news_cate')->select('spell')->where('cate_id="'.$data['cate_id'].'"')->getOne();
+				$this->nav=$type;
+			$cate=sget('cate','s');
+			$id=sget('id','i');
+			//如果找不到，跳转404页面
+			if(!$id=sget('id','i')) {$this->forward('/page/index/notFind');exit;};
+			//获取文章详情数据
+			$data=sstripslashes($this->db->getNews($id));
 			//获取排行榜文章
-			// $cate_id=M('public:common')->model('news_cate')->select('cate_id')->where('spell="'.$cate.'"')->getOne();
-			$chartsData=$this->db->charts($type,$data['cate_id']);
+			$cate_id=M('public:common')->model('news_cate')->select('cate_id')->where('spell="'.$cate.'"')->getOne();
+			$chartsData=$this->db->charts($type,$cate_id);
 			//更新文章访问量
 			$data['pageViews']=$this->db->updatePv($id);
 			$this->seo = array('title'=>$data['title'],'key'=>$data['keywords'],'desc'=>$data['description']);
@@ -238,7 +236,111 @@
 			));
 			$this->display('detail');
 		}
-
+		//取出详情页数据
+		public function detail2(){
+			//如果找不到，跳转404页面
+			if(!$id=sget('id','i')) {$this->forward('/page/index/notFind');exit;};
+			//获取文章详情数据
+			$data=sstripslashes($this->db->getNews($id));
+			//文章分类并取出广告
+			$type=$data['type'];
+			if(!empty($type)){
+				$stype='detail_'.$type;
+				$arr=L('headline_ads')[$stype];
+				$this->detail1banner=$this->getAD($arr[0]);
+				// $this->detail2banner=$this->getAD($arr[1]);
+			}
+			//导航栏选中状态 
+			$this->nav=$type;
+			//获取文章分类拼音
+			$cate=M('public:common')->model('news_cate')->select('spell')->where('cate_id="'.$data['cate_id'].'"')->getOne();
+			//获取排行榜文章
+			$chartsData=$this->db->charts($type,$data['cate_id']);
+			//更新文章访问量
+			$data['pageViews']=$this->db->updatePv($id);
+			$this->seo = array('title'=>$data['title'],'key'=>$data['keywords'],'desc'=>$data['description']);
+			//获取微信接口配置用于文章微信分享时修改名片
+			$this->wxApi=A('plasticzone:plastic')->headlineApi();
+			//文章状态设置
+			$status=4;
+			//详情页导航
+			if ($type=='vip') {				
+				if ($_SESSION['userid']<1) {
+					$status=1;
+				}else{
+					$row=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->select('user_id,name,mobile,headline_vip,cate_id,free_time')->getRow();
+					if($row['free_time']>0 && $row['free_time']<=CORE_TIME){
+						if($row['headline_vip']!=1 || !strstr($row['cate_id'],$cate_id)){
+							$status=2;
+						}else{
+							$cache= E('RedisCluster',APP_LIB.'class');
+							$name=$row['user_id'].'_time_'.$cate_id;
+							$total_time=$cache->get($name);
+							if (empty($total_time)) {
+								$total_time=$this->db->model('customer_headline')->where('user_id='.$_SESSION['userid'].' and cate_id='.$cate_id)->select('total_time')->order('id desc')->getOne();
+								$cache->set($name,json_encode($total_time),86400);
+							}else{
+								$total_time=json_decode($total_time);
+							}
+							if ($total_time<=CORE_TIME) {
+								$info['user_id']=$row['user_id'];
+								$info['c_name']=$row['name'];
+								$info['mobile']=$row['mobile'];
+								$info['sale_name']='--';
+								$info['input_time']=CORE_TIME;
+								$info['type']=5;
+								$info['cate_id']=$cate_id;
+								$info['total_time']=$total_time;
+								$result=$this->db->model('customer_headline')->add($info);
+								if ($result) {
+									$cate_arr=explode(',', $row['cate_id']);
+									foreach ($cate_arr as $k => $v) {
+										if ($v == $cate_id) {
+											unset($cate_arr[$k]);
+										}
+									}
+									if (empty($cate_arr)) {
+										$update_contact=array('headline_vip'=>0,'cate_id'=>'','opening_date'=>0);
+										$this->db->model('customer_tel_sale')->where('mobile='.$c_row['mobile'])->update(array('member_status'=>0,'update_time'=>CORE_TIME));
+									}else{
+										$cate_id=implode(',', $cate_arr);
+										$update_contact=array('headline_vip'=>1,'cate_id'=>$cate_id);
+									}
+									$result2=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->update($update_contact);
+									if ($result2) {
+										$this->success("<br /><br /><br />尊敬的客户，您的会员信息已过期，浏览权限已被关闭！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
+									}else{
+										$this->error("<br /><br /><br />尊敬的客户，您的会员信息已经过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a><br /><br /><br /><br />");
+									}
+								}else{
+									$this->error("尊敬的客户，您的该类目会员已自动过期！<a href='/news/index/vipIntroduce' target='_blank'>&ensp;>>点此进入会员介绍</a>");
+								}
+								$status=3;
+							}
+						}
+					}elseif($row['free_time']==0) {
+						$free_time=CORE_TIME+L('free_time')[1]*86400;
+						$ok=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->update(array('free_time'=>$free_time));
+						if ($ok) {
+							$status=6;
+						}
+					}
+					$this->db->model('log_news')->add(array('user_id'=>$_SESSION['userid'],'news_id'=>$id,'input_time'=>CORE_TIME));
+				}
+				//p($status);exit;
+				$this->upperType='行情内参';
+			}else{
+				$this->upperType=strtoupper($type);
+			}
+			$this->assign(array(
+				'data'=>$data,
+				'chartsData'=>$chartsData,
+				'cate'=>$cate,
+				'type'	=>$type,
+				'status'=>$status
+			));
+			$this->display('detail');
+		}
 		//阿里头条抓取数据
 		public function newsXML(){
 			$sTime=CORE_TIME-3600;
