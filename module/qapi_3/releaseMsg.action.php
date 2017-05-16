@@ -1299,8 +1299,47 @@ class releaseMsgAction extends baseAction
         $this->_errCode (6);
     }
 
+
     /**
      * 供求信息置顶之供求信息列表
+     * @api {post} /qapi_3/releaseMsg/supplyDemandList 供求信息置顶之供求信息列表
+     * @apiVersion 3.1.0
+     * @apiName  supplyDemandList
+     * @apiGroup releaseMsg
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} token  token qwre3123123121swqsq
+     * @apiParam   {String} user_id     用户id
+     * @apiParam   {String} page     页数
+     * @apiParam   {String} size     煤业数量
+     *@apiParam   {int} type     0全部  1采购 2报价
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   data   数据
+     *
+     * @apiSuccessExample {json} Success-Response:
+    {
+    "err": 0,
+    "data": {
+    "id": "90126",
+    "p_id": "0",
+    "user_id": "40418",
+    "model": null,
+    "unit_price": "0.00",
+    "store_house": "",
+    "f_name": null,
+    "type": "1",
+    "content": "求购hf5110",
+    "input_time": "1493024389",
+    "f_type": 2
+    }
+    }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关的数据"
+     *      }
      */
     public function supplyDemandList ()
     {
