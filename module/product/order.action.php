@@ -432,7 +432,6 @@ class orderAction extends adminBaseAction {
 			$value['time_price']=$value['number']*$value['unit_price'];
 			$value['require_number']=$value['number'];
 		}
-
 		if($info['c_id']>0) $info['c_name'] = M('user:customer')->getColByName($info['c_id'],"c_name");
 		if($info['h_pur_cid']>0) $info['c_name_pur'] = M('user:customer')->getColByName($info['h_pur_cid'],"c_name");
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
