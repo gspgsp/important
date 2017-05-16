@@ -10,28 +10,35 @@ class vcodeAction extends homeBaseAction
     {
     }
     /**
-     * 获取验证
-     * @api {get} /api/vcode 获取验证 供我的塑料网前端与塑料圈H5 PC端使用
+     * 获取验证码
+     * @api {get} /api/vcode 获取验证码 供我的塑料网前端与塑料圈H5 PC端使用
      * @apiVersion 3.1.0
      * @apiName  vcode
      * @apiGroup api
      *
+     * @apiParam   {int} phonenum  手机号
      * @apiSampleRequest http://test.myplas.com/api/vcode
      */
     public function init ()
     {
+        $phonenum= sget('phonenum','i',0);
         $vcode            = new vcode();
         $vcode->code_len  = 4;
         $vcode->font_size = 14;
         $vcode->width     = 80;
         $vcode->height    = 36;
         $vcode->seedtype  = 2;
-        #$vcode->background = "#cccccc";
+        //$vcode->background = "#cccccc";
         ini_set ('display_errors', 'On');
         $vcode->doimage ();
         $name            = 'vc_'.sget ('name', 's', 'vcode');
-        $_SESSION[$name] = $vcode->get_code ();
-        p ($vcode->get_code ());
+        if(empty($phonenum)) {
+            $_SESSION[$name] = $vcode->get_code ();
+        }else{
+            $cache= E('RedisCluster',APP_LIB.'class');
+            $cache->set($phonenum.'_'.$name,$vcode->get_code(),300);
+        }
+        //p ($vcode->get_code ());
     }
 
     /**
@@ -44,6 +51,7 @@ class vcodeAction extends homeBaseAction
      * @apiSampleRequest http://test.myplas.com/api/vcode/chkVcode
      * @apiParam   {String} name  值regcode
      * @apiParam   {String} value  4322
+     * @apiParam   {int} phonenum  手机号
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
@@ -63,12 +71,23 @@ class vcodeAction extends homeBaseAction
     {
         $name  = sget ('name', 's');
         $value = sget ('value', 's');
+        $phonenum= sget('phonenum','i',0);
         $value = strtolower ($value);
-
-        if (!chkVcode ($name, $value)) {
-            $this->error ('验证码输入不正确');
-        } else {
-            $this->success ('验证成功');
+        if(empty($phonenum)) {
+            if (!chkVcode ($name, $value)) {
+                $this->error ('验证码输入不正确');
+            } else {
+                $this->success ('验证成功');
+            }
+        }else{
+            $cache= E('RedisCluster',APP_LIB.'class');
+            $code = $cache->get($phonenum.'_'.$name);
+            if(empty($code)||$code!=$value)
+            {
+                $this->error ('验证码输入不正确');
+            }else {
+                $this->success ('验证成功');
+            }
         }
     }
 }
