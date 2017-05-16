@@ -16,7 +16,7 @@ class vcodeAction extends homeBaseAction
      * @apiName  vcode
      * @apiGroup api
      *
-     * @apiParam   {int} phonenum  手机号
+     * @apiParam   {int} phonenum  手机号 APP端传此参数
      * @apiSampleRequest http://test.myplas.com/api/vcode
      */
     public function init ()
@@ -51,7 +51,7 @@ class vcodeAction extends homeBaseAction
      * @apiSampleRequest http://test.myplas.com/api/vcode/chkVcode
      * @apiParam   {String} name  值regcode
      * @apiParam   {String} value  4322
-     * @apiParam   {int} phonenum  手机号
+     * @apiParam   {int} phonenum  手机号  APP端传此参数
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述

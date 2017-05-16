@@ -454,11 +454,6 @@ class userAction extends baseAction
     //区分不了东西了，其实没什么大不了，app每天的登录记录是出现在取首页数据的时候
     public function login ()
     {
-        file_put_contents('/tmp/xielei.txt',print_r($_REQUEST,true)."\n",FILE_APPEND);
-
-        file_put_contents('/tmp/xielei.txt',print_r($_GET,true)."\n",FILE_APPEND);
-
-        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
         if ($_POST['username']) {
             $this->is_ajax = true;
             $username      = sget ('username', 's');
