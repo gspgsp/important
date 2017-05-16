@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 采购订单详情管理
  */
@@ -55,7 +55,7 @@ class purchaseLogAction extends adminBaseAction {
 	}
 	/**
 	 * Ajax获取列表内容
-	 * @access private 
+	 * @access private
 	 * @return html
 	 */
 	private function _grid($type){
@@ -69,7 +69,7 @@ class purchaseLogAction extends adminBaseAction {
 		}else{
 			$where .=1;
 		}
-		
+
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
 		$in_storage_status=sget('in_status','i',0); //入库时选择未入库的订单
@@ -123,12 +123,18 @@ class purchaseLogAction extends adminBaseAction {
 			$v['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$v['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
 			$v['order_name']=M("product:order")->getColByName($v['o_id']);
-			$v['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名
+			//非销售人员查看权限的限制
+			$see = M("rbac:adm")->toSee($v['customer_manager']);
+			if($v['customer_manager'] != $_SESSION['adminid']) && $_SESSION['adminid'] != 1 && $see !=1){
+				$v['c_name'] = "********";
+			}else{
+				$v['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名
+			}
 			$v['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
-			$v['invoice_status'] = L('invoice_status')[$v['invoice_status']]; 
+			$v['invoice_status'] = L('invoice_status')[$v['invoice_status']];
 			$v['in_storage_status'] = L('in_storage_status')[$v['in_storage_status']];
 			$v['purchase_type'] = L('purchase_type')[$v['purchase_type']];
 			$v['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'],'order_name')];
@@ -177,12 +183,12 @@ class purchaseLogAction extends adminBaseAction {
 
 		$info=$this->db->getPk($id); //查询订单信息
 		if(empty($info)){
-			$this->error('错误的订单信息');	
+			$this->error('错误的订单信息');
 		}
 		if($info['o_id']>0) $order_name = M('product:order')->getColByName($info['o_id']);
 		if($info['p_id']>0) $model = M('product:product')->getModelById($info['p_id']);
-		if($type !="edit") $info['p_info']=M('product:product')->getFnameByPid($info['p_id']); 
-		if($type !="edit") $info['order_sn']=M('product:order')->getColByName($info['o_id'],'order_sn'); 
+		if($type !="edit") $info['p_info']=M('product:product')->getFnameByPid($info['p_id']);
+		if($type !="edit") $info['order_sn']=M('product:order')->getColByName($info['o_id'],'order_sn');
 		if($type !="edit") $info['purchase_type']=M('product:order')->getColByName($info['o_id'],'purchase_type');
 		$info['count']=$info['number']*$info['unit_price'];
 		$info['c_name']=M("user:customer")->getColByName($info['c_id']);//根据cid取客户名
@@ -203,18 +209,18 @@ class purchaseLogAction extends adminBaseAction {
 	}
 	/**
 	 * 新增及修改订单
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function addSubmit() {
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		// p($data);die;
-		if(empty($data)) $this->error('错误的请求');	
-		$_data = array(		
+		if(empty($data)) $this->error('错误的请求');
+		$_data = array(
 			'update_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
-		);	
+		);
 		if($data['id']>0){
 			$result = $this->db->where('id='.$data['id'])->update($data+$_data);
 		}else{
@@ -232,7 +238,7 @@ class purchaseLogAction extends adminBaseAction {
 					if( !$this->db->model('purchase_log')->add($data) )  throw new Exception("新增采购明细失败");
 				} catch (Exception $e) {
 					$this->db->rollback();
-					$this->error($e->getMessage());					
+					$this->error($e->getMessage());
 				}
 				$this->db->commit();
 				$this->success();
@@ -246,13 +252,13 @@ class purchaseLogAction extends adminBaseAction {
 	}
 	/**
 	 * Ajax删除
-	 * @access private 
+	 * @access private
 	 */
 	public function remove(){
 		$this->is_ajax=true; //指定为Ajax输出
 		$ids=sget('ids','s');
 		if(empty($ids)){
-			$this->error('操作有误');	
+			$this->error('操作有误');
 		}
 		$data = explode(',',$ids);
 		if(is_array($data)){
