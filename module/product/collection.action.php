@@ -15,7 +15,7 @@ class collectionAction extends adminBaseAction
 		$this->assign('collection_p_status',$cps);  //交易公司账户
 
 	}
-
+ 
 	/**
 	 *
 	 * @access public
