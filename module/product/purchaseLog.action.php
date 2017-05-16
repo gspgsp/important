@@ -69,7 +69,6 @@ class purchaseLogAction extends adminBaseAction {
 		}else{
 			$where .=1;
 		}
-
 		$o_id=sget('oid','i',0);
 		if($o_id !=0)  $where.=" and `o_id` =".$o_id;
 		$in_storage_status=sget('in_status','i',0); //入库时选择未入库的订单
@@ -115,8 +114,6 @@ class purchaseLogAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		//$tot=0;
-		//p($list);
 		foreach($list['data'] as &$v){
 			$v['min_price'] = M('product:factory')->minPrice($v['p_id'],$v['input_time'],2);
 			$pinfo=M("product:product")->getFnameByPid($v['p_id']);

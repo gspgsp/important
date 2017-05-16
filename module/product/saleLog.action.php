@@ -101,7 +101,12 @@ class saleLogAction extends adminBaseAction {
 			$pinfo=M("product:product")->getFnameByPid($v['p_id']);
 			$list['data'][$k]['f_name']=$pinfo['f_name'];//根据cid取客户名
 			$list['data'][$k]['order_sn']=M("product:order")->getColByName($v['o_id'],'order_sn');//根据oid取订单号
-			$list['data'][$k]['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名
+			$see = M("rbac:adm")->toSee($v['customer_manager']);
+			if(($v['customer_manager'] != $_SESSION['adminid']) && $_SESSION['adminid'] != 1 && $see !=1){
+				$list['data'][$k]['c_name'] = "********";
+			}else{
+				$list['data'][$k]['c_name']=M("product:order")->getCnameByOid($v['o_id']);//根据oid取客户名
+			}
 			$list['data'][$k]['order_name']=L('company_account')[M("product:order")->getColByName($v['o_id'])];
 			$list['data'][$k]['store_name']=M("product:store")->getStoreNameBySid($v['store_id']);
 			$list['data'][$k]['model']=strtoupper(M("product:product")->getModelById($v['p_id']));
