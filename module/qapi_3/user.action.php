@@ -454,6 +454,7 @@ class userAction extends baseAction
     //区分不了东西了，其实没什么大不了，app每天的登录记录是出现在取首页数据的时候
     public function login ()
     {
+        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
         if ($_POST['username']) {
             $this->is_ajax = true;
             $username      = sget ('username', 's');
@@ -516,8 +517,8 @@ class userAction extends baseAction
     }
 
     /**
-     * H5的短信密码快速登录接口
-     * @api {post} /qapi_3/user/h5SimpleLogin H5的短信密码快速登录接口
+     * 短信密码快速登录接口
+     * @api {post} /qapi_3/user/SimpleLogin 短信密码快速登录接口
      * @apiVersion 3.1.0
      * @apiName  h5SimpleLogin
      * @apiGroup User
@@ -534,7 +535,7 @@ class userAction extends baseAction
      *      }
      *
      */
-    public function h5SimpleLogin()
+    public function SimpleLogin()
     {
         if(isset($_REQUEST['phonenum'])){
             $this->is_ajax=true;
@@ -558,8 +559,14 @@ class userAction extends baseAction
                 $this->error('手机或验证码错误');
             }
             //检查验证码
-            if(!$this->_chkmcode($phonevaild,$phonenum)){
-                $this->error($this->err);
+            if(in_array($this->platform,array('pc','h5'))) {
+                if (!$this->_chkmcode ($phonevaild, $phonenum)) {
+                    $this->error ($this->err);
+                }
+            }else{
+                if (!$this->_appchkmcode ($phonevaild, $phonenum)) {
+                    $this->error ($this->err);
+                }
             }
             $user=$this->db->model('customer_contact')->select('*')->where("mobile='{$phonenum}' and status=1")->getRow();
             if(empty($user)){
@@ -571,13 +578,90 @@ class userAction extends baseAction
             if($result['err']>0){
                 $this->error($result['msg']);
             }else{
-                M('user:passport')->setSession($result['user']['user_id'],$result['user']);
-                unset($_SESSION['gurl']);
-                $this->success('登录成功');
+                $token = M ('qapp:appToken')->insert ($result['user']['user_id'], $result['user']);
+                if (!M ("qapp:pointsBill")->select ('id')
+                                          ->where ("addtime >".strtotime (date ("Y-m-d"))." and type=2 and uid={$result['user']['user_id']}")
+                                          ->order ("id desc")->getOne ()
+                ) {
+                    $user_id = $result['user']['user_id'];
+                    $tmp     = M ('public:common')->model ('contact_info')->where ("user_id=$user_id")->getRow ();
+                    if (empty($tmp)) {
+                        $this->json_output (array(
+                            'err' => 101,
+                            'msg' => '注册信息不完整，请联系客服400-6129-965或重新注册',
+                        ));
+                    }
+                    $spoints = $this->points['login'];
+
+                    $_tmpsd = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =2")->order("id desc")->limit(4)->getAll();
+                    $size = 1;
+                    foreach($_tmpsd as $key=>$row){
+                        if($row['addtime']>(strtotime(date("Y-m-d"))-86400*($key+1))&&$row['addtime']<(strtotime(date("Y-m-d"))-86400*$key)) $size++;
+
+                        if($key==0&&$row['addtime']>strtotime(date("Y-m-d"))&&$row['addtime']<(strtotime(date("Y-m-d"))+86400)){
+                            $size = 0;
+                            break;
+                        }
+                    }
+                    if($size > 0){
+                        if (!$arr = M ("qapp:pointsBill")->addPoints ($spoints*$size, $user_id, 2)) {
+                            $this->json_output (array( 'err' => 101, 'msg' => '系统错误' ));
+                        }
+                    }
+
+                }
+                $this->json_output (array(
+                    'err'       => 0,
+                    'msg'       => '登录成功',
+                    'dataToken' => $token,
+                    'user_id'   => $result['user']['user_id'],
+                ));
             }
         }
     }
 
+    /**
+     * 验证手机码
+     * @access private
+     * @return bool
+     */
+    private function _chkmcode($mcode='',$mobile=''){
+        if(isset($_SESSION['mcode']) && isset($_SESSION['mctime'])){
+            if((CORE_TIME-$_SESSION['mctime'])>300){
+                $this->err='动态码已失效';
+                return false;
+            }
+            if($_SESSION['mcode']==$mcode.'.'.$mobile){
+                return true;
+            }
+        }
+        $this->err='错误的动态码';
+        return false;
+    }
+
+    /**
+     * app验证手机码
+     * @access private
+     * @return bool
+     */
+    private function _appchkmcode($mcode='',$mobile=''){
+        $cache= E('RedisCluster',APP_LIB.'class');
+        $name            = 'vc_vcode';
+
+        $code = $cache->get($mobile.'_'.$name);
+
+        if(empty($code)){
+            $this->err='动态码已失效';
+            return false;
+        }
+            elseif($code!=$mcode)
+        {
+            $this->err='错误的动态码';
+            return false;
+        }else {
+            return true;
+        }
+    }
     /**
      * 登出
      * @api {post} /qapi_3/user/logout 登出
