@@ -164,7 +164,7 @@ class loginAction extends homeBaseAction{
 
 	/**
 	 * 发送手机验证码
-	 * @api {post} /user/login/sendMobileMsg H5的短信密码快速登录接口
+	 * @api {post} /user/login/sendMobileMsg 发送手机验证码
 	 * @apiVersion 3.1.0
 	 * @apiName  sendMobileMsg
 	 * @apiGroup api
