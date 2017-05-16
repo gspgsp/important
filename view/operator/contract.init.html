@@ -7,9 +7,10 @@
 			 <a class="mini-button" iconCls="icon-edit" onclick="transport_contract_edit()" plain="true">编辑</a>
              <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">销毁</a>
              <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>
+             <a class="mini-button" class="output" iconCls="icon-downgrade" plain="true" onclick="outputExcel()">excel导出</a>
             </td>
 				<td style="float:right">
-					<form id="soform">
+					<form id="soform" method="get" action="/operator/contract/download">
 					<select name="sTime">
 					<option value="">=时间=</option>
 					<option value="create_time">创建时间</option>
@@ -330,5 +331,9 @@ function getcontact()
 		mini.get('second_part_contact_tel').setValue(data.contact_tel);
 		mini.get('second_part_contact_fax').setValue(data.comm_fax);
 	},'json');
+}
+//导出excel
+function outputExcel(){
+	$("#soform").submit();
 }
 </script>

@@ -340,5 +340,102 @@ class contractAction extends adminBaseAction {
 	        $this->error('操作有误');
 	    }
 	}
+	/**
+	 * 导出excel
+	 * @access public
+	 * @return html
+	 */
+	public function download(){
+	    $sortField = sget("sortField",'s','create_time'); //排序字段
+	    $sortOrder = sget("sortOrder",'s','desc'); //排序
+	    $where='1';
+	    $where.=" and `status`> 0";
+	    //物流领导所属关系
+	    if($_SESSION['adminid']>0&&$_SESSION['adminid']!=1){
+	        $sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+	        $where.=" and created_by in ($sons)";
+	    }
+	    //状态搜索
+	    $status = sget('status','s','');
+	    if($status!==''){
+	        $where.=" and `status`= $status";
+	    }
+	    //关键词搜索
+	    $key_type=sget('key_type','s');
+	    $keyword=sget('keyword','s');
+	    if(!empty($keyword)){
+	        $where.=" and order_sn like '%$keyword%' ";
+	    }
+	    //时间搜索
+	    $sTime = sget('sTime','s','');
+	    if($sTime=='create_time'){
+	        $startTime = strtotime(sget("startTime"));
+	        $endTime = strtotime(sget("endTime"));
+	        $where.=" and create_time>='$startTime' and create_time<='$endTime'";
+	    }
+	    if($sTime=='update_time'){
+	        $startTime = strtotime(sget("startTime"));
+	        $endTime = strtotime(sget("endTime"));
+	        $where.=" and update_time>='$startTime' and update_time<='$endTime'";
+	    }
+	    if($sTime=='contract_time'){
+	        $startTime = sget("startTime");
+	        $endTime = sget("endTime");
+	        $where.=" and contract_time>='$startTime' and contract_time<='$endTime'";
+	    }
+	    if($sTime=='delivery_time'){
+	        $startTime = sget("startTime");
+	        $endTime = sget("endTime");
+	        $where.=" and delivery_time>='$startTime' and delivery_time<='$endTime'";
+	    }
+	    $list=M('public:common')->model('transport_contract')->where($where)
+	    ->order("$sortField $sortOrder")
+	    ->getAll();
+	    //showTrace();
+	    foreach($list as $k=>$v){
+	        $map=$list[$k]['second_part_company_id'];
+	        $map1=$list[$k]['second_part_contact_id'];
+	        $company=M('public:common')->model('logistics_supplier')->where("supplier_id in ($map)")->select("supplier_name")->getAll();
+	        $company1=M('public:common')->model('logistics_contact')->where("id in ($map1)")->select("contact_name")->getAll();
+	        $name1=M('public:common')->model('admin')->where('admin_id='.$list[$k]['created_by'])->select('name')->getAll();
+	        $name2=M('public:common')->model('admin')->where('admin_id='.$list[$k]['last_edited_by'])->select('name')->getAll();
+	        $list[$k]['second_part_company_name']=$company['0']['supplier_name'];
+	        $list[$k]['second_part_contact_name']=$company1['0']['contact_name'];
+	        $list[$k]['statusvalue']=$this->c_status[$v['status']];
+	        $list[$k]['create_time']=!empty($v['create_time'])?date("Y-m-d H:i:s",$v['create_time']):'-';
+	        $list[$k]['update_time']=!empty($v['update_time'])?date("Y-m-d H:i:s",$v['update_time']):'-';
+	        $list[$k]['created_name']=$name1['0']['name'];
+	        $list[$k]['last_edited_name']=$name2['0']['name'];
+	        $fee_list=explode(',',$list[$k]['delivery_fee']);
+	        $list[$k]['delivery_price']=$fee_list['0'];
+	        $list[$k]['delivery_trans']=$fee_list['1'];
+	        $list[$k]['delivery_other']=$fee_list['2'];
+	        $list[$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
+	        $delivery_fee_count=($fee_list['0']+$fee_list['1'])*$list[$k]['goods_num']+$fee_list['2'];
+	        $list[$k]['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
+	    }
+	    $str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
+	
+	    $str .= '<tr><td>订单号</td><td>甲方</td><td>乙方</td><td>货物牌号</td><td>货物数量【吨】</td>
+					<td>提货地点</td><td>送货地点</td><td>单价【元/吨】</td><td>装车费【元】</td>
+					<td>其它【元】</td><td>运输总费用【元】</td><td>车号</td><td>司机姓名</td><td>身份证号码</td>
+					<td>乙方联系人</td><td>乙方联系方式</td><td>乙方传真号</td><td>合同日期</td><td>送货日期</td><td>创建时间</td><td>更新时间</td><td>审核状态</td><td>创建人</td>
+	                <td>操作人</td>
+				</tr>';
+	    foreach($list as $k=>$v){
+	        $str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['second_part_company_name']."</td><td>".$v['goods_class']."</td><td>".$v['goods_num']."</td>
+						<td>".$v['start_place']."</td><td>".$v['end_place']."</td><td>".$v['delivery_price']."</td><td>".$v['delivery_trans']."</td>
+						<td>".$v['delivery_other']."</td><td>".$v['delivery_fee_count']."</td><td>".$v['plate_number']."</td><td>".$v['driver_name']."</td><td>".$v['driver_idcard']."</td>
+						<td>".$v['second_part_contact_name']."</td><td>".$v['second_part_contact_tel']."</td><td>".$v['second_part_contact_fax']."</td><td>".$v['contract_time']."</td><td>".$v['delivery_time']."</td><td>".$v['create_time']."</td>
+						<td>".$v['update_time']."</td><td>".$v['statusvalue']."</td><td>".$v['created_name']."</td><td>".$v['last_edited_name']."</td>
+					</tr>";
+	    }
+	    $str .= '</table>';
+	    $filename = 'contract.'.date("Y-m-d");
+	    header("Content-type: application/vnd.ms-excel; charset=utf-8");
+	    header("Content-Disposition: attachment; filename=$filename.xls");
+	    echo $str;
+	    exit;
+	}
 }
 ?>
