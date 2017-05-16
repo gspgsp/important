@@ -246,7 +246,7 @@ class customerContactModel extends model{
 	 */
 	public function getCustomerManagerListByCid($cid){
 		$aid = $_SESSION['adminid'];
-		return $this->where("`c_id` = $cid and `customer_manager` = $aid'")->select('user_id,name')->getAll();
+		return $this->where("`c_id` = $cid and `customer_manager` = $aid")->select('user_id,name')->getAll();
 	}
 	/*
 	*根据客户的id获取下面归属的全部联系人
