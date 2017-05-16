@@ -10,11 +10,6 @@ class vcodeAction extends homeBaseAction
     {
     }
 
-    /**
-     * 获取验证
-     * @access public
-     * @return html
-     */
     public function init ()
     {
         $vcode            = new vcode();
@@ -24,7 +19,7 @@ class vcodeAction extends homeBaseAction
         $vcode->height    = 36;
         $vcode->seedtype  = 2;
         #$vcode->background = "#cccccc";
-        ini_set ('display_errors', 'On');
+        //ini_set ('display_errors', 'On');
         $vcode->doimage ();
         $name            = 'vc_'.sget ('name', 's', 'vcode');
         $_SESSION[$name] = $vcode->get_code ();

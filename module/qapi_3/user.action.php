@@ -534,7 +534,6 @@ class userAction extends baseAction
      *      }
      *
      */
-    //短信验证码登录
     public function h5SimpleLogin()
     {
         if(isset($_REQUEST['phonenum'])){

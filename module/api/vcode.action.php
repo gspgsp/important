@@ -9,11 +9,14 @@ class vcodeAction extends homeBaseAction
     public function __init ()
     {
     }
-
     /**
      * 获取验证
-     * @access public
-     * @return html
+     * @api {get} /api/vcode 获取验证 供我的塑料网前端
+     * @apiVersion 3.1.0
+     * @apiName  vcode
+     * @apiGroup api
+     *
+     * @apiSampleRequest http://www.myplas.com/api/vcode?name=regcode&t=0.1269054189870722
      */
     public function init ()
     {
