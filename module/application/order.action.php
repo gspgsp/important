@@ -69,7 +69,7 @@ class orderAction extends adminBaseAction {
 		if(empty($info)) $this->error('错误的订单信息');
 		if($info['c_id']>0){
 			$see = M("rbac:adm")->toSee($info['customer_manager']);
-			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $see !='1'){
+			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $see !=1){
 				$c_name =  '*******';
 			}else{
 				$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
@@ -91,7 +91,6 @@ class orderAction extends adminBaseAction {
 			$h_pur_cid = M("user:customer")->getColByName($info['h_pur_cid'],"c_name");//根据cid取客户名
 			$this->assign('h_pur_cid',$h_pur_cid);
 		}
-		$c_name =  '*******';
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 		if($o_type ==1){
