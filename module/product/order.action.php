@@ -451,7 +451,7 @@ class orderAction extends adminBaseAction {
 				$arr[$v['user_id']] =$v['name'];
 			}
 		}
-		p(L('sales_type'));
+		p(L('business_model'));
 		p($arr);
 		$this->assign('arr',$arr);
 		$this->assign('info',$info);//分配订单信息
