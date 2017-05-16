@@ -67,10 +67,8 @@ class orderAction extends adminBaseAction {
 		// $join_manager=$this->db->select('customer_manager as cmer')->where("`o_id` = {$info['join_id']}")->getOne();
 		if(empty($info)) $this->error('错误的订单信息');
 		if($info['c_id']>0){
-			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
-			//如果是财务部屏蔽
-			$exits  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
-			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $exits !='1'){
+			$see = M("rbac:adm")->toSee($info['customer_manager']);
+			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $see !='1'){
 				$c_name =  '*******';
 			}else{
 				$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
