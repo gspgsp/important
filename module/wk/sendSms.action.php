@@ -53,7 +53,7 @@ class sendSmsAction extends adminBaseAction {
 				$list['data'][$k]['stype']=$this->stype[$val['stype']];
 				$list['data'][$k]['status']=$this->status[$val['status']+1];
 				$list['data'][$k]['chanel']=$sms_channels[$val['chanel']];
-				if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991){
+				if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991 && $_SESSION['adminid'] != 726){
 					$res = M('user:customerContact')->checkUserIdByCustomerManager($_SESSION['adminid'],$val['user_id']);
 					if(!$res){
 						$list['data'][$k]['mobile']='***';
