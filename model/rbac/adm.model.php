@@ -115,7 +115,7 @@ class admModel extends model{
 			}
 		}
 		return $rule;
-		
+
 	}
 	/**
 	 * 根据用户id判断用户是不是业务员
@@ -208,7 +208,7 @@ class admModel extends model{
 						->getOne();
 		return !$role_id ? 1:$role_id;
 	}
-	/**	
+	/**
 	 * 根据业务员id获取业务员手机号
 	 * @Author   yezhongbao
 	 * @DateTime 2017-05-03T17:37:54+0800
@@ -218,5 +218,25 @@ class admModel extends model{
 	public function getPhoneByAdminId($admin_id = 0){
 		$mobile = $this->model('admin')->select('mobile')->where('admin_id = '.$admin_id)->getOne();
 		return empty($mobile)?'':$mobile;
+	}
+	/**
+	 * [toSee 只有非销售人员才能按照上下级关系查看]
+	 * @Author   cuiyinming               QQ:1203116460
+	 * @DateTime 2017-05-16T10:36:41+0800
+	 * @return   [type]                   [description]
+	 */
+	public function toSee($customer_manager=0){
+		$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+		//如果是财务部不蔽
+			// $see  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
+		// 新版修改为非销售人员按照上下级关系查看
+		$exits  = in_array($roleid, array('2','21','23','24','25','26'，'27','28','29','30','31','32','33','44','47','55','56','57','58','59')) ? '1' : '0';
+		//如果是非销售人员
+		$see = 0;
+		if($exits == 1){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+			$see = in_array($customer_manager,$sons) ? '1' : '0';
+		}
+		return intval($see);
 	}
 }
