@@ -59,21 +59,24 @@ export default{
 	},
 	activated: function() {
 		var _this = this;
-			try {
-	    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-	    piwikTracker.trackPageView();
-	} catch( err ) {
-		
-	}
+		try {
+		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+		    piwikTracker.trackPageView();
+		} catch( err ) {
+			
+		}
 		$.ajax({
-			url: '/api/qapi1/getTaPur',
-			type: 'get',
+			url: version + '/friend/getTaPur',
+			type: 'post',
 			data: {
 				userid: _this.$route.params.id,
 				type: 1,
 				page: _this.page,
 				token: window.localStorage.getItem("token"),
 				size: 10
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
@@ -89,12 +92,15 @@ export default{
 		});
 
 		$.ajax({
-			url: '/api/qapi1/getZoneFriend',
-			type: 'get',
+			url: version + '/friend/getZoneFriend',
+			type: 'post',
 			data: {
 				userid: _this.$route.params.id,
 				token: window.localStorage.getItem("token"),
 				size: 10
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {

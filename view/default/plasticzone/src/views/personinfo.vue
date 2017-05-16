@@ -41,8 +41,8 @@
 		</div>
 		<div class="personInfoList">
 			<h3 class="supplydemandtitle">
-				最近求购信息<router-link :to="{name:'releasebuy',params:{id:$route.params.id}}" style="color: #ff4f00;">查看更多>></router-link>
-			</h3>
+			最近求购信息<router-link :to="{name:'releasebuy',params:{id:$route.params.id}}" style="color: #ff4f00;">查看更多>></router-link>
+		</h3>
 			<ul class="supplydemandul">
 				<li v-for="b in buylist">
 					<span style="color: #999999;">{{b.input_time}}</span><br>
@@ -52,8 +52,8 @@
 		</div>
 		<div class="personInfoList">
 			<h3 class="supplydemandtitle" style="background: #b8d2e3;">
-				最近供给信息<router-link :to="{name:'releasesupply',params:{id:$route.params.id}}" style="color: #267bd3;">查看更多>></router-link>
-			</h3>
+			最近供给信息<router-link :to="{name:'releasesupply',params:{id:$route.params.id}}" style="color: #267bd3;">查看更多>></router-link>
+		</h3>
 			<ul class="supplydemandul">
 				<li v-for="s in supplylist">
 					<span style="color: #999999;">{{s.input_time}}</span><br>
@@ -75,10 +75,10 @@
 <script>
 import footer from "../components/footer";
 import loadingPage from "../components/loadingPage"
-export default{
+export default {
 	components: {
 		'footerbar': footer,
-		'loadingPage':loadingPage
+		'loadingPage': loadingPage
 	},
 	data: function() {
 		return {
@@ -99,13 +99,13 @@ export default{
 			content: "",
 			is_pass: "",
 			cardImg: "",
-			mobile2:"",
-			type:"",
-			main_product:"",
-			month_consum:"",
-			buylist:[],
-			supplylist:[],
-			loadingShow:""
+			mobile2: "",
+			type: "",
+			main_product: "",
+			month_consum: "",
+			buylist: [],
+			supplylist: [],
+			loadingShow: ""
 		}
 	},
 	methods: {
@@ -119,42 +119,45 @@ export default{
 			this.cardCheck == true ? this.cardCheck = false : this.cardCheck = true;
 		},
 		pay: function() {
-			var _this=this;
+			var _this = this;
 			$.ajax({
-				url: '/api/qapi1/focusOrCancel',
-				type: 'get',
+				url: version + '/friend/focusOrCancel',
+				type: 'post',
 				data: {
 					focused_id: _this.$route.params.id,
-					token:window.localStorage.getItem("token")
+					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-					window.location.reload();
+				window.location.reload();
 			}, function() {
 
 			});
 		}
 	},
-	beforeRouteEnter:function(to,from,next){
-		next(function(vm){
-			vm.loadingShow=true;
+	beforeRouteEnter: function(to, from, next) {
+		next(function(vm) {
+			vm.loadingShow = true;
 		});
 	},
 	activated: function() {
 		var _this = this;
-		window.scrollTo(0,0);
+		window.scrollTo(0, 0);
 		try {
-		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-		    piwikTracker.trackPageView();
-		} catch( err ) {
-			
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch(err) {
+
 		}
 		$.ajax({
-			url: version+'/friend/getZoneFriend',
+			url: version + '/friend/getZoneFriend',
 			type: 'post',
 			data: {
-				userid: _this.$route.params.id,
-				showType:1,
+				user_id: _this.$route.params.id,
+				showType: 1,
 				token: window.localStorage.getItem("token")
 			},
 			headers: {
@@ -167,7 +170,7 @@ export default{
 				_this.c_name = res.data.c_name;
 				_this.address = res.data.address;
 				_this.mobile = res.data.mobile;
-				_this.mobile2 = "tel:"+res.data.mobile;
+				_this.mobile2 = "tel:" + res.data.mobile;
 				_this.need_product = res.data.need_product;
 				_this.status = res.data.status;
 				_this.thumb = res.data.thumb;
@@ -176,105 +179,105 @@ export default{
 				_this.sex = res.data.sex;
 				_this.id = res.data.user_id;
 				_this.is_pass = res.data.is_pass;
-				_this.cardImg=res.data.thumbcard;
+				_this.cardImg = res.data.thumbcard;
 				_this.type = res.data.type;
 				_this.main_product = res.data.main_product;
 				_this.month_consum = res.data.month_consum;
-				if (_this.mobile.indexOf("*")=="-1") {
-					_this.isMobile=true;
-				} else{
-					_this.isMobile=false;
+				if(_this.mobile.indexOf("*") == "-1") {
+					_this.isMobile = true;
+				} else {
+					_this.isMobile = false;
 				}
 			} else if(res.err == 1) {
 				weui.alert(res.msg, {
-				    title: '塑料圈通讯录',
-				    buttons: [{
-				        label: '确定',
-				        type: 'parimary',
-				        onClick: function(){
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
 							_this.$router.push({
 								name: 'login'
-							});				        	
-				        }
-				    }]
+							});
+						}
+					}]
 				});
-			} else if(res.err==99){
-				weui.confirm(res.msg, function () {
-					if(res.err == 0) {
-						$.ajax({
-							url: version+'/friend/getZoneFriend',
-							type: 'post',
-							data: {
-								userid: _this.$route.params.id,
-								token: window.localStorage.getItem("token")
-							},
-							headers: {
-								'X-UA': headers
-							},
-							dataType: 'JSON'
-						}).then(function(res) {
-							console.log(res);
-							if(res.err == 0) {
-								_this.name = res.data.name;
-								_this.c_name = res.data.c_name;
-								_this.address = res.data.address;
-								_this.mobile = res.data.mobile;
-								_this.mobile2 = "tel:"+res.data.mobile;
-								_this.need_product = res.data.need_product;
-								_this.status = res.data.status;
-								_this.thumb = res.data.thumb;
-								_this.buy = res.data.buy;
-								_this.sale = res.data.sale;
-								_this.sex = res.data.sex;
-								_this.id = res.data.user_id;
-								_this.is_pass = res.data.is_pass;
-								_this.type = res.data.type;
-								_this.main_product = res.data.main_product;
-								_this.month_consum = res.data.month_consum;
-								_this.cardImg=res.data.thumbcard;
-								if (_this.mobile.indexOf("*")=="-1") {
-									_this.isMobile=true;
-								} else{
-									_this.isMobile=false;
-								}
+			} else if(res.err == 99) {
+				weui.confirm(res.msg, function() {
+					$.ajax({
+						url: version + '/friend/getZoneFriend',
+						type: 'post',
+						data: {
+							user_id: _this.$route.params.id,
+							showType: 5,
+							token: window.localStorage.getItem("token")
+						},
+						headers: {
+							'X-UA': headers
+						},
+						dataType: 'JSON'
+					}).then(function(res) {
+						console.log(res);
+						if(res.err == 0) {
+							_this.name = res.data.name;
+							_this.c_name = res.data.c_name;
+							_this.address = res.data.address;
+							_this.mobile = res.data.mobile;
+							_this.mobile2 = "tel:" + res.data.mobile;
+							_this.need_product = res.data.need_product;
+							_this.status = res.data.status;
+							_this.thumb = res.data.thumb;
+							_this.buy = res.data.buy;
+							_this.sale = res.data.sale;
+							_this.sex = res.data.sex;
+							_this.id = res.data.user_id;
+							_this.is_pass = res.data.is_pass;
+							_this.type = res.data.type;
+							_this.main_product = res.data.main_product;
+							_this.month_consum = res.data.month_consum;
+							_this.cardImg = res.data.thumbcard;
+							if(_this.mobile.indexOf("*") == "-1") {
+								_this.isMobile = true;
+							} else {
+								_this.isMobile = false;
 							}
-						}, function() {
-				
-						});
-					} else if(res.err==100){
-						weui.alert(res.msg, {
-						    title: '塑料圈通讯录',
-						    buttons: [{
-						        label: '确定',
-						        type: 'parimary',
-						        onClick: function(){
-						    		_this.$router.push({
-										name: 'pointsrule'
-									});													        	
-						        }
-						    }]
-						});								
-					}
-				    }, function () {
-				    	window.history.back();
-				    }, {
-				        title: '塑料圈通讯录'
-				    });			
+						} else if(res.err == 100) {
+							weui.alert(res.msg, {
+								title: '塑料圈通讯录',
+								buttons: [{
+									label: '确定',
+									type: 'parimary',
+									onClick: function() {
+										_this.$router.push({
+											name: 'pointsrule'
+										});
+									}
+								}]
+							});
+						}
+					}, function() {
+
+					});
+
+				}, function() {
+					window.history.back();
+				}, {
+					title: '塑料圈通讯录'
+				});
 			}
-		}).fail(function(){
-			
-		}).always(function(){
-			_this.loadingShow=false;	
+		}).fail(function() {
+
+		}).always(function() {
+			_this.loadingShow = false;
 		});
-		
+
 		$.ajax({
-			url: version+'/friend/getTaPur',
+			url: version + '/friend/getTaPur',
 			type: 'post',
 			data: {
 				userid: _this.$route.params.id,
-				page:1,
-				size:5,
-				type:1,
+				page: 1,
+				size: 5,
+				type: 1,
 				token: window.localStorage.getItem("token")
 			},
 			headers: {
@@ -283,24 +286,24 @@ export default{
 			dataType: 'JSON'
 		}).then(function(res) {
 			if(res.err == 0) {
-				_this.buylist=res.data;
+				_this.buylist = res.data;
 			} else if(res.err == 1) {
-				
-			}else if(res.err == 2){
-				_this.buylist=[];
+
+			} else if(res.err == 2) {
+				_this.buylist = [];
 			}
 		}, function() {
 
 		});
 
 		$.ajax({
-			url: version+'/friend/getTaPur',
+			url: version + '/friend/getTaPur',
 			type: 'post',
 			data: {
 				userid: _this.$route.params.id,
-				page:1,
-				size:5,
-				type:2,
+				page: 1,
+				size: 5,
+				type: 2,
 				token: window.localStorage.getItem("token")
 			},
 			headers: {
@@ -309,11 +312,11 @@ export default{
 			dataType: 'JSON'
 		}).then(function(res) {
 			if(res.err == 0) {
-				_this.supplylist=res.data;
+				_this.supplylist = res.data;
 			} else if(res.err == 1) {
-				
-			}else if(res.err == 2){
-				_this.supplylist=[];
+
+			} else if(res.err == 2) {
+				_this.supplylist = [];
 			}
 		}, function() {
 

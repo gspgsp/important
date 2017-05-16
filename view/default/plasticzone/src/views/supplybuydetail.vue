@@ -24,15 +24,6 @@
 		<span style="color: #333333; line-height: 23px;">{{contents}}</span>
 	</li>
 </ul>
-<div class="replymsg" style=" bottom: 60px;">
-	<div style="width: auto; margin-right: 60px;">
-		<form>
-			<i class="writeicon" v-on:click="replyMsg"></i>
-			<input type="text" placeholder="期待你的回复" v-model="msg" />
-		</form>
-	</div>
-	<span v-on:click="replyMsg" class="releasedetailbtn">回复</span>
-</div>
 <footerbar></footerbar>
 </div>
 </template>
@@ -55,43 +46,7 @@ data: function() {
 	}
 },
 methods:{
-		replyMsg: function() {
-		var _this = this;
-		$.ajax({
-			url: '/api/qapi1/saveMsg',
-			type: 'get',
-			data: {
-				pur_id: _this.$route.params.id,
-				content: _this.msg,
-				send_id: _this.user_id,
-				token: window.localStorage.getItem("token")
-			},
-			dataType: 'JSON'
-		}).then(function(res) {
-			if(res.err == 0) {
-				mui.toast(res.msg,{
-				    duration:'long',
-				    type:'div' 
-				})
-			} else if(res.err==1) {
-				mui.alert("", res.msg, function() {
-					_this.$router.push({
-						name: 'login'
-					});
-				})
-			} else if(res.err==6){
-				mui.alert("", res.msg, function() {
 
-				})								
-			}else{
-				mui.alert("", res.msg, function() {
-
-				})				
-			}
-		}, function() {
-
-		});
-	}
 },
 activated: function() {
 	var _this = this;
@@ -102,10 +57,13 @@ activated: function() {
 		
 	}
 	$.ajax({
-		type: "get",
-		url: "/api/qapi1/shareMyPur",
+		type: "post",
+		url: version+"/wechat/shareMyPur",
 		data: {
 			id: _this.$route.params.id
+		},
+		headers: {
+			'X-UA': headers
 		},
 		dataType: 'JSON'
 		}).then(function(res) {

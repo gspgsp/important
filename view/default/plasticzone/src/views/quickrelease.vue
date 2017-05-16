@@ -142,13 +142,16 @@ export default{
 		}
 
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/supplyDemandList",
+			type: "post",
+			url: version + "/releaseMsg/supplyDemandList",
 			data: {
 				page: 1,
 				token: window.localStorage.getItem("token"),
 				size: 5,
 				type: 1
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
@@ -164,13 +167,16 @@ export default{
 		});
 
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/supplyDemandList",
+			type: "post",
+			url: version + "/releaseMsg/supplyDemandList",
 			data: {
 				page: 1,
 				token: window.localStorage.getItem("token"),
 				size: 5,
 				type: 2
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
