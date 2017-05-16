@@ -36,7 +36,7 @@ class vcodeAction extends homeBaseAction
 
     /**
      * 验证验证码
-     * @api {get} /api/vcode 验证码 供我的塑料网前端与塑料圈H5 PC端使用
+     * @api {get} api/vcode/chkVcode 验证验证码 供我的塑料网前端与塑料圈H5 PC端使用
      * @apiVersion 3.1.0
      * @apiName  chkVcode
      * @apiGroup api
