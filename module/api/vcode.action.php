@@ -49,10 +49,10 @@ class vcodeAction extends homeBaseAction
      * @apiSuccess {String}   msg   描述
      *
      * @apiSuccessExample {json} Success-Response:
-         *{
-        "err": 0,
-        "msg": "验证成功"
-        }
+     *      {
+            "err": 0,
+            "msg": "验证成功"
+            }
      * @apiErrorExample {json} Error-Response:
      *     {
      *       "err": 1,
