@@ -227,12 +227,12 @@ class admModel extends model{
 	 * @return   [type]                   [description]
 	 */
 	public function toSee($customer_manager=0){
-		// $roleid = $this->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
-		// //如果是财务部不蔽
-		// 	// $see  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
-		// // 新版修改为非销售人员按照上下级关系查看
-		// $exits  = in_array($roleid, array('2','21','23','24','25','26'，'27','28','29','30','31','32','33','44','47','55','56','57','58','59')) ? '1' : '0';
-		// //如果是非销售人员
+		$roleid = $this->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
+		//如果是财务部不蔽
+			// $see  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
+		// 新版修改为非销售人员按照上下级关系查看
+		$exits  = in_array($roleid, array('2','21','23','24','25','26'，'27','28','29','30','31','32','33','44','47','55','56','57','58','59'));
+		//如果是非销售人员
 		$see = 0;
 		// if($exits == 1){
 		// 	$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
