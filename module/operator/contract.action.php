@@ -96,7 +96,7 @@ class contractAction extends adminBaseAction {
 				$list['data'][$k]['delivery_trans']=$fee_list['1'];
 				$list['data'][$k]['delivery_other']=$fee_list['2'];
 				$list['data'][$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
-				$delivery_fee_count=($fee_list['0']+$fee_list['1'])*$list['data'][$k]['goods_num']+$fee_list['2'];
+				$delivery_fee_count=$fee_list['0']*$list['data'][$k]['goods_num']+$fee_list['1']+$fee_list['2'];
 				$list['data'][$k]['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -330,7 +330,7 @@ class contractAction extends adminBaseAction {
 	        $count_fee=0;
 	        foreach($list as $v){
 	            $fee_list=explode(',',$v['delivery_fee']);
-	            $count=($fee_list['0']+$fee_list['1'])*$v['goods_num']+$fee_list['2'];
+	            $count=$fee_list['0']*$v['goods_num']+$fee_list['1']+$fee_list['2'];
 	            $count_fee+=number_format($count,'2','.','');
 	        }
 	        M('public:common')->model('out_log')->where('o_id='.$o_id)->update(array('ship'=>$count_fee));//回传运输费用到出库信息
@@ -411,7 +411,7 @@ class contractAction extends adminBaseAction {
 	        $list[$k]['delivery_trans']=$fee_list['1'];
 	        $list[$k]['delivery_other']=$fee_list['2'];
 	        $list[$k]['delivery_fee_details']='单价: '.(!empty($fee_list['0'])?$fee_list['0']:'0').'元/吨'.(!empty($fee_list['1'])?'+'.'装车费: '.$fee_list['1'].'元/吨':'+装车费').(!empty($fee_list['2'])?'+'.'其它: '.$fee_list['2'].'元':'+其它');
-	        $delivery_fee_count=($fee_list['0']+$fee_list['1'])*$list[$k]['goods_num']+$fee_list['2'];
+	        $delivery_fee_count=$fee_list['0']*$list[$k]['goods_num']+$fee_list['1']+$fee_list['2'];
 	        $list[$k]['delivery_fee_count']=number_format($delivery_fee_count,2,'.','');
 	    }
 	    $str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';

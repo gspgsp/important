@@ -100,7 +100,7 @@ class transportAction extends adminBaseAction
             $info = M('public:common')->model('transport_contract')->where('logistics_contract_id=' . $lc_id)->getRow();
             $fee_list=explode(',',$info['delivery_fee']);  
             $info['delivery_price']=$fee_list['0'];$info['delivery_trans']=$fee_list['1'];$info['delivery_other']=$fee_list['2'];
-            $info['delivery_fee_count']=number_format(($fee_list['0']+$fee_list['1'])*$info['goods_num']+$fee_list['2'],'2','.','').' 元';
+            $info['delivery_fee_count']=number_format($fee_list['0']*$info['goods_num']+$fee_list['1']+$fee_list['2'],'2','.','').' 元';
             $this->db = M('public:common')->model('order');
             //$order_info = M('public:common')->model('order')->where('o_id=' . $order_id)->getRow();
             $customer = M("operator:logisticsSupplier")->where('status=2')->select('supplier_id as id,supplier_name as name')->getAll();
