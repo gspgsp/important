@@ -16,7 +16,7 @@ class vcodeAction extends homeBaseAction
      * @apiName  vcode
      * @apiGroup api
      *
-     * @apiSampleRequest http://www.myplas.com/api/vcode?name=regcode&t=0.1269054189870722
+     * @apiSampleRequest http://test.myplas.com/api/vcode?name=regcode&t=0.1269054189870722
      */
     public function init ()
     {
