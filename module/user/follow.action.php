@@ -140,7 +140,6 @@ class followAction extends adminBaseAction {
 		$this->is_ajax=true;
 		$c_id=sget('c_id','i');
 		$contact=M('user:customerContact')->getCustomerManagerListByCid($c_id);
-		showTrace();
 		$this->json_output($contact);
 	}
 
