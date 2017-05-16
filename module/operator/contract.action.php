@@ -431,7 +431,7 @@ class contractAction extends adminBaseAction {
 					</tr>";
 	    }
 	    $str .= '</table>';
-	    $filename = 'contract.'.date("Y-m-d");
+	    $filename = '运输合同.'.date("Y-m-d");
 	    header("Content-type: application/vnd.ms-excel; charset=utf-8");
 	    header("Content-Disposition: attachment; filename=$filename.xls");
 	    echo $str;
