@@ -27,6 +27,7 @@ class myInfoAction extends baseAction
      * @apiSuccess {String}  introduction  我的引荐
      * @apiSuccess {String}  myfans  我的粉丝
      * @apiSuccess {String}  myconcerns  我的关注
+     * @apiSuccess {array}  help  帮助页面显示的图片数组
      * @apiSuccess {String}  data  我的信息数据
      *
      * @apiSuccessExample {json} Success-Response:

@@ -516,6 +516,70 @@ class userAction extends baseAction
     }
 
     /**
+     * H5的短信密码快速登录接口
+     * @api {post} /qapi_3/user/h5SimpleLogin H5的短信密码快速登录接口
+     * @apiVersion 3.1.0
+     * @apiName  h5SimpleLogin
+     * @apiGroup User
+     * @apiUse UAHeader
+     *
+     * @apiParam {String} phonenum       手机号
+     * @apiParam {String} phonevaild    动态码
+     * @apiParam {String} regcode         验证码
+     *
+     * @apiSuccessExample Success-Response:
+     *      {
+     *      "err":0
+     *      "msg":"登录成功"
+     *      }
+     *
+     */
+    //短信验证码登录
+    public function h5SimpleLogin()
+    {
+        if(isset($_REQUEST['phonenum'])){
+            $this->is_ajax=true;
+            $phonenum=sget('phonenum','s');
+            $phonevaild=sget('phonevaild','s');
+
+            if($this->reg_vcode){
+                $regcode=strtolower(sget('regcode','s'));
+                if(empty($regcode)){
+                    $this->error('请输入验证码');
+                }
+                //检查验证码
+                if(!chkVcode('regcode',$regcode)){
+                    $this->error('验证码不正确，请重新输入');
+                }
+
+            }
+            if(strlen($phonenum)<10 || !is_mobile($phonenum)){
+                $this->error('手机或验证码错误');
+            }elseif(strlen($phonevaild)<6){
+                $this->error('手机或验证码错误');
+            }
+            //检查验证码
+            if(!$this->_chkmcode($phonevaild,$phonenum)){
+                $this->error($this->err);
+            }
+            $user=$this->db->model('customer_contact')->select('*')->where("mobile='{$phonenum}' and status=1")->getRow();
+            if(empty($user)){
+                $this->error('当前账号不存在或错误的账号!');
+            }
+            $chanel=6; //塑料圈渠道
+            $result=M('user:passport')->login2($phonenum,$user['password'],$chanel);
+            //p($result);
+            if($result['err']>0){
+                $this->error($result['msg']);
+            }else{
+                M('user:passport')->setSession($result['user']['user_id'],$result['user']);
+                unset($_SESSION['gurl']);
+                $this->success('登录成功');
+            }
+        }
+    }
+
+    /**
      * 登出
      * @api {post} /qapi_3/user/logout 登出
      * @apiVersion 3.1.0
