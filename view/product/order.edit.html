@@ -388,6 +388,9 @@ function usrChoose(e){
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
 					cname.load('/user/follow/get_contact_list?c_id='+data.c_id);
+					var contact_id = mini.get("contact_id");
+					alert(contact_id);
+					alert('联系人不能为空');
 				}
 			}
 		}
