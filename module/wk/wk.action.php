@@ -26,20 +26,34 @@ class wkAction extends adminBaseAction{
 		if(empty($id) || empty($status)){
 			$this->error('操作有误');
 		}
+		//审核权限操作
 		$url = '/'.$_REQUEST['m'].'/'.$_REQUEST['c'].'/'.$_REQUEST['a'];
 		$power_admin = $this->db->model('offers_power as p')
 			->select('admin_id')
 			->leftjoin('offers_power_admin as a','a.type_id = p.type_id')
 			->where("p.model = '".$url."' and admin_id = ".$this->adminid)->getOne();
 		if(!$power_admin){
-				$this->error('您没有权限操作');
+			$this->error('您没有权限操作');
 		}
-		$count_res = $this->db->getOne("SELECT (SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
+		//上级审核下级
+		$sons = M('rbac:rbac')->getSons($this->adminid);
+		$sons_arr = explode(',', $sons);
+		$find_res = $this->db->model('offers_msg')->where('id='.$id)->getRow();
+		if(!in_array($find_res['uid'], $sons_arr)){
+			$this->error('您只能审核您的下属');
+		}
+		//审核时，如有短信记录，不可改变状态
+		$count1 = $this->db->getOne("SELECT (SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
 		FROM p2p_offers_msg AS msg
-		WHERE `msg`.`input_time`> ".$this->today." and msg.id = ".$id);
-		if($count_res){
+		WHERE msg.`id` = ".$id);
+		$count2 = $this->db->getOne("SELECT (SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
+		FROM p2p_offers_msg AS msg
+		WHERE msg.`id` = ".$id);
+
+		if(($count1+$count2) > 0){
 			$this->error('该牌号已发送短信，不可改变状态');
 		}
+		//审核操作
 		$res = $this->db->model('offers_msg')->where('id='.$id)->update(array('status'=>$status,'update_time'=>time(),'update_admin'=>$this->uname));
 		if($res){
 			$this->success('操作成功');
