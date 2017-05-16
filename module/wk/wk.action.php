@@ -4,6 +4,7 @@ class wkAction extends adminBaseAction{
 
 	protected $model,$uname,$today,$db,$adminid;
 	public function __init(){
+		ini_set('display_errors','On');
 		$this->adminid=$_SESSION['adminid'];
 		$this->uname=$_SESSION['username'];
 		$this->db=M("public:common")->model('offers_msg');
@@ -13,6 +14,7 @@ class wkAction extends adminBaseAction{
 	public function init()
 	{
 		//最近发布时间
+		ini_set('display_errors','On');
 		$offerList = $this->db->getAll("SELECT *,(count1+count2) AS counts FROM (SELECT *,(SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count1`,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count2`
 		FROM p2p_offers_msg AS msg) AS a
 		ORDER BY a.`input_time` DESC");
@@ -108,8 +110,9 @@ class wkAction extends adminBaseAction{
 		$start = strtotime($data['start']);
 		$end = strtotime($data['end'])+86400;
 		$where = ' 1 ';
-		if(!empty(trim($data['keyword']))){
-			$where .=  " and msg.grade = '".trim($data['keyword'])."'";
+		$trm = trim($data['keyword']);
+		if(!empty($trm)){
+			$where .=  " and msg.grade = '$trm' ";
 		}
 		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
 		FROM p2p_offers_msg AS msg
@@ -137,7 +140,6 @@ class wkAction extends adminBaseAction{
 			$factory=$_data['factory'];
 			if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
 			if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
-
 			$_data['grade']=trim($_POST['grade']);
 			$_data['remark']=trim($_POST['remark']);
 			$_data['input_time']=time();
@@ -161,7 +163,7 @@ class wkAction extends adminBaseAction{
 			$this->error('您没有权限操作');
 		}
 		if($res['status'] == 2){
-			$this->error('审核已通过，不能删除');	
+			$this->error('审核已通过，不能删除');
 		}
 		$del_res = $this->db->model('offers_msg')->where('id = '.$id)->delete();
 		if($del_res){
