@@ -47,6 +47,8 @@ class baseAction extends null2Action
             14 => '查看通讯录',
             15 => '查看文章',
             16 => '现金充值',
+            17 =>'发布标准报价',#（供给）
+            18 =>'发布标准采购'#（求购）
         );
         $this->shareType   = array(
             1 => '求购分享',
@@ -86,6 +88,7 @@ class baseAction extends null2Action
         $this->randomTime   = mt_rand (10, 20) * 180; // 1-2 h
         $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
         $this->checkUA();
+        M("qapp:pointsBill")->setMoblie(true);
     }
     //http-->curl
     protected function http ($url)
