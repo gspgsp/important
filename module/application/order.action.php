@@ -72,12 +72,12 @@ class orderAction extends adminBaseAction {
 			$exits  = in_array($roleid, array('30','26','27','25','24','21')) ? '1' : '0';
 			if(($info['partner'] != $info['customer_manager'] && $info['customer_manager'] != $_SESSION['adminid'])  &&   $_SESSION['adminid'] != 1 && $exits !='1'){
 				$c_name =  '*******';
-			 }else{
-			 	$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
-			 	$var = M("user:customer")->getRowByName($info['c_id'],"credit_limit,available_credit_limit");//根据cid 取出 信用额度、可用额度
-			 }
+			}else{
+				$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
+				$var = M("user:customer")->getRowByName($info['c_id'],"credit_limit,available_credit_limit");//根据cid 取出 信用额度、可用额度
+			}
 		}
-		 $info['credit_limit']=$var['credit_limit'];
+		$info['credit_limit']=$var['credit_limit'];
 		$info['available_credit_limit']=$var['available_credit_limit'];
 		$info['sales_type']=L('sales_type')[$info['sales_type']];//前台读取销售类型
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];//前台读取采购类型
@@ -92,6 +92,7 @@ class orderAction extends adminBaseAction {
 			$h_pur_cid = M("user:customer")->getColByName($info['h_pur_cid'],"c_name");//根据cid取客户名
 			$this->assign('h_pur_cid',$h_pur_cid);
 		}
+		$c_name =  '*******';
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 		if($o_type ==1){
