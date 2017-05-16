@@ -440,6 +440,7 @@ class orderAction extends adminBaseAction {
 		$info['delivery_time']=date("Y-m-d",$info['delivery_time']);  //转换时默认发货时间为当前时间
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['sales_type']=L('sales_type')[$info['sales_type']];
+		$info['contact'] = M('user:customerContact')->getCustomerManagerListByCid($info['c_id']);
 		$info['p_type']=$info['purchase_type'];
 		$info['purchase_type']=L('purchase_type')[$info['purchase_type']];
 		$info['partnername']= M('rbac:adm')->getUserByCol($info['partner']);
