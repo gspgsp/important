@@ -234,10 +234,10 @@ class admModel extends model{
 		$exits  = in_array(intval($roleid), array(2,21,23,24,25,26,27,28,29,30,31,32,33,44,47,55,56,57,58,59));
 		//如果是非销售人员
 		$see = 0;
-		// if($exits == 1){
-		// 	$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
-		// 	$see = in_array($customer_manager,$sons) ? '1' : '0';
-		// }
+		if($exits){
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+			$see = in_array($customer_manager,$sons) ? 1 : 0;
+		}
 		return $see;
 	}
 }
