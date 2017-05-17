@@ -21,7 +21,11 @@ class wkAction extends adminBaseAction{
 		FROM p2p_offers_msg AS msg WHERE msg.`input_time`>".strtotime($start)." AND msg.`input_time` < ".(strtotime($end)+86400)." ) AS a
 		ORDER BY a.`input_time` DESC");
 		$total_count = count($offerList);
+		$phone_num = $this->db->getOne("SELECT SUM(count1+count2) AS phone_num FROM (SELECT (SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count1`,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count2`
+		FROM p2p_offers_msg AS msg WHERE msg.`input_time`>".strtotime($start)." AND msg.`input_time` < ".(strtotime($end)+86400).") AS a");
 		// showtrace();
+		// p($phone_num);die;
+		$this->assign('phone_num', $phone_num);
 		$this->assign('date', $date);
 		$this->assign('offerList', $offerList);
 		$this->assign('total_count', $total_count);
@@ -115,10 +119,14 @@ class wkAction extends adminBaseAction{
 		if(!empty($trm)){
 			$where .=  " and msg.grade = '$trm' ";
 		}
-		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
-		FROM p2p_offers_msg AS msg
-		WHERE ".$where." and `msg`.`input_time`> ".$start." and `msg`.`input_time`< ".$end." ORDER BY msg.`input_time` DESC");
+		$offerList = $this->db->getAll("SELECT *,(count1+count2) AS counts FROM (SELECT *,(SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count1`,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count2`
+		FROM p2p_offers_msg AS msg WHERE ".$where." and msg.`input_time`>".$start." AND msg.`input_time` < ".$end." ) AS a
+		ORDER BY a.`input_time` DESC");
+		$phone_num = $this->db->getOne("SELECT SUM(count1+count2) AS phone_num FROM (SELECT (SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count1`,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count2`
+		FROM p2p_offers_msg AS msg WHERE ".$where." and msg.`input_time`>".$start." AND msg.`input_time` < ".$end.") AS a");
+		// showtrace();
 		$total_count = count($offerList);
+		$this->assign('phone_num', $phone_num);
 		$this->assign('total_count', $total_count);
 		$this->assign('offerList', $offerList);
 		$this->assign('select', 'select');
