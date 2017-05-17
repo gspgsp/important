@@ -168,22 +168,23 @@
 						<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
 					        <thead>
 					            <tr>
-					                <th align="center" width="80">牌号</th>
-					                <th align="center" width="120">厂家</th>
-					                <th align="center" width="80">数量</th>
-					                <th align="center" width="80">销售价格</th>
-					                <th align="center" width="80">成本价</th>
-					                <th align="center" width="50">仓库</th>
-					                <th align="center" width="50">区域</th>
-					                <th align="center" width="80">备注</th>
-					                <th align="center" width="55">责任人</th>
-					                <th align="center" width="80">责任人手机</th>
-					                <th align="center" width="50">发送数量</th>
-					                <th align="center" width="80">审核</th>
-					                <th align="center" width="50">审核结果</th>
-					                <th align="center" width="50">发短信</th>
-					                <th align="center" width="80">发布时间</th>
-					                <th align="center" width="40">删除</th>
+					                <th>牌号</th>
+					                <th>厂家</th>
+					                <th>数量</th>
+					                <th>销售价格</th>
+					                <th>成本价</th>
+					                <th>仓库</th>
+					                <th>区域</th>
+					                <th>备注</th>
+					                <th>责任人</th>
+					                <th>责任人手机</th>
+					                <th>发送数量</th>
+					                <th>审核</th>
+					                <th>审核结果</th>
+					                <th>发短信</th>
+					                <th>状态</th>
+					                <th>发布时间</th>
+					                <th>删除</th>
 					            </tr>
 					        </thead>
 					        <tbody id="offerTop">
@@ -210,6 +211,11 @@
 									{/if}
 
 					                <td><a href="javascript:void(0)" onclick="sendMsg({$value.id})">发短信</a></td>
+					                {if $value.count neq ''}
+					                <td>已发送</td>
+					                {else}
+					                <td style="color:red;">未发送</td>
+					                {/if}
 					                <td>{$value.input_time|date:m-d H:i}</td>
 					                <td><a href="javascript:void(0)" onclick="del({$value.id})">删除</a></td>
 					            </tr>
