@@ -170,6 +170,8 @@ class productAction extends baseAction
 
     public function getValidDate()
     {
+        file_put_contents("/tmp/xielei.txt",print_r($_GET,true)."\n",FILE_APPEND);
+        file_put_contents("/tmp/xielei.txt",print_r($_POST,true)."\n",FILE_APPEND);
         if (empty($_POST)) {
             $type = sget('type','i');
             //type 1 是供求 2 是通讯录
