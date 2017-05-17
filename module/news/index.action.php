@@ -75,15 +75,8 @@
 					$ids = array_keys($result['matches']);
 					$data['data'] = $this->db->search($ids);
 					$this->pages = pages($result['total'], $page, $page_size);
-
-					foreach ($data['data'] as $k => $v) {
-						$data['data'][$k]['spell']=$this->db->model('news_cate')->select('spell')->where('cate_id ='.$v['cate_id'])->getOne();
-					}
 				//取出排行榜文章
 					$chartsData=$this->db->charts('','',$keywords);
-					foreach ($chartsData as $k => $v) {
-						$chartsData[$k]['spell']=$this->db->model('news_cate')->select('spell')->where('cate_id ='.$v['cate_id'])->getOne();
-					}
 			}else{
 				$type=sget('type','s');
 				//导航栏选中状态
