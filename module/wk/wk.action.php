@@ -13,16 +13,18 @@ class wkAction extends adminBaseAction{
 	}
 	public function init()
 	{
-		//最近发布时间
-		$offerList = $this->db->getAll("SELECT *,(count1+count2) AS counts FROM (SELECT *,(SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count1`,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count2`
-		FROM p2p_offers_msg AS msg) AS a
-		ORDER BY a.`input_time` DESC");
-		$start = date('Y-m-d' , strtotime("-2 day"));
+		$start = date('Y-m-d' , strtotime("-1 day"));
 		$end = date('Y-m-d' , time());
 		$date = array('start'=>$start,'end'=>$end);
+		//最近发布时间
+		$offerList = $this->db->getAll("SELECT *,(count1+count2) AS counts FROM (SELECT *,(SELECT COUNT(id) FROM p2p_log_sms_history WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count1`,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count2`
+		FROM p2p_offers_msg AS msg WHERE msg.`input_time`>".strtotime($start)." AND msg.`input_time` < ".(strtotime($end)+86400)." ) AS a
+		ORDER BY a.`input_time` DESC");
+		$total_count = count($offerList);
 		// showtrace();
 		$this->assign('date', $date);
 		$this->assign('offerList', $offerList);
+		$this->assign('total_count', $total_count);
 		$this->display('index');
 	}
 	public function check(){
@@ -116,6 +118,8 @@ class wkAction extends adminBaseAction{
 		$offerList = $this->db->getAll("SELECT *,(SELECT COUNT(id) FROM p2p_log_sms WHERE FIND_IN_SET(msg.`id`, offers_ids_str)) AS `count`
 		FROM p2p_offers_msg AS msg
 		WHERE ".$where." and `msg`.`input_time`> ".$start." and `msg`.`input_time`< ".$end." ORDER BY msg.`input_time` DESC");
+		$total_count = count($offerList);
+		$this->assign('total_count', $total_count);
 		$this->assign('offerList', $offerList);
 		$this->assign('select', 'select');
 		$this->assign('date', array('start'=>$data['start'],'end'=>$data['end']));

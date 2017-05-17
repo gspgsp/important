@@ -163,24 +163,27 @@
 			<!--right begin-->
 			<div class="col-lg-9 col-xs-12">
 				<div class="panel panel-primary">
-					<div class="panel-heading">最新报价</div>
+					{if !empty($select)}
+					<div class="panel-heading">查询结果：{$total_count}条</div>
+					{else}
+					<div class="panel-heading">最新报价：{$total_count}条</div>
+					{/if}
 					<div class="offer" style="height: 360px;">
 						<table id="" class="table table-condensed table-hover table-bordered" cellspacing="0" width="100%">
 					        <thead>
 					            <tr>
 					                <th>牌号</th>
 					                <th>厂家</th>
-					                <th>数量</th>
+					                <th>吨数</th>
 					                <th>销售价格</th>
 					                <th>成本价</th>
 					                <th>仓库</th>
 					                <th>区域</th>
 					                <th>备注</th>
 					                <th>责任人</th>
-					                <th>责任人手机</th>
-					                <th>发送数量</th>
+					                <th>数量</th>
 					                <th>审核</th>
-					                <th>审核结果</th>
+					                <!-- <th>审核结果</th> -->
 					                <th>发短信</th>
 					                <th>状态</th>
 					                <th>发布时间</th>
@@ -188,7 +191,7 @@
 					            </tr>
 					        </thead>
 					        <tbody id="offerTop">
- 								{foreach from=$offerList item=value}
+ 								{foreach from=$offerList item=value key=key}
 					            <tr>
 					                <td>{$value.grade}</td>
 					                <td>{$value.factory}</td>
@@ -199,15 +202,14 @@
 					                <td>{$value.china_area}</td>
 					                <td>{$value.remark}</td>
 					                <td>{$value.uname}</td>
-					                <td>{$value.person_phone}</td>
 					                <td><a href="javascript:void(0)" onclick="valueInfo({$value.id},2)">{$value.counts}</a></td>
-					                <td><a href="javascript:void(0)" onclick="check({$value.id},2)">通过</a> | <a href="javascript:void(0)" onclick="check({$value.id},3)">不通过</a></td>
-					                {if $value.status eq '1'}
-									<td><b>未审核</b></td>
-									{elseif $value.status eq '2'}
+					                
+					                {if $value.status eq '2'}
 									<td style="color:blue;"><b>已通过</b></td>
-									{else}
+									{elseif $value.status eq '3'}
 									<td style="color:red;"><b>未通过</b></td>
+									{else}
+									<td><a href="javascript:void(0)" onclick="check({$value.id},2)">通过</a> | <a href="javascript:void(0)" onclick="check({$value.id},3)">不通过</a></td>
 									{/if}
 
 					                <td><a href="javascript:void(0)" onclick="sendMsg({$value.id})">发短信</a></td>
