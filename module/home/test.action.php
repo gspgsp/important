@@ -258,4 +258,52 @@
 		echo '1';
 		echo '2';
 	}
+	public function getCus(){
+		set_time_limit(0);
+		$offers_info =array('grade'=>'2102TX00','sale_price'=>'10050.00','china_area'=>'华东','factory'=>'伊朗','store'=>'宝山','remark'=>'');
+		$res = $this->db->model('customer')->select('c_id,c_name,need_product_adm,need_product')->where("customer_manager>0 and status <> 9 and msg = 2 and (need_product <> '' OR need_product_adm <> '') AND china_area = '".$offers_info['china_area']."'")->getAll();
+		foreach ($res as $key => $value) {
+				$need_product_temp =array();
+				$need_product_adm_temp =array();
+				$need_product_adm_temp=split(',',$value['need_product_adm']);
+				if(strpos($value['need_product'], ',')){
+					$need_product_temp=array_merge($need_product_temp, split(',',$value['need_product']));
+				}elseif( strpos(trim($value['need_product']), ' ')){
+					$need_product_temp=array_merge($need_product_temp,split(' ',$value['need_product']));
+				}else{
+					array_push($need_product_temp, $value['need_product']);
+				}
+				//一个公司所需牌号
+				$need_product=array_filter(array_values(array_unique(array_merge($need_product_temp,$need_product_adm_temp))));
+				// p($need_product);
+				if(in_array($offers_info['grade'],$need_product)){
+					$this->addMsgLog($value['c_id'],$offers_info);
+				}
+				unset($need_product);
+		}
+	}
+	public function addMsgLog($c_id,$offers_info){
+		echo '需求该牌号的客户：'.$c_id."<br>";
+		ob_flush();  //把数据从PHP的缓冲中释放出来  
+		flush();     //将释放出来的数据发送到浏览器
+		$res = $this->db->model('customer')->getAll("SELECT c1.`user_id`,c1.`name` as contact_name,c1.`c_id`,c1.`mobile` AS contact_mobile,customer_manager,adm.`name`,adm.`mobile` FROM `p2p_customer_contact` AS c1
+			LEFT JOIN p2p_admin AS adm ON c1.`customer_manager` = adm.`admin_id`
+			LEFT JOIN `p2p_adm_role_user` AS `user` ON `user`.`user_id` = c1.`customer_manager`
+			LEFT JOIN p2p_adm_role AS role ON role.`id` = `user`.`role_id`
+			WHERE c1.`status` = 1 AND c1.`customer_manager` > 0 AND role.`pid` = 22 AND adm.`status` = 1 AND adm.`mobile` <> '' and c1.`name` <> '' AND c1.`mobile` <> '' and c1.`c_id` = ".$c_id);
+		// showtrace();
+		if(!$res){
+			return;
+		}
+		$date = date("m月d日",time());
+		foreach ($res as $key => $value) {
+			if(is_mobile($value['contact_mobile'])){
+				// p($offers_info);die;
+				echo '联系人手机号：'.$value['contact_mobile']."<br>";
+				ob_flush();  //把数据从PHP的缓冲中释放出来  
+    			flush();     //将释放出来的数据发送到浏览器  
+
+	    	}
+		}
+	}
 }
