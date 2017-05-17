@@ -806,6 +806,8 @@ class friendAction extends baseAction
             $user_id = $this->checkAccount ();
             $userid  = sget ('user_id', 'i');//当前联系人的id
 
+            if($userid <= 0) $this->_errCode(6);
+
             $showType = sget('showType','i'); // 5  不显示 99
             if($showType!=5){
                 if ($user_id != $userid) {
