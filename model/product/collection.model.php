@@ -15,6 +15,7 @@ class collectionModel extends model{
 		$ids = $this->model('collection')->select ('id')->where($where)->getAll();
 		//收付款表中，如果申请是特殊申请，则特殊申请的订单oid是付的,特批通过后，才是正的
 		//因此，订单为负的申请也是申请，查询结果集，也要将该类型的订单查询到
+		//订单为负的应用场景目前只限于战队配资---特批审核不通过
 		if($res = $this->model('collection')->select ('id')->where("o_id =".$value*(-1))->getAll()){
 			$ids = array_merge($ids,$res);
 		}
