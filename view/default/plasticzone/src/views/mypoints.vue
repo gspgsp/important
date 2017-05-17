@@ -8,7 +8,7 @@
 	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner.jpg">
 </div>
 <div class="mypoints">
-	<a href="javascript:;"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</a>
+	<router-link :to="{name:'pointsdetail'}"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</router-link>
 	<router-link :to="{name:'recharge'}" style=" color: #ff5000;"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
 	<router-link :to="{name:'pointsrule'}" style=" color: #ff5000;"><i class="shopIcon iconIntro"></i>如何赚塑豆</router-link>
 </div>
@@ -16,37 +16,23 @@
 	<div class="pointsTitle">商品信息</div>
 	<ul id="productUl">
 		<li>
-			<div style="overflow: hidden; padding: 10px; position: relative;">
-				<img v-bind:src="p1.thumb" style=" margin: 0 10px 0 0;">
-				<div class="proTxt">{{p1.name}}<br>所需塑豆<span>{{p1.points}}</span>塑豆</div>
-				<div class="proAmount">x{{pro.num}}</div>
+			<div style="overflow: hidden; position: relative;">
+				<img v-bind:src="p1.thumb">
 			</div>			
 			<div class="productNum">
-				<span>*</span>请选择兑换数量：
-				<div class="proSelect">
-					<strong v-on:click="proMin">-</strong>
-					<strong>{{pro.num}}</strong>
-					<strong v-on:click="proAdd">+</strong>
-				</div>
+				<span>*</span>请选置顶日期：
 			</div>	
 			<div class="productCost">共<span>{{pro.num}}</span>件
-				<div class="exchange" v-on:click="proExchange">提交兑换</div>
+				<div class="exchange" v-on:click="proExchange">支付</div>
 				<div class="cost">总塑豆：{{pro.cost}}</div>
 			</div>
 		</li>
 		<li>
-			<div style="overflow: hidden; padding: 10px; position: relative;">
-				<img v-bind:src="p2.thumb" style=" margin: 0 10px 0 0;">
-				<div class="proTxt">{{p2.name}}<br>所需塑豆<span>{{p2.points}}</span>塑豆</div>
-				<div class="proAmount">x{{pro2.num}}</div>
+			<div style="overflow: hidden; position: relative;">
+				<img v-bind:src="p2.thumb">
 			</div>			
 			<div class="productNum">
 				<span>*</span>请选择兑换数量：
-				<div class="proSelect">
-					<strong v-on:click="proMin2">-</strong>
-					<strong>{{pro2.num}}</strong>
-					<strong v-on:click="proAdd2">+</strong>
-				</div>
 			</div>
 			<div class="productMsg">
 				<span>*</span>请选择要置顶的供求信息（限选一条）：
@@ -59,7 +45,7 @@
 				</div>
 			</div>		
 			<div class="productCost">共<span>{{pro2.num}}</span>件
-				<div class="exchange" v-on:click="proExchange2">提交兑换</div>
+				<div class="exchange" v-on:click="proExchange2">支付</div>
 				<div class="cost">总塑豆：{{pro2.cost}}</div>
 			</div>
 		</li>
@@ -201,12 +187,6 @@ export default{
 		    		
 		    	});		
 		}
-	},
-	beforeRouteEnter: function(to, from, next) {
-		next(function(vm) {
-
-		});
-		document.title = "塑料圈通讯录";
 	},
 	activated: function() {
 		var _this = this;

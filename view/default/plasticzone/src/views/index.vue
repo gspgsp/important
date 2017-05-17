@@ -201,7 +201,6 @@ export default {
 						headers: {
 							'X-UA': headers
 						},
-
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -309,7 +308,6 @@ export default {
 						headers: {
 							'X-UA': headers
 						},
-
 						data: {
 							keywords: "",
 							page: _this.page,

@@ -194,7 +194,7 @@ export default{
 			var _this=this;
 			this.isDisabled=true;
 			$.ajax({
-				url: '/api/qapi1_2/saveSelfInfo',
+				url: version+'/myInfo/saveSelfInfo',
 				type: 'post',
 				data: {
 					token: window.localStorage.getItem("token"),
@@ -206,6 +206,9 @@ export default{
 					type:_this.c_type,
 					month_consum:_this.month_consum,
 					main_product:_this.main_product
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function(res) {

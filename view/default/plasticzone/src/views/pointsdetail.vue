@@ -19,7 +19,7 @@
 	</tr>
 	<tr v-for="d in detail">
 		<td><span style=" color:#ff5000;">{{d.points}}</span></td>
-		<td style="text-align: left;">今日登陆赠送10塑豆</td>
+		<td style="text-align: left;">{{d.typename}}</td>
 		<td>{{d.addtime}}</td>
 	</tr>
 </table>
@@ -42,13 +42,16 @@ export default{
 			
 		}
 		$.ajax({
-    		type:"get",
-    		url:"/api/qapi1/pointSupplyList",
+    		type:"post",
+    		url:version+"/score/pointSupplyList",
     		data:{
     			token: window.localStorage.getItem("token"),
     			page:1,
     			size:50
     		},
+			headers: {
+				'X-UA': headers
+			},
     		dataType: 'JSON'
     	}).then(function(res){
     		console.log(res);
@@ -56,9 +59,16 @@ export default{
  				_this.detail=res.data;
 				_this.points=res.pointsAll;   			
     		}else if(res.err==1){
-				mui.alert("",res.msg,function(){
-					_this.$router.push({ name: 'login' });
-				});        					
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({ name: 'login' });
+						}
+					}]
+				});       					      					
 			}
     	},function(){
     		

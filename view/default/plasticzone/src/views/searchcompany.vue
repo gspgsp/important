@@ -37,21 +37,33 @@ export default{
 			var _this=this;
 			$.ajax({
 				type: "post",
-				url: '/api/qapi1_1/creditCertificate',
+				url: version+'/credit/creditCertificate',
 				data: {
 					token: window.localStorage.getItem("token"),
 					type:2,
 					page:1,
 					fname:_this.fname
 				},
+				headers: {
+					'X-UA': headers
+				},
 				dataType: 'JSON'
 			}).then(function(res) {
 				if(res.err==0){
 					_this.creditli=res.data;			
 				}else{
-					mui.alert("", res.msg, function() {
-
-					});					
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
+					});				
 				}
 			}, function() {
 	

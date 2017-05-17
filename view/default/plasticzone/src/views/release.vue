@@ -702,7 +702,11 @@ export default{
 		}).done(function(res) {
 			if(res.err == 0) {
 				_this.release = res.data;
-				_this.top = res.top;
+				if(JSON.stringify(res.top) == '{}') {
+					_this.top = null;
+				} else {
+					_this.top = res.top;
+				}
 			} else if(res.err == 1) {
 				weui.alert(res.msg, {
 					title: '塑料圈通讯录',
