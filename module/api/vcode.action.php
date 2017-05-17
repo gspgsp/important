@@ -44,9 +44,9 @@ class vcodeAction extends homeBaseAction
 
     /**
      * 获取验证码--仅供APP使用
-     * @api {get} /api/vcode 获取验证码--仅供APP使用
+     * @api {get} /api/vcode/app 获取验证码--仅供APP使用
      * @apiVersion 3.1.0
-     * @apiName  vcode
+     * @apiName  app
      * @apiGroup api
      *
      * @apiParam   {int} phonenum  手机号 APP端传此参数
