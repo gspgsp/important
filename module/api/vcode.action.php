@@ -122,9 +122,8 @@ class vcodeAction extends homeBaseAction
     {
         $name  = sget ('name', 's');
         $value = sget ('value', 's');
-        $key   = sget('key','i',0);
+        $key   = sget('key','s',0);
         $value = strtolower ($value);
-
         if(empty($key)) {
             if (!chkVcode ($name, $value)) {
                 $this->error ('验证码输入不正确');
@@ -132,14 +131,21 @@ class vcodeAction extends homeBaseAction
                 $this->success ('验证成功');
             }
         }else{
-            $this->is_ajax = true;
+            $this->is_ajax = 1;
             $cache= E('RedisCluster',APP_LIB.'class');
             $code = $cache->get($key);
             if(empty($code)||$code!=$value)
             {
-                $this->error ('验证码输入不正确');
+                $this->json_output(array(
+                    'err'=>1,
+                    'msg'=>'验证码输入不正确',
+                ));
             }else {
-                $this->success ('验证成功');
+                $this->json_output(array(
+                    'err'=>0,
+                    'msg'=>'验证成功',
+                ));
+
             }
         }
     }
