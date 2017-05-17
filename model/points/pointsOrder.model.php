@@ -35,6 +35,40 @@ class pointsOrderModel extends Model
         }
     }
 
+    //获取可选选择日期
+    public function getTookDate($goods_id)
+    {
+        $time = time() - 30*24*60*60;
+        $orders = $this->model('points_order')->select ('*')->where (" goods_id = ".$goods_id." and status =5 and outpu_time > ".$time)->order("outpu_time desc")->getAll();
+        $ret = array();
+        $this->getLastSql();
+        foreach($orders as $order)
+        {
+            if(empty($order['address']))
+            {
+                continue;
+            }else{
+                $tmp = explode(',',$order['address']);
+                if(empty($tmp))
+                {
+                    continue;
+                }else{
+                    $ret = array_merge($ret,$tmp);
+                }
+            }
+        }
+        $dates = array_unique($ret);
+
+        foreach($dates as &$date)
+        {
+            if(strtotime($date)<strtotime(date('Y-m-d',time())))
+            {
+                unset($date);
+            }
+        }
+        return $dates;
+    }
+
     //判断积分是否足够
     public function checkSupply($user_id, $num = null)
     {

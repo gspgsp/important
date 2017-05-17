@@ -19,6 +19,12 @@ class pointsGoodsModel extends Model{
 
     }
 
+	public function getOnsaleGoods($type)
+	{
+		$goods= $this->model('points_goods')->select('*')->where (" type = {$type} and status =1 and is_mobile = 1")->getRow();
+		return $goods;
+	}
+
 
 }
 
