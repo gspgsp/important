@@ -44,9 +44,6 @@ class vcodeAction extends homeBaseAction
      * @apiName  app
      * @apiGroup api
      *
-     * @apiParam   {int} phonenum  手机号 APP端传此参数
-     * @apiParam   {int} code  手机号 APP端传此参数
-     *
      * @apiSampleRequest http://test.myplas.com/api/vcode/app
      *
      * @apiSuccess {int}  err   错误码
