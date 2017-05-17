@@ -45,21 +45,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				success: function success() {
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/saveShareLog",
+						url: version + "/wechat/saveShareLog",
 						data: {
 							token: window.localStorage.getItem("token"),
 							type: 1,
 							id: _this.id
 						},
-						dataType: 'JSON'
-					}).done(function (res) {}).fail(function () {});
-
-					$.ajax({
-						type: "post",
-						url: "/api/score/addScore",
-						data: {
-							token: window.localStorage.getItem("token"),
-							type: '4'
+						headers: {
+							'X-UA': headers
 						},
 						dataType: 'JSON'
 					}).done(function (res) {}).fail(function () {});
@@ -67,8 +60,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				cancel: function cancel() {}
 			});
 			wx.onMenuShareAppMessage({
-				title: "我的塑料网-塑料圈通讯录",
-				desc: _this.contents,
+				title: _this.contents,
+				desc: "我的塑料网-塑料圈通讯录",
 				link: 'http://q.myplas.com/#/supplybuy/' + _this.id + '?invite=' + tel,
 				imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
 				type: '',
@@ -76,21 +69,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				success: function success() {
 					$.ajax({
 						type: "post",
-						url: "/api/qapi1_2/saveShareLog",
+						url: version + "/wechat/saveShareLog",
 						data: {
 							token: window.localStorage.getItem("token"),
 							type: 2,
 							id: _this.id
 						},
-						dataType: 'JSON'
-					}).done(function (res) {}).fail(function () {});
-
-					$.ajax({
-						type: "post",
-						url: "/api/score/addScore",
-						data: {
-							token: window.localStorage.getItem("token"),
-							type: '5'
+						headers: {
+							'X-UA': headers
 						},
 						dataType: 'JSON'
 					}).done(function (res) {}).fail(function () {});
@@ -106,18 +92,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			piwikTracker.trackPageView();
 		} catch (err) {}
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/shareMyPur",
+			type: "post",
+			url: version + "/wechat/shareMyPur",
 			data: {
 				id: _this.$route.params.id,
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function (res) {
 			console.log(res);
 			if (res.err == 1) {
-				mui.alert("", res.msg, function () {
-					_this.$router.push({ name: 'login' });
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
 				});
 			} else {
 				_this.input_time = res.data.input_time;

@@ -1590,7 +1590,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}).done(function (res) {
 			if (res.err == 0) {
 				_this.release = res.data;
-				_this.top = res.top;
+				if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
+					_this.top = null;
+				} else {
+					_this.top = res.top;
+				}
 			} else if (res.err == 1) {
 				weui.alert(res.msg, {
 					title: '塑料圈通讯录',

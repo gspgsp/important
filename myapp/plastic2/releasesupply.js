@@ -70,7 +70,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "text-align": "center",
       "line-height": "50px"
     }
-  }, [_vm._v("\n\t\t\t没有相关数据\n\t\t")])], 2), _vm._v(" "), _c('footerbar')], 1)
+  }, [_vm._v("\r\n\t\t没有相关数据\r\n\t")])], 2), _vm._v(" "), _c('footerbar')], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticStyle: {
@@ -89,7 +89,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "javascript:window.history.back();"
     }
-  }), _vm._v("\n        \t查看Ta的供给\n    ")])])
+  }), _vm._v("\r\n    \t查看Ta的供给\r\n")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -459,71 +459,77 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a
-  },
-  data: function data() {
-    return {
-      page: 1,
-      type: "",
-      show: false,
-      id: "",
-      user_id: "",
-      countShow: false,
-      count: "",
-      name: "",
-      c_name: "",
-      mobile: "",
-      thumb: "",
-      sex: "",
-      release: [],
-      condition: true
-    };
-  },
-  activated: function activated() {
-    var _this = this;
-    try {
-      var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-      piwikTracker.trackPageView();
-    } catch (err) {}
-    $.ajax({
-      url: '/api/qapi1/getTaPur',
-      type: 'get',
-      data: {
-        userid: _this.$route.params.id,
-        type: 2,
-        page: _this.page,
-        token: window.localStorage.getItem("token"),
-        size: 10
-      },
-      dataType: 'JSON'
-    }).then(function (res) {
-      if (res.err == 2) {
-        _this.condition = false;
-      } else if (res.err == 0) {
-        _this.condition = true;
-        _this.release = res.data;
-      }
-    }, function () {});
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a
+	},
+	data: function data() {
+		return {
+			page: 1,
+			type: "",
+			show: false,
+			id: "",
+			user_id: "",
+			countShow: false,
+			count: "",
+			name: "",
+			c_name: "",
+			mobile: "",
+			thumb: "",
+			sex: "",
+			release: [],
+			condition: true
+		};
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: version + '/friend/getTaPur',
+			type: 'post',
+			data: {
+				userid: _this.$route.params.id,
+				type: 2,
+				page: _this.page,
+				token: window.localStorage.getItem("token"),
+				size: 10
+			},
+			headers: {
+				'X-UA': headers
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 2) {
+				_this.condition = false;
+			} else if (res.err == 0) {
+				_this.condition = true;
+				_this.release = res.data;
+			}
+		}, function () {});
 
-    $.ajax({
-      url: '/api/qapi1/getZoneFriend',
-      type: 'get',
-      data: {
-        userid: _this.$route.params.id,
-        token: window.localStorage.getItem("token"),
-        size: 10
-      },
-      dataType: 'JSON'
-    }).then(function (res) {
-      _this.name = res.data.name;
-      _this.c_name = res.data.c_name;
-      _this.mobile = res.data.mobile;
-      _this.thumb = res.data.thumb;
-      _this.sex = res.data.sex;
-      _this.is_pass = res.data.is_pass;
-    }, function () {});
-  }
+		$.ajax({
+			url: version + '/friend/getZoneFriend',
+			type: 'post',
+			data: {
+				userid: _this.$route.params.id,
+				token: window.localStorage.getItem("token"),
+				size: 10
+			},
+			headers: {
+				'X-UA': headers
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			_this.name = res.data.name;
+			_this.c_name = res.data.c_name;
+			_this.mobile = res.data.mobile;
+			_this.thumb = res.data.thumb;
+			_this.sex = res.data.sex;
+			_this.is_pass = res.data.is_pass;
+		}, function () {});
+	}
 
 });
 

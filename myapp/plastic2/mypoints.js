@@ -6,9 +6,11 @@ webpackJsonp([35],{
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "mypoints"
-  }, [_c('a', {
+  }, [_c('router-link', {
     attrs: {
-      "href": "javascript:;"
+      "to": {
+        name: 'pointsdetail'
+      }
     }
   }, [_c('i', {
     staticClass: "shopIcon iconPoints"
@@ -45,71 +47,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', [_c('div', {
     staticStyle: {
       "overflow": "hidden",
-      "padding": "10px",
       "position": "relative"
     }
   }, [_c('img', {
-    staticStyle: {
-      "margin": "0 10px 0 0"
-    },
     attrs: {
       "src": _vm.p1.thumb
     }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "proTxt"
-  }, [_vm._v(_vm._s(_vm.p1.name)), _c('br'), _vm._v("所需塑豆"), _c('span', [_vm._v(_vm._s(_vm.p1.points))]), _vm._v("塑豆")]), _vm._v(" "), _c('div', {
-    staticClass: "proAmount"
-  }, [_vm._v("x" + _vm._s(_vm.pro.num))])]), _vm._v(" "), _c('div', {
-    staticClass: "productNum"
-  }, [_c('span', [_vm._v("*")]), _vm._v("请选择兑换数量：\n\t\t\t\t"), _c('div', {
-    staticClass: "proSelect"
-  }, [_c('strong', {
-    on: {
-      "click": _vm.proMin
-    }
-  }, [_vm._v("-")]), _vm._v(" "), _c('strong', [_vm._v(_vm._s(_vm.pro.num))]), _vm._v(" "), _c('strong', {
-    on: {
-      "click": _vm.proAdd
-    }
-  }, [_vm._v("+")])])]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "productCost"
   }, [_vm._v("共"), _c('span', [_vm._v(_vm._s(_vm.pro.num))]), _vm._v("件\n\t\t\t\t"), _c('div', {
     staticClass: "exchange",
     on: {
       "click": _vm.proExchange
     }
-  }, [_vm._v("提交兑换")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("支付")]), _vm._v(" "), _c('div', {
     staticClass: "cost"
   }, [_vm._v("总塑豆：" + _vm._s(_vm.pro.cost))])])]), _vm._v(" "), _c('li', [_c('div', {
     staticStyle: {
       "overflow": "hidden",
-      "padding": "10px",
       "position": "relative"
     }
   }, [_c('img', {
-    staticStyle: {
-      "margin": "0 10px 0 0"
-    },
     attrs: {
       "src": _vm.p2.thumb
     }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "proTxt"
-  }, [_vm._v(_vm._s(_vm.p2.name)), _c('br'), _vm._v("所需塑豆"), _c('span', [_vm._v(_vm._s(_vm.p2.points))]), _vm._v("塑豆")]), _vm._v(" "), _c('div', {
-    staticClass: "proAmount"
-  }, [_vm._v("x" + _vm._s(_vm.pro2.num))])]), _vm._v(" "), _c('div', {
-    staticClass: "productNum"
-  }, [_c('span', [_vm._v("*")]), _vm._v("请选择兑换数量：\n\t\t\t\t"), _c('div', {
-    staticClass: "proSelect"
-  }, [_c('strong', {
-    on: {
-      "click": _vm.proMin2
-    }
-  }, [_vm._v("-")]), _vm._v(" "), _c('strong', [_vm._v(_vm._s(_vm.pro2.num))]), _vm._v(" "), _c('strong', {
-    on: {
-      "click": _vm.proAdd2
-    }
-  }, [_vm._v("+")])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "proMsgLi"
   }, _vm._l((_vm.p2.myMsg), function(m) {
     return _c('div', [_c('input', {
@@ -140,7 +102,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.proExchange2
     }
-  }, [_vm._v("提交兑换")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("支付")]), _vm._v(" "), _c('div', {
     staticClass: "cost"
   }, [_vm._v("总塑豆：" + _vm._s(_vm.pro2.cost))])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -163,6 +125,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": "http://statics.myplas.com/myapp/img/shopBanner.jpg"
     }
   })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "productNum"
+  }, [_c('span', [_vm._v("*")]), _vm._v("请选置顶日期：\n\t\t\t")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "productNum"
+  }, [_c('span', [_vm._v("*")]), _vm._v("请选择兑换数量：\n\t\t\t")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "productMsg"
@@ -402,10 +372,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}
 			}, function () {});
 		}
-	},
-	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-		next(function (vm) {});
-		document.title = "塑料圈通讯录";
 	},
 	activated: function activated() {
 		var _this = this;

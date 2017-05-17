@@ -812,6 +812,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		} catch (err) {}
 
 		$.ajax({
+			type: "post",
+			url: "/mobi/wxShare/getSignPackage",
+			data: {
+				targetUrl: window.location.href
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			wx.config({
+				debug: false,
+				appId: res.signPackage.appId,
+				timestamp: res.signPackage.timestamp,
+				nonceStr: res.signPackage.noncestr,
+				signature: res.signPackage.signature,
+				jsApiList: ['showOptionMenu', 'onMenuShareTimeline', 'onMenuShareAppMessage']
+			});
+			wx.ready(function () {
+				wx.onMenuShareTimeline({
+					title: "塑料圈通讯录",
+					link: "http://q.myplas.com",
+					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
+					success: function success() {},
+					cancel: function cancel() {}
+				});
+				wx.onMenuShareAppMessage({
+					title: "塑料圈通讯录",
+					desc: "我的塑料网-塑料圈通讯录",
+					link: "http://q.myplas.com",
+					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
+					type: '',
+					dataUrl: '',
+					success: function success() {},
+					cancel: function cancel() {}
+				});
+			});
+		}, function () {});
+
+		$.ajax({
 			url: version + '/myInfo/myZone',
 			type: 'post',
 			data: {

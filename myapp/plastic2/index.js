@@ -908,7 +908,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						headers: {
 							'X-UA': headers
 						},
-
 						data: {
 							keywords: "",
 							page: _this.page,
@@ -1004,7 +1003,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						headers: {
 							'X-UA': headers
 						},
-
 						data: {
 							keywords: "",
 							page: _this.page,

@@ -803,7 +803,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			} else {
 				$.ajax({
 					type: "post",
-					url: version + '/toutiao/getSelectCate',
+					url: version + '/toutiao/getCateList',
 					data: {
 						page: 1,
 						size: 10,

@@ -112,7 +112,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "personInfoList"
   }, [_c('h3', {
     staticClass: "supplydemandtitle"
-  }, [_vm._v("\n\t\t\t\t最近求购信息"), _c('router-link', {
+  }, [_vm._v("\n\t\t\t最近求购信息"), _c('router-link', {
     staticStyle: {
       "color": "#ff4f00"
     },
@@ -143,7 +143,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "background": "#b8d2e3"
     }
-  }, [_vm._v("\n\t\t\t\t最近供给信息"), _c('router-link', {
+  }, [_vm._v("\n\t\t\t最近供给信息"), _c('router-link', {
     staticStyle: {
       "color": "#267bd3"
     },
@@ -720,11 +720,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		pay: function pay() {
 			var _this = this;
 			$.ajax({
-				url: '/api/qapi1/focusOrCancel',
-				type: 'get',
+				url: version + '/friend/focusOrCancel',
+				type: 'post',
 				data: {
 					focused_id: _this.$route.params.id,
 					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function (res) {
@@ -748,7 +751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			url: version + '/friend/getZoneFriend',
 			type: 'post',
 			data: {
-				userid: _this.$route.params.id,
+				user_id: _this.$route.params.id,
 				showType: 1,
 				token: window.localStorage.getItem("token")
 			},
@@ -795,59 +798,58 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				});
 			} else if (res.err == 99) {
 				weui.confirm(res.msg, function () {
-					if (res.err == 0) {
-						$.ajax({
-							url: version + '/friend/getZoneFriend',
-							type: 'post',
-							data: {
-								userid: _this.$route.params.id,
-								token: window.localStorage.getItem("token")
-							},
-							headers: {
-								'X-UA': headers
-							},
-							dataType: 'JSON'
-						}).then(function (res) {
-							console.log(res);
-							if (res.err == 0) {
-								_this.name = res.data.name;
-								_this.c_name = res.data.c_name;
-								_this.address = res.data.address;
-								_this.mobile = res.data.mobile;
-								_this.mobile2 = "tel:" + res.data.mobile;
-								_this.need_product = res.data.need_product;
-								_this.status = res.data.status;
-								_this.thumb = res.data.thumb;
-								_this.buy = res.data.buy;
-								_this.sale = res.data.sale;
-								_this.sex = res.data.sex;
-								_this.id = res.data.user_id;
-								_this.is_pass = res.data.is_pass;
-								_this.type = res.data.type;
-								_this.main_product = res.data.main_product;
-								_this.month_consum = res.data.month_consum;
-								_this.cardImg = res.data.thumbcard;
-								if (_this.mobile.indexOf("*") == "-1") {
-									_this.isMobile = true;
-								} else {
-									_this.isMobile = false;
-								}
+					$.ajax({
+						url: version + '/friend/getZoneFriend',
+						type: 'post',
+						data: {
+							user_id: _this.$route.params.id,
+							showType: 5,
+							token: window.localStorage.getItem("token")
+						},
+						headers: {
+							'X-UA': headers
+						},
+						dataType: 'JSON'
+					}).then(function (res) {
+						console.log(res);
+						if (res.err == 0) {
+							_this.name = res.data.name;
+							_this.c_name = res.data.c_name;
+							_this.address = res.data.address;
+							_this.mobile = res.data.mobile;
+							_this.mobile2 = "tel:" + res.data.mobile;
+							_this.need_product = res.data.need_product;
+							_this.status = res.data.status;
+							_this.thumb = res.data.thumb;
+							_this.buy = res.data.buy;
+							_this.sale = res.data.sale;
+							_this.sex = res.data.sex;
+							_this.id = res.data.user_id;
+							_this.is_pass = res.data.is_pass;
+							_this.type = res.data.type;
+							_this.main_product = res.data.main_product;
+							_this.month_consum = res.data.month_consum;
+							_this.cardImg = res.data.thumbcard;
+							if (_this.mobile.indexOf("*") == "-1") {
+								_this.isMobile = true;
+							} else {
+								_this.isMobile = false;
 							}
-						}, function () {});
-					} else if (res.err == 100) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'pointsrule'
-									});
-								}
-							}]
-						});
-					}
+						} else if (res.err == 100) {
+							weui.alert(res.msg, {
+								title: '塑料圈通讯录',
+								buttons: [{
+									label: '确定',
+									type: 'parimary',
+									onClick: function onClick() {
+										_this.$router.push({
+											name: 'pointsrule'
+										});
+									}
+								}]
+							});
+						}
+					}, function () {});
 				}, function () {
 					window.history.back();
 				}, {

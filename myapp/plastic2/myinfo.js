@@ -1100,7 +1100,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 			this.isDisabled = true;
 			$.ajax({
-				url: '/api/qapi1_2/saveSelfInfo',
+				url: version + '/myInfo/saveSelfInfo',
 				type: 'post',
 				data: {
 					token: window.localStorage.getItem("token"),
@@ -1112,6 +1112,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					type: _this.c_type,
 					month_consum: _this.month_consum,
 					main_product: _this.main_product
+				},
+				headers: {
+					'X-UA': headers
 				},
 				dataType: 'JSON'
 			}).then(function (res) {

@@ -297,13 +297,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		} catch (err) {}
 
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/supplyDemandList",
+			type: "post",
+			url: version + "/releaseMsg/supplyDemandList",
 			data: {
 				page: 1,
 				token: window.localStorage.getItem("token"),
 				size: 5,
 				type: 1
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function (res) {
@@ -317,13 +320,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}, function () {});
 
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/supplyDemandList",
+			type: "post",
+			url: version + "/releaseMsg/supplyDemandList",
 			data: {
 				page: 1,
 				token: window.localStorage.getItem("token"),
 				size: 5,
 				type: 2
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function (res) {

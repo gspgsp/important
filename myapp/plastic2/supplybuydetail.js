@@ -24,39 +24,7 @@ var footer = __webpack_require__(48);
 			user_id: ""
 		};
 	},
-	methods: {
-		replyMsg: function replyMsg() {
-			var _this = this;
-			$.ajax({
-				url: '/api/qapi1/saveMsg',
-				type: 'get',
-				data: {
-					pur_id: _this.$route.params.id,
-					content: _this.msg,
-					send_id: _this.user_id,
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				if (res.err == 0) {
-					mui.toast(res.msg, {
-						duration: 'long',
-						type: 'div'
-					});
-				} else if (res.err == 1) {
-					mui.alert("", res.msg, function () {
-						_this.$router.push({
-							name: 'login'
-						});
-					});
-				} else if (res.err == 6) {
-					mui.alert("", res.msg, function () {});
-				} else {
-					mui.alert("", res.msg, function () {});
-				}
-			}, function () {});
-		}
-	},
+	methods: {},
 	activated: function activated() {
 		var _this = this;
 		try {
@@ -64,10 +32,13 @@ var footer = __webpack_require__(48);
 			piwikTracker.trackPageView();
 		} catch (err) {}
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/shareMyPur",
+			type: "post",
+			url: version + "/wechat/shareMyPur",
 			data: {
 				id: _this.$route.params.id
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function (res) {
@@ -130,47 +101,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "color": "#333333",
       "line-height": "23px"
     }
-  }, [_vm._v(_vm._s(_vm.contents))])])]), _vm._v(" "), _c('div', {
-    staticClass: "replymsg",
-    staticStyle: {
-      "bottom": "60px"
-    }
-  }, [_c('div', {
-    staticStyle: {
-      "width": "auto",
-      "margin-right": "60px"
-    }
-  }, [_c('form', [_c('i', {
-    staticClass: "writeicon",
-    on: {
-      "click": _vm.replyMsg
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.msg),
-      expression: "msg"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "期待你的回复"
-    },
-    domProps: {
-      "value": (_vm.msg)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.msg = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('span', {
-    staticClass: "releasedetailbtn",
-    on: {
-      "click": _vm.replyMsg
-    }
-  }, [_vm._v("回复")])]), _vm._v(" "), _c('footerbar')], 1)
+  }, [_vm._v(_vm._s(_vm.contents))])])]), _vm._v(" "), _c('footerbar')], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticStyle: {

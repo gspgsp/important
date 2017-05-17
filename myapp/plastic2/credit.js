@@ -275,9 +275,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		} catch (err) {}
 		$.ajax({
 			type: "post",
-			url: "/api/qapi1_1/creditCertificate",
+			url: version + "/credit/creditCertificate",
 			data: {
 				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).done(function (res) {

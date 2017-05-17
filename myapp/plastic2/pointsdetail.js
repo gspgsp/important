@@ -21,7 +21,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticStyle: {
         "text-align": "left"
       }
-    }, [_vm._v("今日登陆赠送10塑豆")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(d.addtime))])])
+    }, [_vm._v(_vm._s(d.typename))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(d.addtime))])])
   })], 2)])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('header', {
@@ -184,12 +184,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			piwikTracker.trackPageView();
 		} catch (err) {}
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/pointSupplyList",
+			type: "post",
+			url: version + "/score/pointSupplyList",
 			data: {
 				token: window.localStorage.getItem("token"),
 				page: 1,
 				size: 50
+			},
+			headers: {
+				'X-UA': headers
 			},
 			dataType: 'JSON'
 		}).then(function (res) {
@@ -198,8 +201,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				_this.detail = res.data;
 				_this.points = res.pointsAll;
 			} else if (res.err == 1) {
-				mui.alert("", res.msg, function () {
-					_this.$router.push({ name: 'login' });
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({ name: 'login' });
+						}
+					}]
 				});
 			}
 		}, function () {});
