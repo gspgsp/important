@@ -131,6 +131,7 @@ class vcodeAction extends homeBaseAction
                 $this->success ('验证成功');
             }
         }else{
+            $this->is_ajax = true;
             $cache= E('RedisCluster',APP_LIB.'class');
             $code = $cache->get($key);
             if(empty($code)||$code!=$value)
