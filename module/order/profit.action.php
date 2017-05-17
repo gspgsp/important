@@ -464,7 +464,7 @@ class profitAction extends adminBaseAction {
 		$msg="";
 		if($list_count>0){
 			$maoli = price_format($list_count['profit']) + price_format($list_count['ship']);
-			$msg="[筛选结果]销售总金额:【".price_format($list_count['s_xj'])."】销售总吨数:【".$list_count['s_num']."】采购总金额:【".price_format($list_count['p_xj'])."】采购总吨数:【".$list_count['p_num']."】总运费:【".price_format($list_count['ship'])."】净利:【".price_format($list_count['profit'])."】毛利:【".$maoli."】";
+			$msg="[筛选结果]销售总金额:【".price_format($list_count['s_xj'])."】销售总吨数:【".$list_count['s_num']."】采购总金额:【".price_format($list_count['p_xj'])."】采购总吨数:【".$list_count['p_num']."】总运费:【".price_format($list_count['ship'])."】利润:【".$maoli."】";
 		}
 		$result=array('total'=>$list_count['total'],'data'=>$list,'msg'=>$msg);
 		$this->json_output($result);
