@@ -159,8 +159,11 @@ class wkAction extends adminBaseAction{
 		}
 		$res = $this->db->model('offers_msg')->select('*')->where('id = '.$id.' and uid = '.$this->adminid)->getRow();
 			// showtrace();
-		if(!$res){
-			$this->error('您没有权限操作');
+		// 李总726，赵飞11，王春华1007 可以删除任何人的报价
+		if($this->adminid !=726 && $this->adminid != 11 && $this->adminid != 1007 ){
+			if(!$res){
+				$this->error('您没有权限操作');
+			}
 		}
 		if($res['status'] == 2){
 			$this->error('审核已通过，不能删除');
