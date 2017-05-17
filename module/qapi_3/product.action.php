@@ -110,7 +110,7 @@ class productAction extends baseAction
             }*/
 
             //type 1 是供求 2 是通讯录
-            $goods_id = $this->db->model ("points_goods")->select ('id')->where (" type =1 and status =1")->getOne ();
+            $goods_id = $this->db->model ("points_goods")->select ('id')->where (" type =1 and status =1 and is_mobile =1")->getOne ();
 
             foreach ($data['data'] as $k => &$v) {
                 if (!empty($goods_id) && $v['id'] == $goods_id && !empty($supply_and_demand['count'])) {
@@ -135,7 +135,68 @@ class productAction extends baseAction
         }
         $this->_errCode (6);
     }
+    /**
+     * 塑料圈app之积分商品可选日期
+     * @api {post} /qapi_3/product/getValidDate   塑料圈app之积分商品可选日期
+     * @apiVersion 3.1.0
+     * @apiName  getProductList
+     * @apiGroup product
+     * @apiUse UAHeader
+     *
+     * @apiParam   {String} type  //type 1 是供求 2 是通讯录
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {array}   took_date  已被占用时间
+     * @apiSuccess {string}   start_date   开始日期
+     * @apiSuccess {string}   end_date   结束日期
+     *
+     * @apiSuccessExample {json} Success-Response:
+             *{
+            "err": 0,
+            "took_date": [
+            "2017-05-19",
+            "2017-05-26"
+            ],
+            "start_date": "2017-05-17",
+            "end_date": "2017-06-17"
+            }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     */
 
+    public function getValidDate()
+    {
+        if (empty($_POST)) {
+            $type = sget('type','i');
+            //type 1 是供求 2 是通讯录
+            if(!in_array($type,array(1,2)))
+            {
+                $this->_errCode (6);
+            }
+            $goods = M('points:pointsGoods')->getOnsaleGoods($type);
+            if(empty($goods))
+            {
+                $this->_errCode (100);
+            }
+            $pointsOrder = M("points:pointsOrder");
+            $took_date = $pointsOrder->getTookDate($goods['id']);
+
+            $start_date=date('Y-m-d',time());
+            $end_date=date('Y-m-d',strtotime('+1 month'));
+            $this->json_output (array(
+                'err'  => 0,
+                'took_date' => $took_date,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+            ));
+
+        }
+        $this->_errCode (6);
+    }
 
     /*
  * 塑料圈app之退货规定

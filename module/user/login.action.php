@@ -170,7 +170,6 @@ class loginAction extends homeBaseAction{
 	 * @apiGroup api
 	 *
 	 * @apiParam {String} phonenum       手机号
-	 * @apiParam {String} phonevaild    动态码
 	 *
 	 * @apiSuccessExample Success-Response:
 	 *      {
