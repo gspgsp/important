@@ -21,7 +21,6 @@ class vcodeAction extends homeBaseAction
      */
     public function init ()
     {
-        $phonenum= sget('phonenum','i',0);
         $vcode            = new vcode();
         $vcode->code_len  = 4;
         $vcode->font_size = 14;
@@ -29,16 +28,12 @@ class vcodeAction extends homeBaseAction
         $vcode->height    = 36;
         $vcode->seedtype  = 2;
         //$vcode->background = "#cccccc";
-        ini_set ('display_errors', 'On');
+        //ini_set ('display_errors', 'On');
         $vcode->doimage ();
         $name            = 'vc_'.sget ('name', 's', 'vcode');
-        if(empty($phonenum)) {
-            $vcode->doimage ();
-            $_SESSION[$name] = $vcode->get_code ();
-        }else{
-            $cache= E('RedisCluster',APP_LIB.'class');
-            $cache->set($phonenum.'_'.$name,$vcode->get_code(),300);
-        }
+        $vcode->doimage ();
+        $_SESSION[$name] = $vcode->get_code ();
+
         //p ($vcode->get_code ());
     }
 
@@ -75,7 +70,7 @@ class vcodeAction extends homeBaseAction
         $vcode->height    = 36;
         $vcode->seedtype  = 2;
         //$vcode->background = "#cccccc";
-        ini_set ('display_errors', 'On');
+        //ini_set ('display_errors', 'On');
         $key = md5(time().rand(0,100));
         $name = FILE_URL.'/myapp/vcode/'.$key.'.png';
         $path = '../static/myapp/vcode/'.$key.'.png';
