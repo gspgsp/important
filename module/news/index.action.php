@@ -348,9 +348,6 @@
 			$sTime=CORE_TIME-3600;
 			$eTime=CORE_TIME+3600;
 			$data=$this->db->model('news_content')->select('id,title,content,cate_id,author,type')->where('input_time between '.$sTime.' and '.$eTime.' and cate_id not in (7,19) and status=1')->getAll();
-			foreach ($data as $k => $v) {
-				$data[$k]['spell']=$this->db->model('news_cate')->select('spell')->where('cate_id='.$v['cate_id'])->getOne();
-			}
 			header("Content-Type:text/xml");
 			echo '<?xml version="1.0" encoding="utf-8"?>';
 			echo '<rss version="2.0">';
@@ -364,7 +361,7 @@
 				echo "<author><![CDATA[我的塑料网]]></author>";
 				$content=sstripslashes($value['content']);
 				echo "<description><![CDATA[{$content}]]></description>";
-				echo "<link><![CDATA[http://news.myplas.com/{$value['type']}/{$value['spell']}/{$value['id']}.html]]></link>";		
+				echo "<link><![CDATA[http://news.myplas.com/{$value['id']}.html]]></link>";		
 				echo "</item>";				
 			}
 			echo "</channel>";
@@ -381,8 +378,7 @@
 				$data=$this->db->model('news_content')->select('id,cate_id,type')->where('input_time between '.$sTime.' and '.$eTime.' and status=1 and type != "vip"')->getAll();
 				$urls=array();
 				foreach ($data as $k => $v) {
-					$spell=$this->db->model('news_cate')->select('spell')->where('cate_id='.$v['cate_id'])->getOne();
-					$urls[$k]='news.myplas.com/'.$v['type'].'/'.$spell.'/'.$v['id'].'.html';				
+					$urls[$k]='news.myplas.com/'.$v['id'].'.html';				
 				}
 				$api = 'http://data.zz.baidu.com/urls?site=news.myplas.com&token=Iw7ntA4oWY4KHdVD';
 				$ch = curl_init();
