@@ -52,7 +52,19 @@ class vcodeAction extends homeBaseAction
      * @apiParam   {int} phonenum  手机号 APP端传此参数
      * @apiParam   {int} code  手机号 APP端传此参数
      *
-     * @apiSampleRequest http://test.myplas.com/api/vcode
+     * @apiSampleRequest http://test.myplas.com/api/vcode/app
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {String}   img  验证码图片地址
+     * @apiSuccess {String}   key 验证所需KEY
+     *
+     * @apiSuccessExample {json} Success-Response:
+             *     {
+            "err": 0,
+            "img": "http://static.svnonline.com/myapp/vcode/db40e452cd843b8325830d9032e05a64.png",
+            "key": "db40e452cd843b8325830d9032e05a64"
+            }
      */
     public function app ()
     {
@@ -70,11 +82,18 @@ class vcodeAction extends homeBaseAction
 
         $vcode->do_file_image ($path);
         $code = $vcode->get_code();
+        if(empty($code)){
+                  $this->json_output(array(
+                      'err'=>99,
+                      'msg'=>'系统错误',
+                  ));
+        }
 
         $cache= E('RedisCluster',APP_LIB.'class');
         $cache->set($key,$code,300);
 
         $this->json_output(array(
+            'err'=>0,
             'img'=>$name,
             'key'=>$key
         ));
@@ -91,7 +110,7 @@ class vcodeAction extends homeBaseAction
      * @apiSampleRequest http://test.myplas.com/api/vcode/chkVcode
      * @apiParam   {String} name  值regcode
      * @apiParam   {String} value  4322
-     * @apiParam   {String} key  手机号  APP端传此参数
+     * @apiParam   {String} key  APP端传此参数
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
