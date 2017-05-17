@@ -102,7 +102,7 @@ class cronsendOffersMsg{
 				if(!empty($offers_info['remark'])){
 					$offers_info['remark'] = trim($offers_info['remark'],'。').'。';
 				}
-				$msg = sprintf(L('offers_sms.offers'),$offers_info['factory'],$offers_info['grade'],$offers_info['store'],$offers_info['sale_price'].'元/吨',$value['name'],$value['mobile'],$offers_info['remark']);
+				$msg = sprintf(L('offers_sms.offers'),$date,$offers_info['factory'],$offers_info['grade'],$offers_info['store'],$offers_info['sale_price'].'元/吨',$value['name'],$value['mobile'],$offers_info['remark']);
 				// p($msg);die;
 	    		M('system:sysSMS')->send($value['user_id'],$value['contact_mobile'],$msg,12,0,$offers_info['offers_id']);
 	    	}
