@@ -124,6 +124,7 @@ class vcodeAction extends homeBaseAction
         $value = sget ('value', 's');
         $key   = sget('key','i',0);
         $value = strtolower ($value);
+
         if(empty($key)) {
             if (!chkVcode ($name, $value)) {
                 $this->error ('验证码输入不正确');
