@@ -270,14 +270,16 @@
 				}else{
 					$row=$this->db->model('customer_contact')->wherePk($_SESSION['userid'])->select('user_id,name,mobile,headline_vip,cate_id,free_time')->getRow();
 					if($row['free_time']>0 && $row['free_time']<=CORE_TIME){
-						if($row['headline_vip']!=1 || !strstr($row['cate_id'],$cate_id)){
+						
+						if($row['headline_vip']!=1 || !strstr($row['cate_id'],$data['cate_id'])){
+							// p($row['cate_id']);exit;
 							$status=2;
 						}else{
 							$cache= E('RedisCluster',APP_LIB.'class');
-							$name=$row['user_id'].'_time_'.$cate_id;
+							$name=$row['user_id'].'_time_'.$data['cate_id'];
 							$total_time=$cache->get($name);
 							if (empty($total_time)) {
-								$total_time=$this->db->model('customer_headline')->where('user_id='.$_SESSION['userid'].' and cate_id='.$cate_id)->select('total_time')->order('id desc')->getOne();
+								$total_time=$this->db->model('customer_headline')->where('user_id='.$_SESSION['userid'].' and cate_id='.$data['cate_id'])->select('total_time')->order('id desc')->getOne();
 								$cache->set($name,json_encode($total_time),86400);
 							}else{
 								$total_time=json_decode($total_time);
@@ -289,13 +291,13 @@
 								$info['sale_name']='--';
 								$info['input_time']=CORE_TIME;
 								$info['type']=5;
-								$info['cate_id']=$cate_id;
+								$info['cate_id']=$data['cate_id'];
 								$info['total_time']=$total_time;
 								$result=$this->db->model('customer_headline')->add($info);
 								if ($result) {
 									$cate_arr=explode(',', $row['cate_id']);
 									foreach ($cate_arr as $k => $v) {
-										if ($v == $cate_id) {
+										if ($v == $data['cate_id']) {
 											unset($cate_arr[$k]);
 										}
 									}
