@@ -106,7 +106,7 @@ export default{
 	    		dataType: 'JSON'
 		    }).then(function(res){
 			    if(res.err==0){
-					weui.alert("兑换成功", {
+					weui.alert("兑换成功", { 
 						title: '塑料圈通讯录',
 						buttons: [{
 							label: '确定',
