@@ -38,21 +38,21 @@
 			</div>
 			<div style=" padding: 0 115px 0 0; position: relative;">
 			<div class="registerBox">
-				<input style="margin: 0 0 0 10px;" type="tel" maxlength="11" v-model="mobile" placeholder="请填写验证码" />
+				<input style="margin: 0 0 0 10px;" type="tel" maxlength="11" v-model="simpleCode" placeholder="请填写验证码" />
 				<i class="regIcon img"></i>
 			</div>
-			<img style="width: 105px; height: 44px; position: absolute; top: 0; right: 0;">
+			<img v-bind:src="simpleImg" style="width: 105px; height: 44px; position: absolute; top: 0; right: 0;">
 			</div>
 			<div style=" padding: 0 115px 0 0; position: relative;">
 			<div class="registerBox">
-				<input style="margin: 0 0 0 10px;" type="tel" maxlength="11" v-model="mobile" placeholder="请填写动态码" />
+				<input style="margin: 0 0 0 10px;" type="tel" maxlength="11" v-model="dynamicCode" placeholder="请填写动态码" />
 				<i class="regIcon code"></i>
 			</div>
-			<input class="dvc" type="button" value="获取动态验证码" />
+			<button class="dvc" v-on:click="send">{{validCode}}</button>
 			</div>
 		</div>
 		<div class="registerBtn">
-			<input type="button" v-on:click="login" value="登录" />
+			<input type="button" v-on:click="login2" value="登录" />
 		</div>
 	</div>
 </div>
@@ -64,16 +64,137 @@ export default {
 			mobile: "",
 			pwd: "",
 			checked: false,
-			tabshow:true
+			tabshow:true,
+			simpleImg:"",
+			simpleCode:"",
+			key:"",
+			times: 60,
+			dynamicCode:"",
+			validCode: "获取动态验证码"
 		}
 	},
 	methods: {
 		tab:function(n){
+			var _this=this;
 			if(n==1){
 				this.tabshow=true;
 			}else{
 				this.tabshow=false;
+				$.ajax({
+					url: '/api/vcode/app',
+					type: 'get',
+					data: {},
+					headers: {
+						'X-UA': headers
+					},
+					dataType: 'JSON'
+				}).done(function(res) {
+					if(res.err == 0) {
+						_this.simpleImg=res.img;
+						_this.key=res.key;
+					}
+				}).fail(function() {
+
+				}).always(function() {
+
+				});
+
 			}
+
+		},
+		send:function(){
+			var _this=this;
+			$.ajax({
+				url: '/api/vcode/chkVcode',
+				type: 'post',
+				data: {
+					name: "regcode",
+					value: _this.simpleCode,
+					key: _this.key
+				},
+				headers: {
+					'X-UA': headers
+				},
+				dataType: 'JSON'				
+			}).done(function(res){
+				if(res.err==0){
+					if(_this.mobile) {
+						$.ajax({
+							url: '/user/login/sendMobileMsg',
+							type: 'post',
+							data: {
+								phonenum: _this.mobile,
+								from: 'h5'
+							},
+							headers: {
+								'X-UA': headers
+							},
+							dataType: 'JSON'
+						}).then(function(res) {
+							if(res.err == 0) {
+								weui.alert(res.msg, {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'parimary',
+										onClick: function() {
+		
+										}
+									}]
+								});
+		
+								var countStart = setInterval(function() {
+									_this.validCode = _this.times-- + '秒后重发';
+									if(_this.times < 0) {
+										clearInterval(countStart);
+										_this.validCode = "获取动态验证码";
+									}
+								}, 1000);
+		
+							} else if(res.err == 1) {
+								weui.alert(res.msg, {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'parimary',
+										onClick: function() {
+		
+										}
+									}]
+								});
+							}
+						}, function() {
+		
+						});
+					} else {
+						weui.alert("请填写手机号", {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+		
+								}
+							}]
+						});
+					}					
+				}else{
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
+
+							}
+						}]
+					});			
+				}
+			}).fail(function(){
+				
+			}).always(function(){
+				
+			});
 		},
 		login: function() {
 			var _this = this;
@@ -132,6 +253,59 @@ export default {
 							_this.$router.push({
 								name: 'login'
 							});
+						}
+					}]
+				});
+			}
+		},
+		login2: function() {
+			var _this = this;
+			if(this.mobile && this.dynamicCode && this.simpleCode) {
+				$.ajax({
+					url: version+'/user/simpleLogin',
+					type: 'post',
+					data: {
+						phonenum: _this.mobile,
+						regcode:_this.simpleCode,
+						phonevaild: _this.dynamicCode,
+						key:_this.key
+					},
+					headers: {
+						'X-UA': headers
+					},
+					dataType: 'JSON'
+				}).done(function(res) {
+					if(res.err == 0) {
+						window.localStorage.setItem("token", res.dataToken);
+						window.localStorage.setItem("userid", res.user_id);
+						_this.$router.push({
+							name: 'index'
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function() {
+									
+								}
+							}]
+						});
+					}
+				}).fail(function() {
+
+				}).always(function() {
+
+				});
+			} else {
+				weui.alert("信息不能为空", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							
 						}
 					}]
 				});
