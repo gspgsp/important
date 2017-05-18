@@ -37,7 +37,8 @@ class orderDoAction extends adminBaseAction
 		->select('concat_ws("/",remark,conti_time) rc')
 		->where("action = '/application/order/info' and conti_time > 0")
 		->getAll();
-		$remarks = array_column($res,'rc');
+		// $remarks = array_column($res,'rc');
+		$remarks = $this->get_column($res);
 		$replaces = array('&o_type=1/','&o_type=2/','&o_type=undefined/');
 		
 		foreach ($remarks as $key => $value) {
@@ -71,6 +72,16 @@ class orderDoAction extends adminBaseAction
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
+	}
+	/**
+	 * 获取某一列的结果集
+	 * @return [type] [description]
+	 */
+	public function get_column($arr){
+		foreach ($arr as $key => $value) {
+			$res[] = $value['rc'];
+		}
+		return $res;
 	}
 	/**
 	 * 获取节点

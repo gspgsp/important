@@ -37,7 +37,8 @@ class cusDoAction extends adminBaseAction
 		->select('concat_ws("/",remark,conti_time) rc')
 		->where("action = '/user/customer/info' and conti_time > 0")
 		->getAll();
-		$remarks = array_column($res,'rc');
+		// $remarks = array_column($res,'rc');
+		$remarks = $this->get_column($res);
 		// $all_time = array_sum(array_column($res,'conti_time'));
 		foreach ($remarks as $key => $value) {
 			if(preg_match('/^(id=)(\d{1,}\/\d{1,})$/',$value,$matchs)){
@@ -69,6 +70,16 @@ class cusDoAction extends adminBaseAction
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
+	}
+	/**
+	 * 获取某一列的结果集
+	 * @return [type] [description]
+	 */
+	public function get_column($arr){
+		foreach ($arr as $key => $value) {
+			$res[] = $value['rc'];
+		}
+		return $res;
 	}
 	/**
 	 * 获取节点
