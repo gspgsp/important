@@ -235,7 +235,7 @@ class outStorageAction extends adminBaseAction {
 						'input_time'=>CORE_TIME,
 						'storage_id'=>$storage_id,
 						);
-					p($outlogs+$ext);
+					p($outlogs+$ext);die;
 					$this->db->model('out_logs')->add($outlogs+$ext);
 					showtrace();
 					$number -= $out;
