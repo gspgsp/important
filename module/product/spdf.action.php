@@ -11,8 +11,6 @@ class spdfAction extends adminBaseAction {
 	 *
 	 */
 	public function tihuo(){
-			$contract = L('spdf');
-			p($contract);die;
 			// foreach($detiles as $k => $v){
 			// 	$sign = round($v['number']*$v['unit_price'],2);
 			// 	$detail_info .= '<tr >
