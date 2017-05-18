@@ -545,7 +545,7 @@ class userAction extends baseAction
             $phonevaild=sget('phonevaild','s');
 
             $key=sget('key','s');
-
+        file_put_contents('/tmp/xielei.txt',print_r($_POST,true),FILE_APPEND);
                 $regcode=sget('regcode','i',0);
                 if(empty($regcode)){
                     $this->error('请输入验证码');
