@@ -389,7 +389,7 @@ function usrChoose(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
-					if(type == '1')
+					if(type == '1'){
 						cname.load('/user/follow/get_contacts?c_id='+data.c_id);
 						var contact_id = mini.get("contact_id");
 						if(parseInt(contact_id.data.length) < 1){
