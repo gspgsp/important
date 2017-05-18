@@ -317,20 +317,27 @@ class collectionAction extends adminBaseAction
 				//供应链金融订单
 				if($data['finance_type']==1){
 					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>$data['collection_status'],'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
+
 					if($data['handling_charge']==''){
 						$data['uncollected_price']=$m;
-						$Received_payment=$data['total_price']-$data['uncollected_price'];
+						$h_charge=$this->db->model('collection')->select("sum(handling_charge)")->where("o_id='".$data['o_id']."'")->getOne();
+						if (!empty($h_charge)) {
+							$t_price=$data['total_price']+$h_charge;
+							$Received_payment=$data['total_price']-$data['uncollected_price']+$h_charge;
+						}else{
+							$t_price=$data['total_price'];
+							$Received_payment=$data['total_price']-$data['uncollected_price'];
+						}
 					}else{
 						$data['uncollected_price']=0;
-						$data['total_price']=$data['total_price']+$data['handling_charge'];
-						$Received_payment=$data['total_price'];
+						$t_price=$data['total_price']+$data['handling_charge'];
+						$Received_payment=$t_price;
 					}
-					// p($data);die;
-					if(!M('order:orderLog')->addLog($data['o_id'],$data['collection_status'],2,$spend_time,$data['total_price'],$Received_payment,$data['uncollected_price'])) $this->error("更新可视化失败");
+					if(!M('order:orderLog')->addLog($data['o_id'],$data['collection_status'],2,$spend_time,$t_price,$Received_payment,$data['uncollected_price'])) $this->error("更新可视化失败");
 					$id = $data['id'];
 					unset($data['id']);
 					$data['collection_status'] = 2;
-					// p($data);die;
+
 					//更新收付款信息
 					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败6");
 
@@ -439,6 +446,7 @@ class collectionAction extends adminBaseAction
 		if(empty($data)) $this->error('错误的操作');
 // 		$arr = M('product:collection')->getLastInfo($name='o_id',$value=$data['oid']);
 		$arr = $this->db->model('collection')->where("id='".$data['id']."'")->getRow();
+		// p($arr);exit;
 		//获取上一次的手续费金额
 		// $charge_id_arr = M('product:collection')->select('handling_charge,id')->where("order_sn='".$data['o_sn']."'")->order('id desc')->getAll();
 		// $up_handling_charge=$this->get_up_handling_charge($charge_id_arr,$data['id']);
@@ -485,7 +493,21 @@ class collectionAction extends adminBaseAction
 					$this->error("数据错误，请联系管理员");
 				}
 				if(!$this->db->model('order')->wherePK($data['oid'])->update($arrtmp+array('update_time'=>CORE_TIME,'payd_time'=>'',)) )throw new Exception("修改订单表退款状态失败");
-				if(!M('order:orderLog')->addLog($data['oid'],$arrtmp['collection_status'],2,0,$arr['total_price'],$has_price-$data['c_price'],$arr['total_price']-$has_price+$data['c_price'])) $this->error("更新可视化失败");
+				//更新红冲后可视化状态
+				if($arr['handling_charge']==0){
+					//获取该订单有关的所有手续费之和
+					$h_charge=$this->db->model('collection')->select("sum(handling_charge)")->where("o_id='".$data['oid']."'")->getOne();
+					//如果红冲的不是有手续费那一笔，该笔总额为货款总额，所以总额得加上手续费
+					$t_price=$arr['total_price']+$h_charge;	
+					$col_price=$has_price-$data['c_price']+$h_charge;
+					$un_price=$arr['total_price']-$has_price+$data['c_price'];
+				}else{
+					//如果红冲的是有手续费那一笔，总额不需调动
+					$t_price=$arr['total_price'];
+					$col_price=$has_price-$data['c_price'];
+					$un_price=$t_price-$has_price+$data['c_price'];	
+				}
+				if(!M('order:orderLog')->addLog($data['oid'],$arrtmp['collection_status'],2,0,$t_price,$col_price,$un_price)) $this->error("更新可视化失败");
 
 				//以下增加没有同步账户和资金流水的bug 20160825
 				//添加account_log账户明细信息,默认设计账户类型就是账户id

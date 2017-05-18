@@ -392,6 +392,13 @@ class billingAction extends adminBaseAction
 	    					$arr['total']=$data['total_price']+$data['tax_price'];
 	    					$arr['payed']=$arr['total'];
 	    					$arr['lefted']=0;
+	    				}else{
+	    					//获取所有开票记录的手续费之和
+						$h_price=$billingModel->select("sum(tax_price)")->where("o_id=".$data['o_id'])->getOne();
+						if (!empty($h_charge)) {
+							$arr['total']=$data['total_price']+$h_charge;
+							$arr['payed']=$arr['total']-$unBillingPrice;
+						}
 	    				}
 	    				$this->db->model('order_flow')->add($arr);
 
@@ -577,8 +584,11 @@ class billingAction extends adminBaseAction
 		$purchaseLogModel=M('product:purchaseLog');
 		$saleLogModel=M('product:saleLog');
 		if(!$data=$billingModel->where("id=$id")->getRow()) $this->error('信息不存在');
-
+		//获取该笔开票红冲掉的手续费，用于判断下面可视化更新金额
+		$b_price=$data['tax_price'];
+		//获取销售开票明细
 		$list=$billingLogModel->where("parent_id=$id")->getAll();
+		//最后一次未开票的金额
 		$last_un_price=$billingModel->select("unbilling_price")->where("o_id=".$data['o_id'] and "invoice_status !=1")->order('id desc')->getOne();
 		unset($data['id']);
 		$data['billing_sn']="更正".$data['billing_sn'];
@@ -588,8 +598,9 @@ class billingAction extends adminBaseAction
 		$data['update_admin']='';
 		$data['invoice_status']=3;
 		$data['tax_price']=-$data['tax_price'];
+		//最后一次未开票的金额+本次红冲掉的金额=最后的未开票金额
 		$data['unbilling_price']=$last_un_price+$data['billing_price'];
-// p($data['unbilling_price']);die;
+
 		$billingModel->startTrans();
 		try {
 			$billingModel->where("id=$id")->update(array("invoice_status"=>3,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
@@ -620,9 +631,18 @@ class billingAction extends adminBaseAction
 			}
 			$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>$invoice_status,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
 
-			//新增可视化节点
-			//addLog($o_id=0,$step=0,$type=0,$spend_time=0,$total=0,$payed=0,$lefted=0)
-			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$data['total_price'],$pri,$data['total_price']-$pri);
+			//更新可视化节点
+			//如果本笔红冲不带有手续费，更新可视化的总额和已开票金额都要加上手续费。如果带有手续费，则总额和已开票金额不变
+			if($b_price==0){
+				//获取所有开票记录的手续费之和
+				$h_price=$billingModel->select("sum(tax_price)")->where("o_id=".$data['o_id'])->getOne();
+				$t_price=$data['total_price']+$h_price;
+				$a_price=$pri+$h_price;
+			}else{
+				$t_price=$data['total_price'];
+				$a_price=$pri;	
+			}
+			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$t_price,$a_price,$t_price-$a_price);
 
 		} catch (Exception $e) {
 			$billingModel->rollback();
