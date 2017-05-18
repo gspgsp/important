@@ -215,7 +215,8 @@ class outStorageAction extends adminBaseAction {
 	 * @param    integer                  $inlog_id [入库明细id]
 	 * @return   [type]                             [description]
 	 */
-	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$storage_id=0,$chk=0,$ext=array()){
+	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$storage_id=0,$chk=0,$ext){
+		p($ext);
 		//查询入库明细
 		$logs_info = $this->db->model('in_logs')->where(" inlog_id = $inlog_id and remainder<>0 ")->order('input_time asc')->getAll();
 		foreach ($logs_info as $k => $v) {
@@ -235,7 +236,6 @@ class outStorageAction extends adminBaseAction {
 						'input_time'=>CORE_TIME,
 						'storage_id'=>$storage_id,
 						);
-					p(array_merge($outlogs,$ext));
 					$this->db->model('out_logs')->add($outlogs);
 					$number -= $out;
 					$chk = $number == 0 ? 1 : 0;
