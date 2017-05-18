@@ -1,6 +1,8 @@
 <?php
 return array(
 'pdf_temp'=>array(
+	'test'=>'cehsihihishdhsids
+	',
 	'tihuo'=>'<table width="635" border="0" align="center" bgcolor="#fff">
 			<tr ><td>&nbsp;</td></tr>
 			<tr >
