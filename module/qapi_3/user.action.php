@@ -517,7 +517,7 @@ class userAction extends baseAction
 
     /**
      * 短信密码快速登录接口
-     * @api {post} /qapi_3/user/SimpleLogin 短信密码快速登录接口
+     * @api {post} /qapi_3/user/simpleLogin 短信密码快速登录接口
      * @apiVersion 3.1.0
      * @apiName  SimpleLogin
      * @apiGroup User
@@ -532,12 +532,12 @@ class userAction extends baseAction
      *      {
     "err": 0,
     "msg": "登录成功",
-    "token": "14b57d4fca253b982e715f65cd619649",
+    "dataToken": "14b57d4fca253b982e715f65cd619649",
     "user_id": "40418"
     }
      *
      */
-    public function SimpleLogin()
+    public function simpleLogin()
     {
         if(isset($_REQUEST['phonenum'])){
             $this->is_ajax=true;
@@ -545,7 +545,6 @@ class userAction extends baseAction
             $phonevaild=sget('phonevaild','s');
 
             $key=sget('key','s');
-        file_put_contents('/tmp/xielei.txt',print_r($_POST,true),FILE_APPEND);
                 $regcode=sget('regcode','i',0);
                 if(empty($regcode)){
                     $this->error('请输入验证码');
@@ -626,7 +625,7 @@ class userAction extends baseAction
                 $this->json_output (array(
                     'err'       => 0,
                     'msg'       => '登录成功',
-                    'token' => $token,
+                    'dataToken' => $token,
                     'user_id'   => $result['user']['user_id'],
                 ));
             }
