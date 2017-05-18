@@ -661,12 +661,13 @@ class userAction extends baseAction
         $name            = 'qapp_vcode_';
 
         $code = json_decode($cache->get($name.$mobile),true);
+file_put_contents('/tmp/xielei.txt',print_r($code,true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($mcode,true)."\n",FILE_APPEND);
 
         if(empty($code)){
             $this->err='动态码已失效';
             return false;
-        }
-            elseif($code['mcode']!=$mcode)
+        }elseif($code['mcode']!=$mcode)
         {
             $this->err='错误的动态码';
             return false;
