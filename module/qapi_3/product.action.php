@@ -139,7 +139,7 @@ class productAction extends baseAction
      * 塑料圈app之积分商品可选日期
      * @api {post} /qapi_3/product/getValidDate   塑料圈app之积分商品可选日期
      * @apiVersion 3.1.0
-     * @apiName  getProductList
+     * @apiName  getValidDate
      * @apiGroup product
      * @apiUse UAHeader
      *
