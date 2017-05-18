@@ -493,7 +493,7 @@ class productAction extends baseAction
      *
      * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} goods_id   所需要的商品的id
-     * @apiParam   {int} num   购买数量  默认1
+     * @apiParam   {int} dates    选择日期,逗号拼接
      * @apiParam   {int} pur_id   购买供求信息时候供求信息id
      *
      * @apiSuccess {int}  err   错误码
@@ -513,21 +513,34 @@ class productAction extends baseAction
     public function newExchangeSupplyOrDemand ()
     {
         $this->is_ajax = true;
-        if ($_GET) {
+        if (empty($_POST)) {
             $user_id = $this->checkAccount ();
             /*if (!in_array ($type, array( 0, 1, 2 ))) {
                 $this->json_output (array( 'err' => 11, 'msg' => 'type参数错误' ));
             }*/
             $goods_id = sget ('goods_id', 'i');   //所需要的商品的id
-            $num      = sget ('num', 'i');   //所需要的商品的id
+            $dates    = sget ('dates', 's');   //所选择的时间
             $pur_id   = sget ('pur_id', 'i', 0);
 
-            if ($goods_id < 1 || $num < 1) {
-                $this->json_output (array(
-                    'err' => 12,
-                    'msg' => '参数错误',
-                ));
+            $dates = explode(',',$dates);
+            if(empty($dates)){
+                $this->_errCode (6);
             }
+            $str = '/(\d{4})-(\d{2})-(\d{2})/$';
+            foreach($dates as $date)
+            {
+                if(preg_match($str,$date,$matches))
+                {
+                    $this->_errCode (6);
+                }
+            }
+            $num = count($dates);
+
+            if ($goods_id < 1) {
+                $this->_errCode (6);
+            }
+
+
             $goods_info = M ('public:common')->model ('points_goods')->where ("id= $goods_id")->getRow ();
             if ($goods_info['type'] == 1 && empty($pur_id)) {
                 $this->json_output (array(
@@ -538,7 +551,15 @@ class productAction extends baseAction
             if ($goods_info['type'] == 2) {
                 $pur_id = $user_id;
             }
-
+            $pointsOrder = M("points:pointsOrder");
+            $took_date = $pointsOrder->getTookDate($goods_id);
+            if(array_intersect($took_date,$dates))
+            {
+                $this->json_output (array(
+                    'err' => 13,
+                    'msg' => '有人抢先一步,如有需要，请联系客服400-6129-965',
+                ));
+            }
             $user = M ('public:common')->model ('contact_info');
             if ($info = $user->where ("user_id=$user_id")->getRow ()) {
                 if (($info['quan_points'] - $num * $goods_info['points']) < 0) {
@@ -548,14 +569,7 @@ class productAction extends baseAction
                     ));
                 }
             }
-            $pointsOrder = M ("points:pointsOrder");
-            $is_exist    = $pointsOrder->get_supply_demand_top ($goods_id);
-            if ($is_exist) {
-                $this->json_output (array(
-                    'err' => 13,
-                    'msg' => '有人抢先一步,如有需要，请联系客服400-6129-965',
-                ));
-            }
+
             $pointsRow = M ('public:common')->from ("points_goods")->select ("points,name,cate_id")
                                             ->where ("status = 1 and receive_num < num and id = $goods_id")->getRow ();
             $point     = (int)$pointsRow['points'];
@@ -570,7 +584,8 @@ class productAction extends baseAction
                 'remark'      => $pointsRow['name'],
                 'num'         => $num,
                 'pur_id'      => $pur_id,
-                'outpu_time'  => CORE_TIME + $num * 24 * 60 * 60,
+                'outpu_time'  => CORE_TIME,
+                'address'     => $dates,
             );
             if ($goods_id < 10) {
                 $_orderData['status'] = 1;
@@ -588,7 +603,7 @@ class productAction extends baseAction
                 'msg' => '购买成功',
             ));
         }
-
+        $this->_errCode (6);
     }
 
     /*
