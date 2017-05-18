@@ -1,4 +1,4 @@
-<?php 
+<?php
 //仓库锁定业务员模型
 class storeModel extends model{
 	public function __construct() {
@@ -18,6 +18,12 @@ class storeModel extends model{
 		}
 		$exist=$this->model('store')->select('id')->where($where)->getOne();
 		return $exist>0 ? false : true;
+	}
+	/**
+	 * 通过仓库id取仓地址
+	 */
+	public function getStoreAddrBySid($id=0){
+		return $this->select('store_address')->where("id='$id'")->getOne();
 	}
 	/**
 	 * 通过仓库id取仓库名
