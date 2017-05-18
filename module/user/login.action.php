@@ -170,6 +170,7 @@ class loginAction extends homeBaseAction{
 	 * @apiGroup api
 	 *
 	 * @apiParam {String} phonenum       手机号
+	 * @apiParam {String} from           来源 APP必填 默认不填 ios pc android h5
 	 *
 	 * @apiSuccessExample Success-Response:
 	 *      {
@@ -181,7 +182,9 @@ class loginAction extends homeBaseAction{
 	public function sendMobileMsg($codeType=""){
 	    $this->is_ajax=true; //指定为Ajax输出
 	    $phonenum=spost('phonenum','s');
-	    $phonevaild=spost('phonevaild','s');
+		$from=spost('from','s');
+
+		$phonevaild=spost('phonevaild','s');
 	    if(empty($phonenum)){
 	        $this->error('手机号码不能为空!');
 	    }
@@ -207,8 +210,12 @@ class loginAction extends homeBaseAction{
 	
 	    //发送手机动态码
 	    $sms=M('system:sysSMS');
-	    $rs = $sms->sendMobileMsg($user['user_id'],$mobile,$msg,$stype,$msgData);
-	    if($rs['error']){
+		if(empty($from)) {
+			$rs = $sms->sendMobileMsg ($user['user_id'], $mobile, $msg, $stype, $msgData);
+		}else{
+			$rs = $sms->sendAppMobileMsg ($user['user_id'], $mobile, $msg, $stype, $msgData);
+		}
+			if($rs['error']){
 	        $this->error($rs['msg']);
 	    }else{
 	        $this->success();

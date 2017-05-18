@@ -529,12 +529,12 @@ class userAction extends baseAction
      * @apiParam {String} key         验证码所需key
      *
      * @apiSuccessExample Success-Response:
-     *      {
-     *      "err":0,
-     *      "msg":"登录成功",
-     *      "token":"eqweqweqwe2312",
-     *      "user_id":"123432"
-     *      }
+             *      {
+            "err": 0,
+            "msg": "登录成功",
+            "token": "14b57d4fca253b982e715f65cd619649",
+            "user_id": "40418"
+            }
      *
      */
     public function SimpleLogin()
@@ -551,7 +551,7 @@ class userAction extends baseAction
                     $this->error('请输入验证码');
                 }
             $cache= E('RedisCluster',APP_LIB.'class');
-            $code = $cache->get($key);
+            $code = json_decode($cache->get($key));
             if(empty($code))
             {
                 $this->json_output(array(
@@ -565,12 +565,6 @@ class userAction extends baseAction
                     'err'=>1,
                     'msg'=>'验证码输入不正确',
                 ));
-            }else {
-                $this->json_output(array(
-                    'err'=>0,
-                    'msg'=>'验证成功',
-                ));
-
             }
             if(strlen($phonenum)<10 || !is_mobile($phonenum)){
                 $this->error('手机或验证码错误');
@@ -665,15 +659,15 @@ class userAction extends baseAction
      */
     private function _appchkmcode($mcode='',$mobile=''){
         $cache= E('RedisCluster',APP_LIB.'class');
-        $name            = 'vc_vcode';
+        $name            = 'qapp_vcode_';
 
-        $code = $cache->get($mobile.'_'.$name);
+        $code = json_decode($cache->get($name.$mobile),true);
 
         if(empty($code)){
             $this->err='动态码已失效';
             return false;
         }
-            elseif($code!=$mcode)
+            elseif($code['mcode']!=$mcode)
         {
             $this->err='错误的动态码';
             return false;
