@@ -11,7 +11,7 @@ class vcodeAction extends homeBaseAction
     }
     /**
      * 获取验证码
-     * @api {get} /api/vcode 获取验证码 供我的塑料网前端与塑料圈H5 PC端使用
+     * @api {get} /api/vcode 获取验证码 供我的塑料网前端使用
      * @apiVersion 3.1.0
      * @apiName  vcode
      * @apiGroup api
@@ -38,8 +38,8 @@ class vcodeAction extends homeBaseAction
     }
 
     /**
-     * 获取验证码--仅供APP使用
-     * @api {get} /api/vcode/app 获取验证码--仅供APP使用
+     * 获取验证码--仅供塑料圈H5 PC端 IOS ANDROID APP使用
+     * @api {get} /api/vcode/app 获取验证码--仅供塑料圈H5 PC端 IOS ANDROID APP使用
      * @apiVersion 3.1.0
      * @apiName  app
      * @apiGroup api
@@ -70,7 +70,7 @@ class vcodeAction extends homeBaseAction
         //ini_set ('display_errors', 'On');
         $key = md5(time().rand(0,100));
         $name = FILE_URL.'/myapp/vcode/'.$key.'.png';
-        $path = '../static/myapp/vcode/'.$key.'.png';
+        $path = ROOT_PATH.'../static/myapp/vcode/'.$key.'.png';
 
         $vcode->do_file_image ($path);
         $code = $vcode->get_code();
@@ -102,7 +102,7 @@ class vcodeAction extends homeBaseAction
      * @apiSampleRequest http://test.myplas.com/api/vcode/chkVcode
      * @apiParam   {String} name  值regcode
      * @apiParam   {String} value  4322
-     * @apiParam   {String} key  APP端传此参数
+     * @apiParam   {String} key  塑料圈H5 PC端 IOS ANDROID APP使用
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
@@ -134,7 +134,14 @@ class vcodeAction extends homeBaseAction
             $this->is_ajax = 1;
             $cache= E('RedisCluster',APP_LIB.'class');
             $code = $cache->get($key);
-            if(empty($code)||$code!=$value)
+            if(empty($code))
+            {
+                $this->json_output(array(
+                    'err'=>2,
+                    'msg'=>'验证码已失效',
+                ));
+            }
+            if($code!=$code)
             {
                 $this->json_output(array(
                     'err'=>1,

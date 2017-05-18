@@ -519,18 +519,21 @@ class userAction extends baseAction
      * 短信密码快速登录接口
      * @api {post} /qapi_3/user/SimpleLogin 短信密码快速登录接口
      * @apiVersion 3.1.0
-     * @apiName  h5SimpleLogin
+     * @apiName  SimpleLogin
      * @apiGroup User
      * @apiUse UAHeader
      *
      * @apiParam {String} phonenum       手机号
      * @apiParam {String} phonevaild    动态码
      * @apiParam {String} regcode         验证码
+     * @apiParam {String} key         验证码所需key
      *
      * @apiSuccessExample Success-Response:
      *      {
-     *      "err":0
-     *      "msg":"登录成功"
+     *      "err":0,
+     *      "msg":"登录成功",
+     *      "token":"eqweqweqwe2312",
+     *      "user_id":"123432"
      *      }
      *
      */
@@ -541,15 +544,32 @@ class userAction extends baseAction
             $phonenum=sget('phonenum','s');
             $phonevaild=sget('phonevaild','s');
 
-            if($this->reg_vcode){
+            $key=sget('key','s');
+
                 $regcode=strtolower(sget('regcode','s'));
                 if(empty($regcode)){
                     $this->error('请输入验证码');
                 }
-                //检查验证码
-                if(!chkVcode('regcode',$regcode)){
-                    $this->error('验证码不正确，请重新输入');
-                }
+            $cache= E('RedisCluster',APP_LIB.'class');
+            $code = $cache->get($key);
+            if(empty($code))
+            {
+                $this->json_output(array(
+                    'err'=>2,
+                    'msg'=>'验证码已失效',
+                ));
+            }
+            if($code!=$regcode)
+            {
+                $this->json_output(array(
+                    'err'=>1,
+                    'msg'=>'验证码输入不正确',
+                ));
+            }else {
+                $this->json_output(array(
+                    'err'=>0,
+                    'msg'=>'验证成功',
+                ));
 
             }
             if(strlen($phonenum)<10 || !is_mobile($phonenum)){
@@ -612,7 +632,7 @@ class userAction extends baseAction
                 $this->json_output (array(
                     'err'       => 0,
                     'msg'       => '登录成功',
-                    'dataToken' => $token,
+                    'token' => $token,
                     'user_id'   => $result['user']['user_id'],
                 ));
             }
