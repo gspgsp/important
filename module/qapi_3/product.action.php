@@ -491,7 +491,6 @@ class productAction extends baseAction
      * @apiGroup product
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} goods_id   所需要的商品的id
      * @apiParam   {int} dates    选择日期,逗号拼接
      * @apiParam   {int} pur_id   购买供求信息时候供求信息id
@@ -513,7 +512,7 @@ class productAction extends baseAction
     public function newExchangeSupplyOrDemand ()
     {
         $this->is_ajax = true;
-        if (empty($_POST)) {
+        if (!empty($_POST)) {
             $user_id = $this->checkAccount ();
             /*if (!in_array ($type, array( 0, 1, 2 ))) {
                 $this->json_output (array( 'err' => 11, 'msg' => 'type参数错误' ));
@@ -526,10 +525,10 @@ class productAction extends baseAction
             if(empty($dates)){
                 $this->_errCode (6);
             }
-            $str = '/(\d{4})-(\d{2})-(\d{2})/$';
+            $str = '/(\d{4})-(\d{2})-(\d{2})/';
             foreach($dates as $date)
             {
-                if(preg_match($str,$date,$matches))
+                if(!preg_match($str,$date))
                 {
                     $this->_errCode (6);
                 }

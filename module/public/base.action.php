@@ -159,15 +159,21 @@ class baseAction extends null2Action
     public function checkAccount ($type = 1)
     {
         $this->is_ajax = true;
-        $token         = sget ('token', 's');
+        $token         = $this->token;
         if (empty($token)) {
             $user_id = 0;
         } else {
             $user_id = M ('qapp:appToken')->deUserId ($token);
             if (is_array ($user_id)) {
                 $user_id = 0;
+            }elseif($user_id!=$this->user_id)
+            {
+                $this->json_output (array(
+                    'err' => 1,
+                    'msg' => '账号错误',
+                ));
             }
-            //$this->json_output($user_id);
+
         }
         if (empty($type)) {
             if ($user_id < 0) {
