@@ -696,7 +696,6 @@ class friendAction extends baseAction
      * @apiGroup friend
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} focused_id 当前联系人的id
      *
      * @apiSuccess {String}  msg   描述
@@ -723,7 +722,6 @@ class friendAction extends baseAction
      * @apiGroup friend
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} userId     接受消息人的id
      * @apiParam   {String} content  content
      *
@@ -764,7 +762,6 @@ class friendAction extends baseAction
      * @apiGroup friend
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} user_id     当前联系人的id
      * @apiParam   {int} showType     是否消耗塑豆   点击确定  showType  为 5   第一次  传1  即可
      *

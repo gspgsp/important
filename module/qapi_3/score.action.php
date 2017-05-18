@@ -20,7 +20,6 @@ class scoreAction extends baseAction
      * @apiGroup score
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} page   页码
      * @apiParam   {int} size   野蛮
      * @apiParam   {int} pur_id   购买供求信息时候供求信息id

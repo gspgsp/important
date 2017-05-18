@@ -18,7 +18,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} type   0 全部 1 求购 2 供给
      * @apiParam   {int} sortField1
      * @apiParam   {int} sortField2
@@ -442,7 +441,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {Number} user_id  用户id
      * @apiParam   {Number} id   信息ID
      *
@@ -512,7 +510,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {Number} user_id  用户id
      * @apiParam   {Number} id   信息ID
      * @apiParam   {int} page   页码
@@ -590,7 +587,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {Number} rev_id  接收报价的人
      * @apiParam   {Number} id   信息ID 对应purchase表的id
      * @apiParam   {int} page   页码
@@ -657,7 +653,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {Number} rev_id  //接收出价的人(即发布purchase报价消息的人)
      * @apiParam   {Number} id   信息ID 对应purchase表的id
      * @apiParam   {int} page   页码
@@ -707,7 +702,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParamExample {json} Request-Example:
      * data[0][model]=HF5100&data[0][f_name]=shanghai&data[0][store_house]=shanghai&data[0][price]=2000&data[0][type]=2&data[0][quan_type]=0&data[0][content]=&token=14b57d4fca253b982e715f65cd619649
      *
@@ -962,7 +956,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} id     这条回复的ID
      *
      * @apiSuccess {int}  err   错误码
@@ -998,7 +991,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} pur_id     purchase表的消息id
      * @apiParam   {String} send_id     purchase表发报价或采购人的(pur.user_id)
      * @apiParam   {String} content     回复的内容
@@ -1079,7 +1071,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} page     页数
      * @apiParam   {String} size     煤业数量
      * @apiParam   {String} type     1采购 2报价
@@ -1147,7 +1138,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} id     当前我的报价或采购的id
      *
      * @apiSuccess {int}  err   错误码
@@ -1184,7 +1174,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} id     当前我的报价或采购的id
      * @apiParam   {String} page     页数
      * @apiParam   {String} size     煤业数量
@@ -1236,7 +1225,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} id     当前我的报价或采购的id
      *
      * @apiSuccess {int}  err   错误码
@@ -1308,7 +1296,6 @@ class releaseMsgAction extends baseAction
      * @apiGroup releaseMsg
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} user_id     用户id
      * @apiParam   {String} page     页数
      * @apiParam   {String} size     煤业数量

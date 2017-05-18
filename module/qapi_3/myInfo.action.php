@@ -15,7 +15,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {String}  err   错误码
@@ -145,7 +144,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {String}  err   错误码
@@ -226,7 +224,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      *
      * @apiSuccess {int}  err   描述
      * @apiSuccess {json}  myfans   错误码
@@ -277,7 +274,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} address  地址
      * @apiParam   {String} sex     性别 0男1女
      * @apiParam   {String} major  所需牌号  对应need_product
@@ -454,7 +450,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
@@ -561,7 +556,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} type  0 关注 1 回复 2是否公开电话
      * @apiParam   {String} is_allow  0:允许 1:不允许
      *
@@ -783,7 +777,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
@@ -811,7 +804,6 @@ class myInfoAction extends baseAction
      * @apiGroup myInfo
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述

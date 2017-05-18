@@ -128,7 +128,6 @@ class wechatAction extends baseAction
      * @apiGroup wechat
      * @apiUse UAHeader
      *
-     * @apiParam {String} token       token
      * @apiParam {Number} id       purchase id
      *
      *

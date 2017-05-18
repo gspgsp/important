@@ -16,7 +16,6 @@ class creditAction extends baseAction
      * @apiGroup Credit
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {String} name   企业名称 上海中辰电子商务有限公司
      *
      * @apiSuccess {String}  msg   描述
@@ -58,7 +57,6 @@ class creditAction extends baseAction
      * @apiUse UAHeader
      *
      * @apiParam   {String} fname  公司名称
-     * @apiParam   {String} token qwre3123123121swqsq
      * @apiParam   {Number} link_id  token qwre3123123121swqsq
      * @apiParam   {Number} page   页码
      * @apiParam   {Number} type   1 精确  2 模糊

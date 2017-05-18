@@ -16,7 +16,6 @@ class productAction extends baseAction
      * @apiGroup product
      * @apiUse UAHeader
      *
-     * @apiParam   {String} token  token qwre3123123121swqsq
      * @apiParam   {int} page   页码      默认1
      * @apiParam   {int} size   每页数量  默认10
      *
