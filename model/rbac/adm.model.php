@@ -235,7 +235,7 @@ class admModel extends model{
 		$see = 0;
 		if($exits){
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
-			$see = in_array($customer_manager,$sons) ? 1 : 0;
+			$see = in_array($customer_manager,explode(',',$sons)) ? 1 : 0;
 		}
 		return $see;
 	}
