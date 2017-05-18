@@ -529,12 +529,12 @@ class userAction extends baseAction
      * @apiParam {String} key         验证码所需key
      *
      * @apiSuccessExample Success-Response:
-             *      {
-            "err": 0,
-            "msg": "登录成功",
-            "token": "14b57d4fca253b982e715f65cd619649",
-            "user_id": "40418"
-            }
+     *      {
+    "err": 0,
+    "msg": "登录成功",
+    "token": "14b57d4fca253b982e715f65cd619649",
+    "user_id": "40418"
+    }
      *
      */
     public function SimpleLogin()
@@ -551,7 +551,7 @@ class userAction extends baseAction
                     $this->error('请输入验证码');
                 }
             $cache= E('RedisCluster',APP_LIB.'class');
-            $code = json_decode($cache->get($key),true);
+            $code = $cache->get($key);
             if(empty($code))
             {
                 $this->json_output(array(
@@ -559,7 +559,7 @@ class userAction extends baseAction
                     'msg'=>'验证码已失效',
                 ));
             }
-            if($code['mcode']!=$regcode)
+            if($code!=$regcode)
             {
                 $this->json_output(array(
                     'err'=>1,
