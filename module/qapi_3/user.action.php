@@ -551,7 +551,7 @@ class userAction extends baseAction
                     $this->error('请输入验证码');
                 }
             $cache= E('RedisCluster',APP_LIB.'class');
-            $code = json_decode($cache->get($key));
+            $code = json_decode($cache->get($key),true);
             if(empty($code))
             {
                 $this->json_output(array(
