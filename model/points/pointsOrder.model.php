@@ -57,7 +57,7 @@ class pointsOrderModel extends Model
                 }
             }
         }
-        $dates = array_unique($ret);
+        $dates = array_values(array_unique($ret));
 
         foreach($dates as &$date)
         {
