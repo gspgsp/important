@@ -114,6 +114,7 @@ class outStorageAction extends adminBaseAction {
 					'driver'=>$v['driver'],
 					'car_code'=>$v['car_code'],
 					'store_address'=>$v['store_address'],
+					'input_admin'=>$_SESSION['name'],
 				);
 				//调用循环扣库存并打log
 				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id,$storage_id,0,$exts,$extends);
