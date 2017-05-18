@@ -32,6 +32,7 @@ class outStorageAction extends adminBaseAction {
 			foreach($list['data'] as $k=>&$v){
 				$v['model']=M("product:product")->getModelById($v['p_id']); //获取客户名称
 				$v['store_name']=M("product:store")->getStoreNameBySid($v['store_id']);
+				$v['store_address']=M("product:store")->getStoreAddrBySid($v['store_id']);
 				$pinfo=M("product:product")->getFnameByPid($v['p_id']);
 				$v['f_name']=$pinfo['f_name'];//根据cid取客户名
 				$list['data'][$k]['out_number']=$v['remainder']; //默认全部数量
@@ -112,6 +113,7 @@ class outStorageAction extends adminBaseAction {
 					'remark'=>$v['remark'],
 					'driver'=>$v['driver'],
 					'car_code'=>$v['car_code'],
+					'store_address'=>$v['store_address'],
 				);
 				//调用循环扣库存并打log
 				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id,$storage_id,0,$exts,$extends);
