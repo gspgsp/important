@@ -4,8 +4,10 @@ class spdfAction extends adminBaseAction {
 	public function __init(){
 		E('TCPdf',APP_LIB.'extend');
 		$this->debug = false;
+		$this->template = $this->temp();
 		$this->db=M('public:common')->model('out_logs');
 	}
+
 	/**
 	 * 合同 PDF
 	 *
@@ -24,6 +26,7 @@ class spdfAction extends adminBaseAction {
 			// 	</tr >';
 			// 	$totall += $sign;
 			// }
+			$contract = $this->template['tihuo']
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
 			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -71,7 +74,7 @@ class spdfAction extends adminBaseAction {
 	 * @return   [type]                   [description]
 	 */
 	public function zhuanyi(){
-		$contract = L('pdf_template.zhuanyi');
+		$contract = $this->template['zhuanyi'];
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		$pdf->SetTitle('上海中晨电商合同报表');
 		$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -99,7 +102,7 @@ class spdfAction extends adminBaseAction {
 	 * @return   [type]                   [description]
 	 */
 	public function weituo(){
-		$contract = L('pdf_template.weituo');
+		$contract = $this->template['weituo'];
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		$pdf->SetTitle('上海中晨电商合同报表');
 		$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -163,158 +166,208 @@ class spdfAction extends adminBaseAction {
 			}
 			return $xs;
 		}
-		//出货凭证单
-		public function outpdf(){
-			$arr = array(
-				'pdf_template'=>array(
-					'out'=>'<table width="635" border="0" align="center" bgcolor="#fff">
-							<tr ><td>&nbsp;</td></tr>
-							<tr >
-								<td colspan="2" align="center"><h1>%s</h1></td>
-							</tr>
-							<tr height="20"><td><h2>收货收据</h2></td></tr>
-							<tr align="left">
-								<td width="440" height="20"></td>
-								<td height="20">合同号：%s</td>
-							</tr>
-							<tr  align="left">
-								<td height="20">兹收到贵司如下货物：</td>
-								<td height="20">时间：%s</td>
-							</tr>
-							<tr>
-								<td colspan="4" height="2" style="line-height:2px;"></td>
-							</tr>
-							<table width="635" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#666">
-								<tr>
-									<td colspan="7" bgcolor="#FFFFFF" height="20" style="line-height:20px;">&nbsp;一、产品名称、型号（规格）、产地、数量、单价、金额：</td>
+		//全局模板文件
+		private function temp(){
+			return array(
+				'tihuo'=>'<table width="680" border="0" cellpadding="0" cellpadding="0" align="center">
+					<tr height="30">
+						<td colspan="2" align="center"><h1 style="font-size:16px;">上海中晨电子商务股份有限公司</h1></td>
+					</tr>
+					<tr height="30">
+						<td colspan="2" align="center"><h2 style="font-size:14px;"><u>提货单</u></h2></td>
+					</tr>
+					<tr height="30">
+						<td>此单发给：<u>上架供应商名称</u></td>
+						<td align="right">NO：系统自动显示</td>
+					</tr>
+					<tr height="30">
+						<td>传真：<u>供应商传真</u></td>
+						<td align="right">2017年5月17日</td>
+					</tr>
+					<tr height="30">
+						<td colspan="2">
+							<table width="680" cellpadding="0" cellspacing="1" bgcolor="#ccc">
+								<tr height="30" align="center">
+									<td bgcolor="#fff">产品名称</td>
+									<td bgcolor="#fff">规格/型号</td>
+									<td bgcolor="#fff">数量（吨）</td>
+									<td bgcolor="#fff">件数（包）</td>
+									<td bgcolor="#fff">提货车辆牌号</td>
+									<td bgcolor="#fff">司机姓名，身份证</td>
 								</tr>
-								%s
+								<tr height="30" align="center">
+									<td bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td bgcolor="#fff">填写</td>
+									<td bgcolor="#fff">数量顿数*40</td>
+									<td bgcolor="#fff">填写</td>
+									<td bgcolor="#fff">填写</td>
+								</tr>
+								<tr height="30" align="center">
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+								</tr>
+								<tr height="30" align="center">
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+									<td bgcolor="#fff">&nbsp;</td>
+								</tr>
+								<tr height="30">
+									<td bgcolor="#fff" align="center">备&nbsp;&nbsp;注</td>
+									<td bgcolor="#fff" colspan="5">&nbsp;&nbsp;&nbsp;请速传至仓库（可更改）</td>
+								</tr>
+								<tr height="30">
+									<td bgcolor="#fff" align="center">仓&nbsp;&nbsp;库</td>
+									<td bgcolor="#fff" colspan="5">&nbsp;&nbsp;&nbsp;仓库地址</td>
+								</tr>
+								<tr height="90">
+									<td bgcolor="#fff" align="center">说&nbsp;&nbsp;明</td>
+									<td bgcolor="#fff" colspan="5">
+										<table cellpadding="0" cellspacing="0" border="0">
+											<tr>
+												<td>1、此提货单需加盖本公司提货专用章方可有效。</td>
+											</tr>
+											<tr>
+												<td><hr color="#ccc" width="535" size="1"/></td>
+											</tr>
+											<tr>
+												<td>2、本提货单有效期为<u>贰</u>天，手写无效。</td>
+											</tr>
+											<tr>
+												<td><hr color="#ccc" width="535" size="1"/></td>
+											</tr>
+											<tr>
+												<td>3、原厂原包装，保证品质：无破包、无污损，装货过程中如有破包，烦请贵公司负责安排更换。</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
 							</table>
-							<tr>
-								<td colspan="4" height="2" style="line-height:15px;"></td>
-							</tr>
-							<tr align="left">
-								<td colspan="2" height="20" width="600">以上货物确认已收到（无少料，无破包，无湿料等问题）。</td>
-							</tr>
-						</table>
-
-						<table width="635" align="center" bgcolor="#fff">
-							<tr>
-								<td colspan="4" height="2" style="line-height:2px;"></td>
-							</tr>
-						</table>
-						<table width="635" align="center" bgcolor="#fff">
-							<tr>
-								<td colspan="4" height="20" style="line-height:20px;"></td>
-							</tr>
-							%s
-						</table>',
-				),
+						</td>
+					</tr>
+					<tr height="30">
+						<td colspan="2">&nbsp;</td>
+					</tr>
+					<tr height="30">
+						<td colspan="2"><u>如有问题，请联系：（提交订单的助理姓名和电话）</u></td>
+					</tr>
+				</table>',
+				'weituo'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
+						<tr height="30">
+							<td>NO：</td>
+						</tr>
+						<tr height="30">
+							<td align="center"><h1 style="font-size:16px;">委托送货单</h1></td>
+						</tr>
+						<tr height="30">
+							<td><h2 style="font-size:14px;">TO:供应商名称</h2></td>
+						</tr>
+						<tr height="30">
+							<td>请将我司采购的塑料粒子合同编号：（填写）安排送货：</td>
+						</tr>
+						<tr>
+							<td>
+								<table width="635" cellpadding="0" cellspacing="1" bgcolor="#ccc">
+									<tr height="30" align="center">
+										<td bgcolor="#fff">产品名称</td>
+										<td bgcolor="#fff">规格/型号</td>
+										<td bgcolor="#fff">产地</td>
+										<td bgcolor="#fff">数量（吨）</td>
+									</tr>
+									<tr height="30" align="center">
+										<td bgcolor="#fff">（根据订单内容自动显示）</td>
+										<td bgcolor="#fff">（根据订单内容自动显示）</td>
+										<td bgcolor="#fff">（根据订单内容自动显示）</td>
+										<td bgcolor="#fff">（根据订单内容自动显示）</td>
+									</tr>
+									<tr height="30">
+										<td bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：</td>
+									</tr>
+									<tr height="30">
+										<td bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：</td>
+									</tr>
+									<tr height="30">
+										<td bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr height="30">
+							<td>（此单手写无效）</td>
+						</tr>
+						<tr height="30">
+							<td align="right">上海中晨电子商务股份有限公司</td>
+						</tr>
+						<tr height="30">
+							<td align="right">2017年5月17日</td>
+						</tr>
+						<tr height="30">
+							<td>如有问题，请联系：（助理电话和姓名）</td>
+						</tr>
+					</table>',
+				'zhuanyi'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
+					<tr height="30">
+						<td>NO：</td>
+					</tr>
+					<tr height="30">
+						<td align="center"><h1 style="font-size:16px;">货权转移单</h1></td>
+					</tr>
+					<tr height="30">
+						<td><h2 style="font-size:14px;">TO（供应商）：供应商名称</h2></td>
+					</tr>
+					<tr height="30">
+						<td>请将我司采购的塑料粒子合同编号：（填写）</td>
+					</tr>
+					<tr>
+						<td>
+							<table width="635" cellpadding="0" cellspacing="1" bgcolor="#ccc">
+								<tr height="30" align="center">
+									<td bgcolor="#fff">产品名称</td>
+									<td bgcolor="#fff">规格/型号</td>
+									<td bgcolor="#fff">产地</td>
+									<td bgcolor="#fff">数量（吨）</td>
+								</tr>
+								<tr height="30" align="center">
+									<td bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td bgcolor="#fff">（根据订单内容自动显示）</td>
+								</tr>
+								<tr height="30">
+									<td bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（填写）</td>
+								</tr>
+								<tr height="30">
+									<td bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（填写）</td>
+								</tr>
+								<tr height="30">
+									<td bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr height="30">
+						<td>以上货物的货权转至<u>（填写）</u></td>
+					</tr>
+					<tr height="30">
+						<td>请将入库单传真至：<u>（填写订单的物流助理传真和电话）</u></td>
+					</tr>
+					<tr height="30">
+						<td>（此单手写无效）</td>
+					</tr>
+					<tr height="30">
+						<td align="right">上海中晨电子商务股份有限公司</td>
+					</tr>
+					<tr height="30">
+						<td align="right">2017年5月17日</td>
+					</tr>
+				</table>',
 			);
-			//收货表体
-			$table5='
-				<tr>
-					<td align="right" height="20" style="line-height:90px;" width="110"></td>
-					<td align="left"></td>
-				</tr>
-				<tr>
-					<td align="right" height="20" style="line-height:20px;" width="50"></td>
-					<td align="left" height="20" style="line-height:20px;"  width="100"></td>
-					<td align="right" height="20" style="line-height:20px;"  width="290">&nbsp;客户名（签章）：%s</td>
-					<td align="left" height="20" style="line-height:20px;"  width="315"></td>
-				</tr>
-				<tr>
-					<td align="right" height="20" style="line-height:90px;" width="110"></td>
-					<td align="left"></td>
-					<td align="right" height="20" style="line-height:190px;" width="110"></td>
-					<td align="left"></td>
-				</tr>
-				<tr>
-					<td align="left" colspan="4">请加盖公章或合同章回传，以便我司开具增值税发票（提货章，财务章等均无效）。</td>
-
-				</tr>
-				<tr>
-					<td align="left" colspan="4">附贵司正楷开票资料和快递地址，一起传真至：</td>
-				</tr>
-				';
-			// 价格详情基本信息查询
-			$id = sget('oid','i',0);
-			if($id>0){
-				$info = $this->db->model('out_log')->where("id = $id")->getRow();
-				$info['model'] =strtoupper(M("product:product")->getModelById($info['p_id']));//获取牌号
-				$info['cname'] = M("product:product")->getFnameByid($info['p_id']);//获取厂家
-				$info['ptype'] =L('product_type')[M("product:product")->getModelById($info['p_id'],'product_type')];
-				//根据订单查出清单信息并获取详情价格
-				$oinfo = M("product:order")->getOinfoById($info['o_id']);
-				if($oinfo['order_name'] == 1){
-					$ordertitle =  '上海中晨电子商务股份有限公司';
-				}elseif($oinfo['order_name'] == 2){
-					$ordertitle =  '上海梓辰实业有限公司';
-				}else{
-					$ordertitle =  '嘉兴鼎辉信息科技有限公司';
-				}
-				if($oinfo['order_type']==1){
-					$o_detail = $this->db->model("sale_log")->where("o_id = {$info['o_id']} and p_id = {$info['p_id']} ")->getRow();
-				}else{
-					$o_detail = $this->db->model("purchase_log")->where("o_id = {$info['o_id']}  and p_id = {$info['p_id']} ")->getRow();
-				}
-				$info['unit_price'] = $o_detail['unit_price'];
-
-			}
-			$out_cid = $this->db->model('order')->select('c_id')->where("`o_id` = {$info['o_id']}")->getOne();
-			$out_name = $this->db->model('customer')->select('c_name')->where("`c_id` = $out_cid")->getOne();
-			$table5 = sprintf($table5,$out_name);
-			$detail_info = '<tr >
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$info['ptype'].'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$info['model'].'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$info['cname'].'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">吨</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$info['number'].'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$info['unit_price'].'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$info['number']*$info['unit_price'].'</td>
-			</tr >';
-			E('TCPdf',APP_LIB.'extend');
-			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-			$pdf->SetTitle('上海中晨电商出货证明');
-			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
-			// 设置默认等宽
-			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-			// 设置间距
-			$pdf->SetMargins(15, 20, 15);
-			$pdf->SetHeaderMargin(3);
-			$pdf->SetFooterMargin(10);
-			// 设置分页
-			$pdf->SetAutoPageBreak(TRUE, 25);
-			$pdf->setImageScale(1.25);
-			$pdf->setFontSubsetting(true);
-			// 设置中文字体
-			$pdf->SetFont('stsongstdlight','', 10);
-			$pdf->AddPage();
-			$total=$this->_cny($info['number']*$info['unit_price']);
-			//收货收据
-			$table4='<tr>
-				<td width="130" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">产品名称</td>
-				<td width="80" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">规格/型号</td>
-				<td width="140" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">产地</td>
-				<td width="30" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">单位</td>
-				<td width="75" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">数量</td>
-				<td width="82" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">单价</td>
-				<td width="90" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">金额</td>
-			</tr>
-			' .$detail_info. '
-			<tr>
-				<td bgcolor="#FFFFFF"  height="20" style="line-height:20px;">合计</td>
-				<td colspan="6" bgcolor="#FFFFFF" class="number"  height="20" style="line-height:20px;">'.$info['number']*$info['unit_price'].'</td>
-			</tr>
-			<tr>
-				<td bgcolor="#FFFFFF"  height="20" style="line-height:20px;">合计人民币（大写）</td>
-				<td colspan="6" bgcolor="#FFFFFF" class="number"  height="20" style="line-height:20px;">'.$total.'</td>
-			</tr>
-			';
-			// 出库信息表
-			$str = sprintf($arr['pdf_template']['out'],$ordertitle,$oinfo['order_sn'],date('Y-m-d',$info['input_time']),$table4,$table5);
-			$pdf->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
-			// 输出pdf
-			$pdf->Output("{$oinfo['order_sn']}.pdf", 'I');
 		}
 	}
