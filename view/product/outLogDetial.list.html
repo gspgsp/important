@@ -84,9 +84,9 @@ function viewOrdInfo(id){
 //新增产品详情
 function onLoadDetail(e){
 	var record = e.record,s='',id = record.id;
-	s+='<a href="javascript:tihuo('+id')">提货单</a>|';
-	s+='<a href="javascript:zhuanyi('+id')">货权转移单</a>|';
-	s+='<a href="javascript:weituo('+id')">委托送货单</a>';
+	s+='<a href="javascript:tihuo('+id+')">提货单</a>|';
+	s+='<a href="javascript:zhuanyi('+id+')">货权转移单</a>|';
+	s+='<a href="javascript:weituo('+id+')">委托送货单</a>';
 	return s;
 }
 
