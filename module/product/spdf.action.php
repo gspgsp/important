@@ -187,11 +187,11 @@ class spdfAction extends adminBaseAction {
 						<td  height="20" style="line-height:20px">传真：<u>供应商传真</u></td>
 						<td  height="20" align="right" style="line-height:20px">2017年5月17日</td>
 					</tr>
-					<tr height="30">
+					<tr height="30" >
 						<td colspan="2">
 							<table width="680" cellpadding="0" cellspacing="1" bgcolor="#ccc">
 								<tr height="30" align="center">
-									<td height="20" bgcolor="#fff" style="line-height:20px">产品名称</td>
+									<td height="20" width="40" bgcolor="#fff" style="line-height:20px">产品名称</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px">规格/型号</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px">数量（吨）</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px">件数（包）</td>
