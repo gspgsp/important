@@ -65,6 +65,7 @@ class outStorageAction extends adminBaseAction {
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 		);
+		p($data);
 		$this->db->startTrans(); //开启事务
 		//获取订单中的发货时间和销售订单的关联采购joinid,用于区分后续扣库存操作
 		$info = $this->db->model('order')->select('delivery_time,join_id,order_type')->where(' o_id ='.$data['o_id'])->getRow();
@@ -236,6 +237,7 @@ class outStorageAction extends adminBaseAction {
 						'storage_id'=>$storage_id,
 						);
 					$this->db->model('out_logs')->add($outlogs+$ext);
+					showtrace();
 					$number -= $out;
 					$chk = $number == 0 ? 1 : 0;
 			}
