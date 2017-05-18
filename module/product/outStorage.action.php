@@ -111,7 +111,6 @@ class outStorageAction extends adminBaseAction {
 			//扣库存
 			// if($info['join_id']>0){ //上面查询的订单中存在joinid 表示先销后采
 				//调用循环扣库存并打log
-				p($exts);
 				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id,$storage_id,$exts);
 				//库存的总明细扣减
 				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(array('remainder'=>'-='.$v['out_number'],'lock_number'=>'-='.$v['out_number'],'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME,));
@@ -236,7 +235,7 @@ class outStorageAction extends adminBaseAction {
 						'input_time'=>CORE_TIME,
 						'storage_id'=>$storage_id,
 						);
-					p($outlogs+$ext);
+					p(array_merge($outlogs,$ext));
 					$this->db->model('out_logs')->add($outlogs);
 					$number -= $out;
 					$chk = $number == 0 ? 1 : 0;
