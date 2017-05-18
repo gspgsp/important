@@ -571,7 +571,7 @@ class userAction extends baseAction
                 $this->error('手机或验证码错误');
             }
             //检查验证码
-            if(in_array($this->platform,array('pc','h5'))) {
+            if(!in_array($this->platform,array('pc','h5','ios','android'))) {
                 if (!$this->_chkmcode ($phonevaild, $phonenum)) {
                     $this->error ($this->err);
                 }
