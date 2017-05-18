@@ -584,7 +584,7 @@ class productAction extends baseAction
                 'num'         => $num,
                 'pur_id'      => $pur_id,
                 'outpu_time'  => CORE_TIME,
-                'address'     => $dates,
+                'address'     => join(',',$dates),
             );
             if ($goods_id < 10) {
                 $_orderData['status'] = 1;
