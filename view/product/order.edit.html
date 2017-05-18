@@ -92,15 +92,15 @@
 						<td>
 							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="{$info.h_pur_cid}" allowInput="false"  text="{$info.h_pur_cname}"  style="width:125px;" id="usrId"/>
 						</td>
-						<td>联系人1：</td>
-						<td><input id="contact_id" name="contact_id" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
 						{else}
 						<td>客户名称<font style="color:red;"> * </font></td>
 						<td>
 							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="{$info.c_id}" allowInput="false"  text="{$c_name}"  style="width:125px;" id="usrId"/>
 						</td>
-						<td>联系人2：</td>
+						{if $order_type eq 1}
+						<td>联系人：</td>
 						<td><input id="contact_id" name="contact_id" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
+						{/if}
 						{/if}
 					</tr>
 					<tr>
@@ -369,6 +369,7 @@ function onCancel(e) {
 }
 //强制选择归属公司
 function usrChoose(e){
+	var type = "{$order_type}";
 	var cname = mini.get("contact_id");
 	var btn = this;
 		mini.open({
@@ -388,10 +389,12 @@ function usrChoose(e){
 				if (data) {
 					btn.setValue(data.c_id);
 					btn.setText(data.c_name);
-					cname.load('/user/follow/get_contacts?c_id='+data.c_id);
-					var contact_id = mini.get("contact_id");
-					if(parseInt(contact_id.data.length) < 1){
-						alert("您没有该客户的联系人，请先完善联系人信息再建单");
+					if(type == '1')
+						cname.load('/user/follow/get_contacts?c_id='+data.c_id);
+						var contact_id = mini.get("contact_id");
+						if(parseInt(contact_id.data.length) < 1){
+							alert("您没有该客户的联系人，请先完善联系人信息再建单");
+						}
 					}
 				}
 			}
