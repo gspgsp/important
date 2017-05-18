@@ -1,6 +1,6 @@
 <?php
 return array(
-'pdf_template'=>array(
+'pdf_temp'=>array(
 	'tihuo'=>'<table width="635" border="0" align="center" bgcolor="#fff">
 			<tr ><td>&nbsp;</td></tr>
 			<tr >
