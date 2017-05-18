@@ -492,7 +492,7 @@ class productAction extends baseAction
      * @apiUse UAHeader
      *
      * @apiParam   {int} goods_id   所需要的商品的id
-     * @apiParam   {int} dates    选择日期,逗号拼接
+     * @apiParam   {String} dates    选择日期,逗号拼接
      * @apiParam   {int} pur_id   购买供求信息时候供求信息id
      *
      * @apiSuccess {int}  err   错误码
