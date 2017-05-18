@@ -389,7 +389,7 @@ function usrChoose(e){
 					cname.load('/user/follow/get_contacts?c_id='+data.c_id);
 					var contact_id = mini.get("contact_id");
 					if(parseInt(contact_id.data.length) < 1){
-						alert("您没有该客户的联系人，请先完善联系人信息在建单");
+						alert("您没有该客户的联系人，请先完善联系人信息再建单");
 					}
 				}
 			}
