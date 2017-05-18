@@ -743,3 +743,112 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .releaseTxt{ padding: 0 20px; line-height: 25px; font-size: 15px; color: #666666;}
 .releaseMsg a{ width: 270px; height: 40px; margin: 30px 0 0 0; display: inline-block; color: #FFFFFF; border-bottom: 1px solid #bf3d00; line-height: 40px; background: #ff4f00; border-radius: 3px;}
 .releaseMsgIntro{ width: 100%; margin: 15px 0 0 0; display: inline-block; max-width: 375px; height: 95px; background: url(../img/releaseMsgIntro.png) no-repeat; background-size: 100% 100%;}
+
+.calendarLayer{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+}
+	.calendarNav{
+		width: auto;
+		padding: 0 10px;
+		line-height: 35px;
+		font-size: 15px;
+		border-bottom: 1px solid #ddd;
+	}
+	.calendarNav span{
+		float: right;
+		width: 35px;
+		height: 35px;
+		text-align: right;
+	}
+	.calendarTitle {
+		line-height: 30px;
+		padding: 0 10px;
+		border-bottom: 1px solid #ddd;
+	}
+	
+	.calendarWrap {
+		width: 280px;
+		height: auto;
+		border-radius: 4px;
+		background: #fdfeff;
+		margin: 0 auto;
+		position: fixed;
+		top: 5%;
+		left: 50%;
+		margin: 0 0 0 -140px;
+		font-size: 12px;
+		overflow: hidden;
+	}
+	/**
+ * 设置日历的大小
+ */
+
+.calendar {
+	width: 100%;
+	height: auto;
+	display: block;
+	border-bottom: 1px solid #ddd;
+}
+/**
+ * 设置日历顶部盒子
+ */
+
+.calendar .calendar-title-box {
+	position: relative;
+	width: auto;
+	margin: 0 10px;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  color: #000;
+  justify-content: space-around;
+  }
+   
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  }
+.days {
+  padding: 0;
+  background: #FFFFFF;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+   
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 14.2%;
+  line-height: 25px;
+  text-align: center;
+  font-size: 12px;
+  color: #000;
+}
+.days li span.disabled {
+	color: #bbbbbb;
+	pointer-events: none;
+}
+.days li span.on {
+	width: 20px;
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 50%;
+	background: #1484ff;
+	color: #FFFFFF;
+}

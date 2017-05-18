@@ -262,8 +262,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.mobile),
-      expression: "mobile"
+      value: (_vm.simpleCode),
+      expression: "simpleCode"
     }],
     staticStyle: {
       "margin": "0 0 0 10px"
@@ -274,12 +274,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请填写验证码"
     },
     domProps: {
-      "value": (_vm.mobile)
+      "value": (_vm.simpleCode)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.mobile = $event.target.value
+        _vm.simpleCode = $event.target.value
       }
     }
   }), _vm._v(" "), _c('i', {
@@ -291,6 +291,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "position": "absolute",
       "top": "0",
       "right": "0"
+    },
+    attrs: {
+      "src": _vm.simpleImg
     }
   })]), _vm._v(" "), _c('div', {
     staticStyle: {
@@ -303,8 +306,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.mobile),
-      expression: "mobile"
+      value: (_vm.dynamicCode),
+      expression: "dynamicCode"
     }],
     staticStyle: {
       "margin": "0 0 0 10px"
@@ -315,23 +318,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请填写动态码"
     },
     domProps: {
-      "value": (_vm.mobile)
+      "value": (_vm.dynamicCode)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.mobile = $event.target.value
+        _vm.dynamicCode = $event.target.value
       }
     }
   }), _vm._v(" "), _c('i', {
     staticClass: "regIcon code"
-  })]), _vm._v(" "), _c('input', {
+  })]), _vm._v(" "), _c('button', {
     staticClass: "dvc",
-    attrs: {
-      "type": "button",
-      "value": "获取动态验证码"
+    on: {
+      "click": _vm.send
     }
-  })])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.validCode))])])]), _vm._v(" "), _c('div', {
     staticClass: "registerBtn"
   }, [_c('input', {
     attrs: {
@@ -339,7 +341,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "登录"
     },
     on: {
-      "click": _vm.login
+      "click": _vm.login2
     }
   })])])])
 },staticRenderFns: []}
@@ -424,16 +426,116 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			mobile: "",
 			pwd: "",
 			checked: false,
-			tabshow: true
+			tabshow: true,
+			simpleImg: "",
+			simpleCode: "",
+			key: "",
+			times: 60,
+			dynamicCode: "",
+			validCode: "获取动态验证码"
 		};
 	},
 	methods: {
 		tab: function tab(n) {
+			var _this = this;
 			if (n == 1) {
 				this.tabshow = true;
 			} else {
 				this.tabshow = false;
+				$.ajax({
+					url: '/api/vcode/app',
+					type: 'get',
+					data: {},
+					headers: {
+						'X-UA': headers
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.simpleImg = res.img;
+						_this.key = res.key;
+					}
+				}).fail(function () {}).always(function () {});
 			}
+		},
+		send: function send() {
+			var _this = this;
+			$.ajax({
+				url: '/api/vcode/chkVcode',
+				type: 'post',
+				data: {
+					name: "regcode",
+					value: _this.simpleCode,
+					key: _this.key
+				},
+				headers: {
+					'X-UA': headers
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					if (_this.mobile) {
+						$.ajax({
+							url: '/user/login/sendMobileMsg',
+							type: 'post',
+							data: {
+								phonenum: _this.mobile,
+								from: 'h5'
+							},
+							headers: {
+								'X-UA': headers
+							},
+							dataType: 'JSON'
+						}).then(function (res) {
+							if (res.err == 0) {
+								weui.alert(res.msg, {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'parimary',
+										onClick: function onClick() {}
+									}]
+								});
+
+								var countStart = setInterval(function () {
+									_this.validCode = _this.times-- + '秒后重发';
+									if (_this.times < 0) {
+										clearInterval(countStart);
+										_this.validCode = "获取动态验证码";
+									}
+								}, 1000);
+							} else if (res.err == 1) {
+								weui.alert(res.msg, {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'parimary',
+										onClick: function onClick() {}
+									}]
+								});
+							}
+						}, function () {});
+					} else {
+						weui.alert("请填写手机号", {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				} else {
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function onClick() {}
+						}]
+					});
+				}
+			}).fail(function () {}).always(function () {});
 		},
 		login: function login() {
 			var _this = this;
@@ -489,6 +591,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 								name: 'login'
 							});
 						}
+					}]
+				});
+			}
+		},
+		login2: function login2() {
+			var _this = this;
+			if (this.mobile && this.dynamicCode && this.simpleCode) {
+				$.ajax({
+					url: version + '/user/simpleLogin',
+					type: 'post',
+					data: {
+						phonenum: _this.mobile,
+						regcode: _this.simpleCode,
+						phonevaild: _this.dynamicCode,
+						key: _this.key
+					},
+					headers: {
+						'X-UA': headers
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						window.localStorage.setItem("token", res.dataToken);
+						window.localStorage.setItem("userid", res.user_id);
+						_this.$router.push({
+							name: 'index'
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				}).fail(function () {}).always(function () {});
+			} else {
+				weui.alert("信息不能为空", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
 					}]
 				});
 			}

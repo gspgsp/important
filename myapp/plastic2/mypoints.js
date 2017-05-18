@@ -94,7 +94,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.selected = m.id
         }
       }
-    }), _vm._v("\n\t\t\t\t\t" + _vm._s(m.input_time)), _c('br'), _vm._v("\n\t\t\t\t\t供求："), _c('span', [_vm._v(_vm._s(m.contents))])])
+    }), _vm._v(" " + _vm._s(m.input_time) + "\n\t\t\t\t\t"), _c('br'), _vm._v(" 供求：\n\t\t\t\t\t"), _c('span', [_vm._v(_vm._s(m.contents))])])
   })), _vm._v(" "), _c('div', {
     staticClass: "productCost"
   }, [_vm._v("共"), _c('span', [_vm._v(_vm._s(_vm.pro2.num))]), _vm._v("件\n\t\t\t\t"), _c('div', {
@@ -104,7 +104,62 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("支付")]), _vm._v(" "), _c('div', {
     staticClass: "cost"
-  }, [_vm._v("总塑豆：" + _vm._s(_vm.pro2.cost))])])])])])])
+  }, [_vm._v("总塑豆：" + _vm._s(_vm.pro2.cost))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "calendarLayer"
+  }, [_c('div', {
+    staticClass: "calendarWrap"
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
+    staticClass: "calendarTitle"
+  }, [_vm._v("日期选择：")]), _vm._v(" "), _c('div', {
+    staticClass: "calendar",
+    attrs: {
+      "id": "calendar"
+    }
+  }, [_c('div', {
+    staticClass: "calendar-title-box"
+  }, [_c('span', {
+    staticClass: "calendar-title",
+    attrs: {
+      "id": "calendarTitle"
+    }
+  }, [_vm._v(_vm._s(_vm.currentYear) + "年" + _vm._s(_vm.currentMonth) + "月")])]), _vm._v(" "), _c('div', {
+    staticClass: "calendar-body-box"
+  }, [_vm._m(6), _vm._v(" "), _c('ul', {
+    staticClass: "days"
+  }, _vm._l((_vm.days), function(d) {
+    return _c('li', [(d.show) ? _c('span', {
+      class: {
+        disabled: d.disabled, on: d.selected
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(new Date(d.day).getDate()) + "\n\t\t\t\t\t\t")]) : _vm._e()])
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "calendar",
+    attrs: {
+      "id": "calendar2"
+    }
+  }, [_c('div', {
+    staticClass: "calendar-title-box"
+  }, [_c('span', {
+    staticClass: "calendar-title",
+    attrs: {
+      "id": "calendarTitle"
+    }
+  }, [_vm._v(_vm._s(_vm.currentYear2) + "年" + _vm._s(_vm.currentMonth2) + "月")])]), _vm._v(" "), _c('div', {
+    staticClass: "calendar-body-box"
+  }, [_vm._m(7), _vm._v(" "), _c('ul', {
+    staticClass: "days"
+  }, _vm._l((_vm.days2), function(d) {
+    return _c('li', [(d.show) ? _c('span', {
+      class: {
+        disabled: d.disabled
+      },
+      on: {
+        "click": function($event) {
+          _vm.pick(d.day)
+        }
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(new Date(d.day).getDate()) + "\n\t\t\t\t\t\t")]) : _vm._e()])
+  }))])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('header', {
     attrs: {
@@ -132,11 +187,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "productNum"
-  }, [_c('span', [_vm._v("*")]), _vm._v("请选择兑换数量：\n\t\t\t")])
+  }, [_c('span', [_vm._v("*")]), _vm._v("请选置顶日期：\n\t\t\t")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "productMsg"
   }, [_c('span', [_vm._v("*")]), _vm._v("请选择要置顶的供求信息（限选一条）：\n\t\t\t")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "calendarNav"
+  }, [_vm._v("通讯录一天置顶卡"), _c('span', [_vm._v("X")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "weekdays"
+  }, [_c('li', [_vm._v("日")]), _vm._v(" "), _c('li', [_vm._v("一")]), _vm._v(" "), _c('li', [_vm._v("二")]), _vm._v(" "), _c('li', [_vm._v("三")]), _vm._v(" "), _c('li', [_vm._v("四")]), _vm._v(" "), _c('li', [_vm._v("五")]), _vm._v(" "), _c('li', [_vm._v("六")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "weekdays"
+  }, [_c('li', [_vm._v("日")]), _vm._v(" "), _c('li', [_vm._v("一")]), _vm._v(" "), _c('li', [_vm._v("二")]), _vm._v(" "), _c('li', [_vm._v("三")]), _vm._v(" "), _c('li', [_vm._v("四")]), _vm._v(" "), _c('li', [_vm._v("五")]), _vm._v(" "), _c('li', [_vm._v("六")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -266,10 +333,103 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				num: 1,
 				price: 0
 			},
-			selected: ""
+			selected: "",
+			startDay: 1,
+			currentMonth: 1,
+			currentYear: 1970,
+			currentMonth2: 1,
+			currentYear2: 1970,
+			days: [],
+			days2: []
 		};
 	},
 	methods: {
+		initCalendar: function initCalendar(startDate, endDate, tookDate) {
+			var _this = this;
+
+			var year = new Date(startDate).getFullYear();
+			var month = new Date(startDate).getMonth() + 1;
+			var firstDay = new Date(year, month - 1, 1);
+			var daysTemp = [];
+			var startDay = new Date(startDate).getDate();
+			this.currentYear = new Date(startDate).getFullYear();
+			this.currentMonth = new Date(startDate).getMonth() + 1;
+
+			for (var i = 0; i < 35; i++) {
+				var thisDay = new Date(year, month - 1, i + 1 - firstDay.getDay());
+				var thisDayStr = this.formatDate(thisDay);
+				var thisDayStr = {
+					day: _this.formatDate(thisDay),
+					disabled: false,
+					show: false,
+					selected: false
+				};
+				daysTemp.push(thisDayStr);
+			}
+
+			daysTemp.forEach(function (v, i, a) {
+				if (new Date(v.day).getDate() < startDay) {
+					daysTemp[i].disabled = true;
+				}
+				if (new Date(v.day).getMonth() == month - 1) {
+					daysTemp[i].show = true;
+				}
+			});
+			tookDate.forEach(function (v, i, a) {
+				for (var i = 0; i < daysTemp.length; i++) {
+					if (daysTemp[i].day == v) {
+						daysTemp[i].disabled = true;
+					}
+				}
+			});
+			this.days = daysTemp;
+
+			var year2 = new Date(endDate).getFullYear();
+			var month2 = new Date(endDate).getMonth() + 1;
+			var firstDay2 = new Date(year2, month2 - 1, 1);
+			var daysTemp2 = [];
+			var endDay = new Date(endDate).getDate();
+			this.currentYear2 = new Date(endDate).getFullYear();
+			this.currentMonth2 = new Date(endDate).getMonth() + 1;
+
+			for (var i = 0; i < 35; i++) {
+				var thisDay2 = new Date(year2, month2 - 1, i + 1 - firstDay2.getDay());
+				var thisDayStr2 = this.formatDate(thisDay2);
+				var thisDayStr2 = {
+					day: _this.formatDate(thisDay2),
+					disabled: false,
+					show: false
+				};
+				daysTemp2.push(thisDayStr2);
+			}
+			daysTemp2.forEach(function (v, i, a) {
+				if (new Date(v.day).getDate() > endDay) {
+					daysTemp2[i].disabled = true;
+				}
+				if (new Date(v.day).getMonth() == month2 - 1) {
+					daysTemp2[i].show = true;
+				}
+			});
+			tookDate.forEach(function (v, i, a) {
+				for (var i = 0; i < daysTemp2.length; i++) {
+					if (daysTemp2[i].day == v) {
+						daysTemp2[i].disabled = true;
+					}
+				}
+			});
+			this.days2 = daysTemp2;
+		},
+		pick: function pick(date) {
+			console.log(date);
+		},
+		formatDate: function formatDate(date) {
+			var _year = date.getFullYear();
+			var _month = date.getMonth() + 1;
+			var _d = date.getDate();
+			_month = _month > 9 ? "" + _month : "0" + _month;
+			_d = _d > 9 ? "" + _d : "0" + _d;
+			return _year + '-' + _month + '-' + _d;
+		},
 		proAdd: function proAdd() {
 			this.pro.num++;
 			this.pro.cost = this.pro.num * this.pro.price;
@@ -381,6 +541,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			piwikTracker.trackPageView();
 		} catch (err) {}
 
+		this.initCalendar("2017-05-18", "2017-06-18", ["2017-05-19", "2017-05-22"]);
+
 		$.ajax({
 			type: "post",
 			url: version + "/product/getProductList",
@@ -401,7 +563,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						label: '确定',
 						type: 'parimary',
 						onClick: function onClick() {
-							_this.$router.push({ name: 'login' });
+							_this.$router.push({
+								name: 'login'
+							});
 						}
 					}]
 				});
