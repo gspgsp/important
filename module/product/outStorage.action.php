@@ -65,17 +65,17 @@ class outStorageAction extends adminBaseAction {
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 		);
-		$this->db->startTrans(); //开启事务
-		//获取订单中的发货时间和销售订单的关联采购joinid,用于区分后续扣库存操作
-		$info = $this->db->model('order')->select('delivery_time,join_id,order_type')->where(' o_id ='.$data['o_id'])->getRow();
-		$data['out_time']=$info['delivery_time'];
-		$this->db->model('out_storage')->add($data+$basic_info);
 		$ext = array(
 			'driver'=>$data['driver'],
 			'fax'=>$data['fax'],
 			'order_num'=>$data['order_num'],
 			'car_code'=>$data['car_code'],
 		);
+		$this->db->startTrans(); //开启事务
+		//获取订单中的发货时间和销售订单的关联采购joinid,用于区分后续扣库存操作
+		$info = $this->db->model('order')->select('delivery_time,join_id,order_type')->where(' o_id ='.$data['o_id'])->getRow();
+		$data['out_time']=$info['delivery_time'];
+		$this->db->model('out_storage')->add($data+$basic_info);
 		$storage_id=$this->db->getLastID(); //获取新增出库单ID
 		foreach ($data['log'] as $k => $v) {
 			$_data['o_id']=$v['o_id']; //订单id
@@ -111,7 +111,7 @@ class outStorageAction extends adminBaseAction {
 			//扣库存
 			// if($info['join_id']>0){ //上面查询的订单中存在joinid 表示先销后采
 				//调用循环扣库存并打log
-				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id,$storage_id,$ext);
+				$this->chkoutlog($v['out_number'],$v['inlog_id'],$v['id'],$inlog_id,$storage_id);
 				//库存的总明细扣减
 				$this->db->model('in_log')->where('id = '.$v['inlog_id'])->update(array('remainder'=>'-='.$v['out_number'],'lock_number'=>'-='.$v['out_number'],'update_admin'=>$_SESSION['name'],'update_time'=>CORE_TIME,));
 			// }else{ //正常销库存的操作
@@ -215,7 +215,7 @@ class outStorageAction extends adminBaseAction {
 	 * @param    integer                  $inlog_id [入库明细id]
 	 * @return   [type]                             [description]
 	 */
-	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$storage_id=0,$chk=0,$ext=array()){
+	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$storage_id=0,$chk=0){
 		//查询入库明细
 		$logs_info = $this->db->model('in_logs')->where(" inlog_id = $inlog_id and remainder<>0 ")->order('input_time asc')->getAll();
 		foreach ($logs_info as $k => $v) {
@@ -235,9 +235,7 @@ class outStorageAction extends adminBaseAction {
 						'input_time'=>CORE_TIME,
 						'storage_id'=>$storage_id,
 						);
-					p($outlogs+$ext);die;
-					$this->db->model('out_logs')->add($outlogs+$ext);
-					showtrace();
+					$this->db->model('out_logs')->add($outlogs);
 					$number -= $out;
 					$chk = $number == 0 ? 1 : 0;
 			}
