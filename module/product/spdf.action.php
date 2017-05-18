@@ -199,12 +199,12 @@ class spdfAction extends adminBaseAction {
 									<td height="20" bgcolor="#fff" style="line-height:20px">司机姓名，身份证</td>
 								</tr>
 								<tr height="30" align="center">
-									<td height="20" bgcolor="#fff" style="line-height:20px">（根据订单内容自动显示）</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">（根据订单内容自动显示）</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">填写</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">数量顿数*40</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">填写</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">填写</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px">LDPE</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px">7000F/石化</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px">30</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px">120</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px">预A23456900</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px">张三/566767686868687</td>
 								</tr>
 								<tr height="30" align="center">
 									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
