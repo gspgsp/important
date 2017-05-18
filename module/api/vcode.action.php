@@ -141,7 +141,7 @@ class vcodeAction extends homeBaseAction
                     'msg'=>'验证码已失效',
                 ));
             }
-            if($code!=$code)
+            if($value!=$code)
             {
                 $this->json_output(array(
                     'err'=>1,
