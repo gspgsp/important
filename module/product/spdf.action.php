@@ -2,7 +2,6 @@
 
 class spdfAction extends adminBaseAction {
 	public function __init(){
-		ini_set('display_errors','on');
 		E('TCPdf',APP_LIB.'extend');
 		$this->debug = false;
 		$this->template = $this->temp();
@@ -172,80 +171,80 @@ class spdfAction extends adminBaseAction {
 			return array(
 				'tihuo'=>'<table width="680" border="0" cellpadding="0" cellpadding="0" align="center">
 					<tr height="30">
-						<td colspan="2" align="center"><h1 style="font-size:16px;">上海中晨电子商务股份有限公司</h1></td>
+						<td colspan="2"  height="20" align="center"><h1 style="font-size:16px;">上海中晨电子商务股份有限公司</h1></td>
 					</tr>
 					<tr height="30">
-						<td colspan="2" align="center"><h2 style="font-size:14px;"><u>提货单</u></h2></td>
+						<td colspan="2"  height="20" align="center"><h2 style="font-size:14px;"><u>提货单</u></h2></td>
 					</tr>
 					<tr height="30">
-						<td>此单发给：<u>上架供应商名称</u></td>
+						<td  height="20">此单发给：<u>上架供应商名称</u></td>
 						<td align="right">NO：系统自动显示</td>
 					</tr>
 					<tr height="30">
-						<td>传真：<u>供应商传真</u></td>
-						<td align="right">2017年5月17日</td>
+						<td  height="20">传真：<u>供应商传真</u></td>
+						<td  height="20" align="right">2017年5月17日</td>
 					</tr>
 					<tr height="30">
 						<td colspan="2">
 							<table width="680" cellpadding="0" cellspacing="1" bgcolor="#ccc">
 								<tr height="30" align="center">
-									<td bgcolor="#fff">产品名称</td>
-									<td bgcolor="#fff">规格/型号</td>
-									<td bgcolor="#fff">数量（吨）</td>
-									<td bgcolor="#fff">件数（包）</td>
-									<td bgcolor="#fff">提货车辆牌号</td>
-									<td bgcolor="#fff">司机姓名，身份证</td>
+									<td height="20" bgcolor="#fff">产品名称</td>
+									<td height="20" bgcolor="#fff">规格/型号</td>
+									<td height="20" bgcolor="#fff">数量（吨）</td>
+									<td height="20" bgcolor="#fff">件数（包）</td>
+									<td height="20" bgcolor="#fff">提货车辆牌号</td>
+									<td height="20" bgcolor="#fff">司机姓名，身份证</td>
 								</tr>
 								<tr height="30" align="center">
-									<td bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td bgcolor="#fff">填写</td>
-									<td bgcolor="#fff">数量顿数*40</td>
-									<td bgcolor="#fff">填写</td>
-									<td bgcolor="#fff">填写</td>
+									<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td height="20" bgcolor="#fff">填写</td>
+									<td height="20" bgcolor="#fff">数量顿数*40</td>
+									<td height="20" bgcolor="#fff">填写</td>
+									<td height="20" bgcolor="#fff">填写</td>
 								</tr>
 								<tr height="30" align="center">
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
 								</tr>
 								<tr height="30" align="center">
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
-									<td bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
+									<td height="20" bgcolor="#fff">&nbsp;</td>
 								</tr>
 								<tr height="30">
-									<td bgcolor="#fff" align="center">备&nbsp;&nbsp;注</td>
-									<td bgcolor="#fff" colspan="5">&nbsp;&nbsp;&nbsp;请速传至仓库（可更改）</td>
+									<td height="20" bgcolor="#fff" align="center">备&nbsp;&nbsp;注</td>
+									<td height="20" bgcolor="#fff" colspan="5">&nbsp;&nbsp;&nbsp;请速传至仓库（可更改）</td>
 								</tr>
 								<tr height="30">
-									<td bgcolor="#fff" align="center">仓&nbsp;&nbsp;库</td>
-									<td bgcolor="#fff" colspan="5">&nbsp;&nbsp;&nbsp;仓库地址</td>
+									<td height="20" bgcolor="#fff" align="center">仓&nbsp;&nbsp;库</td>
+									<td height="20" bgcolor="#fff" colspan="5">&nbsp;&nbsp;&nbsp;仓库地址</td>
 								</tr>
 								<tr height="90">
-									<td bgcolor="#fff" align="center">说&nbsp;&nbsp;明</td>
-									<td bgcolor="#fff" colspan="5">
+									<td height="20" bgcolor="#fff" align="center">说&nbsp;&nbsp;明</td>
+									<td height="20" bgcolor="#fff" colspan="5">
 										<table cellpadding="0" cellspacing="0" border="0">
 											<tr>
-												<td>1、此提货单需加盖本公司提货专用章方可有效。</td>
+												<td height="20">1、此提货单需加盖本公司提货专用章方可有效。</td>
 											</tr>
 											<tr>
-												<td><hr color="#ccc" width="535" size="1"/></td>
+												<td height="20"><hr color="#ccc" width="535" size="1"/></td>
 											</tr>
 											<tr>
-												<td>2、本提货单有效期为<u>贰</u>天，手写无效。</td>
+												<td height="20">2、本提货单有效期为<u>贰</u>天，手写无效。</td>
 											</tr>
 											<tr>
-												<td><hr color="#ccc" width="535" size="1"/></td>
+												<td height="20"><hr color="#ccc" width="535" size="1"/></td>
 											</tr>
 											<tr>
-												<td>3、原厂原包装，保证品质：无破包、无污损，装货过程中如有破包，烦请贵公司负责安排更换。</td>
+												<td height="20">3、原厂原包装，保证品质：无破包、无污损，装货过程中如有破包，烦请贵公司负责安排更换。</td>
 											</tr>
 										</table>
 									</td>
@@ -254,10 +253,10 @@ class spdfAction extends adminBaseAction {
 						</td>
 					</tr>
 					<tr height="30">
-						<td colspan="2">&nbsp;</td>
+						<td height="20" colspan="2">&nbsp;</td>
 					</tr>
 					<tr height="30">
-						<td colspan="2"><u>如有问题，请联系：（提交订单的助理姓名和电话）</u></td>
+						<td height="20" colspan="2"><u>如有问题，请联系：（提交订单的助理姓名和电话）</u></td>
 					</tr>
 				</table>',
 				'weituo'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
