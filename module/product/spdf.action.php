@@ -27,7 +27,7 @@ class spdfAction extends adminBaseAction {
 			// 	</tr >';
 			// 	$totall += $sign;
 			// }
-			$contract = $this->template['tihuo']
+			$contract = $this->template['tihuo'];
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
 			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
