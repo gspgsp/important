@@ -41,6 +41,7 @@
 			<div field="store_name" width="55" headerAlign="center" align="center">仓库</div>
 			<div field="admin_name" width="55" headerAlign="center" align="center" >仓库管理</div>
 			<div field="input_time" width="55" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">操作时间</div>
+			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 		</div>
 	</div>
 </div></div>
@@ -76,9 +77,64 @@ function viewOrdInfo(id){
 	mini.open({
 		url: "/product/saleLog/info?id="+id,
 		showMaxButton:true,
-		title: "查看明细相关信息", 
+		title: "查看明细相关信息",
 		width: 450, height:320
-	});		
+	});
+}
+//新增产品详情
+function onLoadDetail(e){
+	var record = e.record,s='',id = record.id;
+	s+='<a href="javascript:tihuo('+id')">提货单</a>|';
+	s+='<a href="javascript:zhuanyi('+id')">货权转移单</a>|';
+	s+='<a href="javascript:weituo('+id')">委托送货单</a>';
+	return s;
+}
+
+
+//生成pdf文件
+function tihuo(id){
+	var width=845, height=650;
+	title="提货单";
+	mini.open({
+		url: "/product/spdf/tihuo?id="+id,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//生成pdf文件
+function zhuanyi(id){
+	var width=845, height=650;
+	title="货权转移单";
+	mini.open({
+		url: "/product/spdf/zhuanyi?id="+id,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//生成pdf文件
+function weituo(id){
+	var width=845, height=650;
+	title="委托送货单";
+	mini.open({
+		url: "/product/spdf/weituo?id="+id,
+		showMaxButton:true,
+		 title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
 }
 //撤销
 function release() {

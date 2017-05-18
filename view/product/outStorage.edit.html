@@ -30,6 +30,18 @@
 					<td><input id="name" name="store_aid" class="mini-combobox" textField="name" value="{$info.store_aid}" data='{:setMiniConfig|$admin_list}'   valueField="id"  style="width:120px;" required="true"/></td>
 				</tr>
 				<tr>
+					<td>供应商传真<font style="color:red;"> * </font></td>
+					<td><input name="fax" class="mini-textbox" value="{$data.fax}" style="width:120px" required="true"/></td>
+					<td>合同编号<font style="color:red;"> * </font></td>
+					<td><input name="order_num" class="mini-textbox" value="{$data.order_num}" style="width:120px;" required="true"/></td>
+				</tr>
+				<tr>
+					<td>司机信息<font style="color:red;"> * </font></td>
+					<td><input name="driver" class="mini-textbox" value="{$data.driver}"  style="width:120px" required="true"/></td>
+					<td>车牌<font style="color:red;"> * </font></td>
+					<td><input name="car_code" class="mini-textbox" value="{$data.car_code}" style="width:120px;" required="true"/></td>
+				</tr>
+				<tr>
 					<td>运费</td>
 					<td><input name="ship" class="mini-textbox" value="{$data.ship|default:0}"  style="width:120px;" />
 					</td>
@@ -43,7 +55,7 @@
 
 
 			</table>
-			
+
 		</fieldset>
 	</div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
@@ -60,14 +72,14 @@ sizeList="[10,20,50,100]" pageSize="20" allowCellSelect="true" allowCellEdit="tr
 		<div field="remainder" width="50" headerAlign="center"  align="center">未发数</div>
 		<div field="out_number" width="50" headerAlign="center"  align="center">发货数<font  style="color:red;">*</font>
 			<input property="editor" class="mini-textbox"  onvaluechanged="onValidation" style="width:100%;" minWidth="100" />
-		</div>   
+		</div>
 	</div>
 </div>
 	<div align="center" style="margin-top:10px;">
 		<a class="mini-button" iconcls="icon-ok" onclick="submitForm">发货</a>
 		<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 	</div>
-	
+
 <script type="text/javascript">
 mini.parse();
 var rows ;
@@ -98,9 +110,9 @@ function viewOrdInfo(id){
 	mini.open({
 		url: "/product/saleLog/info?id="+id,
 		showMaxButton:true,
-		title: "查看明细相关信息", 
+		title: "查看明细相关信息",
 		width: 700, height:450
-	});		
+	});
 }
 function submitForm() {
 	var isok = true;
@@ -113,7 +125,7 @@ function submitForm() {
 		if(!rows[i].out_number){
 			$("#returnMsg").text("请填写出库数量");
 			isok=false;
-		} 
+		}
 		if(parseInt(rows[i].out_number)>parseInt(rows[i].remainder)){
 			$("#returnMsg").text("请填写正确出库数量");
 			isok=false;
@@ -124,7 +136,7 @@ function submitForm() {
 
 	//提交数据
 	var o = form.getData();
-	$.extend(o, {log:rows}); 
+	$.extend(o, {log:rows});
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
