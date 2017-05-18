@@ -546,7 +546,7 @@ class userAction extends baseAction
 
             $key=sget('key','s');
 
-                $regcode=strtolower(sget('regcode','s'));
+                $regcode=sget('regcode','i',0);
                 if(empty($regcode)){
                     $this->error('请输入验证码');
                 }
