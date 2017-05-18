@@ -559,7 +559,7 @@ class userAction extends baseAction
                     'msg'=>'验证码已失效',
                 ));
             }
-            if($code!=$regcode)
+            if($code['mcode']!=$regcode)
             {
                 $this->json_output(array(
                     'err'=>1,
