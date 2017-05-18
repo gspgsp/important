@@ -175,7 +175,7 @@ class loginAction extends homeBaseAction{
 	 * @apiSuccessExample Success-Response:
 	 *      {
 	 *      "err":0
-	 *      "msg":""
+	 *      "msg":"手机动态码发送成功"
 	 *      }
 	 *
 	 */
@@ -218,7 +218,7 @@ class loginAction extends homeBaseAction{
 			if($rs['error']){
 	        $this->error($rs['msg']);
 	    }else{
-	        $this->success();
+	        $this->success('手机动态码发送成功');
 	    }
 	}
 
