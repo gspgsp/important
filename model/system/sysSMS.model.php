@@ -253,7 +253,53 @@ class sysSMSModel extends model{
 		return array('error'=>0,'msg'=>$msg);
 
 	}
-	
+
+   /*
+	* 发送手机短信
+	* @access public
+	* @param string $mobile 手机号 $user_id 用户ID
+	* @return (error,msg)
+	*/
+	public function sendAppMobileMsg($user_id,$mobile,$msgType="",$stype=1,$msg=array()){
+		//检查手机发送次数:注册
+		$num=$this->getSendNum($mobile,$stype);
+		if($num>20){
+			return array('error'=>1,'msg'=>'动态码已发送多次，请耐心等待');
+		}
+
+		//发送短信
+		$mcode=0;
+		$cache= E('RedisCluster',APP_LIB.'class');
+		$name            = 'qapp_vcode_';
+		$code = json_decode($cache->get($name.$mobile),true);
+		//有效期300秒
+		if(!empty($code)){
+			if(CORE_TIME-$code['mctime']<60){
+				return array('error'=>1,'msg'=>'动态码已发送成功，请稍候再试');
+			}elseif(CORE_TIME-$code['mctime']<300){
+				$mcode=substr($code['mcode'],0,6);
+			}
+		}
+		if(empty($mcode)){
+			$mcode=mt_rand(100820,999560);
+		}
+		if($msg){
+			$msg=sprintf(L($msgType),$msg['NO'],$msg['ACC']);
+		}else{
+			$msg=sprintf(L($msgType),$mcode);
+		}
+		//发送手机动态码
+		$this->send($user_id,$mobile,$msg,$stype);
+
+		$arr = array(
+			'mcode'=>$mcode,
+			'mctime'=>CORE_TIME
+		);
+		$cache->set($name.$mobile,json_encode($arr),300);
+
+		return array('error'=>0,'msg'=>$msg);
+
+	}
 	/*
 	 * 注册时限制检查
      * @access public
