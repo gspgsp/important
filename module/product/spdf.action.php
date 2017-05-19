@@ -235,19 +235,19 @@ class spdfAction extends adminBaseAction {
 									<td height="20" bgcolor="#fff" colspan="5">
 										<table cellpadding="0" cellspacing="0" border="0">
 											<tr>
-												<td height="20" style="line-height:20px">1、此提货单需加盖本公司提货专用章方可有效。</td>
+												<td height="20" align="left" style="line-height:20px">1、此提货单需加盖本公司提货专用章方可有效。</td>
+											</tr>
+											<tr>
+												<td height="20" align="left" style="line-height:20px"><hr color="#ccc" width="535" size="1"/></td>
+											</tr>
+											<tr>
+												<td height="20" align="left" style="line-height:20px">2、本提货单有效期为<u>贰</u>天，手写无效。</td>
 											</tr>
 											<tr>
 												<td height="20" style="line-height:20px"><hr color="#ccc" width="535" size="1"/></td>
 											</tr>
 											<tr>
-												<td height="20" style="line-height:20px">2、本提货单有效期为<u>贰</u>天，手写无效。</td>
-											</tr>
-											<tr>
-												<td height="20" style="line-height:20px"><hr color="#ccc" width="535" size="1"/></td>
-											</tr>
-											<tr>
-												<td height="20" style="line-height:20px">3、原厂原包装，保证品质：无破包、无污损，装货过程中如有破包，烦请贵公司负责安排更换。</td>
+												<td height="20" align="left" style="line-height:20px">3、原厂原包装，保证品质：无破包、无污损，装货过程中如有破包，烦请贵公司负责安排更换。</td>
 											</tr>
 										</table>
 									</td>
