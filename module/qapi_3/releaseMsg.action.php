@@ -891,10 +891,6 @@ class releaseMsgAction extends baseAction
                         if (!$pur_model->add ($_data)) {
                             throw new Exception("系统错误 pubpur:103");
                         }
-                        //标准发布加积分
-                        if (A("api:points")->addScoreByPur($type,1,$user_id)['err'] > 0) {
-                            throw new Exception("系统错误 pubpur:103");
-                        }
 
                         $pur_id = $pur_model->getLastID ();
                     } catch (Exception $e) {
@@ -918,12 +914,17 @@ class releaseMsgAction extends baseAction
                 }
                 $tmpContent .= "信息，信息内容为:";
                 $tmpContent .= '价格'.$value['price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
+                //标准发布加积分
+                if (A("api:points")->addScoreByPur($type,1,$user_id)['err'] > 0) {
+                    $this->_errCode(7);
+                }
                 if (!empty($tmpFuns)) {
                     foreach ($tmpFuns as $v) {
                         M ("qapp:robotMsg")->saveRobotMsg ($pur_id, $user_id, $v['user_id'], $tmpContent, $type = 1);
                         usleep (10);
                     }
                 }
+
             }
             /**
              *  添加到redis里面
