@@ -317,16 +317,16 @@ class spdfAction extends adminBaseAction {
 					</table>',
 				'zhuanyi'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
 					<tr height="30">
-						<td height="20" style="line-height:20px">NO：</td>
+						<td align="left" height="20" style="line-height:20px">NO：</td>
 					</tr>
 					<tr height="30">
 						<td height="20" style="line-height:20px" align="center"><h1 style="font-size:16px;">货权转移单</h1></td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px"><h2 style="font-size:14px;">TO（供应商）：供应商名称</h2></td>
+						<td align="left" height="20" style="line-height:20px"><h2 style="font-size:14px;">TO（供应商）：供应商名称</h2></td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）</td>
+						<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）</td>
 					</tr>
 					<tr>
 						<td height="20">
@@ -356,13 +356,13 @@ class spdfAction extends adminBaseAction {
 						</td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px">以上货物的货权转至<u>（填写）</u></td>
+						<td height="20" align="left" style="line-height:20px">以上货物的货权转至<u>（填写）</u></td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px">请将入库单传真至：<u>（填写订单的物流助理传真和电话）</u></td>
+						<td height="20" align="left" style="line-height:20px">请将入库单传真至：<u>（填写订单的物流助理传真和电话）</u></td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px">（此单手写无效）</td>
+						<td height="20" align="left" style="line-height:20px">（此单手写无效）</td>
 					</tr>
 					<tr height="30">
 						<td height="20" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
