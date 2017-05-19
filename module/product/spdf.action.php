@@ -264,16 +264,16 @@ class spdfAction extends adminBaseAction {
 				</table>',
 				'weituo'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
 						<tr height="30">
-							<td height="20" style="line-height:20px">NO：</td>
+							<td height="20" align="left" style="line-height:20px">NO：</td>
 						</tr>
 						<tr height="30">
-							<td height="20" style="line-height:20px" align="center"><h1 style="font-size:16px;">委托送货单</h1></td>
+							<td height="20" align="left" style="line-height:20px" align="center"><h1 style="font-size:16px;">委托送货单</h1></td>
 						</tr>
 						<tr height="30">
-							<td height="20" style="line-height:20px"><h2 style="font-size:14px;">TO:供应商名称</h2></td>
+							<td height="20" align="left" style="line-height:20px"><h2 style="font-size:14px;">TO:供应商名称</h2></td>
 						</tr>
 						<tr height="30">
-							<td height="20" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）安排送货：</td>
+							<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）安排送货：</td>
 						</tr>
 						<tr>
 							<td height="20">
