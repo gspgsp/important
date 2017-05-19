@@ -102,7 +102,7 @@ class pdfAction extends adminBaseAction {
 						</table>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
-								<td width="30" height="20" style="line-height:20px;">六、</td>
+								<td width="30" height="20" style="line-height:20px;">七、</td>
 								<td width="100" height="20" style="line-height:20px;">所有权归属：</td>
 								<td width="505" height="20" style="line-height:20px;">
 									乙方付清全部货款前，无论货物是否交付，全部货物所有权归属甲方。乙方付清全部货款后，提货之日起货物所有权归属乙方，乙方付清全部货款后，提货之日起货物毁损灭失等风险由乙方承担。
@@ -111,7 +111,7 @@ class pdfAction extends adminBaseAction {
 						</table>
 						<table width="635" align="left" bgcolor="#fff">
 							 <tr>
-								<td width="30" height="20" style="line-height:20px;">七、</td>
+								<td width="30" height="20" style="line-height:20px;">八、</td>
 								<td width="100" height="20" style="line-height:20px;">违约责任：</td>
 								<td width="505" height="20" style="line-height:20px;">1、甲方承担赔偿责任的， 仅限于乙方直接损失，且以相应货物价值为限。</td>
 							</tr>
@@ -135,14 +135,14 @@ class pdfAction extends adminBaseAction {
 						</table>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
-								<td width="30" height="20" style="line-height:20px;">八、</td>
+								<td width="30" height="20" style="line-height:20px;">九、</td>
 								<td width="100" height="20" style="line-height:20px;">争议解决：</td>
 								<td width="505" height="20" style="line-height:20px;">双方合同履行过程中产生纠纷，应协商解决，协商不成的，应向甲方住所地人民法院起诉。</td>
 							</tr>
 						</table>
 						<table width="635" align="left" bgcolor="#fff">
 							<tr>
-								<td width="30" height="20" style="line-height:20px;">九、</td>
+								<td width="30" height="20" style="line-height:20px;">十、</td>
 								<td width="100" height="20" style="line-height:20px;">其他约定：</td>
 								<td width="505" height="20" style="line-height:20px;">1、乙方付清全部货款后，甲方开始给乙方百分之十七的增值税发票。</td>
 							</tr>
@@ -653,7 +653,7 @@ class pdfAction extends adminBaseAction {
 		 */
 		private function _cny($ns){
 			static $cnums = array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖"),
-			$cnyunits = array("圆","角","分"),
+			$cnyunits = array("元","角","分"),
 			$grees = array("拾","佰","仟","万","拾","佰","仟","亿");
 			list($ns1,$ns2) = explode(".",$ns,2);
 			$ns2 = array_filter(array($ns2[1],$ns2[0]));
