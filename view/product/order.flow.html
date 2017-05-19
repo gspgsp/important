@@ -135,7 +135,7 @@
 			{if $val && $val.step gt 1}
 				<li>{$val.input_time|date: Y/m/d H:i:s}&nbsp;&nbsp;&nbsp;{$val.input_admin}</li>
 				<li>总额：{$val.total}元</li>
-				<li>本次{if $type eq 1}开{else}收{/if}票：{$val.payed}元</li>
+				<li>累计{if $type eq 1}开{else}收{/if}票：{$val.payed}元</li>
 				<li>余额：{$val.lefted}</li>
 			{/if}
 			</ul>
