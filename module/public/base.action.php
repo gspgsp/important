@@ -10,6 +10,7 @@ class baseAction extends null2Action
     protected $db, $err, $cates, $catesAll, $pointsType, $orderStatus, $rePoints, $points, $newsSubscribe, $newsSubscribeDefault, $cache, $randomTime, $randomMdTime, $shareType;
     public function __init ()
     {
+
         $this->db    = M ('public:common');
         $this->cache = E ('RedisCluster', APP_LIB.'class');
         $this->cates = array(
