@@ -264,111 +264,111 @@ class spdfAction extends adminBaseAction {
 				</table>',
 				'weituo'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
 						<tr height="30">
-							<td height="20">NO：</td>
+							<td height="20" style="line-height:20px">NO：</td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="center"><h1 style="font-size:16px;">委托送货单</h1></td>
+							<td height="20" style="line-height:20px" align="center"><h1 style="font-size:16px;">委托送货单</h1></td>
 						</tr>
 						<tr height="30">
-							<td height="20"><h2 style="font-size:14px;">TO:供应商名称</h2></td>
+							<td height="20" style="line-height:20px"><h2 style="font-size:14px;">TO:供应商名称</h2></td>
 						</tr>
 						<tr height="30">
-							<td height="20">请将我司采购的塑料粒子合同编号：（填写）安排送货：</td>
+							<td height="20" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）安排送货：</td>
 						</tr>
 						<tr>
 							<td height="20">
 								<table width="635" cellpadding="0" cellspacing="1" bgcolor="#ccc">
 									<tr height="30" align="center">
-										<td height="20" bgcolor="#fff">产品名称</td>
-										<td height="20" bgcolor="#fff">规格/型号</td>
-										<td height="20" bgcolor="#fff">产地</td>
-										<td height="20" bgcolor="#fff">数量（吨）</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">产品名称</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">规格/型号</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">产地</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">数量（吨）</td>
 									</tr>
 									<tr height="30" align="center">
-										<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-										<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-										<td height="20"bgcolor="#fff">（根据订单内容自动显示）</td>
-										<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+										<td style="line-height:20px" height="20"bgcolor="#fff">（根据订单内容自动显示）</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
 									</tr>
 									<tr height="30">
-										<td height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：</td>
 									</tr>
 									<tr height="30">
-										<tdheight="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：</td>
 									</tr>
 									<tr height="30">
-										<td height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 						<tr height="30">
-							<td height="20">（此单手写无效）</td>
+							<td height="20" style="line-height:20px">（此单手写无效）</td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="right">上海中晨电子商务股份有限公司</td>
+							<td height="20" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="right">2017年5月17日</td>
+							<td height="20" style="line-height:20px" align="right">2017年5月17日</td>
 						</tr>
 						<tr height="30">
-							<td height="20">如有问题，请联系：（助理电话和姓名）</td>
+							<td height="20" style="line-height:20px">如有问题，请联系：（助理电话和姓名）</td>
 						</tr>
 					</table>',
 				'zhuanyi'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
 					<tr height="30">
-						<td height="20">NO：</td>
+						<td height="20" style="line-height:20px">NO：</td>
 					</tr>
 					<tr height="30">
-						<td height="20" align="center"><h1 style="font-size:16px;">货权转移单</h1></td>
+						<td height="20" style="line-height:20px" align="center"><h1 style="font-size:16px;">货权转移单</h1></td>
 					</tr>
 					<tr height="30">
-						<td height="20"><h2 style="font-size:14px;">TO（供应商）：供应商名称</h2></td>
+						<td height="20" style="line-height:20px"><h2 style="font-size:14px;">TO（供应商）：供应商名称</h2></td>
 					</tr>
 					<tr height="30">
-						<td height="20">请将我司采购的塑料粒子合同编号：（填写）</td>
+						<td height="20" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）</td>
 					</tr>
 					<tr>
 						<td height="20">
 							<table width="635" cellpadding="0" cellspacing="1" bgcolor="#ccc">
 								<tr height="30" align="center">
-									<td height="20" bgcolor="#fff">产品名称</td>
-									<td height="20" bgcolor="#fff">规格/型号</td>
-									<td height="20" bgcolor="#fff">产地</td>
-									<td height="20" bgcolor="#fff">数量（吨）</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">产品名称</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">规格/型号</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">产地</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">数量（吨）</td>
 								</tr>
 								<tr height="30" align="center">
-									<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
 								</tr>
 								<tr height="30">
-									<td height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（填写）</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（填写）</td>
 								</tr>
 								<tr height="30">
-									<td height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（填写）</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（填写）</td>
 								</tr>
 								<tr height="30">
-									<td height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
 								</tr>
 							</table>
 						</td>
 					</tr>
 					<tr height="30">
-						<td height="20">以上货物的货权转至<u>（填写）</u></td>
+						<td height="20" style="line-height:20px">以上货物的货权转至<u>（填写）</u></td>
 					</tr>
 					<tr height="30">
-						<td height="20">请将入库单传真至：<u>（填写订单的物流助理传真和电话）</u></td>
+						<td height="20" style="line-height:20px">请将入库单传真至：<u>（填写订单的物流助理传真和电话）</u></td>
 					</tr>
 					<tr height="30">
-						<td height="20">（此单手写无效）</td>
+						<td height="20" style="line-height:20px">（此单手写无效）</td>
 					</tr>
 					<tr height="30">
-						<td height="20" align="right">上海中晨电子商务股份有限公司</td>
+						<td height="20" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
 					</tr>
 					<tr height="30">
-						<td height="20" align="right">2017年5月17日</td>
+						<td height="20" style="line-height:20px" align="right">2017年5月17日</td>
 					</tr>
 				</table>',
 			);
