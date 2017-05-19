@@ -128,7 +128,7 @@ watch: {
 								id:_this.id
 							},
 							headers: {
-								'X-UA': headers
+								'X-UA': window.localStorage.getItem("XUA")
 							},
 							dataType: 'JSON'
 						}).done(function(res){
@@ -158,7 +158,7 @@ watch: {
 								id:_this.id
 							},
 							headers: {
-								'X-UA': headers
+								'X-UA': window.localStorage.getItem("XUA")
 							},
 							dataType: 'JSON'
 						}).done(function(res){
@@ -203,7 +203,7 @@ methods: {
 					id: id
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -288,7 +288,7 @@ activated: function() {
 			token: window.localStorage.getItem("token")
 		},
 		headers: {
-			'X-UA': headers
+			'X-UA': window.localStorage.getItem("XUA")
 		},
 		dataType: 'JSON',
 		async:true

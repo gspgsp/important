@@ -251,7 +251,7 @@ export default{
 							size: 10
 						},
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
@@ -311,7 +311,7 @@ export default{
 							size: 10
 						},
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
@@ -370,7 +370,7 @@ export default{
 							size: 10
 						},
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						dataType: 'JSON'
 					}).then(function(res) {
@@ -486,7 +486,7 @@ export default{
 					size: 10
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -558,7 +558,7 @@ export default{
 					size: 10
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -636,7 +636,7 @@ export default{
 						size: 10
 					},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).then(function(res) {
@@ -696,7 +696,7 @@ export default{
 				size: 10
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {

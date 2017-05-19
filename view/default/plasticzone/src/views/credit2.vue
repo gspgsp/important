@@ -68,7 +68,7 @@ export default{
 				link_id: _this.$route.params.id
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {

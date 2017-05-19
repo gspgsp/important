@@ -164,7 +164,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						data: {
 							keywords: "",
@@ -190,16 +190,16 @@ export default {
 					});
 				}
 			}, {
-				label: '塑料制品企业',
+				label: '塑料制品厂',
 				onClick: function() {
 					_this.c_type = 1;
-					_this.txt = "塑料制品企业";
+					_this.txt = "塑料制品厂";
 					_this.page = 1;
 					$.ajax({
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						data: {
 							keywords: "",
@@ -234,7 +234,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 
 						data: {
@@ -270,7 +270,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 
 						data: {
@@ -306,7 +306,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						data: {
 							keywords: "",
@@ -352,7 +352,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 
 						data: {
@@ -388,7 +388,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 
 						data: {
@@ -424,7 +424,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 
 						data: {
@@ -460,7 +460,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 
 						data: {
@@ -496,7 +496,7 @@ export default {
 						type: "post",
 						url: version + "/friend/getPlasticPerson",
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 
 						data: {
@@ -541,7 +541,7 @@ export default {
 				type: "post",
 				url: version + "/friend/getPlasticPerson",
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				data: {
 					keywords: "",
@@ -583,7 +583,7 @@ export default {
 					url: version + "/friend/getPlasticPerson",
 					type: 'post',
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 
 					data: {
@@ -622,7 +622,7 @@ export default {
 					type: "post",
 					url: version + "/friend/getPlasticPerson",
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					data: {
 						sortField: _this.sortField,
@@ -673,7 +673,7 @@ export default {
 					type: "get",
 					url: version + "/friend/getPlasticPerson",
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 
 					data: {
@@ -692,7 +692,7 @@ export default {
 						if(vm.c_type == 0) {
 							vm.txt = "所有分类";
 						} else if(vm.c_type == 1) {
-							vm.txt = "塑料制品企业";
+							vm.txt = "塑料制品厂";
 						} else if(vm.c_type == 2) {
 							vm.txt = "原料供应商";
 						} else if(vm.c_type == 4) {
@@ -756,7 +756,7 @@ export default {
 			type: "post",
 			url: version + "/friend/getPlasticPerson",
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			data: {
 				keywords: "",
@@ -778,7 +778,7 @@ export default {
 				if(_this.c_type == 0) {
 					_this.txt = "所有分类";
 				} else if(_this.c_type == 1) {
-					_this.txt = "塑料制品企业";
+					_this.txt = "塑料制品厂";
 				} else if(_this.c_type == 2) {
 					_this.txt = "原料供应商";
 				} else if(_this.c_type == 4) {

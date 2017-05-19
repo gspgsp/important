@@ -37,7 +37,7 @@
 			</div>
 			<div class="registerBox2">
 				<strong><span>*</span>企业类型:</strong>
-				<input name="firm" type="radio" value="1" v-model="c_type" /><label>塑料制品企业</label>
+				<input name="firm" type="radio" value="1" v-model="c_type" /><label>塑料制品厂</label>
 				<input name="firm" type="radio" value="2" v-model="c_type" /><label>原料供应商</label>
 				<input name="firm" type="radio" value="4" v-model="c_type" /><label>物流服务商</label>
 			</div>
@@ -80,7 +80,7 @@ export default{
 						type: 0
 					},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).then(function(res) {
@@ -150,7 +150,7 @@ export default{
 						c_type: _this.c_type
 					},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).then(function(res) {

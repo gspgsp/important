@@ -50,7 +50,7 @@ export default{
     			size:50
     		},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
     		dataType: 'JSON'
     	}).then(function(res){

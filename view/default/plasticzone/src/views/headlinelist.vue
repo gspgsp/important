@@ -135,7 +135,7 @@ methods: {
 					subscribe: 2
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -171,7 +171,7 @@ methods: {
 					token: window.localStorage.getItem("token")
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -218,7 +218,7 @@ methods: {
 				token: window.localStorage.getItem("token")
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 			}).done(function(res) {
@@ -371,7 +371,7 @@ methods: {
 					subscribe: 2
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -400,7 +400,7 @@ methods: {
 					token: window.localStorage.getItem("token")
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).done(function(res) {
@@ -481,7 +481,7 @@ activated: function() {
 				subscribe: 2
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
@@ -507,7 +507,7 @@ activated: function() {
 				token: window.localStorage.getItem("token")
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
@@ -564,7 +564,7 @@ activated: function() {
 					token: window.localStorage.getItem("token")
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {

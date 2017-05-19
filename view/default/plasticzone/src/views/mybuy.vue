@@ -79,7 +79,7 @@ export default{
 								token: window.localStorage.getItem("token")
 							},
 							headers: {
-								'X-UA': headers
+								'X-UA': window.localStorage.getItem("XUA")
 							},
 							dataType: 'JSON'
 						}).then(function(res) {
@@ -128,7 +128,7 @@ export default{
 				size: 50
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {

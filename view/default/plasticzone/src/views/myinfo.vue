@@ -42,26 +42,24 @@
 			<tr>
 				<td style="padding: 0 0 0 15px;">所属地区：</td>
 				<td style="padding: 0 15px 0 7px;">
-					<span v-if="isDisabled">{{adistinct}}</span>
-					<span v-if="!isDisabled">
+					<span>{{adistinct}}</span>
+					<!--<span v-if="!isDisabled">
 						<input type="radio" value="EC" v-model="distinctradio" />&nbsp;华东&nbsp;
 						<input type="radio" value="NC" v-model="distinctradio" />&nbsp;华北&nbsp;
 						<input type="radio" value="SC" v-model="distinctradio" />&nbsp;华南&nbsp;
 						<input type="radio" value="OT" v-model="distinctradio" />&nbsp;其他&nbsp;
-					</span>
+					</span>-->
 				</td>
 			</tr>
 			<tr>
 				<td style="padding: 0 0 0 15px;">企业类型：</td>
 				<td style="padding: 0 15px 0 7px;">
-					<span v-if="isDisabled">
-						{{c_nametype}}
-					</span>
-					<span v-if="!isDisabled">
-						<input type="radio" value="1" v-on:change="ctypeShow" v-model="c_type" />&nbsp;塑料制品企业&nbsp;
+					<span>{{c_nametype}}</span>
+					<!--<span v-if="!isDisabled">
+						<input type="radio" value="1" v-on:change="ctypeShow" v-model="c_type" />&nbsp;塑料制品厂&nbsp;
 						<input type="radio" value="2" v-on:change="ctypeShow" v-model="c_type" />&nbsp;原料供应商&nbsp;
 						<input type="radio" value="4" v-on:change="ctypeShow" v-model="c_type" />&nbsp;物流服务商&nbsp;
-					</span>					
+					</span>-->
 				</td>
 			</tr>
 			<tr v-if="isType">
@@ -208,7 +206,7 @@ export default{
 					main_product:_this.main_product
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -238,7 +236,7 @@ export default{
 					token: window.localStorage.getItem("token")
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -259,7 +257,7 @@ export default{
 					token: window.localStorage.getItem("token")
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -280,7 +278,7 @@ export default{
 					token: window.localStorage.getItem("token")
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -399,7 +397,7 @@ export default{
 				token: window.localStorage.getItem("token")
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {

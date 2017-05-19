@@ -151,7 +151,7 @@ export default{
 				type: 1
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
@@ -176,7 +176,7 @@ export default{
 				type: 2
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).then(function(res) {

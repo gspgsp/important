@@ -16,19 +16,29 @@
 	<div class="pointsTitle">商品信息</div>
 	<ul id="productUl">
 		<li>
-			<div style="overflow: hidden; position: relative;">
+			<div style="overflow: hidden; padding: 10px 0 0 0; position: relative;">
 				<img v-bind:src="p1.thumb">
 			</div>
-			<div class="productNum">
+			<div v-if="daySelected.length==0" class="productNum">
 				<span>*</span>请选置顶日期：
+				<i class="iconSelect" v-on:click="calendarShow"></i>
 			</div>
-			<div class="productCost">共<span>{{pro.num}}</span>件
+			<div v-else class="calendarSelected">
+				<span>已选择：</span>
+				<div style="width: auto; margin: 0 25px 0 0; overflow: hidden;">
+					<div class="calendarRange" style="width: 100%;">
+						<span v-for="d in daySelected">{{new Date(d).getMonth()+1}}月{{new Date(d).getDate()}}日</span>
+					</div>
+				</div>
+				<i class="iconSelect" v-on:click="calendarShow"></i>
+			</div>
+			<div class="productCost">共<span>{{daySelected.length}}</span>件
 				<div class="exchange" v-on:click="proExchange">支付</div>
-				<div class="cost">总塑豆：{{pro.cost}}</div>
+				<div class="cost">总计：{{pro.cost*daySelected.length}}塑豆</div>
 			</div>
 		</li>
 		<li>
-			<div style="overflow: hidden; position: relative;">
+			<div style="overflow: hidden; padding: 10px 0 0 0; position: relative;">
 				<img v-bind:src="p2.thumb">
 			</div>
 			<div class="productNum">
@@ -51,9 +61,9 @@
 		</li>
 	</ul>
 </div>
-<div class="calendarLayer">
+<div class="calendarLayer" v-if="dateShow">
 	<div class="calendarWrap">
-		<div class="calendarNav">通讯录一天置顶卡<span>X</span></div>
+		<div class="calendarNav">通讯录一天置顶卡<span v-on:click="calendarHide">X</span></div>
 		<div class="calendarTitle">日期选择：</div>
 		<div class='calendar' id='calendar'>
 			<div class="calendar-title-box"><span class="calendar-title" id="calendarTitle">{{ currentYear }}年{{ currentMonth }}月</span></div>
@@ -69,9 +79,7 @@
 				</ul>
 				<ul class="days">
 					<li v-for="d in days">
-						<span v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.selected}">
-							{{new Date(d.day).getDate()}}
-						</span>
+						<span v-on:click="pick(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.on}">{{new Date(d.day).getDate()}}</span>
 					</li>
 				</ul>
 			</div>
@@ -90,13 +98,16 @@
 				</ul>
 				<ul class="days">
 					<li v-for="d in days2">
-						<span v-on:click="pick(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.on}">
-							{{new Date(d.day).getDate()}}
-						</span>
+						<span v-on:click="pick(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.on}">{{new Date(d.day).getDate()}}</span>
 					</li>
 				</ul>
 			</div>
-
+		</div>
+		<div class="calendarSelected">
+			<span>已选择：</span>
+			<div class="calendarRange">
+				<span v-for="d in daySelected">{{new Date(d).getMonth()+1}}月{{new Date(d).getDate()}}日</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -106,14 +117,12 @@
 export default {
 	data: function() {
 		return {
-			p1: "",
+		p1: "",
 		p2: "",
 		points: 0,
 		pro: {
 			id: "",
-			cost: 100,
-			num: 1,
-			price: 0
+			cost: 100
 		},
 		pro2: {
 			id: "",
@@ -129,13 +138,19 @@ export default {
 		currentYear2: 1970,
 		days: [],
 		days2:[],
-		daySelected:[]
+		daySelected:[],
+		dateShow:false
 	}
 },
 methods: {
+	calendarShow:function(){
+		this.dateShow=true;
+	},
+	calendarHide:function(){
+		this.dateShow=false;
+	},
 	initCalendar: function(startDate,endDate,tookDate) {
 		var _this=this;
-	
 		var year = new Date(startDate).getFullYear();
 		var month = new Date(startDate).getMonth() + 1;
 		var firstDay = new Date(year, month - 1, 1);
@@ -151,7 +166,7 @@ methods: {
 				day:_this.formatDate(thisDay),
 				disabled:false,
 				show:false,
-				selected:false
+				on:false
 			}
 			daysTemp.push(thisDayStr);
 		}
@@ -209,28 +224,26 @@ methods: {
 			}
 		});
 		this.days2=daysTemp2;
+		this.totalDays=this.days.concat(this.days2);
 	},
 	pick:function(date){
 		var _this=this;
 		if (this.daySelected.indexOf(date)==-1) {
 			this.daySelected.push(date);
-			console.log(this.days2.indexOf(date));
-			this.days2[this.days2.indexOf(date)].on=true;
+			this.totalDays.forEach(function(v,i,a){
+				if(v.day==date){
+					v.on=true;
+				}
+			});
 		} else{
-			var index=_this.daySelected.indexOf();
-			this.days2[this.days2.indexOf(date)].on=false;
+			var index=_this.daySelected.indexOf(date);
 			this.daySelected.splice(index,1);
+			this.totalDays.forEach(function(v,i,a){
+				if(v.day==date){
+					v.on=false;
+				}
+			});
 		}
-		console.log(this.daySelected.length);
-		
-		
-//		this.daySelected.forEach(function(v,i,a){
-//			for (var i=0;i<_this.days2.length;i++) {
-//				if(_this.days2[i].day==v){
-//					_this.days2[i].on=true;
-//				}
-//			}			
-//		});
 		console.log(this.daySelected);
 		
 	},
@@ -242,31 +255,21 @@ methods: {
 		_d = (_d > 9) ? ("" + _d) : ("0" + _d);
 		return _year + '-' + _month + '-' + _d;
 	},
-	proAdd: function() {
-		this.pro.num++;
-		this.pro.cost = this.pro.num * this.pro.price;
-	},
-	proMin: function() {
-		if(this.pro.num < 2) {
-			return false;
-		} else {
-			this.pro.num--;
-			this.pro.cost = this.pro.num * this.pro.price;
-		}
-	},
 	proExchange: function() {
 		var _this = this;
+		console.log(typeof _this.daySelected.join());
 		$.ajax({
 			type: "post",
 			url: version + "/product/newExchangeSupplyOrDemand",
 			data: {
 				token: window.localStorage.getItem("token"),
 				goods_id: _this.pro.id,
-				num: _this.pro.num,
+				//dates:_this.daySelected,
+				dates:_this.daySelected.join(),
 				pur_id: ""
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
@@ -297,18 +300,6 @@ methods: {
 
 		});
 	},
-	proAdd2: function() {
-		this.pro2.num++;
-		this.pro2.cost = this.pro2.num * this.pro2.price;
-	},
-	proMin2: function() {
-		if(this.pro2.num < 2) {
-			return false;
-		} else {
-			this.pro2.num--;
-			this.pro2.cost = this.pro2.num * this.pro2.price;
-		}
-	},
 	proExchange2: function() {
 		var _this = this;
 		$.ajax({
@@ -321,7 +312,7 @@ methods: {
 				pur_id: _this.selected
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
@@ -363,7 +354,25 @@ activated: function() {
 
 	}
 
-	this.initCalendar("2017-05-18","2017-06-18",["2017-05-19","2017-05-22"]);
+	//this.initCalendar("2017-05-18","2017-06-18",["2017-05-19","2017-05-22"]);
+	
+	$.ajax({
+		type:"post",
+		url:version + "/product/getValidDate",
+		data:{
+			type:1
+		},
+		headers: {
+			'X-UA': window.localStorage.getItem("XUA")
+		},
+		dataType: 'JSON'		
+	}).then(function(res){
+		if(res.err==0){
+			_this.initCalendar(res.start_date,res.end_date,res.took_date);
+		}
+	},function(){
+		
+	});
 
 	$.ajax({
 		type: "post",
@@ -374,7 +383,7 @@ activated: function() {
 			size: 10
 		},
 		headers: {
-			'X-UA': headers
+			'X-UA': window.localStorage.getItem("XUA")
 		},
 		dataType: 'JSON'
 	}).then(function(res) {

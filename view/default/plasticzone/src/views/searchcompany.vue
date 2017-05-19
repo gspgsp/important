@@ -45,7 +45,7 @@ export default{
 					fname:_this.fname
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {

@@ -85,7 +85,7 @@ export default {
 					type: 'get',
 					data: {},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).done(function(res) {
@@ -113,7 +113,7 @@ export default {
 					key: _this.key
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'				
 			}).done(function(res){
@@ -127,7 +127,7 @@ export default {
 								from: 'h5'
 							},
 							headers: {
-								'X-UA': headers
+								'X-UA': window.localStorage.getItem("XUA")
 							},
 							dataType: 'JSON'
 						}).then(function(res) {
@@ -214,13 +214,14 @@ export default {
 						password: _this.pwd
 					},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).done(function(res) {
 					if(res.err == 0) {
 						window.localStorage.setItem("token", res.dataToken);
 						window.localStorage.setItem("userid", res.user_id);
+						window.localStorage.setItem("XUA","h5|5.5|"+window.localStorage.getItem("userid")+"|"+window.localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
 						_this.$router.push({
 							name: 'index'
 						});
@@ -271,7 +272,7 @@ export default {
 						key:_this.key
 					},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).done(function(res) {

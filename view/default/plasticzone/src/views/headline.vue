@@ -221,7 +221,7 @@ export default {
 					type: 1
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
@@ -272,7 +272,7 @@ export default {
 						token: window.localStorage.getItem("token")
 					},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).done(function(res) {
@@ -307,7 +307,7 @@ export default {
 				type: 2
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
@@ -332,7 +332,7 @@ export default {
 				subscribe: 2
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
