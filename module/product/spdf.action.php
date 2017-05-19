@@ -291,28 +291,28 @@ class spdfAction extends adminBaseAction {
 										<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
 									</tr>
 									<tr height="30">
-										<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：</td>
+										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：</td>
 									</tr>
 									<tr height="30">
-										<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：</td>
+										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：</td>
 									</tr>
 									<tr height="30">
-										<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
+										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 						<tr height="30">
-							<td height="20" style="line-height:20px">（此单手写无效）</td>
+							<td height="20" align="left" style="line-height:20px">（此单手写无效）</td>
 						</tr>
 						<tr height="30">
-							<td height="20" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
+							<td height="20" align="left" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
 						</tr>
 						<tr height="30">
-							<td height="20" style="line-height:20px" align="right">2017年5月17日</td>
+							<td height="20" align="left" style="line-height:20px" align="right">2017年5月17日</td>
 						</tr>
 						<tr height="30">
-							<td height="20" style="line-height:20px">如有问题，请联系：（助理电话和姓名）</td>
+							<td height="20" align="left" style="line-height:20px">如有问题，请联系：（助理电话和姓名）</td>
 						</tr>
 					</table>',
 				'zhuanyi'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
@@ -344,13 +344,13 @@ class spdfAction extends adminBaseAction {
 									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
 								</tr>
 								<tr height="30">
-									<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（填写）</td>
+									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（填写）</td>
 								</tr>
 								<tr height="30">
-									<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（填写）</td>
+									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（填写）</td>
 								</tr>
 								<tr height="30">
-									<td style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
+									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
 								</tr>
 							</table>
 						</td>
