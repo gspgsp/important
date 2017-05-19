@@ -376,31 +376,35 @@ class billingAction extends adminBaseAction
 
     				$unBillingPrice = $data['unbilling_price']-$data['billing_price'];
     				//更新可视化
-	    				$arr=array(
-	    					'o_id'=>$data['o_id'],
-	    					'step'=>$istatus,
-	    					'type'=>3,
-	    					'spend_time'=>$spend_time,
-	    					'total'=>$data['total_price'],
-	    					'payed'=>$data['total_price']-$unBillingPrice,
-	    					'lefted'=>$unBillingPrice,
-	    					'user_ip' => get_ip(),
-						'input_time' => CORE_TIME,
-	    				);
-	    				//如果有手续费，代表这是开票最后一笔，多余金额为手续费，更新可视化为加过手续费的总额
-	    				if ($data['tax_price']>0) {
-	    					$arr['total']=$data['total_price']+$data['tax_price'];
-	    					$arr['payed']=$arr['total'];
-	    					$arr['lefted']=0;
-	    				}else{
-	    					//获取所有开票记录的手续费之和
-						$h_price=$billingModel->select("sum(tax_price)")->where("o_id=".$data['o_id'])->getOne();
-						if (!empty($h_charge)) {
-							$arr['total']=$data['total_price']+$h_charge;
-							$arr['payed']=$arr['total']-$unBillingPrice;
-						}
-	    				}
-	    				$this->db->model('order_flow')->add($arr);
+    				$h_charge=$this->db->model('collection')->select("sum(handling_charge)")->where("o_id='".$data['o_id']."'")->getOne();
+    				$tax_price=$this->db->model('billing')->select("sum(tax_price)")->where("o_id=".$data['o_id'])->getOne();
+    				if(empty($h_charge)){$h_charge=0;}
+    				if(empty($tax_price)){$tax_price=0;}
+    				$t_price=$data['total_price']+$h_charge;
+    				if ($data['tax_price']>0) {
+    					$a_price=$t_price;
+    					$un_price=0;
+    				}else{
+    					if ($tax_price>0) {
+    						$a_price=$data['total_price']-$unBillingPrice+$tax_price;
+    						$un_price=$t_price-$a_price;
+    					}else{
+    						$a_price=$data['total_price']-$unBillingPrice;
+    						$un_price=$unBillingPrice+$h_charge;
+    					}	
+    				}
+    				$arr=array(
+    					'o_id'=>$data['o_id'],
+    					'step'=>$istatus,
+    					'type'=>3,
+    					'spend_time'=>$spend_time,
+    					'total'=>$t_price,
+    					'payed'=>$a_price,
+    					'lefted'=>$un_price,
+    					'user_ip' => get_ip(),
+					'input_time' => CORE_TIME,
+    				);
+    				$this->db->model('order_flow')->add($arr);
 
 				if(!$this->db->model('order')->wherePk($data['o_id'])->update(array("invoice_status"=>$istatus,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username'])) ) $this->error('操作订单表失败');
 					$this->success('操作订单表失败');
@@ -631,18 +635,18 @@ class billingAction extends adminBaseAction
 			}
 			$orderModel->where("o_id={$data['o_id']}")->update(array("invoice_status"=>$invoice_status,"update_time"=>CORE_TIME,"update_admin"=>$_SESSION['username']));
 
-			//更新可视化节点
-			//如果本笔红冲不带有手续费，更新可视化的总额和已开票金额都要加上手续费。如果带有手续费，则总额和已开票金额不变
-			if($b_price==0){
-				//获取所有开票记录的手续费之和
-				$h_price=$billingModel->select("sum(tax_price)")->where("o_id=".$data['o_id'])->getOne();
-				$t_price=$data['total_price']+$h_price;
-				$a_price=$pri+$h_price;
-			}else{
-				$t_price=$data['total_price'];
-				$a_price=$pri;	
-			}
-			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$t_price,$a_price,$t_price-$a_price);
+			//新增可视化节点
+			$h_charge=$this->db->model('collection')->select("sum(handling_charge)")->where("o_id='".$data['o_id']."'")->getOne();
+			if(empty($h_charge)){$h_charge=0;}
+			$t_price=$data['total_price']+$h_charge;
+    			if($b_price>0){
+				$a_price=$t_price-$b_price-$data['billing_price'];
+    			}else{
+    				p($pri);exit;
+				$a_price=$pri+$h_charge;	
+    			}
+    			$un_price=$t_price-$a_price;
+			M('order:orderLog')->addLog($data['o_id'],$invoice_status,3,0,$t_price,$a_price,$un_price);
 
 		} catch (Exception $e) {
 			$billingModel->rollback();
