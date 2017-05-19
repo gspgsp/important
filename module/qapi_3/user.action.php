@@ -586,7 +586,7 @@ class userAction extends baseAction
             }
             $chanel=6; //塑料圈渠道
 
-            $result=M('user:passport')->login($phonenum,$user['password'],$chanel);
+            $result=M('user:passport')->appSimpleLogin($phonenum,$user['password'],$chanel);
             //p($result);
             if($result['err']>0){
                 $this->error($result['msg']);
