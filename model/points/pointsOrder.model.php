@@ -40,7 +40,6 @@ class pointsOrderModel extends Model
     {
         $time = time() - 30*24*60*60;
         $orders = $this->model('points_order')->select ('*')->where (" goods_id = ".$goods_id." and status =5 and outpu_time > ".$time)->order("outpu_time desc")->getAll();
-        var_dump($orders);
         $ret = array();
         $this->getLastSql();
         foreach($orders as $order)
