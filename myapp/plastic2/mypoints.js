@@ -151,7 +151,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, _vm._l((_vm.days2), function(d) {
     return _c('li', [(d.show) ? _c('span', {
       class: {
-        disabled: d.disabled
+        disabled: d.disabled, on: d.on
       },
       on: {
         "click": function($event) {
@@ -340,7 +340,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			currentMonth2: 1,
 			currentYear2: 1970,
 			days: [],
-			days2: []
+			days2: [],
+			daySelected: []
 		};
 	},
 	methods: {
@@ -398,7 +399,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				var thisDayStr2 = {
 					day: _this.formatDate(thisDay2),
 					disabled: false,
-					show: false
+					show: false,
+					on: false
 				};
 				daysTemp2.push(thisDayStr2);
 			}
@@ -420,7 +422,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.days2 = daysTemp2;
 		},
 		pick: function pick(date) {
-			console.log(date);
+			var _this = this;
+			if (this.daySelected.indexOf(date) == -1) {
+				this.daySelected.push(date);
+				console.log(this.days2.indexOf(date));
+				this.days2[this.days2.indexOf(date)].on = true;
+			} else {
+				var index = _this.daySelected.indexOf();
+				this.days2[this.days2.indexOf(date)].on = false;
+				this.daySelected.splice(index, 1);
+			}
+			console.log(this.daySelected.length);
+
+			console.log(this.daySelected);
 		},
 		formatDate: function formatDate(date) {
 			var _year = date.getFullYear();
