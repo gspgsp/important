@@ -65,7 +65,7 @@ class pointsOrderModel extends Model
             }
         }
         $dates = array_values(array_unique($ret));
-        sort($dates);
+        natsort($dates);
         return $dates;
     }
 
