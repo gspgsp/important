@@ -90,7 +90,7 @@
 				</ul>
 				<ul class="days">
 					<li v-for="d in days2">
-						<span v-on:click="pick(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled}">
+						<span v-on:click="pick(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.on}">
 							{{new Date(d.day).getDate()}}
 						</span>
 					</li>
@@ -128,7 +128,8 @@ export default {
 		currentMonth2: 1,
 		currentYear2: 1970,
 		days: [],
-		days2:[]
+		days2:[],
+		daySelected:[]
 	}
 },
 methods: {
@@ -186,7 +187,8 @@ methods: {
 			var thisDayStr2={
 				day:_this.formatDate(thisDay2),
 				disabled:false,
-				show:false
+				show:false,
+				on:false
 			}
 			daysTemp2.push(thisDayStr2);
 		}
@@ -209,7 +211,28 @@ methods: {
 		this.days2=daysTemp2;
 	},
 	pick:function(date){
-		console.log(date);
+		var _this=this;
+		if (this.daySelected.indexOf(date)==-1) {
+			this.daySelected.push(date);
+			console.log(this.days2.indexOf(date));
+			this.days2[this.days2.indexOf(date)].on=true;
+		} else{
+			var index=_this.daySelected.indexOf();
+			this.days2[this.days2.indexOf(date)].on=false;
+			this.daySelected.splice(index,1);
+		}
+		console.log(this.daySelected.length);
+		
+		
+//		this.daySelected.forEach(function(v,i,a){
+//			for (var i=0;i<_this.days2.length;i++) {
+//				if(_this.days2[i].day==v){
+//					_this.days2[i].on=true;
+//				}
+//			}			
+//		});
+		console.log(this.daySelected);
+		
 	},
 	formatDate: function(date) {
 		var _year = date.getFullYear();
