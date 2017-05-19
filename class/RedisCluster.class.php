@@ -169,6 +169,16 @@ class RedisCluster{
 		// 使用了 M/S
 		return $this->_getSlaveRedis()->{$func}($key);
 	}
+
+	/**
+	 * 定期清楚缓存
+	 *
+	 * @param string $key 缓存KEY
+	 * @return string || boolean 失败返回 false, 成功返回字符串
+	 */
+	public function expire($key){
+		return $this->getRedis()->Expire($key);
+	}
 	/*
 	 // magic function
 	 public function __call($name,$arguments){
@@ -322,6 +332,12 @@ class RedisCluster{
 	 */
 	public function llen($key){
 		return $this->getRedis()->llen($key);
+	}
+	/**
+	 * lindex
+	 */
+	public function lindex($key,$index){
+		return $this->getRedis()->lIndex($key,$index);
 	}
 	/**
 	 *  set hash opeation

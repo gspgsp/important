@@ -208,15 +208,18 @@ class plasticPersonModel extends model
         return $data;
     }
 
+    /***
+     * 搜索技术介绍
+     * 首先生成一个排好顺序好序的
+     */
     public function getAllPlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
 
         $cache = E ('RedisCluster', APP_LIB.'class');
-        $key   = "AllPlasticPersonList".":".md5($keywords).":".$region;
+        $key0   = "AllPlasticPersonList".":".md5($keywords).":".$region;
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
         $list  = $cache->setnx("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
-
         if (!empty($list)) {
             $operMobi = array(
                 '13900000001',
@@ -286,36 +289,39 @@ class plasticPersonModel extends model
 			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc ";
             $data5      = $this->db->getAll ($sql5);
 
-            $cache->remove ($key);
-
+            $new_key = 'qapp_all_list_'.time();
+            $cache->expire($new_key,12000);
             if(!empty($data1)) {
                 foreach ($data1 as $id) {
-                    $cache->rpush ($key, $id['user_id']);
+                    $cache->rpush ($new_key, $id['user_id']);
                 }
             }
             if(!empty($data2)) {
                 foreach ($data2 as $id) {
-                    $cache->rpush ($key, $id['user_id']);
+                    $cache->rpush ($new_key, $id['user_id']);
                 }
             }
             if(!empty($data3)) {
                 foreach ($data3 as $id) {
-                    $cache->rpush ($key, $id['user_id']);
+                    $cache->rpush ($new_key, $id['user_id']);
                 }
             }
             if($data4) {
                 foreach ($data4 as $id) {
-                    $cache->rpush ($key, $id['user_id']);
+                    $cache->rpush ($new_key, $id['user_id']);
                 }
             }
             if($data5) {
                 foreach ($data5 as $id) {
-                    $cache->rpush ($key, $id['user_id']);
+                    $cache->rpush ($new_key, $id['user_id']);
                 }
             }
+
+            $cache->lpush($key0,$new_key);
             //showTrace();
         }
 
+        $key = $cache->lindex($key0,0);
         $len = $cache->llen($key);
 
         if($len>$page * $size) {
@@ -396,7 +402,7 @@ class plasticPersonModel extends model
     public function get1PlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
-        $key   = "1PlasticPersonList".":".md5($keywords).":".md5($region);
+        $key0   = "1PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("1PlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
         $list  = $cache->setnx ("1PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
@@ -452,19 +458,22 @@ class plasticPersonModel extends model
 			LEFT JOIN `p2p_customer` `cus` ON con.c_id=cus.c_id  WHERE ".$where." ".$type_where." ORDER BY con.input_time desc ";
             $data2      = $this->db->getAll ($sql2);
 
+            $new_key = 'qapp_1_list_'.time();
 
-            $cache->remove ($key);
             //showTrace();
             foreach ($data1 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+                $cache->rpush ($new_key, $id['user_id']);
             }
             foreach ($data2 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+                $cache->rpush ($new_key, $id['user_id']);
             }
             //showTrace();
             //缓存5分钟
+            $cache->lpush($key0,$new_key);
+            //showTrace();
         }
 
+        $key = $cache->lindex($key0,0);
         $len = $cache->llen($key);
         if($len>$page * $size) {
 
@@ -543,7 +552,7 @@ class plasticPersonModel extends model
     public function get2PlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
         $cache = E ('RedisCluster', APP_LIB.'class');
-        $key   = "2PlasticPersonList".":".md5($keywords).":".md5($region);
+        $key0   = "2PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("2PlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
         $list  = $cache->setnx ("2PlasticPersonList".'-'.md5($keywords)."-".md5($region),1,300);
@@ -602,17 +611,21 @@ class plasticPersonModel extends model
 			LEFT JOIN p2p_weixin_ranking d ON con.user_id=d.user_id
 			WHERE ".$where." ".$type_where." ORDER BY d.top desc, d.top_time desc, d.rownum ASC  ";
             $data2      = $this->db->getAll ($sql2);
-            $cache->remove ($key);
+            $new_key = 'qapp_2_list_'.time();
             //showTrace();
             foreach ($data1 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+                $cache->rpush ($new_key, $id['user_id']);
             }
             foreach ($data2 as $id) {
-                $cache->rpush ($key, $id['user_id']);
+                $cache->rpush ($new_key, $id['user_id']);
             }
             //showTrace();
             //缓存5分钟
+            $cache->lpush($key0,$new_key);
+            //showTrace();
         }
+
+        $key = $cache->lindex($key0,0);
 
         $len = $cache->llen($key);
         if($len>$page * $size) {
