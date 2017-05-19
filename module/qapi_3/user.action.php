@@ -585,7 +585,8 @@ class userAction extends baseAction
                 $this->error('当前账号不存在或错误的账号!');
             }
             $chanel=6; //塑料圈渠道
-            $result=M('user:passport')->login2($phonenum,$user['password'],$chanel);
+
+            $result=M('user:passport')->login($phonenum,$user['password'],$chanel);
             //p($result);
             if($result['err']>0){
                 $this->error($result['msg']);
