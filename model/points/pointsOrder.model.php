@@ -73,6 +73,7 @@ class pointsOrderModel extends Model
     public function checkSupply($user_id, $num = null)
     {
 
+        $pointsRow =array();
         if ($pointsRow['cate_id'] == 7) {
             return false;
         }
