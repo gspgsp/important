@@ -13,7 +13,7 @@ class spdfAction extends adminBaseAction {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
 		}
 		$this->info = $data;
-		p($this->info);
+		p($this->info);die;
 	}
 
 	/**
