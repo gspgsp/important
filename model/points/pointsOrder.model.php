@@ -53,19 +53,19 @@ class pointsOrderModel extends Model
                 {
                     continue;
                 }else{
-                    $ret = array_merge($ret,$tmp);
+                    $ret = array_filter(array_merge($ret,$tmp));
                 }
             }
         }
-        $dates = array_values(array_unique($ret));
-
-        foreach($dates as &$date)
+        foreach($ret as &$date)
         {
             if(strtotime($date)<strtotime(date('Y-m-d',time())))
             {
                 unset($date);
             }
         }
+        $dates = array_values(array_unique($ret));
+        sort($dates);
         return $dates;
     }
 
