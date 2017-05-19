@@ -1,13 +1,259 @@
 webpackJsonp([37],{
 
+/***/ 104:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			mobile: "",
+			pwd: "",
+			checked: false,
+			tabshow: true,
+			simpleImg: "",
+			simpleCode: "",
+			key: "",
+			times: 60,
+			dynamicCode: "",
+			validCode: "获取动态验证码"
+		};
+	},
+	methods: {
+		tab: function tab(n) {
+			var _this = this;
+			if (n == 1) {
+				this.tabshow = true;
+			} else {
+				this.tabshow = false;
+				$.ajax({
+					url: '/api/vcode/app',
+					type: 'get',
+					data: {},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.simpleImg = res.img;
+						_this.key = res.key;
+					}
+				}).fail(function () {}).always(function () {});
+			}
+		},
+		send: function send() {
+			var _this = this;
+			$.ajax({
+				url: '/api/vcode/chkVcode',
+				type: 'post',
+				data: {
+					name: "regcode",
+					value: _this.simpleCode,
+					key: _this.key
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					if (_this.mobile) {
+						$.ajax({
+							url: '/user/login/sendMobileMsg',
+							type: 'post',
+							data: {
+								phonenum: _this.mobile,
+								from: 'h5'
+							},
+							headers: {
+								'X-UA': window.localStorage.getItem("XUA")
+							},
+							dataType: 'JSON'
+						}).then(function (res) {
+							if (res.err == 0) {
+								weui.alert(res.msg, {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'parimary',
+										onClick: function onClick() {}
+									}]
+								});
+
+								var countStart = setInterval(function () {
+									_this.validCode = _this.times-- + '秒后重发';
+									if (_this.times < 0) {
+										clearInterval(countStart);
+										_this.validCode = "获取动态验证码";
+									}
+								}, 1000);
+							} else if (res.err == 1) {
+								weui.alert(res.msg, {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'parimary',
+										onClick: function onClick() {}
+									}]
+								});
+							}
+						}, function () {});
+					} else {
+						weui.alert("请填写手机号", {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				} else {
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function onClick() {}
+						}]
+					});
+				}
+			}).fail(function () {}).always(function () {});
+		},
+		login: function login() {
+			var _this = this;
+			if (this.checked) {
+				window.localStorage.setItem("username", this.mobile);
+				window.localStorage.setItem("password", this.pwd);
+			} else {
+				window.localStorage.setItem("username", "");
+				window.localStorage.setItem("password", "");
+			}
+			if (this.mobile && this.pwd) {
+				$.ajax({
+					url: version + '/user/login',
+					type: 'post',
+					data: {
+						username: _this.mobile,
+						password: _this.pwd
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						window.localStorage.setItem("token", res.dataToken);
+						window.localStorage.setItem("userid", res.user_id);
+						window.localStorage.setItem("XUA", "h5|5.5|" + window.localStorage.getItem("userid") + "|" + window.localStorage.getItem("token") + "|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
+						_this.$router.push({
+							name: 'index'
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					}
+				}).fail(function () {}).always(function () {});
+			} else {
+				weui.alert("手机号和密码不能为空", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		},
+		login2: function login2() {
+			var _this = this;
+			if (this.mobile && this.dynamicCode && this.simpleCode) {
+				$.ajax({
+					url: version + '/user/simpleLogin',
+					type: 'post',
+					data: {
+						phonenum: _this.mobile,
+						regcode: _this.simpleCode,
+						phonevaild: _this.dynamicCode,
+						key: _this.key
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						window.localStorage.setItem("token", res.dataToken);
+						window.localStorage.setItem("userid", res.user_id);
+						_this.$router.push({
+							name: 'index'
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				}).fail(function () {}).always(function () {});
+			} else {
+				weui.alert("信息不能为空", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		}
+	},
+	mounted: function mounted() {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		var lousername = window.localStorage.getItem("username") || "";
+		var lopassword = window.localStorage.getItem("password") || "";
+		this.mobile = lousername;
+		this.pwd = lopassword;
+		if (lousername !== "" && lopassword !== "") {
+			this.checked = true;
+		}
+	}
+});
+
+/***/ }),
+
 /***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(69),
+  __webpack_require__(104),
   /* template */
-  __webpack_require__(138),
+  __webpack_require__(205),
   /* scopeId */
   null,
   /* cssModules */
@@ -35,7 +281,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 138:
+/***/ 205:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -410,251 +656,6 @@ module.exports = function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 69:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			mobile: "",
-			pwd: "",
-			checked: false,
-			tabshow: true,
-			simpleImg: "",
-			simpleCode: "",
-			key: "",
-			times: 60,
-			dynamicCode: "",
-			validCode: "获取动态验证码"
-		};
-	},
-	methods: {
-		tab: function tab(n) {
-			var _this = this;
-			if (n == 1) {
-				this.tabshow = true;
-			} else {
-				this.tabshow = false;
-				$.ajax({
-					url: '/api/vcode/app',
-					type: 'get',
-					data: {},
-					headers: {
-						'X-UA': headers
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						_this.simpleImg = res.img;
-						_this.key = res.key;
-					}
-				}).fail(function () {}).always(function () {});
-			}
-		},
-		send: function send() {
-			var _this = this;
-			$.ajax({
-				url: '/api/vcode/chkVcode',
-				type: 'post',
-				data: {
-					name: "regcode",
-					value: _this.simpleCode,
-					key: _this.key
-				},
-				headers: {
-					'X-UA': headers
-				},
-				dataType: 'JSON'
-			}).done(function (res) {
-				if (res.err == 0) {
-					if (_this.mobile) {
-						$.ajax({
-							url: '/user/login/sendMobileMsg',
-							type: 'post',
-							data: {
-								phonenum: _this.mobile,
-								from: 'h5'
-							},
-							headers: {
-								'X-UA': headers
-							},
-							dataType: 'JSON'
-						}).then(function (res) {
-							if (res.err == 0) {
-								weui.alert(res.msg, {
-									title: '塑料圈通讯录',
-									buttons: [{
-										label: '确定',
-										type: 'parimary',
-										onClick: function onClick() {}
-									}]
-								});
-
-								var countStart = setInterval(function () {
-									_this.validCode = _this.times-- + '秒后重发';
-									if (_this.times < 0) {
-										clearInterval(countStart);
-										_this.validCode = "获取动态验证码";
-									}
-								}, 1000);
-							} else if (res.err == 1) {
-								weui.alert(res.msg, {
-									title: '塑料圈通讯录',
-									buttons: [{
-										label: '确定',
-										type: 'parimary',
-										onClick: function onClick() {}
-									}]
-								});
-							}
-						}, function () {});
-					} else {
-						weui.alert("请填写手机号", {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {}
-							}]
-						});
-					}
-				} else {
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {}
-						}]
-					});
-				}
-			}).fail(function () {}).always(function () {});
-		},
-		login: function login() {
-			var _this = this;
-			if (this.checked) {
-				window.localStorage.setItem("username", this.mobile);
-				window.localStorage.setItem("password", this.pwd);
-			} else {
-				window.localStorage.setItem("username", "");
-				window.localStorage.setItem("password", "");
-			}
-			if (this.mobile && this.pwd) {
-				$.ajax({
-					url: version + '/user/login',
-					type: 'post',
-					data: {
-						username: _this.mobile,
-						password: _this.pwd
-					},
-					headers: {
-						'X-UA': headers
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						window.localStorage.setItem("token", res.dataToken);
-						window.localStorage.setItem("userid", res.user_id);
-						_this.$router.push({
-							name: 'index'
-						});
-					} else {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					}
-				}).fail(function () {}).always(function () {});
-			} else {
-				weui.alert("手机号和密码不能为空", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			}
-		},
-		login2: function login2() {
-			var _this = this;
-			if (this.mobile && this.dynamicCode && this.simpleCode) {
-				$.ajax({
-					url: version + '/user/simpleLogin',
-					type: 'post',
-					data: {
-						phonenum: _this.mobile,
-						regcode: _this.simpleCode,
-						phonevaild: _this.dynamicCode,
-						key: _this.key
-					},
-					headers: {
-						'X-UA': headers
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						window.localStorage.setItem("token", res.dataToken);
-						window.localStorage.setItem("userid", res.user_id);
-						_this.$router.push({
-							name: 'index'
-						});
-					} else {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {}
-							}]
-						});
-					}
-				}).fail(function () {}).always(function () {});
-			} else {
-				weui.alert("信息不能为空", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {}
-					}]
-				});
-			}
-		}
-	},
-	mounted: function mounted() {
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		var lousername = window.localStorage.getItem("username") || "";
-		var lopassword = window.localStorage.getItem("password") || "";
-		this.mobile = lousername;
-		this.pwd = lopassword;
-		if (lousername !== "" && lopassword !== "") {
-			this.checked = true;
-		}
-	}
-});
 
 /***/ })
 

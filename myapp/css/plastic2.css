@@ -529,8 +529,9 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 
 #productUl{ margin: 0; padding: 0; margin: 10px 0 0 0; list-style: none; overflow: hidden;}
 #productUl li{ width: 100%; height: auto; overflow: hidden; border-radius: 3px; margin: 0 0 10px 0; border: 1px solid #d6d7dc; background: #FFFFFF;}
-.productNum{ width: 100%; height: 45px; font-size: 13px; padding: 0 10px; color: #999999; line-height: 45px; border-top: 1px solid #D9D9D9;}
+.productNum{ width: 100%; height: 45px; font-size: 13px; padding: 0 10px; position: relative; color: #999999; line-height: 45px; border-top: 1px solid #D9D9D9;}
 .productMsg{ width: 100%; height: auto; font-size: 13px; padding: 0 10px; color: #999999; line-height: 30px; border-top: 1px solid #D9D9D9;}
+.iconSelect{ width: 20px; height: 20px; background: url(../img/iconSelect.png) no-repeat; background-size: 100% 100%; position: absolute; right: 10px; top: 10px;}
 .proMsgLi div{ padding: 5px 20px 5px 20px; position: relative; margin: 0 10px; color: #999999; border-bottom: 1px dashed #666666; font-size: 12px; line-height: 20px;}
 .proMsgLi div:last-of-type{ border-bottom: none;}
 .proMsgLi div span{ color: #333333;}
@@ -832,23 +833,32 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
    
 .days li {
   list-style-type: none;
-  display: inline-block;
+  -display: inline-block;
   width: 14.2%;
   line-height: 25px;
   text-align: center;
   font-size: 12px;
   color: #000;
 }
+.days li span{
+	width: 20px;
+	display: inline-block;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 50%;
+}
 .days li span.disabled {
 	color: #bbbbbb;
 	pointer-events: none;
 }
 .days li span.on {
-	width: 20px;
-	display: inline-block;
-	height: 20px;
-	line-height: 20px;
-	border-radius: 50%;
 	background: #1484ff;
 	color: #FFFFFF;
 }
+.calendarSelected{
+	width: 100%; padding: 0 10px; font-size: 12px; color: #333333; height: 40px; line-height: 40px; position: relative;
+}
+.calendarSelected span{ float: left;}
+.calendarRange{ float: left; width: 210px; height: 40px; white-space:nowrap; overflow-y: hidden; overflow-x: scroll;}
+.calendarRange span{ display: inline-block; float: none; width: 60px; text-align: center; margin: 10px 5px 0 0; background: #1484ff; color: #ffffff; height:20px; line-height: 20px;}

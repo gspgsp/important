@@ -1,6 +1,166 @@
-webpackJsonp([23],{
+webpackJsonp([24],{
 
-/***/ 114:
+/***/ 128:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			type: 2,
+			store_house: "",
+			model: "",
+			f_name: "",
+			price: "",
+			remark: "",
+			show: false,
+			content: "",
+			id: "",
+			user_id: "",
+			isDisable: false,
+			show1: true,
+			show2: false,
+			standard: 1
+		};
+	},
+	methods: {
+		spanshow1: function spanshow1() {
+			this.show1 = true;
+			this.show2 = false;
+			this.standard = 1;
+		},
+		spanshow2: function spanshow2() {
+			this.show1 = false;
+			this.show2 = true;
+			this.standard = 2;
+		},
+		checkNum: function checkNum() {
+			if (this.price < 1000 || this.price > 30000) {
+				weui.alert("输入的价格不合理", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		},
+		sale: function sale() {
+			var _this = this;
+			this.isDisable = true;
+			var data = [];
+			var arr = {
+				'model': this.model.toUpperCase(),
+				'f_name': this.f_name,
+				'store_house': this.store_house,
+				'price': this.price,
+				'type': 1,
+				'quan_type': 0,
+				'content': this.remark
+			};
+			data.push(arr);
+			if (this.type && this.store_house && this.model && this.f_name && this.price || this.remark) {
+				$.ajax({
+					url: version + '/releaseMsg/pub',
+					type: 'post',
+					data: {
+						data: data,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						_this.isDisable = false;
+						_this.$router.push({
+							name: 'release'
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									window.location.reload();
+								}
+							}]
+						});
+					}
+				}, function () {});
+			} else {
+				weui.alert("请把信息填写完整", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.isDisable = false;
+						}
+					}]
+				});
+			}
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: version + '/releaseMsg/secondPub',
+			type: 'post',
+			data: {
+				id: _this.$route.query.id,
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				if (res.data.f_type == 1) {
+					_this.show1 = false;
+					_this.show2 = true;
+					_this.f_name = res.data.f_name;
+					_this.model = res.data.model;
+					_this.store_house = res.data.store_house;
+					_this.price = res.data.unit_price;
+				} else {
+					_this.show1 = true;
+					_this.show2 = false;
+					_this.remark = res.data.content;
+				}
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		}, function () {});
+	}
+});
+
+/***/ }),
+
+/***/ 181:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -232,9 +392,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(93),
+  __webpack_require__(128),
   /* template */
-  __webpack_require__(114),
+  __webpack_require__(181),
   /* scopeId */
   null,
   /* cssModules */
@@ -317,166 +477,6 @@ module.exports = function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 93:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			type: 2,
-			store_house: "",
-			model: "",
-			f_name: "",
-			price: "",
-			remark: "",
-			show: false,
-			content: "",
-			id: "",
-			user_id: "",
-			isDisable: false,
-			show1: true,
-			show2: false,
-			standard: 1
-		};
-	},
-	methods: {
-		spanshow1: function spanshow1() {
-			this.show1 = true;
-			this.show2 = false;
-			this.standard = 1;
-		},
-		spanshow2: function spanshow2() {
-			this.show1 = false;
-			this.show2 = true;
-			this.standard = 2;
-		},
-		checkNum: function checkNum() {
-			if (this.price < 1000 || this.price > 30000) {
-				weui.alert("输入的价格不合理", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {}
-					}]
-				});
-			}
-		},
-		sale: function sale() {
-			var _this = this;
-			this.isDisable = true;
-			var data = [];
-			var arr = {
-				'model': this.model.toUpperCase(),
-				'f_name': this.f_name,
-				'store_house': this.store_house,
-				'price': this.price,
-				'type': 1,
-				'quan_type': 0,
-				'content': this.remark
-			};
-			data.push(arr);
-			if (this.type && this.store_house && this.model && this.f_name && this.price || this.remark) {
-				$.ajax({
-					url: version + '/releaseMsg/pub',
-					type: 'post',
-					data: {
-						data: data,
-						token: window.localStorage.getItem("token")
-					},
-					headers: {
-						'X-UA': headers
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						_this.isDisable = false;
-						_this.$router.push({
-							name: 'release'
-						});
-					} else {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									window.location.reload();
-								}
-							}]
-						});
-					}
-				}, function () {});
-			} else {
-				weui.alert("请把信息填写完整", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.isDisable = false;
-						}
-					}]
-				});
-			}
-		}
-	},
-	activated: function activated() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			url: version + '/releaseMsg/secondPub',
-			type: 'post',
-			data: {
-				id: _this.$route.query.id,
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': headers
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			console.log(res);
-			if (res.err == 0) {
-				if (res.data.f_type == 1) {
-					_this.show1 = false;
-					_this.show2 = true;
-					_this.f_name = res.data.f_name;
-					_this.model = res.data.model;
-					_this.store_house = res.data.store_house;
-					_this.price = res.data.unit_price;
-				} else {
-					_this.show1 = true;
-					_this.show2 = false;
-					_this.remark = res.data.content;
-				}
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			}
-		}, function () {});
-	}
-});
 
 /***/ })
 

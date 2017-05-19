@@ -1,6 +1,6 @@
-webpackJsonp([4],{
+webpackJsonp([5],{
 
-/***/ 135:
+/***/ 202:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1101,7 +1101,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1114,14 +1114,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 54:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(53),
+  __webpack_require__(61),
   /* template */
-  __webpack_require__(55),
+  __webpack_require__(63),
   /* scopeId */
   null,
   /* cssModules */
@@ -1149,7 +1149,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 55:
+/***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1189,7 +1189,42 @@ if (false) {
 
 /***/ }),
 
-/***/ 64:
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(99),
+  /* template */
+  __webpack_require__(202),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\headline.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] headline.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-932307de", Component.options)
+  } else {
+    hotAPI.reload("data-v-932307de", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 99:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1198,7 +1233,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_errorPage__);
 
 
@@ -1251,7 +1286,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					type: 1
 				},
 				headers: {
-					'X-UA': headers
+					'X-UA': window.localStorage.getItem("XUA")
 				},
 				dataType: 'JSON'
 			}).then(function (res) {
@@ -1294,7 +1329,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						token: window.localStorage.getItem("token")
 					},
 					headers: {
-						'X-UA': headers
+						'X-UA': window.localStorage.getItem("XUA")
 					},
 					dataType: 'JSON'
 				}).done(function (res) {
@@ -1321,7 +1356,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				type: 2
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function (res) {
@@ -1340,7 +1375,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				subscribe: 2
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).done(function (res) {
@@ -1375,41 +1410,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		});
 	}
 });
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(46)(
-  /* script */
-  __webpack_require__(64),
-  /* template */
-  __webpack_require__(135),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\headline.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] headline.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-932307de", Component.options)
-  } else {
-    hotAPI.reload("data-v-932307de", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
 
 /***/ })
 

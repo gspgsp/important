@@ -1,6 +1,6 @@
-webpackJsonp([9],{
+webpackJsonp([10],{
 
-/***/ 101:
+/***/ 136:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -38,7 +38,7 @@ var footer = __webpack_require__(48);
 				id: _this.$route.params.id
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).then(function (res) {
@@ -58,7 +58,7 @@ var footer = __webpack_require__(48);
 
 /***/ }),
 
-/***/ 139:
+/***/ 206:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -140,9 +140,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(101),
+  __webpack_require__(136),
   /* template */
-  __webpack_require__(139),
+  __webpack_require__(206),
   /* scopeId */
   null,
   /* cssModules */

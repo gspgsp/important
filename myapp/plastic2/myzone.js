@@ -1,6 +1,183 @@
-webpackJsonp([7],{
+webpackJsonp([8],{
 
-/***/ 120:
+/***/ 114:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a
+	},
+	data: function data() {
+		return {
+			buy: "",
+			supply: "",
+			points: "",
+			fans: "",
+			pay: "",
+			invite: "",
+			msg: "",
+			msg2: "",
+			c_name: "",
+			name: "",
+			mobile: "",
+			mobile2: "",
+			thumb: "",
+			is_pass: "",
+			share: false,
+			share3: false,
+			loadingShow: ""
+		};
+	},
+	methods: {
+		shareshow: function shareshow() {
+			this.share = true;
+			this.share3 = true;
+		},
+		sharehide: function sharehide() {
+			this.share = false;
+			this.share3 = false;
+			this.share4 = false;
+		},
+		logout: function logout() {
+			var _this = this;
+			$.ajax({
+				url: version + '/user/logout',
+				type: 'post',
+				data: {
+					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				console.log(res.err);
+				if (res.err == 0) {
+					window.localStorage.setItem("token", "");
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function onClick() {
+								_this.$router.push({
+									name: 'index'
+								});
+							}
+						}]
+					});
+				} else {
+					window.localStorage.setItem("token", "");
+				}
+			}, function () {});
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		window.scrollTo(0, 0);
+		this.loadingShow = true;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+
+		$.ajax({
+			type: "post",
+			url: "/mobi/wxShare/getSignPackage",
+			data: {
+				targetUrl: window.location.href
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			wx.config({
+				debug: false,
+				appId: res.signPackage.appId,
+				timestamp: res.signPackage.timestamp,
+				nonceStr: res.signPackage.noncestr,
+				signature: res.signPackage.signature,
+				jsApiList: ['showOptionMenu', 'onMenuShareTimeline', 'onMenuShareAppMessage']
+			});
+			wx.ready(function () {
+				wx.onMenuShareTimeline({
+					title: "塑料圈通讯录",
+					link: "http://q.myplas.com",
+					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
+					success: function success() {},
+					cancel: function cancel() {}
+				});
+				wx.onMenuShareAppMessage({
+					title: "塑料圈通讯录",
+					desc: "我的塑料网-塑料圈通讯录",
+					link: "http://q.myplas.com",
+					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
+					type: '',
+					dataUrl: '',
+					success: function success() {},
+					cancel: function cancel() {}
+				});
+			});
+		}, function () {});
+
+		$.ajax({
+			url: version + '/myInfo/myZone',
+			type: 'post',
+			data: {
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).done(function (res) {
+			if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			} else {
+				_this.name = res.data.name;
+				_this.c_name = res.data.c_name;
+				_this.mobile = res.data.mobile;
+				_this.mobile2 = res.data.mobile;
+				_this.thumb = res.data.thumb;
+				_this.is_pass = res.data.is_pass;
+				_this.buy = res.s_in_count;
+				_this.supply = res.s_out_count;
+				_this.points = res.points;
+				_this.msg = res.leaveword;
+				_this.msg2 = res.message;
+				_this.invite = res.introduction;
+				_this.fans = res.myfans;
+				_this.pay = res.myconcerns;
+			}
+		}).fail(function () {}).always(function () {
+			_this.loadingShow = false;
+		});
+	}
+});
+
+/***/ }),
+
+/***/ 187:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -297,9 +474,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(79),
+  __webpack_require__(114),
   /* template */
-  __webpack_require__(120),
+  __webpack_require__(187),
   /* scopeId */
   null,
   /* cssModules */
@@ -716,183 +893,6 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-40e539ae", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 79:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
-		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a
-	},
-	data: function data() {
-		return {
-			buy: "",
-			supply: "",
-			points: "",
-			fans: "",
-			pay: "",
-			invite: "",
-			msg: "",
-			msg2: "",
-			c_name: "",
-			name: "",
-			mobile: "",
-			mobile2: "",
-			thumb: "",
-			is_pass: "",
-			share: false,
-			share3: false,
-			loadingShow: ""
-		};
-	},
-	methods: {
-		shareshow: function shareshow() {
-			this.share = true;
-			this.share3 = true;
-		},
-		sharehide: function sharehide() {
-			this.share = false;
-			this.share3 = false;
-			this.share4 = false;
-		},
-		logout: function logout() {
-			var _this = this;
-			$.ajax({
-				url: version + '/user/logout',
-				type: 'post',
-				data: {
-					token: window.localStorage.getItem("token")
-				},
-				headers: {
-					'X-UA': headers
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				console.log(res.err);
-				if (res.err == 0) {
-					window.localStorage.setItem("token", "");
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'index'
-								});
-							}
-						}]
-					});
-				} else {
-					window.localStorage.setItem("token", "");
-				}
-			}, function () {});
-		}
-	},
-	activated: function activated() {
-		var _this = this;
-		window.scrollTo(0, 0);
-		this.loadingShow = true;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-
-		$.ajax({
-			type: "post",
-			url: "/mobi/wxShare/getSignPackage",
-			data: {
-				targetUrl: window.location.href
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			wx.config({
-				debug: false,
-				appId: res.signPackage.appId,
-				timestamp: res.signPackage.timestamp,
-				nonceStr: res.signPackage.noncestr,
-				signature: res.signPackage.signature,
-				jsApiList: ['showOptionMenu', 'onMenuShareTimeline', 'onMenuShareAppMessage']
-			});
-			wx.ready(function () {
-				wx.onMenuShareTimeline({
-					title: "塑料圈通讯录",
-					link: "http://q.myplas.com",
-					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
-					success: function success() {},
-					cancel: function cancel() {}
-				});
-				wx.onMenuShareAppMessage({
-					title: "塑料圈通讯录",
-					desc: "我的塑料网-塑料圈通讯录",
-					link: "http://q.myplas.com",
-					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
-					type: '',
-					dataUrl: '',
-					success: function success() {},
-					cancel: function cancel() {}
-				});
-			});
-		}, function () {});
-
-		$.ajax({
-			url: version + '/myInfo/myZone',
-			type: 'post',
-			data: {
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': headers
-			},
-			dataType: 'JSON'
-		}).done(function (res) {
-			if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			} else {
-				_this.name = res.data.name;
-				_this.c_name = res.data.c_name;
-				_this.mobile = res.data.mobile;
-				_this.mobile2 = res.data.mobile;
-				_this.thumb = res.data.thumb;
-				_this.is_pass = res.data.is_pass;
-				_this.buy = res.s_in_count;
-				_this.supply = res.s_out_count;
-				_this.points = res.points;
-				_this.msg = res.leaveword;
-				_this.msg2 = res.message;
-				_this.invite = res.introduction;
-				_this.fans = res.myfans;
-				_this.pay = res.myconcerns;
-			}
-		}).fail(function () {}).always(function () {
-			_this.loadingShow = false;
-		});
-	}
-});
 
 /***/ })
 

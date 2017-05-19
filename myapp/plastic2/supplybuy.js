@@ -1,6 +1,6 @@
-webpackJsonp([18],{
+webpackJsonp([19],{
 
-/***/ 100:
+/***/ 135:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -52,7 +52,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 							id: _this.id
 						},
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						dataType: 'JSON'
 					}).done(function (res) {}).fail(function () {});
@@ -76,7 +76,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 							id: _this.id
 						},
 						headers: {
-							'X-UA': headers
+							'X-UA': window.localStorage.getItem("XUA")
 						},
 						dataType: 'JSON'
 					}).done(function (res) {}).fail(function () {});
@@ -99,7 +99,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				token: window.localStorage.getItem("token")
 			},
 			headers: {
-				'X-UA': headers
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).then(function (res) {
@@ -130,7 +130,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 116:
+/***/ 183:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -215,9 +215,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(100),
+  __webpack_require__(135),
   /* template */
-  __webpack_require__(116),
+  __webpack_require__(183),
   /* scopeId */
   null,
   /* cssModules */
