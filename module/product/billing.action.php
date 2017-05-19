@@ -642,7 +642,7 @@ class billingAction extends adminBaseAction
     			if($b_price>0){
 				$a_price=$t_price-$b_price-$data['billing_price'];
     			}else{
-    				p($pri);exit;
+    				// p($pri);exit;
 				$a_price=$pri+$h_charge;	
     			}
     			$un_price=$t_price-$a_price;
