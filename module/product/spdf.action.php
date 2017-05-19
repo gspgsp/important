@@ -13,6 +13,7 @@ class spdfAction extends adminBaseAction {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
 		}
 		$this->info = $data;
+		p($this->info);
 	}
 
 	/**
@@ -35,6 +36,7 @@ class spdfAction extends adminBaseAction {
 				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$sign.'</td>
 				// </tr >';
 			}
+			die;
 			$contract = $this->template['tihuo'];
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
