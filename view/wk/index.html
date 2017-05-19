@@ -37,9 +37,9 @@
 
 	.col-md-3 { padding-left:0; padding-right: 0; overflow: hidden;}
 	.row{ margin-left:0; margin-right: 0; overflow: hidden;}
-	.row .col-md-6{ padding:0 10px; margin: 15px 0;}
-	.row .col-md-6 .form-group{ width: 100%;}
-	.row .col-md-6 .form-group input{ width: 100%;}
+	.row .col-md-6,.row .col-md-12{ padding:0 10px; margin: 10px 0;}
+	.row .col-md-6 .form-group,.row .col-md-12 .form-group{ width: 100%;}
+	.row .col-md-6 .form-group input,.row .col-md-12 .form-group input{ width: 100%;}
 	.col-md-6 .form-group select.form-control{ width: 100%;}
 	.col-lg-9.col-xs-12{ padding-right: 0;}
 	.back{ text-decoration:none; color: #fff; background: #337ab7;display: inline-block;padding: 6px 12px; margin-bottom: 0;
@@ -102,6 +102,15 @@
 							<!--row end-->
 							<!--row begin-->
 							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="text" class="form-control" id="same_product" name="same_product" placeholder="相似牌号（选填，该牌号也发消息，多个用空格分开）">
+									</div>
+								</div>
+							</div>
+							<!--row end-->
+							<!--row begin-->
+							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
 										<input type="text" class="form-control"  name="num" placeholder="数量（必填）" onKeyPress="if((event.keyCode<48 || event.keyCode>57) && event.keyCode!=46 || /\.\d\d$/.test(value))event.returnValue=false">
@@ -151,7 +160,7 @@
 							<!--row end-->
 							<!--row begin-->
 							<div class="row">
-								<div class="col-md-12" style="text-align:center;"><button onClick="release1()" type="button" class="btn btn-primary" style=" padding:6px 30px; margin-top: 20px;">发布</button></div>
+								<div class="col-md-12" style="text-align:center;"><button onClick="release1()" type="button" class="btn btn-primary" style=" padding:6px 60px; margin-top: 10px;">发布报价</button></div>
 							</div>
 							<!--row end-->
 						</div>
@@ -173,6 +182,7 @@
 					        <thead>
 					            <tr>
 					                <th>牌号</th>
+					                <th width="100">相似牌号</th>
 					                <th>厂家</th>
 					                <th>吨数</th>
 					                <th>销售价格</th>
@@ -194,6 +204,7 @@
  								{foreach from=$offerList item=value key=key}
 					            <tr>
 					                <td>{$value.grade}</td>
+					                <td>{$value.same_product}</td>
 					                <td>{$value.factory}</td>
 					                <td>{$value.num}</td>
 					                <td>{$value.sale_price}</td>

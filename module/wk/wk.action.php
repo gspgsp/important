@@ -99,6 +99,7 @@ class wkAction extends adminBaseAction{
 		$data['factory'] = $res['factory'];
 		$data['store'] = $res['store'];
 		$data['remark'] = $res['remark'];
+		$data['same_product'] = $res['same_product'];
 		$data['status'] = 0;
 		// p($data);die;
 		$add_res = $this->db->model('offers_cron')->add($data);
@@ -153,6 +154,7 @@ class wkAction extends adminBaseAction{
 			if(!M('product:factory')->where("f_name='{$factory}'")->select('f_name')->getOne()) $this->error('添加失败，基础数据库中不存在此厂家');
 			$_data['grade']=trim($_POST['grade']);
 			$_data['remark']=trim($_POST['remark']);
+			$_data['same_product']=trim($_POST['same_product']);
 			$_data['input_time']=time();
 			$_data['uid']=$this->adminid;
 			$_data['uname']=$this->uname;
