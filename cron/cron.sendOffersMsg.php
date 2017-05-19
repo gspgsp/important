@@ -63,7 +63,7 @@ class cronsendOffersMsg{
 	}
 	public function getCustomerContact($i,$offers_info){
 		$res = $this->db->model('customer')->select('c_id,c_name,need_product_adm,need_product')->where("customer_manager>0 and status <> 9 and msg = 2 and (need_product <> '' OR need_product_adm <> '') AND china_area = '".$offers_info['china_area']."'")->limit($i*$this->nlimit.",".$this->nlimit)->getAll();
-		// p($res);
+		// p($offers_info);die;
 		// showtrace();
 			foreach ($res as $key => $value) {
 				$need_product_temp =array();
@@ -79,10 +79,19 @@ class cronsendOffersMsg{
 				//一个公司所需牌号
 				$need_product=array_filter(array_values(array_unique(array_merge($need_product_temp,$need_product_adm_temp))));
 				// p($need_product);
-				if(in_array($offers_info['grade'],$need_product)){
+				//处理相似牌号问题，原来是看当前发布牌号是否在客户需求牌号数组中，有则发短信
+				// if(in_array($offers_info['grade'],$need_product)){
+				// 	$this->addMsgLog($value['c_id'],$offers_info);
+				// }
+				// unset($need_product);
+				//现在处理方式是，将牌号与相似牌号组成一个数组，然后跟客户所需数组求并集，如果有结果，则发送短信
+				$same_arr = explode(' ', $offers_info['same_product']);
+				$same_arr = array_filter($same_arr);//去除空数组元素
+				array_push($same_arr, $offers_info['grade']);//将主牌号加入发布牌号数组
+				$arr_res = array_intersect($same_arr,$need_product);//发布牌号数组与所需牌号数组交集
+				if($arr_res){
 					$this->addMsgLog($value['c_id'],$offers_info);
 				}
-				unset($need_product);
 		}
 	}
 	public function addMsgLog($c_id,$offers_info){
