@@ -517,13 +517,16 @@ class productAction extends baseAction
                 $this->json_output (array( 'err' => 11, 'msg' => 'type参数错误' ));
             }*/
             $goods_id = sget ('goods_id', 'i');   //所需要的商品的id
-            $dates    = sget ('dates', 's');   //所选择的时间
+            $dates0    = sget ('dates', 's');   //所选择的时间
             $pur_id   = sget ('pur_id', 'i', 0);
+            file_put_contents('/tmp/xielei.txt',print_r($dates0,true)."\n",FILE_APPEND);
 
-            $dates = explode(',',$dates);
+            $dates = explode(',',$dates0);
             if(empty($dates)){
                 $this->_errCode (6);
             }
+            file_put_contents('/tmp/xielei.txt',print_r($dates,true)."\n",FILE_APPEND);
+
             $str = '/(\d{4})-(\d{2})-(\d{2})/';
             foreach($dates as $date)
             {
