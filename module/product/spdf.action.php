@@ -6,6 +6,13 @@ class spdfAction extends adminBaseAction {
 		$this->debug = false;
 		$this->template = $this->temp();
 		$this->db=M('public:common')->model('out_logs');
+		$ids = sget('id','s');
+		$data = $this->where("id in ($ids)")->getAll();
+		//处理基础信息
+		foreach ($data as &$v) {
+			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
+		}
+		$this->info = $data;
 	}
 
 	/**
@@ -13,19 +20,21 @@ class spdfAction extends adminBaseAction {
 	 *
 	 */
 	public function tihuo(){
-			// foreach($detiles as $k => $v){
-			// 	$sign = round($v['number']*$v['unit_price'],2);
-			// 	$detail_info .= '<tr >
-			// 		<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_type']].'</td>
-			// 		<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['model']).'</td>
-			// 		<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['f_name'].'</td>
-			// 		<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">吨</td>
-			// 		<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
-			// 		<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['unit_price'].'</td>
-			// 		<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$sign.'</td>
-			// 	</tr >';
-			// 	$totall += $sign;
-			// }
+			//根据id获取详情
+
+			$detail_info = '';
+			foreach($this->info as $k => $v){
+				p($v);
+				// $detail_info .= '<tr >
+				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_type']].'</td>
+				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['model']).'</td>
+				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['f_name'].'</td>
+				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">吨</td>
+				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
+				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['unit_price'].'</td>
+				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$sign.'</td>
+				// </tr >';
+			}
 			$contract = $this->template['tihuo'];
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
