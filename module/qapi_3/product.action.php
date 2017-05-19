@@ -171,6 +171,7 @@ class productAction extends baseAction
     {
         if (!empty($_POST)) {
             $type = sget('type','i');
+            echo 11111111111111111111;
             //type 1 是供求 2 是通讯录
             if(!in_array($type,array(1,2)))
             {
