@@ -136,7 +136,7 @@ class profitAction extends adminBaseAction {
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
 		WHERE sale.p_id >0 AND o.`join_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) aa
-		UNION 
+		UNION ALL
 		SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
@@ -326,7 +326,7 @@ class profitAction extends adminBaseAction {
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
 		WHERE sale.p_id >0 AND o.`join_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) aa
-		UNION 
+		UNION ALL
 		SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
@@ -404,7 +404,7 @@ class profitAction extends adminBaseAction {
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
 		WHERE sale.p_id >0 AND o.`join_id` > 0 and o.`order_status`=2 and o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) aa
-		UNION 
+		UNION ALL
 		SELECT * from ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
