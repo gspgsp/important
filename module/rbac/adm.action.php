@@ -43,7 +43,7 @@ class admAction extends adminBaseAction {
 			$key_type=sget('key_type','s','username');
 			$keyword=sget('keyword','s');
 			if(!empty($keyword)){
-				$where.=" and $key_type='$keyword' ";
+				$where.=" and $key_type like '%$keyword%' ";
 			}
 			$list=$this->db->where($where)
 						->page($page+1,$size)
