@@ -120,7 +120,7 @@ class spdfAction extends adminBaseAction {
 			</tr >';
 		}
 		$contract = $this->template['weituo'];
-		$contract = sprintf($contract,$this->out_no,$this->cname,$this->info[0]['order_num'],$detail_info,$this->info[0]['store_address'],$this->info[0]['remark'],$this->company,$this->ship_adm,);
+		$contract = sprintf($contract,$this->out_no,$this->cname,$this->info[0]['order_num'],$detail_info,$this->info[0]['store_address'],$this->info[0]['remark'],$this->company,$this->ship_adm);
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		$pdf->SetTitle('上海中晨电商合同报表');
 		$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
