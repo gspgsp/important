@@ -184,8 +184,9 @@ class productAction extends baseAction
             $pointsOrder = M("points:pointsOrder");
             $took_date = $pointsOrder->getTookDate($goods['id']);
 
-            $start_date=date('Y-m-d',time());
-            $end_date=date('Y-m-d',strtotime('+1 month'));
+            $start_date=date('2017-07-01');
+            //$end_date=date('Y-m-d',strtotime('+1 month'));
+            $end_date = date('2017-08-01');
             $this->json_output (array(
                 'err'  => 0,
                 'took_date' => $took_date,
