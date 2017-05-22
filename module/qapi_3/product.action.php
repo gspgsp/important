@@ -189,7 +189,7 @@ class productAction extends baseAction
             $end_date = date('2017-08-01');
             $this->json_output (array(
                 'err'  => 0,
-                'took_date' => $took_date,
+                'took_date' => array('2017-07-01','2017-07-02','2017-07-03'),
                 'start_date' => $start_date,
                 'end_date' => $end_date,
             ));
