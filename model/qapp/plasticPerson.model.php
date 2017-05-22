@@ -356,9 +356,19 @@ class plasticPersonModel extends model
                     $value['name']         = sstripslashes ($value['name']);
                     $value['c_name']       = sstripslashes ($value['c_name']);
                     $value['need_product'] = sstripslashes ($value['need_product']);
-                    $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-                    $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-                    $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    if (strpos($value['name'], $lower_keywords) !== false||strpos($value['c_name'], $lower_keywords) !== false||strpos($value['need_product'], $lower_keywords) !== false) {
+                        $keywords = $lower_keywords;
+                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    }
+                    if (strpos($value['name'], $upper_keywords)!== false||strpos($value['c_name'], $upper_keywords)!== false||strpos($value['need_product'], $upper_keywords)!== false) {
+                        $keywords = $upper_keywords;
+                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    }
+
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
                         if (!strstr ($value['thumb'], 'http'))  {
@@ -423,7 +433,9 @@ class plasticPersonModel extends model
             $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
 
             if (!empty($keywords)) {
-                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$keywords}%')";
+                $upper_keywords = strtoupper($keywords);
+                $lower_keywords = strtolower($keywords);
+                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$upper_keywords}%' or `cus`.`need_product` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$lower_keywords}%')";
             }
             if (!empty($region)) {
                 //0 全部 1 华东 2 华北 3 华南 4 其他
@@ -505,9 +517,18 @@ class plasticPersonModel extends model
                     $value['name']         = sstripslashes ($value['name']);
                     $value['c_name']       = sstripslashes ($value['c_name']);
                     $value['need_product'] = sstripslashes ($value['need_product']);
-                    $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-                    $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-                    $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    if (strpos($value['name'], $lower_keywords) !== false||strpos($value['c_name'], $lower_keywords) !== false||strpos($value['need_product'], $lower_keywords) !== false) {
+                        $keywords = $lower_keywords;
+                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    }
+                    if (strpos($value['name'], $upper_keywords)!== false||strpos($value['c_name'], $upper_keywords)!== false||strpos($value['need_product'], $upper_keywords)!== false) {
+                        $keywords = $upper_keywords;
+                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    }
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
                         if (!strstr ($value['thumb'], 'http'))  {
@@ -573,7 +594,9 @@ class plasticPersonModel extends model
             $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
 
             if (!empty($keywords)) {
-                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$keywords}%')";
+                $upper_keywords = strtoupper($keywords);
+                $lower_keywords = strtolower($keywords);
+                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$upper_keywords}%' or `cus`.`need_product` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$lower_keywords}%')";
             }
             if (!empty($region)) {
                 //0 全部 1 华东 2 华北 3 华南 4 其他
@@ -658,9 +681,18 @@ class plasticPersonModel extends model
                     $value['name']         = sstripslashes ($value['name']);
                     $value['c_name']       = sstripslashes ($value['c_name']);
                     $value['need_product'] = sstripslashes ($value['need_product']);
-                    $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-                    $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-                    $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    if (strpos($value['name'], $lower_keywords) !== false||strpos($value['c_name'], $lower_keywords) !== false||strpos($value['need_product'], $lower_keywords) !== false) {
+                        $keywords = $lower_keywords;
+                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    }
+                    if (strpos($value['name'], $upper_keywords)!== false||strpos($value['c_name'], $upper_keywords)!== false||strpos($value['need_product'], $upper_keywords)!== false) {
+                        $keywords = $upper_keywords;
+                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                    }
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
                         if (!strstr ($value['thumb'], 'http'))  {
