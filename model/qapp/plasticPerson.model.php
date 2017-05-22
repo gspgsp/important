@@ -236,7 +236,8 @@ class plasticPersonModel extends model
             $where    = "con.chanel = 6 and con.is_pass in(0,1) and con.mobile not in($operMobi) and con.is_trial in (1,2)  and con.status =1 and cus.status not in (3,4)";
 
             if (!empty($keywords)) {
-                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$keywords}%')";
+                $upper_keywords = strtoupper($keywords);
+                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$upper_keywords}%')";
             }
             if (!empty($region)) {
                 //0 全部 1 华东 2 华北 3 华南 4 其他
