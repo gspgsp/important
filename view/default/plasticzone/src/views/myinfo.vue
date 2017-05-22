@@ -42,13 +42,13 @@
 			<tr>
 				<td style="padding: 0 0 0 15px;">所属地区：</td>
 				<td style="padding: 0 15px 0 7px;">
-					<span>{{adistinct}}</span>
-					<!--<span v-if="!isDisabled">
+					<span v-if="isDisabled">{{adistinct}}</span>
+					<span v-if="!isDisabled">
 						<input type="radio" value="EC" v-model="distinctradio" />&nbsp;华东&nbsp;
 						<input type="radio" value="NC" v-model="distinctradio" />&nbsp;华北&nbsp;
 						<input type="radio" value="SC" v-model="distinctradio" />&nbsp;华南&nbsp;
 						<input type="radio" value="OT" v-model="distinctradio" />&nbsp;其他&nbsp;
-					</span>-->
+					</span>
 				</td>
 			</tr>
 			<tr>

@@ -84,9 +84,11 @@
 						供:{{n.sale_count}} 求:{{n.buy_count}} 主营：
 						<b style="color: #666666; font-weight: normal;" v-html="n.need_product"></b>
 					</p>
+					<p v-if="n.type==='3'" style="color: #666666;"></p>
 					<p v-if="n.type==='4'" style="color: #666666;">
 						主营产品：<b style="color: #666666; font-weight: normal;" v-html="n.main_product"></b>
 					</p>
+					
 					<i class="icon2 rightArrow"></i>
 				</router-link>
 			</div>
@@ -560,7 +562,9 @@ export default {
 					_this.name = res.persons;
 					_this.isCircle = false;
 					window.scrollTo(0, 0);
-					weui.topTips('更新成功', 3000);
+					if (res.show_msg) {
+						weui.topTips(res.show_msg, 3000);
+					}
 				} else if(res.err == 2) {
 					_this.condition = false;
 				}

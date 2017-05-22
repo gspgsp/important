@@ -5,8 +5,7 @@
 	我的塑豆
 </header>
 <div class="detailtitle">
-	总塑豆 <span>120</span>
-	<div style="float: right;">今日塑豆 <span>20</span></div>
+	总塑豆 <span>{{points}}</span>
 </div>
 <div class="detailtitle2">
 	积分收支明细
@@ -33,7 +32,7 @@ export default{
 			points:0
 		}
 	},
-	mounted: function() {
+	activated: function() {
 		var _this = this;
 		try {
 		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
