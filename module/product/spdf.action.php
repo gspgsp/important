@@ -24,7 +24,6 @@ class spdfAction extends adminBaseAction {
 	 *
 	 */
 	public function tihuo(){
-			p($this->info);die;
 			//根据id获取详情
 			$detail_info = '';
 			foreach($this->info as $k => $v){
