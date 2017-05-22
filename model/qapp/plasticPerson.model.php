@@ -220,7 +220,6 @@ class plasticPersonModel extends model
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
         $list  = $cache->setnx("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
-        var_dump("AllPlasticPersonList".'-'.md5($keywords)."-".$region);
         if (!empty($list)) {
             $operMobi = array(
                 '13900000001',
@@ -321,11 +320,8 @@ class plasticPersonModel extends model
             $cache->lpush($key0,$new_key);
             //showTrace();
         }
-        var_dump($key0);
         $key = $cache->lindex($key0,0);
-        var_dump($key);
         $len = $cache->llen($key);
-        var_dump($len);
         if($len>$page * $size) {
 
             $uids = $cache->lrange ($key, ($page - 1) * $size, $page * $size);
