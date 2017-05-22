@@ -726,6 +726,11 @@ class releaseMsgAction extends baseAction
             $user_id = $this->checkAccount ();
             $data    = saddslashes ($data);
             $content = $data[0]['content'];//客户直接填写的求购内容，无格式
+
+            //检测100字
+            if(mb_strlen($content,'utf-8')>100){
+                $this->_errCode(121);
+            }
             //$cargo_type = $data[0]['cargo_type'];//现货、期货
             $type      = $data[0]['type'];//采购1、报价2
             $quan_type = sget ('quan_type', 'i');

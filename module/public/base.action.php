@@ -743,6 +743,12 @@ class baseAction extends null2Action
                     'msg' => '非法的网络请求，请自重',
                 ));
                 break;
+            case 121:
+                $this->json_output (array(
+                    'err' => 121,
+                    'msg' => '快速发布字数超过100字',
+                ));
+                break;
             default:
                 $this->json_output (array(
                     'err' => 999,
