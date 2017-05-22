@@ -22,7 +22,6 @@ class spdfAction extends adminBaseAction {
 		$this->cname = M('user:customer')->getColByName($oinfo['c_id']);
 		$this->out_no = $this->db->model('out_storage')->select('out_no')->where("id = {$data[0]['storage_id']}")->getOne();
 		$this->info = $data;
-		p($this->info);die;
 	}
 
 	/**
@@ -77,7 +76,7 @@ class spdfAction extends adminBaseAction {
 			$detail_info .= '<tr height="30">
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_info']['product_type']].'</td>
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['product_info']['model']).'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['product_info']['factory'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['product_info']['f_name'].'</td>
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
 			</tr >';
 		}
@@ -115,7 +114,7 @@ class spdfAction extends adminBaseAction {
 			$detail_info .= '<tr height="30">
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_info']['product_type']].'</td>
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['product_info']['model']).'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['product_info']['factory'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['product_info']['f_name'].'</td>
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
 			</tr >';
 		}
@@ -271,6 +270,7 @@ class spdfAction extends adminBaseAction {
 						<tr height="30">
 							<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（%s）安排送货：</td>
 						</tr>
+						<tr height="30"><td  colspan="2" height="20">&nbsp;</td></tr>
 						<tr>
 							<td height="20">
 								<table width="635" cellpadding="0" cellspacing="1" bgcolor="#ccc">
@@ -319,6 +319,7 @@ class spdfAction extends adminBaseAction {
 					<tr height="30">
 						<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（%s）</td>
 					</tr>
+					<tr height="30"><td  colspan="2" height="20">&nbsp;</td></tr>
 					<tr>
 						<td height="20">
 							<table width="635" cellpadding="0" cellspacing="1" bgcolor="#ccc">
