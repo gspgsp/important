@@ -220,7 +220,7 @@ class plasticPersonModel extends model
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
         $list  = $cache->setnx("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
-        var_dump($list);
+        var_dump("AllPlasticPersonList".'-'.md5($keywords)."-".$region);
         if (!empty($list)) {
             $operMobi = array(
                 '13900000001',
