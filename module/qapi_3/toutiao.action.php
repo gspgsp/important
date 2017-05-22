@@ -87,10 +87,121 @@ class toutiaoAction extends baseAction
      * @apiSuccess {Array} info   信息
      *
      * @apiSuccessExample Success-Response:
-     *     {
-     *      "err":0
-     *      "info":"xxx"
-     *      }
+             *    {
+            "err": 0,
+            "info": [
+            {
+            "id": "29334",
+            "title": "上游早报：原油及PE单体4月27日收盘价格",
+            "description": "上游早报：原油及PE单体4月19日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-28",
+            "type": "PE",
+            "pv": "711",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "29332",
+            "title": "上游早报：原油及PP单体4月27日收盘价格",
+            "description": "上游早报：原油及PE单体4月19日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-28",
+            "type": "PP",
+            "pv": "738",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "29327",
+            "title": "上游早报：原油及PVC单体4月27日收盘价格",
+            "description": "上游早报：原油及PVC单体4月27日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-28",
+            "type": "PVC",
+            "pv": "757",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "29318",
+            "title": "4月27日国际原油价格下跌",
+            "description": "WTI原油期货收跌0.65美元，跌幅1.31%，报48.97美元/桶。布伦特原油期货收跌0.38美元...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-28",
+            "type": "PP",
+            "pv": "746",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "29079",
+            "title": "上游早报：原油及PVC单体4月26日收盘价格",
+            "description": "上游早报：原油及PVC单体4月26日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-27",
+            "type": "PVC",
+            "pv": "858",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "29077",
+            "title": "上游早报：原油及PP单体4月26日收盘价格",
+            "description": "上游早报：原油及PE单体4月19日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-27",
+            "type": "PP",
+            "pv": "765",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "29076",
+            "title": "上游早报：原油及PE单体4月26日收盘价格",
+            "description": "上游早报：原油及PE单体4月19日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-27",
+            "type": "PE",
+            "pv": "740",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "29064",
+            "title": "4月26日国际原油价格涨跌不一",
+            "description": "WTI 6月原油期货收涨0.06美元，涨幅0.12%，报49.62美元/桶。\r\n布伦特6月原油期货收...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-27",
+            "type": "PP",
+            "pv": "890",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "28823",
+            "title": "上游早报：原油及PE单体4月25日收盘价格",
+            "description": "上游早报：原油及PE单体4月19日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-26",
+            "type": "PE",
+            "pv": "1336",
+            "cate_name": "塑料上游"
+            },
+            {
+            "id": "28822",
+            "title": "上游早报：原油及PVC单体4月25日收盘价格",
+            "description": "上游早报：原油及PVC单体4月25日收盘价格...",
+            "cate_id": "2",
+            "author": "",
+            "input_time": "2017-04-26",
+            "type": "PVC",
+            "pv": "1247",
+            "cate_name": "塑料上游"
+            }
+            ]
+            }
      *
      *
      */
