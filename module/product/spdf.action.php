@@ -184,7 +184,7 @@ class spdfAction extends adminBaseAction {
 						<td align="left" height="20" style="line-height:20px">传真：<u>%s</u></td>
 						<td align="left" height="20" style="line-height:20px">'.date('Y年m月d日',CORE_TIME).'</td>
 					</tr>
-					<tr height="30"><td  colspan="2" height="20>&nbsp;</td></tr>
+					<tr height="30"><td  colspan="2" height="20">&nbsp;</td></tr>
 					<tr height="30" >
 						<td colspan="2">
 							<table width="700" cellpadding="0" cellspacing="1" bgcolor="#ccc">
