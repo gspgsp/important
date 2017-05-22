@@ -13,7 +13,6 @@ class spdfAction extends adminBaseAction {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
 		}
 		$this->info = $data;
-		p($this->info);die;
 	}
 
 	/**
@@ -22,7 +21,6 @@ class spdfAction extends adminBaseAction {
 	 */
 	public function tihuo(){
 			//根据id获取详情
-			echo 1234;
 			$detail_info = '';
 			foreach($this->info as $k => $v){
 				p($v);
