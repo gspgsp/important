@@ -384,7 +384,7 @@ class friendAction extends baseAction
         }
         //加缓存提交效率
         //备注，修改时，文档和代码需要修改
-        $cache = cache::startMemcache ();
+        $cache = E ('RedisCluster', APP_LIB.'class');
         $data  = array();
 
         if (empty($keywords)) {
