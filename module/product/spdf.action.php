@@ -12,10 +12,15 @@ class spdfAction extends adminBaseAction {
 		//获取订单的联系人信息
 		$ship =M('rbac:adm')->getUserInfoById($data[0]['store_aid']);
 		$this->ship_adm = $ship['name'].'/'.$ship['mobile'];
+
 		//处理基础信息
 		foreach ($data as &$v) {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
 		}
+		$oid = intval($this->db->model('sale_log')->select('o_id')->where("`id` = {$data[0]['sale_id']}")->getOne());
+		$oinfo = $this->db->model('order')->where("`o_id` = $oid")->getRow();
+		$this->company = L('companys')[$oinfo['order_name']];
+		$this->cname = M('user:customer')->getColByName($oinfo['c_id']);
 		$this->info = $data;
 	}
 
@@ -37,7 +42,7 @@ class spdfAction extends adminBaseAction {
 				</tr >';
 			}
 			$contract = $this->template['tihuo'];
-			$contract = sprintf($contract,$this->info[0]['fax'],$detail_info,$this->ship_adm);
+			$contract = sprintf($contract,$this->company,$this->cname,$this->info[0]['fax'],$detail_info,$this->info[0]['remark'],$this->info[0]['store_address'],$this->ship_adm);
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
 			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -165,18 +170,18 @@ class spdfAction extends adminBaseAction {
 						<td colspan="2"  height="20" align="center"></td>
 					</tr>
 					<tr height="30">
-						<td colspan="2"  height="30" style="line-height:30px" align="center"><h1 style="font-size:16px;">上海中晨电子商务股份有限公司</h1></td>
+						<td colspan="2"  height="30" style="line-height:30px" align="center"><h1 style="font-size:16px;">%s</h1></td>
 					</tr>
 					<tr height="30">
 						<td colspan="2" style="line-height:30px" height="20" align="center"><h2 style="font-size:14px;"><u>提货单</u></h2></td>
 					</tr>
 					<tr height="30">
-						<td  height="20" style="line-height:20px">此单发给：<u>上架供应商名称</u></td>
+						<td  height="20" style="line-height:20px">此单发给：<u>%s</u></td>
 						<td align="right">NO：系统自动显示</td>
 					</tr>
 					<tr height="30">
 						<td  height="20" style="line-height:20px">传真：<u>%s</u></td>
-						<td  height="20" align="right" style="line-height:20px">2017年5月17日</td>
+						<td  height="20" align="right" style="line-height:20px">'.date('Y年m月d日',CORE_TIME).'</td>
 					</tr>
 					<tr height="30" >
 						<td colspan="2">
@@ -192,11 +197,11 @@ class spdfAction extends adminBaseAction {
 								%s
 								<tr height="30">
 									<td height="20" bgcolor="#fff" style="line-height:20px" align="center">备&nbsp;&nbsp;注</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px" colspan="5">&nbsp;&nbsp;&nbsp;请速传至仓库（可更改）</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px" colspan="5">&nbsp;&nbsp;&nbsp;%s</td>
 								</tr>
 								<tr height="30">
 									<td height="20" bgcolor="#fff" style="line-height:20px" align="center">仓&nbsp;&nbsp;库</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px" colspan="5">&nbsp;&nbsp;&nbsp;仓库地址</td>
+									<td height="20" bgcolor="#fff" style="line-height:20px" colspan="5">&nbsp;&nbsp;&nbsp;%s</td>
 								</tr>
 								<tr height="90">
 									<td height="20" bgcolor="#fff" align="center">说&nbsp;&nbsp;明</td>
