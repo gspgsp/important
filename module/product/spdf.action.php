@@ -34,7 +34,7 @@ class spdfAction extends adminBaseAction {
 				</tr >';
 			}
 			$contract = $this->template['tihuo'];
-			$contract = sprintf($contract,$detail_info);
+			$contract = sprintf($contract,$this->info['fax'],$detail_info);
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
 			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -172,7 +172,7 @@ class spdfAction extends adminBaseAction {
 						<td align="right">NO：系统自动显示</td>
 					</tr>
 					<tr height="30">
-						<td  height="20" style="line-height:20px">传真：<u>供应商传真</u></td>
+						<td  height="20" style="line-height:20px">传真：<u>%s</u></td>
 						<td  height="20" align="right" style="line-height:20px">2017年5月17日</td>
 					</tr>
 					<tr height="30" >
