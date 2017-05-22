@@ -15,23 +15,35 @@ class pointsOrderModel extends Model
     public function get_supply_demand_top($goods_id)
     {
         //$cache = E('RedisCluster', APP_LIB . 'class');
-        $key = 'msg_top:' . $goods_id;
-        //$pur_id = $cache->get($key);
-        $pur_id = 0;
-        if (!empty($pur_id)) {
-            return $pur_id;
-        } else {
-            $orderModel = M('points:pointsOrder');
 
-            $info = $orderModel->where("outpu_time > " . time() . " and status = 5 and goods_id =" . $goods_id)->order("outpu_time desc")->getRow();
-
-            if (!empty($info)) {
-
-                //$cache->set($key, $info['pur_id'], $info['outpu_time'] - time());
-                return $info;
+        $top = $this->getTookDate($goods_id);
+        $today = date('Y-m-d');
+        /*var_dump($today);
+        var_dump($top);
+        var_dump(in_array($today,$top));*/
+        if(in_array($today,$top)) {
+            $key = 'msg_top:'.$goods_id;
+            //$pur_id = $cache->get($key);
+            $pur_id = 0;
+            if (!empty($pur_id)) {
+                return $pur_id;
             } else {
-                return false;
+                $orderModel = M ('points:pointsOrder');
+
+                $info = $orderModel->where ("address like '%".$today."%' and status = 5 and goods_id =".$goods_id)
+                                   ->order ("outpu_time desc")->getRow ();
+
+                if (!empty($info)) {
+
+                    //$cache->set($key, $info['pur_id'], $info['outpu_time'] - time());
+                    return $info;
+                } else {
+                    return false;
+                }
             }
+
+        }else{
+            return false;
         }
     }
 
