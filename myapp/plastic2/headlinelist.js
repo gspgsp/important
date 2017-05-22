@@ -1006,7 +1006,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						_this.items = res.data;
 						_this.isCircle = false;
 						window.scrollTo(0, 0);
-						weui.topTips('更新成功', 3000);
+						if (res.show_msg) {
+							weui.topTips(res.show_msg, 3000);
+						}
 					} else {}
 				}).fail(function () {}).always(function () {});
 			} else {
