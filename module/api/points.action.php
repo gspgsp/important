@@ -88,7 +88,7 @@ class pointsAction extends null2Action
         M ("qapp:pointsBill")->startTrans();
         switch($type){
             case 1://发布求购
-                $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =6 and addtime>$_today")->order("id desc")->getAll();
+                $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type in (6,18) and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) return array('err'=>0,'msg'=>'今天发布求购次数>5，不加积分');
                 //   1 标准  2 不标准
                 $points['pur'] = $standard==2?$points['pur']:$points['standard_pur'];
@@ -100,7 +100,7 @@ class pointsAction extends null2Action
                 return array( 'err' => 0, 'msg' => '积分添加成功' );
                 break;
             case 2:
-                $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type =3 and addtime>$_today")->order("id desc")->getAll();
+                $_tmp = M ("qapp:pointsBill")->select('id ,addtime')->where("uid = $user_id and type in (3,17) and addtime>$_today")->order("id desc")->getAll();
                 if(count($_tmp)>=5) return array('err'=>0,'msg'=>'今天发布供给次数>5，不加积分');
                 //   1 标准  2 不标准
                 $points['sale'] = $standard==2?$points['sale']:$points['standard_sale'];
