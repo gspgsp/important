@@ -4,14 +4,17 @@
 		<header id="bigCustomerHeader">
 			<span class="releaseinfo">供求信息</span>
 			<div style="padding: 7px 0 0 0;">
-				<div class="releasesearch" style="text-align: left;">
+				<div class="releasesearch" style="text-align: left; margin: 0 90px 0 75px;">
 					<form action="javascript:;">
 						<input v-on:keydown.enter="search" type="text" placeholder="请输入厂家或牌号" v-model="keywords" />
 					</form>
 				</div>
 			</div>
-			<div id="searchbox" v-on:click="selectAll" style=" font-size: 14px; background: #FFFFFF; border-radius: 3px;">
+			<div id="searchbox" v-on:click="selectAll" style=" font-size: 12px; right: 50px; width: 35px; background: #FFFFFF; border-radius: 3px;">
 				{{txt2}}
+			</div>
+			<div style="line-height: 19px; position: absolute; right: 10px; top: 8px; color: #666666; padding: 5px; font-size: 12px; width: 35px; background: #FFFFFF; border-radius: 3px;" v-on:click="search">
+				搜索
 			</div>
 		</header>
 		<div class="releasefilter">

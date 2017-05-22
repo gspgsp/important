@@ -10,12 +10,13 @@
 
 <h3 class="plasticfind">
 <div style="float: left;">塑料头条</div>
-<div class="plasticSearch">
+<div class="plasticSearch" style="margin-right: 40px;">
 <i class="searchIcon" style="position: absolute; top: 14px; left: 5px; margin: 0;"></i>
 <form action="javascript:;">
-<input type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
+<input style="width: 100%;" type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </form>
 </div>
+<div v-on:click="search" style="width: 40px; line-height: 30px; font-size: 12px; font-weight: normal; background: #ff5000; color: #FFFFFF; position: absolute; top: 6px; right: 10px; text-align: center;">搜索</div>
 </h3>
 <div class="plasticnav">
 	<div class="swiper-container">

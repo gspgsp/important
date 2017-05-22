@@ -9,12 +9,13 @@
 
 	<h3 class="plasticfind">
 <div style="float: left;">塑料头条</div>
-<div class="plasticSearch">
+<div class="plasticSearch" style="margin-right: 40px;">
 <i class="searchIcon" style="position: absolute; top: 14px; left: 5px; margin: 0;"></i>
 <form action="javascript:;">
-<input type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
+<input type="text" style="width: 100%;" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </form>
 </div>
+<div v-on:click="search" style="width: 40px; line-height: 30px; font-size: 12px; font-weight: normal; background: #ff5000; color: #FFFFFF; position: absolute; top: 6px; right: 10px; text-align: center;">搜索</div>
 </h3>
 	<div class="plasticnav">
 		<div class="subscribe" v-on:click="subscribe"></div>
@@ -106,8 +107,8 @@
 			</a>
 		</li>
 		<li>
-			<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0">
-				<i class="plasticIcon picon4"></i><br>提额度
+			<a href="javascript:;">
+				<i v-on:click="plasticlevelShow" class="plasticIcon picon4"></i><br>提额度
 			</a>
 		</li>
 	</ul>
@@ -116,10 +117,10 @@
 </h3>
 	<ul class="plasticcredit2">
 		<li>
-			<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"><i class="plasticIcon picon5"></i><br>产品定义</a>
+			<a href="javascript:;"><i v-on:click="plasticdefineShow" class="plasticIcon picon5"></i><br>产品定义</a>
 		</li>
 		<li>
-			<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"><i class="plasticIcon picon6"></i><br>费率</a>
+			<a href="javascript:;"><i v-on:click="plasticrateShow" class="plasticIcon picon6"></i><br>费率</a>
 		</li>
 		<li>
 			<a href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"><i class="plasticIcon picon7"></i><br>我要申请</a>
@@ -169,6 +170,15 @@
 			<span class="subplasticbtn" v-on:click="subscribeClose">关闭</span>
 		</div>
 	</div>
+	<div class="plasticdefine" v-show="plasticdefine">
+		<div class="plasticdefineWrap" v-on:click="plasticHide"></div>
+	</div>
+	<div class="plasticlevel" v-show="plasticlevel">
+		<div class="plasticlevelWrap" v-on:click="plasticHide"></div>
+	</div>
+	<div class="plasticrate" v-show="plasticrate">
+		<div class="plasticrateWrap" v-on:click="plasticHide"></div>
+	</div>
 </div>
 </template>
 <script>
@@ -190,7 +200,10 @@ export default {
 			subchecked: [],
 			keywords: "",
 			loadingShow: "",
-			loadingHide: ""
+			loadingHide: "",
+			plasticlevel:false,
+			plasticdefine:false,
+			plasticrate:false
 		}
 	},
 	beforeRouteEnter: function(to, from, next) {
@@ -203,6 +216,20 @@ export default {
 		this.loadingHide = false;
 	},
 	methods: {
+		plasticlevelShow:function(){
+			this.plasticlevel=true;
+		},
+		plasticdefineShow:function(){
+			this.plasticdefine=true;
+		},
+		plasticrateShow:function(){
+			this.plasticrate=true;
+		},
+		plasticHide:function(){
+			this.plasticdefine=false;
+			this.plasticlevel=false;
+			this.plasticrate=false;
+		},
 		subscribe: function() {
 			this.subscribeshow = true;
 		},
