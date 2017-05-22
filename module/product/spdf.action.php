@@ -10,7 +10,7 @@ class spdfAction extends adminBaseAction {
 		$ids = sget('id','s');
 		$data = $this->db->where("id in ($ids)")->getAll();
 		//获取订单的联系人信息
-		$ship_adm =M('rbac:adm')->getUserInfoById($data[0]['store_aid']);
+		$ship =M('rbac:adm')->getUserInfoById($data[0]['store_aid']);
 		$this->ship_adm = $ship['name'].'/'.$ship['mobile'];
 		//处理基础信息
 		foreach ($data as &$v) {
