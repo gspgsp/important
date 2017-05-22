@@ -24,58 +24,36 @@ class spdfAction extends adminBaseAction {
 			//根据id获取详情
 			$detail_info = '';
 			foreach($this->info as $k => $v){
-				p($v);
-				// $detail_info .= '<tr >
-				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_type']].'</td>
-				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['model']).'</td>
-				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['f_name'].'</td>
-				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">吨</td>
-				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
-				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['unit_price'].'</td>
-				// 	<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$sign.'</td>
-				// </tr >';
+				$detail_info .= '<tr >
+					<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_info']['product_type']].'</td>
+					<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['product_info']['model']).'</td>
+					<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
+					<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.ceil($v['number']*40).'</td>
+					<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['car_code'].'</td>
+					<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['driver'].'</td>
+				</tr >';
 			}
-			die;
-			// $contract = $this->template['tihuo'];
-			// $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-			// $pdf->SetTitle('上海中晨电商合同报表');
-			// $pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
-			// // 设置默认等宽
-			// $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-			// // 设置间距
-			// $pdf->SetMargins(15, 20, 15);
-			// $pdf->SetHeaderMargin(3);
-			// $pdf->SetFooterMargin(10);
-			// // 设置分页
-			// $pdf->SetAutoPageBreak(TRUE, 25);
-			// $pdf->setImageScale(1.25);
-			// $pdf->setFontSubsetting(true);
-			// // 设置中文字体
-			// $pdf->SetFont('stsongstdlight','', 10);
-			// $pdf->AddPage();
-			// // $total=$this->_cny($totall);
-			// // $table1='<tr>
-			// // 		<td width="130" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">产品名称</td>
-			// // 		<td width="80" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">规格/型号</td>
-			// // 		<td width="140" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">产地</td>
-			// // 		<td width="30" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">单位</td>
-			// // 		<td width="75" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">数量</td>
-			// // 		<td width="82" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">单价</td>
-			// // 		<td width="90" bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">金额</td>
-			// // 	</tr>
-			// // 	' .$detail_info. '
-			// // 	<tr>
-			// // 		<td bgcolor="#FFFFFF"  height="20" style="line-height:20px;">合计</td>
-			// // 		<td colspan="6" bgcolor="#FFFFFF" class="number"  height="20" style="line-height:20px;">'.$totall.'</td>
-			// // 	</tr>
-			// // 	<tr>
-			// // 		<td bgcolor="#FFFFFF"  height="20" style="line-height:20px;">合计人民币（大写）</td>
-			// // 		<td colspan="6" bgcolor="#FFFFFF" class="number"  height="20" style="line-height:20px;">'.$total.'</td>
-			// // 	</tr>
-			// // 	';
-			// $pdf->writeHTMLCell(0, 0, '', '', $contract, 0, 1, 0, true, '', true);
-			// // 输出pdf
-			// $pdf->Output("1234.pdf", 'I');
+			$contract = $this->template['tihuo'];
+			$contract = sprintf($contract,$detail_info);
+			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+			$pdf->SetTitle('上海中晨电商合同报表');
+			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
+			// 设置默认等宽
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+			// 设置间距
+			$pdf->SetMargins(15, 20, 15);
+			$pdf->SetHeaderMargin(3);
+			$pdf->SetFooterMargin(10);
+			// 设置分页
+			$pdf->SetAutoPageBreak(TRUE, 25);
+			$pdf->setImageScale(1.25);
+			$pdf->setFontSubsetting(true);
+			// 设置中文字体
+			$pdf->SetFont('stsongstdlight','', 10);
+			$pdf->AddPage();
+			$pdf->writeHTMLCell(0, 0, '', '', $contract, 0, 1, 0, true, '', true);
+			// 输出pdf
+			$pdf->Output("1234.pdf", 'I');
 		}
 	/**
 	 * 货权转移
@@ -208,30 +186,7 @@ class spdfAction extends adminBaseAction {
 									<td height="20" bgcolor="#fff" style="line-height:20px">提货车辆牌号</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px">司机姓名，身份证</td>
 								</tr>
-								<tr height="30" align="center">
-									<td height="20" bgcolor="#fff" style="line-height:20px">LDPE</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">7000F/石化</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">30</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">120</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">预A23456900</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">张三/566767686868687</td>
-								</tr>
-								<tr height="30" align="center">
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-								</tr>
-								<tr height="30" align="center">
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-									<td height="20" bgcolor="#fff" style="line-height:20px">&nbsp;</td>
-								</tr>
+								%s
 								<tr height="30">
 									<td height="20" bgcolor="#fff" style="line-height:20px" align="center">备&nbsp;&nbsp;注</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px" colspan="5">&nbsp;&nbsp;&nbsp;请速传至仓库（可更改）</td>
