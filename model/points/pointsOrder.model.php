@@ -71,11 +71,12 @@ class pointsOrderModel extends Model
         }
         foreach($ret as &$date)
         {
-            if(strtotime($date)<strtotime(date('Y-m-d',time())))
+            if(strtotime($date)<strtotime(date('Y-m-d')))
             {
                 unset($date);
             }
         }
+
         $dates = array_values(array_unique($ret));
         natsort($dates);
         return $dates;
