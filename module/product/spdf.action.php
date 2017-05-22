@@ -116,10 +116,11 @@ class spdfAction extends adminBaseAction {
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_info']['product_type']].'</td>
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['product_info']['model']).'</td>
 				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['product_info']['factory'].'</td>
-				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.ceil($v['number']*40).'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
 			</tr >';
 		}
 		$contract = $this->template['weituo'];
+		$contract = sprintf($contract,$this->out_no,$this->cname,$this->info[0]['order_num'],$detail_info,$this->info[0]['store_address'],$this->info[0]['remark'],$this->company,$this->ship_adm,);
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		$pdf->SetTitle('上海中晨电商合同报表');
 		$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -259,16 +260,16 @@ class spdfAction extends adminBaseAction {
 				</table>',
 				'weituo'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
 						<tr height="30">
-							<td height="20" align="left" style="line-height:20px">NO：</td>
+							<td height="20" align="left" style="line-height:20px">NO：%s</td>
 						</tr>
 						<tr height="30">
 							<td height="20" align="left" style="line-height:20px" align="center"><h1 style="font-size:16px;">委托送货单</h1></td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="left" style="line-height:20px"><h2 style="font-size:14px;">TO:供应商名称</h2></td>
+							<td height="20" align="left" style="line-height:20px"><h2 style="font-size:14px;">TO:%s</h2></td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）安排送货：</td>
+							<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（%s）安排送货：</td>
 						</tr>
 						<tr>
 							<td height="20">
@@ -279,17 +280,12 @@ class spdfAction extends adminBaseAction {
 										<td style="line-height:20px" height="20" bgcolor="#fff">产地</td>
 										<td style="line-height:20px" height="20" bgcolor="#fff">数量（吨）</td>
 									</tr>
-									<tr height="30" align="center">
-										<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-										<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-										<td style="line-height:20px" height="20"bgcolor="#fff">（根据订单内容自动显示）</td>
-										<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+									%s
+									<tr height="30">
+										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：(%s)</td>
 									</tr>
 									<tr height="30">
-										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：</td>
-									</tr>
-									<tr height="30">
-										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：</td>
+										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：(%s)</td>
 									</tr>
 									<tr height="30">
 										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
@@ -301,13 +297,13 @@ class spdfAction extends adminBaseAction {
 							<td height="20" align="left" style="line-height:20px">（此单手写无效）</td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="left" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
+							<td height="20" align="left" style="line-height:20px" align="right">%s</td>
 						</tr>
 						<tr height="30">
 							<td height="20" align="left" style="line-height:20px" align="right">'.date('Y年m月d日',CORE_TIME).'</td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="left" style="line-height:20px">如有问题，请联系：（助理电话和姓名）</td>
+							<td height="20" align="left" style="line-height:20px">如有问题，请联系：（%s）</td>
 						</tr>
 					</table>',
 				'zhuanyi'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
