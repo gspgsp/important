@@ -248,6 +248,14 @@ class toutiaoAction extends baseAction
                         //unset($v['content']);
                     }
                     $cache->set ('qcateListInfo'.$page.'_'.$cate_id, $data['data'], 300);
+                    $stmp_num = $cache->get('qcateListInfoNum'.'_'.$cate_id);
+                    if(!empty($stmp_num) && $data['count'] > $stmp_num){
+                        $temp_show_msg = '更新了'.($data['count'] - $stmp_num).'条资讯';
+                        if(($data['count'] - $stmp_num) > 10) $temp_show_msg = '更新了'.($data['count'] - $stmp_num +5).'条资讯';
+                    }else{
+                        $temp_show_msg = '';
+                    }
+                    if($page==1) $cache->set('qcateListInfoNum'.'_'.$cate_id,$data['count'],1800);
                 }
             } else {
                 $data = M ("qapp:news")->getqAppCateList ('public', $cate_id, array(), $page, $size);
@@ -281,6 +289,7 @@ class toutiaoAction extends baseAction
             $this->json_output (array(
                 'err'  => 0,
                 'info' => $data['data'],
+                'show_msg' => $temp_show_msg,
             ));
         }
         $this->_errCode (6);
@@ -680,7 +689,7 @@ class toutiaoAction extends baseAction
                     //unset($v['content']);
                 }
                 shuffle ($data['data']);
-                $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+                $this->json_output (array( 'err' => 0, 'data' => $data['data'] ,'show_msg'=>count($data['data']) > 0 ?'更新了'.count($data['data']).'条数据':''));
             }
         }
     }

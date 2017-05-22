@@ -529,7 +529,7 @@ class friendAction extends baseAction
             $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
             $cacheMembers = $this->cache->get('qappsgetAllMember'.$user_id);
             $this->cache->set('qappsgetAllMember'.$user_id,$members,1800);
-            $stemp_info = $members > $cacheMembers?'更新了'.($members - $cacheMembers).'条新信息':'';
+            $stemp_info = $members > $cacheMembers?'又有'.($members - $cacheMembers).'个用户入圈啦！':'';
             $members = empty($members) ? 0 : $members;
             $arr = array(
                 'err'             => 0,
