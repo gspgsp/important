@@ -320,7 +320,7 @@ class plasticPersonModel extends model
             $cache->lpush($key0,$new_key);
             //showTrace();
         }
-
+        var_dump($key0);
         $key = $cache->lindex($key0,0);
         var_dump($key);
         $len = $cache->llen($key);
