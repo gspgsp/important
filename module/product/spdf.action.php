@@ -71,7 +71,18 @@ class spdfAction extends adminBaseAction {
 	 * @return   [type]                   [description]
 	 */
 	public function zhuanyi(){
+	//根据id获取详情
+		$detail_info = '';
+		foreach($this->info as $k => $v){
+			$detail_info .= '<tr height="30">
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_info']['product_type']].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['product_info']['model']).'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['product_info']['factory'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['number'].'</td>
+			</tr >';
+		}
 		$contract = $this->template['zhuanyi'];
+		$contract = sprintf($contract,$this->out_no,$this->cname,$this->info[0]['order_num'],$detail_info,$this->info[0]['store_address'],$this->info[0]['remark'],$this->cname,$this->ship_adm,$this->company);
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		$pdf->SetTitle('上海中晨电商合同报表');
 		$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -99,6 +110,15 @@ class spdfAction extends adminBaseAction {
 	 * @return   [type]                   [description]
 	 */
 	public function weituo(){
+		$detail_info = '';
+		foreach($this->info as $k => $v){
+			$detail_info .= '<tr height="30">
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.L('product_type')[$v['product_info']['product_type']].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.strtoupper($v['product_info']['model']).'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.$v['product_info']['factory'].'</td>
+				<td bgcolor="#FFFFFF" align="center"  height="20" style="line-height:20px;">'.ceil($v['number']*40).'</td>
+			</tr >';
+		}
 		$contract = $this->template['weituo'];
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		$pdf->SetTitle('上海中晨电商合同报表');
@@ -234,7 +254,7 @@ class spdfAction extends adminBaseAction {
 						<td height="20" colspan="2">&nbsp;</td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px" colspan="2"><u>如有问题，请联系：（%s）</u></td>
+						<td height="20" align="left"  style="line-height:20px" colspan="2"><u>如有问题，请联系：（%s）</u></td>
 					</tr>
 				</table>',
 				'weituo'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
@@ -284,7 +304,7 @@ class spdfAction extends adminBaseAction {
 							<td height="20" align="left" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
 						</tr>
 						<tr height="30">
-							<td height="20" align="left" style="line-height:20px" align="right">2017年5月17日</td>
+							<td height="20" align="left" style="line-height:20px" align="right">'.date('Y年m月d日',CORE_TIME).'</td>
 						</tr>
 						<tr height="30">
 							<td height="20" align="left" style="line-height:20px">如有问题，请联系：（助理电话和姓名）</td>
@@ -292,16 +312,16 @@ class spdfAction extends adminBaseAction {
 					</table>',
 				'zhuanyi'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
 					<tr height="30">
-						<td align="left" height="20" style="line-height:20px">NO：</td>
+						<td align="left" height="20" style="line-height:20px">NO：%s</td>
 					</tr>
 					<tr height="30">
 						<td height="20" style="line-height:20px" align="center"><h1 style="font-size:16px;">货权转移单</h1></td>
 					</tr>
 					<tr height="30">
-						<td align="left" height="20" style="line-height:20px"><h2 style="font-size:14px;">TO（供应商）：供应商名称</h2></td>
+						<td align="left" height="20" style="line-height:20px"><h2 style="font-size:14px;">TO（供应商）：%s</h2></td>
 					</tr>
 					<tr height="30">
-						<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（填写）</td>
+						<td height="20" align="left" style="line-height:20px">请将我司采购的塑料粒子合同编号：（%s）</td>
 					</tr>
 					<tr>
 						<td height="20">
@@ -312,17 +332,12 @@ class spdfAction extends adminBaseAction {
 									<td style="line-height:20px" height="20" bgcolor="#fff">产地</td>
 									<td style="line-height:20px" height="20" bgcolor="#fff">数量（吨）</td>
 								</tr>
-								<tr height="30" align="center">
-									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
-									<td style="line-height:20px" height="20" bgcolor="#fff">（根据订单内容自动显示）</td>
+								%s
+								<tr height="30">
+									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（%s）</td>
 								</tr>
 								<tr height="30">
-									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（填写）</td>
-								</tr>
-								<tr height="30">
-									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（填写）</td>
+									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（%s）</td>
 								</tr>
 								<tr height="30">
 									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
@@ -331,19 +346,19 @@ class spdfAction extends adminBaseAction {
 						</td>
 					</tr>
 					<tr height="30">
-						<td height="20" align="left" style="line-height:20px">以上货物的货权转至<u>（填写）</u></td>
+						<td height="20" align="left" style="line-height:20px">以上货物的货权转至<u>（%s）</u></td>
 					</tr>
 					<tr height="30">
-						<td height="20" align="left" style="line-height:20px">请将入库单传真至：<u>（填写订单的物流助理传真和电话）</u></td>
+						<td height="20" align="left" style="line-height:20px">请将入库单传真至：<u>（%s）</u></td>
 					</tr>
 					<tr height="30">
 						<td height="20" align="left" style="line-height:20px">（此单手写无效）</td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px" align="right">上海中晨电子商务股份有限公司</td>
+						<td height="20" style="line-height:20px" align="right">%s</td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px" align="right">2017年5月17日</td>
+						<td height="20" style="line-height:20px" align="right">'.date('Y年m月d日',CORE_TIME).'</td>
 					</tr>
 				</table>',
 			);
