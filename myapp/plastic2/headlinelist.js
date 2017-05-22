@@ -38,7 +38,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "float": "left"
     }
   }, [_vm._v("塑料头条")]), _vm._v(" "), _c('div', {
-    staticClass: "plasticSearch"
+    staticClass: "plasticSearch",
+    staticStyle: {
+      "margin-right": "40px"
+    }
   }, [_c('i', {
     staticClass: "searchIcon",
     staticStyle: {
@@ -58,6 +61,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.keywords),
       expression: "keywords"
     }],
+    staticStyle: {
+      "width": "100%"
+    },
     attrs: {
       "type": "text",
       "placeholder": "搜你想搜的"
@@ -75,7 +81,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.keywords = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })])]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "width": "40px",
+      "line-height": "30px",
+      "font-size": "12px",
+      "font-weight": "normal",
+      "background": "#ff5000",
+      "color": "#FFFFFF",
+      "position": "absolute",
+      "top": "6px",
+      "right": "10px",
+      "text-align": "center"
+    },
+    on: {
+      "click": _vm.search
+    }
+  }, [_vm._v("搜索")])]), _vm._v(" "), _c('div', {
     staticClass: "plasticnav"
   }, [_c('div', {
     staticClass: "swiper-container"

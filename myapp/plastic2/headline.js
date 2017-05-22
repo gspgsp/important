@@ -28,7 +28,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "float": "left"
     }
   }, [_vm._v("塑料头条")]), _vm._v(" "), _c('div', {
-    staticClass: "plasticSearch"
+    staticClass: "plasticSearch",
+    staticStyle: {
+      "margin-right": "40px"
+    }
   }, [_c('i', {
     staticClass: "searchIcon",
     staticStyle: {
@@ -48,6 +51,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.keywords),
       expression: "keywords"
     }],
+    staticStyle: {
+      "width": "100%"
+    },
     attrs: {
       "type": "text",
       "placeholder": "搜你想搜的"
@@ -65,7 +71,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.keywords = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })])]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "width": "40px",
+      "line-height": "30px",
+      "font-size": "12px",
+      "font-weight": "normal",
+      "background": "#ff5000",
+      "color": "#FFFFFF",
+      "position": "absolute",
+      "top": "6px",
+      "right": "10px",
+      "text-align": "center"
+    },
+    on: {
+      "click": _vm.search
+    }
+  }, [_vm._v("搜索")])]), _vm._v(" "), _c('div', {
     staticClass: "plasticnav"
   }, [_c('div', {
     staticClass: "subscribe",
@@ -229,9 +251,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "plasticIcon picon2"
-  }), _c('br'), _vm._v("查别人\r\n\t\t\t")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('h3', {
+  }), _c('br'), _vm._v("查别人\r\n\t\t\t")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_c('i', {
+    staticClass: "plasticIcon picon4",
+    on: {
+      "click": _vm.plasticlevelShow
+    }
+  }), _c('br'), _vm._v("提额度\r\n\t\t\t")])])]), _vm._v(" "), _c('h3', {
     staticClass: "plasticfind"
-  }, [_vm._v("\r\n塑料配资\r\n")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('footerbar'), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n塑料配资\r\n")]), _vm._v(" "), _c('ul', {
+    staticClass: "plasticcredit2"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_c('i', {
+    staticClass: "plasticIcon picon5",
+    on: {
+      "click": _vm.plasticdefineShow
+    }
+  }), _c('br'), _vm._v("产品定义")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_c('i', {
+    staticClass: "plasticIcon picon6",
+    on: {
+      "click": _vm.plasticrateShow
+    }
+  }), _c('br'), _vm._v("费率")])]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('footerbar'), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -659,7 +710,46 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.subscribeClose
     }
-  }, [_vm._v("关闭")])])])], 1)
+  }, [_vm._v("关闭")])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.plasticdefine),
+      expression: "plasticdefine"
+    }],
+    staticClass: "plasticdefine"
+  }, [_c('div', {
+    staticClass: "plasticdefineWrap",
+    on: {
+      "click": _vm.plasticHide
+    }
+  })]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.plasticlevel),
+      expression: "plasticlevel"
+    }],
+    staticClass: "plasticlevel"
+  }, [_c('div', {
+    staticClass: "plasticlevelWrap",
+    on: {
+      "click": _vm.plasticHide
+    }
+  })]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.plasticrate),
+      expression: "plasticrate"
+    }],
+    staticClass: "plasticrate"
+  }, [_c('div', {
+    staticClass: "plasticrateWrap",
+    on: {
+      "click": _vm.plasticHide
+    }
+  })])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
     attrs: {
@@ -674,30 +764,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
     }
   }, [_c('i', {
-    staticClass: "plasticIcon picon4"
-  }), _c('br'), _vm._v("提额度\r\n\t\t\t")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "plasticcredit2"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
-    }
-  }, [_c('i', {
-    staticClass: "plasticIcon picon5"
-  }), _c('br'), _vm._v("产品定义")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
-    }
-  }, [_c('i', {
-    staticClass: "plasticIcon picon6"
-  }), _c('br'), _vm._v("费率")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
-    }
-  }, [_c('i', {
     staticClass: "plasticIcon picon7"
-  }), _c('br'), _vm._v("我要申请")])])])
+  }), _c('br'), _vm._v("我要申请")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -1220,7 +1288,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			subchecked: [],
 			keywords: "",
 			loadingShow: "",
-			loadingHide: ""
+			loadingHide: "",
+			plasticlevel: false,
+			plasticdefine: false,
+			plasticrate: false
 		};
 	},
 	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
@@ -1233,6 +1304,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.loadingHide = false;
 	},
 	methods: {
+		plasticlevelShow: function plasticlevelShow() {
+			this.plasticlevel = true;
+		},
+		plasticdefineShow: function plasticdefineShow() {
+			this.plasticdefine = true;
+		},
+		plasticrateShow: function plasticrateShow() {
+			this.plasticrate = true;
+		},
+		plasticHide: function plasticHide() {
+			this.plasticdefine = false;
+			this.plasticlevel = false;
+			this.plasticrate = false;
+		},
 		subscribe: function subscribe() {
 			this.subscribeshow = true;
 		},

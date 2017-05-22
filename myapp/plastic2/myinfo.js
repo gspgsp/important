@@ -1259,6 +1259,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					_this.isType = true;
 				} else if (_this.c_type == "4") {
 					_this.c_nametype = "物流服务商";
+				} else if (_this.c_type == "3") {
+					_this.c_nametype = "其他";
 				}
 			} else if (res.err == 1) {
 				weui.alert(res.msg, {
