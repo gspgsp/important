@@ -8,7 +8,7 @@ class spdfAction extends adminBaseAction {
 		$this->template = $this->temp();
 		$this->db=M('public:common')->model('out_logs');
 		$ids = sget('id','s');
-		$data = $this->where("id in ($ids)")->getAll();
+		$data = $this->db->where("id in ($ids)")->getAll();
 		//处理基础信息
 		foreach ($data as &$v) {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
