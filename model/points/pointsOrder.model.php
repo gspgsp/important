@@ -69,11 +69,11 @@ class pointsOrderModel extends Model
                 }
             }
         }
-        foreach($ret as &$date)
+        foreach($ret as $key=>$date)
         {
             if(strtotime($date)<strtotime(date('Y-m-d')))
             {
-                unset($date);
+                unset($ret[$key]);
             }
         }
 
