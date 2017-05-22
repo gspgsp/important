@@ -2,6 +2,7 @@
 
 class spdfAction extends adminBaseAction {
 	public function __init(){
+		ini_set('display_errors', 'on');
 		E('TCPdf',APP_LIB.'extend');
 		$this->debug = false;
 		$this->template = $this->temp();
