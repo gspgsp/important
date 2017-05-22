@@ -77,9 +77,10 @@ class pointsOrderModel extends Model
             }
         }
 
-        $dates = array_values(array_unique($ret));
+        $dates = array_unique($ret);
         natsort($dates);
-        return $dates;
+
+        return array_values($dates);
     }
 
     //判断积分是否足够
