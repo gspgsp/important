@@ -35,8 +35,9 @@ class plasticReleaseModel extends model
         //华中
         $arrCC = array('湖北', '湖南', '河南', '江西');
         if (!empty($keywords)) {
-            $keywords = strtoupper ($keywords);
-            $where .= " and ((fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%')  OR pur.content LIKE '%{$keywords}%')";
+            $upper_keywords = strtoupper($keywords);
+            $lower_keywords = strtolower($keywords);
+            $where .= " and ((fa.f_name like '%{$keywords}%' or pro.model like '%{$keywords}%' or pro.model like '%{$upper_keywords}%' or pro.model like '%{$lower_keywords}%')  OR pur.content LIKE '%{$keywords}%' OR pur.content LIKE '%{$upper_keywords}%' OR pur.content LIKE '%{$lower_keywords}%')";
         }
         //筛选：0 全部 1 求购 2 供给
         if ($type > 0) $where .= " and pur.type = $type ";

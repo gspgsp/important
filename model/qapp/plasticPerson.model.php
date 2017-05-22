@@ -237,7 +237,8 @@ class plasticPersonModel extends model
 
             if (!empty($keywords)) {
                 $upper_keywords = strtoupper($keywords);
-                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$upper_keywords}%')";
+                $lower_keywords = strtolower($keywords);
+                $where .= " and (`con`.`name` like binary '%{$keywords}%' or `cus`.`c_name` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$upper_keywords}%' or `cus`.`need_product` like binary '%{$keywords}%' or `cus`.`need_product` like binary '%{$lower_keywords}%')";
             }
             if (!empty($region)) {
                 //0 全部 1 华东 2 华北 3 华南 4 其他
