@@ -12,7 +12,7 @@ class spdfAction extends adminBaseAction {
 		//获取订单的联系人信息
 		$ship =M('rbac:adm')->getUserInfoById($data[0]['store_aid']);
 		$this->ship_adm = $ship['name'].'/'.$ship['mobile'];
-
+		p($this->info);die;
 		//处理基础信息
 		foreach ($data as &$v) {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
