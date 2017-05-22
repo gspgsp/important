@@ -214,7 +214,15 @@ class plasticReleaseModel extends model
                         $value['contents'] = '价格' . $value['unit_price'] . '元左右/' . $value['model'] . '/' . $value['f_name'] . '/' . $value['store_house'] . '/' . $value['content'];
                     }
                 }
-                $value['contents'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['contents']);
+                if(!empty($keywords)) {
+                    if (strpos($value['contents'], $lower_keywords) !== false) {
+                        $keywords = $lower_keywords;
+                    }
+                    if (strpos($value['contents'], $upper_keywords)!== false) {
+                        $keywords = $upper_keywords;
+                    }
+                    $value['contents'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['contents']);
+                }
                 //网友说
                 //$value['says'] =  M('plasticzone:plasticMyMsg')->_getLiuYan($value['id']);
                 $value['saysCount'] = (int)M ('qapp:plasticMyMsg')->_getLiuYanDirectLine ($value['id'], $value['user_id'])['count'];
