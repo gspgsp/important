@@ -356,17 +356,22 @@ class plasticPersonModel extends model
                     $value['name']         = sstripslashes ($value['name']);
                     $value['c_name']       = sstripslashes ($value['c_name']);
                     $value['need_product'] = sstripslashes ($value['need_product']);
-                    if (strpos($value['name'], $lower_keywords) !== false||strpos($value['c_name'], $lower_keywords) !== false||strpos($value['need_product'], $lower_keywords) !== false) {
-                        $keywords = $lower_keywords;
+                    if(!empty($keywords)) {
                         $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
                         $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
                         $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
-                    }
-                    if (strpos($value['name'], $upper_keywords)!== false||strpos($value['c_name'], $upper_keywords)!== false||strpos($value['need_product'], $upper_keywords)!== false) {
-                        $keywords = $upper_keywords;
-                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        if (strpos ($value['name'], $lower_keywords) !== false || strpos ($value['c_name'], $lower_keywords) !== false || strpos ($value['need_product'], $lower_keywords) !== false) {
+                            $keywords              = $lower_keywords;
+                            $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                            $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                            $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        }
+                        if (strpos ($value['name'], $upper_keywords) !== false || strpos ($value['c_name'], $upper_keywords) !== false || strpos ($value['need_product'], $upper_keywords) !== false) {
+                            $keywords              = $upper_keywords;
+                            $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                            $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                            $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        }
                     }
 
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
@@ -517,17 +522,22 @@ class plasticPersonModel extends model
                     $value['name']         = sstripslashes ($value['name']);
                     $value['c_name']       = sstripslashes ($value['c_name']);
                     $value['need_product'] = sstripslashes ($value['need_product']);
-                    if (strpos($value['name'], $lower_keywords) !== false||strpos($value['c_name'], $lower_keywords) !== false||strpos($value['need_product'], $lower_keywords) !== false) {
-                        $keywords = $lower_keywords;
+                    if(!empty($keywords)) {
                         $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
                         $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
                         $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
-                    }
-                    if (strpos($value['name'], $upper_keywords)!== false||strpos($value['c_name'], $upper_keywords)!== false||strpos($value['need_product'], $upper_keywords)!== false) {
-                        $keywords = $upper_keywords;
-                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        if (strpos ($value['name'], $lower_keywords) !== false || strpos ($value['c_name'], $lower_keywords) !== false || strpos ($value['need_product'], $lower_keywords) !== false) {
+                            $keywords              = $lower_keywords;
+                            $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                            $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                            $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        }
+                        if (strpos ($value['name'], $upper_keywords) !== false || strpos ($value['c_name'], $upper_keywords) !== false || strpos ($value['need_product'], $upper_keywords) !== false) {
+                            $keywords              = $upper_keywords;
+                            $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                            $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                            $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        }
                     }
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
@@ -681,17 +691,22 @@ class plasticPersonModel extends model
                     $value['name']         = sstripslashes ($value['name']);
                     $value['c_name']       = sstripslashes ($value['c_name']);
                     $value['need_product'] = sstripslashes ($value['need_product']);
-                    if (strpos($value['name'], $lower_keywords) !== false||strpos($value['c_name'], $lower_keywords) !== false||strpos($value['need_product'], $lower_keywords) !== false) {
-                        $keywords = $lower_keywords;
+                    if(!empty($keywords)) {
                         $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
                         $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
                         $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
-                    }
-                    if (strpos($value['name'], $upper_keywords)!== false||strpos($value['c_name'], $upper_keywords)!== false||strpos($value['need_product'], $upper_keywords)!== false) {
-                        $keywords = $upper_keywords;
-                        $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-                        $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-                        $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        if (strpos ($value['name'], $lower_keywords) !== false || strpos ($value['c_name'], $lower_keywords) !== false || strpos ($value['need_product'], $lower_keywords) !== false) {
+                            $keywords              = $lower_keywords;
+                            $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                            $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                            $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        }
+                        if (strpos ($value['name'], $upper_keywords) !== false || strpos ($value['c_name'], $upper_keywords) !== false || strpos ($value['need_product'], $upper_keywords) !== false) {
+                            $keywords              = $upper_keywords;
+                            $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+                            $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+                            $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+                        }
                     }
                     // $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
                     if (empty($value['thumbqq'])) {
