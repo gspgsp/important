@@ -277,7 +277,7 @@ class spdfAction extends adminBaseAction {
 									<tr height="30" align="center">
 										<td style="line-height:20px" height="20" bgcolor="#fff">产品名称</td>
 										<td style="line-height:20px" height="20" bgcolor="#fff">规格/型号</td>
-										<td style="line-height:20px" height="20" bgcolor="#fff">产地</td>
+										<td style="line-height:20px" height="20" bgcolor="#fff">厂家</td>
 										<td style="line-height:20px" height="20" bgcolor="#fff">数量（吨）</td>
 									</tr>
 									%s
@@ -326,7 +326,7 @@ class spdfAction extends adminBaseAction {
 								<tr height="30" align="center">
 									<td style="line-height:20px" height="20" bgcolor="#fff">产品名称</td>
 									<td style="line-height:20px" height="20" bgcolor="#fff">规格/型号</td>
-									<td style="line-height:20px" height="20" bgcolor="#fff">产地</td>
+									<td style="line-height:20px" height="20" bgcolor="#fff">厂家</td>
 									<td style="line-height:20px" height="20" bgcolor="#fff">数量（吨）</td>
 								</tr>
 								%s
