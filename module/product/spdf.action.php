@@ -9,6 +9,9 @@ class spdfAction extends adminBaseAction {
 		$this->db=M('public:common')->model('out_logs');
 		$ids = sget('id','s');
 		$data = $this->db->where("id in ($ids)")->getAll();
+		//获取订单的联系人信息
+		$ship_adm =M('rbac:adm')->getUserInfoById($data[0]['store_aid']);
+		p($ship_adm);
 		//处理基础信息
 		foreach ($data as &$v) {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
@@ -21,6 +24,7 @@ class spdfAction extends adminBaseAction {
 	 *
 	 */
 	public function tihuo(){
+			p($this->info);die;
 			//根据id获取详情
 			$detail_info = '';
 			foreach($this->info as $k => $v){
