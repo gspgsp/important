@@ -184,11 +184,12 @@ class spdfAction extends adminBaseAction {
 						<td align="left" height="20" style="line-height:20px">传真：<u>%s</u></td>
 						<td align="left" height="20" style="line-height:20px">'.date('Y年m月d日',CORE_TIME).'</td>
 					</tr>
+					<tr height="30"><td  colspan="2" height="20>&nbsp;</td></tr>
 					<tr height="30" >
 						<td colspan="2">
 							<table width="700" cellpadding="0" cellspacing="1" bgcolor="#ccc">
 								<tr height="30" align="center">
-									<td height="20" width="40" bgcolor="#fff" style="line-height:20px">产品名称</td>
+									<td height="20" width="60" bgcolor="#fff" style="line-height:20px">产品名称</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px">规格/型号</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px">数量（吨）</td>
 									<td height="20" bgcolor="#fff" style="line-height:20px">件数（包）</td>
