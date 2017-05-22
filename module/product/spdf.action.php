@@ -11,7 +11,7 @@ class spdfAction extends adminBaseAction {
 		$data = $this->db->where("id in ($ids)")->getAll();
 		//获取订单的联系人信息
 		$ship_adm =M('rbac:adm')->getUserInfoById($data[0]['store_aid']);
-		p($ship_adm);
+		$this->ship_adm = $ship['name'].'/'.$ship['mobile'];
 		//处理基础信息
 		foreach ($data as &$v) {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
@@ -38,7 +38,7 @@ class spdfAction extends adminBaseAction {
 				</tr >';
 			}
 			$contract = $this->template['tihuo'];
-			$contract = sprintf($contract,$this->info['fax'],$detail_info);
+			$contract = sprintf($contract,$this->info[0]['fax'],$detail_info,$this->ship_adm);
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
 			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -228,7 +228,7 @@ class spdfAction extends adminBaseAction {
 						<td height="20" colspan="2">&nbsp;</td>
 					</tr>
 					<tr height="30">
-						<td height="20" style="line-height:20px" colspan="2"><u>如有问题，请联系：（提交订单的助理姓名和电话）</u></td>
+						<td height="20" style="line-height:20px" colspan="2"><u>如有问题，请联系：（%s）</u></td>
 					</tr>
 				</table>',
 				'weituo'=>'<table width="635" border="0" cellpadding="0" cellpadding="0" align="center">
