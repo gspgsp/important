@@ -553,7 +553,7 @@ class friendAction extends baseAction
             //M ("system:setting")->del_cache ("setting");
             $setting = M ("system:setting")->getSetting ();
             var_dump($setting['qapp_banner']);
-
+            var_dump(CORE_TIME);
             if (!empty($setting['qapp_banner']) && !empty($setting['qapp_banner']['start_time']) && !empty($setting['qapp_banner']['end_time']) && !empty($setting['qapp_banner']['url']) && CORE_TIME > $setting['qapp_banner']['start_time'] && CORE_TIME < $setting['qapp_banner']['end_time']) {
                 $arr['is_show_banner']  = 1;
                 $arr['is_show_focus']   = 0;
