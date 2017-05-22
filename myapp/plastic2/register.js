@@ -1,149 +1,6 @@
-webpackJsonp([25],{
+webpackJsonp([24],{
 
-/***/ 126:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			mobile: "",
-			password: "",
-			code: "",
-			name: "",
-			c_name: "",
-			c_type: 1,
-			times: 60,
-			validCode: "获取验证码",
-			checked: true
-		};
-	},
-	methods: {
-		sendCode: function sendCode() {
-			var _this = this;
-			if (this.mobile) {
-				$.ajax({
-					url: version + '/user/sendMsg',
-					type: 'post',
-					data: {
-						mobile: _this.mobile,
-						type: 0
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {}
-							}]
-						});
-
-						var countStart = setInterval(function () {
-							_this.validCode = _this.times-- + '秒后重发';
-							if (_this.times < 0) {
-								clearInterval(countStart);
-								_this.validCode = "获取验证码";
-							}
-						}, 1000);
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {}
-							}]
-						});
-					}
-				}, function () {});
-			} else {
-				weui.alert("请填写手机号", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {}
-					}]
-				});
-			}
-		},
-		reg: function reg() {
-			var _this = this;
-			if (this.checked && this.password && this.name && this.c_name) {
-				$.ajax({
-					url: version + '/user/register',
-					type: 'post',
-					data: {
-						mobile: _this.mobile,
-						password: _this.password,
-						code: _this.code,
-						name: _this.name,
-						c_name: _this.c_name,
-						chanel: 6,
-						quan_type: 0,
-						parent_mobile: window.localStorage.invite,
-						c_type: _this.c_type
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({ name: 'login' });
-								}
-							}]
-						});
-					} else {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {}
-							}]
-						});
-					}
-				}, function () {});
-			} else {
-				weui.alert("请把信息填写完整", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {}
-					}]
-				});
-			}
-		}
-	},
-	mounted: function mounted() {
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-	}
-
-});
-
-/***/ }),
-
-/***/ 204:
+/***/ 137:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -443,9 +300,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(126),
+  __webpack_require__(91),
   /* template */
-  __webpack_require__(204),
+  __webpack_require__(137),
   /* scopeId */
   null,
   /* cssModules */
@@ -528,6 +385,149 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ 91:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			mobile: "",
+			password: "",
+			code: "",
+			name: "",
+			c_name: "",
+			c_type: 1,
+			times: 60,
+			validCode: "获取验证码",
+			checked: true
+		};
+	},
+	methods: {
+		sendCode: function sendCode() {
+			var _this = this;
+			if (this.mobile) {
+				$.ajax({
+					url: version + '/user/sendMsg',
+					type: 'post',
+					data: {
+						mobile: _this.mobile,
+						type: 0
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+
+						var countStart = setInterval(function () {
+							_this.validCode = _this.times-- + '秒后重发';
+							if (_this.times < 0) {
+								clearInterval(countStart);
+								_this.validCode = "获取验证码";
+							}
+						}, 1000);
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				}, function () {});
+			} else {
+				weui.alert("请填写手机号", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		},
+		reg: function reg() {
+			var _this = this;
+			if (this.checked && this.password && this.name && this.c_name) {
+				$.ajax({
+					url: version + '/user/register',
+					type: 'post',
+					data: {
+						mobile: _this.mobile,
+						password: _this.password,
+						code: _this.code,
+						name: _this.name,
+						c_name: _this.c_name,
+						chanel: 6,
+						quan_type: 0,
+						parent_mobile: window.localStorage.invite,
+						c_type: _this.c_type
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({ name: 'login' });
+								}
+							}]
+						});
+					} else {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				}, function () {});
+			} else {
+				weui.alert("请把信息填写完整", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		}
+	},
+	mounted: function mounted() {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+	}
+
+});
 
 /***/ })
 

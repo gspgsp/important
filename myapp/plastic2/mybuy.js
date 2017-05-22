@@ -1,165 +1,6 @@
-webpackJsonp([17],{
+webpackJsonp([16],{
 
-/***/ 105:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a
-	},
-	data: function data() {
-		return {
-			name: [],
-			page: 1,
-			condition: true,
-			countShow: false,
-			count: "",
-			id: "",
-			user_id: ""
-		};
-	},
-	methods: {
-		del: function del(id) {
-			var _this = this;
-			weui.confirm('确定删除此条信息', {
-				title: '塑料圈通讯录',
-				buttons: [{
-					label: '取消',
-					type: 'default',
-					onClick: function onClick() {}
-				}, {
-					label: '确定',
-					type: 'primary',
-					onClick: function onClick() {
-						$.ajax({
-							url: version + "/releaseMsg/deleteMyMsg",
-							type: 'post',
-							data: {
-								id: id,
-								token: window.localStorage.getItem("token")
-							},
-							headers: {
-								'X-UA': window.localStorage.getItem("XUA")
-							},
-							dataType: 'JSON'
-						}).then(function (res) {
-							if (res.err == 0) {
-								weui.alert(res.msg, {
-									title: '塑料圈通讯录',
-									buttons: [{
-										label: '确定',
-										type: 'primary',
-										onClick: function onClick() {
-											location.reload();
-										}
-									}]
-								});
-							} else {
-								weui.alert("删除失败", {
-									title: '塑料圈通讯录',
-									buttons: [{
-										label: '确定',
-										type: 'primary',
-										onClick: function onClick() {
-											location.reload();
-										}
-									}]
-								});
-							}
-						}, function () {});
-					}
-				}]
-			});
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			url: version + "/releaseMsg/getMyMsg",
-			type: 'post',
-			data: {
-				type: 1,
-				page: _this.page,
-				token: window.localStorage.getItem("token"),
-				size: 50
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).done(function (res) {
-			if (res.err == 2) {
-				_this.condition = false;
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			} else {
-				_this.condition = true;
-				_this.name = res.data;
-			}
-		}).fail(function () {}).always(function () {});
-	}
-});
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(46)(
-  /* script */
-  __webpack_require__(105),
-  /* template */
-  __webpack_require__(196),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\mybuy.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] mybuy.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-587f1b6d", Component.options)
-  } else {
-    hotAPI.reload("data-v-587f1b6d", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 196:
+/***/ 129:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -300,6 +141,41 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-587f1b6d", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(70),
+  /* template */
+  __webpack_require__(129),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\mybuy.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] mybuy.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-587f1b6d", Component.options)
+  } else {
+    hotAPI.reload("data-v-587f1b6d", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 
@@ -612,6 +488,130 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-3efe2928", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 70:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a
+	},
+	data: function data() {
+		return {
+			name: [],
+			page: 1,
+			condition: true,
+			countShow: false,
+			count: "",
+			id: "",
+			user_id: ""
+		};
+	},
+	methods: {
+		del: function del(id) {
+			var _this = this;
+			weui.confirm('确定删除此条信息', {
+				title: '塑料圈通讯录',
+				buttons: [{
+					label: '取消',
+					type: 'default',
+					onClick: function onClick() {}
+				}, {
+					label: '确定',
+					type: 'primary',
+					onClick: function onClick() {
+						$.ajax({
+							url: version + "/releaseMsg/deleteMyMsg",
+							type: 'post',
+							data: {
+								id: id,
+								token: window.localStorage.getItem("token")
+							},
+							headers: {
+								'X-UA': window.localStorage.getItem("XUA")
+							},
+							dataType: 'JSON'
+						}).then(function (res) {
+							if (res.err == 0) {
+								weui.alert(res.msg, {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'primary',
+										onClick: function onClick() {
+											location.reload();
+										}
+									}]
+								});
+							} else {
+								weui.alert("删除失败", {
+									title: '塑料圈通讯录',
+									buttons: [{
+										label: '确定',
+										type: 'primary',
+										onClick: function onClick() {
+											location.reload();
+										}
+									}]
+								});
+							}
+						}, function () {});
+					}
+				}]
+			});
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: version + "/releaseMsg/getMyMsg",
+			type: 'post',
+			data: {
+				type: 1,
+				page: _this.page,
+				token: window.localStorage.getItem("token"),
+				size: 50
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).done(function (res) {
+			if (res.err == 2) {
+				_this.condition = false;
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			} else {
+				_this.condition = true;
+				_this.name = res.data;
+			}
+		}).fail(function () {}).always(function () {});
+	}
+});
 
 /***/ })
 

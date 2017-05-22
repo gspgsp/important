@@ -1,83 +1,13 @@
-webpackJsonp([6],{
+webpackJsonp([5],{
 
-/***/ 111:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myrelation__ = __webpack_require__(170);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myrelation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_myrelation__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
-		'myrelation': __WEBPACK_IMPORTED_MODULE_1__components_myrelation___default.a
-	},
-	data: function data() {
-		return {
-			name: [],
-			page: 1,
-			condition: true
-		};
-	},
-	mounted: function mounted() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			url: version + "/myInfo/getMyFuns",
-			type: 'post',
-			data: {
-				page: _this.page,
-				size: 100,
-				type: 2,
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			if (res.err == 2) {
-				_this.condition = false;
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			} else {
-				_this.condition = true;
-				_this.name = res.data;
-			}
-		}, function () {});
-	}
-});
-
-/***/ }),
-
-/***/ 170:
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(94),
+  __webpack_require__(59),
   /* template */
-  __webpack_require__(189),
+  __webpack_require__(122),
   /* scopeId */
   null,
   /* cssModules */
@@ -105,7 +35,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 180:
+/***/ 113:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -142,7 +72,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 189:
+/***/ 122:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -235,9 +165,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(111),
+  __webpack_require__(76),
   /* template */
-  __webpack_require__(180),
+  __webpack_require__(113),
   /* scopeId */
   null,
   /* cssModules */
@@ -577,7 +507,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 94:
+/***/ 59:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -586,6 +516,76 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 							props: ['name', 'condition']
+});
+
+/***/ }),
+
+/***/ 76:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myrelation__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myrelation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_myrelation__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
+		'myrelation': __WEBPACK_IMPORTED_MODULE_1__components_myrelation___default.a
+	},
+	data: function data() {
+		return {
+			name: [],
+			page: 1,
+			condition: true
+		};
+	},
+	mounted: function mounted() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: version + "/myInfo/getMyFuns",
+			type: 'post',
+			data: {
+				page: _this.page,
+				size: 100,
+				type: 2,
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 2) {
+				_this.condition = false;
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			} else {
+				_this.condition = true;
+				_this.name = res.data;
+			}
+		}, function () {});
+	}
 });
 
 /***/ })

@@ -1,118 +1,6 @@
-webpackJsonp([31],{
+webpackJsonp([30],{
 
-/***/ 120:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			thumb: "",
-			points: 0,
-			name: "",
-			show: true,
-			img: "",
-			ordertype: "",
-			proinputshow: false,
-			layershow: false,
-			times: 60,
-			validCode: "获取验证码",
-			phone: "",
-			receiver: "",
-			address: "",
-			vcode: ""
-		};
-	},
-	methods: {
-		isShow: function isShow(i) {
-			i == 1 ? this.show = true : this.show = false;
-		},
-		cancel: function cancel() {
-			this.proinputshow = false;
-			this.layershow = false;
-		},
-		exchange: function exchange() {
-			var _this = this;
-			mui.confirm("此次兑换将使用" + _this.points + "积分，确定兑换码？", "温馨提示", ['取消', '确定'], function (e) {
-				if (e.index == 1) {
-					if (_this.type == 0) {
-						_this.proinputshow = true;
-						_this.layershow = true;
-					}
-				} else {}
-			});
-		},
-		cargosubmit: function cargosubmit() {
-			var _this = this;
-			$.ajax({
-				type: "get",
-				url: "/api/qapi1/exchangeSupplyOrDemand",
-				data: {
-					type: 0,
-					goods_id: _this.gid,
-					receiver: _this.receiver,
-					phone: _this.phone,
-					address: _this.address,
-					token: window.localStorage.getItem("token")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				console.log(res.err);
-				if (res.err == 0) {
-					mui.alert("", res.msg, function () {
-						window.location.reload();
-					});
-				} else if (res.err == 1) {
-					mui.alert("", res.msg, function () {
-						_this.$router.push({ name: 'login' });
-					});
-				} else {
-					mui.alert("", res.msg, function () {
-						window.location.reload();
-					});
-				}
-			}, function () {});
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			type: "get",
-			url: "/api/qapi1/getProductInfo",
-			data: {
-				id: _this.$route.params.id,
-				token: window.localStorage.getItem("token")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			console.log(res);
-			if (res.err == 1) {
-				mui.alert("", res.msg, function () {
-					_this.$router.push({ name: 'login' });
-				});
-			} else {
-				_this.thumb = res.info.thumb;
-				_this.img = res.info.image;
-				_this.points = res.info.points;
-				_this.name = res.info.name;
-				_this.ordertype = res.info.cate_id;
-				_this.type = res.info.type;
-				_this.gid = res.info.id;
-			}
-		}, function () {});
-	}
-});
-
-/***/ }),
-
-/***/ 199:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -305,9 +193,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(120),
+  __webpack_require__(85),
   /* template */
-  __webpack_require__(199),
+  __webpack_require__(132),
   /* scopeId */
   null,
   /* cssModules */
@@ -390,6 +278,118 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ 85:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			thumb: "",
+			points: 0,
+			name: "",
+			show: true,
+			img: "",
+			ordertype: "",
+			proinputshow: false,
+			layershow: false,
+			times: 60,
+			validCode: "获取验证码",
+			phone: "",
+			receiver: "",
+			address: "",
+			vcode: ""
+		};
+	},
+	methods: {
+		isShow: function isShow(i) {
+			i == 1 ? this.show = true : this.show = false;
+		},
+		cancel: function cancel() {
+			this.proinputshow = false;
+			this.layershow = false;
+		},
+		exchange: function exchange() {
+			var _this = this;
+			mui.confirm("此次兑换将使用" + _this.points + "积分，确定兑换码？", "温馨提示", ['取消', '确定'], function (e) {
+				if (e.index == 1) {
+					if (_this.type == 0) {
+						_this.proinputshow = true;
+						_this.layershow = true;
+					}
+				} else {}
+			});
+		},
+		cargosubmit: function cargosubmit() {
+			var _this = this;
+			$.ajax({
+				type: "get",
+				url: "/api/qapi1/exchangeSupplyOrDemand",
+				data: {
+					type: 0,
+					goods_id: _this.gid,
+					receiver: _this.receiver,
+					phone: _this.phone,
+					address: _this.address,
+					token: window.localStorage.getItem("token")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				console.log(res.err);
+				if (res.err == 0) {
+					mui.alert("", res.msg, function () {
+						window.location.reload();
+					});
+				} else if (res.err == 1) {
+					mui.alert("", res.msg, function () {
+						_this.$router.push({ name: 'login' });
+					});
+				} else {
+					mui.alert("", res.msg, function () {
+						window.location.reload();
+					});
+				}
+			}, function () {});
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			type: "get",
+			url: "/api/qapi1/getProductInfo",
+			data: {
+				id: _this.$route.params.id,
+				token: window.localStorage.getItem("token")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 1) {
+				mui.alert("", res.msg, function () {
+					_this.$router.push({ name: 'login' });
+				});
+			} else {
+				_this.thumb = res.info.thumb;
+				_this.img = res.info.image;
+				_this.points = res.info.points;
+				_this.name = res.info.name;
+				_this.ordertype = res.info.cate_id;
+				_this.type = res.info.type;
+				_this.gid = res.info.id;
+			}
+		}, function () {});
+	}
+});
 
 /***/ })
 

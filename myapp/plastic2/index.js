@@ -1,677 +1,13 @@
-webpackJsonp([3],{
-
-/***/ 103:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_footer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_loadingPage__);
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_1__components_footer___default.a,
-		'loadingPage': __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default.a
-	},
-	data: function data() {
-		return {
-			name: [],
-			keywords: "",
-			page: 1,
-			condition: true,
-			member: "",
-			picarr: [],
-			fans: [],
-			isCircle: false,
-			isArrow: false,
-			region: 0,
-			c_type: 0,
-			txt: "所有分类",
-			txt2: "全国站",
-			loadingShow: "",
-			top: "",
-			isFocus: true,
-			bannerLink: "",
-			bannerImg: ""
-		};
-	},
-	methods: {
-		toLogin: function toLogin() {
-			if (window.localStorage.getItem("token")) {
-				weui.alert("你已登录塑料圈", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			} else {
-				this.$router.push({
-					name: 'login'
-				});
-			}
-		},
-		filterShow: function filterShow() {
-			var _this = this;
-			weui.actionSheet([{
-				label: '所有分类',
-				onClick: function onClick() {
-					_this.c_type = 0;
-					_this.txt = "所有分类";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '塑料制品厂',
-				onClick: function onClick() {
-					_this.c_type = 1;
-					_this.txt = "塑料制品厂";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '原料供应商',
-				onClick: function onClick() {
-					_this.c_type = 2;
-					_this.txt = "原料供应商";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '物流服务商',
-				onClick: function onClick() {
-					_this.c_type = 4;
-					_this.txt = "物流服务商";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '其他',
-				onClick: function onClick() {
-					_this.c_type = 5;
-					_this.txt = "其他";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}], [{
-				label: '取消',
-				onClick: function onClick() {}
-			}], {
-				className: 'custom-classname'
-			});
-		},
-		filterShow2: function filterShow2() {
-			var _this = this;
-			weui.actionSheet([{
-				label: '全国站',
-				onClick: function onClick() {
-					_this.region = 0;
-					_this.txt2 = "全国站";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '华东',
-				onClick: function onClick() {
-					_this.region = 1;
-					_this.txt2 = "华东";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '华北',
-				onClick: function onClick() {
-					_this.region = 2;
-					_this.txt2 = "华北";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '华南',
-				onClick: function onClick() {
-					_this.region = 3;
-					_this.txt2 = "华南";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}, {
-				label: '其他',
-				onClick: function onClick() {
-					_this.region = 4;
-					_this.txt2 = "其他";
-					_this.page = 1;
-					$.ajax({
-						type: "post",
-						url: version + "/friend/getPlasticPerson",
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-
-						data: {
-							keywords: "",
-							page: _this.page,
-							token: window.localStorage.getItem("token"),
-							size: 10,
-							region: _this.region,
-							c_type: _this.c_type
-						},
-						dataType: 'JSON'
-					}).done(function (res) {
-						if (res.err == 0) {
-							_this.condition = true;
-							_this.member = res.member;
-							_this.name = res.persons;
-						} else if (res.err == 2) {
-							_this.condition = false;
-						}
-					}).fail(function () {}).always(function () {});
-				}
-			}], [{
-				label: '取消',
-				onClick: function onClick() {}
-			}], {
-				className: 'custom-classname'
-			});
-		},
-		arrow: function arrow() {
-			window.scrollTo(0, 0);
-		},
-		circle: function circle() {
-			var _this = this;
-			this.isCircle = true;
-			$.ajax({
-				type: "post",
-				url: version + "/friend/getPlasticPerson",
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				data: {
-					keywords: "",
-					page: 1,
-					token: window.localStorage.getItem("token"),
-					size: 10,
-					region: _this.region,
-					c_type: _this.c_type
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				console.log(res);
-				if (res.err == 0) {
-					_this.condition = true;
-					_this.member = res.member;
-					_this.name = res.persons;
-					_this.isCircle = false;
-					window.scrollTo(0, 0);
-					weui.topTips('更新成功', 3000);
-				} else if (res.err == 2) {
-					_this.condition = false;
-				}
-			}, function () {});
-		},
-		search: function search() {
-			var _this = this;
-			_this.page = 1;
-			if (this.keywords) {
-				try {
-					var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-					piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
-				} catch (err) {}
-
-				$.ajax({
-					url: version + "/friend/getPlasticPerson",
-					type: 'post',
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-
-					data: {
-						keywords: _this.keywords.toLocaleUpperCase(),
-						page: _this.page,
-						token: window.localStorage.getItem("token"),
-						size: 10,
-						region: _this.region,
-						c_type: _this.c_type
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						_this.condition = true;
-						_this.name = res.persons;
-					} else if (res.err == 2) {
-						_this.condition = false;
-					}
-				}).fail(function () {}).always(function () {});
-			} else {
-				window.location.reload();
-			}
-		},
-		loadingMore: function loadingMore() {
-			var _this = this;
-			var scrollTop = $(window).scrollTop();
-			var scrollHeight = $(document).height();
-			var windowHeight = $(window).height();
-			if (scrollTop + windowHeight == scrollHeight) {
-				_this.page++;
-				$.ajax({
-					type: "post",
-					url: version + "/friend/getPlasticPerson",
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					data: {
-						sortField: _this.sortField,
-						sortOrder: _this.sortOrder,
-						keywords: _this.keywords.toLocaleUpperCase(),
-						page: _this.page,
-						region: _this.region,
-						token: window.localStorage.getItem("token"),
-						c_type: _this.c_type,
-						size: 10
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						_this.condition = true;
-						_this.name = _this.name.concat(res.persons);
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					} else if (res.err == 2) {
-						_this.condition = false;
-					} else if (res.err == 3) {
-						weui.topTips(res.msg, 3000);
-					}
-				}, function () {});
-			}
-		}
-	},
-	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-		var _this = this;
-		next(function (vm) {
-			if (from.name == "login") {
-				console.log("login");
-				$.ajax({
-					type: "get",
-					url: version + "/friend/getPlasticPerson",
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-
-					data: {
-						keywords: "",
-						page: 1,
-						token: window.localStorage.getItem("token"),
-						size: 10
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						vm.condition = true;
-						vm.member = res.member;
-						vm.name = res.persons;
-						vm.c_type = res.show_ctype;
-						if (vm.c_type == 0) {
-							vm.txt = "所有分类";
-						} else if (vm.c_type == 1) {
-							vm.txt = "塑料制品厂";
-						} else if (vm.c_type == 2) {
-							vm.txt = "原料供应商";
-						} else if (vm.c_type == 4) {
-							vm.txt = "物流服务商";
-						} else if (vm.c_type == 5) {
-							vm.txt = "其他";
-						}
-						if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
-							vm.top = null;
-						} else {
-							vm.top = res.top;
-						}
-					} else if (res.err == 2) {
-						vm.condition = false;
-					}
-				}).fail(function () {}).always(function () {});
-			}
-			$(window).on('scroll', function () {
-				vm.loadingMore();
-				var scrollTop = $(this).scrollTop();
-				var liWidth = $(".static").width();
-				if (scrollTop > 90) {
-					$("#top").css({
-						'position': 'fixed',
-						'top': '90px',
-						'width': liWidth + 'px'
-					});
-				} else {
-					$("#top").css({
-						'position': 'static',
-						'top': '0'
-					});
-				}
-			});
-			$(window).scrollTop(window.localStorage.getItem("scrollTop"));
-		});
-	},
-	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
-		var _this = this;
-		next(function () {});
-		$(window).off('scroll');
-		window.localStorage.setItem("scrollTop", $(window).scrollTop());
-	},
-	mounted: function mounted() {
-		var _this = this;
-		this.loadingShow = true;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-
-		$.ajax({
-			type: "post",
-			url: version + "/friend/getPlasticPerson",
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			data: {
-				keywords: "",
-				page: 1,
-				token: window.localStorage.getItem("token"),
-				size: 10,
-				region: _this.region
-			},
-			dataType: 'JSON'
-		}).done(function (res) {
-			if (res.err == 0) {
-				_this.isFocus = res.is_show_focus;
-				_this.bannerLink = res.banner_jump_url;
-				_this.bannerImg = res.banner_url;
-				_this.condition = true;
-				_this.member = res.member;
-				_this.name = res.persons;
-				_this.c_type = res.show_ctype;
-				if (_this.c_type == 0) {
-					_this.txt = "所有分类";
-				} else if (_this.c_type == 1) {
-					_this.txt = "塑料制品厂";
-				} else if (_this.c_type == 2) {
-					_this.txt = "原料供应商";
-				} else if (_this.c_type == 4) {
-					_this.txt = "物流服务商";
-				} else if (_this.c_type == 5) {
-					_this.txt = "其他";
-				}
-				if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
-					_this.top = null;
-				} else {
-					_this.top = res.top;
-				}
-			} else if (res.err == 2) {
-				_this.condition = false;
-			}
-		}).fail(function () {}).always(function () {
-			_this.loadingShow = false;
-		});
-
-		$(window).scroll(function () {
-			var scrollTop = $(this).scrollTop();
-			var scrollHeight = $(document).height();
-			var windowHeight = $(this).height();
-
-			if (scrollTop > 600) {
-				_this.isArrow = true;
-			} else {
-				_this.isArrow = false;
-			}
-		});
-		window.localStorage.invite = this.$route.query.invite;
-	}
-});
-
-/***/ }),
+webpackJsonp([2],{
 
 /***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(103),
+  __webpack_require__(68),
   /* template */
-  __webpack_require__(193),
+  __webpack_require__(126),
   /* scopeId */
   null,
   /* cssModules */
@@ -699,7 +35,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 193:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -985,7 +321,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "innerHTML": _vm._s(n.need_product)
       }
-    })]) : _vm._e(), _vm._v(" "), (n.type === '4') ? _c('p', {
+    })]) : _vm._e(), _vm._v(" "), (n.type === '3') ? _c('p', {
+      staticStyle: {
+        "color": "#666666"
+      }
+    }) : _vm._e(), _vm._v(" "), (n.type === '4') ? _c('p', {
       staticStyle: {
         "color": "#666666"
       }
@@ -1437,7 +777,25 @@ if (false) {
 
 /***/ }),
 
-/***/ 54:
+/***/ 56:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(57), __esModule: true };
+
+/***/ }),
+
+/***/ 57:
+/***/ (function(module, exports, __webpack_require__) {
+
+var core  = __webpack_require__(58)
+  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
+module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+  return $JSON.stringify.apply($JSON, arguments);
+};
+
+/***/ }),
+
+/***/ 58:
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
@@ -1445,21 +803,669 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ 70:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 68:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(71), __esModule: true };
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_footer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_loadingPage__);
 
-/***/ }),
 
-/***/ 71:
-/***/ (function(module, exports, __webpack_require__) {
 
-var core  = __webpack_require__(54)
-  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
-module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
-  return $JSON.stringify.apply($JSON, arguments);
-};
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_1__components_footer___default.a,
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default.a
+	},
+	data: function data() {
+		return {
+			name: [],
+			keywords: "",
+			page: 1,
+			condition: true,
+			member: "",
+			picarr: [],
+			fans: [],
+			isCircle: false,
+			isArrow: false,
+			region: 0,
+			c_type: 0,
+			txt: "所有分类",
+			txt2: "全国站",
+			loadingShow: "",
+			top: "",
+			isFocus: true,
+			bannerLink: "",
+			bannerImg: ""
+		};
+	},
+	methods: {
+		toLogin: function toLogin() {
+			if (window.localStorage.getItem("token")) {
+				weui.alert("你已登录塑料圈", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			} else {
+				this.$router.push({
+					name: 'login'
+				});
+			}
+		},
+		filterShow: function filterShow() {
+			var _this = this;
+			weui.actionSheet([{
+				label: '所有分类',
+				onClick: function onClick() {
+					_this.c_type = 0;
+					_this.txt = "所有分类";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '塑料制品厂',
+				onClick: function onClick() {
+					_this.c_type = 1;
+					_this.txt = "塑料制品厂";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '原料供应商',
+				onClick: function onClick() {
+					_this.c_type = 2;
+					_this.txt = "原料供应商";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '物流服务商',
+				onClick: function onClick() {
+					_this.c_type = 4;
+					_this.txt = "物流服务商";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '其他',
+				onClick: function onClick() {
+					_this.c_type = 5;
+					_this.txt = "其他";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}], [{
+				label: '取消',
+				onClick: function onClick() {}
+			}], {
+				className: 'custom-classname'
+			});
+		},
+		filterShow2: function filterShow2() {
+			var _this = this;
+			weui.actionSheet([{
+				label: '全国站',
+				onClick: function onClick() {
+					_this.region = 0;
+					_this.txt2 = "全国站";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '华东',
+				onClick: function onClick() {
+					_this.region = 1;
+					_this.txt2 = "华东";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '华北',
+				onClick: function onClick() {
+					_this.region = 2;
+					_this.txt2 = "华北";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '华南',
+				onClick: function onClick() {
+					_this.region = 3;
+					_this.txt2 = "华南";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}, {
+				label: '其他',
+				onClick: function onClick() {
+					_this.region = 4;
+					_this.txt2 = "其他";
+					_this.page = 1;
+					$.ajax({
+						type: "post",
+						url: version + "/friend/getPlasticPerson",
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+
+						data: {
+							keywords: "",
+							page: _this.page,
+							token: window.localStorage.getItem("token"),
+							size: 10,
+							region: _this.region,
+							c_type: _this.c_type
+						},
+						dataType: 'JSON'
+					}).done(function (res) {
+						if (res.err == 0) {
+							_this.condition = true;
+							_this.member = res.member;
+							_this.name = res.persons;
+						} else if (res.err == 2) {
+							_this.condition = false;
+						}
+					}).fail(function () {}).always(function () {});
+				}
+			}], [{
+				label: '取消',
+				onClick: function onClick() {}
+			}], {
+				className: 'custom-classname'
+			});
+		},
+		arrow: function arrow() {
+			window.scrollTo(0, 0);
+		},
+		circle: function circle() {
+			var _this = this;
+			this.isCircle = true;
+			$.ajax({
+				type: "post",
+				url: version + "/friend/getPlasticPerson",
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				data: {
+					keywords: "",
+					page: 1,
+					token: window.localStorage.getItem("token"),
+					size: 10,
+					region: _this.region,
+					c_type: _this.c_type
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				console.log(res);
+				if (res.err == 0) {
+					_this.condition = true;
+					_this.member = res.member;
+					_this.name = res.persons;
+					_this.isCircle = false;
+					window.scrollTo(0, 0);
+					if (res.show_msg) {
+						weui.topTips(res.show_msg, 3000);
+					}
+				} else if (res.err == 2) {
+					_this.condition = false;
+				}
+			}, function () {});
+		},
+		search: function search() {
+			var _this = this;
+			_this.page = 1;
+			if (this.keywords) {
+				try {
+					var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+					piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
+				} catch (err) {}
+
+				$.ajax({
+					url: version + "/friend/getPlasticPerson",
+					type: 'post',
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+
+					data: {
+						keywords: _this.keywords.toLocaleUpperCase(),
+						page: _this.page,
+						token: window.localStorage.getItem("token"),
+						size: 10,
+						region: _this.region,
+						c_type: _this.c_type
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.condition = true;
+						_this.name = res.persons;
+					} else if (res.err == 2) {
+						_this.condition = false;
+					}
+				}).fail(function () {}).always(function () {});
+			} else {
+				window.location.reload();
+			}
+		},
+		loadingMore: function loadingMore() {
+			var _this = this;
+			var scrollTop = $(window).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(window).height();
+			if (scrollTop + windowHeight == scrollHeight) {
+				_this.page++;
+				$.ajax({
+					type: "post",
+					url: version + "/friend/getPlasticPerson",
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					data: {
+						sortField: _this.sortField,
+						sortOrder: _this.sortOrder,
+						keywords: _this.keywords.toLocaleUpperCase(),
+						page: _this.page,
+						region: _this.region,
+						token: window.localStorage.getItem("token"),
+						c_type: _this.c_type,
+						size: 10
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						_this.condition = true;
+						_this.name = _this.name.concat(res.persons);
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					} else if (res.err == 2) {
+						_this.condition = false;
+					} else if (res.err == 3) {
+						weui.topTips(res.msg, 3000);
+					}
+				}, function () {});
+			}
+		}
+	},
+	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		var _this = this;
+		next(function (vm) {
+			if (from.name == "login") {
+				console.log("login");
+				$.ajax({
+					type: "get",
+					url: version + "/friend/getPlasticPerson",
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+
+					data: {
+						keywords: "",
+						page: 1,
+						token: window.localStorage.getItem("token"),
+						size: 10
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						vm.condition = true;
+						vm.member = res.member;
+						vm.name = res.persons;
+						vm.c_type = res.show_ctype;
+						if (vm.c_type == 0) {
+							vm.txt = "所有分类";
+						} else if (vm.c_type == 1) {
+							vm.txt = "塑料制品厂";
+						} else if (vm.c_type == 2) {
+							vm.txt = "原料供应商";
+						} else if (vm.c_type == 4) {
+							vm.txt = "物流服务商";
+						} else if (vm.c_type == 5) {
+							vm.txt = "其他";
+						}
+						if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
+							vm.top = null;
+						} else {
+							vm.top = res.top;
+						}
+					} else if (res.err == 2) {
+						vm.condition = false;
+					}
+				}).fail(function () {}).always(function () {});
+			}
+			$(window).on('scroll', function () {
+				vm.loadingMore();
+				var scrollTop = $(this).scrollTop();
+				var liWidth = $(".static").width();
+				if (scrollTop > 90) {
+					$("#top").css({
+						'position': 'fixed',
+						'top': '90px',
+						'width': liWidth + 'px'
+					});
+				} else {
+					$("#top").css({
+						'position': 'static',
+						'top': '0'
+					});
+				}
+			});
+			$(window).scrollTop(window.localStorage.getItem("scrollTop"));
+		});
+	},
+	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+		var _this = this;
+		next(function () {});
+		$(window).off('scroll');
+		window.localStorage.setItem("scrollTop", $(window).scrollTop());
+	},
+	mounted: function mounted() {
+		var _this = this;
+		this.loadingShow = true;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+
+		$.ajax({
+			type: "post",
+			url: version + "/friend/getPlasticPerson",
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			data: {
+				keywords: "",
+				page: 1,
+				token: window.localStorage.getItem("token"),
+				size: 10,
+				region: _this.region
+			},
+			dataType: 'JSON'
+		}).done(function (res) {
+			if (res.err == 0) {
+				_this.isFocus = res.is_show_focus;
+				_this.bannerLink = res.banner_jump_url;
+				_this.bannerImg = res.banner_url;
+				_this.condition = true;
+				_this.member = res.member;
+				_this.name = res.persons;
+				_this.c_type = res.show_ctype;
+				if (_this.c_type == 0) {
+					_this.txt = "所有分类";
+				} else if (_this.c_type == 1) {
+					_this.txt = "塑料制品厂";
+				} else if (_this.c_type == 2) {
+					_this.txt = "原料供应商";
+				} else if (_this.c_type == 4) {
+					_this.txt = "物流服务商";
+				} else if (_this.c_type == 5) {
+					_this.txt = "其他";
+				}
+				if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
+					_this.top = null;
+				} else {
+					_this.top = res.top;
+				}
+			} else if (res.err == 2) {
+				_this.condition = false;
+			}
+		}).fail(function () {}).always(function () {
+			_this.loadingShow = false;
+		});
+
+		$(window).scroll(function () {
+			var scrollTop = $(this).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(this).height();
+
+			if (scrollTop > 600) {
+				_this.isArrow = true;
+			} else {
+				_this.isArrow = false;
+			}
+		});
+		window.localStorage.invite = this.$route.query.invite;
+	}
+});
 
 /***/ })
 

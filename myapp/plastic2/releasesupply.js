@@ -1,93 +1,6 @@
-webpackJsonp([11],{
+webpackJsonp([10],{
 
-/***/ 132:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a
-	},
-	data: function data() {
-		return {
-			page: 1,
-			type: "",
-			show: false,
-			id: "",
-			user_id: "",
-			countShow: false,
-			count: "",
-			name: "",
-			c_name: "",
-			mobile: "",
-			thumb: "",
-			sex: "",
-			release: [],
-			condition: true
-		};
-	},
-	activated: function activated() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			url: version + '/friend/getTaPur',
-			type: 'post',
-			data: {
-				userid: _this.$route.params.id,
-				type: 2,
-				page: _this.page,
-				token: window.localStorage.getItem("token"),
-				size: 10
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			if (res.err == 2) {
-				_this.condition = false;
-			} else if (res.err == 0) {
-				_this.condition = true;
-				_this.release = res.data;
-			}
-		}, function () {});
-
-		$.ajax({
-			url: version + '/friend/getZoneFriend',
-			type: 'post',
-			data: {
-				userid: _this.$route.params.id,
-				token: window.localStorage.getItem("token"),
-				size: 10
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			_this.name = res.data.name;
-			_this.c_name = res.data.c_name;
-			_this.mobile = res.data.mobile;
-			_this.thumb = res.data.thumb;
-			_this.sex = res.data.sex;
-			_this.is_pass = res.data.is_pass;
-		}, function () {});
-	}
-
-});
-
-/***/ }),
-
-/***/ 208:
+/***/ 141:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -193,9 +106,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(132),
+  __webpack_require__(97),
   /* template */
-  __webpack_require__(208),
+  __webpack_require__(141),
   /* scopeId */
   null,
   /* cssModules */
@@ -532,6 +445,93 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-3efe2928", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 97:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a
+	},
+	data: function data() {
+		return {
+			page: 1,
+			type: "",
+			show: false,
+			id: "",
+			user_id: "",
+			countShow: false,
+			count: "",
+			name: "",
+			c_name: "",
+			mobile: "",
+			thumb: "",
+			sex: "",
+			release: [],
+			condition: true
+		};
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: version + '/friend/getTaPur',
+			type: 'post',
+			data: {
+				userid: _this.$route.params.id,
+				type: 2,
+				page: _this.page,
+				token: window.localStorage.getItem("token"),
+				size: 10
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 2) {
+				_this.condition = false;
+			} else if (res.err == 0) {
+				_this.condition = true;
+				_this.release = res.data;
+			}
+		}, function () {});
+
+		$.ajax({
+			url: version + '/friend/getZoneFriend',
+			type: 'post',
+			data: {
+				userid: _this.$route.params.id,
+				token: window.localStorage.getItem("token"),
+				size: 10
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			_this.name = res.data.name;
+			_this.c_name = res.data.c_name;
+			_this.mobile = res.data.mobile;
+			_this.thumb = res.data.thumb;
+			_this.sex = res.data.sex;
+			_this.is_pass = res.data.is_pass;
+		}, function () {});
+	}
+
+});
 
 /***/ })
 

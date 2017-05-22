@@ -530,7 +530,7 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 #productUl{ margin: 0; padding: 0; margin: 10px 0 0 0; list-style: none; overflow: hidden;}
 #productUl li{ width: 100%; height: auto; overflow: hidden; border-radius: 3px; margin: 0 0 10px 0; border: 1px solid #d6d7dc; background: #FFFFFF;}
 .productNum{ width: 100%; height: 45px; font-size: 13px; padding: 0 10px; position: relative; color: #999999; line-height: 45px; border-top: 1px solid #D9D9D9;}
-.productMsg{ width: 100%; height: auto; font-size: 13px; padding: 0 10px; color: #999999; line-height: 30px; border-top: 1px solid #D9D9D9;}
+.productMsg{ width: 100%; height: auto; font-size: 13px; padding: 0 10px; position: relative; color: #999999; line-height: 30px; border-top: 1px solid #D9D9D9;}
 .iconSelect{ width: 20px; height: 20px; background: url(../img/iconSelect.png) no-repeat; background-size: 100% 100%; position: absolute; right: 10px; top: 10px;}
 .proMsgLi div{ padding: 5px 20px 5px 20px; position: relative; margin: 0 10px; color: #999999; border-bottom: 1px dashed #666666; font-size: 12px; line-height: 20px;}
 .proMsgLi div:last-of-type{ border-bottom: none;}

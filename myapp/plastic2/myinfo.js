@@ -1,355 +1,6 @@
-webpackJsonp([9],{
+webpackJsonp([8],{
 
-/***/ 107:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
-		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a
-	},
-	data: function data() {
-		return {
-			name: "",
-			buy: "",
-			sale: "",
-			c_name: "",
-			c_type: "",
-			c_nametype: "",
-			mobile: "",
-			address: "",
-			sex: "",
-			status: "",
-			thumb: "",
-			concern_model: "",
-			need_product: "",
-			main_product: "",
-			month_consum: "",
-			isType: "",
-			need_ph: "",
-			rank: "",
-			total: "",
-			sexradio: "",
-			distinctradio: "EC",
-			cardImg: "",
-			active: "",
-			active2: "",
-			active3: "",
-			level: "",
-			distinct: "",
-			loadingShow: "",
-			isDisabled: true
-		};
-	},
-	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-		next(function (vm) {
-			vm.loadingShow = true;
-		});
-	},
-	methods: {
-		editor: function editor() {
-			this.isDisabled = false;
-		},
-		ctypeShow: function ctypeShow() {
-			if (this.c_type == "1") {
-				this.isType = true;
-			} else {
-				this.isType = false;
-			}
-		},
-		save: function save() {
-			var _this = this;
-			this.isDisabled = true;
-			$.ajax({
-				url: version + '/myInfo/saveSelfInfo',
-				type: 'post',
-				data: {
-					token: window.localStorage.getItem("token"),
-					address: _this.address,
-					sex: _this.sexradio,
-					major: _this.need_product,
-					concern: _this.need_ph,
-					dist: _this.distinctradio,
-					type: _this.c_type,
-					month_consum: _this.month_consum,
-					main_product: _this.main_product
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							window.location.reload();
-						}
-					}]
-				});
-			}, function () {});
-		},
-		msgActive: function msgActive() {
-			var _this = this;
-			this.active == 0 ? this.active = 1 : this.active = 0;
-			$.ajax({
-				url: version + '/myInfo/favorateSet',
-				type: 'post',
-				data: {
-					type: 0,
-					is_allow: _this.active,
-					token: window.localStorage.getItem("token")
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {}, function () {});
-		},
-		msgActive2: function msgActive2() {
-			var _this = this;
-			this.active2 == 0 ? this.active2 = 1 : this.active2 = 0;
-			$.ajax({
-				url: version + '/myInfo/favorateSet',
-				type: 'post',
-				data: {
-					type: 1,
-					is_allow: _this.active2,
-					token: window.localStorage.getItem("token")
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {}, function () {});
-		},
-		msgActive3: function msgActive3() {
-			var _this = this;
-			this.active3 == 0 ? this.active3 = 1 : this.active3 = 0;
-			$.ajax({
-				url: version + '/myInfo/favorateSet',
-				type: 'post',
-				data: {
-					type: 2,
-					is_allow: _this.active3,
-					token: window.localStorage.getItem("token")
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {}, function () {});
-		}
-	},
-	activated: function activated() {
-		var _this = this;
-		window.scrollTo(0, 0);
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-
-		weui.uploader('#uploaderCard', {
-			url: version + '/myInfo/saveCardImg',
-			auto: true,
-			type: 'file',
-			fileVal: 'fileVal',
-			compress: {
-				width: 500,
-				height: 500,
-				quality: .5
-			},
-			onBeforeQueued: function onBeforeQueued(files) {
-				if (["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0) {
-					weui.alert('请上传图片');
-					return false;
-				}
-				if (this.size > 5 * 1024 * 1024) {
-					weui.alert('请上传不超过5M的图片');
-					return false;
-				}
-			},
-			onQueued: function onQueued() {},
-			onBeforeSend: function onBeforeSend(data, headers) {
-				$.extend(data, { token: window.localStorage.getItem("token") });
-				$.extend(headers, { 'X-UA': window.localStorage.getItem("XUA") });
-			},
-			onSuccess: function onSuccess(res) {
-				if (res.err == 0) {
-					_this.cardImg = res.url;
-				}
-			},
-			onError: function onError(err) {
-				weui.alert("上传失败", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {}
-					}]
-				});
-			}
-		});
-
-		weui.uploader('#uploader', {
-			url: version + '/myInfo/savePicToServer',
-			auto: true,
-			type: 'file',
-			fileVal: 'fileVal',
-			compress: {
-				width: 500,
-				height: 500,
-				quality: .5
-			},
-			onBeforeQueued: function onBeforeQueued(files) {
-				if (["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0) {
-					weui.alert('请上传图片');
-					return false;
-				}
-				if (this.size > 5 * 1024 * 1024) {
-					weui.alert('请上传不超过5M的图片');
-					return false;
-				}
-			},
-			onQueued: function onQueued() {},
-			onBeforeSend: function onBeforeSend(data, headers) {
-				$.extend(data, { token: window.localStorage.getItem("token") });
-				$.extend(headers, { 'X-UA': window.localStorage.getItem("XUA") });
-			},
-			onSuccess: function onSuccess(res) {
-				window.location.reload();
-			},
-			onError: function onError(err) {
-				weui.alert("上传失败", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {}
-					}]
-				});
-			}
-		});
-
-		$.ajax({
-			url: version + '/myInfo/getSelfInfo',
-			type: 'post',
-			data: {
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).done(function (res) {
-			if (res.err == 0) {
-				_this.name = res.data.name;
-				_this.c_name = res.data.c_name;
-				_this.address = res.data.address;
-				_this.mobile = res.data.mobile;
-				_this.need_ph = res.data.concern_model;
-				_this.need_product = res.data.need_product;
-				_this.main_product = res.data.main_product;
-				_this.month_consum = res.data.month_consum;
-				_this.status = res.data.status;
-				_this.concern_model = res.data.concern_model;
-				_this.thumb = res.data.thumb;
-				_this.buy = res.data.buy;
-				_this.sale = res.data.sale;
-				_this.sex = res.data.sex;
-				_this.rank = res.data.rank;
-				_this.total = res.data.total;
-				_this.cardImg = res.data.thumbcard;
-				_this.active = res.data.allow_send.focus;
-				_this.active2 = res.data.allow_send.repeat;
-				_this.active3 = res.data.allow_send.show;
-				_this.level = res.data.member_level;
-				_this.adistinct = res.data.adistinct;
-				_this.c_type = res.data.type;
-				if (_this.sex == "男") {
-					_this.sexradio = 0;
-				} else {
-					_this.sexradio = 1;
-				}
-				if (_this.c_type == "2") {
-					_this.c_nametype = "原料供应商 ";
-				} else if (_this.c_type == "1") {
-					_this.c_nametype = "塑料制品企业";
-					_this.isType = true;
-				} else if (_this.c_type == "4") {
-					_this.c_nametype = "物流服务商";
-				}
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			}
-		}).fail(function () {}).always(function () {
-			_this.loadingShow = false;
-		});
-	}
-
-});
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(46)(
-  /* script */
-  __webpack_require__(107),
-  /* template */
-  __webpack_require__(171),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\myinfo.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] myinfo.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-016fc652", Component.options)
-  } else {
-    hotAPI.reload("data-v-016fc652", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 171:
+/***/ 104:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -542,7 +193,83 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "padding": "0 15px 0 7px"
     }
-  }, [_c('span', [_vm._v(_vm._s(_vm.adistinct))])])]), _vm._v(" "), _c('tr', [_c('td', {
+  }, [(_vm.isDisabled) ? _c('span', [_vm._v(_vm._s(_vm.adistinct))]) : _vm._e(), _vm._v(" "), (!_vm.isDisabled) ? _c('span', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.distinctradio),
+      expression: "distinctradio"
+    }],
+    attrs: {
+      "type": "radio",
+      "value": "EC"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.distinctradio, "EC")
+    },
+    on: {
+      "__c": function($event) {
+        _vm.distinctradio = "EC"
+      }
+    }
+  }), _vm._v(" 华东 \r\n\t\t\t\t\t\t"), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.distinctradio),
+      expression: "distinctradio"
+    }],
+    attrs: {
+      "type": "radio",
+      "value": "NC"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.distinctradio, "NC")
+    },
+    on: {
+      "__c": function($event) {
+        _vm.distinctradio = "NC"
+      }
+    }
+  }), _vm._v(" 华北 \r\n\t\t\t\t\t\t"), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.distinctradio),
+      expression: "distinctradio"
+    }],
+    attrs: {
+      "type": "radio",
+      "value": "SC"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.distinctradio, "SC")
+    },
+    on: {
+      "__c": function($event) {
+        _vm.distinctradio = "SC"
+      }
+    }
+  }), _vm._v(" 华南 \r\n\t\t\t\t\t\t"), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.distinctradio),
+      expression: "distinctradio"
+    }],
+    attrs: {
+      "type": "radio",
+      "value": "OT"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.distinctradio, "OT")
+    },
+    on: {
+      "__c": function($event) {
+        _vm.distinctradio = "OT"
+      }
+    }
+  }), _vm._v(" 其他 \r\n\t\t\t\t\t")]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('td', {
     staticStyle: {
       "padding": "0 0 0 15px"
     }
@@ -812,6 +539,41 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-016fc652", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(72),
+  /* template */
+  __webpack_require__(104),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\myinfo.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] myinfo.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-016fc652", Component.options)
+  } else {
+    hotAPI.reload("data-v-016fc652", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 
@@ -1204,6 +966,320 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-40e539ae", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 72:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a
+	},
+	data: function data() {
+		return {
+			name: "",
+			buy: "",
+			sale: "",
+			c_name: "",
+			c_type: "",
+			c_nametype: "",
+			mobile: "",
+			address: "",
+			sex: "",
+			status: "",
+			thumb: "",
+			concern_model: "",
+			need_product: "",
+			main_product: "",
+			month_consum: "",
+			isType: "",
+			need_ph: "",
+			rank: "",
+			total: "",
+			sexradio: "",
+			distinctradio: "EC",
+			cardImg: "",
+			active: "",
+			active2: "",
+			active3: "",
+			level: "",
+			distinct: "",
+			loadingShow: "",
+			isDisabled: true
+		};
+	},
+	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		next(function (vm) {
+			vm.loadingShow = true;
+		});
+	},
+	methods: {
+		editor: function editor() {
+			this.isDisabled = false;
+		},
+		ctypeShow: function ctypeShow() {
+			if (this.c_type == "1") {
+				this.isType = true;
+			} else {
+				this.isType = false;
+			}
+		},
+		save: function save() {
+			var _this = this;
+			this.isDisabled = true;
+			$.ajax({
+				url: version + '/myInfo/saveSelfInfo',
+				type: 'post',
+				data: {
+					token: window.localStorage.getItem("token"),
+					address: _this.address,
+					sex: _this.sexradio,
+					major: _this.need_product,
+					concern: _this.need_ph,
+					dist: _this.distinctradio,
+					type: _this.c_type,
+					month_consum: _this.month_consum,
+					main_product: _this.main_product
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							window.location.reload();
+						}
+					}]
+				});
+			}, function () {});
+		},
+		msgActive: function msgActive() {
+			var _this = this;
+			this.active == 0 ? this.active = 1 : this.active = 0;
+			$.ajax({
+				url: version + '/myInfo/favorateSet',
+				type: 'post',
+				data: {
+					type: 0,
+					is_allow: _this.active,
+					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {}, function () {});
+		},
+		msgActive2: function msgActive2() {
+			var _this = this;
+			this.active2 == 0 ? this.active2 = 1 : this.active2 = 0;
+			$.ajax({
+				url: version + '/myInfo/favorateSet',
+				type: 'post',
+				data: {
+					type: 1,
+					is_allow: _this.active2,
+					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {}, function () {});
+		},
+		msgActive3: function msgActive3() {
+			var _this = this;
+			this.active3 == 0 ? this.active3 = 1 : this.active3 = 0;
+			$.ajax({
+				url: version + '/myInfo/favorateSet',
+				type: 'post',
+				data: {
+					type: 2,
+					is_allow: _this.active3,
+					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {}, function () {});
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		window.scrollTo(0, 0);
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+
+		weui.uploader('#uploaderCard', {
+			url: version + '/myInfo/saveCardImg',
+			auto: true,
+			type: 'file',
+			fileVal: 'fileVal',
+			compress: {
+				width: 500,
+				height: 500,
+				quality: .5
+			},
+			onBeforeQueued: function onBeforeQueued(files) {
+				if (["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0) {
+					weui.alert('请上传图片');
+					return false;
+				}
+				if (this.size > 5 * 1024 * 1024) {
+					weui.alert('请上传不超过5M的图片');
+					return false;
+				}
+			},
+			onQueued: function onQueued() {},
+			onBeforeSend: function onBeforeSend(data, headers) {
+				$.extend(data, { token: window.localStorage.getItem("token") });
+				$.extend(headers, { 'X-UA': window.localStorage.getItem("XUA") });
+			},
+			onSuccess: function onSuccess(res) {
+				if (res.err == 0) {
+					_this.cardImg = res.url;
+				}
+			},
+			onError: function onError(err) {
+				weui.alert("上传失败", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		});
+
+		weui.uploader('#uploader', {
+			url: version + '/myInfo/savePicToServer',
+			auto: true,
+			type: 'file',
+			fileVal: 'fileVal',
+			compress: {
+				width: 500,
+				height: 500,
+				quality: .5
+			},
+			onBeforeQueued: function onBeforeQueued(files) {
+				if (["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0) {
+					weui.alert('请上传图片');
+					return false;
+				}
+				if (this.size > 5 * 1024 * 1024) {
+					weui.alert('请上传不超过5M的图片');
+					return false;
+				}
+			},
+			onQueued: function onQueued() {},
+			onBeforeSend: function onBeforeSend(data, headers) {
+				$.extend(data, { token: window.localStorage.getItem("token") });
+				$.extend(headers, { 'X-UA': window.localStorage.getItem("XUA") });
+			},
+			onSuccess: function onSuccess(res) {
+				window.location.reload();
+			},
+			onError: function onError(err) {
+				weui.alert("上传失败", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		});
+
+		$.ajax({
+			url: version + '/myInfo/getSelfInfo',
+			type: 'post',
+			data: {
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).done(function (res) {
+			if (res.err == 0) {
+				_this.name = res.data.name;
+				_this.c_name = res.data.c_name;
+				_this.address = res.data.address;
+				_this.mobile = res.data.mobile;
+				_this.need_ph = res.data.concern_model;
+				_this.need_product = res.data.need_product;
+				_this.main_product = res.data.main_product;
+				_this.month_consum = res.data.month_consum;
+				_this.status = res.data.status;
+				_this.concern_model = res.data.concern_model;
+				_this.thumb = res.data.thumb;
+				_this.buy = res.data.buy;
+				_this.sale = res.data.sale;
+				_this.sex = res.data.sex;
+				_this.rank = res.data.rank;
+				_this.total = res.data.total;
+				_this.cardImg = res.data.thumbcard;
+				_this.active = res.data.allow_send.focus;
+				_this.active2 = res.data.allow_send.repeat;
+				_this.active3 = res.data.allow_send.show;
+				_this.level = res.data.member_level;
+				_this.adistinct = res.data.adistinct;
+				_this.c_type = res.data.type;
+				if (_this.sex == "男") {
+					_this.sexradio = 0;
+				} else {
+					_this.sexradio = 1;
+				}
+				if (_this.c_type == "2") {
+					_this.c_nametype = "原料供应商 ";
+				} else if (_this.c_type == "1") {
+					_this.c_nametype = "塑料制品企业";
+					_this.isType = true;
+				} else if (_this.c_type == "4") {
+					_this.c_nametype = "物流服务商";
+				}
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		}).fail(function () {}).always(function () {
+			_this.loadingShow = false;
+		});
+	}
+
+});
 
 /***/ })
 

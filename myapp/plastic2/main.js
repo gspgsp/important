@@ -85,7 +85,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"mypoints","1":"headlinedetail","2":"release","3":"index","4":"headlinelist","5":"headline","6":"mypay","7":"personinfo","8":"myzone","9":"myinfo","10":"supplybuydetail","11":"releasesupply","12":"releasebuy","13":"mysupply","14":"mymsg","15":"myinvite","16":"myfans","17":"mybuy","18":"credit2","19":"supplybuy","20":"searchcompany","21":"resetpwd","22":"releasedetail","23":"releasebssupply","24":"releasebsbuy","25":"register","26":"recharge2","27":"recharge","28":"quickrelease","29":"protocol2","30":"protocol","31":"productdetail","32":"pointsrule2","33":"pointsrule","34":"pointsrecord","35":"pointsdetail","36":"mymsg2","37":"login","38":"help","39":"error","40":"creditintro","41":"credit"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"headlinedetail","1":"release","2":"index","3":"headlinelist","4":"headline","5":"mypay","6":"personinfo","7":"myzone","8":"myinfo","9":"supplybuydetail","10":"releasesupply","11":"releasebuy","12":"mysupply","13":"mymsg","14":"myinvite","15":"myfans","16":"mybuy","17":"credit2","18":"supplybuy","19":"searchcompany","20":"resetpwd","21":"releasedetail","22":"releasebssupply","23":"releasebsbuy","24":"register","25":"recharge2","26":"recharge","27":"quickrelease","28":"protocol2","29":"protocol","30":"productdetail","31":"pointsrule2","32":"pointsrule","33":"pointsrecord","34":"pointsdetail","35":"mypoints","36":"mymsg2","37":"login","38":"help","39":"error","40":"creditintro","41":"credit"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -192,7 +192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router___default.a);
 var Index = function Index(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(11));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -202,117 +202,117 @@ var Login = function Login(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Register = function Register(r) {
-	return __webpack_require__.e/* require.ensure */(25).then((function () {
+	return __webpack_require__.e/* require.ensure */(24).then((function () {
 		return r(__webpack_require__(34));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Resetpwd = function Resetpwd(r) {
-	return __webpack_require__.e/* require.ensure */(21).then((function () {
+	return __webpack_require__.e/* require.ensure */(20).then((function () {
 		return r(__webpack_require__(41));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headline = function Headline(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(7));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Release = function Release(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(1).then((function () {
 		return r(__webpack_require__(35));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Releasedetail = function Releasedetail(r) {
-	return __webpack_require__.e/* require.ensure */(22).then((function () {
+	return __webpack_require__.e/* require.ensure */(21).then((function () {
 		return r(__webpack_require__(39));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myzone = function Myzone(r) {
-	return __webpack_require__.e/* require.ensure */(8).then((function () {
+	return __webpack_require__.e/* require.ensure */(7).then((function () {
 		return r(__webpack_require__(22));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myinfo = function Myinfo(r) {
-	return __webpack_require__.e/* require.ensure */(9).then((function () {
+	return __webpack_require__.e/* require.ensure */(8).then((function () {
 		return r(__webpack_require__(15));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mypoints = function Mypoints(r) {
-	return __webpack_require__.e/* require.ensure */(0).then((function () {
+	return __webpack_require__.e/* require.ensure */(35).then((function () {
 		return r(__webpack_require__(20));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Pointsrule = function Pointsrule(r) {
-	return __webpack_require__.e/* require.ensure */(33).then((function () {
+	return __webpack_require__.e/* require.ensure */(32).then((function () {
 		return r(__webpack_require__(26));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Pointsrecord = function Pointsrecord(r) {
-	return __webpack_require__.e/* require.ensure */(34).then((function () {
+	return __webpack_require__.e/* require.ensure */(33).then((function () {
 		return r(__webpack_require__(25));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Pointsdetail = function Pointsdetail(r) {
-	return __webpack_require__.e/* require.ensure */(35).then((function () {
+	return __webpack_require__.e/* require.ensure */(34).then((function () {
 		return r(__webpack_require__(24));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Productdetail = function Productdetail(r) {
-	return __webpack_require__.e/* require.ensure */(31).then((function () {
+	return __webpack_require__.e/* require.ensure */(30).then((function () {
 		return r(__webpack_require__(28));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Quickrelease = function Quickrelease(r) {
-	return __webpack_require__.e/* require.ensure */(28).then((function () {
+	return __webpack_require__.e/* require.ensure */(27).then((function () {
 		return r(__webpack_require__(31));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Releasesupply = function Releasesupply(r) {
-	return __webpack_require__.e/* require.ensure */(11).then((function () {
+	return __webpack_require__.e/* require.ensure */(10).then((function () {
 		return r(__webpack_require__(40));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Releasebuy = function Releasebuy(r) {
-	return __webpack_require__.e/* require.ensure */(12).then((function () {
+	return __webpack_require__.e/* require.ensure */(11).then((function () {
 		return r(__webpack_require__(38));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Releasebsbuy = function Releasebsbuy(r) {
-	return __webpack_require__.e/* require.ensure */(24).then((function () {
+	return __webpack_require__.e/* require.ensure */(23).then((function () {
 		return r(__webpack_require__(36));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Releasebssupply = function Releasebssupply(r) {
-	return __webpack_require__.e/* require.ensure */(23).then((function () {
+	return __webpack_require__.e/* require.ensure */(22).then((function () {
 		return r(__webpack_require__(37));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myinvite = function Myinvite(r) {
-	return __webpack_require__.e/* require.ensure */(15).then((function () {
+	return __webpack_require__.e/* require.ensure */(14).then((function () {
 		return r(__webpack_require__(16));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myfans = function Myfans(r) {
-	return __webpack_require__.e/* require.ensure */(16).then((function () {
+	return __webpack_require__.e/* require.ensure */(15).then((function () {
 		return r(__webpack_require__(14));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mypay = function Mypay(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
 		return r(__webpack_require__(19));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mysupply = function Mysupply(r) {
-	return __webpack_require__.e/* require.ensure */(13).then((function () {
+	return __webpack_require__.e/* require.ensure */(12).then((function () {
 		return r(__webpack_require__(21));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mybuy = function Mybuy(r) {
-	return __webpack_require__.e/* require.ensure */(17).then((function () {
+	return __webpack_require__.e/* require.ensure */(16).then((function () {
 		return r(__webpack_require__(13));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mymsg = function Mymsg(r) {
-	return __webpack_require__.e/* require.ensure */(14).then((function () {
+	return __webpack_require__.e/* require.ensure */(13).then((function () {
 		return r(__webpack_require__(17));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -322,27 +322,27 @@ var Mymsg2 = function Mymsg2(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headlinelist = function Headlinelist(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(9));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Personinfo = function Personinfo(r) {
-	return __webpack_require__.e/* require.ensure */(7).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(23));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Supplybuy = function Supplybuy(r) {
-	return __webpack_require__.e/* require.ensure */(19).then((function () {
+	return __webpack_require__.e/* require.ensure */(18).then((function () {
 		return r(__webpack_require__(43));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headlinedetail = function Headlinedetail(r) {
-	return __webpack_require__.e/* require.ensure */(1).then((function () {
+	return __webpack_require__.e/* require.ensure */(0).then((function () {
 		return r(__webpack_require__(8));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Supplybuydetail = function Supplybuydetail(r) {
-	return __webpack_require__.e/* require.ensure */(10).then((function () {
+	return __webpack_require__.e/* require.ensure */(9).then((function () {
 		return r(__webpack_require__(44));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -352,12 +352,12 @@ var Help = function Help(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Protocol = function Protocol(r) {
-	return __webpack_require__.e/* require.ensure */(30).then((function () {
+	return __webpack_require__.e/* require.ensure */(29).then((function () {
 		return r(__webpack_require__(29));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Protocol2 = function Protocol2(r) {
-	return __webpack_require__.e/* require.ensure */(29).then((function () {
+	return __webpack_require__.e/* require.ensure */(28).then((function () {
 		return r(__webpack_require__(30));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -372,27 +372,27 @@ var Creditintro = function Creditintro(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Credit2 = function Credit2(r) {
-	return __webpack_require__.e/* require.ensure */(18).then((function () {
+	return __webpack_require__.e/* require.ensure */(17).then((function () {
 		return r(__webpack_require__(4));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Searchcompany = function Searchcompany(r) {
-	return __webpack_require__.e/* require.ensure */(20).then((function () {
+	return __webpack_require__.e/* require.ensure */(19).then((function () {
 		return r(__webpack_require__(42));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Recharge = function Recharge(r) {
-	return __webpack_require__.e/* require.ensure */(27).then((function () {
+	return __webpack_require__.e/* require.ensure */(26).then((function () {
 		return r(__webpack_require__(32));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Recharge2 = function Recharge2(r) {
-	return __webpack_require__.e/* require.ensure */(26).then((function () {
+	return __webpack_require__.e/* require.ensure */(25).then((function () {
 		return r(__webpack_require__(33));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Pointsrule2 = function Pointsrule2(r) {
-	return __webpack_require__.e/* require.ensure */(32).then((function () {
+	return __webpack_require__.e/* require.ensure */(31).then((function () {
 		return r(__webpack_require__(27));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

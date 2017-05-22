@@ -1,65 +1,12 @@
-webpackJsonp([35],{
+webpackJsonp([34],{
 
-/***/ 116:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			detail: [],
-			points: 0
-		};
-	},
-	mounted: function mounted() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			type: "post",
-			url: version + "/score/pointSupplyList",
-			data: {
-				token: window.localStorage.getItem("token"),
-				page: 1,
-				size: 50
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			console.log(res);
-			if (res.err == 0) {
-				_this.detail = res.data;
-				_this.points = res.pointsAll;
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({ name: 'login' });
-						}
-					}]
-				});
-			}
-		}, function () {});
-	}
-});
-
-/***/ }),
-
-/***/ 176:
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  return _c('div', [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "detailtitle"
+  }, [_vm._v("\n\t总塑豆 "), _c('span', [_vm._v(_vm._s(_vm.points))])]), _vm._v(" "), _c('div', {
     staticClass: "detailtitle2"
   }, [_vm._v("\n\t积分收支明细\n")]), _vm._v(" "), _c('table', {
     attrs: {
@@ -67,7 +14,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "cellpadding": "0",
       "cellspacing": "0"
     }
-  }, [_vm._m(2), _vm._v(" "), _vm._l((_vm.detail), function(d) {
+  }, [_vm._m(1), _vm._v(" "), _vm._l((_vm.detail), function(d) {
     return _c('tr', [_c('td', [_c('span', {
       staticStyle: {
         "color": "#ff5000"
@@ -89,14 +36,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "javascript:window.history.back();"
     }
   }), _vm._v("\n\t我的塑豆\n")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "detailtitle"
-  }, [_vm._v("\n\t总塑豆 "), _c('span', [_vm._v("120")]), _vm._v(" "), _c('div', {
-    staticStyle: {
-      "float": "right"
-    }
-  }, [_vm._v("今日塑豆 "), _c('span', [_vm._v("20")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', {
     attrs: {
@@ -130,9 +69,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(116),
+  __webpack_require__(81),
   /* template */
-  __webpack_require__(176),
+  __webpack_require__(109),
   /* scopeId */
   null,
   /* cssModules */
@@ -215,6 +154,61 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ 81:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			detail: [],
+			points: 0
+		};
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			type: "post",
+			url: version + "/score/pointSupplyList",
+			data: {
+				token: window.localStorage.getItem("token"),
+				page: 1,
+				size: 50
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				_this.detail = res.data;
+				_this.points = res.pointsAll;
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({ name: 'login' });
+						}
+					}]
+				});
+			}
+		}, function () {});
+	}
+});
 
 /***/ })
 

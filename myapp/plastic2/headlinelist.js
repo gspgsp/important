@@ -1,498 +1,6 @@
-webpackJsonp([4],{
+webpackJsonp([3],{
 
-/***/ 101:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_errorPage__);
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
-		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a,
-		'errorPage': __WEBPACK_IMPORTED_MODULE_2__components_errorPage___default.a
-	},
-	data: function data() {
-		return {
-			items: [],
-			cate: "",
-			cateid: "",
-			page: 1,
-			isCircle: false,
-			isArrow: false,
-			keywords: "",
-			loadingShow: "",
-			loadingHide: ""
-		};
-	},
-	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-		next(function (vm) {
-			vm.loadingShow = true;
-		});
-	},
-	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
-		next(function () {});
-		this.loadingHide = false;
-	},
-	methods: {
-		arrow: function arrow() {
-			window.scrollTo(0, 0);
-		},
-		getList: function getList(id) {
-			var _this = this;
-			this.cateid = id;
-			if (id == 999) {
-				$.ajax({
-					type: "post",
-					url: version + '/toutiao/getSubscribe',
-					data: {
-						token: window.localStorage.getItem("token"),
-						subscribe: 2
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						_this.items = res.data;
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					}
-				}).fail(function () {}).always(function () {});
-			} else {
-				$.ajax({
-					type: "post",
-					url: version + '/toutiao/getCateList',
-					data: {
-						page: 1,
-						size: 10,
-						cate_id: id,
-						token: window.localStorage.getItem("token")
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						_this.items = res.info;
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					}
-				}).fail(function () {}).always(function () {});
-			}
-		},
-		search: function search() {
-			var _this = this;
-			if (this.keywords) {
-				try {
-					var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-					piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
-				} catch (err) {}
-
-				$.ajax({
-					url: version + '/toutiao/getSubscribe',
-					type: 'post',
-					data: {
-						keywords: _this.keywords,
-						page: 1,
-						subscribe: 1,
-						token: window.localStorage.getItem("token")
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						_this.items = res.data;
-					}
-				}).fail(function () {}).always(function () {});
-			} else {}
-		},
-		changeCate: function changeCate(id) {
-			switch (id) {
-				case 1:
-					this.cate = "早盘预报";
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(2, 1000, false);
-					});
-					break;
-				case 2:
-					this.cate = "塑料上游";
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(1, 1000, false);
-					});
-					break;
-				case 4:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(4, 1000, false);
-					});
-					this.cate = "中晨塑说";
-					break;
-				case 5:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(5, 1000, false);
-					});
-					this.cate = "美金市场";
-					break;
-				case 9:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(3, 1000, false);
-					});
-					this.cate = "企业动态";
-					break;
-				case 11:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(7, 1000, false);
-					});
-					this.cate = "装置动态";
-					break;
-				case 13:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(8, 1000, false);
-					});
-					this.cate = "期刊报告";
-					break;
-				case 21:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(6, 1000, false);
-					});
-					this.cate = "期货资讯";
-					break;
-				case 22:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(9, 1000, false);
-					});
-					this.cate = "独家解读";
-					break;
-				case 999:
-					this.getList(id);
-					this.$nextTick(function () {
-						var swiper = new Swiper('.swiper-container', {
-							slidesPerView: 4,
-							spaceBetween: 15,
-							freeMode: true
-						});
-						swiper.slideTo(0, 1000, false);
-					});
-					this.cate = "推荐";
-					break;
-			}
-		},
-		circle: function circle() {
-			var _this = this;
-			this.isCircle = true;
-			if (this.$route.params.id == 999) {
-				$.ajax({
-					type: "post",
-					url: version + '/toutiao/getSubscribe',
-					data: {
-						token: window.localStorage.getItem("token"),
-						subscribe: 2
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						_this.items = res.data;
-						_this.isCircle = false;
-						window.scrollTo(0, 0);
-						weui.topTips('更新成功', 3000);
-					} else {}
-				}).fail(function () {}).always(function () {});
-			} else {
-				$.ajax({
-					type: "post",
-					url: version + '/toutiao/getCateList',
-					data: {
-						page: 1,
-						size: 10,
-						cate_id: _this.$route.params.id,
-						token: window.localStorage.getItem("token")
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).done(function (res) {
-					if (res.err == 0) {
-						_this.items = res.info;
-						_this.isCircle = false;
-						window.scrollTo(0, 0);
-						weui.topTips('更新成功', 3000);
-					}
-				}).fail(function () {}).always(function () {});
-			}
-		}
-	},
-	activated: function activated() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-
-		switch (this.$route.params.id) {
-			case 1:
-				this.cateid = 1;
-				this.cate = "早盘预测";
-				break;
-			case 2:
-				this.cateid = 2;
-				this.cate = "塑料上游";
-				break;
-			case 4:
-				this.cateid = 4;
-				this.cate = "中晨塑说";
-				break;
-			case 5:
-				this.cateid = 5;
-				this.cate = "美金市场";
-				break;
-			case 9:
-				this.cateid = 9;
-				this.cate = "企业动态";
-				break;
-			case 11:
-				this.cateid = 11;
-				this.cate = "装置动态";
-				break;
-			case 13:
-				this.cateid = 13;
-				this.cate = "期刊报告";
-				break;
-			case 21:
-				this.cateid = 21;
-				this.cate = "期货资讯";
-				break;
-			case 22:
-				this.cateid = 22;
-				this.cate = "独家解读";
-				break;
-			case 999:
-				this.cateid = 999;
-				this.cate = "推荐";
-				break;
-		}
-		if (this.$route.params.id == 999) {
-			$.ajax({
-				type: "post",
-				url: version + '/toutiao/getSubscribe',
-				timeout: 15000,
-				data: {
-					token: window.localStorage.getItem("token"),
-					subscribe: 2
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).done(function (res) {
-				if (res.err == 0) {
-					_this.items = res.data;
-				} else {}
-			}).fail(function () {
-				_this.loadingHide = true;
-			}).always(function () {
-				_this.loadingShow = false;
-			});
-		} else {
-			$.ajax({
-				type: "post",
-				url: version + '/toutiao/getCateList',
-				timeout: 15000,
-				data: {
-					page: 1,
-					size: 10,
-					cate_id: _this.$route.params.id,
-					token: window.localStorage.getItem("token")
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).done(function (res) {
-				if (res.err == 0) {
-					_this.items = res.info;
-				} else if (res.err == 1) {
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'login'
-								});
-							}
-						}]
-					});
-				}
-			}).fail(function () {
-				_this.loadingHide = true;
-			}).always(function () {
-				_this.loadingShow = false;
-			});
-		}
-
-		this.$nextTick(function () {
-			var swiper = new Swiper('.swiper-container', {
-				slidesPerView: 4,
-				spaceBetween: 15,
-				freeMode: true
-			});
-		});
-
-		$(window).scroll(function () {
-			var scrollTop = $(this).scrollTop();
-			var scrollHeight = $(document).height();
-			var windowHeight = $(this).height();
-			if (scrollTop > 600) {
-				_this.isArrow = true;
-			} else {
-				_this.isArrow = false;
-			}
-			if (scrollTop + windowHeight >= scrollHeight) {
-				_this.page++;
-				$.ajax({
-					type: "post",
-					url: version + "/toutiao/getCateList",
-					data: {
-						page: _this.page,
-						size: 10,
-						cate_id: _this.$route.params.id,
-						token: window.localStorage.getItem("token")
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					console.log(res);
-					if (res.err == 0) {
-						_this.condition = true;
-						_this.items = _this.items.concat(res.info);
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					} else if (res.err == 2) {
-						_this.condition = false;
-					} else if (res.err == 3) {
-						weui.topTips(res.msg, 3000);
-					}
-				}, function () {});
-			}
-		});
-	},
-	deactivated: function deactivated() {
-		$(window).unbind('scroll');
-	}
-
-});
-
-/***/ }),
-
-/***/ 178:
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1123,7 +631,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 61:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1136,14 +644,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 62:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(61),
+  __webpack_require__(53),
   /* template */
-  __webpack_require__(63),
+  __webpack_require__(55),
   /* scopeId */
   null,
   /* cssModules */
@@ -1171,7 +679,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 63:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1211,14 +719,506 @@ if (false) {
 
 /***/ }),
 
+/***/ 66:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_errorPage__);
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a,
+		'errorPage': __WEBPACK_IMPORTED_MODULE_2__components_errorPage___default.a
+	},
+	data: function data() {
+		return {
+			items: [],
+			cate: "",
+			cateid: "",
+			page: 1,
+			isCircle: false,
+			isArrow: false,
+			keywords: "",
+			loadingShow: "",
+			loadingHide: ""
+		};
+	},
+	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		next(function (vm) {
+			vm.loadingShow = true;
+		});
+	},
+	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+		next(function () {});
+		this.loadingHide = false;
+	},
+	methods: {
+		arrow: function arrow() {
+			window.scrollTo(0, 0);
+		},
+		getList: function getList(id) {
+			var _this = this;
+			this.cateid = id;
+			if (id == 999) {
+				$.ajax({
+					type: "post",
+					url: version + '/toutiao/getSubscribe',
+					data: {
+						token: window.localStorage.getItem("token"),
+						subscribe: 2
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.items = res.data;
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					}
+				}).fail(function () {}).always(function () {});
+			} else {
+				$.ajax({
+					type: "post",
+					url: version + '/toutiao/getCateList',
+					data: {
+						page: 1,
+						size: 10,
+						cate_id: id,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.items = res.info;
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					}
+				}).fail(function () {}).always(function () {});
+			}
+		},
+		search: function search() {
+			var _this = this;
+			if (this.keywords) {
+				try {
+					var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+					piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
+				} catch (err) {}
+
+				$.ajax({
+					url: version + '/toutiao/getSubscribe',
+					type: 'post',
+					data: {
+						keywords: _this.keywords,
+						page: 1,
+						subscribe: 1,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.items = res.data;
+					}
+				}).fail(function () {}).always(function () {});
+			} else {}
+		},
+		changeCate: function changeCate(id) {
+			switch (id) {
+				case 1:
+					this.cate = "早盘预报";
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(2, 1000, false);
+					});
+					break;
+				case 2:
+					this.cate = "塑料上游";
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(1, 1000, false);
+					});
+					break;
+				case 4:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(4, 1000, false);
+					});
+					this.cate = "中晨塑说";
+					break;
+				case 5:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(5, 1000, false);
+					});
+					this.cate = "美金市场";
+					break;
+				case 9:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(3, 1000, false);
+					});
+					this.cate = "企业动态";
+					break;
+				case 11:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(7, 1000, false);
+					});
+					this.cate = "装置动态";
+					break;
+				case 13:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(8, 1000, false);
+					});
+					this.cate = "期刊报告";
+					break;
+				case 21:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(6, 1000, false);
+					});
+					this.cate = "期货资讯";
+					break;
+				case 22:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(9, 1000, false);
+					});
+					this.cate = "独家解读";
+					break;
+				case 999:
+					this.getList(id);
+					this.$nextTick(function () {
+						var swiper = new Swiper('.swiper-container', {
+							slidesPerView: 4,
+							spaceBetween: 15,
+							freeMode: true
+						});
+						swiper.slideTo(0, 1000, false);
+					});
+					this.cate = "推荐";
+					break;
+			}
+		},
+		circle: function circle() {
+			var _this = this;
+			this.isCircle = true;
+			if (this.$route.params.id == 999) {
+				$.ajax({
+					type: "post",
+					url: version + '/toutiao/getSubscribe',
+					data: {
+						token: window.localStorage.getItem("token"),
+						subscribe: 2
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.items = res.data;
+						_this.isCircle = false;
+						window.scrollTo(0, 0);
+						weui.topTips('更新成功', 3000);
+					} else {}
+				}).fail(function () {}).always(function () {});
+			} else {
+				$.ajax({
+					type: "post",
+					url: version + '/toutiao/getCateList',
+					data: {
+						page: 1,
+						size: 10,
+						cate_id: _this.$route.params.id,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.items = res.info;
+						_this.isCircle = false;
+						window.scrollTo(0, 0);
+						weui.topTips('更新成功', 3000);
+					}
+				}).fail(function () {}).always(function () {});
+			}
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+
+		switch (this.$route.params.id) {
+			case 1:
+				this.cateid = 1;
+				this.cate = "早盘预测";
+				break;
+			case 2:
+				this.cateid = 2;
+				this.cate = "塑料上游";
+				break;
+			case 4:
+				this.cateid = 4;
+				this.cate = "中晨塑说";
+				break;
+			case 5:
+				this.cateid = 5;
+				this.cate = "美金市场";
+				break;
+			case 9:
+				this.cateid = 9;
+				this.cate = "企业动态";
+				break;
+			case 11:
+				this.cateid = 11;
+				this.cate = "装置动态";
+				break;
+			case 13:
+				this.cateid = 13;
+				this.cate = "期刊报告";
+				break;
+			case 21:
+				this.cateid = 21;
+				this.cate = "期货资讯";
+				break;
+			case 22:
+				this.cateid = 22;
+				this.cate = "独家解读";
+				break;
+			case 999:
+				this.cateid = 999;
+				this.cate = "推荐";
+				break;
+		}
+		if (this.$route.params.id == 999) {
+			$.ajax({
+				type: "post",
+				url: version + '/toutiao/getSubscribe',
+				timeout: 15000,
+				data: {
+					token: window.localStorage.getItem("token"),
+					subscribe: 2
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					_this.items = res.data;
+				} else {}
+			}).fail(function () {
+				_this.loadingHide = true;
+			}).always(function () {
+				_this.loadingShow = false;
+			});
+		} else {
+			$.ajax({
+				type: "post",
+				url: version + '/toutiao/getCateList',
+				timeout: 15000,
+				data: {
+					page: 1,
+					size: 10,
+					cate_id: _this.$route.params.id,
+					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					_this.items = res.info;
+				} else if (res.err == 1) {
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function onClick() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
+					});
+				}
+			}).fail(function () {
+				_this.loadingHide = true;
+			}).always(function () {
+				_this.loadingShow = false;
+			});
+		}
+
+		this.$nextTick(function () {
+			var swiper = new Swiper('.swiper-container', {
+				slidesPerView: 4,
+				spaceBetween: 15,
+				freeMode: true
+			});
+		});
+
+		$(window).scroll(function () {
+			var scrollTop = $(this).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(this).height();
+			if (scrollTop > 600) {
+				_this.isArrow = true;
+			} else {
+				_this.isArrow = false;
+			}
+			if (scrollTop + windowHeight >= scrollHeight) {
+				_this.page++;
+				$.ajax({
+					type: "post",
+					url: version + "/toutiao/getCateList",
+					data: {
+						page: _this.page,
+						size: 10,
+						cate_id: _this.$route.params.id,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					console.log(res);
+					if (res.err == 0) {
+						_this.condition = true;
+						_this.items = _this.items.concat(res.info);
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					} else if (res.err == 2) {
+						_this.condition = false;
+					} else if (res.err == 3) {
+						weui.topTips(res.msg, 3000);
+					}
+				}, function () {});
+			}
+		});
+	},
+	deactivated: function deactivated() {
+		$(window).unbind('scroll');
+	}
+
+});
+
+/***/ }),
+
 /***/ 9:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(101),
+  __webpack_require__(66),
   /* template */
-  __webpack_require__(178),
+  __webpack_require__(111),
   /* scopeId */
   null,
   /* cssModules */

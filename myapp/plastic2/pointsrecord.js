@@ -1,49 +1,6 @@
-webpackJsonp([34],{
+webpackJsonp([33],{
 
-/***/ 117:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			record: []
-		};
-	},
-	mounted: function mounted() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			type: "get",
-			url: "/api/qapi1/exchangeList",
-			data: {
-				token: window.localStorage.getItem("token"),
-				page: 1,
-				size: 10
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			console.log(res);
-			if (res.err == 0) {
-				_this.record = res.info;
-			} else if (res.err == 1) {
-				mui.alert("", res.msg, function () {
-					_this.$router.push({ path: 'login' });
-				});
-			}
-		}, function () {});
-	}
-});
-
-/***/ }),
-
-/***/ 200:
+/***/ 133:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -95,9 +52,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(117),
+  __webpack_require__(82),
   /* template */
-  __webpack_require__(200),
+  __webpack_require__(133),
   /* scopeId */
   null,
   /* cssModules */
@@ -180,6 +137,49 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ 82:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			record: []
+		};
+	},
+	mounted: function mounted() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			type: "get",
+			url: "/api/qapi1/exchangeList",
+			data: {
+				token: window.localStorage.getItem("token"),
+				page: 1,
+				size: 10
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				_this.record = res.info;
+			} else if (res.err == 1) {
+				mui.alert("", res.msg, function () {
+					_this.$router.push({ path: 'login' });
+				});
+			}
+		}, function () {});
+	}
+});
 
 /***/ })
 
