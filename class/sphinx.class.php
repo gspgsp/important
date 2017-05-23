@@ -11,7 +11,8 @@ class sphinx
     public function __construct ()
     {
         $this->sphinx = new SphinxClient;
-        $this->sphinx ->SetServer('localhost', 9312);
+        $sphinx_config = C('sphinx');
+        $this->sphinx ->SetServer($sphinx_config['host'], $sphinx_config['port']);
         $this->sphinx ->SetMatchMode(SPH_MATCH_EXTENDED2);
     }
 
@@ -87,7 +88,7 @@ class sphinx
 
         $ids    = array_keys ($result['matches']);
 
-        return $result;
+        return $ids;
     }
 
 }
