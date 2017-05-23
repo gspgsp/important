@@ -155,7 +155,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "background": "#ff854d"
     }
-  }, [_c('a', {
+  }, [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'mypoints'
+      }
+    }
+  }), _vm._v(" "), _c('a', {
     staticStyle: {
       "width": "100%"
     },
@@ -167,7 +173,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%",
       "src": _vm.bannerImg
     }
-  })])]), _vm._v(" "), _c('ul', {
+  })])], 1), _vm._v(" "), _c('ul', {
     attrs: {
       "id": "nameUl"
     }
