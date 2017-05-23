@@ -146,6 +146,17 @@
  			</table>
 		</div>
 	</div>
+	<div class="right_4">
+ 	<div class="day" style="float:left;">
+	<table border="1"  cellspacing="0" cellpadding="0">
+ 		<th colspan="4" bgcolor="#FF0000">战队配资状况</th>
+ 		<tr><td>战队名称：</td><td>{$team_capital.name}</td>
+ 		<tr><td>总配资额度：</td><td>{$team_capital.total_money}</td>
+ 		<tr><td>已用额度：</td><td>{$team_capital.used_money}</td>
+ 		<tr><td>可用额度：</td><td class="available_money">{$team_capital.available_money}</td>
+ 	</table>
+</div>
+ </div>
  	<div class="right_2">
 		<div class="day">
 			<table border="1"  cellspacing="0" cellpadding="0">
@@ -156,7 +167,9 @@
 		 		<tr><td>未开销项：</td><td><a href="javascript:void(0)" onclick="sale_unBilling()">{$getInvoiceData.sale_unBilling.num}</a></td>
 		 	</table>
 		</div>
+
  </div>
+ 
 	<div class="right_3">
 		<div class="day">
 			<table border="1"  cellspacing="0" cellpadding="0">

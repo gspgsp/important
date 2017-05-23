@@ -20,10 +20,10 @@ class dataShowAction extends adminBaseAction {
 		$cooperationCustomerRemind = $this->cooperationCustomerRemind();//合作客户强开提醒
 		$UnCooperationCustomerRemind = $this->UnCooperationCustomerRemind();//未合作客户强开提醒
 		$todayFollowCustomersNums = $this->getDismissRuleDayFollowCustomersByAdminId();//强开规则中规定的业务员当日要跟踪的客户数
-		// $team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($_SESSION['adminid']);//战队配资状况
+		$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($_SESSION['adminid']);//战队配资状况
 		// p(($UnCooperationCustomerRemind));die;
 		// p($getCooperationCustomer);die;
-		// $this->assign('team_capital',$team_capital);
+		$this->assign('team_capital',$team_capital);
 		$share = $this->share_apply();//共享申请
 		// p($share);die;
 		$this->assign('share',$share);
