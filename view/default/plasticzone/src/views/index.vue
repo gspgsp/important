@@ -32,10 +32,10 @@
 		</router-link>
 	</div>
 	<div v-else class="payfans" style="background: #ff854d;">
-		<router-link :to="{name:'mypoints'}"></router-link>
-		<a style="width: 100%;" href="http://q.myplas.com/#/mypoints">
-			<img width="100%" v-bind:src="bannerImg" />
-		</a>
+		<router-link :to="{name:'mypoints'}">
+		<!--<a style="width: 100%;" href="http://q.myplas.com/#/mypoints"></a>-->
+		<img width="100%" v-bind:src="bannerImg" />
+		</router-link>
 	</div>
 	<ul id="nameUl">
 		<li id="top" v-if="top">
