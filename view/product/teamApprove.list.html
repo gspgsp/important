@@ -126,11 +126,11 @@ function viewTeamCapitalInfo(customer_manager){
 function viewhander(e){
 	var record = e.record, t_id= record.t_id,id= record.id,status= record.status,s='';
 	if(status == 0){
-		s = '<a href="javascript:changeStatus('+id+','+t_id+',1)">通过</a> | <a href="javascript:changeStatus('+id+','+t_id+',2)">据批</a>';
+		s = '<a href="javascript:changeStatus('+id+','+t_id+',1)">通过</a> | <a href="javascript:changeStatus('+id+','+t_id+',2)">拒批</a>';
 	}else if(status == 1){
 		s = '已通过';
 	}else{
-		s = '已据批';
+		s = '已拒批';
 	}
 	return s;
 }
@@ -138,7 +138,7 @@ function changeStatus(id,t_id,status){
 	if(status == 1){
 		var msg = '通过';
 	}else{
-		var msg = '据批';
+		var msg = '拒批';
 	}
 	mini.confirm("您确定<font color='red'>"+msg+"</font>吗？", "提示",	function(action){
 			if(action!='ok') return;
