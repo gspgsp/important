@@ -65,7 +65,7 @@ class collectionAction extends adminBaseAction
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		//搜索条件
-		$where ="  1 ";
+		$where ="  1 and o_id > 0";
 		$order_sn=sget('order_sn','s');
 		if($order_sn)  $where.=" and `order_sn` = '$order_sn' ";
 		$type = sget('type','i');//1销售,2采购
@@ -216,17 +216,56 @@ class collectionAction extends adminBaseAction
 				$this->assign('finance',$finance);
 				$this->assign('id',$id);
 				$res = M('product:collection')->where('id='.$id)->getRow();
+
 				// p($res);die;
 				// p($res);
+				$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($res['customer_manager']);
 				if($res){
 					$un_price = $res['total_price']-($collected_price-$res['collected_price']);
 					$this->assign('c_price',$res['collected_price']);
 					$this->assign('u_price',$un_price);
 					$this->assign('remark',$res['remark']);//备注
+					$this->assign('team_capital',$team_capital);
 				}
 			}else{
+				if($type == 2){
+					$roleid = $this->db->model('adm_role_user as `user`')
+									   ->select('role.pid')
+									   ->leftjoin('adm_role as role','role.id = `user`.role_id')
+									   ->where("`user_id` = ".$data[0]['customer_manager'])
+									   ->getOne();
+					if($roleid == 22){
+						//有战队，要考虑配资情况
+						$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($data[0]['customer_manager']);
+						if(empty($team_capital)){
+							$this->error('您所属战队配资未设置，请找主管设置指标');
+						}
+						$this->assign('team_capital',$team_capital);
+						//检查特批列表中，是否存在相同订单特批申请未处理
+						//检查特批列表中，是否存在相同业务员特批申请未处理
+						$team_approve_same_oid = M('product:teamApprove')->getTeamApproveResByOid($data[0]['o_id']);
+						if($team_approve_same_oid){
+							//相同订单特批申请未处理
+							$this->error('您该订单因超战队配资额度，已提交特批处理，待特批处理后，才可点击付款按钮');
+						}
+						$team_approve_same_admin = M('product:teamApprove')->getTeamApproveResByCustomerManager($data[0]['customer_manager']);
+						if($team_approve_same_admin){
+							//相同业务员特批申请未处理
+							$this->error('您有特批申请待处理，待处理后，才可点击付款按钮');
+						}
+					}else{
+						//无战队，属于其他情况，指标要设，但是不考虑超出指标到特批这一环节
+						$team_capital = M('rbac:adm')->getThisMonthTemaCapitalBySpecialTeamId();
+						if(empty($team_capital)){
+							$this->error('您所属战队配资未设置，请找主管设置指标');
+						}
+						$this->assign('team_capital',$team_capital);
+					}
+				}
 				//获取最后一条收付款信息
 				$res = M('product:collection')->getLastInfo($name='o_id',$value=$data[0][o_id]);
+				// p($data);die;
+				//$res 结果集慎用 ----yezhongbao
 				if($res){
 					$uncollected_price = $data[0]['total_price'] -  $collected_price;
 					$this->assign('total_price',$data[0]['total_price']);
@@ -317,7 +356,6 @@ class collectionAction extends adminBaseAction
 				//供应链金融订单
 				if($data['finance_type']==1){
 					if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update(array('collection_status'=>$data['collection_status'],'update_time'=>CORE_TIME))) $this->error("更新订单交易状态失败");
-
 					if($data['handling_charge']==''){
 						$data['uncollected_price']=$m;
 						$h_charge=$this->db->model('collection')->select("sum(handling_charge)")->where("o_id='".$data['o_id']."'")->getOne();
@@ -337,7 +375,6 @@ class collectionAction extends adminBaseAction
 					$id = $data['id'];
 					unset($data['id']);
 					$data['collection_status'] = 2;
-
 					//更新收付款信息
 					if(!$re=$this->db->model('collection')->where('id='.$id)->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['username']))) $this->error("交易失败6");
 
@@ -401,7 +438,21 @@ class collectionAction extends adminBaseAction
                     M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'+',$data['collected_price']) OR $this->error('可用额度还原失败');
 
 				}
-
+				//处理战队配资销售来款------S
+				// 销售收款,记账后，将该笔收款金额添加到对应业务员所在战队
+				if($data['order_type']==1){
+					$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($data['customer_manager']);
+					// p($team_capital);
+					if(!$team_capital) $this->error('处理失败，该订单业务员所在战队配资未设置，请找销售总监设置战队配资指标');
+					$sale_capital = M('user:teamCapital')->comeMoney($team_capital,$data['collected_price']);//销售战队新增战队配资
+					if(!$sale_capital) $this->error('财务收款时，销售战队配资失败');
+					//新增战队配资变动日志----S
+					$team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($data['customer_manager']);
+					$remarks = "财务收款，增加销售战队额度";
+					M('user:teamCapital')->addLog($data['o_id'],$team_capital['team_id'],'sale_come',$team_capital['available_money'],$team_capital_now['available_money'],1,$data['collected_price'],$remarks);
+					//新增战队配资变动日志----E
+				}
+        		//处理战队配资销售来款------E
 			}else{
 				if($data['handling_charge']==''){
 					$data['uncollected_price']=$m;
@@ -410,11 +461,65 @@ class collectionAction extends adminBaseAction
 					$data['handling_charge']='';
 				}
 				// p($data);die;
-
-				if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败5");
+				if($data['order_type']==2 && $data['team_id'] != 1){
+					$err = array();
+					//判断2种情况 1 ：特殊战队 扣额度，但是不过特批这一关 ，2 一般战队，扣额度，过审批
+					//一般战队处理
+						$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($data['customer_manager']);
+						//查询战队配资额度，与申请付款额度，差值如果为负，则提交到特批列表，并提醒业务员
+						if($team_capital['available_money'] - $data['collected_price'] < 0){
+							//先添加到collection表 然后添加到特批表p2p_team_capital_approve，在提醒业务员在特批表中
+							//$data['uncollected_price'] = $m;
+							$data['o_id'] = '-'.$data['o_id'];//如果到特批，将订单号改成-的存到collection表，其他表继续保存正常的o_id
+							if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+							$coll_id=$this->db->model('collection')->getLastID();
+							$approve_data = array('coll_id'=>$coll_id,'o_id'=>trim($data['o_id'],'-'),'customer_manager'=>$data['customer_manager'],'apply_time'=>CORE_TIME,'apply_admin'=>$_SESSION['username'],'team_name'=>$data['team'],'team_total_money'=>$data['team_total_money'],'status'=>0);
+							$res=$this->db->model('team_capital_approve')->add($approve_data);
+							// p($data);die;
+							if(!$res){
+								$this->error("添加特批表数据失败");
+							}else{
+								$err['msg'] = '该次申请因战队配资不足，申请已转到领导特批列表';
+							}
+							//新增战队配资变动日志----S
+							$remarks = "付款申请，额度不足，转到领导特批列表";
+							M('user:teamCapital')->addLog(trim($data['o_id'],'-'),$team_capital['team_id'],'un_buy_pay',$team_capital['available_money'],$team_capital['available_money'],1,0,$remarks);
+							//新增战队配资变动日志----E
+						}else{
+							//余额充足情况下，扣除额度，然后添加到collection表
+							$buy_capital = M('user:teamCapital')->goMoney($team_capital,$data['collected_price']);//采购战队付款后扣除资金
+							if(!$buy_capital) $this->error("采购战队付款时更新配资失败");
+							//新增战队配资变动日志----S
+							$team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($data['customer_manager']);
+							$remarks = "付款申请，削减采购战队额度";
+							M('user:teamCapital')->addLog($data['o_id'],$team_capital['team_id'],'buy_pay',$team_capital['available_money'],$team_capital_now['available_money'],1,$data['collected_price'],$remarks);
+							//新增战队配资变动日志----E
+							//$data['uncollected_price'] = $m;
+							if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+						}
+					}elseif($data['order_type']==2 && $data['team_id'] == 1){
+						//特殊战队，team_id=1，付款申请是非战队人员提交的
+						$team_capital = M('rbac:adm')->getThisMonthTemaCapitalBySpecialTeamId();
+						$buy_capital = M('user:teamCapital')->goMoney($team_capital,$data['collected_price']);//采购战队付款后扣除资金
+						if(!$buy_capital) $this->error("非战队业务员付款时更新配资失败");
+						//新增战队配资变动日志----S
+						$team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($data['customer_manager']);
+						$remarks = "付款申请，削减采购战队额度";
+						M('user:teamCapital')->addLog($data['o_id'],$team_capital['team_id'],'buy_pay',$team_capital['available_money'],$team_capital_now['available_money'],1,$data['collected_price'],$remarks);
+						//新增战队配资变动日志----E
+						//$data['uncollected_price'] = $m;
+						if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+					}elseif($data['order_type']==1){
+						//$data['uncollected_price'] = $m;
+						if(!$re=$this->db->model('collection')->add($data+array('input_time'=>CORE_TIME,'input_admin'=>$_SESSION['username']))) $this->error("交易失败");
+					}
 			}
 		if($this->db->commit()){
-			$this->success('操作成功');
+			if(!empty($err)){
+				$this->json_output(array('err'=>2,'msg'=>$err['msg']));
+			}else{
+				$this->success('操作成功');
+			}
 		}else{
 			$this->db->rollback();
 			$this->error('保存失败：'.$this->db->getDbError());
@@ -529,6 +634,28 @@ class collectionAction extends adminBaseAction
                     //******红充（减掉 可用额度）*******
                     M('user:customer')->updateCreditLimit($data['oid'],3,'-',$data['c_price']) OR $this->error('可用额度抵消失败');
 				}
+				//战队配资--红冲处理------S
+				//红冲后将对应的金额回退（采购付款）/扣除（销售收款）到相应的业务员所在战队中
+				$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($arr['customer_manager']);
+				if(!$team_capital) $this->error('该订单业务员所在战队配资未设置，请找销售总监设置战队配资指标');
+				if($arr['order_type']==1){
+					$sale_capital = M('user:teamCapital')->goMoney($team_capital,$arr['collected_price']);//销售战队红冲后扣除资金
+					if(!$sale_capital) $this->error('财务收款红冲时，销售战队配资失败');
+					//新增战队配资变动日志----S
+					$team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($arr['customer_manager']);
+					$remarks = "财务收款红冲，削减销售战队额度";
+					M('user:teamCapital')->addLog($arr['o_id'],$team_capital['team_id'],'sale_red',$team_capital['available_money'],$team_capital_now['available_money'],1,$arr['collected_price'],$remarks);
+					//新增战队配资变动日志----E
+				}else{
+					$buy_capital = M('user:teamCapital')->comeMoney($team_capital,$arr['collected_price']);//销售战队红冲后扣除资金
+					if(!$buy_capital) $this->error('财务付款红冲时，采购战队配资失败');
+					//新增战队配资变动日志----S
+					$team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($arr['customer_manager']);
+					$remarks = "财务付款红冲，增加采购战队额度";
+					M('user:teamCapital')->addLog($arr['o_id'],$team_capital['team_id'],'buy_red',$team_capital['available_money'],$team_capital_now['available_money'],1,$arr['collected_price'],$remarks);
+					//新增战队配资变动日志----E
+				}
+				//战队配资--红冲处理------E
 
 			} catch (Exception $e) {
 				$this->db->rollback();
