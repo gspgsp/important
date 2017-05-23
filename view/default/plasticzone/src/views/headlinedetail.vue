@@ -9,7 +9,7 @@
 <div class="headlinecontent" style="overflow: hidden; background: #FFFFFF;">
 	<div class="headlinetitle">
 		<h3>{{type}} {{title}}</h3>
-		<p>作者:{{author}}&nbsp;&nbsp;&nbsp;阅读数量:{{pv}}&nbsp;发布时间：{{time}}</p>
+		<p>作者:{{author}}&nbsp;&nbsp;&nbsp;阅读数量:<span style="color: #ff5000;">{{pv}}</span>&nbsp;发布时间：{{time}}</p>
 	</div>
 	<div class="headlinetxt">
 		<div v-html="content"></div>

@@ -89,17 +89,15 @@
 				</td>
 			</tr>
 		</table>
-		<div class="mui-content">
-			<ul id="shortmsg" class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<span style="color: #333333;">公开手机号码</span>
-				</li>
-				<li class="mui-table-view-cell">
-					是否公开
-					<input v-on:click="msgActive3" style=" position: absolute; right: 10px; top: 5px;" class="weui-switch" v-bind:checked="!active3" type="checkbox">
-				</li>
-			</ul>
-		</div>
+		<ul id="shortmsg">
+			<li>
+				<span style="color: #333333;">公开手机号码</span>
+			</li>
+			<li>
+				是否公开
+				<input v-on:click="msgActive3" style=" position: absolute; right: 10px; top: 5px;" class="weui-switch" v-bind:checked="!active3" type="checkbox">
+			</li>
+		</ul>
 		<ul id="shortmsg">
 			<li>
 				<span style="color: #333333;">手机短信设置</span>

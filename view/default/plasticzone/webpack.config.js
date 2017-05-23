@@ -4,20 +4,6 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-
-//	entry: './src/main.js',
-//	output: {
-//		path: path.join(__dirname, '../../../../static/myapp/plastic'),
-//		filename: 'test.js'
-//	},
-//	plugins: [
-//		new HtmlWebpackPlugin({
-//			filename: 'index.html',
-//			template:'index.html',
-//			inject:true
-//		})
-//	],
-
 	/* 输入文件 */
 	entry: './src/main.js',
 	output: {

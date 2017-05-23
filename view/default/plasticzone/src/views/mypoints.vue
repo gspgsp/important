@@ -141,7 +141,7 @@
 				</ul>
 				<ul class="days">
 					<li v-for="d in days">
-						<span v-on:click="pick(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.on}">{{new Date(d.day).getDate()}}</span>
+						<span v-on:click="pick2(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.on}">{{new Date(d.day).getDate()}}</span>
 					</li>
 				</ul>
 			</div>
@@ -598,7 +598,7 @@ activated: function() {
 		type:"post",
 		url:version + "/product/getValidDate",
 		data:{
-			type:1
+			type:2
 		},
 		headers: {
 			'X-UA': window.localStorage.getItem("XUA")
@@ -616,7 +616,7 @@ activated: function() {
 		type:"post",
 		url:version + "/product/getValidDate",
 		data:{
-			type:2
+			type:1
 		},
 		headers: {
 			'X-UA': window.localStorage.getItem("XUA")

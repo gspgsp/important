@@ -29,7 +29,7 @@
 		</router-link>
 	</div>
 	<div v-else class="payfans" style="background: #ff854d;">
-		<a style="width: 100%;" href="http://q.myplas.com/#/pointsrule">
+		<a style="width: 100%;" href="http://q.myplas.com/#/mypoints">
 			<img width="100%" v-bind:src="bannerImg" />
 		</a>
 	</div>
