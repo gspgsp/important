@@ -182,6 +182,7 @@ function viewhander(e){
 }
 
 function del(id){
+	var type = {$type};
 	mini.confirm("确定删除吗？", "提示",	function(action){
 			if(action!='ok') return;
 			var callback=function(data){
@@ -192,7 +193,7 @@ function del(id){
 					grid.reload();
 				}
 			}
-			utils.ajax('/application/collection/delCollection',{id:id},callback,"POST","json");
+			utils.ajax('/application/collection/delCollection',{id:id,type:type},callback,"POST","json");
 		}
 	);
 }
