@@ -263,7 +263,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "calendar-body-box"
   }, [_vm._m(4), _vm._v(" "), _c('ul', {
     staticClass: "days"
-  }, _vm._l((_vm.days), function(d) {
+  }, _vm._l((_vm.days_), function(d) {
     return _c('li', [(d.show) ? _c('span', {
       class: {
         disabled: d.disabled, on: d.on

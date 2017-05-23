@@ -79,7 +79,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.search
     }
-  }), _c('input', {
+  }), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -98,12 +98,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.search($event)
       },
+      "focus": _vm.focusShow,
+      "blur": _vm.focusHide,
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.keywords = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('span', {
+  })])]), _vm._v(" "), (_vm.filterShow) ? _c('div', [_c('span', {
     staticClass: "filter",
     staticStyle: {
       "right": "76px"
@@ -120,7 +122,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.txt)), _c('i', {
     staticClass: "downarrow"
-  })])])]), _vm._v(" "), (_vm.isFocus) ? _c('div', {
+  })])]) : _vm._e()])]), _vm._v(" "), (_vm.isFocus) ? _c('div', {
     staticClass: "payfans"
   }, [_c('router-link', {
     attrs: {
@@ -843,10 +845,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			top: "",
 			isFocus: true,
 			bannerLink: "",
-			bannerImg: ""
+			bannerImg: "",
+			filterShow: true
 		};
 	},
 	methods: {
+		focusShow: function focusShow() {
+			this.filterShow = false;
+		},
+		focusHide: function focusHide() {
+			this.filterShow = true;
+		},
 		toLogin: function toLogin() {
 			if (window.localStorage.getItem("token")) {
 				weui.alert("你已登录塑料圈", {
