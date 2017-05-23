@@ -242,6 +242,62 @@ class plasticPersonalInfoModel extends model
         return $data;
     }
 
+    //查看我的资料(合并)
+    public function getSelfInfo1_3 ($userid)
+    {
+        $data = $this->select ('con.user_id,con.name,con.c_id,con.mobile,cus.china_area as adistinct,con.sex,con.member_level,info.thumb,info.thumbqq,info.thumbcard,info.allow_send,cus.c_name,cus.need_product,cus.address,cus.type,cus.month_consum,cus.main_product')
+            ->from ('customer_contact con')
+            ->join ('contact_info info', 'con.user_id=info.user_id')
+            ->join ('customer cus', 'con.c_id=cus.c_id')
+            ->where ("con.user_id=$userid")
+            ->getRow ();
+        // $data['thumb'] = FILE_URL."/upload/".$data['thumb'];
+        if($data['adistinct']=='全部') $data['adistinct'] = '华北';
+        if(empty($data['type'])) $data['type']=2;
+//         //ta的求购或报价数量
+        $buy = $this->getConut ($userid, 1);
+        $sale = $this->getConut ($userid, 2);
+        $data['buy'] = empty($buy) ? 0 : $buy;//求购
+        $data['sale'] = empty($sale) ? 0 : $sale;//报价
+        //偏好设置  0： 允许 1：不允许',
+        $data['allow_send'] = json_decode ($data['allow_send'], true);
+        if (empty($data['allow_send'])) $data['allow_send'] = array('focus' => 0, 'repeat' => 0, 'show' => 0);
+        //排名
+        $data['total'] = $this->getAllMembers ();
+        $data['rank'] = $this->getRank ($userid);
+        $data['member_level'] = L ('member_level')[$data['member_level']];
+        $data['fans'] = M ('qapp:plasticPerson')->getFuns ($data['user_id']);
+        $tmpModel = $this->model ('suggestion_model')->select ('name')->where ('user_id=' . $userid . ' and is_enable=1 and is_concern=1')->getAll ();
+        $tmpStr = array();
+        foreach ($tmpModel as $value) {
+            $tmpStr[] = $value['name'];
+        }
+        $tmpModel = implode (',', $tmpStr);
+        $data['concern_model'] = $tmpModel;
+        if (empty($data['thumbqq'])) {
+            if (!strstr ($data['thumb'], 'http')) {
+                if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                {
+                    if(empty($data['sex']))
+                    {
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                    }else{
+                        $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                    }
+                } else {
+                    $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
+                }
+            }
+
+        } else {
+            $data['thumb'] = $data['thumbqq'];
+        }
+        $data['sex'] = L ('sex')[$data['sex']];
+
+        return $data;
+    }
+
+
     //获得排名状态
     public function getRank ($userid)
     {
