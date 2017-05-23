@@ -498,7 +498,7 @@ class toutiaoAction extends baseAction
         if ($_POST) {
             $this->is_ajax = true;
             $user_id       = $this->checkAccount ();
-            $cache         = cache::startMemcache ();
+            $cache         = E ('RedisCluster', APP_LIB.'class');
             header ("Content-type: text/html; charset=utf-8");
             //分页
             $page      = sget ('page', 'i', 1);

@@ -519,13 +519,13 @@ class productAction extends baseAction
             $goods_id = sget ('goods_id', 'i');   //所需要的商品的id
             $dates0    = sget ('dates', 's');   //所选择的时间
             $pur_id   = sget ('pur_id', 'i', 0);
-            file_put_contents('d:/xielei.txt',print_r($dates0,true)."\r\n",FILE_APPEND);
+            file_put_contents('/tmp/xielei.txt',print_r($dates0,true)."\n",FILE_APPEND);
 
             $dates = explode(',',$dates0);
             if(empty($dates)){
                 $this->_errCode (6);
             }
-            file_put_contents('d:/xielei.txt',print_r($dates,true)."\r\n",FILE_APPEND);
+            file_put_contents('/tmp/xielei.txt',print_r($dates,true)."\n",FILE_APPEND);
 
             $str = '/(\d{4})-(\d{2})-(\d{2})/';
             foreach($dates as $date)
@@ -554,8 +554,12 @@ class productAction extends baseAction
             }
             $pointsOrder = M("points:pointsOrder");
             $took_date = $pointsOrder->getTookDate($goods_id);
+            file_put_contents('/tmp/xielei.txt',print_r($took_date,true)."\n",FILE_APPEND);
+
             if(array_intersect($took_date,$dates))
             {
+                file_put_contents('/tmp/xielei.txt',print_r(array_intersect($took_date,$dates),true)."\n",FILE_APPEND);
+
                 $this->json_output (array(
                     'err' => 13,
                     'msg' => '有人抢先一步,如有需要，请联系客服400-6129-965',
