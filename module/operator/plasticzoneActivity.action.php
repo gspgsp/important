@@ -393,24 +393,29 @@ class plasticzoneActivityAction extends adminBaseAction{
     public function getTopList()
     {
 
-        $where="pur_id is not null and outpu_time >".CORE_TIME;
+        $where="pur_id is not null";
         $goods_id=sget('goods_id','i');//商品id
-        if($goods_id>0) $where.=" and goods_id = $goods_id";
+        if($goods_id>0) {
+            $where.=" and goods_id = $goods_id";
+        }else{
+            $goods_id1 = $this->db->model ("points_goods")->select ('id')->where (" type =1 and status =1 and is_mobile =1")->getOne ();
+            $goods_id2 = $this->db->model ("points_goods")->select ('id')->where (" type =2 and status =1 and is_mobile =1")->getOne ();
+            $where.=" and goods_id in ($goods_id1,$goods_id2)";
+        }
 
 
         $page = sget("pageIndex",'i',0); //页码
         $size = sget("pageSize",'i',20); //每页数
-        $sortField = sget("sortField",'s','outpu_time'); //排序字段
+        $sortField = sget("sortField",'s','create_time'); //排序字段
         $sortOrder = sget("sortOrder",'s','desc'); //排序
 
 
 
-        $list = M("points:pointsOrder")->select('id,status,create_time,order_id,goods_id,uid,usepoints,outpu_time,num,pur_id')
+        $list = M("points:pointsOrder")->select('id,status,create_time,order_id,goods_id,uid,address,usepoints,outpu_time,num,pur_id,remark')
                 ->where($where)
                 ->page($page+1,$size)
                 ->order("$sortField $sortOrder")
                 ->getPage();
-
         foreach($list['data'] as $k=>$v){
             $list['data'][$k]['create_time']=$v['create_time']>1000 ? date("Y-m-d H:i:s",$v['create_time']) : '-';
             $list['data'][$k]['goods_id'] = empty($v['goods_id'])?999:$v['goods_id'];
