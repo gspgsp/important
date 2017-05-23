@@ -140,7 +140,7 @@
 					<li>六</li>
 				</ul>
 				<ul class="days">
-					<li v-for="d in days">
+					<li v-for="d in days_">
 						<span v-on:click="pick2(d.day)" v-if="d.show" v-bind:class="{disabled:d.disabled,on:d.on}">{{new Date(d.day).getDate()}}</span>
 					</li>
 				</ul>

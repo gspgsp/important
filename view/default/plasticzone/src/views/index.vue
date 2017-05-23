@@ -9,11 +9,14 @@
 		<div class="indexsearch">
 			<div class="indexsearchwrap">
 				<form action="javascript:;">
-					<i class="searchIcon" v-on:click="search"></i><input v-on:keydown.enter="search" type="text" placeholder="请输入公司、姓名、牌号查询" v-model="keywords" />
+					<i class="searchIcon" v-on:click="search"></i>
+					<input v-on:keydown.enter="search" v-on:focus="focusShow" v-on:blur="focusHide" type="text" placeholder="请输入公司、姓名、牌号查询" v-model="keywords" />
 				</form>
 			</div>
-			<span class="filter" style="right: 76px;" v-on:click="filterShow2">{{txt2}}<i class="downarrow"></i></span>
-			<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
+			<div v-if="filterShow">
+				<span class="filter" style="right: 76px;" v-on:click="filterShow2">{{txt2}}<i class="downarrow"></i></span>
+				<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
+			</div>
 		</div>
 	</div>
 	<div v-if="isFocus" class="payfans">
@@ -130,10 +133,17 @@ export default {
 			top: "",
 			isFocus: true,
 			bannerLink: "",
-			bannerImg: ""
+			bannerImg: "",
+			filterShow:true
 		}
 	},
 	methods: {
+		focusShow:function(){
+			this.filterShow=false;
+		},
+		focusHide:function(){
+			this.filterShow=true;
+		},
 		toLogin: function() {
 			if(window.localStorage.getItem("token")) {
 				weui.alert("你已登录塑料圈", {
