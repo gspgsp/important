@@ -229,7 +229,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticStyle: {
         "text-align": "right"
       }
-    }, [_vm._v(_vm._s(i.input_time))])])], 1)
+    }, [_c('span', {
+      staticStyle: {
+        "float": "left"
+      }
+    }, [_vm._v("阅读数量:"), _c('span', {
+      staticStyle: {
+        "color": "#ff5000"
+      }
+    }, [_vm._v(_vm._s(i.pv))])]), _vm._v(_vm._s(i.input_time))])])], 1)
   })), _vm._v(" "), _c('footerbar'), _vm._v(" "), _c('div', {
     staticClass: "refresh",
     class: {

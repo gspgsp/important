@@ -230,7 +230,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticStyle: {
         "text-align": "right"
       }
-    }, [_vm._v(_vm._s(i.input_time))])])], 1)
+    }, [_c('span', {
+      staticStyle: {
+        "float": "left"
+      }
+    }, [_vm._v("阅读数量:"), _c('span', {
+      staticStyle: {
+        "color": "#ff5000"
+      }
+    }, [_vm._v(_vm._s(i.pv))])]), _vm._v(_vm._s(i.input_time))])])], 1)
   })), _vm._v(" "), _c('h3', {
     staticClass: "plasticfind"
   }, [_vm._v("\r\n企业信用额度\r\n")]), _vm._v(" "), _c('ul', {
@@ -710,46 +718,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.subscribeClose
     }
-  }, [_vm._v("关闭")])])]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.plasticdefine),
-      expression: "plasticdefine"
-    }],
+  }, [_vm._v("关闭")])])]), _vm._v(" "), (_vm.plasticdefine) ? _c('div', {
     staticClass: "plasticdefine"
   }, [_c('div', {
     staticClass: "plasticdefineWrap",
     on: {
       "click": _vm.plasticHide
     }
-  })]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.plasticlevel),
-      expression: "plasticlevel"
-    }],
+  })]) : _vm._e(), _vm._v(" "), (_vm.plasticlevel) ? _c('div', {
     staticClass: "plasticlevel"
   }, [_c('div', {
     staticClass: "plasticlevelWrap",
     on: {
       "click": _vm.plasticHide
     }
-  })]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.plasticrate),
-      expression: "plasticrate"
-    }],
+  })]) : _vm._e(), _vm._v(" "), (_vm.plasticrate) ? _c('div', {
     staticClass: "plasticrate"
   }, [_c('div', {
     staticClass: "plasticrateWrap",
     on: {
       "click": _vm.plasticHide
     }
-  })])], 1)
+  })]) : _vm._e()], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
     attrs: {
