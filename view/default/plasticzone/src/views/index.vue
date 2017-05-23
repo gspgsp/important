@@ -32,7 +32,7 @@
 		</router-link>
 	</div>
 	<div v-else class="payfans" style="background: #ff854d;">
-		<router-link :to="{name:'mypoints'}">
+		<router-link style="width: 100%;" :to="{name:'mypoints'}">
 		<!--<a style="width: 100%;" href="http://q.myplas.com/#/mypoints"></a>-->
 		<img width="100%" v-bind:src="bannerImg" />
 		</router-link>
