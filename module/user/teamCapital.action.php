@@ -117,8 +117,16 @@ class teamCapitalAction extends adminBaseAction {
 			$team_name = $this->db->model('adm_role')->select('name')->where('id='.$data['team_id'])->getOne();
 			$data['name'] = $team_name;
 		}
-		$used_money = $this->db->model('team_capital')->select('used_money')->where('id = '.$data['id'])->getOne();
-		$data['available_money'] = $data['total_money'] - $used_money;
+		//考虑上月的配资情况
+		$last_month = getLastMonthStartTime(date("m",$data['input_date']));
+		$last_team_data= $this->db->model('team_capital')->select('id,total_money,used_money,available_money')->where('team_id = '.$data['team_id'].' and input_date = '.$last_month)->getRow();
+		if($last_team_data['id']){
+			$used_money = $this->db->model('team_capital')->select('used_money')->where('id = '.$data['id'])->getOne();
+			$data['available_money'] = $data['total_money'] + $last_team_data['available_money']-$used_money;
+		}else{
+			$used_money = $this->db->model('team_capital')->select('used_money')->where('id = '.$data['id'])->getOne();
+			$data['available_money'] = $data['total_money'] - $used_money;
+		}
 		$res = $this->db->model('team_capital')->where('id = '.$data['id'])->update($data+array('input_time'=>CORE_TIME, 'input_admin'=>$_SESSION['name']));
 		if(!$res) $this->error('操作失败');
 		$this->success('操作成功');
