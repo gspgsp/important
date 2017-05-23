@@ -343,7 +343,7 @@ class spdfAction extends adminBaseAction {
 						</td>
 					</tr>
 					<tr height="30">
-						<td height="20" align="left" style="line-height:20px">以上货物的货权转至<u>（%s）</u></td>
+						<td height="20" align="left" style="line-height:20px">以上货物的货权转至<u>（%s）</u>名下</td>
 					</tr>
 					<tr height="30">
 						<td height="20" align="left" style="line-height:20px">请将入库单传真至：<u>（%s）</u></td>
