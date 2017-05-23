@@ -415,7 +415,7 @@ class myInfoAction extends baseAction
                     if (mb_strlen ($row) > 15) {
                         $this->json_output (array(
                             'err' => 1,
-                            'msg' => '1字符过长',
+                            'msg' => '字符过长',
                         ));
                     }
                 } elseif ($key == 'main_product') {
@@ -423,12 +423,12 @@ class myInfoAction extends baseAction
                     if (mb_strlen ($row) > 25) {
                         $this->json_output (array(
                             'err' => 1,
-                            'msg' => '2字符过长',
+                            'msg' => '字符过长',
                         ));
                     }
                 }
             }
-            $result = M ('qapp:plasticSave')->saveSelfInfo1_2 ($user_id, $data);
+            $result = M ('qapp:plasticSave')->saveSelfInfo1_3 ($user_id, $data);
             if ($result['err'] > 0) {
                 $this->json_output (array(
                     'err' => 2,
@@ -511,7 +511,7 @@ class myInfoAction extends baseAction
         $this->is_ajax = true;
         if ($_POST) {
             $user_id = $this->checkAccount ();
-            $data    = M ('qapp:plasticPersonalInfo')->getSelfInfo ($user_id);
+            $data    = M ('qapp:plasticPersonalInfo')->getSelfInfo1_3 ($user_id);
             if (empty($data)) {
                 $this->json_output (array(
                     'err' => 2,
