@@ -76,7 +76,6 @@ class pointsOrderModel extends Model
                 unset($ret[$key]);
             }
         }
-
         $dates = array_unique($ret);
         natsort($dates);
 
