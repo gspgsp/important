@@ -22,7 +22,7 @@ class teamCapitalLogAction extends adminBaseAction {
 			//分页
 			$page = sget("pageIndex",'i',0); //页码
 			$size = sget("pageSize",'i',20); //每页数
-			$sortField = sget("sortField",'s','input_time,team_id'); //排序字段
+			$sortField = sget("sortField",'s','input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
 			$where = '  1 ';
 			//关键词
