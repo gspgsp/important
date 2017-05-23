@@ -389,16 +389,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.need_ph = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "mui-content"
-  }, [_c('ul', {
-    staticClass: "mui-table-view",
+  })])])]), _vm._v(" "), _c('ul', {
     attrs: {
       "id": "shortmsg"
     }
-  }, [_vm._m(0), _vm._v(" "), _c('li', {
-    staticClass: "mui-table-view-cell"
-  }, [_vm._v("\n\t\t\t\t\t是否公开\n\t\t\t\t\t"), _c('input', {
+  }, [_vm._m(0), _vm._v(" "), _c('li', [_vm._v("\n\t\t\t\t是否公开\n\t\t\t\t"), _c('input', {
     staticClass: "weui-switch",
     staticStyle: {
       "position": "absolute",
@@ -414,7 +409,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.msgActive3
     }
-  })])])]), _vm._v(" "), _c('ul', {
+  })])]), _vm._v(" "), _c('ul', {
     attrs: {
       "id": "shortmsg"
     }
@@ -518,9 +513,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('footerbar')], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "mui-table-view-cell"
-  }, [_c('span', {
+  return _c('li', [_c('span', {
     staticStyle: {
       "color": "#333333"
     }

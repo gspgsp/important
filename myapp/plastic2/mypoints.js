@@ -270,7 +270,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.pick(d.day)
+          _vm.pick2(d.day)
         }
       }
     }, [_vm._v(_vm._s(new Date(d.day).getDate()))]) : _vm._e()])
@@ -879,7 +879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: "post",
 			url: version + "/product/getValidDate",
 			data: {
-				type: 1
+				type: 2
 			},
 			headers: {
 				'X-UA': window.localStorage.getItem("XUA")
@@ -895,7 +895,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: "post",
 			url: version + "/product/getValidDate",
 			data: {
-				type: 2
+				type: 1
 			},
 			headers: {
 				'X-UA': window.localStorage.getItem("XUA")

@@ -158,7 +158,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%"
     },
     attrs: {
-      "href": "http://q.myplas.com/#/pointsrule"
+      "href": "http://q.myplas.com/#/mypoints"
     }
   }, [_c('img', {
     attrs: {
