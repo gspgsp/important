@@ -42,7 +42,7 @@ class spdfAction extends adminBaseAction {
 				</tr >';
 			}
 			$contract = $this->template['tihuo'];
-			$contract = sprintf($contract,$this->company,$this->out_no,$this->cname,$this->info[0]['fax'],$detail_info,$this->info[0]['remark'],$this->info[0]['store_address'],$this->ship_adm);
+			$contract = sprintf($contract,$this->company,$this->cname,$this->out_no,$this->info[0]['fax'],$detail_info,$this->info[0]['remark'],$this->info[0]['store_address'],$this->ship_adm);
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
 			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
@@ -198,11 +198,11 @@ class spdfAction extends adminBaseAction {
 					</tr>
 					<tr height="30">
 						<td align="left" height="20" style="line-height:20px">此单发给：<u>%s</u></td>
-						<td align="left">NO：%s</td>
+						<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;NO：%s</td>
 					</tr>
 					<tr height="30">
 						<td align="left" height="20" style="line-height:20px">传真：<u>%s</u></td>
-						<td align="left" height="20" style="line-height:20px">'.date('Y年m月d日',CORE_TIME).'</td>
+						<td align="left" height="20" style="line-height:20px">&nbsp;&nbsp;&nbsp;&nbsp;'.date('Y年m月d日',CORE_TIME).'</td>
 					</tr>
 					<tr height="30"><td  colspan="2" height="20">&nbsp;</td></tr>
 					<tr height="30" >
@@ -226,7 +226,7 @@ class spdfAction extends adminBaseAction {
 									<td height="20" bgcolor="#fff" style="line-height:20px" colspan="5">&nbsp;&nbsp;&nbsp;%s</td>
 								</tr>
 								<tr height="90">
-									<td height="20" bgcolor="#fff" align="center">说&nbsp;&nbsp;明</td>
+									<td height="100" bgcolor="#fff" align="center" >说&nbsp;&nbsp;明</td>
 									<td height="20" bgcolor="#fff" colspan="5">
 										<table cellpadding="0" cellspacing="0" border="0">
 											<tr>
