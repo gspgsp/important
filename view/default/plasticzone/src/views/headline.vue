@@ -83,7 +83,7 @@
 				<h3 v-if="i.type!=='PUBLIC'">[{{i.type}}]{{i.title}}</h3>
 				<h3 v-else>{{i.title}}</h3>
 				<p>{{i.description}}</p>
-				<p style="text-align: right;">{{i.input_time}}</p>
+				<p style="text-align: right;"><span style="float: left;">阅读数量:<span style=" color: #ff5000;">{{i.pv}}</span></span>{{i.input_time}}</p>
 			</router-link>
 		</li>
 	</ul>
@@ -170,13 +170,13 @@
 			<span class="subplasticbtn" v-on:click="subscribeClose">关闭</span>
 		</div>
 	</div>
-	<div class="plasticdefine" v-show="plasticdefine">
+	<div class="plasticdefine" v-if="plasticdefine">
 		<div class="plasticdefineWrap" v-on:click="plasticHide"></div>
 	</div>
-	<div class="plasticlevel" v-show="plasticlevel">
+	<div class="plasticlevel" v-if="plasticlevel">
 		<div class="plasticlevelWrap" v-on:click="plasticHide"></div>
 	</div>
-	<div class="plasticrate" v-show="plasticrate">
+	<div class="plasticrate" v-if="plasticrate">
 		<div class="plasticrateWrap" v-on:click="plasticHide"></div>
 	</div>
 </div>

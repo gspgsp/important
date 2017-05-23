@@ -79,7 +79,7 @@
 		<router-link :to="{name:'headlinedetail',params:{id:i.id}}">
 			<h3>{{i.type}}{{i.title}}</h3>
 			<p>{{i.description}}</p>
-			<p style="text-align: right;">{{i.input_time}}</p>
+			<p style="text-align: right;"><span style="float: left;">阅读数量:<span style=" color: #ff5000;">{{i.pv}}</span></span>{{i.input_time}}</p>
 		</router-link>
 	</li>
 </ul>
