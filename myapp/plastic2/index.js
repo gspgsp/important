@@ -156,6 +156,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "background": "#ff854d"
     }
   }, [_c('router-link', {
+    staticStyle: {
+      "width": "100%"
+    },
     attrs: {
       "to": {
         name: 'mypoints'

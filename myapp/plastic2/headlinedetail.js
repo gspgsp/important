@@ -48,7 +48,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "headlinetitle"
-  }, [_c('h3', [_vm._v(_vm._s(_vm.type) + " " + _vm._s(_vm.title))]), _vm._v(" "), _c('p', [_vm._v("作者:" + _vm._s(_vm.author) + "   阅读数量:"), _c('span', {
+  }, [_c('h3', [_vm._v(_vm._s(_vm.type) + " " + _vm._s(_vm.title))]), _vm._v(" "), _c('p', [_vm._v("作者:" + _vm._s(_vm.author) + " 阅读数量:"), _c('span', {
     staticStyle: {
       "color": "#ff5000"
     }
