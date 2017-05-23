@@ -137,6 +137,8 @@ class orderAction extends adminBaseAction {
 		if($out_storage_status !=0)  $where.=" and `out_storage_status` =".$out_storage_status;
 		$in_storage_status=sget('in_storage_status','i',0);//发货状态
 		if($in_storage_status !=0)  $where.=" and `in_storage_status` =".$in_storage_status;
+		$order_status=sget('order_status','i',0);//订单审核
+		if($order_status !=0)  $where.=" and `order_status` =".$order_status;
 		//首页 收、付款，进、销项提前提醒 跳转的查询,传o_id的字符串 如 (1,2,3,4)
 		$o_ids=sget('o_ids','s');//
 		if($o_ids)  $where.=" and `o_id` in ".$o_ids;
@@ -147,14 +149,6 @@ class orderAction extends adminBaseAction {
 		//关键词搜索
 		$key_type=sget('key_type','s','order_sn');
 		$keyword=sget('keyword','s');
-		if(empty($keyword)){
-			$order_status=sget('order_status','i',0);//订单审核
-			if($order_status !=0){
-				$where.=" and `order_status` =".$order_status;
-			}else{
-				$where.= " and `order_status` <> 3";
-			}
-		}
 		//筛选战队
 		if($teamid = sget('team','i',0)){
 			$users = M('rbac:adm')->getTeamMembers($teamid);
@@ -273,7 +267,11 @@ class orderAction extends adminBaseAction {
 			$v['see'] =  ($v['customer_manager'] == $_SESSION['adminid'] ||  in_array($v['customer_manager'], explode(',', $sons)) || $_SESSION['adminid']  == '1') ? '1':'0';
 			//获取单笔订单收付款状态
 			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
-			$v['one_c_status'] =$m[0]['collection_status'];
+			if(empty($m)){
+				$v['one_c_status'] = 0;
+			}else{
+				$v['one_c_status'] =$m[0]['collection_status'];
+			}
 			//获取单笔订单是否存在开票状态
 			$v['one_b_status']=M("product:billing")->where("o_id={$v['o_id']} and invoice_status=1")->select('id')->getOne();
 			//获取订单的发货状态
@@ -702,11 +700,39 @@ class orderAction extends adminBaseAction {
 				}
 				//添加订单可视化订单审不通过
 				M('order:orderLog')->addLog($data['o_id'],3,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
+				//销售采购的采购审核不通过，战队配资要处理
+				$pur_res = M('product:order')->getOinfoById($data['o_id']);//采购订单结果集
+				if($pur_res['purchase_type'] == 1){
+					$sale_oid = M('product:order')->getPurOidOrSaleOid($data['o_id']);//通过采购单id找到销售单o_id
+					if($sale_oid){
+						$sale_res = M('product:order')->getOinfoById($sale_oid);//销售订单结果集
+						$team_ids = M('product:order')->getCustomerManagerTeamStatusByOid($sale_oid,$data['o_id']);
+						if(($team_ids['sale_team_id'] != $team_ids['buy_team_id']) && $sale_res['transport_status'] == 2 && $sale_res['un_pur'] == 0){
+							$buy_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($pur_res['customer_manager']);
+							if(!$buy_team_capital) $this->error('采购订单业务员所在战队的配资指标未设，审核失败');
+							$sale_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_res['customer_manager']);
+							if(!$sale_team_capital) $this->error('关联销售订单业务员所在战队的配资指标未设，审核失败');
+							$sale_capital = M('user:teamCapital')->comeMoney($sale_team_capital,$pur_res['total_price']);//销售战队+资金占用
+							$buy_capital = M('user:teamCapital')->goMoney($buy_team_capital,$pur_res['total_price']);//采购战队-资金占用
+							if(!$sale_capital || !$buy_capital) $this->error('战队配资处理失败');
+							//新增战队配资变动日志----S
+							$sale_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_res['customer_manager']);
+							$buy_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($pur_res['customer_manager']);
+							$sale_remarks = "采购订单采购审核不通过，增加销售战队额度";
+							$buy_remarks = "采购订单采购审核不通过，削减采购战队额度";
+							M('user:teamCapital')->addLog($sale_res['o_id'],$sale_team_capital['team_id'],'buy_order_unpass',$sale_team_capital['available_money'],$sale_team_capital_now['available_money'],1,$pur_res['total_price'],$sale_remarks);
+							M('user:teamCapital')->addLog($pur_res['o_id'],$buy_team_capital['team_id'],'buy_order_unpass',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$pur_res['total_price'],$buy_remarks);
+							//新增战队配资变动日志----E
+						}
+					}
+				}
+				
 			}
 		} catch (Exception $e) {
 			$this->db->rollback();
 			$this->error($e->getMessage());
 		}
+		//如果审核后，状态一直不改变，看是不是在更新的时候，更新相同的数据，导致事物提交不了
 		$this->db->commit();
 		$this->success('操作成功');
 	}
@@ -717,7 +743,6 @@ class orderAction extends adminBaseAction {
 	 * @return html
 	 */
 	public function transportcheck(){
-		ini_set('display_errors','on');
 		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //获取UI传递的参数
 		if(empty($data)) $this->error('错误的操作');
@@ -726,13 +751,17 @@ class orderAction extends adminBaseAction {
 			'transport_time'=>CORE_TIME,
 			'update_admin'=>$_SESSION['name'],
 		);
+		$this->db->startTrans(); //开启事务
+
 		try {
 			if( !$this->db->model('order')->where(' o_id = '.$data['o_id'])->update($data+$_data) ) throw new Exception("物流审核失败");
 			$transport_status = $data['transport_status'] == '2' ? '1' : '2';
-			if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update(array('is_join_check'=>$transport_status)+$_data) ) throw new Exception("关联的销售订单接收采购订单状态更新失败");
+			$o_id = M('product:order')->getColByName($data['o_id'],'o_id','join_id');
+			if($o_id != '-'){
+				if( !$this->db->model('order')->where(' join_id = '.$data['o_id'])->update(array('is_join_check'=>$transport_status)+$_data) ) throw new Exception("关联的销售订单接收采购订单状态更新失败");
+			}
 			//添加订单可视化 1审核过 2审核不过
 			M('order:orderLog')->addLog($data['o_id'],$transport_status = $transport_status==2 ? 3 : 2,0,CORE_TIME-intval($this->db->model('order')->select('input_time')->where(' o_id = '.$data['o_id'])->getOne()));
-
 			if($transport_status==2 && (M('product:order')->getColByName($data['o_id'],'order_type')==2)){
 				$res= M('user:customer')->updateCreditLimit($data['o_id'],$transport_status,'-');
 				if($res!=1) throw new Exception('可用额度更新失败');
@@ -740,12 +769,107 @@ class orderAction extends adminBaseAction {
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
+		//销售/采购 物流审核 处理订单业务员所在战队额度 -------S
+			if($data['transport_status']==2){ //审核通过后的处理
+				$order_type = M('product:order')->getColByName($data['o_id'],'order_type');//订单类型
+				if($order_type == 1){//销售单审核
+					$buy_oid = M('product:order')->getPurOidOrSaleOid($data['o_id']);
+					if($buy_oid){
+						$team_ids = M('product:order')->getCustomerManagerTeamStatusByOid($data['o_id'],$buy_oid);
+						if($team_ids['sale_team_id'] != $team_ids['buy_team_id']){
+							$sale_customer_manager = M('product:order')->getColByName($data['o_id'],'customer_manager');//销售订单交易员
+							$buy_customer_manager = M('product:order')->getColByName($buy_oid,'customer_manager');//采购订单交易员
+							$sale_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_customer_manager);
+							if(!$sale_team_capital) $this->error('销售订单业务员所在战队的配资指标未设，审核失败');
+							$buy_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($buy_customer_manager);
+							if(!$buy_team_capital) $this->error('关联采购订单业务员所在战队的配资指标未设，审核失败');
+							$sale_cost = M('product:order')->getSaleCost($data['o_id']);//销售单采购金额（成本价格）
+							$sale_capital = M('user:teamCapital')->goMoney($sale_team_capital,$sale_cost);//销售战队扣除资金占用
+							$buy_capital = M('user:teamCapital')->comeMoney($buy_team_capital,$sale_cost);//采购战队回退资金占用
+							if(!$sale_capital || !$buy_capital) $this->error('战队配资处理失败');
+							//新增战队配资变动日志----S
+							$sale_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_customer_manager);
+							$buy_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($buy_customer_manager);
+							$sale_remarks = "销售订单物流审核通过，削减销售战队额度";
+							$buy_remarks = "销售订单物流审核通过，增加采购战队额度";
+							M('user:teamCapital')->addLog($data['o_id'],$sale_team_capital['team_id'],'sale_transport_pass',$sale_team_capital['available_money'],$sale_team_capital_now['available_money'],1,$sale_cost,$sale_remarks);
+							M('user:teamCapital')->addLog($buy_oid,$buy_team_capital['team_id'],'sale_transport_pass',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$sale_cost,$buy_remarks);
+							//新增战队配资变动日志----E
+						}
+					}else{
+						//给该订单加个标识
+						if(!$this->db->model('order')->where('o_id='.$data['o_id'])->update('un_pur = 1')) $this->error('订单标识添加失败');
+					}
+				}else{//采购单审核
+					$sale_oid = M('product:order')->getPurOidOrSaleOid($data['o_id']);
+					if($sale_oid){
+						$un_pur = M('product:order')->getColByOid($sale_oid,'un_pur');//销售订单物流审核时，无采购单的标识
+						$team_ids = M('product:order')->getCustomerManagerTeamStatusByOid($sale_oid,$data['o_id']);
+						if($un_pur && ($team_ids['sale_team_id'] != $team_ids['buy_team_id'])){
+							//扣除销售方的合同金额
+							$sale_customer_manager = M('product:order')->getColByName($sale_oid,'customer_manager');//销售订单交易员
+							$buy_customer_manager = M('product:order')->getColByName($data['o_id'],'customer_manager');//采购订单交易员
+							$buy_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($buy_customer_manager);
+							if(!$buy_team_capital) $this->error('采购订单业务员所在战队的配资指标未设，审核失败');
+							$sale_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_customer_manager);
+							if(!$sale_team_capital) $this->error('关联销售订单业务员所在战队的配资指标未设，审核失败');
+							$money = M('product:order')->getColByName($data['o_id'],'total_price');//采购订单总额
+							$sale_capital = M('user:teamCapital')->goMoney($sale_team_capital,$money);//销售战队扣除资金占用
+							$buy_capital = M('user:teamCapital')->comeMoney($buy_team_capital,$money);//采购战队回退资金占用
+							if(!$sale_capital || !$buy_capital) $this->error('战队配资处理失败');
+							//新增战队配资变动日志----S
+							$sale_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_customer_manager);
+							$buy_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($buy_customer_manager);
+							$sale_remarks = "采购订单物流审核通过，削减销售战队额度";
+							$buy_remarks = "采购订单物流审核通过，增加采购战队额度";
+							M('user:teamCapital')->addLog($sale_oid,$sale_team_capital['team_id'],'buy_transport_pass',$sale_team_capital['available_money'],$sale_team_capital_now['available_money'],1,$money,$sale_remarks);
+							M('user:teamCapital')->addLog($data['o_id'],$buy_team_capital['team_id'],'buy_transport_pass',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$money,$buy_remarks);
+							//新增战队配资变动日志----E
+							}
+					}
+				}
+			}else{
+				//审核未通过的处理，销售单审核不通过，不用处理数据，采购单不通过需要处理
+				$pur_res = M('product:order')->getOinfoById($data['o_id']);//采购订单结果集
+				//如果，2单不在同一个战队，并且是销售采购，并且对应的销售单 transport_status = 3,并且un_pur = 0时
+				//说明销售战队金额已扣，采购战队已回。此时销售战队应+采购合同金额，采购战队应-采购合同金额
+				if($pur_res['order_type']==2){//采购单审核不通过
+					$sale_oid = M('product:order')->getPurOidOrSaleOid($data['o_id']);//通过采购单id找到销售单o_id
+					if($sale_oid){
+						$sale_res = M('product:order')->getOinfoById($sale_oid);//销售订单结果集
+						$team_ids = M('product:order')->getCustomerManagerTeamStatusByOid($sale_oid,$data['o_id']);
+						if($pur_res['purchase_type']==1 && ($team_ids['sale_team_id'] != $team_ids['buy_team_id']) && $sale_res['transport_status'] == 2 && $sale_res['un_pur'] == 0){
+							$buy_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($pur_res['customer_manager']);
+							if(!$buy_team_capital) $this->error('采购订单业务员所在战队的配资指标未设，审核失败');
+							$sale_team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_res['customer_manager']);
+							if(!$sale_team_capital) $this->error('关联销售订单业务员所在战队的配资指标未设，审核失败');
+							$sale_capital = M('user:teamCapital')->comeMoney($sale_team_capital,$pur_res['total_price']);//销售战队+资金占用
+							$buy_capital = M('user:teamCapital')->goMoney($buy_team_capital,$pur_res['total_price']);//采购战队-资金占用
+							if(!$sale_capital || !$buy_capital) $this->error('战队配资处理失败');
+							//新增战队配资变动日志----S
+							$sale_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($sale_res['customer_manager']);
+							$buy_team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($pur_res['customer_manager']);
+							$sale_remarks = "采购订单物流审核不通过，增加销售战队额度";
+							$buy_remarks = "采购订单物流审核不通过，削减采购战队额度";
+							M('user:teamCapital')->addLog($sale_res['o_id'],$sale_team_capital['team_id'],'buy_transport_unpass',$sale_team_capital['available_money'],$sale_team_capital_now['available_money'],1,$pur_res['total_price'],$sale_remarks);
+							M('user:teamCapital')->addLog($pur_res['o_id'],$buy_team_capital['team_id'],'buy_transport_unpass',$buy_team_capital['available_money'],$buy_team_capital_now['available_money'],1,$pur_res['total_price'],$buy_remarks);
+							//新增战队配资变动日志----E
+						}
+					}
+				}
+			}
+		//销售/采购 物流审核 处理订单业务员所在战队额度 -------S
 		//发送手机动态码(1.销售订单  2.采购订单',)
 		$type = $this->db->model('order')->select('order_type')->where(' o_id = '.$data['o_id'])->getOne();
 		if(intval($type) ==  2){
 			M('order:orderLog')->sendMsg($data['o_id'],$type);
 		}
-		$this->success('操作成功');
+		if($this->db->commit()){
+			$this->success('操作成功');
+		}else{
+			$this->db->rollback();
+			$this->error('操作失败');
+		}
 	}
 	/**
 	 * 财务记录
