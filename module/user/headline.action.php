@@ -326,7 +326,7 @@ class headlineAction extends adminBaseAction {
 					->page($pageIndex+1,$pageSize)
 					->order("$sortField $sortOrder")
 					->getPage();
-			$num=0;
+			$num=$this->db->model('headline_sale')->select("sum(total_price)")->where($where)->getOne();
 			foreach($list['data'] as $k=>$v){
 				$arr=explode(',', $v['cate_id']);
 				foreach ($arr as $k2 => $v2) {
@@ -339,7 +339,6 @@ class headlineAction extends adminBaseAction {
 				}
 				$list['data'][$k]['cate_name']=implode(',',$list['data'][$k]['cate_name']);		
 				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-				$num+=$v['total_price'];
 			}
 			$msg='[  总金额：'.$num.'  ]';
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>$msg);
