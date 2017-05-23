@@ -161,13 +161,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         name: 'mypoints'
       }
     }
-  }), _vm._v(" "), _c('a', {
-    staticStyle: {
-      "width": "100%"
-    },
-    attrs: {
-      "href": "http://q.myplas.com/#/mypoints"
-    }
   }, [_c('img', {
     attrs: {
       "width": "100%",
