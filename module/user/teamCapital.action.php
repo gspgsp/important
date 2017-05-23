@@ -77,8 +77,8 @@ class teamCapitalAction extends adminBaseAction {
 		//继承上月额度，查询上月结业可用余额，然后添加到当月,如果上月没指标，
 		$last_team_data= $this->db->model('team_capital')->select('id,total_money,used_money,available_money')->where('team_id = '.$data['team_id'].' and input_date = '.$last_month)->getRow();
 		if($last_team_data['id']){
-			$now_available_money = $data['total_money']-$last_team_data['total_money']+$last_team_data['available_money'];
-			$now_used_money = $last_team_data['used_money'];
+			$now_available_money = $data['total_money']+$last_team_data['available_money'];
+			$now_used_money = 0;
 		}else{
 			$now_available_money = $data['total_money'];
 			$now_used_money = 0;
