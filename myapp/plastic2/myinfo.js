@@ -1248,7 +1248,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				if (_this.c_type == "2") {
 					_this.c_nametype = "原料供应商 ";
 				} else if (_this.c_type == "1") {
-					_this.c_nametype = "塑料制品企业";
+					_this.c_nametype = "塑料制品厂";
 					_this.isType = true;
 				} else if (_this.c_type == "4") {
 					_this.c_nametype = "物流服务商";
