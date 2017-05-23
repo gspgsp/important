@@ -226,7 +226,7 @@ class spdfAction extends adminBaseAction {
 									<td height="20" bgcolor="#fff" style="line-height:20px" colspan="5">&nbsp;&nbsp;&nbsp;%s</td>
 								</tr>
 								<tr height="90">
-									<td height="100" bgcolor="#fff" align="center" >说&nbsp;&nbsp;明</td>
+									<td height="100" bgcolor="#fff" style="line-height:100px" align="center" >说&nbsp;&nbsp;明</td>
 									<td height="20" bgcolor="#fff" colspan="5">
 										<table cellpadding="0" cellspacing="0" border="0">
 											<tr>
