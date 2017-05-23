@@ -127,6 +127,7 @@ class collectionAction extends adminBaseAction
 				// 	->order("$sortField $sortOrder".', payment_time DESC')
 				// 	->getPage();
 		foreach($list['data'] as $k=>$v){
+			if($v['o_id'] < 0){$list['data'][$k]['o_id'] = $v['o_id']*(-1);}
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$list['data'][$k]['payment_time']=$v['payment_time']>1000 ? date("Y-m-d H:i:s",$v['payment_time']) : '-';
@@ -164,20 +165,54 @@ class collectionAction extends adminBaseAction
 	 */
 	public function delCollection(){
 		$id = sget('id','i');
-		if(empty($id)){
+		$type = sget('type','i');
+		if(empty($id) || empty($type)){
 			$this->error('操作有误');
 		}
-		$c_status = $this->db->model('collection')->select('collection_status')->where('id='.$id)->getOne();
-		if ($c_status == 1) {
-			$result=$this->db->where("id=".$id)->delete();
-			if($result){
-				$this->success('删除成功');
-			}else{
-				$this->error('删除失败');
+		//收款申请删除，战队配资不处理
+		if($type == 1){
+			$c_status = $this->db->model('collection')->select('collection_status')->where('id='.$id)->getOne();
+			if ($c_status == 1) {
+				$result=$this->db->where("id=".$id)->delete();
+				if($result){
+					$this->success('删除成功');
+				}else{
+					$this->error('删除失败');
+				}
 			}
 		}
+		//付款申请删除，战队配资不处理
+		$res = $this->db->model('collection')->select('*')->where('id='.$id)->getRow();
+		//战队配资考虑，删除付款申请后，相应的战队配资额度要回退，
+		$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($res['customer_manager']);
+		if(empty($team_capital)){
+			$this->error('删除失败,您所在战队本月战队配资指标未设置，请先找总监设置好指标');
+		}
+		$this->db->startTrans(); //开启事务
+		if ($res['collection_status'] == 1) {
+			$role_id = M('rbac:adm')->getCustomerManagerTeamId($res['customer_manager']);
+			$collection_res = $this->db->model('team_capital_approve')->select('*')->where('coll_id='.$id)->getRow();
+			// p($collection_res);die;
+			if(($role_id != 1 && $collection_res['status'] == 1) || ($role_id != 1 && !$collection_res) || $role_id == 1 ){
+				//回退到相应战队
+				$buy_capital = M('user:teamCapital')->comeMoney($team_capital,$res['collected_price']);//采购战队回退资金
+				if(!$buy_capital) $this->error("采购战队付款时更新配资失败");
+				//新增战队配资变动日志----S
+				$team_capital_now = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($res['customer_manager']);
+				$remarks = "付款申请删除，增加采购战队额度";
+				M('user:teamCapital')->addLog($res['o_id'],$team_capital['team_id'],'buy_pay_del',$team_capital['available_money'],$team_capital_now['available_money'],1,$res['collected_price'],$remarks);
+				//新增战队配资变动日志----E
+			}
+			if($collection_res) $this->db->model('team_capital_approve')->where("coll_id=".$collection_res['coll_id'])->delete();
+			$result=$this->db->model('collection')->where("id=".$id)->delete();
+		}
+		if($this->db->commit()){
+			$this->success('操作成功');
+		}else{
+			$this->db->rollback();
+			$this->error('操作失败');
+		}
 	}
-
 
 	/**
 	* 付款收款信息
