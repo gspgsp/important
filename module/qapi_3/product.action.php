@@ -198,6 +198,41 @@ class productAction extends baseAction
     }
 
     /*
+    * 塑料圈app之积分商品详情页
+    */
+    public function getProductInfo ()
+    {
+        if ($_POST) {
+            $this->is_ajax = true;
+            $this->checkAccount ();
+            $id = sget ('id', i);//商品的id
+            if ($id < 1) {
+                $this->json_output (array(
+                    'err' => 1,
+                    'msg' => 'id参数错误',
+                ));
+            }
+            $arr    = $this->db->from ("points_goods")->select ('id,cate_id,thumb,image,name,points,type')
+                               ->where ("status = 1 and receive_num < num and id = $id")->getRow ();
+            $result = array();
+            preg_match_all ("/(?:\（)(.*)(?:\）)/i", $arr['name'], $result);
+            $str = (int)$result[1][0];
+            if ($arr['image']) {
+                $arr['image'] = FILE_URL.'/upload/'.$arr['image'];
+            }
+            if ($arr['thumb']) {
+                $arr['thumb'] = FILE_URL.'/upload/'.$arr['thumb'];
+            }
+            //if (empty($arr['content'])) $arr['content'] = "<span>本置顶卡可使您的信息在供求信息版面置顶" . $str . "分钟</span><br />备注:<br />1.同一时间内最多一条信息置顶;";
+            $this->json_output (array(
+                'err'  => 0,
+                'info' => $arr,
+            ));
+        }
+        $this->_errCode (6);
+    }
+
+    /*
  * 塑料圈app之退货规定
  */
     public function returnRule ()

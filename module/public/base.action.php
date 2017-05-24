@@ -130,7 +130,7 @@ class baseAction extends null2Action
              if(empty($_ua)){
                  $this->_errCode(120);
              }
-             if(!in_array($_ua[0],array('ios','android','h5','pc')))
+             if(!in_array($_ua[0],array('ios','android','weixin','pc')))
              {
                  $this->_errCode(120);
              }
@@ -148,7 +148,13 @@ class baseAction extends null2Action
          $this->navigator_version =$_ua[10];
          $this->manufacturer= $_ua[11];
          $this->device_model= $_ua[12];
-
+         if(!empty($this->user_id)||!empty($this->token)) {
+             $_userid = M ('qapp:appToken')->deUserId ($this->token);
+             if($_userid != $this->user_id)
+             {
+                 $this->_errCode(998);
+             }
+         }
      }
 
     //判断账户
@@ -387,16 +393,6 @@ class baseAction extends null2Action
         return get_platform ();
     }
 
-
-    public function somes ()
-    {
-        $token   = sget ('token', 's');
-        $_userid = M ('qapp:appToken')->deUserId ($token);
-        var_dump ($_userid);
-    }
-
-
-
     /**
      * 获取概率函数
      *
@@ -486,45 +482,6 @@ class baseAction extends null2Action
     }
 
     /*
-     * 塑料圈app之积分商品详情页
-     */
-    public function getProductInfo ()
-    {
-        if ($_POST) {
-            $this->is_ajax = true;
-            $this->checkAccount ();
-            $id = sget ('id', i);//商品的id
-            if ($id < 1) {
-                $this->json_output (array(
-                    'err' => 1,
-                    'msg' => 'id参数错误',
-                ));
-            }
-            $arr    = $this->db->from ("points_goods")->select ('id,cate_id,thumb,image,name,points,type')
-                               ->where ("status = 1 and receive_num < num and id = $id")->getRow ();
-            $result = array();
-            preg_match_all ("/(?:\（)(.*)(?:\）)/i", $arr['name'], $result);
-            $str = (int)$result[1][0];
-            if ($arr['image']) {
-                $arr['image'] = FILE_URL.'/upload/'.$arr['image'];
-            }
-            if ($arr['thumb']) {
-                $arr['thumb'] = FILE_URL.'/upload/'.$arr['thumb'];
-            }
-            //if (empty($arr['content'])) $arr['content'] = "<span>本置顶卡可使您的信息在供求信息版面置顶" . $str . "分钟</span><br />备注:<br />1.同一时间内最多一条信息置顶;";
-            $this->json_output (array(
-                'err'  => 0,
-                'info' => $arr,
-            ));
-        }
-        $this->_errCode (6);
-    }
-
-
-
-
-
-    /*
      * 获取兑换时间段
      * @param $type   0是通讯录置顶 1供求信息置顶
      */
@@ -542,11 +499,6 @@ class baseAction extends null2Action
     protected function buildOrderId ()
     {
         return date ('Ymd').substr (implode (null, array_map ('ord', str_split (substr (uniqid (), 7, 13), 1))), 0, 8);
-    }
-
-    public function test4 ()
-    {
-        p (M ('system:setting')->get ('points'));
     }
 
     //安全过滤用户输入的字符
@@ -747,6 +699,12 @@ class baseAction extends null2Action
                 $this->json_output (array(
                     'err' => 121,
                     'msg' => '快速发布字数超过100字',
+                ));
+                break;
+            case 998:
+                $this->json_output (array(
+                    'err' => 998,
+                    'msg' => '登录信息有误,请重新登录',
                 ));
                 break;
             default:
