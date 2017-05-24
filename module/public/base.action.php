@@ -390,6 +390,10 @@ class baseAction extends null2Action
      */
     public function checkPlatform ()
     {
+        if(!empty($this->platform))
+        {
+            return array('channel_name'=>'plastic','platform'=>$this->platform);
+        }
         return get_platform ();
     }
 
