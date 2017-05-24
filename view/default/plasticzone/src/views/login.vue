@@ -41,7 +41,7 @@
 				<input style="margin: 0 0 0 10px;" type="tel" maxlength="11" v-model="simpleCode" placeholder="请填写验证码" />
 				<i class="regIcon img"></i>
 			</div>
-			<img v-bind:src="simpleImg" style="width: 105px; height: 44px; position: absolute; top: 0; right: 0;">
+			<img v-on:click="sendImg" v-bind:src="simpleImg" style="width: 105px; height: 44px; position: absolute; top: 0; right: 0;">
 			</div>
 			<div style=" padding: 0 115px 0 0; position: relative;">
 			<div class="registerBox">
@@ -74,6 +74,27 @@ export default {
 		}
 	},
 	methods: {
+		sendImg:function(){
+			var _this=this;
+			$.ajax({
+				url: '/api/vcode/app',
+				type: 'get',
+				data: {},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function(res) {
+				if(res.err == 0) {
+					_this.simpleImg=res.img;
+					_this.key=res.key;
+				}
+			}).fail(function() {
+
+			}).always(function() {
+
+			});		
+		},
 		tab:function(n){
 			var _this=this;
 			if(n==1){
