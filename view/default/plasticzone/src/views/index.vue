@@ -7,7 +7,7 @@
 			<a v-on:click="toLogin" class="headerMenu"></a>
 		</header>
 		<div class="indexsearch">
-			<div class="indexsearchwrap">
+			<div class="indexsearchwrap" v-bind:class="{searchRight:!filterShow}">
 				<form action="javascript:;">
 					<i class="searchIcon" v-on:click="search"></i>
 					<input v-on:keydown.enter="search" v-on:focus="focusShow" v-on:blur="focusHide" type="text" placeholder="请输入公司、姓名、牌号查询" v-model="keywords" />
@@ -16,6 +16,9 @@
 			<div v-if="filterShow">
 				<span class="filter" style="right: 76px;" v-on:click="filterShow2">{{txt2}}<i class="downarrow"></i></span>
 				<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
+			</div>
+			<div v-else>
+				<span v-on:click="search" class="indexSearch">搜索</span>
 			</div>
 		</div>
 	</div>
