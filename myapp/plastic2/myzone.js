@@ -770,6 +770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		logout: function logout() {
 			var _this = this;
+
 			$.ajax({
 				url: version + '/user/logout',
 				type: 'post',
@@ -784,6 +785,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				console.log(res.err);
 				if (res.err == 0) {
 					window.localStorage.setItem("token", "");
+					window.localStorage.setItem("userid", "");
 					weui.alert(res.msg, {
 						title: '塑料圈通讯录',
 						buttons: [{
@@ -798,7 +800,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					});
 				} else {
 					window.localStorage.setItem("token", "");
+					window.localStorage.setItem("userid", "");
 				}
+				window.localStorage.setItem("XUA", "weixin|5.5|" + localStorage.getItem("userid") + "|" + localStorage.getItem("token") + "|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
 			}, function () {});
 		}
 	},
