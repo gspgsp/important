@@ -69,7 +69,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "indexsearch"
   }, [_c('div', {
-    staticClass: "indexsearchwrap"
+    staticClass: "indexsearchwrap",
+    class: {
+      searchRight: !_vm.filterShow
+    }
   }, [_c('form', {
     attrs: {
       "action": "javascript:;"
@@ -122,7 +125,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.txt)), _c('i', {
     staticClass: "downarrow"
-  })])]) : _vm._e()])]), _vm._v(" "), (_vm.isFocus) ? _c('div', {
+  })])]) : _c('div', [_c('span', {
+    staticClass: "indexSearch",
+    on: {
+      "click": _vm.search
+    }
+  }, [_vm._v("搜索")])])])]), _vm._v(" "), (_vm.isFocus) ? _c('div', {
     staticClass: "payfans"
   }, [_c('router-link', {
     attrs: {

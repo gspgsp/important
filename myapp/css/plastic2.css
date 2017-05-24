@@ -29,6 +29,8 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .searchSearch input[type=text]{ width: 100%; border: 1px solid #999999; float: left; text-transform: uppercase; background: #EEEEEE; height: 40px; line-height: 40px; margin: 0; padding: 0 0 0 5px; color: #969696; font-size: 14px;}
 .searchSearch input::-webkit-input-placeholder{ color: #969696;}
 
+.indexSearch{ width: 45px; font-size: 12px; position: absolute; top: 8px; border-radius: 3px; right: 10px; line-height: 28px; text-align: center; color: #FFFFFF; background: #ff5000;}
+
 .searchSearch2{ position: relative; background: #E7E7E7; margin: 3px 0 0 50px; overflow: hidden;}
 .searchSearch2 input[type=text]{ width: 100%; float: left; text-transform: uppercase; background: #FFFFFF; height: 36px; line-height: 36px; margin: 0; padding: 0 0 0 5px; border: 1px solid #999999; color: #969696; font-size: 14px;}
 .searchSearch2 input::-webkit-input-placeholder{ color: #969696;}
@@ -37,7 +39,7 @@ body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 .indexsearch input[type=text]{ width: 169px; height: 28px; float: left; display: inline-block; border: none !important; margin: 0; text-align: left; padding: 5px; font-size: 12px; color: #999;}
 .indexsearchwrap{ width: auto; margin: 0 140px 0 0; background: #FFFFFF; height: 30px; border-radius: 3px; border: 1px solid #CCCCCC;}
 .searchIcon{ width: 15px; height: 15px; float: left; margin: 6px 0 0 5px; background: url(../img/searchIcon.png) no-repeat; background-size: 100% 100%;}
-
+.searchRight{ margin: 0 50px 0 0;}
 #searchbox{ width: 50px; margin: 0; line-height: 19px; position: absolute; right: 10px; top: 8px; color: #666666; padding: 5px;}
 .appQuery2{ position: absolute; right: 15px; top: 15px; width: 22px; height: 22px; background: url(../img/appQuery22.png) no-repeat; background-size: 100% 100%;}
 .appQuery{ position: absolute; right: 8px; top: 4px; width: 25px; height: 25px; background: url(../img/appQuery22.png) no-repeat; background-size: 100% 100%;}

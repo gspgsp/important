@@ -716,7 +716,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}
 			});
 			this.days2_ = daysTemp2;
-			this.totalDays2 = this.days.concat(this.days2_);
+			this.totalDays2 = this.days_.concat(this.days2_);
 		},
 		pick: function pick(date) {
 			var _this = this;
