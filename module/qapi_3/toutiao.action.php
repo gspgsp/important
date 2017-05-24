@@ -362,6 +362,7 @@ class toutiaoAction extends baseAction
                     }
                 }
                 array_multisort ($_idss, SORT_DESC, $data['subscribe']);
+                if(empty($data['subscribe'])) $data['subscribe'] = '';
                 $time               = $data['input_time'];
                 $data['input_time'] = $this->checkTime ($data['input_time']);
                 $data['author']     = empty($data['author']) ? '中晨' : $data['author'];
@@ -399,7 +400,7 @@ class toutiaoAction extends baseAction
             if (time () % 3 == 0) {
                 M ("qapp:news")->updateqAppPvByNum ($id, $data['pv'], $data['true_pv']);
             }
-            $cache->set ('qcateDetailInfo'.'_'.$id, $data, 1800);
+            $cache->set ('qcateDetailInfo'.'_'.$id, $data, 18);
             $this->json_output (array( 'err' => 0, 'info' => $data ));
         }
         $this->_errCode (6);
