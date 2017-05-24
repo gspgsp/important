@@ -14,7 +14,7 @@ class scoreAction extends baseAction
 
     /**
      * 积分记录
-     * @api {post} /qapi_3/score/pointSupplyList   塑料圈app之积分记录
+     * @api {post} /qapi_3/score/scoreRecord   塑料圈app之积分记录
      * @apiVersion 3.1.0
      * @apiName  pointSupplyList
      * @apiGroup score
@@ -22,7 +22,6 @@ class scoreAction extends baseAction
      *
      * @apiParam   {int} page   页码
      * @apiParam   {int} size   野蛮
-     * @apiParam   {int} pur_id   购买供求信息时候供求信息id
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
@@ -39,7 +38,7 @@ class scoreAction extends baseAction
      *       "msg": "没有相关数据"
      *      }
      */
-    public function pointSupplyList ()
+    public function scoreRecord ()
     {
         $this->is_ajax = true;
         if ($_POST) {

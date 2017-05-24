@@ -148,7 +148,7 @@ class baseAction extends null2Action
          $this->navigator_version =$_ua[10];
          $this->manufacturer= $_ua[11];
          $this->device_model= $_ua[12];
-         if(!empty($this->user_id)&&$this->user_id!='null'&&$this->user_id!='nil') {
+         if(!fullEmpty($this->user_id)&&!fullEmpty($this->token)) {
              $_userid = M ('qapp:appToken')->deUserId ($this->token);
              if($_userid != $this->user_id)
              {
