@@ -137,8 +137,8 @@ class baseAction extends null2Action
          }
          $this->platform= $_ua[0];
          $this->screen= $_ua[1];
-         $this->user_id= $_ua[2];
-         $this->token= $_ua[3];
+         $this->user_id= fullEmpty($_ua[2]);
+         $this->token= fullEmpty($_ua[3]);
          $this->uuid= $_ua[4];
          $this->app_version= $_ua[5];
          $this->os= $_ua[6];

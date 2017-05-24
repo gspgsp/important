@@ -197,8 +197,8 @@ function fullEmpty($str)
 {
     if($str == 'null'||$str == 'nil'||$str == '0' ||empty($str))
     {
-        return false;
+        return '';
     }else{
-        return true;
+        return $str;
     }
 }
