@@ -5,6 +5,7 @@
 class orderAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
+		ini_set('display_errors','on');
 		$this->db=M('public:common')->model('order');
 		$this->doact = sget('do','s');
 		$this->assign('order_source',L('order_source')); //订单来源
