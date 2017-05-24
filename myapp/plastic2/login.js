@@ -294,6 +294,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "src": _vm.simpleImg
+    },
+    on: {
+      "click": _vm.sendImg
     }
   })]), _vm._v(" "), _c('div', {
     staticStyle: {
@@ -436,6 +439,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 	methods: {
+		sendImg: function sendImg() {
+			var _this = this;
+			$.ajax({
+				url: '/api/vcode/app',
+				type: 'get',
+				data: {},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					_this.simpleImg = res.img;
+					_this.key = res.key;
+				}
+			}).fail(function () {}).always(function () {});
+		},
 		tab: function tab(n) {
 			var _this = this;
 			if (n == 1) {
