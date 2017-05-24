@@ -306,6 +306,7 @@ export default {
 					if(res.err == 0) {
 						window.localStorage.setItem("token", res.dataToken);
 						window.localStorage.setItem("userid", res.user_id);
+						window.localStorage.setItem("XUA","weixin|5.5|"+localStorage.getItem("userid")+"|"+localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
 						_this.$router.push({
 							name: 'index'
 						});
