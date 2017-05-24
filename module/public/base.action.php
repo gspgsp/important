@@ -404,15 +404,15 @@ class baseAction extends null2Action
      *
      * @return bool
      */
-    public function getArrayChance ($chance = 0.7)
+    public function getArrayChance ($chance = 0.70)
     {
-        $chance = 10 * $chance;
+        $chance = 100 * $chance;
         if (empty($chance)) {
-            $chance = 7;
+            $chance = 70;
         }
         $tmp = array();
         $tmp = array_pad ($tmp, $chance, 'a');
-        $tmp = array_pad ($tmp, 10, 'b');
+        $tmp = array_pad ($tmp, 100-$chance, 'b');
         shuffle ($tmp);
         if ($tmp[1] == 'a') {
             return true;
