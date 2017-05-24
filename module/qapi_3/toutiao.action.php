@@ -398,7 +398,7 @@ class toutiaoAction extends baseAction
             $data['pv']      = $data['pv'] + 1;
             $data['true_pv'] = $data['true_pv'] + 1;
             if (time () % 3 == 0) {
-                M ("qapp:news")->updateqAppPvByNum ($id, $data['pv'], $data['true_pv']);
+                M ("qapp:news")->updateqAppPvByNum ($id, $data['pv'], $data['true_pv']); 
             }
             $cache->set ('qcateDetailInfo'.'_'.$id, $data, 1800);
             $this->json_output (array( 'err' => 0, 'info' => $data ));
