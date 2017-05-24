@@ -344,6 +344,7 @@ class plasticAction extends adminBaseAction {
 			'name'=>implode(' ',$data['model_1'])
 			);
         }
+        $con_cid = $this->db->model('customer_contact')->select('c_id')->where("user_id = {$data['info_user_id']}")->getOne();
 		$this->db->model('customer_contact')->startTrans();
 		try {
 			if($data['stype'] == 0){//存在
@@ -360,7 +361,9 @@ class plasticAction extends adminBaseAction {
 			}else{//不存在
 				if(!$this->db->model('customer_contact')->where("user_id = {$data['info_user_id']}")->update($con)) throw new Exception(" 用户更新失败 105");
 				if(!empty($data['model_1'])) $cus['need_product'] = $this->getLinkUserConcern($data['c_id'],$data['model_1']);
-				if(!$this->db->model('customer')->where("c_id = {$data['c_id']}")->update($cus)) throw new Exception(" 客户更新失败 106");
+				// if(!$this->db->model('customer')->where("c_id = {$data['c_id']}")->update($cus)) throw new Exception(" 客户更新失败 106");
+				$data['month_consum'] = empty($data['month_consum'])?0:$data['month_consum'];
+				if(!$this->db->model('customer')->query("replace into p2p_customer (`c_id`, `c_name`, `main_product`, `month_consum`, `type`, `update_time`, `update_admin`) values($con_cid, '{$data['c_name']}', '{$data['main_product']}', {$data['month_consum']}, {$data['cus_type']}, ".CORE_TIME." ,'admin')")) throw new Exception(" 用户更新失败 107");
 			}
 			if(!empty($data['model_1'])){
 				if(!$this->db->model('suggestion_model')->add($sug)) throw new Exception(" 新增牌号失败 101");
