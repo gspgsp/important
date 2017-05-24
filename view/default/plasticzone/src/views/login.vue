@@ -285,6 +285,9 @@ export default {
 		},
 		login2: function() {
 			var _this = this;
+			window.localStorage.setItem("userid", "");
+			window.localStorage.setItem("token", "");
+			window.localStorage.setItem("XUA","weixin|5.5|"+localStorage.getItem("userid")+"|"+localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
 			if(this.mobile && this.dynamicCode && this.simpleCode) {
 				$.ajax({
 					url: version+'/user/simpleLogin',
