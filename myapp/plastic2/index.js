@@ -102,7 +102,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.search($event)
       },
       "focus": _vm.focusShow,
-      "blur": _vm.focusHide,
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.keywords = $event.target.value
@@ -863,9 +862,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		focusShow: function focusShow() {
 			this.filterShow = false;
 		},
-		focusHide: function focusHide() {
-			this.filterShow = true;
-		},
 		toLogin: function toLogin() {
 			if (window.localStorage.getItem("token")) {
 				weui.alert("你已登录塑料圈", {
@@ -1261,6 +1257,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		search: function search() {
 			var _this = this;
 			_this.page = 1;
+			this.filterShow = true;
 			if (this.keywords) {
 				try {
 					var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);

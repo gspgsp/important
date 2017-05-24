@@ -74,6 +74,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('div', {
     staticStyle: {
       "width": "40px",
+      "border-radius": "3px",
       "line-height": "30px",
       "font-size": "12px",
       "font-weight": "normal",

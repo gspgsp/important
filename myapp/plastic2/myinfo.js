@@ -1245,6 +1245,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				} else {
 					_this.sexradio = 1;
 				}
+				if (_this.adistinct == "华东") {
+					_this.distinctradio = "EC";
+				} else if (_this.adistinct == "华北") {
+					_this.distinctradio = "NC";
+				} else if (_this.adistinct == "华南") {
+					_this.distinctradio = "SC";
+				} else {
+					_this.distinctradio = "OT";
+				}
+
 				if (_this.c_type == "2") {
 					_this.c_nametype = "原料供应商 ";
 				} else if (_this.c_type == "1") {
