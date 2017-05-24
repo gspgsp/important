@@ -113,6 +113,7 @@ class outStorageAction extends adminBaseAction {
 					'remark'=>$v['remark'],
 					'driver'=>$v['driver'],
 					'car_code'=>$v['car_code'],
+					'peisong'=>$v['peisong'],
 					'store_address'=>$v['store_address'],
 					'input_admin'=>$_SESSION['name'],
 				);
