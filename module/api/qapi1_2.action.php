@@ -4104,7 +4104,8 @@ class qapi1_2Action extends null2Action
         if (!in_array ($platform, array(
                 'ios',
                 'android',
-                'h5',
+                'weixin',
+                'pc'
             )) || empty($version)
         ) {
             $this->json_output (array(

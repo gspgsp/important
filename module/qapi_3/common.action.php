@@ -92,7 +92,8 @@ class commonAction extends baseAction
         if (!in_array ($platform, array(
                 'ios',
                 'android',
-                'h5',
+                'weixin',
+                'pc'
             )) || empty($version)
         ) {
             $this->json_output (array(
