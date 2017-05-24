@@ -10,7 +10,7 @@
 			<div class="indexsearchwrap" v-bind:class="{searchRight:!filterShow}">
 				<form action="javascript:;">
 					<i class="searchIcon" v-on:click="search"></i>
-					<input v-on:keydown.enter="search" v-on:focus="focusShow" v-on:blur="focusHide" type="text" placeholder="请输入公司、姓名、牌号查询" v-model="keywords" />
+					<input v-on:keydown.enter="search" v-on:focus="focusShow" type="text" placeholder="请输入公司、姓名、牌号查询" v-model="keywords" />
 				</form>
 			</div>
 			<div v-if="filterShow">
@@ -144,9 +144,6 @@ export default {
 	methods: {
 		focusShow:function(){
 			this.filterShow=false;
-		},
-		focusHide:function(){
-			this.filterShow=true;
 		},
 		toLogin: function() {
 			if(window.localStorage.getItem("token")) {
@@ -589,6 +586,7 @@ export default {
 		search: function() {
 			var _this = this;
 			_this.page = 1;
+			this.filterShow=true;
 			if(this.keywords) {
 				try {
 					var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);

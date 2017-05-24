@@ -15,7 +15,7 @@
 <input type="text" style="width: 100%;" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </form>
 </div>
-<div v-on:click="search" style="width: 40px; line-height: 30px; font-size: 12px; font-weight: normal; background: #ff5000; color: #FFFFFF; position: absolute; top: 6px; right: 10px; text-align: center;">搜索</div>
+<div v-on:click="search" style="width: 40px; border-radius: 3px; line-height: 30px; font-size: 12px; font-weight: normal; background: #ff5000; color: #FFFFFF; position: absolute; top: 6px; right: 10px; text-align: center;">搜索</div>
 </h3>
 	<div class="plasticnav">
 		<div class="subscribe" v-on:click="subscribe"></div>
