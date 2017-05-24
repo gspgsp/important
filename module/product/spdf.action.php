@@ -11,19 +11,18 @@ class spdfAction extends adminBaseAction {
 		$data = $this->db->where("id in ($ids)")->getAll();
 		//获取订单的联系人信息
 		$ship =M('rbac:adm')->getUserInfoById($data[0]['store_aid']);
-		$this->ship_adm = $ship['name'].'/'.$ship['mobile'];
 		//处理基础信息
 		foreach ($data as &$v) {
 			$v['product_info'] = M("product:product")->getFnameByPid($v['p_id']);
 		}
 		$oid = intval($this->db->model('sale_log')->select('o_id')->where("`id` = {$data[0]['sale_id']}")->getOne());
 		$oinfo = $this->db->model('order')->where("`o_id` = $oid")->getRow();
+		$this->ship_adm = $ship['name'].'/'.$ship['mobile'].'&nbsp;&nbsp;传真：'.L('c_fax')[$oinfo['c_fax']]$;
 		$this->company = L('companys')[$oinfo['order_name']];
 		$this->cname = M('user:customer')->getColByName($oinfo['c_id']);
 		$this->out_no = $this->db->model('out_storage')->select('out_no')->where("id = {$data[0]['storage_id']}")->getOne();
 		$this->info = $data;
 	}
-
 	/**
 	 * 合同 PDF
 	 *
@@ -285,7 +284,7 @@ class spdfAction extends adminBaseAction {
 										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;配送地址&电话：(%s)</td>
 									</tr>
 									<tr height="30">
-										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：(%s)</td>
+										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：%s</td>
 									</tr>
 									<tr height="30">
 										<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
@@ -334,7 +333,7 @@ class spdfAction extends adminBaseAction {
 									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;仓库地址：（%s）</td>
 								</tr>
 								<tr height="30">
-									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：承担费用的注明（%s）</td>
+									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;备注：%s</td>
 								</tr>
 								<tr height="30">
 									<td align="left" style="line-height:20px" height="20" bgcolor="#fff" colspan="4">&nbsp;&nbsp;&nbsp;注明：无破包，不湿料，不少料</td>
