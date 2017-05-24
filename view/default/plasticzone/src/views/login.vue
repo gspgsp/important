@@ -226,6 +226,9 @@ export default {
 				window.localStorage.setItem("username", "");
 				window.localStorage.setItem("password", "");
 			}
+			window.localStorage.setItem("userid", "");
+			window.localStorage.setItem("token", "");
+			window.localStorage.setItem("XUA","weixin|5.5|"+localStorage.getItem("userid")+"|"+localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
 			if(this.mobile && this.pwd) {
 				$.ajax({
 					url: version+'/user/login',
@@ -242,7 +245,7 @@ export default {
 					if(res.err == 0) {
 						window.localStorage.setItem("token", res.dataToken);
 						window.localStorage.setItem("userid", res.user_id);
-						window.localStorage.setItem("XUA","weixin|5.5|"+window.localStorage.getItem("userid")+"|"+window.localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
+						window.localStorage.setItem("XUA","weixin|5.5|"+localStorage.getItem("userid")+"|"+localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
 						_this.$router.push({
 							name: 'index'
 						});
