@@ -179,18 +179,12 @@ class orderAction extends adminBaseAction {
 		// }elseif(!empty($keyword) && ($key_type=='m_driver' || $key_type=='m_idcode')){
 		// 	$oids = M('product:outStorage')->getCol($keyword,'ols.o_id','driver')
 		// 	$where.=" and `o_id` in ($oids)";
-		}elseif(!empty($keyword) && ){
-			$where.=" and `tran_con_remark` like '%".$keyword."%'";
 		}
-
-
-
-
-
-
-		elseif(!empty($keyword)){
-			$where.=" and `$key_type` like '%".$keyword."%'";
-		}
+		//elseif(!empty($keyword) && ){
+		//	$where.=" and `tran_con_remark` like '%".$keyword."%'";
+		//}elseif(!empty($keyword)){
+		//	$where.=" and `$key_type` like '%".$keyword."%'";
+		//}
 		$orderby = "$sortField $sortOrder";
 		if($this->moreChoice == 0){
 			//筛选过滤自己的订单信息
