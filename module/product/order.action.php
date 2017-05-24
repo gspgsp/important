@@ -167,12 +167,12 @@ class orderAction extends adminBaseAction {
 		}elseif(!empty($keyword) && $key_type=='y_code'){//车号
 			$oids = M('product:outStorage')->getColByName($keyword);
 			$where.=" and `o_id` in ($oids)";
-		}elseif(!empty($keyword) && $key_type=='y_driver'){
-			$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_name');
-			$where.=" and `o_id` in ($oids)";
-		}elseif(!empty($keyword) && $key_type=='y_idcode'){
-			$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_idcard');
-			$where.=" and `o_id` in ($oids)";
+		// }elseif(!empty($keyword) && $key_type=='y_driver'){
+		// 	$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_name');
+		// 	$where.=" and `o_id` in ($oids)";
+		// }elseif(!empty($keyword) && $key_type=='y_idcode'){
+		// 	$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_idcard');
+		// 	$where.=" and `o_id` in ($oids)";
 		// }elseif(!empty($keyword) && $key_type=='m_code'){
 		// 	$oids = M('product:outStorage')->getCol($keyword,'ols.o_id','car_code')
 		// 	$where.=" and `o_id` in ($oids)";
