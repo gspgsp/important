@@ -114,6 +114,7 @@ class orderAction extends adminBaseAction {
 		if(sget('order_type','i',0) !=0) $order_type=sget('order_type','i',0);
 		if($order_type !=0)  $where.=" and `order_type` =".$order_type;
 		$financial_records=sget('financial_records','s');//抬头
+		//筛选物流备注
 		if($financial_records !='')  $where.=" and `financial_records` = ".$financial_records;
 		$order_source=sget('order_source','i',0);//订单来源
 		if($order_source !=0)  $where.=" and `order_source` =".$order_source;
@@ -160,7 +161,33 @@ class orderAction extends adminBaseAction {
 		}elseif(!empty($keyword) && $key_type=='c_id'){
 			$keyword=M('product:order')->getOidByCname($keyword);
 			$where.=" and `$key_type` in ($keyword) ";
-		}elseif(!empty($keyword)){
+		}elseif(!empty($keyword) && $key_type=='remark'){
+			$where.=" and `tran_con_remark` like '%".$keyword."%'";
+		}elseif(!empty($keyword) && $key_type=='y_code'){//车号
+			$oids = M('product:outStorage')->getColByName($keyword);
+			$where.=" and `o_id` in ($oids)";
+		}elseif(!empty($keyword) && $key_type=='y_driver'){
+			$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_name');
+			$where.=" and `o_id` in ($oids)";
+		}elseif(!empty($keyword) && $key_type=='y_idcode'){
+			$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_idcard');
+			$where.=" and `o_id` in ($oids)";
+		}elseif(!empty($keyword) && $key_type=='m_code'){
+			$oids = M('product:outStorage')->getCol($keyword,'ols.o_id','car_code')
+			$where.=" and `o_id` in ($oids)";
+		}elseif(!empty($keyword) && ($key_type=='m_driver' || $key_type=='m_idcode')){
+			$oids = M('product:outStorage')->getCol($keyword,'ols.o_id','driver')
+			$where.=" and `o_id` in ($oids)";
+		}elseif(!empty($keyword) && ){
+			$where.=" and `tran_con_remark` like '%".$keyword."%'";
+		}
+
+
+
+
+
+
+		elseif(!empty($keyword)){
 			$where.=" and `$key_type` like '%".$keyword."%'";
 		}
 		$orderby = "$sortField $sortOrder";
@@ -726,7 +753,7 @@ class orderAction extends adminBaseAction {
 						}
 					}
 				}
-				
+
 			}
 		} catch (Exception $e) {
 			$this->db->rollback();
