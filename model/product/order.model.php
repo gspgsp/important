@@ -9,7 +9,7 @@ class orderModel extends model{
 	 */
 	public function getColByName($value=0,$col='order_name',$condition='o_id'){
 		$result =  $this->model('order')->select("$col")->where("$condition='$value'")->getOne();
-		return empty($result) ? '-' : $result;
+		return empty($result) ? '' : $result;
 	}
 	/**
 	 * 模糊查询客户名匹配的订单
