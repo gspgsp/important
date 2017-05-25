@@ -161,7 +161,7 @@
 						if($row['headline_vip']!=1 || !strstr($row['cate_id'],$cate_id)){
 							$status=2;
 						}else{
-							$cache= E('RedisCluster',APP_LIB.'class');
+							$cache= E('RedisClusterServer',APP_LIB.'class');
 							$name=$row['user_id'].'_time_'.$cate_id;
 							$total_time=$cache->get($name);
 							if (empty($total_time)) {
@@ -268,7 +268,7 @@
 							// p($row['cate_id']);exit;
 							$status=2;
 						}else{
-							$cache= E('RedisCluster',APP_LIB.'class');
+							$cache= E('RedisClusterServer',APP_LIB.'class');
 							$name=$row['user_id'].'_time_'.$data['cate_id'];
 							$total_time=$cache->get($name);
 							if (empty($total_time)) {

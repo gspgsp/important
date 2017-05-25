@@ -55,7 +55,7 @@ class userAction extends baseAction
     {
         if ($_POST['mobile']) {
             //$cache = cache::startMemcache();
-            $cache         = E ('RedisCluster', APP_LIB.'class');
+            $cache         = E ('RedisClusterServer', APP_LIB.'class');
             $this->is_ajax = true;
             $mobile        = sget ('mobile', 's');
             if (!$this->_chkmobile ($mobile)) {
@@ -549,7 +549,7 @@ class userAction extends baseAction
                 if(empty($regcode)){
                     $this->error('请输入验证码');
                 }
-            $cache= E('RedisCluster',APP_LIB.'class');
+            $cache= E('RedisClusterServer',APP_LIB.'class');
             $code = $cache->get($key);
             if(empty($code))
             {
@@ -658,7 +658,7 @@ class userAction extends baseAction
      * @return bool
      */
     private function _appchkmcode($mcode='',$mobile=''){
-        $cache= E('RedisCluster',APP_LIB.'class');
+        $cache= E('RedisClusterServer',APP_LIB.'class');
         $name            = 'qapp_vcode_';
 
         $code = json_decode($cache->get($name.$mobile),true);

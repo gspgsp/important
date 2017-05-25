@@ -12,16 +12,16 @@ class indexAction extends homeBaseAction
 
     public function init()
     {
-        $RedisCluster = new RedisCluster();
-        $RedisCluster->set("aabbcc","123456");
-        $ss=$RedisCluster->get("aabbcc");
+        $RedisClusterServer = new RedisClusterServer();
+        $RedisClusterServer->set("aabbcc","123456");
+        $ss=$RedisClusterServer->get("aabbcc");
         p($ss);
-        $RedisCluster->lpush("rr","1");
-        $RedisCluster->lpush("rr","2");
-        $RedisCluster->lpush("rr","3");
-        p($RedisCluster->rpop("rr"));
-        p($RedisCluster->rpop("rr"));
-        p($RedisCluster->rpop("rr"));
+        $RedisClusterServer->lpush("rr","1");
+        $RedisClusterServer->lpush("rr","2");
+        $RedisClusterServer->lpush("rr","3");
+        p($RedisClusterServer->rpop("rr"));
+        p($RedisClusterServer->rpop("rr"));
+        p($RedisClusterServer->rpop("rr"));
 
 //         $cache=cache::startRedis();
 //         p($cache->get('aa'));

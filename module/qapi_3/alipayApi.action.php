@@ -5,7 +5,7 @@ class alipayApiAction extends null2Action{
     protected $aop,$cache;
 
     public function __init(){
-        $this->cache = E ('RedisCluster', APP_LIB.'class');
+        $this->cache = E ('RedisClusterServer', APP_LIB.'class');
         require_file(APP_LIB.'extend/alipay-sdk-PHP/AopSdk.php');
         $this->aop = new AopClient();
         $this->aop->gatewayUrl = 'https://openapi.alipaydev.com/gateway.do';

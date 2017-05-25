@@ -398,7 +398,7 @@
 
             $model = sget('model', 's');
             $f_id = sget('f_id', 'i');
-            $cache = E('RedisCluster', APP_LIB . 'class');
+            $cache = E('RedisClusterServer', APP_LIB . 'class');
             $cache_info = $cache->get('PRICE_CHART:' . $model . '_' . $f_id);
 
             if (!empty($cache_info) && !is_null($cache_info)) {

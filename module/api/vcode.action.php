@@ -81,7 +81,7 @@ class vcodeAction extends homeBaseAction
                   ));
         }
 
-        $cache= E('RedisCluster',APP_LIB.'class');
+        $cache= E('RedisClusterServer',APP_LIB.'class');
         $cache->set($key,$code,300);
 
         $this->json_output(array(
@@ -132,7 +132,7 @@ class vcodeAction extends homeBaseAction
             }
         }else{
             $this->is_ajax = 1;
-            $cache= E('RedisCluster',APP_LIB.'class');
+            $cache= E('RedisClusterServer',APP_LIB.'class');
             $code = $cache->get($key);
             if(empty($code))
             {

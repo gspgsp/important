@@ -12,7 +12,7 @@ class baseAction extends null2Action
     {
 
         $this->db    = M ('public:common');
-        $this->cache = E ('RedisCluster', APP_LIB.'class');
+        $this->cache = E ('RedisClusterServer', APP_LIB.'class');
         $this->cates = array(
             '21' => '期货资讯',
             '20' => '美金市场',

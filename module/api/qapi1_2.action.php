@@ -52,7 +52,7 @@ class qapi1_2Action extends null2Action
     public function __init ()
     {
         $this->db    = M ('public:common');
-        $this->cache = E ('RedisCluster', APP_LIB.'class');
+        $this->cache = E ('RedisClusterServer', APP_LIB.'class');
         $this->cates = array(
             '21' => '期货资讯',
             '20' => '美金市场',
@@ -175,7 +175,7 @@ class qapi1_2Action extends null2Action
     {
         if ($_POST['mobile']) {
             //$cache = cache::startMemcache();
-            $cache         = E ('RedisCluster', APP_LIB.'class');
+            $cache         = E ('RedisClusterServer', APP_LIB.'class');
             $this->is_ajax = true;
             $mobile        = sget ('mobile', 's');
             if (!$this->_chkmobile ($mobile)) {
