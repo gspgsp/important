@@ -4079,7 +4079,7 @@ class qapi1_2Action extends null2Action
 
     /**
      * APP检查更新接口
-     * @api {get} /api/api1_2/checkVersion APP检查更新接口
+     * @api {get} /api/qapi1_2/checkVersion APP检查更新接口
      * @apiVersion 3.0.0
      * @apiName  checkVersion
      * @apiGroup Common
