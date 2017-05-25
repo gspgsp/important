@@ -31,7 +31,7 @@
 					if($type=='pvc'){
 						$this->middleLeftBanner=$this->getAD(27);
 						$this->middleRightBanner=$this->getAD(28);
-					}
+					} 
 				}
 				// $this->cMiddleBanner=$this->getAD(16);
 				//前台显示星期
