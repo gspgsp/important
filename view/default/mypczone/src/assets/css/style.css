@@ -1,0 +1,9 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input,select,button,textarea{ margin:0; padding:0; border:0; outline:medium;}
+ul,ol,li{ list-style:none;}
+h1,h2,h3,h4,h5,h6{ font-weight:normal;}
+input,select,textarea{ color:#6d6d6d; font-size:14px; font-family:"微软雅黑"; outline:none;}
+html,body{ font-family:"微软雅黑"; font-size:14px; background:#f2f2f2; color:#6d6d6d; overflow:hidden;}
+
+a{ text-decoration:none;}
+.flt{ float:left;}
+.frt{ float:right;}

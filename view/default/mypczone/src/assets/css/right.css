@@ -1,0 +1,5 @@
+/*default begin*/
+.default{ width:440px; height:auto; overflow:hidden; margin:0 auto; margin-top:76px;}
+.default .default-top{ width:440px; height:170px; overflow:hidden; margin:0 0 64px 0;}
+.default .default-bot{ width:440px; height:188px; overflow:hidden;}
+.default .default-bot .opt{ width:220px; height:auto; overflow:hidden; margin:22px 0 0 0;}
