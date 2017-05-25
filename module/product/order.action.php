@@ -150,6 +150,7 @@ class orderAction extends adminBaseAction {
 		$where.=getTimeFilter($sTime); //时间筛选
 		//关键词搜索
 		$key_type=sget('key_type','s','order_sn');
+		$key_types=sget('key_types','s','y_code');
 		$keyword=sget('keyword','s');
 		//筛选战队
 		if($teamid = sget('team','i',0)){
@@ -164,19 +165,19 @@ class orderAction extends adminBaseAction {
 			$where.=" and `$key_type` in ($keyword) ";
 		}elseif(!empty($keyword) && $key_type=='remark'){
 			$where.=" and `tran_con_remark` like '%".$keyword."%'";
-		}elseif(!empty($keyword) && $key_type=='y_code'){//车号
+		}elseif(!empty($keyword) && $key_types=='y_code'){//车号
 			$oids = M('product:outStorage')->getColByName($keyword);
 			$where.=" and `o_id` in ($oids)";
-		}elseif(!empty($keyword) && $key_type=='y_driver'){
+		}elseif(!empty($keyword) && $key_types=='y_driver'){
 			$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_name');
 			$where.=" and `o_id` in ($oids)";
-		}elseif(!empty($keyword) && $key_type=='y_idcode'){
+		}elseif(!empty($keyword) && $key_types=='y_idcode'){
 			$oids = M('product:outStorage')->getColByName($keyword,'o_id','driver_idcard');
 			$where.=" and `o_id` in ($oids)";
-		}elseif(!empty($keyword) && $key_type=='m_code'){
+		}elseif(!empty($keyword) && $key_types=='m_code'){
 			$oids = M('product:outStorage')->getColByInfo($keyword,'ol.o_id','car_code');
 			$where.=" and `o_id` in ($oids)";
-		}elseif(!empty($keyword) && ($key_type=='m_driver' || $key_type=='m_idcode')){
+		}elseif(!empty($keyword) && $key_types=='m_driver'){
 			$oids = M('product:outStorage')->getColByInfo($keyword,'ol.o_id','driver');
 			$where.=" and `o_id` in ($oids)";
 		}elseif(!empty($keyword)){
