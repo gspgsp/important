@@ -111,7 +111,7 @@ class headlineAction extends adminBaseAction {
 			if ($result) {
 				$result=$this->db->model('customer_headline')->where('user_id='.$info['user_id'].' and cate_id='.$v3)->update(array('total_time'=>$info['total_time']));
 			}
-			$cache = E('RedisCluster',APP_LIB.'class');
+			$cache = E('RedisClusterServer',APP_LIB.'class');
 			$cache->delete($info['user_id'].'_time_'.$info['cate_id']);
 		}
 		if($result){

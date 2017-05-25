@@ -240,7 +240,7 @@ class billingAction extends adminBaseAction
 	//开票
 	public function transactionInfo(){
 		//开票表单验证token
-		$cache= E('RedisCluster',APP_LIB.'class');
+		$cache= E('RedisClusterServer',APP_LIB.'class');
 		$cache->set('billing_token',md5(rand(1,999)));
 		$o_id=sget('o_id','i',0);
 		if(empty($o_id)) $this->error('信息错误');
@@ -416,7 +416,7 @@ class billingAction extends adminBaseAction
 			//业务员提交申请开票
 
 			//验证token
-			$cache = E('RedisCluster',APP_LIB.'class');
+			$cache = E('RedisClusterServer',APP_LIB.'class');
 			$billing_token =$cache->get('billing_token');
 			if ($data['billing_token'] != $billing_token) $this->error("非法提交数据");
 			$cache->remove('billing_token');

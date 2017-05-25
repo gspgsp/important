@@ -114,7 +114,7 @@
 				//获取id，用来判断是更新数据还是添加数据
 				$id=sget('id','i');
 				$repeat=sget('repeat','i');
-				$cache= E('RedisCluster',APP_LIB.'class');
+				$cache= E('RedisClusterServer',APP_LIB.'class');
 				if($id>0){
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->wherePk($id)->update($data);

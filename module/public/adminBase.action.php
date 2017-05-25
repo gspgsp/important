@@ -12,7 +12,7 @@ class adminBaseAction extends action {
 		parent::__construct();
 		$this->sys=M('system:setting')->getSetting();
 
-		$this->cache= E('RedisCluster',APP_LIB.'class');
+		$this->cache= E('RedisClusterServer',APP_LIB.'class');
 		$_SESSION['depart']=($this->cache->get('depart_'.SESS_ID)==false?0:$this->cache->get('depart_'.SESS_ID));
 		$_SESSION['adminid']=($this->cache->get('adminid_'.SESS_ID)==false?0:$this->cache->get('adminid_'.SESS_ID));
 		$_SESSION['name']=($this->cache->get('name_'.SESS_ID)==false?0:$this->cache->get('name_'.SESS_ID));

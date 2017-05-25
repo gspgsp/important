@@ -33,7 +33,7 @@ class passAction extends action {
      */
     public function logout(){
         //  删除redis
-        $this->cache= E('RedisCluster',APP_LIB.'class');
+        $this->cache= E('RedisClusterServer',APP_LIB.'class');
         $this->cache->delete("depart_".SESS_ID);
         $this->cache->delete("adminid_".SESS_ID);
         $this->cache->delete("name_".SESS_ID);
@@ -99,7 +99,7 @@ class passAction extends action {
 		//用户成功登录
 		$this->_loginSuccess($user,1);
 		
-		$this->cache= E('RedisCluster',APP_LIB.'class');
+		$this->cache= E('RedisClusterServer',APP_LIB.'class');
 		$this->cache->set('userid_'.SESS_ID,$user);
 		
 		$this->setSession($user);
@@ -211,7 +211,7 @@ class passAction extends action {
 // 		$_SESSION['call_no']=$uinfo['call_no'];
 // 		$_SESSION['call_pwd']=$uinfo['call_pwd'];
 // 		$_SESSION['is_super']=$uinfo['is_super'];
-		$this->cache= E('RedisCluster',APP_LIB.'class');
+		$this->cache= E('RedisClusterServer',APP_LIB.'class');
 		$this->cache->set("depart_".SESS_ID,$uinfo['depart']);
 		$this->cache->set("adminid_".SESS_ID,$uinfo['admin_id']);
 		$this->cache->set("name_".SESS_ID,$uinfo['username']);

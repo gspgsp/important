@@ -117,7 +117,7 @@ class purchaseAction extends adminBaseAction {
 	public function graph(){
 	    $p_id=sget('p_id','i');
 	    $model=sget('model','s');
-	    $cache= E('RedisCluster',APP_LIB.'class');
+	    $cache= E('RedisClusterServer',APP_LIB.'class');
 	    $graph_cache = $cache->get('GRAPH_A:'.$p_id);
 	    if(!empty($graph_cache)){
 	        $data=json_decode($graph_cache,true);

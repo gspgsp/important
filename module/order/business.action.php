@@ -152,7 +152,7 @@
             $p_id = sget('p_id', 'i');
             $model = sget('model', 's');
             //启动redis缓存
-            $cache = E('RedisCluster', APP_LIB . 'class');
+            $cache = E('RedisClusterServer', APP_LIB . 'class');
             $graph_cache = $cache->get('GRAPH:' . $model . ":" . $type . ":" . $date_year);
             if (!empty($graph_cache) && !is_null($graph_cache)) {
                 $data = json_decode($graph_cache, true);
@@ -295,7 +295,7 @@
             $date_year = sget('date_year', 's');
             $p_id = sget('p_id', 'i');
             $model = sget('model', 's');
-            $cache = E('RedisCluster', APP_LIB . 'class');
+            $cache = E('RedisClusterServer', APP_LIB . 'class');
             $graph_cache = $cache->get('GRAPH_H:' . $model);
             if (!empty($graph_cache) && !is_null($graph_cache)) {
                 $data = json_decode($graph_cache, true);
@@ -414,7 +414,7 @@
         public function chart_year()
         {
             $model = sget('model', 's');
-            $cache = E('RedisCluster', APP_LIB . 'class');
+            $cache = E('RedisClusterServer', APP_LIB . 'class');
             $cache_info = $cache->get('CHART_YEAR:' . $model);
             if (!empty($cache_info) && !is_null($cache_info)) {
                 $year_list = json_decode($cache_info, true);
