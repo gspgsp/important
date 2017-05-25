@@ -218,9 +218,9 @@ class outStorageAction extends adminBaseAction {
 	 * [chkoutlog description]判断处理出库&关联入库详情
 	 * @Author   cuiyinming
 	 * @DateTime 2016-06-29T16:24:02+0800
-	 * @param    integer                  $number   [出库数量]
-	 * @param    integer                  $inlog_id [入库明细id]
-	 * @return   [type]                             [description]
+	 * @param    integer      $number   [出库数量]
+	 * @param    integer      $inlog_id [入库明细id]
+	 * @return   [type]       [description]
 	 */
 	private function chkoutlog($number=0,$inlog_id=0,$sale_id=0,$outlog_id=0,$storage_id=0,$chk=0,$ext=array(),$extends=array()){
 		//查询入库明细
