@@ -7,7 +7,7 @@
  *
  */
 
-class RedisCluster{
+class RedisClusterServer{
 	// 是否使用 M/S 的读写集群方案
 	private $_isUseCluster = false;
 	// Master 句柄标记

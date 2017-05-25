@@ -14,7 +14,7 @@ class pointsOrderModel extends Model
 
     public function get_supply_demand_top($goods_id)
     {
-        //$cache = E('RedisCluster', APP_LIB . 'class');
+        //$cache = E('RedisClusterServer', APP_LIB . 'class');
 
         $top = $this->getTookDate($goods_id);
         $today = date('Y-m-d');

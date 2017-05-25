@@ -7,7 +7,7 @@
 
 		//通过分类id来获取各自分类的文章
 		public function getIndex($type=''){
-			$cache= E('RedisCluster',APP_LIB.'class');
+			$cache= E('RedisClusterServer',APP_LIB.'class');
 			$name='news_'.$type;
 			if (empty($type)) {$name='news_public';}
 			$data=$cache->get($name);
@@ -101,7 +101,7 @@
 
 		//通过id获取文章详情
 		public function getNews($id){
-			$cache= E('RedisCluster',APP_LIB.'class');
+			$cache= E('RedisClusterServer',APP_LIB.'class');
 			$name='news_'.$id;
 			$data=$cache->get($name);
 			if (empty($data)) {

@@ -130,7 +130,7 @@ class sysSMSModel extends model{
     */
 	public function qAppDynamicCode($mobile,$stype=0){
 		//$cache=cache::startMemcache();
-		$cache= E('RedisCluster',APP_LIB.'class');
+		$cache= E('RedisClusterServer',APP_LIB.'class');
 		$mcode=$cache->get($mobile.'mcode');
 		$mctype=$cache->get($mobile.'mctype');
 		$mctime=$cache->get($mobile.'mctime');
@@ -188,7 +188,7 @@ class sysSMSModel extends model{
      */
 	public function qAppChkDynamicCode($mobile='',$mcode='',$stype=0){
 		//$cache=cache::startMemcache();
-		$cache= E('RedisCluster',APP_LIB.'class');
+		$cache= E('RedisClusterServer',APP_LIB.'class');
 		$mcode1=$cache->get($mobile.'mcode');
 		$mctype=$cache->get($mobile.'mctype');
 		$mctime=$cache->get($mobile.'mctime');
@@ -269,7 +269,7 @@ class sysSMSModel extends model{
 
 		//发送短信
 		$mcode=0;
-		$cache= E('RedisCluster',APP_LIB.'class');
+		$cache= E('RedisClusterServer',APP_LIB.'class');
 		$name            = 'qapp_vcode_';
 		$code = json_decode($cache->get($name.$mobile),true);
 		//有效期300秒

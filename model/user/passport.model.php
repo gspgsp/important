@@ -457,7 +457,7 @@ class passportModel extends model{
 				'type'=>$user['type'],
 				'invite_code'=>operationAlphaID($user_id,true),
 			) + (array)$uinfo;
-		$cache= new RedisCluster();
+		$cache= new RedisClusterServer();
 		$cache->set('userid_'.SESS_ID,$user_id);
 		$cache->set('uinfo_'.SESS_ID,json_encode($arr));
 		$_SESSION['userid']=$cache->get('userid_'.SESS_ID);

@@ -4,7 +4,7 @@ class newsModel extends model {
     //初始化模型
     public function __construct(){
         parent::__construct(C('db_default'),'news_content');
-        $this->cache= E('RedisCluster',APP_LIB.'class');
+        $this->cache= E('RedisClusterServer',APP_LIB.'class');
         $this->randomTime = mt_rand(10,20)*180;
     }
 

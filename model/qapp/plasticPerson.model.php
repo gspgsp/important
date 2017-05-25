@@ -215,7 +215,7 @@ class plasticPersonModel extends model
     public function getAllPlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
 
-        $cache = E ('RedisCluster', APP_LIB.'class');
+        $cache = E ('RedisClusterServer', APP_LIB.'class');
         $key0   = "AllPlasticPersonList".":".md5($keywords).":".$region;
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
@@ -416,7 +416,7 @@ class plasticPersonModel extends model
     //塑料圈塑料制品企业排序
     public function get1PlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
-        $cache = E ('RedisCluster', APP_LIB.'class');
+        $cache = E ('RedisClusterServer', APP_LIB.'class');
         $key0   = "1PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("1PlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
@@ -582,7 +582,7 @@ class plasticPersonModel extends model
     //塑料圈原材料供应商排序
     public function get2PlasticPerson ($user_id, $keywords, $page = 1, $size = 10, $region = 0)
     {
-        $cache = E ('RedisCluster', APP_LIB.'class');
+        $cache = E ('RedisClusterServer', APP_LIB.'class');
         $key0   = "2PlasticPersonList".":".md5($keywords).":".md5($region);
         //$cache->remove ("2PlasticPersonList".'-'.$keywords.'-'.$region);
         //缓存5分钟
