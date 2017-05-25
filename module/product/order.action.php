@@ -52,6 +52,49 @@ class orderAction extends adminBaseAction {
 		$this->display('order.list.html');
 	}
 	/**
+	 * 物流销售订单
+	 * @access public
+	 * @return html
+	 */
+	public function sale(){
+	    $saleurl=explode('/',$_SERVER['PHP_SELF']);//获取当前页面控制器名称
+	    $doact=sget('do','s');
+	    $action=sget('action','s');
+	    $order_type=sget('order_type','s');
+	    if($action=='grid'){ //获取列表
+	        $this->_grid();exit;
+	    }
+	    $this->assign('seestay',trim($saleurl[count($saleurl)-1]));
+	    $this->assign('order_type',1);
+	    $this->assign('order_sn',sget('order_sn','s'));
+	    $this->assign('o_ids',sget('o_ids','s'));
+	    $this->assign('unid',sget('unid','i',0));
+	    $this->assign('doact',$doact);
+	    $this->assign('page_title','订单管理列表');
+	    $this->display('order.list.html');
+	}
+	/**
+	 * 物流采购订单
+	 * @access public
+	 * @return html
+	 **/
+	public function buy(){
+	    $saleurl=explode('/',$_SERVER['PHP_SELF']);//获取当前页面控制器名称
+	    $doact=sget('do','s');
+	    $action=sget('action','s');
+	    $order_type=sget('order_type','s');
+	    if($action=='grid'){ //获取列表
+	        $this->_grid();exit;
+	    }
+	    $this->assign('seestay',trim($saleurl[count($saleurl)-1]));
+	    $this->assign('order_type',2);
+	    $this->assign('order_sn',sget('order_sn','s'));
+	    $this->assign('o_ids',sget('o_ids','s'));
+	    $this->assign('doact',$doact);
+	    $this->assign('page_title','订单管理列表');
+	    $this->display('order.list.html');
+	}
+	/**
 	 * @access public
 	 * @return html
 	 * 默认是采购订单
