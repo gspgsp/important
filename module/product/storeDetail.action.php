@@ -253,6 +253,11 @@ class storeDetailAction extends adminBaseAction {
 				$this->cache->delete($_key); //删除缓存
 				$this->db->model('order_flow')->where("`o_id` = $o_id and `type` =  1 and `step` = 0")->delete();
 			}
+			//处理信用额度------S
+			//采购单撤销入库，减去信用额度
+			$purchase_log_res = $this->db->model('purchase_log')->select('o_id,unit_price')->where('id='.$inlogs['purchase_id'])->getRow();
+            M('user:customer')->updateCreditLimit($purchase_log_res['o_id'],'-',$purchase_log_res['unit_price']*$inlogs['number']) OR $this->error('撤销入库信用额度更新失败');
+			//处理信用额度------E 
 		}
 		if($this->db->commit()){
 			$this->success('撤销成功');

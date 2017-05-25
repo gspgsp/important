@@ -820,6 +820,14 @@ class orderAction extends adminBaseAction {
 		} catch (Exception $e) {
 			$this->error($e->getMessage());
 		}
+		//处理信用额度------S
+		//销售单物流审核通过，减去信用额度
+		if($data['transport_status']==2){
+			$money = M('product:order')->getColByName($data['o_id'],'total_price');//订单总额
+            M('user:customer')->updateCreditLimit($data['o_id'],'-',$money) OR $this->error('物流审核信用额度更新失败');
+		}
+		//处理信用额度------E 
+		
 		//销售/采购 物流审核 处理订单业务员所在战队额度 -------S
 			if($data['transport_status']==2){ //审核通过后的处理
 				$order_type = M('product:order')->getColByName($data['o_id'],'order_type');//订单类型

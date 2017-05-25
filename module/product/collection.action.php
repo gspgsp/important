@@ -414,10 +414,6 @@ class collectionAction extends adminBaseAction
 
 				if($data['order_type']==1){   // 销售收款，收款需要加上手续费
 					if(!$this->db->model('company_account')->where('id='.$data['account'])->update("`sum`=sum+".($data['collected_price']+$data['handling_charge']).",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'")) $this->error("交易失败3");
-                    // ***********多笔付款 提升 可用额度**********************
-                    // $o_id 订单id; $data['finance'] 财务已审核状态； data['collected_price']；申请金额
-
-
 				}else{      // 采购付款
 					$money = $this->db->model('company_account')->where('id='.$data['account'])->select('sum')->getOne();
 					if ($data['collected_price']>$money) {
@@ -434,10 +430,16 @@ class collectionAction extends adminBaseAction
 						// }
 						M('order:orderLog')->sendMsg($data['o_id'],$data['order_type'],$ext);
 					}
-                    // ***********多笔付款 提升 可用额度**********************
-                    M('user:customer')->updateCreditLimit($data['o_id'],$data['finance'],'+',$data['collected_price']) OR $this->error('可用额度还原失败');
-
 				}
+				//处理信用额度------S
+				//销售财务记账增加额度,采购财务记账减去额度,
+				if($data['order_type']==1){
+                    M('user:customer')->updateCreditLimit($data['o_id'],'+',$data['collected_price']) OR $this->error('财务收款记账可用额度更新失败');
+				}else{
+                    M('user:customer')->updateCreditLimit($data['o_id'],'-',$data['collected_price']) OR $this->error('财务付款记账可用额度更新失败');
+				}
+				//处理信用额度------E
+				
 				//处理战队配资销售来款------S
 				// 销售收款,记账后，将该笔收款金额添加到对应业务员所在战队
 				if($data['order_type']==1){
@@ -631,9 +633,16 @@ class collectionAction extends adminBaseAction
 				}else{
 					$money = $this->db->model('company_account')->where('id='.$arr['account'])->select('sum')->getOne();
 					$this->db->model('company_account')->where('id='.$arr['account'])->update("`sum`=sum+".$arr['collected_price'].",`update_time`=".CORE_TIME.",`update_admin`='".$_SESSION['username']."'");
-                    //******红充（减掉 可用额度）*******
-                    M('user:customer')->updateCreditLimit($data['oid'],3,'-',$data['c_price']) OR $this->error('可用额度抵消失败');
 				}
+                //处理信用额度------S
+				//销售财务红冲扣减额度,采购财务红冲增加额度,
+				if($arr['order_type']==1){
+                    M('user:customer')->updateCreditLimit($arr['o_id'],'-',$arr['collected_price']) OR $this->error('财务收款红冲可用额度更新失败');
+				}else{
+                    M('user:customer')->updateCreditLimit($arr['o_id'],'+',$arr['collected_price']) OR $this->error('财务付款红冲可用额度更新失败');
+				}
+				//处理信用额度------E   
+
 				//战队配资--红冲处理------S
 				//红冲后将对应的金额回退（采购付款）/扣除（销售收款）到相应的业务员所在战队中
 				$team_capital = M('rbac:adm')->getThisMonthTemaCapitalByCustomer($arr['customer_manager']);

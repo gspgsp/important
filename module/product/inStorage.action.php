@@ -130,6 +130,10 @@ class inStorageAction extends adminBaseAction {
 			}else{//不存在就add
 				$this->db->model('store_product')->add($input_store+$basic_info);
 			}
+			//处理信用额度------S
+			//采购单入库，增加信用额度
+            M('user:customer')->updateCreditLimit($v['o_id'],'+',$v['unit_price']*$v['in_number']) OR $this->error('入库信用额度更新失败');
+			//处理信用额度------E 
 		}
 		//查询订单中明细状态是否存在有部分入库的
 		if( $this->db->model('purchase_log')->where(' o_id = '.$_data['o_id'].' and in_storage_status < 3')->getOne() ){

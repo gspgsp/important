@@ -61,6 +61,12 @@ class orderInvalidAction extends adminBaseAction {
         //入库
         if($order_res['order_type'] == 2 && $order_res['in_storage_status'] != 1) $this->error('该订单的入库状态尚未处理完毕，订单作废失败！'); 
         $this->db->startTrans(); //开启事务
+        //处理信用额度------S
+        //销售单作废，增加信用额度
+        if($order_res['order_type']==1){
+            M('user:customer')->updateCreditLimit($order_res['o_id'],'+',$order_res['total_price']) OR $this->error('销售单作废信用额度更新失败');
+        }
+        //处理信用额度------E 
         //作废处理规则，销售单作废：现销现采，un_pur = 0，不同战队---回销扣采
         //作废处理规则，销售单作废：现销现采，un_pur = 1,有采购，采购双审，不同战队---回销扣采
         //作废处理规则，销售单作废：销库存，不同战队---回销扣采
