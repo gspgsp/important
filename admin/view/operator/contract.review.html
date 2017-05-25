@@ -1,0 +1,116 @@
+{layout file="public:mini_layout"}
+<div id="admInfo" title="" style="padding:50px;" showModal="true" allowResize="true" allowDrag="true">
+  <div id="addForm" class="form" >
+              <table style="width:100%;">
+							<tr >
+								<td colspan="3" align="center"><h1>运输合同书</h1></td>
+							</tr>
+							<tr height="20"><td>&nbsp;</td></tr>
+							<tr>
+								<td align="left"width="80" height="20">甲方(委托方)：{$info.order_name}</td>
+								<td align="right"width="505" height="20">合同日期：{$info.contract_time}</td>
+							</tr>
+							<tr>
+								<td align="left"width="80" height="20">乙方(承运方)：{$info.supplier_name}</td>
+								<td align="right"width="505" height="20">签约地点：上海虹口欧阳路568号17楼</td>
+							</tr>
+							<tr  align="center">
+								<td height="20"></td>
+							</tr>
+							<tr>
+								<td width="100" height="20" style="line-height:20px;width:100">一、货物牌号 : {$info.goods_class}</td>
+							</tr>
+							<tr>
+								<td width="100" height="20" style="line-height:20px;width:100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;货物数量 : {$info.goods_num} 吨</td>
+							</tr>
+							<tr>
+								<td width="30"  height="20" style="line-height:20px;">二、提货地点：{$info.start_place}</td>
+							</tr>
+							<tr>
+								<td width="505"  height="20" style="line-height:20px;">三、送货地点：{$info.end_place}</td>
+							</tr>
+							<tr>
+								<td width="30" height="20" style="line-height:20px;">四、送货日期：{$info.delivery_time}</td>
+							</tr>				
+							<tr>
+								<td width="800" height="20" style="line-height:20px;">五、合同责任：乙方必须于甲方的指定期限内，将货物送到甲方的指定地点。</td>
+							</tr>				
+							<tr>
+								<td width="100" height="20" style="line-height:20px;">六、注意事项：</td>								
+							</tr>						
+							<tr>
+								<td width="665" height="20" style="line-height:20px;"colspan="5" >乙方必须保证甲方的货物，安全、无破损、无潮湿、无变质等情况。
+			    若出现以上情况，乙方必须负责赔偿甲方的损失。</td>
+							</tr>						
+							<tr>
+								<td width="30" height="20" style="line-height:20px;">七、备注：合同传真件有效。</td>
+							</tr>
+							 <tr>
+								<td width="30" height="20" style="line-height:20px;">八、车号：</td>
+							</tr>
+			                 <tr>
+								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;司机姓名：</td>
+							 </tr>
+			                 <tr>
+								<td width="30" height="20" style="line-height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证号码：</td>
+							</tr>							
+							<tr>
+								<td width="30" height="20" style="line-height:20px;">九、运输费用(含税)：{$info.delivery_fee_details}</td>
+							</tr>
+        			    <tr  align="left">
+        								<td height="20"></td>
+        							</tr>
+        				<tr>
+        				<td height="20" style="line-height:20px;" width="110">甲方</td>
+        				<td height="20" style="line-height:20px;"  width="110">乙方</td>      
+        			   </tr>
+        			   <tr>
+        				<td height="20" style="line-height:20px;" width="110">TEL：{$info.first_part_contact_tel}</td>
+        				<td height="20" style="line-height:20px;" width="110">TEL：{$info.second_part_contact_tel}</td>
+        				<td align="left"></td>
+        			   </tr>
+        			   <tr>
+        				<td height="20" style="line-height:20px;" width="110">FAX：{$info.first_part_contact_fax}</td>
+        				<td height="20" style="line-height:20px;" width="110">FAX：{$info.second_part_contact_fax}</td>
+        				<td align="left"></td>
+        			</tr> 
+        			<tr>
+        				<td height="20" style="line-height:20px;" width="110">委托代理人：{$info.first_part_contact_name}</td>
+        				<td height="20" style="line-height:20px;" width="110">委托代理人：{$info.contact_name}</td>
+        				<td align="left"></td>
+        			</tr>
+        			<tr>
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm(logistics_contract_id={$logistics_contract_id},status=3)">审核通过</a>
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm(logistics_contract_id={$logistics_contract_id},status=2)">审核不通过</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			</tr> 
+        </table>   
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();//把html标签解析成miniui控件对象
+var form = new mini.Form("#addForm");//加载表单数据
+//运输合同审核状态修改
+function submitForm(logistics_contract_id,status) {
+	var o = logistics_contract_id,b=status,a="{$info.order_sn}",c={$info.o_id},d={$info.goods_num};
+	$.post('/operator/contract/change_status',{logistics_contract_id:o,status:b,order_sn:a,o_id:c,goods_num:d},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

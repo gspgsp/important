@@ -1,0 +1,35 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+#infoForm{margin:0px auto; padding:6px; width:1200px;}
+table{border-collapse: collapse; text-align: center;}
+td{width:60px;border:1px solid #ccc;}
+#head td{font-weight:bold;}
+</style>
+<form id="infoForm">
+	<table style="width:100%;">				
+		<tr id="head">	
+			<td>ID</td>
+			<td>客户名称</td>
+			<td>手机</td>
+			<td>销售员</td>
+			<td>起始时间</td>
+			<td>结束时间</td>
+			<td>分类名称</td>
+			<td>到期时间</td>	
+		</tr>
+		{if $data}
+		{foreach from=$data item=v}	
+		<tr>
+			<td>{$v[id]}</td>
+			<td>{$v[c_name]}</td>
+			<td>{$v[mobile]}</td>
+			<td>{$v[sale_name]}</td>
+			<td>{$v[start_time]|date:Y-m-d H:i:s}</td>
+			<td>{$v[end_time]|date:Y-m-d H:i:s}</td>
+			<td>{$v[cate_name]}</td>
+			<td>{$v[total_time]|date:Y-m-d H:i:s}</td>
+		</tr>				
+		{/foreach}
+		{/if}
+	</table>
+</form>

@@ -1,0 +1,36 @@
+{layout file="public:mini_layout"}
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true" url="/user/plastic/getCompanys?action=company&cids={$cids}" idField="c_id">
+        <div property="columns">
+            <div type="checkcolumn"></div>
+            <div field="c_id" width="100" headerAlign="center">ID</div>
+            <div field="c_name" width="200" headerAlign="center">公司名字</div>
+            <div field="status" width="60" headerAlign="center" align="center">状态</div>
+        </div>
+    </div>
+</div>
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+        <a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+        <span style="display:inline-block;width:25px;"></span>
+        <a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+function CloseWindow(action) {
+    if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+    else window.close();
+}
+function onComfirm() {
+    CloseWindow("ok");
+}
+function onCancel() {
+    CloseWindow("cancel");
+}
+function GetData() {
+    var row = grid.getSelected();
+    return row;
+}
+</script>

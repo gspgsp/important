@@ -1,0 +1,50 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="float:right;">
+				<form id="soform">
+					访问时间：
+					<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+					<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+					<select name="key_type">
+						<option value="name">姓名</option>
+						<option value="mobile">手机</option>
+					</select>       
+					<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+					<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+					<span id="searchMsg"></span>
+				</form>
+			</td>
+		</tr>
+	</table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+		url="/report/logChanel/newsMonitor?action=grid" onrowdblclick="onRowDblClick" showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"  contextMenu="#gridMenu" headerContextMenu="#headerMenu">
+		<div property="columns">
+			<div type="checkcolumn" width="20"></div>
+			<div field="id" width="20" headerAlign="center" align="center">访问ID</div>
+			<div field="name" width="30" headerAlign="center" align="center">联系人</div>
+			<!-- <div field="c_name" width="80" headerAlign="center" align="center">公司</div> -->
+			<div field="mobile" width="40" headerAlign="center" align="center">手机号</div>
+			<div field="platform" width="20" headerAlign="center" align="center">来源</div>
+			<div field="url" width="60" headerAlign="center" align="center">访问网址</div>
+			<div field="input_time" width="60" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center" allowSort="true">访问时间</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+</script>
+

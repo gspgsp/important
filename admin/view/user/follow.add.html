@@ -1,0 +1,118 @@
+{layout file="public:mini_layout"}
+<div id="admInfo" title="新增客户跟进" style="padding:5px;" showModal="true" allowResize="true" allowDrag="true">
+  <div id="addForm" class="form" >
+  		<input class="mini-hidden" name="cid"  value="{$c_id}"/>
+		<table style="width:100%;">
+			{if $c_id eq 0}
+			<tr>
+				<td>客户名称<span style="color:red">*</span></td>
+				<td><input name="c_id" class="mini-buttonedit" onbuttonclick="usrChoose" textField="c_name" valueField="c_id"  value="setValue" allowInput="false"  style="width:90px" id="usrId"/></td>
+			</tr>
+			<tr>
+				<td>联系人<span style="color:red">*</span></td>
+				<td><input id="name" name="user_id" class="mini-combobox" textField="name" valueField="user_id"  style="width:90px;" required="true"/></td>
+			</tr>
+			{else}
+			<tr>
+				<td>联系人<span style="color:red">*</span></td>
+				<td><input name="user_id" class="mini-combobox" textField="name" valueField="id" data='{:setMiniConfig|$arr}'
+				  style="width:90px;" required="true"/></td>
+			</tr>
+			{/if}
+			<tr>
+				<td>跟进方式<span style="color:red">*</span></td>
+				<td><input name="follow_up_way" class="mini-combobox" data='{:setMiniConfig|$follow_up_way}' textField="name" value="2" valueField="id" style="width:90px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>跟进时间<span style="color:red">*</span></td>
+				<td><input name="follow_time" class="mini-datepicker" value="{:date|'Y-m-d H:i:s'}" style="width:170px;" format="yyyy-MM-dd HH:mm" showTime="true" required="true"/></td>
+			</tr>
+			<tr>
+				<td>下次跟进时间<span style="color:red">*</span></td>
+				<td><input name="next_follow_time" class="mini-datepicker" value="{$next_follow|date:Y-m-d H:i:s}" style="width:170px;" format="yyyy-MM-dd HH:mm" showTime="true" required="true"/></td>
+			</tr>
+			<tr>
+				<td>跟进内容<span style="color:red">*</span></td>
+				<td><input name="remark" class="mini-textarea" style="width:170px; height:100px;" required="true"/></td>
+			</tr>
+			<tr>
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+
+//增加客户跟进后提交数据(保存)
+function submitForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var f_time = Date.parse(new Date(o.follow_time));
+	var n_time = Date.parse(new Date(o.next_follow_time));
+	if (n_time<f_time) {alert("跟进时间不正确");return;};
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/user/follow/ajaxSave',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+
+function GetData() {
+	var row = form.getSelected();
+	return row;
+}
+
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+	var cname = mini.get("name");
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+					cname.load('/user/follow/get_contact_list?c_id='+data.c_id);
+				}
+			}
+		}
+	});
+}
+
+
+</script>

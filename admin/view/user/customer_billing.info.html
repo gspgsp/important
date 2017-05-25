@@ -1,0 +1,41 @@
+{layout file="public:mini_layout"}
+<div id="billingInfo"  title="增加开票资料" showModal="true" allowResize="true" allowDrag="true">
+	<div id="addForm" class="form" >
+		<table style="width:100%;padding:15px;">
+			<tr>
+				<td style="width:100px;">客户名称：</td>
+				<td>{$info.c_name}</td>
+			
+			</tr>
+			<tr>
+				<td style="width:100px;">纳税识别号：</td>
+				<td>{$info.tax_id}</td>
+			</tr>
+			
+			<tr>
+				<td style="width:100px;">开票电话：</td>
+				<td>{$info.invoice_tel}</td>
+			</tr>
+			<tr>
+				<td style="width:100px;">开票银行：</td>
+				<td>{$info.invoice_bank}</td>
+			</tr>
+			<tr>
+				<td style="width:100px;">开票帐号：</td>
+				<td>{$info.invoice_account}</td>
+			</tr>
+			<tr>
+				<td style="width:100px;">开票地址：</td>
+				<td>{$info.invoice_address}</td>
+			</tr>
+			<tr>
+				<td style="width:100px;">邮寄地址：</td>
+				<td>{$info.ems_address}</td>
+			</tr>
+			<tr>
+				<td style="width:100px;">传真：</td>
+				<td>{$info.fax}</td>
+			</tr>
+		</table>
+	</div>
+</div>

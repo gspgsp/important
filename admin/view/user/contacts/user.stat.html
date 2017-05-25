@@ -1,0 +1,72 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            <form id="soform">
+            	<select name="rec_type" class="mini-combobox" style="width:80px;" value="num_total">
+                    <option value="num_total">名单总数</option>
+                    <option value="num_user">注册个数</option>
+                </select>   
+                <input name="rec_start" class="mini-textbox" style="width:50px;"/>   
+                ~ <input name="rec_end" class="mini-textbox" style="width:50px;"/>   
+            	<select name="key_type" class="mini-combobox" style="width:100px;" value="u.user_id">
+                    <option value="u.user_id">导入UID</option>
+                    <option value="m.mobile">导入手机号</option>
+                    <option value="rec_uid">名单UID</option>
+                    <option value="rec_mobile">名单手机</option>
+                </select>   
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                        <span id="searchMsg"></span></form>
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/user/userContacts/init?action=grid" onrowdblclick="onRowDblClick">
+        <div property="columns">    
+          <div type="indexcolumn" width="25"></div>
+      	  <div name="action" width="25" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>
+          <div field="user_id" width="40" headerAlign="center" align="center" renderer="onLoadUinfo">用户ID</div>
+          <div field="mobile" width="40" headerAlign="center" align="center">手机号</div>
+          <div field="user_name" width="40" headerAlign="center" align="center">姓名</div>
+          <div field="num_total" width="40" align="center" headerAlign="center" allowSort="true">名单总数</div>
+          <div field="num_user" width="40" align="center" headerAlign="center" allowSort="true">会员数</div>
+          <div field="input_time" width="120" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">更新时间</div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+
+function onRowDblClick(e) {
+	view();
+}
+//加载：追加按钮
+function onLoadHandle(e) {
+	var record = e.record; //record.id
+	if(record.is_super=='1'){
+		return '-';
+	}
+	return '<a href="javascript:view()">名单</a> ';
+}
+
+function view(){
+	var row = grid.getSelected();
+	if (row) {
+		var width=900,height=500,title='通讯录名单';
+		mini.open({
+			url: "/user/userContacts/lists?uid="+row.user_id,
+			showMaxButton:true,
+			title: title, width: width, height:height
+		});	
+	}
+}
+</script>

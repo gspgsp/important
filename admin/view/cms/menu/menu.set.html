@@ -1,0 +1,736 @@
+{layout file="public:main_layout"}
+{insert_css files='set_reply.css?,set_menu.css?v'}
+<div id="containWrap" class="containWrap">
+	<div id="side_menu">
+		<h2><span>菜单设置</span><span class="add_lv_menu" data-curMark="1">+</span></h2>
+		<div class="smenuItem" id="menu_1" {if !$menu1}style="display:none;"{/if}>
+			<form method="post" id="menu1">
+			<h3 data-tab="{$menu1[main].id}" data-mark="1">
+				<a href="javascript:void(0)">
+					<span data-menu="{if $menu1[main][id]}{$menu1[main][id]}{else}m10{/if}">{if $menu1[main][name]}{$menu1[main][name]}{else}菜单栏1{/if}</span>
+					<span class="add_menu" data-count="11">+</span>
+				</a>
+			</h3>
+			<ul class="sub_menu_item" id="sub_menu_1">
+			{foreach from=$menu1 key=k item=v}
+				{if $v[level] neq 1}
+					<li class="" data-tab="{$k}" data-mark="1">
+						<a href="javascript:void(0)"><span data-menu="{$v[id]}">{$v[name]}</span></a>
+						<input type="hidden" name="m{$v[level]}" value="" data-key="{$v[keyname]}" data-type="{$v[type]}" data-name="{$v[name]}" data-mid="{$v[level]}" data-level="{$v[level]}" data-id="{$v.id}" data-tid="{$v[menu_string][reply]}"/>
+					</li>
+				{/if}
+			{/foreach}
+			</ul>
+			<input type="hidden" name="m10" value="{$menu1[count]}" data-key="{$menu1[main][keyname]}" data-name="{$menu1[main].name}" data-type="{$menu1[main].type}" data-level="{$menu1[main][level]}" data-mid="{if $menu1[main][id]}{$menu1[main][id]}{else}m10{/if}" data-id="{$menu1[main].id}" data-tid="{$menu1[main][menu_string][reply]}" />
+			</form>
+		</div>
+		<div class="smenuItem" id="menu_2" {if !$menu2}style="display:none;"{/if}>
+			<form method="post" id="menu2">
+			<h3 data-tab="{$menu2[main][id]}" data-mark="2">
+				<a href="javascript:void(0)">
+					<span data-menu="{if $menu2[main][id]}{$menu2[main][id]}{else}m20{/if}">{if $menu2[main][name]}{$menu2[main][name]}{else}菜单栏2{/if}</span>
+					<span class="add_menu" data-count="21">+</span>
+				</a>
+			</h3>
+			<ul class="sub_menu_item" id="sub_menu_2">
+			{foreach from=$menu2 key=k item=v}
+				{if $v[level] neq 1}
+					<li class="" data-tab="{$k}" data-mark="2">
+						<a href="javascript:void(0)"><span data-menu="{$v[id]}">{$v[name]}</span></a>
+						<input type="hidden" name="m{$v[level]}" value="" data-key="{$v[keyname]}" data-type="{$v[type]}" data-name="{$v[name]}" data-mid="{$v[level]}" data-level="{$v[level]}" data-id="{$v.id}" data-tid="{$v[menu_string][reply]}" />
+					</li>
+				{/if}
+			{/foreach}
+			</ul>
+			<input type="hidden" name="m20" value="{$menu2[count]}" data-key="{$menu2[main][keyname]}" data-type="{$menu2[main][type]}" data-name="{$menu2[main][name]}" data-level="{$menu2[main][level]}" data-mid="{if $menu2[main][id]}{$menu2[main][id]}{else}m20{/if}" data-id="{$menu2[main].id}" data-tid="{$menu2[main].menu_string.reply}" />
+			</form>
+		</div>
+		<!-- 菜单1 -->
+		<div class="smenuItem" id="menu_3" {if !$menu3}style="display:none;"{/if}>
+			<form method="post" id="menu3">
+			<h3 data-tab="{$menu3[main][id]}" data-mark="3">
+				<a href="javascript:void(0)">
+					<span data-menu="{if $menu3[main][id]}{$menu3[main][id]}{else}m30{/if}">{if $menu3[main][name]}{$menu3[main][name]}{else}菜单栏3{/if}</span>
+					<span class="add_menu" data-count="31">+</span>
+				</a>
+			</h3>
+			<ul class="sub_menu_item" id="sub_menu_3">
+			{foreach from=$menu3 key=k item=v}
+				{if $v[level] neq 1}
+				<li class="" data-tab="{$k}" data-mark="3">
+					<a href="javascript:void(0)"><span data-menu="{$v[id]}">{$v[name]}</span></a>
+					<input type="hidden" name="m{$v[level]}" value="" data-key="{$v[keyname]}" data-type="{$v[type]}" data-name="{$v[name]}" data-mid="{$v[level]}" data-level="{$v[level]}" data-id="{$v.id}" data-tid="{$v.menu_string.reply}"/>
+				</li>
+				{/if}
+			{/foreach}
+			</ul>
+			<input type="hidden" name="m30" value="{$menu3[count]}" data-key="{$menu3[main][keyname]}" data-type="{$menu3[main][type]}" data-name="{$menu3[main][name]}" data-level="{$menu3[main][level]}" data-mid="{if $menu3[main][id]}{$menu3[main][id]}{else}m30{/if}" data-id="{$menu3[main].id}" data-tid="{$menu3[main].menu_string.reply}" />
+			</form>
+		</div>
+    </div>
+	<div id="c_ctx">
+		<h2 class="ctx_header">
+			<span class="ctx_title"><var data-lv="1">一级</var>菜单：<span data-menu="m10"></span></span>
+			<span class="ctx_operate"><a href="javascript:void(0)" data-op="m10" id="rename_menu">重命名</a><span class="ctx_operate"><a href="javascript:void(0)" data-op="m10" id="drop_menu">下架</a><a href="javascript:void(0)" data-op="m10" id="del_menu">删除</a></span>
+		</h2>
+		<div class="s_item">
+			<!-- 一级菜单模板 -->
+			<div id="setMain" data-item="m10" class="mp_item" style="display:;">
+				<!--
+				<div class="set_menu_name" id="mmenu_name" style="display:none;">
+					请设置菜单名称（4个汉字或者8个字母以内）<br />
+					<input type="text" name="name" data-pid="m10" class="com_input" /><br />
+					<span class="submit_mname" id="submit_mname">确定</span>
+				</div>
+				-->
+				<div class="nochild" style="display:none;">
+					<p>请设置菜单“<var data-menu="m10"></var>”的内容</p>
+					<ul class="sitem_operate">
+						<li id="add_smenu">
+							<i class="icon_smenu" data-mark="" data-count=""></i><br/>
+							添加二级菜单
+						</li>
+						<li class="lv_operate" data-type="click" data-op="m10">
+							<i class="icon_addevent"></i><br/>
+							添加事件
+						</li>
+						<li class="lv_operate" data-type="view" data-op="m10">
+							<i class="icon_addlink"></i><br/>
+							添加链接
+						</li>
+					</ul>
+				</div>
+				<div class="data_ctx menu_first_box" style="display:none;">
+					<p>请输入跳转链接地址</p>
+					<div class="link_box">
+						<input type="text" name="keyname" data-m="m10" mtype="2" class="sub_button" />
+                        <span class="auth_link"><input type="checkbox" data-op="" class="auth_check" /><label>加授权</label></span>
+					</div>
+					<span class="submit_mbutton" id="submit_mbutton">确定</span>
+					<a href="javascript:void(0)" class="editback">重选类型</a>
+				</div>
+				<div class="reply_view news_list" style="width:96%; display:none;">
+					<h3>回复内容</h3>
+					<table class="reply_rlist">
+						<colgroup>
+							<col width="60px" />
+							<col width="60px" />
+							<col width="240px" />
+							<col width="60px" />
+						</colgroup>
+						<tr id="rtable_title">
+							<th>模板序号</th>
+							<th>回复类型</th>
+							<th>回复描述</th>
+							<th>编辑</th>
+						</tr>
+						<tr>
+							<td><span mdata="id"></span></td>
+							<td><span mdata="template_type"></span></td>
+							<td><div mdata="views"></div></td>
+							<td><a href="javascript:void(0)" class="editEvent" data-op="">编辑</a><a href="javascript:void(0)" class="editback" data-op="">重选类型</a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!-- 二级菜单模板 -->
+			<div id="setItem" data-item="m11" class="mp_item" style="display:none;">
+				<div class="nochild" style="display:none;">
+					<p>请设置菜单“<var data-menu="m10"></var>”的内容</p>
+					<ul class="sitem_operate">
+						<li class="lv_operate" data-type="click" data-op="m10">
+							<i class="icon_addevent"></i><br/>
+							添加事件
+						</li>
+						<li class="lv_operate" data-type="view" data-op="m10">
+							<i class="icon_addlink"></i><br/>
+							添加链接
+						</li>
+					</ul>
+				</div>
+				<div class="data_ctx menu_second_box" style="display:none;">
+					<p>请输入跳转链接地址</p>
+					<div class="link_box">
+						<input type="text" name="keyname" data-m="m11" mtype="2" class="sub_button" />
+                        <span class="auth_link"><input type="checkbox" class="auth_check" data-op="" /><label>加授权</label></span>
+					</div>
+					<span class="submit_tbutton" id="submit_tbutton">确定</span>
+					<a href="javascript:void(0)" class="editback">重选类型</a>
+				</div>
+				<!-- 回复预览 -->
+				<div class="reply_view news_list" style="width:96%; display:none;">
+					<h3>回复内容</h3>
+					<table class="reply_rlist">
+						<colgroup>
+							<col width="60px" />
+							<col width="60px" />
+							<col width="240px" />
+							<col width="60px" />
+						</colgroup>
+						<tr id="rtable_title">
+							<th>模板序号</th>
+							<th>回复类型</th>
+							<th>回复描述</th>
+							<th>编辑</th>
+						</tr>
+						<tr>
+							<td><span mdata="id"></span></td>
+							<td><span mdata="template_type"></span></td>
+							<td><span mdata="views"></span></td>
+							<td><a href="javascript:void(0)" class="editEvent" data-op="">编辑</a><a href="javascript:void(0)" class="editback" data-op="">重选类型</a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="saveMenu">
+	<span id="postMenu" class="postMenu">发布到服务号</span>
+	<span id="postSubMenu" class="postMenu">发布到订阅号</span>
+	<span id="viewMenu" class="viewMenu">预览</span>
+</div>	
+<script>
+mini.parse();
+function tipsShow($msg) {
+	mini.confirm($msg.msg, "提示",	function(action){
+			if(action=='ok'){
+				return;
+			};
+		}
+	);
+}
+// 编辑事件菜单
+function editevent(id,url){
+	var position=$("#soPosition").val();
+	if(id==0 && position==''){
+		alert("请选择栏目")
+		return false;
+	}
+	var m_name = $("[data-id="+id+"]").attr("data-name");
+	var mark = $("[data-tab="+id+"]").attr("data-mark");
+	var rlevel = $("[data-id="+id+"]").attr("data-level");
+	
+	mini.open({
+		url: url+"?level="+rlevel+"&id="+id+"&mark="+mark+"&name="+m_name,
+		showMaxButton:true,
+		title: '选择事件按钮“'+m_name+'”的回复内容', width: 900, height:550,
+		ondestroy: function (action) {
+			if(action&&action.msg=='save'){ //重新加载
+				$("[data-id="+id+"]").attr("data-tid",action.reply);
+				$("[data-id="+id+"]").attr("data-key",action.keyname);
+				$("[data-id="+id+"]").attr("data-type",3);
+			}
+			$("[data-tab="+id+"]").click();
+		}
+	});		
+}
+//创建和重命名菜单level:菜单等级，id:菜单id,ele:当前添加按钮元素
+function createNew(url,level,id,ele){
+	var mark='',type,keyname,name;
+	if(ele){
+		mark   = parseInt($(ele).parents("[data-mark]").attr("data-mark"));
+	}else{
+		mark   = parseInt($("[data-curMark]").attr("data-curMark"));
+	}
+	id    = id ||'';
+	var rlevel = (level%10==0?1:2);
+	var b_attr = level;
+	var m_cur  = Math.floor(b_attr/10);
+	// id存在，直接通过id赋值
+	if(id){
+		mark    = $("[data-tab="+id+"]").attr("data-mark");
+		type    = $("[data-id="+id+"]").attr("data-type");
+		level   = $("[data-id="+id+"]").attr("data-level");
+		name   = $("[data-id="+id+"]").attr("data-name");
+		keyname   = $("[data-id="+id+"]").attr("data-key");
+	}
+	var str = (type?"&type="+type:"")+(name?"&name="+name:"")+(keyname?"&keyname="+keyname:"");
+	mini.open({
+		url: url+"?level="+rlevel+"&id="+id+"&mark="+mark+str,
+		showMaxButton:true,
+		title: '输出菜单名称', width: 400, height:200,
+		ondestroy: function (action) {
+			if(action&&action.msg=='save'){ //重新加载
+				// 创建一级菜单
+				if(b_attr%10==0){
+					$("#menu_"+mark).show();
+					$("[data-mid=m"+(mark*10)+"]").attr("data-id",action.id);
+					$("[data-mid=m"+(mark*10)+"]").attr("data-name",action.name);
+					$("[data-mid=m"+(mark*10)+"]").attr("data-level",1);
+					
+					$("#menu_"+mark+" h3").attr("data-tab",action.id);
+					$("[data-menu=m"+(mark*10)+"]").html(action.name);
+					checkMark();
+				}else{
+					var mli = document.createElement("li");
+						mli.setAttribute("data-tab",action.id);
+						mli.setAttribute("data-mark",mark);
+					var str = "<a href='javascript:void(0)'><span data-menu='"+b_attr+"'>"+action.name+"</span></a>";
+						str += "<input type='hidden' name='m"+action.level+"' value='' data-key='' data-name='"+action.name+"' data-type='' data-mid='"+action.level+"' data-level='2' data-id='"+action.id+"' data-tid='"+(action.reply?action.reply:'')+"' />"; 
+						mli.innerHTML = str;
+					
+					$("#menu_"+m_cur).show();
+					
+					$(ele).parents(".smenuItem").find("ul").append(mli);
+					$(ele).parents(".smenuItem").find("ul").show();
+					$("#setMain").hide();
+					$("#setItem").show();
+					$("#tmenu_name").show();
+					$("#setItem .nochild").hide();
+					
+					$("#setItem [data-id]").attr("data-id","m"+b_attr);
+					$("#setItem [data-m]").attr("data-m","m"+b_attr);
+					
+					//绑定事件
+					bindEvent();
+					//切换菜单
+					$(mli).click();
+					
+					//重新编辑菜单
+					var pid   = $("[data-tab="+action.id+"]").parents(".smenuItem").find("h3").attr("data-tab"); //获取父级菜单的id
+					var ptype = $("[data-id="+pid+"]").attr("data-type");
+					//如果type不为1(sub_button)
+					if(ptype!=1){
+						editMenu(pid,1);
+					}
+				}
+			}else if(action&&action.msg=='edit'){
+				// 重命名
+				$("[data-id="+id+"]").attr("data-name",action.name);
+				$("[data-menu="+id+"]").html(action.name);
+				$("[data-tab="+id+"]").click();
+			}
+		}
+	});		
+}
+
+function complete(){
+	
+}
+$(".editback").click(function(){
+	//tipsShow({'msg':'重选类型将销毁该菜单，是否继续'});
+	$(this).parents(".mp_item").find(".nochild").show();
+	$(this).parents(".mp_item").find(".nochild .lv_operate").show();
+	$(this).parents(".mp_item").find(".reply_view").hide();
+	$(this).parents(".mp_item").find(".data_ctx").hide();
+});
+
+function checkMark(){
+	if(!$("[data-mark=1]").is(":visible")){
+		$("[data-curMark]").attr("data-curMark",1);
+	}else if(!$("[data-mark=2]").is(":visible")){
+		$("[data-curMark]").attr("data-curMark",2);
+	}else{
+		$("[data-curMark]").attr("data-curMark",3);
+	}
+}
+checkMark();
+		var creatKey = {
+			'k1' : "{$menu1[main][name]}"||false,
+			'k2' : "{$menu2[main][name]}"||false,
+			'k3' : "{$menu3[main][name]}"||false
+		}
+		
+		// 获取图文模板并写入
+		function getTemp($id){
+			$.post("/cms/sysCms/getTempleDetail",'id='+$id,function($msg){
+				if($msg.err==0){
+					$data = $msg.data;
+					$('[mdata=id]').html($data.id);
+					$('[mdata=template_type]').html($data.template_type==1?"文本":"图文");
+					var str = "";
+					for(var i=0;i<$data.views.length;i++){
+						str += "<span>"+$data.views[i]+"</span><br/>";
+					}
+					$('[mdata=views]').html(str);
+				}
+			})
+		}
+		
+		function resetEle(){
+			$("#setMain").show();
+			$("#setItem").hide();
+			$(".set_menu_name").hide();
+			$(".nochild").hide();
+			$(".data_ctx").hide();
+			$(".reply_area").hide();
+			$(".sub_button").val("");
+			$(".com_input").val("");
+			$(".reply_view").hide();
+		}
+		function setCtxData($form){
+			var om1 = $("#setMain .com_input"); //一级菜单名称
+			var om2 = $("#setMain .sub_button");//一级菜单keyname
+			var im1 = $("#setItem .com_input"); //二级菜单名称
+			var im2 = $("#setItem .sub_button");//二级菜单keyname
+			
+			$op1 = $("#setMain .sitem_operate");
+			$op2 = $("#setItem .sitem_operate");
+		}
+		
+		// 一级菜单添加链接 
+		$("#setMain [data-type='view']").click(function(){
+			$("#setMain .data_ctx").show();
+			var type = $(this).attr("data-type");
+			$("#setMain .sub_button").attr("mtype",type);
+			$(".nochild").hide();
+		});
+		
+		//子菜单链接事件
+		$("#setItem [data-type='view']").click(function(){
+			$("#setItem .data_ctx").show();
+			var type = $(this).attr("data-type");
+			$("#setItem .sub_button").attr("mtype",type);
+			$(".nochild").hide();
+		});
+		
+		//子菜单回复事件
+		$("[data-type='click'], .editEvent").click(function(){
+			var type = $(this).attr("data-type");
+			var id = $(this).attr("data-op");
+			editevent(id,"/cms/menu/addEvent");
+			$("#setItem .sub_button").attr("mtype",type);
+			$(".nochild").hide();
+		});
+		
+		/* 一级菜单的编辑
+		**/
+		$(".smenuItem h3").click(function(){
+			var id = $(this).attr("data-tab");
+			
+			//DOM操作,检查
+			if($(this).parent().find("ul li").length>0){
+				$(this).parent().find("ul").slideToggle();
+			}else{
+				$(this).parent().find("ul").hide();
+			}
+			$(this).parent(".smenuItem").siblings().find("ul").hide();
+			$(".sub_menu_item li").removeClass("curmenu");
+			$(".smenuItem h3").removeClass("curmenu");
+			$(this).addClass("curmenu");
+			resetEle();
+			$("#setMain").show();
+			
+			var m_name = $("input[data-id="+id+"]").attr("data-name");
+			var m_type = $("input[data-id="+id+"]").attr("data-type");
+			var m_key  = $("input[data-id="+id+"]").attr("data-key");
+			$("#c_ctx [data-menu]").html(m_name);
+			// 菜单名
+			if(m_name){
+				$("#setMain .nochild").show();
+				$("#setMain .lv_operate").show();
+				$("#mmenu_name").hide();
+			}else{
+				$("#mmenu_name").show();
+				$("#setMain .nochild").hide();
+				$(".ctx_header [data-menu]").html("菜单栏"+mark);
+			}
+			if(m_type==2&&m_key!=""){
+				$("#setMain .sub_button").val(m_key);
+				$("#setMain .data_ctx").show();
+				$(".nochild").hide();
+			}else if(m_type==3){
+				$("#setMain .reply_view").show();
+				$(".nochild").hide();
+				var $id = $("[data-id="+id+"]").attr("data-tid");
+				getTemp($id);
+			}else{
+				$("#setMain .lv_operate").show();
+			}
+			// 
+			var mark  = parseInt($(this).attr("data-mark"));
+			var count = $(this).find("[data-count]").attr("data-count");
+			$("#setMain [data-mark]").attr("data-mark",mark);
+			$("#setMain [data-count]").attr("data-count",mark*10+1);
+			
+			//是否有子菜单
+			var c_len = $(this).parent().find(".sub_menu_item li").length;
+			if(c_len>0){
+				$("#setMain .lv_operate").hide();
+			}else{
+				$("#setMain .lv_operate").show();
+			}
+			// 数据操作,
+			$("#setMain .com_input").attr("data-pid",id);
+			$("#setMain .sub_button").attr("data-m",id);
+			$("#c_ctx [data-menu]").attr("data-menu",id);
+			
+			// 当前子菜单计数位置+1，为新添加菜单位置
+			$("[data-cid]").attr("data-cid","m"+(parseInt(count)+1));
+			
+			//外围操作按钮
+			$("[data-op]").attr("data-op",id);
+			$("[data-lv]").html("一级");
+		});
+		
+		$("#rename_menu").click(function(){
+			var id = $(this).attr("data-op");
+			// var obj = $("[data-tab="+id+"]").parents(".smenuItem").find();
+			var mark  = parseInt($("[data-tab="+id+"]").attr("data-mark"));
+			var level = parseInt($("[data-id="+id+"]").attr("data-level"));
+			level = mark*10+level-1;
+			//重命名
+			createNew("/cms/menu/addmname",level,id,'');
+		})
+		
+		function bindEvent(){
+			$(".sub_menu_item li").click(function(){
+				//自身操作
+				$(".sub_menu_item li").removeClass("curmenu");
+				$(".smenuItem h3").removeClass("curmenu");
+				$(this).addClass("curmenu");
+				// DOM操作
+				var id = $(this).attr("data-tab");
+				resetEle();
+				$("#setItem").show();
+				
+				// 取数据
+				var m_name = $("input[data-id="+id+"]").attr("data-name");
+				var m_type = $("[data-id="+id+"]").attr("data-type");
+				var m_key  = $("input[data-id="+id+"]").attr("data-key");
+				var m_level  = $("input[data-id="+id+"]").attr("data-level");
+				if(m_name){
+					$("#setItem .nochild").show();
+					$("#tmenu_name").hide();
+					$("#c_ctx [data-menu]").html(m_name);
+				}else{
+					$("#tmenu_name").show();
+					$("#setItem .nochild").hide();
+				}
+				// 为链接赋值
+				if(m_type==2&&m_key!=""){
+					$("#setItem .sub_button").val(m_key);
+					$("#setItem .data_ctx").show();
+					$(".nochild").hide();
+				}else if(m_type==3){
+					$("#setItem .reply_view").show();
+					$(".nochild").hide();
+					var $id = $("[data-id="+id+"]").attr("data-tid");
+					getTemp($id);
+				}else{
+					$("#setItem .lv_operate").show();
+					$("#setItem .nochild").show();
+				}
+				
+				// 赋值，显示编辑区域
+				$("#setItem .com_input").attr("data-cid",id);
+				$("#setItem .sub_button").attr("data-m",id);
+				$("#c_ctx [data-menu]").attr("data-menu",id);
+				$("[data-cid]").attr("data-cid",id);
+				
+				//外围操作按钮
+				$("[data-lv]").html("二级");
+				$("[data-op]").attr("data-op",id);
+			});
+		}
+		bindEvent();
+		
+		function addMenu(obj){
+			var b_attr = $(obj).attr("data-count");
+			//创建菜单
+			createNew("/cms/menu/addmname",b_attr,'',obj);
+		}
+		// 直接添加菜单
+		$(".add_menu").click(function(){
+			addMenu($(this));
+			return false;
+		});
+		$(".add_lv_menu").click(function(){
+			checkMark();
+			var mark = parseInt($(this).attr("data-curMark"));
+			if(mark==3&&$("[data-mark=3]").is(":visible")){
+				alert("一级菜单数量最多为3个");
+				return false;
+			}
+			//创建菜单
+			createNew("/cms/menu/addmname",mark*10);
+			return false;
+		});
+		$("#add_smenu").click(function(){
+			var count = $(this).find("[data-count]").attr("data-count");
+			addMenu($(".add_menu[data-count="+count+"]"));
+		});
+		
+		// 创建二级菜单
+		$("#submit_tname").click(function(){
+			createMenu("data-cid");
+		});
+		// 创建一级菜单
+		$("#submit_mname").click(function(){
+			createMenu("data-pid");
+		});
+		// 创建菜单
+		function createMenu(lv_input){
+			var $level = $("["+lv_input+"]").attr(lv_input);
+				$level = $level.replace('m','');
+				
+			var $val   = $("["+lv_input+"]").val();
+			$menu = {
+				'level' : $level,
+				'name'  : $val,
+				'menu_string' : {'name':$val,'keyname':'','type':''}
+			}
+			var obj = $("[data-mid=m"+$level+"]");
+			var $p = Math.floor($level/10);
+			$.post("/cms/sysMenu/setMenu",$menu,function($msg){
+				if($msg.err==0){
+					$("[data-menu=m"+$level+"]").html($menu.name);
+					$("#tmenu_name, #mmenu_name").hide();
+					$(".lv_operate").show();
+					creatKey['k'+$p] = true;
+					if(level%10>0){
+						bindEvent()
+					}
+					$("[data-tab=m"+$level+"]").click();
+					//为新建菜单赋值
+					$(obj).attr("data-name",$menu.name);
+				}
+			});
+		}
+		// 参数说明，id标注修改来源，type表示菜单类型；
+		function editMenu(id,type,$status){
+			var $id = id;
+				
+			var name   = $("[data-id="+$id+"]").attr("data-name");	
+			var mark   = $("[data-tab="+$id+"]").attr("data-mark");	
+			var level  = $("[data-id="+$id+"]").attr("data-level");	
+			var $val   = $(".sub_button[data-m="+$id+"]").val();
+			
+			$auth_key = $(".sub_button[data-m="+$id+"]").parent().find(".auth_check").is(":checked");
+			//组装授权URL
+			$auth_url = $auth_key?"https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri="+encodeURIComponent($val)+"&response_type=code&scope=snsapi_base&state=login#wechat_redirect":$val;
+			
+			$menu = {
+				'id' 	: $id,
+				'status': $status||1,
+				'level' : level,
+				'mark'  : mark,
+				'name'  : name,
+				'type'  : type||2,
+				'keyname' : $val,
+				'menu_string' : {'name':name,'url':$auth_url,'type':'view'}
+			}
+			$.post("/cms/sysMenu/editMenu",$menu,function($msg){
+				if($msg.err==0){
+					$("[data-id="+$id+"]").attr("data-key",$msg.keyname);
+					$("[data-id="+$id+"]").attr("data-type",$msg.type);
+					tipsShow({'msg':'修改成功'})
+					
+					if($status&&level==2){
+						$("[data-tab="+$id+"]").remove();
+						$("h3[data-mark="+mark+"]").click();
+					}else if($status&&level==1){
+						$("[data-tab="+$id+"]").parents(".smenuItem").hide();
+					}
+				}else{
+					tipsShow({'msg':'编辑失败，'+$msg.msg})
+				}
+			})
+		}
+		// 提交链接菜单
+		$("#submit_mbutton").click(function(){
+			var id = $("#setMain .sub_button").attr("data-m");
+			editMenu(id,2);
+		})
+		$("#drop_menu").click(function(){
+			var id = $(this).attr("data-op");
+			var type = $("[data-id="+id+"]").attr("data-level");
+			editMenu(id,type,"0");
+		});
+		
+		// 提交链接菜单
+		$("#submit_tbutton").click(function(){
+			var id = $("#setItem .sub_button").attr("data-m");
+			editMenu(id,2);
+		})
+		
+		// 删除菜单
+		function deleteMenu(){
+			var $id = $("#del_menu").attr("data-op");
+				$level = $("[data-id="+$id+"]").attr("data-level");
+				$mark = $("[data-tab="+$id+"]").attr("data-mark");
+				
+			var objs = $("[data-tab="+$id+"]").parents(".smenuItem").find(".sub_menu_item li");
+			var len = $(objs).length;
+				if($level==1){
+					var str = "";
+					for(var i=0;i<len;i++){
+						str +=","+$(objs).eq(i).attr("data-tab");
+					}
+					$id += str;
+					mini.confirm('删除一级菜单将删除该菜单下的全部子菜单，是否继续？', "提示",	function(action){
+						if(action=='ok'){
+							$.post("/cms/sysMenu/delMenu",{'ids':$id},function($msg){
+								if($msg.err==0){
+									//一级菜单删除
+									$("h3[data-mark="+$mark+"]").parents('.smenuItem').hide();
+									resetEle();
+								}
+							})
+						};
+					});
+				}else{
+					// 删除子菜单
+					$.post("/cms/sysMenu/delMenu",{'ids':$id},function($msg){
+						if($msg.err==0){
+							//子节点删除，返回父节点
+							$("li[data-tab="+$id+"]").remove();
+							$("[data-menu="+$id+"]").html("");
+							$("h3[data-mark="+$mark+"]").click();
+							//一级菜单删除
+							$("h3[data-tab="+$id+"]").parents('.smenuItem').hide();
+							resetEle();
+						}
+					})
+				}
+		}
+		
+		$("#del_menu").click(function(){
+			deleteMenu();
+		})
+		
+		//发布菜单
+		$("#postMenu").click(function(){
+			mini.confirm('您确认要发布菜单到服务号？', "提示",	function(action){
+					if(action=='ok'){
+						//组装菜单结构
+						$.post("/cms/sysMenu/postMenu?platform=serve",function($msg){
+							if($msg.err==0){
+								tipsShow({'msg':"发布成功！"})
+							}else{
+								tipsShow({'msg':$msg.msg})
+							}
+						});
+					};
+				}
+			);
+		})
+		//发布菜单
+		$("#postSubMenu").click(function(){
+			mini.confirm('您确认要发布菜单到订阅号？', "提示",	function(action){
+					if(action=='ok'){
+						//组装菜单结构
+						$.post("/cms/sysMenu/postMenu?platform=sub",function($msg){
+							if($msg.err==0){
+								tipsShow({'msg':"发布成功！"})
+							}else{
+								tipsShow({'msg':$msg.msg})
+							}
+						});
+					};
+				}
+			);
+		})
+		
+		$("#viewMenu").click(function(){
+			mini.open({
+				url: "/cms/menu/viewmenu",
+				showMaxButton:true,
+				title: '菜单预览', width: "100%", height:"100%", bgcolor:"#000",
+				ondestroy: function (action) {
+				}
+			});		
+		});
+		
+	</script>

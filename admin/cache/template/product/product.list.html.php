@@ -1,0 +1,496 @@
+__layout|public:mini_layout|layout__
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+		<?php if ($this->_var['ischecked'] != 'checked'): ?>
+			<td style="white-space:nowrap;">
+			<?php if ($this->_var['doact'] != 'check'): ?>
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+				<span class="separator"></span> 
+				<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="inputExcel();">Excel导入</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
+			<?php endif; ?>	
+			</td>
+		<?php endif; ?>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="product_type">
+					<option value="" selected="selected">=类别=</option>
+					<?php echo $this->html_options(array('options'=>$this->_var['product_type'])); ?>
+				</select>
+				
+				<select name="status" id="soStatus">
+					<option value="" selected="selected">=状态=</option>
+					<?php if ($this->_var['doact'] != 'check'): ?>
+					<?php echo $this->html_options(array('options'=>$this->_var['pass_status'])); ?>
+					<?php else: ?>
+					<?php echo $this->html_options(array('options'=>$this->_var['wait_status'])); ?>
+					<?php endif; ?>
+				</select>
+				
+				<select name="key_type">
+					<option value="model">牌号</option>
+					<option value="f_name">厂家</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/product/init?action=grid&do=<?php echo $this->_var['doact']; ?>&ischecked=<?php echo $this->_var['ischecked']; ?>"  idField="id" 
+	sizeList="[10,20,50,100]" pageSize="20" <?php if ($this->_var['ischecked'] == 'checked'): ?>multiSelect="false"<?php endif; ?> multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="product_type" width="60" headerAlign="center" align="center">产品分类</div>
+			<div field="model" width="60" headerAlign="center" allowSort="true" align="center">牌号</div>
+			<div field="f_name" width="80" headerAlign="center" allowSort="true" align="center">厂家名称</div> 
+			<div field="process_type" width="60" headerAlign="center" allowSort="true" align="center">加工级别</div> 
+			<div field="status" width="65" headerAlign="center" allowSort="true" align="center" renderer="LoadStatus">状态</div>
+			<div field="remark" width="200" headerAlign="center" allowSort="true" align="center">备注</div>
+			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">创建时间</div>
+			<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
+			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新</div>
+			<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
+			 <?php if ($this->_var['doact'] != 'check'): ?>
+			 <div name="action" width="80" headerAlign="center" align="center" renderer="onLoadHandle" cellStyle="padding:0;">操作</div>
+			 <?php else: ?>
+			<div name="action" width="80" headerAlign="center" align="center" renderer="checkLoadHandle" cellStyle="padding:0;">审核</div>
+			 <?php endif; ?>
+
+			
+		</div>
+	</div>
+</div>
+<div id="admInfo" class="mini-window" title="产品更换" style="width:300px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="addForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			<tr>
+				<td>产品分类</td>
+				<td><input name="product_type" class="mini-combobox" data='<?php echo setMiniConfig($this->_var['product_type']); ?>' textField="name" valueField="id" style="width:90px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>牌号</td>
+				<td><input name="model" class="mini-textbox" style="width:200px" required="true"/></td>
+			</tr>
+			<tr>
+				<td>厂家名称</td>
+				<td>
+					<input name="f_id" class="mini-buttonedit" onbuttonclick="usrChoose" valueField="f_id"  value="" allowInput="false"  style="width:170px" id="usrId"/>
+				</td>
+			</tr>
+			<tr>
+				<td>加工级别</td>
+				<td><input name="process_type" class="mini-combobox" data='<?php echo setMiniConfig($this->_var['process_type']); ?>' textField="name" valueField="id" style="width:90px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>状态：</td>
+				<td><input name="status" class="mini-combobox" data='<?php echo setMiniConfig($this->_var['pass_status']); ?>' textField="name" valueField="id" style="width:90px;" value="1" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>备注</td>
+				<td><input name="remark" class="mini-textbox" style="width:200px" required="false"/></td>
+			</tr>
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div id="checkInfo" class="mini-window" title="增加产品信息" style="width:300px;" showModal="true" allowResize="true" allowDrag="true">
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			<tr>
+				<td>更换已审核的产品</td>
+				<td>
+					<input name="id" class="mini-buttonedit" onbuttonclick="checkedProduct" valueField="id"  value="" allowInput="false"  style="width:170px" id="id"/>
+					<input id="p_id" class="mini-hidden" value="">
+				</td>
+
+			</tr>
+
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitPro()">保存</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<?php if ($this->_var['ischecked'] == 'checked'): ?>
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+<?php endif; ?>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+//弹出增加form表单
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+function add() {
+	form.clear();
+	admInfo.show();
+}
+//增加后提交数据(保存)
+function submitForm() {
+var form2 = new mini.Form("#admInfo");
+form2.validate();
+  if (form2.isValid() == false) return;
+  var o = form2.getData();
+  grid.loading("数据提交中，请稍后......");
+  var json = mini.encode(o);
+  var callback=function(data){
+	if(data.err!='0'){
+	  grid.unmask();
+	  alert(data.msg);
+	  return false;
+	}else{
+	  grid.reload();
+	  admInfo.hide();
+	}
+  }
+  utils.ajax('/product/product/ajaxSave',{data:json},callback,"POST","json");
+}
+//删除
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+		for(var i=0;i<rows.length;i++){
+	var _id=parseInt(rows[i].id);
+	if(_id<1){
+		grid.removeRow(rows[i],false);
+	}else{
+		_ids.push(_id);
+	}
+  }
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+			if(data.result){
+				width=300;
+				title="操作完成";
+				iconCls = 'mini-messagebox-warning';
+				html = '以下产品存在订单无法删除,【ID】：';
+				$.each(data.result,function(k,v){
+					html += k+" &nbsp;";
+				});
+				html+="";
+			}
+			mini.showMessageBox({
+				showHeader: false,
+				width: width,
+				title: title,
+				buttons: ["ok"],
+				html: html,
+				iconCls: iconCls
+			});
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/product/remove',{ids:ids},callback,"POST","json");
+  });
+}
+//双击弹出
+function onRowDblClick(e) {
+	var record = e.record, status=record.status;
+	onEdit();
+
+}
+
+
+
+function onEdit(e) {
+	var row = grid.getSelected();
+	if (row) {
+		var width=350,height=370,title='产品信息';
+		urlStr="/product/product/edit?id="+row.id;
+		mini.open({
+			url: urlStr,
+			title: title,
+			width: width,
+			height:height,
+			ondestroy: function (action) {
+				if(action=='save'){ //重新加载
+					grid.reload();
+				}
+			}
+		});
+	}
+}
+//行内编辑后保存数据
+function saveData() {
+  var data = grid.getChanges();
+  var json = mini.encode(data);
+  if(json.length<0) return false;
+
+  grid.loading("保存中，请稍后......");
+  var callback=function(data){
+	grid.unmask();
+	if(data.err=='0'){
+	  grid.reload();
+	}else{
+	  alert(data.msg)
+	  return false;
+	}
+  }
+  utils.ajax('/product/product/save',{data:json},callback,"POST","json");
+}
+//追加操作按钮
+function onLoadHandle(e) {
+  var record = e.record, state = record.status, s='',tag='',changeid = record.id;
+	if(state==1){
+		s += "<a href='javascript:changeState("+changeid+")'>下架</a>";
+	}else{
+		s +="<a href='javascript:changeState("+changeid+")'>上架</a>";
+	}
+  return s;
+}
+
+//切换上下架
+function changeState(changeid,status){
+	$.ajax({
+		type:"post",
+		url:"/product/product/changeSave",
+		data:{changeid:changeid},
+		dataType:"json",
+		success:function(data){
+			if(data.err=='0'){
+			  grid.reload();
+			}else{
+			  alert(data.msg)
+			  return false;
+			}
+		}
+	})
+}
+
+//审核操作
+function checkLoadHandle(e){
+	 var record = e.record, status = record.status,s='',pid = record.id;
+	 if(status==4){
+		 s += "<span>未通过</span>";	
+	 }else{
+		 s += "<a href='javascript:checkState("+pid+","+status+")'>通过</a>|"+"<a href='javascript:replaceProduct("+pid+")'>更换</a>";	
+	 }
+
+	 return s;
+}
+//审核通过
+function checkState(pid,status){
+	mini.confirm("确定通过吗？", "提示", function(action){
+	if(action!='ok') return;
+	var callback=function(data){
+	if(data.err=='0'){
+		grid.reload();
+	}else{
+		alert(data.msg)
+		return false;
+	}
+	}
+	utils.ajax('/product/product/changeSave',{changeid:pid,status:status},callback,"POST","json");
+});
+}
+
+//审核不通过
+//弹出更换产品表单
+var proInfo = mini.get("checkInfo");
+var form = new mini.Form("#replaceForm");
+function replaceProduct(pid) {
+mini.get(p_id).setValue(pid)
+	proInfo.show();
+}
+//弹出已审核的产品列表
+function checkedProduct(){
+		var btn = this;
+		mini.open({
+		url: "product/product/init?ischecked=checked",
+		title: "产品替换",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.model);
+					$("#"+btn.id+"\\$value").val(data.id);
+				}
+			}
+		}
+	});
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+
+//提交更换后的产品
+function submitPro() {
+var pid = mini.get(p_id).getValue();
+	form.validate();
+
+	if (form.isValid() == false) return;
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			proInfo.hide();
+		}
+	}
+	utils.ajax('/product/product/replaceProduct',{data:json,o_pid:pid},callback,"POST","json");
+}
+
+
+
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+
+
+
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "product/factory/query?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			//iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.fid);
+					btn.setText(data.f_name);
+					$("#"+btn.id+"\\$value").val(data.fid);
+				}
+			}
+		}
+	});
+}
+
+
+
+jQuery.extend({
+handleError: function( s, xhr, status, e ) {
+// If a local callback was specified, fire it
+if ( s.error )
+s.error( xhr, status, e );
+// If we have some XML response text (e.g. from an AJAX call) then log it in the console
+else if(xhr.responseText)
+console.log(xhr.responseText);
+}
+});
+//导入excel
+function inputExcel(){
+	mini.showMessageBox({
+		title: "excel导入",
+		buttons: ["ok", "cancel"],
+		html: '<p style="margin-left:50px;">\
+				<label><strong>选择Excel文件</strong> <br /><input type="file" name="check_file" id="manual_check_file" />\
+			  </p>',
+		callback: function (action) {
+			if(action=='ok'){
+				var messageid = mini.loading("正在处理...", "处理中");
+				$.ajaxFileUpload({
+					url:'/product/product/inputExcel',
+					fileElementId:"manual_check_file",
+					dataType: 'json',
+					success: function (data, status) {
+						if(data.err) mini.alert(data.msg);
+						else{
+							var iconCls = 'mini-messagebox-info',html = "Excel导入成功。",title="处理成功",width=200;
+							if(data.result){
+								width=350;
+								title="导入完成，有异常订单";
+								iconCls = 'mini-messagebox-warning';
+								html = '手动对账处理完成，异常订单如下：<br /><div style="height:250px;overflow:scroll;">';
+								$.each(data.result,function(k,v){
+									html += k+" "+v+"<br />";
+								});
+								html+="</div>";
+							}
+							mini.showMessageBox({
+								showHeader: false,
+								width: width,
+								title: title,
+								buttons: ["ok"],
+								html: html,
+								iconCls: iconCls
+							});
+						}
+						mini.hideMessageBox(messageid);
+					},
+					error: function (data, status, e){
+						mini.hideMessageBox(messageid);
+						alert(e);
+					}
+				});
+			}
+		}
+	});
+}
+</script>

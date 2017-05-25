@@ -1,0 +1,120 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">				
+				<a class="mini-button" class="output" iconCls="icon-downgrade" plain="true" onclick="outputExcel()">excel导出</a>
+			</td>
+			<td style="float:right;">
+				<form id="soform" method="get" action="/product/customer_billing/download">			  
+			  	<select name="status">
+			  		<option value="2">未审核</option>	
+			  		<option value="1">已审核</option>									
+				</select>			
+				<select name="key_type">
+					<option value="c_name">客户名称</option>
+					<option value="invoice_tel">开票电话</option>
+					<option value="invoice_account">开票帐号</option>
+					<option value="admin">交易员</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span>
+			  </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/product/customer_billing/init?action=grid"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" {if $choose eq '1'}multiSelect="false"{/if} multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="c_name" width="90" headerAlign="center" align="center" align="center">客户名称</div>
+		<div field="tax_id" width="90" headerAlign="center" align="center">纳税人识别号</div>
+		<div field="invoice_address" width="90" headerAlign="center" align="center">开票地址</div>
+		<div field="ems_address" width="90" headerAlign="center" align="center">邮寄地址</div>
+		<div field="invoice_tel" width="90" headerAlign="center" align="center">开票电话</div>
+		<div field="invoice_bank" width="90" headerAlign="center" >开票银行</div>
+		<div field="invoice_account" width="90" headerAlign="center" >开票帐号</div>
+		<div field="fax" width="50" headerAlign="center" >传真</div>
+		<!-- <div field="input_time" width="90" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >添加时间</div> -->
+		<div field="status" width="50" headerAlign="center" align="center">审核状态</div>
+		<div field="username" width="50" headerAlign="center" align="center">业务员</div>
+		<!-- <div field="input_admin" width="50" headerAlign="center" align="center">创建者</div> -->
+		<div field="update_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+		<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
+		<div name="action"  width="50" headerAlign="center" align="center" renderer="onLoadHandle">操作</div>
+	</div>
+  </div>
+ </div>
+
+
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+//导出excel
+function outputExcel(){
+	$("#soform").submit();
+}
+
+//追加操作按钮
+function onLoadHandle(e) {
+	var record = e.record, s='',id = record.id,status = record.status;
+	if (status=='未审核') {
+		s += '<a href="javascript:check('+id+')">审核</a>';
+	}else{
+		s +='-'
+	}
+	return s;
+}
+
+//审核修改开票资料
+function check(id) {
+	mini.open({
+	url: "/product/customer_billing/check?id="+id,
+	title: "审核开票资料",
+	width: 400,
+	height: 370,
+	onload: function () {
+		var iframe = this.getIFrameEl();
+	},
+	ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+
+</script>

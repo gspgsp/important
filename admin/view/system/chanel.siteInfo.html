@@ -1,0 +1,127 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+#infoForm{margin:0px auto; padding:6px; width:560px;}
+td.dt{width:80px; text-align:right; font-weight:bold; padding-right:8px;}
+#errMsg{ display:none; border:3px solid #F00; padding:5px; background:#FFC;}
+td a.add,td a.del{cursor:pointer; color:#36F;}
+</style>
+<form id="infoForm">
+	<input type="hidden" name="id" value="{$info.id}"/>
+        <table style="width:100%;">
+                <tr>
+                    <td class="dt">渠道用户</td>
+                    <td>{$info.user.username}（注册时间：{$info.user.reg_time|date:Y-m-d H:i:s}）</td>
+                </tr>
+                {if $info.user.user_id}
+                <tr>
+                    <td class="dt">绑定账户</td>
+                    <td><a href="javascript:viewUinfo({$info.user.user_id});">{$info.mobile}</a></td>
+                </tr>
+                {/if}
+                <tr>
+                    <td class="dt">媒体名称</td>
+                    <td><input name="info[sitename]" class="mini-textbox" value="{$info.sitename}" style="width:200px" required="true"/></td>
+                </tr>
+                <tr>
+                    <td class="dt">站点类型</td>
+                    <td><div class="mini-radiobuttonlist" repeatItems="5" repeatLayout="table" required="true"
+                textField="name" name="info[stype]" value="{$info.stype}"
+                data='{$site_type}' >
+            </div></td>
+               </tr>
+                <tr>
+                    <td class="dt">媒体URL</td>
+                    <td><input name="info[siteurl]" class="mini-textbox" value="{$info.siteurl}" style="width:300px"/></td>
+                </tr>
+                <tr>
+                    <td class="dt">媒体简介</td>
+                    <td><input name="info[snote]" class="mini-textarea" value="{$info.snote}" style="width:380px" required="true"/></td>
+                </tr>
+                {if $info.chk_status eq 0}
+                <tr>
+                    <td class="dt">状态</td>
+                    <td><input id="chkStatus" class="mini-combobox" style="width:100px;" textField="name" onvaluechanged="onStatusChange" data='{$chk_status}' value="{$info.chk_status}" name="info[chk_status]"/> （申请时间：{$info.input_time|date:Y-m-d H:i:s}）
+                    </td>
+                </tr>
+                <tr id="chanelArea">
+                    <td class="dt">渠道代码</td>
+                    <td><input id="chanelCode" name="info[chanel]" class="mini-textbox" value="" style="width:100px" onvaluechanged="onCheckChanel"/>
+                    </td>
+                </tr>
+                {else}
+                <tr>
+                    <td class="dt">状态</td>
+                    <td>{$info.txt_status}（审核时间：{$info.chk_time|date:Y-m-d H:i:s}）
+                    </td>
+                </tr>
+                {/if}
+                <tr>
+                    <td class="dt">审核意见</td>
+                    <td><input name="info[chk_note]" class="mini-textarea" value="{$info.chk_note}" style="width:380px" required="true"/>
+                    </td>
+                </tr>
+            </table>
+        <div style="text-align:center;padding:10px;">
+           <a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+            <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>
+            <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+        </div> 
+</form>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+$(function(){
+	$("#chanelArea").hide();		   
+})
+
+function onStatusChange(e){
+	var value=e.value;
+	if(value==1){
+		$("#chanelArea").show();
+	}else{
+		$("#chanelArea").hide();
+	}
+}
+function onCheckChanel(e){
+	var value=mini.get("chanelCode").getValue().replace(/[^\w\.\-\+]/g,'')
+	mini.get("chanelCode").setValue(value);	
+  	$.post('/system/chanel/chkUnique',{code:value},function(data){
+	  if(data.err!='0'){
+		alert('渠道代码已经存在');mini.get("chanelCode").setValue('');
+	  }
+  },'json');
+}
+
+
+function submitForm(){
+	if($("#chkStatus").length>0){
+		status=mini.get("chkStatus").getValue();
+		value=mini.get("chanelCode").getValue();
+		if(status==1 && value.length<3){
+			alert("请设置渠道号");
+			return false;	
+		}
+	}
+	  
+	form.validate();
+	if(form.isValid() == false) return;
+	form.loading("数据提交中，请稍后......");
+	$.post('/system/chanelSite/save',$("#infoForm").serialize(),function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

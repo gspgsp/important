@@ -1,0 +1,123 @@
+{layout file="public:mini_layout"}
+{insert_css files='touch/common.css?,set_reply.css?'}
+{insert_js files='touch/common.js'}
+<style>body{background-color:#fff;}.err_tips img{float:left;margin:1px 5px 0 0;}</style>
+<div class="news_set" style="padding:10px 15px;">
+    <div class="rule_title" style="margin-left:0;">
+        <span>模板名称：</span>
+        <span><input type="text" name="title" value="{$info.mtitle}" id="r_title" /></span>
+    </div>
+    <form action="" method="post" id="news_temple">
+    <ul>
+        <li>
+            <span class="title_n">标题：</span>
+            <span class="ctx_n"><input type="text" name="title" value="{$info[title]}" id="n_title" /></span>  
+        </li>
+        <li>
+            <span class="title_n">链接：</span>
+            <span class="ctx_n"><input type="text" name="link" value="{$info[link]}" id="n_link" /></span>  
+        </li>
+        <li>
+            <span class="title_n">图片链接：</span>
+            <span class="ctx_n"><input id="n_imgurl"  name="imgurl" value="{$info.imgurl}" style="width:300px"/></span>
+            <span><input id="imgurl"  name="info_img" class="mini-textbox" value="{$info.imgurl}" style="display:none;"/><input id="upfileId" type="file" name="upFile" onChange="fileUpload('');"></span>
+        </li>
+        <li>
+            <span class="title_n">描述：</span>
+            <span class="ctx_n"><textarea rows="2" name="desc" id="n_desc">{$info[desc]}</textarea></span>  
+        </li>
+        <li class=""><input type="button" id="news_submit" class="addNews_btn" value="保存"></li>
+    </ul>
+    </form>
+</div>
+<p class="err_tips" style="margin:10px;padding:5px 10px;border-radius:3px;border:1px solid #c93;background-color:#fea;width:100px;color:#e30;display:none;"></p>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script>
+	// 存储回复模板模板
+	function setTxtTemple($form){
+		var $temple_form = {
+			'id'			: "{$id}",
+			'title' 		: $form.title||"",
+			'create_time'   : $form.create_time||0,
+			'expire_time'   : $form.expire_time||0,
+			'template_type' : $form.template_type||1,
+			'template_string' : $form.template_string||""
+		}
+		var $data = {};
+		$.ajax({
+			type : "POST",
+			url:"/cms/sysCms/setTemple",
+			data:$temple_form,
+			dataType:"json",
+			async:false,
+			success: function($msg){
+				if($msg.err==0){
+					$(".err_tips").show();
+					$(".err_tips").html("<img src='__JS__/miniui/miniui/themes/icons/ok.png'> 添加成功！");
+					 CloseWindow('save')
+				}else{
+					$(".err_tips").show();
+					$(".err_tips").html("<img src='__JS__/miniui/miniui/themes/icons/ok.png'> "+$msg.msg);
+				}
+			}
+		})
+		return $data;
+	}
+
+	// 增加新图文模板提交
+	$("#news_submit").click(function(){
+		var $temple_form = {
+			'title' : $("#n_title").val(),
+			'create_time' : 0,
+			'expire_time' : 0,
+			'template_type' : 2,
+			'template_string' : ''
+		}
+		$temple_form.template_string = {
+			'title' : $("#n_title").val(),
+			'link'  : $("#n_link").val(),
+			'imgurl': $("#n_imgurl").val()||$("[name=info_img]").val(),
+			'desc'  : $("#n_desc").val(),
+		};
+		
+		setTxtTemple($temple_form);
+	});
+
+
+function fileUpload(t) {
+	$("#picLoading"+t).ajaxStart(function(){
+		$(this).show();
+	}).ajaxComplete(function() {
+		$(this).hide();
+	});
+	$.ajaxFileUpload({
+		url:'/sysUpload/images?model={$action}',
+			secureuri:false,
+			fileElementId:'upfileId'+t,
+			dataType: 'json',
+			success: function (data, status) {
+				if(data.err=='0'){
+					mini.get("imgurl"+t).setValue("__UPLOAD__/"+data.msg);
+					$("#n_imgurl").val("__UPLOAD__/"+data.msg);
+					//$("#picDisplay"+t).html('').append("<img src='__UPLOAD__/"+data.msg+"'>");
+					imgResize();
+				}
+			},
+			error: function (data, status, e){
+				//$("#picResult"+t).html(e);
+			}
+		}
+	)
+	return false;
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script>

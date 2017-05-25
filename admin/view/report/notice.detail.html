@@ -1,0 +1,69 @@
+ {layout file="public:mini_layout"}
+ <style type="text/css">
+ 	.container{
+ 		width: 100%;
+ 		height: 100%;
+ 	}
+	.title{
+ 		margin-top: 10px;
+		font-size: 28px;
+		text-align: center;
+	}
+	.content{
+		font-size: 14px;
+		margin:10px 10px 10px 10px;
+	}
+	.admin{
+ 		width: 180px;
+		font-size: 16px;
+		float: right;
+		clear: left;
+		margin-right: 20px;
+	}
+	.time{
+ 		width: 180px;
+		font-size: 16px;
+		float: right;
+		clear: right;
+		margin: 5px 20px 0 0 ;
+	}
+	.file{
+		font-size: 16px;
+		/*float: right;*/
+		clear: right;
+		margin: 10px 0 0 10px;
+	}
+	.file_url{
+		font-size: 14px;
+		/*float: right;*/
+		clear: right;
+		margin: 10px 0 0 10px;
+	}
+	.download{
+		margin-left: 20px;
+	}
+ </style>
+	<div class="container" ondragstart="window.event.returnValue=false" oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false">
+			<div class="title">{$info.title}</div>
+			<div class="content">{$info.content}</div>
+			<div class="admin">{$info.input_admin}</div>
+			<div class="time">{$info.input_time}</div>
+			<div class="file">附件:点击图片旋转</div>
+			<div class="file_url">
+				{foreach from=$file_url item=v key=k}
+					{$k}<br>
+					<img id="target" class="download" title="点击图片旋转" src="__UPLOAD__/{$v}"/><br/>
+				{/foreach}
+			</div>
+	</div>
+<script type="text/javascript">
+ window.onload = function(){
+            var current = 0;
+            $(function(){
+            	$('.download').click(function(event) {
+            	  current = (current+90)%360;
+                this.style.transform = 'rotate('+current+'deg)';
+            	});
+            });
+        };
+</script>

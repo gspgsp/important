@@ -1,0 +1,113 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="float:right;">
+			    <form id="soform">
+			    <span id="searchMsg"></span>
+			    订单日期
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+			
+				<select name="key_type">
+					<option value="admin">交易员</option>
+					<option value="c_name">客户名称</option>
+					<option value="order_sn">订单号</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span>
+			  </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" url="/finance/collectionRisk/init?action=grid"  idField="fid"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="o_id" width="30" headerAlign="center" align="center" >ID</div>
+		<div field="order_sn"  renderer="tips" width="90" headerAlign="center" align="center" renderer="onLoadHandle">订单号</div>
+		<div field="order_name" width="30" headerAlign="center" align="center" align="center">抬头</div>
+		<div field="chanel" width="30" headerAlign="center" align="center" align="center">客户来源</div>
+		<div field="c_name" width="120" headerAlign="center" align="center" align="center">客户名称</div>
+		<div field="customer_manager" width="30" headerAlign="center" align="center">交易员</div>
+		<div field="total_price" width="40" headerAlign="center" align="center" align="center">订单金额</div>
+		<div field="collected_price" width="40" headerAlign="center" align="center" align="center">已收货款</div>
+		<div field="uncollected_price" width="40" headerAlign="center" align="center" align="center">未收货款</div>
+		<div field="days" width="40" headerAlign="center" align="center" allowSort="true" align="center">超期天数</div>
+		<div field="input_time" width="60" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm" >订单日期</div>
+	</div>
+  </div>
+ </div>
+ <div></div>
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+grid.on("drawcell", function (e) {
+    var record = e.record,
+        column = e.column,
+        field = e.field,
+        value = e.value;
+    if (column.field == "days") {
+        if (e.value > 5 && e.value < 16) {
+            e.rowStyle = "background:#FEE845";
+        }else if(e.value > 15){
+            e.rowStyle = "background:#FF00BA";
+        }else{
+            e.rowStyle = "";
+        }
+    }
+    
+ });
+grid.load();
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+// 追加订单id的操作按钮
+function onLoadHandle(e) {
+	var record = e.record,s='',oid = record.o_id;
+	var o_type=1;
+	s += '<a href="javascript:viewOrdInfo('+oid+','+o_type+')">'+oid+'</a> ';
+	return s;
+}
+
+
+//查看订单相关信息
+function viewOrdInfo(oid,o_type,sale){
+	mini.open({
+		url: "/product/order/info?oid="+oid+'&o_type='+o_type+'&sale='+sale,
+		showMaxButton:true,
+		title: "查看订单相关信息",
+		width: 800, height:430
+	});
+}
+
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>

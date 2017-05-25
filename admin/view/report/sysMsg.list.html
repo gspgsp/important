@@ -1,0 +1,86 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<form id="soform">
+					<span>发送时间</span>
+					<input name="startTime" class="mini-datepicker" style="width:100px;"/>
+					-
+					<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+					<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+					<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a> <span id="searchMsg"></span>
+				</form>
+			</td>
+			<td style="float:right;">
+				<a class="mini-button" iconCls="icon-redo" plain="true" onclick="read()">标记已读</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" url="/report/sysMsg/init?action=grid" showFilterRow="true" idField="id" multiSelect="true">
+		<div property="columns">
+			<div type="checkcolumn" width="10"></div>
+			<div field="id" width="20" headerAlign="center" align="center">ID</div>
+			<div field="admin_name" width="30" headerAlign="center" allowSort="true" align="center">后台用户</div>
+			<div field="msg" width="310" headerAlign="center" allowSort="true">信息内容</div>
+			<div field="input_time" width="60" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">请求时间</div>
+			<div field="is_read" width="20" headerAlign="center" allowSort="true" align="center">是否已读</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+//删除
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/report/sysMsg/remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+//标记为已读
+function read() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定标记已读？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/report/sysMsg/read',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+</script> 

@@ -1,0 +1,573 @@
+{layout file="public:mini_layout"}
+{insert_css files="ensure.css,borrow.css,loan.css"}
+{if $ctype eq '1'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>身份认证</h3>
+    <p> 您上传的身份证照片需和您绑定的身份证一致，否则将无法通过认证。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明:</span></div>
+      <div class="ht20"></div>
+      <ul>
+        <li>请上传以下任意一项资料：</li>
+        <li class="child">（1）本人身份证原件的正、反两面照片。<a class="auth" href="/help/viewPic?pname=sfz" target="_blank">查看示例</a></li>
+        <li class="child">（2）本人手持身份证正面头部照，（确保身份证上的信息没有被遮挡，避免证件与头部重叠）。<a class="auth" href="/help/viewPic?pname=szfzf" target="_blank">查看示例</a></li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传身份证明：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传身份证明" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="1" class="mini-hidden" />
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '2'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>工作认证</h3>
+    <p> 您的工作状况是随时融评估您信用状况的主要依据之一。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明:</span></div>
+      <div class="ht20"></div>
+      <ul>
+        <li>请上传以下任意一项资料：</li>
+        <li class="child">（1）加盖单位公章（或劳动合同专用章）的劳动合同。<a href="/help/viewPic?pname=ldht" target="_blank">查看示例</a></li>
+        <li class="child">（2）最近1个月内开具的加盖单位公章（或人力章、财务章）的机打（手写无效）在职证明。<a href="/help/viewPic?pname=zzzm" target="_blank">查看示例</a></li>
+        <li class="child">（3）带有姓名、照片、工作单位名称的工作证。<a href="/help/viewPic?pname=ggz" target="_blank">查看示例</a></li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证条件：</span><span class="red">本人需在现单位工作满3个月。</span></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">6个月</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+        <div class="upload-tit"><span class="ui-form-required">*</span>上传工作认证：
+          <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传工作认证" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+        </div>
+        <div id="picDisplay1"></div>
+        <div class="ht30"></div>
+        <div class="sub">
+          <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+          <input name="atype" value="2" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+        </div>
+        <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '3'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>个人信用报告认证</h3>
+    <p>个人信用报告是由中国人民银行出具，全面记录个人信用活动，反映个人信用基本状况的文件。本报告是随时融了解您信用状况的一个重要参考资料。您信用报告内体现的信用记录和信用卡额度等数据，将在您发布借款时经随时融工作人员整理，在充分保护您隐私的前提下披露给随时融理财人，作为理财人投标的依据。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明:</span></div>
+      <ul>
+        <li class="child">（1）个人信用报告需15日内开具。<a class="auth" href="/help/viewPic?pname=xybg" target="_blank">查看示例</a></li>
+        <li class="child"><a class="auth" href="http://www.pbccrc.org.cn/zxzx/lxfs/lxfs.shtml" target="_blank">全国各地征信中心联系方式查询</a></li>
+        <li class="child"><a class="auth" href="https://ipcrs.pbccrc.org.cn/" target="_blank">个人信用信息服务平台</a></li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证条件：</span><span class="red">信用记录良好</span></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">6个月</span></div>
+      <div class="h"><span class="tit">如何办理个人信用报告：</span><span>可去当地人民银行打印，部分地区可登陆个人信用信息服务平台。</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传央行信用报告：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传央行信用报告" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="3" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '4'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>收入认证</h3>
+    <p>您的银行流水单是随时融评估您收入状况的主要依据之一。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明:</span></div>
+      <ul>
+        <li>请上传以下<span class="red">任意一项</span>资料：</li>
+        <li class="child">（1）可体现工资项的最近3个月的工资卡银行流水单。<a class="auth" href="/help/viewPic?pname=yhdzd" target="_blank">查看示例</a></li>
+        <li class="child">（2）可体现工资项的最近3个月的网银电脑截屏。<a class="auth" href="/help/viewPic?pname=wyjp" target="_blank">查看示例</a></li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证条件：</span><span class="red">本人名下近3个月的月收入均在2000以上。</span></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">6个月</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传身份证明：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传身份证明" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="4" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '5'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>房产认证</h3>
+    <p>房产认证是证明借入者资产及还款能力的重要凭证之一。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明:</span></div>
+      <ul>
+        <li>请上传以下任意一项或多项资料。</li>
+        <li class="child">（1）房屋产权证明。<a class="auth" href="/help/viewPic?pname=fangchanzheng" target="_blank">查看示例</a></li>
+        <li class="child">（2）购房合同+近3个月的还贷流水。<a class="auth" href="/help/viewPic?pname=goufanghetong" target="_blank">查看示例</a></li>
+        <li class="child">（3）购房发票+近3个月的还贷流水。<a class="auth" href="/help/viewPic?pname=goufangfapiao" target="_blank">查看示例</a></li>
+        <li class="child">（4）按揭合同+近3个月的还贷流水。</li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证条件：</span><span class="red">必须是商品房，且房产是本人名下所有或共有的。</span></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传房产证明：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传房产证明" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="5" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '6'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>购车认证</h3>
+    <p>购车认证是证明借入者资产及还款能力的重要凭证之一。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明:</span></div>
+      <ul>
+        <li class="child">（1）车辆行驶证的原件照片。<a class="auth" href="/help/viewPic?pname=xingshizheng" target="_blank">查看示例</a></li>
+        <li class="child">（2）本人和车辆的合影（照片需露出车牌号码）。<a class="auth" href="/help/viewPic?pname=rencheheying" target="_blank">查看示例</a></li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>车辆行驶证的原件照片：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="车辆行驶证的原件照片" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="upload-tit"><span class="ui-form-required">*</span>本人和车辆的合影：
+        <input id="img_url2" name="aptitude_id[]" required="true" tiperr="本人和车辆的合影（照片需露出车牌号码）" tipfor="aptitude2_tip" class="mini-hidden"/>
+          <input id="upfileId2" type="file" name="upFile" onchange="fileUpload(2);" />
+          <em style="color:#c00" id="aptitude2_tip"></em>
+      </div>
+      <div id="picDisplay2"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="6" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '7'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>结婚认证</h3>
+    <p>借入者婚姻状况的稳定性，是随时融考核借款人信用的评估因素之一。</p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明:</span></div>
+      <ul>
+        <li class="child">请您上传以下资料：</li>
+        <li class="child">（1）结婚证书的原件照片。<a class="auth" href="/help/viewPic?pname=jiehunzheng" target="_blank">查看示例</a></li>
+        <li class="child">（2）配偶身份证原件的正、反两面照片。</a></li>
+        <li class="child">（3）本人和配偶的近照合影一张。</li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传结婚证书：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传结婚证书" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="7" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '8'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>学历认证</h3>
+    <p>借出者在选择借款申请投标时，借入者的学历也是一个重要的参考因素。为了让借出者更好、更快地相信您的学历是真实的。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">学历认证说明:</span></div>
+      <ul>
+        <li class="child">请您上传以下资料：</li>
+        <li class="child">学历证书的原件照片。<a class="auth" href="/help/viewPic?pname=jiehunzheng" target="_blank">查看示例</a></li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传学历证书：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传学历证书" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="8" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '9'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>技术职称认证</h3>
+    <p>技术职称是经专家评审、反映一个人专业技术水平并作为聘任专业技术职务依据的一种资格，不与工资挂钩，是随时融考核借款人信用的评估因素之一。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明：</span></div>
+      <ul>
+        <li>技术职称证书的原件照片。</li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证条件：</span><span class="red">国家承认的二级及以上等级证书。例如律师证、会计证、工程师证等。</span></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传技术职称认证：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传技术职称认证" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="9" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '10'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>手机实名认证</h3>
+    <p>手机实名认证需要用户上传手机流水单。手机流水单是用户最近一段时间内的详细通话记录，是随时融用以验证借入者真实性的重要凭证之一。您的手机详单不会以任何形式被泄露。 </p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明：</span></div>
+      <ul>
+        绑定的手机号码最近3个月的手机详单原件的照片。如详单数量较多可分月打印并上传每月前5日部分（每月详单均需清晰显示机主手机号码）。
+        </li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">如何办理手机详单：</span><span>前往最近的手机运营商营业厅，提供手机服务密码或机主身份证明即可打印。</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传手机流水单：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传手机流水单" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="10" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '11'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>微博认证</h3>
+    <p>随着网络时代的发展，网络信息已成为了解借入者真实性的最新渠道之一。随时融与时俱进，将借入者网络关系评估，作为评估借入者的信用的方式之一。</p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证方法：</span></div>
+      <ul>
+        <li><span class="red">第一步、成为随时融粉丝</span></li>
+        <li>请点击以下链接，<a class="auth" href="http://weibo.com/u/5193122884" target="_blank">http://weibo.com/u/5193122884</a>，把随时融加为关注。</li>
+      </ul>
+      <ul>
+        <li><span class="red">第二步、发送验证信息</span></li>
+        <li>1、 在微博上，转发一条最新的随时融的微博。</li>
+        <li>2、 并用"私信"功能，发送您的随时融昵称给随时融。</li>
+      </ul>
+      <ul>
+        <li><span class="red">第三步、在以下输入框输入您的新浪微博昵称，并点击提交</span></li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证条件：</span><span class="red">50粉丝 + 50微博（目前仅支持新浪微博）</span></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">永久</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div style="margin:0 0 0 100px">
+        <label style="margin-right:5px"><span class="red">*</span> 您的新浪微博昵称：</label>
+        <input type="text" name="aptitude_id[]" required="true" tiperr="请填写微博昵称" tipfor="aptitude_tip" class="mini-textbox">
+         <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+        <input name="atype" value="11" class="mini-hidden"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{elseif $ctype eq '12'}
+<div class="pg-credit" id="pg-credit">
+  <div class="credit-header">
+    <h3>居住地证明</h3>
+    <p>居住地的稳定性，是随时融考核借款人的主要评估因素之一。</p>
+  </div>
+  <div class="credit-center">
+    <div class="credit-text">
+      <div class="h"><span class="tit">认证说明：</span></div>
+      <ul>
+        <li>（1）用本人姓名登记的水、电、气最近3个月缴费单。</li>
+        <li>（2）用本人姓名登记的固定电话最近3个月缴费单。</li>
+        <li>（3）本人的信用卡最近2个月的月结单。</li>
+        <li>（4）本人的自有房产证明。</li>
+        <li>（5）本人父母的房产证明，及证明本人和父母关系的证明材料。</li>
+      </ul>
+      <div class="ht20"></div>
+      <div class="h"><span class="tit">认证有效期：</span><span class="red">6个月</span></div>
+      <div class="h"><span class="tit">上传资料：</span>请确认您上传的资料是清晰的、完整的、未经修改的数码照片或彩色扫描照片。图片格式为：jpg , gif 。每张图片大小不大于1M。</div>
+      <div class="ht20"></div>
+    </div>
+    <div class="credit-form">
+      <form method="post" action="/my/account/submitAptitude" class="formA" id="idverform">
+      <div class="upload-tit"><span class="ui-form-required">*</span>上传居住地证明：
+        <input id="img_url1" name="aptitude_id[]" required="true" tiperr="请上传居住地证明" tipfor="aptitude_tip" class="mini-hidden"/>
+          <input id="upfileId1" type="file" name="upFile" onchange="fileUpload(1);" />
+          <em style="color:#c00" id="aptitude_tip"></em>
+      </div>
+      <div id="picDisplay1"></div>
+      <div class="ht30"></div>
+      <div class="sub">
+        <input name="atype" value="12" class="mini-hidden"/>
+        <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+          <div align="center"><a class="mini-button" iconCls="icon-ok" onclick="submitIdver">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+      </div>
+      <div class="ht30"></div>
+      </form>
+    </div>
+  </div>
+  <div class="credit-footer">
+    <div class="warn"> <span>警告：</span> 随时融是一个注重诚信的网络平台。如果我们发现您上传的资料系伪造或有人工修改痕迹，随时融会将你加入系统黑名单，永久取消您在随时融的借款资格。 </div>
+  </div>
+</div>
+{/if} 
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script> 
+<script>
+var form = new mini.Form("#idverform");
+function submitIdver(){
+  form.validate();
+  if(form.isValid() == false) return;
+  //提交数据
+  var o = form.getData();
+  var json = mini.encode(o);
+  $("#returnMsg").text('');
+  form.loading("数据提交中，请稍后......");
+  $.post('/user/user/submitAptitude',o,function(data){
+	  form.unmask();
+	  $("#returnMsg").text(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }else{
+		  return false;
+	  }
+  },'json');
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+function fileUpload(cType) {
+
+	$.ajaxFileUpload({
+		url:'/system/sysUpload/upload?model={$action}',
+		//url:'/public/sysUpload/upload',
+			secureuri:false,
+			fileElementId:'upfileId'+cType,
+			dataType: 'json',
+			success: function (data, status) {
+				if(data.error=='0'){
+					$("#img_url"+cType).val(data.attId);
+					$("#picDisplay"+cType).html("<img src='__UPLOAD__/"+data.url+"' width='100px'>");
+				}else{
+					alert(data.msg);
+					return false;
+				}
+			},
+			error: function (data, status, e){
+				$("#picResult").html(e);
+			}
+		}
+	)
+	return false;
+}
+</script> 

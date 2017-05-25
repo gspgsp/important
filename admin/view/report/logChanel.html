@@ -1,0 +1,48 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            	<form id="soform">
+				<span>请求日期</span>
+            	<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$_today}"/> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;" value="{$_today}"/>
+            	<select name="key_type">
+                    <option value="chanel_id">渠道ID</option>
+                    <option value="chanel">渠道名</option>
+                    <option value="ip">IP</option>
+                    <option value="uv_hash">UV</option>
+                    <option value="from_url">来源页面</option>
+                    <option value="method">访问地址</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" 
+            url="/report/logChanel/init?action=grid"  idField="id"
+            sizeList="[10,20,50,100]" pageSize="20"
+   >
+    <div property="columns">
+      <div type="indexcolumn" headerAlign="center">序号</div>
+      <div field="chanel_id" width="40" headerAlign="center" allowSort="true">渠道ID</div>
+      <div field="chanel" width="60" headerAlign="center">渠道</div>
+      <div field="user_id" width="40" headerAlign="center" renderer="onLoadUinfo" allowSort="true">用户ID</div>
+      <div field="from_url" width="200" headerAlign="center">来源页面</div>
+      <div field="input_time" width="110" headerAlign="center" dateFormat="yy-MM-dd HH:mm:ss" align="center">请求日期</div>
+      <div field="ip" width="80" headerAlign="center" allowSort="true">IP</div>
+      <div field="uv_hash" width="80" headerAlign="center" allowSort="true">uv</div>
+      <div field="method" width="80" headerAlign="center" allowSort="true">访问地址</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+search();
+</script>

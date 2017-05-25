@@ -1,0 +1,67 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>	
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">取消绑定</a>
+			</td>
+			
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" url="/product/store/info?action=grid&sid={$sid}"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true">
+	<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="admin_id" width="30" align="center" headerAlign="center">管理员ID</div>
+			<div field="username" width="80" align="center" headerAlign="center">用户名</div>
+			<div field="name" width="70" align="center" headerAlign="center">姓名</div>
+			<div field="mobile" width="70" align="center" headerAlign="center">手机号</div>
+			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">添加时间</div>
+			<div field="input_admin" width="50" headerAlign="center" align="center">创建者</div>
+			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新时间</div>
+			<div field="update_admin" width="50" headerAlign="center" align="center">修改者</div>
+	</div>
+  </div>
+ </div>
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+//取消绑定
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/product/store/remove',{ids:ids,remove:'admin'},callback,"POST","json");
+		}
+	);
+}
+
+</script>

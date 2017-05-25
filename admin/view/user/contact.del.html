@@ -1,0 +1,121 @@
+{layout file="public:mini_layout"}
+<!-- <div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+			<form id="soform">
+				{if $helper eq 1}
+				<a class="mini-button" iconCls="icon-add" plain="true" onclick="send()">发送短信</a>
+				<span class="separator"></span>
+				{/if}
+				添加时间
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				{if $isPublic eq '1'}
+				<select name="status" id="soStatus">
+					<option value="" selected="selected">=状态=</option>
+					{html_options options=$status}
+				</select>
+				{/if}
+				<select name="identification" id="soidentification">
+					<option value="" selected="selected">=认证=</option>
+					{html_options options=$identification}
+				</select>
+				<select name="level" id="soLevel">
+					<option value="" selected="selected">=客户级别=</option>
+					{html_options options=$level}
+				</select>
+				<select name="type" id="soType">
+					<option value="" selected="selected">=客户类型=</option>
+					{html_options options=$type}
+				</select>
+				<select name="invoice">
+					<option value="" selected="selected">=开票资料=</option>
+					<option value="1">否</option>
+					<option value="2">是</option>
+				</select>
+				<select name="key_type">
+					<option value="c_name" selected="selected">客户名称</option>
+					<option value="c_id">客户ID</option>
+					<option value="legal_idcard">法人身份证</option>
+					<option value="need_product" >所需牌号</option>
+					<option value="business_licence">营业执照号</option>
+					<option value="organization_code">组织代码</option>
+					<option value="tax_registration">税务登记号码</option>
+					{if $isPublic neq '1'}
+					<option value="customer_manager">交易员</option>
+					{/if}
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+							<span id="searchMsg"></span>
+			   </form>
+			</td>
+			{if $doact neq 'search'}
+			<td style="float:right;">
+			{if $isPublic neq '1' && $helper neq 1}
+				<a class="mini-button" iconCls="icon-user" onclick="exchange()">批量替换交易员</a>
+				<a class="mini-button" iconCls="icon-addnew" onclick="share()">共享</a>
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a>
+				{if $cooperation neq 1}
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a>
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a>
+				{/if}
+			{/if}
+			 </p>
+			</td>
+			{/if}
+		</tr>
+	</table>
+</div> -->
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+		url="/user/user/uerdel?action=contact&do={$doact}&c_id={$c_id}&cur_uid={$cur_uid}" idField="user_id"  onrowdblclick="onRowDblClick" multiSelect="false">
+		<div property="columns">
+			<div type="checkcolumn" width="5"></div>
+			<div field="user_id" width="15" headerAlign="center" allowSort="true" align="center">联系人id</div>
+			<div field="name" width="50" headerAlign="center" allowSort="true" align="center" >联系人姓名</div>
+			<div field="sex" width="35" headerAlign="center" align="center">性别</div>
+			<div field="tel" width="35" headerAlign="center" align="center">电话</div>
+			<div field="mobile" width="35" headerAlign="center" align="center">手机号</div>
+			<div field="is_default" width="35" headerAlign="center" align="center">是否默认联系人</div>
+		</div>
+	</div>
+</div>
+<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+</div>
+<input type="hidden" id="cur_uid" value="{$cur_uid}"/>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+//选定
+function submitForm(){
+	var rows = grid.getSelecteds(),_ids=new Array(),cur_uid = $('#cur_uid').val();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].user_id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	$.post('/user/user/deleteCurtCon',{'cur_uid':cur_uid,'ids':ids},function(res){
+		if(res.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+//
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

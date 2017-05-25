@@ -1,0 +1,197 @@
+{layout file="public:mini_layout"}
+<div title="采购订单审核" class="form" id="editForm">
+		<input class="mini-hidden" name="id" value="{$id}"/>
+		<input class="mini-hidden" name="p_id" value="{$pid}"/>
+		<input class="mini-hidden" name="pc_id" value="{$info.pc_id}"/>
+		<input class="mini-hidden" name="c_id" value="{$info.c_id}"/>
+		<input class="mini-hidden" name="status" value="{$info.status}"/>
+		<input class="mini-hidden" name="originarea" value="{$info.originarea}"/>
+		<input class="mini-hidden" name="pstore_house" value="{$info.pstore_house}">
+		<input class="mini-hidden" name="pp_id" value="{$info.pp_id}">
+		<input class="mini-hidden" name="pnumber" value="{$info.pnumber}">
+		<input class="mini-hidden" name="number" value="{$info.number}">
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>订单基本信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td style="width:60px;">采购编号:</td>
+					<td style="width:360px;">{$info.sn}</td>
+					<td style="width:60px;">&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>买家名称：</td>
+					<td>{$info.salecinfo.c_name}</td>
+					<td>交易员：</td>
+					<td>{$info.saleminfo.name}</td>
+				</tr>
+				<tr>
+
+					<td>卖家名称：</td>
+					<td>{$info.buycinfo.c_name}</td>
+					<td>交易员：</td>
+					<td>{$info.buyminfo.name}</td>
+				</tr>
+				<tr>
+					<td>交货地址：</td>
+					<td>{$info.porigin}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>					
+					<td>销售备注:</td>
+					<td colspan="3">{$info.premark}</td>
+				</tr>	
+			</table>
+			
+		</fieldset>
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>商品基本信息</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td style="width:100px;">产品:</td>
+					<td style="width:360px;">{$product_type.$info.product.product_type}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>牌号：</td>
+					<td>{$info.product.model}</td>
+					<td>厂家：</td>
+					<td>{$info.product.f_name}</td>
+				</tr>
+				<tr>
+					<td>期现货：</td>
+					<td>{if $info.pcargo_type eq 1}现货{else}期货{/if}</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>运输方式：</td>
+					<td>{$ship_type.$info.ship_type}</td>
+					<td>信息有效期【销】：</td>
+					<td>{$period.$info.pperiod}</td>
+				</tr>
+				<tr>
+					<td>交货日期【采】：</td>
+					<td>{$info.delivery_date|date:Y-m-d H:i:s}</td>
+					<td>采购有效期：</td>
+					<td>{$info.expiry_date|date:Y-m-d H:i:s}</td>
+				</tr>
+				<tr>
+					<td>创建日期【采】：</td>
+					<td>{$info.input_time|date:Y-m-d H:i:s}</td>
+					<td>创建日期【销】：</td>
+					<td>{$info.pinput_time|date:Y-m-d H:i:s}</td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">销售数量：</font></td>
+					<td><font style="color:blue;">{$info.pnumber}</font></td>
+					<td><font style="color:red;">销售价格：</font></td>
+					<td><font style="color:blue;">{$info.punit_price}</font></td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">采购数量：</font></td>
+					<td><font style="color:blue;">{$info.number}</font></td>
+					<td><font style="color:red;">采购价格：</font></td>
+					<td><font style="color:blue;">{$info.price}</font></td>
+				</tr>
+				<tr>
+					<td><font style="color:red;">审核状态【销】：</font></td>
+					<td><font style="color:blue;">{$status.$info.pstatus}</font></td>
+					<td><font style="color:red;">审核状态【采】：</font></td>
+					<td><font style="color:blue;">{$status.$info.status}</font></td>
+				</tr>
+				<tr>					
+					<td>采购备注:</td>
+					<td colspan="3">{$info.remark}</td>
+				</tr>	
+			</table>
+		</fieldset>
+		{if $chk}
+		<fieldset style="border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>审核部分：</legend>
+			<table width="100%" border="0" cellpadding="1" cellspacing="2">
+				<tr>
+					<td>成交价：</td>
+					<td><input name="m_price" class="mini-textbox"  value="" required="true" style="width:150px"/></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>付款方式：</td>
+					<td>
+						<input name="pay_method" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$pay_method}'  required="true" textfield="name" valuefield="id"/>
+					</td>
+				</tr>
+				<tr>
+					<td>送货日期：</td>
+					<td><input name="delivery_time" class="mini-datepicker" style="width:150px;"   required="true"/></td>
+				</tr>
+				<tr>
+					<td>提货日期：</td>
+					<td><input name="pickup_time" class="mini-datepicker" style="width:150px;"   required="true"/></td>
+				</tr>
+				<tr>
+					<td>提货方式：</td>
+					<td><input name="m_transport" class="mini-combobox" style="width:150px;" value="" data='{:setMiniConfig|$m_transport}'  required="true" textfield="name" valuefield="id"/></td>
+				</tr>
+				<tr>
+					<td>备注：</td>
+					<td colspan="3">
+						<input name="m_remark" class="mini-textarea" value="{$data.remark}" style="width:510px; height:100px;"/>
+					</td>
+				</tr>
+			</table>	
+		</fieldset>
+		{/if}
+	</div>
+</div>
+{if $chk}
+<div align="center" style="margin-top:10px;margin-bottom:10px;">
+	<a class="mini-button" iconcls="icon-ok" onclick="submitForm">提交审核</a>
+	<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+</div>	
+{/if}
+<script type="text/javascript">
+mini.parse();
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/buySale/chkSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			window.location.reload();
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+</script>

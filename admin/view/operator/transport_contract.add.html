@@ -1,0 +1,230 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+	.hidden {display:none;}
+</style>
+<link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
+<div style="padding:5px; " >
+	<div id="infoForm" class="form">
+	<input class="mini-hidden"  name="c_id" value="{$info.c_id}" />
+	<input class="mini-hidden"  name="order_sn" value="{$info.order_sn}" />
+	<input class="mini-hidden"  name="o_id" value="{$info.o_id}" />
+	<input class="mini-hidden"  name="order_type" value="{$info.order_type}" />
+	<input class="mini-hidden"  name="total_num" value="{$info.total_num}" />
+		<div  style="padding:5px; " >
+			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+				<legend>运输合同</legend>
+				<div id="editForm1" style="padding:5px; ">
+					<table id="table1" width="100%" >					
+						<tr>							
+							<td><font style="color:red;">甲方(委托方)：</font></td>
+							<td><input name="order_name" id="order_name" class="mini-textbox" style="width:350px;" required="true" value="{$order_name}"/></td>
+							<td>合同日期： </td>
+							<td><input  class="mini-datepicker"  name="contract_time"  id="contract_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$info.sign_time}"/>
+							</td>
+						</tr>
+						<tr>
+							<td>乙方(承运方)：</td>
+							<td>
+								<input name="second_part_company_id" onvaluechanged="getcompany" class="mini-combobox" style="width:250px;" id="second_part_company_id" value="" data='{$customer_info}'   required="true" textField="name" valueField="id" />
+							</td>
+							<td>签订地点：</td>
+							<td>上海虹口区欧阳路568号17楼
+							</td>
+						</tr>
+						<tr>
+							<td>货物牌号:</td>
+							<td><input name="goods_class"  id="goods_class" class="mini-textbox" style="width:350px;"required="true" value=""/>
+							</td>
+						</tr>
+						<tr>
+							<td>货物数量:</td>
+							<td><input name="goods_num"  id="goods_num" class="mini-textbox" style="width:100px;"  required="true" onvaluechanged="sum()"/> 吨
+							</td>
+						</tr>
+						<tr>
+							<td>提货地点：</td>
+							<td><input name="start_place" id="start_place" class="mini-textbox" style="width:350px;" required="true" value=""/>
+							</td>
+						</tr>
+						<tr>
+							<td>送货地点：</td>
+							<td><input name="end_place" id="end_place" class="mini-textbox" style="width:350px;" required="true" value=""/>
+							</td>
+						</tr>
+						<tr>
+							<td>送货日期：</td>
+							<td><input  class="mini-datepicker"  name="delivery_time"  id="delivery_time"  format="yyyy-MM-dd" timeFormat="yyyy-MM-dd" showTime="true"  required="false" value="{$info.sign_time}"/>
+							</td>
+						</tr>
+						<tr>
+							<td>合同责任：</td>
+						</tr>
+						<tr>
+							<td colspan="3">乙方必须于甲方的指定期限内，将货物送到甲方的指定地点。</td>
+						</tr>
+						<tr>
+							<td>注意事项：</td>
+						</tr>
+						<tr>
+							<td colspan="4">乙方必须保证甲方的货物，安全、无破损、无潮湿、无变质等情况。若出现以上的情况，乙方必须负责赔偿甲方的损失。</td>
+						</tr>
+						<tr>
+							<td>备注：</td>
+							<td>合同传真件有效
+							</td>
+						</tr>
+						<tr>
+							<td>车号：</td>
+							<td></td>
+							</tr><tr>
+							<td>司机姓名：</td>
+							<td></td>		
+							</tr><tr>
+							<td>身份证号码：</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>运输费用详情(含税)：</td>
+							<td>单价: <input name="delivery_price" id="delivery_price"class="mini-textbox" style="width:50px;" maxlength="50"  required="true" onvaluechanged="sum()"/> 元/吨 + 装车费:
+							               <input name="delivery_trans" id="delivery_trans"class="mini-textbox" style="width:50px;" maxlength="50"   onvaluechanged="sum()"/> 元 + 其它:
+							               <input name="delivery_other" id="delivery_other"class="mini-textbox" style="width:50px;" maxlength="50"  onvaluechanged="sum()"/> 元</td>
+						</tr>
+						<tr>
+						<td>运输总费用(含税)：</td>
+						<td id="delivery_fee_count" onkeyup="sum()"></td>
+						</tr>
+						<tr>
+							<td>
+								<div>甲方</div>
+								<div>TEL:<input name="first_part_contact_tel"   class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.tel}"/></div>
+								<div>FAX:<input name="first_part_contact_fax"  class="mini-textbox" style="width:125px;"  required="true" value="{$first_part_info.fax}"/></div>
+								<div>委托代理人:<input name="first_part_contact_name" class="mini-textbox" style="width:85px;" required="true" value="{$first_part_info.name}"  /></div>
+							</td>
+							<td>
+								<div>乙方</div>
+								<div >TEL:<input name="second_part_contact_tel"  id="second_part_contact_tel" class="mini-textbox" style="width:125px;" required="true" value=""/></div>
+								<div >FAX:<input name="second_part_contact_fax"  id="second_part_contact_fax" class="mini-textbox" style="width:125px;"  required="true" value=""/></div>
+								<div>委托代理人:<input name="second_part_contact_id" onvaluechanged="getcontact" class="mini-combobox" style="width:85px;" id="second_part_contact_id" value="" url="/product/transport/get_company_contact?company_id=1"   required="true" textfield="name" valuefield="id"/></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+</div>
+<div align="center" style="margin-top:10px;">
+	<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+	<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+	mini.parse();
+	$('#partnertitle').hide();
+	$('#partner').hide();
+	var form = new mini.Form("#infoForm");
+	var noStockData;
+	var totalCounts={num:0,price:0};
+	var t_price=0;
+	var gridCell ;
+	"{if $order_type eq 2}"
+	gridCell=mini.get('gridCell3');
+	noStockData=[];
+	"{/if}"
+	"{if $detail neq ''}"
+	var noStockData = {$detail};
+	gridCell.setData(noStockData);
+	totalCount(noStockData);
+	"{/if}"
+/* 	mini.get('plate_number').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 6) {
+				e.errorText = "车牌号必须为6位";
+				e.isValid = false;
+			}
+		}
+	});
+	mini.get('driver_idcard').on("validation", function (e) {
+		if (e.isValid) {
+			if (e.value.length != 18) {
+				e.errorText = "身份证号必须为18位";
+				e.isValid = false;
+			}
+		}
+	}); */
+	function submitForm(){
+		form.validate();
+		if(form.isValid() == false) return;
+		//提交数据
+		var o = form.getData(true);
+		var json = mini.encode(o);
+		console.log(json);
+		$("#returnMsg").text('');
+		form.loading("数据提交中，请稍后......");
+		var urlstr = '/operator/transport/addSubmit';
+		$.post(urlstr,o,function(data){
+			form.unmask();
+			$("#returnMsg").text(data.msg);
+			if(data.err=='0'){
+				CloseWindow("save");
+			}else{
+				return false;
+			}
+		},'json');
+	}
+	function getcompany()
+	{
+		var id = mini.get('second_part_company_id').getValue();
+		var contact = mini.get('second_part_contact_id');
+		var url0 = "/operator/transport/get_supplier_info?supplier_id=" + id;
+		$.post(url0,'',function(data){
+			//mini.get('second_part_contact_fax').setValue(data.company_fax);
+		},'json');
+		contact.setValue("");
+		var url = "/operator/transport/get_contact_list?company_id=" + id;
+		contact.setUrl(url);
+	}
+	function getcontact()
+	{
+		var contact = mini.get('second_part_contact_id').getValue();
+		var url = "/operator/transport/get_contact_info?contact_id=" + contact;
+		$.post(url,'',function(data){
+			mini.get('second_part_contact_tel').setValue(data.contact_tel);
+			mini.get('second_part_contact_fax').setValue(data.comm_fax);
+		},'json');
+	}
+	function CloseWindow(action) {
+		if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+		else window.close();
+	}
+	function onCancel(e) {
+		CloseWindow("cancel");
+	}
+	function onValidation(e){
+		unit_price=mini.get('change_price').getValue();
+		index=e.sender.ownerRowID;
+		noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);
+		totalCount(noStockData);
+	}
+	function tips(e) {
+		var record = e.record,compare = record.compare,unit_price = record.unit_price;
+		if(compare==0	){
+			return '<span style="color:red;">'+unit_price+'</span>';
+		}
+		return unit_price;
+	}
+	//计算运输合同总费用	
+    function sum(){
+    var goods_num=Math.round(((mini.get('goods_num').getValue()))*10000)/10000;   
+    var delivery_price=Math.round((mini.get('delivery_price').getValue())*100)/100;
+	var delivery_trans=Math.round((mini.get('delivery_trans').getValue())*100)/100;
+	var delivery_other=Math.round((mini.get('delivery_other').getValue())*100)/100;
+	var delivery_fee_count=((delivery_price*100)*(goods_num*10000))/1000000+delivery_trans*1+delivery_other*1;
+	if(Math.floor(delivery_fee_count)==delivery_fee_count){
+	$("#delivery_fee_count").text(Math.round(delivery_fee_count*100)/100+'.00'+' 元');
+	}else{
+	$("#delivery_fee_count").text(Math.round(delivery_fee_count*100)/100+' 元');	
+	}
+    }
+</script>

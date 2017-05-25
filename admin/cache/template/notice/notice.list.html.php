@@ -1,0 +1,114 @@
+ __layout|public:mini_layout|layout__
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="addWork()"plain="true" >新增</a>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				创建日期：
+				<input name="startTime" class="mini-datepicker" style="width:95px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+			</form>	
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/notice/notice/init?action=grid&do=<?php echo $this->_var['doact']; ?>"  idField="id"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true"  onrowdblclick="onRowDblClick" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="id" width="20" headerAlign="center" align="center" allowSort="true">编号</div>
+			<div field="title" width="30" headerAlign="center" align="center" >标题</div>
+			<div field="input_admin" width="25" headerAlign="center" align="center" allowSort="true">创建人</div>
+			<!-- <div field="update_admin" width="30" headerAlign="center" align="center" allowSort="true">修改人</div> -->
+			<div field="input_time" width="30" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">创建时间</div>
+			<!-- <div field="update_time" width="40" headerAlign="center" align="center" allowSort="true"dateFormat="yyyy-MM-dd HH:mm">修改时间</div> -->
+			<div field="status" width="45" headerAlign="center" align="center" allowSort="true"renderer="onStatusRender">状态</div>
+			<div field="doaction" width="75" headerAlign="center" align="center" renderer="onLoadDetail">操作</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+//删除公告
+function remove() {
+    var rows = grid.getSelecteds(),_ids=new Array();
+    if(rows.length<1) return;
+    for(var i=0;i<rows.length;i++){
+        var _id=parseInt(rows[i].id);
+        if(_id<1){
+            grid.removeRow(rows[i],false);
+        }else{
+            _ids.push(_id);
+        }
+    }
+    var ids=_ids.join(',');
+    console.log(ids);
+    if(ids=='') return;
+    mini.confirm("确定删除公告？", "提示", function(action){
+        if(action!='ok') return;
+        var callback=function(data){
+            grid.reload();
+            return false;
+        }
+        utils.ajax('/notice/notice/remove',{ids:ids},callback,"POST","json");
+    });
+}
+//操作
+function onLoadDetail(e) {
+	var record = e.record,s='',id = record.id;
+	s+='&nbsp;<a href="javascript:viewWorkInfo('+id+')">查看</a>';
+	return s;
+}
+//查看公告内容
+function viewWorkInfo(id){
+	mini.open({
+		url: "/notice/notice/info?id="+id,
+		showMaxButton:true,
+		title: "查看公告详情信息", 
+		width: 1280, height:700
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//新增公告
+function addWork(){
+	mini.open({
+		url: "/notice/notice/add",
+		showMaxButton:true,
+		title: '新增公告', width: 530, height: 450, 
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+//运输合同审核状态
+function onStatusRender(e) {
+	var s='',record = e.record;
+    if(record.status=='1'){
+
+        s+='正常';       
+    }else if(record.status=='0')
+	{
+		s+='删除';
+	}
+    return s;
+}
+
+</script>

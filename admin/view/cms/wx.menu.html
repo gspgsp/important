@@ -1,0 +1,584 @@
+{layout file="public:main_layout"}
+{insert_css files='menu.css'}
+<div id="containWrap">
+    <div id="content">    
+        <div class="m_ctx">
+            <div class="s_item">
+                <h3>菜单1</h3>
+                <form action="" method="post" name="menu1" id="menu1">
+                <table id="menu1_form">
+                    <colgroup>
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="20%" />
+                        <col width="50%" />
+                    </colgroup>
+                    <tr>
+                        <td colspan="2">
+                            类型：
+                            <select name="type" id="chosetype1" class="type_choose">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                                <option value="sub_button">子菜单</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu1_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu1_url" data-click="menu1_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单1：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu1_sub1_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu1_sub1_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu1_sub1_url" data-click="menu1_sub1_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button">
+                        <td>
+                            <div class="s_tittle">子菜单2：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu1_sub2_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu1_sub2_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu1_sub2_url" data-click="menu1_sub2_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单3：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu1_sub3_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu1_sub3_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu1_sub3_url" data-click="menu1_sub3_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button">
+                        <td>
+                            <div class="s_tittle">子菜单4：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu1_sub4_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu1_sub4_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu1_sub4_url" data-click="menu1_sub4_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单5：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu1_sub5_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu1_sub5_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu1_sub5_url" data-click="menu1_sub5_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+            
+            <div class="s_item">
+                <h3>菜单2</h3>
+                <form method="post" action="" name="menu2" id="menu2">
+                <table id="menu2_form">
+                    <colgroup>
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="20%" />
+                        <col width="50%" />
+                    </colgroup>
+                    <tr>
+                        <td colspan="2">
+                            类型：
+                            <select name="type" id="chosetype2" class="type_choose">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                                <option value="sub_button">子菜单</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu2_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu2_url" data-click="menu2_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单1：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu2_sub1_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu2_sub1_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu2_sub1_url" data-click="menu2_sub1_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button">
+                        <td>
+                            <div class="s_tittle">子菜单2：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu2_sub2_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu2_sub2_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu2_sub2_url" data-click="menu2_sub2_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单3：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu2_sub3_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu2_sub3_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu2_sub3_url" data-click="menu2_sub2_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button">
+                        <td>
+                            <div class="s_tittle">子菜单4：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu2_sub4_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu2_sub4_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu2_sub4_url" data-click="menu2_sub4_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单5：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu2_sub5_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu2_sub5_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu2_sub5_url" data-click="menu2_sub5_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+            
+            <div class="s_item">
+                <h3>菜单3</h3>
+                <form method="post" action="" name="menu3" id="menu3">
+                <table id="menu1_form">
+                    <colgroup>
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="20%" />
+                        <col width="50%" />
+                    </colgroup>
+                    <tr>
+                        <td colspan="2">
+                            类型：
+                            <select name="type" id="chosetype3" class="type_choose">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                                <option value="sub_button">子菜单</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu3_name" class="sub_name" data-click="menu3_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu3_url" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单1：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu3_sub1_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu3_sub1_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu3_sub1_url" data-click="menu3_sub2_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button">
+                        <td>
+                            <div class="s_tittle">子菜单2：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu3_sub2_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu3_sub2_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu3_sub2_url" data-click="menu3_sub2_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单3：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu3_sub3_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu3_sub3_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu3_sub3_url" data-click="menu3_sub3_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button">
+                        <td>
+                            <div class="s_tittle">子菜单4：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu3_sub4_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu3_sub4_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu3_sub4_url" data-click="menu3_sub4_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="sub_button ogg">
+                        <td>
+                            <div class="s_tittle">子菜单5：</div>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select class="type_choose" name="menu3_sub5_type">
+                                <option value="click">事件</option>
+                                <option value="view">链接</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span>名称：</span>
+                            <span><input type="text" name="menu3_sub5_name" class="sub_name" /></span>
+                        </td>
+                        <td>
+                            <div class="urls">
+                                <span>url地址：</span>
+                                <span><input type="text" name="menu3_sub5_url" data-click="menu3_sub5_name" /></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </form>
+                
+                <div class="set_line"><span class="set_btn" id="submit">设置</span></div>
+            </div>
+        </div>
+    </div>
+    <script>
+	
+    	$("#chosetype1, #chosetype2, #chosetype3").change(function(){
+			if($(this).val()=="sub_button"){
+				$(this).parents('.s_item').find(".sub_button").show();
+				$(this).parent().siblings().find(".type_choose").hide();
+				$(this).parent().siblings().find(".type_choose").val("key");
+				$(this).parent().siblings().find(".urls").hide();
+				$(this).parent().siblings().find(".type_choose").change();
+			}else if($(this).val()=="click"){
+				$(this).parents('.s_item').find(".sub_button").hide();
+				$(this).parent().siblings().find(".type_choose").show();
+				
+			}else{
+				$(this).parents('.s_item').find(".sub_button").hide();
+				$(this).parent().siblings().find(".type_choose").show();
+			}
+		});
+		
+		$(".type_choose").each(function() {
+			$(this).change(function(){
+				//var vals = $(this).parents('td').siblings().find(".urls input[data-click]").attr('data-click');
+				//var key = $(this).parents('td').siblings().find(".urls input[data-click]").attr('name');
+				//var key2 = key.replace('url','key');
+				
+				if($(this).val()=="view"){
+					$(this).parents('td').siblings().find(".urls").show();
+					//$(this).parents('td').siblings().find(".urls input[data-click]").val("");
+					//$(this).parents('td').siblings().find(".urls input[data-click]").attr('name',key);
+				}else if($(this).val()=="click"){
+					$(this).parents('td').siblings().find(".urls").hide();
+					$(this).parents('td').siblings().find(".urls").hide();
+					//$(this).parents('td').siblings().find(".urls input[data-click]").val(vals);
+					//$(this).parents('td').siblings().find(".urls input[data-click]").attr('name',key2);
+				}else{
+					$(this).parents('td').siblings().find(".urls").hide();
+					//$(this).parents('td').siblings().find(".urls input[data-click]").val("");
+					//$(this).parents('td').siblings().find(".urls input[data-click]").attr('name',key);
+				}
+			});
+        });
+		
+		+(function(){
+			$("#chosetype1, #chosetype2, #chosetype3").val(0);
+			$(".type_choose").each(function() {
+                $(this).change();
+            });
+			//$("#chosetype1, #chosetype2, #chosetype2").change();
+		}())
+		
+		function setArr(key,ar_key){
+			var key = key;
+			var arr = key.split("_");
+			if(arr[1]==ar_key){
+				return [ar_key,arr[2]]
+			}else{
+				return [arr[1],arr[2]]
+			}
+		}
+		$("#submit").click(function(){
+			var subform = {};
+				subform.button = [];
+				menu = [$("#menu1").serializeArray(),$("#menu2").serializeArray(),$("#menu3").serializeArray()];
+				subform.button[0] = {};
+				subform.button[1] = {};
+				subform.button[2] = {};
+			var len = menu1.length;
+			
+			for(var i=0;i<3;i++){
+				if(menu[i][1].value==""){
+					delete subform.button[i];
+					continue;
+				}
+				switch(menu[i][0].value){
+					case 'click' :
+						subform.button[i].type = 'click';
+						subform.button[i].name = menu[i][1].value;
+						subform.button[i].key  = menu[i][1].name;
+					break;
+					case 'view' :
+						subform.button[i].type = 'view';
+						subform.button[i].name = menu[i][1].value;
+						subform.button[i].url  = menu[i][2].value;
+					break;
+					case 'sub_button' :
+						subform.button[i].name = menu[i][1].value;
+						subform.button[i].sub_button = [];
+					break;
+				}
+				// 循环组装子菜单
+				if(menu[i][0].value == 'sub_button'){
+					var obj = {};
+					var str = 'sub1';
+					for(var j=3;j<len;j++){
+						var val  = menu[i][j].value;
+						
+						if(val=="") continue;
+						var keys0 = menu[i][j].name;
+						
+						var iobj = setArr(keys0,str);
+						var keys = iobj[1];
+						if(iobj[0]==str){
+							if(obj.type=='click'&&keys=='name'){
+								obj[keys] = val;
+								obj['key'] = keys0;
+							}else if(obj.type=='click'&&keys=='url'){
+								
+							}else{
+								obj[keys] = val;
+							}
+						}else{
+							if(obj.name==""||obj.url==""){
+								delete obj.name;
+								delete obj.type;
+								delete obj.key;
+								delete obj.url;
+							}else{
+								subform.button[i].sub_button.push(obj)
+								obj = {};
+							}
+							str = iobj[0];
+							obj[keys] = val;
+						}
+						if(j==len-1){
+							subform.button[i].sub_button.push(obj)
+						}
+					}
+				}
+			}
+			console.log(subform)
+			$.ajax({
+				'type' : 'POST',
+				url:"/app/weixin/setMenu",
+				data:subform,
+				dataType:"json",
+				success: function(){
+				}
+			});
+			
+		});
+    </script>
+</div>
+</body>
+</html>

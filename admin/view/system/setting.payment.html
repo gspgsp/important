@@ -1,0 +1,111 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>支付设置</h4>
+  <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <!--tr>
+          <th>默认网关: </th>
+          <td>
+              <label><input type="radio" name="channel" value="sina" {if $channel eq 'sina'}checked="checked"{/if}/>新浪</label> 
+              <label><input type="radio" name="channel" value="sheng" {if $channel eq 'sheng'} checked="checked"{/if}/>盛付通</label>
+              <label><input type="radio" name="channel" value="lian" {if $channel eq 'lian'} checked="checked"{/if}/>连连支付</label>
+              <label><input type="radio" name="channel" value="fake" {if empty($channel) or $channel eq 'fake'} checked="checked"{/if}/>模拟</label>
+          </td>
+        </tr>
+        <tr id="payment_sina">
+          <th>新浪参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">商户号：</td><td><input name="sina[merchantAcctId]" value="{$sina.merchantAcctId}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>PID：</td><td><input name="sina[pid]" value="{$sina.pid}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>RSA公钥：</td><td><input name="sina[rsa_public]" value="{$sina.rsa_public}" class="mini-textarea" style="width:380px;" /></td></tr>
+              <tr><td>RSA私钥：</td><td><input name="sina[rsa_private]" value="{$sina.rsa_private}" class="mini-textarea" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr id="payment_sheng">
+          <th>盛付通参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">商户号：</td><td><input name="sheng[MerchantNo]" value="{$sheng.MerchantNo}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>密钥：</td><td><input name="sheng[MerchantKey]" value="{$sheng.MerchantKey}" class="mini-textbox" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr id="payment_lian">
+          <th>连连支付参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">商户号：</td><td><input name="lian[MerchantNo]" value="{$lian.MerchantNo}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>密钥：</td><td><input name="lian[MerchantKey]" value="{$lian.MerchantKey}" class="mini-textbox" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr id="payment_kuaiqian">
+          <th>快钱支付参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">商户号：</td><td><input name="kuaiqian[merchantId]" value="{$kuaiqian.merchantId}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>终端编号：</td><td><input name="kuaiqian[terminalId]" value="{$kuaiqian.terminalId}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>证书路径：</td><td><input name="kuaiqian[certFile]" value="{$kuaiqian.certFile}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>证书密码：</td><td><input name="kuaiqian[certPasswd]" value="{$kuaiqian.certPasswd}" class="mini-textbox" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th>转账充值: </th>
+          <td>
+              <label><input type="radio" name="remittance[enable]" value="1" {if $remittance.enable}checked="checked"{/if}/>启用</label> 
+              <label><input type="radio" name="remittance[enable]" value="0" {if empty($remittance.enable)} checked="checked"{/if}/>禁用</label>
+              <table>
+                <tr><td width="75">收款方全称：</td><td><input name="remittance[name]" value="{$remittance.name}" class="mini-textbox" style="width:380px;" /></td></tr>
+                <tr><td>收款银行：</td><td><input name="remittance[bank]" value="{$remittance.bank}" class="mini-textbox" style="width:380px;" /></td></tr>
+                <tr><td>收款账号：</td><td><input name="remittance[account]" value="{$remittance.account}" class="mini-textbox" style="width:380px;" /></td></tr>
+              </table>
+          </td>
+        </tr-->
+        <tr>
+          <th>快捷充值: </th>
+          <td>
+              <label><input type="radio" name="quickpay[enable]" value="1" {if $quickpay.enable}checked="checked"{/if}/>启用</label> 
+              <label><input type="radio" name="quickpay[enable]" value="0" {if empty($quickpay.enable)} checked="checked"{/if}/>禁用</label>
+          </td>
+        </tr>
+        <tr id="payment_jyt">
+          <th>金运通参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">商户号：</td><td><input name="jyt[merchantId]" value="{$jyt.merchantId}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>RSA私钥：</td><td><input name="jyt[rsa_private]" value="{$jyt.rsa_private}" class="mini-textarea" style="width:380px;" /></td></tr>
+              <tr><td>RSA公钥：</td><td><input name="jyt[rsa_public]" value="{$jyt.rsa_public}" class="mini-textarea" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th>转账充值: </th>
+          <td>
+              <label><input type="radio" name="remittance[enable]" value="1" {if $remittance.enable}checked="checked"{/if}/>启用</label> 
+              <label><input type="radio" name="remittance[enable]" value="0" {if empty($remittance.enable)} checked="checked"{/if}/>禁用</label>
+              <table>
+                <tr><td width="75">收款方全称：</td><td><input name="remittance[name]" value="{$remittance.name}" class="mini-textbox" style="width:380px;" /></td></tr>
+                <tr><td>收款银行：</td><td><input name="remittance[bank]" value="{$remittance.bank}" class="mini-textbox" style="width:380px;" /></td></tr>
+                <tr><td>收款账号：</td><td><input name="remittance[account]" value="{$remittance.account}" class="mini-textbox" style="width:380px;" /></td></tr>
+              </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

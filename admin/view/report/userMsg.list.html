@@ -1,0 +1,34 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+  <table style="width:100%;">
+    <tr>
+      <td style="white-space:nowrap;"><form id="soform">
+          <span>发送时间</span>
+          <input name="startTime" class="mini-datepicker" style="width:100px;"/>
+          -
+          <input name="endTime" class="mini-datepicker" style="width:100px;"/>
+          <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+          <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a> <span id="searchMsg"></span>
+        </form></td>
+    </tr>
+  </table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/report/userMsg/init?action=grid"
+        showFilterRow="true" idField="id"
+        >
+    <div property="columns">
+      <div field="bank_id" width="20" headerAlign="center" align="right">ID</div>
+      <div field="user_id" width="30" headerAlign="center" allowSort="true" align="center" renderer="onLoadUinfo">用户ID</div>
+      <div field="msg" width="210" headerAlign="center" allowSort="true">短信内容</div>
+      <div field="input_time" width="60" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">请求时间</div>
+      <div field="is_read" width="20" headerAlign="center" allowSort="true" align="center">是否已读</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+</script> 

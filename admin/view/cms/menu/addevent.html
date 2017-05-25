@@ -1,0 +1,221 @@
+{layout file="public:main_layout"}
+{insert_css files='set_reply.css?,set_menu.css?'}
+
+<div class="reply_area" id="reply_area" style="display:; padding:10px;">
+	<form id="keyReply" action="" date-level="{$menu}">
+	<div class="type_choose">
+		<span>选择事件回复类型</span>
+		<span>
+			<select id="reply_type">
+				<option value="1">文本</option>
+				<option value="2">图文</option>
+			</select>
+		</span>
+		<span class="rnd_mark1" style="display:none;"><input type="checkbox" id="random" />随机回复</span>
+	</div>
+	
+	<div class="reply_txt cm_reply" id="reply_txt" style="display:block;">
+		<h3>选择事件回复文本 <a href="javascript:void(0)" class="cblue" id="hide_rmlist">选择序号输入</a></h3>
+		<div id="txt_rm_list" class="news_list" style="width:100%;margin-bottom:15px;">
+			{if $tpages}<div class="page_list">{$tpages}</div>{/if}
+			<table id="text_list">
+				<colgroup>
+					<col width="40px" />
+					<col width="40px" />
+					<col width="100px" />
+					<col width="150px" />
+					<col width="500px" />
+				</colgroup>
+				<tr id="rtable_text">
+					<th>请勾选</th>
+					<th>序号</th>
+					<th>发布时间</th>
+					<th>文字链接</th>
+					<th>回复文本</th>
+				</tr>
+				{foreach from=$tlist key=k item=v}
+				<tr>
+					<td><input type="checkbox" value="{$v[id]}" name="news_{$v[id]}" class="txt_reply_checkbox" /></td>
+					<td>{$v[id]}</td>
+					<td>{$v[create_time]}</td>
+					<td>{$v[link]}</td>
+					<td align="left">{$v[reply]}</td>
+				</tr>
+				{/foreach}
+			</table>
+			{if $tpages}<div class="page_list">{$tpages}</div>{/if}
+		</div>
+		<div class="i_numbers" id="t_number" style="display:none">
+			<input type="text" placeholder="请输入模板序号" id="text_number" />
+		</div>
+		
+	</div>
+	<!-- 图文消息区域 -->
+	<div class="reply_news cm_reply" id="reply_news">
+		<h3>选择事件回复图文 <a href="javascript:void(0)" class="cblue" id="hide_rnlist">选择序号输入</a></h3>
+		<div class="news_list" id="news_rn_list" style="width:100%;">
+			{if $npages}<div class="page_list">{$npages}</div>{/if}
+			<table id="news_rlist">
+				<colgroup>
+					<col width="60px" />
+					<col width="60px" />
+					<col width="120px" />
+					<col width="240px" />
+				</colgroup>
+				<tr id="rtable_title">
+					<th>请勾选</th>
+					<th>模板序号</th>
+					<th>发布时间</th>
+					<th>封面标题</th>
+					<th>图文描述</th>
+				</tr>
+				{foreach from=$lists key=k item=v}
+				<tr>
+					<td><input type="checkbox" value="{$v[id]}" name="text_{$v[id]}" class="news_reply_checkbox" /></td>
+					<th>{$v[id]}</th>
+					<td>{$v[create_time]}</td>
+					<td>{$v[title]}</td>
+					<td>{$v[views]}</td>
+				</tr>
+				{/foreach}
+			</table>
+			{if $npages}<div class="page_list">{$npages}</div>{/if}
+		</div>
+		<div class="i_numbers" id="i_number" style="display:none">
+			<input type="text" placeholder="请输入模板序号" id="news_number" /><br />
+			<label>注：以空格或逗号分隔，第一个输入的序号默认为头图模板</label>
+		</div>
+		</form>
+	</div>
+	
+	<div class="reply_submit">
+       	<a class="mini-button" iconCls="icon-ok" onclick="submitForm()">确定</a>
+        <a class="mini-button" iconCls="icon-cancel" onclick="onCancel()">取消</a>
+		<!--<span id="submit" onclick="submitForm" class="mini-button mini-tools-save">保存</span>-->
+	</div>
+</div>
+<script>
+// 回复类型选择
+$("#reply_type").change(function(){
+	var type = $(this).val();
+	$(".cm_reply").hide();
+	if(type==1){
+		$("#reply_txt").show();
+		$(".rnd_mark").show();
+	}else{
+		$("#reply_news").show();
+		$(".rnd_mark").hide();
+	}
+});
+// 图文文本切换
+$("#hide_rmlist").click(function(){
+	$("#txt_rm_list").toggle();
+	$("#t_number").toggle();
+	if($("#txt_rm_list").is(":visible")){
+		$(this).html("选择序号输入");
+	}else{
+		$(this).html("选择点选模板");
+	}
+});
+// 图文文本切换
+$("#hide_rnlist").click(function(){
+	$("#news_rn_list").toggle();
+	$("#i_number").toggle();
+	if($("#news_rn_list").is(":visible")){
+		$(this).html("选择序号输入");
+	}else{
+		$(this).html("选择点选模板");
+	}
+});
+		
+mini.parse();
+var form = new mini.Form("#keyReply");
+
+function submitForm(){
+	var level = "{$menu}";
+		level = level.replace("m","");
+	var reply_txt_model = "",reply_news_model="";
+	
+	// 取文本模板
+	if($("#txt_rm_list").is(":visible")){	
+		$(".txt_reply_checkbox").each(function(){
+			if($(this).is(":checked")){
+				reply_txt_model += $(this).attr("value")+",";
+			}
+		});
+	}else{
+		reply_txt_model = $("#text_number").val();
+	}
+	reply_txt_model = reply_txt_model.replace(/,$/,"");
+	
+	// 取图文模板
+	if($("#news_rn_list").is(":visible")){	
+		$(".news_reply_checkbox").each(function(){
+			if($(this).is(":checked")){
+				reply_news_model += $(this).attr("value")+",";
+			}
+		});
+	}else{
+		reply_news_model = $("#news_number").val();
+	}
+	reply_news_model = reply_news_model.replace(/,$/,"");
+	// 回复类型
+	var $reply_type = $("#reply_type").val();	
+		
+	$keyForm = {
+	  'id' 			: "{$id}",
+	  'status'		: 1,
+	  'type' 		: 3,
+	  'mark'		: "{$mark}",
+	  'name' 		: '{$name}',
+	  'level'		: "{$level}",
+	  'keyname' 	: '',
+	  'menu_string' : ''
+	}
+	// keyname规则：msg+模板类型+菜单位置
+	$keyForm.keyname 	 = "msg_"+($reply_type==1?"text_":"news_")+"{$id}";
+	$keyForm.menu_string = {
+		'name':'{$name}',
+		'type':'click',
+		'keyname':$keyForm.keyname,
+		'reply':($reply_type==1?reply_txt_model:reply_news_model), //回复模板号
+		'p'		:1
+	}
+	
+	form.loading("数据提交中，请稍后......");
+	$.post('/cms/sysMenu/editMenu',$keyForm,function(data){
+		form.unmask();
+			$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			var $data = {
+				'level' : data.level,
+				'reply' : data.menu_string.reply,
+				'keyname' : data.keyname,
+				'type' : data.type,
+				'name' : data.name,
+				'mark' : data.mark,
+				'msg' : 'save'
+			}
+			CloseWindow($data);
+		}else{
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+$(".txt_reply_checkbox").click(function(){
+	$(".txt_reply_checkbox").not(this).attr("checked",false);
+});
+$(".news_reply_checkbox").click(function(){
+	if($(".news_reply_checkbox:checked").length>=10){
+		$(this).attr("checked",false);
+	}
+});
+
+</script>

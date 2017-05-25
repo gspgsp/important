@@ -1,0 +1,286 @@
+{layout file="public:mini_layout"}
+<style>
+	#addForm td{width:50px;}
+</style>
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-edit" plain="true" onclick="doEdit()">编辑</a> 
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="status" id="soStatus">
+					<option value="">=商品状态=</option>
+					<option value="1">上架</option>
+					<option value="2">下架</option>
+				</select>
+				<select id="cate_id" name="cate_id">
+					<option value="" selected="selected">=商品分类=</option>
+					{html_options options=$goods_category}
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入商品名" style="width:140px;" onenter="onKeyEnter"/>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/product/goods/init?action=grid&do={$doact}"
+		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="cate_id" renderer="setCate" width="30" headerAlign="center" allowSort="true" align="center">商品分类<span style="color:red">*</span>
+				<input property="editor" name="cate_id" class="mini-combobox" data='{:setMiniConfig|$goods_category}' textField="name" valueField="id" style="width:90px;" required="true"/>
+			</div>
+			<div field="name" width="200" headerAlign="center" align="center">商品名称<span style="color:red">*</span>
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="price" width="60" headerAlign="center" allowSort="true" align="center">进价<span style="color:red">*</span>
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="points" width="60" headerAlign="center" align="center">所需积分<span style="color:red">*</span>
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>                
+			<div field="receive_num" width="60" headerAlign="center" allowSort="true" align="center">总兑换数
+			</div>
+			<div field="num" width="80" headerAlign="center" align="center">库存<span style="color:red">*</span>
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>        
+			<div field="thumb" width="80" headerAlign="center" allowSort="true" align="center" renderer="onLoadShowPic">预览图片
+			</div>			
+			<div field="status" width="60" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态<span style="color:red">*</span>
+				<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />     
+			</div>
+			<div field="create_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
+		</div>
+	</div>
+</div>
+<div id="picShow" style="display:none; background-color: #A4C6D5; border:1px solid #333333; padding:5px;"></div>
+
+<div id="addgoods" class="mini-window" title="商品添加" style="width:400px;" 
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="addForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			<tr>
+				<td>商品名称<span style="color:red">*</span></td>
+				<td><input name="name" class="mini-textbox" style="width:170px;" required="true"/></td>
+			</tr>
+			<tr>
+				<td>商品编号<span style="color:red">*</span></td>
+				<td><input name="goods_id" class="mini-textbox" style="width:170px" required="true"/></td>
+			</tr>
+			<tr>
+				<td>商品分类<span style="color:red">*</span></td>
+				<td><input name="cate_id" class="mini-combobox" data='{:setMiniConfig|$goods_category}' textField="name" valueField="id" style="width:90px;" required="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>进价<span style="color:red">*</span></td>
+				<td><input name="price" class="mini-textbox" style="width:170px" required="true"/></td>
+			</tr>
+			<tr>
+				<td>所需积分<span style="color:red">*</span></td>
+				<td><input name="points" class="mini-textbox" required="true" style="width:170px"/>
+				</td>
+			</tr>
+			<tr>
+				<td>库存量<span style="color:red">*</span></td>
+				<td><input name="num" class="mini-textbox" required="true" style="width:170px"/>
+				</td>
+			</tr>
+			<tr>
+				<td>商品图</td>
+				<td>
+					<input id="img_url1"  name="thumb" class="mini-textbox" value="" style="width:120px"/>
+					<input id="upfileId1" type="file" name="upFile" style="width:105px" onChange="fileUpload(1);">
+				</td>
+			</tr>
+			<tr>
+				<td>详情图</td>
+				<td>
+					<input id="img_url2"  name="image" class="mini-textbox" value="" style="width:120px"/>
+					<input id="upfileId2" type="file" name="upFile" style="width:105px" onChange="fileUpload(2);">
+				</td>
+			</tr>
+			<tr>
+				<td>状态<span style="color:red">*</span></td>
+				<td><input class="mini-combobox" name="status" style="width:90px;" data='{:setMiniConfig|$status}' required="true" textField="name" valueField="id" value="1"/></td>
+			</tr>
+			<tr>
+				<td>显示端口<span style="color:red">*</span></td>
+				<td><input class="mini-combobox" name="is_mobile" style="width:90px;" data='{:setMiniConfig|$is_mobile}' required="true" textField="name" valueField="id"/></td>
+			</tr>
+			<tr>
+				<td>排序</td>
+				<td><input name="sort" class="mini-textbox" style="width:170px" /></td>
+			</tr>
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">保存</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+var dStatus=[{ id: 1, text: '上架' }, { id: 2, text: '下架'}];
+
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//设置分类
+function setCate(e){
+	var record = parseInt(e.record.cate_id); //record.id
+	return $("#cate_id").find("option[value="+record+"]").text();
+}
+//删除数据
+function removeRow() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			// utils.ajax('/product/goods/{$action}?action=remove',{ids:ids},callback,"POST","json");
+			utils.ajax('/product/goods/remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+
+
+
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	// utils.ajax('/product/goods/{$action}?action=save',{data:json},callback,"POST","json");
+	utils.ajax('/product/goods/save',{data:json},callback,"POST","json");
+}
+
+//弹出增加form表单
+var addgoods = mini.get("addgoods");
+var form = new mini.Form("#addForm");
+function add() {
+	form.clear();
+	addgoods.show();
+}
+//增加后提交数据(保存)
+function submitForm() {
+	form.validate();
+  if (form.isValid() == false) return;
+  var o = form.getData();
+  grid.loading("数据提交中，请稍后......");
+  var json = mini.encode(o);
+  var callback=function(data){
+	if(data.err!='0'){
+	  grid.unmask();
+	  alert(data.msg);
+	  return false;
+	}else{
+	  grid.reload();
+	  addgoods.hide();
+	}
+  }
+  utils.ajax('/product/goods/save?do=add',{data:json},callback,"POST","json");
+}
+
+function doEdit(){
+	var row=grid.getSelected();
+	console.log(row);
+	if(!row) return;
+
+	form.clear();
+	addgoods.show();
+	form.setData(row);
+
+}
+
+function fileUpload(id) {
+	$.ajaxFileUpload({
+		url:'/system/sysUpload/images?model=',
+			secureuri:false,
+			fileElementId:'upfileId'+id,
+			dataType:'json',
+			success: function (data) {
+				if(data.err=='0'){
+					mini.get("img_url"+id).setValue(data.msg);
+				}
+			},
+			error: function (data, status, e){
+				$("#picResult").html(e);
+			}
+		}
+	)
+	return false;
+}
+
+//查看头像
+function onLoadShowPic(e) {
+	var record = e.record, thumb=record.thumb, s='';
+	if(thumb != null){
+        return s += '<a href="javascript:;" onmouseenter="showPic(\''+thumb+'\',this)" onmouseout="hidePic()" />查看</a>';
+	}
+	return s;
+}
+function showPic(url,obj){
+	var width = $(window).innerWidth();
+	var left = $(obj).offset().left;
+	var top = $(obj).offset().top;
+	reg=/^http.*?$/;  
+        if(!reg.test(url)){
+			$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="150px" src="__UPLOAD__/'+url+'" />');
+		}else{
+			$('#picShow').show().css({"top":top+20+"px","left":left-10+"px","position":"absolute"}).html('<img width="150px" src="'+url+'" />');
+		}
+}
+function hidePic(){
+	$('#picShow').hide();
+}
+
+
+</script>

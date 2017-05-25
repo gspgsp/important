@@ -1,0 +1,92 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+  <div id="basicForm" class="form" activeIndex="0" plain="false">
+    <input class="mini-hidden" name="user_id" value="{$user_id}"/>
+    <table border="0" cellpadding="1" cellspacing="2">
+      <tr>
+        <td>选择客户经理：</td>
+        <td><input name="admin_id" class="mini-buttonedit" onbuttonclick="usrChoose" allowInput="false" required="true" style="width:150px" id="usrId"/></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td><a class="mini-button" iconCls="icon-ok" onclick="submitBasic">确定</a> <a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+
+function usrChoose(e){
+	var btn = this;
+    mini.open({
+		url: "/rbac/adm/init?do=search",
+		title: "选择客户经理",
+		width: 960,
+		height: 450,
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.username+"["+data.admin_id+"]");
+					$("#"+btn.id+"\\$value").val(data.admin_id);
+					//$("input[name=info\\[user_id\\]]").val(data.user_id);
+				}
+			}
+		}
+	});         
+}
+function onLoadAccountLog(e){
+	var record = e.record; //record.id
+	return '<a href="javascript:viewAccountLog();" title="查看账户流水">'+record.ac_name+'</a>';
+}
+//查看编辑卡片信息
+function viewAccountLog(){
+	var row = accountGrid.getSelected(),user_id=row.user_id,ac_type=row.ac_type;
+	url="/user/account/logs?user_id="+user_id+"&ac_type="+ac_type;
+	mini.open({
+		url: url,
+		showMaxButton:true,
+		title: "查看账户流水", width: 850, height:550
+	});		
+}
+
+
+var form = new mini.Form("#basicForm");
+function submitBasic(){
+  form.validate();
+  if(form.isValid() == false) return;
+  
+  //提交数据
+  var o = form.getData();
+  var json = mini.encode(o);
+  $("#returnMsg").text('');
+  form.loading("数据提交中，请稍后......");
+  $.post('/user/user/setSubmit',{data:json},function(data){
+	  form.unmask();
+	  $("#returnMsg").text(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }else{
+		  return false;
+	  }
+  },'json');
+}
+
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script> 

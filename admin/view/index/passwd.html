@@ -1,0 +1,64 @@
+{layout file="public:mini_layout"}
+<div id="pwdForm" class="form" style="padding:15px;">
+        <table style="width:100%;">
+            <tr>
+                <td style="width:70px;">用户名：</td>
+                <td>{$smarty.session.name}</td>
+            </tr>
+            <tr>
+                <td style="width:90px;">原密码：</td>
+                <td><input id="oldpassword" name="oldpassword" class="mini-password" style="width:100px" required="true" vtype="minLength:6" minLengthErrorText="密码不能少于6个字符"/></td>
+            </tr>
+            <tr>
+                <td>新密码：</td>
+                <td><input id="newpassword" name="newpassword" class="mini-password" style="width:100px" required="true" vtype="minLength:6" minLengthErrorText="密码不能少于6个字符"/></td>
+            </tr>
+            <tr>
+                <td>确认新密码：</td>
+                <td><input id="repassword" name="repassword" class="mini-password" style="width:100px" required="true" vtype="minLength:6" onvalidation="onRepwdValidation"/></td>
+            </tr>
+          <tr>
+              <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+                 <a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitForm()">更改密码</a>
+              </td>                
+          </tr>
+        </table>
+</div>
+<script type="text/javascript">
+mini.parse();
+
+function onRepwdValidation(e) {
+	if (e.isValid) {
+		var oldpassword=mini.get("oldpassword").getValue(),newpassword=mini.get("newpassword").getValue(),repassword=mini.get("repassword").getValue();
+		if (newpassword != repassword) {
+			e.errorText = "两次输入密码不一致";
+			e.isValid = false;
+		}
+		if (oldpassword==newpassword) {
+			e.errorText = "新老密码相同";
+			e.isValid = false;
+		}
+	}
+}
+
+//提交数据
+function submitForm() {
+	var form = new mini.Form("#pwdForm");
+	form.validate();
+	if (form.isValid() == false) return;
+	
+	var o = form.getData();
+	var json = mini.encode(o);
+
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			parent.window.location='/';
+		}
+	}
+	utils.ajax('/index/index/modifyPasswd',{data:json},callback,"POST","json");
+}
+</script>

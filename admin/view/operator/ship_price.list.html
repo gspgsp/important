@@ -1,0 +1,140 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<a class="mini-button" iconCls="icon-add" onclick="addRow()" plain="true" tooltip="增加">增加</a>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>     
+				<span class="separator"></span>             
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+			</td>
+			<td style="float:right;">
+			<form id="soform">
+				<select name="prince_type">
+					<option value="">=价格区间=</option>
+					<option value="5to10">5-10吨价格</option>
+					<option value="10to15">10-15吨价格</option>
+					<option value="15to20">15-20吨价格</option>
+					<option value="25to30">25-30吨价格</option>
+					<option value="30plus">30吨以上</option>
+					<option value="addition">附加价格</option>
+				</select>
+				<input name="prince_s" class="mini-textbox" style="width:100px;"/> -
+				<input name="prince_e" class="mini-textbox" style="width:100px;"/>
+				<select name="key_type">
+					<option value="">==请选择==</option>
+					<option value="starting">发货地</option>
+					<option value="ending">卸货地</option>
+					<option value="cities">归属地市</option>
+				</select>       
+						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span></form>
+			</td>
+		</tr>
+	</table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/operator/ship/init?action=grid"
+		showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"
+		>
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="id" width="35" headerAlign="center" align="center" allowSort="true">ID</div>
+			<div field="start" width="90" headerAlign="center" align="center">发货地                      
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="end" width="80" headerAlign="center" align="center">卸货地                        
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="5to10" width="80" headerAlign="center" allowSort="true" align="center">5-10吨价格
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>                
+			<div field="10to15" width="60" headerAlign="center" allowSort="true" align="center">10-15吨价格
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="15to20" width="80" headerAlign="center" allowSort="true" align="center">15-20吨价格
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="20to25" width="80" headerAlign="center" allowSort="true" align="center">20-25吨价格
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div> 
+			<div field="25to30" width="80" headerAlign="center" allowSort="true" align="center">25-30吨价格
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div> 
+			<div field="30plus" width="80" headerAlign="center" allowSort="true" align="center">30吨以上
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="addition" width="80" headerAlign="center" allowSort="true" align="center">区域附加价格
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="cities" width="80" headerAlign="center" allowSort="true" align="center">归属地市
+				<input property="editor" class="mini-textbox" style="width:100%;"/>
+			</div>
+			<div field="input_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">入库时间</div>
+			<div field="update_time" width="110" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">更新</div>
+			<div field="admin_name" width="50" headerAlign="center" align="center">操作人</div>
+			
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//删除数据
+function removeRow() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/operator/ship/init?action=remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+//新增一条行记录
+function addRow() {          
+	var newRow = {name: "source"};
+	grid.addRow(newRow, 0);
+	grid.beginEditCell(newRow, "source");
+}
+//行内编辑后保存数据
+function saveData() {
+	var data = grid.getChanges();
+	var json = mini.encode(data);
+	if(json.length<10) return false;
+	grid.loading("保存中，请稍后......");
+	var callback=function(data){
+		if(data.err!='0'){
+			alert(data.msg)
+			return false;
+		}else{
+			grid.reload();
+		}
+	}
+	utils.ajax('/operator/ship/init?action=save',{data:json},callback,"POST","json");
+}
+</script>

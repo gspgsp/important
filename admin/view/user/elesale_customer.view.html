@@ -1,0 +1,37 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+#infoForm{margin:0px auto; padding:6px; width:780px;}
+table{border-collapse: collapse; text-align: center;}
+td{width:60px;border:1px solid #ccc;}
+#head td{font-weight:bold;}
+</style>
+<form id="infoForm">
+	<div class="mini-tabs" activeIndex="0" plain="false">
+		<div title="跟踪记录">
+		<table style="width:100%;">				
+				<tr id="head">	
+					<td>跟踪人</td>
+					<td>跟踪方式</td>
+					<td>跟踪内容记录</td>
+					<td>跟踪时间</td>	
+				</tr>
+				{if $data}
+				{foreach from=$data item=v}	
+				<tr>
+					<td>{$v[track_man]}</td>
+					<td>{$v[way]}</td>
+					<td>{$v[content]}</td>
+					<td>{$v[track_time]|date:Y-m-d H:i:s}</td>
+				</tr>				
+				{/foreach}
+				{else}
+				<tr>
+					<td colspan="5">
+						没有跟踪记录！
+					</td>
+				</tr>
+				{/if}
+			</table>
+	  	</div>
+	</div>
+</form>

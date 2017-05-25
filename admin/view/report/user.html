@@ -1,0 +1,239 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+  <table style="width:100%;">
+    <tr>
+      <td style="white-space:nowrap;"><form id="soform" method="post" action="/report/user/init">
+          <input name="startTime" class="mini-datepicker" style="width:100px;" value="{$starTime}"/>
+          -
+          <input name="endTime" class="mini-datepicker" style="width:100px;" value="{$endTime}"/><button type="submit">查询</button><!--<a class="mini-button" iconCls="icon-search">查询</a>-->
+          快速查看：<a href="?range=yesterday">昨天</a>&nbsp;&nbsp;&nbsp; <a href="?range=beforeYesterday">前天</a>&nbsp;&nbsp;&nbsp; <a href="?range=week">最近一周</a>&nbsp;&nbsp;&nbsp;<a href="?range=month">最近一个月</a>&nbsp;&nbsp;&nbsp;<a href="?range=halfyear">最近六个月</a>  <span id="searchMsg"></span>
+        </form></td>
+    </tr>
+  </table>
+</div>
+<script src="__JS__/highcharts/js/highcharts.js"></script> 
+<script src="__JS__/highcharts/js/highcharts-3d.js"></script> 
+<script src="__JS__/highcharts/js/modules/exporting.js"></script>
+<div style="height:95%;overflow:scroll" id="c_ctx">
+<table width="100%">
+  <tr>
+    <td>注册人数{$user.register}人</td>
+    <td>&nbsp;</td>
+    </tr>
+  <tr>
+    <td>直接注册：{$user.ref_no_register}人，
+渠道注册：{$user.chanel_register}人，
+推荐注册：{$user.ref_register}人</td>
+    <td>&nbsp;</td>
+    </tr>
+  <tr>
+    <td>{if $user.register neq '0'}<div id="sex1" style="margin: 0 auto; float:left;"></div>{else}<div style="width:350px; height: 300px; margin: 0 auto; float:left; text-align:center;">暂无数据</div>{/if}<!--<div style="float:left;">男：{$user.men_count}人  女：{$user.women_count}人</div>-->&nbsp;</td>
+    <td>{if $user.register neq '0'}<div id="container1" style="margin: 0 auto; float:left;"></div>{else}<div style="width:350px; height: 300px; margin: 0 auto; float:left; text-align:center;">暂无数据</div>{/if}</td>
+    </tr>
+  <tr>
+    <td align="center">性别</td>
+    <td align="center">年龄</td>
+  </tr>
+
+  <tr>
+    <td>{if $user.register neq '0'}<div id="area1" style="margin: 0 auto; float:left;"></div>{else}<div style="width:350px; height: 300px; margin: 0 auto; float:left; text-align:center;">暂无数据</div>{/if}&nbsp;</td>
+    <td>{if $user.register neq '0'}<div id="terminal1" style="margin: 0 auto; float:left;"></div>{else}<div style="width:350px; height: 300px; margin: 0 auto; float:left; text-align:center;">暂无数据</div>{/if}</td>
+    </tr>
+  <tr>
+    <td align="center">区域</td>
+    <td align="center">终端</td>
+    </tr>
+</table>
+</div>
+<script language="javascript">
+function pieChart(Id,Data) {
+    $(Id).highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '占',
+            data: Data
+        }]
+    });
+}
+</script> 
+<script type="text/javascript">
+function columnLabels(Id,Data){
+    $(Id).highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ''
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '人数 (个)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '注册用户: <b>{point.y:.1f} 人</b>'
+        },
+        series: [{
+            name: 'Population',
+            data: Data,
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                x: 4,
+                y: 10,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif',
+                    textShadow: '0 0 3px black'
+                }
+            }
+        }]
+    });
+
+}
+
+function pieSemiCircle(Id,Data) {
+    $(Id).highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: '注册渠道',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 50
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '占',
+            innerSize: '50%',
+            data: Data
+        }]
+    });
+}
+
+function pie3dDonut(Id,Data) {
+    $(Id).highcharts({
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45,
+                beta: 0
+            }
+        },
+        title: {
+            text: '男女比例'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '占',
+            data: Data
+        }]
+    });
+}
+
+$(function (){ 
+	columnLabels('#container1',{$user.register_age});
+	columnLabels('#container2',{$user.uapply_age});
+	columnLabels('#container3',{$user.no_uapply_age});
+	pieChart('#area1',{$user.user_area});
+	pieChart('#area2',{$user.uapply_user_area});
+	pieChart('#area3',{$user.nouapply_user_area});
+	
+	pieSemiCircle('#terminal1',{$user.user_terminal});
+	pieSemiCircle('#terminal2',{$user.uapply_user_terminal});
+	pieSemiCircle('#terminal3',{$user.nouapply_user_terminal});
+	
+	pie3dDonut('#sex1',{$user.register_sex});
+	pie3dDonut('#sex2',{$user.uapply_user_sex});
+	pie3dDonut('#sex3',{$user.nouapply_user_sex});
+});
+
+</script> 
+<script>
+$(function(){
+	(function(){
+		var ctxheight = $("#workspace").height();
+		$("#c_ctx").css({"height":parseInt(ctxheight-59)+"px"});
+	})()
+})
+</script>

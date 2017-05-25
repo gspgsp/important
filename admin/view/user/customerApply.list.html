@@ -1,0 +1,105 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar"  style="margin:3px 3px 0;">
+	<table style="width:100%;">
+
+		<tr>
+			<td style="float:right;">
+			    <form id="soform">
+			    <span id="searchMsg"></span>
+			    申请日期
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				<select name="key_type">
+					<!-- <option value="c_name">公司名称</option> -->
+					<option value="admin">申请人</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				<span id="searchMsg"></span>
+			  </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"url="/user/customerApply/init?action=grid&ids={$ids}" idField="fid"
+	sizeList="[10,20,50,100]" pageSize="20" multiSelect="true" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" allowCellWrap="true">
+	<div property="columns">
+		<div type="checkcolumn"></div>
+		<div field="c_name" width="100" headerAlign="center" align="center" align="center">公司名</div>
+		<div field="type" width="60" headerAlign="center" align="center" align="center">客户类型</div>
+		<div field="apply_name" width="40" headerAlign="center" align="center">申请人</div>
+		<div field="input_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">申请时间</div>
+		<div field="update_admin" width="30" headerAlign="center" align="center">处理人</div>
+		<div field="update_time" width="60" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm">处理时间</div>
+		<div action='do' width="40" headerAlign="center" renderer="viewhander" align="center">操作</div>
+	</div>
+  </div>
+ </div>
+ <div></div>
+{if $doact eq 'search'}
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px; border:1px solid #000;" borderStyle="border:0;">
+			<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+			<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+	</div>
+{/if}
+
+<script type="text/javascript">
+//搜索或刷新数据
+mini.parse();
+var grid = mini.get("gridCell");
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+	$("#searchMsg").html(e.msg);
+  });
+}
+search();
+function onKeyEnter(e) {
+  search();
+}
+
+//追加操作，退款和下载按钮
+function viewhander(e){
+	var record = e.record,id= record.id,status= record.status,s='';
+	if(status == 1){
+		s = '<a href="javascript:changeStatus('+id+')">通过</a>';
+	}else{
+		s = '已通过';
+	}
+	return s;
+}
+function changeStatus(id){
+    // console.log(id);return;
+    grid.loading('数据处理中，请稍后......');
+    var callback = function(data){
+        if(data.err!='0'){
+            grid.unmask();
+            alert(data.msg);
+            return false;
+        }else{
+            grid.unmask();
+            alert(data.msg);
+            grid.reload();
+        }
+    }
+    utils.ajax('/user/customerApply/share',{id:id},callback,"POST","json");
+}
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	CloseWindow("ok");
+}
+//取消
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+</script>

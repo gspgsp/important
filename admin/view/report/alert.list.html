@@ -1,0 +1,195 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+				<form id="soform">
+					<a class="mini-button" onclick="search_button(4)">未开票(销)</a>
+					<a class="mini-button" onclick="search_button(5)">未开票(采)</a>
+					<a class="mini-button" onclick="search_button(6)">欠款未收(销)</a>
+					<a class="mini-button" onclick="search_button(3)">目标(采)</a>
+					<a class="mini-button" onclick="search_button(2)">目标(销)</a>
+					<a class="mini-button" onclick="search_button(1)">电话</a>
+					<select name="key_type">
+						<option value="order_sn">订单号</option>
+						<option value="input_admin">交易员</option>
+					</select>
+					<input name="keyword" class="mini-textbox" style="width:70px;" onenter="onKeyEnter"/>
+					<select name="alert_type">
+						<option  value="">提醒类型</option>
+						<option value="4">未开票(销)</option>
+						<option value="5">未开票(采)</option>
+						<option value="6">欠款未收(销)</option>
+						<option value="3">目标(采)</option>
+						<option value="2">目标(销)</option>
+						<option value="1">电话</option>
+					</select>
+					<input name="startTime" class="mini-datepicker" style="width:95px;"/>
+					<input name="endTime" class="mini-datepicker" style="width:95px;"/>
+					<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+					
+				</form>
+			</td>
+			<td style="float:left;">
+				<a class="mini-button" iconCls="icon-redo" plain="true" onclick="read()">标记已读</a>
+				<span class="separator"></span>
+				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" url="/report/alert/init?action=grid" showFilterRow="true" idField="id" multiSelect="true">
+		<div property="columns">
+			<div type="checkcolumn" width="10"></div>
+			<div field="id" width="20" headerAlign="center" align="center">ID</div>
+			<div field="admin_name" width="20" headerAlign="center" allowSort="false" align="center">交易员</div>
+			 <div name="purchase_type" field="purchase_type" width="120" headerAlign="center" allowSort="true">报价/采购</div>   
+			<div field="order_sn" width="55" headerAlign="center" allowSort="true" align="center" >订单号</div>
+			<div field="o_id" width="35" headerAlign="center" align="center" allowSort="false" renderer="onLoadHandle">操作</div>
+			<div class='type' field="type" width="40" headerAlign="center" allowSort="true" align="center" renderer="onGenderRenderer">提醒类型</div>
+			<div field="content" width="250" headerAlign="center" allowSort="true">信息内容</div>
+			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">提醒时间</div>
+			<div field="is_read" width="25" headerAlign="center" allowSort="true" align="center">是否已读</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+//查询
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//筛选销售未开票
+function search_button(type){
+	grid.load({type:type,action:"grid"},function(e){
+		// $("#searchMsg").html(e.msg);
+		
+	});
+}
+search_button(4);
+//隐藏某一列
+grid.hideColumn("purchase_type");
+//分类处理
+var Genders = [{ id: 1, text: '日电话量' }, { id: 2, text: '销售目标'},{ id: 3, text: '采购目标'},{ id: 4, text: '销售未开票'},
+				{ id: 5, text: '采购未开票'},{ id: 6, text: '销项欠款未收'},{ id: 7, text: '客户报价/采购'}];
+function onGenderRenderer(e) {
+        for (var i = 0, l = Genders.length; i < l; i++) {
+            var g = Genders[i];
+            if (g.id == e.value) return g.text;
+        }
+        return "";
+    }
+//追加操作按钮
+function onLoadHandle(e) {
+	var s ='';
+	var record = e.record,o_id = record.o_id,type = record.type;
+ if(o_id > 0 && type == 4) s += '<a href="javascript:viewSaleUnbillingInfo()">查看</a>';
+ if(o_id > 0 && type == 5) s += '<a href="javascript:viewPurUnbillingInfo()">查看</a>';
+ if(o_id > 0 && type == 6) s += '<a href="javascript:viewSaleOwedInfo()">查看</a>';
+ if(o_id > 0 && type == 7) s += '<a href="javascript:viewSalePurInfo()">查看</a>';
+	return s;
+}
+//查看采购未开票信息
+function viewPurUnbillingInfo(){
+	var rows = grid.getSelected();
+	// console.log(rows);
+	mini.open({
+	  url: "/product/order/purchase?order_sn="+rows.order_sn,
+	  showMaxButton:true,
+	  title: "采购未开票", 
+	  width: 1200, height:430
+	});   
+}
+//查看销售未开票信息
+function viewSaleUnbillingInfo(){
+	var rows = grid.getSelected();
+	mini.open({
+	  url: "/product/order/init?order_sn="+rows.order_sn,
+	  showMaxButton:true,
+	  title: "销售未开票", 
+	  width: 1200, height:430
+	});   
+}
+//查看销售欠款信息
+function viewSaleOwedInfo(){
+	var rows = grid.getSelected();
+	mini.open({
+	  url: "/product/order/init?order_sn="+rows.order_sn,
+	  showMaxButton:true,
+	  title: "销售欠款未收", 
+	  width: 1200, height:430
+	});   
+}
+//查看客户采购/报价信息
+function viewSalePurInfo(){
+	var rows = grid.getSelected();
+	console.log(rows.purchase_type);
+	if(rows.purchase_type == 1){
+		var _url = "/product/purchase/init?id="+rows.o_id;
+	}else{
+		var _url = "/product/quote/init?id="+rows.o_id;
+	}
+	mini.open({
+	  url: _url,
+	  showMaxButton:true,
+	  title: "采购/报价信息", 
+	  width: 1200, height:430
+	});   
+}
+//删除
+function remove() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示", function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/report/alert/remove',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+//标记为已读
+function read() {
+	var rows = grid.getSelecteds(),_ids=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+	}
+	var ids=_ids.join(',');
+	if(ids=='') return;
+	mini.confirm("确定标记已读？", "提示", function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/report/alert/read',{ids:ids},callback,"POST","json");
+		}
+	);
+}
+</script> 

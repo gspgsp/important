@@ -1,0 +1,110 @@
+{layout file="public:mini_layout"}
+<div id="admInfo" title="新增客户强开规则" style="padding:5px;" showModal="true" allowResize="true" allowDrag="true">
+  <div id="addForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id" value="{$info.id}"/>
+			<tr>
+				<td>入职时间<span style="color:red">*</span></td>
+				<td><input name="entry_time" class="mini-textbox" style="width:150px;" required="true" value="{$info.entry_time}"/></td>
+			</tr>
+			<tr>
+				<td>私海客户数<span style="color:red">*</span></td>
+				<td><input name="private_customer_nums" class="mini-textbox" style="width:100px" required="true" value="{$info.private_customer_nums}"/></td>
+				<td>每日客户跟进数<span style="color:red">*</span></td>
+				<td><input name="day_follow_nums" class="mini-textbox" style="width:100px;" required="true" value="{$info.day_follow_nums}"/></td>
+			</tr>
+			<tr>
+				<td>私海客户无跟进强开天数<span style="color:red">*</span></td>
+				<td><input name="private_unfollow_days" class="mini-textbox" style="width:100px" required="true" value="{$info.private_unfollow_days}"/></td>
+				<td>私海客户无跟进强开提醒天数<span style="color:red">*</span></td>
+				<td><input name="private_unfollow_remind" class="mini-textbox" style="width:100px;" required="true" value="{$info.private_unfollow_remind}"/></td>
+			</tr>
+			<tr>
+				<td>私海客户无合作强开天数<span style="color:red">*</span></td>
+				<td><input name="private_uncooperation_days" class="mini-textbox" style="width:100px" required="true" value="{$info.private_uncooperation_days}"/></td>
+				<td>私海客户无合作强开提醒天数<span style="color:red">*</span></td>
+				<td><input name="private_uncooperation_remind" class="mini-textbox" style="width:100px" required="true" value="{$info.private_uncooperation_remind}"/></td>
+			</tr>
+			<tr>
+				<td>已合作强开天数<span style="color:red">*</span></td>
+				<td><input name="cooperation_days" class="mini-textbox" style="width:100px" required="true" value="{$info.cooperation_days}"/></td>
+				<td>已合作强开提醒天数<span style="color:red">*</span></td>
+				<td><input name="cooperation_remind" class="mini-textbox" style="width:100px" required="true" value="{$info.cooperation_remind}"/></td>
+			</tr>
+			<tr>
+			{if $action eq 'update'}
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-ok" onclick="updateForm">提交</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			{/if}
+			{if $action eq 'add'}
+			<td style="text-align:center;padding-top:15px;padding-right:20px; margin-top:20px;" colspan="4">
+				<a class="mini-button" iconCls="icon-ok" onclick="submitForm">提交</a>
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</td>
+			{/if}
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//搜索或刷新
+var admInfo = mini.get("admInfo");
+var form = new mini.Form("#addForm");
+
+//增加客户强开规则(保存)
+function submitForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	// console.log(o);return;
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/user/dismissRule/ajaxSave',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+//修改客户强开规则
+function updateForm() {
+	form.validate();
+  	if (form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	$.post('/user/dismissRule/updateSave',{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function GetData() {
+	var row = form.getSelected();
+	return row;
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

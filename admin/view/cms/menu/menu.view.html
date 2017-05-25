@@ -1,0 +1,95 @@
+{include file='h5:header'}
+<style>
+	*{margin:0;padding:0;}
+	body{font-size:14px;}
+	a:link, a:visited{color:#333; text-decoration:none;}
+	ul, ol{
+		list-style:none;
+	}
+	.mobile_preview{
+		position:relative;
+		width:330px;
+		margin:0 auto;
+		min-height:690px;
+		background:url(__IMG__/admin/bg_mobile.png) no-repeat center 10px;
+		text-align:center;
+		font-family:Microsoft Yahei;
+	}
+	.com_btn{
+		display:inline-block;
+		width:100px;
+		height:36px;
+		border-radius:3px;
+		background-color:#f1f1f1;
+		background:-webkit-linear-gradient(top, #f1f1f1, #d1d1d1);
+		background:-moz-linear-gradient(top, #f1f1f1, #d1d1d1);
+		background:-ms-linear-gradient(top, #f1f1f1, #d1d1d1);
+		background:linear-gradient(top, #f1f1f1, #d1d1d1);
+		line-height:36px;
+		border:1px solid #ddd;
+	}
+	.mobile_preview_hd{padding-top:125px;color:#fff;font-size:16px;line-height:30px;width:150px;margin:0 auto;}
+	.mobile_preview_bd{height:398px;}
+	.mobile_preview_ft ul.pre_menu_list{height:38px;padding:0 0 0 42px;width:237px;margin:0 auto;font-size:14px;}
+	.mobile_preview_ft ul.pre_menu_list li.pre_menu_item{float:left;width:78px;border-left:1px solid #ccc;line-height:38px;position: relative;}
+	.mobile_preview_ft ul.pre_menu_list li a{display:block;}
+	.icon_menu_dot{background: url(__IMG__/admin/icon_wxmenu_bg.png) no-repeat 0 0;width: 7px;height: 7px;vertical-align: middle;display: inline-block;margin-right: 2px;margin-top: -2px;}
+	.sub_pre_menu_box{position: absolute;bottom: 50px;left: 0;width:98%;border: 1px solid#d0d0d0;background-color:#fff;border-radius:3px;font-size:12px}
+	.sub_pre_menu_box .arrow_out {position:absolute;bottom: -6px;display: inline-block;width: 0;height: 0;border-width: 6px;border-style: dashed;border-color: transparent;border-bottom-width: 0; border-top-color: #d0d0d0;border-top-style: solid;left:50%;margin-left:-4px;}
+	.sub_pre_menu_box .arrow_in {position:absolute;bottom: -5px;display: inline-block;width: 0;height: 0;border-width: 6px;border-style: dashed;border-color: transparent;border-bottom-width: 0;border-top-color: #fafafa;border-top-style: solid;left:50%;margin-left:-4px;}
+	ul.pre_menu_list li:hover .sub_pre_menu_box{
+		display:block;
+	}
+	.sub_pre_menu_box li{border-top:1px solid #ccc;margin:0 5px;}
+	.sub_pre_menu_box li.noborder{border:0 none;}
+</style>
+<div class="mobile_preview" id="mobileDiv" style="display: block;">
+	<div class="mobile_preview_hd">我的塑料网</div>
+	
+	<div class="mobile_preview_bd">
+		<ul id="viewShow" class="show_list">
+		</ul>
+	</div>
+	<div class="mobile_preview_ft">
+		<ul class="pre_menu_list grid_line" id="viewList">
+			{foreach from=$menu key=k item=m}
+			<li class="pre_menu_item grid_item size1of3 jsViewLi" id="" onClick="showMenu(this)">
+				<a href="javascript:void(0);" class="jsView pre_menu_link" title="{{$m[main].name}}"><i class="icon_menu_dot"></i>{$m[main].name}</a>
+				<div class="sub_pre_menu_box jsSubViewDiv" style="display:none">
+					<ul class="sub_pre_menu_list">
+					{foreach from=$m key=k item=v name=menus}
+						{if $v[level] neq 1}
+							<li {if $smarty.foreach.menus.index eq 1}class="noborder"{/if}>{$v[name]}</li>
+						{/if}
+					{/foreach}
+					</ul>
+					<i class="arrow arrow_out"></i><i class="arrow arrow_in"></i>
+				</div>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+</div>
+<div style="width:330px;margin:0 auto;text-align:center;padding-bottom:20px;">
+	<a href="javascript:void(0);" class="com_btn" onClick="onCancel()" id="viewClose">退出预览</a>
+</div>
+
+<script>
+function showMenu(ele){
+	obj = ele.getElementsByClassName("sub_pre_menu_box");
+	if(obj[0].style.display =="none"){
+		obj[0].style.display ="block";
+	}else{
+		obj[0].style.display ="none";
+	}
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>
+</body>
+</html>

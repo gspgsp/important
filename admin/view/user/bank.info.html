@@ -1,0 +1,99 @@
+{layout file="public:mini_layout"}
+<div style="width:95%; margin:5px;" id="basicForm">
+  <input class="mini-hidden" name="bank_id" value="{$userBank.id}"/>
+  <table border="0" cellpadding="1" cellspacing="2">
+    <tr>
+      <td>开户名：</td>
+      <td>{$userBank.user_name}</td>
+      <td width="80">&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>开户行：</td>
+      <td><input class="mini-combobox" name="bank_code" value="{$userBank.bank_code|default:0}" valueField="id" textField="name" data='{:setMiniConfig|$bankData}' /></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>支行名称：</td>
+      <td><input class="mini-textbox" name="branch_name" value="{$userBank.branch_name}" /></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>开户地址：</td>
+      <td><input name="province" id="c_1_0" style="width:80px;" class="mini-combobox" textField="name" valueField="id" onvaluechanged="setReg('c')" data='{:setMiniConfig|$regionList}' value="{$userBank.province}" showNullItem="true"/>
+              <input name="city" id="c_2_0" class="mini-combobox" url="{if $userBank.province neq ''}/user/user/getRegion?pid={$userBank.province}{/if}" value="{$userBank.city}" style="width:80px;" textField="name" valueField="id" /></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>银行卡号：</td>
+      <td><input class="mini-textbox" name="account_no" value="{$userBank.account_no}" /></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>银行卡认证金额：</td>
+      <td><input class="mini-textbox" name="chk_amount" value="{$userBank.chk_amount}" /></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <div style="text-align:center;padding:10px;"><a class="mini-button" iconCls="icon-ok" onclick="submitBasic">确定</a><a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a> <span id="returnMsg" style="padding-left:5px; color:#F00;"></span> </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+
+function setReg(name,val){
+	var deptCombo = mini.get(name+"_1_0");
+	var positionCombo = mini.get(name+"_2_0");
+
+	onDeptChanged(deptCombo,positionCombo,val);
+}
+
+function onDeptChanged(deptCombo,positionCombo,val) {
+	var id = deptCombo.getValue();
+
+	positionCombo.setValue("");
+	var url = "/user/user/getRegion?pid=" + id
+	positionCombo.setUrl(url);
+	//positionCombo.select(0);
+}
+
+var form = new mini.Form("#basicForm");
+function submitBasic(){
+  form.validate();
+  if(form.isValid() == false) return;
+
+  //提交数据
+  var o = form.getData();
+  var json = mini.encode(o);
+  $("#returnMsg").text('');
+  form.loading("数据提交中，请稍后......");
+  $.post('/user/bank/submit',{data:json},function(data){
+	  form.unmask();
+	  if(data.err=='0'){
+		  alert(data.msg);
+		  CloseWindow("save");
+	  }else{
+		  return false;
+	  }
+  },'json');
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+</script> 

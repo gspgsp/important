@@ -1,0 +1,66 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>交易设置</h4>
+  <form method="post" action="/system/setting/trade?action=submit" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <th>网关手续费: </th>
+          <td><p><strong>[支付]</strong> 基本 <input name="gateway_fee[pay_basic]" value="{$fee.gateway_fee.pay_basic}" class="mini-textbox" style="width:60px" vtype="float"/> 元/笔，比率 <input name="gateway_fee[pay_ratio]" value="{$fee.gateway_fee.pay_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>%，封顶 <input name="gateway_fee[pay_max]" value="{$fee.gateway_fee.pay_max}" class="mini-textbox" style="width:60px" vtype="float"/> 元 (封顶为0时表示不限制)</p>
+          	  <p><strong>[提现]</strong> 基本 <input name="gateway_fee[draw_basic]" value="{$fee.gateway_fee.draw_basic}" class="mini-textbox" style="width:60px" vtype="float"/> 元/笔，比率 <input name="gateway_fee[draw_ratio]" value="{$fee.gateway_fee.draw_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>%，封顶 <input name="gateway_fee[draw_max]" value="{$fee.gateway_fee.draw_max}" class="mini-textbox" style="width:60px" vtype="float"/> 元</p>
+           </td>
+        </tr>
+        <tr>
+          <th>担保手续费: </th>
+          <td>
+          	<p><strong>[正常还款]</strong> 默认比率 <input name="assure_fee[ratio]" value="{$fee.assure_fee.ratio}" class="mini-textbox" style="width:60px" vtype="float"/>% (每月还款占总本金比例)</p>
+           </td>
+        </tr>
+        <tr>
+          <th>转让规则: </th>
+          <td>
+           <p><strong>[按月转让]</strong>本期结息日前 <input name="transfer_fee[v_before]" value="{$fee.transfer_fee.v_before}" class="mini-textbox"  style="width:60px" vtype="float"/> 天，至少持有 <input name="transfer_fee[v_hold]" value="{$fee.transfer_fee.v_hold}" class="mini-textbox"  style="width:60px" vtype="float"/> 期，至少还剩 <input name="transfer_fee[v_least]" value="{$fee.transfer_fee.v_least}" class="mini-textbox"  style="width:60px" vtype="float"/> 期</p>
+           <p><strong>[转让费用]</strong> 基本 <input name="transfer_fee[v_basic]" value="{$fee.transfer_fee.v_basic}" class="mini-textbox" style="width:60px" vtype="float"/> 元/笔，比率 <input name="transfer_fee[v_ratio]" value="{$fee.transfer_fee.v_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>%，封顶 <input name="transfer_fee[v_max]" value="{$fee.transfer_fee.v_max}" class="mini-textbox" style="width:60px" vtype="float"/> 元（必须全部转让）</p>
+           <p><strong>[按天转让]</strong>至少持有 <input name="transfer_fee[f_hold]" value="{$fee.transfer_fee.f_hold}" class="mini-textbox"  style="width:60px" vtype="float"/> 天，至少还剩 <input name="transfer_fee[f_least]" value="{$fee.transfer_fee.f_least}" class="mini-textbox"  style="width:60px" vtype="float"/> 天</p>
+           <p><strong>[转让费用]</strong> 基本 <input name="transfer_fee[f_basic]" value="{$fee.transfer_fee.f_basic}" class="mini-textbox" style="width:60px" vtype="float"/> 元/笔，比率 <input name="transfer_fee[f_ratio]" value="{$fee.transfer_fee.f_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>%，封顶 <input name="transfer_fee[f_max]" value="{$fee.transfer_fee.f_max}" class="mini-textbox" style="width:60px" vtype="float"/> 元</p>
+           </td>
+        </tr>
+        <tr>
+          <th>逾期罚息: </th>
+          <td>
+           <p><strong>[按月]</strong>基本 <input name="penalty_fee[v_baisc]" value="{$fee.penalty_fee.v_baisc}" class="mini-textbox"  style="width:60px" vtype="float"/> 元/笔，上浮比率 <input name="penalty_fee[v_ratio]" value="{$fee.penalty_fee.v_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>% (占本期本金，上浮利率)</p>
+           <p><strong>[按天]</strong>基本 <input name="penalty_fee[f_baisc]" value="{$fee.penalty_fee.f_baisc}" class="mini-textbox"  style="width:60px" vtype="float"/> 元/笔，上浮比率 <input name="penalty_fee[f_ratio]" value="{$fee.penalty_fee.f_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>% (占总本金，上浮利率)</p>
+           </td>
+        </tr>
+        <tr>
+          <th>提前还款: </th>
+          <td>
+           <p><strong>[违约金]</strong> 基本 <input name="prepay_fee[pre_baisc]" value="{$fee.prepay_fee.pre_baisc}" class="mini-textbox"  style="width:60px" vtype="float"/> 元/笔，比率 <input name="prepay_fee[pre_ratio]" value="{$fee.prepay_fee.pre_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>%，封顶 <input name="prepay_fee[pre_max]" value="{$fee.prepay_fee.pre_max}" class="mini-textbox" style="width:60px" vtype="float"/> 元 (占剩余本金)，出让比例 <input name="prepay_fee[pre_trans]" value="{$fee.prepay_fee.pre_trans}" class="mini-textbox" style="width:60px" vtype="float"/>%（占前项计算值）</p>
+          	<p><strong>[担保费]</strong> 基本 <input name="prepay_fee[assure_basic]" value="{$fee.prepay_fee.assure_basic}" class="mini-textbox" style="width:60px" vtype="float"/> 元/笔，比率 <input name="prepay_fee[assure_ratio]" value="{$fee.prepay_fee.assure_ratio}" class="mini-textbox" style="width:60px" vtype="float"/>%，封顶 <input name="prepay_fee[assure_max]" value="{$fee.prepay_fee.assure_max}" class="mini-textbox" style="width:60px" vtype="float"/> 元 (占剩余本金)</p>
+           </td>
+        </tr>
+        <tr>
+          <th>借贷等级:</th>
+          <td>
+          	  <p><strong>[等级一]</strong> 名称 <input class="mini-textbox" name="credit_level[1_name]" value="{$fee.credit_level.1_name}" style="width:80px"/> 额度 <input class="mini-textbox" name="credit_level[1_amount]" value="{$fee.credit_level.1_amount}" style="width:60px" vtype="float"/> 元</p>
+          	  <p><strong>[等级二]</strong> 名称 <input class="mini-textbox" name="credit_level[2_name]" value="{$fee.credit_level.2_name}" style="width:80px"/> 额度 <input class="mini-textbox" name="credit_level[2_amount]" value="{$fee.credit_level.2_amount}" style="width:60px" vtype="float"/> 元</p>
+          	  <p><strong>[等级三]</strong> 名称 <input class="mini-textbox" name="credit_level[3_name]" value="{$fee.credit_level.3_name}" style="width:80px"/> 额度 <input class="mini-textbox" name="credit_level[3_amount]" value="{$fee.credit_level.3_amount}" style="width:60px" vtype="float"/> 元</p>
+          	  <p><strong>[等级四]</strong> 名称 <input class="mini-textbox" name="credit_level[4_name]" value="{$fee.credit_level.4_name}" style="width:80px"/> 额度 <input class="mini-textbox" name="credit_level[4_amount]" value="{$fee.credit_level.4_amount}" style="width:60px" vtype="float"/> 元</p>
+          	  <p><strong>[等级五]</strong> 名称 <input class="mini-textbox" name="credit_level[5_name]" value="{$fee.credit_level.5_name}" style="width:80px"/> 额度 <input class="mini-textbox" name="credit_level[5_amount]" value="{$fee.credit_level.5_amount}" style="width:60px" vtype="float"/> 元</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

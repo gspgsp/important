@@ -1,0 +1,81 @@
+{layout file="public:mini_layout"}
+<div id="treeForm" class="form" style="padding:5px;">
+	<div style="padding-bottom:5px;">
+        <a class="mini-button" iconCls="icon-save" onclick="save()">【保存】</a>
+        <span class="separator" style="padding-right:5px;"></span>             
+        <a class="mini-button" iconCls="icon-undo" onclick="setCheckedNodes()">恢复</a>
+        <a class="mini-button" iconCls="icon-ok" onclick="checkAll()">全选</a>
+        <a class="mini-button" iconCls="icon-close" onclick="uncheckAll()">取消</a>
+        <span class="separator" style="padding-right:5px;"></span>    
+                 
+        <a class="mini-button" iconCls="icon-folderopen" onclick="expandAll()">展开</a>
+        <a class="mini-button" iconCls="icon-folder" onclick="collapseAll()">折叠</a>
+        <a class="mini-button" iconCls="icon-folder" onclick="collapseLevel()">折叠一级</a>
+    </div>
+    <input type="hidden" name="role_id" value="{$role_id}" id="role_id"/>
+    <ul id="cellList" class="mini-tree" style="padding:5px;" 
+            showTreeIcon="false" textField="text" idField="id" parentField="pid" resultAsTree="false"
+            showCheckBox="true"  expandOnLoad=0 
+            checkRecursive="true" autoCheckParent="false"
+            >
+    </ul>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("cellList");
+var data={$data}; //数据对象
+var oNodes='{$nodes}'; //原始值
+grid.loadList(data, "id", "pid");
+setCheckedNodes();
+//恢复默认值
+function setCheckedNodes() {
+    grid.setValue(oNodes);
+}
+//全选
+function checkAll() {
+	var nodes = grid.getAllChildNodes(grid.getRootNode());
+	grid.checkNodes(nodes);
+}
+//取消全选
+function uncheckAll() {
+	var nodes = grid.getAllChildNodes(grid.getRootNode());
+	grid.uncheckNodes(nodes);
+}
+//折叠所有
+function collapseAll() {
+	grid.collapseAll();
+}
+//折叠所有
+function collapseLevel() {
+	grid.collapseLevel(1);
+}
+//展开所有
+function expandAll() {
+	grid.expandAll();
+}
+
+function save() {
+  var ids = grid.getValue(),role_id=$("#role_id").val();
+  if(oNodes==ids){
+	  CloseWindow("save");
+	  return;
+  }
+  
+  grid.loading("数据提交中，请稍后......");
+
+  var callback=function(data){
+	  grid.unmask();
+	  if(data.err!='0'){
+		  alert(data.msg)
+		  return false;
+	  }else{
+         CloseWindow("save");
+	  }
+  }
+  utils.ajax('/rbac/access/saveNode?id='+role_id,{nodes:ids},callback,"POST","json");
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+</script>

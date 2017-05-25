@@ -1,0 +1,71 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+	<table style="width:100%;">
+		<tr>
+			<td width="780" style="text-align:right;color:red;font-weight:bold;">
+				<span id="total"></span>
+			</td>
+			<td style="float:right;">
+				<form id="soform">
+					录入时间：
+					<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+					<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+					销售员名字：
+					<input name="keyword" class="mini-textbox" emptyText="请输入名字" style="width:140px;" onenter="onKeyEnter"/>   
+					<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+					<span id="searchMsg"></span>
+				</form>
+			</td>
+		</tr>
+	</table>           
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+		url="/user/headline/totalSale?action=grid" onrowdblclick="onRowDblClick" showFilterRow="true" idField="id" multiSelect="true" allowCellSelect="true" allowCellEdit="true"  contextMenu="#gridMenu" headerContextMenu="#headerMenu">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="id" width="15" headerAlign="center" align="center">序列号</div>
+			<div field="cate_name" width="100" headerAlign="center" align="center">销售类目</div>
+			<div field="total_price" width="50" headerAlign="center" align="center">成交价格</div>
+			<div field="sale_man" width="50" headerAlign="center" align="center">销售人</div>
+			<div field="input_time" width="60" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center" allowSort="true">操作时间</div>
+			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onOperate">操作</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#total").html(e.msg);
+	});
+}
+search();
+function onKeyEnter(e) {
+	search();
+}
+//添加操作
+function onOperate(e){
+	var id=e.record.id,str='';
+	return '<a href="javascript:viewRows('+id+')">开通记录</a>';
+}
+//查看开通记录
+function viewRows(id){
+	var width=1000, height=400,title="销售额度查询";
+	mini.open({
+		url: "/user/headline/viewRows?id="+id,
+		allowResize:true,
+		showMaxButton:true,
+		title: title,
+		width: width, 
+		height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+</script>

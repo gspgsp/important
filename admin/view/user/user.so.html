@@ -1,0 +1,81 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            <form id="soform">
+            	<select name="key_type">
+            		<option value="u.user_id">会员ID</option>
+                    <option value="mobile">手机号</option>
+                    <option value="real_name">姓名</option>
+                    <option value="email">Email</option>
+                    <option value="chanel_name">渠道名</option>
+                    <option value="reg_ip">IP</option>
+                    <option value="invite_code">邀请码</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>  
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                 <span id="searchMsg"></span>
+                </p>
+               </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+    <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/user/user/soso?action=grid{if $isSecurity eq '1'}&isSecurity={$isSecurity}{/if}" idField="user_id"
+        multiSelect="true"
+        >
+        <div property="columns">    
+            <div type="checkcolumn"></div>
+            <div field="mobile" width="60" headerAlign="center">手机</div>
+            <div field="name" width="80" headerAlign="center">名称</div>
+            <div field="status" width="40" headerAlign="center" align="center">状态</div>
+            <div field="reg_time" width="90" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">注册</div>
+            <div field="last_login" width="90" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">登录</div>
+            <div field="reg_ip" width="80" headerAlign="center" align="center" allowSort="true">IP</div>
+            <div field="visit_count" width="50" headerAlign="center" allowSort="true" align="center">登录次数</div>
+        </div>
+    </div>
+</div>
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+        <a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+        <span style="display:inline-block;width:25px;"></span>
+        <a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+
+<script type="text/javascript">
+mini.parse();
+
+var grid = mini.get("gridCell");
+grid.load();
+
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onKeyEnter(e) {
+	search();
+}
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onComfirm() {
+	CloseWindow("ok");
+}
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+
+</script>

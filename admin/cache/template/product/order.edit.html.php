@@ -1,0 +1,616 @@
+ __layout|public:mini_layout|layout__
+ <style type="text/css">
+	.hidden {display:none;}
+ </style>
+<link rel="stylesheet" type="text/css" href="__CSS__/zt/common.css"/>
+<div style="padding:5px; " >
+	<div id="infoForm" class="form">
+	<input class="mini-hidden" name="o_id" value="<?php echo $this->_var['info']['o_id']; ?>"/>
+	<input class="mini-hidden" name="order_sn" value="<?php echo $this->_var['order_sn']; ?>"/>
+	<div  style="padding:5px; " >
+		<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+			<legend>订单信息</legend>
+			<div id="editForm1" style="padding:5px; ">
+				<table id="table1" width="100%" >
+					<tr>
+						<td>订单名称<font style="color:red;"> * </font></td>
+						<td><input name="order_name" class="mini-combobox" style="width:125px;" id="order_name" value="<?php echo $this->_var['info']['order_name']; ?>" data='<?php echo setMiniConfig($this->_var['company_account']); ?>'   required="true" textfield="name" valuefield="id"/></td>
+						<td>订单编号 : </td>
+						<?php if ($this->_var['type'] != 'edit'): ?>
+						<td><?php echo $this->_var['order_sn']; ?></td>
+						<?php else: ?>
+						<td><?php echo $this->_var['info']['order_sn']; ?></td>
+						<?php endif; ?>
+					</tr>
+					<?php if ($this->_var['order_type'] != '2' && $this->_var['type'] != 'edit'): ?>
+					<tr>
+						<td>是否销库存<font style="color:red;"> * </font></td>
+						<td>
+							 <input name="sales_type" class="mini-radiobuttonlist" width="100px" required="true"  onvaluechanged="changordertype" data="[{id: 1, text: '是'}, {id: 2, text: '否'}]"/>
+						</td>
+						<td><font style="color:blue;">运输方式</font><font style="color:red;"> * </font></td>
+						<td>
+						<input name="transport_type" class="mini-combobox" data='<?php echo setMiniConfig($this->_var['transport_type']); ?>' value="<?php echo empty($this->_var['info']['transport_type']) ? '1' : $this->_var['info']['transport_type']; ?>" textField="name" valueField="id" style="width:120px;" onvaluechanged="changtransport" required="false"/>
+						</td>
+					</tr>
+					<?php else: ?>
+					<tr>
+						<td>采购类型</td>
+						<?php if ($this->_var['info']['purchase_type'] == '1'): ?>
+						<td>销售采购</td>
+						<input class="mini-hidden" name="purchase_type" value="<?php echo $this->_var['info']['purchase_type']; ?>"/>
+						<?php else: ?>
+						<td>备货采购</td>
+						<input class="mini-hidden" name="purchase_type" value="2"/>
+						<?php endif; ?>
+					</tr>
+					<tr>
+						<td><font style="color:blue;">运输方式</font><font style="color:red;"> * </font></td>
+						<td>
+						<input name="transport_type" class="mini-combobox" data='<?php echo setMiniConfig($this->_var['transport_type']); ?>' value="<?php echo empty($this->_var['info']['transport_type']) ? '1' : $this->_var['info']['transport_type']; ?>" textField="name" valueField="id" style="width:120px;" onvaluechanged="changtransport" required="false"/>
+						</td>
+					</tr>
+					<?php endif; ?>
+					<tr>
+						<td>联系传真<font style="color:red;"> * </font></td>
+						<td><input name="c_fax" class="mini-combobox" style="width:125px;" value="<?php echo $this->_var['info']['c_fax']; ?>" data='<?php echo setMiniConfig($this->_var['c_fax']); ?>'  required="true" textfield="name" valuefield="id"/></td>
+						<?php if ($this->_var['order_type'] != '2' && $this->_var['type'] != 'edit'): ?>
+						<td>是否期货<font style="color:red;"> * </font></td>
+						<td><input name="is_futures" class="mini-combobox"  data='[{"id":"1","name":"否"},{"id":"2","name":"是"}]' value="<?php echo empty($this->_var['info']['is_futures']) ? '1' : $this->_var['info']['is_futures']; ?>" textField="name" valueField="id" style="width:120px;" required="false"/></td>
+						<?php endif; ?>
+					</tr>
+					<tr>
+						<?php if ($this->_var['order_type'] != '2' && $this->_var['type'] != 'edit'): ?>
+						<td>是否代购</td>
+						<td><input  id="pur_id" name="h_pur" class="mini-combobox" onvaluechanged="Event()" data='[{"id":"1","name":"否"},{"id":"2","name":"是"}]' value="<?php echo empty($this->_var['info']['h_pur']) ? '1' : $this->_var['info']['h_pur']; ?>" textField="name" valueField="id" style="width:120px;" required="false"/></td>
+						<td class="cg hidden">采购商</td>
+						<td class="cg hidden">
+							<input name="h_pur_cid" class="mini-buttonedit" onbuttonclick="usrChoose" value="<?php echo $this->_var['info']['h_pur_cid']; ?>" allowInput="false"  text="<?php echo $this->_var['info']['c_name_pur']; ?>"  style="width:125px;"  id="h_pur_cid" />
+						</td>
+						<?php endif; ?>
+					</tr>
+					<tr>
+						<td><font style="color:blue;"><span  id="get">提货</span><span id="send" style="display:none;">送货</span>日期<font style="color:red;"> * </font></font></td>
+						<td><input  class="mini-datepicker"  name="delivery_time"  required="true" value="<?php echo $this->_var['info']['delivery_time']; ?>"/>
+						</td>
+						<td><font style="color:blue;"><span id="get1">提货</span><span id="send1" style="display:none;">送货</span>地点<font style="color:red;"> * </font></font></td>
+						<td><input name="pickuplocation" class="mini-textbox" style="width:225px;"  required="true" value="<?php echo $this->_var['info']['pickuplocation']; ?>"/></td>
+					</tr>
+					<tr>
+						<td>签订日期<font style="color:red;"> * </font></td>
+						<td><input  class="mini-datepicker"  name="sign_time"  required="true" value="<?php echo $this->_var['info']['sign_time']; ?>"/>
+						</td>
+						<td>签订地点<font style="color:red;"> * </font></td>
+						<td><input name="sign_place" class="mini-textbox" style="width:125px;" maxlength="8"  required="true" value="<?php echo $this->_var['info']['sign_place']; ?>"/>
+						</td>
+					</tr>
+					<tr>
+						<!-- 如果是代采订单 -->
+						<?php if ($this->_var['h_pur'] == 2): ?>
+						<td>客户名称<font style="color:red;"> * </font></td>
+						<td>
+							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="<?php echo $this->_var['info']['h_pur_cid']; ?>" allowInput="false"  text="<?php echo $this->_var['info']['h_pur_cname']; ?>"  style="width:125px;" id="usrId"/>
+						</td>
+						<?php else: ?>
+						<td>客户名称<font style="color:red;"> * </font></td>
+						<td>
+							<input name="c_id" class="mini-buttonedit" required="true" onbuttonclick="usrChoose" value="<?php echo $this->_var['info']['c_id']; ?>" allowInput="false"  text="<?php echo $this->_var['c_name']; ?>"  style="width:125px;" id="usrId"/>
+						</td>
+						<?php endif; ?>
+						<td>运费：</td>
+						<td><input name="freight_price" class="mini-textbox" style="width:125px;" maxlength="8" value="<?php echo $this->_var['info']['freight_price']; ?>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>付款方式 <font style="color:red;"> * </font></td>
+						<td><input name="pay_method" class="mini-combobox" style="width:125px;" value="<?php echo $this->_var['info']['pay_method']; ?>" data='<?php echo setMiniConfig($this->_var['pay_method']); ?>'  required="true" textfield="name" valuefield="id"/></td>
+						<td>付款日期<font style="color:red;"> * </font></td>
+						<td>
+						<input  class="mini-datepicker"  name="payment_time"  required="true" value="<?php echo $this->_var['info']['payment_time']; ?>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>业务模式<font style="color:red;"> * </font></td>
+						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="<?php echo $this->_var['info']['business_model']; ?>" data='<?php echo setMiniConfig($this->_var['business_model']); ?>'  required="true" textfield="name" valuefield="id"/></td>
+						<td>结算方式：<font style="color:red;"> * </font></td>
+						<td><input name="payment_way" class="mini-textarea" required="true" style="width:125px;" maxlength="40" value="<?php echo $this->_var['info']['payment_way']; ?>"/>
+					</tr>
+					<tr>
+						<td>备注：<font style="color:red;"> * </font></td>
+						<td><input name="remark" class="mini-textarea" style="width:125px;" maxlength="40" required="true"  value="<?php echo $this->_var['info']['remark']; ?>"/>
+						<?php if ($this->_var['order_type'] != '2'): ?>
+						<td id="partnertitle">协作者：<font style="color:red;"> * </font></td>
+						<td id="partner"><input  name="partner" class="mini-buttonedit" onbuttonclick="allotCustomer"  required="true" valueField="id"  value="" allowInput="false"  style="width:100px"/>
+						</td>
+						<?php endif; ?>
+					</tr>
+					<tr>
+						<td>附加条款：</td>
+						<td colspan="4"><input name="additional" class="mini-textbox" style="width:535px;"  value="<?php echo $this->_var['info']['additional']; ?>"/>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<input class="mini-hidden"  id="require_number" name="require_number" value="0"/>
+					<input class="mini-hidden"  id="total_price" name="total_price" value="0"/>
+					<input class="mini-hidden"  id="o_type" name="order_type" value="<?php echo $this->_var['order_type']; ?>"/>
+				</table>
+					</div>
+				</fieldset>
+			<?php if ($this->_var['otype'] == 'addopus'): ?>
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="consumeStore">
+					<legend>销库存销售明细</legend>
+					<div id="editForm2" style="padding:5px;" >
+					<div class="detail">
+								<div id="gridCell1" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">
+								<div field="model" width="100" headerAlign="center">牌号 </div>
+								<div field="f_name" width="80" headerAlign="center" >厂家</div>
+								<div field="require_number" width="80" headerAlign="center" >数量</div>
+								<div field="unit_price" width="80" headerAlign="center" renderer="tips">单价</div>
+								<div field="time_price" width="80" headerAlign="center" >总价</div>
+								<div field="store_name" width="80" headerAlign="center" allowSort="true">仓库</div>
+								<div field="lot_num" width="80" headerAlign="center" >批次</div>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+							</div>
+						</div>
+							<!--total begin-->
+							<div class="total">
+								<span class="total-money">合计金额小写：<input type="text" value="0"/></span>
+								<span class="total-amount">合计数量：<input type="text" value="0"/></span>
+							</div>
+							<!--total end-->
+					</div>
+					</div>
+				</fieldset>
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="sale">
+					<legend>销售明细</legend>
+					<div id="editForm3" style="padding:5px;" >
+					<div class="detail">
+						<div id="gridCell2" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">
+								<div field="model" width="100" headerAlign="center">牌号</div>
+								<div field="f_name" width="80" headerAlign="center" >厂家</div>
+								<div field="require_number" width="80" headerAlign="center" >数量</div>
+								<div field="unit_price" width="80" headerAlign="center" renderer="tips">单价</div>
+								<!-- <div field="compare" width="80" headerAlign="center" >对比</div> -->
+								<div field="time_price" width="80" headerAlign="center" >总金额</div>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+							</div>
+						</div>
+							<!--total begin-->
+							<div class="total">
+								<span class="total-money" id="total-money">合计金额小写：<input type="text" value="0"/></span>
+								<span class="total-amount">合计数量：<input type="text" value="0"/></span>
+							</div>
+							<!--total end-->
+					</div>
+					</div>
+				</fieldset>
+			<?php endif; ?>
+			<?php if ($this->_var['order_type'] == 2): ?>
+			<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;" id="purchase">
+					<legend>采购明细</legend>
+					<div id="editForm3" style="padding:5px;" >
+					<div class="detail">
+						<div id="gridCell3" showModified="false" class="mini-datagrid" style="width:100%;height:100px" showFooter="false" allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns" >
+								<div field="model" width="100"  headerAlign="center">牌号</div>
+								<div field="f_name" width="120" headerAlign="center">厂家</div>
+								<div field="number" width="80" headerAlign="center" >数量</div>
+								<div field="unit_price" width="80" headerAlign="center" renderer="tips">单价
+								<input id="change_price" property="editor" onvaluechanged="onValidation"  class="mini-textbox" style="width:100%;"/>
+								</div>
+								<div field="time_price" width="80" headerAlign="center" >总金额</div>
+
+								<?php if ($this->_var['sales_type'] != '2'): ?>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+								<?php else: ?>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="look_price">历史价</div>
+								<?php endif; ?>
+							</div>
+						</div>
+							<!--total begin-->
+							<div class="total">
+								<span class="total-money">合计金额：<input type="text" value="0"/></span>
+								<span class="total-amount">合计数量：<input type="text" value="0"/></span>
+							</div>
+							<!--total end-->
+					</div>
+					</div>
+			</fieldset>
+			<?php endif; ?>
+			</div>
+		</div>
+		</div>
+</div>
+		<div align="center" style="margin-top:10px;">
+		<?php if ($this->_var['otype'] == 'addopus'): ?>
+			<?php if ($this->_var['order_type'] != '2'): ?>
+			<a class="mini-button" iconCls="icon-add"  id="addSaleType" onclick="message">销售明细</a>
+			<?php else: ?>
+			<a class="mini-button" iconCls="icon-add"  onclick="addPurDetil" >采购明细</a>
+			<?php endif; ?>
+		<?php endif; ?>
+			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+mini.parse();
+$('#partnertitle').hide();
+$('#partner').hide();
+var form = new mini.Form("#infoForm");
+var noStockData;
+var totalCounts={num:0,price:0};
+var t_price=0;
+var cid = mini.get("#usrId").getValue();
+var gridCell ;
+"<?php if ($this->_var['order_type'] == 2): ?>"
+gridCell=mini.get('gridCell3');
+noStockData=[];
+"<?php endif; ?>"
+"<?php if ($this->_var['detail'] != ''): ?>"
+var noStockData = <?php echo $this->_var['detail']; ?>;
+gridCell.setData(noStockData);
+totalCount(noStockData);
+"<?php endif; ?>"
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var datas=gridCell.getData();
+	o.store_o_id=datas[0].o_id; //把明细所销的库存产品的采购id赋给 o的一维数组方便后台处理
+	$.extend(o, {detail:datas});
+	$.extend(o, totalCounts);
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/order/addSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+//单选显示不同明细方式
+function changordertype(e){
+	var val = e.value;
+	var addSaleType = mini.get("addSaleType");
+	// var sales_type= mini.get("sales_type");
+	noStockData=[]; //切换订单类型时清空
+	//1为销库存,else为不销库存,通过界面的单选按钮切换
+	if(val == 1){
+		gridCell=mini.get('gridCell1');
+		$("#returnMsg").text('');
+		addSaleType.on("click",consumeStoreDetil).un("click",message).un("click",saleDetil);
+		$('#partnertitle').hide();
+		$('#partner').hide();
+		$("#sale").hide();
+		$("#consumeStore").show();
+	}else{
+		gridCell=mini.get('gridCell2');
+		$("#returnMsg").text('');
+		addSaleType.on("click",saleDetil).un("click",message).un("click",consumeStoreDetil);
+		$('#partnertitle').show();
+		$('#partner').show();
+		$("#consumeStore").hide();
+		$("#sale").show();
+	}
+}
+//是否代采
+function Event(){
+	var val = mini.get('pur_id').getValue();
+	if(val == 2){
+		$(".cg").removeClass('hidden');
+		mini.get('h_pur_cid').setRequired(true);
+	}else{
+		$(".cg").addClass('hidden');
+		mini.get('h_pur_cid').setRequired(false);
+	}
+
+}
+function look_price(e) {
+	var record = e.record,p_id=record.p_id, price_p=record.price_p, s='';
+	s += '<a href="javascript:proHistory('+p_id+')">查看</a>&nbsp;<font style="color:red;">'+price_p+'</font>&nbsp;元';
+	return s;
+}
+function proHistory(product_id){
+		mini.open({
+		url: " /order/purchase/init?p_id="+product_id,
+		title: "产品历史成交价",
+		width: 1250,
+		height: 550,
+	});
+}
+function onLoadDetail(e){
+	var index=e.record._index;
+	s='<a href="javascript:delDetail('+index+')">删除</a>';
+	return s;
+}
+function delDetail(index){
+	noStockData.splice(index,1);
+	gridCell.setData(noStockData);
+	totalCount(noStockData);
+}
+function changtransport(e){
+	var val = e.value;
+	if(val == 1){
+		$("#get").show();
+		$("#get1").show();
+		$("#send1").hide();
+		$("#send").hide();
+	}else{
+		$("#get").hide();
+		$("#get1").hide();
+		$("#send").show();
+		$("#send1").show();
+	}
+}
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+//强制选择归属公司
+function usrChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customerchose/init?do=search&pt=<?php echo $this->_var['order_type']; ?>",
+		title: "选择公司",
+		width: 1500,
+		height: 600,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+				}
+			}
+		}
+	});
+}
+//强制选择归属订单
+function ordChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/product/order/init?do=search",
+		title: "选择订单",
+		width: 1250,
+		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.o_id);
+					btn.setText(data.order_name);
+				}
+			}
+		}
+	});
+}
+//强制选择归属产品
+function proChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/product/product/init?ischecked=checked",
+		title: "选择产品",
+		width: 1250,
+		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.model);
+				}
+			}
+		}
+	});
+}
+//追加销售明细(销库存)
+function consumeStoreDetil(){
+	var require_num  = parseInt(mini.get("require_number").getValue());
+	var btn = this;
+	mini.open({
+		url: "/product/saleLog/info?choose=1&require_num="+require_num,
+		title: "新增销售明细",
+		width: 950,
+		height: 530,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					obj={};
+					obj.store_name=data.store_name;
+					obj.model=data.model;
+					obj.f_name=data.f_name;
+					obj.p_id=data.p_id;
+					obj.o_id=data.o_id;
+					obj.store_id=data.store_id;
+					obj.purchase_id=data.purchase_id;
+					obj.lot_num=data.lot_num;
+					obj.unit_price=data.unit_price;
+					obj.require_number=data.require_number;
+					obj.compare=data.unit_price < (data.history_price*0.99) ? 0 : 1;  //比较现在的不能比最近销售价格低1%
+					obj.remark=data.remark;
+					obj.inlog_id=data.inlog_id;
+					obj.m_p_price=data.m_p_price;
+					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
+					for(var i =0;i<noStockData.length;i++){ //遍历所有明细的采购ID是否相同 目前只允许销一个采购id的 产品库存
+						if(noStockData[i].o_id != obj.o_id){
+							alert('目前支持销同一采购单的产品！');
+							return;
+						}
+					}
+					noStockData.push(obj);
+					gridCell.setData(noStockData);
+					totalCount(noStockData);
+				}
+				//根据订单自动带头信息
+				mini.get('order_name').setValue(data.o_name);
+			}
+		}
+	});
+}
+function totalCount(noStockData){ //计算总价
+	totalCounts={num:0,price:0};
+	for (var i = 0; i < noStockData.length; i++) {
+		totalCounts.num=parseFloat(totalCounts.num)+parseFloat(noStockData[i].require_number);
+		totalCounts.price=parseFloat(totalCounts.price)+parseFloat(noStockData[i].time_price);
+	};
+	$(".total-money").find('input').val(totalCounts.price);
+	$(".total-amount").find('input').val(totalCounts.num);
+}
+//追加销售明细(不销库存)
+function saleDetil(){
+	var btn = this;
+	mini.open({
+		url: "/product/saleLog/info?&choose=1&nostore=1",
+		title: "新增销售明细",
+		width: 250,
+		height: 250,
+		onload: function () {
+			// var data=e.sender.getValue();
+			// top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					console.log(data);
+					obj={};
+					obj.model=data.model;
+					obj.f_name=data.f_name;
+					obj.p_id=data.p_id;
+					obj.remark=data.remark;
+					obj.unit_price=data.unit_price;
+					obj.compare=data.unit_price < (data.history_price*0.99) ? 0 : 1;  //比较现在的不能比最近销售价格低1%
+					obj.require_number=data.require_number;
+					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
+					noStockData.push(obj);
+					gridCell.setData(noStockData);
+					totalCount(noStockData);
+				}
+			}
+		}
+	});
+}
+
+//追加采购明细
+function addPurDetil(e){
+	var btn = this;
+	mini.open({
+		url: "/product/purchaseLog/info?&choose=1",
+		title: "新增采购明细",
+		width: 330,
+		height: 320,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					obj={};
+					obj.model=data.model;
+					obj.f_name=data.f_name;
+					obj.unit_price=data.unit_price;
+					obj.number=data.number;
+					obj.p_id=data.p_id;
+					obj.c_id=data.c_id;
+					obj.compare=data.unit_price < (data.history_price*0.99) ? 0 : 1;  //比较现在的不能比最近销售价格低1%
+					obj.remark=data.remark;
+					obj.require_number=data.number;
+					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
+					noStockData.push(obj);
+					gridCell.setData(noStockData);
+					totalCount(noStockData);
+				}
+			}
+		}
+	});
+}
+//添加协助者
+function allotCustomer(){
+		var btn = this;
+		mini.open({
+		url: "rbac/adm/init?isPublic=1&do=search",
+		title: "分配客户",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+				}
+			}
+		}
+	});
+}
+function onValidation(e){
+	unit_price=mini.get('change_price').getValue();
+	index=e.sender.ownerRowID;
+	noStockData[index].time_price=parseFloat(unit_price)*parseFloat(noStockData[index].require_number);
+	totalCount(noStockData);
+}
+function tips(e) {
+	var record = e.record,compare = record.compare,unit_price = record.unit_price;
+	if(compare==0	){
+		return '<span style="color:red;">'+unit_price+'</span>';
+	}
+	return unit_price;
+}
+function message(){
+	$("#returnMsg").text('请选择是否销库存');
+}
+</script>

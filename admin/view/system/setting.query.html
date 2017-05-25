@@ -1,0 +1,59 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>查询设置</h4>
+  <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <th>身份证查询通道: </th>
+          <td>
+              <label><input type="radio" name="idp[channel]" value="YuanJin" {if $idp.channel eq 'YuanJin'}checked="checked"{/if}/>爰金</label> 
+              <label><input type="radio" name="idp[channel]" value="Nciic" {if $idp.channel eq 'Nciic'}checked="checked"{/if}/>Nciic</label>
+              <label><input type="radio" name="idp[channel]" value="Manyuan" {if $idp.channel eq 'Manyuan'}checked="checked"{/if}/>满源</label>
+              <label><input type="radio" name="idp[channel]" value="Fake" {if empty($idp.channel) or $idp.channel eq 'Fake'}checked="checked"{/if}/>模拟</label>
+              <span class="inline_note">当前余额：{$sys.chkIDBalance}</span>
+          </td>
+        </tr>
+        <tr>
+          <th>爰金接口参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">账户名：</td><td><input name="idp[YuanJin][username]" value="{$idp.YuanJin.username}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>密码：</td><td><input name="idp[YuanJin][password]" value="{$idp.YuanJin.password}" class="mini-password" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th>Nciic接口参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">账户名：</td><td><input name="idp[Nciic][username]" value="{$idp.Nciic.username}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>密钥：</td><td><input name="idp[Nciic][license]" value="{$idp.Nciic.license}" class="mini-password" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th>满源接口参数: </th>
+          <td>
+            <table>
+              <tr><td width="70">用户ID：</td><td><input name="idp[Manyuan][user_id]" value="{$idp.Manyuan.user_id}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>md5_key：</td><td><input name="idp[Manyuan][md5_key]" value="{$idp.Manyuan.md5_key}" class="mini-textbox" style="width:380px;" /></td></tr>
+              <tr><td>des_key</td><td><input name="idp[Manyuan][des_key]" value="{$idp.Manyuan.des_key}" class="mini-textbox" style="width:380px;" /></td></tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

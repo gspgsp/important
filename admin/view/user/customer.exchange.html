@@ -1,0 +1,79 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+#infoForm{margin:0px auto; padding:6px;}
+td.dt{width:80px; text-align:right; font-weight:bold;}
+.bg{background: #ecedef;}
+</style>
+<form id="infoForm" class="form">
+		<div title="批量更换交易员">
+		<input name="c_ids" class="mini-hidden" value="{$ids}"/>
+		<div style="padding-left:11px;padding-bottom:5px;">
+			<table style="table-layout:fixed;">
+				<tr>
+					<td>交易员:<span style="color:red">*</span></td>
+					<td>
+						<input name="id" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="admin_id"  textField="name" value="" allowInput="false"  style="width:100px" />
+					</td>
+				</tr>
+			</table>
+		</div>
+		</div>
+		<div style="text-align:center;padding:10px; ">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">取消</a>   
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span> 
+		</div> 
+</form>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+function submitForm(){
+	var json = mini.encode(form.getData());
+  	form.validate();
+  	if(form.isValid() == false) return;
+  	form.loading("数据提交中，请稍后......");
+  	$.post('/user/customer/exchangeSubmit',{data:json},function(data){
+	  form.unmask();
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }else{
+	  	$("#returnMsg").text(data.msg);
+		return false;
+	  }
+  },'json');
+}
+function allotCustomer(){
+		var btn = this;
+		mini.open({
+		url: "rbac/adm/init?isPublic=1&do=search",
+		title: "选择交易员",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+				}
+			}
+		}
+	});
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+</script>

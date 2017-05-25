@@ -1,0 +1,135 @@
+{layout file="public:mini_layout"}
+<style type="text/css">
+	.hidden {display:none;}
+</style>
+<div style="padding:5px;">
+	<div id="infoForm" class="form">
+		<div class="mini-tabs" activeIndex="0" plain="false">
+			<div title="联系人基本信息">
+				<div style="height:385px">
+					<input class="mini-hidden" name="id" value="{$info.id}"/>
+					<input class="mini-hidden" name="supplier_id" value="{$info.supplier_id}"/>
+					<table border="0" cellpadding="1" cellspacing="2">
+						<tr>
+							<td>供应商名称：</td>
+							<td>{$info.supplier_name}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td >联系人姓名：</td>
+							<td><input name="contact_name" class="mini-textbox" style="width:150px;" required="true" value="{$info.contact_name}" vtype="rangeLength:2,30"/></td>
+							<td>性别：</td>
+							<td><input class="mini-combobox" name="sex" style="width:100px;" data='{:setMiniConfig|$sex}' required="true" textField="name" valueField="id" value="{$info.sex}"/></td>
+						</tr>
+						<tr>
+							<td style="width:80px;">联系人手机：</td>
+							<td style="width:210px;"><input name="mobile_tel" class="mini-textbox" maxlength="11" value="{$info.mobile_tel}" style="width:150px;" onvalidation="onValidMobile"/></td>
+							<td>联系人固定电话：</td>
+							<td><input name="contact_tel" class="mini-textbox" value="{$info.contact_tel}" style="width:150px;"  vtype="rangeLength:6,14"/></td>
+						</tr>
+						<tr>
+							<td>是否为主联系人：</td>
+							<td><input class="mini-combobox" name="is_default" style="width:100px;" data='{:setMiniConfig|$is_default}' required="true" textField="name" valueField="id" value="{$info.is_default}"/></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td style="width:80px;">QQ号：</td>
+							<td style="width:210px;"><input name="qq" class="mini-textbox" maxlength="30" value="{$info.qq}" style="width:150px;"/></td>
+							<td>传真：</td>
+							<td><input name="comm_fax" class="mini-textbox" style="width:150px;" value="{$info.comm_fax}" vtype="rangeLength:6,14"/></td>
+						</tr>
+						<tr>
+							<td>邮件：</td>
+							<td><input name="comm_email" class="mini-textbox" value="{$info.comm_email}" style="width:150px;"  vtype="email"/></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>备注：</td>
+							<td colspan="3">
+								<input name="remark" class="mini-textarea" value="{$info.remark}" style="width:403px; height:50px;"/>
+							</td>
+						</tr>
+						<tr>
+							<td>状态：</td>
+							<td><input class="mini-combobox" name="status" style="width:100px;" data='{:setMiniConfig|$supplier_contact_type}' textfield="name" valuefield="id" value="{$info.status}"/></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconcls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</div>
+</div>
+<script src="__JS__/jquery/jquery.upload.js" type="text/javascript"></script>
+<script charset="utf-8" src="__JS__/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+    mini.parse();
+    var form = new mini.Form("#infoForm");
+
+    function submitForm(){
+        form.validate();
+        if(form.isValid() == false) return;
+
+        //提交数据
+        var o = form.getData();
+        var supplier_info = mini.encode(o);
+        $("#returnMsg").text('');
+        form.loading("数据提交中，请稍后......");
+        var urlstr = '/operator/supplierContact/ajaxSave';
+        $.post(urlstr,{data:supplier_info},function(data){
+            form.unmask();
+            $("#returnMsg").text(data.msg);
+            if(data.err=='0'){
+                CloseWindow("save");
+            }else{
+                return false;
+            }
+        },'json');
+    }
+
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+    function onValidMobile(e){
+        if (e.isValid) {
+            if(!utils.isMobile(e.value)){
+                e.errorText = "错误的手机号";
+                e.isValid = false;
+            }
+        }
+    }
+    function onValidZip(e){
+        if (e.isValid) {
+            if(!utils.isZip(e.value)){
+                e.errorText = "错误的邮编";
+                e.isValid = false;
+            }
+        }
+    }
+    //验证身份证
+    function onIDCardsValidation(e) {
+        if (e.isValid) {
+            var pattern = /\d*/;
+            if (e.value.length < 15 || e.value.length > 18 || pattern.test(e.value) == false) {
+                e.errorText = "必须输入18位数字";
+                e.isValid = false;
+            }
+        }
+    }
+    function setReg(name,val){
+        var deptCombo = mini.get(name+"_1_0");
+        var positionCombo = mini.get(name+"_2_0");
+        onDeptChanged(deptCombo,positionCombo,val);
+    }
+
+</script>

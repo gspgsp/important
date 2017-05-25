@@ -1,0 +1,135 @@
+{layout file="public:main_layout"}
+{insert_css files='touch/common.css?,set_manger.css'}
+<div class="mini-toolbar" style="margin:3px 0 0;">
+    <table>
+        <tr>
+            <td style="white-space:nowrap; width:80px;">
+                <a class="mini-button" iconCls="icon-remove" onclick="removeRow()" plain="true">删除</a>
+            </td>
+            <td style="float:left">
+                <form id="soform">
+                <!--       
+                <span>有效时间：</span>
+                <input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+                <input name="endTime" class="mini-datepicker" style="width:100px;"/>
+                -->
+                <span>&nbsp;状态：</span>
+                <select name="status" id="chageStatus">
+                    <option value="1" selected="selected">正常</option>
+                    <option value="0">失效</option>
+                </select>
+                <!--       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                <span id="searchMsg"></span>
+                -->
+                </form>
+            </td>
+            
+       </tr>
+    </table>
+</div>
+<div class="news_list mini-datagrid" style="width:100%;" id="news_list"  url="/cms/sysCms/getReplyList?action=grid"  idField="id"
+    sizeList="[15,30,50,100]" pageSize="30" showFilterRow="true" multiSelect="true" onrowdblclick="onRowDblClick">
+    <div property="columns">
+        <div type="checkcolumn"></div>
+        <div field="create_time" width="40" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center" allowSort="true">发布时间</div>        
+        <div field="expire_time" width="40" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">失效时间</div>
+        <div field="use_type" width="40" headerAlign="center" align="center" renderer="onLoadHandle">用途</div>
+        <div field="input_type" width="30" headerAlign="center" align="center" renderer="onLoadHandle">输入类型</div>
+        <div field="input_string" width="100" headerAlign="center" align="center">输入文本</div>
+        <div field="reply_type" width="30" headerAlign="center" align="center" renderer="onLoadHandle">回复类型</div>
+		<div field="mid" width="40" headerAlign="center" align="center" renderer="onLoadHandle">回复模板序号</div>
+        <div field="reply_string" width="200" headerAlign="center" align="left">回复内容</div>
+    </div>
+</div>
+<!--
+<table id="reply_list">
+    <colgroup>
+        <col width="40px" />
+        <col width="100px" />
+        <col width="80px" />
+        <col width="200px" />
+        <col width="80px" />
+    </colgroup>
+    <tr>
+        <th><input type="checkbox" name="total" /></th>
+        <th>创建时间</th>
+        <th>输入类型</th>
+        <th>输入文本</th>
+        <th>回复类型</th>
+        <th>回复模板</th>
+    </tr>
+    {foreach from=$rlist key=k item=v}
+    <tr>
+        <td><input type="checkbox" name="{$v[id]}" value="{$v[id]}" /></td>
+        <td>{$v[create_time]}</td>
+        <td>{$v[input_type]}</td>
+        <td>{$v[input_string]}</td>
+        <td>{$v[reply_type]}</td>
+        <td>{$v[reply_string]}</td>
+    </tr>
+    {/foreach}
+</table>
+-->
+<script>
+mini.parse();
+var grid = mini.get("news_list");
+grid.load();
+//查看编辑卡片信息
+function add(id,url){
+	var position=$("#soPosition").val();
+	if(id==0 && position==''){
+		alert("请选择栏目")
+		return false;
+	}
+	
+	mini.open({
+		url: url+"?position="+position+"&id="+id,
+		showMaxButton:true,
+		title: '编辑回复模板', width: 900, height:550,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});		
+}
+function onRowDblClick(e) {
+	edit('/cms/cms/editReply');
+}
+function edit(url) {
+	var row = grid.getSelected();
+	if (row) {
+		add(row.id,url)
+	}
+}
+
+//删除数据
+function removeRow() {
+    var rows = grid.getSelecteds(),_ids=new Array(),_pos=new Array();
+	if(rows.length<1) return;
+	for(var i=0;i<rows.length;i++){
+		_ids[i]=parseInt(rows[i].id);
+		_pos[i]=parseInt(rows[i].position);
+	}
+	var ids=_ids.join(','),pos=_pos.join(',');
+	if(ids=='') return;
+	mini.confirm("确定删除内容？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+	  			if(data.err!='0'){
+					alert(data.msg)
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/cms/sysCms/delReply',{ids:ids,pos:pos},callback,"POST","json");
+		}
+	);
+}
+$("#chageStatus").change(function(){
+	
+});
+</script>

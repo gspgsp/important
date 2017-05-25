@@ -1,0 +1,47 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="white-space:nowrap;">
+            	<form id="soform" action="/">
+              <span>统计时间</span>
+            	<input name="startTime" class="mini-datepicker" style="width:100px;" value="{$_first}"> -
+            	<input name="endTime" class="mini-datepicker" style="width:100px;" value="{$_today}"/>
+                <select name="key_type">
+                    <option value="name">渠道名</option>
+                    <option value="user">渠道用户</option>
+                </select>       
+                <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>   
+                <a class="mini-button" iconCls="icon-search" onClick="search()">查询</a>
+                <span id="searchMsg"></span>
+                </form>
+            </td>
+        </tr>
+    </table>           
+</div>
+
+<div class="mini-fit" style="padding:1px 3px 3px;">
+  <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+        url="/report/appStatChannel/init?action=grid"
+        showFilterRow="true" idField="id"
+        >
+    <div property="columns">
+      <div field="day_id" width="60" headerAlign="center" align="right" allowSort="true" >日期</div>
+      <div field="chanel_id" width="60" headerAlign="center" allowSort="true" align="center">渠道名称</div>
+      <div field="device_type" width="60" headerAlign="center" allowSort="true" align="center">设备类型</div>
+      <div field="install_count" width="60" headerAlign="center" allowSort="true" align="center">安装数</div>
+      <div field="actived_count" width="60" headerAlign="center" allowSort="true" align="center">激活数</div>
+      <div field="register_count" width="60" headerAlign="center" allowSort="true" align="center">注册数</div>
+      <div field="launch_count" width="60" headerAlign="center" allowSort="true" align="center">启动数</div>
+      <div field="login_count" width="60" headerAlign="center" allowSort="true" align="center">登录用户数</div>
+      <div field="realname_count" width="60" headerAlign="center" allowSort="true" align="center">当天注册实名数</div>
+      <div field="realname_total" width="60" headerAlign="center" allowSort="true" align="center">累计实名人数</div>
+      <div field="investor_total" width="60" headerAlign="center" allowSort="true" align="center">累计投资人数</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+search();
+</script>

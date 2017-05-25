@@ -1,0 +1,52 @@
+{layout file="public:main_layout"}
+<div class="tblform" style="margin:5px;">
+  <h4>邮箱设置</h4>
+  <form method="post" action="__A__" id="theForm" enctype="multipart/form-data">
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <th>服务器地址: </th>
+          <td>
+            <input name="smtp[host]" value="{$smtp.host}" class="mini-textbox" style="width:380px" />
+          </td>
+        </tr>
+        <tr>
+          <th>服务器端口: </th>
+          <td>
+            <input name="smtp[port]" value="{$smtp.port|default:465}" class="mini-textbox" />
+            <input name="smtp[ssl]" value="{$smtp.ssl}" trueValue="1" falseValue="0" class="mini-checkbox" text="SSL" />
+          </td>
+        </tr>
+        <tr>
+          <th>发件人名称: </th>
+          <td>
+            <input name="smtp[name]" value="{$smtp.name}" class="mini-textbox" />
+          </td>
+        </tr>
+        <tr>
+          <th>账号名称: </th>
+          <td>
+            <input name="smtp[user]" value="{$smtp.user}" class="mini-textbox" style="width:380px" />
+          </td>
+        </tr>
+        <tr>
+          <th>账号密码: </th>
+          <td>
+            <input name="smtp[pass]" value="{$smtp.pass}" class="mini-password" style="width:380px" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tblbtn">
+      <a class="mini-button" iconCls="icon-ok" onclick="frmSubmit">提交</a>
+      <a class="mini-button" iconCls="icon-undo" onclick="frmRest">重置</a>
+      <input type="reset" style="display:none;">
+      <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+mini.parse();
+</script>

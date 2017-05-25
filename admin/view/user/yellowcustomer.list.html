@@ -1,0 +1,346 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+	<table style="width:100%;">
+		<tr>
+			<!-- <td style="white-space:nowrap;"> -->
+			<td style="float:left;">
+			<form id="soform">
+				添加时间
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+
+				<select name="identification" id="soidentification">
+					<option value="" selected="selected">=认证=</option>
+					{html_options options=$identification}
+				</select>
+				<select name="type" id="soType">
+					<option value="" selected="selected">=客户类型=</option>
+					{html_options options=$type}
+				</select>
+				<select name="key_type">
+					<option value="c_name">客户名称</option>
+					<option value="need_product" >所需牌号</option>
+					<option value="customer_manager">交易员</option>
+				</select>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+							<span id="searchMsg"></span>
+			</form>
+			</td>
+			<td style="float:right;">
+				<a class="mini-button" iconCls="icon-addnew" onclick="share()">共享</a>
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a>
+				<a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20"
+		url="/user/yellowcustomer/init?action=grid" idField="user_id" multiSelect="true" allowCellEdit="true" allowCellWrap="true" allowCellSelect="true">
+		<div property="columns">
+			<div type="checkcolumn"></div>
+			<div field="c_name" width="95" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
+			<div field="chanel" width="40" headerAlign="center" align="center">渠道</div>
+			<div field="type" width="30" headerAlign="center" align="center">客户类型</div>
+			<div field="need_product" width="60" headerAlign="center" align="center">所需要的牌号</div>
+			<div field="legal_person" width="30" headerAlign="center" align="center" >法人姓名</div>
+			<div field="legal_idcard" width="60" headerAlign="center"  align="center">法人身份证</div>
+			<div field="reason" width="60" headerAlign="center"  align="center">释放原因</div>
+			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">添加时间</div>
+			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">更新时间</div>
+			<div field="customer_manager" width="40" headerAlign="center"  align="center">交易员</div>
+			<div field="depart" width="30" headerAlign="center"  align="center">部门</div>
+			<div field="identification" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">认证
+				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$identification}' />
+			</div>
+			<div field="" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
+		</div>
+	</div>
+</div>
+<div id="allotInfo" class="mini-window" title="分配" style="width:200px;"
+	showModal="true" allowResize="true" allowDrag="true"
+	>
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<input class="mini-hidden" name="id"/>
+			<tr>
+				<td>分配交易员:</td>
+				<td>
+					<input name="id" class="mini-buttonedit" onbuttonclick="allotCustomer" valueField="id"  value="" allowInput="false"  style="width:100px" id="id"/>
+					<input id="c_id" class="mini-hidden" value="">
+				</td>
+
+			</tr>
+
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitAllot()">保存</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{if $doact eq 'search'}
+<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+		<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+		<span style="display:inline-block;width:25px;"></span>
+		<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+</div>
+{/if}
+
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onKeyEnter(e) {
+	search();
+}
+function identificationStatus(e) {
+	var record = e.record.identification; //record.id
+	return $("#soidentification").find("option[value="+record+"]").text();
+}
+
+//分配客户
+var allotInfo = mini.get("allotInfo");
+var form = new mini.Form("#replaceForm");
+function allotO(cid) {
+	mini.get(c_id).setValue(cid)
+	allotInfo.show();
+}
+function onLoadHandle(e) {
+	var record = e.record,uid=record.c_id, c_name=record.c_name, s='';
+	s += '<a href="javascript:viewCinfo('+uid+')">'+c_name+'</a> ';
+	return s;
+}
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onComfirm() {
+	CloseWindow("ok");
+}
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+// function onLoadFllow(e){
+// 	var record = e.record,s='',uid=record.c_id;
+// 	return s = '<a href="javascript:restore('+uid+')">还原到私海</a>';
+// }
+
+
+function onLoadFllow(e) {
+	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli;
+		if(customer_manager !=''){
+			s += '<a href="javascript:viewFinfo('+cid+')">跟</a>|<a href="javascript:removeRow('+cid+')">黑名单</a>|';
+			s +='<a href="javascript:new_setSea('+cid+')">公海</a>';
+			s += '|<a href="javascript:onEdit()">改</a>|<a href="javascript:allotO('+cid+')">换交易员</a>';
+		}
+	return s;
+}
+//还原用户到私海客户
+function restore(cid) {
+	mini.confirm("确定还原用户到私海客户？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/yellowcustomer/restore',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+function onEdit(e) {
+	var row = grid.getSelected();
+	if (row) {
+		var width=740,height=700,title='编辑客户信息';
+		urlStr="/user/customer/edit?id="+row.c_id+'&ctype=3';
+		mini.open({
+			url: urlStr,
+			title: title, width: width, height:height,
+			ondestroy: function (action) {
+				if(action=='save'){ //重新加载
+					grid.reload();
+				}
+			}
+		});
+	}
+}
+//共享客户联系人
+function share(){
+	var row = grid.getSelected();
+	var width=225,height=130;
+	title='添加共享联系人';
+	mini.open({
+		url: "/user/customer/share?id="+row.c_id,
+		showMaxButton:true,
+		title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//删除数据
+function removeRow(cid) {
+	mini.confirm("确定加入黑名单？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/customer/remove',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+//查看编辑用户信息
+function add(id,ctype){
+	 var c_id = 0;
+	if(ctype==1){
+		var width=525,height=340;
+		title='新增公司联系人';
+		if(grid.getSelected() != null){
+			c_id = grid.getSelected().c_id;
+		}
+	}else if(ctype==3){
+		var width=740,height=700;
+		title='新增公司';
+	}
+	mini.open({
+		url: "/user/customer/info?id="+id+"&ctype="+ctype+"&u_add="+c_id,
+		showMaxButton:true,
+		title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//打开跟进客户信息页面
+function viewFinfo(c_id){
+	mini.open({
+		url: "/user/follow/info?id="+c_id,
+		showMaxButton:true,
+		title: "新增客户跟进",
+		width: 300, height:320
+	});
+}
+//审核用户
+function chk(cid){
+	mini.open({
+		url: "/user/customer/chkpage?id="+cid,
+		showMaxButton:true,
+		title: "审核用户",
+		width: 190, height:160,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//会员回收
+function setSea(cid) {
+	mini.confirm("确定回收该用户？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/customer/setsea',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+//分配管理员列表
+function allotCustomer(){
+		var btn = this;
+		mini.open({
+		url: "rbac/adm/init?isPublic=1&do=search",
+		title: "分配客户",
+		width: 1200,
+		height: 550,
+		onload: function () {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData();
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.admin_id);
+					btn.setText(data.name);
+					// $("#"+btn.id+"\\$value").val(data.name);
+				}
+			}
+		}
+	});
+}
+//提交分配
+function submitAllot(){
+	var cid = mini.get(c_id).getValue();
+	form.validate();
+	if (form.isValid() == false) return;
+	var o = form.getData();
+	grid.loading("数据提交中，请稍后......");
+	var json = mini.encode(o);
+	var callback=function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.reload();
+			allotInfo.hide();
+		}
+	}
+	utils.ajax('/user/customer/allotCustomer',{data:json,cid:cid},callback,"POST","json");
+}
+//新版的回收到公海
+function new_setSea(cid){
+	mini.open({
+	url: "/product/interface/setsea?id="+cid,
+	title: '把客户放回公海', width: 500, height:300,
+	ondestroy: function (action) {
+	  if(action=='save'){ //重新加载
+		grid.reload();
+	  }
+	}
+	});
+}
+//选择框根据传入值选择
+top['win']=window;
+function setDvalue(a){
+	console.log(a);
+   var row=grid.findRow(function(row){
+	 if(row.c_id==a) return true;
+   })
+   grid.select(row);
+}
+</script>

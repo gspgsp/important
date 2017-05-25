@@ -1,0 +1,19 @@
+{layout file="public:main_layout"} 
+<div class="tblform" style="margin:5px;">
+  <h4>系统信息</h4>
+  <div class="part">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+      
+      {foreach from=$sys_info item=v name=n key=k}
+      <tr>
+        <th>{$k}: </th>
+        <td>{$v}</td>
+      </tr>
+      {/foreach}
+        </tbody>
+      
+    </table>
+  </div>
+  <span class="inline_note">系统版本号：V001</span><br>
+</div>

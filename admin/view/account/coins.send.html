@@ -1,0 +1,76 @@
+{layout file="public:mini_layout"}
+<form id="infoForm" class="form" method="POST">
+<input type="hidden" name="user_ids" />
+	<div style="margin:50px;">
+		<table style="width:100%;">
+			<tr>
+				<td style="text-align:right;width:40%">发放数量</td>
+				<td>    
+					<input name="number" class="mini-spinner" required="true" minValue="0" value="50" maxValue="99999" id="number" /> 
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">选择账号</td>
+				<td>    
+					<input name="users" class="mini-buttonedit" onbuttonclick="usrChoose" allowInput="false" id="users"/>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="text-align:center;padding:10px;">
+		<a class="mini-button" iconCls="icon-ok" onclick="submitForm" style="width:60px;margin-right:20px;">确定</a>
+		<a class="mini-button" iconCls="icon-cancel" onclick="onCancel" style="width:60px;">取消</a>
+	</div> 
+</form>
+<script>
+mini.parse();
+var form = new mini.Form("#infoForm");
+
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	form.loading("数据提交中，请稍后......");
+	$.post(window.location.href,$.extend({},$("#infoForm").serializeObject(),$("#infoForm").data()),function(data){
+	  form.unmask();
+	  mini.alert(data.msg);
+	  if(data.err=='0'){
+		  CloseWindow("save");
+	  }
+	},'json');
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+
+function usrChoose(e){
+	var btn = this;
+    mini.open({
+		url: "/user/user/soso?multi=true",
+		title: "选择账号",
+		width: 960,
+		height: 450,
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.grid.getSelecteds();
+				if (data) {
+					form.setData({"number":data.length});
+					btn.setText("已选择"+data.length+"个账号");
+					
+					var user_ids = [];
+					for(var i=0;i<data.length;i++){
+						user_ids.push(data[i]["user_id"]);
+					}
+					$("#infoForm input[name=user_ids]").val(user_ids.join(","));
+					$("#infoForm").removeData();
+				}
+			}
+		}
+	});         
+}
+</script>
