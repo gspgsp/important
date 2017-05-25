@@ -78,7 +78,7 @@ class storeOutLogAction extends adminBaseAction {
 			//上下级关系
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 			//获取订单的交易员
-			$customer_manager = M('product:order')->getColByName($keyword,'customer_manager','order_sn')
+			$customer_manager = M('product:order')->getColByName($keyword,'customer_manager','order_sn');
 			if(!strpos($sons,$customer_manager)) $this->error('您无权查询该订单信息');
 			$where.=" and `o_id` in ($content_id) ";
 		}elseif(!empty($keyword)){
