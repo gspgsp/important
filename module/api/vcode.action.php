@@ -29,7 +29,7 @@ class vcodeAction extends homeBaseAction
         $vcode->seedtype  = 2;
         //$vcode->background = "#cccccc";
         //ini_set ('display_errors', 'On');
-        $vcode->doimage ();
+        //$vcode->doimage ();
         $name            = 'vc_'.sget ('name', 's', 'vcode');
         $vcode->doimage ();
         $_SESSION[$name] = $vcode->get_code ();

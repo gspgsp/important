@@ -149,57 +149,102 @@ class productAction extends baseAction
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
-     * @apiSuccess {int}   pointsAll  塑豆总数
-     * @apiSuccess {json}   info   信息
+     * @apiSuccess {json}   data   信息
      *
      * @apiSuccessExample {json} Success-Response:
-     *     {
-    "err": 0,
-    "info": [
-    {
-    "id": "13",
-    "cate_id": "9",
-    "thumb": "http://statics.myplas.com/upload/17/04/10/58eb2893b499d.jpg",
-    "name": "通讯录一天置顶卡",
-    "points": "100",
-    "type": "2",
-    "myMsg": []
-    },
-    {
-    "id": "12",
-    "cate_id": "9",
-    "thumb": "http://statics.myplas.com/upload/17/04/10/58eb2851bda6c.jpg",
-    "name": "供求信息一天置顶卡",
-    "points": "100",
-    "type": "1",
-    "myMsg": [
-    {
-    "id": "90126",
-    "p_id": "0",
-    "user_id": "40418",
-    "model": null,
-    "unit_price": "0.00",
-    "store_house": "",
-    "f_name": null,
-    "input_time": "04-24 16:59",
-    "type": "1",
-    "content": "求购hf5110",
-    "c_name": "上海中晨电子商务股份有限公司",
-    "name": "谢磊",
-    "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
-    "thumbqq": "",
-    "sex": "0",
-    "mobile_province": "上海",
-    "is_pass": "0",
-    "contents": "求购hf5110",
-    "saysCount": 0,
-    "deliverPriceCount": 0
-    }
-    ]
-    }
-    ],
-    "pointsAll": "90"
-    }
+            {
+            "err": 0,
+            "data": [
+            {
+            "id": "169",
+            "status": "5",
+            "create_time": "1495704479",
+            "order_id": "2017052510255101",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "2017-06-05",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "100",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495704479",
+            "num": "1",
+            "pur_id": "41438",
+            "thumb": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png",
+            "name": "通讯录置顶卡",
+            "image": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png"
+            },
+            {
+            "id": "125",
+            "status": "5",
+            "create_time": "1495510844",
+            "order_id": "2017052399985453",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495510844",
+            "num": "2",
+            "pur_id": "40418",
+            "thumb": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png",
+            "name": "通讯录置顶卡",
+            "image": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png"
+            },
+            {
+            "id": "80",
+            "status": "5",
+            "create_time": "1495094832",
+            "order_id": "2017051848979853",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495094832",
+            "num": "2",
+            "pur_id": "40418",
+            "thumb": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png",
+            "name": "通讯录置顶卡",
+            "image": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png"
+            },
+            {
+            "id": "59",
+            "status": "5",
+            "create_time": "1493899600",
+            "order_id": "2017050448101101",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "100",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1493986000",
+            "num": "1",
+            "pur_id": "40418",
+            "thumb": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png",
+            "name": "通讯录置顶卡",
+            "image": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png"
+            }
+            ]
+            }
      * @apiErrorExample {json} Error-Response:
      *      {
      *       "err": 2,
@@ -218,7 +263,6 @@ class productAction extends baseAction
 
             $pointsOrder = M("points:pointsOrder");
             $data = $pointsOrder->getPurchaseRecord($user_id,$goods_ids,$page,$size);
-
             if (empty($data['data']) && $page == 1) {
                 $this->json_output (array(
                     'err' => 2,
@@ -226,12 +270,14 @@ class productAction extends baseAction
                 ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-
+            //供求信息
+            $goods_id = M("points:pointsGoods")->getOnsaleGoods(1);
             foreach ($data['data'] as $k => &$v) {
-                if (!empty($goods_id) && $v['id'] == $goods_id && !empty($supply_and_demand['count'])) {
-                    $v['myMsg'] = $supply_and_demand['data'];
-                } else {
-                    $v['myMsg'] = array();
+
+                if($v['goods_id'] == $goods_id) {
+                    $data = M ('qapp:plasticRelease')->getReleaseMsgDetail ($v['id'], $v['uid'], $user_id);
+                    $v['contents']= $data['contents'];
+                    $v['content']= $data['content'];
                 }
                 if ($v['thumb']) {
                     $v['thumb'] = FILE_URL.$v['thumb'];
@@ -242,8 +288,7 @@ class productAction extends baseAction
             }
             $ret = array(
                 'err'       => 0,
-                'info'      => $data['data'],
-                'pointsAll' => $points,
+                'data'      => $data['data'],
             );
 
             $this->json_output ($ret);
