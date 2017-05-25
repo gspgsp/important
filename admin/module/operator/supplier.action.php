@@ -293,7 +293,6 @@ class supplierAction extends adminBaseAction{
              $logistics_supplier['update_time']=time();
              $logistics_supplier['update_name']=$_SESSION['name'];
             if(!$this->db->where('supplier_id='.$data['supplier_id'])->update($logistics_supplier)) throw new Exception("系统错误 更新失败:100");
-            file_put_contents('D:/text.txt', '3',FILE_APPEND);
             $logistics_contact=array(
                 'contact_name'=>$data['contact_name'],
                 'sex'=>$data['sex'],
