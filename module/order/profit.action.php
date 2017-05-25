@@ -91,8 +91,8 @@ class profitAction extends adminBaseAction {
 		}
 		$orderby = " order by $sortField $sortOrder";
 		//筛选过滤自己的订单信息
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991){
-			if(!in_array($roleid, array('30','26','27'))){
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991 && $_SESSION['adminid'] !=877){
+			if(!in_array($roleid, array('30','26','27','2'))){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 				$where .= " and (`s_customer_manager` = {$_SESSION['adminid']} or `p_customer_manager` = {$_SESSION['adminid']})  ";
 			}
@@ -181,7 +181,7 @@ class profitAction extends adminBaseAction {
 			$value['p_input_time']=$value['p_input_time']>1000 ? date("Y-m-d H:i:s",$value['p_input_time']) : '-';
 			$value['s_ordname']=L('company_account')[$value['s_ordname']];
 			
-			if($_SESSION['adminid'] != 1 && !in_array($roleid, array('30','26','27'))){
+			if($_SESSION['adminid'] != 1 && !in_array($roleid, array('30','26','27','2'))){
 				 $sons_arr = explode(',', $sons);
 				if($value['s_customer_manager'] != $_SESSION['adminid'] && !in_array($value['s_customer_manager'],$sons_arr)){
 					$value['s_name'] = '******';
@@ -280,8 +280,8 @@ class profitAction extends adminBaseAction {
 		}
 		$orderby = " order by $sortField $sortOrder";
 		//筛选过滤自己的订单信息
-		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991){
-			if(!in_array($roleid, array('30','26','27'))){
+		if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $_SESSION['adminid'] != 10 && $_SESSION['adminid'] != 11 && $_SESSION['adminid'] != 991 && $_SESSION['adminid'] != 877){
+			if(!in_array($roleid, array('30','26','27','2'))){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 				$where .= " and (`s_customer_manager` in ($sons) or `p_customer_manager` = {$_SESSION['adminid']})  ";
 			}
@@ -451,7 +451,7 @@ class profitAction extends adminBaseAction {
 			// $depart =  M('rbac:adm')->getPartByID($value['s_customer_manager']);
 			// $value['team_name']=$depart['name'];
 			// p($value);die;
-			if($_SESSION['adminid'] != 1 && !in_array($roleid, array('30','26','27'))){
+			if($_SESSION['adminid'] != 1 && !in_array($roleid, array('30','26','27','2'))){
 				 $sons_arr = explode(',', $sons);
 				if($value['s_customer_manager'] != $_SESSION['adminid'] && !in_array($value['s_customer_manager'],$sons_arr)){
 					$value['s_name'] = '******';
