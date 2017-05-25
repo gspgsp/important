@@ -234,25 +234,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" " + _vm._s(_vm.top.sex))]), _vm._v(" "), _c('p', {
     staticClass: "second"
-  }, [(_vm.top.type === '1') ? _c('span', [_vm._v("产品:" + _vm._s(_vm.n.main_product))]) : _vm._e(), _vm._v(" "), (_vm.top.type === '1') ? _c('span', [_vm._v("月用量:" + _vm._s(_vm.n.month_consum))]) : _vm._e()]), _vm._v(" "), (_vm.top.type == '1') ? _c('p', {
+  }, [(_vm.top.type === '1') ? _c('span', [_vm._v("产品:" + _vm._s(_vm.top.main_product))]) : _vm._e(), _vm._v(" "), (_vm.top.type === '1') ? _c('span', [_vm._v("月用量:" + _vm._s(_vm.top.month_consum))]) : _vm._e()]), _vm._v(" "), (_vm.top.type == '1') ? _c('p', {
     staticClass: "second"
-  }, [_vm._v("\n\t\t\t\t\t\t\t供:" + _vm._s(_vm.n.sale_count) + " 求:" + _vm._s(_vm.n.buy_count) + " 需求：\n\t\t\t\t\t\t\t"), _c('b', {
+  }, [_vm._v("\n\t\t\t\t\t\t\t供:" + _vm._s(_vm.top.sale_count) + " 求:" + _vm._s(_vm.top.buy_count) + " 需求：\n\t\t\t\t\t\t\t"), _c('b', {
     staticStyle: {
       "color": "#666666",
       "font-weight": "normal"
     },
     domProps: {
-      "innerHTML": _vm._s(_vm.n.need_product)
+      "innerHTML": _vm._s(_vm.top.need_product)
     }
   })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '2') ? _c('p', {
     staticClass: "second"
-  }, [_vm._v("\n\t\t\t\t\t\t\t供:" + _vm._s(_vm.n.sale_count) + " 求:" + _vm._s(_vm.n.buy_count) + " 主营：\n\t\t\t\t\t\t\t"), _c('b', {
+  }, [_vm._v("\n\t\t\t\t\t\t\t供:" + _vm._s(_vm.top.sale_count) + " 求:" + _vm._s(_vm.top.buy_count) + " 主营：\n\t\t\t\t\t\t\t"), _c('b', {
     staticStyle: {
       "color": "#666666",
       "font-weight": "normal"
     },
     domProps: {
-      "innerHTML": _vm._s(_vm.n.need_product)
+      "innerHTML": _vm._s(_vm.top.need_product)
     }
   })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '3' || _vm.top.type === '5' || _vm.top.type === '6' || _vm.top.type === '7' || _vm.top.type === '8' || _vm.top.type === '9' || _vm.top.type === '10') ? _c('p', {
     staticStyle: {
@@ -268,7 +268,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "font-weight": "normal"
     },
     domProps: {
-      "innerHTML": _vm._s(_vm.n.main_product)
+      "innerHTML": _vm._s(_vm.top.main_product)
     }
   })]) : _vm._e(), _vm._v(" "), _c('i', {
     staticClass: "icon2 rightArrow"
