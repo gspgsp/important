@@ -1,0 +1,160 @@
+{layout file="public:main_layout"}
+{include file="public:mbx"}
+<div class="big-client">
+	<div class="sel-condt">
+		<div class="sel-condt-name">您已经选择的公司：</div>
+		<p>
+			<span>宁波利时进出口有限公司<a href=""></a></span>
+			<span>中国石油天然气股份有限公司华东化工销售上海分公司<a href=""></a></span>
+		</p>
+	</div>
+	<div class="filter">
+	    <div class="filter-tr company">
+	    	<div class="filter-name">公司</div>
+	        <div class="filter-all"><a href="" class="chose">全部</a></div>
+	        <div class="filter-detail multiple">
+	        	<ul class="hide">
+					<li class="chose">
+						<a href="">
+							<div class="com-logo"><img src="/Public/Attachment/Images/2016/03/10/56e0d81f7b570.png" width="146" height="70"></div>
+							<span>宁波利时进出口有限公司</span>
+						</a>
+					</li>
+	            </ul>
+	        </div>
+	        <div class="filter-show"><span class="hide">展开更多</span></div>
+	    </div>
+	    <div class="filter-tr brand">
+	    	<div class="filter-name">品牌</div>
+	        <div class="filter-all"><a href="" class="chose">全部</a></div>
+	        <div class="filter-detail only-one">
+	        	<ul class="hide">
+					<li>
+						<a href="">伊朗</a>
+					</li>
+	            </ul>
+	        </div>
+	        <div class="filter-show"><span class="hide">展开更多</span></div>
+	    </div>
+	    <div class="filter-tr address">
+	    	<div class="filter-name">交货地</div>
+	        <div class="filter-all"><a href="" class="chose">全部</a></div>
+	        <div class="filter-detail only-one">
+	        	<ul class="address-1 show">
+	            	<li>
+	                	<a href="">北京</a>
+
+	                </li>
+	                <li>
+	                	<a href="">江苏</a>
+	                </li>
+	            </ul>
+	            <ul class="address-2 hide">
+	            	<li>
+	                	<b>华南：</b>
+	                    <a href="">广东</a>
+	                </li>
+	                <li>
+	                	<b>华东：</b>
+	                    <a href="">上海</a>
+	                </li>
+	                <li>
+	                	<b>华中：</b>
+	                    <a href="">湖北</a>
+	                </li>
+	                <li>
+	                	<b>华北：</b>
+	                    <a href="">北京</a>
+	                </li>
+	                <li>
+	                	<b>东北：</b>
+	                    <a href="">辽宁</a>
+	                </li>
+	                <li>
+	                	<b>西北：</b>
+	                    <a href="">陕西</a>
+
+	                </li>
+	                <li>
+	                	<b>西南：</b>
+	                    <a href="">四川</a>
+	                </li>
+	            </ul>
+	        </div>
+	        <div class="filter-show"><span class="hide">展开更多</span></div>
+	    </div>
+	    <div class="search-tr">
+	    	<form name="" method="post" action="/dkh/cache">
+	        	<p class="search-name">类别：</p>
+	            <input type="text" name="pzname" value="" class="search-input">
+	            <p class="search-name">牌号：</p>
+	            <input type="text" name="phname" value="" class="search-input">
+	            <input type="submit" class="btn-submit" value="搜索">
+	            <input type="hidden" name="khid" value="103_107">
+	            <input type="hidden" name="ppname" value="大连石化">
+	            <input type="hidden" name="address" value="">
+	            <input type="hidden" name="order" value="">
+	            <input type="hidden" name="from" value="">
+	            <input type="hidden" name="to" value="">
+	        </form>
+	    </div>
+	</div>
+
+	<div class="result">
+		<div class="condt">
+	    	<p class="total">共<span>8</span>条</p>
+	        <p class="sort">排序：</p>
+	        <div class="sort-sel">
+	        	<a class="on" href="">默认</a>
+	            <a class="last" href="">价格倒序</a>
+	        </div>
+	        <p class="price-range-name">价格范围</p>
+		    <form name="" method="post" action="/dkh/cache">
+		        <input type="text" name="from" value="" class="price-range-val">
+		        <p class="short-line">-</p>
+		        <input type="text" name="to" value="" class="price-range-val">
+		        <input type="hidden" name="khid" value="103_107">
+		        <input type="hidden" name="phname" value="">
+		        <input type="hidden" name="pzname" value="">
+		        <input type="hidden" name="ppname" value="大连石化">
+		        <input type="hidden" name="address" value="">
+		        <input type="hidden" name="order" value="">
+
+		        <input type="submit" class="btn-submit" value="确定">
+		    </form>
+	    </div>
+		<ul>
+	    	<li class="title">
+	        	<div class="lb">类别</div>
+	            <div class="ph">牌号</div>
+	            <div class="cj">厂家</div>
+	            <div class="amount">数量（吨）</div>
+	            <div class="price">价格（元/吨）</div>
+	            <div class="address">交货地</div>
+	            <div class="company">公司</div>
+	            <div class="phone">业务电话</div>
+	            <div class="phone">厂家电话</div>
+	            <div class="date">更新时间</div>
+	        </li>
+	        <li class="con">
+	        	<div class="lb">PP</div>
+	            <div class="ph">T30S</div>
+	            <div class="cj">大连石化</div>
+	            <div class="amount">100</div>
+	            <div class="price">￥7050</div>
+	            <div class="address">上海</div>
+	            <div class="company">中国石油天然气股份有限公司华东化工销售上海分公司</div>
+	            <div class="phone">15618004676</div>
+	            <div class="phone">68552150</div>
+	            <div class="date">03-14 11:14</div>
+	        </li>
+	    </ul>
+	</div>
+	<div id="pages">
+
+	</div>
+
+</div>
+
+
+

@@ -1,0 +1,21 @@
+<html>
+<head>
+<meta charset="utf-8">
+<link href="css/select2.min.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/select2.full.min.js"></script>
+
+</head>
+<body>
+<select class="js-example-data-array"></select>
+<script type="text/javascript">
+var data = [{ id: 5, text: '青岛天晟防水建材有限公司' },{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
+
+$(".js-example-data-array").select2({
+  data: data
+})
+</script>
+
+
+</body>
+</html>

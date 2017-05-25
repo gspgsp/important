@@ -1,0 +1,111 @@
+{layout file="public:main_layout"}
+{insert_css files='home/mailloffer.css'}
+
+<div class="crumb w1220">
+    <h3>商城报价</h3>
+    <p>当前位置 - 综合首页 》</p>
+    <span>公司报价</span>
+</div>
+<!--mail-detail begin-->
+<div class="mail-detail w1220">
+	<h1>{$info[0][c_name]}</h1>
+	<!--other begin-->
+	<div class="other">
+		<b>主营品种：</b><span>{$info[0][com_intro]|mb_substr=0,40,'utf-8'}</span>
+		<b>电话：</b><span>{$info[0][mobile]}</span>
+	</div>
+	<!--other end-->
+	<!--<p class="tips">报价单共下载<span>{$info[0][download]}</span>次</p>-->
+	<div class="download"><input type="button" value="下载" name="download" data-id="{$info[0][c_id]}"/></div>
+	<!--link begin-->
+	<div class="link">
+		<p>报价单网址：http://www.myplas.com/offers/{$info[0][c_id]}.html</p>
+		<div class="copy" data-clipboard-tex=""> 一键复制链接</div>
+	</div>
+	<!--link end-->
+	<h3>报价信息</h3>
+	<!--detail-con begin-->
+	<div class="detail-con">
+		<ul>
+			<li class="detail-title">
+				<p class="breed">品种</p>	
+				<p class="grade">牌号</p>	
+				<p class="factory">厂家</p>	
+				<p class="amount">数量(吨)</p>	
+				<p class="price">价格（元）/吨</p>
+				<p class="area">交货地区</p>
+				<p class="storage">实价/可议价</p>
+				<p class="time1">现期货</p>
+				<p class="time2">发布时间</p>
+			</li>
+			{foreach from=$list.data item=value key=key}
+			<li class="detail-li">
+				{if $value.product_type }
+				<p class="breed">{:witchType|$value.product_type}</p>
+				{else}
+				<p class="breed">&nbsp;</p>
+				{/if }
+				{if $value.model }
+				<p class="grade">{$value.model}</p>
+				{else}
+				<p class="grade">&nbsp;</p>
+				{/if}
+				{if $value.f_name}
+				<p class="factory">{$value.f_name}</p>
+				{else}
+				<p class="factory">&nbsp;</p>
+				{/if}
+				{if $value.number}
+				<p class="amount">{:floatval|$value.number}</p>
+				{else}
+				<p class="amount">&nbsp;</p>
+				{/if}
+				{if $value.unit_price}
+				<p class="price">￥{:floatval|$value.unit_price}</p>
+				{else}
+				<p class="price">&nbsp;</p>
+				{/if}
+				{if $value.store_house}
+				<p class="area color-gray">{ $value.store_house}</p>
+				{else}
+				<p class="area color-gray">&nbsp;</p>
+				{/if}
+				{if $value.bargain}
+				<p class="storage color-gray">{if $value.bargain==1}可议价{else}实价{/if}</p>
+				{else}
+				<p class="storage color-gray">&nbsp;</p>
+				{/if}
+				{if $value.cargo_type}
+				<p class="time1 color-gray">{if $value.cargo_type==1}现货{else}期货{/if}</p>
+				{else}
+				<p class="time1 color-gray">&nbsp;</p>
+				{/if}
+				<p class="time2 color-gray">{$value.input_time|date:m-d H:i}</p>
+			</li>
+			{/foreach}
+		</ul>
+		<div class="page">
+			{$pages}
+		</div>
+	</div>
+	<!--detail-con end-->
+</div>
+<!--mail-detail end-->
+
+<script>
+	//一键复制链接
+	var client = new ZeroClipboard( $(".copy") );
+	var clipBoardContent=this.location.href;
+		client.on('copy', function (event) {
+			event.clipboardData.setData('text/plain', clipBoardContent);
+			layer.msg('复制成功');
+	});
+
+	var cid=$("input:button").attr('data-id');
+		urls=this.location.href;
+	$('input:button').click(function(){
+		window.location.href="/offers/index/downLoad?cid="+cid+"&urls="+urls;
+	})
+
+</script>
+

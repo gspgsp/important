@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+        <script src="__MYAPP__/js/mui.min.js"></script>
+        <script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+        <script src="__MYAPP__/js/common.js"></script>
+        <link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="__MYAPP__/css/app.css" />
+        <style>
+            html,body{ height: 100%;}
+            #frame{ width: 100%; height: 100%;}
+        </style>
+	</head>
+	<body>
+		<header id="infoHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			热点详情
+		</header>
+        <iframe id="frame" frameborder="0"></iframe>
+    <script type="text/javascript">
+        var url=getUrlParam("url");
+        commonAjax(
+                "post",
+                "/mobi/mainPage/getAppBanner"
+        ).then(function (res) {
+            console.log("banner",res.banners[url].url);
+            $("#frame").attr("src",res.banners[url].url);
+        },function () {
+
+        });
+    </script>
+    <!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

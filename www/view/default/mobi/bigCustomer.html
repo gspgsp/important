@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" /> 
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			.icon{ float: none; display: inline-block; vertical-align: -5px;}
+		</style>
+	</head>
+	<body style="padding-bottom: 50px;">
+		<header id="bigCustomerHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			大客户专区
+			<span class="appMenu"></span>
+		</header>
+		<div class="bigCustomerMenu" style="display:none;">
+			<h3 class="bigCustomerMenuTitle">
+				公司
+				<!--<i class="icon2 iconUp iconDown"></i>-->
+				<span id="gsBtn">全部</span>
+			</h3>
+			<p id="gs"></p>
+			<h3 class="bigCustomerMenuTitle">
+				厂家
+				<!--<i class="icon2 iconUp iconDown"></i>-->
+				<span id="cjBtn">全部</span>
+			</h3>
+			<p id="cj"></p>
+			<h3 class="bigCustomerMenuTitle">
+				交货地
+				<!--<i class="icon2 iconUp iconDown"></i>-->
+				<span id="jhdBtn">全部</span>
+			</h3>
+			<p id="jhd"></p>
+			<div style="text-align: center; padding: 20px 0;">
+				<a id="chooseBtn" class="classifyEnter" href="javascript:;">确定</a>
+			</div>
+		</div>
+		<div class="supplyDemandStatus">
+			<span data-otype="3" class="on">默认</span>
+			<span id="sale" data-big="true">价格</span>
+		</div>
+		<div class="supplyDemandUl">
+			<ul id="searchWrapUl"></ul>
+			<div style="text-align: center; padding: 5px 0;">
+				<input class="more" type="button" value="点击加载更多">
+			</div>
+		</div>
+		<footer id="footer">
+			<ul>
+				<li><a class="footerOn" href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+				<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+			</ul>
+		</footer>
+		<input id="gsVal" type="hidden">
+		<input id="cjVal" type="hidden">
+		<input id="jhdVal" type="hidden">
+		<script type="text/javascript" charset="utf-8">
+			$(function () {
+				var searchLi="";
+				var gsLi="";
+				var cjLi="";
+				var jhdLi="";
+				var company="";
+				var factory="";
+				var address="";
+				//条件筛选
+				var ctype=1;
+				//时间价格
+				var otype=3;
+				//页码
+				var page=1;
+
+
+				commonAjax(
+						"post",
+						"/mobi/mainPage/getLargeChose"
+				).then(function (res) {
+					console.log("---",res);
+					res.choseData.company.forEach(function (v,i,a) {
+						gsLi+="<span>"+v.gsname+"</span>";
+					});
+					$("#gs").html(gsLi);
+					res.choseData.factory.forEach(function (v,i,a) {
+						cjLi+="<span>"+v.factory+"</span>";
+					});
+					$("#cj").html(cjLi);
+					res.choseData.address.forEach(function (v,i,a) {
+						jhdLi+="<span>"+v.address+"</span>";
+					});
+					$("#jhd").html(jhdLi);
+					$("#gsBtn").on("click",function () {
+						$(this).parents(".bigCustomerMenuTitle").find(".icon2").toggleClass("iconDown");
+						$("#gs").toggleClass("all");
+					});
+					$("#cjBtn").on("click",function () {
+						$(this).parents(".bigCustomerMenuTitle").find(".icon2").toggleClass("iconDown");
+						$("#cj").toggleClass("all");
+					});
+					$("#jhdBtn").on("click",function () {
+						$(this).parents(".bigCustomerMenuTitle").find(".icon2").toggleClass("iconDown");
+						$("#jhd").toggleClass("all");
+					});
+					$("#gs span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#gsVal").val($(this).text());
+					});
+					$("#cj span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#cjVal").val($(this).text());
+					});
+					$("#jhd span").on("click",function () {
+						$(this).addClass("on").siblings("span").removeClass("on");
+						$("#jhdVal").val($(this).text());
+					});
+					$("#chooseBtn").on("click",function () {
+						company=$("#gsVal").val();
+						factory=$("#cjVal").val();
+						address=$("#jhdVal").val();
+						ctype=2;
+						$(".bigCustomerMenu").hide();
+						searchLi="";
+						page=1;
+						renderQuo(company,factory,address,otype,ctype,page);
+					});
+				},function () {
+
+				});
+				
+				$(".appMenu").on("click",function () {
+					$(".bigCustomerMenu").toggle();
+				});
+				
+				//价格 时间筛选
+				$(".supplyDemandStatus span").on("click",function () {
+					$(this).addClass("on").siblings("span").removeClass("on");
+					var big=$(this).data("big");
+					if(big){
+						if(otype==2){
+							otype=1;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconUp'></i>");
+						}else{
+							otype=2;
+							$("#sale").find(".icon").remove();
+							$("#sale").append("<i class='icon iconDown'></i>");
+						}
+					}else{
+						otype=$(this).data("number");
+						$("#sale").find(".icon").remove();
+					}
+					searchLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(company,factory,address,otype,ctype,page);
+				});
+
+				
+				function renderQuo(company,factory,address,otype,ctype,page) {
+					$(".more").val("加载更多数据");
+					commonAjax(
+							"post",
+							"/mobi/mainPage/getLargeBid",
+							{
+								company:company,
+								factory:factory,
+								address:address,
+								otype:otype,
+								ctype:ctype,
+								page:page,
+								size:10
+							}
+					).then(function (res) {
+						console.log(res);
+ 						if(res.err==0){
+							if(res.largrBid.length==0){
+								$(".more").hide();
+								$("#searchWrapUl").html("<li class='noSearch'>暂无数据</li>");								
+							}else{
+								$(".more").show();
+								res.largrBid.forEach(function (v,i,a) {
+									searchLi+="<li><a href='/mobi/mainPage/enBigBidDetail?id="+v.id+"'><h3 class='bigCustomerName'>" +
+											""+v.type+"/"+v.model+"<br>"+v.factory+"<br>"+v.address+"</h3>" +
+											"<p class='supplyDemandStore'></p>" +
+											"<p class='supplyDemandSales'><span>￥"+v.price+"/T起</span><br>"+v.num+"T<br>"+v.input_time.split(" ")[0]+"</p>" +
+											"<div class='mui-clearfix'></div></a></li>";
+									$("#searchWrapUl").html(searchLi);
+								});
+							}
+						}else if(res.err==3){
+							$(".more").val(res.msg);
+						}
+					},function () {
+
+					});
+				}
+				
+				//初始数据
+				renderQuo(company,factory,address,otype,ctype,page);
+				
+				$(".more").on("click",function(){
+					page++;
+					renderQuo(company,factory,address,otype,ctype,page);
+				});
+				
+			});
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

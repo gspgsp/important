@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+	<body>
+		<header id="classifyHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			委托采购
+		</header>
+		<div class="purchaseWrap">
+			<h3>简单三步</h3>
+			<img src="__MYAPP__/img/purchaseProgress.jpg" />
+			<div class="purchaseInput">
+				<span>文本</span>
+				<input id="content" type="text" placeholder="输入牌号、价格、数量快速委托" />
+			</div>
+			<h4>通过文字快速发布采购信息</h4>
+		</div>
+		<div class="purchaseBtn">
+			<input id="submitBtn" type="button" value="免费委托发布" />
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			$(function () {
+				$("#submitBtn").on("click",function () {
+					var content=$("#content").val();
+						commonAjax(
+								"post",
+								"/mobi/mainPage/getPurchase",
+								{content:content}
+						).then(function (res) {
+							console.log(">>>",res);
+							if(res.err==1){
+								window.location.href="/mobi/login";
+							}else{
+								mui.alert("",res.msg,function () {});
+							}
+						},function () {
+
+						});
+				});
+			})
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

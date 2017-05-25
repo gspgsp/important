@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<style>
+		body { margin: 0; padding: 0;}
+		img{ width: 100%; display: block;}
+		#shade{ width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none; background: rgba(0,0,0,0.5);}
+		#d5{ width: 100%; position: absolute; top:0; right: 0; display: none;}
+	</style>
+</head>
+<body>
+<img src="__MYAPP__/img/d1.jpg">
+<a href="http://t.cn/Rt4H7hM"><img src="__MYAPP__/img/d2.jpg"></a>
+<a href="itms-apps://itunes.apple.com/app/id1071746048"><img src="__MYAPP__/img/d3.jpg"></a>
+<img src="__MYAPP__/img/d4.jpg">
+<div id="shade"></div>
+<img id="d5" src="__MYAPP__/img/d5.png">
+<script type="text/javascript">
+	//itms-apps://itunes.apple.com/app/id1050846396
+	function is_weixin(){
+		var ua = navigator.userAgent.toLowerCase();
+		if(ua.match(/MicroMessenger/i)=="micromessenger") {
+			document.getElementById("shade").style.display='block';
+			document.getElementById("d5").style.display='block';
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	is_weixin();
+</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+</body>
+</html>

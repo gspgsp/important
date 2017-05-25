@@ -1,0 +1,63 @@
+.purchase-order{ margin-bottom:45px;}
+.purchase-order .left{ width:948px; height:auto; overflow:hidden;}
+.purchase-order .left .filter-wrap{ width:906px; padding:20px; height:auto; overflow:hidden; border:1px solid #eee;}
+.purchase-order .filter-other li{ height:auto; line-height:35px; overflow:hidden;}
+.purchase-order .filter-other li .filter-name{ font-size:14px; width:50px; font-weight:bold; float:left;}
+.purchase-order .filter-other li .filter-sel{ width:770px; float:left; overflow:hidden;}
+.purchase-order .filter-other li .filter-sel a{ padding:4px 6px;}
+.purchase-order .filter-other li .filter-sel a:hover{ color:#fff; background:#fc6621; border-radius:3px;}
+.purchase-order .filter-other li .filter-sel .area1.hide,.purchase-order .filter-other li .filter-sel .area2.hide{ display:none;}
+.purchase-order .filter-other li .filter-sel .area2 span{ color:#fc6621; margin:0 0 0 6px;}
+.purchase-order .filter-other li .filter-more{ width:58px; height:26px; line-height:26px; text-align:center; overflow:hidden; border:1px solid #ddd; float:left; cursor:pointer;}
+.purchase-order .search{ height:30px; line-height:30px; overflow:hidden; margin:10px 0 0 0;}
+.purchase-order .search input{ float:left; margin:0 6px 0 0;}
+.purchase-order .search span,.purchase-order .search label{ float:left; margin:0 6px 0 0;}
+.purchase-order .search input.import{ width:118px; height:28px; padding:0 0 0 10px; border:1px solid #ccc;}
+.purchase-order .search input.check{ margin-top:8px;}
+.purchase-order .search select{ width:80px; height:28px; margin:0 10px 0 0; float:left;}
+.purchase-order .search .submit{ width:80px; height:30px; background:#fc6621; color:#fff; cursor:pointer;}
+
+.purchase-order .require h3{ font-size:16px; margin:13px 0 20px 0;}
+.purchase-order .require .require-wrap{ width:895px; height:auto; padding:0 26px 54px 25px; overflow:hidden; border:1px solid #d6d7dc;}
+.purchase-order .require .require-list li{ height:217px; overflow:hidden; padding:18px 0; border-bottom:1px dotted #000; background:url(../img/requireBg.png) no-repeat left center;}
+.purchase-order .require .require-list li .left{ width:213px; height:217px; overflow:hidden; float:left;}
+.purchase-order .require .require-list li .left p{ font-size:18px; width:109px; height:28px; line-height:28px; text-align:right; margin:57px 0 0 55px; background:url(../img/purchaseOrderSpirit.png) no-repeat;}
+.purchase-order .require .require-list li .left input{ font-size:14px; display:block; width:142px; height:38px; line-height:38px; text-align:center; border-radius:6px; margin:51px 0 0 36px;}
+.purchase-order .require .require-list li .left input.yes{ color:#fefefe; background:#fc6621; cursor:pointer;}
+.purchase-order .require .require-list li .left input.no{ color:#333; background:#c0c0c0;}
+.purchase-order .require .require-list li .right{ width:520px; margin:0 0 0 82px; float:left;}
+.purchase-order .require .require-list li .right .require-top{ font-size:20px; width:520px; height:39px; line-height:39px; overflow:hidden; margin:65px 0 5px 0;}
+.purchase-order .require .require-list li .right .require-top span{ float:left;}
+.purchase-order .require .require-list li .right .require-top span.xian-qi{ color:#fff; display:inline-block; width:39px; height:39px; text-align:center; overflow:hidden; background:url(../img/purchaseOrderSpirit.png); float:right;}
+.purchase-order .require .require-list li .right .require-top span.xian-qi.xian{ background-position:0 -28px;}
+.purchase-order .require .require-list li .right .require-top span.xian-qi.qi{ background-position:-39px -28px;}
+.purchase-order .require .require-list li .right .price{ height:24px; line-height:24px; margin:0 0 12px 0;}
+.purchase-order .require .require-list li .right .price b{ font-size:16px; color:#666; font-weight:normal; float:left; margin:0 20px 0 0;}
+.purchase-order .require .require-list li .right .price span{ font-size:24px; color:#fc6621; float:left;}
+.purchase-order .require .require-list li .right .other{ font-size:14px; width:500px;}
+.purchase-order .require .require-list li .right .other p{ float:left;}
+.purchase-order .require .require-list li .right .other p.time{ margin:0 41px 0 0;}
+.purchase-order .require .require-list li .right .other p.linkman{ margin:0 10px 0 0;}
+.purchase-order .require .page{ font-size:14px; height:28px; line-height:28px; float:right; margin:40px 0 0 0; overflow:hidden;}
+.purchase-order .require .page p{ float:left; margin:0 6px 0 0;}
+.purchase-order .require .page ul{ float:left;}
+.purchase-order .require .page ul li{ float:left; height:28px; padding:0 11px; margin:0 5px 0 0; background:#aaa; border-radius:2px; cursor:pointer;}
+.purchase-order .require .page ul li.on{ background:#fc6621;}
+.purchase-order .require .page ul li a{ color:#fefdfd; display:block;}
+
+.purchase-order .right{ width:250px; height:auto; overflow:hidden;}
+.purchase-order .right .release-wrap{ width:248px; height:359px; border:1px solid #fc6621; margin:0 0 20px 0;}
+.purchase-order .right .release-wrap img{ display:block; margin:19px 0 36px 9px;}
+.purchase-order .right .release{ margin:0 0 0 25px;}
+.purchase-order .right .release-tr{ width:200px; height:20px; line-height:19px; margin:0 0 17px 0; overflow:hidden;}
+.purchase-order .right .release-tr .release-name{ font-size:14px; color:#fe0101; width:56px; float:left;}
+.purchase-order .right .release-tr .release-name span{ margin:0 6px;}
+.purchase-order .right .release-tr .release-val{ width:144px; height:19px; border-bottom:1px solid #666; float:right;}
+.purchase-order .right .release-tr .release-val input{ width:130px;}
+.purchase-order .right .release-tr .release-val span{ color:#fe0101;}
+.purchase-order .right .release input.submit{ font-size:14px; width:200px; height:38px; line-height:38px; text-align:center; color:#fff; background:#267bd3; border-radius:4px; cursor:pointer; display:block; margin:30px 0 0 0;}
+.purchase-order .right .recent-deal{ width:228px; height:583px; padding:0 10px; border:1px solid #fc6621;}
+.purchase-order .right .recent-deal h4{ color:#333; font-size:16px; height:54px; line-height:54px; border-bottom:1px solid #ccc;}
+.purchase-order .right .recent-deal li{ font-size:14px; height:56px; padding:15px 0 0 0; border-bottom:1px solid #ccc;}
+.purchase-order .right .recent-deal li p{ height:12px; margin:0 0 7px 0;}
+.purchase-order .right .recent-deal li span{ color:#fc6621;}

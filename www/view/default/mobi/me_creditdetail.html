@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body>
+		<header id="meHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			我的积分
+		</header>
+		<div class="meCreditBanner">
+			<img src="__MYAPP__/img/temp5.jpg">
+		</div>
+		<div class="shopHeader">
+			<img style=" float: left; margin: 10px 0 0 22px;" width="24" src="__MYAPP__/img/myCredit.png">
+			<h3 class="myCredit">我的积分 <span id="credit"></span><br>
+				<a href="/mobi/personalCenter/creditDetail">积分明细</a>&nbsp;<a href="/mobi/personalCenter/creditRecord">兑换记录</a>
+			</h3>
+			<div class="creditBtn">签到</div>
+		</div>
+		<div class="shopClassify">
+			<span data-gtype="">
+        		<img src="__MYAPP__/img/credit_classify.png"><br>全部
+    		</span>
+			<span data-gtype="1">
+        		<img src="__MYAPP__/img/credit_classify2.png"><br>家居
+    		</span>
+			<span data-gtype="2">
+        		<img src="__MYAPP__/img/credit_classify3.png"><br>数码
+    		</span>
+		</div>
+		<ul class="shopUl" style="margin: 10px 0 0 0;"></ul>
+		<script type="text/javascript" charset="utf-8">
+			$(function () {
+				var creditshopLi="";
+				var gtype="";
+				commonAjax(
+						"post",
+						"/mobi/personalCenter/getMyPoints",
+						{gtype:gtype}
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/mobi/login";
+					}else{
+						if(res.points){
+							$("#credit").html(res.points);
+						}else{
+							$("#credit").html("<a style=' font-size: 16px; color: #ff6600;' href='/mobi/login'>请登录</a>");
+						}
+						
+						if(!res.shop){
+							$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
+						}else{
+							res.shop.forEach(function (v,i,a) {
+								creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
+										"<img src='"+ v.thumb +"'></div>" +
+										"<h3>"+ v.name +"</h3>" +
+										"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
+							});
+							$(".shopUl").html(creditshopLi);
+							$(".shopUl li").on("click",function () {
+								var id=$(this).data("id");
+								window.location.href='/mobi/personalCenter/shopDetail?id='+id;
+							});
+						}
+					}
+				},function () {
+
+				});
+
+				$(".shopClassify span").on("click",function () {
+					gtype=$(this).data("gtype");
+					creditshopLi="";
+					commonAjax(
+							"post",
+							"/mobi/personalCenter/getMyPoints",
+							{gtype:gtype}
+					).then(function (res) {
+						console.log(">>>",res);
+						if(res.err==1){
+							window.location.href="/mobi/login";
+						}else{
+							$("#credit").html(res.points);
+							if(!res.shop){
+								$(".shopUl").html("<li style='width: 100%; background: none; text-align: center; line-height: 60px;'>暂无数据</li>");
+							}else{
+								res.shop.forEach(function (v,i,a) {
+									creditshopLi+="<li data-id='"+ v.id +"'><div style='width:100%; text-align:center'>" +
+											"<img src='"+ v.thumb +"'></div>" +
+											"<h3>"+ v.name +"</h3>" +
+											"<p><span>"+ v.points +"</span>&nbsp;积分</p></li>";
+								});
+								$(".shopUl").html(creditshopLi);
+								$(".shopUl li").on("click",function () {
+									var id=$(this).data("id");
+									window.location.href='/mobi/personalCenter/shopDetail?id='+id;
+								});
+							}
+						}
+					},function () {
+
+					});
+				});
+
+				$(".creditBtn").on("click",function () {
+					commonAjax(
+							"get",
+							"/mobi/sign/signOn"
+					).then(function (res) {
+						if(res.err==1){
+							window.location.href="/mobi/login";
+						}else {
+							mui.alert('',res.msg,function(){
+								window.location.reload();
+							});
+						}
+					},function () {
+
+					});
+				});
+
+			})
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

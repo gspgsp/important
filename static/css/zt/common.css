@@ -1,0 +1,28 @@
+html,body,div,h1,h2,h3,h4,h5,h6,hr,ul,ol,li,dl,dt,dd,a,b,em,i,p,strong,img,table,tr,td,form,input,button,textarea{ margin:0; padding:0; border:0;}
+ul,ol,li{ list-style:none;}
+h1,h2,h3,h4{ font-weight:normal;}
+input,button,textarea,select{ font-family:"微软雅黑"; outline:medium;}
+
+/*.add-order-wrap{ width:1000px; height:auto; overflow:hidden; margin:0 auto;}*/
+
+/*add-order begin
+.add-order table{ width:714px; height:auto; margin:0 auto;}
+.add-order tr{ height:42px;}
+.add-order .name{ width:112px; text-align:right;}
+.add-order input.import{ width:198px; height:15px; padding:6px 0 6px 10px; border:1px solid #bbb;}
+.add-order select{ height:27px;}
+.add-order textarea{ width:380px; height:80px; padding:10px; border:1px solid #bbb;}
+add-order end*/
+
+/*title begin*/
+.detail{ height:auto; overflow:hidden; margin:30px 0 30px 0;}
+.detail .title{ height:40px; line-height:40px; border-bottom:2px solid #51b3d7; margin-bottom:10px;}
+.detail .title span{ display:block; float:right; width:80px; height:30px; line-height:30px; margin:0 10px 0 0; text-align:center; color:#fff; background:#51b3d7; cursor:pointer;}
+.detail table{border-collapse:collapse; }
+.detail table td,.detail table th{ width:96px; height:24px; border:1px solid #bbb; text-align:center; font-weight: 400;}
+.detail table td.opt span{ cursor:pointer; color:#f60;}
+.detail .total{ height:60px; line-height:60px; text-align:center;}
+.detail .total span{ margin:0 20px 0 0;}
+.detail .total input{ width:100px;}
+/*title end*/
+

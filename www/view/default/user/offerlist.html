@@ -1,0 +1,137 @@
+<style type="text/css">
+    a.but{
+        font-size: 14px;
+        float: left;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        background: #267bd3;
+        color: #fff;
+        display: block;
+        padding: 0 17px;
+        margin: 0 0 0 20px;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+    .but_box{
+        overflow: hidden;
+        width: 500px;
+        margin: 10px auto;
+    }
+    .but_box .inpu_box{
+        width: 255px;
+        float: left;
+
+        font-size: 16px;
+    }
+    .but_box .inpu{
+        width: 104px;
+        height: 30px;
+        border: 1px solid #dfdfdf;
+        text-indent: 12px;
+        float: left;
+    }
+    .but_box span,.but_box a{
+        float: left;
+    }
+</style>
+<table style="margin: 0;" class="table1">
+	<tr>
+    	<th class="all"></th>
+    	<th>客户名称</th>
+        <th>客户联系人</th>
+        <th>联系电话</th>
+        <th>报价（元/吨）</th>
+        <th>数量（吨）</th>
+        <th>配送地点</th>
+        <th>配送日期</th>
+        <th>配送方式</th>
+        <th>备注</th>
+        <th>操作</th>
+    </tr>
+    {foreach from=$list item=value}
+    <tr>
+    	<td>
+            {if $value.last_buy_sale==$value.id}
+            已选定
+            {else }
+            <input style="width:15px;" name="xd" class="ids" value="{$value.id}" type="radio" id="{$value.last_buy_sale}">
+            {/if}
+        </td>
+        <td>{$value.c_name}</td>
+        <td>{$value.name}</td>
+        <td>{$value.mobile}</td>
+        <td>{$value.price}</td>
+        <td>{$value.number}</td>
+        <td>{$value.delivery_place}</td>
+        <td>{$value.delivery_date|date:Y-m-d}</td>
+        <td>{:setOption|ship_type,$value.ship_type}</td>
+        <td>{$value.remark}</td>
+        <td class="button" data-val="{$value.id}">取消</td>
+    </tr>
+    {/foreach}
+</table>
+<div class="but_box">
+    <div class="inpu_box" >
+        <span>成交价：</span>
+        <input type="text" class="inpu" name="price" >
+        <a class="but" id="xd">选定</a>
+    </div>
+    <a class="but" id="closeBtn">关闭</a>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+//        if($(".ids").attr('id')>0){
+        if($(".table1").text().indexOf('已选定')>=0) {
+            $('.but_box .inpu_box').css('display', 'none');
+        }
+//        }
+    })
+
+    $("#closeBtn").live('click',function(){
+        layer.close(btn);
+    })
+
+    $("#xd").click(function(){
+        var id=$("input[name='xd']:checked").attr('value');
+        if(!id){
+            alert('请选择要选定的报价');
+            return;
+        }
+        var inpObj=$("input[name='price']");
+        var price=inpObj.val();
+        if(!parseFloat(price)){
+            alert('请输入成交价格');
+            return;
+        }
+        $.post('/user/mypurchase/selected',{id:id,price:price},function(data){
+            if(data.err==0){
+                alert('选定成功,选定后不可取消');
+                window.location.reload();
+            }else{
+                alert(data.msg);
+            }
+        },'json');
+    })
+
+    //取消按钮
+    $(function(){
+        $('.button').click(function(){
+            if($(".table1").text().indexOf('已选定')>=0){
+                alert('无效操作,选定后不能取消'); return;
+            }
+            if(confirm('确定取消该报价吗?')){
+                var id=$('.button').attr('data-val');
+                $.get('/user/myoffers/ajax_submit',{id:id},function(data){
+                    if(data.err==0){
+                        alert('取消成功');
+                    }else{
+                        alert('请再次尝试'); return;
+                    }
+                },'json')
+            }
+        })
+    })
+
+</script>

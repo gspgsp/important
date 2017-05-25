@@ -1,0 +1,54 @@
+﻿body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;word-wrap: break-word;}
+body{color:#444;height:100%}
+html.off,html.off body{background: #E8F0FA url(../images/admin/bg_left.png) repeat-y;}
+html.on,html.on body{background: #E8F0FA;background-image: none;}
+html.addbg,html.addbg body {background: #E8F0FA}
+body,html,input {font: 12px tahoma, arial, \5b8b\4f53, sans-serif;}
+table {	border-collapse: collapse;	border-spacing: 0;}
+img {border: none}
+input,label,img,th {vertical-align: middle;}
+ul,ol,li {list-style: none;}
+a {text-decoration: none;outline: none;color: #0075C8; cursor:pointer}
+a:hover {text-decoration: underline;}
+#head {height: 60px;background: url(../images/admin/head_bg.jpg) repeat-x;}
+#head .logo {float: left;padding:5px 0 0 14px;width: 120px;}
+#head .logo a{display: block;background: url(../images/admin/logo.gif) no-repeat;width: 120px;	height: 45px;	text-indent: -999px;}
+#head .menu {text-align: right;	height: 26px;padding:4px 10px 0 0;	color: #234F8D;	overflow: hidden;}
+#head .menu a {color: #234F8D;cursor: pointer;}
+#head .menu .btn{background: url(../images/admin/btn_bg.gif)no-repeat;display:inline-block;height:23px;	line-height:21px;text-align:center;	text-decoration: none;width: 70px;vertical-align:top;}
+#head .menu a.home{background:url(../images/admin/btn_home.gif) no-repeat; width:81px; padding-left:8px;}
+#head .menu a.reload{background:url(../images/admin/btn_reload.gif) no-repeat; padding-left:8px; width:52px;}
+
+#head .nav {height: 25px;text-align: left;margin-top: 1px;overflow: hidden;padding-left: 10px;}
+#head .nav li {float: left;	background: url(../images/admin/bg_nav.png) no-repeat;	padding-left: 7px;}
+#head .nav li a {float: left;background: url(../images/admin/bg_nav.png) no-repeat right top;padding: 0 15px 0 8px;display: block;	height: 25px;line-height: 27px;	font-size: 14px;color: #3579BA;	cursor: pointer;}
+#head .nav li.on {background-position: left -40px;}
+#head .nav li.on a {background-position: right -40px;color: #fff;}
+#head .nav li a:hover {	text-decoration: none;}
+.lmenu {margin-right: 10px;	width: 132px;_padding-top: 10px;position: relative;	display: block;	float: left;}
+.lmenu_on {	width: 0;	padding: 0;}
+.lmenu_on div {	visibility: hidden;	_display: none}
+.lmenu .menus {	display: none;	padding-left: 11px;}
+.lmenu h3 {	font-size: 14px;color: #0075C8;	border-bottom: 1px solid #C7D8EA;line-height: 24px;	height: 24px;	margin-bottom: 6px;	width: 110px;cursor: pointer;}
+.lmenu ul {	margin-bottom: 10px;}
+.lmenu ul li {	color: #666;	display: block;}
+.lmenu ul li a:hover,.lmenu h3 span,.lmenu ul li.on a {	background: url(../images/admin/bg_lmenu.png) no-repeat;
+}
+.lmenu ul li a {line-height: 24px;padding-left: 8px;display: block;width: 100px;color: #666;}
+.lmenu ul li a:hover {background-position: left -38px;text-decoration: none;}
+.lmenu ul li.on a {height: 29px;line-height: 29px;width: 104px;padding-left: 20px;margin: 0;display: block;}
+.lmenu ul li.on a:hover {background: url(../images/admin/bg_lmenu.png) no-repeat;}
+.lmenu h3 span {background-position: -33px -78px;display: block;float: right;height: 14px;	width: 14px;margin-top: 5px;}
+.lmenu h3 span.on {background-position: left -78px;}
+.lmenu a.open,.lmenu a.close {background: url(../images/admin/lmenu_arrow.png) no-repeat 4px center;width: 10px;
+display: block;	position: absolute;	z-index: 100;height: auto;right: -10px;	top: 0;}
+.lmenu a.open:hover,.lmenu a.close:hover {background-color: #C7D8EA;}
+.lmenu span.hidden {display: none;}
+.lmenu a.close {background-position: right center;}
+.workspace {overflow: hidden;_zoom: 1;_float: left;margin: 6px 6px 1px 1px;border: 1px solid #C7D8EA;position: relative;overflow: hidden;}
+#loadMask {position: absolute;top: 50%;left: 50%;background: #FD9104;padding: 8px 12px;	color: #FFF;display: none;}
+#loadMask span{background:url(../images/admin/sloading.gif) no-repeat; font-weight: bold; padding-left:22px;}
+#copyright {position: absolute;	border-top: 1px dashed #ddd;bottom: 2px;left: 5px;line-height: 18px;font-size: 11px;	width: 125px;background: #F7FBFC;}
+#scrollLink {background-color: #F2F9FD;	bottom: 40px;	left: 0;	padding: 2px 0 2px 10px;	position: absolute;	z-index: 21;	display: none;background: #F7FBFC;}
+#scrollLink span {cursor: pointer;	margin-right: 8px;	display: inline-block;	width: 50px;height: 16px;overflow: hidden;float: left;	background: url(../images/admin/scroll.gif);}
+#scrollLink span.down {background-position: 0 -16px;}

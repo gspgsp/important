@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" /> 
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+	<body style="padding-bottom: 50px;">
+		<header id="bigCustomerHeader">
+			<a class="back" href="javascript:window.history.back();"></a>详情
+		</header>
+		<div class="bigCustomerDetail">
+			<h3><img src="__MYAPP__/img/bigCustomer.png">产品信息</h3>
+			<ul class="bigCustomerDetailUl">
+				<li><span>产品类型：</span><font id="product_type"></font></li>
+				<li><span>牌      号：</span><font id="model"></font></li>
+				<li><span>单      价：</span>￥<font id="unit_price"></font>/吨</li>
+				<li><span>数      量：</span><font id="number"></font>吨</li>
+				<li><span>厂      家：</span><font id="f_name"></font></li>
+				<li><span>交货地：</span><font id="provinces"></font></li>
+				<li><span>发布时间：</span><font id="input_time"></font></li>
+				<li><span>交货时间：</span><font id="delivertime"></font></li>
+			</ul>
+		</div>
+		<div class="bigCustomerDetail" style="margin: 0;">
+			<h3><img src="__MYAPP__/img/bigCustomer2.png">联系人</h3>
+			<ul class="bigCustomerDetailUl">
+				<li><span>姓      名：</span><font id="con_name"></font></li>
+				<li><span>联系电话：</span><font id="mobile"></font></li>
+				<li><span>QQ号码：</span><font id="qq"></font></li>
+			</ul>
+		</div>
+		<div class="bigCustomerDetailBtn">
+			<input id="tradeBtn" type="button" value="委托洽谈">
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var id=getUrlParam("id");
+				$("#tradeBtn").on("click",function () {
+					window.location.href="/myapp/mainPage/enDelegateForm?id="+id+"";
+				});
+				commonAjax(
+						"post",
+						"/myapp/mainPage/getCheckDelegate",
+						{otype:1,id:id}
+				).then(function (res) {
+					console.log(">>>",res);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						$("#product_type").text(res.chDeRes.product_type);
+						$("#model").text(res.chDeRes.model);
+						$("#unit_price").text(res.chDeRes.unit_price);
+						$("#number").text(res.chDeRes.number);
+						$("#f_name").text(res.chDeRes.f_name);
+						$("#provinces").text(res.chDeRes.provinces);
+						$("#input_time").text(res.chDeRes.input_time);
+						$("#delivertime").text(res.chDeRes.delivertime);
+						$("#con_name").text(res.chDeRes.con_name);
+						$("#mobile").text(res.chDeRes.mobile);
+						$("#qq").text(res.chDeRes.qq);
+					}
+				},function () {
+
+				});
+			})
+		</script>
+
+	</body>
+
+</html>

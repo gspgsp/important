@@ -1,0 +1,38 @@
+<div class="yabr">
+	<div class="yabra" style="margin-top:0;">
+		<div class="yabrat"> <span class="yabratl">最新<font style="color:#ee4822;">现货资源</font></span> <span class="yabratr"><a href="/offers?cargo_type=1">+更多</a></span> </div>
+		<div class="yabrab">
+			{foreach from=$newOffers.data item=value}
+			<dl>
+				<dd>
+					<p class="yabraba">{:witchType|$value.product_type}&nbsp;&nbsp;{$value.model}</p>
+					<p class="yabrabb">{$value.f_name}&nbsp;&nbsp;{:floatval|$value.number}吨 </p>
+					<p class="yabrabc">￥{:floatval|$value.unit_price}</p>
+				</dd>
+				<dt><a href="/offers?type={$value.product_type}&key_model={$value.model}" target="_blank">查看</a></dt>
+				<div class="clear"></div>
+			</dl>
+			{/foreach}
+
+		</div>
+		<div class="clear"> </div>
+	</div>
+	<div class="yabra">
+		<div class="yabrat"> <span class="yabratl">最新<font style="color:#ee4822;">期货资源</font></span> <span class="yabratr"><a href="/offers?cargo_type=2">+更多</a></span> </div>
+		<div class="yabrab">
+			{foreach from=$newPurchase.data item=value}
+			<dl>
+				<dd>
+					<p class="yabraba">{:witchType|$value.product_type}&nbsp;&nbsp;{$value.model}</p>
+					<p class="yabrabb">{$value.f_name}&nbsp;&nbsp;{:floatval|$value.number}吨 </p>
+					<p class="yabrabc">￥{:floatval|$value.unit_price}</p>
+				</dd>
+				<dt><a href="/offers?type={$value.product_type}&key_model={$value.model}" target="_blank">查看</a></dt>
+				<div class="clear"></div>
+			</dl>
+			{/foreach}
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+</div>

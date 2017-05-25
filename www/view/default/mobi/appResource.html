@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body style="padding-bottom: 50px;">
+		<header id="searchHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			<div class="searchSearch">
+				<input id="querySearch" type="text" placeholder="在资源中搜索你想要的" />
+				<a class="appQuery2" href="javascript:;"></a>
+			</div>
+			<a class="appWrite" href="javascript:;"></a>
+		</header>
+		<div class="appResourceWrap">
+			<div class="appResourceChoose">
+				<span data-type="" class="on">全部</span>
+				<span data-type="1">求购</span>
+				<span data-type="2">供应</span>
+			</div>
+		</div>
+		<ul class="appResourceUl"></ul>
+		<div style="text-align: center; padding: 5px 0;">
+			<input class="more" type="button" value="点击加载更多">
+		</div>
+		<div class="appResourceText" style="display: none;">
+			<div style="padding: 20px 0 0 0;">
+				<input name="resource" value="1" checked type="radio">我有货，我要卖
+				<input name="resource" value="2" type="radio">我求购，我要买
+			</div>
+			<textarea class="appResourceInput" placeholder="请填写真实资源，写清楚公司名称，你的名字，联系方式，货物和数量"></textarea>
+			<div class="appResourceBtn">
+				<a class="cancel" href="javascript:;">取消</a>
+				<a class="release" href="javascript:;">立即发布</a>
+			</div>
+		</div>
+		<footer id="footer">
+			<ul>
+				<li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+				<li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+				<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+				<li><a href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+				<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+			</ul>
+		</footer>
+		<script type="text/javascript" charset="utf-8">
+			$(function () {
+				var type=3;
+				var appLi="";
+				var keywords="";
+				var page=1;
+				
+				function changeAvator(avator) {
+					if(avator){
+						return avator;
+					}else{
+						return "__MYAPP__/img/avator.png";
+					}
+				}
+
+				$(".appQuery2").on("click",function () {
+					keywords=$("#querySearch").val();
+					appLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(type,keywords,page);
+				});
+				
+				$(".appResourceChoose span").on("click",function () {
+					type=$(this).data("type");
+					$(this).addClass("on").siblings("span").removeClass("on");
+					console.log("---",type);
+					appLi="";
+					page=1;
+					$(".more").val("加载更多数据");
+					renderQuo(type,keywords,page);
+				});
+				
+				function renderQuo(type,keywords,page) {
+					$(".more").val("加载更多数据");
+					commonAjax(
+							"post",
+							"/mobi/mainPage/getResource",
+							{
+								type:type,
+								keywords:keywords,
+								page:page,
+								size:10
+							}
+					).then(function (res) {
+						console.log(res);
+						var name="";
+						if(res.err==0){
+						res.resData.forEach(function (v,i,a) {
+							if(v.user_nick){
+								name=v.user_nick;
+							}else{
+								name=v.realname;
+							}
+							appLi+="<li><div class='appResourceAvator'><img src='"+changeAvator(v.qq_image)+"'></div><div class='appRecourceTxt'><h3>"+name+"<span>"+v.input_time+"</span></h3><p>"+ v.content +"</p></div></li>";
+						});
+						$(".appResourceUl").html(appLi);
+						}else if(res.err==3){
+							$(".more").val(res.msg);
+						}
+					},function () {
+
+					});
+				}
+				
+				//初始数据
+				renderQuo(type,keywords,page);
+				$(".more").on("click",function(){
+					page++;
+					renderQuo(type,keywords,page);
+				});
+				
+				$(".appWrite").on("click",function () {
+					$(".appResourceText").toggle();
+				});
+
+				$(".release").on("click",function () {
+					var content=$(".appResourceInput").val();
+					var type=$("input[type='radio']:checked").val();
+					commonAjax(
+							"post",
+							"/resource/index/release",
+							{content:content,type:type}
+					).then(function (res) {
+						console.log(res);
+						if(res.err==1){
+							window.location.href="/mobi/login";
+						}else{
+							mui.alert("",res.msg,function () {
+								window.location.reload();
+							});
+						}
+					},function () {
+
+					});
+				});
+				$(".cancel").on("click",function () {
+					$(".appResourceText").hide();
+				});
+			})
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

@@ -1,0 +1,191 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+
+<link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.css"/>
+<link rel="stylesheet" type="text/css" href="__JS__/home/layer-v1.8.5/skin/layer.ext.css"/>
+<style type="text/css">
+.xubox_setwin .xubox_close0{ right:-70px!important;}
+.layer{}
+</style>
+<!--header end-->
+<div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
+<!--user-wrap begin-->
+<div class="user-wrap w1220">
+    <!--right begin-->
+    {include file="public:user_left"}
+    <div class="right frt">
+    	<h3>个人中心-开票资料</h3>
+        <!--finance-lc6 begin-->
+        <div class="finance-lc6 color3">
+        	<!--kp begin-->
+            <div class="kp">
+                <input type="button" class="kp-add" id="{$detail.status}" value="修改"/>
+            	<ul>
+                    <li>
+                        <!--kp-lt begin-->
+                        <div class="kp-lt flt">
+                            <p>公司名称：{$info[0].c_name}</p>
+                            <p>纳税人识别号：{$detail.tax_id}</p>
+                            <p>公司法人：{$detail.legal_person}</p>
+                            <p>开户银行：{$detail.invoice_bank}</p>
+                            <p>银行账号：{$detail.invoice_account}</p>
+                            <p>公司地址：{$detail.invoice_address}</p>
+                            <p>公司电话：{$detail.invoice_tel}</p>
+                            <p id="p_status" status="{$detail.status}"> 审核状态：{:setOption|bill_status,$detail.status}</p>
+                        </div>
+                        <!--kp-lt end-->
+                    </li>
+                </ul>
+            </div>
+            <!--kp end-->
+        </div>
+        <!--finance-lc6 end-->
+    </div>
+    <!--right end-->
+
+</div>
+<!--user-wrap end-->
+<!--layer begin-->
+<div class="layer">
+    <h3>开票资料修改</h3>
+    <p class="error-msg"></p>
+    <table>
+        <form name="" method="post" action="">
+            <tr>
+                <td class="name">公司名称：</td>
+                <td><input type="text" class="c_name import" value="{$info[0].c_name}" readOnly="true" disabled="true" /></td>
+            </tr>
+            <tr>
+                <td class="name">纳税人识别号：</td>
+                <td><input type="text" class="tax_id import" placeholder="识别号码为15位或18位!"  value="{$detail.tax_id}" /></td>
+            </tr>
+            <tr>
+                <td class="name">开户银行：</td>
+                <td><input type="text" class="invoice_bank import" value="{$detail.invoice_bank}" /></td>
+            </tr>
+            <tr>
+                <td class="name">银行账号：</td>
+                <td><input type="text" class="invoice_account import" value="{$detail.invoice_account}" /></td>
+            </tr>
+            <tr>
+                <td class="name">开票地址：</td>
+                <td><input type="text" class="invoice_address import" value="{$detail.invoice_address}" /></td>
+            </tr>
+            <tr>
+                <td class="name">公司电话：</td>
+                <td><input type="text" class="invoice_tel import" value="{$detail.invoice_tel}" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" value="确定" class="btn submit"/>
+                    <input type="hidden" value="{$detail.id}" class="hiddenId"/>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+<!--layer end-->
+<script>
+    $(function(){
+        //删除请求
+        $(".del").bind('click',function(){
+            var billId =$(this).val();
+            $.ajax({
+                type:"post",
+                url:"/user/billInformation/deleteOneBill",
+                data:{'bId':billId},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0)
+                        window.location.href="/user/billInformation/billInfo";
+                }
+            });
+        });
+        //是否设为默认
+        $(".setSt").bind('click',function(){
+            var billSt =$(this).val();
+            $.ajax({
+                type:"post",
+                url:"/user/billInformation/IsSetDefault",
+                data:{'bSt':billSt},
+                dataType:'json',
+                success:function(res){
+                    if(res.err==0)
+                        window.location.href="/user/billInformation/billInfo";
+                }
+            });
+        });
+        //修改发票信息
+        var     c_name          = $(".import.c_name"),                   //公司名称
+                tax_id          = $(".import.tax_id"),                   //识别号码
+                invoice_address = $(".import.invoice_address"),          //公司地址
+                invoice_tel     = $(".import.invoice_tel"),              //公司电话
+                invoice_bank    = $(".import.invoice_bank"),             //开户银行
+                invoice_account = $(".import.invoice_account"),          //银行账号
+                errorMsg        = $(".error-msg"),
+                str = "";
+
+        $(".kp-add").click(function(){
+            var val=$('#p_status').attr('status');
+            if(val==1){
+                layer.msg('审核已通过，不能在修改!');
+//                $(".kp-add").attr('disabled',true);
+                return false;
+            }
+            $.layer({
+                type: 1,
+                title: false,
+                border: [0],
+                page: {dom : '.layer'},
+                close:function(){
+                    // tax_id.val("");
+                    // invoice_address.val("");
+                    // invoice_tel.val("");
+                    // invoice_bank.val("");
+                    // invoice_account.val("");
+                    errorMsg.html("");
+                }
+            });
+        });
+
+        $(".btn.submit").bind("click",function(){
+            var tel = /^0(10|21|22|23|[1-9]{3})\s?-\s?[1-9][0-9]{6,7}$/;
+            if(!(tax_id.val().length==18||tax_id.val().length==15)){
+                valid("纳税人识别号长度为18或15位,请重新输入!",tax_id);
+            }else if(!invoice_bank.val()){
+                valid('开户银行不能为空',invoice_bank);
+            }else if(!invoice_account.val()){
+                valid('银行账户不能为空',invoice_account);
+            }else if(!invoice_address.val()){
+                valid('公司地址不能为空',invoice_address);
+            }else if(!tel.test(invoice_tel.val())){//要取非
+                valid("请输入正确的电话号码",invoice_tel);
+            } else{
+                $.ajax({
+                    type:"post",
+                    url:"/user/billInformation/changeBill",
+                    data:{'tax_id':tax_id.val(),'invoice_address':invoice_address.val(),'invoice_tel':invoice_tel.val(),'invoice_bank':invoice_bank.val(),'invoice_account':invoice_account.val(),'id':$('.hiddenId').val()},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.err==0){
+                            layer.msg(res.msg);
+                            window.location.href="/user/billInformation/billInfo";
+                        }
+                        if(res.err==1){
+                            layer.msg(res.msg);
+                            window.location.href="/user/billInformation/billInfo";
+                        }
+                    }
+                });
+            }
+        });
+
+        function valid(str,elem){
+            var errorMsg = $(".error-msg");
+            errorMsg.html(str);
+            elem.focus();
+            return false;
+        }
+
+    });
+</script>

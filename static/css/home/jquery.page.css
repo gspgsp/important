@@ -1,0 +1,8 @@
+.pages{margin: 15px 20px;float: right;}
+.pages li{display: inline-block; margin:0px 3px; border:1px solid #D0D0D0;color: #D0D0D0;border-radius: 3px;}
+.pages li span{display: block;padding: 5px 10px;}
+.pages li a{display: block;padding: 5px 10px;}
+.pages li:not(.disabled):hover{background: #eb5934;border:1px solid #eb5934;}
+.pages li:not(.disabled):hover a{color:#fff;}
+.pages li.active{background: #eb5934;color: #fff;border:1px solid #eb5934;}
+.pages li a{color: #D0D0D0;}

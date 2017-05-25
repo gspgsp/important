@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<title>{$company.c_name}-我的塑料网</title>
+<link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />
+<link rel="stylesheet" type="text/css" href="__CSS__/home/myWeb.css"/>
+<script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__JS__/home/layer/layer.js"></script>
+</head>
+
+<body>
+<!--company-top begin-->
+<div class="company-top"></div>
+<!--company-top end-->
+<!--company-header begin-->
+<div class="company-header">
+	<!--company-logo begn-->
+    <div class="company-logo w1200">
+    	<a href="/"><img src="__IMG__/home/logo.png" width="250"/></a>
+     </div>
+    <!--company-logo end-->
+	<!--company-nav begin-->
+    <div class="company-nav w1200">
+    	<ul>
+        	<li id="tab1" onclick="setTab('tab',1,5)" class="hover">网站首页</li>
+            <li id="tab2" onclick="setTab('tab',2,5)">关于我们</li>
+        	<li id="tab3" onclick="setTab('tab',3,5)">产品展示</li>
+            <li id="tab4" onclick="setTab('tab',4,5)">最新资讯</li>
+            <li id="tab5" onclick="setTab('tab',5,5)">联系我们</li>
+        </ul>
+    </div>
+    <!--company-nav end-->
+</div>
+<!--company-header end-->
+<div class="company-name w1200">{$company.c_name}</div>
+<div id="con-tab-1">
+    <!--company-wrap begin-->
+    <div class="company-wrap">
+        <!--about begin-->
+        <div class="left">
+            <h3>关于我们</h3>
+            <div class="about">
+                <p>
+                    {$company.com_intro|truncate:100:"",'utf-8'}
+                </p>
+            </div>
+        </div>
+        <!--about end-->
+        <!--info begin-->
+        <div class="right info">
+            <h3>最新资讯</h3>
+            <ul>
+                {foreach from=$news item=value}
+                <li><a class="" href="/{$value.type}/jrjd/{$value.id}.html">{$value.title|truncate:20:"",'utf-8'}</a>{$value.update_time|date:Y-m-d}</li>
+                {/foreach}
+            </ul>
+            <!--<ul>-->
+                <!--{foreach from=$article_index item=value}-->
+                <!--<li><a class="" href="javascript:getDetail({$value.id});">{$value.title|truncate:20:"",'utf-8'}</a>{$value.input_time|date:Y-m-d H:i}</li>-->
+                <!--{/foreach}-->
+            <!--</ul>-->
+        </div>
+        <!--info end-->
+    </div>
+    <!--company-wrap end-->
+    <!--company-wrap begin-->
+    <div class="company-wrap">
+        <!--product begin-->
+        <div class="left product">
+            <h3>产品展示</h3>
+            <ul>
+                {foreach from=$product_index key=k item=value}
+                <li><img src="__UPLOAD__/{$value.image}" width="100" height="100"/></li>
+                {/foreach}
+            </ul>
+        </div>
+        <!--product end-->
+        <!--contact begin-->
+        <div class="right contact">
+            <h3>联系我们</h3>
+            <ul>
+                <li>公司地址：{$company.address}</li>
+                <li>企业类型：{:setOption|company_type,$company.type}</li>
+                <li> 联 系 人 ：{$contact.name}</li>
+                <li>联系电话：{$contact.tel}</li>
+                <li>手<span></span>机：{$contact.mobile}</li>
+                <li>传<span></span>真：{$contact.fax}</li>
+            </ul>
+        </div>
+        <!--contact end-->
+    </div>
+    <!--company-wrap end-->
+    <!--company-wrap begin-->
+    <div class="company-wrap">
+        <!--mall-offer begin-->
+        <div class="mall-offer left">
+            <h3>我的报价信息</h3>
+            <ul class="result">
+                <li class="result-title">
+                    <div class="brand">品种</div>
+                    <div class="grade">牌号</div>
+                    <div class="factory">厂家</div>
+                    <div class="amount">数量</div>
+                    <div class="price">价格</div>
+                    <div class="place">交货地区</div>
+                    <div class="price">实价/可议价</div>
+                    <div class="place">现期货</div>
+                    <div class="time">更新时间</div>
+                </li>
+                {foreach from= $list item=value key=key}
+                <li class="result-con">
+                    {if $value.product_type }
+                    <div class="brand">{:witchType|$value.product_type}</div>
+                    {else}
+                    <div>&nbsp;</div>
+                    {/if}
+                    {if $value.model }
+                    <div class="grade">{$value.model}</div>
+                    {else}
+                    <div class="grade">&nbsp;</div>
+                    {/if}
+                    {if $value.f_name}
+                    <div class="factory">{$value.f_name}</div>
+                    {else}
+                    <div class="factory">&nbsp;</div>
+                    {/if}
+                    {if $value.number}
+                    <div class="amount">{$value.number}</div>
+                    {else}
+                    <div class="amount">&nbsp;</div>
+                    {/if}
+                    {if $value.unit_price}
+                    <div class="price"><i>￥</i><span>{$value.unit_price}</span></div>
+                    {else}
+                    <div class="price">&nbsp;</div>
+                    {/if}
+                    {if $value.store_house}
+                    <div class="place">{$value.store_house}</div>
+                    {else}
+                    <div class="place">&nbsp;</div>
+                    {/if}
+                    {if $value.bargain}
+                    <div class="price">{if $value.bargain==1}可议价{else}实价{/if}</div>
+                    {else}
+                    <div class="price">&nbsp;</div>
+                    {/if}
+                    {if $value.cargo_type}
+                    <div class="xian-qi ">{if $value.cargo_type==1}现货{else}期货{/if}</div>
+                    {else}
+                    <div class="xian-qi">&nbsp;</div>
+                    {/if}
+                    {if $value.input_time}
+                    <div class="time">{$value.input_time|date:m-d H:i}</div>
+                    {else}
+                    <div class="time">&nbsp;</div>
+                    {/if}
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+        <!--mall-offer end-->
+    </div>
+    <!--company-wrap end-->
+    <!--company-wrap begin-->
+    <div class="company-wrap">
+        <!--resource begin-->
+        <div class="resource left">
+            <h3>我的资源库</h3>
+            <!--search begin-->
+            <div class="search">
+                <!--search-inner begin-->
+                <div class="search-inner">
+                   <span>
+									<a {if $smarty.get.type === null}class="hover"{/if}  href="/mycompany/index/init?id={$smarty.session.uinfo.c_id}&type=''">全部<b>{$countall}</b></a>
+								</span>
+								<span>
+									<a {if $smarty.get.type === '0'}class="hover"{/if} href="/mycompany/index/init?id={$smarty.session.uinfo.c_id}&type=0">求购<b>{$count2}</b></a>
+								</span>
+								<span>
+									<a {if $smarty.get.type === '1'}class="hover"{/if} href="/mycompany/index/init?id={$smarty.session.uinfo.c_id}&type=1">供应<b>{$count1}</b></a>
+								</span>
+                </div>
+                <!--search-inner end-->
+            </div>
+            <!--search end-->
+            <!--list begin-->
+            <div class="list">
+                <!--lists begin-->
+                {foreach from=$res item=v key= key}
+                <div class="lists">
+                    <div class="listl">
+                        <img width="48" height="48" src="http://q2.qlogo.cn/headimg_dl?bs=qq&amp;dst_uin={$v.user_qq}&amp;src_uin=*&amp;fid=*&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" alt="用户头像">
+                    </div>
+                    <div class="listr">
+                        <p class="title">
+                                <span class="name">{if $v.user_nick==''}{$v.realname}{else}{$v.user_nick}{/if}</span>
+                            <span>
+                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v.user_qq}&amp;site=qq&amp;menu=yes"><img src="http://wpa.qq.com/pa?p=2:{$v.user_qq}:41" border="0" alt="点击咨询" title="点击咨询"></a>
+                            </span>
+                            <span class="qq"><a href="javascript:void(0)">QQ:{$v.user_qq}</a></span>
+                            <span></span><span class="time">{$v.input_time|date:m-d H:i}</span>
+                        </p>
+                        <pre style="min-height:50px;overflow:hidden;">{$v.content}</pre>
+                        <p></p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                {/foreach}
+                <!--lists end-->
+                <!--page begin-->
+                <div class="page">
+                    {$pages}
+                </div>
+                <!--page end-->
+            </div>
+            <!--list begin-->
+        </div>
+        <!--resource end-->
+    </div>
+    <!--company-wrap end-->
+</div>
+
+
+<!--关于我们开始-->
+<div id="con-tab-2" class="about-detail">
+    <!--profile begin-->
+    <div class="profile">
+    	<!--crumb begin-->
+        <div class="crumb">您现在的位置：关于我们</div>
+        <!--crumb end-->
+        <!--profile-con begin-->
+        <div class="profile-con">
+            <p>{$company.com_intro}</p>
+        </div>
+        <!--profile-con end-->
+    </div>
+    <!--profile end-->
+</div>
+<!--关于我们结束-->
+<!--产品展示开始-->
+<div id="con-tab-3" class="w1200 product-detail">
+	<!--left begin-->
+	<div class="left flt">
+    	<ul>
+        	<li id="taba1" onclick="setTab('taba',1,3)" class="hover"><span></span><b></b>产品一</li>
+            <li id="taba2" onclick="setTab('taba',2,3)"><span></span><b></b>产品二</li>
+            <li id="taba3" onclick="setTab('taba',3,3)"><span></span><b></b>产品三</li>
+        </ul>
+    </div>
+    <!--left end-->
+    <!--right begin-->
+    <div class="right frt">
+    	<!--crumb begin-->
+        <div class="crumb">您现在的位置：产品展示</div>
+        <!--crumb end-->
+        <!--con-taba-1 begin-->
+        {foreach from=$productCate item=value key=key}
+        <div id="con-taba-{$key}">
+            <div class="product-show">
+                <ul>
+                    {foreach from=$value key=k item=v}
+                    <li>
+                        <img src="__UPLOAD__/{$v.image}" width="100" height="100"/>
+                        <div class="product-text">
+                            <div class="name">{$v.name}</div>
+                            <div class="desc">{$v.infos}</div>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+        {/foreach}
+        <!--con-taba-1 end-->
+        <!--con-taba-2 begin-->
+        <div id="con-taba-2">
+            <div class="product-show">
+                <ul>
+                    {foreach from=$kindPro['product2'] key=k item=value}
+                    <li>
+                        <img src="{$value.image}" width="100" height="100"/>
+                        <div class="product-text">
+                            <div class="name">{$value.name}</div>
+                            <div class="desc">{$value.infos}</div>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+        <!--con-taba-2 end-->
+        <!--con-taba-3 begin-->
+        <div id="con-taba-3">
+            <div class="product-show">
+                <ul>
+                    {foreach from=$kindPro['product3'] key=k item=value}
+                    <li>
+                        <img src="{$value.image}" width="100" height="100"/>
+                        <div class="product-text">
+                            <div class="name">{$value.name}</div>
+                            <div class="desc">{$value.infos}</div>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+        <!--con-taba-3 end-->
+
+    </div>
+    <!--right end-->
+</div>
+<!--产品展示结束-->
+<!--最新资讯开始-->
+<div id="con-tab-4" class="w1200 info-detail">
+	<!--left begin-->
+	<div class="left flt">
+    	<ul>
+        	<li id="tabb1" onclick="setTab('tabb',1,3)" class="hover"><span></span><b></b>公司资讯</li>
+            <li id="tabb2" onclick="setTab('tabb',2,3)"><span></span><b></b>行业资讯</li>
+        </ul>
+    </div>
+    <!--left end-->
+     <!--right begin-->
+    <div class="right frt">
+    	<!--crumb begin-->
+        <div class="crumb">您现在的位置：最新资讯</div>
+        <!--crumb end-->
+        <!--con-tabb-1 begin-->
+        {foreach from=$articleCate item=value key=key}
+        <div id="con-tabb-{$key}">
+            <div class="info-show">
+            	<ul>
+                    {foreach from=$value item=v}
+                    <li><a class="" href="javascript:getDetail({$v.id});">{$v.title|truncate:40:"",'utf-8'}</a>{$v.input_time|date:Y-m-d H:i}</li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+        {/foreach}
+        <!--con-tabb-1 end-->
+        
+    </div>
+    <!--right end-->
+</div>
+<!--最新资讯结束-->
+<!--联系我们开始-->
+<div id="con-tab-5" class="contact-detail">
+    <!--touch begin-->
+    <div class="touch">
+    	<!--crumb begin-->
+        <div class="crumb">您现在的位置：联系我们</div>
+        <!--crumb end-->
+        <!--profile-con begin-->
+        <div class="touch-con contact">
+        	<ul>
+                <li>公司地址：{$company.address}</li>
+                <li>企业类型：{:setOption|company_type,$company.type}</li>
+                <li> 联 系 人 ：{$contact.name}</li>
+                <li>联系电话：{$contact.tel}</li>
+                <li>传<span></span>真：{$contact.fax}</li>
+                <li>手<span></span>机：{$contact.mobile}</li>
+            </ul>
+        </div>
+        <!--touch-con end-->
+    </div>
+    <!--touch end-->
+</div>
+<!--联系我们结束-->
+<!--company-footer begin-->
+<div class="company-footer"></div>
+<!--company-footer end-->
+</body>
+<script>
+function setTab(name,cursel,n){
+	for(i=1;i<=n;i++){
+		var menu=document.getElementById(name+i);
+		var con=document.getElementById("con-"+name+"-"+i);
+		menu.className=i==cursel?"hover":"";
+		con.style.display=i==cursel?"block":"none";
+	}
+}
+//获取资讯详情
+function getDetail(id){
+    $.ajax({
+        type:"post",
+        url:"/mycompany/index/getArticleDetail",
+        data:{'id':id},
+        dataType:'json',
+        success:function(res){
+            if(res.err==0){
+                layer.open({
+                type: 1,
+                area: ['800px', '80%'],
+                shadeClose: true, //点击遮罩关闭
+                content: '<div style="padding:20px;"><p class="title" align="center" style="font-size:24px;">'+res.msg.title+'</p><div class="contents" style="font-size:16px;">'+res.msg.content+'</div></div>'
+                });
+            }else{
+                return;
+            }
+        }
+    });
+}
+</script>
+</html>

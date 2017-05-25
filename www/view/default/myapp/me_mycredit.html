@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body>
+		<header id="meHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			积分明细
+		</header>
+		<div class="creditDeatil">
+			<h3 class="creditDeatilHead">
+        <span id="points"></span>&nbsp;积分
+    </h3>
+			<div class="creditDeatilNav">
+				<span class="sign">签到</span>
+				<span>
+            <a href="/myapp/personalCenter/creditRecord">兑换</a>
+        </span>
+			</div>
+		</div>
+		<div class="creditDeatilTitle">
+			积分收支明细
+		</div>
+		<div class="creditSign"></div>
+		<div class="creditSign2"></div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var arr1P="";
+				var arr2P="";
+
+				commonAjax(
+						"post",
+						"/myapp/personalCenter/get_creditdetail"
+				).then(function (res) {
+					var arr1=[];
+					var arr2=[];
+					console.log(">>>",res);
+					$("#points").html(res.points);
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+						res.detail.forEach(function (v,i,a) {
+							if(v.type==5){
+								arr2.push(a[i]);
+							}else{
+								arr1.push(a[i]);
+							}
+						});
+						arr1.forEach(function (v,i,a) {
+							arr1P+="<p>" +
+									"<span class='creditSignTime'>"+stampToDate2(v.addtime)+"</span>" +
+									"<br>"+ typeName(v.type) +"<span class='creditIntegral'>+"+v.points+"</span>" +
+									"</p>";
+						});
+						arr2.forEach(function (v,i,a) {
+							arr2P+="<p>" +
+									"<span class='creditSignTime'>"+stampToDate2(v.addtime)+"</span>" +
+									"<br>"+ typeName(v.type) +"<span class='creditIntegral2'>"+v.points+"</span>" +
+									"</p>";
+						});
+						$(".creditSign").html(arr1P);
+						$(".creditSign2").html(arr2P);
+					}
+				},function () {
+
+				});
+
+				$(".sign").on("click",function () {
+					commonAjax(
+							"get",
+							"/myapp/sign/signOn"
+					).then(function (res) {
+						if(res.err==1){
+							window.location.href="/myapp/login";
+						}else {
+							mui.alert('',res.msg,function(){
+								window.location.reload();
+							});
+						}
+					},function () {
+
+					});
+				});
+
+
+			});
+		</script>
+
+	</body>
+
+</html>

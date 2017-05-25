@@ -1,0 +1,254 @@
+{layout file="public:main_layout"}
+{insert_css files='home/master.css'}
+{insert_css files='home/jqtransform.css'}
+{insert_css files='../js/select2-4.0.3/css/select2.min.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
+{insert_js files='select2-4.0.3/js/select2.full.min.js'}
+{insert_js files="home/reginfo.js"}
+<div class="ybbbg">
+	<div class="ybbt">
+		<dl>
+			<dd>
+				<img src="__IMG__/home/zuce1.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>注册账号</a></dt>
+		</dl>
+		<dl>
+			<dd>
+				<img src="__IMG__/home/zuce2.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>填写注册信息</a></dt>
+		</dl>
+		<dl>
+			<dd>
+				<img src="__IMG__/home/zuce3.jpg" width="60" height="60" />
+			</dd>
+			<dt><a>注册完成</a></dt>
+		</dl>
+		<div class="clear"></div>
+	</div>
+	<div class="ycb">
+	    <div class="ycbl">
+			<div class="ycblt">
+				<span class="ybbltl">填写<font style="color:#ee4822;">注册信息</font></span><span class="ybbltr">以下信息全部为必填，请您妥善填写</span>
+				<div class="clear"></div>
+			</div>
+			<div class="ycblb">
+				<form name="validateForm1" class="registerform" action="" method="post">  
+					<label>
+						<span class="ycblba">密码 <span style="color: red">*</span>：</span>
+						<input type="password" placeholder="建议使用至少两种字符组合" name="password" datatype="*6-16" nullmsg="密码不能为空！" errormsg="密码范围在6~16位之间！" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">设置登录密码!</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">确认密码 <span style="color: red">*</span>：</span>
+						<input type="password" placeholder="请再次输入密码" name="password2" datatype="*6-16" recheck="password" nullmsg="确认密码不能为空！" errormsg="您两次输入的账号密码不一致！" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请请再输入一次密码！</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">用户名 <span style="color: red">*</span>：</span>
+						<input type="text" name="name" placeholder="您的账户名或登录名" datatype="*2-5" nullmsg="用户名或登录名不能为空！" errormsg="用户名长度2-5个字符！" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请填写您的用户名或登录名</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">QQ <span style="color: red">*</span>：</span>
+						<input type="text" name="qq" placeholder="建议使用常用QQ" datatype="n7-11" nullmsg="QQ号不能为空！" errormsg="常用QQ位数为7-11位！" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请填写您的QQ号</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">公司所在地 <span style="color: red">*</span>：</span>
+						<select id="s_province" datatype="*" class="ycblbd" onChange="getarea(this)" name="origin[]" >
+							<option value="">请选择</option>
+							{foreach from=$area item=value key=key}
+							<option value="{$value.id}">{$value.name}</option>
+							{/foreach}
+						</select>&nbsp;&nbsp;
+						<select id="s_city" datatype="*" class="ycblbd" onChange="getarea(this)" name="origin[]" class="suoziawiewfe">
+							<option value="">请选择</option>
+						</select>&nbsp;&nbsp;
+						<!-- <select id="s_county" class="ycblbd" name="s_county" class="suoziawiewfe">
+							<option value="">请选择</option>
+						</select> -->
+						<span class="ycblbj Validform_checktip">请选择公司所在地区</span>
+						<div class="clear"></div>
+					</label>
+					<label class="show-wrap">
+						<span class="ycblba">公司名称 <span style="color: red">*</span>：</span>
+							<input type="text" autocomplete="off" id="company" name="c_name" datatype="s4-20" nullmsg="公司名称不能为空！" errormsg="公司名称只支持中文字符！" class="ycblbb" value="" />
+							<div class="suggest">
+								<ul id="search_list"></ul>
+							</div>
+						<!--</div>-->
+						<span class="ycblbj Validform_checktip">填写所属公司名称</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">主营品种 <span style="color: red">*</span>：</span>
+						<input type="text" id="hangye" placeholder="主要经营品类" name="need_product" datatype="*2-20" nullmsg="主营产品不能为空！" errormsg="允许输入范围2-20个字符！" class="ycblbb" />
+						<span class="ycblbj Validform_checktip">请填写公司主营品种</span>
+						<div class="clear"></div>
+					</label>
+					<label>
+						<span class="ycblba">公司简介：</span>
+						<textarea name="com_intro" id="intro" class="yjb" placeholder="最大输入200个字符" datatype="*0-200" errormsg="允许输入范围0-200个字符！" style="height:100px;width:335px"></textarea>
+						<span class="ycblbj Validform_checktip"></span>
+					</label>
+					<br/>
+					<br/>
+					<span class="ycblba">企业类型：</span>
+					{foreach from=$type item=value key=key}
+					<input type="radio" {if $key==1}checked{/if} id="" value="{$key}" name="type" class="radio">{$value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					{/foreach}
+					<span class="ycblbj">&nbsp;</span>
+					<div class="clear"></div>
+					<input type="submit" class="ycblbi" value="注册完成" />
+				</form>
+			</div>
+	    	<div class="clear"> </div>
+	    </div>
+		<div class="ycbr">
+			<div class="ycbra">
+			注册<font style="color:#3398da">提示！</font>
+			</div>
+			<div class="ycbrb">
+			请妥善填写注册信息，注册完成并通过审核后某些信息可以在会员中心进行更改。
+			</div>
+			<p class="ybbre">全国免费服务热线：<font style="color:#ee4822;">400-6129-965</font><br />
+			客服时间：9:00-17:00</p>
+			<div class="clear"></div>
+		</div>
+	    <div class="clear"></div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+var companyData;
+$(function(){
+	var demo=$(".registerform").Validform({
+		tiptype:function(msg,o,cssctl){
+			if(!o.obj.is("form")){
+				var objtip=o.obj.siblings(".Validform_checktip");
+				cssctl(objtip,o.type);
+				objtip.text(msg);
+			}
+		}
+	});
+
+	$(".registerform").submit(function(){
+		if(!demo.check()) return false;
+		var data=$('.registerform').serialize();
+		$.post('/user/register/reginfo',data,function(data){
+			if(data.err==0){
+				alert('注册成功');
+				window.location.href="/user/login";
+			}else{
+				alert(data.msg);
+			}
+		},'json');
+		return false;
+	})
+	
+	
+
+//	$("#s_city").change(function(){
+//		var cid=$(this).val();
+//		var pid=$("#s_province").val();
+//		$.get('/user/register/get_company',{pid:pid,cid:cid},function (data){
+//			if(data.length>0){
+//				companyData=data;
+//				/*var html='<option value="">请选择</option>';
+//				$(data).each(function(k,v){
+//					html+='<option value="'+k+'">'+v.c_name+'</option>';
+//				});
+//				$("#companyed").html(html);*/
+//				$("#companyed").select2({
+//					  data: data
+//				})
+//			}
+//		},'json');
+//
+//	})
+	
+	/*
+	$("#companyed").on("change", function (e) { 
+		console.log(e);
+	});*/
+	$("#companyed").on("select2:select", function (e) { 
+		 var args = JSON.stringify(e.params, function (key, value) {
+		      if (value && value.nodeName) return "[DOM node]";
+		      if (value instanceof $.Event) return "[$.Event]";
+		      return value;
+		 });
+		$("#company").val(JSON.parse(args).data.c_name);
+		$("#hangye").val(JSON.parse(args).data.need_product);
+		$("#intro").val(JSON.parse(args).data.com_intro);
+		$("input[name='type'][value="+JSON.parse(args).data.type+"]").attr('checked','checked');
+		//console.log(args);
+	});
+	/*
+	$("#companyed").change(function(){
+		var index=$(this).val();
+		if(index!=''){
+			$("#company").val(companyData[index].c_name);
+			$("#hangye").val(companyData[index].need_product);
+			$("#intro").val(companyData[index].com_intro);
+			$("input[name='type'][value="+companyData[index].type+"]").attr('checked','checked');
+		}else{
+			$("#company").val('');
+			$("#hangye").val('');
+			$("#intro").val('');
+			$("input[name='type']").eq(0).attr('checked','checked');
+		}
+	});*/
+})
+
+function getarea(that){
+	var pid=$(that).val();
+	$.get('/api/region',{region_id:pid},function(data){
+		if(data.length){
+			var html='<option value="">请选择</option>';
+			$(data).each(function(k,v){
+				html+='<option value="'+v.id+'">'+v.name+'</option>';
+			});
+			$(that).nextAll('select').html('<option value="">请选择</option>');
+			$(that).next('select').html(html);
+		}else{
+			$(that).nextAll('select').html('<option value="">请选择</option>');
+		}
+	},'json');
+}
+  function checkcompany(){
+      var company = $("#companyed").val(); 
+      if(company){
+            $.ajax({ 
+              type: 'POST', 
+              url: "", 
+              data: {company:company},
+              dataType:'json', 
+              beforeSend:function(){ 
+
+              }, 
+              success:function(json){ 
+                    $("#company").val(json.company);
+                    $("#intro").val(json.intro);
+                    $("#hangye").val(json.hangye);
+                    m = parseInt(json.membertype)-1;
+                    $("input[name=membertype]:eq("+m+")").attr("checked",'checked');
+              }, 
+              error:function(){ 
+                  // alert("数据加载失败"); 
+              } 
+          }); 
+      }else{
+            $("#company").val('');
+            $("#intro").val('');
+            $("#hangye").val('');
+      }
+      
+  }
+</script>

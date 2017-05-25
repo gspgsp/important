@@ -1,0 +1,211 @@
+2017-03-17 12:22:59 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-03-20 10:14:13 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-03-28 11:38:55 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-01 17:52:01 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-01 17:52:50 DB_ERROR:INSERT INTO `p2p_app_token` (token,expiry,userid,module,data) VALUES ('f79838efd276443b983b7ae7c316f01b',1491126770,37081,'login:dolongin','{"user_id":"37081","name":"\u6d41\u5e74","c_id":"30553","sex":"0","tel":"13262531587","mobile":"13262531587","qq":"2508182476","fax":"","email":"","status":"1","remark":"","customer_manager":"8","depart":"0","grounp_no":"0","input_time":"1482379202","input_admin":"","update_time":"1488521762","update_admin":"admin","is_default":"1","password":"38238cc6085111ab96cd42f579046f8b","last_login":"1491038833","last_ip":"127.0.0.1","visit_count":"162","login_fail_count":"0","login_unlock_time":"0","salt":"INNThf","chanel":"0","sign":"0","parent_mobile":"","member_level":"1","is_pass":"0","quan_type":"0","is_trial":"0","remarks":"","headline_vip":"0","cate_id":"","opening_date":"0","free_time":"0","type":"1"}') (1062:Duplicate entry '37081' for key 'PRIMARY')
+2017-04-01 17:52:55 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 17:47:38 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 17:47:43 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 17:48:59 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 17:50:09 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 18:21:47 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 18:27:18 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 10:59:00 Can not connect to MySQL server
+2017-04-05 10:59:03 Can not connect to MySQL server
+2017-04-05 10:59:03 Can not connect to MySQL server
+2017-04-05 11:00:19 Can not connect to MySQL server
+2017-04-05 11:00:20 Can not connect to MySQL server
+2017-04-05 11:00:24 Can not connect to MySQL server
+2017-04-05 19:12:08 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 19:25:03 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 13:52:01 Can not connect to MySQL server
+2017-04-05 13:52:55 Can not connect to MySQL server
+2017-04-05 21:53:34 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 21:53:39 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 22:05:43 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-05 22:07:03 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-13 14:46:51 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-24 14:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_setting (1146:Table 'wdsln.p2p_setting' doesn't exist)
+2017-04-24 14:00:30 DB_ERROR:SELECT *
+FROM p2p_setting (1146:Table 'wdsln.p2p_setting' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `value`
+FROM p2p_setting
+WHERE code='points' LIMIT 1 (1146:Table 'wdsln.p2p_setting' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_setting (1146:Table 'wdsln.p2p_setting' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_order (1146:Table 'wdsln.p2p_order' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `o`.`o_id`, `o`.`update_time`, `pur`.`p_id`, `pro`.`model`, `fac`.`f_name`, `pro`.`product_type`, `o`.`delivery_location`, `o`.`pickup_location`, `pur`.`number`
+FROM `p2p_order` `o`
+JOIN `p2p_purchase_log` `pur` ON o.`o_id`=pur.o_id
+JOIN `p2p_product` `pro` ON pro.id=pur.`p_id`
+JOIN `p2p_factory` `fac` ON pro.`f_id`=fac.`fid`
+WHERE o.order_type=2 AND o.order_status=2 AND o.transport_status=2
+ORDER BY `o`.`update_time` DESC
+LIMIT 5 (1146:Table 'wdsln.p2p_order' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_purchase (1146:Table 'wdsln.p2p_purchase' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `pur`.`id`, `pur`.`supply_count`, `pur`.`bargain`, `pur`.`user_id`, `pur`.`shelve_type`, `pur`.`is_union`, `pur`.`unit_price`, `pur`.`c_id`, `pur`.`number`, `pur`.`status`, `pur`.`cargo_type`, `pur`.`period`, `pur`.`input_time`, `pur`.`type`, `pro`.`model`, `pro`.`f_id`, `pro`.`product_type`, `pro`.`process_type`, `fa`.`f_name`, `pur`.`store_house`, `r`.`name` AS `region_name`
+FROM `p2p_purchase` `pur`
+LEFT JOIN `p2p_lib_region` `r` ON pur.store_house=r.id
+JOIN `p2p_product` `pro` ON pur.p_id=pro.id
+JOIN `p2p_factory` `fa` ON pro.f_id=fa.fid
+WHERE pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 2
+ORDER BY `pur`.`input_time` DESC
+LIMIT 10 (1146:Table 'wdsln.p2p_purchase' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `pur`.`id`, `pur`.`supply_count`, `pur`.`bargain`, `pur`.`user_id`, `pur`.`shelve_type`, `pur`.`is_union`, `pur`.`unit_price`, `pur`.`c_id`, `pur`.`number`, `pur`.`status`, `pur`.`cargo_type`, `pur`.`period`, `pur`.`input_time`, `pur`.`type`, `pro`.`model`, `pro`.`f_id`, `pro`.`product_type`, `pro`.`process_type`, `fa`.`f_name`, `pur`.`store_house`, `r`.`name` AS `region_name`
+FROM `p2p_purchase` `pur`
+LEFT JOIN `p2p_lib_region` `r` ON pur.store_house=r.id
+JOIN `p2p_product` `pro` ON pur.p_id=pro.id
+JOIN `p2p_factory` `fa` ON pro.f_id=fa.fid
+WHERE pur.shelve_type=1 and pur.status in (2,3,4) and pur.type = 1
+ORDER BY `pur`.`input_time` DESC
+LIMIT 10 (1146:Table 'wdsln.p2p_purchase' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-24 22:00:30 DB_ERROR:SELECT `os`.`o_id`, `s`.`number`, `pro`.`model`, `pro`.`product_type`, `fac`.`f_name`, `os`.`input_time`, `s`.`unit_price`
+FROM p2p_order as os
+JOIN `p2p_sale_log` `s` ON s.o_id=os.o_id
+JOIN `p2p_product` `pro` ON pro.id=s.p_id
+JOIN `p2p_factory` `fac` ON fac.fid=pro.f_id
+ORDER BY `os`.`o_id` DESC
+LIMIT 20 (1146:Table 'wdsln.p2p_order' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_resourcelib (1146:Table 'wdsln.p2p_resourcelib' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `content`, `user_qq`, `user_nick`, `qq_image`, `input_time`, `realname`
+FROM p2p_resourcelib
+WHERE type=0
+ORDER BY `input_time` DESC
+LIMIT 3 (1146:Table 'wdsln.p2p_resourcelib' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_market (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=1
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=2
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=3
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=4
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=5
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=6
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=7
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=8
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=9
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=10
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=11
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=12
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=13
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=14
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=15
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=16
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_market
+WHERE cid=17
+ORDER BY `input_time` DESC
+LIMIT 6 (1146:Table 'wdsln.p2p_market' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_oil_price (1146:Table 'wdsln.p2p_oil_price' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_oil_price
+WHERE type=0
+ORDER BY `input_time` DESC
+LIMIT 9 (1146:Table 'wdsln.p2p_oil_price' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_oil_price
+WHERE type=1
+ORDER BY `input_time` DESC
+LIMIT 9 (1146:Table 'wdsln.p2p_oil_price' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_ship_price (1146:Table 'wdsln.p2p_ship_price' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT *
+FROM p2p_ship_price
+ORDER BY rand()
+LIMIT 3 (1146:Table 'wdsln.p2p_ship_price' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_news_content (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_news_content (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `id`, `title`, `cate_id`, `type`, `input_time`
+FROM p2p_news_content
+WHERE cate_id in (1,2)
+ORDER BY `input_time` DESC
+LIMIT 10 (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_news_content (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `id`, `title`, `cate_id`, `type`, `input_time`
+FROM p2p_news_content
+WHERE cate_id in (13,14,15)
+ORDER BY `input_time` DESC
+LIMIT 10 (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_news_content (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `id`, `title`, `cate_id`, `type`, `input_time`
+FROM p2p_news_content
+WHERE cate_id in (21)
+ORDER BY `input_time` DESC
+LIMIT 10 (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_news_content (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `id`, `title`, `cate_id`, `type`, `input_time`
+FROM p2p_news_content
+WHERE cate_id in (9)
+ORDER BY `input_time` DESC
+LIMIT 10 (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SHOW COLUMNS FROM p2p_news_content (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-24 22:00:30 DB_ERROR:SELECT `id`, `title`, `cate_id`, `type`, `input_time`
+FROM p2p_news_content
+WHERE cate_id in (11)
+ORDER BY `input_time` DESC
+LIMIT 10 (1146:Table 'wdsln.p2p_news_content' doesn't exist)
+2017-04-27 13:48:35 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-04-27 13:48:41 DB_ERROR:SHOW COLUMNS FROM p2p_order as os (1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as os' at line 1)
+2017-05-18 05:44:38 Can not connect to MySQL server

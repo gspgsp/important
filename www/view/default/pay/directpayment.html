@@ -1,0 +1,74 @@
+<?php  
+  /************************************************************************************
+   * 直接支付
+   * @author KYLE
+   ************************************************************************************/
+   
+  header("content-type:text/html; charset=utf-8");  
+  require_once("http://127.0.0.1:8080/JavaBridge/java/Java.inc");
+  java_require($_SERVER['DOCUMENT_ROOT']."/Javatest/Java"); //一定要把刚才生成的jar文件放到这个require的目录下面
+
+  
+  $payID = 'JG'.date('Ymdhis',time()).'-'.rand(999,9999);
+ 
+  //参数封装
+  $param['payID'] =  $payID; // 支付号码，东方付通对此订单的唯一标识，商城必须保存此订单号，下次支付时使用
+  $param['tradeOrder'] =  $payID; // 合同号码，商城的订单号
+  
+  $param['mallID'] = '000106';  // 商城号
+  $param['payType'] = '01010'; // 接口类型，直接支付
+  $param['payMemCode'] = '0000001'; // 付款人代码
+  $param['payMemName'] = 'cs0000001'; // 付款人名称
+
+  $param['recMemCode'] = '0000002'; // 收款人代码
+  $param['recMemName'] = 'cs0000002'; // 收款人名称
+  $param['currency'] = 'CNY'; // 人民币
+  $param['payAmt'] = '100'; // 付款金额
+  $param['originalPayID'] = '';  // 直接支付不需要赋值
+  $param['callBackUrl'] = 'http://fkphsk.6655.la:10515/pay/rtnpay'; //回调通知地址，订单支付成功后通知商城的地址
+  $param['summary'] = ''; //摘要
+  
+
+  echo "支付号码：".$payID;
+  echo "<br /><br />";
+  
+
+
+  $ss = E('dfftPayment',APP_LIB.'class');//引入dfftPayment类
+
+ $param['customFiels'] ='';//自定义字段
+ $param['instAccount']='0'; //优先记账0 或空：不记账99：记账
+ $param['locktag']='1';// 锁定标识 1 锁定到收款方  到货支付此处必须为1 直接支付为0或空
+ $param['bankUse']='';//银行用途
+ $param['bankDigest']='';//银行摘要
+
+  // 生成签名
+ $param['signature'] = $ss->_getSign(json_encode($param));    //打印签名密文
+
+ $json = json_encode($param);
+ 
+ echo "支付参数：<br />".$json;
+ echo "<br /><br />";
+ 
+ $order = $ss->_base64Sign($json);
+ echo "参数：<br />".$order;
+ 
+?> 
+<p>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+<title>pay</title>
+</head>
+<body>
+	正在跳转到支付平台...<br />
+	<form action="https://uat.easternpay.com.cn/gateway/api"  method="post">
+		<input type="hidden" name="order" size="200" value='<?php echo $order ?>'/>
+	</form>
+	<script>
+		document.forms[0].submit();
+	</script>
+</body>
+</html>

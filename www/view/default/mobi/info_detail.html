@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	<style>
+		body{ padding-top: 45px; padding-bottom: 50px;}
+		#infoDetailContent img{ width: 100%; display: block;}
+		#infoHeader{ position: fixed; top: 0; left: 0;}
+	</style>
+</head>
+
+<body class="infoDetailBg">
+<header id="infoHeader">
+	<a class="back" href="javascript:window.history.back();"></a>
+	资讯详情
+</header>
+<div class="infoDetailWrap">
+	<h3 class="infoDetailTitle">资讯详情 | <span id="time"></span></h3>
+	<h3 class="infoDetailTitle2"></h3>
+	<h3 class="infoDetailTitle3">作者：<span id="admin"></span></h3>
+	<div id="infoDetailContent"></div>
+</div>
+<footer id="footer">
+	<ul>
+		<li><a href="/mobi/mainPage/enLargeBid"><i class="foot"></i><br>大客户专区</a></li>
+		<li><a href="/mobi/mainPage/enPhysical"><i class="foot2"></i><br>物性表</a></li>
+		<li><a href="/mobi/mainPage/enMainPage"><i class="foot3"></i><br>首页</a></li>
+		<li><a class="footerOn" href="/mobi/mainPage/enArticle"><i class="foot4"></i><br>资讯</a></li>
+		<li><a href="/mobi/personalCenter"><i class="foot5"></i><br>我</a></li>
+	</ul>
+</footer>
+<div id="backTop" style="display: none">
+	<img src="__MYAPP__/img/topArrow.png">
+</div>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	$(function () {
+		var title="";
+		var desc="";
+		var detailId=getUrlParam("id");
+		$(window).scroll(function(){
+			if($(window).scrollTop()>300){
+				$("#backTop").show();
+			}else{
+				$("#backTop").hide();
+			}
+		});
+
+		$("#backTop").on("click",function () {
+			$('body').animate({ scrollTop: 0 },300);
+		});
+
+		commonAjax(
+				"post",
+				"/mobi/mainPage/getArticleDetail",
+				{id:detailId}
+		).then(function (res) {
+			console.log(">>>",res);
+			title=res.articleDetail.title;
+			desc=res.articleDetail.description;
+			$(".infoDetailTitle2").text(res.articleDetail.title);
+			$("#admin").text(res.articleDetail.source);
+			$("#time").text(res.articleDetail.input_time);
+			$("#infoDetailContent").html(res.articleDetail.content);
+		},function () {
+
+		});
+
+		commonAjax(
+				"post",
+				"/mobi/wxShare/getSignPackage",
+				{targetUrl:window.location.href}
+		).then(function(res){
+			//alert(title);
+			console.log(res);
+			wx.config({
+				debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				appId: res.signPackage.appId, // 必填，公众号的唯一标识
+				timestamp: res.signPackage.timestamp, // 必填，生成签名的时间戳
+				nonceStr: res.signPackage.noncestr, // 必填，生成签名的随机串
+				signature: res.signPackage.signature,// 必填，签名，见附录1
+				jsApiList: [
+					'showOptionMenu',
+					'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'onMenuShareQQ'
+				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			});
+			wx.ready(function(){
+				wx.onMenuShareTimeline({
+					title: title, // 分享标题
+					link: window.location.href, // 分享链接
+					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', // 分享图标
+					success: function () {
+						// 用户确认分享后执行的回调函数
+					},
+					cancel: function () {
+						// 用户取消分享后执行的回调函数
+					}
+				});
+				wx.onMenuShareAppMessage({
+					title: title, // 分享标题
+					desc: desc, // 分享描述
+					link: window.location.href, // 分享链接
+					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', // 分享图标
+					type: '', // 分享类型,music、video或link，不填默认为link
+					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+					success: function () {
+						// 用户确认分享后执行的回调函数
+					},
+					cancel: function () {
+						// 用户取消分享后执行的回调函数
+					}
+				});
+				wx.onMenuShareQQ({
+					title: title, // 分享标题
+					desc: desc, // 分享描述
+					link: window.location.href, // 分享链接
+					imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png', // 分享图标
+					success: function () {
+						// 用户确认分享后执行的回调函数
+					},
+					cancel: function () {
+						// 用户取消分享后执行的回调函数
+					}
+				});
+			});
+		},function(){
+
+		});
+	});
+</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+</body>
+
+</html>

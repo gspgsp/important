@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>幸运大转盘，快使出洪荒之力</title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/awardRotate.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<style>
+			html{ width: 100%; height: 100%;}
+			body{ background: url('__MYAPP__/img/rule.jpg') no-repeat #f2f3e3; padding-bottom: 40px; background-size: 100% 100%; }
+			.top{ width: 100%;}
+			.top img{ display: block; width: 100%;}
+			.mid{ position: relative;}
+			.bg{ width: 285px; height: 285px; position: relative; margin: -10px auto;}
+			.rotate{ width: 285px; height: 285px; position: absolute; z-index: 10;}
+			.rotate img{ width: 285px; height: 285px;}
+			.pointer{ width: 125px; height: 150px; position: absolute; left: 50%; margin: -85px 0 0 -62px; top: 50%; z-index: 15;}
+			.pointer img{ width: 125px; height: 150px;}
+			.msg{ width: 270px; height: 35px; line-height: 35px; font-size: 12px; text-align: center; background: #FFFFFF; border: 1px solid #ff0000; border-radius: 9px; margin: 30px auto;}
+			.msg b{ color: #fd0101;}
+			.msg p{margin: 0; color: #323232; font-size: 12px;}
+			.fpzDownload{ width: 100%; height: 40px; line-height: 40px; position: fixed; bottom: 0; left: 0; background: #000000;}
+			.fpzDownloadPic{ width: auto; height: 40px; text-align: center; margin: 0 65px 0 0;}
+			.fpzDownloadLink{ width: 65px; height: 40px; text-decoration: none; position: absolute; top: 0; right: 0; background: #03bcae; color: #FFFFFF; text-align: center; font-size: 13px;}
+			#layer{ width: 100%; height: 100%; display: none;
+			 position: fixed; top: 0; left: 0; background: rgba(1,1,1,0.7); z-index: 90;}
+		</style>
+	</head>
+	<body>
+		<div class="top">
+			<img src="__MYAPP__/img/rule5.jpg">
+		</div>
+		<div class="mid">
+			<a href="/wx/hbIndex/enRuler"><img style=" width: 75px; position: absolute; top: 10px; left: 20px;" src="__MYAPP__/img/rule7.png"></a>
+			<img style=" width: 99px; margin: 0 auto; display: block;" src="__MYAPP__/img/rule6.png">
+			<a href="/wx/hbPay/enPay?openid={$openid}"><img style=" width: 75px; position: absolute; top: 10px; right: 20px;" src="__MYAPP__/img/rule8.png"></a>
+		</div>
+		<div class="bg">
+		<div class="pointer"><img src="__MYAPP__/img/rule10.png" alt="pointer"></div>
+		<div class="rotate">
+			<img id="rotate" src="__MYAPP__/img/rule9.png">
+		</div>
+			<img src="__MYAPP__/img/rule11.png" style="position: absolute; width: 94px; z-index: 20; bottom: 0; right: 5px;">
+		</div>
+		<div class="msg" style="margin: 30px auto 10px auto;">
+			<img id="rotate" width="24" style="position: relative; top: 5px;" src="__MYAPP__/img/rule12.png">&nbsp;您目前还有<b id="num"></b>次抽奖机会。
+		</div>
+		<div id="demo" class="msg" style="margin: 15px auto 10px auto; overflow: hidden;">
+			<div id="demo1"></div>
+			<div id="demo2"></div>
+		</div>
+		<footer class="fpzDownload">
+			<div class="fpzDownloadPic">
+				<img width="250" src="__MYAPP__/img/fpzDownload.jpg">
+			</div>
+			<a class="fpzDownloadLink" href="/mobi/mainPage/enDownload">免费下载</a>
+		</footer>
+		<form id="login" class="mui-input-group" style="height:145px; display: none; position:fixed; top:50%; margin: -60px 0 0 0; width:100%; z-index:100;">
+					<div class="mui-input-row">
+						<label>用户名</label>
+						<input id="mobi" type="text" placeholder="用户名">
+					</div>
+					<div class="mui-input-row">
+						<label>密码:</label>
+						<input id="pwd" type="password" class="mui-input-clear" placeholder="密码" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
+					</div>
+				<div class="mui-button-row">
+				<button id="go" type="button" class="mui-btn mui-btn-primary">登录</button>&nbsp;&nbsp;
+				<button id="cancel" type="button" class="mui-btn mui-btn-danger">取消</button>
+			</div>
+		</form>
+		<div id="layer"></div>
+		<input type="hidden" id="times" value="{$times}"/>
+		<input type="hidden" id="openid" value="{$openid}"/>
+		<script type="text/javascript">
+		$("#num").text(parseInt($("#times").val())+1);
+		var msgLi="";
+		$.ajax({
+			type:"get",
+			url:"/wx/hbIndex/getHonorData",
+			async:true,
+			dataType:"json",
+			success:function(res){
+				console.log(res);
+				res.names.forEach(function(v,i,a){
+					msgLi+="<p><b>"+v.name+"</b>抽到<b>￥"+v.price+"</b>现金红包</p>";
+				});
+				$("#demo1").html(msgLi);
+			},
+			error:function(){
+				
+			}
+		});
+		
+		
+		$(".fpzDownloadLink").on("click",function(){
+			$.ajax({
+				type:"get",
+				url:"/wx/hbIndex/getDownload",
+				async:true,
+				success:function(){},
+				error:function(){}
+			});
+		});
+		
+		var speed=400;
+		var demo=document.getElementById("demo");
+		var demo1=document.getElementById("demo1");
+		var demo2=document.getElementById("demo2");
+	    demo2.innerHTML=demo1.innerHTML;
+	    function Marquee(){
+	      if(demo2.offsetTop-demo.scrollTop<=0)
+	         demo.scrollTop-=demo1.offsetHeight
+	      else{
+	         demo.scrollTop++;
+	      }
+	   }
+	   var MyMar=setInterval(Marquee,speed)
+            var rotateTimeOut = function (){
+                $('#rotate').rotate({
+                    angle:0,
+                    animateTo:2160,
+                    duration:3000,
+                    callback:function (){
+                        alert('网络超时，请检查您的网络设置！');
+                    }
+                });
+            };
+            var bRotate = false;
+            var rotateFn = function (awards, angles){
+                bRotate = !bRotate;
+                $('#rotate').stopRotate();
+                $('#rotate').rotate({
+                    angle:0,
+                    animateTo:angles+1800,
+                    duration:3000,
+                    callback:function (){
+                        //alert();
+                        $.ajax({
+                        	type:"post",
+                        	url:"/wx/hbIndex/comeback",
+                        	data:{openid:$("#openid").val()},
+                        	async:true,
+                        	dataType:"json",
+                        	success:function(res){
+                        		console.log(res);
+                        		$("#num").text(res.times);
+                        		if(res.err==2){
+								mui.confirm("",res.msg,["返回","登录 "],function(e){
+									if(e.index==0){
+										window.location.href="/wx/hbIndex/init";
+									}else if(e.index==1){
+										$("#login").show();
+										$("#layer").show();									
+										$("#go").on("click",function(){
+											$.ajax({
+												type:"post",
+												url:"/wx/hbIndex/doLogin",
+												async:true,
+												data:{username:$("#mobi").val(),password:$("#pwd").val(),openid:$("#openid").val()},
+												success:function(res){
+														mui.alert("",res.msg,function(){
+															window.location.href="/wx/hbIndex/init";
+														});
+												},
+												error:function(){},
+												dataType:"json"	
+											});
+										});
+										$("#cancel").on("click",function(){
+											window.location.href="/wx/hbIndex/init";
+										});										
+									}
+								});
+                        		}else if(res.err==4){
+                        			console.log(res.res.price);
+                        			if(res.res.price==0){
+                          			mui.alert("","谢谢参与,下载并成功登录我的塑料网app可获取更多机会哟",function(){
+										window.location.href="/wx/hbIndex/init";
+                        			});                       				
+                        			}else{
+                        				if(res.res.over==1){
+                                          	mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元",function(){
+                      							window.location.href="/wx/hbIndex/init";
+                        					});
+                        				}else{
+                                           	mui.alert("","恭喜您,抽中现金红包"+res.res.price+"元,下载并成功登录我的塑料网app可获取更多机会哟",function(){
+                      							window.location.href="/wx/hbIndex/init";
+                        					});                       					
+                        				}
+                        			}
+                        		}else if(res.err==3){
+                         			mui.alert("",res.msg,function(){
+                        				window.location.href="/wx/hbIndex/init";
+                        			});                        			                        			
+                        		}
+                        	},
+                        	error:function(e){
+                        		console.log(e);
+                        	}
+                        });
+                        bRotate = !bRotate;
+                    }
+                })
+
+            };
+            $('.pointer').click(function (){
+
+                if(bRotate)return;
+                var item = rnd(0,7);
+                switch (item) {
+                    case 0:
+                        //var angle = [26, 88, 137, 185, 235, 287, 337];
+                        rotateFn(0, 60);
+                        break;
+                    case 1:
+                        //var angle = [88, 137, 185, 235, 287];
+                        rotateFn(1, 105);
+                        break;
+                    case 2:
+                        //var angle = [137, 185, 235, 287];
+                        rotateFn(2, 150);
+                        break;
+                    case 3:
+                        //var angle = [137, 185, 235, 287];
+                        rotateFn(3, 195);
+                        break;
+                    case 4:
+                        //var angle = [185, 235, 287];
+                        rotateFn(4, 240);
+                        break;
+                    case 5:
+                        //var angle = [185, 235, 287];
+                        rotateFn(5, 285);
+                        break;
+                    case 6:
+                        //var angle = [235, 287];
+                        rotateFn(6, 340);
+                        break;
+                    case 7:
+                        //var angle = [287];
+                        rotateFn(7, 375);
+                        break;
+
+                }
+                console.log(item);
+            });
+        function rnd(n, m){
+            return Math.floor(Math.random()*(m-n+1)+n)
+        }
+
+		
+		</script>
+	</body>
+</html>

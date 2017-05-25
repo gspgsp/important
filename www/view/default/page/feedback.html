@@ -1,0 +1,100 @@
+{layout file="public:main_layout"}
+{insert_css files='home/master.css'}
+<div class="yebbg">
+	<div class="yemain">
+		<!--yemainl begin-->
+		<div class="yemainl">
+			<!--yemainla begin-->
+			<div class="yemainla">
+				<p class="yemainlat" style=" border-bottom:none;">用户<font style="color:#ee4822;">帮助</font></p>
+				<!--yemainlab_bane begin-->
+				<div class="yemainlab_bane">
+					<ul>
+						<li>
+							<a class="ahover">我要买塑料</a>
+							<ul class="yemainlab_bane_a">
+								<li><a href="/page?id=7"  >如何自己找货</a></li>
+								<li><a href="/page?id=6"  >如何自己找货</a></li>
+							</ul>
+						</li>
+						<li>
+							<a class="ahover">我要卖塑料</a>
+							<ul class="yemainlab_bane_a">
+								<li><a href="/page?id=11"  >如何报价采集信息</a></li>
+								<li><a href="/page?id=10"  >如何批量发布报价</a></li>
+								<li><a href="/page?id=9"  >如何发布报价单</a></li>
+							</ul>
+						</li>
+						<li>
+							<a class="ahover">常见问题</a>
+							<ul class="yemainlab_bane_a">
+								<li><a href="/page?id=14"  >修改账户信息</a></li>
+								<li><a href="/page?id=13"  >无法登陆/忘记密码</a></li>
+								<li><a href="/page?id=12"  >注册流程</a></li>
+							</ul>
+						</li>
+						<li>
+							<a class="ahover">关于我们</a>
+							<ul class="yemainlab_bane_a">
+								<li><a href="/page?id=5601"  >联系我们</a></li>
+								<li><a href="/page?id=16"  >公司简介</a></li>
+							</ul>
+						</li>
+						<li>
+							<a class="ahover">意见反馈</a>
+							<ul class="yemainlab_bane_a">
+								<li><a href="/page/index/feedBack" {if $id==17}class="ahover"{/if} >意见反馈</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--yemainlab_bane end-->
+			</div>
+			<!--yemainla end-->
+		</div>
+		<!--yemainl end-->
+		<!--yemainr begin-->
+		<div class="yemainr">
+			<div class="yemainra">
+				<div class="yebl feedback">
+					<h1 class="yeblt">意见反馈</h1>
+					<div>问题类别:</div>
+					<form name="" method="post" action="/page/index/addAdvise" >
+					<div>
+						<select name="type" id="type">
+							<option value="0">请选择</option>
+							<option value="1">类型1</option>
+							<option value="2">类型2</option>
+							<option value="3">类型3</option>
+						</select>
+					</div>
+					<div class="gongwiabwbnege" >
+						<p><span>*</span>请留下您对我的塑料网新版首页的意见和建议</p>
+							<textarea name="advise" id="advise" placeholder="请输入您的意见..."></textarea>
+							<input  type="submit" value="提交" />
+					</div>
+					</form>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<!--yemainr end-->
+		<div class="clear"></div>
+	</div>
+</div>
+<script type='text/javascript' >
+	$(function(){
+		$('form').submit(function(event) {
+			if($('#type').val()==0){
+				alert('请选择意见类型。');
+				return false;
+			}
+			if($('#advise').val()==''){
+				alert('请填写建议。。。');
+				$('#advise').focus();
+				return false;
+			}
+		});
+	});
+</script>

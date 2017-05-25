@@ -1,0 +1,59 @@
+/* --------- */
+.reply_tb_list{
+	margin:10px 0;
+	background-color:#fff;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+.reply_ctx_opera{
+	margin:10px 0;
+	border:1px solid #ccc;
+	background-color:#fff;
+}
+.reply_tb_list table{
+	width:100%;
+	border-collapse:collapse;
+	border-spacing:0;
+	margin-bottom:10px;
+	text-align:center;
+}
+.reply_tb_list table td, .reply_tb_list table th{
+	border:1px solid #ccc;
+}
+.reply_ctx_opera h2{
+	font-size:14px;
+	margin:0;
+}
+.reply_ctx_opera h3{
+	font-size:12px;
+	font-weight:bold;
+}
+.news_set{
+	margin:10px;
+}
+.rm_header{
+	text-align:left;
+	position:relative;
+}
+.rm_header .op_com{
+	position:absolute;
+	z-index:1;
+	margin-left:80px;
+	margin-top:-26px;
+}
+.rm_header h3{
+	margin-bottom:5px;
+}
+.f_left{
+	display:inline-block;
+	margin:0 3px;
+	max-width:120px;
+	text-align:center;
+	word-break:break-all;
+	word-wrap:break-word;
+}
+.f_left a{
+	display:inline-block;
+}

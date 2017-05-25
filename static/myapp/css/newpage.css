@@ -1,0 +1,121 @@
+/* 首页 */
+html,body{ width: 100%; height: 100%;}
+body{ background: #FFFFFF;}
+.buyWrap{ width: 100%; height: 100%; padding-bottom: 120px;}
+.back{ position: absolute; top: 12px; left: 10px; width: 22px; height: 22px; background: url(../img/back2.png) no-repeat; background-size: 100% 100%;}
+.search{ width: 100%; padding: 0 0 10px 0; background: #ff5000;}
+.searchSearch{ margin: 0 10px; padding: 0 0 0 10px; position: relative; background: #FFFFFF; border-radius: 3px; height: 30px;}
+.searchSearch input[type=text]{ width: 100%; float: left; text-transform: uppercase; height: 30px; line-height: 30px; margin: 0; padding: 0; border: none; background: none; color: #969696; font-size: 14px;}
+.searchSearch input::-webkit-input-placeholder{ color: #969696;}
+.appQuery2{ position: absolute; right: 2px; top: 4px; width: 22px; height: 22px; background: url(../img/appQuery2.png) no-repeat; background-size: 100% 100%;}
+
+.choose{ width: 100%; border: 1px solid #E1E1E1; border-left: none; border-right: none; overflow: hidden;}
+.choose span{ width: 33.33333%; float: left; font-size: 15px; line-height: 35px; font-weight: bold; text-align: center;}
+.priceUl{ list-style: none; margin: 0; padding: 0; overflow: hidden;}
+.priceUl li{ width: 50%; height: 100px; padding: 20px 0 0 10px; float: left; border-bottom: 1px solid #E1E1E1;}
+.priceUl li p{ margin: 0;}
+.priceUl li:nth-of-type(odd) .priceWrap{ border-right: 1px solid #E1E1E1;}
+.priceType,.priceUnit{ color: #646464; font-weight: bold;}
+.priceUl li span{ float: right; color: #FFFFFF; font-weight: normal; margin: 0 5px 0 0; padding: 0 7px;}
+.priceUl li span.red{ background: #FF0000;}
+.priceUl li span.green{ background: #45c353;}
+.priceUl li span.blue{ background: #008EFB;}
+
+#footer{ width: 100%; height: 120px; position: fixed; left: 0; font-size: 12px; bottom: 0; background: #FFFFFF; border-bottom: 1px solid #e1e1e1;}
+#footer ul{ list-style: none; margin: 0; padding: 0; overflow: hidden;}
+#footer ul li{ width: 25%; height: 50px; line-height: 15px; float: left; text-align: center;}
+#footer i{ width: 25px; height: 25px; display: inline-block;}
+#footer a{ color: #646464;}
+#footer a.footerOn{ color: #ff5000;}
+
+.releaseSale{ width: auto; margin: 0 50px 0 0; padding: 5px 5px 0 5px;}
+.releaseSale textarea{ font-size: 12px; margin: 0; padding: 5px 7px;}
+.releaseBtn{ width: 50px; height: 54px; color: #FFFFFF; line-height: 15px; padding: 5px 0 0 0; background: #ff5000; position: absolute; text-align: center; border-radius: 5px; right: 3px; top: 5px;}
+.border-bottom{ border-bottom: 1px solid #E1E1E1; margin: 0 0 5px 0;}
+#footer i.foot{ background:url(../img/wxfoot.png) no-repeat; background-size: 100% 100%;}
+#footer i.foot2{ background:url(../img/wxfoot2.png) no-repeat; background-size: 100% 100%;}
+#footer i.foot3{ background:url(../img/wxfoot3.png) no-repeat; background-size: 100% 100%;}
+#footer i.foot4{ background:url(../img/wxfoot4.png) no-repeat; background-size: 100% 100%;}
+
+#footer a.footerOn i.foot{ background:url(../img/wxfoot_on.png) no-repeat; background-size: 100% 100%;}
+#footer a.footerOn i.foot2{ background:url(../img/wxfoot2_on.png) no-repeat; background-size: 100% 100%;}
+#footer a.footerOn i.foot3{ background:url(../img/wxfoot3_on.png) no-repeat; background-size: 100% 100%;}
+#footer a.footerOn i.foot4{ background:url(../img/wxfoot4_on.png) no-repeat; background-size: 100% 100%;}
+
+.buyTitle{ font-weight: normal; font-size: 16px; color: #323232; padding: 10px; margin: 0; border-bottom: 1px solid #E7E7E7;}
+.buyTitle span{ color: #969696; float: right; font-size: 12px;}
+.buyDetail,.buyDetail2{ padding: 10px; color: #646464;}
+.buyDetail p,.buyDetail2 p{ margin: 0; height: 30px; line-height: 30px; overflow: hidden;}
+.buyDetail p span{ float: left; width: 50%;}
+.buyDetail i{ font-size: 20px; color: #ff5000; font-style: normal;}
+.buyDetail2 img{ width: 20px; float: left; margin: 5px 5px 0 0;}
+.buyDetail2 a{ width: 100%; height: 45px; margin: 50px 0 0 0; color: #FFFFFF; line-height: 45px; border-radius: 5px; text-align: center; background: #3daaeb; display: block;}
+.buyDetail2 p span{ float: left;}
+
+#supplyDemandHeader{ width: 100%; height: 45px; text-align: center; line-height: 45px; background: #f9f9f9; color: #ff5000; position: relative;}
+.appMenu{ position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; background: url(../img/appMenu.png) no-repeat; background-size: 100% 100%;}
+.supplyDemandChange{ width: auto; height: 32px; margin: 0 50px; border: 1px solid #ff5000; border-radius: 2px;}
+.supplyDemandChange span{ width: 50%; float: left; background: #ff5000; color: #FFFFFF; font-size: 15px; box-sizing: border-box; height: 30px; line-height: 30px; text-align: center;}
+.supplyDemandChange span:first-of-type{ border-right: 1px solid #ff5000;}
+.supplyDemandChange span.on{ background: #FFFFFF; color: #ff5000;}
+.supplyDemandStatus{ width: 100%; overflow: hidden; background: #FFFFFF; font-size: 15px; color: #969696;}
+.supplyDemandStatus span{ width: 25%; height: 40px; font-size: 15px; line-height: 40px; float: left; color: #323232; text-align: center;}
+
+.supplyDemandStatus2{ width: 100%; overflow: hidden; background: #FFFFFF; font-size: 15px; color: #969696;}
+.supplyDemandStatus2 span{ width: 25%; height: 40px; font-size: 15px; line-height: 40px; float: left; color: #323232; text-align: center;}
+.supplyDemandStatus span:last-of-type{ padding: 0 20px 0 0;}
+.supplyDemandUl{}
+.supplyDemandBtn{ width: 100%; height: 40px; position: fixed; text-align: center; bottom: 50px; left: 0; line-height: 40px; background: rgba(0,0,0,0.5); color: #ffffff;}
+.supplyDemandUl ul{ list-style: none; margin: 0; padding: 0; background: #FFFFFF;}
+.supplyDemandUl li{ width: 100%; height: 40px; color: #646464; line-height: 40px; font-size: 14px; border-top: 1px solid #E7E7E7;}
+.supplyDemandUl li span{ float: left; width: 25%; text-align: center;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.supplyDemandUl li span:last-of-type{ padding: 0 20px 0 0; background: url(../img/classifyBack.png) no-repeat center right; background-size: 22px 22px;}
+.supplyDemandUl li:last-of-type{ border-bottom: 1px solid #E7E7E7;}
+.supplyDemandUl li a{ color: #646464;}
+
+.supplyDemandUl2 ul{ list-style: none; margin: 0; padding: 0; background: #FFFFFF;}
+.supplyDemandUl2 li{ width: 100%; height: 40px; color: #646464; line-height: 40px; font-size: 14px; border-top: 1px solid #E7E7E7;}
+.supplyDemandUl2 li span{ float: left; width: 25%; text-align: center;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.supplyDemandUl2 li:last-of-type{ border-bottom: 1px solid #E7E7E7;}
+
+
+#bigCustomerHeader{ width: 100%; height: 45px; text-align: center; font-size: 18px; font-weight: bold; line-height: 45px; background: #ff5000; color: #FFFFFF; position: relative;}
+.bigCustomerName{ float: left; font-size: 15px; color: #323232; margin-left: 10px; font-weight: normal; line-height: 22px;}
+.bigCustomerName a{ color: #323232; display: block;}
+
+.bigCustomerMenu{ width: 100%; height: 300px; overflow-y: scroll; z-index: 20; background: #efeff4; border-bottom: 1px solid #d9d9d9; position: absolute; top: 45px; left: 0;}
+.bigCustomerMenuTitle{ width: 100%; height: 35px; line-height: 35px; color: #ff5000; font-weight: normal; font-size: 15px; margin: 0; padding: 0 12px;}
+.bigCustomerMenuTitle span{ float: right; font-size: 12px;}
+.bigCustomerMenu p{ border-top: 1px solid #D9D9D9; height: auto; overflow: hidden; margin: 0; padding: 10px 20px 0 20px; border-bottom: 1px solid #D9D9D9; background: #FFFFFF;}
+.bigCustomerMenu p.all{ height: auto;}
+.bigCustomerMenu p span{background: #f5f5f5; font-size: 12px; color: #646464; border-radius: 5px; margin: 0 10px 10px 0; float: left; border: 1px solid #d6d7dc; padding: 3px 10px;}
+.bigCustomerMenu p span.on { color: #FFFFFF; background: #ff5000; border: 1px solid #ff5000;}
+.classifyEnter{ width: 60px; height: 27px; font-size: 12px; color: #FFFFFF; border-radius: 5px; line-height: 27px; display: inline-block; background: #ff5000; text-align: center;}
+
+.indexUl{ list-style: none; margin: 5px 0 0 0; padding: 0; border-bottom: 1px solid #E7E7E7; color: #646464; font-size: 14px;}
+.indexUl li{ overflow: hidden; line-height: 30px; margin: 0 0 5px 0; padding: 0 10px;}
+.indexUl li span{ float: left;}
+.indexUl li span.green{ color: #FFFFFF; background: #45c353;}
+.indexUl li span.red{ color: #FFFFFF; background: #f85757;}
+.indexUl li span.blue{ color: #FFFFFF; background: #00A2FF;}
+
+#btn{padding: 5px; text-align: center;}
+#btn button{ margin: 5px; color: #FFFFFF; background: #ff5000; border: none;}
+.pricedetailTitle{ font-weight: normal; margin: 20px 0; color: #323232; text-align: center; font-size: 18px;}
+.pricedetailTitle span{ font-size: 14px; color: #969696;}
+
+.fade-transition{
+	transition: opacity .8s ease;
+}
+.fade-enter,.fade-leave{
+	opacity: 0;
+}
+
+.error{ width: 228px; height: 314px; margin: -157px 0 0 -114px; position: fixed; top: 50%; left: 50%; background: url(../img/error.png) no-repeat center center; background-size: 100%;}
+.goindex{ width: 100px; height: 30px; position: fixed; top: 50%; left: 50%; margin: 200px 0 0 -50px; background: url(../img/goindex.png) no-repeat; background-size: 100%;}
+.siteIndex{ width: 100%; overflow: hidden; border-bottom: 1px solid #E7E7E7; text-align: center; color: #646464; font-size: 14px; padding: 8px 0;}
+.siteIndex span{ width: 50%; float: left;}
+.siteIndex span:first-of-type{ border-right: 1px solid #E7E7E7;}
+.siteIndex i{ font-size: 18px; color: #ff5000; font-style: normal;}
+.siteIndex2{ text-align: center; color: #646464; padding: 8px 0; border-bottom: 1px solid #E7E7E7;}
+.siteIndex2 i{ font-size: 18px; color: #ff5000; font-style: normal;}

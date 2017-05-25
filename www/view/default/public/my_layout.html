@@ -1,0 +1,59 @@
+{layout file="public:main_layout"}
+{insert_css files="menu.css"}
+<div class="main">
+	<div class="crumbs">
+		<a href="/">首页</a> > 
+		{if $left_menus[$menu_c]} {$left_menus[$menu_c]} {else} {$title} {/if}
+		{if $left_menus_child.$menu_c.$menu_a} > {assign var="menu" value=$left_menus_child.$menu_c.$menu_a}{$menu.name} {/if}
+	</div>
+	<div class="main">
+		<div class="main_left">
+			<div class="menus" id="usrMenu">
+				{foreach from=$left_menus_child key=k item=childs}
+				<div class="list_types">
+				{if $childs}
+					<h3 class="title_{$k} {if $k eq $menu_c}cur_menu{/if}">{$left_menus[$k]}</h3>
+					<ul {if $menu_c eq $k}style="display:block;"{/if}>
+						{foreach from=$childs key=k2 item=child}
+							<li>
+							<a href="{$left_menus_url_pre}{$child.link}" {if $k eq $menu_c AND $k2 eq $menu_a}class="page_on"{/if}>{$child.name}
+							{if $left_menus_numbers.$k.$k2}
+							<span class="f_red">({$left_menus_numbers.$k.$k2})</span>
+							{/if}
+							</a>
+							</li>
+						{/foreach}
+					</ul>
+				{else}
+					<h3 class="title_{$k} {if $k eq $menu_c}cur_menu{/if}"><a href="{$left_menus_url_pre}/{$k}">{$left_menus[$k]}</a></h3>
+				{/if}
+				</div>
+				{/foreach}
+			</div>
+<script>
+window.ssrong.user = window.ssrong.user || {};
+ssrong.user.menu={
+	init:function(){ //初始化
+		$("#usrMenu .list_types h3").on('click',function(){
+			var $child=$(this).parent().find("ul"),$span=$(this).children('span');
+			if($child.is(":visible")){
+				$child.stop().slideUp(400);
+				// $span.attr('class','down');
+			}else{
+				$("#usrMenu .list_types ul").slideUp();
+				$child.stop().slideDown(400);
+				//$span.attr('class','up');
+			}
+		});
+	},
+	maskClose:function(){
+		$(".mask").remove();	
+		$(".pop_layer").hide();	
+	}
+}
+ssrong.user.menu.init();
+</script>
+		</div>
+		{__CONTENT__}
+	</div>
+</div>

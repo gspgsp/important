@@ -1,0 +1,285 @@
+/* ---------- */
+body{
+	text-align:left;
+	background-color:#f1f1f1;
+}
+.input_ctx, .reply_ctx, .rule_title{
+	margin:0 10px 10px;
+	padding:10px;
+	border:1px solid #999;
+	background-color:#fff;
+}
+.input_ctx h2, .reply_ctx h2{
+	margin-bottom:10px;
+	font-size:16px;
+	line-height:30px;
+	border-bottom:1px solid #ccc;
+	font-weight:normal;
+	color:#000;
+}
+.rule_title span input{
+	margin-right:5px;
+	padding:1px 5px;
+	border:1px solid #ccc;
+	width:150px;
+}
+.input_list li{
+	margin:10px 0;
+}
+.cm_input{
+	margin-bottom:10px;
+	overflow:hidden;
+	line-height:20px;
+	display:none;
+}
+.cm_input h4{
+	margin-bottom:6px;
+	line-height:20px;
+}
+.cm_input h4 input{
+	float:left;
+	margin:4px 3px 0 0;
+	*margin:0px 3px 0 0;
+}
+.cm_input li{
+	overflow:hidden;
+	margin-bottom:2px;
+	padding:5px 0;
+	min-height:26px;
+}
+.cm_input span{
+	float:left;
+	margin-right:8px;
+}
+.t_contains input{
+	float:left;
+	margin:4px 3px 0 0;
+	*margin-top:0 3px 0 0;
+}
+input.r_nums{
+	width:40px;
+	padding:1px 5px;
+	border:1px solid #ccc;
+	height:20px;
+}
+input.r_text{
+	padding:2px 5px;
+	width:200px;
+	border:1px solid #ccc;
+	height:20px;
+}
+.input_regexp .label_t input{
+	float:left;
+	margin:4px 3px 0 0;
+	*margin-top:0 3px 0 0;
+}
+.label_t label{
+	cursor:pointer;
+}
+/*-------- 回复部分*/
+.type_choose{
+	overflow:hidden;
+	margin-bottom:10px;
+	padding-bottom:10px;
+	border-bottom:1px dashed #ccc;
+}
+.reply_txt h3{
+	margin-bottom:8px;
+	font-size:14px;
+}
+.reply_list{
+	line-height:22px;
+}
+.txt_item{
+	padding:5px 0;
+	border-bottom:1px dashed #ccc;
+}
+.type_choose span, .r_main span{
+	float:left;
+	margin-right:15px;
+}
+.rnd_mark input{
+	float:left;
+	margin:4px 3px 0 0;
+	*margin-top:0 3px 0 0;
+}
+.r_main{
+	margin-bottom:10px;
+	overflow:hidden;
+	line-height:20px;
+}
+.r_main span textarea{
+	padding:2px 5px;
+	width:300px;
+	font-size:12px;
+}
+.r_link ul li div{
+	margin:10px 0;
+}
+.r_link ul li div input{
+	padding:2px 5px;
+	width:200px;
+	border:1px solid #999;
+}
+.r_link ul li .del{
+	position:absolute;
+	margin-top:-70px;
+	margin-left:270px;
+}
+.add_reply{
+	padding:15px 0;
+}
+.exp_time input{
+	width:110px;
+	border:1px solid #999;
+}
+.cm_reply{
+	display:none;
+}
+.reply_news{
+}
+.reply_news h3{
+	margin-bottom:8px;
+	font-size:14px;
+}
+.news_list{
+	width:400px;
+}
+.news_list table{
+	width:100%;
+	text-align:center;
+}
+.news_list table th, .news_list table td{
+	border:1px solid #ccc;
+	padding:3px;
+	line-height:20px;
+}
+.news_list table td a{
+	margin:0 3px;
+}
+#hide_rmlist, #hide_rnlist{
+	font-size:12px;
+	margin-left:15px;
+}
+.i_numbers{
+	margin:10px 0;
+	line-height:24px;
+}
+.i_numbers input{
+	padding:3px 10px;
+	width:260px;
+	font-size:14px;
+	border:1px solid #ccc;
+	height:24px;
+	line-height:24px;
+	color:#000;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.page_list{
+	margin:10px 0;
+}
+.page_list a, .page_list span{
+	display:inline-block;
+	margin:0 2px;
+	border:1px solid #ccc;
+	min-width:12px;
+	padding:0 4px;
+	text-align:center;
+	line-height:20px;
+	text-decoration:none;
+}
+.page_list span.current{
+	background-color:#999;
+	color:#fff;
+}
+/*-------- 提交*/
+.reply_submit{
+	margin:0;
+	padding:20px 0 50px;
+}
+#submit{
+	display:inline-block;
+	min-width:80px;
+	padding:0 15px;
+	line-height:36px;
+	border-radius:3px;
+	border:1px solid #e30;
+	background-color:#f00;
+	text-align:center;
+	background:-webkit-linear-gradient(top, #f00, #e20);
+	background:-moz-linear-gradient(top, #f00, #e20);
+	background:-ms-linear-gradient(top, #f00, #e20);
+	background:linear-gradient(top, #f00, #e20);
+	cursor:pointer;
+	font-size:14px;
+	color:#fff;
+	box-shadow:1px 1px 2px rgba(120,120,120,0.3);
+}
+input[type="checkbox"]{
+	cursor:pointer;
+}
+.cm_btn{
+	display:inline-block;
+	padding:3px 10px;
+	line-height:20px;
+	border:1px solid #ccc;
+	background-color:#efefef;
+	background:-webkit-linear-gradient(top, #fcfcfc, #f1f1f1);
+	background:-moz-linear-gradient(top, #fcfcfc, #f1f1f1);
+	background:-ms-linear-gradient(top, #fcfcfc, #f1f1f1);
+	background:linear-gradient(top, #fcfcfc, #f1f1f1);
+	border-radius:3px;
+	cursor:pointer;
+	font-size:14px;
+	min-width:70px;
+	text-align:center;
+}
+.cm_btn:active{
+	background-color:#999;
+	background:-webkit-linear-gradient(top, #ccc, #eee);
+	background:-moz-linear-gradient(top, #ccc, #eee);
+	background:-ms-linear-gradient(top, #ccc, #eee);
+	background:linear-gradient(top, #ccc, #eee);
+}
+/*---------- 添加图文 --*/
+.news_set ul li{
+	margin:10px 0;
+	overflow:hidden;
+	line-height:20px;
+}
+.news_set ul li span{
+	float:left;
+	margin-right:5px;
+}
+.title_n{
+	width:60px;
+}
+.news_set ul li span input{
+	padding:1px 5px;
+	height:20px;
+	border:1px solid #ccc;
+	width:200px;
+}
+.news_set ul li span textarea{
+	width:280px;
+	border:1px solid #ccc;
+	padding:3px 5px;
+	font-size:12px;
+}
+.addNews_btn{
+	margin:10px 0 10px 65px;
+	min-width:70px;
+	line-height:30px;
+	height:30px;
+	cursor:pointer;
+	border:1px solid #ccc;
+	background-color:#efefef;
+	border-radius:3px;
+	background:-webkit-linear-gradient(top, #fafafa, #f1f1f1);
+	background:-moz-linear-gradient(top, #fafafa, #f1f1f1);
+	background:-ms-linear-gradient(top, #fafafa, #f1f1f1);
+	background:linear-gradient(top, #fafafa, #f1f1f1);
+}
+.cblue, a.cblue:link, a.cblue:visited{
+	color:#06F;
+}

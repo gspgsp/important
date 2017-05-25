@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body style="padding-bottom: 50px;">
+		<header id="supplyDemandHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			订单详情
+		</header>
+		<div class="orderDetailWrap"></div>
+		<script type="text/javascript" charset="utf-8">
+			$(function () {
+				var type=getUrlParam("type");
+				var id=getUrlParam("id");
+				var orderP="";
+					commonAjax(
+						"post",
+						"/mobi/personalCenter/getOrderDetail",
+						{
+							type:type,
+							id:id
+						}
+					).then(function (res) {
+						console.log(">>>",res);
+						if (res.err==1) {
+							window.location.href="/mobi/login";
+						}else if(res.err==2){
+							
+						}else {
+							$(".orderDetailWrap").html(
+								"<h3>"+res.order.order_type+">订单编号:"+res.order.order_sn+"<span>"+res.order.cur_state+"</span></h3>"+
+								"<p>"+res.order.user_name+" "+res.order.user_mobile+"<br>"+res.order.sale_log[0].store_id+"</p><h3>"+res.order.c_id+"</h3>"+
+								"<div class='orderWrap2'>"+
+								"<div id='orderCon'></div>"+
+								"</div><div class='orderDetailInfo'><p>商品总额<span>¥"+res.order.total_price+"</span></p><p>付款方式<span>"+res.order.transport_type+"</span></p><p>货款结算方式<span>"+res.order.pay_method+"</span></p><p>付款日期<span>"+res.order.delivery_time+"</span></p></div>"+
+								"<p class='orderInfo2' style=' border: none;'>合计："+res.order.total_price+"（含运费"+res.order.freight_price+"元）</p>"+
+								"<p class='orderStatus2' style=' border: none;'><span>"+res.order.order_status+"</span><span>"+res.order.out_storage_status+"</span><span>"+res.order.collection_status+"</span><span>"+res.order.invoice_status+"</span></p>"
+							);
+							res.order.sale_log.forEach(function(v,i,a){
+								orderP+="<p>"+v.product_type+"|"+v.model+"|"+v.f_name+"<span><b>¥"+v.unit_price+"/T</b><br><i>"+v.number+"吨</i></span></p>";
+							});
+							$("#orderCon").html(orderP);
+						}
+					},function () {
+			
+					});	
+			})
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

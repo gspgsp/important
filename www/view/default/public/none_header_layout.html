@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {if $seo.cate_name}
+    <title>{$seo.title}_{$seo.cate_name} {$sys.site_title}</title>
+    {else}
+    <title>{$seo.title} {$sys.site_title}</title>
+    {/if}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="qc:admins" content="3477461216651041363757" />
+    <!--<meta property="qc:admins" content="347746133667745354117636" />-->
+    {if $seo.status eq 1}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {elseif $seo.status eq 2}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {elseif $seo.status eq 3}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {elseif $seo.status eq 4}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {elseif $seo.status eq 5}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {elseif $seo.status eq 6}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {elseif $seo.status eq 7}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {elseif $seo.status eq 10}
+    <meta name="keywords" content="{if $seo.keywords}{$seo.keywords}{else}{$sys.site_keywords}{/if}" />
+    <meta name="description" content="{if $seo.description}{$seo.description}{else}{$sys.site_desc}{/if}" />
+    {else}
+    <meta name="keywords" content="{$sys.site_keywords}" />
+    <meta name="description" content="{$sys.site_desc}" />
+    {/if}
+    <link rel="shortcut icon" href="__UPLOAD__/{$sys.site_icon}" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/home/common.css"/>
+    <style type="text/css">
+        .copyright img{ display:inline;}
+    </style>
+    <script type="text/javascript" src="__JS__/home/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="__JS__/home/layer-v1.8.5/layer.min.js"></script>
+    <script type="text/javascript" src="__JS__/home/common.js"></script>
+    <script type="text/javascript" src="__JS__/home/zeroclipboard/ZeroClipboard.js"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?4808bff4f0276952e006e0f3ec054483";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body>
+{__CONTENT__}
+</body>

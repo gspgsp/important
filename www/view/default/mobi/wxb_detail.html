@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+		<style>
+			#wxbDetailWrap{ font-size: 12px; background: #ffffff; margin: 10px 0 0 0; color: #646464;}
+			#wxbDetailWrap td{ height: 30px; text-align: center; border: 1px solid #d9d9d9;}
+			#wxbDetailWrap table{ width: 100%;}
+		</style>
+	</head>
+
+	<body>
+		<header id="bigCustomerHeader">
+			<a class="back" href="javascript:window.history.back();"></a>物性表详情
+		</header>
+		<h3 id="name" class="wxbDetailTitle"></h3>
+		<div class="wxbDetailWrap">
+			<h3 class="wxbHead">规格用途</h3>
+			<table class="wxbTb" cellpadding="0" cellspacing="0">
+				<tr>
+					<td width="30%">规格级别</td>
+					<td id="standard"></td>
+				</tr>
+				<tr>
+					<td>外观颜色</td>
+					<td id="color"></td>
+				</tr>
+				<tr>
+					<td>改料用途</td>
+					<td id="purpose"></td>
+				</tr>
+				<tr>
+					<td>备注说明</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<div id="wxbDetailWrap"></div>
+
+		<!--<div class="wxbLink">-->
+			<!--<a id="checkOffer" href="javascript:;">查看报价</a>-->
+			<!--<a id="releasePurchase" href="javascript:;">发布采购</a>-->
+		<!--</div>-->
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var lid=getUrlParam("lid");
+				commonAjax(
+						"post",
+						"/mobi/mainPage/getPhysicalDetail",
+						{lid:lid}
+				).then(function (res) {
+					console.log(res);
+					$("#name").text(res.phyDetail.name);
+					$("#color").text(res.phyDetail.color);
+					$("#standard").text(res.phyDetail.standard);
+					$("#purpose").text(res.phyDetail.purpose);
+					$("#wxbDetailWrap").html(res.phyDetail.params);
+					$("#checkOffer").on("click",function () {
+						window.location.href="/mobi/mainPage/enSearchRes?keywords="+ res.phyDetail.type +"";
+					});
+					$("#releasePurchase").on("click",function () {
+						window.location.href="/mobi/mainPage/enPhysicalDelegate?id="+ res.phyDetail.lid +"";
+					});
+
+				},function () {
+
+				});
+			})
+		</script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.test.myplas.com"]);
+  _paq.push(["setDomains", ["*.test.myplas.com"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//wa.myplas.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//wa.myplas.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	</body>
+
+</html>

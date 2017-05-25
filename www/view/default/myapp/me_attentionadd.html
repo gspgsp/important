@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body>
+		<header id="meHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			添加关注
+		</header>
+		<!--<div class="meAttentionSearch">-->
+			<!--<div class="appSearch" style="margin: 0 40px;">-->
+				<!--<input type="text" placeholder="请输入产品分类、牌号" />-->
+				<!--<a class="appQuery" href="#"></a>-->
+			<!--</div>-->
+		<!--</div>-->
+		<ul class="meAttention4">
+			<li><div class="meAttention4Box"><span>品种</span>
+				<select id="pz">
+					<option value="">无</option>
+					<option value="1">HDPE</option>
+					<option value="2">LDPE</option>
+					<option value="3">LLDPE</option>
+					<option value="4">PP</option>
+					<option value="5">PVC</option>
+				</select>
+			</div></li>
+			<li><div class="meAttention4Box"><span>牌号</span><select id="ph"><option value="">无</option></select></div></li>
+			<li><div class="meAttention4Box"><span>厂家</span><select id="cj"><option value="">无</option></select></div></li>
+		</ul>
+		<div class="meAttentionBtn">
+			<input id="attentionBtn" type="button" value="确定" />
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var ph="";
+				var cj="";
+				var kid="";
+				var model="";
+				var address="";
+				$("#pz").change(function () {
+					kid=$(this).children('option:selected').val();
+					commonAjax(
+							"post",
+							'/myapp/personalCenter/getModelByCla',
+							{kid:kid}
+					).then(function (res) {
+						console.log(">>>",res);
+						if(res.err==1){
+							window.location.href="/myapp/login";
+						}else{
+							ph="<option>无</option>";
+							res.models.forEach(function (v,i,a) {
+								ph+="<option value='"+v.model+"'>"+v.model+"</option>";
+							});
+							$("#ph").html(ph);
+							$("#cj").html("<option>无</option>");
+						}
+					},function () {
+
+					});
+				});
+
+				$("#ph").change(function () {
+					model=$(this).children('option:selected').val();
+					commonAjax(
+							"post",
+							"/myapp/personalCenter/getFactoryByMod",
+							{model:model}
+					).then(function (res) {
+						ph="<option>无</option>";
+						res.factorys.forEach(function (v,i,a) {
+							cj="<option>无</option>";
+							cj+="<option value='"+v+"'>"+v+"</option>";
+						});
+						$("#cj").html(cj);
+					},function () {
+
+					})
+				});
+				
+				$("#cj").change(function () {
+					address=$(this).children('option:selected').val();
+				});
+				
+				$("#attentionBtn").on("click",function () {
+					if(address&&model&&kid){
+						commonAjax(
+								"post",
+								"/myapp/personalCenter/addProAttention",
+								{address:address,num:model,kid:kid}
+						).then(function (res) {
+							console.log(res);
+							if(res.err==0){
+								mui.alert("",res.msg,function () {
+									window.location.href="/myapp/personalCenter/enMyAttention";
+								});
+							}else if(res.err==1){
+								window.location.href="/myapp/login";
+							}else{
+								mui.alert("",res.msg,function () {});
+							}
+						},function () {});
+					}else{
+						mui.alert("","请把信息填写完整",function () {});
+					}
+				});
+			})
+		</script>
+
+	</body>
+
+</html>

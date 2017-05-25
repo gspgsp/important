@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+
+	<body>
+		<header id="meHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			兑换记录
+		</header>
+		<div id="creditWrap"></div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				var creditRecord="";
+				commonAjax(
+						"get",
+						"/myapp/personalCenter/get_creditRecord"
+				).then(function (res) {
+					if(res.err==1){
+						window.location.href="/myapp/login";
+					}else{
+					if(res.length!=0){
+						res.forEach(function (v,i,a) {
+							creditRecord+="<div class='creditRecord'>" +
+									"<h3>兑换单号："+ v.order_id +"<br>兑换时间："+ stampToDate2(v.create_time) +"" +
+									"<span>"+ statusName(v.status) +"</span></h3><div class='creditInfo'>" +
+									"<div class='creditImg'><img src='"+ v.thumb +"'></div>" +
+									"<div class='creditTable'>" +
+									"<div class='creditTr'>"+ v.name +"</div>" +
+									"</div></div><h4>更新时间:"+ stampToDate2(v.update_time) +"" +
+									"<span style='float:right;line-height:35px;'>兑换使用积分：<i>"+ v.usepoints +"</i>积分</span>" +
+									"</h4></div>";
+						});
+						$("#creditWrap").html(creditRecord);
+					}else{
+						$("#creditWrap").html("<div class='noRecord'>暂无兑换记录</div>");
+					}
+					}
+			},function () {
+
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

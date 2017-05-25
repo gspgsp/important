@@ -1,0 +1,357 @@
+{layout file="public:main_layout"}
+{insert_css files='home/mailloffer.css'}
+{insert_js files='home/laydate/laydate.js'}
+{insert_css files='home/jqtransform.css'}
+{insert_js files='home/Validform_v5.3.2_min.js'}
+
+<div class="buy-wrap">
+    <!--buy-process begin-->
+    <div class="buy-process">
+        <ul>
+            <li class="one"><p>1</p><span>商城直营产品选择</span></li>
+            <li class="two"><p>2</p><span>物流服务选择</span></li>
+            <li class="three"><p>3</p><span>供应链金融服务选择</span></li>
+            <li class="four"><p>4</p><span>完成交易</span></li>
+        </ul>
+        <div class="line"></div>
+    </div>
+    <!--buy-process end-->
+    <form id="cartFrom" method="" action="">
+        <!--order-confirm begin-->
+        <div class="order-confirm">
+            <!--<table border="1">-->
+            <!--<tr>-->
+            <!--<td>订单名称：</td>-->
+            <!--<td><input name="order_name" type="text"/></td>-->
+            <!--<td>配送方式：</td>-->
+            <!--<td>-->
+            <!--<select datatype="*" name="transport_type" class="required">-->
+            <!--<option value="">请选择</option>-->
+            <!--{foreach from=$transport_type item=value key=key}-->
+            <!--<option value="{$key}">{$value}</option>-->
+            <!--{/foreach}-->
+            <!--</select>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>配送日期：</td>-->
+            <!--<td><input datatype="*" name="pickup_time" id="date1" type="text"/></td>-->
+            <!--<td>配送地点：</td>-->
+            <!--<td><input datatype="*" name="pickup_location" type="text"/></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!---->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>付款方式：</td>-->
+            <!--<td>-->
+            <!--<select datatype="*" name="pay_method" class="required">-->
+            <!--<option value="">请选择</option>-->
+            <!--{foreach from=$pay_method item=value key=key}-->
+            <!--<option value="{$key}">{$value}</option>-->
+            <!--{/foreach}-->
+            <!--</select>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--</table>-->
+
+            <!--buy-info begin-->
+            <div class="buy-info">
+                <div class="buy-title">
+                    <h2>基本信息</h2>
+                    <span>我的交易员：{$customer_manager.name}  {$customer_manager.mobile}</span>
+                </div>
+                <table id="table">
+                    <tr>
+                        <td width="80">客户名称：</td>
+                        <td width="200">{$smarty.session.uinfo.c_name}</td>
+                        <td width="80">联<i></i>系<i></i>人：</td>
+                        <td width="110">{$smarty.session.uinfo.name}</td>
+                        <td width="80"></td>
+                    </tr>
+                    <tr>
+                        <td>联系电话：</td>
+                        <td>{$smarty.session.uinfo.mobile}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>付款方式<span class="red">*</span>:</td>
+                        <td>
+                            <select datatype="*" name="pay_method" class="required" id="pay_method">
+                                <option value="">请选择</option>
+                                {foreach from=$pay_method item=value key=key}
+                                <option value="{$key}">{$value}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td>运输方式<span class="red">*</span>:</td>
+                        <td>
+                            <select datatype="*" id="transport_type" name="transport_type" class="required">
+                                <option value="">请选择</option>
+                                {foreach from=$transport_type item=value key=key}
+                                <option value="{$key}">{$value}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td>配送时间<span class="red">*</span>:</td>
+                        <td> <input type="text" id="date3"  datatype="*" name="delivery_date" class="required"/></td>
+                    </tr>
+                    <tr class="other hide">
+
+                        <td>配送地点<span class="red">*</span>:</td>
+                        <td>
+                            <select datatype="*" name="delivery_place" class="required" id="delivery_place" >
+                                <option value="">请选择</option>
+                                {foreach from=$area item=value key=key}
+                                <option value="{$value.id}">{$value.name}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td>详细地址<span class="red">*</span>:</td>
+                        <td><input type="text" id="address"  datatype="*" name="address" class="required"  placeholder="详细地址"/></td>
+                    </tr>
+                </table>
+                <!--sly-chn begin-->
+                <div class="sly-chn">
+                    <!--sly-chn-lt begin-->
+                    <!--<div class="sly-chn-lt flt"><b class="yes"></b><span>需要供应链金融服务</span></div> &ndash;&gt;-->
+                    <!--sly-chn-lt end-->
+                    <!--sly-chn-rt begin-->
+                    <!--<div class="sly-chn-rt flt">-->
+                        <!--<ul class="sly-chn-term">-->
+                            <!--<li>申请条件：</li>-->
+                            <!--<li>1）注册资金100万元、成立并连续经营3年以上，当地工商部门无不良记录；</li>-->
+                            <!--<li>2）本网站注册且上传三证并认证通过；</li>-->
+                            <!--<li>3）在本网站实际交易业务不少于3笔，信用记录良好；</li>-->
+                            <!--<li class="tips">申请说明：供应链金融服务需要审核，该项服务审核结果不影响订单的正常下达</li>-->
+                        <!--</ul>-->
+                        <!--&lt;!&ndash;<div class="sly-chn-lc">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<h4>申请流程：</h4>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<img src="__IMG__/home/img/slyChnLc.png" width="694" height="63"/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--sly-chn-rt end-->
+                </div>
+                <!--sly-chn begin-->
+            </div>
+            <!--buy-info end-->
+
+        </div>
+        <!--order-confirm end-->
+        <!--detail begin-->
+        <div class="detail" id="load-cart" data-url="/cart/index/loadCart">
+
+        </div>
+        <div class="remark">
+            <!--remark-lt begin-->
+            <div class="remark-lt flt">备注：</div>
+            <!--remark-lt end-->
+            <!--remark-rt begin-->
+            <div class="remark-rt flt"><textarea id="remark" placeholder="允许输入35个字符！" name="remark"></textarea></div>
+            <!--remark-rt end-->
+        </div>
+        <!--detail end-->
+        <!--buy-btn begin-->
+        <div class="buy-btn">
+            <button type="submit" >确认下单</button>
+            <a href="/offers">返回</a>
+        </div>
+    </form>
+    <!--buy-btn end-->
+</div>
+<script>
+
+    //配送时间
+    $(function(){
+        laydate({
+            elem: '#date3',
+            event: 'focus',
+            min: laydate.now()
+        });
+    })
+    //显示隐藏
+    $('#transport_type').click(function(){
+        if($(this).val()==2 ||$(this).val()==3){
+            $(".buy-wrap .order-confirm .other").removeClass("hide");
+            $(".buy-wrap .order-confirm .other input").addClass("required");
+            $(".buy-wrap .order-confirm .other input").val('');
+            $(".buy-wrap .order-confirm .other select").addClass("required");
+        }else{
+            $(".buy-wrap .order-confirm .other").addClass("hide");
+            $(".buy-wrap .order-confirm .other input").val('');
+        }
+
+    })
+    //删除产品
+    function delCart(id,that){
+//        alert($(that).closest('tr').find('input').val());
+//        alert($(that).closest('tr').find('.money').html());
+        $.ajax({
+            url:'/offers/index/delCart',
+            type:'post',
+            data:{id:id},
+            cache:false,
+            dataType:'json',
+            async : false,     //设置同异步 false:同步  true:异步
+            success:function(data){
+                if(data.err==0){
+                    $(that).parents('tr').remove();
+                    load_cart();
+                    if($("#cart .details").size()==0){
+                        window.location.href="/offers";
+                    }
+                }
+
+            }
+        })
+
+//        $.post('/offers/index/delCart',{id,id},function(data){
+//            if(data.err==0){
+//                $(that).parents('tr').remove();
+//                sum=eval($("#sum").text().slice(4,-1)-$(that).closest('tr').find('input').val());
+//                totalPrice=eval($("#totalPrice").text()-$(that).closest('tr').find('.money').html());
+//                $("#sum").text(sum+"吨");
+//                $("#totalPrice").text(totalPrice);
+//                if($("#cart .details").size()==0){
+//                    window.location.href="/offers";
+//                }
+//            }
+//        },'json');
+    }
+    function load_cart(){   
+        if($('#load-cart').size() > 0){
+            $('#load-cart').load($('#load-cart').attr('data-url'));
+        }
+
+    }
+
+    var check = function(){
+        var rtn = true;
+        var   pay_method=$('#pay_method').val();            //支付方式
+        var   transport_type=$('#transport_type').val();    //运输方式
+        var   date3=$("#date3").val();                      //配送时间
+        var   delivery_place=$("#delivery_place").val();    //配送地点
+        var   address=$("#address").val();                  //详细地址
+        var   remark=$('#remark').val().trim();                   //备注
+
+        if($("#transport_type").val()==1){
+            if(pay_method==''){
+                layer.msg('支付方式不能为空');
+                pay_method.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(transport_type==''){
+                layer.msg('运输方式不能为空');
+                transport_type.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(date3==''){
+                layer.msg('配送时间不能为空');
+                date3.focus();
+                rtn = false;
+                return rtn;
+            }
+
+        }else{
+            if(pay_method==''){
+                layer.msg('支付方式不能为空');
+                pay_method.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(transport_type==''){
+                layer.msg('运输方式不能为空');
+                transport_type.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(date3==''){
+                layer.msg('配送时间不能为空');
+                date3.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(delivery_place==''){
+                layer.msg('配送地点不能为空');
+                delivery_place.focus();
+                rtn = false;
+                return rtn;
+            }
+            if(address==''){
+                layer.msg('详细地址不能为空');
+                address.focus();
+                rtn = false;
+                return rtn;
+            }
+        }
+        if(remark){
+            if(remark.length>35){
+                layer.msg('最大允许输入35个字符！');
+                return false;
+            }
+        }
+
+        var arr = new Array();
+        //验证购物车中商品有无库存余量
+        $("#cart .details").each(function(index,o){
+            var obj = new Object();
+            obj.id =$(o).attr("data-id");
+            obj.model =$(o).find("#data-id").attr("data-id");
+            obj.f_name =$(o).find("#data-ids").attr("data-ids");
+            obj.amount = $(o).find(".amount input[type='text']").val();
+            arr.push(obj);
+        });
+        var details=JSON.stringify(arr);
+
+        $.ajax({
+            url:'/cart/index/error',
+            data:{data:details},
+            type:'post',
+            cache:'false',
+            dataType:'json',
+            async : false,     //设置同异步 false:同步  true:异步
+            success:function(datas){
+                console.log(datas);
+                if(datas.err==1){
+                    var str='<p>牌号:'+datas.msg.model+'</p>'+'<p>厂家:'+datas.msg.f_name+'<br>'+'库存不足</p>';
+                    layer.msg(str);
+                    rtn = false;
+                    return rtn;
+                }else{
+                    rtn = true;
+                    return rtn;
+                }
+            }
+        })
+        return rtn;
+    }
+
+    $("#cartFrom").submit(function(){
+
+    	
+        if($("#transport_type").val()==2 ||$("#transport_type").val()==3){
+            $(".other select").addClass("required").attr("datatype","*");
+        }else{
+            $(".other select").removeClass("required").removeAttr("datatype");
+        }
+        //检验
+        if(!check()) return false;
+
+        var data=$("#cartFrom").serialize();
+        $.post('/cart/index/addorder',data,function(data){
+            if(data.err==0){
+                window.location.href="/cart/index/msg";
+            }else{
+                layer.msg(data.msg);
+            }
+        },'json');
+
+        return false;
+    });
+
+    $(function(){
+        load_cart();
+    });
+</script>

@@ -1,0 +1,761 @@
+{layout file="public:main_layout"}
+{insert_css files='home/user.css'}
+{insert_js files='home/tab.js'}
+
+<div class="buy-crumb w1220">首页-<a href="/user">个人中心</a></div>
+<div class="user-wrap w1220">
+	{include file="public:user_left"}
+	<div class="right frt">
+		<h3>我的金融-费用试算</h3>
+		<!--calc-title begin-->
+		<div class="calc-title">
+			<ul class="tabf">
+			    {if ($row) && ($finance_type=='1') }
+					<li id="tabf1" onclick="setTab('tabf',1,3)" class="hover">塑料代采 </li>
+				{else}
+					{if $row==null }
+						<li id="tabf1" onclick="setTab('tabf',1,3)" class="hover">塑料代采</li>
+					{else}
+						<li id="tabf1" onclick="setTab('tabf',1,3)">塑料代采</li>
+					{/if}
+				{/if}
+			    {if ($row) && ($finance_type=='2') }
+					<li id="tabf2" onclick="setTab('tabf',2,3)" class="hover">塑料白条</li>
+				{else}
+					<li id="tabf2" onclick="setTab('tabf',2,3)">塑料白条</li>
+				{/if}
+			    {if ($row) && ($finance_type=='3') }
+					<li id="tabf3" onclick="setTab('tabf',3,3)" class="hover">仓单融资</li>
+				{else}
+					<li id="tabf3" onclick="setTab('tabf',3,3)">仓单融资</li>
+				{/if}
+			</ul>
+			<div class="btn">
+				<p class="add">增加商品</p>
+				<p class="try">费用试算</p>
+				<p class="apply" style='background-color: #fc6621;'>我要申请</p>
+			</div>
+		</div>
+		<!--calc-title end-->
+		<!--con-tabf-1 begin-->
+		<div class="con-tabf" id="con-tabf-1">
+			<!--error-msg begin-->
+			<div class="error-msg"></div>
+			<!--error-msg end-->
+			<!--goods begin-->
+			<div class="goods">
+				<!--name begin-->
+				<div class="name">商品：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val">
+					<ul>
+						<li class="goods-title">
+							<div class="col">牌号</div>
+							<div class="col">厂家</div>
+							<div class="col">金额</div>
+							<div class="col">操作</div>
+						</li>
+                        {if ($row) && ($finance_type=='1') }
+	   						<li class="goods-con">
+	   						    <input type="hidden" id="product_type" value="{$row.product_type}">
+								<div class="col grade">
+									<input type="text" class="border-gray" value="{$row.model}"/>
+									<div class="suggest">
+										<div id="search_list">
+										</div>
+									</div>
+								</div>
+								<div class="col factory" value="{$row.factory}">
+									<select>
+									</select>
+								</div>
+								<div class="col total">
+									<input type="text" class="border-gray" value="{$row.total}"/>元
+								</div>
+								<div class="col del"><a onclick="delSession();">删除</a></div>
+							</li>
+	                    {/if}
+					</ul>
+				</div>
+				<!--val end-->
+			</div>
+			<!--goods begin-->
+			<!--date begin-->
+			<div class="date">
+				<!--name begin-->
+				<div class="name">预计赎期：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val"><input type="text" value="{$row.day}"/><span>天</span></div>
+				<!--val end-->
+			</div>
+			<!--date end-->
+			<!--bond begin-->
+			<div class="bond">
+				<!--name begin-->
+				<div class="name">保证金比例：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val"><input type="text" value="{$row.percent}" /><span>(0-100%)</span></div>
+				<!--val end-->
+			</div>
+			<!--bond end-->
+			<!-- cost begin-->
+			<div class="cost">
+				<div class="name"><span>*</span>费用明细：</div>
+				<div class="val">
+					<ul>
+					</ul>
+				</div>
+			</div>
+			<!-- cost end -->
+			<!--remark begin-->
+			<ul class="remark">
+				<li>手续费：(交易金额-保证金) * 1%；</li>
+				<li>资金使用费：（交易金额-保证金）* 0.033%/天；</li>
+			</ul>
+			<!--remark end-->
+		</div>
+		<!--con-tabf-1 end-->
+		<!--con-tabf-2 begin-->
+		<div class="con-tabf" id="con-tabf-2" style="display:none;">
+			<!--error-msg begin-->
+			<div class="error-msg"></div>
+			<!--error-msg end-->
+			<!--goods begin-->
+			<div class="goods">
+				<!--name begin-->
+				<div class="name">商品：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val">
+					<ul>
+						<li class="goods-title">
+							<div class="col">牌号</div>
+							<div class="col">厂家</div>
+							<div class="col">金额</div>
+							<div class="col">操作</div>
+						</li>
+                        {if ($row) && ($finance_type=='2') }
+	   						<li class="goods-con">
+	   						    <input type="hidden" id="product_type" value="{$row.product_type}">
+								<div class="col grade">
+									<input type="text" class="border-gray" value="{$row.model}"/>
+									<div class="suggest">
+										<div id="search_list">
+										</div>
+									</div>
+								</div>
+								<div class="col factory" value="{$row.factory}">
+									<select>
+									</select>
+								</div>
+								<div class="col total">
+									<input type="text" class="border-gray" value="{$row.total}"/>元
+								</div>
+								<div class="col del"><a onclick="delSession();">删除</a></div>
+							</li>
+	                    {/if}
+					</ul>
+				</div>
+				<!--val end-->
+			</div>
+			<!--goods begin-->
+			<!--date begin-->
+			<div class="date">
+				<!--name begin-->
+				<div class="name">预计赎期：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val"><input type="text" value="{$row.day}"/><span>天</span></div>
+				<!--val end-->
+			</div>
+			<!--date end-->
+			<!-- cost begin-->
+			<div class="cost">
+				<div class="name"><span>*</span>费用明细：</div>
+				<div class="val">
+					<ul>
+					</ul>
+				</div>
+			</div>
+			<!-- cost end -->
+			<!--remark begin-->
+			<ul class="remark">
+				<li>手续费：交易金额 * 1%；</li>
+				<li>手续费+货款，在卸货前缴清；</li>
+			</ul>
+			<!--remark end-->
+		</div>
+		<!--con-tabf-2 end-->
+		<!--con-tabf-3 begin-->
+		<div class="con-tabf" id="con-tabf-3" style="display:none;">
+			<!--error-msg begin-->
+			<div class="error-msg"></div>
+			<!--error-msg end-->
+			<!--goods begin-->
+			<div class="goods">
+				<!--name begin-->
+				<div class="name">商品：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val">
+					<ul>
+						<li class="goods-title">
+							<div class="col">牌号</div>
+							<div class="col">厂家</div>
+							<div class="col">金额</div>
+							<div class="col">操作</div>
+						</li>
+                        {if ($row) && ($finance_type=='3') }
+	   						<li class="goods-con">
+	   						    <input type="hidden" id="product_type" value="{$row.product_type}">
+								<div class="col grade">
+									<input type="text" class="border-gray" value="{$row.model}"/>
+									<div class="suggest">
+										<div id="search_list">
+										</div>
+									</div>
+								</div>
+								<div class="col factory" value="{$row.factory}">
+									<select>
+									</select>
+								</div>
+								<div class="col total">
+									<input type="text" class="border-gray" value="{$row.total}"/>元
+								</div>
+								<div class="col del"><a onclick="delSession();">删除</a></div>
+							</li>
+	                    {/if}
+					</ul>
+				</div>
+				<!--val end-->
+			</div>
+			<!--goods begin-->
+			<!--date begin-->
+			<div class="date">
+				<!--name begin-->
+				<div class="name">预计赎期：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val"><input type="text" value="{$row.day}" /><span>天</span></div>
+				<!--val end-->
+			</div>
+			<!--date end-->
+			<!--rz begin-->
+			<div class="rz">
+				<!--name begin-->
+				<div class="name">融资比例：</div>
+				<!--name end-->
+				<!--val begin-->
+				<div class="val"><input type="text" value="{$row.rzbl}"/><span>(最高80%)</span></div>
+				<!--val end-->
+			</div>
+			<!--rz end-->
+			<!-- cost begin-->
+			<div class="cost">
+				<div class="name"><span>*</span>费用明细：</div>
+				<div class="val">
+					<ul>
+					</ul>
+				</div>
+			</div>
+			<!-- cost end -->
+			<!--remark begin-->
+			<ul class="remark">
+				<li>融资金额:货款 * 融资比例；</li>
+				<li>手续费：融资金额 * 1%；</li>  
+				<li>资金使用费：融资金额 * 0.033%/天；</li>
+			</ul>
+			<!--remark end-->
+		</div>
+		<!--con-tabf-3 end-->
+	</div>
+</div>
+<script>
+var model_temp ;//全局的model选择对象用来处理异步下拉框内容加载
+var timer;
+$(function(){
+	var  calTle = $(".calc-title"),
+		 btnAdd = calTle.find(".btn .add"),
+		 btnTry = calTle.find(".btn .try"),
+		 btnApply = calTle.find(".btn .apply"),
+		 btnDel = $(".con-tabf .del a"),
+		 index,
+		 con,
+	     conTab = $("#con-tabf-"+(calTle.find("li.hover").index()+1)),
+	 	 errorMsgCon = conTab.find(".error-msg"),
+		 str = '<li class="goods-con">'+
+			      '<input type="hidden" id="product_type">'+
+				  '<div class="col grade">'+
+				  	'<input type="text" class="border-gray" value=""/>'+
+				  	'<div class="suggest">'+
+						'<div id="search_list">'+
+						'</div>'+
+					'</div>'+
+				  '</div>'+
+				  '<div class="col factory" value="-1">'+
+				  	'<select>'+
+					'</select>'+
+					'</div>'+
+					'<div class="col total"><input type="text" class="border-gray"/>元</div>'+
+					'<div class="col del"><a href="javascript:;">删除</a></div>'+
+				"</li>";
+
+	//触发点击事件
+	var curHover = calTle.find(".tabf li.hover").index();
+	if(curHover==1 || curHover==2) calTle.find(".tabf li.hover").trigger("click");
+
+    //增加商品
+	btnAdd.live("click",function(){
+		index = calTle.find("li.hover").index();
+		con = $("#con-tabf-"+(index+1)).find(".goods .val ul");
+		con.append(str);
+	});
+    
+    var vaild = function(){
+    	var rtn =true;
+		index = calTle.find("li.hover").index();
+		conTab = $("#con-tabf-"+(calTle.find("li.hover").index()+1));
+	 	errorMsgCon = conTab.find(".error-msg");
+		conTabGoods = conTab.find(".goods .val li.goods-con");
+		var len = conTabGoods.length,
+			errorMsg = "";
+		if(len<=0){
+			 errorStr="商品内容不能为空,请至少增加一个商品内容";
+	    	 errorMsgCon.html(errorStr);
+	    	 rtn =false;
+	       	 return rtn;
+		}
+		//验证所填的信息
+		for(var i=0;i<len;i++){
+			var grade = conTabGoods.eq(i).find(".grade input"),  //验证牌号
+				factory = conTabGoods.eq(i).find(".factory"),    //验证厂家
+				//amount = conTabGoods.eq(i).find(".amount input"),//验证数量
+				//price = conTabGoods.eq(i).find(".price input");	 //验证单价
+				total = conTabGoods.eq(i).find(".total input");//验证金额
+			if(grade.val()==""){
+		    	 errorStr="您没有填写牌号";
+		    	 grade.focus();
+		    	 errorMsgCon.html(errorStr);
+		    	 rtn =false;
+		       	 return rtn;
+		    }
+		    if(factory.attr("value")==-1){
+		    	 errorStr="您没有选择厂家";
+		    	 errorMsgCon.html(errorStr);
+		    	 rtn =false;
+		       	 return rtn;
+		    }
+	  // if(amount.val()==""){
+	  // 	errorStr="您没有填写数量";
+      //           amount.focus();
+      //           errorMsgCon.html(errorStr);
+      //           return;
+		    // }else{
+      //       	var checkNum =/^([1-9]\d{0,15}|0)(\.\d{1,4})?$/;
+      //       	if(!checkNum.test(amount.val())){
+      //       		errorStr="请输入正确的数量格式";
+      //       		amount.focus();
+      //       		errorMsgCon.html(errorStr);
+      //               return;
+      //       	}
+      //       }
+	  // if(price.val()==""){
+	  // 	errorStr="您没有填写单价";
+      //           price.focus();
+      //           errorMsgCon.html(errorStr);
+      //           return;
+		    // }else{
+      //       	var checkNum =/^([1-9]\d{0,15}|0)(\.\d{1,2})?$/;
+      //       	if(!checkNum.test(price.val())){
+      //       		errorStr="请输入正确的价格格式";
+      //       		price.focus();
+      //       		errorMsgCon.html(errorStr);
+      //               return;
+      //       	}
+      //       }
+	  		if(total.val()==""){
+	  			errorStr="您没有填写金额";
+	  			total.focus();
+	             errorMsgCon.html(errorStr);
+	  	    	 rtn =false;
+		       	 return rtn;
+		    }else{
+	           	var checkNum =/^([1-9]\d{0,15}|0)(\.\d{1,2})?$/;
+	           	if(!checkNum.test(total.val())){
+	           		errorStr="请输入正确的金额格式";
+	           		total.focus();
+	           		errorMsgCon.html(errorStr);
+		   	    	 rtn =false;
+			       	 return rtn;
+	           	}
+	        }
+	  }
+			
+		//验证预计赎期
+		var day = conTab.find(".date .val input");
+		if(day.val()==""){
+			errorStr="您没有填写预计赎期";
+			day.focus();
+            errorMsgCon.html(errorStr);
+	    	 rtn =false;
+	       	 return rtn;
+		}else{
+        	var checkNum =/^[0-9]*$/;
+        	if(!checkNum.test(day.val())){
+        		errorStr="请输入正确的预计赎期";
+    			day.focus();
+                errorMsgCon.html(errorStr);
+	   	    	 rtn =false;
+		       	 return rtn;
+        	}
+        }
+
+		//根据类型来判断个性的验证
+	    if((calTle.find("li.hover").index()+1)==1){
+			//验证保证金比例
+			var bond = conTab.find(".bond .val input");
+			if(bond.val()==""){
+				errorStr="您没有填写保证金比例";
+				bond.focus();
+	            errorMsgCon.html(errorStr);
+		    	rtn =false;
+		       	return rtn;
+			}else{
+            	var checkNum =/^(\d|[1-9]\d|100)$/;
+            	if(!checkNum.test(bond.val())){
+            		errorStr="请输入正确的保证金比例";
+            		bond.focus();
+    	            errorMsgCon.html(errorStr);
+	   		    	rtn =false;
+	   		       	return rtn;
+            	}
+	        }
+	    }
+	    if((calTle.find("li.hover").index()+1)==2){
+	    	
+	    }
+	    if((calTle.find("li.hover").index()+1)==3){
+			//验证保证金比例
+			var rz = conTab.find(".rz .val input");
+			if(rz.val()==""){
+				errorStr="您没有填写融资比例";
+				rz.focus();
+	            errorMsgCon.html(errorStr);
+		    	 rtn =false;
+		       	 return rtn;
+			}else{
+            	var checkNum =/^(\d|[1-7]\d|80)$/;
+            	if(!checkNum.test(rz.val())){
+            		errorStr="请输入正确的融资比例";
+            		rz.focus();
+    	            errorMsgCon.html(errorStr);
+    		    	 rtn =false;
+    		       	 return rtn;
+            	}
+	        }
+	    }	
+	    errorStr = "";
+	    errorMsgCon.html(errorStr);
+	    return rtn;
+    }
+	//费用试算
+	btnTry.live("click", function(){
+		index = calTle.find("li.hover").index();
+		conTab = $("#con-tabf-"+(calTle.find("li.hover").index()+1));
+	 	errorMsgCon = conTab.find(".error-msg");
+		conTabGoods = conTab.find(".goods .val li.goods-con");      
+		if(!vaild()) return;   
+		//验证预计赎期
+		var day = conTab.find(".date .val input");
+	    //输出计算结果并显示
+	    var sum = 0;//计算总金额
+	    $(conTabGoods).each(function(index,obj){
+            sum = sum + parseFloat($(obj).find(".total input").val());
+	    });
+	    sum = parseFloat(sum.toFixed(2));
+	    //console.log(sum);
+	    //根据类型来进行试算公式
+		switch (calTle.find("li.hover").index()+1)
+		{
+	  	case 1: //塑料待采
+	  		var bond = conTab.find(".bond .val input").val();//保证金比例
+	  	    var ssf= ((sum - sum*parseFloat(bond)/100)*0.01).toFixed(2);//手续费
+	  	    var zzssf=((sum - sum*parseFloat(bond)/100)*0.033/100*parseFloat(day.val())).toFixed(2);//资金使用费
+			$("#con-tabf-"+(index+1)).find(".cost .val ul li").remove();
+			$("#con-tabf-"+(index+1)).find(".cost .val ul").append("<li><b>总额：</b><span>"+fmoney(sum,2)+"元</span><b>手续费：</b><span>"+fmoney(parseFloat(ssf),2)+"元</span></li>");
+			var hkze =(sum+parseFloat(ssf)+parseFloat(zzssf)).toFixed(2);
+			$("#con-tabf-"+(index+1)).find(".cost .val ul").append("<li><b>资金使用费：</b><span>"+fmoney(parseFloat(zzssf),2)+"元</span><b>还款总额：</b><span>"+fmoney(parseFloat(hkze),2)+"元</span></li>");
+		    break;
+		case 2: //塑料白条
+	  	    var ssf= sum*0.01;
+	  	    $("#con-tabf-"+(index+1)).find(".cost .val ul li").remove();
+			$("#con-tabf-"+(index+1)).find(".cost .val ul").append("<li><b>总额：</b><span>"+fmoney(sum,2)+"元</span><b>手续费：</b><span>"+fmoney(parseFloat(ssf),2)+"元</span></li>");
+			var hkze =(sum+parseFloat(ssf)).toFixed(2);
+			$("#con-tabf-"+(index+1)).find(".cost .val ul").append("<li><b>还款总额：</b><span>"+fmoney(parseFloat(hkze),2)+"元</span></li>");
+		    break;
+		case 3://仓单融资
+			var rzbl = parseFloat(conTab.find(".rz .val input").val());
+		    var rzje = (sum * rzbl / 100).toFixed(2); 
+		    var ssf =(rzje*0.01).toFixed(2);
+		    var zzssf=((rzje*0.033/100)*parseFloat(day.val())).toFixed(2);
+		    $("#con-tabf-"+(index+1)).find(".cost .val ul li").remove();
+			$("#con-tabf-"+(index+1)).find(".cost .val ul").append("<li><b>总额：</b><span>"+fmoney(sum,2)+"元</span><b>手续费：</b><span>"+fmoney(parseFloat(ssf),2)+"元</span></li>");
+			var hkze =(sum+parseFloat(ssf)+parseFloat(zzssf)).toFixed(2);
+			$("#con-tabf-"+(index+1)).find(".cost .val ul").append("<li><b>资金使用费：</b><span>"+fmoney(parseFloat(zzssf),2)+"元</span><b>还款总额：</b><span>"+fmoney(parseFloat(hkze),2)+"元</span></li>");
+			$("#con-tabf-"+(index+1)).find(".cost .val ul").append("<li><b>融资金额：</b><span>"+fmoney(parseFloat(rzje),2)+"元</span>");
+			//console.log(sum+"$$"+rzje+"$$"+ssf+"$$"+zzssf);
+		    break;
+		}
+		$("#con-tabf-"+(index+1)).find(".cost").show();
+	});
+
+	//删除商品
+	btnDel.live("click",function(){
+		$(this).closest("li").remove();
+	});
+	
+	btnApply.live("click",function(){
+        var arr =[];
+		if(!vaild()) return; 
+		index = calTle.find("li.hover").index();
+		conTab = $("#con-tabf-"+(calTle.find("li.hover").index()+1));
+	 	errorMsgCon = conTab.find(".error-msg");
+		conTabGoods = conTab.find(".goods .val li.goods-con");      
+		if(!vaild()) return;   
+		//验证预计赎期
+		var day = conTab.find(".date .val input").val();
+	    $(conTabGoods).each(function(i,obj){
+	        var obj = new Object();
+	        obj.model = conTabGoods.eq(i).find(".grade input").val();
+	        obj.product_type=conTabGoods.eq(i).find("#product_type").val();
+	        obj.factory = conTabGoods.eq(i).find(".factory").attr("value");
+//	        obj.price=price;
+//	        obj.amount = amount;
+	        obj.total= conTabGoods.eq(i).find(".total input").val();
+	        obj.percent=conTab.find(".bond .val input").val();
+	        //obj.storage = storage;
+	        obj.day = day;
+	        obj.rzbl=parseFloat(conTab.find(".rz .val input").val());
+	        obj.finance_type = calTle.find("li.hover").index()+1;
+	        arr.push(obj);
+            console.log(arr);
+	    });
+	    //console.log(JSON.stringify(arr));
+    	$.post('/user/financeCalc/Apply',{data:JSON.stringify(arr)},function(data){
+    		//console.log(data);
+    		if(data.err=='0'){
+        		layer.msg(data.msg);
+    		}else{
+    			layer.msg(data.msg);
+    		}	
+    	},'json');
+	});
+
+	//牌号模糊匹配
+	var gradeInput = $(".grade input"),
+		suggest,
+		grade;
+	//遍历页面加载时的厂家数据
+	$(gradeInput).each(function(index,obj){
+		//异步获取品种类型和厂家
+		var model = $(obj).val();
+		grade = $(obj).parent();
+		$.post('/finance/index/getfactory',{model:model},function(data){
+//			console.log(data);
+			if(data.err=='0'){
+				//grade.parent().find(".factory").val(data.product_type.name);
+				grade.parent().find(".factory").attr('data-value',data.product_type.value);
+	            var html = '<option value="-1">全部</option>';
+				$(data.factory).each(function(k,v){
+	                html +='<option value="'+v.fid+'">'+v.f_name+'</option>';
+				});
+				grade.parent().find(".factory select").html(html);
+				grade.parent().find(".factory select option[value='"+grade.parent().find(".factory").attr("value")+"']").attr("selected",true);
+			}else{
+//				$("#returnMsg").text(data.msg);
+			}					   
+		},'json');
+	});
+	gradeInput.live("focus",function(e){
+		
+		suggest = $(this).next(".suggest");
+		suggest.show();
+		$(this).parent().css({"z-index":"99"});
+		loadsearch(this);
+	});
+
+	$(".goods-con input").live("focus",function(){
+		$(this).removeClass("border-gray").addClass("border-orge");
+	});
+
+	$(".goods-con input").live("blur",function(){
+		$(this).removeClass("border-orge").addClass("border-gray");
+	});
+
+	//牌号keyup事件处理
+	gradeInput.live("keyup",function(){
+		loadsearch(this);
+	});
+	//选择厂家
+	 $(".factory").live("change",function(){
+	   	 //获取被选中的option标签
+	   	 var value = $(this).find("option:selected").val();
+	   	 $(this).attr("value",value);
+    });
+    //数量和单价验证
+    var amount = $(".amount input");
+    var price = $(".price input");
+    amount.live("blur",function(){
+		conTab = $("#con-tabf-"+(calTle.find("li.hover").index()+1));
+	 	errorMsgCon = conTab.find(".error-msg");
+    	errorMsgCon.html("");
+	    if($(this).val()==""){
+	    	errorStr="您没有填写数量";
+	    	$(this).focus();
+            errorMsgCon.html(errorStr);
+            return;
+	    }else{
+        	var checkNum =/^([1-9]\d{0,15}|0)(\.\d{1,4})?$/;
+        	if(!checkNum.test($(this).val())){
+        		errorStr="请输入正确的数量格式";
+        		$(this).focus();
+        		errorMsgCon.html(errorStr);
+                return;
+        	}
+        }
+	    if($(this).parent().next().find("input").val()==""){
+	    }else{
+        	var checkNum =/^([1-9]\d{0,15}|0)(\.\d{1,2})?$/;
+        	if(!checkNum.test($(this).parent().next().find("input").val())){
+        		errorStr="请输入正确的价格格式";
+        		$(this).parent().next().find("input").focus();
+        		errorMsgCon.html(errorStr);
+                return;
+        	}
+    	    //计算金额
+    	    var total = ($(this).parent().next().find("input").val()*$(this).val()).toFixed(2);
+    	    $(this).parent().next().next().attr("data-value",total);
+    	    $(this).parent().next().next().text(total+"元");
+        }
+    });
+    price.live("blur",function(){
+		conTab = $("#con-tabf-"+(calTle.find("li.hover").index()+1));
+	 	errorMsgCon = conTab.find(".error-msg");
+    	errorMsgCon.html("");
+	    if($(this).parent().prev().find("input").val()==""){
+	    	errorStr="您没有填写数量";
+	    	$(this).parent().prev().find("input").focus();
+            errorMsgCon.html(errorStr);
+            return;
+	    }else{
+        	var checkNum =/^([1-9]\d{0,15}|0)(\.\d{1,4})?$/;
+        	if(!checkNum.test($(this).parent().prev().find("input").val())){
+        		errorStr="请输入正确的数量格式";
+        		$(this).parent().prev().find("input").focus();
+        		errorMsgCon.html(errorStr);
+                return;
+        	}
+        }
+	    if($(this).val()==""){
+	    	errorStr="您没有填写单价";
+	    	$(this).focus();
+            errorMsgCon.html(errorStr);
+            return;
+	    }else{
+        	var checkNum =/^([1-9]\d{0,15}|0)(\.\d{1,2})?$/;
+        	if(!checkNum.test($(this).val())){
+        		errorStr="请输入正确的价格格式";
+        		$(this).focus();
+        		errorMsgCon.html(errorStr);
+                return;
+        	}
+        }
+	    //计算金额
+	    var total =($(this).parent().prev().find("input").val()*$(this).val()).toFixed(2);
+	    $(this).parent().next().attr("data-value",total);
+	    $(this).parent().next().text(total+"元");
+    });
+	
+    String.prototype.trim=function(){
+        return this.replace(/(^\s*)|(\s*$)/g, "");
+    }
+
+});
+//清除session
+var delSession =function(){
+    $.get('/user/financeCalc/DelSession',{},function (data){
+    },'json');
+}
+//查询公司
+var loadsearch =function(obj){
+    clearTimeout(timer);
+    var keyword = $(obj).val().trim();
+    model_temp  = $(obj).parent();
+    if(keyword != ''){
+        timer = setTimeout(function(){
+            $.get('/finance/index/getmodel', {keyword:keyword}, function(data){
+                if(data.length){
+                    var html = "";
+                    $(data).each(function (k, v){
+                        html +='<p>'+v.model+'</p>';
+                    })
+                    model_temp.find(".suggest").show();
+                    model_temp.find("#search_list").html(html);
+
+					model_temp.find(".suggest p").each(function(){
+						$(this).live("click",function(){ 
+							grade = $(this).closest(".grade"); 
+							grade.find("input").val($(this).html());
+						    // grade.find("#search_list").html('');
+							grade.find(".suggest").hide();
+							grade.css({"z-index":0});
+						    //异步获取品种类型和厂家
+							var model = grade.find("input").val();
+							$.post('/finance/index/getfactory',{model:model},function(data){
+				//				console.log(data);
+								if(data.err=='0'){
+									//grade.parent().find(".factory").val(data.product_type.name);
+									grade.parent().find("#product_type").val(data.product_type.name);
+									grade.parent().find("#product_type").attr('data-value',data.product_type.value);
+									grade.parent().find(".factory").attr('data-value',data.product_type.value);
+						            var html = '<option value="-1">全部</option>';
+									$(data.factory).each(function(k,v){
+						                html +='<option value="'+v.fid+'">'+v.f_name+'</option>';
+									});
+									grade.parent().find(".factory select").html(html);
+									grade.parent().find(".factory select option[value='"+grade.parent().find(".factory").attr("value")+"']").attr("selected",true);
+								}else{
+				//					$("#returnMsg").text(data.msg);
+								}					   
+							},'json');							
+					});
+					});
+
+                }else{
+                	model_temp.find(".suggest").hide();
+                	model_temp.find("#search_list").html('');
+                }
+            }, 'json')
+        }, 300)
+    }else{
+    	model_temp.find(".suggest").hide();
+    	model_temp.find("#search_list").html('');
+    }
+}
+var fmoney =function(s, n)       //s:传入的float数字 ，n:希望返回小数点几位
+{  
+   n = n > 0 && n <= 20 ? n : 2;  
+   s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";  
+   var l = s.split(".")[0].split("").reverse(),  
+   r = s.split(".")[1];  
+   t = "";  
+   for(i = 0; i < l.length; i ++ )  
+   {  
+      t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");  
+   }  
+   return t.split("").reverse().join("") + "." + r;  
+}
+</script>

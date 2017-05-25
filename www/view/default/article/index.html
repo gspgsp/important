@@ -1,0 +1,34 @@
+﻿{layout file="public:main_layout"}
+{insert_css files='home/master.css'}
+
+{include file="public:mbx"}
+<div class="yabbg">
+		<div class="yab">
+			<div class="yabl">
+				<div class="yabla">
+					{foreach from=$cate item=value key=key}
+					<a href="/cid/{$value.cate_id}.html" {if $cid==$value[cate_id]}class="ahover"{/if} {if $key==4}style="margin-right:0px;"{/if} >{$value.cate_name}</a>
+					{/foreach}
+				</div>
+
+				<div class="diany_lbe_lb">
+					<ul>
+						{foreach from=$list.data item=value}
+						<li>
+							<p class="dianyriqieg">{$value.input_time|date:Y-m-d H:i}<span class="dianyriqieg_lbr"><a href="/{$value.id}.html">{$value.title}</a></span></p>
+							<p class="lbzhenweiieg">&nbsp;<a href="/{$value.id}.html">[详情]</a></p>
+						</li>
+						{/foreach}
+					</ul>
+					<div class="clear"></div>
+				</div>
+
+				<div class="page">
+					{$pages}
+				</div>
+				<div class="clear"></div>
+			</div>
+			{include file="article:right"}
+			<div class="clear"></div>
+		</div>
+	</div>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="__MYAPP__/js/mui.min.js"></script>
+		<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+		<script src="__MYAPP__/js/common.js"></script>
+		<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+	</head>
+	<body>
+		<header id="meHeader">
+			<a class="back" href="javascript:window.history.back();"></a>
+			邮箱
+		</header>
+		<div class="meSetInput">
+			<span>邮箱</span>
+			<input id="email" type="email" placeholder="请输入新邮箱" />
+		</div>
+		<a class="me_enter" href="javascript:;">确定</a>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function () {
+				$(".me_enter").on("click",function () {
+					var email=$("#email").val();
+					commonAjax(
+							"post",
+							"/myapp/personalCenter/saveEmail",
+							{email:email}
+					).then(function (res) {
+						console.log(res);
+						if(res.err==1){
+							window.location.href="/myapp/login";
+						}else{
+							mui.alert('',res.msg,function(){
+								window.location.href="/myapp/personalCenter";
+							});
+						}
+					},function () {
+
+					});
+				});
+			})
+
+		</script>
+
+	</body>
+
+</html>

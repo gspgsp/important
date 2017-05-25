@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>您的页面走丢了~404页面</title>
+<style type="text/css">
+*{ margin:0; padding:0;}
+.con{ font-family:"微软雅黑"; font-size:18px; text-align:center; width:980px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px;}
+.con img{ display:block; width:249px; height:86px; overflow:hidden; margin:0 auto; margin-bottom:80px;}
+.con p{ color:#999; margin-bottom:20px;}
+.con p span{ font-weight:bold; color:#fc6621; margin:0 5px;}
+.con a{ text-decoration:none; color:#fff; background:#fc6621; font-size:16px; width:120px; height:40px; line-height:40px; text-align:center; display:block; margin:0 auto;}
+</style>
+</head>
+
+<body>
+<div class="con">
+	<img src="__IMG__/home/404.png" width="249" height="86"/>
+	<p>Sorry，您访问的页面找不到了</p>
+	<p>还有<span id="time">5</span>秒自动返回首页</p>
+    <a href="/">返回首页</a>
+</div>
+</body>
+<script>
+if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    //alert(navigator.userAgent);  
+    window.location.href ="http://q.myplas.com";
+} else if (/(Android)/i.test(navigator.userAgent)) {
+    //alert(navigator.userAgent); 
+    window.location.href ="http://q.myplas.com";
+} else {
+    var n = 5;
+	setInterval(function(){
+		n--;
+		if(n==0) location = "/";
+		document.getElementById("time").innerHTML = n;
+	},1000);
+
+}
+</script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="__MYAPP__/js/mui.min.js"></script>
+	<script src="__MYAPP__/js/jquery-2.2.3.min.js"></script>
+	<script src="__MYAPP__/js/common.js"></script>
+	<link href="__MYAPP__/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__MYAPP__/css/app.css" />
+</head>
+<body>
+<header id="searchHeader">
+	<a class="back" href="javascript:window.history.back();"></a>
+	<div class="searchSearch">
+		<input id="search" type="text" placeholder="请输入产品分类、牌号" />
+		<a class="appQuery2" href="#"></a>
+	</div>
+</header>
+<div id="searchOrigin">
+	<!--<h3>历史搜索</h3>-->
+	<!--<p>-->
+		<!--<span>7000F</span>-->
+		<!--<span>BL3</span>-->
+		<!--<span>PVC</span>-->
+		<!--<span>PVC</span>-->
+		<!--<span>PVC</span>-->
+		<!--<span>PVC</span>-->
+		<!--<span>PVC</span>-->
+		<!--<span>PVC</span>-->
+		<!--<span>PVC</span>-->
+		<!--<span>PVC</span>-->
+	<!--</p>-->
+	<h3>热门搜索</h3>
+	<p id="hotSearch"></p>
+</div>
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+
+	$(function () {
+		var spanLi="";
+		commonAjax(
+				"post",
+				"/myapp/mainPage/getHisAndHot"
+		).then(function (res) {
+			console.log(res);
+			res.hotData.forEach(function (v, i, a) {
+				spanLi += "<span>"+ v +"</span>";
+			});
+			$("#hotSearch").html(spanLi);
+			$("#hotSearch span").on("click",function () {
+				window.location.href="/myapp/mainPage/enSearchRes?keywords="+$(this).text()+"";
+			});
+		},function () {
+
+		});
+
+		$(".appQuery2").on("click",function () {
+			if(!$("#search").val()){
+				mui.alert("","请输入搜索内容",function () {});
+			}else{
+				window.location.href="/myapp/mainPage/enSearchRes?keywords="+$('#search').val().toLocaleUpperCase()+"";
+			}
+		});
+
+	})
+</script>
+
+</body>
+
+</html>
