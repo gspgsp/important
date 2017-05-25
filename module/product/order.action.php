@@ -209,6 +209,7 @@ class orderAction extends adminBaseAction {
 			$where.=" and `tran_con_remark` like '%".$keyword."%'";
 		}elseif(!empty($keyword) && $key_type=='ship'){//车号
 			$oids = M('product:outStorage')->getLikes($keyword);
+			showtrace();
 			$where.=" and `o_id` in ($oids)";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type` like '%".$keyword."%'";
