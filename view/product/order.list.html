@@ -1,4 +1,11 @@
  {layout file="public:mini_layout"}
+ <style type="text/css">
+.mini-textarea .mini-textbox-input {
+    resize: none;
+    height: 150px;
+    margin: 0;
+}
+ </style>
 <div class="mini-toolbar" style="margin:3px 3px 0;">
 	<table style="width:100%;">
 		<tr>
@@ -88,6 +95,9 @@
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+				{if $seestay eq sale or $seestay eq buy}
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData1()">保存</a>
+				{/if}
 				<span id="searchMsg"></span></form>
 			</td>
 		</tr>
@@ -124,6 +134,10 @@
 			<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
 			<div field="pay_remark" width="40" headerAlign="center" >来款标记</div>
 			<div name="action" width="30" headerAlign="center" renderer="seeflow">可视化</div>
+			<div field="tran_con_remark"name="tran_con_remark" width="200" headerAlign="center" align="center">物流备注
+				<input property="editor" class="mini-textarea" style="width:100%;height: 100%;"/>
+			</div>
+			<div name="action" width="30" headerAlign="center" renderer="createTransport">生成运输合同</div>
 		</div>
 	</div>
 </div>
@@ -208,6 +222,11 @@
 mini.parse();
 //搜索或刷新
 var grid = mini.get("gridCell");
+var stay ="{$seestay}";
+if(stay!='sale'&&stay!='buy'){
+grid.hideColumn("tran_con_remark");
+grid.hideColumn("action");
+}
 grid.on("drawcell", function (e) {
 	var record = e.record,
 		column = e.column,
@@ -856,5 +875,43 @@ function compact(){
 			}
 		}
 	});
+}
+//生成运输合同
+function createTransport(e){
+	var record = e.record,s='',oid = record.o_id;
+	var order_type = {$order_type};
+	return s ='<a href="javascript:transport_contract('+oid+','+order_type+')">生成运输合同</a>';
+}
+//运输合同页面
+function transport_contract(o_id,order_type){
+	mini.open({
+		url: "/operator/transport/add?order_id="+o_id+"&order_type="+order_type,
+		showMaxButton:true,
+		title: '新增运输合同', width: 845, height: 650,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//行内编辑后保存数据
+function saveData1() {
+  var data = grid.getChanges();
+  var json = mini.encode(data);
+  if(json.length<0) return false;
+
+  grid.loading("保存中，请稍后......");
+  var callback=function(data){
+	grid.unmask();
+	if(data.err=='0'){
+	  grid.reload();
+	}else{
+	  alert(data.msg);
+	  grid.reload();
+	  return false;
+	}
+  }
+  utils.ajax('/operator/transport/save',{data:json},callback,"POST","json");
 }
 </script>
