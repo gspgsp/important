@@ -13,6 +13,7 @@ class indexAction extends homeBaseAction
 	// 供求
 	public function supplybuy()
 	{
+	    //供求
 	    $this->display('supplybuy.html');
 	}
 	// 发现
