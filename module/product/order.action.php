@@ -178,6 +178,7 @@ class orderAction extends adminBaseAction {
 			$where.=" and `o_id` in ($oids)";
 		}elseif(!empty($keyword) && ($key_type=='m_driver' || $key_type=='m_idcode')){
 			$oids = M('product:outStorage')->getColByInfo($keyword,'ols.o_id','driver');
+			showtrace();
 			$where.=" and `o_id` in ($oids)";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type` like '%".$keyword."%'";
