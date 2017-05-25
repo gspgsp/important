@@ -402,7 +402,7 @@ class toutiaoAction extends baseAction
                 M ("qapp:news")->updateqAppPvByNum ($id, $data['pv'], $data['true_pv']);
             }
             $cache->set ('qcateDetailInfo'.'_'.$id, $data, 18);
-            $this->json_output (array( 'err' => 0, 'info' => $data ));
+            $this->json_output (array( 'err' => 0, 'info' => $data )); 
         }
         $this->_errCode (6);
     }
