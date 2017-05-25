@@ -18,7 +18,6 @@ function desDecrypt($string=''){
 	$des=new desSecurity(C('DES_PASSCODE'));
 	return $des->decrypt($string);
 }
-
 function genOrderSn($type=1){
 	$date=date("YmdHis");
 	//日期+交易类型+时分+6为随机
