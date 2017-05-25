@@ -219,7 +219,7 @@ class toutiaoAction extends baseAction
             $cache = cache::startMemcache ();
             if ($page <= 2) {
                 $data = array();
-                if (!$data['data'] = $cache->get ('qcateListInfo'.$page.'_'.$cate_id)) {
+                if (!$data = $cache->get ('qcateListInfo'.$page.'_'.$cate_id)) {
                     $data = M ("qapp:news")->getqAppCateList ('public', $cate_id, array(), $page, $size);
                     if (empty($data['data']) && $page == 1) {
                         $this->json_output (array(
@@ -247,16 +247,15 @@ class toutiaoAction extends baseAction
                         $v['type'] = strtoupper ($v['type']);
                         //unset($v['content']);
                     }
-                    $cache->set ('qcateListInfo'.$page.'_'.$cate_id, $data['data'], 300);
-                    $stmp_num = $cache->get('qcateListInfoNum'.'_'.$cate_id);
-                    if(!empty($stmp_num) && $data['count'] > $stmp_num){
-                        $temp_show_msg = '更新了'.($data['count'] - $stmp_num).'条资讯';
-                        if(($data['count'] - $stmp_num) > 10) $temp_show_msg = '更新了'.($data['count'] - $stmp_num +5).'条资讯';
-                    }else{
-                        $temp_show_msg = '';
-                    }
-                    if($page==1) $cache->set('qcateListInfoNum'.'_'.$cate_id,$data['count'],1800);
+                    $cache->set ('qcateListInfo'.$page.'_'.$cate_id, $data, 8);
                 }
+                $stmp_num = $cache->get('qcateListInfoNum'.'_'.$cate_id) + 0;
+                if(!empty($stmp_num) && $data['count'] > $stmp_num){
+                    $temp_show_msg = '更新了'.($data['count'] > $stmp_num+10 ? ($data['count'] - $stmp_num +5) : ($data['count'] - $stmp_num)).'条资讯';
+                }else{
+                    $temp_show_msg = '';
+                }
+                if($page==1) $cache->set('qcateListInfoNum'.'_'.$cate_id,$data['count'],5);
             } else {
                 $data = M ("qapp:news")->getqAppCateList ('public', $cate_id, array(), $page, $size);
                 if (empty($data['data']) && $page == 1) {
@@ -285,6 +284,7 @@ class toutiaoAction extends baseAction
                     $v['type'] = strtoupper ($v['type']);
                     //unset($v['content']);
                 }
+                $temp_show_msg = '';
             }
             $this->json_output (array(
                 'err'  => 0,
@@ -402,7 +402,7 @@ class toutiaoAction extends baseAction
                 M ("qapp:news")->updateqAppPvByNum ($id, $data['pv'], $data['true_pv']);
             }
             $cache->set ('qcateDetailInfo'.'_'.$id, $data, 18);
-            $this->json_output (array( 'err' => 0, 'info' => $data )); 
+            $this->json_output (array( 'err' => 0, 'info' => $data ));
         }
         $this->_errCode (6);
     }
