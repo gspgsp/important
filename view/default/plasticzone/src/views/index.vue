@@ -15,7 +15,7 @@
 			</div>
 			<div v-if="filterShow">
 				<span class="filter" style="right: 76px;" v-on:click="filterShow2">{{txt2}}<i class="downarrow"></i></span>
-				<span class="filter" v-on:click="filterShow">{{txt}}<i class="downarrow"></i></span>
+				<span class="filter" v-on:click="filterWrap">{{txt}}<i class="downarrow"></i></span>
 			</div>
 			<div v-else>
 				<span v-on:click="search" class="indexSearch">搜索</span>
@@ -53,15 +53,22 @@
 					<router-link :to="{name:'personinfo',params:{id:top.user_id}}">
 						<p class="first"><i class="icon wxGs"></i><span v-html="top.c_name"></span><i class="icon wxName"></i><span v-html="top.name"></span>&nbsp;{{top.sex}}</p>
 						<p class="second">
-							<span v-if="top.type==='3'||top.type==='1'">产品:{{top.main_product}} 月用量:{{top.month_consum}}</span>
+							<span v-if="top.type==='1'">产品:{{n.main_product}}</span>
+							<span v-if="top.type==='1'">月用量:{{n.month_consum}}</span>
 						</p>
-						<p v-if="top.type==='3'||top.type==='1'" class="second">
-							供:{{top.sale_count}} 求:{{top.buy_count}} 需求：
-							<b style="color: #666666; font-weight: normal;" v-html="top.need_product"></b>
+						<p v-if="top.type=='1'" class="second">
+							供:{{n.sale_count}} 求:{{n.buy_count}} 需求：
+							<b style="color: #666666; font-weight: normal;" v-html="n.need_product"></b>
 						</p>
-						<p v-if="top.type==='0'||top.type==='2'" class="second">
-							供:{{top.sale_count}} 求:{{top.buy_count}} 主营：
-							<b style="color: #666666; font-weight: normal;" v-html="top.need_product"></b>
+						<p v-if="top.type==='2'" class="second">
+							供:{{n.sale_count}} 求:{{n.buy_count}} 主营：
+							<b style="color: #666666; font-weight: normal;" v-html="n.need_product"></b>
+						</p>
+						<p v-if="top.type==='3'||top.type==='5'||top.type==='6'||top.type==='7'||top.type==='8'||top.type==='9'||top.type==='10'" style="color: #666666;">
+							主营产品：
+						</p>
+						<p v-if="top.type==='4'" style="color: #666666;">
+							主营产品：<b style="color: #666666; font-weight: normal;" v-html="n.main_product"></b>
 						</p>
 						<i class="icon2 rightArrow"></i>
 					</router-link>
@@ -167,7 +174,7 @@ export default {
 				});
 			}
 		},
-		filterShow: function() {
+		filterWrap: function() {
 			var _this = this;
 			weui.actionSheet([{
 				label: '所有分类',
@@ -287,7 +294,6 @@ export default {
 						headers: {
 							'X-UA': window.localStorage.getItem("XUA")
 						},
-
 						data: {
 							keywords: "",
 							page: _this.page,
