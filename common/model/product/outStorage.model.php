@@ -37,4 +37,11 @@ class outStorageModel extends model{
 		$result =  $this->select("$col")->from('out_logs ols')->leftjoin('out_log ol','ol.id = ols.outlog_id')->where("$condition like'%$value%'")->getCol();
 		return empty($result) ? '' : join(',',$result);
 	}
+	//新添加方法匹配查询
+	public function getLikes($value = ''){
+		$ids =  array_unique($this->model('transport_contract')->select("o_id")->where("`plate_number` like '%$value%' OR `driver_name` like '%$value%' OR `driver_idcard` like '%$value%'")->getCol());
+
+		$oids = array_unique($this->select("ols.o_id")->from('out_logs ols')->leftjoin('out_log ol','ol.id = ols.outlog_id')->where("`driver` like '%$value%' OR `car_code` like '%$value%'")->getCol());
+		return join(',',array_merge($ids,$oids));
+	}
 }
