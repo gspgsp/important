@@ -175,6 +175,8 @@ class settingAction extends adminBaseAction {
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_tip','".$_data['qapp_newest_tip']."')");
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_version','".$_data['qapp_newest_version']."')");
 
+			file_put_contents('/tmp/xielei.txt',print_r('setting',true)."cache_clear\n",FILE_APPEND);
+
 			$this->clearMCache('setting');
 			$this->success('更新成功');
 		}
