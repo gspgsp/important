@@ -134,6 +134,122 @@ class productAction extends baseAction
         }
         $this->_errCode (6);
     }
+
+
+    /**
+     * 塑料圈app之购买记录
+     * @api {post} /qapi_3/product/getPurchaseRecord   塑料圈app之购买记录
+     * @apiVersion 3.1.0
+     * @apiName  getPurchaseRecord
+     * @apiGroup product
+     * @apiUse UAHeader
+     *
+     * @apiParam   {int} page   页码      默认1
+     * @apiParam   {int} size   每页数量  默认10
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {int}   pointsAll  塑豆总数
+     * @apiSuccess {json}   info   信息
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+    "err": 0,
+    "info": [
+    {
+    "id": "13",
+    "cate_id": "9",
+    "thumb": "http://statics.myplas.com/upload/17/04/10/58eb2893b499d.jpg",
+    "name": "通讯录一天置顶卡",
+    "points": "100",
+    "type": "2",
+    "myMsg": []
+    },
+    {
+    "id": "12",
+    "cate_id": "9",
+    "thumb": "http://statics.myplas.com/upload/17/04/10/58eb2851bda6c.jpg",
+    "name": "供求信息一天置顶卡",
+    "points": "100",
+    "type": "1",
+    "myMsg": [
+    {
+    "id": "90126",
+    "p_id": "0",
+    "user_id": "40418",
+    "model": null,
+    "unit_price": "0.00",
+    "store_house": "",
+    "f_name": null,
+    "input_time": "04-24 16:59",
+    "type": "1",
+    "content": "求购hf5110",
+    "c_name": "上海中晨电子商务股份有限公司",
+    "name": "谢磊",
+    "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+    "thumbqq": "",
+    "sex": "0",
+    "mobile_province": "上海",
+    "is_pass": "0",
+    "contents": "求购hf5110",
+    "saysCount": 0,
+    "deliverPriceCount": 0
+    }
+    ]
+    }
+    ],
+    "pointsAll": "90"
+    }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     */
+    public function getPurchaseRecord ()
+    {
+        if ($_POST) {
+            $this->is_ajax = true;
+            $user_id       = $this->checkAccount ();
+            $page          = sget ('page', 'i', 1);
+            $size          = sget ('size', 'i', 10);
+
+            $goods_ids = M("points:pointsGoods")->getAllOnsaleGoods();
+
+            $pointsOrder = M("points:pointsOrder");
+            $data = $pointsOrder->getPurchaseRecord($user_id,$goods_ids,$page,$size);
+
+            if (empty($data['data']) && $page == 1) {
+                $this->json_output (array(
+                    'err' => 2,
+                    'msg' => '没有相关数据',
+                ));
+            }
+            $this->_checkLastPage ($data['count'], $size, $page);
+
+            foreach ($data['data'] as $k => &$v) {
+                if (!empty($goods_id) && $v['id'] == $goods_id && !empty($supply_and_demand['count'])) {
+                    $v['myMsg'] = $supply_and_demand['data'];
+                } else {
+                    $v['myMsg'] = array();
+                }
+                if ($v['thumb']) {
+                    $v['thumb'] = FILE_URL.$v['thumb'];
+                }
+                if ($v['image']) {
+                    $v['image'] = FILE_URL.$v['image'];
+                }
+            }
+            $ret = array(
+                'err'       => 0,
+                'info'      => $data['data'],
+                'pointsAll' => $points,
+            );
+
+            $this->json_output ($ret);
+        }
+        $this->_errCode (6);
+    }
     /**
      * 塑料圈app之积分商品可选日期
      * @api {post} /qapi_3/product/getValidDate   塑料圈app之积分商品可选日期
@@ -554,13 +670,11 @@ class productAction extends baseAction
             $goods_id = sget ('goods_id', 'i');   //所需要的商品的id
             $dates0    = sget ('dates', 's');   //所选择的时间
             $pur_id   = sget ('pur_id', 'i', 0);
-            file_put_contents('/tmp/xielei.txt',print_r($dates0,true)."\n",FILE_APPEND);
 
             $dates = explode(',',$dates0);
             if(empty($dates)){
                 $this->_errCode (6);
             }
-            file_put_contents('/tmp/xielei.txt',print_r($dates,true)."\n",FILE_APPEND);
 
             $str = '/(\d{4})-(\d{2})-(\d{2})/';
             foreach($dates as $date)
@@ -589,11 +703,9 @@ class productAction extends baseAction
             }
             $pointsOrder = M("points:pointsOrder");
             $took_date = $pointsOrder->getTookDate($goods_id);
-            file_put_contents('/tmp/xielei.txt',print_r($took_date,true)."\n",FILE_APPEND);
 
             if(array_intersect($took_date,$dates))
             {
-                file_put_contents('/tmp/xielei.txt',print_r(array_intersect($took_date,$dates),true)."\n",FILE_APPEND);
 
                 $this->json_output (array(
                     'err' => 13,

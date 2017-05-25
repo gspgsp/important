@@ -1,17 +1,17 @@
 <?php
 
-class wxPayAction extends null2Action{
-    protected $wxPay;
+class wechatPayAction extends null2Action{
+    protected $wechatPay;
     public function __init(){
-        $this->wxPay = E('wxPay',APP_LIB.'class');
+        $this->wechatPay = E('wechatPay',APP_LIB.'class');
     }
 
     public function getPrePayOrder(){
         $orderBody = "test商品";
         $tade_no = "abc_" . time();
         $total_fee = 1;
-        $WxPay = $this->wxPay;
-        $response = $WxPay->getPrePayOrder($orderBody, $tade_no, $total_fee);
+        $wechatPay = $this->wechatPay;
+        $response = $wechatPay->getPrePayOrder($orderBody, $tade_no, $total_fee);
 
 
 
@@ -19,13 +19,13 @@ class wxPayAction extends null2Action{
         $msg.=$orderBody."\n";
         $msg.=$tade_no."\n";
         $msg.=$total_fee."\n";
-        file_put_contents("./wxPay.log", $msg, FILE_APPEND | LOCK_EX);
+        file_put_contents("./wechatPay.log", $msg, FILE_APPEND | LOCK_EX);
 
 
 //        p("---response----");
 //        p($response);
 //        p("---拿到prepayId再次签名----");
-        $x = $WxPay->getOrder($response['prepay_id']);
+        $x = $wechatPay->getOrder($response['prepay_id']);
         $this->json_output(array('err'=>0,'data'=>$x));
 //        p($x);
 
@@ -34,7 +34,7 @@ class wxPayAction extends null2Action{
     public function notifySome(){
         $xmlData = file_get_contents('php://input');
 
-        $data = $this->wxPay->xmlstr_to_array($xmlData);
+        $data = $this->wechatPay->xmlstr_to_array($xmlData);
 
         ksort($data);
         $buff = '';
@@ -50,7 +50,7 @@ class wxPayAction extends null2Action{
 
             $msg = date("Y-m-d H:i:s")." 支付通知验签通过\n";
             $msg.=serialize($data)."\n";
-            file_put_contents('./wxPay.log', $msg, FILE_APPEND | LOCK_EX);
+            file_put_contents('./wechatPay.log', $msg, FILE_APPEND | LOCK_EX);
 
 
 
@@ -62,14 +62,14 @@ class wxPayAction extends null2Action{
         }else{
             $msg = date("Y-m-d H:i:s")." 支付通知验签未通过\n";
             echo $msg;
-            file_put_contents('./wxPay.log', $msg, FILE_APPEND | LOCK_EX);
+            file_put_contents('./wechatPay.log', $msg, FILE_APPEND | LOCK_EX);
             exit();
         }
     }
 
 
     public function closeOrder($out_trade_no=null){
-        if(!$tmp = $this->wxPay->closeOrder($out_trade_no)){
+        if(!$tmp = $this->wechatPay->closeOrder($out_trade_no)){
             return array('err'=>1,'msg'=>'商户订单号错误');
         }else{
             if($tmp['return_code'] == 'SUCCESS'){
@@ -82,7 +82,7 @@ class wxPayAction extends null2Action{
     }
 
     public function downloadbill($bill_date = '20140603' ,$bill_type = 'ALL'){
-        if(!$tmp = $this->wxPay->downloadbill($bill_date,$bill_type)){
+        if(!$tmp = $this->wechatPay->downloadbill($bill_date,$bill_type)){
             return array('err'=>1,'msg'=>'参数错误');
         }else{
             if ($tmp['return_code'] == "FAIL") {
