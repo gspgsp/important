@@ -285,6 +285,10 @@ class productAction extends baseAction
                 if ($v['image']) {
                     $v['image'] = FILE_URL.$v['image'];
                 }
+                if ($v['create_time']) {
+                    $v['create_time'] = $this->checkTime ($v['create_time']);
+                }
+
             }
             $ret = array(
                 'err'       => 0,
