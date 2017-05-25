@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "style-loader": "^0.18.1",
     "vue": "^2.2.6"
   },
   "devDependencies": {
