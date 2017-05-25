@@ -104,4 +104,24 @@ class pointsOrderModel extends Model
 
     }
 
+    public function getPurchaseRecord($user_id,$goods_id,$page=1,$size=10)
+    {
+        $where = " 1 ";
+        if(is_array($goods_id))
+        {
+            $con = join(',',$goods_id);
+            $where .= " and goods_id in ({$con})";
+        }elseif(is_string($goods_id)||is_numeric($goods_id)){
+            $where .= " and goods_id = {$goods_id}";
+        }
+
+        $where .= " and user_id = {$user_id}";
+
+        $where .= " and status = 5 ";
+
+        $orders = $this->model('points_order')->select ('*')->where ($where)->order("create_time desc")->page($page, $size)->getPage();
+
+        return  $orders;
+    }
+
 }

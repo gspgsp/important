@@ -1,7 +1,7 @@
 <?php
 
 
-class wxPay{
+class wechatPay{
 
 
     public $config = array(
