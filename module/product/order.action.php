@@ -206,7 +206,8 @@ class orderAction extends adminBaseAction {
 			$keyword=M('product:order')->getOidByCname($keyword);
 			$where.=" and `$key_type` in ($keyword) ";
 		}elseif(!empty($keyword) && $key_type=='remark'){
-			$where.=" and `tran_con_remark` like '%".$keyword."%'";
+			$oids = M('product:outStorage')->getColByName($keyword,'o_id','tran_con_remark');
+			$where.=" and `o_id` in ($oids)";
 		}elseif(!empty($keyword) && $key_type=='ship'){//车号
 			$oids = M('product:outStorage')->getLikes($keyword);
 			$where.=" and `o_id` in ($oids)";
