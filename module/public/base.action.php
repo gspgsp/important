@@ -123,6 +123,7 @@ class baseAction extends null2Action
      {
          //$headers=getallheaders();
          $ua = $_SERVER['HTTP_X_UA'];
+
          if(empty($ua)){
              $this->_errCode(120);
          }else{
