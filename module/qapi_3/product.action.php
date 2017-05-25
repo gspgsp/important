@@ -158,7 +158,7 @@ class productAction extends baseAction
             {
             "id": "169",
             "status": "5",
-            "create_time": "1495704479",
+            "create_time": "17:27",
             "order_id": "2017052510255101",
             "goods_id": "12",
             "receiver": "",
@@ -178,9 +178,33 @@ class productAction extends baseAction
             "image": "http://static.svnonline.com/myapp/img/img_mail_list@2x.png"
             },
             {
+            "id": "163",
+            "status": "5",
+            "create_time": "2017-05-24",
+            "order_id": "2017052457514899",
+            "goods_id": "11",
+            "receiver": "",
+            "phone": "",
+            "address": "2017-05-24,2017-05-25,2017-05-26,2017-05-27,2017-05-28,2017-05-29,2017-05-30,2017-05-31,2017-06-01,2017-06-02,2017-06-03,2017-06-10,2017-06-09,2017-06-08,2017-06-07,2017-06-06,2017-06-05,2017-06-04,2017-06-11,2017-06-12,2017-06-13,2017-06-14,2017-06-15,2017-06-16,2017-06-17,2017-06-23,2017-06-22,2017-06-21,2017-06-20,2017-06-19,2017-06-18",
+            "uid": "40418",
+            "update_time": "1495614788",
+            "remark": "供求消息置顶卡",
+            "usepoints": "3100",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495614745",
+            "num": "31",
+            "pur_id": "85959",
+            "thumb": "http://static.svnonline.com/myapp/img/img_supply@2x.png",
+            "name": "供求消息置顶卡",
+            "image": "http://static.svnonline.com/myapp/img/img_supply@2x.png",
+            "contents": "pe",
+            "content": "pe"
+            },
+            {
             "id": "125",
             "status": "5",
-            "create_time": "1495510844",
+            "create_time": "2017-05-23",
             "order_id": "2017052399985453",
             "goods_id": "12",
             "receiver": "",
@@ -202,7 +226,7 @@ class productAction extends baseAction
             {
             "id": "80",
             "status": "5",
-            "create_time": "1495094832",
+            "create_time": "2017-05-18",
             "order_id": "2017051848979853",
             "goods_id": "12",
             "receiver": "",
@@ -224,7 +248,7 @@ class productAction extends baseAction
             {
             "id": "59",
             "status": "5",
-            "create_time": "1493899600",
+            "create_time": "2017-05-04",
             "order_id": "2017050448101101",
             "goods_id": "12",
             "receiver": "",
@@ -274,10 +298,10 @@ class productAction extends baseAction
             $goods_id = M("points:pointsGoods")->getOnsaleGoods(1);
             foreach ($data['data'] as $k => &$v) {
 
-                if($v['goods_id'] == $goods_id) {
-                    $data = M ('qapp:plasticRelease')->getReleaseMsgDetail ($v['id'], $v['uid'], $user_id);
-                    $v['contents']= $data['contents'];
-                    $v['content']= $data['content'];
+                if($v['goods_id'] == $goods_id['id']) {
+                    $tmp= M ('qapp:plasticRelease')->getReleaseMsgDetail ($v['pur_id'], $v['uid'], $user_id);
+                    $v['contents']= $tmp['contents'];
+                    $v['content']= $tmp['content'];
                 }
                 if ($v['thumb']) {
                     $v['thumb'] = FILE_URL.$v['thumb'];
