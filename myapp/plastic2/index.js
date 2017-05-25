@@ -332,11 +332,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "innerHTML": _vm._s(n.need_product)
       }
-    })]) : _vm._e(), _vm._v(" "), (n.type === '3') ? _c('p', {
+    })]) : _vm._e(), _vm._v(" "), (n.type === '3' || n.type === '5' || n.type === '6' || n.type === '7' || n.type === '8' || n.type === '9' || n.type === '10') ? _c('p', {
       staticStyle: {
         "color": "#666666"
       }
-    }) : _vm._e(), _vm._v(" "), (n.type === '4') ? _c('p', {
+    }, [_vm._v("\n\t\t\t\t\t\t主营产品：\n\t\t\t\t\t")]) : _vm._e(), _vm._v(" "), (n.type === '4') ? _c('p', {
       staticStyle: {
         "color": "#666666"
       }
