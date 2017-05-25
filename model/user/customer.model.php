@@ -246,33 +246,26 @@ class customerModel extends model{
 	 * @param $pay_time  完成时间(先销售审核 在物流审核)
 	 * @param $money     (财务申请金额)
 	 */
-	public function updateCreditLimit($o_id,$status,$wps,$money=''){
+	public function updateCreditLimit($o_id,$wps,$money=''){
+		//扣减--采购单，财务付款记账----对应状态--1
+		//扣减--销售单，物流审核通过----对应状态--2
+		//扣减--采购单，撤销入库----对应状态--3
+		//扣减--销售单，财务收款红冲----对应状态--4
+		
+		//累加--采购单，入库----对应状态--1
+		//累加--销售单，财务收款记账----对应状态--3
+		//累加--采购单，财务付款红冲----对应状态--4
+		//累加--销售单，物流审核通过后，又不通过----对应状态--4
+		$order_res = $this->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
+		$cus_info = $this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $order_res['c_id'])->getRow();
 		if ($wps == '-') {// 减可用额度
-			// 客户c_id , total_price 订单金额
-			$var = $this->model('order')->select('c_id,total_price')->where('o_id='.$o_id)->getRow();
-			$info = $this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $var['c_id'])->getRow();
-			$arr = array();
-			// 销售物流审
-			if ($status==2) {
-				$arr['available_credit_limit'] = ($info['credit_limit'] - $var['total_price']);
-			}
-			//销售红充审
-			if($status==3){
-				$arr['available_credit_limit'] = ($info['available_credit_limit'] - $money);
-			}
-			$res = $this->model('customer')->where('c_id='.$var['c_id'])->update($arr+array('update_time'=>CORE_TIME));
-			return $res;
+			$available_credit_limit = $cus_info['available_credit_limit'] - $money;
 		}
-
-		if($wps=='+'){// 多笔付款 还回
-			$arrs=$this->model('collection')->select('c_id')->where('o_id='.$o_id)->getRow();
-			$res=$this->model('customer')->select('credit_limit,available_credit_limit')->where('c_id=' . $arrs['c_id'])->getRow();
-			if($status==1){
-				$arr['available_credit_limit'] = ($res['available_credit_limit'] + $money);
-				$res = $this->model('customer')->where('c_id='.$arrs['c_id'])->update($arr+array('update_time'=>CORE_TIME));
-				return $res;
-			}
+		if($wps=='+'){// 增加用额度
+			$available_credit_limit = $cus_info['available_credit_limit'] + $money;
 		}
+		$res = $this->model('customer')->where('c_id='.$order_res['c_id'])->update(array('available_credit_limit'=>$available_credit_limit,'update_time'=>CORE_TIME));
+		return $res;
 	}
 	/**
 	 * 判断当前客户是不是被共享的
