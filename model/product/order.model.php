@@ -22,7 +22,7 @@ class orderModel extends model{
 		$data = implode(',',$cids);
 		return empty($data)? false : $data;
 	}
-	/*
+	/**
 	  根据客户名称查询相应的订单ID
 	 */
 	public function getIdByCname($value=''){
