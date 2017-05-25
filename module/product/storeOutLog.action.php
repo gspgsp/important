@@ -75,11 +75,14 @@ class storeOutLogAction extends adminBaseAction {
 			//查询订单号存在与否
 			if(!$oid = M('product:order')->getColByName($keyword,'o_id','order_sn')) $this->error('查询的订单号不存在');
 			$content_id = M('product:order')->getAssociationID($oid);
-			//上下级关系
-			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
-			//获取订单的交易员
-			$customer_manager = M('product:order')->getColByName($keyword,'customer_manager','order_sn');
-			if(!strpos($sons,$customer_manager)) $this->error('您无权查询该订单信息');
+			if($_SESSION['adminid'] != 1){
+				//上下级关系
+				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
+				//获取订单的交易员
+				$customer_manager = M('product:order')->getColByName($keyword,'customer_manager','order_sn');
+				if(!strpos($sons,$customer_manager)) $this->error('您无权查询该订单信息');
+			}
+			showtrace();
 			$where.=" and `o_id` in ($content_id) ";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
