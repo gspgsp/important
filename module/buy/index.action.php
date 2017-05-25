@@ -1,4 +1,4 @@
-<?php 
+<?php
 class indexAction extends homeBaseAction{
 
 
@@ -7,6 +7,3 @@ class indexAction extends homeBaseAction{
 		$this->display('index.html');
 	}
 }
-
-
- ?>
