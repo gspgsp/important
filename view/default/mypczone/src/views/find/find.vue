@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  	我是主页
+  	我是发现
   </div>
 </template>
 <script>

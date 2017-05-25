@@ -6,7 +6,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
 	/* 输入文件 */
 	entry:{
-		'index/index':'./src/views/index/index.js'
+		'pages/index':'./src/views/index/index.js',
+		'pages/my':'./src/views/my/my.js',
+		'pages/supplybuy':'./src/views/supplybuy/supplybuy.js',
+		'pages/find':'./src/views/find/find.js'
 	},
 	output: {
 	    path: path.join(__dirname, '../../../../static/mypc'),
@@ -15,8 +18,8 @@ module.exports = {
 	    chunkFilename: "[name].js",
 	    //[name]这里是webpack提供的根据路口文件自动生成的名字
 	    publicPath:'http://statics.online.com/mypc/' //本地''
-	    //publicPath:'http://pic.myplas.com/myapp/plastic2/' //测试
-	    //publicPath:'http://statics.myplas.com/myapp/plastic2/' //正式
+	    //publicPath:'http://pic.myplas.com/mypc/' //测试
+	    //publicPath:'http://statics.myplas.com/mypc/' //正式
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
@@ -24,7 +27,28 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/index/index.html'),
 			hash:true,
 			inject:true,
-			chunks:['index/index']
+			chunks:['pages/index']
+		}),
+		new HtmlWebpackPlugin({
+			filename: path.join(__dirname, '../../../../www/view/default/mypczone/find.html'),
+			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/find/find.html'),
+			hash:true,
+			inject:true,
+			chunks:['pages/find']
+		}),
+		new HtmlWebpackPlugin({
+			filename: path.join(__dirname, '../../../../www/view/default/mypczone/supplybuy.html'),
+			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/supplybuy/supplybuy.html'),
+			hash:true,
+			inject:true,
+			chunks:['pages/supplybuy']
+		}),
+		new HtmlWebpackPlugin({
+			filename: path.join(__dirname, '../../../../www/view/default/mypczone/my.html'),
+			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/my/my.html'),
+			hash:true,
+			inject:true,
+			chunks:['pages/my']
 		})
 	],
 	module: {

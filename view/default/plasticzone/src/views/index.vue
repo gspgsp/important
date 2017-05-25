@@ -91,7 +91,9 @@
 						供:{{n.sale_count}} 求:{{n.buy_count}} 主营：
 						<b style="color: #666666; font-weight: normal;" v-html="n.need_product"></b>
 					</p>
-					<p v-if="n.type==='3'" style="color: #666666;"></p>
+					<p v-if="n.type==='3'||n.type==='5'||n.type==='6'||n.type==='7'||n.type==='8'||n.type==='9'||n.type==='10'" style="color: #666666;">
+						主营产品：
+					</p>
 					<p v-if="n.type==='4'" style="color: #666666;">
 						主营产品：<b style="color: #666666; font-weight: normal;" v-html="n.main_product"></b>
 					</p>
