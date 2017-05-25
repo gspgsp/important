@@ -3,7 +3,7 @@
  * 管理员列表
  */
 class contractAction extends adminBaseAction {
-	public function __init(){
+	public function __init(){	   	    
 		$this->debug = false;
 		$this->action = sget('action','');
 		$this->db=M('public:common')->model('transport_contract');
@@ -48,8 +48,19 @@ class contractAction extends adminBaseAction {
 			//关键词搜索
 			$key_type=sget('key_type','s');
 			$keyword=sget('keyword','s');
-			if(!empty($keyword)){
+			if(!empty($keyword)&&$key_type=='order_sn'){
 			    $where.=" and order_sn like '%$keyword%' ";
+			}elseif(!empty($keyword)&&$key_type=='second_name'){
+			    $m_id=M('public:common')->model('logistics_supplier')->where("supplier_name like '%$keyword%'")->select("supplier_id")->getCol();
+			    $id_l=implode(',',$m_id);
+			    $where.=" and second_part_company_id in ($id_l) ";
+			}elseif(!empty($keyword)&&$key_type=='first_name'){
+			    $where.=" and order_name like '%$keyword%' ";
+			}
+			elseif(!empty($keyword)&&$key_type=='create'){
+			    $a_id=M('public:common')->model('admin')->where(" name like '%$keyword%'" )->select('admin_id')->getCol();
+			    $a_l=implode(',',$a_id);
+			    $where.=" and created_by in ($a_l) ";
 			}
 			//时间搜索
 			$sTime = sget('sTime','s','');
@@ -363,8 +374,19 @@ class contractAction extends adminBaseAction {
 	    //关键词搜索
 	    $key_type=sget('key_type','s');
 	    $keyword=sget('keyword','s');
-	    if(!empty($keyword)){
+	    if(!empty($keyword)&&$key_type=='order_sn'){
 	        $where.=" and order_sn like '%$keyword%' ";
+	    }elseif(!empty($keyword)&&$key_type=='second_name'){
+	        $m_id=M('public:common')->model('logistics_supplier')->where("supplier_name like '%$keyword%'")->select("supplier_id")->getCol();
+	        $id_l=implode(',',$m_id);
+	        $where.=" and second_part_company_id in ($id_l) ";
+	    }elseif(!empty($keyword)&&$key_type=='first_name'){
+	        $where.=" and order_name like '%$keyword%' ";
+	    }
+	    elseif(!empty($keyword)&&$key_type=='create'){
+	        $a_id=M('public:common')->model('admin')->where(" name like '%$keyword%'" )->select('admin_id')->getCol();
+	        $a_l=implode(',',$a_id);
+	        $where.=" and created_by in ($a_l) ";
 	    }
 	    //时间搜索
 	    $sTime = sget('sTime','s','');
