@@ -110,16 +110,18 @@ class pointsOrderModel extends Model
         if(is_array($goods_id))
         {
             $con = join(',',$goods_id);
-            $where .= " and goods_id in ({$con})";
+            $where .= " and order.goods_id in ({$con})";
         }elseif(is_string($goods_id)||is_numeric($goods_id)){
-            $where .= " and goods_id = {$goods_id}";
+            $where .= " and order.goods_id = {$goods_id}";
         }
 
-        $where .= " and user_id = {$user_id}";
+        $where .= " and order.uid = {$user_id}";
 
-        $where .= " and status = 5 ";
+        $where .= " and order.status = 5 ";
 
-        $orders = $this->model('points_order')->select ('*')->where ($where)->order("create_time desc")->page($page, $size)->getPage();
+        $orders = $this->from('points_order order')->select ('order.*,goods.thumb,goods.name,,goods.image')
+            ->leftjoin('points_goods as goods','goods.id=order.goods_id')
+            ->where ($where)->order("create_time desc")->page($page, $size)->getPage();
 
         return  $orders;
     }

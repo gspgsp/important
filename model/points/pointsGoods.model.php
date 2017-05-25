@@ -28,7 +28,7 @@ class pointsGoodsModel extends Model{
 	public function getAllOnsaleGoods()
 	{
 		//type 1 是供求 2 是通讯录
-		$goods_ids = $this->db->model ("points_goods")->select ('id')->where (" type in (1,2) and status =1 and is_mobile =1")->getAll();
+		$goods_ids = $this->model ("points_goods")->select ('id')->where (" type in (1,2) and status =1 and is_mobile =1")->getAll();
 
 		$goodsIds = array();
 		foreach($goods_ids as $goods_id)
