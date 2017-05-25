@@ -17,7 +17,7 @@ module.exports = {
 	    filename: '[name].js',
 	    chunkFilename: "[name].js",
 	    //[name]这里是webpack提供的根据路口文件自动生成的名字
-	    publicPath:'http://statics.online.com/mypc/' //本地''
+	    publicPath:'__MYPC__/' //本地''
 	    //publicPath:'http://pic.myplas.com/mypc/' //测试
 	    //publicPath:'http://statics.myplas.com/mypc/' //正式
 	},
