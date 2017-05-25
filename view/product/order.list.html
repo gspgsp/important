@@ -80,20 +80,12 @@
 					<option value="{$v.id}">{$v.name}</option>
 					{/foreach}
 				</select>
-				<select name="key_types">
-					<option value="">=物流信息=</option>
-					<option value="y_code">车号</option>
-					<option value="y_driver">司机</option>
-					<option value="y_idcode">身份证</option>
-					<option value="m_code">提货车辆牌号</option>
-					<option value="m_driver">司机姓名/身份证</option>
-				</select>
 				<select name="key_type">
-					<option value="">=订单=</option>
 					<option value="order_sn">订单号</option>
 					<option value="c_id">客户名称</option>
 					<option value="input_admin">交易员</option>
 					<option value="remark">物流备注</option>
+					<option value="ship">物流信息</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
