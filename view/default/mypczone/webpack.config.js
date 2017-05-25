@@ -7,6 +7,8 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 	/* 输入文件 */
 	entry:{
+		'css/common':[],
+		'js/app': ["./src/assets/jquery-1.8.3.min.js","./src/assets/jquery.validate.min.js","./src/assets/common.js","./src/assets/other.js","./src/assets/tab.js"],
 		'pages/index':'./src/views/index/index.js',
 		'pages/my':'./src/views/my/my.js',
 		'pages/supplybuy':'./src/views/supplybuy/supplybuy.js',
@@ -16,7 +18,6 @@ module.exports = {
 	    path: path.join(__dirname, '../../../../static/mypc'),
 	    // 文件地址，使用绝对路径形式
 	    filename: '[name].js',
-	    chunkFilename: "[name].js",
 	    //[name]这里是webpack提供的根据路口文件自动生成的名字
 	    publicPath:'__MYPC__/'
 	},
@@ -26,7 +27,7 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/index/index.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/index']
+			chunks:['js/app','pages/index']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/find.html'),
@@ -87,8 +88,7 @@ module.exports = {
 		alias: {
 			filter: path.join(__dirname, './src/filters'),
 			components: path.join(__dirname, './src/components'),
-			'vue': path.join(__dirname, './node_modules/vue/dist/vue.min.js'),
-			'vue-router': path.join(__dirname, './node_modules/vue-router/dist/vue-router.min.js')
+			'vue': path.join(__dirname, './node_modules/vue/dist/vue.min.js')
 		}
 	}
 }
