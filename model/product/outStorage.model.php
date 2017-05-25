@@ -33,7 +33,7 @@ class outStorageModel extends model{
 	/**
 	 * 更具字段取出对应的值
 	 */
-	public function getCol($value=0,$col='ols.o_id',$condition='driver'){
+	public function getColByInfo($value=0,$col='ols.o_id',$condition='driver'){
 		$result =  $this->select("$col")->from('out_logs ols')->leftjoin('out_log ol','ol.id = ols.outlog_id')->where("$condition like'%$value%'")->getCol();
 		return empty($result) ? '' : join(',',$result);
 	}
