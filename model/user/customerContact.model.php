@@ -123,6 +123,7 @@ class customerContactModel extends model{
 		}
 		$info['c_name'] = str_replace(' ','',trim($info['c_name']));
 		$info['info_name'] = str_replace(' ','',trim($info['info_name']));
+		$info['available_credit_limit'] = $info['credit_limit']*10000;
 		// 给客户初始一个默认值0
 		$customer_id = 0;
 		$_data = array(
