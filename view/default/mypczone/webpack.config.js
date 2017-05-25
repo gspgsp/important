@@ -9,7 +9,8 @@ module.exports = {
 		'pages/index':'./src/views/index/index.js',
 		'pages/my':'./src/views/my/my.js',
 		'pages/supplybuy':'./src/views/supplybuy/supplybuy.js',
-		'pages/find':'./src/views/find/find.js'
+		'pages/find':'./src/views/find/find.js',
+		'pages/personinfo':'./src/views/personinfo/personinfo.js'
 	},
 	output: {
 	    path: path.join(__dirname, '../../../../static/mypc'),
