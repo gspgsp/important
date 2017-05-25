@@ -82,7 +82,6 @@ class storeOutLogAction extends adminBaseAction {
 				$customer_manager = M('product:order')->getColByName($keyword,'customer_manager','order_sn');
 				if(!strpos($sons,$customer_manager)) $this->error('您无权查询该订单信息');
 			}
-			showtrace();
 			$where.=" and `o_id` in ($content_id) ";
 		}elseif(!empty($keyword)){
 			$where.=" and `$key_type`  like '%$keyword%' ";
