@@ -491,7 +491,7 @@ class pdfAction extends adminBaseAction {
 			}
 		}
 		$admname = M('rbac:adm')->getUserByCol($orderLists['ocm']);
-		$ordertitle = $orderLists['order_name'] == 1 ? '上海中晨电子商务股份有限公司' : ($orderLists['order_name'] == 2 ? '上海梓辰实业有限公司' : '嘉兴鼎辉信息科技有限公司');
+		$ordertitle = L('companys')[$orderLists['order_name']];
 		$shipname = $orderLists['transport_type'] == 1 ? '提货' : '送货';
 		$orderList=!empty($orderLists)?$orderLists:'';
 		//提货日期
