@@ -33,6 +33,8 @@ class vcodeAction extends homeBaseAction
         $name            = 'vc_'.sget ('name', 's', 'vcode');
         $vcode->doimage ();
         $_SESSION[$name] = $vcode->get_code ();
+        //file_put_contents('/tmp/xielei.txt',print_r($vcode->get_code (),true)."ewqeqwe\n",FILE_APPEND);
+        //$vcode->doimage ();
 
         //p ($vcode->get_code ());
     }

@@ -156,6 +156,7 @@ class baseAction extends null2Action
                  $this->_errCode(998);
              }
          }
+
      }
 
     //判断账户
@@ -168,6 +169,7 @@ class baseAction extends null2Action
     {
         $this->is_ajax = true;
         $token         = $this->token;
+
         if (empty($token)) {
             $user_id = 0;
         } else {
@@ -710,6 +712,12 @@ class baseAction extends null2Action
                 $this->json_output (array(
                     'err' => 998,
                     'msg' => '登录信息有误,请重新登录',
+                ));
+                break;
+            case 1001:
+                $this->json_output (array(
+                    'err' => 1001,
+                    'msg' => '订单信息生成有误',
                 ));
                 break;
             default:

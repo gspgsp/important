@@ -82,7 +82,6 @@ class baseAction extends null2Action
             '2',
             '11',
         );
-
         $this->randomTime   = mt_rand (10, 20) * 180; // 1-2 h
         $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
     }
