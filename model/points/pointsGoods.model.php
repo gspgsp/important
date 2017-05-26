@@ -25,6 +25,12 @@ class pointsGoodsModel extends Model{
 		return $goods;
 	}
 
+	public function getGoodsInfo($goods_id)
+	{
+		$goods= $this->getPk($goods_id);
+		return $goods;
+	}
+
 	public function getAllOnsaleGoods()
 	{
 		//type 1 是供求 2 是通讯录
