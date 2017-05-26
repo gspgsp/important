@@ -34,7 +34,7 @@
 </div>
 <div style="padding: 10px 0; background: #FFFFFF;">
 	<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q">
-		<img width="100%" src="../assets/download.png">
+		<!--<img width="100%" src="../assets/download.png">-->
 	</a>
 </div>
 
