@@ -147,7 +147,7 @@ class wkAction extends adminBaseAction{
 			if(!$power_admin){
 				$this->error('您没有权限操作');
 			}
-			//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家
+			//规范牌号厂家输入，拦截基础数据库中不存在的牌号厂家,牌号统一改大写
 			$grade=strtoupper($_data['grade']);
 			$factory=$_data['factory'];
 			if(!M('product:product')->where("model='{$grade}'")->select('model')->getOne()) $this->error('添加失败，基础数据库中不存在此牌号');
