@@ -117,6 +117,13 @@ class saleLogModel extends model{
 				WHERE o.collection_status = 3 AND o.payd_time > '.$start.' AND sale.customer_manager = '.$customer_manager.' AND purchase_id <> 0');
 		return empty($res) ? 0 : $res;
 	}
+	/**
+	 * 根据p_id查询到该牌号最新成交价
+	 * @Author   yezhongbao
+	 * @DateTime 2017-04-24T16:56:49+0800
+	 * @param    integer                  $p_id [description]
+	 * @return   [type]                         [description]
+	 */
 	public function getLastSalePriceByPid($p_id = 0){
 		$res = $this->model('sale_log as `s`')
 			->select('`s`.unit_price')
