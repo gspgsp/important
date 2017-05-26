@@ -124,6 +124,8 @@ class customerContactModel extends model{
 		$info['c_name'] = str_replace(' ','',trim($info['c_name']));
 		$info['info_name'] = str_replace(' ','',trim($info['info_name']));
 		$info['available_credit_limit'] = $info['credit_limit']*10000;
+		$info['need_product'] = strtoupper($info['need_product']);
+		$info['main_product'] = strtoupper($info['main_product']);
 		// 给客户初始一个默认值0
 		$customer_id = 0;
 		$_data = array(
@@ -139,6 +141,7 @@ class customerContactModel extends model{
 		if($info['is_credit']>0){
 			$data['credit_time'] =  CORE_TIME ;
 		}
+
 		if($info['ctype']==1 && $info['user_id']>0){
 			$yanshi = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->getRow();
 			//更新联系人
