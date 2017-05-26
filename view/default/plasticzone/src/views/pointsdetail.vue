@@ -42,7 +42,7 @@ export default{
 		}
 		$.ajax({
     		type:"post",
-    		url:version+"/score/pointSupplyList",
+    		url:version+"/score/scoreRecord",
     		data:{
     			token: window.localStorage.getItem("token"),
     			page:1,

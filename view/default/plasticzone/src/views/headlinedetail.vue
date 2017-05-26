@@ -33,9 +33,7 @@
 	</ul>
 </div>
 <div style="padding: 10px 0; background: #FFFFFF;">
-	<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q">
-		<!--<img width="100%" src="../assets/download.png">-->
-	</a>
+	<a class="downloadApp" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
 </div>
 
 <loadingPage :loading="loadingShow"></loadingPage>

@@ -3,14 +3,15 @@
 <header id="bigCustomerHeader">
 	<a class="back" href="javascript:window.history.back();"></a>
 	塑豆商城
+	<router-link style="position: absolute; right: 5px; font-size: 12px; color: #FFFFFF;" :to="{name:'pointsrule'}">如何赚塑豆</router-link>
 </header>
 <div class="shopBanner">
 	<img width="100%" src="http://statics.myplas.com/myapp/img/shopBanner.jpg">
 </div>
 <div class="mypoints">
 	<router-link :to="{name:'pointsdetail'}"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</router-link>
-	<router-link :to="{name:'recharge'}" style=" color: #ff5000;"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
-	<router-link :to="{name:'pointsrule'}" style=" color: #ff5000;"><i class="shopIcon iconIntro"></i>如何赚塑豆</router-link>
+	<router-link :to="{name:'pointsrecord'}"><i class="shopIcon iconIntro"></i>购买记录</router-link>
+	<router-link :to="{name:'recharge'}"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
 </div>
 <div class="pointsWrap">
 	<div class="pointsTitle">商品信息</div>
