@@ -814,7 +814,9 @@ class friendAction extends baseAction
                     }
                 }
             }else{
-               if(A("api:points")->desScoreByTongxulu($user_id, $userid)['err']>0){
+                $_errTmp = A("api:points")->desScoreByTongxulu($user_id, $userid);
+               if($_errTmp['err']>0){
+                   if($_errTmp['err'] == 10) $this->json_output($_errTmp);
                    $this->json_output (array(
                        'err' => 7,
                        'msg' => '服务器繁忙,请稍后再试！',
