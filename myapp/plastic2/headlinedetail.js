@@ -137,6 +137,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "background": "#FFFFFF"
     }
   }, [_c('a', {
+    staticClass: "downloadApp",
     attrs: {
       "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
     }

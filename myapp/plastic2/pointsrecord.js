@@ -10,10 +10,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, _vm._l((_vm.record), function(r) {
     return _c('li', [_c('div', {
-      staticClass: "record"
-    }, [_c('h3', {
-      staticClass: "recordtitle"
-    }, [_vm._v("\n\t\t\t\t兑换单号：" + _vm._s(r.order_id)), _c('br'), _vm._v("兑换时间：" + _vm._s(r.create_time) + "\n\t\t\t\t"), _c('span', [_vm._v(_vm._s(r.status))])])]), _vm._v(" "), _c('div', {
       staticClass: "recordwrap"
     }, [_c('img', {
       attrs: {
@@ -21,9 +17,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }), _vm._v(" "), _c('div', {
       staticClass: "recordinfo"
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(r.name) + "\n\t\t\t")])]), _vm._v(" "), _c('div', {
+    }, [_c('p', [_vm._v(_vm._s(r.name))]), _vm._v(" "), _c('p', {
+      staticStyle: {
+        "font-size": "12px",
+        "color": "#999999"
+      }
+    }, [_vm._v("购买日期:" + _vm._s(r.create_time))]), _vm._v(" "), _c('p', {
+      staticStyle: {
+        "font-size": "12px",
+        "color": "#999999"
+      }
+    }, [_vm._v("使用日期:" + _vm._s(r.address))])])]), _vm._v(" "), _c('div', {
       staticClass: "recordstatus"
-    }, [_vm._v("\n\t\t\t更新时间:" + _vm._s(r.update_time) + "\n\t\t\t"), _c('span', [_vm._v("兑换使用积分："), _c('b', [_vm._v(_vm._s(r.usepoints))]), _vm._v("积分")])])])
+    }, [_c('span', [_vm._v("总计：" + _vm._s(r.usepoints) + "塑豆")])])])
   }))])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('header', {
@@ -160,22 +166,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			piwikTracker.trackPageView();
 		} catch (err) {}
 		$.ajax({
-			type: "get",
-			url: "/api/qapi1/exchangeList",
+			type: "post",
+			url: version + "/product/getPurchaseRecord",
 			data: {
 				token: window.localStorage.getItem("token"),
 				page: 1,
-				size: 10
+				size: 30
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
 			},
 			dataType: 'JSON'
 		}).then(function (res) {
 			console.log(res);
 			if (res.err == 0) {
-				_this.record = res.info;
-			} else if (res.err == 1) {
-				mui.alert("", res.msg, function () {
-					_this.$router.push({ path: 'login' });
-				});
+				_this.record = res.data;
 			}
 		}, function () {});
 	}

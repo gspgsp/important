@@ -4,7 +4,28 @@ webpackJsonp([35],{
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  return _c('div', [_c('header', {
+    attrs: {
+      "id": "bigCustomerHeader"
+    }
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t塑豆商城\n\t"), _c('router-link', {
+    staticStyle: {
+      "position": "absolute",
+      "right": "5px",
+      "font-size": "12px",
+      "color": "#FFFFFF"
+    },
+    attrs: {
+      "to": {
+        name: 'pointsrule'
+      }
+    }
+  }, [_vm._v("如何赚塑豆")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "mypoints"
   }, [_c('router-link', {
     attrs: {
@@ -15,9 +36,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "shopIcon iconPoints"
   }), _c('span', [_vm._v(_vm._s(_vm.points))]), _vm._v("塑豆")]), _vm._v(" "), _c('router-link', {
-    staticStyle: {
-      "color": "#ff5000"
-    },
+    attrs: {
+      "to": {
+        name: 'pointsrecord'
+      }
+    }
+  }, [_c('i', {
+    staticClass: "shopIcon iconIntro"
+  }), _vm._v("购买记录")]), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": {
         name: 'recharge'
@@ -25,18 +51,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "shopIcon iconRecord"
-  }), _vm._v("充值塑豆")]), _vm._v(" "), _c('router-link', {
-    staticStyle: {
-      "color": "#ff5000"
-    },
-    attrs: {
-      "to": {
-        name: 'pointsrule'
-      }
-    }
-  }, [_c('i', {
-    staticClass: "shopIcon iconIntro"
-  }), _vm._v("如何赚塑豆")])], 1), _vm._v(" "), _c('div', {
+  }), _vm._v("充值塑豆")])], 1), _vm._v(" "), _c('div', {
     staticClass: "pointsWrap"
   }, [_c('div', {
     staticClass: "pointsTitle"
@@ -189,7 +204,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.currentYear) + "年" + _vm._s(_vm.currentMonth) + "月")])]), _vm._v(" "), _c('div', {
     staticClass: "calendar-body-box"
-  }, [_vm._m(2), _vm._v(" "), _c('ul', {
+  }, [_vm._m(1), _vm._v(" "), _c('ul', {
     staticClass: "days"
   }, _vm._l((_vm.days), function(d) {
     return _c('li', [(d.show) ? _c('span', {
@@ -216,7 +231,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.currentYear2) + "年" + _vm._s(_vm.currentMonth2) + "月")])]), _vm._v(" "), _c('div', {
     staticClass: "calendar-body-box"
-  }, [_vm._m(3), _vm._v(" "), _c('ul', {
+  }, [_vm._m(2), _vm._v(" "), _c('ul', {
     staticClass: "days"
   }, _vm._l((_vm.days2), function(d) {
     return _c('li', [(d.show) ? _c('span', {
@@ -261,7 +276,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.currentYear_) + "年" + _vm._s(_vm.currentMonth_) + "月")])]), _vm._v(" "), _c('div', {
     staticClass: "calendar-body-box"
-  }, [_vm._m(4), _vm._v(" "), _c('ul', {
+  }, [_vm._m(3), _vm._v(" "), _c('ul', {
     staticClass: "days"
   }, _vm._l((_vm.days_), function(d) {
     return _c('li', [(d.show) ? _c('span', {
@@ -288,7 +303,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.currentYear2_) + "年" + _vm._s(_vm.currentMonth2_) + "月")])]), _vm._v(" "), _c('div', {
     staticClass: "calendar-body-box"
-  }, [_vm._m(5), _vm._v(" "), _c('ul', {
+  }, [_vm._m(4), _vm._v(" "), _c('ul', {
     staticClass: "days"
   }, _vm._l((_vm.days2_), function(d) {
     return _c('li', [(d.show) ? _c('span', {
@@ -350,17 +365,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', [_vm._v("已选择：")]), _vm._v(" "), _c('div', [_vm._v(_vm._s(_vm.selectedTxt))])])])]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('header', {
-    attrs: {
-      "id": "bigCustomerHeader"
-    }
-  }, [_c('a', {
-    staticClass: "back",
-    attrs: {
-      "href": "javascript:window.history.back();"
-    }
-  }), _vm._v("\n\t塑豆商城\n")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "shopBanner"
   }, [_c('img', {

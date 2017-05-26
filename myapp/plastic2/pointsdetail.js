@@ -179,7 +179,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		} catch (err) {}
 		$.ajax({
 			type: "post",
-			url: version + "/score/pointSupplyList",
+			url: version + "/score/scoreRecord",
 			data: {
 				token: window.localStorage.getItem("token"),
 				page: 1,
