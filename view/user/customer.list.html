@@ -35,6 +35,13 @@
 					<option value="1">否</option>
 					<option value="2">是</option>
 				</select>
+				{if $isPublic}
+				<select name="cooperate">
+					<option value="" selected="selected">=是否合作过=</option>
+					<option value="1">否</option>
+					<option value="2">是</option>
+				</select>
+				{/if}
 				<select name="company_chanel">
 					<option value="" selected="selected">=来源渠道=</option>
 					{html_options options=$company_chanel}
@@ -107,8 +114,8 @@
 			<div field="credit_limit" width="50" headerAlign="center"  align="center">信用额度</div>
 			<div field="available_credit_limit" width="50" headerAlign="center"  align="center">可用额度</div>
 
-			<div field="input_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">添加时间</div>
-			<div field="update_time" width="50" headerAlign="center" dateFormat="yy-MM-dd HH:mm" align="center">更新时间</div>
+			<div field="input_time" width="50" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">添加时间</div>
+			<div field="update_time" width="50" headerAlign="center"  allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">更新时间</div>
 			<div field="customer_manager" width="30" headerAlign="center"  align="center">交易员</div>
 			<div field="depart" width="30" headerAlign="center"  align="center">部门</div>
 			{if $isPublic eq '1'}

@@ -155,6 +155,9 @@ class customerAction extends adminBaseAction {
 		if($company_chanel!='') $where.=" and chanel = '$company_chanel' ";//type 渠道来源筛选
 		$invoice = sget("invoice",'i',''); //开票资料状态
 		if($invoice != 0) $where .=" and invoice=$invoice ";//type 客户类型
+		$cooperate = sget("cooperate",'i',0); //合作状态
+		if($cooperate == 1) $where .=" and is_pur = 0 and is_sale = 0 ";//否
+		if($cooperate == 2) $where .=" and is_pur = 1 or is_sale = 1 ";//是
 		$level = sget("level",'s',''); //状态
 		if($level!='') $where.=" and level='$level' ";//level 客户级别
 		$identification = sget("identification",'s',''); //认证
