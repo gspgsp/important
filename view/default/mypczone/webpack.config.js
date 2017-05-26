@@ -7,7 +7,6 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 	/* 输入文件 */
 	entry:{
-		'css/common':["./src/assets/css/style.css","./src/assets/css/right.css"],
 		'js/app': ["./src/assets/js/jquery-1.8.3.min.js","./src/assets/js/jquery.validate.min.js","./src/assets/js/common.js","./src/assets/js/other.js","./src/assets/js/tab.js"],
 		'pages/index':'./src/views/index/index.js',
 		'pages/my':'./src/views/my/my.js',
@@ -27,12 +26,7 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/index/index.html'),
 			hash:true,
 			inject:true,
-			chunks:{
-				"head":{
-					"css":["css/common.css"]
-				}
-			}
-			//chunks:['js/app','pages/index']
+			chunks:['js/app','pages/index']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/find.html'),
