@@ -3,7 +3,7 @@
   <div id="addForm" class="form" >
 		<table style="width:100%;">
 		<!-- 加token防止并发 -->
-		<input class="mini-hidden" value='<?php echo E('RedisCluster',APP_LIB.'class')->get("billing_token"); ?>' name="billing_token">
+		<input class="mini-hidden" value='<?php echo E('RedisClusterServer',APP_LIB.'class')->get("billing_token"); ?>' name="billing_token">
 
 		<input class="mini-hidden" name="billing_type"  value="{$type}"/>
 		<input class="mini-hidden" name="order_sn"  value="{$headData.order_sn}"/>
