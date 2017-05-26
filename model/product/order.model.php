@@ -35,6 +35,13 @@ class orderModel extends model{
 		return empty($o_id)? false : $o_id;
 	}
 	/**
+	 * 更具字段取出对应的值
+	 */
+	public function getColByInfo($value=0,$col='o_id',$condition='store_o_id'){
+		$result =  $this->model('order')->select("$col")->where("$condition = $value")->getCol();
+		return empty($result) ? '' : join(',',$result);
+	}
+	/**
 	 * 模糊查询订单名匹配的明细
 	 */
 	public function getidByOname($value=''){
