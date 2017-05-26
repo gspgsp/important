@@ -218,9 +218,11 @@ class plasticPersonModel extends model
         $cache = E ('RedisClusterServer', APP_LIB.'class');
         $key0   = "AllPlasticPersonList".":".md5($keywords).":".$region;
         //$cache->remove ("AllPlasticPersonList".'-'.$keywords.'-'.$region);
+        //$cache->lpush($key0,0);
+        $cache->expire($key0,600);
         //缓存5分钟
         $list  = $cache->setnx("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
-        if (!empty($list)) {
+        if (!empty($list)||1) {
             $operMobi = array(
                 '13900000001',
                 '13900000002',
@@ -292,7 +294,7 @@ class plasticPersonModel extends model
             $data5      = $this->db->getAll ($sql5);
 
             $new_key = 'qapp_all_list_'.time();
-            $cache->expire($new_key,12000);
+            $cache->expire($new_key,600);
             if(!empty($data1)) {
                 foreach ($data1 as $id) {
                     $cache->rpush ($new_key, $id['user_id']);
@@ -320,9 +322,14 @@ class plasticPersonModel extends model
             }
 
             $cache->lpush($key0,$new_key);
+            $cache->expire($key0,600);
+
             //showTrace();
         }
         $key = $cache->lindex($key0,0);
+        //file_put_contents('/tmp/xielei.txt',print_r('11111111111',true)."qweeqweqw\n".FILE_APPEND);
+        $arr = $cache->lrange($key0,0,-1);
+        file_put_contents('/tmp/xielei.txt',print_r($arr,true)."qweeqweqw\n".FILE_APPEND);
         $len = $cache->llen($key);
         if($len>$page * $size) {
 
