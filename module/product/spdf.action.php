@@ -17,7 +17,7 @@ class spdfAction extends adminBaseAction {
 		}
 		$oid = intval($this->db->model('sale_log')->select('o_id')->where("`id` = {$data[0]['sale_id']}")->getOne());
 		$oinfo = $this->db->model('order')->where("`o_id` = $oid")->getRow();
-		$this->ship_adm = $ship['name'].'/'.$ship['mobile'].'&nbsp;&nbsp;传真：'.L('c_fax')[$oinfo['c_fax']];
+		$this->ship_adm = $ship['name'].'/'.$ship['tel'].'&nbsp;&nbsp;传真：'.L('c_fax')[$oinfo['c_fax']];
 		$this->company = L('companys')[$oinfo['order_name']];
 		$this->cname = M('user:customer')->getColByName($oinfo['c_id']);
 		$this->out_no = $this->db->model('out_storage')->select('out_no')->where("id = {$data[0]['storage_id']}")->getOne();
