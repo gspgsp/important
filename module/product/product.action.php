@@ -86,7 +86,7 @@ class productAction extends adminBaseAction {
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
-			$list['data'][$k]['model']=strtoupper($v['model']);
+			$list['data'][$k]['model']=$v['model'];
 			$list['data'][$k]['product_type'] = L('product_type')[$v['product_type']];
 			$list['data'][$k]['process_type'] = L('process_level')[$v['process_type']];
 			$list['data'][$k]['f_name'] = M('product:factory')->getFnameById($v['f_id']);
@@ -120,7 +120,8 @@ class productAction extends adminBaseAction {
 		$id = $data['id'];
 		if(empty($data)) $this->error('错误的请求');
 		//牌号去空格转换小写
-		$data['model']=strtolower(trim($data['model']));
+		$data['model']=strtoupper(trim($data['model']));
+		// p($data);die;
 		if($action =='edit'){
 			if(M('product:product')->getPidByModel($data['model'],$data['f_id'],$id)) $this->error('相关产品已存在');
 			$result = $this->db->where("id=$id")->update($data+array('update_time'=>CORE_TIME, 'update_admin'=>$_SESSION['name'],));
