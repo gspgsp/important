@@ -184,6 +184,9 @@ class userAction extends baseAction
                  * 还是没有关闭重新注册
                  *
                  * 重新注册，会员状态清零
+                 *
+                 * 现在  2017年5月26日14:42:45
+                 * 依旧
                  */
                 if ($old_user['user_id']) {
                     $_user = array(
@@ -224,9 +227,9 @@ class userAction extends baseAction
                         if (!$this->db->model ('contact_info')->add ($_info)) {
                             throw new Exception("系统错误 reg:103");
                         }
-                        $stype = 1; //新用户
                     }
                 } else {
+                    $stype = 1; //新用户
                     $is_default = empty($customer) ? 1 : 0;
                     $_user      = array(
                         'mobile'           => $mobile,
@@ -256,15 +259,15 @@ class userAction extends baseAction
                         if (!M ("plasticzone:plasticAttention")->getAttention ($user_id, $focused_id)) {
                             throw new Exception("系统错误 reg:111");
                         }
-                                                if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
-                                                    //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-                                                    throw new Exception("系统错误 reg:112");
-                                                }//引荐加积分
-                                                if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
-                                                    //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
-                                                    throw new Exception("系统错误 reg:112");
-                                                }//注册加积分
+
+                        if (!M ("qapp:pointsBill")->addPoints ($this->rePoints, $focused_id, 12)) {
+                            //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                            throw new Exception("系统错误 reg:112");
+                        }//引荐加积分
                     }
+
+
+
                     $mobile_area = getCityByMobile ($mobile);
                     $_info       = array(
                         'user_id'         => $user_id,
@@ -280,6 +283,11 @@ class userAction extends baseAction
                     if (!$this->db->model ('contact_info')->add ($_info)) {
                         throw new Exception("系统错误 reg:103");
                     }
+                    if (!M ("qapp:pointsBill")->addPoints ($this->points['register'], $user_id, 7)) {
+                        //var_dump($user_id);var_dump($focused_id);var_dump($_user['parent_mobile']);showTrace();
+                        throw new Exception("系统错误 reg:1121");
+                    }//注册加积分
+
                     //这一步少不了，$c_id之前不知道
                     if (!$customer) {
                         if (!$this->db->model ('customer')->where ("c_id=$c_id")->update ("contact_id=".$user_id)) {
