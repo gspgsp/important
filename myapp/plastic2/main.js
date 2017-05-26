@@ -85,7 +85,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"headlinedetail","1":"release","2":"index","3":"headlinelist","4":"headline","5":"mypay","6":"personinfo","7":"myzone","8":"myinfo","9":"supplybuydetail","10":"releasesupply","11":"releasebuy","12":"mysupply","13":"mymsg","14":"myinvite","15":"myfans","16":"mybuy","17":"credit2","18":"supplybuy","19":"searchcompany","20":"resetpwd","21":"releasedetail","22":"releasebssupply","23":"releasebsbuy","24":"register","25":"recharge2","26":"recharge","27":"quickrelease","28":"protocol2","29":"protocol","30":"productdetail","31":"pointsrule2","32":"pointsrule","33":"pointsrecord","34":"pointsdetail","35":"mypoints","36":"mymsg2","37":"login","38":"help","39":"error","40":"creditintro","41":"credit"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"release","1":"index","2":"headlinelist","3":"headlinedetail","4":"headline","5":"mypay","6":"personinfo","7":"myzone","8":"myinfo","9":"supplybuydetail","10":"releasesupply","11":"releasebuy","12":"mysupply","13":"mymsg","14":"myinvite","15":"myfans","16":"mybuy","17":"credit2","18":"supplybuy","19":"searchcompany","20":"resetpwd","21":"releasedetail","22":"releasebssupply","23":"releasebsbuy","24":"register","25":"recharge2","26":"recharge","27":"quickrelease","28":"protocol2","29":"protocol","30":"productdetail","31":"pointsrule2","32":"pointsrule","33":"pointsrecord","34":"pointsdetail","35":"mypoints","36":"mymsg2","37":"login","38":"help","39":"error","40":"creditintro","41":"credit"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -138,7 +138,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://pic.myplas.com/myapp/plastic2/";
+/******/ 	__webpack_require__.p = "http://statics.online.com/myapp/plastic2/";
 /******/
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
@@ -192,7 +192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router___default.a);
 var Index = function Index(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(1).then((function () {
 		return r(__webpack_require__(11));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -217,7 +217,7 @@ var Headline = function Headline(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Release = function Release(r) {
-	return __webpack_require__.e/* require.ensure */(1).then((function () {
+	return __webpack_require__.e/* require.ensure */(0).then((function () {
 		return r(__webpack_require__(35));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -322,7 +322,7 @@ var Mymsg2 = function Mymsg2(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headlinelist = function Headlinelist(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(9));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -337,7 +337,7 @@ var Supplybuy = function Supplybuy(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headlinedetail = function Headlinedetail(r) {
-	return __webpack_require__.e/* require.ensure */(0).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(8));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
