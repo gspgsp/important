@@ -74,7 +74,7 @@ class storeOutLogAction extends adminBaseAction {
 		}elseif(!empty($keyword) && $key_type=='pur_id'){
 			//查询订单号存在与否
 			if(!$oid = M('product:order')->getColByName($keyword,'o_id','order_sn')) $this->error('查询的订单号不存在');
-			$content_id = M('product:order')->getAssociationID($oid);
+			$content_id = M('product:order')->getColByInfo($oid);
 			if($_SESSION['adminid'] != 1){
 				//上下级关系
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
