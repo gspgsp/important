@@ -131,6 +131,8 @@ class passAction extends action {
      */
 	private function _vcode($vcode=''){
 		$vcode=strtolower($vcode);
+		var_dump($_SESSION['cpvcode']);
+		var_dump($vcode);
 		//检查验证码
 		if(!chkVcode('cpvcode',$vcode)){
 			unsetVcode('cpvcode');
