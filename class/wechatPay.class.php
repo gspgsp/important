@@ -8,7 +8,7 @@ class wechatPay{
         'appid' => "wxc0eb2ef58d5df955",
         'mch_id' => "1473441002",
         'api_key' => "807066fb67e13b985b591f32d54219b9",
-        'notify_url' => 'http://test.myplas.com/api/wxPay/notifySome'
+        'notify_url' => 'http://test.myplas.com/api/wechatPay/notifySome'
     );
 
     public function  __construct() {
@@ -18,7 +18,6 @@ class wechatPay{
     public function getPrePayOrder($body, $out_trade_no, $total_fee){
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         $notify_url = $this->config["notify_url"];
-
         $onoce_str = $this->getRandChar(32);
 
         $data["appid"] = $this->config["appid"];
