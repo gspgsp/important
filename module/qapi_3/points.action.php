@@ -17,7 +17,7 @@ class pointsAction extends null2Action
     }
 
     public function getScoreConfig(){
-        return M ('system:setting')->get ('points')['points']; //这个是加了缓存的
+        return M ('system:globalSetting')->get ('points')['points']; //这个是加了缓存的
     }
 
     /**

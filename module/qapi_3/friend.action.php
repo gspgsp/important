@@ -550,8 +550,8 @@ class friendAction extends baseAction
                 $arr['top'] = $top;
             }
             //是否显示banner
-            //M ("system:setting")->del_cache ("setting");
-            $setting = M ("system:setting")->getSetting ();
+            //M ("system:globalSetting")->del_cache ("setting");
+            $setting = M ("system:globalSetting")->getSetting ();
 
             if (!empty($setting['qapp_banner']) && !empty($setting['qapp_banner']['start_time']) && !empty($setting['qapp_banner']['end_time']) && !empty($setting['qapp_banner']['url']) && CORE_TIME > $setting['qapp_banner']['start_time'] && CORE_TIME < $setting['qapp_banner']['end_time']) {
                 $arr['is_show_banner']  = 1;

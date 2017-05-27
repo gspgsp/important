@@ -109,7 +109,7 @@ class commonAction extends baseAction
                 'msg' => '不规范的版本格式，不予支持',
             ));
         }
-        $settings        = M ('system:setting')->getSetting ();
+        $settings        = M ('system:globalSetting')->getSetting ();
         $newest_version0 = $settings['qapp_newest_version'];
         $newest_qapp_url = $settings['qapp_newest_url'];
 

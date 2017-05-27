@@ -61,7 +61,7 @@ class baseAction extends null2Action
             4 => '订单取消',
             5 => '订单完成',
         );
-        $this->points      = M ('system:setting')->get ('points')['points']; //这个是加了缓存的
+        $this->points      = M ('system:globalSetting')->get ('points')['points']; //这个是加了缓存的
         /**
          *       Array
          * (
@@ -509,7 +509,7 @@ class baseAction extends null2Action
 
     public function test4 ()
     {
-        p (M ('system:setting')->get ('points'));
+        p (M ('system:globalSetting')->get ('points'));
     }
 
     //安全过滤用户输入的字符

@@ -85,8 +85,8 @@ class scoreAction extends baseAction
         //        if ($_POST) {
         //            $this->is_ajax = true;
         //            $this->checkAccount ();
-        //            $salePoints = intval (M ('system:setting')->get ('points')['points']['sale']);
-        //            $purPoints  = intval (M ('system:setting')->get ('points')['points']['pur']);
+        //            $salePoints = intval (M ('system:globalSetting')->get ('points')['points']['sale']);
+        //            $purPoints  = intval (M ('system:globalSetting')->get ('points')['points']['pur']);
         //            $rule       = '';
         //            $rule .= '<span>1. 每日发布报价/求购一条，增加'.$salePoints.'/'.$purPoints.'积分</span><br />';
         //            $rule .= '<span>2. 与我的塑料网成交后自动累计积分，买的多送的多</span><br />';
