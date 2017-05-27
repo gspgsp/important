@@ -22,7 +22,7 @@ class onlineOrderModel extends model{
 
         $data= array(
             'order_id'=>$order_id,
-            'type'=>array_search($type,$this->config),
+            'type'=>$type,
             'partner_order_sn'=>$partner_order_sn,
             'amount'=>$amount,
             'goods_id'=>$goods_id,

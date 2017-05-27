@@ -14,15 +14,24 @@ class multiPay{
         $this ->goods_name = '塑料圈通讯录-塑豆';
         switch($type){
 
-            case 'wechatpay':
+            case 1:
                 $this->{$this->type} =  E('wechatPay',APP_LIB.'class');
                 break;
-            case 'alipay':
+            case 2:
                 $this->{$this->type}  =  E('alipay',APP_LIB.'class');
                 break;
             default:
                 $this->{$this->type}  =  E('wechatPay',APP_LIB.'class');
         }
+
+    }
+
+    public function getPrePayOrder($order_id, $send_amount)
+    {
+
+
+        return $this->{$this->type}->getPrePayOrder($this->goods_name, $order_id, $send_amount);
+
 
     }
 
