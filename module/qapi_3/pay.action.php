@@ -58,7 +58,7 @@ class payAction extends baseAction
            $data = $order ->addOrder($order_id,$type,$res['prepay_id'],$amount,$goods_id,$goods_num,$user_id,$this->uuid,$res['appid'],$this->platform,$res['status'],$res['remark']);
 
            //showTrace();
-           if($res['return_code'] == 'SUCCESS'&&!empty($data))
+           if($res['status'] == 0&&!empty($data))
            {
                $tmp['order_id'] = $order_id;
                $tmp['partner_order_sn'] = $res['prepay_id'];
