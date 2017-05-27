@@ -5,6 +5,12 @@ webpackJsonp([7],{
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('header', {
+    staticStyle: {
+      "position": "fixed",
+      "top": "0",
+      "left": "0",
+      "z-index": "5"
+    },
     attrs: {
       "id": "bigCustomerHeader"
     }
@@ -18,7 +24,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticStyle: {
-      "padding": "0 0 70px 0"
+      "padding": "45px 0 70px 0"
     }
   }, [_c('div', {
     staticClass: "myzoneHeader"

@@ -24,8 +24,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("购买日期:" + _vm._s(r.create_time))]), _vm._v(" "), _c('p', {
       staticStyle: {
+        "height": "19px",
         "font-size": "12px",
-        "color": "#999999"
+        "color": "#999999",
+        "overflow": "hidden"
       }
     }, [_vm._v("使用日期:" + _vm._s(r.address))])])]), _vm._v(" "), _c('div', {
       staticClass: "recordstatus"
@@ -159,7 +161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			record: []
 		};
 	},
-	mounted: function mounted() {
+	activated: function activated() {
 		var _this = this;
 		try {
 			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);

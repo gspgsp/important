@@ -62,20 +62,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])])]), _vm._v(" "), _c('div', {
     staticStyle: {
-      "font-size": "12px",
-      "right": "50px",
-      "width": "35px",
-      "background": "#FFFFFF",
-      "border-radius": "3px"
-    },
-    attrs: {
-      "id": "searchbox"
-    },
-    on: {
-      "click": _vm.selectAll
-    }
-  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.txt2) + "\n\t\t\t")]), _vm._v(" "), _c('div', {
-    staticStyle: {
       "line-height": "19px",
       "position": "absolute",
       "right": "10px",
@@ -90,7 +76,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.search
     }
-  }, [_vm._v("\n\t\t\t\t搜索\n\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t\t\t搜索\n\t\t\t")]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "font-size": "12px",
+      "right": "50px",
+      "width": "35px",
+      "background": "#FFFFFF",
+      "border-radius": "3px"
+    },
+    attrs: {
+      "id": "searchbox"
+    },
+    on: {
+      "click": _vm.selectAll
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.txt2) + "\n\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "releasefilter"
   }, [_c('span', {
     class: {

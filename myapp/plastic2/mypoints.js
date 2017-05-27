@@ -44,6 +44,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "shopIcon iconIntro"
   }), _vm._v("购买记录")]), _vm._v(" "), _c('router-link', {
+    staticStyle: {
+      "color": "#ff5000"
+    },
     attrs: {
       "to": {
         name: 'recharge'
@@ -872,6 +875,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	activated: function activated() {
+		this.daySelected = [];
+		this.daySelected2 = [];
 		var _this = this;
 		window.scrollTo(0, 0);
 		try {
