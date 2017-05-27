@@ -65,7 +65,6 @@ class adminBaseAction extends action {
 		}
 		$cache=cache::startMemcache();
 		$cates=$cache->delete($key);
-		file_put_contents('/tmp/xielei.txt',print_r($cates,true)."cache_clear\n",FILE_APPEND);
 		return true;
 	}
 

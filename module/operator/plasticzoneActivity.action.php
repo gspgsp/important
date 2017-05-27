@@ -336,13 +336,8 @@ class plasticzoneActivityAction extends adminBaseAction{
      * @return html
      */
     public function qapp_banner(){
-        $db=$this->db->model('setting');
 
-        $action=sget('action','s');
         if($_POST){
-            /*			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
-                        $qapp_newest_tip=stripslashes($_POST['qapp_newest_tip']);
-                        $qapp_newest_version=stripslashes($_POST['qapp_newest_version']);*/
 
             $_data = array(
                 'qapp_banner'=>json_encode(array(
@@ -358,10 +353,10 @@ class plasticzoneActivityAction extends adminBaseAction{
                     'jump_url'=>$_POST['qapp_cover_jump_url'],
                 ))
             );
-            $db->execute("replace into ".$db->ftable." (code,value) values ('qapp_banner','".$_data['qapp_banner']."')");
-            $db->execute("replace into ".$db->ftable." (code,value) values ('qapp_cover','".$_data['qapp_cover']."')");
-
-            $this->clearMCache('setting');
+            foreach($_data as $code=>$val)
+            {
+                M('system:globalSetting')->set($code,$val);
+            }
             $this->success('更新成功');
         }
 

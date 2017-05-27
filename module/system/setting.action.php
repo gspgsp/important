@@ -152,7 +152,7 @@ class settingAction extends adminBaseAction {
 	 * @return html
 	 */
 	public function qapp_update(){
-		$db=$this->db->model('setting');
+		$db=$this->db->model('global_setting');
 
 		$action=sget('action','s');
 		if($_POST){
@@ -171,17 +171,22 @@ class settingAction extends adminBaseAction {
 				)),
 				'qapp_newest_version'=>$_POST['qapp_newest_version']
 			);
-			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_url','".$_data['qapp_newest_url']."')");
+		/*	$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_url','".$_data['qapp_newest_url']."')");
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_tip','".$_data['qapp_newest_tip']."')");
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_version','".$_data['qapp_newest_version']."')");
 
 			file_put_contents('/tmp/xielei.txt',print_r('setting',true)."cache_clear\n",FILE_APPEND);
+			$this->cache = E ('RedisClusterServer', APP_LIB.'class');
+			$this->cache->remove('global_setting');*/
 
-			$this->clearMCache('setting');
+			foreach($_data as $code=>$val)
+			{
+				M('system:globalSetting')->set($code,$val);
+			}
 			$this->success('更新成功');
 		}
 
-		$setting=M('system:setting')->getSetting();
+		$setting=M('system:globalSetting')->getSetting();
 		if(!empty($setting)){
 			$qapp_newest_url=$setting['qapp_newest_url'];
 			$qapp_newest_tip=$setting['qapp_newest_tip'];
