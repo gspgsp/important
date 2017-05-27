@@ -30,7 +30,27 @@ class multiPay{
     {
 
 
-        return $this->{$this->type}->getPrePayOrder($this->goods_name, $order_id, $send_amount);
+        $res = $this->{$this->type}->getPrePayOrder($this->goods_name, $order_id, $send_amount);
+        switch ($this->type)
+        {
+            case 1:
+        if ($res['return_code'] == 'SUCCESS') {
+            $res['status'] = 0;
+            $res['remark'] = '';
+        }
+        else{
+            $res['status'] = -1;
+            $res['remark']  = json_encode ($res);
+        }
+
+        return $res;
+            break;
+            case 2:
+
+                return array();
+                break;
+            }
+
 
 
     }
