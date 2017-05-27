@@ -18,7 +18,7 @@ class payAction extends baseAction
        public function getPrePayOrder(){
 
            $user_id = $this->checkAccount();
-           $type = sget('type','s','wechatpay');
+           $type = sget('type','i',1);
            $goods_id = sget('goods_id','i',12);
            $goods_num = sget('goods_num','i',1);
 
@@ -51,7 +51,7 @@ class payAction extends baseAction
            //将微信返回的结果xml转成数组
            //return $this->xmlstr_to_array($response);*/
            $this->payment = new multiPay($type);
-           $res = $this->payment->$type->getPrePayOrder($this->payment->goods_name, $order_id, $send_amount);
+           $res = $this->payment->getPrePayOrder($order_id, $send_amount);
 
            if($res['return_code'] == 'SUCCESS')
            {

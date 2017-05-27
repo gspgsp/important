@@ -123,7 +123,8 @@ class baseAction extends null2Action
      {
          //$headers=getallheaders();
          $ua = $_SERVER['HTTP_X_UA'];
-
+         var_dump($_SERVER);
+        var_dump($ua);
          if(empty($ua)){
              $this->_errCode(120);
          }else{
@@ -150,7 +151,9 @@ class baseAction extends null2Action
          $this->manufacturer= $_ua[11];
          $this->device_model= $_ua[12];
          if(!empty($this->user_id)||!empty($this->token)) {
+             var_dump($this->token);
              $_userid = M ('qapp:appToken')->deUserId ($this->token);
+             var_dump($_userid);
              if($_userid != $this->user_id)
              {
                  $this->_errCode(998);
