@@ -11,7 +11,7 @@
 <div class="mypoints">
 	<router-link :to="{name:'pointsdetail'}"><i class="shopIcon iconPoints"></i><span>{{points}}</span>塑豆</router-link>
 	<router-link :to="{name:'pointsrecord'}"><i class="shopIcon iconIntro"></i>购买记录</router-link>
-	<router-link :to="{name:'recharge'}"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
+	<router-link style=" color: #ff5000;" :to="{name:'recharge'}"><i class="shopIcon iconRecord"></i>充值塑豆</router-link>
 </div>
 <div class="pointsWrap">
 	<div class="pointsTitle">商品信息</div>
@@ -586,6 +586,8 @@ methods: {
 	}
 },
 activated: function() {
+	this.daySelected=[];
+	this.daySelected2=[];
 	var _this = this;
 	window.scrollTo(0, 0);
 	try {

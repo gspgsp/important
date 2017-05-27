@@ -1,10 +1,10 @@
 <template>
 <div>
-	<header id="bigCustomerHeader">
+	<header id="bigCustomerHeader" style=" position: fixed; top: 0; left: 0; z-index: 5;">
 		我的塑料圈
 		<a class="detailShare" href="javascript:;" v-on:click="shareshow"></a>
 	</header>
-	<div style="padding: 0 0 70px 0;">
+	<div style="padding: 45px 0 70px 0;">
 	<div class="myzoneHeader">
 		<div class="myzoneInfo">
 			<div style="width: 55px; height: 55px; margin: 0; float: left; position: relative;">

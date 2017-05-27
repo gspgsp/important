@@ -11,7 +11,7 @@
 			<div class="recordinfo">
 				<p>{{r.name}}</p>
 				<p style="font-size: 12px; color: #999999;">购买日期:{{r.create_time}}</p>
-				<p style="font-size: 12px; color: #999999;">使用日期:{{r.address}}</p>
+				<p style=" height:19px; font-size: 12px; color: #999999; overflow: hidden;">使用日期:{{r.address}}</p>
 			</div>
 		</div>
 		<div class="recordstatus">
@@ -28,7 +28,7 @@ export default{
 			record:[]
 		}
 	},
-	mounted: function() {
+	activated: function() {
 		var _this = this;
 		try {
 		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);

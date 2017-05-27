@@ -10,11 +10,11 @@
 					</form>
 				</div>
 			</div>
-			<div id="searchbox" v-on:click="selectAll" style=" font-size: 12px; right: 50px; width: 35px; background: #FFFFFF; border-radius: 3px;">
-				{{txt2}}
-			</div>
 			<div style="line-height: 19px; position: absolute; right: 10px; top: 8px; color: #666666; padding: 5px; font-size: 12px; width: 35px; background: #FFFFFF; border-radius: 3px;" v-on:click="search">
 				搜索
+			</div>
+			<div id="searchbox" v-on:click="selectAll" style=" font-size: 12px; right: 50px; width: 35px; background: #FFFFFF; border-radius: 3px;">
+				{{txt2}}
 			</div>
 		</header>
 		<div class="releasefilter">
