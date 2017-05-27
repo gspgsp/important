@@ -53,17 +53,9 @@ class payAction extends baseAction
            $this->payment = new multiPay($type);
            $res = $this->payment->getPrePayOrder($order_id, $send_amount);
 
-           if($res['return_code'] == 'SUCCESS')
-           {
-                $status = 0;
-               $remark = '';
-           }else{
-               $status = -1;
-               $remark = json_encode($res);
-           }
            $order  = M('order:onlineOrder');
 
-           $data = $order ->addOrder($order_id,$type,$res['prepay_id'],$amount,$goods_id,$goods_num,$user_id,$this->uuid,$res['appid'],$this->platform,$status,$remark);
+           $data = $order ->addOrder($order_id,$type,$res['prepay_id'],$amount,$goods_id,$goods_num,$user_id,$this->uuid,$res['appid'],$this->platform,$res['status'],$res['remark']);
 
            //showTrace();
            if($res['return_code'] == 'SUCCESS'&&!empty($data))
