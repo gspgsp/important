@@ -13,21 +13,13 @@ class wechatPayAction extends null2Action{
         $wechatPay = $this->wechatPay;
         $response = $wechatPay->getPrePayOrder($orderBody, $tade_no, $total_fee);
 
-
-
         $msg = date("Y-m-d H:i:s")." 下单成功".serialize($response)."\n";
         $msg.=$orderBody."\n";
         $msg.=$tade_no."\n";
         $msg.=$total_fee."\n";
         file_put_contents("./wechatPay.log", $msg, FILE_APPEND | LOCK_EX);
-
-
-//        p("---response----");
-//        p($response);
-//        p("---拿到prepayId再次签名----");
         $x = $wechatPay->getOrder($response['prepay_id']);
         $this->json_output(array('err'=>0,'data'=>$x));
-//        p($x);
 
     }
 
@@ -46,23 +38,21 @@ class wechatPayAction extends null2Action{
         $stringSignTemp = $buff . 'key=807066fb67e13b985b591f32d54219b9';//key为证书密钥
         $sign = strtoupper(md5($stringSignTemp));
         if($sign == $data['sign']){
+//            $msg = date("Y-m-d H:i:s")." 支付通知验签通过\n";
+//            $msg.=serialize($data)."\n";
+//            file_put_contents('./wechatPay.log', $msg, FILE_APPEND | LOCK_EX);
 
-
-            $msg = date("Y-m-d H:i:s")." 支付通知验签通过\n";
-            $msg.=serialize($data)."\n";
-            file_put_contents('./wechatPay.log', $msg, FILE_APPEND | LOCK_EX);
-
-
-
+            M('order:onlineOrder')->where("order_id=".$data['out_trade_no'])->update(array('status'=>2));
             echo '<xml>
               <return_code><![CDATA[SUCCESS]]></return_code>
               <return_msg><![CDATA[OK]]></return_msg>
           </xml>';
             exit();
         }else{
-            $msg = date("Y-m-d H:i:s")." 支付通知验签未通过\n";
-            echo $msg;
-            file_put_contents('./wechatPay.log', $msg, FILE_APPEND | LOCK_EX);
+//            $msg = date("Y-m-d H:i:s")." 支付通知验签未通过\n";
+//            echo $msg;
+//            file_put_contents('./wechatPay.log', $msg, FILE_APPEND | LOCK_EX);
+            M('order:onlineOrder')->where("order_id=".$data['out_trade_no'])->update(array('status'=>3,'remark'=>'支付通知验签未通过'));
             exit();
         }
     }
