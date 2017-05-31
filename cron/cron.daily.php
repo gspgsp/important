@@ -80,6 +80,7 @@ class cronDaily{
 			$_alert=array(
 				'customer_manager'=>$value['customer_manager'],
 				'call_num'=>$value['call_num'],
+				'call_time'=>$value['call_time'],
 				'sale'=>$value['sale'],
 				'buy'=>$value['buy'],
 				'team_id'=>$value['team_id'],
