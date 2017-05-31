@@ -35,6 +35,13 @@
 					<option value="1">否</option>
 					<option value="2">是</option>
 				</select>
+				{if !$isPublic}
+				<select name="credit">
+					<option value="" selected="selected">=信用额度=</option>
+					<option value="1">为0</option>
+					<option value="2">不为0</option>
+				</select>
+				{/if}
 				{if $isPublic}
 				<select name="cooperate">
 					<option value="" selected="selected">=是否合作过=</option>

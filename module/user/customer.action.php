@@ -158,6 +158,10 @@ class customerAction extends adminBaseAction {
 		$cooperate = sget("cooperate",'i',0); //合作状态
 		if($cooperate == 1) $where .=" and is_pur = 0 and is_sale = 0 ";//否
 		if($cooperate == 2) $where .=" and (is_pur = 1 or is_sale = 1) ";//是
+		//信用
+		$credit = sget("credit",'i',0); //合作状态
+		if($credit == 1) $where .=" and credit_limit = 0";//否
+		if($credit == 2) $where .=" and credit_limit > 0 ";//是
 		$level = sget("level",'s',''); //状态
 		if($level!='') $where.=" and level='$level' ";//level 客户级别
 		$identification = sget("identification",'s',''); //认证

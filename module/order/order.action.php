@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 订单查询管理
  */
@@ -49,7 +49,7 @@ class orderAction extends adminBaseAction {
 	}
 	/**
 	 * 导出报表
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function download(){
@@ -109,7 +109,7 @@ class orderAction extends adminBaseAction {
 			//筛选财务
 			if(in_array($roleid, array('30','26','27'))){
 				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
-			} 
+			}
 		}
 		//团队处理
 		$team_id = sget("team",'s',''); //team
@@ -131,8 +131,8 @@ class orderAction extends adminBaseAction {
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
-			$v['order_source']=L('order_source')[$v['order_source']]; 
-			$v['order_name']=L('company_account')[$v['order_name']]; 
+			$v['order_source']=L('order_source')[$v['order_source']];
+			$v['order_name']=L('company_account')[$v['order_name']];
 			$v['pay_method'] =L('pay_method')[$v['pay_method']];
 			$v['in_storage_status']=L('in_storage_status')[$v['in_storage_status']];
 			$v['transport_type']=L('transport_type')[$v['transport_type']];
@@ -155,7 +155,7 @@ class orderAction extends adminBaseAction {
 				$v['newstatus'] = M("product:order")->getColByName($value=$v['join_id'],$col='invoice_status',$condition='o_id');
 			}
 			$v['see'] =  ($v['customer_manager'] == $_SESSION['adminid'] ||  in_array($v['customer_manager'], explode(',', $sons)) || $_SESSION['adminid']  == '1') ? '1':'0';
-			//获取单笔订单收付款状态			
+			//获取单笔订单收付款状态
 			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
 			$v['one_c_status'] =$m[0]['collection_status'];
 			$v['one_b_status']=M("product:billing")->where("o_id={$v['o_id']} and invoice_status=1")->select('invoice_status')->getOne();
@@ -189,7 +189,7 @@ class orderAction extends adminBaseAction {
 				<td style='vnd.ms-excel.numberformat:@'>".$v['input_time']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['update_time']."</td><td>".$v['cmanager']."</td></tr>";
 			}
 		}
-		
+
 		$str .= '</table>';
 		$filename = 'accountMpay.'.date("Y-m-d");
 		header("Content-type: application/vnd.ms-excel; charset=utf-8");
@@ -221,7 +221,7 @@ class orderAction extends adminBaseAction {
 	 * Ajax获取列表内容
 	 */
 	public function _grid(){
-		
+
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
@@ -280,7 +280,7 @@ class orderAction extends adminBaseAction {
 			//筛选财务
 			if(in_array($roleid, array('30','26','27'))){
 				 $where .= " and `order_status` = 2 and `transport_status` = 2 ";
-			} 
+			}
 		}
 		//团队处理
 		$team_id = sget("team",'s',''); //team
@@ -303,8 +303,8 @@ class orderAction extends adminBaseAction {
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
 			$v['sign_time']=$v['sign_time']>1000 ? date("Y-m-d H:i:s",$v['sign_time']) : '-';
-			$v['order_source']=L('order_source')[$v['order_source']]; 
-			$v['order_name']=L('company_account')[$v['order_name']]; 
+			$v['order_source']=L('order_source')[$v['order_source']];
+			$v['order_name']=L('company_account')[$v['order_name']];
 			$v['pay_method'] =L('pay_method')[$v['pay_method']];
 			$v['in_storage_status']=L('in_storage_status')[$v['in_storage_status']];
 			$v['transport_type']=L('transport_type')[$v['transport_type']];
@@ -327,7 +327,7 @@ class orderAction extends adminBaseAction {
 				$v['newstatus'] = M("product:order")->getColByName($value=$v['join_id'],$col='invoice_status',$condition='o_id');
 			}
 			$v['see'] =  ($v['customer_manager'] == $_SESSION['adminid'] ||  in_array($v['customer_manager'], explode(',', $sons)) || $_SESSION['adminid']  == '1') ? '1':'0';
-			//获取单笔订单收付款状态			
+			//获取单笔订单收付款状态
 			$m = M("product:collection")->getLastInfo($name='o_id',$value=$v['o_id']);
 			$v['one_c_status'] =$m[0]['collection_status'];
 			//获取单笔订单开票状态
@@ -382,7 +382,7 @@ class orderAction extends adminBaseAction {
 		$info=$this->db->getPk($o_id); //查询订单信息
 		//关联的交易员id
 		// $join_manager=$this->db->select('customer_manager as cmer')->where("`o_id` = {$info['join_id']}")->getOne();
-		if(empty($info)) $this->error('错误的订单信息');	
+		if(empty($info)) $this->error('错误的订单信息');
 		if($info['c_id']>0){
 			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 			//如果是财务部屏蔽
@@ -391,7 +391,7 @@ class orderAction extends adminBaseAction {
 				$c_name =  '*******';
 			 }else{
 			 	$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
-			 } 
+			 }
 		}
 		$info['order_name']=L('company_account')[$info['order_name']];
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
@@ -437,7 +437,7 @@ class orderAction extends adminBaseAction {
 		$info=$this->db->getPk($o_id); //查询订单信息
 		//关联的交易员id
 		// $join_manager=$this->db->select('customer_manager as cmer')->where("`o_id` = {$info['join_id']}")->getOne();
-		if(empty($info)) $this->error('错误的订单信息');	
+		if(empty($info)) $this->error('错误的订单信息');
 		if($info['c_id']>0){
 			$roleid = M('rbac:rbac')->model('adm_role_user')->select('role_id')->where("`user_id` = {$_SESSION['adminid']}")->getOne();
 			//如果是财务部屏蔽
@@ -446,7 +446,7 @@ class orderAction extends adminBaseAction {
 				$c_name =  '*******';
 			 }else{
 			 	$c_name = M("user:customer")->getColByName($info['c_id'],"c_name");//根据cid取客户名
-			 } 
+			 }
 		}
 		$info['order_name']=L('company_account')[$info['order_name']];
 		$info['sign_time']=date("Y-m-d",$info['sign_time']);
