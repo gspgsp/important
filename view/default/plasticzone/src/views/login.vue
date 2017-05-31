@@ -2,11 +2,11 @@
 <div class="buyWrap" style="background: #FFFFFF; padding: 0; position: absolute">
 	<header id="bigCustomerHeader">
 		<router-link :to="{name:'index'}" class="back"></router-link>
-		登录
+		{{headerName}}
 	</header>
 	<div class="registerHeader">
 		<span v-bind:class="{on:tabshow}" v-on:click="tab(1)">普通登录</span>
-		<span v-bind:class="{on:!tabshow}" v-on:click="tab(2)">手机动态密码登录</span>
+		<span v-bind:class="{on:!tabshow}" v-on:click="tab(2)">手机动态码登录</span>
 	</div>
 	<div v-show="tabshow">
 		<div class="registerInput">
@@ -48,7 +48,7 @@
 				<input style="margin: 0 0 0 10px;" type="tel" maxlength="11" v-model="dynamicCode" placeholder="请填写动态码" />
 				<i class="regIcon code"></i>
 			</div>
-			<button class="dvc" v-on:click="send">{{validCode}}</button>
+			<button class="dvc" style="background: #267bd3;" v-on:click="send">{{validCode}}</button>
 			</div>
 		</div>
 		<div class="registerBtn">
@@ -70,7 +70,8 @@ export default {
 			key:"",
 			times: 60,
 			dynamicCode:"",
-			validCode: "获取动态验证码"
+			validCode: "获取动态验证码",
+			headerName:"普通登录"
 		}
 	},
 	methods: {
@@ -99,8 +100,10 @@ export default {
 			var _this=this;
 			if(n==1){
 				this.tabshow=true;
+				this.headerName="普通登录";
 			}else{
 				this.tabshow=false;
+				this.headerName="手机动态码登录";
 				$.ajax({
 					url: '/api/vcode/app',
 					type: 'get',

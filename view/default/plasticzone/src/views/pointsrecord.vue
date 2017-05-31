@@ -2,16 +2,18 @@
 <div>
 <header id="bigCustomerHeader">
 	<a class="back" href="javascript:window.history.back();"></a>
-	兑换记录
+	购买记录
 </header>
 <ul id="pointsrecord">
 	<li v-for="r in record">
 		<div class="recordwrap">
 			<img v-bind:src="r.thumb">
 			<div class="recordinfo">
-				<p>{{r.name}}</p>
+				<p>{{r.remark}}</p>
 				<p style="font-size: 12px; color: #999999;">购买日期:{{r.create_time}}</p>
 				<p style=" height:19px; font-size: 12px; color: #999999; overflow: hidden;">使用日期:{{r.address}}</p>
+				<p v-if="r.type==2" style=" height:19px; font-size: 12px; color: #999999; overflow: hidden;">置顶人：{{r.name}}</p>
+				<p v-if="r.type==1" style=" height:19px; font-size: 12px; color: #999999; overflow: hidden;">置顶供求信息：{{r.contents}}</p>
 			</div>
 		</div>
 		<div class="recordstatus">
