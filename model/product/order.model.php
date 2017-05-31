@@ -301,18 +301,29 @@ o.`delivery_location`,o.`pickup_location`,pur.number')
 	 * @return   [array]  [description]
 	 */
 	public function getAllCustomerManagerTodayNum($today_start=0,$today_end=0){
-		$where = ' where o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$today_start.' and o.input_time < '.$today_end;
+		$where1 = ' where o.order_type = 1 and o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$today_start.' and o.input_time < '.$today_end;
+		$where2 = ' where o.order_type = 2 and o.order_status = 2 and o.transport_status = 2 and o.input_time > '.$today_start.' and o.input_time < '.$today_end;
 		$num = $this->model('adm_role_user')
-			 ->getAll('SELECT aa.customer_manager,aa.role_id AS team_id,aa.name AS team_name, SUM(aa.total_num) AS total_num,0 AS call_num FROM (
-				SELECT user.`user_id` AS customer_manager,user.role_id, role.`name`,0 AS total_num FROM p2p_adm_role_user AS `user`
-				LEFT JOIN p2p_adm_role AS role ON user.`role_id` = role.id
-				LEFT JOIN `p2p_admin` AS adm ON adm.`admin_id` = user.`user_id`
-				WHERE role.pid = 22 AND adm.`status`=1
-				UNION ALL
-				SELECT o.customer_manager,0 AS role_id, 0 AS NAME,SUM(o.total_num) AS total_num FROM p2p_order o '.$where.'
-				GROUP BY o.customer_manager
-			)aa
-			GROUP BY aa.customer_manager');
+			 ->getAll('SELECT aa.customer_manager,aa.role_id AS team_id,aa.name AS team_name, SUM(aa.sale) AS sale,SUM(aa.buy) AS buy,IFNULL(dd.call_num,0) AS call_num,IFNULL(dd.call_time,0) AS call_time FROM (
+	SELECT user.`user_id` AS customer_manager,user.role_id, role.`name`,0 AS sale,0 AS buy FROM p2p_adm_role_user AS `user`
+	LEFT JOIN p2p_adm_role AS role ON user.`role_id` = role.id
+	LEFT JOIN `p2p_admin` AS adm ON adm.`admin_id` = user.`user_id`
+	WHERE role.pid = 22 AND adm.`status`=1
+	UNION 
+	SELECT bb.customer_manager,0 AS role_id, 0 AS `name`,SUM(s_total_num) AS sale,SUM(b_total_num) AS buy FROM (
+		SELECT o.customer_manager,SUM(o.total_num) AS s_total_num,0 AS b_total_num FROM p2p_order o  '.$where1.'
+		GROUP BY o.customer_manager
+		UNION 
+		SELECT o.customer_manager,0 AS s_total_num,SUM(o.total_num) AS b_total_num FROM p2p_order o  '.$where2.'
+		GROUP BY o.customer_manager
+	) AS bb GROUP BY bb.customer_manager
+)aa
+LEFT JOIN (SELECT p.admin_id AS customer_manager,0 AS team_id,0 AS team_name,0 AS sale,0 AS buy,SUM(a.time) AS `call_time`,COUNT(DISTINCT a.remark) AS call_num FROM p2p_api AS a 
+LEFT JOIN p2p_customer_contact AS cc ON cc.mobile = a.remark
+LEFT JOIN p2p_customer AS c ON c.c_id = cc.c_id
+LEFT JOIN p2p_phone_name AS p ON p.seat_phone = a.phone
+WHERE p.seat_phone IS NOT NULL AND c_name IS NOT NULL AND ctime > '.$today_start.' AND ctime <'.$today_end.' AND callstatus="ou"  GROUP BY phone) dd ON dd.customer_manager = aa.customer_manager
+GROUP BY aa.customer_manager');
 			 // showtrace();
 		return empty($num) ? array() : $num;
 	}

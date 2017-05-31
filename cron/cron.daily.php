@@ -65,44 +65,12 @@ class cronDaily{
 	}
 
 	public function get_calld_saled_buyd($start,$end,$now){
-		$today_sale_buy_num= M('product:order')->getAllCustomerManagerTodayNum($start,$end);
-		// p($today_sale_buy_num);die;
-		$call = $this->db->model('api')
-					->getAll('SELECT api.num as call_num,admin.admin_id as customer_manager,0 as total_num,role.name as team_name,role.id as team_id
-							FROM
-							(SELECT COUNT(id) AS num,phone FROM `p2p_api` WHERE ctime > '.$start.' AND ctime <'.$end.' AND TIME > 0 AND callstatus="ou" GROUP BY phone)
-							AS api 
-							LEFT JOIN `p2p_admin` AS admin ON admin.seat_phone = api.`phone`
-							LEFT JOIN `p2p_adm_role_user` as role_user ON role_user.user_id=admin.admin_id
-							LEFT JOIN `p2p_adm_role` as role ON role.id=role_user.role_id
-							WHERE role.pid = 22 AND admin.name IS NOT NULL AND admin.admin_id IS NOT NULL
-							');
-					// showtrace();
-		if(!empty($call)){
-			foreach ($call as $key => $value) {
-				foreach ($today_sale_buy_num as $k => $v) {
-					if($value['customer_manager'] == $v['customer_manager']){
-						$new['call_num'] = $value['call_num'] += $v['call_num'];
-						$new['total_num'] = $value['total_num'] += $v['total_num'];
-						$new['customer_manager'] = $value['customer_manager'];
-						$new['team_name'] = $value['team_name'];
-						$new['team_id'] = $value['team_id'];
-						$result[] = $new;
-						unset($call[$key]);
-						unset($today_sale_buy_num[$k]);
-					}
-				}
-			}
-			$today_sale_buy_num= array_values($today_sale_buy_num);
-			$res = array_merge($today_sale_buy_num,$result);
-			
-		}else{
-			$res = $today_sale_buy_num;
-		}
-
+		$res= M('product:order')->getAllCustomerManagerTodayNum($start,$end);
+		// showtrace();
+		p($res);die;
 		foreach ($res as $key => $value) {
-			if($value['total_num'] < '24.75' || $value['call_num'] < '50'){
-				$msg_res = array('admin_id'=>$value['customer_manager'],'msg'=>'截至此时，您当日完成吨数:'.$value['total_num'].'吨,当日电话数量完成'.$value['call_num'].'个,当日目标还未完成');
+			if(($value['sale']+$value['buy']) == '0' && ($value['call_num'] < '40' or $value['call_time'] < '2400')){
+				$msg_res = array('admin_id'=>$value['customer_manager'],'msg'=>'截至此时，您当日完成吨数为0吨,当日电话数量完成'.$value['call_num'].'个,当日通话时长完成'.ceil($value['call_time']/60).'分钟,当日目标还未完成');
 				if($now == 15 || $now == 17){
 		        	$this->curl($msg_res['admin_id'],$msg_res['msg']);
 		        	// $this->curl('1',$msg_res['msg']);die;//测试
@@ -112,7 +80,8 @@ class cronDaily{
 			$_alert=array(
 				'customer_manager'=>$value['customer_manager'],
 				'call_num'=>$value['call_num'],
-				'total_num'=>$value['total_num'],
+				'sale'=>$value['sale'],
+				'buy'=>$value['buy'],
 				'team_id'=>$value['team_id'],
 				'admin_name'=>$admin_name,
 				'input_time'=>time(),
@@ -145,7 +114,8 @@ class cronDaily{
 						'李红颖'=>'912',
 						'李俊松'=>'911',
 						'张玉超2'=>'946',
-						'王春华'=>'955'
+						'王春华'=>'955',
+						'徐胜'=>'784',
 						);
   		foreach ($array as $key => $value) {
         	$this->curl($value,'请及时查看业务员每日考核数据');
