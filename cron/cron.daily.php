@@ -67,7 +67,7 @@ class cronDaily{
 	public function get_calld_saled_buyd($start,$end,$now){
 		$res= M('product:order')->getAllCustomerManagerTodayNum($start,$end);
 		// showtrace();
-		p($res);die;
+		// p($res);die;
 		foreach ($res as $key => $value) {
 			if(($value['sale']+$value['buy']) == '0' && ($value['call_num'] < '40' or $value['call_time'] < '2400')){
 				$msg_res = array('admin_id'=>$value['customer_manager'],'msg'=>'截至此时，您当日完成吨数为0吨,当日电话数量完成'.$value['call_num'].'个,当日通话时长完成'.ceil($value['call_time']/60).'分钟,当日目标还未完成');
