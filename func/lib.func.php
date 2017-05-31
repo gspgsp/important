@@ -59,6 +59,26 @@ function unsetVcode($name=''){
 	$name='vc_'.$name;
 	unset($_SESSION[$name]);
 }
+
+/**
+ * 二维数组排序
+ * @param $arr
+ * @param $keys
+ * @param string $type
+ * @return array
+ */
+function arraySort($arr, $keys, $type = 'asc') {
+	$keysvalue = $new_array = array();
+	foreach ($arr as $k => $v){
+		$keysvalue[$k] = $v[$keys];
+	}
+	$type == 'asc' ? asort($keysvalue) : arsort($keysvalue);
+	reset($keysvalue);
+	foreach ($keysvalue as $k => $v) {
+		$new_array[$k] = $arr[$k];
+	}
+	return $new_array;
+}
 /*
  * 隐藏字符
  * @param string $str 银行卡号

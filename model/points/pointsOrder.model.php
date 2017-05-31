@@ -47,6 +47,119 @@ class pointsOrderModel extends Model
         }
     }
 
+    public function getExchangeList1($user_id,$page,$size)
+    {
+        //$data       = $orderModel->where ("uid = $user_id")->order ("id desc")->page ($page, $size)->getPage ();
+        $goods1 = M('points:pointsGoods')->getOnsaleGoods(1);
+        $goods2 = M('points:pointsGoods')->getOnsaleGoods(2);
+
+
+        $sql1 =  " select p2p_points_order.*, p2p_customer_contact.name from p2p_points_order LEFT join p2p_customer_contact on p2p_points_order.uid = p2p_customer_contact.user_id where p2p_points_order.goods_id = {$goods2['id']} and p2p_points_order.uid = {$user_id}";
+
+        $sql2 = " select p2p_points_order.*, p2p_purchase.content, p2p_purchase.model , p2p_purchase.fname , p2p_purchase.store_house, p2p_purchase.store_house  from p2p_points_order LEFT join p2p_purchase on p2p_points_order.pur_id = p2p_purchase.id where p2p_points_order.goods_id = {$goods1['id']} and p2p_points_order.uid = {$user_id}";
+
+        $sql = $sql1." union ".$sql2;
+
+        $res =  $this->page($page,$size)->getPage($sql);
+
+        foreach($res['data'] as &$data) {
+            //显示的内容
+            if (empty($data['content'])) {
+                if ($data['unit_price'] == 0.00 && empty($data['model']) && empty($data['fname']) && empty($data['store_house'])) {
+                    return false;
+                } else {
+                    $data['contents'] = '价格'.$data['unit_price'].'元左右/'.$data['model'].'/'.$data['fname'].'/'.$data['store_house'];
+                }
+            } elseif (!empty($data['content'])) {
+                if ($data['unit_price'] == 0.00 && empty($data['model']) && empty($data['fname']) && empty($data['store_house'])) {
+                    $data['contents'] = $data['content'];
+                } else {
+                    $data['contents'] = '价格'.$data['unit_price'].'元左右/'.$data['model'].'/'.$data['fname'].'/'.$data['store_house'].'/'.$data['content'];
+                }
+            }
+        }
+
+        return $res;
+
+    }
+
+    public function getExchangeList($user_id,$page,$size)
+    {
+        $goods1 = M('points:pointsGoods')->getOnsaleGoods(1);
+        $goods2 = M('points:pointsGoods')->getOnsaleGoods(2);
+        $data       = $this->where ("uid = $user_id and status = 5")->order ("create_time desc")->page ($page, $size)->getPage ();
+
+        foreach($data['data'] as $info )
+        {
+            if($info['goods_id']==$goods1['id'])
+            {
+                $type1[] = $info['id'];
+            }
+
+            if($info['goods_id']==$goods2['id'])
+            {
+                $type2[] = $info['id'];
+            }
+        }
+
+        if(!empty($type1))
+        {
+            $str = join(',',$type1);
+
+            $where = " po.id in (".join(',',$type1).")";
+            //$sql1 = " select p2p_points_order.*, p2p_purchase.content, p2p_purchase.model , p2p_purchase.fname , p2p_purchase.store_house, p2p_purchase.store_house  from p2p_points_order LEFT join p2p_purchase on p2p_points_order.pur_id = p2p_purchase.id where p2p_points_order.id in (".$str.")";
+            $data1 = $this->model('points_order')->select('po.*,pur.content,pur.model,pur.fname,pur.store_house,pur.store_house')
+                         ->from('points_order po')
+                         ->join('purchase pur','pur.id=po.pur_id')
+                         ->page($page,$size)
+                         ->where($where)
+                         ->order("po.create_time DESC")
+                         ->getPage();
+
+        }
+
+        if(!empty($type2))
+        {
+            $str = join(',',$type2);
+
+            $where = " po.id in (".join(',',$type2).")";
+            //$sql1 = " select p2p_points_order.*, p2p_purchase.content, p2p_purchase.model , p2p_purchase.fname , p2p_purchase.store_house, p2p_purchase.store_house  from p2p_points_order LEFT join p2p_purchase on p2p_points_order.pur_id = p2p_purchase.id where p2p_points_order.id in (".$str.")";
+            $data2 = $this->model('points_order')->select('po.*, con.name')
+                         ->from('points_order po')
+                         ->join('customer_contact con','con.user_id=po.uid')
+                         ->page($page,$size)
+                         ->where($where)
+                         ->order("po.create_time DESC")
+                         ->getPage();
+
+        }
+        $data0['count'] = $data1['count']+$data2['count'];
+
+        foreach ($data1['data'] as $key=> &$value) {
+
+            if (empty($value['content'])) {
+                if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])) {
+                    $value['contents'] = '';
+                } else {
+                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
+                }
+            } elseif (!empty($value['content'])) {
+                if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['f_name']) && empty($value['store_house'])) {
+                    $value['contents']   = $value['content'];
+                    $value['b_and_s']    = '';
+                    $value['deal_price'] = '';
+                } else {
+                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'].'/'.$value['content'];
+                }
+            }
+        }
+        $data0['data'] = arraySort(array_merge($data1['data'],$data2['data']),'create_time','desc');
+
+        return $data0;
+    }
+    //$data       = $orderModel->where ("uid = $user_id")->order ("id desc")->page ($page, $size)->getPage ();
+
+
     //获取可选选择日期
     public function getTookDate($goods_id)
     {
