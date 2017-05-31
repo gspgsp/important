@@ -2,6 +2,7 @@
   <div id="app">
   	我是主页
   	{{msg}}
+  	{{msg2}}
   	<Hello></Hello>
   </div>
   
@@ -15,11 +16,12 @@ export default {
 	},
 	data: function() {
 		return {
-			msg:"134132"
+			msg:"asdfsafdfssadf",
+			msg2:"213123"
 		}
 	},
 	mounted: function() {
-
+		
 	}
 }
 </script>

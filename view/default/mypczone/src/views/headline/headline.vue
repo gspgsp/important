@@ -102,7 +102,7 @@ export default {
         alert(1)
         $.ajax({
             type: "post",
-            url: version + '/toutiao/getSelectCate',
+            url: '/qapi_3/toutiao/getSelectCate',
             data: {
                 token: window.localStorage.getItem("token"),
                 type: 2

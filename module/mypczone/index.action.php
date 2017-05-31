@@ -26,4 +26,8 @@ class indexAction extends homeBaseAction
 	{
 	    $this->display('my.html');
 	}
+	public function headline()
+	{
+	    $this->display('headline.html');
+	}
 }

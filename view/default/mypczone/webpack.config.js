@@ -9,6 +9,7 @@ module.exports = {
 	entry:{
 		'js/app': ["./src/assets/js/jquery-1.8.3.min.js","./src/assets/js/jquery.validate.min.js","./src/assets/js/common.js","./src/assets/js/other.js","./src/assets/js/tab.js"],
 		'pages/index':'./src/views/index/index.js',
+		'pages/headline':'./src/views/headline/headline.js',
 		'pages/my':'./src/views/my/my.js',
 		'pages/supplybuy':'./src/views/supplybuy/supplybuy.js',
 		'pages/find':'./src/views/find/find.js'
@@ -27,6 +28,13 @@ module.exports = {
 			hash:true,
 			inject:true,
 			chunks:['js/app','pages/index']
+		}),
+		new HtmlWebpackPlugin({
+			filename: path.join(__dirname, '../../../../www/view/default/mypczone/headline.html'),
+			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/headline/headline.html'),
+			hash:true,
+			inject:true,
+			chunks:['js/app','pages/headline']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/find.html'),

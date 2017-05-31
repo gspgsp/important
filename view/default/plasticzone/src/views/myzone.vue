@@ -140,7 +140,6 @@ export default{
 				},
 				dataType: 'JSON'
 			}).then(function(res) {
-				console.log(res.err);
 				if(res.err == 0) {
 					window.localStorage.setItem("token", "");
 					window.localStorage.setItem("userid", "");

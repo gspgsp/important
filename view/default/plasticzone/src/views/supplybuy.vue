@@ -3,13 +3,13 @@
 	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
 		<header id="bigCustomerHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
-			我的供求
-			<a class="headerMenu2" href="javascript:;" v-on:click="shareshow"></a>
+			我的{{name}}
+			<a class="detailShare" href="javascript:;" v-on:click="shareshow"></a>
 		</header>
 	</div>
 	<div class="supplytitle" style="background: #FFFFFF;">
 		<h3>{{input_time}}</h3>
-		<p><i class="myicon iconSupply"></i>我的供求:{{contents}}</p>
+		<p><i class="myicon iconSupply"></i>我的{{name}}:{{contents}}</p>
 	</div>
 	<div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
 	<div class="tip" v-show="share3"></div>
@@ -25,6 +25,8 @@ export default{
 			id: "",
 			type: "",
 			user_id: "",
+			type:"",
+			name:"供给",
 			share: false,
 			share3: false,
 			share4: false
@@ -154,7 +156,6 @@ export default{
 			},
 			dataType: 'JSON'
 		}).then(function(res) {
-			console.log(res);
 			if(res.err == 1) {
 				weui.alert(res.msg, {
 					title: '塑料圈通讯录',
@@ -169,6 +170,12 @@ export default{
 					}]
 				});
 			} else {
+				_this.type=res.data.type;
+				if(_this.type==1){
+					_this.name="求购";
+				}else{
+					_this.name="供给";
+				}
 				_this.input_time=res.data.input_time;
 				_this.contents=res.data.contents || res.data.content;
 				_this.id=_this.$route.params.id;
