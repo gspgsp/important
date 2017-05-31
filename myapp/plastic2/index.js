@@ -880,17 +880,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		toLogin: function toLogin() {
 			if (window.localStorage.getItem("token")) {
-				weui.alert("你已登录塑料圈", {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
+				weui.alert('带回调的alert', function () {
+					console.log('ok');
 				});
 			} else {
 				this.$router.push({

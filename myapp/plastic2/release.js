@@ -64,7 +64,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "line-height": "19px",
       "position": "absolute",
-      "right": "10px",
+      "right": "50px",
       "top": "8px",
       "color": "#666666",
       "padding": "5px",
@@ -79,7 +79,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\t\t搜索\n\t\t\t")]), _vm._v(" "), _c('div', {
     staticStyle: {
       "font-size": "12px",
-      "right": "50px",
+      "right": "10px",
       "width": "35px",
       "background": "#FFFFFF",
       "border-radius": "3px"

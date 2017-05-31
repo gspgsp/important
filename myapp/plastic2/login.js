@@ -57,7 +57,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         name: 'index'
       }
     }
-  }), _vm._v("\n\t\t登录\n\t")], 1), _vm._v(" "), _c('div', {
+  }), _vm._v("\n\t\t" + _vm._s(_vm.headerName) + "\n\t")], 1), _vm._v(" "), _c('div', {
     staticClass: "registerHeader"
   }, [_c('span', {
     class: {
@@ -77,7 +77,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.tab(2)
       }
     }
-  }, [_vm._v("手机动态密码登录")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("手机动态码登录")])]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -333,6 +333,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "regIcon code"
   })]), _vm._v(" "), _c('button', {
     staticClass: "dvc",
+    staticStyle: {
+      "background": "#267bd3"
+    },
     on: {
       "click": _vm.send
     }
@@ -435,7 +438,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			key: "",
 			times: 60,
 			dynamicCode: "",
-			validCode: "获取动态验证码"
+			validCode: "获取动态验证码",
+			headerName: "普通登录"
 		};
 	},
 	methods: {
@@ -460,8 +464,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 			if (n == 1) {
 				this.tabshow = true;
+				this.headerName = "普通登录";
 			} else {
 				this.tabshow = false;
+				this.headerName = "手机动态码登录";
 				$.ajax({
 					url: '/api/vcode/app',
 					type: 'get',
