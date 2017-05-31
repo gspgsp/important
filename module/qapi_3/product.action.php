@@ -660,7 +660,7 @@ class productAction extends baseAction
      * @apiSuccess {array}   data   描述
      *
      * @apiSuccessExample {json} Success-Response:
-             *     {
+            {
             "err": 0,
             "data": [
             {
@@ -682,61 +682,9 @@ class productAction extends baseAction
             "num": "1",
             "pur_id": "41438",
             "name": "谢磊",
+            "type": 2,
+            "contents": "",
             "goods_name": "通讯录置顶卡"
-            },
-            {
-            "id": "165",
-            "status": "订单完成",
-            "create_time": "2017-05-25 09:25",
-            "order_id": "2017052548575155",
-            "goods_id": "11",
-            "receiver": "",
-            "phone": "",
-            "address": "2017-05-25,2017-05-26,2017-05-29,2017-05-30,2017-05-31,2017-06-01,2017-06-02,2017-06-05,2017-06-06,2017-06-07,2017-06-08,2017-06-09,2017-06-16,2017-06-15,2017-06-14,2017-06-13,2017-06-12,2017-06-19,2017-06-20,2017-06-21,2017-06-22,2017-06-23",
-            "uid": "40418",
-            "update_time": "1495675604",
-            "remark": "供求消息置顶卡",
-            "usepoints": "2200",
-            "company": "",
-            "ship_sn": "",
-            "outpu_time": "1495675504",
-            "num": "22",
-            "pur_id": "85958",
-            "content": "7000f",
-            "model": "",
-            "fname": "",
-            "store_house": "",
-            "contents": "7000f",
-            "b_and_s": "",
-            "deal_price": "",
-            "goods_name": "供求消息置顶卡"
-            },
-            {
-            "id": "163",
-            "status": "订单完成",
-            "create_time": "2017-05-24 16:32",
-            "order_id": "2017052457514899",
-            "goods_id": "11",
-            "receiver": "",
-            "phone": "",
-            "address": "",
-            "uid": "40418",
-            "update_time": "1495614788",
-            "remark": "供求消息置顶卡",
-            "usepoints": "3100",
-            "company": "",
-            "ship_sn": "",
-            "outpu_time": "1495614745",
-            "num": "31",
-            "pur_id": "85959",
-            "content": "pe",
-            "model": "",
-            "fname": "",
-            "store_house": "",
-            "contents": "pe",
-            "b_and_s": "",
-            "deal_price": "",
-            "goods_name": "供求消息置顶卡"
             },
             {
             "id": "125",
@@ -757,6 +705,8 @@ class productAction extends baseAction
             "num": "2",
             "pur_id": "40418",
             "name": "谢磊",
+            "type": 2,
+            "contents": "",
             "goods_name": "通讯录置顶卡"
             },
             {
@@ -778,6 +728,8 @@ class productAction extends baseAction
             "num": "2",
             "pur_id": "40418",
             "name": "谢磊",
+            "type": 2,
+            "contents": "",
             "goods_name": "通讯录置顶卡"
             },
             {
@@ -799,6 +751,8 @@ class productAction extends baseAction
             "num": "2",
             "pur_id": "40418",
             "name": "谢磊",
+            "type": 2,
+            "contents": "",
             "goods_name": "通讯录置顶卡"
             },
             {
@@ -820,6 +774,8 @@ class productAction extends baseAction
             "num": "2",
             "pur_id": "40418",
             "name": "谢磊",
+            "type": 2,
+            "contents": "",
             "goods_name": "通讯录置顶卡"
             },
             {
@@ -841,6 +797,8 @@ class productAction extends baseAction
             "num": "2",
             "pur_id": "40418",
             "name": "谢磊",
+            "type": 2,
+            "contents": "",
             "goods_name": "通讯录置顶卡"
             },
             {
@@ -862,6 +820,53 @@ class productAction extends baseAction
             "num": "2",
             "pur_id": "40418",
             "name": "谢磊",
+            "type": 2,
+            "contents": "",
+            "goods_name": "通讯录置顶卡"
+            },
+            {
+            "id": "63",
+            "status": "订单完成",
+            "create_time": "2017-05-08 20:13",
+            "order_id": "2017050854541025",
+            "goods_id": "11",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "1494246062",
+            "remark": "供求消息置顶卡",
+            "usepoints": "100",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1494332006",
+            "num": "1",
+            "pur_id": "85737",
+            "type": 1,
+            "name": "",
+            "goods_name": "供求消息置顶卡"
+            },
+            {
+            "id": "59",
+            "status": "订单完成",
+            "create_time": "2017-05-04 20:06",
+            "order_id": "2017050448101101",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "100",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1493986000",
+            "num": "1",
+            "pur_id": "40418",
+            "name": "谢磊",
+            "type": 2,
+            "contents": "",
             "goods_name": "通讯录置顶卡"
             }
             ]
