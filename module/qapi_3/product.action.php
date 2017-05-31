@@ -844,6 +844,7 @@ class productAction extends baseAction
             "pur_id": "85737",
             "type": 1,
             "name": "",
+            "contents": "价格元左右/2119//上海/PP ",
             "goods_name": "供求消息置顶卡"
             },
             {
